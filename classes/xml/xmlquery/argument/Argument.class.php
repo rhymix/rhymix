@@ -130,7 +130,8 @@ class Argument {
 		if (!isset($value))
 			return null;
 
-		if (in_array($column_type, array('date', 'varchar', 'char', 'text', 'bigtext'))) {
+		$columnTypeList = array('date'=>1, 'varchar'=>1, 'char'=>1, 'text'=>1, 'bigtext'=>1);
+		if (isset($columnTypeList[$column_type])) {
 			if (!is_array($value))
 				$value = $this->_escapeStringValue($value);
 			else {

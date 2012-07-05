@@ -75,7 +75,8 @@
 		}
 		
 		function isJoinTable(){
-			if(in_array($this->join_type,array('left join','left outer join','right join','right outer join')) 
+			$joinList = array('left join'=>1, 'left outer join'=>1, 'right join'=>1, 'right outer join'=>1);
+			if(isset($joinList[$this->join_type])
 				&& count($this->conditions)) return true;
 			return false;
 		}

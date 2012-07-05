@@ -21,7 +21,8 @@
 		 * @return void
 		 */
 		function ConditionArgument($name, $value, $operation){
-			if(isset($value) && in_array($operation, array('in', 'notin','not_in', 'between')) && !is_array($value) && $value != ''){
+			$operationList = array('in'=>1, 'notin'=>1, 'not_in'=>1, 'between'=>1);
+			if(isset($value) && isset($operationList[$operation]) && !is_array($value) && $value != ''){
 				$value = str_replace(' ', '', $value);
 				$value = str_replace('\'', '', $value);
 				$value = explode(',', $value);

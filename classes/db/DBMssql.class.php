@@ -440,6 +440,7 @@
 		$unique_list = array();
 		$index_list = array();
 
+				$typeList = array('number'=>1, 'text'=>1);
                 foreach($columns as $column) {
                     $name = $column->attrs->name;
                     $type = $column->attrs->type;
@@ -454,7 +455,7 @@
                     $column_schema[] = sprintf('[%s] %s%s %s %s %s',
                     $name,
                     $this->column_type[$type],
-                    !in_array($type,array('number','text'))&&$size?'('.$size.')':'',
+                    !isset($typeList[$type])&&$size?'('.$size.')':'',
                     isset($default)?"default '".$default."'":'',
                     $notnull?'not null':'null',
                     $auto_increment?'identity(1,1)':''

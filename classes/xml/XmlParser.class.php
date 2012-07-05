@@ -87,9 +87,10 @@
 
             // extracts the supported lanuage when xml:lang is used
             if(count($matches[1]) && $supported_lang = array_unique($matches[1])) {
+				$tmpLangList = array_flip($supported_lang);
                 // if lang of the first log-in user doesn't exist, apply en by default if exists. Otherwise apply the first lang.
-                if(!in_array($this->lang, $supported_lang)) {
-                    if(in_array('en', $supported_lang)) {
+                if(!isset($tmpLangList[$this->lang])) {
+                    if(isset($tmpLangList['en'])) {
                         $this->lang = 'en';
                     } else {
                         $this->lang = array_shift($supported_lang);

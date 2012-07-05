@@ -70,7 +70,8 @@
 			}
 			else {
                             if(isset($condition->attrs->default)){
-                              if(in_array($this->operation, array('in', 'between', 'not in'))){
+								$operationList = array('in'=>1, 'between'=>1, 'not in'=>1);
+                              if(isset($operationList[$this->operation])){
                                     $default_value = $condition->attrs->default;
                                     if(strpos($default_value, "'") !== false)
                                         $default_value = "\"" . $default_value . "\"";

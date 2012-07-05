@@ -49,7 +49,8 @@
 
                         // Sort order - asc / desc
 			$this->sort_order = $index->attrs->order;
-			if(!in_array($this->sort_order, array("asc", "desc"))){
+			$sortList = array('asc'=>1, 'desc'=>1);
+			if(!isset($sortList[$this->sort_order])){
 				$arg = new Xml_Node_();
 				$arg->attrs = new Xml_Node_();
 				$arg->attrs->var = $this->sort_order;

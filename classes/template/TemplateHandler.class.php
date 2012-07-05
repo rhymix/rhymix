@@ -351,7 +351,7 @@ class TemplateHandler {
 		$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// list of self closing tags
-		$self_closing = explode(',', 'area,base,basefont,br,hr,input,img,link,meta,param,frame,col');
+		$self_closing = array('area'=>1,'base'=>1,'basefont'=>1,'br'=>1,'hr'=>1,'input'=>1,'img'=>1,'link'=>1,'meta'=>1,'param'=>1,'frame'=>1,'col'=>1);
 
 		for($idx=1,$node_len=count($nodes); $idx < $node_len; $idx+=2) {
 			if(!($node=$nodes[$idx])) continue;
@@ -392,7 +392,7 @@ class TemplateHandler {
 
 				// find closing tag
 				$close_php = '<?php '.str_repeat('}', $closing).' ?>';
-				if($node{1} == '!' || substr($node,-2,1) == '/' || in_array($tag, $self_closing)) { //  self closing tag
+				if($node{1} == '!' || substr($node,-2,1) == '/' || isset($self_closing[$tag])) { //  self closing tag
 					$nodes[$idx+1] = $close_php.$nodes[$idx+1];
 				} else {
 					$depth = 1;

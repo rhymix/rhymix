@@ -35,7 +35,8 @@
                 $id = $id_args[1];
             } elseif(count($id_args)==3) {
                 $target = $id_args[0];
-                if(!in_array($target, array('modules','addons','widgets'))) return;
+				$typeList = array('modules'=>1, 'addons'=>1, 'widgets'=>1);
+                if(!isset($typeList[$target])) return;
                 $module = $id_args[1];
                 $id = $id_args[2];
             }
@@ -52,6 +53,7 @@
 
             if(!$tables) return;
             if(!is_array($tables)) $tables = array($tables);
+			$joinList = array('left join'=>1, 'left outer join'=>1, 'right join'=>1, 'right outer join'=>1);
             foreach($tables as $key => $val) {
 
                 // 테이블과 alias의 이름을 구함
@@ -61,7 +63,7 @@
 
                 $output->tables[$alias] = $table_name;
 
-                if(in_array($val->attrs->type,array('left join','left outer join','right join','right outer join')) && count($val->conditions)){
+                if(isset($joinList[$val->attrs->type]) && count($val->conditions)){
                     $output->left_tables[$alias] =  $val->attrs->type;
                     $left_conditions[$alias] = $val->conditions;
                 }

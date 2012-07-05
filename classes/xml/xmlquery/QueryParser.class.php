@@ -40,7 +40,8 @@
                 $id = $id_args[1];
             } elseif (count($id_args) == 3) {
                 $target = $id_args[0];
-                if (!in_array($target, array('modules', 'addons', 'widgets')))
+				$targetList = array('modules'=>1, 'addons'=>1, 'widgets'=>1);
+                if (!isset($targetList[$target]))
                     return;
                 $module = $id_args[1];
                 $id = $id_args[2];

@@ -109,8 +109,8 @@
 				$file->cdnVersion = $cdnVersion;
 			}
 
-			$availableExtension = array('css', 'js');
-			if (!in_array($file->fileExtension, $availableExtension)) return;
+			$availableExtension = array('css'=>1, 'js'=>1);
+			if (!isset($availableExtension[$file->fileExtension])) return;
 
 			$file->targetIe = $args[2];
 			$file->index = (int)$args[3];

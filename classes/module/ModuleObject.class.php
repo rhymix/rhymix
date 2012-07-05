@@ -104,7 +104,8 @@
 		 **/
 		function getMessageType(){
 			$type = $this->get('message_type');
-			if (!in_array($type, array('error', 'info', 'update'))){
+			$typeList = array('error'=>1, 'info'=>1, 'update'=>1);
+			if (!isset($typeList[$type])){
 				$type = $this->getError()?'error':'info';
 			}
 			return $type;

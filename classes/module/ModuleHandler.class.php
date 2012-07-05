@@ -430,7 +430,8 @@
 
             $procResult = $oModule->proc();
 
-			if(!$oModule->stop_proc && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+			$methodList = array('XMLRPC'=>1, 'JSON'=>1);
+			if(!$oModule->stop_proc && !isset($methodList[Context::getRequestMethod()]))
 			{
 				$error = $oModule->getError();
 				$message = $oModule->getMessage();
@@ -522,7 +523,8 @@
             if(!$output->toBool()) $this->error = $output->getMessage();
 
             // Use message view object, if HTML call
-            if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			$methodList = array('XMLRPC'=>1, 'JSON'=>1);
+            if(!isset($methodList[Context::getRequestMethod()])) {
 
 				if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 				{
@@ -634,8 +636,8 @@
 			$kind = strtolower($kind);
 			$type = strtolower($type);
 
-			$kinds = explode(' ', 'svc admin');
-			if(!in_array($kind, $kinds)) $kind = $kinds[0];
+			$kinds = array('svc'=>1, 'admin'=>1);
+			if(!isset($kinds[$kind])) $kind = 'svc';
 
 			$key = $module.'.'.($kind!='admin'?'':'admin').'.'.$type;
 

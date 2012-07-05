@@ -125,7 +125,11 @@
                                         // if variable is not set or is not string or number, return
                                         if(!isset($this->_value)) { $this->_show = false; break;}
                                         if($this->_value === '') { $this->_show = false; break; }
-                                        if(!in_array(gettype($this->_value), array('string', 'integer'))) {$this->_show = false; break; }
+										$tmpArray = array('string'=>1, 'integer'=>1);
+                                        if(!isset($tmpArray[gettype($this->_value)]))
+										{
+											$this->_show = false; break;
+										}
                                         break;
                                 case 'between' :
                                         if(!is_array($this->_value)) { $this->_show = false; break;}

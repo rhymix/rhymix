@@ -362,7 +362,8 @@ class Context {
 	function checkSSO() {
 		// pass if it's not GET request or XE is not yet installed
 		if($this->db_info->use_sso != 'Y' || isCrawler()) return true;
-		if(Context::getRequestMethod()!='GET' || !Context::isInstalled() || in_array(Context::get('act'),array('rss','atom'))) return true;
+		$checkActList = array('rss'=>1, 'atom'=>1);
+		if(Context::getRequestMethod()!='GET' || !Context::isInstalled() || isset($checkActList[Context::get('act')])) return true;
 
 		// pass if default URL is not set
 		$default_url = trim($this->db_info->default_url);
@@ -630,8 +631,8 @@ class Context {
 	function setResponseMethod($method='HTML') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
-		$methods = array('HTML','XMLRPC','JSON');
-		$self->response_method = in_array($method, $methods)?$method:$methods[0];
+		$methods = array('HTML'=>1, 'XMLRPC'=>1, 'JSON'=>1);
+		$self->response_method = isset($methods[$method]) ? $method : 'HTML';
 	}
 
 	/*
@@ -644,9 +645,9 @@ class Context {
 		if($self->response_method) return $self->response_method;
 
 		$method  = $self->getRequestMethod();
-		$methods = array('HTML','XMLRPC','JSON');
+		$methods = array('HTML'=>1, 'XMLRPC'=>1, 'JSON'=>1);
 
-		return in_array($method, $methods)?$method:$methods[0];
+		return isset($methods[$method]) ? $method : 'HTML';
 	}
 
 	/**
@@ -891,7 +892,8 @@ class Context {
 				$key = $get_vars['key'];
 				$srl = $get_vars['document_srl'];
 
-				$is_feed = in_array($act, array('rss', 'atom', 'api'));
+				$tmpArray = array('rss'=>1, 'atom'=>1, 'api'=>1);
+				$is_feed = isset($tmpArray[$act]);
 
 				$target_map = array(
 					'vid'=>$vid,

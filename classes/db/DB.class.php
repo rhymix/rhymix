@@ -422,7 +422,8 @@
 					$id = $id_args[1];
 				} elseif(count($id_args) == 3) {
 					$target = $id_args[0];
-					if(!in_array($target, array('addons','widgets'))){
+					$typeList = array('addons'=>1, 'widgets'=>1);
+					if(!isset($typeList[$target])){
 						$this->actDBClassFinish();
 						return;
 					}
