@@ -576,7 +576,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 /* Icon Button */
 .x a.iSetting{display:inline-block;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconSetting.gif) no-repeat}
 .x a.cMenu{display:inline-block;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../../../../common/img/icon.bubble.png) no-repeat}
-.x .sTog{float:right;position:relative;top:-45px;border:0;background-color:transparent;width:28px;height:28px;opacity:.5;filter:alpha(opacity=50);margin:0 0 -28px 0}
+.x .sTog{float:right;border:0;background-color:transparent;width:28px;height:18px;opacity:.5;filter:alpha(opacity=50)}
 /* Responsive Layout */
 @media only all and (max-width:860px){
 .x .header .account ul{padding-right:10px}
