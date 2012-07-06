@@ -879,6 +879,12 @@
                 $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn);
                 $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn);
                 $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn);
+				
+				foreach($child_output['url_list'] as $key =>$val)
+				{
+					$child_output['url_list'][$key] = addslashes($val);
+				}
+
                 $selected = '"'.implode('","',$child_output['url_list']).'"';
                 $child_buff = $child_output['buff'];
                 $expand = $node->expand;
