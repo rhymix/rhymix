@@ -1,15 +1,14 @@
-<caption>
+<div class="cnb">
 		<a cond="$type == 'M'" href="{getUrl('act', 'dispLayoutAdminInstalledList', 'type', 'P')}">PC({$pcLayoutCount})</a>
 		<block cond="$type != 'M'">PC({$pcLayoutCount})</block>
 		|
 		<a cond="$type != 'M'" href="{getUrl('act', 'dispLayoutAdminInstalledList', 'type', 'M')}">Mobile({$mobileLayoutCount})</a>
 		<block cond="$type == 'M'">Mobile({$mobileLayoutCount})</block>
-		<span class="side"><button type="button" class="text"><span class="hide">{$lang->simple_view}</span><span class="show">{$lang->detail_view}</span></button></span>
-</caption>
-<caption>
+</div>
+<div class="cnb">
 		<a cond="$act != 'dispLayoutAdminAllInstanceList'" href="{getUrl('act', 'dispLayoutAdminAllInstanceList', 'layout_srl', '')}">{$lang->instance_layout}</a>
 		<block cond="$act == 'dispLayoutAdminAllInstanceList'">{$lang->instance_layout}</block>
 		|
 		<a cond="$act != 'dispLayoutAdminInstalledList'" href="{getUrl('act', 'dispLayoutAdminInstalledList')}">{$lang->installed_layout}</a>
 		<block cond="$act == 'dispLayoutAdminInstalledList'">{$lang->installed_layout}</block>
-</caption>
+</div>

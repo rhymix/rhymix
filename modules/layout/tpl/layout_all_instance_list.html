@@ -1,12 +1,14 @@
-<include target="header.html" />
-<load target="js/adminList.js" usecdn="true" />
-
 <script type="text/javascript">
 	xe.lang.confirm_delete = '{$lang->confirm_delete}';
 </script>
+<include target="header.html" />
+<load target="js/adminList.js" usecdn="true" />
 <div class="table even easyList">
+<include target="sub_tab.html" />
 	<table width="100%" border="1" cellspacing="0">
-	<include target="caption.html" />
+		<caption>
+				<span class="side"><button type="button" class="text"><span class="hide">{$lang->simple_view}</span><span class="show">{$lang->detail_view}</span></button></span>
+		</caption>
 		<thead>
 			<tr>
 				<th scope="col" class="nowr">{$lang->number}</th>
