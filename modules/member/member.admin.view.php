@@ -2,15 +2,29 @@
     /**
      * @class  memberAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  member module's admin view class
+     * member module's admin view class
      **/
 
     class memberAdminView extends member {
 
-        var $group_list = NULL; ///< group list        
-		var $memberInfo = NULL; ///< selected member info
+		/**
+		 * Group list
+		 * 
+		 * @var array
+		 **/
+        var $group_list = NULL;
+
+		/**
+		 * Selected member info
+		 * 
+		 * @var array
+		 **/
+		var $memberInfo = NULL;
+
         /**
-         * @brief initialization         
+         * initialization
+		 *
+		 * @return void
 		 **/
         function init() {
             $oMemberModel = &getModel('member');
@@ -31,7 +45,9 @@
         }
 
         /**
-         * @brief display member list         
+         * display member list
+		 *
+		 * @return void
 		 **/
         function dispMemberAdminList() {
             $oMemberAdminModel = &getAdminModel('member');
@@ -81,7 +97,9 @@
         }
 
         /**
-         * @brief default configuration for member management
+         * default configuration for member management
+		 *
+		 * @return void
          **/
         function dispMemberAdminConfig() {
 			global $lang;            // retrieve configuration via module model instance
@@ -124,7 +142,9 @@
         }
 
         /**
-         * @brief display member information
+         * display member information
+		 *
+		 * @return void
          **/
         function dispMemberAdminInfo() {
             $oMemberModel = &getModel('member');
@@ -148,7 +168,9 @@
         }
 
         /**
-         * @brief display member insert form
+         * display member insert form
+		 *
+		 * @return void
          **/
         function dispMemberAdminInsert() {
             // retrieve extend form
@@ -189,6 +211,14 @@
 			$this->setTemplateFile('insert_member');
         }
 
+        /**
+         * Get tags by the member info type 
+		 *
+		 * @param object $memberInfo
+		 * @param boolean $isAdmin (true : admin, false : not admin)
+		 *
+		 * @return array
+         **/
 		function _getMemberInputTag($memberInfo, $isAdmin = false){
             $oMemberModel = &getModel('member');
             $extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
@@ -372,7 +402,9 @@ EOD;
 		}
 
         /**
-         * @brief display member delete form
+         * display member delete form
+		 *
+		 * @return void
          **/
         function dispMemberAdminDeleteForm() {
             if(!Context::get('member_srl')) return $this->dispMemberAdminList();
@@ -380,7 +412,9 @@ EOD;
         }
 
         /**
-         * @brief display group list
+         * display group list
+		 *
+		 * @return void
          **/
         function dispMemberAdminGroupList() {
             $oModuleModel = &getModel('module');
@@ -401,7 +435,9 @@ EOD;
 		}
 
         /**
-         * @brief Display a list of member join form         
+         * Display a list of member join form
+		 * 
+		 * @return void
 		 **/
         function dispMemberAdminJoinFormList() {
             // Create a member model object            
@@ -416,7 +452,9 @@ EOD;
         }
 
         /**
-         * @brief Display an admin page for memebr join forms         
+         * Display an admin page for memebr join forms
+		 *
+		 * @return void
 		 **/
         function dispMemberAdminInsertJoinForm() {
             // Get the value of join_form            
@@ -437,7 +475,9 @@ EOD;
         }
 
         /**
-         * @brief Display denied ID list         
+         * Display denied ID list
+		 *
+		 * @return void
 		 **/
         function dispMemberAdminDeniedIDList() {
             // Create a member model object            
@@ -457,7 +497,9 @@ EOD;
         }
 
         /**
-         * @brief Update all the member groups         
+         * Update all the member groups
+		 *
+		 * @return void
 		 **/
         function dispMemberAdminManageGroup() {
             // Get a list of the selected member            
@@ -476,7 +518,9 @@ EOD;
         }
 
         /**
-         * @brief Delete all members         
+         * Delete members
+		 *
+		 * @return void
 		 **/
         function dispMemberAdminDeleteMembers() {
             // Get a list of the selected member            

@@ -2,14 +2,17 @@
     /**
      * @class  memberAPI
      * @author NHN (developers@xpressengine.com)
-     * @brief API Processing of View Action in the member module
+     * API Processing of View Action in the member module
      **/
 
     class memberAPI extends member {
 
-
         /**
-         * @brief Content List
+         * Content List
+		 *
+		 * @param Object $oModule
+		 *
+		 * @return void
          **/
         function dispSavedDocumentList(&$oModule) {
             $document_list = $this->arrangeContentList(Context::get('document_list'));
@@ -17,8 +20,13 @@
             $oModule->add('page_navigation',Context::get('page_navigation'));
         }
 
-
-
+        /**
+         * Arrange Contents
+		 *
+		 * @param array $content_list
+		 *
+		 * @return array
+         **/
         function arrangeContentList($content_list) {
             $output = array();
             if(count($content_list)) {
@@ -27,7 +35,13 @@
             return $output;
         }
 
-
+        /**
+         * Arrange Contents
+		 *
+		 * @param array $content_list
+		 *
+		 * @return array
+         **/
         function arrangeContent($content) {
             $output = null;
             if($content){
@@ -35,6 +49,5 @@
             }
             return $output;
         }
-
     }
 ?>
