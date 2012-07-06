@@ -1017,9 +1017,10 @@
         /**
          * @brief Get a list of module category
          **/
-        function getModuleCategories() {
+        function getModuleCategories($moduleCategorySrl = array()) {
+			$args->moduleCategorySrl = $moduleCategorySrl;
             // Get data from the DB
-            $output = executeQuery('module.getModuleCategories');
+            $output = executeQuery('module.getModuleCategories', $args);
             if(!$output->toBool()) return $output;
             $list = $output->data;
             if(!$list) return;

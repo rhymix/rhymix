@@ -226,15 +226,36 @@ $('form.siteMap')
 		if(ret_obj.module_list[module] != undefined)
 		{
 			var midList = ret_obj.module_list[module].list;
+			var midListByCategory = new Object();
 			for(x in midList)
 			{
+				if(!midList.hasOwnProperty(x)){
+					continue;
+				}
 				var midObject = midList[x];
-				htmlBuffer += '<option value="'+midObject.mid+'"';
-				if(menuUrl == midObject.mid) htmlBuffer += ' selected ';
-				htmlBuffer += '>'+midObject.mid+'('+midObject.browser_title+')</option>';
 
-				layoutList[midObject.mid] = midObject.layout_srl;
-				moduleList[midObject.mid] = midObject.module_srl;
+				if(!midListByCategory[midObject.module_category_srl])
+				{
+					midListByCategory[midObject.module_category_srl] = new Array();
+				}
+				midListByCategory[midObject.module_category_srl].push(midObject);
+			}
+
+			for(x in midListByCategory)
+			{
+				var midGroup = midListByCategory[x];
+				htmlBuffer += '<optgroup label="'+x+'">'
+				for(y in midGroup)
+				{
+					var midObject = midGroup[y];
+					htmlBuffer += '<option value="'+midObject.mid+'"';
+					if(menuUrl == midObject.mid) htmlBuffer += ' selected ';
+					htmlBuffer += '>'+midObject.mid+'('+midObject.browser_title+')</option>';
+
+					layoutList[midObject.mid] = midObject.layout_srl;
+					moduleList[midObject.mid] = midObject.module_srl;
+				}
+				htmlBuffer += '</optgroup>'
 			}
 		}
 		else htmlBuffer = '';
