@@ -981,5 +981,10 @@
 			return $module->browser_title;
 		}
 
+		function getBrowserTitle()
+		{
+			$this->getModuleName();
+		}
+
     }
 ?>
