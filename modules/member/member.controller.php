@@ -1653,14 +1653,7 @@
 			$count = (int)$output->data->count;
 			if($config->max_error_count < $count)
 			{
-				$last_update = $output->data->last_update;
-				$year = substr($last_update,0,4);
-				$month = substr($last_update,4,2);
-				$day = substr($last_update,6,2);
-				$hour = substr($last_update,8,2);
-				$min = substr($last_update,10,2);
-				$sec = substr($last_update,12,2);
-				$last_update = mktime($hour,$min,$sec,$month,$day,$year);
+				$last_update = strtotime($output->data->last_update);
 				$term = intval(time()-$last_update);
 				if($term < $config->max_error_count_time)
 				{

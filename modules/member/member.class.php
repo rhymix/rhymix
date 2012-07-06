@@ -368,16 +368,7 @@
 				// Create a member model object
 				$oMemberModel = &getModel('member');
 				$config = $oMemberModel->getMemberConfig();
-
-				$last_update = $output->data->last_update;
-				$year = substr($last_update,0,4);
-				$month = substr($last_update,4,2);
-				$day = substr($last_update,6,2);
-				$hour = substr($last_update,8,2);
-				$min = substr($last_update,10,2);
-				$sec = substr($last_update,12,2);
-				$last_update = mktime($hour,$min,$sec,$month,$day,$year);
-
+				$last_update = strtotime($output->data->last_update);
 				$term = intval(time()-$last_update);
 				//update, if IP address access in a short time, update count. If not, make count 1.
 				if($term < $config->max_error_count_time)
