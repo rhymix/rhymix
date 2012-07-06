@@ -5215,21 +5215,21 @@ xe.XE_XHTMLFormatter = $.Class({
 			} else {
 				var tags = [], t = '';
 
-				// remove unnecessary closing tag
+				// if the tag does not require a closing tag, simply remove the closing tag
+				if ($.inArray(tag,lonely_tags) >= 0) {
+					return '';
+				}
+
+				// if the matching opening tag was not found, remove this closing tag
 				if (!stack.length){
 					return '';
 				}
 
 				do {
-					t = stack[stack.length-1];
-					if (t.tag != tag){
-						continue;
-					}
-					if (t.state != 'deleted'){
-						tags.push('</'+t.tag+'>');
-					}
-					stack.pop();
-				} while(stack.length && t.tag == tag);
+					t = stack.pop();
+					if (t.tag != tag) continue;
+					if (t.state != 'deleted') tags.push('</'+t.tag+'>');
+				} while(stack.length && t.tag != tag);
 
 				return tags.join('');
 			}
@@ -5813,21 +5813,18 @@ xe.XE_Table = $.Class({
 	}
 }).extend(xe.XE_Table);
 
-})(jQuery);
-
 // Auto Resize Checkbox Toggle Class
-jQuery(function($){
-	$('.input_auto>input').change(function(){
-		setTimeout(function(){
-			if($('.input_control').is(':hidden')){
-				$('.input_auto').addClass('line');
-			} else {
-				$('.input_auto').removeClass('line');
-			}
-		},1);
-	});
+$('.input_auto>input').change(function(){
+	setTimeout(function(){
+		if($('.input_control').is(':hidden')){
+			$('.input_auto').addClass('line');
+		} else {
+			$('.input_auto').removeClass('line');
+		}
+	},1);
 });
 
+})(jQuery);
 if (!window.xe) xe = {};
 
 xe.Editors = [];
