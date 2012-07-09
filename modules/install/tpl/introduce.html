@@ -5,13 +5,17 @@
 		<span class="dummy"></span>
 		<div id="content">
 			<form action="./" class="agreement" method="post">
-			<input type="hidden" name="module" value="install" />
-			<input type="hidden" name="act" value="procInstallAgreement" /> <!-- UX/Remove -->
-			<input type="hidden" name="lgpl_agree" value="Y" /> <!-- UX/Remove -->
-			<input type="hidden" name="enviroment_gather" value="N" /> <!-- UX/Remove -->
+				<input type="hidden" name="module" value="install" />
+				<input type="hidden" name="act" value="procInstallAgreement" /> <!-- UX/Remove -->
+				<input type="hidden" name="lgpl_agree" value="Y" /> <!-- UX/Remove -->
+				<input type="hidden" name="enviroment_gather" value="N" /> <!-- UX/Remove -->
 				<div class="desc">
-					<ul>
-						<li loop="$lang_supported=>$key,$val"><a href="{getUrl('l', $key)}">{$val}</a></li>
+					<ul style="list-style:none">
+						<li loop="$lang_supported=>$key,$val" style="position:relative; margin:0 0 4px 0">
+							<i cond="$l==$key" style="position:absolute;top:0;left:-16px;font-style:normal;font-weight:bold;color:red" title="Selected Language">&#10004;</i>
+							<a href="{getUrl('l', $key)}" cond="$l!=$key">{$val}</a>
+							<strong cond="$l==$key">{$val}</strong>
+						</li>
 					</ul>
 				</div>
 				<div class="ibtnArea">
