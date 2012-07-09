@@ -985,7 +985,7 @@
 		<value xml:lang="en"><![CDATA[You can upload 16x16 size <em>*.ico</em> file only.]]></value>
 		<value xml:lang="jp"><![CDATA[16 x 16 サイズの<em>*.ico</em> ファイルのみ登録できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请上传16*16像素的<em>*.ico</em>文件.]]></value>
-		<value xml:lang="tr"><![CDATA[16 x 16 boyutunda <em>*.Ico</ em> dosyalar yüklenebilir.]]></value>
+		<value xml:lang="tr"><![CDATA[16 x 16 boyutunda <em>*.Ico</em> dosyalar yüklenebilir.]]></value>
 	</item>
 	<item name="allow_use_mobile_icon">
 		<value xml:lang="ko"><![CDATA[모바일 홈 화면 아이콘을 사용할까요?]]></value>
@@ -999,7 +999,7 @@
 		<value xml:lang="en"><![CDATA[You can upload 57x57 or 114x114 size <em>*.png</em> file only.]]></value>
 		<value xml:lang="jp"><![CDATA[57 x 57 、または114 x 114 サイズの<em>*.png</em> ファイルのみ登録できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请上传57*57像素或者114*114像素的<em>*.png</em>文件.]]></value>
-		<value xml:lang="tr"><![CDATA[57 x 57 veya 114 x 114 boyutu <em>*.Png</ em> dosyalar yüklenebilir.]]></value>
+		<value xml:lang="tr"><![CDATA[57 x 57 veya 114 x 114 boyutu <em>*.Png</em> dosyalar yüklenebilir.]]></value>
 	</item>
 	<item name="about_use_sso">
 		<value xml:lang="ko"><![CDATA[SSO(Single Sign On)를 사용하시겠습니까?]]></value>
@@ -1354,7 +1354,7 @@
 		<value xml:lang="zh-CN"><![CDATA[该信息将会保存在<strong>files/config/ftp.config.php</strong>里面。你可以安装后在设置页面里面增加、修改或者删除该信息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此資料會儲存在 <strong>files/config/ftp.config.php</strong> 檔案中。 安裝後可在設定頁面中新增、更改或刪除此資訊。]]></value>
 		<value xml:lang="de"><![CDATA[Die Angabe wird unter <strong>files/config/ftp.config.php</strong> gespeichert. Nach der Installation ist es auch möglich, dass die Angabe von Administrator modifiziert oder gelöscht werden kann.]]></value>
-		<value xml:lang="tr"><![CDATA[Bu bilgiler <strong>files/config/ftp.config.php</ strong> bir dosyada saklanır. Kurulumdan sonra, Ayarlar sayfasında, değiştirmek kayıtlı ve kaldırılabilir.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu bilgiler <strong>files/config/ftp.config.php</strong> bir dosyada saklanır. Kurulumdan sonra, Ayarlar sayfasında, değiştirmek kayıtlı ve kaldırılabilir.]]></value>
 	</item>
 	<item name="msg_ftp_no_directory">
 		<value xml:lang="ko"><![CDATA[FTP 접속에 성공했으나, 디렉토리 정보를 읽어올 수 없습니다. 서버 설정을 확인해주세요.]]></value>
