@@ -274,12 +274,11 @@
 
                         foreach($extra_vars as $key => $val) {
                             unset($obj);
-                            if(!$val->type->body) { $val->type->body = 'text'; }
 
                             $obj->group = $group->title->body;
                             $obj->name = $val->attrs->name;
                             $obj->title = $val->title->body;
-                            $obj->type = $val->type->body;
+                            $obj->type = $val->type->body ? $val->type->body : 'text';
                             $obj->description = $val->description->body;
                             $obj->value = $extra_vals->{$obj->name};
                             if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
