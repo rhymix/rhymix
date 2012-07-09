@@ -226,7 +226,12 @@
             //$this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
             $this->setMessage($msgCode, 'info');
 
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', $search_keyword, 'search_target', $search_target);
+			//set url params
+			$search_keyword = Context::get('search_keyword');
+			$search_target = Context::get('search_target');
+			$page = Context::get('page');
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', $search_keyword, 'search_target', $search_target,'page',$page);
 			$this->setRedirectUrl($returnUrl);
         }
 
