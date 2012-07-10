@@ -176,12 +176,15 @@
                 switch($permission_target) {
                     case 'root' :
                             $this->stop('msg_not_permitted_act');
+							return;
                         break;
                     case 'manager' :
                             if(!$grant->manager) $this->stop('msg_not_permitted_act');
+							return;
                         break;
                     case 'member' :
                             if(!$is_logged) $this->stop('msg_not_permitted_act');
+							return;
                         break;
                 }
             }
@@ -335,7 +338,8 @@
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
                 // Check permissions
                 if(!$this->grant->access){
-					return $this->stop("msg_not_permitted_act");
+					$this->stop("msg_not_permitted_act");
+					return FALSE;
 				}
                 // integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
                 $oModuleModel = &getModel('module');
