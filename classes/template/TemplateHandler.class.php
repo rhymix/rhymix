@@ -535,7 +535,7 @@ class TemplateHandler {
 					}
 
 					$result = "<?php {$result} ?>";
-					if(__DEBUG__) if($metafile) $result = "<!--#Meta:{$metafile}-->".$result;
+					if($metafile) $result = "<!--#Meta:{$metafile}-->".$result;
 
 					return $result;
 			}
