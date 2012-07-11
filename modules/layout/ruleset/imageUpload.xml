@@ -4,7 +4,7 @@
 		<rule name="imageExtension" type="regex" test="/\.(gif|jpg|jpeg|gif|png|swf|flv)$/i"  />
     </customrules>
     <fields>
-		<field name="user_layout_image" required="true" rule="imageExtension" />
+		<field name="user_layout_image['name']" required="true" rule="imageExtension" />
 		<field name="layout_srl" required="true" rule="number" />
     </fields>
 </ruleset>

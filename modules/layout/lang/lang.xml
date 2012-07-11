@@ -24,7 +24,10 @@
 		<value xml:lang="es"><![CDATA[Editar el Diseño]]></value>
 		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Düzenle]]></value>
 		<value xml:lang="vi"><![CDATA[Sửa giao diện]]></value>
-
+	</item>
+	<item name="cmd_layout_copy">
+		<value xml:lang="ko"><![CDATA[레이아웃 복사]]></value>
+		<value xml:lang="en"><![CDATA[Copy Layout]]></value>
 	</item>
 	<item name="layout_name">
 		<value xml:lang="ko"><![CDATA[레이아웃 이름]]></value>
@@ -1067,5 +1070,13 @@
 		　　<value xml:lang="jp"><![CDATA[レイアウトリストでアップロードしたレイアウトを利用してレイアウトを生成します。このとき、レイアウトのパスが、アップロードしたパスであるか確認してください。ロゴイメージはなどレイアウトの設定は、改めて行ってください。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[從"已安裝版面"中建立新版面。 確認版面路徑是否上傳正確及修改版面相關設定。]]></value>
 		</item>
+	</item>
+	<item name="msg_empty_origin_layout">
+		<value xml:lang="ko"><![CDATA[원본 Layout이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Original layout is not exist]]></value>
+	</item>
+	<item name="msg_empty_target_layout">
+		<value xml:lang="ko"><![CDATA[복사할 Layout이 지정되어 있지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Target layout is not assigned]]></value>
 	</item>
 </lang>

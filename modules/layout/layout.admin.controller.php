@@ -605,6 +605,116 @@
 			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
+		/**
+		 * layout copy
+		 * @return void
+		 */
+		function procLayoutAdminCopyLayout()
+		{
+			$sourceArgs = Context::getRequestVars();
+			if($sourceArgs->layout == 'faceoff')
+			{
+				return $this->stop('not supported');
+			}
+
+			if(!$sourceArgs->layout_srl)
+			{
+				return $this->stop('msg_empty_origin_layout');
+			}
+
+			if(!is_array($sourceArgs->title) || count($sourceArgs->title) == 0)
+			{
+				return $this->stop('msg_empty_target_layout');
+			}
+
+			$oLayoutModel = &getModel('layout');
+			$layout = $oLayoutModel->getLayout($sourceArgs->layout_srl);
+
+            // Get information to create a layout
+            $args->site_srl = (int)$layout->site_srl;
+            $args->layout = $layout->layout;
+			$args->layout_type = $layout->type;
+			if(!$args->layout_type) $args->layout_type = "P";
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+			if(is_array($sourceArgs->title))
+			{
+				foreach($sourceArgs->title AS $key=>$value)
+				{
+					$args->layout_srl = getNextSequence();
+					$args->title = $value;
+
+					// Insert into the DB
+					$output = $this->insertLayout($args);
+					if(!$output->toBool())
+					{
+						$oDB->rollback();
+						return $output;
+					}
+
+					// initiate if it is faceoff layout
+					$this->initLayout($args->layout_srl, $args->layout);
+
+					// update layout info
+					$args->extra_vars = $layout->extra_var;
+					$output = $this->updateLayout($args);
+					if (!$output->toBool())
+					{
+						$oDB->rollback();
+						return $output;
+					}
+
+					$this->_copyLayoutFile($layout->layout_srl, $args->layout_srl);
+				}
+			}
+			$oDB->commit();
+
+            $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				htmlHeader();
+				alertScript($lang->success_registed);
+				reload(true);
+				closePopupScript();
+				htmlFooter();
+				Context::close();
+				exit;
+			}
+		}
+
+		/**
+		 * Layout file copy
+		 * @param $sourceLayoutSrl origin layout number
+		 * @param $targetLayoutSrl origin layout number
+		 * @return void
+		 */
+		function _copyLayoutFile($sourceLayoutSrl, $targetLayoutSrl)
+		{
+			$oLayoutModel = &getModel('layout');
+			$sourceLayoutPath = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath($sourceLayoutSrl));
+			$targetLayoutPath = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath($targetLayoutSrl));
+
+			$sourceImagePath = $oLayoutModel->getUserLayoutImagePath($sourceLayoutSrl);
+			$targetImagePath = $oLayoutModel->getUserLayoutImagePath($targetLayoutSrl);
+			FileHandler::makeDir($targetimagePath);
+
+			$sourceFileList = $oLayoutModel->getUserLayoutFileList($sourceLayoutSrl);
+			foreach($sourceFileList as $key => $file)
+			{
+				if(is_readable($sourceLayoutPath.$file))
+				{
+					FileHandler::copyFile($sourceLayoutPath.$file, $targetLayoutPath.$file);
+				}
+			}
+
+			/*$sourceImageFiles = FileHandler::readDir($sourceImagePath);
+			if(is_array($sourceImageFiles))
+			{
+			}*/
+		}
+
         /**
          * import layout
 		 * @param int $layout_srl

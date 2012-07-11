@@ -222,9 +222,18 @@ class Validator
 
 		foreach($filters as $key=>$filter) {
 			$fname  = preg_replace('/\[\]$/', '', $key);
-			$exists = array_key_exists($key, $fields);
 			$filter = array_merge($filter_default, $filter);
-			$value  = $exists ? $fields[$fname] : null;
+
+			if(preg_match("/(^[a-z_]*)[\[](?:\'|\")?([a-z_]*)(?:\'|\")?[\]]$/i", $key, $matches))
+			{
+				$exists = array_key_exists($matches[1], $fields);
+				$value  = $exists ? $fields[$matches[1]][$matches[2]] : null;
+			}
+			else
+			{
+				$exists = array_key_exists($key, $fields);
+				$value  = $exists ? $fields[$fname] : null;
+			}
 
 			if(is_array($value)) $value = implode('', $value);
 

@@ -15,6 +15,7 @@
 				<th scope="col" class="nowr">{$lang->regdate}</th>
 				<th scope="col" class="nowr">{$lang->cmd_layout_management}</th>
 				<th scope="col" class="nowr">{$lang->cmd_layout_edit}</th>
+				<th scope="col" class="nowr">{$lang->cmd_copy}</th>
 				<th scope="col" class="nowr">{$lang->cmd_delete}</th>
 			</tr>
 		</thead>
@@ -25,6 +26,7 @@
 				<td class="nowr">{zdate($layout->regdate, "Y-m-d")}</td>
 				<td class="nowr"><a href="{getUrl('act', 'dispLayoutAdminModify', 'layout_srl', $layout->layout_srl)}">{$lang->cmd_layout_management}</a></td>
 				<td class="nowr"><a href="{getUrl('act', 'dispLayoutAdminEdit', 'layout_srl', $layout->layout_srl)}">{$lang->cmd_layout_edit}</a></td>
+				<td class="nowr"><a href="{getUrl('', 'module', 'layout', 'act', 'dispLayoutAdminCopyLayout', 'layout_srl', $layout->layout_srl)}" onclick="popopen(this.href);return false;" title="{$lang->cmd_copy}">{$lang->cmd_copy}</a></td>
 				<td class="nowr">
 					<form class="layout_delete_form" ruleset="deleteLayout" action="./" method="post">
 						<input type="hidden" name="module" value="layout" />

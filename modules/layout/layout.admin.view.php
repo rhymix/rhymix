@@ -457,5 +457,19 @@
 
             $this->setTemplateFile('layout_image_list');
         }
+
+        /**
+         * Copy layout instance
+		 * @return void
+         */
+        function dispLayoutAdminCopyLayout(){
+			$layoutSrl = Context::get('layout_srl');
+
+			$oLayoutModel = &getModel('layout');
+			$layout = $oLayoutModel->getLayout($layoutSrl);
+
+            Context::set('layout', $layout);
+            $this->setTemplateFile('copy_layout');
+        }
     }
 ?>
