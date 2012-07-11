@@ -175,16 +175,15 @@
                 // Check permissions
                 switch($permission_target) {
                     case 'root' :
-                            $this->stop('msg_not_permitted_act');
-							return;
-                        break;
-                    case 'manager' :
-                            if(!$grant->manager) $this->stop('msg_not_permitted_act');
-							return;
-                        break;
+					case 'manager' :
+						$this->stop('msg_not_permitted_act');
+						return;
                     case 'member' :
-                            if(!$is_logged) $this->stop('msg_not_permitted_act');
+						if(!$is_logged)
+						{
+							$this->stop('msg_not_permitted_act');
 							return;
+						}
                         break;
                 }
             }
