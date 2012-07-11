@@ -17,7 +17,7 @@
 <form id="fo_login_widget" action="./" method="post" ruleset="@login" class="login_{$colorset}">
 	<fieldset>
 		<input type="hidden" name="act" value="procMemberLogin" />
-		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+		<input type="hidden" name="success_return_url" value="{htmlspecialchars(getRequestUriByServerEnviroment())}" />
 		<div class="idpwWrap">
 			<div class="idpw">
 				<input name="user_id" type="text" title="<!--@if($member_config->identifier != 'email_address')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end-->" />
