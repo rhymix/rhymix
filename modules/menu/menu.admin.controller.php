@@ -601,12 +601,13 @@
 			$url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->menu->{$menuName}->index);
 			if(empty($url)) $url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->admin_index_act);
 			if(empty($url)) $url = getNotEncodedUrl('', 'module', 'admin');
+			$dbInfo = Context::getDBInfo();
 
 			$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 			$args->parent_srl = $requestArgs->parent_srl;
 			$args->menu_srl = $requestArgs->menu_srl;
 			$args->name = sprintf('{$lang->menu_gnb_sub[\'%s\']}', $menuName);
-			$args->url = $url;
+			$args->url = str_replace($dbInfo->default_url, '', $url);
 			$args->open_window = 'N';
 			$args->expand = 'N';
 			$args->normal_btn = '';
