@@ -38,14 +38,16 @@
 				<label for="password2">{$lang->password3} <em style="color:red">*</em></label>
 				<input type="password" name="password2" id="password2" value=""/>
 			</li>
-			<li loop="$formTags=>$formTag" cond="$formTag->name != 'signature'"> 
-				<label>{$formTag->title}</label>
-				{$formTag->inputTag}
-			</li>
+			<block loop="$formTags=>$formTag" cond="$formTag->name != 'signature'">
+				<li> 
+					<label>{$formTag->title}</label>
+					{$formTag->inputTag}
+				</li>
+			</block>
 			<li> 
 				<label>{$lang->allow_mailing}</label>
-				<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
-				<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
+				<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'" /> <label for="mailingYes">{$lang->cmd_yes}</label>
+				<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" /> <label for="mailingNo">{$lang->cmd_no}</label>
 			</li>
 			<li> 
 				<label>{$lang->allow_message}</label>
