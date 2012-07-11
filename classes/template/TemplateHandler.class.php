@@ -272,7 +272,7 @@ class TemplateHandler {
 		if(!preg_match('/no-error-return-url="true"/i', $matches[1]))
 		{
 			preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
-			if(!$m3[0]) $matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo getRequestUriByServerEnviroment() ?>" />'.$matches[2];
+			if(!$m3[0]) $matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo htmlspecialchars(getRequestUriByServerEnviroment()) ?>" />'.$matches[2];
 		}
 		else
 		{
