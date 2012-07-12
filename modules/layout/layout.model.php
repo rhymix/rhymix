@@ -84,13 +84,6 @@
 	            // Return xml file informaton after listing up the layout and extra_vars
 	            $layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
 
-				// If deleted layout files, delete layout instance
-				if (!$layout_info) {
-					$oLayoutController = &getAdminController('layout');
-					$oLayoutController->deleteLayout($layout_srl);
-					return;
-				}
-	            
 				//insert in cache
 	            if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$layout_info);
 			}
