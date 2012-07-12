@@ -317,5 +317,29 @@
 			$security = new Security();
 			$security->encodeHTML('module_info.');
         }
+
+		/**
+		 * Display skin setting page
+		 */
+		function dispPageAdminSkinInfo()
+		{
+			$oModuleAdminModel = &getAdminModel('module');
+			$skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
+			Context::set('skin_content', $skin_content);
+
+			$this->setTemplateFile('skin_info');
+		}
+
+		/**
+		 * Display mobile skin setting page
+		 */
+		function dispPageAdminMobileSkinInfo()
+		{
+			$oModuleAdminModel = &getAdminModel('module');
+			$skin_content = $oModuleAdminModel->getModuleMobileSkinHTML($this->module_info->module_srl);
+			Context::set('skin_content', $skin_content);
+
+			$this->setTemplateFile('skin_info');
+		}
     }
 ?>

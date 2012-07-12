@@ -232,23 +232,45 @@
         function procModuleAdminUpdateSkinInfo() {
             // Get information of the module_srl
             $module_srl = Context::get('module_srl');
+			$mode = Context::get('_mode');
+			$mode = $mode === 'P' ? 'P' : 'M';
 
             $oModuleModel = &getModel('module');
-			$columnList = array('module_srl', 'module', 'skin');
+			$columnList = array('module_srl', 'module', 'skin', 'mskin');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             if($module_info->module_srl) {
-                $skin = $module_info->skin;
+				if($mode === 'M')
+				{
+					$skin = $module_info->mskin;
+				}
+				else
+				{
+                	$skin = $module_info->skin;
+				}
+
                 // Get skin information (to check extra_vars)
                 $module_path = './modules/'.$module_info->module;
-                $skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);
-                $skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
+
+				if($mode === 'M')
+				{
+					$skin_info = $oModuleModel->loadSkinInfo($module_path, $skin, 'm.skins');
+					$skin_vars = $oModuleModel->getModuleMobileSkinVars($module_srl);
+				}
+				else
+				{
+					$skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);
+					$skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
+				}
+
                 // Check received variables (unset such variables as act, module_srl, page, mid, module)
                 $obj = Context::getRequestVars();
                 unset($obj->act);
+                unset($obj->error_return_url);
                 unset($obj->module_srl);
                 unset($obj->page);
                 unset($obj->mid);
                 unset($obj->module);
+                unset($obj->_mode);
                 // Separately handle if a type of extra_vars is an image in the original skin_info
                 if($skin_info->extra_vars) {
                     foreach($skin_info->extra_vars as $vars) {
@@ -306,21 +328,24 @@
                 }
                 */
                 $oModuleController = &getController('module');
-                $oModuleController->deleteModuleSkinVars($module_srl);
-                // Register
-                $oModuleController->insertModuleSkinVars($module_srl, $obj);
-            }
-        	//remove from cache
-            $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()){
-            	$cache_key = 'object:'.$module_srl;
-            	$oCacheHandler->delete($cache_key);
+
+				if($mode === 'M')
+				{
+					$output = $oModuleController->insertModuleMobileSkinVars($module_srl, $obj);
+				}
+				else
+				{
+					$output = $oModuleController->insertModuleSkinVars($module_srl, $obj);
+				}
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+
             }
 
-            $this->setLayoutPath('./common/tpl');
-            $this->setLayoutFile('default_layout.html');
-            $this->setTemplatePath('./modules/module/tpl');
-            $this->setTemplateFile("top_refresh.html");
+			$this->setMessage('success_saved');
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
         /**

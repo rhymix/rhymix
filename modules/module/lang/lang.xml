@@ -567,6 +567,10 @@
 		<value xml:lang="tr"><![CDATA[Dış Görünümleri Yönet]]></value>
 		<value xml:lang="vi"><![CDATA[Quản lý Skin]]></value>
 	</item>
+	<item name="cmd_manage_mobile_skin">
+		<value xml:lang="ko"><![CDATA[모바일 스킨 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage Mobile Skins]]></value>
+	</item>
 	<item name="cmd_manage_document">
 		<value xml:lang="ko"><![CDATA[게시글 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage Articles]]></value>

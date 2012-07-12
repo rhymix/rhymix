@@ -22,6 +22,11 @@
 		<li <!--@if($act=='dispPageAdminInfo')-->class="active"<!--@end-->><a href="{getUrl('act','dispPageAdminInfo')}">{$lang->module_info}</a></li>
 		<li <!--@if($act=='dispPageAdminPageAdditionSetup')-->class="active"<!--@end-->><a href="{getUrl('act','dispPageAdminPageAdditionSetup')}">{$lang->cmd_addition_setup}</a></li>
 		<li <!--@if($act=='dispPageAdminGrantInfo')-->class="active"<!--@end-->><a href="{getUrl('act','dispPageAdminGrantInfo')}">{$lang->cmd_manage_grant}</a></li>
+		<block cond="$module_info->page_type === 'ARTICLE'">
+			<li <!--@if($act === 'dispPageAdminSkinInfo')-->class="active"<!--@end-->><a href="{getUrl('act','dispPageAdminSkinInfo')}">{$lang->cmd_manage_skin}</a></li>
+			<li <!--@if($act === 'dispPageAdminMobileSkinInfo')-->class="active"<!--@end-->><a href="{getUrl('act','dispPageAdminMobileSkinInfo')}">{$lang->cmd_manage_mobile_skin}</a></li>
+			<li></li>
+		</block>
 		<!--@else-->
 		<li <!--@if($act=='dispPageAdminInsert')-->class="active"<!--@end-->><a href="{getUrl('act','dispPageAdminInsert')}">{$lang->cmd_page_create}</a></li>
 		<!--@end-->
