@@ -28,6 +28,8 @@
                 Context::addSSLAction('dispMemberModifyPassword');
                 Context::addSSLAction('dispMemberSignUpForm');
                 Context::addSSLAction('dispMemberModifyInfo');
+				Context::addSSLAction('dispMemberLoginForm');
+				Context::addSSLAction('dispMemberFindAccount');
                 Context::addSSLAction('procMemberLogin');
                 Context::addSSLAction('procMemberModifyPassword');
                 Context::addSSLAction('procMemberInsert');
