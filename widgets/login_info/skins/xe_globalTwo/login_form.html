@@ -17,7 +17,7 @@
 </script>
 
 
-<form action="./" method="post" ruleset="@login" id="fo_login_widget" class="fo_login_widget">
+<form action="{getUrl('','act','procMemberLogin')}" method="post" ruleset="@login" id="fo_login_widget" class="fo_login_widget">
 	<fieldset id="login" class="login_{$colorset}">
 	<legend>{$lang->cmd_login}</legend>
 	<input type="hidden" name="act" value="procMemberLogin" />

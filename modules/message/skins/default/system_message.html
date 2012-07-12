@@ -1,4 +1,4 @@
-<load target="../../../../common/js/jquery.js" />
+<load target="./../../../common/js/jquery.min.js" usecdn="true" index="-1000000" />
 <load target="./filter/openid_login.xml" />
 <load target="./message.css" />
 <load target="./message.js" />
@@ -8,7 +8,7 @@
 <div id="loginAccess" class="gLogin">
 	<h1>{$system_message}</h1>
 	<div class="mLogin" id="gLogin" cond="!$is_logged && $module == 'admin'">
-		<form ruleset="@login" action="./" method="post" id="gForm">
+		<form ruleset="@login" action="{getUrl('','act','procMemberLogin')}" method="post" id="gForm">
 		<input type="hidden" name="module" value="member" />
 		<input type="hidden" name="act" value="procMemberLogin" />
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />

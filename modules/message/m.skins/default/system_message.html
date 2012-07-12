@@ -16,7 +16,7 @@
         {@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
 		<!--%import("./filter/openid_login.xml")-->
 		<div class="mLogin" id="gLogin">
-			<form action="./" method="post" ruleset="@login" id="gForm" class="ff">
+			<form action="{getUrl('','act','procMemberLogin')}" method="post" ruleset="@login" id="gForm" class="ff">
 			<input type="hidden" name="module" value="member" />
 			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 				<fieldset>

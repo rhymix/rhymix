@@ -14,7 +14,7 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form id="fo_login_widget" action="./" method="post" ruleset="@login" class="login_{$colorset}">
+<form id="fo_login_widget" action="{getUrl('','act','procMemberLogin')}" method="post" ruleset="@login" class="login_{$colorset}">
 	<fieldset>
 		<input type="hidden" name="act" value="procMemberLogin" />
 		<input type="hidden" name="success_return_url" value="{htmlspecialchars(getRequestUriByServerEnviroment())}" />
