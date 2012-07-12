@@ -21,7 +21,7 @@
 	<fieldset id="login" class="login_{$colorset}">
 	<legend>{$lang->cmd_login}</legend>
 	<input type="hidden" name="act" value="procMemberLogin" />
-	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="success_return_url" value="{htmlspecialchars(getRequestUriByServerEnviroment())}" />
 	<h2>Login</h2>
     <div class="idpwWrap">
         <div class="idpw">

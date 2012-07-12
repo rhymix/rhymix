@@ -582,7 +582,7 @@ class DBMysql extends DB {
         $uses_groupby = $queryObject->getGroupByString() != '';
         if($uses_distinct || $uses_groupby) {
             $count_query = sprintf('select %s %s %s %s'
-                , $temp_select
+                , $temp_select == '*' ? '1' : $temp_select
                 , 'FROM ' . $queryObject->getFromString($with_values)
                 , ($temp_where === '' ? '' : ' WHERE '. $temp_where)
                 , ($uses_groupby ? ' GROUP BY ' . $queryObject->getGroupByString() : '')
