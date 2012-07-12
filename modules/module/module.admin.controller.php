@@ -361,12 +361,15 @@
 
             $oModuleModel = &getModel('module');
             $oModuleController= &getController('module');
-			$columnList = array('module_srl', 'module', 'use_mobile', 'mlayout_srl', 'menu_srl', 'site_srl', 'mid', 'mskin', 'browser_title', 'is_default', 'content', 'mcontent', 'open_rss', 'regdate');
+			$columnList = array('module_srl', 'module', 'menu_srl', 'site_srl', 'mid', 'browser_title', 'is_default', 'content', 'mcontent', 'open_rss', 'regdate');
             foreach($module_srls as $module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
                 $module_info->module_category_srl = $vars->module_category_srl;
                 $module_info->layout_srl = $vars->layout_srl;
                 $module_info->skin = $vars->skin;
+                $module_info->use_mobile = $vars->use_mobile;
+                $module_info->mlayout_srl = $vars->mlayout_srl;
+                $module_info->mskin = $vars->mskin;
                 $module_info->description = $vars->description;
                 $module_info->header_text = $vars->header_text;
                 $module_info->footer_text = $vars->footer_text;

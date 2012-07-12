@@ -41,6 +41,29 @@
 				</p>
 				<p class="desc">{$lang->about_skin}</p>
 			</li>
+		<li>
+			<p class="q"><label for="layout_srl">{$lang->mobile_view}</label></p>
+			<p class="a"><input type="checkbox" name="use_mobile" id="use_mobile" value="Y" checked="checked"|cond="$module_info->use_mobile == 'Y'" /> <label for="use_mobile">{$lang->about_mobile_view}</label></p>
+		</li>
+		<li>
+			<p class="q"><label for="mlayout_srl">{$lang->mobile_layout}</label></p>
+			<p class="a">
+				<select name="mlayout_srl" id="layout_srl">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl== $val->layout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+			</p>
+			<p class="desc">{$lang->about_layout}</p>
+		</li>
+		<li>
+			<p class="q"><label for="mskin">{$lang->mobile_skin}</label></p>
+			<p class="a">
+				<select name="mskin" id="mskin">
+					<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin== $key || (!$module_info->skin && $key=='xe_board')">{$val->title}</option>
+				</select>
+			</p>
+			<p class="desc">{$lang->about_skin}</p>
+		</li>
 			<li>
 				<p class="q"><label for="description">{$lang->description}</label></p>
 				<p class="a">
