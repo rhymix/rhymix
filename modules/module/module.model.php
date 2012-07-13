@@ -101,7 +101,7 @@
                 }
                 if($output->toBool() && $output->data && $vid) {
                     Context::set('vid', $output->data->domain, true);
-					if(strtolower($mid)==strtolower($output->data->domain)) Context::set('mid',$output->data->mid,true);
+                    if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
                 }
                 if(!$output || !$output->data) { $domain = ''; unset($output); }
             }
