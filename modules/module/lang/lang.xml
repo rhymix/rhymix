@@ -1043,4 +1043,14 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="en"><![CDATA[Add]]></value>
 		<value xml:lang="zh-TW"><![CDATA[新增]]></value>
 	</item>
+	<item name="keep_existing_value">
+		<value xml:lang="ko"><![CDATA[기존 값 유지]]></value>
+		<value xml:lang="en"><![CDATA[Keep existing value]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Keep existing value]]></value>
+	</item>
+	<item name="about_maintain_existing">
+		<value xml:lang="ko"><![CDATA[공란일 경우 기존 값을 따릅니다.]]></value>
+		<value xml:lang="en"><![CDATA[If content empty, maintain existing value.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[If content empty, maintain existing value.]]></value>
+	</item>
 </lang>

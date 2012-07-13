@@ -362,17 +362,23 @@
             $oModuleModel = &getModel('module');
             $oModuleController= &getController('module');
 			$columnList = array('module_srl', 'module', 'menu_srl', 'site_srl', 'mid', 'browser_title', 'is_default', 'content', 'mcontent', 'open_rss', 'regdate');
+			$updateList = array('module_category_srl','layout_srl','skin','mlayout_srl','mskin','description','header_text','footer_text'); //use_mobile
+			foreach($updateList as $key=>$val)
+			{
+				if(!$vars->{$val} && $vars->{$val} !== 0)
+				{
+					unset($updateList[$key]);
+					$columnList[] = $val;
+				}
+			}
+
             foreach($module_srls as $module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-                $module_info->module_category_srl = $vars->module_category_srl;
-                $module_info->layout_srl = $vars->layout_srl;
-                $module_info->skin = $vars->skin;
-                $module_info->use_mobile = $vars->use_mobile;
-                $module_info->mlayout_srl = $vars->mlayout_srl;
-                $module_info->mskin = $vars->mskin;
-                $module_info->description = $vars->description;
-                $module_info->header_text = $vars->header_text;
-                $module_info->footer_text = $vars->footer_text;
+
+				foreach($updateList as $val)
+				{
+					$module_info->{$val} = $vars->{$val};
+				}
                 $output = $oModuleController->updateModule($module_info);
             }
 
