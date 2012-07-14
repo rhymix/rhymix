@@ -141,9 +141,9 @@
 				$key = $file->filePath . $file->fileName . "\t" . $file->targetIe;
 			}
 
-			if (!isset($map[$key]) || $mapIndex[$key] != $file->index)
+			(is_null($file->index))?$file->index=0:$file->index=$file->index;
+			if (!isset($map[$file->index][$key]) || $mapIndex[$key] != $file->index)
 			{
-				(is_null($file->index))?$file->index=0:$file->index=$file->index;
 				$this->unloadFile($args[0], $args[2], $args[1]);
 				$map[$file->index][$key] = $file;
 				$mapIndex[$key] = $file->index;

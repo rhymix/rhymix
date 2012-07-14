@@ -1200,7 +1200,7 @@ class Context {
 	 **/
 	function unloadAllJsFiles() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		$self->oFrontEndFileHandler->unloadAllJsFiles();
+		$self->oFrontEndFileHandler->unloadAllFiles('js');
 	}
 
 	/**
@@ -1259,7 +1259,7 @@ class Context {
 	 **/
 	function unloadAllCSSFiles() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		$self->oFrontEndFileHandler->unloadAllCssFiles();
+		$self->oFrontEndFileHandler->unloadAllFiles('css');
 	}
 
 	/**
