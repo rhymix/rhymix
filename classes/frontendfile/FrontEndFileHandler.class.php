@@ -143,6 +143,7 @@
 
 			if (!isset($map[$key]) || $mapIndex[$key] != $file->index)
 			{
+				(is_null($file->index))?$file->index=0:$file->index=$file->index;
 				$this->unloadFile($args[0], $args[2], $args[1]);
 				$map[$file->index][$key] = $file;
 				$mapIndex[$key] = $file->index;
@@ -207,16 +208,16 @@
 		{
 			if ($type == 'css' || $type == 'all')
 			{
-				$cssMap = array();
-				$cssMapIndex = array();
+				$this->cssMap = array();
+				$this->cssMapIndex = array();
 			}
 
 			if ($type == 'js' || $type == 'all')
 			{
-				$jsHeadMap = array();
-				$jsBodyMap = array();
-				$jsHeadMapIndex = array();
-				$jsBodyMapIndex = array();
+				$this->jsHeadMap = array();
+				$this->jsBodyMap = array();
+				$this->jsHeadMapIndex = array();
+				$this->jsBodyMapIndex = array();
 			}
 		}
 
