@@ -698,7 +698,7 @@
 
 			$sourceImagePath = $oLayoutModel->getUserLayoutImagePath($sourceLayoutSrl);
 			$targetImagePath = $oLayoutModel->getUserLayoutImagePath($targetLayoutSrl);
-			FileHandler::makeDir($targetimagePath);
+			FileHandler::makeDir($targetImagePath);
 
 			$sourceFileList = $oLayoutModel->getUserLayoutFileList($sourceLayoutSrl);
 			foreach($sourceFileList as $key => $file)
@@ -706,13 +706,24 @@
 				if(is_readable($sourceLayoutPath.$file))
 				{
 					FileHandler::copyFile($sourceLayoutPath.$file, $targetLayoutPath.$file);
+					if($file == 'layout.html' || $file == 'layout.css')
+					{
+						$this->_changeFilepathInSource($targetLayoutPath.$file, $sourceImagePath, $targetImagePath);
+					}
 				}
 			}
+		}
 
-			/*$sourceImageFiles = FileHandler::readDir($sourceImagePath);
-			if(is_array($sourceImageFiles))
-			{
-			}*/
+		/**
+		 * Change resource file path in Layout file
+		 * @param string $file
+		 * @return void
+		 */
+		function _changeFilepathInSource($file, $source, $target)
+		{
+			$content = FileHandler::readFile($file);
+			$content = str_replace($source, $target, $content);
+			FileHandler::writeFile($file, $content);
 		}
 
         /**
