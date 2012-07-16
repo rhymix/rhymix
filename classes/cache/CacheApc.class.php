@@ -116,7 +116,7 @@ class CacheApc extends CacheBase {
 	 * @return void
 	 */
 	function delete($key) {
-		$this->_delete($_key);
+		$this->_delete($key);
 	}
 
 	/**
