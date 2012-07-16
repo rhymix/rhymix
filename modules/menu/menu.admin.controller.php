@@ -160,6 +160,11 @@
 			else
 				$args->name = $source_args->menu_name;
 
+			if(!strstr($args->name, '$user_lang->'))
+			{
+				$args->name = htmlspecialchars($args->name);
+			}
+
             $args->url = trim($source_args->menu_url);
             $args->open_window = $source_args->menu_open_window;
             $args->expand = $source_args->menu_expand;
