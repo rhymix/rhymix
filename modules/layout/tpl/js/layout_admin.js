@@ -58,6 +58,9 @@ function addLayoutCopyInputbox()
 
 	var it  = jQuery('#inputTable');
 	it.append(html);
+	
+	it.find('SPAN.btn').hide();
+	it.find('TR:last-child SPAN.btn').show();
 }
 
 (function($){

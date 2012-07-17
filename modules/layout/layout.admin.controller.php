@@ -643,6 +643,11 @@
 			{
 				foreach($sourceArgs->title AS $key=>$value)
 				{
+					if(!trim($value))
+					{
+						continue;
+					}
+
 					$args->layout_srl = getNextSequence();
 					$args->title = $value;
 
