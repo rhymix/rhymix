@@ -106,6 +106,7 @@
 			$security = new Security();
 			$security->encodeHTML('group_list..title');
 			$security->encodeHTML('group_list..description');
+			$security->encodeHTML('admin_member..nick_name');
 
 			// Get information of module_grants
             $oTemplate = &TemplateHandler::getInstance();
