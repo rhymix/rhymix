@@ -1,4 +1,4 @@
-<?php
+<@brief r?php
     /**
     * @class ModuleObject
     * @author NHN (developers@xpressengine.com)
@@ -334,7 +334,7 @@
 
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
                 // Check permissions
-                if(!$this->grant->access){
+                if($this->module_srl && !$this->grant->access){
 					return $this->stop("msg_not_permitted_act");
 				}
                 // integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
