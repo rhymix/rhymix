@@ -1,4 +1,4 @@
-<@brief r?php
+<?php
     /**
     * @class ModuleObject
     * @author NHN (developers@xpressengine.com)
