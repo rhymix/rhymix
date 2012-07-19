@@ -7,7 +7,15 @@
 
     class integration_searchView extends integration_search {
 
+	/**
+	 * Target mid
+	 * @var array target mid
+	 */
         var $target_mid = array();
+	/**
+	 * Skin
+	 * @var string skin name
+	 */
         var $skin = 'default';
 
         /**
