@@ -1,10 +1,10 @@
 <?php
     /**
+    * Superclass of the edit component.
+	* Set up the component variables
+	*
     * @class EditorHandler
     * @author NHN (developers@xpressengine.com)
-    * @brief superclass of the edit component
-    *
-    * set up the component variables
     **/
 
     class EditorHandler extends Object {
