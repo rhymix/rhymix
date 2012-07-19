@@ -26,6 +26,10 @@
             $current_module_srl = Context::get('module_srl');
             $site_module_info = Context::get('site_module_info');
 
+			if(is_array($current_module_srl))
+			{
+				unset($current_module_srl);
+			}
             if(!$current_module_srl) {
                 $current_module_info = Context::get('current_module_info');
                 $current_module_srl = $current_module_info->module_srl;

@@ -153,7 +153,7 @@
             $oModuleModel = &getModel('module');
             // permission settings. access, manager(== is_admin) are fixed and privilege name in XE
             $module_srl = Context::get('module_srl');
-            if(!$module_info->mid && preg_match('/^([0-9]+)$/',$module_srl)) {
+            if(!$module_info->mid && !is_array($module_srl) && preg_match('/^([0-9]+)$/',$module_srl)) {
                 $request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
                 if($request_module->module_srl == $module_srl) {
                     $grant = $oModuleModel->getGrant($request_module, $logged_info);
