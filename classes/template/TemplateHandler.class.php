@@ -205,7 +205,7 @@ class TemplateHandler {
 		$buff = '<?php if(!defined("__XE__"))exit;?>'.$buff;
 
 		// remove php script reopening
-		$buff = preg_replace(array('/(\n|\r\n)+/','/(;)?( )*\?\>([\n\t]+)?\<\?php([\n\t ]+)?/'),array("\n",";\n"),$buff);
+		$buff = preg_replace(array('/(\n|\r\n)+/','/(;)?( )*\?\>\<\?php([\n\t ]+)?/'),array("\n",";\n"),$buff);
 
 		return $buff;
 	}
