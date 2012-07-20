@@ -27,26 +27,42 @@ jQuery(function($){
 	<fieldset class="section">
 		<h2 class="h2">{$lang->subtitle_primary}</h2>
 		<ul>
-			<li class="modulefinder">
+			<li class="modulefinder moduleSearch">
 				<p class="q">{$lang->about_start_module}</p>
-				<p class="a">
+				<div class="a">
 					<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
 					<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
-					<a href="#modalWindow" class="modalAnchor" onClick="viewSiteSearch()">{$lang->cmd_find}</a> </p>
-					<p class="site_keyword_search" style="display:none">
-						<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->cmd_confirm}</a>
-						<div id="suggestion3" class="tgContent suggestion" >
-							<ul></ul>
+					<a href="#moduleSearchWindow" class="tgAnchor moduleSearch">{$lang->cmd_find}</a> 
+					<div id="moduleSearchWindow" class="tgContent">
+						<div class="siteList sectionDiv">
+							<h2>{$lang->select_site}</h2>
+							<div class="siteListSearchBox">
+								<div class="siteListSearchBoxBorder">
+									<div class="searchImg icon-search"></div>
+									<input type="text" class="siteListSearchInput" name="site_filter">
+								</div>
+							</div>
+							<div class="siteListUL">
+								<ul>
+								</ul>
+							</div>
 						</div>
-					</p>						
-					<p>
-						<select class="moduleList" style="width:290px"></select>
-					</p>
-					<p>
-						<select class="moduleIdList" style="width:290px"></select>
-						<a href="#" id="sitefind_addBtn" onclick="setStartModule()" style="display:none;">{$lang->cmd_select}</a>
-					</p>
-				</p>
+						<div class="moduleTypeList sectionDiv">
+							<h2>{$lang->select_module_type}</h2>
+							<div>
+								<ul class="moduleTypeListUL">
+								</ul>
+							</div>
+						</div>
+						<div class="moduleInstanceList sectionDiv">
+							<h2>{$lang->select_module_instance}</h2>
+							<div>
+								<ul class="moduleInstanceListUL">
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</li>
 			<li>
 				<p class="q">{$lang->about_lang_select}</p>

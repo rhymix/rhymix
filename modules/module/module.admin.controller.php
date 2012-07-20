@@ -617,6 +617,13 @@
                 foreach($mid_list as $module => $val) {
                     if(!$selected_module) $selected_module = $module;
                     $xml_info = $oModuleModel->getModuleInfoXml($module);
+
+					if(!$xml_info)
+					{
+						unset($mid_list[$module]);
+						continue;
+					}
+
                     $mid_list[$module]->title = $xml_info->title;
 
 					// change module category srl to title

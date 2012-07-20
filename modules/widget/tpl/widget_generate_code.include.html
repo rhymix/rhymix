@@ -72,7 +72,7 @@
 				<select class="multiorder_show" size="8" multiple="multiple" style="width:290px;vertical-align:top">
 					<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
 				</select>
-				<button type="button" class="text multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
+				<button type="button" class="text multiorder_add" style="vertical-align:top">{$lang->cmd_insert}111</button>
 				<select class="multiorder_selected" size="8" multiple="multiple" style="width:290px;vertical-align:top">
 					<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
 				</select>
@@ -120,6 +120,38 @@
 				<script type="text/javascript">
 					xe.registerApp(new xe.ModuleListManager('{$id}'));
 				</script>
+				<!--
+				<a href="#moduleSearchWindow" class="tgAnchor moduleSearch">{$lang->cmd_find}</a>.
+				<div id="moduleSearchWindow" class="tgContent">
+					<div class="siteList sectionDiv">
+						<h2>{$lang->select_site}</h2>
+						<div class="siteListSearchBox">
+							<div class="siteListSearchBoxBorder">
+								<div class="searchImg icon-search"></div>
+								<input type="text" class="siteListSearchInput" name="site_filter">
+							</div>
+						</div>
+						<div class="siteListUL">
+							<ul>
+							</ul>
+						</div>
+					</div>
+					<div class="moduleTypeList sectionDiv">
+						<h2>{$lang->select_module_type}</h2>
+						<div>
+							<ul class="moduleTypeListUL">
+							</ul>
+						</div>
+					</div>
+					<div class="moduleInstanceList sectionDiv">
+						<h2>{$lang->select_module_instance}</h2>
+						<div>
+							<ul class="moduleInstanceListUL">
+							</ul>
+						</div>
+					</div>
+				</div>
+-->
 			</block>
 			<block cond="$var->type == 'mid'">
 				<input type="hidden" name="{$id}" value="" />

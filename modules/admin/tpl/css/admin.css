@@ -678,6 +678,27 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .crossTable input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
 .x .clear:after{content:"";display:block;clear:both}
 
+#moduleSearchWindow{position:absolute;width:700px;}
+#moduleSearchWindow, #moduleSearchWindow div{margin:0;padding:0;color:#2d2c2d;font-size:12px;}
+#moduleSearchWindow h2{margin:0;padding:4px;height:24px;line-height:24px;background:#666;text-align:left;color:#fff;font-size:12px;}
+#moduleSearchWindow .sectionDiv{position:relative;margin:0px;background:#fff;border:1px solid;}
+#moduleSearchWindow .siteList{float:left;width:295px;}
+#moduleSearchWindow .highlight{background:yellow;color:red;font-style:italic;}
+#moduleSearchWindow .moduleTypeList{margin-left:5px;float:left;width:200px;}
+#moduleSearchWindow .moduleInstanceList{float:right;width:190px;}
+#moduleSearchWindow ul{margin:0;padding:0;border:0;}
+#moduleSearchWindow li{font-size:12px;border:0;border-bottom:1px solid #ccc;margin:0;padding: 4px 4px;font-family: 나눔고딕,NanumGothic,"맑은 고딕","Malgun Gothic",AppleGothic,돋움,Dotum,굴림,Gulim,sans-serif;}
+#moduleSearchWindow li:hover, #moduleSearchWindow li.on{background:#eee;cursor:pointer;}
+#moduleSearchWindow li div{margin:0;padding:0;display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+#moduleSearchWindow .siteList li div{width:270px;}
+#moduleSearchWindow .siteListSearchBox{margin:0;padding:4px 0;height:24px;border-bottom:1px solid #888;}
+#moduleSearchWindow .siteListSearchBoxBorder{margin-left:3px;height: 22px;width: 287px;border: 1px solid #ccc;}
+#moduleSearchWindow .siteListSearchInput{margin:0;padding:0;position:relative; float:right; width: 260px; margin-right:4px;border:0;}
+#moduleSearchWindow .siteListSearchBox .searchImg{position:relative;float:left;margin-top:4px;margin-left:4px;}
+#moduleSearchWindow .moduleTypeList li div{width:170px;}
+#moduleSearchWindow .moduleInstanceList li div{width:190px;}
+
+
 /*!
  * Bootstrap v2.0.4
  *

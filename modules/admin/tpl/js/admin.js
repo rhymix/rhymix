@@ -576,6 +576,196 @@ $('.modulefinder').xeModuleFinder();
 
 });
 
+// Module Search : A New Version Of Module Finder
+jQuery(function($){
+
+$.fn.xeModuleSearch = function(){
+	var $moduleSearchWindow = $("#moduleSearchWindow");
+
+	var $siteListDiv = $moduleSearchWindow.find('.siteList');
+	var $moduleTypeListDiv = $moduleSearchWindow.find('.moduleTypeList');
+	var $moduleInstanceListDiv = $moduleSearchWindow.find('.moduleInstanceList');
+
+	var $siteList = $siteListDiv.find('UL');
+	var $moduleTypeList = $moduleTypeListDiv.find('UL');
+	var $moduleInstanceList = $moduleInstanceListDiv.find('UL');
+
+	var $siteListSearchInput = $moduleSearchWindow.find('INPUT.siteListSearchInput');
+	var aSiteListData;
+
+	var MAX_LIST_HEIGHT = 280;
+
+	function setListSize($UL, nHeight){
+		var nWidth, $div;
+		$UL.find('li div').width('');
+		$UL.css('height', '');
+		$UL.css('overflow-y', '');
+		if($UL.height() > nHeight){
+			$div = $UL.find('li div');
+			$div.width($div.width()-20+'px');
+			$UL.css('height', nHeight+'px');
+			$UL.css('overflow-y', 'auto');
+		}
+	}
+
+	function setSiteList(sFilter){
+		var sDomain;
+		var rxFilter = new RegExp(sFilter, "ig");
+		var list = aSiteListData;
+
+		$siteList.empty();
+	
+		for(i=0,c=list.length; i < c; i++) {
+			sDomain = list[i].domain;
+			if(sFilter){
+				if(!sDomain.match(rxFilter)) continue;
+				sDomain = sDomain.replace(rxFilter, function(sKeyword){
+					return '<span class="highlight">'+sKeyword+'</span>';
+				});
+			}
+
+			$li = $('<li />').appendTo($siteList);
+			$('<a href="#" >').html(
+				'<div>' + sDomain + '</div>' +
+				'<span class="icon-circle-arrow-right" style="display:inline-block;float:right;width:16px;height:16px;"></span>'
+			).data('site_srl', list[i].site_srl).appendTo($li);
+		}
+
+		setListSize($siteList, MAX_LIST_HEIGHT - $siteListSearchInput.parent("DIV").height());
+	}
+
+	$siteListSearchInput.keyup(function(){
+		setSiteList($siteListSearchInput.val());
+	});
+
+	if(typeof console == 'undefined'){
+		console={log:function(){}};
+	}
+
+	this
+		.not('.xe-module-search')
+		.addClass('xe-module-search')
+		.find('a.tgAnchor.moduleSearch')
+			.bind('before-open.tc', function(){
+				var $this;
+
+				$this = $(this);
+
+				function on_complete(data) {
+					var $li, list = data.site_list, i, c;
+
+					if(data.error || !$.isArray(list)) {
+						$this.trigger('close.tc');
+						return;
+					}
+
+					aSiteListData = list;
+
+					setSiteList($siteListSearchInput.val());
+
+					console.log(data);
+					$siteListSearchInput.focus();
+				};
+
+				$siteList.empty();
+				$moduleInstanceList.empty();
+				$moduleTypeListDiv.hide();
+				$moduleInstanceListDiv.hide();
+				$.exec_json('admin.getSiteAllList', {domain:""}, on_complete);
+			})
+		.end()
+		.find('.tgContent .siteListUL')
+			.delegate('a','click',function(oEvent){
+				var $this, $finder;
+
+				$this    = $(this);
+				$finder  = $this.closest('.modulefinder');
+
+				function on_complete(data) {
+					console.log(data);
+
+					var list = data.module_list, x;
+
+					if(data.error || !list) return;
+
+					for(x in list) {
+						if(!list.hasOwnProperty(x)) continue;
+						$li = $('<li />').appendTo($moduleTypeList);
+						$('<a href="#" >').html(
+							'<div>'+list[x].title+'</div>' +
+							'<span class="icon-circle-arrow-right" style="display:inline-block;float:right;width:16px;height:16px;"></span>'
+						).data('moduleInstanceList', list[x].list).appendTo($li);
+						//$('<option />').attr('value', x).text(list[x].title).appendTo($mod_select);
+					}
+
+					$moduleSearchWindow.find('.moduleTypeList').show();
+					setListSize($moduleTypeList, MAX_LIST_HEIGHT);
+
+					$siteList.find('li').removeClass('on');
+					$this.parent('li').addClass('on');
+				};
+
+				//$finder.find('a.tgAnchor.findsite').trigger('close.tc');
+				$moduleTypeList.empty();
+				$moduleInstanceListDiv.hide();
+
+				$.exec_json('module.procModuleAdminGetList', {site_srl:$this.data('site_srl')}, on_complete);
+
+				oEvent.preventDefault();
+			})
+		.end()
+		//.find('.moduleList,.moduleIdList').hide().end()
+		.find('.moduleTypeListUL')
+			.delegate('a', 'click', function(oEvent){
+			
+				var $this, $mid_select, val, list;
+
+				$this = $(this);
+				list = $this.data('moduleInstanceList');
+				if(!list) return;
+
+				$moduleInstanceList.empty();
+
+				for(var x in list) {
+					if(!list.hasOwnProperty(x)) continue;
+					
+					$li = $('<li />').appendTo($moduleInstanceList);
+					$('<a href="#" >').html(
+						'<div>'+list[x].browser_title+'</div>'
+					).data('module_srl', list[x].module_srl).appendTo($li);
+					
+				}
+
+				$moduleInstanceListDiv.show();
+				setListSize($moduleInstanceList, MAX_LIST_HEIGHT);
+
+				$moduleTypeList.find('li').removeClass('on');
+				$this.parent('li').addClass('on');
+
+				oEvent.preventDefault();
+			})
+		.end()
+		.find('.moduleInstanceListUL')
+			.delegate('a','click',function(oEvent){
+				$this = $(this);
+
+				var target_module = $this.text();
+				var index_module_srl = $this.data('module_srl');
+				$('#_target_module').val(target_module);
+				$('#index_module_srl').val(index_module_srl);
+
+				$('.tgAnchor.moduleSearch').trigger('close.tc');
+
+				oEvent.preventDefault();
+			});
+			
+
+	return this;
+};
+$('.modulefinder').xeModuleSearch();
+
+});
+
 // Sortable table
 jQuery(function($){
 

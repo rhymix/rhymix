@@ -469,6 +469,31 @@
 			$output = executeQueryArray('admin.getSiteAllList', $args, $columnList);
 			if($output->toBool()) $siteList = $output->data;
 
+			$oModuleModel = &getModel('module');
+			foreach($siteList as $key => $value)
+			{
+				$args->site_srl = $value->site_srl;
+				$list = $oModuleModel->getModuleSrlList($args);
+
+				if(!is_array($list))
+				{
+					$list = array($list);
+				}
+
+				foreach($list as $k => $v)
+				{
+					if(!is_dir('./modules/' . $v->module))
+					{
+						unset($list[$k]);
+					}
+				}
+
+				if(!count($list))
+				{
+					unset($siteList[$key]);
+				}
+			}
+
 			$this->add('site_list', $siteList);
 		}
 

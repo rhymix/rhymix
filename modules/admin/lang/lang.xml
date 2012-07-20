@@ -123,6 +123,42 @@
 		<value xml:lang="tr"><![CDATA[Sitenin varsayılan modülünü belirleyebilirsiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có thể chọn một Module và đặt là trang chủ của Website.]]></value>
 	</item>
+	<item name="select_site">
+		<value xml:lang="ko"><![CDATA[사이트 선택]]></value>
+		<value xml:lang="en"><![CDATA[Site]]></value>
+		<value xml:lang="jp"><![CDATA[Site]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Site]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Site]]></value>
+		<value xml:lang="fr"><![CDATA[Site]]></value>
+		<value xml:lang="ru"><![CDATA[Site]]></value>
+		<value xml:lang="es"><![CDATA[Site]]></value>
+		<value xml:lang="tr"><![CDATA[Site]]></value>
+		<value xml:lang="vi"><![CDATA[Site]]></value>
+	</item>
+	<item name="select_module_type">
+		<value xml:lang="ko"><![CDATA[분류 선택]]></value>
+		<value xml:lang="en"><![CDATA[Module Type]]></value>
+		<value xml:lang="jp"><![CDATA[Module Type]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Module Type]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Module Type]]></value>
+		<value xml:lang="fr"><![CDATA[Module Type]]></value>
+		<value xml:lang="ru"><![CDATA[Module Type]]></value>
+		<value xml:lang="es"><![CDATA[Module Type]]></value>
+		<value xml:lang="tr"><![CDATA[Module Type]]></value>
+		<value xml:lang="vi"><![CDATA[Module Type]]></value>
+	</item>
+	<item name="select_module_instance">
+		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
+		<value xml:lang="en"><![CDATA[Module]]></value>
+		<value xml:lang="jp"><![CDATA[Module]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Module]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Module]]></value>
+		<value xml:lang="fr"><![CDATA[Module]]></value>
+		<value xml:lang="ru"><![CDATA[модуль]]></value>
+		<value xml:lang="es"><![CDATA[Módulo]]></value>
+		<value xml:lang="tr"><![CDATA[Modül]]></value>
+		<value xml:lang="vi"><![CDATA[Module]]></value>
+	</item>
 	<item name="module_category_title" type="array">
 		<item name="service">
 			<value xml:lang="ko"><![CDATA[서비스 관리]]></value>
