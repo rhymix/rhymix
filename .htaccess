@@ -1,7 +1,10 @@
 RewriteEngine On
 
 # reserve XE Layout Template Source File (*.html)
-RewriteRule ^(layouts|m.layouts)/(.+)/(.+)\.html$ ./index.php [L]
+RewriteRule ^(layouts|m.layouts)/(.+)\.html$ - [L,F]
+# reserve XE Template Source Files (*.html)
+RewriteRule /(skins|m.skins|tpl)/(.+)\.html$ - [L,F]
+
 # conf, query, schema
 RewriteRule ^(modules|addons|widgets)/(.+)/(conf|queries|schemas)/(.+)\.xml$ ./index.php [L]
 
