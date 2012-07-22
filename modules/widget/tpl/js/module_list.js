@@ -13,7 +13,7 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 		this.$moduleSrlObj  = $keyObj.parent().find('.moduleIdList');
 		this.$selectedObj   = $keyObj.parent().find('.modulelist_selected');
 
-		this.$moduleSrlObj
+		this.$selectedObj
 			.nextAll('button')
 				.filter('.modulelist_add').bind('click', function(){ self.cast('MODULELIST_ADD'); return false; }).hide().end()
 				.filter('.modulelist_del').bind('click', function(){ self.cast('MODULELIST_DEL'); return false; }).end()
@@ -27,16 +27,23 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 		this.cast('MODULELIST_SYNC');
 	},
 
-	API_MODULELIST_ADD: function(){
-		var moduleTitle = this.$moduleNameObj.find('>option:selected').text();
-
-		this.$moduleSrlObj
-			.find('>option:selected').clone(true)
-			.text(function(){ return $(this).text() + ' ('+moduleTitle+')'; })
-			.appendTo(this.$selectedObj);
+	addModule: function(sModuleType, sModuleInstanceName, sModuleSrl){
+		$('<OPTION>').val(sModuleSrl).text(sModuleInstanceName + ' ('+sModuleType+')').appendTo(this.$selectedObj);
 
 		this.removeDuplicated();
 		this.refreshValue();
+	},
+
+	API_ADD_MODULE_TO_MODULELIST_MANAGER : function(sender, aParams){
+		this.addModule(aParams[0], aParams[1], aParams[2]);
+	},
+
+	API_MODULELIST_ADD: function(){
+		var sModuleType = this.$moduleNameObj.find('>option:selected').text();
+		var sModuleInstanceName = this.$moduleSrlObj.find('>option:selected').text();
+		var sModuleSrl = this.$moduleSrlObj.find('>option:selected').val();
+
+		this.addModule(sModuleType, sModuleInstanceName, sModuleSrl);
 	},
 
 	API_MODULELIST_DEL: function(){

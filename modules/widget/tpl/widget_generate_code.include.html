@@ -100,28 +100,27 @@
 				</block>
 			</block>
 			<block cond="$var->type == 'module_srl_list'">
+				<p class="desc">{$var->description}</p>
 				<input type="hidden" name="{$id}" value="" />
-				<div class="a">
-					<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
-					<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
-						<ul>
-						</ul>
-					</div>
-				</div>
-				<p class="a">
-					<select class="moduleList" style="width:290px"></select>
-				</p>
-				<select class="moduleIdList" size="8" multiple="multiple" style="width:290px;vertical-align:top"></select>
-				<button type="button" class="text modulelist_add" style="vertical-align:top">{$lang->cmd_insert}</button>
 				<select class="modulelist_selected" size="8" multiple="multiple" style="width:290px;"></select>
+				<br/>
+				<a href="#moduleSearchWindow" class="tgAnchor moduleSearch" style="vertical-align: top">{$lang->cmd_add}</a>.
 				<button type="button" class="text modulelist_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
 				<button type="button" class="text modulelist_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
 				<button type="button" class="text modulelist_del" style="vertical-align:top">{$lang->cmd_delete}</button>
 				<script type="text/javascript">
 					xe.registerApp(new xe.ModuleListManager('{$id}'));
 				</script>
-				<!--
-				<a href="#moduleSearchWindow" class="tgAnchor moduleSearch">{$lang->cmd_find}</a>.
+
+				<script>
+				jQuery(function($){
+				xe.ModuleSearch.onModuleSelect = function(sType, sName, sSrl){
+					xe.broadcast("ADD_MODULE_TO_MODULELIST_MANAGER", [sType, sName, sSrl]);
+				}
+				});
+				</script>
+
+				<!-- new module search -->
 				<div id="moduleSearchWindow" class="tgContent">
 					<div class="siteList sectionDiv">
 						<h2>{$lang->select_site}</h2>
@@ -151,7 +150,7 @@
 						</div>
 					</div>
 				</div>
--->
+				<!--// new module search -->
 			</block>
 			<block cond="$var->type == 'mid'">
 				<input type="hidden" name="{$id}" value="" />
@@ -181,7 +180,6 @@
 				<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
 			</select>
 		</div>
-		<p class="desc">{$var->description}</p>
 	</li>
 </block>
 </ul>
