@@ -61,12 +61,10 @@
 			{
 				$this->add('redirect_url', $url);
 			}
-			else
+
+			if($output !== NULL && is_object($output))
 			{
-				if($output !== NULL && is_object($output))
-				{
-					return $output;
-				}
+				return $output;
 			}
         }
 
