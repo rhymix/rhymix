@@ -41,7 +41,7 @@
 		{@$group = $var->group}
 	</block>
 	{@$not_first = true}
-	<li class="modulefinder"|cond="$var->type == 'mid' || $var->type == 'module_srl_list'">
+	<li class="moduleSearch moduleSearch1 modulefinder"|cond="$var->type == 'mid' || $var->type == 'module_srl_list'">
 		<p class="q"><label for="{$id}">{$var->name}</label></p>
 		<div class="a">
 			<div cond="$var->type == 'text'" class="multiLangEdit">
@@ -72,7 +72,7 @@
 				<select class="multiorder_show" size="8" multiple="multiple" style="width:290px;vertical-align:top">
 					<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
 				</select>
-				<button type="button" class="text multiorder_add" style="vertical-align:top">{$lang->cmd_insert}111</button>
+				<button type="button" class="text multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
 				<select class="multiorder_selected" size="8" multiple="multiple" style="width:290px;vertical-align:top">
 					<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
 				</select>
@@ -104,7 +104,7 @@
 				<input type="hidden" name="{$id}" value="" />
 				<select class="modulelist_selected" size="8" multiple="multiple" style="width:290px;"></select>
 				<br/>
-				<button type="button" class="text" style="vertical-align: top"><a href="#moduleSearchWindow" class="tgAnchor moduleSearch">{$lang->cmd_add}</a></button>
+				<button type="button" class="text" style="vertical-align: top"><a href="#moduleSearchWindow1" class="tgAnchor moduleSearch">{$lang->cmd_add}</a></button>
 				<button type="button" class="text modulelist_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
 				<button type="button" class="text modulelist_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
 				<button type="button" class="text modulelist_del" style="vertical-align:top">{$lang->cmd_delete}</button>
@@ -114,14 +114,15 @@
 
 				<script>
 				jQuery(function($){
-				xe.ModuleSearch.onModuleSelect = function(sType, sName, sSrl){
-					xe.broadcast("ADD_MODULE_TO_MODULELIST_MANAGER", [sType, sName, sSrl]);
-				}
+					$('.moduleSearch1').bind('moduleSelect', function(e, sType, sName, sSrl){
+						xe.broadcast("ADD_MODULE_TO_MODULELIST_MANAGER", [sType, sName, sSrl]);
+					});
 				});
+
 				</script>
 
 				<!-- new module search -->
-				<div id="moduleSearchWindow" class="tgContent">
+				<div id="moduleSearchWindow1" class="moduleSearchWindow tgContent">
 					<div class="siteList sectionDiv">
 						<h2>{$lang->select_site}</h2>
 						<div class="siteListSearchBox">
@@ -157,7 +158,7 @@
 				<input type="text" readonly="readonly" /> <button class="text search">{$lang->cmd_search}</button> <button class="text delete">{$lang->cmd_delete}</button>
 				<div class="finder" style="display: none;">
 					<div class="a">
-						<input type="text" class="site_keyword" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
+						<input type="text" class="site_keyword" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findSite">{$lang->find_site}</a>
 						<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
 							<ul>
 							</ul>

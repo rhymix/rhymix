@@ -20,6 +20,14 @@ jQuery(function($){
 <load target="../install/lang/lang.xml" usecdn="true" />
 <load target="../../session/tpl/js/session.js" usecdn="true" />
 
+<script>
+jQuery(function($){
+	$('.moduleSearch').bind('moduleSelect', function(e, sModuleType, sModuleInstanceName, sModuleInstanceSrl){
+		$('#_target_module').val(sModuleInstanceName);
+		$('#index_module_srl').val(sModuleInstanceSrl);
+	});
+});
+</script>
 <form action="" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="install" />
 	<input type="hidden" name="act" value="procInstallAdminConfig" />
@@ -33,7 +41,7 @@ jQuery(function($){
 					<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
 					<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
 					<a href="#moduleSearchWindow" class="tgAnchor moduleSearch">{$lang->cmd_find}</a> 
-					<div id="moduleSearchWindow" class="tgContent">
+					<div id="moduleSearchWindow" class="moduleSearchWindow tgContent">
 						<div class="siteList sectionDiv">
 							<h2>{$lang->select_site}</h2>
 							<div class="siteListSearchBox">

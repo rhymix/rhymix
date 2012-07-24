@@ -580,7 +580,7 @@ $('.modulefinder').xeModuleFinder();
 jQuery(function($){
 
 $.fn.xeModuleSearch = function(){
-	var $moduleSearchWindow = $("#moduleSearchWindow");
+	var $moduleSearchWindow = $(this).find(".moduleSearchWindow");
 
 	var $siteListDiv = $moduleSearchWindow.find('.siteList');
 	var $moduleTypeListDiv = $moduleSearchWindow.find('.moduleTypeList');
@@ -596,11 +596,7 @@ $.fn.xeModuleSearch = function(){
 	var MAX_LIST_HEIGHT = 280;
 
 	var t = this;
-
-	this.onModuleSelect = function(sModuleType, sModuleInstanceName, sModuleInstanceSrl){
-		$('#_target_module').val(sModuleInstanceName);
-		$('#index_module_srl').val(sModuleInstanceSrl);
-	};
+	var $t = $(this);
 
 	function setListSize($UL, nHeight){
 		var nWidth, $div;
@@ -757,8 +753,15 @@ $.fn.xeModuleSearch = function(){
 
 				t.sSelectedModuleInstanceName = $this.text();
 				t.sSelectedModuleSrl = $this.data('module_srl');
-
-				t.onModuleSelect(t.sSelectedModuleType, t.sSelectedModuleInstanceName, t.sSelectedModuleSrl);
+/*				
+				var onModuleSelect = t.onModuleSelect;
+				if(typeof $t.data('onModuleSelect') === 'function'){
+					onModuleSelect = $t.data('onModuleSelect');
+				}
+				
+				onModuleSelect(t.sSelectedModuleType, t.sSelectedModuleInstanceName, t.sSelectedModuleSrl);
+*/
+				t.trigger('moduleSelect', [t.sSelectedModuleType, t.sSelectedModuleInstanceName, t.sSelectedModuleSrl]);
 				$('.tgAnchor.moduleSearch').trigger('close.tc');
 
 				oEvent.preventDefault();
@@ -767,7 +770,7 @@ $.fn.xeModuleSearch = function(){
 
 	return this;
 };
-xe.ModuleSearch = $('.modulefinder').xeModuleSearch();
+xe.ModuleSearch = $('.moduleSearch').xeModuleSearch();
 
 });
 
