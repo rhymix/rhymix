@@ -580,7 +580,10 @@ $('.modulefinder').xeModuleFinder();
 jQuery(function($){
 
 $.fn.xeModuleSearch = function(){
-	var $moduleSearchWindow = $(this).find(".moduleSearchWindow");
+	var t = this;
+	var $t = $(this);
+
+	var $moduleSearchWindow = $t.find(".moduleSearchWindow");
 
 	var $siteListDiv = $moduleSearchWindow.find('.siteList');
 	var $moduleTypeListDiv = $moduleSearchWindow.find('.moduleTypeList');
@@ -594,10 +597,7 @@ $.fn.xeModuleSearch = function(){
 	var aSiteListData;
 
 	var MAX_LIST_HEIGHT = 280;
-
-	var t = this;
-	var $t = $(this);
-
+	
 	function setListSize($UL, nHeight){
 		var nWidth, $div;
 		$UL.find('li div').width('');
@@ -645,7 +645,7 @@ $.fn.xeModuleSearch = function(){
 		console={log:function(){}};
 	}
 
-	this
+	$t
 		.not('.xe-module-search')
 		.addClass('xe-module-search')
 		.find('a.tgAnchor.moduleSearch')
@@ -753,15 +753,8 @@ $.fn.xeModuleSearch = function(){
 
 				t.sSelectedModuleInstanceName = $this.text();
 				t.sSelectedModuleSrl = $this.data('module_srl');
-/*				
-				var onModuleSelect = t.onModuleSelect;
-				if(typeof $t.data('onModuleSelect') === 'function'){
-					onModuleSelect = $t.data('onModuleSelect');
-				}
 				
-				onModuleSelect(t.sSelectedModuleType, t.sSelectedModuleInstanceName, t.sSelectedModuleSrl);
-*/
-				t.trigger('moduleSelect', [t.sSelectedModuleType, t.sSelectedModuleInstanceName, t.sSelectedModuleSrl]);
+				$t.trigger('moduleSelect', [t.sSelectedModuleType, t.sSelectedModuleInstanceName, t.sSelectedModuleSrl]);
 				$('.tgAnchor.moduleSearch').trigger('close.tc');
 
 				oEvent.preventDefault();
@@ -770,8 +763,7 @@ $.fn.xeModuleSearch = function(){
 
 	return this;
 };
-xe.ModuleSearch = $('.moduleSearch').xeModuleSearch();
-
+$('.moduleSearch').each($.fn.xeModuleSearch);
 });
 
 // Sortable table
