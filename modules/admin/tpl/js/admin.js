@@ -579,7 +579,7 @@ $('.modulefinder').xeModuleFinder();
 // Module Search : A New Version Of Module Finder
 jQuery(function($){
 
-$.fn.xeModuleSearch = function(){
+_xeModuleSearch = function(){
 	var t = this;
 	var $t = $(this);
 
@@ -763,7 +763,12 @@ $.fn.xeModuleSearch = function(){
 
 	return this;
 };
-$('.moduleSearch').each($.fn.xeModuleSearch);
+
+$.fn.xeModuleSearch = function(){
+	$(this).each(_xeModuleSearch);
+};
+
+$('.moduleSearch').xeModuleSearch();
 });
 
 // Sortable table
