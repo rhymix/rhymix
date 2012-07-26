@@ -359,6 +359,10 @@
 		function recordLoginError($error = 0, $message = 'success')
 		{
 			if($error == 0) return new Object($error, $message);
+			// Check if there is recoding table.
+			$oDB = &DB::getInstance();
+			if(!$oDB->isTableExists('member_login_count')) return new Object($error, $message);
+
 
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 
@@ -398,6 +402,10 @@
 		function recordMemberLoginError($error = 0, $message = 'success', $args = NULL)
 		{
 			if($error == 0 || !$args->member_srl) return new Object($error, $message);
+			// Check if there is recoding table.
+			$oDB = &DB::getInstance();
+			if(!$oDB->isTableExists('member_count_history')) return new Object($error, $message);
+
 
 			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
 			if($output->data && $output->data->content)
