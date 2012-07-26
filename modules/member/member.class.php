@@ -28,11 +28,18 @@
                 Context::addSSLAction('dispMemberModifyPassword');
                 Context::addSSLAction('dispMemberSignUpForm');
                 Context::addSSLAction('dispMemberModifyInfo');
+				Context::addSSLAction('dispMemberModifyEmailAddress');
+				Context::addSSLAction('dispMemberGetTempPassword');
+				Context::addSSLAction('dispMemberResendAuthMail');
                 Context::addSSLAction('procMemberLogin');
                 Context::addSSLAction('procMemberModifyPassword');
                 Context::addSSLAction('procMemberInsert');
                 Context::addSSLAction('procMemberModifyInfo');
                 Context::addSSLAction('procMemberFindAccount');
+				Context::addSSLAction('procMemberModifyEmailAddress');
+				Context::addSSLAction('procMemberUpdateAuthMail');
+				Context::addSSLAction('procMemberResendAuthMail');
+				Context::addSSLAction('getMemberMenu');
             }
         }
 
