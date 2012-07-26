@@ -1130,17 +1130,17 @@
 				if(!is_dir(FileHandler::getRealPath($path))) continue;
 
                 // Get the number of xml files to create a table in schemas
-                $tmp_files = FileHandler::readDir($path."schemas", '/(\.xml)$/');
+                $tmp_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/');
                 $table_count = count($tmp_files);
                 // Check if the table is created
                 $created_table_count = 0;
-                for($j=0;$j<count($tmp_files);$j++) {
-                    list($table_name) = explode(".",$tmp_files[$j]);
+                for($j=0;$j<$table_count;$j++) {
+                    list($table_name) = explode('.',$tmp_files[$j]);
                     if($oDB->isTableExists($table_name)) $created_table_count ++;
                 }
                 // Get information of the module
+				$info = NULL;
                 $info = $this->getModuleInfoXml($module_name);
-                unset($obj);
 
                 $info->module = $module_name;
                 $info->category = $info->category;
