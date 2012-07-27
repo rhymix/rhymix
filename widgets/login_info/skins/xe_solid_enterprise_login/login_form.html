@@ -10,11 +10,11 @@ var keep_signed_msg = "{$lang->about_keep_signed}";
 
 </script>
 
-<form action="./" method="post" ruleset="@login" id="fo_login_widget">
+<form action="{getUrl('','act','procMemberLogin')}" method="post" ruleset="@login" id="fo_login_widget">
 <fieldset id="login">
 <legend>{$lang->cmd_login}</legend>
 <input type="hidden" name="act" value="procMemberLogin" />
-<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+<input type="hidden" name="success_return_url" value="{htmlspecialchars(getRequestUriByServerEnviroment())}" />
 <div id="sign_box">
 	<div class="txt sign_state1"><span class="label">Sign in</span></div>
 	<div class="signin_window" style="display:none;">

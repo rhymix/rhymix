@@ -262,7 +262,7 @@
 			Context::set('identifier', $config->identifier);
 
             // Set a template file
-            Context::set('referer_url', $_SERVER['HTTP_REFERER']);
+            Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER']));
 			Context::set('act', 'procMemberLogin');
             $this->setTemplateFile('login_form');
         }

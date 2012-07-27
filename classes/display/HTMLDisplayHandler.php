@@ -175,7 +175,7 @@ class HTMLDisplayHandler {
 		switch($type){
 			case 'text':
 			case 'hidden':
-				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.htmlspecialchars($INPUT_ERROR[$match[3]]).'"';
+				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.@htmlspecialchars($INPUT_ERROR[$match[3]]).'"';
 				break;
 			case 'password':
 				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str);
@@ -183,7 +183,7 @@ class HTMLDisplayHandler {
 			case 'radio':
 			case 'checkbox':
 				$str = preg_replace('@\schecked(="[^"]*?")?@', ' ', $str);
-				if(preg_match('@\s(?i:value)="'.$INPUT_ERROR[$match[3]].'"@', $str)) {
+				if(@preg_match('@\s(?i:value)="'.$INPUT_ERROR[$match[3]].'"@', $str)) {
 					$str .= ' checked="checked"';
 				}
 				break;

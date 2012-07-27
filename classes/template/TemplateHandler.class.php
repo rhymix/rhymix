@@ -209,7 +209,7 @@ class TemplateHandler {
 		$buff = '<?php if(!defined("__XE__"))exit;?>'.$buff;
 
 		// remove php script reopening
-		$buff = preg_replace(array('/(\n|\r\n)+/','/(;)?( )*\?\>([\n\t ]+)?\<\?php([\n\t ]+)?/'),array("\n",";\n"),$buff);
+		$buff = preg_replace(array('/(\n|\r\n)+/','/(;)?( )*\?\>\<\?php([\n\t ]+)?/'),array("\n",";\n"),$buff);
 
 		return $buff;
 	}
@@ -276,7 +276,7 @@ class TemplateHandler {
 		if(!preg_match('/no-error-return-url="true"/i', $matches[1]))
 		{
 			preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
-			if(!$m3[0]) $matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo getRequestUriByServerEnviroment() ?>" />'.$matches[2];
+			if(!$m3[0]) $matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo htmlspecialchars(getRequestUriByServerEnviroment()) ?>" />'.$matches[2];
 		}
 		else
 		{
@@ -545,7 +545,7 @@ class TemplateHandler {
 					}
 
 					$result = "<?php {$result} ?>";
-					if(__DEBUG__) if($metafile) $result = "<!--#Meta:{$metafile}-->".$result;
+					if($metafile) $result = "<!--#Meta:{$metafile}-->".$result;
 
 					return $result;
 			}

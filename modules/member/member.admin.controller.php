@@ -232,6 +232,15 @@
 				$this->_createLoginRuleset($args->identifier);
 				$this->_createFindAccountByQuestion($args->identifier);
 			}
+
+			// check agreement value exist
+			if($args->agreement)
+			{
+				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+				$output = FileHandler::writeFile($agreement_file, $args->agreement);
+
+				unset($args->agreement);
+			}
 			$output = $oModuleController->updateModuleConfig('member', $args);
 
 			// default setting end

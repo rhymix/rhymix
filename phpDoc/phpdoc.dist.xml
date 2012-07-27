@@ -16,6 +16,8 @@
 		<directory>../classes</directory>
 		<directory>../config</directory>
 		<directory>../modules</directory>
+		<ignore>config/config.user.inc.php</ignore>
+		<ignore>config/package.inc.php</ignore>
 		<ignore>classes/security/htmlpurifier/*</ignore>
 		<ignore>modules/member/php-openid-1.2.3/*</ignore>
 	</files>

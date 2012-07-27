@@ -1435,7 +1435,7 @@ jQuery(function($){
 		$(this).append($sTog);
 		$sTog.click(function(){
 			var $t = $(this);
-			var $sTogObj = $t.parent().nextUntil('.h2, .h3');
+			var $sTogObj = $t.parent().nextUntil('.h2, .h3').not('.langEdit, .tgContent, .modal');
 			if($t.parent().next().is(':hidden')){
 				$t.find('i').attr('class','icon-chevron-up');
 				$sTogObj.slideDown(200);

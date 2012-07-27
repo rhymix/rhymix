@@ -15,7 +15,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-    <form ruleset="@login" action="./" method="post" id="fo_member_login">
+    <form ruleset="@login" action="{getUrl('','act','procMemberLogin')}" method="post" id="fo_member_login">
 	<input type="hidden" name="success_return_url" value="{getUrl('act', '')}" />
         <fieldset class="login">
             <dl>

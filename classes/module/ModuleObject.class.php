@@ -61,12 +61,10 @@
 			{
 				$this->add('redirect_url', $url);
 			}
-			else
+
+			if($output !== NULL && is_object($output))
 			{
-				if($output !== NULL && is_object($output))
-				{
-					return $output;
-				}
+				return $output;
 			}
         }
 
@@ -153,7 +151,7 @@
             $oModuleModel = &getModel('module');
             // permission settings. access, manager(== is_admin) are fixed and privilege name in XE
             $module_srl = Context::get('module_srl');
-            if(!$module_info->mid && preg_match('/^([0-9]+)$/',$module_srl)) {
+            if(!$module_info->mid && !is_array($module_srl) && preg_match('/^([0-9]+)$/',$module_srl)) {
                 $request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
                 if($request_module->module_srl == $module_srl) {
                     $grant = $oModuleModel->getGrant($request_module, $logged_info);
@@ -175,13 +173,15 @@
                 // Check permissions
                 switch($permission_target) {
                     case 'root' :
-                            $this->stop('msg_not_permitted_act');
-                        break;
-                    case 'manager' :
-                            if(!$grant->manager) $this->stop('msg_not_permitted_act');
-                        break;
+					case 'manager' :
+						$this->stop('msg_not_permitted_act');
+						return;
                     case 'member' :
-                            if(!$is_logged) $this->stop('msg_not_permitted_act');
+						if(!$is_logged)
+						{
+							$this->stop('msg_not_permitted_act');
+							return;
+						}
                         break;
                 }
             }
@@ -335,7 +335,8 @@
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
                 // Check permissions
                 if($this->module_srl && !$this->grant->access){
-					return $this->stop("msg_not_permitted_act");
+					$this->stop("msg_not_permitted_act");
+					return FALSE;
 				}
                 // integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
                 $oModuleModel = &getModel('module');

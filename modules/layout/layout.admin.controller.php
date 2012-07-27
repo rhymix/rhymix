@@ -188,7 +188,8 @@
             $output = $this->updateLayout($args);
             if(!$output->toBool()) return $output;
 
-			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
+			$this->setRedirectUrl(Context::get('error_return_url'));
+			return $output;
         }
 
         /**

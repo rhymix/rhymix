@@ -12,7 +12,7 @@
 	<!--%import("./filter/openid_login.xml")-->
 	<!--%import("./message.js")-->
 	<div class="mLogin" id="gLogin">
-		<form action="./" method="post" ruleset="@login" id="gForm">
+		<form action="{getUrl('','act','procMemberLogin')}" method="post" ruleset="@login" id="gForm">
 			<input type="hidden" name="act" value="procMemberLogin" />
 			<fieldset>
 				<ul class="idpw">

@@ -212,7 +212,17 @@
             if(!$this->act) {
                 $this->error = 'msg_module_is_not_exists';
 				$this->httpStatusCode = '404';
-                return;
+
+				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+                $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+                $oMessageObject->setError(-1);
+                $oMessageObject->setMessage($this->error);
+                $oMessageObject->dispMessage();
+				if($this->httpStatusCode)
+				{
+					$oMessageObject->setHttpStatusCode($this->httpStatusCode);
+				}
+                return $oMessageObject;
             }
 
             // get type, kind
@@ -271,9 +281,16 @@
 			}
 
 			if(!is_object($oModule)) {
-				$this->error = 'msg_module_is_not_exists';
-				$this->httpStatusCode = '404';
-				return;
+				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+                $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+                $oMessageObject->setError(-1);
+                $oMessageObject->setMessage($this->error);
+                $oMessageObject->dispMessage();
+				if($this->httpStatusCode)
+				{
+					$oMessageObject->setHttpStatusCode($this->httpStatusCode);
+				}
+                return $oMessageObject;
 			}
 
 			// If there is no such action in the module object
@@ -283,7 +300,15 @@
 				if(!Context::isInstalled())
 				{
 					$this->error = 'msg_invalid_request';
-					return;
+					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+					$oMessageObject->setError(-1);
+					$oMessageObject->setMessage($this->error);
+					$oMessageObject->dispMessage();
+					if($this->httpStatusCode)
+					{
+						$oMessageObject->setHttpStatusCode($this->httpStatusCode);
+					}
+					return $oMessageObject;
 				}
 
                 $forward = null;
@@ -369,7 +394,9 @@
 				else
 				{
 					$this->error = 'msg_invalid_request';
-					return;
+					$oModule->setError(-1);
+					$oModule->setMessage($this->error);
+					return $oModule;
 				}
 			}
 

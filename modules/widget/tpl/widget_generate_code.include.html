@@ -67,8 +67,12 @@
 				<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
 			</select>
 			<block cond="$var->type == 'select-multi-order'">
+				<!--@if($var->init_options && is_array($var->init_options))-->
 				{@$inits = array_keys($var->init_options)}
 				<input type="hidden" name="{$id}" value="{implode(',', $inits)}" />
+				<!--@else-->
+				<input type="hidden" name="{$id}" value="" />
+				<!--@end-->
 				<select class="multiorder_show" size="8" multiple="multiple" style="width:290px;vertical-align:top">
 					<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
 				</select>
