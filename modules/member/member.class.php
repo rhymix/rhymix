@@ -288,7 +288,7 @@
 				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
 				$output = FileHandler::writeFile($agreement_file, $config->agreement);
 
-				unset($config->agreement);
+				$config->agreement = NULL;
 				$output = $oModuleController->updateModuleConfig('member', $config);
 			}
 
