@@ -1,15 +1,53 @@
 <?php
-
+	/**
+	 * DefaultValue class
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/xml/xmlquery/queryargument
+	 * @version 0.1
+	 */
 	class DefaultValue {
+		/**
+		 * Column name
+		 * @var string
+		 */
 		var $column_name;
+		/**
+		 * Value
+		 * @var mixed
+		 */
 		var $value;
+		/**
+		 * sequnence status
+		 * @var bool
+		 */
 		var $is_sequence = false;
+		/**
+		 * operation status
+		 * @var bool
+		 */
                 var $is_operation = false;
+		/**
+		 * operation
+		 * @var string
+		 */
                 var $operation = '';
+				/**
+				 * Checks if value is plain string or name of XE function (ipaddress, plus, etc).
+				 * @var bool
+				 */
+                var $_is_string = false;
+				/**
+				 * Checks if value is string resulted from evaluating a piece of PHP code (see $_SERVER[REMOTE_ADDR])
+				 * @var bool
+				 */
+                var $_is_string_from_function = false;
 
-                var $_is_string = false; ///< Checks if value is plain string or name of XE function (ipaddress, plus, etc).
-                var $_is_string_from_function = false; //< Checks if value is string resulted from evaluating a piece of PHP code (see $_SERVER[REMOTE_ADDR])
-
+		/**
+		 * constructor
+		 * @param string $column_name column name
+		 * @param mixed $value value
+		 * @return void
+		 */
 		function DefaultValue($column_name, $value){
                         $dbParser = &DB::getParser();
 			$this->column_name = $dbParser->parseColumnName($column_name);

@@ -1,21 +1,25 @@
 <?php
-    /**
-     * @class  commentView
-     * @author NHN (developers@xpressengine.com)
-     * @brief comment module's view class
-     **/
-
+	/**
+	 * commentView class
+	 * comment module's view class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/comment
+	 * @version 0.1
+	 */
     class commentView extends comment {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief add a form fot comment setting on the additional setting of module
-         **/
+		/**
+		 * Add a form fot comment setting on the additional setting of module
+		 * @param string $obj
+		 * @return string
+		 */
         function triggerDispCommentAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');
             $current_module_srls = Context::get('module_srls');

@@ -1,17 +1,57 @@
 <?php
-
+/**
+ * Argument class
+ * @author NHN (developers@xpressengine.com)
+ * @package /classes/xml/xmlquery/argument
+ * @version 0.1
+ */
 class Argument {
-
+	/**
+	 * argument value
+	 * @var mixed
+	 */
 	var $value;
+	/**
+	 * argument name
+	 * @var string
+	 */
 	var $name;
+	/**
+	 * argument type
+	 * @var string
+	 */
 	var $type;
+	/**
+	 * result of argument type check
+	 * @var bool
+	 */
 	var $isValid;
+	/**
+	 * error message
+	 * @var Object
+	 */
 	var $errorMessage;
+	/**
+	 * column operation
+	 */
 	var $column_operation;
-	
-	var $uses_default_value; // Check if arg value is user submnitted or default
-	var $_value; // Caches escaped and toString value so that the parsing won't happen multiple times;
+	/**
+	 * Check if arg value is user submnitted or default
+	 * @var mixed
+	 */
+	var $uses_default_value;
+	/**
+	 * Caches escaped and toString value so that the parsing won't happen multiple times
+	 * @var mixed
+	 */
+	var $_value; // 
 
+	/**
+	 * constructor
+	 * @param string $name
+	 * @param mixed $value
+	 * @return void
+	 */
 	function Argument($name, $value) {
 		$this->value = $value;
 		$this->name = $name;
@@ -60,6 +100,11 @@ class Argument {
 		return $this->value;
 	}
 
+	/**
+	 * mixed value to string
+	 * @param mixed $value
+	 * @return string
+	 */
 	function toString($value) {
 		if (is_array($value)) {
 			if (count($value) === 0)
@@ -71,6 +116,11 @@ class Argument {
 		return $value;
 	}
 
+	/**
+	 * escape value
+	 * @param mixed $value
+	 * @return mixed
+	 */
 	function escapeValue($value) {
 		$column_type = $this->getType();
 		if ($column_type == 'column_name') {
@@ -80,7 +130,8 @@ class Argument {
 		if (!isset($value))
 			return null;
 
-		if (in_array($column_type, array('date', 'varchar', 'char', 'text', 'bigtext'))) {
+		$columnTypeList = array('date'=>1, 'varchar'=>1, 'char'=>1, 'text'=>1, 'bigtext'=>1);
+		if (isset($columnTypeList[$column_type])) {
 			if (!is_array($value))
 				$value = $this->_escapeStringValue($value);
 			else {
@@ -106,6 +157,11 @@ class Argument {
 		return $value;
 	}
 
+	/**
+	 * escape string value
+	 * @param string $value
+	 * @return string
+	 */
 	function _escapeStringValue($value) {
 		$db = &DB::getInstance();
 		$value = $db->addQuotes($value);
@@ -135,6 +191,11 @@ class Argument {
 		}
 	}
 
+	/**
+	 * check filter by filter type
+	 * @param string $filter_type
+	 * @return void
+	 */
 	function checkFilter($filter_type) {
 		if (isset($this->value) && $this->value != '') {
 			global $lang;

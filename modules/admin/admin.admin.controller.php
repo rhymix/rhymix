@@ -1,15 +1,16 @@
 <?php
-    /**
-     * @class  adminAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief  admin controller class of admin module
-     **/
-
+	/**
+	 * adminAdminController class
+	 * admin controller class of admin module
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/admin
+	 * @version 0.1
+	 */
     class adminAdminController extends admin {
-        /**
-         * @brief initialization
-         * @return none
-         **/
+		/**
+		 * initialization
+		 * @return void
+		 */
         function init() {
             // forbit access if the user is not an administrator
             $oMemberModel = &getModel('member');
@@ -17,6 +18,10 @@
             if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
         }
 
+		/**
+		 * Admin menu reset
+		 * @return void
+		 */
 		function procAdminMenuReset(){
 			$menuSrl = Context::get('menu_srl');
 			if (!$menuSrl) return $this->stop('msg_invalid_request');
@@ -30,10 +35,10 @@
 			$this->setRedirectUrl(Context::get('error_return_url'));
 		}
 
-        /**
-         * @brief Regenerate all cache files
-         * @return none
-         **/
+		/**
+		 * Regenerate all cache files
+		 * @return void
+		 */
         function procAdminRecompileCacheFile() {
 			// rename cache dir
 			$temp_cache_dir = './files/cache_'. time();
@@ -92,10 +97,10 @@
             $this->setMessage('success_updated');
         }
 
-        /**
-         * @brief Logout
-         * @return none
-         **/
+		/**
+		 * Logout
+		 * @return void
+		 */
         function procAdminLogout() {
             $oMemberController = &getController('member');
             $oMemberController->procMemberLogout();
@@ -103,6 +108,10 @@
 			header('Location: '.getNotEncodedUrl('', 'module','admin'));
         }
 
+		/**
+		 * Insert theme information
+		 * @return void|object
+		 */
 		function procAdminInsertThemeInfo(){
 			$vars = Context::getRequestVars();
 			$theme_file = _XE_PATH_.'files/theme/theme_info.php';
@@ -160,17 +169,14 @@
             // Save File
             FileHandler::writeFile($theme_file, $theme_buff);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminTheme');
-                header('location:'.$returnUrl);
-                return;
-            }
-            else return $output;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminTheme');
+			return $this->setRedirectUrl($returnUrl, $output);
 		}
 
 		/**
-		 * @brief Toggle favorite
-		 **/
+		 * Toggle favorite
+		 * @return void
+		 */
 		function procAdminToggleFavorite()
 		{
 			$siteSrl = Context::get('site_srl');
@@ -199,12 +205,14 @@
 			if (!$output->toBool()) return $output;
 
 			$this->add('result', $result);
-			$this->setRedirectUrl(Context::get('error_return_url'));
+
+			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
 		}
 
 		/**
-		 * @brief enviroment gathering agreement
-		 **/
+		 * Enviroment gathering agreement
+		 * @return void
+		 */
 		function procAdminEnviromentGatheringAgreement()
 		{
 			$isAgree = Context::get('is_agree');
@@ -216,8 +224,9 @@
 		}
 
 		/**
-		 * @brief admin config update
-		 **/
+		 * Admin config update
+		 * @return void
+		 */
 		function procAdminUpdateConfig()
 		{
 			$adminTitle = Context::get('adminTitle');
@@ -252,16 +261,15 @@
 			}
 
 			$this->setMessage('success_updated', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
-				$this->setRedirectUrl($returnUrl);
-                return;
-            }
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		/**
-		 * @brief admin logo delete
-		 **/
+		 * Admin logo delete
+		 * @return void
+		 */
 		function procAdminDeleteLogo()
 		{
             $oModuleModel = &getModel('module');
@@ -274,16 +282,15 @@
 			$oModuleController->insertModuleConfig('admin', $oAdminConfig);
 
 			$this->setMessage('success_deleted', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
-				$this->setRedirectUrl($returnUrl);
-                return;
-            }
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		/**
-		 * @brief Insert favorite
-		 **/
+		 * Insert favorite
+		 * @return object query result
+		 */
 		function _insertFavorite($siteSrl, $module, $type = 'module')
 		{
 			$args->adminFavoriteSrl = getNextSequence();
@@ -295,8 +302,9 @@
 		}
 
 		/**
-		 * @brief Delete favorite
-		 **/
+		 * Delete favorite
+		 * @return object query result
+		 */
 		function _deleteFavorite($favoriteSrl)
 		{
 			$args->admin_favorite_srl = $favoriteSrl;
@@ -305,8 +313,9 @@
 		}
 
 		/**
-		 * @brief Delete favorite
-		 **/
+		 * Delete all favorite
+		 * @return object query result
+		 */
 		function _deleteAllFavorite()
 		{
 			$args = null;
@@ -314,6 +323,10 @@
 			return $output;
 		}
 
+		/**
+		 * Remove admin icon
+		 * @return object|void
+		 */
 		function procAdminRemoveIcons(){
 			$iconname = Context::get('iconname');
 			$file_exist = FileHandler::readFile(_XE_PATH_.'files/attach/xeicon/'.$iconname);

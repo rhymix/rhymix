@@ -4,6 +4,38 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+<!-- 검색 -->
+<form action="./" method="get" class="adminSearch" no-error-return-url="true">
+<input type="hidden" name="module" value="{$module}" />
+<input type="hidden" name="act" value="{$act}" />
+
+    <fieldset>
+
+        <select name="is_admin">
+            <option value="" <!--@if($is_admin!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
+            <option value="Y" <!--@if($is_admin=='Y')-->selected="selected"<!--@end-->>{$lang->is_admin}</option>
+        </select>
+        <select name="is_denied">
+            <option value="" <!--@if($is_denied!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
+            <option value="Y" <!--@if($is_denied=='Y')-->selected="selected"<!--@end-->>{$lang->denied}</option>
+        </select>
+        <select name="selected_group_srl">
+            <option value="0">{$lang->member_group}</option>
+            <!--@foreach($group_list as $key => $val)-->
+            <option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
+            <!--@end-->
+        </select>
+        <select name="search_target">
+            <option value="">{$lang->search_target}</option>
+            <!--@foreach($lang->search_target_list as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+            <!--@end-->
+        </select>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+        <span class="btn"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <span class="btn"><button type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button></span>
+    </fieldset>
+</form>
 <div class="table form">	
 	<table width="100%" border="1" cellspacing="0">
 		<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
@@ -61,7 +93,7 @@
 </div>
 
 <!-- 검색 -->
-<form action="./" method="get" class="adminSearch">
+<form action="./" method="get" class="adminSearch" no-error-return-url="true">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="{$act}" />
 

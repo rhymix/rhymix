@@ -1,38 +1,41 @@
 <?php
-    /**
-     * @class  admin
-     * @author NHN (developers@xpressengine.com)
-     * @brief  base class of admin module
-     **/
-
+	/**
+	 * adminlogging class
+	 * Base class of adminlogging module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/adminlogging
+	 * @version 0.1
+	 */
     class adminlogging extends ModuleObject {
-        /**
-         * @brief install admin module
-         * @return new Object
-         **/
+		/**
+		 * Install adminlogging module
+		 * @return Object
+		 */
         function moduleInstall() {
             return new Object();
         }
 
-        /**
-         * @brief if update is necessary it returns true
-         **/
+		/**
+		 * If update is necessary it returns true
+		 * @return bool
+		 */
         function checkUpdate() {
             return false;
         }
 
-        /**
-         * @brief update module
-         * @return new Object
-         **/
+		/**
+		 * Update module
+		 * @return Object
+		 */
         function moduleUpdate() {
             return new Object();
         }
 
-        /**
-         * @brief regenerate cache file
-         * @return none
-         **/
+		/**
+		 * Regenerate cache file
+		 * @return void
+		 */
         function recompileCache() {
         }
     }

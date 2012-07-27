@@ -1,21 +1,75 @@
 <?php
 	require_once(_XE_PATH_.'libs/ftp.class.php');
 
+	/**
+	 * Module installer
+	 * @author NHN (developers@xpressengine.com)
+	 */
     class ModuleInstaller {
+		/**
+		 * Package information
+		 * @var object
+		 */
         var $package = null;
+
+		/**
+		 * Server's base url
+		 * @var string
+		 */
 		var $base_url;
+
+		/**
+		 * Temporary directory
+		 * @var string
+		 */
 		var $temp_dir = './files/cache/autoinstall/';
+
+		/**
+		 * Install path
+		 * @var string
+		 */
         var $target_path;
+
+		/**
+		 * Downloaded file path
+		 * @var string
+		 */
         var $download_file;
+
+		/**
+		 * ???
+		 * @var string
+		 */
         var $url;
+
+		/**
+		 * Download path
+		 * @var string
+		 */
         var $download_path;
+
+		/**
+		 * FTP password
+		 * @var string
+		 */
         var $ftp_password;
 
+		/**
+		 * Set server's base url
+		 *
+		 * @param string $url The url to set
+		 * @return void
+		 */
 		function setServerUrl($url)
 		{
 			$this->base_url = $url;
 		}
 
+		/**
+		 * Uninstall
+		 *
+		 * @return Object
+		 */
 		function uninstall()
 		{
 			$oModel =& getModel('autoinstall');
@@ -33,11 +87,22 @@
 			return $output;
 		}
 
+		/**
+		 * Set a FTP password
+		 *
+		 * @param string $ftp_password The password to set.
+		 * @return void
+		 */
         function setPassword($ftp_password)
         {
             $this->ftp_password = $ftp_password;
         }
 
+		/**
+		 * Download file from server
+		 *
+		 * @return void
+		 */
         function _download()
         {
             if($this->package->path == ".")
@@ -64,6 +129,13 @@
             FileHandler::writeFile($this->download_file, $buff);
         }
 
+		/**
+		 * Uninstall module.
+		 *
+		 * Call module's moduleUninstall() and drop all tables related module
+		 *
+		 * @return Object
+		 */
 		function uninstallModule()
 		{
             $path_array = explode("/", $this->package->path);
@@ -87,6 +159,13 @@
 			return new Object();
 		}
 
+		/**
+		 * Install module
+		 *
+		 * Call module's moduleInstall(), moduleUpdate() and create tables.
+		 *
+		 * @return void
+		 */
         function installModule()
         {
 			$path = $this->package->path;
@@ -116,6 +195,13 @@
             }
         }
 
+		/**
+		 * Install module.
+		 *
+		 * Download file and install module
+		 *
+		 * @return Object
+		 */
         function install()
         {
             $this->_download();
@@ -132,6 +218,11 @@
             return new Object();
         }
 
+		/**
+		 * Untar a downloaded tar ball
+		 *
+		 * @return array Returns file list
+		 */
 		function _unPack(){
             require_once(_XE_PATH_.'libs/tar.class.php');
 
@@ -150,6 +241,12 @@
             return $file_list;
 		}
 
+		/**
+		 * Remove directory
+		 *
+		 * @param string $path Path to remove
+		 * @return Object
+		 */
 		function _removeDir($path) {
 			$real_path = FileHandler::getRealPath($path);
 			$oDir = dir($path);
@@ -179,17 +276,46 @@
 
     }
 
+	/**
+	 * Module installer for SFTP
+	 * @author NHN (developers@xpressengine.com)
+	 */
     class SFTPModuleInstaller extends ModuleInstaller {
+		/**
+		 * FTP information
+		 * @var object
+		 */
 		var $ftp_info = null;
+
+		/**
+		 * SFTP connection
+		 * @var resource
+		 */
 		var $connection = null;
+
+		/**
+		 * SFTP resource
+		 * @var resource
+		 */
 		var $sftp = null;
 
+		/**
+		 * Constructor
+		 *
+		 * @param object $package Package information
+		 * @return void
+		 */
         function SFTPModuleInstaller(&$package)
         {
             $this->package =& $package;
 			$this->ftp_info = Context::getFTPInfo();
         }
 
+		/**
+		 * Connect to SFTP
+		 *
+		 * @return Object
+		 */
 		function _connect() {
 			if(!function_exists('ssh2_connect'))
 			{
@@ -216,9 +342,20 @@
 			return new Object();
 		}
 
+		/**
+		 * Close
+		 *
+		 * @return void
+		 */
 		function _close() {
 		}
 
+		/**
+		 * Remove file
+		 *
+		 * @param string $path Path to remove
+		 * @return Object
+		 */
 		function _removeFile($path)
 		{
 			if(substr($path, 0, 2) == "./") $path = substr($path, 2);
@@ -231,6 +368,12 @@
 			return new Object();
 		}
 
+		/**
+		 * Remove Directory
+		 *
+		 * @param string $path Path to remove
+		 * @return Object
+		 */
 		function _removeDir_real($path)
 		{
 			if(substr($path, 0, 2) == "./") $path = substr($path, 2);
@@ -243,6 +386,12 @@
 			return new Object();
 		}
 
+		/**
+		 * Copy directory
+		 *
+		 * @param array $file_list File list to copy
+		 * @return Object
+		 */
         function _copyDir(&$file_list){
             if(!$this->ftp_password) return new Object(-1,'msg_ftp_password_input');
 
@@ -270,17 +419,40 @@
         }
     }
 
-
+	/**
+	 * Module installer for PHP FTP
+	 * @author NHN (developers@xpressengine.com)
+	 */
     class PHPFTPModuleInstaller extends ModuleInstaller {
+		/**
+		 * FTP information
+		 * @var object
+		 */
 		var $ftp_info = null;
+
+		/**
+		 * FTP connection
+		 * @var resource
+		 */
 		var $connection = null;
 
+		/**
+		 * Constructor
+		 *
+		 * @param object $package Package information
+		 * @var void
+		 */
         function PHPFTPModuleInstaller(&$package)
         {
             $this->package =& $package;
 			$this->ftp_info = Context::getFTPInfo();
         }
 
+		/**
+		 * Connect to FTP
+		 *
+		 * @return Object
+		 */
 		function _connect()
 		{
             if($this->ftp_info->ftp_host)
@@ -313,6 +485,12 @@
 			return new Object();
 		}
 
+		/**
+		 * Remove file
+		 *
+		 * @param string $path Path to remove
+		 * @return Object
+		 */
 		function _removeFile($path)
 		{
 			if(substr($path, 0, 2) == "./") $path = substr($path, 2);
@@ -325,6 +503,12 @@
 			return new Object();
 		}
 
+		/**
+		 * Remove directory
+		 *
+		 * @param string $path Path to remove
+		 * @return Object
+		 */
 		function _removeDir_real($path)
 		{
 			if(substr($path, 0, 2) == "./") $path = substr($path, 2);
@@ -338,18 +522,36 @@
 		}
 
 
+		/**
+		 * Close
+		 *
+		 * @return void
+		 */
 		function _close() {
             ftp_close($this->connection);
 		}
 
+		/**
+		 * Copy directory
+		 *
+		 * @param array $file_list File list to copy
+		 * @return Object
+		 */
         function _copyDir(&$file_list) {
             if(!$this->ftp_password) return new Object(-1,'msg_ftp_password_input');
 
             $output = $this->_connect();
 			if(!$output->toBool()) return $output;
+
+			if(!$this->target_path) $this->target_path = '.';
+			if(substr($this->download_path, -1) == '/')
+			{
+				$this->download_path = substr($this->download_path, 0, -1);
+			}
             $target_dir = $this->ftp_info->ftp_root_path.$this->target_path;
 
             foreach($file_list as $k => $file){
+				if(!$file) continue;
                 $org_file = $file;
                 if($this->package->path == ".")
                 {
@@ -391,27 +593,49 @@
                         }
                     }
                 }
-                if(!ftp_put($this->connection, $target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file), FTP_BINARY))
-                {
-                    return new Object(-1, "msg_ftp_upload_failed");
-                }
+				if(!ftp_put($this->connection, $target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file), FTP_BINARY))
+				{
+					return new Object(-1, "msg_ftp_upload_failed");
+				}
             }
-
 			$this->_close();
             return new Object();
         }
     }
 
+	/**
+	 * Module installer for FTP
+	 * @author NHN (developers@xpressengine.com)
+	 */
     class FTPModuleInstaller extends ModuleInstaller {
+		/**
+		 * FTP instance
+		 * @var FTP
+		 */
 		var $oFtp = null;
+
+		/**
+		 * FTP information
+		 * @var object
+		 */
 		var $ftp_info = null;
 
+		/**
+		 * Constructor
+		 *
+		 * @param object $package Package information
+		 */
         function FTPModuleInstaller(&$package)
         {
             $this->package =& $package;
             $this->ftp_info =  Context::getFTPInfo();
         }
 
+		/**
+		 * Connect to FTP
+		 *
+		 * @return Object
+		 */
 		function _connect() {
             if($this->ftp_info->ftp_host)
             {
@@ -435,6 +659,12 @@
 			return new Object();
 		}
 
+		/**
+		 * Remove file
+		 *
+		 * @param string $path Path to remove
+		 * @return Object
+		 */
 		function _removeFile($path)
 		{
 			if(substr($path, 0, 2) == "./") $path = substr($path, 2);
@@ -447,6 +677,11 @@
 			return new Object();
 		}
 
+		/**
+		 * Remove directory
+		 * @param string $path Path to remove
+		 * @return Object
+		 */
 		function _removeDir_real($path)
 		{
 			if(substr($path, 0, 2) == "./") $path = substr($path, 2);
@@ -459,10 +694,21 @@
 			return new Object();
 		}
 
+		/**
+		 * Close
+		 *
+		 * @return void
+		 */
 		function _close() {
             $this->oFtp->ftp_quit();
 		}
 
+		/**
+		 * Copy directory
+		 *
+		 * @param array $file_list File list to copy
+		 * @return Object
+		 */
 		function _copyDir(&$file_list){
             if(!$this->ftp_password) return new Object(-1,'msg_ftp_password_input');
 

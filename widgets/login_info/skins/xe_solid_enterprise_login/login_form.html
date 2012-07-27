@@ -10,11 +10,11 @@ var keep_signed_msg = "{$lang->about_keep_signed}";
 
 </script>
 
-<form action="./" method="post" ruleset="@login" id="fo_login_widget">
+<form action="{getUrl('','act','procMemberLogin')}" method="post" ruleset="@login" id="fo_login_widget">
 <fieldset id="login">
 <legend>{$lang->cmd_login}</legend>
 <input type="hidden" name="act" value="procMemberLogin" />
-<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+<input type="hidden" name="success_return_url" value="{htmlspecialchars(getRequestUriByServerEnviroment())}" />
 <div id="sign_box">
 	<div class="txt sign_state1"><span class="label">Sign in</span></div>
 	<div class="signin_window" style="display:none;">
@@ -22,8 +22,8 @@ var keep_signed_msg = "{$lang->about_keep_signed}";
 		<div class="body">
 			<div class="mb_input_box">
 				<div class="m_left">
-					<div class="input_text mb_id"><img src="images/bullet_input_id.gif" alt="" title="" /><input name="user_id" type="text" title="user id" /></div>
-					<div class="input_text mb_pw"><img src="images/bullet_input_pw.gif" alt="" title="" /><input name="password"type="password" title="password" /></div>
+					<div class="input_text mb_id"><img src="images/bullet_input_id.gif" alt="" title="" /><input name="user_id" type="text" title="<!--@if($member_config->identifier != 'email_address')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end-->" /></div>
+					<div class="input_text mb_pw"><img src="images/bullet_input_pw.gif" alt="" title="" /><input name="password" type="password" title="{$lang->password}" /></div>
 					<label><input  type="checkbox" name="keep_signed" id="keepid" class="sign_check" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);" />{$lang->keep_signed}</label>
 					
 					<p cond="$ssl_mode" class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">

@@ -2,41 +2,48 @@
     /**
      * @class  layoutAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of the layout module
+     * admin view class of the layout module
      **/
 
     class layoutAdminView extends layout {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
 		/**
-		 * @brief Display a installed layout list
+		 * Display a installed layout list
+		 * @return void
 		 **/
 		function dispLayoutAdminInstalledList() {
+			$type = Context::get('type');
+			$type = ($type != 'M') ? 'P' : 'M';
+
 			// Set a layout list
 			$oLayoutModel = &getModel('layout');
-			$layout_list = $oLayoutModel->getDownloadedLayoutList('P', true);
+			$layout_list = $oLayoutModel->getDownloadedLayoutList($type, true);
 			if(!is_array($layout_list))
 			{
 				$layout_list = array();
 			}
 			
-			// get Theme layout
-			$oAdminModel = &getAdminModel('admin');
-			$themeList = $oAdminModel->getThemeList();
-			$themeLayoutList = array();
-			foreach($themeList as $themeInfo){
-				if(strpos($themeInfo->layout_info->name, '.') === false) continue;
-				$themeLayoutList[] = $oLayoutModel->getLayoutInfo($themeInfo->layout_info->name, null, 'P');
+			if($type == 'P')
+			{
+				// get Theme layout
+				$oAdminModel = &getAdminModel('admin');
+				$themeList = $oAdminModel->getThemeList();
+				$themeLayoutList = array();
+				foreach($themeList as $themeInfo){
+					if(strpos($themeInfo->layout_info->name, '.') === false) continue;
+					$themeLayoutList[] = $oLayoutModel->getLayoutInfo($themeInfo->layout_info->name, null, 'P');
+				}
+				$layout_list = array_merge($layout_list, $themeLayoutList);
+				$layout_list[] = $oLayoutModel->getLayoutInfo('faceoff', null, 'P');
 			}
-			$layout_list = array_merge($layout_list, $themeLayoutList);
-			$layout_list[] = $oLayoutModel->getLayoutInfo('faceoff', null, 'P');
-			Context::set('type', 'P');
 
 			$pcLayoutCount = $oLayoutModel->getInstalledLayoutCount('P');
 			$mobileLayoutCount = $oLayoutModel->getInstalledLayoutCount('M');
@@ -59,32 +66,52 @@
 		}
 
 		/**
-		 * @brief Display a installed mobile layout list
+		 * Display list of pc layout all instance
+		 * @return void|Object (void : success, Object : fail)
 		 */
-		function dispLayoutAdminInstalledMobileList() {
-			// Set a layout list
-			$oLayoutModel = &getModel('layout');
-			$layout_list = $oLayoutModel->getDownloadedLayoutList('M', true);
-			Context::set('type', 'M');
+		function dispLayoutAdminAllInstanceList()
+		{
+			$type = Context::get('type');
 
+			if (!in_array($type, array('P', 'M'))) $type = 'P';
+
+			$oLayoutModel = &getModel('layout');
+			
 			$pcLayoutCount = $oLayoutModel->getInstalledLayoutCount('P');
 			$mobileLayoutCount = $oLayoutModel->getInstalledLayoutCount('M');
 			Context::set('pcLayoutCount', $pcLayoutCount);
 			Context::set('mobileLayoutCount', $mobileLayoutCount);
-			$this->setTemplateFile('installed_layout_list');
 
-			$security = new Security($layout_list);
-			$layout_info = $security->encodeHTML('..', '..author..');
+			$columnList = array('layout_srl', 'layout', 'module_srl', 'title', 'regdate');
+			$_layout_list = $oLayoutModel->getLayoutInstanceList(0, $type, null, $columnList);
 
-			foreach($layout_list as $no => $layout_info)
+			$layout_list = array();
+			foreach($_layout_list as $item)
 			{
-				$layout_list[$no]->description = nl2br(trim($layout_info->description));
+				if(!$layout_list[$item->layout])
+				{
+					$layout_list[$item->layout] = array();
+					$layout_info = $oLayoutModel->getLayoutInfo($item->layout, null, $type);
+					if ($layout_info)
+					{
+						$layout_list[$item->layout]['title'] = $layout_info->title; 
+					}
+				}
+
+				$layout_list[$item->layout][] = $item;
 			}
+
 			Context::set('layout_list', $layout_list);
+
+			$this->setTemplateFile('layout_all_instance_list');
+
+			$security = new Security();
+			$security->encodeHTML('layout_list..');
 		}
 
 		/**
-		 * @brief Display list of pc layout instance
+		 * Display list of pc layout instance
+		 * @return void|Object (void : success, Object : fail)
 		 */
 		function dispLayoutAdminInstanceList()
 		{
@@ -111,8 +138,9 @@
 		}
 
         /**
-         * @brief Layout setting page
+         * Layout setting page
          * Once select a layout with empty value in the DB, then adjust values
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispLayoutAdminInsert() {
 			$oModel = &getModel('layout');
@@ -154,7 +182,8 @@
         }
 
 		/**
-         * @brief Insert Layout details
+         * Insert Layout details
+		 * @return void
          **/
         function dispLayoutAdminModify() {
             // Set the layout after getting layout information
@@ -193,9 +222,10 @@
 			$this->setTemplateFile('layout_modify');
         }
 
-		// deprecated
         /**
-         * @brief The first page of the layout admin
+         * The first page of the layout admin
+		 * @deprecated
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispLayoutAdminContent() {
 			$path = Context::get('path');
@@ -209,7 +239,11 @@
             $this->setTemplateFile('index');
         }
 
-		// deprecated
+        /**
+         * The first page of the mobile layout admin
+		 * @deprecated
+		 * @return void
+         **/
 		function dispLayoutAdminMobileContent() {
             $oLayoutModel = &getModel('layout');
 			$columnList = array('layout_srl', 'layout', 'module_srl', 'title', 'regdate');
@@ -221,7 +255,8 @@
 		}
 
         /**
-         * @brief Edit layout codes
+         * Edit layout codes
+		 * @return void
          **/
         function dispLayoutAdminEdit() {
             // Set the layout with its information
@@ -230,7 +265,7 @@
             $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayout($layout_srl);
             // Error appears if there is no layout information is registered
-            if(!$layout_info) return $this->dispLayoutAdminContent();
+            if(!$layout_info) return $this->dispLayoutAdminInstalledList();
 
             // Get Layout Code
             $oLayoutModel = &getModel('layout');
@@ -280,7 +315,8 @@
         }
 
         /**
-         * @brief Preview a layout
+         * Preview a layout
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispLayoutAdminPreview() {
             $layout_srl = Context::get('layout_srl');
@@ -332,9 +368,10 @@
 
         }
 
-		// deprecated
         /**
-         * @brief Pop-up details of the layout(conf/info.xml)
+         * Pop-up details of the layout(conf/info.xml)
+		 * @deprecated
+		 * @return void
          **/
         function dispLayoutAdminInfo() {
             // Get the layout information
@@ -353,9 +390,10 @@
             $this->setTemplateFile('layout_detail_info');
         }
 
-		// deprecated
         /**
-         * @brief Modify admin layout of faceoff
+         * Modify admin layout of faceoff
+		 * @deprecated
+		 * @return void
          **/
         function dispLayoutAdminLayoutModify(){
             // Get layout_srl
@@ -400,7 +438,11 @@
             $this->setTemplateFile('faceoff_layout_edit');
         }
 
-		// deprecated
+        /**
+         * display used images info for faceoff
+		 * @deprecated
+		 * @return void
+         **/
         function dispLayoutAdminLayoutImageList(){
             $layout_srl = Context::get('layout_srl');
             $oLayoutModel = &getModel('layout');

@@ -1,10 +1,38 @@
 <?php 
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts/limit
+	 * @version 0.1
+	 */
 	class Limit {
+		/**
+		 * start number
+		 * @var int
+		 */
 		var $start;
+		/**
+		 * list count
+		 * @var int
+		 */
 		var $list_count;
+		/**
+		 * page count
+		 * @var int
+		 */
 		var $page_count;
+		/**
+		 * current page
+		 * @var int
+		 */
 		var $page;
 
+		/**
+		 * constructor
+		 * @param int $list_count
+		 * @param int $page
+		 * @param int $page_count
+		 * @return void
+		 */
 		function Limit($list_count, $page= NULL, $page_count= NULL){
 			$this->list_count = $list_count;
 			if ($page){
@@ -16,7 +44,11 @@
 			}			
 		}
 		
-		function isPageHandler(){//in case you choose to use query limit in other cases than page select
+		/**
+		 * In case you choose to use query limit in other cases than page select
+		 * @return boolean
+		 */
+		function isPageHandler(){
 			if ($this->page)return true;
 			else return false;
 		}

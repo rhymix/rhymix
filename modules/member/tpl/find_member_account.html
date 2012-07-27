@@ -1,0 +1,59 @@
+<load target="./../../../common/js/jquery.min.js" usecdn="true" index="-1000000" />
+<load target="./../../../common/js/xe.min.js" usecdn="true" index="-1000000" />
+<load target="css/msignup.css" usecdn="true" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<div class="hx h2"><h2>{$lang->cmd_find_member_account_with_email}</h2></div>
+<form action="./" ruleset="findAccount" method="post" class="ff">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberFindAccount" />
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="document_srl" value="{$document_srl}" />
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispMemberFindAccount')}" />
+	<ul>
+		<li>
+			<label for="email_address1">{$lang->email_address}</label>
+			<input id="email_address1" type="text" name="email_address" />
+		</li>
+	</ul>
+	<div class="bna">
+		<input type="submit" class="bn dark" value="{$lang->cmd_send_mail}" />
+	</div>
+</form>
+
+<!--@if(count($lang->find_account_question_items)>1)-->
+<div class="hx h2"><h2>{$lang->cmd_find_member_account_with_email_question}</h2></div>
+<p style="margin:3px 10px;color:#666">{$lang->about_find_account_question}</p>
+<form action="./" method="post" class="ff" ruleset="@find_member_account_by_question">
+	<input type="hidden" name="module" value="member" />
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />	
+	<input type="hidden" name="act" value="procMemberFindAccountByQuestion" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'act', 'dispMemberGetTempPassword')}" />
+    <input type="hidden" name="page" value="{$page}" />
+	<ul>
+		<li cond="$identifier == 'user_id'">
+			<label for="user_id2">{$lang->user_id}</label>
+			<input type="text" name="user_id" id="user_id2" />
+		</li>
+		<li>
+			<label for="email_address2">{$lang->email_address}</label>
+			<input type="text" name="email_address" id="email_address2" />
+		</li>
+		<li>
+			<label for="question">{$lang->find_account_question}</label>
+			<select id="question" name="find_account_question" style="width:290px;display:block;">
+			<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
+				<option value="{$i}">{$lang->find_account_question_items[$i]}</option>
+			<!--@end-->
+			</select>
+			<input type="text" name="find_account_answer" value="" />
+		</li>
+	</ul>
+	<div class="bna">
+		<input type="submit" class="bn dark" value="{$lang->cmd_get_temp_password}" />
+	</div>
+</form>
+<!--@end-->

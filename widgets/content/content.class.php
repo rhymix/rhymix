@@ -253,7 +253,7 @@
             }
 
 			$oSecurity = new Security($content_items);
-			$oSecurity->encodeHTML('..variables.title', '..variables.content', '..variables.user_name', '..variables.nick_name');
+			$oSecurity->encodeHTML('..variables.content', '..variables.user_name', '..variables.nick_name');
 
             return $content_items;
         }

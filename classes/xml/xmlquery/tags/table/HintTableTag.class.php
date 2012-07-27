@@ -1,20 +1,26 @@
 <?php
-
 	/**
-	 * @class HintTableTag
-	 * @author Arnia Sowftare
-	 * @brief Models the <table> tag inside an XML Query file
-         *      and the corresponding <index_hint> tag
+	 * HintTableTag
+	 * Models the <table> tag inside an XML Query file and the corresponding <index_hint> tag
 	 *
+	 * @author Arnia Sowftare
+	 * @package /classes/xml/xmlquery/tags/table
+	 * @version 0.1
 	 */
-
 	class HintTableTag extends TableTag {
+		/**
+		 * Action for example, 'select', 'insert', 'delete'...
+		 * @var array
+		 */
                 var $index;
 
-                /**
-                 * @brief Initialises Table Tag properties
-                 * @param XML <table> tag $table
-                 */
+		/**
+		 * constructor
+		 * Initialises Table Tag properties
+		 * @param object $table XML <table> tag
+		 * @param array $index
+		 * @return void
+		 */
 		function HintTableTag($table, $index){
                         parent::TableTag($table);
                         $this->index = $index;

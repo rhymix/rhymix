@@ -10,6 +10,9 @@
 
 	if(!class_exists('AddonCaptcha'))
 	{
+	// On the mobile mode, XE Core does not load jquery and xe.js as normal.
+	Context::loadFile(array('./common/js/jquery.min.js','head', NULL,-100000),true);
+	Context::loadFile(array('./common/js/xe.min.js','head', NULL,-100000),true);
 		class AddonCaptcha
 		{
 			var $addon_info;
@@ -31,6 +34,7 @@
 				$logged_info = Context::get('logged_info');
 				if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin) return false;
 				if($this->addon_info->target != 'all' && Context::get('is_logged')) return false;
+				if($_SESSION['XE_VALIDATOR_ERROR'] == -1) $_SESSION['captcha_authed'] = false;
 				if($_SESSION['captcha_authed']) return false;
 
 				$type = Context::get('captchaType');
@@ -54,7 +58,7 @@
 						}
 					}  else {
 						Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
-						Context::loadFile(array('./addons/captcha/captcha.js', 'body', '', null), true);
+						Context::loadFile(array('./addons/captcha/captcha.min.js', 'body', '', null), true);
 					}
 				}
 
@@ -286,7 +290,7 @@
 				$this->createKeyword();
 
 				$swfURL = getUrl().'addons/captcha/swf/play.swf';
-				Context::unloadFile('./addons/captcha/captcha.js');
+				Context::unloadFile('./addons/captcha/captcha.min.js');
 				Context::loadFile(array('./addons/captcha/inline_captcha.js','body'));
 
 				global $lang;

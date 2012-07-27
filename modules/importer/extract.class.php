@@ -1,33 +1,97 @@
 <?php
-    /**
-     * @class extract 
-     * @author NHN (developers@xpressengine.com)
-     * @brief Class to save each file by using tags in the large xml
-     **/
+	/**
+	 * extract class
+	 * Class to save each file by using tags in the large xml
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/importer
+	 * @version 0.1
+	 */
     class extract {
+		/**
+		 * Temp file's key. made by md5 with filename
+		 * @var string
+		 */
         var $key = '';
+		/**
+		 * Temp cache file path
+		 * @var string
+		 */
         var $cache_path = './files/cache/importer';
+		/**
+		 * Temp index cache file path
+		 * @var string
+		 */
         var $cache_index_file = './files/cache/importer';
-        
+		/**
+		 * File name
+		 * @var string
+		 */
         var $filename = null;
+		/**
+		 * Start tag
+		 * @var string
+		 */
         var $startTag = '';
+		/**
+		 * End tag
+		 * @var string
+		 */
         var $endTag = '';
+		/**
+		 * Item start tag
+		 * @var string
+		 */
         var $itemStartTag = '';
+		/**
+		 * Item end tag
+		 * @var string
+		 */
         var $itemEndTag = '';
 
+		/**
+		 * File resource
+		 * @var string
+		 */
         var $fd = null;
+		/**
+		 * Index file resource
+		 * @var string
+		 */
         var $index_fd = null;
 
+		/**
+		 * Start tag open status
+		 * @var bool
+		 */
         var $isStarted = false;
+		/**
+		 * End tag close status
+		 * @var bool
+		 */
         var $isFinished = true;
 
+		/**
+		 * Buffer
+		 * @var string
+		 */
         var $buff = 0;
 
+		/**
+		 * File count
+		 * @var int
+		 */
         var $index = 0;
 
-        /**
-         * @brief Get arguments for constructor, file name, start tag, end tag, tag name for each item
-         **/
+		/**
+		 * Get arguments for constructor, file name, start tag, end tag, tag name for each item
+		 * @param string $filename
+		 * @param string $startTag
+		 * @param string $endTag
+		 * @param string $itemTag
+		 * @param string $itemEndTag
+		 * @return Object
+		 */
         function set($filename, $startTag, $endTag, $itemTag, $itemEndTag) {
             $this->filename = $filename;
 
@@ -46,9 +110,10 @@
             return $this->openFile();
         }
 
-        /**
-         * @brief Open an indicator of the file
-         **/
+		/**
+		 * Open an indicator of the file
+		 * @return Object
+		 */
         function openFile() {
             FileHandler::removeFile($this->cache_index_file);
             $this->index_fd = fopen($this->cache_index_file,"a");
@@ -104,7 +169,11 @@
 
             return new Object();
         }
-        
+
+		/**
+		 * Close an indicator of the file
+		 * @return void
+		 */
         function closeFile() {
             $this->isFinished = true;
             fclose($this->fd);
@@ -115,6 +184,10 @@
             return $this->isFinished || !$this->fd || feof($this->fd);
         }
 
+		/**
+		 * Save item
+		 * @return void
+		 */
         function saveItems() {
 			FileHandler::removeDir($this->cache_path.$this->key);
 			$this->index = 0;
@@ -123,6 +196,10 @@
 			}
         }
 
+		/**
+		 * Merge item
+		 * @return void
+		 */
         function mergeItems($filename) {
             $this->saveItems();
 
@@ -144,6 +221,10 @@
             fclose($fd);
         }
 
+		/**
+		 * Get item. Put data to buff
+		 * @return void
+		 */
         function getItem() {
             if($this->isFinished()) return;
 

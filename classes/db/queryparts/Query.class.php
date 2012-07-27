@@ -1,23 +1,88 @@
 <?php
-
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts
+	 * @version 0.1
+	 */
 	class Query extends Object {
+		/**
+		 * Query id, defined in query xml file
+		 * @var string
+		 */
 		var $queryID;
+		/**
+		 * DML type, ex) INSERT, DELETE, UPDATE, SELECT
+		 * @var string
+		 */
 		var $action;
+		/**
+		 * priority level ex)LOW_PRIORITY, HIGHT_PRIORITY
+		 * @var string
+		 */
 		var $priority;
 
+		/**
+		 * column list
+		 * @var string|array
+		 */
 		var $columns;
+		/**
+		 * table list
+		 * @var string|array
+		 */
 		var $tables;
+		/**
+		 * condition list
+		 * @var string|array
+		 */
 		var $conditions;
+		/**
+		 * group list
+		 * @var string|array
+		 */
 		var $groups;
+		/**
+		 * order list
+		 * @var array
+		 */
 		var $orderby;
+		/**
+		 * limit count
+		 * @var int
+		 */
 		var $limit;
 
+		/**
+		 * argument list
+		 * @var array
+		 */
 		var $arguments = null;
 
+		/**
+		 * column list
+		 * @var array
+		 */
                 var $columnList = null;
 
+		/**
+		 * order by text
+		 * @var string
+		 */
 		var $_orderByString;
 
+		/**
+		 * constructor
+		 * @param string $queryID
+		 * @param string $action
+		 * @param string|array $columns
+		 * @param string|array $tables
+		 * @param string|array $conditions
+		 * @param string|array $groups
+		 * @param string|array $orderby
+		 * @param int $limit
+		 * @param string $priority
+		 * @return void
+		 */
 		function Query($queryID = null
 			, $action = null
 			, $columns = null
@@ -93,6 +158,10 @@
 
 			$this->tables = $tables;
 		}
+		
+		function setSubquery($subquery){
+			$this->subquery = $subquery;
+		}
 
 		function setConditions($conditions){
                     $this->conditions = array();
@@ -124,32 +193,62 @@
 		}
 
 		// START Fluent interface
+		/**
+		 * seleect set
+		 * @param string|array $columns
+		 * @return Query return Query instance
+		 */
 		function select($columns= null){
 			$this->action = 'select';
 			$this->setColumns($columns);
 			return $this;
 		}
 
+		/**
+		 * from set
+		 * @param string|array $tables
+		 * @return Query return Query instance
+		 */
 		function from($tables){
 			$this->setTables($tables);
 			return $this;
 		}
 
+		/**
+		 * where set
+		 * @param string|array $conditions
+		 * @return Query return Query instance
+		 */
 		function where($conditions){
 			$this->setConditions($conditions);
 			return $this;
 		}
 
+		/**
+		 * groupBy set
+		 * @param string|array $groups
+		 * @return Query return Query instance
+		 */
 		function groupBy($groups){
 			$this->setGroups($groups);
 			return $this;
 		}
 
+		/**
+		 * orderBy set
+		 * @param string|array $order
+		 * @return Query return Query instance
+		 */
 		function orderBy($order){
 			$this->setOrder($order);
 			return $this;
 		}
 
+		/**
+		 * limit set
+		 * @param int $limit
+		 * @return Query return Query instance
+		 */
 		function limit($limit){
 			$this->setLimit($limit);
 			return $this;
@@ -164,6 +263,11 @@
 			return $this->priority?'LOW_PRIORITY':'';
 		}
 
+		/**
+		 * Return select sql
+		 * @param boolean $with_values
+		 * @return string
+		 */
 		function getSelectString($with_values = true){
                     foreach($this->columns as $column){
                             if($column->show())
@@ -176,6 +280,11 @@
                     return trim(implode($select, ', '));
 		}
 
+		/**
+		 * Return update sql
+		 * @param boolean $with_values
+		 * @return string
+		 */
 		function getUpdateString($with_values = true){
                     foreach($this->columns as $column){
                         if($column->show())
@@ -184,8 +293,27 @@
                     return trim(implode($update, ', '));
 		}
 
+		/**
+		 * Return insert sql
+		 * @param boolean $with_values
+		 * @return string
+		 */
 		function getInsertString($with_values = true){
 			$columnsList = '';
+			if($this->subquery){ // means we have insert-select
+				
+				foreach($this->columns as $column){
+					$columnsList .= $column->getColumnName() . ', ';
+				}
+				$columnsList = substr($columnsList, 0, -2);
+				
+				$selectStatement = $this->subquery->toString($with_values);
+				$selectStatement = substr($selectStatement, 1, -1);
+				
+				return "($columnsList) \n $selectStatement";
+			}
+			
+			
 			$valuesList = '';
 			foreach($this->columns as $column){
 				if($column->show()){
@@ -203,10 +331,14 @@
 			return $this->tables;
 		}
 
-                // from table_a
-                // from table_a inner join table_b on x=y
-                // from (select * from table a) as x
-                // from (select * from table t) as x inner join table y on y.x
+		/**
+		 * from table_a
+		 * from table_a inner join table_b on x=y
+		 * from (select * from table a) as x
+		 * from (select * from table t) as x inner join table y on y.x
+		 * @param boolean $with_values
+		 * @return string
+		 */
 		function getFromString($with_values = true){
 			$from = '';
 			$simple_table_count = 0;
@@ -222,6 +354,12 @@
 			return $from;
 		}
 
+		/**
+		 * Return where sql
+		 * @param boolean $with_values
+		 * @param boolean $with_optimization
+		 * @return string
+		 */
 		function getWhereString($with_values = true, $with_optimization = true){
 			$where = '';
 			$condition_count = 0;
@@ -256,6 +394,10 @@
 			return trim($where);
 		}
 
+		/**
+		 * Return groupby sql
+		 * @return string
+		 */
 		function getGroupByString(){
 			$groupBy = '';
 			if($this->groups) if($this->groups[0] !== "")
@@ -263,6 +405,10 @@
 			return $groupBy;
 		}
 
+		/**
+		 * Return orderby sql
+		 * @return string
+		 */
 		function getOrderByString(){
 			if(!$this->_orderByString){
 			    if(count($this->orderby) === 0) return '';
@@ -280,6 +426,10 @@
 			return $this->limit;
 		}
 
+		/**
+		 * Return limit sql
+		 * @return string
+		 */
 		function getLimitString(){
 			$limit = '';
 			if(count($this->limit) > 0){
@@ -293,6 +443,10 @@
 			return $this->tables[0]->getName();
 		}
 
+		/**
+		 * Return argument list
+		 * @return array
+		 */
 		function getArguments(){
 			if(!isset($this->arguments)){
 				$this->arguments = array();
@@ -302,7 +456,7 @@
 				{
 					foreach($this->tables as $table)
 					{
-						if($table->isJoinTable())
+						if($table->isJoinTable() || is_a($table, 'Subquery'))
 						{
 							$args = $table->getArguments();
 							if($args) $this->arguments = array_merge($this->arguments, $args);

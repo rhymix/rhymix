@@ -168,11 +168,9 @@
             $this->add('poll_srl', $poll_srl);
             $this->add('tpl',$tpl);
             $this->setMessage('success_poll');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminConfig');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminConfig');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**

@@ -1,11 +1,11 @@
-		<div id="progress">
-			<ul>
-				<li <!--@if($act=='')-->class="active"<!--@end-->>{$lang->install_progress_menu['agree']}</li>
-				<li <!--@if($act=='dispInstallCheckEnv')-->class="active"<!--@end-->>{$lang->install_progress_menu['condition']}</li>
-				<li <!--@if($act=='dispInstallSelectDB' && $progressMenu == '3')-->class="active"<!--@end-->>{$lang->install_progress_menu['ftp']}</li>
-				<li <!--@if($act=='dispInstallSelectDB' && $progressMenu == '4')-->class="active"<!--@end-->>{$lang->install_progress_menu['dbSelect']}</li>
-				<li <!--@if($act=='dispInstallDBForm')-->class="active"<!--@end-->>{$lang->install_progress_menu['dbInfo']}</li>
-				<li <!--@if($act=='dispInstallConfigForm')-->class="active"<!--@end-->>{$lang->install_progress_menu['configInfo']}</li>
-				<li <!--@if($act=='dispInstallManagerForm')-->class="active"<!--@end-->>{$lang->install_progress_menu['adminInfo']}</li>
-			</ul>
-		</div>
+<div id="progress">
+	<ul>
+		<li class="active"|cond="$act==''">{$lang->install_progress_menu['language']}</li>
+		<li class="active"|cond="$act=='dispInstallCheckEnv'">{$lang->install_progress_menu['condition']}</li>
+		<li class="active"|cond="$act=='dispInstallSelectDB' && $progressMenu == '3'">{$lang->install_progress_menu['ftp']}</li>
+		<li class="active"|cond="$act=='dispInstallSelectDB' && $progressMenu == '4'">{$lang->install_progress_menu['dbSelect']}</li>
+		<li class="active"|cond="$act=='dispInstallDBForm'">{$lang->install_progress_menu['dbInfo']}</li>
+		<li class="active"|cond="$act=='dispInstallConfigForm'">{$lang->install_progress_menu['configInfo']}</li>
+		<li class="active"|cond="$act=='dispInstallManagerForm'">{$lang->install_progress_menu['adminInfo']}</li>
+	</ul>
+</div>

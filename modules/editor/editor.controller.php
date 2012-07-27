@@ -96,37 +96,24 @@
             $editor_config->sel_editor_colorset = Context::get('sel_editor_colorset');
             $editor_config->sel_comment_editor_colorset = Context::get('sel_comment_editor_colorset');
 
-            $enable_html_grant = trim(Context::get('enable_html_grant'));
-            if($enable_html_grant) $editor_config->enable_html_grant = explode('|@|', $enable_html_grant);
-            else $editor_config->enable_html_grant = array();
+			$grants = array('enable_html_grant','enable_comment_html_grant','upload_file_grant','comment_upload_file_grant','enable_default_component_grant','enable_comment_default_component_grant','enable_component_grant','enable_comment_component_grant');
 
-            $enable_comment_html_grant = trim(Context::get('enable_comment_html_grant'));
-            if($enable_comment_html_grant) $editor_config->enable_comment_html_grant = explode('|@|', $enable_comment_html_grant);
-            else $editor_config->enable_comment_html_grant = array();
-
-            $upload_file_grant = trim(Context::get('upload_file_grant'));
-            if($upload_file_grant) $editor_config->upload_file_grant = explode('|@|', $upload_file_grant);
-            else $editor_config->upload_file_grant = array();
-
-            $comment_upload_file_grant = trim(Context::get('comment_upload_file_grant'));
-            if($comment_upload_file_grant) $editor_config->comment_upload_file_grant = explode('|@|', $comment_upload_file_grant);
-            else $editor_config->comment_upload_file_grant = array();
-
-            $enable_default_component_grant = trim(Context::get('enable_default_component_grant'));
-            if($enable_default_component_grant) $editor_config->enable_default_component_grant = explode('|@|', $enable_default_component_grant);
-            else $editor_config->enable_default_component_grant = array();
-
-            $enable_comment_default_component_grant = trim(Context::get('enable_comment_default_component_grant'));
-            if($enable_comment_default_component_grant) $editor_config->enable_comment_default_component_grant = explode('|@|', $enable_comment_default_component_grant);
-            else $editor_config->enable_comment_default_component_grant = array();
-
-            $enable_component_grant = trim(Context::get('enable_component_grant'));
-            if($enable_component_grant) $editor_config->enable_component_grant = explode('|@|', $enable_component_grant);
-            else $editor_config->enable_component_grant = array();
-
-            $enable_comment_component_grant = trim(Context::get('enable_comment_component_grant'));
-            if($enable_comment_component_grant) $editor_config->enable_comment_component_grant = explode('|@|', $enable_comment_component_grant);
-            else $editor_config->enable_comment_component_grant = array();
+			foreach($grants as $key)
+			{
+				$grant = Context::get($key);
+				if(!$grant)
+				{
+					$editor_config->{$key} = array();
+				}
+				else if(is_array($grant)) 
+				{
+					$editor_config->{$key} = $grant;
+				}
+				else
+				{
+					$editor_config->{$key} = explode('|@|', $grant);
+				}
+			}
 
             $editor_config->editor_height = (int)Context::get('editor_height');
 
@@ -145,11 +132,9 @@
 
             $this->setError(-1);
             $this->setMessage('success_updated', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**

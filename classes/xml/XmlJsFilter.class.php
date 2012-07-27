@@ -1,13 +1,10 @@
 <?php
 	/**
-	 * @class XmlJsFilter
-	 * @author NHN (developers@xpressengine.com)
-	 * @brief filter class traslate xml content into javascript code
-     * @version 0.2
+	 * filter class traslate xml content into javascript code
 	 *
 	 * it convert xml code into js file and save the result as a cache file
      * @code
-     * {
+     * <pre>{
 	 * <filter name="name of javascript funcion" act="action name" confirm_msg_code="message string to be prompted when submitting the form" >
 	 *  <form> <-- code to validate data in the form
 	 *    <node target="name" required="true" minlength="1" maxlength="5" filter="email,userid,alpha,number" equalto="target" />
@@ -19,9 +16,10 @@
 	 * <tag name="error" /> <- get the result of error name
 	 *  </response>
 	 * </filter>
-     * }
+     * }</pre>
      *
-	 * @detail {
+	 * @detail
+	 * <pre>{
      * - syntax description of <form> node
 	 *  target = name of for element
 	 *  required = flag indicating whether a field is mandatory or not
@@ -40,18 +38,40 @@
 	 *
 	 * - response
 	 *  tag = key : name of variable that will contain the result of the execution
-     *  }
-	 **/
-
+     * }</pre>
+	 * @class XmlJsFilter
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/xml
+     * @version 0.2
+	 */
 	class XmlJsFilter extends XmlParser {
+		/**
+		 * version
+		 * @var string
+		 */
         var $version = '0.2.5';
+		/**
+		 * compiled javascript cache path
+		 * @var string
+		 */
 		var $compiled_path = './files/cache/js_filter_compiled/'; // / directory path for compiled cache file
-		var $xml_file = NULL; // / Target xml file
-		var $js_file = NULL; // / Compiled js file
+		/**
+		 * Target xml file
+		 * @var string
+		 */
+		var $xml_file = NULL;
+		/**
+		 * Compiled js file
+		 * @var string
+		 */
+		var $js_file = NULL; // / 
 
 		/**
-		 * @brief constructor
-		 **/
+		 * constructor
+		 * @param string $path
+		 * @param string $xml_file
+		 * @return void
+		 */
 		function XmlJsFilter($path, $xml_file) {
 			if(substr($path,-1)!=='/') $path .= '/';
 			$this->xml_file = sprintf("%s%s",$path, $xml_file);
@@ -59,9 +79,9 @@
 		}
 
 		/**
-		 * @brief compile a xml_file only when a corresponding js file does not exists or is outdated
-         * @return Returns NULL regardless of the success of failure of the operation
-         **/
+		 * Compile a xml_file only when a corresponding js file does not exists or is outdated
+         * @return void Returns NULL regardless of the success of failure of the operation
+         */
 		function compile() {
 			if(!file_exists($this->xml_file)) return;
 			if(!file_exists($this->js_file)) $this->_compile();
@@ -70,8 +90,9 @@
 		}
 
 		/**
-		 * @brief compile a xml_file into js_file
-		 **/
+		 * compile a xml_file into js_file
+		 * @return void
+		 */
 		function _compile() {
 			global $lang;
 
@@ -283,7 +304,9 @@
 		}
 
 		/**
-		 * @brief return a file name of js file corresponding to the xml file
+		 * return a file name of js file corresponding to the xml file
+		 * @param string $xml_file
+		 * @return string
 		 **/
 		function _getCompiledFileName($xml_file) {
 			return sprintf('%s%s.%s.compiled.js',$this->compiled_path, md5($this->version.$xml_file),Context::getLangType());

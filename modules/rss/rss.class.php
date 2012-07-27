@@ -1,14 +1,16 @@
 <?php
     /**
-     * @class  rss
+     * High class of rss module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief The view class of the rss module
      **/
 
     class rss extends ModuleObject {
 
         /**
-         * @brief Additional tasks required to accomplish during the installation
+         * Additional tasks required to accomplish during the installation
+		 *
+		 * @return Object
          **/
         function moduleInstall() {
             // Register in action forward
@@ -25,7 +27,8 @@
         }
 
         /**
-         * @brief A method to check if the installation has been successful
+         * A method to check if the installation has been successful
+		 * @return bool
          **/
         function checkUpdate() {
             $oModuleModel = &getModel('module');
@@ -42,7 +45,9 @@
         }
 
         /**
-         * @brief Execute update
+         * Execute update
+		 *
+		 * @return Object
          **/
         function moduleUpdate() {
             $oModuleModel = &getModel('module');
@@ -63,7 +68,9 @@
         }
 
         /**
-         * @brief Re-generate the cache file
+         * Re-generate the cache file
+		 *
+		 * @return void
          **/
         function recompileCache() {
         }

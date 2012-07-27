@@ -1,21 +1,23 @@
 <?php
     /**
-     * @class  addonController
+     * Addon module's controller class
      * @author NHN (developers@xpressengine.com)
-     * @brief addon module's controller class
      **/
-
-
     class addonController extends addon {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Main/Virtual-specific add-on file, the location of the cache Wanted
+         * Returns a cache file path
+		 *
+		 * @param $type pc or mobile
+		 * @return string Returns a path
          **/
         function getCacheFilePath($type = "pc") {
 			static $addon_file;
@@ -38,7 +40,11 @@
 
 
         /**
-         * @brief Add-on mid settings
+         * Returns mid list that addons is run
+		 *
+		 * @param string $selected_addon Name to get list
+		 * @param int $site_srl Site srl
+		 * @return string[] Returns list that contain mid
          **/
         function _getMidList($selected_addon, $site_srl = 0) {
 
@@ -50,7 +56,12 @@
 
 
         /**
-         * @brief Add-on mid settings
+         * Adds mid into running mid list
+		 *
+		 * @param string $selected_addon Addon name to add mid
+		 * @param string $mid Module id to add
+		 * @param int $site_srl Site srl
+		 * @return void
          **/
         function _setAddMid($selected_addon,$mid, $site_srl=0) {
             // Wanted to add the requested information
@@ -63,7 +74,12 @@
 
 
         /**
-         * @brief Add-on mid settings
+         * Deletes mid from running mid list
+		 *
+		 * @param string $selected_addon Addon name to delete mid
+		 * @param string $mid Module id to delete
+		 * @param int $site_srl Site srl
+		 * @return void
          **/
         function _setDelMid($selected_addon,$mid,$site_srl=0) {
             // Wanted to add the requested information
@@ -83,7 +99,12 @@
         }
 
         /**
-         * @brief Add-on mid settings
+         * Set running mid list
+		 *
+		 * @param string $selected_addon Addon name to set
+		 * @param string[] $mid_list List to set
+		 * @param int $site_srl Site srl
+		 * @return void
          **/
         function _setMid($selected_addon,$mid_list,$site_srl=0) {
             $args->mid_list =  join('|@|',$mid_list);
@@ -93,7 +114,9 @@
 
 
         /**
-         * @brief Add mid-on
+		 * Adds mid into running mid list
+		 *
+		 * @return Object
          **/
         function procAddonSetupAddonAddMid() {
             $site_module_info = Context::get('site_module_info');
@@ -105,7 +128,9 @@
         }
 
         /**
-         * @brief Add mid Delete
+         * Deletes mid from running mid list
+		 *
+		 * @return Object
          **/
         function procAddonSetupAddonDelMid() {
             $site_module_info = Context::get('site_module_info');
@@ -118,7 +143,12 @@
         }
 
         /**
-         * @brief Re-generate the cache file
+         * Re-generate the cache file
+		 *
+		 * @param int $site_srl Site srl
+		 * @param string $type pc or mobile
+		 * @param string $gtype site or global
+		 * @return void
          **/
         function makeCacheFile($site_srl = 0, $type = "pc", $gtype = 'site') {
             // Add-on module for use in creating the cache file
@@ -155,7 +185,13 @@
         }
 
         /**
-         * @brief Add-On Set
+         * Save setup
+		 *
+		 * @param string $addon Addon name
+		 * @param object $extra_vars Extra variables
+		 * @param int $site_srl Site srl
+		 * @param string $gtype site or global
+		 * @return Object
          **/
         function doSetup($addon, $extra_vars,$site_srl=0, $gtype = 'site') {
             if(!is_array($extra_vars->mid_list))	unset($extra_vars->mid_list);
@@ -168,7 +204,10 @@
         }
 
         /**
-         * @brief Remove add-on information in the virtual site
+         * Remove add-on information in the virtual site
+		 *
+		 * @param int $site_srl Site srl
+		 * @return void
          **/
         function removeAddonConfig($site_srl) {
             $addon_path = _XE_PATH_.'files/cache/addons/';

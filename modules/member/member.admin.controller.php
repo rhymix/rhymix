@@ -2,19 +2,21 @@
     /**
      * @class  memberAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief member module of the admin controller class
+     * member module of the admin controller class
      **/
 
     class memberAdminController extends member {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Add a user (Administrator)
+         * Add a user (Administrator)
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberAdminInsert() {
            // if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
@@ -103,15 +105,14 @@
 			if (is_uploaded_file($image_name['tmp_name'])){
 				$oMemberController->insertImageName($args->member_srl, $image_name['tmp_name']);
 			}
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Delete a user (Administrator)
+         * Delete a user (Administrator)
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberAdminDelete() {
             // Separate all the values into DB entries and others
@@ -125,6 +126,10 @@
             $this->setMessage("success_deleted");
         }
 
+        /**
+         * Set config of member
+		 * @return void|Object (void : success, Object : fail)
+         **/
 		function procMemberAdminInsertConfig(){
             $input_args = Context::gets(
 				'enable_join',
@@ -133,6 +138,7 @@
 				'webmaster_email',
 				'limit_day',
 				'change_password_date',
+				'max_error_count','max_error_count_time',
 				'agreement',
 				'after_login_url',
 				'after_logout_url',
@@ -186,7 +192,7 @@
 					$signupItem->isDefaultForm = in_array($key, $items);
 					
 					$signupItem->name = $key;
-					if(in_array($key, $items)) $signupItem->title = $key;
+					if(!in_array($key, $items)) $signupItem->title = $key;
 					else $signupItem->title = $lang->{$key};
 					$signupItem->mustRequired = in_array($key, $mustRequireds);
 					$signupItem->imageType = (strpos($key, 'image') !== false);
@@ -226,18 +232,30 @@
 				$this->_createLoginRuleset($args->identifier);
 				$this->_createFindAccountByQuestion($args->identifier);
 			}
+
+			// check agreement value exist
+			if($args->agreement)
+			{
+				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+				$output = FileHandler::writeFile($agreement_file, $args->agreement);
+
+				unset($args->agreement);
+			}
 			$output = $oModuleController->updateModuleConfig('member', $args);
 
 			// default setting end
 			$this->setMessage('success_updated');
 
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminConfig');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminConfig');
+			$this->setRedirectUrl($returnUrl);
 		}
 
+        /**
+         * Create ruleset file of signup
+		 * @param object $signupForm (user define signup form)
+		 * @param string $agreement
+		 * @return void
+         **/
 		function _createSignupRuleset($signupForm, $agreement = null){
 			$xml_file = './files/ruleset/insertMember.xml';
 			$buff = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL
@@ -285,6 +303,11 @@
 			$validator->getJsPath();
 		}
 
+        /**
+         * Create ruleset file of login
+		 * @param string $identifier (login identifier)
+		 * @return void
+         **/
 		function _createLoginRuleset($identifier){
 			$xml_file = './files/ruleset/login.xml';
 			$buff = '<?xml version="1.0" encoding="utf-8"?>'
@@ -307,6 +330,11 @@
 			$validator->getJsPath();
 		}
 
+        /**
+         * Create ruleset file of find account
+		 * @param string $identifier (login identifier)
+		 * @return void
+         **/
 		function _createFindAccountByQuestion($identifier){
 			$xml_file = './files/ruleset/find_member_account_by_question.xml';
 			$buff = '<?xml version="1.0" encoding="utf-8"?>'
@@ -333,7 +361,8 @@
 		}
 
         /**
-         * @brief Add a user group
+         * Add a user group
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberAdminInsertGroup() {
             $args = Context::gets('title','description','is_default','image_mark');
@@ -344,15 +373,13 @@
             $this->add('page',Context::get('page'));
             $this->setMessage('success_registed');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
-				header('location:'.$returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Update user group information
+         * Update user group information
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberAdminUpdateGroup() {
             $group_srl = Context::get('group_srl');
@@ -366,15 +393,13 @@
             $this->add('page',Context::get('page'));
             $this->setMessage('success_updated');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
-				header('location:'.$returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Update user group information
+         * Update user group information
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberAdminDeleteGroup() {
             $group_srl = Context::get('group_srl');
@@ -386,15 +411,13 @@
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
-				header('location:'.$returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Add a join form
+         * Add a join form
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberAdminInsertJoinForm() {
             $args->member_join_form_srl = Context::get('member_join_form_srl');
@@ -451,13 +474,14 @@
 
             $this->setMessage('success_registed');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminJoinFormList');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminJoinFormList');
+			$this->setRedirectUrl($returnUrl);
         }
 
+        /**
+         * Delete a join form
+		 * @return void
+         **/
 		function procMemberAdminDeleteJoinForm(){
             $member_join_form_srl = Context::get('member_join_form_srl');
 			$this->deleteJoinForm($member_join_form_srl);
@@ -476,7 +500,9 @@
 		}
 
         /**
-         * @brief Move up/down the member join form and modify it
+         * Move up/down the member join form and modify it
+		 * @deprecated
+		 * @return void
          **/
         function procMemberAdminUpdateJoinForm() {
             $member_join_form_srl = Context::get('member_join_form_srl');
@@ -505,6 +531,7 @@
 
 		/**
 		 * selected member manager layer in dispAdminList 
+		 * @return void|Object (void : success, Object : fail)
 		 **/
 		function procMemberAdminSelectedMemberManage(){
 			$var = Context::getRequestVars();
@@ -572,15 +599,13 @@
 				}
 			}
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
+			$this->setRedirectUrl($returnUrl);
 		}
 
         /**
-         * @brief Delete the selected members
+         * Delete the selected members
+		 * @return void|Object (void : success, Object : fail)
          */
         function procMemberAdminDeleteMembers() {
             $target_member_srls = Context::get('target_member_srls');
@@ -600,7 +625,8 @@
         }
 
         /**
-         * @brief Update a group of selected memebrs
+         * Update a group of selected memebrs
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberAdminUpdateMembersGroup() {
             $member_srl = Context::get('member_srl');
@@ -657,7 +683,8 @@
         }
 
         /**
-         * @brief Add a denied ID
+         * Add a denied ID
+		 * @return void
          **/
         function procMemberAdminInsertDeniedID() {
             $user_ids = Context::get('user_id');
@@ -672,15 +699,13 @@
 
 			$this->add('user_ids', implode(',',$success_ids));
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminDeniedIDList');
-				header('location:'.$returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminDeniedIDList');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Update denied ID
+         * Update denied ID
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberAdminUpdateDeniedID() {
             $user_id = Context::get('user_id');
@@ -699,7 +724,9 @@
         }
 
         /**
-         * @brief Add an administrator
+         * Add an administrator
+		 * @param object $args
+		 * @return object (info of added member)
          **/
         function insertAdmin($args) {
             // Assign an administrator
@@ -714,7 +741,10 @@
         }
 
         /**
-         * @brief Change the group values of member
+         * Change the group values of member
+		 * @param int $source_group_srl
+		 * @param int $target_group_srl
+		 * @return Object
          **/
         function changeGroup($source_group_srl, $target_group_srl) {
             $args->source_group_srl = $source_group_srl;
@@ -724,7 +754,9 @@
         }
 
         /**
-         * @brief find_account_answerInsert a group
+         * find_account_answerInsert a group
+		 * @param object $args
+		 * @return Object
          **/
         function insertGroup($args) {
             if(!$args->site_srl) $args->site_srl = 0;
@@ -741,7 +773,9 @@
         }
 
         /**
-         * @brief Modify Group Information
+         * Modify Group Information
+		 * @param object $args
+		 * @return Object
          **/
         function updateGroup($args) {
             // Check the value of is_default. 
@@ -758,6 +792,9 @@
 
         /**
          * Delete a Group
+		 * @param int $group_srl
+		 * @param int $site_srl
+		 * @return Object
          **/
         function deleteGroup($group_srl, $site_srl = 0) {
             // Create a member model object
@@ -781,6 +818,7 @@
 
         /**
          * Set group config
+		 * @return void
          **/
 		function procMemberAdminGroupConfig() {
 			$vars = Context::getRequestVars();	
@@ -812,13 +850,14 @@
 
 			$this->setMessage('success_updated');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
+			$this->setRedirectUrl($returnUrl);
 		}
 
+        /**
+         * Set group order
+		 * @return void
+         **/
         function procMemberAdminUpdateGroupOrder() {
 			$vars = Context::getRequestVars();
 			
@@ -828,11 +867,14 @@
 				executeQuery('member.updateMemberGroupListOrder', $args);
 			}
 
-			header(sprintf('Location:%s', getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList')));
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList'));
         }
 
         /**
-         * @brief Register denied ID
+         * Register denied ID
+		 * @param string $user_id
+		 * @param string $description
+		 * @return Object
          **/
         function insertDeniedID($user_id, $description = '') {
             $args->user_id = $user_id;
@@ -843,7 +885,9 @@
         }
 
         /**
-         * @brief Delete a denied ID
+         * Delete a denied ID
+		 * @param string $user_id
+		 * @return Object
          **/
         function deleteDeniedID($user_id) {
             $args->user_id = $user_id;
@@ -851,7 +895,9 @@
         }
 
         /**
-         * @brief Delete a join form
+         * Delete a join form
+		 * @param int $member_join_form_srl
+		 * @return Object
          **/
         function deleteJoinForm($member_join_form_srl) {
             $args->member_join_form_srl = $member_join_form_srl;
@@ -860,7 +906,10 @@
         }
 
         /**
-         * @brief Move up a join form
+         * Move up a join form
+		 * @deprecated
+		 * @param int $member_join_form_srl
+		 * @return Object
          **/
         function moveJoinFormUp($member_join_form_srl) {
             $oMemberModel = &getModel('member');
@@ -899,7 +948,10 @@
         }
 
         /**
-         * @brief Move down a join form
+         * Move down a join form
+		 * @deprecated
+		 * @param int $member_join_form_srl
+		 * @return Object
          **/
         function moveJoinFormDown($member_join_form_srl) {
             $oMemberModel = &getModel('member');

@@ -1,15 +1,24 @@
 <?php
-
-    /**
-     * @class UpdateColumnsTag
-     * @author Arnia Software
-     * @brief Models the <column> tag inside an XML Query file whose action is 'update'
-     *
-     **/
-
+	/**
+	 * UpdateColumnsTag
+	 * Models the <column> tag inside an XML Query file whose action is 'update'
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/column
+	 * @version 0.1
+	 */
 	class UpdateColumnsTag{
+		/**
+		 * Column list
+		 * @var array value is UpdateColumnTag object
+		 */
 		var $columns;
 
+		/**
+		 * constructor
+		 * @param array|string $xml_columns
+		 * @return void
+		 */
 		function UpdateColumnsTag($xml_columns) {
 			$this->columns = array();
 
@@ -21,6 +30,10 @@
 			}
 		}
 
+		/**
+		 * UpdateColumnTag object to string
+		 * @return string
+		 */
 		function toString(){
 			$output_columns = 'array(' . PHP_EOL;
 			foreach($this->columns as $column){
@@ -31,6 +44,10 @@
 			return $output_columns;
 		}
 
+		/**
+		 * Return argument list
+		 * @return array
+		 */
 		function getArguments(){
 			$arguments = array();
 			foreach($this->columns as $column){

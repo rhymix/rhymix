@@ -52,6 +52,14 @@
 				<p class="a"><input type="text" id="change_password_date" name="change_password_date" value="{$config->change_password_date}" style="width:30px" /><span class="desc">{$lang->unit_day}({$lang->about_change_password_date})</span></p>
 			</li>
 			<li>
+				<p class="q"><label for="max_error_count">{$lang->login_trial_limit1}</label></p>
+				<p class="a"><input type="text" id="max_error_count" name="max_error_count" value="{$config->max_error_count}" style="width:30px" /><span class="desc">{$lang->about_login_trial_limit1}</span></p>
+			</li>
+			<li>
+				<p class="q"><label for="max_error_count_time">{$lang->login_trial_limit2}</label></p>
+				<input type="text" id="max_error_count_time" name="max_error_count_time" value="{$config->max_error_count_time}" style="width:30px" /><span class="desc">{$lang->unit_sec}({$lang->about_login_trial_limit2})</span></p>
+			</li>
+			<li>
 				<p class="q"><label for="agreement">{$lang->agreement}</label></p>
 				<p class="a">{$editor}</p>
 			</li>

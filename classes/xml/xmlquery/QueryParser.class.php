@@ -1,14 +1,34 @@
 <?php
-
+	/**
+	 * QueryParser class
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/xml/xmlquery
+	 * @version 0.1
+	 */
     class QueryParser {
-
+		/**
+		 * QueryTag object
+		 * @var QueryTag object
+		 */
         var $queryTag;
 
+		/**
+		 * constructor
+		 * @param object $query
+		 * @param bool $isSubQuery
+		 * @return void
+		 */
         function QueryParser($query = NULL, $isSubQuery = false) {
 	    if ($query)
 		$this->queryTag = new QueryTag($query, $isSubQuery);
         }
 
+		/**
+		 * Return table information
+		 * @param object $query_id
+		 * @param bool $table_name
+		 * @return array
+		 */
         function getTableInfo($query_id, $table_name) {
             $column_type = array();
 			$module = '';
@@ -20,7 +40,8 @@
                 $id = $id_args[1];
             } elseif (count($id_args) == 3) {
                 $target = $id_args[0];
-                if (!in_array($target, array('modules', 'addons', 'widgets')))
+				$targetList = array('modules'=>1, 'addons'=>1, 'widgets'=>1);
+                if (!isset($targetList[$target]))
                     return;
                 $module = $id_args[1];
                 $id = $id_args[2];
@@ -56,6 +77,10 @@
             return $column_type;
         }
 
+		/**
+		 * Change code string from queryTag object
+		 * @return string
+		 */
         function toString() {
             return "<?php if(!defined('__ZBXE__')) exit();\n"
             . $this->queryTag->toString()

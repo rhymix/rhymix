@@ -1,14 +1,16 @@
 <?php
     /**
-     * @class  integration_search
+     * The view class of the integration_search module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief view class of the integration_search module
      **/
 
     class integration_search extends ModuleObject {
 
         /**
-         * @brief Implement if additional tasks are necessary when installing
+         * Implement if additional tasks are necessary when installing
+		 *
+		 * @return Object
          **/
         function moduleInstall() {
             // Registered in action forward
@@ -19,21 +21,27 @@
         }
 
         /**
-         * @brief a method to check if successfully installed
+         * Check methoda whether successfully installed
+		 *
+		 * @return bool
          **/
         function checkUpdate() {
             return false;
         }
 
         /**
-         * @brief Execute update
+         * Execute update
+		 *
+		 * @return Object
          **/
         function moduleUpdate() {
             return new Object(0, 'success_updated');
         }
 
         /**
-         * @brief Re-generate the cache file
+         * Re-generate the cache file
+		 *
+		 * @return void
          **/
         function recompileCache() {
         }

@@ -8,13 +8,14 @@
     class communicationAdminController extends communication {
 
         /**
-         * @brief Initialization
+         * Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief save configurations of the communication module
+         * save configurations of the communication module
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationAdminInsertConfig() {
             // get the default information
@@ -27,12 +28,8 @@
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('communication',$args);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommunicationAdminConfig');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
-			else return $output;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommunicationAdminConfig');
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
     }

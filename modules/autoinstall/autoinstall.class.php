@@ -1,11 +1,15 @@
 <?php
-    /**
-     * @class  autoinstall
-     * @author NHN (developers@xpressengine.com)
-     * @brief high class of the autoinstall module
-     **/
-
+	/**
+	 * XML Generater
+	 * @author NHN (developers@xpressengine.com)
+	 */
     class XmlGenerater {
+		/**
+		 * Generate XML using given data
+		 *
+		 * @param array $params The data
+		 * @return string Returns xml string
+		 */
         function generate(&$params)
         {
             $xmlDoc = '<?xml version="1.0" encoding="utf-8" ?><methodCall><params>';
@@ -19,6 +23,12 @@
             return $xmlDoc;
         }
 
+		/**
+		 * Request data to server and returns result
+		 *
+		 * @param array $params Request data
+		 * @return object
+		 */
         function getXmlDoc(&$params)
         {
             $body = XmlGenerater::generate($params);
@@ -30,9 +40,21 @@
         }
     }
 
+    /**
+     * High class of the autoinstall module
+     * @author NHN (developers@xpressengine.com)
+     **/
     class autoinstall extends ModuleObject {
+		/**
+		 * Temporary directory path
+		 */
 		var $tmp_dir = './files/cache/autoinstall/';
 
+		/**
+		 * Constructor
+		 *
+		 * @return void
+		 */
 		function autoinstall()
 		{
 			$oModuleModel = &getModel('module');
@@ -44,7 +66,9 @@
 		}
 
         /**
-         * @brief for additional tasks required when installing
+         * For additional tasks required when installing
+		 *
+		 * @return Object
          **/
         function moduleInstall() {
 			$oModuleController = &getController('module');
@@ -54,7 +78,9 @@
         }
 
         /**
-         * @brief method to check if installation is succeeded
+         * Method to check if installation is succeeded
+		 *
+		 * @return bool
          **/
         function checkUpdate() {
             $oDB =& DB::getInstance();
@@ -82,7 +108,9 @@
         }
 
         /**
-         * @brief Execute update
+         * Execute update
+		 *
+		 * @return Object
          **/
         function moduleUpdate() {
             $oDB =& DB::getInstance();
@@ -118,7 +146,8 @@
         }
 
         /**
-         * @brief Re-generate the cache file
+         * Re-generate the cache file
+		 * @return Object
          **/
         function recompileCache() {
         }

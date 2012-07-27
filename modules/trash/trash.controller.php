@@ -1,9 +1,12 @@
 <?php
 /**
- * @class  documentController
+ * trashController
+ * trash the module's controller class
+ *
  * @author NHN (developers@xpressengine.com)
- * @brief document the module's controller class
- **/
+ * @package /modules/trash
+ * @version 0.1
+ */
 class trashController extends trash
 {
 }

@@ -1,3 +1,5 @@
+<load target="./../../../common/js/jquery.min.js" usecdn="true" index="-1000000" />
+<load target="./../../../common/js/xe.min.js" usecdn="true" index="-1000000" />
 <load target="css/msignup.css" usecdn="true" />
 <load target="js/signup_check.js" usecdn="true" />
 <!--%load_js_plugin("ui")-->
@@ -9,7 +11,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-    <form ruleset="@insertMember" id="fo_insert_member" class="ff" action="./" method="post" enctype="multipart/form-data">
+	<form ruleset="@insertMember" id="fo_insert_member" class="ff" action="./" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="member" />
 		<input type="hidden" name="act" value="procMemberInsert" />
 		<!--@if(!$is_logged && $member_config->agreement)-->
@@ -33,23 +35,24 @@
 				<input type="password" name="password" id="password" value=""/>
 			</li>
 			<li> 
-				<label for="password2">{$lang->password2} <em style="color:red">*</em></label>
+				<label for="password2">{$lang->password3} <em style="color:red">*</em></label>
 				<input type="password" name="password2" id="password2" value=""/>
 			</li>
-			<li loop="$formTags=>$formTag"> 
-				<label>{$formTag->title}</label>
-				<block cond="$formTag->name != 'signature'">{$formTag->inputTag}</block>
-				<block cond="$formTag->name =='signature'">{$editor}</block>
-			</li>
+			<block loop="$formTags=>$formTag" cond="$formTag->name != 'signature'">
+				<li> 
+					<label>{$formTag->title}</label>
+					{$formTag->inputTag}
+				</li>
+			</block>
 			<li> 
 				<label>{$lang->allow_mailing}</label>
-				<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
-				<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
+				<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'" /> <label for="mailingYes">{$lang->cmd_yes}</label>
+				<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" /> <label for="mailingNo">{$lang->cmd_no}</label>
 			</li>
 			<li> 
 				<label>{$lang->allow_message}</label>
 				<block loop="$lang->allow_message_type=>$key,$val">
-					<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
+					<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info && $key == 'Y')" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
 				</block>
 			</li>
 		</ul>

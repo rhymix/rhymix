@@ -1,21 +1,24 @@
 <?php
-    /**
-     * @class  trackbackView
-     * @author NHN (developers@xpressengine.com)
-     * @brief trackback module's view class
-     **/
-
+	/**
+	 * @class  trackbackView
+	 * @brief trackback module's view class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/trackback
+	 * @version 0.1
+	 */
     class trackbackView extends trackback {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Display output list (administrative)
-         **/
+		/**
+		 * Display output list (administrative)
+		 * @return void
+		 */
         function dispTrackbackSend() {
             $document_srl = Context::get('document_srl');
             if(!$document_srl) return $this->stop('msg_invalid_request');
@@ -37,10 +40,12 @@
             $this->setTemplateFile('send_trackback_form');
         }
 
-        /**
-         * @brief An additional set of parts for a service module
-         * Use the form out of the settings for trackback
-         **/
+		/**
+		 * An additional set of parts for a service module
+		 * Use the form out of the settings for trackback
+		 * @param string $obj
+		 * @return Object
+		 */
         function triggerDispTrackbackAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');
             $current_module_srls = Context::get('module_srls');

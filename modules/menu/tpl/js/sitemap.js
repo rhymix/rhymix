@@ -29,6 +29,10 @@ $('form.siteMap')
 	$('a._edit').click(function(){
 		resetEditForm();
 		var itemKey = $(this).parent().prevAll('._item_key').val();
+		var itemLayoutKey = $(this).parent().prevAll('._item_layout_key').val();
+		var moduleSrl = $(this).parent().prevAll('input._module_srl_key').val();
+		editForm.find('input[name=module_srl]').val(moduleSrl);
+
 		menuSrl = $(this).parents().prevAll('input[name=menu_srl]').val();
 		menuForm = $('#menu_'+menuSrl);
 		var menuItemSrl = null;
@@ -69,6 +73,7 @@ $('form.siteMap')
 			inputCType[1].checked = true;
 			editForm.find('select[name=module_type]').val(moduleType);
 			editForm.find('select[name=select_menu_url]').val(menuItem.url);
+			editForm.find('select[name=layout_srl]').val(menuItem.layoutSrl);
 		}
 		typeCheck();
 		getModuleList();
@@ -122,8 +127,9 @@ $('form.siteMap')
 
 	var kindModuleLayer = $('#kindModule');
 	var createModuleLayer = $('#createModule');
-	var selectModuleLayer = $('#selectModule');
+	var selectModuleLayer = $('#sModule_id');
 	var insertUrlLayer = $('#insertUrl');
+	var selectLayoutLayer = $('#selectLayout');
 
 	function resetEditForm()
 	{
@@ -131,13 +137,14 @@ $('form.siteMap')
 		createModuleLayer.hide()
 		selectModuleLayer.hide()
 		insertUrlLayer.hide()
+		selectLayoutLayer.hide()
 
 		editForm.find('input[name=menu_item_srl]').val('');
 		editForm.find('input[name=parent_srl]').val(0);
 		editForm.find('input[name=menu_name]').val('');
 		editForm.find('input[name=cType]').attr('checked', false);
 		editForm.find('input[name=create_menu_url]').val('');
-		editForm.find('input[name=select_menu_url]').val('');
+		editForm.find('select[name=layout_srl]')[0].options[0].selected = true;
 		editForm.find('input[name=menu_url]').val('');
 		editForm.find('input[name=menu_open_window]')[0].checked = true;
 		editForm.find('input[name=group_srls\\[\\]]').attr('checked', false);
@@ -149,18 +156,18 @@ $('form.siteMap')
 		var $this = $(this);
 
 		resetEditForm();
-		
+
 		editForm.find('.h2').text(xe.lang.add_menu);
 		editForm.find('input[name=menu_srl]').val($this.closest('form').find('input[name=menu_srl]:first').val());
 		editForm.find('input[name=parent_srl]').val($this.parent().prevAll('input._item_key').val());
 	});
 
 	$('input._typeCheck').click(typeCheck);
+	var checkedValue = null;
 
 	function typeCheck()
 	{
 		var inputTypeCheck = $('input._typeCheck');
-		var checkedValue = null;
 		for(var i=0; i<3; i++)
 		{
 			if(inputTypeCheck[i].checked)
@@ -173,16 +180,20 @@ $('form.siteMap')
 		if(checkedValue == 'CREATE')
 		{
 			kindModuleLayer.show();
-			createModuleLayer.show()
-			selectModuleLayer.hide()
-			insertUrlLayer.hide()
+			createModuleLayer.show();
+			selectModuleLayer.hide();
+			insertUrlLayer.hide();
+			selectLayoutLayer.show();
+			changeLayoutList();
 		}
 		else if(checkedValue == 'SELECT')
 		{
 			kindModuleLayer.show();
-			createModuleLayer.hide()
-			selectModuleLayer.show()
-			insertUrlLayer.hide()
+			createModuleLayer.hide();
+			selectModuleLayer.show();
+			insertUrlLayer.hide();
+			selectLayoutLayer.show();
+			changeLayoutList();
 		}
 		// type is URL
 		else
@@ -191,6 +202,7 @@ $('form.siteMap')
 			createModuleLayer.hide()
 			selectModuleLayer.hide()
 			insertUrlLayer.show()
+			selectLayoutLayer.hide()
 		}
 	}
 
@@ -203,6 +215,8 @@ $('form.siteMap')
 		exec_xml('module','procModuleAdminGetList',params, completeGetModuleList, response_tags);
 	}
 
+	var layoutList = new Array();
+	var moduleList = new Array();
 	function completeGetModuleList(ret_obj)
 	{
 		var module = $('#kModule').val();
@@ -212,19 +226,59 @@ $('form.siteMap')
 		if(ret_obj.module_list[module] != undefined)
 		{
 			var midList = ret_obj.module_list[module].list;
+			var midListByCategory = new Object();
 			for(x in midList)
 			{
+				if(!midList.hasOwnProperty(x)){
+					continue;
+				}
 				var midObject = midList[x];
-				htmlBuffer += '<option value="'+midObject.mid+'"';
-				if(menuUrl == midObject.mid) htmlBuffer += ' selected ';
-				htmlBuffer += '>'+midObject.mid+'('+midObject.browser_title+')</option>';
+
+				if(!midListByCategory[midObject.module_category_srl])
+				{
+					midListByCategory[midObject.module_category_srl] = new Array();
+				}
+				midListByCategory[midObject.module_category_srl].push(midObject);
+			}
+
+			for(x in midListByCategory)
+			{
+				var midGroup = midListByCategory[x];
+				htmlBuffer += '<optgroup label="'+x+'">'
+				for(y in midGroup)
+				{
+					var midObject = midGroup[y];
+					htmlBuffer += '<option value="'+midObject.mid+'"';
+					if(menuUrl == midObject.mid) htmlBuffer += ' selected ';
+					htmlBuffer += '>'+midObject.mid+'('+midObject.browser_title+')</option>';
+
+					layoutList[midObject.mid] = midObject.layout_srl;
+					moduleList[midObject.mid] = midObject.module_srl;
+				}
+				htmlBuffer += '</optgroup>'
 			}
 		}
 		else htmlBuffer = '';
 
-		selectModuleLayer.find('select').html(htmlBuffer);
+		selectModuleLayer.html(htmlBuffer);
+		changeLayoutList();
 	}
-	
+
+	$('#sModule_id').change(changeLayoutList).change();
+	function changeLayoutList()
+	{
+		if(checkedValue == 'SELECT')
+		{
+			var mid = $('#sModule_id').val();
+			$('#layoutSrl').val(layoutList[mid]);
+			editForm.find('input[name=module_srl]').val(moduleList[mid]);
+		}
+		else if(checkedValue == 'CREATE')
+		{
+			$('#layoutSrl').val('0');
+		}
+	}
+
 	function tgMapBtn(){
 		$('.x .siteMap>ul:visible').next('.btnArea').slideDown(50);
 		$('.x .siteMap>ul:hidden').next('.btnArea').slideUp(50);

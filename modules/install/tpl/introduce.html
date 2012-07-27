@@ -1,39 +1,29 @@
-<!--%import("js/install_admin.js")-->
-<!--#include("header.html")-->
+<load target="js/install_admin.js" />
+<include target="header.html" />
 	<div id="body">
-<!--#include("progress_menu.html")-->
+		<include target="progress_menu.html" />
 		<span class="dummy"></span>
 		<div id="content">
 			<form action="./" class="agreement" method="post">
-			<input type="hidden" name="module" value="install" />
-			<input type="hidden" name="act" value="procInstallAgreement" />
-			<input type="hidden" id="agree_license_text" value="{$lang->install_license_desc['lgpl']}" />
+				<input type="hidden" name="module" value="install" />
+				<input type="hidden" name="act" value="procInstallAgreement" /> <!-- UX/Remove -->
+				<input type="hidden" name="lgpl_agree" value="Y" /> <!-- UX/Remove -->
+				<input type="hidden" name="enviroment_gather" value="N" /> <!-- UX/Remove -->
 				<div class="desc">
-					<p><input type="checkbox" name="lgpl_agree" value="Y" class="iCheck" id="lgpl" /> <label for="lgpl">{$lang->lgpl_agree}</label> - <a href="{$lang->lgpl_license_url}" target="_blank">{$lang->read_all}</a></p>
-					<p>{$lang->license_agreement_desc}</p>
-				</div>
-				<div class="desc">
-					<p><input type="checkbox" name="enviroment_gather" value="Y" class="iCheck" id="env" /> <label for="env">{$lang->install_env_agreement}</label></p>
-					<p>{$lang->install_env_agreement_desc}</p>
+					<ul style="list-style:none">
+						<li loop="$lang_supported=>$key,$val" style="position:relative; margin:0 0 4px 0">
+							<i cond="$l==$key" style="position:absolute;top:0;left:-16px;font-style:normal;font-weight:bold;color:red" title="Selected Language">&#10004;</i>
+							<a href="{getUrl('l', $key)}" cond="$l!=$key">{$val}</a>
+							<strong cond="$l==$key">{$val}</strong>
+						</li>
+					</ul>
 				</div>
 				<div class="ibtnArea">
-					<div class="fLeft">
-						<div class="select open" style="width:160px;">
-							<span class="ctrl"><span class="arrow"></span></span>
-							<button type="button" class="myValue selected">{$lang_supported[Context::getLangType()]}</button>
-							<div class="aList" style="bottom:20px;top:auto">
-								<ul>
-									<li loop="$lang_supported=>$key,$val"><a href="{getUrl('l', $key)}">{$val}</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
 					<div class="fRight">
-						<span class="ibtn icon"><span class="check"></span> <input type="submit" value="{$lang->cmd_agree_license}" /></span>
+						<span class="ibtn icon"><span class="check"></span> <input type="submit" value="{$lang->cmd_next}" /></span>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-
-<!--#include("footer.html")-->
+<include target="footer.html" />

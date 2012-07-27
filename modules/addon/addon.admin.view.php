@@ -1,21 +1,23 @@
 <?php
     /**
-     * @class  addonAdminView
+     * Admin view class of addon modules
      * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of addon modules
      **/
-
     class addonAdminView extends addon {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief Add Management main page (showing the list)
+         * Add Management main page (showing the list)
+		 *
+		 * @return Object
          **/
         function dispAddonAdminIndex() {
 			$oAdminModel = &getAdminModel('admin');
@@ -39,7 +41,9 @@
         }
 
         /**
-         * @biref Setting out the details pop-up add-on
+         * Display setup page
+		 *
+		 * @return Object
          **/
         function dispAddonAdminSetup() {
             $site_module_info = Context::get('site_module_info');
@@ -86,7 +90,9 @@
         }
 
         /**
-         * @brief Add details (conf/info.xml) a pop-out
+         * Display information
+		 *
+		 * @return Object
          **/
         function dispAddonAdminInfo() {
             $site_module_info = Context::get('site_module_info');

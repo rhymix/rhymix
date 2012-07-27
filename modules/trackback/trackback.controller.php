@@ -1,21 +1,24 @@
 <?php
-    /**
-     * @class  trackbackController
-     * @author NHN (developers@xpressengine.com)
-     * @brief trackback module's Controller class
-     **/
-
+	/**
+	 * trackbackController class
+	 * trackback module's Controller class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/trackback
+	 * @version 0.1
+	 */
     class trackbackController extends trackback {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Trackbacks sent
-         **/
+		/**
+		 * Trackbacks sent
+		 * @return object
+		 */
         function procTrackbackSend() {
             // Yeokingeul to post numbers and shipping addresses Wanted
             $document_srl = Context::get('target_srl');
@@ -49,9 +52,10 @@
 			return $output;
         }
 
-        /**
-         * @brief Trackback List
-         **/
+		/**
+		 * Trackback List
+		 * @return void
+		 */
         function procTrackbackGetList()
 		{
 			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
@@ -82,9 +86,10 @@
 			$this->add('trackback_list', $trackbackList);
         }
 
-        /**
-         * @brief Trackbacks send documents from the popup menu add a menu
-         **/
+		/**
+		 * Trackbacks send documents from the popup menu add a menu
+		 * @parma array $menu_list
+		 */
         function triggerSendTrackback(&$menu_list) {
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return new Object();
@@ -102,9 +107,11 @@
             return new Object();
         }
 
-        /**
-         * @brief delete document in the document to delete the trigger Trackbacks
-         **/
+		/**
+		 * Delete document in the document to delete the trigger Trackbacks
+		 * @param object $obj
+		 * @return Object
+		 */
         function triggerDeleteDocumentTrackbacks(&$obj) {
             $document_srl = $obj->document_srl;
             if(!$document_srl) return new Object();
@@ -112,9 +119,11 @@
             return $this->deleteTrackbacks($document_srl, true);
         }
 
-        /**
-         * @brief deletion module that deletes all the trigger yeokingeul
-         **/
+		/**
+		 * Deletion module that deletes all the trigger yeokingeul
+		 * @param object $obj
+		 * @return Object
+		 */
         function triggerDeleteModuleTrackbacks(&$obj) {
             $module_srl = $obj->module_srl;
             if(!$module_srl) return new Object();
@@ -123,9 +132,10 @@
             return $oTrackbackController->deleteModuleTrackbacks($module_srl);
         }
 
-        /**
-         * @brief Trackback inserted
-         **/
+		/**
+		 * Trackback inserted
+		 * @return Object
+		 */
         function trackback() {
             // Output is set to XMLRPC
             Context::setRequestMethod("XMLRPC");
@@ -153,6 +163,12 @@
             return $this->insertTrackback($obj);
         }
 
+		/**
+		 * Trackback inserted
+		 * @param object $obj
+		 * @param bool $manual_inserted
+		 * @return Object
+		 */
         function insertTrackback($obj, $manual_inserted = false) {
             // List trackback
             $obj = Context::convertEncoding($obj);
@@ -201,9 +217,12 @@
             return new Object();
         }
 
-        /**
-         * @brief Deleting a single yeokingeul
-         **/
+		/**
+		 * Deleting a single yeokingeul
+		 * @param int $trackback_srl
+		 * @param bool $is_admin
+		 * @return object
+		 */
         function deleteTrackback($trackback_srl, $is_admin = false) {
             // trackback model object creation
             $oTrackbackModel = &getModel('trackback');
@@ -236,9 +255,11 @@
             return $output;
         }
 
-        /**
-         * @brief Delete All RSS Trackback
-         **/
+		/**
+		 * Delete All RSS Trackback
+		 * @param int $document_srl
+		 * @return object
+		 */
         function deleteTrackbacks($document_srl) {
             // Delete
             $args->document_srl = $document_srl;
@@ -247,11 +268,14 @@
             return $output;
         }
 
-        /**
-         * @brief Trackbacks sent to
-         *
-         * After sending the results are not sticky and handling
-         **/
+		/**
+		 * Trackbacks sent to
+		 * After sending the results are not sticky and handling
+		 * @param documentItem $oDocument
+		 * @param string $trackback_url
+		 * @param string $charset
+		 * @return Object
+		 */
         function sendTrackback($oDocument, $trackback_url, $charset) {
             $oModuleController = &getController('module');
             // Information sent by
@@ -320,9 +344,16 @@
 			return new Object(-1, 'msg_trackback_send_failed');
         }
 
-        /**
-         * @brief Within a specific time of a specific ipaddress Trackbacks delete all
-         **/
+		/**
+		 * Within a specific time of a specific ipaddress Trackbacks delete all
+		 * @param int $time
+		 * @param string $ipaddress
+		 * @param string $url
+		 * @param string $blog_name
+		 * @param string $title
+		 * @param string $excerpt
+		 * @return void
+		 */
         function deleteTrackbackSender($time, $ipaddress, $url, $blog_name, $title, $excerpt) {
             $obj->regdate = date("YmdHis",time()-$time);
             $obj->ipaddress = $ipaddress;

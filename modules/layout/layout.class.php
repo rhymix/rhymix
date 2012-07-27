@@ -2,13 +2,14 @@
     /**
      * @class  layout
      * @author NHN (developers@xpressengine.com)
-     * @brief high class of the layout module 
+     * high class of the layout module 
      **/
 
     class layout extends ModuleObject {
 
         /**
-         * @brief Implement if additional tasks are necessary when installing
+         * Implement if additional tasks are necessary when installing
+		 * @return Object
          **/
         function moduleInstall() {
             // Create a directory to be used in the layout
@@ -18,7 +19,8 @@
         }
 
         /**
-         * @brief a method to check if successfully installed
+         * a method to check if successfully installed
+		 * @return boolean
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
@@ -37,7 +39,8 @@
         }
 
         /**
-         * @brief Execute update
+         * Execute update
+		 * @return Object
          **/
         function moduleUpdate() {
             $oDB = &DB::getInstance();
@@ -68,7 +71,8 @@
 
 
         /**
-         * @brief Re-generate the cache file
+         * Re-generate the cache file
+		 * @return void
          **/
         function recompileCache() {
             $path = './files/cache/layout';

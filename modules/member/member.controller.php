@@ -2,20 +2,34 @@
     /**
      * @class  memberController
      * @author NHN (developers@xpressengine.com)
-     * @brief Controller class of member module
+     * Controller class of member module
      **/
 
     class memberController extends member {
+
+		/**
+		 * Info of selected member
+		 *
+		 * @var object
+		 **/
 		var $memberInfo;
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Log-in by checking user_id and password
+         * Log-in by checking user_id and password
+		 *
+		 * @param string $user_id
+		 * @param string $password
+		 * @param string $keep_signed
+		 *
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberLogin($user_id = null, $password = null, $keep_signed = null) {
 			if(!$user_id && !$password && Context::getRequestMethod() == 'GET')
@@ -55,23 +69,25 @@
 				}
 			}
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				
-				if(!$config->after_login_url) {
-					$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				} else {
-					$returnUrl = $config->after_login_url;
-				}
-
-				$this->setRedirectUrl($returnUrl);
-				return;
+			if(!$config->after_login_url)
+			{
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 			}
-
-			return $output;
+			else
+			{
+				$returnUrl = $config->after_login_url;
+			}
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
         /**
-         * @brief Login by openid
+         * Login by openid
+		 *
+		 * @deprecated
+		 *
+		 * @param string $validator
+		 *
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberOpenIDLogin($validator = "procMemberOpenIDValidate") {
             $oModuleModel = &getModel('module');
@@ -109,10 +125,19 @@
             $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=" . $validator. "&goto=" . $goto;
             $redirect_url = $auth_request->redirectURL($trust_root, $ApprovedURL);
             $this->add("redirect_url", $redirect_url);
-            if (Context::getRequestMethod() == 'POST')
-                header("location:" . $redirect_url);
+
+			$this->setRedirectUrl($redirect_url);
         }
 
+        /**
+         * Legacy open id
+		 *
+		 * @deprecated
+		 *
+		 * @param string $openid_identity
+		 *
+		 * @return array
+         **/
         function getLegacyUserIDsFromOpenID($openid_identity) {
             //  Issue 17515512: workaround
             $result = array();
@@ -155,7 +180,9 @@
         }
 
         /**
-         * @brief openid authentication check
+         * openid authentication check
+		 *
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberOpenIDValidate() {
             set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
@@ -256,14 +283,18 @@
         }
 
         /**
-         * @brief Request member join by openID
+         * Request member join by openID
+		 *
+		 * @return Object 
          **/
         function procMemberAddOpenIDToMember() {
             return $this->procMemberOpenIDLogin("procMemberValidateAddOpenIDToMember");
         }
 
         /**
-         * @brief Validate openID processing
+         * Validate openID processing
+		 *
+		 * @return Object 
          **/
         function procMemberValidateAddOpenIDToMember() {
             set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
@@ -315,7 +346,9 @@
         }
 
         /**
-         * @brief Disconnect OpenID
+         * Disconnect OpenID
+		 *
+		 * @return void 
          **/
         function procMemberDeleteOpenIDFromMember() {
             $logged_info = Context::get('logged_info');
@@ -347,7 +380,9 @@
 
 
         /**
-         * @brief Log-out
+         * Log-out
+		 *
+		 * @return Object
          **/
         function procMemberLogout() {
             // Call a trigger before log-out (before)
@@ -371,7 +406,9 @@
         }
 
         /**
-         * @brief Scrap
+         * Scrap document
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberScrapDocument() {
             // Check login information
@@ -404,7 +441,9 @@
         }
 
         /**
-         * @brief Delete a scrap
+         * Delete a scrap
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberDeleteScrap() {
             // Check login information
@@ -420,15 +459,18 @@
         }
 
         /**
-         * @brief Save posts
-		 * @Deplicated - instead Document Controller - procDocumentTempSave method use
+         * Save posts
+		 * @deprecated - instead Document Controller - procDocumentTempSave method use
+		 * @return Object
          **/
         function procMemberSaveDocument() {
-			return new Object(0, 'Deplicated method');
+			return new Object(0, 'Deprecated method');
         }
 
         /**
-         * @brief Delete the post
+         * Delete the post
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberDeleteSavedDocument() {
             // Check login information
@@ -443,7 +485,9 @@
         }
 
         /**
-         * @brief Check values when member joining
+         * Check values when member joining
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberCheckValue() {
             $name = Context::get('name');
@@ -478,7 +522,9 @@
         }
 
         /**
-         * @brief Join Membership
+         * Join Membership
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberInsert() {
             if (Context::getRequestMethod () == "GET") return new Object (-1, "msg_invalid_request");
@@ -497,7 +543,7 @@
 			$getVars = array();
 			if ($config->signupForm){
 				foreach($config->signupForm as $formInfo){
-					if($formInfo->isDefaultForm && $formInfo->isUse && ($formInfo->required || $formInfo->mustRequired)){
+					if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired)){
 						$getVars[] = $formInfo->name;
 					}
 				}
@@ -565,10 +611,18 @@
 
             }
             // Log-in
-            if ($config->enable_confirm != 'Y') $this->doLogin($args->user_id);
-            //get redirect url from cookie and invalidate cookie
-            $config->redirect_url = $_COOKIE["XE_REDIRECT_URL"];
-            setcookie("XE_REDIRECT_URL", '', 1);
+            if ($config->enable_confirm != 'Y')
+			{
+				if($config->identifier == 'email_address')
+				{
+					$this->doLogin($args->email_address);
+				}
+				else
+				{
+					$this->doLogin($args->user_id);
+				}
+			}
+
             // Results
             $this->add('member_srl', $args->member_srl);
             if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);
@@ -581,15 +635,30 @@
             $trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
             if(!$trigger_output->toBool()) return $trigger_output;
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				header('location:'.$returnUrl);
-				return;
+			if($config->redirect_url)
+			{
+				$returnUrl = $config->redirect_url;
 			}
+			else
+			{
+				if(Context::get('success_return_url'))
+				{
+					$returnUrl = Context::get('success_return_url');
+				}
+				else if($_COOKIE['XE_REDIRECT_URL'])
+				{
+					$returnUrl = $_COOKIE['XE_REDIRECT_URL'];
+					setcookie("XE_REDIRECT_URL", '', 1);
+				}
+			}
+
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Edit member profile
+         * Edit member profile
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberModifyInfo() {
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -672,15 +741,15 @@
             // Return result
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Change the user password
+         * Change the user password
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberModifyPassword() {
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -709,15 +778,15 @@
 
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Membership withdrawal
+         * Membership withdrawal
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberLeave() {
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -744,15 +813,15 @@
             $this->destroySessionInfo();
             // Return success message
             $this->setMessage('success_leaved');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief OpenID Withdrawal
+         * OpenID Withdrawal
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberOpenIDLeave() {
             // Return an error if in the non-login state
@@ -772,7 +841,9 @@
         }
 
         /**
-         * @brief Add a profile image
+         * Add a profile image
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberInsertProfileImage() {
             // Check if the file is successfully uploaded
@@ -792,13 +863,19 @@
             $this->insertProfileImage($member_srl, $file['tmp_name']);
             // Page refresh
             //$this->setRefreshPage();
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
+        /**
+         * Insert a profile image
+		 * 
+		 * @param int $member_srl
+		 * @param object $target_file
+		 *
+		 * @return void
+         **/
         function insertProfileImage($member_srl, $target_file) {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
@@ -823,7 +900,9 @@
         }
 
         /**
-         * @brief Add an image name
+         * Add an image name
+		 * 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberInsertImageName() {
             // Check if the file is successfully uploaded
@@ -843,13 +922,19 @@
             $this->insertImageName($member_srl, $file['tmp_name']);
             // Page refresh
             //$this->setRefreshPage();
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
+        /**
+         * Insert a image name
+		 * 
+		 * @param int $member_srl
+		 * @param object $target_file
+		 *
+		 * @return void
+         **/
         function insertImageName($member_srl, $target_file) {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
@@ -871,7 +956,9 @@
         }
 
         /**
-         * @brief Delete profile image
+         * Delete profile image
+		 *
+		 * @return Object
          **/
         function procMemberDeleteProfileImage() {
             $member_srl = Context::get('member_srl');
@@ -894,7 +981,9 @@
         }
 
         /**
-         * @brief Delete Image name
+         * Delete Image name
+		 *
+		 * @return void
          **/
         function procMemberDeleteImageName() {
             $member_srl = Context::get('member_srl');
@@ -917,7 +1006,9 @@
         }
 
         /**
-         * @brief Add an image to mark
+         * Add an image to mark
+		 *
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberInsertImageMark() {
             // Check if the file is successfully uploaded
@@ -937,13 +1028,19 @@
             $this->insertImageMark($member_srl, $file['tmp_name']);
             // Page refresh
             //$this->setRefreshPage();
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
+        /**
+         * Insert a image mark
+		 * 
+		 * @param int $member_srl
+		 * @param object $target_file
+		 *
+		 * @return void
+         **/
         function insertImageMark($member_srl, $target_file) {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
@@ -962,11 +1059,12 @@
 
             if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
             else @copy($target_file, $target_filename);
-
         }
 
         /**
-         * @brief Delete Image Mark
+         * Delete Image Mark
+		 *
+		 * @return Object
          **/
         function procMemberDeleteImageMark() {
             $member_srl = Context::get('member_srl');
@@ -982,7 +1080,9 @@
         }
 
         /**
-         * @brief Find ID/Password
+         * Find ID/Password
+		 *
+		 * @return Object
          **/
         function procMemberFindAccount() {
             $email_address = Context::get('email_address');
@@ -1056,12 +1156,18 @@
             $oMail->send();
             // Return message
             $msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
-            return new Object(0,$msg);
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
+			}
+			return new Object(0,$msg);
         }
 
 
         /**
-         * @brief Generate a temp password by answering to the pre-determined question
+         * Generate a temp password by answering to the pre-determined question
+		 *
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberFindAccountByQuestion() {
             $oMemberModel = &getModel('member');
@@ -1105,16 +1211,15 @@
 
             $this->add('user_id',$user_id);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+			$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
         }
 
         /**
-         * @brief Execute finding ID/Passoword
+         * Execute finding ID/Passoword
          * When clicking the link in the verification email, a method is called to change the old password and to authenticate it
+		 *
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberAuthAccount() {
             // Test user_id and authkey
@@ -1148,8 +1253,10 @@
         }
 
         /**
-         * @brief Execute finding ID/Passoword
+         * Execute finding ID/Passoword
          * When clicking the link in the verification email, a method is called to change the old password and to authenticate it
+		 *
+		 * @return Object
          **/
         function procMemberUpdateAuthMail() {
             $member_srl = Context::get('member_srl');
@@ -1209,7 +1316,9 @@
         }
 
         /**
-         * @brief Request to re-send the authentication mail
+         * Request to re-send the authentication mail
+		 *
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberResendAuthMail() {
             // Get an email_address
@@ -1264,15 +1373,15 @@
 
             $msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
             $this->setMessage($msg);
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Join a virtual site
+         * Join a virtual site
+		 *
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberSiteSignUp() {
             $site_module_info = Context::get('site_module_info');
@@ -1288,7 +1397,9 @@
         }
 
         /**
-         * @brief Leave the virtual site
+         * Leave the virtual site
+		 *
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procMemberSiteLeave() {
             $site_module_info = Context::get('site_module_info');
@@ -1303,7 +1414,11 @@
         }
 
         /**
-         * @brief Save the member configurations
+         * Save the member configurations
+		 *
+		 * @param object $args
+		 *
+		 * @return void
          **/
         function setMemberConfig($args) {
             if(!$args->skin) $args->skin = "default";
@@ -1333,7 +1448,12 @@
         }
 
         /**
-         * @brief Save the signature as a file
+         * Save the signature as a file
+		 *
+		 * @param int $member_srl
+		 * @param string $signature
+		 *
+		 * @return void
          **/
         function putSignature($member_srl, $signature) {
             $signature = trim(removeHackTag($signature));
@@ -1351,7 +1471,11 @@
         }
 
         /**
-         * @brief Delete the signature file
+         * Delete the signature file
+		 *
+		 * @param string $member_srl
+		 *
+		 * @return void
          **/
         function delSignature($member_srl) {
             $filename = sprintf('files/member_extra_info/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
@@ -1359,7 +1483,13 @@
         }
 
         /**
-         * @brief Add group_srl to member_srl
+         * Add group_srl to member_srl
+		 *
+		 * @param int $member_srl
+		 * @param int $group_srl
+		 * @param int $site_srl
+		 *
+		 * @return Object
          **/
         function addMemberToGroup($member_srl,$group_srl,$site_srl=0) {
             $args->member_srl = $member_srl;
@@ -1374,12 +1504,22 @@
             $output = executeQuery('member.addMemberToGroup',$args);
             $output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+            	$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
+            	$oCacheHandler->delete($cache_key);
+            }
+			
             return $output;
         }
 
         /**
-         * @brief Change a group of certain members
+         * Change a group of certain members
          * Available only when a member has a single group
+		 *
+		 * @param object $args
+		 *
+		 * @return Object
          **/
         function replaceMemberGroup($args) {
             $obj->site_srl = $args->site_srl;
@@ -1404,12 +1544,21 @@
                 $output = executeQuery('member.addMemberToGroup', $obj);
                 if(!$output->toBool()) return $output;
             }
+
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+            	$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
+            	$oCacheHandler->delete($cache_key);
+            }
+
             return new Object();
         }
 
 
         /**
-         * @brief Auto-login
+         * Auto-login
+		 *
+		 * @return void
          **/
         function doAutologin() {
             // Get a key value of auto log-in
@@ -1434,7 +1583,6 @@
             }
 
             $do_auto_login = false;
-
 
             // Compare key values based on the information
             $key = md5($user_id . $password . $_SERVER['HTTP_USER_AGENT']);
@@ -1479,46 +1627,109 @@
         }
 
         /**
-         * @brief Log-in
+         * Log-in
+		 *
+		 * @param string $user_id
+		 * @param string $password
+		 * @param boolean $keep_signed
+		 *
+		 * @return Object
          **/
-        function doLogin($user_id, $password = '', $keep_signed = false) {
-            $user_id = strtolower($user_id);
-            // Call a trigger before log-in (before)
-            $trigger_obj->user_id = $user_id;
-            $trigger_obj->password = $password;
-            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'before', $trigger_obj);
-            if(!$trigger_output->toBool()) return $trigger_output;
-            // Create a member model object
-            $oMemberModel = &getModel('member');
+		function doLogin($user_id, $password = '', $keep_signed = false) {
+			$user_id = strtolower($user_id);
+			if(!$user_id) return new Object(-1, 'null_user_id');
+			// Call a trigger before log-in (before)
+			$trigger_obj->user_id = $user_id;
+			$trigger_obj->password = $password;
+			$trigger_output = ModuleHandler::triggerCall('member.doLogin', 'before', $trigger_obj);
+			if(!$trigger_output->toBool()) return $trigger_output;
+			// Create a member model object
+			$oMemberModel = &getModel('member');
 
-	    // check identifier
-	    $config = $oMemberModel->getMemberConfig();
-	    if ($config->identifier == 'email_address'){
-		    // Get user_id information
-		    $this->memberInfo = $oMemberModel->getMemberInfoByEmailAddress($user_id);
-		    // Set an invalid user if no value returned
-		    if(!$user_id || strtolower($this->memberInfo->email_address) != strtolower($user_id)) return new Object(-1, 'invalid_email_address');
+			// check IP access count.
+			$config = $oMemberModel->getMemberConfig();
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$output = executeQuery('member.getLoginCountByIp', $args);
+			$count = (int)$output->data->count;
+			if($config->max_error_count < $count)
+			{
+				$last_update = strtotime($output->data->last_update);
+				$term = intval(time()-$last_update);
+				if($term < $config->max_error_count_time)
+				{
+					$term = $config->max_error_count_time - $term;
+					if($term < 60) $term = intval($term).Context::getLang('unit_sec');
+					elseif(60 <= $term && $term < 3600) $term = intval($term/60).Context::getLang('unit_min');
+					elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).Context::getLang('unit_hour');
+					else $term = intval($term/86400).Context::getLang('unit_day');
+					return new Object(-1, sprintf(Context::getLang('excess_ip_access_count'),$term));
+				}
+				else
+				{
+					$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+					$output = executeQuery('member.deleteLoginCountByIp', $args);
+				}
+			}
 
-	    }else{
-		    // Get user_id information
-		    $this->memberInfo = $oMemberModel->getMemberInfoByUserID($user_id);
-		    // Set an invalid user if no value returned
-		    if(!$user_id || strtolower($this->memberInfo->user_id) != strtolower($user_id)) return new Object(-1, 'invalid_user_id');
-	    }
-            // Password Check
-            if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password, $this->memberInfo->member_srl)) return new Object(-1, 'invalid_password');
-            // If denied == 'Y', notify
-            if($this->memberInfo->denied == 'Y') {
-                $args->member_srl = $this->memberInfo->member_srl;
-                $output = executeQuery('member.chkAuthMail', $args);
-                if ($output->toBool() && $output->data->count != '0') return new Object(-1,'msg_user_not_confirmed');
-                return new Object(-1,'msg_user_denied');
-            }
-            // Notify if denied_date is less than the current time
-            if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+			// check identifier
+			if ($config->identifier == 'email_address'){
+				// Get user_id information
+				$this->memberInfo = $oMemberModel->getMemberInfoByEmailAddress($user_id);
+				// Set an invalid user if no value returned
+				if(!$user_id || strtolower($this->memberInfo->email_address) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_email_address');
+
+			}else{
+				// Get user_id information
+				$this->memberInfo = $oMemberModel->getMemberInfoByUserID($user_id);
+				// Set an invalid user if no value returned
+				if(!$user_id || strtolower($this->memberInfo->user_id) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_user_id');
+			}
+			// Password Check
+			if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password, $this->memberInfo->member_srl)) return $this->recordMemberLoginError(-1, 'invalid_password',$this->memberInfo);
+			// If denied == 'Y', notify
+			if($this->memberInfo->denied == 'Y') {
+				$args->member_srl = $this->memberInfo->member_srl;
+				$output = executeQuery('member.chkAuthMail', $args);
+				if ($output->toBool() && $output->data->count != '0') return new Object(-1,'msg_user_not_confirmed');
+				return new Object(-1,'msg_user_denied');
+			}
+			// Notify if denied_date is less than the current time
+			if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
             // Update the latest login time
             $args->member_srl = $this->memberInfo->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
+			// check if there is login fail records.
+			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
+			if($output->data && $output->data->content)
+			{
+				$title = Context::getLang('login_fail_report');
+				$message = '<ul>';
+				$content = unserialize($output->data->content);
+				foreach($content as $val)
+				{
+					$message .= '<li>'.date('Y-m-d H:i:s P',$val[2]).'<br /> Access IP: '.$val[0].'<br /> Message: '.$val[1].'</li>';
+				}
+				$message .= '</ul>';
+				$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d H:i:s P'));
+
+				//send message
+				$oCommunicationController = &getController('communication');
+				$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true);
+				
+				if($this->memberInfo->email_address && $this->memberInfo->allow_mailing == 'Y')
+				{
+					$view_url = Context::getRequestUri();
+					$title = sprintf("%s @ %s",$title,$view_url);
+					$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $this->memberInfo->nick_name, $this->memberInfo->email_id);
+					$oMail = new Mail();
+					$oMail->setTitle($title);
+					$oMail->setContent($content);
+					$oMail->setSender($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
+					$oMail->setReceiptor($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
+					$oMail->send();
+				}
+				$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
+			}
             // Call a trigger after successfully log-in (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
             if(!$trigger_output->toBool()) return $trigger_output;
@@ -1529,7 +1740,7 @@
                 $autologin_args->member_srl = $this->memberInfo->member_srl;
                 executeQuery('member.deleteAutologin', $autologin_args);
                 $autologin_output = executeQuery('member.insertAutologin', $autologin_args);
-                if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
+                if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, time()+31536000, '/');
             }
 			if($this->memberInfo->is_admin == 'Y') {
 				 $oMemberAdminModel = &getAdminModel('member');
@@ -1544,7 +1755,7 @@
         }
 
         /**
-         * @brief Update or create session information
+         * Update or create session information
          **/
         function setSessionInfo() {
             $oMemberModel = &getModel('member');
@@ -1584,10 +1795,6 @@
             }
             */
 
-			// XSS defence
-			$oSecurity = new Security($this->memberInfo);
-			$oSecurity->encodeHTML('user_name', 'nick_name', 'address.');
-
             // Information stored in the session login user
             Context::set('is_logged', true);
             Context::set('logged_info', $this->memberInfo);
@@ -1600,7 +1807,7 @@
         }
 
         /**
-         * @brief Logged method for providing a personalized menu
+         * Logged method for providing a personalized menu
          * Login information is used in the output widget, or personalized page
          **/
         function addMemberMenu($act, $str) {
@@ -1612,7 +1819,7 @@
         }
 
         /**
-         * @brief Nickname and click Log In to add a pop-up menu that appears when the method
+         * Nickname and click Log In to add a pop-up menu that appears when the method
          **/
         function addMemberPopupMenu($url, $str, $icon = '', $target = 'self') {
             $member_popup_menu_list = Context::get('member_popup_menu_list');
@@ -1628,7 +1835,7 @@
         }
 
         /**
-         * @brief Add users to the member table
+         * Add users to the member table
          **/
         function insertMember(&$args, $password_is_hashed = false) {
             // Call a trigger (before)
@@ -1797,7 +2004,7 @@
         }
 
         /**
-         * @brief Modify member information
+         * Modify member information
          **/
         function updateMember($args) {
             // Call a trigger (before)
@@ -1821,7 +2028,7 @@
                 unset($args->denied);
             }
 
-			// check mamber identifier form
+			// check member identifier form
 			$config = $oMemberModel->getMemberConfig();
 
 			$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
@@ -1834,7 +2041,7 @@
 				$args->email_address = $orgMemberInfo->email_address;
 			}else{
 				$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
-				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
+				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_user_id');
 
 				$args->user_id = $orgMemberInfo->user_id;
 			}
@@ -1913,7 +2120,7 @@
         }
 
         /**
-         * @brief Modify member password
+         * Modify member password
          **/
         function updateMemberPassword($args) {
             $output = executeQuery('member.updateChangePasswordDate', $args);
@@ -1944,7 +2151,7 @@
         }
 
         /**
-         * @brief Delete User
+         * Delete User
          **/
         function deleteMember($member_srl) {
             // Call a trigger (before)
@@ -2012,7 +2219,7 @@
         }
 
         /**
-         * @brief Destroy all session information
+         * Destroy all session information
          **/
         function destroySessionInfo() {
             if(!$_SESSION || !is_array($_SESSION)) return;
@@ -2112,11 +2319,8 @@
             $msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $newEmail);
             $this->setMessage($msg);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				header('location:'.$returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		function procMemberAuthEmailAddress(){

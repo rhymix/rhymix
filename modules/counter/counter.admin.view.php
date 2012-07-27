@@ -1,14 +1,16 @@
 <?php
     /**
-     * @class  counterAdminView
-     * @author NHN (developers@xpressengine.com)
-     * @brief Admin view class of counter module
+     * Admin view class of counter module
+	 *
+	 * @author NHN (developers@xpressengine.com)
      **/
 
     class counterAdminView extends counter {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
             // set the template path
@@ -16,7 +18,9 @@
         }
 
         /**
-         * @brief Admin page 
+         * Admin page 
+		 *
+		 * @return Object
          **/
         function dispCounterAdminIndex() {
             // set today's if no date is given

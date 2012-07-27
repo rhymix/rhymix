@@ -1,17 +1,19 @@
 <?php
-    /**
-     * @class  comment
-     * @author NHN (developers@xpressengine.com)
-     * @brief comment module's high class
-     **/
-
     require_once(_XE_PATH_.'modules/comment/comment.item.php');
 
+	/**
+	 * comment
+	 * comment module's high class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/comment
+	 * @version 0.1
+	 */
     class comment extends ModuleObject {
-
-        /**
-         * @brief implemented if additional tasks are required when installing
-         **/
+		/**
+		 * Implemented if additional tasks are required when installing
+		 * @return Object
+		 */
         function moduleInstall() {
             $oDB = &DB::getInstance();
 
@@ -36,9 +38,10 @@
             return new Object();
         }
 
-        /**
-         * @brief method to check if installation is succeeded
-         **/
+		/**
+		 * Method to check if installation is succeeded
+		 * @return bool
+		 */
         function checkUpdate() {
             $oDB = &DB::getInstance();
             $oModuleModel = &getModel('module');
@@ -70,9 +73,10 @@
             return false;
         }
 
-        /**
-         * @brief Execute update
-         **/
+		/**
+		 * Execute update
+		 * @return Object
+		 */
         function moduleUpdate() {
             $oDB = &DB::getInstance();
             $oModuleModel = &getModel('module');
@@ -128,9 +132,10 @@
             return new Object(0, 'success_updated');
         }
 
-        /**
-         * @brief Regenerate cache file
-         **/
+		/**
+		 * Regenerate cache file
+		 * @return void
+		 */
         function recompileCache() {
         }
     }

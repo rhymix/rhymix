@@ -1,16 +1,18 @@
 <?php
     /**
-     * @class  rssModel
+     * The model class of the rss module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief The model class of the rss module
-     *
-     * Feed the document output
-     *
      **/
 
     class rssModel extends rss {
         /**
-         * @brief Create the Feed url.
+         * Create the Feed url.
+		 *
+		 * @param string $vid Vid
+		 * @param string $mid mid
+		 * @param string $format Feed format. ef)xe, atom, rss1.0
+		 * @return string
          **/
         function getModuleFeedUrl($vid = null, $mid, $format) {
             if(Context::isAllowRewrite()) {
@@ -30,7 +32,10 @@
 
 
         /**
-         * @brief Return the RSS configurations of the specific modules
+         * Return the RSS configurations of the specific modules
+		 *
+		 * @param integer $module_srl Module_srl
+		 * @return Object
          **/
         function getRssModuleConfig($module_srl) {
             // Get the configurations of the rss module

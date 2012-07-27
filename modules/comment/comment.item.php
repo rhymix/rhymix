@@ -1,15 +1,30 @@
 <?php
-    /**
-     * @class  commentItem
-     * @author NHN (developers@xpressengine.com)
-     * @brief comment Object
-     **/
-
+	/**
+	 * commentItem class
+	 * comment Object
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/comment
+	 * @version 0.1
+	 */
     class commentItem extends Object {
-
+		/**
+		 * comment number
+		 * @var int
+		 */
         var $comment_srl = 0;
+		/**
+		 * Get the column list int the table
+		 * @var array
+		 */
 		var $columnList = array();
 
+		/**
+		 * Constructor
+		 * @param int $comment_srl
+		 * @param array $columnList
+		 * @return void
+		 */
         function commentItem($comment_srl = 0, $columnList = array()) {
             $this->comment_srl = $comment_srl;
 			$this->columnList = $columnList;
@@ -21,6 +36,10 @@
             $this->_loadFromDB();
         }
 
+		/**
+		 * Load comment data from DB and set to commentItem object
+		 * @return void
+		 */
         function _loadFromDB() {
             if(!$this->comment_srl) return;
 
@@ -30,6 +49,10 @@
             $this->setAttribute($output->data);
         }
 
+		/**
+		 * Comment attribute set to Object object
+		 * @return void
+		 */
         function setAttribute($attribute) {
             if(!$attribute->comment_srl) {
                 $this->comment_srl = null;
@@ -101,6 +124,10 @@
             return $this->get('notify_message')=='Y' ? true : false;
         }
 
+		/**
+		 * Notify to comment owner
+		 * @return void
+		 */
         function notify($type, $content) {
             // return if not useNotify
             if(!$this->useNotify()) return;
@@ -158,6 +185,10 @@
             return htmlspecialchars($this->get('nick_name'));
         }
 
+		/**
+		 * Return content with htmlspecialchars
+		 * @return string
+		 */
         function getContentText($strlen = 0) {
             if($this->isSecret() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
@@ -168,6 +199,10 @@
             return htmlspecialchars($content);
         }
 
+		/**
+		 * Return content after filter
+		 * @return string
+		 */
         function getContent($add_popup_menu = true, $add_content_info = true, $add_xe_content_class = true) {
             if($this->isSecret() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
@@ -203,6 +238,10 @@
             return $content;
         }
 
+		/**
+		 * Return summary content
+		 * @return string
+		 */
         function getSummary($str_size = 50, $tail = '...') {
             $content = $this->getContent(false, false);
             // for newline, insert a blank.
@@ -279,9 +318,10 @@
             return $file_list;
         }
 
-        /**
-         * @brief return the editor html
-         **/
+		/**
+		 * Return the editor html
+		 * @return string
+		 */
         function getEditor() {
             $module_srl = $this->get('module_srl');
             if(!$module_srl) $module_srl = Context::get('module_srl');
@@ -289,9 +329,10 @@
             return $oEditorModel->getModuleEditor('comment', $module_srl, $this->comment_srl, 'comment_srl', 'content');
         }
 
-        /**
-         * @brief return author's profile image
-         **/
+		/**
+		 * Return author's profile image
+		 * @return object
+		 */
         function getProfileImage() {
             if(!$this->isExists() || !$this->get('member_srl')) return;
             $oMemberModel = &getModel('member');
@@ -301,9 +342,10 @@
             return $profile_info->src;
         }
 
-        /**
-         * @brief return author's signiture
-         **/
+		/**
+		 * Return author's signiture
+		 * @return string
+		 */
         function getSignature() {
             // pass if the posting not exists.
             if(!$this->isExists() || !$this->get('member_srl')) return;

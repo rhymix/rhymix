@@ -1,21 +1,35 @@
 <?php
 /**
- * @class FileObject
+ * File abstraction class 
+ *
  * @author NHN (developers@xpressengine.com)
- * @brief file abstraction class 
  **/
-
 class FileObject extends Object
 {
-	var $fp = null; ///< file descriptor
-	var $path = null; ///< file path
-	var $mode = "r"; ///< file open mode
+	/**
+	 * File descriptor
+	 * @var resource
+	 */
+	var $fp = null;
 
 	/**
-	 * @brief constructor 
-	 * @param[in] $path path of target file
-	 * @param[in] $mode file open mode 
-	 * @return file object 
+	 * File path
+	 * @var string
+	 */
+	var $path = null;
+
+	/**
+	 * File open mode
+	 * @var string
+	 */
+	var $mode = "r";
+
+	/**
+	 * Constructor 
+	 *
+	 * @param string $path Path of target file
+	 * @param string $mode File open mode 
+	 * @return void
 	 **/
 	function FileObject($path, $mode)
 	{
@@ -23,9 +37,10 @@ class FileObject extends Object
 	}
 
 	/**
-	 * @brief append target file's content to current file 
-	 * @param[in] $file_name path of target file
-	 * @return none 
+	 * Append target file's content to current file 
+	 *
+	 * @param string $file_name Path of target file
+	 * @return void 
 	 **/
 	function append($file_name)
 	{
@@ -39,8 +54,9 @@ class FileObject extends Object
 	}
 
 	/**
-	 * @brief check current file meets eof
-	 * @return true: if eof. false: otherwise 
+	 * Check current file meets eof
+	 *
+	 * @return bool true: if eof. false: otherwise 
 	 **/
 	function feof()
 	{
@@ -48,9 +64,10 @@ class FileObject extends Object
 	}
 
 	/**
-	 * @brief read from current file 
-	 * @param[in] $size size to read
-	 * @return read bytes 
+	 * Read from current file 
+	 *
+	 * @param int $size Size to read
+	 * @return string Returns the read string or false on failure.
 	 **/
 	function read($size = 1024)
 	{
@@ -59,9 +76,10 @@ class FileObject extends Object
 
 
 	/**
-	 * @brief write string to current file 
-	 * @param[in] $str string to write
-	 * @return written bytes. if failed, it returns false 
+	 * Write string to current file 
+	 *
+	 * @param string $str String to write
+	 * @return int Returns the number of bytes written, or false on error.
 	 **/
 	function write($str)
 	{
@@ -73,11 +91,13 @@ class FileObject extends Object
 	}
 
 	/**
-	 * @brief open a file
-	 * @param[in] $path path of target file
-	 * @param[in] $mode file open mode 
-	 * @remarks if file is opened, close it and open the new path
-	 * @return true if succeed, false otherwise.
+	 * Open a file
+	 *
+	 * If file is opened, close it and open the new path
+	 *
+	 * @param string $path Path of target file
+	 * @param string $mode File open mode (http://php.net/manual/en/function.fopen.php)
+	 * @return bool true if succeed, false otherwise.
 	 */
 	function open($path, $mode)
 	{
@@ -96,8 +116,9 @@ class FileObject extends Object
 	}
 
 	/**
-	 * @brief return current file's path 
-	 * @return file path 
+	 * Return current file's path
+	 *
+	 * @return string Returns the path of current file.
 	 **/
 	function getPath()
 	{
@@ -112,8 +133,9 @@ class FileObject extends Object
 	}
 
 	/**
-	 * @brief close file 
-	 * @return none 
+	 * Close file 
+	 *
+	 * @return void
 	 **/
 	function close()
 	{

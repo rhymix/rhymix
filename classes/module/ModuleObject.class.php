@@ -2,7 +2,7 @@
     /**
     * @class ModuleObject
     * @author NHN (developers@xpressengine.com)
-    * @brief base class of ModuleHandler
+    * base class of ModuleHandler
     **/
 
     class ModuleObject extends Object {
@@ -28,18 +28,21 @@
         var $stop_proc = false; ///< a flag to indicating whether to stop the execution of code.
 
 		var $module_config = NULL;
+		var $ajaxRequestMethod = array('XMLRPC', 'JSON');
 
         /**
-         * @brief setter to set the name of module
-         * @param name of module
+         * setter to set the name of module
+         * @param string $module name of module
+		 * @return void
          **/
         function setModule($module) {
             $this->module = $module;
         }
 
         /**
-         * @brief setter to set the name of module path
-         * @param the directory path to a module directory
+         * setter to set the name of module path
+         * @param string $path the directory path to a module directory
+		 * @return void
          **/
         function setModulePath($path) {
             if(substr($path,-1)!='/') $path.='/';
@@ -47,25 +50,37 @@
         }
 
         /**
-         * @brief setter to set an url for redirection
-         * @param $url url for redirection
+         * setter to set an url for redirection
+         * @param string $url url for redirection
          * @remark redirect_url is used only for ajax requests
+		 * @return void
          **/
-        function setRedirectUrl($url='./') {
-            $this->add('redirect_url', $url);
+        function setRedirectUrl($url='./', $output = NULL) {
+			$ajaxRequestMethod = array_flip($this->ajaxRequestMethod);
+			if(!isset($ajaxRequestMethod[Context::getRequestMethod()]))
+			{
+				$this->add('redirect_url', $url);
+			}
+
+			if($output !== NULL && is_object($output))
+			{
+				return $output;
+			}
         }
 
 		/**
-		 * @brief get url for redirection
+		 * get url for redirection
+		 * @return string redirect_url
 		 **/
 		function getRedirectUrl(){
 			return $this->get('redirect_url');
 		}
 
 		/**
-		 * @brief set message
-		 * @param $message a message string
-		 * @param $type type of message (error, info, update)
+		 * set message
+		 * @param string $message a message string
+		 * @param string $type type of message (error, info, update)
+		 * @return void
 		 **/
 		function setMessage($message, $type = null){
 			parent::setMessage($message);
@@ -73,28 +88,32 @@
 		}
 
 		/**
-		 * @brief set type of message
-		 * @param $type type of message (error, info, update)
+		 * set type of message
+		 * @param string $type type of message (error, info, update)
+		 * @return void
 		 **/
 		function setMessageType($type){
 			$this->add('message_type', $type);
 		}
 
 		/**
-		 * @brief get type of message
+		 * get type of message
+		 * @return string $type
 		 **/
 		function getMessageType(){
 			$type = $this->get('message_type');
-			if (!in_array($type, array('error', 'info', 'update'))){
+			$typeList = array('error'=>1, 'info'=>1, 'update'=>1);
+			if (!isset($typeList[$type])){
 				$type = $this->getError()?'error':'info';
 			}
 			return $type;
 		}
 
         /**
-         * @brief sett to set the template path for refresh.html
-         * @remark refresh.html is executed as a result of method execution
+         * sett to set the template path for refresh.html
+         * refresh.html is executed as a result of method execution
          * Tpl as the common run of the refresh.html ..
+		 * @return void
          **/
         function setRefreshPage() {
             $this->setTemplatePath('./common/tpl');
@@ -103,16 +122,19 @@
 
 
         /**
-         * @brief sett to set the action name
+         * sett to set the action name
+		 * @param string $act
+		 * @return void
          **/
         function setAct($act) {
             $this->act = $act;
         }
 
         /**
-         * @brief sett to set module information
-         * @param[in] $module_info object containing module information
-         * @param[in] $xml_info object containing module description
+         * sett to set module information
+         * @param object $module_info object containing module information
+         * @param object $xml_info object containing module description
+		 * @return void
         **/
         function setModuleInfo($module_info, $xml_info) {
             // The default variable settings
@@ -129,7 +151,7 @@
             $oModuleModel = &getModel('module');
             // permission settings. access, manager(== is_admin) are fixed and privilege name in XE
             $module_srl = Context::get('module_srl');
-            if(!$module_info->mid && preg_match('/^([0-9]+)$/',$module_srl)) {
+            if(!$module_info->mid && !is_array($module_srl) && preg_match('/^([0-9]+)$/',$module_srl)) {
                 $request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
                 if($request_module->module_srl == $module_srl) {
                     $grant = $oModuleModel->getGrant($request_module, $logged_info);
@@ -151,13 +173,15 @@
                 // Check permissions
                 switch($permission_target) {
                     case 'root' :
-                            $this->stop('msg_not_permitted_act');
-                        break;
-                    case 'manager' :
-                            if(!$grant->manager) $this->stop('msg_not_permitted_act');
-                        break;
+					case 'manager' :
+						$this->stop('msg_not_permitted_act');
+						return;
                     case 'member' :
-                            if(!$is_logged) $this->stop('msg_not_permitted_act');
+						if(!$is_logged)
+						{
+							$this->stop('msg_not_permitted_act');
+							return;
+						}
                         break;
                 }
             }
@@ -172,8 +196,9 @@
         }
 
         /**
-         * @brief set the stop_proc and approprate message for msg_code
-         * @param $msg_code an error code
+         * set the stop_proc and approprate message for msg_code
+         * @param string $msg_code an error code
+		 * @return ModuleObject $this
          **/
         function stop($msg_code) {
             // flag setting to stop the proc processing
@@ -195,7 +220,9 @@
         }
 
         /**
-         * @brief set the file name of the template file
+         * set the file name of the template file
+		 * @param string name of file
+		 * @return void
          **/
         function setTemplateFile($filename) {
             if(substr($filename,-5)!='.html') $filename .= '.html';
@@ -203,14 +230,17 @@
         }
 
         /**
-         * @brief retrieve the directory path of the template directory
+         * retrieve the directory path of the template directory
+		 * @return string
          **/
         function getTemplateFile() {
             return $this->template_file;
         }
 
         /**
-         * @brief set the directory path of the template directory
+         * set the directory path of the template directory
+		 * @param string path of template directory.
+		 * @return void
          **/
         function setTemplatePath($path) {
             if(substr($path,0,1)!='/' && substr($path,0,2)!='./') $path = './'.$path;
@@ -219,15 +249,17 @@
         }
 
         /**
-
-         * @brief retrieve the directory path of the template directory
+         * retrieve the directory path of the template directory
+		 * @return string
          **/
         function getTemplatePath() {
             return $this->template_path;
         }
 
         /**
-         * @brief set the file name of the temporarily modified by admin
+         * set the file name of the temporarily modified by admin
+		 * @param string name of file
+		 * @return void
          **/
         function setEditedLayoutFile($filename) {
             if(substr($filename,-5)!='.html') $filename .= '.html';
@@ -235,14 +267,17 @@
         }
 
         /**
-         * @brief retreived the file name of edited_layout_file
+         * retreived the file name of edited_layout_file
+		 * @return string
          **/
         function getEditedLayoutFile() {
             return $this->edited_layout_file;
         }
 
         /**
-         * @brief set the file name of the layout file
+         * set the file name of the layout file
+		 * @param string name of file
+		 * @return void
          **/
         function setLayoutFile($filename) {
             if(substr($filename,-5)!='.html') $filename .= '.html';
@@ -250,14 +285,16 @@
         }
 
         /**
-         * @brief get the file name of the layout file
+         * get the file name of the layout file
+		 * @return string
          **/
         function getLayoutFile() {
             return $this->layout_file;
         }
 
         /**
-         * @brief set the directory path of the layout directory
+         * set the directory path of the layout directory
+		 * @param string path of layout directory.
          **/
         function setLayoutPath($path) {
             if(substr($path,0,1)!='/' && substr($path,0,2)!='./') $path = './'.$path;
@@ -266,15 +303,16 @@
         }
 
         /**
-         * @brief set the directory path of the layout directory
+         * set the directory path of the layout directory
+		 * @return string
          **/
         function getLayoutPath() {
             return $this->layout_path;
         }
 
         /**
-         * @brief excute the member method specified by $act variable
-         *
+         * excute the member method specified by $act variable
+		 * @return boolean true : success false : fail 
          **/
         function proc() {
             // pass if stop_proc is true
@@ -297,7 +335,8 @@
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
                 // Check permissions
                 if(!$this->grant->access){
-					return $this->stop("msg_not_permitted_act");
+					$this->stop("msg_not_permitted_act");
+					return FALSE;
 				}
                 // integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
                 $oModuleModel = &getModel('module');

@@ -1,8 +1,23 @@
 <?php
-
+	/**
+	 * SelectColumnTag class
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/column
+	 * @version 0.1
+	 */
 	class SelectColumnsTag {
+		/**
+		 * Column list
+		 * @var array value is SelectColumnTag object
+		 */
 		var $columns;
 
+		/**
+		 * constructor
+		 * @param Xml_Node_ $xml_columns
+		 * @return void
+		 */
 		function SelectColumnsTag($xml_columns_tag){
 			if (!$xml_columns_tag)
 			    $xml_columns_tag = new Xml_Node_();
@@ -35,6 +50,10 @@
 			}
 		}
 
+		/**
+		 * SelectColumnTag object to string
+		 * @return string
+		 */
 		function toString(){
 			$output_columns = 'array(' . PHP_EOL;
 			foreach($this->columns as $column){
@@ -48,6 +67,10 @@
 			return $output_columns;
 		}
 
+		/**
+		 * Return argument list
+		 * @return array
+		 */
 		function getArguments(){
 			$arguments = array();
 			foreach($this->columns as $column){

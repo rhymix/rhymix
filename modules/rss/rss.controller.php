@@ -1,23 +1,24 @@
 <?php
     /**
-     * @class  rssController
+     * The controller class of rss module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief rss module of the controller class
-     *
-     * Feed the document output
-     *
      **/
 
     class rssController extends rss {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Check whether to use RSS rss url by adding
+         * Check whether to use RSS rss url by adding
+		 *
+		 * @return Object
          **/
         function triggerRssUrlInsert() {
             $oModuleModel = &getModel('module');
@@ -25,6 +26,10 @@
             $current_module_srl = Context::get('module_srl');
             $site_module_info = Context::get('site_module_info');
 
+			if(is_array($current_module_srl))
+			{
+				unset($current_module_srl);
+			}
             if(!$current_module_srl) {
                 $current_module_info = Context::get('current_module_info');
                 $current_module_srl = $current_module_info->module_srl;

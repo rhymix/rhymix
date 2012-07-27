@@ -1,21 +1,24 @@
 <?php
     /**
-     * @class  integration_searchAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of the integration_search module
-     *
-     * Search Management
-     *
+     * The admin view class of the integration_search module
+	 *
+	 * @author NHN (developers@xpressengine.com)
      **/
 
     class integration_searchAdminController extends integration_search {
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
-        function init() {}
+        function init()
+		{
+		}
 
         /**
-         * @brief Save Settings
+         * Save Settings
+		 *
+		 * @return mixed
          **/
         function procIntegration_searchAdminInsertConfig() {
             // Get configurations (using module model object)
@@ -31,16 +34,14 @@
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('integration_search',$args);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminContent');
-				header('location:'.$returnUrl);
-				return;
-			}
-			else return $output;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminContent');
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
         /**
-         * @brief Save the skin information
+         * Save the skin information
+		 *
+		 * @return mixed
          **/
         function procIntegration_searchAdminInsertSkin() {
             // Get configurations (using module model object)
@@ -107,12 +108,9 @@
 			$output = $oModuleController->insertModuleConfig('integration_search',$args);
 
             $this->setMessage('success_updated', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminSkinInfo');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
-			else $output;
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminSkinInfo');
+			return $this->setRedirectUrl($returnUrl, $output);
         }
     }
 ?>

@@ -9,36 +9,128 @@ else
 }
 
 /**
-* @brief Mailing class for XpressEngine
+* Mailing class for XpressEngine
+*
 * @author NHN (developers@xpressengine.com)
-* @developer NHN (developers@xpressengine.com)
 */
 class Mail extends PHPMailer
 {
+	/**
+	 * Sender name
+	 * @var string
+	 */
 	var $sender_name = '';
+
+	/**
+	 * Sender email address
+	 * @var string
+	 */
 	var $sender_email = '';
+
+	/**
+	 * Receiptor name
+	 * @var string
+	 */
 	var $receiptor_name = '';
+
+	/**
+	 * Receiptor email address
+	 * @var string
+	 */
 	var $receiptor_email = '';
+
+	/**
+	 * Title of email
+	 * @var string
+	 */
 	var $title = '';
+
+	/**
+	 * Content of email
+	 * @var string
+	 */
 	var $content = '';
+
+	/**
+	 * Content type
+	 * @var string
+	 */
 	var $content_type = 'html';
+
+	/**
+	 * Message id
+	 * @var string
+	 */
 	var $messageId = NULL;
+
+	/**
+	 * Reply to
+	 * @var string
+	 */
 	var $replyTo = NULL;
+
+	/**
+	 * BCC (Blind carbon copy)
+	 * @var string
+	 */
 	var $bcc = NULL;
+
+	/**
+	 * Attachments
+	 * @var array
+	 */
 	var $attachments = array();
+
+	/**
+	 * Content attachements
+	 * @var array
+	 */
 	var $cidAttachments  = array();
+
+	/**
+	 * ???
+	 * @var ???
+	 */
 	var $mainMailPart = NULL;
+
+	/**
+	 * Raw body
+	 * @var string
+	 */
 	var $body = '';
+
+	/**
+	 * Raw header
+	 * @var string
+	 */
 	var $header = '';
+
+	/**
+	 * End of line
+	 * @var string
+	 */
 	var $eol = '';
+
+	/**
+	 * Reference
+	 * @var string
+	 */
 	var $references = '';
+
+	/**
+	 * Additional parameters
+	 * @var string
+	 */
 	var $additional_params = NULL;
+
+	/**
+	 * Whether use or not use stmp
+	 * @var bool
+	 */
 	var $use_smtp = FALSE;
 
 	/**
-	* @brief Constructor function
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Constructor function
 	*
 	* @return void
 	*/
@@ -48,13 +140,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set parameters for using Gmail
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set parameters for using Gmail
 	*
-	* @param $account_name password
-	* @param $account_passwd secure method ('ssl','tls')
-	*
+	* @param string $account_name Password
+	* @param string $account_passwd Secure method ('ssl','tls')
 	* @return void
 	*/
 	function useGmailAccount($account_name, $account_passwd)
@@ -76,18 +165,16 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set parameters for using SMTP protocol
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set parameters for using SMTP protocol
 	*
-	* @param $auth SMTP authentication
-	* @param $host
-	* @param $user
-	* @param $password
-	* @param $secure method ('ssl','tls')
-	* @param $port
+	* @param bool $auth SMTP authentication
+	* @param string $host SMTP host address
+	* @param string $user SMTP user id
+	* @param string $pass STMP user password
+	* @param string $secure method ('ssl','tls')
+	* @param int $port STMP port
 	*
-	* @return boolean TRUE if SMTP is set correct, otherwise return FALSE
+	* @return bool TRUE if SMTP is set correct, otherwise return FALSE
 	*/
 	function useSMTP($auth = NULL, $host = NULL, $user = NULL, $pass = NULL, $secure = NULL, $port = 25)
 	{
@@ -116,11 +203,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set additional parameters
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set additional parameters
 	*
-	* @param $additional_params
+	* @param string $additional_params Additional parameters
 	* @return void
 	*/
 	function setAdditionalParams($additional_params)
@@ -129,12 +214,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Add file attachment
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Add file attachment
 	*
-	* @param $filename
-	* @param $orgfilename (real path to file)
+	* @param string $filename File name to attach
+	* @param string $orgfilename Real path of file to attach
 	* @return void
 	*/
 	function addAttachment($filename, $orgfilename)
@@ -143,12 +226,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Add content attachment
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Add content attachment
 	*
-	* @param $filename
-	* @param $cid
+	* @param string $filename Real path of file to attach
+	* @param string $cid Content-CID
 	* @return void
 	*/
 	function addCidAttachment($filename, $cid)
@@ -157,12 +238,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set Sender (From:)
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set Sender (From:)
 	*
-	* @param $name
-	* @param $email
+	* @param string $name Sender name
+	* @param string $email Sender email address
 	* @return void
 	*/
 	function setSender($name, $email)
@@ -179,9 +258,7 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Get Sender (From:)
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Get Sender (From:)
 	*
 	* @return string
 	*/
@@ -195,12 +272,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set Receiptor (TO:)
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set Receiptor (TO:)
 	*
-	* @param $name
-	* @param $email
+	* @param string $name Receiptor name
+	* @param string $email Receiptor email address
 	* @return void
 	*/
 	function setReceiptor($name, $email)
@@ -217,9 +292,7 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Get Receiptor (TO:)
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Get Receiptor (TO:)
 	*
 	* @return string
 	*/
@@ -233,11 +306,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set Email's Title
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set Email's Title
 	*
-	* @param $title
+	* @param string $title Title to set
 	* @return void
 	*/
 	function setTitle($title)
@@ -253,9 +324,7 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Get Email's Title
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Get Email's Title
 	*
 	* @return string
 	*/
@@ -265,11 +334,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set BCC
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set BCC
 	*
-	* @param $bcc
+	* @param string $bcc
 	* @return void
 	*/
 	function setBCC($bcc)
@@ -285,11 +352,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set Message ID
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set Message ID
 	*
-	* @param $messageId
+	* @param string $messageId
 	* @return void
 	*/
 	function setMessageID($messageId)
@@ -298,11 +363,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set references
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set references
 	*
-	* @param $references
+	* @param string $references
 	* @return void
 	*/
 	function setReferences($references)
@@ -311,11 +374,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set ReplyTo param
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set ReplyTo param
 	*
-	* @param $replyTo
+	* @param string $replyTo
 	* @return void
 	*/
 	function setReplyTo($replyTo)
@@ -331,11 +392,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set message content
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set message content
 	*
-	* @param $content
+	* @param string $content Content
 	* @return void
 	*/
 	function setContent($content)
@@ -352,12 +411,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Replace resourse path of the files
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Replace resourse path of the files
 	*
-	* @param $matches
-	*
+	* @see Mail::setContent()
+	* @param array $matches Match info.
 	* @return string
 	*/
 	function replaceResourceRealPath($matches)
@@ -366,9 +423,7 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Get the Plain content of body message
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Get the Plain content of body message
 	*
 	* @return string
 	*/
@@ -378,9 +433,7 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Get the HTML content of body message
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Get the HTML content of body message
 	*
 	* @return string
 	*/
@@ -390,11 +443,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set the type of body's content
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Set the type of body's content
 	*
-	* @param $mode
+	* @param string $mode
 	* @return void
 	*/
 	function setContentType($mode = 'html')
@@ -403,9 +454,7 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Process the images from attachments
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Process the images from attachments
 	*
 	* @return void
 	*/
@@ -460,9 +509,7 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Process the images from body content. This functions is used if Mailer is set as mail not as SMTP
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Process the images from body content. This functions is used if Mailer is set as mail not as SMTP
 	*
 	* @return void
 	*/
@@ -505,11 +552,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Send email
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Send email
 	*
-	* @return boolean TRUE in case of success, FALSE if sending fails
+	* @return bool TRUE in case of success, FALSE if sending fails
 	*/
 	function send()
 	{
@@ -567,12 +612,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Check if DNS of param is real or fake
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Check if DNS of param is real or fake
 	*
-	* @param $email_address
-	*
+	* @param string $email_address Email address
 	* @return boolean TRUE if param is valid DNS otherwise FALSE
 	*/
 	function checkMailMX($email_address)
@@ -597,12 +639,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Check if param is a valid email or not
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Check if param is a valid email or not
 	*
-	* @param $email_address
-	*
+	* @param string $email_address Email address
 	* @return string email address if param is valid email address otherwise blank string
 	*/
 	function isVaildMailAddress($email_address)
@@ -618,12 +657,9 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Gets the MIME type of param
-	* @access public
-	* @developer NHN (developers@xpressengine.com)
+	* Gets the MIME type of param
 	*
-	* @param $filename filename
-	*
+	* @param string $filename filename
 	* @return string MIME type of ext
 	*/
 	function returnMIMEType($filename)

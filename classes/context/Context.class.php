@@ -362,7 +362,8 @@ class Context {
 	function checkSSO() {
 		// pass if it's not GET request or XE is not yet installed
 		if($this->db_info->use_sso != 'Y' || isCrawler()) return true;
-		if(Context::getRequestMethod()!='GET' || !Context::isInstalled() || in_array(Context::get('act'),array('rss','atom'))) return true;
+		$checkActList = array('rss'=>1, 'atom'=>1);
+		if(Context::getRequestMethod()!='GET' || !Context::isInstalled() || isset($checkActList[Context::get('act')])) return true;
 
 		// pass if default URL is not set
 		$default_url = trim($this->db_info->default_url);
@@ -630,8 +631,8 @@ class Context {
 	function setResponseMethod($method='HTML') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
-		$methods = array('HTML','XMLRPC','JSON');
-		$self->response_method = in_array($method, $methods)?$method:$methods[0];
+		$methods = array('HTML'=>1, 'XMLRPC'=>1, 'JSON'=>1);
+		$self->response_method = isset($methods[$method]) ? $method : 'HTML';
 	}
 
 	/*
@@ -644,9 +645,9 @@ class Context {
 		if($self->response_method) return $self->response_method;
 
 		$method  = $self->getRequestMethod();
-		$methods = array('HTML','XMLRPC','JSON');
+		$methods = array('HTML'=>1, 'XMLRPC'=>1, 'JSON'=>1);
 
-		return in_array($method, $methods)?$method:$methods[0];
+		return isset($methods[$method]) ? $method : 'HTML';
 	}
 
 	/**
@@ -727,19 +728,42 @@ class Context {
 	 * @return filtered value
 	 **/
 	function _filterRequestVar($key, $val, $do_stripslashes = 1) {
-		if( ($key == 'page' || $key == 'cpage' || substr($key,-3)=='srl')) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
-		if($key == 'mid' || $key == 'vid' || $key == 'search_keyword') return htmlspecialchars($val);
-		if(is_array($val) && count($val) ) {
-			foreach($val as $k => $v) {
-				if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc()) $v = stripslashes($v);
-				$v = trim($v);
-				$val[$k] = $v;
-			}
-		} else {
-			if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc()) $val = stripslashes($val);
-			$val = trim($val);
+		$isArray = TRUE;
+		if(!is_array($val))
+		{
+			$isArray = FALSE;
+			$val = array($val);
 		}
-		return $val;
+
+		foreach($val as $k => $v)
+		{
+			if($key === 'page' || $key === 'cpage' || substr($key, -3) === 'srl')
+			{
+				$val[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int)$v : $v;
+			}
+			elseif($key === 'mid' || $key === 'vid' || $key === 'search_keyword')
+			{
+				$val[$k] = htmlspecialchars($v);
+			}
+			else
+			{
+				if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc())
+				{
+					$v = stripslashes($v);
+				}
+
+				$val[$k] = trim($v);
+			}
+		}
+
+		if($isArray)
+		{
+			return $val;
+		}
+		else
+		{
+			return $val[0];
+		}
 	}
 
 	/**
@@ -891,7 +915,8 @@ class Context {
 				$key = $get_vars['key'];
 				$srl = $get_vars['document_srl'];
 
-				$is_feed = in_array($act, array('rss', 'atom', 'api'));
+				$tmpArray = array('rss'=>1, 'atom'=>1, 'api'=>1);
+				$is_feed = isset($tmpArray[$act]);
 
 				$target_map = array(
 					'vid'=>$vid,

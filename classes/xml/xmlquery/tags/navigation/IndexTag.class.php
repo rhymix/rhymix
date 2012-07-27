@@ -1,12 +1,43 @@
 <?php
-
+	/**
+	 * IndexTag class
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/navigation
+	 * @version 0.1
+	 */
 	class IndexTag {
+		/**
+		 * argument name
+		 * @var string
+		 */
 		var $argument_name;
+		/**
+		 * QueryArgument object
+		 * @var QueryArgument
+		 */
 		var $argument;
+		/**
+		 * Default value
+		 * @var string
+		 */
 		var $default;
+		/**
+		 * Sort order
+		 * @var string
+		 */
 		var $sort_order;
+		/**
+		 * Sort order argument
+		 * @var SortQueryArgument object
+		 */
 		var $sort_order_argument;
 
+		/**
+		 * constructor
+		 * @param object $index
+		 * @return void
+		 */
 		function IndexTag($index){
 			$this->argument_name = $index->attrs->var;
 
@@ -18,7 +49,8 @@
 
                         // Sort order - asc / desc
 			$this->sort_order = $index->attrs->order;
-			if(!in_array($this->sort_order, array("asc", "desc"))){
+			$sortList = array('asc'=>1, 'desc'=>1);
+			if(!isset($sortList[$this->sort_order])){
 				$arg = new Xml_Node_();
 				$arg->attrs = new Xml_Node_();
 				$arg->attrs->var = $this->sort_order;

@@ -1,11 +1,43 @@
 <?php
+	/**
+	 * NavigationTag class
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/navigation
+	 * @version 0.1
+	 */
 	class NavigationTag {
+		/**
+		 * Order
+		 * @var array
+		 */
 		var $order;
+		/**
+		 * List count
+		 * @var int
+		 */
 		var $list_count;
+		/**
+		 * Page count
+		 * @var int
+		 */
 		var $page_count;
+		/**
+		 * Page
+		 * @var int
+		 */
 		var $page;
+		/**
+		 * Limit
+		 * @var LimitTag object
+		 */
 		var $limit;
 
+		/**
+		 * constructor
+		 * @param object $xml_navigation
+		 * @return void
+		 */
 		function NavigationTag($xml_navigation){
 			$this->order = array();
             if($xml_navigation) {
@@ -31,6 +63,10 @@
             }
 		}
 
+		/**
+		 * NavigationTag object to string
+		 * @return string
+		 */
 		function getOrderByString(){
 			$output = 'array(' . PHP_EOL;
 			foreach($this->order as $order){
@@ -41,6 +77,10 @@
 			return $output;
 		}
 
+		/**
+		 * LimitTag object to string
+		 * @return string
+		 */
 		function getLimitString(){
 			if ($this->limit)	return $this->limit->toString();
 			else return "";

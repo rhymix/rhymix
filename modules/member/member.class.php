@@ -2,14 +2,21 @@
     /**
      * @class  member
      * @author NHN (developers@xpressengine.com)
-     * @brief high class of the member module
+     * high class of the member module
      **/
     class member extends ModuleObject {
 
+		/**
+		 * Use sha1 encryption
+		 *
+		 * @var boolean
+		 **/
 		var $useSha1 = false;
 
         /**
-         * @brief constructor
+         * constructor
+		 *
+		 * @return void
          **/
         function member() {
             if(!Context::isInstalled()) return;
@@ -21,6 +28,8 @@
                 Context::addSSLAction('dispMemberModifyPassword');
                 Context::addSSLAction('dispMemberSignUpForm');
                 Context::addSSLAction('dispMemberModifyInfo');
+				Context::addSSLAction('dispMemberLoginForm');
+				Context::addSSLAction('dispMemberFindAccount');
                 Context::addSSLAction('procMemberLogin');
                 Context::addSSLAction('procMemberModifyPassword');
                 Context::addSSLAction('procMemberInsert');
@@ -30,7 +39,9 @@
         }
 
         /**
-         * @brief Implement if additional tasks are necessary when installing
+         * Implement if additional tasks are necessary when installing
+		 *
+		 * @return Object
          **/
         function moduleInstall() {
             // Register action forward (to use in administrator mode)
@@ -58,43 +69,46 @@
 
 			global $lang;
 			$oMemberModel = &getModel('member');
-			$identifier = 'email_address';
-			$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
-			$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-			$list_order = array();
-			foreach($items as $key){
-				unset($signupItem);
-				$signupItem->isDefaultForm = true;
-				$signupItem->name = $key;
-				$signupItem->title = $key;
-				$signupItem->mustRequired = in_array($key, $mustRequireds);
-				$signupItem->imageType = (strpos($key, 'image') !== false);
-				$signupItem->required = $signupItem->mustRequired;
-				$signupItem->isUse = $signupItem->mustRequired;
-				$signupItem->isIdentifier = ($key == $identifier);
-				if ($signupItem->imageType){
-					$signupItem->max_width = $config->{$key.'_max_width'};
-					$signupItem->max_height = $config->{$key.'_max_height'};
+			// Create a member controller object
+			$oMemberController = &getController('member');
+			$oMemberAdminController = &getAdminController('member');
+
+			if(!$args->signupForm || !is_array($args->signupForm))
+			{
+				$identifier = 'email_address';
+				$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
+				$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
+				$list_order = array();
+				foreach($items as $key){
+					unset($signupItem);
+					$signupItem->isDefaultForm = true;
+					$signupItem->name = $key;
+					$signupItem->title = $key;
+					$signupItem->mustRequired = in_array($key, $mustRequireds);
+					$signupItem->imageType = (strpos($key, 'image') !== false);
+					$signupItem->required = $signupItem->mustRequired;
+					$signupItem->isUse = $signupItem->mustRequired;
+					$signupItem->isIdentifier = ($key == $identifier);
+					if ($signupItem->imageType){
+						$signupItem->max_width = $config->{$key.'_max_width'};
+						$signupItem->max_height = $config->{$key.'_max_height'};
+					}
+					if ($signupItem->isIdentifier)
+						array_unshift($list_order, $signupItem);
+					else
+						$list_order[] = $signupItem;
 				}
-				if ($signupItem->isIdentifier)
-					array_unshift($list_order, $signupItem);
-				else
-					$list_order[] = $signupItem;
+				$args->signupForm = $list_order;
+				$args->identifier = $identifier;
+
+				$oModuleController->insertModuleConfig('member',$args);
+
+				// Create Ruleset File
+				FileHandler::makeDir('./files/ruleset');
+				$oMemberAdminController->_createSignupRuleset($args->signupForm);
+				$oMemberAdminController->_createLoginRuleset($args->identifier);
+				$oMemberAdminController->_createFindAccountByQuestion($args->identifier);
 			}
-			$args->signupForm = $list_order;
-			$args->identifier = $identifier;
-
-            $oModuleController->insertModuleConfig('member',$args);
-
-            // Create a member controller object
-            $oMemberController = &getController('member');
-            $oMemberAdminController = &getAdminController('member');
-
-			// Create Ruleset File
-			FileHandler::makeDir('./files/ruleset');
-			$oMemberAdminController->_createSignupRuleset($args->signupForm);
-			$oMemberAdminController->_createLoginRuleset($args->identifier);
-			$oMemberAdminController->_createFindAccountByQuestion($args->identifier);
 
             $groups = $oMemberModel->getGroups();
             if(!count($groups)) {
@@ -150,7 +164,9 @@
         }
 
         /**
-         * @brief a method to check if successfully installed
+         * a method to check if successfully installed
+		 * 
+		 * @return boolean
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
@@ -182,10 +198,13 @@
             if(!$oDB->isColumnExists("member", "list_order")) return true;
             if(!$oDB->isIndexExists("member","idx_list_order")) return true;
 
-            $oMemberModel = &getModel('member');
-            $config = $oMemberModel->getMemberConfig();
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
 			// check signup form ordering info
 			if (!$config->signupForm) return true;
+
+			// check agreement field exist
+			if ($config->agreement) return true;
 
 			if (!is_readable('./files/ruleset/insertMember.xml')) return true;
 			if (!is_readable('./files/ruleset/login.xml')) return true;
@@ -195,7 +214,9 @@
         }
 
         /**
-         * @brief Execute update
+         * Execute update
+		 *
+		 * @return Object
          **/
         function moduleUpdate() {
             $oDB = &DB::getInstance();
@@ -257,13 +278,24 @@
                 $oDB->addIndex("member","idx_list_order", array("list_order"));
             }
 
-            $oMemberModel = &getModel('member');
-            $config = $oMemberModel->getMemberConfig();
+			$oModuleModel = &getModel('module');
+			$config = $oModuleModel->getModuleConfig('member');
+			$oModuleController = &getController('module');
+
+			// check agreement value exist
+			if($config->agreement)
+			{
+				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+				$output = FileHandler::writeFile($agreement_file, $config->agreement);
+
+				unset($config->agreement);
+				$output = $oModuleController->updateModuleConfig('member', $config);
+			}
 
 			// check signup form ordering info
 			if (!$config->signupForm || !is_array($config->signupForm)){
 				global $lang;
-				$oModuleController = &getController('module');
+				$oMemberModel = &getModel('member');
 				// Get join form list which is additionally set
 				$extendItems = $oMemberModel->getJoinFormList();
 				
@@ -312,9 +344,9 @@
 				}
 				$config->signupForm = $list_order;
 				$config->identifier = $identifier;
+				unset($config->agreement);
 				$output = $oModuleController->updateModuleConfig('member', $config);
 			}
-
 			
 			FileHandler::makeDir('./files/ruleset');
 			$oMemberAdminController = &getAdminController('member');
@@ -329,7 +361,9 @@
         }
 
         /**
-         * @brief Re-generate the cache file
+         * Re-generate the cache file
+		 *
+		 * @return void
          **/
         function recompileCache() {
             set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
@@ -337,5 +371,70 @@
             $store = new Auth_OpenID_XEStore();
             $store->reset();
         }
-    }
+
+		/**
+		 * @brief Record login error and return the error, about IPaddress.
+		**/
+		function recordLoginError($error = 0, $message = 'success')
+		{
+			if($error == 0) return new Object($error, $message);
+
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+
+			$output = executeQuery('member.getLoginCountByIp', $args);
+			if($output->data && $output->data->count)
+			{
+				// Create a member model object
+				$oMemberModel = &getModel('member');
+				$config = $oMemberModel->getMemberConfig();
+				$last_update = strtotime($output->data->last_update);
+				$term = intval(time()-$last_update);
+				//update, if IP address access in a short time, update count. If not, make count 1.
+				if($term < $config->max_error_count_time)
+				{
+					$args->count = $output->data->count + 1;
+				}
+				else
+				{
+					$args->count = 1;
+				}
+				unset($oMemberModel);
+				unset($config);
+				$output = executeQuery('member.updateLoginCountByIp', $args);
+			}
+			else
+			{
+				//insert
+				$args->count = 1;
+				$output = executeQuery('member.insertLoginCountByIp', $args);
+			}
+			return new Object($error, $message);
+		}
+
+		/**
+		 * @brief Record login error and return the error, about MemberSrl.
+		**/
+		function recordMemberLoginError($error = 0, $message = 'success', $args = NULL)
+		{
+			if($error == 0 || !$args->member_srl) return new Object($error, $message);
+
+			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
+			if($output->data && $output->data->content)
+			{
+				//update
+				$content = unserialize($output->data->content);
+				$content[] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),time());
+				$args->content = serialize($content);
+				$output = executeQuery('member.updateLoginCountHistoryByMemberSrl', $args);
+			}
+			else
+			{
+				//insert
+				$content[0] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),time());
+				$args->content = serialize($content);
+				$output = executeQuery('member.insertLoginCountHistoryByMemberSrl', $args);
+			}
+			return $this->recordLoginError($error, $message);
+		}
+	}
 ?>

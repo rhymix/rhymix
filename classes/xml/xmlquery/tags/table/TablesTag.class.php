@@ -1,24 +1,34 @@
 <?php
-
 	/**
-	 * @class TablesTag
-	 * @author Arnia Sowftare
-	 * @brief Models the <tables> tag inside an XML Query file
+	 * TablesTag class
+	 * Models the <tables> tag inside an XML Query file
+	 * @abstract
+	 *   Example
+	 *      <tables>
+	 *          <table name="documents" alias="doc" />
+	 *      </tables>
+	 *   Attributes
+	 *      None.
+	 *   Children
+	 *      Can have children of type <table> or <query>
 	 *
-         * @abstract
-         *   Example
-         *      <tables>
-         *          <table name="documents" alias="doc" />
-         *      </tables>
-         *   Attributes
-         *      None.
-         *   Children
-         *      Can have children of type <table> or <query>
+	 * @author Arnia Sowftare
+	 * @package /classes/xml/xmlquery/tags/table
+	 * @version 0.1
 	 */
-
 	class TablesTag {
+		/**
+		 * Table list
+		 * @var array
+		 */
 		var $tables;
 
+		/**
+		 * constructor
+		 * @param object $xml_tables_tag
+		 * @param object $xml_index_hints_tag
+		 * @return void
+		 */
 		function TablesTag($xml_tables_tag, $xml_index_hints_tag = NULL){
                     $this->tables = array();
 
@@ -42,7 +52,7 @@
                             $this->tables[] = new QueryTag($tag, true);
                         }
                         else {
-                            if(isset($indexes) && $indexes && isset($indexes[$tag->attrs->name]))
+                            if(isset($indexes[$tag->attrs->name]) && $indexes[$tag->attrs->name])
                                 $this->tables[] = new HintTableTag($tag, $indexes[$tag->attrs->name]);
                             else
                                 $this->tables[] = new TableTag($tag);

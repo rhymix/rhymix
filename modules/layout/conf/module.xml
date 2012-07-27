@@ -11,8 +11,8 @@
 		<action name="dispLayoutAdminMobileContent" type="view" standalone="true" />
 
 		<action name="dispLayoutAdminInstalledList" type="view" admin_index="true" menu_name="installedLayout" menu_index="true" />
-		<action name="dispLayoutAdminInstalledMobileList" type="view" menu_name="installedLayout" />
 		<action name="dispLayoutAdminInstanceList" type="view" menu_name="installedLayout" />
+		<action name="dispLayoutAdminAllInstanceList" type="view" menu_name="installedLayout" />
 		<action name="dispLayoutAdminInsert" type="view" menu_name="installedLayout" />
 		<action name="dispLayoutAdminModify" type="view" menu_name="installedLayout" />
 		<action name="dispLayoutAdminEdit" type="view" menu_name="installedLayout" />

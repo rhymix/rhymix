@@ -1,20 +1,22 @@
 <?php
     /**
-     * @class  fileAdminController
+     * admin controller class of the file module
      * @author NHN (developers@xpressengine.com)
-     * @brief admin controller class of the file module
      **/
-
     class fileAdminController extends file {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Delete the attachment of a particular module
+         * Delete the attachment of a particular module
+		 *
+		 * @param int $module_srl Sequence of module to delete files
+		 * @return Object
          **/
         function deleteModuleFiles($module_srl) {
             // Get a full list of attachments
@@ -47,7 +49,9 @@
         }
 
         /**
-         * @brief Delete selected files from the administrator page
+         * Delete selected files from the administrator page
+		 *
+		 * @return Object
          **/
         function procFileAdminDeleteChecked() {
             // An error appears if no document is selected
@@ -68,15 +72,15 @@
             }
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_file_is_deleted'), $file_count) );
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminList');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminList');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Add file information
+         * Add file information
+		 *
+		 * @return Object
          **/
         function procFileAdminInsertConfig() {
             // Get configurations (using module model object)
@@ -89,16 +93,15 @@
             // Create module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('file',$config);
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig');
-				header('location:'.$returnUrl);
-				return;
-			}
-            return $output;
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig');
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
         /**
-         * @brief Add file information for each module
+         * Add file information for each module
+		 *
+		 * @return void
          **/
         function procFileAdminInsertModuleConfig() {
             // Get variables
@@ -138,15 +141,15 @@
 
             $this->setError(-1);
             $this->setMessage('success_updated', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
-         * @brief Add to SESSION file srl
+         * Add to SESSION file srl
+		 *
+		 * @return Object
          **/
 		function procFileAdminAddCart()
 		{
@@ -165,7 +168,10 @@
 		}
 
 		/**
-		 * @brief php.ini에서 가져온 값의 형식이 M과 같을경우 byte로 바꿔주기
+		 * Change value from human readable to byte unit
+		 *
+		 * @param string $size_str Size string
+		 * @return int The byte value for input
 		 **/
 		function _changeBytes($size_str)
 		{

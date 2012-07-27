@@ -1,22 +1,24 @@
 <?php
-    /**
-     * @class  addonAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief admin controller class of addon modules
-     **/
-
     require_once(_XE_PATH_.'modules/addon/addon.controller.php');
 
+    /**
+     * Admin controller class of addon modules
+     * @author NHN (developers@xpressengine.com)
+     **/
     class addonAdminController extends addonController {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
 		/**
-		 * @brief Set addon activate
+		 * Set addon activate
+		 *
+		 * @return Object
 		 **/
 		function procAddonAdminSaveActivate()
 		{
@@ -109,7 +111,9 @@
 		}
 
         /**
-         * @brief Add active/inactive change
+         * Add active/inactive change
+		 *
+		 * @return Object
          **/
         function procAddonAdminToggleActivate() {
 			$oAddonModel = &getAdminModel('addon');
@@ -130,7 +134,9 @@
         }
 
         /**
-         * @brief Add the configuration information input
+         * Add the configuration information input
+		 *
+		 * @return Object
          **/
         function procAddonAdminSetupAddon() {
             $args = Context::getRequestVars();
@@ -150,14 +156,19 @@
             $this->makeCacheFile($site_module_info->site_srl, "pc", 'site');
             $this->makeCacheFile($site_module_info->site_srl, "mobile", 'site');
 
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', $module, 'act', 'dispAddonAdminSetup', 'selected_addon', $addon_name));
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', $module, 'act', 'dispAddonAdminSetup', 'selected_addon', $addon_name), $output);
         }
 
 
 
         /**
-         * @brief Add-on
-         * Adds Add to DB
+         * Adds addon to DB
+		 *
+		 * @param string $addon Addon name
+		 * @param int $site_srl Site srl
+		 * @param string $gtype site or global
+		 * @param string $isUsed Whether to use
+		 * @return Object
          **/
         function doInsert($addon, $site_srl = 0, $gtype = 'site', $isUsed = 'N') {
             $args->addon = $addon;
@@ -168,8 +179,13 @@
         }
 
         /**
-         * @brief Add-activated
-         * addons add-ons to the table on the activation state sikyeojum
+         * Activate addon
+		 *
+         * @param string $addon Addon name
+		 * @param int $site_srl Site srl
+		 * @param string $type pc or modile
+		 * @param string $gtype site or global
+		 * @return Object
          **/
         function doActivate($addon, $site_srl = 0, $type = "pc", $gtype = 'site') {
             $args->addon = $addon;
@@ -181,9 +197,12 @@
         }
 
         /**
-         * @brief Disable Add-ons
+         * Deactivate Addon
          *
-         * addons add a table to remove the name of the deactivation is sikige
+		 * @param string $addon Addon name
+		 * @param int $site_srl Site srl
+		 * @param string $type pc or mobile
+		 * @param string $gtype site or global
          **/
         function doDeactivate($addon, $site_srl = 0, $type = "pc", $gtype = 'site') {
             $args->addon = $addon;

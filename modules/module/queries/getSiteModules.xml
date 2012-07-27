@@ -7,6 +7,8 @@
         <column name="sites.domain" />
         <column name="modules.site_srl" />
         <column name="modules.module" />
+        <column name="modules.module_category_srl" />
+        <column name="modules.layout_srl" />
         <column name="modules.mid" />
         <column name="modules.browser_title" />
         <column name="modules.module_srl" />

@@ -1,25 +1,104 @@
 <?php
-
+/**
+ * QueryTag class
+ *
+ * @author Arnia Software
+ * @package /classes/xml/xmlquery/tags/query
+ * @version 0.1
+ */
 class QueryTag {
-
+	/**
+	 * Action for example, 'select', 'insert', 'delete'...
+	 * @var string
+	 */
 	var $action;
+	/**
+	 * Query id
+	 * @var string
+	 */
 	var $query_id;
+	/**
+	 * Priority
+	 * @var string
+	 */
 	var $priority;
+	/**
+	 * column type list
+	 * @var array
+	 */
 	var $column_type;
+	/**
+	 * Query stdClass object
+	 * @var object
+	 */
 	var $query;
-	//xml tags
+	/**
+	 * Columns in xml tags
+	 * @var object
+	 */
 	var $columns;
+	/**
+	 * Tables in xml tags
+	 * @var object
+	 */
 	var $tables;
+	/**
+	 * Subquery in xml tags
+	 * @var object
+	 */
+	var $subquery;
+	/**
+	 * Conditions in xml tags
+	 * @var object
+	 */
 	var $conditions;
+	/**
+	 * Groups in xml tags
+	 * @var object
+	 */
 	var $groups;
+	/**
+	 * Navigation in xml tags
+	 * @var object
+	 */
 	var $navigation;
+	/**
+	 * Arguments in xml tags
+	 * @var object
+	 */
 	var $arguments;
+	/**
+	 * PreBuff
+	 * @var string
+	 */
 	var $preBuff;
+	/**
+	 * Buff
+	 * @var string
+	 */
 	var $buff;
+	/**
+	 * Subquery status
+	 * @var bool
+	 */
 	var $isSubQuery;
+	/**
+	 * Join type
+	 * @var string
+	 */
 	var $join_type;
+	/**
+	 * alias
+	 * @var string
+	 */
 	var $alias;
 
+	/**
+	 * constructor
+	 * @param object $query
+	 * @param bool $isSubQuery
+	 * @return void
+	 */
 	function QueryTag($query, $isSubQuery = false) {
 		$this->action = $query->attrs->action;
 		$this->query_id = $query->attrs->id;
@@ -37,9 +116,12 @@ class QueryTag {
 		$this->getColumns();
 		$tables = $this->getTables();
 		$this->setTableColumnTypes($tables);
+		$this->getSubquery(); // Used for insert-select
 		$this->getConditions();
 		$this->getGroups();
 		$this->getNavigation();
+		
+		
 		$this->getPrebuff();
 		$this->getBuff();
 	}
@@ -77,19 +159,20 @@ class QueryTag {
 		}
 	}
 
-	function getColumns() {
-		if ($this->action == 'select') {
-			return $this->columns = new SelectColumnsTag($this->query->columns);
-		} else if ($this->action == 'insert') {
-			return $this->columns = new InsertColumnsTag($this->query->columns->column);
-		} else if ($this->action == 'update') {
-			return $this->columns = new UpdateColumnsTag($this->query->columns->column);
-		} else if ($this->action == 'delete') {
-			return $this->columns = null;
+	function getColumns(){
+		if($this->action == 'select'){
+			return $this->columns =  new SelectColumnsTag($this->query->columns);
+		}else if($this->action == 'insert' || $this->action == 'insert-select'){
+			return $this->columns =  new InsertColumnsTag($this->query->columns->column);
+		}else if($this->action == 'update') {
+			return $this->columns =  new UpdateColumnsTag($this->query->columns->column);
+		}else if($this->action == 'delete') {
+			return $this->columns =  null;
 		}
 	}
 
 	function getPrebuff() {
+		if($this->isSubQuery) return;
 		// TODO Check if this work with arguments in join clause
 		$arguments = $this->getArguments();
 
@@ -159,11 +242,13 @@ class QueryTag {
 		if ($this->columns)
 			$buff .= '$query->setColumns(' . $this->columns->toString() . ');' . PHP_EOL;
 
-		$buff .= '$query->setTables(' . $this->tables->toString() . ');' . PHP_EOL;
-		$buff .= '$query->setConditions(' . $this->conditions->toString() . ');' . PHP_EOL;
-		$buff .= '$query->setGroups(' . $this->groups->toString() . ');' . PHP_EOL;
-		$buff .= '$query->setOrder(' . $this->navigation->getOrderByString() . ');' . PHP_EOL;
-		$buff .= '$query->setLimit(' . $this->navigation->getLimitString() . ');' . PHP_EOL;
+        $buff .= '$query->setTables(' . $this->tables->toString() .');'.PHP_EOL;
+		if($this->action == 'insert-select')
+				$buff .= '$query->setSubquery(' . $this->subquery->toString() .');'.PHP_EOL;
+        $buff .= '$query->setConditions('.$this->conditions->toString() .');'.PHP_EOL;
+       	$buff .= '$query->setGroups(' . $this->groups->toString() . ');'.PHP_EOL;
+       	$buff .= '$query->setOrder(' . $this->navigation->getOrderByString() .');'.PHP_EOL;
+		$buff .= '$query->setLimit(' . $this->navigation->getLimitString() .');'.PHP_EOL;
 
 		$this->buff = $buff;
 		return $this->buff;
@@ -176,7 +261,13 @@ class QueryTag {
 			return $this->tables = new TablesTag($this->query->tables);
 	}
 
-	function getConditions() {
+	function getSubquery(){
+		if($this->query->query){
+			$this->subquery = new QueryTag($this->query->query, true);
+		}
+	}
+	
+	function getConditions(){
 		return $this->conditions = new ConditionsTag($this->query->conditions);
 	}
 
@@ -207,11 +298,13 @@ class QueryTag {
 		return $this->buff;
 	}
 
-	function getArguments() {
+	function getArguments(){
 		$arguments = array();
 		if ($this->columns)
 			$arguments = array_merge($arguments, $this->columns->getArguments());
-		$arguments = array_merge($arguments, $this->tables->getArguments());
+		if($this->action =='insert-select')
+			$arguments = array_merge($arguments, $this->subquery->getArguments());
+        $arguments = array_merge($arguments, $this->tables->getArguments());
 		$arguments = array_merge($arguments, $this->conditions->getArguments());
 		$arguments = array_merge($arguments, $this->navigation->getArguments());
 		return $arguments;

@@ -1,23 +1,27 @@
 <?php
-    /**
-     * @class  menuAdminView
-     * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of the menu module
-     **/
-
+	/**
+	 * menuAdminView class
+	 * admin view class of the menu module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/menu
+	 * @version 0.1
+	 */
     class menuAdminView extends menu {
 		var $tmpMenu = null;
 
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
-        /**
-         * @brief The first page of the menu admin
-         **/
+		/**
+		 * The first page of the menu admin
+		 * @return void
+		 */
         function dispMenuAdminContent() {
             // Get a list of registered menus
             $obj->page = Context::get('page');
@@ -41,9 +45,10 @@
             $this->setTemplateFile('index');
         }
 
-        /**
-         * @brief Page to insert a menu
-         **/
+		/**
+		 * Page to insert a menu
+		 * @return void
+		 */
         function dispMenuAdminInsert() {
             // Set the menu with menu information
             $menu_srl = Context::get('menu_srl');
@@ -58,9 +63,10 @@
             $this->setTemplateFile('menu_insert');
         }
 
-        /**
-         * @brief Menu admin page
-         **/
+		/**
+		 * Menu admin page
+		 * @return void
+		 */
         function dispMenuAdminManagement() {
             // Get information of the menu
             $menu_srl = Context::get('menu_srl');
@@ -82,10 +88,11 @@
         }
 
 
-        /**
-         * @brief Display a mid list to be able to select on the menu
-		 * @perphaps this method not use
-         **/
+		/**
+		 * Display a mid list to be able to select on the menu
+		 * Perphaps this method not use
+		 * @return void
+		 */
         function dispMenuAdminMidList() {
             $oModuleModel = &getModel('module');
             // Get a list of module categories
@@ -113,12 +120,14 @@
             $this->setTemplateFile('mid_list');
         }
 
-        /**
-         * @brief Site map admin menu index page
-         **/
+		/**
+		 * Site map admin menu index page
+		 * @return void
+		 */
 		function dispMenuAdminSiteMap()
 		{
 			Context::loadLang(_XE_PATH_.'modules/document/lang/');
+			Context::loadLang(_XE_PATH_.'modules/layout/lang/');
             $site_srl = Context::get('site_srl');
 			$site_module_info = Context::get('site_module_info');
 
@@ -170,6 +179,10 @@
 			$resultModuleList = $oMenuAdminModel->getModuleListInSitemap($site_srl);
             Context::set('module_list', $resultModuleList);
 
+			$oLayoutModel = &getModel('layout');
+			$layoutList = $oLayoutModel->getLayoutList();
+            Context::set('layout_list', $layoutList);
+
 			// get default group list
 			$oMemberModel = &getModel('member');
 			$output = $oMemberModel->getGroups();
@@ -187,6 +200,11 @@
             $this->setTemplateFile('sitemap');
 		}
 
+		/**
+		 * Setting menu information(recursive)
+		 * @param array $menu
+		 * @return void
+		 */
 		function _menuInfoSetting(&$menu)
 		{
 			$oModuleModel = &getModel('module');
@@ -201,6 +219,8 @@
 					$menu['module_srl'] = $midInfo->module_srl;
 					$menu['setup_index_act'] = $moduleInfo->setup_index_act;
 				}
+				// setting layout srl for layout management
+				$menu['layout_srl'] = $midInfo->layout_srl;
 			}
 			if(count($menu['list']) > 0)
 			{
@@ -211,6 +231,11 @@
 			}
 		}
 
+		/**
+		 * Tree-shaped sorting
+		 * @param array $menuItems
+		 * @return array
+		 */
 		function _arrangeMenuItem($menuItems)
 		{
 			if(is_array($menuItems))

@@ -1,10 +1,33 @@
 <?php
-
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts/table
+	 * @version 0.1
+	 */
 	class MssqlTableWithHint extends Table {
+		/**
+		 * table name
+		 * @var string
+		 */
 		var $name;
+		/**
+		 * table alias
+		 * @var string
+		 */
 		var $alias;
+		/**
+		 * index hint type, ex) IGNORE, FORCE, USE...
+		 * @var array
+		 */
                 var $index_hints_list;
 
+		/**
+		 * constructor
+		 * @param string $name
+		 * @param string $alias
+		 * @param string $index_hints_list
+		 * @return void
+		 */
 		function MssqlTableWithHint($name, $alias = NULL, $index_hints_list){
                     parent::Table($name, $alias);
                     $this->index_hints_list = $index_hints_list;
@@ -14,9 +37,10 @@
                     $result = parent::toString();
 
                     $index_hint_string = '';
+					$indexTypeList = array('USE'=>1, 'FORCE'=>1);
                     foreach($this->index_hints_list as $index_hint){
                         $index_hint_type = $index_hint->getIndexHintType();
-                        if(in_array($index_hint_type, array('USE', 'FORCE')))
+                        if(isset($indexTypeList[$index_hint_type]))
                                 $index_hint_string .= 'INDEX(' . $index_hint->getIndexName() . '), ';
                     }
                     if($index_hint_string != ''){

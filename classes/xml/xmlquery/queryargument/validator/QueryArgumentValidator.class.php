@@ -1,16 +1,56 @@
 <?php
+	/**
+	 * QueryArgumentValidator class
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/xml/xmlquery/queryargument/validator
+	 * @version 0.1
+	 */
 	class QueryArgumentValidator {
+		/**
+		 * Argument name
+		 * @var string
+		 */
 		var $argument_name;
+		/**
+		 * Default value
+		 * @var string
+		 */
 		var $default_value;
+		/**
+		 * Notnull status setting, if value should be not null, this value is 'notnull'
+		 * @var string
+		 */
 		var $notnull;
+		/**
+		 * Filter for value type, for example number
+		 * @var string
+		 */
 		var $filter;
+		/**
+		 * Minimum length for value
+		 * @var int
+		 */
 		var $min_length;
+		/**
+		 * Maximum length for value
+		 * @var int
+		 */
 		var $max_length;
 
 		var $validator_string;
 
+		/**
+		 * Query argument for validate
+		 * @var QueryArgument object
+		 */
 		var $argument;
 
+		/**
+		 * constructor
+		 * @param Xml_Node_ $tag tag object by Query xml file parse
+		 * @param QueryArgument $argument
+		 * @return void
+		 */
 		function QueryArgumentValidator($tag, $argument){
 			$this->argument = $argument;
 			$this->argument_name = $this->argument->getArgumentName();

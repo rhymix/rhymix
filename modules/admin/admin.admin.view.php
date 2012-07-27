@@ -1,19 +1,28 @@
 <?php
-    /**
-     * @class  adminAdminView
-     * @author NHN (developers@xpressengine.com)
-     * @brief  admin view class of admin module
-     **/
-
+	/**
+	 * adminAdminView class
+	 * Admin view class of admin module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/admin
+	 * @version 0.1
+	 */
     class adminAdminView extends admin {
-
+		/**
+		 * layout list
+		 * @var array
+		 */
 		var $layout_list;
+		/**
+		 * easy install check file
+		 * @var array
+		 */
 		var $easyinstallCheckFile = './files/env/easyinstall_last';
 
         /**
-         * @brief Initilization
-         * @return none
-         **/
+         * Initilization
+         * @return void
+         */
         function init() {
             // forbit access if the user is not an administrator
             $oMemberModel = &getModel('member');
@@ -49,6 +58,10 @@
 			$this->checkEasyinstall();
         }
 
+		/**
+		 * check easy install
+		 * @return void
+		 */
 		function checkEasyinstall()
 		{
 			$lastTime = (int)FileHandler::readFile($this->easyinstallCheckFile);
@@ -78,12 +91,21 @@
 			$this->_markingCheckEasyinstall();
 		}
 
+		/**
+		 * update easy install file content
+		 * @return void
+		 */
 		function _markingCheckEasyinstall()
 		{
 			$currentTime = time();
 			FileHandler::writeFile($this->easyinstallCheckFile, $currentTime);
 		}
 
+		/**
+		 * Include admin menu php file and make menu url
+		 * Setting admin logo, newest news setting
+		 * @return void
+		 */
 		function makeGnbUrl($module = 'admin')
 		{
 			global $lang;
@@ -188,10 +210,10 @@
             Context::setBrowserTitle($browserTitle);
 		}
 
-        /**
-         * @brief Display Super Admin Dashboard
-         * @return none
-         **/
+		/**
+		 * Display Super Admin Dashboard
+		 * @return void
+		 */
         function dispAdminIndex() {
             // Get statistics
             $args->date = date("Ymd000000", time()-60*60*24);
@@ -293,10 +315,10 @@
             $this->setTemplateFile('index');
         }
 
-        /**
-         * @brief Display Configuration(settings) page
-         * @return none
-         **/
+		/**
+		 * Display Configuration(settings) page
+		 * @return void
+		 */
         function dispAdminConfigGeneral() {
 		    Context::loadLang('modules/install/lang');
 
@@ -340,10 +362,10 @@
 			$security->encodeHTML('news..', 'released_version', 'download_link', 'selected_lang', 'module_list..', 'module_list..author..', 'addon_list..', 'addon_list..author..', 'start_module.');
         }
 
-        /**
-         * @brief Display Configuration(settings) page
-         * @return none
-         **/
+		/**
+		 * Display FTP Configuration(settings) page
+		 * @return void
+		 */
         function dispAdminConfigFtp() {
 		    Context::loadLang('modules/install/lang');
 
@@ -359,9 +381,9 @@
         }
 
 		/**
-         * @brief Display Admin Menu Configuration(settings) page
-         * @return none
-         **/
+		 * Display Admin Menu Configuration(settings) page
+		 * @return void
+		 */
 		function dispAdminSetup()
 		{
 			$oModuleModel = &getModel('module');
@@ -377,6 +399,10 @@
 		}
 
 
+		/**
+		 * Enviroment information send to XE collect server
+		 * @return void
+		 */
 		function showSendEnv() {
 			if(Context::getResponseMethod() != 'HTML') return;
 
@@ -411,6 +437,10 @@
 			}
 		}
 
+		/**
+		 * Display Admin theme Configuration(settings) page
+		 * @return void
+		 */
 		function dispAdminTheme(){
 			// choice theme file
 			$theme_file = _XE_PATH_.'files/theme/theme_info.php';

@@ -2,7 +2,7 @@
 /**
  * @class TemplateHandler
  * @author NHN (developers@xpressengine.com)
- * @brief template compiler
+ * template compiler
  * @version 0.1
  * @remarks It compiles template file by using regular expression into php
  *          code, and XE caches compiled code for further uses
@@ -22,6 +22,10 @@ class TemplateHandler {
 
 	var $handler_mtime = 0;
 
+	/**
+	 * constructor
+	 * @return void
+	 **/
 	function TemplateHandler()
 	{
 		// TODO: replace this with static variable in PHP5
@@ -33,7 +37,7 @@ class TemplateHandler {
 	}
 
 	/**
-	 * @brief returns TemplateHandler's singleton object
+	 * returns TemplateHandler's singleton object
 	 * @return TemplateHandler instance
 	 **/
 	function &getInstance()
@@ -51,7 +55,11 @@ class TemplateHandler {
 	}
 
 	/**
-	 * @brief set variables for template compile
+	 * set variables for template compile
+	 * @param string $tpl_path
+	 * @param string $tpl_filename
+	 * @param string $tpl_file
+	 * @return void
 	 **/
 	function init($tpl_path, $tpl_filename, $tpl_file='')
 	{
@@ -80,11 +88,11 @@ class TemplateHandler {
 	}
 
 	/**
-	 * @brief compiles specified tpl file and execution result in Context into resultant content
-	 * @param[in] $tpl_path path of the directory containing target template file
-	 * @param[in] $tpl_filename target template file's name
-	 * @param[in] $tpl_file if specified use it as template file's full path
-	 * @return Returns compiled result in case of success, NULL otherwise
+	 * compiles specified tpl file and execution result in Context into resultant content
+	 * @param string $tpl_path path of the directory containing target template file
+	 * @param string $tpl_filename target template file's name
+	 * @param string $tpl_file if specified use it as template file's full path
+	 * @return string Returns compiled result in case of success, NULL otherwise
 	 */
 	function compile($tpl_path, $tpl_filename, $tpl_file='') {
 		global $__templatehandler_root_tpl;
@@ -140,10 +148,10 @@ class TemplateHandler {
 	}
 
 	/**
-	 * @brief compile specified file and immediately return
-	 * @param[in] $tpl_path path of the directory containing target template file
-	 * @param[in] $tpl_filename target template file's name
-	 * @return Returns compiled content in case of success or NULL in case of failure
+	 * compile specified file and immediately return
+	 * @param string $tpl_path path of the directory containing target template file
+	 * @param string $tpl_filename target template file's name
+	 * @return string Returns compiled content in case of success or NULL in case of failure
 	 **/
 	function compileDirect($tpl_path, $tpl_filename) {
 		$this->init($tpl_path, $tpl_filename, null);
@@ -158,11 +166,9 @@ class TemplateHandler {
 	}
 
 	/**
-	 * @brief compile a template file specified in $tpl_file and
-	 * @pre files specified by $tpl_file exists.
-	 * @param[in] $tpl_file path of tpl file
-	 * @param[in] $compiled_tpl_file if specified, write compiled result into the file
-	 * @return compiled result in case of success or NULL in case of error
+	 * parse syntax.
+	 * @param string $buff template file
+	 * @return string compiled result in case of success or NULL in case of error
 	 **/
 	function parse($buff=null) {
 		if(is_null($buff)) {
@@ -189,8 +195,8 @@ class TemplateHandler {
 		// include, unload/load, import
 		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\(["\']([^"\']+)["\'])(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]*)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
 
-		// remove block which is a virtual tag and remove comments
-		$buff = preg_replace('@</?block\s*>|\s?<!--//(.*?)-->@is','',$buff);
+		// remove block which is a virtual tag
+		$buff = preg_replace('@</?block\s*>@is','',$buff);
 
 		// form auto generation
 		$buff = preg_replace_callback('/(<form(?:<\?php.+?\?>|[^<>]+)*?>)(.*?)(<\/form>)/is', array($this, '_compileFormAuthGeneration'), $buff);
@@ -198,14 +204,20 @@ class TemplateHandler {
 		// prevent from calling directly before writing into file
 		$buff = '<?php if(!defined("__XE__"))exit;?>'.$buff;
 
+		// remove php script reopening
+		$buff = preg_replace(array('/(\n|\r\n)+/','/(;)?( )*\?\>\<\?php([\n\t ]+)?/'),array("\n",";\n"),$buff);
+
 		return $buff;
 	}
 
 	/**
-	 * @brief 1. remove ruleset from form tag
+	 * preg_replace_callback handler
+	 * 1. remove ruleset from form tag
 	 * 2. add hidden tag with ruleset value
 	 * 3. if empty default hidden tag, generate hidden tag (ex:mid, vid, act...)
 	 * 4. generate return url, return url use in server side validator
+	 * @param array $matches
+	 * @return string
 	 **/
 	function _compileFormAuthGeneration($matches)
 	{
@@ -260,7 +272,7 @@ class TemplateHandler {
 		if(!preg_match('/no-error-return-url="true"/i', $matches[1]))
 		{
 			preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
-			if(!$m3[0]) $matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo getRequestUriByServerEnviroment() ?>" />'.$matches[2];
+			if(!$m3[0]) $matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo htmlspecialchars(getRequestUriByServerEnviroment()) ?>" />'.$matches[2];
 		}
 		else
 		{
@@ -272,11 +284,9 @@ class TemplateHandler {
 	}
 
 	/**
-	 * @brief fetch using ob_* function
-	 * @param[in] $compiled_tpl_file path of compiled template file
-	 * @param[in] $buff if buff is not null, eval it instead of including compiled template file
-	 * @param[in] $tpl_path set context's tpl path
-	 * @return result string
+	 * fetch using ob_* function
+	 * @param string $buff if buff is not null, eval it instead of including compiled template file
+	 * @return string
 	 **/
 	function _fetch($buff) {
 		if(!$buff) return;
@@ -300,10 +310,12 @@ class TemplateHandler {
 	}
 
 	/**
-	 * @brief change image path
-	 * @pre $matches is an array containg three elements
-	 * @param[in] $matches match
-	 * @return changed result
+	 * preg_replace_callback hanlder
+	 * 
+	 * replace image path
+	 * @param array $match
+	 *
+	 * @return string changed result
 	 **/
 	function _replacePath($match)
 	{
@@ -320,6 +332,11 @@ class TemplateHandler {
 		return substr($match[0],0,-strlen($match[1])-6)."src=\"{$src}\"";
 	}
 
+	/**
+	 * replace loop and cond template syntax
+	 * @param string $buff
+	 * @return string changed result
+	 **/
 	function _parseInline($buff)
 	{
 		if(preg_match_all('/<([a-zA-Z]+\d?)(?>(?!<[a-z]+\d?[\s>]).)*?(?:[ \|]cond| loop)="/s', $buff, $match) === false) return $buff;
@@ -334,7 +351,7 @@ class TemplateHandler {
 		$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// list of self closing tags
-		$self_closing = explode(',', 'area,base,basefont,br,hr,input,img,link,meta,param,frame,col');
+		$self_closing = array('area'=>1,'base'=>1,'basefont'=>1,'br'=>1,'hr'=>1,'input'=>1,'img'=>1,'link'=>1,'meta'=>1,'param'=>1,'frame'=>1,'col'=>1);
 
 		for($idx=1,$node_len=count($nodes); $idx < $node_len; $idx+=2) {
 			if(!($node=$nodes[$idx])) continue;
@@ -375,7 +392,7 @@ class TemplateHandler {
 
 				// find closing tag
 				$close_php = '<?php '.str_repeat('}', $closing).' ?>';
-				if($node{1} == '!' || substr($node,-2,1) == '/' || in_array($tag, $self_closing)) { //  self closing tag
+				if($node{1} == '!' || substr($node,-2,1) == '/' || isset($self_closing[$tag])) { //  self closing tag
 					$nodes[$idx+1] = $close_php.$nodes[$idx+1];
 				} else {
 					$depth = 1;
@@ -396,7 +413,7 @@ class TemplateHandler {
 			}
 
 			if(strpos($node, '|cond="') !== false) {
-				$node = preg_replace('@(\s[\w:\-]+="[^"]+?")\|cond="(.+?)"@s', '<?php if($2){ ?>$1<?php } ?>', $node);
+				$node = preg_replace('@(\s[-\w:]+="[^"]+?")\|cond="(.+?)"@s', '<?php if($2){ ?>$1<?php } ?>', $node);
 				$node = $this->_replaceVar($node);
 			}
 
@@ -408,6 +425,12 @@ class TemplateHandler {
 		return $buff;
 	}
 
+	/**
+	 * preg_replace_callback hanlder
+	 * replace php code.
+	 * @param array $m
+	 * @return string changed result
+	 **/
 	function _parseResource($m)
 	{
 		// {@ ... } or {$var} or {func(...)}
@@ -545,6 +568,11 @@ class TemplateHandler {
 		return $m[0];
 	}
 
+	/**
+	 * change relative path
+	 * @param string $path
+	 * @return string
+	 **/
 	function _getRelativeDir($path)
 	{
 		$_path = $path;
@@ -573,7 +601,9 @@ class TemplateHandler {
 	}
 
 	/**
-	 * @brief replace PHP variables of $ character
+	 * replace PHP variables of $ character
+	 * @param string $php
+	 * @return string $__Context->varname
 	 **/
 	function _replaceVar($php) {
 		if(!strlen($php)) return '';

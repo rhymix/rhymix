@@ -87,14 +87,20 @@ function doFillWidgetVars() {
 
     // 위젯 스타일 유지를 위한 hidden input 추가하고 값을 저장
     var attrs = selected_node.attributes;
-    for (i=0; i< attrs.length ; i++){
-        var name = attrs[i].name;
-        var value = jQuery(selected_node).attr(name);
-        if(value=='Array') continue;
-        if(jQuery("[name="+name+"]",fo_widget).size()>0 || !value || name == 'style') continue;
 
-        var dummy = jQuery('<input type="hidden" name="'+name+'" >').val(value).appendTo("#fo_widget").get(0);
-    }
+	//  IE7에서 발생하는 jQuery 용 attribute를 걸러내기 위해 추가
+	var attrFilters = ['style', 'sizset', 'draggable', 'class'];
+
+	for (i=0; i< attrs.length ; i++){
+		var name = attrs[i].name;
+		var value = jQuery(selected_node).attr(name);
+		if(value=='Array') continue;
+		if(jQuery("[name="+name+"]",fo_widget).size()>0 || !value) continue;
+		if(name.indexOf('sizcache')  == 0) continue;
+		if(jQuery.inArray(name, attrFilters) > -1) continue;
+
+		var dummy = jQuery('<input type="hidden" name="'+name+'" />').val(value).appendTo("#fo_widget").get(0);
+	}
 
     // 위젯의 속성 설정
     var obj_list = new Array();
@@ -106,6 +112,8 @@ function doFillWidgetVars() {
         var node = obj_list[j];
         if(node.name.indexOf('_')==0) continue;
         if(node.name == 'widgetstyle') continue;
+        if(node.type == 'button') continue;
+        if(node.name == '') continue;
 
         var length = node.length;
         var type = node.type;

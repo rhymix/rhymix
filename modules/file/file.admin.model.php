@@ -1,20 +1,64 @@
 <?php
     /**
-     * @class  fileAdminModel
+     * Admin model class of the file module
      * @author NHN (developers@xpressengine.com)
-     * @brief admin model class of the file module
      **/
-
     class fileAdminModel extends file {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Get all the attachments in order by time descending (for administrators)
+         * Get all the attachments in order by time descending (for administrators)
+		 *
+		 * <pre>
+		 * Search options:
+		 * - s_module_srl:          int[] or int, search module_srl
+		 * - exclude_module_srl:    int[] or int, exclude module_srl
+		 * - isvalid:               Y or N
+		 * - direct_download:       Y or N
+		 * - s_filename:            string, like operation
+		 * - s_filesize_more:       int, more operation, byte unit
+		 * - s_filesize_mega_more:  int, more operation, mega unit
+		 * - s_filesize_less:       int, less operation, byte unit
+		 * - s_filesize_mega_less:  int, less operation, mega unit
+		 * - s_download_count:      int, more operation
+		 * - s_regdate:             string(YYYYMMDDHHMMSS), like prefix operation(STRING%)
+		 * - s_ipaddress:           string, like prefix operation
+		 * - s_user_id:             string
+		 * - s_user_name:           string
+		 * - s_nick_name:           string
+		 * - sort_index:            string. default: files.file_srl
+		 * - page :                 int
+		 * - list_count:            int. default: 20
+		 * - page_count:            int. default: 10
+		 *
+		 * Result data:
+		 * - file_srl
+		 * - upload_target_srl
+		 * - upload_target_type
+		 * - sid
+		 * - module_srl
+		 * - member_srl
+		 * - download_count
+		 * - direct_download
+		 * - source_filename
+		 * - uploaded_filename
+		 * - file_size
+		 * - comment
+		 * - isvaild
+		 * - regdate
+		 * - ipaddress
+		 * 
+		 * </pre>
+		 *
+		 * @param object $obj Search options
+		 * @param array $columnList Column list to get from DB
+		 * @return Object Object contains query result
          **/
         function getFileList($obj, $columnList = array()) {
 			$this->_makeSearchParam($obj, $args);
@@ -51,7 +95,21 @@
         }
 
         /**
-         * @brief Return number of attachments which belongs to a specific document
+         * Return number of attachments which belongs to a specific document
+		 *
+		 * <pre>
+		 * Result data:
+		 * +---------+-------+
+		 * | isvalid | count |
+		 * +---------+-------+
+		 * | Y       | 00    |
+		 * +---------+-------+
+		 * | N       | 00    |
+		 * +---------+-------+
+		 * </pre>
+		 *
+		 * @param object $obj Search options (not used...)
+		 * @return array
          **/
         function getFilesCountByGroupValid($obj = '') {
 			//$this->_makeSearchParam($obj, $args);
@@ -61,7 +119,10 @@
         }
 
         /**
-         * @brief Return number of attachments which belongs to a specific document
+         * Return number of attachments which belongs to a specific date
+		 *
+		 * @param string $date Date string
+		 * @return int
          **/
         function getFilesCountByDate($date = '') {
 			if($date) $args->regDate = date('Ymd', strtotime($date));
@@ -72,6 +133,13 @@
 			return $output->data->count;
         }
 
+		/**
+		 * Make search parameters from object(private)
+		 *
+		 * @param object $obj Original searach options
+		 * @param object $args Result searach options
+		 * @return void
+		 */
 		function _makeSearchParam(&$obj, &$args)
 		{
             // Search options

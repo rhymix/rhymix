@@ -29,6 +29,7 @@
         <column name="extra_vars" var="extra_vars" />
         <column name="regdate" var="regdate" default="curdate()" />
         <column name="last_update" var="last_update" default="curdate()" />
+		<column name="last_updater" var="last_updater" />
         <column name="ipaddress" var="ipaddress" default="ipaddress()" />
         <column name="list_order" var="list_order" default="0" />
         <column name="update_order" var="update_order" default="0" />

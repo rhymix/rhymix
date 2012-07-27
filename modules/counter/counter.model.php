@@ -1,20 +1,25 @@
 <?php
     /**
-     * @class  counterModel
+     * Model class of counter module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief Model class of counter module
      **/
 
     class counterModel extends counter {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Verify logs
+         * Verify logs
+		 *
+		 * @param integer $site_srl Site_srl
+		 * @return bool
          **/
         function isLogged($site_srl=0) {
             $args->regdate = date("Ymd");
@@ -25,7 +30,10 @@
         }
 
         /**
-         * @brief Check if a row of today's counter status exists 
+         * Check if a row of today's counter status exists 
+		 *
+		 * @param integer $site_srl Site_srl
+		 * @return bool
          **/
         function isInsertedTodayStatus($site_srl=0) {
             $args->regdate = date("Ymd");
@@ -39,16 +47,20 @@
         }
 
         /**
-         * @brief Get access statistics for a given date
+         * Get access statistics for a given date
+		 *
+		 * @param mixed $selected_date Date(YYYYMMDD) list 
+		 * @param integer $site_srl Site_srl
+		 * @return Object
          **/
-        function getStatus($selected_date, $site_srl=0) {
+        function getStatus($selected_date, $site_srl = 0) {
             // If more than one date logs are selected
             if(is_array($selected_date)) {
                 $date_count = count($selected_date);
                 $args->regdate = implode(',',$selected_date);
             // If a single date log is selected
             } else {
-                if(strlen($selected_date)==8) $selected_date = $selected_date;
+                if(strlen($selected_date) == 8) $selected_date = $selected_date;
                 $args->regdate = $selected_date;
             }
 
@@ -72,7 +84,12 @@
         }
 
         /**
-         * @brief Select hourly logs of a given date
+         * Select hourly logs of a given date
+		 *
+		 * @param string $type Choice time interval (year, week, month, hour or DEFAULT)
+		 * @param integer $selected_date Date(YYYYMMDD)
+		 * @param integer $site_srl Site_srl
+		 * @return Object
          **/
         function getHourlyStatus($type='hour', $selected_date, $site_srl=0) {
             $max = 0;

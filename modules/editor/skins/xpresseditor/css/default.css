@@ -32,14 +32,14 @@
 .xpress-editor a.skip:hover,
 .xpress-editor a.skip:active,
 .xpress-editor a.skip:focus{position:relative;display:block;padding:5px;right:0;z-index:60;width:auto;height:auto;text-align:right;white-space:nowrap;color:#000;text-decoration:none;letter-spacing:-1px;_zoom:1}
-.xpress-editor .input_area{position:relative;margin:10px;z-index:30;*zoom:1;height:400px;overflow:hidden}
+.xpress-editor .input_area{position:relative;margin:10px 10px 20px 10px;z-index:30;*zoom:1;height:400px;overflow:hidden}
 .xpress-editor .input_area iframe,
 .xpress-editor .input_area textarea{display:block;width:100% !important;position:relative;height:100%;border:0 !important;padding:0 !important;overflow:auto}
 .xpress-editor .input_area textarea{*margin:0 -10px;_margin-bottom:-2px}
 .xpress-editor .input_area textarea.blind{display:none}
 .xpress-editor .input_control{position:relative;display:block;width:100%;clear:both;text-align:center;border-top:1px solid #ccc;background:#f8f8f8 url(../img/btn_expand.gif) no-repeat center center;cursor:n-resize}
-.xpress-editor .input_control span{display:block;height:21px;visibility:hidden;overflow:visible;font-size:0;line-height:200%;white-space:nowrap;color:#fff}
-.xpress-editor .input_auto{position:relative;z-index:2;display:inline-block;margin:-20px 0 0 0;padding:3px 0 0 8px;zoom:1}
+.xpress-editor .input_control span{display:block;height:21px;visibility:hidden;overflow:visible;font-size:0;line-height:0;white-space:nowrap;color:#fff}
+.xpress-editor .input_auto{position:absolute;z-index:2;left:5px;bottom:4px;zoom:1}
 .xpress-editor .input_auto.line{height:17px;margin:0;display:block;border-top:1px solid #ccc;padding:4px 0 0 8px;background:#f8f8f8}
 .xpress-editor .input_auto input{margin:0;padding:0;width:13px;height:13px;vertical-align:middle;margin:0 4px 0 0}
 .xpress-editor .input_auto label{font-size:11px;vertical-align:middle;line-height:13px;color:#666}

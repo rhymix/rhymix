@@ -1,24 +1,26 @@
 <?php
     /**
-     * @class  fileController
+     * Controller class of the file module
      * @author NHN (developers@xpressengine.com)
-     * @brief controller class of the file module
      **/
-
     class fileController extends file {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
 
         /**
-         * @brief Upload attachments in the editor
+         * Upload attachments in the editor
+		 *
          * Determine the upload target srl from editor_sequence and uploadTargetSrl variables.
          * Create and return the UploadTargetSrl if not exists so that UI can use the value
          * for sync.
+		 *
+		 * @return void
          **/
         function procFileUpload() {
             $file_info = Context::get('Filedata');
@@ -45,7 +47,9 @@
 
 
         /**
-         * @brief iframe upload attachments
+         * Iframe upload attachments
+		 *
+		 * @return Object
          **/
         function procFileIframeUpload() {
             // Basic variables setting
@@ -80,7 +84,9 @@
         }
 
         /**
-         * @brief image resize
+         * Image resize
+		 *
+		 * @return Object
          **/
         function procFileImageResize() {
             $source_src = Context::get('source_src');
@@ -109,10 +115,35 @@
 
 
         /**
-          * @brief Download Attachment
+         * Download Attachment
+		 *
+		 * <pre>
          * Receive a request directly
          * file_srl: File sequence
          * sid : value in DB for comparison, No download if not matched
+		 *
+		 * This method call trigger 'file.downloadFile'.
+		 * before, after.
+		 * Trigger object contains:
+		 * - download_url
+		 * - file_srl
+		 * - upload_target_srl
+		 * - upload_target_type
+		 * - sid
+		 * - module_srl
+		 * - member_srl
+		 * - download_count
+		 * - direct_download
+		 * - source_filename
+		 * - uploaded_filename
+		 * - file_size
+		 * - comment
+		 * - isvalid
+		 * - regdate
+		 * - ipaddress
+		 * </pre>
+		 *
+		 * return void
          **/
         function procFileDownload() {
             $oFileModel = &getModel('file');
@@ -247,7 +278,9 @@
         }
 
         /**
-         * @brief Delete an attachment from the editor
+         * Delete an attachment from the editor
+		 *
+		 * @return Object
          **/
         function procFileDelete() {
             // Basic variable setting(upload_target_srl and module_srl set)
@@ -288,7 +321,9 @@
         }
 
         /**
-         * @brief get file list
+         * get file list
+		 *
+		 * @return Object
          **/
         function procFileGetList()
 		{
@@ -321,7 +356,10 @@
 			$this->add('file_list', $fileList);
         }
         /**
-         * @brief A trigger to return numbers of attachments in the upload_target_srl (document_srl)
+         * A trigger to return numbers of attachments in the upload_target_srl (document_srl)
+		 *
+		 * @param object $obj Trigger object
+		 * @return Object
          **/
         function triggerCheckAttached(&$obj) {
             $document_srl = $obj->document_srl;
@@ -334,7 +372,10 @@
         }
 
         /**
-         * @brief A trigger to link the attachment with the upload_target_srl (document_srl)
+         * A trigger to link the attachment with the upload_target_srl (document_srl)
+		 *
+		 * @param object $obj Trigger object
+		 * @return Object
          **/
         function triggerAttachFiles(&$obj) {
             $document_srl = $obj->document_srl;
@@ -347,7 +388,10 @@
         }
 
         /**
-         * @brief A trigger to delete the attachment in the upload_target_srl (document_srl)
+         * A trigger to delete the attachment in the upload_target_srl (document_srl)
+		 *
+		 * @param object $obj Trigger object
+		 * @return Object
          **/
         function triggerDeleteAttached(&$obj) {
             $document_srl = $obj->document_srl;
@@ -358,7 +402,10 @@
         }
 
         /**
-         * @brief A trigger to return numbers of attachments in the upload_target_srl (comment_srl)
+         * A trigger to return numbers of attachments in the upload_target_srl (comment_srl)
+		 *
+		 * @param object $obj Trigger object
+		 * @return Object
          **/
         function triggerCommentCheckAttached(&$obj) {
             $comment_srl = $obj->comment_srl;
@@ -371,7 +418,10 @@
         }
 
         /**
-         * @brief A trigger to link the attachment with the upload_target_srl (comment_srl)
+         * A trigger to link the attachment with the upload_target_srl (comment_srl)
+		 *
+		 * @param object $obj Trigger object
+		 * @return Object
          **/
         function triggerCommentAttachFiles(&$obj) {
             $comment_srl = $obj->comment_srl;
@@ -385,7 +435,10 @@
         }
 
         /**
-         * @brief A trigger to delete the attachment in the upload_target_srl (comment_srl)
+         * A trigger to delete the attachment in the upload_target_srl (comment_srl)
+		 *
+		 * @param object $obj Trigger object
+		 * @return Object
          **/
         function triggerCommentDeleteAttached(&$obj) {
             $comment_srl = $obj->comment_srl;
@@ -396,7 +449,10 @@
         }
 
         /**
-         * @brief A trigger to delete all the attachements when deleting the module
+         * A trigger to delete all the attachements when deleting the module
+		 *
+		 * @param object $obj Trigger object
+		 * @return Object
          **/
         function triggerDeleteModuleFiles(&$obj) {
             $module_srl = $obj->module_srl;
@@ -407,7 +463,11 @@
         }
 
         /**
-         * @brief Upload enabled
+         * Upload enabled
+		 *
+		 * @param int $editor_sequence
+		 * @param int $upload_target_srl
+		 * @return void
          **/
         function setUploadInfo($editor_sequence, $upload_target_srl=0) {
             $_SESSION['upload_info'][$editor_sequence]->enabled = true;
@@ -415,8 +475,11 @@
         }
 
         /**
-         * @brief Set the attachements of the upload_target_srl to be valid 
+         * Set the attachements of the upload_target_srl to be valid 
          * By changing its state to valid when a document is inserted, it prevents from being considered as a unnecessary file
+		 *
+		 * @param int $upload_target_srl
+		 * @return Object
          **/
         function setFilesValid($upload_target_srl) {
             $args->upload_target_srl = $upload_target_srl;
@@ -424,7 +487,35 @@
         }
 
         /**
-         * @brief Add an attachement
+         * Add an attachement
+		 *
+		 * <pre>
+		 * This method call trigger 'file.insertFile'.
+		 *
+		 * Before trigger object contains:
+		 * - module_srl
+		 * - upload_target_srl
+		 *
+		 * After trigger object contains:
+		 * - file_srl
+		 * - upload_target_srl
+		 * - module_srl
+		 * - direct_download
+		 * - source_filename
+		 * - uploaded_filename
+		 * - donwload_count
+		 * - file_size
+		 * - comment
+		 * - member_srl
+		 * - sid
+		 * </pre>
+		 *
+		 * @param object $file_info PHP file information array
+		 * @param int $module_srl Sequence of module to upload file
+		 * @param int $upload_target_srl Sequence of target to upload file
+		 * @param int $download_count Initial download count
+		 * @param bool $manual_insert If set true, pass validation check
+		 * @return Object
          **/
         function insertFile($file_info, $module_srl, $upload_target_srl, $download_count = 0, $manual_insert = false) {
             // Call a trigger (before)
@@ -532,7 +623,31 @@
         }
 
         /**
-         * @brief Delete the attachment
+         * Delete the attachment
+		 *
+		 * <pre>
+		 * This method call trigger 'file.deleteFile'.
+		 * Before, after trigger object contains:
+		 * - download_url
+		 * - file_srl
+		 * - upload_target_srl
+		 * - upload_target_type
+		 * - sid
+		 * - module_srl
+		 * - member_srl
+		 * - download_count
+		 * - direct_download
+		 * - source_filename
+		 * - uploaded_filename
+		 * - file_size
+		 * - comment
+		 * - isvalid
+		 * - regdate
+		 * - ipaddress
+		 * </pre>
+		 *
+		 * @param int $file_srl Sequence of file to delete
+		 * @return Object
          **/
         function deleteFile($file_srl) {
             if(!$file_srl) return;
@@ -572,7 +687,10 @@
         }
 
         /**
-         * @brief Delete all attachments of a particular document
+         * Delete all attachments of a particular document
+		 *
+		 * @param int $upload_target_srl Upload target srl to delete files
+		 * @return Object
          **/
         function deleteFiles($upload_target_srl) {
             // Get a list of attachements
@@ -603,7 +721,12 @@
         }
 
         /**
-         * @brief Move an attachement to the other document
+         * Move an attachement to the other document
+		 *
+		 * @param int $source_srl Sequence of target to move
+		 * @param int $target_module_srl New squence of module
+		 * @param int $target_srl New sequence of target
+		 * @return void
          **/
         function moveFile($source_srl, $target_module_srl, $target_srl) {
             if($source_srl == $target_srl) return;
@@ -644,7 +767,12 @@
         }
 
         /**
-         * @brief Find the attachment where a key is upload_target_srl and then return java script code
+         * Find the attachment where a key is upload_target_srl and then return java script code
+		 *
+		 * @deprecated
+		 * @param int $editor_sequence
+		 * @param int $upload_target_srl
+		 * @return void
          **/
         function printUploadedFileList($editor_sequence, $upload_target_srl) {
             return;

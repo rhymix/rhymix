@@ -149,14 +149,6 @@
 				$origin_config->{$key} = $val;
 			}
 
-            //remove from cache
-			$oCacheHandler = &CacheHandler::getInstance('object');
-			if($oCacheHandler->isSupport())
-			{
-				$cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
-				$oCacheHandler->delete($cache_key);
-			}
-
 			return $this->insertModuleConfig($module, $origin_config, $site_srl);
 		}
 
@@ -703,8 +695,11 @@
         /**
          * @brief Change user-defined language
          **/
-        function replaceDefinedLangCode(&$output) {
-            $output = preg_replace_callback('!\$user\_lang\-\>([A-Za-z0-9\_]+)!s', array($this,'_replaceLangCode'), $output);
+        function replaceDefinedLangCode(&$output, $isReplaceLangCode = true) {
+			if($isReplaceLangCode)
+			{
+            	$output = preg_replace_callback('!\$user_lang->([a-z0-9\_]+)!is', array($this,'_replaceLangCode'), $output);
+			}
         }
         function _replaceLangCode($matches) {
             static $lang = null;
@@ -788,7 +783,7 @@
 			if (!$ajax)
 			{
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminFileBox');
-				header('location:'.$returnUrl);
+				$this->setRedirectUrl($returnUrl);
 				return;
 			}
 			else

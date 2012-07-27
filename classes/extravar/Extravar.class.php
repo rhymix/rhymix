@@ -1,32 +1,48 @@
 <?php
     /**
-     * @class ExtraVar
+     * A class to handle extra variables used in posts, member and others
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief a class to handle extra variables used in posts, member and others
-     *
      **/
     class ExtraVar {
 
+		/**
+		 * sequence of module
+		 * @var int
+		 */
         var $module_srl = null;
+
+		/**
+		 * Current module's Set of ExtraItem
+		 * @var ExtraItem[]
+		 */
         var $keys = null;
 
         /**
-         * @brief constructor
+         * Get instance of ExtraVar (singleton)
+		 *
+		 * @param int $module_srl Sequence of module
+		 * @return ExtraVar
          **/
         function &getInstance($module_srl) {
             return new ExtraVar($module_srl);
         }
 
         /**
-         * @brief constructor
+         * Constructor
+		 *
+		 * @param int $module_srl Sequence of module
+		 * @return void
          **/
         function ExtraVar($module_srl) {
             $this->module_srl = $module_srl;
         }
 
         /**
-         * @brief register a key of extra variable
-         * @param module_srl, idx, name, type, default, desc, is_required, search, value
+         * Register a key of extra variable
+		 * 
+		 * @param object[] $extra_keys Array of extra variable. A value of array is object that contains module_srl, idx, name, default, desc, is_required, search, value, eid.
+         * @return void
          **/
         function setExtraVarKeys($extra_keys) {
             if(!is_array($extra_keys) || !count($extra_keys)) return;
@@ -38,7 +54,9 @@
         }
 
         /**
-         * @brief Return an array of extra vars
+         * Returns an array of ExtraItem
+		 *
+		 * @return ExtraItem[]
          **/
         function getExtraVars() {
             return $this->keys;
@@ -46,24 +64,84 @@
     }
 
     /**
-     * @class ExtraItem
+     * Each value of the extra vars
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief each value of the extra vars
      **/
     class ExtraItem {
+		/**
+		 * Sequence of module
+		 * @var int
+		 */
         var $module_srl = 0;
+
+		/**
+		 * Index of extra variable
+		 * @var int
+		 */
         var $idx = 0;
+
+		/**
+		 * Name of extra variable
+		 * @var string
+		 */
         var $name = 0;
+
+		/**
+		 * Type of extra variable
+		 * @var string text, homepage, email_address, tel, textarea, checkbox, date, select, radio, kr_zip
+		 */
         var $type = 'text';
+
+		/**
+		 * Default values
+		 * @var string[]
+		 */
         var $default = null;
+
+		/**
+		 * Description
+		 * @var string
+		 */
         var $desc = '';
+
+		/**
+		 * Whether required or not requred this extra variable
+		 * @var string Y, N
+		 */
         var $is_required = 'N';
+
+		/**
+		 * Whether can or can not search this extra variable
+		 * @var string Y, N
+		 */
         var $search = 'N';
+
+		/**
+		 * Value
+		 * @var string
+		 */
         var $value = null;
+
+		/**
+		 * Unique id of extra variable in module
+		 * @var string
+		 */
         var $eid = '';
 
         /**
-         * @brief constructor
+         * Constructor
+		 *
+		 * @param int $module_srl Sequence of module
+		 * @param int $idx Index of extra variable
+		 * @param string $type Type of extra variable. text, homepage, email_address, tel, textarea, checkbox, date, sleect, radio, kr_zip
+		 * @param string[] $default Default values
+		 * @param string $desc Description
+		 * @param string $is_required Whether required or not requred this extra variable. Y, N
+		 * @param string $search Whether can or can not search this extra variable
+		 * @param string $value Value
+		 * @param string $eid Unique id of extra variable in module
+		 * @return void
          **/
         function ExtraItem($module_srl, $idx, $name, $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null, $eid = '') {
             if(!$idx) return;
@@ -80,14 +158,21 @@
         }
 
         /**
-         * @brief Values
+         * Sets Value
+		 *
+		 * @param string $value The value to set
+		 * @return void
          **/
         function setValue($value) {
             $this->value = $value;
         }
 
         /**
-         * @brief return a given value converted based on its type
+         * Returns a given value converted based on its type
+		 *
+		 * @param string $type Type of variable
+		 * @param string $value Value
+		 * @return string Returns a converted value
          **/
         function _getTypeValue($type, $value) {
             $value = trim($value);
@@ -134,8 +219,9 @@
         }
 
         /**
-         * @brief Return value
-         * return the original values for HTML result
+         * Returns a value for HTML
+		 *
+		 * @return string Returns a value expressed in HTML.
          **/
         function getValueHTML() {
             $value = $this->_getTypeValue($this->type, $this->value);
@@ -174,7 +260,9 @@
         }
 
         /**
-         * @brief return a form based on its type
+         * Returns a form based on its type
+		 *
+		 * @return string Returns a form html.
          **/
         function getFormHTML() {
 			static $id_num = 1000;

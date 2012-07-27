@@ -1,7 +1,23 @@
 <?php
+	/**
+	 * ConditionsTag class
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/condition
+	 * @version 0.1
+	 */
 	class ConditionsTag {
+		/**
+		 * ConditionGroupTag list
+		 * @var array value is ConditionGroupTag object
+		 */
 		var $condition_groups;
 
+		/**
+		 * constructor
+		 * @param object $xml_conditions
+		 * @return void
+		 */
 		function ConditionsTag($xml_conditions){
 			$this->condition_groups = array();
 			if (!$xml_conditions)
@@ -29,6 +45,10 @@
 			}
 		}
 
+		/**
+		 * ConditionGroupTag object to string
+		 * @return string
+		 */
 		function toString(){
 			$output_conditions = 'array(' . PHP_EOL;
 			foreach($this->condition_groups as $condition){

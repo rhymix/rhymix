@@ -1,20 +1,35 @@
 <?php 
 	/**
-	 * @class DeleteExpression
-	 * @author Arnia Software
-	 * @brief 
+	 * DeleteExpression
 	 *
+	 * @author Arnia Software
+	 * @package /classes/db/queryparts/expression
+	 * @version 0.1
+	 * @todo Fix this class 
 	 */
 
-	// TODO Fix this class 
 	class DeleteExpression extends Expression {
+		/**
+		 * column value
+		 * @var mixed
+		 */
 		var $value;
 		
+		/**
+		 * constructor
+		 * @param string $column_name
+		 * @param mixed $value
+		 * @return void
+		 */
 		function DeleteExpression($column_name, $value){
 			parent::Expression($column_name);
 			$this->value = $value;
 		}
 		
+		/**
+		 * Return column expression, ex) column = value
+		 * @return string
+		 */
 		function getExpression(){
 			return "$this->column_name = $this->value";
 		}

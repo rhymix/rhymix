@@ -1,23 +1,25 @@
 <?php
-    /**
-     * @class  importerAdminView
-     * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of the importer module 
-     **/
-
+	/**
+	 * importerAdminView class
+	 * admin view class of the importer module 
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/importer
+	 * @version 0.1
+	 */
     class importerAdminView extends importer {
-
-        /**
-         * @brief Initialization
-         *
-         * Importer module is divided by general use and administrative use \n
-         **/
+		/**
+		 * Initialization
+		 * Importer module is divided by general use and administrative use \n
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Display a form to upload the xml file
-         **/
+		/**
+		 * Display a form to upload the xml file
+		 * @return void
+		 */
         function dispImporterAdminContent() {
             $this->setTemplatePath($this->module_path.'tpl');
 
@@ -54,9 +56,10 @@
             $this->setTemplateFile($template_filename);
         }
 
-        /**
-         * @brief Display a form to upload the xml file
-         **/
+		/**
+		 * Display a form to upload the xml file
+		 * @return void
+		 */
         function dispImporterAdminImportForm() {
 			$oDocumentModel = &getModel('document');	//for document lang use in this page
 

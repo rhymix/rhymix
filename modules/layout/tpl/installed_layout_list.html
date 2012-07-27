@@ -1,12 +1,8 @@
 <include target="header.html" />
 <div class="table even easyList dsTg">
+<include target="sub_tab.html" />
 	<table width="100%" border="1" cellspacing="0">
 		<caption>
-				<a cond="$act != 'dispLayoutAdminInstalledList'" href="{getUrl('act', 'dispLayoutAdminInstalledList')}">PC({$pcLayoutCount})</a>
-				<block cond="$act == 'dispLayoutAdminInstalledList'">PC({$pcLayoutCount})</block>
-				|
-				<a cond="$act != 'dispLayoutAdminInstalledMobileList'" href="{getUrl('act', 'dispLayoutAdminInstalledMobileList')}">Mobile({$mobileLayoutCount})</a>
-				<block cond="$act == 'dispLayoutAdminInstalledMobileList'">Mobile({$mobileLayoutCount})</block>
 				<span class="side"><button type="button" class="text"><span class="hide">{$lang->simple_view}</span><span class="show">{$lang->detail_view}</span></button></span>
 		</caption>
 		<thead>

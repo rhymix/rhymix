@@ -2,13 +2,14 @@
     /**
      * @class  communicationView
      * @author NHN (developers@xpressengine.com)
-     * @brief View class of communication module
+     * View class of communication module
      **/
 
     class communicationView extends communication {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
             $oCommunicationModel = &getModel('communication');
@@ -28,7 +29,8 @@
         }
 
         /**
-         * @brief Display message box
+         * Display message box
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationMessages() {
             // Error appears if not logged-in
@@ -75,7 +77,8 @@
         }
 
         /**
-         * @brief display a new message
+         * display a new message
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationNewMessage() {
             $this->setLayoutFile('popup_layout');
@@ -101,7 +104,8 @@
         }
 
         /**
-         * @brief Display message sending
+         * Display message sending
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationSendMessage() {
             $this->setLayoutFile("popup_layout");
@@ -156,7 +160,8 @@
         }
 
         /**
-         * @brief display a list of friends
+         * display a list of friends
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationFriend() {
             // Error appears if not logged-in
@@ -192,7 +197,8 @@
         }
 
         /**
-         * @brief Add a friend
+         * display Add a friend
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationAddFriend() {
             $this->setLayoutFile("popup_layout");
@@ -216,7 +222,8 @@
         }
 
         /**
-         * @brief Add a group of friends
+         * display add a group of friends
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationAddFriendGroup() {
             $this->setLayoutFile("popup_layout");
@@ -230,9 +237,7 @@
                 $friend_group = $oCommunicationModel->getFriendGroupInfo($friend_group_srl);
                 if($friend_group->friend_group_srl == $friend_group_srl) Context::set('friend_group', $friend_group);
             }
-
             $this->setTemplateFile('add_friend_group');
         }
-
     }
 ?>

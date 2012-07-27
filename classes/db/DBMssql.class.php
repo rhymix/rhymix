@@ -1,27 +1,30 @@
 <?php
 
     /**
-     * @class DBMSSQL
+     * - DBMSSQL
+     * - Modified to use MSSQL driver by sol (sol@ngleader.com)
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief Modified to use MSSQL driver by sol (sol@ngleader.com)
+	 * @package /classes/db
      * @version 0.1
      **/
-
     class DBMssql extends DB {
 
         /**
-         * information to connect to DB
-         **/
-        var $prefix		= 'xe'; // / <prefix of XE tables(One more XE can be installed on a single DB)
+		 * prefix of XE tables(One more XE can be installed on a single DB)
+		 * @var string
+         */
+        var $prefix		= 'xe';
         var $param		= array();
         var $comment_syntax = '/* %s */';
 
         /**
-         * @brief column type used in mssql
+         * column type used in mssql
          *
          * column_type should be replaced for each DBMS's type
          * becasue it uses commonly defined type in the schema/query xml
-         **/
+		 * @var array
+         */
         var $column_type = array(
             'bignumber' => 'bigint',
             'number' => 'int',
@@ -34,32 +37,39 @@
         );
 
         /**
-         * @brief constructor
-         **/
+         * Constructor
+		 * @return void
+         */
         function DBMssql() {
             $this->_setDBInfo();
             $this->_connect();
         }
 
 		/**
-		 * @brief create an instance of this class
+		 * Create an instance of this class
+		 * @return DBMssql return DBMssql object instance
 		 */
 		function create()
 		{
 			return new DBMssql;
 		}
 
-        /**
-         * @brief Return if installable
-         **/
+		/**
+		 * Return if supportable
+		 * Check 'sqlsrv' extension loaded.
+		 * @return boolean
+		 */
         function isSupported() {
             if (!extension_loaded("sqlsrv")) return false;
             return true;
         }
 
-        /**
-         * @brief DB Connection
-         **/
+		/**
+		 * DB Connect
+		 * this method is private
+		 * @param array $connection connection's value is db_hostname, db_database, db_userid, db_password
+		 * @return resource
+		 */
         function __connect($connection) {
             //sqlsrv_configure( 'WarningsReturnAsErrors', 0 );
             //sqlsrv_configure( 'LogSeverity', SQLSRV_LOG_SEVERITY_ALL );
@@ -75,18 +85,23 @@
             return $result;
         }
 
-        /**
-         * @brief DB disconnect
-         **/
+		/**
+		 * DB disconnection
+		 * this method is private
+		 * @param resource $connection
+		 * @return void
+		 */
         function _close($connection) {
             $this->commit();
             sqlsrv_close($connection);
         }
 
-        /**
-         * @brief handles quatation of the string variables from the query
-         **/
-        // TODO See what to do about this
+		/**
+		 * Handles quatation of the string variables from the query
+		 * @todo See what to do about this
+		 * @param string $string
+		 * @return string
+		 */
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
             //if(!is_numeric($string)) $string = str_replace("'","''",$string);
@@ -94,42 +109,46 @@
             return $string;
         }
 
-        /**
-         * @brief Begin transaction
-         **/
+		/**
+		 * DB transaction start
+		 * this method is private
+		 * @return boolean
+		 */
         function _begin() {
             $connection = $this->_getConnection('master');
             if(sqlsrv_begin_transaction($connection) === false) return;
             return true;
         }
 
-        /**
-         * @brief Rollback
-         **/
+		/**
+		 * DB transaction rollback
+		 * this method is private
+		 * @return boolean
+		 */
         function _rollback() {
             $connection = $this->_getConnection('master');
             sqlsrv_rollback($connection);
             return true;
         }
 
-        /**
-         * @brief Commit
-         **/
+		/**
+		 * DB transaction commit
+		 * this method is private
+		 * @return boolean
+		 */
         function _commit() {
             $connection = $this->_getConnection('master');
             sqlsrv_commit($connection);
             return true;
         }
 
-        /**
-         * @brief : executing the query and fetching the result
-         *
-         * query: run a query and return the result\n
-         * fetch: NULL if no value returned \n
-         *        array object if rows returned \n
-         *        object if a row returned \n
-         *        return\n
-         **/
+		/**
+		 * Execute the query
+		 * this method is private
+		 * @param string $query
+		 * @param resource $connection
+		 * @return resource|boolean Returns a statement resource on success and FALSE if an error occurred.
+		 */
         function __query($query, $connection) {
             $_param = array();
 
@@ -183,6 +202,8 @@
 		 * Parameters are sent as an array, where each parameter can be:
 		 *	- a PHP variable (by reference)
 		 *	- a PHP array (containng param value, type and direction) -> also needs to be sent by reference
+		 * @param array $_param
+		 * @return array
 		 */
 		function _getParametersByReference($_param) 
 		{
@@ -206,9 +227,12 @@
 			return $args;
 		}
 
-        /**
-         * @brief Fetch results
-         **/
+		/**
+		 * Fetch results
+		 * @param resource $result
+		 * @param int|NULL $arrayIndexEndValue
+		 * @return array
+		 */
         function _fetch($result, $arrayIndexEndValue = NULL) {
 			$output = array();
 			if(!$this->isConnected() || $this->isError() || !$result) return $output;
@@ -234,9 +258,11 @@
 
         }
 
-        /**
-         * @brief Return sequence value incremented by 1(auto_increment is usd in the sequence table only)
-         **/
+		/**
+		 * Return the sequence value incremented by 1
+		 * Auto_increment column only used in the sequence table
+		 * @return int
+		 */
         function getNextSequence() {
             $query = sprintf("insert into %ssequence (seq) values (ident_incr('%ssequence'))", $this->prefix, $this->prefix);
 			$this->_query($query);
@@ -249,9 +275,11 @@
             return $tmp->sequence;
         }
 
-        /**
-         * @brief Return if a table already exists
-         **/
+		/**
+		 * Check a table exists status
+		 * @param string $target_name
+		 * @return boolean
+		 */
         function isTableExists($target_name) {
             $query = sprintf("select name from sysobjects where name = '%s%s' and xtype='U'", $this->prefix, $this->addQuotes($target_name));
             $result = $this->_query($query);
@@ -261,9 +289,16 @@
             return true;
         }
 
-        /**
-         * @brief Add a column to a table
-         **/
+		/**
+		 * Add a column to the table
+		 * @param string $table_name table name
+		 * @param string $column_name column name
+		 * @param string $type column type, default value is 'number'
+		 * @param int $size column size
+		 * @param string|int $default default value
+		 * @param boolean $notnull not null status, default value is false
+		 * @return void
+		 */
         function addColumn($table_name, $column_name, $type='number', $size='', $default = '', $notnull=false) {
 			if($this->isColumnExists($table_name, $column_name)) return;
             $type = $this->column_type[$type];
@@ -278,18 +313,24 @@
             $this->_query($query);
         }
 
-        /**
-         * @brief Delete a column from a table
-         **/
+		/**
+		 * Drop a column from the table
+		 * @param string $table_name table name
+		 * @param string $column_name column name
+		 * @return void
+		 */
         function dropColumn($table_name, $column_name) {
 			if(!$this->isColumnExists($table_name, $column_name)) return;
             $query = sprintf("alter table %s%s drop %s ", $this->prefix, $table_name, $column_name);
             $this->_query($query);
         }
 
-        /**
-         * @brief Return column information of a table
-         **/
+		/**
+		 * Check column exist status of the table
+		 * @param string $table_name table name
+		 * @param string $column_name column name
+		 * @return boolean
+		 */
         function isColumnExists($table_name, $column_name) {
             $query = sprintf("select syscolumns.name as name from syscolumns, sysobjects where sysobjects.name = '%s%s' and sysobjects.id = syscolumns.id and syscolumns.name = '%s'", $this->prefix, $table_name, $column_name);
             $result = $this->_query($query);
@@ -299,11 +340,16 @@
             return true;
         }
 
-        /**
-         * @brief Add an index to a table
-         * $target_columns = array(col1, col2)
-         * $is_unique? unique : none
-         **/
+		/**
+		 * Add an index to the table
+		 * $target_columns = array(col1, col2)
+		 * $is_unique? unique : none
+		 * @param string $table_name table name
+		 * @param string $index_name index name
+		 * @param string|array $target_columns target column or columns
+		 * @param boolean $is_unique
+		 * @return void
+		 */
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
 			if($this->isIndexExists($table_name, $index_name)) return;
             if(!is_array($target_columns)) $target_columns = array($target_columns);
@@ -312,18 +358,25 @@
             $this->_query($query);
         }
 
-        /**
-         * @brief Drop an index from a table
-         **/
+		/**
+		 * Drop an index from the table
+		 * @param string $table_name table name
+		 * @param string $index_name index name
+		 * @param boolean $is_unique
+		 * @return void
+		 */
         function dropIndex($table_name, $index_name, $is_unique = false) {
 			if(!$this->isIndexExists($table_name, $index_name)) return;
             $query = sprintf("drop index %s%s.%s", $this->prefix, $table_name, $index_name);
             $this->_query($query);
         }
 
-        /**
-         * @brief Return index information of a table
-         **/
+		/**
+		 * Check index status of the table
+		 * @param string $table_name table name
+		 * @param string $index_name index name
+		 * @return boolean
+		 */
         function isIndexExists($table_name, $index_name) {
             $query = sprintf("select sysindexes.name as name from sysindexes, sysobjects where sysobjects.name = '%s%s' and sysobjects.id = sysindexes.id and sysindexes.name = '%s'", $this->prefix, $table_name, $index_name);
 
@@ -335,16 +388,20 @@
             return true;
         }
 
-        /**
-         * @brief Create a table by using xml file
-         **/
+		/**
+		 * Creates a table by using xml contents
+		 * @param string $xml_doc xml schema contents
+		 * @return void|object
+		 */
         function createTableByXml($xml_doc) {
             return $this->_createTable($xml_doc);
         }
 
-        /**
-         * @brief Create a table by using xml file
-         **/
+		/**
+		 * Creates a table by using xml file path
+		 * @param string $file_name xml schema file path
+		 * @return void|object
+		 */
         function createTableByXmlFile($file_name) {
             if(!file_exists($file_name)) return;
             // read xml file
@@ -352,13 +409,15 @@
             return $this->_createTable($buff);
         }
 
-        /**
-         * @brief generate a query statement to create a table by using schema xml
-         *
-         * type : number, varchar, text, char, date, \n
-         * opt : notnull, default, size\n
-         * index : primary key, index, unique\n
-         **/
+		/**
+		 * Create table by using the schema xml
+		 *
+		 * type : number, varchar, tinytext, text, bigtext, char, date, \n
+		 * opt : notnull, default, size\n
+		 * index : primary key, index, unique\n
+		 * @param string $xml_doc xml schema contents
+		 * @return void|object
+		 */
         function _createTable($xml_doc) {
             // xml parsing
             $oXml = new XmlParser();
@@ -381,6 +440,7 @@
 		$unique_list = array();
 		$index_list = array();
 
+				$typeList = array('number'=>1, 'text'=>1);
                 foreach($columns as $column) {
                     $name = $column->attrs->name;
                     $type = $column->attrs->type;
@@ -395,7 +455,7 @@
                     $column_schema[] = sprintf('[%s] %s%s %s %s %s',
                     $name,
                     $this->column_type[$type],
-                    !in_array($type,array('number','text'))&&$size?'('.$size.')':'',
+                    !isset($typeList[$type])&&$size?'('.$size.')':'',
                     isset($default)?"default '".$default."'":'',
                     $notnull?'not null':'null',
                     $auto_increment?'identity(1,1)':''
@@ -433,25 +493,37 @@
         }
 
 
-        /**
-         * @brief Handle the insertAct
-         **/
-        // TODO Lookup _filterNumber against sql injection - see if it is still needed and how to integrate
+        
+		/**
+		 * Handles insertAct
+		 * @todo Lookup _filterNumber against sql injection - see if it is still needed and how to integrate
+		 * @param Object $queryObject
+		 * @return resource
+		 */
         function _executeInsertAct($queryObject) {
         	$query = $this->getInsertSql($queryObject, false);
         	$this->param = $queryObject->getArguments();
             return $this->_query($query);
         }
 
-        /**
-         * @brief Handle updateAct
-         **/
+		/**
+		 * Handles updateAct
+		 * @param Object $queryObject
+		 * @return resource
+		 */
         function _executeUpdateAct($queryObject) {
         	$query = $this->getUpdateSql($queryObject, false);
         	$this->param = $queryObject->getArguments();
             return $this->_query($query);
         }
 
+		/**
+		 * Return update query string
+		 * @param object $query
+		 * @param boolean $with_values
+		 * @param boolean $with_priority
+		 * @return string
+		 */
     	function getUpdateSql($query, $with_values = true, $with_priority = false){
 			$columnsList = $query->getUpdateString($with_values);
 			if($columnsList == '') return new Object(-1, "Invalid query");
@@ -473,15 +545,23 @@
 			return "UPDATE $priority $alias_list SET $columnsList FROM ".$from.$where;
 		}		
 		
-        /**
-         * @brief Handle deleteAct
-         **/
+		/**
+		 * Handles deleteAct
+		 * @param Object $queryObject
+		 * @return resource
+		 */
         function _executeDeleteAct($queryObject) {
         	$query = $this->getDeleteSql($queryObject, false);
         	$this->param = $queryObject->getArguments();
             return $this->_query($query);
         }
 
+		/**
+		 * Return select query string
+		 * @param object $query
+		 * @param boolean $with_values
+		 * @return string
+		 */
         function getSelectSql($query, $with_values = TRUE){
        		$with_values = false;
 
@@ -519,12 +599,14 @@
 		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
         }
 
-        /**
-         * @brief Handle selectAct
-         *
-         * In order to get a list of pages easily when selecting \n
-         * it supports a method as navigation
-         **/
+		/**
+		 * Handle selectAct
+		 * In order to get a list of pages easily when selecting \n
+		 * it supports a method as navigation
+		 * @param Object $queryObject
+		 * @param resource $connection
+		 * @return Object
+		 */
         function _executeSelectAct($queryObject, $connection = null) {
 			$query = $this->getSelectSql($queryObject);
 
@@ -540,11 +622,20 @@
 			else return $this->queryPageLimit($queryObject, $result, $connection);
         }
 
-        function &getParser($force = FALSE){
-		$dbParser = new DBParser("[", "]", $this->prefix);
-        	return $dbParser;
+		/**
+		 * Return the DBParser
+		 * @param boolean $force
+		 * @return DBParser
+		 */
+        function getParser($force = FALSE){
+        	return new DBParser("[", "]", $this->prefix);
         }
 
+		/**
+		 * If have a error, return error object
+		 * @param Object $queryObject
+		 * @return Object
+		 */
     	function queryError($queryObject){
                 $limit = $queryObject->getLimit();
 			if ($limit && $limit->isPageHandler()){
@@ -559,6 +650,13 @@
 					return;
 		}
 
+		/**
+		 * If select query execute, return page info
+		 * @param Object $queryObject
+		 * @param resource $result
+		 * @param resource $connection
+		 * @return Object Object with page info containing
+		 */
 		function queryPageLimit($queryObject, $result, $connection) {
 			$limit = $queryObject->getLimit();
 			if ($limit && $limit->isPageHandler()) {
@@ -615,7 +713,7 @@
 					$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
 					return $buff;
 				}
-				
+
 				$start_count = ($page - 1) * $list_count;
 				$this->param = $queryObject->getArguments();
 				$virtual_no = $total_count - $start_count;

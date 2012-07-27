@@ -1,19 +1,43 @@
 <?php
 
+/**
+ * Mobile class
+ *
+ * @author NHN (developers@xpressengine.com)
+ */
 class Mobile {
+	/**
+	 * Whether mobile or not mobile mode
+	 * @var bool
+	 */
 	var $ismobile = null;
 
+	/**
+	 * Get instance of Mobile class(for singleton)
+	 *
+	 * @return Mobile
+	 */
 	function &getInstance() {
 		static $theInstance;
 		if(!isset($theInstance)) $theInstance = new Mobile();
 		return $theInstance;
 	}
 
+	/**
+	 * Get current mobile mode
+	 *
+	 * @return bool If mobile mode returns true or false
+	 */
 	function isFromMobilePhone() {
 		$oMobile =& Mobile::getInstance();
 		return $oMobile->_isFromMobilePhone();
 	}
 
+	/**
+	 * Get current mobile mode
+	 *
+	 * @return bool
+	 */
 	function _isFromMobilePhone() {
 		if($this->ismobile !== null) return $this->ismobile;
 
@@ -94,6 +118,11 @@ class Mobile {
 		return $this->ismobile;
 	}
 
+	/**
+	 * Detect mobile device by user agent
+	 *
+	 * @return bool Returns true on mobile device or false.
+	 */
 	function isMobileCheckByAgent()
 	{
 		static $UACheck;
@@ -123,10 +152,11 @@ class Mobile {
 		return FALSE;
 	}
 
-	/*
-	 * @ brief check if user-agent is a tablet PC as iPad or Andoid tablet.
-	 * @ return TRUE for tablet, and FALSE for else.
-	*/
+	/**
+	 * Check if user-agent is a tablet PC as iPad or Andoid tablet.
+	 *
+	 * @return bool TRUE for tablet, and FALSE for else.
+	 */
 	function isMobilePadCheckByAgent()
 	{
 		static $UACheck;
@@ -167,6 +197,12 @@ class Mobile {
 		return FALSE;
 	}
 
+	/**
+	 * Set mobile mode
+	 *
+	 * @param bool $ismobile
+	 * @return void
+	 */
 	function setMobile($ismobile)
 	{
 		$oMobile =& Mobile::getInstance();

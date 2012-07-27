@@ -1,21 +1,24 @@
 <?php
-    /**
-     * @class  trackbackAdminView
-     * @author NHN (developers@xpressengine.com)
-     * @brief trackback module admin view class
-     **/
-
+	/**
+	 * trackbackAdminView class
+	 * trackback module admin view class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/trackback
+	 * @version 0.1
+	 */
     class trackbackAdminView extends trackback {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Display output list (administrative)
-         **/
+		/**
+		 * Display output list (administrative)
+		 * @return void
+		 */
         function dispTrackbackAdminList() {
             // Wanted set
             $oModuleModel = &getModel('module');

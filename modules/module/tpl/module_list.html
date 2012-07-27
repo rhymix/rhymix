@@ -43,12 +43,10 @@
 				<td class="nowr">
 					<!--@foreach($val->author as $author)-->
 						<!--@if($author->homepage)-->
-						<a href="{$author->homepage}" onclick="window.open(this.href);return false;"  target="_blank">
-						<!--@end-->
-						{$author->name}
-						<!--@if($author->homepage)-->
-						</a>
-						<!--@end-->
+							<a href="{$author->homepage}" onclick="window.open(this.href);return false;" target="_blank">{$author->name}</a>
+						<!--@else-->
+							{$author->name}
+						<!--@endif-->
 					<!--@endforeach-->
 				</td>
 				<td class="nowr">{$val->path}</td>

@@ -114,6 +114,63 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function testCustomRule() {
+		// regex
+		$vd = new Validator();
+		$customRules['regex_rule']['type'] = 'regex';
+		$customRules['regex_rule']['test'] = '/^[a-z]+$/';
+		$vd->addRule($customRules);
+		$vd->addFilter('regex_field', array('rule' => 'regex_rule'));
+
+		$this->assertTrue($vd->validate(array('regex_field' => 'abc')));
+		$this->assertFalse($vd->validate(array('regex_field' => 'ABC')));
+
+		// enum
+		$vd = new Validator();
+		$customRules['enum_rule']['type'] = 'enum';
+		$customRules['enum_rule']['test'] = 'a,b,c';
+		$vd->addRule($customRules);
+		$vd->addFilter('enum_field', array('rule' => 'enum_rule'));
+
+		$this->assertTrue($vd->validate(array('enum_field' => 'a')));
+		$this->assertFalse($vd->validate(array('enum_field' => 'd')));
+
+		// enum with custom delimiter
+		$vd = new Validator();
+		$customRules['enum_rule2']['type'] = 'enum';
+		$customRules['enum_rule2']['test'] = 'a@b@c';
+		$customRules['enum_rule2']['delim'] = '@';
+		$vd->addRule($customRules);
+		$vd->addFilter('enum_field2', array('rule' => 'enum_rule2'));
+
+		$this->assertTrue($vd->validate(array('enum_field2' => 'a')));
+		$this->assertFalse($vd->validate(array('enum_field2' => 'd')));
+
+		// expr
+		$vd = new Validator();
+		$customRules['expr_rule']['type'] = 'expr';
+		$customRules['expr_rule']['test'] = '$$ &lt; 10';
+		$vd->addRule($customRules);
+		$vd->addFilter('expr_field', array('rule' => 'expr_rule'));
+
+		$this->assertTrue($vd->validate(array('expr_field' => '5')));
+		$this->assertFalse($vd->validate(array('expr_field' => '15')));
+	}
+
+	public function testCustomRuleXml()
+	{
+		$vd = new Validator(dirname(__FILE__).'/customrule.xml');
+
+		$this->assertTrue($vd->validate(array('regex_field' => 'abc')));
+		$this->assertFalse($vd->validate(array('regex_field' => 'ABC')));
+
+		$this->assertTrue($vd->validate(array('enum_field' => 'a')));
+		$this->assertFalse($vd->validate(array('enum_field' => 'd')));
+
+		$this->assertTrue($vd->validate(array('enum_field2' => 'a')));
+		$this->assertFalse($vd->validate(array('enum_field2' => 'd')));
+
+		$this->assertTrue($vd->validate(array('expr_field' => '5')));
+		$this->assertFalse($vd->validate(array('expr_field' => '15')));
 	}
 
 	public function testCondition() {

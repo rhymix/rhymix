@@ -80,7 +80,9 @@ var calledArgs = null;
 
 				captchaXE = $('<div id="captcha_layer" style="position:fixed; top:0; left:0; width:100%; height:100%;display:none;z-index:10">').appendTo(document.body);
 
-                var $div = $('<div style="z-index:1000;position:absolute; width:310px; margin:-105px 0 0 -105px; top:50%; left:50%; background:#fff; border:3px solid #ccc;">'+
+				var top_left = 'margin:-105px 0 0 -105px; top:50%; left:50%;';
+				if(screen.width<480) { top_left = ''; }
+				var $div = $('<div style="z-index:1000;position:absolute; width:310px;' + top_left + ' background:#fff; border:3px solid #ccc;">'+
 								'<form method="post" action="">'+
 									'<div style="position:relative; margin:25px 20px 15px 20px">'+
 										'<img src="about:blank" id="captcha_image" alt="CAPTCHA" width="240" height="50" style="display:block; width:240px; height:50px; border:1px solid #b0b0b0" />'+

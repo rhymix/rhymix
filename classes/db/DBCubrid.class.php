@@ -1,28 +1,34 @@
 <?php
 	/**
-	 * @class DBCubrid
-	 * @author NHN (developers@xpressengine.com)
-	 * @brief Cubrid DBMS to use the class
-	 * @version 1.0
+	 * - DB child class
+	 * - Cubrid DBMS to use the class
+	 * - Works with CUBRID up to 8.4.1
 	 *
-	 * Works with CUBRID up to 8.4.1
-	 **/
-
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db
+	 * @version 0.1
+	 */
 	class DBCubrid extends DB
 	{
 
 		/**
-		 * @brief CUBRID DB connection information
-		 **/
-		var $prefix = 'xe_'; // / <prefix of XE tables(One more XE can be installed on a single DB)
-		var $cutlen = 12000; // /< max size of constant in CUBRID(if string is larger than this, '...'+'...' should be used)
+		 * prefix of XE tables(One more XE can be installed on a single DB)
+		 * @var string
+		 */
+		var $prefix = 'xe_';
+		/**
+		 * max size of constant in CUBRID(if string is larger than this, '...'+'...' should be used)
+		 * @var int
+		 */
+		var $cutlen = 12000;
 		var $comment_syntax = '/* %s */';
 
 		/**
-		 * @brief column type used in CUBRID
+		 * column type used in CUBRID
 		 *
 		 * column_type should be replaced for each DBMS's type
 		 * becasue it uses commonly defined type in the schema/query xml
+		 * @var array
 		 **/
 		var $column_type = array(
 			'bignumber' => 'numeric(20)',
@@ -37,8 +43,9 @@
 		);
 
 		/**
-		 * @brief constructor
-		 **/
+		 * constructor
+		 * @return void
+		 */
 		function DBCubrid()
 		{
 			$this->_setDBInfo();
@@ -46,7 +53,8 @@
 		}
 
 		/**
-		 * @brief create an instance of this class
+		 * Create an instance of this class
+		 * @return DBCubrid return DBCubrid object instance
 		 */
 		function create()
 		{
@@ -54,8 +62,10 @@
 		}
 
 		/**
-		 * @brief Return if installable
-		 **/
+		 * Return if supportable
+		 * Check 'cubrid_connect' function exists.
+		 * @return boolean
+		 */
 		function isSupported()
 		{
 			if (!function_exists('cubrid_connect')) return false;
@@ -63,8 +73,11 @@
 		}
 
 		/**
-		 * @brief DB Connection
-		 **/
+		 * DB Connect
+		 * this method is private
+		 * @param array $connection connection's value is db_hostname, db_port, db_database, db_userid, db_password
+		 * @return resource
+		 */
 		function __connect($connection)
 		{
             // attempts to connect
@@ -90,8 +103,11 @@
 		}
 
 		/**
-		 * @brief DB disconnect
-		 **/
+		 * DB disconnection
+		 * this method is private
+		 * @param resource $connection
+		 * @return void
+		 */
 		function _close($connection)
 		{
 			@cubrid_commit ($connection);
@@ -100,8 +116,10 @@
 		}
 
 		/**
-		 * @brief handles quatation of the string variables from the query
-		 **/
+		 * Handles quatation of the string variables from the query
+		 * @param string $string
+		 * @return string
+		 */
 		function addQuotes($string)
 		{
 			if (version_compare (PHP_VERSION, "5.9.0", "<") &&
@@ -126,8 +144,10 @@
 		}
 
 		/**
-		 * @brief Begin transaction
-		 **/
+		 * DB transaction start
+		 * this method is private
+		 * @return boolean
+		 */
 		function _begin()
 		{
 			if(__CUBRID_VERSION__ >= '8.4.0')
@@ -139,8 +159,10 @@
 		}
 
 		/**
-		 * @brief Rollback
-		 **/
+		 * DB transaction rollback
+		 * this method is private
+		 * @return boolean
+		 */
 		function _rollback()
 		{
             $connection = $this->_getConnection('master');
@@ -149,8 +171,10 @@
 		}
 
 		/**
-		 * @brief Commit
-		 **/
+		 * DB transaction commit
+		 * this method is private
+		 * @return boolean
+		 */
 		function _commit()
 		{
 			$connection = $this->_getConnection('master');
@@ -159,14 +183,12 @@
 		}
 
 		/**
-		 * @brief : executing the query and fetching the result
-		 *
-		 * query: run a query and return the result\n
-		 * fetch: NULL if no value returned \n
-		 *		array object if rows returned \n
-		 *		object if a row returned \n
-		 *		return\n
-		 **/
+		 * Execute the query
+		 * this method is private
+		 * @param string $query
+		 * @param resource $connection
+		 * @return resource
+		 */
 		function __query($query, $connection)
 		{
 			if($this->use_prepared_statements == 'Y')
@@ -232,8 +254,11 @@
 		}
 
 		/**
-		 * @brief Fetch the result
-		 **/
+		 * Fetch the result
+		 * @param resource $result
+		 * @param int|NULL $arrayIndexEndValue
+		 * @return array
+		 */
 		function _fetch($result, $arrayIndexEndValue = NULL)
 		{
 			$output = array();
@@ -281,8 +306,10 @@
 		}
 
 		/**
-		 * @brief return the sequence value incremented by 1(auto_increment column only used in the CUBRID sequence table)
-		 **/
+		 * Return the sequence value incremented by 1
+		 * Auto_increment column only used in the CUBRID sequence table
+		 * @return int
+		 */
 		function getNextSequence()
 		{
 			$this->_makeSequence();
@@ -295,8 +322,9 @@
 		}
 
 		/**
-		 * @brief return if the table already exists
-		 **/
+		 * if the table already exists, set the status to GLOBALS
+		 * @return void
+		 */
 		function _makeSequence()
 		{
 			if($_GLOBALS['XE_EXISTS_SEQUENCE']) return;
@@ -337,8 +365,10 @@
 
 
 		/**
-		 * brief return a table if exists
-		 **/
+		 * Check a table exists status
+		 * @param string $target_name
+		 * @return boolean
+		 */
 		function isTableExists ($target_name)
 		{
 			if($target_name == 'sequence') {
@@ -362,8 +392,15 @@
 		}
 
 		/**
-		 * @brief add a column to the table
-		 **/
+		 * Add a column to the table
+		 * @param string $table_name table name
+		 * @param string $column_name column name
+		 * @param string $type column type, default value is 'number'
+		 * @param int $size column size
+		 * @param string|int $default default value
+		 * @param boolean $notnull not null status, default value is false
+		 * @return void
+		 */
 		function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
 		{
 			$type = strtoupper($this->column_type[$type]);
@@ -397,8 +434,11 @@
 		}
 
 		/**
-		 * @brief drop a column from the table
-		 **/
+		 * Drop a column from the table
+		 * @param string $table_name table name
+		 * @param string $column_name column name
+		 * @return void
+		 */
 		function dropColumn ($table_name, $column_name)
 		{
 			$query = sprintf ("alter class \"%s%s\" drop \"%s\" ", $this->prefix, $table_name, $column_name);
@@ -407,8 +447,11 @@
 		}
 
 		/**
-		 * @brief return column information of the table
-		 **/
+		 * Check column exist status of the table
+		 * @param string $table_name table name
+		 * @param string $column_name column name
+		 * @return boolean
+		 */
 		function isColumnExists ($table_name, $column_name)
 		{
 			$query = sprintf ("select \"attr_name\" from \"db_attribute\" where ".  "\"attr_name\" ='%s' and \"class_name\" = '%s%s'", $column_name, $this->prefix, $table_name);
@@ -423,10 +466,15 @@
 		}
 
 		/**
-		 * @brief add an index to the table
+		 * Add an index to the table
 		 * $target_columns = array(col1, col2)
 		 * $is_unique? unique : none
-		 **/
+		 * @param string $table_name table name
+		 * @param string $index_name index name
+		 * @param string|array $target_columns target column or columns
+		 * @param boolean $is_unique
+		 * @return void
+		 */
 		function addIndex ($table_name, $index_name, $target_columns, $is_unique = false)
 		{
 			if (!is_array ($target_columns)) {
@@ -439,8 +487,12 @@
 		}
 
 		/**
-		 * @brief drop an index from the table
-		 **/
+		 * Drop an index from the table
+		 * @param string $table_name table name
+		 * @param string $index_name index name
+		 * @param boolean $is_unique
+		 * @return void
+		 */
 		function dropIndex ($table_name, $index_name, $is_unique = false)
 		{
 			$query = sprintf ("drop %s index \"%s\" on \"%s%s\"", $is_unique?'unique':'', $this->prefix .$index_name, $this->prefix, $table_name);
@@ -449,8 +501,11 @@
 		}
 
 		/**
-		 * @brief return index information of the table
-		 **/
+		 * Check index status of the table
+		 * @param string $table_name table name
+		 * @param string $index_name index name
+		 * @return boolean
+		 */
 		function isIndexExists ($table_name, $index_name)
 		{
 			$query = sprintf ("select \"index_name\" from \"db_index\" where ".  "\"class_name\" = '%s%s' and \"index_name\" = '%s' ", $this->prefix, $table_name, $this->prefix .$index_name);
@@ -464,6 +519,10 @@
 			return true;
 		}
 
+		/**
+		 * Delete duplicated index of the table
+		 * @return boolean
+		 */
         function deleteDuplicateIndexes()
         {
             $query = sprintf("
@@ -507,16 +566,20 @@
         }
 
 		/**
-		 * @brief creates a table by using xml file
-		 **/
+		 * Creates a table by using xml contents
+		 * @param string $xml_doc xml schema contents
+		 * @return void|object
+		 */
 		function createTableByXml ($xml_doc)
 		{
 			return $this->_createTable ($xml_doc);
 		}
 
 		/**
-		 * @brief creates a table by using xml file
-		 **/
+		 * Creates a table by using xml file path
+		 * @param string $file_name xml schema file path
+		 * @return void|object
+		 */
 		function createTableByXmlFile ($file_name)
 		{
 			if (!file_exists ($file_name)) return;
@@ -526,12 +589,14 @@
 		}
 
 		/**
-		 * @brief create table by using the schema xml
+		 * Create table by using the schema xml
 		 *
 		 * type : number, varchar, tinytext, text, bigtext, char, date, \n
 		 * opt : notnull, default, size\n
 		 * index : primary key, index, unique\n
-		 **/
+		 * @param string $xml_doc xml schema contents
+		 * @return void|object
+		 */
 		function _createTable ($xml_doc)
 		{
 			// xml parsing
@@ -645,8 +710,11 @@
 
 
 		/**
-		 * @brief handles insertAct
-		 **/
+		 * Handles insertAct
+		 * @param Object $queryObject
+		 * @param boolean $with_values
+		 * @return resource
+		 */
 		function _executeInsertAct($queryObject, $with_values = true)
 		{
 			if($this->use_prepared_statements == 'Y')
@@ -668,8 +736,11 @@
 		}
 
 		/**
-		 * @brief handles updateAct
-		 **/
+		 * Handles updateAct
+		 * @param Object $queryObject
+		 * @param boolean $with_values
+		 * @return resource
+		 */
 		function _executeUpdateAct($queryObject, $with_values = true)
 		{
 			if($this->use_prepared_statements == 'Y')
@@ -689,8 +760,11 @@
 
 
 		/**
-		 * @brief handles deleteAct
-		 **/
+		 * Handles deleteAct
+		 * @param Object $queryObject
+		 * @param boolean $with_values
+		 * @return resource
+		 */
 		function _executeDeleteAct($queryObject, $with_values = true)
 		{
 			if($this->use_prepared_statements == 'Y')
@@ -710,11 +784,14 @@
 		}
 
 		/**
-		 * @brief Handle selectAct
-		 *
-		 * to get a specific page list easily in select statement,\n
+		 * Handle selectAct
+		 * To get a specific page list easily in select statement,
 		 * a method, navigation, is used
-		 **/
+		 * @param Object $queryObject
+		 * @param resource $connection
+		 * @param boolean $with_values
+		 * @return Object
+		 */
 	   function _executeSelectAct($queryObject, $connection = null, $with_values = true) {
 			if ($this->use_prepared_statements == 'Y') {
 				$this->param = $queryObject->getArguments();
@@ -745,6 +822,11 @@
 			}
 		}
 
+		/**
+		 * If have a error, return error object
+		 * @param Object $queryObject
+		 * @return Object
+		 */
 		function queryError($queryObject){
                         $limit = $queryObject->getLimit();
 			if ($limit && $limit->isPageHandler()){
@@ -759,6 +841,13 @@
 					return;
 		}
 
+		/**
+		 * If select query execute, return page info
+		 * @param Object $queryObject
+		 * @param resource $connection
+		 * @param boolean $with_values
+		 * @return Object Object with page info containing
+		 */
 		function queryPageLimit($queryObject, $connection, $with_values){
             $limit = $queryObject->getLimit();
 		 	// Total count
@@ -834,11 +923,23 @@
 			return $buff;
 		}
 
-		function &getParser($force = FALSE){
-			$dbParser = new DBParser('"', '"', $this->prefix);
-			return $dbParser;
+		/**
+		 * Return the DBParser
+		 * @param boolean $force
+		 * @return DBParser
+		 */
+		function getParser($force = FALSE){
+			return new DBParser('"', '"', $this->prefix);
 		}
 
+		/**
+		 * If select query execute, return paging sql
+		 * @param object $query
+		 * @param boolean $with_values
+		 * @param int $start_count
+		 * @param int $list_count
+		 * @return string select paging sql
+		 */
                 function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {
 
                     $select = $query->getSelectString($with_values);

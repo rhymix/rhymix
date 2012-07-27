@@ -22,11 +22,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage("success_registed");
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -37,11 +35,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_updated');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -52,11 +48,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -402,9 +396,12 @@
                 } else {
                     $group_srls = Context::get($grant_name);
                     if($group_srls) {
-                        if(strpos($group_srls,'|@|')!==false) $group_srls = explode('|@|',$group_srls);
-                        elseif(strpos($group_srls,',')!==false) $group_srls = explode(',',$group_srls);
-                        else $group_srls = array($group_srls);
+						if(!is_array($group_srls))
+						{
+							if(strpos($group_srls,'|@|')!==false) $group_srls = explode('|@|',$group_srls);
+							elseif(strpos($group_srls,',')!==false) $group_srls = explode(',',$group_srls);
+							else $group_srls = array($group_srls);
+						}
                         $grant->{$grant_name} = $group_srls;
                     }
                     continue;
@@ -492,11 +489,9 @@
 
             $this->add('name', $args->name);
             $this->setMessage("success_saved", 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', $module, 'target', $target, 'act', 'dispModuleAdminLangcode');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', $module, 'target', $target, 'act', 'dispModuleAdminLangcode');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -516,11 +511,9 @@
             $this->makeCacheDefinedLangCode($args->site_srl);
 
             $this->setMessage("success_deleted", 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminLangcode');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminLangcode');
+			$this->setRedirectUrl($returnUrl);
         }
 
 		function procModuleAdminGetList()
@@ -547,6 +540,7 @@
 
 			$args->sort_index1 = 'sites.domain';
 
+			$moduleCategorySrl = array();
             // Get a list of modules at the site
             $output = executeQueryArray('module.getSiteModules', $args);
             $mid_list = array();
@@ -560,11 +554,29 @@
 
                     $obj = null;
                     $obj->module_srl = $val->module_srl;
+                    $obj->layout_srl = $val->layout_srl;
                     $obj->browser_title = $val->browser_title;
                     $obj->mid = $val->mid;
+                    $obj->module_category_srl = $val->module_category_srl;
+					if($val->module_category_srl > 0)
+					{
+						array_push($moduleCategorySrl, $val->module_category_srl);
+					}
                     $mid_list[$module]->list[$val->mid] = $obj;
                 }
             }
+
+			// Get module category name
+			$moduleCategorySrl = array_unique($moduleCategorySrl);
+			$output = $oModuleModel->getModuleCategories($moduleCategorySrl);
+			$categoryNameList = array();
+			if(is_array($output))
+			{
+				foreach($output AS $key=>$value)
+				{
+					$categoryNameList[$value->module_category_srl] = $value->title;
+				}
+			}
 
             $selected_module = Context::get('selected_module');
             if(count($mid_list)) {
@@ -572,6 +584,26 @@
                     if(!$selected_module) $selected_module = $module;
                     $xml_info = $oModuleModel->getModuleInfoXml($module);
                     $mid_list[$module]->title = $xml_info->title;
+
+					// change module category srl to title
+					if(is_array($val->list))
+					{
+						foreach($val->list AS $key=>$value)
+						{
+							if($value->module_category_srl > 0)
+							{
+								$categorySrl = $mid_list[$module]->list[$key]->module_category_srl;
+								if(isset($categoryNameList[$categorySrl]))
+								{
+									$mid_list[$module]->list[$key]->module_category_srl = $categoryNameList[$categorySrl];
+								}
+							}
+							else
+							{
+								$mid_list[$module]->list[$key]->module_category_srl = Context::getLang('none_category');
+							}
+						}
+					}
                 }
             }
 

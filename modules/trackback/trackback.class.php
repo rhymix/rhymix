@@ -1,15 +1,17 @@
 <?php
-    /**
-     * @class  trackback
-     * @author NHN (developers@xpressengine.com)
-     * @brief trackback module's high class
-     **/
-
+	/**
+	 * trackback class
+	 * trackback module's high class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/trackback
+	 * @version 0.1
+	 */
     class trackback extends ModuleObject {
-
-        /**
-         * @brief Implement if additional tasks are necessary when installing
-         **/
+		/**
+		 * Implement if additional tasks are necessary when installing
+		 * @return Object
+		 */
         function moduleInstall() {
             // Register action forward (to use in administrator mode)
             $oModuleController = &getController('module');
@@ -26,9 +28,10 @@
             return new Object();
         }
 
-        /**
-         * @brief a method to check if successfully installed
-         **/
+		/**
+		 * A method to check if successfully installed
+		 * @return bool
+		 */
         function checkUpdate() {
             $oModuleModel = &getModel('module');
             // 2007. 10. 17 posts deleted, even when the comments will be deleted trigger property
@@ -43,9 +46,10 @@
             return false;
         }
 
-        /**
-         * @brief Execute update
-         **/
+		/**
+		 * Execute update
+		 * @return Object
+		 */
         function moduleUpdate() {
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
@@ -65,9 +69,10 @@
             return new Object(0, 'success_updated');
         }
 
-        /**
-         * @brief Re-generate the cache file
-         **/
+		/**
+		 * Re-generate the cache file
+		 * @return void
+		 */
         function recompileCache() {
         }
 

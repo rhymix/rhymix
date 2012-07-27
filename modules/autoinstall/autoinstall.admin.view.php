@@ -1,16 +1,27 @@
 <?php
     /**
-     * @class  autoinstallAdminView
+     * Admin view class in the autoinstall module
      * @author NHN (developers@xpressengine.com)
-     * @brief admin view class in the autoinstall module
      **/
-
-
     class autoinstallAdminView extends autoinstall {
 
+		/**
+		 * Category list
+		 * @var array
+		 */
         var $categories;
+
+		/**
+		 * Is set a ftp information
+		 * @var bool
+		 */
 		var $ftp_set = false;
 
+		/**
+		 * initialize
+		 *
+		 * @return void
+		 */
 	    function init() {
 		    $template_path = sprintf("%stpl/",$this->module_path);
             Context::set('original_site', _XE_LOCATION_SITE_);
@@ -28,6 +39,45 @@
             Context::set('iCount', $oModel->getInstalledPackageCount());
 	    }
 
+		/**
+		 * Rearrange one item
+		 *
+		 * <pre>
+		 * $item:
+		 * stdClass Object
+		 * (
+		 *	[category_srl] => stdClass Object
+		 *		(
+		 *			[body] => xxx
+		 *		)
+		 *	[package_srl] => stdClass Object
+		 *		(
+		 *			[body] => xxx
+		 *		)
+		 *	...
+		 *	[depfrom] => stdClass Object
+		 *		(
+		 *			[body] => xxx
+		 *		)
+		 * )
+		 *
+		 * $targets:
+		 * array('category_srl', 'package_srl', 'item_screenshot_url', 'package_voted', 'package_voter', 'package_description', 'package_downloaded', 'item_regdate', 'title', 'item_version', 'package_star', 'depfrom');
+		 *
+		 * returns:
+		 * stdClass Object
+		 * (
+		 *	[category_srl] => xxx
+		 *	[package_srl] => xxx
+		 *	...
+		 *	[depfrom] => xxx
+		 * )
+		 * </pre>
+		 *
+		 * @param object $item
+		 * @param object $targets
+		 * @return object
+		 */
         function rearrange(&$item, &$targets)
         {
             $ret = null;
@@ -38,6 +88,76 @@
             return $ret;
         }
 
+		/**
+		 * Rearrage all item
+		 *
+		 * <pre>
+		 * $items:
+		 * Array
+		 * (
+		 *	[0] => stdClass Object
+		 *		(
+		 *			[category_srl] => stdClass Object
+		 *				(
+		 *					[body] => xxx
+		 *				)
+		 *			[package_srl] => stdClass Object
+		 *				(
+		 *					[body] => xxx
+		 *				)
+		 *			...
+		 *			[depfrom] => stdClass Object
+		 *				(
+		 *					[body] => xxx
+		 *				)
+		 *		)
+		 *	[1] => stdClass Object
+		 *		(
+		 *			...
+		 *		)
+		 *	...
+		 * )
+		 *
+		 * $packages:
+		 * Array
+		 * (
+		 *	[<i>package_srl</i>] => stdClass Object
+		 *		(
+		 *			[current_version] => xxx
+		 *			[need_update] => xxx
+		 *			[path] => xxx
+		 *			...
+		 *		)
+		 *	...
+		 * )
+		 *
+		 * return:
+		 * Array
+		 * (
+		 *	[<i>package_srl</i>] => stdClass Object
+		 *		(
+		 *			[category_srl] => xxx
+		 *			[package_srl] => xxx
+		 *			...
+		 *			[category] => xxx
+		 *			[current_version] => xxx
+		 *			[type] => xxx
+		 *			[need_update] => xxx
+		 *			[avail_remove] => xxx
+		 *			[deps] => Array
+		 *				(
+		 *					[0] => xxx
+		 *					...
+		 *				)
+		 *		)
+		 *	...
+		 * )
+		 * </pre>
+		 *
+		 * @param object $items Recived data from server
+		 * @param object $packages Local data
+		 * @return object
+		 */
         function rearranges($items, $packages = null)
         {
             if(!is_array($items)) $items = array($items);
@@ -113,6 +233,11 @@
             return $item_list;
         }
 
+		/**
+		 * Display installed packages
+		 *
+		 * @return Object
+		 */
         function dispAutoinstallAdminInstalledPackages()
         {
             $page = Context::get('page');
@@ -146,6 +271,11 @@
 			$security->encodeHTML('item_list..');
         }
 
+		/**
+		 * Display install package
+		 *
+		 * @return Object
+		 */
         function dispAutoinstallAdminInstall() {
             $package_srl = Context::get('package_srl');
             if(!$package_srl) return $this->dispAutoinstallAdminIndex();
@@ -219,6 +349,11 @@
 			$security->encodeHTML('package.' , 'package.depends..');
         }
 
+		/**
+		 * Display package list
+		 *
+		 * @return Object
+		 */
         function dispAutoinstallAdminIndex() {
             $oModuleModel = &getModel('module');
 			$config = $oModuleModel->getModuleConfig('autoinstall');
@@ -254,7 +389,7 @@
 					return;
 				}
             }
-			unset($_SESSION['__XE_EASYiNSTALL_REDIRECT__']);
+			unset($_SESSION['__XE_EASYINSTALL_REDIRECT__']);
 
             $page = Context::get('page');
             if(!$page) $page = 1;
@@ -299,6 +434,11 @@
 
         }
 
+		/**
+		 * Display category
+		 *
+		 * @return void
+		 */
         function dispCategory()
         {
             $oModel = &getModel('autoinstall');
@@ -306,6 +446,11 @@
             Context::set('categories', $this->categories);
         }
 
+		/**
+		 * Display uninstall package
+		 *
+		 * @return Object
+		 */
 		function dispAutoinstallAdminUninstall()
 		{
             $package_srl = Context::get('package_srl');

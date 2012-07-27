@@ -1,21 +1,25 @@
 <?php
-    /**
-     * @class  trackbackAdminModel
-     * @author NHN (developers@xpressengine.com)
-     * @brief trackback module admin model class
-     **/
-
+	/**
+	 * @class  trackbackAdminModel
+	 * @brief trackback module admin model class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/trackback
+	 * @version 0.1
+	 */
     class trackbackAdminModel extends trackback {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Trackbacks Bringing all the time in reverse order (administrative)
-         **/
+		/**
+		 * Trackbacks Bringing all the time in reverse order (administrative)
+		 * @param object $obj
+		 * @return object
+		 */
         function getTotalTrackbackList($obj) {
             // Search options
             $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
@@ -63,6 +67,12 @@
             return $output;
         }
 
+		/**
+		 * Return trackback count by date
+		 * @param strgin $date
+		 * @param array $moduleSrlList
+		 * @return int
+		 */
 		function getTrackbackCountByDate($date = '', $moduleSrlList = array())
 		{
 			if($date) $args->regDate = date('Ymd', strtotime($date));

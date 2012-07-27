@@ -1,21 +1,24 @@
 <?php
-    /**
-     * @class  commentAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief admin controller class of the comment module
-     **/
-
+	/**
+	 * commentAdminController class
+	 * admin controller class of the comment module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/comment
+	 * @version 0.1
+	 */
     class commentAdminController extends comment {
 
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 		
 	/**
-	* @brief Modify comment(s) status to publish/unpublish if calling module is using Comment Approval System
-	* @return Object 
+	* Modify comment(s) status to publish/unpublish if calling module is using Comment Approval System
+	* @return void
 	*/
 	function procCommentAdminChangePublishedStatusChecked()
 	{	// Error display if none is selected
@@ -31,13 +34,14 @@
 		
 		$this->procCommentAdminChangeStatus();
 		
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', '');
-			header('location:'.$returnUrl);
-			return;
-		}
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', '');
+		$this->setRedirectUrl($returnUrl);
 	}
 	
+	/**
+	* Change comment status
+	* @return void|object
+	*/
 	function procCommentAdminChangeStatus()
 	{
 		$will_publish = Context::get('will_publish');
@@ -149,9 +153,10 @@
 		
 	}
 	
-        /**
-         * @brief Delete the selected comment from the administrator page
-         **/
+		/**
+		 * Delete the selected comment from the administrator page
+		 * @return void
+		 */
         function procCommentAdminDeleteChecked() {
 			$isTrash = Context::get('is_trash');
 
@@ -221,13 +226,19 @@
             //$this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
             $this->setMessage($msgCode, 'info');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', $search_keyword, 'search_target', $search_target);
-				header('location:'.$returnUrl);
-				return;
-			}
+			//set url params
+			$search_keyword = Context::get('search_keyword');
+			$search_target = Context::get('search_target');
+			$page = Context::get('page');
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', $search_keyword, 'search_target', $search_target,'page',$page);
+			$this->setRedirectUrl($returnUrl);
         }
 
+		/**
+		 * comment move to trash
+		 * @return void|object
+		 */
 		function _moveCommentToTrash($commentSrlList, &$oCommentController, &$oDB)
 		{
 			require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
@@ -256,9 +267,10 @@
 			}
 		}
 
-        /**
-         * @brief cancel the blacklist of abused comments reported by other users
-         **/
+		/**
+		 * Cancel the blacklist of abused comments reported by other users
+		 * @return void|object
+		 */
         function procCommentAdminCancelDeclare() {
             $comment_srl = trim(Context::get('comment_srl'));
 
@@ -269,6 +281,10 @@
             }
         }
 
+		/**
+		 * Comment add to _SESSION
+		 * @return void
+		 */
 		function procCommentAdminAddCart()
 		{
 			$comment_srl = (int)Context::get('comment_srl');
@@ -289,9 +305,10 @@
 			}
 		}
 
-        /**
-         * @brief delete all comments of the specific module
-         **/
+		/**
+		 * Delete all comments of the specific module
+		 * @return object
+		 */
         function deleteModuleComments($module_srl) {
             $args->module_srl = $module_srl;
             $output = executeQuery('comment.deleteModuleComments', $args);
@@ -310,9 +327,10 @@
         }
 
         /**
-         * @brief restore comment from trash module, called by trash module
+         * Restore comment from trash module, called by trash module
 		 * this method is passived
-         **/
+		 * @return object
+         */
 		function restoreTrash($originObject)
 		{
 			if(is_array($originObject)) $originObject = (object)$originObject;
@@ -336,10 +354,11 @@
 			return $output;
 		}
 
-        /**
-         * @brief empty comment in trash, called by trash module
+		/**
+		 * Empty comment in trash, called by trash module
 		 * this method is passived
-         **/
+		 * @return object
+		 */
 		function emptyTrash($originObject)
 		{
 			$originObject = unserialize($originObject);

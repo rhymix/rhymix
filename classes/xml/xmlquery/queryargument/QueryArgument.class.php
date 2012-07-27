@@ -1,15 +1,53 @@
 <?php
-
+/**
+ * QueryArgument class
+ * @author NHN (developers@xpressengine.com)
+ * @package /classes/xml/xmlquery/queryargument
+ * @version 0.1
+ */
 class QueryArgument {
-
+	/**
+	 * Argument name
+	 * @var string
+	 */
 	var $argument_name;
+	/**
+	 * Variable name
+	 * @var string
+	 */
 	var $variable_name;
+	/**
+	 * Argument validator
+	 * @var QueryArgumentValidator
+	 */
 	var $argument_validator;
+	/**
+	 * Column name
+	 * @var string
+	 */
 	var $column_name;
+	/**
+	 * Table name
+	 * @var string
+	 */
 	var $table_name;
+	/**
+	 * Operation
+	 * @var string
+	 */
 	var $operation;
+	/**
+	 * Ignore value
+	 * @var bool
+	 */
 	var $ignore_value;
 
+	/**
+	 * constructor
+	 * @param object $tag tag object
+	 * @param bool $ignore_value
+	 * @return void
+	 */
 	function QueryArgument($tag, $ignore_value = false) {
 		static $number_of_arguments = 0;
 
@@ -64,6 +102,10 @@ class QueryArgument {
 		return false;
 	}
 
+	/**
+	 * Change QueryArgument object to string
+	 * @return string
+	 */
 	function toString() {
 		if ($this->isConditionArgument()) {
 			// Instantiation

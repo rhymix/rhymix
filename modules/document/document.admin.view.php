@@ -1,14 +1,17 @@
 <?php
-    /**
-     * @class  documentAdminView
-     * @author NHN (developers@xpressengine.com)
-     * @brief document admin view of the module class
-     **/
-
+	/**
+	 * documentAdminView class
+	 * Document admin view of the module class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/document
+	 * @version 0.1
+	 */
     class documentAdminView extends document {
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
 			// check current location in admin menu
 			$oModuleModel = &getModel('module');
@@ -23,9 +26,10 @@
 			}
         }
 
-        /**
-         * @brief Display a list(administrative)
-         **/
+		/**
+		 * Display a list(administrative)
+		 * @return void
+		 */
         function dispDocumentAdminList() {
             // option to get a list
             $args->page = Context::get('page'); // /< Page
@@ -67,9 +71,10 @@
             $this->setTemplateFile('document_list');
         }
 
-        /**
-         * @brief Set a document module
-         **/
+		/**
+		 * Set a document module
+		 * @return void
+		 */
         function dispDocumentAdminConfig() {
             $oDocumentModel = &getModel('document');
             $config = $oDocumentModel->getDocumentConfig();
@@ -80,9 +85,10 @@
             $this->setTemplateFile('document_config');
         }
 
-        /**
-         * @brief display a report list on the admin page
-         **/
+		/**
+		 * Display a report list on the admin page
+		 * @return void
+		 */
         function dispDocumentAdminDeclared() {
 			// option for a list
 			$args->page = Context::get('page'); // /< Page
@@ -120,6 +126,10 @@
 			$this->setTemplateFile('declared_list');
         }
 
+		/**
+		 * Display a alias list on the admin page
+		 * @return void
+		 */
         function dispDocumentAdminAlias() {
             $args->document_srl = Context::get('document_srl');
             if(!$args->document_srl) return $this->dispDocumentAdminList();
@@ -145,6 +155,10 @@
             $this->setTemplateFile('document_alias');
         }
 
+		/**
+		 * Display a trash list on the admin page
+		 * @return void
+		 */
         function dispDocumentAdminTrashList() {
             // options for a list
             $args->page = Context::get('page'); // /< Page

@@ -70,13 +70,15 @@
         function getDefaultMid() {
             $default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
             $request_url = preg_replace('/\/$/','',Context::getRequestUri());
+			$default_url_parse = parse_url($default_url);
+			$request_url_parse = parse_url($request_url);
             $vid = Context::get('vid');
             $mid = Context::get('mid');
 
             // Set up
             // test.xe.com
             $domain = '';
-            if($default_url && $default_url != $request_url) {
+            if($default_url && $default_url_parse['host'] != $request_url_parse['host']) {
                 $url_info = parse_url($request_url);
                 $hostname = $url_info['host'];
                 $path = preg_replace('/\/$/','',$url_info['path']);
@@ -630,8 +632,10 @@
 								$info->menu->{$action->attrs->menu_name}->index = $name;
                         		$buff .= sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
 							}
-							array_push($info->menu->{$action->attrs->menu_name}->acts, $name);
-							$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
+							if(is_array($info->menu->{$action->attrs->menu_name}->acts)) {
+								@array_push($info->menu->{$action->attrs->menu_name}->acts, $name);
+								$currentKey = @array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
+							}
 
                         	$buff .= sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
 							$i++;
@@ -1015,9 +1019,10 @@
         /**
          * @brief Get a list of module category
          **/
-        function getModuleCategories() {
+        function getModuleCategories($moduleCategorySrl = array()) {
+			$args->moduleCategorySrl = $moduleCategorySrl;
             // Get data from the DB
-            $output = executeQuery('module.getModuleCategories');
+            $output = executeQuery('module.getModuleCategories', $args);
             if(!$output->toBool()) return $output;
             $list = $output->data;
             if(!$list) return;

@@ -1,20 +1,21 @@
 <?php
     /**
-     * @class  fileAdminView
+     * Admin view of the module class file
      * @author NHN (developers@xpressengine.com)
-     * @brief admin view of the module class file
      **/
-
     class fileAdminView extends file {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Display output list (for administrator)
+         * Display output list (for administrator)
+		 *
+		 * @return Object
          **/
         function dispFileAdminList() {
             // Options to get a list
@@ -174,7 +175,9 @@
         }
 
         /**
-         * @brief Set attachment information (for administrator)
+         * Set attachment information (for administrator)
+		 *
+		 * @return Object
          **/
         function dispFileAdminConfig() {
             $oFileModel = &getModel('file');

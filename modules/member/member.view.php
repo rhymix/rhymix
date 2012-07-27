@@ -65,6 +65,13 @@
             unset($member_info->email_id);
             unset($member_info->email_host);
 
+			if($logged_info->is_admin != 'Y' && ($member_info->member_srl != $logged_info->member_srl))
+			{
+				$start = strpos($member_info->email_address, '@')+1;
+				$replaceStr = str_repeat('*', (strlen($member_info->email_address) - $start));
+				$member_info->email_address = substr_replace($member_info->email_address, $replaceStr, $start);
+			}
+
             if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
 			
 			Context::set('memberInfo', get_object_vars($member_info));
@@ -82,11 +89,11 @@
         /**
          * @brief Display member join form
          **/
-        function dispMemberSignUpForm() {
-        	//setcookie for redirect url in case of going to member sign up
-            if (!isset($_COOKIE["XE_REDIRECT_URL"]))
+        function dispMemberSignUpForm() 
+		{
+			//setcookie for redirect url in case of going to member sign up
 			setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER']);
-			
+
             $oMemberModel = &getModel('member');
             // Get the member information if logged-in
             if($oMemberModel->isLogged()) return $this->stop('msg_already_logged');
@@ -108,6 +115,7 @@
 			$identifierForm->name = $member_config->identifier;
 			$identifierForm->value = $member_info->{$member_config->identifier};
 			Context::set('identifierForm', $identifierForm);
+
             // Set a template file
             $this->setTemplateFile('signup_form');
         }
@@ -247,8 +255,14 @@
                 $this->setTemplateFile('redirect.html');
                 return;
             }
+
+			// get member module configuration.
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+			Context::set('identifier', $config->identifier);
+
             // Set a template file
-            Context::set('referer_url', $_SERVER['HTTP_REFERER']);
+            Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER']));
 			Context::set('act', 'procMemberLogin');
             $this->setTemplateFile('login_form');
         }

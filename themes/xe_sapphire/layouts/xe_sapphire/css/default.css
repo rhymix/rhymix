@@ -8,7 +8,7 @@ body { margin:0;padding:0; font-size:.75em;}
 #lnb_Global ul{margin:0;padding:0}
 .lnb_Global li.active a{font-weight:bold;color:#fff;}
 /* Site Layout - Body Wrap */
-body{background:#fafafa url(../images/default/bg_body.gif) repeat-x 0 0;font-family:Arial}
+html{background:#fafafa url(../images/default/bg_body.gif) repeat-x 0 0;font-family:Arial}
 #bodyWrap{position:relative;width:960px;margin:0 auto}
 /* Site Layout - Header */
 #header{position:relative;z-index:100;width:960px;height:105px;margin-bottom:10px}

@@ -1,15 +1,15 @@
 <?php
 /**
- * @class FileHandler
+ * Contains methods for accessing file system
+ *
  * @author NHN (developers@xpressengine.com)
- * @brief contains methods for accessing file system
  **/
-
 class FileHandler {
 	/**
-	 * @brief changes path of target file, directory into absolute path
-	 * @param[in] $source path
-	 * @return absolute path 
+	 * Changes path of target file, directory into absolute path
+	 *
+	 * @param string $source path to change into absolute path
+	 * @return string Absolute path
 	 **/
 	function getRealPath($source) {
 		$temp = explode('/', $source);
@@ -18,13 +18,15 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief copy a directory to target 
-	 * @param[in] $source_dir path of source directory
-	 * @param[in] $target_dir path of target dir
-	 * @param[in] $filter
-	 * @param[in] $type
-	 * @remarks if target directory does not exist, this function creates it 
-	 * @return none
+	 * Copy a directory to target 
+	 *
+	 * If target directory does not exist, this function creates it 
+	 *
+	 * @param string $source_dir Path of source directory
+	 * @param string $target_dir Path of target dir
+	 * @param string $filter Regex to filter files. If file matches this regex, the file is not copied.
+	 * @param string $type If set as 'force'. Even if the file exists in target, the file is copied.
+	 * @return void
 	 **/
 	function copyDir($source_dir, $target_dir, $filter=null,$type=null){
 		$source_dir = FileHandler::getRealPath($source_dir);
@@ -53,11 +55,12 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief copy a file to target 
-	 * @param[in] $source path of source file
-	 * @param[in] $target path of target file
-	 * @param[in] $force Y: overwrite
-	 * @return none
+	 * Copy a file to target 
+	 *
+	 * @param string $source Path of source file
+	 * @param string $target Path of target file
+	 * @param string $force Y: overwrite
+	 * @return void
 	 **/
 	function copyFile($source, $target, $force='Y'){
 		setlocale(LC_CTYPE, 'en_US.UTF8', 'ko_KR.UTF8'); 
@@ -70,9 +73,10 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief returns the content of the file 
-	 * @param[in] $file_name path of target file
-	 * @return the content of the file. if target file does not exist, this function returns nothing.
+	 * Returns the content of the file 
+	 *
+	 * @param string $file_name Path of target file
+	 * @return string The content of the file. If target file does not exist, this function returns nothing.
 	 **/
 	function readFile($file_name) {
 		$file_name = FileHandler::getRealPath($file_name);
@@ -96,11 +100,12 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief write $buff into the specified file
-	 * @param[in] $file_name path of target file
-	 * @param[in] $buff content to be writeen
-	 * @param[in] $mode a(append) / w(write)
-	 * @return none
+	 * Write $buff into the specified file
+	 *
+	 * @param string $file_name Path of target file
+	 * @param string $buff Content to be writeen
+	 * @param string $mode a(append) / w(write)
+	 * @return void
 	 **/
 	function writeFile($file_name, $buff, $mode = "w") {
 		$file_name = FileHandler::getRealPath($file_name);
@@ -118,9 +123,10 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief remove a file
-	 * @param[in] $file_name path of target file
-	 * @return returns true on success or false on failure.
+	 * Remove a file
+	 *
+	 * @param string $file_name path of target file
+	 * @return bool Returns true on success or false on failure.
 	 **/
 	function removeFile($file_name) {
 		$file_name = FileHandler::getRealPath($file_name);
@@ -128,11 +134,13 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief rename a file
-	 * @param[in] $source path of source file
-	 * @param[in] $target path of target file
-	 * @remarks In order to move a file, use this function.
-	 * @return returns true on success or false on failure.
+	 * Rename a file
+	 *
+	 * In order to move a file, use this function.
+	 *
+	 * @param string $source Path of source file
+	 * @param string $target Path of target file
+	 * @return bool Returns true on success or false on failure.
 	 **/
 	function rename($source, $target) {
 		$source = FileHandler::getRealPath($source);
@@ -141,10 +149,11 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief Move a file
-	 * @param[in] $source path of source file
-	 * @param[in] $target path of target file
-	 * @return returns true on success or false on failure.
+	 * Move a file
+	 *
+	 * @param string $source Path of source file
+	 * @param string $target Path of target file
+	 * @return bool Returns true on success or false on failure.
 	 */
 	function moveFile($source, $target) {
 		$source = FileHandler::getRealPath($source);
@@ -157,24 +166,28 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief move a directory 
-	 * @param[in] $source_dir path of source directory
-	 * @param[in] $target_dir path of target directory
-	 * @remarks this function just wraps rename function.
-	 * @return none
+	 * Move a directory 
+	 *
+	 * This function just wraps rename function.
+	 *
+	 * @param string $source_dir Path of source directory
+	 * @param string $target_dir Path of target directory
+	 * @return void
 	 **/
 	function moveDir($source_dir, $target_dir) {
 		FileHandler::rename($source_dir, $target_dir);
 	}
 
 	/**
-	 * @brief return list of the files in the path
-	 * @param[in] $path path of target directory
-	 * @param[in] $filter if specified, return only files matching with the filter
-	 * @param[in] $to_lower if true, file names will be changed into lower case.
-	 * @param[in] $concat_prefix if true, return file name as absolute path
-	 * @remarks the array does not contain files, such as '.', '..', and files starting with '.'
-	 * @return array of the filenames in the path 
+	 * Return list of the files in the path
+	 *
+	 * The array does not contain files, such as '.', '..', and files starting with '.'
+	 *
+	 * @param string $path Path of target directory
+	 * @param string $filter If specified, return only files matching with the filter
+	 * @param bool $to_lower If true, file names will be changed into lower case.
+	 * @param bool $concat_prefix If true, return file name as absolute path
+	 * @return string[] Array of the filenames in the path 
 	 **/
 	function readDir($path, $filter = '', $to_lower = false, $concat_prefix = false) {
 		$path = FileHandler::getRealPath($path);
@@ -205,10 +218,12 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief creates a directory
-	 * @param[in] $path_string path of target directory
-	 * @return true if success. it might return nothing when ftp is used and connection to the ftp address failed.
-	 * @remarks This function creates directories recursively, which means that if ancestors of the target directory does not exist, they will be created too.
+	 * Creates a directory
+	 *
+	 * This function creates directories recursively, which means that if ancestors of the target directory does not exist, they will be created too.
+	 *
+	 * @param string $path_string Path of target directory
+	 * @return bool true if success. It might return nothing when ftp is used and connection to the ftp address failed.
 	 **/
 	function makeDir($path_string) {
 		static $oFtp = null;
@@ -256,9 +271,10 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief remove all files under the path
-	 * @param[in] $path path of the target directory
-	 * @return none
+	 * Remove all files under the path
+	 *
+	 * @param string $path Path of the target directory
+	 * @return void
 	 **/
 	function removeDir($path) {
 		$path = FileHandler::getRealPath($path);
@@ -278,9 +294,10 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief remove a directory only if it is empty 
-	 * @param[in] $path path of the target directory
-	 * @return none
+	 * Remove a directory only if it is empty 
+	 *
+	 * @param string $path Path of the target directory
+	 * @return void
 	 **/
 	function removeBlankDir($path) {
 		$item_cnt = 0;
@@ -299,10 +316,12 @@ class FileHandler {
 
 
 	/**
-	 * @biref remove files in the target directory.  
-	 * @param[in] $path path of the target directory
-	 * @remarks This function keeps the directory structure. 
-	 * @return none
+	 * Remove files in the target directory
+	 *
+	 * This function keeps the directory structure. 
+	 *
+	 * @param string $path Path of the target directory
+	 * @return void
 	 **/
 	function removeFilesInDir($path) {
 		$path = FileHandler::getRealPath($path);
@@ -321,9 +340,11 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief makes file size byte into KB, MB according to the size
-	 * @param[in] $size number of the size
-	 * @return file size string
+	 * Makes file size byte into KB, MB according to the size
+	 *
+	 * @see FileHandler::returnBytes()
+	 * @param int $size Number of the size
+	 * @return string File size string
 	 **/
 	function filesize($size) {
 		if(!$size) return '0Byte';
@@ -334,17 +355,19 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief return remote file's content via HTTP
-	 * @param[in] $url the address of the target file 
-	 * @param[in] $body HTTP request body
-	 * @param[in] $timeout connection timeout
-	 * @param[in] $method GET/POST
-	 * @param[in] $content_type content type header of HTTP request
-	 * @param[in] $headers headers key vaule array.
-	 * @param[in] $cookies cookies key value array.
-	 * @param[in] $post_data request arguments array for POST method
-	 * @return if success, the content of the target file. otherwise: none
-	 * @remarks if the target is moved (when return code is 300~399), this function follows the location specified response header.
+	 * Return remote file's content via HTTP
+	 *
+	 * If the target is moved (when return code is 300~399), this function follows the location specified response header.
+	 *
+	 * @param string $url The address of the target file 
+	 * @param string $body HTTP request body
+	 * @param int $timeout Connection timeout
+	 * @param string $method GET/POST
+	 * @param string $content_type Content type header of HTTP request
+	 * @param string[] $headers Headers key vaule array.
+	 * @param string[] $cookies Cookies key value array.
+	 * @param string $post_data Request arguments array for POST method
+	 * @return string If success, the content of the target file. Otherwise: none
 	 **/
 	function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
 		requirePear();
@@ -402,15 +425,16 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief retrieves remote file, then stores it into target path.
-	 * @param[in] $url the address of the target file
-	 * @param[in] $target_file the location to store
-	 * @param[in] $body HTTP request body
-	 * @param[in] $timeout connection timeout
-	 * @param[in] $method GET/POST
-	 * @param[in] $content_type content type header of HTTP request
-	 * @param[in] $headers headers key vaule array.
-	 * @return true: success, false: failed 
+	 * Retrieves remote file, then stores it into target path.
+	 *
+	 * @param string $url The address of the target file
+	 * @param string $target_filename The location to store
+	 * @param string $body HTTP request body
+	 * @param string $timeout Connection timeout
+	 * @param string $method GET/POST
+	 * @param string $content_type Content type header of HTTP request
+	 * @param string[] $headers Headers key vaule array.
+	 * @return bool true: success, false: failed 
 	 **/
 	function getRemoteFile($url, $target_filename, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array()) {
 		$body = FileHandler::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
@@ -421,9 +445,11 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief convert size in string into numeric value 
-	 * @param[in] $val size in string (ex., 10, 10K, 10M, 10G )
-	 * @return converted size
+	 * Convert size in string into numeric value 
+	 *
+	 * @see FileHandler::filesize()
+	 * @param $val Size in string (ex., 10, 10K, 10M, 10G )
+	 * @return int converted size
 	 */
 	function returnBytes($val)
 	{
@@ -438,9 +464,10 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief check available memory to load image file 
-	 * @param[in] $imageInfo image info retrieved by getimagesize function 
-	 * @return true: it's ok, false: otherwise 
+	 * Check available memory to load image file 
+	 *
+	 * @param array $imageInfo Image info retrieved by getimagesize function 
+	 * @return bool true: it's ok, false: otherwise 
 	 */
 	function checkMemoryLoadImage(&$imageInfo)
 	{
@@ -456,14 +483,15 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief moves an image file (resizing is possible)
-	 * @param[in] $source_file path of the source file
-	 * @param[in] $target_file path of the target file
-	 * @param[in] $resize_width width to resize 
-	 * @param[in] $resize_height height to resize
-	 * @param[in] $target_type if $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
-	 * @param[in] $thumbnail_type thumbnail type(crop, ratio)
-	 * @return true: success, false: failed 
+	 * Moves an image file (resizing is possible)
+	 *
+	 * @param string $source_file Path of the source file
+	 * @param string $target_file Path of the target file
+	 * @param int $resize_width Width to resize 
+	 * @param int $resize_height Height to resize
+	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
+	 * @param string $thumbnail_type Thumbnail type(crop, ratio)
+	 * @return bool true: success, false: failed 
 	 **/
 	function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop') {
 		$source_file = FileHandler::getRealPath($source_file);
@@ -610,9 +638,11 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief reads ini file, and puts result into array
-	 * @param[in] $filename path of the ini file
-	 * @return ini array (if the target file does not exist, it returns false)
+	 * Reads ini file, and puts result into array
+	 *
+	 * @see FileHandler::writeIniFile()
+	 * @param string $filename Path of the ini file
+	 * @return array ini array (if the target file does not exist, it returns false)
 	 **/
 	function readIniFile($filename){
 		$filename = FileHandler::getRealPath($filename);
@@ -624,10 +654,18 @@ class FileHandler {
 
 
 	/**
-	 * @brief write array into ini file
-	 * @param[in] $filename target ini file name
-	 * @param[in] $arr array
-	 * @return if array contains nothing it returns false, otherwise true
+	 * Write array into ini file
+	 *
+	 *	$ini['key1'] = 'value1';<br/>
+	 *	$ini['key2'] = 'value2';<br/>
+	 *	$ini['section']['key1_in_section'] = 'value1_in_section';<br/>
+	 *	$ini['section']['key2_in_section'] = 'value2_in_section';<br/>
+	 *	FileHandler::writeIniFile('exmple.ini', $ini);
+	 *
+	 * @see FileHandler::readIniFile()
+	 * @param string $filename Target ini file name
+	 * @param array $arr Array
+	 * @return bool if array contains nothing it returns false, otherwise true
 	 **/
 	function writeIniFile($filename, $arr){
 		if(count($arr)==0) return false;
@@ -635,6 +673,12 @@ class FileHandler {
 		return true;
 	}
 
+	/**
+	 * Make array to ini string
+	 *
+	 * @param array $arr Array
+	 * @return string
+	 */
 	function _makeIniBuff($arr){
 		$return = '';
 		foreach($arr as $key => $val){
@@ -653,11 +697,13 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief return file object 
-	 * @param[in] $filename target file name
-	 * @param[in] $mode file mode for fopen
-	 * @remarks if the directory of the file does not exist, create it.
-	 * @return file object 
+	 * Returns a file object 
+	 *
+	 * If the directory of the file does not exist, create it.
+	 *
+	 * @param string $filename Target file name
+	 * @param string $mode File mode for fopen
+	 * @return FileObject File object 
 	 **/
 	function openFile($filename, $mode)
 	{
@@ -671,9 +717,10 @@ class FileHandler {
 	}
 
 	/**
-	 * @brief  check whether the given file has the content.
-	 * @param[in] $file_name target file name
-	 * @return return true if the file exists and contains something.
+	 * Check whether the given file has the content.
+	 *
+	 * @param string $filename Target file name
+	 * @return bool Returns true if the file exists and contains something.
 	 */
 	function hasContent($filename)
 	{

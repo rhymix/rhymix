@@ -2,20 +2,22 @@
     /**
      * @class  layoutView
      * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of the layout module
+     * admin view class of the layout module
      **/
 
     class layoutView extends layout {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief Pop-up layout details(conf/info.xml)
+         * Pop-up layout details(conf/info.xml)
+		 * @return void
          **/
         function dispLayoutInfo() {
             // Get the layout information
@@ -30,7 +32,8 @@
         }
 
 		/**
-         * @brief Preview a layout
+         * Preview a layout
+		 * @return void|Object (void : success, Object : fail)
          **/
         function dispLayoutPreview() {
 			// admin check

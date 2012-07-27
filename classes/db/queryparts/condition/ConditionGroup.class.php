@@ -1,12 +1,30 @@
 <?php
-
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts/condition
+	 * @version 0.1
+	 */
 	class ConditionGroup {
+		/**
+		 * condition list
+		 * @var array
+		 */
 		var $conditions;
+		/**
+		 * pipe can use 'and', 'or'...
+		 * @var string
+		 */
 		var $pipe;
 
                 var $_group;
                 var $_show;
 
+		/**
+		 * constructor
+		 * @param array $conditions
+		 * @param string $pipe
+		 * @return void
+		 */
 		function ConditionGroup($conditions, $pipe = "") {
                         $this->conditions = array();
                         foreach($conditions as $condition){
@@ -28,6 +46,11 @@
                     $this->pipe = $pipe;
                 }
 
+		/**
+		 * value to string
+		 * @param boolean $with_value
+		 * @return string
+		 */
 		function toString($with_value = true){
                     if(!isset($this->_group)){
 			$cond_indx = 0;
@@ -48,6 +71,10 @@
                     return $this->_group;
 		}
 
+		/**
+		 * return argument list
+		 * @return array
+		 */
 		function getArguments(){
                     $args = array();
                     foreach($this->conditions as $condition){

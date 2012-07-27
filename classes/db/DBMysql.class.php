@@ -1,29 +1,30 @@
 <?php
 /**
- * @class DBMysql
- * @author NHN (developers@xpressengine.com)
- * @brief Class to use MySQL DBMS
- * @version 0.1
- *
+ * Class to use MySQL DBMS
  * mysql handling class
  *
  * Does not use prepared statements, since mysql driver does not support them
- **/
-
+ *
+ * @author NHN (developers@xpressengine.com)
+ * @package /classes/db
+ * @version 0.1
+ */
 class DBMysql extends DB {
 
     /**
-     * @brief Connection information for Mysql DB
-     **/
-    var $prefix   = 'xe_'; // / <prefix of a tablename (One or more XEs can be installed in a single DB)
+	 * prefix of a tablename (One or more XEs can be installed in a single DB)
+	 * @var string
+     */
+    var $prefix   = 'xe_'; // / <
     var $comment_syntax = '/* %s */';
 
     /**
-     * @brief Column type used in MySQL
+     * Column type used in MySQL
      *
      * Becasue a common column type in schema/query xml is used for colum_type,
      * it should be replaced properly for each DBMS
-     **/
+	 * @var array
+     */
     var $column_type = array(
         'bignumber' => 'bigint',
         'number' => 'bigint',
@@ -36,28 +37,38 @@ class DBMysql extends DB {
     );
 
     /**
-     * @brief constructor
-     **/
+     * Constructor
+	 * @return void
+     */
     function DBMysql() {
         $this->_setDBInfo();
         $this->_connect();
     }
 
+	/**
+	 * Create an instance of this class
+	 * @return DBMysql return DBMysql object instance
+	 */
     function create() {
         return new DBMysql;
     }
 
-    /**
-     * @brief Return if it is installable
-     **/
+	/**
+	 * Return if supportable
+	 * Check 'mysql_connect' function exists.
+	 * @return boolean
+	 */
     function isSupported() {
         if(!function_exists('mysql_connect')) return false;
         return true;
     }
 
-    /**
-     * @brief DB Connection
-     **/
+	/**
+	 * DB Connect
+	 * this method is private
+	 * @param array $connection connection's value is db_hostname, db_port, db_database, db_userid, db_password
+	 * @return resource
+	 */
     function __connect($connection) {
         // Ignore if no DB information exists
         if (strpos($connection["db_hostname"], ':') === false && $connection["db_port"])
@@ -85,57 +96,72 @@ class DBMysql extends DB {
         return $result;
     }
 
+	/**
+	 * If have a task after connection, add a taks in this method
+	 * this method is private
+	 * @param resource $connection
+	 * @return void
+	 */
     function _afterConnect($connection){
         // Set utf8 if a database is MySQL
         $this->_query("set names 'utf8'", $connection);
     }
 
-    /**
-     * @brief DB disconnection
-     **/
+	/**
+	 * DB disconnection
+	 * this method is private
+	 * @param resource $connection
+	 * @return void
+	 */
     function _close($connection) {
         @mysql_close($connection);
     }
 
-    /**
-     * @brief Add quotes on the string variables in a query
-     **/
+	/**
+	 * Handles quatation of the string variables from the query
+	 * @param string $string
+	 * @return string
+	 */
     function addQuotes($string) {
         if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
         if(!is_numeric($string)) $string = @mysql_real_escape_string($string);
         return $string;
     }
 
-    /**
-     * @brief Begin transaction
-     **/
+	/**
+	 * DB transaction start
+	 * this method is private
+	 * @return boolean
+	 */
     function _begin() {
         return true;
     }
 
-    /**
-     * @brief Rollback
-     **/
+	/**
+	 * DB transaction rollback
+	 * this method is private
+	 * @return boolean
+	 */
     function _rollback() {
         return true;
     }
 
-    /**
-     * @brief Commits
-     **/
+	/**
+	 * DB transaction commit
+	 * this method is private
+	 * @return boolean
+	 */
     function _commit() {
         return true;
     }
 
-    /**
-     * @brief : Run a query and fetch the result
-     *
-     * query: run a query and return the result \n
-     * fetch: NULL if no value is returned \n
-     *        array object if rows are returned \n
-     *        object if a row is returned \n
-     *         return\n
-     **/
+	/**
+	 * Execute the query
+	 * this method is private
+	 * @param string $query
+	 * @param resource $connection
+	 * @return resource
+	 */
     function __query($query, $connection) {
         // Run the query statement
         $result = mysql_query($query, $connection);
@@ -145,9 +171,12 @@ class DBMysql extends DB {
         return $result;
     }
 
-    /**
-     * @brief Fetch results
-     **/
+	/**
+	 * Fetch the result
+	 * @param resource $result
+	 * @param int|NULL $arrayIndexEndValue
+	 * @return array
+	 */
     function _fetch($result, $arrayIndexEndValue = NULL) {
         $output = array();
         if(!$this->isConnected() || $this->isError() || !$result) return $output;
@@ -163,9 +192,11 @@ class DBMysql extends DB {
         return $output;
     }
 
-    /**
-     * @brief Return sequence value incremented by 1(auto_increment is used in sequence table only in MySQL)
-     **/
+	/**
+	 * Return the sequence value incremented by 1
+	 * Auto_increment column only used in the sequence table
+	 * @return int
+	 */
     function getNextSequence() {
         $query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
         $this->_query($query);
@@ -178,9 +209,12 @@ class DBMysql extends DB {
         return $sequence;
     }
 
-    /**
-     * @brief Function to obtain mysql old password(mysql only)
-     **/
+	/**
+	 * Function to obtain mysql old password(mysql only)
+	 * @param string $password input password
+	 * @param string $saved_password saved password in DBMS
+	 * @return boolean
+	 */
     function isValidOldPassword($password, $saved_password) {
         $query = sprintf("select password('%s') as password, old_password('%s') as old_password", $this->addQuotes($password), $this->addQuotes($password));
         $result = $this->_query($query);
@@ -189,9 +223,11 @@ class DBMysql extends DB {
         return false;
     }
 
-    /**
-     * @brief Return if a table already exists
-     **/
+	/**
+	 * Check a table exists status
+	 * @param string $target_name
+	 * @return boolean
+	 */
     function isTableExists($target_name) {
         $query = sprintf("show tables like '%s%s'", $this->prefix, $this->addQuotes($target_name));
         $result = $this->_query($query);
@@ -200,9 +236,16 @@ class DBMysql extends DB {
         return true;
     }
 
-    /**
-     * @brief Add a column to a table
-     **/
+	/**
+	 * Add a column to the table
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @param string $type column type, default value is 'number'
+	 * @param int $size column size
+	 * @param string|int $default default value
+	 * @param boolean $notnull not null status, default value is false
+	 * @return void
+	 */
     function addColumn($table_name, $column_name, $type='number', $size='', $default = '', $notnull=false) {
         $type = $this->column_type[$type];
         if(strtoupper($type)=='INTEGER') $size = '';
@@ -216,17 +259,23 @@ class DBMysql extends DB {
         $this->_query($query);
     }
 
-    /**
-     * @brief Delete a column from a table
-     **/
+	/**
+	 * Drop a column from the table
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @return void
+	 */
     function dropColumn($table_name, $column_name) {
         $query = sprintf("alter table `%s%s` drop `%s` ", $this->prefix, $table_name, $column_name);
         $this->_query($query);
     }
 
-    /**
-     * @brief Return column information of a table
-     **/
+	/**
+	 * Check column exist status of the table
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @return boolean
+	 */
     function isColumnExists($table_name, $column_name) {
         $query = sprintf("show fields from `%s%s`", $this->prefix, $table_name);
         $result = $this->_query($query);
@@ -242,11 +291,16 @@ class DBMysql extends DB {
         return false;
     }
 
-    /**
-     * @brief Add an index to a table
-     * $target_columns = array(col1, col2)
-     * $is_unique? unique : none
-     **/
+	/**
+	 * Add an index to the table
+	 * $target_columns = array(col1, col2)
+	 * $is_unique? unique : none
+	 * @param string $table_name table name
+	 * @param string $index_name index name
+	 * @param string|array $target_columns target column or columns
+	 * @param boolean $is_unique
+	 * @return void
+	 */
     function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
         if(!is_array($target_columns)) $target_columns = array($target_columns);
 
@@ -254,18 +308,25 @@ class DBMysql extends DB {
         $this->_query($query);
     }
 
-    /**
-     * @brief Drop an index from a table
-     **/
+	/**
+	 * Drop an index from the table
+	 * @param string $table_name table name
+	 * @param string $index_name index name
+	 * @param boolean $is_unique
+	 * @return void
+	 */
     function dropIndex($table_name, $index_name, $is_unique = false) {
         $query = sprintf("alter table `%s%s` drop index `%s`", $this->prefix, $table_name, $index_name);
         $this->_query($query);
     }
 
 
-    /**
-     * @brief Return index information of a table
-     **/
+	/**
+	 * Check index status of the table
+	 * @param string $table_name table name
+	 * @param string $index_name index name
+	 * @return boolean
+	 */
     function isIndexExists($table_name, $index_name) {
         //$query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
         $query = sprintf("show indexes from `%s%s`", $this->prefix, $table_name);
@@ -281,16 +342,20 @@ class DBMysql extends DB {
         return false;
     }
 
-    /**
-     * @brief Create a table by using xml file
-     **/
+	/**
+	 * Creates a table by using xml contents
+	 * @param string $xml_doc xml schema contents
+	 * @return void|object
+	 */
     function createTableByXml($xml_doc) {
         return $this->_createTable($xml_doc);
     }
 
-    /**
-     * @brief Create a table by using xml file
-     **/
+	/**
+	 * Creates a table by using xml file path
+	 * @param string $file_name xml schema file path
+	 * @return void|object
+	 */
     function createTableByXmlFile($file_name) {
         if(!file_exists($file_name)) return;
         // read xml file
@@ -298,13 +363,15 @@ class DBMysql extends DB {
         return $this->_createTable($buff);
     }
 
-    /**
-     * @brief generate a query statement to create a table by using schema xml
-     *
-     * type : number, varchar, text, char, date, \n
-     * opt : notnull, default, size\n
-     * index : primary key, index, unique\n
-     **/
+	/**
+	 * Create table by using the schema xml
+	 *
+	 * type : number, varchar, tinytext, text, bigtext, char, date, \n
+	 * opt : notnull, default, size\n
+	 * index : primary key, index, unique\n
+	 * @param string $xml_doc xml schema contents
+	 * @return void|object
+	 */
     function _createTable($xml_doc) {
         // xml parsing
         $oXml = new XmlParser();
@@ -368,39 +435,51 @@ class DBMysql extends DB {
         if(!$output) return false;
     }
 
-    /**
-     * @brief Handle the insertAct
-     **/
+	/**
+	 * Handles insertAct
+	 * @param Object $queryObject
+	 * @param boolean $with_values
+	 * @return resource
+	 */
     function _executeInsertAct($queryObject, $with_values = true) {
         $query = $this->getInsertSql($queryObject, $with_values, true);
         if(is_a($query, 'Object')) return;
         return $this->_query($query);
     }
 
-    /**
-     * @brief Handle updateAct
-     **/
+	/**
+	 * Handles updateAct
+	 * @param Object $queryObject
+	 * @param boolean $with_values
+	 * @return resource
+	 */
     function _executeUpdateAct($queryObject, $with_values = true) {
         $query = $this->getUpdateSql($queryObject, $with_values, true);
         if(is_a($query, 'Object')) return;
         return $this->_query($query);
     }
 
-    /**
-     * @brief Handle deleteAct
-     **/
+	/**
+	 * Handles deleteAct
+	 * @param Object $queryObject
+	 * @param boolean $with_values
+	 * @return resource
+	 */
     function _executeDeleteAct($queryObject, $with_values = true) {
         $query = $this->getDeleteSql($queryObject, $with_values, true);
         if(is_a($query, 'Object')) return;
         return $this->_query($query);
     }
 
-    /**
-     * @brief Handle selectAct
-     *
-     * In order to get a list of pages easily when selecting \n
-     * it supports a method as navigation
-     **/
+	/**
+	 * Handle selectAct
+	 * In order to get a list of pages easily when selecting \n
+	 * it supports a method as navigation
+	 * @param Object $queryObject
+	 * @param resource $connection
+	 * @param boolean $with_values
+	 * @return Object
+	 */
     function _executeSelectAct($queryObject, $connection = null, $with_values = true) {
         $limit = $queryObject->getLimit();
         $result = NULL;
@@ -423,26 +502,52 @@ class DBMysql extends DB {
         }
     }
 
+	/**
+	 * Get the ID generated in the last query
+	 * Return next sequence from sequence table
+	 * This method use only mysql
+	 * @return int
+	 */
     function db_insert_id()
     {
         $connection = $this->_getConnection('master');
         return mysql_insert_id($connection);
     }
 
+	/**
+	 * Fetch a result row as an object
+	 * @param resource $result
+	 * @return object
+	 */
     function db_fetch_object(&$result)
     {
         return mysql_fetch_object($result);
     }
 
+	/**
+	 * Free result memory
+	 * @param resource $result
+	 * @return boolean Returns TRUE on success or FALSE on failure.
+	 */
     function db_free_result(&$result){
         return mysql_free_result($result);
     }
 
+	/**
+	 * Return the DBParser
+	 * @param boolean $force
+	 * @return DBParser
+	 */
     function &getParser($force = FALSE){
         $dbParser = new DBParser('`', '`', $this->prefix);
         return $dbParser;
     }
 
+	/**
+	 * If have a error, return error object
+	 * @param Object $queryObject
+	 * @return Object
+	 */
     function queryError($queryObject){
         $limit = $queryObject->getLimit();
         if ($limit && $limit->isPageHandler()){
@@ -457,6 +562,14 @@ class DBMysql extends DB {
             return;
     }
 
+	/**
+	 * If select query execute, return page info
+	 * @param Object $queryObject
+	 * @param resource $result
+	 * @param resource $connection
+	 * @param boolean $with_values
+	 * @return Object Object with page info containing
+	 */
     function queryPageLimit($queryObject, $result, $connection, $with_values = true){
         $limit = $queryObject->getLimit();
         // Total count
@@ -469,7 +582,7 @@ class DBMysql extends DB {
         $uses_groupby = $queryObject->getGroupByString() != '';
         if($uses_distinct || $uses_groupby) {
             $count_query = sprintf('select %s %s %s %s'
-                , $temp_select
+                , $temp_select == '*' ? '1' : $temp_select
                 , 'FROM ' . $queryObject->getFromString($with_values)
                 , ($temp_where === '' ? '' : ' WHERE '. $temp_where)
                 , ($uses_groupby ? ' GROUP BY ' . $queryObject->getGroupByString() : '')
@@ -529,6 +642,14 @@ class DBMysql extends DB {
         return $buff;
     }
 
+	/**
+	 * If select query execute, return paging sql
+	 * @param object $query
+	 * @param boolean $with_values
+	 * @param int $start_count
+	 * @param int $list_count
+	 * @return string select paging sql
+	 */
     function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {
         $select = $query->getSelectString($with_values);
         if($select == '') return new Object(-1, "Invalid query");

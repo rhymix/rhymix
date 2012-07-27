@@ -10,7 +10,9 @@
     class EditorHandler extends Object {
 
         /**
-         * @brief set the xml and other information of the component
+         * set the xml and other information of the component
+		 * @param object $info editor information
+		 * @return void
          **/
         function setInfo($info) {
             Context::set('component_info', $info);

@@ -24,6 +24,10 @@
 		<value xml:lang="tr"><![CDATA[Menü Yönetimi]]></value>
 		<value xml:lang="vi"><![CDATA[Quản lý Menu]]></value>
 	</item>
+	<item name="cmd_module_manangement">
+		<value xml:lang="ko"><![CDATA[모듈 설정]]></value>
+		<value xml:lang="en"><![CDATA[Module Setting]]></value>
+	</item>
 	<item name="menu_count">
 		<value xml:lang="ko"><![CDATA[메뉴 수]]></value>
 		<value xml:lang="en"><![CDATA[No. of menus]]></value>

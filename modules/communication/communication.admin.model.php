@@ -8,13 +8,14 @@
     class communicationAdminModel extends communication {
 
         /**
-         * @brief Initialization
+         * Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief return the html to select colorset of the skin
+         * the html to select colorset of the skin
+		 * @return void
          **/
         function getCommunicationAdminColorset() {
             $skin = Context::get('skin');

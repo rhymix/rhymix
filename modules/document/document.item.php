@@ -1,21 +1,56 @@
 <?php
-    /**
-     * @class  documentItem
-     * @author NHN (developers@xpressengine.com)
-     * @brief document object
-     **/
-
+	/**
+	 * documentItem class
+	 * document object
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/document
+	 * @version 0.1
+	 */
     class documentItem extends Object {
-
+		/**
+		 * Document number
+		 * @var int
+		 */
         var $document_srl = 0;
+		/**
+		 * Language code
+		 * @var string
+		 */
         var $lang_code = null;
-
+		/**
+		 * Status of allow trackback
+		 * @var bool
+		 */
         var $allow_trackback_status = null;
+		/**
+		 * column list
+		 * @var array
+		 */
 		var $columnList = array();
+		/**
+		 * allow script access list
+		 * @var array
+		 */
 		var $allowscriptaccessList = array();
+		/**
+		 * allow script access key
+		 * @var int
+		 */
 		var $allowscriptaccessKey = 0;
+		/**
+		 * upload file list
+		 * @var array
+		 */
 		var $uploadedFiles = array();
 
+		/**
+		 * Constructor
+		 * @param int $document_srl
+		 * @param bool $load_extra_vars
+		 * @param array columnList
+		 * @return void
+		 */
         function documentItem($document_srl = 0, $load_extra_vars = true, $columnList = array()) {
             $this->document_srl = $document_srl;
 			$this->columnList = $columnList;
@@ -28,12 +63,17 @@
             $this->_loadFromDB($load_extra_vars);
         }
 
+		/**
+		 * Get data from database, and set the value to documentItem object
+		 * @param bool $load_extra_vars
+		 * @return void
+		 */
         function _loadFromDB($load_extra_vars = true) {
             if(!$this->document_srl) return;
 
             // cache controll
             $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()){
+            if($oCacheHandler->isSupport() && !count($this->columnList)){
                     $cache_key = 'object_document_item:'.$this->document_srl;
                     $output = $oCacheHandler->get($cache_key);
             }
@@ -170,6 +210,12 @@
             return $_SESSION['document_management'][$this->document_srl];
         }
 
+		/**
+		 * Send notify message to document owner
+		 * @param string $type
+		 * @param string $content
+		 * @return void
+		 */
         function notify($type, $content) {
             if(!$this->document_srl) return;
             // return if it is not useNotify
@@ -364,9 +410,14 @@
             return $content;
         }
 
-        /**
-         * Return transformed content by Editor codes
-         **/
+		/**
+		 * Return transformed content by Editor codes
+		 * @param bool $add_popup_menu
+		 * @param bool $add_content_info
+		 * @param bool $resource_realpath
+		 * @param bool $add_xe_content_class
+		 * @return string
+		 */
         function getTransContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
             $oEditorController = &getController('editor');
 
@@ -451,6 +502,10 @@
             return $oTrackbackModel->getTrackbackUrl($this->document_srl);
         }
 
+		/**
+		 * Update readed count
+		 * @return void
+		 */
         function updateReadedCount() {
             $oDocumentController = &getController('document');
             if($oDocumentController->updateReadedCount($this)) {
@@ -662,10 +717,12 @@
             return;
         }
 
-        /**
-         * @brief Functions to display icons for new post, latest update, secret(private) post, image/video/attachment
-         * Determine new post and latest update by $time_interval
-         **/
+		/**
+		 * Functions to display icons for new post, latest update, secret(private) post, image/video/attachment
+		 * Determine new post and latest update by $time_interval
+		 * @param int $time_interval
+		 * @return array
+		 */
         function getExtraImages($time_interval = 43200) {
             if(!$this->document_srl) return;
             // variables for icon list
@@ -715,9 +772,11 @@
 			return $this->get('status');
 		}
 
-        /**
-         * @brief Return the value obtained from getExtraImages with image tag
-         **/
+		/**
+		 * Return the value obtained from getExtraImages with image tag
+		 * @param int $time_check
+		 * @return string
+		 */
         function printExtraImages($time_check = 43200) {
             if(!$this->document_srl) return;
             // Get the icon directory
@@ -756,9 +815,10 @@
 			return $this->uploadedFiles[$sortIndex];
 		}
 
-        /**
-         * @brief Return Editor html
-         **/
+		/**
+		 * Return Editor html
+		 * @return string
+		 */
         function getEditor() {
             $module_srl = $this->get('module_srl');
             if(!$module_srl) $module_srl = Context::get('module_srl');
@@ -767,10 +827,11 @@
             return $oEditorModel->getModuleEditor('document', $module_srl, $this->document_srl, 'document_srl', 'content');
         }
 
-        /**
-         * @brief Check whether to have a permission to write comment
-         * Authority to write a comment and to write a document is separated
-         **/
+		/**
+		 * Check whether to have a permission to write comment
+		 * Authority to write a comment and to write a document is separated
+		 * @return bool
+		 */
         function isEnableComment() {
             // Return false if not authorized, if a secret document, if the document is set not to allow any comment
 			if (!$this->allowComment()) return false;
@@ -779,9 +840,10 @@
 			return true;
         }
 
-        /**
-         * @brief Return comment editor's html
-         **/
+		/**
+		 * Return comment editor's html
+		 * @return string
+		 */
         function getCommentEditor() {
             if(!$this->isEnableComment()) return;
 
@@ -789,9 +851,10 @@
             return $oEditorModel->getModuleEditor('comment', $this->get('module_srl'), $comment_srl, 'comment_srl', 'content');
         }
 
-        /**
-         * @brief Return author's profile image
-         **/
+		/**
+		 * Return author's profile image
+		 * @return string
+		 */
         function getProfileImage() {
             if(!$this->isExists() || !$this->get('member_srl')) return;
             $oMemberModel = &getModel('member');
@@ -801,9 +864,10 @@
             return $profile_info->src;
         }
 
-        /**
-         * @brief Return author's signiture
-         **/
+		/**
+		 * Return author's signiture
+		 * @return string
+		 */
         function getSignature() {
             // Pass if a document doesn't exist
             if(!$this->isExists() || !$this->get('member_srl')) return;
@@ -824,13 +888,20 @@
             return $signature;
         }
 
-        /**
-         * @brief Change an image path in the content to absolute path
-         **/
+		/**
+		 * Change an image path in the content to absolute path
+		 * @param array $matches
+		 * @return mixed
+		 */
         function replaceResourceRealPath($matches) {
             return preg_replace('/src=(["\']?)files/i','src=$1'.Context::getRequestUri().'files', $matches[0]);
         }
 
+		/**
+		 * Check accessible by document status
+		 * @param array $matches
+		 * @return mixed
+		 */
 		function _checkAccessibleFromStatus()
 		{
             $logged_info = Context::get('logged_info');
@@ -869,5 +940,51 @@
 
             return $output->data;
         }
+
+
+		/**
+		 * Returns the document's mid in order to construct SEO friendly URLs
+		 * @return string
+		 */
+		function getDocumentMid() {
+			$model = &getModel('module');
+			$module = $model->getModuleInfoByModuleSrl($this->get('module_srl'));
+			return $module->mid;
+		}
+
+		/**
+		 * Returns the document's type (document/page/wiki/board/etc)
+		 * @return string
+		 */
+		function getDocumentType() {
+			$model = &getModel('module');
+			$module = $model->getModuleInfoByModuleSrl($this->get('module_srl'));
+			return $module->module;
+		}
+
+		/**
+		 * Returns the document's alias
+		 * @return string
+		 */
+		function getDocumentAlias() {
+			$oDocumentModel = &getModel('document');
+			return $oDocumentModel->getAlias($this->document_srl);
+		}
+
+		/**
+		 * Returns the document's actual title (browser_title)
+		 * @return string
+		 */
+		function getModuleName() {
+			$model = &getModel('module');
+			$module = $model->getModuleInfoByModuleSrl($this->get('module_srl'));
+			return $module->browser_title;
+		}
+
+		function getBrowserTitle()
+		{
+			$this->getModuleName();
+		}
+
     }
 ?>

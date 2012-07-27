@@ -3,22 +3,32 @@
      * @class  layoutModel
      * @author NHN (developers@xpressengine.com)
      * @version 0.1
-     * @brief Model class of the layout module
+     * Model class of the layout module
      **/
 
     class layoutModel extends layout {
 
+		/**
+		 * Check user layout temp
+		 * @var string
+		 **/
         var $useUserLayoutTemp = null;
+
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
-		// deprecated
         /**
-         * @brief Get a layout list created in the DB
+         * Get a layout list created in the DB
          * If you found a new list, it means that the layout list is inserted to the DB
+		 * @deprecated
+		 * @param int $site_srl
+		 * @param string $layout_type (P : PC, M : Mobile)
+		 * @param array $columnList
+		 * @return array layout lists in site
          **/
         function getLayoutList($site_srl = 0, $layout_type="P", $columnList = array()) {
             if(!$site_srl) {
@@ -32,7 +42,12 @@
         }
 
 		/**
-		 * @brief Get layout instance list
+		 * Get layout instance list
+		 * @param int $siteSrl
+		 * @param string $layoutType (P : PC, M : Mobile)
+		 * @param string $layout name of layout
+		 * @param array $columnList
+		 * @return array layout lists in site
 		 **/
 		function getLayoutInstanceList($siteSrl = 0, $layoutType = 'P', $layout = null, $columnList = array())
 		{
@@ -49,8 +64,10 @@
 		}
 
         /**
-         * @brief Get one of layout information created in the DB
+         * Get one of layout information created in the DB
          * Return DB info + XML info of the generated layout
+		 * @param int $layout_srl
+		 * @return object info of layout
          **/
 		function getLayout($layout_srl) {
             // cache controll
@@ -68,21 +85,23 @@
 	            $layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
 
 				// If deleted layout files, delete layout instance
-				if (!$layout_info) {
-					$oLayoutController = &getAdminController('layout');
-					$oLayoutController->deleteLayout($layout_srl);
-					return;
-				}
+				// if (!$layout_info) {
+					// $oLayoutController = &getAdminController('layout');
+					// $oLayoutController->deleteLayout($layout_srl);
+					// return;
+				// }
 	            
 				//insert in cache
 	            if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$layout_info);
 			}
         	return $layout_info;
-
         }
 
         /**
-         * @brief Get a layout path
+         * Get a layout path
+		 * @param string $layout_name
+		 * @param string $layout_type (P : PC, M : Mobile)
+		 * @return string path of layout
          **/
         function getLayoutPath($layout_name, $layout_type = "P") {
 			$layout_parse = explode('.', $layout_name);
@@ -100,8 +119,11 @@
         }
 
         /**
-         * @brief Get a type and information of the layout
+         * Get a type and information of the layout
          * A type of downloaded layout
+		 * @param string $layout_type (P : PC, M : Mobile)
+		 * @param boolean $withAutoinstallInfo
+		 * @return array info of layout
          **/
         function getDownloadedLayoutList($layout_type = "P", $withAutoinstallInfo = false) {
 			if ($withAutoinstallInfo) $oAutoinstallModel = &getModel('autoinstall');
@@ -142,8 +164,8 @@
         }
 
 		/**
-		 * @brief Get a count of layout
-		 * @param $layout_type: a type of layout(P|M)
+		 * Get a count of layout
+		 * @param string $layoutType (P : PC, M : Mobile)
 		 * @return int
 		 **/
 		function getInstalledLayoutCount($layoutType = 'P')
@@ -153,8 +175,8 @@
 		}
 
 		/**
-		 * @brief Get list of layouts directory
-		 * @param $layoutType: a type of layout(P|M)
+		 * Get list of layouts directory
+		 * @param string $layoutType (P : PC, M : Mobile)
 		 * @return array
 		 **/
 		function _getInstalledLayoutDirectories($layoutType = 'P')
@@ -180,8 +202,12 @@
 		}
 
         /**
-         * @brief Get information by reading conf/info.xml in the module
+         * Get information by reading conf/info.xml in the module
          * It uses caching to reduce time for xml parsing ..
+		 * @param string $layout
+		 * @param object $info
+		 * @param string $layoutType (P : PC, M : Mobile)
+		 * @return object info of layout
          **/
         function getLayoutInfo($layout, $info = null, $layout_type = "P") {
             if($info) {
@@ -441,7 +467,6 @@
 
             }
 
-
             // header_script
             $oModuleModel = &getModel('module');
             $layout_config = $oModuleModel->getModulePartConfig('layout', $layout_srl);
@@ -455,9 +480,10 @@
             return $layout_info;
         }
 
-
         /**
-         * @brief Return a list of images which are uploaded on the layout setting page
+         * Return a list of images which are uploaded on the layout setting page
+		 * @param int $layout_srl
+		 * @return array image list in layout
          **/
         function getUserLayoutImageList($layout_srl){
             $path = $this->getUserLayoutImagePath($layout_srl);
@@ -465,9 +491,11 @@
             return $list;
         }
 
-
         /**
-         * @brief Get ini configurations and make them an array.
+         * Get ini configurations and make them an array.
+		 * @param int $layout_srl
+		 * @param string $layout_name
+		 * @return array 
          **/
         function getUserLayoutIniConfig($layout_srl, $layout_name=null){
             $file = $this->getUserLayoutIni($layout_srl);
@@ -480,29 +508,36 @@
         }
 
         /**
-         * @brief user layout path
+         * get user layout path
+		 * @param int $layout_srl
+		 * @return string
          **/
         function getUserLayoutPath($layout_srl){
             return sprintf("./files/faceOff/%s",getNumberingPath($layout_srl,3));
         }
 
         /**
-         * @brief user layout image path
+         * get user layout image path
+		 * @param int $layout_srl
+		 * @return string
          **/
         function getUserLayoutImagePath($layout_srl){
             return $this->getUserLayoutPath($layout_srl). 'images/';
         }
 
         /**
-         * @brief css which is set by an administrator on the layout setting page
+         * css which is set by an administrator on the layout setting page
+		 * @param int $layout_srl
+		 * @return string
          **/
         function getUserLayoutCss($layout_srl){
             return $this->getUserLayoutPath($layout_srl). 'layout.css';
         }
 
-
         /**
-         * @brief Import faceoff css from css module handler
+         * Import faceoff css from css module handler
+		 * @param int $layout_srl
+		 * @return string
          **/
         function getUserLayoutFaceOffCss($layout_srl){
             $src = $this->_getUserLayoutFaceOffCss($layout_srl);
@@ -510,25 +545,28 @@
             return $src;
         }
 
-
         /**
-         * @brief Import faceoff css from css module handler
+         * Import faceoff css from css module handler
+		 * @param int $layout_srl
+		 * @return string
          **/
         function _getUserLayoutFaceOffCss($layout_srl){
             return $this->getUserLayoutPath($layout_srl). 'faceoff.css';
         }
 
         /**
-         * @brief user layout tmp html
+         * get user layout tmp html
+		 * @param int $layout_srl
+		 * @return string
          **/
         function getUserLayoutTempFaceOffCss($layout_srl){
             return $this->getUserLayoutPath($layout_srl). 'tmp.faceoff.css';
         }
 
-
-
         /**
-         * @brief user layout html
+         * user layout html
+		 * @param int $layout_srl
+		 * @return string
          **/
         function getUserLayoutHtml($layout_srl){
             $src = $this->getUserLayoutPath($layout_srl). 'layout.html';
@@ -542,15 +580,18 @@
         }
 
         /**
-         * @brief user layout tmp html
+         * user layout tmp html
+		 * @param int $layout_srl
+		 * @return string
          **/
         function getUserLayoutTempHtml($layout_srl){
             return $this->getUserLayoutPath($layout_srl). 'tmp.layout.html';
         }
 
-
         /**
-         * @brief user layout ini
+         * user layout ini
+		 * @param int $layout_srl
+		 * @return string
          **/
         function getUserLayoutIni($layout_srl){
             $src = $this->getUserLayoutPath($layout_srl). 'layout.ini';
@@ -564,58 +605,75 @@
         }
 
         /**
-         * @brief user layout tmp ini
+         * user layout tmp ini
+		 * @param int $layout_srl
+		 * @return string
          **/
         function getUserLayoutTempIni($layout_srl){
             return $this->getUserLayoutPath($layout_srl). 'tmp.layout.ini';
         }
 
         /**
-         * @brief user layout cache
-         * todo It may need to remove the file itself
+         * user layout cache
+         * TODO It may need to remove the file itself
+		 * @param int $layout_srl
+		 * @param string $lang_type
+		 * @return string
          **/
         function getUserLayoutCache($layout_srl,$lang_type){
             return $this->getUserLayoutPath($layout_srl). "{$lang_type}.cache.php";
         }
 
         /**
-         * @brief layout cache
+         * layout cache
+		 * @param int $layout_srl
+		 * @param string $lang_type
+		 * @return string
          **/
         function getLayoutCache($layout_name,$lang_type){
             return sprintf("./files/cache/layout/%s.%s.cache.php",$layout_name,$lang_type);
         }
 
         /**
-         * @brief default layout ini to prevent arbitrary changes by a user
+         * default layout ini to prevent arbitrary changes by a user
+		 * @param string $layout_name
+		 * @return string
          **/
         function getDefaultLayoutIni($layout_name){
             return $this->getDefaultLayoutPath($layout_name). 'layout.ini';
         }
 
         /**
-         * @brief default layout html to prevent arbitrary changes by a user
+         * default layout html to prevent arbitrary changes by a user
+		 * @param string $layout_name
+		 * @return string
          **/
         function getDefaultLayoutHtml($layout_name){
             return $this->getDefaultLayoutPath($layout_name). 'layout.html';
         }
 
         /**
-         * @brief default layout css to prevent arbitrary changes by a user
+         * default layout css to prevent arbitrary changes by a user
+		 * @param string $layout_name
+		 * @return string
          **/
         function getDefaultLayoutCss($layout_name){
             return $this->getDefaultLayoutPath($layout_name). 'css/layout.css';
         }
 
         /**
-         * @brief default layout path to prevent arbitrary changes by a user
+         * default layout path to prevent arbitrary changes by a user
+		 * @deprecated
+		 * @return string
          **/
         function getDefaultLayoutPath() {
             return "./modules/layout/faceoff/";
         }
 
-
         /**
-         * @brief faceoff is
+         * faceoff is
+		 * @param string $layout_name
+		 * @return boolean (true : faceoff, false : layout)
          **/
         function useDefaultLayout($layout_name){
             $info = $this->getLayoutInfo($layout_name);
@@ -623,17 +681,19 @@
             else return false;
         }
 
-
         /**
-         * @brief Set user layout as temporary save mode
+         * Set user layout as temporary save mode
+		 * @param string $flag (default 'temp')
+		 * @return void
          **/
         function setUseUserLayoutTemp($flag='temp'){
             $this->useUserLayoutTemp = $flag;
         }
 
-
         /**
-         * @brief Temp file list for User Layout
+         * Temp file list for User Layout
+		 * @param int $layout_srl
+		 * @return array temp files info
          **/
         function getUserLayoutTempFileList($layout_srl){
             $file_list = array(
@@ -644,9 +704,10 @@
             return $file_list;
         }
 
-
         /**
-         * @brief Saved file list for User Layout
+         * Saved file list for User Layout
+		 * @param int $layout_srl
+		 * @return array files info
          **/
         function getUserLayoutFileList($layout_srl){
             $file_list = array(
@@ -664,7 +725,10 @@
         }
 
         /**
-         * @brief faceOff related services for the operation run out
+         * faceOff related services for the operation run out
+		 * @deprecated
+		 * @param object $layout_info
+		 * @return void
          **/
         function doActivateFaceOff(&$layout_info) {
             $layout_info->faceoff_ini_config = $this->getUserLayoutIniConfig($layout_info->layout_srl, $layout_info->layout);

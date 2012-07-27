@@ -2,26 +2,40 @@
     /**
      * @class  memberAdminModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  admin model class of member module
+     * admin model class of member module
      **/
 
     class memberAdminModel extends member {
 
         /**
-         * @brief Keep data internally which may be frequently called.
+         * info of member
+		 * @var object
          **/
         var $member_info = NULL;
+
+        /**
+         * info of member groups
+		 * @var array
+         **/
         var $member_groups = NULL;
+
+        /**
+         * info of sign up form
+		 * @var array
+         **/
         var $join_form_list = NULL;
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Get a member list
+         * Get a member list
+		 * 
+		 * @return object|array (object : when member count is 1, array : when member count is more than 1)
          **/
         function getMemberList() {
             // Search option
@@ -119,7 +133,12 @@
         }
 
         /**
-         * @brief Get a memebr list for each site
+         * Get a memebr list for each site
+		 * 
+		 * @param int $site_srl
+		 * @param int $page
+		 *
+		 * @return array
          **/
         function getSiteMemberList($site_srl, $page = 1) {
             $args->site_srl = $site_srl;
@@ -131,6 +150,11 @@
             return $output;
         }
 
+        /**
+         * Get member_srls lists about site admins
+		 * 
+		 * @return array 
+         **/
 		function getSiteAdminMemberSrls(){
 			$output = executeQueryArray('member.getSiteAdminMemberSrls');
 			if (!$output->toBool() || !$output->data) return array();
@@ -144,7 +168,9 @@
 		}
 
         /**
-         * @brief Return colorset list of a skin in the member module
+         * Return colorset list of a skin in the member module
+		 * 
+		 * @return void 
          **/
         function getMemberAdminColorset() {
             $skin = Context::get('skin');
@@ -167,7 +193,11 @@
         }
 
         /**
-         * @brief Return member count with date
+         * Return member count with date
+		 * 
+		 * @param string $date
+		 *
+		 * @return int
          **/
         function getMemberCountByDate($date = '') {
 			if($date) $args->regDate = date('Ymd', strtotime($date));
@@ -179,7 +209,11 @@
         }
 
         /**
-         * @brief Return site join member count with date
+         * Return site join member count with date
+		 *
+		 * @param string $date
+		 *
+		 * @return int
          **/
         function getMemberGroupMemberCountByDate($date = '') {
 			if($date) $args->regDate = date('Ymd', strtotime($date));
@@ -191,7 +225,9 @@
         }
 
         /**
-         * @brief Return add join Form
+         * Return add join Form
+		 *
+		 * @return void
          **/
         function getMemberAdminInsertJoinForm() {
 			$member_join_form_srl = Context::get('member_join_form_srl');
@@ -214,6 +250,13 @@
 
             $this->add('tpl', str_replace("\n"," ",$tpl));
 		}
+
+
+        /**
+         * check allowed target ip address when  login for admin. 
+		 *
+		 * @return boolean (true : allowed, false : refuse)
+         **/
 		function getMemberAdminIPCheck() {
 		
 			$db_info = Context::getDBInfo();
