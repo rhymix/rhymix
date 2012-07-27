@@ -215,10 +215,9 @@
 
             $oXmlParser = new XmlParser();
             $_xml_obj = $oXmlParser->loadXmlFile($info_file);
+            if(!$_xml_obj->theme) return;
 
-            if(!$_xml_obj->theme) return;
             $xml_obj = $_xml_obj->theme;
-            if(!$_xml_obj->theme) return;
 
             // 스킨이름
 			$theme_info->name = $theme_name;
@@ -247,7 +246,7 @@
 			$layout_parse = explode('/',$layout_path);
 			switch($layout_parse[1]){
 				case 'themes' : {
-									$layout_info->name = $theme_name.'.'.$layout_parse[count($layout_parse)-1];
+									$layout_info->name = $theme_name.'|@|'.$layout_parse[count($layout_parse)-1];
 									break;
 								}
 				case 'layouts' : {
@@ -255,6 +254,7 @@
 									 break;
 								}
 			}
+			$layout_info->title = $layout_parse[count($layout_parse)-1];
 			$layout_info->path = $layout_path;
 
 			$site_info = Context::get('site_module_info');
@@ -278,7 +278,7 @@
 				$args->site_srl = (int)$site_module_info->site_srl;
 				$args->layout_srl = getNextSequence();
 				$args->layout = $layout_info->name;
-				$args->title = $layout_info->name;
+				$args->title = $layout_info->title;
 				$args->layout_type = "P";
 				// Insert into the DB
 				$oLayoutAdminController = &getAdminController('layout');

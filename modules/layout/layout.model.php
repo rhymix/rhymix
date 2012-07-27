@@ -104,7 +104,7 @@
 		 * @return string path of layout
          **/
         function getLayoutPath($layout_name, $layout_type = "P") {
-			$layout_parse = explode('.', $layout_name);
+			$layout_parse = explode('|@|', $layout_name);
 			if (count($layout_parse) > 1){
 				$class_path = './themes/'.$layout_parse[0].'/layouts/'.$layout_parse[1].'/';
 			}else if($layout_name == 'faceoff'){
