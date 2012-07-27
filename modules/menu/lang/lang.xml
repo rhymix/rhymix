@@ -592,4 +592,9 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="en"><![CDATA[Select Module ID]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇模組 ID]]></value>
 	</item>
+	<item name="exposure_limits">
+		<value xml:lang="ko"><![CDATA[노출 제한]]></value>
+		<value xml:lang="en"><![CDATA[Exposure limits]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Exposure limits]]></value>
+	</item>
 </lang>
