@@ -93,6 +93,9 @@ class HTMLDisplayHandler {
 		// move <style ..></style> in body to the header
 		$output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $output);
 
+		// move <meta ../> in body to the header
+		$output = preg_replace_callback('!<meta(.*?)(?:\/|)>!is', array($this,'_moveMetaToHeader'), $output);
+
 		// change a meta fine(widget often put the tag like <!--Meta:path--> to the content because of caching)
 		$output = preg_replace_callback('/<!--(#)?Meta:([a-z0-9\_\/\.\@]+)-->/is', array($this,'_transMeta'), $output);
 
@@ -235,6 +238,16 @@ class HTMLDisplayHandler {
 	 * @return void
 	 **/
 	function _moveStyleToHeader($matches) {
+		Context::addHtmlHeader($matches[0]);
+	}
+
+	/**
+	 * add meta code extracted from html body to Context, which will be
+	 * printed inside <header></header> later.
+	 * @param array $matches
+	 * @return void
+	 **/
+	function _moveMetaToHeader($matches) {
 		Context::addHtmlHeader($matches[0]);
 	}
 
