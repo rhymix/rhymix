@@ -187,7 +187,10 @@
                             $obj->title = $val->title->body;
                             $obj->type = $val->attrs->type;
                             $obj->description = $val->description->body;
-                            $obj->value = $extra_vals->{$obj->name};
+							if($obj->name)
+							{
+                            	$obj->value = $extra_vals->{$obj->name};
+							}
                             if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
                             if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
 
@@ -280,7 +283,10 @@
                             $obj->title = $val->title->body;
                             $obj->type = $val->type->body ? $val->type->body : 'text';
                             $obj->description = $val->description->body;
-                            $obj->value = $extra_vals->{$obj->name};
+							if($obj->name)
+							{
+                            	$obj->value = $extra_vals->{$obj->name};
+							}
                             if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
                             if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
                             // 'Select'type obtained from the option list.
