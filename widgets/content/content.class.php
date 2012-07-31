@@ -443,6 +443,7 @@
                     //$content_item->setCategory($item->category);
                     $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
                     $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
+					$content_item->setThumbnail($this->_getRssThumbnail($item->description));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
                     $content_item->setRegdate($date);
@@ -477,6 +478,7 @@
                     //$content_item->setCategory($item->category);
                     $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
                     $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
+					$content_item->setThumbnail($this->_getRssThumbnail($item->description));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
                     $content_item->setRegdate($date);
@@ -544,6 +546,7 @@
                         }
                     }
                     $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
+					$content_item->setThumbnail($this->_getRssThumbnail($item->description));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->published,$item->updated,$item->{'dc:date'})));
                     $content_item->setRegdate($date);
@@ -553,6 +556,13 @@
             }
             return $content_items;
         }
+
+		function _getRssThumbnail($content)
+		{
+			@preg_match('@<img[^>]+src *= *(?:"(.+)"|\'(.+)\'|([^ ]+))@', $content, $matches);
+
+			return $matches[1];
+		}
 
         function _getTrackbackItems($args){
             // Get categories
