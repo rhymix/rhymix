@@ -613,6 +613,7 @@
             $widget_info->page_count = $args->page_count;
             $widget_info->subject_cut_size = $args->subject_cut_size;
             $widget_info->content_cut_size = $args->content_cut_size;
+            $widget_info->new_window = $args->new_window;
 
             $widget_info->duration_new = $args->duration_new * 60*60;
             $widget_info->thumbnail_type = $args->thumbnail_type;

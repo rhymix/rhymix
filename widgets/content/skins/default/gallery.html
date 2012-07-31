@@ -4,7 +4,7 @@
     <li<!--@if($_idx>0 && $_idx % $widget_info->cols_list_count==0)--> class="clearLeft"<!--@end--> style="<!--@if($_idx >= $widget_info->list_count)-->display:none;<!--@end-->width:{$widget_info->thumbnail_width}px;">
         <!--@foreach($widget_info->option_view_arr as $k => $v)-->
             <!--@if($v=='thumbnail')-->
-                <a href="{$item->getLink()}" class="thumb" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px">
+                <a href="{$item->getLink()}" class="thumb" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px" target="_blank"|cond="$widget_info->new_window">
                     <!--@if($item->getThumbnail())-->
                         <img src="{$item->getThumbnail()}" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px"/>
                     <!--@else-->
@@ -19,7 +19,7 @@
                 </a>
 
             <!--@else if($v=='title')-->
-                <a href="{$item->getLink()}" class="title">{$item->getTitle($widget_info->subject_cut_size)}</a>
+                <a href="{$item->getLink()}" class="title" target="_blank"|cond="$widget_info->new_window">{$item->getTitle($widget_info->subject_cut_size)}</a>
                 <!--@if($widget_info->show_comment_count=='Y' && $item->getCommentCount())-->
                     <em class="replyNum" title="Replies"><a href="{$item->getLink()}#comment">{$item->getCommentCount()}</a></em>
                 <!--@end-->
