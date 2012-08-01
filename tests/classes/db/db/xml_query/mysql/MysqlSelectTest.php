@@ -329,4 +329,17 @@ class MysqlSelectTest extends MysqlTest {
 						';
 		$this->_test($xml_file, $argsString, $expected);
 	}
+
+	function testLikeWithDot()
+	{
+		$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/likewithdot.xml";
+		$argsString = '';
+		$expected = 'select *
+						from `xe_layouts` as `layouts`
+							where `site_srl` = 0
+								and `layout_type` = \'p\'
+								and `layout` like \'%.%\'';
+		$this->_test($xml_file, $argsString, $expected);
+
+	}
 }
