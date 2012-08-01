@@ -559,9 +559,24 @@
 
 		function _getRssThumbnail($content)
 		{
-			@preg_match('@<img[^>]+src *= *(?:"(.+)"|\'(.+)\'|([^ ]+))@', $content, $matches);
+			@preg_match('@<img[^>]+src\s*=\s*(?:"(.+)"|\'(.+)\'|([^\s>(?:/>)]+))@', $content, $matches);
 
-			return $matches[1];
+			if($matches[1])
+			{
+				return $matches[1];
+			}
+			elseif($matches[2])
+			{
+				return $matches[2];
+			}
+			elseif($matches[3])
+			{
+				return $matches[3];
+			}
+			else
+			{
+				return NULL;
+			}
 		}
 
         function _getTrackbackItems($args){
