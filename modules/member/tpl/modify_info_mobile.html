@@ -22,10 +22,6 @@
     <!--%import("../skins/default/filter/delete_image_mark.xml")-->
 <!--@end-->
 
-<!--@if($member_config->enable_openid=="Y")-->
-    <!--%import("../skins/default/filter/add_openid_to_member.xml")-->
-    <!--%import("../skins/default/filter/delete_openid_from_member.xml")-->
-<!--@end-->
 <div class="bd">
 	<h2 class="h2">{$lang->msg_update_member}</h2>
 	<h3 class="h3">{$lang->member_default_info}</h3>
@@ -178,22 +174,6 @@
 				<!--// 공개 필드 css확인 필요 -->
 				<!--input type="checkbox" class="checkbox" name="open_{$val->column_name}" value="Y" id="open_{$val->column_name}" /><label for="open_{$val->column_name}">{$lang->public}</label--></li>
 		<!--@end--><!--@end-->
-		</ul>
-	</fieldset>
-	<!--@end-->
-	<!--@if($member_config->enable_openid=="Y")-->
-	<h3 class="h3">{$lang->openid}</h3>
-	<fieldset class="sn">
-		<ul>
-			<!--@foreach($openids as $openid)-->
-				<li><a href="{$openid->bookmarklet}">{$openid->openid}</a> <a onclick="doDeleteOpenIDFromMember('{$openid->openid}')" class="bn"><span>{$lang->cmd_delete}</span></a></li>
-			<!--@end-->
-
-				<li>
-					<input name="openid" type="text" class="itx" />
-					<input name="openid_to_delete" type="hidden" />
-					<a onclick="doAddOpenIDToMember()" class="bn"><span>{$lang->cmd_insert}</span></a>
-				</li>
 		</ul>
 	</fieldset>
 	<!--@end-->

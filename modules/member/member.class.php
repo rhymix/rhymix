@@ -61,7 +61,7 @@
             $args = $oModuleModel->getModuleConfig('member');
             // Set the basic information
             $args->enable_join = 'Y';
-            if(!$args->enable_openid) $args->enable_openid = 'N';
+            $args->enable_openid = 'N';
             if(!$args->enable_auth_mail) $args->enable_auth_mail = 'N';
             if(!$args->image_name) $args->image_name = 'Y';
             if(!$args->image_mark) $args->image_mark = 'Y';
@@ -373,10 +373,6 @@
 		 * @return void
          **/
         function recompileCache() {
-            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
-            require_once('Auth/OpenID/XEStore.php');
-            $store = new Auth_OpenID_XEStore();
-            $store->reset();
         }
 
 		/**

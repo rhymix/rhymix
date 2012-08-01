@@ -80,8 +80,6 @@
             unset($extendForm->find_member_account);
             unset($extendForm->find_member_answer);
             Context::set('extend_form_list', $extendForm);
-            if ($member_info->member_srl == $logged_info->member_srl)
-                Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
 
             $this->setTemplateFile('member_info');
         }
@@ -140,7 +138,6 @@
             // Get a list of extend join form
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
-            Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
             // Editor of the module set for signing by calling getEditor
             if($member_info->member_srl) {
                 $oEditorModel = &getModel('editor');
@@ -327,23 +324,6 @@
 			}
             // Set a template file
             $this->setTemplateFile('leave_form');
-        }
-
-        /**
-         * @brief OpenID member withdrawl
-         **/
-        function dispMemberOpenIDLeave() {
-            $oMemberModel = &getModel('member');
-            // A message appears if the user is not logged-in
-            if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
-
-            $logged_info = Context::get('logged_info');
-            $member_srl = $logged_info->member_srl;
-
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-            Context::set('member_info',$member_info);
-            // Set a template file
-            $this->setTemplateFile('openid_leave_form');
         }
 
         /**

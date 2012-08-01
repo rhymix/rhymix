@@ -12,7 +12,6 @@
         <action name="dispMemberLoginForm" type="view" standalone="true" />
         <action name="dispMemberLogout" type="view" standalone="true" />
         <action name="dispMemberLeave" type="view" standalone="true" />
-        <action name="dispMemberOpenIDLeave" type="view" standalone="true" />
         <action name="dispMemberOwnDocument" type="view" standalone="true" />
         <action name="dispMemberScrappedDocument" type="view" standalone="true" />
         <action name="dispMemberSavedDocument" type="view" standalone="true" />
@@ -39,11 +38,6 @@
 		<action name="getMemberAdminIPCheck" type="model" standalone="true" />
 
         <action name="procMemberLogin" type="controller" standalone="true" ruleset="@login" />
-        <action name="procMemberOpenIDLogin" type="controller" standalone="true" ruleset="openidLogin" />
-        <action name="procMemberOpenIDValidate" type="controller" standalone="true" />
-        <action name="procMemberAddOpenIDToMember" type="controller" standalone="true" />
-        <action name="procMemberValidateAddOpenIDToMember" type="controller" standalone="true" />
-        <action name="procMemberDeleteOpenIDFromMember" type="controller" standalone="true" />
         <action name="procMemberLogout" type="controller" standalone="true" />
         <action name="procMemberCheckValue" type="controller" standalone="true" />
         <action name="procMemberInsert" type="controller" standalone="true" ruleset="@insertMember" />
@@ -51,7 +45,6 @@
         <action name="procMemberModifyInfo" type="controller" standalone="true" ruleset="@insertMember" />
         <action name="procMemberModifyPassword" type="controller" standalone="true" ruleset="modifyPassword" />
         <action name="procMemberLeave" type="controller" standalone="true" ruleset="leaveMember" />
-        <action name="procMemberOpenIDLeave" type="controller" standalone="true" />
         <action name="procMemberInsertProfileImage" type="controller" standalone="true" ruleset="insertProfileImage" />
         <action name="procMemberInsertImageName" type="controller" standalone="true" ruleset="insertImageName" />
         <action name="procMemberInsertImageMark" type="controller" standalone="true" ruleset="insertImageMark" />

@@ -81,305 +81,6 @@
         }
 
         /**
-         * Login by openid
-		 *
-		 * @deprecated
-		 *
-		 * @param string $validator
-		 *
-		 * @return void|Object (void : success, Object : fail)
-         **/
-        function procMemberOpenIDLogin($validator = "procMemberOpenIDValidate") {
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
-
-            if(!defined('Auth_OpenID_RAND_SOURCE') && !file_exists("/dev/urandom"))
-            {
-                define('Auth_OpenID_RAND_SOURCE', null);
-            }
-
-            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
-            require_once('Auth/OpenID.php');
-            require_once('Auth/OpenID/Consumer.php');
-            require_once('Auth/OpenID/XEStore.php');
-            $store = new Auth_OpenID_XEStore();
-            $consumer = new Auth_OpenID_Consumer($store);
-
-            $user_id = Context::get('user_id');
-            if (!$user_id) $user_id = Context::get('openid');
-            $auth_request = $consumer->begin($user_id);
-            $auth_request->addExtensionArg('sreg', 'required', 'email');
-            $auth_request->addExtensionArg('sreg', 'optional', 'dob');
-            if(!$auth_request)
-            {
-                return new Object(-1, "association failed");
-            }
-
-            $trust_root = 'http://'.$_SERVER["HTTP_HOST"];
-            $referer_url = Context::get('referer_url');
-            if (!$referer_url) $referer_url = $_SERVER['HTTP_REFERER'];
-            if (!$referer_url)
-                $referer_url = htmlspecialchars_decode(getRequestUri(RELEASE_SSL));
-            $goto = urlencode($referer_url);
-            $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=" . $validator. "&goto=" . $goto;
-            $redirect_url = $auth_request->redirectURL($trust_root, $ApprovedURL);
-            $this->add("redirect_url", $redirect_url);
-
-			$this->setRedirectUrl($redirect_url);
-        }
-
-        /**
-         * Legacy open id
-		 *
-		 * @deprecated
-		 *
-		 * @param string $openid_identity
-		 *
-		 * @return array
-         **/
-        function getLegacyUserIDsFromOpenID($openid_identity) {
-            //  Issue 17515512: workaround
-            $result = array();
-            $uri_matches = array();
-            preg_match(Auth_OpenID_getURIPattern(), $openid_identity, $uri_matches);
-
-            if (count($uri_matches) < 9) {
-                for ($i = count($uri_matches); $i <= 9; $i++) {
-                    $uri_matches[] = '';
-                }
-            }
-
-            $scheme = $uri_matches[2];
-            $authority = $uri_matches[4];
-            $path = $uri_matches[5];
-            $query = $uri_matches[6];
-            $fragment = $uri_matches[8];
-
-            if ($scheme === null) $scheme = '';
-            if ($authority === null) $authority = '';
-            if ($path === null) $path = '';
-            if ($query === null) $query = '';
-            if ($fragment === null) $fragment = '';
-
-            if ($scheme == 'http' or $scheme == '')
-                $scheme_part = '';
-            else
-                $scheme_part = $scheme."://";
-
-
-            if ($path == '' || $path == '/') {
-                $result[] = $scheme_part.$authority.''.$query.$fragment;
-                $result[] = $scheme_part.$authority.'/'.$query.$fragment;
-            }
-            else {
-                $result[] = $scheme_part.$authority.$path.$query.$fragment;
-            }
-
-            return $result;
-        }
-
-        /**
-         * openid authentication check
-		 *
-		 * @return void|Object (void : success, Object : fail)
-         **/
-        function procMemberOpenIDValidate() {
-            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
-            require_once('Auth/OpenID.php');
-            require_once('Auth/OpenID/Consumer.php');
-            require_once('Auth/OpenID/XEStore.php');
-            require_once('Auth/OpenID/URINorm.php');
-
-            $store = new Auth_OpenID_XEStore();
-            $consumer = new Auth_OpenID_Consumer($store);
-            $response = $consumer->complete($_GET);
-			switch($response->status) {
-				case Auth_OpenID_CANCEL :
-					// Handle if user authentication is canceled
-					return $this->stop('authorization_canceled');
-				case Auth_OpenID_FAILURE :
-					// Handle if user authentication is failed due to a certain problem (for example, openid doesn't exist) (there is no authentication required deunga openid ..)
-					return $this->stop('invalid_authorization');
-				case Auth_OpenID_SUCCESS :
-					// Authentication success!
-					break;
-				default:
-					return $this->stop('invalid_authorization');
-			}
-            // Authentication success
-            $oMemberModel = &getModel('member');
-            // Get zeroboard ID which is corresponded to the openID ID.
-            $login_success = false;
-            $assoc_member_info = null;
-            $openid_identity = $response->signed_args["openid.identity"];
-            $args->openid = $openid_identity;
-            $output = executeQuery('member.getMemberSrlByOpenID', $args);
-
-            if ($output->toBool() && $output->data && !is_array($output->data)) {
-                $member_srl = $output->data->member_srl;
-				$columnList = array('member_srl', 'user_id');
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-                if ($member_info) {
-                    $assoc_member_info = $member_info;
-                }
-            }
-
-            $user_id_candidates = $this->getLegacyUserIDsFromOpenID($openid_identity);
-            $default_user_id = $user_id_candidates[0];
-
-            if ($assoc_member_info != null) {
-                $user_id_candidates = array_merge(array($assoc_member_info->user_id), $user_id_candidates);
-            }
-            $sreg = $response->extensionResponse('sreg');
-
-            foreach($user_id_candidates as $user_id) {
-                $args->user_id = $args->nick_name = $user_id;
-                // Get basic information
-                $args->email_address = $sreg['email'];
-                $args->user_name = $sreg['fullname'];
-                if(!$args->user_name) list($args->user_name) = explode('@', $args->email_address);
-                $args->birthday = str_replace('-','',$sreg['dob']);
-                // Attempts self-authentication
-                $output = $this->doLogin($args->user_id);
-
-                if ($output->toBool()) {
-                    if ($assoc_member_info == null) {
-                        $logged_info = Context::get('logged_info');
-                        $args->member_srl = $logged_info->member_srl;
-                        $args->openid = $openid_identity;
-                        executeQuery('member.addOpenIDToMember', $args);
-                    }
-                    $login_success = true;
-                    break;
-                }
-            }
-            // Member join if self-authentication is failed
-            if(!$login_success) {
-                $args->user_id = $args->nick_name = $default_user_id;
-                $args->password = md5(getmicrotime());
-
-                $output = $this->insertMember($args);
-                if(!$output->toBool()) return $this->stop($output->getMessage());
-                $output = $this->doLogin($args->user_id);
-                if(!$output->toBool()) return $this->stop($output->getMessage());
-
-                $logged_info = Context::get('logged_info');
-                $args->member_srl = $logged_info->member_srl;
-                $args->openid = $openid_identity;
-                executeQuery('member.addOpenIDToMember', $args);
-            }
-
-            Context::close();
-            // Move the page
-            if(Context::get('goto')) {
-                $goto = Context::get('goto');
-                header("location:" . $goto);
-            } else {
-                header("location:./");
-            }
-
-            exit();
-        }
-
-        /**
-         * Request member join by openID
-		 *
-		 * @return Object 
-         **/
-        function procMemberAddOpenIDToMember() {
-            return $this->procMemberOpenIDLogin("procMemberValidateAddOpenIDToMember");
-        }
-
-        /**
-         * Validate openID processing
-		 *
-		 * @return Object 
-         **/
-        function procMemberValidateAddOpenIDToMember() {
-            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
-            require_once('Auth/OpenID.php');
-            require_once('Auth/OpenID/Consumer.php');
-            require_once('Auth/OpenID/XEStore.php');
-            require_once('Auth/OpenID/URINorm.php');
-
-            $store = new Auth_OpenID_XEStore();
-            $consumer = new Auth_OpenID_Consumer($store);
-            $response = $consumer->complete($_GET);
-
-            switch($response->status) {
-                case Auth_OpenID_CANCEL :
-                // Handle if user authentication is canceled
-                return $this->stop('authorization_canceled');
-            case Auth_OpenID_FAILURE :
-                // Handle if user authentication is failed due to a certain problem (for example, openid doesn't exist) (there is no authentication required deunga openid ..)
-                return $this->stop('invalid_authorization');
-            case Auth_OpenID_SUCCESS :
-                {
-                    $logged_info = Context::get('logged_info');
-                    if (!Context::get('is_logged')) return $this->stop('msg_not_logged');
-
-                    $member_srl = $logged_info->member_srl;
-
-                    $args->member_srl = $member_srl;
-                    $openid_identity = $response->signed_args["openid.identity"];
-                    $args->openid = $openid_identity;
-
-                    $output = executeQuery('member.addOpenIDToMember', $args);
-                    if (!$output->toBool()) return $output;
-
-                    Context::close();
-
-                    if(Context::get('goto')){
-                        $goto = Context::get('goto');
-                        header("location:" . $goto);
-                    }else{
-                        header("location:./");
-                    }
-                    exit();
-                }
-                // Authentication success!
-                break;
-            default:
-                return $this->stop('invalid_authorization');
-            }
-        }
-
-        /**
-         * Disconnect OpenID
-		 *
-		 * @return void 
-         **/
-        function procMemberDeleteOpenIDFromMember() {
-            $logged_info = Context::get('logged_info');
-            $openid_identity = Context::get('openid_to_delete');
-            $arg->openid = $openid_identity;
-            $result = executeQuery('member.getMemberSrlByOpenID', $arg);
-
-            if (!Context::get('is_logged')) {
-                $this->setError(-1);
-                $this->setMessage('msg_not_logged');
-                return;
-            } else if (!$result->data || is_array($result->data)) {
-                $this->setError(-1);
-                $this->setMessage('msg_not_founded');
-                return;
-            } else if ($result->data->member_srl != $logged_info->member_srl) {
-                $this->setError(-1);
-                $this->setMessage('msg_not_permitted');
-                return;
-            }
-
-            $arg->openid = $openid_identity;
-
-            $output = executeQuery('member.deleteMemberOpenID', $arg);
-            if(!$output->toBool()) return $output;
-
-            $this->setMessage('success_updated');
-        }
-
-
-        /**
          * Log-out
 		 *
 		 * @return Object
@@ -816,28 +517,6 @@
 
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 			$this->setRedirectUrl($returnUrl);
-        }
-
-        /**
-         * OpenID Withdrawal
-		 * 
-		 * @return void|Object (void : success, Object : fail)
-         **/
-        function procMemberOpenIDLeave() {
-            // Return an error if in the non-login state
-            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
-            // Compare the current IP with session IP
-            if($_SESSION['ipaddress']!=$_SERVER['REMOTE_ADDR']) return $this->stop('msg_not_permitted');
-            // Get information of logged-in user
-            $logged_info = Context::get('logged_info');
-            $member_srl = $logged_info->member_srl;
-
-            $output = $this->deleteMember($member_srl);
-            if(!$output->toBool()) return $output;
-            // Destroy all session information
-            $this->destroySessionInfo();
-            // Return success message
-            $this->setMessage('success_leaved');
         }
 
         /**
@@ -1426,7 +1105,7 @@
             if(!$args->editor_skin) $args->editor_skin= "xpresseditor";
             if(!$args->editor_colorset) $args->editor_colorset = "white";
             if($args->enable_join!='Y') $args->enable_join = 'N';
-            if($args->enable_openid!='Y') $args->enable_openid= 'N';
+            $args->enable_openid= 'N';
             if($args->profile_image !='Y') $args->profile_image = 'N';
             if($args->image_name!='Y') $args->image_name = 'N';
             if($args->image_mark!='Y') $args->image_mark = 'N';
@@ -1773,9 +1452,6 @@
                 $this->destroySessionInfo();
                 return;
             }
-            // OpenID is a check (only for a determined identity types)
-            if(preg_match("/^([_0-9a-zA-Z]+)$/is", $this->memberInfo->user_id)) $this->memberInfo->is_openid = false;
-            else $this->memberInfo->is_openid = true;
             // Log in for treatment sessions set
             $_SESSION['is_logged'] = true;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
@@ -2179,8 +1855,7 @@
                 $oDB->rollback();
                 return $output;
             }
-            // Delete the entries in member_openid
-            $output = executeQuery('member.deleteMemberOpenIDByMemberSrl', $ags);
+
             // TODO: If the table is not an upgrade may fail.
             /*
             if(!$output->toBool()) {

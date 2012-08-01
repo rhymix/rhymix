@@ -94,8 +94,6 @@ class memberMobile extends member
                 
         Context::set('member_info', $this->memberInfo);
         Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->memberInfo));
-        if ($this->memberInfo->member_srl == $logged_info->member_srl)
-            Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
         $this->setTemplateFile('member_info_mobile');
     }
 
@@ -152,8 +150,6 @@ class memberMobile extends member
 
         // Receive a member join form
         Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->memberInfo));
-
-        Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
 
         // Call getEditor of the editor module and set it for signiture
         if($this->memberInfo->member_srl) {
