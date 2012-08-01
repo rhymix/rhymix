@@ -213,6 +213,9 @@
 			// check agreement field exist
 			if ($config->agreement) return true;
 
+			// supprot multilanguage agreement.
+			if (is_readable('./files/member_extra_info/agreement.txt')) return true;
+
 			if (!is_readable('./files/ruleset/insertMember.xml')) return true;
 			if (!is_readable('./files/ruleset/login.xml')) return true;
 			if (!is_readable('./files/ruleset/find_member_account_by_question.xml')) return true;
@@ -292,7 +295,7 @@
 			// check agreement value exist
 			if($config->agreement)
 			{
-				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
 				$output = FileHandler::writeFile($agreement_file, $config->agreement);
 
 				$config->agreement = NULL;
@@ -353,6 +356,14 @@
 				$config->identifier = $identifier;
 				unset($config->agreement);
 				$output = $oModuleController->updateModuleConfig('member', $config);
+			}
+
+			if (is_readable('./files/member_extra_info/agreement.txt'))
+			{
+				$source_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+				$target_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
+
+				FileHandler::rename($source_file, $target_file);
 			}
 			
 			FileHandler::makeDir('./files/ruleset');

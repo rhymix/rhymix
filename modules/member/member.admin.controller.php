@@ -236,7 +236,7 @@
 			// check agreement value exist
 			if($args->agreement)
 			{
-				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
 				$output = FileHandler::writeFile($agreement_file, $args->agreement);
 
 				unset($args->agreement);
