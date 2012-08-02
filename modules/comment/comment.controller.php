@@ -545,16 +545,55 @@
             $oCommentModel = &getModel('comment');
             // check if comment already exists
             $comment = $oCommentModel->getComment($comment_srl);
-            if($comment->comment_srl != $comment_srl) return new Object(-1, 'msg_invalid_request');
+            if($comment->comment_srl != $comment_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
             $document_srl = $comment->document_srl;
             // call a trigger (before)
             $output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
-            if(!$output->toBool()) return $output;
-            // check if child comment exists on the comment
-            $child_count = $oCommentModel->getChildCommentCount($comment_srl);
-            if($child_count>0) return new Object(-1, 'fail_to_delete_have_children');
+            if(!$output->toBool())
+			{
+				return $output;
+			}
+
             // check if permission is granted
-            if(!$is_admin && !$comment->isGranted()) return new Object(-1, 'msg_not_permitted');
+            if(!$is_admin && !$comment->isGranted())
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
+
+            // check if child comment exists on the comment
+            $childs = $oCommentModel->getChildComments($comment_srl);
+            if(count($childs) > 0)
+			{
+				$deleteAllComment = true;
+				if (!$is_admin)
+				{
+					$logged_info = Context::get('logged_info');
+					foreach($childs as $val)
+					{
+						if($val->member_srl != $logged_info->member_srl)
+						{
+							$deleteAllComment = false;
+							break;
+						}
+					}
+				}
+
+				if(!$deleteAllComment)
+				{
+					return new Object(-1, 'fail_to_delete_have_children');
+				}
+				else
+				{
+					foreach($childs as $val)
+					{
+						$output = $this->deleteComment($val->comment_srl, $is_admin, $isMoveToTrash);
+						if(!$output->toBool()) return $output;
+					}
+				}
+			}
 
             // begin transaction
             $oDB = &DB::getInstance();

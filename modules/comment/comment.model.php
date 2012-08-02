@@ -108,6 +108,17 @@
         }
 
 		/**
+		 * Returns the number of child comments
+		 * @param int $comment_srl
+		 * @return int
+		 */
+        function getChildComments($comment_srl) {
+            $args->comment_srl = $comment_srl;
+            $output = executeQueryArray('comment.getChildComments', $args);
+            return $output->data;
+        }
+
+		/**
 		 * Get the comment
 		 * @param int $comment_srl
 		 * @param bool $is_admin
