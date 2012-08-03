@@ -201,7 +201,10 @@
 				$cache_key = $oCacheHandler->getGroupKey('documentList', $object_key);
 				$output = $oCacheHandler->get($cache_key);
 
-				return $output;
+				if($output)
+				{
+					return $output;
+				}
 			}
 
 			$this->_setSearchOption($obj, $args, $query_id, $use_division);
