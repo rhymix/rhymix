@@ -78,6 +78,7 @@
                 $oDB->addColumn('layouts','layout_type','char',1,'P',true);
 			}
 
+			$args->layout = '.';
 			$output = executeQueryArray('layout.getLayoutDotList', $args);
 			if($output->data && count($output->data) > 0)
 			{
