@@ -397,6 +397,7 @@
 				$oMemberModel = &getModel('member');
 				$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($authMemberSrl);
 				
+				$_SESSION['auth_member_info'] = $memberInfo;
 				Context::set('memberInfo', $memberInfo);
 				$this->setTemplateFile('reset_mail');
 			}

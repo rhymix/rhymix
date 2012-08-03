@@ -1059,10 +1059,17 @@
 
 		function procMemberResetAuthMail()
 		{
-			$existingEmail = Context::get('existingEmail');
+			$memberInfo = $_SESSION['auth_member_info'];
+			unset($_SESSION['auth_member_info']);
+
+			if(!$memberInfo)
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
 			$newEmail = Context::get('email_address');
 
-            if(!$newEmail || !$existingEmail)
+            if(!$newEmail)
 			{
 				return $this->stop('msg_invalid_request');
 			}
@@ -1072,12 +1079,6 @@
             if($member_srl)
 			{
 				return new Object(-1,'msg_exists_email_address');
-			}
-
-			$memberInfo = $oMemberModel->getMemberInfoByEmailAddress($existingEmail);
-			if(!$memberInfo)
-			{
-				return $this->stop('msg_invalid_request');
 			}
 
 			// remove all key by member_srl

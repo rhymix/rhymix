@@ -19,7 +19,6 @@
 		<form ruleset="resetAuthMail" action="./" method="post">
 			<input type="hidden" name="module" value="member" />
 			<input type="hidden" name="act" value="procMemberResetAuthMail" />
-			<input type="hidden" name="existingEmail" value="{$memberInfo->email_address}" />
 			<p class="q"><label for="email_address">{$lang->cmd_modify_new_auth_email_address}</label></p>
 			<p class="a"><input type="text" id="email_address" name="email_address" value="" /> <span class="btn"><input type="submit" value="{$lang->cmd_send_auth_new_emaill_address}" /></p>
 			<p>{$lang->about_reset_auth_mail_submit}</p>
