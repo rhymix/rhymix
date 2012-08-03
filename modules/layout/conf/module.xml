@@ -24,6 +24,8 @@
 		<action name="procLayoutAdminCodeUpdate" type="controller" ruleset="codeUpdate" />
 		<action name="procLayoutAdminUserImageUpload" type="controller" ruleset="imageUpload" />
 		<action name="procLayoutAdminUserImageDelete" type="controller" />
+		<action name="procLayoutAdminConfigImageUpload" type="controller" />
+		<action name="procLayoutAdminConfigImageDelete" type="controller" />
 		<action name="procLayoutAdminDelete" type="controller" ruleset="deleteLayout" />
 
         <action name="procLayoutAdminInsert" type="controller" standalone="true" ruleset="insertLayout" />

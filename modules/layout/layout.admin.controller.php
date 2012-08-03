@@ -148,31 +148,7 @@
                 foreach($layout_info->extra_var as $name => $vars) {
                     if($vars->type!='image') continue;
 
-                    $image_obj = $extra_vars->{$name};
-                    $extra_vars->{$name} = $layout_info->extra_var->{$name}->value;
-                    // Get a variable on a request to delete
-                    $del_var = $extra_vars->{"del_".$name};
-                    unset($extra_vars->{"del_".$name});
-                    // Delete the old file if there is a request to delete or a new file is uploaded
-                    if($del_var == 'Y' || $image_obj['tmp_name']) {
-                        FileHandler::removeFile($extra_vars->{$name});
-                        $extra_vars->{$name} = '';
-                        if($del_var == 'Y' && !$image_obj['tmp_name']) continue;
-                    }
-                    // Ignore if the file is not successfully uploaded
-                    if(!$image_obj['tmp_name'] || !is_uploaded_file($image_obj['tmp_name'])) continue;
-                    // Ignore if the file is not an image (swf the paths ~)
-                    if(!preg_match("/\.(jpg|jpeg|gif|png|swf)$/i", $image_obj['name'])) continue;
-                    // Upload the file to a path
-                    $path = sprintf("./files/attach/images/%s/", $args->layout_srl);
-                    // Create a directory
-                    if(!FileHandler::makeDir($path)) continue;
-
-                    $filename = $path.$image_obj['name'];
-                    // Move the file
-                    if(!move_uploaded_file($image_obj['tmp_name'], $filename)) continue;
-
-                    $extra_vars->{$name} = $filename;
+                    $extra_vars->{$name} = $vars->value;
                 }
             }
             // Save header script into "config" of layout module
@@ -760,5 +736,110 @@
             // Remove uploaded file
             FileHandler::removeFile($source_file);
          }
+
+		/**
+		 * Upload config image
+		 */
+		function procLayoutAdminConfigImageUpload()
+		{
+			$layoutSrl = Context::get('layout_srl');
+			$name = Context::get('name');
+			$img = Context::get('img');
+
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile("after_upload_config_image.html");
+
+			if(!$img['tmp_name'] || !is_uploaded_file($img['tmp_name']))
+			{
+				Context::set('msg', Context::getLang('upload failed'));
+				return;
+			}
+
+			if(!preg_match('/\.(jpg|jpeg|gif|png|swf)$/i', $img['name']))
+			{
+				Context::set('msg', Context::getLang('not allowed extension'));
+				return;
+			}
+
+			$path = sprintf('./files/attach/images/%s/', $layoutSrl);
+			if(!FileHandler::makeDir($path))
+			{
+				Context::set('msg', Context::getLang('make directory failed'));
+				return;
+			}
+
+			$ext = substr(strrchr($img['name'],'.'),1);
+			$_fileName = md5(crypt(rand(1000000,900000), rand(0,100))).'.'.$ext;
+			$fileName = $path . $_fileName;
+
+			if(!move_uploaded_file($img['tmp_name'], $fileName))
+			{
+				Context::set('msg', Context::getLang('move file failed'));
+				return;
+			}
+
+			$oModel = &getModel('layout');
+			$layoutInfo = $oModel->getLayout($layoutSrl);
+
+			if($layoutInfo->extra_var_count)
+			{
+				foreach($layoutInfo->extra_var as $varId => $val)
+				{
+					$newLayoutInfo->{$varId} = $val->value;
+				}
+			}
+
+			$newLayoutInfo->{$name} = $fileName;
+
+			$args->layout_srl = $layoutSrl;
+			$args->extra_vars = serialize($newLayoutInfo);
+			$output = $this->updateLayout($args);
+			if(!$output->toBool())
+			{
+				FileHandler::removeFile($fileName);
+				Context::set('msg', Context::getLang($output->getMessage()));
+				return;
+			}
+
+			Context::set('name', $name);
+			Context::set('fileName', $fileName);
+		}
+
+		/**
+		 * Delete config image
+		 */
+		function procLayoutAdminConfigImageDelete()
+		{
+			$layoutSrl = Context::get('layout_srl');
+			$name = Context::get('name');
+
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile("after_delete_config_image.html");
+
+			$oModel = &getModel('layout');
+			$layoutInfo = $oModel->getLayout($layoutSrl);
+
+			if($layoutInfo->extra_var_count)
+			{
+				foreach($layoutInfo->extra_var as $varId => $val)
+				{
+					$newLayoutInfo->{$varId} = $val->value;
+				}
+			}
+
+			unset($newLayoutInfo->{$name});
+
+			$args->layout_srl = $layoutSrl;
+			$args->extra_vars = serialize($newLayoutInfo);
+			$output = $this->updateLayout($args);
+			if(!$output->toBool())
+			{
+				Context::set('msg', Context::getLang($output->getMessage()));
+				return $output;
+			}
+
+			FileHandler::removeFile($layoutInfo->extra_var->{$name}->value);
+			Context::set('name', $name);
+		}
     }
 ?>
