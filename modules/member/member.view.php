@@ -382,10 +382,28 @@
         /**
          * @brief Page of re-sending an authentication mail
          **/
-        function dispMemberResendAuthMail() {
-            if(Context::get('is_logged')) return $this->stop('already_logged');
+        function dispMemberResendAuthMail() 
+		{
+			$authMemberSrl = $_SESSION['auth_member_srl'];
+			unset($_SESSION['auth_member_srl']);
 
-            $this->setTemplateFile('resend_auth_mail');
+            if(Context::get('is_logged')) 
+			{
+				return $this->stop('already_logged');
+			}
+
+			if($authMemberSrl)
+			{
+				$oMemberModel = &getModel('member');
+				$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($authMemberSrl);
+				
+				Context::set('memberInfo', $memberInfo);
+				$this->setTemplateFile('reset_mail');
+			}
+			else
+			{
+				$this->setTemplateFile('resend_auth_mail');
+			}
         }
 
         /**

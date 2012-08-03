@@ -65,6 +65,7 @@
         <action name="procMemberAuthEmailAddress" type="controller" />
         <action name="procMemberUpdateAuthMail" type="controller" standalone="true" />
 		<action name="procMemberResendAuthMail" type="controller" standalone="true" ruleset="resendAuthMail" />
+		<action name="procMemberResetAuthMail" type="controller" ruleset="resetAuthMail" />
 
         <action name="procMemberAdminInsert" type="controller" standalone="true" ruleset="insertAdminMember" />
         <action name="procMemberAdminDelete" type="controller" standalone="true" />
