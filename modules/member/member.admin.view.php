@@ -109,6 +109,12 @@
 
 			Context::set('config',$config);
 
+            // Get a layout list
+            $oLayoutModel = &getModel('layout');
+            $layout_list = $oLayoutModel->getLayoutList();
+
+            Context::set('layout_list', $layout_list);
+
             // list of skins for member module
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list', $skin_list);

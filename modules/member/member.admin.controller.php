@@ -143,6 +143,7 @@
 				'after_login_url',
 				'after_logout_url',
 				'redirect_url',
+				'layout_srl',
 				'skin',
 				'colorset',
                 'profile_image', 'profile_image_max_width', 'profile_image_max_height',

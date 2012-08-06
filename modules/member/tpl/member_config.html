@@ -82,6 +82,14 @@
 				<p class="desc">{$lang->about_redirect_url}</p>
 			</li>
 			<li>
+				<p class="q"><label for="skin">{$lang->layout}</label></p>
+				<p class="a">
+				<select name="layout_srl">
+					<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->layout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+				</p>
+			</li>
+			<li>
 				<p class="q"><label for="skin">{$lang->skin}</label></p>
 				<p class="a">
 					<select id="skin" name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value)">

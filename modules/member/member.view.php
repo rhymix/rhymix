@@ -16,17 +16,23 @@
          **/
         function init() {
             // Get the member configuration
-            $oModuleModel = &getModel('module');
-            $this->member_config = $oModuleModel->getModuleConfig('member');
-            if(!$this->member_config->skin) $this->member_config->skin = "default";
-            if(!$this->member_config->colorset) $this->member_config->colorset = "white";
-
+            $oMemberModel = &getModel('member');
+            $this->member_config = $oMemberModel->getMemberConfig();
             Context::set('member_config', $this->member_config);
+
             $skin = $this->member_config->skin;
             // Set the template path
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
             $this->setTemplatePath($tpl_path);
+
+			$oLayoutModel = &getModel('layout');
+			$layout_info = $oLayoutModel->getLayout($this->member_config->layout_srl);
+			if($layout_info)
+			{
+				$this->setLayoutPath($layout_info->path);
+				$this->setLayoutFile('layout');
+			}
         }
 
         /**
@@ -44,10 +50,6 @@
             } elseif(!$member_srl) {
                 return $this->dispMemberSignUpForm();
             }
-
-            $oModuleModel = &getModel('module');
-            $member_config = $oMemberModel->getMemberConfig();
-            Context::set('member_config', $member_config);
 
             $site_module_info = Context::get('site_module_info');
 			$columnList = array('member_srl', 'user_id', 'email_address', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'regdate', 'last_login', 'extra_vars');
@@ -83,21 +85,20 @@
 			//setcookie for redirect url in case of going to member sign up
 			setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER']);
 
+            $member_config = $this->member_config;
+
             $oMemberModel = &getModel('member');
             // Get the member information if logged-in
             if($oMemberModel->isLogged()) return $this->stop('msg_already_logged');
             // call a trigger (before) 
-            $trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $this->member_config);
+            $trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $member_config);
             if(!$trigger_output->toBool()) return $trigger_output;
             // Error appears if the member is not allowed to join
-            if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
+            if($member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
 
 			$oMemberAdminView = &getAdminView('member');
 			$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
 			Context::set('formTags', $formTags);
-
-            $member_config = $oMemberModel->getMemberConfig();
-            Context::set('member_config', $member_config);
 			
 			global $lang;
 			$identifierForm->title = $lang->{$member_config->identifier};
@@ -113,9 +114,9 @@
          * @brief Modify member information
          **/
         function dispMemberModifyInfo() {
+            $member_config = $this->member_config;
+
             $oMemberModel = &getModel('member');
-            $oModuleModel = &getModel('module');
-            $memberModuleConfig = $oModuleModel->getModuleConfig('member');
             // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
@@ -141,8 +142,8 @@
                 $option->resizable = false;
                 $option->disable_html = true;
                 $option->height = 200;
-                $option->skin = $this->member_config->editor_skin;
-                $option->colorset = $this->member_config->editor_colorset;
+                $option->skin = $member_config->editor_skin;
+                $option->colorset = $member_config->editor_colorset;
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
@@ -150,9 +151,6 @@
 			$oMemberAdminView = &getAdminView('member');
 			$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
 			Context::set('formTags', $formTags);
-
-            $member_config = $oMemberModel->getMemberConfig();
-            Context::set('member_config', $member_config);
 
 			global $lang;
 			$identifierForm->title = $lang->{$member_config->identifier};
@@ -246,7 +244,7 @@
 
 			// get member module configuration.
 			$oMemberModel = &getModel('member');
-			$config = $oMemberModel->getMemberConfig();
+			$config = $this->member_config;
 			Context::set('identifier', $config->identifier);
 
             // Set a template file
@@ -264,7 +262,7 @@
             // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
-			$memberConfig = $oMemberModel->getMemberConfig();
+			$memberConfig = $this->member_config;
 
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
@@ -295,7 +293,7 @@
             // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
-			$memberConfig = $oMemberModel->getMemberConfig();
+			$memberConfig = $this->member_config;
 
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
@@ -346,7 +344,7 @@
             if(Context::get('is_logged')) return $this->stop('already_logged');
 
 			$oMemberModel = &getModel('member');
-			$config = $oMemberModel->getMemberConfig();
+			$config = $this->member_config;
 			
 			Context::set('identifier', $config->identifier);
 

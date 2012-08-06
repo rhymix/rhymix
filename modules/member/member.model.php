@@ -46,7 +46,8 @@
             if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
             if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
             if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
-            if(!$config->skin) $config->skin = "default";
+            if(!$config->skin) $config->skin = 'default';
+            if(!$config->colorset) $config->colorset = 'white';
             if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = "xpresseditor";
             if(!$config->group_image_mark) $config->group_image_mark = "N";
 
@@ -54,6 +55,12 @@
 
 			if (!$config->max_error_count) $config->max_error_count = 10;
 			if (!$config->max_error_count_time) $config->max_error_count_time = 300;
+			if (!$config->layout_srl)
+			{
+				$oModuleModel = &getModel('module');
+				$defaultModuleInfo = $oModuleModel->getDefaultMid();
+				$config->layout_srl = $defaultModuleInfo->layout_srl;
+			}
 
             return $config;
         }
