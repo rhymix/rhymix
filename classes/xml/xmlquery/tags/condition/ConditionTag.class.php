@@ -59,7 +59,7 @@
 			if($isColumnName = (strpos($condition->attrs->default, '.') !== false
 								&& strpos($condition->attrs->default, '%') === false ))
 			{
-				$condition->attrs->default = $dbParser->parseColumnName($condition->attrs->default);
+				$condition->attrs->default = $dbParser->parseExpression($condition->attrs->default);
 			}
 
 			if($condition->node_name == 'query')
