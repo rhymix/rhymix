@@ -37,7 +37,7 @@
 			<!--@end-->
 		<!--@end-->
 
-		<tr>
+		<tr cond="$memberInfo['member_srl'] == $logged_info->member_srl || $formInfo->isPublic == 'Y'">
 			<th scope="row" >{$title} <em cond="$formInfo->required || $formInfo->mustRequired">*</em></th>
 			<td class="text">{$value}</td>
 		</tr>

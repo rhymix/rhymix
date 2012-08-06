@@ -180,6 +180,10 @@
 				if($args->signature!='Y') $args->signature = 'N';
 				$args->identifier = $all_args->identifier;
 
+				// set default
+				$all_args->is_nick_name_public = 'Y';
+				$all_args->is_find_account_question_public = 'N';
+
 				// signupForm
 				global $lang;
 				$signupForm = array();
@@ -198,6 +202,8 @@
 					$signupItem->imageType = (strpos($key, 'image') !== false);
 					$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired || $signupItem->isIdentifier;
 					$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
+
+					$signupItem->isPublic = ($all_args->{'is_'.$key.'_public'} == 'Y' && $signupItem->isUse) ? 'Y' : 'N';
 
 					if ($signupItem->imageType){
 						$signupItem->max_width = $all_args->{$key.'_max_width'};
@@ -273,6 +279,11 @@
 				$signupItem->imageType = (strpos($key, 'image') !== false);
 				$signupItem->required = in_array($key, $orgRequireds);
 				$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
+				$signupItem->isPublic = ($signupItem->isUse) ? 'Y' : 'N';
+				if($key == 'find_account_question' || $key == 'password')
+				{
+					$signupItem->isPublic = 'N';
+				}
 				$signupItem->isIdentifier = ($key == $identifier);
 				if ($signupItem->imageType){
 					$signupItem->max_width = $config->{$key.'_max_width'};
@@ -293,6 +304,7 @@
 					$signupItem->mustRequired = in_array($key, $mustRequireds);
 					$signupItem->required = ($item_info->required == 'Y');
 					$signupItem->isUse = ($item_info->is_active == 'Y');
+					$signupItem->isPublic = ($signupItem->isUse) ? 'Y' : 'N';
 					$signupItem->description = $item_info->description;
 					if ($signupItem->imageType){
 						$signupItem->max_width = $config->{$key.'_max_width'};
@@ -511,6 +523,7 @@
 			$signupItem->required = ($args->required == 'Y');
 			$signupItem->isUse = ($args->is_active == 'Y');
 			$signupItem->description = $args->description;
+			$signupItem->isPublic = 'Y';
 
 			$oMemberModel = &getModel('member');
 			$config = $oMemberModel->getMemberConfig();

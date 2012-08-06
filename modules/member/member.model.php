@@ -31,6 +31,8 @@
 				foreach($config->signupForm AS $key=>$value)
 				{
 					$config->signupForm[$key]->title = Context::getLang($value->title);
+					if($config->signupForm[$key]->isPublic != 'N') $config->signupForm[$key]->isPublic = 'Y';
+					if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
 				}
 			}
 

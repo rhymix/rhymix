@@ -46,16 +46,7 @@
             }
 
             $oModuleModel = &getModel('module');
-            $member_config = $oModuleModel->getModuleConfig('member');
-			if(is_array($member_config->signupForm))
-			{
-				global $lang;
-				foreach($member_config->signupForm AS $key=>$value)
-				{
-					if($lang->{$value->title})
-						$member_config->signupForm[$key]->title = $lang->{$value->title};
-				}
-			}
+            $member_config = $oMemberModel->getMemberConfig();
             Context::set('member_config', $member_config);
 
             $site_module_info = Context::get('site_module_info');

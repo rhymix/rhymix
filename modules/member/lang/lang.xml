@@ -2420,6 +2420,9 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="jp"><![CDATA[ログインに使用するアカウントを選択してください。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇帳號登入方式。]]></value>
 	</item>
+	<item name="about_public_item">
+		<value xml:lang="ko"><![CDATA[본인 외에 다른 회원에게도 노출될 정보인지 선택합니다.]]></value>
+	</item>
 	<item name="use_after_save">
 		<value xml:lang="ko"><![CDATA[저장 후 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use after saved]]></value>

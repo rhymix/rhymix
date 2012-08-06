@@ -62,7 +62,7 @@ jQuery(function($){
 			suForm.slideUp(200);
 		}
 	});
-	suForm.find(':checkbox').each(function(){
+	suForm.find(':checkbox[name="usable_list[]"]').each(function(){
 		var $i = $(this);
 		$i.change(function(){
 			if($i.is(':checked')){
@@ -70,10 +70,18 @@ jQuery(function($){
 							   .find(':radio, :text')
 									.removeAttr('disabled')
 									.end()
-							   .find(':radio[value=option]').attr('checked', 'checked');
+							   .find(':radio[value=option]').attr('checked', 'checked')
+							   		.end()
+							   .next('td')
+							   .find(':input[value=Y]').removeAttr('disabled').attr('checked', 'checked');
 				
 			} else {
-				$i.parent('td').next('td').find(':radio, :text').attr('disabled','disabled').removeAttr('checked').next('label').css('fontWeight','normal');
+				$i.parent('td').next('td')
+							   .find(':radio, :text').attr('disabled','disabled').removeAttr('checked')
+							   		.next('label').css('fontWeight','normal').end()
+									.end()
+							   .next('td')
+								.find(':input[value=Y]').removeAttr('checked').attr('disabled', 'disabled');
 			}
 		});
 	});
