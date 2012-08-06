@@ -143,14 +143,36 @@
                     }
                 }
             }
+
+			$tmpDir = sprintf('./files/attach/images/%s/tmp', $args->layout_srl);
             // Separately handle if a type of extra_vars is an image
             if($layout_info->extra_var) {
                 foreach($layout_info->extra_var as $name => $vars) {
                     if($vars->type!='image') continue;
 
-                    $extra_vars->{$name} = $vars->value;
+					$fileName = $extra_vars->{$name};
+					if($vars->value == $fileName)
+					{
+						continue;
+					}
+
+					FileHandler::removeFile($vars->value);
+
+					if(!$fileName)
+					{
+						continue;
+					}
+
+					$pathInfo = pathinfo($fileName);
+					$tmpFileName = sprintf('%s/tmp/%s', $pathInfo['dirname'], $pathInfo['basename']);
+
+					if(!FileHandler::moveFile($tmpFileName, $fileName))
+					{
+						unset($extra_vars->{$name});
+					}
                 }
             }
+
             // Save header script into "config" of layout module
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
@@ -163,6 +185,8 @@
 
             $output = $this->updateLayout($args);
             if(!$output->toBool()) return $output;
+
+			FileHandler::removeDir($tmpDir);
 
 			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
         }
@@ -762,7 +786,8 @@
 			}
 
 			$path = sprintf('./files/attach/images/%s/', $layoutSrl);
-			if(!FileHandler::makeDir($path))
+			$tmpPath = $path . 'tmp/';
+			if(!FileHandler::makeDir($tmpPath))
 			{
 				Context::set('msg', Context::getLang('make directory failed'));
 				return;
@@ -771,38 +796,17 @@
 			$ext = substr(strrchr($img['name'],'.'),1);
 			$_fileName = md5(crypt(rand(1000000,900000), rand(0,100))).'.'.$ext;
 			$fileName = $path . $_fileName;
+			$tmpFileName = $tmpPath . $_fileName;
 
-			if(!move_uploaded_file($img['tmp_name'], $fileName))
+			if(!move_uploaded_file($img['tmp_name'], $tmpFileName))
 			{
 				Context::set('msg', Context::getLang('move file failed'));
 				return;
 			}
 
-			$oModel = &getModel('layout');
-			$layoutInfo = $oModel->getLayout($layoutSrl);
-
-			if($layoutInfo->extra_var_count)
-			{
-				foreach($layoutInfo->extra_var as $varId => $val)
-				{
-					$newLayoutInfo->{$varId} = $val->value;
-				}
-			}
-
-			$newLayoutInfo->{$name} = $fileName;
-
-			$args->layout_srl = $layoutSrl;
-			$args->extra_vars = serialize($newLayoutInfo);
-			$output = $this->updateLayout($args);
-			if(!$output->toBool())
-			{
-				FileHandler::removeFile($fileName);
-				Context::set('msg', Context::getLang($output->getMessage()));
-				return;
-			}
-
 			Context::set('name', $name);
 			Context::set('fileName', $fileName);
+			Context::set('tmpFileName', $tmpFileName);
 		}
 
 		/**

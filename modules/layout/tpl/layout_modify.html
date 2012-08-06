@@ -76,15 +76,10 @@
 				</div>
 
 				<block cond="$var->type == 'image'">
+					<input type="hidden" name="{$name}" id="file_{$name}" value="{$var->value}" />
 					<div id="preview_{$name}" style="display:none;"|cond="!$var->value">
 						<img src="../../../{$var->value}"|cond="$var->value" alt="" style="max-width: 250px"/>
-						<form action="./" method="post" target="hiddenIframe" class="imageUpload" style="display:inline;">
-							<input type="hidden" name="module" value="layout" />
-							<input type="hidden" name="act" value="procLayoutAdminConfigImageDelete" />
-							<input type="hidden" name="layout_srl" value="{$layout_srl}" />
-							<input type="hidden" name="name" value="{$name}" />
-							<input type="submit" value="{$lang->cmd_delete}" />
-						</form>
+						<input type="button" value="{$lang->cmd_delete}" onclick="deleteImage('{$name}')" />
 					</div>
 					<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload">
 					<input type="hidden" name="module" value="layout" />
@@ -92,7 +87,7 @@
 					<input type="hidden" name="layout_srl" value="{$layout_srl}" />
 					<input type="hidden" name="name" value="{$name}" />
 						<p>
-							<input type="file" name="img" id="file_{$name}" value="" />
+							<input type="file" name="img" id="file_select_{$name}" value="" />
 							<input type="submit" value="{$lang->cmd_submit}" />
 						</p>
 					</form>

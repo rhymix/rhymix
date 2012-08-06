@@ -18,15 +18,17 @@ function doSubmitConfig()
 	$configForm.submit();
 }
 
-function afterUploadConfigImage(name, fileName)
+function afterUploadConfigImage(name, fileName, tmpFileName)
 {
-	jQuery('#preview_' + name + ' img').attr('src', fileName);
+	jQuery('#preview_' + name + ' img').attr('src', tmpFileName);
 	jQuery('#preview_' + name).show();
-	jQuery('#file_' + name).val('');
+	jQuery('#file_select' + name).val('');
+	jQuery('#file_' + name).val(fileName);
 }
 
-function afterDeleteConfigImage(name)
+function deleteImage(name)
 {
 	jQuery('#preview_' + name + ' img').removeAttr('src');
 	jQuery('#preview_' + name).hide();
+	jQuery('#file_' + name).val('');
 }
