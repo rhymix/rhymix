@@ -83,29 +83,8 @@
 			if(!$args->signupForm || !is_array($args->signupForm))
 			{
 				$identifier = 'email_address';
-				$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
-				$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-				$list_order = array();
-				foreach($items as $key){
-					unset($signupItem);
-					$signupItem->isDefaultForm = true;
-					$signupItem->name = $key;
-					$signupItem->title = $key;
-					$signupItem->mustRequired = in_array($key, $mustRequireds);
-					$signupItem->imageType = (strpos($key, 'image') !== false);
-					$signupItem->required = $signupItem->mustRequired;
-					$signupItem->isUse = $signupItem->mustRequired;
-					$signupItem->isIdentifier = ($key == $identifier);
-					if ($signupItem->imageType){
-						$signupItem->max_width = $config->{$key.'_max_width'};
-						$signupItem->max_height = $config->{$key.'_max_height'};
-					}
-					if ($signupItem->isIdentifier)
-						array_unshift($list_order, $signupItem);
-					else
-						$list_order[] = $signupItem;
-				}
-				$args->signupForm = $list_order;
+
+				$args->signupForm = $oMemberAdminController->createSignupForm($identifier);
 				$args->identifier = $identifier;
 
 				$oModuleController->insertModuleConfig('member',$args);
@@ -302,57 +281,12 @@
 				$output = $oModuleController->updateModuleConfig('member', $config);
 			}
 
+			$oMemberAdminController = &getAdminController('member');
 			// check signup form ordering info
 			if (!$config->signupForm || !is_array($config->signupForm)){
-				global $lang;
-				$oMemberModel = &getModel('member');
-				// Get join form list which is additionally set
-				$extendItems = $oMemberModel->getJoinFormList();
-				
 				$identifier = 'user_id';
-				$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
-				$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-				$orgRequireds = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name');
-				$orgUse = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
-				$list_order = array();
-				foreach($items as $key){
-					unset($signupItem);
-					$signupItem->isDefaultForm = true;
-					$signupItem->name = $key;
-					$signupItem->title = $key;
-					$signupItem->mustRequired = in_array($key, $mustRequireds);
-					$signupItem->imageType = (strpos($key, 'image') !== false);
-					$signupItem->required = in_array($key, $orgRequireds);
-					$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
-					$signupItem->isIdentifier = ($key == $identifier);
-					if ($signupItem->imageType){
-						$signupItem->max_width = $config->{$key.'_max_width'};
-						$signupItem->max_height = $config->{$key.'_max_height'};
-					}
-					if ($signupItem->isIdentifier)
-						array_unshift($list_order, $signupItem);
-					else
-						$list_order[] = $signupItem;
-				}
-				if (is_array($extendItems)){
-					foreach($extendItems as $form_srl=>$item_info){
-						unset($signupItem);
-						$signupItem->name = $item_info->column_name;
-						$signupItem->title = $item_info->column_title;
-						$signupItem->type = $item_info->column_type;
-						$signupItem->member_join_form_srl = $form_srl;
-						$signupItem->mustRequired = in_array($key, $mustRequireds);
-						$signupItem->required = ($item_info->required == 'Y');
-						$signupItem->isUse = ($item_info->is_active == 'Y');
-						$signupItem->description = $item_info->description;
-						if ($signupItem->imageType){
-							$signupItem->max_width = $config->{$key.'_max_width'};
-							$signupItem->max_height = $config->{$key.'_max_height'};
-						}
-						$list_order[] = $signupItem;
-					}
-				}
-				$config->signupForm = $list_order;
+
+				$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
 				$config->identifier = $identifier;
 				unset($config->agreement);
 				$output = $oModuleController->updateModuleConfig('member', $config);
@@ -367,7 +301,6 @@
 			}
 			
 			FileHandler::makeDir('./files/ruleset');
-			$oMemberAdminController = &getAdminController('member');
 			if (!is_readable('./files/ruleset/insertMember.xml'))
 				$oMemberAdminController->_createSignupRuleset($config->signupForm);
 			if (!is_readable('./files/ruleset/login.xml'))

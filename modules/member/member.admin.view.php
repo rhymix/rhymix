@@ -106,9 +106,7 @@
             $oModuleModel = &getModel('module');
             $oMemberModel = &getModel('member');
             $config = $oMemberModel->getMemberConfig();
-            // Get join form list which is additionally set            
-			$extendItems = $oMemberModel->getJoinFormList();            
-			
+
 			Context::set('config',$config);
 
             // list of skins for member module
