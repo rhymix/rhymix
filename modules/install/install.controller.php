@@ -195,6 +195,10 @@
 				}
 			}
 
+			// save selected lang info
+			$oInstallAdminController = &getAdminController('install');
+			$oInstallAdminController->saveLangSelected(array(Context::getLangType()));
+
             // Display a message that installation is completed
             $this->setMessage('msg_install_completed');
 
