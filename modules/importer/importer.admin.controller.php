@@ -93,15 +93,22 @@
 		 * @return void
 		 */
         function procImporterAdminSync() {
+			$oMemberModel = &getModel('member');
+			$member_config = $oMemberModel->getMemberConfig();
+
+			$postFix = ($member_config->identifier == 'email_address') ? 'ByEmail' : '';
+
+			// 계정이 이메일인 경우 이메일 정보로 사용자를 싱크하도록 한다. 이때 변수명은 그대로 user_id를 사용한다.
+			
 			/* DBMS가 CUBRID인 경우 MySQL과 동일한 방법으로는 문서 및 댓글에 대한 사용자 정보를 동기화 할 수 없으므로 예외 처리 합니다.
 			  CUBRID를 사용하지 않는 경우에만 보편적인 기존 질의문을 사용합니다. */
 			$db_info = Context::getDBInfo ();
 			if ($db_info->db_type != "cubrid") {
-				$output = executeQuery('importer.updateDocumentSync');
-				$output = executeQuery('importer.updateCommentSync');
+				$output = executeQuery('importer.updateDocumentSync'.$postFix);
+				$output = executeQuery('importer.updateCommentSync'.$postFix);
 			}
 			else {
-				$output = executeQueryArray ('importer.getDocumentMemberSrlWithUserID');
+				$output = executeQueryArray ('importer.getDocumentMemberSrlWithUserID'.$postFix);
 				if (is_array ($output->data) && count ($output->data)) {
 					$success_count = 0;
 					$error_count = 0;
@@ -109,7 +116,7 @@
 					foreach ($output->data as $val) {
 						$args->user_id = $val->user_id;
 						$args->member_srl = $val->member_srl;
-						$tmp = executeQuery ('importer.updateDocumentSyncForCUBRID', $args);
+						$tmp = executeQuery ('importer.updateDocumentSyncForCUBRID'.$postFix, $args);
 						if ($tmp->toBool () === true) {
 							$success_count++;
 						}
@@ -120,7 +127,7 @@
 					}
 				} // documents section
 
-				$output = executeQueryArray ('importer.getCommentMemberSrlWithUserID');
+				$output = executeQueryArray ('importer.getCommentMemberSrlWithUserID'.$postFix);
 				if (is_array ($output->data) && count ($output->data)) {
 					$success_count = 0;
 					$error_count = 0;
@@ -128,7 +135,7 @@
 					foreach ($output->data as $val) {
 						$args->user_id = $val->user_id;
 						$args->member_srl = $val->member_srl;
-						$tmp = executeQuery ('importer.updateCommentSyncForCUBRID', $args);
+						$tmp = executeQuery ('importer.updateCommentSyncForCUBRID'.$postFix, $args);
 						if ($tmp->toBool () === true) {
 							$success_count++;
 						}

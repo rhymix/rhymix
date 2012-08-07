@@ -1,0 +1,19 @@
+<query id="getDocumentMemberSrlWithUserIDByEmail" action="select">
+	<tables>
+		<table name="member" alias="member" />
+		<table name="documents" alias="documents" />
+	</tables>
+	<columns>
+		<column name="member.member_srl" alias="member_srl" />
+		<column name="member.email_address" alias="user_id" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="documents.email_address" default="member.email_address" />
+	</conditions>
+	<groups>
+		<group column="member_srl" />
+	</groups>
+	<navigation>
+		<index var="member_srl" default="member_srl" order="asc" />
+	</navigation>
+</query>

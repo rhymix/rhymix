@@ -2442,6 +2442,12 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="en"><![CDATA[Member Configuration]]></value>
 		<value xml:lang="zh-TW"><![CDATA[會員設定]]></value>
 	</item>
+	<item name="cmd_member_sync">
+		<value xml:lang="ko"><![CDATA[회원정보 동기화]]></value>
+	</item>
+	<item name="about_member_sync">
+		<value xml:lang="ko"><![CDATA[회원정보와 게시물과 댓글 정보를 동기화 합니다. 데이터가 많은 경우 시간이 오래 소요될 수 있습니다. 이용자가 많은 경우 반드시 서비스를 중단하시고 진행하시기 바랍니다.]]></value>
+	</item>
 	<item name="msg_success_modify_email_address">
 		<value xml:lang="ko"><![CDATA[이메일 주소가 정상적으로 변경되었습니다. 변경된 이메일 주소로 로그인 가능합니다.]]></value>
 	</item>

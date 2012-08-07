@@ -8,6 +8,7 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+
 <form action="./" class="form" ruleset="insertConfig" method="post">
 <input type="hidden" name="module" value="member" />
 <input type="hidden" name="act" value="procMemberAdminInsertConfig" />
@@ -220,6 +221,12 @@
 		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 </form>
+<h2 class="h2">{$lang->cmd_member_sync}</h2>
+<div class="form">
+	<span class="btn small"><input type="button" value="{$lang->cmd_member_sync}" class="__sync" /></span>
+	<p class="description">{$lang->about_member_sync}</p>
+</div>
+
 <div class="modal" id="userDefine">
 	<form action="./" class="fg form" ruleset="insertJoinForm" method="post">
 		<input type="hidden" name="module" value="member" />
