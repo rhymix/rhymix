@@ -409,6 +409,7 @@
 					$args->{$val} = str_replace($replaceStr, '', $args->{$val});
 				}
 			}
+
             // Execute insert or update depending on the value of member_srl
             $output = $this->updateMember($args);
             if(!$output->toBool()) return $output;
@@ -1815,8 +1816,8 @@
 			if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 			if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 			if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
-
 			if(!$args->description) $args->description = '';
+			if(!$args->birthday) $args->birthday = '';
 
             $output = executeQuery('member.updateMember', $args);
             if(!$output->toBool()) {
