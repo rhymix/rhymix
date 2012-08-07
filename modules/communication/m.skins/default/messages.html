@@ -1,0 +1,17 @@
+<load target="css/mcommunication.css" />
+<div class="bd">
+<div class="hx h2">
+	<h2>{$lang->message_box['R']}</h2>
+</div>
+<ul class="lt">
+	<li loop="$message_list => $no,$val" class="read"|cond="$val->readed == 'Y'" class="unread"|cond="$val->readed != 'Y'">
+		<a href="{getUrl('message_srl', $val->message_srl)}">{$val->title}</a>
+		<span class="memberInfo">{$val->nick_name}  ({zdate($val->regdate,"Y-m-d")})</span>
+	</li>
+</ul>
+<div class="pn">
+	<a cond="$page != 1" href="{getUrl('page',$page-1,'document_srl','')}" class="prev">{$lang->cmd_prev}</a> 
+	<strong>{$page} / {$page_navigation->last_page}</strong>
+	<a cond="$page != $page_navigation->last_page" href="{getUrl('page',$page+1,'document_srl','')}" class="next">{$lang->cmd_next}</a>
+</div>
+</div>

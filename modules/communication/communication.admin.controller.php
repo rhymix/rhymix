@@ -19,11 +19,13 @@
          **/
         function procCommunicationAdminInsertConfig() {
             // get the default information
-            $args = Context::gets('skin','colorset','editor_skin','editor_colorset');
+            $args = Context::gets('skin','colorset','editor_skin','editor_colorset', 'mskin');
 
-            if(!$args->skin) $args->skin = "default";
-            if(!$args->colorset) $args->colorset = "white";
-            if(!$args->editor_skin) $args->editor_skin = "default";
+            if(!$args->skin) $args->skin = 'default';
+            if(!$args->colorset) $args->colorset = 'white';
+            if(!$args->editor_skin) $args->editor_skin = 'default';
+            if(!$args->mskin) $args->mskin = 'default';
+
             // create the module module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('communication',$args);

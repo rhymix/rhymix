@@ -25,6 +25,7 @@
             if(!$communication_config->skin) $communication_config->skin = 'default';
             if(!$communication_config->colorset) $communication_config->colorset = 'white';
             if(!$communication_config->editor_skin) $communication_config->editor_skin = 'default';
+            if(!$communication_config->mskin) $communication_config->mskin = 'default';
 
             return $communication_config;
         }

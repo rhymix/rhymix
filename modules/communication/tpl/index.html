@@ -39,6 +39,14 @@
 				<th scope="row">{$lang->colorset}</th>
 				<td><div id="communication_colorset"></div></td>
 			</tr>
+			<tr>
+				<th scope="row">{$lang->mobile_skin}</th>
+				<td>
+					<select name="mskin">
+					<option loop="$communication_mobile_skin_list => $key,$val" value="{$key}" selected="selected"|cond="$key==$communication_config->mskin" >{$val->title}</option>
+					</select>
+				</td>
+			</tr>
 		</table>
 	</div>
 	<div class="btnArea">

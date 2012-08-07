@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">XE 커뮤니케이션 모바일 기본 스킨</title>
+    <description xml:lang="ko">
+        XE 커뮤니케이션 모바일 기본 스킨입니다.
+        NHN (developers@xpressengine.com) 
+    </description>
+    <version>0.1</version>
+    <date>2012-08-07</date>
+
+    <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
+        <name xml:lang="ko">NHN</name>
+        <name xml:lang="en">NHN</name>
+        <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
+    </author>
+	<extra_vars />
+</skin>
