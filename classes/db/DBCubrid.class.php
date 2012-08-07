@@ -725,7 +725,7 @@
 			$query = $this->getInsertSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
 
-			$query .= (__DEBUG_QUERY__&1 && $queryObject->queryID)?sprintf (' '.$this->comment_syntax, $queryObject->queryID):'';
+			$query .= (__DEBUG_QUERY__&1 && $this->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 
 			$result = $this->_query ($query);
 			if ($result && !$this->transaction_started) {
@@ -751,6 +751,8 @@
 			$query = $this->getUpdateSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
 
+			$query .= (__DEBUG_QUERY__&1 && $this->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+
 			$result = $this->_query($query);
 
 			if ($result && !$this->transaction_started) $this->_commit();
@@ -774,6 +776,8 @@
 			}			
 			$query =  $this->getDeleteSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
+
+			$query .= (__DEBUG_QUERY__&1 && $this->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 
 			$result = $this->_query ($query);
 
@@ -807,7 +811,7 @@
 				if (is_a($query, 'Object'))
 					return;
 
-				$query .= (__DEBUG_QUERY__ & 1 && $queryObject->queryID) ? sprintf(' ' . $this->comment_syntax, $queryObject->queryID) : '';
+				$query .= (__DEBUG_QUERY__ & 1 && $this->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 				$result = $this->_query($query, $connection);
 
 				if ($this->isError())
