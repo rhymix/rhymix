@@ -555,6 +555,9 @@
 
 				if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 				{
+					$display_handler = new DisplayHandler();
+					$display_handler->_debugOutput();
+
 					header('location:'.$_SESSION['XE_VALIDATOR_RETURN_URL']);
 					return;
 				}
