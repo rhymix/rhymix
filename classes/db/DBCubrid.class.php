@@ -68,8 +68,8 @@
 		 */
 		function isSupported()
 		{
-			if (!function_exists('cubrid_connect')) return false;
-			return true;
+			if (!function_exists('cubrid_connect')) return FALSE;
+			return TRUE;
 		}
 
 		/**
@@ -112,7 +112,7 @@
 		{
 			@cubrid_commit ($connection);
 			@cubrid_disconnect ($connection);
-			$this->transaction_started = false;
+			$this->transaction_started = FALSE;
 		}
 
 		/**
@@ -155,7 +155,7 @@
 				$connection = $this->_getConnection('master');
 				cubrid_set_autocommit($connection, CUBRID_AUTOCOMMIT_FALSE);						
 			}
-			return true;
+			return TRUE;
 		}
 
 		/**
@@ -167,7 +167,7 @@
 		{
             $connection = $this->_getConnection('master');
 			@cubrid_rollback ($connection);
-            return true;
+            return TRUE;
 		}
 
 		/**
@@ -179,7 +179,7 @@
 		{
 			$connection = $this->_getConnection('master');
 			@cubrid_commit($connection);
-			return true;
+			return TRUE;
 		}
 
 		/**
@@ -194,6 +194,12 @@
 			if($this->use_prepared_statements == 'Y')
 			{
 				$req = @cubrid_prepare($connection, $query);
+				if(!$req)
+				{
+					$this->_setError();
+					return false;
+				}
+
 				$position = 0;
 				if($this->param)
 				{
@@ -219,12 +225,22 @@
 						if(is_array($value)){
 							foreach($value as $v)
 							{
-								cubrid_bind($req, ++$position, $v, $bind_type);		
+								$bound = @cubrid_bind($req, ++$position, $v, $bind_type);
+								if(!$bound)
+								{
+									$this->_setError();
+									return false;
+								}
 							}
 						}
 						else
 						{
-							cubrid_bind($req, ++$position, $value, $bind_type);
+							$bound = @cubrid_bind($req, ++$position, $value, $bind_type);
+							if(!$bound)
+							{
+								$this->_setError();
+								return false;
+							}
 						}
 					}
 				}
@@ -232,10 +248,8 @@
 				$result = @cubrid_execute($req);
 				if(!$result)
 				{
-					$code = cubrid_error_code ();
-					$msg = cubrid_error_msg ();
-
-					$this->setError ($code, $msg);
+					$this->_setError();
+					return false;
 				}
 				return $req;
 				
@@ -243,14 +257,25 @@
 			// Execute the query
 			$result = @cubrid_execute ($connection, $query);
 			// error check
-			if (cubrid_error_code ()) {
-				$code = cubrid_error_code ();
-				$msg = cubrid_error_msg ();
-
-				$this->setError ($code, $msg);
+			if (!$result) {
+				$this->_setError();
+				return false;
 			}
 			// Return the result
  			return $result;
+		}
+
+		/**
+		 * Retrieve CUBRID error and set to object
+		 *
+		 * @author Corina Udrescu (dev@xpressengine.org)
+		 */
+		function _setError()
+		{
+			$code = cubrid_error_code ();
+			$msg = cubrid_error_msg ();
+
+			$this->setError ($code, $msg);
 		}
 
 		/**
@@ -360,7 +385,7 @@
 				$this->_query($query);
 			}
 
-			$_GLOBALS['XE_EXISTS_SEQUENCE'] = true;
+			$_GLOBALS['XE_EXISTS_SEQUENCE'] = TRUE;
 		}
 
 
@@ -380,10 +405,10 @@
 
 			$result = $this->_query ($query);
 			if (cubrid_num_rows($result) > 0) {
-				$output = true;
+				$output = TRUE;
 			}
 			else {
-				$output = false;
+				$output = FALSE;
 			}
 
 			if ($result) cubrid_close_request ($result);
@@ -401,7 +426,7 @@
 		 * @param boolean $notnull not null status, default value is false
 		 * @return void
 		 */
-		function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
+		function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = FALSE)
 		{
 			$type = strtoupper($this->column_type[$type]);
 			if ($type == 'INTEGER') $size = '';
@@ -457,8 +482,8 @@
 			$query = sprintf ("select \"attr_name\" from \"db_attribute\" where ".  "\"attr_name\" ='%s' and \"class_name\" = '%s%s'", $column_name, $this->prefix, $table_name);
 			$result = $this->_query ($query);
 
-			if (cubrid_num_rows ($result) > 0) $output = true;
-			else $output = false;
+			if (cubrid_num_rows ($result) > 0) $output = TRUE;
+			else $output = FALSE;
 
 			if ($result) cubrid_close_request ($result);
 
@@ -475,7 +500,7 @@
 		 * @param boolean $is_unique
 		 * @return void
 		 */
-		function addIndex ($table_name, $index_name, $target_columns, $is_unique = false)
+		function addIndex ($table_name, $index_name, $target_columns, $is_unique = FALSE)
 		{
 			if (!is_array ($target_columns)) {
 				$target_columns = array ($target_columns);
@@ -493,7 +518,7 @@
 		 * @param boolean $is_unique
 		 * @return void
 		 */
-		function dropIndex ($table_name, $index_name, $is_unique = false)
+		function dropIndex ($table_name, $index_name, $is_unique = FALSE)
 		{
 			$query = sprintf ("drop %s index \"%s\" on \"%s%s\"", $is_unique?'unique':'', $this->prefix .$index_name, $this->prefix, $table_name);
 
@@ -511,12 +536,12 @@
 			$query = sprintf ("select \"index_name\" from \"db_index\" where ".  "\"class_name\" = '%s%s' and \"index_name\" = '%s' ", $this->prefix, $table_name, $this->prefix .$index_name);
 			$result = $this->_query ($query);
 
-			if ($this->isError ()) return false;
+			if ($this->isError ()) return FALSE;
 
 			$output = $this->_fetch ($result);
 
-			if (!$output) return false;
-			return true;
+			if (!$output) return FALSE;
+			return TRUE;
 		}
 
 		/**
@@ -551,18 +576,18 @@
                         );
             $result = $this->_query ($query);
 
-            if ($this->isError ()) return false;
+            if ($this->isError ()) return FALSE;
 
             $output = $this->_fetch ($result);
-            if (!$output) return false;
+            if (!$output) return FALSE;
 
             $indexes_to_be_deleted = $output->data;
             foreach($indexes_to_be_deleted as $index)
             {
-                $this->dropIndex($index->class_name, $index->unprefixed_index_name, $index->is_unique == 'YES' ? true : false);
+                $this->dropIndex($index->class_name, $index->unprefixed_index_name, $index->is_unique == 'YES' ? TRUE : FALSE);
             }
 
-            return true;
+            return TRUE;
         }
 
 		/**
@@ -648,10 +673,10 @@
 
 				switch ($this->column_type[$type]) {
 					case 'integer' :
-						$size = null;
+						$size = NULL;
 						break;
 					case 'text' :
-						$size = null;
+						$size = NULL;
 						break;
 				}
 
@@ -715,12 +740,12 @@
 		 * @param boolean $with_values
 		 * @return resource
 		 */
-		function _executeInsertAct($queryObject, $with_values = true)
+		function _executeInsertAct($queryObject, $with_values = TRUE)
 		{
 			if($this->use_prepared_statements == 'Y')
 			{
 				$this->param = $queryObject->getArguments();
-				$with_values = false;		
+				$with_values = FALSE;
 			}
 			$query = $this->getInsertSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
@@ -741,12 +766,12 @@
 		 * @param boolean $with_values
 		 * @return resource
 		 */
-		function _executeUpdateAct($queryObject, $with_values = true)
+		function _executeUpdateAct($queryObject, $with_values = TRUE)
 		{
 			if($this->use_prepared_statements == 'Y')
 			{
 				$this->param = $queryObject->getArguments();
-				$with_values = false;					
+				$with_values = FALSE;
 			}
 			$query = $this->getUpdateSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
@@ -767,12 +792,12 @@
 		 * @param boolean $with_values
 		 * @return resource
 		 */
-		function _executeDeleteAct($queryObject, $with_values = true)
+		function _executeDeleteAct($queryObject, $with_values = TRUE)
 		{
 			if($this->use_prepared_statements == 'Y')
 			{
 				$this->param = $queryObject->getArguments();
-				$with_values = false;					
+				$with_values = FALSE;
 			}			
 			$query =  $this->getDeleteSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
@@ -796,10 +821,10 @@
 		 * @param boolean $with_values
 		 * @return Object
 		 */
-	   function _executeSelectAct($queryObject, $connection = null, $with_values = true) {
+	   function _executeSelectAct($queryObject, $connection = NULL, $with_values = TRUE) {
 			if ($this->use_prepared_statements == 'Y') {
 				$this->param = $queryObject->getArguments();
-				$with_values = false;
+				$with_values = FALSE;
 			}
 			$limit = $queryObject->getLimit();
 			if ($limit && $limit->isPageHandler())
@@ -855,12 +880,12 @@
 		function queryPageLimit($queryObject, $connection, $with_values){
             $limit = $queryObject->getLimit();
 		 	// Total count
-			$temp_where = $queryObject->getWhereString($with_values, false);
+			$temp_where = $queryObject->getWhereString($with_values, FALSE);
 		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString($with_values), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
 
             // Check for distinct query and if found update count query structure
             $temp_select = $queryObject->getSelectString($with_values);
-            $uses_distinct = strpos(strtolower($temp_select), "distinct") !== false;
+            $uses_distinct = strpos(strtolower($temp_select), "distinct") !== FALSE;
             $uses_groupby = $queryObject->getGroupByString() != '';
             if($uses_distinct || $uses_groupby) {
                 $count_query = sprintf('select %s %s %s %s'
@@ -944,7 +969,7 @@
 		 * @param int $list_count
 		 * @return string select paging sql
 		 */
-                function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {
+                function getSelectPageSql($query, $with_values = TRUE, $start_count = 0, $list_count = 0) {
 
                     $select = $query->getSelectString($with_values);
                     if($select == '') return new Object(-1, "Invalid query");
