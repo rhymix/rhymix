@@ -35,7 +35,7 @@
 			}
 
             // Get terms of user
-			$config->agreement = $this->_getAgreement();
+			$config->agreement = self::_getAgreement();
 
             if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
             if(!$config->image_name_max_width) $config->image_name_max_width = 90;
