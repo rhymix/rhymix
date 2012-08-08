@@ -201,7 +201,7 @@
             if(!$user_id) return;
 
             $args->user_id = $user_id;
-            $output = executeQuery('member.getMemberInfo', $args, $columnList);
+            $output = executeQuery('member.getMemberInfo', $args);
             if(!$output->toBool()) return $output;
             if(!$output->data) return;
 
