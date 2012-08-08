@@ -449,24 +449,33 @@
          * @brief Get a list of groups
          **/
         function getGroups($site_srl = 0) {
-            if(!$GLOBALS['__group_info__'][$site_srl]) {
-		if(!isset($site_srl)) $site_srl = 0;
-                $args->site_srl = $site_srl;
+			if(!$GLOBALS['__group_info__'][$site_srl]) 
+			{
+				$result = array();
+
+				if(!isset($site_srl))
+				{
+					$site_srl = 0;
+				}
+				$args->site_srl = $site_srl;
 				$args->sort_index = 'list_order';
 				$args->order_type = 'asc';
-                $output = executeQuery('member.getGroups', $args);
-                if(!$output->data) return;
+				$output = executeQueryArray('member.getGroups', $args);
+				if(!$output->toBool() || !$output->data)
+				{
+					return array();
+				}
 
-                $group_list = $output->data;
-                if(!is_array($group_list)) $group_list = array($group_list);
+				$group_list = $output->data;
 
-                foreach($group_list as $val) {
-                    $result[$val->group_srl] = $val;
-                }
+				foreach($group_list as $val) 
+				{
+					$result[$val->group_srl] = $val;
+				}
 
-                $GLOBALS['__group_info__'][$site_srl] = $result;
-            }
-            return $GLOBALS['__group_info__'][$site_srl];
+				$GLOBALS['__group_info__'][$site_srl] = $result;
+			}
+			return $GLOBALS['__group_info__'][$site_srl];
         }
 
         /**
