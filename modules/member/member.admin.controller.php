@@ -148,7 +148,8 @@
 				'colorset',
                 'profile_image', 'profile_image_max_width', 'profile_image_max_height',
                 'image_name', 'image_name_max_width', 'image_name_max_height',
-                'image_mark', 'image_mark_max_width', 'image_mark_max_height'
+                'image_mark', 'image_mark_max_width', 'image_mark_max_height',
+				'signature_editor_skin', 'sel_editor_colorset'
             );
 
 			$list_order = Context::get('list_order');

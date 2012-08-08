@@ -48,7 +48,7 @@
             if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
             if(!$config->skin) $config->skin = 'default';
             if(!$config->colorset) $config->colorset = 'white';
-            if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = "xpresseditor";
+            if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'xpresseditor';
             if(!$config->group_image_mark) $config->group_image_mark = "N";
 
 			if (!$config->identifier) $config->identifier = 'user_id';
@@ -61,6 +61,9 @@
 				$defaultModuleInfo = $oModuleModel->getDefaultMid();
 				$config->layout_srl = $defaultModuleInfo->layout_srl;
 			}
+
+			if (!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'xpresseditor';
+			if (!$config->sel_editor_colorset) $config->sel_editor_colorset = 'white';
 
             return $config;
         }

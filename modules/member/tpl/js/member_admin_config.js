@@ -86,20 +86,7 @@ jQuery(function($){
 		});
 	});
 
-	suForm.find('._imageType')
-		.find('input:checkbox:not(:checked)').closest('tr')
-			.find('._subItem').hide().end()
-			.end()
-		.end()
-		.find('input:checkbox')
-			.change(function(){
-				var $subItem = $(this).closest('tr').find('._subItem');
-				if($(this).is(':checked')) $subItem.show();
-				else $subItem.hide();
-			})
-		.end();
-
-		$('a.modalAnchor._extendFormEdit').bind('before-open.mw', function(event){
+	$('a.modalAnchor._extendFormEdit').bind('before-open.mw', function(event){
 		var memberFormSrl = $(event.target).parent().attr('id');
 		var checked = $(event.target).closest('tr').find('input:radio:checked').val();
 

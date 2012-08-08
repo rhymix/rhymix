@@ -142,8 +142,8 @@
                 $option->resizable = false;
                 $option->disable_html = true;
                 $option->height = 200;
-                $option->skin = $member_config->editor_skin;
-                $option->colorset = $member_config->editor_colorset;
+                $option->skin = $member_config->signature_editor_skin;
+                $option->colorset = $member_config->sel_editor_colorset;
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
