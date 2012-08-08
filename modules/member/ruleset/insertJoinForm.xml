@@ -4,7 +4,7 @@
     </customrules>
     <fields>
 		<field name="column_type" required="true" />
-		<field name="column_name" required="true" rule="alpha_number" />
+		<field name="column_id" required="true" rule="alpha_number" />
 		<field name="column_title" required="true" />
     </fields>
 </ruleset>

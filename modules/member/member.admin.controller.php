@@ -491,7 +491,7 @@
             $args->member_join_form_srl = Context::get('member_join_form_srl');
 
             $args->column_type = Context::get('column_type');
-            $args->column_name = strtolower(Context::get('column_name'));
+            $args->column_name = strtolower(Context::get('column_id'));
             $args->column_title = Context::get('column_title');
             $args->default_value = explode("\n", str_replace("\r", '', Context::get('default_value')));
             $args->required = Context::get('required');
