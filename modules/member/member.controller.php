@@ -639,20 +639,18 @@
 		 *
 		 * @return Object
          **/
-        function procMemberDeleteProfileImage() {
-            $member_srl = Context::get('member_srl');
-            if(!$member_srl) return new Object(0,'success');
+        function procMemberDeleteProfileImage($_memberSrl = 0) {
+            $member_srl = ($_memberSrl) ? $_memberSrl : Context::get('member_srl');
+            if(!$member_srl)
+			{
+				return new Object(0,'success');
+			}
 
             $logged_info = Context::get('logged_info');
 
-            if($logged_info->is_admin != 'Y') {
-                $oModuleModel = &getModel('module');
-                $config = $oModuleModel->getModuleConfig('member');
-                if($config->profile_image == 'N') return new Object(0,'success');
-            }
-
-            if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
-                $oMemberModel = &getModel('member');
+            if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
+			{
+				$oMemberModel = &getModel('member');
                 $profile_image = $oMemberModel->getProfileImage($member_srl);
                 FileHandler::removeFile($profile_image->file);
             }
@@ -664,20 +662,19 @@
 		 *
 		 * @return void
          **/
-        function procMemberDeleteImageName() {
-            $member_srl = Context::get('member_srl');
-            if(!$member_srl) return new Object(0,'success');
+        function procMemberDeleteImageName($_memberSrl = 0)
+		{
+            $member_srl = ($_memberSrl) ? $_memberSrl : Context::get('member_srl');
+            if(!$member_srl)
+			{
+				return new Object(0,'success');
+			}
 
             $logged_info = Context::get('logged_info');
 
-            if($logged_info->is_admin != 'Y') {
-                $oModuleModel = &getModel('module');
-                $config = $oModuleModel->getModuleConfig('member');
-                if($config->image_name == 'N') return new Object(0,'success');
-            }
-
-            if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
-                $oMemberModel = &getModel('member');
+            if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl)) 
+			{
+				$oMemberModel = &getModel('member');
                 $image_name = $oMemberModel->getImageName($member_srl);
                 FileHandler::removeFile($image_name->file);
             }
@@ -745,13 +742,19 @@
 		 *
 		 * @return Object
          **/
-        function procMemberDeleteImageMark() {
-            $member_srl = Context::get('member_srl');
-            if(!$member_srl) return new Object(0,'success');
+        function procMemberDeleteImageMark($_memberSrl = 0) 
+		{
+            $member_srl = ($_memberSrl) ? $_memberSrl : Context::get('member_srl');
+            if(!$member_srl)
+			{
+				return new Object(0,'success');
+			}
 
             $logged_info = Context::get('logged_info');
-            if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
-                $oMemberModel = &getModel('member');
+
+            if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl)) 
+			{
+				$oMemberModel = &getModel('member');
                 $image_mark = $oMemberModel->getImageMark($member_srl);
                 FileHandler::removeFile($image_mark->file);
             }
@@ -1965,8 +1968,9 @@
 
             $oDB->commit();
             // Name, image, image, mark, sign, delete
-            $this->procMemberDeleteImageName();
-            $this->procMemberDeleteImageMark();
+            $this->procMemberDeleteImageName($member_srl);
+            $this->procMemberDeleteImageMark($member_srl);
+            $this->procMemberDeleteProfileImage($member_srl);
             $this->delSignature($member_srl);
 
             return $output;
