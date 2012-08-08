@@ -31,27 +31,10 @@
 				<option cond="count($value['list']) == 0" value="{getFullUrl('')}{$value['href']}" selected="selected"|cond="!$subMenuTitle">{$value['text']}</option>
 			</block>
 			</select>
-			<div class="bmk active">
-				<a href="#bmk" class="bmAnchor" data-effect="fade" data-duration="200">{$lang->favorite}</a>
-				<ul id="bmk" class="bmContent">
-					<li loop="$favorite_list => $favorite">
-						<a href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</a>
-						<form class="action" action="">
-							<input type="hidden" name="module" value="admin" />
-							<input type="hidden" name="act" value="procAdminToggleFavorite" />
-							<input type="hidden" name="site_srl" value="0" />
-							<input type="hidden" name="module_name" value="{$favorite->module}" />
-							<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-							<button type="submit" class="text" title="{$lang->cmd_delete}">x</button>
-						</form>
-					</li>
-					<li cond="!is_array($favorite_list) || count($favorite_list) < 1">{$lang->no_data}</li>
-				</ul>
-			</div>
 			<select class="mnv">
 				<option>{$lang->favorite}</option>
 				<option loop="$favorite_list => $favorite" value="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</option>
 			</select>
 		</div>
 	</div>
-	<div class="body"> 
+	<div class="body"|cond="!is_array($favorite_list) || count($favorite_list) < 1" class="body shortcut"|cond="!is_array($favorite_list) || count($favorite_list) >= 1"> 

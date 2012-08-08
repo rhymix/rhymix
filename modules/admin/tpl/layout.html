@@ -1,8 +1,7 @@
-<!--#include("./_spHeader.html")-->
+<include target="./_spHeader.html" />
 <div class="content" id="content">
 	{$content}
 </div>
-<!--@if($parentSrl != 0)-->
-<!--#include("./_spLnb.content.html")-->
-<!--@end-->
-<!--#include("./_spFooter.html")-->
+<include target="./_spLnb.content.html" cond="$parentSrl != 0" />
+<include target="./_spShortcut.html" cond="!is_array($favorite_list) || count($favorite_list) >= 1" />
+<include target="./_spFooter.html" />

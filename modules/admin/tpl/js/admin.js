@@ -1401,10 +1401,14 @@ jQuery(function($){
 	$('body').ajaxComplete(function(){ hideWaitingFogLayer() });
 });
 
-// admin single column layout
 jQuery(function($){
+// admin single column layout
 	if($('.x>.body>.lnb').length == 0){ // When it have no lnb
-		$('.x>.body>.content').addClass('single'); // Add class single
+		$('.x>.body').addClass('single'); // Add class single
+	}
+// admin shortcut remove
+	if($('.x>.body>.sct>ul>li').length == 0){
+		$('.x>.body>.sct').remove();
 	}
 });
 
