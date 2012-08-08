@@ -71,7 +71,7 @@ class Validator
 
 		// predefined rules
 		$this->addRule(array(
-			'email'        => '/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/',
+			'email'        => '/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/',
 			'userid'       => '/^[a-z]+[\w-]*[a-z0-9_]+$/i',
 			'url'          => '/^(https?|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-]+)+(:\d+)?/',
 			'alpha'        => '/^[a-z]*$/i',

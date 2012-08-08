@@ -1706,7 +1706,7 @@ var Validator = xe.createApp('Validator', {
 	init : function() {
 		// {{{ add filters
 		// email
-		var regEmail = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+		var regEmail = /^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
 		this.cast('ADD_RULE', ['email', regEmail]);
 		this.cast('ADD_RULE', ['email_address', regEmail]);
 

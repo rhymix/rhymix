@@ -204,7 +204,7 @@ class Argument {
 			switch ($filter_type) {
 				case 'email' :
 				case 'email_address' :
-					if (!preg_match('/^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$/is', $val)) {
+					if (!preg_match('/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/is', $val)) {
 						$this->isValid = false;
 						$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key} ? $lang->{$key} : $key));
 					}
