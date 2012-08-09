@@ -426,7 +426,14 @@
 
 			foreach($extraList as $val) 
 			{
-				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s","%s"]);', $val->column_name, $val->column_title);
+				if($val->column_type == 'kr_zip' || $val->column_type == 'tel')
+				{
+					$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s[]","%s"]);', $val->column_name, $val->column_title);
+				}
+				else
+				{
+					$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s","%s"]);', $val->column_name, $val->column_title);
+				}
 			}
 
 			$js_code[] = '})(jQuery);';

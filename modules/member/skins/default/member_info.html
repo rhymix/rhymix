@@ -22,12 +22,12 @@
 {@$orgValue = $extend_form_list[$formInfo->member_join_form_srl]->value}
 			<!--@if($formInfo->type=='tel')-->
 				{@$value = $orgValue[0]}
-					<!--@if($orgValue[1])-->-<!--@end-->
+					<!--@if($orgValue[1])-->{@$value .= '-'}<!--@end-->
 				{@$value .= $orgValue[1]}
-					<!--@if($orgValue[2])-->-<!--@end-->
+					<!--@if($orgValue[2])-->{@$value .= '-'}<!--@end-->
 				{@$value .= $orgValue[2]}
 			<!--@elseif($formInfo->type=='kr_zip')-->
-				{@$value = $orgValue[0]}<!--@if($orgValue[1]&&$orgValue[0])--><br /><!--@end-->{@$value .= $orgValue[1]}
+				{@$value = $orgValue[0]}<!--@if($orgValue[1]&&$orgValue[0])--><br /><!--@end-->{@$value .= ' ' .$orgValue[1]}
 			<!--@elseif($formInfo->type=='checkbox' && is_array($orgValue))-->
 				{@$value = implode(", ",$orgValue)}
 			<!--@elseif($formInfo->type=='date')-->
