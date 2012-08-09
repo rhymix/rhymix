@@ -234,12 +234,26 @@
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 
             $content = $module_info->content;
-
-            $cache_file = sprintf("%sfiles/cache/page/%d.%s.cache.php", _XE_PATH_, $module_info->module_srl, Context::getLangType());
-            if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
             // widget controller re-run of the cache files
             $oWidgetController = &getController('widget');
             $oWidgetController->recompileWidget($content);
+
+			if($module_info->page_type == 'WIDGET')
+			{
+				$cache_file = sprintf("%sfiles/cache/page/%d.%s.cache.php", _XE_PATH_, $module_info->module_srl, Context::getLangType());
+			}
+			else if($module_info->page_type == 'OUTSIDE')
+			{
+				$cache_file = sprintf("%sfiles/cache/opage/%d.cache.php", _XE_PATH_, $module_info->module_srl);
+
+				if($module_info->mpath)
+				{
+					$mcacheFile =  sprintf("%sfiles/cache/opage/%d.m.cache.php", _XE_PATH_, $module_info->module_srl);
+					if(file_exists($mcacheFile)) FileHandler::removeFile($mcacheFile);
+				}
+
+			}
+            if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
         }
 
 		function procPageAdminArticleDocumentInsert()
