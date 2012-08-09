@@ -154,14 +154,14 @@ jQuery(function($){
 	$.fn.xeMenu = function(){
 		this
 			.attr('role', 'navigation') // WAI-ARIA role
-			.find('>.nav>li')
+			.find('>.nav-gnb>li')
 				.attr('role', 'menuitem') // WAI-ARIA role
 				.find('>ul').css('height','0').end()
 				.filter(':has(>ul)')
 					.attr('aria-haspopup', 'true') // WAI-ARIA
 				.end()
 			.end()
-			.find('>.nav')
+			.find('>.nav-gnb')
 			.mouseover(function(){
 				$(this)
 					.parent('.gnb').addClass('active').end()
@@ -1399,21 +1399,11 @@ function completeInstallModule(ret_obj) {
 
 jQuery(function($){
 	$('body').ajaxComplete(function(){ hideWaitingFogLayer() });
-});
-
-jQuery(function($){
 // admin single column layout
 	if($('.x>.body>.lnb').length == 0){ // When it have no lnb
 		$('.x>.body').addClass('single'); // Add class single
 	}
-// admin shortcut remove
-	if($('.x>.body>.sct>ul>li').length == 0){
-		$('.x>.body>.sct').remove();
-	}
-});
-
 // Details toggle in admin table
-jQuery(function($){
 	var viewBtn = $('.x .dsTg span.side>button.text');
 	var tdTitle = $('.x .dsTg td.title');
 	tdTitle.each(function(){
@@ -1429,10 +1419,7 @@ jQuery(function($){
 		viewBtn.toggleClass('details');
 		details.slideToggle(200);
 	});
-});
-
 // Toggle Content
-jQuery(function($){
 	var $h2h3 = $('.x .content .h2, .x .content .h3').not('.portlet .h2, .modal .h2');
 	$h2h3.each(function(){
 		var $sTog = $('<button type="button" class="sTog" title="Open/Close"><i class="icon-chevron-up"></i></button>');

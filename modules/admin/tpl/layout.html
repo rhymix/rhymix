@@ -1,7 +1,7 @@
 <include target="./_spHeader.html" />
-<div class="content" id="content">
+<div class="content" id="content" tabindex="0">
 	{$content}
 </div>
 <include target="./_spLnb.content.html" cond="$parentSrl != 0" />
-<include target="./_spShortcut.html" cond="!is_array($favorite_list) || count($favorite_list) >= 1" />
+<include target="./_spShortcut.html" />
 <include target="./_spFooter.html" />

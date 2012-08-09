@@ -16,7 +16,7 @@
 			</ul>
 		</div>
 		<div class="gnb">
-			<ul class="nav">
+			<ul class="nav-gnb">
 				<li loop="$gnbUrlList=>$key,$value" class="activeOn"|cond="$parentSrl==$key"><a href="{getFullUrl('')}{$value['href']}"><span>{$value['text']}</span></a>
 					<ul cond="count($value['list'])">
 						<li loop="$value['list']=>$key2,$value2"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
@@ -37,4 +37,4 @@
 			</select>
 		</div>
 	</div>
-	<div class="body"|cond="!is_array($favorite_list) || count($favorite_list) < 1" class="body shortcut"|cond="!is_array($favorite_list) || count($favorite_list) >= 1"> 
+	<div class="body"> 
