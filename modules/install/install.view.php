@@ -61,7 +61,6 @@
             $this->setTemplateFile('check_env');
         }
 
-
         /**
          * @brief Choose a DB
          **/

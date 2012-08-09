@@ -837,4 +837,198 @@
 		<value xml:lang="en"><![CDATA[Information on '<em>web server, DBMS, PHP version and extension, XE modules and addons</em>' is sent to the XE statistics collection server. This information is collected anonymously and used to improve our software only.<em> You don't have to agree to this.</em>]]></value>		
 		<value xml:lang="jp"><![CDATA['<em>ウェブサーバー、DBMS、PHPバージョンおよびExtension、XEモジュール、およびアドオン</em>'情報が、XE統計収集サーバーへ転送されます。より良いソフトウェアを製作するための目的で活用されます。情報は、匿名で収集され、外部へ公開することはありません。<em>この項目は、同意しなくても構いません。</em>]]></value>		
 	</item>
+	<item name="ftp_form_title">
+		<value xml:lang="ko"><![CDATA[FTP 계정 정보 입력]]></value>
+		<value xml:lang="en"><![CDATA[FTP Account Information]]></value>
+		<value xml:lang="jp"><![CDATA[サーバーのFTP情報の入力]]></value>
+		<value xml:lang="zh-CN"><![CDATA[设置FTP信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[輸入 FTP 資訊]]></value>
+		<value xml:lang="fr"><![CDATA[FTP 정보 입력]]></value>
+		<value xml:lang="de"><![CDATA[FTP-Server festlegen]]></value>
+		<value xml:lang="ru"><![CDATA[Введите данные FTP]]></value>
+		<value xml:lang="es"><![CDATA[Datos de conexión para FTP]]></value>
+		<value xml:lang="tr"><![CDATA[FTP Hesap Bilgileri]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin FTP]]></value>
+		<value xml:lang="mn"><![CDATA[FTP мэдээлэл оруулах]]></value>
+	</item>
+	<item name="ftp">
+		<value xml:lang="ko"><![CDATA[FTP]]></value>
+		<value xml:lang="en"><![CDATA[FTP]]></value>
+		<value xml:lang="jp"><![CDATA[FTP]]></value>
+		<value xml:lang="zh-CN"><![CDATA[FTP]]></value>
+		<value xml:lang="zh-TW"><![CDATA[FTP]]></value>
+		<value xml:lang="fr"><![CDATA[FTP]]></value>
+		<value xml:lang="de"><![CDATA[FTP]]></value>
+		<value xml:lang="ru"><![CDATA[FTP]]></value>
+		<value xml:lang="es"><![CDATA[FTP]]></value>
+		<value xml:lang="tr"><![CDATA[FTP]]></value>
+		<value xml:lang="vi"><![CDATA[FTP]]></value>
+		<value xml:lang="mn"><![CDATA[FTP]]></value>
+	</item>
+	<item name="ftp_host">
+		<value xml:lang="ko"><![CDATA[FTP 서버 주소]]></value>
+		<value xml:lang="en"><![CDATA[FTP hostname]]></value>
+		<value xml:lang="jp"><![CDATA[FTPサーバーアドレス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[FTP服务器名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[FTP 主機名稱]]></value>
+		<value xml:lang="de"><![CDATA[FTP-Server hostname]]></value>
+		<value xml:lang="tr"><![CDATA[FTP sistem adı]]></value>
+		<value xml:lang="vi"><![CDATA[Tên Host FTP]]></value>
+	</item>
+	<item name="ftp_port">
+		<value xml:lang="ko"><![CDATA[FTP port]]></value>
+		<value xml:lang="en"><![CDATA[FTP port]]></value>
+		<value xml:lang="jp"><![CDATA[FTPポート番号（port）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[FTP端口]]></value>
+		<value xml:lang="zh-TW"><![CDATA[FTP 埠口]]></value>
+		<value xml:lang="de"><![CDATA[FTP Port]]></value>
+		<value xml:lang="tr"><![CDATA[FTP portu]]></value>
+		<value xml:lang="vi"><![CDATA[Cổng kết nối]]></value>
+	</item>
+	<item name="about_ftp_password">
+		<value xml:lang="ko"><![CDATA[FTP Password는 저장되지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[FTP password will not be stored.]]></value>
+		<value xml:lang="jp"><![CDATA[FTP情報は保存できません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[FTP密码不会被保存。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不會儲存 FTP 密碼]]></value>
+		<value xml:lang="de"><![CDATA[Das Passwort des FTPs wird nicht gespeichert.]]></value>
+		<value xml:lang="tr"><![CDATA[FTP şifresi saklanmayacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Mật khẩu của FTP sẽ không lưu lại]]></value>
+	</item>
+	<item name="cmd_check_ftp_connect">
+		<value xml:lang="ko"><![CDATA[FTP 접속 확인]]></value>
+		<value xml:lang="en"><![CDATA[Check FTP Connection]]></value>
+		<value xml:lang="jp"><![CDATA[FTP接続を確認する]]></value>
+		<value xml:lang="zh-CN"><![CDATA[测试FTP连接]]></value>
+		<value xml:lang="zh-TW"><![CDATA[檢查 FTP 連線]]></value>
+		<value xml:lang="de"><![CDATA[Verbindung des FTPs checken]]></value>
+		<value xml:lang="es"><![CDATA[conexión de FTP confirmada]]></value>
+		<value xml:lang="tr"><![CDATA[FTP Bağlantısını kontrol ediniz]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểm tra kết nối bằng FTP]]></value>
+		<value xml:lang="mn"><![CDATA[FTP холболт шалгах]]></value>
+	</item>
+	<item name="msg_safe_mode_ftp_needed">
+		<value xml:lang="ko"><![CDATA[PHP의 <strong>safe_mode=On</strong>일 경우 XE의 정상적인 동작을 돕습니다.]]></value>
+		<value xml:lang="en"><![CDATA[When safe_mode setting of PHP is On, you should enter FTP account information to install XE.]]></value>
+		<value xml:lang="jp"><![CDATA[PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用XE程序。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[當 PHP 的安全模式(safe_mode)開啟時，請輸入相關 FTP 資訊，否則無法正常安裝或使用程式。]]></value>
+		<value xml:lang="fr"><![CDATA[PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다]]></value>
+		<value xml:lang="de"><![CDATA[Zur Installation und Nutzung des XEs muss die Angabe des FTPs festgestellt werden, wenn safe_mode in PHP 'An' ist.]]></value>
+		<value xml:lang="es"><![CDATA[Si la la variable safe_mode está activa[safe_mode=On], debe rellenar los datos de FTP para seguir instalando y usar con normalidad el XE.]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer PHP güvenli mod ayarları etkinse, XE'yi kurmak için FTP hesap bilgilerini girmelisiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu safe_mode của PHP mở, bạn có thể cài đặt các thành phần bổ xung cho XE một cách tự động qua FTP.]]></value>
+		<value xml:lang="mn"><![CDATA[PHP의 safe_mode가 Onбайх тохиолдолд , FTP мэдээллийг заавал оруулснаар XE идэвжvvлэх болон хэрэглэх боломжтой болно.]]></value>
+	</item>
+	<item name="msg_safe_mode_ftp_needed2">
+		<value xml:lang="ko"><![CDATA[모듈의 쉬운 설치 또는 업데이트가 가능해 집니다.]]></value>
+		<value xml:lang="en"><![CDATA[Easy installation or update of module is enabled.]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールのイージーインストール、または更新が可能になります。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可用的安裝或更新。]]></value>
+	</item>
+	<item name="msg_safe_mode_ftp_config">
+		<value xml:lang="ko"><![CDATA[이 정보는 <strong>files/config/ftp.config.php</strong> 파일에 저장 됩니다. 설치 후 환경설정 페이지에서도 등록, 변경, 제거 할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[This information is stored in <strong>files/config/ftp.config.php</strong>. You can add, change or delete this on the Settings page after the installation.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此資料會儲存在 <strong>files/config/ftp.config.php</strong> 檔案中。 安裝後可在設定頁面中新增、更改或刪除此資訊。]]></value>
+		<value xml:lang="de"><![CDATA[Die Angabe wird unter <strong>files/config/ftp.config.php</strong> gespeichert. Nach der Installation ist es auch möglich, dass die Angabe von Administrator modifiziert oder gelöscht werden kann.]]></value>
+	</item>
+	<item name="msg_ftp_not_connected">
+		<value xml:lang="ko"><![CDATA[localhost로의 FTP 접속 오류가 발생했습니다. FTP 포트 번호를 확인해주시거나 FTP 서비스가 가능한지 확인해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Connection to the localhost via FTP failed. Please check the port number and whether the FTP service is available.]]></value>
+		<value xml:lang="jp"><![CDATA[localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかを確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[发生本地(localhost)FTP连接错误。请确认ftp端口号及支持ftp服务与否。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[本地(localhost) FTP連線錯誤。請檢查 FTP 埠口並確認是否支援 FTP 功能。]]></value>
+		<value xml:lang="fr"><![CDATA[localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요]]></value>
+		<value xml:lang="de"><![CDATA[Ein Verbindungsfehler des FTPs an localhost ist aufgetreten. Bitte FTP_Port checken, oder ob FTP_Service möglich ist.]]></value>
+		<value xml:lang="ru"><![CDATA[Connection to localhost via FTP failed. Please check the port number and if FTP service is available.]]></value>
+		<value xml:lang="es"><![CDATA[Ha ocurrico un error de conexión al FTP del localhost. Verifique el puerto del FTP y/o el funcionamiento del servicio FTP.]]></value>
+		<value xml:lang="tr"><![CDATA[Yerel web alanına FTP bağlantısı sağlanamadı. Lütfen port numarasını ve FTP servisinin mevcut olup-olmadığını kontrol ediniz .]]></value>
+		<value xml:lang="vi"><![CDATA[Kết nối bằng FTP không thành công. Xin vui lòng kiểm tra lại thông tin tài khoản và cổng kết nối!]]></value>
+		<value xml:lang="mn"><![CDATA[localhost-ын FTP холболт амжилтгvй боллоо. FTP дугаараа шалгах буюу эсвэл FTP vйлчилгээг ашиглах боломжтой эсэхээ шалгана уу.]]></value>
+	</item>
+	<item name="msg_ftp_invalid_auth_info">
+		<value xml:lang="ko"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Authentication failed. Please check the username and password.]]></value>
+		<value xml:lang="jp"><![CDATA[ログインに失敗しました。FTPアクセス情報を再度確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[FTP登录失败。请确认输入的FTP信息。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[FTP登入失敗。請確認輸入的 FTP 資訊。]]></value>
+		<value xml:lang="fr"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요]]></value>
+		<value xml:lang="de"><![CDATA[Anmeldungsfehler mit der Angabe des FTPs Bitte die Angabe des FTPs festlegen.]]></value>
+		<value xml:lang="es"><![CDATA[Los datos de login para el FTP no son correctos. Veriféquelos.]]></value>
+		<value xml:lang="tr"><![CDATA[Kimlik doğrulama başarısız oldu. Lütfen kullanıcı adını ve şifreyi kontrol ediniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Xác nhận thất bại. Xin vui lòng kiểm tra lại tên sử dụng và mật khẩu.]]></value>
+		<value xml:lang="mn"><![CDATA[Таны оруулсан FTP мэдээллээр нэвтэрч чадсангvй. FTPмэдээллээ шалгана уу.]]></value>
+	</item>
+	<item name="msg_ftp_mkdir_fail">
+		<value xml:lang="ko"><![CDATA[FTP를 이용한 디렉토리 생성 명령에 실패했습니다. FTP 서버의 설정을 확인해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Failed to create a directory using FTP. Please check the permission of FTP account.]]></value>
+		<value xml:lang="jp"><![CDATA[FTPでのディレクトリ生成に失敗しました。FTPサーバーの設定を再度確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[新建文件夹失败。请确认 FTP服务器设置。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增資料夾失敗。請確認 FTP 主機設置。]]></value>
+		<value xml:lang="fr"><![CDATA[FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요]]></value>
+		<value xml:lang="de"><![CDATA[Der Befehl von Herstellung des Verzeichnisses durch FTP ist gescheitert. FTP_Server festlegen.]]></value>
+		<value xml:lang="es"><![CDATA[Ha fallado el comando de FTP para la creación de directorio. Verifique la configuración del servicio FTP en el servidor]]></value>
+		<value xml:lang="tr"><![CDATA[Dizin oluşturma başarısız oldu. Lütfen FTP hesap iznini kontrol ediniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Lỗi khi tạo thư mục. Xin vui lòng kiểm tra lại quyền truy cập FTP.]]></value>
+		<value xml:lang="mn"><![CDATA[FTP-г ашиглан eгсeн eгeгдлийг биелvvлж чадсангvй. FTP серверийн идэвхжvvлэлтээ шалгана уу.]]></value>
+	</item>
+	<item name="msg_ftp_chmod_fail">
+		<value xml:lang="ko"><![CDATA[FTP를 이용한 디렉토리의 속성 변경에 실패했습니다. FTP 서버의 설정을 확인해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Chmod failed. Please check the permission and configuration of the FTP server.]]></value>
+		<value xml:lang="jp"><![CDATA[FTPでのディレクトリ属性変更に失敗しました。FTPサーバーの設定を再度確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[修改文件夹属性失败。请确认 FTP服务器设置。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改資料夾權限失敗。請確認 FTP 主機設置。]]></value>
+		<value xml:lang="fr"><![CDATA[FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요]]></value>
+		<value xml:lang="de"><![CDATA[Die Modifikation der Zugriffsberechtigung des Verzeichnisses durch FTP ist gescheitert. FTP_Server festlegen.]]></value>
+		<value xml:lang="ru"><![CDATA[Chmod failed. Please check the permission and configuration of FTP server.]]></value>
+		<value xml:lang="es"><![CDATA[Ha fallado el comando de FTP para la modificación de atributos de directorio. Verifique la configuración del servicio FTP en el servidor.]]></value>
+		<value xml:lang="tr"><![CDATA[Chmod başarılamadı. Lütfen FTP sunucusunun izin ve yapılandırmasını kontrol ediniz.]]></value>
+		<value xml:lang="vi"><![CDATA[CHMOD thất bại. Xin vui lòng kiểm tra lại.]]></value>
+		<value xml:lang="mn"><![CDATA[FTP-г ашиглан eeрчлeлтийг хийж чадсангvй. FTP серверийн идэвхжvvлэлтээ шалгана уу.]]></value>
+	</item>
+	<item name="msg_ftp_connect_success">
+		<value xml:lang="ko"><![CDATA[FTP 접속 및 인증에 성공했습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Successfully connected to FTP server and authenticated.]]></value>
+		<value xml:lang="jp"><![CDATA[FTP接続、および認証に成功しました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[FTP连接成功。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[FTP連線成功。]]></value>
+		<value xml:lang="fr"><![CDATA[FTP 접속 및 인증 성공하였습니다]]></value>
+		<value xml:lang="de"><![CDATA[Die Verbindung zu FTP ist erfolgreich und verifiziert.]]></value>		
+		<value xml:lang="es"><![CDATA[conexión con éxito al FTP]]></value>
+		<value xml:lang="tr"><![CDATA[FTP sunucusu için bağlantı ve kimlik doğrulama sağlandı.]]></value>
+		<value xml:lang="vi"><![CDATA[Đã xác nhận và kết nối thành công tới máy chủ bằng FTP.]]></value>
+		<value xml:lang="mn"><![CDATA[FTP холболт болон баталгаажуулалт хийгдлээ.]]></value>
+	</item>
+	<item name="ftp_path_title">
+		<value xml:lang="ko"><![CDATA[FTP 경로 정보 입력]]></value>
+		<value xml:lang="en"><![CDATA[FTP Path Information]]></value>
+		<value xml:lang="jp"><![CDATA[FTPパス情報入力]]></value>
+		<value xml:lang="zh-CN"><![CDATA[输入FTP路径信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入 FTP 路經]]></value>
+		<value xml:lang="de"><![CDATA[Pfad des FTPs eingeben]]></value>
+		<value xml:lang="tr"><![CDATA[FTP Yolu Bilgileri]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy nhập thông tin đường dẫn của FTP.]]></value>
+	</item>
+	<item name="msg_ftp_installed_realpath">
+		<value xml:lang="ko"><![CDATA[설치된 XE의 절대경로]]></value>
+		<value xml:lang="en"><![CDATA[Absolute Path of XE]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされたXEの絶対パス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[XE绝对路径]]></value>
+		<value xml:lang="zh-TW"><![CDATA[XE絕對路經]]></value>
+		<value xml:lang="de"><![CDATA[absoluter Pfad, in dem XE installiert ist.]]></value>
+		<value xml:lang="tr"><![CDATA[XE Salt Yolu]]></value>
+		<value xml:lang="vi"><![CDATA[Đường dẫn thư mục đã cài đặt XE]]></value>
+	</item>
+	<item name="msg_ftp_installed_ftp_realpath">
+		<value xml:lang="ko"><![CDATA[설치된 XE의 FTP 경로 설정]]></value>
+		<value xml:lang="en"><![CDATA[Absolute FTP Path of XE]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされたXEのFTP絶対パス設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[FTP绝对路径设置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[XE的 FTP 絕對路經]]></value>
+		<value xml:lang="fr"><![CDATA[설치된 XE의 FTP 절대경로 설정]]></value>
+		<value xml:lang="de"><![CDATA[absoluten Pfad des FTPs, in dem XE installiert ist, festlegen.]]></value>
+		<value xml:lang="es"><![CDATA[설치된 XE의 FTP 절대경로 설정]]></value>
+		<value xml:lang="tr"><![CDATA[XE Salt FTP Yolu]]></value>
+		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP]]></value>
+	</item>
 </lang>
