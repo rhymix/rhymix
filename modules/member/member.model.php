@@ -548,6 +548,35 @@
             return $this->join_form_list;
         }
 
+		/**
+		 * get used join form list.
+		 *
+		 * @return array $joinFormList
+		 **/
+		function getUsedJoinFormList()
+		{
+			$args->sort_index = "list_order";
+			$output = executeQueryArray('member.getJoinFormList', $args);
+
+			if(!$output->toBool())
+			{
+				return array();
+			}
+
+			$joinFormList = array();
+			foreach($output->data as $val)
+			{
+				if($val->is_active != 'Y')
+				{
+					continue;
+				}
+
+				$joinFormList[] = $val;
+			}
+
+			return $joinFormList;
+		}
+
         /**
          * @brief Combine extend join form and member information (used to modify member information)
          **/

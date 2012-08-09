@@ -106,6 +106,8 @@
 			$identifierForm->value = $member_info->{$member_config->identifier};
 			Context::set('identifierForm', $identifierForm);
 
+			$this->addExtraFormValidatorMessage();
+
             // Set a template file
             $this->setTemplateFile('signup_form');
         }
@@ -157,6 +159,9 @@
 			$identifierForm->name = $member_config->identifier;
 			$identifierForm->value = $member_info->{$member_config->identifier};
 			Context::set('identifierForm', $identifierForm);
+
+			$this->addExtraFormValidatorMessage();
+
             // Set a template file
             $this->setTemplateFile('modify_info');
         }
@@ -403,6 +408,32 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
 			$this->setTemplateFile('modify_email_address');
+		}
+
+		/**
+		 * Add javascript codes into the header by checking values of member join form, required and others
+		 * @return void
+		 */
+		function addExtraFormValidatorMessage() {
+			$oMemberModel = &getModel('member');
+			$extraList = $oMemberModel->getUsedJoinFormList();
+
+			$js_code = array();
+			$js_code[] = '<script type="text/javascript">//<![CDATA[';
+			$js_code[] = '(function($){';
+			$js_code[] = 'var validator = xe.getApp("validator")[0];';
+			$js_code[] = 'if(!validator) return false;';
+
+			foreach($extraList as $val) 
+			{
+				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s","%s"]);', $val->column_name, $val->column_title);
+			}
+
+			$js_code[] = '})(jQuery);';
+			$js_code[] = '//]]></script>';
+			$js_code   = implode("\n", $js_code);
+
+			Context::addHtmlHeader($js_code);
 		}
     }
 ?>
