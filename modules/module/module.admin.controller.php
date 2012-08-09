@@ -73,7 +73,8 @@
         /**
          * @brief Copy Module
          **/
-        function procModuleAdminCopyModule() {
+        function procModuleAdminCopyModule() 
+		{
             // Get information of the target module to copy
             $module_srl = Context::get('module_srl');
             if(!$module_srl) return;
@@ -114,6 +115,7 @@
 			}
 
 
+
             $oDB = &DB::getInstance();
             $oDB->begin();
             // Copy a module
@@ -130,6 +132,19 @@
                 // Create a module
                 $output = $oModuleController->insertModule($clone_args);
                 $module_srl = $output->get('module_srl');
+
+				if($module_info->module == 'page' && $extra_vars->page_type == 'ARTICLE')
+				{
+					// copy document
+					$oDocumentAdminController = &getAdminController('document');
+					$copyOutput = $oDocumentAdminController->copyDocumentModule(array($extra_vars->document_srl), $module_srl, $module_info->category_srl);
+					$document_srls = $copyOutput->get('copied_srls');
+					if($document_srls && count($document_srls) > 0)
+					{
+						$extra_vars->document_srl = array_pop($document_srls);
+					}
+				}
+
                 // Grant module permissions
                 if(count($grant)) $oModuleController->insertModuleGrants($module_srl, $grant);
 				if ($extra_vars) $oModuleController->insertModuleExtraVars($module_srl, $extra_vars);
