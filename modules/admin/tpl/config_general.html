@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
 jQuery(function($){
 	$('#favicon').change(function(){
 		var re_favicon = /[^.]+\.ico$/
@@ -232,13 +232,6 @@ jQuery(function($){
 				<p class="a">
 					<input type="radio" name="qmail_compatibility" id="qmail_compatibility_y" value="Y" <!--@if($qmail_compatibility=='Y')-->checked="checked" <!--@end-->/> <label for="qmail_compatibility_y">{$lang->cmd_yes}</label>
 					<input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" <!--@if($qmail_compatibility!='Y')-->checked="checked" <!--@end-->/> <label for="qmail_compatibility_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q">{$lang->about_html_dtd}</p>
-				<p class="a">
-					<input type="radio" name="use_html5" id="xhtml" value="N" <!--@if($use_html5 != 'Y')-->checked="checked" <!--@end-->/> <label for="xhtml">{$lang->xhtml_transitional}</label>
-					<input type="radio" name="use_html5" id="html5" value="Y"  <!--@if($use_html5 == 'Y')-->checked="checked" <!--@end-->/> <label for="html5">{$lang->html5}</label>
 				</p>
 			</li>
 		</ul>

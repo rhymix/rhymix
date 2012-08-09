@@ -924,25 +924,6 @@
 		<value xml:lang="zh-CN"><![CDATA[设置本地时间.]]></value>
 		<value xml:lang="tr"><![CDATA[Yerel Zaman ayarlayın.]]></value>
 	</item>
-	<item name="about_html_dtd">
-		<value xml:lang="ko"><![CDATA[HTML 규격(DTD)을 선택하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Set HTML DTD.]]></value>
-		<value xml:lang="jp"><![CDATA[HTML DTDを設定してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[设置HTML DTD标签头.]]></value>
-		<value xml:lang="tr"><![CDATA[HTML DTD ayarlayın.]]></value>
-	</item>
-	<item name="html5">
-		<value xml:lang="ko"><![CDATA[HTML5]]></value>
-		<value xml:lang="en"><![CDATA[HTML5]]></value>
-		<value xml:lang="zh-CN"><![CDATA[HTML5]]></value>
-		<value xml:lang="tr"><![CDATA[HTML5]]></value>
-	</item>
-	<item name="xhtml_transitional">
-		<value xml:lang="ko"><![CDATA[XHTML 1.0 Transitional]]></value>
-		<value xml:lang="en"><![CDATA[XHTML 1.0 Transitional]]></value>
-		<value xml:lang="zh-CN"><![CDATA[XHTML 1.0 Transitional]]></value>
-		<value xml:lang="tr"><![CDATA[XHTML 1.0 Transitional]]></value>
-	</item>
 	<item name="about_question_mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 기기에서 접속할 때 모바일 페이지를 보여줄까요?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to show the mobile page when users access the website with their mobile phone?]]></value>

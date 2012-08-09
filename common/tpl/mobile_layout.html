@@ -1,19 +1,15 @@
-<!--@if($db_info->use_html5=='Y')-->
 <!DOCTYPE html>
-<!--@else-->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--@end-->
-<html xmlns="http://www.w3.org/1999/xhtml" lang="{Context::getLangType()}" xml:lang="{Context::getLangType()}">
+<html lang="{Context::getLangType()}">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes, target-densitydpi=medium-dpi" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 <title>{Context::getBrowserTitle()}</title>
 {@ $css_files = Context::getCssFile() }
 <!--@foreach($css_files as $key => $css_file)-->
 <!--@if($css_file['targetie'])-->
     <!--[if {$css_file['targetie']}]>
 <!--@end-->
-    <link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
+    <link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}" />
 <!--@if($css_file['targetie'])-->
     <![endif]-->
 <!--@end-->
@@ -23,7 +19,7 @@
 <!--@if($js_file['targetie'])-->
     <!--[if {$js_file['targetie']}]>
 <!--@end-->
-    <script type="text/javascript" src="{$js_file['file']}"></script>
+    <script src="{$js_file['file']}"></script>
 <!--@if($js_file['targetie'])-->
     <![endif]-->
 <!--@end-->
@@ -39,11 +35,9 @@
 
 <link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
 <link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
-<!--[if lt IE 9]>
-<script type="text/javascript" src="../js/html5.js" cond="$db_info->use_html5=='Y'"></script>
-<![endif]-->
+<!--[if lt IE 9]><script src="../js/html5.js"></script><![endif]-->
 {@ $ssl_actions = Context::getSSLActions() }
-    <script type="text/javascript">//<![CDATA[
+    <script>//<![CDATA[
         var current_url = "{$current_url}";
         var request_uri = "{$request_uri}";
 <!--@if($vid)-->var xeVid = "{$vid}";<!--@end-->
@@ -69,7 +63,7 @@
 <!--@if($js_file['targetie'])-->
     <!--[if {$js_file['targetie']}]>
 <!--@end-->
-    <script type="text/javascript" src="{$js_file['file']}"></script>
+    <script src="{$js_file['file']}"></script>
 <!--@if($js_file['targetie'])-->
     <![endif]-->
 <!--@end-->

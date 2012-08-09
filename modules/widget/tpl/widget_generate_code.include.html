@@ -49,7 +49,7 @@
 				<input type="hidden" name="{$id}" value="" class="vLang" />
 				<input type="text" id="{$id}" class="vLang" />
 				<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
-				<script type="text/javascript">
+				<script>
 					xe.registerApp(new xe.MultiLangManager('{$id}'));
 				</script>
 			</div>
@@ -59,7 +59,7 @@
 				<input type="hidden" name="{$id}" value="" class="vLang" />
 				<textarea cond="$var->type == 'textarea'" id="{$id}" class="vLang" rows="8" cols="42"></textarea>
 				<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
-				<script type="text/javascript">
+				<script>
 					xe.registerApp(new xe.MultiLangManager('{$id}'));
 				</script>
 			</div>
@@ -83,7 +83,7 @@
 				<button type="button" class="text multiorder_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
 				<button type="button" class="text multiorder_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
 				<button type="button" class="text multiorder_del" style="vertical-align:top">{$lang->cmd_delete}</button>
-				<script type="text/javascript">
+				<script>
 					xe.registerApp(new xe.MultiOrderManager('{$id}'));
 				</script>
 			</block>
@@ -112,7 +112,7 @@
 				<button type="button" class="text modulelist_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
 				<button type="button" class="text modulelist_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
 				<button type="button" class="text modulelist_del" style="vertical-align:top">{$lang->cmd_delete}</button>
-				<script type="text/javascript">
+				<script>
 					xe.registerApp(new xe.ModuleListManager('{$id}'));
 				</script>
 
@@ -171,7 +171,7 @@
 					<p class="a"><select class="moduleList" style="width:290px;"></select></p>
 					<p class="a"><select class="moduleIdList" style="width:290px;"></select> <button class="text">{$lang->cmd_select}</button></p>
 				</div>
-				<script type="text/javascript">
+				<script>
 					xe.registerApp(new xe.MidManager('{$id}'));
 				</script>
 			</block>
@@ -188,6 +188,6 @@
 	</li>
 </block>
 </ul>
-<script type="text/javascript">
+<script>
 	xe.current_lang = "{$lang_type}";
 </script>

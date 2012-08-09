@@ -419,7 +419,7 @@
 			$extraList = $oMemberModel->getUsedJoinFormList();
 
 			$js_code = array();
-			$js_code[] = '<script type="text/javascript">//<![CDATA[';
+			$js_code[] = '<script>//<![CDATA[';
 			$js_code[] = '(function($){';
 			$js_code[] = 'var validator = xe.getApp("validator")[0];';
 			$js_code[] = 'if(!validator) return false;';

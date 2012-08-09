@@ -375,7 +375,7 @@ function doAddWidgetCode(widget_code) {
 
         var cssfile = request_uri+'/'+cssfile;
         if(typeof(document.createStyleSheet)=='undefined') {
-            var css ='<link rel="stylesheet" href="'+cssfile+'" type="text/css" charset="UTF-8" />';
+            var css ='<link rel="stylesheet" href="'+cssfile+'" />';
             var dummy  = xCreateElement("DIV");
             xInnerHtml(dummy , css);
             document.body.appendChild(dummy);

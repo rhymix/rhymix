@@ -1,6 +1,6 @@
 <load target="js/member_admin_config.js" usecdn="true" />
 <load target="../../editor/tpl/js/editor_module_config.js" usecdn="true" />
-<script type="text/javascript">
+<script>
 	xe.lang.msg_delete_extend_form = '{$lang->msg_delete_extend_form}';
 	xe.lang.confirm_delete = '{$lang->confirm_delete}';
 	xe.lang.cmd_delete = '{$lang->cmd_delete}';
@@ -192,7 +192,7 @@
 								</select>
 								<select name="sel_editor_colorset" id="sel_editor_colorset" style="display:none">
 								</select>
-								<script type="text/javascript">//<![CDATA[
+								<script>//<![CDATA[
 									getEditorSkinColorList('{$config->signature_editor_skin}','{$config->sel_editor_colorset}');
 								//]]></script>
 							</div>

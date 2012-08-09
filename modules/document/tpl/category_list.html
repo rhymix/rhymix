@@ -6,7 +6,7 @@
 
 <load target="js/document_category.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
-<script type="text/javascript">
+<script>
     var category_title = "{$lang->category}";
 </script>
 
@@ -28,7 +28,7 @@
 	</ul>
 </div>
 <span style="float:right"><a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="button black"><span>{$lang->cmd_remake_cache}</span></a></span>
-<script type="text/javascript">
+<script>
     var simpleTreeCollection;
     var max_menu_depth = 999;
     var lang_confirm_delete = "{$lang->confirm_delete}";

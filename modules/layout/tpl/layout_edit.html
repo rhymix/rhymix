@@ -15,7 +15,7 @@
 		<li loop="$layout_image_list => $no, $file">
 			{@$ext=substr(strrchr($file,'.'),1)}
 			<div class="a uploaded_image">
-				<script cond="$ext == 'swf' || $ext == 'flv'" type="text/javascript">
+				<script cond="$ext == 'swf' || $ext == 'flv'">
 					//<![CDATA[
 					displayMultimedia('{getUrl('')}{$layout_image_path}{$file}', '100px', '100px');
 					//]]>

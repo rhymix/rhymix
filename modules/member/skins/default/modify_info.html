@@ -4,7 +4,7 @@
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
 <h1 class="h1">{$lang->msg_update_member}</h1>
-<script type="text/javascript" >
+<script>
 	xe.lang.deleteProfileImage = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
@@ -52,7 +52,7 @@
 		<span class="btn"><a href="{getUrl('act','dispMemberInfo','member_srl','')}">{$lang->cmd_cancel}</a></span>
 	</div>
 </form>
-<script type="text/javascript">
+<script>
 (function($){
     $(function(){
         var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){

@@ -124,7 +124,7 @@
             if(!$input_name) return new Object(-1, 'msg_not_permitted');
 
 
-            $addscript = sprintf('<script type="text/javascript">//<![CDATA[
+            $addscript = sprintf('<script>//<![CDATA[
                             var selected_filebox_input_name = "%s";
                           //]]></script>',$input_name);
             Context::addHtmlHeader($addscript);

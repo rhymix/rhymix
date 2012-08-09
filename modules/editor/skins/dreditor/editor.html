@@ -401,7 +401,7 @@
 			<!--@if($allow_fileupload)-->
 			<!--%import("js/uploader.js",optimized=false)-->
 			<!--%import("../../tpl/js/swfupload.js",optimized=false)-->
-			<script type="text/javascript">//<![CDATA[
+			<script>//<![CDATA[
                 uploaderSettings=
                     {
 					"editorSequence" : {$editor_sequence},
@@ -613,7 +613,7 @@
 					</ul>
 					
 					<!-- JS for Prototype -->
-					<script type="text/javascript">
+					<script>
 					//<![CDATA[
 						jQuery(function($){
 							$('.wToolbar button').slice(0,9).append('<span class="nx"></span>');
@@ -658,9 +658,8 @@
 <!-- /에디터 -->
 
 <!-- 에디터 활성화 -->
-<script type="text/javascript">//<![CDATA[
+<script>//<![CDATA[
 var editor_path = "{$editor_path}";
-
 var auto_saved_msg = "{$lang->msg_auto_saved}";
 var delete_dr_confirm_msg = "{$lang->edit->msg_dr_delete_confirm}";
 var no_selected_object_msg = "{$lang->edit->msg_no_selected_object}";
