@@ -302,7 +302,7 @@
 					case 'themes' : {
 										$is_theme = true;
 										$module_name = $skin_parse[count($skin_parse)-1];
-										$skin_info->name = $theme_name.'.'.$module_name;
+										$skin_info->name = $theme_name.'|@|'.$module_name;
 										break;
 									}
 					case 'modules' : {

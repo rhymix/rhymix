@@ -38,9 +38,27 @@
             if(!$this->grant->access) return new Object(-1,'msg_not_permitted');
 
             $config = $oModuleModel->getModuleConfig('integration_search');
-            if(!$config->skin) $config->skin = 'default';
+			if(!$config->skin)
+			{
+				$config->skin = 'default';
+				$template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
+			}
+			else
+			{
+				//check theme
+				$config_parse = explode('|@|', $config->skin);
+				if (count($config_parse) > 1)
+				{
+					$template_path = sprintf('./themes/%s/modules/integration_search/', $config_parse[0]);
+				}
+				else
+				{
+					$template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
+				}
+			}
+			// Template path
+			$this->setTemplatePath($template_path);
             Context::set('module_info', unserialize($config->skin_vars));
-            $this->setTemplatePath($this->module_path."/skins/".$config->skin."/");
 
             $target = $config->target;
             if(!$target) $target = 'include';

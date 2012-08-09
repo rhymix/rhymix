@@ -195,6 +195,16 @@
 			// check agreement field exist
 			if ($config->agreement) return true;
 
+			if($config->skin)
+			{
+				$config_parse = explode('.', $config->skin);
+				if (count($config_parse) > 1)
+				{
+					$template_path = sprintf('./themes/%s/modules/member/', $config_parse[0]);
+					if(is_dir($template_path)) return true;
+				}
+			}
+
 			// supprot multilanguage agreement.
 			if (is_readable('./files/member_extra_info/agreement.txt')) return true;
 
@@ -293,6 +303,21 @@
 				$config->identifier = $identifier;
 				unset($config->agreement);
 				$output = $oModuleController->updateModuleConfig('member', $config);
+			}
+
+			if($config->skin)
+			{
+				$config_parse = explode('.', $config->skin);
+				if (count($config_parse) > 1)
+				{
+					$template_path = sprintf('./themes/%s/modules/member/', $config_parse[0]);
+					if(is_dir($template_path))
+					{
+						$config->skin = implode('|@|', $config_parse);
+						$oModuleController = &getController('module');
+						$oModuleController->updateModuleConfig('member', $config);
+					}
+				}
 			}
 
 			if (is_readable('./files/member_extra_info/agreement.txt'))

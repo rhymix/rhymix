@@ -11,24 +11,43 @@ class HTMLDisplayHandler {
 		$oTemplate = &TemplateHandler::getInstance();
 
 		// compile module tpl
-		if ($oModule->module_info->module == $oModule->module)
-			$skin = $oModule->origin_module_info->skin;
-		else
-			$skin = $oModule->module_config->skin;
+		// deprecated themes skin 
 
-		if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin') === false){
-			if ($skin && is_string($skin)){
-				$theme_skin = explode('.', $skin);
-				$template_path = $oModule->getTemplatePath();
-				if (count($theme_skin) == 2) {
-					$theme_path = sprintf('./themes/%s',$theme_skin[0]);
-					if(substr($theme_path,0,strlen($theme_path)) != $theme_path)
-						$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
-				}	
-			}else{
+		$template_path = $oModule->getTemplatePath();
+
+		if(!is_dir($template_path))
+		{
+			if ($oModule->module_info->module == $oModule->module)
+				$skin = $oModule->origin_module_info->skin;
+			else
+				$skin = $oModule->module_config->skin;
+
+			if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin') === false)
+			{
+				if ($skin && is_string($skin))
+				{
+					$theme_skin = explode('|@|', $skin);
+					$template_path = $oModule->getTemplatePath();
+					if (count($theme_skin) == 2) 
+					{
+						$theme_path = sprintf('./themes/%s',$theme_skin[0]);
+						if(substr($theme_path,0,strlen($theme_path)) != $theme_path)
+						{
+							$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
+						}
+					}	
+				}
+				else
+				{
+					$template_path = $oModule->getTemplatePath();
+				}
+			}
+			else 
+			{
 				$template_path = $oModule->getTemplatePath();
 			}
-		}else $template_path = $oModule->getTemplatePath();
+		}
+
 		$tpl_file = $oModule->getTemplateFile();
 
 		$output = $oTemplate->compile($template_path, $tpl_file);

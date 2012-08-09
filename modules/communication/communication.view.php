@@ -19,7 +19,7 @@
 
             Context::set('communication_config', $this->communication_config);
 
-			$config_parse = explode('.', $skin);
+			$config_parse = explode('|@|', $skin);
 			if (count($config_parse) > 1){
 				$tpl_path = sprintf('./themes/%s/modules/communication/', $config_parse[0]);
 			}else{

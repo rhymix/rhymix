@@ -22,9 +22,26 @@
 
             $skin = $this->member_config->skin;
             // Set the template path
-            $tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
-            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
-            $this->setTemplatePath($tpl_path);
+			if(!$skin)
+			{
+				$skin = 'default';
+				$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
+			}
+			else
+			{
+				//check theme
+				$config_parse = explode('|@|', $skin);
+				if (count($config_parse) > 1)
+				{
+					$template_path = sprintf('./themes/%s/modules/member/', $config_parse[0]);
+				}
+				else
+				{
+					$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
+				}
+			}
+			// Template path
+			$this->setTemplatePath($template_path);
 
 			$oLayoutModel = &getModel('layout');
 			$layout_info = $oLayoutModel->getLayout($this->member_config->layout_srl);
