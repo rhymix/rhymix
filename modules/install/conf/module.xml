@@ -9,7 +9,6 @@
         <action name="dispInstallDBForm" type="view" standalone="true" />
         <action name="dispInstallConfigForm" type="view" standalone="true" />
         <action name="dispInstallManagerForm" type="view" standalone="true" />
-        <action name="procInstallAgreement" type="controller" standalone="true" />
         <action name="procCubridDBSetting" type="controller" standalone="true" ruleset="cubrid" />
         <action name="procFirebirdDBSetting" type="controller" standalone="true" ruleset="firebird" />
         <action name="procMssqlDBSetting" type="controller" standalone="true" ruleset="mssql" />

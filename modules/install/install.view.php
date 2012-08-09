@@ -50,6 +50,7 @@
 				}
 			}
 
+			Context::set('l', Context::getLangType());
 			$this->setTemplateFile('introduce');
         }
 

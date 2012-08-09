@@ -23,26 +23,6 @@
         }
 
 		/**
-		 * @brief LGPL, Enviroment gathering agreement
-		 **/
-		function procInstallAgreement()
-		{
-			global $lang;
-			$requestVars = Context::gets('lgpl_agree', 'enviroment_gather');
-			if($requestVars->lgpl_agree != 'Y') {
-				return new Object('-1', $lang->msg_license_agreement_alert);
-			}
-
-			$_SESSION['lgpl_agree'] = $requestVars->lgpl_agree;
-			if($requestVars->enviroment_gather=='Y') {
-				FileHandler::writeFile('./files/env/install','1');
-			}
-
-			$url = getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
-			header('location:'.$url);
-		}
-
-		/**
 		 * @brief cubrid db setting wrapper, becase Server Side Validator...
 		 * Server Side Validatro can use only one proc, one ruleset
 		 **/
