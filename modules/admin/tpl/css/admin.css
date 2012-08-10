@@ -119,7 +119,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .gnb{height:34px;clear:both;border:1px solid #c1c1c1;border-left:0;border-right:0;background-color:#efefef;background:#efefef -webkit-gradient(linear, 0% 0%, 0% 100%, from(#efefef), to(#dcdcdc));background:#efefef -moz-linear-gradient(top, #efefef, #dcdcdc);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#efefef, endColorStr=#dcdcdc);zoom:1}
 .x .gnb:after{content:"";display:block;clear:both}
 .x .gnb .nav-gnb{float:left;position:relative;display:inline-block;*display:inline;zoom:1;margin:0 0 0 20px;padding:1px;list-style:none}
-.x .gnb .nav-gnb ul{_position:absolute;display:block;_display:inline;zoom:1;clear:both;margin:0;padding:0;border:0;overflow:hidden}
+.x .gnb .nav-gnb ul{_position:absolute;display:block;_display:inline;zoom:1;clear:both;margin:0;padding:0;border:0;overflow:hidden;height:0}
 .x .gnb.active .nav-gnb{top:-5px;padding:5px 5px 5px 0;margin:0 0 -100% 20px;border:1px solid #aaa;background:#fff;box-shadow:0 0 10px #999;border-radius:5px}
 .x .gnb.active .nav-gnb ul{top:0;_position:relative;box-shadow:none;display:block;_display:inline;clear:both;padding:0;margin:0;border:0}
 .x .gnb .nav-gnb:after{content:"";display:block;clear:both}

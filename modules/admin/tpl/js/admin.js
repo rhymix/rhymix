@@ -156,7 +156,6 @@ jQuery(function($){
 			.attr('role', 'navigation') // WAI-ARIA role
 			.find('>.nav-gnb>li')
 				.attr('role', 'menuitem') // WAI-ARIA role
-				.find('>ul').css('height','0').end()
 				.filter(':has(>ul)')
 					.attr('aria-haspopup', 'true') // WAI-ARIA
 				.end()
@@ -171,28 +170,6 @@ jQuery(function($){
 				$(this)
 					.parent('.gnb').removeClass('active').end()
 					.find('>li>ul').css('height','0').end()
-			})
-			.focusout(function(){
-				var $this = $(this);
-				setTimeout(function(){
-					if(!$this.find(':focus').length) {
-						$this.mouseleave();
-					}
-				}, 1);
-			})
-			.delegate('a', {
-				focus : function(){
-					$(this).mouseover();
-				}
-			});
-		this
-			.find('>.bmk')
-			.removeClass('active')
-			.mouseover(function(){
-				$(this).addClass('active')
-			})
-			.mouseleave(function(){
-				$(this).removeClass('active')
 			})
 			.focusout(function(){
 				var $this = $(this);
