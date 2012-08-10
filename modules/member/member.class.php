@@ -60,7 +60,7 @@
             $oModuleModel = &getModel('module');
             $args = $oModuleModel->getModuleConfig('member');
 
-			$isInstall = ($args === null);
+			$isNotInstall = ($args === null);
 
             // Set the basic information
             $args->enable_join = 'Y';
@@ -85,7 +85,7 @@
 
 			if(!$args->signupForm || !is_array($args->signupForm))
 			{
-				$identifier = $isInstall ? 'email_address' : 'user_id';
+				$identifier = $isNotInstall ? 'email_address' : 'user_id';
 
 				$args->signupForm = $oMemberAdminController->createSignupForm($identifier);
 				$args->identifier = $identifier;
