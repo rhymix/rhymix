@@ -1,0 +1,70 @@
+
+HTML Parser for PHP 4
+---------------------
+
+This is a simple PHP based HTML parser.
+
+How to Use
+----------
+
+Simply copy src/htmlparser.inc to a location in your
+codebase where you'd like to be able to include it.
+The PHP file which uses the parser might look like
+this:
+
+<?
+  include ("htmlparser.inc");
+
+  $htmlText = "... HTML text here ...";
+  HtmlParser parser = new HtmlParser ($htmlText);
+  while ($parser->parse()) {
+     
+      // Data you can use here:
+      //
+      // $parser->iNodeType 
+      // $parser->iNodeName
+      // $parser->iNodeValue
+      // $parser->iNodeAttributes     
+
+  }
+
+You will find additional documentation for each
+field in the source code.
+
+?>
+
+
+Files of Interest
+-----------------
+
+src/htmlparser.inc   -- Has HtmlParser class
+src/html2text.inc    -- Has Html2Text class
+src/ex_dumptags.php  -- Example: Dumps HTML nodes from test HTML string
+src/ex_html2text.php -- Example: Dumps text for test HTML string
+
+Running examples offline
+------------------------
+
+On a Unix system, you can run the examples as follows
+if you have PHP installed:
+
+ cd src
+ php < ex_dumptags.php
+ php < ex_html2text.php
+
+
+License
+-------
+
+This is an open source project. The license is
+based on the Apache Software License. See the file
+named LICENSE.
+
+Author
+------
+
+The parser and the HTML-to-text example were written
+by Jose Solorzano of Starnetsys, LLC. If you need a
+program or website developed, professionally, within
+budget, and on time, contact us (http://starnetsys.com)
+

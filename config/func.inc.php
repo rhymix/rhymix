@@ -775,8 +775,11 @@
 	 * @return string
      **/
     function removeHackTag($content) {
+		$oEmbedFilter = EmbedFilter::getInstance();
+		$oEmbedFilter->check($content);
+
         // change the specific tags to the common texts
-        $content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet|iframe)(/*)[\w\s>])@i', '&lt;$1', $content);
+        $content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet)(/*)[\w\s>])@i', '&lt;$1', $content);
 
         /**
          * Remove codes to abuse the admin session in src by tags of imaages and video postings
