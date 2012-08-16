@@ -226,5 +226,8 @@
 		<domain name="http://www.travelro.co.kr" desc="트래블로">
 			<pattern>http://www.travelro.co.kr/</pattern>
 		</domain>
+		<domain name="http://www.vimeo.com" desc="vimeo.com">
+			<pattern>http://player.vimeo.com/</pattern>
+		</domain>
 	</iframe>
 </whiteurl>
