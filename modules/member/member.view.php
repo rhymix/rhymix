@@ -90,8 +90,92 @@
             unset($extendForm->find_member_answer);
             Context::set('extend_form_list', $extendForm);
 
+			$this->_getDisplayedMemberInfo($member_info, $extendForm, $this->member_config);
+
             $this->setTemplateFile('member_info');
         }
+
+		function _getDisplayedMemberInfo($memberInfo, $extendFormInfo, $memberConfig)
+		{
+			$displayDatas = array();
+			foreach($memberConfig->signupForm as $no=>$formInfo)
+			{
+				if(!$formInfo->isUse)
+				{
+					continue;
+				}
+
+				if($formInfo->name == 'password' || $formInfo->name == 'find_account_question')
+				{
+					continue;
+				}
+
+				if($memberInfo->member_srl != $logged_info->member_srl && $formInfo->isPublic != 'Y')
+				{
+					continue;
+				}
+				
+				$item = $formInfo;
+				
+				if($formInfo->isDefaultForm)
+				{
+					$item->title = Context::getLang($formInfo->name);
+					$item->value = $memberInfo->{$formInfo->name};
+
+					if($formInfo->name == 'profile_image' && $memberInfo->profile_image)
+					{
+						$target = $memberInfo->profile_image;
+						$item->value = '<img src="'.$target->src.'" />';
+					}
+					elseif($formInfo->name == 'image_name' && $memberInfo->image_name)
+					{
+						$target = $memberInfo->image_name;
+						$item->value = '<img src="'.$target->src.'" />';
+					}
+					elseif($formInfo->name == 'image_mark' && $memberInfo->image_mark)
+					{
+						$target = $memberInfo->image_mark;
+						$item->value = '<img src="'.$target->src.'" />';
+					}
+					elseif($formInfo->name == 'birthday' && $memberInfo->birthday)
+					{
+						$item->value = zdate($item->value, 'Y-m-d');
+					}
+				}
+				else
+				{
+					$item->title = $extendFormInfo[$formInfo->member_join_form_srl]->column_title;
+					$orgValue = $extendFormInfo[$formInfo->member_join_form_srl]->value;
+					
+					if($formInfo->type=='tel')
+					{
+						$item->value = implode('-', $orgValue);
+					}
+					elseif($formInfo->type=='kr_zip')
+					{
+						$item->value = implode(' ', $orgValue);
+					}
+					elseif($formInfo->type=='checkbox' && is_array($orgValue))
+					{
+						$item->value = implode(", ",$orgValue);
+					}
+					elseif($formInfo->type=='date')
+					{
+						$item->value = zdate($orgValue, "Y-m-d");
+					}
+					else
+					{
+						$item->value = nl2br($orgValue);
+					}
+				}
+
+				$displayDatas[] = $item;
+			}
+
+			debugPrint($displayDatas);
+			Context::set('displayDatas', $displayDatas);
+			return $displayDatas;
+		}
 
         /**
          * @brief Display member join form
