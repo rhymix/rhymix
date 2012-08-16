@@ -1,5 +1,4 @@
 <?php
-require_once(_XE_PATH_.'classes/security/EmbedFilter.class.php');
 require_once(_XE_PATH_.'modules/document/document.item.php');
 
 /**

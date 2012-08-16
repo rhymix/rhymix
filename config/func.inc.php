@@ -775,6 +775,7 @@
 	 * @return string
      **/
     function removeHackTag($content) {
+		require_once(_XE_PATH_.'classes/security/EmbedFilter.class.php');
 		$oEmbedFilter = EmbedFilter::getInstance();
 		$oEmbedFilter->check($content);
 
