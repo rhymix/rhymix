@@ -370,6 +370,4 @@
 			return mysqli_free_result($result);		
 		}		
     }
-
-return new DBMysqli;
 ?>

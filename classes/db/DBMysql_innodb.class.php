@@ -159,6 +159,4 @@
             if(!$output) return false;
         }
     }
-
-return new DBMysql_innodb;
 ?>

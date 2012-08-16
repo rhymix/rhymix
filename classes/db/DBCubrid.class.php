@@ -1003,6 +1003,4 @@
                     return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
                 }
 }
-
-	return new DBCubrid;
 ?>

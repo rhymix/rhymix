@@ -633,6 +633,4 @@
 			return $sql;
 		}
 }
-
-return new DBSqlite3_pdo;
 ?>
