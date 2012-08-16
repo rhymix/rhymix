@@ -48,7 +48,6 @@
 			if($layout_info)
 			{
 				$this->setLayoutPath($layout_info->path);
-				$this->setLayoutFile('layout');
 			}
         }
 
