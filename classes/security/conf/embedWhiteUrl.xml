@@ -64,7 +64,7 @@
 		</domain>
 		<domain name="" desc="게임스팟 동영상">
 			<pattern>mms://vod.gamespot.lgcdn.com/</pattern>
-			<pattern>http://image.com.com/</pattern>
+			<pattern>http://image.com/</pattern>
 		</domain>
 		<domain name="" desc="광고정보센터">
 			<pattern>mms://media.adic.co.kr/</pattern>
@@ -198,7 +198,7 @@
 			<pattern>http://www.youtube.com/</pattern>
 			<pattern>https://www.youtube.com/</pattern>
 			<pattern>http://www.youtube-nocookie.com/</pattern>
-			<pattern>https://www.youtube-nocookie.com.com/</pattern>
+			<pattern>https://www.youtube-nocookie.com/</pattern>
 		</domain>
 		<domain name="http://maps.google.com" desc="구글맵스" mobile="true">
 			<pattern>http://maps.google.com/</pattern>
