@@ -43,7 +43,7 @@
 				Context::addSSLAction('procMemberUpdateAuthMail');
 				Context::addSSLAction('procMemberResendAuthMail');
 				Context::addSSLAction('procMemberLeave');
-				Context::addSSLAction('getMemberMenu');
+				//Context::addSSLAction('getMemberMenu');
             }
         }
 
