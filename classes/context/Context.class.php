@@ -907,10 +907,24 @@ class Context {
 
 		foreach($_FILES as $key => $val) {
 			$tmp_name = $val['tmp_name'];
-			if(!$tmp_name || !is_uploaded_file($tmp_name)) continue;
-			$val['name'] = htmlspecialchars($val['name']);
-			$this->set($key, $val, true);
-			$this->is_uploaded = true;
+			if(!is_array($tmp_name)){
+				if(!$tmp_name || !is_uploaded_file($tmp_name)) continue;
+				$val['name'] = htmlspecialchars($val['name']);
+				$this->set($key, $val, true);
+				$this->is_uploaded = true;
+			}else {
+				for($i=0;$i< count($tmp_name);$i++){
+					if($val['size'][$i] > 0){
+						$file['name']=$val['name'][$i];
+						$file['type']=$val['type'][$i];
+						$file['tmp_name']=$val['tmp_name'][$i];
+						$file['error']=$val['error'][$i];
+						$file['size']=$val['size'][$i];
+						$files[] = $file;
+					}
+				}
+				$this->set($key, $files, true);
+			}
 		}
 	}
 
