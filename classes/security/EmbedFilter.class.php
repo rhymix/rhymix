@@ -400,7 +400,6 @@ class EmbedFilter
 			foreach($iframeTagList AS $key=>$iframeTag)
 			{
 				$isWhiteDomain = true;
-				$isWhiteExt = true;
 				$ext = '';
 
 				$parser = new HtmlParser($iframeTag);
@@ -420,12 +419,7 @@ class EmbedFilter
 					}
 				}
 
-				if(!$isWhiteDomain && $ext)
-				{
-					$isWhiteExt = $this->isWhiteExt($ext);
-				}
-
-				if(!$isWhiteDomain && !$isWhiteExt)
+				if(!$isWhiteDomain)
 				{
 					$content = str_replace($iframeTag, '', $content);
 				}
