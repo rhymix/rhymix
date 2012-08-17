@@ -407,6 +407,16 @@
 				$rulesetFile = $oModuleModel->getValidatorFilePath($rulesetModule, $ruleset, $this->mid);
 				if(!empty($rulesetFile))
 				{
+					if($_SESSION['XE_VALIDATOR_ERROR_LANG'])
+					{
+						$errorLang = $_SESSION['XE_VALIDATOR_ERROR_LANG'];
+						foreach($errorLang as $key => $val)
+						{
+							Context::setLang($key, $val);
+						}
+						unset($_SESSION['XE_VALIDATOR_ERROR_LANG']);
+					}
+
 					$Validator = new Validator($rulesetFile);
 					$result = $Validator->validate();
 					if(!$result)

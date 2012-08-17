@@ -523,6 +523,7 @@
 			$js_code[] = 'var validator = xe.getApp("validator")[0];';
 			$js_code[] = 'if(!validator) return false;';
 
+			$errorLang = array();
 			foreach($extraList as $val) 
 			{
 				if($val->column_type == 'kr_zip' || $val->column_type == 'tel')
@@ -533,7 +534,10 @@
 				{
 					$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s","%s"]);', $val->column_name, $val->column_title);
 				}
+				
+				$errorLang[$val->column_name] = $val->column_title;
 			}
+			$_SESSION['XE_VALIDATOR_ERROR_LANG'] = $errorLang;
 
 			$js_code[] = '})(jQuery);';
 			$js_code[] = '//]]></script>';

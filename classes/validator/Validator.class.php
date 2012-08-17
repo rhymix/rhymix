@@ -199,7 +199,7 @@ class Validator
 		$fields = array_map(array($this, 'arrayTrim'), $fields);
 		$field_names = array_keys($fields);
 
-		$filters = $this->_filters;
+		$filters = array();
 
 		// get field names matching patterns
 		foreach($this->_filters as $key=>$filter) {
@@ -209,6 +209,10 @@ class Validator
 			}elseif(substr($key,-2) == '[]'){
 				$filters[substr($key,0,-2)] = $filter;
 				unset($filters[$key]);
+			}
+			else
+			{
+				$filters[$key] = $filter;
 			}
 
 			if(!count($names)) continue;
