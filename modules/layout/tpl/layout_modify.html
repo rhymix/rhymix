@@ -164,6 +164,10 @@
 	</ul>
 
 	<div class="btnArea">
+		<span class="etc">
+			<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList')}">{$lang->instance_layout}&nbsp;{$lang->cmd_list}</a></span>
+			<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $layout)}">{$selected_layout->title} ver {$selected_layout->version}({$selected_layout->layout})&nbsp;{$lang->cmd_list}</a></span>
+		</span>
 		<span class="btn medium">
 			<input type="submit" value="{$lang->cmd_insert}"|cond="$act == 'dispLayoutAdminInsert'" value="{$lang->cmd_save}"|cond="$act == 'dispLayoutAdminModify'" onclick="doSubmitConfig()"/>
 		</span>

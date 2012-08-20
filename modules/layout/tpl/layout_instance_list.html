@@ -1,10 +1,8 @@
 <include target="header.html" />
 <load target="js/adminList.js" usecdn="true" />
-
 <script>
 	xe.lang.confirm_delete = '{$lang->confirm_delete}';
 </script>
-
 <h2 class="h2">{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})</h2>
 <div class="table even easyList">
 	<table width="100%" border="1" cellspacing="0">
@@ -32,7 +30,6 @@
 						<input type="hidden" name="module" value="layout" />
 						<input type="hidden" name="act" value="procLayoutAdminDelete" />
 						<input type="hidden" name="layout_srl" value="{$layout->layout_srl}" />
-
 						<input class="text" type="submit" value="{$lang->cmd_delete}" />
 					</form>
 				</td>
