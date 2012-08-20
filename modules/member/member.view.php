@@ -172,7 +172,6 @@
 				$displayDatas[] = $item;
 			}
 
-			debugPrint($displayDatas);
 			Context::set('displayDatas', $displayDatas);
 			return $displayDatas;
 		}
