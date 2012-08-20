@@ -37,7 +37,7 @@
 			}
 
             // Get terms of user
-			$config->agreement = $this->_getAgreement();
+			$config->agreement = self::_getAgreement();
 
             if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
             if(!$config->image_name_max_width) $config->image_name_max_width = 90;
@@ -213,7 +213,7 @@
             if(!$user_id) return;
 
             $args->user_id = $user_id;
-            $output = executeQuery('member.getMemberInfo', $args, $columnList);
+            $output = executeQuery('member.getMemberInfo', $args);
             if(!$output->toBool()) return $output;
             if(!$output->data) return;
 

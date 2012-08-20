@@ -168,7 +168,12 @@
 				if($args->enable_confirm !='Y') $args->enable_confirm = 'N';
 				$args->limit_day = (int)$args->limit_day;
 				if(!$args->change_password_date) $args->change_password_date = 0; 
-				if(!trim(strip_tags($args->agreement))) $args->agreement = null;
+				if(!trim(strip_tags($args->agreement)))
+				{
+					$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
+					FileHandler::removeFile($agreement_file);
+					$args->agreement = null;
+				}
 				if(!trim(strip_tags($args->after_login_url))) $args->after_login_url = null;
 				if(!trim(strip_tags($args->after_logout_url))) $args->after_logout_url = null;
 				if(!trim(strip_tags($args->redirect_url))) $args->redirect_url = null;

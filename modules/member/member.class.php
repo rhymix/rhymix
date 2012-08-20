@@ -33,6 +33,7 @@
 				Context::addSSLAction('dispMemberResendAuthMail');
 				Context::addSSLAction('dispMemberLoginForm');
 				Context::addSSLAction('dispMemberFindAccount');
+				Context::addSSLAction('dispMemberLeave');
                 Context::addSSLAction('procMemberLogin');
                 Context::addSSLAction('procMemberModifyPassword');
                 Context::addSSLAction('procMemberInsert');
@@ -41,7 +42,8 @@
 				Context::addSSLAction('procMemberModifyEmailAddress');
 				Context::addSSLAction('procMemberUpdateAuthMail');
 				Context::addSSLAction('procMemberResendAuthMail');
-				Context::addSSLAction('getMemberMenu');
+				Context::addSSLAction('procMemberLeave');
+				//Context::addSSLAction('getMemberMenu');
             }
         }
 
