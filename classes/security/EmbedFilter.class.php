@@ -328,7 +328,7 @@ class EmbedFilter
 
 				if(!$isWhiteDomain && !$isWhiteMimetype && !$isWhiteExt)
 				{
-					$content = str_replace($objectTag, '', $content);
+					$content = str_replace($objectTag, htmlspecialchars($objectTag), $content);
 				}
 			}
 		}
@@ -381,7 +381,7 @@ class EmbedFilter
 
 				if(!$isWhiteDomain && !$isWhiteMimetype && !$isWhiteExt)
 				{
-					$content = str_replace($embedTag, '', $content);
+					$content = str_replace($embedTag, htmlspecialchars($embedTag), $content);
 				}
 			}
 		}
@@ -421,7 +421,7 @@ class EmbedFilter
 
 				if(!$isWhiteDomain)
 				{
-					$content = str_replace($iframeTag, '', $content);
+					$content = str_replace($iframeTag, htmlspecialchars($iframeTag), $content);
 				}
 			}
 		}
@@ -461,7 +461,7 @@ class EmbedFilter
 
 							if(!$isWhiteDomain && !$isWhiteExt)
 							{
-								$content = str_replace($paramTag, '', $content);
+								$content = str_replace($paramTag, htmlspecialchars($paramTag), $content);
 							}
 						}
 					}
