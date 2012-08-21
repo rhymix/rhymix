@@ -1269,17 +1269,23 @@ class documentController extends document {
 		$js_code = array();
 		$js_code[] = '<script>//<![CDATA[';
 		$js_code[] = '(function($){';
-				$js_code[] = 'var validator = xe.getApp("validator")[0];';
-				$js_code[] = 'if(!validator) return false;';
+		$js_code[] = 'var validator = xe.getApp("validator")[0];';
+		$js_code[] = 'if(!validator) return false;';
 
-				$logged_info = Context::get('logged_info');
+		$logged_info = Context::get('logged_info');
 
-				foreach($extra_keys as $idx => $val) {
-				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $val->idx, $val->name);
-				if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
-				}
+		foreach($extra_keys as $idx => $val) 
+		{
+			$idx = $val->idx;
+			if($val->type == 'kr_zip')
+			{
+				$idx .= '[]';
+			}
+			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $idx, $val->name);
+			if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $idx);
+		}
 
-				$js_code[] = '})(jQuery);';
+		$js_code[] = '})(jQuery);';
 		$js_code[] = '//]]></script>';
 		$js_code   = implode("\n", $js_code);
 

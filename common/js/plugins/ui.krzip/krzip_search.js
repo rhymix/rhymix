@@ -73,12 +73,13 @@ function doSelectKrZip(form, column_name) {
 	$zone_list.hide();
 	$zone_search.hide();
 
-	$form.get(0).elements[column_name][0].value = $select.val();
-	$form.get(0).elements[column_name][1].focus();
+	$form.get(0).elements[column_name + '[]'][0].value = $select.val();
+	$form.get(0).elements[column_name + '[]'][1].focus();
 }
 
 function doShowKrZipSearch(obj, column_name) {
 	var $=jQuery;
+	$('input[name="'+column_name+'[]"]').val('');
 	$('#addr_list_'+column_name).hide();
 	$('#addr_search_'+column_name).show();
 	$('#addr_searched_'+column_name).hide();

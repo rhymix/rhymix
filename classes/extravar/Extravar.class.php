@@ -206,6 +206,7 @@
                         if(is_array($value)) $values = $value;
                         elseif(strpos($value,'|@|')!==false) $values = explode('|@|', $value);
                         elseif(strpos($value,',')!==false) $values = explode(',', $value);
+						else $values = array($value);
                         return $values;
                     break;
                 //case 'date' :
@@ -366,7 +367,7 @@
 
                         $buff .=
                             '<div id="addr_searched_'.$column_name.'" style="display:'.($value[0]?'block':'none').';">'.
-                                '<input type="text" readonly="readonly" name="'.$column_name.'" value="'.$value[0].'" class="address" />'.
+                                '<input type="text" readonly="readonly" name="'.$column_name.'[]" value="'.$value[0].'" class="address" />'.
                                 '<a href="#" onclick="doShowKrZipSearch(this, \''.$column_name.'\'); return false;" class="button red"><span>'.Context::getLang('cmd_cancel').'</span></a>'.
                             '</div>'.
 
@@ -381,7 +382,7 @@
                                 '<a href="#" onclick="doSearchKrZip(this, \''.$column_name.'\'); return false;" class="button green"><span>'.Context::getLang('cmd_search').'</span></a>'.
                             '</div>'.
 
-                            '<input type="text" name="'.$column_name.'" value="'.htmlspecialchars($value[1]).'" class="address" />'.
+                            '<input type="text" name="'.$column_name.'[]" value="'.htmlspecialchars($value[1]).'" class="address" />'.
                             '';
                     break;
                 // General text
