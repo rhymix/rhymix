@@ -790,6 +790,10 @@
                 return new Object(-1, $failed_voted);
             }
 
+			// begin transaction
+			$oDB = DB::getInstance();
+			$oDB->begin();
+
             // update the number of votes
             if($point < 0) {
                 $args->blamed_count = $oComment->get('blamed_count') + $point;
@@ -801,6 +805,23 @@
             // leave logs
             $args->point = $point;
             $output = executeQuery('comment.insertCommentVotedLog', $args);
+
+			$obj->member_srl = $oComment->get('member_srl');
+			$obj->module_srl = $oComment->get('module_srl');
+			$obj->comment_srl = $oComment->get('comment');
+			$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+			$obj->point = $point;
+			$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
+			$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
+			$trigger_output = ModuleHandler::triggerCall('comment.updateVotedCount', 'after', $obj);
+			if(!$trigger_output->toBool())
+			{
+				$oDB->rollback();
+				return $trigger_output;
+			}
+
+			$oDB->commit();
+
             // leave into session information
             $_SESSION['voted_comment'][$comment_srl] = true;
 
