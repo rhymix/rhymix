@@ -923,6 +923,11 @@ class documentController extends document {
 			$_SESSION['voted_document'][$document_srl] = true;
 			return new Object(-1, $failed_voted);
 		}
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		// Update the voted count
 		if($point < 0)
 		{
@@ -939,8 +944,6 @@ class documentController extends document {
 		$args->point = $point;
 		$output = executeQuery('document.insertDocumentVotedLog', $args);
 		if(!$output->toBool()) return $output;
-		// Leave in the session information
-		$_SESSION['voted_document'][$document_srl] = true;
 
 		$obj->member_srl = $oDocument->get('member_srl');
 		$obj->module_srl = $oDocument->get('module_srl');
@@ -949,8 +952,17 @@ class documentController extends document {
 		$obj->point = $point;
 		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
 		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		$output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
-		if(!$output->toBool()) return $output;
+		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
+		if(!$trigger_output->toBool()) {
+			$oDB->rollback();
+			return $trigger_output;
+		}
+
+		$oDB->commit();
+
+		// Leave in the session information
+		$_SESSION['voted_document'][$document_srl] = true;
+
 		// Return result
 		if($point > 0)
 		{
