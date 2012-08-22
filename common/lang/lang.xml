@@ -10,7 +10,7 @@
 		<value xml:lang="de"><![CDATA[Schreiben]]></value>
 		<value xml:lang="ru"><![CDATA[Написать]]></value>
 		<value xml:lang="es"><![CDATA[Escribir]]></value>
-		<value xml:lang="tr"><![CDATA[Yeni]]></value>
+		<value xml:lang="tr"><![CDATA[Yaz]]></value>
 		<value xml:lang="vi"><![CDATA[Gửi bài mới]]></value>
 		<value xml:lang="mn"><![CDATA[Бичих]]></value>
 	</item>
@@ -52,7 +52,7 @@
 		<value xml:lang="de"><![CDATA[Ändern]]></value>
 		<value xml:lang="ru"><![CDATA[Изменить]]></value>
 		<value xml:lang="es"><![CDATA[Modificar]]></value>
-		<value xml:lang="tr"><![CDATA[Değiştir]]></value>
+		<value xml:lang="tr"><![CDATA[Düzelt]]></value>
 		<value xml:lang="vi"><![CDATA[Thay đổi]]></value>
 		<value xml:lang="mn"><![CDATA[Засах]]></value>
 	</item>
@@ -157,7 +157,7 @@
 		<value xml:lang="de"><![CDATA[Trackback senden]]></value>
 		<value xml:lang="ru"><![CDATA[Отправить трекбек]]></value>
 		<value xml:lang="es"><![CDATA[Enviar Trackback]]></value>
-		<value xml:lang="tr"><![CDATA[Geri izleme Gönder]]></value>
+		<value xml:lang="tr"><![CDATA[Geri İzleme Gönder]]></value>
 		<value xml:lang="vi"><![CDATA[Gửi liên kết Web]]></value>
 		<value xml:lang="mn"><![CDATA[Холбоотой бичлэг илгээх]]></value>
 	</item>
@@ -319,7 +319,7 @@
 		<value xml:lang="de"><![CDATA[Abbrechen]]></value>
 		<value xml:lang="ru"><![CDATA[Отменить]]></value>
 		<value xml:lang="es"><![CDATA[Cancelar]]></value>
-		<value xml:lang="tr"><![CDATA[İptal et]]></value>
+		<value xml:lang="tr"><![CDATA[İptal]]></value>
 		<value xml:lang="vi"><![CDATA[Loại bỏ]]></value>
 		<value xml:lang="mn"><![CDATA[Устгах]]></value>
 	</item>
@@ -347,7 +347,7 @@
 		<value xml:lang="de"><![CDATA[zustimmen]]></value>
 		<value xml:lang="ru"><![CDATA[Рекомендовать]]></value>
 		<value xml:lang="es"><![CDATA[a Favor]]></value>
-		<value xml:lang="tr"><![CDATA[Tavsiye et]]></value>
+		<value xml:lang="tr"><![CDATA[Tavsiye Et]]></value>
 		<value xml:lang="vi"><![CDATA[Bình chọn]]></value>
 		<value xml:lang="mn"><![CDATA[Санал болгох]]></value>
 	</item>
@@ -500,7 +500,7 @@
 		<value xml:lang="de"><![CDATA[Verwaltung]]></value>
 		<value xml:lang="ru"><![CDATA[Управление]]></value>
 		<value xml:lang="es"><![CDATA[Administración]]></value>
-		<value xml:lang="tr"><![CDATA[Yönetimi]]></value>
+		<value xml:lang="tr"><![CDATA[Yönetim]]></value>
 		<value xml:lang="vi"><![CDATA[Quản lý]]></value>
 		<value xml:lang="mn"><![CDATA[Удирдах]]></value>
 	</item>
@@ -556,7 +556,7 @@
 		<value xml:lang="de"><![CDATA[Alle abwählen]]></value>
 		<value xml:lang="ru"><![CDATA[Убрать выделение ВСЕХ]]></value>
 		<value xml:lang="es"><![CDATA[Cancelar Toda la Selección]]></value>
-		<value xml:lang="tr"><![CDATA[Tümünü Seçimden çıkart]]></value>
+		<value xml:lang="tr"><![CDATA[Tümünü Seçimden Çıkart]]></value>
 		<value xml:lang="vi"><![CDATA[Bỏ chọn tất cả]]></value>
 		<value xml:lang="mn"><![CDATA[Сонголтыг болих]]></value>
 	</item>
@@ -569,7 +569,7 @@
 		<value xml:lang="fr"><![CDATA[Renverser la Sélection]]></value>
 		<value xml:lang="de"><![CDATA[entgegengesetzt]]></value>
 		<value xml:lang="ru"><![CDATA[Перевернуть]]></value>
-		<value xml:lang="tr"><![CDATA[Ters çevir]]></value>
+		<value xml:lang="tr"><![CDATA[Ters Çevir]]></value>
 		<value xml:lang="vi"><![CDATA[Đảo ngược]]></value>
 		<value xml:lang="mn"><![CDATA[Дахин сонгох]]></value>
 	</item>
@@ -611,7 +611,7 @@
 		<value xml:lang="de"><![CDATA[neu laden]]></value>
 		<value xml:lang="ru"><![CDATA[Перегрузить]]></value>
 		<value xml:lang="es"><![CDATA[Actualizar]]></value>
-		<value xml:lang="tr"><![CDATA[Tekrar yükle]]></value>
+		<value xml:lang="tr"><![CDATA[Tekrar Yükle]]></value>
 		<value xml:lang="vi"><![CDATA[Tải lại]]></value>
 		<value xml:lang="mn"><![CDATA[Дахин унших]]></value>
 	</item>
@@ -626,7 +626,7 @@
 		<value xml:lang="ru"><![CDATA[Закрыть]]></value>
 		<value xml:lang="es"><![CDATA[Cerrar]]></value>
 		<value xml:lang="tr"><![CDATA[Kapat]]></value>
-		<value xml:lang="vi"><![CDATA[Đóng]]></value>
+		<value xml:lang="vi"><![CDATA[đong]]></value>
 		<value xml:lang="mn"><![CDATA[Хаах]]></value>
 	</item>
 	<item name="cmd_open">
@@ -708,7 +708,7 @@
 		<value xml:lang="de"><![CDATA[Datum auswählen]]></value>
 		<value xml:lang="ru"><![CDATA[Выбрать дату]]></value>
 		<value xml:lang="es"><![CDATA[Abrir el calendario]]></value>
-		<value xml:lang="tr"><![CDATA[Bir tarih belirle]]></value>
+		<value xml:lang="tr"><![CDATA[Bir Tarih Belirle]]></value>
 		<value xml:lang="vi"><![CDATA[Chọn một ngày]]></value>
 		<value xml:lang="mn"><![CDATA[Календар сонгох]]></value>
 	</item>
@@ -750,7 +750,7 @@
 		<value xml:lang="de"><![CDATA[sammeln]]></value>
 		<value xml:lang="ru"><![CDATA[В черновики]]></value>
 		<value xml:lang="es"><![CDATA[Recorte]]></value>
-		<value xml:lang="tr"><![CDATA[Bozuk olarak ayır]]></value>
+		<value xml:lang="tr"><![CDATA[Bozuk Olarak Ayır]]></value>
 		<value xml:lang="vi"><![CDATA[Phân loại]]></value>
 		<value xml:lang="mn"><![CDATA[Скрап]]></value>
 	</item>
@@ -778,7 +778,7 @@
 		<value xml:lang="de"><![CDATA[zurücksetzen]]></value>
 		<value xml:lang="ru"><![CDATA[Сброс]]></value>
 		<value xml:lang="es"><![CDATA[Rehacer]]></value>
-		<value xml:lang="tr"><![CDATA[İlk duruma getir]]></value>
+		<value xml:lang="tr"><![CDATA[İlk Duruma Getir]]></value>
 		<value xml:lang="vi"><![CDATA[Thiết lập lại]]></value>
 		<value xml:lang="mn"><![CDATA[Дахин тохируулах]]></value>
 	</item>
@@ -792,7 +792,7 @@
 		<value xml:lang="de"><![CDATA[cache neu generieren]]></value>
 		<value xml:lang="ru"><![CDATA[Пересоздать файл кэша]]></value>
 		<value xml:lang="es"><![CDATA[Re-crear el archivo caché]]></value>
-		<value xml:lang="tr"><![CDATA[Önbellek dosyasını tekrar oluştur]]></value>
+		<value xml:lang="tr"><![CDATA[Önbellek Dosyasını Tekrar Oluştur]]></value>
 		<value xml:lang="vi"><![CDATA[Tạo File Cache mới]]></value>
 		<value xml:lang="mn"><![CDATA[cache файл дахин хийх]]></value>
 	</item>
@@ -820,7 +820,7 @@
 		<value xml:lang="de"><![CDATA[Layout konfigurieren]]></value>
 		<value xml:lang="ru"><![CDATA[Конфигурировать лейаут]]></value>
 		<value xml:lang="es"><![CDATA[Composición de Página]]></value>
-		<value xml:lang="tr"><![CDATA[Yerleşim düzenini yapılandır]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzenini Yapılandır]]></value>
 		<value xml:lang="vi"><![CDATA[Cài đặt giao diện]]></value>
 		<value xml:lang="mn"><![CDATA[Лэйаут тохируулах]]></value>
 	</item>
@@ -834,7 +834,7 @@
 		<value xml:lang="de"><![CDATA[Layout bearbeiten]]></value>
 		<value xml:lang="ru"><![CDATA[Редактировать лейаут]]></value>
 		<value xml:lang="es"><![CDATA[Editar la Página]]></value>
-		<value xml:lang="tr"><![CDATA[Yerleşim düzeninin düzenle]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzenini Düzenle]]></value>
 		<value xml:lang="vi"><![CDATA[Sửa giao diện]]></value>
 		<value xml:lang="mn"><![CDATA[Лэйаут өөрчлөх]]></value>
 	</item>
@@ -861,7 +861,7 @@
 		<value xml:lang="de"><![CDATA[IP in den Spamfilter hinzufügen]]></value>
 		<value xml:lang="ru"><![CDATA[Добавить IP в спамфильтры]]></value>
 		<value xml:lang="es"><![CDATA[Añadir IP en el Filtro de Spam]]></value>
-		<value xml:lang="tr"><![CDATA[Spamfilter'a IPyi ekle]]></value>
+		<value xml:lang="tr"><![CDATA[Spam filtresine IPyi ekle]]></value>
 		<value xml:lang="vi"><![CDATA[Thêm IP vào bộ lọc]]></value>
 		<value xml:lang="mn"><![CDATA[Спэм филтерт IPнэмэх]]></value>
 	</item>
@@ -871,6 +871,7 @@
 		<value xml:lang="jp"><![CDATA[この段階を省略]]></value>
 		<value xml:lang="zh-CN"><![CDATA[跳过此步]]></value>
 		<value xml:lang="zh-TW"><![CDATA[略過此步]]></value>
+		<value xml:lang="tr"><![CDATA[Bunu aşamayı geç]]></value>
 	</item>
 	<item name="cmd_complete">
 		<value xml:lang="ko"><![CDATA[완료]]></value>
@@ -878,6 +879,7 @@
 		<value xml:lang="jp"><![CDATA[完了]]></value>
 		<value xml:lang="zh-CN"><![CDATA[完成]]></value>
 		<value xml:lang="zh-TW"><![CDATA[完成]]></value>
+		<value xml:lang="tr"><![CDATA[Tamamlandı]]></value>
 	</item>
 	<item name="cmd_go_to_page">
 		<value xml:lang="ko"><![CDATA[페이지 직접 이동]]></value>
@@ -885,6 +887,7 @@
 		<value xml:lang="jp"><![CDATA[ページへ移動]]></value>
 		<value xml:lang="zh-CN"><![CDATA[前往页面]]></value>
 		<value xml:lang="zh-TW"><![CDATA[前往頁面]]></value>
+		<value xml:lang="tr"><![CDATA[Sayfaya Git]]></value>
 	</item>
 	<item name="enable">
 		<value xml:lang="ko"><![CDATA[가능]]></value>
@@ -896,7 +899,7 @@
 		<value xml:lang="de"><![CDATA[instand]]></value>
 		<value xml:lang="ru"><![CDATA[Включено]]></value>
 		<value xml:lang="es"><![CDATA[Activar]]></value>
-		<value xml:lang="tr"><![CDATA[Seçilir kıl]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilir Kıl]]></value>
 		<value xml:lang="vi"><![CDATA[Bật]]></value>
 		<value xml:lang="mn"><![CDATA[Боломжтой]]></value>
 	</item>
@@ -910,7 +913,7 @@
 		<value xml:lang="de"><![CDATA[außerstand]]></value>
 		<value xml:lang="ru"><![CDATA[Выключено]]></value>
 		<value xml:lang="es"><![CDATA[Desactivar]]></value>
-		<value xml:lang="tr"><![CDATA[Seçilemez kıl]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilemez ]]></value>
 		<value xml:lang="vi"><![CDATA[Tắt]]></value>
 		<value xml:lang="mn"><![CDATA[Боломжгүй]]></value>
 	</item>
@@ -921,6 +924,7 @@
 		<value xml:lang="zh-CN"><![CDATA[同意]]></value>
 		<value xml:lang="zh-TW"><![CDATA[同意]]></value>
 		<value xml:lang="de"><![CDATA[akzeptieren]]></value>
+		<value xml:lang="tr"><![CDATA[Kabul]]></value>
 	</item>
 	<item name="disagree">
 		<value xml:lang="ko"><![CDATA[동의안함]]></value>
@@ -929,6 +933,7 @@
 		<value xml:lang="zh-CN"><![CDATA[不同意]]></value>
 		<value xml:lang="zh-TW"><![CDATA[不同意]]></value>
 		<value xml:lang="de"><![CDATA[nicht akzeptieren]]></value>
+		<value xml:lang="tr"><![CDATA[Kabul Değil]]></value>
 	</item>
 	<item name="favorite">
 		<value xml:lang="ko"><![CDATA[즐겨찾기]]></value>
@@ -937,6 +942,7 @@
 		<value xml:lang="zh-CN"><![CDATA[收藏夹]]></value>
 		<value xml:lang="zh-TW"><![CDATA[我的最愛]]></value>
 		<value xml:lang="de"><![CDATA[Lesezeichen]]></value>
+		<value xml:lang="tr"><![CDATA[Favori]]></value>
 	</item>
 	<item name="menu">
 		<value xml:lang="ko"><![CDATA[메뉴]]></value>
@@ -1036,7 +1042,7 @@
 		<value xml:lang="zh-TW"><![CDATA[無圖片]]></value>
 		<value xml:lang="de"><![CDATA[kein Bild]]></value>
 		<value xml:lang="ru"><![CDATA[Картинки нет]]></value>
-		<value xml:lang="tr"><![CDATA[Resim bulunmamaktadır]]></value>
+		<value xml:lang="tr"><![CDATA[Resim Bulunmamaktadır]]></value>
 		<value xml:lang="mn"><![CDATA[No image]]></value>
 	</item>
 	<item name="document_srl">
@@ -1047,7 +1053,7 @@
 		<value xml:lang="zh-TW"><![CDATA[文章編號]]></value>
 		<value xml:lang="fr"><![CDATA[Numéro de série du Document]]></value>
 		<value xml:lang="de"><![CDATA[Artikelnr.]]></value>
-		<value xml:lang="ru"><![CDATA[No  документа]]></value>
+		<value xml:lang="ru"><![CDATA[No документа]]></value>
 		<value xml:lang="es"><![CDATA[Número del documento]]></value>
 		<value xml:lang="tr"><![CDATA[Belge No]]></value>
 		<value xml:lang="vi"><![CDATA[Bài viết. STT.]]></value>
@@ -1077,7 +1083,7 @@
 		<value xml:lang="de"><![CDATA[Autor]]></value>
 		<value xml:lang="ru"><![CDATA[Автор]]></value>
 		<value xml:lang="es"><![CDATA[Autor]]></value>
-		<value xml:lang="tr"><![CDATA[Geliştirici]]></value>
+		<value xml:lang="tr"><![CDATA[Yazar]]></value>
 		<value xml:lang="vi"><![CDATA[Người gửi]]></value>
 		<value xml:lang="mn"><![CDATA[Бичсэн]]></value>
 	</item>
@@ -1127,6 +1133,7 @@
 		<value xml:lang="ko"><![CDATA[비밀번호 확인]]></value>
 		<value xml:lang="en"><![CDATA[Retype Password]]></value>
 		<value xml:lang="jp"><![CDATA[パスワード確認]]></value>
+		<value xml:lang="tr"><![CDATA[Şifreyi Tekrar Gir]]></value>
 	</item>
 	<item name="admin_id">
 		<value xml:lang="ko"><![CDATA[관리자ID]]></value>
@@ -1138,7 +1145,7 @@
 		<value xml:lang="de"><![CDATA[Administrator ID]]></value>
 		<value xml:lang="ru"><![CDATA[ID админа]]></value>
 		<value xml:lang="es"><![CDATA[ID del Administrador]]></value>
-		<value xml:lang="tr"><![CDATA[Yönetici Kimliği]]></value>
+		<value xml:lang="tr"><![CDATA[Yonetici Kimliği]]></value>
 		<value xml:lang="mn"><![CDATA[Хариуцагч ID]]></value>
 	</item>
 	<item name="admin_email_address">
@@ -1146,6 +1153,7 @@
 		<value xml:lang="en"><![CDATA[Admin Email Address]]></value>
 		<value xml:lang="zh-CN"><![CDATA[站点管理员电子邮箱地址]]></value>
 		<value xml:lang="zh-TW"><![CDATA[管理員電子郵件位址]]></value>
+		<value xml:lang="tr"><![CDATA[Yönetici E-Posta Adresi]]></value>
 	</item>
 	<item name="writer">
 		<value xml:lang="ko"><![CDATA[글쓴이]]></value>
@@ -1225,6 +1233,7 @@
 		<value xml:lang="en"><![CDATA[Blog]]></value>
 		<value xml:lang="ru"><![CDATA[Блог]]></value>
 		<value xml:lang="mn"><![CDATA[Блог]]></value>
+		<value xml:lang="tr"><![CDATA[Blog]]></value>
 	</item>
 	<item name="birthday">
 		<value xml:lang="ko"><![CDATA[생일]]></value>
@@ -1278,7 +1287,7 @@
 		<value xml:lang="de"><![CDATA[Titel + Inhalt]]></value>
 		<value xml:lang="ru"><![CDATA[Заголовок+Содержание]]></value>
 		<value xml:lang="es"><![CDATA[Título+Contenido]]></value>
-		<value xml:lang="tr"><![CDATA[Konu+İçerik]]></value>
+		<value xml:lang="tr"><![CDATA[Konu+İcerik]]></value>
 		<value xml:lang="vi"><![CDATA[TĐ+ND]]></value>
 		<value xml:lang="mn"><![CDATA[Гарчиг+ Агуулга]]></value>
 	</item>
@@ -1289,6 +1298,7 @@
 		<value xml:lang="zh-CN"><![CDATA[无标题]]></value>
 		<value xml:lang="zh-TW"><![CDATA[無標題]]></value>
 		<value xml:lang="de"><![CDATA[Kein Titel]]></value>
+		<value xml:lang="tr"><![CDATA[Başlık Yokl]]></value>
 	</item>
 	<item name="topic">
 		<value xml:lang="ko"><![CDATA[주제]]></value>
@@ -1314,7 +1324,7 @@
 		<value xml:lang="de"><![CDATA[Antwort]]></value>
 		<value xml:lang="ru"><![CDATA[Ответы]]></value>
 		<value xml:lang="es"><![CDATA[Responder]]></value>
-		<value xml:lang="tr"><![CDATA[Cevapla]]></value>
+		<value xml:lang="tr"><![CDATA[Cevaplar]]></value>
 		<value xml:lang="vi"><![CDATA[Trả lời]]></value>
 		<value xml:lang="mn"><![CDATA[Хариулах]]></value>
 	</item>
@@ -1328,7 +1338,7 @@
 		<value xml:lang="de"><![CDATA[Inhalt]]></value>
 		<value xml:lang="ru"><![CDATA[Содержание]]></value>
 		<value xml:lang="es"><![CDATA[Contenido]]></value>
-		<value xml:lang="tr"><![CDATA[İçerik]]></value>
+		<value xml:lang="tr"><![CDATA[İcerik]]></value>
 		<value xml:lang="vi"><![CDATA[Nội dung]]></value>
 		<value xml:lang="mn"><![CDATA[Агуулга]]></value>
 	</item>
@@ -1342,7 +1352,7 @@
 		<value xml:lang="de"><![CDATA[Artikel]]></value>
 		<value xml:lang="ru"><![CDATA[Статьи]]></value>
 		<value xml:lang="es"><![CDATA[Documento]]></value>
-		<value xml:lang="tr"><![CDATA[Makale]]></value>
+		<value xml:lang="tr"><![CDATA[Döküman]]></value>
 		<value xml:lang="vi"><![CDATA[Bài viết]]></value>
 		<value xml:lang="mn"><![CDATA[Бичлэг]]></value>
 	</item>
@@ -1350,7 +1360,7 @@
 		<value xml:lang="ko"><![CDATA[댓글]]></value>
 		<value xml:lang="en"><![CDATA[Comment]]></value>
 		<value xml:lang="jp"><![CDATA[コメント]]></value>
-		<value xml:lang="zh-CN"><![CDATA[评论]]></value>
+		<value xml:lang="zh-CN"><![CDATA[??]]></value>
 		<value xml:lang="zh-TW"><![CDATA[回覆]]></value>
 		<value xml:lang="fr"><![CDATA[Commentaire]]></value>
 		<value xml:lang="de"><![CDATA[Kommentar]]></value>
@@ -1545,7 +1555,7 @@
 		<value xml:lang="de"><![CDATA[Ausgewähltes Element]]></value>
 		<value xml:lang="ru"><![CDATA[Выбранный объект]]></value>
 		<value xml:lang="es"><![CDATA[Artículo Seleccionado]]></value>
-		<value xml:lang="tr"><![CDATA[Seçili Öğe]]></value>
+		<value xml:lang="tr"><![CDATA[Secili Öğe]]></value>
 		<value xml:lang="vi"><![CDATA[Chọn bài]]></value>
 		<value xml:lang="mn"><![CDATA[Сонгосон төрөл]]></value>
 	</item>
@@ -1559,7 +1569,7 @@
 		<value xml:lang="de"><![CDATA[Freunde]]></value>
 		<value xml:lang="ru"><![CDATA[Друзья]]></value>
 		<value xml:lang="es"><![CDATA[Amigos]]></value>
-		<value xml:lang="tr"><![CDATA[Arkadaşlar]]></value>
+		<value xml:lang="tr"><![CDATA[Arkadaş]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn bè]]></value>
 		<value xml:lang="mn"><![CDATA[Найз]]></value>
 	</item>
@@ -1585,7 +1595,7 @@
 		<value xml:lang="zh-TW"><![CDATA[排列目標]]></value>
 		<value xml:lang="de"><![CDATA[Target ordnen]]></value>
 		<value xml:lang="es"><![CDATA[Alinear Meta]]></value>
-		<value xml:lang="tr"><![CDATA[Hedefi hizala]]></value>
+		<value xml:lang="tr"><![CDATA[Hedef Sırala]]></value>
 		<value xml:lang="vi"><![CDATA[Đường dẫn đích]]></value>
 		<value xml:lang="mn"><![CDATA[Цэгцлэх зорилго]]></value>
 	</item>
@@ -1674,7 +1684,7 @@
 		<value xml:lang="de"><![CDATA[Layout]]></value>
 		<value xml:lang="ru"><![CDATA[Лейаут]]></value>
 		<value xml:lang="es"><![CDATA[Composición]]></value>
-		<value xml:lang="tr"><![CDATA[Yerleşim düzeni]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni]]></value>
 		<value xml:lang="vi"><![CDATA[Giao diện]]></value>
 		<value xml:lang="mn"><![CDATA[Лэйаут]]></value>
 	</item>
@@ -1685,7 +1695,7 @@
 		<value xml:lang="zh-CN"><![CDATA[移动版布局]]></value>
 		<value xml:lang="zh-TW"><![CDATA[手機版面]]></value>
 		<value xml:lang="de"><![CDATA[Layout für Mobile]]></value>
-		<value xml:lang="tr"><![CDATA[Hareketli Yerleşim düzeni]]></value>
+		<value xml:lang="tr"><![CDATA[Mobil Yerleşim duzeni]]></value>
 	</item>
 	<item name="widget">
 		<value xml:lang="ko"><![CDATA[위젯]]></value>
@@ -1697,6 +1707,7 @@
 		<value xml:lang="de"><![CDATA[Widget]]></value>
 		<value xml:lang="ru"><![CDATA[Виджет]]></value>
 		<value xml:lang="mn"><![CDATA[Вижет ]]></value>
+		<value xml:lang="tr"><![CDATA[Widget ]]></value>
 	</item>
 	<item name="module">
 		<value xml:lang="ko"><![CDATA[모듈]]></value>
@@ -1733,7 +1744,7 @@
 		<value xml:lang="fr"><![CDATA[Mobile Habillage]]></value>
 		<value xml:lang="de"><![CDATA[Oberfläche zum Mobile]]></value>
 		<value xml:lang="es"><![CDATA[Mobile Tema]]></value>
-		<value xml:lang="tr"><![CDATA[Hareketli Dış Görünümü]]></value>
+		<value xml:lang="tr"><![CDATA[Mobil Dış Görünüm]]></value>
 		<value xml:lang="vi"><![CDATA[Mobile Skin]]></value>
 	</item>
 	<item name="colorset">
@@ -1783,6 +1794,7 @@
 		<value xml:lang="zh-CN"><![CDATA[网址]]></value>
 		<value xml:lang="zh-TW"><![CDATA[網址]]></value>
 		<value xml:lang="de"><![CDATA[URL-Adresse]]></value>
+		<value xml:lang="tr"><![CDATA[URL]]></value>
 	</item>
 	<item name="document_url">
 		<value xml:lang="ko"><![CDATA[게시글 주소]]></value>
@@ -1850,7 +1862,7 @@
 		<value xml:lang="de"><![CDATA[Anzahl des Artikels]]></value>
 		<value xml:lang="ru"><![CDATA[Всего записей]]></value>
 		<value xml:lang="es"><![CDATA[Número de documentos]]></value>
-		<value xml:lang="tr"><![CDATA[Toplam yazılar]]></value>
+		<value xml:lang="tr"><![CDATA[Toplam Yazı Adeti]]></value>
 		<value xml:lang="vi"><![CDATA[Số bài viết: ]]></value>
 		<value xml:lang="mn"><![CDATA[Бичлэгийн тоо]]></value>
 	</item>
@@ -1892,7 +1904,7 @@
 		<value xml:lang="de"><![CDATA[Anzahl der Liste finden]]></value>
 		<value xml:lang="ru"><![CDATA[Поиск Список кол]]></value>
 		<value xml:lang="es"><![CDATA[Buscar lista Conde]]></value>
-		<value xml:lang="tr"><![CDATA[Liste Sayısı ara]]></value>
+		<value xml:lang="tr"><![CDATA[Liste Sayısını Ara]]></value>
 		<value xml:lang="vi"><![CDATA[Tìm kiếm danh sách]]></value>
 		<value xml:lang="mn"><![CDATA[Хайлтын жагсаалт]]></value>
 	</item>
@@ -1929,6 +1941,7 @@
 		<value xml:lang="en"><![CDATA[Blames]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Blames]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Blames]]></value>
+		<value xml:lang="tr"><![CDATA[Suçlama]]></value>
 	</item>
 	<item name="comment_count">
 		<value xml:lang="ko"><![CDATA[댓글 수]]></value>
@@ -2177,7 +2190,7 @@
 		<value xml:lang="de"><![CDATA[verwenden]]></value>
 		<value xml:lang="ru"><![CDATA[Использовать]]></value>
 		<value xml:lang="es"><![CDATA[Usar]]></value>
-		<value xml:lang="tr"><![CDATA[Etkin]]></value>
+		<value xml:lang="tr"><![CDATA[Kullan]]></value>
 		<value xml:lang="vi"><![CDATA[Sử dụng]]></value>
 		<value xml:lang="mn"><![CDATA[Хэрэглэх]]></value>
 	</item>
@@ -2210,6 +2223,7 @@
 		<value xml:lang="zh-CN"><![CDATA[停用]]></value>
 		<value xml:lang="zh-TW"><![CDATA[關閉]]></value>
 		<value xml:lang="de"><![CDATA[Aus]]></value>
+		<value xml:lang="tr"><![CDATA[Kapat]]></value>
 	</item>
 	<item name="not_exists">
 		<value xml:lang="ko"><![CDATA[없음]]></value>
@@ -2259,6 +2273,7 @@
 		<value xml:lang="zh-CN"><![CDATA[其他]]></value>
 		<value xml:lang="zh-TW"><![CDATA[其他]]></value>
 		<value xml:lang="de"><![CDATA[Sonstiges]]></value>
+		<value xml:lang="tr"><![CDATA[Diğer]]></value>
 	</item>
 	<item name="unit_sec">
 		<value xml:lang="ko"><![CDATA[초]]></value>
@@ -2383,7 +2398,7 @@
 			<value xml:lang="de"><![CDATA[Mittwoch]]></value>
 			<value xml:lang="ru"><![CDATA[Среда]]></value>
 			<value xml:lang="es"><![CDATA[Miércoles ]]></value>
-			<value xml:lang="tr"><![CDATA[Çarşamba]]></value>
+			<value xml:lang="tr"><![CDATA[Carşamba]]></value>
 			<value xml:lang="vi"><![CDATA[Thứ tư]]></value>
 			<value xml:lang="mn"><![CDATA[Лха]]></value>
 		</item>
@@ -2453,6 +2468,7 @@
 			<value xml:lang="zh-TW"><![CDATA[上午]]></value>
 			<value xml:lang="de"><![CDATA[vormittags]]></value>
 			<value xml:lang="mn"><![CDATA[eглee]]></value>
+			<value xml:lang="tr"><![CDATA[Öğleden önce]]></value>
 		</item>
 		<item name="pm">
 			<value xml:lang="ko"><![CDATA[오후]]></value>
@@ -2462,6 +2478,7 @@
 			<value xml:lang="zh-TW"><![CDATA[下午]]></value>
 			<value xml:lang="de"><![CDATA[nachmittags]]></value>
 			<value xml:lang="mn"><![CDATA[орой]]></value>
+			<value xml:lang="tr"><![CDATA[Öğleden sonra]]></value>
 		</item>
 		<item name="AM">
 			<value xml:lang="ko"><![CDATA[오전]]></value>
@@ -2471,6 +2488,7 @@
 			<value xml:lang="zh-TW"><![CDATA[上午]]></value>
 			<value xml:lang="de"><![CDATA[Vormittag]]></value>
 			<value xml:lang="mn"><![CDATA[eглee]]></value>
+			<value xml:lang="tr"><![CDATA[Öğleden önce]]></value>
 		</item>
 		<item name="PM">
 			<value xml:lang="ko"><![CDATA[오후]]></value>
@@ -2480,6 +2498,7 @@
 			<value xml:lang="zh-TW"><![CDATA[下午]]></value>
 			<value xml:lang="de"><![CDATA[Nachmittag]]></value>
 			<value xml:lang="mn"><![CDATA[орой]]></value>
+			<value xml:lang="tr"><![CDATA[Öğleden sonra]]></value>
 		</item>
 	</item>
 	<item name="time_gap" type="array">
@@ -2493,7 +2512,7 @@
 			<value xml:lang="de"><![CDATA[Vor %d Minute]]></value>
 			<value xml:lang="ru"><![CDATA[%d минуту назад]]></value>
 			<value xml:lang="es"><![CDATA[Hace %d minuto]]></value>
-			<value xml:lang="tr"><![CDATA[%d bir dakika önce]]></value>
+			<value xml:lang="tr"><![CDATA[%d dakika once]]></value>
 			<value xml:lang="vi"><![CDATA[%d phút trước]]></value>
 			<value xml:lang="mn"><![CDATA[%d минутын eмнe]]></value>
 		</item>
@@ -2507,7 +2526,7 @@
 			<value xml:lang="de"><![CDATA[Vor %d Minuten]]></value>
 			<value xml:lang="ru"><![CDATA[%d минут назад]]></value>
 			<value xml:lang="es"><![CDATA[%d minutos]]></value>
-			<value xml:lang="tr"><![CDATA[%d birkaç dakika önce]]></value>
+			<value xml:lang="tr"><![CDATA[%d dakika once]]></value>
 			<value xml:lang="vi"><![CDATA[%d phút trước]]></value>
 			<value xml:lang="mn"><![CDATA[%d минутын eмнe]]></value>
 		</item>
@@ -2521,7 +2540,7 @@
 			<value xml:lang="de"><![CDATA[Vor %d Stunde]]></value>
 			<value xml:lang="ru"><![CDATA[%d час назад]]></value>
 			<value xml:lang="es"><![CDATA[%d día]]></value>
-			<value xml:lang="tr"><![CDATA[%d saat önce]]></value>
+			<value xml:lang="tr"><![CDATA[%d saat once]]></value>
 			<value xml:lang="vi"><![CDATA[%d giờ trước]]></value>
 			<value xml:lang="mn"><![CDATA[%d цагийн eмнe]]></value>
 		</item>
@@ -2535,23 +2554,23 @@
 			<value xml:lang="de"><![CDATA[Vor %d Stunden]]></value>
 			<value xml:lang="ru"><![CDATA[%d часов назад]]></value>
 			<value xml:lang="es"><![CDATA[%d días]]></value>
-			<value xml:lang="tr"><![CDATA[%d birkaç saat önce]]></value>
+			<value xml:lang="tr"><![CDATA[%d saat once]]></value>
 			<value xml:lang="vi"><![CDATA[%d giờ trước]]></value>
 			<value xml:lang="mn"><![CDATA[%d цагийн eмнe]]></value>
 		</item>
 	</item>
 	<item name="about_tag">
 		<value xml:lang="ko"><![CDATA[쉼표(,)를 이용하여 복수 등록]]></value>
-		<value xml:lang="en"><![CDATA[You may submit multiple tags by inserting commas (,) between tags.]]></value>
+		<value xml:lang="en"><![CDATA[You may submit multiple tags by inserting commas(,) between tags.]]></value>
 		<value xml:lang="jp"><![CDATA[タグは「,」(半角コンマ)を使って複数登録できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用逗号分隔多个标签]]></value>
 		<value xml:lang="zh-TW"><![CDATA[用逗號(,)區隔多個標籤]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez enrégistrer plusieurs balises en utilisant ,(virgule) entre chaque balise]]></value>
 		<value xml:lang="de"><![CDATA[Sie können mehrere Etiketten mit Komma eingeben.]]></value>
-		<value xml:lang="ru"><![CDATA[Вы можете применить несколько тегов, разделенных запятыми (,)]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете применить несколько тегов, разделенных запятыми(,)]]></value>
 		<value xml:lang="es"><![CDATA[Puede agregar o añadir diversas etiquetas separándolas con la coma(,)]]></value>
-		<value xml:lang="tr"><![CDATA[Her Etiketin arasına virgül(,)ekleyerek çoklu etiketleri de teslim edebilirsiniz.]]></value>
-		<value xml:lang="vi"><![CDATA[Bạn có thể thêm vào nhiều Tag bằng cách đặt dấu (,) giữa mỗi Tag.]]></value>
+		<value xml:lang="tr"><![CDATA[Etiketlerim arasına virgül(,)ekleyerek coklu etiketleme yapabilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể thêm vào nhiều Tag bằng cách đặt dấu(,) giữa mỗi Tag.]]></value>
 		<value xml:lang="mn"><![CDATA[tag оруулахдаа таслал ашиглавал давтан оруулж болно]]></value>
 	</item>
 	<item name="about_layout">
@@ -2564,7 +2583,7 @@
 		<value xml:lang="de"><![CDATA[Durch das Layout kann man die Oberfläche des Moduls verschönern. Sie können es oben im Layout-Menü einstellen.]]></value>
 		<value xml:lang="ru"><![CDATA[Лейауты украшают внешний вид Ваших модулей. Вы можете сконфигурировать их с помощью меню Лейаут сверху]]></value>
 		<value xml:lang="es"><![CDATA[Puede modificar la apariencia(Layout/Diseño) de los módulos. Puede administrarla con el menú Layout.]]></value>
-		<value xml:lang="tr"><![CDATA[Yerleşim Düzenleri, modüllerin görünümünü şekillendirir. Üst taraftaki yerleşim düzeni bölümünden ayarlamaları yapabilirsiniz.]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Duzenleri, modüllerin görünümünü şekillendirir. Üst taraftaki yerleşim düzeni bölümünden ayarlamaları yapabilirsiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Để trang trí giao diện bằng các Module. Bạn có thể điều chỉnh chúng bằng Menu trên đầu trang.]]></value>
 		<value xml:lang="mn"><![CDATA[Лэйаут нь модиулын гадаад байдлыг чимж өгнө. Дээрх лэйаут менюнээс удирдаж болно]]></value>
 	</item>
@@ -2578,7 +2597,7 @@
 		<value xml:lang="de"><![CDATA[Request an den Server senden, bitte warten!]]></value>
 		<value xml:lang="ru"><![CDATA[Идет обработка. Пожалуйста, подождите...]]></value>
 		<value xml:lang="es"><![CDATA[Solicitando al servidor, espere un momento]]></value>
-		<value xml:lang="tr"><![CDATA[Sunucuya bağlanıyor, lütfen bekleyin]]></value>
+		<value xml:lang="tr"><![CDATA[Sunucuya bağlanıyor, lütfen bekleyiniz]]></value>
 		<value xml:lang="vi"><![CDATA[Đang kết nối tới máy chủ, Xin vui lòng đợi! ...]]></value>
 		<value xml:lang="mn"><![CDATA[Сервер ачаалж байна. Түр хүлээнэ үү.]]></value>
 	</item>
@@ -2597,28 +2616,17 @@
 		<value xml:lang="mn"><![CDATA[DB тохируулга хийгдээгүй байна.]]></value>
 	</item>
 	<item name="msg_dbconnect_failed">
-		<value xml:lang="ko"><![CDATA[DB 접속 오류가 발생했습니다.
-DB정보를 다시 확인해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Error has occurred while connecting to the DB.
-Please check the DB information again.]]></value>
-		<value xml:lang="jp"><![CDATA[データベースアクセスにエラーが発生しました。
-データベースの情報をもう一度確認してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[连接DB时发生错误。
-请重新确认DB信息。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[連接資料庫時發生錯誤。
-		請重新確認資料庫資訊。]]></value>
-		<value xml:lang="fr"><![CDATA[Erreur a lieu en essayant connecter à la Base de Données.
-Vérifiez encore une fois les informations sur la Base de Données, S.V.P.]]></value>
-		<value xml:lang="de"><![CDATA[Bei der Verbindung zur Datenbank ist ein Fehler aufgetreten.
-Bitte die Angabe der Datenbanek nochmal durchchecken]]></value>
-		<value xml:lang="ru"><![CDATA[Произошла ошибка подключения к базе данных.
-Пожалуйста, проверьте иформацию базы данных еще раз]]></value>
-		<value xml:lang="es"><![CDATA[Ha ocurrido un error en la conexión de BD.
- Por favor chequee la información de BD nuevamente]]></value>
-		<value xml:lang="tr"><![CDATA[VT bağlantısında sorun meydana geldi.
- DB bilgilerini lütfen kontrol edin.]]></value>
-		<value xml:lang="vi"><![CDATA[Không thể kết nối.
-Xin vui lòng kiểm tra lại thông tin Database.]]></value>
+		<value xml:lang="ko"><![CDATA[DB 접속 오류가 발생했습니다. DB정보를 다시 확인해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Error has occurred while connecting to the DB. Please check the DB information again.]]></value>
+		<value xml:lang="jp"><![CDATA[データベースアクセスにエラーが発生しました。データベースの情報をもう一度確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[连接DB时发生错误。请重新确认DB信息。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[連接資料庫時發生錯誤。請重新確認資料庫資訊。]]></value>
+		<value xml:lang="fr"><![CDATA[Erreur a lieu en essayant connecter à la Base de Données. Vérifiez encore une fois les informations sur la Base de Données, S.V.P.]]></value>
+		<value xml:lang="de"><![CDATA[Bei der Verbindung zur Datenbank ist ein Fehler aufgetreten. Bitte die Angabe der Datenbanek nochmal durchchecken]]></value>
+		<value xml:lang="ru"><![CDATA[Произошла ошибка подключения к базе данных. Пожалуйста, проверьте иформацию базы данных еще раз]]></value>
+		<value xml:lang="es"><![CDATA[Ha ocurrido un error en la conexión de BD. Por favor chequee la información de BD nuevamente]]></value>
+		<value xml:lang="tr"><![CDATA[VT bağlantısında sorun meydana geldi. DB bilgilerini lutfen kontrol edin.]]></value>
+		<value xml:lang="vi"><![CDATA[Không thể kết nối. Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 	</item>
 	<item name="msg_invalid_queryid">
 		<value xml:lang="ko"><![CDATA[Query ID값이 잘못 지정되었습니다.]]></value>
@@ -2630,7 +2638,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Die Eingabe von Query_ID ist ungültig.]]></value>
 		<value xml:lang="ru"><![CDATA[Указанный ID запроса неверен]]></value>
 		<value xml:lang="es"><![CDATA[El valor de Query ID especificado es inválido]]></value>
-		<value xml:lang="tr"><![CDATA[Belirlenen sorgu için kimlik bilgisi geçersiz.]]></value>
+		<value xml:lang="tr"><![CDATA[Belirlenen sorgu icin kimlik bilgisi geçersiz.]]></value>
 		<value xml:lang="vi"><![CDATA[Giá trị ID không hợp lệ]]></value>
 		<value xml:lang="mn"><![CDATA[Query ID буруу бичигдсэн байна.]]></value>
 	</item>
@@ -2658,7 +2666,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Bitte geben Sie das Passwort ein.]]></value>
 		<value xml:lang="ru"><![CDATA[Пожалуйста, введите пароль]]></value>
 		<value xml:lang="es"><![CDATA[Introduzca la contraseña]]></value>
-		<value xml:lang="tr"><![CDATA[Lüften Şifreyi girin]]></value>
+		<value xml:lang="tr"><![CDATA[Lüften şifreyi Girin]]></value>
 		<value xml:lang="vi"><![CDATA[Xin vui lòng nhập mật khẩu!]]></value>
 		<value xml:lang="mn"><![CDATA[Нууц дугаараа оруулна уу]]></value>
 	</item>
@@ -2672,7 +2680,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Ungültige Artikelnummer]]></value>
 		<value xml:lang="ru"><![CDATA[Неверный номер статьи]]></value>
 		<value xml:lang="es"><![CDATA[Documento inválido]]></value>
-		<value xml:lang="tr"><![CDATA[Geçersiz yazı numarası]]></value>
+		<value xml:lang="tr"><![CDATA[Geçersiz Döküman Numarası]]></value>
 		<value xml:lang="vi"><![CDATA[Bài viết không tồn tại]]></value>
 		<value xml:lang="mn"><![CDATA[Бичлэгийн дугаар буруу байна]]></value>
 	</item>
@@ -2742,7 +2750,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Kein Ergebnis]]></value>
 		<value xml:lang="ru"><![CDATA[Ничего не найдено]]></value>
 		<value xml:lang="es"><![CDATA[Sin resultado]]></value>
-		<value xml:lang="tr"><![CDATA[Hiçbir şey bulunamadı]]></value>
+		<value xml:lang="tr"><![CDATA[Hiçbir sonuç bulunamadı]]></value>
 		<value xml:lang="vi"><![CDATA[Không có kết quả nào được tìm thấy.]]></value>
 		<value xml:lang="mn"><![CDATA[Хайлтын үр дүн байхгүй байна]]></value>
 	</item>
@@ -2754,7 +2762,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[連結失敗]]></value>
 		<value xml:lang="de"><![CDATA[ungültiger Aufruf]]></value>
 		<value xml:lang="ru"><![CDATA[Ошибка в запрашиваемом соединении]]></value>
-		<value xml:lang="tr"><![CDATA[İsteğiniz gerçekleşmedi.]]></value>
+		<value xml:lang="tr"><![CDATA[İsteğiniz gercekleşemedi.]]></value>
 		<value xml:lang="mn"><![CDATA[Холболт амжилтгvй боллоо.]]></value>
 	</item>
 	<item name="msg_invalid_format">
@@ -2765,7 +2773,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[格式錯誤]]></value>
 		<value xml:lang="de"><![CDATA[ein falsches Format]]></value>
 		<value xml:lang="ru"><![CDATA[Неверный формат]]></value>
-		<value xml:lang="tr"><![CDATA[Geçersiz Biçim]]></value>
+		<value xml:lang="tr"><![CDATA[Geçersiz Format]]></value>
 		<value xml:lang="mn"><![CDATA[Буруу хэлбэр байна.]]></value>
 	</item>
 	<item name="msg_not_permitted_act">
@@ -2778,7 +2786,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Sie haben keine Berechtigung, um den aufgeforderten Vorgang auszuführen.]]></value>
 		<value xml:lang="ru"><![CDATA[У Вас нет прав для исполнения запрошенного действия]]></value>
 		<value xml:lang="es"><![CDATA[No está permitodo para ejecutar esta acción]]></value>
-		<value xml:lang="tr"><![CDATA[İstenilen eylemi gerçekleştirmeye yetkiniz yok.]]></value>
+		<value xml:lang="tr"><![CDATA[İstenilen eylemi gercekleştirmeye yetkiniz yok.]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn không được phép làm việc này.]]></value>
 		<value xml:lang="mn"><![CDATA[Хүсэлт гаргасан үйлдлийг хэрэгжүүлэх эрх байхгүй.]]></value>
 	</item>
@@ -2788,7 +2796,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールが見つかりません。 サイトマネージャへモジュールの点検をお問い合わせください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您所请求的模块不存在，请联系您的网站管理员。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[找不到所登錄的模組。 請詢問網站管理員檢查模組。]]></value>
-		<value xml:lang="de"><![CDATA[Das aufgeforderte Modul ist nicht zu finden.  Bitte melden Sie sich dem Administrator des Moduls!]]></value>
+		<value xml:lang="de"><![CDATA[Das aufgeforderte Modul ist nicht zu finden. Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 	</item>
 	<item name="msg_module_is_not_standalone">
 		<value xml:lang="ko"><![CDATA[요청하신 모듈은 독립적으로 동작할 수 없습니다.]]></value>
@@ -2800,7 +2808,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Das aufgeforderte Modul kann nicht selbstständig ausgeführt werden.]]></value>
 		<value xml:lang="ru"><![CDATA[Запрошенный модуль не может быть исполнен независимо]]></value>
 		<value xml:lang="es"><![CDATA[El Módulo requerido no funciona solo.]]></value>
-		<value xml:lang="tr"><![CDATA[İstenilen modül bağımsız çalışamaz.]]></value>
+		<value xml:lang="tr"><![CDATA[İstenilen modul bağımsız calıştırılamaz.]]></value>
 		<value xml:lang="vi"><![CDATA[Module yêu cầu không thể thực hiện độc lập.]]></value>
 		<value xml:lang="mn"><![CDATA[Хүсэлт гаргасан модиул нь бие даан хэрэгжих боломжгүй]]></value>
 	</item>
@@ -2820,17 +2828,20 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot find the Search target.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[搜索不到目标]]></value>
 		<value xml:lang="zh-TW"><![CDATA[搜尋不到目標]]></value>
+		<value xml:lang="tr"><![CDATA[Arama amacı bulunamadı]]></value>
 	</item>
 	<item name="msg_empty_search_keyword">
 		<value xml:lang="ko"><![CDATA[검색어가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot find the Keyword.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[搜索不到关键字]]></value>
 		<value xml:lang="zh-TW"><![CDATA[搜尋不到關鍵字]]></value>
+		<value xml:lang="tr"><![CDATA[Anahtar kelime yok]]></value>
 	</item>
 	<item name="comment_to_be_approved">
 		<value xml:lang="ko"><![CDATA[관리자의 확인이 필요한 댓글입니다.]]></value>
 		<value xml:lang="en"><![CDATA[Your comment must be approved by admin before being published.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您的回复在通过管理员审核之后才会被显示出来。]]></value>
+		<value xml:lang="tr"><![CDATA[Yorumunuz, yayınlanmadan önce adminden onay almanız gerekir]]></value>
 	</item>
 	<item name="success_registed">
 		<value xml:lang="ko"><![CDATA[등록했습니다.]]></value>
@@ -2870,7 +2881,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Es ist erfolgreich aktualisiert.]]></value>
 		<value xml:lang="ru"><![CDATA[Обновление успешно]]></value>
 		<value xml:lang="es"><![CDATA[Actualizado con éxito]]></value>
-		<value xml:lang="tr"><![CDATA[Başarıyla Güncellendi.]]></value>
+		<value xml:lang="tr"><![CDATA[Başarıyla Guncellendi.]]></value>
 		<value xml:lang="vi"><![CDATA[Đã cập nhật thành công.]]></value>
 		<value xml:lang="mn"><![CDATA[Засварлагдсан]]></value>
 	</item>
@@ -2934,7 +2945,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Es ist erfolgreich verschoben.]]></value>
 		<value xml:lang="ru"><![CDATA[Перемещено успешно]]></value>
 		<value xml:lang="es"><![CDATA[Movido con éxito]]></value>
-		<value xml:lang="tr"><![CDATA[Başarıyla Taşındı.]]></value>
+		<value xml:lang="tr"><![CDATA[Başarıyla Tanındı.]]></value>
 		<value xml:lang="vi"><![CDATA[Đã chuyển.]]></value>
 		<value xml:lang="mn"><![CDATA[Шилжсэн]]></value>
 	</item>
@@ -3001,10 +3012,12 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[注册失败。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[註冊失敗。]]></value>
 		<value xml:lang="de"><![CDATA[Misserfolg der Registrierung]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıt edilemiyor]]></value>
 	</item>
 	<item name="fail_to_update">
 		<value xml:lang="ko"><![CDATA[수정하지 못했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Fail to update.]]></value>
+		<value xml:lang="tr"><![CDATA[Güncellenemedi]]></value>
 	</item>
 	<item name="fail_to_delete">
 		<value xml:lang="ko"><![CDATA[삭제 실패했습니다.]]></value>
@@ -3154,6 +3167,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[確定要復原嗎?]]></value>
 		<value xml:lang="de"><![CDATA[Sind Sie sicher, dass Sie es wiederherstellen wollen?]]></value>
 		<value xml:lang="ru"><![CDATA[Восстановить?]]></value>
+		<value xml:lang="tr"><![CDATA[Yenilemek istediğine emin misin?]]></value>
 	</item>
 	<item name="confirm_move">
 		<value xml:lang="ko"><![CDATA[이동하시겠습니까?]]></value>
@@ -3193,7 +3207,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Sind Sie sicher, dass Sie austreten wollen?]]></value>
 		<value xml:lang="ru"><![CDATA[Вы подтверждаете удаление аккаунта?]]></value>
 		<value xml:lang="es"><![CDATA[¿Está seguro que desea abandonar?]]></value>
-		<value xml:lang="tr"><![CDATA[Çıkmak istediğinize emin misiniz?]]></value>
+		<value xml:lang="tr"><![CDATA[Cıkmak istediğinize emin misiniz?]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn chắc chắn muốn từ bỏ?]]></value>
 		<value xml:lang="mn"><![CDATA[Гишүүнээс гарах уу?]]></value>
 	</item>
@@ -3218,13 +3232,13 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Spaltenart]]></value>
 		<value xml:lang="ru"><![CDATA[Тип колонки]]></value>
 		<value xml:lang="es"><![CDATA[Tipos de Columnas]]></value>
-		<value xml:lang="tr"><![CDATA[Sütun Türü]]></value>
+		<value xml:lang="tr"><![CDATA[Sütun Turu]]></value>
 		<value xml:lang="vi"><![CDATA[Định dạng cột]]></value>
 		<value xml:lang="mn"><![CDATA[Хэлбэр]]></value>
 	</item>
 	<item name="column_type_list" type="array">
 		<item name="text">
-			<value xml:lang="ko"><![CDATA[한줄 입력칸 (text)]]></value>
+			<value xml:lang="ko"><![CDATA[한줄 입력칸(text)]]></value>
 			<value xml:lang="en"><![CDATA[one-line text]]></value>
 			<value xml:lang="jp"><![CDATA[入力フィールド(text)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[单行文本输入区(text)]]></value>
@@ -3235,7 +3249,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="es"><![CDATA[Texto sin cambio de línea]]></value>
 			<value xml:lang="tr"><![CDATA[tek satırlık metin]]></value>
 			<value xml:lang="vi"><![CDATA[Ô nhập liệu]]></value>
-			<value xml:lang="mn"><![CDATA[Нэг мөрөөр оруулах (text)]]></value>
+			<value xml:lang="mn"><![CDATA[Нэг мөрөөр оруулах(text)]]></value>
 		</item>
 		<item name="homepage">
 			<value xml:lang="ko"><![CDATA[URL 형식]]></value>
@@ -3247,10 +3261,10 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="de"><![CDATA[Url-Adresse]]></value>
 			<value xml:lang="es"><![CDATA[URL de la página web]]></value>
 			<value xml:lang="vi"><![CDATA[URL]]></value>
-			<value xml:lang="mn"><![CDATA[Веб хуудас хэлбэр (url)]]></value>
+			<value xml:lang="mn"><![CDATA[Веб хуудас хэлбэр(url)]]></value>
 		</item>
 		<item name="email_address">
-			<value xml:lang="ko"><![CDATA[이메일 형식 (email)]]></value>
+			<value xml:lang="ko"><![CDATA[이메일 형식(email)]]></value>
 			<value xml:lang="en"><![CDATA[Email]]></value>
 			<value xml:lang="jp"><![CDATA[メールアドレスタイプ(email)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[邮件格式(email)]]></value>
@@ -3260,10 +3274,10 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="es"><![CDATA[Correo Electrónico]]></value>
 			<value xml:lang="tr"><![CDATA[e-posta]]></value>
 			<value xml:lang="vi"><![CDATA[Email]]></value>
-			<value xml:lang="mn"><![CDATA[Мэйл хэлбэр (email)]]></value>
+			<value xml:lang="mn"><![CDATA[Мэйл хэлбэр(email)]]></value>
 		</item>
 		<item name="tel">
-			<value xml:lang="ko"><![CDATA[전화번호 형식 (phone)]]></value>
+			<value xml:lang="ko"><![CDATA[전화번호 형식(phone)]]></value>
 			<value xml:lang="en"><![CDATA[Phone number]]></value>
 			<value xml:lang="jp"><![CDATA[電話番号タイプ(phone)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[电话号码格式(phone)]]></value>
@@ -3274,10 +3288,10 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="es"><![CDATA[Número de teléfono]]></value>
 			<value xml:lang="tr"><![CDATA[telefon numarası]]></value>
 			<value xml:lang="vi"><![CDATA[Số điện thoại]]></value>
-			<value xml:lang="mn"><![CDATA[Утасны дугаар хэлбэр (phone)]]></value>
+			<value xml:lang="mn"><![CDATA[Утасны дугаар хэлбэр(phone)]]></value>
 		</item>
 		<item name="textarea">
-			<value xml:lang="ko"><![CDATA[여러 줄 입력칸 (textarea)]]></value>
+			<value xml:lang="ko"><![CDATA[여러 줄 입력칸(textarea)]]></value>
 			<value xml:lang="en"><![CDATA[multi-line textarea]]></value>
 			<value xml:lang="jp"><![CDATA[テキストエリア(textarea)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[多行文本框(textarea)]]></value>
@@ -3286,75 +3300,75 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="de"><![CDATA[Mehrere Zeilen Text]]></value>
 			<value xml:lang="ru"><![CDATA[Многострочное окно ввода]]></value>
 			<value xml:lang="es"><![CDATA[Texto multi-linea]]></value>
-			<value xml:lang="tr"><![CDATA[çok satırlı metin alanı]]></value>
+			<value xml:lang="tr"><![CDATA[cok satırlı metin alanı]]></value>
 			<value xml:lang="vi"><![CDATA[Khu vực nội dung]]></value>
-			<value xml:lang="mn"><![CDATA[Олон мөрөөр оруулах (textarea)]]></value>
+			<value xml:lang="mn"><![CDATA[Олон мөрөөр оруулах(textarea)]]></value>
 		</item>
 		<item name="checkbox">
-			<value xml:lang="ko"><![CDATA[다중 선택 (checkbox)]]></value>
-			<value xml:lang="en"><![CDATA[checkbox (multiple selection)]]></value>
+			<value xml:lang="ko"><![CDATA[다중 선택(checkbox)]]></value>
+			<value xml:lang="en"><![CDATA[checkbox(multiple selection)]]></value>
 			<value xml:lang="jp"><![CDATA[チェックボックス(checkbox)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[复选框(checkbox)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[核取方塊(checkbox)]]></value>
-			<value xml:lang="fr"><![CDATA[Case à cocher (multichoix)]]></value>
+			<value xml:lang="fr"><![CDATA[Case à cocher(multichoix)]]></value>
 			<value xml:lang="de"><![CDATA[Multiple Auswahl]]></value>
-			<value xml:lang="ru"><![CDATA[Чекбокс (мульти вариант)]]></value>
-			<value xml:lang="es"><![CDATA[Caja de chequeo (selección múltiple)]]></value>
-			<value xml:lang="tr"><![CDATA[onay kutusu (çoklu seçim)]]></value>
-			<value xml:lang="vi"><![CDATA[Ô chọn (Nhiều lựa chọn)]]></value>
-			<value xml:lang="mn"><![CDATA[Олон сонголт хийх (checkbox)]]></value>
+			<value xml:lang="ru"><![CDATA[Чекбокс(мульти вариант)]]></value>
+			<value xml:lang="es"><![CDATA[Caja de chequeo(selección múltiple)]]></value>
+			<value xml:lang="tr"><![CDATA[onay kutusu(çoklu seçim)]]></value>
+			<value xml:lang="vi"><![CDATA[Ô chọn(Nhiều lựa chọn)]]></value>
+			<value xml:lang="mn"><![CDATA[Олон сонголт хийх(checkbox)]]></value>
 		</item>
 		<item name="select">
-			<value xml:lang="ko"><![CDATA[단일 선택 (select)]]></value>
-			<value xml:lang="en"><![CDATA[select box (single selection)]]></value>
+			<value xml:lang="ko"><![CDATA[단일 선택(select)]]></value>
+			<value xml:lang="en"><![CDATA[select box(single selection)]]></value>
 			<value xml:lang="jp"><![CDATA[ひとつ選択(select)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[下拉列表框(select)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[下拉式選單(select)]]></value>
-			<value xml:lang="fr"><![CDATA[Case d'option (seul choix)]]></value>
+			<value xml:lang="fr"><![CDATA[Case d'option(seul choix)]]></value>
 			<value xml:lang="de"><![CDATA[Nur eine Auswahl]]></value>
-			<value xml:lang="ru"><![CDATA[Выбор (один вариант)]]></value>
-			<value xml:lang="es"><![CDATA[Selección (selección individual)]]></value>
-			<value xml:lang="tr"><![CDATA[kutuyu seç (tekli seçim)]]></value>
-			<value xml:lang="vi"><![CDATA[Ô chọn (Một lựa chọn)]]></value>
-			<value xml:lang="mn"><![CDATA[Ганц сонголт хийх (select)]]></value>
+			<value xml:lang="ru"><![CDATA[Выбор(один вариант)]]></value>
+			<value xml:lang="es"><![CDATA[Selección(selección individual)]]></value>
+			<value xml:lang="tr"><![CDATA[kutuyu seç(tekli seçim)]]></value>
+			<value xml:lang="vi"><![CDATA[Ô chọn(Một lựa chọn)]]></value>
+			<value xml:lang="mn"><![CDATA[Ганц сонголт хийх(select)]]></value>
 		</item>
 		<item name="radio">
-			<value xml:lang="ko"><![CDATA[라디오 버튼 (radio)]]></value>
-			<value xml:lang="en"><![CDATA[radio button (radio)]]></value>
+			<value xml:lang="ko"><![CDATA[라디오 버튼(radio)]]></value>
+			<value xml:lang="en"><![CDATA[radio button(radio)]]></value>
 			<value xml:lang="jp"><![CDATA[ラジオボタン(radio)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[单选框(radio)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[選項按紐(radio)]]></value>
 			<value xml:lang="de"><![CDATA[Radiobutton]]></value>
-			<value xml:lang="ru"><![CDATA[Кнопка радио (радио)]]></value>
-			<value xml:lang="tr"><![CDATA[radyo düğmesi (radyo)]]></value>
+			<value xml:lang="ru"><![CDATA[Кнопка радио(радио)]]></value>
+			<value xml:lang="tr"><![CDATA[radyo tuşu(radyo)]]></value>
 			<value xml:lang="mn"><![CDATA[Нэг eдeр сонгох(radio)]]></value>
 		</item>
 		<item name="kr_zip">
-			<value xml:lang="ko"><![CDATA[한국주소 (zip)]]></value>
-			<value xml:lang="en"><![CDATA[zip code (Korean)]]></value>
+			<value xml:lang="ko"><![CDATA[한국주소(zip)]]></value>
+			<value xml:lang="en"><![CDATA[zip code(Korean)]]></value>
 			<value xml:lang="jp"><![CDATA[韓国住所(zip)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[韩国邮编(zip)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[韓國郵編(zip)]]></value>
-			<value xml:lang="fr"><![CDATA[Code postal (coréen)]]></value>
+			<value xml:lang="fr"><![CDATA[Code postal(coréen)]]></value>
 			<value xml:lang="de"><![CDATA[Postleitzahl(aber nur in Korean)]]></value>
-			<value xml:lang="ru"><![CDATA[Почтовый индекс (Корейский)]]></value>
-			<value xml:lang="tr"><![CDATA[zip kodu (Kore)]]></value>
-			<value xml:lang="vi"><![CDATA[Mã số bưu điện (Korean)]]></value>
-			<value xml:lang="mn"><![CDATA[Солонгос хаяг (zip)]]></value>
+			<value xml:lang="ru"><![CDATA[Почтовый индекс(Корейский)]]></value>
+			<value xml:lang="tr"><![CDATA[zip kodu(Kore)]]></value>
+			<value xml:lang="vi"><![CDATA[Mã số bưu điện(Korean)]]></value>
+			<value xml:lang="mn"><![CDATA[Солонгос хаяг(zip)]]></value>
 		</item>
 		<item name="date">
-			<value xml:lang="ko"><![CDATA[일자 (연월일)]]></value>
-			<value xml:lang="en"><![CDATA[date (yyyy/mm/dd)]]></value>
+			<value xml:lang="ko"><![CDATA[일자(연월일)]]></value>
+			<value xml:lang="en"><![CDATA[date(yyyy/mm/dd)]]></value>
 			<value xml:lang="jp"><![CDATA[日付(年月日)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[日期(年月日)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[日期(年月日)]]></value>
-			<value xml:lang="fr"><![CDATA[Jour (yyyy/mm/dd)]]></value>
-			<value xml:lang="de"><![CDATA[Datum (dd / mm /jjjj)]]></value>
-			<value xml:lang="ru"><![CDATA[Дата (гггг / мм / дд)]]></value>
-			<value xml:lang="es"><![CDATA[fecha (dd/mm/aaaa)]]></value>
-			<value xml:lang="tr"><![CDATA[tarih (gg/aa/yyyy)]]></value>
-			<value xml:lang="vi"><![CDATA[Ngày (yyyy/mm/dd)]]></value>
-			<value xml:lang="mn"><![CDATA[Онсар  (Жил сар өдөр)]]></value>
+			<value xml:lang="fr"><![CDATA[Jour(yyyy/mm/dd)]]></value>
+			<value xml:lang="de"><![CDATA[Datum(dd / mm /jjjj)]]></value>
+			<value xml:lang="ru"><![CDATA[Дата(гггг / мм / дд)]]></value>
+			<value xml:lang="es"><![CDATA[fecha(dd/mm/aaaa)]]></value>
+			<value xml:lang="tr"><![CDATA[tarih(gg/aa/yyyy)]]></value>
+			<value xml:lang="vi"><![CDATA[Ngày(yyyy/mm/dd)]]></value>
+			<value xml:lang="mn"><![CDATA[Онсар (Жил сар өдөр)]]></value>
 		</item>
 	</item>
 	<item name="column_name">
@@ -3381,7 +3395,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Spaltentitel]]></value>
 		<value xml:lang="ru"><![CDATA[Заголовок колонки]]></value>
 		<value xml:lang="es"><![CDATA[Título de la Columna]]></value>
-		<value xml:lang="tr"><![CDATA[Sütun başlığı]]></value>
+		<value xml:lang="tr"><![CDATA[Sutun başlığı]]></value>
 		<value xml:lang="vi"><![CDATA[Tiêu đề cột]]></value>
 		<value xml:lang="mn"><![CDATA[Баганын гарчиг]]></value>
 	</item>
@@ -3448,7 +3462,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="fr"><![CDATA[Entrez une valeur pour %s]]></value>
 			<value xml:lang="de"><![CDATA[Bitte geben Sie einen Wert für% s ein!]]></value>
 			<value xml:lang="es"><![CDATA[Introduzca valor en el %s]]></value>
-			<value xml:lang="tr"><![CDATA[ Lütfen %s için  bir değer girin]]></value>
+			<value xml:lang="tr"><![CDATA[Lutfen %s icin bir değer girin]]></value>
 			<value xml:lang="vi"><![CDATA[Xin vui lòng nhập giá trị cho %s]]></value>
 			<value xml:lang="mn"><![CDATA[%s-ийг оруулна уу]]></value>
 		</item>
@@ -3484,6 +3498,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの値が正しくありません。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s值有误。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s值有誤。]]></value>
+			<value xml:lang="tr"><![CDATA[%s değeri uymuyordur.]]></value>
 		</item>
 		<item name="invalid_email">
 			<value xml:lang="ko"><![CDATA[%s의 값은 올바른 메일 주소가 아닙니다.]]></value>
@@ -3494,74 +3509,59 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="fr"><![CDATA[Le format de %s est invalide. ex) developers@xpressengine.com]]></value>
 			<value xml:lang="de"><![CDATA[% s ist eine ungültige Mail. ex) developers@xpressengine.com]]></value>
 			<value xml:lang="ru"><![CDATA[The format of %s is invalid. ex) developers@xpressengine.com]]></value>
-			<value xml:lang="es"><![CDATA[Formato email inválido en el %s (ej. developers@xpressengine.com)]]></value>
+			<value xml:lang="es"><![CDATA[Formato email inválido en el %s(ej. developers@xpressengine.com)]]></value>
 			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. örn.) developers@xpressengine.com]]></value>
 			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ. Ví dụ: emailname@yahoo.com]]></value>
-			<value xml:lang="mn"><![CDATA[%s-ын хэлбэрийг буруу оруулсан байна. (Жнь: developers@xpressengine.com)]]></value>
+			<value xml:lang="mn"><![CDATA[%s-ын хэлбэрийг буруу оруулсан байна.(Жнь: developers@xpressengine.com)]]></value>
 		</item>
 		<item name="invalid_userid">
 			<value xml:lang="ko"><![CDATA[%s의 값은 영문, 숫자, _만 가능하며 첫 글자는 영문이어야 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[The %s field allows only alphabets, numbers and underscore(_).
-			The first letter should be an alaphabet.]]></value>
-			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。
-			半角の英数字と記号「_」を組み合わせて入力してください。頭文字は半角英文字でなければなりません。]]></value>
+			<value xml:lang="en"><![CDATA[The %s field allows only alphabets, numbers and underscore(_). The first letter should be an alaphabet.]]></value>
+			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。半角の英数字と記号「_」を組み合わせて入力してください。頭文字は半角英文字でなければなりません。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能用英文，数字和 _，首个字符必须是英文字母。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s只允許使用英文，數字和底線，開頭必須是英文。]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable.
-			Toutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l'alphabet.]]></value>
-			<value xml:lang="de"><![CDATA[% s ist ungültig. Alle Werte sollten aus Alphatbet, Zahlen oder Unterstrich (_) und der erste Buchstabe sollte Alphabet.]]></value>
-			<value xml:lang="ru"><![CDATA[The format of %s is invalid.
-			All values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet]]></value>
-			<value xml:lang="es"><![CDATA[Formato inválido en el %s.
-			Sólo pueden introducir los alfabetos o los dígitos númericos o el guión bajo(_). Además, el primer valor sólo puede ser una letra de alfabeto]]></value>
-			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz.
-			Tüm değerler alfabe harfleri, sayılar veya alttire(_)'den oluşmalı ve ilk karakter bir harf olmalıdır.]]></value>
-			<value xml:lang="vi"><![CDATA[Định dạng của %s Không hợp lệ.
-			Giá trị hợp lệ bao gồm các kí tự từ a-z, các chữ số và dấu gạch dưới (_).]]></value>
-			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. .
-			Латин vсэг, тоо болон  '_'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. Toutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l'alphabet.]]></value>
+			<value xml:lang="de"><![CDATA[% s ist ungültig. Alle Werte sollten aus Alphatbet, Zahlen oder Unterstrich(_) und der erste Buchstabe sollte Alphabet.]]></value>
+			<value xml:lang="ru"><![CDATA[The format of %s is invalid. All values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet]]></value>
+			<value xml:lang="es"><![CDATA[Formato inválido en el %s. Sólo pueden introducir los alfabetos o los dígitos númericos o el guión bajo(_). Además, el primer valor sólo puede ser una letra de alfabeto]]></value>
+			<value xml:lang="tr"><![CDATA[%s bicimi gecersiz. Tum de?erler alfabe harfleri, sayılar veya alttire(_)'den olu?malı ve ilk karakter bir harf olmalıdır.]]></value>
+			<value xml:lang="vi"><![CDATA[Định dạng của %s Không hợp lệ. Giá trị hợp lệ bao gồm các kí tự từ a-z, các chữ số và dấu gạch dưới(_).]]></value>
+			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. . Латин vсэг, тоо болон '_'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ]]></value>
 		</item>
 		<item name="invalid_user_id">
 			<value xml:lang="ko"><![CDATA[%s의 값은 영문, 숫자, _만 가능하며 첫 글자는 영문이어야 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[The %s field allows only alphabets, numbers and underscore(_).
-			The first letter should be an alaphabet.]]></value>
-			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。
-			半角の英数字と記号「_」を組み合わせて入力してください。頭文字は半角英文字でなければなりません。]]></value>
+			<value xml:lang="en"><![CDATA[The %s field allows only alphabets, numbers and underscore(_). The first letter should be an alaphabet.]]></value>
+			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。半角の英数字と記号「_」を組み合わせて入力してください。頭文字は半角英文字でなければなりません。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能用英文，数字和 _，首个字符必须是英文字母。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s只允許使用英文，數字和底線，開頭必須是英文。]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable.
-			Toutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l'alphabet.]]></value>
-			<value xml:lang="de"><![CDATA[% s ist ungültig. Alle Werte sollten aus Alphatbet, Zahlen oder Unterstrich (_) und der erste Buchstabe sollte Alphabet.]]></value>
-			<value xml:lang="ru"><![CDATA[The format of %s is invalid.
-			All values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet]]></value>
-			<value xml:lang="es"><![CDATA[Formato inválido en el %s.
-			Sólo pueden introducir los alfabetos o los dígitos númericos o el guión bajo(_). Además, el primer valor sólo puede ser una letra de alfabeto]]></value>
-			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz.
-			Tüm değerler alfabe harfleri, sayılar veya alttire(_)'den oluşmalı ve ilk karakter bir harf olmalıdır.]]></value>
-			<value xml:lang="vi"><![CDATA[Định dạng của %s Không hợp lệ.
-			Giá trị hợp lệ bao gồm các kí tự từ a-z, các chữ số và dấu gạch dưới (_).]]></value>
-			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. .
-			Латин vсэг, тоо болон  '_'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. Toutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l'alphabet.]]></value>
+			<value xml:lang="de"><![CDATA[% s ist ungültig. Alle Werte sollten aus Alphatbet, Zahlen oder Unterstrich(_) und der erste Buchstabe sollte Alphabet.]]></value>
+			<value xml:lang="ru"><![CDATA[The format of %s is invalid. All values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet]]></value>
+			<value xml:lang="es"><![CDATA[Formato inválido en el %s. Sólo pueden introducir los alfabetos o los dígitos númericos o el guión bajo(_). Además, el primer valor sólo puede ser una letra de alfabeto]]></value>
+			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. Tüm değerler alfabe harfleri, sayılar veya alttire(_)'den oluşmalı ve ilk karakter bir harf olmalıdır.]]></value>
+			<value xml:lang="vi"><![CDATA[Định dạng của %s Không hợp lệ. Giá trị hợp lệ bao gồm các kí tự từ a-z, các chữ số và dấu gạch dưới(_).]]></value>
+			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. . Латин vсэг, тоо болон '_'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ]]></value>
 		</item>
 		<item name="invalid_homepage">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. (예: http://www.xpressengine.com)]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다.(예: http://www.xpressengine.com)]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. e.g.) http://xpressengine.com/]]></value>
-			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。 (例: http://www.xepressengine.com)]]></value>
+			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。(例: http://www.xepressengine.com)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s格式有误。（例： http://xpressengine.com/)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s格式有誤。(例： http://xpressengine.com/)]]></value>
 			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. ex) http://xpressengine.com/]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Z.B. http://xpressengine.com/]]></value>
-			<value xml:lang="es"><![CDATA[Formato url inválido en el %s (ej: http://xpressengine.com/)]]></value>
+			<value xml:lang="es"><![CDATA[Formato url inválido en el %s(ej: http://xpressengine.com/)]]></value>
 			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. örn.) http://xpressengine.com/]]></value>
 			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ. Đúng sẽ là: http://xpressengine.vn hoặc http://www.xpressengine.vn]]></value>
-			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна.. (Жнь: http://xpressengine.com/)]]></value>
+			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна..(Жнь: http://xpressengine.com/)]]></value>
 		</item>
 		<item name="invalid_url">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. (예: http://www.xpressengine.com)]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다.(예: http://www.xpressengine.com)]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. e.g.) http://xpressengine.com/]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。例) http://xpressengine.com/]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s 格式错误。 例）http://xpressengine.com/]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s 格式錯誤。 例) http://xpressengine.com/]]></value>
+			<value xml:lang="tr"><![CDATA[%s formatı geçersizdir.) http://xpressengine.com/]]></value>
 		</item>
 		<item name="invalid_korean">
 			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 한글로만 입력하셔야 합니다.]]></value>
@@ -3620,6 +3620,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. Module ID should be begun with a letter. Subsequent characters may be letters, digits or underscore characters.]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s 格式错误。 模块名称只能用英文、数字及下划线，开头必须是英文。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s 格式錯誤。 模組名稱只能使用英文、數字及底線，開頭必須是英文。]]></value>
+			<value xml:lang="tr"><![CDATA[%s formatı geçersizdir. Modülün ID'si harf ile başlaması gerekmektedir.]]></value>
 		</item>
 		<item name="invalid_number">
 			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 숫자로만 입력하셔야 합니다.]]></value>
@@ -3630,7 +3631,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. Entrez seulement des chiffres.]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Bitte nur Zahlen eingeben.]]></value>
 			<value xml:lang="es"><![CDATA[Sólo puede introducir los dígitos numéricos en el %s]]></value>
-			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz . Lütfen sadece numaraları kullanın.]]></value>
+			<value xml:lang="tr"><![CDATA[%s bicimi geçersizdir . Lütfen sadece numaraları kullanın.]]></value>
 			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ. Chỉ sử dụng các chữ số]]></value>
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. Зөвхөн тоогоор оруулах ёстой.]]></value>
 		</item>
@@ -3655,7 +3656,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="de"><![CDATA[Möchten Sie Mobile-Look?]]></value>
 		<value xml:lang="ru"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
 		<value xml:lang="es"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
-		<value xml:lang="tr"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
+		<value xml:lang="tr"><![CDATA[Bu sayfanın mobil versiyonu bulunmaktadır. Mobil sayfaya geçiş yapmak istiyor musunuz?]]></value>
 		<value xml:lang="vi"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
 		<value xml:lang="mn"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
 	</item>
@@ -3666,6 +3667,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[是]]></value>
 		<value xml:lang="zh-TW"><![CDATA[是]]></value>
 		<value xml:lang="de"><![CDATA[Ja]]></value>
+		<value xml:lang="tr"><![CDATA[Evet]]></value>
 	</item>
 	<item name="cmd_no">
 		<value xml:lang="ko"><![CDATA[아니오]]></value>
@@ -3674,6 +3676,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[否]]></value>
 		<value xml:lang="zh-TW"><![CDATA[否]]></value>
 		<value xml:lang="de"><![CDATA[Nein]]></value>
+		<value xml:lang="tr"><![CDATA[Hayır]]></value>
 	</item>
 	<item name="cmd_set_multilingual">
 		<value xml:lang="ko"><![CDATA[다국어 설정]]></value>
@@ -3681,6 +3684,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择语言]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇語言]]></value>
 		<value xml:lang="de"><![CDATA[Sprache wählen]]></value>
+		<value xml:lang="tr"><![CDATA[Dil Seçimi]]></value>
 	</item>
 	<item name="cmd_multilingual">
 		<value xml:lang="ko"><![CDATA[다국어]]></value>
@@ -3688,6 +3692,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[语言]]></value>
 		<value xml:lang="zh-TW"><![CDATA[語言]]></value>
 		<value xml:lang="de"><![CDATA[Sprache]]></value>
+		<value xml:lang="tr"><![CDATA[Diller]]></value>
 	</item>
 	<item name="find_site">
 		<value xml:lang="ko"><![CDATA[사이트 찾기]]></value>
@@ -3695,30 +3700,35 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[查找站点]]></value>
 		<value xml:lang="zh-TW"><![CDATA[尋找網站]]></value>
 		<value xml:lang="de"><![CDATA[Website Finden]]></value>
+		<value xml:lang="tr"><![CDATA[Site Bul]]></value>
 	</item>
 	<item name="captcha">
 		<value xml:lang="ko"><![CDATA[Captcha]]></value>
 		<value xml:lang="en"><![CDATA[Captcha]]></value>
 		<value xml:lang="zh-CN"><![CDATA[图形验证码]]></value>
 		<value xml:lang="zh-TW"><![CDATA[圖形驗證]]></value>
+		<value xml:lang="tr"><![CDATA[Güvenlik Kodu]]></value>
 	</item>
 	<item name="reload">
 		<value xml:lang="ko"><![CDATA[새로고침]]></value>
 		<value xml:lang="en"><![CDATA[reload]]></value>
 		<value xml:lang="zh-CN"><![CDATA[重新加载]]></value>
 		<value xml:lang="zh-TW"><![CDATA[重新讀取]]></value>
+		<value xml:lang="tr"><![CDATA[tekrar yükle]]></value>
 	</item>
 	<item name="play">
 		<value xml:lang="ko"><![CDATA[음성재생]]></value>
 		<value xml:lang="en"><![CDATA[play]]></value>
 		<value xml:lang="zh-CN"><![CDATA[播放]]></value>
 		<value xml:lang="zh-TW"><![CDATA[播放]]></value>
+		<value xml:lang="tr"><![CDATA[Oynat]]></value>
 	</item>
 	<item name="use_and_display">
 		<value xml:lang="ko"><![CDATA[사용+노출]]></value>
 		<value xml:lang="en"><![CDATA[Use+Display]]></value>
 		<value xml:lang="zh-CN"><![CDATA[使用+显示]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用+顯示]]></value>
+		<value xml:lang="tr"><![CDATA[Kullan + Göster]]></value>
 	</item>
 	<item name="mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 뷰 사용]]></value>
@@ -3729,7 +3739,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="fr"><![CDATA[Use Mobile View]]></value>
 		<value xml:lang="ru"><![CDATA[Use Mobile View]]></value>
 		<value xml:lang="es"><![CDATA[Use Mobile View]]></value>
-		<value xml:lang="tr"><![CDATA[Hareketli Görünümü]]></value>
+		<value xml:lang="tr"><![CDATA[Hareketli Görünüm]]></value>
 		<value xml:lang="vi"><![CDATA[Xem bằng di động]]></value>
 	</item>
 	<item name="about_mobile_view">
@@ -3741,7 +3751,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="fr"><![CDATA[If accessing with a smartphone, display content with mobile layout.]]></value>
 		<value xml:lang="ru"><![CDATA[If accessing with a smartphone, display content with mobile layout.]]></value>
 		<value xml:lang="es"><![CDATA[If accessing with a smartphone, display content with mobile layout.]]></value>
-		<value xml:lang="tr"><![CDATA[Hareketli görünümü, mobil cihazlarla giriş yapılırken, mobil cihazlara uygun en iyi yerleşim düzenini göstermek içindir.]]></value>
+		<value xml:lang="tr"><![CDATA[Hareketli görünümde, mobil cihazlarla giriş yapılırken, mobil cihazlara uygun en iyi yerleşim düzenini göstermek içindir.]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu truy cập bằng thiết bị di động, nội dung sẽ được bố trí theo từng loại thiết bị.]]></value>
 	</item>
 	<item name="simple_view">
@@ -3749,11 +3759,13 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="en"><![CDATA[Simple View]]></value>
 		<value xml:lang="jp"><![CDATA[シンプルビュー]]></value>
 		<value xml:lang="zh-CN"><![CDATA[预览]]></value>
+		<value xml:lang="tr"><![CDATA[Basit Görünüm]]></value>
 	</item>
 	<item name="detail_view">
 		<value xml:lang="ko"><![CDATA[상세보기]]></value>
 		<value xml:lang="en"><![CDATA[Detail View]]></value>
 		<value xml:lang="jp"><![CDATA[詳細ビュー]]></value>
 		<value xml:lang="zh-CN"><![CDATA[查看详情]]></value>
+		<value xml:lang="tr"><![CDATA[Detaylı Görünüm]]></value>
 	</item>
 </lang>
