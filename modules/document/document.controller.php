@@ -967,52 +967,99 @@ class documentController extends document {
 	 * @param int $document_srl
 	 * @return void|Object
 	 */
-	function declaredDocument($document_srl) {
+	function declaredDocument($document_srl)
+	{
 		// Fail if session information already has a reported document
 		if($_SESSION['declared_document'][$document_srl]) return new Object(-1, 'failed_declared');
+
+		$trigger_obj = new stdClass();
+		$trigger_obj->document_srl = $document_srl;
+
+		// Call a trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
 		// Check if previously reported
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDeclaredDocument', $args);
 		if(!$output->toBool()) return $output;
+
 		$declared_count = $output->data->declared_count;
+
 		// Get the original document
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+
 		// Pass if the author's IP address is as same as visitor's.
 		/*if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new Object(-1, 'failed_declared');
 		}*/
+
 		// Check if document's author is a member.
-		if($oDocument->get('member_srl')) {
+		if($oDocument->get('member_srl'))
+		{
 			// Create a member model object
 			$oMemberModel = &getModel('member');
 			$member_srl = $oMemberModel->getLoggedMemberSrl();
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
-			if($member_srl && $member_srl == $oDocument->get('member_srl')) {
+			if($member_srl && $member_srl == $oDocument->get('member_srl'))
+			{
 				$_SESSION['declared_document'][$document_srl] = true;
 				return new Object(-1, 'failed_declared');
 			}
 		}
+
 		// Use member_srl for logged-in members and IP address for non-members.
-		if($member_srl) {
+		if($member_srl)
+		{
 			$args->member_srl = $member_srl;
-		} else {
+		}
+		else
+		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
+
 		// Pass after registering a sesson if reported/declared documents are in the logs.
-		if($output->data->count) {
+		if($output->data->count)
+		{
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new Object(-1, 'failed_declared');
 		}
+
+		// begin transaction
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
 		// Add the declared document
 		if($declared_count > 0) $output = executeQuery('document.updateDeclaredDocument', $args);
 		else $output = executeQuery('document.insertDeclaredDocument', $args);
 		if(!$output->toBool()) return $output;
 		// Leave logs
 		$output = executeQuery('document.insertDocumentDeclaredLog', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		// Call a trigger (after)
+		$trigger_obj->declared_count = $declared_count + 1;
+		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'after', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			$oDB->rollback();
+			return $trigger_output;
+		}
+
+		// commit
+		$oDB->commit();
+
 		// Leave in the session information
 		$_SESSION['declared_document'][$document_srl] = true;
 
