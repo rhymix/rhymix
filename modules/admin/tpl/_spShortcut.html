@@ -3,7 +3,7 @@
 	<ul class="nav nav-list">
 		<li loop="$favorite_list => $favorite">
 			<a href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</a>
-			<form class="action" action="">
+			<form class="action" action="./">
 				<input type="hidden" name="module" value="admin" />
 				<input type="hidden" name="act" value="procAdminToggleFavorite" />
 				<input type="hidden" name="site_srl" value="0" />

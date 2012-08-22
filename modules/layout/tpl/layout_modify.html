@@ -78,7 +78,7 @@
 				<block cond="$var->type == 'image'">
 					<input type="hidden" name="{$name}" id="file_{$name}" value="{$var->value}" />
 					<div id="preview_{$name}" style="display:none;"|cond="!$var->value">
-						<img src="../../../{$var->value}"|cond="$var->value" alt="" style="max-width: 250px"/>
+						<img src="../../../{$var->value}" cond="$var->value" alt="" style="max-width: 250px" />
 						<input type="button" value="{$lang->cmd_delete}" onclick="deleteImage('{$name}')" />
 					</div>
 					<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload">
@@ -134,8 +134,7 @@
 			<p class="desc">{$var->description}</p>
 		</li>
 	</block>
-	</ul>
-
+	<block cond="$act == 'dispLayoutAdminModify'"></ul></block>
 
 	<h3 class="h3" cond="$selected_layout->menu">{$lang->menu}</h3>
 	<ul cond="$selected_layout->menu">
