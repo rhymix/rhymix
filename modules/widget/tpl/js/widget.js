@@ -361,11 +361,11 @@ function doAddWidgetCode(widget_code) {
 
     // css 추가
     var tmp = widget_code;
-    while(tmp.indexOf("<!--Meta:")>-1) {
-        var pos = tmp.indexOf("<!--Meta:");
+    while(tmp.indexOf("<!--#Meta:")>-1) {
+        var pos = tmp.indexOf("<!--#Meta:");
         tmp = tmp.substr(pos);
         var eos = tmp.indexOf("-->");
-        var cssfile = tmp.substr(9,eos-9);
+        var cssfile = tmp.substr(10,eos-10);
         if(cssfile.indexOf('.js')>-1) {
             tmp = tmp.substr(eos);
             continue;
@@ -373,7 +373,7 @@ function doAddWidgetCode(widget_code) {
         if(!cssfile) break;
         tmp = tmp.substr(eos);
 
-        var cssfile = request_uri+'/'+cssfile;
+        var cssfile = request_uri+cssfile;
         if(typeof(document.createStyleSheet)=='undefined') {
             var css ='<link rel="stylesheet" href="'+cssfile+'" />';
             var dummy  = xCreateElement("DIV");
@@ -400,7 +400,10 @@ function doAddWidgetCode(widget_code) {
         script = script.replace(/^<script([^>]*)>/i,'').replace(/<\/script>$/i,'');
 
         writedText = null;
-        eval(script);
+		try{
+	        eval(script);
+		}catch(e){}
+
         widget_code = widget_code.substr(0,pos)+writedText+widget_code.substr(pos+length);
         tmp = widget_code.toLowerCase();
     }
