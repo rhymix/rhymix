@@ -815,7 +815,7 @@
                     $link = '<?php print $_names[$lang_type]; ?>';
                 }
                 // If the value of node->group_srls exists
-                if($group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged&&%s))',$group_srls,$group_srls === -1?1:-1);
+                if($group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged&&%s))',$group_srls,$group_srls === -1?'TRUE':'FALSE');
                 else $group_check_code = "true";
                 $attribute = sprintf(
                     'node_srl="%s" parent_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?php }?>"',
@@ -874,7 +874,7 @@
                 if($node->url) $child_output['url_list'][] = $node->url;
                 $output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
                 // If node->group_srls value exists
-                if($node->group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged && %s))',$node->group_srls,$node->group_srls === -1?1:-1);
+                if($node->group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged && %s))',$node->group_srls,$node->group_srls === -1?'TRUE':'FALSE');
                 else $group_check_code = "true";
                 // List variables
                 $href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
