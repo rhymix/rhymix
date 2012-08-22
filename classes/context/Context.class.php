@@ -42,6 +42,11 @@ class Context {
 	 */
 	var $ftp_info = NULL;
 	/**
+	 * ssl action cache file
+	 * @var array
+	 */
+	var $sslActionCacheFile = './files/cache/sslCacheFile.php';
+	/**
 	 * List of actions to be sent via ssl (it is used by javascript xml handler for ajax)
 	 * @var array
 	 */
@@ -117,6 +122,17 @@ class Context {
 	function &getInstance() {
 		static $theInstance = null;
 		if(!$theInstance) $theInstance = new Context();
+
+		// include ssl action cache file
+		$theInstance->sslActionCacheFile = FileHandler::getRealPath($theInstance->sslActionCacheFile);
+		if(is_readable($theInstance->sslActionCacheFile))
+		{
+			require_once($theInstance->sslActionCacheFile);
+			if(isset($sslActions))
+			{
+				$theInstance->ssl_actions = $sslActions;
+			}
+		}
 
 		return $theInstance;
 	}
@@ -1263,16 +1279,28 @@ class Context {
 		return new stdClass;
 	}
 
+
 	/**
 	 * Register if actions is to be encrypted by SSL. Those actions are sent to https in common/js/xml_handler.js
 	 *
 	 * @param string $action act name
 	 * @return void
 	 */
-	function addSSLAction($action) {
+	function addSSLAction($action)
+	{
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		if(in_array($action, $self->ssl_actions)) return;
-		$self->ssl_actions[] = $action;
+
+		if(!is_readable($self->sslActionCacheFile))
+		{
+			$buff = '<?php if(!defined("__XE__"))exit;';
+			FileHandler::writeFile($self->sslActionCacheFile, $buff);
+		}
+
+		if(!isset($self->ssl_actions[$action]))
+		{
+			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
+			FileHandler::writeFile($self->sslActionCacheFile, $sslActionCacheString, 'a');
+		}
 	}
 
 	/**
@@ -1293,7 +1321,7 @@ class Context {
 	 */
 	function isExistsSSLAction($action) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		return in_array($action, $self->ssl_actions);
+		return isset($self->ssl_actions[$action]);
 	}
 
 	/**
