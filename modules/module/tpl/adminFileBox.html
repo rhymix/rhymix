@@ -4,7 +4,7 @@
 </div>
 		<h1 class="h1">{$lang->menu_gnb_sub['filebox']}</h1>
 		<div class="fileBox">
-			<form action="" class="portlet form" method="post" enctype="multipart/form-data">
+			<form action="./" class="portlet form" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="module" value="module" />
 				<input type="hidden" name="act" value="procModuleFileBoxAdd" />
 				<input type="hidden" name="vid" value="{$vid}" />
@@ -28,7 +28,7 @@
 					</div>
 				</div>
 			</form>
-			<form action="" class="form">
+			<form action="./" class="form">
 				<ul>
 					<li loop="$filebox_list=>$key,$val">
 						<!--@foreach($val->attributes as $key => $value)-->
@@ -54,7 +54,7 @@
 				</ul>
 			</form>
 		</div>
-		<form action="" class="pagination" method="post">
+		<form action="./" class="pagination" method="post">
 			<input type="hidden" name="error_return_url" value="" />
 			<input type="hidden" name="module" value="{$module}" />
 			<input type="hidden" name="act" value="{$act}" />
@@ -64,7 +64,7 @@
 			<input cond="$childrenList" type="hidden" name="childrenList" value="{$childrenList}" />
 			<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
 
-			<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+			<a href="{getUrl('page', '')}" class="direction">&laquo; {$lang->first_page}</a>
 
 			<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
 				{@$isGoTo = true}
@@ -84,7 +84,7 @@
 				<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
 			</block>
 
-			<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+			<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">{$lang->last_page} &raquo;</a>
 
 			<span cond="$isGoTo" id="goTo" class="tgContent">
 				<input name="page" title="{$lang->cmd_go_to_page}" />
