@@ -1,6 +1,6 @@
 function doSubmitConfig()
 {
-	var $forms = jQuery('#layout_config').find('input[name][type="hidden"], input[name][type="text"], input[name][type="checkbox"]:checked, select[name], textarea[name]');
+	var $forms = jQuery('#layout_config').find('input[name][type="hidden"], input[name][type="text"], input[name][type="checkbox"]:checked, select[name], textarea[name], input[name][type="radio"]:checked');
 	var $configForm = jQuery('#config_form');
 	var $container = $configForm.children('div');
 	$container.empty();
