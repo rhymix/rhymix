@@ -663,7 +663,11 @@
 					$this->initLayout($args->layout_srl, $args->layout);
 
 					// update layout info
-					$args->extra_vars = $layout->extra_var;
+					foreach($layout->extra_var as $key => $vals)
+					{
+						$args->extra_var->{$key} = $vals->value;
+					}
+					$args->extra_vars = serialize($args->extra_var);
 					$output = $this->updateLayout($args);
 					if (!$output->toBool())
 					{
