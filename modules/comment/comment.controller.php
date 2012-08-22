@@ -82,7 +82,7 @@
             $document_srl = $obj->document_srl;
             if(!$document_srl) return new Object();
 
-            return $this->deleteComments($document_srl, true);
+            return $this->deleteComments($document_srl, $obj);
         }
 
 		/**
@@ -662,12 +662,21 @@
 		 * @param int $document_srl
 		 * @return object
 		 */
-        function deleteComments($document_srl) {
+        function deleteComments($document_srl, &$obj = NULL) {
             // create the document model object
             $oDocumentModel = &getModel('document');
             $oCommentModel = &getModel('comment');
-            // check if permission is granted
-            $oDocument = $oDocumentModel->getDocument($document_srl);
+
+			// check if permission is granted
+			if(is_object($obj))
+			{
+				$oDocument = new documentItem();
+				$oDocument->setAttribute($obj);
+			}
+			else
+			{
+            	$oDocument = $oDocumentModel->getDocument($document_srl);
+			}
             if(!$oDocument->isExists() || !$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
             // get a list of comments and then execute a trigger(way to reduce the processing cost for delete all)
             $args->document_srl = $document_srl;
