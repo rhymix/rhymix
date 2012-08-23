@@ -259,12 +259,11 @@ class Context {
 		if($_SERVER['REQUEST_METHOD'] == 'GET') {
 			if($this->get_vars) {
 				foreach($this->get_vars as $key=>$val) {
-					if(!strlen($val)) continue;
 					if(is_array($val)&&count($val)) {
 						foreach($val as $k => $v) {
 							$url .= ($url?'&':'').$key.'['.$k.']='.urlencode($v);
 						}
-					} else {
+					} elseif ($val) {
 						$url .= ($url?'&':'').$key.'='.urlencode($val);
 					}
 				}
