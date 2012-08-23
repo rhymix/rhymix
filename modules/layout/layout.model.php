@@ -97,6 +97,16 @@
         	return $layout_info;
         }
 
+		function getLayoutRawData($layout_srl, $columnList = array())
+		{
+			$args->layout_srl = $layout_srl;
+			$output = executeQuery('layout.getLayout', $args, $columnList);
+			if(!$output->toBool())
+				return;
+
+			return $output->data->extra_vars;
+		}
+
         /**
          * Get a layout path
 		 * @param string $layout_name

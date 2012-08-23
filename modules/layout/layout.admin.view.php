@@ -149,7 +149,7 @@
 			
 			//Security
 			$security = new Security();
-			$security->encodeHTML('layout_list..layout','layout_list..title');						
+			$security->encodeHTML('layout_list..layout','layout_list..title');
 
 			// Get layout info
 			$layout = Context::get('layout');
@@ -179,7 +179,7 @@
 			Context::set('selected_layout', $layout_info);
 
 			$this->setTemplateFile('layout_modify');
-        }
+		}
 
 		/**
          * Insert Layout details
