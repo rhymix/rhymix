@@ -254,8 +254,8 @@
             Context::set('content', $content);
             // Convert them to teach the widget
             $oWidgetController = &getController('widget');
-            $content = $oWidgetController->transWidgetCode($content, true, true);
-			// $content = str_replace('$', '&#36;', $content);
+            $content = $oWidgetController->transWidgetCode($content, true, false);
+			$content = str_replace('$', '&#36;', $content);
             Context::set('page_content', $content);
             // Set widget list
             $oWidgetModel = &getModel('widget');

@@ -30,21 +30,21 @@
 				<p class="a"><input type="text" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port}" /><span class="desc">Default : 21</span></p>
 			</li>
 			<li>
-				<p class="q"><label>{$lang->about_use_ftp_passive_mode}</label></p>
+				<p class="q"><label for="ftp_passive">{$lang->about_use_ftp_passive_mode}</label></p>
 				<p class="a">
 					<input type="radio" name="ftp_pasv" id="ftp_passive_y" value="Y" <!--@if($ftp_info->ftp_pasv == 'Y')-->checked="checked" <!--@end-->/> <label for="ftp_passive_y">{$lang->cmd_yes}</label>
 					<input type="radio" name="ftp_pasv" id="ftp_passive_n" value="N" <!--@if($ftp_info->ftp_pasv != 'Y')-->checked="checked" <!--@end-->/> <label for="ftp_passive_n">{$lang->cmd_no}</label>
 				</p>
 			</li>
 			<li>
-				<p class="q"><label>{$lang->about_use_sftp_support}</label><span cond="!$sftp_support"><label> ({$lang->disable_sftp_support})</label></span></p>
+				<p class="q"><label for="sftp">{$lang->about_use_sftp_support}</label><span cond="!$sftp_support"><label for="sftp"> ({$lang->disable_sftp_support})</label></span></p>
 				<p class="a">
-					<input type="radio" name="sftp" id="sftp_y" value="Y" <!--@if($ftp_info->sftp == 'Y')-->checked="checked" <!--@end--><!--@if(!$sftp_support)-->disabled <!--@end-->/> <label for="sftp_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="sftp" id="sftp_y" value="Y" <!--@if($ftp_info->sftp == 'Y')-->checked="checked" <!--@end--> <!--@if(!$sftp_support)-->disabled<!--@end-->/> <label for="sftp_y">{$lang->cmd_yes}</label>
 					<input type="radio" name="sftp" id="sftp_n" value="N" <!--@if($ftp_info->sftp != 'Y')-->checked="checked" <!--@end-->/> <label for="sftp_n">{$lang->cmd_no}</label>
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="ftp_root_path">{$lang->msg_ftp_installed_ftp_realpath}</label></p>
+				<p class="q"><label for="ftp_path">{$lang->msg_ftp_installed_ftp_realpath}</label></p>
 				<p class="a">
 					<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
 					<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="tgAnchor">{$lang->ftp_get_list}</a>

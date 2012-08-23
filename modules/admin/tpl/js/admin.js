@@ -1099,17 +1099,8 @@ $('.multiLangEdit')
 					var $li = $('<li />').appendTo($langlist);
 
 					var anchor_id = $layer.data('layer_index');
-
-					var lang_text = this[xe.current_lang];
-					if(!lang_text) {
-						for(lang_code in this) {
-							lang_text = this[lang_code];
-							break;
-						}
-					}
-
 					$('<a href="#langInput_'+anchor_id+'" class="langItem" />')
-						.text(lang_text)
+						.text(this[xe.current_lang])
 						.data('multilang-name', key)
 						.appendTo($li);
 				});

@@ -251,11 +251,9 @@
 	<item name="published_name_list" type="array">
 		<item name="Y">
 			<value xml:lang="en"><![CDATA[Published]]></value>
-			<value xml:lang="ko"><![CDATA[공개 발행]]></value>
 		</item>
 		<item name="N">
 			<value xml:lang="en"><![CDATA[Unpublished]]></value>
-			<value xml:lang="ko"><![CDATA[발행 대기]]></value>
 		</item>
 	</item>
 	<item name="comment_manager">
@@ -268,7 +266,7 @@
 		<value xml:lang="ko"><![CDATA[선택한 댓글]]></value>
 		<value xml:lang="en"><![CDATA[Selected Comment]]></value>
 		<value xml:lang="jp"><![CDATA[選択したコメント]]></value>
-		<value xml:lang="zh-TW"><![CDATA[已選回覆]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已選回覆]]></value>		
 	</item>
 	<item name="cmd_comment_validation">
 		<value xml:lang="en"><![CDATA[Use comment validation]]></value>
@@ -278,22 +276,11 @@
 	</item>
 	<item name="published">
 		<value xml:lang="en"><![CDATA[Publish status]]></value>
-		<value xml:lang="ko"><![CDATA[발행 상태]]></value>
 	</item>
 	<item name="cmd_publish">
 		<value xml:lang="en"><![CDATA[Publish]]></value>
-		<value xml:lang="ko"><![CDATA[발행]]></value>
 	</item>
 	<item name="cmd_unpublish">
 		<value xml:lang="en"><![CDATA[Unpublish]]></value>
-		<value xml:lang="ko"><![CDATA[발행 중지]]></value>
-	</item>
-	<item name="select_module">
-		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
-		<value xml:lang="en"><![CDATA[Select Module]]></value>
-	</item>
-	<item name="page">
-		<value xml:lang="ko"><![CDATA[페이지]]></value>
-		<value xml:lang="en"><![CDATA[Page]]></value>
 	</item>
 </lang>

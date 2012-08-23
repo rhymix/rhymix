@@ -8,23 +8,25 @@
 	<h1 class="h1">File Upload</h1>
 	<ul>
 		<li>
-			<p class="q"><label>{$lang->allow_outlink}</label></p>
+			<p class="q">{$lang->allow_outlink}</p>
 			<p class="a">
 				<input type="radio" name="allow_outlink" value="Y" id="allow_outlink_y" checked="checked"|cond="$config->allow_outlink == 'Y'" /> <label for="allow_outlink_y">{$lang->cmd_yes}</label>
 				<input type="radio" name="allow_outlink" value="N" id="allow_outlink_n" checked="checked"|cond="$config->allow_outlink == 'N'" /> <label for="allow_outlink_n">{$lang->cmd_no}</label>
 			</p>
 		</li>
 		<li style="display:none"|cond="$config->allow_outlink == 'N'" class="_outLink">
-			<p class="q"><label for="allow_outlink_format">{$lang->allow_outlink_format}</label></p>
-			<p class="a"><input type="text" name="allow_outlink_format" id="allow_outlink_format" value="{$config->allow_outlink_format}" /></p>
-			<p class="desc">{$lang->about_allow_outlink_format}</p>
-			
+			<p class="q">{$lang->allow_outlink_format}</p>
+			<p class="a">
+				<input type="text" name="allow_outlink_format" value="{$config->allow_outlink_format}" />
+				<p>{$lang->about_allow_outlink_format}</p>
+			</p>
 		</li>
 		<li style="display:none"|cond="$config->allow_outlink == 'N'" class="_outLink">
-			<p class="q"><label for="allow_outlink_site">{$lang->allow_outlink_site}</label></p>
-			<p class="a"><textarea name="allow_outlink_site" id="allow_outlink_site" rows="8" cols="42">{$config->allow_outlink_site}</textarea></p>
-			<p class="desc">{$lang->about_allow_outlink_site}</p>
-			
+			<p class="q">{$lang->allow_outlink_site}</p>
+			<p class="a">
+				<textarea type="text" name="allow_outlink_site" rows="8" cols="42">{$config->allow_outlink_site}</textarea>
+				<p>{$lang->about_allow_outlink_site}</p>
+			</p>
 		</li>
 		<li>
 			<p class="q"><label for="filesize">{$lang->about_allowed_filesize}</label></p>
@@ -36,8 +38,9 @@
 		</li>
 		<li>
 			<p class="q"><label for="allowedFiletypes">{$lang->allowed_filetypes}</label></p>
-			<p class="a"><input id="allowedFiletypes" type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" /></p>
-			<p class="desc">{$lang->about_allowed_filetypes}</p>
+			<p class="a"><input id="allowedFiletypes" type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" />
+				<p>{$lang->about_allowed_filetypes}</p>
+			</p>
 		</li>
 	</ul>
 	<div class="btnArea">
