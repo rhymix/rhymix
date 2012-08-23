@@ -630,6 +630,12 @@
 			$oLayoutModel = &getModel('layout');
 			$layout = $oLayoutModel->getLayout($sourceArgs->layout_srl);
 
+			$args->extra_vars = $oLayoutModel->getLayoutRawData($sourceArgs->layout_srl, array('extra_vars'));
+			$extra_vars = unserialize($args->extra_vars);
+
+			$oModuleController = &getController('module');
+			$layout_config->header_script = $extra_vars->header_script;
+
             // Get information to create a layout
             $args->site_srl = (int)$layout->site_srl;
             $args->layout = $layout->layout;
@@ -651,6 +657,9 @@
 					$args->layout_srl = getNextSequence();
 					$args->title = $value;
 
+					// for header script
+					$oModuleController->insertModulePartConfig('layout', $args->layout_srl, $layout_config);
+
 					// Insert into the DB
 					$output = $this->insertLayout($args);
 					if(!$output->toBool())
@@ -663,11 +672,6 @@
 					$this->initLayout($args->layout_srl, $args->layout);
 
 					// update layout info
-					foreach($layout->extra_var as $key => $vals)
-					{
-						$args->extra_var->{$key} = $vals->value;
-					}
-					$args->extra_vars = serialize($args->extra_var);
 					$output = $this->updateLayout($args);
 					if (!$output->toBool())
 					{
