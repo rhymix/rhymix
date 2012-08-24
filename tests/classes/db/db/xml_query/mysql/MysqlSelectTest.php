@@ -342,4 +342,27 @@ class MysqlSelectTest extends MysqlTest {
 		$this->_test($xml_file, $argsString, $expected);
 
 	}
+
+
+    /**
+     * Like with image extension
+     */
+    function testLikeImageExtension()
+    {
+        $xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/like_image_extension.xml";
+        $argsString = '';
+        $expected = "select `files`.`upload_target_srl` as `document_srl`
+                        from `xe_files` as `files`
+                            , `xe_documents` as `documents`
+                        where (
+                            `files`.`upload_target_srl` = `documents`.`document_srl`
+                            and (`files`.`source_filename` like '%.jpg'
+                              or `files`.`source_filename` like '%.gif'
+                              or `files`.`source_filename` like '%.png'))
+                                and `documents`.`list_order` <= 2100000000
+                        group by `files`.`upload_target_srl`
+                        order by `documents`.`list_order` asc
+                        limit 5";
+        $this->_test($xml_file, $argsString, $expected);
+    }
 }
