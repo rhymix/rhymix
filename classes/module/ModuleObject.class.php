@@ -174,7 +174,7 @@
                 switch($permission_target) {
                     case 'root' :
 					case 'manager' :
-						$this->stop('msg_not_permitted_act');
+						$this->stop('msg_is_not_administrator');
 						return;
                     case 'member' :
 						if(!$is_logged)
