@@ -1,0 +1,8 @@
+<query id="getDeniedNickNames" action="select">
+    <tables>
+        <table name="member_denied_nick_name" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+</query>

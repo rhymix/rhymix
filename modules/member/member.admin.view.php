@@ -101,8 +101,8 @@
 		 *
 		 * @return void
          **/
-        function dispMemberAdminConfig() {
-			global $lang;            // retrieve configuration via module model instance
+        function dispMemberAdminConfig() 
+		{
             $oModuleModel = &getModel('module');
             $oMemberModel = &getModel('member');
             $config = $oMemberModel->getMemberConfig();
@@ -135,9 +135,27 @@
             $editor = $oEditorModel->getEditor(0, $option);
             Context::set('editor', $editor);
 
-			// get denied ID list
-            $denied_list = $oMemberModel->getDeniedIDs();
-			Context::set('deniedIDs', $denied_list);
+			$signupForm = $config->signupForm;
+			foreach($signupForm as $val)
+			{
+				if($val->name == 'user_id')
+				{
+					$userIdInfo = $val;
+					break;
+				}
+			}
+
+			if($userIdInfo->isUse)
+			{
+				// get denied ID list
+				Context::set('useUserID', 1);
+				$denied_list = $oMemberModel->getDeniedIDs();
+				Context::set('deniedIDs', $denied_list);
+			}
+
+			// get denied NickName List
+			$deniedNickNames = $oMemberModel->getDeniedNickNames();
+			Context::set('deniedNickNames', $deniedNickNames);
 
 			$security = new Security();
 			$security->encodeHTML('config..');

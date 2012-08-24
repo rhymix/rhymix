@@ -779,6 +779,42 @@
         }
 
         /**
+         * Add a denied nick name
+		 * @return void
+         **/
+		function procMemberAdminUpdateDeniedNickName()
+		{
+			$nick_name = Context::get('nick_name');
+
+			$mode = Context::get('mode');
+			$mode = $mode ? $mode : 'insert';
+
+			if($mode == 'delete')
+			{
+				$output = $this->deleteDeniedNickName($nick_name);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+				$msg_code = 'success_deleted';
+				$this->setMessage($msg_code);
+			}
+			else
+			{
+				$nick_names = explode(',',$nick_name);
+				$success_nick_names = array();
+
+				foreach($nick_names as $val)
+				{
+					$output = $this->insertDeniedNickName($val, '');
+					if($output->toBool()) $success_nick_names[] = $val;
+				}
+
+				$this->add('nick_names', implode(',',$success_nick_names));
+			}
+		}
+
+        /**
          * Update denied ID
 		 * @return void|Object (void : success, Object : fail)
          **/
@@ -959,15 +995,34 @@
             return executeQuery('member.insertDeniedID', $args);
         }
 
+		function insertDeniedNickName($nick_name, $description = '')
+		{
+			$args->nick_name = $nick_name;
+			$args->description = $description;
+
+			return executeQuery('member.insertDeniedNickName', $args);
+		}
+
         /**
-         * Delete a denied ID
+         * delete a denied id
 		 * @param string $user_id
-		 * @return Object
+		 * @return object
          **/
         function deleteDeniedID($user_id) {
             $args->user_id = $user_id;
             return executeQuery('member.deleteDeniedID', $args);
         }
+
+        /**
+         * delete a denied nick name
+		 * @param string $nick_name
+		 * @return object
+         **/
+		function deleteDeniedNickName($nick_name)
+		{
+            $args->nick_name = $nick_name;
+            return executeQuery('member.deleteDeniedNickName', $args);
+		}
 
         /**
          * Delete a join form

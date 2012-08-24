@@ -119,6 +119,10 @@
 		<value xml:lang="tr"><![CDATA[Yasaklanmış bir kimlik girdiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[ID đăng nhập của bạn đã bị cấm sử dụng.]]></value>
 	</item>
+	<item name="denied_nick_name">
+		<value xml:lang="ko"><![CDATA[사용 금지된 닉네임입니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have entered a prohibited nick name.]]></value>
+	</item>
 	<item name="null_user_id">
 		<value xml:lang="ko"><![CDATA[회원 아이디를 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter your ID.]]></value>
@@ -1009,6 +1013,10 @@
 		<value xml:lang="es"><![CDATA[Manejo de ID prohibidos]]></value>
 		<value xml:lang="tr"><![CDATA[Yasaklanmış Kimlikler]]></value>
 		<value xml:lang="vi"><![CDATA[Tên sử dụng cấm đăng kí]]></value>
+	</item>
+	<item name="cmd_manage_nick_name">
+		<value xml:lang="ko"><![CDATA[금지 닉네임 관리]]></value>
+		<value xml:lang="en"><![CDATA[Prohibited NickNames]]></value>
 	</item>
 	<item name="cmd_manage_form">
 		<value xml:lang="ko"><![CDATA[가입 폼 관리]]></value>
@@ -2309,10 +2317,14 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="zh-TW"><![CDATA[換行區隔]]></value>
 	</item>
 	<item name="count_manage_id">
-		<value xml:lang="ko"><![CDATA[<span class="_deniedIDCount">%s</span>개의 금지아이디가 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[There are <strong>%s</strong> prohibited ID.]]></value>
+		<value xml:lang="ko"><![CDATA[<span class="_deniedIDCount">%s</span>개의 금지 아이디가 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There are <span class="_deniedIDCount">%s</span> prohibited ID.]]></value>
 		<value xml:lang="jp"><![CDATA[<span class="_deniedIDCount">%s</span>個の禁止IDがあります。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[已有 <strong>%s</strong> 個禁止帳號]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已有 <span class="_deniedIDCount">%s</span> 個禁止帳號]]></value>
+	</item>
+	<item name="count_manage_nick_name">
+		<value xml:lang="ko"><![CDATA[<span class="_deniedNickNameCount">%s</span>개의 금지 닉네임이 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There are <span class="_deniedNickNameCount">%s</span> prohibited nick name.]]></value>
 	</item>
 	<item name="user_list">
 		<value xml:lang="ko"><![CDATA[회원 목록]]></value>
@@ -2414,6 +2426,10 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="en"><![CDATA[Please enter an ID to prohibit.]]></value>
 		<value xml:lang="jp"><![CDATA[追加する禁止IDを入力してください。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入禁止帳號]]></value>
+	</item>
+	<item name="msg_null_prohibited_nick_name">
+		<value xml:lang="ko"><![CDATA[추가할 금지 닉네임을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter a nick name to prohibit.]]></value>
 	</item>
 	<item name="identifier">
 		<value xml:lang="ko"><![CDATA[로그인 계정]]></value>

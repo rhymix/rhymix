@@ -1,0 +1,5 @@
+<table name="member_denied_nick_name">
+    <column name="nick_name" type="varchar" size="80" notnull="notnull" primary_key="primary_key" />
+    <column name="regdate" type="date" />
+    <column name="description" type="text" />
+</table>

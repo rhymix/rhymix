@@ -660,6 +660,17 @@
 			return $output->data;
 		}
 
+		function getDeniedNickNames()
+		{
+			$output = executeQueryArray('member.getDeniedNickNames');
+			if(!$output->toBool())
+			{
+				return array();
+			}
+
+			return $output->data;
+		}
+
         /**
          * @brief Verify if ID is denied
          **/
@@ -670,6 +681,20 @@
             return false;
         }
 
+        /**
+         * @brief Verify if nick name is denied
+         **/
+        function isDeniedNickName($nickName) 
+		{
+            $args->nick_name = $nickName;
+            $output = executeQuery('member.chkDeniedNickName', $args);
+            if($output->data->count) return true;
+			if(!$output->toBool())
+			{
+				return true;
+			}
+            return false;
+        }
         /**
          * @brief Get information of the profile image
          **/
