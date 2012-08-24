@@ -1,0 +1,20 @@
+<query id="getMemberInfo" action="select">
+    <tables>
+        <table query="true" alias="A">
+            <tables>
+                <table name="documents" alias="documents" />
+            </tables>
+            <columns>
+                <column name="member_srl" alias="member_srl" />
+                <column name="count(*)" alias="cnt" />
+            </columns>
+            <groups>
+                <group column="member_srl" />
+            </groups>
+        </table>
+    </tables>
+    <columns>
+        <column name="A.member_srl" alias="member_srl" />
+        <column name="count(A.cnt)" alias="count" />
+    </columns>
+</query>

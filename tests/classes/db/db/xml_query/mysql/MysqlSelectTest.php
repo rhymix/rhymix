@@ -343,21 +343,18 @@ class MysqlSelectTest extends MysqlTest {
 
 	}
 
-	/**
-	 * Issue 2213
-	 * http://code.google.com/p/xe-core/issues/detail?id=2213
-	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
-	 */
-	function testSumInCondition()
-	{
-		$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/sumInCondition.xml";
-		$argsString = '';
-		$expected = 'select *
-					 from `xe_test11` as `a`
-					 where `site_srl` = 0
-					 	and `price` <= `a`.`pa_1`+`a`.`pa_2`';
-		$this->_test($xml_file, $argsString, $expected);
 
-	}
+    function testFromSubquery()
+    {
+        $xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/from_subquery.xml";
+        $argsString = '
+                            ';
+        $expected = 'SELECT `A`.`member_srl` as `member_srl`, COUNT(`A`.`cnt`) as `count`
+                      FROM (
+                        SELECT `member_srl` as `member_srl`, count(*) AS `cnt`
+                        FROM `xe_documents` as `documents`
+                        GROUP BY `member_srl`
+                    ) AS `A`';
+        $this->_test($xml_file, $argsString, $expected);
+    }
 }
