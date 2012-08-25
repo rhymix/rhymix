@@ -3,6 +3,7 @@ RewriteEngine On
 # reserve XE Layout Template Source File (*.html)
 RewriteRule ^(layouts|m.layouts)/(.+)\.html$ - [L,F]
 # reserve XE Template Source Files (*.html)
+RewriteCond %{REQUEST_URI} !/modules/editor/
 RewriteRule /(skins|m.skins)/(.+)\.html$ - [L,F]
 
 # conf, query, schema
