@@ -62,7 +62,7 @@
             $oModuleModel = &getModel('module');
             $args = $oModuleModel->getModuleConfig('member');
 
-			$isNotInstall = ($args === null);
+			$isNotInstall = empty($args);
 
             // Set the basic information
             $args->enable_join = 'Y';
