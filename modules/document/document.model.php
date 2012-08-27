@@ -532,6 +532,23 @@
 
 			return $output->data;
         }
+
+		function getDocumentExtraVarsCount($module_srl, $search_obj = NULL)
+		{
+			// Additional search options
+			$args->module_srl = $module_srl;
+
+			$args->category_srl = $search_obj->category_srl;
+			$args->var_idx = $search_obj->s_var_idx;
+			$args->var_eid = $search_obj->s_var_eid;
+			$args->var_value = $search_obj->s_var_value;
+
+			$output = executeQuery('document.getDocumentExtraVarsCount', $args);
+			// Return total number of
+			$total_count = $output->data->count;
+			return (int)$total_count;
+		}
+
 		/**
 		 * Import page of the document, module_srl Without throughout ..
 		 * @param documentItem $oDocument
