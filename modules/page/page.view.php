@@ -24,12 +24,12 @@
 			switch($this->module_info->page_type)
 			{
 				case 'WIDGET' : {
-									$this->cache_file = sprintf("%sfiles/cache/page/%d.%s.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());
+									$this->cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType(), Context::getSslStatus());
 									$this->interval = (int)($this->module_info->page_caching_interval);
 									break;
 								}
 				case 'OUTSIDE' :  {
-									$this->cache_file = sprintf("./files/cache/opage/%d.cache.php", $this->module_info->module_srl); 
+									$this->cache_file = sprintf("./files/cache/opage/%d.%s.cache.php", $this->module_info->module_srl, Context::getSslStatus());
 									$this->interval = (int)($this->module_info->page_caching_interval);
 									$this->path = $this->module_info->path;
 									break;

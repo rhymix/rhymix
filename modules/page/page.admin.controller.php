@@ -240,7 +240,8 @@
 
 			if($module_info->page_type == 'WIDGET')
 			{
-				$cache_file = sprintf("%sfiles/cache/page/%d.%s.cache.php", _XE_PATH_, $module_info->module_srl, Context::getLangType());
+				$cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.cache.php", _XE_PATH_, $module_info->module_srl, Context::getLangType(), Context::getSslStatus());
+				$mcacheFile = sprintf("%sfiles/cache/page/%d.%s.%s.m.cache.php", _XE_PATH_, $module_info->module_srl, Context::getLangType(), Context::getSslStatus());
 			}
 			else if($module_info->page_type == 'OUTSIDE')
 			{
@@ -249,11 +250,10 @@
 				if($module_info->mpath)
 				{
 					$mcacheFile =  sprintf("%sfiles/cache/opage/%d.m.cache.php", _XE_PATH_, $module_info->module_srl);
-					if(file_exists($mcacheFile)) FileHandler::removeFile($mcacheFile);
 				}
-
 			}
             if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
+			if(file_exists($mcacheFile)) FileHandler::removeFile($mcacheFile);
         }
 
 		function procPageAdminArticleDocumentInsert()

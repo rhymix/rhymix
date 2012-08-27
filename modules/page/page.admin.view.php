@@ -189,7 +189,7 @@
 		function dispPageAdminMobileContent() {
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
             // Specifying the cache file
-            $cache_file = sprintf("%sfiles/cache/page/%d.%s.m.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());
+            $cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.m.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType(), Context::getSslStatus());
             $interval = (int)($this->module_info->page_caching_interval);
             if($interval>0) {
                 if(!file_exists($cache_file)) $mtime = 0;
@@ -206,6 +206,7 @@
                 if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
                 $page_content = $this->module_info->mcontent;
             }
+			$page_content = preg_replace('@<\!--#Meta:@', '<!--Meta:', $page_content);
 
             Context::set('module_info', $this->module_info);
             Context::set('page_content', $page_content);
