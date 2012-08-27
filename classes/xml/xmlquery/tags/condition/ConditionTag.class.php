@@ -57,6 +57,7 @@
 
 			// If default value is column name, it should be escaped
 			if($isColumnName = (strpos($condition->attrs->default, '.') !== false
+                                && strpos($condition->attrs->default, '.') !== 0
 								&& strpos($condition->attrs->default, '%') === false ))
 			{
 				$condition->attrs->default = $dbParser->parseExpression($condition->attrs->default);
