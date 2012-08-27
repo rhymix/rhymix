@@ -206,6 +206,10 @@
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 			if(Mobile::isFromMobilePhone())
 			{
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content);
+				}
 				$obj->content = nl2br($obj->content);
 			}
             if(!$obj->regdate) $obj->regdate = date("YmdHis");

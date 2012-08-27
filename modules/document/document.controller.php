@@ -235,6 +235,10 @@ class documentController extends document {
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 		if(Mobile::isFromMobilePhone())
 		{
+			if($obj->use_html != 'Y')
+			{
+				$obj->content = htmlspecialchars($obj->content);
+			}
 			$obj->content = nl2br($obj->content);
 		}
 		// Remove iframe and script if not a top adminisrator in the session.
