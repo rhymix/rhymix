@@ -363,7 +363,7 @@
 
 		function procMemberModifyInfoBefore()
 		{
-			if(!$_SESSION['rechecked_password_step'])
+			if($_SESSION['rechecked_password_step'] != 'INPUT_PASSWORD')
 			{
 				return $this->stop('msg_invalid_request');
 			}
@@ -394,8 +394,7 @@
 				return new Object(-1, 'invalid_password');
 			}
 
-			$_SESSION['rechecked_password'] = TRUE;
-			$_SESSION['rechecked_password_step'] = FALSE;
+			$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
 
 			$redirectUrl = getUrl('', 'act', 'dispMemberModifyInfo');
 			$this->setRedirectUrl($redirectUrl);
@@ -407,8 +406,19 @@
 		 * 
 		 * @return void|Object (void : success, Object : fail)
          **/
-        function procMemberModifyInfo() {
-            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+        function procMemberModifyInfo() 
+		{
+            if(!Context::get('is_logged'))
+			{
+				return $this->stop('msg_not_logged');
+			}
+
+			if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+			{
+				return $this->stop('msg_invalid_request');
+			}
+			unset($_SESSION['rechecked_password_step']);
+
             // Extract the necessary information in advance
             $oMemberModel = &getModel ('member');
             $config = $oMemberModel->getMemberConfig ();

@@ -220,8 +220,7 @@
 				return $this->stop('msg_not_logged');
 			}
 
-			$_SESSION['rechecked_password'] = FALSE;
-			$_SESSION['rechecked_password_step'] = TRUE;
+			$_SESSION['rechecked_password_step'] = 'INPUT_PASSWORD';
 
 			$templateFile = $this->getTemplatePath().'rechecked_password.html';
 			if(!is_readable($templateFile))
@@ -249,13 +248,13 @@
          **/
         function dispMemberModifyInfo() 
 		{
-			if(!$_SESSION['rechecked_password'])
+			if($_SESSION['rechecked_password_step'] != 'VALIDATE_PASSWORD')
 			{
 				$this->dispMemberModifyInfoBefore();
 				return;
 			}
 
-			$_SESSION['rechecked_password'] = FALSE;
+			$_SESSION['rechecked_password_step'] = 'INPUT_DATA';
             
 			$member_config = $this->member_config;
 
