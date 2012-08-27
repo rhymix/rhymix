@@ -115,4 +115,13 @@
 		<value xml:lang="zh-CN"><![CDATA[此插件不存在设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此附加元件的設定不存在。]]></value>
 	</item>
+	<item name="run_method">
+		<value xml:lang="ko"><![CDATA[작동 방식]]></value>
+	</item>
+	<item name="run_selected_module">
+		<value xml:lang="ko"><![CDATA[선택한 모듈에서 사용]]></value>
+	</item>
+	<item name="no_run_selected_module">
+		<value xml:lang="ko"><![CDATA[선택한 모듈에서 사용안함]]></value>
+	</item>
 </lang>

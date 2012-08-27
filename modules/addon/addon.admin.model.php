@@ -142,6 +142,11 @@
                 $addon_info->mid_list = array();
             }
 
+			if($extra_vals->xe_run_method)
+			{
+				$addon_info->xe_run_method = $extra_vals->xe_run_method;
+			}
+
 
             // Add information
             if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
