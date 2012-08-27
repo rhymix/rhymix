@@ -60,7 +60,7 @@
                 if(!file_exists($this->cache_file)) $mtime = 0;
                 else $mtime = filemtime($this->cache_file);
 
-                if($mtime + $interval*60 > time()) {
+                if($mtime + $this->interval*60 > time()) {
                     $page_content = FileHandler::readFile($this->cache_file); 
 					$page_content = preg_replace('@<\!--#Meta:@', '<!--Meta:', $page_content);
                 } else {
