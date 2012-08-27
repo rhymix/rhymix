@@ -360,6 +360,48 @@
 			$this->setRedirectUrl($returnUrl);
         }
 
+
+		function procMemberModifyInfoBefore()
+		{
+			if(!$_SESSION['rechecked_password_step'])
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
+            if(!Context::get('is_logged'))
+			{
+				return $this->stop('msg_not_logged');
+			}
+
+			$password = Context::get('password');
+
+			if(!$password)
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
+			$oMemberModel = &getModel('member');
+
+			if(!$this->memberInfo->password)
+			{
+				$columnList = array('member_srl', 'password');
+	            $memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+				$this->memberInfo->password = $memberInfo->password;
+			}
+            // Verify the cuttent password
+            if(!$oMemberModel->isValidPassword($this->memberInfo->password, $password))
+			{
+				return new Object(-1, 'invalid_password');
+			}
+
+			$_SESSION['rechecked_password'] = TRUE;
+			$_SESSION['rechecked_password_step'] = FALSE;
+
+			$redirectUrl = getUrl('', 'act', 'dispMemberModifyInfo');
+			$this->setRedirectUrl($redirectUrl);
+
+		}
+
         /**
          * Edit member profile
 		 * 
@@ -403,9 +445,7 @@
             // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
             $args->extra_vars = serialize($extra_vars);
-            // Create a member model object
-            $oMemberModel = &getModel('member');
-
+			
 			// remove whitespace
 			$checkInfos = array('user_id', 'nick_name', 'email_address');
 			$replaceStr = array("\r\n", "\r", "\n", " ", "\t", "\xC2\xAD");

@@ -42,6 +42,7 @@
         <action name="procMemberCheckValue" type="controller" standalone="true" />
         <action name="procMemberInsert" type="controller" standalone="true" ruleset="@insertMember" />
         <action name="procMemberModifyEmailAddress" type="controller" ruleset="modifyEmailAddress" />
+        <action name="procMemberModifyInfoBefore" type="controller" ruleset="recheckedPassword" />
         <action name="procMemberModifyInfo" type="controller" standalone="true" ruleset="@insertMember" />
         <action name="procMemberModifyPassword" type="controller" standalone="true" ruleset="modifyPassword" />
         <action name="procMemberLeave" type="controller" standalone="true" ruleset="leaveMember" />

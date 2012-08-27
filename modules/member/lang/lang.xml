@@ -1308,6 +1308,10 @@
 		<value xml:lang="tr"><![CDATA[Üye Ekle]]></value>
 		<value xml:lang="vi"><![CDATA[Thêm thành viên]]></value>
 	</item>
+	<item name="msg_rechecked_password">
+		<value xml:lang="ko"><![CDATA[비밀번호 재확인]]></value>
+		<value xml:lang="en"><![CDATA[Re-checked password]]></value>
+	</item>
 	<item name="msg_update_member">
 		<value xml:lang="ko"><![CDATA[회원 정보 수정]]></value>
 		<value xml:lang="en"><![CDATA[Modify User Info]]></value>
@@ -1569,6 +1573,9 @@
 		<value xml:lang="es"><![CDATA[ID ingresado puede ser usado luego de %s]]></value>
 		<value xml:lang="tr"><![CDATA[Bu kimlik, %s Tarihinden sonra kullanılabilir]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn được phép sử dụng đến ngày %s]]></value>
+	</item>
+	<item name="about_rechecked_password">
+		<value xml:lang="ko"><![CDATA[회원의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인 합니다.]]></value>
 	</item>
 	<item name="about_user_id">
 		<value xml:lang="ko"><![CDATA[회원 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작해야 합니다.]]></value>

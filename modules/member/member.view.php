@@ -146,12 +146,11 @@
 				{
 					$item->title = $extendFormInfo[$formInfo->member_join_form_srl]->column_title;
 					$orgValue = $extendFormInfo[$formInfo->member_join_form_srl]->value;
-					
-					if($formInfo->type=='tel')
+					if($formInfo->type=='tel' && is_array($orgValue))
 					{
 						$item->value = implode('-', $orgValue);
 					}
-					elseif($formInfo->type=='kr_zip')
+					elseif($formInfo->type=='kr_zip' && is_array($orgValue))
 					{
 						$item->value = implode(' ', $orgValue);
 					}
@@ -211,11 +210,54 @@
             $this->setTemplateFile('signup_form');
         }
 
+
+		function dispMemberModifyInfoBefore()
+		{
+			$logged_info = Context::get('logged_info');
+			$oMemberModel = &getModel('member');
+            if(!$oMemberModel->isLogged() || empty($logged_info))
+			{
+				return $this->stop('msg_not_logged');
+			}
+
+			$_SESSION['rechecked_password'] = FALSE;
+			$_SESSION['rechecked_password_step'] = TRUE;
+
+			$templateFile = $this->getTemplatePath().'rechecked_password.html';
+			if(!is_readable($templateFile))
+			{
+				$templatePath = sprintf('%sskins/default', $this->module_path);
+				$this->setTemplatePath($templatePath);
+			}
+
+			if ($this->member_config->identifier == 'email_address')
+			{
+				Context::set('identifierTitle', Context::getLang('email_address'));
+				Context::set('identifierValue', $logged_info->email_address); 
+			}
+			else
+			{
+				Context::set('identifierTitle', Context::getLang('user_id'));
+				Context::set('identifierValue', $logged_info->user_id);
+			}
+
+			$this->setTemplateFile('rechecked_password');
+		}
+
         /**
          * @brief Modify member information
          **/
-        function dispMemberModifyInfo() {
-            $member_config = $this->member_config;
+        function dispMemberModifyInfo() 
+		{
+			if(!$_SESSION['rechecked_password'])
+			{
+				$this->dispMemberModifyInfoBefore();
+				return;
+			}
+
+			$_SESSION['rechecked_password'] = FALSE;
+            
+			$member_config = $this->member_config;
 
             $oMemberModel = &getModel('member');
             // A message appears if the user is not logged-in
