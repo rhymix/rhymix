@@ -855,6 +855,15 @@
 					}
 				}
 			}
+
+			if($tag == 'img')
+			{
+				$attribute = strtolower(trim($name));
+				if(strpos(strtolower($val), 'data:') === 0)
+				{
+					continue;
+				}
+			}
 			$val    = str_replace('"', '&quot;', $val);
 			$attr[] = $name."=\"{$val}\"";
 		}
