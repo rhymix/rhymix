@@ -503,7 +503,11 @@
 				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
 				if ($message != 'success') $_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
 				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
-				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
+
+				if(Context::get('xeVirtualRequestMethod') != 'xml')
+				{
+					$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
+				}
 			}	
 			
 			unset($logged_info);
