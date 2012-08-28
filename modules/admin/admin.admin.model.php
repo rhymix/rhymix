@@ -462,40 +462,53 @@
          */
 		function getSiteAllList()
 		{
-			if(Context::get('domain')) $args->domain = Context::get('domain');
-			$columnList = array('domain', 'site_srl');
-
-			$siteList = array();
-			$output = executeQueryArray('admin.getSiteAllList', $args, $columnList);
-			if($output->toBool()) $siteList = $output->data;
-
-			$oModuleModel = &getModel('module');
-			foreach($siteList as $key => $value)
-			{
-				$args->site_srl = $value->site_srl;
-				$list = $oModuleModel->getModuleSrlList($args);
-
-				if(!is_array($list))
-				{
-					$list = array($list);
-				}
-
-				foreach($list as $k => $v)
-				{
-					if(!is_dir('./modules/' . $v->module))
-					{
-						unset($list[$k]);
-					}
-				}
-
-				if(!count($list))
-				{
-					unset($siteList[$key]);
-				}
-			}
-
-			$this->add('site_list', $siteList);
+			if(Context::get('domain')) $domain = Context::get('domain');
+            $siteList = $this->getAllSitesThatHaveModules($domain);
+    		$this->add('site_list', $siteList);
 		}
+
+        /**
+         * Returns a list of all sites that contain modules
+         * For each site domain and site_srl are retrieved
+         *
+         * @return array
+         */
+        function getAllSitesThatHaveModules($domain = null)
+        {
+            $args = new stdClass();
+            if($domain) $args->domain = $domain;
+            $columnList = array('domain', 'site_srl');
+
+            $siteList = array();
+            $output = executeQueryArray('admin.getSiteAllList', $args, $columnList);
+            if($output->toBool()) $siteList = $output->data;
+
+            $oModuleModel = &getModel('module');
+            foreach($siteList as $key => $value)
+            {
+                $args->site_srl = $value->site_srl;
+                $list = $oModuleModel->getModuleSrlList($args);
+
+                if(!is_array($list))
+                {
+                    $list = array($list);
+                }
+
+                foreach($list as $k => $v)
+                {
+                    if(!is_dir('./modules/' . $v->module))
+                    {
+                        unset($list[$k]);
+                    }
+                }
+
+                if(!count($list))
+                {
+                    unset($siteList[$key]);
+                }
+            }
+            return $siteList;
+        }
 
         /**
          * Return site count
