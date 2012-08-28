@@ -33,10 +33,10 @@
 
 		function procSpamfilterAdminInsertDeniedIP(){
 			//스팸IP  추가
-			$ipaddressList = Context::get('ipaddressList');
+			$ipaddress_list = Context::get('ipaddress_list');
             $oSpamfilterController = &getController('spamfilter');
-			if($ipaddressList){
-            	$insertIPOutput = $oSpamfilterController->insertIP($ipaddressList);
+			if($ipaddress_list){
+            	$insertIPOutput = $oSpamfilterController->insertIP($ipaddress_list);
 				if(!$insertIPOutput->toBool()) return $insertIPOutput;
 			}
 
@@ -45,9 +45,9 @@
 		}
 		function procSpamfilterAdminInsertDeniedWord(){
 			//스팸 키워드 추가
-			$wordList = Context::get('wordList');
-          	if($wordList){
-				$insertWordOutput = $this->insertWord($wordList);
+			$word_list = Context::get('word_list');
+          	if($word_list){
+				$insertWordOutput = $this->insertWord($word_list);
 				if(!$insertWordOutput->toBool()) return $insertWordOutput;
 			}
 
@@ -93,10 +93,10 @@
          * @brief Register the spam word
          * The post, which contains the newly registered spam word, should be considered as a spam
          **/
-        function insertWord($wordList) {
-			$wordList = str_replace("\r","",$wordList);
-            $wordList = explode("\n",$wordList);
-            foreach($wordList as $wordKey => $word) {
+        function insertWord($word_list) {
+			$word_list = str_replace("\r","",$word_list);
+            $word_list = explode("\n",$word_list);
+            foreach($word_list as $word) {
 				if(trim($word)) $args->word = $word;
         		$output = executeQuery('spamfilter.insertDeniedWord', $args);
             	if(!$output->toBool()) return $output;

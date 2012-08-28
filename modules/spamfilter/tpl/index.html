@@ -1,5 +1,3 @@
-<script>
-</script>
 <load target="js/spamfilter_admin.js" usecdn="true" />
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
     <p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -55,7 +53,7 @@
 				</ul>
 			</div>
 			<p class="a">
-				<textarea rows="8" cols="42" name="ipaddressList" title="스팸 IP 추가"></textarea>
+				<textarea rows="8" cols="42" name="ipaddress_list" title="스팸 IP 추가"></textarea>
 				<span class="btn small"><button type="button" onclick="doInsertDeniedIP('{$lang->msg_invalid_format}')">{$lang->cmd_insert}</button></span>
 				<span class="desc">{$lang->about_denied_ip}</span>
 			</p>
@@ -70,7 +68,7 @@
 				</ul>
 			</div>
 			<p class="a">
-				<textarea rows="8" cols="42" name="wordList" title="스팸 키워드 추가"></textarea>
+				<textarea rows="8" cols="42" name="word_list" title="스팸 키워드 추가"></textarea>
 				<span class="btn small"><button type="button" onclick="doInsertDeniedWord('{$lang->msg_invalid_format}')">{$lang->add}</button></span>
 				<span class="desc">{$lang->about_denied_word}</span>
 			</p>
