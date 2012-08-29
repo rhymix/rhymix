@@ -777,5 +777,20 @@
         function printUploadedFileList($editor_sequence, $upload_target_srl) {
             return;
         }
+
+		function triggerCopyModule(&$obj)
+		{
+			$oModuleModel = &getModel('module');
+			$fileConfig = $oModuleModel->getModulePartConfig('file', $obj->originModuleSrl);
+
+			$oModuleController = &getController('module');
+			if(is_array($obj->moduleSrlList))
+			{
+				foreach($obj->moduleSrlList AS $key=>$moduleSrl)
+				{
+					$oModuleController->insertModulePartConfig('file', $moduleSrl, $fileConfig);
+				}
+			}
+		}
     }
 ?>

@@ -41,6 +41,9 @@
 
             if($oModuleModel->getTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before')) return true;
 
+			// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+			if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'rss', 'controller', 'triggerCopyModule', 'after')) return true;
+
             return false;
         }
 
@@ -63,6 +66,12 @@
                 $oModuleController->insertTrigger('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after');
             if($oModuleModel->getTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before'))
                 $oModuleController->deleteTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before');
+
+			// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+			if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'rss', 'controller', 'triggerCopyModule', 'after'))
+			{
+				$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'rss', 'controller', 'triggerCopyModule', 'after');
+			}
 
             return new Object(0, 'success_updated');
         }

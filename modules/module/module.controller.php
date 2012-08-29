@@ -632,10 +632,12 @@
 				if($mode === 'P')
 				{
                 	$output = executeQuery('module.insertModuleSkinVars', $args);
+					debugPrint($output);
 				}
 				else
 				{
                 	$output = executeQuery('module.insertModuleMobileSkinVars', $args);
+					debugPrint($output);
 				}
 				if(!$output->toBool())
 				{

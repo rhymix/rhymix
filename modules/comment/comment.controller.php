@@ -956,36 +956,51 @@
             return new Object();
 		}
 
-	/**
-	* Get comment all list
-	* @return void
-	*/
-	function procCommentGetList()
-	{
-		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
-		$commentSrls = Context::get('comment_srls');
-		if($commentSrls) $commentSrlList = explode(',', $commentSrls);
+		/**
+		* Get comment all list
+		* @return void
+		*/
+		function procCommentGetList()
+		{
+			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+			$commentSrls = Context::get('comment_srls');
+			if($commentSrls) $commentSrlList = explode(',', $commentSrls);
 
-		if(count($commentSrlList) > 0) {
-			$oCommentModel = &getModel('comment');
-			$commentList = $oCommentModel->getComments($commentSrlList);
+			if(count($commentSrlList) > 0) {
+				$oCommentModel = &getModel('comment');
+				$commentList = $oCommentModel->getComments($commentSrlList);
 
-			if(is_array($commentList))
-			{
-				foreach($commentList AS $key=>$value)
+				if(is_array($commentList))
 				{
-					$value->content = strip_tags($value->content);
+					foreach($commentList AS $key=>$value)
+					{
+						$value->content = strip_tags($value->content);
+					}
+				}
+			}
+			else
+			{
+				global $lang;
+				$commentList = array();
+				$this->setMessage($lang->no_documents);
+			}
+
+			$this->add('comment_list', $commentList);
+		}
+
+		function triggerCopyModule(&$obj)
+		{
+			$oModuleModel = &getModel('module');
+			$commentConfig = $oModuleModel->getModulePartConfig('comment', $obj->originModuleSrl);
+
+			$oModuleController = &getController('module');
+			if(is_array($obj->moduleSrlList))
+			{
+				foreach($obj->moduleSrlList AS $key=>$moduleSrl)
+				{
+					$oModuleController->insertModulePartConfig('comment', $moduleSrl, $commentConfig);
 				}
 			}
 		}
-		else
-		{
-			global $lang;
-			$commentList = array();
-			$this->setMessage($lang->no_documents);
-		}
-
-		$this->add('comment_list', $commentList);
-	}
     }
 ?>

@@ -114,7 +114,24 @@
 				}
 			}
 
+			$tmpModuleSkinVars = $oModuleModel->getModuleSkinVars($module_srl);
+			$tmpModuleMobileSkinVars = $oModuleModel->getModuleMobileSkinVars($module_srl);
 
+			if($tmpModuleSkinVars)
+			{
+				foreach($tmpModuleSkinVars AS $key=>$value)
+				{
+					$moduleSkinVars->{$key} = $value->value;
+				}
+			}
+
+			if($tmpModuleMobileSkinVars)
+			{
+				foreach($tmpModuleMobileSkinVars AS $key=>$value)
+				{
+					$moduleMobileSkinVars->{$key} = $value->value;
+				}
+			}
 
             $oDB = &DB::getInstance();
             $oDB->begin();
@@ -148,6 +165,9 @@
                 // Grant module permissions
                 if(count($grant)) $oModuleController->insertModuleGrants($module_srl, $grant);
 				if ($extra_vars) $oModuleController->insertModuleExtraVars($module_srl, $extra_vars);
+
+				if($moduleSkinVars) $oModuleController->insertModuleSkinVars($module_srl, $moduleSkinVars);
+				if($moduleMobileSkinVars) $oModuleController->insertModuleMobileSkinVars($module_srl, $moduleMobileSkinVars);
 
 				array_push($triggerObj->moduleSrlList, $module_srl);
             }

@@ -2130,5 +2130,20 @@ class documentController extends document {
 			}
 		}
 	}
+
+	function triggerCopyModule(&$obj)
+	{
+		$oModuleModel = &getModel('module');
+		$documentConfig = $oModuleModel->getModulePartConfig('document', $obj->originModuleSrl);
+
+		$oModuleController = &getController('module');
+		if(is_array($obj->moduleSrlList))
+		{
+			foreach($obj->moduleSrlList AS $key=>$moduleSrl)
+			{
+				$oModuleController->insertModulePartConfig('document', $moduleSrl, $documentConfig);
+			}
+		}
+	}
 }
 ?>

@@ -369,5 +369,20 @@
                 $this->deleteTrackback($trackback_srl, true);
             }
         }
+
+		function triggerCopyModule(&$obj)
+		{
+			$oModuleModel = &getModel('module');
+			$trackbackConfig = $oModuleModel->getModulePartConfig('trackback', $obj->originModuleSrl);
+
+			$oModuleController = &getController('module');
+			if(is_array($obj->moduleSrlList))
+			{
+				foreach($obj->moduleSrlList AS $key=>$moduleSrl)
+				{
+					$oModuleController->insertModulePartConfig('trackback', $moduleSrl, $trackbackConfig);
+				}
+			}
+		}
     }
 ?>

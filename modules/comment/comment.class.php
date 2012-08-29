@@ -69,7 +69,10 @@
 			{
                 return true;
 			}
-			
+
+			// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+			if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after')) return true;
+
             return false;
         }
 
@@ -128,6 +131,12 @@
                         array("status", "comment_srl", "module_srl", "document_srl"),
                         true
                     );
+
+			// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+			if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after'))
+			{
+				$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after');
+			}
 			
             return new Object(0, 'success_updated');
         }
