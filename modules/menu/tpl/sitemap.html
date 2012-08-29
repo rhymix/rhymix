@@ -1,5 +1,6 @@
 <script>
 xe.lang.confirm_delete = "{$lang->confirm_delete}";
+xe.current_layout = {$current_layout};
 jQuery( function() { jQuery('.grant_default').change( function(event) { doShowMenuGrantZone(); } ); doShowMenuGrantZone() } );
 </script>
 <load target="./js/menu_admin.js" usecdn="true" />
@@ -128,11 +129,11 @@ jQuery( function() { jQuery('.grant_default').change( function(event) { doShowMe
 					</div>
 				</li>
 				<li id="selectLayout">
-					<p class="q"><label for="layout_list">{$lang->layout} <em>*</em></label></p>
+					<p class="q"><label for="layoutSrl">{$lang->layout} <em>*</em></label></p>
 					<div class="a">
 						<select name="layout_srl" id="layoutSrl">
 							<option value="0">{$lang->notuse}</option>
-							<option loop="$layout_list => $key, $val" value="{$val->layout_srl}">{$val->title} ({$val->layout})</option>
+							<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" <!--@if($val->layout_srl == $current_layout)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
 						</select>
 					</div>
 				</li>

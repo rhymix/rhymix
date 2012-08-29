@@ -161,7 +161,7 @@ $('form.siteMap')
 		editForm.find('input[name=menu_name]').val('');
 		editForm.find('input[name=cType]').attr('checked', false);
 		editForm.find('input[name=create_menu_url]').val('');
-		editForm.find('select[name=layout_srl]')[0].options[0].selected = true;
+		editForm.find('select[name=layout_srl]').val(xe.current_layout);
 		editForm.find('input[name=menu_url]').val('');
 		editForm.find('input[name=menu_open_window]')[0].checked = true;
 		editForm.find('input[name=group_srls\\[\\]]').attr('checked', false);
@@ -292,7 +292,7 @@ $('form.siteMap')
 		}
 		else if(checkedValue == 'CREATE')
 		{
-			$('#layoutSrl').val('0');
+			$('#layoutSrl').val(xe.current_layout);
 		}
 	}
 

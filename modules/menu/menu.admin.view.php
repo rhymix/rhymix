@@ -183,6 +183,20 @@
 			$layoutList = $oLayoutModel->getLayoutList();
             Context::set('layout_list', $layoutList);
 
+			// choice theme file
+			$theme_file = _XE_PATH_.'files/theme/theme_info.php';
+			if(is_readable($theme_file))
+			{
+				@include($theme_file);
+				Context::set('current_layout', $theme_info->layout);
+			}
+			else
+			{
+				$oModuleModel = &getModel('module');
+				$default_mid = $oModuleModel->getDefaultMid();
+				Context::set('current_layout', $default_mid->layout_srl);
+			}
+
 			// get default group list
 			$oMemberModel = &getModel('member');
 			$output = $oMemberModel->getGroups();
