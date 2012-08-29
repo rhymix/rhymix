@@ -630,7 +630,8 @@
 			$oLayoutModel = &getModel('layout');
 			$layout = $oLayoutModel->getLayout($sourceArgs->layout_srl);
 
-			$args->extra_vars = $oLayoutModel->getLayoutRawData($sourceArgs->layout_srl, array('extra_vars'));
+			$output = $oLayoutModel->getLayoutRawData($sourceArgs->layout_srl, array('extra_vars'));
+			$args->extra_vars = $output->extra_vars;
 			$extra_vars = unserialize($args->extra_vars);
 
 			$oModuleController = &getController('module');

@@ -104,7 +104,7 @@
 			if(!$output->toBool())
 				return;
 
-			return $output->data->extra_vars;
+			return $output->data;
 		}
 
         /**
