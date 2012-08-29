@@ -482,7 +482,11 @@
             $layout_config = $oModuleModel->getModulePartConfig('layout', $layout_srl);
             $header_script = trim($layout_config->header_script);
 
-            if($header_script) $buff .= sprintf(' $layout_info->header_script = "%s"; ', str_replace('"','\\"',$header_script));
+            if($header_script)
+			{
+				$header_script = str_replace('"','\\"',$header_script);
+				$buff .= sprintf(' $layout_info->header_script = "%s"; ', str_replace('$','\$',$header_script));
+			}
 
             $buff = '<?php if(!defined("__ZBXE__")) exit(); '.$buff.' ?>';
             FileHandler::writeFile($cache_file, $buff);

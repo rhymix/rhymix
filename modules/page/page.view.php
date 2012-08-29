@@ -86,6 +86,8 @@
 			}
 			Context::set('oDocument', $oDocument);
 
+			Context::set('module_info', $this->module_info);
+
 			if ($this->module_info->skin)
 				$this->setTemplatePath(sprintf($this->module_path.'skins/%s', $this->module_info->skin));
 			else

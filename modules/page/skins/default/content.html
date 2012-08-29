@@ -1,5 +1,5 @@
-<h1>{$oDocument->getTitle()}</h1>
-{$oDocument->getContent()}
+<h1 cond="$module_info->display_title != 'hide'">{$oDocument->getTitle()}</h1>
+{$oDocument->getContent($module_info->display_popupmenu != 'hide')}
 <block cond="$grant->manager">
 	<load target="../../tpl/js/page_admin.js" />
 	<div class="btnArea">

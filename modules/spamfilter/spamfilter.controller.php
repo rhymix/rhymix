@@ -136,11 +136,10 @@
          * @brief IP registration
          * The registered IP address is considered as a spammer
          **/
-        function insertIP($ipaddressList, $description = null) {
-			//리눅스시.. 변환부분 체크하는 것 다시 봐야할 듯.
-			$ipaddressList = str_replace("\r","",$ipaddressList);
-			$ipaddressList = explode("\n",$ipaddressList);
-			foreach($ipaddressList as $ipaddressKey => $ipaddressValue) {
+        function insertIP($ipaddress_list, $description = null) {
+			$ipaddress_list = str_replace("\r","",$ipaddress_list);
+			$ipaddress_list = explode("\n",$ipaddress_list);
+			foreach($ipaddress_list as $ipaddressValue) {
 				preg_match("/(\d{1,3}(?:.(\d{1,3}|\*)){3})\s*(\/\/\s*(.*))?/",$ipaddressValue,$matches);
 				if($ipaddress=trim($matches[1])) {
 					$args->ipaddress = $ipaddress;

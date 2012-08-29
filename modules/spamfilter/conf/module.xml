@@ -25,7 +25,7 @@
 
         <action name="procSpamfilterAdminDeleteDeniedIP" type="controller" standalone="true" ruleset="deleteDeniedIp" />
         <action name="procSpamfilterAdminDeleteDeniedWord" type="controller" standalone="true" ruleset="deleteDeniedWord" />
-        <action name="procSpamfilterAdminInsertConfig" type="controller" standalone="true" ruleset="insertSetting" />
+        <action name="procSpamfilterAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
 
 	</actions>
 </module>

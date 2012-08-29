@@ -42,7 +42,7 @@ var request_uri = "{$request_uri}";
 <block cond="$vid">var xeVid = "{$vid}";</block>
 var current_mid = "{$mid}";
 var waiting_message = "{$lang->msg_call_server}";
-var ssl_actions = new Array(<block cond="count($ssl_actions)">"{implode('","',$ssl_actions)}"</block>);
+var ssl_actions = new Array(<block cond="count($ssl_actions)">"{implode('","',array_keys($ssl_actions))}"</block>);
 var default_url = "{Context::getDefaultUrl()}";
 <block cond="Context::get('_http_port')">var http_port = {Context::get("_http_port")};</block>
 <block cond="Context::get('_https_port')">var https_port = {Context::get("_https_port")};</block>
