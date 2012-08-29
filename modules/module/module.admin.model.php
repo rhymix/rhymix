@@ -169,15 +169,24 @@
 				$skin_vars = $oModuleModel->getModuleMobileSkinVars($module_srl);
 			}
 
-            if(count($skin_info->extra_vars)) {
-                foreach($skin_info->extra_vars as $key => $val) {
+            if(count($skin_info->extra_vars)) 
+			{
+                foreach($skin_info->extra_vars as $key => $val) 
+				{
                     $group = $val->group;
                     $name = $val->name;
                     $type = $val->type;
-                    if($skin_vars[$name]) $value = $skin_vars[$name]->value;
+                    if($skin_vars[$name]) 
+					{
+						$value = $skin_vars[$name]->value;
+					}
                     else $value = '';
-                    if($type=="checkbox") $value = $value?unserialize($value):array();
-
+                    if($type=="checkbox")
+					{
+						$value = $value?unserialize($value):array();
+					}
+					
+					$value = empty($value) ? $val->default : $value;
                     $skin_info->extra_vars[$key]->value= $value;
                 }
             }
