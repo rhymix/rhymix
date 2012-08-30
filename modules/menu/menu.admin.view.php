@@ -139,7 +139,7 @@
 
 			$oMenuAdminModel = &getAdminModel('menu');
 			$menuListFromDB = $oMenuAdminModel->getMenus();
-			if(is_array($menuListFromDB)) $output = array_reverse($menuListFromDB);
+			$output = $menuListFromDB;
 
 			$menuList = array();
 			if(is_array($output))
