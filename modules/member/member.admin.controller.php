@@ -493,7 +493,8 @@
          * Add a join form
 		 * @return void|Object (void : success, Object : fail)
          **/
-        function procMemberAdminInsertJoinForm() {
+        function procMemberAdminInsertJoinForm() 
+		{
             $args->member_join_form_srl = Context::get('member_join_form_srl');
 
             $args->column_type = Context::get('column_type');
@@ -534,6 +535,7 @@
 
 			$oMemberModel = &getModel('member');
 			$config = $oMemberModel->getMemberConfig();
+			unset($config->agreement);
 
 			if($isInsert){
 				$config->signupForm[] = $signupItem;	
@@ -563,6 +565,7 @@
 
 			$oMemberModel = &getModel('member');
 			$config = $oMemberModel->getMemberConfig();
+			unset($config->agreement);
 
 			foreach($config->signupForm as $key=>$val){
 				if ($val->member_join_form_srl == $member_join_form_srl){
@@ -940,6 +943,7 @@
 			// group image mark option
 			$config = $oMemberModel->getMemberConfig();
 			$config->group_image_mark = $vars->group_image_mark;
+			unset($config->agreement);
 			$output = $oModuleController->updateModuleConfig('member', $config);
 
 			// group data save
