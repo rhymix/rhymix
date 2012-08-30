@@ -1,11 +1,2 @@
-<div class="title">{$lang->title} : {$oDocument->getTitle()}</div>
-<div class="content">{$lang->content} : {$oDocument->getContent()}</div>
-<div class="tag">{$lang->tag} : <block cond="is_array($oDocument->get('tag_list'))">{implode(',', $oDocument->get('tag_list'))}</block></div>
-<!--@if($grant->manager)-->
-    <div class="tRight clear">
-		<!--@if($logged_info->is_admin=='Y')-->
-        <a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}" class="button green"><span>{$lang->cmd_setup}...</span></a>
-        <!--@end-->
-        <a href="{getUrl('act','dispPageAdminContentModify','document_srl','')}" class="button red"><span>{$lang->cmd_page_modify}...</span></a>
-    </div>
-<!--@end-->
+<h1 cond="$module_info->display_mobile_title != 'hide'">{$oDocument->getTitle()}</h1>
+{$oDocument->getContent($module_info->display_popupmenu != 'hide')}

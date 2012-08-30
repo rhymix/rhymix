@@ -160,6 +160,16 @@
 					{
 						$extra_vars->document_srl = array_pop($document_srls);
 					}
+
+					if($extra_vars->mdocument_srl)
+					{
+						$copyOutput = $oDocumentAdminController->copyDocumentModule(array($extra_vars->mdocument_srl), $module_srl, $module_info->category_srl);
+						$copiedSrls = $copyOutput->get('copied_srls');
+						if($copiedSrls && count($copiedSrls) > 0)
+						{
+							$extra_vars->mdocument_srl = array_pop($copiedSrls);
+						}
+					}
 				}
 
                 // Grant module permissions

@@ -289,19 +289,30 @@
 			$bAnonymous = false;
 
             // 이미 존재하는 경우 수정
-            if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+            if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) 
+			{
                 $output = $oDocumentController->updateDocument($oDocument, $obj);
                 $msg_code = 'success_updated';
             // 그렇지 않으면 신규 등록
-            } else {
+            } 
+			else 
+			{
+				if($obj->ismobile == 'Y')
+				{
+					$target = 'mdocument_srl';
+				}
+				else
+				{
+					$target = 'document_srl';
+				}
+
                 $output = $oDocumentController->insertDocument($obj, $bAnonymous);
                 $msg_code = 'success_registed';
-                $obj->document_srl = $output->get('document_srl');
+                $document_srl = $output->get('document_srl');
 
 				$oModuleController = &getController('module');
-				$this->module_info->document_srl = $obj->document_srl;
+				$this->module_info->{$target} = $document_srl;
 				$oModuleController->updateModule($this->module_info);
-
             }
 
             // 오류 발생시 멈춤
@@ -310,6 +321,7 @@
             // 결과를 리턴
             $this->add('mid', Context::get('mid'));
             $this->add('document_srl', $output->get('document_srl'));
+			$this->add('is_mobile', $obj->ismobile);
 
             // 성공 메세지 등록
             $this->setMessage($msg_code);

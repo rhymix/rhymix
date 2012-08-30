@@ -30,10 +30,15 @@ function completeArticleDocumentInserted(ret_obj){
     var message = ret_obj['message'];
 
     var mid = ret_obj['mid'];
+	var is_mobile = ret_obj['is_mobile'];
 
     alert(message);
 
     var url = '';
+	
+	if(is_mobile == 'Y')
+        url = current_url.setQuery('act', 'dispPageAdminMobileContent').setQuery('mid', mid);
+	else
         url = current_url.setQuery('act', 'dispPageIndex').setQuery('mid', mid);
 
 
