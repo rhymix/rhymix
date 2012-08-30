@@ -454,42 +454,52 @@
             return $content;
         }
 
-        function getRegdate($format = 'Y.m.d H:i:s') {
-            return zdate($this->get('regdate'), $format);
-        }
+		function getRegdate($format = 'Y.m.d H:i:s') {
+			return zdate($this->get('regdate'), $format);
+		}
 
-        function getRegdateTime() {
-            $regdate = $this->get('regdate');
-            $year = substr($regdate,0,4);
-            $month = substr($regdate,4,2);
-            $day = substr($regdate,6,2);
-            $hour = substr($regdate,8,2);
-            $min = substr($regdate,10,2);
-            $sec = substr($regdate,12,2);
-            return mktime($hour,$min,$sec,$month,$day,$year);
-        }
+		function getRegdateTime() {
+			$regdate = $this->get('regdate');
+			$year = substr($regdate,0,4);
+			$month = substr($regdate,4,2);
+			$day = substr($regdate,6,2);
+			$hour = substr($regdate,8,2);
+			$min = substr($regdate,10,2);
+			$sec = substr($regdate,12,2);
+			return mktime($hour,$min,$sec,$month,$day,$year);
+		}
 
-        function getRegdateGM() {
-            return $this->getRegdate('D, d M Y H:i:s').' '.$GLOBALS['_time_zone'];
-        }
+		function getRegdateGM() {
+			return $this->getRegdate('D, d M Y H:i:s').' '.$GLOBALS['_time_zone'];
+		}
 
-        function getUpdate($format = 'Y.m.d H:i:s') {
-            return zdate($this->get('last_update'), $format);
-        }
+		function getRegdateDT()
+		{
+			return $this->getRegdate('Y-m-d').'T'.$this->getRegdate('H:i:s').substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
+		}
 
-        function getUpdateTime() {
-            $year = substr($this->get('last_update'),0,4);
-            $month = substr($this->get('last_update'),4,2);
-            $day = substr($this->get('last_update'),6,2);
-            $hour = substr($this->get('last_update'),8,2);
-            $min = substr($this->get('last_update'),10,2);
-            $sec = substr($this->get('last_update'),12,2);
-            return mktime($hour,$min,$sec,$month,$day,$year);
-        }
+		function getUpdate($format = 'Y.m.d H:i:s') {
+			return zdate($this->get('last_update'), $format);
+		}
 
-        function getUpdateGM() {
-            return gmdate("D, d M Y H:i:s", $this->getUpdateTime());
-        }
+		function getUpdateTime() {
+			$year = substr($this->get('last_update'),0,4);
+			$month = substr($this->get('last_update'),4,2);
+			$day = substr($this->get('last_update'),6,2);
+			$hour = substr($this->get('last_update'),8,2);
+			$min = substr($this->get('last_update'),10,2);
+			$sec = substr($this->get('last_update'),12,2);
+			return mktime($hour,$min,$sec,$month,$day,$year);
+		}
+
+		function getUpdateGM() {
+			return gmdate("D, d M Y H:i:s", $this->getUpdateTime());
+		}
+
+		function getUpdateDT()
+		{
+			return $this->getUpdate('Y-m-d').'T'.$this->getUpdate('H:i:s').substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
+		}
 
         function getPermanentUrl() {
             return getFullUrl('','document_srl',$this->get('document_srl'));
