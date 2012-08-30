@@ -75,7 +75,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<tr>
 					<td class="text"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
 					<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
-					<td class="nowr">0/0</td>
+					<td class="nowr">{number_format($val->get('voted_count'))}/{number_format($val->get('blamed_count'))}</td>
 					<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
 					<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
 					<td class="nowr"><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
