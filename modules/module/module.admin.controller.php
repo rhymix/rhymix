@@ -138,7 +138,10 @@
             // Copy a module
 			$triggerObj->originModuleSrl = $module_srl;
 			$triggerObj->moduleSrlList = array();
-            foreach($clones as $mid => $browser_title) {
+
+			$errorLog = array();
+            foreach($clones as $mid => $browser_title) 
+			{
                 $clone_args = null;
                 $clone_args = clone($module_info);
                 $clone_args->module_srl = null;
@@ -148,6 +151,12 @@
                 $clone_args->is_default = 'N';
                 // Create a module
                 $output = $oModuleController->insertModule($clone_args);
+
+				if(!$output->toBool())
+				{
+					$errorLog[] = $mid . ' : '. $output->message;
+					continue;
+				}
                 $module_srl = $output->get('module_srl');
 
 				if($module_info->module == 'page' && $extra_vars->page_type == 'ARTICLE')
@@ -185,11 +194,22 @@
             $output = ModuleHandler::triggerCall('module.procModuleAdminCopyModule', 'after', $triggerObj);
 
             $oDB->commit();
-            $this->setMessage('success_registed');
+
+			if(count($errorLog) > 0)
+			{
+				$message = implode('\n', $errorLog);
+				$this->setMessage($message);
+			}
+			else
+			{
+				$mseeage = $lang->success_registed;
+            	$this->setMessage('success_registed');
+			}
+
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				global $lang;
 				htmlHeader();
-				alertScript($lang->success_registed);
+				alertScript($message);
 				reload(true);
 				closePopupScript();
 				htmlFooter();
