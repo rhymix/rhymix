@@ -503,7 +503,7 @@
             $args->required = Context::get('required');
 			$args->is_active = (isset($args->required));
             if(!in_array(strtoupper($args->required), array('Y','N')))$args->required = 'N';
-            $args->description = Context::get('description');
+            $args->description = Context::get('description') ? Context::get('description') : '';
             // Default values
             if(in_array($args->column_type, array('checkbox','select','radio')) && count($args->default_value) ) {
                 $args->default_value = serialize($args->default_value);
