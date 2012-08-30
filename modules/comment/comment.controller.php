@@ -112,7 +112,7 @@
 	* @param int $module_srl
 	* @return bool
 	*/
-	function isModuleUsingPublishValidation($document_srl=null, $module_srl=null)
+	function isModuleUsingPublishValidation($module_srl=null)
 	{
 		$oModuleModel = &getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
