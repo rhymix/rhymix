@@ -62,7 +62,7 @@ $('form.siteMap')
 		editForm.find('input[name=menu_srl]').val(menuItem.menu_srl);
 		editForm.find('input[name=menu_item_srl]').val(menuItem.menu_item_srl);
 		editForm.find('input[name=parent_srl]').val(menuItem.parent_srl);
-		editForm.find('input[name=menu_name_key]').val(menuName);
+		editForm.find('input[name=menu_name_key]').val(menuItem.name_key);
 		editForm.find('input[name=menu_name]').val(menuName);
 		editForm.find('input[name=success_return_url]').val(successReturnUrl);
 
