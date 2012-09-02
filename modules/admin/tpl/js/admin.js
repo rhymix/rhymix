@@ -568,7 +568,7 @@ _xeModuleSearch = function(){
 
 	var $siteList = $siteListDiv.find('UL');
 	var $moduleTypeList = $moduleTypeListDiv.find('UL');
-	var $moduleInstanceList = $moduleInstanceListDiv.find('UL');
+	var $moduleInstanceList = $moduleInstanceListDiv.find('SELECT');
 
 	var $siteListSearchInput = $moduleSearchWindow.find('INPUT.siteListSearchInput');
 	var aSiteListData;
@@ -707,12 +707,9 @@ _xeModuleSearch = function(){
 
 				for(var x in list) {
 					if(!list.hasOwnProperty(x)) continue;
-					
-					$li = $('<li />').appendTo($moduleInstanceList);
-					$('<a>').attr('href', '#').html(
-						'<div>'+list[x].browser_title+'</div>'
-					).data('module_srl', list[x].module_srl).appendTo($li);
-					
+
+					$li = $('<option />').html(list[x].browser_title).appendTo($moduleInstanceList).val(list[x].module_srl).data('mid', list[x].module_srl)
+							.data('module_srl', list[x].module_srl).data('layout_srl', list[x].layout_srl).data('browser_title', list[x].browser_title);
 				}
 
 				$moduleInstanceListDiv.show();
@@ -724,16 +721,20 @@ _xeModuleSearch = function(){
 				oEvent.preventDefault();
 			})
 		.end()
-		.find('.moduleInstanceListUL')
-			.delegate('a','click',function(oEvent){
-				$this = $(this);
+		.find('.moduleSearch_ok').click(function(oEvent){
+				var aSelected = [];
+				$t.find('.moduleInstanceListSelect option:selected').each(function(){
+					aSelected.push({
+						'type' : t.sSelectedModuleType,
+						'module_srl' : $(this).data('module_srl'),
+						'layout_srl' : $(this).data('layout_srl'),
+						'browser_title' : $(this).data('browser_title')
+					});
+				});
 
-				t.sSelectedModuleInstanceName = $this.text();
-				t.sSelectedModuleSrl = $this.data('module_srl');
-				
-				$t.trigger('moduleSelect', [t.sSelectedModuleType, t.sSelectedModuleInstanceName, t.sSelectedModuleSrl]);
+				$t.trigger('moduleSelect', [aSelected]);
 				$('.tgAnchor.moduleSearch').trigger('close.tc');
-
+				
 				oEvent.preventDefault();
 			});
 			

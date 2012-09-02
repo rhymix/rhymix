@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* Element Reset */
 header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{display:block}
 .x,
@@ -683,7 +683,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .crossTable input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
 .x .clear:after{content:"";display:block;clear:both}
 
-.x .moduleSearchWindow{position:absolute;width:700px}
+.x .moduleSearchWindow{position:absolute;width:700px;z-index:100}
 .x .moduleSearchWindow, .moduleSearchWindow div{margin:0;padding:0;color:#2d2c2d;font-size:12px}
 .x .moduleSearchWindow h2{margin:0;padding:4px;height:24px;line-height:24px;background:#666;text-align:left;color:#fff;font-size:12px}
 .x .moduleSearchWindow .sectionDiv{position:relative;margin:0px;background:#fff;border:1px solid}
@@ -702,7 +702,8 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .moduleSearchWindow .siteListSearchBox .searchImg{position:relative;float:left;margin-top:4px;margin-left:4px}
 .x .moduleSearchWindow .moduleTypeList li div{width:170px}
 .x .moduleSearchWindow .moduleInstanceList li div{width:190px}
-
+.x .moduleSearchWindow .moduleSearch_ok {float:right}
+.x .moduleSearchWindow select.moduleInstanceListSelect {width:100%}
 
 /*!
  * Bootstrap v2.0.4

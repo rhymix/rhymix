@@ -22,9 +22,15 @@ jQuery(function($){
 
 <script>
 jQuery(function($){
-	$('.moduleSearch').bind('moduleSelect', function(e, sModuleType, sModuleInstanceName, sModuleInstanceSrl){
-		$('#_target_module').val(sModuleInstanceName);
-		$('#index_module_srl').val(sModuleInstanceSrl);
+	$('.moduleSearch').bind('moduleSelect', function(e, aSelected){
+		var sType, sName, sSrl;
+		
+		sType = aSelected[0].type;
+		sName = aSelected[0].browser_title;
+		sSrl = aSelected[0].module_srl;
+
+		$('#_target_module').val(sName);
+		$('#index_module_srl').val(sSrl);
 	});
 });
 </script>
@@ -65,9 +71,10 @@ jQuery(function($){
 						<div class="moduleInstanceList sectionDiv">
 							<h2>{$lang->select_module_instance}</h2>
 							<div>
-								<ul class="moduleInstanceListUL">
-								</ul>
+								<select class="moduleInstanceListSelect" size="8">
+								</select>
 							</div>
+							<button class="btn btn_primary moduleSearch_ok">{$lang->cmd_select}</button>
 						</div>
 					</div>
 				</div>
