@@ -47,29 +47,29 @@
 		<span class="btn small"><input type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 </form>
-<form action="" class="form">
-	<h2 class="h2">{$lang->feed} {$lang->cmd_management}</h2>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<thead>
-				<tr>
-					<th scope="col">{$lang->mid}</th>
-					<th scope="col" class="title">{$lang->description}</th>
-					<th scope="col">{$lang->open_rss}</th>
-					<th scope="col">
-						<label for="feed_integration">{$lang->open_feed_to_total}</label>
-					</th>
-					<th scope="col">{$lang->cmd_save}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!--@foreach($feed_config AS $key=>$value)-->
+<h2 class="h2">{$lang->feed} {$lang->cmd_management}</h2>
+<div class="table form">
+	<table width="100%" border="1" cellspacing="0">
+		<thead>
+			<tr>
+				<th scope="col">{$lang->mid}</th>
+				<th scope="col" class="title">{$lang->description}</th>
+				<th scope="col">{$lang->open_rss}</th>
+				<th scope="col">
+					<label for="feed_integration">{$lang->open_feed_to_total}</label>
+				</th>
+				<th scope="col">{$lang->cmd_save}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$feed_config => $key,$value">
 				<form ruleset="insertRssModuleConfig" action="./" method="post">
-				<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
-				<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', 'dispRssAdminIndex')}" />
-				<input type="hidden" name="target_module_srl" value="{$key}" />
-				<tr>
-					<th scope="row" class="nowr"><!--@if($value['url'])--><a href="{$value['url']}" target="_blank"><!--@endif-->{$value['mid']}<!--@if($value['url'])--></a><!--@endif--></th>
+					<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
+					<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', 'dispRssAdminIndex')}" />
+					<input type="hidden" name="target_module_srl" value="{$key}" />
+					<th scope="row" class="nowr">
+						<!--@if($value['url'])--><a href="{$value['url']}" target="_blank"><!--@endif-->{$value['mid']}<!--@if($value['url'])--></a><!--@endif-->
+					</th>
 					<td class="title">{$value['feed_description']}</td>
 					<td class="nowr">
 						<!--@foreach($lang->open_rss_types as $key2=>$value2)-->
@@ -83,10 +83,8 @@
 						<label for="open_total_feed_T_N">{$lang->notuse}</label>
 					</td>
 					<td class="nowr"><input type="submit" value="{$lang->cmd_save}" class="text" /></td>
-				</tr>
 				</form>
-				<!--@end-->
-			</tbody>
-		</table>
-	</div>
-</form>
+			</tr>
+		</tbody>
+	</table>
+</div>
