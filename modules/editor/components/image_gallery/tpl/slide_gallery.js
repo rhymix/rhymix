@@ -19,9 +19,18 @@ var slideShow = xe.createPlugin('slideShow', {
 
 	API_SHOW_SLIDE : function(sender, params) {
 		var self=this, srl = params[0], key = '@'+srl, imgs, $zone, $thumb, $holder, i, c;
-
+		var p = params;
 		imgs = this.cast('GET_IMAGES', [srl]);
 		if(!imgs.length) return;
+
+		for(var i=0, nLen=imgs.length; i<nLen; i++){
+			if(!imgs[i].loaded){
+				setTimeout(function(){
+					self.cast('SHOW_SLIDE', params);
+				}, 200);
+				return;
+			}
+		}
 
 		$zone   = $('#zone_slide_gallery_'+srl);
 		$holder = $zone.find('.slide_gallery_placeholder').css('overflow', 'hidden');
