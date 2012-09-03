@@ -2,11 +2,10 @@
 <load target="js/layout_modify.js" />
 
 <h2 cond="$act == 'dispLayoutAdminModify'" class="h2">{$selected_layout->layout_title}</h2>
-<h2 cond="$act == 'dispLayoutAdminInsert'" class="h2">{$selected_layout->title}</h2>
 
-<form id="config_form" ruleset="updateLayout"|cond="$act == 'dispLayoutAdminModify'" ruleset="insertLayout"|cond="$act == 'dispLayoutAdminInsert'" action="./" class="form" enctype="multipart/form-data" method="post">
+<form id="config_form" ruleset="updateLayout"|cond="$act == 'dispLayoutAdminModify'" action="./" class="form" enctype="multipart/form-data" method="post">
 	<input type="hidden" name="module" value="layout" />
-	<input type="hidden" name="act" value="procLayoutAdminUpdate"|cond="$act == 'dispLayoutAdminModify'" value="procLayoutAdminInsert"|cond="$act == 'dispLayoutAdminInsert'" />
+	<input type="hidden" name="act" value="procLayoutAdminUpdate"|cond="$act == 'dispLayoutAdminModify'" />
 	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
 	<input type="hidden" name="layout" value="{$selected_layout->layout}" />
 	<input type="hidden" name="_layout_type" value="{$selected_layout->layout_type}" />
