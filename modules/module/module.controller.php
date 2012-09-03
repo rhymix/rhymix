@@ -244,7 +244,7 @@
                 if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new Object(-1,'msg_already_registed_vid');
 
                 if($args->domain && !isSiteID($args->domain)) {
-                    $args->domain = strtolower($args->domain);
+                    $args->domain = $args->domain;
                 }
 
             }
