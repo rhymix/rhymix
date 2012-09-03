@@ -480,7 +480,7 @@
             $type = Context::get('type');
             $is_required = Context::get('is_required');
             $default = Context::get('default');
-            $desc = Context::get('desc');
+            $desc = Context::get('desc') ? Context::get('desc') : '';
             $search = Context::get('search');
 			$eid = Context::get('eid');
 
