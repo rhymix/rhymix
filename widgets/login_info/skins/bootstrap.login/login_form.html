@@ -1,0 +1,31 @@
+<load target="bootstrap.login.css" />
+<load target="login.xml" />
+<load target="bootstrap.login.js" />
+<form id="fo_login_widget" action="{getUrl('','act','procMemberLogin')}" method="post" ruleset="@login" class="account">
+	<a href="#acField" class="x_btn x_btn-link">{$lang->cmd_login}</a>
+	<fieldset class="x_well" id="acField">
+		<input type="hidden" name="act" value="procMemberLogin" />
+		<input type="hidden" name="success_return_url" value="{htmlspecialchars(getRequestUriByServerEnviroment())}" />
+		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<div class="idpwWrap">
+			<div class="idpw">
+				<input name="user_id" type="text" required autocomplete="off" title="{$lang->user_id}" cond="$member_config->identifier != 'email_address'" />
+				<input name="user_id" type="email" required autocomplete="off" title="{$lang->email_address}" cond="$member_config->identifier == 'email_address'" />
+				<input name="password" type="password" required autocomplete="off" title="{$lang->password}" />
+				<p class="keep">
+					<input type="checkbox" name="keep_signed" id="keep_signed" value="Y" />
+					<label for="keep_signed">{$lang->keep_signed}</label>
+				</p>
+			</div>
+			<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_login}" />
+		</div>
+		<p class="warning">{$lang->about_keep_warning}</p>
+		<ul class="help">
+			<li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+			<li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>
+			<li><a href="{getUrl('act','dispMemberResendAuthMail')}">{$lang->cmd_resend_auth_mail}</a></li>
+		</ul>
+	</fieldset>
+</form>

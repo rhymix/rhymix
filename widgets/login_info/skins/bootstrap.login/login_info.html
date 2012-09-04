@@ -1,0 +1,9 @@
+<load target="bootstrap.login.css" />
+<load target="logout.xml" />
+<div class="account">
+	<ul class="info">
+		<li><a href="{getUrl('act','dispMemberInfo')}" title="{$lang->last_login}: {zDate($logged_info->last_login, "Y-m-d")}">{$logged_info->nick_name}</a></li>
+		<li><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+		<li cond="$logged_info->is_admin=='Y' && !$site_module_info->site_srl"><a href="{getUrl('','module','admin')}">{$lang->cmd_management}</a></li>
+	</ul>
+</div>

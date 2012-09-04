@@ -1,0 +1,20 @@
+@charset "utf-8";
+.account{position:relative;text-align:right;z-index:99}
+.account #acField{width:248px;position:absolute;right:0;padding:15px;text-align:left;display:none}
+.account .idpwWrap{zoom:1;margin:0 0 10px 0}
+.account .idpwWrap:after{content:"";clear:both;display:block}
+.account .idpw{margin:0 14px 0 0}
+.account .idpw>input{display:block;width:100%}
+.account .keep{float:left;white-space:nowrap}
+.account .keep *{vertical-align:middle}
+.account .keep label{display:inline;font-size:11px;color:#666}
+.account .warning{display:none;font-size:11px;line-height:1.4;color:#666;clear:both}
+.account input[type=submit]{float:right}
+.account .help{list-style:none;margin:0;padding:0;font-size:11px}
+.account .help li{display:inline}
+.account .help li:before{content:"|";color:#ddd;margin:0 4px 0 0}
+.account .help li:first-child:before{content:normal}
+.account .info{margin:0;padding:0;list-style:none}
+.account .info>li{display:inline}
+.account .info>li:before{content:"|"; color:#ddd;margin:0 4px 0 0}
+.account .info>li:first-child:before{content:normal}
