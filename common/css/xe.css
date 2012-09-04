@@ -36,17 +36,16 @@ button[type=button].text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;co
 #popup_menu_area a:avtive,
 #popup_menu_area a:focus{text-decoration:underline}
 /* Message */
-.message{border:1px solid #ddd;background:#f8f8f8;margin:1em 0;padding:0 1em;border-radius:5px;line-height:1.4;font-size:12px}
+.message{position:relative;border:1px solid #ddd;background-color:#f8f8f8;margin:1em 0;padding:0 3em 0 1em;border-radius:4px;line-height:1.4;font-size:12px;text-shadow:0 1px 0 rgba(255, 255, 255, 0.5)}
 .message p{margin:1em 0 !important}
-.message em{font-style:normal;color:#e00}
-.message.info,
-.message.error,
-.message.update{padding-left:55px}
-.message.info{border-color:#E0E8EC;background:#EDF9FF url(../../common/img/msg.Info.png) no-repeat 1em .5em}
-.message.error{border-color:#EFDCDC;background:#FFECEC url(../../common/img/msg.error.png) no-repeat 1em .5em}
-.message.update{border-color:#EAE9DC;background:#FFFDEF url(../../common/img/msg.update.png) no-repeat 1em .5em}
+.message.info{border-color:#BCE8F1;background-color:#D9EDF7;color:#3A87AD}
+.message.error{border-color:#EED3D7;background-color:#F2DEDE;color:#B94A48}
+.message.update{border-color:#D6E9C6;background-color:#DFF0D8;color:#468847}
+.message>.close{border:0;background:none;cursor:pointer;width:20px;height:20px;margin:0;padding:0;position:absolute;top:10px;right:8px;font:bold 20px/20px "Helvetica Neue", Helvetica, Arial, sans-serif;opacity:0.2;filter:alpha(opacity=20)}
+.message>.close:hover,
+.message>.close:focus{opacity:0.5;filter:alpha(opacity=50)}
 /* Waiting for server response */
-.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100; border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.loading.gif) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px;font-weight:bold}
+.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100;border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.loading.gif) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px;font-weight:bold}
 /* Waiting for server response - Modal Window */
 .wfsr_fog{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
 .wfsr_fog .bg{position:absolute;position:fixed;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
