@@ -6,7 +6,7 @@
 	<fieldset>
 		<div class="userName">
 			<a href="#popup_menu_area" class="member_{$logged_info->member_srl}">{$logged_info->nick_name}</a>
-			<a href="{getUrl('act','dispMemberLogout')}">Log out</a>
+			<a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a>
 			<p class="latestLogin">{$lang->last_login}: {zDate($logged_info->last_login, "Y-m-d")}</p>
 		</div>
 		<ul class="userMenu">
