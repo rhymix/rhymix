@@ -1,39 +1,52 @@
 <?php
-    /**
-     * set the include of the class file and other environment configurations
+	/**
+	 * set the include of the class file and other environment configurations
 	 *
-     * @file   config/config.inc.php
-     * @author NHN (developers@xpressengine.com)
-     **/
+	 * @file   config/config.inc.php
+	 * @author NHN (developers@xpressengine.com)
+	 **/
 
-    @error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
-    if(!defined('__ZBXE__')) exit();
+	if(!defined('__ZBXE__')) exit();
 
-    /**
-     * Display XE's full version
-     * Even The file should be revised when releasing altough no change is made
-     */
-	define('__XE_VERSION__', '1.5.3.2');
+	/**
+	 * Display XE's full version.
+	 * The version should be revised when releasing even if no change is made.
+
+	 * XE core's version name is designated development stage. Basically consist of 4 numbers. For example X.X.X.X.
+
+	 * First position number means 'major' update.
+	 * Second position number means 'minor' update.
+	 * Third position number '0, 1, 2, 3' means 'status' update. 
+	 * Forth position number means 'patch' update.
+
+	 * Third position number for status display is consist of 0~3 numbers.
+	 * '0' means 'alpha' status.
+	 * '1' means 'beta' status.
+	 * '2' means 'release candidate' status.
+	 * '3' means 'final' status.
+	 */
+	define('__XE_VERSION__', '1.7.0.0');
 
 	/**
 	 * @deprecated __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.
 	 */
-    define('__ZBXE_VERSION__', __XE_VERSION__);
+	define('__ZBXE_VERSION__', __XE_VERSION__);
 
-    /**
-     * The base path to where you installed zbXE Wanted
-     */
-    define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
+	/**
+	 * The base path to where you installed zbXE Wanted
+	 */
+	define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
 
 
 	// Set can use other method instead cookie to store session id(for file upload)
 	ini_set('session.use_only_cookies', 0);
 
 
-    if(file_exists(_XE_PATH_.'config/package.inc.php')) {
-        require _XE_PATH_.'config/package.inc.php';
-    } else {
+	if(file_exists(_XE_PATH_.'config/package.inc.php')) {
+		require _XE_PATH_.'config/package.inc.php';
+	} else {
 		/**
 		 * Package type
 		 */
@@ -55,27 +68,27 @@
 		define('_XE_DOWNLOAD_SERVER_','http://en.download.xpressengine.org/');
 	}
 
-    /*
-     * user configuration files which override the default settings
-     * save the following information into config/config.user.inc.php
-     * <?php
-     * define('__DEBUG__', 0);
-     * define('__DEBUG_OUTPUT__', 0);
-     * define('__DEBUG_PROTECT__', 1);
-     * define('__DEBUG_PROTECT_IP__', '127.0.0.1');
-     * define('__DEBUG_DB_OUTPUT__', 0);
-     * define('__LOG_SLOW_QUERY__', 0);
-     * define('__OB_GZHANDLER_ENABLE__', 1);
-     * define('__ENABLE_PHPUNIT_TEST__', 0);
-     * define('__PROXY_SERVER__', 'http://domain:port/path');
+	/*
+	 * user configuration files which override the default settings
+	 * save the following information into config/config.user.inc.php
+	 * <?php
+	 * define('__DEBUG__', 0);
+	 * define('__DEBUG_OUTPUT__', 0);
+	 * define('__DEBUG_PROTECT__', 1);
+	 * define('__DEBUG_PROTECT_IP__', '127.0.0.1');
+	 * define('__DEBUG_DB_OUTPUT__', 0);
+	 * define('__LOG_SLOW_QUERY__', 0);
+	 * define('__OB_GZHANDLER_ENABLE__', 1);
+	 * define('__ENABLE_PHPUNIT_TEST__', 0);
+	 * define('__PROXY_SERVER__', 'http://domain:port/path');
 	 * define('__XE_CDN_PREFIX__', 'http://yourCdnDomain.com/path/');
 	 * define('__XE_CDN_VERSION__', 'yourCdnVersion');
-     */
-    if(file_exists(_XE_PATH_.'config/config.user.inc.php')) {
-        require _XE_PATH_.'config/config.user.inc.php';
-    }
+	 */
+	if(file_exists(_XE_PATH_.'config/config.user.inc.php')) {
+		require _XE_PATH_.'config/config.user.inc.php';
+	}
 
-    if(!defined('__DEBUG__'))
+	if(!defined('__DEBUG__'))
 	{
 		/**
 		 * output debug message(bit value)
@@ -90,7 +103,7 @@
 		define('__DEBUG__', 0);
 	}
 
-    if(!defined('__DEBUG_OUTPUT__'))
+	if(!defined('__DEBUG_OUTPUT__'))
 	{
 		/**
 		 * output location of debug message
@@ -104,7 +117,7 @@
 		define('__DEBUG_OUTPUT__', 0);
 	}
 
-    if(!defined('__DEBUG_PROTECT__'))
+	if(!defined('__DEBUG_PROTECT__'))
 	{
 		/**
 		 * output comments of the firePHP console and browser
@@ -117,7 +130,7 @@
 		define('__DEBUG_PROTECT__', 1);
 	}
 
-    if(!defined('__DEBUG_PROTECT_IP__'))
+	if(!defined('__DEBUG_PROTECT_IP__'))
 	{
 		/**
 		 * Set a ip address to allow debug
@@ -125,7 +138,7 @@
 		define('__DEBUG_PROTECT_IP__', '127.0.0.1');
 	}
 
-    if(!defined('__DEBUG_DB_OUTPUT__'))
+	if(!defined('__DEBUG_DB_OUTPUT__'))
 	{
 		/**
 		 * DB error message definition
@@ -138,7 +151,7 @@
 		define('__DEBUG_DB_OUTPUT__', 0);
 	}
 
-    if(!defined('__LOG_SLOW_QUERY__'))
+	if(!defined('__LOG_SLOW_QUERY__'))
 	{
 		/**
 		 * Query log for only timeout query among DB queries
@@ -152,7 +165,7 @@
 		define('__LOG_SLOW_QUERY__', 0);
 	}
 
-    if(!defined('__DEBUG_QUERY__'))
+	if(!defined('__DEBUG_QUERY__'))
 	{
 		/**
 		 * Leave DB query information
@@ -165,7 +178,7 @@
 		define('__DEBUG_QUERY__', 0);
 	}
 
-    if(!defined('__OB_GZHANDLER_ENABLE__'))
+	if(!defined('__OB_GZHANDLER_ENABLE__'))
 	{
 		/**
 		 * option to enable/disable a compression feature using ob_gzhandler
@@ -179,7 +192,7 @@
 		define('__OB_GZHANDLER_ENABLE__', 1);
 	}
 
-    if(!defined('__ENABLE_PHPUNIT_TEST__'))
+	if(!defined('__ENABLE_PHPUNIT_TEST__'))
 	{
 		/**
 		 * decide to use/not use the php unit test (Path/tests/index.php)
@@ -192,7 +205,7 @@
 		define('__ENABLE_PHPUNIT_TEST__', 0);
 	}
 
-    if(!defined('__PROXY_SERVER__'))
+	if(!defined('__PROXY_SERVER__'))
 	{
 		/**
 		 * __PROXY_SERVER__ has server information to request to the external through the target server
@@ -217,10 +230,10 @@
 		define('__XE_CDN_VERSION__', '%__XE_CDN_VERSION__%');
 	}
 
-    // Require specific files when using Firebug console output
-    if((__DEBUG_OUTPUT__ == 2) && version_compare(PHP_VERSION, '6.0.0') === -1) {
-        require _XE_PATH_.'libs/FirePHPCore/FirePHP.class.php';
-    }
+	// Require specific files when using Firebug console output
+	if((__DEBUG_OUTPUT__ == 2) && version_compare(PHP_VERSION, '6.0.0') === -1) {
+		require _XE_PATH_.'libs/FirePHPCore/FirePHP.class.php';
+	}
 
 	// Set Timezone as server time
 	if(version_compare(PHP_VERSION, '5.3.0') >= 0)
