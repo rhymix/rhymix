@@ -5,7 +5,7 @@
 #colorset_area{margin-top:.5em}
 #colorset_area .header{float:left;margin-right:.5em;padding-top:.2em}
 #colorset_area .footer{float:left}
-#zonePageContent{overflow:hidden;width:100%;padding:none !important;margin:none !important}
+#zonePageContent{overflow:hidden;width:100%;padding:0 !important;margin:none !important}
 .pageAddContent{width:700px}
 .widgetOutput{float:left;cursor:move;z-index:998;overflow:hidden;position:relative;width:100%}
 .widgetOutput .widgetBorder{border:1px dashed #ccc;z-index:999}

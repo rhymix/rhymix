@@ -418,7 +418,7 @@
             $widget_padding_right = $args->widget_padding_right;
             $widget_padding_top = $args->widget_padding_top;
             $widget_padding_bottom = $args->widget_padding_bottom;
-            $inner_style = sprintf("padding:%dpx %dpx %dpx %dpx !important; padding:none !important;", $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
+            $inner_style = sprintf("padding:%dpx %dpx %dpx %dpx !important;", $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
 
             /**
              * Wanted widget output
