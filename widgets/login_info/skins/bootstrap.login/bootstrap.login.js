@@ -15,14 +15,15 @@ jQuery(function($){
 			$(this).attr('placeholder', idpw_placeholder);
 		});
 	// Toggle
-	var $acTog = $account.find('>a[href="#acField"]:eq(0)');
+	var $acTog = $('a[href="#acField"]');
 	$acTog.click(function(){ 
-		$(this).next('#acField').slideToggle(200, function(){
+		$this = $(this);
+		$('#acField').slideToggle(200, function(){
 			var $user_id = $(this).find('input[name="user_id"]:eq(0)');
 			if($user_id.is(':visible')){
 				$user_id.focus();
 			} else {
-				$acTog.focus();
+				$this.focus();
 			}
 		});
 		return false;
@@ -33,7 +34,7 @@ jQuery(function($){
 			.append('<button type="button" class="x_close">&times;</button>')
 		.find('>.x_close').click(function(){
 			$(this).closest('#acField').slideUp(200, function(){
-				$acTog.focus();
+				$acTog.eq(0).focus();
 			});
 			return false;
 		});
