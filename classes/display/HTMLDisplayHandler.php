@@ -140,13 +140,7 @@ class HTMLDisplayHandler {
 
 		if(is_array(Context::get('INPUT_ERROR')))
 		{
-			$INPUT_ERROR = Context::get('INPUT_ERROR');
-			$keys = array_keys($INPUT_ERROR);
-			$keys = '('.implode('|', $keys).')';
-
-			$output = preg_replace_callback('@(<input)([^>]*?)\sname="'.$keys.'"([^>]*?)/?>@is', array(&$this, '_preserveValue'), $output);
-			$output = preg_replace_callback('@<select[^>]*\sname="'.$keys.'".+</select>@isU', array(&$this, '_preserveSelectValue'), $output);
-			$output = preg_replace_callback('@<textarea[^>]*\sname="'.$keys.'".+</textarea>@isU', array(&$this, '_preserveTextAreaValue'), $output);
+			$output = preg_replace_callback('@<form[^<>]* id="' . $_SESSION['INPUT_ERROR_ID'] . '"[^<>]*/?>.*?</form>@is', array(&$this, '_inputError'), $output);
 		}
 
 		if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
@@ -180,13 +174,68 @@ class HTMLDisplayHandler {
 	}
 
 	/**
+	 * Display prev values that inputted by user
+	 * @param array $matches
+	 * @return string
+	 */
+	function _inputError($matches)
+	{
+		$INPUT_ERROR = Context::get('INPUT_ERROR');
+
+		$keys = array();
+		foreach($INPUT_ERROR as $key => $value)
+		{
+			if(is_array($value))
+			{
+				$keys[] = $key . '\[[^\]]*\]';
+			}
+			else
+			{
+				$keys[] = $key;
+			}
+		}
+
+		$keys = '('.implode('|', $keys).')';
+
+		$matches[0] = preg_replace_callback('@(<input)([^>]*?)\sname="'.$keys.'"([^>]*?)/?>@is', array(&$this, '_preserveValue'), $matches[0]);
+		$matches[0] = preg_replace_callback('@<select[^>]*\sname="'.$keys.'".+</select>@isU', array(&$this, '_preserveSelectValue'), $matches[0]);
+		$matches[0] = preg_replace_callback('@<textarea[^>]*\sname="'.$keys.'".+</textarea>@isU', array(&$this, '_preserveTextAreaValue'), $matches[0]);
+
+		return $matches[0];
+	}
+
+	function _getInputErrorValue($ogName, &$value)
+	{
+		$INPUT_ERROR = Context::get('INPUT_ERROR');
+
+		if(preg_match('/^([^\[]+)\[([^\]]+)\]$/', $ogName, $m))
+		{
+			$name = $m[1];
+			$key = $m[2];
+		}
+		else
+		{
+			$name = $ogName;
+		}
+
+		if(isset($key))
+		{
+			$value = $INPUT_ERROR[$name][$key];
+		}
+		else
+		{
+			$value = $INPUT_ERROR[$name];
+		}
+	}
+
+	/**
 	 * when display mode is HTML, prepare code before print about <input> tag value.
 	 * @param array $match input value.
 	 * @return string input value.
 	 **/
 	function _preserveValue($match)
 	{
-		$INPUT_ERROR = Context::get('INPUT_ERROR');
+		$this->_getInputErrorValue($match[3], $value);
 
 		$str = $match[1].$match[2].' name="'.$match[3].'"'.$match[4];
 
@@ -197,7 +246,7 @@ class HTMLDisplayHandler {
 		switch($type){
 			case 'text':
 			case 'hidden':
-				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.@htmlspecialchars($INPUT_ERROR[$match[3]]).'"';
+				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.@htmlspecialchars($value).'"';
 				break;
 			case 'password':
 				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str);
@@ -205,7 +254,7 @@ class HTMLDisplayHandler {
 			case 'radio':
 			case 'checkbox':
 				$str = preg_replace('@\schecked(="[^"]*?")?@', ' ', $str);
-				if(@preg_match('@\s(?i:value)="'.$INPUT_ERROR[$match[3]].'"@', $str)) {
+				if(@preg_match('@\s(?i:value)="'.$value.'"@', $str)) {
 					$str .= ' checked="checked"';
 				}
 				break;
@@ -221,13 +270,14 @@ class HTMLDisplayHandler {
 	 **/
 	function _preserveSelectValue($matches)
 	{
-		$INPUT_ERROR = Context::get('INPUT_ERROR');
+		$this->_getInputErrorValue($matches[1], $value);
+
 		preg_replace('@\sselected(="[^"]*?")?@', ' ', $matches[0]);
 		preg_match('@<select.*?>@is', $matches[0], $mm);
 
 		preg_match_all('@<option[^>]*\svalue="([^"]*)".+</option>@isU', $matches[0], $m);
 
-		$key = array_search($INPUT_ERROR[$matches[1]], $m[1]);
+		$key = array_search($value, $m[1]);
 		if($key === FALSE)
 		{
 			return $matches[0];
@@ -245,9 +295,10 @@ class HTMLDisplayHandler {
 	 **/
 	function _preserveTextAreaValue($matches)
 	{
+		$this->_getInputErrorValue($matches[1], $value);
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
 		preg_match('@<textarea.*?>@is', $matches[0], $mm);
-		return $mm[0].$INPUT_ERROR[$matches[1]].'</textarea>';
+		return $mm[0].$value.'</textarea>';
 	}
 
 	/**
