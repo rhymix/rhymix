@@ -2935,6 +2935,10 @@
 		<value xml:lang="vi"><![CDATA[Đã phê bình.]]></value>
 		<value xml:lang="mn"><![CDATA[Санал болгогдоогүй]]></value>
 	</item>
+	<item name="success_copied">
+		<value xml:lang="ko"><![CDATA[복사했습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Copied successfully.]]></value>
+	</item>
 	<item name="success_moved">
 		<value xml:lang="ko"><![CDATA[이동했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Moved successfully.]]></value>
