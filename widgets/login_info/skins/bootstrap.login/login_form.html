@@ -11,9 +11,9 @@
 		</div>
 		<div class="idpwWrap">
 			<div class="idpw">
-				<input name="user_id" type="text" required autocomplete="off" title="{$lang->user_id}" cond="$member_config->identifier != 'email_address'" />
-				<input name="user_id" type="email" required autocomplete="off" title="{$lang->email_address}" cond="$member_config->identifier == 'email_address'" />
-				<input name="password" type="password" required autocomplete="off" title="{$lang->password}" />
+				<input name="user_id" type="text" required title="{$lang->user_id}" cond="$member_config->identifier != 'email_address'" />
+				<input name="user_id" type="email" required title="{$lang->email_address}" cond="$member_config->identifier == 'email_address'" />
+				<input name="password" type="password" required title="{$lang->password}" />
 				<p class="keep">
 					<input type="checkbox" name="keep_signed" id="keep_signed" value="Y" />
 					<label for="keep_signed">{$lang->keep_signed}</label>
