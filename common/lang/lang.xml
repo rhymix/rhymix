@@ -3768,4 +3768,8 @@
 		<value xml:lang="zh-CN"><![CDATA[查看详情]]></value>
 		<value xml:lang="tr"><![CDATA[Detaylı Görünüm]]></value>
 	</item>
+	<item name="skip_to_content">
+		<value xml:lang="ko"><![CDATA[메뉴 건너뛰기]]></value>
+		<value xml:lang="en"><![CDATA[Skip to content]]></value>
+	</item>
 </lang>
