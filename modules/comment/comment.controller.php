@@ -114,6 +114,11 @@
 	*/
 	function isModuleUsingPublishValidation($module_srl=null)
 	{
+		if(!$module_srl == null)
+		{
+			return false;
+		}
+
 		$oModuleModel = &getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		$module_part_config = $oModuleModel->getModulePartConfig('comment',$module_info->module_srl);
