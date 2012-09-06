@@ -227,6 +227,18 @@ class TemplateHandler {
 	{
 		if($matches[1])
 		{
+			// form id attribute move to hidden tag
+			preg_match('/id="([^"]*?)"/is', $matches[1], $m);
+			if(!$m[1])
+			{
+				$mt = microtime();
+				$rand = mt_rand();
+				$m[1] = md5($mt . $rand);
+				$matches[1] = substr($matches[1], 0, 5) . ' id="' . $m[1] . '" ' . substr($matches[1], 5);
+			}
+			$matches[2] = '<input type="hidden" name="xe_form_id" value="' . $m[1] . '" />' . $matches[2];
+			$formId = $m[1];
+
 			// form ruleset attribute move to hidden tag
 			preg_match('/ruleset="([^"]*?)"/is', $matches[1], $m);
 			if($m[0])
@@ -256,18 +268,6 @@ class TemplateHandler {
 				//assign to addJsFile method for js dynamic recache
 				$matches[1]  = '<?php Context::addJsFile("'.$path.'", false, "", 0, "head", true, "'.$autoPath.'") ?'.'>'.$matches[1];
 			}
-
-			// form id attribute move to hidden tag
-			preg_match('/id="([^"]*?)"/is', $matches[1], $m);
-			if(!$m[1])
-			{
-				$mt = microtime();
-				$rand = mt_rand();
-				$m[1] = md5($mt . $rand);
-				$matches[1] = substr($matches[1], 0, 5) . ' id="' . $m[1] . '" ' . substr($matches[1], 5);
-			}
-			$matches[2] = '<input type="hidden" name="xe_form_id" value="' . $m[1] . '" />' . $matches[2];
-			$formId = $m[1];
 		}
 
 		// generate array key index
