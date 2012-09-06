@@ -140,7 +140,7 @@
 			$ipaddress_list = str_replace("\r","",$ipaddress_list);
 			$ipaddress_list = explode("\n",$ipaddress_list);
 			foreach($ipaddress_list as $ipaddressValue) {
-				preg_match("/(\d{1,3}(?:.(\d{1,3}|\*)){3})\s*(\/\/\s*(.*))?/",$ipaddressValue,$matches);
+				preg_match("/(\d{1,3}(?:.(\d{1,3}|\*)){3})\s*(\/\/(.*)\s*)?/",$ipaddressValue,$matches);
 				if($ipaddress=trim($matches[1])) {
 					$args->ipaddress = $ipaddress;
 					if(!$description && $matches[4]) $args->description = $matches[4];
