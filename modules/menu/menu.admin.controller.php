@@ -606,16 +606,24 @@
 			//$info = $oModuleModel->getModuleInfoXml($moduleName);
 			$info = $oModuleModel->getModuleActionXml($moduleName);
 
-			$url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->menu->{$menuName}->index);
-			if(empty($url)) $url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->admin_index_act);
-			if(empty($url)) $url = getNotEncodedUrl('', 'module', 'admin');
+			$url = getNotEncodedFullUrl('', 'module', 'admin', 'act', $info->menu->{$menuName}->index);
+			if(empty($url)) $url = getNotEncodedFullUrl('', 'module', 'admin', 'act', $info->admin_index_act);
+			if(empty($url)) $url = getNotEncodedFullUrl('', 'module', 'admin');
 			$dbInfo = Context::getDBInfo();
 
 			$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 			$args->parent_srl = $requestArgs->parent_srl;
 			$args->menu_srl = $requestArgs->menu_srl;
 			$args->name = sprintf('{$lang->menu_gnb_sub[\'%s\']}', $menuName);
-			$args->url = str_replace($dbInfo->default_url, '', $url);
+			//if now page is https...
+			if(strpos($url, 'https') !== false)
+			{
+				$args->url = str_replace('https'.substr($dbInfo->default_url, 4), '', $url);
+			}
+			else
+			{
+				$args->url = str_replace($dbInfo->default_url, '', $url);
+			}
 			$args->open_window = 'N';
 			$args->expand = 'N';
 			$args->normal_btn = '';
