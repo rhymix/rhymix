@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>나눔글꼴 웹폰트 미리보기</title>
+<style>
+/* 나눔고딕 Light */
+@font-face{font-family:NGL;src:url(NanumGothicLight.eot);src:local(※),url(NanumGothicLight.woff) format('woff')}
+.NGL{font-family:'나눔고딕 Light', NGL, sans-serif}
+/* 나눔고딕 */
+@font-face{font-family:NG;src:url(NanumGothic.eot);src:local(※),url(NanumGothic.woff) format('woff')}
+.NG{font-family:나눔고딕, NG, sans-serif}
+/* 나눔고딕 Bold */
+@font-face{font-family:NGB;src:url(NanumGothicBold.eot);src:local(※),url(NanumGothicBold.woff) format('woff')}
+.NGB{font-family:'나눔고딕 Bold', NGB, sans-serif}
+/* 나눔고딕 ExtraBold */
+@font-face{font-family:NGEB;src:url(NanumGothicExtraBold.eot);src:local(※),url(NanumGothicExtraBold.woff) format('woff')}
+.NGEB{font-family:'나눔고딕 ExtraBold', NGEB, sans-serif}
+/* 나눔명조 */
+@font-face{font-family:NM;src:url(NanumMyeongjo.eot);src:local(※),url(NanumMyeongjo.woff) format('woff')}
+.NM{font-family:'나눔명조', NM, serif}
+/* 나눔명조 Bold */
+@font-face{font-family:NMB;src:url(NanumMyeongjoBold.eot);src:local(※),url(NanumMyeongjoBold.woff) format('woff')}
+.NMB{font-family:'나눔명조 Bold', NMB, serif}
+/* 나눔명조 ExtraBold */
+@font-face{font-family:NMEB;src:url(NanumMyeongjoExtraBold.eot);src:local(※),url(NanumMyeongjoExtraBold.woff) format('woff')}
+.NMEB{font-family:'나눔명조 ExtraBold', NMEB, serif}
+/* 나눔고딕코딩 */
+@font-face{font-family:NGC;src:url(NanumGothicCoding.eot);src:local(※),url(NanumGothicCoding.woff) format('woff')}
+.NGC{font-family:나눔고딕코딩, NGC, Monospace}
+/* 나눔고딕코딩-Bold */
+@font-face{font-family:NGCB;src:url(NanumGothicCodingBold.eot);src:local(※),url(NanumGothicCodingBold.woff) format('woff')}
+.NGCB{font-family:나눔고딕코딩-Bold, NGCB, Monospace}
+/* 나눔손글씨 붓 */
+@font-face{font-family:NB;src:url(NanumBrush.eot);src:local(※),url(NanumBrush.woff) format('woff')}
+.NB{font-family:'나눔손글씨 붓', NB, Cursive}
+/* 나눔손글씨 펜 */
+@font-face{font-family:NP;src:url(NanumPen.eot);src:local(※),url(NanumPen.woff) format('woff')}
+.NP{font-family:'나눔손글씨 펜', NP, Cursive}
+/* Custom */
+.resize{text-align:right}
+.table{border-collapse:collapse;border:1px dotted #ccc;border-right:0;border-left:0;width:100%}
+.table tr{border:1px dotted #ccc;border-right:0;border-left:0}
+.table th, .table td{padding:10px}
+.table th{text-align:left;font-family:나눔고딕코딩, NGC, Monospace}
+.table thead th{background:#eee}
+.table tbody th{background:#f4f4f4}
+.css{margin:1em 0}
+.css>code{display:block;font-family:나눔고딕코딩, NGC, Monospace}
+</style>
+</head>
+<body>
+<h1 class="NG">Nanum Web Font</h1>
+<p>Nanum Web Fonts support 'English, Korean, Japanese' language.</p>
+<h2 class="NG">Preview</h2>
+<p class="resize">{font-size:<strong></strong>px} <button type="button" class="plus">Large</button> <button type="button" class="minus">Small</button> <button type="button" class="default">Default</button></p>
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">Font Name</th>
+			<th scope="col">Normal</th>
+			<th scope="col">Bold</th>
+			<th scope="col">Download</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">SystemDefault</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr class="NGL">
+			<th scope="row">NanumGothicLight</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td><a href="NanumGothicLight.woff">WOFF</a>, <a href="NanumGothicLight.eot">EOT</a></td>
+		</tr>
+		<tr class="NG">
+			<th scope="row">NanumGothic</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumGothic.woff">WOFF</a>, <a href="NanumGothic.eot">EOT</a></td>
+		</tr>
+		<tr class="NGB">
+			<th scope="row">NanumGothicBold</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumGothicBold.woff">WOFF</a>, <a href="NanumGothicBold.eot">EOT</a></td>
+		</tr>
+		<tr class="NGEB">
+			<th scope="row">NanumGothicExtraBold</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumGothicExtraBold.woff">WOFF</a>, <a href="NanumGothicExtraBold.eot">EOT</a></td>
+		</tr>
+		<tr class="NM">
+			<th scope="row">NanumMyeongjo</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumMyeongjo.woff">WOFF</a>, <a href="NanumMyeongjo.eot">EOT</a></td>
+		</tr>
+		<tr class="NMB">
+			<th scope="row">NanumMyeongjoBold</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumMyeongjoBold.woff">WOFF</a>, <a href="NanumMyeongjoBold.eot">EOT</a></td>
+		</tr>
+		<tr class="NMEB">
+			<th scope="row">NanumMyeongjoExtraBold</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumMyeongjoExtraBold.woff">WOFF</a>, <a href="NanumMyeongjoExtraBold.eot">EOT</a></td>
+		</tr>
+		<tr class="NGC">
+			<th scope="row">NanumGothicCoding</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumGothicCoding.woff">WOFF</a>, <a href="NanumGothicCoding.eot">EOT</a></td>
+		</tr>
+		<tr class="NGCB">
+			<th scope="row">NanumGothicCodingBold</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumGothicCodingBold.woff">WOFF</a>, <a href="NanumGothicCodingBold.eot">EOT</a></td>
+		</tr>
+		<tr class="NB">
+			<th scope="row">NanumBrush</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumBrush.woff">WOFF</a>, <a href="NanumBrush.eot">EOT</a></td>
+		</tr>
+		<tr class="NP">
+			<th scope="row">NanumPen</th>
+			<td>English 한글 ひらがな</td>
+			<td><strong>English 한글 ひらがな</strong></td>
+			<td class="NGL"><a href="NanumPen.woff">WOFF</a>, <a href="NanumPen.eot">EOT</a></td>
+		</tr>
+	</tbody>
+</table>
+<h2 class="NG">CSS Code</h2>
+<p>You should modify file path.</p>
+<blockquote class="css">
+<code>
+<h3>/* 나눔고딕 Light */</h3>
+<p>@font-face{font-family:NGL;src:url(NanumGothicLight.eot);src:local(※),url(NanumGothicLight.woff) format('woff')}<br>
+.NGL{font-family:'나눔고딕 Light', NGL, sans-serif}</p>
+<h3>/* 나눔고딕 */</h3>
+<p>@font-face{font-family:NG;src:url(NanumGothic.eot);src:local(※),url(NanumGothic.woff) format('woff')}<br>
+.NG{font-family:나눔고딕, NG, sans-serif}</p>
+<h3>/* 나눔고딕 Bold */</h3>
+<p>@font-face{font-family:NGB;src:url(NanumGothicBold.eot);src:local(※),url(NanumGothicBold.woff) format('woff')}<br>
+.NGB{font-family:'나눔고딕 Bold', NGB, sans-serif}</p>
+<h3>/* 나눔고딕 ExtraBold */</h3>
+<p>@font-face{font-family:NGEB;src:url(NanumGothicExtraBold.eot);src:local(※),url(NanumGothicExtraBold.woff) format('woff')}<br>
+.NGEB{font-family:'나눔고딕 ExtraBold', NGEB, sans-serif}</p>
+<h3>/* 나눔명조 */</h3>
+<p>@font-face{font-family:NM;src:url(NanumMyeongjo.eot);src:local(※),url(NanumMyeongjo.woff) format('woff')}<br>
+.NM{font-family:'나눔명조', NM, serif}</p>
+<h3>/* 나눔명조 Bold */</h3>
+<p>@font-face{font-family:NMB;src:url(NanumMyeongjoBold.eot);src:local(※),url(NanumMyeongjoBold.woff) format('woff')}<br>
+.NMB{font-family:'나눔명조 Bold', NMB, serif}</p>
+<h3>/* 나눔명조 ExtraBold */</h3>
+<p>@font-face{font-family:NMEB;src:url(NanumMyeongjoExtraBold.eot);src:local(※),url(NanumMyeongjoExtraBold.woff) format('woff')}<br>
+.NMEB{font-family:'나눔명조 ExtraBold', NMEB, serif}</p>
+<h3>/* 나눔고딕코딩 */</h3>
+<p>@font-face{font-family:NGC;src:url(NanumGothicCoding.eot);src:local(※),url(NanumGothicCoding.woff) format('woff')}<br>
+.NGC{font-family:나눔고딕코딩, NGC, Monospace}</p>
+<h3>/* 나눔고딕코딩-Bold */</h3>
+<p>@font-face{font-family:NGCB;src:url(NanumGothicCodingBold.eot);src:local(※),url(NanumGothicCodingBold.woff) format('woff')}<br>
+.NGCB{font-family:나눔고딕코딩-Bold, NGCB, Monospace}</p>
+<h3>/* 나눔손글씨 붓 */</h3>
+<p>@font-face{font-family:NB;src:url(NanumBrush.eot);src:local(※),url(NanumBrush.woff) format('woff')}<br>
+.NB{font-family:'나눔손글씨 붓', NB, Cursive}</p>
+<h3>/* 나눔손글씨 펜 */</h3>
+<p>@font-face{font-family:NP;src:url(NanumPen.eot);src:local(※),url(NanumPen.woff) format('woff')}<br>
+.NP{font-family:'나눔손글씨 펜', NP, Cursive}</p>
+</code>
+</blockquote>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+jQuery(function($){
+	var defaultSize = $('table').css('fontSize');
+	$('.resize>strong').text(parseInt(defaultSize));
+	$('.resize>button').click(function(){
+		var currentSize = parseInt($('table').css('fontSize'));
+		var more = currentSize + 1;
+		var less = currentSize - 1;
+		var $this = $(this);
+		if(this.className == 'plus') {
+			$('table').css('fontSize', more + 'px');		
+		} else if (this.className == 'minus') {
+			$('table').css('fontSize', less + 'px');
+		} else if (this.className == 'default') {
+			$('table').css('fontSize', defaultSize);
+		}
+		var result = parseInt($('table').css('fontSize'));
+		$(this).parent().find('>strong:first-child').text(result);
+	});
+});
+</script>
+</body>
+</html>
