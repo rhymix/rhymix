@@ -484,8 +484,7 @@
 
             if($header_script)
 			{
-				$header_script = str_replace('"','\\"',$header_script);
-				$buff .= sprintf(' $layout_info->header_script = "%s"; ', str_replace('$','\$',$header_script));
+				$buff .= sprintf(' $layout_info->header_script = "%s"; ', str_replace(array('$','"'),array('\$','\\"'),$header_script));
 			}
 
             $buff = '<?php if(!defined("__ZBXE__")) exit(); '.$buff.' ?>';
