@@ -1,20 +1,27 @@
-<h2>XE core '{$version}' has been successfully installed!</h2>
-<p>We recommend you to delete this demo page before launching the site.<br />Please check the following list to verify whether the installation has been properly completed.<br />You can see all the components on the administration page.</p>
-<ol>
-	<li>
-		When <strong><a href="{getUrl('', 'module','admin', 'act', 'dispLayoutAdminContent')}" target="_blank">the layout</a></strong> has been successfully installed, you can see the screen containing a <strong>header</strong>, a <strong>content body</strong>, and a <strong>footer</strong>.
-	</li>
-	<li>
-		When <strong><a href="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminContent')}" target="_blank">Menu module</a></strong> has been successfully installed, you can see both <strong>global and local navigations</strong>.
-	</li>
-	<li>
-		When <strong><a href="{getUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminContent')}" target="_blank">Integrated Search module</a></strong> has been successfully installed, you can see <strong>the search form</strong>.
-	</li>
-	<li>
-		When <strong><a href="{getUrl('', 'module', 'admin', 'act', 'dispWidgetAdminDownloadedList')}" target="_blank">Login widget</a></strong> has been successfully installed, you can see <strong>the login form</strong>.
-	</li>
-	<li>
-		When <strong><a href="{getUrl('', 'module', 'admin', 'act', 'dispPageAdminContent')}" target="_blank">Page module</a></strong> has been successfully installed, you see this page.
-	</li>
-</ol>
-<p>You can replace it with some other module on <strong><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfig')}" target="_blank">the Settings page</a></strong>.</p>
+<article class="welcomeXE">
+	<h2>XE core '{$version}' has been successfully installed!</h2>
+	<section class="odd i1">
+		<h3>Change the site title</h3>
+		<p>After login as administrator, you can change the 'site title' as '<a href="{geturl('','module','admin','act','dispAdminConfigGeneral')}">Admin &gt; Settings &gt; General &gt; Primary...</a>' progress.</p>
+	</section>
+	<section class="even i2">
+		<h3>Change the menu structure</h3>
+		<p>After login as administrator, you can change the 'menu structure' as '<a href="{geturl('','module','admin','act','dispMenuAdminSiteMap')}">Admin &gt; Menu &gt; Menu Management...</a>' progress.</p>
+	</section>
+	<section class="odd i3">
+		<h3>Change the layout design</h3>
+		<p>After login as administrator, you can change the 'layout design' as '<a href="{geturl('','module','admin','act','dispLayoutAdminInstalledList')}">Admin &gt; Extensions &gt; Instance of layout...</a>' progress.</p>
+	</section>
+	<section class="even i4">
+		<h3>Module installation</h3>
+		<p>After login as administrator, you can install the 'module' as '<a href="{geturl('','module','admin','act','dispAutoinstallAdminIndex')}">Admin &gt; Extensions &gt; Easy install...</a>' progress.</p>
+	</section>
+	<section class="odd i5">
+		<h3>Main page replacement</h3>
+		<p>After login as administrator, you can change the 'main page' as '<a href="{geturl('','module','admin','act','dispAutoinstallAdminIndex')}">Admin &gt; Settings &gt; General &gt; Primary...</a>' progress.</p>
+	</section>
+	<section class="even i6">
+		<h3>Main page decoration</h3>
+		<p>After login as administrator, you can edit the 'main page' by click the '<a href="{geturl('act','dispPageAdminContentModify')}">Modify...</a>' button.</p>
+	</section>
+</article>

@@ -1,20 +1,27 @@
-<h2>XE core '{$version}' 설치를 환영합니다!</h2>
-<p>XE core설치가 성공적으로 완료되었습니다.<br />이 페이지는 데모 페이지 이므로 추후 사이트 운영시 삭제 가능합니다.<br />모든 설치요소는 관리자로 로그인하셔야 확인할 수 있습니다.</p>
-<ol>
-	<li>
-		<strong>헤더</strong>, <strong>본문</strong>, <strong>풋터</strong>로 구성된 화면이 보인다면 <strong><a href="{getUrl('', 'module','admin', 'act', 'dispLayoutAdminContent')}" target="_blank">레이아웃</a></strong>이 정상적으로 설치된 것입니다.
-	</li>
-	<li>
-		<strong>글로벌 네비게이션</strong>과 <strong>로컬 네비게이션</strong>이 보인다면 <strong><a href="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminContent')}" target="_blank">메뉴 모듈</a></strong>이 설치된 것입니다.
-	</li>
-	<li>
-		<strong>통합 검색 인풋</strong>이 보인다면 <strong><a href="{getUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminContent')}" target="_blank">통합검색 모듈</a></strong>이 설치된 것입니다.
-	</li>
-	<li>
-		<strong>로그인 인풋</strong>이 보인다면 <strong><a href="{getUrl('', 'module', 'admin', 'act', 'dispWidgetAdminDownloadedList')}" target="_blank">로그인 정보 출력 위젯</a></strong>이 설치된 것입니다.
-	</li>
-	<li>
-		<strong>이 메시지</strong>가 보인다면 <strong><a href="{getUrl('', 'module', 'admin', 'act', 'dispPageAdminContent')}" target="_blank">페이지 모듈</a></strong>이 설치된 것입니다.
-	</li>
-</ol>
-<p>페이지 모듈이 시작 모듈로 지정되어 있습니다. <a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfig')}" target="_blank">관리자 설정화면</a>에서 변경 가능합니다.</p>
+<article class="welcomeXE">
+	<h2>XE core '{$version}' 설치를 환영합니다!</h2>
+	<section class="odd i1">
+		<h3>사이트 제목 바꾸기</h3>
+		<p>관리자로 로그인 한 다음 '<a href="{geturl('','module','admin','act','dispAdminConfigGeneral')}">관리 &gt; 설정 &gt; 일반 &gt; 기본</a>'에서 '사이트 제목'을 변경할 수 있습니다.</p>
+	</section>
+	<section class="even i2">
+		<h3>메뉴 구조 바꾸기</h3>
+		<p>관리자로 로그인 한 다음 '<a href="{geturl('','module','admin','act','dispMenuAdminSiteMap')}">관리 &gt; 사이트 &gt; 사이트맵</a>'에서 '메뉴 구조'를 변경할 수 있습니다.</p>
+	</section>
+	<section class="odd i3">
+		<h3>레이아웃 디자인 바꾸기</h3>
+		<p>관리자로 로그인 한 다음 '<a href="{geturl('','module','admin','act','dispLayoutAdminInstalledList')}">관리 &gt; 확장기능 &gt; 설치된 레이아웃</a>'에서 '레이아웃 디자인'을 변경할 수 있습니다.</p>
+	</section>
+	<section class="even i4">
+		<h3>모듈 설치하기</h3>
+		<p>관리자로 로그인 한 다음 '<a href="{geturl('','module','admin','act','dispAutoinstallAdminIndex')}">관리 &gt; 확장기능 &gt; 쉬운 설치</a>'에서 '모듈'을 설치할 수 있습니다.</p>
+	</section>
+	<section class="odd i5">
+		<h3>초기화면 바꾸기</h3>
+		<p>관리자로 로그인 한 다음 '<a href="{geturl('','module','admin','act','dispAutoinstallAdminIndex')}">관리 &gt; 설정 &gt; 일반 &gt; 기본</a>'에서 '초기화면'을 바꿀 수 있습니다.</p>
+	</section>
+	<section class="even i6">
+		<h3>초기화면 꾸미기</h3>
+		<p>관리자로 로그인 한 다음 '<a href="{geturl('act','dispPageAdminContentModify')}">페이지 수정</a>' 버튼을 눌러 '초기화면'을 꾸밀 수 있습니다.</p>
+	</section>
+</article>

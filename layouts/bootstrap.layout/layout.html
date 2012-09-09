@@ -1,0 +1,118 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+<load target="../../common/css/bootstrap.css" index="1" />
+<load target="../../common/css/bootstrap-responsive.css" index="1" />
+<load target="bootstrap.layout.css" index="2" />
+<load target="bootstrap.layout.ie9fix.css" index="2" targetie="IE 9" />
+<load target="../../common/js/respond.min.js" targetie="lt IE 9" />
+<load target="../../common/js/selectivizr-min.js" targetie="lt IE 9" />
+<load target="bootstrap.layout.js" type="body" />
+<div class="x_container">
+	<p class="skip"><a href="#content">{$lang->skip_to_content}</a></p>
+	<header class="header">
+		<div class="x_row">
+			<h1 class="x_span6"><a href="{geturl('')}" id="siteTitle"><img src="siteTitle.png" alt="XpressEngine"></a></h1>
+			<!-- ACCOUNT -->
+			<img widget="login_info" skin="bootstrap.login" />
+			<!-- /ACCOUNT -->
+		</div>
+		<!-- GNB -->
+		<nav class="gnb x_navbar x_navbar-inverse" id="gnb">
+			<div class="x_navbar-inner">
+				<div class="x_container">
+					<a class="x_btn x_btn-navbar" data-toggle="collapse" data-target=".x_nav-collapse">
+						<span class="x_icon-bar"></span>
+						<span class="x_icon-bar"></span>
+						<span class="x_icon-bar"></span>
+					</a>
+					<a class="x_brand" href="{geturl('')}">HOME</a>
+					<div class="x_nav-collapse">
+						<ul class="x_nav">
+							<li loop="$GNB->list=>$key1,$val1" class="x_dropdown"|cond="!$val1['selected']" class="x_dropdown x_active"|cond="$val1['selected']">
+								<a href="{$val1['href']}" class="x_dropdown-toggle" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+								<ul cond="$val1['list']" class="x_dropdown-menu">
+									<li loop="$val1['list']=>$key2,$val2" class="x_active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+								</ul>
+							</li>
+						</ul>
+						<!-- SEARCH -->
+						<form action="{getUrl()}" method="get" class="x_navbar-form x_pull-right">
+							<input type="hidden" name="vid" value="{$vid}" />
+							<input type="hidden" name="mid" value="{$mid}" />
+							<input type="hidden" name="act" value="IS" />
+							<input type="text" name="is_keyword" value="{$is_keyword}" required placeholder="{$lang->cmd_search}" title="{$lang->cmd_search}" style="width:120px;height:18px;line-height:18px" />
+							<input type="submit" value="{$lang->cmd_search}" class="x_btn x_btn-inverse" />
+						</form>
+						<!-- /SEARCH -->
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- /GNB -->
+	</header>
+	<div class="body main"|cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'" class="body sub"|cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'">
+		<!-- CONTENT -->
+		<div class="content" id="content">
+			<!-- VISUAL | DEFAULT -->
+			<div class="visual" cond="!$layout_info->VISUAL_IMAGE_1 && !$layout_info->VISUAL_IMAGE_2 && !$layout_info->VISUAL_IMAGE_3 && $layout_info->VISUAL_USE=='YES'">
+				<div class="list">
+					<a href="{geturl('','module','admin','act','dispAdminConfigGeneral')}" class="item i1" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
+						<img src="visual.main.1.jpg" alt="" />
+						<p>Click, to change the site title.</p>
+					</a>
+					<a href="{geturl('','module','admin','act','dispMenuAdminSiteMap')}" class="item i2" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
+						<img src="visual.main.2.jpg" alt="" />
+						<p>Click, to change the site navigation.</p>
+					</a>
+					<a href="{geturl('','module','admin','act','dispLayoutAdminAllInstanceList')}" class="item i3" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
+						<img src="visual.main.3.jpg" alt="" />
+						<p>Click, to change the site visual image.</p>
+					</a>
+					<a href="{geturl('','module','admin','act','dispLayoutAdminAllInstanceList')}" class="item i1" cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'">
+						<img src="visual.sub.jpg" alt="" />
+						<p>Click, to change the site visual image.</p>
+					</a>
+				</div>
+				<button type="button" class="prev"><i></i>&lsaquo;</button>
+				<button type="button" class="next"><i></i>&rsaquo;</button>
+			</div>
+			<!-- VISUAL | USER DEFINE -->
+			<div class="visual" cond="$layout_info->VISUAL_IMAGE_1 || $layout_info->VISUAL_IMAGE_2 || $layout_info->VISUAL_IMAGE_3 && $layout_info->VISUAL_USE=='YES'">
+				<div class="list">
+					<a href="{$layout_info->VISUAL_LINK_1}" class="item i1" cond="$layout_info->VISUAL_IMAGE_1">
+						<img src="{$layout_info->VISUAL_IMAGE_1}" alt="" />
+						<p>{$layout_info->VISUAL_TEXT_1}</p>
+					</a>
+					<a href="{$layout_info->VISUAL_LINK_2}" class="item i2" cond="$layout_info->VISUAL_IMAGE_2">
+						<img src="{$layout_info->VISUAL_IMAGE_2}" alt="" />
+						<p>{$layout_info->VISUAL_TEXT_2}</p>
+					</a>
+					<a href="{$layout_info->VISUAL_LINK_3}" class="item i3" cond="$layout_info->VISUAL_IMAGE_3">
+						<img src="{$layout_info->VISUAL_IMAGE_3}" alt="" />
+						<p>{$layout_info->VISUAL_TEXT_3}</p>
+					</a>
+				</div>
+				<button type="button" class="prev"><i></i>&lsaquo;</button>
+				<button type="button" class="next"><i></i>&rsaquo;</button>
+			</div>
+			<!-- /VISUAL -->
+			{$content}
+		</div>
+		<!-- /CONTENT -->
+		<!-- LNB -->
+		<nav class="lnb" cond="$layout_info->LAYOUT_TYPE == 'SUB_PAGE'">
+			<h2 loop="$GNB->list=>$key1,$val1" cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h2>
+			<ul loop="$GNB->list=>$key1,$val1" cond="$val1['selected'] && $val1['list']" class="x_nav x_nav-tabs x_nav-stacked">
+				<li loop="$val1['list']=>$key2,$val2" class="x_active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+					<ul cond="$val2['list']">
+						<li loop="$val2['list']=>$key3,$val3" class="x_active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		<!-- /LNB -->
+	</div>
+	<footer class="footer">
+		<p>Powered by <a href="http://xpressengine.com/"><strong>XE</strong></a>.</p>
+	</footer>
+</div>

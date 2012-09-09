@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.2">
+    <title xml:lang="ko">Bootstrap.Layout</title>
+    <title xml:lang="en">Bootstrap.Layout</title>
+    <description xml:lang="ko">부트스트랩 응용 레이아웃.</description>
+    <description xml:lang="en">Bootstrap application layout.</description>
+    <version>1.0</version>
+    <date>2012-09-01</date>
+    <author email_address="developer@xpressengine.com" link="http://xpressengine.com/">
+        <name xml:lang="ko">NHN</name>
+        <name xml:lang="en">NHN</name>
+    </author>
+    <menus>
+        <menu name="GNB" maxdepth="2" default="true">
+            <title xml:lang="ko">전역 네비게이션 바</title>
+            <title xml:lang="en">Global Navigation Bar</title>
+        </menu>
+    </menus>
+	<extra_vars>
+		<var name="LAYOUT_TYPE" type="select">
+			<title xml:lang="ko">레이아웃 유형</title>
+			<title xml:lang="en">Layout Type</title>
+			<options value="MAIN_PAGE">
+				<title xml:lang="ko">Main Page(1Column=GNB+Content)</title>
+				<title xml:lang="en">Main Page(1Column=GNB+Content)</title>
+			</options>
+			<options value="SUB_PAGE">
+				<title xml:lang="ko">Sub Page(2Column=GNB+LNB+Content)</title>
+				<title xml:lang="en">Sub Page(2Column=GNB+LNB+Content)</title>
+			</options>
+		</var>
+		<var name="VISUAL_USE" type="select">
+			<title xml:lang="ko">비주얼 이미지와 텍스트 사용</title>
+			<title xml:lang="en">Use visual image and text</title>
+			<options value="YES">
+				<title xml:lang="ko">비주얼 이미지와 텍스트를 사용</title>
+				<title xml:lang="en">Use visual image and text</title>
+			</options>
+			<options value="NO">
+				<title xml:lang="ko">비주얼 이미지와 텍스트를 사용하지 않음</title>
+				<title xml:lang="en">Do not use visual image and text</title>
+			</options>
+		</var>
+		<var name="VISUAL_IMAGE_1" type="image">
+			<title xml:lang="ko">비주얼 이미지 1</title>
+			<title xml:lang="en">Visual Image 1</title>
+		</var>
+		<var name="VISUAL_TEXT_1" type="text">
+			<title xml:lang="ko">비주얼 텍스트 1</title>
+			<title xml:lang="en">Visual Text 1</title>
+		</var>
+		<var name="VISUAL_LINK_1" type="text">
+			<title xml:lang="ko">비주얼 링크 1</title>
+			<title xml:lang="en">Visual Link 1</title>
+		</var>
+		<var name="VISUAL_IMAGE_2" type="image">
+			<title xml:lang="ko">비주얼 이미지 2</title>
+			<title xml:lang="en">Visual Image 2</title>
+		</var>
+		<var name="VISUAL_TEXT_2" type="text">
+			<title xml:lang="ko">비주얼 텍스트 2</title>
+			<title xml:lang="en">Visual Text 2</title>
+		</var>
+		<var name="VISUAL_LINK_2" type="text">
+			<title xml:lang="ko">비주얼 링크 2</title>
+			<title xml:lang="en">Visual Link 2</title>
+		</var>
+		<var name="VISUAL_IMAGE_3" type="image">
+			<title xml:lang="ko">비주얼 이미지 3</title>
+			<title xml:lang="en">Visual Image 3</title>
+		</var>
+		<var name="VISUAL_TEXT_3" type="text">
+			<title xml:lang="ko">비주얼 텍스트 3</title>
+			<title xml:lang="en">Visual Text 3</title>
+		</var>
+		<var name="VISUAL_LINK_3" type="text">
+			<title xml:lang="ko">비주얼 링크 3</title>
+			<title xml:lang="en">Visual Link 3</title>
+		</var>
+	</extra_vars>
+</layout>

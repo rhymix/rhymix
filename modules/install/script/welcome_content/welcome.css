@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* Welcome */
+.welcomeXE{zoom:1}
+.welcomeXE:after{content:"";display:block;clear:both}
+.welcomeXE>section{margin:0 0 20px 0}
+@media all and (min-width:768px){
+.welcomeXE>section{height:102px;background:url(../../../../common/img/welcome.png) no-repeat}
+.welcomeXE>section.i1{background-position:0 0}
+.welcomeXE>section.i2{background-position:0 -100px}
+.welcomeXE>section.i3{background-position:0 -200px}
+.welcomeXE>section.i4{background-position:0 -300px}
+.welcomeXE>section.i5{background-position:0 -400px}
+.welcomeXE>section.i6{background-position:0 -500px}
+.welcomeXE>section>h3,
+.welcomeXE>section>p{padding:0 0 0 100px}
+}
+@media all and (min-width:980px){
+.welcomeXE>section{width:48%}
+.welcomeXE>section.odd{float:left}
+.welcomeXE>section.even{float:right}
+}
