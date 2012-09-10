@@ -163,9 +163,48 @@ class Argument {
 	 * @return string
 	 */
 	function _escapeStringValue($value) {
+		// Remove non-utf8 chars.
+		$regex = <<<'END'
+/
+(
+	(?:
+		[\x00-\x7F]					# single-byte sequences   0xxxxxxx
+		|[\xC0-\xDF][\x80-\xBF]		# double-byte sequences   110xxxxx 10xxxxxx
+		|[\xE0-\xEF][\x80-\xBF]{2}	# triple-byte sequences   1110xxxx 10xxxxxx * 2
+	)+
+)
+|([\xF0-\xF7][\x80-\xBF]{3})			# quadruple-byte sequence 11110xxx 10xxxxxx * 3 
+|([\x80-\xBF])							# invalid byte in range 10000000 - 10111111
+|([\xC0-\xFF])							# invalid byte in range 11000000 - 11111111
+/x
+END;
+
+		$value = preg_replace_callback($regex, array($this, 'utf8Replacer'), $value);
 		$db = &DB::getInstance();
 		$value = $db->addQuotes($value);
 		return '\'' . $value . '\'';
+	}
+
+	function utf8Replacer($captures) {
+		if (!empty($captures[1]))
+		{
+			// Valid byte sequence. Return unmodified.
+			return $captures[1];
+		}
+		elseif(!empty($captures[2]))
+		{
+			// Remove user defined area
+			if("\xF3\xB0\x80\x80" <= $captures[2])
+			{
+				return;
+			}
+
+			return $captures[2];
+		}
+		else
+		{
+			return;
+		}
 	}
 
 	function isValid() {
