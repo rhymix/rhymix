@@ -162,7 +162,7 @@ class tar {
                 $activeFile["endheader"]    = substr($this->tar_file,$main_offset + 500,12);
             */
 
-			elseif(strtolower($file_type) == 'l' || $file_name == '././@LongLink')
+			if(strtolower($file_type) == 'l' || $file_name == '././@LongLink')
 			{
 				$flag_longlink = true;
 				$longlink_name = $file_contents;
