@@ -109,6 +109,7 @@ class tar {
         // Read Files from archive
         $tar_length = strlen($this->tar_file);
         $main_offset = 0;
+		$flag_longlink = false;
         while($main_offset < $tar_length) {
             // If we read a block of 512 nulls, we are at the end of the archive
             if(substr($this->tar_file,$main_offset,512) == str_repeat(chr(0),512))
@@ -141,6 +142,8 @@ class tar {
             // Parse Group name
             $file_gname     = $this->__parseNullPaddedString(substr($this->tar_file,$main_offset + 297,32));
 
+            $file_type = substr($this->tar_file,$main_offset + 156,1);
+
             // Make sure our file is valid
             if($this->__computeUnsignedChecksum(substr($this->tar_file,$main_offset,512)) != $file_chksum)
                 return false;
@@ -159,42 +162,67 @@ class tar {
                 $activeFile["endheader"]    = substr($this->tar_file,$main_offset + 500,12);
             */
 
-            if($file_size > 0) {
-                // Increment number of files
-                $this->numFiles++;
+			elseif(strtolower($file_type) == 'l' || $file_name == '././@LongLink')
+			{
+				$flag_longlink = true;
+				$longlink_name = $file_contents;
+			}
+			elseif($file_type == '0') {
+				// Increment number of files
+				$this->numFiles++;
 
-                // Create us a new file in our array
-                $activeFile = &$this->files[];
+				// Create us a new file in our array
+				$activeFile = &$this->files[];
 
-                // Asign Values
-                $activeFile["name"]     = $file_name;
-                $activeFile["mode"]     = $file_mode;
-                $activeFile["size"]     = $file_size;
-                $activeFile["time"]     = $file_time;
-                $activeFile["user_id"]      = $file_uid;
-                $activeFile["group_id"]     = $file_gid;
-                $activeFile["user_name"]    = $file_uname;
-                $activeFile["group_name"]   = $file_gname;
-                $activeFile["checksum"]     = $file_chksum;
-                $activeFile["file"]     = $file_contents;
+				// Asign Values
+				if($flag_longlink)
+				{
+					$activeFile["name"]     = $longlink_name;
+				}
+				else
+				{
+					$activeFile["name"]     = $file_name;
+				}
+				$activeFile["type"]     = $file_type;
+				$activeFile["mode"]     = $file_mode;
+				$activeFile["size"]     = $file_size;
+				$activeFile["time"]     = $file_time;
+				$activeFile["user_id"]      = $file_uid;
+				$activeFile["group_id"]     = $file_gid;
+				$activeFile["user_name"]    = $file_uname;
+				$activeFile["group_name"]   = $file_gname;
+				$activeFile["checksum"]     = $file_chksum;
+				$activeFile["file"]     = $file_contents;
 
-            } else {
-                // Increment number of directories
-                $this->numDirectories++;
+				$flag_longlink = false;
 
-                // Create a new directory in our array
-                $activeDir = &$this->directories[];
+			} elseif($file_type == '5') {
+				// Increment number of directories
+				$this->numDirectories++;
 
-                // Assign values
-                $activeDir["name"]      = $file_name;
-                $activeDir["mode"]      = $file_mode;
-                $activeDir["time"]      = $file_time;
-                $activeDir["user_id"]       = $file_uid;
-                $activeDir["group_id"]      = $file_gid;
-                $activeDir["user_name"]     = $file_uname;
-                $activeDir["group_name"]    = $file_gname;
-                $activeDir["checksum"]      = $file_chksum;
-            }
+				// Create a new directory in our array
+				$activeDir = &$this->directories[];
+
+				// Assign values
+				if($flag_longlink)
+				{
+					$activeDir["name"]     = $longlink_name;
+				}
+				else
+				{
+					$activeDir["name"]     = $file_name;
+				}
+				$activeDir["type"]      = $file_type;
+				$activeDir["mode"]      = $file_mode;
+				$activeDir["time"]      = $file_time;
+				$activeDir["user_id"]       = $file_uid;
+				$activeDir["group_id"]      = $file_gid;
+				$activeDir["user_name"]     = $file_uname;
+				$activeDir["group_name"]    = $file_gname;
+				$activeDir["checksum"]      = $file_chksum;
+
+				$flag_longlink = false;
+			}
 
             // Move our offset the number of blocks we have processed
             $main_offset += 512 + (ceil($file_size / 512) * 512);
