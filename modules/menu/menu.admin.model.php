@@ -303,6 +303,10 @@
 			$args = Context::getRequestVars();
 			$menuSrl = Context::get('menuSrl');
 
+			$oModuleModel = &getModel('module');
+			$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
+			$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+
 			$menuList = array();
 			if($menuSrl)
 			{
@@ -314,7 +318,7 @@
 				{
 					foreach($menu->list AS $key=>$value)
 					{
-						$this->_menuInfoSetting($menu->list[$key]);
+						$this->_menuInfoSetting($menu->list[$key], $start_module);
 					}
 				}
 
@@ -342,7 +346,7 @@
 							{
 								foreach($menu->list AS $key2=>$value2)
 								{
-									$this->_menuInfoSetting($menu->list[$key2]);
+									$this->_menuInfoSetting($menu->list[$key2], $start_module);
 								}
 							}
 
@@ -362,10 +366,10 @@
 		 * @param array $menu
 		 * @return void
 		 */
-		private function _menuInfoSetting(&$menu)
+		private function _menuInfoSetting(&$menu, &$start_module)
 		{
 			$oModuleModel = &getModel('module');
-			if(!preg_match('/^http/i', $menu['url']))
+			if(!empty($menu['url']) && !preg_match('/^http/i', $menu['url']))
 			{
 				unset($midInfo);
 				unset($moduleInfo);
@@ -376,6 +380,10 @@
 					$menu['module_srl'] = $midInfo->module_srl;
 					$menu['setup_index_act'] = $moduleInfo->setup_index_act;
 				}
+				if($midInfo->mid == $start_module->mid)
+				{
+					$menu['is_start_module'] = true;
+				}
 				// setting layout srl for layout management
 				$menu['layout_srl'] = $midInfo->layout_srl;
 			}
@@ -383,7 +391,7 @@
 			{
 				foreach($menu['list'] AS $key=>$value)
 				{
-					$this->_menuInfoSetting($menu['list'][$key]);
+					$this->_menuInfoSetting($menu['list'][$key], &$start_module);
 				}
 			}
 		}
