@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
+		<permission action="getMenuAdminSiteMap" target="manager" />
     <permissions />
     <actions>
         <action name="dispMenuAdminContent" type="view" standalone="true" />
@@ -11,6 +12,7 @@
 
         <action name="getMenuAdminTplInfo" type="model" standalone="true" />
         <action name="getMenuAdminItemInfo" type="model" standalone="true" />
+        <action name="getMenuAdminSiteMap" type="model" standalone="true" />
 
         <action name="procMenuAdminInsert" type="controller" standalone="true" ruleset="insertMenu" />
         <action name="procMenuAdminUpdate" type="controller" standalone="true" ruleset="updateMenuTitle" />

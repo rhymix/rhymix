@@ -297,5 +297,95 @@
 
             return $moduleInfoList;
 		}
+
+		public function getMenuAdminSiteMap()
+		{
+			$args = Context::getRequestVars();
+			$menuSrl = Context::get('menuSrl');
+
+			$menuList = array();
+			if($menuSrl)
+			{
+				$output = $this->getMenu($menuSrl);
+				$php_file = sprintf('./files/cache/menu/%s.php',$output->menu_srl);
+				if(file_exists($php_file)) @include($php_file);
+
+				if(count($menu->list)>0)
+				{
+					foreach($menu->list AS $key=>$value)
+					{
+						$this->_menuInfoSetting($menu->list[$key]);
+					}
+				}
+
+				$menuItems->menuSrl = $output->menu_srl;
+				$menuItems->title = $output->title;
+				$menuItems->menuItems = $menu;
+				array_push($menuList, $menuItems);
+			}
+			else
+			{
+				$menuListFromDB = $this->getMenus();
+				if(is_array($menuListFromDB))
+				{
+					foreach($menuListFromDB AS $key=>$value)
+					{
+						if($value->title == '__XE_ADMIN__') unset($output[$key]);
+						else
+						{
+							unset($menu);
+							unset($menuItems);
+							$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
+							if(file_exists($value->php_file)) @include($value->php_file);
+
+							if(count($menu->list)>0)
+							{
+								foreach($menu->list AS $key2=>$value2)
+								{
+									$this->_menuInfoSetting($menu->list[$key2]);
+								}
+							}
+
+							$menuItems->menuSrl = $value->menu_srl;
+							$menuItems->title = $value->title;
+							$menuItems->menuItems = $menu;
+							array_push($menuList, $menuItems);
+						}
+					}
+				}
+			}
+			$this->add('menuList', $menuList);
+		}
+
+		/**
+		 * Setting menu information(recursive)
+		 * @param array $menu
+		 * @return void
+		 */
+		private function _menuInfoSetting(&$menu)
+		{
+			$oModuleModel = &getModel('module');
+			if(!preg_match('/^http/i', $menu['url']))
+			{
+				unset($midInfo);
+				unset($moduleInfo);
+				$midInfo = $oModuleModel->getModuleInfoByMid($menu['url'], 0);
+				$moduleInfo = $oModuleModel->getModuleInfoXml($midInfo->module);
+				if($moduleInfo->setup_index_act)
+				{
+					$menu['module_srl'] = $midInfo->module_srl;
+					$menu['setup_index_act'] = $moduleInfo->setup_index_act;
+				}
+				// setting layout srl for layout management
+				$menu['layout_srl'] = $midInfo->layout_srl;
+			}
+			if(count($menu['list']) > 0)
+			{
+				foreach($menu['list'] AS $key=>$value)
+				{
+					$this->_menuInfoSetting($menu['list'][$key]);
+				}
+			}
+		}
     }
 ?>
