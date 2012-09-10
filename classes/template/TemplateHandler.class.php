@@ -120,14 +120,14 @@ class TemplateHandler {
 		$oCacheHandler = &CacheHandler::getInstance('template');
 
 		// get cached buff
-		if($oCacheHandler->isSupport()){
-			$cache_key = 'template:'.$this->file;
-			$buff = $oCacheHandler->get($cache_key, $latest_mtime);
-		} else {
-			if(is_readable($this->compiled_file) && filemtime($this->compiled_file)>$latest_mtime && filesize($this->compiled_file)) {
-				$buff = 'file://'.$this->compiled_file;
-			}
-		}
+		// if($oCacheHandler->isSupport()){
+			// $cache_key = 'template:'.$this->file;
+			// $buff = $oCacheHandler->get($cache_key, $latest_mtime);
+		// } else {
+			// if(is_readable($this->compiled_file) && filemtime($this->compiled_file)>$latest_mtime && filesize($this->compiled_file)) {
+				// $buff = 'file://'.$this->compiled_file;
+			// }
+		// }
 
 		if(!$buff) {
 			$buff = $this->parse();
@@ -187,7 +187,7 @@ class TemplateHandler {
 		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
 
 		// replace value of src in img/input/script tag
-		$buff = preg_replace_callback('/<(?:img|input|script)[^<>]*src="(?!https?:\/\/|[\/\{])([^"]+)"[^<>]*>/is', array($this, '_replacePath'), $buff);
+		$buff = preg_replace_callback('/<(?:img|input|script)[^<>]*src="(?!https?:\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
 
 		// replace loop and cond template syntax
 		$buff = $this->_parseInline($buff);
@@ -222,6 +222,7 @@ class TemplateHandler {
 	 * 4. generate return url, return url use in server side validator
 	 * @param array $matches
 	 * @return string
+	 **/
 
 	function _compileFormAuthGeneration($matches)
 	{
@@ -323,6 +324,7 @@ class TemplateHandler {
 	 **/
 	function _replacePath($match)
 	{
+		debugPrint($match);
 		//return origin code when src value include variable.
 		if(preg_match('/^[\'|"]\s*\.\s*\$/', $match[1]))
 		{
