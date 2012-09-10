@@ -120,14 +120,14 @@ class TemplateHandler {
 		$oCacheHandler = &CacheHandler::getInstance('template');
 
 		// get cached buff
-		// if($oCacheHandler->isSupport()){
-			// $cache_key = 'template:'.$this->file;
-			// $buff = $oCacheHandler->get($cache_key, $latest_mtime);
-		// } else {
-			// if(is_readable($this->compiled_file) && filemtime($this->compiled_file)>$latest_mtime && filesize($this->compiled_file)) {
-				// $buff = 'file://'.$this->compiled_file;
-			// }
-		// }
+		if($oCacheHandler->isSupport()){
+			$cache_key = 'template:'.$this->file;
+			$buff = $oCacheHandler->get($cache_key, $latest_mtime);
+		} else {
+			if(is_readable($this->compiled_file) && filemtime($this->compiled_file)>$latest_mtime && filesize($this->compiled_file)) {
+				$buff = 'file://'.$this->compiled_file;
+			}
+		}
 
 		if(!$buff) {
 			$buff = $this->parse();
@@ -324,7 +324,6 @@ class TemplateHandler {
 	 **/
 	function _replacePath($match)
 	{
-		debugPrint($match);
 		//return origin code when src value include variable.
 		if(preg_match('/^[\'|"]\s*\.\s*\$/', $match[1]))
 		{
