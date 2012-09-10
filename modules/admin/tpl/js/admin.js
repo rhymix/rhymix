@@ -1232,9 +1232,6 @@ function initLayer($layer) {
 			var name = $layer.data('multilang-current-name');
 
 			function use_lang() {
-			console.log($layer);
-			console.log(xe.current_lang);
-			console.log($layer.find('.langInput li.'+xe.current_lang));
 				$layer.hide().closest('.multiLangEdit').find('.vLang')
 					.eq(0).val('$user_lang->'+name).end()
 					.eq(1).val($layer.find('.langInput li.'+xe.current_lang).find('>input:text,>textarea').val()).end();
