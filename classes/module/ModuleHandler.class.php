@@ -557,8 +557,7 @@
 		function _setInputValueToSession()
 		{
 			$requestVars = Context::getRequestVars();
-			$_SESSION['INPUT_ERROR_ID'] = $requestVars->xe_form_id;
-			unset($requestVars->module, $requestVars->act, $requestVars->mid, $requestVars->vid, $requestVars->success_return_url, $requestVars->error_return_url, $requestVars->xe_form_id);
+			unset($requestVars->act, $requestVars->mid, $requestVars->vid, $requestVars->success_return_url, $requestVars->error_return_url);
 			foreach($requestVars AS $key=>$value) $_SESSION['INPUT_ERROR'][$key] = $value;
 		}
 

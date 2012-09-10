@@ -225,21 +225,9 @@ class TemplateHandler {
 	 **/
 	function _compileFormAuthGeneration($matches)
 	{
+		// form ruleset attribute move to hidden tag
 		if($matches[1])
 		{
-			// form id attribute move to hidden tag
-			preg_match('/id="([^"]*?)"/is', $matches[1], $m);
-			if(!$m[1])
-			{
-				$mt = microtime();
-				$rand = mt_rand();
-				$m[1] = md5($mt . $rand);
-				$matches[1] = substr($matches[1], 0, 5) . ' id="' . $m[1] . '" ' . substr($matches[1], 5);
-			}
-			$matches[2] = '<input type="hidden" name="xe_form_id" value="' . $m[1] . '" />' . $matches[2];
-			$formId = $m[1];
-
-			// form ruleset attribute move to hidden tag
 			preg_match('/ruleset="([^"]*?)"/is', $matches[1], $m);
 			if($m[0])
 			{
@@ -270,10 +258,6 @@ class TemplateHandler {
 			}
 		}
 
-		// generate array key index
-		$this->arrayKeyIndex = array();
-		$matches[2] = preg_replace_callback('/(<(?:input|select|textarea)[^>]* name=")([^"]+)\[\](")/is', array($this, '_generateArrayKey'), $matches[2]);
-
 		// if not exists default hidden tag, generate hidden tag
 		preg_match_all('/<input[^>]* name="(act|mid|vid)"/is', $matches[2], $m2);
 		$checkVar = array('act', 'mid', 'vid');
@@ -298,19 +282,6 @@ class TemplateHandler {
 		{
 			$matches[1] = preg_replace('/no-error-return-url="true"/i', '', $matches[1]);
 		}
-
-		$matches[0] = '';
-		return implode($matches);
-	}
-
-	function _generateArrayKey($matches)
-	{
-		if(!$this->arrayKeyIndex[$matches[2]])
-		{
-			$this->arrayKeyIndex[$matches[2]] = 0;
-		}
-
-		$matches[2] = $matches[2] . '[' . $this->arrayKeyIndex[$matches[2]]++ . ']';
 
 		$matches[0] = '';
 		return implode($matches);

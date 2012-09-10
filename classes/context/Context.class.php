@@ -964,22 +964,11 @@ class Context {
 			{
 				foreach($_GET as $key => $val)
 				{
-					if(is_array($val))
-					{
-						foreach($val as $key2 => $val2)
-						{
-							$vars[] = $key . "[$key2]=" . ($val2 ? urlencode(Context::convertEncodingStr($val2)) : '');
-						}
-					}
-					else
-					{
-						$vars[] = $key . '=' . ($val ? urlencode(Context::convertEncodingStr($val)) : '');
-					}
+					$vars[] = $key . '=' . ($val ? urlencode(Context::convertEncodingStr($val)) : '');
 				}
 				$url .= '?' . join('&', $vars);
 			}
 		}
-
 		return $url;
 	}
 
