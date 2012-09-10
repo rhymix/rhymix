@@ -942,9 +942,9 @@ $('.multiLangEdit')
 			function on_complete(data, idx){
 				var results = data.results, $btn, i, c;
 
-				if(data.error || !results || (r_idx != idx+1)) return;
-
 				$this.removeClass('loading');
+
+				if(data.error || !results || results.length === 0 || (r_idx != idx+1)) return;
 
 				$ul.empty();
 				for(i=0,c=results.length; i < c; i++) {
@@ -972,6 +972,8 @@ $('.multiLangEdit')
 			$active = $ul.find('button.active');
 
 			if(key == ENTER) {
+				if($active.length === 0) return true;
+				
 				$active.click();
 				return false;
 			}
@@ -1230,6 +1232,9 @@ function initLayer($layer) {
 			var name = $layer.data('multilang-current-name');
 
 			function use_lang() {
+			console.log($layer);
+			console.log(xe.current_lang);
+			console.log($layer.find('.langInput li.'+xe.current_lang));
 				$layer.hide().closest('.multiLangEdit').find('.vLang')
 					.eq(0).val('$user_lang->'+name).end()
 					.eq(1).val($layer.find('.langInput li.'+xe.current_lang).find('>input:text,>textarea').val()).end();
