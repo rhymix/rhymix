@@ -605,7 +605,7 @@ _xeModuleSearch = function(){
 			}
 
 			$li = $('<li />').appendTo($siteList);
-			$('<a href="#" >').html(
+			$('<a>').attr('href', '#').html(
 				'<div>' + sDomain + '</div>' +
 				'<span class="icon-circle-arrow-right" style="display:inline-block;float:right;width:16px;height:16px;"></span>'
 			).data('site_srl', list[i].site_srl).appendTo($li);
@@ -669,7 +669,7 @@ _xeModuleSearch = function(){
 					for(x in list) {
 						if(!list.hasOwnProperty(x)) continue;
 						$li = $('<li />').appendTo($moduleTypeList);
-						$('<a href="#" >').html(
+						$('<a>').attr('href', '#').html(
 							'<div>'+list[x].title+'</div>' +
 							'<span class="icon-circle-arrow-right" style="display:inline-block;float:right;width:16px;height:16px;"></span>'
 						).data('moduleInstanceList', list[x].list).appendTo($li);
@@ -709,7 +709,7 @@ _xeModuleSearch = function(){
 					if(!list.hasOwnProperty(x)) continue;
 					
 					$li = $('<li />').appendTo($moduleInstanceList);
-					$('<a href="#" >').html(
+					$('<a>').attr('href', '#').html(
 						'<div>'+list[x].browser_title+'</div>'
 					).data('module_srl', list[x].module_srl).appendTo($li);
 					
