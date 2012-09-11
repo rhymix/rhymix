@@ -1,13 +1,13 @@
 		<!-- GNB -->
-		<nav class="gnb able" id="gnb">
+		<nav class="gnb ready" id="gnb">
 			<ul>
-				<li loop="$gnbUrlList=>$key,$value" class="active open"|cond="$parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act"><a href="{getFullUrl('')}{$value['href']}">{$value['text']}</a>
+				<li loop="$gnbUrlList=>$key,$value" class="active open"|cond="$parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act"><a href="{getFullUrl('')}{$value['href']}"><span class="tx">{$value['text']}</span></a>
 					<ul cond="count($value['list'])">
 						<li loop="$value['list']=>$key2,$value2" class="active_"|cond="$value2['text'] == $subMenuTitle"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
 					</ul>
 				</li>
 				<li>
-					<a href="#favorite">{$lang->favorite}</a>
+					<a href="#favorite"><span class="tx">{$lang->favorite}</span></a>
 					<ul id="favorite">
 						<li loop="$favorite_list => $favorite">
 							<a href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</a>
@@ -23,13 +23,13 @@
 						<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->no_data}</a></li>
 					</ul>
 				</li>
-				<li><a href="#gnb"><span class="openAll">{$lang->open_all}</span><span class="closeAll">{$lang->close_all}</span></a></li>
+				<li><a href="#gnb"><span class="tx openAll">{$lang->open_all}</span><span class="tx closeAll">{$lang->close_all}</span></a></li>
 			</ul>
 		</nav>
 		<!-- /GNB -->
 	</div>
 	<!-- /BODY -->
-	<div class="footer">
+	<footer class="footer">
 		<p class="power">
 			Powered by <strong><a href="{_XE_LOCATION_SITE_}" target="_blank">XE</a></strong>. <span class="vr">|</span>  
 			<strong>Your version</strong>: {__XE_VERSION__} <span class="vr">|</span> 
@@ -41,7 +41,7 @@
 			<button type="button" class="x_btn-link" onclick="doClearSession();">{$lang->cmd_clear_session}</button> <span class="vr">|</span> 
 			<a href="http://code.google.com/p/xe-core/issues/entry" target="_blank">{$lang->bug_report}</a>
 		</p>
-	</div>
+	</footer>
 </div>
 <script>
 xe.current_lang = '{$lang_type}';
