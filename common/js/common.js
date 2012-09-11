@@ -189,14 +189,21 @@ jQuery(function($) {
             $(this).hide().prev('button').show().parent().next(fold_container).hide();
         });
     }
-
+	
 	jQuery('input[type="submit"]').click(function(ev){
-		jQuery(ev.currentTarget).attr('disabled', 'disabled');
-		setTimeout(function($el){
+		var $el = jQuery(ev.currentTarget);
+		
+		setTimeout(function(){
+			return function(){
+				$el.attr('disabled', 'disabled');
+			};
+		}(), 0);
+		
+		setTimeout(function(){
 			return function(){
 				$el.removeAttr('disabled');
 			};
-		}(jQuery(ev.currentTarget)), 3000);
+		}(), 3000);
 	});
 });
 
