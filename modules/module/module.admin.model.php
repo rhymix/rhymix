@@ -50,11 +50,51 @@
             return $output;
         }
 
+		function getSelectedManageHTML($grantList)
+		{
+			// Grant virtual permission for access and manager
+			$grantList->access->title = Context::getLang('grant_access');
+			$grantList->access->default = 'guest';
+			if(count($grantList))
+			{
+				foreach($grantList as $key => $val) {
+					if(!$val->default) $val->default = 'guest';
+					if($val->default == 'root') $val->default = 'manager';
+					$grant_list->{$key} = $val;
+				}
+			}
+			$grant_list->manager->title = Context::getLang('grant_manager');
+			$grant_list->manager->default = 'manager';
+			Context::set('grant_list', $grant_list);
+
+			// Get a list of groups
+			$oMemberModel = &getModel('member');
+			$group_list = $oMemberModel->getGroups(0);
+			Context::set('group_list', $group_list);
+
+			Context::set('module_srls', 'dummy');
+			$content = '';
+			// Call a trigger for additional settings
+			// Considering uses in the other modules, trigger name cen be publicly used
+			$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'before', $content);
+			$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
+			Context::set('setup_content', $content);
+
+			// Get information of module_grants
+			$oTemplate = &TemplateHandler::getInstance();
+			return $oTemplate->compile($this->module_path.'tpl', 'include.manage_selected.html');
+		}
+
         /**
          * @brief Common:: module's permission displaying page in the module
          * Available when using module instance in all the modules
          **/
         function getModuleGrantHTML($module_srl, $source_grant_list) {
+			if(!$module_srl)
+			{
+				return;
+			}
+
 			// get member module's config
 			$oMemberModel = &getModel('member');
 			$member_config = $oMemberModel->getMemberConfig();

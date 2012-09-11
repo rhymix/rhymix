@@ -19,11 +19,15 @@
 
             $site_module_info = Context::get('site_module_info');
             $output = $oCounterModel->getStatus(array('00000000', date('Ymd', time()-60*60*24), date('Ymd')), $site_module_info->site_srl);
-            foreach($output as $key => $val) {
-                if(!$key) Context::set('total_counter', $val);
-                elseif($key == date("Ymd")) Context::set('today_counter', $val);
-                else Context::set('yesterday_counter', $val);
-            }
+			if(count($output))
+			{
+				foreach($output as $key => $val) 
+				{
+					if(!$key) Context::set('total_counter', $val);
+					elseif($key == date("Ymd")) Context::set('today_counter', $val);
+					else Context::set('yesterday_counter', $val);
+				}
+			}
             // Set a path of the template skin (values of skin, colorset settings)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
             Context::set('colorset', $args->colorset);

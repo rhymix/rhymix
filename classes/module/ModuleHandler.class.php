@@ -151,7 +151,17 @@
                 $this->mid = $module_info->mid;
                 $this->module_info = $module_info;
                 Context::setBrowserTitle($module_info->browser_title);
-                $part_config= $oModuleModel->getModulePartConfig('layout',$module_info->layout_srl);
+
+				if($module_info->use_mobile && Mobile::isFromMobilePhone())
+				{
+					$layoutSrl = $module_info->mlayout_srl;
+				}
+				else
+				{
+					$layoutSrl = $module_info->layout_srl;
+				}
+
+                $part_config= $oModuleModel->getModulePartConfig('layout',$layoutSrl);
                 Context::addHtmlHeader($part_config->header_script);
             }
 

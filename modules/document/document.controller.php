@@ -1918,14 +1918,14 @@ class documentController extends document {
 			$msg_code = 'success_moved';
 
 		}
-		elseif($type == 'copy') {
+		elseif($type == 'copy')
+		{
 			if(!$module_srl) return new Object(-1, 'fail_to_move');
 
 			$output = $oDocumentAdminController->copyDocumentModule($document_srl_list, $module_srl, $category_srl);
 			if(!$output->toBool()) return new Object(-1, 'fail_to_move');
 
-			$msg_code = 'success_copy';
-
+			$msg_code = 'success_copied';
 		}
 		elseif($type =='delete') {
 			$oDB = &DB::getInstance();

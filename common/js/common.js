@@ -364,18 +364,18 @@ function sendMailTo(to) {
 /**
  * @brief url이동 (open_window 값이 N 가 아니면 새창으로 띄움)
  **/
-function move_url(url, open_wnidow) {
+function move_url(url, open_window) {
     if(!url) return false;
-    if(typeof(open_wnidow) == 'undefined') open_wnidow = 'N';
-    if(open_wnidow=='N') {
-        open_wnidow = false;
+    if(typeof(open_window) == 'undefined') open_window = 'N';
+    if(open_window=='N') {
+        open_window = false;
     } else {
-        open_wnidow = true;
+        open_window = true;
     }
 
     if(/^\./.test(url)) url = request_uri+url;
 
-    if(open_wnidow) {
+    if(open_window) {
         winopen(url);
     } else {
         location.href=url;

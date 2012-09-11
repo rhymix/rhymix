@@ -47,6 +47,7 @@
 			$layout_info = $oLayoutModel->getLayout($this->member_config->layout_srl);
 			if($layout_info)
 			{
+				$this->module_info->layout_srl = $this->member_config->layout_srl;
 				$this->setLayoutPath($layout_info->path);
 			}
         }

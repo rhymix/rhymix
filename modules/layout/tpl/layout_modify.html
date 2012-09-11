@@ -163,8 +163,11 @@
 
 	<div class="btnArea">
 		<span class="etc">
-			<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList')}">{$lang->instance_layout}&nbsp;{$lang->cmd_list}</a></span>
-			<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout)}">{$selected_layout->title} ver {$selected_layout->version}({$selected_layout->layout})&nbsp;{$lang->cmd_list}</a></span>
+			<!--@if($layout)-->
+			<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout)}">{$lang->cmd_list}</a></span>
+			<!--@else-->
+			<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList')}">{$lang->cmd_list}</a></span>
+			<!--@end-->
 		</span>
 		<span class="btn medium">
 			<input type="submit" value="{$lang->cmd_insert}"|cond="$act == 'dispLayoutAdminInsert'" value="{$lang->cmd_save}"|cond="$act == 'dispLayoutAdminModify'" onclick="doSubmitConfig()"/>
@@ -173,4 +176,4 @@
 	<include target="include.multilang.html" />
 	<include target="include.multilang.textarea.html" />
 </div>
-<iframe name="hiddenIframe" src="about:blank" width="0" height="0" frameborder="0"></iframe>
+<iframe name="hiddenIframe" src="about:blank" width="1000px" height="1000px" frameborder="0" style="position:absolute;top:-9999px;left:-9999px"></iframe>

@@ -326,7 +326,7 @@
 		$request_uri = Context::getRequestUri();
         if(!$num_args) return $request_uri;
 
-        $url = Context::getUrl($num_args, $args_list);
+        $url = Context::getUrl($num_args, $args_list, null, false);
         if(!preg_match('/^http/i',$url)){
 			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
 			$url = Context::getUrl($num_args, $args_list, null, false);

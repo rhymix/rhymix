@@ -361,6 +361,7 @@
             }
 
             // Call a trigger (before)
+			$triggerObj->copied_srls = $copied_srls;
             $output = ModuleHandler::triggerCall('document.copyDocumentModule', 'after', $triggerObj);
             if(!$output->toBool()) {
                 $oDB->rollback();

@@ -114,6 +114,11 @@
 	*/
 	function isModuleUsingPublishValidation($module_srl=null)
 	{
+		if(!$module_srl == null)
+		{
+			return false;
+		}
+
 		$oModuleModel = &getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		$module_part_config = $oModuleModel->getModulePartConfig('comment',$module_info->module_srl);
@@ -666,7 +671,7 @@
 		 * @param int $document_srl
 		 * @return object
 		 */
-        function deleteComments($document_srl, &$obj = NULL) {
+        function deleteComments($document_srl, $obj = NULL) {
             // create the document model object
             $oDocumentModel = &getModel('document');
             $oCommentModel = &getModel('comment');
