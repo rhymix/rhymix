@@ -99,6 +99,10 @@ class tar {
     // PRIVATE ACCESS FUNCTION
     function __parseNullPaddedString($string) {
         $position = strpos($string,chr(0));
+		if(!$position)
+		{
+			$position = strlen($string);
+		}
         return substr($string,0,$position);
     }
 
@@ -165,7 +169,7 @@ class tar {
 			if(strtolower($file_type) == 'l' || $file_name == '././@LongLink')
 			{
 				$flag_longlink = true;
-				$longlink_name = $file_contents;
+				$longlink_name = $this->__parseNullPaddedString($file_contents);
 			}
 			elseif($file_type == '0') {
 				// Increment number of files
