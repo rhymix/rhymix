@@ -3,6 +3,7 @@
     <grants />
     <permissions>
         <permission action="dispModuleSelectList" target="member" />
+        <permission action="getModuleAdminGrant" target="manager" />
     </permissions>
     <actions>
         <action name="dispModuleSelectList" type="view" standalone="true" />
@@ -33,6 +34,7 @@
         <action name="getLangListByLangcodeForAutoComplete" type="model" standalone="true" />
 		<action name="getFileBoxListHtml" type="model" />
 		<action name="getLangByLangcode" type="model" />
+		<action name="getModuleAdminGrant" type="model" />
 
         <action name="procModuleAdminInsertCategory" type="controller" standalone="true" ruleset="insertCategory" />
         <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" ruleset="updateCategory" />

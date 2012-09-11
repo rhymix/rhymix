@@ -478,6 +478,14 @@
 			return $GLOBALS['__group_info__'][$site_srl];
         }
 
+		public function getApiGroups()
+		{
+			$siteSrl = Context::get('siteSrl');
+			$groupInfo = $this->getGroups($siteSrl);
+
+			$this->add($groupInfo);
+		}
+
         /**
          * @brief Get a list of member join forms
          *

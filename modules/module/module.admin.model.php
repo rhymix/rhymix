@@ -153,6 +153,69 @@
             return $oTemplate->compile($this->module_path.'tpl', 'module_grants');
         }
 
+		public function getModuleAdminGrant()
+		{
+			$targetModule = Context::get('target_module');
+			$moduleSrl = Context::get('module_srl');
+			if(!$targetModule || !$moduleSrl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$oModuleModel = &getModel('module');
+			$xmlInfo = $oModuleModel->getModuleActionXml($targetModule);
+
+			// Grant virtual permission for access and manager
+			$grantList->access->title = Context::getLang('grant_access');
+			$grantList->access->default = 'guest';
+			if(count($xmlInfo->grant))
+			{
+				foreach($xmlInfo->grant as $key => $val)
+				{
+					if(!$val->default) $val->default = 'guest';
+					if($val->default == 'root') $val->default = 'manager';
+					$grantList->{$key} = $val;
+				}
+			}
+			$grantList->manager->title = Context::getLang('grant_manager');
+			$grantList->manager->default = 'manager';
+
+			// Get a permission group granted to the current module
+			$defaultGrant = new stdClass();
+			$args->module_srl = $moduleSrl;
+			$output = executeQueryArray('module.getModuleGrants', $args);
+			if($output->data)
+			{
+				foreach($output->data as $val)
+				{
+					if($val->group_srl == 0) $defaultGrant->{$val->name} = 'all';
+					else if($val->group_srl == -1) $defaultGrant->{$val->name} = 'member';
+					else if($val->group_srl == -2) $defaultGrant->{$val->name} = 'site';
+					else {
+						$selectedGroup->{$val->name}[] = $val->group_srl;
+						$defaultGrant->{$val->name} = 'group';
+					}
+				}
+			}
+
+			if(is_object($grantList))
+			{
+				foreach($grantList AS $key=>$value)
+				{
+					if(isset($defaultGrant->{$key}))
+					{
+						$grantList->{$key}->grant = $defaultGrant->{$key};
+					}
+					if(isset($selectedGroup->{$key}))
+					{
+						$grantList->{$key}->group = $selectedGroup->{$key};
+					}
+				}
+			}
+
+			$this->add('grantList', $grantList);
+		}
+
         /**
          * @brief Common:: skin setting page for the module
          **/
