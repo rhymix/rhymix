@@ -18,6 +18,11 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x h5{font-size:12px}
 .x h6{font-size:12px}
 .x_btn-link{padding:0;margin:0;overflow:visible}
+/* Image Sprite */
+.x>.body>.gnb>ul>li>a:before,
+.x .dashboard>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}
+.x>.body>.gnb>ul>li.open>a:before,
+.x>.body>.gnb>ul>li.active>a:before{background-image:url(../../../../common/img/glyphicons-halflings-white.png);background-repeat:no-repeat}
 /* Layout */
 .x{box-shadow:0 0 5px #999;border-radius:5px}
 .x>.skipNav{margin:0}
@@ -69,16 +74,14 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x>.body>.gnb ul{margin:0;padding:0;list-style:none}
 .x>.body>.gnb a{text-decoration:none;text-shadow:0 1px 0 #fff;color:#000;display:block}
 	/* li */
-.x>.body>.gnb>ul>li{background:#2F96B4;border-top:1px solid #fff;border-bottom:1px solid #ddd;overflow:hidden;vertical-align:top}
+.x>.body>.gnb>ul>li{background:#2F96B4;border-top:1px solid #fff;border-bottom:1px solid #ddd;vertical-align:top}
 .x>.body>.gnb>ul>li.active{background:#222}
 .x>.body>.gnb>ul>li.open,
-.x>.body>.gnb>ul>li.active{border-bottom:0}
+.x>.body>.gnb>ul>li.active{border-bottom:0;padding:0 0 1px 0}
 .x>.body>.gnb>ul>li:last-child{border-radius:0 0 5px 0}
 	/* li>a */
 .x>.body>.gnb>ul>li>a{padding:8px 5px 8px 10px;background:#f1f1f1;background:-webkit-gradient(linear,left top,left bottom,from(#F1F1F1),to(#E8E8E8));background:-moz-linear-gradient(top,#F1F1F1,#E8E8E8);background:-o-linear-gradient(top,#F1F1F1,#E8E8E8)}
-.x>.body>.gnb>ul>li>a:before{content:"";display:inline-block;width:18px;height:14px;vertical-align:middle;background:url(../../../../common/img/glyphicons-halflings.png) no-repeat;opacity:.75;filter:alpha(opacity=75)}
-.x>.body>.gnb>ul>li.open>a:before,
-.x>.body>.gnb>ul>li.active>a:before{background:url(../../../../common/img/glyphicons-halflings-white.png) no-repeat}
+.x>.body>.gnb>ul>li>a:before{content:"";display:inline-block;width:18px;height:14px;vertical-align:middle;opacity:.75;filter:alpha(opacity=75)}
 .x>.body>.gnb>ul>li>a[href$="module=admin"]:before{background-position:-432px 0}
 .x>.body>.gnb>ul>li>a[href*="act=dispMenuAdminSiteMap"]:before{background-position:0 -24px}
 .x>.body>.gnb>ul>li>a[href*="act=dispMemberAdminList"]:before{background-position:-168px 0}
@@ -97,18 +100,19 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x>.body>.gnb>ul>li.open>a>.openAll{display:none}
 .x>.body>.gnb>ul>li.open>a>.closeAll{display:inline}
 	/* li>ul */
-.x>.body>.gnb>ul>li>ul{display:none;margin:0 10px 10px 10px;border-radius:4px;overflow:hidden}
+.x>.body>.gnb>ul>li>ul{display:none;margin:0 10px 10px 10px;border-radius:4px}
 .x>.body>.gnb>ul>li.open>ul{display:block}
 	/* li>ul>li */
 .x>.body>.gnb>ul>li>ul>li{border-top:1px solid #ddd;position:relative}
 .x>.body>.gnb>ul>li>ul>li:first-child{border:0}
 	/* li>ul>li>a */
-.x>.body>.gnb>ul>li>ul>li>a{padding:4px 25px 4px 15px;background:#f6f6f6;background:-webkit-gradient(linear,left top,left bottom,from(#f1f1f1),to(#e8e8e8));background:-moz-linear-gradient(top,#f1f1f1,#e8e8e8);background:-o-linear-gradient(top,#f1f1f1,#e8e8e8)}
+.x>.body>.gnb>ul>li>ul>li>a{padding:4px 25px 4px 15px;background:#e8e8e8;background:-webkit-gradient(linear,left top,left bottom,from(#f1f1f1),to(#e8e8e8));background:-moz-linear-gradient(top,#f1f1f1,#e8e8e8);background:-o-linear-gradient(top,#f1f1f1,#e8e8e8)}
 .x>.body>.gnb>ul>li>ul>li:first-child>a{border-radius:4px 4px 0 0}
 .x>.body>.gnb>ul>li>ul>li:last-child>a{border-radius:0 0 4px 4px}
 .x>.body>.gnb>ul>li>ul>li:only-child>a{border-radius:4px}
 .x>.body>.gnb>ul>li>ul>li>a:hover,
 .x>.body>.gnb>ul>li>ul>li>a:active{background:-webkit-gradient(linear,left top,left bottom,from(#F6F6F6),to(#F1F1F1));background:-moz-linear-gradient(top,#F6F6F6,#F1F1F1);background: -o-linear-gradient(top,#F6F6F6,#F1F1F1)}
+.x>.body>.gnb>ul>li>ul>li.active_>a:after{content:"";position:absolute;top:10px;right:-8px;border:4px solid transparent;border-left-color:#ededed;width:0;height:0;overflow:hidden}
 	/* li>ul>li>.action */
 .x>.body>.gnb>ul>li>ul>li>.remove{position:absolute;top:4px;right:5px}
 .x>.body>.gnb>ul>li>ul>li>.remove>.x_close{width:20px}
@@ -119,7 +123,7 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x .dashboard>section:nth-child(odd){float:left;width:49%}
 .x .dashboard>section:nth-child(even){float:right;width:49%}
 .x .dashboard>section>h2{font-size:14px;margin:0;padding:6px 15px;border-bottom:1px solid #ddd;background:#e8e8e8;background:-webkit-gradient(linear,left top,left bottom,from(#F1F1F1),to(#E8E8E8));background:-moz-linear-gradient(top,#F1F1F1,#E8E8E8);background:-o-linear-gradient(top,#F1F1F1,#E8E8E8);text-shadow:0 1px 0 #fff}
-.x .dashboard>section>h2:before{content:"";display:inline-block;width:14px;height:14px;margin:0 4px 0 0;vertical-align:middle;background:url(../../../../common/img/glyphicons-halflings.png) no-repeat;opacity:.5;filter:alpha(opacity=50)}
+.x .dashboard>section>h2:before{content:"";display:inline-block;width:14px;height:14px;margin:0 4px 0 0;vertical-align:middle;opacity:.5;filter:alpha(opacity=50)}
 .x .dashboard>.status>h2:before{background-position:-264px -24px}
 .x .dashboard>.document>h2:before{background-position:-264px -48px}
 .x .dashboard>.reply>h2:before{background-position:-240px -120px}

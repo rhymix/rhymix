@@ -3,7 +3,7 @@
 			<ul>
 				<li loop="$gnbUrlList=>$key,$value" class="active open"|cond="$parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act"><a href="{getFullUrl('')}{$value['href']}">{$value['text']}</a>
 					<ul cond="count($value['list'])">
-						<li loop="$value['list']=>$key2,$value2"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
+						<li loop="$value['list']=>$key2,$value2" class="active_"|cond="$value2['text'] == $subMenuTitle"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
 					</ul>
 				</li>
 				<li>
