@@ -300,8 +300,7 @@
 
 		public function getMenuAdminSiteMap()
 		{
-			$args = Context::getRequestVars();
-			$menuSrl = Context::get('menuSrl');
+			$menuSrl = Context::get('menu_srl');
 
 			$oModuleModel = &getModel('module');
 			$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
