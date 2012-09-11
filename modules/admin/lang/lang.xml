@@ -1465,4 +1465,12 @@
 		<value xml:lang="zh-CN"><![CDATA[管理设置]]></value>
 		<value xml:lang="tr"><![CDATA[Yönetici Ayarları]]></value>
 	</item>
+	<item name="open_all">
+		<value xml:lang="ko"><![CDATA[모두 펼치기]]></value>
+		<value xml:lang="en"><![CDATA[Open All]]></value>
+	</item>
+	<item name="close_all">
+		<value xml:lang="ko"><![CDATA[모두 접기]]></value>
+		<value xml:lang="en"><![CDATA[Close All]]></value>
+	</item>
 </lang>

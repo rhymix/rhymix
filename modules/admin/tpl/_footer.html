@@ -1,0 +1,53 @@
+		<!-- GNB -->
+		<nav class="gnb able" id="gnb">
+			<ul>
+				<li loop="$gnbUrlList=>$key,$value" class="active open"|cond="$parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act"><a href="{getFullUrl('')}{$value['href']}">{$value['text']}</a>
+					<ul cond="count($value['list'])">
+						<li loop="$value['list']=>$key2,$value2"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#favorite">{$lang->favorite}</a>
+					<ul id="favorite">
+						<li loop="$favorite_list => $favorite">
+							<a href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</a>
+							<form class="remove" action="./">
+								<input type="hidden" name="module" value="admin" />
+								<input type="hidden" name="act" value="procAdminToggleFavorite" />
+								<input type="hidden" name="site_srl" value="0" />
+								<input type="hidden" name="module_name" value="{$favorite->module}" />
+								<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+								<button type="submit" class="x_close" title="{$lang->cmd_delete}">&times;</button>
+							</form>
+						</li>
+						<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->no_data}</a></li>
+					</ul>
+				</li>
+				<li><a href="#gnb"><span class="openAll">{$lang->open_all}</span><span class="closeAll">{$lang->close_all}</span></a></li>
+			</ul>
+		</nav>
+		<!-- /GNB -->
+	</div>
+	<!-- /BODY -->
+	<div class="footer">
+		<p class="power">
+			Powered by <strong><a href="{_XE_LOCATION_SITE_}" target="_blank">XE</a></strong>. <span class="vr">|</span>  
+			<strong>Your version</strong>: {__XE_VERSION__} <span class="vr">|</span> 
+			<!--@if(isset($latestVersion))--><strong>Latest version</strong>: <a href="{htmlspecialchars(html_entity_decode($latestVersion->url))}" target="_blank" title="{zdate($latestVersion->date, 'Y-m-d')}">{$latestVersion->title}</a><!--@end-->
+		</p>
+		<p class="cache">
+			<button type="button" class="x_btn-link" onclick="doResetAdminMenu();">{$lang->cmd_admin_menu_reset}</button> <span class="vr">|</span>  
+			<button type="button" class="x_btn-link" onclick="doRecompileCacheFile();">{$lang->cmd_remake_cache}</button> <span class="vr">|</span> 
+			<button type="button" class="x_btn-link" onclick="doClearSession();">{$lang->cmd_clear_session}</button> <span class="vr">|</span> 
+			<a href="http://code.google.com/p/xe-core/issues/entry" target="_blank">{$lang->bug_report}</a>
+		</p>
+	</div>
+</div>
+<script>
+xe.current_lang = '{$lang_type}';
+xe.lang.confirm_run = '{$lang->confirm_run}';
+xe.lang.confirm_reset_admin_menu = '{$lang->confirm_reset_admin_menu}';
+admin_menu_srl = '{$admin_menu_srl}';
+</script>
+<load target="./js/config.js" usecdn="true" />
+<load target="../../session/tpl/js/session.js" usecdn="true" />

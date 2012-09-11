@@ -1,54 +1,66 @@
-<include target="./_spHeader.html" />
-<div class="content dashboard" id="content">
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
-	<!--@if(!$isEnviromentGatheringAgreement)-->
-	<form action="./" method="post" class="message info">
-	<input type="hidden" name="module" value="admin" />
-	<input type="hidden" name="act" value="procAdminEnviromentGatheringAgreement" />
+<include target="./_header.html" />
+<div class="content" id="content">
+	<div class="x_page-header">
+		<h1>{$lang->control_panel}</h1>
+	</div>
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form action="./" method="post" class="message info x_clearfix" cond="!$isEnviromentGatheringAgreement">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="procAdminEnviromentGatheringAgreement" />
 		<h2>{$lang->install_env_agreement}</h2>
 		<p>{$lang->install_env_agreement_desc}</p>
-		<div class="btnArea">
-			<span class="btn"><button type="submit" name="is_agree" value="true">{$lang->agree}</button></span>
-			<span class="btn"><button type="submit" name="is_agree" value="false">{$lang->disagree}</button></span>
+		<div class="x_btn-group x_pull-right" style="margin-bottom:10px">
+			<button type="submit" name="is_agree" value="false" class="x_btn x_btn-small">{$lang->disagree}</button>
+			<button type="submit" name="is_agree" value="true" class="x_btn x_btn-small x_btn-primary">{$lang->agree}</button>
 		</div>
 	</form>
-	<!--@end-->
-	<!--@if($addTables || $needUpdate)-->
-	<div class="message update">
+	<div class="message update" cond="$addTables || $needUpdate">
 		<h2 cond="$needUpdate && $addTables">{$lang->need_update_and_table}</h2>
 		<h2 cond="$needUpdate && !$addTables">{$lang->need_update}</h2>
 		<h2 cond="!$needUpdate && $addTables">{$lang->need_table}</h2>
 		<ul>
-		<!--@foreach($module_list AS $key => $value)-->
-			<!--@if($value->need_install)-->
-			<li style="margin:0 0 4px 0;">{$value->module} - <span class="btn"><button type="button" onclick="doInstallModule('{$value->module}')">{$lang->cmd_create_db_table}</button></span></li>
-			<!--@else if($value->need_update)-->
-			<li style="margin:0 0 4px 0;">{$value->module} - <span class="btn"><button type="button" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_module_update}</button></span></li>
-			<!--@end-->
-		<!--@end-->
+		<block loop="$module_list => $key,$value">
+			<li style="margin:0 0 4px 0" cond="$value->need_install">{$value->module} - <button type="button" onclick="doInstallModule('{$value->module}')" class="x_btn x_btn-small">{$lang->cmd_create_db_table}</button></li>
+			<li style="margin:0 0 4px 0" cond="$value->need_update">{$value->module} - <button type="button" onclick="doUpdateModule('{$value->module}')" class="x_btn x_btn-small">{$lang->cmd_module_update}</button></li>
+		</block>
 		</ul>
 	</div>
-	<!--@end-->
-	<div class="section">
-		<div class="portlet">
-			<h2 class="h2">{$lang->current_state}</h2>
-			<ul class="lined">
-				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->menu_gnb['user']}</a> <span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</span></li>
-				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->menu_gnb_sub['document']}</a> <span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</span></li>
-				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">{$lang->menu_gnb_sub['comment']}</a> <span class="side">{number_format($status->comment->totalCount)}(<!--@if($status->comment->todayCount > 0)-->+<!--@end-->{$status->comment->todayCount})</span></li>
-				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList')}">{$lang->menu_gnb_sub['trackback']}</a> <span class="side">{number_format($status->trackback->totalCount)}(<!--@if($status->trackback->todayCount > 0)-->+<!--@end-->{$status->trackback->todayCount})</span></li>
-				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}">{$lang->menu_gnb_sub['file']}</a> <span class="side">{number_format($status->file->totalCount)}(<!--@if($status->file->todayCount > 0)-->+<!--@end-->{number_format($status->file->todayCount)})</span></li>
+	<div class="dashboard">
+		<section class="status">
+			<h2>{$lang->current_state}</h2>
+			<ul>
+				<li>
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->menu_gnb['user']}</a> 
+					<span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</span>
+				</li>
+				<li>
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->menu_gnb_sub['document']}</a> 
+					<span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</span>
+				</li>
+				<li>
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">{$lang->menu_gnb_sub['comment']}</a> 
+					<span class="side">{number_format($status->comment->totalCount)}(<!--@if($status->comment->todayCount > 0)-->+<!--@end-->{$status->comment->todayCount})</span>
+				</li>
+				<li>
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList')}">{$lang->menu_gnb_sub['trackback']}</a> 
+					<span class="side">{number_format($status->trackback->totalCount)}(<!--@if($status->trackback->todayCount > 0)-->+<!--@end-->{$status->trackback->todayCount})</span>
+				</li>
+				<li>
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}">{$lang->menu_gnb_sub['file']}</a> 
+					<span class="side">{number_format($status->file->totalCount)}(<!--@if($status->file->todayCount > 0)-->+<!--@end-->{number_format($status->file->todayCount)})</span>
+				</li>
 			</ul>
-		</div>
-		<div class="portlet">
-			<h2 class="h2"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->latest_documents}</a></h2>
-			<ul class="lined">
+		</section>
+		<section class="document">
+			<h2>{$lang->latest_documents}</h2>
+			<ul>
 				<!--@foreach($latestDocumentList AS $key=>$value)-->
 				{@$document = $value->variables}
 				<li>
-					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()))-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> <span class="side">{$document['nick_name']}</span>
+					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()))-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> 
+					<span class="side">{$document['nick_name']}</span>
 					<form class="action">
 						<input type="hidden" name="module" value="admin" />
 						<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
@@ -61,13 +73,15 @@
 				<!--@end-->
 				<li cond="!is_array($latestDocumentList) || count($latestDocumentList) < 1">{$lang->no_data}</li>
 			</ul>
-		</div>
-		<div class="portlet">
-			<h2 class="h2"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">{$lang->latest_comments}</a></h2>
-			<ul class="lined">
+			<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
+		</section>
+		<section class="reply">
+			<h2>{$lang->latest_comments}</h2>
+			<ul>
 				<!--@foreach($latestCommentList AS $key=>$value)-->
 				<li>
-					<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> <span class="side">{$value->nick_name}</span> 
+					<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> 
+					<span class="side">{$value->nick_name}</span> 
 					<form class="action">
 						<input type="hidden" name="module" value="admin" />
 						<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
@@ -80,13 +94,15 @@
 				<!--@end-->
 				<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
 			</ul>
-		</div>
-		<div class="portlet">
-			<h2 class="h2"><a href="{getUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList')}">{$lang->latest_trackbacks}</a></h2>
-			<ul class="lined">
+			<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
+		</section>
+		<section class="trackback">
+			<h2>{$lang->latest_trackbacks}</h2>
+			<ul>
 				<!--@foreach($latestTrackbackList AS $key=>$value)-->
 				<li>
-					<a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{$value->blog_name}</span>
+					<a href="{$value->url}" target="_blank">{$value->title}</a> 
+					<span class="side">{$value->blog_name}</span>
 					<form class="action">
 						<input type="hidden" name="module" value="admin" />
 						<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
@@ -98,8 +114,22 @@
 				<!--@end-->
 				<li cond="!is_array($latestTrackbackList) || count($latestTrackbackList) < 1">{$lang->no_data}</li>
 			</ul>
-		</div>
+			<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
+		</section>
 	</div>
 </div>
-<include target="./_spShortcut.html" />
-<include target="./_spFooter.html" />
+<include target="./_footer.html" />
+<script>
+jQuery(function($){
+// Dashboard portlet UI
+	$('.dashboard>section>ul>li')
+		.bind('mouseenter focusin', function(){
+			$(this).addClass('hover').find('>.action').show();
+		})
+		.bind('mouseleave focusout', function(){
+			if(!$(this).find(':focus').length){
+				$(this).removeClass('hover').find('>.action').hide();
+			}
+		});
+});
+</script>

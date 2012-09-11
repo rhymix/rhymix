@@ -3772,6 +3772,15 @@
 		<value xml:lang="zh-CN"><![CDATA[查看详情]]></value>
 		<value xml:lang="tr"><![CDATA[Detaylı Görünüm]]></value>
 	</item>
+	<item name="more">
+		<value xml:lang="ko"><![CDATA[더보기]]></value>
+		<value xml:lang="en"><![CDATA[More]]></value>
+		<value xml:lang="jp"><![CDATA[もっと見る]]></value>
+		<value xml:lang="zh-CN"><![CDATA[更多]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更多]]></value>
+		<value xml:lang="tr"><![CDATA[Daha Fazla]]></value>
+		<value xml:lang="vi"><![CDATA[Xem thêm]]></value>
+	</item>
 	<item name="skip_to_content">
 		<value xml:lang="ko"><![CDATA[메뉴 건너뛰기]]></value>
 		<value xml:lang="en"><![CDATA[Skip to content]]></value>

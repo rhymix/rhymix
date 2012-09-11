@@ -1,0 +1,23 @@
+{@Context::addHtmlHeader('<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+')}
+<load target="../../../common/css/bootstrap.min.css" index="1" />
+<div class="x">
+	<p class="skipNav"><a href="#content">{$lang->skip_to_content}</a></p>
+	<header class="header">
+		<h1><a href="{getUrl('','module','admin')}"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a></h1>
+		<p class="site"><a href="{getFullUrl('')}">{getFullUrl('')}</a></p>
+		<div class="account">
+			<ul>
+				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
+				<li><a href="{getUrl('', 'module','admin','act','procAdminLogout')}">{$lang->cmd_logout}</a></li>
+				<li><a href="#lang" class="lang" data-toggle="#lang">{$lang_supported[$lang_type]}</a>
+					<ul id="lang" class="x_dropdown-menu">
+						<li loop="$lang_supported=>$key,$val" class="x_active"|cond="$key==$lang_type"><a href="{getUrl('l',$key)}" data-langcode="{$key}" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</header>
+	<!-- BODY -->
+	<div class="body">
