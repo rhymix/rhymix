@@ -1,0 +1,14 @@
+<query id="getNotLinkedModuleGroupSiteSrl" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="site_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="menu_srl" default="0" />
+    </conditions>
+	<groups>
+		<group column="site_srl" />
+	</groups>
+</query>

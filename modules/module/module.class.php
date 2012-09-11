@@ -91,6 +91,10 @@
 				}
 			}
 
+			// XE 1.7
+			$output = executeQueryArray('module.getNotLinkedModuleGroupSiteSrl');
+			if($output->toBool() && $output->data && count($output->data) > 0) return true;
+
             return false;
         }
 
@@ -345,8 +349,98 @@
 					}
 				}
 			}
+
+			// XE 1.7
+			$output = executeQueryArray('module.getNotLinkedModuleGroupSiteSrl');
+			if($output->toBool() && $output->data && count($output->data) > 0)
+			{
+				foreach($output->data as $siteInfo)
+				{
+					unset($args);
+					$args->site_srl = $siteInfo->site_srl;
+
+					//create temp menu.
+					$args->title = 'Temporary menu';
+					$menuSrl = $args->menu_srl = getNextSequence();
+					$args->listorder = $args->menu_srl * -1;
+
+					$ioutput = executeQuery('menu.insertMenu', $args);
+
+					if(!$ioutput->toBool())
+					{
+						return $ioutput;
+					}
+
+					//getNotLinkedModuleBySiteSrl
+					$soutput = executeQueryArray('module.getNotLinkedModuleBySiteSrl', $args);
+					$uoutput = $this->updateLinkModule($soutput->data, $menuSrl);
+
+					if(!$uoutput->toBool())
+					{
+						return $uoutput;
+					}
+				}
+				
+			}
             return new Object(0, 'success_updated');
         }
+
+		/**
+		 * insert menu when not linked module.
+		 *
+		 * @param array $moduleInfos
+		 * @param int $menuSrl
+		 *
+		 * @return Object 
+		 **/
+		private function updateLinkModule($moduleInfos, $menuSrl)
+		{
+			if(!$moduleInfos || !is_array($moduleInfos) || count($moduleInfos) == 0 || $menuSrl == 0)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			foreach($moduleInfos as $moduleInfo)
+			{
+				// search menu.
+				$args->url = $moduleInfo->mid;
+				$args->site_srl = $moduleInfo->site_srl;
+
+				$output = executeQuery('menu.getMenuItemByUrl', $args);
+
+				if($output->toBool() && $output->data)
+				{
+					$moduleInfo->menu_srl = $output->data->menu_srl;
+				}
+				else
+				{
+					// create menu item.
+					$item_args->menu_srl = $menuSrl;
+					$item_args->url = $moduleInfo->mid;
+					$item_args->name = $moduleInfo->mid;
+					$item_args->menu_item_srl = getNextSequence();
+					$item_args->listorder = -1*$item_args->menu_item_srl;
+
+					$output = executeQuery('menu.insertMenuItem', $item_args);
+					if(!$output->toBool()) 
+					{
+						return $output;
+					}
+					$moduleInfo->menu_srl = $menuSrl;
+				}
+
+				$output = executeQuery('module.updateModule', $moduleInfo);
+				if(!$output->toBool()) 
+				{
+					return $output;
+				}
+			}
+
+			$oMenuAdminController = getAdminController('menu');
+			$oMenuAdminController->makeXmlFile($menuSrl);
+			
+			return new Object();
+		}
 
         function updateForUniqueSiteDomain()
         {
