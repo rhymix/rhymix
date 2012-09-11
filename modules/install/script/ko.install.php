@@ -62,6 +62,7 @@
 
 	// insertPageModule
 	$page_args->layout_srl = $layout_srl;
+	$page_args->menu_srl = $menu_srl;
 	$page_args->browser_title = 'welcome_page';
 	$page_args->module = 'page';
 	$page_args->mid = 'welcome_page';
