@@ -8,6 +8,9 @@
         <action name="dispAutoinstallAdminIndex" type="view" standalone="true" admin_index="true" menu_name="easyInstall" menu_index="true" />
         <action name="procAutoinstallAdminUpdateinfo" type="controller" standalone="true" />
         <action name="procAutoinstallAdminPackageinstall" type="controller" standalone="true" ruleset="ftp" />
+		<action name="getAutoinstallAdminMenuPackageList" type="model" />
+		<action name="getAutoinstallAdminLayoutPackageList" type="model" />
+		<action name="getAutoinstallAdminSkinPackageList" type="model" />
     </actions>
 	<menus>
 		<menu name="easyInstall">
