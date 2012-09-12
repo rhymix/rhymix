@@ -1,0 +1,22 @@
+<query id="getMenuItemByUrl" action="select">
+    <tables>
+        <table name="menu_item" alias="MI"/>
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="MI.url" var="url" notnull="notnull" />
+        <query operation="in" column="MI.menu_srl" notnull="notnull" alias="getSiteSrl" pipe="and" >
+			<tables>
+				<table name="menu" alias="M" />
+			</tables>
+			<columns>
+				<column name="menu_srl" />
+			</columns>
+			<conditions>
+				<condition operation="equal" column="M.site_srl" var = "site_srl" defaut = "0" notnull="notnull" />
+			</conditions>
+		</query>
+    </conditions>
+</query>

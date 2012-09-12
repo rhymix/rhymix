@@ -31,11 +31,104 @@
             $this->setTemplateFile('layout_detail_info');
         }
 
+
+		/**
+		 * Preview a layout with module.
+		 * 
+		 * @return Object
+		 **/
+		public function dispLayoutPreviewWithModule()
+		{
+			// admin check
+			// this act is admin view but in normal view because do not load admin css/js files
+			$logged_info = Context::get('logged_info');
+			if($logged_info->is_admin != 'Y')
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
+			$layoutSrl = Context::get('layout_srl');
+			$moduleSrl = Context::get('module_srl');
+			$module = Context::get('module');
+			$mid = Context::get('mid');
+			$skin = Context::get('skin');
+
+			// Get the layout information.
+			if(!$layoutSrl || !$module)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$oLayoutModel = getModel('layout');
+			$layoutInfo = $oLayoutModel->getLayout($layoutSrl);
+
+			if(!$layoutInfo) 
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+            // Set names and values of extra_vars to $layout_info
+            if($layoutInfo->extra_var_count) 
+			{
+                foreach($layoutInfo->extra_var as $var_id => $val) 
+				{
+                    $layoutInfo->{$var_id} = $val->value;
+                }
+            }
+
+            // menu in layout information becomes an argument for Context:: set
+            if($layoutInfo->menu_count) 
+			{
+                foreach($layoutInfo->menu as $menu_id => $menu) 
+				{
+                    if(file_exists($menu->php_file)) @include($menu->php_file);
+                    Context::set($menu_id, $menu);
+                }
+            }
+
+            Context::set('layout_info', $layoutInfo);
+
+			// Get the module information.
+			$oModuleHandler = new ModuleHandler($module, '', $mid, '', $moduleSrl);
+			$oModuleHandler->act = '';
+			
+			if ($oModuleHandler->init())
+			{
+				$oModule = $oModuleHandler->procModule();
+				
+				if($skin)
+				{
+					$template_path = sprintf("%sskins/%s/",$oModule->module_path, $skin);
+					$oModule->setTemplatePath($template_path);
+				}
+				require_once("./classes/display/HTMLDisplayHandler.php");
+				$handler = new HTMLDisplayHandler();
+				$output = $handler->toDoc($oModule);
+				Context::set('content', $output);
+			}
+			else
+			{
+				Context::set('content', Context::getLang('layout_preview_content'));
+			}
+			
+            // Compile
+            $oTemplate = &TemplateHandler::getInstance();
+            $layout_path = $layoutInfo->path;
+            $layout_file = 'layout';
+            $layout_tpl = $oTemplate->compile($layout_path, $layout_file);
+            Context::set('layout','none');
+
+            // Convert widgets and others
+            $oContext = &Context::getInstance();
+            Context::set('layout_tpl', $layout_tpl);
+            $this->setTemplateFile('layout_preview');
+		}
 		/**
          * Preview a layout
 		 * @return void|Object (void : success, Object : fail)
          **/
-        function dispLayoutPreview() {
+        function dispLayoutPreview() 
+		{
 			// admin check
 			// this act is admin view but in normal view because do not load admin css/js files
 			$logged_info = Context::get('logged_info');
@@ -91,7 +184,7 @@
             // Delete Temporary Files
             FileHandler::removeFile($edited_layout_file);
             $this->setTemplateFile('layout_preview');
-
         }
+
     }
 ?>

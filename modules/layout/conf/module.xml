@@ -19,6 +19,7 @@
 		<action name="dispLayoutAdminCopyLayout" type="view" />
 
 		<action name="dispLayoutPreview" type="view" />
+		<action name="dispLayoutPreviewWithModule" type="view" />
 
 		<action name="procLayoutAdminUpdate" type="controller" ruleset="updateLayout" />
 		<action name="procLayoutAdminCodeUpdate" type="controller" ruleset="codeUpdate" />
