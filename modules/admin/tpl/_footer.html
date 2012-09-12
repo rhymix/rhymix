@@ -1,5 +1,5 @@
 		<!-- GNB -->
-		<nav class="gnb ready" id="gnb">
+		<nav class="gnb" id="gnb">
 			<ul>
 				<li loop="$gnbUrlList=>$key,$value" class="active open"|cond="$parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act"><a href="{getFullUrl('')}{$value['href']}"><span class="tx">{$value['text']}</span></a>
 					<ul cond="count($value['list'])">
