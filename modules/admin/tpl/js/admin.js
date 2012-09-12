@@ -18,12 +18,12 @@ jQuery(function($){
 	var $xGnb_li = $xGnb.find('>ul>li');
 	$(window).resize(function(){
 		setTimeout(function(){
-			if($(window).width() >= 1024){ // Over than 1024px
+			if($(window).width() >= 980){ // Over than 1024px
 				$xGnb.height('auto').height($xBody.height());
 			} else { // Less than 1024
 				$xGnb.height('auto');
 			}
-			if($(window).width() < 1024 || $(window).width() > 1260){
+			if($(window).width() < 980 || $(window).width() > 1240){
 				$xBody.removeClass('wide');
 			}
 		}, 100);
@@ -72,7 +72,7 @@ jQuery(function($){
 	}
 	$xGnb
 		.mouseenter(function(){ // Mouseenter
-			if($(window).width() >= 1024){
+			if($(window).width() >= 980){
 				setTimeout(function(){
 					$xBody.removeClass('wide');
 					contentBugFix();
@@ -80,7 +80,7 @@ jQuery(function($){
 			}
 		})
 		.mouseleave(function(){ // Mouseleave
-			if($(window).width() >= 1024 && $(window).width() < 1260){
+			if($(window).width() >= 980 && $(window).width() < 1240){
 				$xBody.addClass('wide');
 				contentBugFix();
 			}

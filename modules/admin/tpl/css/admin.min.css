@@ -37,7 +37,7 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x>.body>.content>*:first-child{margin-top:0}
 .x>.body>.gnb{position:relative;left:-240px;float:left;width:220px;margin:0 -220px 0 0;background:#f4f4f4;box-shadow:2px 0 4px #ddd}
 .x>.body.wide>.gnb{width:36px;margin:0 -36px 0 0;left:-60px}
-@media all and (max-width:1023px){
+@media all and (max-width:980px){
 .x>.body,
 .x>.body.wide{padding:0}
 .x>.body>.content{width:auto;padding:1px 10px 0 10px;float:none;margin:0 0 30px 0}
@@ -123,7 +123,7 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 	/* li>ul>li>.action */
 .x>.body>.gnb>ul>li>ul>li>.remove{position:absolute;top:4px;right:5px}
 .x>.body>.gnb>ul>li>ul>li>.remove>.x_close{width:20px}
-@media all and (max-width:1023px){
+@media all and (max-width:980px){
 .x>.body.wide>.gnb>ul>li>a>.tx{width:auto;height:auto}
 }
 /* Dashboard */
@@ -147,7 +147,7 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x .dashboard>section li>.side{position:absolute;top:0;right:5px;line-height:28px;width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;zoom:1}
 .x .dashboard>section li>.action{display:none;position:absolute;top:0;right:5px;margin:0;padding:0 0 0 10px;text-align:right;white-space:nowrap;line-height:28px;background:#f4f4f4}
 .x .dashboard>section li>.action>button{margin:0 0 0 4px;padding:0;overflow:visible}
-@media all and (max-width:1023px){
+@media all and (max-width:980px){
 .x .dashboard>section:nth-child(odd),
 .x .dashboard>section:nth-child(even){float:none;width:auto}
 }
