@@ -60,6 +60,51 @@
 			$args->layout_type = $layoutType;
 			$args->layout = $layout;
 			$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
+
+			// Create instance name list
+			$instanceList = array();
+			if(is_array($output->data))
+			{
+				foreach($output->data as $iInfo)
+				{
+					$instanceList[] = $iInfo->layout;
+				}
+			}
+
+			// Create downloaded name list
+			$downloadedList = array();
+			$titleList = array();
+			$_downloadedList = $this->getDownloadedLayoutList($layoutType);
+			if(is_array($_downloadedList))
+			{
+				foreach($_downloadedList as $dLayoutInfo)
+				{
+					$downloadedList[] = $dLayoutInfo->layout;
+					$titleList[$dLayoutInfo->layout] = $dLayoutInfo->title;
+				}
+			}
+
+			// Get downloaded name list have no instance
+			$noInstanceList = array_diff($downloadedList, $instanceList);
+			foreach($noInstanceList as $layoutName)
+			{
+				$insertArgs = new stdClass();
+				$insertArgs->site_srl = $siteSrl;
+				$insertArgs->layout_srl = getNextSequence();
+				$insertArgs->layout = $layoutName;
+				$insertArgs->title = $titleList[$layoutName];
+				$insertArgs->layout_type = $layoutType;
+
+				$oLayoutAdminController = getAdminController('layout');
+				$oLayoutAdminController->insertLayout($insertArgs);
+			}
+
+			// If create layout instance, reload instance list
+			if(count($noInstanceList))
+			{
+				$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
+			}
+
 			return $output->data;
 		}
 
