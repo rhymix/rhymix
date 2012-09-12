@@ -29,8 +29,7 @@
 			<tr loop="$layout => $no, $item">
 				<td class="nowr" rowspan="{count($layout)}" cond="$no === 0" >{$count++}</td>
 				<td class="nowr" rowspan="{count($layout)}" cond="$no === 0" >{$layout_name}</td>
-				<!--td class="title">{$item->title}</td-->
-				<td class="title __title" data-layout_srl="{$item->layout_srl}" data-skin="xe_v3_default">{$item->title}</td>
+				<td class="title">{$item->title}</td>
 				<td class="nowr">{zdate($item->regdate, "Y-m-d")}</td>
 				<td class="nowr"><a href="{getUrl('act', 'dispLayoutAdminModify', 'layout_srl', $item->layout_srl)}">{$lang->cmd_layout_management}</a></td>
 				<td class="nowr"><a href="{getUrl('act', 'dispLayoutAdminEdit', 'layout_srl', $item->layout_srl)}">{$lang->cmd_layout_edit}</a></td>
@@ -49,13 +48,3 @@
 		</tbody>
 	</table>
 </div>
-<iframe id="preview_iframe" src="" style="z-index:10;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);position:absolute"></iframe>
-<script>
-jQuery('.__title').click(function (){
-			var $ = jQuery;
-			var layout_srl = $(this).data('layout_srl');
-			var skin = $(this).data('skin');
-			var url = current_url.setQuery('act', 'dispLayoutPreviewWithModule').setQuery('module', 'board').setQuery('mid', 'testboard3').setQuery('layout_srl', layout_srl).setQuery('skin', skin);
-			$('#preview_iframe').attr('src', url); 
-		});
-</script>
