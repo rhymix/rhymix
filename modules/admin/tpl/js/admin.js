@@ -22,12 +22,14 @@ jQuery(function($){
 				$xGnb.height('auto').height($xBody.height());
 			} else { // Less than 1024
 				$xGnb.height('auto');
+			}
+			if($(window).width() < 1024 || $(window).width() > 1260){
 				$xBody.removeClass('wide');
 			}
-		},100);
+		}, 100);
 	}).resize();
 	// Trigger for GNB height resize
-	$($xBody, $xContent, $xGnb).bind('click mouseenter mouseleave focusin focusout', function(){ 
+	$($xBody, $xContent, $xGnb).bind('click mouseover mouseout focus blur', function(){ 
 		$(window).resize();
 	});
 // GNB Click toggle
@@ -78,7 +80,7 @@ jQuery(function($){
 			}
 		})
 		.mouseleave(function(){ // Mouseleave
-			if($(window).width() >= 1024){
+			if($(window).width() >= 1024 && $(window).width() < 1260){
 				$xBody.addClass('wide');
 				contentBugFix();
 			}
