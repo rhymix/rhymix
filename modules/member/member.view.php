@@ -16,17 +16,40 @@
          **/
         function init() {
             // Get the member configuration
-            $oModuleModel = &getModel('module');
-            $this->member_config = $oModuleModel->getModuleConfig('member');
-            if(!$this->member_config->skin) $this->member_config->skin = "default";
-            if(!$this->member_config->colorset) $this->member_config->colorset = "white";
-
+            $oMemberModel = &getModel('member');
+            $this->member_config = $oMemberModel->getMemberConfig();
             Context::set('member_config', $this->member_config);
+
             $skin = $this->member_config->skin;
             // Set the template path
-            $tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
-            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
-            $this->setTemplatePath($tpl_path);
+			if(!$skin)
+			{
+				$skin = 'default';
+				$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
+			}
+			else
+			{
+				//check theme
+				$config_parse = explode('|@|', $skin);
+				if (count($config_parse) > 1)
+				{
+					$template_path = sprintf('./themes/%s/modules/member/', $config_parse[0]);
+				}
+				else
+				{
+					$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
+				}
+			}
+			// Template path
+			$this->setTemplatePath($template_path);
+
+			$oLayoutModel = &getModel('layout');
+			$layout_info = $oLayoutModel->getLayout($this->member_config->layout_srl);
+			if($layout_info)
+			{
+				$this->module_info->layout_srl = $this->member_config->layout_srl;
+				$this->setLayoutPath($layout_info->path);
+			}
         }
 
         /**
@@ -44,19 +67,6 @@
             } elseif(!$member_srl) {
                 return $this->dispMemberSignUpForm();
             }
-
-            $oModuleModel = &getModel('module');
-            $member_config = $oModuleModel->getModuleConfig('member');
-			if(is_array($member_config->signupForm))
-			{
-				global $lang;
-				foreach($member_config->signupForm AS $key=>$value)
-				{
-					if($lang->{$value->title})
-						$member_config->signupForm[$key]->title = $lang->{$value->title};
-				}
-			}
-            Context::set('member_config', $member_config);
 
             $site_module_info = Context::get('site_module_info');
 			$columnList = array('member_srl', 'user_id', 'email_address', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'regdate', 'last_login', 'extra_vars');
@@ -80,11 +90,91 @@
             unset($extendForm->find_member_account);
             unset($extendForm->find_member_answer);
             Context::set('extend_form_list', $extendForm);
-            if ($member_info->member_srl == $logged_info->member_srl)
-                Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
+
+			$this->_getDisplayedMemberInfo($member_info, $extendForm, $this->member_config);
 
             $this->setTemplateFile('member_info');
         }
+
+		function _getDisplayedMemberInfo($memberInfo, $extendFormInfo, $memberConfig)
+		{
+			$displayDatas = array();
+			foreach($memberConfig->signupForm as $no=>$formInfo)
+			{
+				if(!$formInfo->isUse)
+				{
+					continue;
+				}
+
+				if($formInfo->name == 'password' || $formInfo->name == 'find_account_question')
+				{
+					continue;
+				}
+
+				if($memberInfo->member_srl != $logged_info->member_srl && $formInfo->isPublic != 'Y')
+				{
+					continue;
+				}
+				
+				$item = $formInfo;
+				
+				if($formInfo->isDefaultForm)
+				{
+					$item->title = Context::getLang($formInfo->name);
+					$item->value = $memberInfo->{$formInfo->name};
+
+					if($formInfo->name == 'profile_image' && $memberInfo->profile_image)
+					{
+						$target = $memberInfo->profile_image;
+						$item->value = '<img src="'.$target->src.'" />';
+					}
+					elseif($formInfo->name == 'image_name' && $memberInfo->image_name)
+					{
+						$target = $memberInfo->image_name;
+						$item->value = '<img src="'.$target->src.'" />';
+					}
+					elseif($formInfo->name == 'image_mark' && $memberInfo->image_mark)
+					{
+						$target = $memberInfo->image_mark;
+						$item->value = '<img src="'.$target->src.'" />';
+					}
+					elseif($formInfo->name == 'birthday' && $memberInfo->birthday)
+					{
+						$item->value = zdate($item->value, 'Y-m-d');
+					}
+				}
+				else
+				{
+					$item->title = $extendFormInfo[$formInfo->member_join_form_srl]->column_title;
+					$orgValue = $extendFormInfo[$formInfo->member_join_form_srl]->value;
+					if($formInfo->type=='tel' && is_array($orgValue))
+					{
+						$item->value = implode('-', $orgValue);
+					}
+					elseif($formInfo->type=='kr_zip' && is_array($orgValue))
+					{
+						$item->value = implode(' ', $orgValue);
+					}
+					elseif($formInfo->type=='checkbox' && is_array($orgValue))
+					{
+						$item->value = implode(", ",$orgValue);
+					}
+					elseif($formInfo->type=='date')
+					{
+						$item->value = zdate($orgValue, "Y-m-d");
+					}
+					else
+					{
+						$item->value = nl2br($orgValue);
+					}
+				}
+
+				$displayDatas[] = $item;
+			}
+
+			Context::set('displayDatas', $displayDatas);
+			return $displayDatas;
+		}
 
         /**
          * @brief Display member join form
@@ -94,21 +184,20 @@
 			//setcookie for redirect url in case of going to member sign up
 			setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER']);
 
+            $member_config = $this->member_config;
+
             $oMemberModel = &getModel('member');
             // Get the member information if logged-in
             if($oMemberModel->isLogged()) return $this->stop('msg_already_logged');
             // call a trigger (before) 
-            $trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $this->member_config);
+            $trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $member_config);
             if(!$trigger_output->toBool()) return $trigger_output;
             // Error appears if the member is not allowed to join
-            if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
+            if($member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
 
 			$oMemberAdminView = &getAdminView('member');
 			$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
 			Context::set('formTags', $formTags);
-
-            $member_config = $oMemberModel->getMemberConfig();
-            Context::set('member_config', $member_config);
 			
 			global $lang;
 			$identifierForm->title = $lang->{$member_config->identifier};
@@ -116,17 +205,61 @@
 			$identifierForm->value = $member_info->{$member_config->identifier};
 			Context::set('identifierForm', $identifierForm);
 
+			$this->addExtraFormValidatorMessage();
+
             // Set a template file
             $this->setTemplateFile('signup_form');
         }
 
+
+		function dispMemberModifyInfoBefore()
+		{
+			$logged_info = Context::get('logged_info');
+			$oMemberModel = &getModel('member');
+            if(!$oMemberModel->isLogged() || empty($logged_info))
+			{
+				return $this->stop('msg_not_logged');
+			}
+
+			$_SESSION['rechecked_password_step'] = 'INPUT_PASSWORD';
+
+			$templateFile = $this->getTemplatePath().'rechecked_password.html';
+			if(!is_readable($templateFile))
+			{
+				$templatePath = sprintf('%sskins/default', $this->module_path);
+				$this->setTemplatePath($templatePath);
+			}
+
+			if ($this->member_config->identifier == 'email_address')
+			{
+				Context::set('identifierTitle', Context::getLang('email_address'));
+				Context::set('identifierValue', $logged_info->email_address); 
+			}
+			else
+			{
+				Context::set('identifierTitle', Context::getLang('user_id'));
+				Context::set('identifierValue', $logged_info->user_id);
+			}
+
+			$this->setTemplateFile('rechecked_password');
+		}
+
         /**
          * @brief Modify member information
          **/
-        function dispMemberModifyInfo() {
+        function dispMemberModifyInfo() 
+		{
+			if($_SESSION['rechecked_password_step'] != 'VALIDATE_PASSWORD')
+			{
+				$this->dispMemberModifyInfoBefore();
+				return;
+			}
+
+			$_SESSION['rechecked_password_step'] = 'INPUT_DATA';
+            
+			$member_config = $this->member_config;
+
             $oMemberModel = &getModel('member');
-            $oModuleModel = &getModel('module');
-            $memberModuleConfig = $oModuleModel->getModuleConfig('member');
             // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
@@ -140,7 +273,6 @@
             // Get a list of extend join form
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
-            Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
             // Editor of the module set for signing by calling getEditor
             if($member_info->member_srl) {
                 $oEditorModel = &getModel('editor');
@@ -153,8 +285,8 @@
                 $option->resizable = false;
                 $option->disable_html = true;
                 $option->height = 200;
-                $option->skin = $this->member_config->editor_skin;
-                $option->colorset = $this->member_config->editor_colorset;
+                $option->skin = $member_config->signature_editor_skin;
+                $option->colorset = $member_config->sel_editor_colorset;
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
@@ -163,14 +295,14 @@
 			$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
 			Context::set('formTags', $formTags);
 
-            $member_config = $oMemberModel->getMemberConfig();
-            Context::set('member_config', $member_config);
-
 			global $lang;
 			$identifierForm->title = $lang->{$member_config->identifier};
 			$identifierForm->name = $member_config->identifier;
 			$identifierForm->value = $member_info->{$member_config->identifier};
 			Context::set('identifierForm', $identifierForm);
+
+			$this->addExtraFormValidatorMessage();
+
             // Set a template file
             $this->setTemplateFile('modify_info');
         }
@@ -258,12 +390,11 @@
 
 			// get member module configuration.
 			$oMemberModel = &getModel('member');
-			$config = $oMemberModel->getMemberConfig();
+			$config = $this->member_config;
 			Context::set('identifier', $config->identifier);
 
             // Set a template file
             Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER']));
-			Context::set('act', 'procMemberLogin');
             $this->setTemplateFile('login_form');
         }
 
@@ -276,7 +407,7 @@
             // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
-			$memberConfig = $oMemberModel->getMemberConfig();
+			$memberConfig = $this->member_config;
 
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
@@ -307,7 +438,7 @@
             // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
-			$memberConfig = $oMemberModel->getMemberConfig();
+			$memberConfig = $this->member_config;
 
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
@@ -327,23 +458,6 @@
 			}
             // Set a template file
             $this->setTemplateFile('leave_form');
-        }
-
-        /**
-         * @brief OpenID member withdrawl
-         **/
-        function dispMemberOpenIDLeave() {
-            $oMemberModel = &getModel('member');
-            // A message appears if the user is not logged-in
-            if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
-
-            $logged_info = Context::get('logged_info');
-            $member_srl = $logged_info->member_srl;
-
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-            Context::set('member_info',$member_info);
-            // Set a template file
-            $this->setTemplateFile('openid_leave_form');
         }
 
         /**
@@ -375,7 +489,7 @@
             if(Context::get('is_logged')) return $this->stop('already_logged');
 
 			$oMemberModel = &getModel('member');
-			$config = $oMemberModel->getMemberConfig();
+			$config = $this->member_config;
 			
 			Context::set('identifier', $config->identifier);
 
@@ -402,10 +516,29 @@
         /**
          * @brief Page of re-sending an authentication mail
          **/
-        function dispMemberResendAuthMail() {
-            if(Context::get('is_logged')) return $this->stop('already_logged');
+        function dispMemberResendAuthMail() 
+		{
+			$authMemberSrl = $_SESSION['auth_member_srl'];
+			unset($_SESSION['auth_member_srl']);
 
-            $this->setTemplateFile('resend_auth_mail');
+            if(Context::get('is_logged')) 
+			{
+				return $this->stop('already_logged');
+			}
+
+			if($authMemberSrl)
+			{
+				$oMemberModel = &getModel('member');
+				$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($authMemberSrl);
+				
+				$_SESSION['auth_member_info'] = $memberInfo;
+				Context::set('memberInfo', $memberInfo);
+				$this->setTemplateFile('reset_mail');
+			}
+			else
+			{
+				$this->setTemplateFile('resend_auth_mail');
+			}
         }
 
         /**
@@ -415,6 +548,43 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
 			$this->setTemplateFile('modify_email_address');
+		}
+
+		/**
+		 * Add javascript codes into the header by checking values of member join form, required and others
+		 * @return void
+		 */
+		function addExtraFormValidatorMessage() {
+			$oMemberModel = &getModel('member');
+			$extraList = $oMemberModel->getUsedJoinFormList();
+
+			$js_code = array();
+			$js_code[] = '<script type="text/javascript">//<![CDATA[';
+			$js_code[] = '(function($){';
+			$js_code[] = 'var validator = xe.getApp("validator")[0];';
+			$js_code[] = 'if(!validator) return false;';
+
+			$errorLang = array();
+			foreach($extraList as $val) 
+			{
+				if($val->column_type == 'kr_zip' || $val->column_type == 'tel')
+				{
+					$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s[]","%s"]);', $val->column_name, $val->column_title);
+				}
+				else
+				{
+					$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s","%s"]);', $val->column_name, $val->column_title);
+				}
+				
+				$errorLang[$val->column_name] = $val->column_title;
+			}
+			$_SESSION['XE_VALIDATOR_ERROR_LANG'] = $errorLang;
+
+			$js_code[] = '})(jQuery);';
+			$js_code[] = '//]]></script>';
+			$js_code   = implode("\n", $js_code);
+
+			Context::addHtmlHeader($js_code);
 		}
     }
 ?>

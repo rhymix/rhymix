@@ -1,4 +1,0 @@
-<table name="member_openid_nonce">
-    <column name="nonce" type="char" size="8" notnull="notnull" primary_key="primary_key" />
-    <column name="expires" type="number" size="11" />
-</table>

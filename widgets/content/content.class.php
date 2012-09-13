@@ -237,7 +237,7 @@
                     $content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
                     $content_item->adds($oDocument->getObjectVars());
                     $content_item->add('original_content', $oDocument->get('content'));
-                    $content_item->setTitle($oDocument->getTitle());
+                    $content_item->setTitle($oDocument->getTitleText());
                     $content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
                     $content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
                     $content_item->setContent($oDocument->getSummary($args->content_cut_size));
@@ -443,6 +443,7 @@
                     //$content_item->setCategory($item->category);
                     $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
                     $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
+					$content_item->setThumbnail($this->_getRssThumbnail($item->description));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
                     $content_item->setRegdate($date);
@@ -477,6 +478,7 @@
                     //$content_item->setCategory($item->category);
                     $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
                     $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
+					$content_item->setThumbnail($this->_getRssThumbnail($item->description));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
                     $content_item->setRegdate($date);
@@ -544,6 +546,7 @@
                         }
                     }
                     $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
+					$content_item->setThumbnail($this->_getRssThumbnail($item->description));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->published,$item->updated,$item->{'dc:date'})));
                     $content_item->setRegdate($date);
@@ -553,6 +556,28 @@
             }
             return $content_items;
         }
+
+		function _getRssThumbnail($content)
+		{
+			@preg_match('@<img[^>]+src\s*=\s*(?:"(.+)"|\'(.+)\'|([^\s>(?:/>)]+))@', $content, $matches);
+
+			if($matches[1])
+			{
+				return $matches[1];
+			}
+			elseif($matches[2])
+			{
+				return $matches[2];
+			}
+			elseif($matches[3])
+			{
+				return $matches[3];
+			}
+			else
+			{
+				return NULL;
+			}
+		}
 
         function _getTrackbackItems($args){
             // Get categories
@@ -603,6 +628,7 @@
             $widget_info->page_count = $args->page_count;
             $widget_info->subject_cut_size = $args->subject_cut_size;
             $widget_info->content_cut_size = $args->content_cut_size;
+            $widget_info->new_window = $args->new_window;
 
             $widget_info->duration_new = $args->duration_new * 60*60;
             $widget_info->thumbnail_type = $args->thumbnail_type;

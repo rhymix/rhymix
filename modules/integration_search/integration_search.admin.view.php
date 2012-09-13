@@ -7,6 +7,11 @@
 
     class integration_searchAdminView extends integration_search {
 
+	/**
+	 * Cofiguration of integration serach module
+	 *
+	 * @var object module config
+	 */
         var $config = null;
 
         /**

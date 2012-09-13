@@ -103,7 +103,7 @@
                 }
                 if($output->toBool() && $output->data && $vid) {
                     Context::set('vid', $output->data->domain, true);
-                    if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
+                    if(strtolower($mid)==strtolower($output->data->domain)) Context::set('mid',$output->data->mid,true);
                 }
                 if(!$output || !$output->data) { $domain = ''; unset($output); }
             }
@@ -740,6 +740,10 @@
 
                     foreach($extra_var_groups as $group) {
                         $extra_vars = $group->var;
+						if(!$extra_vars)
+						{
+							continue;
+						}
                         if(!is_array($group->var)) $extra_vars = array($group->var);
 
                         foreach($extra_vars as $key => $val) {
@@ -895,7 +899,7 @@
                     $title = $color->title->body;
                     $screenshot = $color->attrs->src;
                     if($screenshot) {
-                        $screenshot = sprintf("%sskins/%s/%s", $path, $skin, $screenshot);
+                        $screenshot = sprintf("%s%s/%s/%s", $path, $dir, $skin, $screenshot);
                         if(!file_exists($screenshot)) $screenshot = "";
                     } else $screenshot = "";
 
@@ -1128,17 +1132,17 @@
 				if(!is_dir(FileHandler::getRealPath($path))) continue;
 
                 // Get the number of xml files to create a table in schemas
-                $tmp_files = FileHandler::readDir($path."schemas", '/(\.xml)$/');
+                $tmp_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/');
                 $table_count = count($tmp_files);
                 // Check if the table is created
                 $created_table_count = 0;
-                for($j=0;$j<count($tmp_files);$j++) {
-                    list($table_name) = explode(".",$tmp_files[$j]);
+                for($j=0;$j<$table_count;$j++) {
+                    list($table_name) = explode('.',$tmp_files[$j]);
                     if($oDB->isTableExists($table_name)) $created_table_count ++;
                 }
                 // Get information of the module
+				$info = NULL;
                 $info = $this->getModuleInfoXml($module_name);
-                unset($obj);
 
                 $info->module = $module_name;
                 $info->category = $info->category;
@@ -1292,15 +1296,67 @@
          **/
         function syncSkinInfoToModuleInfo(&$module_info) {
             if(!$module_info->module_srl) return;
+
+			if(Mobile::isFromMobilePhone())
+			{
+				$cache_key = 'object_module_mobile_skin_vars:' . $module_info->module_srl;
+				$query = 'module.getModuleMobileSkinVars';
+			}
+			else
+			{
+				$cache_key = 'object_module_skin_vars:' . $module_info->module_srl;
+				$query = 'module.getModuleSkinVars';
+			}
+
             // cache controll
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport()){
-                    $cache_key = 'object_module_skin_vars:'.$module_info->module_srl;
                     $output = $oCacheHandler->get($cache_key);
             }
             if(!$output) {
                 $args->module_srl = $module_info->module_srl;
-                $output = executeQueryArray('module.getModuleSkinVars',$args);
+                $output = executeQueryArray($query,$args);
+                //insert in cache
+		        if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+            }
+            if(!$output->toBool() || !$output->data) return;
+
+            foreach($output->data as $val) {
+                if(isset($module_info->{$val->name})) continue;
+                $module_info->{$val->name} = $val->value;
+            }
+        }
+
+        /**
+         * Get mobile skin information of the module
+		 * @param $module_srl Sequence of module
+		 * @return array
+         **/
+        function getModuleMobileSkinVars($module_srl) {
+            $args->module_srl = $module_srl;
+            $output = executeQueryArray('module.getModuleMobileSkinVars',$args);
+            if(!$output->toBool() || !$output->data) return;
+
+            $skin_vars = array();
+            foreach($output->data as $val) $skin_vars[$val->name] = $val;
+            return $skin_vars;
+        }
+
+        /**
+         * Combine skin information with module information
+		 * @param $module_info Module information
+         **/
+        function syncMobileSkinInfoToModuleInfo(&$module_info) {
+            if(!$module_info->module_srl) return;
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object_module_mobile_skin_vars:'.$module_info->module_srl;
+                    $output = $oCacheHandler->get($cache_key);
+            }
+            if(!$output) {
+                $args->module_srl = $module_info->module_srl;
+                $output = executeQueryArray('module.getModuleMobileSkinVars',$args);
                 //insert in cache
 	        if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
             }

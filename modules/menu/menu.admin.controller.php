@@ -138,8 +138,11 @@
             unset($source_args->act);
             if($source_args->menu_open_window!="Y") $source_args->menu_open_window = "N";
             if($source_args->menu_expand !="Y") $source_args->menu_expand = "N";
+
+			if($source_args->menu_grant_default == -1) $source_args->group_srls = -1;
             if(!is_array($source_args->group_srls)) $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
 			else $source_args->group_srls = implode(',', $source_args->group_srls);
+
             $source_args->parent_srl = (int)$source_args->parent_srl;
 
 			if($source_args->cType == 'CREATE') $source_args->menu_url = $source_args->create_menu_url;
@@ -159,6 +162,11 @@
 	            $args->name = $source_args->menu_name_key;
 			else
 				$args->name = $source_args->menu_name;
+
+			if(!strstr($args->name, '$user_lang->'))
+			{
+				$args->name = htmlspecialchars($args->name);
+			}
 
             $args->url = trim($source_args->menu_url);
             $args->open_window = $source_args->menu_open_window;
@@ -601,12 +609,13 @@
 			$url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->menu->{$menuName}->index);
 			if(empty($url)) $url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->admin_index_act);
 			if(empty($url)) $url = getNotEncodedUrl('', 'module', 'admin');
+			$dbInfo = Context::getDBInfo();
 
 			$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 			$args->parent_srl = $requestArgs->parent_srl;
 			$args->menu_srl = $requestArgs->menu_srl;
 			$args->name = sprintf('{$lang->menu_gnb_sub[\'%s\']}', $menuName);
-			$args->url = $url;
+			$args->url = str_replace($dbInfo->default_url, '', $url);
 			$args->open_window = 'N';
 			$args->expand = 'N';
 			$args->normal_btn = '';
@@ -707,7 +716,7 @@
                     '$group_srls = array_keys($logged_info->group_list); '.
                 '} else { '.
                     '$is_admin = false; '.
-                    '$group_srsl = array(); '.
+                    '$group_srls = array(); '.
                 '}';
             // Create the xml cache file (a separate session is needed for xml cache)
             $xml_buff = sprintf(
@@ -806,7 +815,7 @@
                     $link = '<?php print $_names[$lang_type]; ?>';
                 }
                 // If the value of node->group_srls exists
-                if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
+                if($group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged&&%s))',$group_srls,$group_srls == -1?1:0);
                 else $group_check_code = "true";
                 $attribute = sprintf(
                     'node_srl="%s" parent_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?php }?>"',
@@ -865,7 +874,7 @@
                 if($node->url) $child_output['url_list'][] = $node->url;
                 $output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
                 // If node->group_srls value exists
-                if($node->group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$node->group_srls);
+                if($node->group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged && %s))',$node->group_srls,$node->group_srls == -1?1:0);
                 else $group_check_code = "true";
                 // List variables
                 $href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);

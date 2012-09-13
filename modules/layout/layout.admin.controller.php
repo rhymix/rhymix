@@ -143,38 +143,36 @@
                     }
                 }
             }
+
+			$tmpDir = sprintf('./files/attach/images/%s/tmp', $args->layout_srl);
             // Separately handle if a type of extra_vars is an image
             if($layout_info->extra_var) {
                 foreach($layout_info->extra_var as $name => $vars) {
                     if($vars->type!='image') continue;
 
-                    $image_obj = $extra_vars->{$name};
-                    $extra_vars->{$name} = $layout_info->extra_var->{$name}->value;
-                    // Get a variable on a request to delete
-                    $del_var = $extra_vars->{"del_".$name};
-                    unset($extra_vars->{"del_".$name});
-                    // Delete the old file if there is a request to delete or a new file is uploaded
-                    if($del_var == 'Y' || $image_obj['tmp_name']) {
-                        FileHandler::removeFile($extra_vars->{$name});
-                        $extra_vars->{$name} = '';
-                        if($del_var == 'Y' && !$image_obj['tmp_name']) continue;
-                    }
-                    // Ignore if the file is not successfully uploaded
-                    if(!$image_obj['tmp_name'] || !is_uploaded_file($image_obj['tmp_name'])) continue;
-                    // Ignore if the file is not an image (swf the paths ~)
-                    if(!preg_match("/\.(jpg|jpeg|gif|png|swf)$/i", $image_obj['name'])) continue;
-                    // Upload the file to a path
-                    $path = sprintf("./files/attach/images/%s/", $args->layout_srl);
-                    // Create a directory
-                    if(!FileHandler::makeDir($path)) continue;
+					$fileName = $extra_vars->{$name};
+					if($vars->value == $fileName)
+					{
+						continue;
+					}
 
-                    $filename = $path.$image_obj['name'];
-                    // Move the file
-                    if(!move_uploaded_file($image_obj['tmp_name'], $filename)) continue;
+					FileHandler::removeFile($vars->value);
 
-                    $extra_vars->{$name} = $filename;
+					if(!$fileName)
+					{
+						continue;
+					}
+
+					$pathInfo = pathinfo($fileName);
+					$tmpFileName = sprintf('%s/tmp/%s', $pathInfo['dirname'], $pathInfo['basename']);
+
+					if(!FileHandler::moveFile($tmpFileName, $fileName))
+					{
+						unset($extra_vars->{$name});
+					}
                 }
             }
+
             // Save header script into "config" of layout module
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
@@ -188,8 +186,9 @@
             $output = $this->updateLayout($args);
             if(!$output->toBool()) return $output;
 
-			$this->setRedirectUrl(Context::get('error_return_url'));
-			return $output;
+			FileHandler::removeDir($tmpDir);
+
+			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
         }
 
         /**
@@ -606,6 +605,140 @@
 			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
+		/**
+		 * layout copy
+		 * @return void
+		 */
+		function procLayoutAdminCopyLayout()
+		{
+			$sourceArgs = Context::getRequestVars();
+			if($sourceArgs->layout == 'faceoff')
+			{
+				return $this->stop('not supported');
+			}
+
+			if(!$sourceArgs->layout_srl)
+			{
+				return $this->stop('msg_empty_origin_layout');
+			}
+
+			if(!is_array($sourceArgs->title) || count($sourceArgs->title) == 0)
+			{
+				return $this->stop('msg_empty_target_layout');
+			}
+
+			$oLayoutModel = &getModel('layout');
+			$layout = $oLayoutModel->getLayout($sourceArgs->layout_srl);
+
+			$args->extra_vars = $oLayoutModel->getLayoutRawData($sourceArgs->layout_srl, array('extra_vars'));
+			$extra_vars = unserialize($args->extra_vars);
+
+			$oModuleController = &getController('module');
+			$layout_config->header_script = $extra_vars->header_script;
+
+            // Get information to create a layout
+            $args->site_srl = (int)$layout->site_srl;
+            $args->layout = $layout->layout;
+			$args->layout_type = $layout->type;
+			if(!$args->layout_type) $args->layout_type = "P";
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+			if(is_array($sourceArgs->title))
+			{
+				foreach($sourceArgs->title AS $key=>$value)
+				{
+					if(!trim($value))
+					{
+						continue;
+					}
+
+					$args->layout_srl = getNextSequence();
+					$args->title = $value;
+
+					// for header script
+					$oModuleController->insertModulePartConfig('layout', $args->layout_srl, $layout_config);
+
+					// Insert into the DB
+					$output = $this->insertLayout($args);
+					if(!$output->toBool())
+					{
+						$oDB->rollback();
+						return $output;
+					}
+
+					// initiate if it is faceoff layout
+					$this->initLayout($args->layout_srl, $args->layout);
+
+					// update layout info
+					$output = $this->updateLayout($args);
+					if (!$output->toBool())
+					{
+						$oDB->rollback();
+						return $output;
+					}
+
+					$this->_copyLayoutFile($layout->layout_srl, $args->layout_srl);
+				}
+			}
+			$oDB->commit();
+
+            $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				htmlHeader();
+				alertScript($lang->success_registed);
+				reload(true);
+				closePopupScript();
+				htmlFooter();
+				Context::close();
+				exit;
+			}
+		}
+
+		/**
+		 * Layout file copy
+		 * @param $sourceLayoutSrl origin layout number
+		 * @param $targetLayoutSrl origin layout number
+		 * @return void
+		 */
+		function _copyLayoutFile($sourceLayoutSrl, $targetLayoutSrl)
+		{
+			$oLayoutModel = &getModel('layout');
+			$sourceLayoutPath = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath($sourceLayoutSrl));
+			$targetLayoutPath = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath($targetLayoutSrl));
+
+			$sourceImagePath = $oLayoutModel->getUserLayoutImagePath($sourceLayoutSrl);
+			$targetImagePath = $oLayoutModel->getUserLayoutImagePath($targetLayoutSrl);
+			FileHandler::makeDir($targetImagePath);
+
+			$sourceFileList = $oLayoutModel->getUserLayoutFileList($sourceLayoutSrl);
+			foreach($sourceFileList as $key => $file)
+			{
+				if(is_readable($sourceLayoutPath.$file))
+				{
+					FileHandler::copyFile($sourceLayoutPath.$file, $targetLayoutPath.$file);
+					if($file == 'layout.html' || $file == 'layout.css')
+					{
+						$this->_changeFilepathInSource($targetLayoutPath.$file, $sourceImagePath, $targetImagePath);
+					}
+				}
+			}
+		}
+
+		/**
+		 * Change resource file path in Layout file
+		 * @param string $file
+		 * @return void
+		 */
+		function _changeFilepathInSource($file, $source, $target)
+		{
+			$content = FileHandler::readFile($file);
+			$content = str_replace($source, $target, $content);
+			FileHandler::writeFile($file, $content);
+		}
+
         /**
          * import layout
 		 * @param int $layout_srl
@@ -635,5 +768,90 @@
             // Remove uploaded file
             FileHandler::removeFile($source_file);
          }
+
+		/**
+		 * Upload config image
+		 */
+		function procLayoutAdminConfigImageUpload()
+		{
+			$layoutSrl = Context::get('layout_srl');
+			$name = Context::get('name');
+			$img = Context::get('img');
+
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile("after_upload_config_image.html");
+
+			if(!$img['tmp_name'] || !is_uploaded_file($img['tmp_name']))
+			{
+				Context::set('msg', Context::getLang('upload failed'));
+				return;
+			}
+
+			if(!preg_match('/\.(jpg|jpeg|gif|png|swf)$/i', $img['name']))
+			{
+				Context::set('msg', Context::getLang('msg_layout_image_target'));
+				return;
+			}
+
+			$path = sprintf('./files/attach/images/%s/', $layoutSrl);
+			$tmpPath = $path . 'tmp/';
+			if(!FileHandler::makeDir($tmpPath))
+			{
+				Context::set('msg', Context::getLang('make directory failed'));
+				return;
+			}
+
+			$ext = substr(strrchr($img['name'],'.'),1);
+			$_fileName = md5(crypt(rand(1000000,900000), rand(0,100))).'.'.$ext;
+			$fileName = $path . $_fileName;
+			$tmpFileName = $tmpPath . $_fileName;
+
+			if(!move_uploaded_file($img['tmp_name'], $tmpFileName))
+			{
+				Context::set('msg', Context::getLang('move file failed'));
+				return;
+			}
+
+			Context::set('name', $name);
+			Context::set('fileName', $fileName);
+			Context::set('tmpFileName', $tmpFileName);
+		}
+
+		/**
+		 * Delete config image
+		 */
+		function procLayoutAdminConfigImageDelete()
+		{
+			$layoutSrl = Context::get('layout_srl');
+			$name = Context::get('name');
+
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile("after_delete_config_image.html");
+
+			$oModel = &getModel('layout');
+			$layoutInfo = $oModel->getLayout($layoutSrl);
+
+			if($layoutInfo->extra_var_count)
+			{
+				foreach($layoutInfo->extra_var as $varId => $val)
+				{
+					$newLayoutInfo->{$varId} = $val->value;
+				}
+			}
+
+			unset($newLayoutInfo->{$name});
+
+			$args->layout_srl = $layoutSrl;
+			$args->extra_vars = serialize($newLayoutInfo);
+			$output = $this->updateLayout($args);
+			if(!$output->toBool())
+			{
+				Context::set('msg', Context::getLang($output->getMessage()));
+				return $output;
+			}
+
+			FileHandler::removeFile($layoutInfo->extra_var->{$name}->value);
+			Context::set('name', $name);
+		}
     }
 ?>

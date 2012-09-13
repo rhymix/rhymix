@@ -1,9 +1,10 @@
 <load target="../../admin/tpl/js/admin.js" usecdn="true" />
 <load target="../../admin/tpl/css/admin.css" usecdn="true" />
-<load cond="$lang_type='ko'" target="../../admin/tpl/css/admin_ko.css" usecdn="true" />
-<load cond="$lang_type='en'" target="../../admin/tpl/css/admin_en.css" usecdn="true" />
+<load cond="$lang_type=='ko'" target="../../admin/tpl/css/admin_ko.css" usecdn="true" />
+<load cond="$lang_type=='en'" target="../../admin/tpl/css/admin_en.css" usecdn="true" />
 <load target="css/widget.css" usecdn="true" />
 <load target="js/generate_code.js" usecdn="true" />
+<load target="js/multi_lang.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
 
 <script type="text/javascript">
@@ -63,13 +64,29 @@
 				</block>
 				{@$not_first = true}
 				<li>
-					<p class="q">{$var->name}</p>
-					<p class="a">
-						<input cond="$var->type == 'text'" type="text" name="{$id}" />
+					<p class="q"><label for="{$id}">{$var->name}</label></p>
+					<div class="a extra_vars">
+						<div cond="$var->type == 'text'" class="multiLangEdit">
+							{@$use_multilang = TRUE}
+							<input type="hidden" name="{$id}" value="" class="vLang" />
+							<input type="text" id="{$id}" class="vLang" />
+							<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+							<script>
+								xe.registerApp(new xe.MultiLangManager('{$id}'));
+							</script>
+						</div>
 
 						<input cond="$var->type == 'color'" type="text" name="{$id}" class="color-indicator" />
 
-						<textarea cond="$var->type == 'textarea'" name="{$id}" rows="8" cols="42"></textarea>
+						<div cond="$var->type == 'textarea'" class="multiLangEdit">
+							{@$use_multilang_textarea = TRUE}
+							<input type="hidden" name="{$id}" value="" class="vLang" />
+							<textarea id="{$id}" rows="8" cols="42"></textarea>
+							<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingaul}</a></span>
+							<script>
+								xe.registerApp(new xe.MultiLangManager('{$id}'));
+							</script>
+						</div>
 
 						<select cond="$var->type == 'select'" name="{$id}">
 							<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
@@ -80,7 +97,7 @@
 							<a href="#modalFilebox" class="modalAnchor filebox">{$lang->cmd_select}</a>
 							{@$use_filebox = TRUE}
 						</block>
-					</p>
+					</div>
 					<p class="desc">{$var->description}</p>
 				</li>
 			</block>
@@ -91,6 +108,11 @@
 			<span class="btn small"><input type="submit" value="{$lang->cmd_setup}"  /></span>
 		</div>
 	</form>
+<script>
+	xe.current_lang = "{$lang_type}";
+</script>
 	<include target="widget_generate_code.filebox.html" />
+	<include target="widget_generate_code.multilang.html" />
+	<include target="widget_generate_code.multilang.textarea.html" />
 
 </div>

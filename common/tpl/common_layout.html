@@ -1,6 +1,9 @@
 {@
 	$db_info   = Context::getDBInfo();
 	$lang_type = Context::getLangType();
+	$ssl_actions = Context::getSSLActions();
+	$css_files=Context::getCssFile();
+	$js_files=Context::getJsFile();
 }
 <!--@if($db_info->use_html5=='Y')-->
 <!DOCTYPE html>
@@ -9,8 +12,6 @@
 <!--@end-->
 <html lang="{$lang_type}" xmlns="http://www.w3.org/1999/xhtml"|cond="$db_info->use_html5!='Y'">
 <head>
-{@$css_files=Context::getCssFile()}
-{@$js_files=Context::getJsFile()}
 <!-- META -->
 	<meta charset="UTF-8" cond="$db_info->use_html5=='Y'"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" cond="$db_info->use_html5!='Y'" />
 
@@ -48,10 +49,10 @@
 	var current_url = "{$current_url}";
 	var request_uri = "{$request_uri}";
 <block cond="$vid">var xeVid = "{$vid}";</block>
-	var current_mid = "{$mid}";
-	var waiting_message = "{$lang->msg_call_server}";
-	var ssl_actions = new Array(<block cond="count($ssl_actions)">"{implode('","',$ssl_actions)}"</block>);
-	var default_url = "{Context::getDefaultUrl()}";
+var current_mid = "{$mid}";
+var waiting_message = "{$lang->msg_call_server}";
+var ssl_actions = new Array(<block cond="count($ssl_actions)">"{implode('","',array_keys($ssl_actions))}"</block>);
+var default_url = "{Context::getDefaultUrl()}";
 <block cond="Context::get('_http_port')">var http_port = {Context::get("_http_port")};</block>
 <block cond="Context::get('_https_port')">var https_port = {Context::get("_https_port")};</block>
 <block cond="Context::get('_use_ssl') && Context::get('_use_ssl') == 'always'">var enforce_ssl = true;</block>
@@ -65,7 +66,6 @@
 	{Context::getHtmlFooter()}
 <!-- ETC -->
 	<div class="wfsr"></div>
-{@$ssl_actions=Context::getSSLActions()}
 {@ $js_body_files = Context::getJsFile('body') }
 <block loop="$js_body_files => $key, $js_file">
 	<block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block><script type="text/javascript"|cond="$db_info->use_html5!='Y'" src="{$js_file['file']}"></script><block cond="$js_file['targetie']"><![endif]--></block>

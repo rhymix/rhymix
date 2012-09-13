@@ -71,7 +71,7 @@ class Validator
 
 		// predefined rules
 		$this->addRule(array(
-			'email'        => '/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/',
+			'email'        => '/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/',
 			'userid'       => '/^[a-z]+[\w-]*[a-z0-9_]+$/i',
 			'url'          => '/^(https?|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-]+)+(:\d+)?/',
 			'alpha'        => '/^[a-z]*$/i',
@@ -199,7 +199,7 @@ class Validator
 		$fields = array_map(array($this, 'arrayTrim'), $fields);
 		$field_names = array_keys($fields);
 
-		$filters = $this->_filters;
+		$filters = array();
 
 		// get field names matching patterns
 		foreach($this->_filters as $key=>$filter) {
@@ -209,6 +209,10 @@ class Validator
 			}elseif(substr($key,-2) == '[]'){
 				$filters[substr($key,0,-2)] = $filter;
 				unset($filters[$key]);
+			}
+			else
+			{
+				$filters[$key] = $filter;
 			}
 
 			if(!count($names)) continue;
@@ -222,9 +226,18 @@ class Validator
 
 		foreach($filters as $key=>$filter) {
 			$fname  = preg_replace('/\[\]$/', '', $key);
-			$exists = array_key_exists($key, $fields);
 			$filter = array_merge($filter_default, $filter);
-			$value  = $exists ? $fields[$fname] : null;
+
+			if(preg_match("/(^[a-z_]*)[\[](?:\'|\")?([a-z_]*)(?:\'|\")?[\]]$/i", $key, $matches))
+			{
+				$exists = array_key_exists($matches[1], $fields);
+				$value  = $exists ? $fields[$matches[1]][$matches[2]] : null;
+			}
+			else
+			{
+				$exists = array_key_exists($key, $fields);
+				$value  = $exists ? $fields[$fname] : null;
+			}
 
 			if(is_array($value)) $value = implode('', $value);
 

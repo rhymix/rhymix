@@ -295,10 +295,10 @@
 .xpress-editor .tool li.table .layer fieldset.color dd input#table_border_width{width:35px;height:13px}
 .xpress-editor .tool li.table .layer fieldset.color dd input#table_border_color,
 .xpress-editor .tool li.table .layer fieldset.color dd input#table_bg_color{width:70px;height:15px;*margin-right:3px}
-.xpress-editor .tool li.table .layer table{position:absolute;top:18px;left:75px;width:137px;height:40px;table-layout:fixed}
+.xpress-editor .tool li.table .layer table{position:absolute;top:18px;left:75px;width:137px;height:40px;table-layout:fixed;border-collapse:separate;border:0}
 .xpress-editor .tool li.table .layer table *{font-size:0;line-height:0}
 .xpress-editor .tool li.table .layer table th,
-.xpress-editor .tool li.table .layer table td{text-align:center}
+.xpress-editor .tool li.table .layer table td{text-align:center;padding:0;border:0}
 .xpress-editor .tool li.table .layer .btn_area{position:absolute;bottom:12px;padding:0;z-index:1}
 .xpress-editor .tool li.table .layer .palette{display:none;position:absolute;z-index:2;left:11px;width:204px;padding:8px 7px 7px 7px;_padding-right:6px;background-color:#fbfbfb;border:1px solid #c5c5c5;border-right:1px solid #9f9f9f;border-bottom:1px solid #9f9f9f}
 .xpress-editor .tool li.table .layer.p1 .palette{display:block;top:163px}

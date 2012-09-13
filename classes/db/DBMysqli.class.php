@@ -217,8 +217,14 @@
 			$stmt = $result;
 			$meta = mysqli_stmt_result_metadata($stmt);
 			$fields = mysqli_fetch_fields($meta);
-			
-			foreach($fields as $field) 
+
+            /**
+             * Mysqli has a bug that causes LONGTEXT columns not to get loaded
+             * Unless store_result is called before
+             * MYSQLI_TYPE for longtext is 252
+             */
+            $longtext_exists = false;
+            foreach($fields as $field)
 			{
 				if(isset($resultArray[$field->name])) // When joined tables are used and the same column name appears twice, we should add it separately, otherwise bind_result fails
 					$field->name = 'repeat_' . $field->name;				
@@ -226,8 +232,15 @@
 				// Array passed needs to contain references, not values
 				$row[$field->name] = "";
 				$resultArray[$field->name] = &$row[$field->name];
+
+                if($field->type == 252) $longtext_exists = true;
 			}
 			$resultArray = array_merge(array($stmt), $resultArray);
+
+            if($longtext_exists)
+            {
+                mysqli_stmt_store_result($stmt);
+            }
 
 			call_user_func_array('mysqli_stmt_bind_result', $resultArray);
 
@@ -370,6 +383,4 @@
 			return mysqli_free_result($result);		
 		}		
     }
-
-return new DBMysqli;
 ?>

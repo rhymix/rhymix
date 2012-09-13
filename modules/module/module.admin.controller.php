@@ -73,7 +73,8 @@
         /**
          * @brief Copy Module
          **/
-        function procModuleAdminCopyModule() {
+        function procModuleAdminCopyModule() 
+		{
             // Get information of the target module to copy
             $module_srl = Context::get('module_srl');
             if(!$module_srl) return;
@@ -114,6 +115,7 @@
 			}
 
 
+
             $oDB = &DB::getInstance();
             $oDB->begin();
             // Copy a module
@@ -130,6 +132,19 @@
                 // Create a module
                 $output = $oModuleController->insertModule($clone_args);
                 $module_srl = $output->get('module_srl');
+
+				if($module_info->module == 'page' && $extra_vars->page_type == 'ARTICLE')
+				{
+					// copy document
+					$oDocumentAdminController = &getAdminController('document');
+					$copyOutput = $oDocumentAdminController->copyDocumentModule(array($extra_vars->document_srl), $module_srl, $module_info->category_srl);
+					$document_srls = $copyOutput->get('copied_srls');
+					if($document_srls && count($document_srls) > 0)
+					{
+						$extra_vars->document_srl = array_pop($document_srls);
+					}
+				}
+
                 // Grant module permissions
                 if(count($grant)) $oModuleController->insertModuleGrants($module_srl, $grant);
 				if ($extra_vars) $oModuleController->insertModuleExtraVars($module_srl, $extra_vars);
@@ -232,23 +247,45 @@
         function procModuleAdminUpdateSkinInfo() {
             // Get information of the module_srl
             $module_srl = Context::get('module_srl');
+			$mode = Context::get('_mode');
+			$mode = $mode === 'P' ? 'P' : 'M';
 
             $oModuleModel = &getModel('module');
-			$columnList = array('module_srl', 'module', 'skin');
+			$columnList = array('module_srl', 'module', 'skin', 'mskin');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             if($module_info->module_srl) {
-                $skin = $module_info->skin;
+				if($mode === 'M')
+				{
+					$skin = $module_info->mskin;
+				}
+				else
+				{
+                	$skin = $module_info->skin;
+				}
+
                 // Get skin information (to check extra_vars)
                 $module_path = './modules/'.$module_info->module;
-                $skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);
-                $skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
+
+				if($mode === 'M')
+				{
+					$skin_info = $oModuleModel->loadSkinInfo($module_path, $skin, 'm.skins');
+					$skin_vars = $oModuleModel->getModuleMobileSkinVars($module_srl);
+				}
+				else
+				{
+					$skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);
+					$skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
+				}
+
                 // Check received variables (unset such variables as act, module_srl, page, mid, module)
                 $obj = Context::getRequestVars();
                 unset($obj->act);
+                unset($obj->error_return_url);
                 unset($obj->module_srl);
                 unset($obj->page);
                 unset($obj->mid);
                 unset($obj->module);
+                unset($obj->_mode);
                 // Separately handle if a type of extra_vars is an image in the original skin_info
                 if($skin_info->extra_vars) {
                     foreach($skin_info->extra_vars as $vars) {
@@ -306,21 +343,24 @@
                 }
                 */
                 $oModuleController = &getController('module');
-                $oModuleController->deleteModuleSkinVars($module_srl);
-                // Register
-                $oModuleController->insertModuleSkinVars($module_srl, $obj);
-            }
-        	//remove from cache
-            $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()){
-            	$cache_key = 'object:'.$module_srl;
-            	$oCacheHandler->delete($cache_key);
+
+				if($mode === 'M')
+				{
+					$output = $oModuleController->insertModuleMobileSkinVars($module_srl, $obj);
+				}
+				else
+				{
+					$output = $oModuleController->insertModuleSkinVars($module_srl, $obj);
+				}
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+
             }
 
-            $this->setLayoutPath('./common/tpl');
-            $this->setLayoutFile('default_layout.html');
-            $this->setTemplatePath('./modules/module/tpl');
-            $this->setTemplateFile("top_refresh.html");
+			$this->setMessage('success_saved');
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
         /**
@@ -336,15 +376,24 @@
 
             $oModuleModel = &getModel('module');
             $oModuleController= &getController('module');
-			$columnList = array('module_srl', 'module', 'use_mobile', 'mlayout_srl', 'menu_srl', 'site_srl', 'mid', 'mskin', 'browser_title', 'is_default', 'content', 'mcontent', 'open_rss', 'regdate');
+			$columnList = array('module_srl', 'module', 'menu_srl', 'site_srl', 'mid', 'browser_title', 'is_default', 'content', 'mcontent', 'open_rss', 'regdate');
+			$updateList = array('module_category_srl','layout_srl','skin','mlayout_srl','mskin','description','header_text','footer_text'); //use_mobile
+			foreach($updateList as $key=>$val)
+			{
+				if(!$vars->{$val} && $vars->{$val} !== 0)
+				{
+					unset($updateList[$key]);
+					$columnList[] = $val;
+				}
+			}
+
             foreach($module_srls as $module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-                $module_info->module_category_srl = $vars->module_category_srl;
-                $module_info->layout_srl = $vars->layout_srl;
-                $module_info->skin = $vars->skin;
-                $module_info->description = $vars->description;
-                $module_info->header_text = $vars->header_text;
-                $module_info->footer_text = $vars->footer_text;
+
+				foreach($updateList as $val)
+				{
+					$module_info->{$val} = $vars->{$val};
+				}
                 $output = $oModuleController->updateModule($module_info);
             }
 
@@ -583,6 +632,13 @@
                 foreach($mid_list as $module => $val) {
                     if(!$selected_module) $selected_module = $module;
                     $xml_info = $oModuleModel->getModuleInfoXml($module);
+
+					if(!$xml_info)
+					{
+						unset($mid_list[$module]);
+						continue;
+					}
+
                     $mid_list[$module]->title = $xml_info->title;
 
 					// change module category srl to title

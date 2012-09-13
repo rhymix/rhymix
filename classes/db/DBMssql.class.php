@@ -734,6 +734,4 @@
 		}
 
     }
-
-return new DBMssql;
 ?>

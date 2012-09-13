@@ -1,0 +1,10 @@
+<query id="insertModuleMobileSkinVars" action="insert">
+    <tables>
+        <table name="module_mobile_skins" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="name" var="name" notnull="notnull" />
+        <column name="value" var="value" notnull="notnull" />
+    </columns>
+</query>

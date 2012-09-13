@@ -2,47 +2,10 @@
 
 <h3 class="pTitle1">{$lang->cmd_view_member_info}</h3>
     <table cellspacing="0" cellpadding="0" class="rowTable">
-			<!--@foreach($member_config->signupForm as $no=>$formInfo)-->
-			<!--@if($formInfo->isUse && ($formInfo->name != 'password' && $formInfo->name != 'find_account_question'))-->
-			<!--@if($formInfo->isDefaultForm)-->
-	{@$title = $formInfo->title}
-	{@$value = $memberInfo[$formInfo->name]}
-				<!--@if($formInfo->name == 'profile_image' && $memberInfo['profile_image'])-->
-	{@$target = $memberInfo['profile_image']}
-	{@$value = '<img src="'.$target->src.'" />'}
-				<!--@elseif($formInfo->name == 'image_name' && $memberInfo['image_name'])-->
-	{@$target = $memberInfo['image_name']}
-	{@$value = '<img src="'.$target->src.'" />'}
-				<!--@elseif($formInfo->name == 'image_mark' && $memberInfo['image_mark'])-->
-	{@$target = $memberInfo['image_mark']}
-	{@$value = '<img src="'.$target->src.'" />'}
-				<!--@end-->
-			<!--@else-->
-	{@$title = $extend_form_list[$formInfo->member_join_form_srl]->column_title}
-	{@$orgValue = $extend_form_list[$formInfo->member_join_form_srl]->value}
-			<!--@if($formInfo->type=='tel')-->
-				{@$value = htmlspecialchars($orgValue[0])}
-					<!--@if($orgValue[1])-->-<!--@end-->
-				{@$value .= htmlspecialchars($orgValue[1])}
-					<!--@if($orgValue[2])-->-<!--@end-->
-				{@$value .= htmlspecialchars($orgValue[2])}
-			<!--@elseif($formInfo->type=='kr_zip')-->
-				{@$value = htmlspecialchars($orgValue[0])}<!--@if($orgValue[1]&&$orgValue[0])--><br /><!--@end-->{@$value .= htmlspecialchars($orgValue[1])}
-			<!--@elseif($formInfo->type=='checkbox' && is_array($orgValue))-->
-				{@$value = htmlspecialchars(implode(", ",$orgValue))}
-			<!--@elseif($formInfo->type=='date')-->
-				{@$value = zdate($orgValue, "Y-m-d")}
-			<!--@else-->
-				{@$value = nl2br(htmlspecialchars($orgValue))}
-			<!--@end-->
-		<!--@end-->
-
-		<tr>
-			<th scope="row" >{$title} <em cond="$formInfo->required || $formInfo->mustRequired">*</em></th>
-			<td class="text">{$value}</td>
+		<tr loop="$displayDatas => $item">
+			<th scope="row" >{$item->title} <em cond="$item->required || $item->mustRequired">*</em></th>
+			<td class="text">{$item->value}</td>
 		</tr>
-		<!--@end-->
-		<!--@end-->
 
 		<tr>
 			<th scope="row">{$lang->group}</th>

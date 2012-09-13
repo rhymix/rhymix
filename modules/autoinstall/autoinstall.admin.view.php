@@ -323,6 +323,11 @@
                             {
                                 $package->depends[$key]->need_update = true;
                                 $package->package_srl .= ",". $dep->package_srl;
+
+								if($dep->path === '.')
+								{
+									Context::set('contain_core', TRUE);
+								}
                             }
                             else
                             {
@@ -338,6 +343,11 @@
                     $package->need_update = version_compare($package->version, $installedPackage->current_version, ">");
                 }
                 Context::set("package", $package);
+
+				if($package->path === '.')
+				{
+					Context::set('contain_core', TRUE);
+				}
             }
             if(!$_SESSION['ftp_password'])
             {

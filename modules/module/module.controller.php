@@ -472,23 +472,10 @@
 
         /**
          * @brief Change other information of the module
-         **/
+		 * @deprecated
+         */
         function updateModuleSkinVars($module_srl, $skin_vars) {
-            // skin_vars setting
-            $args->module_srl = $module_srl;
-            $args->skin_vars = $skin_vars;
-            $output = executeQuery('module.updateModuleSkinVars', $args);
-            if(!$output->toBool()) return $output;
-
-            //remove from cache
-            $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport())
-            {
-                $cache_key = 'object_module_skin_vars:'.$module_srl;
-                $oCacheHandler->delete($cache_key);
-            }
-
-            return $output;
+			return new Object();
         }
 
         /**
@@ -590,12 +577,44 @@
             return executeQuery('module.deleteAdminId', $args);
         }
 
-        /**
+		/**
+		 * Insert skin vars to a module
+		 * @param $module_srl Sequence of module
+		 * @param $obj Skin variables
+		 */
+		function insertModuleSkinVars($module_srl, $obj)
+		{
+			return $this->_insertModuleSkinVars($module_srl, $obj, 'P');
+		}
+
+		/**
+		 * Insert mobile skin vars to a module
+		 * @param $module_srl Sequence of module
+		 * @param $obj Skin variables
+		 */
+		function insertModuleMobileSkinVars($module_srl, $obj)
+		{
+			return $this->_insertModuleSkinVars($module_srl, $obj, 'M');
+		}
+
+
+		/**
          * @brief Insert skin vars to a module
          **/
-        function insertModuleSkinVars($module_srl, $obj) {
-            $this->deleteModuleSkinVars($module_srl);
-            if(!$obj || !count($obj)) return;
+        function _insertModuleSkinVars($module_srl, $obj, $mode) {
+			$mode = $mode === 'P' ? 'P' : 'M';
+
+			$oDB = DB::getInstance();
+			$oDB->begin();
+
+            $output = $this->_deleteModuleSkinVars($module_srl, $mode);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+
+            if(!$obj || !count($obj)) return new Object();
 
             $args->module_srl = $module_srl;
             foreach($obj as $key => $val) {
@@ -609,25 +628,70 @@
                 $args->name = trim($key);
                 $args->value = trim($val);
                 if(!$args->name || !$args->value) continue;
-                executeQuery('module.insertModuleSkinVars', $args);
+
+				if($mode === 'P')
+				{
+                	$output = executeQuery('module.insertModuleSkinVars', $args);
+				}
+				else
+				{
+                	$output = executeQuery('module.insertModuleMobileSkinVars', $args);
+				}
+				if(!$output->toBool())
+				{
+					return $output;
+					$oDB->rollback();
+				}
             }
+
+			$oDB->commit;
+			return new Object();
         }
+
+		/**
+		 * Remove skin vars ofa module
+		 * @param $module_srl seqence of module
+		 */
+		function deleteModuleSkinVars($module_srl)
+		{
+			return $this->_deleteModuleSkinVars($module_srl, 'P');
+		}
+
+		/**
+		 * Remove mobile skin vars ofa module
+		 * @param $module_srl seqence of module
+		 */
+		function deleteModuleMobileSkinVars($module_srl)
+		{
+			return $this->_deleteModuleSkinVars($module_srl, 'M');
+		}
 
         /**
          * @brief Remove skin vars of a module
          **/
-        function deleteModuleSkinVars($module_srl) {
+        function _deleteModuleSkinVars($module_srl, $mode) {
             $args->module_srl = $module_srl;
+			$mode = $mode === 'P' ? 'P' : 'M';
+
+			if($mode === 'P')
+			{
+				$cache_key = 'object_module_skin_vars:'.$module_srl;
+				$query = 'module.deleteModuleSkinVars';
+			}
+			else
+			{
+				$cache_key = 'object_module_mobile_skin_vars:'.$module_srl;
+				$query = 'module.deleteModuleMobileSkinVars';
+			}
 
             //remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
             {
-                $cache_key = 'object_module_skin_vars:'.$module_srl;
                 $oCacheHandler->delete($cache_key);
             }
 
-            return executeQuery('module.deleteModuleSkinVars', $args);
+            return executeQuery($query, $args);
         }
 
         /**

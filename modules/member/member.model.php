@@ -21,7 +21,15 @@
         /**
          * @brief Return member's configuration
          **/
-        function getMemberConfig() {
+        function getMemberConfig() 
+		{
+			static $member_config;
+
+			if($member_config)
+			{
+				return $member_config;
+			}
+
             // Get member configuration stored in the DB
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
@@ -31,12 +39,13 @@
 				foreach($config->signupForm AS $key=>$value)
 				{
 					$config->signupForm[$key]->title = Context::getLang($value->title);
+					if($config->signupForm[$key]->isPublic != 'N') $config->signupForm[$key]->isPublic = 'Y';
+					if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
 				}
 			}
 
             // Get terms of user
-            $agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
-            if(!$config->agreement && file_exists($agreement_file)) $config->agreement = FileHandler::readFile($agreement_file);
+			$config->agreement = memberModel::_getAgreement();
 
             if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
             if(!$config->image_name_max_width) $config->image_name_max_width = 90;
@@ -45,17 +54,57 @@
             if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
             if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
             if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
-            if(!$config->skin) $config->skin = "default";
-            if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = "xpresseditor";
+            if(!$config->skin) $config->skin = 'default';
+            if(!$config->colorset) $config->colorset = 'white';
+            if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'xpresseditor';
             if(!$config->group_image_mark) $config->group_image_mark = "N";
 
 			if (!$config->identifier) $config->identifier = 'user_id';
 
 			if (!$config->max_error_count) $config->max_error_count = 10;
 			if (!$config->max_error_count_time) $config->max_error_count_time = 300;
+			if (!$config->layout_srl)
+			{
+				$oModuleModel = &getModel('module');
+				$defaultModuleInfo = $oModuleModel->getDefaultMid();
+				$config->layout_srl = $defaultModuleInfo->layout_srl;
+			}
+
+			if (!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'xpresseditor';
+			if (!$config->sel_editor_colorset) $config->sel_editor_colorset = 'white';
+
+			$member_config = $config;
 
             return $config;
         }
+
+		function _getAgreement()
+		{
+            $agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
+			if(is_readable($agreement_file))
+			{
+				return FileHandler::readFile($agreement_file);
+			}
+
+            $db_info = Context::getDBInfo();
+			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . $db_info->lang_type . '.txt';
+			if(is_readable($agreement_file))
+			{
+				return FileHandler::readFile($agreement_file);
+			}
+
+			$lang_selected = Context::loadLangSelected();
+			foreach($lang_selected as $key => $val)
+			{
+				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . $key . '.txt';
+				if(is_readable($agreement_file))
+				{
+					return FileHandler::readFile($agreement_file);
+				}
+			}
+
+			return null;
+		}
 
         /**
          * @brief Display menus of the member
@@ -174,7 +223,7 @@
             if(!$user_id) return;
 
             $args->user_id = $user_id;
-            $output = executeQuery('member.getMemberInfo', $args, $columnList);
+            $output = executeQuery('member.getMemberInfo', $args);
             if(!$output->toBool()) return $output;
             if(!$output->data) return;
 
@@ -410,24 +459,33 @@
          * @brief Get a list of groups
          **/
         function getGroups($site_srl = 0) {
-            if(!$GLOBALS['__group_info__'][$site_srl]) {
-		if(!isset($site_srl)) $site_srl = 0;
-                $args->site_srl = $site_srl;
+			if(!$GLOBALS['__group_info__'][$site_srl]) 
+			{
+				$result = array();
+
+				if(!isset($site_srl))
+				{
+					$site_srl = 0;
+				}
+				$args->site_srl = $site_srl;
 				$args->sort_index = 'list_order';
 				$args->order_type = 'asc';
-                $output = executeQuery('member.getGroups', $args);
-                if(!$output->data) return;
+				$output = executeQueryArray('member.getGroups', $args);
+				if(!$output->toBool() || !$output->data)
+				{
+					return array();
+				}
 
-                $group_list = $output->data;
-                if(!is_array($group_list)) $group_list = array($group_list);
+				$group_list = $output->data;
 
-                foreach($group_list as $val) {
-                    $result[$val->group_srl] = $val;
-                }
+				foreach($group_list as $val) 
+				{
+					$result[$val->group_srl] = $val;
+				}
 
-                $GLOBALS['__group_info__'][$site_srl] = $result;
-            }
-            return $GLOBALS['__group_info__'][$site_srl];
+				$GLOBALS['__group_info__'][$site_srl] = $result;
+			}
+			return $GLOBALS['__group_info__'][$site_srl];
         }
 
         /**
@@ -499,6 +557,35 @@
             // Return the result
             return $this->join_form_list;
         }
+
+		/**
+		 * get used join form list.
+		 *
+		 * @return array $joinFormList
+		 **/
+		function getUsedJoinFormList()
+		{
+			$args->sort_index = "list_order";
+			$output = executeQueryArray('member.getJoinFormList', $args);
+
+			if(!$output->toBool())
+			{
+				return array();
+			}
+
+			$joinFormList = array();
+			foreach($output->data as $val)
+			{
+				if($val->is_active != 'Y')
+				{
+					continue;
+				}
+
+				$joinFormList[] = $val;
+			}
+
+			return $joinFormList;
+		}
 
         /**
          * @brief Combine extend join form and member information (used to modify member information)
@@ -583,6 +670,17 @@
 			return $output->data;
 		}
 
+		function getDeniedNickNames()
+		{
+			$output = executeQueryArray('member.getDeniedNickNames');
+			if(!$output->toBool())
+			{
+				return array();
+			}
+
+			return $output->data;
+		}
+
         /**
          * @brief Verify if ID is denied
          **/
@@ -593,6 +691,20 @@
             return false;
         }
 
+        /**
+         * @brief Verify if nick name is denied
+         **/
+        function isDeniedNickName($nickName) 
+		{
+            $args->nick_name = $nickName;
+            $output = executeQuery('member.chkDeniedNickName', $args);
+            if($output->data->count) return true;
+			if(!$output->toBool())
+			{
+				return true;
+			}
+            return false;
+        }
         /**
          * @brief Get information of the profile image
          **/
@@ -765,56 +877,6 @@
 			if($isSha1 && $hashed_password == md5(sha1(md5($password_text)))) return true;
 
             return false;
-        }
-
-        /**
-         * @brief Return all the open IDs of the member
-         **/
-        function getMemberOpenIDByMemberSrl($member_srl) {
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-
-            $result = array();
-            if ($config->enable_openid != 'Y') return $result;
-
-            $args->member_srl = $member_srl;
-            $output = executeQuery('member.getMemberOpenIDByMemberSrl', $args);
-
-            if (!$output->data) {
-            }
-            else if (is_array($output->data)) {
-                foreach($output->data as $row) {
-                    $result[] = $row;
-                }
-            }
-            else {
-                $result[] = $output->data;
-            }
-
-            foreach($result as $row) {
-                $openid = $row->openid;
-                $bookmarklet_header = "javascript:var%20U='";
-                $bookmarklet_footer = "';function%20Z(W){var%20X=/(openid|ident)/i;try{var%20F=W.frames;var%20E=W.document.getElementsByTagName('input');for(var%20i=0;i<E.length;i++){var%20A=E[i];if(A.type=='text'&&X.test(A.name)){if(!J)J=E[i]}if(A.name=='submit'){V=A}}for(var%20i=0;i<F.length;i++){Z(F[i]);}}catch(e){}}var%20J,V;Z(window);try{try{V.parentNode.removeChild(V);}catch(z){}J.value=U;J.form.submit();}catch(e){top.document.location.href=((/^https?:\/\//img).test(U)?'':'http://')+U;}";
-                $row->bookmarklet = $bookmarklet_header . $openid . $bookmarklet_footer;
-            }
-
-            return $result;
-        }
-
-        /**
-         * @brief Return the member of the open ID.
-         **/
-        function getMemberSrlByOpenID($openid) {
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-
-            if ($config->enable_openid != 'Y') return $result;
-
-            $args->member_srl = $member_srl;
-            $output = executeQuery('member.getMemberSrlByOpenID', $args);
-
-            if (!$output->data) return null;
-            return $output->data->member_srl;
         }
 
 		function getAdminGroupSrl($site_srl = 0)

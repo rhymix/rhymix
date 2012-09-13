@@ -541,18 +541,6 @@
 		<value xml:lang="zh-TW"><![CDATA[給予點數]]></value>
 	</item>
 	<item name="search_target_list" type="array">
-		<item name="email_address">
-			<value xml:lang="ko"><![CDATA[이메일]]></value>
-			<value xml:lang="en"><![CDATA[Email Address]]></value>
-			<value xml:lang="jp"><![CDATA[メールアドレス]]></value>
-			<value xml:lang="zh-CN"><![CDATA[邮箱地址]]></value>
-			<value xml:lang="zh-TW"><![CDATA[電子郵件]]></value>
-			<value xml:lang="fr"><![CDATA[Mél]]></value>
-			<value xml:lang="ru"><![CDATA[Email]]></value>
-			<value xml:lang="es"><![CDATA[Dirección de Email]]></value>
-			<value xml:lang="tr"><![CDATA[E-posta Adresi]]></value>
-			<value xml:lang="vi"><![CDATA[Địa chỉ Email]]></value>
-		</item>
 		<item name="nick_name">
 			<value xml:lang="ko"><![CDATA[닉네임]]></value>
 			<value xml:lang="en"><![CDATA[Nick Name]]></value>

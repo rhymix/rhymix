@@ -49,6 +49,20 @@ function deleteFile(layout_srl,filename){
     });
 }
 
+function addLayoutCopyInputbox()
+{
+	var html = '<tr>';
+	html += '<td><input type="text" name="title[]" size="50" /></td>';
+	html += '<td><span class="btn"><input type="button" value="'+addLang+'" onclick="addLayoutCopyInputbox()" /></span></td>';
+	html += '</tr>';
+
+	var it  = jQuery('#inputTable');
+	it.append(html);
+	
+	it.find('SPAN.btn').hide();
+	it.find('TR:last-child SPAN.btn').show();
+}
+
 (function($){
 
 /* preview layout */

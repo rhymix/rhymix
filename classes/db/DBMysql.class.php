@@ -443,6 +443,7 @@ class DBMysql extends DB {
 	 */
     function _executeInsertAct($queryObject, $with_values = true) {
         $query = $this->getInsertSql($queryObject, $with_values, true);
+		$query .= (__DEBUG_QUERY__ & 1 && $this->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
         if(is_a($query, 'Object')) return;
         return $this->_query($query);
     }
@@ -455,6 +456,7 @@ class DBMysql extends DB {
 	 */
     function _executeUpdateAct($queryObject, $with_values = true) {
         $query = $this->getUpdateSql($queryObject, $with_values, true);
+		$query .= (__DEBUG_QUERY__ & 1 && $this->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
         if(is_a($query, 'Object')) return;
         return $this->_query($query);
     }
@@ -467,6 +469,7 @@ class DBMysql extends DB {
 	 */
     function _executeDeleteAct($queryObject, $with_values = true) {
         $query = $this->getDeleteSql($queryObject, $with_values, true);
+		$query .= (__DEBUG_QUERY__ & 1 && $this->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
         if(is_a($query, 'Object')) return;
         return $this->_query($query);
     }
@@ -674,6 +677,4 @@ class DBMysql extends DB {
         return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
     }
 }
-
-return new DBMysql;
 ?>

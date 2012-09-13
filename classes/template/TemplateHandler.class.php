@@ -187,7 +187,7 @@ class TemplateHandler {
 		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
 
 		// replace value of src in img/input/script tag
-		$buff = preg_replace_callback('/<(?:img|input|script)(?:(?!["\'\/]\s*>).)* src="(?!https?:\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
+		$buff = preg_replace_callback('/<(?:img|input|script)[^<>]*src="(?!https?:\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
 
 		// replace loop and cond template syntax
 		$buff = $this->_parseInline($buff);
@@ -199,7 +199,11 @@ class TemplateHandler {
 		$buff = preg_replace('@</?block\s*>@is','',$buff);
 
 		// form auto generation
-		$buff = preg_replace_callback('/(<form(?:<\?php.+?\?>|[^<>]+)*?>)(.*?)(<\/form>)/is', array($this, '_compileFormAuthGeneration'), $buff);
+		$temp = preg_replace_callback('/(<form(?:<\?php.+?\?>|[^<>]+)*?>)(.*?)(<\/form>)/is', array($this, '_compileFormAuthGeneration'), $buff);
+		if($temp)
+		{
+			$buff = $temp;
+		}
 
 		// prevent from calling directly before writing into file
 		$buff = '<?php if(!defined("__XE__"))exit;?>'.$buff;
@@ -219,6 +223,7 @@ class TemplateHandler {
 	 * @param array $matches
 	 * @return string
 	 **/
+
 	function _compileFormAuthGeneration($matches)
 	{
 		// form ruleset attribute move to hidden tag
@@ -319,6 +324,12 @@ class TemplateHandler {
 	 **/
 	function _replacePath($match)
 	{
+		//return origin code when src value include variable.
+		if(preg_match('/^[\'|"]\s*\.\s*\$/', $match[1]))
+		{
+			return $match[0];
+		}
+
 		$src = preg_replace('@^(\./)+@', '', trim($match[1]));
 
 		$src = $this->web_path.$src;
@@ -327,7 +338,7 @@ class TemplateHandler {
 		// for backward compatibility
 		$src = preg_replace('@/((?:[\w-]+/)+)\1@', '/\1', $src);
 
-		while(($tmp=preg_replace('@[^/]+/\.\./@', '', $src))!==$src) $src = $tmp;
+		while(($tmp=preg_replace('@[^/]+/\.\./@', '', $src, 1))!==$src) $src = $tmp;
 
 		return substr($match[0],0,-strlen($match[1])-6)."src=\"{$src}\"";
 	}

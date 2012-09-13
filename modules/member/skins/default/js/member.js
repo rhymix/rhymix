@@ -77,12 +77,6 @@ function completeLogout(ret_obj) {
     location.href = current_url.setQuery('act','');
 }
 
-/* 오픈아이디 로그인 후 */
-function completeOpenIDLogin(ret_obj, response_tags) {
-    var redirect_url =  ret_obj['redirect_url'];
-    location.href = redirect_url;
-}
-
 /* 인증 메일 재발송 후 */
 function completeResendAuthMail(ret_obj, response_tags) {
 	var error = ret_obj['error'];
@@ -165,17 +159,4 @@ function doDeleteSavedDocument(document_srl, confirm_message) {
 
 function insertSelectedModule(id, module_srl, mid, browser_title) {
     location.href = current_url.setQuery('selected_module_srl',module_srl);
-}
-
-/* 오픈아이디 연결 */
-function doAddOpenIDToMember() {
-    var fo_obj = get_by_id("fo_insert_member");
-    procFilter(fo_obj, add_openid_to_member);
-}
-
-/* 오픈아이디 연결 해제 */
-function doDeleteOpenIDFromMember(openid) {
-    var fo_obj = get_by_id("fo_insert_member");
-    fo_obj.openid_to_delete.value = openid;
-    procFilter(fo_obj, delete_openid_from_member);
 }

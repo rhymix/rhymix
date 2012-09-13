@@ -11,24 +11,43 @@ class HTMLDisplayHandler {
 		$oTemplate = &TemplateHandler::getInstance();
 
 		// compile module tpl
-		if ($oModule->module_info->module == $oModule->module)
-			$skin = $oModule->origin_module_info->skin;
-		else
-			$skin = $oModule->module_config->skin;
+		// deprecated themes skin 
 
-		if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin') === false){
-			if ($skin && is_string($skin)){
-				$theme_skin = explode('.', $skin);
-				$template_path = $oModule->getTemplatePath();
-				if (count($theme_skin) == 2) {
-					$theme_path = sprintf('./themes/%s',$theme_skin[0]);
-					if(substr($theme_path,0,strlen($theme_path)) != $theme_path)
-						$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
-				}	
-			}else{
+		$template_path = $oModule->getTemplatePath();
+
+		if(!is_dir($template_path))
+		{
+			if ($oModule->module_info->module == $oModule->module)
+				$skin = $oModule->origin_module_info->skin;
+			else
+				$skin = $oModule->module_config->skin;
+
+			if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin') === false)
+			{
+				if ($skin && is_string($skin))
+				{
+					$theme_skin = explode('|@|', $skin);
+					$template_path = $oModule->getTemplatePath();
+					if (count($theme_skin) == 2) 
+					{
+						$theme_path = sprintf('./themes/%s',$theme_skin[0]);
+						if(substr($theme_path,0,strlen($theme_path)) != $theme_path)
+						{
+							$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
+						}
+					}	
+				}
+				else
+				{
+					$template_path = $oModule->getTemplatePath();
+				}
+			}
+			else 
+			{
 				$template_path = $oModule->getTemplatePath();
 			}
-		}else $template_path = $oModule->getTemplatePath();
+		}
+
 		$tpl_file = $oModule->getTemplateFile();
 
 		$output = $oTemplate->compile($template_path, $tpl_file);
@@ -92,6 +111,9 @@ class HTMLDisplayHandler {
 
 		// move <style ..></style> in body to the header
 		$output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $output);
+
+		// move <meta ../> in body to the header
+		$output = preg_replace_callback('!<meta(.*?)(?:\/|)>!is', array($this,'_moveMetaToHeader'), $output);
 
 		// change a meta fine(widget often put the tag like <!--Meta:path--> to the content because of caching)
 		$output = preg_replace_callback('/<!--(#)?Meta:([a-z0-9\_\/\.\@]+)-->/is', array($this,'_transMeta'), $output);
@@ -235,6 +257,16 @@ class HTMLDisplayHandler {
 	 * @return void
 	 **/
 	function _moveStyleToHeader($matches) {
+		Context::addHtmlHeader($matches[0]);
+	}
+
+	/**
+	 * add meta code extracted from html body to Context, which will be
+	 * printed inside <header></header> later.
+	 * @param array $matches
+	 * @return void
+	 **/
+	function _moveMetaToHeader($matches) {
 		Context::addHtmlHeader($matches[0]);
 	}
 

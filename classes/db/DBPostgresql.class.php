@@ -597,6 +597,4 @@ class DBPostgresql extends DB
     	return new DBParser('"', '"', $this->prefix);
     }
 }
-
-return new DBPostgresql;
 ?>

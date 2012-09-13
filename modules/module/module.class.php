@@ -79,6 +79,18 @@
 
 			if(!is_dir('./files/ruleset')) return true;
 
+			$args->skin = '.';
+			$output = executeQueryArray('module.getModuleSkinDotList', $args);
+			if($output->data && count($output->data) > 0)
+			{
+				foreach($output->data as $item)
+				{
+					$skin_path = explode('.', $item->skin);
+					if(count($skin_path) != 2) continue;
+					if(is_dir(sprintf(_XE_PATH_ . 'themes/%s/modules/%s', $skin_path[0], $skin_path[1]))) return true;
+				}
+			}
+
             return false;
         }
 
@@ -315,6 +327,24 @@
 				$oDB->addColumn('module_config', 'site_srl', 'number', 11, 0, true);
 			}
 			FileHandler::makeDir('./files/ruleset');
+
+			$args->skin = '.';
+			$output = executeQueryArray('module.getModuleSkinDotList', $args);
+			if($output->data && count($output->data) > 0)
+			{
+				foreach($output->data as $item)
+				{
+					$skin_path = explode('.', $item->skin);
+					if(count($skin_path) != 2) continue;
+					if(is_dir(sprintf(_XE_PATH_ . 'themes/%s/modules/%s', $skin_path[0], $skin_path[1])))
+					{
+						unset($args);
+						$args->skin = $item->skin;
+						$args->new_skin = implode('|@|', $skin_path);
+						$output = executeQuery('module.updateSkinAll', $args);
+					}
+				}
+			}
             return new Object(0, 'success_updated');
         }
 

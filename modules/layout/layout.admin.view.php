@@ -149,7 +149,7 @@
 			
 			//Security
 			$security = new Security();
-			$security->encodeHTML('layout_list..layout','layout_list..title');						
+			$security->encodeHTML('layout_list..layout','layout_list..title');
 
 			// Get layout info
 			$layout = Context::get('layout');
@@ -179,7 +179,7 @@
 			Context::set('selected_layout', $layout_info);
 
 			$this->setTemplateFile('layout_modify');
-        }
+		}
 
 		/**
          * Insert Layout details
@@ -456,6 +456,20 @@
             $this->setLayoutFile('popup_layout');
 
             $this->setTemplateFile('layout_image_list');
+        }
+
+        /**
+         * Copy layout instance
+		 * @return void
+         */
+        function dispLayoutAdminCopyLayout(){
+			$layoutSrl = Context::get('layout_srl');
+
+			$oLayoutModel = &getModel('layout');
+			$layout = $oLayoutModel->getLayout($layoutSrl);
+
+            Context::set('layout', $layout);
+            $this->setTemplateFile('copy_layout');
         }
     }
 ?>

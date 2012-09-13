@@ -20,33 +20,64 @@ jQuery(function($){
 <load target="../install/lang/lang.xml" usecdn="true" />
 <load target="../../session/tpl/js/session.js" usecdn="true" />
 
-<form action="" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
+<script>
+jQuery(function($){
+	$('.moduleSearch').bind('moduleSelect', function(e, aSelected){
+		var sType, sName, sSrl;
+		
+		sType = aSelected[0].type;
+		sName = aSelected[0].browser_title;
+		sSrl = aSelected[0].module_srl;
+
+		$('#_target_module').val(sName);
+		$('#index_module_srl').val(sSrl);
+	});
+});
+</script>
+<form action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="install" />
 	<input type="hidden" name="act" value="procInstallAdminConfig" />
 	<h1 class="h1">{$lang->menu_gnb_sub['adminConfigurationGeneral']}</h1>
 	<fieldset class="section">
 		<h2 class="h2">{$lang->subtitle_primary}</h2>
 		<ul>
-			<li class="modulefinder">
+			<li class="modulefinder moduleSearch">
 				<p class="q">{$lang->about_start_module}</p>
-				<p class="a">
+				<div class="a">
 					<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
 					<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
-					<a href="#modalWindow" class="modalAnchor" onClick="viewSiteSearch()">{$lang->cmd_find}</a> </p>
-					<p class="site_keyword_search" style="display:none">
-						<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->cmd_confirm}</a>
-						<div id="suggestion3" class="tgContent suggestion" >
-							<ul></ul>
+					<a href="#moduleSearchWindow" class="tgAnchor moduleSearch">{$lang->cmd_find}</a> 
+					<div id="moduleSearchWindow" class="moduleSearchWindow tgContent">
+						<div class="siteList sectionDiv">
+							<h2>{$lang->select_site}</h2>
+							<div class="siteListSearchBox">
+								<div class="siteListSearchBoxBorder">
+									<div class="searchImg icon-search"></div>
+									<input type="text" class="siteListSearchInput" name="site_filter">
+								</div>
+							</div>
+							<div class="siteListUL">
+								<ul>
+								</ul>
+							</div>
 						</div>
-					</p>						
-					<p>
-						<select class="moduleList" style="width:290px"></select>
-					</p>
-					<p>
-						<select class="moduleIdList" style="width:290px"></select>
-						<a href="#" id="sitefind_addBtn" onclick="setStartModule()" style="display:none;">{$lang->cmd_select}</a>
-					</p>
-				</p>
+						<div class="moduleTypeList sectionDiv">
+							<h2>{$lang->select_module_type}</h2>
+							<div>
+								<ul class="moduleTypeListUL">
+								</ul>
+							</div>
+						</div>
+						<div class="moduleInstanceList sectionDiv">
+							<h2>{$lang->select_module_instance}</h2>
+							<div>
+								<select class="moduleInstanceListSelect" size="8">
+								</select>
+							</div>
+							<button class="btn btn_primary moduleSearch_ok">{$lang->cmd_select}</button>
+						</div>
+					</div>
+				</div>
 			</li>
 			<li>
 				<p class="q">{$lang->about_lang_select}</p>
@@ -64,13 +95,13 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="">{$lang->about_default_lang}</label></p>
+				<p class="q"><label for="change_lang_type">{$lang->about_default_lang}</label></p>
 				<p class="a">
-					<select name="change_lang_type">
+					<select name="change_lang_type" id="change_lang_type">
 						<!--@foreach($lang_supported as $key => $val)-->
 						<option value="{$key}" <!--@if($key==$selected_lang)-->selected="selected"<!--@end-->>{$val}</option>
 						<!--@endforeach-->
-					</select>						
+					</select>
 				</p>
 			</li>
 			<li>
@@ -132,7 +163,7 @@ jQuery(function($){
 		<h2 class="h2">{$lang->subtitle_advanced}</h2>
 		<ul>
 			<li>
-				<p class="q"><label for="admin_ip">{$lang->about_admin_ip_limit}</label>[<a href="#helpAdminip" class="tgAnchor">?</a>]</p>
+				<p class="q"><label for="admin_ip_list">{$lang->about_admin_ip_limit}</label>[<a href="#helpAdminip" class="tgAnchor">?</a>]</p>
 				<div class="tgContent layer" id="helpAdminip">
 					<p>{$lang->detail_about_admin_ip_limit}</p>
 				</div>
@@ -148,7 +179,7 @@ jQuery(function($){
 				<p class="a"><input type="text" name="default_url" id="default_url" value="{$default_url}"/></p>
 			</li>
 			<li>
-				<p class="q"><label for="use_ssl">{$lang->use_ssl}</label>[<a href="#helpUsessl" class="tgAnchor">?</a>]</p>
+				<p class="q"><label>{$lang->use_ssl}</label>[<a href="#helpUsessl" class="tgAnchor">?</a>]</p>
 				<div class="tgContent layer" id="helpUsessl">
 					<p>{$lang->about_use_ssl}</p>
 				</div>
@@ -159,11 +190,11 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
-				<p class="q">{$lang->server_ports}</p>
+				<p class="q"><label>{$lang->server_ports}</label></p>
 				<p class="a">
-					<label for="">HTTP:</label> <input type="text" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:40px" />
+					<label for="http_port">HTTP:</label> <input type="text" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:40px" />
 					&nbsp;&nbsp;
-					<label for="">HTTPS:</label> <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" />
+					<label for="https_port">HTTPS:</label> <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" />
 				</p>
 			</li>
 			<li cond="__XE_CDN_VERSION__!='%__XE_CDN_VERSION__%'">
@@ -174,14 +205,14 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="">{$lang->about_use_rewrite}</label></p>
+				<p class="q"><label>{$lang->about_use_rewrite}</label></p>
 				<p class="a">
 					<input type="radio" name="use_rewrite" id="use_rewrite_y" value="Y" <!--@if($use_rewrite == 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_y">{$lang->cmd_yes}</label>
 					<input type="radio" name="use_rewrite" id="use_rewrite_n" value="N" <!--@if($use_rewrite != 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_n">{$lang->cmd_no}</label>
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="use_sso">{$lang->about_use_sso}</label>[<a href="#helpUsesso" class="tgAnchor">?</a>]</p>
+				<p class="q"><label>{$lang->about_use_sso}</label>[<a href="#helpUsesso" class="tgAnchor">?</a>]</p>
 				<div class="tgContent layer" id="helpUsesso">
 					<p>{$lang->about_sso}</p>
 				</div>
@@ -191,7 +222,7 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="">{$lang->use_db_session}</label>[<a href="#helpUsedbSession" class="tgAnchor">?</a>]</p>
+				<p class="q"><label>{$lang->use_db_session}</label>[<a href="#helpUsedbSession" class="tgAnchor">?</a>]</p>
 				<div class="tgContent layer" id="helpUsedbSession">
 					<p>{$lang->about_db_session}</p>
 				</div>
@@ -201,7 +232,7 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="">{$lang->qmail_compatibility}</label>[<a href="#helpQmail" class="tgAnchor">?</a>]</p>
+				<p class="q"><label>{$lang->qmail_compatibility}</label>[<a href="#helpQmail" class="tgAnchor">?</a>]</p>
 				<div class="tgContent layer" id="helpQmail">
 					<p>{$lang->about_qmail_compatibility}</p>
 				</div>

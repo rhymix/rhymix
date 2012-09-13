@@ -41,6 +41,25 @@ function doUpdateDeniedID(user_id, mode, message) {
 	);
 }
 
+/* prohibited nick name functions */
+function doUpdateDeniedNickName(nick_name, mode, message) 
+{
+    if(typeof(message)!='undefined' && !confirm(message)) return;
+
+    exec_xml(
+		'member',
+		'procMemberAdminUpdateDeniedNickName',
+		{nick_name:nick_name, mode:mode},
+		function(){
+			if (mode == 'delete'){
+				jQuery('#denied_'+nick_name).remove();
+				jQuery('._deniedNickNameCount').html(jQuery('#deniedNickNameList li').length);
+			}
+		},
+		['error','message','tpl']
+	);
+}
+
 jQuery(function($){
 	// hide form if enable_join is setted "No" 
 	var suSetting = $('fieldset.suSetting'); // 회원가입 설정
@@ -62,7 +81,7 @@ jQuery(function($){
 			suForm.slideUp(200);
 		}
 	});
-	suForm.find(':checkbox').each(function(){
+	suForm.find(':checkbox[name="usable_list[]"]').each(function(){
 		var $i = $(this);
 		$i.change(function(){
 			if($i.is(':checked')){
@@ -70,28 +89,23 @@ jQuery(function($){
 							   .find(':radio, :text')
 									.removeAttr('disabled')
 									.end()
-							   .find(':radio[value=option]').attr('checked', 'checked');
+							   .find(':radio[value=option]').attr('checked', 'checked')
+							   		.end()
+							   .next('td')
+							   .find(':input[value=Y]').removeAttr('disabled').attr('checked', 'checked');
 				
 			} else {
-				$i.parent('td').next('td').find(':radio, :text').attr('disabled','disabled').removeAttr('checked').next('label').css('fontWeight','normal');
+				$i.parent('td').next('td')
+							   .find(':radio, :text').attr('disabled','disabled').removeAttr('checked')
+							   		.next('label').css('fontWeight','normal').end()
+									.end()
+							   .next('td')
+								.find(':input[value=Y]').removeAttr('checked').attr('disabled', 'disabled');
 			}
 		});
 	});
 
-	suForm.find('._imageType')
-		.find('input:checkbox:not(:checked)').closest('tr')
-			.find('._subItem').hide().end()
-			.end()
-		.end()
-		.find('input:checkbox')
-			.change(function(){
-				var $subItem = $(this).closest('tr').find('._subItem');
-				if($(this).is(':checked')) $subItem.show();
-				else $subItem.hide();
-			})
-		.end();
-
-		$('a.modalAnchor._extendFormEdit').bind('before-open.mw', function(event){
+	$('a.modalAnchor._extendFormEdit').bind('before-open.mw', function(event){
 		var memberFormSrl = $(event.target).parent().attr('id');
 		var checked = $(event.target).closest('tr').find('input:radio:checked').val();
 
@@ -141,7 +155,9 @@ jQuery(function($){
 
 		var tag;
 		function on_complete(data){
-			var uids = data.user_ids.split(',');
+			var userIds = $.trim(data.user_ids);
+			if(userIds == '') return;
+			var uids = userIds.split(',');
 			for (var i=0; i<uids.length; i++){
 				tag = '<li id="denied_'+uids[i]+'">'+uids[i]+' <a href="#" class="side" onclick="doUpdateDeniedID(\''+uids[i]+'\', \'delete\', \''+xe.lang.confirm_delete+'\');return false;">'+xe.lang.cmd_delete+'</a></li>';
 				$('#deniedList').append($(tag));
@@ -152,6 +168,38 @@ jQuery(function($){
 		}
 
 		jQuery.exec_json('member.procMemberAdminInsertDeniedID', {'user_id': ids}, on_complete);
+
+	});
+
+	$('button._addDeniedNickName').click(function(){
+		var ids = $('#prohibited_nick_name').val();
+		if(ids == ''){ 
+			alert(xe.lang.msg_null_prohibited_nick_name);
+			$('#prohibited_nick_name').focus();
+			return;
+		}
+		
+
+		ids = ids.replace(/\n/g, ',');
+
+		var tag;
+		function on_complete(data)
+		{
+			$('#prohibited_nick_name').val('');
+
+			var nickNames = $.trim(data.nick_names);
+			if(nickNames == '') return;
+			var uids = nickNames.split(',');
+			for (var i=0; i<uids.length; i++)
+			{
+				tag = '<li id="denied_'+uids[i]+'">'+uids[i]+' <a href="#" class="side" onclick="doUpdateDeniedNickName(\''+uids[i]+'\', \'delete\', \''+xe.lang.confirm_delete+'\');return false;">'+xe.lang.cmd_delete+'</a></li>';
+				$('#deniedNickNameList').append($(tag));
+			}
+
+			$('._deniedNickNameCount').html($('#deniedNickNameList li').length);
+		}
+
+		jQuery.exec_json('member.procMemberAdminUpdateDeniedNickName', {'nick_name': ids}, on_complete);
 
 	});
 
@@ -184,4 +232,13 @@ jQuery(function($){
 		}
 	});
 
+	$('.__sync').click(function (){
+		exec_xml(
+			'importer', // module
+			'procImporterAdminSync', // act
+			null,
+			function(ret){if(ret && (!ret.error || ret.error == '0'))alert(ret.message);}, // callback
+			resp = ['error','message'] // response tags
+		);
+	});
 });

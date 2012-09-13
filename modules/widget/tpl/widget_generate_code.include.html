@@ -41,7 +41,7 @@
 		{@$group = $var->group}
 	</block>
 	{@$not_first = true}
-	<li class="modulefinder"|cond="$var->type == 'mid' || $var->type == 'module_srl_list'">
+	<li class="moduleSearch moduleSearch1 modulefinder"|cond="$var->type == 'mid' || $var->type == 'module_srl_list'">
 		<p class="q"><label for="{$id}">{$var->name}</label></p>
 		<div class="a">
 			<div cond="$var->type == 'text'" class="multiLangEdit">
@@ -104,33 +104,110 @@
 				</block>
 			</block>
 			<block cond="$var->type == 'module_srl_list'">
+				<p class="desc">{$var->description}</p>
 				<input type="hidden" name="{$id}" value="" />
-				<div class="a">
-					<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
-					<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
-						<ul>
-						</ul>
-					</div>
-				</div>
-				<p class="a">
-					<select class="moduleList" style="width:290px"></select>
-				</p>
-				<select class="moduleIdList" size="8" multiple="multiple" style="width:290px;vertical-align:top"></select>
-				<button type="button" class="text modulelist_add" style="vertical-align:top">{$lang->cmd_insert}</button>
 				<select class="modulelist_selected" size="8" multiple="multiple" style="width:290px;"></select>
+				<br/>
+				<span style="padding:1px;margin:1px"><b><a href="#moduleSearchWindow1" class="tgAnchor moduleSearch">{$lang->cmd_add}</a></b></span>
 				<button type="button" class="text modulelist_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
 				<button type="button" class="text modulelist_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
 				<button type="button" class="text modulelist_del" style="vertical-align:top">{$lang->cmd_delete}</button>
 				<script type="text/javascript">
 					xe.registerApp(new xe.ModuleListManager('{$id}'));
 				</script>
+
+				<script>
+				jQuery(function($){
+					$('.moduleSearch1').bind('moduleSelect', function(e, aSelected){
+						var sType, sName, sSrl;
+						
+						for(var i=0, nLen=aSelected.length; i<nLen; i++){
+							sType = aSelected[i].type;
+							sName = aSelected[i].browser_title;
+							sSrl = aSelected[i].module_srl;
+							xe.broadcast("ADD_MODULE_TO_MODULELIST_MANAGER", [sType, sName, sSrl]);
+						}
+					});
+				});
+
+				</script>
+
+				<!-- new module search -->
+				<div id="moduleSearchWindow1" class="moduleSearchWindow tgContent">
+					<div class="siteList sectionDiv">
+						<h2>{$lang->select_site}</h2>
+						<div class="siteListSearchBox">
+							<div class="siteListSearchBoxBorder">
+								<div class="searchImg icon-search"></div>
+								<input type="text" class="siteListSearchInput" name="site_filter">
+							</div>
+						</div>
+						<div class="siteListUL">
+							<ul>
+							</ul>
+						</div>
+					</div>
+					<div class="moduleTypeList sectionDiv">
+						<h2>{$lang->select_module_type}</h2>
+						<div>
+							<ul class="moduleTypeListUL">
+							</ul>
+						</div>
+					</div>
+					<div class="moduleInstanceList sectionDiv">
+						<h2>{$lang->select_module_instance}</h2>
+						<div>
+							<select class="moduleInstanceListSelect" multiple="multiple" size="8">
+							</select>
+						</div>
+						<button class="btn btn_primary moduleSearch_ok">{$lang->cmd_select}</button>
+					</div>
+				</div>
+				<!--// new module search -->
 			</block>
 			<block cond="$var->type == 'mid'">
 				<input type="hidden" name="{$id}" value="" />
-				<input type="text" readonly="readonly" /> <button class="text search">{$lang->cmd_search}</button> <button class="text delete">{$lang->cmd_delete}</button>
+				<input type="text" readonly="readonly" /> <!--button class="text search">{$lang->cmd_search}</button> <button class="text delete">{$lang->cmd_delete}</button-->
+				<span style="padding:1px;margin:1px"><b><a href="#moduleSearchWindow2" class="tgAnchor moduleSearch">{$lang->cmd_select}</a></b></span>
+				<span style="padding:1px;margin:1px"><b><a href="#" class="text delete">{$lang->cmd_delete}</a></b></span>
+
+				<!-- callback function for moduleSearchWindow2 is defined in MidManager -->
+				<!-- new module search -->
+				<div id="moduleSearchWindow2" class="moduleSearchWindow tgContent">
+					<div class="siteList sectionDiv">
+						<h2>{$lang->select_site}</h2>
+						<div class="siteListSearchBox">
+							<div class="siteListSearchBoxBorder">
+								<div class="searchImg icon-search"></div>
+								<input type="text" class="siteListSearchInput" name="site_filter">
+							</div>
+						</div>
+						<div class="siteListUL">
+							<ul>
+							</ul>
+						</div>
+					</div>
+					<div class="moduleTypeList sectionDiv">
+						<h2>{$lang->select_module_type}</h2>
+						<div>
+							<ul class="moduleTypeListUL">
+							</ul>
+						</div>
+					</div>
+					<div class="moduleInstanceList sectionDiv">
+						<h2>{$lang->select_module_instance}</h2>
+						<div>
+							<select class="moduleInstanceListSelect"size="8">
+							</select>
+						</div>
+						<button class="btn btn_primary moduleSearch_ok">{$lang->cmd_select}</button>
+					</div>
+				</div>
+				<!--// new module search -->
 				<div class="finder" style="display: none;">
 					<div class="a">
-						<input type="text" class="site_keyword" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
+						
+						<input type="text" class="site_keyword" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findSite">{$lang->find_site}</a>
 						<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
 							<ul>
 							</ul>
@@ -142,6 +219,8 @@
 				<script type="text/javascript">
 					xe.registerApp(new xe.MidManager('{$id}'));
 				</script>
+				
+
 			</block>
 			<block cond="$var->type == 'filebox'">
 				{@$use_filebox = true}
@@ -153,7 +232,6 @@
 				<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
 			</select>
 		</div>
-		<p class="desc">{$var->description}</p>
 	</li>
 </block>
 </ul>

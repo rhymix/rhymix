@@ -34,14 +34,6 @@
 			<!--@if($member_info->member_srl == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
 			<li><label for="llogin" class="db fb al">{$lang->last_login}</label><div>{zdate($member_info->last_login,"Y-m-d H:i")}</div></li>
 			<!--@end-->
-			<!--@if($member_config->enable_openid=="Y")-->
-			<!--@if(sizeof($openids) > 0)-->
-			<li><label for="openid" class="db fb al">{$lang->openid} </label>
-			<!--@foreach($openids as $openid)-->
-			<div id="openid">{$openid->openid}</div></li>
-			<!--@end-->
-			<!--@end-->
-			<!--@end-->
 		</ul>
 	</fieldset>
 	<!--@if($extend_form_list)-->
@@ -78,12 +70,8 @@
 			<li>
 				<!--@if($member_info->member_srl == $logged_info->member_srl)-->
 				<a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="bn"><span>{$lang->cmd_modify_member_info}</span></a>
-				<!--@if($logged_info->is_openid)-->
-				<a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="bn"><span>{$lang->cmd_leave}</span></a>
-				<!--@else-->
 				<a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="bn"><span>{$lang->cmd_modify_member_password}</span></a>
 				<a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="bn"><span>{$lang->cmd_leave}</span></a>
-				<!--@end-->
 				<!--@end-->
 				<a href="{getUrl('act','','member_srl','')}" class="bn"><span>{$lang->cmd_back}</span></a>
 			</li>

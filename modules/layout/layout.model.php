@@ -97,6 +97,16 @@
         	return $layout_info;
         }
 
+		function getLayoutRawData($layout_srl, $columnList = array())
+		{
+			$args->layout_srl = $layout_srl;
+			$output = executeQuery('layout.getLayout', $args, $columnList);
+			if(!$output->toBool())
+				return;
+
+			return $output->data->extra_vars;
+		}
+
         /**
          * Get a layout path
 		 * @param string $layout_name
@@ -104,7 +114,7 @@
 		 * @return string path of layout
          **/
         function getLayoutPath($layout_name, $layout_type = "P") {
-			$layout_parse = explode('.', $layout_name);
+			$layout_parse = explode('|@|', $layout_name);
 			if (count($layout_parse) > 1){
 				$class_path = './themes/'.$layout_parse[0].'/layouts/'.$layout_parse[1].'/';
 			}else if($layout_name == 'faceoff'){
@@ -472,7 +482,11 @@
             $layout_config = $oModuleModel->getModulePartConfig('layout', $layout_srl);
             $header_script = trim($layout_config->header_script);
 
-            if($header_script) $buff .= sprintf(' $layout_info->header_script = "%s"; ', str_replace('"','\\"',$header_script));
+            if($header_script)
+			{
+				$header_script = str_replace('"','\\"',$header_script);
+				$buff .= sprintf(' $layout_info->header_script = "%s"; ', str_replace('$','\$',$header_script));
+			}
 
             $buff = '<?php if(!defined("__ZBXE__")) exit(); '.$buff.' ?>';
             FileHandler::writeFile($cache_file, $buff);

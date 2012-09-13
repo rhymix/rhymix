@@ -1,13 +1,16 @@
 <load target="js/member_admin_config.js" usecdn="true" />
+<load target="../../editor/tpl/js/editor_module_config.js" usecdn="true" />
 <script type="text/javascript">
 	xe.lang.msg_delete_extend_form = '{$lang->msg_delete_extend_form}';
 	xe.lang.confirm_delete = '{$lang->confirm_delete}';
 	xe.lang.cmd_delete = '{$lang->cmd_delete}';
 	xe.lang.msg_null_prohibited_id = '{$lang->msg_null_prohibited_id}';
+	xe.lang.msg_null_prohibited_nick_name = '{$lang->msg_null_prohibited_nick_name}';
 </script>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+
 <form action="./" class="form" ruleset="insertConfig" method="post">
 <input type="hidden" name="module" value="member" />
 <input type="hidden" name="act" value="procMemberAdminInsertConfig" />
@@ -82,6 +85,14 @@
 				<p class="desc">{$lang->about_redirect_url}</p>
 			</li>
 			<li>
+				<p class="q"><label for="skin">{$lang->layout}</label></p>
+				<p class="a">
+				<select name="layout_srl">
+					<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->layout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+				</p>
+			</li>
+			<li>
 				<p class="q"><label for="skin">{$lang->skin}</label></p>
 				<p class="a">
 					<select id="skin" name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value)">
@@ -94,7 +105,20 @@
 				<p class="a"><div id="member_colorset"></div></p>
 			</li>
 			<li>
-				<p class="q"><label for="prohibited_id">{$lang->cmd_manage_id}({$lang->about_manage_id} {sprintf($lang->count_manage_id, count($deniedIDs))})</label></p>
+				<p class="q"><label for="prohibited_nick_name">{$lang->cmd_manage_nick_name}({sprintf($lang->count_manage_nick_name, count($deniedNickNames))})</label></p>
+				<div class="a">
+					<ul class="textList" id="deniedNickNameList">
+						<li loop="$deniedNickNames=>$nicknameInfo" id="denied_{$nicknameInfo->nick_name}">{$nicknameInfo->nick_name} <a href="#" class="side" onclick="doUpdateDeniedNickName('{$nicknameInfo->nick_name}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</a></li>
+					</ul>
+				</div>
+				<div class="a">
+					<textarea rows="8" cols="42" id="prohibited_nick_name" title="{$lang->add_prohibited_id}"></textarea>
+					<span class="btn"><button type="button" class="_addDeniedNickName">{$lang->add}</button></span>
+					<span class="desc">{$lang->multi_line_input}</span>
+				</div>
+			</li>
+			<li cond="$useUserID">
+				<p class="q"><label for="prohibited_id">{$lang->cmd_manage_id}({sprintf($lang->count_manage_id, count($deniedIDs))})</label></p>
 				<div class="a">
 					<ul class="textList" id="deniedList">
 						<li loop="$deniedIDs=>$denied_info" id="denied_{$denied_info->user_id}">{$denied_info->user_id} <a href="#" class="side" onclick="doUpdateDeniedID('{$denied_info->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</a></li>
@@ -123,10 +147,17 @@
 					</th>
 					<th scope="col">{$lang->use}</th>
 					<th scope="col">{$lang->cmd_required}/{$lang->cmd_optional}</th>
+					<th scope="col">{$lang->public}
+						[<a href="#helpPublic" class="tgAnchor">?</a>]
+						<div class="tgContent layer" id="helpPublic" style="right:0">
+							<p>{$lang->about_public_item}</p>
+						</div>
+					</th>
 					<th scope="col" class="text">{$lang->description}</th>
 					<th scope="col">{$lang->cmd_edit}</th>
 				</thead>
 				<tbody class="uDrag">
+{@$fixed_public_list = array('nick_name', 'find_account_question', 'password')}
 					<!--@foreach($config->signupForm as $item)-->
 					<!--@if($item->isIdentifier)-->
 					<tr class="sticky">
@@ -142,6 +173,7 @@
 							<input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> <label for="{$item->name}_re">{$lang->cmd_required}</label>
 							<input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> <label for="{$item->name}_op">{$lang->cmd_optional}</label>
 						</td>
+						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'"/></td>
 						<td class="text">&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
@@ -166,7 +198,20 @@
 								/
 								<label for="{$item->name}_max_height">{$lang->cmd_image_max_height}</label><input type="text" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" style="width:30px" /> px
 							</div>
+							<div cond="$item->name == 'signature'" style="padding-top:10px">
+								<select id="signature_editor" name="signature_editor_skin" onchange="getEditorSkinColorList(this.value)">
+								<!--@foreach($editor_skin_list as $editor_skin)-->
+								<option value="{$editor_skin}" selected="selected"|cond="$editor_skin==$config->signature_editor_skin">{$editor_skin}</option>
+								<!--@end-->
+								</select>
+								<select name="sel_editor_colorset" id="sel_editor_colorset" style="display:none">
+								</select>
+								<script type="text/javascript">//<![CDATA[
+									getEditorSkinColorList('{$config->signature_editor_skin}','{$config->sel_editor_colorset}');
+								//]]></script>
+							</div>
 						</td>
+						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
 						<td class="text">&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
@@ -186,6 +231,7 @@
 							<input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->required" disabled="disabled"|cond="!$item->isUse"/> <label for="{$item->name}_re">{$lang->cmd_required}</label>
 							<input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="$item->isUse && !$item->required" disabled="disabled"|cond="!$item->isUse" /> <label for="{$item->name}_op">{$lang->cmd_optional}</label>
 						</td>
+						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="!$item->isUse" /></td>
 						<td class="text">{$item->description}</td>
 						<td id="{$item->member_join_form_srl}" class="nowr"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->cmd_edit}</a> | <a href="#" class="_extendFormDelete">{$lang->cmd_delete}</a></td>
 					</tr>
@@ -202,6 +248,12 @@
 		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 </form>
+<h2 class="h2">{$lang->cmd_member_sync}</h2>
+<div class="form">
+	<span class="btn small"><input type="button" value="{$lang->cmd_member_sync}" class="__sync" /></span>
+	<p class="description">{$lang->about_member_sync}</p>
+</div>
+
 <div class="modal" id="userDefine">
 	<form action="./" class="fg form" ruleset="insertJoinForm" method="post">
 		<input type="hidden" name="module" value="member" />

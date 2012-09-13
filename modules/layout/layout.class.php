@@ -35,6 +35,18 @@
 
 			if(!$oDB->isColumnExists('layouts', 'layout_type')) return true;
 
+			$args->layout = '.';
+			$output = executeQueryArray('layout.getLayoutDotList', $args);
+			if($output->data && count($output->data) > 0)
+			{
+				foreach($output->data as $layout)
+				{
+					$layout_path = explode('.', $layout->layout);
+					if(count($layout_path) != 2) continue;
+					if(is_dir(sprintf(_XE_PATH_ . 'themes/%s/layouts/%s', $layout_path[0], $layout_path[1]))) return true;
+				}
+			}
+
             return false;
         }
 
@@ -66,6 +78,22 @@
                 $oDB->addColumn('layouts','layout_type','char',1,'P',true);
 			}
 
+			$args->layout = '.';
+			$output = executeQueryArray('layout.getLayoutDotList', $args);
+			if($output->data && count($output->data) > 0)
+			{
+				foreach($output->data as $layout)
+				{
+					$layout_path = explode('.', $layout->layout);
+					if(count($layout_path) != 2) continue;
+					if(is_dir(sprintf(_XE_PATH_ . 'themes/%s/layouts/%s', $layout_path[0], $layout_path[1])))
+					{
+						$args->layout = implode('|@|', $layout_path);
+						$args->layout_srl = $layout->layout_srl;
+						$output = executeQuery('layout.updateLayout', $args);
+					}
+				}
+			}
             return new Object(0, 'success_updated');
         }
 

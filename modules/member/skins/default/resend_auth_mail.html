@@ -5,6 +5,7 @@
 <form ruleset="resendAuthMail" class="form" action="./" method="post">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberResendAuthMail" />
+	<input type="hidden" name="success_return_url" value="{getUrl(act, $act)}" />
     <h1 class="h1">{$lang->cmd_resend_auth_mail}</h1>
     <p>{$lang->about_resend_auth_mail}</p>
 	<ul>

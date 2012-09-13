@@ -2,6 +2,9 @@
 <load target="js/waiting.js" usecdn="true" />
 
 <h2 class="h2">{$package->title} ver. {$package->version}</h2>
+<div cond="$contain_core" class="message info">
+	<p>{$lang->msg_update_core}</p>
+</div>
 <p cond="$package->installed">{$lang->current_version}: {$package->cur_version} <block cond="$package->need_update">({$lang->require_update})</block></p>
 <p cond="!$package->installed">{$lang->require_installation}</p>
 <block cond="$package->depends">

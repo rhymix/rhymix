@@ -67,7 +67,7 @@
             if(!$oModuleModel->getTrigger('document.updateDocument', 'tag', 'controller', 'triggerInsertTag', 'after')) 
                 $oModuleController->insertTrigger('document.updateDocument', 'tag', 'controller', 'triggerInsertTag', 'after');
 
-            if(!$oModuleModel->getTrigger('document.triggerDeleteTag', 'tag', 'controller', 'triggerDeleteTag', 'after')) 
+            if(!$oModuleModel->getTrigger('document.deleteDocument', 'tag', 'controller', 'triggerDeleteTag', 'after')) 
                 $oModuleController->insertTrigger('document.deleteDocument', 'tag', 'controller', 'triggerDeleteTag', 'after');
             // 2007. 10. 17 modules are deleted when you delete all registered triggers that add tag
             if(!$oModuleModel->getTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after'))

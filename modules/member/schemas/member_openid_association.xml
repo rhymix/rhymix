@@ -1,8 +1,0 @@
-<table name="member_openid_association">
-    <column name="server_url" type="text" notnull="notnull" />
-    <column name="handle" type="varchar" size="255" notnull="notnull" />
-    <column name="secret" type="text" notnull="notnull" />
-    <column name="issued" type="number" size="11" />
-    <column name="lifetime" type="number" size="11" />
-    <column name="assoc_type" type="varchar" size="64" />
-</table>

@@ -49,6 +49,13 @@
 	<block cond="$mid_list">
 		<h3 class="h3">{$lang->module}</h3>
 		<p>{$lang->about_addon_mid}</p>
+		<p class="q">{$lang->run_method}</p>
+		<p class="a">
+			<select name="xe_run_method">
+				<option value="run_selected" selected="selected"|cond="$addon_info->xe_run_method === 'run_selected'">{$lang->run_selected_module}</option>
+				<option value="no_run_selected" selected="selected"|cond="$addon_info->xe_run_method === 'no_run_selected'">{$lang->no_run_selected_module}</option>
+			</select>
+		</p>
 		<p><input type="checkbox" id="check_all" /> <label for="check_all">Check all</label></p>
 		<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin:1em 0; padding:.5em 1em">
 			<legend cond="$modules->title">{$modules->title}</legend>

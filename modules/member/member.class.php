@@ -28,13 +28,22 @@
                 Context::addSSLAction('dispMemberModifyPassword');
                 Context::addSSLAction('dispMemberSignUpForm');
                 Context::addSSLAction('dispMemberModifyInfo');
+				Context::addSSLAction('dispMemberModifyEmailAddress');
+				Context::addSSLAction('dispMemberGetTempPassword');
+				Context::addSSLAction('dispMemberResendAuthMail');
 				Context::addSSLAction('dispMemberLoginForm');
 				Context::addSSLAction('dispMemberFindAccount');
+				Context::addSSLAction('dispMemberLeave');
                 Context::addSSLAction('procMemberLogin');
                 Context::addSSLAction('procMemberModifyPassword');
                 Context::addSSLAction('procMemberInsert');
                 Context::addSSLAction('procMemberModifyInfo');
                 Context::addSSLAction('procMemberFindAccount');
+				Context::addSSLAction('procMemberModifyEmailAddress');
+				Context::addSSLAction('procMemberUpdateAuthMail');
+				Context::addSSLAction('procMemberResendAuthMail');
+				Context::addSSLAction('procMemberLeave');
+				//Context::addSSLAction('getMemberMenu');
             }
         }
 
@@ -52,9 +61,12 @@
 
             $oModuleModel = &getModel('module');
             $args = $oModuleModel->getModuleConfig('member');
+
+			$isNotInstall = empty($args);
+
             // Set the basic information
             $args->enable_join = 'Y';
-            if(!$args->enable_openid) $args->enable_openid = 'N';
+            $args->enable_openid = 'N';
             if(!$args->enable_auth_mail) $args->enable_auth_mail = 'N';
             if(!$args->image_name) $args->image_name = 'Y';
             if(!$args->image_mark) $args->image_mark = 'Y';
@@ -75,30 +87,9 @@
 
 			if(!$args->signupForm || !is_array($args->signupForm))
 			{
-				$identifier = 'email_address';
-				$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
-				$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-				$list_order = array();
-				foreach($items as $key){
-					unset($signupItem);
-					$signupItem->isDefaultForm = true;
-					$signupItem->name = $key;
-					$signupItem->title = $key;
-					$signupItem->mustRequired = in_array($key, $mustRequireds);
-					$signupItem->imageType = (strpos($key, 'image') !== false);
-					$signupItem->required = $signupItem->mustRequired;
-					$signupItem->isUse = $signupItem->mustRequired;
-					$signupItem->isIdentifier = ($key == $identifier);
-					if ($signupItem->imageType){
-						$signupItem->max_width = $config->{$key.'_max_width'};
-						$signupItem->max_height = $config->{$key.'_max_height'};
-					}
-					if ($signupItem->isIdentifier)
-						array_unshift($list_order, $signupItem);
-					else
-						$list_order[] = $signupItem;
-				}
-				$args->signupForm = $list_order;
+				$identifier = $isNotInstall ? 'email_address' : 'user_id';
+
+				$args->signupForm = $oMemberAdminController->createSignupForm($identifier);
 				$args->identifier = $identifier;
 
 				$oModuleController->insertModuleConfig('member',$args);
@@ -206,6 +197,19 @@
 			// check agreement field exist
 			if ($config->agreement) return true;
 
+			if($config->skin)
+			{
+				$config_parse = explode('.', $config->skin);
+				if (count($config_parse) > 1)
+				{
+					$template_path = sprintf('./themes/%s/modules/member/', $config_parse[0]);
+					if(is_dir($template_path)) return true;
+				}
+			}
+
+			// supprot multilanguage agreement.
+			if (is_readable('./files/member_extra_info/agreement.txt')) return true;
+
 			if (!is_readable('./files/ruleset/insertMember.xml')) return true;
 			if (!is_readable('./files/ruleset/login.xml')) return true;
 			if (!is_readable('./files/ruleset/find_member_account_by_question.xml')) return true;
@@ -285,71 +289,48 @@
 			// check agreement value exist
 			if($config->agreement)
 			{
-				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
 				$output = FileHandler::writeFile($agreement_file, $config->agreement);
 
-				unset($config->agreement);
+				$config->agreement = NULL;
 				$output = $oModuleController->updateModuleConfig('member', $config);
 			}
 
+			$oMemberAdminController = &getAdminController('member');
 			// check signup form ordering info
 			if (!$config->signupForm || !is_array($config->signupForm)){
-				global $lang;
-				$oMemberModel = &getModel('member');
-				// Get join form list which is additionally set
-				$extendItems = $oMemberModel->getJoinFormList();
-				
 				$identifier = 'user_id';
-				$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
-				$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-				$orgRequireds = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name');
-				$orgUse = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
-				$list_order = array();
-				foreach($items as $key){
-					unset($signupItem);
-					$signupItem->isDefaultForm = true;
-					$signupItem->name = $key;
-					$signupItem->title = $key;
-					$signupItem->mustRequired = in_array($key, $mustRequireds);
-					$signupItem->imageType = (strpos($key, 'image') !== false);
-					$signupItem->required = in_array($key, $orgRequireds);
-					$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
-					$signupItem->isIdentifier = ($key == $identifier);
-					if ($signupItem->imageType){
-						$signupItem->max_width = $config->{$key.'_max_width'};
-						$signupItem->max_height = $config->{$key.'_max_height'};
-					}
-					if ($signupItem->isIdentifier)
-						array_unshift($list_order, $signupItem);
-					else
-						$list_order[] = $signupItem;
-				}
-				if (is_array($extendItems)){
-					foreach($extendItems as $form_srl=>$item_info){
-						unset($signupItem);
-						$signupItem->name = $item_info->column_name;
-						$signupItem->title = $item_info->column_title;
-						$signupItem->type = $item_info->column_type;
-						$signupItem->member_join_form_srl = $form_srl;
-						$signupItem->mustRequired = in_array($key, $mustRequireds);
-						$signupItem->required = ($item_info->required == 'Y');
-						$signupItem->isUse = ($item_info->is_active == 'Y');
-						$signupItem->description = $item_info->description;
-						if ($signupItem->imageType){
-							$signupItem->max_width = $config->{$key.'_max_width'};
-							$signupItem->max_height = $config->{$key.'_max_height'};
-						}
-						$list_order[] = $signupItem;
-					}
-				}
-				$config->signupForm = $list_order;
+
+				$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
 				$config->identifier = $identifier;
 				unset($config->agreement);
 				$output = $oModuleController->updateModuleConfig('member', $config);
 			}
+
+			if($config->skin)
+			{
+				$config_parse = explode('.', $config->skin);
+				if (count($config_parse) > 1)
+				{
+					$template_path = sprintf('./themes/%s/modules/member/', $config_parse[0]);
+					if(is_dir($template_path))
+					{
+						$config->skin = implode('|@|', $config_parse);
+						$oModuleController = &getController('module');
+						$oModuleController->updateModuleConfig('member', $config);
+					}
+				}
+			}
+
+			if (is_readable('./files/member_extra_info/agreement.txt'))
+			{
+				$source_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+				$target_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
+
+				FileHandler::rename($source_file, $target_file);
+			}
 			
 			FileHandler::makeDir('./files/ruleset');
-			$oMemberAdminController = &getAdminController('member');
 			if (!is_readable('./files/ruleset/insertMember.xml'))
 				$oMemberAdminController->_createSignupRuleset($config->signupForm);
 			if (!is_readable('./files/ruleset/login.xml'))
@@ -366,10 +347,6 @@
 		 * @return void
          **/
         function recompileCache() {
-            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
-            require_once('Auth/OpenID/XEStore.php');
-            $store = new Auth_OpenID_XEStore();
-            $store->reset();
         }
 
 		/**
@@ -378,6 +355,10 @@
 		function recordLoginError($error = 0, $message = 'success')
 		{
 			if($error == 0) return new Object($error, $message);
+			// Check if there is recoding table.
+			$oDB = &DB::getInstance();
+			if(!$oDB->isTableExists('member_login_count')) return new Object($error, $message);
+
 
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 
@@ -417,6 +398,10 @@
 		function recordMemberLoginError($error = 0, $message = 'success', $args = NULL)
 		{
 			if($error == 0 || !$args->member_srl) return new Object($error, $message);
+			// Check if there is recoding table.
+			$oDB = &DB::getInstance();
+			if(!$oDB->isTableExists('member_count_history')) return new Object($error, $message);
+
 
 			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
 			if($output->data && $output->data->content)

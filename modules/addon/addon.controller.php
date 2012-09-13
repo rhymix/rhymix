@@ -163,14 +163,33 @@
                 $extra_vars = unserialize($val->extra_vars);
                 $mid_list = $extra_vars->mid_list;
                 if(!is_array($mid_list)||!count($mid_list)) $mid_list = null;
-                $mid_list = base64_encode(serialize($mid_list));
+
+				$buff .= '$rm = \'' . $extra_vars->xe_run_method . "';";
+				$buff .= '$ml = array(';
+				if($mid_list)
+				{
+					foreach($mid_list as $mid)
+					{
+						$buff .= "'$mid' => 1,";
+					}
+				}
+				$buff .= ');';
+				$buff .= sprintf('$addon_file = \'./addons/%s/%s.addon.php\';', $addon, $addon);
 
                 if($val->extra_vars) {
                     unset($extra_vars);
                     $extra_vars = base64_encode($val->extra_vars);
                 }
+				$addon_include = sprintf('unset($addon_info); $addon_info = unserialize(base64_decode(\'%s\')); @include($addon_file);', $extra_vars);
 
-				$buff .= sprintf(' $_ml = unserialize(base64_decode("%s")); $addon_path = "%saddons/%s/"; $addon_file = "%s.addon.php"; if(file_exists($addon_path.$addon_file) && (!is_array($_ml) || in_array($_m, $_ml))) { unset($addon_info); $addon_info = unserialize(base64_decode("%s")); @include($addon_path.$addon_file); }', $mid_list, './', $addon, $addon, $extra_vars);
+				$buff .= 'if(file_exists($addon_file)){';
+				$buff .= 'if($rm === \'no_run_selected\'){';
+				$buff .= 'if(!isset($ml[$_m])){';
+				$buff .= $addon_include;
+				$buff .= '}}else{';
+				$buff .= 'if(isset($ml[$_m]) || count($ml) === 0){';
+				$buff .= $addon_include;
+				$buff .= '}}}';
             }
 
 			$buff = sprintf('<?php if(!defined("__XE__")) exit(); $_m = Context::get(\'mid\'); %s ?>', $buff);

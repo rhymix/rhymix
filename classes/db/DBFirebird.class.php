@@ -865,6 +865,4 @@
     }
 
 }
-
-return new DBFireBird;
 ?>

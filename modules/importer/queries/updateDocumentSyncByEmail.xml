@@ -1,0 +1,12 @@
+<query id="updateDocumentSyncByEmail" action="update">
+    <tables>
+        <table name="documents" alias="documents" />
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="documents.member_srl" default="member.member_srl" filter="number" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="documents.email_address" default="member.email_address" />
+    </conditions>
+</query>

@@ -123,9 +123,15 @@
 
 			$args->site_srl = $site_info->site_srl;
 			$args->layout_srl = $vars->layout;
+
 			// layout submit
 			$output = executeQuery('layout.updateAllLayoutInSiteWithTheme', $args);
 			if (!$output->toBool()) return $output;
+
+			// set layout info member
+			$oModuleController = &getController('module');
+			$memberConfig->layout_srl = $vars->layout;
+			$oModuleController->updateModuleConfig('member', $memberConfig); 
 
 			$skin_args->site_srl = $site_info->site_srl;
 
@@ -148,13 +154,13 @@
 							$skin_args->module_srls = implode(',', $article_module_srls);
 						}
 					}
+
 					$skin_output = executeQuery('module.updateAllModuleSkinInSiteWithTheme', $skin_args);
 					if (!$skin_output->toBool()) return $skin_output;
 
 					$oModuleModel = &getModel('module');
 					$module_config = $oModuleModel->getModuleConfig($module, $site_info->site_srl);
 					$module_config->skin = $val;
-					$oModuleController = &getController('module');
 					$oModuleController->insertModuleConfig($module, $module_config, $site_info->site_srl);
 				}
 			}
@@ -169,6 +175,7 @@
             // Save File
             FileHandler::writeFile($theme_file, $theme_buff);
 
+			
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminTheme');
 			return $this->setRedirectUrl($returnUrl, $output);
 		}

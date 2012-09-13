@@ -62,7 +62,6 @@
 			// Check if change_password_date is set
 			if ($limit_date > 0) {
 				$oMemberModel = &getModel('member');
-				//$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
 				if ($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day'))) {
 					$this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
 					return;
@@ -79,305 +78,6 @@
 			}
 			return $this->setRedirectUrl($returnUrl, $output);
         }
-
-        /**
-         * Login by openid
-		 *
-		 * @deprecated
-		 *
-		 * @param string $validator
-		 *
-		 * @return void|Object (void : success, Object : fail)
-         **/
-        function procMemberOpenIDLogin($validator = "procMemberOpenIDValidate") {
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
-
-            if(!defined('Auth_OpenID_RAND_SOURCE') && !file_exists("/dev/urandom"))
-            {
-                define('Auth_OpenID_RAND_SOURCE', null);
-            }
-
-            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
-            require_once('Auth/OpenID.php');
-            require_once('Auth/OpenID/Consumer.php');
-            require_once('Auth/OpenID/XEStore.php');
-            $store = new Auth_OpenID_XEStore();
-            $consumer = new Auth_OpenID_Consumer($store);
-
-            $user_id = Context::get('user_id');
-            if (!$user_id) $user_id = Context::get('openid');
-            $auth_request = $consumer->begin($user_id);
-            $auth_request->addExtensionArg('sreg', 'required', 'email');
-            $auth_request->addExtensionArg('sreg', 'optional', 'dob');
-            if(!$auth_request)
-            {
-                return new Object(-1, "association failed");
-            }
-
-            $trust_root = 'http://'.$_SERVER["HTTP_HOST"];
-            $referer_url = Context::get('referer_url');
-            if (!$referer_url) $referer_url = $_SERVER['HTTP_REFERER'];
-            if (!$referer_url)
-                $referer_url = htmlspecialchars_decode(getRequestUri(RELEASE_SSL));
-            $goto = urlencode($referer_url);
-            $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=" . $validator. "&goto=" . $goto;
-            $redirect_url = $auth_request->redirectURL($trust_root, $ApprovedURL);
-            $this->add("redirect_url", $redirect_url);
-
-			$this->setRedirectUrl($redirect_url);
-        }
-
-        /**
-         * Legacy open id
-		 *
-		 * @deprecated
-		 *
-		 * @param string $openid_identity
-		 *
-		 * @return array
-         **/
-        function getLegacyUserIDsFromOpenID($openid_identity) {
-            //  Issue 17515512: workaround
-            $result = array();
-            $uri_matches = array();
-            preg_match(Auth_OpenID_getURIPattern(), $openid_identity, $uri_matches);
-
-            if (count($uri_matches) < 9) {
-                for ($i = count($uri_matches); $i <= 9; $i++) {
-                    $uri_matches[] = '';
-                }
-            }
-
-            $scheme = $uri_matches[2];
-            $authority = $uri_matches[4];
-            $path = $uri_matches[5];
-            $query = $uri_matches[6];
-            $fragment = $uri_matches[8];
-
-            if ($scheme === null) $scheme = '';
-            if ($authority === null) $authority = '';
-            if ($path === null) $path = '';
-            if ($query === null) $query = '';
-            if ($fragment === null) $fragment = '';
-
-            if ($scheme == 'http' or $scheme == '')
-                $scheme_part = '';
-            else
-                $scheme_part = $scheme."://";
-
-
-            if ($path == '' || $path == '/') {
-                $result[] = $scheme_part.$authority.''.$query.$fragment;
-                $result[] = $scheme_part.$authority.'/'.$query.$fragment;
-            }
-            else {
-                $result[] = $scheme_part.$authority.$path.$query.$fragment;
-            }
-
-            return $result;
-        }
-
-        /**
-         * openid authentication check
-		 *
-		 * @return void|Object (void : success, Object : fail)
-         **/
-        function procMemberOpenIDValidate() {
-            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
-            require_once('Auth/OpenID.php');
-            require_once('Auth/OpenID/Consumer.php');
-            require_once('Auth/OpenID/XEStore.php');
-            require_once('Auth/OpenID/URINorm.php');
-
-            $store = new Auth_OpenID_XEStore();
-            $consumer = new Auth_OpenID_Consumer($store);
-            $response = $consumer->complete($_GET);
-			switch($response->status) {
-				case Auth_OpenID_CANCEL :
-					// Handle if user authentication is canceled
-					return $this->stop('authorization_canceled');
-				case Auth_OpenID_FAILURE :
-					// Handle if user authentication is failed due to a certain problem (for example, openid doesn't exist) (there is no authentication required deunga openid ..)
-					return $this->stop('invalid_authorization');
-				case Auth_OpenID_SUCCESS :
-					// Authentication success!
-					break;
-				default:
-					return $this->stop('invalid_authorization');
-			}
-            // Authentication success
-            $oMemberModel = &getModel('member');
-            // Get zeroboard ID which is corresponded to the openID ID.
-            $login_success = false;
-            $assoc_member_info = null;
-            $openid_identity = $response->signed_args["openid.identity"];
-            $args->openid = $openid_identity;
-            $output = executeQuery('member.getMemberSrlByOpenID', $args);
-
-            if ($output->toBool() && $output->data && !is_array($output->data)) {
-                $member_srl = $output->data->member_srl;
-				$columnList = array('member_srl', 'user_id');
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-                if ($member_info) {
-                    $assoc_member_info = $member_info;
-                }
-            }
-
-            $user_id_candidates = $this->getLegacyUserIDsFromOpenID($openid_identity);
-            $default_user_id = $user_id_candidates[0];
-
-            if ($assoc_member_info != null) {
-                $user_id_candidates = array_merge(array($assoc_member_info->user_id), $user_id_candidates);
-            }
-            $sreg = $response->extensionResponse('sreg');
-
-            foreach($user_id_candidates as $user_id) {
-                $args->user_id = $args->nick_name = $user_id;
-                // Get basic information
-                $args->email_address = $sreg['email'];
-                $args->user_name = $sreg['fullname'];
-                if(!$args->user_name) list($args->user_name) = explode('@', $args->email_address);
-                $args->birthday = str_replace('-','',$sreg['dob']);
-                // Attempts self-authentication
-                $output = $this->doLogin($args->user_id);
-
-                if ($output->toBool()) {
-                    if ($assoc_member_info == null) {
-                        $logged_info = Context::get('logged_info');
-                        $args->member_srl = $logged_info->member_srl;
-                        $args->openid = $openid_identity;
-                        executeQuery('member.addOpenIDToMember', $args);
-                    }
-                    $login_success = true;
-                    break;
-                }
-            }
-            // Member join if self-authentication is failed
-            if(!$login_success) {
-                $args->user_id = $args->nick_name = $default_user_id;
-                $args->password = md5(getmicrotime());
-
-                $output = $this->insertMember($args);
-                if(!$output->toBool()) return $this->stop($output->getMessage());
-                $output = $this->doLogin($args->user_id);
-                if(!$output->toBool()) return $this->stop($output->getMessage());
-
-                $logged_info = Context::get('logged_info');
-                $args->member_srl = $logged_info->member_srl;
-                $args->openid = $openid_identity;
-                executeQuery('member.addOpenIDToMember', $args);
-            }
-
-            Context::close();
-            // Move the page
-            if(Context::get('goto')) {
-                $goto = Context::get('goto');
-                header("location:" . $goto);
-            } else {
-                header("location:./");
-            }
-
-            exit();
-        }
-
-        /**
-         * Request member join by openID
-		 *
-		 * @return Object 
-         **/
-        function procMemberAddOpenIDToMember() {
-            return $this->procMemberOpenIDLogin("procMemberValidateAddOpenIDToMember");
-        }
-
-        /**
-         * Validate openID processing
-		 *
-		 * @return Object 
-         **/
-        function procMemberValidateAddOpenIDToMember() {
-            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
-            require_once('Auth/OpenID.php');
-            require_once('Auth/OpenID/Consumer.php');
-            require_once('Auth/OpenID/XEStore.php');
-            require_once('Auth/OpenID/URINorm.php');
-
-            $store = new Auth_OpenID_XEStore();
-            $consumer = new Auth_OpenID_Consumer($store);
-            $response = $consumer->complete($_GET);
-
-            switch($response->status) {
-                case Auth_OpenID_CANCEL :
-                // Handle if user authentication is canceled
-                return $this->stop('authorization_canceled');
-            case Auth_OpenID_FAILURE :
-                // Handle if user authentication is failed due to a certain problem (for example, openid doesn't exist) (there is no authentication required deunga openid ..)
-                return $this->stop('invalid_authorization');
-            case Auth_OpenID_SUCCESS :
-                {
-                    $logged_info = Context::get('logged_info');
-                    if (!Context::get('is_logged')) return $this->stop('msg_not_logged');
-
-                    $member_srl = $logged_info->member_srl;
-
-                    $args->member_srl = $member_srl;
-                    $openid_identity = $response->signed_args["openid.identity"];
-                    $args->openid = $openid_identity;
-
-                    $output = executeQuery('member.addOpenIDToMember', $args);
-                    if (!$output->toBool()) return $output;
-
-                    Context::close();
-
-                    if(Context::get('goto')){
-                        $goto = Context::get('goto');
-                        header("location:" . $goto);
-                    }else{
-                        header("location:./");
-                    }
-                    exit();
-                }
-                // Authentication success!
-                break;
-            default:
-                return $this->stop('invalid_authorization');
-            }
-        }
-
-        /**
-         * Disconnect OpenID
-		 *
-		 * @return void 
-         **/
-        function procMemberDeleteOpenIDFromMember() {
-            $logged_info = Context::get('logged_info');
-            $openid_identity = Context::get('openid_to_delete');
-            $arg->openid = $openid_identity;
-            $result = executeQuery('member.getMemberSrlByOpenID', $arg);
-
-            if (!Context::get('is_logged')) {
-                $this->setError(-1);
-                $this->setMessage('msg_not_logged');
-                return;
-            } else if (!$result->data || is_array($result->data)) {
-                $this->setError(-1);
-                $this->setMessage('msg_not_founded');
-                return;
-            } else if ($result->data->member_srl != $logged_info->member_srl) {
-                $this->setError(-1);
-                $this->setMessage('msg_not_permitted');
-                return;
-            }
-
-            $arg->openid = $openid_identity;
-
-            $output = executeQuery('member.deleteMemberOpenID', $arg);
-            if(!$output->toBool()) return $output;
-
-            $this->setMessage('success_updated');
-        }
-
 
         /**
          * Log-out
@@ -508,6 +208,11 @@
                         if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_user_id');
                     break;
                 case 'nick_name' :
+                        // Check denied ID
+                        if($oMemberModel->isDeniedNickName($value))
+						{
+							return new Object(0,'denied_nick_name');
+						}
                         // Check if duplicated
                         $member_srl = $oMemberModel->getMemberSrlByNickName($value);
                         if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_nick_name');
@@ -655,13 +360,65 @@
 			$this->setRedirectUrl($returnUrl);
         }
 
+
+		function procMemberModifyInfoBefore()
+		{
+			if($_SESSION['rechecked_password_step'] != 'INPUT_PASSWORD')
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
+            if(!Context::get('is_logged'))
+			{
+				return $this->stop('msg_not_logged');
+			}
+
+			$password = Context::get('password');
+
+			if(!$password)
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
+			$oMemberModel = &getModel('member');
+
+			if(!$this->memberInfo->password)
+			{
+				$columnList = array('member_srl', 'password');
+	            $memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+				$this->memberInfo->password = $memberInfo->password;
+			}
+            // Verify the cuttent password
+            if(!$oMemberModel->isValidPassword($this->memberInfo->password, $password))
+			{
+				return new Object(-1, 'invalid_password');
+			}
+
+			$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
+
+			$redirectUrl = getUrl('', 'act', 'dispMemberModifyInfo');
+			$this->setRedirectUrl($redirectUrl);
+
+		}
+
         /**
          * Edit member profile
 		 * 
 		 * @return void|Object (void : success, Object : fail)
          **/
-        function procMemberModifyInfo() {
-            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+        function procMemberModifyInfo() 
+		{
+            if(!Context::get('is_logged'))
+			{
+				return $this->stop('msg_not_logged');
+			}
+
+			if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+			{
+				return $this->stop('msg_invalid_request');
+			}
+			unset($_SESSION['rechecked_password_step']);
+
             // Extract the necessary information in advance
             $oMemberModel = &getModel ('member');
             $config = $oMemberModel->getMemberConfig ();
@@ -698,9 +455,7 @@
             // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
             $args->extra_vars = serialize($extra_vars);
-            // Create a member model object
-            $oMemberModel = &getModel('member');
-
+			
 			// remove whitespace
 			$checkInfos = array('user_id', 'nick_name', 'email_address');
 			$replaceStr = array("\r\n", "\r", "\n", " ", "\t", "\xC2\xAD");
@@ -709,6 +464,7 @@
 					$args->{$val} = str_replace($replaceStr, '', $args->{$val});
 				}
 			}
+
             // Execute insert or update depending on the value of member_srl
             $output = $this->updateMember($args);
             if(!$output->toBool()) return $output;
@@ -816,28 +572,6 @@
 
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 			$this->setRedirectUrl($returnUrl);
-        }
-
-        /**
-         * OpenID Withdrawal
-		 * 
-		 * @return void|Object (void : success, Object : fail)
-         **/
-        function procMemberOpenIDLeave() {
-            // Return an error if in the non-login state
-            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
-            // Compare the current IP with session IP
-            if($_SESSION['ipaddress']!=$_SERVER['REMOTE_ADDR']) return $this->stop('msg_not_permitted');
-            // Get information of logged-in user
-            $logged_info = Context::get('logged_info');
-            $member_srl = $logged_info->member_srl;
-
-            $output = $this->deleteMember($member_srl);
-            if(!$output->toBool()) return $output;
-            // Destroy all session information
-            $this->destroySessionInfo();
-            // Return success message
-            $this->setMessage('success_leaved');
         }
 
         /**
@@ -960,20 +694,18 @@
 		 *
 		 * @return Object
          **/
-        function procMemberDeleteProfileImage() {
-            $member_srl = Context::get('member_srl');
-            if(!$member_srl) return new Object(0,'success');
+        function procMemberDeleteProfileImage($_memberSrl = 0) {
+            $member_srl = ($_memberSrl) ? $_memberSrl : Context::get('member_srl');
+            if(!$member_srl)
+			{
+				return new Object(0,'success');
+			}
 
             $logged_info = Context::get('logged_info');
 
-            if($logged_info->is_admin != 'Y') {
-                $oModuleModel = &getModel('module');
-                $config = $oModuleModel->getModuleConfig('member');
-                if($config->profile_image == 'N') return new Object(0,'success');
-            }
-
-            if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
-                $oMemberModel = &getModel('member');
+            if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
+			{
+				$oMemberModel = &getModel('member');
                 $profile_image = $oMemberModel->getProfileImage($member_srl);
                 FileHandler::removeFile($profile_image->file);
             }
@@ -985,20 +717,19 @@
 		 *
 		 * @return void
          **/
-        function procMemberDeleteImageName() {
-            $member_srl = Context::get('member_srl');
-            if(!$member_srl) return new Object(0,'success');
+        function procMemberDeleteImageName($_memberSrl = 0)
+		{
+            $member_srl = ($_memberSrl) ? $_memberSrl : Context::get('member_srl');
+            if(!$member_srl)
+			{
+				return new Object(0,'success');
+			}
 
             $logged_info = Context::get('logged_info');
 
-            if($logged_info->is_admin != 'Y') {
-                $oModuleModel = &getModel('module');
-                $config = $oModuleModel->getModuleConfig('member');
-                if($config->image_name == 'N') return new Object(0,'success');
-            }
-
-            if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
-                $oMemberModel = &getModel('member');
+            if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl)) 
+			{
+				$oMemberModel = &getModel('member');
                 $image_name = $oMemberModel->getImageName($member_srl);
                 FileHandler::removeFile($image_name->file);
             }
@@ -1066,13 +797,19 @@
 		 *
 		 * @return Object
          **/
-        function procMemberDeleteImageMark() {
-            $member_srl = Context::get('member_srl');
-            if(!$member_srl) return new Object(0,'success');
+        function procMemberDeleteImageMark($_memberSrl = 0) 
+		{
+            $member_srl = ($_memberSrl) ? $_memberSrl : Context::get('member_srl');
+            if(!$member_srl)
+			{
+				return new Object(0,'success');
+			}
 
             $logged_info = Context::get('logged_info');
-            if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
-                $oMemberModel = &getModel('member');
+
+            if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl)) 
+			{
+				$oMemberModel = &getModel('member');
                 $image_mark = $oMemberModel->getImageMark($member_srl);
                 FileHandler::removeFile($image_mark->file);
             }
@@ -1358,6 +1095,7 @@
             $auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$memberInfo->member_srl, 'auth_key',$auth_info->auth_key);
             Context::set('auth_url', $auth_url);
 
+
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
             // Get information of the Webmaster
@@ -1377,6 +1115,119 @@
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 			$this->setRedirectUrl($returnUrl);
         }
+
+		function procMemberResetAuthMail()
+		{
+			$memberInfo = $_SESSION['auth_member_info'];
+			unset($_SESSION['auth_member_info']);
+
+			if(!$memberInfo)
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
+			$newEmail = Context::get('email_address');
+
+            if(!$newEmail)
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
+			$oMemberModel = &getModel('member');
+            $member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
+            if($member_srl)
+			{
+				return new Object(-1,'msg_exists_email_address');
+			}
+
+			// remove all key by member_srl
+            $args->member_srl = $memberInfo->member_srl;
+            $output = executeQuery('member.deleteAuthMail', $args);
+
+            if(!$output->toBool()) 
+			{
+                return $output;
+            }
+
+			// update member info
+			$args->email_address = $newEmail;
+            list($args->email_id, $args->email_host) = explode('@', $newEmail);
+
+            $output = executeQuery('member.updateMemberEmailAddress', $args);
+            if(!$output->toBool()) 
+			{
+				return $this->stop($output->getMessage());
+			}
+
+			// generate new auth key
+            $auth_args->user_id = $memberInfo->user_id;
+            $auth_args->member_srl = $memberInfo->member_srl;
+            $auth_args->new_password = $memberInfo->password;
+            $auth_args->auth_key = md5( rand(0,999999 ) );
+            $auth_args->is_register = 'Y';
+
+            $output = executeQuery('member.insertAuthMail', $auth_args);
+            if(!$output->toBool()) return $output;
+
+			$memberInfo->email_address = $newEmail;
+
+			// resend auth mail.
+			$this->_sendAuthMail($auth_args, $memberInfo);
+
+			$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $memberInfo->email_address);
+			$this->setMessage($msg);
+
+			$returnUrl = getUrl('');
+			$this->setRedirectUrl($returnUrl);
+
+		}
+
+		function _sendAuthMail($auth_args, $member_info)
+		{
+			$oMemberModel = &getModel('member');
+			$member_config = $oMemberModel->getMemberConfig();
+            // Get content of the email to send a member
+            Context::set('auth_args', $auth_args);
+
+			$memberInfo = array();
+
+			global $lang;
+			if (is_array($member_config->signupForm)){
+				$exceptForm=array('password', 'find_account_question');
+				foreach($member_config->signupForm as $form){
+					if(!in_array($form->name, $exceptForm) && $form->isDefaultForm && ($form->required || $form->mustRequired)){
+						$memberInfo[$lang->{$form->name}] = $member_info->{$form->name};
+					}
+				}
+			}else{
+				$memberInfo[$lang->user_id] = $member_info->user_id;
+				$memberInfo[$lang->user_name] = $member_info->user_name;
+				$memberInfo[$lang->nick_name] = $member_info->nick_name;
+				$memberInfo[$lang->email_address] = $member_info->email_address;
+			}
+			Context::set('memberInfo', $memberInfo);
+
+			if(!$member_config->skin) $member_config->skin = "default";
+			if(!$member_config->colorset) $member_config->colorset = "white";
+
+			Context::set('member_config', $member_config);
+
+			$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
+			if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+
+			$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
+			Context::set('auth_url', $auth_url);
+
+			$oTemplate = &TemplateHandler::getInstance();
+			$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
+			// Send a mail
+			$oMail = new Mail();
+			$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
+			$oMail->setContent($content);
+			$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
+			$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+			$oMail->send();
+		}
 
         /**
          * Join a virtual site
@@ -1426,7 +1277,7 @@
             if(!$args->editor_skin) $args->editor_skin= "xpresseditor";
             if(!$args->editor_colorset) $args->editor_colorset = "white";
             if($args->enable_join!='Y') $args->enable_join = 'N';
-            if($args->enable_openid!='Y') $args->enable_openid= 'N';
+            $args->enable_openid= 'N';
             if($args->profile_image !='Y') $args->profile_image = 'N';
             if($args->image_name!='Y') $args->image_name = 'N';
             if($args->image_mark!='Y') $args->image_mark = 'N';
@@ -1687,10 +1538,16 @@
 			// Password Check
 			if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password, $this->memberInfo->member_srl)) return $this->recordMemberLoginError(-1, 'invalid_password',$this->memberInfo);
 			// If denied == 'Y', notify
-			if($this->memberInfo->denied == 'Y') {
+			if($this->memberInfo->denied == 'Y') 
+			{
 				$args->member_srl = $this->memberInfo->member_srl;
 				$output = executeQuery('member.chkAuthMail', $args);
-				if ($output->toBool() && $output->data->count != '0') return new Object(-1,'msg_user_not_confirmed');
+				if ($output->toBool() && $output->data->count != '0') 
+				{
+					$_SESSION['auth_member_srl'] = $this->memberInfo->member_srl;
+					$redirectUrl = getUrl('', 'act', 'dispMemberResendAuthMail');
+					return $this->setRedirectUrl($redirectUrl, new Object(-1,'msg_user_not_confirmed'));
+				}
 				return new Object(-1,'msg_user_denied');
 			}
 			// Notify if denied_date is less than the current time
@@ -1773,9 +1630,6 @@
                 $this->destroySessionInfo();
                 return;
             }
-            // OpenID is a check (only for a determined identity types)
-            if(preg_match("/^([_0-9a-zA-Z]+)$/is", $this->memberInfo->user_id)) $this->memberInfo->is_openid = false;
-            else $this->memberInfo->is_openid = true;
             // Log in for treatment sessions set
             $_SESSION['is_logged'] = true;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
@@ -1876,6 +1730,11 @@
             $member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
             if($member_srl) return new Object(-1,'msg_exists_user_id');
 
+            // nickname check is prohibited
+            if($oMemberModel->isDeniedNickName($args->nick_name))
+			{
+				return new Object(-1,'denied_nick_name');
+			}
             $member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
             if($member_srl) return new Object(-1,'msg_exists_nick_name');
 
@@ -1945,48 +1804,7 @@
                     $oDB->rollback();
                     return $output;
                 }
-                // Get content of the email to send a member
-                Context::set('auth_args', $auth_args);
-
-				global $lang;
-				if (is_array($member_config->signupForm)){
-					$exceptForm=array('password', 'find_account_question');
-					foreach($member_config->signupForm as $form){
-						if(!in_array($form->name, $exceptForm) && $form->isDefaultForm && ($form->required || $form->mustRequired)){
-							$memberInfo[$lang->{$form->name}] = $args->{$form->name};
-						}
-					}
-				}else{
-					$memberInfo[$lang->user_id] = $args->user_id;
-					$memberInfo[$lang->user_name] = $args->user_name;
-					$memberInfo[$lang->nick_name] = $args->nick_name;
-					$memberInfo[$lang->email_address] = $args->email_address;
-				}
-                Context::set('memberInfo', $memberInfo);
-
-                if(!$member_config->skin) $member_config->skin = "default";
-                if(!$member_config->colorset) $member_config->colorset = "white";
-
-                Context::set('member_config', $member_config);
-
-                $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
-                if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
-
-                $auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$args->member_srl, 'auth_key',$auth_args->auth_key);
-                Context::set('auth_url', $auth_url);
-
-                $oTemplate = &TemplateHandler::getInstance();
-                $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
-                // Get information of the Webmaster
-                $oModuleModel = &getModel('module');
-                $member_config = $oModuleModel->getModuleConfig('member');
-                // Send a mail
-                $oMail = new Mail();
-                $oMail->setTitle( Context::getLang('msg_confirm_account_title') );
-                $oMail->setContent($content);
-                $oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-                $oMail->setReceiptor( $args->user_name, $args->email_address );
-                $oMail->send();
+				$this->_sendAuthMail($auth_args, $args);
             }
             // Call a trigger (after)
             if($output->toBool()) {
@@ -2006,7 +1824,8 @@
         /**
          * Modify member information
          **/
-        function updateMember($args) {
+        function updateMember($args) 
+		{
             // Call a trigger (before)
             $output = ModuleHandler::triggerCall('member.updateMember', 'before', $args);
             if(!$output->toBool()) return $output;
@@ -2046,6 +1865,11 @@
 				$args->user_id = $orgMemberInfo->user_id;
 			}
 
+			if($args->nick_name && $oMemberModel->isDeniedNickName($args->nick_name))
+			{
+				return new Object(-1, 'denied_nick_name');
+			}
+
 			list($args->email_id, $args->email_host) = explode('@', $args->email_address);
             // Website, blog, checks the address
             if($args->homepage && !preg_match("/^[a-z]+:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
@@ -2061,8 +1885,8 @@
 			if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 			if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 			if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
-
 			if(!$args->description) $args->description = '';
+			if(!$args->birthday) $args->birthday = '';
 
             $output = executeQuery('member.updateMember', $args);
             if(!$output->toBool()) {
@@ -2179,8 +2003,7 @@
                 $oDB->rollback();
                 return $output;
             }
-            // Delete the entries in member_openid
-            $output = executeQuery('member.deleteMemberOpenIDByMemberSrl', $ags);
+
             // TODO: If the table is not an upgrade may fail.
             /*
             if(!$output->toBool()) {
@@ -2211,8 +2034,9 @@
 
             $oDB->commit();
             // Name, image, image, mark, sign, delete
-            $this->procMemberDeleteImageName();
-            $this->procMemberDeleteImageMark();
+            $this->procMemberDeleteImageName($member_srl);
+            $this->procMemberDeleteImageMark($member_srl);
+            $this->procMemberDeleteProfileImage($member_srl);
             $this->delSignature($member_srl);
 
             return $output;

@@ -79,6 +79,10 @@
 
 			$admin_ip_list = preg_replace("/[\r|\n|\r\n]+/",",",$admin_ip_list);
 			$admin_ip_list = preg_replace("/\s+/","",$admin_ip_list);
+			if(preg_match('/(<\?|<\?php|\?>)/xsm', $admin_ip_list))
+			{
+				$admin_ip_list = '';
+			}
 
 			$db_info = Context::getDBInfo();
             $db_info->default_url = Context::get('default_url');

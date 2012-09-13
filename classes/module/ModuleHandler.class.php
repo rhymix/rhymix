@@ -60,6 +60,15 @@
 				exit;
 			}
 
+			if(isset($this->act) && substr($this->act, 0, 4) == 'disp')
+			{
+				if(Context::get('_use_ssl') == 'optional' && Context::isExistsSSLAction($this->act) && $_SERVER['HTTPS'] != 'on')
+				{
+					header('location:https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+					return;
+				}
+			}
+
             // execute addon (before module initialization)
             $called_position = 'before_module_init';
             $oAddonController = &getController('addon');
@@ -407,6 +416,16 @@
 				$rulesetFile = $oModuleModel->getValidatorFilePath($rulesetModule, $ruleset, $this->mid);
 				if(!empty($rulesetFile))
 				{
+					if($_SESSION['XE_VALIDATOR_ERROR_LANG'])
+					{
+						$errorLang = $_SESSION['XE_VALIDATOR_ERROR_LANG'];
+						foreach($errorLang as $key => $val)
+						{
+							Context::setLang($key, $val);
+						}
+						unset($_SESSION['XE_VALIDATOR_ERROR_LANG']);
+					}
+
 					$Validator = new Validator($rulesetFile);
 					$result = $Validator->validate();
 					if(!$result)
@@ -484,7 +503,11 @@
 				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
 				if ($message != 'success') $_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
 				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
-				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
+
+				if(Context::get('xeVirtualRequestMethod') != 'xml')
+				{
+					$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
+				}
 			}	
 			
 			unset($logged_info);
@@ -555,6 +578,9 @@
 
 				if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 				{
+					$display_handler = new DisplayHandler();
+					$display_handler->_debugOutput();
+
 					header('location:'.$_SESSION['XE_VALIDATOR_RETURN_URL']);
 					return;
 				}

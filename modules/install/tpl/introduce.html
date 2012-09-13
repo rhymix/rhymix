@@ -4,11 +4,7 @@
 		<include target="progress_menu.html" />
 		<span class="dummy"></span>
 		<div id="content">
-			<form action="./" class="agreement" method="post">
-				<input type="hidden" name="module" value="install" />
-				<input type="hidden" name="act" value="procInstallAgreement" /> <!-- UX/Remove -->
-				<input type="hidden" name="lgpl_agree" value="Y" /> <!-- UX/Remove -->
-				<input type="hidden" name="enviroment_gather" value="N" /> <!-- UX/Remove -->
+			<div class="agreement">
 				<div class="desc">
 					<ul style="list-style:none">
 						<li loop="$lang_supported=>$key,$val" style="position:relative; margin:0 0 4px 0">
@@ -20,10 +16,10 @@
 				</div>
 				<div class="ibtnArea">
 					<div class="fRight">
-						<span class="ibtn icon"><span class="check"></span> <input type="submit" value="{$lang->cmd_next}" /></span>
+						<span class="ibtn icon"><span class="check"></span> <a href="{getUrl('', 'act', 'dispInstallCheckEnv')}" >{$lang->cmd_next}</a></span>
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 <include target="footer.html" />

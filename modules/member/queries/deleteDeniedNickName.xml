@@ -1,0 +1,8 @@
+<query id="deleteDeniedNickName" action="delete">
+    <tables>
+        <table name="member_denied_nick_name" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="nick_name" var="nick_name" notnull="notnull" />
+    </conditions>
+</query>

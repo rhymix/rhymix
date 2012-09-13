@@ -48,7 +48,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					</tr>
 				</tfoot>
 				<tbody>
-    				<!--@foreach($document_list as $no => $oDocument)-->
+					<!--@foreach($document_list as $no => $oDocument)-->
 					<tr>
 						<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank">{$oDocument->getTitle()}</a></td>
 						<td class="nowr"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
@@ -122,14 +122,14 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</div>
 	<div class="search">
 
-<form action="" class="pagination">
+<form action="./" class="pagination">
 	<input type="hidden" name="error_return_url" value="" />
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
-  	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
-  	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
-	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+	<a href="{getUrl('page', '')}" class="direction">&laquo; {$lang->first_page}</a>
 	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
 		{@$isGoTo = true}
 		<a href="{getUrl('page', '')}">1</a>
@@ -145,7 +145,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
 	</block>
-	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">{$lang->last_page} &raquo;</a>
 	<span cond="$isGoTo" id="goTo" class="tgContent">
 		<input name="page" title="{$lang->cmd_go_to_page}" />
 		<button type="submit">Go</button>

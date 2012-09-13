@@ -1,142 +1,133 @@
-<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data" target="hidden_iframe" class="form">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<form action="./" method="post" enctype="multipart/form-data" class="form">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="vid" value="{$vid}" />
 	<input type="hidden" name="mid" value="{$mid}" />
 	<input type="hidden" name="act" value="procModuleAdminUpdateSkinInfo" />
+	<input type="hidden" name="_mode" value="{$mode}" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 	<input type="hidden" name="page" value="{$page}" />
 	
     <h2 class="h2">{$lang->skin_default_info}</h2>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row">{$lang->skin}</th>
-				<td  >{$skin_info->title}</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->skin_author}</th>
-				<td loop="$skin_info->author=>$author">
+
+	<ul>
+		<li>
+			<p class="q">{$lang->skin}</p>
+			<p class="a">{$skin_info->title}</p>
+		</li>
+		<li>
+			<p class="q">{$lang->skin_author}</p>
+			<p class="a">
+				<block loop="$skin_info->author=>$author">
 					{$author->name}
 					<block cond="$author->homepage || $author->email_address">
 						(<a href="{$author->homepage}" onclick="window.open(this.href);return false;" cond="$author->homepage">{$author->homepage}</a>
 						<block cond="$author->homepage && $author->email_address">, </block>
 						<a href="mailto:{$author->email_address}" cond="$author->email_address">{$author->email_address}</a>)
 					</block><br />
-				</td>
-			</tr>
-			<tr cond="$skin_info->homepage">
-				<th scope="row">{$lang->homepage}</th>
-				<td><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a></td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->date}</th>
-				<td>{zdate($skin_info->date, 'Y-m-d')}&nbsp;</td>
-			</tr>
-			<tr cond="$skin_info->license || $skin_info->license_link">
-				<th scope="row">{$lang->skin_license}</th>
-				<td>
-					{nl2br(trim($skin_info->license))}
-					<p cond="$skin_info->license_link"><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
-				</td>
-			</tr>
-			<tr cond="$skin_info->description">
-				<th scope="row">{$lang->description}</th>
-				<td>{nl2br(trim($skin_info->description))}</td>
-			</tr>
-		</table>
-	</div>
+				</block>
+			</p>
+		</li>
+		<li cond="$skin_info->homepage">
+			<p class="q">{$lang->homepage}</p>
+			<p class="a"><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a></p>
+		</li>
+		<li>
+			<p class="q">{$lang->date}</p>
+			<p class="a">{zdate($skin_info->date, 'Y-m-d')}</p>
+		</li>
+		<li cond="$skin_info->license || $skin_info->license_link">
+			<p class="q">{$lang->skin_license}</p>
+			<p class="a">{nl2br(trim($skin_info->license))}</p>
+			<p cond="$skin_info->license_link"><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
+		</li>
+		<li cond="$skin_info->description">
+			<p class="q">{$lang->description}</p>
+			<p class="a">{nl2br(trim($skin_info->description))}</p>
+		</li>
+	</ul>
 
     <h2 class="h2">{$lang->extra_vars}</h2>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr valign="top" cond="$skin_info->colorset">
-				<th scope="row">{$lang->colorset}</th>
-				<td>
-					<!--@foreach($skin_info->colorset as $key => $val)-->
+	<ul>
+		<li cond="$skin_info->colorset" class="colorset">
+			<p class="q">{$lang->colorset}</p>
+			<div class="a">
+				<block loop="$skin_info->colorset => $key, $val">
 					<!--@if($val->screenshot)-->
 					{@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
 					<!--@else-->
 					{@ $_width = 200; $_height = 20; $_talign = "left"; }
 					<!--@end-->
-					<div style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
-						<input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($skin_vars['colorset']->value==$val->name)-->checked="checked"<!--@end-->/>
+					<div style="display:inline-block;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
+						<input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" checked="checked"|cond="$skin_vars['colorset']->value==$val->name" />
 						<label for="colorset_{$key}">{$val->title}</label>
-						<!--@if($val->screenshot)-->
-						<br />
-						<img src="../../../{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
-						<!--@end-->
+						<block cond="$val->screenshot">
+							<br />
+							<img src="../../../{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
+						</block>
 					</div>
-					<!--@end-->
-				</td>
-			</tr>
-			<!--@foreach($skin_info->extra_vars as $key => $val)-->
-			
-			<!--@if($val->group && ((!$group) || $group != $val->group))-->
-			{@$group = $val->group}
-		</table>
-	</div>
-    <h2 class="h2">{$group}</h2>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<!--@end-->
-			
-			<tr>
-				<th scope="row">{$val->title}</th>
-				<td >
-					<!--@if($val->type=="text")-->
-					<input type="text" name="{$val->name}" value="{$val->value}" id="target{$val->name}" />
-					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-					
-					<!--@elseif($val->type=="textarea")-->
-					<textarea name="{$val->name}" id="target{$val->name}" rows="8" cols="42">{$val->value}</textarea>
-					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-					
-					<!--@elseif($val->type=="select")-->
+				</block>
+			</div>
+		</li>
+		<block loop="$skin_info->extra_vars => $key, $val">
+			<block cond="$val->group && ((!$group) || $group != $val->group)">
+				{@$group = $val->group}
+				</ul>
+				<h2 class="h2">{$group}</h2>
+				<ul>
+			</block>
+			<li>
+				<p class="q">{$val->title}</p>
+				<p cond="$val->type == 'text'" class="a multiLangEdit">
+					{@$use_multilang = true}
+					<input type="hidden" name="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end-->" class="vLang" />
+					<input type="text" value="{$val->value}" class="vLang" />
+					<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+				</p>
+				<div cond="$val->type == 'textarea'" class="a multiLangEdit">
+					{@$use_multilang_textarea = true}
+					<input type="hidden" name="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end-->" class="vLang" />
+					<textarea rows="8" cols="42" class="vLang">{$val->value}</textarea>
+					<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+				</div>
+				<p cond="$val->type == 'select'" class="a">
 					<select name="{$val->name}">
-						<!--@foreach($val->options as $k=>$v)-->
-						<option value="{$v->value}" selected="selected"|cond="$v->value == $val->value">{$v->title}</option>
-						<!--@end-->
+						<option loop="$val->options => $k, $v" value="{$v->value}" selected="selected"|cond="$v->value == $val->value">{$v->title}</option>
 					</select>
-					
-					<!--@elseif($val->type=="checkbox")-->
-					<!--@foreach($val->options as $k=>$v)-->
-					<span>
+				</p>
+				<p cond="$val->type == 'checkbox'" class="a">
+					<span loop="$val->options => $k, $v">
 						<input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="in_array($v->value, $val->value)" class="checkbox" /> 
 						<label for="ch_{$key}_{$k}">{$v->title}</label>
 					</span>
-					<!--@end-->
-					
-					<!--@elseif($val->type=="radio")-->
-					<!--@foreach($val->options as $k=>$v)-->
-					<span>
+				</p>
+				<p cond="$val->type == 'radio'" class="a">
+					<span loop="$val->options => $k, $v">
 						<input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="$v->value==$val->value" /> 
 						<label for="ch_{$key}_{$k}">{$v->title}</label>
 					</span>
-					<!--@end-->
-					
-					<!--@elseif($val->type=="image")-->
-					<!--@if($val->value)-->
-					<div>
+				</p>
+				<div cond="$val->type == 'image'" class="a">
+					<div cond="$val->value">
 						<img src="{$val->value}" /><br />
 						<input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" />
 						<label for="del_{$val->name}">{$lang->cmd_delete}</label>
 					</div>
-					<!--@end-->
 					
 					<input type="file" name="{$val->name}" value="" />
-					<!--@end-->
+				</div>
 					
-					<!--@if($val->description)-->
-					<p class="desc">{nl2br(trim($val->description))}</p>
-					<!--@end-->
-				</td>
-			</tr>
-			<!--@end-->
-		</table>
-	</div>
+				<p cond="$val->description" class="desc">{nl2br(trim($val->description))}</p>
+			</li>
+		</block>
+	</ul>
     <div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
 	</div>
 </form>
 
-<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>
+<include target="../../module/tpl/include.multilang.html" />
+<include target="../../module/tpl/include.multilang.textarea.html" />

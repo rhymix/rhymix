@@ -19,6 +19,8 @@
         <action name="dispPageAdminAddContent" type="view" standalone="true" />
         <action name="dispPageAdminMobileContentModify" type="view" standalone="true" />
 		<action name="dispPageAdminMobileContent" type="view" standalone="true" />
+		<action name="dispPageAdminSkinInfo" type="view" standalone="true" />
+		<action name="dispPageAdminMobileSkinInfo" type="view" standalone="true" />
 
         <action name="procPageAdminRemoveWidgetCache" type="controller" standalone="true" />
         <action name="procPageAdminInsert" type="controller" standalone="true" ruleset="insertPage" />

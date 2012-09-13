@@ -50,6 +50,7 @@
 				}
 			}
 
+			Context::set('l', Context::getLangType());
 			$this->setTemplateFile('introduce');
         }
 
@@ -59,7 +60,6 @@
         function dispInstallCheckEnv() {
             $this->setTemplateFile('check_env');
         }
-
 
         /**
          * @brief Choose a DB

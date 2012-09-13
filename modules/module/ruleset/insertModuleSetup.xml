@@ -6,6 +6,5 @@
 		<field name="module_srls" required="true" />
 		<field name="module_category_srl" rule="number" />
 		<field name="layout_srl" rule="number" />
-		<field name="skin" required="true" />
     </fields>
 </ruleset>

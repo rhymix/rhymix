@@ -1,0 +1,15 @@
+<query id="getModuleSkinDotList" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="module" />
+        <column name="skin" />
+    </columns>
+    <conditions>
+		<condition operation="like" column="skin" var="skin" default="." />
+    </conditions>
+    <groups>
+        <group column="skin" />
+    </groups>
+</query>

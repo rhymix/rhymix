@@ -68,6 +68,10 @@
             $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
             // Wanted results
             $widget_code = $this->execute($widget, $vars, true, false);
+
+            $oModuleController = &getController('module');
+            $oModuleController->replaceDefinedLangCode($widget_code);
+
             $this->add('widget_code', $widget_code);
         }
 
@@ -389,6 +393,7 @@
                 }
             }
 
+
             /**
              * Widgets widgetContent/widgetBox Wanted If you are not content
              **/
@@ -475,7 +480,7 @@
                                 foreach($args as $key => $val) {
                                     if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget','widgetstyle','document_srl'))) continue;
                                     if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
-                                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
+                                    $attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val));
                                 }
                             }
 
@@ -509,7 +514,7 @@
                                     if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget','widgetstyle','document_srl'))) continue;
                                     if(!is_numeric($val) && (!is_string($val) || strlen($val)==0)) continue;
                                     if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
-                                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
+                                    $attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val));
                                 }
                             }
 
@@ -532,7 +537,7 @@
                                     if(in_array($key, $allowed_key)) continue;
                                     if(!is_numeric($val) && (!is_string($val) || strlen($val)==0)) continue;
                                     if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
-                                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
+                                    $attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val));
                                 }
                             }
 
@@ -673,8 +678,8 @@
                     continue;
                 }
                 if(strpos($val,'|@|') > 0) $val = str_replace('|@|', ',', $val);
-                $vars->{$key} = htmlspecialchars(Context::convertEncodingStr($val));
-                $attribute[] = sprintf('%s="%s"', $key, Context::convertEncodingStr($val));
+                $vars->{$key} = Context::convertEncodingStr($val);
+                $attribute[] = sprintf('%s="%s"', $key, htmlspecialchars(Context::convertEncodingStr($val)));
             }
 
             return $attribute;

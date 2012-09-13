@@ -1,0 +1,17 @@
+<div class="sct well">
+	<h2>{$lang->favorite}</h2>
+	<ul class="nav nav-list">
+		<li loop="$favorite_list => $favorite">
+			<a href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</a>
+			<form class="action" action="./">
+				<input type="hidden" name="module" value="admin" />
+				<input type="hidden" name="act" value="procAdminToggleFavorite" />
+				<input type="hidden" name="site_srl" value="0" />
+				<input type="hidden" name="module_name" value="{$favorite->module}" />
+				<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+				<button type="submit" class="text" title="{$lang->cmd_delete}">&times;</button>
+			</form>
+		</li>
+		<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->no_data}</a></li>
+	</ul>
+</div>

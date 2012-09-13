@@ -235,7 +235,11 @@ class documentController extends document {
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 		if(Mobile::isFromMobilePhone())
 		{
-			$obj->content = nl2br(htmlspecialchars($obj->content));
+			if($obj->use_html != 'Y')
+			{
+				$obj->content = htmlspecialchars($obj->content);
+			}
+			$obj->content = nl2br($obj->content);
 		}
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
@@ -408,7 +412,10 @@ class documentController extends document {
 			}
 		}
 		// Remove iframe and script if not a top adminisrator in the session.
-		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
+		if($logged_info->is_admin != 'Y')
+		{
+			$obj->content = removeHackTag($obj->content);
+		}
 		// if temporary document, regdate is now setting
 		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
 
@@ -882,7 +889,10 @@ class documentController extends document {
 		if($point > 0) $failed_voted = 'failed_voted';
 		else $failed_voted = 'failed_blamed';
 		// Return fail if session already has information about votes
-		if($_SESSION['voted_document'][$document_srl]) return new Object(-1, $failed_voted);
+		if($_SESSION['voted_document'][$document_srl])
+		{
+			return new Object(-1, $failed_voted);
+		}
 		// Get the original document
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
@@ -891,11 +901,13 @@ class documentController extends document {
 			$_SESSION['voted_document'][$document_srl] = true;
 			return new Object(-1, $failed_voted);
 		}
+
+		// Create a member model object
+		$oMemberModel = &getModel('member');
+		$member_srl = $oMemberModel->getLoggedMemberSrl();
+
 		// Check if document's author is a member.
 		if($oDocument->get('member_srl')) {
-			// Create a member model object
-			$oMemberModel = &getModel('member');
-			$member_srl = $oMemberModel->getLoggedMemberSrl();
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
 			if($member_srl && $member_srl == $oDocument->get('member_srl')) {
 				$_SESSION['voted_document'][$document_srl] = true;
@@ -915,6 +927,11 @@ class documentController extends document {
 			$_SESSION['voted_document'][$document_srl] = true;
 			return new Object(-1, $failed_voted);
 		}
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		// Update the voted count
 		if($point < 0)
 		{
@@ -931,8 +948,6 @@ class documentController extends document {
 		$args->point = $point;
 		$output = executeQuery('document.insertDocumentVotedLog', $args);
 		if(!$output->toBool()) return $output;
-		// Leave in the session information
-		$_SESSION['voted_document'][$document_srl] = true;
 
 		$obj->member_srl = $oDocument->get('member_srl');
 		$obj->module_srl = $oDocument->get('module_srl');
@@ -941,8 +956,17 @@ class documentController extends document {
 		$obj->point = $point;
 		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
 		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		$output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
-		if(!$output->toBool()) return $output;
+		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
+		if(!$trigger_output->toBool()) {
+			$oDB->rollback();
+			return $trigger_output;
+		}
+
+		$oDB->commit();
+
+		// Leave in the session information
+		$_SESSION['voted_document'][$document_srl] = true;
+
 		// Return result
 		if($point > 0)
 		{
@@ -959,52 +983,99 @@ class documentController extends document {
 	 * @param int $document_srl
 	 * @return void|Object
 	 */
-	function declaredDocument($document_srl) {
+	function declaredDocument($document_srl)
+	{
 		// Fail if session information already has a reported document
 		if($_SESSION['declared_document'][$document_srl]) return new Object(-1, 'failed_declared');
+
+		$trigger_obj = new stdClass();
+		$trigger_obj->document_srl = $document_srl;
+
+		// Call a trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
 		// Check if previously reported
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDeclaredDocument', $args);
 		if(!$output->toBool()) return $output;
+
 		$declared_count = $output->data->declared_count;
+
 		// Get the original document
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+
 		// Pass if the author's IP address is as same as visitor's.
 		/*if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new Object(-1, 'failed_declared');
 		}*/
+
 		// Check if document's author is a member.
-		if($oDocument->get('member_srl')) {
+		if($oDocument->get('member_srl'))
+		{
 			// Create a member model object
 			$oMemberModel = &getModel('member');
 			$member_srl = $oMemberModel->getLoggedMemberSrl();
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
-			if($member_srl && $member_srl == $oDocument->get('member_srl')) {
+			if($member_srl && $member_srl == $oDocument->get('member_srl'))
+			{
 				$_SESSION['declared_document'][$document_srl] = true;
 				return new Object(-1, 'failed_declared');
 			}
 		}
+
 		// Use member_srl for logged-in members and IP address for non-members.
-		if($member_srl) {
+		if($member_srl)
+		{
 			$args->member_srl = $member_srl;
-		} else {
+		}
+		else
+		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
+
 		// Pass after registering a sesson if reported/declared documents are in the logs.
-		if($output->data->count) {
+		if($output->data->count)
+		{
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new Object(-1, 'failed_declared');
 		}
+
+		// begin transaction
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
 		// Add the declared document
 		if($declared_count > 0) $output = executeQuery('document.updateDeclaredDocument', $args);
 		else $output = executeQuery('document.insertDeclaredDocument', $args);
 		if(!$output->toBool()) return $output;
 		// Leave logs
 		$output = executeQuery('document.insertDocumentDeclaredLog', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		// Call a trigger (after)
+		$trigger_obj->declared_count = $declared_count + 1;
+		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'after', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			$oDB->rollback();
+			return $trigger_output;
+		}
+
+		// commit
+		$oDB->commit();
+
 		// Leave in the session information
 		$_SESSION['declared_document'][$document_srl] = true;
 
@@ -1261,17 +1332,23 @@ class documentController extends document {
 		$js_code = array();
 		$js_code[] = '<script type="text/javascript">//<![CDATA[';
 		$js_code[] = '(function($){';
-				$js_code[] = 'var validator = xe.getApp("validator")[0];';
-				$js_code[] = 'if(!validator) return false;';
+		$js_code[] = 'var validator = xe.getApp("validator")[0];';
+		$js_code[] = 'if(!validator) return false;';
 
-				$logged_info = Context::get('logged_info');
+		$logged_info = Context::get('logged_info');
 
-				foreach($extra_keys as $idx => $val) {
-				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $val->idx, $val->name);
-				if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
-				}
+		foreach($extra_keys as $idx => $val) 
+		{
+			$idx = $val->idx;
+			if($val->type == 'kr_zip')
+			{
+				$idx .= '[]';
+			}
+			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $idx, $val->name);
+			if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $idx);
+		}
 
-				$js_code[] = '})(jQuery);';
+		$js_code[] = '})(jQuery);';
 		$js_code[] = '//]]></script>';
 		$js_code   = implode("\n", $js_code);
 

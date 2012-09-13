@@ -5,6 +5,11 @@ jQuery(function($){
 var $lang = $('#editMenu h2:first span');
 xe.lang.add_menu  = $lang.eq(0).text();
 xe.lang.edit_menu = $lang.eq(1).text();
+
+var $grant_lang = $('#groupList select[name=menu_grant_default] option');
+xe.lang.grant_to_all = $grant_lang.eq(0).text();
+xe.lang.grant_to_login_user = $grant_lang.eq(1).text();
+xe.lang.grant_to_group = $grant_lang.eq(2).text();
 $lang.empty();
 
 $('form.siteMap')
@@ -51,12 +56,14 @@ $('form.siteMap')
 		var menuItem = obj.menu_item;
 		menuUrl = menuItem.url;
 		var successReturnUrl = editForm.find('input[name=success_return_url]').val() + menuItem.menu_srl;
+		var menuName = $('<div />').html(menuItem.name).text();
+
 		editForm.find('.h2').text(xe.lang.edit_menu);
 		editForm.find('input[name=menu_srl]').val(menuItem.menu_srl);
 		editForm.find('input[name=menu_item_srl]').val(menuItem.menu_item_srl);
 		editForm.find('input[name=parent_srl]').val(menuItem.parent_srl);
-		editForm.find('input[name=menu_name_key]').val(menuItem.name_key);
-		editForm.find('input[name=menu_name]').val(menuItem.name);
+		editForm.find('input[name=menu_name_key]').val(menuName);
+		editForm.find('input[name=menu_name]').val(menuName);
 		editForm.find('input[name=success_return_url]').val(successReturnUrl);
 
 		var moduleType = menuItem.moduleType;
@@ -94,6 +101,15 @@ $('form.siteMap')
 		if(menuItem.active_btn) $('#active_btn_preview').html('<img src="'+menuItem.active_btn+'" /><input type="checkbox" name="isActiveDelete" value="Y"> Delete');
 
 		var htmlBuffer = '';
+
+		htmlBuffer+='<select name="menu_grant_default" class="grant_default" onChange="doShowMenuGrantZone()"><option value="0">'+xe.lang.grant_to_all+'</option><option value="-1"';
+		if(menuItem.group_srls != null && menuItem.group_srls.item == '-1') htmlBuffer += ' selected="selected" ';
+		htmlBuffer += '>'+xe.lang.grant_to_login_user+'</option> <option value=""';
+		if(menuItem.group_srls != null &&menuItem.group_srls.item!='-1') htmlBuffer += ' selected="selected" ';
+		htmlBuffer += '>'+xe.lang.grant_to_group+'</option></select> <div id="zone_menu_grant"';
+		if(!menuItem.group_srls == null ||menuItem.group_srls.item=='-1') htmlBuffer +='style="display:none"';
+		htmlBuffer +='>';
+
 		for(x in menuItem.groupList.item)
 		{
 			var groupObj = menuItem.groupList.item[x];
@@ -102,6 +118,7 @@ $('form.siteMap')
 			if(groupObj.isChecked) htmlBuffer += ' checked="checked" ';
 			htmlBuffer += '/> <label for="group_srls_'+groupObj.group_srl+'">'+groupObj.title+'</label>'
 		}
+		htmlBuffer +='</div>';
 		$('#groupList').html(htmlBuffer);
 
 		// reset label
@@ -303,3 +320,13 @@ function confirmDelete()
 	if(confirm(xe.lang.confirm_delete)) return true;
 	return false;
 }
+
+/* 메뉴 권한 선택용 */
+function doShowMenuGrantZone() {
+	jQuery(".grant_default").each( function() {
+	var id = "#zone_menu_grant";
+	if(!jQuery(this).val()) jQuery(id).css("display","block");
+	else jQuery(id).css("display","none");
+	} );
+}
+

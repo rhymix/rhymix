@@ -1,9 +1,0 @@
-<query id="insertOpenIdNonce" action="insert">
-    <tables>
-        <table name="member_openid_nonce" />
-    </tables>
-    <columns>
-        <column name="nonce" var="nonce" notnull="notnull" />
-        <column name="expires" var="expires" notnull="notnull" />
-    </columns>
-</query>

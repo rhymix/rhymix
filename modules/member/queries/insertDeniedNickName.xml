@@ -1,0 +1,10 @@
+<query id="insertDeniedNickName" action="insert">
+    <tables>
+        <table name="member_denied_nick_name" />
+    </tables>
+    <columns>
+        <column name="nick_name" var="nick_name" notnull="notnull" />
+        <column name="regdate" default="curdate()" />
+        <column name="description" var="description" default="" />
+    </columns>
+</query>

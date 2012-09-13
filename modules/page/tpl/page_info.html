@@ -102,6 +102,13 @@
 			<!--@end-->
 			<!--@if($module_info->page_type == 'ARTICLE')-->
 			<tr>
+				<th scope="row">{$lang->skin_fix}</th>
+				<td class="text">
+					<input type="checkbox" name="is_skin_fix" id="is_skin_fix" value="Y" checked="checked"|cond="$module_info->is_skin_fix == 'Y'" /> 
+					<p>{$lang->about_skin_fix}</p>
+				</td>
+			</tr>
+			<tr>
 				<th scope="row">{$lang->skin}</th>
 				<td class="text">
 					<select name="skin">

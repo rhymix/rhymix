@@ -174,7 +174,7 @@
                 switch($permission_target) {
                     case 'root' :
 					case 'manager' :
-						$this->stop('msg_not_permitted_act');
+						$this->stop('msg_is_not_administrator');
 						return;
                     case 'member' :
 						if(!$is_logged)
@@ -334,7 +334,7 @@
 
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
                 // Check permissions
-                if(!$this->grant->access){
+                if($this->module_srl && !$this->grant->access){
 					$this->stop("msg_not_permitted_act");
 					return FALSE;
 				}

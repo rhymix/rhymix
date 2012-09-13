@@ -82,7 +82,7 @@
             $document_srl = $obj->document_srl;
             if(!$document_srl) return new Object();
 
-            return $this->deleteComments($document_srl, true);
+            return $this->deleteComments($document_srl, $obj);
         }
 
 		/**
@@ -206,7 +206,11 @@
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 			if(Mobile::isFromMobilePhone())
 			{
-				$obj->content = nl2br(htmlspecialchars($obj->content));
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content);
+				}
+				$obj->content = nl2br($obj->content);
 			}
             if(!$obj->regdate) $obj->regdate = date("YmdHis");
             // remove iframe and script if not a top administrator on the session.
@@ -545,16 +549,55 @@
             $oCommentModel = &getModel('comment');
             // check if comment already exists
             $comment = $oCommentModel->getComment($comment_srl);
-            if($comment->comment_srl != $comment_srl) return new Object(-1, 'msg_invalid_request');
+            if($comment->comment_srl != $comment_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
             $document_srl = $comment->document_srl;
             // call a trigger (before)
             $output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
-            if(!$output->toBool()) return $output;
-            // check if child comment exists on the comment
-            $child_count = $oCommentModel->getChildCommentCount($comment_srl);
-            if($child_count>0) return new Object(-1, 'fail_to_delete_have_children');
+            if(!$output->toBool())
+			{
+				return $output;
+			}
+
             // check if permission is granted
-            if(!$is_admin && !$comment->isGranted()) return new Object(-1, 'msg_not_permitted');
+            if(!$is_admin && !$comment->isGranted())
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
+
+            // check if child comment exists on the comment
+            $childs = $oCommentModel->getChildComments($comment_srl);
+            if(count($childs) > 0)
+			{
+				$deleteAllComment = true;
+				if (!$is_admin)
+				{
+					$logged_info = Context::get('logged_info');
+					foreach($childs as $val)
+					{
+						if($val->member_srl != $logged_info->member_srl)
+						{
+							$deleteAllComment = false;
+							break;
+						}
+					}
+				}
+
+				if(!$deleteAllComment)
+				{
+					return new Object(-1, 'fail_to_delete_have_children');
+				}
+				else
+				{
+					foreach($childs as $val)
+					{
+						$output = $this->deleteComment($val->comment_srl, $is_admin, $isMoveToTrash);
+						if(!$output->toBool()) return $output;
+					}
+				}
+			}
 
             // begin transaction
             $oDB = &DB::getInstance();
@@ -623,12 +666,21 @@
 		 * @param int $document_srl
 		 * @return object
 		 */
-        function deleteComments($document_srl) {
+        function deleteComments($document_srl, $obj = NULL) {
             // create the document model object
             $oDocumentModel = &getModel('document');
             $oCommentModel = &getModel('comment');
-            // check if permission is granted
-            $oDocument = $oDocumentModel->getDocument($document_srl);
+
+			// check if permission is granted
+			if(is_object($obj))
+			{
+				$oDocument = new documentItem();
+				$oDocument->setAttribute($obj);
+			}
+			else
+			{
+            	$oDocument = $oDocumentModel->getDocument($document_srl);
+			}
             if(!$oDocument->isExists() || !$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
             // get a list of comments and then execute a trigger(way to reduce the processing cost for delete all)
             $args->document_srl = $document_srl;
@@ -742,6 +794,10 @@
                 return new Object(-1, $failed_voted);
             }
 
+			// begin transaction
+			$oDB = DB::getInstance();
+			$oDB->begin();
+
             // update the number of votes
             if($point < 0) {
                 $args->blamed_count = $oComment->get('blamed_count') + $point;
@@ -753,6 +809,23 @@
             // leave logs
             $args->point = $point;
             $output = executeQuery('comment.insertCommentVotedLog', $args);
+
+			$obj->member_srl = $oComment->get('member_srl');
+			$obj->module_srl = $oComment->get('module_srl');
+			$obj->comment_srl = $oComment->get('comment');
+			$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+			$obj->point = $point;
+			$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
+			$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
+			$trigger_output = ModuleHandler::triggerCall('comment.updateVotedCount', 'after', $obj);
+			if(!$trigger_output->toBool())
+			{
+				$oDB->rollback();
+				return $trigger_output;
+			}
+
+			$oDB->commit();
+
             // leave into session information
             $_SESSION['voted_comment'][$comment_srl] = true;
 

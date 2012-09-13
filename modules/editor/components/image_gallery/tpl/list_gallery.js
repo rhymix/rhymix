@@ -22,6 +22,13 @@ var listShow = xe.createPlugin('list', {
 			w1 = im.$obj.prop('width');
 			h1 = im.$obj.prop('height');
 
+			if (w1 == 0){
+				w1 = im.$obj.attr('width');
+			}
+			if(h1 ==0){
+				h1 = im.$obj.attr('height');
+			}
+
 			if(w1 > width - 25) {
 				w2 = width - 25;
 				scale =  w2 / w1;

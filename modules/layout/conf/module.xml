@@ -16,6 +16,7 @@
 		<action name="dispLayoutAdminInsert" type="view" menu_name="installedLayout" />
 		<action name="dispLayoutAdminModify" type="view" menu_name="installedLayout" />
 		<action name="dispLayoutAdminEdit" type="view" menu_name="installedLayout" />
+		<action name="dispLayoutAdminCopyLayout" type="view" />
 
 		<action name="dispLayoutPreview" type="view" />
 
@@ -23,6 +24,8 @@
 		<action name="procLayoutAdminCodeUpdate" type="controller" ruleset="codeUpdate" />
 		<action name="procLayoutAdminUserImageUpload" type="controller" ruleset="imageUpload" />
 		<action name="procLayoutAdminUserImageDelete" type="controller" />
+		<action name="procLayoutAdminConfigImageUpload" type="controller" />
+		<action name="procLayoutAdminConfigImageDelete" type="controller" />
 		<action name="procLayoutAdminDelete" type="controller" ruleset="deleteLayout" />
 
         <action name="procLayoutAdminInsert" type="controller" standalone="true" ruleset="insertLayout" />
@@ -32,6 +35,7 @@
         <action name="procLayoutAdminUserValueInsert" type="controller" standalone="true" />
         <action name="procLayoutAdminUserLayoutExport" type="controller" standalone="true" />
         <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" ruleset="userLayoutImport" />
+        <action name="procLayoutAdminCopyLayout" type="controller" standalone="true" />
 
     </actions>
 	<menus>

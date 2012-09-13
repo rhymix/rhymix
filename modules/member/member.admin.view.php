@@ -101,15 +101,19 @@
 		 *
 		 * @return void
          **/
-        function dispMemberAdminConfig() {
-			global $lang;            // retrieve configuration via module model instance
+        function dispMemberAdminConfig() 
+		{
             $oModuleModel = &getModel('module');
             $oMemberModel = &getModel('member');
             $config = $oMemberModel->getMemberConfig();
-            // Get join form list which is additionally set            
-			$extendItems = $oMemberModel->getJoinFormList();            
-			
+
 			Context::set('config',$config);
+
+            // Get a layout list
+            $oLayoutModel = &getModel('layout');
+            $layout_list = $oLayoutModel->getLayoutList();
+
+            Context::set('layout_list', $layout_list);
 
             // list of skins for member module
             $skin_list = $oModuleModel->getSkins($this->module_path);
@@ -131,9 +135,27 @@
             $editor = $oEditorModel->getEditor(0, $option);
             Context::set('editor', $editor);
 
-			// get denied ID list
-            $denied_list = $oMemberModel->getDeniedIDs();
-			Context::set('deniedIDs', $denied_list);
+			$signupForm = $config->signupForm;
+			foreach($signupForm as $val)
+			{
+				if($val->name == 'user_id')
+				{
+					$userIdInfo = $val;
+					break;
+				}
+			}
+
+			if($userIdInfo->isUse)
+			{
+				// get denied ID list
+				Context::set('useUserID', 1);
+				$denied_list = $oMemberModel->getDeniedIDs();
+				Context::set('deniedIDs', $denied_list);
+			}
+
+			// get denied NickName List
+			$deniedNickNames = $oMemberModel->getDeniedNickNames();
+			Context::set('deniedNickNames', $deniedNickNames);
 
 			$security = new Security();
 			$security->encodeHTML('config..');
@@ -313,7 +335,7 @@
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
 												  'tel_1' => $extendForm->value[1],
 												  'tel_2' => $extendForm->value[2]);
-						$template = '<input type="text" name="%column_name%[]" value="%tel_0%" size="4" />-<input type="text" name="%column_name%[]" value="%tel_1%" size="4" />-<input type="text" name="%column_name%[]" value="%tel_2%" size="4" />';
+						$template = '<input type="text" name="%column_name%[]" value="%tel_0%" size="4" maxlength="4" style="width:30px" />-<input type="text" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:30px" />-<input type="text" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:30px" />';
 					}elseif($extendForm->column_type == 'textarea'){
 						$template = '<textarea name="%column_name%" rows="8" cols="42">%value%</textarea>';
 					}elseif($extendForm->column_type == 'checkbox'){

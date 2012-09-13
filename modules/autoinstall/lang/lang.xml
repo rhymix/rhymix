@@ -328,4 +328,7 @@
 		<value xml:lang="en"><![CDATA[Cannot delete this package (no moduleUninstall() in the module class).]]></value>
 		<value xml:lang="jp"><![CDATA[このパッケージは、削除をサポートしません(モジュールクラスにmoduleUninstall()がありません)。]]></value>
 	</item>
+	<item name="msg_update_core">
+		<value xml:lang="ko"><![CDATA[<strong style="color:red">XE core가 업데이트 됩니다.</strong><br />core 업데이트 시 설치된 프로그램의 호환성을 반드시 점검하시기 바랍니다.]]></value>
+	</item>
 </lang>
