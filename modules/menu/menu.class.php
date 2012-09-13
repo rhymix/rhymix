@@ -30,6 +30,11 @@
 
 			// 2012. 02. 01 title index check
 			if(!$oDB->isIndexExists("menu", "idx_title")) return true;
+
+			if(!$oDB->isColumnExists('menu_item', 'is_shortcut'))
+			{
+				return TRUE;
+			}
             return false;
         }
 
@@ -48,6 +53,11 @@
 			if(!$oDB->isIndexExists("menu","idx_title")) {
                 $oDB->addIndex('menu', 'idx_title', array('title'));
             }
+
+			if(!$oDB->isColumnExists('menu_item', 'is_shortcut'))
+			{
+				$oDB->addColumn('menu_item', 'is_shortcut', 'char', 1, 'N');
+			}
 
             return new Object(0, 'success_updated');
         }

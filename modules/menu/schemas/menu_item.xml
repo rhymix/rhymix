@@ -4,6 +4,7 @@
     <column name="menu_srl" type="number" size="12" notnull="notnull" index="idx_menu_srl" />
     <column name="name" type="text" />
     <column name="url" type="varchar" size="250" />
+    <column name="is_shortcut" type="char" size="1" default="N" />
     <column name="open_window" type="char" size="1" default="N" />
     <column name="expand" type="char" size="1" default="N" />
     <column name="normal_btn" type="varchar" size="255" />

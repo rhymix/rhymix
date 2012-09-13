@@ -103,6 +103,53 @@
 		 * @return Object
 		 */
         function deleteMenu($menu_srl) {
+			$oDB = DB::getInstance();
+			$oDB->begin();
+
+            $args->menu_srl = $menu_srl;
+
+			// Delete modules
+			$output = executeQueryArray('menu.getMenuItems', $args);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+
+			$oModuleController = getController('module');
+			$oModuleModel = getModel('module');
+
+			foreach($output->data as $itemInfo)
+			{
+				if($itemInfo->is_shortcut != 'Y' && !preg_match('/^http/i',$itemInfo->url))
+				{
+					$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
+					if($moduleInfo->module_srl)
+					{
+						$output = $oModuleController->deleteModule($moduleInfo->module_srl);
+						if(!$output->toBool())
+						{
+							$oDB->rollback();
+							return $output;
+						}
+					}
+				}
+			}
+
+            // Delete menu items
+            $output = executeQuery("menu.deleteMenuItems", $args);
+            if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+            // Delete the menu
+            $output = executeQuery("menu.deleteMenu", $args);
+            if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+
             // Delete cache files
             $cache_list = FileHandler::readDir("./files/cache/menu","",false,true);
             if(count($cache_list)) {
@@ -115,13 +162,7 @@
             $image_path = sprintf('./files/attach/menu_button/%s', $menu_srl);
             FileHandler::removeDir($image_path);
 
-            $args->menu_srl = $menu_srl;
-            // Delete menu items
-            $output = executeQuery("menu.deleteMenuItems", $args);
-            if(!$output->toBool()) return $output;
-            // Delete the menu
-            $output = executeQuery("menu.deleteMenu", $args);
-            if(!$output->toBool()) return $output;
+			$oDB->commit();
 
             return new Object(0,'success_deleted');
         }
@@ -305,15 +346,43 @@
             $output = executeQuery('menu.getChildMenuCount', $args);
             if(!$output->toBool()) return $output;
             if($output->data->count>0) return new Object(-1, 'msg_cannot_delete_for_child');
+
+			$oDB = DB::getInstance();
+			$oDB->begin();
+
             // Remove from the DB
             $output = executeQuery("menu.deleteMenuItem", $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
             // Update the xml file and get its location
             $xml_file = $this->makeXmlFile($args->menu_srl);
             // Delete all of image buttons
             if($item_info->normal_btn) FileHandler::removeFile($item_info->normal_btn);
             if($item_info->hover_btn) FileHandler::removeFile($item_info->hover_btn);
             if($item_info->active_btn) FileHandler::removeFile($item_info->active_btn);
+
+			// Delete module
+			if($item_info->is_shortcut != 'Y' && !preg_match('/^http/i',$item_info->url))
+			{
+				$oModuleController = getController('module');
+				$oModuleModel = getModel('module');
+
+				$moduleInfo = $oModuleModel->getModuleInfoByMid($item_info->url, $menu_info->site_srl);
+				if($moduleInfo->module_srl)
+				{
+					$output = $oModuleController->deleteModule($moduleInfo->module_srl);
+					if(!$output->toBool())
+					{
+						$oDB->rollback();
+						return $output;
+					}
+				}
+			}
+
+			$oDB->commit();
 
             $this->add('xml_file', $xml_file);
             $this->add('menu_title', $menu_title);
