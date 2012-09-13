@@ -770,13 +770,6 @@ class Context {
 		}
 	}
 
-	 function array_iconv(&$val, $key, $charset)
-	{
-		$val = iconv($charset[0],$charset[1],$val);
-	}
-
-
-
 	/**
 	 * Convert strings into UTF-8
 	 *
