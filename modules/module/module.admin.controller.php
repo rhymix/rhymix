@@ -73,14 +73,25 @@
         /**
          * @brief Copy Module
          **/
-        function procModuleAdminCopyModule() 
+        function procModuleAdminCopyModule($args = NULL) 
 		{
-            // Get information of the target module to copy
-            $module_srl = Context::get('module_srl');
+			$isProc = false;
+			if(!$args)
+			{
+				$isProc = true;
+				// Get information of the target module to copy
+				$module_srl = Context::get('module_srl');
+            	$args = Context::getRequestVars();
+			}
+			else
+			{
+				$module_srl = $args->module_srl;
+			}
+
             if(!$module_srl) return;
+
             // Get module name to create and browser title
             $clones = array();
-            $args = Context::getAll();
             for($i=1;$i<=10;$i++) {
                 $mid = trim($args->{"mid_".$i});
                 if(!$mid) continue;
@@ -206,16 +217,21 @@
             	$this->setMessage('success_registed');
 			}
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				global $lang;
-				htmlHeader();
-				alertScript($message);
-				reload(true);
-				closePopupScript();
-				htmlFooter();
-				Context::close();
-				exit;
+			if($isProc)
+			{
+				if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+					global $lang;
+					htmlHeader();
+					alertScript($message);
+					reload(true);
+					closePopupScript();
+					htmlFooter();
+					Context::close();
+					exit;
+				}
 			}
+
+			return $module_srl;
         }
 
         /**
