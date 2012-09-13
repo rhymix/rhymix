@@ -11,6 +11,7 @@
 		<action name="getAutoinstallAdminMenuPackageList" type="model" />
 		<action name="getAutoinstallAdminLayoutPackageList" type="model" />
 		<action name="getAutoinstallAdminSkinPackageList" type="model" />
+		<action name="getAutoinstallAdminIsAuthed" type="model" />
     </actions>
 	<menus>
 		<menu name="easyInstall">

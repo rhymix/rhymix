@@ -155,5 +155,13 @@
 				$this->add('page_navigation', $page_navigation);
 			}
 		}
+
+		/**
+		 * Get is authed ftp
+		 */
+		function getAutoinstallAdminIsAuthed()
+		{
+			$this->add('is_authed', (int)isset($_SESSION['ftp_password']));
+		}
    }
 ?>
