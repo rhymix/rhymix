@@ -5,7 +5,7 @@
 <!--%load_js_plugin("ui.datepicker")-->
 
 <h3 class="pTitle">{$lang->msg_update_member}</h3>
-<script>
+<script type="text/javascript" >
 	xe.lang.deleteProfileImage = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
@@ -59,7 +59,7 @@
     </tr>
     </table>
 </form>
-<script>
+<script type="text/javascript">
 (function($){
     $(function(){
         var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){

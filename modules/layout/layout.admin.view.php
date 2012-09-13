@@ -425,7 +425,7 @@
             }
 
             if(count($style)) {
-                $script = '<script> var faceOffStyle = {'.implode(',',$style).'}; </script>';
+                $script = '<script type="text/javascript"> var faceOffStyle = {'.implode(',',$style).'}; </script>';
                 Context::addHtmlHeader($script);
             }
 

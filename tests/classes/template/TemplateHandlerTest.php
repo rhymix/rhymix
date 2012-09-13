@@ -169,8 +169,8 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			),
 			// error case - ignore json
 			array(
-				'<script>var json = {hello:"world"};</script>',
-				'<script>var json = {hello:"world"};</script>'
+				'<script type="text/javascript">var json = {hello:"world"};</script>',
+				'<script type="text/javascript">var json = {hello:"world"};</script>'
 			),
 			// error case - inline javascript
 			array(

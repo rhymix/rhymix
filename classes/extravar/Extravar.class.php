@@ -344,7 +344,7 @@
                         $buff .=
                             '<input type="hidden" name="'.$column_name.'" value="'.$value.'" />'.
                             '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" class="date" /> <input type="button" value="' . Context::getLang('cmd_delete') . '" id="dateRemover_' . $column_name . '" />'."\n".
-                            '<script>'."\n".
+                            '<script type="text/javascript">'."\n".
                             '(function($){'."\n".
                             '    $(function(){'."\n".
                             '        var option = { dateFormat: "yy-mm-dd", changeMonth:true, changeYear:true, gotoCurrent: false,yearRange:\'-100:+10\', onSelect:function(){'."\n".

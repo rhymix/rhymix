@@ -6,7 +6,7 @@
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
 
-<script>
+<script type="text/javascript">
     var msg_poll_cannot_modify = "{$lang->msg_poll_cannot_modify}";
 </script>
 
@@ -25,7 +25,7 @@
 
             <input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*30)}" />
             <input type="text" class="inputDate" value="{date('Y-m-d',time()+60*60*24*30)}" readonly="readonly" />
-<script>
+<script type="text/javascript">
 (function($){
     $(function(){
         var option = {

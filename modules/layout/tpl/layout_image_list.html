@@ -7,7 +7,7 @@
 	{@$ext=substr(strrchr($file,'.'),1)}
 	<div class="filebox_preview_{$val->module_filebox_srl}" style="width:100px;height:100px;float:left; position:relative;margin-right:10px; ">
 		<!--@if($ext=='swf'||$ext=='flv')-->
-		<script>//<![CDATA[
+		<script type="text/javascript">//<![CDATA[
 		displayMultimedia('{getUrl('')}{$layout_image_path}{$file}', '100%', '100%');
 		//]]></script>
 		<!--@elseif(in_array($ext,array('gif','png','jpg','jpeg')))-->

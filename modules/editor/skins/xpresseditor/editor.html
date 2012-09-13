@@ -18,7 +18,7 @@
         <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
         <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" rows="8" cols="42" class="iTextArea"></textarea>
     </div>
-    <script>//<![CDATA[
+    <script type="text/javascript">//<![CDATA[
         editorStartTextarea({$editor_sequence}, "{$editor_content_key_name}", "{$editor_primary_key_name}");
     //]]></script>
 
@@ -455,7 +455,7 @@
         </div>
     </div>
     <!-- 에디터 활성화 -->
-    <script>//<![CDATA[
+    <script type="text/javascript">//<![CDATA[
         var editor_path = "{$editor_path}";
         var auto_saved_msg = "{$lang->msg_auto_saved}";
 		var oEditor;

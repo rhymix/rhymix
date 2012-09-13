@@ -1139,10 +1139,10 @@
 	function htmlHeader()
 	{
 		echo <<<HTMLHEADER
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ko" xml:lang="ko" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 HTMLHEADER;
@@ -1167,7 +1167,7 @@ HTMLHEADER;
 	function alertScript($msg)
 	{
 		if(!$msg) return;
-		echo '<script>alert("'.$msg.'");</script>';
+		echo '<script type="text/javascript">alert("'.$msg.'");</script>';
 	}
 
 	/**
@@ -1177,7 +1177,7 @@ HTMLHEADER;
 	 */
 	function closePopupScript()
 	{
-		echo '<script>window.close();</script>';
+		echo '<script type="text/javascript">window.close();</script>';
 	}
 
 	/**
@@ -1190,5 +1190,5 @@ HTMLHEADER;
 	{
 		$reloadScript = $isOpener ? 'window.opener.location.reload()' : 'document.location.reload()';
 
-		echo '<script>'.$reloadScript.'</script>';
+		echo '<script type="text/javascript">'.$reloadScript.'</script>';
 	}

@@ -24,7 +24,7 @@ class VirtualXMLDisplayHandler {
 			if($message != 'fail') $output->message = $message;
 		}
 
-		$html = '<script>'."\n";
+		$html = '<script type="text/javascript">'."\n";
 		if($output->message) $html .= 'alert("'.$output->message.'");'."\n";
 		if($output->url) {
 			$url = preg_replace('/#(.+)$/i','',$output->url);

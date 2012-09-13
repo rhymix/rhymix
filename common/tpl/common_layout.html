@@ -5,40 +5,49 @@
 	$css_files=Context::getCssFile();
 	$js_files=Context::getJsFile();
 }
+<!--@if($db_info->use_html5=='Y')-->
 <!DOCTYPE html>
-<html lang="{$lang_type}">
+<!--@else-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--@end-->
+<html lang="{$lang_type}" xmlns="http://www.w3.org/1999/xhtml"|cond="$db_info->use_html5!='Y'">
 <head>
 <!-- META -->
-<meta charset="utf-8" />
-<meta name="Generator" content="XpressEngine" />
+	<meta charset="UTF-8" cond="$db_info->use_html5=='Y'"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" cond="$db_info->use_html5!='Y'" />
+
+	<meta name="Generator" content="XpressEngine" />
 <!-- TITLE -->
-<title>{Context::getBrowserTitle()}</title>
+	<title>{Context::getBrowserTitle()}</title>
 <!-- CSS -->
 <block loop="$css_files=>$key,$css_file">
 <block cond="$css_file['targetie']"><!--[if {$css_file['targetie']}]></block>
-<link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}" />
+	<link rel="stylesheet" href="{$css_file['file']}" type="text/css"|cond="$db_info->use_html5!='Y'" media="{$css_file['media']}" />
 <block cond="$css_file['targetie']"><![endif]--></block>
 </block>
 <!-- JS -->
 <block loop="$js_files=>$key,$js_file">
 <block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block>
-<script src="{$js_file['file']}"></script>
+	<script type="text/javascript"|cond="$db_info->use_html5!='Y'" src="{$js_file['file']}"></script>
 <block cond="$js_file['targetie']"><![endif]--></block>
 </block>
-<!--[if lt IE 9]><script src="../js/html5.js"></script><![endif]-->
+	<block cond="$db_info->use_html5=='Y'"><!--[if lt IE 9]><script src="../js/html5.js"></script><![endif]--></block>
+
 <!-- RSS -->
-<link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" cond="$rss_url" />
-<link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" cond="$general_rss_url" />
-<link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" cond="$rss_url" />
-<link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" cond="$general_rss_url" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" cond="$rss_url" /><link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" cond="$general_rss_url" />
+
+	<link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" cond="$rss_url" /><link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" cond="$general_rss_url" />
+
 <!-- ICON -->
-<link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
-<link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
+	<link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
+
+	<link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
 {Context::getHtmlHeader()}
-<script>
-//<![CDATA[
-var current_url = "{$current_url}";
-var request_uri = "{$request_uri}";
+</head>
+<body{Context::getBodyClass()}>
+	<script type="text/javascript"|cond="$db_info->use_html5!='Y'">
+	//<![CDATA[
+	var current_url = "{$current_url}";
+	var request_uri = "{$request_uri}";
 <block cond="$vid">var xeVid = "{$vid}";</block>
 var current_mid = "{$mid}";
 var waiting_message = "{$lang->msg_call_server}";
@@ -47,18 +56,20 @@ var default_url = "{Context::getDefaultUrl()}";
 <block cond="Context::get('_http_port')">var http_port = {Context::get("_http_port")};</block>
 <block cond="Context::get('_https_port')">var https_port = {Context::get("_https_port")};</block>
 <block cond="Context::get('_use_ssl') && Context::get('_use_ssl') == 'always'">var enforce_ssl = true;</block>
-//]]>
-</script>
-</head>
-<body{Context::getBodyClass()}>
-{Context::getBodyHeader()}
-{$content}
-{Context::getHtmlFooter()}
+	//]]>
+	</script>
+
+	{Context::getBodyHeader()}
+
+	{$content}
+
+	{Context::getHtmlFooter()}
 <!-- ETC -->
-<div class="wfsr"></div>
+	<div class="wfsr"></div>
 {@ $js_body_files = Context::getJsFile('body') }
 <block loop="$js_body_files => $key, $js_file">
-<block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block><script src="{$js_file['file']}"></script><block cond="$js_file['targetie']"><![endif]--></block>
+	<block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block><script type="text/javascript"|cond="$db_info->use_html5!='Y'" src="{$js_file['file']}"></script><block cond="$js_file['targetie']"><![endif]--></block>
+
 </block>
 </body>
 </html>
