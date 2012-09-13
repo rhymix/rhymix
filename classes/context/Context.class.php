@@ -726,17 +726,56 @@ class Context {
 			$flag = true;
 			foreach($obj as $key=>$val) {
 				if(!$val) continue;
-				if($val && iconv($charset,$charset,$val)!=$val) $flag = false;
+				if(!is_array($val) && iconv($charset,$charset,$val)!=$val) $flag = false;
+				else if(is_array($val))
+				{
+					$userdata = array('charset1'=>$charset,'charset2'=>$charset,'useFlag'=>true);
+					Context::arrayConvWalkCallback($val,null,$userdata);
+					if($userdata['returnFlag'] === false) $flag = false;
+				}
 			}
 			if($flag) {
 				if($charset == 'UTF-8') return $obj;
-				foreach($obj as $key => $val) $obj->{$key} = iconv($charset,'UTF-8',$val);
+				foreach($obj as $key => $val)
+				{
+					if(!is_array($val)) $obj->{$key} = iconv($charset,'UTF-8',$val);
+					else Context::arrayConvWalkCallback($val,null,array($charset,'UTF-8'));
+				}
+
 				return $obj;
 			}
 		}
 
 		return $obj;
 	}
+	/**
+	 * Convert array type variables into UTF-8 
+	 *
+	 * @param mixed $val
+	 * @param string $key
+	 * @param mixed $userdata charset1 charset2 useFlag retrunFlag
+	 * @see arrayConvWalkCallback will replaced array_walk_recursive in >=PHP5
+	 * @return object converted object
+	 */
+	function arrayConvWalkCallback(&$val, $key = null, &$userdata)
+	{
+		if (is_array($val)) array_walk($val,'Context::arrayConvWalkCallback',&$userdata);
+		else 
+		{
+			if(!$userdata['useFlag']) $val = iconv($userdata['charset1'],$userdata['charset2'],$val);
+			else
+			{
+				if(iconv($charset,$charset,$val)!=$val) $userdata['returnFlag'] = (bool)false;
+			}
+		}
+	}
+
+	 function array_iconv(&$val, $key, $charset)
+	{
+		$val = iconv($charset[0],$charset[1],$val);
+	}
+
+
 
 	/**
 	 * Convert strings into UTF-8
