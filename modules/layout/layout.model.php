@@ -143,7 +143,7 @@
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 
-            natcasesort($searched_list);
+            // natcasesort($searched_list);
             // Return information for looping searched list of layouts
 			$list = array();
             for($i=0;$i<$searched_count;$i++) {
@@ -151,6 +151,11 @@
                 $layout = $searched_list[$i];
                 // Get information of the layout
                 $layout_info = $this->getLayoutInfo($layout, null, $layout_type);
+
+				if(!$layout_info)
+				{
+					continue;
+				}
 
 				if ($withAutoinstallInfo)
 				{
@@ -170,8 +175,36 @@
 				}
                 $list[] = $layout_info;
             }
+
+			usort($list, array($this, 'sortLayoutByTitle'));
             return $list;
         }
+
+		/**
+		 * Sort layout by title
+		 */
+		function sortLayoutByTitle($a, $b)
+		{
+			if(!$a->title)
+			{
+				$a->title = $a->layout;
+			}
+
+			if(!$b->title)
+			{
+				$b->title = $b->layout;
+			}
+
+			$aTitle = strtolower($a->title);
+			$bTitle = strtolower($b->title);
+
+			if($aTitle == $bTitle)
+			{
+				return 0;
+			}
+
+			return ($aTitle < $bTitle) ? -1 : 1;
+		}
 
 		/**
 		 * Get a count of layout
@@ -238,6 +271,7 @@
             // Read the xml file for module skin information
             if(!$xml_file) $xml_file = sprintf("%sconf/info.xml", $layout_path);
             if(!file_exists($xml_file)) {
+				$layout_info->title = $layout;
                 $layout_info->layout = $layout;
                 $layout_info->path = $layout_path;
                 $layout_info->layout_title = $layout_title;
@@ -254,6 +288,7 @@
             if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file)) {
                 @include($cache_file);
 
+
                 if($layout_info->extra_var && $vars) {
                     foreach($vars as $key => $value) {
                         if(!$layout_info->extra_var->{$key} && !$layout_info->{$key}) {
@@ -261,6 +296,12 @@
                         }
                     }
                 }
+
+				if(!$layout_info->title)
+				{
+					$layout_info->title = $layout;
+				}
+
                 return $layout_info;
             }
             // If no cache file exists, parse the xml and then return the variable.
@@ -490,6 +531,12 @@
             $buff = '<?php if(!defined("__ZBXE__")) exit(); '.$buff.' ?>';
             FileHandler::writeFile($cache_file, $buff);
             if(file_exists($cache_file)) @include($cache_file);
+
+			if(!$layout_info->title)
+			{
+				$layout_info->title = $layout;
+			}
+
             return $layout_info;
         }
 

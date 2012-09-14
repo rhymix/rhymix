@@ -101,12 +101,30 @@
 				$layout_list[$item->layout][] = $item;
 			}
 
+			usort($layout_list, array($this, 'sortLayoutInstance'));
+
 			Context::set('layout_list', $layout_list);
 
 			$this->setTemplateFile('layout_all_instance_list');
 
 			$security = new Security();
 			$security->encodeHTML('layout_list..');
+		}
+
+		/**
+		 * Sort layout instance by layout name, instance name
+		 */
+		function sortLayoutInstance($a, $b)
+		{
+			$aTitle = strtolower($a['title']);
+			$bTitle = strtolower($b['title']);
+
+			if($aTitle == $bTitle)
+			{
+				return 0;
+			}
+
+			return ($aTitle < $bTitle) ? -1 : 1;
 		}
 
 		/**
