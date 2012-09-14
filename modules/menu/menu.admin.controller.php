@@ -45,6 +45,7 @@
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
             $args->title = Context::get('title');
+
             $args->menu_srl = getNextSequence();
             $args->listorder = $args->menu_srl * -1;
 
@@ -460,9 +461,10 @@
 			// get menu properies with child menu
 			$phpFile = sprintf("./files/cache/menu/%s.php", $menuSrl);
 			$originMenu = NULL;
+
 			if(is_readable(FileHandler::getRealPath($phpFile)))
 			{
-				@include($phpFile);
+				@include(FileHandler::getRealPath($phpFile));
 
 				if(is_array($menu->list))
 				{
