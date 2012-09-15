@@ -2149,7 +2149,7 @@ table [class*=x_span],
   *margin-right: .3em;
   line-height: 14px;
   vertical-align: text-top;
-  background-image: url("../img/glyphicons-halflings.x_png");
+  background-image: url("../img/glyphicons-halflings.png");
   background-position: 14px 14px;
   background-repeat: no-repeat;
 }
@@ -2169,7 +2169,7 @@ table [class*=x_span],
 .x_dropdown-menu > li > a:hover > [class*=" x_icon-"],
 .x_dropdown-menu > .x_active > a > [class^="x_icon-"],
 .x_dropdown-menu > .x_active > a > [class*=" x_icon-"] {
-  background-image: url("../img/glyphicons-halflings-white.x_png");
+  background-image: url("../img/glyphicons-halflings-white.png");
 }
 
 .x_icon-glass {
