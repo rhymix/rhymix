@@ -23,29 +23,20 @@ jQuery(function($){
 			} else { // Less than 1024
 				$xGnb.height('auto');
 			}
-			if($(window).width() < 980 || $(window).width() > 1240){
-				$xBody.removeClass('wide');
-			}
 		}, 100);
 	}).resize();
-	// Trigger for GNB height resize
-	$($xBody, $xContent, $xGnb).bind('click mouseover mouseout focus blur', function(){ 
-		$(window).resize();
-	});
 // GNB Click toggle
 	// Add virtual class
 	$xGnb_li.find('>ul').prev('a').addClass('virtual');
 	// Virtual click
 	$xGnb_li.find('>a.virtual')
-		.bind('click focus', function(event){
+		.bind('click focus', function(){
 			var $this = $(this);
 			// Submenu toggle
 			if(!$xGnb.hasClass('all')) { 
 				$xGnb_li.not($this.parent('li')).removeClass('open');
 				$(this).parent('li').toggleClass('open');
 			} 
-			// GNB Hover
-			$xGnb.trigger('mouseenter');
 			return false;
 		});
 	// Toggle all
@@ -58,39 +49,5 @@ jQuery(function($){
 				$xGnb_li.removeClass('open');
 				$xGnb.removeClass('all');
 			}
-		})
-		.focus(function(){
-			// GNB Hover
-			$xGnb.trigger('mouseenter');
 		});
-// GNB Hover toggle
-	function contentBugFix(){ // Chrome browser rendering bug fix
-		$xContent.width('99.99%');
-		setTimeout(function(){
-			$xContent.removeAttr('style');
-		}, 0);
-	}
-	$xGnb
-		.mouseenter(function(){ // Mouseenter
-			if($(window).width() >= 980){
-				setTimeout(function(){
-					$xBody.removeClass('wide');
-					contentBugFix();
-				}, 200);
-			}
-		})
-		.mouseleave(function(){ // Mouseleave
-			if($(window).width() >= 980 && $(window).width() < 1240){
-				$xBody.addClass('wide');
-				contentBugFix();
-			}
-		});
-// GNB Close
-	$xGnb
-		.prepend('<button type="button" class="close before" />')
-		.append('<button type="button" class="close after" />');
-	$xGnb.find('>.before, >.after').focus(function(){
-		$xBody.addClass('wide');
-		contentBugFix();
-	});
 });
