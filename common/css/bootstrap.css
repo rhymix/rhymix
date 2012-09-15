@@ -214,7 +214,7 @@ a:hover {
   clear: both;
 }
 
-[class*="span"] {
+[class*="x_span"] {
   float: left;
   min-height: 1px;
   margin-left: 20px;
@@ -339,7 +339,7 @@ a:hover {
   clear: both;
 }
 
-.x_row-fluid [class*="span"] {
+.x_row-fluid [class*="x_span"] {
   display: block;
   float: left;
   width: 100%;
@@ -351,7 +351,7 @@ a:hover {
           box-sizing: border-box;
 }
 
-.x_row-fluid [class*="span"]:first-child {
+.x_row-fluid [class*="x_span"]:first-child {
   margin-left: 0;
 }
 
@@ -535,13 +535,13 @@ a:hover {
   *margin-left: 8.404255319148938%;
 }
 
-[class*="span"].x_hide,
-.x_row-fluid [class*="span"].x_hide {
+[class*="x_span"].x_hide,
+.x_row-fluid [class*="x_span"].x_hide {
   display: none;
 }
 
-[class*="span"].x_pull-right,
-.x_row-fluid [class*="span"].x_pull-right {
+[class*="x_span"].x_pull-right,
+.x_row-fluid [class*="x_span"].x_pull-right {
   float: right;
 }
 
@@ -1180,28 +1180,28 @@ textarea::-webkit-input-placeholder {
   width: 530px;
 }
 
-input[class*="span"],
-select[class*="span"],
-textarea[class*="span"],
-.x_uneditable-input[class*="span"],
-.x_row-fluid input[class*="span"],
-.x_row-fluid select[class*="span"],
-.x_row-fluid textarea[class*="span"],
-.x_row-fluid .x_uneditable-input[class*="span"] {
+input[class*="x_span"],
+select[class*="x_span"],
+textarea[class*="x_span"],
+.x_uneditable-input[class*="x_span"],
+.x_row-fluid input[class*="x_span"],
+.x_row-fluid select[class*="x_span"],
+.x_row-fluid textarea[class*="x_span"],
+.x_row-fluid .x_uneditable-input[class*="x_span"] {
   float: none;
   margin-left: 0;
 }
 
-.x_input-append input[class*="span"],
-.x_input-append .x_uneditable-input[class*="span"],
-.x_input-prepend input[class*="span"],
-.x_input-prepend .x_uneditable-input[class*="span"],
-.x_row-fluid input[class*="span"],
-.x_row-fluid select[class*="span"],
-.x_row-fluid textarea[class*="span"],
-.x_row-fluid .x_uneditable-input[class*="span"],
-.x_row-fluid .x_input-prepend [class*="span"],
-.x_row-fluid .x_input-append [class*="span"] {
+.x_input-append input[class*="x_span"],
+.x_input-append .x_uneditable-input[class*="x_span"],
+.x_input-prepend input[class*="x_span"],
+.x_input-prepend .x_uneditable-input[class*="x_span"],
+.x_row-fluid input[class*="x_span"],
+.x_row-fluid select[class*="x_span"],
+.x_row-fluid textarea[class*="x_span"],
+.x_row-fluid .x_uneditable-input[class*="x_span"],
+.x_row-fluid .x_input-prepend [class*="x_span"],
+.x_row-fluid .x_input-append [class*="x_span"] {
   display: inline-block;
 }
 
@@ -1211,7 +1211,7 @@ textarea,
   margin-left: 0;
 }
 
-.x_controls-row [class*="span"] + [class*="span"] {
+.x_controls-row [class*="x_span"] + [class*="x_span"] {
   margin-left: 20px;
 }
 
@@ -1302,7 +1302,7 @@ textarea.x_span1,
   clear: both;
 }
 
-.x_controls-row [class*="span"] {
+.x_controls-row [class*="x_span"] {
   float: left;
 }
 
@@ -1957,8 +1957,8 @@ table {
   background-color: #f5f5f5;
 }
 
-table [class*=span],
-.x_row-fluid table [class*=span] {
+table [class*=x_span],
+.x_row-fluid table [class*=x_span] {
   display: table-cell;
   float: none;
   margin-left: 0;
@@ -2140,8 +2140,8 @@ table [class*=span],
   background-color: #c4e3f3;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="x_icon-"],
+[class*=" x_icon-"] {
   display: inline-block;
   width: 14px;
   height: 14px;
@@ -2157,18 +2157,18 @@ table [class*=span],
 /* White icons with optional class, or on hover/active states of certain elements */
 
 .x_icon-white,
-.x_nav-tabs > .x_active > a > [class^="icon-"],
-.x_nav-tabs > .x_active > a > [class*=" icon-"],
-.x_nav-pills > .x_active > a > [class^="icon-"],
-.x_nav-pills > .x_active > a > [class*=" icon-"],
-.x_nav-list > .x_active > a > [class^="icon-"],
-.x_nav-list > .x_active > a > [class*=" icon-"],
-.x_navbar-inverse .x_nav > .x_active > a > [class^="icon-"],
-.x_navbar-inverse .x_nav > .x_active > a > [class*=" icon-"],
-.x_dropdown-menu > li > a:hover > [class^="icon-"],
-.x_dropdown-menu > li > a:hover > [class*=" icon-"],
-.x_dropdown-menu > .x_active > a > [class^="icon-"],
-.x_dropdown-menu > .x_active > a > [class*=" icon-"] {
+.x_nav-tabs > .x_active > a > [class^="x_icon-"],
+.x_nav-tabs > .x_active > a > [class*=" x_icon-"],
+.x_nav-pills > .x_active > a > [class^="x_icon-"],
+.x_nav-pills > .x_active > a > [class*=" x_icon-"],
+.x_nav-list > .x_active > a > [class^="x_icon-"],
+.x_nav-list > .x_active > a > [class*=" x_icon-"],
+.x_navbar-inverse .x_nav > .x_active > a > [class^="x_icon-"],
+.x_navbar-inverse .x_nav > .x_active > a > [class*=" x_icon-"],
+.x_dropdown-menu > li > a:hover > [class^="x_icon-"],
+.x_dropdown-menu > li > a:hover > [class*=" x_icon-"],
+.x_dropdown-menu > .x_active > a > [class^="x_icon-"],
+.x_dropdown-menu > .x_active > a > [class*=" x_icon-"] {
   background-image: url("../img/glyphicons-halflings-white.x_png");
 }
 
@@ -3129,7 +3129,7 @@ button.x_close {
           border-radius: 5px;
 }
 
-.x_btn-large [class^="icon-"] {
+.x_btn-large [class^="x_icon-"] {
   margin-top: 2px;
 }
 
@@ -3139,7 +3139,7 @@ button.x_close {
   line-height: 18px;
 }
 
-.x_btn-small [class^="icon-"] {
+.x_btn-small [class^="x_icon-"] {
   margin-top: 0;
 }
 
@@ -3807,7 +3807,7 @@ input[type="submit"].x_btn.x_btn-mini {
   background-color: #0088cc;
 }
 
-.x_nav-list [class^="icon-"] {
+.x_nav-list [class^="x_icon-"] {
   margin-right: 2px;
 }
 
