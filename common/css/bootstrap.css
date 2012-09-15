@@ -1957,8 +1957,8 @@ table {
   background-color: #f5f5f5;
 }
 
-table [class*=x_span],
-.x_row-fluid table [class*=x_span] {
+table [class*="x_span"],
+.x_row-fluid table [class*="x_span"] {
   display: table-cell;
   float: none;
   margin-left: 0;
