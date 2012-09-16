@@ -2,7 +2,7 @@
 /* Reset */
 html{min-height:100%}
 body{margin:8px;-webkit-text-size-adjust:none}
-body>.x{margin:15px auto;min-width:290px;max-width:1200px}
+body>.x{margin:15px auto;min-width:290px;/*max-width:1200px*/}
 @media all and (max-width:480px){
 body>.x{margin:0}
 }
