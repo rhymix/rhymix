@@ -11,6 +11,11 @@ jQuery(function($){
 		$($(this).attr('data-toggle')).toggle();
 		return false;
 	});
+// Close Layer
+	$('.x [data-close^="#"]').click(function(){
+		$($(this).attr('data-close')).hide();
+		return false;
+	});
 // GNB Height 100%
 	var $xBody = $('.x>.body');
 	var $xContent = $xBody.find('>.content');
