@@ -1,3 +1,9 @@
+<load target="./css/themes/classic/style.css" />
+
+<load target="./js/_lib/jquery.cookie.js" />
+<load target="./js/_lib/jquery.hotkeys.js" />
+<load target="./js/jquery.jstree.js" />
+
 <div class="x_page-header">
 	<h1>{$lang->menu_gnb_sub['siteMap']}</h1>
 </div>
@@ -6,6 +12,42 @@
 </div>
 <div id="site">
 	<div class="col map">
+	
+<div id="mydemo" class="demo" style="height:500px;">
+	<ul>
+		<li id="nhtml_1">
+			<a href="#">기본 사이트맵1</a>
+			<ul>
+				<li id="nhtml_1_1">
+					<a href="#">메뉴 1-1</a>
+				</li>
+				<li id="nhtml_1_2">
+					<a href="#">메뉴 1-2</a>
+					<ul>
+						<li id="nhtml_1_2_1">
+							<a href="#">메뉴 1-2-1</a>
+						</li>
+						<li id="nhtml_1_2_2">
+							<a href="#">메뉴 1-2-2</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li id="nhtml_2">
+			<a href="#">이벤트2</a>
+			<ul>
+				<li id="nhtml_2_1">
+					<a href="#">메뉴 2-1</a>
+				</li>
+				<li id="nhtml_2_2">
+					<a href="#">메뉴 2-2</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+
 		<section class="mapi">
 			<ul>
 				<li class="root">
@@ -445,6 +487,29 @@ jQuery(function($){
 <script>
 //<![CDATA[
 jQuery(function($){
+	//$.jstree._themes = "PATH/TO/FOLDER/";
+	$.jstree._themes = "/maserati/modules/menu/tpl/css/themes/";
+	
+	// TO CREATE AN INSTANCE
+	// select the tree container using jQuery
+	$("#mydemo")
+		// call `.jstree` with the options object
+		.jstree({
+			// the `plugins` array allows you to configure the active plugins on this instance
+			"plugins" : ["themes","html_data","ui","crrm","hotkeys","contextmenu", "dnd"],
+			//"themes","json_data","ui","crrm","cookies","dnd","search","types","hotkeys","contextmenu" 
+			// each plugin you have included can have its own config object
+			"core" : { "initially_open" : [ "nhtml_1" ] }
+			// it makes sense to configure a plugin only if overriding the defaults
+		})
+		// EVENTS
+		// each instance triggers its own events - to process those listen on the container
+		// all events are in the `.jstree` namespace
+		// so listen for `function_name`.`jstree` - you can function names from the docs
+		.bind("loaded.jstree", function (event, data) {
+			// you get two params - event & data - check the core docs for a detailed description
+		});
+
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
