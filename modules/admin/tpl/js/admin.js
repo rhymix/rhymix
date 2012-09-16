@@ -6,17 +6,17 @@ jQuery(function($){
 	$('.x .skipNav>a').click(function(){
 		$($(this).attr('href')).attr('tabindex','0').css('outline','0').focus();
 	});
-// Layer Toggle
+// Content Toggle
 	$('.x [data-toggle^="#"]').click(function(){
 		$($(this).attr('data-toggle')).toggle();
 		return false;
 	});
-// Open Layer
+// Content Open
 	$('.x [data-open^="#"]').click(function(){
 		$($(this).attr('data-open')).open();
 		return false;
 	});
-// Close Layer
+// Content Close
 	$('.x [data-close^="#"]').click(function(){
 		$($(this).attr('data-close')).hide();
 		return false;
