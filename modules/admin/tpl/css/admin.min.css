@@ -17,7 +17,13 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x h4{font-size:14px}
 .x h5{font-size:12px}
 .x h6{font-size:12px}
-.x_btn-link{padding:0;margin:0;overflow:visible}
+.x .x_btn-link{padding:0;margin:0;overflow:visible}
+.x [class^="x_icon-"],
+.x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
+.x .x_close{width:24px;height:24px}
+.x .x_alert .x_close{top:-3px;right:-30px}
+.x .x_pagination ul>.x_active>a, 
+.x .x_pagination ul>.x_active>span{ background-color:#767676;color:#fff;font-weight:bold;font-size:18px;font-family:Arial, Helvetica, sans-serif}
 /* Image Sprite */
 .x>.body>.gnb>ul>li>a:before,
 .x .dashboard>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}

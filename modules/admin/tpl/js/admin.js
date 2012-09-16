@@ -6,19 +6,28 @@ jQuery(function($){
 	$('.x .skipNav>a').click(function(){
 		$($(this).attr('href')).attr('tabindex','0').css('outline','0').focus();
 	});
-// Content Toggle
-	$('.x [data-toggle^="#"]').click(function(){
+// TARGET toggle
+	$('.x [data-toggle]').click(function(){
 		$($(this).attr('data-toggle')).toggle();
 		return false;
 	});
-// Content Open
-	$('.x [data-open^="#"]').click(function(){
-		$($(this).attr('data-open')).show();
+// TARGET show
+	$('.x [data-show]').click(function(){
+		$($(this).attr('data-show')).show();
 		return false;
 	});
-// Content Close
-	$('.x [data-close^="#"]').click(function(){
-		$($(this).attr('data-close')).hide();
+// TARGET hide
+	$('.x [data-hide]').click(function(){
+		$($(this).attr('data-hide')).hide();
+		return false;
+	});
+// Tab Navigation
+	var $tabbable = $('.x .x_tabbable');
+	$tabbable.find('.x_tab-pane:not(".x_active")').hide();
+	$tabbable.find('.x_nav-tabs>li>a').click(function(){
+		var $this = $(this);
+		$this.parent('li').addClass('x_active').siblings().removeClass('x_active');
+		$tabbable.find($this.attr('href')).addClass('x_active').show().siblings().removeClass('x_active').hide();
 		return false;
 	});
 // GNB Height 100%
