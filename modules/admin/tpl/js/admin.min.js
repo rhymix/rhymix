@@ -6,9 +6,14 @@ jQuery(function($){
 	$('.x .skipNav>a').click(function(){
 		$($(this).attr('href')).attr('tabindex','0').css('outline','0').focus();
 	});
-// Content Toggle
+// Layer Toggle
 	$('.x [data-toggle^="#"]').click(function(){
 		$($(this).attr('data-toggle')).toggle();
+		return false;
+	});
+// Open Layer
+	$('.x [data-open^="#"]').click(function(){
+		$($(this).attr('data-open')).open();
 		return false;
 	});
 // Close Layer
