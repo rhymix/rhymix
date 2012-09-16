@@ -13,7 +13,7 @@ jQuery(function($){
 	});
 // Content Open
 	$('.x [data-open^="#"]').click(function(){
-		$($(this).attr('data-open')).open();
+		$($(this).attr('data-open')).show();
 		return false;
 	});
 // Content Close
