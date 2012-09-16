@@ -173,10 +173,6 @@
 						</li>
 					</ul>
 				</li>
-			</ul>
-		</section>
-		<section class="mapi">
-			<ul>
 				<li class="root">
 					<div class="item">
 						<strong>기본 사이트맵</strong>
@@ -344,18 +340,32 @@
 				</li>
 			</ul>
 		</section>
-		<div class="x_btn-group" style="margin:15px 0;padding:10px;border-top:1px solid #ccc;text-align:right">
+		<div class="x_btn-group" style="margin:15px 0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
 			<button type="button" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
 		</div>
 	</div>
-	<div class="col" id="@">
-		...
+	<div class="col" id="add">
+		<section>
+			<h1>메뉴 추가</h1>
+			<ul>
+				<li><a href="#pageDoc">문서 페이지</a></li>
+				<li><a href="#pageWidget">위젯 페이지</a></li>
+				<li><a href="#board">게시판</a></li>
+				<li><a href="#url">URL 링크</a></li>
+			</ul>
+			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
+				<a type="button" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴유형 설치</a>
+			</div>
+		</section>
 	</div>
 </div>
 <style>
+/* Site */
 #site{position:relative;overflow-x:auto;overflow-y:hidden}
-#site>.col{position:relative;float:left;height:100%;padding:0 10px;overflow-y:auto;overflow-x:hidden;border-left:1px solid #ddd}
-#site>.col:first-child{border:0;padding-left:0}
+.col{position:relative;float:left;height:100%;min-width:200px;padding:0 10px;overflow-y:auto;overflow-x:hidden;border-left:1px solid #ddd}
+.col:first-child{border:0;padding-left:0}
+.col>section>h1{ line-height:30px;font-size:16px;border-bottom:2px solid #666;margin:0;color:#333}
+.col>section>ul{ margin:0;padding:0;list-style:none}
 	/* .mapi * */
 .mapi{margin:0 0 15px 0;min-width:200px}
 .mapi ul{margin:0;padding:0;list-style:none}
@@ -364,8 +374,10 @@
 .mapi a{text-decoration:none}
 .mapi>ul{padding:1px}
 	/* .root */
+.mapi .root{margin-topp:15px;border:0 !important}
+.mapi .root:first-child{ margin-top:0}
 .mapi .root>ul{margin-top:10px}
-.mapi .root>.item{position:relative;border-bottom:1px solid #ccc;margin:0 -80px 0 0;zoom:1}
+.mapi .root>.item{position:relative;border-bottom:2px solid #666;margin:0 -80px 0 0;zoom:1}
 .mapi .root>.item>strong{font-size:16px}
 	/* li>i.v || li>i.h */
 .mapi .v,
@@ -411,6 +423,10 @@
 	/* li>.item>ul */
 .mapi .root>ul ul{display:none}	
 .mapi .root>ul li.open>ul{display:block}
+	/* Add */
+#add.col>section>ul>li{ border-top:1px dotted #ccc;padding:7px 0}
+#add.col>section>ul>li:first-child{ border-top:0}
+
 </style>
 <!--[if IE 7]>
 <script>
