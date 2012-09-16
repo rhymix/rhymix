@@ -20,7 +20,7 @@
 						<li>
 							<i class="v"></i><i class="h"></i>
 							<div class="item">
-								<a href="#info" class="tx"><i class="x_icon-file"></i> 메뉴1</a>
+								<a href="#info" class="tx"><i class="x_icon-file"></i> 메뉴1 <i class="x_icon-home"></i></a>
 								<span class="side">
 									<a href="#add" data-toggle="#add">메뉴추가</a>
 									<a href="#info" data-toggle="#info">속성편집</a>
@@ -396,7 +396,8 @@
 .mapi .root>ul>li>ul>li>ul>li>ul>li>ul>li>ul>li>ul>li>ul>li>.item>a{padding-left:192px}
 .mapi .root>ul>li>ul>li>ul>li>ul>li>ul>li>ul>li>ul>li>ul>li>ul>li>.item>a{padding-left:216px}
 	/* li>.item>.tx>i */
-.mapi .tx>i[class^="x_icon-"]{position:relative;left:-20px;margin:0 -20px 0 0;opacity:.5;filter:alpha(opacity=50)}
+.mapi .tx>i[class^="x_icon-"]:first-child{position:relative;left:-20px;margin:0 -20px 0 0;opacity:.5;filter:alpha(opacity=50)}
+.mapi .tx>i[class^="x_icon-home"]{opacity:.75;filter:alpha(opacity=75)}
 .mapi .hover>.item>.tx>i[class*="-white"],
 .mapi .selected>.item>.tx>i[class*="-white"]{opacity:1;filter:alpha(opacity=100)}
 	/* li>.item>.side */
@@ -462,9 +463,9 @@ jQuery(function($){
 			var folderOpen = 'x_icon-folder-open';
 			var folderClose = 'x_icon-folder-close';
 			if(submenu && hasopen){
-				$this.find('>.item>.tx>i').removeClass(folderClose).addClass(folderOpen);
+				$this.find('>.item>.tx>i:first-child').removeClass(folderClose).addClass(folderOpen);
 			} else if(submenu && !hasopen) {
-				$this.find('>.item>.tx>i').removeClass(folderOpen).addClass(folderClose);
+				$this.find('>.item>.tx>i:first-child').removeClass(folderOpen).addClass(folderClose);
 			}
 			
 		});
