@@ -16,6 +16,7 @@
 <div id="mydemo" class="demo" style="height:500px;">
 	<ul>
 		<li id="nhtml_1">
+			<i class="v"></i><i class="h"></i>
 			<a href="#">기본 사이트맵1</a>
 			<span class="side">
 				<button data-toggle="#add">메뉴추가</button>
@@ -23,6 +24,7 @@
 			</span>
 			<ul>
 				<li id="nhtml_1_1">
+					<i class="v"></i><i class="h"></i>
 					<a href="#">메뉴 1-1</a>
 					<span class="side">
 						<button data-toggle="#add">메뉴추가</button>
@@ -30,6 +32,7 @@
 					</span>
 				</li>
 				<li id="nhtml_1_2">
+					<i class="v"></i><i class="h"></i>
 					<a href="#">메뉴 1-2</a>
 					<span class="side">
 						<button data-toggle="#add">메뉴추가</button>
@@ -37,6 +40,7 @@
 					</span>
 					<ul>
 						<li id="nhtml_1_2_1">
+							<i class="v"></i><i class="h"></i>
 							<a href="#">메뉴 1-2-1</a>
 							<span class="side">
 								<button data-toggle="#add">메뉴추가</button>
@@ -44,6 +48,7 @@
 							</span>
 						</li>
 						<li id="nhtml_1_2_2">
+							<i class="v"></i><i class="h"></i>
 							<a href="#">메뉴 1-2-2</a>
 							<span class="side">
 								<button data-toggle="#add">메뉴추가</button>
@@ -542,7 +547,13 @@ jQuery(function($){
 			// you get two params - event & data - check the core docs for a detailed description
 		})
 		.bind("create_node.jstree", function (event, data) {
+			var v = $("i").addClass("v");
+			var h = $("i").addClass("h");
+			//'<i class="v"></i><i class="h"></i>'
 			var btns = $("<span>").addClass("side").html('<button data-toggle="#add">메뉴추가</button> <button data-toggle="#info">속성편집</button>');
+			//data.rslt.obj.append(h);
+			//data.rslt.obj.append(v);
+			
 			data.rslt.obj.append(btns);
 		});
 
