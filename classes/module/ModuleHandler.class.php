@@ -727,12 +727,12 @@
             // if there is no instance of the module in global variable, create a new one
 			if(!isset($GLOBALS['_loaded_module'][$module][$type][$kind]))
 			{
-				self::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
+				ModuleHandler::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
 
 				if($extend_module && (!is_readable($high_class_file) || !is_readable($class_file)))
 				{
 					$module = $parent_module;
-					self::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
+					ModuleHandler::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
 				}
 
                 // Get base class name and load the file contains it
