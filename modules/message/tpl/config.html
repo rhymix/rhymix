@@ -3,7 +3,7 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="./" method="post">
+<form action="./" method="post" class="form">
 <input type="hidden" name="module" value="message" />
 <input type="hidden" name="act" value="procMessageAdminInsertConfig" />
     <p>{$lang->about_skin}</p>
@@ -14,6 +14,16 @@
 				<select name="skin" id="skin">
 					<!--@foreach($skin_list as $key => $val)-->
 					<option value="{$key}" <!--@if($key==$config->skin)-->selected="selected"<!--@end-->>{$val->title}</option>
+					<!--@end-->
+				</select>
+			</p>
+		</li>
+		<li>
+			<p class="q"><label for="mskin">{$lang->mobile_skin}</label></p>
+			<p class="a">
+				<select name="mskin" id="mskin">
+					<!--@foreach($mskin_list as $key => $val)-->
+					<option value="{$key}" <!--@if($key==$config->mskin)-->selected="selected"<!--@end-->>{$val->title}</option>
 					<!--@end-->
 				</select>
 			</p>

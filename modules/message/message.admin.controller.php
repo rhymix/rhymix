@@ -18,7 +18,7 @@
          **/
         function procMessageAdminInsertConfig() {
             // Get information
-            $args->skin = Context::get('skin');
+            $args = Context::gets('skin', 'mskin');
             // Create a module Controller object 
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('message',$args);
