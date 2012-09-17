@@ -114,7 +114,13 @@
 				if(file_exists("{$file->fileRealPath}/{$tmp}"))
 				{
 					$file->fileName = $tmp;
+					$file->useMin = TRUE;
 				}
+			}
+
+			if(!$file->useMin && !file_exists("{$file->fileRealPath}/{$file->fileName}"))
+			{
+				$file->fileName = "{$file->fileNameNoExt}.min.{$file->fileExtension}";
 			}
 
 			if (strpos($file->filePath, '://') == false)
