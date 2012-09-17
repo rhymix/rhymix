@@ -388,7 +388,7 @@
 	            $memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 				$this->memberInfo->password = $memberInfo->password;
 			}
-            // Verify the cuttent password
+            // Verify the current password
             if(!$oMemberModel->isValidPassword($this->memberInfo->password, $password))
 			{
 				return new Object(-1, 'invalid_password');
@@ -396,7 +396,7 @@
 
 			$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
 
-			$redirectUrl = getUrl('', 'act', 'dispMemberModifyInfo');
+			$redirectUrl = getNotEncodedUrl('', 'act', 'dispMemberModifyInfo');
 			$this->setRedirectUrl($redirectUrl);
 
 		}
