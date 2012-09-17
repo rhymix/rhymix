@@ -371,6 +371,20 @@
 					{
 						$oModule = &$this->getModuleInstance($forward->module, $type, $kind);
 					}
+
+					if(!is_object($oModule)) {
+						$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+						$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+						$oMessageObject->setError(-1);
+						$oMessageObject->setMessage('msg_module_is_not_exists');
+						$oMessageObject->dispMessage();
+						if($this->httpStatusCode)
+						{
+							$oMessageObject->setHttpStatusCode($this->httpStatusCode);
+						}
+						return $oMessageObject;
+					}
+
                     $xml_info = $oModuleModel->getModuleActionXml($forward->module);
 					$oMemberModel = &getModel('member');
 

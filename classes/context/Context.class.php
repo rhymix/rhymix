@@ -235,16 +235,19 @@ class Context {
 			$oMemberModel = &getModel('member');
 			$oMemberController = &getController('member');
 
-			// if signed in, validate it.
-			if($oMemberModel->isLogged()) {
-				$oMemberController->setSessionInfo();
-			}
-			elseif($_COOKIE['xeak']) { // check auto sign-in
-				$oMemberController->doAutologin();
-			}
+			if($oMemberController && $oMemberModel)
+			{
+				// if signed in, validate it.
+				if($oMemberModel->isLogged()) {
+					$oMemberController->setSessionInfo();
+				}
+				elseif($_COOKIE['xeak']) { // check auto sign-in
+					$oMemberController->doAutologin();
+				}
 
-			$this->set('is_logged', $oMemberModel->isLogged() );
-			$this->set('logged_info', $oMemberModel->getLoggedInfo() );
+				$this->set('is_logged', $oMemberModel->isLogged() );
+				$this->set('logged_info', $oMemberModel->getLoggedInfo() );
+			}
 		}
 
 		// load common language file
