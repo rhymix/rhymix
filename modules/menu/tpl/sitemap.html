@@ -3,6 +3,7 @@
 <load target="./js/_lib/jquery.cookie.js" />
 <load target="./js/_lib/jquery.hotkeys.js" />
 <load target="./js/jquery.jstree.js" />
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 
 <div class="x_page-header">
 	<h1>{$lang->menu_gnb_sub['siteMap']}</h1>
@@ -12,80 +13,26 @@
 </div>
 <div id="site">
 	<div class="col map">
-	
-<div id="mydemo" class="demo" style="height:500px;">
-	<ul>
-		<li id="nhtml_1">
-			<i class="v"></i><i class="h"></i>
-			<a href="#">기본 사이트맵1</a>
-			<span class="side">
-				<button data-toggle="#add">메뉴추가</button>
-				<button data-toggle="#info">속성편집</button>
-			</span>
-			<ul>
-				<li id="nhtml_1_1">
-					<i class="v"></i><i class="h"></i>
-					<a href="#">메뉴 1-1</a>
-					<span class="side">
-						<button data-toggle="#add">메뉴추가</button>
-						<button data-toggle="#info">속성편집</button>
-					</span>
-				</li>
-				<li id="nhtml_1_2">
-					<i class="v"></i><i class="h"></i>
-					<a href="#">메뉴 1-2</a>
-					<span class="side">
-						<button data-toggle="#add">메뉴추가</button>
-						<button data-toggle="#info">속성편집</button>
-					</span>
-					<ul>
-						<li id="nhtml_1_2_1">
-							<i class="v"></i><i class="h"></i>
-							<a href="#">메뉴 1-2-1</a>
-							<span class="side">
-								<button data-toggle="#add">메뉴추가</button>
-								<button data-toggle="#info">속성편집</button>
-							</span>
-						</li>
-						<li id="nhtml_1_2_2">
-							<i class="v"></i><i class="h"></i>
-							<a href="#">메뉴 1-2-2</a>
-							<span class="side">
-								<button data-toggle="#add">메뉴추가</button>
-								<button data-toggle="#info">속성편집</button>
-							</span>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-		<li id="nhtml_2">
-			<a href="#">이벤트2</a>
-			<span class="side">
-				<button data-toggle="#add">메뉴추가</button>
-				<button data-toggle="#info">속성편집</button>
-			</span>
-			<ul>
-				<li id="nhtml_2_1">
-					<a href="#">메뉴 2-1</a>
-					<span class="side">
-						<button data-toggle="#add">메뉴추가</button>
-						<button data-toggle="#info">속성편집</button>
-					</span>
-				</li>
-				<li id="nhtml_2_2">
-					<a href="#">메뉴 2-2</a>
-					<span class="side">
-						<button data-toggle="#add">메뉴추가</button>
-						<button data-toggle="#info">속성편집</button>
-					</span>
-				</li>
-			</ul>
-		</li>
-	</ul>
-</div>
-
 		<section class="mapi">
+			<div id="siteMapTree"></div>
+			<script id="tmpl_menuTree" type="text/x-jquery-tmpl">
+				<ul>
+					{{html Nodes}}
+				</ul>
+			</script>
+
+			<script id="tmpl_menuTreeNode" type="text/x-jquery-tmpl">
+				<li id="${MenuId}">
+					<i class="v"></i><i class="h"></i>
+					<a href="#" class="tx">${MenuTitle}</a>
+					<span class="side">
+						<button data-toggle="#add">메뉴추가</button>
+						<button data-toggle="#info">속성편집</button>
+					</span>
+					{{html SubTree}}
+				</li>
+			</script>
+					
 			<ul>
 				<li class="root">
 					<div class="item">
@@ -427,127 +374,24 @@
 		<section>
 			<h1>메뉴 추가</h1>
 			<ul>
-				<li><a href="#add_page" data-show="#add_page" data-hide="#add_url,#download">문서 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_page" data-show="#add_page" data-hide="#add_url,#download">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_page" data-show="#add_page" data-hide="#add_url,#download">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_url" data-show="#add_url" data-hide="#add_page,#download">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#pageDoc">문서 페이지</a></li>
+				<li><a href="#pageWidget">위젯 페이지</a></li>
+				<li><a href="#board">게시판</a></li>
+				<li><a href="#url">URL 링크</a></li>
 			</ul>
 			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
-				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-show="#download" data-hide="#add_page,#add_url"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입설치</a>
+				<a type="button" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴유형 설치</a>
 			</div>
 		</section>
-	</div>
-	<div class="col" id="add_page">
-		<fieldset>
-			<h1>문서 페이지</h1>
-			<ul>
-				<li>
-					<label for="menuName1">메뉴이름(브라우저 제목)</label>
-					<input id="menuName1" type="text" required />
-				</li>
-				<li>
-					<label for="menuId">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-toggle="#help_menuId">?</a></label>
-					<div id="help_menuId" class="x_alert x_alert-info" style="display:none;width:169px">
-						<button type="button" class="x_close" data-hide="#help_menuId">×</button>
-						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
-					</div>
-					<input id="menuId" type="text" required placeholder="생략시 임의값 사용" />
-				</li>
-			</ul>
-			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
-				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
-			</div>
-		</fieldset>
-		<button type="button" class="x_close" data-hide="#add_page">&times;</button>
-	</div>
-	<div class="col" id="add_url">
-		<fieldset>
-			<h1>URL 링크</h1>
-			<ul>
-				<li>
-					<label for="menuName2">메뉴이름(브라우저 제목)</label>
-					<input id="menuName2" type="text" required />
-				</li>
-				<li>
-					<div class="x_tabbable">
-						<ul class="x_nav x_nav-tabs">
-							<li class="x_active"><a href="#linkUrl">URL 링크</a></li>
-							<li><a href="#linkMenu">메뉴 링크</a></li>
-						</ul>
-						<div class="x_tabcontent">
-							<div class="x_tab-pane x_active" id="linkUrl">
-								<input type="text" required title="URL 링크" />
-							</div>
-							<div class="x_tab-pane" id="linkMenu">
-								<input type="text" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
-							</div>
-						</div>
-					</div>
-				</li>
-			</ul>
-			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
-				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
-			</div>
-		</fieldset>
-		<button type="button" class="x_close" data-hide="#add_url">&times;</button>
-	</div>
-	<div class="col" id="download">
-		<section>
-			<h1>다른 메뉴타입설치</h1>
-			<div class="list">
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
-			</div>
-			<div class="x_pagination x_pagination-centered">
-				<ul>
-					<li class="x_disabled"><a href="#">&laquo;</a></li>
-					<li class="x_active"><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li><a href="#">&raquo;</a></li>
-				</ul>
-			</div>
-		</section>
-		<button type="button" class="x_close" data-hide="#download">&times;</button>
 	</div>
 </div>
 <style>
 /* Site */
-#site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap}
-.col{display:inline-block;vertical-align:top;position:relative;white-space:normal;height:100%;min-width:220px;padding:10px 25px 10px 10px;margin:0 4px 0 0;overflow-y:auto;overflow-x:hidden;border:1px solid #ddd}
-.col>*>h1{line-height:30px;font-size:16px;border-bottom:2px solid #666;margin:0;color:#333}
-.col>*>ul{margin:0;padding:0;list-style:none}
-.col>.x_close{position:absolute;top:0;right:0;width:24px;height:24px}
+#site{position:relative;overflow-x:auto;overflow-y:hidden}
+.col{position:relative;float:left;height:100%;min-width:200px;padding:0 10px;overflow-y:auto;overflow-x:hidden;border-left:1px solid #ddd}
+.col:first-child{border:0;padding-left:0}
+.col>section>h1{ line-height:30px;font-size:16px;border-bottom:2px solid #666;margin:0;color:#333}
+.col>section>ul{ margin:0;padding:0;list-style:none}
 	/* .mapi * */
 .mapi{margin:0 0 15px 0;min-width:200px}
 .mapi ul{margin:0;padding:0;list-style:none}
@@ -556,8 +400,8 @@
 .mapi a{text-decoration:none}
 .mapi>ul{padding:1px}
 	/* .root */
-.mapi .root{margin-top:15px;border:0 !important}
-.mapi .root:first-child{margin-top:0}
+.mapi .root{margin-topp:15px;border:0 !important}
+.mapi .root:first-child{ margin-top:0}
 .mapi .root>ul{margin-top:10px}
 .mapi .root>.item{position:relative;border-bottom:2px solid #666;margin:0 -80px 0 0;zoom:1}
 .mapi .root>.item>strong{font-size:16px}
@@ -605,35 +449,9 @@
 	/* li>.item>ul */
 .mapi .root>ul ul{display:none}	
 .mapi .root>ul li.open>ul{display:block}
-/* Add */
-#add li{border-top:1px solid #ddd;position:relative;white-space:nowrap}
-#add li:first-child{border-top:0}
-#add li>a{display:block;padding:6px 15px 6px 8px;color:#333;text-decoration:none;background:#fff;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
-#add li>a:hover,
-#add li>a:focus,
-#add li.active>a{background:#666;color:#fff}
-#add li>a>i{position:absolute;top:7px;right:5px;opacity:.5;filter:alpha(opacity=50)}
-#add li>a:hover>i,
-#add li>a:focus>i,
-#add li.active>a>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);background-repeat:no-repeat;opacity:1;filter:alpha(opacity=100)}
-/* Add Page */
-#add_page ul{margin:15px 0}
-/* Add URL */
-#add_url ul{margin:15px 0}
-#add_url .clone ul{margin:0}
-#add_url .clone li{list-style:none}
-#add_url .clone ul ul{padding-left:15px}
-#add_url .clone .root{margin-top:15px}
-/* Download */
-#download.col{max-width:500px}
-#download .list{padding:1px 0;border-bottom:1px solid #ccc;}
-#download .item{border-top:1px solid #ddd;padding:1px 0;position:relative}
-#download .item:first-child{border:0}
-#download h2{font-size:14px}
-#download a.x_icon-download-alt{width:24px;height:24px;background-color:#94A55C;position:absolute;top:7px;right:0;border-radius:3px;background-position:-90px -19px}
-#download a.x_icon-download-alt:hover,
-#download a.x_icon-download-alt:focus{background-color:#333}
-#download p>i{font-style:normal;color:#ccc}
+	/* Add */
+#add.col>section>ul>li{ border-top:1px dotted #ccc;padding:7px 0}
+#add.col>section>ul>li:first-child{ border-top:0}
 
 </style>
 <!--[if IE 7]>
@@ -652,13 +470,15 @@ jQuery(function($){
 <![endif]-->
 <script>
 //<![CDATA[
-jQuery(function($){
-	//$.jstree._themes = "PATH/TO/FOLDER/";
-	$.jstree._themes = "/maserati/modules/menu/tpl/css/themes/";
+function onSiteMapReceived(htData){
+	var $ = jQuery;
+	var aMenuList = htData.menuList;
+
+	//console.log(aMenuList, aMenuList.length);
+	//console.log(createTreeMarkup(aMenuList));
+	$("#siteMapTree").html(createTreeMarkup(aMenuList));
 	
-	// TO CREATE AN INSTANCE
-	// select the tree container using jQuery
-	$("#mydemo")
+	$("#siteMapTree")
 		// call `.jstree` with the options object
 		.jstree({
 			// the `plugins` array allows you to configure the active plugins on this instance
@@ -668,32 +488,147 @@ jQuery(function($){
 			"core" : { "initially_open" : [ "nhtml_1" ] }
 			// it makes sense to configure a plugin only if overriding the defaults
 		})
-		// EVENTS
-		// each instance triggers its own events - to process those listen on the container
-		// all events are in the `.jstree` namespace
-		// so listen for `function_name`.`jstree` - you can function names from the docs
-		.bind("loaded.jstree", function (event, data) {
-			// you get two params - event & data - check the core docs for a detailed description
-		})
 		.bind("create_node.jstree", function (event, data) {
-			var v = $("i").addClass("v");
-			var h = $("i").addClass("h");
+			var v = $("<i>").addClass("v");
+			var h = $("<i>").addClass("h");
 			//'<i class="v"></i><i class="h"></i>'
 			var btns = $("<span>").addClass("side").html('<button data-toggle="#add">메뉴추가</button> <button data-toggle="#info">속성편집</button>');
-			//data.rslt.obj.append(h);
-			//data.rslt.obj.append(v);
+			
+			//data.rslt.obj.prepend(h);
+			//data.rslt.obj.prepend(v);
+			h.insertBefore(data.rslt.obj.find("a"));
+			v.insertBefore(data.rslt.obj.find("a"));
 			
 			data.rslt.obj.append(btns);
 		});
+}
 
-// Column display
-	$('#site>.col:not(":first-child")').hide();
+var htNodeInfo = {};
+// return html
+function createTreeMarkup(aNode){
+	var $ = jQuery;
+	
+	if(aNode.length == 0){
+		return "";
+	}
+	
+	var sActiveBtn, sNormalBtn, sHoverBtn, sExpand, sLink, aSubNodes, sNodeSrl, sOpenWindow, sParentSrl, nSelected, sText, sURL, sIsStartModule, aSubNode;
+	
+	// 1: Sitemap node, 2: Menu node
+	var nNodeType;
+
+	var sResult = "";
+	for(var i=0, nLen=aNode.length; i<nLen; i++){
+		//console.log(aNode[i]);
+		
+		// Only sitemap node has menuSrl
+		if(aNode[i].menuSrl){
+			nNodeType = 1;
+		}else{
+			nNodeType = 2;
+		}
+		
+		switch(nNodeType){
+			/*
+				list: Array[1]
+				menuSrl: "59"
+				title: "welcome_menu"
+			*/
+			case 1:
+			sText  = aNode[i].title;
+			sNodeSrl  = aNode[i].menu_srl;
+			
+			aSubNode  = aNode[i].menuItems.list;
+			break;
+			
+			/*
+				active_btn: ""
+				expand: "N"
+				hover_btn: ""
+				href: ""
+				link: "menu1"
+				list: Array[1]
+				node_srl: "60"
+				normal_btn: ""
+				open_window: "N"
+				parent_srl: "0"
+				selected: 0
+				text: "menu1"
+				url: ""
+				is_start_module: 1 or true
+			*/
+			case 2:
+			sText  = aNode[i].text;
+			sLink  = aNode[i].link;
+			sURL  = aNode[i].url;
+			sNodeSrl  = aNode[i].node_srl;
+			sParentSrl  = aNode[i].parent_srl;
+
+			sExpand  = aNode[i].expand;
+			sOpenWindow  = aNode[i].open_window;
+
+			nSelected  = aNode[i].selected;
+
+			sActiveBtn  = aNode[i].active_btn;
+			sNormalBtn  = aNode[i].normal_btn;
+			sHoverBtn = aNode[i].hover_btn;
+			
+			sIsStartModule = aNode[i].is_start_module;
+			
+			aSubNode  = aNode[i].list;
+			break;
+			
+			default:
+		}
+
+
+		htNodeInfo[sNodeSrl] = aNode[i];
+		htNodeInfo[sNodeSrl].nNodeType = nNodeType;
+
+		sSubTree = "";
+		if(aSubNode && aSubNode.length>0){
+			sSubTree = createTreeMarkup(aSubNode, aNode[i]);
+		}
+		/*
+		if(sMenuType === "shortcut"){
+			sText = sText + " ${s}";
+		}
+		*/
+		if(sIsStartModule){
+			sText = sText + " ${h}";
+		}
+
+		sResult += $.tmpl( "menuTreeNode", {MenuTitle:sText,MenuId:sNodeSrl,SubTree:sSubTree} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='_home_icon icon-home'></i>");
+	}
+	
+	return $.tmpl( "menuTree", {Nodes:sResult} ).get()[0].outerHTML;
+}
+
+jQuery(function($){
+	var _oldhide = $.fn.hide;
+	$.fn.hide = function(speed, callback) {
+		$(this).trigger('hide');
+		return _oldhide.apply(this,arguments);
+	}
+	
+	//$( "#tmpl_siteMap" ).template( "siteMap" );
+	$( "#tmpl_menuTree" ).template( "menuTree" );
+	$( "#tmpl_menuTreeNode" ).template( "menuTreeNode" );
+
+	var params = {};
+	var response_tags = new Array('menuList');
+	params['menu_srl'] = 0;
+	$.exec_json("menu.getMenuAdminSiteMap", params, onSiteMapReceived);
+
+	//$.jstree._themes = "PATH/TO/FOLDER/";
+	//$.jstree._themes = "/maserati/modules/menu/tpl/css/themes/";
+	$.jstree._themes = '{getUrl("")}/modules/menu/tpl/css/themes/';
+	
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
 		var $site = $('#site');
-		$site.height(wHeigh - 265);
-		$site.find('>.col').height(wHeigh - 310);
+		$site.height(wHeigh - 270);
 	}).resize();
 // Draw .h/.v line and display file/folder icon
 	var $mapi = $('.map .root li');
@@ -762,19 +697,18 @@ jQuery(function($){
 			if($this.parent('.side').children('a.active').length){
 				$this.closest('li:not(".root")').addClass('selected').find('>.item>.tx>i').addClass(iconWhite);
 			}
-		});
-// #add active and creat title
-	$('#add li>a').click(function(){
-		var $this = $(this);
-		$this.parent('li').toggleClass('active').siblings().removeClass('active');
-		var title = $this.text();
-		$($(this).attr('href')).find('>*>h1').text(title);
-	});
-// Menu Link Clone
-	$('.mapi>ul').clone().appendTo('#add_url #linkMenu').addClass('clone').find('i, .side').remove();
-	$('#add_url .clone a').click(function(){
-		$('#linkMenu>input').val($(this).text());
-	});
+		})
+		.hover(
+			function(){
+				var $this = $(this);
+				var title = $this.text();
+				$this.attr('title', title);
+			},
+			function(){
+				var $this = $(this);
+				$this.removeAttr('title');
+			}
+		);
 });
 //]]>
 </script>
