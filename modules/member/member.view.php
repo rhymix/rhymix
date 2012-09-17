@@ -381,7 +381,7 @@
          **/
         function dispMemberLoginForm() {
             if(Context::get('is_logged')) {
-                Context::set('redirect_url', getUrl('act',''));
+                Context::set('redirect_url', getNotEncodedUrl('act',''));
                 $this->setTemplatePath($this->module_path.'tpl');
                 $this->setTemplateFile('redirect.html');
                 return;
