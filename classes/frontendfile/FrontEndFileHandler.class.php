@@ -164,7 +164,7 @@
 			}
 
 			(is_null($file->index))?$file->index=0:$file->index=$file->index;
-			if (!isset($map[$file->index][$key]) || $mapIndex[$key] != $file->index)
+			if (!isset($map[$file->index][$key]) || $mapIndex[$key] > $file->index)
 			{
 				$this->unloadFile($args[0], $args[2], $args[1]);
 				$map[$file->index][$key] = $file;
