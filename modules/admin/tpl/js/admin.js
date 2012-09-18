@@ -6,6 +6,7 @@ jQuery(function($){
 	$('.x .skipNav>a').click(function(){
 		$($(this).attr('href')).attr('tabindex','0').css('outline','0').focus();
 	});
+	/*
 // TARGET toggle
 	$('.x [data-toggle]').click(function(){
 		$($(this).attr('data-toggle')).toggle();
@@ -21,6 +22,7 @@ jQuery(function($){
 		$($(this).attr('data-hide')).hide();
 		return false;
 	});
+	*/
 // Tab Navigation
 	var $tabbable = $('.x .x_tabbable');
 	$tabbable.find('.x_tab-pane:not(".x_active")').hide();

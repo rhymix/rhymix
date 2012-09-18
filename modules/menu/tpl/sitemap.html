@@ -34,21 +34,23 @@
 			<button type="button" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
 		</div>
 	</div>
+	
 	<div class="col" id="add">
 		<section>
 			<h1>메뉴 추가</h1>
 			<ul>
-				<li><a href="#add_page" data-show="#add_page" data-hide="#add_url,#download">문서 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_page" data-show="#add_page" data-hide="#add_url,#download">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_page" data-show="#add_page" data-hide="#add_url,#download">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_url" data-show="#add_url" data-hide="#add_page,#download">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_page" data-show="#add_page" data-param='{ "t" : "value of t" }'>문서 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_page" data-show="#add_page">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_page" data-show="#add_page">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_url" data-show="#add_url">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
 			</ul>
 			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
-				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-show="#download" data-hide="#add_page,#add_url"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입설치</a>
+				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입설치</a>
 			</div>
 		</section>
-		<button type="button" class="x_close" data-hide="#download">&times;</button>
+		<button type="button" class="x_close" data-hide="#add">&times;</button>
 	</div>
+	
 	<div class="col" id="add_page">
 		<fieldset>
 			<h1>문서 페이지</h1>
@@ -72,6 +74,7 @@
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#add_page">&times;</button>
 	</div>
+	
 	<div class="col" id="add_url">
 		<fieldset>
 			<h1>URL 링크</h1>
@@ -387,6 +390,12 @@ jQuery(function($){
 		return _oldhide.apply(this,arguments);
 	}
 	
+	var _oldshow = $.fn.show;
+	$.fn.show = function(speed, callback) {
+		$(this).trigger('show');
+		return _oldshow.apply(this,arguments);
+	}
+	
 	//$( "#tmpl_siteMap" ).template( "siteMap" );
 	$( "#tmpl_menuTree" ).template( "menuTree" );
 	$( "#tmpl_menuTreeNode" ).template( "menuTreeNode" );
@@ -399,6 +408,43 @@ jQuery(function($){
 	//$.jstree._themes = "PATH/TO/FOLDER/";
 	//$.jstree._themes = "/maserati/modules/menu/tpl/css/themes/";
 	$.jstree._themes = '{getUrl("")}/modules/menu/tpl/css/themes/';
+
+// Prepare parms
+	$(document.body).on("click", ".x [data-param]", function(ev){
+		console.log($(ev.srcElement).attr('data-param'));
+		$._htMarkupActionParam = $.parseJSON($(ev.srcElement).attr('data-param'));
+		console.log($._htMarkupActionParam);
+		return false;
+	});
+	
+// TARGET toggle
+	$(document.body).on("click", ".x [data-toggle]", function(ev){
+		$($(ev.srcElement).attr('data-toggle')).toggle();
+		return false;
+	});
+// TARGET show
+	$(document.body).on("click", ".x [data-show]", function(ev){
+		var $target = $($(ev.srcElement).attr('data-show'));
+	
+		if($target.hasClass("col")){
+			$target.nextAll().hide();
+		}
+
+		$target.show();
+	});
+// TARGET hide
+	$(document.body).on("click", ".x [data-hide]", function(ev){
+		var $target = $($(ev.srcElement).attr('data-hide'));
+
+		if($target.hasClass("col")){
+			$target.nextAll().hide();
+		}
+
+		$target.hide();
+	});
+
+	$('#add_url').bind("show", function(){console.log('show');});
+	$('#add_url').bind("hide", function(){console.log('hide');});
 	
 // Set #site height fix
 	$(window).resize(function(){
