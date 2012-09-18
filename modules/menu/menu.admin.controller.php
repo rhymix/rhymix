@@ -87,7 +87,8 @@
 			$oMenuAdminModel = &getAdminModel('menu');
 			$menu_info = $oMenuAdminModel->getMenu($menu_srl);
 
-			if($menu_info->title == '__XE_ADMIN__')
+			$oAdmin = &getClass('admin');
+			if($menu_info->title == $oAdmin->getAdminMenuName())
 				return new Object(-1, 'msg_adminmenu_cannot_delete');
 
             $this->deleteMenu($menu_srl);
@@ -377,7 +378,8 @@
             // Get original information
             $item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
 
-			if($menu_title == '__XE_ADMIN__' && $item_info->parent_srl == 0)return $this->stop('msg_cannot_delete_for_admin_topmenu');
+			$oAdmin = &getClass('admin');
+			if($menu_title == $oAdmin->getAdminMenuName() && $item_info->parent_srl == 0)return $this->stop('msg_cannot_delete_for_admin_topmenu');
 
             if($item_info->parent_srl) $parent_srl = $item_info->parent_srl;
             // Display an error that the category cannot be deleted if it has a child node

@@ -137,6 +137,8 @@
 				else $site_srl = (int)$site_module_info->site_srl;
 			}
 
+			$oAdmin = &getClass('admin');
+
 			$oMenuAdminModel = &getAdminModel('menu');
 			$menuListFromDB = $oMenuAdminModel->getMenus();
 			$output = $menuListFromDB;
@@ -147,7 +149,7 @@
 				$menuItems = array();
 				foreach($output AS $key=>$value)
 				{
-					if($value->title == '__XE_ADMIN__') unset($output[$key]);
+					if($value->title == $oAdmin->getAdminMenuName()) unset($output[$key]);
 					else
 					{
 						unset($menu);

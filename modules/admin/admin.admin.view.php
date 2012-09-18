@@ -114,7 +114,7 @@
 			$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
 
 			$oMenuAdminModel = &getAdminModel('menu');
-			$menu_info = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+			$menu_info = $oMenuAdminModel->getMenuByTitle($oAdminAdminModel->getAdminMenuName());
 			Context::set('admin_menu_srl', $menu_info->menu_srl);
 
 			if(!is_readable($menu_info->php_file)) return;
@@ -389,8 +389,9 @@
 			$oModuleModel = &getModel('module');
 			$configObject = $oModuleModel->getModuleConfig('admin');
 
+			$oAdmin = &getClass('admin');
 			$oMenuAdminModel = &getAdminModel('menu');
-			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+			$output = $oMenuAdminModel->getMenuByTitle($oAdmin->getAdminMenuName());
 
 			Context::set('menu_srl', $output->menu_srl);
 			Context::set('menu_title', $output->title);

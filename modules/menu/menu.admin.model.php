@@ -331,9 +331,10 @@
 				$menuListFromDB = $this->getMenus();
 				if(is_array($menuListFromDB))
 				{
+					$oAdmin = &getClass('admin');
 					foreach($menuListFromDB AS $key=>$value)
 					{
-						if($value->title == '__XE_ADMIN__') unset($output[$key]);
+						if($value->title == $oAdmin->getAdminMenuName()) unset($output[$key]);
 						else
 						{
 							unset($menu);

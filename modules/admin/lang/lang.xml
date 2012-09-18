@@ -268,14 +268,14 @@
 	</item>
 	<item name="menu_gnb" type="array">
 		<item name="dashboard">
-			 <value xml:lang="ko"><![CDATA[제어판]]></value>
+			 <value xml:lang="ko"><![CDATA[대시보드]]></value>
 			 <value xml:lang="en"><![CDATA[Dashboard]]></value>
 			 <value xml:lang="jp"><![CDATA[ダッシュボード]]></value>
 			 <value xml:lang="zh-CN"><![CDATA[控制面板]]></value>
 			 <value xml:lang="tr"><![CDATA[Kontrol Paneli]]></value>
 		</item>
 		<item name="menu">
-			 <value xml:lang="ko"><![CDATA[사이트]]></value>
+			 <value xml:lang="ko"><![CDATA[사이트 제작/편집]]></value>
 			 <value xml:lang="en"><![CDATA[Menu]]></value>
 			 <value xml:lang="jp"><![CDATA[サイト]]></value>
 			 <value xml:lang="zh-CN"><![CDATA[目录]]></value>
@@ -295,26 +295,16 @@
 			 <value xml:lang="zh-CN"><![CDATA[内容]]></value>
 			 <value xml:lang="tr"><![CDATA[içerik]]></value>
 		</item>
-		<item name="theme">
-			 <value xml:lang="ko"><![CDATA[테마]]></value>
-			 <value xml:lang="en"><![CDATA[Theme]]></value>
-			 <value xml:lang="jp"><![CDATA[テーマ]]></value>
-			 <value xml:lang="zh-CN"><![CDATA[主题]]></value>
-			 <value xml:lang="tr"><![CDATA[Tema]]></value>
-		</item>
-		<item name="extensions">
-			 <value xml:lang="ko"><![CDATA[확장기능]]></value>
-			 <value xml:lang="en"><![CDATA[Extensions]]></value>
-			 <value xml:lang="jp"><![CDATA[拡張機能]]></value>
-			 <value xml:lang="zh-CN"><![CDATA[扩展]]></value>
-			 <value xml:lang="tr"><![CDATA[Eklentiler]]></value>
-		</item>
 		<item name="configuration">
 			 <value xml:lang="ko"><![CDATA[설정]]></value>
 			 <value xml:lang="en"><![CDATA[Settings]]></value>
 			 <value xml:lang="jp"><![CDATA[設定]]></value>
 			 <value xml:lang="zh-CN"><![CDATA[设置]]></value>
 			 <value xml:lang="tr"><![CDATA[Ayarlar]]></value>
+		</item>
+		<item name="advanced">
+			 <value xml:lang="ko"><![CDATA[고급]]></value>
+			 <value xml:lang="en"><![CDATA[Advanced]]></value>
 		</item>
 	</item>
 	<item name="newest_news">

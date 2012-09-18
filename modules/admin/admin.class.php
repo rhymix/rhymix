@@ -8,6 +8,13 @@
 	 * @version 0.1
 	 */
     class admin extends ModuleObject {
+		private $adminMenuName = '__ADMINMENU_V17__';
+
+		public function getAdminMenuName()
+		{
+			return $this->adminMenuName;
+		}
+
 		/**
 		 * Install admin module
 		 * @return Object
@@ -23,6 +30,26 @@
         function checkUpdate() {
             $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists("admin_favorite", "type")) return true;
+
+			// for admin menu
+			if(Context::isInstalled())
+			{
+				$oMenuAdminModel = &getAdminModel('menu');
+				$output = $oMenuAdminModel->getMenuByTitle($this->adminMenuName);
+
+				if(!$output->menu_srl)
+				{
+					$oAdminClass = &getClass('admin');
+					$oAdminClass->createXeAdminMenu();
+				}
+				else if(!is_readable($output->php_file))
+				{
+					$oMenuAdminController = &getAdminController('menu');
+					$oMenuAdminController->makeXmlFile($output->menu_srl);
+				}
+
+				$this->_oldAdminmenuDelete();
+			}
 
             return false;
         }
@@ -66,18 +93,18 @@
 		 * Regenerate xe admin default menu
 		 * @return void
 		 */
-		function createXeAdminMenu()
+		public function createXeAdminMenu()
 		{
 			//insert menu
-            $args->title = '__XE_ADMIN__';
-            $args->menu_srl = getNextSequence();
-            $args->listorder = $args->menu_srl * -1;
-            $output = executeQuery('menu.insertMenu', $args);
+			$args->title = $this->adminMenuName;
+			$args->menu_srl = getNextSequence();
+			$args->listorder = $args->menu_srl * -1;
+			$output = executeQuery('menu.insertMenu', $args);
 			$menuSrl = $args->menu_srl;
 			unset($args);
 
 			// gnb item create
-			$gnbList = array('dashboard', 'menu', 'user', 'content', 'theme', 'extensions', 'configuration');
+			$gnbList = array('dashboard', 'menu', 'user', 'content', 'configuration', 'advanced');
 			foreach($gnbList AS $key=>$value)
 			{
 				//insert menu item
@@ -109,7 +136,7 @@
 			$gnbModuleList = array(
 				0=>array(
 					'module'=>'menu',
-					'subMenu'=>array('siteMap'),
+					'subMenu'=>array('siteMap', 'siteDesign'),
 				),
 				1=>array(
 					'module'=>'member',
@@ -214,7 +241,7 @@
 			$args->hover_btn = '';
 			$args->active_btn = '';
 			$args->group_srls = $adminGroupSrl;
-            $oModuleModel = &getModel('module');
+			$oModuleModel = &getModel('module');
 
 			foreach($gnbModuleList AS $key=>$value)
 			{
@@ -245,6 +272,56 @@
 		 * @return string
 		 */
 		function _getGnbKey($menuName)
+		{
+			switch($menuName) {
+				case 'siteMap':
+				case 'siteDesign':
+					return 'menu';
+					break;
+				case 'userList':
+				case 'userSetting':
+				case 'userGroup':
+				case 'point':
+					return 'user';
+					break;
+				case 'document':
+				case 'comment':
+				case 'trackback':
+				case 'file':
+				case 'poll':
+				case 'rss':
+				case 'multilingual':
+				case 'importer':
+				case 'trash':
+				case 'spamFilter':
+					return 'content';
+					break;
+				case 'theme':
+				case 'easyInstall':
+				case 'installedLayout':
+				case 'installedModule':
+				case 'installedWidget':
+				case 'installedAddon':
+				case 'editor':
+					return 'advanced';
+					break;
+				case 'adminConfigurationGeneral':
+				case 'adminConfigurationFtp':
+				case 'adminMenuSetup':
+				case 'fileUpload':
+				case 'filebox':
+					return 'configuration';
+					break;
+				default:
+					return 'advanced';
+			}
+		}
+
+		/**
+		 * Return parent old menu key by child menu
+		 * @return string
+		 */
+		function _getOldGnbKey($menuName)
 		{
 			switch($menuName) {
 				case 'siteMap':
@@ -287,7 +364,89 @@
 					return 'configuration';
 					break;
 				default:
-					return 'extensions';
+					return 'user_added_menu';
+			}
+		}
+
+		private function _oldAdminmenuDelete()
+		{
+			$oMenuAdminModel = &getAdminModel('menu');
+
+			$output = $oMenuAdminModel->getMenuByTitle($this->adminMenuName);
+			$newAdminmenuSrl = $output->menu_srl;
+			$output = $oMenuAdminModel->getMenuItems($newAdminmenuSrl, 0);
+			$newAdminParentMenuList = array();
+			if(is_array($output->data))
+			{
+				foreach($output->data AS $key=>$value)
+				{
+					$tmp = explode('\'', $value->name);
+					$newAdminParentMenuList[$tmp[1]] = $value;
+				}
+			}
+			unset($output);
+
+			// old admin menu
+			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+			$menuSrl = $output->menu_srl;
+
+			if($menuSrl)
+			{
+				$oMenuAdminController = &getAdminController('menu');
+
+				$output = $oMenuAdminModel->getMenuItems($menuSrl);
+				if(is_array($output->data))
+				{
+					$parentMenu = array();
+					foreach($output->data AS $key=>$menuItem)
+					{
+						if($menuItem->parent_srl == 0)
+						{
+							$tmp = explode('\'', $menuItem->name);
+							$parentMenuKey = $tmp[1];
+							$parentMenu[$menuItem->menu_item_srl] = $parentMenuKey;
+						}
+					}
+
+					$isUserAddedMenuMoved = false;
+					foreach($output->data AS $key=>$menuItem)
+					{
+						if($menuItem->parent_srl != 0)
+						{
+							$tmp = explode('\'', $menuItem->name);
+							$menuKey = $tmp[1];
+
+							$result = $this->_getOldGnbKey($menuKey);
+							if($result == 'user_added_menu')
+							{
+								if($parentMenu[$menuItem->parent_srl] == 'theme')
+								{
+									$newParentItem = $newAdminParentMenuList['menu'];
+								} 
+								else if($parentMenu[$menuItem->parent_srl] == 'extensions')
+								{
+									$newParentItem = $newAdminParentMenuList['advanced'];
+								}
+								else
+								{
+									$newParentItem = $newAdminParentMenuList[$parentMenu[$menuItem->parent_srl]];
+								}
+								$menuItem->menu_srl = $newParentItem->menu_srl;
+								$menuItem->parent_srl = $newParentItem->menu_item_srl;
+
+								$output = executeQuery('menu.updateMenuItem', $menuItem);
+								$isUserAddedMenuMoved = true;
+							}
+						}
+					}
+
+					if($isUserAddedMenuMoved)
+					{
+						$oMenuAdminController->makeXmlFile($newAdminmenuSrl);
+					}
+				}
+
+				$oMenuAdminController->deleteMenu($menuSrl);
 			}
 		}
     }

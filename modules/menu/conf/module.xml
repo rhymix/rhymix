@@ -9,6 +9,7 @@
         <action name="dispMenuAdminManagement" type="view" standalone="true" />
         <action name="dispMenuAdminMidList" type="view" standalone="true" />
         <action name="dispMenuAdminSiteMap" type="view" standalone="true" admin_index="true" menu_name="siteMap" menu_index="true" />
+        <action name="dispMenuAdminSiteDesign" type="view" standalone="true" menu_name="siteDesign" />
 
         <action name="getMenuAdminTplInfo" type="model" standalone="true" />
         <action name="getMenuAdminItemInfo" type="model" standalone="true" />
@@ -34,7 +35,7 @@
 	<menus>
 		<menu name="siteMap">
 			<title xml:lang="en">Menu Management</title>
-			<title xml:lang="ko">사이트맵</title>
+			<title xml:lang="ko">사이트 메뉴 편집</title>
 			<title xml:lang="jp">サイトマップ</title>
 			<title xml:lang="zh-CN">Menu Management</title>
 			<title xml:lang="zh-TW">選單管理</title>
@@ -44,6 +45,10 @@
 			<title xml:lang="vi">Menu Management</title>
 			<title xml:lang="mn">Menu Management</title>
 			<title xml:lang="tr">Menu Management</title>
+		</menu>
+		<menu name="siteDesign">
+			<title xml:lang="en">Menu Management</title>
+			<title xml:lang="ko">사이트 디자인 설정</title>
 		</menu>
 	</menus>
 </module>
