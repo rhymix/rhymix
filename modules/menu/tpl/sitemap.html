@@ -450,88 +450,8 @@ jQuery(function($){
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
-		var $site = $('#site');
-		$site.height(wHeigh - 270);
+		$('#site').height(wHeigh - 270).children('.col').height(wHeigh - 315);
 	}).resize();
-// Draw .h/.v line and display file/folder icon
-	var $mapi = $('.map .root li');
-	$mapi.addClass('open');
-	function drawMap(){
-		$mapi.each(function(){
-			var $this = $(this);
-			var verticalX = parseInt($this.find('>.item>.tx').css('paddingLeft'));
-			// Draw line
-			$this.find('>.h').css({ // Horizontal line position
-				left: verticalX -39
-			});
-			var submenu = $this.find('>ul').length;
-			var hasopen = $this.hasClass('open');
-			if(submenu){ // Vertical line position
-				var verticalH = parseInt($this.height())-15;
-				var removeH = parseInt($this.find('>ul>li:last-child').height());
-				$this.find('>.v').css({
-						left: verticalX -15,
-						height: verticalH - removeH
-					});
-				$this.find('>.item>.tx>i').removeClass('x_icon-file'); // Remove file icon
-			} else {
-				$this.find('>.v').remove();
-			}
-			// Display icon
-			var folderOpen = 'x_icon-folder-open';
-			var folderClose = 'x_icon-folder-close';
-			if(submenu && hasopen){
-				$this.find('>.item>.tx>i:first-child').removeClass(folderClose).addClass(folderOpen);
-			} else if(submenu && !hasopen) {
-				$this.find('>.item>.tx>i:first-child').removeClass(folderOpen).addClass(folderClose);
-			}
-			
-		});
-	}
-	drawMap();
-// li.hover class toggle
-	$mapi.bind({
-		mouseover: function(event){
-			$(this).addClass('hover');
-			$(this).not('.selected').find('>.item>.tx>i').addClass('x_icon-white');
-			event.stopPropagation();
-		},
-		mouseout: function(event){
-			$(this).removeClass('hover');
-			$(this).not('.selected').find('>.item>.tx>i').removeClass('x_icon-white');
-			event.stopPropagation();
-		}
-	});
-// a.tx submenu toggle
-	$mapi.find('>.item>.tx').click(function(){
-		$(this).closest('li').toggleClass('open');
-		drawMap();
-		return false;
-	});
-// li.selected and .side>a toggle
-	var $mapi = $('.map li');
-	$mapi.find('>.item>.side>a')
-		.click(function(){
-			var $this = $(this);
-			var iconWhite = 'x_icon-white';
-			$mapi.removeClass('selected').find('>.item>.side>a').not($this).removeClass('active');
-			$mapi.find('>.item').not($this.closest('.item')).find('>.tx>i').removeClass(iconWhite);
-			$this.toggleClass('active').siblings().removeClass('active');
-			if($this.parent('.side').children('a.active').length){
-				$this.closest('li:not(".root")').addClass('selected').find('>.item>.tx>i').addClass(iconWhite);
-			}
-		})
-		.hover(
-			function(){
-				var $this = $(this);
-				var title = $this.text();
-				$this.attr('title', title);
-			},
-			function(){
-				var $this = $(this);
-				$this.removeAttr('title');
-			}
-		);
 });
 //]]>
 </script>
