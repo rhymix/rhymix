@@ -370,21 +370,125 @@
 			<button type="button" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
 		</div>
 	</div>
+	
 	<div class="col" id="add">
 		<section>
 			<h1>메뉴 추가</h1>
 			<ul>
-				<li><a href="#pageDoc">문서 페이지</a></li>
-				<li><a href="#pageWidget">위젯 페이지</a></li>
-				<li><a href="#board">게시판</a></li>
-				<li><a href="#url">URL 링크</a></li>
+				<li><a href="#add_page" data-show="#add_page" data-hide="#add_url,#download">문서 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_page" data-show="#add_page" data-hide="#add_url,#download">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_page" data-show="#add_page" data-hide="#add_url,#download">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_url" data-show="#add_url" data-hide="#add_page,#download">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
 			</ul>
 			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
-				<a type="button" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴유형 설치</a>
+				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-show="#download" data-hide="#add_page,#add_url"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입설치</a>
 			</div>
 		</section>
 	</div>
-	
+	<div class="col" id="add_page">
+		<fieldset>
+			<h1>문서 페이지</h1>
+			<ul>
+				<li>
+					<label for="menuName1">메뉴이름(브라우저 제목)</label>
+					<input id="menuName1" type="text" required />
+				</li>
+				<li>
+					<label for="menuId">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-toggle="#help_menuId">?</a></label>
+					<div id="help_menuId" class="x_alert x_alert-info" style="display:none;width:169px">
+						<button type="button" class="x_close" data-hide="#help_menuId">×</button>
+						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
+					</div>
+					<input id="menuId" type="text" required placeholder="생략시 임의값 사용" />
+				</li>
+			</ul>
+			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
+				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
+			</div>
+		</fieldset>
+		<button type="button" class="x_close" data-hide="#add_page">&times;</button>
+	</div>
+	<div class="col" id="add_url">
+		<fieldset>
+			<h1>URL 링크</h1>
+			<ul>
+				<li>
+					<label for="menuName2">메뉴이름(브라우저 제목)</label>
+					<input id="menuName2" type="text" required />
+				</li>
+				<li>
+					<div class="x_tabbable">
+						<ul class="x_nav x_nav-tabs">
+							<li class="x_active"><a href="#linkUrl">URL 링크</a></li>
+							<li><a href="#linkMenu">메뉴 링크</a></li>
+						</ul>
+						<div class="x_tabcontent">
+							<div class="x_tab-pane x_active" id="linkUrl">
+								<input type="text" required title="URL 링크" />
+							</div>
+							<div class="x_tab-pane" id="linkMenu">
+								<input type="text" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
+				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
+			</div>
+		</fieldset>
+		<button type="button" class="x_close" data-hide="#add_url">&times;</button>
+	</div>
+	<div class="col" id="download">
+		<section>
+			<h1>다른 메뉴타입설치</h1>
+			<div class="list">
+				<div class="item">
+					<h2>모듈 이름</h2>
+					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
+					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
+					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+				</div>
+				<div class="item">
+					<h2>모듈 이름</h2>
+					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
+					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
+					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+				</div>
+				<div class="item">
+					<h2>모듈 이름</h2>
+					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
+					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
+					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+				</div>
+				<div class="item">
+					<h2>모듈 이름</h2>
+					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
+					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
+					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+				</div>
+				<div class="item">
+					<h2>모듈 이름</h2>
+					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
+					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
+					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+				</div>
+			</div>
+			<div class="x_pagination x_pagination-centered">
+				<ul>
+					<li class="x_disabled"><a href="#">&laquo;</a></li>
+					<li class="x_active"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-hide="#download">&times;</button>
+	</div>
+
 	<div class="col" >
 		<section>
 			<h1>메뉴 1</h1>
