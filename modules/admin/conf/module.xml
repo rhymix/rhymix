@@ -12,6 +12,7 @@
         <action name="procAdminRemoveIcons" type="controller" standalone="true" />
 		<action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
         <action name="procAdminLogout" type="controller" standalone="true" />
+        <action name="procAdminInsertDefaultDesignInfo" type="controller" />
         <action name="procAdminInsertThemeInfo" type="controller" standalone="true" ruleset="insertThemeInfo" />
 		<action name="procAdminToggleFavorite" type="controller" ruleset="toggleFavorite" />
 		<action name="procAdminEnviromentGatheringAgreement" type="controller" standalone="true" />
