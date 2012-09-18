@@ -158,7 +158,27 @@
 				}
 				else
 				{
-					$layoutSrl = $module_info->layout_srl;
+					// use the site default layout.
+					if($module_info->layout_srl == -1000)
+					{
+						$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $module_info->site_srl);
+						@include($designInfoFile);
+						if(!$designInfo->layout_srl)
+						{
+							$layoutSrl = $site_module_info->layout_srl;
+						}
+						else
+						{
+							$layoutSrl = $designInfo->layout_srl;
+						}
+					}
+					else
+					{
+						$layoutSrl = $module_info->layout_srl;
+					}
+
+					// reset a layout_srl in module_info.
+					$module_info->layout_srl = $layoutSrl;
 				}
 
                 $part_config= $oModuleModel->getModulePartConfig('layout',$layoutSrl);

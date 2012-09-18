@@ -338,12 +338,42 @@
 					$this->stop("msg_not_permitted_act");
 					return FALSE;
 				}
+
                 // integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
-                $oModuleModel = &getModel('module');
-                $oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
-                Context::set('module_info', $this->module_info);
-                // Run
-                $output = $this->{$this->act}();
+				if($this->module_info->is_skin_fix == 'N' && $this->module != 'admin' && strpos($this->act, 'Admin') === false)
+				{
+					$designInfoFile = sprintf(_XE_PATH_.'files/site_design/design_%s.php', $this->module_info->site_srl);
+					if(is_readable($designInfoFile))
+					{
+						@include($designInfoFile);
+
+						$skinName = $designInfo->module->{$this->module_info->module}->skin;
+
+						if($skinName)
+						{
+							$this->setTemplatePath(sprintf('%sskins/%s/', $this->module_path, $skinName));
+						}
+
+						$skinVars = $designInfo->module->{$this->module_info->module}->skin_vars;
+
+						if($skinVars)
+						{
+							$skinVars = unserialize($skinVars);
+							foreach($skinVars as $key => $val)
+							{
+								$this->module_info->{$key} = $val;
+							}
+						}
+					}
+				}
+				else
+				{
+					$oModuleModel = &getModel('module');
+					$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
+				}
+				Context::set('module_info', $this->module_info);
+				// Run
+				$output = $this->{$this->act}();
             }
 			else {
 				return false;

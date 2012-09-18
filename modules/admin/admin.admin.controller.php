@@ -108,6 +108,82 @@
 			header('Location: '.getNotEncodedUrl('', 'module','admin'));
         }
 
+		
+		public function procAdminInsertDefaultDesignInfo()
+		{
+			$vars = Context::getRequestVars();
+			if(!$vars->site_srl)
+			{
+				$vars->site_srl = 0;
+			}
+
+			// create a DesignInfo file 
+			$output = $this->updateDefaultDesignInfo($vars);
+			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
+		}
+
+		public function updateDefaultDesignInfo($vars)
+		{
+			$siteDesignPath = _XE_PATH_.'files/site_design/';
+			
+			if(!is_dir($siteDesignPath))
+			{
+				FileHandler::makeDir($siteDesignPath);
+			}
+
+			$siteDesignFile = _XE_PATH_.'files/site_design/design_'.$vars->site_srl.'.php';
+
+			$buff = '';
+			if(is_readable($siteDesignFile))
+			{
+				@include($siteDesignFile);
+			}
+			else
+			{
+				$designInfo = new stdClass();
+			}
+
+			$layoutSrl = (!$vars->layout_srl) ? $designInfo->layout_srl : $vars->layout_srl;
+
+			if($layoutSrl)
+			{
+				$buff .= sprintf('$designInfo->layout_srl = %s;', $layoutSrl);
+			}
+
+			if($vars->module)
+			{
+				if($designInfo->module)
+				{
+					foreach($designInfo->module as $key => $val)
+					{
+						if($key == $vars->module)
+						{
+							$skin = $vars->module_skin;
+							$skin_vars = serialize($vars->skin_vars);
+						}
+						else
+						{
+							$skin = $val->skin;
+							$skin_vars = $val->skin_vars;
+						}
+						$buff .= sprintf('$designInfo->module->%s->skin = \'%s\';', $key, $skin);
+						$buff .= sprintf('$designInfo->module->%s->skin_vars = \'%s\';', $key, $skin_vars);
+					}
+				}
+				else
+				{
+					$buff .= sprintf('$designInfo->module->%s->skin = \'%s\';', $vars->module, $vars->module_skin);
+					$buff .= sprintf('$designInfo->module->%s->skin_vars = \'%s\';', $vars->module, serialize($vars->skin_vars));
+				}
+			}
+
+			$buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); if(!defined("__XE__")) exit(); %s ?>', $buff);
+
+			FileHandler::writeFile($siteDesignFile, $buff);
+
+			return new Object();
+		}
+
 		/**
 		 * Insert theme information
 		 * @return void|object

@@ -319,7 +319,8 @@
             $oModuleModel = &getModel('module');
 			$columnList = array('module_srl', 'module', 'skin', 'mskin');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-            if($module_info->module_srl) {
+            if($module_info->module_srl) 
+			{
 				if($mode === 'M')
 				{
 					$skin = $module_info->mskin;
@@ -353,8 +354,10 @@
                 unset($obj->module);
                 unset($obj->_mode);
                 // Separately handle if a type of extra_vars is an image in the original skin_info
-                if($skin_info->extra_vars) {
-                    foreach($skin_info->extra_vars as $vars) {
+                if($skin_info->extra_vars) 
+				{
+                    foreach($skin_info->extra_vars as $vars) 
+					{
                         if($vars->type!='image') continue;
 
                         $image_obj = $obj->{$vars->name};
