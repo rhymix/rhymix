@@ -1,8 +1,8 @@
 ﻿@charset "utf-8";
 /* Reset */
 html{min-height:100%}
-body{margin:8px;-webkit-text-size-adjust:none}
-body>.x{margin:15px auto;min-width:290px;/*max-width:1200px*/}
+body{margin:10px;-webkit-text-size-adjust:none}
+body>.x{min-width:300px}
 @media all and (max-width:480px){
 body>.x{margin:0}
 }
@@ -24,6 +24,11 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x .x_alert .x_close{top:-3px;right:-30px}
 .x .x_pagination ul>.x_active>a, 
 .x .x_pagination ul>.x_active>span{ background-color:#767676;color:#fff;font-weight:bold;font-size:18px;font-family:Arial, Helvetica, sans-serif}
+.x .x_btn{border-radius:2px}
+.x .x_btn-group>.x_btn{border-radius:0}
+.x .x_btn-group>.x_btn:last-child, 
+.x .x_btn-group>.x_dropdown-toggle{border-top-right-radius:2px;border-bottom-right-radius:2px}
+.x .x_btn-group>.x_btn:first-child{border-bottom-left-radius:2px;border-top-left-radius:2px}
 /* Image Sprite */
 .x>.body>.gnb>ul>li>a:before,
 .x .dashboard>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}

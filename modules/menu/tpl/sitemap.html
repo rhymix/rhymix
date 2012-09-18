@@ -185,7 +185,7 @@
 .col{display:inline-block;vertical-align:top;position:relative;white-space:normal;height:100%;min-width:220px;padding:10px 25px 10px 10px;margin:0 4px 0 0;overflow-y:auto;overflow-x:hidden;border:1px solid #ddd}
 .col>*>h1{line-height:30px;font-size:16px;border-bottom:2px solid #666;margin:0;color:#333}
 .col>*>ul{margin:0;padding:0;list-style:none}
-.col>.x_close{position:absolute;top:0;right:0;width:24px;height:24px}
+.col>.x_close{position:absolute;top:0;right:0;width:32px;height:32px}
 	/* .mapi * */
 .mapi{margin:0 0 15px 0;min-width:200px;background-color:transparent !important}
 .mapi ul{margin:0;padding:0;list-style:none}
@@ -193,12 +193,13 @@
 .mapi li>ul{margin:0}
 .mapi a{text-decoration:none}
 .mapi>ul{padding:1px}
-	/* .root */
+	/* Root */
 .mapi>ul>li{margin-top:30px;position:relative}
 .mapi>ul>li:before{ content:"";display:block;border-top:1px dashed #ccc;position:relative;top:-15px}
-.mapi>ul>li:first-child{margin-top:0;border:0}
+.mapi>ul>li:first-child{margin-top:0}
 .mapi>ul>li:first-child:before{ content:normal}
-.mapi>ul>li>a{ font-weight:bold}
+.mapi>ul>li>a{font-weight:bold}
+.mapi>ul>li>ul{border-top:2px solid #666;margin-top:7px;padding-top:7px}
 	/* li>a */
 .mapi li>a{border:0 !important; padding:0 8px !important; margin:0 60px 0 0; border-radius:3px; position:relative;z-index:2;height:23px;line-height:23px;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
 .mapi .x_icon-home{opacity:.5;filter:alpha(opacity=50)}
