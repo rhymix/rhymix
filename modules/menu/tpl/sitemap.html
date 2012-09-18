@@ -598,7 +598,7 @@ function createTreeMarkup(aNode){
 			sText = sText + " ${h}";
 		}
 
-		sResult += $.tmpl( "menuTreeNode", {MenuTitle:sText,MenuId:sNodeSrl,SubTree:sSubTree} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='_home_icon icon-home'></i>");
+		sResult += $.tmpl( "menuTreeNode", {MenuTitle:sText,MenuId:sNodeSrl,SubTree:sSubTree} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='x_icon-home'></i>");
 	}
 	
 	return $.tmpl( "menuTree", {Nodes:sResult} ).get()[0].outerHTML;
