@@ -150,27 +150,27 @@
 				$buff .= sprintf('$designInfo->layout_srl = %s;', $layoutSrl);
 			}
 
-			if($vars->module)
+			if($designInfo->module)
 			{
-				if($designInfo->module)
+				foreach($designInfo->module as $key => $val)
 				{
-					foreach($designInfo->module as $key => $val)
+					if($key == $vars->module)
 					{
-						if($key == $vars->module)
-						{
-							$skin = $vars->module_skin;
-							$skin_vars = serialize($vars->skin_vars);
-						}
-						else
-						{
-							$skin = $val->skin;
-							$skin_vars = $val->skin_vars;
-						}
-						$buff .= sprintf('$designInfo->module->%s->skin = \'%s\';', $key, $skin);
-						$buff .= sprintf('$designInfo->module->%s->skin_vars = \'%s\';', $key, $skin_vars);
+						$skin = $vars->module_skin;
+						$skin_vars = serialize($vars->skin_vars);
 					}
+					else
+					{
+						$skin = $val->skin;
+						$skin_vars = $val->skin_vars;
+					}
+					$buff .= sprintf('$designInfo->module->%s->skin = \'%s\';', $key, $skin);
+					$buff .= sprintf('$designInfo->module->%s->skin_vars = \'%s\';', $key, $skin_vars);
 				}
-				else
+			}
+			else
+			{
+				if($vars->module)
 				{
 					$buff .= sprintf('$designInfo->module->%s->skin = \'%s\';', $vars->module, $vars->module_skin);
 					$buff .= sprintf('$designInfo->module->%s->skin_vars = \'%s\';', $vars->module, serialize($vars->skin_vars));
