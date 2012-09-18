@@ -1125,7 +1125,9 @@ class Context {
 					'act.mid'    =>$is_feed?"$mid/$act":'',
 					'act.mid.vid'=>$is_feed?"$vid/$mid/$act":'',
 					'act.document_srl.key'    =>($act=='trackback')?"$srl/$key/$act":'',
-					'act.document_srl.key.vid'=>($act=='trackback')?"$vid/$srl/$key/$act":''
+					'act.document_srl.key.mid'=>($act=='trackback')?"$mid/$srl/$key/$act":'',
+					'act.document_srl.key.vid'=>($act=='trackback')?"$vid/$srl/$key/$act":'',
+					'act.document_srl.key.mid.vid'=>($act=='trackback')?"$vid/$mid/$srl/$key/$act":''
 				);
 
 				$query  = $target_map[$target];

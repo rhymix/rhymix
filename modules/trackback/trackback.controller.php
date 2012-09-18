@@ -97,7 +97,7 @@
             $document_srl = Context::get('target_srl');
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
-            if(!$oDocument->isExists() || !$oDocument->getSummary()) return new Object();
+            if(!$oDocument->isExists()) return new Object();
             if($oDocument->getMemberSrl() != $logged_info->member_srl) return new Object();
             // Add a link sent yeokingeul
             $oDocumentController = &getController('document');
@@ -278,22 +278,22 @@
 		 */
         function sendTrackback($oDocument, $trackback_url, $charset) {
             $oModuleController = &getController('module');
+
             // Information sent by
             $http = parse_url($trackback_url);
+
             $obj->blog_name = str_replace(array('&lt;','&gt;','&amp;','&quot;'), array('<','>','&','"'), Context::getBrowserTitle());
             $oModuleController->replaceDefinedLangCode($obj->blog_name);
             $obj->title = $oDocument->getTitleText();
             $obj->excerpt = $oDocument->getSummary(200);
             $obj->url = getFullUrl('','document_srl',$oDocument->document_srl);
+
             // blog_name, title, excerpt, url charset of the string to the requested change
             if($charset && function_exists('iconv')) {
                 foreach($obj as $key=>$val) {
                     $obj->{$key} = iconv('UTF-8',$charset,$val);
                 }
             }
-            // written information sent to socket
-            if($http['query']) $http['query'].="&";
-            if(!$http['port']) $http['port'] = 80;
 
             $content =
                 sprintf(
@@ -306,42 +306,27 @@
                     urlencode($obj->blog_name),
                     urlencode($obj->excerpt)
                 );
-            if($http['query']) $content .= '&'.$http['query'];
-            $content_length = strlen($content);
-            // header by
-            $header =
-            sprintf(
-                "POST %s HTTP/1.1\r\n".
-                "Host: %s\r\n".
-                "Content-Type: %s\r\n".
-                "Content-Length: %s\r\n\r\n".
-                "%s\r\n",
-                $http['path'],
-                $http['host'],
-                "application/x-www-form-urlencoded",
-                $content_length,
-                $content
-            );
-            if(!$http['host']||!$http['port']) return new Object(-1,'msg_trackback_url_is_invalid');
-            // Opens a socket on the target server you want to send
-            $fp = @fsockopen($http['host'], $http['port'], $errno, $errstr, 5);
-            if(!$fp) return new Object(-1,'msg_trackback_url_is_invalid');
-            // Header information sent by
-            fputs($fp, $header);
-            // Waiting for the results (in particular the server may not be falling EOF
-            while(!feof($fp)) {
-                $line = trim(fgets($fp, 4096));
-                if(preg_match("/^<error>/i",$line)){
-					$error = preg_replace('/[^0-9]/','',$line);
-					break;
-				}
-            }
-            // Close socket
-            fclose($fp);
 
-			if($error == "0") return new Object(0, 'msg_trackback_send_success');
-			
-			return new Object(-1, 'msg_trackback_send_failed');
+			$buff = FileHandler::getRemoteResource($trackback_url, $content, 3, 'POST', 'application/x-www-form-urlencoded');
+
+			$oXmlParser = new XmlParser();
+			$xmlDoc = $oXmlParser->parse($buff);
+
+			if($xmlDoc->response->error->body == '0')
+			{
+				return new Object(0, 'msg_trackback_send_success');
+			}
+			else
+			{
+				if($xmlDoc->response->message->body)
+				{
+					return new Object(-1, sprintf('%s: %s', Context::getLang('msg_trackback_send_failed'), $xmlDoc->response->message->body));
+				}
+				else
+				{
+					return new Object(-1, 'msg_trackback_send_failed');
+				}
+			}
         }
 
 		/**
