@@ -95,6 +95,17 @@
 							</div>
 							<div class="x_tab-pane" id="linkMenu">
 								<input type="text" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+<script>
+jQuery(function($){
+	// #linkMenu prototype
+	setTimeout(function(){
+		$('.mapi').clone().removeClass().removeAttr('id').addClass('clone').appendTo('#linkMenu').find('li').removeAttr('id').removeAttr('class').find('ins, .side').remove();
+		$('.clone a').click(function(){
+			$('#linkMenu>input').val($(this).text());
+		});
+	}, 1000);
+});
+</script>
 							</div>
 						</div>
 					</div>
