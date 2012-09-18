@@ -52,6 +52,7 @@
 			$module = Context::get('module');
 			$mid = Context::get('mid');
 			$skin = Context::get('skin');
+			$skinVars = Context::get('skin_vars');
 
 			// Get the layout information.
 			if(!$layoutSrl || !$module)
@@ -100,6 +101,14 @@
 				{
 					$template_path = sprintf("%sskins/%s/",$oModule->module_path, $skin);
 					$oModule->setTemplatePath($template_path);
+
+					if(is_array($skinVars))
+					{
+						foreach($skinVars as $key => $val)
+						{
+							$oModule->module_info->{$key} = $val;
+						}
+					}
 				}
 				require_once("./classes/display/HTMLDisplayHandler.php");
 				$handler = new HTMLDisplayHandler();
