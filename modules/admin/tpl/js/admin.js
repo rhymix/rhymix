@@ -23,19 +23,6 @@ jQuery(function($){
 			.parent()
 				.css('position', 'relative');
 
-	// Make selected checkbox elements bold
-	var $rc_label = $('input:radio+label,input:checkbox+label'), $input_rc = $rc_label.prev('input');
-	$input_rc
-		.change(function(){
-			var name = $(this).attr('name');
-			$input_rc
-				.filter(function(){ return this.name == name })
-				.next('label').css('font-weight', 'normal').end()
-				.filter(':checked')
-					.next('label').css('font-weight', 'bold').end();
-		})
-		.change();
-
 	// Toogle checkbox all
 	$('.form th>input:checkbox')
 		.change(function() {
