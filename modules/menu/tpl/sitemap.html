@@ -89,12 +89,12 @@
 					<input id="menuName1" type="text" required />
 				</li>
 				<li>
-					<label for="menuId">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-toggle="#help_menuId">?</a></label>
-					<div id="help_menuId" class="x_alert x_alert-info" style="display:none;width:169px">
-						<button type="button" class="x_close" data-hide="#help_menuId">×</button>
+					<label for="mid1">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-toggle="#mid1_help">?</a></label>
+					<div id="mid1_help" class="x_alert x_alert-info" style="display:none;width:169px">
+						<button type="button" class="x_close" data-hide="#mid1_help">×</button>
 						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
 					</div>
-					<input id="menuId" type="text" required placeholder="생략시 임의값 사용" />
+					<input id="mid1" type="text" required placeholder="생략시 임의값 사용" />
 				</li>
 			</ul>
 			<div class="x_btn-group">
@@ -138,16 +138,14 @@
 		<section>
 			<h1>다른 메뉴타입설치</h1>
 			<div class="list">
-			
-					<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
-						<div class="item">
-							<h2>${MenuType}</h2>
-							<p>${MenuTypeDesc}</p>
-							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
-							<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-						</div>
-					</script>
-					
+				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
+					<div class="item">
+						<h2>${MenuType}</h2>
+						<p>${MenuTypeDesc}</p>
+						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+						<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+					</div>
+				</script>
 			</div>
 			<div class="x_pagination x_pagination-centered">
 				<ul>
@@ -164,25 +162,59 @@
 		<button type="button" class="x_close" data-hide="#download">&times;</button>
 	</div>
 	<div class="col" id="default">
-		<section>
+		<fieldset>
 			<h1>기본 설정</h1>
-		</section>
+			<ul>
+				<li>
+					<label for="menuName">메뉴 이름</label>
+					<input type="text" id="menuName">
+				</li>
+				<li>
+					<label for="pageTitle">페이지 제목</label>
+					<input type="text" id="pageTitle">
+				</li>
+				<li>
+					<label for="mid2">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-toggle="#mid2_help">?</a></label>
+					<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
+						<button type="button" class="x_close" data-hide="#mid2_help">×</button>
+						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
+					</div>
+					<input type="text" id="mid2">
+				</li>
+				<li>
+					<label><input type="checkbox" title="메뉴 클릭시 새 창으로 열기"> 메뉴 클릭시 새 창으로 열기</label>
+				</li>
+				<li>
+					<label><input type="checkbox" title="늘 펼쳐진 상태로 있게 합니다"> 늘 펼쳐진 상태로 있게 합니다</label>
+				</li>
+			</ul>
+			<div class="btnBoth">
+				<button type="reset" class="x_btn x_btn-small x_pull-left" data-hide="#default">취소</button>
+				<button type="button" class="x_btn x_btn-small x_btn-primary x_pull-right">확인</button>
+			</div>
+		</fieldset>
 		<button type="button" class="x_close" data-hide="#default">&times;</button>
 	</div>
 	<div class="col" id="imgbtn">
-		<section>
+		<fieldset>
 			<h1>이미지 버튼</h1>
-		</section>
+			<div class="x_btn-group">
+				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
+			</div>
+		</fieldset>
 		<button type="button" class="x_close" data-hide="#imgbtn">&times;</button>
 	</div>
 	<div class="col" id="design">
-		<section>
+		<fieldset>
 			<h1>디자인</h1>
-		</section>
+			<div class="x_btn-group">
+				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
+			</div>
+		</fieldset>
 		<button type="button" class="x_close" data-hide="#design">&times;</button>
 	</div>
 	<div class="col" id="auth">
-		<section>
+		<fieldset>
 			<h1>권한</h1>
 			<ul>
 				<li>
@@ -241,24 +273,32 @@
 			<div class="x_btn-group">
 				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
 			</div>
-		</section>
+		</fieldset>
 		<button type="button" class="x_close" data-hide="#auth">&times;</button>
 	</div>
 	<div class="col" id="details">
-		<section>
+		<fieldset>
 			<h1>상세 설정</h1>
-		</section>
+			<div class="x_btn-group">
+				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
+			</div>
+		</fieldset>
 		<button type="button" class="x_close" data-hide="#details">&times;</button>
 	</div>
 </div>
 <style>
 /* Site */
 #site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap}
+#site .btnBoth,
 #site .x_btn-group{text-align:right;padding:10px 0;margin:15px 0;border-top:1px solid #ccc}
+#site .btnBoth:after{content:"";display:block;clear:both}
 .col{display:inline-block;vertical-align:top;position:relative;white-space:normal;height:100%;min-width:220px;padding:10px 25px 10px 10px;margin:0 4px 0 0;overflow-y:auto;overflow-x:hidden;border:1px solid #ddd}
 .col>*>h1{line-height:30px;font-size:16px;border-bottom:2px solid #666;margin:0;color:#333}
 .col>*>ul{margin:0;padding:0;list-style:none}
 .col>.x_close{position:absolute;top:0;right:0;width:32px;height:32px}
+.col input[type="checkbox"],
+.col input[type="radio"]{margin:0}
+.col label{cursor:pointer}
 	/* .mapi * */
 .mapi{margin:0 0 15px 0;min-width:200px;background-color:transparent !important}
 .mapi ul{margin:0;padding:0;list-style:none}
@@ -350,8 +390,8 @@
 #auth li:first-child{border:0}
 #auth label:first-child{font-weight:bold}
 #auth select{padding:0;width:100%}
-#auth label{cursor:pointer}
-#auth label>input[type="checkbox"]{margin:0}
+/* Default */
+#default ul{margin:15px 0}
 </style>
 <!--[if IE 7]>
 <script>
