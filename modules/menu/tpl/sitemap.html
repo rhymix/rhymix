@@ -23,18 +23,18 @@
 				<li id="${MenuId}">
 					<a href="#">${MenuTitle}</a>
 					<span class="side">
-						<button data-toggle="#add" data-param='{ "sMenuId":"${MenuId}","sNodeType":"${NodeType}" }'>메뉴추가</button>
-						<button data-toggle="${Target}" data-param='{ "sMenuId":"${MenuId}","sNodeType":"${NodeType}" }'>속성편집</button>
+						<button type="button" class="addItem" data-toggle="#add" data-param='{ "sMenuId":"${MenuId}","sNodeType":"${NodeType}" }'>메뉴추가</button>
+						<button type="button" class="showProp" data-toggle="${Target}" data-param='{ "sMenuId":"${MenuId}","sNodeType":"${NodeType}" }'>속성편집</button>
 					</span>
 					{{html SubTree}}
 				</li>
 			</script>
 		</section>
-		<div class="x_btn-group" style="margin:15px 0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
+		<div class="x_btn-group">
 			<button type="button" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
 		</div>
 	</div>
-	<div class="col" id="add_root">
+	<div class="col" id="propertiesRoot">
 		<section>
 			<h1><a href="#" target="_blank">{사이트맵 이름}</a></h1>
 			<ul class="nav">
@@ -43,7 +43,7 @@
 				<li><button type="button">삭제</button></li>
 			</ul>
 		</section>
-		<button type="button" class="x_close" data-hide="#add_root">&times;</button>
+		<button type="button" class="x_close" data-hide="#propertiesRoot">&times;</button>
 	</div>
 	<div class="col" id="properties">
 		<section>
@@ -74,7 +74,7 @@
 				<li><a href="#add_page" data-show="#add_page">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#add_url" data-show="#add_url">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
 			</ul>
-			<div class="x_btn-group" style="margin:0;padding:10px 0;text-align:right">
+			<div class="x_btn-group">
 				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입설치</a>
 			</div>
 		</section>
@@ -97,7 +97,7 @@
 					<input id="menuId" type="text" required placeholder="생략시 임의값 사용" />
 				</li>
 			</ul>
-			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
+			<div class="x_btn-group">
 				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
 			</div>
 		</fieldset>
@@ -128,7 +128,7 @@
 					</div>
 				</li>
 			</ul>
-			<div class="x_btn-group" style="margin:0;padding:10px 0;border-top:1px solid #ccc;text-align:right">
+			<div class="x_btn-group">
 				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
 			</div>
 		</fieldset>
@@ -163,10 +163,98 @@
 		</section>
 		<button type="button" class="x_close" data-hide="#download">&times;</button>
 	</div>
+	<div class="col" id="default">
+		<section>
+			<h1>기본 설정</h1>
+		</section>
+		<button type="button" class="x_close" data-hide="#default">&times;</button>
+	</div>
+	<div class="col" id="imgbtn">
+		<section>
+			<h1>이미지 버튼</h1>
+		</section>
+		<button type="button" class="x_close" data-hide="#imgbtn">&times;</button>
+	</div>
+	<div class="col" id="design">
+		<section>
+			<h1>디자인</h1>
+		</section>
+		<button type="button" class="x_close" data-hide="#design">&times;</button>
+	</div>
+	<div class="col" id="auth">
+		<section>
+			<h1>권한</h1>
+			<ul>
+				<li>
+					<label for="authMenu">메뉴 노출 대상</label>
+					<select id="authMenu">
+						<option value="all">모든 사용자</option>
+						<option value="loged">로그인 사용자</option>
+						<option value="selected">선택그룹 사용자</option>
+					</select>
+					<div class="selected x_hide">
+						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
+						<label><input type="checkbox" title="정회원"> 정회원</label>
+						<label><input type="checkbox" title="준회원"> 준회원</label>
+					</div>
+				</li>
+				<li>
+					<label for="displayMenu">글읽기</label>
+					<select id="displayMenu">
+						<option value="all">모든 사용자</option>
+						<option value="loged">로그인 사용자</option>
+						<option value="selected">선택그룹 사용자</option>
+					</select>
+					<div class="selected x_hide">
+						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
+						<label><input type="checkbox" title="정회원"> 정회원</label>
+						<label><input type="checkbox" title="준회원"> 준회원</label>
+					</div>
+				</li>
+				<li>
+					<label for="authWrite">글쓰기</label>
+					<select id="authWrite">
+						<option value="all">모든 사용자</option>
+						<option value="loged">로그인 사용자</option>
+						<option value="selected">선택그룹 사용자</option>
+					</select>
+					<div class="selected x_hide">
+						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
+						<label><input type="checkbox" title="정회원"> 정회원</label>
+						<label><input type="checkbox" title="준회원"> 준회원</label>
+					</div>
+				</li>
+				<li>
+					<label for="authReply">댓글쓰기</label>
+					<select id="authReply">
+						<option value="all">모든 사용자</option>
+						<option value="loged">로그인 사용자</option>
+						<option value="selected">선택그룹 사용자</option>
+					</select>
+					<div class="selected x_hide">
+						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
+						<label><input type="checkbox" title="정회원"> 정회원</label>
+						<label><input type="checkbox" title="준회원"> 준회원</label>
+					</div>
+				</li>
+			</ul>
+			<div class="x_btn-group">
+				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-hide="#auth">&times;</button>
+	</div>
+	<div class="col" id="details">
+		<section>
+			<h1>상세 설정</h1>
+		</section>
+		<button type="button" class="x_close" data-hide="#details">&times;</button>
+	</div>
 </div>
 <style>
 /* Site */
 #site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap}
+#site .x_btn-group{text-align:right;padding:10px 0;margin:15px 0;border-top:1px solid #ccc}
 .col{display:inline-block;vertical-align:top;position:relative;white-space:normal;height:100%;min-width:220px;padding:10px 25px 10px 10px;margin:0 4px 0 0;overflow-y:auto;overflow-x:hidden;border:1px solid #ddd}
 .col>*>h1{line-height:30px;font-size:16px;border-bottom:2px solid #666;margin:0;color:#333}
 .col>*>ul{margin:0;padding:0;list-style:none}
@@ -192,8 +280,8 @@
 	/* li>.side */
 .mapi .side{position:absolute;z-index:2;top:0;right:0;line-height:0}
 .mapi .side>button{border:0;border-radius:3px;width:23px;height:23px;overflow:hidden;font-size:0;line-height:0;text-indent:24px;background:url({getUrl('')}common/img/glyphicons-halflings.png) no-repeat;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
-.mapi .side>button[data-toggle="#add"]{background-position:4px -91px}
-.mapi .side>button[data-toggle="#info"]{background-position:-428px 5px}
+.mapi .side>button.addItem{background-position:4px -91px}
+.mapi .side>button.showProp{background-position:-428px 5px}
 .mapi .side>button:hover,
 .mapi .side>button:focus{background-color:#333;background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png)}
 	/* Plugin style override */
@@ -214,12 +302,11 @@
 .col .nav li>a:focus>i,
 .col .nav li.active>a>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);background-repeat:no-repeat;opacity:1;filter:alpha(opacity=100)}
 /* Properties */
-#properties ul{margin:15px 0 0 0;padding:0 0 8px 0;border-bottom:1px solid #ddd}
+#properties ul{margin:8px 0 0 0;padding:0 0 8px 0;border-bottom:1px solid #ddd}
 #properties li{position:relative;white-space:nowrap}
-#properties li.navitem>a,
-#properties li.navitem>button{margin:0 -8px}
+#properties li>strong{margin:0 0 0 8px}
 #properties li>a,
-#properties li>button{position:relative;display:block;padding:0 8px;height:30px;line-height:30px;background-color:transparent;border:0;text-align:left;text-decoration:none}
+#properties li>button{color:#000;position:relative;display:block;padding:0 8px;height:30px;line-height:30px;background-color:transparent;border:0;text-align:left;text-decoration:none;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
 #properties li>a{padding:0 24px 0 8px}
 #properties li.add{border:1px solid #ddd;border-left:0;border-right:0;margin-top:8px;margin-bottom:8px}
 #properties li.default{margin:8px 0 0 0;padding-top:8px;border-top:1px solid #ddd}
@@ -237,6 +324,8 @@
 #properties li>*:active>i,
 #properties li>*:focus>i,
 #properties li.active>*>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);opacity:1;filter:alpha(opacity=100)}
+/* Add */
+#add>*>.x_btn-group{border:0;padding:0}
 /* Add Page */
 #add_page ul{margin:15px 0}
 /* Add URL */
@@ -255,6 +344,14 @@
 #download a.x_icon-download-alt:hover,
 #download a.x_icon-download-alt:focus{background-color:#333}
 #download p>i{font-style:normal;color:#ccc}
+/* Auth */
+#auth ul{margin:15px 0}
+#auth li{border-top:1px solid #ddd;margin:0 0 15px 0;padding:15px 0 0 0}
+#auth li:first-child{border:0}
+#auth label:first-child{font-weight:bold}
+#auth select{padding:0;width:100%}
+#auth label{cursor:pointer}
+#auth label>input[type="checkbox"]{margin:0}
 </style>
 <!--[if IE 7]>
 <script>
@@ -538,6 +635,16 @@ setTimeout(function(){
 				$(this).parent('li').removeClass('active');
 			}
 		});
+	});
+// Auth
+	$('#auth select').change(function(){
+		var $this = $(this);
+		var $selected = $this.next('.selected');
+		if($this.find('>option:selected').val() == 'selected'){
+			$selected.show();
+		} else {
+			$selected.hide();
+		}
 	});
 });
 //]]>
