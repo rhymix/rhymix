@@ -198,9 +198,41 @@
 	<div class="col" id="imgbtn">
 		<fieldset>
 			<h1>이미지 버튼</h1>
-			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
-			</div>
+			<form action="">
+				<figure>
+					<figcaption>일반</figcaption>
+					<img src="" alt="일반 버튼 이미지">
+				</figure>
+				<div class="btnBoth">
+					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
+					<button type="button" class="fileTrigger x_btn x_btn-small x_btn-primary x_pull-right">변경</button>
+					<input type="file">
+				</div>
+			</form>
+			<form action="">
+				<figure>
+					<figcaption>마우스 오버</figcaption>
+					<p>이미지 없음</p>
+					<!--<img src="" alt="마우스 오버 버튼 이미지">-->
+				</figure>
+				<div class="btnBoth">
+					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
+					<button type="button" class="fileTrigger x_btn x_btn-small x_btn-primary x_pull-right">이미지 올리기</button>
+					<input type="file">
+				</div>
+			</form>
+			<form action="">
+				<figure>
+					<figcaption>선택 됨</figcaption>
+					<p>이미지 없음</p>
+					<!--<img src="" alt="선택 됨 버튼 이미지">-->
+				</figure>
+				<div class="btnBoth">
+					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
+					<button type="button" class="fileTrigger x_btn x_btn-small x_btn-primary x_pull-right">이미지 올리기</button>
+					<input type="file">
+				</div>
+			</form>
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#imgbtn">&times;</button>
 	</div>
@@ -341,6 +373,7 @@
 .col .nav li>a:hover>i,
 .col .nav li>a:focus>i,
 .col .nav li.active>a>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);background-repeat:no-repeat;opacity:1;filter:alpha(opacity=100)}
+.col input[type="file"]{ width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;opacity:0;filter:alpha(opacity=0)}
 /* Properties */
 #properties ul{margin:8px 0 0 0;padding:0 0 8px 0;border-bottom:1px solid #ddd}
 #properties li{position:relative;white-space:nowrap}
@@ -392,6 +425,13 @@
 #auth select{padding:0;width:100%}
 /* Default */
 #default ul{margin:15px 0}
+/* Image Button */
+#imgbtn h1+form{padding:8px 0 0 0}
+#imgbtn figure{margin:0}
+#imgbtn figcaption{font-weight:bold}
+#imgbtn p{margin:0}
+#imgbtn .btnBoth{ border-top:0;border-bottom:1px solid #ddd;margin-top:0;padding-bottom:28px}
+
 </style>
 <!--[if IE 7]>
 <script>
@@ -726,6 +766,29 @@ setTimeout(function(){
 		} else {
 			$selected.hide();
 		}
+	});
+// File upload
+	$('.fileTrigger').click(function(){
+		$(this).next('input[type="file"]').click();
+	});
+	$('input[type="file"]').change(function(){
+		$(this).closest('form').submit();
+	});
+	var $fileBtn = $('.fileTrigger, .fileRemover');
+	$fileBtn.click(function(){
+		var $this = $(this);
+		var $fileRemover = $this.parent('.btnBoth').children('.fileRemover');
+		setTimeout(function(){
+			var imgLength = $this.closest('form').find('>figure>img').length; // hasImage
+			if(imgLength){
+				$fileRemover.show(); // Show remover
+			} else {
+				$fileRemover.hide(); // Hide remover
+			}
+		}, 1000);
+	});
+	$(window).load(function(){
+		$fileBtn.trigger('click');
 	});
 });
 //]]>
