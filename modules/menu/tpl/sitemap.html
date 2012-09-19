@@ -12,7 +12,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <div id="site">
-	<div class="col map">
+	<div class="col map" id="site_map">
 		<section class="mapi" id="siteMapTree">
 			<script id="tmpl_menuTree" type="text/x-jquery-tmpl">
 				<ul>
@@ -23,8 +23,8 @@
 				<li id="${MenuId}">
 					<a href="#">${MenuTitle}</a>
 					<span class="side">
-						<button data-toggle="#add">메뉴추가</button>
-						<button data-toggle="#info">속성편집</button>
+						<button data-toggle="#add" data-param='{ "sMenuId":"${MenuId}","sNodeType":"${NodeType}" }'>메뉴추가</button>
+						<button data-toggle="${Target}" data-param='{ "sMenuId":"${MenuId}","sNodeType":"${NodeType}" }'>속성편집</button>
 					</span>
 					{{html SubTree}}
 				</li>
@@ -138,36 +138,16 @@
 		<section>
 			<h1>다른 메뉴타입설치</h1>
 			<div class="list">
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
-				<div class="item">
-					<h2>모듈 이름</h2>
-					<p>많은 기능과 쉬운 사용법으로 사용자를 도와줄 게시판 모듈입니다. 주요기능 : 목록, 갤러리, 웹진, 블로그, 방명록, 한줄메모, 포인트경매등...</p>
-					<p>별점 9.7/58 <i>|</i> 최근 업데이트 2012-08-03 14:40 <i>|</i> 전체 다운로드 : 46,184</p>
-					<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-				</div>
+			
+					<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
+						<div class="item">
+							<h2>${MenuType}</h2>
+							<p>${MenuTypeDesc}</p>
+							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+							<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+						</div>
+					</script>
+					
 			</div>
 			<div class="x_pagination x_pagination-centered">
 				<ul>
@@ -182,29 +162,6 @@
 			</div>
 		</section>
 		<button type="button" class="x_close" data-hide="#download">&times;</button>
-	</div>
-	<div class="col" >
-		<section>
-			<h1>메뉴 1</h1>
-		</section>
-	</div>
-	
-	<div class="col" >
-		<section>
-			<h1>메뉴 2</h1>
-		</section>
-	</div>
-	
-	<div class="col" >
-		<section>
-			<h1>메뉴 3</h1>
-		</section>
-	</div>
-	
-	<div class="col" >
-		<section>
-			<h1>메뉴 4</h1>
-		</section>
 	</div>
 </div>
 <style>
@@ -330,9 +287,12 @@ function onSiteMapReceived(htData){
 			"plugins" : ["themes","html_data","ui","crrm","hotkeys","contextmenu", "dnd"],
 			//"themes","json_data","ui","crrm","cookies","dnd","search","types","hotkeys","contextmenu" 
 			// each plugin you have included can have its own config object
-			"core" : { "initially_open" : [ "nhtml_1" ] }
+			"core" : {  }
 			// it makes sense to configure a plugin only if overriding the defaults
 		})
+		.bind("loaded.jstree", function (event, data) {
+			data.inst.open_all();
+        })
 		.bind("create_node.jstree", function (event, data) {
 			var btns = $("<span>").addClass("side").html('<button data-toggle="#add">메뉴추가</button> <button data-toggle="#info">속성편집</button>');
 			data.rslt.obj.append(btns);
@@ -364,6 +324,7 @@ function createTreeMarkup(aNode){
 			nNodeType = 2;
 		}
 		
+		var sTargetPanel;
 		switch(nNodeType){
 			/*
 				list: Array[1]
@@ -375,6 +336,8 @@ function createTreeMarkup(aNode){
 			sNodeSrl  = aNode[i].menu_srl;
 			
 			aSubNode  = aNode[i].menuItems.list;
+			
+			sTargetPanel = "#add_root";
 			break;
 			
 			/*
@@ -412,6 +375,8 @@ function createTreeMarkup(aNode){
 			sIsStartModule = aNode[i].is_start_module;
 			
 			aSubNode  = aNode[i].list;
+			
+			sTargetPanel = "#properties";
 			break;
 			
 			default:
@@ -434,7 +399,7 @@ function createTreeMarkup(aNode){
 			sText = sText + " ${h}";
 		}
 
-		sResult += $.tmpl( "menuTreeNode", {MenuTitle:sText,MenuId:sNodeSrl,SubTree:sSubTree} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='x_icon-home' title='Home Page'>HOME</i>");
+		sResult += $.tmpl( "menuTreeNode", {MenuTitle:sText,MenuId:sNodeSrl,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='x_icon-home' title='Home Page'>HOME</i>");
 	}
 	
 	return $.tmpl( "menuTree", {Nodes:sResult} ).get()[0].outerHTML;
@@ -452,6 +417,8 @@ jQuery(function($){
 		$(this).trigger('show');
 		return _oldshow.apply(this,arguments);
 	}
+	
+	$('#site_map').nextAll().hide();
 	
 	//$( "#tmpl_siteMap" ).template( "siteMap" );
 	$( "#tmpl_menuTree" ).template( "menuTree" );
@@ -500,9 +467,52 @@ jQuery(function($){
 		$target.hide();
 	});
 
+	$('#add').bind("show", function(){
+	/*
+		$.exec_json("menu.getMenuAdminSiteMap", params, function(){
+			
+		});
+		*/
+	});
+	$('#add').bind("hide", function(){
+		console.log('hide add');
+	});
+	
+	$("#tmpl_downloadableMenuTypeItem").template( "downloadableMenuTypeItem" );
+	$('#download').bind("show", function(){
+	//index.php?act=getAutoinstallAdminMenuPackageList
+		$('#add').nextAll().hide();
+		
+		var params = {};
+		params['menu_srl'] = 0;
+		$.exec_json("menu.getAutoinstallAdminMenuPackageList", params, function(htData){
+			//
+			
+			var sResult = "";
+			var item;
+			for(var i=0, nLen=htData.item_list.length; i<nLen; i++){
+				item = htData.item_list[i];
+				
+				sResult += $.tmpl( "downloadableMenuTypeItem", {
+					MenuType: item.title,
+					MenuTypeDesc: item.package_description,
+					Score: item.package_star,
+					TotalVotes: item.package_voted,
+					LastUpdated: item.item_regdate,
+					TotalDownloads: item.package_downloaded
+				} ).get()[0].outerHTML;
+			}
+			//console.log(sResult);
+			$('#download .list').html(sResult);
+		});
+	});
+	$('#download').bind("hide", function(){
+		console.log('hide download');
+	});
+	
 	$('#add_url').bind("show", function(){console.log('show');});
 	$('#add_url').bind("hide", function(){console.log('hide');});
-	
+
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
