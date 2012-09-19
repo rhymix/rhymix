@@ -38,6 +38,8 @@
         <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" ruleset="userLayoutImport" />
         <action name="procLayoutAdminCopyLayout" type="controller" standalone="true" />
 
+		<action name="getLayoutInstanceListForJSONP" type="model" />
+
     </actions>
 	<menus>
 		<menu name="installedLayout">

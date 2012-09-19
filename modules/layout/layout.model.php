@@ -42,6 +42,49 @@
         }
 
 		/**
+		 * Get the list layout instance with thumbnail link. for setting design.
+		 *
+		 * @return void
+		 */
+		public function getLayoutInstanceListForJSONP()
+		{
+			$siteSrl = Context::get('site_srl');
+			$layoutType = Context::get('layout_type');
+
+			$layoutList = $this->getLayoutInstanceList($siteSrl, $layoutType);
+			$thumbs = array();
+			foreach($layoutList as $key => $val)
+			{
+				if($thumbs[$val->layouts])
+				{
+					$val->thumbnail = $thumbs[$val->layouts];
+					continue;
+				}
+
+				$token = explode('|@|', $val->layout);
+				if(count($token) == 2)
+				{
+					$thumbnailPath = sprintf('./themes/%s/layouts/%s/thumbnail.png' , $token[0], $token[1]);
+				}
+				else
+				{
+					$thumbnailPath = sprintf('./layouts/%s/thumbnail.png' , $val->layout);
+				}
+				if(is_readable($thumbnailPath))
+				{
+					$val->thumbnail = $thumbnailPath;
+				}
+				else
+				{
+					$val->thumbnail = sprintf('./modules/layout/tpl/images/noThumbnail.jpg');
+				}
+				$thumbs[$val->layout] = $val->thumbnail;
+			}
+
+			$this->add('layout_list', $layoutList);
+		}
+
+		/**
 		 * Get layout instance list
 		 * @param int $siteSrl
 		 * @param string $layoutType (P : PC, M : Mobile)
@@ -107,6 +150,7 @@
 
 			return $output->data;
 		}
+
 
         /**
          * Get one of layout information created in the DB
