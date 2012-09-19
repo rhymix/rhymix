@@ -672,6 +672,21 @@
             return $info;
         }
 
+		/**
+		 * Get a skin list for js API.
+		 * return void
+		 **/
+		public function getModuleSkinInfoList()
+		{
+			$module = Context::get('module_name');
+			$path = ModuleHandler::getModulePath($module);
+			$skin_list = $this->getSkins($path, 'skins');
+
+			debugPrint($module);
+			debugPrint($skin_list);
+
+			$this->add('skin_info_list', $skin_list);
+		}
 
         /**
          * @brief Get a list of skins for the module
