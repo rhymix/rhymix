@@ -671,7 +671,7 @@
 		 * @param int $document_srl
 		 * @return object
 		 */
-        function deleteComments($document_srl, &$obj = NULL) {
+        function deleteComments($document_srl, $obj = NULL) {
             // create the document model object
             $oDocumentModel = &getModel('document');
             $oCommentModel = &getModel('comment');

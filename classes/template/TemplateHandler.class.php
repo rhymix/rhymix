@@ -187,7 +187,7 @@ class TemplateHandler {
 		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
 
 		// replace value of src in img/input/script tag
-		$buff = preg_replace_callback('/<(?:img|input|script)(?:(?!["\'\/]\s*>).)* src="(?!https?:\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
+		$buff = preg_replace_callback('/<(?:img|input|script)[^<>]*src="(?!https?:\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
 
 		// replace loop and cond template syntax
 		$buff = $this->_parseInline($buff);
@@ -223,6 +223,7 @@ class TemplateHandler {
 	 * @param array $matches
 	 * @return string
 	 **/
+
 	function _compileFormAuthGeneration($matches)
 	{
 		// form ruleset attribute move to hidden tag

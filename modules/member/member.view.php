@@ -47,6 +47,7 @@
 			$layout_info = $oLayoutModel->getLayout($this->member_config->layout_srl);
 			if($layout_info)
 			{
+				$this->module_info->layout_srl = $this->member_config->layout_srl;
 				$this->setLayoutPath($layout_info->path);
 			}
         }
@@ -558,7 +559,7 @@
 			$extraList = $oMemberModel->getUsedJoinFormList();
 
 			$js_code = array();
-			$js_code[] = '<script>//<![CDATA[';
+			$js_code[] = '<script type="text/javascript">//<![CDATA[';
 			$js_code[] = '(function($){';
 			$js_code[] = 'var validator = xe.getApp("validator")[0];';
 			$js_code[] = 'if(!validator) return false;';

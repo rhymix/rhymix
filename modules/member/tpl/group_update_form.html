@@ -35,9 +35,9 @@
     				<input type="hidden" name="image_mark" value="{$selected_group->image_mark}" />
     				<span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name=image_mark]').get(0), 'jpg,jpeg,gif,png')">{$lang->cmd_select}</button></span>
     				<span id="filebox_cancel_image_mark" class="button red"<!--@if(!$selected_group->image_mark)--> style="display:none" <!--@endif-->><button type="button" onclick="XE.filebox.cancel('image_mark')">{$lang->cmd_delete}</button></span>
-    				<script>//<![CDATA[
-						XE.filebox.init('image_mark');
-					//]]></script>
+    				<script type="text/javascript">//<![CDATA[
+                XE.filebox.init('image_mark');
+            //]]></script>
    				</td>
    			</tr>
    		</table>

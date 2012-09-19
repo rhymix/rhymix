@@ -57,7 +57,7 @@
 							$ModuleHandler->_setInputValueToSession();
 						}
 					}  else {
-						Context::addHtmlHeader('<script> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
+						Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
 						Context::loadFile(array('./addons/captcha/captcha.min.js', 'body', '', null), true);
 					}
 				}

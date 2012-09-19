@@ -21,7 +21,15 @@
         /**
          * @brief Return member's configuration
          **/
-        function getMemberConfig() {
+        function getMemberConfig() 
+		{
+			static $member_config;
+
+			if($member_config)
+			{
+				return $member_config;
+			}
+
             // Get member configuration stored in the DB
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
@@ -64,6 +72,8 @@
 
 			if (!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'xpresseditor';
 			if (!$config->sel_editor_colorset) $config->sel_editor_colorset = 'white';
+
+			$member_config = $config;
 
             return $config;
         }

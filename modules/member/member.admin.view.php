@@ -401,7 +401,7 @@
 								<input type="text" name="%column_name%[]" id="krzip_address2_%column_name%" value="%addr_1%" />
 							</div>
 						</div>
-						<script>jQuery(function($){ $.krzip('%column_name%') });</script>
+						<script type="text/javascript">jQuery(function($){ $.krzip('%column_name%') });</script>
 EOD;
 					}elseif($extendForm->column_type == 'jp_zip'){
 						$template = '<input type="text" name="%column_name%" value="%value%" />';

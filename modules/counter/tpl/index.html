@@ -4,7 +4,7 @@
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
 
-<script>
+<script type="text/javascript">
     function moveDate() {
 		document.forms['calendar'].submit();
         return true;
@@ -22,7 +22,7 @@
 				<th scope="row">{$lang->total_counter}</th>
 				<th scope="row"> <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span>
 						<input type="hidden" class="inputDate" value="{zdate($selected_date,'Y-m-d')}" />
-<script>
+<script type="text/javascript">
 	(function($){
 		$(function(){
 			var option = {
