@@ -75,7 +75,7 @@
 				<li><a href="#add_url" data-show="#add_url">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
 			</ul>
 			<div class="x_btn-group">
-				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입설치</a>
+				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입 설치</a>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-hide="#add">&times;</button>
@@ -134,7 +134,7 @@
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#add_url">&times;</button>
 	</div>
-	<div class="col" id="download">
+	<div class="col download" id="download">
 		<section>
 			<h1>다른 메뉴타입설치</h1>
 			<div class="list">
@@ -265,6 +265,60 @@
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#design">&times;</button>
+	</div>
+	<div class="col download" id="downloadLayout">
+		<section>
+			<h1>다른 레이아웃 설치</h1>
+			<div class="list">
+				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
+					<div class="item">
+						<h2>${MenuType}</h2>
+						<p>${MenuTypeDesc}</p>
+						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+						<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+					</div>
+				</script>
+			</div>
+			<div class="x_pagination x_pagination-centered">
+				<ul>
+					<li class="x_disabled"><a href="#">&laquo;</a></li>
+					<li class="x_active"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-hide="#downloadLayout">&times;</button>
+	</div>
+	<div class="col download" id="downloadSkin">
+		<section>
+			<h1>다른 스킨 설치</h1>
+			<div class="list">
+				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
+					<div class="item">
+						<h2>${MenuType}</h2>
+						<p>${MenuTypeDesc}</p>
+						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+						<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+					</div>
+				</script>
+			</div>
+			<div class="x_pagination x_pagination-centered">
+				<ul>
+					<li class="x_disabled"><a href="#">&laquo;</a></li>
+					<li class="x_active"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-hide="#downloadSkin">&times;</button>
 	</div>
 	<div class="col" id="auth">
 		<fieldset>
@@ -429,15 +483,15 @@
 #add_url .clone ul ul{padding-left:15px}
 #add_url .clone .root{margin-top:15px}
 /* Download */
-#download.col{max-width:500px}
-#download .list{padding:1px 0;border-bottom:1px solid #ccc;}
-#download .item{border-top:1px solid #ddd;padding:1px 0;position:relative}
-#download .item:first-child{border:0}
-#download h2{font-size:14px}
-#download a.x_icon-download-alt{width:24px;height:24px;background-color:#94A55C;position:absolute;top:7px;right:0;border-radius:3px;background-position:-90px -19px}
-#download a.x_icon-download-alt:hover,
-#download a.x_icon-download-alt:focus{background-color:#333}
-#download p>i{font-style:normal;color:#ccc}
+.download.col{max-width:500px}
+.download .list{padding:1px 0;border-bottom:1px solid #ccc;}
+.download .item{border-top:1px solid #ddd;padding:1px 0;position:relative}
+.download .item:first-child{border:0}
+.download h2{font-size:14px}
+.download a.x_icon-download-alt{width:24px;height:24px;background-color:#94A55C;position:absolute;top:7px;right:0;border-radius:3px;background-position:-90px -19px}
+.download a.x_icon-download-alt:hover,
+.download a.x_icon-download-alt:focus{background-color:#333}
+.download p>i{font-style:normal;color:#ccc}
 /* Auth */
 #auth ul{margin:15px 0}
 #auth li{border-top:1px solid #ddd;margin:0 0 15px 0;padding:15px 0 0 0}
