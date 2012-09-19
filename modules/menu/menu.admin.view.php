@@ -222,7 +222,7 @@
 		function _menuInfoSetting(&$menu)
 		{
 			$oModuleModel = &getModel('module');
-			if(!preg_match('/^http/i', $menu['url']))
+			if($menu['url'] && !preg_match('/^http/i', $menu['url']))
 			{
 				unset($midInfo);
 				unset($moduleInfo);
