@@ -31,26 +31,6 @@
             $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists("admin_favorite", "type")) return true;
 
-			// for admin menu
-			if(Context::isInstalled())
-			{
-				$oMenuAdminModel = &getAdminModel('menu');
-				$output = $oMenuAdminModel->getMenuByTitle($this->adminMenuName);
-
-				if(!$output->menu_srl)
-				{
-					$oAdminClass = &getClass('admin');
-					$oAdminClass->createXeAdminMenu();
-				}
-				else if(!is_readable($output->php_file))
-				{
-					$oMenuAdminController = &getAdminController('menu');
-					$oMenuAdminController->makeXmlFile($output->menu_srl);
-				}
-
-				$this->_oldAdminmenuDelete();
-			}
-
             return false;
         }
 
@@ -88,6 +68,30 @@
 		 */
         function recompileCache() {
         }
+
+		public function checkAdminMenu()
+		{
+			// for admin menu
+			if(Context::isInstalled())
+			{
+				$oMenuAdminModel = &getAdminModel('menu');
+				$output = $oMenuAdminModel->getMenuByTitle($this->adminMenuName);
+
+				if(!$output->menu_srl)
+				{
+					$oAdminClass = &getClass('admin');
+					$oAdminClass->createXeAdminMenu();
+				}
+				else if(!is_readable(FileHandler::getRealPath($output->php_file)))
+				{
+					$oMenuAdminController = &getAdminController('menu');
+					$oMenuAdminController->makeXmlFile($output->menu_srl);
+				}
+
+				$this->_oldAdminmenuDelete();
+				return FileHandler::getRealPath($output->php_file);
+			}
+		}
 
 		/**
 		 * Regenerate xe admin default menu

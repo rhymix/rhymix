@@ -217,6 +217,14 @@
 		}
 
 		/**
+		 * Site design admin page
+		 * @return void
+		 */
+		public function dispMenuAdminSiteDesign()
+		{
+		}
+
+		/**
 		 * Setting menu information(recursive)
 		 * @param array $menu
 		 * @return void

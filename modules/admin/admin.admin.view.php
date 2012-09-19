@@ -113,13 +113,12 @@
 			$oAdminAdminModel   = &getAdminModel('admin');
 			$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
 
-			$oMenuAdminModel = &getAdminModel('menu');
-			$menu_info = $oMenuAdminModel->getMenuByTitle($oAdminAdminModel->getAdminMenuName());
-			Context::set('admin_menu_srl', $menu_info->menu_srl);
-
-			if(!is_readable($menu_info->php_file)) return;
-
-			include $menu_info->php_file;
+			$menuPhpFile = $oAdminAdminModel->checkAdminMenu();
+			if(!$menuPhpFile)
+			{
+				return $this->setRedirectUrl(getUrl('', 'module', 'admin'));
+			}
+			include $menuPhpFile;
 
             $oModuleModel = &getModel('module');
 			$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
