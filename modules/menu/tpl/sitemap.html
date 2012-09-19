@@ -475,7 +475,7 @@ function createTreeMarkup(aNode){
 			
 			aSubNode  = aNode[i].menuItems.list;
 			
-			sTargetPanel = "#add_root";
+			sTargetPanel = "#propertiesRoot";
 			break;
 			
 			/*
@@ -523,6 +523,7 @@ function createTreeMarkup(aNode){
 		htNodeInfo[sNodeSrl] = aNode[i];
 		console.log(sNodeSrl, htNodeInfo[sNodeSrl]);
 		htNodeInfo[sNodeSrl].nNodeType = nNodeType;
+		htNodeInfo[sNodeSrl].sText = sText;
 
 		sSubTree = "";
 		if(aSubNode && aSubNode.length>0){
@@ -544,16 +545,31 @@ function createTreeMarkup(aNode){
 }
 
 jQuery(function($){
-	var _oldhide = $.fn.hide;
+	var _hide = $.fn.hide;
 	$.fn.hide = function(speed, callback) {
 		$(this).trigger('hide');
-		return _oldhide.apply(this,arguments);
+		
+		$(this).removeClass("shown");
+		$(this).addClass("hidden");
+		
+		return _hide.apply(this, arguments);
 	}
 	
-	var _oldshow = $.fn.show;
+	var _show = $.fn.show;
 	$.fn.show = function(speed, callback) {
 		$(this).trigger('show');
-		return _oldshow.apply(this,arguments);
+
+		$(this).removeClass("hidden");
+		$(this).addClass("shown");
+		
+		return _show.apply(this, arguments);
+	}
+	
+	$.fn.prevUntilAnd = function(){
+		var $result = $.fn.prevUntil.apply(this, arguments);
+		$.merge($result, ($result.length>0?$result.last():$(this)).prev());
+		//console.log($result);
+		return $result;
 	}
 	
 	$('#site_map').nextAll().hide();
@@ -600,17 +616,30 @@ jQuery(function($){
 
 		if($target.hasClass("col")){
 			$target.nextAll().hide();
+			
+//			$target.prevUntilAnd(".shown").find('li.active').removeClass('active');
 		}
+		
 
 		$target.hide();
 	});
 
-	$('#properties').bind("show", function(ev){
+	$('#propertiesRoot').bind("show", function(ev){
 		var sMenuId = $._htMarkupActionParam.sMenuId;
-//		console.log(htNodeInfo[sMenuId]);
 		var htInfo = htNodeInfo[sMenuId];
-//		console.log(ev, $(ev.target), htInfo.text);
-		$(ev.target).find('.title').html(htInfo.text);
+		$(ev.target).find('.title').html(htInfo.sText);
+	});
+	$('#propertiesRoot').bind("hide", function(){
+		console.log('hide root properties');
+	});
+
+	
+	$('#properties').bind("show", function(ev){
+		$('#propertiesRoot').hide();
+		
+		var sMenuId = $._htMarkupActionParam.sMenuId;
+		var htInfo = htNodeInfo[sMenuId];
+		$(ev.target).find('.title').html(htInfo.sText);
 	});
 	$('#properties').bind("hide", function(){
 		console.log('hide properties');
@@ -677,6 +706,7 @@ setTimeout(function(){
 	$navAnchor.click(function(){
 		$(this).parent('li').addClass('active').siblings('li').removeClass('active');
 	});
+
 	$('.x_close[data-hide]').click(function(){
 		var inactiveTarget = $(this).attr('data-hide');
 		$navAnchor.each(function(){
@@ -686,6 +716,7 @@ setTimeout(function(){
 			}
 		});
 	});
+
 // Auth
 	$('#auth select').change(function(){
 		var $this = $(this);
