@@ -8,6 +8,9 @@ body>.x{margin:0}
 }
 body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x strong, .x th{font-weight:600}
+.x [disabled]{cursor:not-allowed}
+.x button[disabled]{color:#ccc !important}
+.x a[target="_blank"]:after{ content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:0 0 0 2px;background-position:-120px -72px;opacity:.3;filter:alpha(opacity=30)}
 /* Bootstrap Override */
 .x .x_page-header{padding-bottom:0}
 .x h1,.x h2,.x h3,.x h4,.x h5,.x h6{line-height:1.5;font-weight:600;color:#666}
@@ -29,7 +32,10 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x .x_btn-group>.x_btn:last-child, 
 .x .x_btn-group>.x_dropdown-toggle{border-top-right-radius:2px;border-bottom-right-radius:2px}
 .x .x_btn-group>.x_btn:first-child{border-bottom-left-radius:2px;border-top-left-radius:2px}
+.x a.x_icon-question-sign,
+.x button.x_icon-question-sign{cursor:help}
 /* Image Sprite */
+.x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a:before,
 .x .dashboard>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}
 .x>.body>.gnb>ul>li.open>a:before,
