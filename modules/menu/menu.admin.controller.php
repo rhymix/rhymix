@@ -33,8 +33,10 @@
 		 * Initialization
 		 * @return void
 		 */
-        function init() {
-        }
+		function init()
+		{
+			$this->setTemplatePath($this->module_path.'tpl');
+		}
 
 		/**
 		 * Add a menu
@@ -356,8 +358,13 @@
 
 			if($isProc)
 			{
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap', 'menu_srl', $args->menu_srl);
-				$this->setRedirectUrl($returnUrl);
+				/*$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap', 'menu_srl', $args->menu_srl);
+				$this->setRedirectUrl($returnUrl);*/
+				$oJsonHandler = new JSONDisplayHandler();
+				$resultJson = $oJsonHandler->toDoc($this);
+
+				Context::set('resultJson', $resultJson);
+				$this->setTemplateFile('callback');
 			}
         }
 
