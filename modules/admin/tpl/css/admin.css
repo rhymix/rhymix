@@ -34,6 +34,7 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x .x_btn-group>.x_btn:first-child{border-bottom-left-radius:2px;border-top-left-radius:2px}
 .x a.x_icon-question-sign,
 .x button.x_icon-question-sign{cursor:help}
+.x .x_nav-tabs>li>a{padding-top:4px;padding-bottom:4px}
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a:before,

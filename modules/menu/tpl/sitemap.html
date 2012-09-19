@@ -201,7 +201,7 @@
 			<form action="">
 				<figure>
 					<figcaption>일반</figcaption>
-					<img src="" alt="일반 버튼 이미지">
+					<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
 				</figure>
 				<div class="btnBoth">
 					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
@@ -239,8 +239,29 @@
 	<div class="col" id="design">
 		<fieldset>
 			<h1>디자인</h1>
-			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
+			<div class="x_tabbable">
+				<ul class="x_nav x_nav-tabs">
+					<li class="x_active"><a href="#pc">PC</a></li>
+					<li><a href="#mobile">모바일</a></li>
+				</ul>
+				<div class="x_tabcontent">
+					<div class="x_tab-pane x_active" id="pc">
+						<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="현재 설정된 PC 레이아웃">
+						<a href="#" target="_blank" class="x_icon-zoom-in" title="새창">크게 보기</a>
+					</div>
+					<div class="x_tab-pane" id="mobile">
+						<img src="http://naradesign.net/photo/DSCN0810.JPG" alt="현재 설정된 모바일 레이아웃">
+						<a href="#" target="_blank" class="x_icon-zoom-in" title="새창">크게 보기</a>
+					</div>
+				</div>
+			</div>
+			<ul class="nav">
+				<li><a href="#layout" data-show="#layout">레이아웃 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#skin" data-show="#skin">{게시판} <i class="x_icon-circle-arrow-right"></i></a></li>
+			</ul>
+			<div class="btnBoth">
+				<button type="reset" class="x_btn x_btn-small x_pull-left">취소</button>
+				<button type="button" class="x_btn x_btn-small x_btn-primary x_pull-right">저장</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#design">&times;</button>
@@ -431,6 +452,13 @@
 #imgbtn figcaption{font-weight:bold}
 #imgbtn p{margin:0}
 #imgbtn .btnBoth{ border-top:0;border-bottom:1px solid #ddd;margin-top:0;padding-bottom:28px}
+/* Design */
+#design ul{margin-top:8px}
+#design .btnBoth{border:0;margin-top:0}
+#design img{width:220px}
+#design .x_tab-pane{position:relative}
+#design .x_icon-zoom-in{position:absolute;right:0;bottom:0;width:24px;height:24px;background-color:#fff;opacity:.75;filter:alpha(opacity:75);background-position:-331px 5px}
+#design .x_icon-zoom-in:after{content:normal}
 
 </style>
 <!--[if IE 7]>
