@@ -23,8 +23,8 @@
 				<li id="${MenuId}">
 					<a href="#">${MenuTitle}</a>
 					<span class="side">
-						<button type="button" class="addItem" data-toggle="#add" data-param='{ "sMenuId":"${MenuId}","sNodeType":"${NodeType}" }'>메뉴추가</button>
-						<button type="button" class="showProp" data-toggle="${Target}" data-param='{ "sMenuId":"${MenuId}","sNodeType":"${NodeType}" }'>속성편집</button>
+						<button type="button" class="addItem" data-show="#add" data-param='{ "sMenuId":"${MenuId}","nNodeType":${NodeType} }'>메뉴추가</button>
+						<button type="button" class="showProp" data-show="${Target}" data-param='{ "sMenuId":"${MenuId}","nNodeType":${NodeType} }'>속성편집</button>
 					</span>
 					{{html SubTree}}
 				</li>
@@ -36,7 +36,7 @@
 	</div>
 	<div class="col" id="propertiesRoot">
 		<section>
-			<h1><a href="#" target="_blank">{사이트맵 이름}</a></h1>
+			<h1><a href="#" target="_blank" class="title">{사이트맵 이름}</a></h1>
 			<ul class="nav">
 				<li><a href="#add" data-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><button type="button" disabled>붙여넣기</button></li>
@@ -47,7 +47,7 @@
 	</div>
 	<div class="col" id="properties">
 		<section>
-			<h1><a href="#" target="_blank">{메뉴 이름}</a></h1>
+			<h1><a href="#" target="_blank" class="title">{메뉴 이름}</a></h1>
 			<ul>
 				<li><strong>메뉴 ID</strong>: idx0</li>
 				<li><strong>메뉴 타입</strong>: 문서 페이지</li>
@@ -429,8 +429,9 @@ function createTreeMarkup(aNode){
 				title: "welcome_menu"
 			*/
 			case 1:
+//			console.log(aNode[i]);
 			sText  = aNode[i].title;
-			sNodeSrl  = aNode[i].menu_srl;
+			sNodeSrl  = aNode[i].menuSrl;
 			
 			aSubNode  = aNode[i].menuItems.list;
 			
@@ -479,8 +480,8 @@ function createTreeMarkup(aNode){
 			default:
 		}
 
-
 		htNodeInfo[sNodeSrl] = aNode[i];
+		console.log(sNodeSrl, htNodeInfo[sNodeSrl]);
 		htNodeInfo[sNodeSrl].nNodeType = nNodeType;
 
 		sSubTree = "";
@@ -534,7 +535,7 @@ jQuery(function($){
 	$(document.body).on("click", ".x [data-param]", function(ev){
 		console.log($(ev.srcElement).attr('data-param'));
 		$._htMarkupActionParam = $.parseJSON($(ev.srcElement).attr('data-param'));
-		console.log($._htMarkupActionParam);
+		//console.log($._htMarkupActionParam);
 		return false;
 	});
 	
@@ -564,6 +565,17 @@ jQuery(function($){
 		$target.hide();
 	});
 
+	$('#properties').bind("show", function(ev){
+		var sMenuId = $._htMarkupActionParam.sMenuId;
+//		console.log(htNodeInfo[sMenuId]);
+		var htInfo = htNodeInfo[sMenuId];
+//		console.log(ev, $(ev.target), htInfo.text);
+		$(ev.target).find('.title').html(htInfo.text);
+	});
+	$('#properties').bind("hide", function(){
+		console.log('hide properties');
+	});
+	
 	$('#add').bind("show", function(){
 	/*
 		$.exec_json("menu.getMenuAdminSiteMap", params, function(){
@@ -583,8 +595,6 @@ jQuery(function($){
 		var params = {};
 		params['menu_srl'] = 0;
 		$.exec_json("menu.getAutoinstallAdminMenuPackageList", params, function(htData){
-			//
-			
 			var sResult = "";
 			var item;
 			for(var i=0, nLen=htData.item_list.length; i<nLen; i++){
