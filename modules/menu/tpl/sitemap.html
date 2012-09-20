@@ -18,7 +18,7 @@ jQuery( function() { jQuery('.grant_default').change( function(event) { doShowMe
 <input type="hidden" name="act" value="procMenuAdminArrangeItem" />
 <input type="hidden" name="menu_srl" value="{$menuSrl}" />
 <input type="hidden" name="menu_item_srl" value="" />
-<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}#menuTop_{$menuSrl}" />
+<input type="hidden" name="success_return_url" value="{getUrl('', 'module', ($module ? $module : 'admin'), 'act', 'dispMenuAdminSiteMap')}#menuTop_{$menuSrl}" />
 
 	<h2 class="h2" id="menuTop_{$menuSrl}"><input name="title" value="{$value->title}" /></h2>
 	<a href="#nav_{$key}" class="tgMap">{$lang->collapsing}/{$lang->expanding}</a>
@@ -43,7 +43,7 @@ jQuery( function() { jQuery('.grant_default').change( function(event) { doShowMe
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="procMenuAdminInsert" />
 <input type="hidden" name="title" value="{$lang->untitle}" />
-<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}" />
+<input type="hidden" name="success_return_url" value="{getUrl('', 'module', ($module ? $module : 'admin'), 'act', 'dispMenuAdminSiteMap')}" />
 <div class="btnArea">
 	<span class="btn medium"><button type="submit">{$lang->add_new_sitemap}</button></span>
 </div>
@@ -57,7 +57,7 @@ jQuery( function() { jQuery('.grant_default').change( function(event) { doShowMe
 		<input type="hidden" name="menu_item_srl" value="{$menu_info->menu_srl}" />
 		<input type="hidden" name="parent_srl" value="{$menu_info->menu_srl}" />
 		<input type="hidden" name="module_srl" value="" />
-		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}#menuTop_" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', ($module ? $module : 'admin'), 'act', 'dispMenuAdminSiteMap')}#menuTop_" />
 		<h2 class="h2"><span>{$lang->add_menu}</span><span>{$lang->edit_menu}</span></h2>
 			<ul>
 				<li>

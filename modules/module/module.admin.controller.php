@@ -624,6 +624,7 @@
             // Variable setting for site keyword
             $site_keyword = Context::get('site_keyword');
             $site_srl = Context::get('site_srl');
+            $vid = Context::get('vid');
             // If there is no site keyword, use as information of the current virtual site
             $args = null;
             $logged_info = Context::get('logged_info');
@@ -632,7 +633,7 @@
 
 			if(!$site_srl)
 			{
-				if($logged_info->is_admin == 'Y' && !$site_keyword) $args->site_srl = 0;
+				if($logged_info->is_admin == 'Y' && !$site_keyword && !$vid) $args->site_srl = 0;
 				else $args->site_srl = (int)$site_module_info->site_srl;
 			}
 			else $args->site_srl = $site_srl;
