@@ -156,7 +156,7 @@
 		<value xml:lang="ko"><![CDATA[허용 확장자]]></value>
 		<value xml:lang="en"><![CDATA[Allowed extentsions]]></value>
 		<value xml:lang="jp"><![CDATA[ここで指定された種類のファイルのみ添付できます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[只允许上传指定的扩展名。></value>
+		<value xml:lang="zh-CN"><![CDATA[只允许上传指定的扩展名。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[設定允許上傳的檔案類型。]]></value>
 		<value xml:lang="fr"><![CDATA[Extensions consentis seulement peuvent etre attaches.]]></value>
 		<value xml:lang="ru"><![CDATA[Только файлы с разрешенными расширениями могут быть вложены.]]></value>
