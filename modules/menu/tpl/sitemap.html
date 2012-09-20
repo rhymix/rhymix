@@ -2,6 +2,8 @@
 <load target="./js/_lib/jquery.cookie.js" />
 <load target="./js/_lib/jquery.hotkeys.js" />
 <load target="./js/jquery.jstree.js" />
+<load target="./js/jquery.scrollTo-1.4.2.js" />
+
 <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 
 <div class="x_page-header">
@@ -19,11 +21,11 @@
 				</ul>
 			</script>
 			<script id="tmpl_menuTreeNode" type="text/x-jquery-tmpl">
-				<li id="${MenuId}">
-					<a href="#">${MenuTitle}</a>
+				<li id="menu${MenuId}">
+					<a href="#" data-param='{ "sMenuId":"${MenuId}" }'>${MenuTitle}</a>
 					<span class="side">
-						<button type="button" class="addItem" data-show="#add" data-param='{ "sMenuId":"${MenuId}","nNodeType":${NodeType} }'>메뉴추가</button>
-						<button type="button" class="showProp" data-show="${Target}" data-param='{ "sMenuId":"${MenuId}","nNodeType":${NodeType} }'>속성편집</button>
+						<button type="button" class="addItem" data-show="#add" data-param='{ "sMenuId":"${MenuId}" }'>메뉴추가</button>
+						<button type="button" class="showProp" data-param='{ "sMenuId":"${MenuId}" }'>속성편집</button>
 					</span>
 					{{html SubTree}}
 				</li>
@@ -48,7 +50,7 @@
 		<section>
 			<h1><a href="#" target="_blank" class="title">{메뉴 이름}</a></h1>
 			<ul>
-				<li><strong>메뉴 ID</strong>: idx0</li>
+				<li><strong>메뉴 ID</strong>: <span class="url"></span></li>
 				<li><strong>메뉴 타입</strong>: 문서 페이지</li>
 				<li class="add"><a href="#add" data-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><button type="button">잘라내기</button></li>
@@ -169,10 +171,10 @@
 					<label for="menuName">메뉴 이름</label>
 					<input type="text" id="menuName">
 				</li>
-				<li>
+				<!--li>
 					<label for="pageTitle">페이지 제목</label>
 					<input type="text" id="pageTitle">
-				</li>
+				</li-->
 				<li>
 					<label for="mid2">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-toggle="#mid2_help">?</a></label>
 					<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
@@ -182,10 +184,10 @@
 					<input type="text" id="mid2">
 				</li>
 				<li>
-					<label><input type="checkbox" title="메뉴 클릭시 새 창으로 열기"> 메뉴 클릭시 새 창으로 열기</label>
+					<label><input type="checkbox" class="_newWindow" title="메뉴 클릭시 새 창으로 열기"> 메뉴 클릭시 새 창으로 열기</label>
 				</li>
 				<li>
-					<label><input type="checkbox" title="늘 펼쳐진 상태로 있게 합니다"> 늘 펼쳐진 상태로 있게 합니다</label>
+					<label><input type="checkbox" class="_leaveUnfolded" title="늘 펼쳐진 상태로 있게 합니다"> 늘 펼쳐진 상태로 있게 합니다</label>
 				</li>
 			</ul>
 			<div class="btnBoth">
@@ -637,16 +639,15 @@ jQuery(function($){
 <![endif]-->
 <script>
 //<![CDATA[
+jQuery._xeAdminVar = {};
+
 function onSiteMapReceived(htData){
 	var $ = jQuery;
 	var aMenuList = htData.menuList;
 
-	//console.log(aMenuList, aMenuList.length);
-	//console.log(createTreeMarkup(aMenuList));
 	$("#siteMapTree").html(createTreeMarkup(aMenuList));
 	
 	$("#siteMapTree")
-		// call `.jstree` with the options object
 		.jstree({
 			// the `plugins` array allows you to configure the active plugins on this instance
 			"plugins" : ["themes","html_data","ui","crrm","hotkeys","contextmenu", "dnd"],
@@ -661,6 +662,12 @@ function onSiteMapReceived(htData){
 		.bind("create_node.jstree", function (event, data) {
 			var btns = $("<span>").addClass("side").html('<button data-toggle="#add">메뉴추가</button> <button data-toggle="#info">속성편집</button>');
 			data.rslt.obj.append(btns);
+		})
+		.bind("select_node.jstree", function(event, data){
+			var sSelectedSrl = data.rslt.obj.attr("id").replace("menu", "");
+			$._xeAdminVar.sSelectedSrl = sSelectedSrl;
+			
+			showProp(sSelectedSrl);
 		});
 }
 
@@ -680,8 +687,6 @@ function createTreeMarkup(aNode){
 
 	var sResult = "";
 	for(var i=0, nLen=aNode.length; i<nLen; i++){
-		//console.log(aNode[i]);
-		
 		// Only sitemap node has menuSrl
 		if(aNode[i].menuSrl){
 			nNodeType = 1;
@@ -697,7 +702,6 @@ function createTreeMarkup(aNode){
 				title: "welcome_menu"
 			*/
 			case 1:
-//			console.log(aNode[i]);
 			sText  = aNode[i].title;
 			sNodeSrl  = aNode[i].menuSrl;
 			
@@ -749,7 +753,7 @@ function createTreeMarkup(aNode){
 		}
 
 		htNodeInfo[sNodeSrl] = aNode[i];
-		console.log(sNodeSrl, htNodeInfo[sNodeSrl]);
+
 		htNodeInfo[sNodeSrl].nNodeType = nNodeType;
 		htNodeInfo[sNodeSrl].sText = sText;
 
@@ -772,31 +776,55 @@ function createTreeMarkup(aNode){
 	return $.tmpl( "menuTree", {Nodes:sResult} ).get()[0].outerHTML;
 }
 
+function showProp(sMenuId){
+	var $ = jQuery;
+	$._htMarkupActionParam = {sMenuId: sMenuId};
+
+	if(htNodeInfo[sMenuId].nNodeType === 1){
+		$("#propertiesRoot").show(null, null, null, {bOpeningProp: true});
+	}else{
+		$("#properties").show(null, null, null, {bOpeningProp: true});
+	}
+}
+
 jQuery(function($){
 	var _hide = $.fn.hide;
-	$.fn.hide = function(speed, callback) {
-		$(this).trigger('hide');
+	$.fn.hide = function(speed, easing, callback, htOpt) {
+		$(this).trigger('hide', [htOpt]);
 		
-		$(this).removeClass("shown");
-		$(this).addClass("hidden");
+		var sId = $(this).attr("id");
 		
+		if($(this).hasClass("col")){
+			$(this).next().hide(speed, easing, callback, htOpt);
+
+			if(sId){
+				$(this).parent().find('a[href="#'+sId+'"]').parent('li.active').removeClass('active');
+			}
+		}
+
 		return _hide.apply(this, arguments);
 	}
 	
 	var _show = $.fn.show;
-	$.fn.show = function(speed, callback) {
-		$(this).trigger('show');
+	$.fn.show = function(speed, easing, callback, htOpt) {
+		$(this).trigger('show', [htOpt]);
 
-		$(this).removeClass("hidden");
-		$(this).addClass("shown");
-		
+		if($(this).hasClass("col")){
+			$(this).next().hide(speed, easing, callback, htOpt);
+			
+			setTimeout(scrollToRight, 0);
+			//scrollToRight();
+		}
+
 		return _show.apply(this, arguments);
 	}
 	
 	$.fn.prevUntilAnd = function(){
 		var $result = $.fn.prevUntil.apply(this, arguments);
-		$.merge($result, ($result.length>0?$result.last():$(this)).prev());
-		//console.log($result);
+		var $match = ($result.length>0?$result.last():$(this)).prev();
+		
+		if($match.length>0) $.merge($result, $match);
+
 		return $result;
 	}
 	
@@ -815,62 +843,84 @@ jQuery(function($){
 	//$.jstree._themes = "/maserati/modules/menu/tpl/css/themes/";
 	$.jstree._themes = '{getUrl("")}/modules/menu/tpl/css/themes/';
 
-// Prepare parms
+	// Prepare parms
 	$(document.body).on("click", ".x [data-param]", function(ev){
-		console.log($(ev.srcElement).attr('data-param'));
 		$._htMarkupActionParam = $.parseJSON($(ev.srcElement).attr('data-param'));
-		//console.log($._htMarkupActionParam);
+
 		return false;
 	});
 	
-// TARGET toggle
+	// TARGET toggle
 	$(document.body).on("click", ".x [data-toggle]", function(ev){
 		$($(ev.srcElement).attr('data-toggle')).toggle();
 		return false;
 	});
-// TARGET show
-	$(document.body).on("click", ".x [data-show]", function(ev){
-		var $target = $($(ev.srcElement).attr('data-show'));
 	
-		if($target.hasClass("col")){
-			$target.nextAll().hide();
+	// TARGET show
+	$(document.body).on("click", ".x [data-show]", function(ev){
+		var $anchor = $(this);
+		var $target = $($(this).attr('data-show'));
+		
+		showTargetClicked($anchor, $target);
+	});
+	function showTargetClicked($anchor, $target){
+		$anchor.parents('.col').next().hide();
+		
+		// change selected status of the navigation li
+		if($anchor.find('i.x_icon-circle-arrow-right').length > 0){
+			$anchor.parent('li').addClass('active').siblings('li').removeClass('active');
 		}
 
 		$target.show();
-	});
-// TARGET hide
+	}
+	
+	// TARGET hide
 	$(document.body).on("click", ".x [data-hide]", function(ev){
 		var $target = $($(ev.srcElement).attr('data-hide'));
-
-		if($target.hasClass("col")){
-			$target.nextAll().hide();
-			
-//			$target.prevUntilAnd(".shown").find('li.active').removeClass('active');
-		}
-		
 
 		$target.hide();
 	});
 
-	$('#propertiesRoot').bind("show", function(ev){
+	$(document.body).on("click", ".x .showProp", function(ev){
+		var sMenuId = $._htMarkupActionParam.sMenuId;
+		
+		$("#siteMapTree").jstree("deselect_all");
+		$("#siteMapTree").jstree("select_node", "#menu"+sMenuId);
+	});
+
+//		scrollToRight();
+
+	function scrollToRight(){
+		$('#site').scrollTo($('#site').width(), 0, {duration: 0 } );
+	}
+
+	// -----------------------------------------------------------------------------------------
+	
+	$('#propertiesRoot').bind("show", function(ev, htOpt){
+		$('#site_map').next().hide(null, null, null, htOpt);
+
 		var sMenuId = $._htMarkupActionParam.sMenuId;
 		var htInfo = htNodeInfo[sMenuId];
 		$(ev.target).find('.title').html(htInfo.sText);
 	});
-	$('#propertiesRoot').bind("hide", function(){
-		console.log('hide root properties');
+	$('#propertiesRoot').bind("hide", function(ev, htOpt){
+		if(htOpt && htOpt.bOpeningProp) return;
+		
+		$("#siteMapTree").jstree("deselect_all");
 	});
-
 	
-	$('#properties').bind("show", function(ev){
-		$('#propertiesRoot').hide();
+	$('#properties').bind("show", function(ev, htOpt){
+		$('#site_map').next().hide(null, null, null, htOpt);
 		
 		var sMenuId = $._htMarkupActionParam.sMenuId;
 		var htInfo = htNodeInfo[sMenuId];
 		$(ev.target).find('.title').html(htInfo.sText);
+		$(ev.target).find('.url').html(htInfo.url);
 	});
-	$('#properties').bind("hide", function(){
-		console.log('hide properties');
+	$('#properties').bind("hide", function(ev, htOpt){
+		if(htOpt && htOpt.bOpeningProp) return;
+
+		$("#siteMapTree").jstree("deselect_all");
 	});
 	
 	$('#add').bind("show", function(){
@@ -881,7 +931,6 @@ jQuery(function($){
 		*/
 	});
 	$('#add').bind("hide", function(){
-		console.log('hide add');
 	});
 	
 	$("#tmpl_downloadableMenuTypeItem").template( "downloadableMenuTypeItem" );
@@ -906,16 +955,38 @@ jQuery(function($){
 					TotalDownloads: item.package_downloaded
 				} ).get()[0].outerHTML;
 			}
-			//console.log(sResult);
+
 			$('#download .list').html(sResult);
+			scrollToRight();
 		});
 	});
 	$('#download').bind("hide", function(){
-		console.log('hide download');
 	});
 	
-	$('#add_url').bind("show", function(){console.log('show');});
-	$('#add_url').bind("hide", function(){console.log('hide');});
+	$('#default').bind("show", function(){
+		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedSrl];
+		
+		console.log(htInfo);
+		
+		$(this).find('#menuName').val(htInfo.sText);
+		$(this).find('#mid2').val(htInfo.url);
+		
+		if(htInfo.open_window === "N"){
+			$(this).find('._newWindow').removeAttr("checked");
+		}else{
+			$(this).find('._newWindow').attr("checked", "checked");
+		}
+		
+		if(htInfo.expand === "N"){
+			$(this).find('._leaveUnfolded').removeAttr("checked");
+		}else{
+			$(this).find('._leaveUnfolded').attr("checked", "checked");
+		}
+	});
+	$('#default').bind("hide", function(){
+	});
+//	$('#add_url').bind("show", function(){console.log('show');});
+//	$('#add_url').bind("hide", function(){console.log('hide');});
 
 // Set #site height fix
 	$(window).resize(function(){
@@ -929,12 +1000,7 @@ setTimeout(function(){
 		$('#linkMenu>input').val($(this).text());
 	});
 }, 1000);
-// Navigation a active/inactive
-	var $navAnchor = $('a>i.x_icon-circle-arrow-right').parent('a');
-	$navAnchor.click(function(){
-		$(this).parent('li').addClass('active').siblings('li').removeClass('active');
-	});
-
+/*
 	$('.x_close[data-hide]').click(function(){
 		var inactiveTarget = $(this).attr('data-hide');
 		$navAnchor.each(function(){
@@ -944,7 +1010,7 @@ setTimeout(function(){
 			}
 		});
 	});
-
+*/
 // Auth
 	$('#auth select').change(function(){
 		var $this = $(this);
