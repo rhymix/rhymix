@@ -222,6 +222,7 @@
 		 */
 		public function dispMenuAdminSiteDesign()
 		{
+			$this->setTemplateFile('site_design');
 		}
 
 		/**
