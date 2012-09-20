@@ -2047,6 +2047,10 @@
          **/
         function destroySessionInfo() {
             if(!$_SESSION || !is_array($_SESSION)) return;
+
+			$memberInfo = Context::get('logged_info');
+			$memberSrl = $memberInfo->member_srl;
+
             foreach($_SESSION as $key => $val) {
                 $_SESSION[$key] = '';
             }
@@ -2054,10 +2058,11 @@
             setcookie(session_name(), '', time()-42000, '/');
             setcookie('sso','',time()-42000, '/');
 
-            if($_COOKIE['xeak']) {
-                $args->autologin_key = $_COOKIE['xeak'];
-                executeQuery('member.deleteAutologin', $args);
-            }
+			if($memberSrl)
+			{
+				$args->member_srl = $memberSrl;
+				$output = executeQuery('member.deleteAutologin', $args);
+			}
         }
 
 		function _updatePointByGroup($memberSrl, $groupSrlList)
