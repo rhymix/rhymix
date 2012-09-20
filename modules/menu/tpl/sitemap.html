@@ -372,7 +372,7 @@
 				</div>
 			</div>
 		</form>
-		<button type="button" class="x_close" data-hide="#layout">&times;</button>
+		<button type="button" class="x_close" data-hide="#skin">&times;</button>
 	</div>
 	<div class="col download" id="downloadSkin">
 		<section>
@@ -466,12 +466,7 @@
 		<button type="button" class="x_close" data-hide="#auth">&times;</button>
 	</div>
 	<div class="col" id="details">
-		<fieldset>
-			<h1>상세 설정</h1>
-			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
-			</div>
-		</fieldset>
+		{상세설정}
 		<button type="button" class="x_close" data-hide="#details">&times;</button>
 	</div>
 </div>
@@ -981,46 +976,6 @@ setTimeout(function(){
 	$(window).load(function(){
 		$fileBtn.trigger('click');
 	});
-/*
-	<div class="col theme" id="skin">
-		<fieldset>
-			<h1>스킨</h1>
-			<label>
-				<input type="checkbox" title="사이트 기본 스킨 사용"> 사이트 기본 스킨 사용
-				<a href="#siteDefaultDesign" class="x_icon-share-alt">사이트 기본 스킨 설정</a>
-			</label>
-			<div class="list">
-				<h2>사용할 수 있는 스킨 목록</h2>
-				<ul>
-					<li>
-						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
-							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
-							<i class="x_icon-ok"></i>
-						</button>
-						<ul>
-							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
-						</ul>
-					</li>
-					<li>
-						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
-							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
-							<i class="x_icon-ok"></i>
-						</button>
-						<ul>
-							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
-						</ul>
-					</li>
-				</ul>
-				<div class="x_btn-group">
-					<a href="#downloadSkin" data-show="#downloadSkin" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
-				</div>
-			</div>
-		</fieldset>
-		<button type="button" class="x_close" data-hide="#layout">&times;</button>
-	</div>
-*/
 // Theme(layout | skin) list toggle
 	$('.theme .list').each(function(){
 		var $this = $(this);
