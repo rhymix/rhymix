@@ -174,7 +174,7 @@ class documentController extends document {
 	 * @param bool $isRestore
 	 * @return object
 	 */
-	function insertDocument($obj, $manual_inserted = false, $isRestore = false) {
+	function insertDocument($obj, $manual_inserted = false, $isRestore = false, $isLatest = true) {
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -212,7 +212,7 @@ class documentController extends document {
 		}
 		// Set the read counts and update order.
 		if(!$obj->readed_count) $obj->readed_count = 0;
-		if(!$isRestore) $obj->update_order = $obj->list_order = getNextSequence() * -1;
+		if($isLatest) $obj->update_order = $obj->list_order = getNextSequence() * -1;
 		else $obj->update_order = $obj->list_order;
 		// Check the status of password hash for manually inserting. Apply md5 hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
