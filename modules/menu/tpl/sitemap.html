@@ -1,5 +1,4 @@
 <load target="./css/themes/classic/style.css" />
-
 <load target="./js/_lib/jquery.cookie.js" />
 <load target="./js/_lib/jquery.hotkeys.js" />
 <load target="./js/jquery.jstree.js" />
@@ -140,6 +139,7 @@
 			<div class="list">
 				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
 					<div class="item">
+						<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
 						<h2>${MenuType}</h2>
 						<p>${MenuTypeDesc}</p>
 						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
@@ -266,12 +266,55 @@
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#design">&times;</button>
 	</div>
+	<div class="col theme" id="layout">
+		<form action="">
+			<h1>레이아웃</h1>
+			<label>
+				<input type="checkbox" checked title="사이트 기본 레이아웃 사용"> 사이트 기본 레이아웃 사용
+				<a href="#siteDefaultDesign" class="x_icon-share-alt">사이트 기본 레이아웃 설정</a>
+			</label>
+			<div class="list">
+				<h2>사용할 수 있는 레이아웃 목록</h2>
+				<ul>
+					<li>
+						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><a href="#layoutHTML">HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+					<li>
+						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><a href="#layoutHTML">HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+				</ul>
+				<div class="x_btn-group">
+					<a href="#downloadLayout" data-show="#downloadLayout" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 레이아웃 설치</a>
+				</div>
+			</div>
+		</form>
+		<button type="button" class="x_close" data-hide="#layout">&times;</button>
+	</div>
 	<div class="col download" id="downloadLayout">
 		<section>
 			<h1>다른 레이아웃 설치</h1>
 			<div class="list">
 				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
 					<div class="item">
+						<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
 						<h2>${MenuType}</h2>
 						<p>${MenuTypeDesc}</p>
 						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
@@ -293,12 +336,51 @@
 		</section>
 		<button type="button" class="x_close" data-hide="#downloadLayout">&times;</button>
 	</div>
+	<div class="col theme" id="skin">
+		<form action="">
+			<h1>스킨</h1>
+			<label>
+				<input type="checkbox" checked title="사이트 기본 스킨 사용"> 사이트 기본 스킨 사용
+				<a href="#siteDefaultDesign" class="x_icon-share-alt">사이트 기본 스킨 설정</a>
+			</label>
+			<div class="list">
+				<h2>사용할 수 있는 스킨 목록</h2>
+				<ul>
+					<li>
+						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+					<li>
+						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+				</ul>
+				<div class="x_btn-group">
+					<a href="#downloadSkin" data-show="#downloadSkin" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
+				</div>
+			</div>
+		</form>
+		<button type="button" class="x_close" data-hide="#layout">&times;</button>
+	</div>
 	<div class="col download" id="downloadSkin">
 		<section>
 			<h1>다른 스킨 설치</h1>
 			<div class="list">
 				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
 					<div class="item">
+						<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
 						<h2>${MenuType}</h2>
 						<p>${MenuTypeDesc}</p>
 						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
@@ -449,6 +531,42 @@
 .col .nav li>a:focus>i,
 .col .nav li.active>a>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);background-repeat:no-repeat;opacity:1;filter:alpha(opacity=100)}
 .col input[type="file"]{ width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;opacity:0;filter:alpha(opacity=0)}
+/* Download */
+.download.col{max-width:600px}
+.download .list{padding:1px 0;border-bottom:1px solid #ccc;}
+.download .item{border-top:1px solid #ddd;padding:1px 0 1px 95px;position:relative}
+.download .item:first-child{border:0}
+.download .item>img{position:absolute;top:15px;left:0;width:80px;height:80px}
+.download h2{font-size:14px}
+.download a.x_icon-download-alt{width:24px;height:24px;background-color:#94A55C;position:absolute;top:7px;right:0;border-radius:3px;background-position:-90px -19px}
+.download a.x_icon-download-alt:hover,
+.download a.x_icon-download-alt:focus{background-color:#333}
+.download p>i{font-style:normal;color:#ccc}
+/* Theme(layout|skin) */
+.theme img{width:220px}
+.theme label{margin:0;padding:8px 0;position:relative;border-bottom:1px solid #ddd}
+.theme label>a{position:absolute;top:4px;right:0;width:24px;height:24px;border-radius:3px;background-position:-330px -91px;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
+.theme label>a:hover,
+.theme label>a:focus{background-color:#000;background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png)}
+.theme h2{font-size:14px;border-bottom:1px solid #ddd;margin:0;padding:15px 0 8px 0}
+.theme ul button{background-color:transparent;border:0;padding:0;margin:0;overflow:visible;}
+.theme ul{margin:0;padding:0;list-style:none}
+.theme li{zoom:1}
+.theme li:after{content:"";display:block;clear:both}
+.theme .list>ul>li{height:146px;padding:8px 0 8px 230px;border-top:1px dashed #ddd;position:relative}
+.theme .list>ul>li:first-child{border:0}
+.theme .item{position:absolute;margin:0 -220px 0 0;left:0;top:8px}
+.theme .item>i{display:none}
+.theme .item:hover>i,
+.theme .item:focus>i{display:block;position:absolute;bottom:0;right:0;background-color:#fff;width:24px;height:24px;opacity:.75;filter:alpha(opacity=75);background-position:-283px 5px}
+.theme ul ul{white-space:nowrap}
+.theme ul ul a>i{position:absolute;top:2px;right:2px}
+.theme ul ul>li>*{display:block;text-align:left;position:relative;text-decoration:none;padding:0 24px 0 5px;border-radius:3px;color:#000;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
+.theme ul ul>li>*:hover,
+.theme ul ul>li>*:focus{background:#666;color:#fff}
+.theme ul ul>li>a:hover>i,
+.theme ul ul>li>a:focus>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png)}
+.theme ul ul>li>button{width:100%;}
 /* Properties */
 #properties ul{margin:8px 0 0 0;padding:0 0 8px 0;border-bottom:1px solid #ddd}
 #properties li{position:relative;white-space:nowrap}
@@ -482,16 +600,6 @@
 #add_url .clone li{list-style:none}
 #add_url .clone ul ul{padding-left:15px}
 #add_url .clone .root{margin-top:15px}
-/* Download */
-.download.col{max-width:500px}
-.download .list{padding:1px 0;border-bottom:1px solid #ccc;}
-.download .item{border-top:1px solid #ddd;padding:1px 0;position:relative}
-.download .item:first-child{border:0}
-.download h2{font-size:14px}
-.download a.x_icon-download-alt{width:24px;height:24px;background-color:#94A55C;position:absolute;top:7px;right:0;border-radius:3px;background-position:-90px -19px}
-.download a.x_icon-download-alt:hover,
-.download a.x_icon-download-alt:focus{background-color:#333}
-.download p>i{font-style:normal;color:#ccc}
 /* Auth */
 #auth ul{margin:15px 0}
 #auth li{border-top:1px solid #ddd;margin:0 0 15px 0;padding:15px 0 0 0}
@@ -513,6 +621,7 @@
 #design .x_tab-pane{position:relative}
 #design .x_icon-zoom-in{position:absolute;right:0;bottom:0;width:24px;height:24px;background-color:#fff;opacity:.75;filter:alpha(opacity:75);background-position:-331px 5px}
 #design .x_icon-zoom-in:after{content:normal}
+/* Layout | Skin */
 
 </style>
 <!--[if IE 7]>
@@ -871,6 +980,60 @@ setTimeout(function(){
 	});
 	$(window).load(function(){
 		$fileBtn.trigger('click');
+	});
+/*
+	<div class="col theme" id="skin">
+		<fieldset>
+			<h1>스킨</h1>
+			<label>
+				<input type="checkbox" title="사이트 기본 스킨 사용"> 사이트 기본 스킨 사용
+				<a href="#siteDefaultDesign" class="x_icon-share-alt">사이트 기본 스킨 설정</a>
+			</label>
+			<div class="list">
+				<h2>사용할 수 있는 스킨 목록</h2>
+				<ul>
+					<li>
+						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+					<li>
+						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+				</ul>
+				<div class="x_btn-group">
+					<a href="#downloadSkin" data-show="#downloadSkin" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
+				</div>
+			</div>
+		</fieldset>
+		<button type="button" class="x_close" data-hide="#layout">&times;</button>
+	</div>
+*/
+// Theme(layout | skin) list toggle
+	$('.theme .list').each(function(){
+		var $this = $(this);
+		var $check = $this.prev('label').children('input:checkbox');
+		function toggleList(){
+			if($check.is(':checked')){
+				$this.hide();
+			} else {
+				$this.show();
+			}
+		}
+		$(window).load(toggleList);
+		$check.change(toggleList);
 	});
 });
 //]]>
