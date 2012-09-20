@@ -1,1 +1,308 @@
-<h1>Site Design</h1>
+<div class="x_page-header">
+	<h1>{$lang->menu_gnb_sub['siteMap']}</h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<div id="site">
+	<div class="col" id="design">
+		<fieldset>
+			<h1>디자인</h1>
+			<div class="x_tabbable">
+				<ul class="x_nav x_nav-tabs">
+					<li class="x_active"><a href="#pc">PC</a></li>
+					<li><a href="#mobile">모바일</a></li>
+				</ul>
+				<div class="x_tabcontent">
+					<div class="x_tab-pane x_active" id="pc">
+						<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="현재 설정된 PC 레이아웃">
+						<a href="#" target="_blank" class="x_icon-zoom-in" title="새창">크게 보기</a>
+					</div>
+					<div class="x_tab-pane" id="mobile">
+						<img src="http://naradesign.net/photo/DSCN0810.JPG" alt="현재 설정된 모바일 레이아웃">
+						<a href="#" target="_blank" class="x_icon-zoom-in" title="새창">크게 보기</a>
+					</div>
+				</div>
+			</div>
+			<ul class="nav">
+				<li><a href="#layout" data-show="#layout">레이아웃 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#skin" data-show="#skin">{게시판} <i class="x_icon-circle-arrow-right"></i></a></li>
+			</ul>
+			<div class="btnBoth">
+				<button type="reset" class="x_btn x_btn-small x_pull-left">취소</button>
+				<button type="button" class="x_btn x_btn-small x_btn-primary x_pull-right">저장</button>
+			</div>
+		</fieldset>
+		<button type="button" class="x_close" data-hide="#design">&times;</button>
+	</div>
+	<div class="col theme" id="layout">
+		<form action="">
+			<h1>레이아웃</h1>
+			<div class="list">
+				<h2>사용할 수 있는 레이아웃 목록</h2>
+				<ul>
+					<li>
+						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><a href="#layoutHTML">HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+					<li>
+						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><a href="#layoutHTML">HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+				</ul>
+				<div class="x_btn-group">
+					<a href="#downloadLayout" data-show="#downloadLayout" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 레이아웃 설치</a>
+				</div>
+			</div>
+		</form>
+		<button type="button" class="x_close" data-hide="#layout">&times;</button>
+	</div>
+	<div class="col download" id="downloadLayout">
+		<section>
+			<h1>다른 레이아웃 설치</h1>
+			<div class="list">
+				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
+					<div class="item">
+						<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
+						<h2>${MenuType}</h2>
+						<p>${MenuTypeDesc}</p>
+						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+						<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+					</div>
+				</script>
+			</div>
+			<div class="x_pagination x_pagination-centered">
+				<ul>
+					<li class="x_disabled"><a href="#">&laquo;</a></li>
+					<li class="x_active"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-hide="#downloadLayout">&times;</button>
+	</div>
+	<div class="col theme" id="skin">
+		<form action="">
+			<h1>스킨</h1>
+			<div class="list">
+				<h2>사용할 수 있는 스킨 목록</h2>
+				<ul>
+					<li>
+						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+					<li>
+						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
+							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
+							<i class="x_icon-ok"></i>
+						</button>
+						<ul>
+							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+				</ul>
+				<div class="x_btn-group">
+					<a href="#downloadSkin" data-show="#downloadSkin" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
+				</div>
+			</div>
+		</form>
+		<button type="button" class="x_close" data-hide="#skin">&times;</button>
+	</div>
+	<div class="col download" id="downloadSkin">
+		<section>
+			<h1>다른 스킨 설치</h1>
+			<div class="list">
+				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
+					<div class="item">
+						<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
+						<h2>${MenuType}</h2>
+						<p>${MenuTypeDesc}</p>
+						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+						<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+					</div>
+				</script>
+			</div>
+			<div class="x_pagination x_pagination-centered">
+				<ul>
+					<li class="x_disabled"><a href="#">&laquo;</a></li>
+					<li class="x_active"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-hide="#downloadSkin">&times;</button>
+	</div>
+	<div class="col" id="details">
+		{설정}
+		<button type="button" class="x_close" data-hide="#details">&times;</button>
+	</div>
+	<div class="col" id="html">
+		{HTML/CSS}
+		<button type="button" class="x_close" data-hide="#html">&times;</button>
+	</div>
+</div>
+<style>
+/* Site */
+#site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap}
+#site .btnBoth,
+#site .x_btn-group{text-align:right;padding:10px 0;margin:15px 0;border-top:1px solid #ccc}
+#site .btnBoth:after{content:"";display:block;clear:both}
+.col{display:inline-block;vertical-align:top;position:relative;white-space:normal;height:100%;min-width:220px;padding:10px 25px 10px 10px;margin:0 4px 0 0;overflow-y:auto;overflow-x:hidden;border:1px solid #ddd}
+.col>*>h1{line-height:30px;font-size:16px;border-bottom:2px solid #666;margin:0;color:#333}
+.col>*>ul{margin:0;padding:0;list-style:none}
+.col>.x_close{position:absolute;top:0;right:0;width:32px;height:32px}
+.col input[type="checkbox"],
+.col input[type="radio"]{margin:0}
+.col label{cursor:pointer}
+/* Nav */
+.col .nav li{border-bottom:1px solid #ddd;position:relative;white-space:nowrap}
+.col .nav li:first-child{border-top:0}
+.col .nav li>a,
+.col .nav li>button{text-align:left;color:#000;background-color:transparent;border:0;display:block;padding:5px 15px 5px 8px;color:#333;text-decoration:none;background:#fff;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
+.col .nav li>button{width:100%}
+.col .nav li>a:hover,
+.col .nav li>a:focus,
+.col .nav li.active>a,
+.col .nav li>button:hover,
+.col .nav li>button:focus{background:#666;color:#fff}
+.col .nav li>a>i{position:absolute;top:50%;right:5px;margin:-7px 0 0 0;opacity:.5;filter:alpha(opacity=50)}
+.col .nav li>a:hover>i,
+.col .nav li>a:focus>i,
+.col .nav li.active>a>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);background-repeat:no-repeat;opacity:1;filter:alpha(opacity=100)}
+.col input[type="file"]{ width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;opacity:0;filter:alpha(opacity=0)}
+/* Download */
+.download.col{max-width:600px}
+.download .list{padding:1px 0;border-bottom:1px solid #ccc;}
+.download .item{border-top:1px solid #ddd;padding:1px 0 1px 95px;position:relative}
+.download .item:first-child{border:0}
+.download .item>img{position:absolute;top:15px;left:0;width:80px;height:80px}
+.download h2{font-size:14px}
+.download a.x_icon-download-alt{width:24px;height:24px;background-color:#94A55C;position:absolute;top:7px;right:0;border-radius:3px;background-position:-90px -19px}
+.download a.x_icon-download-alt:hover,
+.download a.x_icon-download-alt:focus{background-color:#333}
+.download p>i{font-style:normal;color:#ccc}
+/* Theme(layout|skin) */
+.theme img{width:220px}
+.theme h2{font-size:14px;border-bottom:1px solid #ddd;margin:0;padding:15px 0 8px 0}
+.theme ul button{background-color:transparent;border:0;padding:0;margin:0;overflow:visible;}
+.theme ul{margin:0;padding:0;list-style:none}
+.theme li{zoom:1}
+.theme li:after{content:"";display:block;clear:both}
+.theme .list>ul>li{height:146px;padding:8px 0 8px 230px;border-top:1px dashed #ddd;position:relative}
+.theme .list>ul>li:first-child{border:0}
+.theme .item{position:absolute;margin:0 -220px 0 0;left:0;top:8px}
+.theme .item>i{display:none}
+.theme .item:hover>i,
+.theme .item:focus>i{display:block;position:absolute;bottom:0;right:0;background-color:#fff;width:24px;height:24px;opacity:.75;filter:alpha(opacity=75);background-position:-283px 5px}
+.theme ul ul{white-space:nowrap}
+.theme ul ul a>i{position:absolute;top:2px;right:2px}
+.theme ul ul>li>*{display:block;text-align:left;position:relative;text-decoration:none;padding:0 24px 0 5px;border-radius:3px;color:#000;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
+.theme ul ul>li>*:hover,
+.theme ul ul>li>*:focus{background:#666;color:#fff}
+.theme ul ul>li>a:hover>i,
+.theme ul ul>li>a:focus>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png)}
+.theme ul ul>li>button{width:100%;}
+/* Design */
+#design ul{margin-top:8px}
+#design .btnBoth{border:0;margin-top:0}
+#design img{width:220px}
+#design .x_tab-pane{position:relative}
+#design .x_icon-zoom-in{position:absolute;right:0;bottom:0;width:24px;height:24px;background-color:#fff;opacity:.75;filter:alpha(opacity:75);background-position:-331px 5px}
+#design .x_icon-zoom-in:after{content:normal}
+</style>
+<!--[if IE 7]>
+<script>
+jQuery(function($){
+// IE .col width bug fix
+	$('.col').each(function(){
+		var $this = $(this);
+		setTimeout(function(){
+			var childW = $this.children().width();
+			$this.width(childW);
+		},0);
+	});
+});
+</script>
+<![endif]-->
+<script>
+//<![CDATA[
+jQuery(function($){
+// TARGET toggle
+	$(document.body).on("click", ".x [data-toggle]", function(ev){
+		$($(ev.srcElement).attr('data-toggle')).toggle();
+		return false;
+	});
+// TARGET show
+	$(document.body).on("click", ".x [data-show]", function(ev){
+		var $target = $($(ev.srcElement).attr('data-show'));
+	
+		if($target.hasClass("col")){
+			$target.nextAll().hide();
+		}
+
+		$target.show();
+	});
+// TARGET hide
+	$(document.body).on("click", ".x [data-hide]", function(ev){
+		var $target = $($(ev.srcElement).attr('data-hide'));
+
+		if($target.hasClass("col")){
+			$target.nextAll().hide();
+//			$target.prevUntilAnd(".shown").find('li.active').removeClass('active');
+		}
+		$target.hide();
+	});
+// Set #site height fix
+	$(window).resize(function(){
+		var wHeigh = $(window).height();
+		$('#site').height(wHeigh - 270).children('.col').height(wHeigh - 315);
+	}).resize();
+// Navigation a active/inactive
+	var $navAnchor = $('a>i.x_icon-circle-arrow-right').parent('a');
+	$navAnchor.click(function(){
+		$(this).parent('li').addClass('active').siblings('li').removeClass('active');
+	});
+
+	$('.x_close[data-hide]').click(function(){
+		var inactiveTarget = $(this).attr('data-hide');
+		$navAnchor.each(function(){
+			var href = $(this).attr('href');
+			if(href == inactiveTarget){
+				$(this).parent('li').removeClass('active');
+			}
+		});
+	});
+});
+//]]>
+</script>
