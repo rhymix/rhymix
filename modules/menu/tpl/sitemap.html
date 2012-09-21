@@ -1029,22 +1029,17 @@ setTimeout(function(){
 	$('input[type="file"]').change(function(){
 		$(this).closest('form').submit();
 	});
-	var $fileBtn = $('.fileTrigger, .fileRemover');
-	$fileBtn.click(function(){
-		var $this = $(this);
-		var $fileRemover = $this.parent('.btnBoth').children('.fileRemover');
-		setTimeout(function(){
-			var imgLength = $this.closest('form').find('>figure>img').length; // hasImage
-			if(imgLength){
-				$fileRemover.show(); // Show remover
+	function fileRemoverToggle(){ // fileRemover toggle
+		$('.fileRemover').each(function(){
+			var $this = $(this);
+			if($this.closest('form').find('>figure>img').length){
+				$this.show(); // Show remover
 			} else {
-				$fileRemover.hide(); // Hide remover
+				$this.hide(); // Hide remover
 			}
-		}, 1000);
-	});
-	$(window).load(function(){
-		$fileBtn.trigger('click');
-	});
+		});
+	}
+	fileRemoverToggle();
 // Theme(layout | skin) list toggle
 	$('.theme .list').each(function(){
 		var $this = $(this);
