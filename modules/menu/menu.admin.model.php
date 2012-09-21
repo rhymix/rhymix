@@ -386,6 +386,7 @@
 				if($moduleInfo->setup_index_act)
 				{
 					$menu['module_srl'] = $midInfo->module_srl;
+					$menu['module'] = $midInfo->module;
 					$menu['setup_index_act'] = $moduleInfo->setup_index_act;
 				}
 				if($midInfo->mid == $start_module->mid)
