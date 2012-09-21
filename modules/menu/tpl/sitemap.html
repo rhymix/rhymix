@@ -141,7 +141,7 @@
 			<div class="list">
 				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
 					<div class="item">
-						<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
+						<img src="${ScreenShotURL}" alt="">
 						<h2>${MenuType}</h2>
 						<p>${MenuTypeDesc}</p>
 						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
@@ -949,6 +949,7 @@ jQuery(function($){
 				sResult += $.tmpl( "downloadableMenuTypeItem", {
 					MenuType: item.title,
 					MenuTypeDesc: item.package_description,
+					ScreenShotURL: item.item_screenshot_url,
 					Score: item.package_star,
 					TotalVotes: item.package_voted,
 					LastUpdated: item.item_regdate,
