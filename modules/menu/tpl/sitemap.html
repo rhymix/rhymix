@@ -65,7 +65,11 @@
 	<div class="col" id="add">
 		<section>
 			<h1>메뉴 추가</h1>
-			<ul class="nav">
+			<ul class="nav _itemList">
+				<script id="tmpl_menuTypeItem" type="text/x-jquery-tmpl">
+					<li><a href="#add_page" data-show="#add_page" data-param='{ "moduleName" : "${ModuleName}" }'>${ModuleTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
+				</script>
+
 				<li><a href="#add_page" data-show="#add_page" data-param='{ "t" : "value of t" }'>문서 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#add_page" data-show="#add_page">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#add_page" data-show="#add_page">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -137,7 +141,7 @@
 			<div class="list">
 				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
 					<div class="item">
-						<img src="${ScreenShotURL}" alt="">
+						<img src="http://${ScreenShotURL}" alt="">
 						<h2>${MenuType}</h2>
 						<p>${MenuTypeDesc}</p>
 						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
@@ -921,12 +925,32 @@ jQuery(function($){
 		$("#siteMapTree").jstree("deselect_all");
 	});
 	
+	$("#tmpl_menuTypeItem").template( "menuTypeItem" );
 	$('#add').bind("show", function(){
-	/*
-		$.exec_json("menu.getMenuAdminSiteMap", params, function(){
-			
+		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
+			console.log(htData);
+
+			var sResult = "";
+			var htItemTypes = htData.menu_types;
+
+			var item;
+			for(var sModuleName in htItemTypes){
+				//item = htData.menu_types[i];
+				if(htData.hasOwnProperty(item)) continue;
+				
+				item = htItemTypes[sModuleName];
+				console.log(item);
+
+				sResult += $.tmpl( "menuTypeItem", {
+					ModuleName : sModuleName,
+					ModuleTitle : sModuleName
+				} ).get()[0].outerHTML;
+			}
+
+			sResult += '<li><a href="#add_url" data-show="#add_url">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
+			$('#add ._itemList').html(sResult);
+			scrollToRight();
 		});
-		*/
 	});
 	$('#add').bind("hide", function(){
 	});
@@ -947,7 +971,7 @@ jQuery(function($){
 				sResult += $.tmpl( "downloadableMenuTypeItem", {
 					MenuType: item.title,
 					MenuTypeDesc: item.package_description,
-					ScreenShotURL: item.item_screenshot_url,
+					ScreenShotURL: item.item_screenshot_url.replace(/^http:\/\//, ""),
 					Score: item.package_star,
 					TotalVotes: item.package_voted,
 					LastUpdated: item.item_regdate,
@@ -1027,17 +1051,22 @@ setTimeout(function(){
 	$('input[type="file"]').change(function(){
 		$(this).closest('form').submit();
 	});
-	function fileRemoverToggle(){ // fileRemover toggle
-		$('.fileRemover').each(function(){
-			var $this = $(this);
-			if($this.closest('form').find('>figure>img').length){
-				$this.show(); // Show remover
+	var $fileBtn = $('.fileTrigger, .fileRemover');
+	$fileBtn.click(function(){
+		var $this = $(this);
+		var $fileRemover = $this.parent('.btnBoth').children('.fileRemover');
+		setTimeout(function(){
+			var imgLength = $this.closest('form').find('>figure>img').length; // hasImage
+			if(imgLength){
+				$fileRemover.show(); // Show remover
 			} else {
-				$this.hide(); // Hide remover
+				$fileRemover.hide(); // Hide remover
 			}
-		});
-	}
-	fileRemoverToggle();
+		}, 1000);
+	});
+	$(window).load(function(){
+		$fileBtn.trigger('click');
+	});
 // Theme(layout | skin) list toggle
 	$('.theme .list').each(function(){
 		var $this = $(this);
