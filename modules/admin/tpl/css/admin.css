@@ -41,6 +41,7 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a:before,
 .x .dashboard>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}
+.x>.body>.gnb.all>a>i,
 .x>.body>.gnb>ul>li.open>a:before,
 .x>.body>.gnb>ul>li.active>a:before{background-image:url(../../../../common/img/glyphicons-halflings-white.png);background-repeat:no-repeat}
 /* Layout */
@@ -55,14 +56,17 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x>.body:after{content:"";display:block;clear:both}
 .x>.body>.content{width:100%;padding:1px 0 0 0;float:right;margin:0 0 30px -100%}
 .x>.body>.content>*:first-child{margin-top:0}
-.x>.body>.gnb{position:relative;left:-240px;float:left;width:220px;margin:0 -220px 0 0;background:#f4f4f4;box-shadow:2px 0 4px #ddd}
-.x>.body.wide>.gnb{width:36px;margin:0 -36px 0 0;left:-60px;position:fixed;top:73px;left:10px}
+.x>.body>.gnb{width:220px}
+.x>.body>.gnb.all{position:relative;left:-240px;top:auto;float:left;margin:0 -220px 0 0}
+.x>.body.wide>.gnb{width:36px}
+.x>.body>.gnb,
+.x>.body.wide>.gnb.all{position:fixed;top:73px;left:10px}
 @media all and (max-width:980px){
 .x>.body,
 .x>.body.wide{padding:0}
 .x>.body>.content{width:auto;padding:1px 10px 0 10px;float:none;margin:0 0 30px 0}
 .x>.body>.gnb,
-.x>.body.wide>.gnb{float:none;width:auto;margin-right:0;left:0;border-radius:0;position:relative;top:auto;left:auto}
+.x>.body>.gnb.all{float:none;width:auto;margin-right:0;left:0;border-radius:0;position:relative;top:auto;left:auto}
 }
 /* Header */
 .x>.header>h1{margin:0 15px 0 0;float:left;text-shadow:0 1px 0 #fff}
@@ -97,13 +101,13 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 /* GNB */
 .x>.body>.gnb>.close{background:none;border:0;position:absolute;top:0;left:0;width:100%;height:1px;overflow:hidden;margin:0;padding:0}
 .x>.body>.gnb ul{margin:0;padding:0;list-style:none}
-.x>.body>.gnb>ul{position:relative;z-index:1;box-shadow:0 2px 4px #ddd}
+.x>.body>.gnb>ul{position:relative;z-index:1;box-shadow:2px 2px 4px #ddd}
 .x>.body>.gnb a{text-decoration:none;text-shadow:0 1px 0 #fff;color:#000;display:block}
 .x>.body>.gnb>a[href="#gnbNav"]{display:none}
 @media all and (max-width:980px){
-.x>.body.mobile>.gnb>ul>li{display:none}
-.x>.body.mobile>.gnb>ul>li:first-child{display:block}
-.x>.body.mobile>.gnb.open>ul>li{display:block}
+.x>.body>.gnb>ul>li{display:none}
+.x>.body>.gnb>ul>li:first-child{display:block}
+.x>.body>.gnb.open>ul>li{display:block}
 .x>.body>.gnb>a[href="#gnbNav"]{display:block;position:absolute;z-index:2;top:0;right:0;line-height:37px;width:44px;white-space:nowrap;font-size:0;border-left:1px solid #ddd}
 .x>.body>.gnb>a[href="#gnbNav"]:before{content:"";position:absolute;width:1px;height:100%;border-left:1px solid #fff}
 .x>.body>.gnb>a>i{position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px}

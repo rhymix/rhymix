@@ -39,43 +39,23 @@ jQuery(function($){
 	var $xGnb_li = $xGnb.find('>ul>li');
 	$(window).resize(function(){
 		setTimeout(function(){
-			if($(window).width() < 980 || $(window).width() > 1240){
+			if($(window).width() <= 980 || $(window).width() > 1240){
 				$xBody.removeClass('wide');
 			} else {
 				$xBody.addClass('wide');
-			}
-			if($(window).width() < 980){
-				$xBody.addClass('mobile');
 			}
 		}, 100);
 	}).resize();
 // GNB Click toggle
 	// Virtual click
-	$xGnb_li.find('>a').not('[href="#gnb"]') //.virtual
+	$xGnb_li.find('ul').prev('a')
 		.bind('click focus', function(){
 			var $this = $(this);
 			// Submenu toggle
-			if(!$xGnb.hasClass('all')) { 
-				$xGnb_li.not($this.parent('li')).removeClass('open');
-				$(this).parent('li').toggleClass('open');
-			} 
+			$xGnb_li.not($this.parent('li')).removeClass('open');
+			$(this).parent('li').toggleClass('open');
 			$xGnb.trigger('mouseenter'); // GNB Hover
-			$(window).resize();
 			return false;
-		});
-	// Toggle all
-	$xGnb_li.find('>a[href="#gnb"]')
-		.click(function(){
-			if(!$xGnb.hasClass('all')){ // Open All
-				$xGnb_li.addClass('open');
-				$xGnb.addClass('all');
-			} else { // Close All
-				$xGnb_li.removeClass('open');
-				$xGnb.removeClass('all');
-			}
-		})
-		.focus(function(){
-			$xGnb.trigger('mouseenter'); // GNB Hover
 		});
 // GNB Hover toggle
 	function contentBugFix(){ // Chrome browser rendering bug fix
@@ -87,10 +67,8 @@ jQuery(function($){
 	$xGnb
 		.mouseenter(function(){ // Mouseenter
 			if($(window).width() >= 980){
-				setTimeout(function(){
-					$xBody.removeClass('wide');
-					contentBugFix();
-				}, 200);
+				$xBody.removeClass('wide');
+				contentBugFix();
 			}
 		})
 		.mouseleave(function(){ // Mouseleave
