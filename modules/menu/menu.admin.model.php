@@ -259,6 +259,14 @@
         }
 
 		/**
+		 * get installed menu type api
+		 */
+		function getMenuAdminInstalledMenuType()
+		{
+			$this->add('menu_types', $this->getModuleListInSitemap());
+		}
+
+		/**
 		 * @brief when menu add in sitemap, select module list
 		 * this menu showing with trigger
 		 * @param int $site_srl
