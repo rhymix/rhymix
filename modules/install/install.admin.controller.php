@@ -120,6 +120,16 @@
 			$this->setMessage('success_updated');
         }
 
+		function procInstallAdminUpdateIndexModule()
+		{
+			if(!Context::get('index_module_srl')) return new Object(-1, 'msg_invalid_request');
+			$site_args->site_srl = 0;
+			$site_args->index_module_srl = Context::get('index_module_srl');
+			$oModuleController = &getController('module');
+			$oModuleController->updateSite($site_args);
+			$this->setMessage('success_updated');
+		}
+
         function procInstallAdminRemoveFTPInfo() {
             $ftp_config_file = Context::getFTPConfigFile();
             if(file_exists($ftp_config_file)) unlink($ftp_config_file);
