@@ -175,6 +175,7 @@
             foreach($items as $item)
             {
                 $v = $this->rearrange($item, $targets);
+				$v->item_screenshot_url = str_replace('./', _XE_DOWNLOAD_SERVER_, $v->item_screenshot_url);
 				$v->category = $this->categories[$v->category_srl]->title;
                 if($packages[$v->package_srl])
                 {
