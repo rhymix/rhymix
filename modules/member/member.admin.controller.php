@@ -146,6 +146,7 @@
 				'layout_srl',
 				'skin',
 				'colorset',
+				'mskin',
                 'profile_image', 'profile_image_max_width', 'profile_image_max_height',
                 'image_name', 'image_name_max_width', 'image_name_max_height',
                 'image_mark', 'image_mark_max_width', 'image_mark_max_height',
@@ -178,8 +179,10 @@
 				if(!trim(strip_tags($args->after_logout_url))) $args->after_logout_url = null;
 				if(!trim(strip_tags($args->redirect_url))) $args->redirect_url = null;
 
-				if(!$args->skin) $args->skin = "default";
-				if(!$args->colorset) $args->colorset = "white";
+				if(!$args->skin) $args->skin = 'default';
+				if(!$args->colorset) $args->colorset = 'white';
+
+				if(!$args->mskin) $args->mskin = 'default';
 
 				$args->profile_image = $args->profile_image?'Y':'N';
 				$args->image_name = $args->image_name?'Y':'N';

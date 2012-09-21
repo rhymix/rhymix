@@ -119,6 +119,10 @@
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list', $skin_list);
 
+            // list of skins for member module
+            $mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
+            Context::set('mskin_list', $mskin_list);
+
             // retrieve skins of editor
             $oEditorModel = &getModel('editor');
             Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
@@ -269,6 +273,7 @@
 
 				if($formInfo->isDefaultForm){
 					if($formInfo->imageType){
+						$formTag->type = 'image';
 						if($formInfo->name == 'profile_image'){
 							$target = $memberInfo['profile_image'];
 							$functionName = 'doDeleteProfileImage';
@@ -300,11 +305,13 @@
 											 ,$member_config->{$formInfo->name.'_max_height'});
 					}//end imageType
 					elseif($formInfo->name == 'birthday'){
+						$formTag->type = 'date';
 						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="dateRemover" />'
 								,$memberInfo['birthday']
 								,zdate($memberInfo['birthday'], 'Y-m-d', false)
 								,$lang->cmd_delete);
 					}elseif($formInfo->name == 'find_account_question'){
+						$formTag->type = 'select';
 						$inputTag = '<select name="find_account_question" style="width:290px; display:block;">%s</select>';
 						$optionTag = array();
 						foreach($lang->find_account_question_items as $key=>$val){
@@ -318,6 +325,7 @@
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
 						$inputTag .= '<input type="text" name="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" class="inputText long tall" />';
 					}else{
+						$formTag->type = 'text';
 						$inputTag = sprintf('<input type="text" name="%s" value="%s" class="inputText long tall" />'
 									,$formInfo->name
 									,$memberInfo[$formInfo->name]);
@@ -329,6 +337,7 @@
 									 'value'		=> $extendForm->value);
 					$extentionReplace = array();
 
+					$formTag->type = $extendForm->column_type;
 					if($extendForm->column_type == 'text' || $extendForm->column_type == 'homepage' || $extendForm->column_type == 'email_address'){
 						$template = '<input type="text" name="%column_name%" value="%value%" />';
 					}elseif($extendForm->column_type == 'tel'){

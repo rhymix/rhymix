@@ -98,6 +98,7 @@
 
 		function _getDisplayedMemberInfo($memberInfo, $extendFormInfo, $memberConfig)
 		{
+			$logged_info = Context::get('logged_info');
 			$displayDatas = array();
 			foreach($memberConfig->signupForm as $no=>$formInfo)
 			{
@@ -270,6 +271,7 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
             $member_info->signature = $oMemberModel->getSignature($member_srl);
             Context::set('member_info',$member_info);
+
             // Get a list of extend join form
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
@@ -290,6 +292,8 @@
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
+
+			$this->member_info = $member_info;
 
 			$oMemberAdminView = &getAdminView('member');
 			$formTags = $oMemberAdminView->_getMemberInputTag($member_info);

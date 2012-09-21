@@ -85,9 +85,9 @@
 				<p class="desc">{$lang->about_redirect_url}</p>
 			</li>
 			<li>
-				<p class="q"><label for="skin">{$lang->layout}</label></p>
+				<p class="q"><label for="layout">{$lang->layout}</label></p>
 				<p class="a">
-				<select name="layout_srl">
+				<select id="layout" name="layout_srl">
 					<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->layout_srl">{$val->title} ({$val->layout})</option>
 				</select>
 				</p>
@@ -103,6 +103,14 @@
 			<li id="colorset" style="display:none"|cond="!$config->colorset">
 				<p class="q"><label for="member_colorset">{$lang->colorset}</label></p>
 				<p class="a"><div id="member_colorset"></div></p>
+			</li>
+			<li>
+				<p class="q"><label for="mskin">{$lang->mobile_skin}</label></p>
+				<p class="a">
+					<select id="mskin" name="mskin">
+						<option loop="$mskin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->mskin==$key">{$val->title} ({$key})</option>
+					</select>
+				</p>
 			</li>
 			<li>
 				<p class="q"><label for="prohibited_nick_name">{$lang->cmd_manage_nick_name}({sprintf($lang->count_manage_nick_name, count($deniedNickNames))})</label></p>
