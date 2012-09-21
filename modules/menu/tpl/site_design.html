@@ -1,6 +1,3 @@
-<div class="x_page-header">
-	<h1>{$lang->menu_gnb_sub['siteMap']}</h1>
-</div>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -174,7 +171,8 @@
 </div>
 <style>
 /* Site */
-#site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap}
+.x>.body>.content{margin-bottom:0}
+#site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap;margin-top:10px}
 #site .btnBoth,
 #site .x_btn-group{text-align:right;padding:10px 0;margin:15px 0;border-top:1px solid #ccc}
 #site .btnBoth:after{content:"";display:block;clear:both}
@@ -286,7 +284,7 @@ jQuery(function($){
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
-		$('#site').height(wHeigh - 270).children('.col').height(wHeigh - 315);
+		$('#site').height(wHeigh - 150).children('.col').height(wHeigh - 195);
 	}).resize();
 // Navigation a active/inactive
 	var $navAnchor = $('a>i.x_icon-circle-arrow-right').parent('a');
