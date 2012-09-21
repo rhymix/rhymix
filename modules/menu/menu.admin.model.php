@@ -298,8 +298,24 @@
 			{
 				foreach($moduleList AS $key=>$value)
 				{
-					$moduleInfo = $oModuleModel->getModuleInfoXml($value);
-					$moduleInfoList[$value] = $moduleInfo;
+					if($value == 'page')
+					{
+						$pageTypeName = Context::getLang('page_type_name');
+						$moduleInfo = $oModuleModel->getModuleInfoXml($value);
+						$moduleInfo->title = $pageTypeName['ARTICLE'];
+						$moduleInfoList['ARTICLE'] = $moduleInfo;
+						$wModuleInfo = clone $moduleInfo;
+						$wModuleInfo->title = $pageTypeName['WIDGET'];
+						$moduleInfoList['WIDGET'] = $wModuleInfo;
+						$oModuleInfo = clone $moduleInfo;
+						$oModuleInfo->title = $pageTypeName['OUTSIDE'];
+						$moduleInfoList['OUTSIDE'] = $moduleInfo;
+					}
+					else
+					{
+						$moduleInfo = $oModuleModel->getModuleInfoXml($value);
+						$moduleInfoList[$value] = $moduleInfo;
+					}
 				}
 			}
 
