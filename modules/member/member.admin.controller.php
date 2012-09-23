@@ -26,7 +26,7 @@
             $config = $oMemberModel->getMemberConfig ();
 			$getVars = array();
 			if ($config->signupForm){
-				foreach($config->signupForm as $formInfo){
+				foreach($config->signupForm as $formInfo) {
 					if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired)){
 						$getVars[] = $formInfo->name;
 					}
