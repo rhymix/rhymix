@@ -19,16 +19,16 @@
 			<script id="tmpl_menuTreeNode" type="text/x-jquery-tmpl">
 				<li id="menu${MenuId}">
 					<a href="#" data-param='{ "sMenuId":"${MenuId}" }'>${MenuTitle}</a>
-					<span class="side">
+					<!--span class="side">
 						<button type="button" class="addItem" data-show="#add" data-param='{ "sMenuId":"${MenuId}" }'>메뉴추가</button>
 						<button type="button" class="showProp" data-param='{ "sMenuId":"${MenuId}" }'>속성편집</button>
-					</span>
+					</span-->
 					{{html SubTree}}
 				</li>
 			</script>
 		</section>
 		<div class="x_btn-group">
-			<button type="button" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
+			<button type="button" class="x_btn x_btn-small x_btn-inverse _addSiteMap"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
 		</div>
 	</div>
 	<div class="col" id="propertiesRoot">
@@ -37,7 +37,7 @@
 			<ul class="nav">
 				<li><a href="#add" data-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><button type="button" disabled>붙여넣기</button></li>
-				<li><button type="button">삭제</button></li>
+				<li><button class="_delSiteMap" type="button">삭제</button></li>
 			</ul>
 		</section>
 		<button type="button" class="x_close" data-hide="#propertiesRoot">&times;</button>
@@ -67,10 +67,9 @@
 			<h1>메뉴 추가</h1>
 			<ul class="nav _itemList">
 				<script id="tmpl_menuTypeItem" type="text/x-jquery-tmpl">
-					<li><a href="#add_page" data-show="#add_page" data-param='{ "moduleName" : "${ModuleName}" }'>${ModuleTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#add_page" data-show="#add_page" data-param='{ "moduleName" : "${ModuleName}", "moduleTitle": "${ModuleTitle}" }'>${ModuleTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
 				</script>
 
-				<li><a href="#add_page" data-show="#add_page" data-param='{ "t" : "value of t" }'>문서 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#add_page" data-show="#add_page">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#add_page" data-show="#add_page">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#add_url" data-show="#add_url">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -83,7 +82,7 @@
 	</div>
 	<div class="col" id="add_page">
 		<fieldset>
-			<h1>{문서 페이지}</h1>
+			<h1 class="_title"></h1>
 			<ul>
 				<li>
 					<label for="menuName1">메뉴이름(브라우저 제목)</label>
@@ -99,7 +98,7 @@
 				</li>
 			</ul>
 			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
+				<button type="button" class="x_btn x_btn-small x_btn-primary _save">확인</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#add_page">&times;</button>
@@ -660,17 +659,78 @@ function onSiteMapReceived(htData){
 		})
 		.bind("loaded.jstree", function (event, data) {
 			data.inst.open_all();
+			
+			var sRenameId = $._xeAdminVar.sRenameOnload;
+			$._xeAdminVar.sRenameOnload = null;
+			
+			if(sRenameId){
+				console.log('renaming', sRenameId);
+				$("#siteMapTree").jstree("rename", $("#menu"+sRenameId));
+			}
         })
+		.bind("rename_node.jstree", function(event, data){
+			console.log(1, event, data);
+		/*
+			var params = new Array();
+			params['menu_srl'] = '889';
+			params['title'] = "제목2";
+			exec_xml("menu","procMenuAdminUpdate", params, completeTmp)
+			*/
+			var sTitle = data.args[1];
+			var params = {};
+			
+			//console.log(htNodeInfo[$._xeAdminVar.sSelectedMenuSrl]);
+			var htOldInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
+			if(htOldInfo.sText === sTitle) return;
+			
+			params['title'] = sTitle;
+			params['menu_srl'] = $._xeAdminVar.sSelectedMenuSrl;
+			$.exec_json("menu.procMenuAdminUpdate", params, function(htData){
+				console.log(htData);
+				if(htData.error !== 0){
+					alert(htData.message);
+					return;
+				}
+				
+				loadSiteMap();
+				return;
+			});
+		})
 		.bind("create_node.jstree", function (event, data) {
-			var btns = $("<span>").addClass("side").html('<button data-toggle="#add">메뉴추가</button> <button data-toggle="#info">속성편집</button>');
-			data.rslt.obj.append(btns);
+			//console.log(data.args[2].data[0]);
+			var sTitle = data.args[2].data[0];
+			var params = {};
+			params['title'] = sTitle;
+			$.exec_json("menu.procMenuAdminInsert", params, function(htData){
+				console.log(htData);
+				if(htData.error !== 0){
+					alert(htData.message);
+					return;
+				}
+				
+				$._xeAdminVar.sRenameOnload = htData.menu_srl;
+				$._xeAdminVar.sSelectedMenuSrl = htData.menu_srl;
+				
+				loadSiteMap();
+				return;
+				/*
+				$(data.rslt.obj).attr("id", "menu"+htData.menu_srl);
+				$(data.rslt.obj).find('a').attr("data-param", '{ "sMenuId":"'+htData.menu_srl+'"}');
+				*/
+				
+			});
 		})
 		.bind("select_node.jstree", function(event, data){
-			var sSelectedSrl = data.rslt.obj.attr("id").replace("menu", "");
-			$._xeAdminVar.sSelectedSrl = sSelectedSrl;
+			$("#siteMapTree input").blur();
+			//console.log($("#siteMapTree input"));
+		
+			var sSelectedMenuSrl = data.rslt.obj.attr("id").replace("menu", "");
+			$._xeAdminVar.sSelectedMenuSrl = sSelectedMenuSrl;
 			
-			showProp(sSelectedSrl);
+			showProp(sSelectedMenuSrl);
 		});
+		
+	$('#site_map').nextAll().hide();
 }
 
 var htNodeInfo = {};
@@ -789,6 +849,15 @@ function showProp(sMenuId){
 	}
 }
 
+function loadSiteMap(){
+	var $ = jQuery;
+	
+	var params = {};
+	var response_tags = new Array('menuList');
+	params['menu_srl'] = 0;
+	$.exec_json("menu.getMenuAdminSiteMap", params, onSiteMapReceived);
+}
+
 jQuery(function($){
 	var _hide = $.fn.hide;
 	$.fn.hide = function(speed, easing, callback, htOpt) {
@@ -830,16 +899,13 @@ jQuery(function($){
 		return $result;
 	}
 	
-	$('#site_map').nextAll().hide();
+//	$('#site_map').nextAll().hide();
 	
 	//$( "#tmpl_siteMap" ).template( "siteMap" );
 	$( "#tmpl_menuTree" ).template( "menuTree" );
 	$( "#tmpl_menuTreeNode" ).template( "menuTreeNode" );
 
-	var params = {};
-	var response_tags = new Array('menuList');
-	params['menu_srl'] = 0;
-	$.exec_json("menu.getMenuAdminSiteMap", params, onSiteMapReceived);
+	loadSiteMap();
 
 	//$.jstree._themes = "PATH/TO/FOLDER/";
 	//$.jstree._themes = "/maserati/modules/menu/tpl/css/themes/";
@@ -897,6 +963,10 @@ jQuery(function($){
 	}
 
 	// -----------------------------------------------------------------------------------------
+	$("#site_map ._addSiteMap").click(function(){
+		$("#siteMapTree").jstree("deselect_all");
+		$("#siteMapTree").jstree("create", null, "first", { data: "New Sitemap" }, null, true);
+	});
 	
 	$('#propertiesRoot').bind("show", function(ev, htOpt){
 		$('#site_map').next().hide(null, null, null, htOpt);
@@ -911,6 +981,20 @@ jQuery(function($){
 		$("#siteMapTree").jstree("deselect_all");
 	});
 	
+	$("._delSiteMap").click(function(){
+		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+		var params = {};
+		params['menu_srl'] = sSelectedMenuSrl;
+		$.exec_json("menu.procMenuAdminDelete", params, function(htData){
+			console.log(htData);
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			loadSiteMap();
+		});
+	});
 	$('#properties').bind("show", function(ev, htOpt){
 		$('#site_map').next().hide(null, null, null, htOpt);
 		
@@ -986,8 +1070,67 @@ jQuery(function($){
 	$('#download').bind("hide", function(){
 	});
 	
+	$('#add_page').bind("show", function(){
+		$._xeAdminVar.sSelectedModuleName = $._htMarkupActionParam.moduleName;
+		$._xeAdminVar.sSelectedModuleTitle = $._htMarkupActionParam.moduleTitle;
+		
+		$(this).find("._title").html($._xeAdminVar.sSelectedModuleTitle);
+	});
+	$('#add_page ._save').bind("click", function(){
+		var sMenuName = $("#menuName1").val();
+		var sMID = $("#mid1").val();
+		
+		var sSelectedModuleName = $._xeAdminVar.sSelectedModuleName;
+		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+
+		console.log($._xeAdminVar, sSelectedModuleName, sSelectedMenuSrl, sMenuName, sMID);
+		/*
+		var params = new Array();
+		var response_tags = new Array('menu_item_srl');
+		params['ruleset'] = "insertMenuItem";
+		params['act'] = "procMenuAdminInsertItem";
+		params['menu_srl'] = "sitemap 번호";
+		params['menu_name_key'] = "메뉴의 이름에 다국어가 쓰였을 경우 해당 변수 명 (ex: $user_lang->userLang20120919153529020)";
+		params['menu_name'] = "사용자에게 보여줘야 할 메뉴명";
+		params['module_type'] = "모듈의 타입"; //page module일 경우 WIDGET, ARTICLE, OUTSIDE의 값을 가질 수 있으며 기타 다른 모듈은 모듈명을 사용한다.
+		params['mid'] = "모듈을 생성할 경우 모듈 mid";
+		params['menu_open_window'] = "링크를 새창으로 열 것인지의 여부('Y', 'N')";
+		params['menu_expand'] = "처음 로딩 시 메뉴가 열려 있도록 할 것인지의 여부 (Y', 'N')"
+		params['parent_srl'] = "특정 메뉴 아이템(node) 아래에 속하게 만들고 싶을 경우 해당 아이템(node)의 menu_item_srl 값. 최상위 메뉴로 만들고 싶을 경우 0을 사용하면 됨.";
+
+		exec_xml("menu","procMenuAdminInsert", params, completeTmp, response_tags)
+		*/
+		var params = {};
+		var response_tags = new Array('menu_item_srl');
+		params['ruleset'] = "insertMenuItem";
+		params['act'] = "procMenuAdminInsertItem";
+		params['menu_srl'] = 59;
+		params['menu_name_key'] = "";
+		//params['title'] = 'title'; -> 이 값 넣으면 사이트맵 생성됨
+		params['menu_name'] = sMenuName;
+		params['module_type'] = sSelectedModuleName;
+		params['mid'] = sMID;
+		params['menu_open_window'] = "N";
+		params['menu_expand'] = "N"
+		params['parent_srl'] = sSelectedMenuSrl;
+		/*
+			ruleset=insertMenuItem&act=procMenuAdminInsert&menu_srl=&menu_name_key=&menu_name=3333&module_type=OUTSIDE&mid=1111&menu_open_window=N&menu_expand=N&parent_srl=60&module=menu
+		*/
+		$.exec_json("menu.procMenuAdminInsertItem", params, function(htData){
+			console.log(htData);
+		});
+		/*
+		Array
+		(
+			[error] => "0"
+			[message] => "등록했습니다."
+			[menu_item_srl] => "2"
+		)
+		*/
+	});
+	
 	$('#default').bind("show", function(){
-		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedSrl];
+		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 		
 		console.log(htInfo);
 		
