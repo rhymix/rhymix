@@ -8,6 +8,7 @@
         <column name="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
         <column name="name" var="name" notnull="notnull" />
         <column name="url" var="url" />
+        <column name="is_shortcut" var="is_shortcut" notnull="notnull" default="N" />
         <column name="open_window" var="open_window" />
         <column name="expand" var="expand" />
         <column name="normal_btn" var="normal_btn" />

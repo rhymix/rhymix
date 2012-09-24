@@ -410,9 +410,12 @@
 			$args->parent_srl = $request->parent_srl;
 			$args->open_window = $request->menu_open_window;
 			$args->expand = $request->menu_expand;
+			$args->expand = $request->menu_expand;
+			$args->is_shortcut = $request->is_shortcut;
 
 			if(!$args->open_window) $args->open_window = 'N';
 			if(!$args->expand) $args->expand = 'N';
+			if(!$args->is_shortcut) $args->is_shortcut = 'N';
 
 			if($request->menu_name_key) $args->name = $request->menu_name_key;
 			else $args->name = $request->menu_name;
@@ -432,14 +435,7 @@
 					unset($cmArgs->page_type);
 			}
 
-			// if mid is empty, auto create mid
-			if(!$request->mid)
-			{
-				$request->mid = $cmArgs->module.'_'.date('YmdHis');
-			}
-			$cmArgs->mid = $request->mid;
-
-			if($isProc && !preg_match('/^http/i',$request->mid))
+			if($isProc && !preg_match('/^http/i',$request->url))
 			{
 				//module create
 				$site_module_info = Context::get('site_module_info');
@@ -447,9 +443,16 @@
 				$cmArgs->browser_title = $args->name;
 				$cmArgs->menu_srl = $request->menu_srl;
 
+				// if mid is empty, auto create mid
+				if(!$request->url)
+				{
+					$request->url = $cmArgs->module.'_'.date('YmdHis');
+					$cmArgs->mid = $request->url;
+				}
+
 				// check already created module instance
 				$oModuleModel = &getModel('module');
-				$output = $oModuleModel->getModuleInfoByMid($request->mid);
+				$output = $oModuleModel->getModuleInfoByMid($request->url);
 				if($output->module_srl)
 				{
 					return new Object(-1, 'msg_module_name_exists');
@@ -464,8 +467,13 @@
 			if($request->hover_btn) $args->hover_btn = $request->hover_btn;
 			if($request->active_btn) $args->active_btn = $request->active_btn;
 
+			if(!$request->url)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
 			// menu insert
-			$args->url = $request->mid;
+			$args->url = $request->url;
 			$args->menu_item_srl = getNextSequence();
 			$args->listorder = -1*$args->menu_item_srl;
 			$output = executeQuery('menu.insertMenuItem', $args);
@@ -491,7 +499,7 @@
 		{
 			$request = Context::getRequestVars();
 
-			if(!$request->menu_item_srl || !$request->module_srl || !$request->mid || !$request->menu_name)
+			if(!$request->menu_item_srl || !$request->module_srl || !$request->url || !$request->menu_name)
 			{
 				return new Object(-1, 'msg_invalid_request');
 			}
@@ -516,7 +524,7 @@
 					return new Object(-1, 'msg_invalid_request');
 				}
 
-				$moduleInfo->mid = $request->mid;
+				$moduleInfo->mid = $request->url;
 				$oModuleController = &getController('module');
 				$oModuleController->updateModule($moduleInfo);
 			}
@@ -530,7 +538,7 @@
 				$itemInfo->name = $request->menu_name;
 			}
 
-			$itemInfo->url = $request->mid;
+			$itemInfo->url = $request->url;
 			if(count($itemInfo->group_srls) == 0)
 			{
 				unset($itemInfo->group_srls);
@@ -744,12 +752,12 @@
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($originMenu['url']);
 
 				$args->module_type = $moduleInfo->module;
-				$args->select_menu_url = $moduleInfo->mid.'_copy';
+				$args->menu_url = $moduleInfo->mid.'_copy';
 				$args->layout_srl = $moduleInfo->layout_srl;
 
 				$oModuleAdminController = &getAdminController('module');
 				$copyArg->module_srl = $moduleInfo->module_srl;
-				$copyArg->mid_1 = $args->select_menu_url;
+				$copyArg->mid_1 = $args->menu_url;
 				$copyArg->browser_title_1 = $moduleInfo->browser_title;
 				$copiedModuleSrl = $oModuleAdminController->procModuleAdminCopyModule($copyArg);
 
