@@ -24,12 +24,11 @@ jQuery(function($){
 	});
 	*/
 // Tab Navigation
-	var $tabbable = $('.x .x_tabbable');
-	$tabbable.find('.x_tab-pane:not(".x_active")').hide();
-	$tabbable.find('.x_nav-tabs>li>a').click(function(){
+	$('.x .x_tab-content>.x_tab-pane:not(".x_active")').hide();
+	$('.x .x_nav-tabs').find('>li>a').click(function(){
 		var $this = $(this);
 		$this.parent('li').addClass('x_active').siblings().removeClass('x_active');
-		$tabbable.find($this.attr('href')).addClass('x_active').show().siblings().removeClass('x_active').hide();
+		$this.closest('.x_nav-tabs').next('.x_tab-content').find($this.attr('href')).addClass('x_active').show().siblings().removeClass('x_active').hide();
 		return false;
 	});
 // GNB Height 100%

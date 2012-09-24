@@ -477,6 +477,7 @@
 </div>
 <style>
 /* Site */
+body>.x{max-width:none}
 .x>.body>.content{margin-bottom:0}
 #site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap;margin-top:10px}
 #site .btnBoth,
@@ -1194,22 +1195,22 @@ setTimeout(function(){
 	$('input[type="file"]').change(function(){
 		$(this).closest('form').submit();
 	});
-	var $fileBtn = $('.fileTrigger, .fileRemover');
-	$fileBtn.click(function(){
-		var $this = $(this);
-		var $fileRemover = $this.parent('.btnBoth').children('.fileRemover');
+	$('.fileRemover').click(function(){
+		$(this).remove();
+	});
+	function fileRemoverDisplay(){
 		setTimeout(function(){
-			var imgLength = $this.closest('form').find('>figure>img').length; // hasImage
-			if(imgLength){
-				$fileRemover.show(); // Show remover
-			} else {
-				$fileRemover.hide(); // Hide remover
-			}
+			$('.fileRemover').each(function(){
+				var $this = $(this);
+				if($this.closest('form').find('>figure>img').length){
+					$this.show(); // Show remover
+				} else {
+					$this.hide(); // Hide remover
+				}
+			});
 		}, 1000);
-	});
-	$(window).load(function(){
-		$fileBtn.trigger('click');
-	});
+	}
+	$(window).load(fileRemoverDisplay);
 // Theme(layout | skin) list toggle
 	$('.theme .list').each(function(){
 		var $this = $(this);

@@ -2,7 +2,7 @@
 /* Reset */
 html{min-height:100%}
 body{margin:10px;-webkit-text-size-adjust:none}
-body>.x{min-width:300px}
+body>.x{min-width:300px;max-width:1240px}
 @media all and (max-width:480px){
 body>.x{margin:0}
 }
@@ -37,6 +37,8 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x a.x_icon-question-sign,
 .x button.x_icon-question-sign{cursor:help}
 .x .x_nav-tabs>li>a{padding-top:4px;padding-bottom:4px}
+.x .x_table{border-top:2px solid #ddd;border-bottom:1px solid #ddd}
+.x .x_table>caption{text-align:left;padding:8px 0}
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a:before,
@@ -76,7 +78,7 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x>.header>.site>a{text-decoration:none;color:#666;font-family:Tahoma, Geneva, sans-serif}
 .x>.header>.site>a:hover,
 .x>.header>.site>a:focus{text-decoration:underline}
-.x>.header>.account{float:right;position:relative;margin:20px 0 0 0}
+.x>.header>.account{float:right;position:relative;margin:13px 0 0 0}
 .x>.header>.account>ul{list-style:none;margin:0;padding:0}
 .x>.header>.account>ul>li{display:inline}
 .x>.header>.account>ul>li:before{content:"| ";color:#ddd}
