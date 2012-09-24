@@ -27,7 +27,10 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x .x_alert .x_close{top:-3px;right:-30px}
 .x .x_pagination ul>.x_active>a, 
 .x .x_pagination ul>.x_active>span{ background-color:#767676;color:#fff;font-weight:bold;font-size:18px;font-family:Arial, Helvetica, sans-serif}
-.x .x_btn{border-radius:2px}
+.x .x_btn{border-radius:2px;overflow:visible;font-size:14px}
+.x .x_btn-large{font-size:16px}
+.x .x_btn-small{font-size:14px}
+.x .x_btn-mini{font-size:12px}
 .x .x_btn-group{zoom:1}
 .x .x_btn-group:after{content:"";display:block;clear:both}
 .x .x_btn-group>.x_btn{border-radius:0}

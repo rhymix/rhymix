@@ -53,6 +53,7 @@
 				<li><button type="button">복사</button></li>
 				<li><button type="button" disabled>붙여넣기</button></li>
 				<li><button type="button" onClick="confirm('메뉴를 삭제하면 콘텐츠도 삭제됩니다. 정말 삭제하시겠습니까?')">삭제</button></li>
+				<li class="homepage"><label><input type="checkbox"> 사이트 접속 시 기본 페이지로 사용</label></li>
 				<li class="default"><a href="#default" data-show="#default">기본 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#imgbtn" data-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#design" data-show="#design">디자인 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -640,11 +641,12 @@ body>.x{max-width:none}
 #properties li{position:relative;white-space:nowrap}
 #properties li>strong{margin:0 0 0 8px}
 #properties li>a,
-#properties li>button{color:#000;position:relative;display:block;padding:0 8px;height:30px;line-height:30px;background-color:transparent;border:0;text-align:left;text-decoration:none;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
+#properties li>button{color:#000;position:relative;display:block;padding:0 8px;height:28px;line-height:28px;background-color:transparent;border:0;text-align:left;text-decoration:none;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
 #properties li>a{padding:0 24px 0 8px}
 #properties li.add{border:1px solid #ddd;border-left:0;border-right:0;margin-top:8px;margin-bottom:8px}
 #properties li.default{margin:8px 0 0 0;padding-top:8px;border-top:1px solid #ddd}
-#properties li.add>a{height:32px;line-height:32px}
+#properties li.add>a{height:30px;line-height:30px}
+#properties li.homepage{border-top:1px solid #ddd;padding-top:8px}
 #properties li>button{width:100%}
 #properties li>a:hover,
 #properties li>button:hover,
