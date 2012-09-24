@@ -28,7 +28,7 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_pagination ul>.x_active>a, 
 .x .x_pagination ul>.x_active>span{ background-color:#767676;color:#fff;font-weight:bold;font-size:18px;font-family:Arial, Helvetica, sans-serif}
 .x .x_btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px}
-.x .x_btn-large{font-size:16px}
+.x .x_btn-large{font-size:16px;padding:9px 14px;font-weight:bold}
 .x .x_btn-small{font-size:14px}
 .x .x_btn-mini{font-size:12px}
 .x .x_btn-group{zoom:1}
