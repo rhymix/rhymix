@@ -272,9 +272,6 @@
 				return new Object(-1, 'msg_invalid_request');
 			}
 
-			$code = preg_replace('/<\?.*(\?>)?/Usm', '', $code);
-			$code = preg_replace('/<script[\s]*language[\s]*=("|\')php("|\')[\s]*>.*<\/script>/Usm', '', $code);
-
             $oLayoutModel = &getModel('layout');
             $layout_file = $oLayoutModel->getUserLayoutHtml($layout_srl);
             FileHandler::writeFile($layout_file, $code);
