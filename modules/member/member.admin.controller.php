@@ -189,6 +189,7 @@
 				$args->image_mark = $args->image_mark?'Y':'N';
 				if($args->signature!='Y') $args->signature = 'N';
 				$args->identifier = $all_args->identifier;
+				$args->layout_srl = $args->layout_srl ? $args->layout_srl : null;
 
 				// set default
 				$all_args->is_nick_name_public = 'Y';

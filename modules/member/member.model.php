@@ -63,12 +63,6 @@
 
 			if (!$config->max_error_count) $config->max_error_count = 10;
 			if (!$config->max_error_count_time) $config->max_error_count_time = 300;
-			if (!$config->layout_srl)
-			{
-				$oModuleModel = &getModel('module');
-				$defaultModuleInfo = $oModuleModel->getDefaultMid();
-				$config->layout_srl = $defaultModuleInfo->layout_srl;
-			}
 
 			if (!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'xpresseditor';
 			if (!$config->sel_editor_colorset) $config->sel_editor_colorset = 'white';
