@@ -92,8 +92,8 @@ jQuery(function($){
 	function multilingual(){
 		$('.multilingual').each(function(){
 			var $this = $(this);
-			var $input = $this.parent('label').prev('input, textarea');
-			var $fieldset = $this.parent('label').next('fieldset');
+			var $input = $this.parent('label').next('input, textarea');
+			var $fieldset = $this.parent('label').siblings('fieldset:first');
 			if($this.is(':checked')){
 				$input.hide();
 				$fieldset.show();

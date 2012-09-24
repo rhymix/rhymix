@@ -6,7 +6,7 @@ body>.x{min-width:300px;max-width:1240px}
 @media all and (max-width:480px){
 body>.x{margin:0}
 }
-body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
+body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x strong, .x th{font-weight:600}
 .x [disabled]{cursor:not-allowed}
 .x button[disabled]{color:#ccc !important}
@@ -37,6 +37,8 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x .x_btn-group>.x_btn:last-child, 
 .x .x_btn-group>.x_dropdown-toggle{border-top-right-radius:2px;border-bottom-right-radius:2px}
 .x .x_btn-group>.x_btn:first-child{border-bottom-left-radius:2px;border-top-left-radius:2px}
+.x input[type="radio"], 
+.x input[type="checkbox"]{margin:0}
 .x a.x_icon-question-sign,
 .x button.x_icon-question-sign{cursor:help}
 .x .x_nav-tabs>li>a{padding-top:4px;padding-bottom:4px}
