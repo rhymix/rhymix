@@ -310,7 +310,7 @@
 						$moduleInfoList['WIDGET'] = $wModuleInfo;
 						$oModuleInfo = clone $moduleInfo;
 						$oModuleInfo->title = $pageTypeName['OUTSIDE'];
-						$moduleInfoList['OUTSIDE'] = $moduleInfo;
+						$moduleInfoList['OUTSIDE'] = $oModuleInfo;
 					}
 					else
 					{
