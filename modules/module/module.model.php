@@ -682,9 +682,6 @@
 			$path = ModuleHandler::getModulePath($module);
 			$skin_list = $this->getSkins($path, 'skins');
 
-			debugPrint($module);
-			debugPrint($skin_list);
-
 			$this->add('skin_info_list', $skin_list);
 		}
 

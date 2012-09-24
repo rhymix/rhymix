@@ -14,6 +14,7 @@
 	// insertMenuItem
 		// create 1depth menuitem
 	$item_args->menu_srl = $menu_srl;
+	$item_args->url = 'welcome_page';
 	$item_args->name = 'menu1';
 	$parent_srl = $item_args->menu_item_srl = getNextSequence();
 	$item_args->listorder = -1*$item_args->menu_item_srl;
