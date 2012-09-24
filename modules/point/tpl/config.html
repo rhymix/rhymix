@@ -106,7 +106,8 @@
 				<tbody>
 					<tr loop="$group_list => $key,$val">
 						<td><label for="point_group_{$key}">{$val->title}</label></td>
-						<td><input type="text" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:30px" /></td>
+						<td cond="$val->is_default != 'Y'"><input type="text" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:30px" /></td>
+						<td cond="$val->is_default == 'Y'"><span>{$lang->default_group}</span></td>
 					</tr>
 				</tbody>
 			</table>

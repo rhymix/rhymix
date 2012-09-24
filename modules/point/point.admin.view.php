@@ -39,7 +39,6 @@
             $selected_group_list = array();
             if(count($group_list)) {
                 foreach($group_list as $key => $val) {
-                    if($val->is_admin == 'Y' || $val->is_default == 'Y') continue;
                     $selected_group_list[$key] = $val;
                 }
             }

@@ -533,8 +533,9 @@
 						}
                         // Delete the group of a level which is higher than the current level
 						foreach($point_group as $group_srl => $target_level) {
-							if($target_level	 > $level) $del_group_list[] = $group_srl;
+							if($target_level > $level) $del_group_list[] = $group_srl;
 						}
+						$del_group_list[] = $default_group->group_srl;
 					}
                     // Grant a new group
 					else {			
