@@ -294,6 +294,7 @@
 			$moduleList = array_unique($moduleList);
 
 			$moduleInfoList = array();
+			Context::loadLang('modules/page/lang');
 			if(is_array($moduleList))
 			{
 				foreach($moduleList AS $key=>$value)
