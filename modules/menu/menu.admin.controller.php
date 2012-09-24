@@ -559,21 +559,29 @@
 		 */
 		public function procMenuAdminButtonUpload()
 		{
-			$args = Context::gets('menu_normal_btn', 'menu_hover_btn', 'menu_active_btn', 'isNormalDelete', 'isHoverDelete', 'isActiveDelete', 'callback');
+			$args = Context::getRequestVars();
 			$btnOutput = $this->_uploadButton($args);
+
+			$oMenuAdminModel = &getAdminModel('menu');
+			$item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
 
 			if($btnOutput['normal_btn'])
 			{
 				$this->add('normal_btn', $btnOutput['normal_btn']);
+				$item_info->normal_btn = $btnOutput['normal_btn'];
 			}
 			if($btnOutput['hover_btn'])
 			{
 				$this->add('hover_btn', $btnOutput['hover_btn']);
+				$item_info->hover_btn = $btnOutput['hover_btn'];
 			}
 			if($btnOutput['active_btn'])
 			{
 				$this->add('active_btn', $btnOutput['active_btn']);
+				$item_info->active_btn = $btnOutput['active_btn'];
 			}
+
+			$output = executeQuery('menu.updateMenuItem', $item_info);
 
 			$oJsonHandler = new JSONDisplayHandler();
 			$resultJson = $oJsonHandler->toDoc($this);
