@@ -5,19 +5,6 @@
     <fields>
 		<field name="menu_srl" required="true" rule="number" />
 		<field name="menu_name" required="true" />
-		<field name="cType" required="true" />
-		<field name="module_type">
-			<if test="$cType == 'CREATE' || $cType == 'SELECT'" attr="required" value="true" />
-		</field>
-		<field name="create_menu_url">
-			<if test="$cType == 'CREATE'" attr="required" value="true" />
-		</field>
-		<field name="select_menu_url">
-			<if test="$cType == 'SELECT'" attr="required" value="true" />
-		</field>
-		<field name="menu_url">
-			<if test="$cType == 'URL'" attr="required" value="true" />
-		</field>
-		<field name="menu_open_window" required="true" />
+		<field name="mid" required="true" />
     </fields>
 </ruleset>

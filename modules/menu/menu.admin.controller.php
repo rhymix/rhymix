@@ -175,7 +175,7 @@
 		 * Add an item to the menu
 		 * @return void
 		 */
-		function procMenuAdminInsertItem($source_args = NULL)
+		/*public function procMenuAdminInsertItem($source_args = NULL)
 		{
 			$isProc = false;
 			// List variables to insert
@@ -355,18 +355,151 @@
 			$this->add('parent_srl', $args->parent_srl);
 
 			$this->setMessage($message, 'info');
+        }*/
 
-			if($isProc)
+		/**
+		 * Add an item to the menu, simple version
+		 * @return void
+		 */
+		public function procMenuAdminInsertItem()
+		{
+			$request = Context::getRequestVars();
+
+			// set menu variable
+			$args->menu_srl = $request->menu_srl;
+			$args->parent_srl = $request->parent_srl;
+			$args->open_window = $request->menu_open_window;
+			$args->expand = $request->menu_expand;
+
+			if(!$args->open_window) $args->open_window = 'N';
+			if(!$args->expand) $args->expand = 'N';
+
+			if($request->menu_name_key) $args->name = $request->menu_name_key;
+			else $args->name = $request->menu_name;
+
+			// check already created module instance
+			$oModuleModel = &getModel('module');
+			$output = $oModuleModel->getModuleInfoByMid($request->mid);
+			if($output->module_srl)
 			{
-				/*$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap', 'menu_srl', $args->menu_srl);
-				$this->setRedirectUrl($returnUrl);*/
-				$oJsonHandler = new JSONDisplayHandler();
-				$resultJson = $oJsonHandler->toDoc($this);
-
-				Context::set('resultJson', $resultJson);
-				$this->setTemplateFile('callback');
+				return new Object(-1, 'msg_module_name_exists');
 			}
-        }
+
+			$oDB = DB::getInstance();
+			$oDB->begin();
+
+			//module create
+			$site_module_info = Context::get('site_module_info');
+			$cmArgs->site_srl = (int)$site_module_info->site_srl;
+			$cmArgs->browser_title = $args->name;
+			$cmArgs->menu_srl = $request->menu_srl;
+			$cmArgs->mid = $request->mid;
+
+			switch ($request->module_type){
+				case 'WIDGET' :
+				case 'ARTICLE' :
+				case 'OUTSIDE' :
+					$cmArgs->module = 'page';
+					$cmArgs->page_type = $request->module_type;
+					break;
+				default:
+					$cmArgs->module = $request->module_type;
+					unset($cmArgs->page_type);
+			}
+
+			$oModuleController = &getController('module');
+			$output = $oModuleController->insertModule($cmArgs);
+
+			// menu insert
+			$args->url = $request->mid;
+			$args->menu_item_srl = getNextSequence();
+			$args->listorder = -1*$args->menu_item_srl;
+			$output = executeQuery('menu.insertMenuItem', $args);
+			if(!$output->toBool()) return $output;
+
+			$oDB->commit();
+			$this->makeXmlFile($args->menu_srl);
+
+			$this->add('menu_item_srl', $args->menu_item_srl);
+			$this->setMessage('success_registed', 'info');
+		}
+
+		/**
+		 * Update an item to the menu, simple version
+		 * @return void
+		 */
+		public function procMenuAdminUpdateItem()
+		{
+			$request = Context::getRequestVars();
+
+			if(!$request->menu_item_srl || !$request->module_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+            // Get original information
+			$oMenuAdminModel = &getAdminModel('menu');
+            $itemInfo = $oMenuAdminModel->getMenuItemInfo($request->menu_item_srl);
+
+			// if menu type is module, check exists module
+			if($itemInfo->is_shortcut != 'Y' && !preg_match('/^http/i',$itemInfo->url))
+			{
+				$oModuleModel = &getModel('module');
+				//$moduleInfo = $oModuleModel->getModuleInfoByModuleSrl($request->module_srl);
+				$moduleInfo = $oModuleModel->getModuleInfoByModuleSrl(1);
+
+				//TODO if not exist module, return error
+				if(!$moduleInfo)
+				{
+					return new Object(-1, 'msg_invalid_request');
+				}
+			}
+			exit;
+
+			if($request->menu_name_key)
+			{
+				$args->name = $request->menu_name_key;
+			}
+			else
+			{
+				$args->name = $request->menu_name;
+			}
+
+
+			//TODO discuss for mid name update able
+
+			//$args->url = ;
+			//$output = executeQuery('menu.updateMenuItem', $args);
+		}
+
+		/**
+		 * upload button
+		 * @retun void
+		 */
+		public function procMenuAdminButtonUpload()
+		{
+			$args = Context::gets('menu_normal_btn', 'menu_hover_btn', 'menu_active_btn', 'isNormalDelete', 'isHoverDelete', 'isActiveDelete', 'callback');
+			$btnOutput = $this->_uploadButton($args);
+
+			if($btnOutput['normal_btn'])
+			{
+				$this->add('normal_btn', $btnOutput['normal_btn']);
+			}
+			if($btnOutput['hover_btn'])
+			{
+				$this->add('hover_btn', $btnOutput['hover_btn']);
+			}
+			if($btnOutput['active_btn'])
+			{
+				$this->add('active_btn', $btnOutput['active_btn']);
+			}
+
+			$oJsonHandler = new JSONDisplayHandler();
+			$resultJson = $oJsonHandler->toDoc($this);
+
+			Context::set('resultJson', $resultJson);
+			$this->setTemplateFile('callback');
+		}
 
 		/**
 		 * Delete menu item(menu of the menu)

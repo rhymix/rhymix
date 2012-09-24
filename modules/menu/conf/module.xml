@@ -20,6 +20,8 @@
         <action name="procMenuAdminUpdate" type="controller" standalone="true" ruleset="updateMenuTitle" />
         <action name="procMenuAdminDelete" type="controller" standalone="true" />
         <action name="procMenuAdminInsertItem" type="controller" standalone="true" ruleset="insertMenuItem" />
+        <action name="procMenuAdminUpdateItem" type="controller" standalone="true" />
+        <action name="procMenuAdminButtonUpload" type="controller" standalone="true" />
         <action name="procMenuAdminInsertItemForAdminMenu" type="controller" standalone="true" />
         <action name="procMenuAdminDeleteItem" type="controller" standalone="true" />
         <action name="procMenuAdminMakeXmlFile" type="controller" standalone="true" />
