@@ -332,7 +332,7 @@
             $point = $module_config['download_file'];
             if(!isset($point)) $point = $config->download_file;
             // If points are less than 0, and if downloading a file is not allowed in this case, give an errors
-            if($cur_point + $point < 0 && $config->disable_download == 'Y') return new Object(-1,'msg_not_permitted_download');
+            if($cur_point + $point < 0 && $config->disable_download == 'Y') return new Object(-1,'msg_cannot_download');
 
             return new Object();
         }
