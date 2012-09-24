@@ -187,4 +187,15 @@ body>.x,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
 .x .dashboard>section:nth-child(odd),
 .x .dashboard>section:nth-child(even){float:none;width:auto}
 }
-
+.x .multilingual_item>.en{background:url(../img/flag.en.gif) no-repeat right center}
+.x .multilingual_item>.ko{background:url(../img/flag.ko.gif) no-repeat right center}
+.x .multilingual_item>.jp{background:url(../img/flag.jp.gif) no-repeat right center}
+.x .multilingual_item>.zh-CN{background:url(../img/flag.cn.gif) no-repeat right center}
+.x .multilingual_item>.zh-TW{background:url(../img/flag.cn.gif) no-repeat right center}
+.x .multilingual_item>.fr{background:url(../img/flag.fr.gif) no-repeat right center}
+.x .multilingual_item>.de{background:url(../img/flag.de.gif) no-repeat right center}
+.x .multilingual_item>.ru{background:url(../img/flag.ru.gif) no-repeat right center}
+.x .multilingual_item>.es{background:url(../img/flag.es.gif) no-repeat right center}
+.x .multilingual_item>.tr{background:url(../img/flag.tr.gif) no-repeat right center}
+.x .multilingual_item>.vi{background:url(../img/flag.vi.gif) no-repeat right center}
+.x .multilingual_item>.mn{background:url(../img/flag.mn.gif) no-repeat right center}

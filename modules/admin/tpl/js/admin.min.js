@@ -46,7 +46,6 @@ jQuery(function($){
 		}, 100);
 	}).resize();
 // GNB Click toggle
-	// Virtual click
 	$xGnb_li.find('ul').prev('a')
 		.bind('click focus', function(){
 			var $this = $(this);
@@ -89,4 +88,21 @@ jQuery(function($){
 		$xBody.addClass('wide');
 		contentBugFix();
 	});
+// Multilingual
+	function multilingual(){
+		$('.multilingual').each(function(){
+			var $this = $(this);
+			var $input = $this.parent('label').prev('input, textarea');
+			var $fieldset = $this.parent('label').next('fieldset');
+			if($this.is(':checked')){
+				$input.hide();
+				$fieldset.show();
+			} else {
+				$input.show();
+				$fieldset.hide();
+			}
+		});
+	}
+	multilingual();
+	$('.multilingual').change(multilingual);
 });
