@@ -51,6 +51,34 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x>.body>.gnb.all>a>i,
 .x>.body>.gnb>ul>li.open>a:before,
 .x>.body>.gnb>ul>li.active>a:before{background-image:url(../../../../common/img/glyphicons-halflings-white.png);background-repeat:no-repeat}
+/* Rotation 360 */
+.x .rotation{
+animation:ROTATION infinite 2s linear;
+-webkit-animation:ROTATION infinite 2s linear;
+-moz-animation:ROTATION infinite 1s linear;
+-o-animation:ROTATION infinite 1s linear;
+-ms-animation:ROTATION infinite 1s linear;
+}
+@keyframes ROTATION{
+from{transform:rotate(0deg)} 
+to{transform:rotate(360deg)} 
+} 
+@-webkit-keyframes ROTATION{
+from{-webkit-transform:rotate(0deg)} 
+to{-webkit-transform:rotate(360deg)} 
+} 
+@-moz-keyframes ROTATION{
+from{-moz-transform:rotate(0deg)} 
+to{-moz-transform:rotate(360deg)} 
+} 
+@-o-keyframes ROTATION{
+from{-o-transform:rotate(0deg)} 
+to{-o-transform:rotate(360deg)} 
+} 
+@-ms-keyframes ROTATION{
+from{-o-transform:rotate(0deg)} 
+to{-o-transform:rotate(360deg)} 
+} 
 /* Layout */
 .x{box-shadow:0 0 5px #999;border-radius:5px}
 .x>.skipNav{margin:0}
@@ -192,6 +220,11 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .dashboard>section:nth-child(odd),
 .x .dashboard>section:nth-child(even){float:none;width:auto}
 }
+.x .multilingual>select{display:none}
+.x .multilingual>label.x_add-on>input[type="checkbox"]{opacity:0;filter:alpha(opacity=0);position:relative;z-index:2}
+.x .multilingual>label.x_add-on{font-size:0;position:relative}
+.x .multilingual>label.x_add-on>i{position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px;z-index:1;opacity:.25;filter:alpha(opacity=25)}
+.x .multilingual>label.x_add-on.checked>i{opacity:1;filter:alpha(opacity=100)}
 .x .multilingual_item>.en{background:url(../img/flag.en.gif) no-repeat right center}
 .x .multilingual_item>.ko{background:url(../img/flag.ko.gif) no-repeat right center}
 .x .multilingual_item>.jp{background:url(../img/flag.jp.gif) no-repeat right center}

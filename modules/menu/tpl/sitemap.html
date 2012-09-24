@@ -68,12 +68,11 @@
 			<h1>메뉴 추가</h1>
 			<ul class="nav _itemList">
 				<script id="tmpl_menuTypeItem" type="text/x-jquery-tmpl">
-					<li><a href="#add_page" data-show="#add_page" data-param='{ "moduleName" : "${ModuleName}", "moduleTitle": "${ModuleTitle}" }'>${ModuleTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#add_menu" data-show="#add_menu" data-param='{ "moduleName" : "${ModuleName}", "moduleTitle": "${ModuleTitle}" }'>${ModuleTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
 				</script>
-
-				<li><a href="#add_page" data-show="#add_page">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_page" data-show="#add_page">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_url" data-show="#add_url">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_menu" data-show="#add_menu">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_menu" data-show="#add_menu">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li><a href="#add_menu" data-show="#add_menu">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
 			</ul>
 			<div class="x_btn-group">
 				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입 설치</a>
@@ -81,20 +80,22 @@
 		</section>
 		<button type="button" class="x_close" data-hide="#add">&times;</button>
 	</div>
-	<div class="col" id="add_page">
+	<div class="col page" id="add_menu">
 		<fieldset>
-			<h1 class="_title"></h1>
+			<h1>URL 링크</h1>
 			<ul>
 				<li>
-					<label for="menuName1">메뉴이름</label>
-					<label class="x_muted"><input type="checkbox" class="multilingual"> 다국어 사용</label>
-					<input id="menuName1" type="text" required />
-					<fieldset class="multilingual_item">
-						<select title="사용 가능한 다국어 목록">
+					<div class="multilingual x_input-append">
+						<label for="menuName2">메뉴이름</label>
+						<input id="menuName2" type="text" required style="width:179px">
+						<select title="사용 가능한 다국어 목록" style="width:192px">
 							<option>[새로 입력]</option>
-							<option>...</option>
-							<option>...</option>
-						</select><br>
+							<option>...1</option>
+							<option>...2</option>
+						</select>
+						<label class="x_muted x_add-on"><input type="checkbox"> 다국어 사용 <i class="x_icon-globe"></i></label>
+					</div>
+					<fieldset class="multilingual_item">
 						<input type="text" class="en" title="English"><br>
 						<input type="text" class="ko" title="한국어"><br>
 						<input type="text" class="jp" title="日本語"><br>
@@ -112,7 +113,7 @@
 						</p>
 					</fieldset>
 				</li>
-				<li style="border-top:1px solid #ddd;padding-top:8px;margin-top:8px">
+				<li class="typePage">
 					<label for="mid1">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-toggle="#mid1_help">?</a></label>
 					<div id="mid1_help" class="x_alert x_alert-info" style="display:none;width:169px">
 						<button type="button" class="x_close" data-hide="#mid1_help">×</button>
@@ -120,45 +121,7 @@
 					</div>
 					<input id="mid1" type="text" required placeholder="생략시 임의값 사용" />
 				</li>
-			</ul>
-			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-small x_btn-primary _save">확인</button>
-			</div>
-		</fieldset>
-		<button type="button" class="x_close" data-hide="#add_page">&times;</button>
-	</div>
-	<div class="col" id="add_url">
-		<fieldset>
-			<h1>URL 링크</h1>
-			<ul>
-				<li>
-					<label for="menuName2">메뉴이름</label>
-					<label class="x_muted"><input type="checkbox" class="multilingual"> 다국어 사용</label>
-					<input id="menuName2" type="text" required />
-					<fieldset class="multilingual_item">
-						<select title="사용 가능한 다국어 목록">
-							<option>[새로 입력]</option>
-							<option>...</option>
-							<option>...</option>
-						</select><br>
-						<input type="text" class="en" title="English"><br>
-						<input type="text" class="ko" title="한국어"><br>
-						<input type="text" class="jp" title="日本語"><br>
-						<input type="text" class="zh-CN" title="中文(中国)"><br>
-						<input type="text" class="zh-TW" title="中文(臺灣)"><br>
-						<input type="text" class="fr" title="Français"><br>
-						<input type="text" class="de" title="Deutsch"><br>
-						<input type="text" class="ru" title="Русский"><br>
-						<input type="text" class="es" title="Español"><br>
-						<input type="text" class="tr" title="Türkçe"><br>
-						<input type="text" class="vi" title="Tiếng Việt"><br>
-						<input type="text" class="mn" title="Mongolian">
-						<p class="x_alert x_alert-info" style="width:169px">
-							지원하는 다국어 목록은 [<a href="{getUrl('','module','admin','act','dispAdminConfigGeneral')}">설정>일반</a>]에서 편집 가능
-						</p>
-					</fieldset>
-				</li>
-				<li style="border-top:1px solid #ddd;margin-top:8px">
+				<li class="typeUrl">
 					<div class="x_tabbable">
 						<ul class="x_nav x_nav-tabs">
 							<li class="x_active"><a href="#linkUrl">URL 링크</a></li>
@@ -179,7 +142,7 @@
 				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
 			</div>
 		</fieldset>
-		<button type="button" class="x_close" data-hide="#add_url">&times;</button>
+		<button type="button" class="x_close" data-hide="#add_menu">&times;</button>
 	</div>
 	<div class="col download" id="download">
 		<section>
@@ -214,15 +177,17 @@
 			<h1>기본 설정</h1>
 			<ul>
 				<li>
-					<label for="menuName">메뉴 이름</label>
-					<label class="x_muted"><input type="checkbox" class="multilingual"> 다국어 사용</label>
-					<input type="text" id="menuName">
-					<fieldset class="multilingual_item">
-						<select title="사용 가능한 다국어 목록">
+					<div class="multilingual x_input-append">
+						<label for="menuName">메뉴이름</label>
+						<input id="menuName" type="text" required style="width:179px">
+						<select title="사용 가능한 다국어 목록" style="width:192px">
 							<option>[새로 입력]</option>
-							<option>...</option>
-							<option>...</option>
-						</select><br>
+							<option>...1</option>
+							<option>...2</option>
+						</select>
+						<label class="x_muted x_add-on"><input type="checkbox"> 다국어 사용 <i class="x_icon-globe"></i></label>
+					</div>
+					<fieldset class="multilingual_item">
 						<input type="text" class="en" title="English"><br>
 						<input type="text" class="ko" title="한국어"><br>
 						<input type="text" class="jp" title="日本語"><br>
@@ -661,14 +626,16 @@
 #properties li.active>*>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);opacity:1;filter:alpha(opacity=100)}
 /* Add */
 #add>*>.x_btn-group{border:0;padding:0}
-/* Add Page */
-#add_page ul{margin:15px 0}
-/* Add URL */
-#add_url ul{margin:15px 0}
-#add_url .clone ul{margin:0}
-#add_url .clone li{list-style:none}
-#add_url .clone ul ul{padding-left:15px}
-#add_url .clone .root{margin-top:15px}
+/* Add Menu */
+#add_menu ul{margin:15px 0}
+#add_menu .typePage{display:none;border-top:1px solid #ddd;padding-top:8px;margin-top:8px}
+#add_menu .typeUrl{display:none;border-top:1px solid #ddd;margin-top:8px}
+#add_menu.page .typePage,
+#add_menu.url .typeUrl{display:block}
+#add_menu .clone ul{margin:0}
+#add_menu .clone li{list-style:none}
+#add_menu .clone ul ul{padding-left:15px}
+#add_menu .clone .root{margin-top:15px}
 /* Auth */
 #auth ul{margin:15px 0}
 #auth li{border-top:1px solid #ddd;margin:0 0 15px 0;padding:15px 0 0 0}
@@ -1117,7 +1084,7 @@ jQuery(function($){
 				} ).get()[0].outerHTML;
 			}
 
-			sResult += '<li><a href="#add_url" data-show="#add_url">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
+			sResult += '<li><a href="#add_menu" data-show="#add_menu">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
 			$('#add ._itemList').html(sResult);
 			scrollToRight();
 		});

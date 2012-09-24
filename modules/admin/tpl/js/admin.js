@@ -89,22 +89,29 @@ jQuery(function($){
 		contentBugFix();
 	});
 // Multilingual
+	var $mlCheck = $('.multilingual>label>input[type="checkbox"]');
 	function multilingual(){
-		$('.multilingual').each(function(){
+		$mlCheck.each(function(event){
 			var $this = $(this);
-			var $input = $this.parent('label').next('input, textarea');
-			var $fieldset = $this.parent('label').siblings('fieldset:first');
+			var $input = $label.siblings('input[type="text"]:first');
+			var $select = $label.siblings('select:first');
+			var $label = $this.parent('label'); // Checkbox label
+			var $fieldset = $this.closest('.multilingual').siblings('.multilingual_item:first'); // Multilingual list
 			if($this.is(':checked')){
 				$input.hide();
+				$select.show();
+				$label.addClass('checked'); 
 				$fieldset.show();
 			} else {
 				$input.show();
+				$select.hide();
+				$label.removeClass('checked');
 				$fieldset.hide();
 			}
 		});
 	}
 	multilingual();
-	$('.multilingual').change(multilingual);
+	$mlCheck.change(multilingual);
 // Check All
 	$('th>input[type="checkbox"]').change(function(){
 		var $this =$(this);
