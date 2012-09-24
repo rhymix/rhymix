@@ -86,7 +86,7 @@
 			<h1 class="_title"></h1>
 			<ul>
 				<li>
-					<label for="menuName1">메뉴이름(브라우저 제목)</label>
+					<label for="menuName1">메뉴이름</label>
 					<input id="menuName1" type="text" required />
 					<label><input type="checkbox" class="multilingual"> 다국어 사용</label>
 					<fieldset class="multilingual_item">
@@ -543,7 +543,6 @@
 </div>
 <style>
 /* Site */
-body>.x{max-width:none}
 .x>.body>.content{margin-bottom:0}
 #site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap;margin-top:10px}
 #site .btnBoth,
@@ -716,6 +715,8 @@ function onSiteMapReceived(htData){
 
 	$("#siteMapTree").html(createTreeMarkup(aMenuList));
 	
+	var sInitiallyOpen = [];
+	
 	$("#siteMapTree")
 		.jstree({
 			// the `plugins` array allows you to configure the active plugins on this instance
@@ -723,6 +724,7 @@ function onSiteMapReceived(htData){
 			//"themes","json_data","ui","crrm","cookies","dnd","search","types","hotkeys","contextmenu" 
 			// each plugin you have included can have its own config object
 			"core" : {  }
+			//"core" : { "initially_open" : [ "nhtml_1" ] }
 			// it makes sense to configure a plugin only if overriding the defaults
 		})
 		.bind("loaded.jstree", function (event, data) {
@@ -731,10 +733,19 @@ function onSiteMapReceived(htData){
 			var sRenameId = $._xeAdminVar.sRenameOnload;
 			$._xeAdminVar.sRenameOnload = null;
 			
+			var sSelectOnload = $._xeAdminVar.sSelectOnload;
+			$._xeAdminVar.sSelectOnload = null;
+			
 			if(sRenameId){
 				console.log('renaming', sRenameId);
 				$("#siteMapTree").jstree("rename", $("#menu"+sRenameId));
 			}
+			
+			if(sSelectOnload){
+				console.log('selecting', sSelectOnload);
+				$("#siteMapTree").jstree("select_node", $("#menu"+sSelectOnload));
+			}
+			
         })
 		.bind("rename_node.jstree", function(event, data){
 			console.log(1, event, data);
@@ -926,6 +937,11 @@ function loadSiteMap(){
 	$.exec_json("menu.getMenuAdminSiteMap", params, onSiteMapReceived);
 }
 
+function clearInputs($elm){
+	var $ = jQuery;
+	
+	$elm.find('input').val("");
+}
 jQuery(function($){
 	var _hide = $.fn.hide;
 	$.fn.hide = function(speed, easing, callback, htOpt) {
@@ -1086,16 +1102,18 @@ jQuery(function($){
 			var htItemTypes = htData.menu_types;
 
 			var item;
+			var sModuleTitle;
 			for(var sModuleName in htItemTypes){
 				//item = htData.menu_types[i];
 				if(htData.hasOwnProperty(item)) continue;
 				
 				item = htItemTypes[sModuleName];
+				sModuleTitle = item.title;
 				console.log(item);
 
 				sResult += $.tmpl( "menuTypeItem", {
 					ModuleName : sModuleName,
-					ModuleTitle : sModuleName
+					ModuleTitle : sModuleTitle
 				} ).get()[0].outerHTML;
 			}
 
@@ -1144,6 +1162,9 @@ jQuery(function($){
 		
 		$(this).find("._title").html($._xeAdminVar.sSelectedModuleTitle);
 	});
+	$('#add_page').bind("hide", function(){
+		clearInputs($('#add_page'));
+	});
 	$('#add_page ._save').bind("click", function(){
 		var sMenuName = $("#menuName1").val();
 		var sMID = $("#mid1").val();
@@ -1172,20 +1193,27 @@ jQuery(function($){
 		var response_tags = new Array('menu_item_srl');
 		params['ruleset'] = "insertMenuItem";
 		params['act'] = "procMenuAdminInsertItem";
-		params['menu_srl'] = 59;
 		params['menu_name_key'] = "";
-		//params['title'] = 'title'; -> 이 값 넣으면 사이트맵 생성됨
 		params['menu_name'] = sMenuName;
 		params['module_type'] = sSelectedModuleName;
 		params['mid'] = sMID;
 		params['menu_open_window'] = "N";
 		params['menu_expand'] = "N"
 		params['parent_srl'] = sSelectedMenuSrl;
-		/*
-			ruleset=insertMenuItem&act=procMenuAdminInsert&menu_srl=&menu_name_key=&menu_name=3333&module_type=OUTSIDE&mid=1111&menu_open_window=N&menu_expand=N&parent_srl=60&module=menu
-		*/
+
 		$.exec_json("menu.procMenuAdminInsertItem", params, function(htData){
 			console.log(htData);
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			// select the newly created menu
+			//$._xeAdminVar.sSelectOnload = htData.menu_item_srl;
+			
+			// select currently selected menu
+			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
+			loadSiteMap();
 		});
 		/*
 		Array
