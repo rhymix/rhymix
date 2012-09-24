@@ -365,6 +365,35 @@
 		{
 			$request = Context::getRequestVars();
 
+			if(!$request->parent_srl || !$request->menu_name)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			// set menu srl
+			$oMenuAdminModel = &getAdminModel('menu');
+			$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->parent_srl);
+			// parent_srl is parent menu item's srl
+			if($itemInfo->menu_srl)
+			{
+				$request->menu_srl = $itemInfo->menu_srl;
+			}
+			// in this case, parent_srl is menu srl
+			else
+			{
+				$output = $oMenuAdminModel->getMenu($request->parent_srl);
+				if($output->menu_srl == $request->parent_srl)
+				{
+					$request->menu_srl = $output->menu_srl;
+				}
+				unset($output);
+			}
+
+			if(!$request->menu_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
 			// set menu variable
 			$args->menu_srl = $request->menu_srl;
 			$args->parent_srl = $request->parent_srl;
@@ -393,7 +422,6 @@
 			$cmArgs->site_srl = (int)$site_module_info->site_srl;
 			$cmArgs->browser_title = $args->name;
 			$cmArgs->menu_srl = $request->menu_srl;
-			$cmArgs->mid = $request->mid;
 
 			switch ($request->module_type){
 				case 'WIDGET' :
@@ -406,6 +434,13 @@
 					$cmArgs->module = $request->module_type;
 					unset($cmArgs->page_type);
 			}
+
+			// if mid is empty, auto create mid
+			if(!$request->mid)
+			{
+				$request->mid = $cmArgs->module.'_'.date('YmdHis');
+			}
+			$cmArgs->mid = $request->mid;
 
 			$oModuleController = &getController('module');
 			$output = $oModuleController->insertModule($cmArgs);
@@ -431,8 +466,9 @@
 		public function procMenuAdminUpdateItem()
 		{
 			$request = Context::getRequestVars();
+			debugPrint($request);
 
-			if(!$request->menu_item_srl || !$request->module_srl)
+			if(!$request->menu_item_srl || !$request->module_srl || !$request->mid)
 			{
 				return new Object(-1, 'msg_invalid_request');
 			}
@@ -440,21 +476,25 @@
             // Get original information
 			$oMenuAdminModel = &getAdminModel('menu');
             $itemInfo = $oMenuAdminModel->getMenuItemInfo($request->menu_item_srl);
+			debugPrint($itemInfo);
+			exit;
 
-			// if menu type is module, check exists module
+			// if menu type is module, check exists module and update
 			if($itemInfo->is_shortcut != 'Y' && !preg_match('/^http/i',$itemInfo->url))
 			{
 				$oModuleModel = &getModel('module');
-				//$moduleInfo = $oModuleModel->getModuleInfoByModuleSrl($request->module_srl);
-				$moduleInfo = $oModuleModel->getModuleInfoByModuleSrl(1);
+				$moduleInfo = $oModuleModel->getModuleInfoByModuleSrl($request->module_srl);
 
 				//TODO if not exist module, return error
 				if(!$moduleInfo)
 				{
 					return new Object(-1, 'msg_invalid_request');
 				}
+
+				$moduleInfo->mid = $request->mid;
+				$oModuleController = &getController('module');
+				$oModuleController->updateModule($moduleInfo);
 			}
-			exit;
 
 			if($request->menu_name_key)
 			{
@@ -465,10 +505,8 @@
 				$args->name = $request->menu_name;
 			}
 
-
-			//TODO discuss for mid name update able
-
-			//$args->url = ;
+			$itemInfo->url = $request->mid;
+			$itemInfo->name = $request->mid;
 			//$output = executeQuery('menu.updateMenuItem', $args);
 		}
 
