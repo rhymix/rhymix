@@ -1385,12 +1385,13 @@ jQuery(function($){
 	tdTitle.each(function(){
 		var $t = $(this)
 		if($t.find('p.update').length==0){
-			$t.addClass('tg').find('>p:not(:first-child)').hide();
+			$t.addClass('tg').find('>*:not(:first-child)').hide();
 		} else {
 			$t.addClass('up');
 		}
 	});
-	var details = $('.x .dsTg td.tg>p:not(:first-child)');
+	$('.x .dsTg .thumb').hide();
+	var details = $('.x .dsTg td.tg>*:not(:first-child), .x .dsTg .thumb');
 	viewBtn.click(function(){
 		viewBtn.toggleClass('details');
 		details.slideToggle(200);
