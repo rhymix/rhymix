@@ -93,9 +93,9 @@ jQuery(function($){
 	function multilingual(){
 		$mlCheck.each(function(event){
 			var $this = $(this);
+			var $label = $this.parent('label'); // Checkbox label
 			var $input = $label.siblings('input[type="text"]:first');
 			var $select = $label.siblings('select:first');
-			var $label = $this.parent('label'); // Checkbox label
 			var $fieldset = $this.closest('.multilingual').siblings('.multilingual_item:first'); // Multilingual list
 			if($this.is(':checked')){
 				$input.hide();
