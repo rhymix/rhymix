@@ -105,4 +105,15 @@ jQuery(function($){
 	}
 	multilingual();
 	$('.multilingual').change(multilingual);
+// Check All
+	$('th>input[type="checkbox"]').change(function(){
+		var $this =$(this);
+		var $target = $this.closest('table').find('th>input[type="checkbox"], td>input[type="checkbox"]');
+		if($this.is(':checked')){
+			$target.attr('checked','checked');
+		} else {
+			$target.removeAttr('checked');
+		}
+		
+	});
 });
