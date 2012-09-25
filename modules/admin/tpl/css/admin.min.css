@@ -54,7 +54,7 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x input[type="search"]+.x_btn+.x_btn{line-height:20px;font-size:14px;padding:4px 14px}
 .x_modal,
 .x_modal-backdrop{display:none}
-.x_modal{width:90%;margin-left:-45%}
+.x.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none}
 /* Custom Styles */
 .x .section{margin:20px 0}
 .x .section>h1{position:relative}
