@@ -1,5 +1,5 @@
 <?php
-include "phphtmlparser/src/htmlparser.inc";
+include _XE_PATH_ . 'classes/security/phphtmlparser/src/htmlparser.inc';
 
 class EmbedFilter
 {
