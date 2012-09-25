@@ -745,6 +745,8 @@ class documentController extends document {
             $cache_key = 'object_document_item:'.$document_srl;
             $oCacheHandler->delete($cache_key);
         }
+
+		return TRUE;
 	}
 
 	/**
