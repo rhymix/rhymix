@@ -55,6 +55,8 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x_modal,
 .x_modal-backdrop{display:none}
 .x.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none}
+.x .x_control-group{padding-top:8px;margin-bottom:10px;border-top:1px dotted #ddd}
+.x .x_control-group:first-child{border-top:0;padding-top:0}
 /* Custom Styles */
 .x .section{margin:20px 0}
 .x .section>h1{position:relative}
