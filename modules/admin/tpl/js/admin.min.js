@@ -6,7 +6,7 @@ jQuery(function($){
 	$('.x .skipNav>a').click(function(){
 		$($(this).attr('href')).attr('tabindex','0').css('outline','0').focus();
 	});
-/*
+
 // TARGET toggle
 	$('.x [data-toggle]').click(function(){
 		$($(this).attr('data-toggle')).toggle();
@@ -22,7 +22,7 @@ jQuery(function($){
 		$($(this).attr('data-hide')).hide();
 		return false;
 	});
-*/
+
 // Tab Navigation
 	$('.x .x_tab-content>.x_tab-pane:not(".x_active")').hide();
 	$('.x .x_nav-tabs').find('>li>a[href^="#"]').click(function(){
@@ -145,15 +145,38 @@ jQuery(function($){
 		$(this).parent().hide();
 	});
 // Modal Window
-	/*var $modal = $('.x_modal');
+	var $modal = $('.x_modal');
 	if($modal.length >= 1){
-		$('body').append('<div class="x_modal-backdrop"></div>').append($modal);
+		$('body').append('<div class="x_modal-backdrop"></div>').append($modal); // append background
+		$modal.prepend('<button type="button" class="x_close">&times;</button>'); // prepend close button
 	}
-	$('.x a').click(function(){
+	// Set close button 'data-hide' attribute
+	$modal.children('.x_close').each(function(){
 		var $this = $(this);
-		var $bg = $('.x_modal-backdrop');
-		if($($this.attr('href')).hasClass('x_modal')){
-			$bg.show();
+		$this.attr('data-hide', '#' + $this.parent().attr('id'));
+	});
+	// Modal Open
+	var $modalBack = $('.x_modal-backdrop');
+	$('.x a').click(function(){
+		var $target = $($(this).attr('href'));
+		if($target.hasClass('x_modal')){
+			$modalBack.show();
+			$target.show();
 		}
-	});*/
+	});
+	// Modal Close 
+	function modalClose(){
+		$modal.hide();
+		$modalBack.hide();
+	}
+	$modalBack.click(modalClose); // $modalBack click
+	$(document).keydown(function(event){ // ESC keydown
+		if(event.keyCode != 27) return true;
+		return modalClose();
+	});
+	$('[data-hide]').click(function(){ // [data-hide] click
+		if($($(this).attr('data-hide')).hasClass('x_modal')){
+			modalClose();
+		}
+	});
 });
