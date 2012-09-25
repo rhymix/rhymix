@@ -28,7 +28,7 @@
 			</script>
 		</section>
 		<div class="x_btn-group">
-			<button type="button" class="x_btn x_btn-inverse _addSiteMap"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
+			<button type="button" class="x_btn x_btn-small x_btn-inverse _addSiteMap"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
 		</div>
 	</div>
 	<div class="col" id="propertiesRoot">
@@ -75,21 +75,21 @@
 				<li><a href="#add_menu" data-show="#add_menu">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
 			</ul>
 			<div class="x_btn-group">
-				<a href="#download" class="x_btn x_btn-inverse" data-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입 설치</a>
+				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입 설치</a>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-hide="#add">&times;</button>
 	</div>
 	<div class="col page" id="add_menu">
 		<fieldset>
-			<h1>URL 링크</h1>
+			<h1 class="_title">URL 링크</h1>
 			<ul>
 				<li>
 					<div class="multilingual x_input-append">
 						<label for="menuName2">메뉴이름</label>
-						<input id="menuName2" type="text" required style="width:179px">
+						<input id="menuName2" class="_menuName" type="text" required style="width:179px">
 						<select title="사용 가능한 다국어 목록" style="width:192px">
-							<option>[새로 입력]</option>
+							<option>[다국어 새로 입력]</option>
 							<option>...1</option>
 							<option>...2</option>
 						</select>
@@ -119,7 +119,7 @@
 						<button type="button" class="x_close" data-hide="#mid1_help">×</button>
 						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
 					</div>
-					<input id="mid1" type="text" required placeholder="생략시 임의값 사용" />
+					<input id="mid1" class="_mid" type="text" required placeholder="생략시 임의값 사용" />
 				</li>
 				<li class="typeUrl">
 					<div class="x_tabbable">
@@ -129,17 +129,17 @@
 						</ul>
 						<div class="x_tab-content">
 							<div class="x_tab-pane x_active" id="linkUrl">
-								<input type="text" required title="URL 링크" />
+								<input type="text" class="_linkUrl" required title="URL 링크" />
 							</div>
 							<div class="x_tab-pane" id="linkMenu">
-								<input type="text" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+								<input type="text" class="_linkMenu" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
 							</div>
 						</div>
 					</div>
 				</li>
 			</ul>
 			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-primary">확인</button>
+				<button type="button" class="x_btn x_btn-small x_btn-primary _save">확인</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#add_menu">&times;</button>
@@ -179,9 +179,9 @@
 				<li>
 					<div class="multilingual x_input-append">
 						<label for="menuName">메뉴이름</label>
-						<input id="menuName" type="text" required style="width:179px">
+						<input id="menuName" class="_menuName" type="text" required style="width:179px">
 						<select title="사용 가능한 다국어 목록" style="width:192px">
-							<option>[새로 입력]</option>
+							<option>[다국어 새로 입력]</option>
 							<option>...1</option>
 							<option>...2</option>
 						</select>
@@ -211,7 +211,7 @@
 						<button type="button" class="x_close" data-hide="#mid2_help">×</button>
 						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
 					</div>
-					<input type="text" id="mid2">
+					<input type="text" id="mid2" class="_mid">
 				</li>
 				<li>
 					<label><input type="checkbox" class="_newWindow" title="메뉴 클릭시 새 창으로 열기"> 메뉴 클릭시 새 창으로 열기</label>
@@ -221,8 +221,8 @@
 				</li>
 			</ul>
 			<div class="btnBoth">
-				<button type="reset" class="x_btn x_pull-left" data-hide="#default">취소</button>
-				<button type="button" class="x_btn x_btn-primary x_pull-right">확인</button>
+				<button type="reset" class="x_btn x_btn-small x_pull-left" data-hide="#default">취소</button>
+				<button type="button" class="x_btn x_btn-small x_btn-primary x_pull-right _save">확인</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#default">&times;</button>
@@ -236,8 +236,8 @@
 					<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
 				</figure>
 				<div class="btnBoth">
-					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">변경</button>
+					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
+					<button type="button" class="fileTrigger x_btn x_btn-small x_btn-primary x_pull-right">변경</button>
 					<input type="file">
 				</div>
 			</form>
@@ -248,8 +248,8 @@
 					<!--<img src="" alt="마우스 오버 버튼 이미지">-->
 				</figure>
 				<div class="btnBoth">
-					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">이미지 올리기</button>
+					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
+					<button type="button" class="fileTrigger x_btn x_btn-small x_btn-primary x_pull-right">이미지 올리기</button>
 					<input type="file">
 				</div>
 			</form>
@@ -260,8 +260,8 @@
 					<!--<img src="" alt="선택 됨 버튼 이미지">-->
 				</figure>
 				<div class="btnBoth">
-					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">이미지 올리기</button>
+					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
+					<button type="button" class="fileTrigger x_btn x_btn-small x_btn-primary x_pull-right">이미지 올리기</button>
 					<input type="file">
 				</div>
 			</form>
@@ -292,8 +292,8 @@
 				<li><a href="#skin" data-show="#skin">{게시판} <i class="x_icon-circle-arrow-right"></i></a></li>
 			</ul>
 			<div class="btnBoth">
-				<button type="reset" class="x_btn x_pull-left">취소</button>
-				<button type="button" class="x_btn x_btn-primary x_pull-right">저장</button>
+				<button type="reset" class="x_btn x_btn-small x_pull-left">취소</button>
+				<button type="button" class="x_btn x_btn-small x_btn-primary x_pull-right">저장</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#design">&times;</button>
@@ -334,7 +334,7 @@
 					</li>
 				</ul>
 				<div class="x_btn-group">
-					<a href="#downloadLayout" data-show="#downloadLayout" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 레이아웃 설치</a>
+					<a href="#downloadLayout" data-show="#downloadLayout" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 레이아웃 설치</a>
 				</div>
 			</div>
 		</form>
@@ -400,7 +400,7 @@
 					</li>
 				</ul>
 				<div class="x_btn-group">
-					<a href="#downloadSkin" data-show="#downloadSkin" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
+					<a href="#downloadSkin" data-show="#downloadSkin" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
 				</div>
 			</div>
 		</form>
@@ -492,7 +492,7 @@
 				</li>
 			</ul>
 			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-primary">확인</button>
+				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-hide="#auth">&times;</button>
@@ -1084,7 +1084,7 @@ jQuery(function($){
 				} ).get()[0].outerHTML;
 			}
 
-			sResult += '<li><a href="#add_menu" data-show="#add_menu">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
+			sResult += '<li><a href="#add_menu" data-show="#add_menu"  data-param=\'{ "moduleName":"", "moduleTitle":"URL 링크" }\'>URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
 			$('#add ._itemList').html(sResult);
 			scrollToRight();
 		});
@@ -1123,39 +1123,44 @@ jQuery(function($){
 	$('#download').bind("hide", function(){
 	});
 	
-	$('#add_page').bind("show", function(){
+	$('#add_menu').bind("show", function(){
 		$._xeAdminVar.sSelectedModuleName = $._htMarkupActionParam.moduleName;
 		$._xeAdminVar.sSelectedModuleTitle = $._htMarkupActionParam.moduleTitle;
 		
 		$(this).find("._title").html($._xeAdminVar.sSelectedModuleTitle);
+		
+		if($._xeAdminVar.sSelectedModuleName == ""){
+			$(this).removeClass("page");
+			$(this).addClass("url");
+		}else{
+			$(this).addClass("page");
+			$(this).removeClass("url");
+		}
 	});
-	$('#add_page').bind("hide", function(){
-		clearInputs($('#add_page'));
+	$('#add_menu').bind("hide", function(){
+		clearInputs($('#add_menu'));
 	});
-	$('#add_page ._save').bind("click", function(){
-		var sMenuName = $("#menuName1").val();
-		var sMID = $("#mid1").val();
+	$('#add_menu ._save').bind("click", function(){
+		var sMenuName = $('#add_menu ._menuName').val();
+		var sUrl = $('#add_menu ._mid').val();
 		
 		var sSelectedModuleName = $._xeAdminVar.sSelectedModuleName;
 		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 
-		console.log($._xeAdminVar, sSelectedModuleName, sSelectedMenuSrl, sMenuName, sMID);
-		/*
-		var params = new Array();
-		var response_tags = new Array('menu_item_srl');
-		params['ruleset'] = "insertMenuItem";
-		params['act'] = "procMenuAdminInsertItem";
-		params['menu_srl'] = "sitemap 번호";
-		params['menu_name_key'] = "메뉴의 이름에 다국어가 쓰였을 경우 해당 변수 명 (ex: $user_lang->userLang20120919153529020)";
-		params['menu_name'] = "사용자에게 보여줘야 할 메뉴명";
-		params['module_type'] = "모듈의 타입"; //page module일 경우 WIDGET, ARTICLE, OUTSIDE의 값을 가질 수 있으며 기타 다른 모듈은 모듈명을 사용한다.
-		params['mid'] = "모듈을 생성할 경우 모듈 mid";
-		params['menu_open_window'] = "링크를 새창으로 열 것인지의 여부('Y', 'N')";
-		params['menu_expand'] = "처음 로딩 시 메뉴가 열려 있도록 할 것인지의 여부 (Y', 'N')"
-		params['parent_srl'] = "특정 메뉴 아이템(node) 아래에 속하게 만들고 싶을 경우 해당 아이템(node)의 menu_item_srl 값. 최상위 메뉴로 만들고 싶을 경우 0을 사용하면 됨.";
+		console.log($._xeAdminVar, sSelectedModuleName, sSelectedMenuSrl, sMenuName, sUrl);
 
-		exec_xml("menu","procMenuAdminInsert", params, completeTmp, response_tags)
-		*/
+		var isShortCut = "N";
+		// URL?
+		if($._xeAdminVar.sSelectedModuleName == ""){
+			isShortCut = "Y";
+			
+			sUrl = $('#add_menu ._linkUrl').val();
+			if(!sUrl){
+				alert("target is required");
+				return;
+			}
+		}
+		
 		var params = {};
 		var response_tags = new Array('menu_item_srl');
 		params['ruleset'] = "insertMenuItem";
@@ -1163,11 +1168,20 @@ jQuery(function($){
 		params['menu_name_key'] = "";
 		params['menu_name'] = sMenuName;
 		params['module_type'] = sSelectedModuleName;
-		params['mid'] = sMID;
+		params['url'] = sUrl;
 		params['menu_open_window'] = "N";
-		params['menu_expand'] = "N"
+		params['menu_expand'] = "N";
+		params['is_shortcut'] = "N";
 		params['parent_srl'] = sSelectedMenuSrl;
 
+		/*
+		Array
+		(
+			[error] => "0"
+			[message] => "등록했습니다."
+			[menu_item_srl] => "2"
+		)
+		*/
 		$.exec_json("menu.procMenuAdminInsertItem", params, function(htData){
 			console.log(htData);
 			if(htData.error !== 0){
@@ -1182,14 +1196,6 @@ jQuery(function($){
 			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
 			loadSiteMap();
 		});
-		/*
-		Array
-		(
-			[error] => "0"
-			[message] => "등록했습니다."
-			[menu_item_srl] => "2"
-		)
-		*/
 	});
 	
 	$('#default').bind("show", function(){
@@ -1213,6 +1219,73 @@ jQuery(function($){
 		}
 	});
 	$('#default').bind("hide", function(){
+	});
+	$('#default ._save').click(function(){
+		var sMenuName = $('#default ._menuName').val();
+		var sMID = $('#default ._mid').val();
+
+		var sNewWindow = $('#default ._newWindow').attr("checked")?"Y":"N";
+		var sLeaveUnfolded = $('#default ._leaveUnfolded').attr("checked")?"Y":"N";
+		
+		var sSelectedModuleName = $._xeAdminVar.sSelectedModuleName;
+		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+
+		//console.log(sMenuName, sMID, sNewWindow, sLeaveUnfolded);
+		//return;
+		
+		console.log($._xeAdminVar, sSelectedModuleName, sSelectedMenuSrl, sMenuName, sMID, sNewWindow, sLeaveUnfolded);
+/*
+		var isShortCut = "N";
+		// URL?
+		if($._xeAdminVar.sSelectedModuleName == ""){
+			isShortCut = "Y";
+			if(!sMID){
+				alert("target is required");
+				return;
+			}
+		}
+*/
+		/*
+			var params = new Array();
+			var response_tags = new Array('menu_item_srl');
+			params['menu_item_srl'] = '918';
+			params['module_srl'] = '917';
+			params['menu_name'] = '테스트 제목';
+			params['url'] = 'boardboard';
+			params['menu_open_window'] = 'N';
+			params['menu_expand'] = 'N';
+
+			exec_xml("menu","procMenuAdminUpdateItem", params, completeTmp);
+		*/
+		var params = {};
+		params['menu_item_srl'] = sSelectedMenuSrl;
+		params['menu_name'] = sMenuName;
+		params['url'] = sMID;
+		params['menu_open_window'] = sNewWindow;
+		params['menu_expand'] = sLeaveUnfolded;
+
+		/*
+		Array
+		(
+			[error] => "0"
+			[message] => "등록했습니다."
+			[menu_item_srl] => "2"
+		)
+		*/
+		$.exec_json("menu.procMenuAdminUpdateItem", params, function(htData){
+			console.log(htData);
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			// select the newly created menu
+			//$._xeAdminVar.sSelectOnload = htData.menu_item_srl;
+			
+			// select currently selected menu
+			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
+			loadSiteMap();
+		});
 	});
 //	$('#add_url').bind("show", function(){console.log('show');});
 //	$('#add_url').bind("hide", function(){console.log('hide');});
