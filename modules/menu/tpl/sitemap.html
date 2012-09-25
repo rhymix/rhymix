@@ -80,7 +80,7 @@
 		</section>
 		<button type="button" class="x_close" data-hide="#add">&times;</button>
 	</div>
-	<div class="col page" id="add_menu">
+	<div class="col url" id="add_menu">
 		<fieldset>
 			<h1 class="_title">URL 링크</h1>
 			<ul>
@@ -124,14 +124,14 @@
 				<li class="typeUrl">
 					<div class="x_tabbable">
 						<ul class="x_nav x_nav-tabs">
-							<li class="x_active"><a href="#linkUrl">URL 링크</a></li>
-							<li><a href="#linkMenu">메뉴 링크</a></li>
+							<li class="x_active"><a href="#add_linkUrl">URL 링크</a></li>
+							<li><a href="#add_linkMenu">메뉴 링크</a></li>
 						</ul>
 						<div class="x_tab-content">
-							<div class="x_tab-pane x_active" id="linkUrl">
+							<div class="x_tab-pane x_active" id="add_linkUrl">
 								<input type="text" class="_linkUrl" required title="URL 링크" />
 							</div>
-							<div class="x_tab-pane" id="linkMenu">
+							<div class="x_tab-pane" id="add_linkMenu">
 								<input type="text" class="_linkMenu" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
 							</div>
 						</div>
@@ -172,7 +172,7 @@
 		</section>
 		<button type="button" class="x_close" data-hide="#download">&times;</button>
 	</div>
-	<div class="col" id="default">
+	<div class="col url" id="default">
 		<fieldset>
 			<h1>기본 설정</h1>
 			<ul>
@@ -205,7 +205,7 @@
 						</p>
 					</fieldset>
 				</li>
-				<li style="padding-top:8px;margin-top:8px;border-top:1px solid #ddd">
+				<li class="typePage">
 					<label for="mid2">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-toggle="#mid2_help">?</a></label>
 					<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
 						<button type="button" class="x_close" data-hide="#mid2_help">×</button>
@@ -213,7 +213,23 @@
 					</div>
 					<input type="text" id="mid2" class="_mid">
 				</li>
-				<li>
+				<li class="typeUrl">
+					<div class="x_tabbable">
+						<ul class="x_nav x_nav-tabs">
+							<li class="x_active"><a href="#fix_linkUrl">URL 링크</a></li>
+							<li><a href="#fix_linkMenu">메뉴 링크</a></li>
+						</ul>
+						<div class="x_tab-content">
+							<div class="x_tab-pane x_active" id="fix_linkUrl">
+								<input type="text" required title="URL 링크" />
+							</div>
+							<div class="x_tab-pane" id="fix_linkMenu">
+								<input type="text" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+							</div>
+						</div>
+					</div>
+				</li>
+				<li style="padding-top:12px;margin-top:5px;border-top:1px solid #ddd">
 					<label><input type="checkbox" class="_newWindow" title="메뉴 클릭시 새 창으로 열기"> 메뉴 클릭시 새 창으로 열기</label>
 				</li>
 				<li>
@@ -564,6 +580,17 @@
 .col .nav li>a:focus>i,
 .col .nav li.active>a>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);background-repeat:no-repeat;opacity:1;filter:alpha(opacity=100)}
 .col input[type="file"]{width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;opacity:0;filter:alpha(opacity=0)}
+/* Menu Type */
+.col .typePage{display:none;border-top:1px solid #ddd;padding-top:8px;margin-top:8px}
+.col .typeUrl{display:none;border-top:1px solid #ddd;margin-top:8px}
+.col.page .typePage,
+.col.url .typeUrl{display:block}
+/* Menu Clone */
+.col .clone{margin:0 0 15px 0}
+.col .clone ul{margin:0 !important}
+.col .clone li{list-style:none}
+.col .clone ul ul{padding-left:15px}
+.col .clone .root{margin-top:15px}
 /* Download */
 .download.col{max-width:600px}
 .download .list{padding:1px 0;border-bottom:1px solid #ccc}
@@ -628,14 +655,6 @@
 #add>*>.x_btn-group{border:0;padding:0}
 /* Add Menu */
 #add_menu ul{margin:15px 0}
-#add_menu .typePage{display:none;border-top:1px solid #ddd;padding-top:8px;margin-top:8px}
-#add_menu .typeUrl{display:none;border-top:1px solid #ddd;margin-top:8px}
-#add_menu.page .typePage,
-#add_menu.url .typeUrl{display:block}
-#add_menu .clone ul{margin:0}
-#add_menu .clone li{list-style:none}
-#add_menu .clone ul ul{padding-left:15px}
-#add_menu .clone .root{margin-top:15px}
 /* Auth */
 #auth ul{margin:15px 0}
 #auth li{border-top:1px solid #ddd;margin:0 0 15px 0;padding:15px 0 0 0}
@@ -878,7 +897,7 @@ function createTreeMarkup(aNode){
 			sText = sText + " ${h}";
 		}
 
-		sResult += $.tmpl( "menuTreeNode", {MenuTitle:sText,MenuId:sNodeSrl,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='x_icon-home' title='Home Page'>HOME</i>");
+		sResult += $.tmpl( "menuTreeNode", {MenuTitle:sText,MenuId:sNodeSrl,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>");
 	}
 	
 	return $.tmpl( "menuTree", {Nodes:sResult} ).get()[0].outerHTML;
@@ -1297,9 +1316,9 @@ jQuery(function($){
 	}).resize();
 // #linkMenu copy and set text to input
 setTimeout(function(){
-	$('.mapi').clone().removeClass().removeAttr('id').addClass('clone').appendTo('#linkMenu').find('li').removeAttr('id').removeAttr('class').find('ins, .side').remove();
+	$('.mapi').clone().removeClass().removeAttr('id').addClass('clone').appendTo('#add_linkMenu, #fix_linkMenu').find('li').removeAttr('id').removeAttr('class').find('ins, .side').remove();
 	$('.clone a').click(function(){
-		$('#linkMenu>input').val($(this).text());
+		$(this).closest('.clone').prev('input[type="text"]').val($(this).text());
 	});
 }, 1000);
 /*

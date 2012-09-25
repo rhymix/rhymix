@@ -12,7 +12,8 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x button[disabled]{color:#ccc !important}
 .x a[target="_blank"]:after{ content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:0 0 0 2px;background-position:-120px -72px;opacity:.3;filter:alpha(opacity=30)}
 /* Bootstrap Override */
-.x .x_page-header{padding-bottom:0}
+.x .x_page-header{padding-bottom:0;border-bottom:2px solid #ddd}
+.x .x_page-header>h1{margin-bottom:0}
 .x h1,.x h2,.x h3,.x h4,.x h5,.x h6{line-height:1.5;font-weight:600;color:#666}
 .x h1{font-size:26px}
 .x h2{font-size:22px}
@@ -20,17 +21,19 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x h4{font-size:14px}
 .x h5{font-size:12px}
 .x h6{font-size:12px}
+.x section>h1{border-bottom:1px solid #ddd}
 .x .x_btn-link{padding:0;margin:0;overflow:visible}
 .x [class^="x_icon-"],
 .x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
 .x .x_close{width:24px;height:24px}
 .x .x_alert .x_close{top:-3px;right:-30px}
 .x .x_pagination ul>.x_active>a, 
-.x .x_pagination ul>.x_active>span{ background-color:#767676;color:#fff;font-weight:bold;font-size:18px;font-family:Arial, Helvetica, sans-serif}
+.x .x_pagination ul>.x_active>span,
+.x .x_pagination ul>.x_active>strong{line-height:40px;border:0;background-color:#555;color:#fff;font-weight:bold;font-size:18px;font-family:Arial, Helvetica, sans-serif}
 .x .x_btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px}
 .x .x_btn-large{font-size:16px;padding:9px 14px;font-weight:bold}
 .x .x_btn-small{font-size:14px}
-.x .x_btn-mini{font-size:12px}
+.x .x_btn-mini{font-size:11px;padding:1px 6px;line-height:17px}
 .x .x_btn-group{zoom:1}
 .x .x_btn-group:after{content:"";display:block;clear:both}
 .x .x_btn-group>.x_btn{border-radius:0}
@@ -41,9 +44,21 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x input[type="checkbox"]{margin:0}
 .x a.x_icon-question-sign,
 .x button.x_icon-question-sign{cursor:help}
-.x .x_nav-tabs>li>a{padding-top:4px;padding-bottom:4px}
-.x .x_table{border-top:2px solid #ddd;border-bottom:1px solid #ddd}
+.x .x_nav-tabs>li>a{padding-top:6px;padding-bottom:6px}
+.x .x_table{margin:20px 0;border-top:2px solid #ddd;border-bottom:1px solid #ddd}
 .x .x_table>caption{text-align:left;padding:8px 0}
+.x .x_inline{display:inline-block;*display:inline;*zoom:1}
+.x label.x_inline{margin-right:16px}
+.x input[type="search"]+.x_btn,
+.x input[type="search"]+.x_btn+.x_btn{line-height:20px;font-size:14px;padding:4px 14px}
+/* Custom Styles */
+.x .section{margin:20px 0}
+.x .section>h1{position:relative}
+.x .section>h1>.snToggle{position:absolute;bottom:0;right:0;width:32px;height:32px;opacity:.5;filter:alpha(opacity=50)}
+.x .section>h1>.snToggle.x_icon-chevron-up{background-position:-279px -112px}
+.x .section>h1>.snToggle.x_icon-chevron-down{background-position:-303px -111px}
+.x .center{text-align:center}
+.x .search{margin:20px 0}
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a:before,
@@ -222,7 +237,7 @@ to{-o-transform:rotate(360deg)}
 }
 .x .multilingual>select{display:none}
 .x .multilingual>label.x_add-on>input[type="checkbox"]{opacity:0;filter:alpha(opacity=0);position:relative;z-index:2}
-.x .multilingual>label.x_add-on{font-size:0;position:relative}
+.x .multilingual>label.x_add-on{font-size:0;position:relative;cursor:pointer}
 .x .multilingual>label.x_add-on>i{position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px;z-index:1;opacity:.25;filter:alpha(opacity=25)}
 .x .multilingual>label.x_add-on.checked>i{opacity:1;filter:alpha(opacity=100)}
 .x .multilingual_item>.en{background:url(../img/flag.en.gif) no-repeat right center}

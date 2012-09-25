@@ -89,7 +89,7 @@ jQuery(function($){
 		contentBugFix();
 	});
 // Multilingual
-	var $mlCheck = $('.multilingual>label>input[type="checkbox"]');
+	var $mlCheck = $('.x .multilingual>label>input[type="checkbox"]');
 	function multilingual(){
 		$mlCheck.each(function(event){
 			var $this = $(this);
@@ -113,7 +113,7 @@ jQuery(function($){
 	multilingual();
 	$mlCheck.change(multilingual);
 // Check All
-	$('th>input[type="checkbox"]').change(function(){
+	$('.x th>input[type="checkbox"]').change(function(){
 		var $this =$(this);
 		var $target = $this.closest('table').find('th>input[type="checkbox"], td>input[type="checkbox"]');
 		if($this.is(':checked')){
@@ -122,5 +122,22 @@ jQuery(function($){
 			$target.removeAttr('checked');
 		}
 		
+	});
+// Pagination
+	$('.x .x_pagination .x_disabled, .x .x_pagination .x_active').click(function(){
+		return false;
+	});
+// Section Toggle
+	$('.x .section>h1').append('<button type="button" class="snToggle x_icon-chevron-up">Toggle this section</button>');
+	$('.x .section>h1>.snToggle').click(function(){
+		var $this = $(this);
+		var $section = $this.closest('.section');
+		if(!$section.hasClass('collapse')){
+			$section.addClass('collapse').children('h1:first').siblings().hide();
+			$this.removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
+		} else {
+			$section.removeClass('collapse').children('h1:first').siblings().show();
+			$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
+		}
 	});
 });
