@@ -105,7 +105,7 @@
 							<option>...1</option>
 							<option>...2</option>
 						</select>
-						<label class="x_add-on"><input type="checkbox"> 다국어 사용 <i class="x_icon-globe"></i></label>
+						<label class="x_muted x_add-on"><input type="checkbox"> 다국어 사용 <i class="x_icon-globe"></i></label>
 					</div>
 					<fieldset class="multilingual_item">
 						<input type="text" class="en" title="English"><br>
@@ -144,7 +144,8 @@
 								<input type="text" class="_linkUrl" required title="URL 링크" />
 							</div>
 							<div class="x_tab-pane" id="add_linkMenu">
-								<input type="text" class="_linkMenu" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+								<input type="text" class="_linkMenuTitle" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+								<input type="hidden" class="_linkMenuURL" required  />
 								<div class="_menuSelector_menuTreeContainer clone">
 								</div>
 							</div>
@@ -199,7 +200,7 @@
 							<option>...1</option>
 							<option>...2</option>
 						</select>
-						<label class="x_add-on"><input type="checkbox"> 다국어 사용 <i class="x_icon-globe"></i></label>
+						<label class="x_muted x_add-on"><input type="checkbox"> 다국어 사용 <i class="x_icon-globe"></i></label>
 					</div>
 					<fieldset class="multilingual_item">
 						<input type="text" class="en" title="English"><br>
@@ -1058,11 +1059,10 @@ jQuery(function($){
 	});
 
 	$(document.body).on("click", '.clone a', function(){
-		$(this).closest('.clone').prev('input[type="text"]').val($._htMarkupActionParam.sMenuTitle);
+		$(this).closest('.clone').prevAll('input._linkMenuTitle').val($._htMarkupActionParam.sMenuTitle);
 		//$(this).closest('.clone').prev('input[type="text"]').val($._htMarkupActionParam.sMenuTitle + " ["+$._htMarkupActionParam.sMenuUrl+"]");
-		$(this).closest('.clone').prev('input[type="hidden"]').val($._htMarkupActionParam.sMenuUrl);
+		$(this).closest('.clone').prev('input._linkMenuURL').val($._htMarkupActionParam.sMenuUrl);
 	});
-//		scrollToRight();
 
 	function scrollToRight(){
 		$('#site').scrollTo($('#site').width(), 0, {duration: 0 } );
@@ -1230,14 +1230,13 @@ jQuery(function($){
 					sUrl = "http://"+sUrl;
 				}
 			}else{
-				sUrl = $('#add_menu .x_active ._linkMenu').val();
+				sUrl = $('#add_menu .x_active ._linkMenuURL').val();
 				
 				if(!sUrl){
 					alert("Target mid is required");
 					return;
 				}
 			}
-			
 		}
 		
 		var params = {};
@@ -1250,7 +1249,7 @@ jQuery(function($){
 		params['url'] = sUrl;
 		params['menu_open_window'] = "N";
 		params['menu_expand'] = "N";
-		params['is_shortcut'] = "N";
+		params['is_shortcut'] = isShortCut;
 		params['parent_srl'] = sSelectedMenuSrl;
 
 		/*
