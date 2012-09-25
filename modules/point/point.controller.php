@@ -568,6 +568,17 @@
             $cache_filename = sprintf('%s%d.cache.txt', $cache_path, $member_srl);
             FileHandler::writeFile($cache_filename, $point);
 
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport())
+			{
+				$cache_key = 'object:'.$member_srl;
+				$GLOBALS['__member_info__'][$member_srl] = null;
+				$oCacheHandler->delete($cache_key);
+
+				$gcache_key = 'object_member_groups:'.$member_srl.'_0';
+				$oCacheHandler->delete($gcache_key);
+			}
+
             return $output;
         }
 
