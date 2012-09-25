@@ -1017,7 +1017,7 @@ jQuery(function($){
 
 	// Prepare parms
 	$(document.body).on("click", ".x [data-param]", function(ev){
-		$._htMarkupActionParam = $.parseJSON($(ev.srcElement).attr('data-param'));
+		$._htMarkupActionParam = $.parseJSON($(this).attr('data-param'));
 
 		return false;
 	});
@@ -1181,6 +1181,7 @@ jQuery(function($){
 	});
 	
 	$('#add_menu').bind("show", function(){
+console.log(333, $._htMarkupActionParam);
 		$._xeAdminVar.sSelectedModuleName = $._htMarkupActionParam.moduleName;
 		$._xeAdminVar.sSelectedModuleTitle = $._htMarkupActionParam.moduleTitle;
 		
