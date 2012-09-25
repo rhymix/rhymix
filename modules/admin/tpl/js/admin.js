@@ -113,16 +113,21 @@ jQuery(function($){
 	multilingual();
 	$mlCheck.change(multilingual);
 // Check All
-	$('.x th>input[type="checkbox"]').change(function(){
-		var $this =$(this);
-		var $target = $this.closest('table').find('th>input[type="checkbox"], td>input[type="checkbox"]');
-		if($this.is(':checked')){
-			$target.attr('checked','checked');
-		} else {
-			$target.removeAttr('checked');
-		}
-		
-	});
+	$('.x th>input[type="checkbox"]')
+		.change(function() {
+			var $this = $(this), name = $this.data('name');
+
+			$this.closest('table')
+				.find('input:checkbox')
+					.filter(function(){
+						var $this = $(this);
+						return !$this.prop('disabled') && (($this.attr('name') == name) || ($this.data('name') == name));
+					})
+						.prop('checked', $this.prop('checked'))
+					.end()
+				.end()
+				.trigger('update.checkbox', [name, this.checked]);
+		});
 // Pagination
 	$('.x .x_pagination .x_disabled, .x .x_pagination .x_active').click(function(){
 		return false;
@@ -140,43 +145,112 @@ jQuery(function($){
 			$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
 		}
 	});
-// Close Button
-	$('.x_close').click(function(){
-		$(this).parent().hide();
-	});
+});
+
 // Modal Window
-	var $modal = $('.x_modal');
-	if($modal.length >= 1){
-		$('body').append('<div class="x_modal-backdrop"></div>').append($modal); // append background
-		$modal.prepend('<button type="button" class="x_close">&times;</button>'); // prepend close button
-	}
-	// Set close button 'data-hide' attribute
-	$modal.children('.x_close').each(function(){
-		var $this = $(this);
-		$this.attr('data-hide', '#' + $this.parent().attr('id'));
-	});
-	// Modal Open
-	var $modalBack = $('.x_modal-backdrop');
-	$('.x a').click(function(){
-		var $target = $($(this).attr('href'));
-		if($target.hasClass('x_modal')){
-			$modalBack.show();
-			$target.show();
-		}
-	});
-	// Modal Close 
-	function modalClose(){
-		$modal.hide();
-		$modalBack.hide();
-	}
-	$modalBack.click(modalClose); // $modalBack click
-	$(document).keydown(function(event){ // ESC keydown
-		if(event.keyCode != 27) return true;
-		return modalClose();
-	});
-	$('[data-hide]').click(function(){ // [data-hide] click
-		if($($(this).attr('data-hide')).hasClass('x_modal')){
-			modalClose();
-		}
-	});
+jQuery(function($){
+
+var ESC = 27;
+
+$.fn.xeModalWindow = function(){
+	this
+		.not('.xe-modal-window')
+		.addClass('xe-modal-window')
+		.each(function(){
+			$( $(this).attr('href') ).addClass('x').hide();
+		})
+		.click(function(){
+			var $this = $(this), $modal, $btnClose, disabled;
+
+			// get and initialize modal window
+			$modal = $( $this.attr('href') );
+			if(!$modal.parent('body').length) {
+				$btnClose = $('<button type="button" class="x_close">&times;</button>');
+				$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
+				$modal.find('[data-hide]').click(function(){ $modal.data('anchor').trigger('close.mw') });
+				$('body').append('<div class="x_modal-backdrop"></div>').append($modal); // append background
+				$modal.prepend($btnClose); // prepend close button
+			}
+
+			// set the related anchor
+			$modal.data('anchor', $this);
+
+			if($modal.data('state') == 'showing') {
+				$this.trigger('close.mw');
+			} else {
+				$this.trigger('open.mw');
+			}
+
+			return false;
+		})
+		.bind('open.mw', function(){
+			var $this = $(this), before_event, $modal, duration;
+
+			// before event trigger
+			before_event = $.Event('before-open.mw');
+			$this.trigger(before_event);
+
+			// is event canceled?
+			if(before_event.isDefaultPrevented()) return false;
+
+			// get modal window
+			$modal = $( $this.attr('href') );
+
+			// get duration
+			duration = $this.data('duration') || 'fast';
+
+			// set state : showing
+			$modal.data('state', 'showing');
+
+			// workaroud for IE6
+			$('html,body').addClass('modalContainer');
+
+			// after event trigger
+			function after(){ $this.trigger('after-open.mw') };
+
+			$(document).bind('keydown.mw', function(event){
+				if(event.which == ESC) {
+					$this.trigger('close.mw');
+					return false;
+				}
+			});
+
+			$modal
+				.fadeIn(duration, after)
+				.find('button.x_close:first').focus();
+			$('.x_modal-backdrop').show();
+		})
+		.bind('close.mw', function(){
+			var $this = $(this), before_event, $modal, duration;
+
+			// before event trigger
+			before_event = $.Event('before-close.mw');
+			$this.trigger(before_event);
+
+			// is event canceled?
+			if(before_event.isDefaultPrevented()) return false;
+
+			// get modal window
+			$modal = $( $this.attr('href') );
+
+			// get duration
+			duration = $this.data('duration') || 'fast';
+
+			// set state : hiding
+			$modal.data('state', 'hiding');
+
+			// workaroud for IE6
+			$('html,body').removeClass('modalContainer');
+
+			// after event trigger
+			function after(){ $this.trigger('after-close.mw') };
+
+			$modal.fadeOut(duration, after);
+			$('.x_modal-backdrop').hide();
+			$this.focus();
+		});
+};
+$('a.modalAnchor').xeModalWindow();
+$('div.x_modal').addClass('x').hide();
+
 });
