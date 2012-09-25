@@ -6,7 +6,7 @@ jQuery(function($){
 	$('.x .skipNav>a').click(function(){
 		$($(this).attr('href')).attr('tabindex','0').css('outline','0').focus();
 	});
-	/*
+/*
 // TARGET toggle
 	$('.x [data-toggle]').click(function(){
 		$($(this).attr('data-toggle')).toggle();
@@ -22,10 +22,10 @@ jQuery(function($){
 		$($(this).attr('data-hide')).hide();
 		return false;
 	});
-	*/
+*/
 // Tab Navigation
 	$('.x .x_tab-content>.x_tab-pane:not(".x_active")').hide();
-	$('.x .x_nav-tabs').find('>li>a').click(function(){
+	$('.x .x_nav-tabs').find('>li>a[href^="#"]').click(function(){
 		var $this = $(this);
 		$this.parent('li').addClass('x_active').siblings().removeClass('x_active');
 		$this.closest('.x_nav-tabs').next('.x_tab-content').find($this.attr('href')).addClass('x_active').show().siblings().removeClass('x_active').hide();
@@ -140,4 +140,20 @@ jQuery(function($){
 			$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
 		}
 	});
+// Close Button
+	$('.x_close').click(function(){
+		$(this).parent().hide();
+	});
+// Modal Window
+	/*var $modal = $('.x_modal');
+	if($modal.length >= 1){
+		$('body').append('<div class="x_modal-backdrop"></div>').append($modal);
+	}
+	$('.x a').click(function(){
+		var $this = $(this);
+		var $bg = $('.x_modal-backdrop');
+		if($($this.attr('href')).hasClass('x_modal')){
+			$bg.show();
+		}
+	});*/
 });
