@@ -118,11 +118,11 @@
             }
 
             // redirect, if module_site_srl and site_srl are different
-            if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0) {
-                $site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
-                header("location:".getNotEncodedSiteUrl($site_info->domain,'mid',$site_module_info->mid));
-                return false;
-            }
+            //if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0) {
+            //    $site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
+            //    header("location:".getNotEncodedSiteUrl($site_info->domain,'mid',$site_module_info->mid));
+            //    return false;
+            //}
 
             // If module_info is not set still, and $module does not exist, find the default module
             if(!$module_info && !$this->module && !$this->mid) $module_info = $site_module_info;
