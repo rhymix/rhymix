@@ -257,3 +257,5 @@ to{-o-transform:rotate(360deg)}
 .x .multilingual_item>.tr{background:url(../img/flag.tr.gif) no-repeat right center}
 .x .multilingual_item>.vi{background:url(../img/flag.vi.gif) no-repeat right center}
 .x .multilingual_item>.mn{background:url(../img/flag.mn.gif) no-repeat right center}
+.x .multilingual_item>input[type="text"]{margin-bottom:-1px}
+.x .multilingual_item>.x_alert{margin-top:8px}
