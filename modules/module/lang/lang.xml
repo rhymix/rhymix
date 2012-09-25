@@ -638,6 +638,10 @@
 		<value xml:lang="tr"><![CDATA[Bu isim önceden zaten alınmış. Lütfen başka bir tane deneyiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Tên này đã được sử dụng. Hãy thử lại với tên khác.]]></value>
 	</item>
+	<item name="msg_module_not_exists">
+		<value xml:lang="ko"><![CDATA[해당 모듈이 존재하지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Module matching the name is not found.]]></value>
+	</item>
 	<item name="msg_category_is_null">
 		<value xml:lang="ko"><![CDATA[등록된 분류가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is no registered category.]]></value>

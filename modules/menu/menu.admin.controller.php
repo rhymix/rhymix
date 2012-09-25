@@ -176,191 +176,6 @@
             return new Object(0,'success_deleted');
         }
 
-		/**
-		 * Add an item to the menu
-		 * @return void
-		 */
-		/*public function procMenuAdminInsertItem($source_args = NULL)
-		{
-			$isProc = false;
-			// List variables to insert
-			if(!$source_args)
-			{
-				$isProc = true;
-				$source_args = Context::getRequestVars();
-			}
-
-			unset($source_args->module);
-			unset($source_args->act);
-			if($source_args->menu_open_window!="Y") $source_args->menu_open_window = "N";
-			if($source_args->menu_expand !="Y") $source_args->menu_expand = "N";
-
-			if($source_args->menu_grant_default == -1) $source_args->group_srls = -1;
-			if(!is_array($source_args->group_srls)) $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
-			else $source_args->group_srls = implode(',', $source_args->group_srls);
-
-			$source_args->parent_srl = (int)$source_args->parent_srl;
-
-			if($source_args->cType == 'CREATE') $source_args->menu_url = $source_args->create_menu_url;
-			else if($source_args->cType == 'SELECT') $source_args->menu_url = $source_args->select_menu_url;
-
-			// Check if already exists
-			$isInsert = false;
-			$oMenuModel = &getAdminModel('menu');
-			if($source_args->menu_item_srl)
-			{
-				$item_info = $oMenuModel->getMenuItemInfo($source_args->menu_item_srl);
-			}
-
-			if(!$source_args->menu_item_srl || $item_info->menu_item_srl != $source_args->menu_item_srl)
-			{
-				$source_args->menu_item_srl = getNextSequence();
-				$isInsert = true;
-			}
-
-			// upload button
-			$btnOutput = $this->_uploadButton($source_args);
-
-			// Re-order variables (Column's order is different between form and DB)
-			$args->menu_srl = $source_args->menu_srl;
-			$args->menu_item_srl = $source_args->menu_item_srl;
-			$args->parent_srl = $source_args->parent_srl;
-			$args->menu_srl = $source_args->menu_srl;
-			$args->menu_id = $source_args->menu_id;
-
-			if ($source_args->menu_name_key)
-				$args->name = $source_args->menu_name_key;
-			else
-				$args->name = $source_args->menu_name;
-
-			if(!strstr($args->name, '$user_lang->'))
-			{
-				$args->name = htmlspecialchars($args->name);
-			}
-
-			$args->url = trim($source_args->menu_url);
-			$args->open_window = $source_args->menu_open_window;
-			$args->expand = $source_args->menu_expand;
-			if($btnOutput['normal_btn']) $args->normal_btn = $btnOutput['normal_btn'];
-			if($btnOutput['hover_btn']) $args->hover_btn = $btnOutput['hover_btn'];
-			if($btnOutput['active_btn']) $args->active_btn = $btnOutput['active_btn'];
-			$args->group_srls = $source_args->group_srls;
-
-			if(!$isProc)
-			{
-				if($source_args->normal_btn)
-				{
-					$args->normal_btn = $this->_changeMenuItemSrlInButtonPath($source_args->normal_btn, $source_args->menu_srl, $source_args->menu_item_srl, 'normal');
-				}
-				if($source_args->hover_btn)
-				{
-					$args->hover_btn = $this->_changeMenuItemSrlInButtonPath($source_args->hover_btn, $source_args->menu_srl, $source_args->menu_item_srl, 'hover');
-				}
-				if($source_args->active_btn)
-				{
-					$args->active_btn = $this->_changeMenuItemSrlInButtonPath($source_args->active_btn, $source_args->menu_srl, $source_args->menu_item_srl, 'active');
-				}
-			}
-
-			// if cType is CREATE, create module
-			if($source_args->cType == 'CREATE' || $source_args->cType == 'SELECT')
-			{
-				$site_module_info = Context::get('site_module_info');
-				$cmArgs->site_srl = (int)$site_module_info->site_srl;
-				$cmArgs->browser_title = $args->name;
-				$cmArgs->menu_srl = $source_args->menu_srl;
-				if($source_args->layout_srl)
-				{
-					$cmArgs->layout_srl = $source_args->layout_srl;
-				}
-
-				switch ($source_args->module_type){
-					case 'WIDGET' :
-					case 'ARTICLE' :
-					case 'OUTSIDE' :
-						$cmArgs->module = 'page';
-						$cmArgs->page_type = $source_args->module_type;
-						break;
-					default:
-						$cmArgs->module = $source_args->module_type;
-						unset($cmArgs->page_type);
-				}
-
-				$oModuleController = &getController('module');
-				if($source_args->cType == 'CREATE')
-				{
-					$cmArgs->mid = $source_args->create_menu_url;
-					$output = $oModuleController->insertModule($cmArgs);
-				}
-				else
-				{
-					$oModuleModel = &getModel('module');
-					$module_info = $oModuleModel->getModuleInfoByModuleSrl($source_args->module_srl);
-					if($cmArgs->layout_srl)
-					{
-						$module_info->layout_srl = $cmArgs->layout_srl;
-					}
-					$cmArgs = $module_info;
-
-					$cmArgs->mid = $source_args->select_menu_url;
-					$cmArgs->module_srl = $source_args->module_srl;
-					$output = $oModuleController->updateModule($cmArgs);
-				}
-				if(!$output->toBool()) return new Object(-1, $output->message);
-			}
-
-			// button is deleted, db delete
-			if($source_args->isNormalDelete == 'Y') $args->normal_btn = '';
-			if($source_args->isHoverDelete == 'Y') $args->hover_btn = '';
-			if($source_args->isActiveDelete == 'Y') $args->active_btn = '';
-
-			$message = '';
-			// Update if exists
-			if(!$isInsert)
-			{
-				$output = executeQuery('menu.updateMenuItem', $args);
-				if(!$output->toBool()) return $output;
-				$message = 'success_updated';
-			}
-			// Insert if not exist
-			else
-			{
-				$args->listorder = -1*$args->menu_item_srl;
-				$output = executeQuery('menu.insertMenuItem', $args);
-				if(!$output->toBool()) return $output;
-				$message = 'success_registed';
-			}
-			// Get information of the menu
-			$menu_info = $oMenuModel->getMenu($args->menu_srl);
-			$menu_title = $menu_info->title;
-			// Update the xml file and get its location
-			$xml_file = $this->makeXmlFile($args->menu_srl);
-			// If a new menu item that mid is URL is added, the current layout is applied
-			if(preg_match('/^([a-zA-Z0-9\_\-]+)$/', $args->url)) {
-				$mid = $args->url;
-
-				$mid_args->menu_srl = $args->menu_srl;
-				$mid_args->mid = $mid;
-				// Get layout value of menu_srl
-				$output = executeQuery('menu.getMenuLayout', $args);
-				// Set if layout value is not specified in the module
-				$oModuleModel = &getModel('module');
-				$columnList = array('layout_srl');
-				$module_info = $oModuleModel->getModuleInfoByMid($mid, 0, $columnList);
-				if(!$module_info->layout_srl&&$output->data->layout_srl) $mid_args->layout_srl = $output->data->layout_srl;
-				// Change menu value of the mid to the menu
-				$oModuleController = &getController('module');
-				$oModuleController->updateModuleMenu($mid_args);
-			}
-
-			$this->add('xml_file', $xml_file);
-			$this->add('menu_srl', $args->menu_srl);
-			$this->add('menu_item_srl', $args->menu_item_srl);
-			$this->add('menu_title', $menu_title);
-			$this->add('parent_srl', $args->parent_srl);
-
-			$this->setMessage($message, 'info');
-        }*/
 
 		/**
 		 * Add an item to the menu, simple version
@@ -380,30 +195,117 @@
 				return new Object(-1, 'msg_invalid_request');
 			}
 
-			// set menu srl
-			$oMenuAdminModel = &getAdminModel('menu');
-			$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->parent_srl);
-			// parent_srl is parent menu item's srl
-			if($itemInfo->menu_srl)
-			{
-				$request->menu_srl = $itemInfo->menu_srl;
-			}
-			// in this case, parent_srl is menu srl
-			else
-			{
-				$output = $oMenuAdminModel->getMenu($request->parent_srl);
-				if($output->menu_srl == $request->parent_srl)
-				{
-					$request->menu_srl = $output->menu_srl;
-					$request->parent_srl = 0;
-				}
-				unset($output);
-			}
-
+			$this->_setMenuSrl($request->parent_srl, $request->menu_srl);
 			if(!$request->menu_srl)
 			{
 				return new Object(-1, 'msg_invalid_request');
 			}
+
+			if($request->is_shortcut == 'Y')
+			{
+				$result = $this->_insertShortcut($request);
+			}
+			else
+			{
+				$result = $this->_insertMenu($request, $isProc);
+			}
+
+			if($result->error < 0)
+			{
+				return new Object($result->error, $result->message);
+			}
+
+			if(!$isProc)
+			{
+				return $args->menu_item_srl;
+			}
+		}
+
+		private function _setMenuSrl(&$parent_srl, &$menu_srl)
+		{
+			// set menu srl
+			$oMenuAdminModel = &getAdminModel('menu');
+			$itemInfo = $oMenuAdminModel->getMenuItemInfo($parent_srl);
+			// parent_srl is parent menu item's srl
+			if($itemInfo->menu_srl)
+			{
+				$menu_srl = $itemInfo->menu_srl;
+			}
+			// in this case, parent_srl is menu srl
+			else
+			{
+				$output = $oMenuAdminModel->getMenu($parent_srl);
+				if($output->menu_srl == $parent_srl)
+				{
+					$menu_srl = $output->menu_srl;
+					$parent_srl = 0;
+				}
+			}
+		}
+
+		private function _insertShortcut(&$request)
+		{
+			$oDB = DB::getInstance();
+			$oDB->begin();
+
+			// type is url
+			if(preg_match('/^http/i', $request->shortcut_target))
+			{
+				// set menu variable
+				$args->menu_srl = $request->menu_srl;
+				$args->parent_srl = $request->parent_srl;
+				$args->open_window = $request->menu_open_window;
+				$args->expand = $request->menu_expand;
+				$args->expand = $request->menu_expand;
+				$args->is_shortcut = $request->is_shortcut;
+				$args->url = $request->shortcut_target;
+
+				if(!$args->open_window) $args->open_window = 'N';
+				if(!$args->expand) $args->expand = 'N';
+				if(!$args->is_shortcut) $args->is_shortcut = 'N';
+
+				if($request->menu_name_key) $args->name = $request->menu_name_key;
+				else $args->name = $request->menu_name;
+			}
+			// type is module short cut
+			else if(is_numeric($request->shortcut_target))
+			{
+				// Get original information
+				$oMenuAdminModel = &getAdminModel('menu');
+				$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->shortcut_target);
+				if(!$itemInfo->menu_item_srl)
+				{
+					return new Object(-1, 'msg_invalid_request');
+				}
+
+				$args = $itemInfo;
+				if(count($args->group_srls) == 0)
+				{
+					unset($args->group_srls);
+				}
+				$args->name = $request->menu_name;
+			}
+			else
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$args->menu_item_srl = getNextSequence();
+			$args->listorder = -1*$args->menu_item_srl;
+			$output = executeQuery('menu.insertMenuItem', $args);
+			if(!$output->toBool()) return $output;
+
+			$oDB->commit();
+			$this->makeXmlFile($args->menu_srl);
+
+			$this->add('menu_item_srl', $args->menu_item_srl);
+			$this->setMessage('success_registed', 'info');
+		}
+
+		private function _insertMenu(&$request, $isProc)
+		{
+			$oDB = DB::getInstance();
+			$oDB->begin();
 
 			// set menu variable
 			$args->menu_srl = $request->menu_srl;
@@ -420,10 +322,54 @@
 			if($request->menu_name_key) $args->name = $request->menu_name_key;
 			else $args->name = $request->menu_name;
 
-			$oDB = DB::getInstance();
-			$oDB->begin();
+			if($request->module_id && preg_match('/^http/i', $request->module_id))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
 
-			switch ($request->module_type){
+			// when menu copy, module already copied
+			if($isProc)
+			{
+				$result = $this->_insertModule($request, $args);
+				if($result->error < 0)
+				{
+					return new Object($result->error, $result->message);
+				}
+			}
+
+			// if setting button variables, set argument button variables for db insert. but not upload in this method
+			if($request->normal_btn) $args->normal_btn = $request->normal_btn;
+			if($request->hover_btn) $args->hover_btn = $request->hover_btn;
+			if($request->active_btn) $args->active_btn = $request->active_btn;
+
+			if(!$request->module_id)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$args->url = $request->module_id;
+			$args->menu_item_srl = getNextSequence();
+			$args->listorder = -1*$args->menu_item_srl;
+			$output = executeQuery('menu.insertMenuItem', $args);
+			if(!$output->toBool()) return $output;
+
+			$oDB->commit();
+			$this->makeXmlFile($args->menu_srl);
+
+			$this->add('menu_item_srl', $args->menu_item_srl);
+			$this->setMessage('success_registed', 'info');
+		}
+
+		/**
+		 * insert module by men create value
+		 * @request value of client request
+		 * @args value for menu create
+		 * @return bool result of create module
+		 */
+		private function _insertModule(&$request, &$args)
+		{
+			switch ($request->module_type)
+			{
 				case 'WIDGET' :
 				case 'ARTICLE' :
 				case 'OUTSIDE' :
@@ -435,60 +381,43 @@
 					unset($cmArgs->page_type);
 			}
 
-			if($isProc && !preg_match('/^http/i',$request->url))
+			//module create
+			$site_module_info = Context::get('site_module_info');
+			$cmArgs->site_srl = (int)$site_module_info->site_srl;
+			$cmArgs->browser_title = $args->name;
+			$cmArgs->menu_srl = $request->menu_srl;
+
+			// if mid is empty, auto create mid
+			if(!$request->module_id)
 			{
-				//module create
-				$site_module_info = Context::get('site_module_info');
-				$cmArgs->site_srl = (int)$site_module_info->site_srl;
-				$cmArgs->browser_title = $args->name;
-				$cmArgs->menu_srl = $request->menu_srl;
+				$request->module_id = $cmArgs->module.'_'.date('YmdHis');
+			}
+			$cmArgs->mid = $request->module_id;
 
-				// if mid is empty, auto create mid
-				if(!$request->url)
-				{
-					$request->url = $cmArgs->module.'_'.date('YmdHis');
-					$cmArgs->mid = $request->url;
-				}
-
-				// check already created module instance
-				$oModuleModel = &getModel('module');
-				$output = $oModuleModel->getModuleInfoByMid($request->url);
-				if($output->module_srl)
-				{
-					return new Object(-1, 'msg_module_name_exists');
-				}
-
-				$oModuleController = &getController('module');
-				$oModuleController->insertModule($cmArgs);
+			// check already created module instance
+			$oModuleModel = &getModel('module');
+			$output = $oModuleModel->getModuleInfoByMid($request->module_id);
+			if($output->module_srl)
+			{
+				return new Object(-1, 'msg_module_name_exists');
 			}
 
-			// if setting button variables, set argument button variables for db insert. but not upload in this method
-			if($request->normal_btn) $args->normal_btn = $request->normal_btn;
-			if($request->hover_btn) $args->hover_btn = $request->hover_btn;
-			if($request->active_btn) $args->active_btn = $request->active_btn;
+			$oModuleController = &getController('module');
+			$output = $oModuleController->insertModule($cmArgs);
 
-			if(!$request->url)
+			return $output->toBool();
+		}
+
+		public function procMenuAdminInsertItem_old($request = NULL)
+		{
+			// check shortcut
+			if($args->is_shortcut == 'Y')
 			{
-				return new Object(-1, 'msg_invalid_request');
+			}
+			else
+			{
 			}
 
-			// menu insert
-			$args->url = $request->url;
-			$args->menu_item_srl = getNextSequence();
-			$args->listorder = -1*$args->menu_item_srl;
-			$output = executeQuery('menu.insertMenuItem', $args);
-			if(!$output->toBool()) return $output;
-
-			$oDB->commit();
-			$this->makeXmlFile($args->menu_srl);
-
-			$this->add('menu_item_srl', $args->menu_item_srl);
-			$this->setMessage('success_registed', 'info');
-
-			if(!$isProc)
-			{
-				return $args->menu_item_srl;
-			}
 		}
 
 		/**
@@ -774,25 +703,26 @@
 			$args->menu_name_key = $originMenu['text'];
 			$args->menu_name = $originMenu['text'];
 			$args->menu_open_window = $originMenu['open_window'];
-			$args->expand = $originMenu['expand'];
+			$args->menu_expand = $originMenu['expand'];
 			$args->normal_btn = $menuItemInfo->normal_btn;
 			$args->hover_btn = $menuItemInfo->hover_btn;
 			$args->active_btn = $menuItemInfo->active_btn;
+			$args->is_shortcut = $menuItemInfo->is_shortcut;
 
-			// if menu have a reference of module instance
 			$isModuleCopySuccess = false;
-			if(!preg_match('/^http/i', $originMenu['url']))
+			// if menu have a reference of module instance
+			if($menuItemInfo->is_shortcut == 'N' && !preg_match('/^http/i', $originMenu['url']))
 			{
 				$oModuleModel = &getModel('module');
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($originMenu['url']);
 
 				$args->module_type = $moduleInfo->module;
-				$args->menu_url = $moduleInfo->mid.'_copy';
+				$args->module_id = $moduleInfo->mid.'_copy';
 				$args->layout_srl = $moduleInfo->layout_srl;
 
 				$oModuleAdminController = &getAdminController('module');
 				$copyArg->module_srl = $moduleInfo->module_srl;
-				$copyArg->mid_1 = $args->menu_url;
+				$copyArg->mid_1 = $args->module_id;
 				$copyArg->browser_title_1 = $moduleInfo->browser_title;
 				$copiedModuleSrl = $oModuleAdminController->procModuleAdminCopyModule($copyArg);
 
@@ -803,10 +733,10 @@
 					$isModuleCopySuccess = true;
 				}
 			}
-			// if menu type is url
-			else
+			// if menu type is shortcut
+			else if($menuItemInfo->is_shortcut == 'Y')
 			{
-				$args->module_type = 'url';
+				$args->shortcut_target = $originMenu['url'];
 				$isModuleCopySuccess = true;
 			}
 
