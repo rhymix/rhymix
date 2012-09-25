@@ -171,6 +171,7 @@
         function dispMemberAdminInfo() {
             $oMemberModel = &getModel('member');
             $oModuleModel = &getModel('module');
+
             $member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $member_config);
 			$extendForm = $oMemberModel->getCombineJoinForm($this->memberInfo);            
@@ -185,6 +186,10 @@
 			$security = new Security();
 			$security->encodeHTML('member_config..');
 			$security->encodeHTML('extend_form_list...');
+
+			$oMemberView = getView('member');
+
+			$oMemberView->_getDisplayedMemberInfo($this->memberInfo, $extendForm, $member_config);
 			
             $this->setTemplateFile('member_info');
         }

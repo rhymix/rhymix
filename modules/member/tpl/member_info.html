@@ -1,47 +1,22 @@
 <h1 class="h1">{$lang->member_info}</h1>
-<div class="table even">
-	<table width="100%" border="1" cellspacing="0">
-		<!--@foreach($member_config->signupForm as $no=>$formInfo)-->
-		<!--@if($formInfo->isDefaultForm)-->
-{@$title = Context::getLang($formInfo->name)}
-{@$value = $memberInfo[$formInfo->name]}
-			<!--@if($formInfo->name == 'find_account_question')-->
-{@$value = $lang->find_account_question_items[$value].' : '.$memberInfo['find_account_answer']}
-			<!--@elseif($formInfo->name == 'profile_image' && $memberInfo['profile_image'])-->
-{@$target = $memberInfo['profile_image']}
-{@$value = '<img src="'.$target->src.'" />'}
-			<!--@elseif($formInfo->name == 'image_name' && $memberInfo['image_name'])-->
-{@$target = $memberInfo['image_name']}
-{@$value = '<img src="'.$target->src.'" />'}
-			<!--@elseif($formInfo->name == 'image_mark' && $memberInfo['image_mark'])-->
-{@$target = $memberInfo['image_mark']}
-{@$value = '<img src="'.$target->src.'" />'}
-			<!--@end-->
-		<!--@else-->
-{@$title = $extend_form_list[$formInfo->member_join_form_srl]->column_title}
-{@$orgValue = $extend_form_list[$formInfo->member_join_form_srl]->value}
-			<!--@if($formInfo->type=='tel')-->
-				{@$value = $orgValue[0]}
-					<!--@if($orgValue[1])-->-<!--@end-->
-				{@$value .= $orgValue[1]}
-					<!--@if($orgValue[2])-->-<!--@end-->
-				{@$value .= $orgValue[2]}
-			<!--@elseif($formInfo->type=='kr_zip')-->
-				{@$value = $orgValue[0]}<!--@if($orgValue[1]&&$orgValue[0])--><br /><!--@end-->{@$value .= $orgValue[1]}
-			<!--@elseif($formInfo->type=='checkbox' && is_array($orgValue))-->
-				{@$value = implode(", ",$orgValue)}
-			<!--@elseif($formInfo->type=='date')-->
-				{@$value = zdate($orgValue, "Y-m-d")}
-			<!--@else-->
-				{@$value = nl2br($orgValue)}
-			<!--@end-->
-		<!--@end-->
-
-		<tr cond="$formInfo->isUse && $formInfo->name != 'password'">
-			<th scope="row" >{$title} <em cond="$formInfo->required || $formInfo->mustRequired">*</em></th>
-			<td class="text">{$value}</td>
+<div>
+	<table class="x_table x_table-striped x_table-hover">
+		<tr>
+			<th style="width:120px">{$lang->signup_date}</th>
+			<td>{zdate($memberInfo[regdate],"Y-m-d")}</td>
 		</tr>
-		<!--@end-->
+		<tr>
+			<th>{$lang->last_login}</th>
+			<td>{zdate($memberInfo[last_login],"Y-m-d H:i:s")}</td>
+		</tr>
+		<tr loop="$displayDatas => $item">
+			<th scope="row" >{$item->title} <em style="color:red" cond="$item->required || $item->mustRequired">*</em></th>
+			<td class="text">{$item->value}</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->member_group}</th>
+			<td class="text">{implode(', ', $memberInfo['group_list'])}</td>
+		</tr>
 		<tr>
 			<th scope="row">{$lang->allow_mailing}</th>
 			<td class="text"><!--@if($memberInfo['allow_mailing'] == 'Y')-->{$lang->cmd_yes}<!--@else-->{$lang->cmd_no}<!--@end--></td>
@@ -70,8 +45,9 @@
 			<th scope="row"><div>{$lang->description}</div></th>
 			<td>{$memberInfo['description']}&nbsp;</td>
 		</tr>
-	</table>
+    </table>
 </div>
-<div class="btnArea">
-	<span class="btn medium"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_srl)}">{$lang->cmd_modify}...</a></span>
+<div class="x_clearfix">
+	<span class="x_pull-left" cond="$member_srl"><button class="x_btn x_btn-large" type="button" onclick="history.go(-1)">{$lang->cmd_back}</button></span>
+	<span class="x_pull-right"><a class="x_btn x_btn-primary x_btn-large" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_srl)}">{$lang->cmd_modify}...</a></span>
 </div>
