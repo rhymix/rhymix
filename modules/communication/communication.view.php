@@ -26,6 +26,14 @@
 				$tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
 			}
             $this->setTemplatePath($tpl_path);
+
+			$oLayoutModel = &getModel('layout');
+			$layout_info = $oLayoutModel->getLayout($this->communication_config->layout_srl);
+			if($layout_info)
+			{
+				$this->module_info->layout_srl = $this->communication_config->layout_srl;
+				$this->setLayoutPath($layout_info->path);
+			}
         }
 
         /**
@@ -81,6 +89,7 @@
 		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationNewMessage() {
+			$this->setLayoutPath('./common/tpl/');
             $this->setLayoutFile('popup_layout');
             // Error appears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -108,6 +117,7 @@
 		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationSendMessage() {
+			$this->setLayoutPath('./common/tpl/');
             $this->setLayoutFile("popup_layout");
             $oCommunicationModel = &getModel('communication');
             $oMemberModel = &getModel('member');
@@ -201,6 +211,7 @@
 		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationAddFriend() {
+			$this->setLayoutPath('./common/tpl/');
             $this->setLayoutFile("popup_layout");
             // error appears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -226,6 +237,7 @@
 		 * @return void|Object (void : success, Object : fail)
          **/
         function dispCommunicationAddFriendGroup() {
+			$this->setLayoutPath('./common/tpl/');
             $this->setLayoutFile("popup_layout");
             // error apprears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
