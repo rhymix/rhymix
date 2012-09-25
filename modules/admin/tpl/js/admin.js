@@ -254,3 +254,296 @@ $('a.modalAnchor').xeModalWindow();
 $('div.x_modal').addClass('x').hide();
 
 });
+
+// Content Toggler
+jQuery(function($){
+
+var dont_close_this_time = false;
+var ESC = 27;
+
+$.fn.xeContentToggler = function(){
+	this
+		.not('.xe-content-toggler')
+		.addClass('xe-content-toggler')
+		.each(function(){
+			var $anchor = $(this); $layer = $($anchor.attr('href'));
+
+			$layer.hide()
+				.not('.xe-toggling-content')
+				.addClass('xe-toggling-content')
+				.mousedown(function(event){ dont_close_this_time = true })
+				.focusout(function(event){
+					setTimeout(function(){
+						if(!dont_close_this_time && !$layer.find(':focus').length && $layer.data('state') == 'showing') $anchor.trigger('close.tc');
+						dont_close_this_time = false;
+					}, 1);
+				});
+		})
+		.click(function(){
+			var $this = $(this), $layer;
+
+			// get content container
+			$layer = $( $this.attr('href') );
+
+			// set anchor object
+			$layer.data('anchor', $this);
+
+			if($layer.data('state') == 'showing') {
+				$this.trigger('close.tc');
+			} else {
+				$this.trigger('open.tc');
+			}
+
+			return false;
+		})
+		.bind('open.tc', function(){
+			var $this = $(this), $layer, effect, duration;
+
+			// get content container
+			$layer = $( $this.attr('href') );
+
+			// get effeect
+			effect = $this.data('effect');
+
+			// get duration
+			duration = $this.data('duration') || 'fast';
+
+			// set state : showing
+			$layer.data('state', 'showing');
+
+			// before event trigger
+			$this.trigger('before-open.tc');
+
+			dont_close_this_time = false;
+
+			// When mouse button is down or when ESC key is pressed close this layer
+			$(document)
+				.unbind('mousedown.tc keydown.tc')
+				.bind('mousedown.tc keydown.tc',
+					function(event){
+						if(event) {
+							if(event.type == 'keydown' && event.which != ESC) return true;
+							if(event.type == 'mousedown') {
+								var $t = $(event.target);
+								if($t.is('html,.tgAnchor,.tgContent') || $layer.has($t).length) return true;
+							}
+						}
+
+						$this.trigger('close.tc');
+
+						return false;
+					}
+				);
+
+			// triggering after
+			function trigger_after(){ $this.trigger('after-open.tc') }
+
+			switch(effect) {
+				case 'slide':
+					$layer.slideDown(duration, trigger_after);
+					break;
+				case 'slide-h':
+					var w = $layer.css({'overflow-x':'',width:''}).width();
+					$layer
+						.show()
+						.css({'overflow-x':'hidden',width:'0px'})
+						.animate({width:w}, duration, function(){ $layer.css({'overflow-x':'',width:''}); trigger_after(); });
+					break;
+				case 'fade':
+					$layer.fadeIn(duration, trigger_after);
+					break;
+				default:
+					$layer.show();
+					$this.trigger('after-open.tc');
+			}
+		})
+		.bind('close.tc', function(){
+			var $this = $(this), $layer, effect, duration;
+
+			// unbind document's event handlers
+			$(document).unbind('mousedown.tc keydown.tc');
+
+			// get content container
+			$layer = $( $this.attr('href') );
+
+			// get effeect
+			effect = $this.data('effect');
+
+			// get duration
+			duration = $this.data('duration') || 'fast';
+
+			// set state : hiding
+			$layer.data('state', 'hiding');
+
+			// before event trigger
+			$this.trigger('before-close.tc');
+
+			// triggering after
+			function trigger_after(){ $this.trigger('after-close.tc') };
+
+			// close this layer
+			switch(effect) {
+				case 'slide':
+					$layer.slideUp(duration, trigger_after);
+					break;
+				case 'slide-h':
+					$layer.animate({width:0}, duration, function(){ $layer.hide(); trigger_after(); });
+					break;
+				case 'fade':
+					$layer.fadeOut(duration, trigger_after);
+					break;
+				default:
+					$layer.hide();
+					$this.trigger('after-close.tc');
+			}
+		});
+
+	return this;
+};
+
+$('a.tgAnchor').xeContentToggler();
+
+});
+// Sortable table
+jQuery(function($){
+
+var
+	dragging = false,
+	$holder  = $('<tr class="placeholder"><td>&nbsp;</td></tr>');
+
+$.fn.xeSortableTable = function(){
+	this
+		.not('.xe-sortable-table')
+		.addClass('xe-sortable-table')
+		.delegate('button.dragBtn', 'mousedown.st', function(event){
+			var $this, $tr, $table, $th, height, width, offset, position, offsets, i, dropzone, cols, ofspar;
+
+			if(event.which != 1) return;
+
+			$this  = $(this);
+			$tr    = $this.closest('tr');
+			$table = $this.closest('table');
+			ofspar = $table.get(0).offsetParent;
+			height = $tr.height();
+			width  = $tr.width();
+
+			// before event trigger
+			before_event = $.Event('before-drag.st');
+			$table.trigger(before_event);
+
+			// is event canceled?
+			if(before_event.isDefaultPrevented()) return false;
+
+			position = {x:event.pageX, y:event.pageY};
+			offset   = getOffset($tr.get(0), ofspar);
+
+			$clone = $tr.attr('target', true).clone(true).appendTo($table);
+
+			// get colspan
+			cols = ($th=$table.find('thead th')).length;
+			$th.filter('[colspan]').attr('colspan', function(idx,attr){ cols += attr - 1; });
+			$holder.find('td').attr('colspan', cols);
+
+			// get offsets of all list-item elements
+			offsets = [];
+			$table.find('tbody>tr:not([target],.sticky,:hidden)').each(function() {
+				var $this = $(this), o;
+
+				o = getOffset(this, ofspar);
+				offsets.push({top:o.top, bottom:o.top+$this.height(), $item:$this});
+			});
+
+			$clone
+				.addClass('draggable')
+				.css({
+					position: 'absolute',
+					opacity : .6,
+					width   : width,
+					height  : height,
+					left    : offset.left,
+					top     : offset.top,
+					zIndex  : 100
+				});
+
+			// Set a place holder
+			$holder
+				.css({
+					position:'absolute',
+					opacity : .6,
+					width   : width,
+					height  : '10px',
+					left    : offset.left,
+					top     : offset.top,
+					backgroundColor : '#bbb',
+					overflow: 'hidden',
+					zIndex  : 99
+				})
+				.appendTo($table);
+
+			$tr.css('opacity', .6);
+
+			$(document)
+				.unbind('mousedown.st mouseup.st')
+				.bind('mousemove.st', function(event) {
+					var diff, nTop, item, i, c, o;
+
+					dropzone = null;
+
+					diff = {x:position.x-event.pageX, y:position.y-event.pageY};
+					nTop = offset.top - diff.y;
+
+					for(i=0,c=offsets.length; i < c; i++) {
+						o = offsets[i];
+						if( (i && o.top > nTop) || ((i < c-1) && o.bottom < nTop)) continue;
+
+						dropzone = {element:o.$item};
+						if(o.top > nTop - 12) {
+							dropzone.state = 'before';
+							$holder.css('top', o.top-5);
+						} else {
+							dropzone.state = 'after';
+							$holder.css('top', o.bottom-5);
+						}
+					}
+
+					$clone.css({top:nTop});
+				})
+				.bind('mouseup.st', function(event) {
+					var $dropzone;
+
+					dragging = false;
+
+					$(document).unbind('mousemove.st mouseup.st');
+					$tr.removeAttr('target').css('opacity', '');
+					$clone.remove();
+					$holder.remove();
+
+					if(!dropzone) return;
+					$dropzone = $(dropzone.element);
+
+					// use the clone for animation
+					$dropzone[dropzone.state]($tr);
+
+					$table.trigger('after-drag.st');
+				});
+		})
+
+	return this;
+};
+$('table.sortable').xeSortableTable();
+
+
+function getOffset(elem, offsetParent) {
+	var top = 0, left = 0;
+
+	while(elem && elem != offsetParent) {
+		top  += elem.offsetTop;
+		left += elem.offsetLeft;
+
+		elem = elem.offsetParent;
+	}
+
+	return {top:top, left:left};
+}
+
+});

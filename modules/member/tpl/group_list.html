@@ -14,19 +14,23 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<h1 class="h1">{$lang->member_group}</h1>
-<form action="" class="form" method="post" ruleset="insertGroupConfig">
+<div class="x_page-header">
+<h1>{$lang->member_group}</h1>
+</div>
+<form action="" method="post" ruleset="insertGroupConfig">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminGroupConfig" />
-	<div class="table even">
-		<table width="100%" border="1" cellspacing="0" class="sortable">
+	<div>
+		<div class="x_clearfix" style="margin-bottom:-55px">
+		<div class="x_pull-right">
+			{$lang->use_group_image_mark}: 
+			<label for="yes" class="x_inline"><input type="radio" name="group_image_mark" id="yes" value="Y" checked="checked"|cond="$config->group_image_mark == 'Y'" /> {$lang->cmd_yes}</label>
+			<label for="no" class="x_inline"><input type="radio" name="group_image_mark" id="no" value="N" checked="checked"|cond="$config->group_image_mark != 'Y'" /> {$lang->cmd_no}</label>
+		</div>
+		</div>
+		<table class="sortable x_table x_table-striped x_table-hover">
 			<caption>
 				<strong>{count($group_list)}</strong> {$lang->msg_groups_exist}
-				<span class="side">
-					{$lang->use_group_image_mark}: 
-					<input type="radio" name="group_image_mark" id="yes" value="Y" checked="checked"|cond="$config->group_image_mark == 'Y'" /> <label for="yes">{$lang->cmd_yes}</label>
-					<input type="radio" name="group_image_mark" id="no" value="N" checked="checked"|cond="$config->group_image_mark != 'Y'" /> <label for="no">{$lang->cmd_no}</label>
-				</span>
 			</caption>
 			<thead>
 				<tr>
@@ -85,8 +89,8 @@
 			</tbody>
 		</table>
 	</div>
-	<div class="btnArea">
-		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+	<div class="x_clearfix">
+		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 
 	<!-- Multilingual -->
