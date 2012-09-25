@@ -499,7 +499,7 @@
 		{
 			$request = Context::getRequestVars();
 
-			if(!$request->menu_item_srl || !$request->module_srl || !$request->url || !$request->menu_name)
+			if(!$request->menu_item_srl || !$request->url || !$request->menu_name)
 			{
 				return new Object(-1, 'msg_invalid_request');
 			}
@@ -508,15 +508,15 @@
 			if($request->menu_open_window != "Y") $request->menu_open_window = "N";
 			if($request->menu_expand != "Y") $request->menu_expand = "N";
 
-            // Get original information
+			// Get original information
 			$oMenuAdminModel = &getAdminModel('menu');
-            $itemInfo = $oMenuAdminModel->getMenuItemInfo($request->menu_item_srl);
+			$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->menu_item_srl);
 
 			// if menu type is module, check exists module and update
 			if($itemInfo->is_shortcut != 'Y' && !preg_match('/^http/i',$itemInfo->url))
 			{
 				$oModuleModel = &getModel('module');
-				$moduleInfo = $oModuleModel->getModuleInfoByModuleSrl($request->module_srl);
+				$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url);
 
 				// if not exist module, return error
 				if(!$moduleInfo)
@@ -596,16 +596,17 @@
 		 */
         function procMenuAdminDeleteItem() {
             // List variables
-            $args = Context::gets('menu_srl','menu_item_srl');
+            $args = Context::gets('menu_item_srl');
 
             $oMenuAdminModel = &getAdminModel('menu');
+
+            // Get original information
+            $item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
+			$args->menu_srl = $item_info->menu_srl;
 
             // Get information of the menu
             $menu_info = $oMenuAdminModel->getMenu($args->menu_srl);
             $menu_title = $menu_info->title;
-
-            // Get original information
-            $item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
 
 			$oAdmin = &getClass('admin');
 			if($menu_title == $oAdmin->getAdminMenuName() && $item_info->parent_srl == 0)return $this->stop('msg_cannot_delete_for_admin_topmenu');
@@ -669,14 +670,40 @@
 		function procMenuAdminMoveItem()
 		{
 			//TODO 클라이언트가 넘기는 값을 그냥 사용하면 됨. parent_srl(부모), source_srl(같은 계층의 menu_item_srl), target_srl(나 자신의 menu_item_srl)
-			$menu_srl = Context::get('menu_srl');
 			$mode = Context::get('mode');
 			$parent_srl = Context::get('parent_srl');
 			$source_srl = Context::get('source_srl');
 			$target_srl = Context::get('target_srl');
 
-			if(!$menu_srl || !$mode || !$target_srl) return new Object(-1,'msg_invalid_request');
+			if(!$mode || !$parent_srl || !$target_srl) return new Object(-1,'msg_invalid_request');
+
+			$oMenuAdminModel = &getAdminModel('menu');
+
+			// get original menu item info for cache file recreate
+			$originalItemInfo = $oMenuAdminModel->getMenuItemInfo($target_srl);
+
+			// get target menu info for move
+			$targetMenuItemInfo = $oMenuAdminModel->getMenuItemInfo($parent_srl);
+			// if move in same sitemap
+			if($targetMenuItemInfo->menu_item_srl)
+			{
+				$menu_srl = $targetMenuItemInfo->menu_srl;
+			}
+			// if move to other sitemap
+			else
+			{
+				$targetMenuInfo = $oMenuAdminModel->getMenu($parent_srl);
+				$menu_srl = $targetMenuInfo->menu_srl;
+				$parent_srl = 0;
+			}
+
 			$this->moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode);
+
+			//recreate original menu
+			$xml_file = $this->makeXmlFile($originalItemInfo->menu_srl);
+
+			//recreate target menu
+			$xml_file = $this->makeXmlFile($menu_srl);
 		}
 
 		/**
