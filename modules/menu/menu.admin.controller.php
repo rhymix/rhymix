@@ -284,6 +284,7 @@
 					unset($args->group_srls);
 				}
 				$args->name = $request->menu_name;
+				$args->parent_srl = $request->parent_srl;
 			}
 			else
 			{
