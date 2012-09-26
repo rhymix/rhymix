@@ -185,8 +185,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</div>
 </form>
 
-		<div class="search center x_input-append">
-		<form action="./" method="get" class="adminSearch" onsubmit="return checkSearch(this)">
+		<form action="./" method="get" class="search center x_input-append" onsubmit="return checkSearch(this)">
 		<input type="hidden" name="module" value="{$module}" />
 		<input type="hidden" name="act" value="{$act}" />
 		<input type="hidden" name="module_srl" value="{$module_srl}" />
@@ -202,5 +201,4 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 			<button class="x_btn" type="button">{$lang->cmd_cancel}</button>
 		</form>
-		</div>
 	</div>
