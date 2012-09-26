@@ -12,7 +12,7 @@
 	
 	<!-- 목록 -->
 	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
+		<table width="100%" class="x_table x_table-striped x_table-hover">
 		<caption>{$lang->all} {number_format($total_count)}, {$lang->page} {number_format($page)}/{number_format($total_page)}</caption>
 		<thead>
 			<tr>
@@ -27,8 +27,8 @@
 		<tbody>
 			<!--@foreach($comment_list as $no => $oComment)-->
 			<tr>
-				<td>{$no}</td>
-				<td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> <a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$oComment->getSummary(100)}</a></td>
+				<td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /></td>
+				<td><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$oComment->getSummary(100)}</a></td>
 				<td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
 				<td>{$oComment->getRegdate("Y-m-d")}</td>
 				<td><strong>{$oComment->get('declared_count')}</strong></td>
@@ -39,11 +39,13 @@
 		</table>
 	</div>
 	<div class="btnArea">
-		<span class="btn"><button type="button" onclick="doCancelDeclare();">{$lang->cmd_cancel_declare}</button></span>
-		<span class="btn"><a href="javascript:XE.checkboxToggleAll({ checked:true })">{$lang->cmd_select_all}</a></span>
-		<span class="btn"><a href="javascript:XE.checkboxToggleAll()">{$lang->cmd_reverse_all}</a></span>
-		<span class="btn"><input type="submit" value="{$lang->cmd_delete_checked_comment}" onclick="this.form.is_trash.value=false" /></span>
-		<span class="btn"><input type="submit" name="trash" value="{$lang->cmd_trash}" onclick="this.form.is_trash.value=true" /></span>
+		<div class="x_btn-group">
+			<button class="x_btn" type="button" onclick="doCancelDeclare();">{$lang->cmd_cancel_declare}</button>
+			<button class="x_btn" type="button" onclick="XE.checkboxToggleAll({ checked:true })">{$lang->cmd_select_all}</button>
+			<button class="x_btn" type="button" onclick="XE.checkboxToggleAll()">{$lang->cmd_reverse_all}</button>
+			<button class="x_btn x_btn-primary" type="submit" onclick="this.form.is_trash.value=false">{$lang->cmd_delete_checked_comment}</button>
+			<button class="x_btn x_btn-primary" type="submit" name="trash" onclick="this.form.is_trash.value=true">{$lang->cmd_trash}</button>
+		</div>
 	</div>
 </form>
 

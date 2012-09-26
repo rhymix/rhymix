@@ -1,10 +1,12 @@
 <load target="js/comment_admin.js" usecdn="true" />
 
-<h3 class="xeAdmin">{$lang->comment} <span class="gray">{$lang->cmd_management}</span></h3>
+<div class="x_page-header">
+<h1>{$lang->comment} {$lang->cmd_management}</h1>
+</div>
 
-<div class="header4">
-    <ul class="localNavigation">
-        <li <!--@if($act=='dispCommentAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispCommentAdminList')}">{$lang->comment_list}</a></li>
-        <li <!--@if($act=='dispCommentAdminDeclared')-->class="on"<!--@end-->><a href="{getUrl('act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
+<div class="x_tabbable">
+    <ul class="x_nav x_nav-tabs">
+        <li <!--@if($act=='dispCommentAdminList')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispCommentAdminList')}">{$lang->comment_list}</a></li>
+        <li <!--@if($act=='dispCommentAdminDeclared')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
     </ul>
 </div>

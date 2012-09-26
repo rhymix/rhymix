@@ -10,15 +10,17 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 <form id="fo_list" action="./" method="post" class="form">
 	<h1 class="h1">{$lang->comment}</h1>
 	<div class="table even">
-		<div class="cnb">
-			<a href="{getUrl('search_keyword','','act','dispCommentAdminList', 'Y')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>{$lang->all}</a>
-			| <a href="{getUrl('search_target','is_secret','search_keyword', 'N')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="active"<!--@end-->>{$secret_name_list['N']}</a>
-			| <a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$secret_name_list['Y']}</a>
-			| <a href="{getUrl('search_target','is_published','search_keyword', 'N')}" <!--@if($search_target == 'is_published' && $search_keyword == 'N')-->class="active"<!--@end-->>{$lang->published_name_list['N']}</a>
-			| <a href="{getUrl('search_target','is_published','search_keyword', 'Y')}" <!--@if($search_target == 'is_published' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$lang->published_name_list['Y']}</a>
+		<div class="x_tabbable">
+			<ul class="x_nav x_nav-tabs">
+				<li <!--@if($search_keyword == '')-->class="x_active"<!--@end-->><a href="{getUrl('search_keyword','','act','dispCommentAdminList', 'Y')}">{$lang->all}</a></li>
+				<li <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="x_active"<!--@end-->><a href="{getUrl('search_target','is_secret','search_keyword', 'N')}">{$secret_name_list['N']}</a></li>
+				<li <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="x_active"<!--@end-->><a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}">{$secret_name_list['Y']}</a></li>
+				<li <!--@if($search_target == 'is_published' && $search_keyword == 'N')-->class="x_active"<!--@end-->><a href="{getUrl('search_target','is_published','search_keyword', 'N')}">{$lang->published_name_list['N']}</a></li>
+				<li <!--@if($search_target == 'is_published' && $search_keyword == 'Y')-->class="x_active"<!--@end-->><a href="{getUrl('search_target','is_published','search_keyword', 'Y')}">{$lang->published_name_list['Y']}</a></li>
+			</ul>
 
 			<block cond="$modules_list">
-			| <label for="comment_modules" <!--@if($search_target == 'module')-->class="active"<!--@end-->>{$lang->select_module}:
+			<label for="comment_modules" <!--@if($search_target == 'module')-->class="active"<!--@end-->>{$lang->select_module}:
 			<select id="comment_modules" name="comment_modules" onchange="location.href='{getUrl('search_target','module','search_keyword','')}&amp;search_keyword='+this.value">
 				<option></option>
 				<!--@foreach($modules_list as $key => $node)-->
@@ -27,7 +29,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			</select></label>
 			</block>
 		</div>
-		<table width="100%" border="1" cellspacing="0" id="commentListTable">
+		<table width="100%" id="commentListTable" class="x_table x_table-striped x_table-hover">
 			<caption>
 				<!--@if($search_keyword == '')-->
 				{$lang->all}
@@ -41,8 +43,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				{$published_name_list['Y']}
 				<!--@end-->
 				({number_format($total_count)})
-				<div class="side">
-					<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a></span>
+				<div class="x_pull-right">
+					<a href="#listManager" class="x_btn modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a>
 				</div>
 			</caption>
 			<thead>
@@ -85,23 +87,26 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<!--@end-->
 			</tbody>
 		</table>
-		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a></span>
+		<div class="x_pull-right">
+			<a href="#listManager" class="x_btn modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a>
 		</div>
 	</div>
 </form>
-<div class="modal" id="listManager">
-	<form ruleset="deleteChecked" action="./" method="post" class="fg form">
-	<input type="hidden" name="module" value="comment" />
-	<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
-	<input type="hidden" name="page" value="{$page}" />
-	<input type="hidden" name="is_trash" value="false" />
-	<input type="hidden" name="will_publish" value="0" />
-	<input type="hidden" name="search_target" value="{$search_target}" />
-	<input type="hidden" name="search_keyword" value="{$search_keyword}" />
-		<h2 class="h2">{$lang->comment_manager}</h2>
+
+<form ruleset="deleteChecked" action="./" method="post" class="x_modal fg form" id="listManager">
+<input type="hidden" name="module" value="comment" />
+<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="is_trash" value="false" />
+<input type="hidden" name="will_publish" value="0" />
+<input type="hidden" name="search_target" value="{$search_target}" />
+<input type="hidden" name="search_keyword" value="{$search_keyword}" />
+	<div class="x_modal-header">
+	<h2 class="h2">{$lang->comment_manager}</h2>
+	</div>
+	<div class="x_modal-body">
 		<div class="table even">
-			<table width="100%" border="1" cellspacing="0" id="commentManageListTable">
+			<table width="100%" id="commentManageListTable" class="x_table x_table-striped x_table-hover">
 				<caption>
 				{$lang->selected_comment} <strong id="selectedCommentCount"></strong>
 				</caption>
@@ -121,20 +126,23 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<p>
 			<textarea rows="8" cols="42" name="message_content" id="message" style="width:98%"></textarea>
 		</p>
-		<div class="btnArea">
-			<!--@if ($search_target=='is_published' && $search_keyword=="N")-->
-				<span class="btn"><button type="submit" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button></span>
-			<!--@elseif ($search_target=='is_published' && $search_keyword=="Y")-->
-				<span class="btn"><button type="submit" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button></span>
-			<!--@else-->
-				<span class="btn"><button type="submit" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button></span>
-				<span class="btn"><button type="submit" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button></span>
-			<!--@end-->
-			<span class="btn"><button type="submit" name="is_trash" value="true">{$lang->cmd_trash}</button></span>
-			<span class="btn"><button type="submit" name="is_trash" value="false">{$lang->cmd_delete}</button></span>
+	</div>
+	<div class="x_modal-footer">
+		<div class="x_btn-group">
+		<!--@if ($search_target=='is_published' && $search_keyword=="N")-->
+			<button type="submit" class="x_btn x_btn-primary" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button>
+		<!--@elseif ($search_target=='is_published' && $search_keyword=="Y")-->
+			<button type="submit" class="x_btn x_btn-primary" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button>
+		<!--@else-->
+			<button type="submit" class="x_btn x_btn-primary" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button>
+			<button type="submit" class="x_btn x_btn-primary" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button>
+		<!--@end-->
+			<button type="submit" class="x_btn x_btn-warning" name="is_trash" value="true">{$lang->cmd_trash}</button>
+			<button type="submit" class="x_btn x_btn-danger" name="is_trash" value="false">{$lang->cmd_delete}</button>
 		</div>
-	</form>
-</div>
+	</div>
+</form>
+
 <div class="search">
 <form action="./" class="pagination">
 	<input type="hidden" name="error_return_url" value="" />
@@ -143,29 +151,33 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
   	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
   	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
-	<a href="{getUrl('page', '')}" class="direction">&laquo; {$lang->first_page}</a>
-	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-	</block>
-	<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<strong cond="$page_no == $page">{$page_no}</strong>
-		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-	<!--@end-->
-	<block cond="$last_page != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-	</block>
-	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">{$lang->last_page} &raquo;</a>
-	<span cond="$isGoTo" id="goTo" class="tgContent">
-		<input name="page" title="{$lang->cmd_go_to_page}" />
-		<button type="submit">Go</button>
-	</span>
+	<div class="x_pagination x_pagination-centered">
+	<ul>
+		<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo;</a></li>
+		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+			{@$isGoTo = true}
+			<li><a href="{getUrl('page', '')}">1</a></li>
+			<li><a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a></li>
+		</block>
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+		<block cond="$last_page != $page_navigation->last_page">
+			{@$isGoTo = true}
+			<li><a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a></li>
+			<li><a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a></li>
+		</block>
+		<li class="x_disabled"|cond="$page == $last_page"><a href="{getUrl('page', $page_navigation->last_page)}">&raquo;</a></li>
+		<span cond="$isGoTo" id="goTo" class="tgContent">
+			<input name="page" title="{$lang->cmd_go_to_page}" />
+			<button type="submit" class="x_btn">Go</button>
+		</span>
+	</ul>
+	</div>
 </form>
 
+	<div class="search center x_input-append">
 	<form action="./" method="get" class="adminSearch" onsubmit="return checkSearch(this)">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
@@ -177,8 +189,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 			<!--@end-->
 		</select>
-		<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-		<input type="submit" value="{$lang->cmd_search}" />
-		<a href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
+		<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+		<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
+		<button class="x_btn" type="button" onclick="document.location.href='{getUrl('','module',$module,'act',$act)}'">{$lang->cmd_cancel}</button>
 	</form>
+	</div>
 </div>
