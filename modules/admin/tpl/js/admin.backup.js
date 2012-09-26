@@ -23,19 +23,6 @@ jQuery(function($){
 			.parent()
 				.css('position', 'relative');
 
-	// Make selected checkbox elements bold
-	var $rc_label = $('input:radio+label,input:checkbox+label'), $input_rc = $rc_label.prev('input');
-	$input_rc
-		.change(function(){
-			var name = $(this).attr('name');
-			$input_rc
-				.filter(function(){ return this.name == name })
-				.next('label').css('font-weight', 'normal').end()
-				.filter(':checked')
-					.next('label').css('font-weight', 'bold').end();
-		})
-		.change();
-
 	// Toogle checkbox all
 	$('.form th>input:checkbox')
 		.change(function() {
@@ -1398,12 +1385,13 @@ jQuery(function($){
 	tdTitle.each(function(){
 		var $t = $(this)
 		if($t.find('p.update').length==0){
-			$t.addClass('tg').find('>p:not(:first-child)').hide();
+			$t.addClass('tg').find('>*:not(:first-child)').hide();
 		} else {
 			$t.addClass('up');
 		}
 	});
-	var details = $('.x .dsTg td.tg>p:not(:first-child)');
+	$('.x .dsTg .thumb').hide();
+	var details = $('.x .dsTg td.tg>*:not(:first-child), .x .dsTg .thumb');
 	viewBtn.click(function(){
 		viewBtn.toggleClass('details');
 		details.slideToggle(200);
