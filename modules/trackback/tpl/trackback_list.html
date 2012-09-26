@@ -7,12 +7,14 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="" class="form">
+	<div class="x_page-header">
 	<h1 class="h1">{$lang->trackback}</h1>
+	</div>
 	<div class="table even">
-		<table width="100%" border="1" cellspacing="0" id="trackbackListTable">
+		<table width="100%" id="trackbackListTable" class="x_table x_table-striped x_table-hover">
 			<caption>
 				All({number_format($total_count)})
-				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrackbackList();">{$lang->trackback_manager}...</a></span></span>
+				<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getTrackbackList();">{$lang->trackback_manager}...</a></span>
 			</caption>
 			<thead>
 				<tr>
@@ -47,37 +49,39 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<!--@end-->
 			</tbody>
 		</table>
-		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrackbackList();">{$lang->trackback_manager}...</a></span>
+		<div class="x_pull-right">
+			<a href="#listManager" class="x_btn modalAnchor" onclick="getTrackbackList();">{$lang->trackback_manager}...</a>
 		</div>
 	</div>
 </form>
-<div class="modal" id="listManager">
-	<form ruleset="deleteChecked" action="./" method="post" class="fg">
-	<input type="hidden" name="module" value="trackback" />
-	<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
-	<input type="hidden" name="page" value="{$page}" />
-		<h2 class="h2">{$lang->trackback_manager}</h2>
-		<div class="table even">
-			<table width="100%" border="1" cellspacing="0" id="trackbackManageListTable">
-				<caption>
-				{$lang->selected_trackback} <strong id="selectedTrackbackCount"></strong>
-				</caption>
-				<thead>
-					<tr>
-						<th scope="col" class="title"><span class="text">{$lang->title}</span></th>
-						<th scope="col">{$lang->site}</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-		</div>
-		<div class="btnArea">
-			<span class="btn"><input type="submit" value="Delete" class="delete" /></span>
-		</div>
-	</form>
-</div>
+
+<form ruleset="deleteChecked" action="./" method="post" class="fg x_modal" id="listManager">
+<input type="hidden" name="module" value="trackback" />
+<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
+<input type="hidden" name="page" value="{$page}" />
+	<div class="x_modal-header">
+	<h2 class="h2">{$lang->trackback_manager}</h2>
+	</div>
+	<div class="x_modal-body">
+		<table width="100%" id="trackbackManageListTable" class="x_table x_table-striped x_table-hover">
+			<caption>
+			{$lang->selected_trackback} <strong id="selectedTrackbackCount"></strong>
+			</caption>
+			<thead>
+				<tr>
+					<th scope="col" class="title"><span class="text">{$lang->title}</span></th>
+					<th scope="col">{$lang->site}</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<div class="x_modal-footer">
+		<button type="submit" class="x_btn x_btn-danger">{$lang->cmd_delete}</button>
+	</div>
+</form>
+
 <div class="search">
 <form action="" class="pagination">
 	<input type="hidden" name="error_return_url" value="" />
@@ -86,30 +90,39 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
   	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
   	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
-	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
-	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-	</block>
-	<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<strong cond="$page_no == $page">{$page_no}</strong>
-		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-	<!--@end-->
-	<block cond="$last_page != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-	</block>
-	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
-	<span cond="$isGoTo" id="goTo" class="tgContent">
-		<input name="page" title="{$lang->cmd_go_to_page}" />
-		<button type="submit">Go</button>
-	</span>
+	<div class="x_pagination x_pagination-centered">
+	<ul>
+		<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}" >&laquo;</a></li>
+		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+			<li><a href="{getUrl('page', '')}">1</a></li>
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+		</block>
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+		<block cond="$last_page != $page_navigation->last_page">
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			<li><a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a></li>
+		</block>
+		<li class="x_disabled"|cond="$page == $last_page"><a href="{getUrl('page', $page_navigation->last_page)}">&raquo;</a></li>
+	</ul>
+	</div>
 </form>
 
-	<form action="" onsubmit="return checkSearch(this)">
+	<form action="" class="search center x_input-append" onsubmit="return checkSearch(this)">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
@@ -120,8 +133,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 			<!--@end-->
 		</select>
-		<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-		<input type="submit" value="{$lang->cmd_search}" />
-		<a href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
+		<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+		<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
+		<a class="x_btn" href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
 	</form>
 </div>
