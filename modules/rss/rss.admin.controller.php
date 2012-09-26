@@ -120,31 +120,6 @@
 
 
         /**
-         * All Feeds with or without change
-		 *
-		 * @return Object
-         **/
-        function procRssAdminToggleActivate() {
-            $oRssModel = &getModel('rss');
-            // Get mid value
-            $module_srl = Context::get('module_srl');
-            if($module_srl) {
-                $config = $oRssModel->getRssModuleConfig($module_srl);
-                if($config->open_total_feed == 'T_N') {
-                    $this->setRssModuleConfig($module_srl, $config->open_rss, 'T_Y', $config->feed_description, $config->feed_copyright);
-                    $this->add("open_total_feed", 'T_Y');
-                }
-                else {
-                    $this->setRssModuleConfig($module_srl, $config->open_rss, 'T_N', $config->feed_description, $config->feed_copyright);
-                    $this->add("open_total_feed", 'T_N');
-                }
-            }
-
-            $this->add("module_srl", $module_srl);
-        }
-
-
-        /**
          * A funciton to configure all Feeds of the RSS module
 		 *
 		 * @param Object $config RSS all feeds config list

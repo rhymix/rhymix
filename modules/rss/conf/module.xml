@@ -6,7 +6,6 @@
         <action name="dispRssAdminIndex" type="view" index="true" standalone="true" admin_index="true" menu_name="rss" menu_index="true" />
         <action name="rss" type="view" standalone="true" />
         <action name="atom" type="view" standalone="true" />
-        <action name="procRssAdminToggleActivate" type="controller" standalone="true" />
         <action name="procRssAdminInsertConfig" type="controller" standalone="true" ruleset="insertRssConfig" />
         <action name="procRssAdminInsertModuleConfig" type="controller" standalone="true" ruleset="insertRssModuleConfig" />
     </actions>
