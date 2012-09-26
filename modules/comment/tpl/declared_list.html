@@ -49,15 +49,41 @@
 	</div>
 </form>
 
-<!-- 페이지 네비게이션 -->
-<div class="pagination">
-    <a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {$lang->first_page}</a> 
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <strong>{$page_no}</strong> 
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
-        <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a>
-</div>
+<form action="./" class="pagination">
+	<input type="hidden" name="error_return_url" value="" />
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+  	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+  	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+
+	<div class="x_pagination x_pagination-centered">
+	<ul>
+		<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo;</a></li>
+		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+			<li><a href="{getUrl('page', '')}">1</a></li>
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+		</block>
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+		<block cond="$last_page != $page_navigation->last_page">
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			<li><a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a></li>
+		</block>
+		<li class="x_disabled"|cond="$page == $last_page"><a href="{getUrl('page', $page_navigation->last_page)}">&raquo;</a></li>
+	</ul>
+	</div>
+</form>
