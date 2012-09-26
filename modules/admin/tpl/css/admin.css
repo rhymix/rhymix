@@ -25,9 +25,9 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_btn-link{padding:0;margin:0;overflow:visible}
 .x [class^="x_icon-"],
 .x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
-.x .x_close,
-.x_modal .x_close{width:24px;height:24px}
-.x .x_alert .x_close{top:-3px;right:-30px}
+.x .x_close{width:24px;height:24px}
+.x .x_alert{ position:relative}
+.x .x_alert>.x_close{position:absolute;top:0;right:0}
 .x .x_pagination{height:32px}
 .x .x_pagination ul>li>a, 
 .x .x_pagination ul>li>span,

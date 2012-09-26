@@ -156,6 +156,12 @@ jQuery(function($){
 			$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
 		}
 	});
+// Alert Closer
+	var $xAlert = $('.x .x_alert');
+	$xAlert.prepend('<button type="button" class="x_close">&times;</button>');
+	$xAlert.children('.x_close').click(function(){
+		$(this).parent('.x_alert').hide();
+	});	
 });
 
 // Modal Window
