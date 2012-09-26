@@ -58,8 +58,6 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_table>caption{text-align:left;padding:8px 0}
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}
 .x label.x_inline{margin-right:16px}
-.x input[type="search"]+.x_btn,
-.x input[type="search"]+.x_btn+.x_btn{line-height:20px;font-size:14px;padding:4px 14px}
 .x_modal,
 .x_modal-backdrop{display:none}
 .x.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none}
@@ -73,6 +71,8 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .section>h1>.snToggle.x_icon-chevron-down{background-position:-303px -111px}
 .x .center{text-align:center}
 .x .search{margin:20px 0}
+.x .search>select{width:auto;margin:0 4px 0 0;padding:0;height:26px;line-height:26px}
+.x .search>input[type="search"]{height:16px;line-height:16px;width:120px}
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a:before,
