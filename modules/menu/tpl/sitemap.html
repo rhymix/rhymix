@@ -34,7 +34,7 @@
 			</script>
 			<script id="tmpl_menuSelector_menuTreeNode" type="text/x-jquery-tmpl">
 				<li>
-					<a href="#" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }'>${MenuTitle}</a>
+					<a href="#" class="_menuType_${MenuType}" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }'>${MenuTitle}</a>
 					{{html SubTree}}
 				</li>
 			</script>
@@ -717,6 +717,9 @@ function showMenuSelector($container){
 	var aMenuList = $._xeAdminVar.aMenuList;
 	
 	$container.html(createTreeMarkup(aMenuList, "menuSelector_menuTree", "menuSelector_menuTreeNode"));
+	
+	// disable sitemap labels and shortcuts.
+	$container.find('._menuType_1, ._menuType_3').parent('li').addClass('x_disabled');
 }
 
 function onSiteMapReceived(htData){
@@ -928,7 +931,7 @@ function createTreeMarkup(aNode, sMenuTree, sMenuTreeNode){
 			sTextWithHome = sTextWithHome + " ${h}";
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithHome,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>");
+		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithHome,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,MenuType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>");
 	}
 	
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
@@ -1030,9 +1033,10 @@ jQuery(function($){
 	
 	// TARGET show
 	$(document.body).on("click", ".x [data-admin-show]", function(ev){
+console.log(777);
 		var $anchor = $(this);
 		var $target = $($(this).attr('data-admin-show'));
-		
+
 		showTargetClicked($anchor, $target);
 	});
 	function showTargetClicked($anchor, $target){
@@ -1061,9 +1065,22 @@ jQuery(function($){
 	});
 
 	$(document.body).on("click", '.clone a', function(){
+		if($(this).hasClass('_menuType_1')){
+			alert('no root plz');
+			return;
+		}
+		
+		if($(this).hasClass('_menuType_3')){
+			alert('no shortcut plz');
+			return;
+		}
+		
 		$(this).closest('.clone').prevAll('input._linkMenuTitle').val($._htMarkupActionParam.sMenuTitle);
 		//$(this).closest('.clone').prev('input[type="text"]').val($._htMarkupActionParam.sMenuTitle + " ["+$._htMarkupActionParam.sMenuUrl+"]");
 		$(this).closest('.clone').prev('input._linkMenuURL').val($._htMarkupActionParam.sMenuUrl);
+		
+		$(this).closest('.clone').find('li.x_selected').removeClass('x_selected');
+		$(this).closest('li').addClass('x_selected');
 	});
 
 	function scrollToRight(){
@@ -1180,8 +1197,12 @@ jQuery(function($){
 	$('#download').bind("hide", function(){
 	});
 	
-	$('#add_menu').bind("show", function(){
-console.log(333, $._htMarkupActionParam);
+	$('#add_menu').bind("show", function(ev){
+		// ignore bubbled show events
+		if(this !== ev.target){
+			return;
+		}
+		
 		$._xeAdminVar.sSelectedModuleName = $._htMarkupActionParam.moduleName;
 		$._xeAdminVar.sSelectedModuleTitle = $._htMarkupActionParam.moduleTitle;
 		
@@ -1368,6 +1389,7 @@ console.log(333, $._htMarkupActionParam);
 			loadSiteMap();
 		});
 	});
+	
 //	$('#add_url').bind("show", function(){console.log('show');});
 //	$('#add_url').bind("hide", function(){console.log('hide');});
 
