@@ -9,20 +9,24 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<form id="fo_list" action="./" method="get" class="form">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="page" value="{$page}" />
+		<div class="x_page-header">
 		<h1 class="h1">{$lang->cmd_declared_list}</h1>
+		</div>
 		<div class="table even">
-			<div class="cnb">
-				<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->all}</a>
-				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a>
-				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a>
-				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a>
-				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" class="active">{$lang->cmd_declared_list}</a>
+			<div class="x_tabbable">
+				<ul class="x_nav x_nav-tabs">
+					<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->all}</a></li>
+					<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a></li>
+					<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a></li>
+					<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a></li>
+					<li class="x_active"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
+				</ul>
 			</div>
-			<table width="100%" border="1" cellspacing="0" id="documentListTable">
+			<table width="100%" id="documentListTable">
 				<caption>
 					{$lang->all} ({number_format($total_count)})
-					<div class="side">
-						<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a></span>
+					<div class="x_pull-right">
+						<a href="#manageForm" class="x_btn modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a>
 					</div>
 				</caption>
 				<thead>
@@ -61,65 +65,71 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<!--@end-->
 				</tbody>
 			</table>
-			<div class="btnArea">
-				<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a></span>
+			<div class="x_pull-right">
+				<a href="#manageForm" class="x_btn modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a></span>
 			</div>
 		</div>
 	</form>
-	<div class="modal" id="listManager">
-		<form action="./" method="post" class="fg form" id="manageForm">
-		<input type="hidden" name="module" value="document" />
-		<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
-		<input type="hidden" name="type" value="" />
-		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" />
-			<h2 class="h2">{$lang->document_manager}</h2>
-			<div class="table even">
-				<table width="100%" border="1" cellspacing="0" id="documentManageListTable">
-					<caption>{$lang->selected_document} <strong id="selectedDocumentCount"></strong></caption>
-					<thead>
-						<tr>
-							<th scope="col" class="title">{$lang->title}</th>
-							<th scope="col" class="nowr">{$lang->writer}</th>
-							<th scope="col" class="nowr">{$lang->status}</th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-			</div>
-			<p class="q"><label for="site">{$lang->selected_document_move}</label></p>
-			<div class="a">
-				<input type="text" name="site_keyword" id="site" />
-				<span class="desc"><a href="#suggestion" class="tgAnchor" onclick="getModuleList();">{$lang->find_site}</a></span>
-				<p>
-					<select name="target_module" id="module_list" style="width:290px">
-						<option>{$lang->select_module}</option>
-					</select>
-				</p>
-				<p>
-					<select name="module_srl" id="mid_list" style="width:290px">
-						<option>{$lang->select_module_id}</option>
-					</select>
-				</p>
-				<p>
-					<select id="target_category" name="target_category" style="width:290px">
-						<option>{$lang->select_category}</option>
-					</select>
-				</p>
-			</div>
-			<p class="q"><label for="message">{$lang->message_notice}</label></p>
-			<p>
-				<textarea rows="8" cols="42" name="message_content" id="message" style="width:98%"></textarea>
-			</p>
-			<div class="btnArea">
-				<span class="btn"><button type="submit" name="type" value="trash">{$lang->cmd_trash}</button></span>
-				<span class="btn"><button type="submit" name="type" value="delete">{$lang->cmd_delete}</button></span>
-				<span class="btn"><button type="submit" name="type" value="move">{$lang->cmd_move}</button></span>
-				<span class="btn"><button type="submit" name="type" value="copy">{$lang->cmd_copy}</button></span>
-				<span class="btn"><button type="submit" name="type" value="cancelDeclare">{$lang->cmd_cancel_declare}</button></span>
-			</div>
-		</form>
+
+	<form action="./" method="post" class="x_modal fg form" id="manageForm">
+	<input type="hidden" name="module" value="document" />
+	<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
+	<input type="hidden" name="type" value="" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" />
+	<div class="x_modal-header">
+		<h2 class="h2">{$lang->document_manager}</h2>
 	</div>
+	<div class="x_modal-body">
+		<div>
+			<table width="100%" id="documentManageListTable" class="x_table x_table-striped x_table-hover">
+				<caption>{$lang->selected_document} <strong id="selectedDocumentCount"></strong></caption>
+				<thead>
+					<tr>
+						<th scope="col" class="title">{$lang->title}</th>
+						<th scope="col" class="nowr">{$lang->writer}</th>
+						<th scope="col" class="nowr">{$lang->status}</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<p class="q"><label for="site">{$lang->selected_document_move}</label></p>
+		<div class="a">
+			<input type="text" name="site_keyword" id="site" />
+			<span class="desc"><a href="#suggestion" class="tgAnchor" onclick="getModuleList();">{$lang->find_site}</a></span>
+			<p>
+				<select name="target_module" id="module_list" style="width:290px">
+					<option>{$lang->select_module}</option>
+				</select>
+			</p>
+			<p>
+				<select name="module_srl" id="mid_list" style="width:290px">
+					<option>{$lang->select_module_id}</option>
+				</select>
+			</p>
+			<p>
+				<select id="target_category" name="target_category" style="width:290px">
+					<option>{$lang->select_category}</option>
+				</select>
+			</p>
+		</div>
+		<p class="q"><label for="message">{$lang->message_notice}</label></p>
+		<p>
+			<textarea rows="8" cols="42" name="message_content" id="message" style="width:98%"></textarea>
+		</p>
+	</div>
+	<div class="x_modal-footer">
+		<div class="x_btn-group">
+			<button type="submit" name="type" value="trash" class="x_btn x_btn-warning">{$lang->cmd_trash}</button>
+			<button type="submit" name="type" value="delete" class="x_btn x_btn-danger">{$lang->cmd_delete}</button>
+			<button type="submit" name="type" value="move" class="x_btn">{$lang->cmd_move}</button>
+			<button type="submit" name="type" value="copy" class="x_btn">{$lang->cmd_copy}</button>
+			<button type="submit" name="type" value="cancelDeclare" class="x_btn">{$lang->cmd_cancel_declare}</button>
+		</div>
+	</div>
+	</form>
+
 	<div class="search">
 
 <form action="./" class="pagination">
@@ -129,26 +139,29 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
 	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
-	<a href="{getUrl('page', '')}" class="direction">&laquo; {$lang->first_page}</a>
-	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-	</block>
-	<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<strong cond="$page_no == $page">{$page_no}</strong>
-		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-	<!--@end-->
-	<block cond="$last_page != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-	</block>
-	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">{$lang->last_page} &raquo;</a>
-	<span cond="$isGoTo" id="goTo" class="tgContent">
-		<input name="page" title="{$lang->cmd_go_to_page}" />
-		<button type="submit">Go</button>
-	</span>
+	<div class="x_pagination x_pagination-centered">
+	<ul>
+		<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo;</a></li>
+		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+			{@$isGoTo = true}
+			<li><a href="{getUrl('page', '')}">1</a></li>
+			<li><a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a></li>
+		</block>
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+		<block cond="$last_page != $page_navigation->last_page">
+			{@$isGoTo = true}
+			<li><a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a></li>
+			<li><a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a></li>
+		</block>
+		<li class="x_disabled"|cond="$page == $last_page"><a href="{getUrl('page', $page_navigation->last_page)}" class="direction">&raquo;</a></li>
+		<span cond="$isGoTo" id="goTo" class="tgContent">
+			<input name="page" title="{$lang->cmd_go_to_page}" />
+			<button type="submit" class="x_btn">Go</button>
+		</span>
+	</ul>
+	</div>
 </form>
 	</div>
