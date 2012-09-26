@@ -145,7 +145,7 @@
 							</div>
 							<div class="x_tab-pane" id="add_linkMenu">
 								<input type="text" class="_linkMenuTitle" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
-								<input type="hidden" class="_linkMenuURL" required  />
+								<input type="hidden" class="_linkMenuSrl" required  />
 								<div class="_menuSelector_menuTreeContainer clone">
 								</div>
 							</div>
@@ -1033,7 +1033,6 @@ jQuery(function($){
 	
 	// TARGET show
 	$(document.body).on("click", ".x [data-admin-show]", function(ev){
-console.log(777);
 		var $anchor = $(this);
 		var $target = $($(this).attr('data-admin-show'));
 
@@ -1077,7 +1076,7 @@ console.log(777);
 		
 		$(this).closest('.clone').prevAll('input._linkMenuTitle').val($._htMarkupActionParam.sMenuTitle);
 		//$(this).closest('.clone').prev('input[type="text"]').val($._htMarkupActionParam.sMenuTitle + " ["+$._htMarkupActionParam.sMenuUrl+"]");
-		$(this).closest('.clone').prev('input._linkMenuURL').val($._htMarkupActionParam.sMenuUrl);
+		$(this).closest('.clone').prev('input._linkMenuSrl').val($._htMarkupActionParam.sMenuId);
 		
 		$(this).closest('.clone').find('li.x_selected').removeClass('x_selected');
 		$(this).closest('li').addClass('x_selected');
@@ -1220,13 +1219,18 @@ console.log(777);
 		
 		showMenuSelector($('._menuSelector_menuTreeContainer'));
 	});
-	$('#add_menu').bind("hide", function(){
+	$('#add_menu').bind("hide", function(ev){
+		if(this !== ev.target){
+			return;
+		}
+
 		clearInputs($('#add_menu'));
 		 $('#add_menu .x_active ._linkUrl').val('http://');
 	});
 	$('#add_menu ._save').bind("click", function(){
 		var sMenuName = $('#add_menu ._menuName').val();
 		var sUrl = $('#add_menu ._mid').val();
+		var sTargetKey = "module_id";
 		
 		var sSelectedModuleName = $._xeAdminVar.sSelectedModuleName;
 		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
@@ -1246,7 +1250,7 @@ console.log(777);
 			
 			if(nSelectedTabIdx === 0){
 				sUrl = $('#add_menu .x_active ._linkUrl').val();
-				if(!sUrl){
+				if(!sUrl || sUrl === "http://"){
 					alert('URL is required');
 					return;
 				}
@@ -1254,13 +1258,15 @@ console.log(777);
 					sUrl = "http://"+sUrl;
 				}
 			}else{
-				sUrl = $('#add_menu .x_active ._linkMenuURL').val();
+				sUrl = $('#add_menu .x_active ._linkMenuSrl').val();
 				
 				if(!sUrl){
 					alert("Target mid is required");
 					return;
 				}
 			}
+			
+			sTargetKey = 'shortcut_target';
 		}
 		
 		var params = {};
@@ -1270,11 +1276,11 @@ console.log(777);
 		params['menu_name_key'] = "";
 		params['menu_name'] = sMenuName;
 		params['module_type'] = sSelectedModuleName;
-		params['url'] = sUrl;
 		params['menu_open_window'] = "N";
 		params['menu_expand'] = "N";
 		params['is_shortcut'] = isShortCut;
 		params['parent_srl'] = sSelectedMenuSrl;
+		params[sTargetKey] = sUrl;
 
 		/*
 		Array
