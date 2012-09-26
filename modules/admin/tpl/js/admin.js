@@ -9,17 +9,28 @@ jQuery(function($){
 
 // TARGET toggle
 	$('.x [data-toggle]').click(function(){
-		$($(this).attr('data-toggle')).toggle();
+		var $this = $(this);
+		var $target = $($this.attr('data-toggle'));
+		$target.toggle();
+		if($target.is(':visible') && !$target.find('a,input,button,textarea,select').length){
+			$target.attr('tabindex','0').focus();
+		} else if($target.is(':visible') && $target.find('a,input,button,textarea,select').length) {
+			$target.find('a,input,button,textarea,select').eq(0).focus();
+		} else {
+			$this.focus();
+		}
 		return false;
 	});
 // TARGET show
 	$('.x [data-show]').click(function(){
-		$($(this).attr('data-show')).show();
+		$($(this).attr('data-show')).show().attr('tabindex','0').focus();
 		return false;
 	});
 // TARGET hide
 	$('.x [data-hide]').click(function(){
-		$($(this).attr('data-hide')).hide();
+		var $this = $(this);
+		$($this.attr('data-hide')).hide();
+		$this.focus();
 		return false;
 	});
 
