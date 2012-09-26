@@ -143,24 +143,30 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<ul>
 		<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo;</a></li>
 		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-			{@$isGoTo = true}
 			<li><a href="{getUrl('page', '')}">1</a></li>
-			<li><a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a></li>
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
 		</block>
 		<!--@while($page_no = $page_navigation->getNextPage())-->
 			{@$last_page = $page_no}
 			<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
 		<!--@end-->
 		<block cond="$last_page != $page_navigation->last_page">
-			{@$isGoTo = true}
-			<li><a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a></li>
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
 			<li><a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a></li>
 		</block>
 		<li class="x_disabled"|cond="$page == $last_page"><a href="{getUrl('page', $page_navigation->last_page)}" class="direction">&raquo;</a></li>
-		<span cond="$isGoTo" id="goTo" class="tgContent">
-			<input name="page" title="{$lang->cmd_go_to_page}" />
-			<button type="submit" class="x_btn">Go</button>
-		</span>
 	</ul>
 	</div>
 </form>
