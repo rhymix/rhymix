@@ -57,6 +57,7 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_table{margin:20px 0;border-top:2px solid #ddd;border-bottom:1px solid #ddd}
 .x .x_table>caption{text-align:left;padding:8px 0}
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}
+.x label[for]{font-weight:bold}
 .x label.x_inline{margin-right:16px}
 .x_modal,
 .x_modal-backdrop{display:none}
