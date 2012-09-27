@@ -64,7 +64,7 @@
 				<li><button type="button">잘라내기</button></li>
 				<li><button type="button">복사</button></li>
 				<li><button type="button" disabled>붙여넣기</button></li>
-				<li><a href="#menuRemoveConfirm" class="modalAnchor">삭제</a></li>
+				<li><a href="#menuRemoveConfirm" class="modalAnchor _deleteMenu">삭제</a></li>
 				<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox"> 사이트 접속 시 기본 페이지로 사용</label></li>
 				<li class="default"><a href="#default" data-admin-show="#default">기본 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#imgbtn" data-admin-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -128,6 +128,7 @@
 				<li class="typePage">
 					<label for="mid1">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">?</a></label>
 					<div id="mid1_help" class="x_alert x_alert-info" style="display:none;width:169px">
+						<button type="button" class="x_close" data-admin-hide="#mid1_help">×</button>
 						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
 					</div>
 					<input id="mid1" class="_mid" type="text" required placeholder="생략시 임의값 사용" />
@@ -222,6 +223,7 @@
 				<li class="typePage">
 					<label for="mid2">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
 					<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
+						<button type="button" class="x_close" data-admin-hide="#mid2_help">×</button>
 						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
 					</div>
 					<input type="text" id="mid2" class="_mid">
@@ -728,7 +730,7 @@ function showMenuSelector($container){
 	var $ = jQuery;
 	var aMenuList = $._xeAdminVar.aMenuList;
 	
-	$container.html(createTreeMarkup(aMenuList, "menuSelector_menuTree", "menuSelector_menuTreeNode"));
+	$container.html(createTreeMarkup(aMenuList, 0, "menuSelector_menuTree", "menuSelector_menuTreeNode"));
 	
 	// disable sitemap labels and shortcuts.
 	$container.find('._menuType_1, ._menuType_3').parent('li').addClass('x_disabled');
@@ -740,7 +742,7 @@ function onSiteMapReceived(htData){
 	
 	$._xeAdminVar.aMenuList = aMenuList;
 	
-	$("#siteMapTree").html(createTreeMarkup(aMenuList));
+	$("#siteMapTree").html(createTreeMarkup(aMenuList, 0));
 	
 	var sInitiallyOpen = [];
 	
@@ -834,6 +836,85 @@ function onSiteMapReceived(htData){
 			$._xeAdminVar.sSelectedMenuSrl = sSelectedMenuSrl;
 			
 			showProp(sSelectedMenuSrl);
+		})
+		.bind("move_node.jstree", function(event, data){
+			console.log(event, data);
+			
+			
+			/*
+				._get_move ()
+				Returns the lastly prepared move. The returned object contains:
+				.o - the node being moved
+				.r - the reference node in the move
+				.ot - the origin tree instance
+				.rt - the reference tree instance
+				.p - the position to move to (may be a string - "last", "first", etc)
+				.cp - the calculated position to move to (always a number)
+				.np - the new parent
+				.oc - the original node (if there was a copy)
+				.cy - boolen indicating if the move was a copy
+				.cr - same as np, but if a root node is created this is -1
+				.op - the former parent
+				.or - the node that was previously in the position of the moved node
+			*/
+			var aMoveInfo = data.args[0];
+			var aSource = aMoveInfo.o;
+			var aTargetPosRef = aMoveInfo.r;
+			var sTargetPos = aMoveInfo.p;
+			var aNewParent = aMoveInfo.np;
+
+			console.log(aSource, aTargetPosRef, sTargetPos, aNewParent);
+			console.log(aSource[0], aTargetPosRef[0], sTargetPos, aNewParent[0]);
+
+			var aNode, htParentInfo, htTargetInfo, htData, sMenuSrl, sTargetSrl, sParentSrl, nIdx;
+			//htData = $.parseJSON($(htSource).attr('data-param');
+			console.log(sTargetPos);
+			sMenuSrl = aSource[0].id.replace("menu", "");
+			sParentSrl = aNewParent[0].id.replace("menu", "");
+			sTargetSrl = aTargetPosRef[0].id.replace("menu", "");
+			if(sParentSrl === sTargetSrl || sTargetPos === "first"){
+				sTargetSrl = 0;
+			}else{
+				htTargetInfo = htNodeInfo[sTargetSrl];
+				htParentInfo = htNodeInfo[htTargetInfo.sParentSrl];
+				
+				console.log(htParentInfo);
+
+				aNode = htParentInfo.list;
+
+				for(var i=0, nLen=aNode.length; i<nLen; i++){
+					console.log(aNode[i].sText, aNode[i].sNodeSrl, "->", sTargetSrl);
+					if(aNode[i].sNodeSrl == sTargetSrl){
+						
+						console.log('found');
+						break;
+					}
+				}
+				console.log(999, i);
+				//if(sParentSrl === sTargetSrl || sTargetPos === "first"){
+				//htNodeInfo
+			}
+			//aNode[i].sParentSrl
+			//sTargetSrl = ;
+			//sParentSrl = ;
+			
+			console.log(sMenuSrl, sTargetSrl, sParentSrl);
+			/*
+				params['menu_srl'] = 101;
+				params['mode'] = 'move';
+
+				// 위치를 이동 할 메뉴의 srl
+				params['target_srl'] = 196;
+
+				// 어느 부모 밑으로 이동 할지
+				params['parent_srl'] = 186;
+
+				// parent_srl 하위의 어느 노드 뒤에 삽입 할지. 
+				// 0: parent_srl 바로 밑에. 
+				// 다른 값: 해당 srl을 가진 노드 밑에
+				params['source_srl'] = 0;  
+				exec_xml("menu","procMenuAdminMoveItem", params, completeTmp);
+			*/
 		});
 		
 	$('#site_map').nextAll().hide();
@@ -841,7 +922,7 @@ function onSiteMapReceived(htData){
 
 var htNodeInfo = {};
 // return html
-function createTreeMarkup(aNode, sMenuTree, sMenuTreeNode){
+function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 	sMenuTree = sMenuTree || "menuTree";
 	sMenuTreeNode = sMenuTreeNode || "menuTreeNode";
 	
@@ -858,6 +939,8 @@ function createTreeMarkup(aNode, sMenuTree, sMenuTreeNode){
 
 	var sResult = "";
 	for(var i=0, nLen=aNode.length; i<nLen; i++){
+		aNode[i].sParentSrl = sParentSrl;
+		
 		// Only sitemap node has menuSrl
 		if(aNode[i].menuSrl){
 			nNodeType = 1;
@@ -926,12 +1009,13 @@ function createTreeMarkup(aNode, sMenuTree, sMenuTreeNode){
 		htNodeInfo[sNodeSrl] = aNode[i];
 
 		htNodeInfo[sNodeSrl].nNodeType = nNodeType;
+		htNodeInfo[sNodeSrl].sNodeSrl = sNodeSrl;
 		htNodeInfo[sNodeSrl].sText = sText;
 
 		sSubTree = "";
 		if(aSubNode && aSubNode.length>0){
 			//sSubTree = createTreeMarkup(aSubNode, aNode[i], sMenuTree, sMenuTreeNode);
-			sSubTree = createTreeMarkup(aSubNode, sMenuTree, sMenuTreeNode);
+			sSubTree = createTreeMarkup(aSubNode, sNodeSrl, sMenuTree, sMenuTreeNode);
 		}
 		/*
 		if(sMenuType === "shortcut"){
@@ -1406,6 +1490,30 @@ jQuery(function($){
 			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
 			loadSiteMap();
 		});
+	});
+	
+	$('._deleteMenu').click(function(){
+		var bDelete = confirm('메뉴를 삭제하면 콘텐츠도 삭제됩니다.\n정말 삭제하시겠습니까?');
+		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+
+		var sParentSrl = htNodeInfo[sSelectedMenuSrl].parent_srl;
+
+		if(bDelete){
+			var params = {};
+			params['menu_item_srl'] = sSelectedMenuSrl;
+
+			$.exec_json("menu.procMenuAdminDeleteItem", params, function(htData){
+				console.log(htData);
+				if(htData.error !== 0){
+					alert(htData.message);
+					return;
+				}
+				
+				// select the parent of the menu being deleted
+				$._xeAdminVar.sSelectOnload = sParentSrl;
+				loadSiteMap();
+			});
+		}
 	});
 	
 //	$('#add_url').bind("show", function(){console.log('show');});
