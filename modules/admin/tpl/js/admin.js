@@ -162,6 +162,12 @@ jQuery(function($){
 	$xAlert.children('.x_close').click(function(){
 		$(this).parent('.x_alert').hide();
 	});	
+// Desabled Buttons
+	$('.x .x_btn').click(function(){
+		if($(this).hasClass('x_disabled')){
+			return false;
+		}
+	});
 });
 
 // Modal Window

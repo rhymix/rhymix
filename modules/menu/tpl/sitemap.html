@@ -64,7 +64,7 @@
 				<li><button type="button">잘라내기</button></li>
 				<li><button type="button">복사</button></li>
 				<li><button type="button" disabled>붙여넣기</button></li>
-				<li><button type="button" onClick="confirm('메뉴를 삭제하면 콘텐츠도 삭제됩니다. 정말 삭제하시겠습니까?')">삭제</button></li>
+				<li><a href="#menuRemoveConfirm" class="modalAnchor">삭제</a></li>
 				<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox"> 사이트 접속 시 기본 페이지로 사용</label></li>
 				<li class="default"><a href="#default" data-admin-show="#default">기본 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#imgbtn" data-admin-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -535,6 +535,20 @@
 		<button type="button" class="x_close" data-admin-hide="#html">&times;</button>
 	</div>
 </div>
+<form action="" class="x_modal" id="menuRemoveConfirm">
+	<div class="x_modal-header">
+		<h3>Do you want to remove this menu item?</h3>
+	</div>
+	<div class="x_modal-body">
+		<p><label><input type="checkbox"> 메뉴와 연결된 콘텐츠도 모두 삭제된다는 것을 이해하고 있습니다.</label></p>
+	</div>
+	<div class="x_modal-footer">
+		<button type="button" class="x_btn x_pull-left" data-hide="#menuRemoveConfirm">Cancel</button>
+		<span class="x_btn-group x_pull-right">
+			<button type="submit" class="x_btn x_btn-danger x_disabled">Delete</button>
+		</span>
+	</div>
+</form>
 <style>
 /* Site */
 .x>.body>.content{margin-bottom:0}
@@ -1465,6 +1479,17 @@ setTimeout(function(){
 		}
 		$(window).load(toggleList);
 		$check.change(toggleList);
+	});
+// Remove Menu Item Checkbox Toggle
+	var $mrc = $('#menuRemoveConfirm');
+	$mrc.find('input:checkbox').removeAttr('checked').change(function(){
+		var $this = $(this);
+		var $submit = $this.closest($mrc).find('[type="submit"]');
+		if($this.is(':checked')){
+			$submit.removeClass('x_disabled');
+		} else {
+			$submit.addClass('x_disabled');
+		}
 	});
 });
 //]]>
