@@ -168,6 +168,13 @@ jQuery(function($){
 			return false;
 		}
 	});
+// Vertical Rule Style
+	$('.x i').each(function(){
+		var $this = $(this);
+		if($this.text() == '|'){
+			$this.addClass('vr');
+		}	
+	});
 });
 
 // Modal Window

@@ -66,6 +66,31 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_control-group{padding-top:8px;margin-bottom:10px;border-top:1px dotted #ddd}
 .x .x_control-group:first-child,
 .x .x_control-group:first-of-type{border-top:0;padding-top:0}
+.x .x_control-group input,
+.x .x_control-group select,
+.x .x_control-group textarea{margin-bottom:0}
+.x select, 
+.x textarea, 
+.x input[type="text"], 
+.x input[type="password"], 
+.x input[type="datetime"], 
+.x input[type="datetime-local"], 
+.x input[type="date"], 
+.x input[type="month"], 
+.x input[type="time"], 
+.x input[type="week"], 
+.x input[type="number"], 
+.x input[type="email"], 
+.x input[type="url"], 
+.x input[type="search"], 
+.x input[type="tel"], 
+.x input[type="color"], 
+.x_uneditable-input{height:16px}
+.x label, 
+.x input, 
+.x button, 
+.x select, 
+.x textarea{line-height:16px}
 /* Custom Styles */
 .x .section{margin:20px 0 40px 0}
 .x .section>h1{position:relative}
