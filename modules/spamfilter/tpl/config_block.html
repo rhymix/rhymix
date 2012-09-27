@@ -1,0 +1,41 @@
+<include target="./header.html" />
+<section class="section">
+	<ul class="x_nav x_nav-tabs">
+		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedIPList')}">{$lang->cmd_denied_ip}</a></li>
+		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedWordList')}">{$lang->cmd_denied_word}</a></li>
+		<li class="x_active"><a href="{getUrl('','module','admin','act','dispSpamfilterAdminConfigBlock')}">{$lang->cmd_config_block}</a></li>
+	</ul>
+	<form action="./" id="spamfilterConfig" ruleset="@insertConfig">	
+		<input type="hidden" name="act" value="procSpamfilterAdminInsertConfig" />
+		<input type="hidden" name="module" value="spamfilter" />
+		<input type="hidden" name="ruleset" value="insertConfig" />
+		<div class="x_control-group">
+			<label class="x_control-label" for="inputEmail2">{$lang->cmd_interval}</label>
+			<label for="spamCond1_yes" class="x_inline">
+			<input type="radio" name="limits" id="spamCond1_yes" value="Y" <!--@if($config->limits=='Y' || $config->limits =='')-->checked="checked"<!--@end--> />
+			{$lang->cmd_yes}</label>
+			<label for="spamCond1_no" class="x_inline">
+				<input type="radio" name="limits" id="spamCond1_no" value="N" <!--@if($config->limits!='Y' && $config->limits !='')--> checked="checked"<!--@end--> /> {$lang->cmd_no}
+			</label>
+				
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="inputEmail2">{$lang->cmd_check_trackback}</label>
+			<label for="spamCond2_yes" class="x_inline">
+				<input type="radio" name="check_trackback" id="spamCond2_yes" value="Y" <!--@if($config->check_trackback=='Y' || $config->check_trackback=='')--> checked="checked"<!--@end--> />{$lang->cmd_yes}
+			</label>
+			<label for="spamCond2_yes" class="x_inline">
+				<input type="radio" name="check_trackback" id="spamCond2_yes" value="N" <!--@if($config->check_trackback!='Y' &&  $config->check_trackback!='')--> checked="checked"<!--@end--> / > {$lang->cmd_no}
+			</label>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>
+
+<include target="./footer.html" />
+
+

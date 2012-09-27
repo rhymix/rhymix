@@ -1,0 +1,45 @@
+<include target="./header.html" />
+<section>
+	<ul class="x_nav x_nav-tabs">
+		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedIPList')}">{$lang->cmd_denied_ip}</a></li>
+		<li class="x_active"><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedWordList')}">{$lang->cmd_denied_word}</a></li>
+		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminConfigBlock')}">{$lang->cmd_config_block}</a></li>
+	</ul>
+	<table class="x_table x_table-striped x_table-hover">
+		<caption><strong>{$lang->cmd_denied_word}</strong></caption>
+		<thead>
+			<tr>
+				<th>IP</th>
+				<th style="width:100px" class="center">{$lang->latest_hit}</th>
+				<th style="width:50px" class="center">{$lang->hit}</th>
+				<th style="width:100px">{$lang->regdate}</th>
+				<th style="width:50px">{$lang->cmd_delete}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$word_list => $word_info">
+				<td>{$word_info->word}</td>
+				<td class="center"><!--@if($word_info->latest_hit)-->{$word_info->latest_hit}<!--@else-->-<!--@end--></td>
+				<td class="center">{$word_info->hit}</td>
+				<td>{zdate($word_info->regdate,'Y-m-d')}</td>
+				<td><a href="#" onclick="doDeleteDeniedWord('{$word_info->word}')">{$lang->cmd_delete}</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<form action="./" class="x_form-horizontal">
+		<input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedWord" />
+		<input type="hidden" name="module" value="spamfilter" />
+		<input type="hidden" name="ruleset" value="insertDeniedWord" />
+		<input type="hidden" name="active" value="word" />
+		<div class="x_control-group">
+			<textarea name="word_list" title="{$lang->add_denied_word}"></textarea>
+			<span class="x_muted">{$lang->about_denied_word}</span>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-left">
+				<button type="submit" class="x_btn x_btn-info">{$lang->add}</button>
+			</div>
+		</div>
+	</form>
+</section>
+<include target="./footer.html" />
