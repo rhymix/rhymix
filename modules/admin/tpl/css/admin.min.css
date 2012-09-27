@@ -34,10 +34,10 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_pagination ul>.x_active>a, 
 .x .x_pagination ul>.x_active>span,
 .x .x_pagination ul>.x_active>strong{line-height:32px;border:0;background-color:#555;color:#fff;font-weight:bold;font-size:18px;font-family:Arial, Helvetica, sans-serif}
-.x .x_pagination #goTo{display:none;margin:0;padding:0}
-.x .x_pagination #goTo>*{border:0;border-radius:0}
-.x .x_pagination #goTo>[type="number"]{height:22px;line-height:22px;width:50px;text-align:center}
-.x .x_pagination #goTo>[type="submit"]{line-height:30px;height:30px;padding:0 6px}
+.x .x_pagination [id^="goTo"]{display:none;margin:0;padding:0}
+.x .x_pagination [id^="goTo"]>*{border:0;border-radius:0}
+.x .x_pagination [id^="goTo"]>[type="number"]{height:22px;line-height:22px;width:50px;text-align:center}
+.x .x_pagination [id^="goTo"]>[type="submit"]{line-height:30px;height:30px;padding:0 6px}
 .x .x_btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px}
 .x .x_btn-large{font-size:16px;padding:9px 14px;font-weight:bold}
 .x .x_btn-small{font-size:14px}
