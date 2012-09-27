@@ -97,7 +97,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 		<!--@while($page_no = $page_navigation->getNextPage())-->
 		{@$last_page = $page_no}
 		<li class="x_active"|cond="$page == $page_no">
-			<em cond="$page == $page_no">{$page_no}</em>
+			<span cond="$page == $page_no">{$page_no}</span>
 			<a cond="$page != $page_no" href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
 		</li>
 		<!--@end-->
@@ -112,12 +112,11 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 	</ul>
 </div>
 
-<form action="./" method="post" class="search x_input-append" onsubmit="return checkSearch(this)">		
+<form action="./" method="post" class="x_clearfix" onsubmit="return checkSearch(this)">		
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="{$act}" />
 <input type="hidden" name="error_return_url" value="" />
-	<div class="x_clearfix">
-	<div class="x_pull-right">
+	<div class="x_pull-right search x_input-append">
 	<select name="search_target" style="width:auto">
 		<option value="">{$lang->search_target}</option>
 		<option loop="$lang->search_poll_target_list => $key, $val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
@@ -125,6 +124,5 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
 	<input class="x_btn x_btn-inverse" type="submit" value="{$lang->cmd_search}" />
 	<a class="x_btn" href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
-	</div>
 	</div>
 </form>
