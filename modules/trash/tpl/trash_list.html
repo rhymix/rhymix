@@ -11,14 +11,17 @@ var no_text_comment = '{$lang->no_text_comment}';
 		<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
 		<input type="hidden" name="page" value="{$page}" />
 		<input type="hidden" name="is_all" value="true" />
-		<h1 class="h1">{$lang->trash}</h1>
+		<div class="x_page-header">
+		<h1>{$lang->trash}</h1>
+		</div>
 		<div class="table even">
-			<table width="100%" border="1" cellspacing="0" id="trashListTable">
+			<table width="100%" id="trashListTable" class="x_table x_table-striped x_table-hover">
 				<caption>
 					{$lang->trash}({number_format($total_count)})
-					<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a></span>
-					<span class="btn"><button type="submit" name="is_all" value="true">{$lang->empty_trash_all}</button></span></span>
-
+					<div class="x_pull-right x_btn-group">
+						<a href="#fo_list" class="x_btn modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a>
+						<button type="submit" class="x_btn x_btn-primary" name="is_all" value="true">{$lang->empty_trash_all}</button>
+					</div>
 				</caption>
 				<thead>
 					<tr>
@@ -55,66 +58,79 @@ var no_text_comment = '{$lang->no_text_comment}';
 			</table>
 		</div>
 		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a></span>
-			<span class="btn"><button type="submit" name="is_all" value="true">{$lang->empty_trash_all}</button></span>
+			<div class="x_pull-right x_btn-group">
+				<a href="#fo_list" class="x_btn modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a>
+				<button type="submit" class="x_btn x_btn-primary" name="is_all" value="true">{$lang->empty_trash_all}</button>
+			</div>
 		</div>
 	</form>
-	<div class="modal" id="listManager">
-		<form ruleset="emptyTrash" id="fo_list" action="./" method="post" class="fg form">
-		<input type="hidden" name="module" value="trash" />
-		<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
-		<input type="hidden" name="page" value="{$page}" />
-		<input type="hidden" name="is_all" value="false" />
-		<input type="hidden" name="origin_module" value="{$origin_module}" />
-			<h2 class="h2">{$lang->document_manager}</h2>
-			<div class="table even">
-				<table width="100%" border="1" cellspacing="0" id="trashManageListTable">
-					<caption>{$lang->selected_document} <strong id="selectedTrashCount">0</strong></caption>
-					<thead>
-						<tr>
-							<th scope="col" class="title">{$lang->document}</th>
-							<th scope="col" class="nowr">{$lang->trash_nick_name}</th>
-							<th scope="col" class="nowr">{$lang->ipaddress}</th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
+
+	<form ruleset="emptyTrash" id="fo_list" action="./" method="post" class="x_modal fg">
+	<input type="hidden" name="module" value="trash" />
+	<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="is_all" value="false" />
+	<input type="hidden" name="origin_module" value="{$origin_module}" />
+		<div class="x_modal-header">
+		<h2>{$lang->document_manager}</h2>
+		</div>
+		<div class="x_modal-body">
+			<table width="100%" id="trashManageListTable" class="x_table x_table-striped x_table-hover">
+				<caption>{$lang->selected_document} <strong id="selectedTrashCount">0</strong></caption>
+				<thead>
+					<tr>
+						<th scope="col" class="title">{$lang->document}</th>
+						<th scope="col" class="nowr">{$lang->trash_nick_name}</th>
+						<th scope="col" class="nowr">{$lang->ipaddress}</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<div class="x_modal-footer">
+			<div class="x_btn-group">
+			<button type="submit" class="x_btn x_btn-danger" name="is_all" value="false">{$lang->cmd_delete}</button>
+			<button type="submit" class="x_btn x_btn-primary" name="act" value="procTrashAdminRestore">{$lang->cmd_restore}</button>
 			</div>
-			<div class="btnArea">
-				<span class="btn"><button type="submit" name="is_all" value="false">{$lang->cmd_delete}</button></span>
-				<span class="btn"><button type="submit" name="act" value="procTrashAdminRestore">{$lang->cmd_restore}</button></span>
-			</div>
-		</form>
-	</div>
+		</div>
+	</form>
+
 <div class="search">
-	<form action="" class="pagination">
+	<form action="" class="x_pagination x_pagination-centered">
 	<input type="hidden" name="error_return_url" value="" />
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
   	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
   	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
-	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
-	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-	</block>
-	<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<strong cond="$page_no == $page">{$page_no}</strong>
-		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-	<!--@end-->
-	<block cond="$last_page != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-	</block>
-	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
-	<span cond="$isGoTo" id="goTo" class="tgContent">
-		<input name="page" title="{$lang->cmd_go_to_page}" />
-		<button type="submit">Go</button>
-	</span>
+	<ul>
+		<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo;</a></li>
+		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+			<li><a href="{getUrl('page', '')}">1</a></li>
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+		</block>
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+		<block cond="$last_page != $page_navigation->last_page">
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			<li><a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a></li>
+		</block>
+		<li class="x_disabled"|cond="$page == $last_page"><a href="{getUrl('page', $page_navigation->last_page)}">&raquo;</a></li>
+	</ul>
 	</form>
 </div>
