@@ -677,6 +677,10 @@
 	<item name="about_column_id">
 		<value xml:lang="ko"><![CDATA[입력항목의 구분자로 사용될 ID입니다. 영문으로 시작하고 영문 숫자만 사용가능합니다.]]></value>
 	</item>
+	<item name="options">
+		<value xml:lang="ko"><![CDATA[선택 옵션]]></value>
+		<value xml:lang="en"><![CDATA[Options]]></value>
+	</item>
 	<item name="about_keep_signed">
 		<value xml:lang="ko"><![CDATA[브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용 시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[You will be still signed in even when the browser is closed.\n\nIt is not recommended to use this if you are using a public computer, for your personal information could be violated.]]></value>
