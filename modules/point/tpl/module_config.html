@@ -3,11 +3,11 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="./" method="post" id="fo_point" class="form">
+<form action="./" method="post" id="fo_point">
 	<input type="hidden" name="module" value="point" />
 	<input type="hidden" name="act" value="procPointAdminInsertModuleConfig" />
 	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
+		<table class="x_table x_table-striped x_table-hover">
 			<thead>
 				<tr>
 					<th scope="col">{$lang->module}</th>
@@ -34,7 +34,7 @@
 			</tbody>
 		</table>
 	</div>
-    <div class="btnArea">
-		<span class="btn medium"><input type="submit" value="{$lang->cmd_registration}" /></span>
+    <div class="x_clearfix">
+		<span class="x_pull-right"><input class="x_btn x_btn-large x_btn-primary" type="submit" value="{$lang->cmd_registration}" /></span>
 	</div>
 </form>

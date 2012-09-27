@@ -1,11 +1,9 @@
 <load target="js/point_admin.js" usecdn="true" />
-<h1 class="h1">{$lang->point} {$lang->cmd_management}</h1>
-<!--@if($module=='admin')-->
-<div class="cnb">
-    <ul>
-        <li <!--@if($act=='dispPointAdminConfig')-->class="active"<!--@end-->><a href="{getUrl('act','dispPointAdminConfig')}">{$lang->cmd_point_config}</a></li>
-        <li <!--@if($act=='dispPointAdminModuleConfig')-->class="active"<!--@end-->><a href="{getUrl('act','dispPointAdminModuleConfig')}">{$lang->cmd_point_module_config}</a></li>
-        <li <!--@if($act=='dispPointAdminPointList')-->class="active"<!--@end-->><a href="{getUrl('act','dispPointAdminPointList')}">{$lang->cmd_point_member_list}</a></li>
-    </ul>
+<div class="x_page-header">
+	<h1>{$lang->point} {$lang->cmd_management}</h1>
 </div>
-<!--@end-->
+<ul class="x_nav x_nav-tabs" cond="$module=='admin'">
+	<li class="x_active"|cond="$act=='dispPointAdminConfig'"><a href="{getUrl('act','dispPointAdminConfig')}">{$lang->cmd_point_config}</a></li>
+	<li class="x_active"|cond="$act=='dispPointAdminModuleConfig'"><a href="{getUrl('act','dispPointAdminModuleConfig')}">{$lang->cmd_point_module_config}</a></li>
+	<li class="x_active"|cond="$act=='dispPointAdminPointList'"><a href="{getUrl('act','dispPointAdminPointList')}">{$lang->cmd_point_member_list}</a></li>
+</ul>
