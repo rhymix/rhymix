@@ -427,6 +427,298 @@ $.fn.xeContentToggler = function(){
 $('a.tgAnchor').xeContentToggler();
 
 });
+
+// Module finder
+jQuery(function($){
+
+$.fn.xeModuleFinder = function(){
+	this
+		.not('.xe-module-finder')
+		.addClass('xe-module-finder')
+		.find('a.tgAnchor.findsite')
+			.bind('before-open.tc', function(){
+				var $this, $ul, val;
+
+				$this = $(this);
+				$ul   = $($this.attr('href')).find('>ul');
+				val   = $this.prev('input:text').val();
+
+				function on_complete(data) {
+					var $li, list = data.site_list, i, c;
+
+					$ul.empty();
+					$this.closest('.modulefinder').find('.moduleList,.moduleIdList').attr('disabled','disabled');
+
+					if(data.error || !$.isArray(list)) {
+						$this.trigger('close.tc');
+						return;
+					}
+
+					for(i=0,c=list.length; i < c; i++) {
+						$li = $('<li />').appendTo($ul);
+						$('<button type="button" />').text(list[i].domain).data('site_srl', list[i].site_srl).appendTo($li);
+					}
+				};
+
+				$.exec_json('admin.getSiteAllList', {domain:val}, on_complete);
+			})
+		.end()
+		.find('.tgContent.suggestion')
+			.delegate('button','click',function(){
+				var $this, $finder;
+
+				$this    = $(this);
+				$finder  = $this.closest('.modulefinder');
+
+				function on_complete(data) {
+					var $mod_select, list = data.module_list, x;
+
+					if(data.error || !list) return;
+
+					$mod_select = $finder.find('.moduleList').data('module_list', list).removeAttr('disabled').empty();
+					for(x in list) {
+						if(!list.hasOwnProperty(x)) continue;
+						$('<option />').attr('value', x).text(list[x].title).appendTo($mod_select);
+					}
+					$mod_select.prop('selectedIndex', 0).change().focus();
+
+					if(!$mod_select.is(':visible')) {
+						$mod_select
+							.slideDown(100, function(){
+								$finder.find('.moduleIdList:not(:visible)').slideDown(100).trigger('show');
+							})
+							.trigger('show');
+					}
+				};
+
+				$finder.find('a.tgAnchor.findsite').trigger('close.tc');
+
+				$.exec_json('module.procModuleAdminGetList', {site_srl:$this.data('site_srl')}, on_complete);
+			})
+		.end()
+		.find('.moduleList,.moduleIdList').hide().end()
+		.find('.moduleList')
+			.change(function(){
+				var $this, $mid_select, val, list;
+
+				$this   = $(this);
+				val     = $this.val();
+				list    = $this.data('module_list');
+
+				if(!list[val]) return;
+
+				list = list[val].list;
+				$mid_select = $this.closest('.modulefinder').find('.moduleIdList').removeAttr('disabled').empty();
+
+				for(var x in list) {
+					if(!list.hasOwnProperty(x)) continue;
+					$('<option />').attr('value', list[x].module_srl).text(list[x].browser_title).appendTo($mid_select);
+				}
+				$mid_select.prop('selectedIndex', 0).change();
+			});
+
+	return this;
+};
+$('.modulefinder').xeModuleFinder();
+
+});
+
+// Module Search : A New Version Of Module Finder
+jQuery(function($){
+
+_xeModuleSearch = function(){
+	var t = this;
+	var $t = $(this);
+
+	var $moduleSearchWindow = $t.find(".moduleSearchWindow");
+
+	var $siteListDiv = $moduleSearchWindow.find('.siteList');
+	var $moduleTypeListDiv = $moduleSearchWindow.find('.moduleTypeList');
+	var $moduleInstanceListDiv = $moduleSearchWindow.find('.moduleInstanceList');
+
+	var $siteList = $siteListDiv.find('UL');
+	var $moduleTypeList = $moduleTypeListDiv.find('UL');
+	var $moduleInstanceList = $moduleInstanceListDiv.find('SELECT');
+
+	var $siteListSearchInput = $moduleSearchWindow.find('INPUT.siteListSearchInput');
+	var aSiteListData;
+
+	var MAX_LIST_HEIGHT = 280;
+	
+	function setListSize($UL, nHeight){
+		var nWidth, $div;
+		$UL.find('li div').width('');
+		$UL.css('height', '');
+		$UL.css('overflow-y', '');
+		if($UL.height() > nHeight){
+			$div = $UL.find('li div');
+			$div.width($div.width()-20+'px');
+			$UL.css('height', nHeight+'px');
+			$UL.css('overflow-y', 'auto');
+		}
+	}
+
+	function setSiteList(sFilter){
+		var sDomain;
+		var rxFilter = new RegExp(sFilter, "ig");
+		var list = aSiteListData;
+
+		$siteList.empty();
+	
+		for(i=0,c=list.length; i < c; i++) {
+			sDomain = list[i].domain;
+			if(sFilter){
+				if(!sDomain.match(rxFilter)) continue;
+				sDomain = sDomain.replace(rxFilter, function(sKeyword){
+					return '<span class="highlight">'+sKeyword+'</span>';
+				});
+			}
+
+			$li = $('<li />').appendTo($siteList);
+			$('<a>').attr('href', '#').html(
+				'<div>' + sDomain + '</div>' +
+				'<span class="icon-circle-arrow-right" style="display:inline-block;float:right;width:16px;height:16px;"></span>'
+			).data('site_srl', list[i].site_srl).appendTo($li);
+		}
+
+		setListSize($siteList, MAX_LIST_HEIGHT - $siteListSearchInput.parent("DIV").height());
+	}
+
+	$siteListSearchInput.keyup(function(){
+		setSiteList($siteListSearchInput.val());
+	});
+
+	if(typeof console == 'undefined'){
+		console={log:function(){}};
+	}
+
+	$t
+		.not('.xe-module-search')
+		.addClass('xe-module-search')
+		.find('a.tgAnchor.moduleSearch')
+			.bind('before-open.tc', function(){
+				var $this;
+
+				$this = $(this);
+
+				function on_complete(data) {
+					var $li, list = data.site_list, i, c;
+
+					if(data.error || !$.isArray(list)) {
+						$this.trigger('close.tc');
+						return;
+					}
+
+					aSiteListData = list;
+
+					setSiteList($siteListSearchInput.val());
+
+					$siteListSearchInput.focus();
+				};
+
+				$siteList.empty();
+				$moduleInstanceList.empty();
+				$moduleTypeListDiv.hide();
+				$moduleInstanceListDiv.hide();
+				$.exec_json('admin.getSiteAllList', {domain:""}, on_complete);
+			})
+		.end()
+		.find('.tgContent .siteListUL')
+			.delegate('a','click',function(oEvent){
+				var $this, $finder;
+
+				$this    = $(this);
+				$finder  = $this.closest('.modulefinder');
+
+				function on_complete(data) {
+
+					var list = data.module_list, x;
+
+					if(data.error || !list) return;
+
+					for(x in list) {
+						if(!list.hasOwnProperty(x)) continue;
+						$li = $('<li />').appendTo($moduleTypeList);
+						$('<a>').attr('href', '#').html(
+							'<div>'+list[x].title+'</div>' +
+							'<span class="icon-circle-arrow-right" style="display:inline-block;float:right;width:16px;height:16px;"></span>'
+						).data('moduleInstanceList', list[x].list).appendTo($li);
+						//$('<option />').attr('value', x).text(list[x].title).appendTo($mod_select);
+					}
+
+					$moduleSearchWindow.find('.moduleTypeList').show();
+					setListSize($moduleTypeList, MAX_LIST_HEIGHT);
+
+					$siteList.find('li').removeClass('on');
+					$this.parent('li').addClass('on');
+				};
+
+				//$finder.find('a.tgAnchor.findsite').trigger('close.tc');
+				$moduleTypeList.empty();
+				$moduleInstanceListDiv.hide();
+
+				$.exec_json('module.procModuleAdminGetList', {site_srl:$this.data('site_srl')}, on_complete);
+
+				oEvent.preventDefault();
+			})
+		.end()
+		//.find('.moduleList,.moduleIdList').hide().end()
+		.find('.moduleTypeListUL')
+			.delegate('a', 'click', function(oEvent){
+			
+				var $this, $mid_select, val, list;
+
+				$this = $(this);
+				list = $this.data('moduleInstanceList');
+				if(!list) return;
+
+				t.sSelectedModuleType = $this.text();
+				$moduleInstanceList.empty();
+
+				for(var x in list) {
+					if(!list.hasOwnProperty(x)) continue;
+
+					$li = $('<option />').html(list[x].browser_title).appendTo($moduleInstanceList).val(list[x].module_srl).data('mid', list[x].module_srl)
+							.data('module_srl', list[x].module_srl).data('layout_srl', list[x].layout_srl).data('browser_title', list[x].browser_title);
+				}
+
+				$moduleInstanceListDiv.show();
+				setListSize($moduleInstanceList, MAX_LIST_HEIGHT);
+
+				$moduleTypeList.find('li').removeClass('on');
+				$this.parent('li').addClass('on');
+
+				oEvent.preventDefault();
+			})
+		.end()
+		.find('.moduleSearch_ok').click(function(oEvent){
+				var aSelected = [];
+				$t.find('.moduleInstanceListSelect option:selected').each(function(){
+					aSelected.push({
+						'type' : t.sSelectedModuleType,
+						'module_srl' : $(this).data('module_srl'),
+						'layout_srl' : $(this).data('layout_srl'),
+						'browser_title' : $(this).data('browser_title')
+					});
+				});
+
+				$t.trigger('moduleSelect', [aSelected]);
+				$('.tgAnchor.moduleSearch').trigger('close.tc');
+				
+				oEvent.preventDefault();
+			});
+			
+
+	return this;
+};
+
+$.fn.xeModuleSearch = function(){
+	$(this).each(_xeModuleSearch);
+};
+
+$('.moduleSearch').xeModuleSearch();
+});
+
 // Sortable table
 jQuery(function($){
 

@@ -5,24 +5,24 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
+<form action="./" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
 	<input type="hidden" name="act" value="" />
 	<input type="hidden" name="type" value="module" />
 	<input type="hidden" name="unit_count" value="10" />
-	<h2 class="h2">{$lang->type_module}</h2>
+	<h2>{$lang->type_module}</h2>
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
 			<p class="a checkxml">
 				<input type="text" name="xml_file" value="./" />
-				<button type="button">{$lang->cmd_check_path}</button>
+				<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
 				<em class="desc"></em><!--//class="error|success"-->
 			</p>
 		</li>
 		<li class="xml ttxml modulefinder">
 		<p class="q">{$lang->data_destination} <br />{$lang->import_desc}</p>
 			<div class="a">
-				<input type="text" name="site_keyword" /> <a href="#suggestion1" class="tgAnchor findsite">{$lang->find_site}</a>
+				<input type="text" name="site_keyword" /> <a href="#suggestion1" class="tgAnchor findsite x_btn">{$lang->find_site}</a>
 				<div id="suggestion1" class="tgContent suggestion">
 					<ul></ul>
 				</div>
@@ -41,7 +41,7 @@
 		<li class="ttxml modulefinder">
 			<p class="q">{$lang->guestbook_destination}</p>
 			<div class="a">
-				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->find_site}</a>
+				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite x_btn">{$lang->find_site}</a>
 				<div id="suggestion3" class="tgContent suggestion">
 					<ul></ul>
 				</div>
@@ -67,19 +67,19 @@
 		</li>
 	</ul>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'memberForm')" id="memberForm">
+<form action="./" method="get" onsubmit="return doPreProcessing(this, 'memberForm')" id="memberForm">
 	<input type="hidden" name="type" value="member" />
 	<input type="hidden" name="unit_count" value="100" />
-	<h2 class="h2">{$lang->type_member}</h2>
+	<h2>{$lang->type_member}</h2>
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
 			<p class="a checkxml">
 				<input type="text" name="xml_file" value="./" />
-				<button type="button">{$lang->cmd_check_path}</button>
+				<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
 				<em class="desc">{$lang->msg_no_xml_file}</em>
 			</p>
 		</li>
@@ -89,29 +89,29 @@
 		</li>
 	</ul>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
+<form action="./" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
 	<input type="hidden" name="type" value="message" />
 	<input type="hidden" name="unit_count" value="100" />
-	<h2 class="h2">{$lang->type_message}</h2>
+	<h2>{$lang->type_message}</h2>
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
 			<p class="a checkxml">
 				<input type="text" name="xml_file" value="./" />
-				<button type="button">{$lang->cmd_check_path}</button>
+				<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
 				<em class="desc"></em><!--//class="error|success"-->
 			</p>
 		</li>
 	</ul>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>
 <a href="#process" class="modalAnchor"></a>
-<div class="modal" id="process" style="display:none;">
+<div class="x_modal" id="process" style="display:none;">
     <form action="./" method="get" onsubmit="return doImport()" id="fo_process" class="fg">
         <input type="hidden" name="type" value="" />
         <input type="hidden" name="total" value="" />
