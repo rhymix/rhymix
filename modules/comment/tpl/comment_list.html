@@ -7,8 +7,10 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form id="fo_list" action="./" method="post" class="form">
-	<h1 class="h1">{$lang->comment}</h1>
+<form id="fo_list" action="./" method="post">
+	<div class="x_page-header">
+	<h1>{$lang->comment}</h1>
+	</div>
 	<div class="table even">
 		<div class="x_tabbable">
 			<ul class="x_nav x_nav-tabs">
@@ -93,7 +95,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</div>
 </form>
 
-<form ruleset="deleteChecked" action="./" method="post" class="x_modal fg form" id="listManager">
+<form ruleset="deleteChecked" action="./" method="post" class="x_modal fg" id="listManager">
 <input type="hidden" name="module" value="comment" />
 <input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
 <input type="hidden" name="page" value="{$page}" />
@@ -102,7 +104,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 <input type="hidden" name="search_target" value="{$search_target}" />
 <input type="hidden" name="search_keyword" value="{$search_keyword}" />
 	<div class="x_modal-header">
-	<h2 class="h2">{$lang->comment_manager}</h2>
+	<h2>{$lang->comment_manager}</h2>
 	</div>
 	<div class="x_modal-body">
 		<div class="table even">
@@ -144,14 +146,13 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </form>
 
 <div class="search">
-<form action="./" class="pagination">
+<form action="./" class="x_pagination x_pagination-centered">
 	<input type="hidden" name="error_return_url" value="" />
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
   	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
   	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
-	<div class="x_pagination x_pagination-centered">
 	<ul>
 		<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo;</a></li>
 		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
@@ -180,7 +181,6 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		</block>
 		<li class="x_disabled"|cond="$page == $last_page"><a href="{getUrl('page', $page_navigation->last_page)}">&raquo;</a></li>
 	</ul>
-	</div>
 </form>
 
 	<form action="./" method="get" class="search center x_input-append" onsubmit="return checkSearch(this)">
