@@ -27,7 +27,7 @@
        	    $moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter',$argsConfig);
 			if(!$moduleConfigOutput->toBool()) return $moduleConfigOutput;
 
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminConfigBlock');
 			$this->setRedirectUrl($returnUrl);
 		}
 
@@ -36,22 +36,27 @@
 			$ipaddress_list = Context::get('ipaddress_list');
             $oSpamfilterController = &getController('spamfilter');
 			if($ipaddress_list){
-            	$insertIPOutput = $oSpamfilterController->insertIP($ipaddress_list);
-				if(!$insertIPOutput->toBool()) return $insertIPOutput;
+				$output = $oSpamfilterController->insertIP($ipaddress_list);
+				if(!$output->toBool() && !$output->get('fail_list')) return $output;
 			}
 
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			if($output->get('fail_list')) $message_fail = '<em>'.sprintf(Context::getLang('msg_faillist'),$output->get('fail_list')).'</em>';
+			$this->setMessage(Context::getLang('success_registed').$message_fail);
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedIPList');
 			$this->setRedirectUrl($returnUrl);
 		}
 		function procSpamfilterAdminInsertDeniedWord(){
 			//스팸 키워드 추가
 			$word_list = Context::get('word_list');
           	if($word_list){
-				$insertWordOutput = $this->insertWord($word_list);
-				if(!$insertWordOutput->toBool()) return $insertWordOutput;
+				$output = $this->insertWord($word_list);
+				if(!$output->toBool() && !$output->get('fail_list')) return $output;
 			}
+			if($output->get('fail_list')) $message_fail = '<em>'.sprintf(Context::getLang('msg_faillist'),$output->get('fail_list')).'</em>';
+			$this->setMessage(Context::getLang('success_registed').$message_fail);
 
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedWordList');
 			$this->setRedirectUrl($returnUrl);
 		}
         
@@ -62,7 +67,7 @@
             $ipaddress = Context::get('ipaddress');
             $output = $this->deleteIP($ipaddress);
 
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedIPList');
 			return $this->setRedirectUrl($returnUrl, $output);
         }
         
@@ -74,7 +79,7 @@
             //$word = base64_decode(Context::get('word'));
             $output = $this->deleteWord($word);
 			
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedWordList','active','word');
 			return $this->setRedirectUrl($returnUrl, $output);
         }
 
@@ -94,13 +99,17 @@
          * The post, which contains the newly registered spam word, should be considered as a spam
          **/
         function insertWord($word_list) {
+			if(!preg_match("/^(.{2,40}\s*)*$/",$word_list)) return new Object(-1, 'msg_invalid');
+
 			$word_list = str_replace("\r","",$word_list);
             $word_list = explode("\n",$word_list);
+			$fail_word = '';
             foreach($word_list as $word) {
 				if(trim($word)) $args->word = $word;
         		$output = executeQuery('spamfilter.insertDeniedWord', $args);
-            	if(!$output->toBool()) return $output;
+            	if(!$output->toBool()) $fail_word .= $word.'<br />';
 			}
+			$output->add('fail_list',$fail_word);
 			return $output;
         }
 

@@ -18,7 +18,9 @@
 		</menu>
 	</menus>
     <actions>
-        <action name="dispSpamfilterAdminSetting" type="view" admin_index="true" standalone="true" menu_name="spamFilter" menu_index="true" />
+        <action name="dispSpamfilterAdminDeniedIPList" type="view" admin_index="true" standalone="true" menu_name="spamFilter" menu_index="true" />
+        <action name="dispSpamfilterAdminDeniedWordList" type="view" standalone="true" menu_name="spamFilter" />
+        <action name="dispSpamfilterAdminConfigBlock" type="view" standalone="true" menu_name="spamFilter" />
 
 		<action name="procSpamfilterAdminInsertDeniedIP" type="controller" standalone="true" ruleset="insertDeniedIp" />
         <action name="procSpamfilterAdminInsertDeniedWord" type="controller" standalone="true" ruleset="insertDeniedWord" />

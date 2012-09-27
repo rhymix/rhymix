@@ -137,6 +137,9 @@
          * The registered IP address is considered as a spammer
          **/
         function insertIP($ipaddress_list, $description = null) {
+			print_r($ipaddress_list);
+			$regExr = "/^((\d{1,3}(?:.(\d{1,3}|\*)){3})\s*(\/\/(.*)\s*)?)*\s*$/";
+			if(!preg_match($regExr,$ipaddress_list)) return new Object(-1, 'msg_invalid');
 			$ipaddress_list = str_replace("\r","",$ipaddress_list);
 			$ipaddress_list = explode("\n",$ipaddress_list);
 			foreach($ipaddress_list as $ipaddressValue) {
@@ -146,11 +149,11 @@
 					if(!$description && $matches[4]) $args->description = $matches[4];
 					else $args->description = $description;
 				}
-
 				$output = executeQuery('spamfilter.insertDeniedIP', $args);
-
-				if(!$output->toBool()) return $output;
+				if(!$output->toBool()) $fail_list .= $ipaddress.'<br/>';
 			}
+
+			$output->add('fail_list',$fail_list);
 			return $output;
 
         }

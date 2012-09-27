@@ -24,6 +24,15 @@
 		<value xml:lang="tr"><![CDATA[Yasak Sözcük Listesi]]></value>
 		<value xml:lang="vi"><![CDATA[Danh sách từ cấm]]></value>
 	</item>
+	<item name="cmd_config_block">
+		<value xml:lang="ko"><![CDATA[자동 차단 설정]]></value>
+	</item>
+	<item name="add_denied_ip">
+		<value xml:lang="ko"><![CDATA[스팸 IP 추가]]></value>
+	</item>
+	<item name="add_denied_word">
+		<value xml:lang="ko"><![CDATA[스팸 키워드 추가]]></value>
+	</item>
 	<item name="spamfilter">
 		<value xml:lang="ko"><![CDATA[스팸필터]]></value>
 		<value xml:lang="en"><![CDATA[Spam filter]]></value>
@@ -154,7 +163,7 @@ les articles en plus seront reconnus comme polluriel, et l'adresse IP sera bloqu
 		<value xml:lang="vi"><![CDATA[Bạn có thể thêm IP vào danh sách bị cấm dạng 127.0.0.* bằng cách sử dụng *.]]></value>
 	</item>
 	<item name="about_denied_word">
-		<value xml:lang="ko"><![CDATA[여러개의 항목은 줄을 바꾸어 입력하세요.]]></value>
+		<value xml:lang="ko"><![CDATA[여러개의 항목은 줄을 바꾸어 입력하세요. (글자 제한 2~40 byte)]]></value>
 		<value xml:lang="en"><![CDATA[When you add a word to Word Blacklist,
  articles including it will be blocked.]]></value>
 		<value xml:lang="jp"><![CDATA[禁止ワードとして登録されると該当するワードが存在する書き込みを禁することができます。]]></value>
@@ -258,8 +267,15 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 		<value xml:lang="de"><![CDATA[Nein]]></value>
 		<value xml:lang="mn"><![CDATA[Дугаар]]></value>
 	</item>
-	<item name="invalid">
+	<item name="msg_duplicate">
+		<value xml:lang="ko"><![CDATA[이미 존재합니다.]]></value>
+		<value xml:lang="en"><![CDATA[The value is invalid.]]></value>
+	</item>
+	<item name="msg_invalid">
 		<value xml:lang="ko"><![CDATA[형식이 유효하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The value is invalid.]]></value>
+	</item>
+	<item name="msg_faillist">
+		<value xml:lang="ko"><![CDATA[<br />실패(이미 존재합니다.) <br /> %s ]]></value>
 	</item>
 </lang>
