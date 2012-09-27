@@ -99,7 +99,7 @@
 		<value xml:lang="vi"><![CDATA[Danh sách đính kèm]]></value>
 	</item>
 	<item name="allow_outlink">
-		<value xml:lang="ko"><![CDATA[다른 사이트에서 첨부파일 링크하는 것을 허용할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[파일 외부 링크]]></value>
 		<value xml:lang="en"><![CDATA[Allow External Link?]]></value>
 		<value xml:lang="jp"><![CDATA[外部からのファイルリンク]]></value>
 		<value xml:lang="zh-CN"><![CDATA[防盗链]]></value>
