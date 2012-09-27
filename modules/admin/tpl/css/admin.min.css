@@ -284,21 +284,27 @@ to{-o-transform:rotate(360deg)}
 .x .multilingual>a.x_add-on>i{position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px;z-index:1;opacity:.25;filter:alpha(opacity=25)}
 .x .multilingual>a.x_add-on:hover>i,
 .x .multilingual>a.x_add-on.checked>i{opacity:1;filter:alpha(opacity=100)}
-.x#multilingual td:first-child>a{display:block}
-.x .multilingual_item>.en{background:url(../img/flag.en.gif) no-repeat right center}
-.x .multilingual_item>.ko{background:url(../img/flag.ko.gif) no-repeat right center}
-.x .multilingual_item>.jp{background:url(../img/flag.jp.gif) no-repeat right center}
-.x .multilingual_item>.zh-CN{background:url(../img/flag.cn.gif) no-repeat right center}
-.x .multilingual_item>.zh-TW{background:url(../img/flag.cn.gif) no-repeat right center}
-.x .multilingual_item>.fr{background:url(../img/flag.fr.gif) no-repeat right center}
-.x .multilingual_item>.de{background:url(../img/flag.de.gif) no-repeat right center}
-.x .multilingual_item>.ru{background:url(../img/flag.ru.gif) no-repeat right center}
-.x .multilingual_item>.es{background:url(../img/flag.es.gif) no-repeat right center}
-.x .multilingual_item>.tr{background:url(../img/flag.tr.gif) no-repeat right center}
-.x .multilingual_item>.vi{background:url(../img/flag.vi.gif) no-repeat right center}
-.x .multilingual_item>.mn{background:url(../img/flag.mn.gif) no-repeat right center}
-.x .multilingual_item>input[type="text"]{margin-bottom:-1px}
-.x .multilingual_item>.x_alert{margin-top:8px}
+.x#multilingual .list{border-top:2px solid #ddd}
+.x#multilingual .list>.item{border-bottom:1px solid #ddd;margin:0}
+.x#multilingual .list>.item>a{display:block;padding:8px 0;position:relative}
+.x#multilingual .list>.item>a>i{position:absolute;top:50%;margin:-7px 0 0 0;right:0;opacity:.5;filter:alpha(opacity=50)}
+.x#multilingual .list>.item>fieldset{display:none;padding:0 0 15px 0}
+.x#multilingual .list>.item>fieldset>input[type="text"],
+.x#multilingual .list>.item>fieldset>textarea{padding-left:25px;width:187px;background-repeat:no-repeat;background-position:4px 4px}
+.x#multilingual .list>.item>fieldset>.en{background-image:url(../img/flag.en.gif)}
+.x#multilingual .list>.item>fieldset>.ko{background-image:url(../img/flag.ko.gif)}
+.x#multilingual .list>.item>fieldset>.jp{background-image:url(../img/flag.jp.gif)}
+.x#multilingual .list>.item>fieldset>.zh-CN{background-image:url(../img/flag.cn.gif)}
+.x#multilingual .list>.item>fieldset>.zh-TW{background-image:url(../img/flag.cn.gif)}
+.x#multilingual .list>.item>fieldset>.fr{background-image:url(../img/flag.fr.gif)}
+.x#multilingual .list>.item>fieldset>.de{background-image:url(../img/flag.de.gif)}
+.x#multilingual .list>.item>fieldset>.ru{background-image:url(../img/flag.ru.gif)}
+.x#multilingual .list>.item>fieldset>.es{background-image:url(../img/flag.es.gif)}
+.x#multilingual .list>.item>fieldset>.tr{background-image:url(../img/flag.tr.gif)}
+.x#multilingual .list>.item>fieldset>.vi{background-image:url(../img/flag.vi.gif)}
+.x#multilingual .list>.item>fieldset>.mn{background-image:url(../img/flag.mn.gif)}
+.x#multilingual .list>.item>fieldset>input[type="text"]{margin-bottom:-1px}
+.x#multilingual .list>.item>fieldset>.x_alert{margin-top:8px}
 
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */

@@ -100,30 +100,19 @@ jQuery(function($){
 		contentBugFix();
 	});
 // Multilingual
-	/*var $mlCheck = $('.x .multilingual>label>input[type="checkbox"]');
-	function multilingual(){
-		$mlCheck.each(function(event){
-			var $this = $(this);
-			var $label = $this.parent('label'); // Checkbox label
-			var $input = $label.siblings('input[type="text"]:first');
-			var $select = $label.siblings('select:first');
-			var $fieldset = $this.closest('.multilingual').siblings('.multilingual_item:first'); // Multilingual list
-			if($this.is(':checked')){
-				$input.hide();
-				$select.show();
-				$label.addClass('checked'); 
-				$fieldset.show();
-			} else {
-				$input.show();
-				$select.hide();
-				$label.removeClass('checked');
-				$fieldset.hide();
-			}
-		});
-	}
-	multilingual();
-	$mlCheck.change(multilingual);*/
-//	var $multilingual
+	var $multilingual_a = $('#multilingual .item>a');
+	$multilingual_a.append('<i class="x_icon-chevron-down"></i>');
+	$multilingual_a.click(function(){
+		var $this = $(this);
+		var up = 'x_icon-chevron-up';
+		var down = 'x_icon-chevron-down';
+		if($this.next('fieldset').is(':visible')){
+			$this.children('i').removeClass(down).addClass(up);
+			$this.parent('.item').siblings('.item').find('a>i').removeClass(up).addClass(down).end().children('fieldset').hide();
+		} else {
+			$this.children('i').removeClass(up).addClass(down);
+		}
+	});
 // Check All
 	$('.x th>input[type="checkbox"]')
 		.change(function() {
