@@ -1,38 +1,80 @@
 <p cond="!$filebox_list">Not a registered file.</p>
-<ul cond="$filebox_list" class="lined">
-	<li loop="$filebox_list=>$key,$fileInfo">
-		<!--@if(!$allow_multiple)--><a href="#" class="select"><!--@end--><img class="filebox_item" src="{$fileInfo->filename}" /><!--@if(!$allow_multiple)--></a><!--@end-->
-		<!--@if($allow_multiple)--><input class="select_checkbox" type="checkbox" name="{$fileInfo->filename}" id="{$fileInfo->filename}"><!--@end-->
-		<!--@foreach($fileInfo->attributes as $key => $value)-->
-		<p class="q">{$key} : {$value}</p>
-		<!--@end-->
-	</li>
-	<!--@if($allow_multiple)--><li><a href="#" class="select">Select</a></li><!--@end-->
-</ul>
-<div class="pagination" cond="$page_navigation">
-	<a href="#" class="direction" page="1">&laquo; FIRST</a>
-	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<a href="#" page="1">1</a>
-		<a href="#FileBoxGoTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-	</block>
-	<block loop="$page_no = $page_navigation->getNextPage()">
-		{@$last_page = $page_no}
-		<strong cond="$page_no == $page">{$page_no}</strong>
-		<a cond="$page_no != $page" href="#" page="{$page_no}">{$page_no}</a>
-	</block>
-	<block cond="$last_page != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<a href="#FileBoxGoTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		<a href="#" page="{$page_navigation->last_page}">{$page_navigation->last_page}</a>
-	</block>
-	<a href="#" page="{$page_navigation->last_page}" class="direction">LAST &raquo;</a>
-	<span cond="$isGoTo" id="FileBoxGoTo" class="tgContent">
-		<input name="page" title="{$lang->cmd_go_to_page}" />
-		<button>Go</button>
+<table cond="$filebox_list" class="x_table x_table-striped x_table-hover">
+	<col cond="$allow_multiple" style="width:25px" />
+	<col style="width:250px" />
+	<col />
+	<col cond="!$allow_multiple" style="width:50px; white-space:nowrap" />
+	<tbody>
+		<tr loop="$filebox_list => $key, $val">
+			<td>
+				<!--@if($val->fileextension=='swf')-->
+					<object height="100" width="100" flashvars="" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" xmlns="http://www.w3.org/1999/xhtml">
+						<param value="{getUrl('')}{$val->filename}" name="movie" xmlns="http://www.w3.org/1999/xhtml" />
+						<param value="transparent" name="wmode" xmlns="http://www.w3.org/1999/xhtml" />
+						<param value="sameDomain" name="allowScriptAccess" xmlns="http://www.w3.org/1999/xhtml" />
+						<param value="high" name="quality" xmlns="http://www.w3.org/1999/xhtml" />
+						<embed height="100" width="100" wmode="transparent" flashvars="" autostart="false" src="{getUrl('')}{$val->filename}" xmlns="http://www.w3.org/1999/xhtml" />
+					</object>
+				<!--@elseif(in_array($val->fileextension,array('gif','png','jpg','jpeg')))-->
+					<img src="{getUrl('')}{$val->filename}" class="filebox_item" />
+				<!--@end-->
+			</td>
+			<td>
+				<p loop="$val->attributes => $name, $value">
+					{$name} : {$value}
+				</p>
+			</td>
+			<td cond="!$allow_multiple">
+				<button type="button" class="x_btn x_btn-mini select" style="white-space:nowrap">{$lang->cmd_select}</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div cond="$allow_multiple">
+	<span class="x_pull-right x_btn-group">
+		<button class="x_btn x_btn-mini select">{$lang->cmd_select}</button>
 	</span>
 </div>
+
+<div cond="$page_navigation" class="x_pagination x_pagination-centered">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+
+	<ul>
+		<li class="x_disabled"|cond="!$page || $page == 1"><a href="#" page="1">&laquo; {$lang->first_page}</a></li>
+
+		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goToFileBox" data-toggle="#goToFileBox" title="{$lang->cmd_go_to_page}">...</a>
+				<span cond="$isGoTo" id="goToFileBox" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+		</block>
+
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a  href="#" page="{$page_no}">{$page_no}</a></li>
+		<!--@end-->
+
+		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goToFileBox" data-toggle="#goToFileBox" title="{$lang->cmd_go_to_page}">...</a>
+				<span cond="$isGoTo" id="goToFileBox" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			
+		</block>
+
+		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="#" page="{$page_navigation->last_page}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+	</ul>
+</div>
+
 <script>
-	jQuery('.pagination').xePagination();
 	jQuery('a.tgAnchor').xeContentToggler();
 </script>

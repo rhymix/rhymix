@@ -812,12 +812,22 @@
             if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
 
             $vars = Context::gets('addfile','filter');
-            $attributes = Context::getRequestVars();
-            foreach($attributes as $key => $value){
-            	if(!(strpos($key, 'attribute_name') === false)) $vars->comment = $vars->comment.';'.$value;
-            	if(!(strpos($key, 'attribute_value') ===false)) $vars->comment = $vars->comment.':'.$value;
-            }
-            $vars->comment = substr($vars->comment, 1);
+            $attributeNames = Context::get('attribute_name');
+			$attributeValues = Context::get('attribute_value');
+			if(is_array($attributeNames) && is_array($attributeValues) && count($attributeNames) == count($attributeValues))
+			{
+				$attributes = array();
+				foreach($attributeNames as $no => $name){
+					if(empty($name))
+					{
+						continue;
+					}
+					$attributes[] = sprintf('%s:%s', $name, $attributeValues[$no]);
+				}
+				$attributes = implode(';', $attributes);
+			}
+            
+            $vars->comment = $attributes;
             $module_filebox_srl = Context::get('module_filebox_srl');
 
             $ext = strtolower(substr(strrchr($vars->addfile['name'],'.'),1));

@@ -3,6 +3,7 @@
 <load cond="$lang_type=='ko'" target="../../admin/tpl/css/admin_ko.css" usecdn="true" />
 <load cond="$lang_type=='en'" target="../../admin/tpl/css/admin_en.css" usecdn="true" />
 <load target="js/generate_code.js" usecdn="true" />
+<load target="../../../common/css/bootstrap.min.css" index="1" usecdn="true" />
 
 <script>
 	xe.lang.cmd_delete = '{$lang->cmd_delete}';
@@ -57,7 +58,7 @@
 		</div>
 	</form>
 
-	<include target="widget_generate_code.filebox.html" />
+	<include target="../../module/tpl/include.filebox.html" />
 	<include target="widget_generate_code.multilang.html" />
 	<include target="widget_generate_code.multilang.textarea.html" />
 </div>

@@ -1521,10 +1521,15 @@
         
         function unserializeAttributes($module_filebox_list)
 		{
-			if(is_array($module_filebox_list))
+			if(is_array($module_filebox_list->data))
 			{
-				foreach($module_filebox_list->data as $item)
+				foreach($module_filebox_list->data as &$item)
 				{
+					if(empty($item->comment))
+					{
+						continue;
+					}
+					
 					$attributes = explode(';', $item->comment);
 					foreach($attributes as $attribute){
 						$values = explode(':', $attribute);

@@ -8,7 +8,7 @@ jQuery(function($){
 	});
 
 // TARGET toggle
-	$('.x [data-toggle]').click(function(){
+	$(document.body).on('click', '.x [data-toggle]', function(){
 		var $this = $(this);
 		var $target = $($this.attr('data-toggle'));
 		$target.toggle();
@@ -22,12 +22,12 @@ jQuery(function($){
 		return false;
 	});
 // TARGET show
-	$('.x [data-show]').click(function(){
+	$(document.body).on('click', '.x [data-show]', function(){
 		$($(this).attr('data-show')).show().attr('tabindex','0').focus();
 		return false;
 	});
 // TARGET hide
-	$('.x [data-hide]').click(function(){
+	$(document.body).on('click', '.x [data-hide]', function(){
 		var $this = $(this);
 		$($this.attr('data-hide')).hide();
 		$this.focus();
@@ -130,7 +130,7 @@ jQuery(function($){
 				.trigger('update.checkbox', [name, this.checked]);
 		});
 // Pagination
-	$('.x .x_pagination .x_disabled, .x .x_pagination .x_active').click(function(){
+	$(document.body).on('click', '.x .x_pagination .x_disabled, .x .x_pagination .x_active', function(){
 		return false;
 	});
 // Section Toggle
@@ -845,6 +845,71 @@ $.fn.xeSortableTable = function(){
 };
 $('table.sortable').xeSortableTable();
 
+// filebox
+jQuery(function($){
+
+$('.filebox')
+	.bind('before-open.mw', function(){
+		var $this, $list, $parentObj;
+		var anchor;
+
+		$this = $(this);
+		anchor = $this.attr('href');
+
+		$list = $(anchor).find('.filebox_list');
+
+		function on_complete(data){
+			$list.html(data.html);
+
+			$list.find('.select')
+				.bind('click', function(event){
+					var selectedImages = $('input.select_checkbox:checked');
+					if(selectedImages.length == 0) {
+						var selectedImgSrc = $(this).closest('tr').find('img.filebox_item').attr('src');
+						if(!selectedImgSrc){
+							alert("None selected!");
+						}else{
+							$this.trigger('filebox.selected', [selectedImgSrc]);
+							$this.trigger('close.mw');
+						}
+					}else {
+						$this.trigger('filebox.selected', [selectedImages]);
+						$this.trigger('close.mw');
+					}
+					return false;
+				});
+
+			$list.find('.x_pagination')
+				.find('a')
+				.filter(function(){
+					if ($(this).data('toggle')) return false;
+					if ($(this).parent().hasClass('x_disabled')) return false;
+					if ($(this).parent().hasClass('x_active')) return false;
+					return true;
+				})
+				.bind('click', function(){
+					var page = $(this).attr('page');
+
+					$.exec_json('module.getFileBoxListHtml', {'page': page}, on_complete);
+					return false;
+				});
+
+			$('#goToFileBox')
+				.find('button')
+				.bind('click', function(){
+					var page = $(this).prev('input').val();
+
+					$.exec_json('module.getFileBoxListHtml', {'page': page}, on_complete);
+					return false;
+				});
+
+			$list.closest('.x_modal-body').scrollTop(0);
+		}
+
+		$.exec_json('module.getFileBoxListHtml', {'page': '1'}, on_complete);
+	});
+
+});
 
 function getOffset(elem, offsetParent) {
 	var top = 0, left = 0;

@@ -1,0 +1,23 @@
+<block cond="$use_filebox">
+	<!--%load_js_plugin("filebox")-->
+	<style>
+		.filebox_item { border: 1px solid #ccc!important; padding: 5px; max-height: 200px; max-width: 200px; }
+	</style>
+
+	<div class="x_modal" id="modalFilebox">
+		<div class="x_modal-header">
+			<h3>FileBox</h3>
+		</div>
+
+		<div class="x_modal-body">
+			<div class="filebox_list"></div>
+		</div>
+
+		<div class="x_modal-footer">
+			<button type="button" class="x_btn x_pull-left" data-hide="#modalFileBox">{$lang->cmd_close}</button>
+		</div>
+	</div>
+	<script>
+		xe.lang.cmd_delete = '{$lang->cmd_delete}';
+	</script>
+</block>
