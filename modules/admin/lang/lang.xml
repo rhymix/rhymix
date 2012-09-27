@@ -800,17 +800,17 @@
 		<value xml:lang="tr"><![CDATA[Belirtilen FTP Yolunu okuma işlemi başarız oldu.]]></value>
 		<value xml:lang="vi"><![CDATA[Không tìm thấy thông tin của thư mục bạn đã nhập trên FTP.]]></value>
 	</item>
-	<item name="about_use_ftp_passive_mode">
-		<value xml:lang="ko"><![CDATA[Passive 모드를 사용하시겠습니까?]]></value>
-		<value xml:lang="en"><![CDATA[Use FTP Passive Mode?]]></value>
-		<value xml:lang="jp"><![CDATA[Passiveモードを使用しますか?]]></value>
+	<item name="use_ftp_passive_mode">
+		<value xml:lang="ko"><![CDATA[Passive 모드 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use FTP Passive Mode]]></value>
+		<value xml:lang="jp"><![CDATA[Passiveモードを使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[使用FTP被动模式?]]></value>
 		<value xml:lang="tr"><![CDATA[Pasif mod FTP'sini kullanmak istiyor musunuz?]]></value>
 	</item>
-	<item name="about_use_sftp_support">
-		<value xml:lang="ko"><![CDATA[SFTP 를 사용하시겠습니까?]]></value>
-		<value xml:lang="en"><![CDATA[Use SFTP?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[使用SFTP?]]></value>
+	<item name="use_sftp_support">
+		<value xml:lang="ko"><![CDATA[SFTP 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use SFTP]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用SFTP]]></value>
 		<value xml:lang="tr"><![CDATA[SFTP'yi kullanmak istiyor musunuz?]]></value>
 	</item>
 	<item name="disable_sftp_support">
@@ -1427,7 +1427,7 @@
 		<value xml:lang="tr"><![CDATA[FTP Yolu Bilgileri]]></value>
 		<value xml:lang="vi"><![CDATA[Hãy nhập thông tin đường dẫn của FTP.]]></value>
 	</item>
-	<item name="msg_ftp_installed_realpath">
+	<item name="ftp_installed_realpath">
 		<value xml:lang="ko"><![CDATA[설치된 XE의 절대경로]]></value>
 		<value xml:lang="en"><![CDATA[Absolute Path of XE]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされたXEの絶対パス]]></value>

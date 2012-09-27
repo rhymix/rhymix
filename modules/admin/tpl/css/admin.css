@@ -471,3 +471,12 @@ to{-o-transform:rotate(360deg)}
 .x .textList li{border:0;padding:.25em 1em;height:1.5em;white-space:nowrap;overflow:hidden}
 .x .textList li:nth-child(even){background:#eee}
 .x .textList li a{float:right}
+/* FTP Suggestion */
+.x #ftpSuggestion{background:#fff;box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+.x #ftpSuggestion ul{margin:0}
+.x #ftpSuggestion li{margin:0;padding:0;list-style-type:none}
+.x #ftpSuggestion li button{border:0;background:#fff;text-align:left;width:288px}
+.x #ftpSuggestion li button:hover,
+.x #ftpSuggestion li button:active,
+.x #ftpSuggestion li button:focus,
+.x #ftpSuggestion li:hover{background:#eee}

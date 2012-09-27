@@ -4,58 +4,65 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="installFtpInfo" action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
-	<input type="hidden" name="module" value="install" />
-	<input type="hidden" name="act" value="procInstallAdminSaveFTPInfo" />
-	<fieldset class="section">
-		<h1 class="h1">{$lang->menu_gnb_sub['adminConfigurationFtp']}</h1>
-		<ul>
-			<li>
-				<p class="q"><label for="ftp_host">{$lang->ftp_host}</label> [<a href="#helpFTP" class="tgAnchor">?</a>]</p>
-				<div class="tgContent layer" id="helpFTP">
-					<p>{$lang->detail_about_ftp_info}</p>
-				</div>
-				<p class="a"><input type="text" name="ftp_host" id="ftp_host" value="{$ftp_info->ftp_host}" /><span class="desc">Default : 127.0.0.1</span></p>
-			</li>
-			<li>
-				<p class="q"><label for="ftp_user">{$lang->user_id}</label></p>
-				<p class="a"><input type="text" name="ftp_user" id="ftp_user" value="{$ftp_info->ftp_user}" /></p>
-			<li>
-				<p class="q"><label for="ftp_password">{$lang->password}</label></p>
-				<p class="a"><input type="password" name="ftp_password" id="ftp_password" value="" /> <span class="desc">{$lang->about_ftp_password}</span></p>
-			</li>
-			<li>
-				<p class="q"><label for="ftp_port">{$lang->ftp_port}</label></p>
-				<p class="a"><input type="text" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port}" /><span class="desc">Default : 21</span></p>
-			</li>
-			<li>
-				<p class="q"><label>{$lang->about_use_ftp_passive_mode}</label></p>
-				<p class="a">
-					<input type="radio" name="ftp_pasv" id="ftp_passive_y" value="Y" <!--@if($ftp_info->ftp_pasv == 'Y')-->checked="checked" <!--@end-->/> <label for="ftp_passive_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="ftp_pasv" id="ftp_passive_n" value="N" <!--@if($ftp_info->ftp_pasv != 'Y')-->checked="checked" <!--@end-->/> <label for="ftp_passive_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label>{$lang->about_use_sftp_support}</label><span cond="!$sftp_support"><label> ({$lang->disable_sftp_support})</label></span></p>
-				<p class="a">
-					<input type="radio" name="sftp" id="sftp_y" value="Y" <!--@if($ftp_info->sftp == 'Y')-->checked="checked" <!--@end--><!--@if(!$sftp_support)-->disabled <!--@end-->/> <label for="sftp_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="sftp" id="sftp_n" value="N" <!--@if($ftp_info->sftp != 'Y')-->checked="checked" <!--@end-->/> <label for="sftp_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label for="ftp_root_path">{$lang->msg_ftp_installed_ftp_realpath}</label></p>
-				<p class="a">
-					<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
-					<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="tgAnchor">{$lang->ftp_get_list}</a>
-
-				</p>
+<div class="x_page-header">
+	<h1>{$lang->menu_gnb_sub['adminConfigurationFtp']}</h1>
+</div>
+<section class="section">
+	<form action="./" id="ftp_form" method="post" enctype="multipart/form-data" class="x_form-horizontal" ruleset="installFtpInfo">
+		<input type="hidden" name="module" value="install" />
+		<input type="hidden" name="act" value="procInstallAdminSaveFTPInfo" />
+		<div class="x_control-group">
+			<label class="x_control-label" for="ftp_host">{$lang->ftp_host}</label>
+			<div class="x_controls">
+				<input type="text" name="ftp_host" id="ftp_host" value="{$ftp_info->ftp_host}" /> Default : 127.0.0.1
+				<span class="x_help-block x_muted">{$lang->detail_about_ftp_info}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="ftp_user">{$lang->user_id}</label>
+			<div class="x_controls">
+				<input type="text" name="ftp_user" id="ftp_user" value="{$ftp_info->ftp_user}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="ftp_password">{$lang->password}</label>
+			<div class="x_controls">
+				<input type="password" name="ftp_password" id="ftp_password" value="" /> {$lang->about_ftp_password}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="ftp_port">{$lang->ftp_port}</label>
+			<div class="x_controls">
+				<input type="text" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port}" /> Default : 21
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="ftp_passive_n">{$lang->use_ftp_passive_mode}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="ftp_passive_y"><input type="radio" name="ftp_pasv" id="ftp_passive_y" value="Y" checked="checked"|cond="$ftp_info->ftp_pasv == 'Y'" />{$lang->cmd_yes}</label>
+				<label class="x_inline" for="ftp_passive_n"><input type="radio" name="ftp_pasv" id="ftp_passive_n" value="N" checked="checked"|cond="$ftp_info->ftp_pasv != 'Y'" />{$lang->cmd_no}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sftp_n">{$lang->use_ftp_sftp_support}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="sftp_y"><input type="radio" name="sftp" id="sftp_y" value="Y" checked="checked"|cond="$ftp_info->sftp == 'Y'" disabled|cond="!$sftp_support" />{$lang->cmd_yes}</label>
+				<label class="x_inline" for="sftp_n"><input type="radio" name="sftp" id="sftp_n" value="N" checked="checked"|cond="$ftp_info->sftp != 'Y'" /> {$lang->cmd_no}</label>
+				<block cond="!$sftp_support">{$lang->disable_sftp_support}</block>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="ftp_root_path">{$lang->ftp_installed_ftp_realpath}</label>
+			<div class="x_controls">
+				<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
+				<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="tgAnchor">{$lang->ftp_get_list}</a>
+				<span class="x_help-block">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_}</span>
 				<div id="ftpSuggestion">
 				</div>
-				<p class="desc">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_} </p>
-			</li>
-		</ul>
-	</fieldset>
+			</div>
+		</div>
 	<div class="btnArea">
 		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
-</form>
+	</form>
+</section>

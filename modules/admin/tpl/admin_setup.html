@@ -34,41 +34,43 @@
 			</div>
 		</div>
 	</fieldset>
-</form>
-
+	</form>
 </section>
-<form id="listForm" action="./" class="siteMap" method="post">
-	<input type="hidden" name="module" value="admin" />
-	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
-	<input type="hidden" name="menu_srl" value="{$menu_srl}" />
-	<input type="hidden" name="title" value="{$menu_title}" />
-	<input type="hidden" name="menu_item_srl" value="" />
-	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminSetup')}" />
-	<fieldset class="section">
-	<h2 class="h2">{$lang->admin_menu_setup}</h2>
-	<div class="adminMenu portlet">
-		<ul class="lined">
-			<li class="parent" loop="$gnbUrlList=>$key,$value">
-				<input type="hidden" name="parent_key[]" value="{$value['parent_srl']}" class="_parent_key" />
-				<input type="hidden" name="item_key[]" value="{$value['node_srl']}" class="_item_key" />
-				<span>{$value['text']}</span> <span class="side"><a href="#editMenu" class="modalAnchor _add">{$lang->add}</a></span>
-				<ul cond="is_array($value['list']) && count($value['list'])>0">
-					<li loop="$value['list']=>$key2,$value2">
-					<input type="hidden" name="parent_key[]" value="{$value2['parent_srl']}" class="_parent_key" />
-					<input type="hidden" name="item_key[]" value="{$value2['node_srl']}" class="_item_key" />
-					<span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">{$lang->delete}</a></span>
-					</li>
-				</ul>
-			</li>
-		</ul>
-		<p class="btnArea">
-			<span class="btn small" style="float: left;"><button value="procAdminMenuReset" name="act" type="submit">{$lang->cmd_reset}</button></span>
-			<span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span>
-		</p>
-	</div>
-	</fieldset>
-</form>
-
+<section class="section">
+	<h1>{$lang->admin_menu_setup}</h1>
+	<form id="listForm" action="./" class="siteMap" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
+		<input type="hidden" name="menu_srl" value="{$menu_srl}" />
+		<input type="hidden" name="title" value="{$menu_title}" />
+		<input type="hidden" name="menu_item_srl" value="" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminSetup')}" />
+		<div class="x_control-group adminMenu">
+			<ul class="lined">
+				<li class="parent" loop="$gnbUrlList=>$key,$value">
+					<input type="hidden" name="parent_key[]" value="{$value['parent_srl']}" class="_parent_key" />
+					<input type="hidden" name="item_key[]" value="{$value['node_srl']}" class="_item_key" />
+					<span>{$value['text']}</span> <span class="side"><a href="#editMenu" class="modalAnchor _add">{$lang->add}</a></span>
+					<ul cond="is_array($value['list']) && count($value['list'])>0">
+						<li loop="$value['list']=>$key2,$value2">
+						<input type="hidden" name="parent_key[]" value="{$value2['parent_srl']}" class="_parent_key" />
+						<input type="hidden" name="item_key[]" value="{$value2['node_srl']}" class="_item_key" />
+						<span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">{$lang->delete}</a></span>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-left">
+				<button value="procAdminMenuReset" name="act" type="submit" class="x_btn x_btn-warning">{$lang->cmd_reset}</button>
+			</div>
+			<div class="x_pull-right">
+				<button type="submit" value="procMenuAdminArrangeItem" name="act" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>
 <!--// Modal -->
 <div class="x_modal" id="editMenu">
 	<form id="editForm" action="./" class="x_form-horizontal">
