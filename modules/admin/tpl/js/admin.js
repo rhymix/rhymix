@@ -100,7 +100,7 @@ jQuery(function($){
 		contentBugFix();
 	});
 // Multilingual
-	var $mlCheck = $('.x .multilingual>label>input[type="checkbox"]');
+	/*var $mlCheck = $('.x .multilingual>label>input[type="checkbox"]');
 	function multilingual(){
 		$mlCheck.each(function(event){
 			var $this = $(this);
@@ -122,7 +122,8 @@ jQuery(function($){
 		});
 	}
 	multilingual();
-	$mlCheck.change(multilingual);
+	$mlCheck.change(multilingual);*/
+//	var $multilingual
 // Check All
 	$('.x th>input[type="checkbox"]')
 		.change(function() {
@@ -181,7 +182,6 @@ jQuery(function($){
 jQuery(function($){
 
 var ESC = 27;
-
 $.fn.xeModalWindow = function(){
 	this
 		.not('.xe-modal-window')
@@ -194,16 +194,6 @@ $.fn.xeModalWindow = function(){
 
 			// get and initialize modal window
 			$modal = $( $this.attr('href') );
-			if(!$modal.parent('body').length) {
-				$btnClose = $('<button type="button" class="x_close">&times;</button>');
-				$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
-				$modal.find('[data-hide]').click(function(){ $modal.data('anchor').trigger('close.mw') });
-				$('body').append('<div class="x_modal-backdrop"></div>').append($modal); // append background
-				$modal.prepend($btnClose); // prepend close button
-			}
-
-			// set the related anchor
-			$modal.data('anchor', $this);
 
 			if($modal.data('state') == 'showing') {
 				$this.trigger('close.mw');
@@ -214,7 +204,19 @@ $.fn.xeModalWindow = function(){
 			return false;
 		})
 		.bind('open.mw', function(){
-			var $this = $(this), before_event, $modal, duration;
+			var $this = $(this), $modal, $btnClose, disabled, before_event, duration;
+			
+			$modal = $( $this.attr('href') );
+			if(!$modal.parent('body').length) {
+				$btnClose = $('<button type="button" class="x_close">&times;</button>');
+				$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
+				$modal.find('[data-hide]').click(function(){ $modal.data('anchor').trigger('close.mw') });
+				$('body').append('<div class="x_modal-backdrop"></div>').append($modal); // append background
+				$modal.prepend($btnClose); // prepend close button
+			}
+			
+			// set the related anchor
+			$modal.data('anchor', $this);
 
 			// before event trigger
 			before_event = $.Event('before-open.mw');
