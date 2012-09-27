@@ -5,12 +5,11 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <!-- 검색 -->
-<form action="./" method="get" no-error-return-url="true" class="search x_input-append">
+<form action="./" method="get" no-error-return-url="true" class="x_clearfix">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="{$act}" />
     <fieldset>
-		<div class="x_clearfix">
-		<div class="x_pull-right">
+		<div class="x_pull-right search x_input-append" style="margin:0px">
         <select name="is_admin" style="width:auto">
             <option value="" <!--@if($is_admin!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
             <option value="Y" <!--@if($is_admin=='Y')-->selected="selected"<!--@end-->>{$lang->is_admin}</option>
@@ -35,7 +34,6 @@
         <input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
         <input class="x_btn x_btn-inverse" type="submit" value="{$lang->cmd_search}" />
         <button class="x_btn" type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button>
-		</div>
 		</div>
     </fieldset>
 </form>
@@ -84,22 +82,29 @@
 	<ul>
 		<li class="x_disabled"|cond="$page == 1 || !$page"><a href="{getUrl('page','','module_srl','')}">&laquo; {$lang->first_page}</a></li>
 		<!--@while($page_no = $page_navigation->getNextPage())-->
+		{@$last_page = $page_no}
 		<li class="x_active"|cond="$page == $page_no">
-			<em cond="$page == $page_no">{$page_no}</em>
+			<span cond="$page == $page_no">{$page_no}</span>
 			<a cond="$page != $page_no" href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
 		</li>
 		<!--@end-->
+		<li cond="$last_page != $page_navigation->last_page">
+			<a href="#goTo" data-toggle="#goTo" title="Jump to">...</a>
+			<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="Go to">
+				<button type="submit" class="x_add-on">Go</button>
+			</span>
+		</li>
     	<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a></li>
 	</ul>
 </div>
 
 <!-- 검색 -->
-<form action="./" method="get" no-error-return-url="true" class="search x_input-append">
+<form action="./" method="get" no-error-return-url="true" class="x_clearfix">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="{$act}" />
     <fieldset>
-		<div class="x_clearfix">
-		<div class="x_pull-right">
+		<div class="x_pull-right search x_input-append">
         <select name="is_admin" style="width:auto">
             <option value="" <!--@if($is_admin!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
             <option value="Y" <!--@if($is_admin=='Y')-->selected="selected"<!--@end-->>{$lang->is_admin}</option>
@@ -124,7 +129,6 @@
         <input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
         <input class="x_btn x_btn-inverse" type="submit" value="{$lang->cmd_search}" />
         <button class="x_btn" type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button>
-		</div>
 		</div>
     </fieldset>
 </form>
