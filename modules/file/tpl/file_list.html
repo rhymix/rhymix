@@ -8,14 +8,18 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </div>
 <form id="fo_list" action="./" method="post" class="form">
 	<input type="hidden" name="module" value="file" />
+	<div class="x_page-header">
 	<h1 class="h1">{$lang->file}</h1>
+	</div>
 	<div class="table">
-		<div class="cnb">
-			<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>All</a>
-			| <a href="{getUrl('search_target','isvalid','search_keyword','Y')}" <!--@if($search_target == 'isvalid' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$lang->is_valid}</a>
-			| <a href="{getUrl('search_target','isvalid','search_keyword','N')}" <!--@if($search_target == 'isvalid' && $search_keyword == 'N')-->class="active"<!--@end-->>{$lang->is_stand_by}</a>
+		<div class="x_tabbable">
+			<ul class="x_nav x_nav-tabs">
+				<li <!--@if($search_keyword == '')-->class="x_active"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}">All</a></li>
+				<li <!--@if($search_target == 'isvalid' && $search_keyword == 'Y')-->class="x_active"<!--@end-->><a href="{getUrl('search_target','isvalid','search_keyword','Y')}">{$lang->is_valid}</a></li>
+				<li <!--@if($search_target == 'isvalid' && $search_keyword == 'N')-->class="x_active"<!--@end-->><a href="{getUrl('search_target','isvalid','search_keyword','N')}">{$lang->is_stand_by}</a></li>
+			</ul>
 		</div>
-		<table width="100%" border="1" cellspacing="0" id="fileListTable">
+		<table width="100%" id="fileListTable" class="x_table x_table-striped x_table-hover">
 			<caption>
 				<!--@if($search_keyword == '')-->
 				All
@@ -25,7 +29,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				{$lang->is_stand_by}
 				<!--@end-->
 				({number_format($total_count)})
-				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getFileList();">{$lang->file_manager}...</a></span></span>
+				<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->file_manager}...</a></span>
 			</caption>
 			<thead>
 				<tr>
@@ -108,35 +112,37 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			</tbody>
 		</table>
 		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getFileList();">{$lang->file_manager}...</a></span>
+			<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->file_manager}...</a></span>
 		</div>
 	</div>
 </form>
-<div class="modal" id="listManager">
-	<form ruleset="deleteChecked" action="./" method="post" class="fg form">
-	<input type="hidden" name="module" value="file" />
-	<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
-	<input type="hidden" name="page" value="{$page}" />
+
+<form ruleset="deleteChecked" action="./" method="post" class="x_modal fg form" id="listManager">
+<input type="hidden" name="module" value="file" />
+<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
+<input type="hidden" name="page" value="{$page}" />
+	<div class="x_modal-header">
 		<h2 class="h2">{$lang->file_manager}</h2>
-		<div class="table">
-			<table width="100%" border="1" cellspacing="0" id="fileManageListTable">
-				<caption>{$lang->selected_file} <strong id="selectedFileCount"></strong></caption>
-				<thead>
-					<tr>
-						<th scope="col" class="text">{$lang->file}</th>
-						<th scope="col" class="nowr">{$lang->file_size}</th>
-						<th scope="col" class="nowr">{$lang->status}</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-		</div>
-		<div class="btnArea">
-			<span class="btn"><input type="submit" value="{$lang->cmd_delete}" class="delete" /></span>
-		</div>
-	</form>
-</div>
+	</div>
+	<div class="x_modal-body">
+		<table width="100%" id="fileManageListTable" class="x_table x_table-striped x_table-hover">
+			<caption>{$lang->selected_file} <strong id="selectedFileCount"></strong></caption>
+			<thead>
+				<tr>
+					<th scope="col" class="text">{$lang->file}</th>
+					<th scope="col" class="nowr">{$lang->file_size}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<div class="x_modal-footer">
+		<button type="submit" class="x_btn x_btn-danger">{$lang->cmd_delete}</button>
+	</div>
+</form>
+
 <div class="search">
 <form action="" class="pagination">
 	<input type="hidden" name="error_return_url" value="" />
@@ -145,30 +151,39 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
   	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
   	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
-	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
-	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-	</block>
-	<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<strong cond="$page_no == $page">{$page_no}</strong>
-		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-	<!--@end-->
-	<block cond="$last_page != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-	</block>
-	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
-	<span cond="$isGoTo" id="goTo" class="tgContent">
-		<input name="page" title="{$lang->cmd_go_to_page}" />
-		<button type="submit">Go</button>
-	</span>
+	<div class="x_pagination x_pagination-centered">
+	<ul>
+		<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}" class="direction">&laquo;</a></li>
+		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+			<li><a href="{getUrl('page', '')}">1</a></li>
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+		</block>
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+		<block cond="$last_page != $page_navigation->last_page">
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span id="goTo" class="x_input-append">
+				<input type="number" required name="page" title="{$lang->cmd_go_to_page}">
+				<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			<li><a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a></li>
+		</block>
+		<li class="x_disabled"|cond="$page == $last_page"><a href="{getUrl('page', $page_navigation->last_page)}">&raquo;</a></li>
+	</ul>
+	</div>
 </form>
 
-	<form action="./" method="get" onsubmit="return checkSearch(this)">
+	<form action="./" method="get" onsubmit="return checkSearch(this)" class="search center x_input-append">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
@@ -179,8 +194,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 			<!--@end-->
 		</select>
-		<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-		<input type="submit" value="{$lang->cmd_search}" />
-		<a href="{getUrl('','module',$module,'act',$act)}"><span>{$lang->cmd_cancel}</span></a>
+		<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+		<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
+		<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 	</form>
 </div>
