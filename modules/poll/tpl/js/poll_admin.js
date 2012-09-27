@@ -55,50 +55,6 @@ function completeMovePoll(ret_obj, response_tags) {
     winopen(url, 'pollTarget');
 }
 
-function getPollList()
-{
-	var pollListTable = jQuery('#pollListTable');
-	var cartList = [];
-	pollListTable.find(':checkbox[name=cart]').each(function(){
-		if(this.checked) cartList.push(this.value); 
-	});
-
-    var params = new Array();
-    var response_tags = ['error','message', 'poll_list'];
-	params["poll_srls"] = cartList.join(",");
-
-    exec_xml('poll','procPollGetList',params, completeGetPollList, response_tags);
-}
-
-function completeGetPollList(ret_obj, response_tags)
-{
-	var htmlListBuffer = '';
-
-	if(ret_obj['poll_list'] == null)
-	{
-		htmlListBuffer = '<tr>' +
-							'<td colspan="3" style="text-align:center;">'+ret_obj['message']+'</td>' +
-						'</tr>';
-	}
-	else
-	{
-		var poll_list = ret_obj['poll_list']['item'];
-		if(!jQuery.isArray(poll_list)) poll_list = [poll_list];
-		for(var x in poll_list)
-		{
-			var objPoll = poll_list[x];
-			htmlListBuffer += '<tr>' +
-								'<td class="title">'+objPoll.title+'</td>' +
-								'<td class="nowr">'+objPoll.poll_count+'</td>' +
-								'<td class="nowr">'+objPoll.nick_name+'</td>' +
-							'</tr>' +
-							'<input type="hidden" name="cart[]" value="'+objPoll.poll_index_srl+'" />';
-		}
-		jQuery('#selectedPollCount').html(poll_list.length);
-	}
-	jQuery('#pollManageListTable>tbody').html(htmlListBuffer);
-}
-
 function checkSearch(form)
 {
 	if(form.search_target.value == '')
@@ -112,3 +68,24 @@ function checkSearch(form)
 		return false;
 	}
 }
+
+jQuery(function ($){
+	$('#pollList').submit(function(e){
+		var cnt = $('#pollList input[name=cart]:checked').length;
+		if(cnt == 0)
+		{
+			e.stopPropagation();
+			alert(xe.lang.msg_select_poll);
+			return false;
+		}
+
+		var msg = xe.lang.confirm_poll_delete.replace("%s", cnt);
+		if(!confirm(msg))
+		{
+			e.stopPropagation();
+			return false;
+			
+		}
+	});
+	
+});
