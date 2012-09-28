@@ -112,3 +112,45 @@ function clearRow(target){
 	$controlGroup.remove();
 	$('.__attribute').last().find('.__addBtn').show();
 }
+
+var $current_filebox;
+
+jQuery(document).ready(function($){
+	$('.filebox').bind('before-open.mw', function(){
+		var $attributes = $('.__attribute');
+		var count = $attributes.length;
+		for(var i = count - 1; i > 0; i--){
+			clearRow($($attributes.get(i)));
+		}
+		$('#new_filebox_upload').find('input[name^=attribute_name], input[name^=attribute_value], input[name=addfile]').val('');
+	});
+	
+	$('.filebox').click(function(){
+		$current_filebox = $(this);
+	});
+
+	$('#new_filebox_upload').submit(function(){
+		if ($('iframe[name=iframeTarget]').length < 1){
+			var $iframe = $(document.createElement('iframe'));
+
+			$iframe.css('display', 'none');
+			$iframe.attr('src', '#');
+			$iframe.attr('name', 'iframeTarget');
+			$iframe.load(function(){
+				var data = eval('(' + $(window.iframeTarget.document.getElementsByTagName("body")[0]).html() + ')');
+
+				if (data.error){
+					alert(data.message);
+					return;
+				}
+
+				$current_filebox.trigger('filebox.selected', [data.save_filename]);
+				$current_filebox.trigger('close.mw');
+			});
+
+			$('body').append($iframe.get(0));
+
+			$(this).attr('target', 'iframeTarget');
+		}
+	});
+});
