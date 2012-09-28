@@ -872,49 +872,95 @@ function onSiteMapReceived(htData){
 			sMenuSrl = aSource[0].id.replace("menu", "");
 			sParentSrl = aNewParent[0].id.replace("menu", "");
 			sTargetSrl = aTargetPosRef[0].id.replace("menu", "");
-			if(sParentSrl === sTargetSrl || sTargetPos === "first"){
-				sTargetSrl = 0;
-			}else{
-				htTargetInfo = htNodeInfo[sTargetSrl];
-				htParentInfo = htNodeInfo[htTargetInfo.sParentSrl];
+
+			switch(sTargetPos){
+				case "after":
+					// use the values as-is
+				break;
 				
-				console.log(htParentInfo);
+				case "before":
+					htTargetInfo = htNodeInfo[sTargetSrl];
+					htParentInfo = htNodeInfo[htTargetInfo.sParentSrl];
+					
+					console.log(htParentInfo);
 
-				aNode = htParentInfo.list;
+					aNode = htParentInfo.aNode;
 
-				for(var i=0, nLen=aNode.length; i<nLen; i++){
-					console.log(aNode[i].sText, aNode[i].sNodeSrl, "->", sTargetSrl);
-					if(aNode[i].sNodeSrl == sTargetSrl){
-						
-						console.log('found');
-						break;
+					for(var i=0, nLen=aNode.length; i<nLen; i++){
+						console.log(aNode[i].sText, aNode[i].sNodeSrl, "->", sTargetSrl);
+						if(aNode[i].sNodeSrl == sTargetSrl){
+							console.log('found');
+							break;
+						}
 					}
-				}
-				console.log(999, i);
-				//if(sParentSrl === sTargetSrl || sTargetPos === "first"){
-				//htNodeInfo
+					console.log(999, i);
+					
+					if(i === 0){
+						sTargetSrl = 0;
+					}else{
+						sTargetSrl = aNode[i - 1].sNodeSrl;
+					}
+				break;
+				
+				case "first":
+					sTargetSrl = 0;
+				break;
+
+				case "last":
+					htParentInfo = htNodeInfo[sParentSrl];
+					console.log(222, htParentInfo, sParentSrl);
+					
+					aNode = htParentInfo.aNode;
+					if(aNode.length == 0){
+						sTargetSrl = 0;
+					}else{
+						sTargetSrl = aNode[aNode.length - 1].sNodeSrl;
+					}
+				break;
+
+				default:
+				break;
 			}
+			
+			//if(sParentSrl === sTargetSrl || sTargetPos === "first"){
+			//htNodeInfo
+//
 			//aNode[i].sParentSrl
 			//sTargetSrl = ;
 			//sParentSrl = ;
 			
 			console.log(sMenuSrl, sTargetSrl, sParentSrl);
-			/*
-				params['menu_srl'] = 101;
-				params['mode'] = 'move';
+			
+			var params = {};
+			
+			params['mode'] = 'move';
 
-				// 위치를 이동 할 메뉴의 srl
-				params['target_srl'] = 196;
+			// 위치를 이동 할 메뉴의 srl
+			params['target_srl'] = sMenuSrl;
 
-				// 어느 부모 밑으로 이동 할지
-				params['parent_srl'] = 186;
+			// 어느 부모 밑으로 이동 할지
+			params['parent_srl'] = sParentSrl;
 
-				// parent_srl 하위의 어느 노드 뒤에 삽입 할지. 
-				// 0: parent_srl 바로 밑에. 
-				// 다른 값: 해당 srl을 가진 노드 밑에
-				params['source_srl'] = 0;  
-				exec_xml("menu","procMenuAdminMoveItem", params, completeTmp);
-			*/
+			// parent_srl 하위의 어느 노드 뒤에 삽입 할지. 
+			// 0: parent_srl 바로 밑에. 
+			// 다른 값: 해당 srl을 가진 노드 밑에
+			params['source_srl'] = sTargetSrl;  
+			//exec_xml("menu","procMenuAdminMoveItem", params, completeTmp);
+			
+			$.exec_json("menu.procMenuAdminMoveItem", params, function(htData){
+				console.log(htData);
+				if(htData.error !== 0){
+					alert(htData.message);
+					return;
+				}
+				
+				// select the newly created menu
+				//$._xeAdminVar.sSelectOnload = htData.menu_item_srl;
+				
+				// select currently selected menu
+				$._xeAdminVar.sSelectOnload = sMenuSrl;
+				loadSiteMap();
+			});
 		});
 		
 	$('#site_map').nextAll().hide();
@@ -1007,6 +1053,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		}
 
 		htNodeInfo[sNodeSrl] = aNode[i];
+		htNodeInfo[sNodeSrl].aNode = aSubNode || [];
 
 		htNodeInfo[sNodeSrl].nNodeType = nNodeType;
 		htNodeInfo[sNodeSrl].sNodeSrl = sNodeSrl;
