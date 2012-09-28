@@ -471,6 +471,15 @@ to{-o-transform:rotate(360deg)}
 .x .textList li{border:0;padding:.25em 1em;height:1.5em;white-space:nowrap;overflow:hidden}
 .x .textList li:nth-child(even){background:#eee}
 .x .textList li a{float:right}
+/* Favicon Preview */
+.x #faviconPreview{position:relative;padding:80px 0 0 200px;background:url(../img/bgFavicon.gif) no-repeat}
+.x #faviconPreview img{position:absolute}
+.x #faviconPreview .fn1{top:30px;left:12px}
+.x #faviconPreview .fn2{top:55px;left:68px}
+/* Mobile Icon Preview */
+.x #mobiconPreview{position:relative;padding:270px 0 0 200px;background:url(../img/bgMobileTop.png) no-repeat}
+.x #mobiconPreview img{position:absolute;top:20px;left:10px}
+.x #mobiconPreview span{position:absolute;width:32px;text-align:center;top:52px;left:10px;color:#fff;font-size:9px}
 /* FTP Suggestion */
 .x #ftpSuggestion{background:#fff;box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
 .x #ftpSuggestion ul{margin:0}

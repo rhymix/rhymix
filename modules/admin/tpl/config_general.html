@@ -19,7 +19,6 @@ jQuery(function($){
 <load target="./js/config.js" usecdn="true" />
 <load target="../install/lang/lang.xml" usecdn="true" />
 <load target="../../session/tpl/js/session.js" usecdn="true" />
-
 <script>
 jQuery(function($){
 	$('.moduleSearch').bind('moduleSelect', function(e, aSelected){
@@ -34,161 +33,173 @@ jQuery(function($){
 	});
 });
 </script>
-<form action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
-	<input type="hidden" name="module" value="install" />
-	<input type="hidden" name="act" value="procInstallAdminConfig" />
-	<h1 class="h1">{$lang->menu_gnb_sub['adminConfigurationGeneral']}</h1>
-	<fieldset class="section">
-		<h2 class="h2">{$lang->subtitle_primary}</h2>
-		<ul>
-			<li class="modulefinder moduleSearch">
-				<p class="q">{$lang->about_start_module}</p>
-				<div class="a">
-					<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
-					<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
-					<a href="#moduleSearchWindow" class="tgAnchor moduleSearch">{$lang->cmd_find}</a> 
-					<div id="moduleSearchWindow" class="moduleSearchWindow tgContent">
-						<div class="siteList sectionDiv">
-							<h2>{$lang->select_site}</h2>
-							<div class="siteListSearchBox">
-								<div class="siteListSearchBoxBorder">
-									<div class="searchImg icon-search"></div>
-									<input type="text" class="siteListSearchInput" name="site_filter">
-								</div>
-							</div>
-							<div class="siteListUL">
-								<ul>
-								</ul>
-							</div>
-						</div>
-						<div class="moduleTypeList sectionDiv">
-							<h2>{$lang->select_module_type}</h2>
-							<div>
-								<ul class="moduleTypeListUL">
-								</ul>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<div class="x_page-header">
+	<h1>{$lang->menu_gnb_sub['adminConfigurationGeneral']}</h1>
+</div>
+<section class="section">
+	<h1>{$lang->subtitle_primary}</h1>
+	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
+		<input type="hidden" name="module" value="install" />
+		<input type="hidden" name="act" value="procInstallAdminConfig" />
+
+		<div class="x_control-group">
+			<label class="x_control-label" for="ftp_host">{$lang->start_module}</label>
+			<div class="x_controls">
+				<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
+				<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
+				<button type="button" href="#moduleSearchWindow" class="x_btn tgAnchor moduleSearch">{$lang->cmd_find}</button> {$lang->about_start_module}
+				<div id="moduleSearchWindow" class="moduleSearchWindow tgContent" style="display:none">
+					<div class="siteList sectionDiv">
+						<h2>{$lang->select_site}</h2>
+						<div class="siteListSearchBox">
+							<div class="siteListSearchBoxBorder">
+								<div class="searchImg icon-search"></div>
+								<input type="text" class="siteListSearchInput" name="site_filter">
 							</div>
 						</div>
-						<div class="moduleInstanceList sectionDiv">
-							<h2>{$lang->select_module_instance}</h2>
-							<div>
-								<select class="moduleInstanceListSelect" size="8">
-								</select>
-							</div>
-							<button class="btn btn_primary moduleSearch_ok">{$lang->cmd_select}</button>
+						<div class="siteListUL">
+							<ul>
+							</ul>
 						</div>
 					</div>
+					<div class="moduleTypeList sectionDiv">
+						<h2>{$lang->select_module_type}</h2>
+						<div>
+							<ul class="moduleTypeListUL">
+							</ul>
+						</div>
+					</div>
+					<div class="moduleInstanceList sectionDiv">
+						<h2>{$lang->select_module_instance}</h2>
+						<div>
+							<select class="moduleInstanceListSelect" size="8">
+							</select>
+						</div>
+						<button class="btn btn_primary moduleSearch_ok">{$lang->cmd_select}</button>
+					</div>
 				</div>
-			</li>
-			<li>
-				<p class="q">{$lang->about_lang_select}</p>
-				<p class="a">
-					<!--@foreach($langs as $key => $val)-->
-					<!--@if($key==$selected_lang)-->
-					<input type="hidden" name="selected_lang[]" value="{$key}" />
-					<input type="checkbox" checked="checked" disabled="disabled" />
-					<label>{$val}</label>
-					<!--@else-->
-					<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked" <!--@end-->/>
-					<label for="lang_{$key}">{$val}</label>
-					<!--@end-->
-					<!--@endforeach-->
-				</p>
-			</li>
-			<li>
-				<p class="q"><label for="change_lang_type">{$lang->about_default_lang}</label></p>
-				<p class="a">
-					<select name="change_lang_type" id="change_lang_type">
-						<!--@foreach($lang_supported as $key => $val)-->
-						<option value="{$key}" <!--@if($key==$selected_lang)-->selected="selected"<!--@end-->>{$val}</option>
-						<!--@endforeach-->
-					</select>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label for="time_zone">{$lang->about_timezone}</label></p>
-				<p class="a">
-					<select name="time_zone" id="time_zone">
-						<!--@foreach($time_zone_list as $key => $val)-->
-						<option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
-						<!--@endforeach-->
-					</select>
-				</p>
-			</li>
-			<li>
-				<p class="q">{$lang->about_question_mobile_view}</p>
-				<p class="a">
-					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" <!--@if($use_mobile_view == 'Y')-->checked="checked" <!--@end-->/> <label for="use_mobile_view_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="use_mobile_view" id="use_mobile_view_n" value="N" <!--@if($use_mobile_view != 'Y')-->checked="checked" <!--@end-->/> <label for="use_mobile_view_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q">{$lang->about_thumbnail_type}</p>
-				<p class="a">
-					<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="corp" <!--@if($thumbnail_type != 'ratio')-->checked="checked" <!--@end-->/>
-					<label for="thumbnail_type_crop">{$lang->corp}</label>
-					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" <!--@if($thumbnail_type == 'ratio')-->checked="checked" <!--@end-->/>
-					<label for="thumbnail_type_ratio">{$lang->ratio}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label for="htmlFooter">{$lang->input_footer_script}</label>[<a href="#helpFooter" class="tgAnchor">?</a>]<p>
-				<div class="tgContent layer" id="helpFooter">
-					<p>{$lang->detail_input_footer_script}</p>
-				</div>	
-				<p class="a">
-					<textarea name="htmlFooter" id="htmlFooter" rows="8" cols="42">{$htmlFooter}</textarea>
-				</p>
-			</li>
-			<li>
-				<p class="q">{$lang->allow_use_favicon}</p>
-				<p class="a faviconPreview">
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->lang_select}</label>
+			<div class="x_controls">
+				<label for="lang_{$key}" class="x_inline" loop="$langs=>$key,$val">
+					<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" disabled="disabled"|cond="$key==$selected_lang" checked="checked"|cond="isset($lang_selected[$key])||$key==$selected_lang" />{$val}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="change_lang_type" class="x_control-label">{$lang->default_lang}</label>
+			<div class="x_controls">
+				<select name="change_lang_type" id="change_lang_type">
+					<option value="{$key}" selected="selected"|cond="$key==$selected_lang" loop="$lang_supported=>$key,$val">{$val}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="time_zone">{$lang->timezone}</label>
+			<div class="x_controls">
+				<select name="time_zone" id="time_zone">
+					<option value="{$key}" selected="selected"|cond="$time_zone==$key" loop="$time_zone_list=>$key,$val">{$val}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_mobile_view}</label>
+			<div class="x_controls">
+				<label for="use_mobile_view_y" class="x_inline">
+					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" checked="checked"|cond="$use_mobile_view == 'Y'" />{$lang->cmd_yes}
+				</label>
+				<label for="use_mobile_view_n" class="x_inline">
+					<input type="radio" name="use_mobile_view" id="use_mobile_view_n" value="N" checked="checked"|cond="$use_mobile_view != 'Y'" />{$lang->cmd_no}
+				</label>
+				<span class="x_help-block">{$lang->about_use_mobile_view}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->thumbnail_type}</label>
+			<div class="x_controls">
+				<label for="thumbnail_type_crop" class="x_inline">
+					<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="corp" checked="checked"|cond="$thumbnail_type != 'ratio'" />{$lang->corp}
+				</label>
+				<label for="thumbnail_type_ratio" class="x_inline">
+					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$thumbnail_type == 'ratio'" />{$lang->ratio}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="htmlFooter">{$lang->input_footer_script}</label>
+			<div class="x_controls">
+				<textarea name="htmlFooter" id="htmlFooter" rows="8" cols="42">{$htmlFooter}</textarea>
+				<span class="x_help-block">{$lang->detail_input_footer_script}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->allow_use_favicon}</label>
+			<div class="x_controls">
+				<p id="faviconPreview">
 					<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1">
 					<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2">
-					<a href="javascript:deleteIcon('favicon\.ico');">{$lang->cmd_delete}</a>
 				</p>
-				<p class="a"><input type="file" name="favicon" id="favicon" title="favicon" /> <span class="desc">{$lang->about_use_favicon}</span></p>
-			</li>
-			<li>
-				<p class="q">{$lang->allow_use_mobile_icon}</p>
-				<p class="a mobiconPreview">
+				<a href="javascript:deleteIcon('favicon\.ico');">{$lang->cmd_delete}</a>
+				<input type="file" name="favicon" id="favicon" title="favicon" />
+				<span class="x_help-block">{$lang->about_use_favicon}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->allow_use_mobile_icon}</label>
+			<div class="x_controls">
+				<p id="mobiconPreview">
 					<img src="{$mobicon_url}" alt="Mobile Home Icon" width="32" height="32" />
 					<span>www</span>
-					<a href="javascript:deleteIcon('mobicon\.png');">{$lang->cmd_delete}</a>
 				</p>
-				<p class="a"><input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/> <span class="desc">{$lang->detail_use_mobile_icon}</span></p>
-			</li>
-		</ul>
-	</fieldset>
-	<fieldset class="section">
-		<h2 class="h2">{$lang->subtitle_advanced}</h2>
-		<ul>
-			<li>
-				<p class="q"><label for="admin_ip_list">{$lang->about_admin_ip_limit}</label>[<a href="#helpAdminip" class="tgAnchor">?</a>]</p>
+				<a href="javascript:deleteIcon('mobicon\.png');">{$lang->cmd_delete}</a>
+				<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/>
+				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
+			</div>
+		</div>
+	</form>
+</section>
+<section class="section">
+	<h1>{$lang->subtitle_advanced}</h1>
+	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
+		<input type="hidden" name="module" value="install" />
+		<input type="hidden" name="act" value="procInstallAdminConfig" />
+
+		<div class="x_control-group">
+			<label class="x_control-label" for="admin_ip_list">{$lang->about_admin_ip_limit}[<a href="#helpAdminip" class="tgAnchor">?</a>]</label>
+			<div class="x_controls">
 				<div class="tgContent layer" id="helpAdminip">
 					<p>{$lang->detail_about_admin_ip_limit}</p>
 				</div>
-				<p class="a">
-					<textarea name="admin_ip_list" id="admin_ip_list" rows="8" cols="42">{$admin_ip_list}</textarea>
-					{$lang->local_ip_address} : {$IP}</p>
-			</li>
-			<li>
-				<p class="q"><label for="default_url">{$lang->default_url}</label>[<a href="#helpDefaulturl" class="tgAnchor">?</a>]</p>
+				<textarea name="admin_ip_list" id="admin_ip_list" rows="8" cols="42">{$admin_ip_list}</textarea>
+				{$lang->local_ip_address} : {$IP}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="default_url">{$lang->default_url}[<a href="#helpDefaulturl" class="tgAnchor">?</a>]</label>
+			<div class="x_controls">
 				<div class="tgContent layer" id="helpDefaulturl">
 					<p>{$lang->about_default_url}</p>
 				</div>
-				<p class="a"><input type="text" name="default_url" id="default_url" value="{$default_url}"/></p>
-			</li>
-			<li>
-				<p class="q"><label>{$lang->use_ssl}</label>[<a href="#helpUsessl" class="tgAnchor">?</a>]</p>
+				<input type="text" name="default_url" id="default_url" value="{$default_url}"/>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label>{$lang->use_ssl}</label>[<a href="#helpUsessl" class="tgAnchor">?</a>]
+			<div class="x_controls">
 				<div class="tgContent layer" id="helpUsessl">
 					<p>{$lang->about_use_ssl}</p>
 				</div>
-				<p class="a">
-					<!--@foreach($lang->ssl_options as $key => $val)-->
-					<input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" <!--@if($use_ssl==$key)-->checked="checked" <!--@end-->/> <label for="ssl_{$key}">{$val}</label>
-					<!--@endforeach-->
-				</p>
-			</li>
+				<!--@foreach($lang->ssl_options as $key => $val)-->
+				<input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" <!--@if($use_ssl==$key)-->checked="checked" <!--@end-->/> <label for="ssl_{$key}">{$val}</label>
+				<!--@endforeach-->
+			</div>
+		</div>
+		<ul style="display:none">
 			<li>
 				<p class="q"><label>{$lang->server_ports}</label></p>
 				<p class="a">
@@ -242,8 +253,8 @@ jQuery(function($){
 				</p>
 			</li>
 		</ul>
-	</fieldset>
-	<div class="btnArea">
-		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
-	</div>
-</form>
+		<div class="btnArea">
+			<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+		</div>
+	</form>
+</section>

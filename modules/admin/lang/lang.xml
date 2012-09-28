@@ -630,18 +630,13 @@
 		<value xml:lang="tr"><![CDATA[Bugün]]></value>
 		<value xml:lang="vi"><![CDATA[Hôm nay]]></value>
 	</item>
-	<item name="about_lang_select">
-		<value xml:lang="ko"><![CDATA[지원할 언어를 설정하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Select the supporting language(s).]]></value>
-		<value xml:lang="jp"><![CDATA[サポート言語を選択してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[选择语言]]></value>
-		<value xml:lang="tr"><![CDATA[Yardımcı dilleri seçin.]]></value>
-	</item>
-	<item name="about_default_lang">
-		<value xml:lang="ko"><![CDATA[기본 언어를 선택하세요.]]></value>
+	<item name="default_lang">
+		<value xml:lang="ko"><![CDATA[기본 언어 선택]]></value>
 		<value xml:lang="en"><![CDATA[Select default language.]]></value>
-		<value xml:lang="zh-CN"><![CDATA[默认语言]]></value>
-		<value xml:lang="tr"><![CDATA[Varsayılan dili seçin.]]></value>
+	</item>
+	<item name="lang_select">
+		<value xml:lang="ko"><![CDATA[지원 언어 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select the supporting language(s).]]></value>
 	</item>
 	<item name="about_recompile_cache">
 		<value xml:lang="ko"><![CDATA[쓸모 없어졌거나 잘못된 캐시파일들을 지우시겠습니까?]]></value>
@@ -907,30 +902,33 @@
 		<value xml:lang="zh-CN"><![CDATA[是否开启伪静态?]]></value>
 		<value xml:lang="tr"><![CDATA[Kısa bir adres kullanmak istiyor musunuz?]]></value>
 	</item>
-	<item name="about_timezone">
-		<value xml:lang="ko"><![CDATA[현지 표준시를 설정하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Set the local standard time.]]></value>
-		<value xml:lang="jp"><![CDATA[現地の標準時間を設定してください。]]></value>
+	<item name="timezone">
+		<value xml:lang="ko"><![CDATA[현지 표준시]]></value>
+		<value xml:lang="en"><![CDATA[The local standard time.]]></value>
+		<value xml:lang="jp"><![CDATA[現地の標準時間]]></value>
 		<value xml:lang="zh-CN"><![CDATA[设置本地时间.]]></value>
 		<value xml:lang="tr"><![CDATA[Yerel Zamanı ayarlayın.]]></value>
 	</item>
-	<item name="about_question_mobile_view">
-		<value xml:lang="ko"><![CDATA[모바일 기기에서 접속할 때 모바일 페이지를 보여줄까요?]]></value>
+	<item name="use_mobile_view">
+		<value xml:lang="ko"><![CDATA[모바일 뷰 사용]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to show the mobile page when users access the website with their mobile phone?]]></value>
 		<value xml:lang="jp"><![CDATA[モバイル機器で接続した際にモバイルページを表示しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[当用户使用移动终端访问页面的时候是否使用移动版?]]></value>
 		<value xml:lang="tr"><![CDATA[Kullanıcılar mobil aygıtları ile siteye bağlandıklarında mobil sayfaı bu kullancılara göstermek istiyor musunuz?]]></value>
 	</item>
-	<item name="about_thumbnail_type">
-		<value xml:lang="ko"><![CDATA[썸네일 생성 방식을 선택하세요.]]></value>
+	<item name="about_use_mobile_view">
+		<value xml:lang="ko"><![CDATA[모바일 기기로 접속시 모바일 페이지를 보여줍니다.]]></value>
+	</item>
+	<item name="thumbnail_type">
+		<value xml:lang="ko"><![CDATA[썸네일 생성 방식]]></value>
 		<value xml:lang="en"><![CDATA[Select thumbnail type.]]></value>
 		<value xml:lang="jp"><![CDATA[サムネイルの生成方式を選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择缩略图生成方式]]></value>
 		<value xml:lang="tr"><![CDATA[Bir küçük resim seçiniz.]]></value>
 	</item>
 	<item name="input_footer_script">
-		<value xml:lang="ko"><![CDATA[하단(footer) 스크립트 삽입]]></value>
-		<value xml:lang="en"><![CDATA[Input footer script]]></value>
+		<value xml:lang="ko"><![CDATA[하단(footer) 스크립트]]></value>
+		<value xml:lang="en"><![CDATA[Footer script]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入页脚脚本]]></value>
 		<value xml:lang="tr"><![CDATA[Alt (footer) Script Eklemek]]></value>
 	</item>
@@ -981,7 +979,7 @@
 		<value xml:lang="tr"><![CDATA[Kolay kurulum sağlayan FTP bilgilerini girdiğinizde. FTP bilgi, dosya / config / ftp.config.php dosyasında saklanır. Kolay yükleme sizin için mümkün değilse, PHP'nin safe_mode ayarını On şeklinde değiştiriniz.]]></value>
 	</item>
 	<item name="allow_use_favicon">
-		<value xml:lang="ko"><![CDATA[파비콘을 사용할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[파비콘 지정]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use favicon?]]></value>
 		<value xml:lang="jp"><![CDATA[ファビコンを使用しますか?]]></value>
 		<value xml:lang="zh-CN"><![CDATA[是否启用自定义favicon?]]></value>
@@ -995,7 +993,7 @@
 		<value xml:lang="tr"><![CDATA[16 x 16 boyutunda<em>*.Ico</em> dosyalar yüklenebilir.]]></value>
 	</item>
 	<item name="allow_use_mobile_icon">
-		<value xml:lang="ko"><![CDATA[모바일 홈 화면 아이콘을 사용할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[모바일 홈 화면 아이콘]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use the mobile home screen icon?]]></value>
 		<value xml:lang="jp"><![CDATA[モバイル待ち受け画面のアイコンを使用しますか?]]></value>
 		<value xml:lang="zh-CN"><![CDATA[是否启用移动版屏幕图标?]]></value>
