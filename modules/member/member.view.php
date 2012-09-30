@@ -249,7 +249,7 @@
          **/
         function dispMemberModifyInfo() 
 		{
-			if($_SESSION['rechecked_password_step'] != 'VALIDATE_PASSWORD')
+			if($_SESSION['rechecked_password_step'] != 'VALIDATE_PASSWORD' && $_SESSION['rechecked_password_step'] != 'INPUT_DATA')
 			{
 				$this->dispMemberModifyInfoBefore();
 				return;
