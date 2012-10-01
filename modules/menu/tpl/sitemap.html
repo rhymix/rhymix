@@ -48,7 +48,7 @@
 			<h1><a href="#" target="_blank" class="title">{사이트맵 이름}</a></h1>
 			<ul class="nav">
 				<li><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><button type="button" disabled>붙여넣기</button></li>
+				<li><button type="button"  class="_edit_paste" disabled>붙여넣기</button></li>
 				<li><button class="_delSiteMap" type="button">삭제</button></li>
 			</ul>
 		</section>
@@ -61,11 +61,11 @@
 				<li><strong>메뉴 ID</strong>: <span class="url"></span></li>
 				<li><strong>메뉴 타입</strong>: 문서 페이지</li>
 				<li class="add"><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><button type="button">잘라내기</button></li>
-				<li><button type="button">복사</button></li>
-				<li><button type="button" disabled>붙여넣기</button></li>
+				<li><button type="button" class="_edit_cut">잘라내기</button></li>
+				<li><button type="button" class="_edit_copy">복사</button></li>
+				<li><button type="button" class="_edit_paste" disabled>붙여넣기</button></li>
 				<li><a href="#menuRemoveConfirm" class="modalAnchor _deleteMenu">삭제</a></li>
-				<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox"> 사이트 접속 시 기본 페이지로 사용</label></li>
+				<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox" class="_chkUseAsHome"> 사이트 접속 시 기본 페이지로 사용</label></li>
 				<li class="default"><a href="#default" data-admin-show="#default">기본 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#imgbtn" data-admin-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#design" data-admin-show="#design">디자인 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -707,6 +707,8 @@
 #design .x_tab-pane{position:relative}
 #design .x_icon-zoom-in{position:absolute;right:0;bottom:0;width:24px;height:24px;background-color:#fff;opacity:.75;filter:alpha(opacity:75);background-position:-331px 5px}
 #design .x_icon-zoom-in:after{content:normal}
+
+#site_map li._isCut a{color:#aaa}
 </style>
 <!--[if IE 7]>
 <script>
@@ -724,6 +726,12 @@ jQuery(function($){
 <![endif]-->
 <script>
 //<![CDATA[
+/*
+시작 모듈 지정 module_srl이 아닌 page_srl로
+메뉴 복사 API에서 menu_srl 제거
+메뉴 타입 노출
+복사한 메뉴 삭제되면 붙여넣기 비활성화
+*/
 jQuery._xeAdminVar = {};
 
 function showMenuSelector($container){
@@ -745,13 +753,35 @@ function onSiteMapReceived(htData){
 	$("#siteMapTree").html(createTreeMarkup(aMenuList, 0));
 	
 	var sInitiallyOpen = [];
-	
+
+	if($._xeAdminVar.bCut){
+		$._xeAdminVar.sCopySourceMenuSrl = null;
+	}
+
 	$("#siteMapTree")
 		.jstree({
 			// the `plugins` array allows you to configure the active plugins on this instance
 			"plugins" : ["themes","html_data","ui","crrm","hotkeys","contextmenu", "dnd"],
 			//"themes","json_data","ui","crrm","cookies","dnd","search","types","hotkeys","contextmenu" 
 			// each plugin you have included can have its own config object
+			
+			"crrm" : {
+				"move" : {
+					"check_move" : function (m) {
+						var p = this._get_parent(m.o);
+
+						// root is not draggable
+						if(p === -1) return false;
+						
+						// a menu cann't be dragged to a root position
+						p = this._get_parent(m.np);
+						if(!p) return false;
+						
+						return true;
+					}
+				}
+			},
+			
 			"core" : {  }
 			//"core" : { "initially_open" : [ "nhtml_1" ] }
 			// it makes sense to configure a plugin only if overriding the defaults
@@ -1247,7 +1277,94 @@ jQuery(function($){
 		
 		$("#siteMapTree").jstree("deselect_all");
 	});
-	
+	$('#properties ._edit_cut').click(function(){
+		console.log(1, $._xeAdminVar.sSelectedMenuSrl);
+		
+		$('._edit_paste').removeAttr('disabled');
+		
+		$('#site_map li._isCut').removeClass('_isCut');
+		
+		$._xeAdminVar.sCopySourceMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+		$._xeAdminVar.bCut = true;
+		
+		$('#menu'+$._xeAdminVar.sCopySourceMenuSrl).addClass('_isCut');
+	});
+	$('#properties ._edit_copy').click(function(){
+		console.log(2, $._xeAdminVar.sSelectedMenuSrl);
+		
+		$('._edit_paste').removeAttr('disabled');
+
+		$('#site_map li._isCut').removeClass('_isCut');
+
+		$._xeAdminVar.sCopySourceMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+		$._xeAdminVar.bCut = false;
+	});
+	$('._edit_paste').click(function(){
+		console.log($._xeAdminVar.sCopySourceMenuSrl);
+		
+		if(!$._xeAdminVar.sCopySourceMenuSrl) return;
+		
+		var params = {};
+
+		if($._xeAdminVar.bCut){
+			// can't paste into a child menu of the source menu
+			var sParentSrl = $._xeAdminVar.sSelectedMenuSrl;
+			 do{
+				if(sParentSrl === $._xeAdminVar.sCopySourceMenuSrl){
+					alert('대상 메뉴가 원본 메뉴의 하위 메뉴 입니다.');
+					return;
+				}
+
+				sParentSrl = htNodeInfo[sParentSrl].sParentSrl;
+			 }while(sParentSrl)
+			
+			$('._edit_paste').attr('disabled', 'disabled');
+			
+			params['mode'] = 'move';
+
+			// 위치를 이동 할 메뉴의 srl
+			params['target_srl'] = $._xeAdminVar.sCopySourceMenuSrl;
+
+			// 어느 부모 밑으로 이동 할지
+			params['parent_srl'] = $._xeAdminVar.sSelectedMenuSrl;
+
+			// parent_srl 하위의 어느 노드 뒤에 삽입 할지. 
+			// 0: parent_srl 바로 밑에. 
+			// 다른 값: 해당 srl을 가진 노드 밑에
+			params['source_srl'] = 0; 
+			
+			$.exec_json("menu.procMenuAdminMoveItem", params, function(htData){
+				console.log(htData);
+				if(htData.error !== 0){
+					alert(htData.message);
+					return;
+				}
+				
+				// select currently selected menu
+				$._xeAdminVar.sSelectOnload = params['target_srl'];
+				loadSiteMap();
+			});
+			
+			$._xeAdminVar.sCopySourceMenuSrl = null;
+		}else{
+			//params['menu_srl'] = '61';
+			params['parent_srl'] = $._xeAdminVar.sSelectedMenuSrl;
+			params['menu_item_srl'] = $._xeAdminVar.sCopySourceMenuSrl;
+
+			$.exec_json("menu.procMenuAdminCopyItem", params, function(htData){
+				console.log(htData);
+				if(htData.error !== 0){
+					alert(htData.message);
+					return;
+				}
+				
+				// select currently selected menu
+				$._xeAdminVar.sSelectOnload = params['menu_item_srl'];
+				loadSiteMap();
+			});
+
+		}
+	});
 	$("._delSiteMap").click(function(){
 		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 		var params = {};
@@ -1269,11 +1386,37 @@ jQuery(function($){
 		var htInfo = htNodeInfo[sMenuId];
 		$(ev.target).find('.title').html(htInfo.sText);
 		$(ev.target).find('.url').html(htInfo.url);
+		
+		if(htInfo.is_start_module){
+			$(ev.target).find('._chkUseAsHome').attr('checked', 'checked').attr('disabled', 'disabled');
+		}else{
+			$(ev.target).find('._chkUseAsHome').removeAttr('disabled').removeAttr('checked');
+		}
 	});
 	$('#properties').bind("hide", function(ev, htOpt){
 		if(htOpt && htOpt.bOpeningProp) return;
 
 		$("#siteMapTree").jstree("deselect_all");
+	});
+	$('#properties ._chkUseAsHome').click(function(){
+		if($(this).attr('checked')){
+			var params = {};
+			// ;;; menuSrl이어야 함
+			//params['index_module_srl'] = $._xeAdminVar.sSelectedMenuSrl;
+			params['index_module_srl'] = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].module_srl;
+
+			$.exec_json("admin.procInstallAdminUpdateIndexModule", params, function(htData){
+				console.log(htData);
+				if(htData.error !== 0){
+					alert(htData.message);
+					return;
+				}
+				
+				// select currently selected menu
+				$._xeAdminVar.sSelectOnload =  $._xeAdminVar.sSelectedMenuSrl;
+				loadSiteMap();
+			});
+		}
 	});
 	
 	$("#tmpl_menuTypeItem").template( "menuTypeItem" );
