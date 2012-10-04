@@ -59,7 +59,7 @@
 			<h1><a href="#" target="_blank" class="title">{메뉴 이름}</a></h1>
 			<ul>
 				<li><strong>메뉴 ID</strong>: <span class="url"></span></li>
-				<li><strong>메뉴 타입</strong>: 문서 페이지</li>
+				<li><strong>메뉴 타입</strong>: <span class="module_type"></span></li>
 				<li class="add"><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><button type="button" class="_edit_cut">잘라내기</button></li>
 				<li><button type="button" class="_edit_copy">복사</button></li>
@@ -1187,6 +1187,11 @@ jQuery(function($){
 
 	loadSiteMap();
 
+	$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
+		$._xeAdminVar.htItemTypes = htData.menu_types;
+		console.log($._xeAdminVar.htItemTypes);
+	});
+	
 	//$.jstree._themes = "PATH/TO/FOLDER/";
 	//$.jstree._themes = "/maserati/modules/menu/tpl/css/themes/";
 	$.jstree._themes = '{getUrl("")}/modules/menu/tpl/css/themes/';
@@ -1386,6 +1391,10 @@ jQuery(function($){
 		var htInfo = htNodeInfo[sMenuId];
 		$(ev.target).find('.title').html(htInfo.sText);
 		$(ev.target).find('.url').html(htInfo.url);
+		$(ev.target).find('.module_type').html('그런게 있음');
+		//$(ev.target).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.module_type].title);
+//		console.log(555,htInfo);
+		//
 		
 		if(htInfo.is_start_module){
 			$(ev.target).find('._chkUseAsHome').attr('checked', 'checked').attr('disabled', 'disabled');
@@ -1425,15 +1434,15 @@ jQuery(function($){
 			console.log(htData);
 
 			var sResult = "";
-			var htItemTypes = htData.menu_types;
+			$._xeAdminVar.htItemTypes = htData.menu_types;
 
 			var item;
 			var sModuleTitle;
-			for(var sModuleName in htItemTypes){
+			for(var sModuleName in $._xeAdminVar.htItemTypes){
 				//item = htData.menu_types[i];
 				if(htData.hasOwnProperty(item)) continue;
 				
-				item = htItemTypes[sModuleName];
+				item = $._xeAdminVar.htItemTypes[sModuleName];
 				sModuleTitle = item.title;
 				console.log(item);
 
