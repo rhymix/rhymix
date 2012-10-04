@@ -682,9 +682,12 @@
 		 */
 		public function procMenuAdminCopyItem()
 		{
-			$menuSrl = Context::get('menu_srl');
 			$parentSrl = Context::get('parent_srl');
 			$menuItemSrl = Context::get('menu_item_srl');
+
+			$oMenuModel = &getAdminModel('menu');
+			$itemInfo = $oMenuModel->getMenuItemInfo($menuItemSrl);
+			$menuSrl = $itemInfo->menu_srl;
 
 			// get menu properies with child menu
 			$phpFile = sprintf("./files/cache/menu/%s.php", $menuSrl);
