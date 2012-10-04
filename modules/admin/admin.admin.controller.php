@@ -293,6 +293,54 @@
 		}
 
 		/**
+		 * Cleanning favorite
+		 * @return Object
+		 */
+		function cleanFavorite()
+		{
+			$oModel = getAdminModel('admin');
+			$output = $oModel->getFavoriteList();
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+
+			$favoriteList = $output->get('favoriteList');
+			if(!$favoriteList)
+			{
+				return new Object();
+			}
+
+			$deleteTargets = array();
+			foreach($favoriteList as $favorite)
+			{
+				if($favorite->type == 'module')
+				{
+					$modulePath = './modules/' . $favorite->module;
+					$modulePath = FileHandler::getRealPath($modulePath);
+					if(!is_dir($modulePath))
+					{
+						$deleteTargets[] = $favorite->admin_favorite_srl;
+					}
+				}
+			}
+
+			if(!count($deleteTargets))
+			{
+				return new Object();
+			}
+
+			$args->admin_favorite_srls = $deleteTargets;
+			$output = executeQuery('admin.deleteFavorites', $args);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+
+			return new Object();
+		}
+
+		/**
 		 * Enviroment gathering agreement
 		 * @return void
 		 */

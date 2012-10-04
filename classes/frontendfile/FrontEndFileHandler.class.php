@@ -99,7 +99,29 @@
 			$pathInfo = pathinfo($args[0]);
 			$file->fileName = $pathInfo['basename'];
 			$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
+			$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
 			$file->fileExtension = strtolower($pathInfo['extension']);
+			$file->fileNameNoExt = preg_replace("/\.{$file->fileExtension}$/", '', $file->fileName);
+
+			// Remove .min
+			$file->fileNameNoExt = preg_replace("/\.min$/", '', $file->fileNameNoExt);
+			$file->fileName = $file->keyName = "{$file->fileNameNoExt}.{$file->fileExtension}";
+
+			// if no debug mode load minified file
+			if(!__DEBUG__)
+			{
+				$tmp = "{$file->fileNameNoExt}.min.{$file->fileExtension}";
+				if(file_exists("{$file->fileRealPath}/{$tmp}"))
+				{
+					$file->fileName = $tmp;
+					$file->useMin = TRUE;
+				}
+			}
+
+			if(!$file->useMin && !file_exists("{$file->fileRealPath}/{$file->fileName}"))
+			{
+				$file->fileName = "{$file->fileNameNoExt}.min.{$file->fileExtension}";
+			}
 
 			if (strpos($file->filePath, '://') == false)
 			{
@@ -121,7 +143,7 @@
 				if (!$file->media) $file->media = 'all';
 				$map = &$this->cssMap;
 				$mapIndex = &$this->cssMapIndex;
-				$key = $file->filePath . $file->fileName . "\t" . $file->targetIe . "\t" . $file->media;
+				$key = $file->filePath . $file->keyName . "\t" . $file->targetIe . "\t" . $file->media;
 
 				$this->_arrangeCssIndex($pathInfo['dirname'], $file);
 			}
@@ -138,11 +160,11 @@
 					$map = &$this->jsHeadMap;
 					$mapIndex = &$this->jsHeadMapIndex;
 				}
-				$key = $file->filePath . $file->fileName . "\t" . $file->targetIe;
+				$key = $file->filePath . $file->keyName . "\t" . $file->targetIe;
 			}
 
 			(is_null($file->index))?$file->index=0:$file->index=$file->index;
-			if (!isset($map[$file->index][$key]) || $mapIndex[$key] != $file->index)
+			if (!isset($map[$file->index][$key]) || $mapIndex[$key] > $file->index)
 			{
 				$this->unloadFile($args[0], $args[2], $args[1]);
 				$map[$file->index][$key] = $file;

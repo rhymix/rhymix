@@ -98,6 +98,7 @@
 
 		function _getDisplayedMemberInfo($memberInfo, $extendFormInfo, $memberConfig)
 		{
+			$logged_info = Context::get('logged_info');
 			$displayDatas = array();
 			foreach($memberConfig->signupForm as $no=>$formInfo)
 			{
@@ -270,6 +271,7 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
             $member_info->signature = $oMemberModel->getSignature($member_srl);
             Context::set('member_info',$member_info);
+
             // Get a list of extend join form
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
@@ -290,6 +292,8 @@
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
+
+			$this->member_info = $member_info;
 
 			$oMemberAdminView = &getAdminView('member');
 			$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
@@ -382,7 +386,7 @@
          **/
         function dispMemberLoginForm() {
             if(Context::get('is_logged')) {
-                Context::set('redirect_url', getUrl('act',''));
+                Context::set('redirect_url', getNotEncodedUrl('act',''));
                 $this->setTemplatePath($this->module_path.'tpl');
                 $this->setTemplateFile('redirect.html');
                 return;
@@ -542,7 +546,7 @@
         }
 
         /**
-         * @brief 이메일 주소를 기본 로그인 계정 사용시 이메일 주소 변경을 위한 화면 추가
+         * @brief ?�메??주소�?기본 로그??계정 ?�용???�메??주소 변경을 ?�한 ?�면 추�?
          **/
 		function dispMemberModifyEmailAddress(){
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');

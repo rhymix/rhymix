@@ -254,6 +254,10 @@
 		<value xml:lang="tr"><![CDATA[Sadece makalelerdeki/yorumlardaki/eklerdeki/katılımlardaki tüm puanlar sıfırlanacaktır.<br />Sıfırlamadan sonra sadece, website aktiviteleri yapan üyeler, giriş puanı alacaklardır.<br />Lütfen bu özelliği sadece veri taşıma veya cidden gerekliliği olduğu durumlarda kullanınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Điểm chỉ có thể có được khi gửi bài, bình luận, đính kèm và khi đăng kí.<br />Chỉ có thể thiết lập lại điểm của những thành viên đã đăng kí là thành viên.<br />Xin hãy chỉ sử dụng chức năng này khi bạn chuyển nội dung của Website qua một Website khác.]]></value>
 	</item>
+	<item name="default_group">
+		<value xml:lang="ko"><![CDATA[기본 그룹]]></value>
+		<value xml:lang="en"><![CDATA[Default Group]]></value>
+	</item>
 	<item name="point_link_group">
 		<value xml:lang="ko"><![CDATA[그룹 연동]]></value>
 		<value xml:lang="en"><![CDATA[Group Change by Level]]></value>

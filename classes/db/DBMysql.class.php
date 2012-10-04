@@ -256,7 +256,7 @@ class DBMysql extends DB {
         if($default) $query .= sprintf(" default '%s' ", $default);
         if($notnull) $query .= " not null ";
 
-        $this->_query($query);
+        return $this->_query($query);
     }
 
 	/**

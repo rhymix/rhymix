@@ -16,9 +16,9 @@
             // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('message');
-            if(!$config->skin) $config->skin = 'default';
+            if(!$config->mskin) $config->mskin = 'default';
             // Set the template path
-            $template_path = sprintf('%sm.skins/%s', $this->module_path, $config->skin);
+            $template_path = sprintf('%sm.skins/%s', $this->module_path, $config->mskin);
             // Get the member configuration
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');

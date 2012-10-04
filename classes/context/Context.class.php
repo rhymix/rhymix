@@ -235,16 +235,19 @@ class Context {
 			$oMemberModel = &getModel('member');
 			$oMemberController = &getController('member');
 
-			// if signed in, validate it.
-			if($oMemberModel->isLogged()) {
-				$oMemberController->setSessionInfo();
-			}
-			elseif($_COOKIE['xeak']) { // check auto sign-in
-				$oMemberController->doAutologin();
-			}
+			if($oMemberController && $oMemberModel)
+			{
+				// if signed in, validate it.
+				if($oMemberModel->isLogged()) {
+					$oMemberController->setSessionInfo();
+				}
+				elseif($_COOKIE['xeak']) { // check auto sign-in
+					$oMemberController->doAutologin();
+				}
 
-			$this->set('is_logged', $oMemberModel->isLogged() );
-			$this->set('logged_info', $oMemberModel->getLoggedInfo() );
+				$this->set('is_logged', $oMemberModel->isLogged() );
+				$this->set('logged_info', $oMemberModel->getLoggedInfo() );
+			}
 		}
 
 		// load common language file
@@ -726,16 +729,48 @@ class Context {
 			$flag = true;
 			foreach($obj as $key=>$val) {
 				if(!$val) continue;
-				if($val && iconv($charset,$charset,$val)!=$val) $flag = false;
+				if(!is_array($val) && iconv($charset,$charset,$val)!=$val) $flag = false;
+				else if(is_array($val))
+				{
+					$userdata = array('charset1'=>$charset,'charset2'=>$charset,'useFlag'=>true);
+					Context::arrayConvWalkCallback($val,null,$userdata);
+					if($userdata['returnFlag'] === false) $flag = false;
+				}
 			}
 			if($flag) {
 				if($charset == 'UTF-8') return $obj;
-				foreach($obj as $key => $val) $obj->{$key} = iconv($charset,'UTF-8',$val);
+				foreach($obj as $key => $val)
+				{
+					if(!is_array($val)) $obj->{$key} = iconv($charset,'UTF-8',$val);
+					else Context::arrayConvWalkCallback($val,null,array($charset,'UTF-8'));
+				}
+
 				return $obj;
 			}
 		}
 
 		return $obj;
+	}
+	/**
+	 * Convert array type variables into UTF-8 
+	 *
+	 * @param mixed $val
+	 * @param string $key
+	 * @param mixed $userdata charset1 charset2 useFlag retrunFlag
+	 * @see arrayConvWalkCallback will replaced array_walk_recursive in >=PHP5
+	 * @return object converted object
+	 */
+	function arrayConvWalkCallback(&$val, $key = null, &$userdata)
+	{
+		if (is_array($val)) array_walk($val,'Context::arrayConvWalkCallback',&$userdata);
+		else 
+		{
+			if(!$userdata['useFlag']) $val = iconv($userdata['charset1'],$userdata['charset2'],$val);
+			else
+			{
+				if(iconv($charset,$charset,$val)!=$val) $userdata['returnFlag'] = (bool)false;
+			}
+		}
 	}
 
 	/**
@@ -809,6 +844,13 @@ class Context {
 			if($this->getRequestMethod()=='GET'&&isset($_GET[$key])) $set_to_vars = true;
 			elseif($this->getRequestMethod()=='POST'&&isset($_POST[$key])) $set_to_vars = true;
 			else $set_to_vars = false;
+
+			if($set_to_vars)
+			{
+				$val = preg_replace('/<\?/i', '', $val);
+				$val = preg_replace('/<\%/i', '', $val);
+				$val = preg_replace('/<script\s+language\s*=\s*("|\')php("|\')\s*>/ism', '', $val);
+			}
 
 			$this->set($key, $val, $set_to_vars);
 		}
@@ -1090,7 +1132,9 @@ class Context {
 					'act.mid'    =>$is_feed?"$mid/$act":'',
 					'act.mid.vid'=>$is_feed?"$vid/$mid/$act":'',
 					'act.document_srl.key'    =>($act=='trackback')?"$srl/$key/$act":'',
-					'act.document_srl.key.vid'=>($act=='trackback')?"$vid/$srl/$key/$act":''
+					'act.document_srl.key.mid'=>($act=='trackback')?"$mid/$srl/$key/$act":'',
+					'act.document_srl.key.vid'=>($act=='trackback')?"$vid/$srl/$key/$act":'',
+					'act.document_srl.key.mid.vid'=>($act=='trackback')?"$vid/$mid/$srl/$key/$act":''
 				);
 
 				$query  = $target_map[$target];
@@ -1102,7 +1146,7 @@ class Context {
 					if(is_array($val) && count($val)) {
 						foreach($val as $k => $v) $queries[] = $key.'['.$k.']='.urlencode($v);
 					} else {
-						$queries[] = $key.'='.urlencode($val);
+						$queries[] = $key.'='.@urlencode($val);
 					}
 				}
 				if(count($queries)) $query = 'index.php?'.implode('&', $queries);

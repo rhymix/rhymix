@@ -332,7 +332,7 @@
             $point = $module_config['download_file'];
             if(!isset($point)) $point = $config->download_file;
             // If points are less than 0, and if downloading a file is not allowed in this case, give an errors
-            if($cur_point + $point < 0 && $config->disable_download == 'Y') return new Object(-1,'msg_not_permitted_download');
+            if($cur_point + $point < 0 && $config->disable_download == 'Y') return new Object(-1,'msg_cannot_download');
 
             return new Object();
         }
@@ -533,8 +533,9 @@
 						}
                         // Delete the group of a level which is higher than the current level
 						foreach($point_group as $group_srl => $target_level) {
-							if($target_level	 > $level) $del_group_list[] = $group_srl;
+							if($target_level > $level) $del_group_list[] = $group_srl;
 						}
+						$del_group_list[] = $default_group->group_srl;
 					}
                     // Grant a new group
 					else {			
@@ -566,6 +567,17 @@
 
             $cache_filename = sprintf('%s%d.cache.txt', $cache_path, $member_srl);
             FileHandler::writeFile($cache_filename, $point);
+
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport())
+			{
+				$cache_key = 'object:'.$member_srl;
+				$GLOBALS['__member_info__'][$member_srl] = null;
+				$oCacheHandler->delete($cache_key);
+
+				$gcache_key = 'object_member_groups:'.$member_srl.'_0';
+				$oCacheHandler->delete($gcache_key);
+			}
 
             return $output;
         }

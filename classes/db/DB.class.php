@@ -407,6 +407,7 @@
          */
         function executeQuery($query_id, $args = NULL, $arg_columns = NULL) {
 			static $cache_file = array();
+
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
 			if(!$this->db_type) return;
 
@@ -414,7 +415,7 @@
 
 			$this->query_id = $query_id;
 
-			if(!isset($cache_file[$query_id])) {
+			if(!isset($cache_file[$query_id]) || !file_exists($cache_file[$query_id])) {
 				$id_args = explode('.', $query_id);
 				if(count($id_args) == 2) {
 					$target = 'modules';

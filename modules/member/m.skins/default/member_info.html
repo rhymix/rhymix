@@ -1,0 +1,32 @@
+<load target="css/member.css" />
+<div class="xm">
+<h2 class="h2">{$lang->member_info}</h2>
+<div class="table even">
+	<table width="100%" border="1" cellspacing="0">
+		<tr loop="$displayDatas => $item">
+			<th scope="row" >{$item->title} <em cond="$item->required || $item->mustRequired">*</em></th>
+			<td class="text">{$item->value}</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->member_group}</th>
+			<td class="text">{implode(', ', $memberInfo['group_list'])}</td>
+		</tr>
+		<tr>
+			<th>{$lang->signup_date}</th>
+			<td>{zdate($memberInfo[regdate],"Y-m-d")}</td>
+		</tr>
+		<!--@if($memberInfo[member_srl] == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
+		<tr>
+			<th>{$lang->last_login}</th>
+			<td>{zdate($memberInfo[last_login],"Y-m-d")}</td>
+		</tr>
+		<!--@end-->
+    </table>
+</div>
+<div class="btnArea" cond="$memberInfo['member_srl'] == $logged_info->member_srl">
+	<span class="btn" cond="$member_config->identifier == 'email_address'"><a href="{getUrl('act', 'dispMemberModifyEmailAddress')}">{$lang->cmd_modify_member_email_address}</a></span>
+	<span class="btn"><a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}">{$lang->cmd_modify_member_info}</a></span>
+	<span class="btn"><a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}">{$lang->cmd_modify_member_password}</a></span>
+	<span class="btn"><a href="{getUrl('act','dispMemberLeave','member_srl','')}">{$lang->cmd_leave}</a></span>
+</div>
+</div>

@@ -901,7 +901,7 @@
 		<value xml:lang="vi"><![CDATA[Sửa đổi mật khẩu]]></value>
 	</item>
 	<item name="cmd_view_member_info">
-		<value xml:lang="ko"><![CDATA[회원 정보 보기]]></value>
+		<value xml:lang="ko"><![CDATA[회원정보 보기]]></value>
 		<value xml:lang="en"><![CDATA[View Member Info]]></value>
 		<value xml:lang="jp"><![CDATA[会員情報確認]]></value>
 		<value xml:lang="zh-CN"><![CDATA[个人资料]]></value>
@@ -1580,6 +1580,7 @@
 	</item>
 	<item name="about_rechecked_password">
 		<value xml:lang="ko"><![CDATA[회원의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인 합니다.]]></value>
+        <value xml:lang="en"><![CDATA[Confirm your password before editing account information.]]></value>
 	</item>
 	<item name="about_user_id">
 		<value xml:lang="ko"><![CDATA[회원 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작해야 합니다.]]></value>

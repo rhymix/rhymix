@@ -388,7 +388,7 @@
 	            $memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 				$this->memberInfo->password = $memberInfo->password;
 			}
-            // Verify the cuttent password
+            // Verify the current password
             if(!$oMemberModel->isValidPassword($this->memberInfo->password, $password))
 			{
 				return new Object(-1, 'invalid_password');
@@ -396,7 +396,7 @@
 
 			$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
 
-			$redirectUrl = getUrl('', 'act', 'dispMemberModifyInfo');
+			$redirectUrl = getNotEncodedUrl('', 'act', 'dispMemberModifyInfo');
 			$this->setRedirectUrl($redirectUrl);
 
 		}
@@ -2047,6 +2047,10 @@
          **/
         function destroySessionInfo() {
             if(!$_SESSION || !is_array($_SESSION)) return;
+
+			$memberInfo = Context::get('logged_info');
+			$memberSrl = $memberInfo->member_srl;
+
             foreach($_SESSION as $key => $val) {
                 $_SESSION[$key] = '';
             }
@@ -2054,10 +2058,11 @@
             setcookie(session_name(), '', time()-42000, '/');
             setcookie('sso','',time()-42000, '/');
 
-            if($_COOKIE['xeak']) {
-                $args->autologin_key = $_COOKIE['xeak'];
-                executeQuery('member.deleteAutologin', $args);
-            }
+			if($memberSrl)
+			{
+				$args->member_srl = $memberSrl;
+				$output = executeQuery('member.deleteAutologin', $args);
+			}
         }
 
 		function _updatePointByGroup($memberSrl, $groupSrlList)

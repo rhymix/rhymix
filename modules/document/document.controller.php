@@ -174,7 +174,7 @@ class documentController extends document {
 	 * @param bool $isRestore
 	 * @return object
 	 */
-	function insertDocument($obj, $manual_inserted = false, $isRestore = false) {
+	function insertDocument($obj, $manual_inserted = false, $isRestore = false, $isLatest = true) {
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -185,7 +185,7 @@ class documentController extends document {
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
-		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board에서 form key값으로 ipaddress를 사용하면 엄한 ip가 등록됨. 필터와는 상관없슴
+		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board?�서 form key값으�?ipaddress�??�용?�면 ?�한 ip가 ?�록?? ?�터?�???��??�슴
 
 		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
 		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
@@ -212,7 +212,7 @@ class documentController extends document {
 		}
 		// Set the read counts and update order.
 		if(!$obj->readed_count) $obj->readed_count = 0;
-		if(!$isRestore) $obj->update_order = $obj->list_order = getNextSequence() * -1;
+		if($isLatest) $obj->update_order = $obj->list_order = getNextSequence() * -1;
 		else $obj->update_order = $obj->list_order;
 		// Check the status of password hash for manually inserting. Apply md5 hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
@@ -745,6 +745,8 @@ class documentController extends document {
             $cache_key = 'object_document_item:'.$document_srl;
             $oCacheHandler->delete($cache_key);
         }
+
+		return TRUE;
 	}
 
 	/**
@@ -1616,6 +1618,7 @@ class documentController extends document {
 		$xml_buff = sprintf(
 				'<?php '.
 				'define(\'__ZBXE__\', true); '.
+				'define(\'__XE__\', true); '.
 				'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
 				'$oContext = &Context::getInstance(); '.
 				'$oContext->init(); '.

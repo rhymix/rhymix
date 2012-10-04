@@ -267,7 +267,7 @@
                 }
 
                 // Write a post
-                $output = $oDocumentController->insertDocument($obj, true);
+                $output = $oDocumentController->insertDocument($obj, true, true);
                 if(!$output->toBool()) {
                     $oDB->rollback();
                     return $output;
@@ -710,7 +710,7 @@
             $oDB->begin();
 
 			//DB restore
-			$output = $oDocumentController->insertDocument($originObject, false, true);
+			$output = $oDocumentController->insertDocument($originObject, false, true, false);
 			if(!$output->toBool()) return new Object(-1, $output->getMessage());
 
 			//FILE restore

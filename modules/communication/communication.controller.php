@@ -290,15 +290,27 @@
          * Move a group of the friend
 		 * @return void|Object (success : void, fail : Object)
          **/
-        function procCommunicationMoveFriend() {
+        function procCommunicationMoveFriend() 
+		{
             // Check login information
-            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            if(!Context::get('is_logged')) 
+			{
+				return new Object(-1, 'msg_not_logged');
+			}
+
             $logged_info = Context::get('logged_info');
             // Check variables
-            $friend_srl_list = trim(Context::get('friend_srl_list'));
-            if(!$friend_srl_list) return new Object(-1, 'msg_cart_is_null');
+            $friend_srl_list = Context::get('friend_srl_list');
+            if(!$friend_srl_list)
+			{
+				return new Object(-1, 'msg_cart_is_null');
+			}
 
-            $friend_srl_list = explode('|@|', $friend_srl_list);
+			if(!is_array($friend_srl_list))
+			{
+				$friend_srl_list = explode('|@|', $friend_srl_list);
+			}
+
             if(!count($friend_srl_list)) return new Object(-1, 'msg_cart_is_null');
 
             $friend_count = count($friend_srl_list);

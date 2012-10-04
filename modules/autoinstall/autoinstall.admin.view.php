@@ -260,10 +260,23 @@
                 $res = array();
                 foreach($package_list as $package_srl => $package)
                 {
-                    $res[] = $item_list[$package_srl];
+					if($item_list[$package_srl])
+					{
+                    	$res[] = $item_list[$package_srl];
+					}
                 }
                 Context::set('item_list', $res);
             }
+
+			if(count($package_list) != count($res))
+			{
+				$localPackageSrls = array_keys($package_list);
+				$remotePackageSrls = array_keys($item_list);
+				$targetPackageSrls = array_diff($localPackageSrls, $remotePackageSrls);
+				$countDiff = count($targetPackageSrls);
+				$output->page_navigation->total_count -= $countDiff;
+			}
+
             Context::set('page_navigation', $output->page_navigation);
 
             $this->setTemplateFile('index');

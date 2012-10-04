@@ -788,7 +788,7 @@
          **/
 		$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)($|>|<)@i', 'removeSrcHack', $content);
 
-		// xmp tag 확인 및 추가
+		// xmp tag ?�인 �?추�?
 		$content = checkXmpTag($content);
 		return $content;
     }
@@ -819,7 +819,7 @@
     function removeSrcHack($match) {
         $tag = strtolower($match[2]);
 
-		// xmp tag 정리
+		// xmp tag ?�리
 		if($tag=='xmp') return "<{$match[1]}xmp>";
  		if($match[1]) return $match[0];
 		if($match[4]) $match[4] = ' '.$match[4];

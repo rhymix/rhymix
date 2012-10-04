@@ -1,0 +1,22 @@
+<load target="./../../../../common/js/jquery.min.js" usecdn="true" index="-1000000" />
+<load target="./../../../../common/js/xe.min.js" usecdn="true" index="-1000000" />
+<load target="css/msignup.css" usecdn="true" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="modifyEmailAddress" class="ff" action="./" method="post">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberModifyEmailAddress" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<h2 class="h2">{$lang->cmd_modify_member_email_address}</h2>
+    <p>{$lang->about_modify_member_email_address}</p>
+	<ul>
+		<li>
+			<label for="email_address">{$lang->email_address}</label>
+			<input type="text" id="email_address" name="email_address" value="" />
+		</li>
+	</ul>
+	<div class="bna">
+		<input type="submit" class="bn dark" value="{$lang->cmd_send_auth_new_emaill_address}" />
+	</div>
+</form>

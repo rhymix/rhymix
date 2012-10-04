@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* Element Reset */
+.xm,
+.xm table,
+.xm input,
+.xm textarea,
+.xm select,
+.xm button{font-family:Tahoma,Geneva,sans-serif;font-size:12px;color:#333}
+.xm button,
+.xm input[type=submit],
+.xm input[type=reset],
+.xm input[type=button]{cursor:pointer;overflow:visible}
+.xm img{border:0}
+.xm p{line-height:1.5}
+/* Heading */
+.xm .h1, 
+.xm .h2, 
+.xm .h3, 
+.xm .h4{position:relative;zoom:1}
+.xm .h1{font-size:24px}
+.xm .h2{font-size:20px}
+.xm .h3{font-size:16px}
+.xm .h4{font-size:12px}
+/* Table */
+.xm .table{margin:1em 0}
+.xm .table table{width:100%;border:0;border-collapse:collapse;border-top:2px solid #ccc}
+.xm .table caption{font-weight:bold;text-align:left;line-height:22px;padding:5px 0}
+.xm .table caption:after{content:"";display:block;clear:both}
+.xm .table caption a{font-weight:normal}
+.xm .table caption em{float:right;margin-left:1em}
+.xm .table caption strong{color:#e00}
+.xm .table caption .side{float:right;font-weight:normal;margin-left:1em}
+.xm .table th,
+.xm .table td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd;white-space:nowrap}
+.xm .table th{background:#f8f8f8}
+.xm .table thead th{border-bottom:1px solid #999}
+.xm .table tfoot td{font-weight:bold;background:#f8f8f8}
+.xm .table.even tbody tr:nth-of-type(even) td{background-color:#fafafa}
+.xm .table td>input[type=text]{margin:-1px 0 -3px 0 !important;vertical-align:middle}
+.xm .table img{vertical-align:middle}
+.xm .table em{font-style:normal;font-weight:normal;color:#e00}
+.xm .table .title,
+.xm .table .text{white-space:normal}

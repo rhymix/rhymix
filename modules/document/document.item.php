@@ -509,7 +509,7 @@
             if(!$this->document_srl) return;
             // Generate a key to prevent spams
             $oTrackbackModel = &getModel('trackback');
-            return $oTrackbackModel->getTrackbackUrl($this->document_srl);
+            return $oTrackbackModel->getTrackbackUrl($this->document_srl, $this->getDocumentMid());
         }
 
 		/**
