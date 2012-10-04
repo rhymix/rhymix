@@ -54,7 +54,7 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#propertiesRoot">&times;</button>
 	</div>
-	<div class="col" id="properties">
+	<div class="col prop-general" id="properties">
 		<section>
 			<h1><a href="#" target="_blank" class="title">{메뉴 이름}</a></h1>
 			<ul>
@@ -68,9 +68,9 @@
 				<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox" class="_chkUseAsHome"> 사이트 접속 시 기본 페이지로 사용</label></li>
 				<li class="default"><a href="#default" data-admin-show="#default">기본 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#imgbtn" data-admin-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#design" data-admin-show="#design">디자인 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li class="design"><a href="#design" data-admin-show="#design">디자인 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#auth" data-admin-show="#auth">권한 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#details" data-admin-show="#details">상세 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+				<li class="details"><a href="#details" data-admin-show="#details">상세 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 			</ul>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#properties">&times;</button>
@@ -682,6 +682,9 @@
 #properties li>*:active>i,
 #properties li>*:focus>i,
 #properties li.active>*>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);opacity:1;filter:alpha(opacity=100)}
+#properties.prop-shortcut li.homepage,
+#properties.prop-shortcut li.design,
+#properties.prop-shortcut li.details{display:none}
 /* Add */
 #add>*>.x_btn-group{border:0;padding:0}
 /* Add Menu */
