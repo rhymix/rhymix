@@ -1,38 +1,6 @@
-<script>
-jQuery(function($){
-	$('#favicon').change(function(){
-		var re_favicon = /[^.]+\.ico$/
-		if(re_favicon.test($(this).val()) != true){
-			alert('*.ico {$lang->msg_possible_only_file}');
-			return false;
-		}
-	});
-	$('#mobicon').change(function(){
-		var re_favicon = /[^.]+\.png$/
-		if(re_favicon.test($(this).val()) != true){
-			alert('*.png {$lang->msg_possible_only_file}');
-			return false;
-		}
-	});
-});
-</script>
 <load target="./js/config.js" usecdn="true" />
 <load target="../install/lang/lang.xml" usecdn="true" />
 <load target="../../session/tpl/js/session.js" usecdn="true" />
-<script>
-jQuery(function($){
-	$('.moduleSearch').bind('moduleSelect', function(e, aSelected){
-		var sType, sName, sSrl;
-		
-		sType = aSelected[0].type;
-		sName = aSelected[0].browser_title;
-		sSrl = aSelected[0].module_srl;
-
-		$('#_target_module').val(sName);
-		$('#index_module_srl').val(sSrl);
-	});
-});
-</script>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -47,7 +15,42 @@ jQuery(function($){
 
 		<div class="x_control-group">
 			<label class="x_control-label" for="ftp_host">{$lang->start_module}</label>
-			<div class="x_controls">
+			<div class="x_controls modulefinder moduleSearch">
+					<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
+					<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
+					<a href="#moduleSearchWindow" class="x_btn tgAnchor moduleSearch">{$lang->cmd_find}</a> {$lang->about_start_module}
+					<div id="moduleSearchWindow" class="moduleSearchWindow tgContent">
+					<div class="siteList sectionDiv">
+						<h2>{$lang->select_site}</h2>
+						<div class="siteListSearchBox">
+							<div class="siteListSearchBoxBorder">
+								<div class="searchImg icon-search"></div>
+								<input type="text" class="siteListSearchInput" name="site_filter">
+							</div>
+						</div>
+						<div class="siteListUL">
+							<ul>
+							</ul>
+						</div>
+					</div>
+					<div class="moduleTypeList sectionDiv">
+						<h2>{$lang->select_module_type}</h2>
+						<div>
+							<ul class="moduleTypeListUL">
+							</ul>
+						</div>
+					</div>
+					<div class="moduleInstanceList sectionDiv">
+						<h2>{$lang->select_module_instance}</h2>
+						<div>
+							<select class="moduleInstanceListSelect" size="8" multiple>
+							</select>
+						</div>
+						<button class="x_btn x_btn-mini moduleSearch_ok">{$lang->cmd_select}</button>
+					</div>
+				</div>
+			</div>
+			<div class="x_controls modulefinder moduleSearch" cond="0">
 				<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
 				<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
 				<button type="button" href="#moduleSearchWindow" class="x_btn tgAnchor moduleSearch">{$lang->cmd_find}</button> {$lang->about_start_module}
@@ -87,7 +90,10 @@ jQuery(function($){
 			<label class="x_control-label">{$lang->lang_select}</label>
 			<div class="x_controls">
 				<label for="lang_{$key}" class="x_inline" loop="$langs=>$key,$val">
-					<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" disabled="disabled"|cond="$key==$selected_lang" checked="checked"|cond="isset($lang_selected[$key])||$key==$selected_lang" />{$val}
+					<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" disabled="disabled"|cond="$key==$selected_lang" checked="checked"|cond="isset($lang_selected[$key])" />{$val}
+					<!--@if($key==$selected_lang)-->
+					<input type="hidden" name="selected_lang[]" id="lang_{$key}" value="{$key}" />
+					<!--@end-->
 				</label>
 			</div>
 		</div>
@@ -161,100 +167,129 @@ jQuery(function($){
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
 			</div>
 		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
 	</form>
 </section>
 <section class="section">
 	<h1>{$lang->subtitle_advanced}</h1>
 	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 		<input type="hidden" name="module" value="install" />
-		<input type="hidden" name="act" value="procInstallAdminConfig" />
+		<input type="hidden" name="act" value="procInstallAdminSaveTimeZone" />
 
 		<div class="x_control-group">
-			<label class="x_control-label" for="admin_ip_list">{$lang->about_admin_ip_limit}[<a href="#helpAdminip" class="tgAnchor">?</a>]</label>
+			<label class="x_control-label" for="admin_ip_list">{$lang->admin_ip_limit}</label>
 			<div class="x_controls">
-				<div class="tgContent layer" id="helpAdminip">
-					<p>{$lang->detail_about_admin_ip_limit}</p>
-				</div>
 				<textarea name="admin_ip_list" id="admin_ip_list" rows="8" cols="42">{$admin_ip_list}</textarea>
 				{$lang->local_ip_address} : {$IP}</p>
+				<span class="x_help-block">
+					{$lang->about_admin_ip_limit}
+				</span>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="default_url">{$lang->default_url}[<a href="#helpDefaulturl" class="tgAnchor">?</a>]</label>
+			<label class="x_control-label" for="default_url">{$lang->default_url}</label>
 			<div class="x_controls">
-				<div class="tgContent layer" id="helpDefaulturl">
-					<p>{$lang->about_default_url}</p>
-				</div>
 				<input type="text" name="default_url" id="default_url" value="{$default_url}"/>
+				<span class="x_help-block">
+					{$lang->about_default_url}
+				</span>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label>{$lang->use_ssl}</label>[<a href="#helpUsessl" class="tgAnchor">?</a>]
+			<label class="x_control-label">{$lang->use_ssl}</label>
 			<div class="x_controls">
-				<div class="tgContent layer" id="helpUsessl">
-					<p>{$lang->about_use_ssl}</p>
-				</div>
 				<!--@foreach($lang->ssl_options as $key => $val)-->
-				<input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" <!--@if($use_ssl==$key)-->checked="checked" <!--@end-->/> <label for="ssl_{$key}">{$val}</label>
+				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" <!--@if($use_ssl==$key)-->checked="checked" <!--@end-->/> {$val}</label>
 				<!--@endforeach-->
+				<span class="x_help-block">{$lang->about_use_ssl}</span>
 			</div>
 		</div>
-		<ul style="display:none">
-			<li>
-				<p class="q"><label>{$lang->server_ports}</label></p>
-				<p class="a">
-					<label for="http_port">HTTP:</label> <input type="text" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:40px" />
-					&nbsp;&nbsp;
-					<label for="https_port">HTTPS:</label> <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" />
-				</p>
-			</li>
-			<li cond="__XE_CDN_VERSION__!='%__XE_CDN_VERSION__%'">
-				<p class="q">{$lang->about_cdn}</p>
-				<p class="a">
-					<input type="radio" name="use_cdn" id="cdn_y" value="Y" <!--@if($use_cdn=='Y')-->checked="checked" <!--@end-->/> <label for="cdn_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="use_cdn" id="cdn_n" value="N" <!--@if($use_cdn!='Y')-->checked="checked" <!--@end-->/> <label for="cdn_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label>{$lang->about_use_rewrite}</label></p>
-				<p class="a">
-					<input type="radio" name="use_rewrite" id="use_rewrite_y" value="Y" <!--@if($use_rewrite == 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="use_rewrite" id="use_rewrite_n" value="N" <!--@if($use_rewrite != 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label>{$lang->about_use_sso}</label>[<a href="#helpUsesso" class="tgAnchor">?</a>]</p>
-				<div class="tgContent layer" id="helpUsesso">
-					<p>{$lang->about_sso}</p>
-				</div>
-				<p class="a">
-					<input type="radio" name="use_sso" id="sso_y" value="Y" <!--@if($use_sso=='Y')-->checked="checked" <!--@end-->/> <label for="sso_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="use_sso" id="sso_n" value="N" <!--@if($use_sso!='Y')-->checked="checked" <!--@end-->/> <label for="sso_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label>{$lang->use_db_session}</label>[<a href="#helpUsedbSession" class="tgAnchor">?</a>]</p>
-				<div class="tgContent layer" id="helpUsedbSession">
-					<p>{$lang->about_db_session}</p>
-				</div>
-				<p class="a">
-					<input type="radio" name="use_db_session" id="use_db_session_y" value="Y" <!--@if($use_db_session=='Y')-->checked="checked" <!--@end-->/> <label for="use_db_session_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="use_db_session" id="use_db_session_n" value="N" <!--@if($use_db_session!='Y')-->checked="checked" <!--@end-->/> <label for="use_db_session_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label>{$lang->qmail_compatibility}</label>[<a href="#helpQmail" class="tgAnchor">?</a>]</p>
-				<div class="tgContent layer" id="helpQmail">
-					<p>{$lang->about_qmail_compatibility}</p>
-				</div>
-				<p class="a">
-					<input type="radio" name="qmail_compatibility" id="qmail_compatibility_y" value="Y" <!--@if($qmail_compatibility=='Y')-->checked="checked" <!--@end-->/> <label for="qmail_compatibility_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" <!--@if($qmail_compatibility!='Y')-->checked="checked" <!--@end-->/> <label for="qmail_compatibility_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-		</ul>
-		<div class="btnArea">
-			<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->server_ports}</label>
+			<div class="x_controls">
+				<label for="http_port" class="x_inline">HTTP: <input type="text" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:40px" /></label>
+				<label for="https_port" class="x_inline">HTTPS: <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" /></label>
+			</div>
+		</div>
+		<div class="x_control-group" cond="__XE_CDN_VERSION__!='%__XE_CDN_VERSION__%'">
+			<label class="x_control-label">{$lang->use_cdn}</label>
+			<div class="x_controls">
+				<label for="cdn_y" class="x_inline"><input type="radio" name="use_cdn" id="cdn_y" value="Y" checked="checked"|cond="$use_cdn=='Y'" /> {$lang->cmd_yes}</label>
+				<label for="cdn_n" class="x_inline"><input type="radio" name="use_cdn" id="cdn_n" value="N" checked="checked"|cond="$use_cdn!='Y'" /> {$lang->cmd_no}</label>
+				<span class="x_help-block">{$lang->about_cdn}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_rewrite}</label>
+			<div class="x_controls">
+				<label for="use_rewrite_y" class="x_inline"><input type="radio" name="use_rewrite" id="use_rewrite_y" value="Y" checked="checked"|cond="$use_rewrite == 'Y'" /> {$lang->cmd_yes}</label>
+				<label for="use_rewrite_n" class="x_inline"><input type="radio" name="use_rewrite" id="use_rewrite_n" value="N" checked="checked"|cond="$use_rewrite != 'Y'" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_sso}</label>
+			<div class="x_controls">
+				<label for="sso_y" class="x_inline"><input type="radio" name="use_sso" id="sso_y" value="Y" checked="checked"|cond="$use_sso=='Y'" /> {$lang->cmd_yes}</label>
+				<label for="sso_n" class="x_inline"><input type="radio" name="use_sso" id="sso_n" value="N" checked="checked"|cond="$use_sso!='Y'" /> {$lang->cmd_no}</label>
+				<span class="x_help-block">{$lang->about_use_sso}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_db_session}</label>
+			<div class="x_controls">
+				<label for="use_db_session_y" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_y" value="Y" checked="checked"|cond="$use_db_session=='Y'" /> {$lang->cmd_yes}</label>
+				<label for="use_db_session_n" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_n" value="N" checked="checked"|cond="$use_db_session!='Y'" /> {$lang->cmd_no}</label>
+				<span class="x_help-block">{$lang->about_db_session}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->qmail_compatibility}</label>
+			<div class="x_controls">
+				<label for="qmail_compatibility_y" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_y" value="Y" checked="checked"|cond="$qmail_compatibility=='Y'" /> {$lang->cmd_yes}</label>
+				<label for="qmail_compatibility_n" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" checked="checked"|cond="$qmail_compatibility!='Y'" /> {$lang->cmd_no}</label>
+				<span class="x_help-block">{$lang->about_qmail_compatibility}</span>
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
 		</div>
 	</form>
 </section>
+<script>
+jQuery(function($){
+	$('#favicon').change(function(){
+		var re_favicon = /[^.]+\.ico$/
+		if(re_favicon.test($(this).val()) != true){
+			alert('*.ico {$lang->msg_possible_only_file}');
+			return false;
+		}
+	});
+	$('#mobicon').change(function(){
+		var re_favicon = /[^.]+\.png$/
+		if(re_favicon.test($(this).val()) != true){
+			alert('*.png {$lang->msg_possible_only_file}');
+			return false;
+		}
+	});
+});
+
+jQuery(function($){
+	$('.moduleSearch').bind('moduleSelect', function(e, aSelected){
+		var sType, sName, sSrl;
+		
+		sType = aSelected[0].type;
+		sName = aSelected[0].browser_title;
+		sSrl = aSelected[0].module_srl;
+
+		$('#_target_module').val(sName);
+		$('#index_module_srl').val(sSrl);
+	});
+});
+</script>
+

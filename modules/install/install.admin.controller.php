@@ -46,35 +46,6 @@
          * @brief Change settings
          **/
         function procInstallAdminSaveTimeZone() {
-            $use_rewrite = Context::get('use_rewrite');
-            if($use_rewrite!='Y') $use_rewrite = 'N';
-
-            $use_sso = Context::get('use_sso');
-            if($use_sso !='Y') $use_sso = 'N';
-
-			$use_cdn = Context::get('use_cdn');
-			if($use_cdn != 'Y') $use_cdn = 'N';
-
-            $time_zone = Context::get('time_zone');
-
-            $qmail_compatibility = Context::get('qmail_compatibility');
-            if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
-
-            $use_db_session = Context::get('use_db_session');
-            if($use_db_session!='Y') $use_db_session = 'N';
-
-            $use_ssl = Context::get('use_ssl');
-            if(!$use_ssl) $use_ssl = 'none';
-
-			$use_html5 = Context::get('use_html5');
-			if(!$use_html5) $use_html5 = 'N';
-
-            $http_port = Context::get('http_port');
-            $https_port = Context::get('https_port');
-
-			$use_mobile_view = Context::get('use_mobile_view');
-			if($use_mobile_view!='Y') $use_mobile_view = 'N';
-
 			$admin_ip_list = Context::get('admin_ip_list');
 
 			$admin_ip_list = preg_replace("/[\r|\n|\r\n]+/",",",$admin_ip_list);
@@ -84,18 +55,42 @@
 				$admin_ip_list = '';
 			}
 
+			$default_url = Context::get('default_url');
+            if($default_url && !preg_match('/^(http|https):\/\//i', $default_url)) $default_url = 'http://'.$default_url;
+
+            $use_ssl = Context::get('use_ssl');
+            if(!$use_ssl) $use_ssl = 'none';
+
+            $http_port = Context::get('http_port');
+            $https_port = Context::get('https_port');
+
+			$use_cdn = Context::get('use_cdn');
+			if($use_cdn != 'Y') $use_cdn = 'N';
+
+            $use_rewrite = Context::get('use_rewrite');
+            if($use_rewrite!='Y') $use_rewrite = 'N';
+
+            $use_sso = Context::get('use_sso');
+            if($use_sso !='Y') $use_sso = 'N';
+
+            $use_db_session = Context::get('use_db_session');
+            if($use_db_session!='Y') $use_db_session = 'N';
+
+            $qmail_compatibility = Context::get('qmail_compatibility');
+            if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
+
+			$use_html5 = Context::get('use_html5');
+			if(!$use_html5) $use_html5 = 'N';
+
 			$db_info = Context::getDBInfo();
-            $db_info->default_url = Context::get('default_url');
-            if($db_info->default_url && !preg_match('/^(http|https):\/\//i', $db_info->default_url)) $db_info->default_url = 'http://'.$db_info->default_url;
-            $db_info->time_zone = $time_zone;
-            $db_info->qmail_compatibility = $qmail_compatibility;
-            $db_info->use_db_session = $use_db_session;
+            $db_info->default_url = $default_url;
+            $db_info->qmail_compatibility = $qmail_compatibility; 
+            $db_info->use_db_session = $use_db_session; 
             $db_info->use_rewrite = $use_rewrite;
             $db_info->use_sso = $use_sso;
             $db_info->use_ssl = $use_ssl;
 			$db_info->use_cdn = $use_cdn;
 			$db_info->use_html5 = $use_html5;
-			$db_info->use_mobile_view = $use_mobile_view;
 			$db_info->admin_ip_list = $admin_ip_list;
 
 			if($http_port) $db_info->http_port = (int) $http_port;
@@ -105,19 +100,20 @@
             else if($db_info->https_port) unset($db_info->https_port);
 
             unset($db_info->lang_type);
+
             Context::setDBInfo($db_info);
 
             $oInstallController = &getController('install');
             $oInstallController->makeConfigFile();
 
-            $site_args->site_srl = 0;
-            $site_args->index_module_srl = Context::get('index_module_srl');
-            $site_args->default_language = Context::get('change_lang_type');
-            $site_args->domain = $db_info->default_url;
-            $oModuleController = &getController('module');
-            $oModuleController->updateSite($site_args);
-
-			$this->setMessage('success_updated');
+			if($default_url)
+			{
+	            $site_args->site_srl = 0;
+    	        $site_args->domain = $default_url;
+        	    $oModuleController = &getController('module');
+            	$oModuleController->updateSite($site_args);
+			}
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
 		function procInstallAdminUpdateIndexModule()
@@ -175,7 +171,23 @@
 		}
 
 		function procInstallAdminConfig(){
-			$this->procInstallAdminSaveTimeZone();
+			$use_mobile_view = Context::get('use_mobile_view');
+			if($use_mobile_view!='Y') $use_mobile_view = 'N';
+			
+            $time_zone = Context::get('time_zone');
+
+			$db_info = Context::getDBInfo();
+			$db_info->use_mobile_view = $use_mobile_view;
+            $db_info->time_zone = $time_zone; 
+
+            unset($db_info->lang_type);
+            Context::setDBInfo($db_info);
+
+            $site_args->site_srl = 0;
+            $site_args->index_module_srl = Context::get('index_module_srl');//
+            $site_args->default_language = Context::get('change_lang_type');//
+            $oModuleController = &getController('module');
+            $oModuleController->updateSite($site_args);
 
 			//언어 선택
 			$selected_lang = Context::get('selected_lang');

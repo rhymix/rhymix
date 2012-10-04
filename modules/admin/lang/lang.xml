@@ -652,9 +652,9 @@
 		<value xml:lang="tr"><![CDATA[Bu işlem biraz uzun sürebilir. Başlatmak istiyor musunuz?]]></value>
 	</item>
 	<item name="use_ssl">
-		<value xml:lang="ko"><![CDATA[SSL(Secure Sockets Layer, 보안접속)을 사용하시겠습니까?]]></value>
-		<value xml:lang="en"><![CDATA[Do you want to use Secure Sockets Layer (SSL)?]]></value>
-		<value xml:lang="jp"><![CDATA[SSL(Secure Sockets Layer)を使用しますか?]]></value>
+		<value xml:lang="ko"><![CDATA[SSL(Secure Sockets Layer) 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use SSL(Secure Sockets Layer)]]></value>
+		<value xml:lang="jp"><![CDATA[SSL(Secure Sockets Layer)を使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[是否使用SSL安全连接?]]></value>
 		<value xml:lang="tr"><![CDATA[SSL(Secure Sockets Layer)'i kullanmak istiyor musunuz?]]></value>
 	</item>
@@ -895,10 +895,10 @@
 		<value xml:lang="zh-CN"><![CDATA[开启CDN]]></value>
 		<value xml:lang="tr"><![CDATA[CDN Kullanımı]]></value>
 	</item>
-	<item name="about_use_rewrite">
-		<value xml:lang="ko"><![CDATA[짧은 주소를 사용하시겠습니까?]]></value>
-		<value xml:lang="en"><![CDATA[Do you want to use Rewrite Mod?]]></value>
-		<value xml:lang="jp"><![CDATA[短縮アドレスを使用しますか？]]></value>
+	<item name="use_rewrite">
+		<value xml:lang="ko"><![CDATA[짧은 주소 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use Rewrite Mode]]></value>
+		<value xml:lang="jp"><![CDATA[短縮アドレスを使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[是否开启伪静态?]]></value>
 		<value xml:lang="tr"><![CDATA[Kısa bir adres kullanmak istiyor musunuz?]]></value>
 	</item>
@@ -952,8 +952,8 @@
 		<value xml:lang="zh-CN"><![CDATA[缩放]]></value>
 		<value xml:lang="tr"><![CDATA[Ratio(Yüzde Ayarı)]]></value>
 	</item>
-	<item name="about_admin_ip_limit">
-		<value xml:lang="ko"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다.]]></value>
+	<item name="admin_ip_limit">
+		<value xml:lang="ko"><![CDATA[관리자 IP대역]]></value>
 		<value xml:lang="en"><![CDATA[Sepcify IP address band that can access the admin page.]]></value>
 		<value xml:lang="jp"><![CDATA[管理者ページへアクセス可能なIP帯域を指定します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[后台IP绑定]]></value>
@@ -965,8 +965,8 @@
 		<value xml:lang="zh-CN"><![CDATA[本地IP地址]]></value>      
 		<value xml:lang="tr"><![CDATA[Yerel IP adresi]]></value>
 	</item>
-	<item name="detail_about_admin_ip_limit">
-		<value xml:lang="ko"><![CDATA[해당 IP에 대해서만 관리자 페이지로 접근이 가능하므로 주의해주시기 바랍니다. IP대역 정보는 /files/config/db.config.php 파일에 저장됩니다. 여러개의 항목은 줄을 바꾸어 입력하세요.]]></value>
+	<item name="about_admin_ip_limit">
+		<value xml:lang="ko"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다. 해당 IP에 대해서만 관리자 페이지로 접근이 가능하므로 주의해주시기 바랍니다. IP대역 정보는 /files/config/db.config.php 파일에 저장됩니다. 여러개의 항목은 줄을 바꾸어 입력하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please note that only the specified IP addresses can access the admin page. The information on IP address band is stored in  /files/config/db.config.php. Change the line to multiple IP.]]></value>
 	　　<value xml:lang="jp"><![CDATA[該当IPについてのみ管理者ページへアクセスできるため、注意してください。IP帯域情報は、/files/config/db.config.php ファイルに保存されます。Change the line to multiple IP.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请注意，只有绑定的IP才能访问后台。IP信息将保存在 /files/config/db.config.php. 每行一个IP。]]></value>
@@ -1006,12 +1006,24 @@
 		<value xml:lang="zh-CN"><![CDATA[请上传57*57像素或者114*114像素的<em>*.png</em>文件.]]></value>
 		<value xml:lang="tr"><![CDATA[57 x 57 veya 114 x 114 boyutu<em>*.Png</em> dosyalar yüklenebilir.]]></value>
 	</item>
-	<item name="about_use_sso">
-		<value xml:lang="ko"><![CDATA[SSO(Single Sign On)를 사용하시겠습니까?]]></value>
-		<value xml:lang="en"><![CDATA[Do you want to use Single Sign On (SSO)?]]></value>
-		<value xml:lang="jp"><![CDATA[SSO(Single Sign On)を使用しますか?]]></value>
+	<item name="use_sso">
+		<value xml:lang="ko"><![CDATA[SSO(Single Sign On) 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use Single Sign On (SSO)?]]></value>
+		<value xml:lang="jp"><![CDATA[SSO(Single Sign On)を使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[是否启用通行证（SSO）?]]></value>
 		<value xml:lang="tr"><![CDATA[SSO(Single Sign On) kullanmak ister misiniz?]]></value>
+	</item>
+	<item name="about_use_sso">
+		<value xml:lang="ko"><![CDATA[사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다.<br />가상 사이트를 사용할 때만 필요합니다.]]></value>
+		<value xml:lang="en"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザが一度のログインで基本サイトと仮想サイトに同時にログインされる機能です。<br />仮想サイトの機能を使用してない場合、設定する必要がありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此功能可讓用戶只需登入一次即可訪問多個網站。<br />使用虛擬網站，這將會是很重要的功能。]]></value>
+		<value xml:lang="fr"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="ru"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="es"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="tr"><![CDATA[SSO kullanıcıları, geçreli ya da sanal siteye bir kere kayıt olmakla, ikisinden de yararlandıracaktır.<br />Bu, size sadece sanal websiteler kullandığınız durumda lazım olacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
 	</item>
 	<item name="about_cdn">
 		<value xml:lang="ko"><![CDATA[XE core의 css, js 파일을 CDN으로부터 제공받으려면 체크하세요.]]></value>
