@@ -49,6 +49,7 @@ class memberMobile extends memberView
 		$layout_info = $oLayoutModel->getLayout($this->member_config->mlayout_srl);
 		if($layout_info)
 		{
+			$this->module_info->mlayout_srl = $this->member_config->mlayout_srl;
 			$this->setLayoutPath($layout_info->path);
 		}
 	}

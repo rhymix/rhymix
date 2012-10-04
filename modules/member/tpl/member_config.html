@@ -106,6 +106,15 @@
 				<p class="a"><div id="member_colorset"></div></p>
 			</li>
 			<li>
+				<p class="q"><label for="mlayout">{$lang->mobile_layout}</label></p>
+				<p class="a">
+				<select id="mlayout" name="mlayout_srl">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->mlayout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+				</p>
+			</li>
+			<li>
 				<p class="q"><label for="mskin">{$lang->mobile_skin}</label></p>
 				<p class="a">
 					<select id="mskin" name="mskin">
