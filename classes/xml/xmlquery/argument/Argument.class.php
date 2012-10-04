@@ -164,7 +164,7 @@ class Argument {
 	 */
 	function _escapeStringValue($value) {
 		// Remove non-utf8 chars.
-		$regex = '@((?:[\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2})+)|([\xF0-\xF7][\x80-\xBF]{3})|([\x80-\xBF])|([\xC0-\xFF])@x';
+		$regex = '@((?:[\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}){1,100})|([\xF0-\xF7][\x80-\xBF]{3})|([\x80-\xBF])|([\xC0-\xFF])@x';
 
 		$value = preg_replace_callback($regex, array($this, 'utf8Replacer'), $value);
 		$db = &DB::getInstance();
