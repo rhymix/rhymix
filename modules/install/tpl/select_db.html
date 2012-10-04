@@ -10,13 +10,13 @@
 				<ul class="form formDbSelect">
 					<!--@foreach(DB::getEnableList() as $key => $val)-->
 					<li>
-						<input name="db_type" type="radio" value="{$val->db_type}" <!--@if(!$val->enable)-->disabled="disabled"<!--@end--> id="db_type_{$val->db_type}" <!--@if($val->db_type=="mysql")-->checked="checked"<!--@end--> class="iRadio" id="cubrid" /> <label for="db_type_{$val->db_type}">{$val->db_type}</label>
+						<input name="db_type" type="radio" value="{$val->db_type}" <!--@if(!$val->enable)-->disabled="disabled"<!--@end--> id="db_type_{$val->db_type}" <!--@if($val->db_type=="mysqli")-->checked="checked"<!--@end--> class="iRadio" id="cubrid" /> <label for="db_type_{$val->db_type}">{$val->db_type}</label>
 						<p>{$lang->db_desc[$val->db_type]}</p>
 					</li>
 					<!--@end-->
 					<!--@foreach(DB::getDisableList() as $key => $val)-->
 					<li>
-						<input name="db_type" type="radio" value="{$val->db_type}" <!--@if(!$val->enable)-->disabled="disabled"<!--@end--> id="db_type_{$val->db_type}" <!--@if($val->db_type=="mysql")-->checked="checked"<!--@end--> class="iRadio" id="cubrid" /> <label for="db_type_{$val->db_type}">{$val->db_type}</label>
+						<input name="db_type" type="radio" value="{$val->db_type}" <!--@if(!$val->enable)-->disabled="disabled"<!--@end--> id="db_type_{$val->db_type}" <!--@if($val->db_type=="mysqli")-->checked="checked"<!--@end--> class="iRadio" id="cubrid" /> <label for="db_type_{$val->db_type}">{$val->db_type}</label>
 						<p>{$lang->db_desc[$val->db_type]}</p>
 					</li>
 					<!--@end-->
