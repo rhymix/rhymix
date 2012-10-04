@@ -316,7 +316,7 @@
 								,$lang->cmd_delete);
 					}elseif($formInfo->name == 'find_account_question'){
 						$formTag->type = 'select';
-						$inputTag = '<select name="find_account_question" style="width:290px; display:block;">%s</select>';
+						$inputTag = '<select name="find_account_question" id="find_account_question" style="width:290px; display:block;">%s</select>';
 						$optionTag = array();
 						foreach($lang->find_account_question_items as $key=>$val){
 							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';
@@ -327,10 +327,11 @@
 													,$val);
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
-						$inputTag .= '<input type="text" name="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" class="inputText long tall" />';
+						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" class="inputText long tall" />';
 					}else{
 						$formTag->type = 'text';
-						$inputTag = sprintf('<input type="text" name="%s" value="%s" class="inputText long tall" />'
+						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" class="inputText long tall" />'
+									,$formInfo->name
 									,$formInfo->name
 									,$memberInfo[$formInfo->name]);
 					}
@@ -343,7 +344,7 @@
 
 					$formTag->type = $extendForm->column_type;
 					if($extendForm->column_type == 'text' || $extendForm->column_type == 'homepage' || $extendForm->column_type == 'email_address'){
-						$template = '<input type="text" name="%column_name%" value="%value%" />';
+						$template = '<input type="text" name="%column_name%" id="%column_name%" value="%value%" />';
 					}elseif($extendForm->column_type == 'tel'){
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
 												  'tel_1' => $extendForm->value[1],
@@ -375,7 +376,7 @@
 							$template = sprintf($template, implode('', $optionTag));
 						}
 					}elseif($extendForm->column_type == 'select'){
-						$template = '<select name="'.$formInfo->name.'">%s</select>';
+						$template = '<select name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
 						$optionTag = array();
 						if($extendForm->default_value){
 							foreach($extendForm->default_value as $v){
@@ -417,7 +418,7 @@
 						<script type="text/javascript">jQuery(function($){ $.krzip('%column_name%') });</script>
 EOD;
 					}elseif($extendForm->column_type == 'jp_zip'){
-						$template = '<input type="text" name="%column_name%" value="%value%" />';
+						$template = '<input type="text" name="%column_name%" id="%column_name%" value="%value%" />';
 					}elseif($extendForm->column_type == 'date'){
 						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'),
 												  'cmd_delete' => $lang->cmd_delete);
