@@ -146,6 +146,7 @@
 				'layout_srl',
 				'skin',
 				'colorset',
+				'mlayout_srl',
 				'mskin',
                 'profile_image', 'profile_image_max_width', 'profile_image_max_height',
                 'image_name', 'image_name_max_width', 'image_name_max_height',
@@ -190,6 +191,7 @@
 				if($args->signature!='Y') $args->signature = 'N';
 				$args->identifier = $all_args->identifier;
 				$args->layout_srl = $args->layout_srl ? $args->layout_srl : null;
+				$args->mlayout_srl = $args->mlayout_srl ? $args->mlayout_srl : null;
 
 				// set default
 				$all_args->is_nick_name_public = 'Y';
