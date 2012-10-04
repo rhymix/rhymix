@@ -761,7 +761,7 @@
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($originMenu['url']);
 
 				$args->module_type = $moduleInfo->module;
-				$args->module_id = $moduleInfo->mid.'_copy';
+				$args->module_id = $moduleInfo->mid.'_copy_'.date('YmdHis');
 				$args->layout_srl = $moduleInfo->layout_srl;
 
 				$oModuleAdminController = &getAdminController('module');
