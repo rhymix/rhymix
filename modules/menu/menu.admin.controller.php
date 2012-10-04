@@ -599,11 +599,10 @@
 		 */
 		function procMenuAdminMoveItem()
 		{
-			//TODO 클라이언트가 넘기는 값을 그냥 사용하면 됨. parent_srl(부모), source_srl(같은 계층의 menu_item_srl), target_srl(나 자신의 menu_item_srl)
-			$mode = Context::get('mode');
-			$parent_srl = Context::get('parent_srl');
-			$source_srl = Context::get('source_srl');
-			$target_srl = Context::get('target_srl');
+			$mode = Context::get('mode');	//move
+			$parent_srl = Context::get('parent_srl');	// Parent menu item serial number
+			$source_srl = Context::get('source_srl');	// Same hierarchy's menu item serial number
+			$target_srl = Context::get('target_srl');	// Self menu item serial number
 
 			if(!$mode || !$parent_srl || !$target_srl) return new Object(-1,'msg_invalid_request');
 
@@ -611,6 +610,24 @@
 
 			// get original menu item info for cache file recreate
 			$originalItemInfo = $oMenuAdminModel->getMenuItemInfo($target_srl);
+			if(!$originalItemInfo->menu_item_srl)
+			{
+				return new Object(-1, 'msg_empty_menu_item');
+			}
+
+			// get menu properies with child menu
+			$phpFile = sprintf("./files/cache/menu/%s.php", $originalItemInfo->menu_srl);
+			$originMenu = NULL;
+
+			if(is_readable(FileHandler::getRealPath($phpFile)))
+			{
+				@include(FileHandler::getRealPath($phpFile));
+
+				if(is_array($menu->list))
+				{
+					$this->_searchMenu($menu->list, $originalItemInfo->menu_item_srl, $originMenu);
+				}
+			}
 
 			// get target menu info for move
 			$targetMenuItemInfo = $oMenuAdminModel->getMenuItemInfo($parent_srl);
@@ -627,13 +644,36 @@
 				$parent_srl = 0;
 			}
 
-			$this->moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode);
+			$this->moveMenuItem($menu_srl, $parent_srl, $source_srl, $target_srl, $mode);
+			if(count($originMenu['list']) > 0)
+			{
+				$this->_recursiveUpdateMenuItem($originMenu['list'], $menu_srl);
+			}
 
 			//recreate original menu
 			$xml_file = $this->makeXmlFile($originalItemInfo->menu_srl);
 
 			//recreate target menu
 			$xml_file = $this->makeXmlFile($menu_srl);
+		}
+
+		private function _recursiveUpdateMenuItem($node, $menu_srl)
+		{
+			if(is_array($node))
+			{
+				foreach($node AS $key=>$node)
+				{
+					unset($args);
+					$args->menu_srl = $menu_srl;
+					$args->menu_item_srl = $node['node_srl'];
+					$output = executeQuery('menu.updateMenuItemNode', $args);
+
+					if(count($node['list']) > 0)
+					{
+						$this->_recursiveUpdateMenuItem($node['list'], $menu_srl);
+					}
+				}
+			}
 		}
 
 		/**

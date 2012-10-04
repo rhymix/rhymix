@@ -597,4 +597,7 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="en"><![CDATA[Exposure limits]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Exposure limits]]></value>
 	</item>
+	<item name="msg_empty_menu_item">
+		<value xml:lang="ko"><![CDATA[선택된 메뉴의 정보가 없습니다.]]></value>
+	</item>
 </lang>
