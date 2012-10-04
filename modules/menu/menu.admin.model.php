@@ -404,6 +404,14 @@
 				{
 					$menu['module_srl'] = $midInfo->module_srl;
 					$menu['module'] = $midInfo->module;
+					if($midInfo->page_type)
+					{
+						$menu['module_type'] = $midInfo->page_type;
+					}
+					else
+					{
+						$menu['module_type'] = $midInfo->module;
+					}
 					$menu['setup_index_act'] = $moduleInfo->setup_index_act;
 				}
 				if($midInfo->mid == $start_module->mid)
