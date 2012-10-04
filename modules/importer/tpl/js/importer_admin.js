@@ -27,9 +27,9 @@ $('.checkxml')
 			function on_complete(data) {
 				var $ul, $ttxml, $xml;
 
-				$ul    = $this.closest('ul');
-				$xml   = $ul.find('>.xml');
-				$ttxml = $ul.find('>.ttxml');
+				//$ul    = $this.closest('ul');
+				$xml   = $form.find('>.xml');
+				$ttxml = $form.find('>.ttxml');
 
 				$message.text(data.result_message);
 					
@@ -72,7 +72,7 @@ $('.checkxml')
 		})
 	.end()
 	.find('.desc').hide().end()
-	.closest('ul').find('>li.ttxml').hide().end().end()
+	.closest('form').find('>.ttxml').hide().end().end()
 	.closest('form').find(':submit').attr('disabled','disabled');
 
 // hide 'sync member' block

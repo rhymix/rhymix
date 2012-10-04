@@ -5,28 +5,28 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
+<section class="section">
+<h1>{$lang->type_module}</h1>
 <form action="./" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
 	<input type="hidden" name="act" value="" />
 	<input type="hidden" name="type" value="module" />
 	<input type="hidden" name="unit_count" value="10" />
-	<h2>{$lang->type_module}</h2>
-	<ul>
-		<li>
-			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
-			<p class="a checkxml">
-				<input type="text" name="xml_file" value="./" />
-				<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
-				<em class="desc"></em><!--//class="error|success"-->
-			</p>
-		</li>
-		<li class="xml ttxml modulefinder">
+	<div class="x_control-group">
+		<p class="q">{$lang->xml_path} {$lang->path_info}</p>
+		<p class="a checkxml">
+			<input type="text" name="xml_file" value="./" />
+			<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
+			<em class="desc"></em><!--//class="error|success"-->
+		</p>
+	</div>
+	<div class="xml ttxml modulefinder x_control-group">
 		<p class="q">{$lang->data_destination} <br />{$lang->import_desc}</p>
-			<div class="a">
+			<p class="a">
 				<input type="text" name="site_keyword" /> <a href="#suggestion1" class="tgAnchor findsite x_btn">{$lang->find_site}</a>
 				<div id="suggestion1" class="tgContent suggestion">
 					<ul></ul>
 				</div>
-			</div>
+			</p>
 			<p class="a">
 				<select class="moduleList" style="width:290px">
 					<option>{$lang->select_module}</option>
@@ -37,39 +37,40 @@
 					<option>{$lang->select_module_id}</option>
 				</select>
 			</p>
-		</li>
-		<li class="ttxml modulefinder">
-			<p class="q">{$lang->guestbook_destination}</p>
-			<div class="a">
-				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite x_btn">{$lang->find_site}</a>
-				<div id="suggestion3" class="tgContent suggestion">
-					<ul></ul>
-				</div>
+	</div>
+	<div class="ttxml modulefinder x_control-group">
+		<p class="q">{$lang->guestbook_destination}</p>
+		<div class="a">
+			<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite x_btn">{$lang->find_site}</a>
+			<div id="suggestion3" class="tgContent suggestion">
+				<ul></ul>
 			</div>
-			<p class="a">
-				<select class="moduleList" style="width:290px">
-					<option>{$lang->select_module}</option>
-				</select>
-			</p>
-			<p class="a">
-				<select class="moduleIdList" style="width:290px" name="guestbook_target_module">
-					<option>{$lang->select_module_id}</option>
-				</select>
-			</p>
-		</li>
-		<li class="ttxml">
-			<p class="q">{$lang->about_ttxml_user_id}</p>
-			<p class="a"><input type="text" name="user_id" value="{$logged_info->user_id}" /></p>
-		</li>
-		<li class="syncmember">
-			<p class="q">{$lang->import_step_desc[3]}</p>
-			<p class="a"><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</p>
-		</li>
-	</ul>
-	<div class="btnArea">
+		</div>
+		<p class="a">
+			<select class="moduleList" style="width:290px">
+				<option>{$lang->select_module}</option>
+			</select>
+		</p>
+		<p class="a">
+			<select class="moduleIdList" style="width:290px" name="guestbook_target_module">
+				<option>{$lang->select_module_id}</option>
+			</select>
+		</p>
+	</div>
+	<div class="ttxml x_control-group">
+		<p class="q">{$lang->about_ttxml_user_id}</p>
+		<p class="a"><input type="text" name="user_id" value="{$logged_info->user_id}" /></p>
+	</div>
+	<div class="syncmember x_control-group">
+		<p class="q">{$lang->import_step_desc[3]}</p>
+		<p class="a"><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</p>
+	</div>
+	<div class="btnArea x_control-group">
 		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>
+</section>
+
 <form action="./" method="get" onsubmit="return doPreProcessing(this, 'memberForm')" id="memberForm">
 	<input type="hidden" name="type" value="member" />
 	<input type="hidden" name="unit_count" value="100" />
@@ -123,13 +124,17 @@
         <input type="hidden" name="user_id" value="" />
 		<p style="text-align:center">
 			<span class="prgrs prgrsMedium">
-				<strong id="preProgressMsg">{$lang->preprocessing}</strong>
-				<strong id="progressMsg" style="display:none;">{$lang->import_step_desc[99]}</strong>
-				<span class="pBar" style="width:300px;text-align:left">
-					<span class="pAction" id="progressBar" style="width:0%"><!-- Progress status --></span>
-					<span class="pNum"><span id="completeCount">0</span>/<span id="totalCount">0</span></span>
-				</span>
-				<strong id="progressPercent">0%</strong>
+				<div class="x_modal-header">
+					<h3 id="preProgressMsg">{$lang->preprocessing}</h3>
+					<h3 id="progressMsg" style="display:none;">{$lang->import_step_desc[99]}</h3>
+				</div>
+				<div class="x_modal-body">
+					<div class="x_progress x_progress-striped x_active">
+						<div class="x_bar" id="progressBar" style="width: 0%"></div>
+					</div>
+					<strong id="progressPercent">0%</strong>
+					(<span class="pNum"><span id="completeCount">0</span>/<span id="totalCount">0</span></span>)
+				</div>
 			</span>
 		</p>
     </form>
