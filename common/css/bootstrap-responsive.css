@@ -105,7 +105,7 @@
   .x_row:after {
     clear: both;
   }
-  [class*="span"] {
+  [class*="x_span"] {
     float: left;
     min-height: 1px;
     margin-left: 30px;
@@ -201,7 +201,7 @@
   .x_row-fluid:after {
     clear: both;
   }
-  .x_row-fluid [class*="span"] {
+  .x_row-fluid [class*="x_span"] {
     display: block;
     float: left;
     width: 100%;
@@ -212,7 +212,7 @@
        -moz-box-sizing: border-box;
             box-sizing: border-box;
   }
-  .x_row-fluid [class*="span"]:first-child {
+  .x_row-fluid [class*="x_span"]:first-child {
     margin-left: 0;
   }
   .x_row-fluid .x_span12 {
@@ -364,7 +364,7 @@
   .x_uneditable-input {
     margin-left: 0;
   }
-  .x_controls-row [class*="span"] + [class*="span"] {
+  .x_controls-row [class*="x_span"] + [class*="x_span"] {
     margin-left: 30px;
   }
   input.x_span12,
@@ -452,7 +452,7 @@
   .x_row:after {
     clear: both;
   }
-  [class*="span"] {
+  [class*="x_span"] {
     float: left;
     min-height: 1px;
     margin-left: 20px;
@@ -548,7 +548,7 @@
   .x_row-fluid:after {
     clear: both;
   }
-  .x_row-fluid [class*="span"] {
+  .x_row-fluid [class*="x_span"] {
     display: block;
     float: left;
     width: 100%;
@@ -559,7 +559,7 @@
        -moz-box-sizing: border-box;
             box-sizing: border-box;
   }
-  .x_row-fluid [class*="span"]:first-child {
+  .x_row-fluid [class*="x_span"]:first-child {
     margin-left: 0;
   }
   .x_row-fluid .x_span12 {
@@ -711,7 +711,7 @@
   .x_uneditable-input {
     margin-left: 0;
   }
-  .x_controls-row [class*="span"] + [class*="span"] {
+  .x_controls-row [class*="x_span"] + [class*="x_span"] {
     margin-left: 20px;
   }
   input.x_span12,
@@ -813,8 +813,8 @@
     float: none;
     margin-left: 0;
   }
-  [class*="span"],
-  .x_row-fluid [class*="span"] {
+  [class*="x_span"],
+  .x_row-fluid [class*="x_span"] {
     display: block;
     float: none;
     width: 100%;
@@ -833,9 +833,9 @@
   .x_input-large,
   .x_input-xlarge,
   .x_input-xxlarge,
-  input[class*="span"],
-  select[class*="span"],
-  textarea[class*="span"],
+  input[class*="x_span"],
+  select[class*="x_span"],
+  textarea[class*="x_span"],
   .x_uneditable-input {
     display: block;
     width: 100%;
@@ -846,12 +846,12 @@
   }
   .x_input-prepend input,
   .x_input-append input,
-  .x_input-prepend input[class*="span"],
-  .x_input-append input[class*="span"] {
+  .x_input-prepend input[class*="x_span"],
+  .x_input-append input[class*="x_span"] {
     display: inline-block;
     width: auto;
   }
-  .x_controls-row [class*="span"] + [class*="span"] {
+  .x_controls-row [class*="x_span"] + [class*="x_span"] {
     margin-left: 0;
   }
   .x_modal {
