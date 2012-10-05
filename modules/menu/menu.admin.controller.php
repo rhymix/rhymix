@@ -391,7 +391,8 @@
 			// if mid is empty, auto create mid
 			if(!$request->module_id)
 			{
-				$request->module_id = $cmArgs->module.'_'.date('YmdHis');
+				$randomMid = $this->_makeRandomMid();
+				$request->module_id = $cmArgs->module.'_'.$randomMid;
 			}
 			$cmArgs->mid = $request->module_id;
 
@@ -761,7 +762,8 @@
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($originMenu['url']);
 
 				$args->module_type = $moduleInfo->module;
-				$args->module_id = $moduleInfo->mid.'_copy_'.date('YmdHis');
+				$randomMid = $this->_makeRandomMid();
+				$args->module_id = $moduleInfo->mid.'_copy_'.$randomMid;
 				$args->layout_srl = $moduleInfo->layout_srl;
 
 				$oModuleAdminController = &getAdminController('module');
@@ -814,6 +816,19 @@
 			{
 				$this->_copyMenu($menuSrl, $insertedMenuItemSrl, $childMenu);
 			}
+		}
+
+		private function _makeRandomMid()
+		{
+			$time = time();
+			$randomString = "";
+			for($i=0;$i<4;$i++)
+			{
+				$doc = rand()%26+65;
+				$randomString .= chr($doc);
+			}
+
+			return $randomString.substr($time, -4);
 		}
 
 		/**
