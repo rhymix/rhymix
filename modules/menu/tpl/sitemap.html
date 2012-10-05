@@ -64,7 +64,7 @@
 				<li><button type="button" class="_edit_cut">잘라내기</button></li>
 				<li><button type="button" class="_edit_copy">복사</button></li>
 				<li><button type="button" class="_edit_paste" disabled>붙여넣기</button></li>
-				<li><a href="#menuRemoveConfirm" class="modalAnchor _deleteMenu">삭제</a></li>
+				<li><button type="button" class="_deleteMenu">삭제</button></li>
 				<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox" class="_chkUseAsHome"> 사이트 접속 시 기본 페이지로 사용</label></li>
 				<li class="default"><a href="#default" data-admin-show="#default">기본 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 				<li><a href="#imgbtn" data-admin-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -537,17 +537,17 @@
 		<button type="button" class="x_close" data-admin-hide="#html">&times;</button>
 	</div>
 </div>
-<fieldset class="x_modal" id="menuRemoveConfirm" style="width:600px;margin-left:-300px">
+<fieldset class="x_modal" id="msgBox" style="display:none">
 	<div class="x_modal-header">
-		<h3>Do you want to remove this menu item?</h3>
+		<h3 class="_title">Do you want to remove this menu item?</h3>
 	</div>
 	<div class="x_modal-body">
-		<p><label><input type="checkbox"> 메뉴와 연결된 콘텐츠도 모두 삭제된다는 것을 이해하고 있습니다.</label></p>
+		<p class="_text"><label><input type="checkbox"> 메뉴와 연결된 콘텐츠도 모두 삭제된다는 것을 이해하고 있습니다.</label></p>
 	</div>
 	<div class="x_modal-footer">
-		<button type="button" class="x_btn x_pull-left" data-hide="#menuRemoveConfirm">Cancel</button>
+		<button type="button" class="x_btn x_pull-left _cancel">Cancel</button>
 		<span class="x_btn-group x_pull-right">
-			<button type="button" class="x_btn x_btn-danger x_disabled">Delete</button>
+			<button type="button" class="x_btn x_btn-danger _ok">OK</button>
 		</span>
 	</div>
 </fieldset>
@@ -712,6 +712,10 @@
 #design .x_icon-zoom-in:after{content:normal}
 
 #site_map li._isCut a{color:#aaa}
+
+#msgBox {width:600px;margin-left:-300px}
+#msgBox._small {width:400px;margin-left:-200px}
+#msgBox._type_alert ._cancel{display:none}
 </style>
 <!--[if IE 7]>
 <script>
@@ -1011,7 +1015,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		return "";
 	}
 	
-	var sActiveBtn, sNormalBtn, sHoverBtn, sExpand, sLink, aSubNodes, sNodeSrl, sOpenWindow, sParentSrl, nSelected, sText, sURL, sIsStartModule, aSubNode;
+	var sActiveBtn, sNormalBtn, sHoverBtn, sExpand, sLink, aSubNodes, sNodeSrl, sOpenWindow, sParentSrl, nSelected, sText, sURL, sIsStartModule, aSubNode, sModuleType;
 	
 	// 1: Sitemap node, 2: Menu node
 	var nNodeType;
@@ -1079,6 +1083,8 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			
 			aSubNode  = aNode[i].list;
 			
+			sModuleType = aNode[i].module_type;
+			
 			sTargetPanel = "#properties";
 			break;
 			
@@ -1091,6 +1097,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		htNodeInfo[sNodeSrl].nNodeType = nNodeType;
 		htNodeInfo[sNodeSrl].sNodeSrl = sNodeSrl;
 		htNodeInfo[sNodeSrl].sText = sText;
+		htNodeInfo[sNodeSrl].sModuleType = sModuleType || "_SHORTCUT";
 
 		sSubTree = "";
 		if(aSubNode && aSubNode.length>0){
@@ -1137,6 +1144,16 @@ function clearInputs($elm){
 	var $ = jQuery;
 	
 	$elm.find('input').val("");
+}
+function setItemTypes(htTypes){
+	var $ = jQuery;
+	
+	$._xeAdminVar.htItemTypes = htTypes || {};
+
+	$._xeAdminVar.htItemTypes._SHORTCUT = {
+		title: '바로가기'
+	}
+	console.log($._xeAdminVar.htItemTypes);
 }
 jQuery(function($){
 	var _hide = $.fn.hide;
@@ -1191,7 +1208,7 @@ jQuery(function($){
 	loadSiteMap();
 
 	$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
-		$._xeAdminVar.htItemTypes = htData.menu_types;
+		setItemTypes(htData.menu_types);
 		console.log($._xeAdminVar.htItemTypes);
 	});
 	
@@ -1392,12 +1409,19 @@ jQuery(function($){
 		
 		var sMenuId = $._htMarkupActionParam.sMenuId;
 		var htInfo = htNodeInfo[sMenuId];
+
 		$(ev.target).find('.title').html(htInfo.sText);
 		$(ev.target).find('.url').html(htInfo.url);
-		$(ev.target).find('.module_type').html('그런게 있음');
-		//$(ev.target).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.module_type].title);
-//		console.log(555,htInfo);
-		//
+		//$(ev.target).find('.module_type').html(htInfo.module_type || "");
+		$(ev.target).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
+
+		if(htInfo.module){
+			$(ev.target).addClass('prop-general');
+			$(ev.target).removeClass('prop-shortcut ');
+		}else{
+			$(ev.target).removeClass('prop-general');
+			$(ev.target).addClass('prop-shortcut ');
+		}
 		
 		if(htInfo.is_start_module){
 			$(ev.target).find('._chkUseAsHome').attr('checked', 'checked').attr('disabled', 'disabled');
@@ -1437,7 +1461,8 @@ jQuery(function($){
 			console.log(htData);
 
 			var sResult = "";
-			$._xeAdminVar.htItemTypes = htData.menu_types;
+			setItemTypes(htData.menu_types);
+			//$._xeAdminVar.htItemTypes = htData.menu_types;
 
 			var item;
 			var sModuleTitle;
@@ -1695,28 +1720,154 @@ jQuery(function($){
 	});
 	
 	$('._deleteMenu').click(function(){
-		var bDelete = confirm('메뉴를 삭제하면 콘텐츠도 삭제됩니다.\n정말 삭제하시겠습니까?');
-		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+		confirmDialog({
+			sTitle : "메뉴를 삭제 하겠습니까?",
+			
+			sText : '<label><input type="checkbox"> 메뉴와 연결된 콘텐츠도 모두 삭제된다는 것을 이해하고 있습니다.</label>',
+			
+			fnOnOK : function(){
+				if(!$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
 
-		var sParentSrl = htNodeInfo[sSelectedMenuSrl].parent_srl;
+				var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 
-		if(bDelete){
-			var params = {};
-			params['menu_item_srl'] = sSelectedMenuSrl;
+				var sParentSrl = htNodeInfo[sSelectedMenuSrl].parent_srl;
 
-			$.exec_json("menu.procMenuAdminDeleteItem", params, function(htData){
-				console.log(htData);
-				if(htData.error !== 0){
-					alert(htData.message);
-					return;
-				}
+				var params = {};
+				params['menu_item_srl'] = sSelectedMenuSrl;
+
+				$.exec_json("menu.procMenuAdminDeleteItem", params, function(htData){
+					console.log(htData);
+					if(htData.error !== 0){
+						alert(htData.message);
+						return;
+					}
+					
+					// select the parent of the menu being deleted
+					$._xeAdminVar.sSelectOnload = sParentSrl;
+					loadSiteMap();
+				});
+			},
+			
+			fnOnShow : function(){
+				$msgBox.find("._ok").addClass("x_disabled");
 				
-				// select the parent of the menu being deleted
-				$._xeAdminVar.sSelectOnload = sParentSrl;
-				loadSiteMap();
-			});
-		}
+				$msgBox.find('input[type="checkbox"]').click(function(){
+					if($(this).attr('checked')){
+						$msgBox.find("._ok").removeClass("x_disabled");
+					}else{
+						$msgBox.find("._ok").addClass("x_disabled");
+					}
+				});
+			},
+			
+			fnOnHide : function(){
+				$msgBox.find("._ok").removeClass("x_disabled");
+			}
+		});
 	});
+	
+	var $foggyLayer = $("<div>");
+	$foggyLayer.css({
+		position: 'absolute',
+		top:0,
+		left:0,
+		backgroundColor:'#000',
+		opacity: 0.5,
+		display:'none',
+		zIndex:100
+	});
+	$($.find("body")).append($foggyLayer);
+	
+	$(window).resize(function(){
+		$foggyLayer.css({
+			width: $(document).width(),
+			height: $(document).height()
+		});
+	});
+	function showFoggy(){
+		$foggyLayer.show();
+	}
+	function hideFoggy(){
+		$foggyLayer.hide();
+	}
+	
+	var $msgBox = $("#msgBox");
+	$msgBox.find("._ok").click(function(){
+		$._xeAdminVar.msgBox.fnOnOK();
+	});
+	$msgBox.find("._cancel").click(function(){
+		$._xeAdminVar.msgBox.fnOnCancel();
+	});
+	$msgBox.bind("show", function(){
+		showFoggy();
+		$._xeAdminVar.msgBox.fnOnShow();
+	});
+	$msgBox.bind("hide", function(){
+		hideFoggy();
+		$._xeAdminVar.msgBox.fnOnHide();
+	});
+	function msgBox(htOptions){
+		// sTitle, sText, fnOnOK, fnOnCancel, bSmall, bAlert, fnOnShow, fnOnHide
+		htOptions = htOptions || {};
+		
+		var sTitle = htOptions.sTitle || "";
+		var sText = htOptions.sText || "";
+
+		$msgBox.find("._title") .html(sTitle);
+		$msgBox.find("._text").html(sText);
+
+		// #msgBox._small {width:400px;margin-left:-200px}
+		// #msgBox._type_alert _cancel{display:none}
+		if(htOptions.bSmall){
+			$msgBox.addClass("_small");
+		}else{
+			$msgBox.removeClass("_small");
+		}
+
+		if(htOptions.bAlert){
+			$msgBox.addClass("_type_alert");
+		}else{
+			$msgBox.removeClass("_type_alert");
+		}
+
+		$._xeAdminVar.msgBox = {
+			fnOnOK : function(){
+				if(typeof htOptions.fnOnOK === "function"){
+					if(htOptions.fnOnOK()) return;
+				}
+					
+				$msgBox.hide();
+			},
+			
+			fnOnCancel : function(){
+				if(typeof htOptions.fnOnCancel === "function") htOptions.fnOnCancel();
+				
+				$msgBox.hide();
+			},
+			
+			fnOnShow : function(){
+				if(typeof htOptions.fnOnShow === "function") htOptions.fnOnShow();
+			},
+			
+			fnOnHide : function(){
+				if(typeof htOptions.fnOnHide === "function") htOptions.fnOnHide();
+			}
+		};
+
+		$msgBox.show();
+	}
+	function alertDialog(htOptions){
+		htOptions = htOptions || {};
+		htOptions.bAlert = true;
+		
+		msgBox(htOptions);
+	}
+	function confirmDialog(htOptions){
+		htOptions = htOptions || {};
+		htOptions.bAlert = false;
+		
+		msgBox(htOptions);
+	}
 	
 //	$('#add_url').bind("show", function(){console.log('show');});
 //	$('#add_url').bind("hide", function(){console.log('hide');});
