@@ -145,7 +145,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .gnb .mnv{display:block}
 }
 /* Local Navigation */
-.x .lnb{position:relative;float:left;width:210px;margin:0 0 1em -230px;line-height:normal;zoom:1;display:inline}
+.x .lnb{position:relative;float:left;width:210px;left:-230px;margin:0 0 20px 0;line-height:normal;zoom:1;display:inline}
 .x .lnb .h2{position:relative;z-index:2;margin:0 0 -1px 0;padding:0 10px;border:1px solid #444;border-bottom:0;border-radius:4px 4px 0 0;background:#555;font-size:13px;color:#fff;line-height:36px}
 .x .lnb ul{margin:0 !important;padding:0;list-style:none;position:relative;z-index:1}
 .x .lnb li{position:relative;margin:0 0 -1px 0;vertical-align:top;zoom:1}
@@ -166,11 +166,11 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .lnb li:last-child a,
 .x .lnb li.active:last-child{border-radius:0 0 4px 4px !important}
 /* Shortcut */
-.x .sct{float:right;width:138px;position:relative;right:-160px;margin:0 0 0 -140px;padding:8px 0}
-.x .sct h2{margin:0 0 5px 15px;font-size:13px}
+.x .sct{float:left;width:210px;position:relative;left:-230px;margin:0;padding:8px 0;border:0;box-shadow:inset 0 0 1px rgba(0,0,0,0.5)}
+.x .sct h2{margin:0 0 5px 10px;font-size:13px}
 .x .sct ul{margin:0;font-size:12px}
 .x .sct li{position:relative}
-.x .sct a{text-decoration:none}
+.x .sct a{text-decoration:none;padding:3px 18px 3px 10px}
 .x .sct form{position:absolute;margin:0;padding:0;top:2px;right:-10px}
 .x .sct .text{text-decoration:none;font-weight:bold;color:#999 !important;width:16px;height:16px;margin:0}
 .x .sct .text:hover,
@@ -301,10 +301,10 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .footer .cache{float:right}
 .x .footer .vr{color:#ccc}
 /* Body */
-.x .body{position:relative;z-index:1;padding:30px 170px 30px 240px;zoom:1}
+.x .body{position:relative;z-index:1;padding:30px 10px 30px 240px;zoom:1}
 .x .body:after{content:"";display:block;clear:both}
 /* Content */
-.x .content{float:right;width:100%;margin-left:-100%;zoom:1;outline:0}
+.x .content{float:right;width:100%;margin-left:-210px;zoom:1;outline:0;min-height:500px}
 .x .content:after{content:"";display:block;clear:both}
 .x .content a{color:#33a}
 .x .content a:hover,
@@ -316,15 +316,12 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .content .portlet a:focus{text-decoration:underline}
 /* Dashboard */
 .x .dashboard .section{margin-top:0}
-.x .dashboard .portlet{float:left;width:48%;margin-right:1em;margin-top:0}
+.x .dashboard .portlet{float:left;width:48%;margin-right:1em;margin-top:0;min-height:188px}
 .x .dashboard .portlet:nth-of-type(odd){float:left;width:49%;margin-right:0}
 .x .dashboard .portlet:nth-of-type(even){float:right;width:49%;margin-right:0}
 @media all and (min-width:1300px){
 .x .dashboard .portlet{float:left !important;width:32% !important;margin-right:1em !important}
 }
-/* Single Column*/
-.x .single{padding-left:10px}
-.x .single .content{position:relative;float:left;width:100%;margin:0}
 /* Search */
 .x .search{zoom:1}
 .x .search:after{content:"";display:block;clear:both}
@@ -583,7 +580,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .header .account ul{padding-right:10px}
 .x .body{padding:1em 0 0 0}
 .x .content{float:none;margin-left:0}
-.x .lnb{float:none;width:auto;margin:1em 0}
+.x .lnb{float:none;width:auto;margin:1em 0;left:auto}
 .x .dashboard .portlet{float:none !important;width:auto !important;margin-right:0}
 .modal .fg,
 .wfsr .fg{width:auto}

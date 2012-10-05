@@ -1375,10 +1375,6 @@ function completeInstallModule(ret_obj) {
 
 jQuery(function($){
 	$('body').ajaxComplete(function(){ hideWaitingFogLayer() });
-// admin single column layout
-	if($('.x>.body .lnb').length == 0){ // When it have no lnb
-		$('.x>.body').addClass('single'); // Add class single
-	}
 // Details toggle in admin table
 	var viewBtn = $('.x .dsTg span.side>button.text');
 	var tdTitle = $('.x .dsTg td.title');
