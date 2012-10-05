@@ -6,7 +6,6 @@ jQuery(function($){
 	$('.x .skipNav>a').click(function(){
 		$($(this).attr('href')).attr('tabindex','0').css('outline','0').focus();
 	});
-
 // TARGET toggle
 	$(document.body).on('click', '.x [data-toggle]', function(){
 		var $this = $(this);
@@ -33,7 +32,6 @@ jQuery(function($){
 		$this.focus();
 		return false;
 	});
-
 // Tab Navigation
 	$('.x .x_tab-content>.x_tab-pane:not(".x_active")').hide();
 	$('.x .x_nav-tabs').find('>li>a[href^="#"]').click(function(){
@@ -99,20 +97,6 @@ jQuery(function($){
 		$xBody.addClass('wide');
 		contentBugFix();
 	});
-// Multilingual
-	var $multilingual_a = $('#multilingual .item>a');
-	$multilingual_a.append('<i class="x_icon-chevron-down"></i>');
-	$multilingual_a.click(function(){
-		var $this = $(this);
-		var up = 'x_icon-chevron-up';
-		var down = 'x_icon-chevron-down';
-		if($this.next('fieldset').is(':visible')){
-			$this.children('i').removeClass(down).addClass(up);
-			$this.parent('.item').siblings('.item').find('a>i').removeClass(up).addClass(down).end().children('fieldset').hide();
-		} else {
-			$this.children('i').removeClass(up).addClass(down);
-		}
-	});
 // Check All
 	$('.x th>input[type="checkbox"]')
 		.change(function() {
@@ -166,7 +150,6 @@ jQuery(function($){
 		}	
 	});
 });
-
 // Modal Window
 jQuery(function($){
 

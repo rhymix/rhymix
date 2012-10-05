@@ -280,31 +280,50 @@ to{-o-transform:rotate(360deg)}
 .x .dashboard>section:nth-child(odd),
 .x .dashboard>section:nth-child(even){float:none;width:auto}
 }
-.x .multilingual>a.x_add-on{font-size:0;position:relative;cursor:pointer;text-decoration:none}
-.x .multilingual>a.x_add-on>i{position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px;z-index:1;opacity:.25;filter:alpha(opacity=25)}
-.x .multilingual>a.x_add-on:hover>i,
-.x .multilingual>a.x_add-on.checked>i{opacity:1;filter:alpha(opacity=100)}
-.x#multilingual .list{border-top:2px solid #ddd}
-.x#multilingual .list>.item{border-bottom:1px solid #ddd;margin:0}
-.x#multilingual .list>.item>a{display:block;padding:8px 0;position:relative}
-.x#multilingual .list>.item>a>i{position:absolute;top:50%;margin:-7px 0 0 0;right:0;opacity:.5;filter:alpha(opacity=50)}
-.x#multilingual .list>.item>fieldset{display:none;padding:0 0 15px 0}
-.x#multilingual .list>.item>fieldset>input[type="text"],
-.x#multilingual .list>.item>fieldset>textarea{padding-left:25px;width:187px;background-repeat:no-repeat;background-position:4px 4px}
-.x#multilingual .list>.item>fieldset>.en{background-image:url(../img/flag.en.gif)}
-.x#multilingual .list>.item>fieldset>.ko{background-image:url(../img/flag.ko.gif)}
-.x#multilingual .list>.item>fieldset>.jp{background-image:url(../img/flag.jp.gif)}
-.x#multilingual .list>.item>fieldset>.zh-CN{background-image:url(../img/flag.cn.gif)}
-.x#multilingual .list>.item>fieldset>.zh-TW{background-image:url(../img/flag.cn.gif)}
-.x#multilingual .list>.item>fieldset>.fr{background-image:url(../img/flag.fr.gif)}
-.x#multilingual .list>.item>fieldset>.de{background-image:url(../img/flag.de.gif)}
-.x#multilingual .list>.item>fieldset>.ru{background-image:url(../img/flag.ru.gif)}
-.x#multilingual .list>.item>fieldset>.es{background-image:url(../img/flag.es.gif)}
-.x#multilingual .list>.item>fieldset>.tr{background-image:url(../img/flag.tr.gif)}
-.x#multilingual .list>.item>fieldset>.vi{background-image:url(../img/flag.vi.gif)}
-.x#multilingual .list>.item>fieldset>.mn{background-image:url(../img/flag.mn.gif)}
-.x#multilingual .list>.item>fieldset>input[type="text"]{margin-bottom:-1px}
-.x#multilingual .list>.item>fieldset>.x_alert{margin-top:8px}
+.x .g11n>.x_add-on{font-size:0;position:relative;cursor:pointer;text-decoration:none}
+.x .g11n>.x_add-on>i{position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px;z-index:1;opacity:.25;filter:alpha(opacity=25)}
+.x .g11n>.x_add-on.remover{display:none;width:26px;height:26px}
+.x .g11n.active>[disabled]{padding-left:25px;background-position:4px 6px;background-repeat:no-repeat}
+.x .g11n.active>.x_add-on.remover{display:inline-block}
+.x .g11n>.x_add-on:hover>i{opacity:1;filter:alpha(opacity=100)}
+.x .g11n>textarea{border-top-right-radius:0}
+.x#g11n #lang_search .list{border-top:2px solid #ddd}
+.x#g11n #lang_search .item{border-bottom:1px solid #ddd;margin:0}
+.x#g11n #lang_search .item>a{display:block;padding:8px 0;position:relative}
+.x#g11n #lang_search .item>a>i{position:absolute;top:50%;margin:-7px 0 0 0;right:0;opacity:.5;filter:alpha(opacity=50)}
+.x#g11n #lang_search .item>fieldset{display:none;padding:0 0 15px 0}
+.x#g11n .item>fieldset>input[type="text"],
+.x#g11n .item>fieldset>textarea{padding-left:25px;width:187px;background-repeat:no-repeat;background-position:4px 8px}
+html[lang="en"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.en{background-image:url(../img/flag.en.gif)}
+html[lang="ko"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.ko{background-image:url(../img/flag.ko.gif)}
+html[lang="jp"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.jp{background-image:url(../img/flag.jp.gif)}
+html[lang="zh"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.zh-CN{background-image:url(../img/flag.cn.gif)}
+html[lang="zh"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.zh-TW{background-image:url(../img/flag.cn.gif)}
+html[lang="fr"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.fr{background-image:url(../img/flag.fr.gif)}
+html[lang="de"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.de{background-image:url(../img/flag.de.gif)}
+html[lang="ru"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.ru{background-image:url(../img/flag.ru.gif)}
+html[lang="es"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.es{background-image:url(../img/flag.es.gif)}
+html[lang="tr"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.tr{background-image:url(../img/flag.tr.gif)}
+html[lang="vi"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.vi{background-image:url(../img/flag.vi.gif)}
+html[lang="mn"] .x .g11n.active>[disabled],
+.x#g11n .item>fieldset>.mn{background-image:url(../img/flag.mn.gif)}
+.x#g11n #lang_search .cancel,
+.x#g11n #lang_search .save,
+.x#g11n #lang_search .editMode .modify,
+.x#g11n #lang_search .editMode .useit{display:none}
+.x#g11n #lang_search .editMode .cancel,
+.x#g11n #lang_search .editMode .save{display:inline-block}
 
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
@@ -352,8 +371,6 @@ to{-o-transform:rotate(360deg)}
 .x .table td>input[type=text]{margin:-1px 0 !important;vertical-align:middle}
 .x .table img{vertical-align:middle}
 .x .table em{font-style:normal;font-weight:normal;color:#e00}
-.x .table th.nowr,
-.x .table td.nowr{white-space:nowrap}
 /* Form */
 .x .form{margin:0 0 1em 0;padding:0}
 .x .form fieldset{margin:0 0 2em 0;padding:0;border:0}
@@ -471,3 +488,61 @@ to{-o-transform:rotate(360deg)}
 .x .textList li{border:0;padding:.25em 1em;height:1.5em;white-space:nowrap;overflow:hidden}
 .x .textList li:nth-child(even){background:#eee}
 .x .textList li a{float:right}
+/* Favicon Preview */
+.x #faviconPreview{position:relative;padding:80px 0 0 200px;background:url(../img/bgFavicon.gif) no-repeat}
+.x #faviconPreview img{position:absolute}
+.x #faviconPreview .fn1{top:30px;left:12px}
+.x #faviconPreview .fn2{top:55px;left:68px}
+/* Mobile Icon Preview */
+.x #mobiconPreview{position:relative;padding:270px 0 0 200px;background:url(../img/bgMobileTop.png) no-repeat}
+.x #mobiconPreview img{position:absolute;top:20px;left:10px}
+.x #mobiconPreview span{position:absolute;width:32px;text-align:center;top:52px;left:10px;color:#fff;font-size:9px}
+/* FTP Suggestion */
+.x #ftpSuggestion{background:#fff;box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+.x #ftpSuggestion ul{margin:0}
+.x #ftpSuggestion li{margin:0;padding:0;list-style-type:none}
+.x #ftpSuggestion li button{border:0;background:#fff;text-align:left;width:288px}
+.x #ftpSuggestion li button:hover,
+.x #ftpSuggestion li button:active,
+.x #ftpSuggestion li button:focus,
+.x #ftpSuggestion li:hover{background:#eee}
+
+/* Module Search */
+.x .moduleSearchWindow{position:absolute;width:700px;z-index:100}
+.x .moduleSearchWindow, .moduleSearchWindow div{margin:0;padding:0;color:#2d2c2d;font-size:12px}
+.x .moduleSearchWindow h2{margin:0;padding:4px;height:24px;line-height:24px;background:#666;text-align:left;color:#fff;font-size:12px}
+.x .moduleSearchWindow .sectionDiv{position:relative;margin:0px;background:#fff;border:1px solid}
+.x .moduleSearchWindow .siteList{float:left;width:295px}
+.x .moduleSearchWindow .highlight{background:yellow;color:red;font-style:italic}
+.x .moduleSearchWindow .moduleTypeList{margin-left:5px;float:left;width:200px}
+.x .moduleSearchWindow .moduleInstanceList{float:right;width:190px}
+.x .moduleSearchWindow ul{margin:0;padding:0;border:0}
+.x .moduleSearchWindow li{font-size:12px;border:0;border-bottom:1px solid #ccc;margin:0;padding: 4px 4px;font-family: 나눔고딕,NanumGothic,"맑은 고딕","Malgun Gothic",AppleGothic,돋움,Dotum,굴림,Gulim,sans-serif}
+.x .moduleSearchWindow li:hover, .moduleSearchWindow li.on{background:#eee;cursor:pointer}
+.x .moduleSearchWindow li div{margin:0;padding:0;display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis}
+.x .moduleSearchWindow .siteList li div{width:270px}
+.x .moduleSearchWindow .siteListSearchBox{margin:0;padding:4px 0;height:24px;border-bottom:1px solid #888}
+.x .moduleSearchWindow .siteListSearchBoxBorder{margin-left:3px;height: 22px;width: 287px;border: 1px solid #ccc}
+.x .moduleSearchWindow input.siteListSearchInput{margin:0;padding:0;position:relative;float:right;width: 260px;margin-right:4px;border:0}
+.x .moduleSearchWindow .siteListSearchBox .searchImg{position:relative;float:left;margin-top:4px;margin-left:4px}
+.x .moduleSearchWindow .moduleTypeList li div{width:170px}
+.x .moduleSearchWindow .moduleInstanceList li div{width:190px}
+.x .moduleSearchWindow .moduleSearch_ok {float:right}
+.x .moduleSearchWindow select.moduleInstanceListSelect {width:100%}
+
+
+/*!
+ * Bootstrap v2.0.4
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world@twitter by@mdo and@fat.
+*/
+/* Bootstrap - Icons */
+[class^="icon-"],[class*=" icon-"]{display:inline-block;width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;background-image:url("../img/glyphicons-halflings.png");background-position:14px 14px;background-repeat:no-repeat}
+[class^="icon-"]:last-child,[class*=" icon-"]:last-child{*margin-left:0}
+.icon-search{background-position:-48px 0}
+.icon-circle-arrow-right{background-position:-240px -144px}
+
