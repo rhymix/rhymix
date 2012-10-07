@@ -2072,8 +2072,6 @@
 				$args->member_srl = $memberSrl;
 				$args->autologin_key = $_COOKIE['xeak'];
 				$output = executeQuery('member.deleteAutologin', $args);
-				print_r($output);
-				exit;
 			}
         }
 
