@@ -2507,7 +2507,7 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="en"><![CDATA[Sign in failure report.]]></value>
 	</item>
 	<item name="login_fail_report_contents">
-		<value xml:lang="ko"><![CDATA[<h2>로그인 실패 기록을 알려드립니다.</h2><div>%1$s</div><p>* 비밀번호를 틀리는 등의 일이 없었는데 이 메시지를 보신다면, 계정 관리에 유의해주시기 바랍니다.<br />* 이 메시지는 로그인이 성공한 순간 누적 로그인 실패 기록이 많을 경우, 로그인 성공 이전 실패 기록을 모아서 발송합니다.<br />발송 시각: %2$s</p>]]></value>
-		<value xml:lang="en"><![CDATA[<h2>There is recorded sign in failures.</h2><div>%1$s</div><p>* This notification is shown once.<br />* This message contains sign in failure records, before a ID sign in success.<br />Sending: %2$s</p>]]></value>
+		<value xml:lang="ko"><![CDATA[<h2>로그인 실패 기록을 알려드립니다.</h2>%1$s<hr /><p>* 비밀번호를 틀리는 등의 일이 없었는데 이 메시지를 보신다면, 계정 관리에 유의해주시기 바랍니다.<br />* 이 메시지는 로그인이 성공한 순간 누적 로그인 실패 기록이 많을 경우, 로그인 성공 이전 실패 기록을 모아서 발송합니다.<br />발송 시각: %2$s</p>]]></value>
+		<value xml:lang="en"><![CDATA[<h2>There is recorded sign in failures.</h2>%1$s<hr /><p>* This notification is shown once.<br />* This message contains sign in failure records, before a ID sign in success.<br />Sending: %2$s</p>]]></value>
 	</item>
 </lang>

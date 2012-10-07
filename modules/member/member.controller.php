@@ -1571,10 +1571,10 @@
 					{
 						foreach($content as $val)
 						{
-							$message .= '<li>'.date('Y-m-d H:i:s P',$val[2]).'<br /> Access IP: '.$val[0].'<br /> Message: '.$val[1].'</li>';
+							$message .= '<li>'.Context::getLang('regdate').': '.date('Y-m-d h:i:sa',$val[2]).'<ul><li>'.Context::getLang('ipaddress').': '.$val[0].'</li><li>'.Context::getLang('message').': '.$val[1].'</li></ul></li>';
 						}
 						$message .= '</ul>';
-						$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d H:i:s P'));
+						$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d h:i:sa'));
 
 						//send message
 						$oCommunicationController = &getController('communication');
@@ -2065,10 +2065,12 @@
             session_destroy();
             setcookie(session_name(), '', time()-42000, '/');
             setcookie('sso','',time()-42000, '/');
+			setcookie('xeak','',time()-42000, '/');
 
-			if($memberSrl)
+			if($memberSrl || $_COOKIE['xeak'])
 			{
 				$args->member_srl = $memberSrl;
+				$args->autologin_key = $_COOKIE['xeak'];
 				$output = executeQuery('member.deleteAutologin', $args);
 			}
         }
