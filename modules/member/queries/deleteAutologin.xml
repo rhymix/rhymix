@@ -3,7 +3,7 @@
         <table name="member_autologin" />
     </tables>
     <conditions>
-        <condition operation="equal" column="autologin_key" var="autologin_key" />
+        <condition operation="equal" column="autologin_key" var="autologin_key" pipe="or" default='' />
         <condition operation="equal" column="member_srl" var="member_srl" pipe="or" />
     </conditions>
 </query>
