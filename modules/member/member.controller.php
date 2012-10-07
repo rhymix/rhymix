@@ -1556,6 +1556,9 @@
             $args->member_srl = $this->memberInfo->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
 
+			// Delete overlapped member session.
+			$output = executeQuery('member.deleteMemberSession', $args);
+
 			// Check if there is recoding table.
 			$oDB = &DB::getInstance();
 			if($oDB->isTableExists('member_count_history') && $config->enable_login_fail_report != 'N')
@@ -2072,6 +2075,10 @@
 				$args->member_srl = $memberSrl;
 				$args->autologin_key = $_COOKIE['xeak'];
 				$output = executeQuery('member.deleteAutologin', $args);
+				if($memberSrl)
+				{
+					$output = executeQuery('member.deleteMemberSession', $args);
+				}
 			}
         }
 
