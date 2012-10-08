@@ -1,8 +1,7 @@
-<!--%import("js/install_admin.js")-->
-<!--#include("header.html")-->
+<load target="js/install_admin.js" />
+<include target="header.html" />
 	<div id="body">
-<!--#include("progress_menu.html")-->
-		<span class="dummy"></span>
+		<include target="progress_menu.html" />
 		<div id="content">
 			<form method="post" action="./">
 			<input type="hidden" name="module" value="{$module}" />
@@ -32,4 +31,4 @@
 			</form>
 		</div>
 	</div>
-<!--#include("footer.html")-->
+<include target="footer.html" />

@@ -1,4 +1,19 @@
 jQuery(function($){
+// TARGET toggle
+	$(document.body).on('click', '.x [data-toggle]', function(){
+		var $this = $(this);
+		var $target = $($this.attr('data-toggle'));
+		$target.toggle();
+		if($target.is(':visible') && !$target.find('a,input,button,textarea,select').length){
+			$target.attr('tabindex','0').focus();
+		} else if($target.is(':visible') && $target.find('a,input,button,textarea,select').length) {
+			$target.find('a,input,button,textarea,select').eq(0).focus();
+		} else {
+			$this.focus();
+		}
+		return false;
+	});
+
 	// Input Clear
 	var iText = $('.item>.iLabel').next('.iText');
 	$('.item>.iLabel').css('position','absolute');

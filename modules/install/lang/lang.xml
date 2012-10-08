@@ -57,17 +57,13 @@
 			<value xml:lang="jp"><![CDATA[管理者情報入力]]></value>
 		</item>
 	</item>
-	<item name="install_condition_title">
-		<value xml:lang="ko"><![CDATA[필수 설치조건을 확인하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please check the installation requirement.]]></value>
-		<value xml:lang="jp"><![CDATA[インストールするための必須条件を確認してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[检测运行环境]]></value>
-		<value xml:lang="zh-TW"><![CDATA[確認安裝時必備的條件]]></value>
-		<value xml:lang="fr"><![CDATA[Vérifiez  les conditions obligatoires pour l'installation, S.V.P.]]></value>
-		<value xml:lang="ru"><![CDATA[Пожалуйста, проверьте требования к установке.]]></value>
-		<value xml:lang="es"><![CDATA[Por favor chequee los requerimientos de la instalación.]]></value>
-		<value xml:lang="tr"><![CDATA[Lütfen kurulum gereksinimlerini kontrol ediniz.]]></value>
-		<value xml:lang="vi"><![CDATA[Xin hãy kiểm tra những yêu cầu cài đặt.]]></value>
+	<item name="install_condition_enable">
+		<value xml:lang="ko"><![CDATA[설치가 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can Install.]]></value>
+	</item>
+	<item name="install_details">
+		<value xml:lang="ko"><![CDATA[자세히]]></value>
+		<value xml:lang="en"><![CDATA[Details]]></value>
 	</item>
 	<item name="install_checklist_title" type="array">
 		<item name="php_version">

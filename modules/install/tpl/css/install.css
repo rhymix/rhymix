@@ -1,8 +1,9 @@
 @charset "utf-8";
 /* NHN (developers@xpressengine.com) */
 /* Element Reset */
-html, body{margin:0}
+html, body{margin:0;min-height:100%}
 body, input, textarea, select, table, button {font-family:Tahoma, Geneva, sans-serif;font-size:12px}
+body{background:#3EAF0E -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ccc), to(#fff));background:#3EAF0E -moz-linear-gradient(top, #ccc, #fff);background:#3EAF0E -o-linear-gradient(top, #ccc, #fff)}
 img, fieldset {border:0}
 form, fieldset {margin:0;padding:0}
 em, address {font-style:normal}
@@ -14,21 +15,21 @@ a:hover, a:active, a:focus {text-decoration:underline}
 .iCheck, .iRadio{width:13px;height:13px;margin:0;padding:0;vertical-align:middle}
 .hide{position:absolute;left:0;top:0;width:1px;height:1px;font-size:0;line-height:0;visibility:hidden}
 /* Layout */
-html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 #xei{width:800px;margin:0 auto;padding:120px 0 0 0}
-#xei #header{position:relative;background:#444;margin:0 0 1px 0;padding:10px 20px;color:#fff}
+#xei #header{position:relative;background:#444;margin:0 0 1px 0;padding:10px 20px;color:#fff;border-radius:5px 5px 0 0}
 #xei #header h1{margin:0}
-#xei #header em{position:absolute;top:10px;right:20px;font-weight:bold;font-size:14px;color:#eee}
+#xei #header em{position:absolute;bottom:10px;right:20px;font-weight:bold;font-size:14px;color:#eee}
 #xei #header em strong{font-size:20px;color:#F60}
-#xei #body{width:580px;padding:0 0 0 220px;position:relative;overflow:hidden;*zoom:1}
+#xei #body{width:580px;padding:0 0 0 220px;position:relative;*zoom:1}
 #xei #body:after{content:"";display:block;clear:both}
-#xei #body .dummy{position:absolute;left:0;top:287px;display:block;width:219px;height:1000px;background:#484848;*zoom:1}
 #xei #progress{position:absolute;left:0;top:0;width:219px}
 #xei #progress ul{list-style:none;margin:0;padding:0}
-#xei #progress li{position:relative;margin:0 0 1px 0;vertical-align:top;line-height:40px;color:#999;text-indent:30px;background-color:#555;background-image:url(../img/icoStatus.gif);background-repeat:no-repeat;background-position:10px 0;*zoom:1}
+#xei #progress li{position:relative;margin:0 0 1px 0;vertical-align:top;line-height:40px;color:#999;text-indent:30px;background-color:#555;background-image:url(../img/icoStatus.gif);background-repeat:no-repeat;background-position:10px 0;*zoom:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#xei #progress li:last-child{border-radius:0 0 0 5px}
 #xei #progress li.done{background-position:10px -40px}
 #xei #progress li.active{background-color:#666;background-position:10px -80px;font-weight:bold;color:#fff;margin-right:-1px}
-#xei #content{position:relative;width:580px;min-height:328px;_height:328px;padding:20px 0 60px 0;background:#666}
+#xei #content{position:relative;width:500px;min-height:145px;padding:40px;background:#666;color:#fff}
+#xei #content a{color:#FFC}
 /* Button */
 .ibtn,
 .ibtn *{position:relative;margin:0;padding:0;display:inline-block;height:30px;line-height:30px;text-decoration:none !important;border:0;font-size:12px;font-family:Tahoma, Sans-serif;white-space:nowrap;background:url(../img/btnPack.gif) no-repeat;vertical-align:top;overflow:visible;color:#eee}
@@ -44,12 +45,10 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .ibtn .back{background-position:-14px -146px}
 .ibtn .monitor{background-position:-37px -147px}
 /* Button Area */
-.ibtnArea{position:absolute;bottom:0;right:0;width:540px;margin:0;padding:15px 20px;text-align:center;*zoom:1;color:#fff;border-top:1px solid #444;background:#555}
+.ibtnArea{position:absolute;bottom:-61px;right:0;width:540px;height:30px;margin:1px 0 0 0;padding:15px 20px;text-align:center;*zoom:1;color:#fff;background:#555;border-radius:0 0 5px 5px}
 .ibtnArea:after{content:"";display:block;clear:both}
-.ibtnArea .fLeft{float:left}
-.ibtnArea .fRight{float:right}
-.ibtnArea label{font-weight:bold}
-.ibtnArea select{background:#666;color:#fff}
+.ibtnArea .x_btn-inverse{color:#fff !important}
+.ibtnArea .x_btn>i{opacity:.75;filter:alpha(opacity=75)}
 /* table */
 .table{margin:0 20px 20px 20px}
 .table table{width:100%;border:0;border-top:1px solid #484848}
@@ -108,10 +107,8 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .desc{padding:10px 20px;margin:0 20px 20px 20px;background:#555;color:#eee;line-height:1.5}
 .desc ul{margin:0 0 0 20px;padding:0}
 .desc strong{color:#F60}
-.agreement{color:#eee}
-.agreement label{font-weight:bold;vertical-align:middle;cursor:pointer}
-.agreement a{color:#6CF;text-decoration:underline;vertical-align:middle}
-.agreement em{color:#f60}
-.agreement p{line-height:1.5}
+.language{list-style:none;margin:0;padding:0 0 0 20px}
+.language li{position:relative;margin:0 0 7px 0}
+.language li>i{position:absolute;top:2px;left:-20px}
 /* Waiting for server response */
 .wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100; border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.update.png) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px}
