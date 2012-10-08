@@ -23,7 +23,7 @@
 	<div class="body wide">
 		<!-- GNB -->
 		<nav class="gnb" id="gnb">
-			<a href="#gnbNav"><i class="x_icon-align-justify"></i> 메뉴열기/닫기</a>
+			<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i> 메뉴열기/닫기</a>
 			<ul id="gnbNav">
 				<li loop="$gnbUrlList=>$key,$value" class="active open"|cond="$parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act"><a href="{getFullUrl('')}{$value['href']}"><span class="tx">{$value['text']}</span></a>
 					<ul cond="count($value['list'])">

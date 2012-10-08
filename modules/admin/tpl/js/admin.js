@@ -42,28 +42,9 @@ jQuery(function($){
 	});
 // GNB Height 100%
 	var $xBody = $('.x>.body');
-	var $xContent = $xBody.find('>.content');
+	var $xContent = $xBody.children('#content.content');
 	var $xGnb = $xBody.find('>.gnb');
 	var $xGnb_li = $xGnb.find('>ul>li');
-	$(window).resize(function(){
-		setTimeout(function(){
-			if($(window).width() <= 980 || $(window).width() > 1240){
-				$xBody.removeClass('wide');
-			} else {
-				$xBody.addClass('wide');
-			}
-		}, 100);
-	}).resize();
-// GNB Click toggle
-	$xGnb_li.find('ul').prev('a')
-		.bind('click focus', function(){
-			var $this = $(this);
-			// Submenu toggle
-			$xGnb_li.not($this.parent('li')).removeClass('open');
-			$(this).parent('li').toggleClass('open');
-			$xGnb.trigger('mouseenter'); // GNB Hover
-			return false;
-		});
 // GNB Hover toggle
 	function contentBugFix(){ // Chrome browser rendering bug fix
 		$xContent.width('99.99%');
@@ -71,22 +52,22 @@ jQuery(function($){
 			$xContent.removeAttr('style');
 		}, 0);
 	}
-	$xGnb
-		.mouseenter(function(){ // Mouseenter
-			if($(window).width() >= 980){
-				$xBody.removeClass('wide');
-				contentBugFix();
-			}
-		})
-		.mouseleave(function(){ // Mouseleave
-			if($(window).width() >= 980 && $(window).width() < 1240){
-				$xBody.addClass('wide');
-				contentBugFix();
-			}
+// GNB Click toggle
+	$xGnb_li.find('ul').prev('a')
+		.bind('click focus', function(){
+			var $this = $(this);
+			// Submenu toggle
+			$xGnb_li.not($this.parent('li')).removeClass('open');
+			$(this).parent('li').toggleClass('open');
+			$xBody.removeClass('wide');
+			contentBugFix();
+			return false;
 		});
 // GNB Mobile Toggle
 	$xGnb.find('>a[href="#gnbNav"]').click(function(){
 		$(this).parent('.gnb').toggleClass('open');
+		$xBody.toggleClass('wide');
+		contentBugFix();
 		return false;
 	});
 // GNB Close
