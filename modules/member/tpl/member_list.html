@@ -13,11 +13,11 @@
 	<div>
 		<div class="cnb">
 			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}</a>
-			|
+			<i>|</i>
 			<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}</a>
-			|
+			<i>|</i>
 			<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}</a>
-			|
+			<i>|</i>
 			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}</a>
 		</div>
 		<div class="x_clearfix" style="margin-bottom:-48px">
