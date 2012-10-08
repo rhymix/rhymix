@@ -10,7 +10,7 @@ function resultGetEditorSkinColorList(ret_obj,response_tags, params) {
     var selectbox = null;
 	jQuery(function($){
 		if(params.testid){
-			selectbox = $("#"+params.testid).next('label').next('select');
+			selectbox = $("#"+params.testid).next('label').children('select');
 		}else{
 			selectbox = (params.type == 'document') ? $('select[name=sel_editor_colorset]') : $('select[name=sel_comment_editor_colorset]');
 		}

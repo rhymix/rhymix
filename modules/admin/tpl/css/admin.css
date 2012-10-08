@@ -335,7 +335,7 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x .uDrag .dragActive{background:#FFD}
 .x .uDrag .dragActive th,
 .x .uDrag .dragActive td{background:none !important}
-.x .uDrag .dragBtn{position:absolute;width:8px;height:100%;padding:0;overflow:hidden;background:url(../img/bgDragable.gif);top:1px;left:0;text-indent:12px;border:0;cursor:n-resize;white-space:nowrap}
+.x .uDrag .dragBtn{position:absolute;width:8px;height:100%;padding:0;overflow:hidden;background:url(../img/bgDragable.gif);top:1px;left:0;text-indent:12px;border:0;cursor:n-resize;white-space:nowrap;font-size:0px}
 /* Section & Heading */
 .x .h2, 
 .x .h3, 
