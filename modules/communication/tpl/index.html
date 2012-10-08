@@ -1,26 +1,17 @@
 <load target="js/communication_admin.js" usecdn="true" />
 <load target="../../editor/tpl/js/editor_module_config.js" usecdn="true" />
-<h1 class="h1">{$lang->communication} <em>{$lang->cmd_management}</em></h1>
+<div class="x_page-header"><h1>{$lang->communication} {$lang->cmd_management}</h1></div>
 <p>{nl2br($lang->about_communication)}</p>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="insertConfig" action="./" method="post" class="form">
+<form ruleset="insertConfig" action="./" method="post">
 	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationAdminInsertConfig">
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
+	<div class="x_clearfix">
+		<table class="x_table x_table-striped x_table-hover">
 			<tr>
-				<th scope="row">{$lang->layout}</th>
-				<td>
-					<select id="layout" name="layout_srl">
-						<option value="0">{$lang->notuse}</option>
-						<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->layout_srl">{$val->title} ({$val->layout})</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->editor_skin}</th>
+				<th>{$lang->editor_skin}</th>
 				<td>
 					<select name="editor_skin" onchange="getEditorSkinColorList(this.value)">
 					<!--@foreach($editor_skin_list as $editor_skin)-->
@@ -35,7 +26,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">{$lang->layout}</th>
+				<th>{$lang->layout}</th>
 				<td>
 					<select id="layout" name="layout_srl">
 						<option value="0">{$lang->notuse}</option>
@@ -44,7 +35,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">{$lang->skin}</th>
+				<th>{$lang->skin}</th>
 				<td>
 					<select name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value);return false;">
 					<!--@foreach($communication_skin_list as $key=>$val)-->
@@ -54,7 +45,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">{$lang->colorset}</th>
+				<th>{$lang->colorset}</th>
 				<td><div id="communication_colorset"></div></td>
 			</tr>
 			<tr>
@@ -67,7 +58,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">{$lang->mobile_skin}</th>
+				<th>{$lang->mobile_skin}</th>
 				<td>
 					<select name="mskin">
 					<option loop="$communication_mobile_skin_list => $key,$val" value="{$key}" selected="selected"|cond="$key==$communication_config->mskin" >{$val->title}</option>
@@ -76,8 +67,8 @@
 			</tr>
 		</table>
 	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+	<div class="x_pull-right">
+		<input type="submit" value="{$lang->cmd_registration}" class="x_btn x_btn-large x_btn-primary"/>
 	</div>
 </form>
 <script>
