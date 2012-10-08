@@ -5,10 +5,15 @@
 	xe.lang.favorite_off = '{$lang->favorite}({$lang->off})';
 </script>
 
-<h1 class="h1">{$lang->installed_modules}</h1>
-
-<div class="cnb">
-	<a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}" class="active"|cond="$act=='dispModuleAdminContent'">{$lang->installed_modules}</a>
-	|
-	<a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory')}" class="active"|cond="$act=='dispModuleAdminCategory'">{$lang->module_category}</a>
+<div class="x_page-header">
+	<h1>{$lang->installed_modules}</h1>
 </div>
+
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act=='dispModuleAdminContent'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->installed_modules}</a>
+	</li>
+	<li class="x_active"|cond="$act=='dispModuleAdminCategory'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory')}">{$lang->module_category}</a>
+	</li>
+</ul>

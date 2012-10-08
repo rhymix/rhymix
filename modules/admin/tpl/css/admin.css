@@ -332,6 +332,10 @@ html[lang="mn"] .x .g11n.active>[disabled],
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
 
+/* Favorite On | Off */
+.x .fvOff,
+.x .fvOn{display:inline-block;width:16px;height:16px;overflow:hidden;text-indent:16px;background:transparent url(../img/iconFavorite.gif) no-repeat;border:0}
+.x .fvOn{background-position:0 -16px}
 /* Up-Down Dragable */
 .x .uDrag .wrap{position:relative;padding-left:20px}
 .x .uDrag li>.wrap{margin:0 0 0 8px}
