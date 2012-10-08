@@ -120,7 +120,7 @@ function completeGetFtpInfo(ret_obj)
         arr.pop();
         arr.push("");
         target = arr.join("/");
-        list = list + "<li><a href='#ftpSetup' style='color:#fff; text-decoration:underline;' onclick=\"getFTPList('"+target+"')\">../</a></li>";
+        list = list + "<li><a href='#ftpSetup' onclick=\"getFTPList('"+target+"')\">../</a></li>";
     }
     
     for(var i=0;i<ret_obj['list']['item'].length;i++)
@@ -136,7 +136,7 @@ function completeGetFtpInfo(ret_obj)
         }
         else
         {
-            list = list + "<li><a href='#ftpSetup' style='color:#fff; text-decoration:underline;' onclick=\"getFTPList('"+pwd+v+"')\">"+v+"</a></li>";
+            list = list + "<li><a href='#ftpSetup' onclick=\"getFTPList('"+pwd+v+"')\">"+v+"</a></li>";
         }
     }
 

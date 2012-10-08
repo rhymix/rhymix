@@ -10,10 +10,11 @@ em, address {font-style:normal}
 button{margin:0;padding:0;overflow:visible;cursor:pointer}
 a {text-decoration:none}
 a:hover, a:active, a:focus {text-decoration:underline}
-/* Common Class */
-.iText{border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent}
-.iCheck, .iRadio{width:13px;height:13px;margin:0;padding:0;vertical-align:middle}
-.hide{position:absolute;left:0;top:0;width:1px;height:1px;font-size:0;line-height:0;visibility:hidden}
+/* Bootstrap Override */
+.x label[for],
+.x .x_form-horizontal .x_control-label{font-weight: bold}
+.x ol,
+.x ul{margin-top:15px;margin-bottom:15px}
 /* Layout */
 #xei{width:800px;margin:0 auto;padding:120px 0 0 0}
 #xei #header{position:relative;background:#444;margin:0 0 1px 0;padding:10px 20px;color:#fff;border-radius:5px 5px 0 0}
@@ -104,8 +105,7 @@ a:hover, a:active, a:focus {text-decoration:underline}
 .form strong{color:#f60}
 .form em{font-style:normal;color:#ffc}
 .form a{color:#fff;text-decoration:underline}
-.desc{padding:10px 20px;margin:0 20px 20px 20px;background:#555;color:#eee;line-height:1.5}
-.desc ul{margin:0 0 0 20px;padding:0}
+.desc{padding:10px 20px;margin:15px 0;background:#555;color:#fff;line-height:1.5;border-radius:5px}
 .desc strong{color:#F60}
 .language{list-style:none;margin:0;padding:0 0 0 20px}
 .language li{position:relative;margin:0 0 7px 0}

@@ -65,6 +65,10 @@
 		<value xml:lang="ko"><![CDATA[자세히]]></value>
 		<value xml:lang="en"><![CDATA[Details]]></value>
 	</item>
+	<item name="install_ftp_reason">
+		<value xml:lang="ko"><![CDATA[FTP 정보를 등록하는 이유.]]></value>
+		<value xml:lang="en"><![CDATA[Reason of FTP info is needed.]]></value>
+	</item>
 	<item name="install_checklist_title" type="array">
 		<item name="php_version">
 			<value xml:lang="ko"><![CDATA[PHP Version]]></value>
