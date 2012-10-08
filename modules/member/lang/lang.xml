@@ -824,6 +824,10 @@
 		<value xml:lang="ko"><![CDATA[신규 메일 주소로 변경 후 인증 메일 발송]]></value>
 		<value xml:lang="en"><![CDATA[New email address]]></value>
 	</item>
+	<item name="cmd_set_design_info">
+		<value xml:lang="ko"><![CDATA[디자인 설정]]></value>
+		<value xml:lang="en"><![CDATA[Desgin Setting]]></value>
+	</item>
 	<item name="cmd_login">
 		<value xml:lang="ko"><![CDATA[로그인]]></value>
 		<value xml:lang="en"><![CDATA[Sign In]]></value>

@@ -186,7 +186,7 @@
                 Context::set('config', $config);
 
                 $oTemplate = &TemplateHandler::getInstance();
-                $tpl = $oTemplate->compile($this->module_path.'tpl', 'colorset_list');
+                $tpl = $oTemplate->compile($this->module_path.'tpl', 'new_colorset_list');
             }
 
             $this->add('tpl', $tpl);
