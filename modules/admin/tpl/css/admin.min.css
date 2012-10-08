@@ -110,7 +110,6 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a:before,
 .x .dashboard>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}
-.x>.body>.gnb.all>a>i,
 .x>.body>.gnb>ul>li.open>a:before,
 .x>.body>.gnb>ul>li.active>a:before{background-image:url(../../../../common/img/glyphicons-halflings-white.png);background-repeat:no-repeat}
 /* Rotation 360 */
@@ -153,17 +152,13 @@ to{-o-transform:rotate(360deg)}
 .x>.body:after{content:"";display:block;clear:both}
 .x>.body>.content{width:100%;padding:1px 0 0 0;float:right;margin:0 0 30px -100%}
 .x>.body>.content>*:first-child{margin-top:0}
-.x>.body>.gnb{width:220px}
-.x>.body>.gnb.all{position:relative;left:-240px;top:auto;float:left;margin:0 -220px 0 0}
+.x>.body>.gnb{width:220px;position:fixed;top:73px;left:10px}
 .x>.body.wide>.gnb{width:36px}
-.x>.body>.gnb,
-.x>.body.wide>.gnb.all{position:fixed;top:73px;left:10px}
 @media all and (max-width:980px){
 .x>.body,
 .x>.body.wide{padding:0}
 .x>.body>.content{width:auto;padding:1px 10px 0 10px;float:none;margin:0 0 30px 0}
-.x>.body>.gnb,
-.x>.body>.gnb.all{float:none;width:auto;margin-right:0;left:0;border-radius:0;position:relative;top:auto;left:auto}
+.x>.body>.gnb{float:none;width:auto;margin-right:0;left:0;border-radius:0;position:relative;top:auto;left:auto}
 .x>.body.wide>.gnb{width:auto}
 }
 /* Header */
@@ -343,7 +338,7 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x .uDrag .dragActive{background:#FFD}
 .x .uDrag .dragActive th,
 .x .uDrag .dragActive td{background:none !important}
-.x .uDrag .dragBtn{position:absolute;width:8px;height:100%;padding:0;overflow:hidden;background:url(../img/bgDragable.gif);top:1px;left:0;text-indent:12px;border:0;cursor:n-resize;white-space:nowrap}
+.x .uDrag .dragBtn{position:absolute;width:8px;height:100%;padding:0;overflow:hidden;background:url(../img/bgDragable.gif);top:1px;left:0;text-indent:12px;border:0;cursor:n-resize;white-space:nowrap;font-size:0px}
 /* Section & Heading */
 .x .h2, 
 .x .h3, 
