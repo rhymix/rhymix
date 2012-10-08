@@ -11,15 +11,6 @@
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
 			<tr>
-				<th scope="row">{$lang->layout}</th>
-				<td>
-					<select id="layout" name="layout_srl">
-						<option value="0">{$lang->notuse}</option>
-						<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->layout_srl">{$val->title} ({$val->layout})</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
 				<th scope="row">{$lang->editor_skin}</th>
 				<td>
 					<select name="editor_skin" onchange="getEditorSkinColorList(this.value)">
