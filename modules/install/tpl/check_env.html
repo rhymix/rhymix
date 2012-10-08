@@ -30,8 +30,8 @@
 				<a href="{getUrl('')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
 			</span>
 			<span class="x_pull-right">
-				<a cond="$install_enable" class="x_btn x_btn-small x_btn-inverse" href="{getUrl('','act','dispInstallSelectDB')}">{$lang->cmd_install_next} <i class="x_icon-chevron-right x_icon-white"></i></a>
-				<a cond="!$install_enable" class="x_btn x_btn-small x_btn-inverse" href="{getUrl('','act',$act)}">{$lang->cmd_install_fix_checklist} <i class="x_icon-chevron-right x_icon-white"></i></a>
+				<a cond="$install_enable" class="x_btn x_btn-small x_btn-inverse" id="task-checklist-confirm" href="{getUrl('','act','dispInstallSelectDB')}">{$lang->cmd_install_next} <i class="x_icon-chevron-right x_icon-white"></i></a>
+				<a cond="!$install_enable" class="x_btn x_btn-small x_btn-inverse" id="task-checklist-fix" href="{getUrl('','act',$act)}">{$lang->cmd_install_fix_checklist} <i class="x_icon-chevron-right x_icon-white"></i></a>
 			</span>
 		</div>
 	</div>
