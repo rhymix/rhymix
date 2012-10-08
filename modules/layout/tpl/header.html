@@ -2,14 +2,19 @@
 	#faceoff_migration_info img { border: 1px solid #ccc; padding: 5px; }
 </style>
 
-<h1 class="h1">{$lang->installed_layout}</h1>
+<div class="x_page-header">
+	<h1>{$lang->installed_layout}</h1>
+</div>
 
-<div cond="$layout == 'faceoff'" class="message error">
+<div cond="$layout == 'faceoff'" class="x_alert x_alert-block">
 	<p>{$lang->faceoff_migration[0]}</p>
 	<p><a href="#faceoff_migration_info" class="modalAnchor">{$lang->faceoff_migration[1]}</a></p>
 </div>
-<div cond="$layout == 'faceoff'" id="faceoff_migration_info" class="modal">
-	<div class="fg">
+<div cond="$layout == 'faceoff'" id="faceoff_migration_info" class="x_modal">
+	<div class="x_modal-header">
+		<h3>{$lang->faceoff_migration[1]}<h3>
+	</div>
+	<div class="x_modal-body">
 		<ol>
 			<li>
 				<p>{$lang->faceoff_migration[2]}</p>
@@ -37,8 +42,11 @@
 			</li>
 		</ol>
 	</div>
+	<div class="x_modal-footer">
+		<button type="button" class="x_btn x_pull-left" data-hide="#faceoff_migration_info">{$lang->cmd_close}</button>
+	</div>
 </div>
 
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>

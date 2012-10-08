@@ -1,40 +1,49 @@
 <script>
 var addLang = '{$lang->cmd_insert}';
 </script>
-<load target="js/layout_admin.js" usecdn="true" />
-<h1 class="h1">{$lang->cmd_layout_copy}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
+
+<div class="x_modal" id="__layout_copy">
+	<div class="x_modal-header">
+		<h3>{$lang->cmd_layout_copy}</h3>
+	</div>
+	<div class="x_modal-body">
+		<form action="./" method="post">
+			<input type="hidden" name="layout" value="{$layout->layout}" />
+			<input type="hidden" name="act" value="procLayoutAdminCopyLayout" />
+			<input type="hidden" name="layout_srl" value="{$layout->layout_srl}" />
+			<div class="table">
+				<table width="100%" border="1" cellspacing="0">
+					<tr>
+						<th scope="row">{$lang->layout_name}</th>
+						<td>{$layout->title}</td>
+					</tr>
+					<tr>
+						<th scope="row">{$lang->title}</th>
+						<td>{$layout->layout_title}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="table">
+				<table width="100%" border="1" cellspacing="0" id="inputTable">
+					<tr>
+						<th scope="col"><div>{$lang->title}<div></th>
+						<th scope="col"><div>{$lang->cmd_insert}</div></th>
+					</tr>
+					<tr>
+						<td><input type="text" name="title[]" size="50" /></td>
+						<td><span class="btn"><input type="button" value="{$lang->cmd_insert}" onclick="addLayoutCopyInputbox()" /></span></td>
+					</tr>
+				</table>
+			</div>
+			<div class="btnArea">
+				<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+			</div>
+		</form>
+	</div>
+	<div class="x_modal-footer">
+		<button type="button" class="x_btn x_pull-left" data-hide="#__layout_copy">{$lang->cmd_close}</button>
+		<span class="x_btn-group x_pull-right">
+			<button type="submit" class="x_btn">{$lang->cmd_insert}</button>
+		</span>
+	</div>
 </div>
-<form action="./" method="post">
-	<input type="hidden" name="layout" value="{$layout->layout}" />
-	<input type="hidden" name="act" value="procLayoutAdminCopyLayout" />
-	<input type="hidden" name="layout_srl" value="{$layout->layout_srl}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row">{$lang->layout_name}</th>
-				<td>{$layout->title}</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->title}</th>
-				<td>{$layout->layout_title}</td>
-			</tr>
-		</table>
-	</div>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0" id="inputTable">
-			<tr>
-				<th scope="col"><div>{$lang->title}<div></th>
-				<th scope="col"><div>{$lang->cmd_insert}</div></th>
-			</tr>
-			<tr>
-				<td><input type="text" name="title[]" size="50" /></td>
-				<td><span class="btn"><input type="button" value="{$lang->cmd_insert}" onclick="addLayoutCopyInputbox()" /></span></td>
-			</tr>
-		</table>
-	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
-	</div>
-</form>

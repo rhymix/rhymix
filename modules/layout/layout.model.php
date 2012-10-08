@@ -122,28 +122,48 @@
 			{
 				foreach($_downloadedList as $dLayoutInfo)
 				{
-					$downloadedList[] = $dLayoutInfo->layout;
+					$downloadedList[$dLayoutInfo->layout] = $dLayoutInfo->layout;
 					$titleList[$dLayoutInfo->layout] = $dLayoutInfo->title;
 				}
 			}
 
-			// Get downloaded name list have no instance
-			$noInstanceList = array_diff($downloadedList, $instanceList);
-			foreach($noInstanceList as $layoutName)
+			if($layout)
 			{
-				$insertArgs = new stdClass();
-				$insertArgs->site_srl = $siteSrl;
-				$insertArgs->layout_srl = getNextSequence();
-				$insertArgs->layout = $layoutName;
-				$insertArgs->title = $titleList[$layoutName];
-				$insertArgs->layout_type = $layoutType;
+				if(!count($instanceList) && $downloadedList[$layout])
+				{
+					$insertArgs = new stdClass();
+					$insertArgs->site_srl = $siteSrl;
+					$insertArgs->layout_srl = getNextSequence();
+					$insertArgs->layout = $layout;
+					$insertArgs->title = $titleList[$layout];
+					$insertArgs->layout_type = $layoutType;
 
-				$oLayoutAdminController = getAdminController('layout');
-				$oLayoutAdminController->insertLayout($insertArgs);
+					$oLayoutAdminController = getAdminController('layout');
+					$oLayoutAdminController->insertLayout($insertArgs);
+					$isCreateInstance = TRUE;
+				}
+			}
+			else
+			{
+				// Get downloaded name list have no instance
+				$noInstanceList = array_diff($downloadedList, $instanceList);
+				foreach($noInstanceList as $layoutName)
+				{
+					$insertArgs = new stdClass();
+					$insertArgs->site_srl = $siteSrl;
+					$insertArgs->layout_srl = getNextSequence();
+					$insertArgs->layout = $layoutName;
+					$insertArgs->title = $titleList[$layoutName];
+					$insertArgs->layout_type = $layoutType;
+
+					$oLayoutAdminController = getAdminController('layout');
+					$oLayoutAdminController->insertLayout($insertArgs);
+					$isCreateInstance = TRUE;
+				}
 			}
 
 			// If create layout instance, reload instance list
-			if(count($noInstanceList))
+			if($isCreateInstance)
 			{
 				$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
 			}

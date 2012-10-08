@@ -229,8 +229,18 @@
 		 * @param int $layout_srl
 		 * @return Object
          **/
-        function deleteLayout($layout_srl) {
+        function deleteLayout($layout_srl, $force = FALSE) {
             $oLayoutModel = &getModel('layout');
+
+			if(!$force)
+			{
+				$layoutInfo = $oLayoutModel->getLayout($layout_srl);
+				$layoutList = $oLayoutModel->getLayoutInstanceList($layoutInfo->site_srl, $layoutInfo->layout_type, $layoutInfo->layout, array('layout_srl'));
+				if(count($layoutList) <= 1)
+				{
+					return new Object(-1, 'msg_at_least_one_layout');
+				}
+			}
 
             $path = $oLayoutModel->getUserLayoutPath($layout_srl);
             FileHandler::removeDir($path);

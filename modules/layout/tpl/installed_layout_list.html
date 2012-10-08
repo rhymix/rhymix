@@ -1,54 +1,56 @@
 <include target="header.html" />
-<div class="table even easyList dsTg">
 <include target="sub_tab.html" />
-	<table width="100%" border="1" cellspacing="0">
-		<caption>
-				<span class="side"><button type="button" class="text"><span class="hide">{$lang->simple_view}</span><span class="show">{$lang->detail_view}</span></button></span>
-		</caption>
-		<thead>
-			<tr>
-				<th scope="col" class="title">{$lang->layout_name}</th>
-				<th scope="col" class="nowr">{$lang->version}</th>
-				<th scope="col" class="nowr">{$lang->author}</th>
-				<th scope="col" class="nowr">{$lang->path}</th>
-				<th scope="col" class="nowr">{$lang->cmd_delete}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<block loop="$layout_list => $key, $layout">
-			<tr>
-				<block cond="$layout->title">
-					<td class="title">
-						<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}">{$layout->title}</a></p>
-						<p>{$layout->description}</p>
-						<p cond="$layout->need_update == 'Y'" class="update">
-							{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
-						</p>
-					</td>
-					<td class="nowr">{$layout->version}</td>
-					<td class="nowr">
-						<block loop="$layout->author => $author">
-							<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->name}</a>
-							<block cond="!$author->homepage">{$author->name}</block>
-						</block>
-					</td>
-					<td class="nowr">{$layout->path}</td>
-					<td class="nowr"><a cond="$layout->remove_url" href="{$layout->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
-				</block>
-				<block cond="!$layout->title">
-					<td class="title">
-						<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}">{$layout->layout}</a></p>
-						<p cond="$layout->need_update == 'Y'" class="update">
-							{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
-						</p>
-					</td>
-					<td class="nowr">-</td>
-					<td class="nowr">-</td>
-					<td class="nowr">{$layout->path}</td>
-					<td class="nowr"><a cond="$layout->remove_url" href="{$layout->remove_url}&amp;return_url={urlencodegetRequestUriByServerEnviroment()}">{$lang->cmd_delete}</a></td>
-				</block>
-			</tr>
+
+<table class="x_table x_table-striped x_table-hover dsTg">
+	<caption>
+		<div class="x_pull-right x_btn-group">
+			<button class="x_btn x_btn-mini x_active __simple">{$lang->simple_view}</button>
+			<button class="x_btn x_btn-mini __detail">{$lang->detail_view}</button>
+		</div>
+	</caption>
+	<thead>
+		<tr>
+			<th scope="col" class="title">{$lang->layout_name}</th>
+			<th scope="col" class="nowr">{$lang->version}</th>
+			<th scope="col" class="nowr">{$lang->author}</th>
+			<th scope="col" class="nowr">{$lang->path}</th>
+			<th scope="col" class="nowr">{$lang->cmd_delete}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<block loop="$layout_list => $key, $layout">
+		<tr>
+			<block cond="$layout->title">
+				<td class="title">
+					<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}">{$layout->title}</a></p>
+					<p>{$layout->description}</p>
+					<p cond="$layout->need_update == 'Y'" class="update">
+						{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
+					</p>
+				</td>
+				<td class="nowr">{$layout->version}</td>
+				<td class="nowr">
+					<block loop="$layout->author => $author">
+						<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->name}</a>
+						<block cond="!$author->homepage">{$author->name}</block>
+					</block>
+				</td>
+				<td class="nowr">{$layout->path}</td>
+				<td class="nowr"><a cond="$layout->remove_url" class="x_btn x_btn-primary" href="{$layout->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
 			</block>
-		</tbody>
-	</table>
-</div>
+			<block cond="!$layout->title">
+				<td class="title">
+					<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}">{$layout->layout}</a></p>
+					<p cond="$layout->need_update == 'Y'" class="update">
+						{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
+					</p>
+				</td>
+				<td class="nowr">-</td>
+				<td class="nowr">-</td>
+				<td class="nowr">{$layout->path}</td>
+				<td class="nowr"><a cond="$layout->remove_url" class="x_btn x_btn-primary" href="{$layout->remove_url}&amp;return_url={urlencodegetRequestUriByServerEnviroment()}">{$lang->cmd_delete}</a></td>
+			</block>
+		</tr>
+		</block>
+	</tbody>
+</table>

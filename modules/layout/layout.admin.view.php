@@ -241,38 +241,6 @@
         }
 
         /**
-         * The first page of the layout admin
-		 * @deprecated
-		 * @return void|Object (void : success, Object : fail)
-         **/
-        function dispLayoutAdminContent() {
-			$path = Context::get('path');
-			if (!$path) return $this->stop('msg_invalid_request');
-
-            $oLayoutModel = &getModel('layout');
-			$columnList = array('layout_srl', 'layout', 'module_srl', 'title', 'regdate');
-            $layout_list = $oLayoutModel->getLayoutList(0, 'P', $columnList);
-            Context::set('layout_list', $layout_list);
-
-            $this->setTemplateFile('index');
-        }
-
-        /**
-         * The first page of the mobile layout admin
-		 * @deprecated
-		 * @return void
-         **/
-		function dispLayoutAdminMobileContent() {
-            $oLayoutModel = &getModel('layout');
-			$columnList = array('layout_srl', 'layout', 'module_srl', 'title', 'regdate');
-            $layout_list = $oLayoutModel->getLayoutList(0, 'M', $columnList);
-            Context::set('layout_list', $layout_list);
-
-            $this->setTemplateFile('mindex');
-
-		}
-
-        /**
          * Edit layout codes
 		 * @return void
          **/

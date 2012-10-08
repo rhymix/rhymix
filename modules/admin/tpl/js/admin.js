@@ -891,6 +891,29 @@ $('.filebox')
 
 		$.exec_json('module.getFileBoxListHtml', {'page': '1'}, on_complete);
 	});
+// Details toggle in admin table
+	var simpleBtn = $('.x .dsTg .__simple');
+	var detailBtn = $('.x .dsTg .__detail');
+	var tdTitle = $('.x .dsTg td.title');
+	tdTitle.each(function(){
+		var $t = $(this)
+		if($t.find('p.update').length==0){
+			$t.addClass('tg').find('>*:not(:first-child)').hide();
+		} else {
+			$t.addClass('up');
+		}
+	});
+	var details = $('.x .dsTg td.tg>*:not(:first-child)');
+	simpleBtn.click(function(){
+		details.slideUp(200);
+		detailBtn.removeClass('x_active');
+		simpleBtn.addClass('x_active');
+	});
+	detailBtn.click(function(){
+		details.slideDown(200);
+		detailBtn.addClass('x_active');
+		simpleBtn.removeClass('x_active');
+	});
 
 });
 
