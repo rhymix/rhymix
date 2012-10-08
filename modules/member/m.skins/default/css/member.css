@@ -13,31 +13,22 @@
 .xm img{border:0}
 .xm p{line-height:1.5}
 /* Heading */
-.xm .h1, 
-.xm .h2, 
-.xm .h3, 
-.xm .h4{position:relative;zoom:1}
-.xm .h1{font-size:24px}
-.xm .h2{font-size:20px}
-.xm .h3{font-size:16px}
-.xm .h4{font-size:12px}
-/* Table */
-.xm .table{margin:1em 0}
-.xm .table table{width:100%;border:0;border-collapse:collapse;border-top:2px solid #ccc}
-.xm .table caption{font-weight:bold;text-align:left;line-height:22px;padding:5px 0}
-.xm .table caption:after{content:"";display:block;clear:both}
-.xm .table caption a{font-weight:normal}
-.xm .table caption em{float:right;margin-left:1em}
-.xm .table caption strong{color:#e00}
-.xm .table caption .side{float:right;font-weight:normal;margin-left:1em}
-.xm .table th,
-.xm .table td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd;white-space:nowrap}
-.xm .table th{background:#f8f8f8}
-.xm .table thead th{border-bottom:1px solid #999}
-.xm .table tfoot td{font-weight:bold;background:#f8f8f8}
-.xm .table.even tbody tr:nth-of-type(even) td{background-color:#fafafa}
-.xm .table td>input[type=text]{margin:-1px 0 -3px 0 !important;vertical-align:middle}
-.xm .table img{vertical-align:middle}
-.xm .table em{font-style:normal;font-weight:normal;color:#e00}
-.xm .table .title,
-.xm .table .text{white-space:normal}
+.xm .hx{position:relative;border-bottom:1px solid #ccc8be;padding:8px 10px;margin:0}
+.xm .hx:after{content:"";margin:0 -10px;position:relative;top:10px;display:block;clear:both;height:1px;background:#fff}
+.xm .hx.h2{background:#e5e5e5;text-shadow:1px 1px 0 #fff;position:relative;zoom:1}
+.xm .hx>h2{margin:0 10px 0 0;display:inline;font-size:16px;line-height:1.4}
+.xm .hx a{color:#000}
+/* Content */
+.xm .co{margin: 10px;line-height: 1.4;font-size: 14px;color:#333}
+/* DL */
+.xm .dl{margin:15px 0}
+.xm .dl>dt{font-weight:bold;margin-top:10px}
+.xm .dl>dt>em{font-style:normal;color:#e00}
+.xm .dl>dd{margin-left:20px}
+/* Button Area */
+.xm .ba{margin:15px 0;padding:0;list-style:none;border:1px solid #ddd;border-radius:4px}
+.xm .ba li{border-top:1px solid #ddd}
+.xm .ba li:first-child{border:0}
+.xm .ba li>a,
+.xm .ba li>button,
+.xm .ba li>input{display:block;white-space:nowrap;padding:7px 10px;text-decoration:none;color:#000;background:#f4f4f4;text-shadow:0 1px 0 #fff;overflow:hidden;text-overflow:ellipsis}
