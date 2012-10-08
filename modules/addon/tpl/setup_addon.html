@@ -1,76 +1,104 @@
-<h1 class="h1">{$lang->installed_addons}</h1>
-<h2 class="h2">{$addon_info->title}</h2>
-<ul>
-	<li>{$lang->version}: {$addon_info->version} ({zdate($addon_info->date, 'Y-m-d')})</li>
-	<li>
-		{$lang->author}:
-		<block loop="$addon_info->author => $author">
-			{$author->name} (<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->homepage}</a>, <a cond="$author->email_address" href="mailto:{$author->email_address}">{$author->email_address}</a>) <br />
-		</block>
-	</li>
-	<li cond="$addon_info->homepage">{$lang->homepage}: <a href="{$addon_info->homepage}" target="_blank">{$addon_info->homepage}</a></li>
-	<li cond="$addon_info->license">{$lang->addon_license}: <a href="{$addon_info->license_link}"|cond="$addon_info->license_link" target="_blank">{$addon_info->license}</a></li>
-</ul>
+<div class="x_page-header">
+	<h1>{$lang->installed_addons}</h1>
+</div>
+<h2>{$addon_info->title}</h2>
+<table class="x_table">
+	<tbody>
+		<tr>
+			<th>{$lang->version}</th>
+			<td>{$addon_info->version} ({zdate($addon_info->date, 'Y-m-d')})</td>
+		</tr>
+		<tr>
+			<th>{$lang->author}</th>
+			<td>
+				<block loop="$addon_info->author => $author">
+					{$author->name} (<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->homepage}</a>, <a cond="$author->email_address" href="mailto:{$author->email_address}">{$author->email_address}</a>) <br />
+				</block>
+			</td>
+		</tr>
+		<tr cond="$addon_info->homepage">
+			<th>{$lang->homepage}</th>
+			<td><a href="{$addon_info->homepage}" target="_blank">{$addon_info->homepage}</a></td>
+		</tr>
+		<tr cond="$addon_info->license">
+			<th>{$lang->addon_license}</th>
+			<td><a href="{$addon_info->license_link}"|cond="$addon_info->license_link" target="_blank">{$addon_info->license}</a></td>
+		</tr>
+	</tbody>
+</table>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="./" method="post" class="form">
+<form action="./" method="post" class="x_form-horizontal">
+<section class="section">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="procAddonAdminSetupAddon" />
 	<input type="hidden" name="addon_name" value="{$addon_info->addon_name}" />
 
 	<block cond="count($addon_info->extra_vars)">
 		<block loop="$addon_info->extra_vars => $id, $var">
-			<block cond="!$not_first && !$var->group"><ul></block>
 			<block cond="$group != $var->group">
-				<block cond="$not_first"></ul></block>
-				<h3 class="h3">{$var->group}</h3>
-				<ul>
+				<h2>{$var->group}</h2>
 				{@$group = $var->group}
 			</block>
 			{@$not_first = true}
-			<li>
-				<p class="q"><label for="{$var->name}">{$var->title}</label></p>
-				<p class="a">
+			<div class="x_control-group" cond="!$not_first && $group != $var->group"></div>
+			<div class="x_control-group">
+				<label class="x_control-label" for="{$var->name}">{$var->title}</label>
+				<div class="x_controls">
 					<input cond="$var->type == 'text'" type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value)}" class="lang_code">
 					<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" class="lang_code" rows="8" cols="42">{htmlspecialchars($var->value)}</textarea>
 					<select cond="$var->type == 'select'" name="{$var->name}" id="{$var->name}">
 						<option loop="$var->options => $option" value="{$option->value}" selected="selected"|cond="$var->value == $option->value">{$option->title}</option>
 					</select>
-				</p>
-				<p class="desc">{nl2br($var->description)}</p>
-			</li>
+					<span class="x_help-block">{nl2br($var->description)}</span>
+				</div>
+			</div>
 		</block>
-		</ul>
 	</block>
 	<div cond="!count($addon_info->extra_vars)" class="message info">
 		<p>{$lang->msg_not_exist_option}</p>
 	</div>
+</section>
+
+<section class="section">
 	<block cond="$mid_list">
-		<h3 class="h3">{$lang->module}</h3>
-		<p>{$lang->about_addon_mid}</p>
-		<p class="q">{$lang->run_method}</p>
-		<p class="a">
-			<select name="xe_run_method">
-				<option value="run_selected" selected="selected"|cond="$addon_info->xe_run_method === 'run_selected'">{$lang->run_selected_module}</option>
-				<option value="no_run_selected" selected="selected"|cond="$addon_info->xe_run_method === 'no_run_selected'">{$lang->no_run_selected_module}</option>
-			</select>
-		</p>
-		<p><input type="checkbox" id="check_all" /> <label for="check_all">Check all</label></p>
-		<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin:1em 0; padding:.5em 1em">
-			<legend cond="$modules->title">{$modules->title}</legend>
-			<legend cond="!$modules->title">{$lang->none_category}</legend>
-			<div loop="$modules->list => $key, $val">
-				<input type="checkbox" value="{$key}" name="mid_list[]" id="chk_mid_list_{$key}" checked="checked"|cond="in_array($key, $addon_info->mid_list)"/>
-				<label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+		<h1>{$lang->module}</h1>
+		<div class="x_control-group">{$lang->about_addon_mid}</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->run_method}</label>
+			<div class="x_controls">
+				<select name="xe_run_method">
+					<option value="run_selected" selected="selected"|cond="$addon_info->xe_run_method === 'run_selected'">{$lang->run_selected_module}</option>
+					<option value="no_run_selected" selected="selected"|cond="$addon_info->xe_run_method === 'no_run_selected'">{$lang->no_run_selected_module}</option>
+				</select>
 			</div>
-		</fieldset>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">대상 지정</label>
+			<div class="x_controls">
+				<label for="check_all"><input type="checkbox" id="check_all" /> Check all</label>
+				<fieldset loop="$mid_list => $module_category_srl, $modules">
+					<legend><!--@if($modules->title)-->{$modules->title}<!--@else-->{$lang->none_category}<!--@end--></legend>
+					<div loop="$modules->list => $key, $val">
+						<label for="chk_mid_list_{$key}">
+							<input type="checkbox" value="{$key}" name="mid_list[]" id="chk_mid_list_{$key}" checked="checked"|cond="in_array($key, $addon_info->mid_list)"/>
+							{$key} ({$val->browser_title})
+						</label>
+					</div>
+				</fieldset>
+			</div>
+		</div>
 	</block>
-	<div class="btnArea">
-		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+	<div class="x_clearfix">
+		<div class="x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
 	</div>
-</form>
 </block>
+</section>
+</form>
 <script>
 (function($){
 	$('#check_all')
