@@ -206,9 +206,9 @@ to{-o-transform:rotate(360deg)}
 .x>.body>.gnb.open>ul>li{display:block}
 .x>.body>.gnb>a[href="#gnbNav"],
 .x>.body.wide>.gnb>a[href="#gnbNav"]{top:0;right:0;line-height:37px;width:44px;height:auto;background:none;border-radius:0;margin:0;border:0}
-.x>.body>.gnb>a[href="#gnbNav"]:before{content:"";position:absolute;top:1px;width:1px;height:100%;border-left:1px solid #000}
+.x>.body>.gnb>a[href="#gnbNav"]:before{content:"";position:absolute;top:1px;width:1px;height:100%;border-left:1px solid #ccc;opacity:.5;filter:alpha(opacity=50%)}
 .x>.body>.gnb>a[href="#gnbNav"]:after{content:normal}
-.x>.body>.gnb>a>i{display:block;position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px;opacity:.5;filter:alpha(opacity=50%)}
+.x>.body>.gnb>a>i{display:block;position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px}
 }
 	/* li */
 .x>.body>.gnb>ul>li{background:#94a55c;border-top:1px solid #fff;border-bottom:1px solid #ddd;vertical-align:top;white-space:nowrap}
