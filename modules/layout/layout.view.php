@@ -53,6 +53,7 @@
 			$mid = Context::get('mid');
 			$skin = Context::get('skin');
 			$skinVars = Context::get('skin_vars');
+			$skinVars = json_decode($skinVars);
 
 			// Get the layout information.
 			if(!$layoutSrl || !$module)
