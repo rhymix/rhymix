@@ -1,7 +1,7 @@
 ﻿@charset "utf-8";
 /* Reset */
 html{min-height:100%}
-body{margin:10px;-webkit-text-size-adjust:none}
+body{margin:10px;padding:0;-webkit-text-size-adjust:none}
 body>.x{min-width:300px;max-width:1240px}
 @media all and (max-width:480px){
 body>.x{margin:0}
