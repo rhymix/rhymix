@@ -1,0 +1,18 @@
+<query id="getModuleInfoByMenuItemSrl" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <conditions>
+		<query operation="equal" column="mid" notnull="notnull" alias="getMidByMenuSrl">
+			<tables>
+				<table name="menu_item" alias="menu_item"/>
+			</tables>
+			<columns>
+				<column name="url" />
+			</columns>
+			<conditions>
+        		<condition operation="equal" column="menu_item.menu_item_srl" var="menu_item_srl" notnull="notnull" />
+			</conditions>
+		</query>
+    </conditions>
+</query>

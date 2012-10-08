@@ -182,6 +182,67 @@
             return $this->addModuleExtraVars($module_info);
         }
 
+		/**
+		 * Get module info by menu_item_srl.
+		 *
+		 * @params int $menu_item_srl
+		 *
+		 * @return Object $moduleInfo
+		 **/
+		public function getModuleInfoByMenuItemSrl($menu_item_srl = 0)
+		{
+			$menuItemSrl = Context::get('menu_item_srl');
+			$menuItemSrl = (!$menuItemSrl) ? $menu_item_srl : $menuItemSrl;
+
+			if(!$menuItemSrl)
+			{
+				$this->stop(-1, 'msg_invalid_request');
+				return;
+			}
+
+			$args->menu_item_srl = $menuItemSrl;
+
+			$output = executeQuery('module.getModuleInfoByMenuItemSrl', $args);
+
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+	
+			$moduleInfo = $output->data;
+			$mid = $moduleInfo->mid;
+			$site_srl = $moduleInfo->site_srl;
+
+            $oCacheHandler = &CacheHandler::getInstance('object');
+        	if($oCacheHandler->isSupport())
+			{
+				$cache_key = 'object:'.$mid.'_'.$site_srl;
+				$module_srl = $oCacheHandler->get($cache_key);
+				if($module_srl){
+					$cache_key = 'object_module_info:'.$module_srl;
+					$coutput = $oCacheHandler->get($cache_key);
+				}
+			}
+
+			if(!$coutput)
+			{
+				if($oCacheHandler->isSupport()) {
+					$cache_key = 'object:'.$mid.'_'.$site_srl;
+					$oCacheHandler->put($cache_key,$output->data->module_srl);
+					$cache_key = 'object_module_info:'.$output->data->module_srl;
+					$oCacheHandler->put($cache_key,$output);
+				}
+			}
+
+			$moduleInfo->is_layout_fix = ($moduleInfo->layout_srl == -1000) ? 'N' : 'Y';
+
+            $moduleInfo = $this->addModuleExtraVars($moduleInfo);
+
+			$this->add('module_info_by_menu_item_srl', $moduleInfo);
+
+			return $moduleInfo;
+		}
+
         /**
          * @brief Get module information corresponding to module_srl
          **/
@@ -261,6 +322,7 @@
                     $target_module_info[$key]->{$k} = $v;
                 }
             }
+
             if(is_array($module_info)) return $target_module_info;
             return $target_module_info[0];
         }
