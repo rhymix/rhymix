@@ -35,6 +35,13 @@
             // get a list of communication skins
             Context::set('communication_mobile_skin_list', $oModuleModel->getSkins($this->module_path, 'm.skins') );
 
+            // Get a layout list
+            $layout_list = $oLayoutModel->getLayoutList();
+            Context::set('layout_list', $layout_list);
+
+            $mlayout_list = $oLayoutModel->getLayoutList(0, 'M');
+            Context::set('mlayout_list', $mlayout_list);
+
 			$security = new Security();		
 			$security->encodeHTML('communication_config..');
 			$security->encodeHTML('layout_list..');

@@ -11,6 +11,14 @@ class communicationMobile extends communicationView {
 
 		$tpl_path = sprintf('%sm.skins/%s', $this->module_path, $skin);
 		$this->setTemplatePath($tpl_path);
+
+		$oLayoutModel = &getModel('layout');
+		$layout_info = $oLayoutModel->getLayout($this->communication_config->mlayout_srl);
+		if($layout_info)
+		{
+			$this->module_info->mlayout_srl = $this->communication_config->mlayout_srl;
+			$this->setLayoutPath($layout_info->path);
+		}
 	}
 
 	function dispCommunicationMessages()

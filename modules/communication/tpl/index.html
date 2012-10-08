@@ -35,6 +35,15 @@
 				</td>
 			</tr>
 			<tr>
+				<th scope="row">{$lang->layout}</th>
+				<td>
+					<select id="layout" name="layout_srl">
+						<option value="0">{$lang->notuse}</option>
+						<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->layout_srl">{$val->title} ({$val->layout})</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
 				<th scope="row">{$lang->skin}</th>
 				<td>
 					<select name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value);return false;">
@@ -47,6 +56,15 @@
 			<tr>
 				<th scope="row">{$lang->colorset}</th>
 				<td><div id="communication_colorset"></div></td>
+			</tr>
+			<tr>
+				<th>{$lang->mobile_layout}</th>
+				<td>
+				<select id="layout" name="mlayout_srl">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->mlayout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+				</td>
 			</tr>
 			<tr>
 				<th scope="row">{$lang->mobile_skin}</th>
