@@ -374,30 +374,6 @@
 			<value xml:lang="tr"><![CDATA[innodb ile MySQL'ü veritabanı olrak kullanınız.<br />İşlemler, innodb ile işlenecektir]]></value>
 			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb]]></value>
 		</item>
-		<item name="sqlite2">
-			<value xml:lang="ko"><![CDATA[파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다.)]]></value>
-			<value xml:lang="en"><![CDATA[Use sqlite2 as a database which saves the data in files.<br />DB file <b>must not be</b> accessible from the web.<br />(Never been tested for stabilization)]]></value>
-			<value xml:lang="jp"><![CDATA[ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブがらアクセスできない場所に作成してください。<br />（安定化までのテストは行われていません）]]></value>
-			<value xml:lang="zh-CN"><![CDATA[支持用文件形式保存数据的sqlite2。<br />安装时DB文件应在web不能访问的地方生成。<br />(还没有通过安全的测试)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[支援用檔案形式保存數據的『sqlite2』。<br />安裝時，資料庫數據應建立在 web 無法訪問的地方。<br />(尚未通過安全測試)]]></value>
-			<value xml:lang="fr"><![CDATA[Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de Base de Données dans une place que l'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)]]></value>
-			<value xml:lang="ru"><![CDATA[Поддерживает sqlite2, которая сохраняет данные в файл.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.<br />(Никогда не тестировалось на стабильность)]]></value>
-			<value xml:lang="es"><![CDATA[Soporta sqlite2, el cual almacena los datos en archivos <br />En la instalacion, es necesario crear archivo de BD en un lugar inaccesible de la web.<br />(Testeo de la estabilización no realizada)]]></value>
-			<value xml:lang="tr"><![CDATA['Verileri dosya olarak kaydeden sqlite2 'yi veritabanı olarak kullanınız. <br />VT dosyası tarayıcıdan erişilebilir <b>olmamalıdır</b>.<br />(Sabitleme için hiç test edilmedi)]]></value>
-			<value xml:lang="vi"><![CDATA[Hỗ trợ <b>sqlite2</b> khi lưu Database thành File.<br />Khi cài đặt, File Database phải được tạo ra tại chỗ không sử dụng được từ Web.<br />(Không khẳng định sẽ hoạt động ổn định)]]></value>
-		</item>
-		<item name="sqlite3_pdo">
-			<value xml:lang="ko"><![CDATA[PHP의 PDO로 sqlite3를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Use sqlite3 as a database which supports PHP PDO.<br />DB file <b>must not be</b> accessible from the web.]]></value>
-			<value xml:lang="jp"><![CDATA[PHPのPDOを経由して「sqlite3」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブからアクセスできない場所に作成してください。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[用PHP的 PDO支持 sqlite3。<br />安装时DB文件应在web不能访问的地方生成。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[用 PHP 的 PDO 支援『sqlite3』。<br />安裝時，資料庫數據應建立在網頁無法訪問的地方。]]></value>
-			<value xml:lang="fr"><![CDATA[Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de Base de Données dans une place que l'on ne peut pas accéder par Web.]]></value>
-			<value xml:lang="ru"><![CDATA[Поддерживает sqlite3 посредством PHP's PDO.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.]]></value>
-			<value xml:lang="es"><![CDATA[A través de PDO de PHP soporta sqlite2 <br />En la instalación, es necesario crear archivo de BD en un lugar inaccesible de la web.]]></value>
-			<value xml:lang="tr"><![CDATA[PHP'nin PDO'sunun desteğiyle sqlite3'ü veritabanı olarak kullanınız.<br />VT dosyası tarayıcıdan erişilebilir <b>olmamalıdır</b>.]]></value>
-			<value xml:lang="vi"><![CDATA[Hỗ trợ <b>sqlite3</b> bởi PDO của PHP.<br />Khi cài đặt, File Database phải được tạo ra tại chỗ không sử dụng được từ Web.]]></value>
-		</item>
 		<item name="cubrid">
 			<value xml:lang="ko"><![CDATA[CUBRID DB를 이용합니다. <a href="http://xe.xpressengine.net/18180659" target="_blank">Manual</a>]]></value>
 			<value xml:lang="en"><![CDATA[Use CUBRID as a database. See <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a> for more info]]></value>
@@ -421,30 +397,10 @@
 			<value xml:lang="es"><![CDATA[Usar BD MSSQL.]]></value>
 			<value xml:lang="tr"><![CDATA[MSSQL'ü veritabanı olarak kullanın]]></value>
 		</item>
-		<item name="postgresql">
-			<value xml:lang="ko"><![CDATA[PostgreSql을 이용합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Use PostgreSql as a database.]]></value>
-			<value xml:lang="jp"><![CDATA[PostgreSql DBを利用します。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[使用PostgreSql DB。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[使用 PostgreSql DB。]]></value>
-			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de PostgreSql.]]></value>
-			<value xml:lang="ru"><![CDATA[Используем PostgreSql DB.]]></value>
-			<value xml:lang="es"><![CDATA[Usar BD PostgreSql.]]></value>
-			<value xml:lang="tr"><![CDATA[PostgreSql'ü veritabanı olarak kullanın.]]></value>
-			<value xml:lang="vi"><![CDATA[Sử dụng <b>PostgreSql</b> Database.]]></value>
-		</item>
-		<item name="firebird">
-			<value xml:lang="ko"><![CDATA[Firebird를 이용합니다.<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)]]></value>
-			<value xml:lang="en"><![CDATA[Use Firebird as a database.<br />You can create a database with (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)]]></value>
-			<value xml:lang="jp"><![CDATA[Firebird DBを利用します。<br />DB生成方法 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[使用Firebird DB。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[使用 Firebird DB。<br />DB 建立方式 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)]]></value>
-			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de firebird.]]></value>
-			<value xml:lang="ru"><![CDATA[Используем firebird DB.]]></value>
-			<value xml:lang="es"><![CDATA[Usar BD firebird. Cómo crear <br /> PP (crear base de datos "/ path / dbname.fdb" page_size = 8192 el conjunto de caracteres UTF8 por defecto;)]]></value>
-			<value xml:lang="tr"><![CDATA[Firebird'ü veritabanı olarak kullanın.<br /> (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;) ile veritabanı oluşturabilirsiniz]]></value>
-			<value xml:lang="vi"><![CDATA[Sử dụng <b>firebird</b> Database.]]></value>
-		</item>
+	</item>
+	<item name="can_use_when_installed">
+		<value xml:lang="ko"><![CDATA[설치하면 사용할 수 있음.]]></value>
+		<value xml:lang="en"><![CDATA[You can use when it has installed.]]></value>
 	</item>
 	<item name="form_title">
 		<value xml:lang="ko"><![CDATA[DB &amp; 관리자 정보 입력]]></value>
@@ -565,8 +521,8 @@
 		<value xml:lang="vi"><![CDATA[File Database]]></value>
 	</item>
 	<item name="db_table_prefix">
-		<value xml:lang="ko"><![CDATA[테이블 머리말]]></value>
-		<value xml:lang="en"><![CDATA[Table Header]]></value>
+		<value xml:lang="ko"><![CDATA[테이블 접두사]]></value>
+		<value xml:lang="en"><![CDATA[Table Prefix]]></value>
 		<value xml:lang="jp"><![CDATA[テーブルプレフィックス]]></value>
 		<value xml:lang="zh-CN"><![CDATA[前缀]]></value>
 		<value xml:lang="zh-TW"><![CDATA[前置字元]]></value>
@@ -578,7 +534,7 @@
 	</item>
 	<item name="db_info_desc">
 		<value xml:lang="ko"><![CDATA[<p><strong>DB 호스트 네임</strong>, <strong>DB Port</strong>, <strong>DB 아이디</strong>, <strong>DB 비밀번호</strong>, <strong>DB 이름</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p><p><strong>DB 테이블 머리말</strong> 정보는 사용자 정의 할 수 있습니다. 영문 소문자를 권장 합니다. 숫자를 포함할 수 있습니다. 특수 문자를 사용할 수 없습니다.</p>]]></value>
-		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table preface</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>]]></value>
+		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table prefix</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>]]></value>
 	　　<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong>, <strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
 	</item>
 	<item name="admin_title">

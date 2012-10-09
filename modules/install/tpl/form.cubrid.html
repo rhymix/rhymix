@@ -6,26 +6,42 @@
 			<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 				<p>{$XE_VALIDATOR_MESSAGE}</p>
 			</div>
-			<form rule="cubrid" action="./" method="post">
-			<input type="hidden" value="{getUrl('', 'act', $act, 'db_type', $db_type)}" name="error_return_url">
-			<input type="hidden" name="act" value="procCubridDBSetting" />
-			<input type="hidden" name="db_type" value="{$db_type}" />
-				<h2 class="h2">{$db_type}</h2>
-				<ul class="form formDbInfo">
-					<li><label for="dbHostName">{$lang->db_hostname}</label><input name="db_hostname" value="127.0.0.1" type="text" class="iText" id="dbHostName" /></li>
-					<li><label for="dbPort">{$lang->db_port}</label><input name="db_port" value="33000" type="text" class="iText" id="dbPort" /></li>
-					<li><label for="dbId">{$lang->db_userid}</label><input name="db_userid" type="text" class="iText" id="dbId" /></li>
-					<li><label for="dbPw">{$lang->db_password}</label><input name="db_password" type="password" class="iText" id="dbPw" /></li>
-					<li><label for="dbName">{$lang->db_name}</label><input name="db_database" type="text" class="iText" id="dbName" /></li>
-					<li><label for="dbPrefix">{$lang->db_table_prefix}</label><input name="db_table_prefix" type="text" class="iText" id="dbPrefix" value="xe" /></li>
-				</ul>
+			<form rule="cubrid" action="./" method="post" class="x_form-horizontal">
+				<input type="hidden" value="{getUrl('', 'act', $act, 'db_type', $db_type)}" name="error_return_url">
+				<input type="hidden" name="act" value="procCubridDBSetting" />
+				<input type="hidden" name="db_type" value="{$db_type}" />
+				<h2>{$db_type}</h2>
+				<div class="x_control-group">
+					<label for="dbHostName" class="x_control-label">{$lang->db_hostname}</label>
+					<div class="x_controls"><input name="db_hostname" value="127.0.0.1" type="text" id="dbHostName" required /></div>
+				</div>
+				<div class="x_control-group">
+					<label for="dbPort" class="x_control-label">{$lang->db_port}</label>
+					<div class="x_controls"><input name="db_port" value="33000" type="text" id="dbPort" required /></div>
+				</div>
+				<div class="x_control-group">
+					<label for="dbId" class="x_control-label">{$lang->db_userid}</label>
+					<div class="x_controls"><input name="db_userid" type="text" id="dbId" required /></div>
+				</div>
+				<div class="x_control-group">
+					<label for="dbPw" class="x_control-label">{$lang->db_password}</label>
+					<div class="x_controls"><input name="db_password" type="password" id="dbPw" required /></div>
+				</div>
+				<div class="x_control-group">
+					<label for="dbName" class="x_control-label">{$lang->db_name}</label>
+					<div class="x_controls"><input name="db_database" type="text" id="dbName" required /></div>
+				</div>
+				<div class="x_control-group">
+					<label for="dbPrefix" class="x_control-label">{$lang->db_table_prefix}</label>
+					<div class="x_controls"><input name="db_table_prefix" type="text" id="dbPrefix" value="xe" required /></div>
+				</div>
 				<div class="desc">{$lang->db_info_desc}</div>
 				<div class="ibtnArea">
-					<div class="fLeft">
-						<span class="ibtn icon"><span class="back"></span> <a href="{getUrl('', 'act', 'dispInstallSelectDB')}">{$lang->cmd_back}</a></span>
-					</div>
-					<div class="fRight">
-							<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_next}" /></span>
+					<span class="x_pull-left">
+						<a href="{getUrl('', 'act', 'dispInstallSelectDB')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
+					</span>
+					<div class="x_pull-right">
+						<button type="submit" class="x_btn x_btn-small x_btn-inverse">{$lang->cmd_next} <i class="x_icon-chevron-right x_icon-white"></i></button>
 					</div>
 				</div>
 			</form>

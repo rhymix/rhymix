@@ -6,7 +6,7 @@ body, input, textarea, select, table, button {font-family:Tahoma, Geneva, sans-s
 body{background:#3EAF0E -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ccc), to(#fff));background:#3EAF0E -moz-linear-gradient(top, #ccc, #fff);background:#3EAF0E -o-linear-gradient(top, #ccc, #fff)}
 img, fieldset {border:0}
 form, fieldset {margin:0;padding:0}
-em, address {font-style:normal}
+em{color:#ffc;font-weight:normal;font-style:normal}
 button{margin:0;padding:0;overflow:visible;cursor:pointer}
 a {text-decoration:none}
 a:hover, a:active, a:focus {text-decoration:underline}
@@ -17,6 +17,7 @@ a:hover, a:active, a:focus {text-decoration:underline}
 .x ul{margin-top:15px;margin-bottom:15px}
 .x input[type="radio"], 
 .x input[type="checkbox"]{margin:0}
+.x hr{border-bottom:0}
 /* Layout */
 #xei{width:800px;margin:0 auto;padding:120px 0 0 0}
 #xei #header{position:relative;background:#444;margin:0 0 1px 0;padding:10px 20px;color:#fff;border-radius:5px 5px 0 0}
@@ -90,7 +91,7 @@ a:hover, a:active, a:focus {text-decoration:underline}
 .select li.hover *{background:#444;color:#fff}
 .selectGo{border:1px solid #bababa;height:21px;width:28px;padding:0;*margin:-1px 0 -1px 4px;overflow:visible;background:#eee;vertical-align:middle;cursor:pointer;font:bold 11px Tahoma;line-height:19px;_line-height:normal;color:#767676}
 /* Content */
-.h2{font-size:18px;margin:0 20px 15px 20px;color:#ff9}
+h2{font-size:22px;margin:0 0 15px 0;color:#ff9;line-height:1}
 .item{position:relative}
 .iLabel{display:block;position:static;top:4px;left:5px;color:#eee}
 .iText{position:relative;padding:3px 4px;border:1px solid #444;border-right-color:#555;border-bottom-color:#555;background:transparent;color:#fff}
