@@ -613,8 +613,8 @@
 		<value xml:lang="vi"><![CDATA[SSO]]></value>
 	</item>
 	<item name="about_rewrite">
-		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/<strong>?document_srl=123</strong></em> 과 같이 복잡한 주소를 <em>http://yourdomain/<strong>123</strong></em> 과 같이 간단하게 줄일 수 있습니다. 이 기능을 사용하려면 웹 서버에서 rewrite_mod를 지원해야 합니다. 웹 서버에서 rewrite_mod를 지원하는지 여부는 서버 관리자에게 문의하세요.]]></value>
-		<value xml:lang="en"><![CDATA[If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123]]></value>
+		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/</em><strong>?document_srl=123</strong> 과 같이 복잡한 주소를 <em>http://yourdomain/</em><strong>123</strong> 과 같이 간단하게 줄일 수 있습니다. 웹 서버에서 <strong>rewrite_mod</strong>를 지원해야 합니다. 지원 여부는 서버 관리자에게 문의하세요.]]></value>
+		<value xml:lang="en"><![CDATA[If web server provides rewrite mod, long URL such as <em>http://blah/</em><strong>?document_srl=123</strong> can be shortened like <em>http://blah/</em><strong>123</strong>]]></value>
 		<value xml:lang="jp"><![CDATA[Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを、動的だけど「http://アドレス/123」のように静的なページに見せることができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[如果支援 rewrite 功能，可縮短冗長的網址。<br />例>『http://域名/?document_srl=123』縮短成『http://域名/123』。]]></value>

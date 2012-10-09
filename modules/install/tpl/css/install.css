@@ -7,17 +7,21 @@ body{background:#3EAF0E -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ccc), to(
 img, fieldset {border:0}
 form, fieldset {margin:0;padding:0}
 em{color:#ffc;font-weight:normal;font-style:normal}
+strong{color:#f60}
 button{margin:0;padding:0;overflow:visible;cursor:pointer}
 a {text-decoration:none}
 a:hover, a:active, a:focus {text-decoration:underline}
 /* Bootstrap Override */
 .x label[for],
-.x .x_form-horizontal .x_control-label{font-weight: bold}
+.x .x_form-horizontal .x_control-label{font-weight:bold}
 .x ol,
 .x ul{margin-top:15px;margin-bottom:15px}
 .x input[type="radio"], 
 .x input[type="checkbox"]{margin:0}
 .x hr{border-bottom:0}
+.x .x_control-group{padding-top: 8px;margin-bottom: 10px;border-top: 1px dotted #888;clear: both}
+.x .x_control-group:first-child, 
+.x .x_control-group:first-of-type{border-top: 0;padding-top: 0}
 /* Layout */
 #xei{width:800px;margin:0 auto;padding:120px 0 0 0}
 #xei #header{position:relative;background:#444;margin:0 0 1px 0;padding:10px 20px;color:#fff;border-radius:5px 5px 0 0}

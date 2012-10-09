@@ -8,33 +8,23 @@
 			</div>
 			<form action="./" method="post">
 				<input type="hidden" name="act" value="procConfigSetting" />
-				<ul class="form formXe">
-					<li>
-						<input name="use_rewrite" value="Y" <!--@if(function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules()))-->checked="checked"<!--@end--> type="checkbox" class="iCheck" id="rewrite" /> <label for="rewrite">{$lang->use_rewrite}</label>
-						<p>{$lang->about_rewrite}</p>
-					</li>
-					<li>
-						<div class="select open" style="width:540px;">
-							<span class="ctrl"><span class="arrow"></span></span>
-							<div class="myValue"></div>
-							<div class="iList">
-								<ul>
-									<!--@foreach($time_zone as $key => $val)-->
-									<li><input name="time_zone" id="{$key}" class="option" type="radio" value="{$key}" <!--@if($key==date('O'))-->checked="checked"<!--@end--> /><label for="{$key}">{$val}</label></li>
-									<!--@end-->
-								</ul>
-							</div>
-						</div>
-						<p>{$lang->about_time_zone}</p>
-					</li>
-				</ul>
+				<div class="x_control-group">
+					<label for="rewrite"><input name="use_rewrite" value="Y" checked="checked"|cond="function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules())" type="checkbox" id="rewrite" /> {$lang->use_rewrite}</label>
+					<p>{$lang->about_rewrite}</p>
+				</div>
+				<div class="x_control-group">
+					<select name="time_zone" style="width:100%">
+						<option loop="$time_zone => $key,$val" id="{$key}" value="{$key}" selected="selected"|cond="$key==date('O')">{$val}</option>
+					</select>
+					<p>{$lang->about_time_zone}</p>
+				</div>
 				<div class="ibtnArea">
-					<div class="fLeft">
-						<span class="ibtn icon"><span class="back"></span> <a href="#" onclick="document.backForm.submit();">{$lang->cmd_back}</a></span>
-					</div>
-					<div class="fRight">
-						<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_next}" /></span>
-					</div>
+					<span class="x_pull-left">
+						<button type="button" onclick="document.backForm.submit()" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</button>
+					</span>
+					<span class="x_pull-right">
+						<button type="submit" class="x_btn x_btn-small x_btn-inverse" id="task-settings">{$lang->cmd_next} <i class="x_icon-chevron-right x_icon-white"></i></button>
+					</span>
 				</div>
 			</form>
 			<form name="backForm" method="post" action="./">
