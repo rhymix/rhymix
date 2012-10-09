@@ -4,29 +4,23 @@
 		<include target="progress_menu.html" />
 		<div id="content">
 			<form method="post" action="./">
-			<input type="hidden" name="module" value="{$module}" />
-			<input type="hidden" name="act" value="dispInstallDBForm" />
-				<ul class="form formDbSelect">
-					<!--@foreach(DB::getEnableList() as $key => $val)-->
-					<li>
-						<input name="db_type" type="radio" value="{$val->db_type}" <!--@if(!$val->enable)-->disabled="disabled"<!--@end--> id="db_type_{$val->db_type}" <!--@if($val->db_type=="mysqli")-->checked="checked"<!--@end--> class="iRadio" id="cubrid" /> <label for="db_type_{$val->db_type}">{$val->db_type}</label>
-						<p>{$lang->db_desc[$val->db_type]}</p>
-					</li>
-					<!--@end-->
-					<!--@foreach(DB::getDisableList() as $key => $val)-->
-					<li>
-						<input name="db_type" type="radio" value="{$val->db_type}" <!--@if(!$val->enable)-->disabled="disabled"<!--@end--> id="db_type_{$val->db_type}" <!--@if($val->db_type=="mysqli")-->checked="checked"<!--@end--> class="iRadio" id="cubrid" /> <label for="db_type_{$val->db_type}">{$val->db_type}</label>
-						<p>{$lang->db_desc[$val->db_type]}</p>
-					</li>
-					<!--@end-->
-				</ul>
+				<input type="hidden" name="module" value="{$module}" />
+				<input type="hidden" name="act" value="dispInstallDBForm" />
+				<div class="x_control-group" loop="DB::getEnableList() => $key,$val">
+					<label for="db_type_{$val->db_type}"><input name="db_type" type="radio" value="{$val->db_type}" disabled="disabled"|cond="!$val->enable" id="db_type_{$val->db_type}" checked="checked"|cond="$val->db_type=='mysqli'" /> {$val->db_type}</label>
+					<p>{$lang->db_desc[$val->db_type]}</p>
+				</div>
+				<div class="x_control-group x_muted" loop="DB::getDisableList() => $key,$val">
+					<label for="db_type_{$val->db_type}"><input name="db_type" type="radio" value="{$val->db_type}" disabled="disabled"|cond="!$val->enable" id="db_type_{$val->db_type}" checked="checked"|cond="$val->db_type=='mysqli'" /> {$val->db_type}</label>
+					<p>{$lang->db_desc[$val->db_type]}</p>
+				</div>
 				<div class="ibtnArea">
-					<div class="fLeft">
-						<span class="ibtn icon"><span class="back"></span> <a href="{getUrl('', 'act', 'dispInstallCheckEnv')}">{$lang->cmd_back}</a></span>
-					</div>
-					<div class="fRight">
-						<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_next}" /></span>
-					</div>
+					<span class="x_pull-left">
+						<a href="{getUrl('', 'act', 'dispInstallCheckEnv')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
+					</span>
+					<span class="x_pull-right">
+						<button type="submit" class="x_btn x_btn-small x_btn-inverse">{$lang->cmd_next} <i class="x_icon-chevron-right x_icon-white"></i></button>
+					</span>
 				</div>
 			</form>
 		</div>
