@@ -2,15 +2,17 @@
 /* NHN (developers@xpressengine.com) */
 /* Element Reset */
 html, body{margin:0;min-height:100%}
-body, input, textarea, select, table, button {font-family:Tahoma, Geneva, sans-serif;font-size:12px}
-body{background:#3EAF0E -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ccc), to(#fff));background:#3EAF0E -moz-linear-gradient(top, #ccc, #fff);background:#3EAF0E -o-linear-gradient(top, #ccc, #fff)}
-img, fieldset {border:0}
-form, fieldset {margin:0;padding:0}
+body, input, textarea, select, table, button{font-family:Tahoma, Geneva, sans-serif;font-size:12px}
+body{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#ccc), to(#fff));background:-moz-linear-gradient(top, #ccc, #fff);background:-o-linear-gradient(top, #ccc, #fff)}
+img, fieldset{border:0}
+form, fieldset{margin:0;padding:0}
 em{color:#ffc;font-weight:normal;font-style:normal}
 strong{color:#f60}
 button{margin:0;padding:0;overflow:visible;cursor:pointer}
-a {text-decoration:none}
-a:hover, a:active, a:focus {text-decoration:underline}
+a{text-decoration:none}
+a:hover, 
+a:active, 
+a:focus{text-decoration:underline}
 /* Bootstrap Override */
 .x label[for],
 .x .x_form-horizontal .x_control-label{font-weight:bold}
@@ -19,103 +21,37 @@ a:hover, a:active, a:focus {text-decoration:underline}
 .x input[type="radio"], 
 .x input[type="checkbox"]{margin:0}
 .x hr{border-bottom:0}
-.x .x_control-group{padding-top: 8px;margin-bottom: 10px;border-top: 1px dotted #888;clear: both}
+.x .x_btn{text-decoration:none}
+.x .x_control-group{padding-top:8px;margin-bottom:10px;border-top:1px dotted #888;clear:both}
 .x .x_control-group:first-child, 
-.x .x_control-group:first-of-type{border-top: 0;padding-top: 0}
+.x .x_control-group:first-of-type{border-top:0;padding-top:0}
 /* Layout */
-#xei{width:800px;margin:0 auto;padding:120px 0 0 0}
-#xei #header{position:relative;background:#444;margin:0 0 1px 0;padding:10px 20px;color:#fff;border-radius:5px 5px 0 0}
-#xei #header h1{margin:0}
-#xei #header em{position:absolute;bottom:10px;right:20px;font-weight:bold;font-size:14px;color:#eee}
-#xei #header em strong{font-size:20px;color:#F60}
-#xei #body{width:580px;padding:0 0 0 220px;position:relative;*zoom:1}
-#xei #body:after{content:"";display:block;clear:both}
-#xei #progress{position:absolute;left:0;top:0;width:219px}
-#xei #progress ul{list-style:none;margin:0;padding:0}
-#xei #progress li{position:relative;margin:0 0 1px 0;vertical-align:top;line-height:40px;color:#999;text-indent:30px;background-color:#555;background-image:url(../img/icoStatus.gif);background-repeat:no-repeat;background-position:10px 0;*zoom:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#xei #progress li:last-child{border-radius:0 0 0 5px}
-#xei #progress li.done{background-position:10px -40px}
-#xei #progress li.active{background-color:#666;background-position:10px -80px;font-weight:bold;color:#fff;margin-right:-1px}
-#xei #content{position:relative;width:500px;min-height:145px;padding:40px;background:#666;color:#fff}
-#xei #content a{color:#FFC}
-/* Button */
-.ibtn,
-.ibtn *{position:relative;margin:0;padding:0;display:inline-block;height:30px;line-height:30px;text-decoration:none !important;border:0;font-size:12px;font-family:Tahoma, Sans-serif;white-space:nowrap;background:url(../img/btnPack.gif) no-repeat;vertical-align:top;overflow:visible;color:#eee}
-.ibtn {margin-right:4px;background-position:left -30px}
-.ibtn *{left:4px;cursor:pointer;_cursor:hand;padding:0 10px 0 6px;background-position:right -30px}
-.ibtn *:hover,
-.ibtn *:active,
-.ibtn *:focus{color:#ff0}
-.ibtn.strong *{font-weight:bold !important}
-.ibtn.icon *{padding-left:20px}
-.ibtn.icon span{width:20px;margin-right:-18px;padding:0 !important}
-.ibtn .check{background-position:4px -146px}
-.ibtn .back{background-position:-14px -146px}
-.ibtn .monitor{background-position:-37px -147px}
+.x{width:800px;margin:0 auto;padding:120px 0 0 0}
+.x #header{position:relative;background:#444;margin:0 0 1px 0;padding:10px 20px;color:#fff;border-radius:5px 5px 0 0}
+.x #header h1{margin:0}
+.x #header em{position:absolute;bottom:10px;right:20px;font-weight:bold;font-size:14px;color:#eee}
+.x #header em strong{font-size:20px;color:#F60}
+.x #body{width:580px;padding:0 0 0 220px;position:relative;*zoom:1}
+.x #body:after{content:"";display:block;clear:both}
+.x #progress{position:absolute;left:0;top:0;width:219px}
+.x #progress ul{list-style:none;margin:0;padding:0}
+.x #progress li{position:relative;margin:0 0 1px 0;vertical-align:top;line-height:40px;color:#999;text-indent:30px;background-color:#555;background-image:url(../img/icoStatus.gif);background-repeat:no-repeat;background-position:10px 0;*zoom:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.x #progress li:last-child{border-radius:0 0 0 5px}
+.x #progress li.done{background-position:10px -40px}
+.x #progress li.active{background-color:#666;background-position:10px -80px;font-weight:bold;color:#fff;margin-right:-1px}
+.x #content{position:relative;width:500px;min-height:145px;padding:40px;background:#666;color:#fff}
+.x #content a{color:#FFC}
 /* Button Area */
-.ibtnArea{position:absolute;bottom:-61px;right:0;width:540px;height:30px;margin:1px 0 0 0;padding:15px 20px;text-align:center;*zoom:1;color:#fff;background:#555;border-radius:0 0 5px 5px}
-.ibtnArea:after{content:"";display:block;clear:both}
-.ibtnArea .x_btn-inverse{color:#fff !important}
-.ibtnArea .x_btn>i{opacity:.75;filter:alpha(opacity=75)}
-/* table */
-.table{margin:0 20px 20px 20px}
-.table table{width:100%;border:0;border-top:1px solid #484848}
-.table caption{padding:8px 0;font-weight:bold;text-align:left;color:#fff}
-.table th,
-.table td{border:0;padding:8px 15px;vertical-align:top;text-align:left}
-.table th{color:#eee}
-.table td{color:#eee}
-.table td strong {color:#f60}
-.table thead th{border-bottom:1px solid #484848;background:#f8f8f8}
-.table tbody th{border-bottom:1px solid #484848;background:#555;white-space:nowrap}
-.table tfoot th{border-bottom:1px solid #484848}
-.table tbody td{border-bottom:1px solid #484848}
-.table tfoot td{border-bottom:1px solid #484848;font-weight:bold;color:#333}
-/* Select */
-.select{position:relative;line-height:normal;display:inline-block;*display:inline;vertical-align:middle;background:#555;text-align:left;*zoom:1}
-.select *{margin:0;padding:0;cursor:pointer;font-size:12px;font-family:Tahoma, Sans-serif}
-.select .myValue{position:relative;z-index:2;left:0;top:0;border:1px solid #999;color:#eee;line-height:19px;_line-height:normal;text-align:left;overflow:visible;background:transparent}
-.select .myValue.selected{font-weight:bold}
-.select.open .myValue,
-.select .myValue.outLine{border:1px solid #ccc}
-.select button.myValue{height:21px;width:100%;text-indent:5px;*text-indent:0;*padding-left:5px}
-.select div.myValue{height:19px;text-indent:8px}
-.select .ctrl{position:absolute;top:0;right:0;width:18px;height:19px;border:1px solid #999;border-left:1px solid #999;background:#444}
-.select .arrow{position:absolute;width:0;height:0;top:9px;right:6px;line-height:0;font-size:0;border-top:3px solid #999;border-left:3px solid #444;border-right:3px solid #444}
-.select div.aList,
-.select div.iList{display:none;position:absolute;top:20px;left:0;width:100%;border:0;border-top:1px solid #bababa;border-bottom:1px solid #bababa;background:#fff;overflow:auto;height:200px;}
-.select.open div.aList{display:block}
-.select ul{list-style:none}
-.select div.iList{display:none}
-.select.open div.iList{display:block}
-.select li{position:relative;overflow:hidden;white-space:nowrap;height:18px;margin:0 !important;border-left:1px solid #bababa;border-right:1px solid #bababa}
-.select li input.option{position:absolute;width:100%;height:20px;line-height:20px}
-.select li label{position:absolute;left:0;top:0;width:100%;text-indent:8px;*text-indent:6px;height:18px;line-height:18px;color:#eee;background:#555;font-weight:normal !important}
-.select li a{display:block;text-indent:8px;*text-indent:6px;height:18px;line-height:18px;color:#eee;background:#555;text-decoration:none !important}
-.select li.hover *{background:#444;color:#fff}
-.selectGo{border:1px solid #bababa;height:21px;width:28px;padding:0;*margin:-1px 0 -1px 4px;overflow:visible;background:#eee;vertical-align:middle;cursor:pointer;font:bold 11px Tahoma;line-height:19px;_line-height:normal;color:#767676}
+.x .ibtnArea{position:absolute;bottom:-61px;right:0;width:540px;height:30px;margin:1px 0 0 0;padding:15px 20px;text-align:center;*zoom:1;color:#fff;background:#555;border-radius:0 0 5px 5px}
+.x .ibtnArea:after{content:"";display:block;clear:both}
+.x .ibtnArea .x_btn-inverse{color:#fff !important}
+.x .ibtnArea .x_btn>i{opacity:.75;filter:alpha(opacity=75)}
 /* Content */
-h2{font-size:22px;margin:0 0 15px 0;color:#ff9;line-height:1}
-.item{position:relative}
-.iLabel{display:block;position:static;top:4px;left:5px;color:#eee}
-.iText{position:relative;padding:3px 4px;border:1px solid #444;border-right-color:#555;border-bottom-color:#555;background:transparent;color:#fff}
-.form{padding:0;margin:0 20px 20px 20px;list-style:none}
-.form li{margin:0 0 10px 0}
-.form.formFtp label,
-.form.formDbInfo label,
-.form.formAdmin label{display:block;margin:0 0 2px 0;color:#eee;font-weight:bold}
-.form.formDbSelect label,
-.form.formXe label{margin:0 0 2px 0;color:#eee;font-weight:bold}
-.form .iText{background:#555;padding:5px 10px;width:518px}
-.form select{background:#555;color:#fff}
-.form p{color:#ddd;margin:3px 0 15px 17px}
-.form strong{color:#f60}
-.form em{font-style:normal;color:#ffc}
-.form a{color:#fff;text-decoration:underline}
-.desc{padding:10px 20px;margin:15px 0;background:#555;color:#fff;line-height:1.5;border-radius:5px}
-.desc strong{color:#F60}
-.language{list-style:none;margin:0;padding:0 0 0 20px}
-.language li{position:relative;margin:0 0 7px 0}
-.language li>i{position:absolute;top:2px;left:-20px}
+.x h2{font-size:22px;margin:0 0 15px 0;color:#ff9;line-height:1}
+.x .desc{padding:10px 20px;margin:15px 0;background:#555;color:#fff;line-height:1.5;border-radius:5px}
+.x .desc strong{color:#F60}
+.x .language{list-style:none;margin:0;padding:0 0 0 20px}
+.x .language li{position:relative;margin:0 0 7px 0}
+.x .language li>i{position:absolute;top:2px;left:-20px}
 /* Waiting for server response */
-.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100; border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.update.png) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px}
+.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100;border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.loading.gif) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-weight:bold}

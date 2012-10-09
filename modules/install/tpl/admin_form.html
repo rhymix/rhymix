@@ -6,25 +6,42 @@
 			<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 				<p>{$XE_VALIDATOR_MESSAGE}</p>
 			</div>
-			<form rule="install" action="./" method="post">
-			<input type="hidden" name="act" value="procInstall" />
-				<ul class="form formAdmin">
-					<li><label for="aMail">{$lang->email_address}</label><input name="email_address" type="text" class="iText" id="aMail" /></li>
-					<li><label for="aPw1">{$lang->password1}</label><input name="password" type="password" class="iText" id="aPw1" /></li>
-					<li><label for="aPw2">{$lang->password2}</label><input name="password2" type="password" class="iText" id="aPw2" /></li>
-					<li><label for="aId">{$lang->user_id}</label><input name="user_id" type="text" value="admin" class="iText" id="aId" /></li>
-					<li><label for="aNick">{$lang->nick_name}</label><input name="nick_name" type="text" class="iText" id="aNick" /></li>
-				</ul>
+			<form rule="install" action="./" method="post" class="x_form-horizontal">
+				<input type="hidden" name="act" value="procInstall" />
+				<div class="x_control-group">
+					<label for="aMail" class="x_control-label">{$lang->email_address}</label>
+					<div class="x_controls">
+						<input name="email_address" type="email" id="aMail" required />
+					</div>
+				</div>
+				<div class="x_control-group">
+					<label for="aPw1" class="x_control-label">{$lang->password1}</label>
+					<div class="x_controls">
+						<input name="password" type="password" id="aPw1" required />
+					</div>
+				</div>
+				<div class="x_control-group">
+					<label for="aPw2" class="x_control-label">{$lang->password2}</label>
+					<div class="x_controls">
+						<input name="password2" type="password" id="aPw2" required />
+					</div>
+				</div>
+				<div class="x_control-group">
+					<label for="aNick" class="x_control-label">{$lang->nick_name}</label>
+					<div class="x_controls">
+						<input name="nick_name" type="text" id="aNick" required />
+					</div>
+				</div>
 				<div class="desc">
 					<p>{$lang->install_notandum}</p>
 				</div>
 				<div class="ibtnArea">
-					<div class="fLeft">
-						<span class="ibtn icon"><span class="back"></span> <a href="{getUrl('', 'act', 'dispInstallConfigForm')}">{$lang->cmd_back}</a></span>
-					</div>
-					<div class="fRight">
-						<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_complete}" /></span>
-					</div>
+					<span class="x_pull-left">
+						<a href="{getUrl('', 'act', 'dispInstallConfigForm')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
+					</span>
+					<span class="x_pull-right">
+						<button type="submit" class="x_btn x_btn-small x_btn-inverse x_disabled" id="task-done"><i class="x_icon-ok x_icon-white"></i> {$lang->cmd_complete}</button>
+					</span>
 				</div>
 			</form>
 		</div>
