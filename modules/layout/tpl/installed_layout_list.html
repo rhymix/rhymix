@@ -36,7 +36,7 @@
 					</block>
 				</td>
 				<td class="nowr">{$layout->path}</td>
-				<td class="nowr"><a cond="$layout->remove_url" class="x_btn x_btn-primary" href="{$layout->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
+				<td class="nowr"><a cond="$layout->remove_url" class="x_btn x_btn-danger" href="{$layout->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
 			</block>
 			<block cond="!$layout->title">
 				<td class="title">
@@ -48,7 +48,7 @@
 				<td class="nowr">-</td>
 				<td class="nowr">-</td>
 				<td class="nowr">{$layout->path}</td>
-				<td class="nowr"><a cond="$layout->remove_url" class="x_btn x_btn-primary" href="{$layout->remove_url}&amp;return_url={urlencodegetRequestUriByServerEnviroment()}">{$lang->cmd_delete}</a></td>
+				<td class="nowr"><a cond="$layout->remove_url" class="x_btn x_btn-danger" href="{$layout->remove_url}&amp;return_url={urlencodegetRequestUriByServerEnviroment()}">{$lang->cmd_delete}</a></td>
 			</block>
 		</tr>
 		</block>

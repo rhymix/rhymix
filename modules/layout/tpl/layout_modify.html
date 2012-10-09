@@ -1,7 +1,7 @@
 <include target="header.html" />
 <load target="js/layout_modify.js" />
 
-<h2 cond="$act == 'dispLayoutAdminModify'" class="h2">{$selected_layout->layout_title}</h2>
+<h2 cond="$act == 'dispLayoutAdminModify'">{$selected_layout->layout_title}</h2>
 
 <form id="config_form" ruleset="updateLayout"|cond="$act == 'dispLayoutAdminModify'" action="./" class="form" enctype="multipart/form-data" method="post">
 	<input type="hidden" name="module" value="layout" />
@@ -14,52 +14,58 @@
 	<div></div>
 </form>
 
-<div id="layout_config" class="form">
-	<ul>
-		<li>
-			<p class="q">{$lang->layout}</p>
-			<p class="a">{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</p>
-		</li>
-		<li cond="$selected_layout->path">
-			<p class="q">{$lang->path}</p>
-			<p class="a">{$selected_layout->path}</p>
-		</li>
-		<li cond="$selected_layout->description">
-			<p class="q">{$lang->description}</p>
-			<p class="a">{$selected_layout->description}</p>
-		</li>
-		<li cond="$selected_layout->author->homepage">
-			<p class="q">{$lang->author}</p>
-			<p class="a"><a href="{$selected_layout->author->homepage}" target="_blank">{$selected_layout->author->name}</a></p>
-		</li>
-		<li>
-			<p class="q">{$lang->title} <em>*</em></p>
-			<p class="a">
-				<input type="text" name="title" value="{$selected_layout->layout_title}" />
-			</p>
-			<p class="desc">{$lang->about_title}</p>
-		</li>
-		<li>
-			<p class="q">{$lang->header_script}</p>
-			<p class="a">
-				<textarea name="header_script" rows="8" cols="42">{$selected_layout->header_script}</textarea>
-			</p>
-			<p class="desc">{$lang->about_header_script}</p>
-		</li>
-	</ul>
+<div id="layout_config" class="x_form-horizontal">
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->layout}</label>
+		<div class="x_controls">
+			{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})
+		</div>
+	</div>
+	<div cond="$selected_layout->path" class="x_control-group">
+		<label class="x_control-label">{$lang->path}</label>
+		<div class="x_controls">
+			{$selected_layout->path}
+		</div>
+	</div>
+	<div cond="$selected_layout->description" class="x_control-group">
+		<label class="x_control-label">{$lang->description}</label>
+		<div class="x_controls">
+			{$selected_layout->description}
+		</div>
+	</div>
+	<div cond="$selected_layout->author->homepage" class="x_control-group">
+		<label class="x_control-label">{$lang->author}</label>
+		<div class="x_controls">
+			<a href="{$selected_layout->author->homepage}" target="_blank">{$selected_layout->author->name}</a>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="title">{$lang->title} <em>*</em></label>
+		<div class="x_controls">
+			<input type="text" id="title" name="title" value="{$selected_layout->layout_title}" />
+			<span class="x_help-block">{$lang->about_title}</span>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="header_script">{$lang->header_script}</label>
+		<div class="x_controls">
+			<textarea name="header_script" id="header_script" rows="8" cols="42">{$selected_layout->header_script}</textarea>
+			<span class="x_help-block">{$lang->about_header_script}</span>
+		</div>
+	</div>
 
 	<block cond="$act == 'dispLayoutAdminModify'" loop="$selected_layout->extra_var => $name, $var">
-		<block cond="!$not_first && !$var->group"><ul></block>
+		<block cond="!$not_first && !$var->group"><section class="section"></block>
 		<block cond="$group != $var->group">
-			<block cond="$not_first"></ul></block>
-			<h3 class="h3">{$var->group}</h3>
-			<ul>
+			<block cond="$not_first"></section></block>
+			<section class="section">
+			<h1>{$var->group}</h1>
 			{@$group = $var->group}
 		</block>
 		{@$not_first = true}
-		<li>
-			<p class="q">{$var->title}</p>
-			<div class="a">
+		<div class="x_control-group">
+			<label class="x_control-label" for="{$name}">{$var->title}</label>
+			<div class="x_controls">
 				<div cond="$var->type == 'text'" class="multiLangEdit">
 					{@$use_multilang = true}
 					<input type="hidden" name="{$name}" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" class="vLang" />
@@ -76,9 +82,11 @@
 
 				<block cond="$var->type == 'image'">
 					<input type="hidden" name="{$name}" id="file_{$name}" value="{$var->value}" />
-					<div id="preview_{$name}" style="display:none;"|cond="!$var->value">
-						<img src="../../../{$var->value}"|cond="$var->value" alt="" style="max-width: 250px" />
-						<input type="button" value="{$lang->cmd_delete}" onclick="deleteImage('{$name}')" />
+					<div id="preview_{$name}" class="x_thumbnail" style="<!--@if(!$var->value)-->display:none;<!--@end-->max-width:250px;margin-bottom:20px;">
+						<img src="../../../{$var->value}"|cond="$var->value" alt="" style="max-width:250px;" />
+						<div class="x_caption">
+							<input class="x_btn x_btn-danger x_btn-mini" type="button" value="{$lang->cmd_delete}" onclick="deleteImage('{$name}')" />
+						</div>
 					</div>
 					<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload">
 					<input type="hidden" name="module" value="layout" />
@@ -87,96 +95,77 @@
 					<input type="hidden" name="name" value="{$name}" />
 						<p>
 							<input type="file" name="img" id="file_select_{$name}" value="" />
-							<input type="submit" value="{$lang->cmd_submit}" />
+							<input  type="submit" value="{$lang->cmd_submit}" />
 						</p>
 					</form>
 				</block>
 
-				<select cond="$var->type == 'select'" name="{$name}">
+				<select cond="$var->type == 'select'" name="{$name}" id="{$name}" style="width:220px;">
 					<option loop="$var->options => $key, $val" value="{$key}" selected="selected"|cond="$key == $var->value">{$val->val}</option>
 				</select>
 
 				<block cond="$var->type == 'checkbox'">
 					<block loop="$var->options => $key, $val">
-						<label><input type="checkbox" name="{$name}[]" value="{$key}" checked="checked"|cond="@in_array($key, $var->value)" /> {$val->val}</label>
+						<label class="x_inline"><input type="checkbox" name="{$name}[]" value="{$key}" checked="checked"|cond="@in_array($key, $var->value)" /> {$val->val}</label>
 					</block>
 				</block>
 
 				<block cond="$var->type == 'radio'">
+					<div class="x_thumbnails">
 					<block loop="$var->options => $key, $val">
-						<block cond="$val->thumbnail">
-							{@
-								$_img_info = getImageSize($val->thumbnail);
-								$_height = $_img_info[1] + 40;
-								$_width = $img_info[0] + 20;
-								$_talign = 'center';
-							}
-						</block>
-						<block cond="!$val->thumbnail">
-							{@
-								$_width = 200;
-								$_height = 20;
-								$_talign = 'left';
-							}
-						</block>
-
-						<block cond="$var->thumbnail_exist">
-							<div cond= style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
-						</block>
-						<label>
-							<input type="radio" name="{$name}" value="{$key}" checked="checked"|cond="$key == $var->value"/>{$val->val}
-							<block cond="$val->thumbnail">
-								<br />
-								<img src="../../../{$val->thumbnail}" alt="{$val->val}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
-							</block>
-						</label>
-						<block cond="$var->thumbnail_exist">
+							<div class="x_span2 <!--@if($val->thumbnail)-->x_thumbnail<!--@end-->">
+								<img src="../../../{$val->thumbnail}" cond="$val->thumbnail" alt="{$val->val}" />
+								<div class="x_caption">
+									<label><input type="radio" name="{$name}" value="{$key}" checked="checked"|cond="$key == $var->value" /> {$val->val}</label>
+								</div>
 							</div>
-						</block>
 					</block>
+					</div>
 				</block>
+			<span class="x_help-block">{$var->description}</span>
 			</div>
-			<p class="desc">{$var->description}</p>
-		</li>
+		</div>
 	</block>
 	<block cond="$act == 'dispLayoutAdminModify'"></ul></block>
 
-	<h3 class="h3" cond="$selected_layout->menu">{$lang->menu}</h3>
-	<ul cond="$selected_layout->menu">
-		<li loop="$selected_layout->menu => $menu_name, $menu_info">
-			<p class="q">{$menu_info->title}({$menu_name})</p>
-			<p class="a">
-				<select name="{$menu_name}">
-					<option value="0">{$lang->cmd_select}</option>
-					<option loop="$menu_list => $key, $val" value="{$val->menu_srl}" selected="selected"|cond="$val->menu_srl == $menu_info->menu_srl">{$val->title}</option>
-				</select>
-				<a href="{getUrl('module','admin','act','dispMenuAdminSiteMap')}">{$lang->cmd_management}</a>
-			</p>
-		</li>
-		<li>
-			<p class="q">{$lang->not_apply_menu}</p>
-			<p class="a">
-				<input type="checkbox" name="apply_layout" id="apply_layout" value="Y" /> <label for="apply_layout">{$lang->about_not_apply_menu}</label>
-			</p>
-		</li>
-		<li cond="$selected_layout->layout_type == 'M'">
-			<p class="q">{$lang->apply_mobile_view}</p>
-			<p class="a">
-				<input type="checkbox" name="apply_mobile_view" id="apply_mobile_layout" value="Y" /> <label for="apply_mobile_layout">{$lang->about_apply_mobile_view}</label>
-			</p>
-		</li>
-	</ul>
+	<section class="section">
+		<h1 cond="$selected_layout->menu">{$lang->menu}</h1>
+		<div cond="$selected_layout->menu" class="x_form-horizontal">
+			<div loop="$selected_layout->menu => $menu_name, $menu_info" class="x_control-group">
+				<label class="x_control-label" for="{$menu_name}">{$menu_info->title}({$menu_name})</label>
+				<div class="x_controls">
+					<select name="{$menu_name}" id="{$menu_name}" style="width:220px">
+						<option value="0">{$lang->cmd_select}</option>
+						<option loop="$menu_list => $key, $val" value="{$val->menu_srl}" selected="selected"|cond="$val->menu_srl == $menu_info->menu_srl">{$val->title}</option>
+					</select>
+					<a class="x_btn" href="{getUrl('module','admin','act','dispMenuAdminSiteMap')}">{$lang->cmd_management}</a>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->not_apply_menu}</label>
+				<div class="x_controls">
+					<label class="x_inline"><input type="checkbox" name="apply_layout" id="apply_layout" value="Y" /> {$lang->about_not_apply_menu}</label>
+				</div>
+			</div>
+			<div cond="$selected_layout->layout_type == 'M'" class="x_control-group">
+				<label class="x_control-label">{$lang->apply_mobile_view}</label>
+				<div class="x_controls">
+					<label class="x_inline"><input type="checkbox" name="apply_mobile_view" id="apply_mobile_layout" value="Y" /> {$lang->about_apply_mobile_view}</label>
+				</div>
+			</div>
+		</div>
+	</section>
 
-	<div class="btnArea">
-		<span class="etc">
+	<div class="x_clearfix btnArea">
+		<span class="x_btn-group x_pull-left">
 			<!--@if($layout)-->
-			<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout)}">{$lang->cmd_list}</a></span>
+			<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout)}">{$lang->cmd_list}</a>
 			<!--@else-->
-			<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList')}">{$lang->cmd_list}</a></span>
+			<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList')}">{$lang->cmd_list}</a>
 			<!--@end-->
 		</span>
-		<span class="btn medium">
-			<input type="submit" value="{$lang->cmd_insert}"|cond="$act == 'dispLayoutAdminInsert'" value="{$lang->cmd_save}"|cond="$act == 'dispLayoutAdminModify'" onclick="doSubmitConfig()"/>
+		<span class="x_btn-group x_pull-right">
+			<input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_insert}"|cond="$act == 'dispLayoutAdminInsert'" value="{$lang->cmd_save}"|cond="$act == 'dispLayoutAdminModify'" onclick="doSubmitConfig()"/>
 		</span>
 	</div>
 	<include target="include.multilang.html" />

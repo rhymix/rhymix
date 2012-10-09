@@ -355,28 +355,6 @@
         }
 
         /**
-         * Pop-up details of the layout(conf/info.xml)
-		 * @deprecated
-		 * @return void
-         **/
-        function dispLayoutAdminInfo() {
-            // Get the layout information
-            $oLayoutModel = &getModel('layout');
-            $layout_info = $oLayoutModel->getLayoutInfo(Context::get('selected_layout'));
-            Context::set('layout_info', $layout_info);
-            // Set the layout to be pop-up
-            $this->setLayoutFile('popup_layout');			
-			
-			$security = new Security();
-			$security->encodeHTML('layout_list..');	
-			$security->encodeHTML('layout_list..author..');				
-			$security->encodeHTML('layout_list..history..');
-			$security->encodeHTML('layout_list..history..author..');				
-            // Set a template file
-            $this->setTemplateFile('layout_detail_info');
-        }
-
-        /**
          * Modify admin layout of faceoff
 		 * @deprecated
 		 * @return void
@@ -422,26 +400,6 @@
             $oWidgetController->setWidgetCodeInJavascriptMode();
             // Set a template file
             $this->setTemplateFile('faceoff_layout_edit');
-        }
-
-        /**
-         * display used images info for faceoff
-		 * @deprecated
-		 * @return void
-         **/
-        function dispLayoutAdminLayoutImageList(){
-            $layout_srl = Context::get('layout_srl');
-            $oLayoutModel = &getModel('layout');
-            // Image List
-            $layout_image_list = $oLayoutModel->getUserLayoutImageList($layout_srl);
-            Context::set('layout_image_list',$layout_image_list);
-            // Path
-            $layout_image_path = $oLayoutModel->getUserLayoutImagePath($layout_srl);
-            Context::set('layout_image_path',$layout_image_path);
-
-            $this->setLayoutFile('popup_layout');
-
-            $this->setTemplateFile('layout_image_list');
         }
 
         /**

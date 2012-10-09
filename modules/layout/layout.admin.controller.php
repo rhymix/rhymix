@@ -235,10 +235,13 @@
 			if(!$force)
 			{
 				$layoutInfo = $oLayoutModel->getLayout($layout_srl);
-				$layoutList = $oLayoutModel->getLayoutInstanceList($layoutInfo->site_srl, $layoutInfo->layout_type, $layoutInfo->layout, array('layout_srl'));
-				if(count($layoutList) <= 1)
+				if($layoutInfo)
 				{
-					return new Object(-1, 'msg_at_least_one_layout');
+					$layoutList = $oLayoutModel->getLayoutInstanceList($layoutInfo->site_srl, $layoutInfo->layout_type, $layoutInfo->layout, array('layout_srl'));
+					if(count($layoutList) <= 1)
+					{
+						return new Object(-1, 'msg_at_least_one_layout');
+					}
 				}
 			}
 
