@@ -56,6 +56,10 @@
 			<value xml:lang="en"><![CDATA[Enter Administrator information]]></value>
 			<value xml:lang="jp"><![CDATA[管理者情報入力]]></value>
 		</item>
+		<item name="configManually">
+			<value xml:lang="ko"><![CDATA[db.config.php 생성]]></value>
+			<value xml:lang="en"><![CDATA[db.config.php Creation]]></value>
+		</item>
 	</item>
 	<item name="install_condition_enable">
 		<value xml:lang="ko"><![CDATA[설치가 가능합니다.]]></value>
@@ -978,5 +982,9 @@
 		<value xml:lang="es"><![CDATA[설치된 XE의 FTP 절대경로 설정]]></value>
 		<value xml:lang="tr"><![CDATA[XE Salt FTP Yolu]]></value>
 		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP]]></value>
+	</item>
+	<item name="db_config_php_validation">
+		<value xml:lang="ko"><![CDATA[db.config.php 유효성 확인]]></value>
+		<value xml:lang="en"><![CDATA[Validation of db.config.php]]></value>
 	</item>
 </lang>
