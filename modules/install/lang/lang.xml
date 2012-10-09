@@ -65,6 +65,10 @@
 		<value xml:lang="ko"><![CDATA[자세히]]></value>
 		<value xml:lang="en"><![CDATA[Details]]></value>
 	</item>
+	<item name="advanced_setup">
+		<value xml:lang="ko"><![CDATA[고급 설정]]></value>
+		<value xml:lang="en"><![CDATA[Advanced Setup]]></value>
+	</item>
 	<item name="install_ftp_reason">
 		<value xml:lang="ko"><![CDATA[FTP 정보를 등록하는 이유.]]></value>
 		<value xml:lang="en"><![CDATA[Reason of FTP info is needed.]]></value>
@@ -488,7 +492,7 @@
 	</item>
 	<item name="db_password">
 		<value xml:lang="ko"><![CDATA[DB 비밀번호]]></value>
-		<value xml:lang="en"><![CDATA[DB Password]]></value>
+		<value xml:lang="en"><![CDATA[DB PW]]></value>
 		<value xml:lang="jp"><![CDATA[パスワード]]></value>
 		<value xml:lang="zh-CN"><![CDATA[DB密码]]></value>
 		<value xml:lang="zh-TW"><![CDATA[密碼]]></value>

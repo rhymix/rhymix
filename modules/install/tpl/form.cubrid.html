@@ -12,14 +12,6 @@
 				<input type="hidden" name="db_type" value="{$db_type}" />
 				<h2>{$db_type}</h2>
 				<div class="x_control-group">
-					<label for="dbHostName" class="x_control-label">{$lang->db_hostname}</label>
-					<div class="x_controls"><input name="db_hostname" value="127.0.0.1" type="text" id="dbHostName" required /></div>
-				</div>
-				<div class="x_control-group">
-					<label for="dbPort" class="x_control-label">{$lang->db_port}</label>
-					<div class="x_controls"><input name="db_port" value="33000" type="text" id="dbPort" required /></div>
-				</div>
-				<div class="x_control-group">
 					<label for="dbId" class="x_control-label">{$lang->db_userid}</label>
 					<div class="x_controls"><input name="db_userid" type="text" id="dbId" required /></div>
 				</div>
@@ -31,11 +23,22 @@
 					<label for="dbName" class="x_control-label">{$lang->db_name}</label>
 					<div class="x_controls"><input name="db_database" type="text" id="dbName" required /></div>
 				</div>
-				<div class="x_control-group">
-					<label for="dbPrefix" class="x_control-label">{$lang->db_table_prefix}</label>
-					<div class="x_controls"><input name="db_table_prefix" type="text" id="dbPrefix" value="xe" required /></div>
+				<p style="text-align:right"><a href="#advanced" data-toggle="#advanced">{$lang->advanced_setup}</a></p>
+				<div id="advanced" style="display:none">
+					<div class="x_control-group">
+						<label for="dbHostName" class="x_control-label">{$lang->db_hostname}</label>
+						<div class="x_controls"><input name="db_hostname" value="127.0.0.1" type="text" id="dbHostName" required /></div>
+					</div>
+					<div class="x_control-group">
+						<label for="dbPort" class="x_control-label">{$lang->db_port}</label>
+						<div class="x_controls"><input name="db_port" value="33000" type="text" id="dbPort" required /></div>
+					</div>
+					<div class="x_control-group">
+						<label for="dbPrefix" class="x_control-label">{$lang->db_table_prefix}</label>
+						<div class="x_controls"><input name="db_table_prefix" type="text" id="dbPrefix" value="xe" required /></div>
+					</div>
+					<div class="desc">{$lang->db_info_desc}</div>
 				</div>
-				<div class="desc">{$lang->db_info_desc}</div>
 				<div class="ibtnArea">
 					<span class="x_pull-left">
 						<a href="{getUrl('', 'act', 'dispInstallSelectDB')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
