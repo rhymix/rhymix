@@ -142,6 +142,7 @@
 			// Convert widgets and others
 			$oContext = &Context::getInstance();
 			Context::set('layout_tpl', $layout_tpl);
+            $this->setTemplatePath($this->module_path.'tpl');
 			$this->setTemplateFile('layout_preview');
 		}
 		/**
