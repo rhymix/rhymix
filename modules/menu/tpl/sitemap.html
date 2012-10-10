@@ -275,31 +275,31 @@
 	<div class="col" id="design">
 		<fieldset>
 			<h1>디자인</h1>
+			<form action="./" target="xe_preview" class="_preview_form" method="post">
+			<input type="hidden" name="skin_vars" value="{}"/>
 			<div class="x_tabbable">
 				<ul class="x_nav x_nav-tabs">
 					<li class="x_active"><a href="#pc">PC</a></li>
 					<li><a href="#mobile">모바일</a></li>
 				</ul>
-				<form action="./" target="xe_preview" class="_preview_form" method="post">
-				<input type="hidden" name="data" value="{skin_vars:{}}"/>
 				<div class="x_tab-content">
 					<div class="x_tab-pane x_active" id="pc">
 						<div style="width:260px;height:200px;position:relative;border:1px solid; overflow:hidden">
-							<iframe class="_pc_preview" src="http://naver.com" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
+							<iframe class="_pc_preview" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
 						</div>
 						<!--img src="http://naradesign.net/photo/DSCN0687.JPG" alt="현재 설정된 PC 레이아웃"-->
 							<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="크게 보기"/>
 					</div>
 					<div class="x_tab-pane" id="mobile">
 						<div style="width:260px;height:200px;position:relative;border:1px solid">
-							<iframe class="_mobile_preview" src="http://naver.com" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
+							<iframe class="_mobile_preview" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
 						</div>
 						<!--img src="http://naradesign.net/photo/DSCN0810.JPG" alt="현재 설정된 모바일 레이아웃"-->
 						<a href="#" target="_blank" class="x_icon-zoom-in _mobile_preview_open" title="새창">크게 보기</a>
 					</div>
 				</div>
-				</form>
 			</div>
+			</form>
 			<ul class="nav _itemList">
 				<script id="tmpl_layoutItem" type="text/x-jquery-tmpl">
 				<li><a href="#layout" data-admin-show="#layout">레이아웃 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -320,7 +320,7 @@
 		<form action="">
 			<h1>레이아웃</h1>
 			<label>
-				<input type="checkbox" title="사이트 기본 레이아웃 사용"> 사이트 기본 레이아웃 사용
+				<input type="checkbox" class="_chkUseDefaultLayout" title="사이트 기본 레이아웃 사용"> 사이트 기본 레이아웃 사용
 				<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 레이아웃 설정</a>
 			</label>
 			<label>
@@ -1822,6 +1822,11 @@ jQuery(function($){
 	
 	$( "#tmpl_layoutItem" ).template( "design_layoutItem" );
 	$( "#tmpl_skinItem" ).template( "deisgn_skinItem" );
+	// remove automatically added fields.
+	var $previewForm = $("._preview_form");
+	$previewForm.find('input[name=act]').remove();
+	$previewForm.find('input[name=mid]').remove();
+	$previewForm.find('input[name=vid]').remove();
 	$('#design').bind('show', function(){
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
@@ -1880,7 +1885,9 @@ jQuery(function($){
 		//ev.preventDefault();
 		//
 	});
-	
+
+	$('#layout ._chkUseDefaultLayout').click(function(){
+	});
 	$('._deleteMenu').click(function(){
 		confirmDialog({
 			sTitle : "메뉴를 삭제 하겠습니까?",
