@@ -332,9 +332,8 @@
 					</li>
 					<li>
 						<label><input type="radio" name="layout_local" title="엔터프라이즈"> 엔터프라이즈</label>
-						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
+						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다.">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
-							<i class="x_icon-ok"></i>
 						</button>
 						<ul>
 							<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -345,9 +344,8 @@
 					</li>
 					<li>
 						<label><input type="radio" name="layout_local" title="엔터프라이즈"> 엔터프라이즈</label>
-						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
+						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다.">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
-							<i class="x_icon-ok"></i>
 						</button>
 						<ul>
 							<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -404,9 +402,8 @@
 				<ul>
 					<li class="selected">
 						<h3>엔터프라이즈</h3>
-						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
+						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다.">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
-							<i class="x_icon-ok"></i>
 						</button>
 						<ul>
 							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -415,9 +412,8 @@
 					</li>
 					<li>
 						<h3>엔터프라이즈</h3>
-						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
+						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다.">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
-							<i class="x_icon-ok"></i>
 						</button>
 						<ul>
 							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -642,15 +638,10 @@
 .theme .list>ul>li{padding:8px 0 8px 120px;border-top:1px dashed #ddd;position:relative}
 .theme .list>ul>li:first-child{border:0}
 .theme .list>ul>li>label{position:relative;color:#333;font-size:13px;white-space:nowrap;line-height:15px;margin:0 0 0 -120px;padding:0;border-bottom:0}
-.theme .item{position:absolute;margin:0 -220px 0 0;left:0;top:28px}
+.theme .item{position:relative;float:left;margin:5px -110px 0 -120px;display:inline}
+.theme .selected{background:#FFC}
 .theme .selected>label{font-weight:bold}
-.theme .selected>.item{border:3px solid #F93}
-.theme .selected>.item>img{margin:-3px}
-.theme .item>i{display:none}
-.theme .item:hover>i,
-.theme .item:focus>i,
-.theme .selected>.item>i{display:block;position:absolute;bottom:0;right:0;background-color:#fff;width:24px;height:24px;opacity:.75;filter:alpha(opacity=75);background-position:-283px 5px}
-.theme ul ul{white-space:nowrap}
+.theme ul ul{white-space:nowrap;float:left;width:100%;margin:5px 0 0 0}
 .theme ul ul a>i{position:absolute;top:2px;right:2px}
 .theme ul ul>li>*{display:block;text-align:left;position:relative;text-decoration:none;padding:0 24px 0 5px;border-radius:3px;color:#000;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
 .theme ul ul>li>*:hover,
