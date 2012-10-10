@@ -40,7 +40,7 @@
 			</script>
 		</section>
 		<div class="x_btn-group">
-			<button type="button" class="x_btn x_btn-small x_btn-inverse _addSiteMap"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
+			<button type="button" class="x_btn x_btn-inverse _addSiteMap"><i class="x_icon-plus x_icon-white"></i> 사이트맵 추가</button>
 		</div>
 	</div>
 	<div class="col" id="propertiesRoot">
@@ -87,7 +87,7 @@
 				<li><a href="#add_menu" data-admin-show="#add_menu">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
 			</ul>
 			<div class="x_btn-group">
-				<a href="#download" class="x_btn x_btn-small x_btn-inverse" data-admin-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입 설치</a>
+				<a href="#download" class="x_btn x_btn-inverse" data-admin-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입 설치</a>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#add">&times;</button>
@@ -131,7 +131,7 @@
 				</li>
 			</ul>
 			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-small x_btn-primary _save">확인</button>
+				<button type="button" class="x_btn x_btn-primary _save">확인</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#add_menu">&times;</button>
@@ -225,8 +225,8 @@
 				</li>
 			</ul>
 			<div class="btnBoth">
-				<button type="reset" class="x_btn x_btn-small x_pull-left" data-admin-hide="#default">취소</button>
-				<button type="button" class="x_btn x_btn-small x_btn-primary x_pull-right _save">확인</button>
+				<button type="reset" class="x_btn x_pull-left" data-admin-hide="#default">취소</button>
+				<button type="button" class="x_btn x_btn-primary x_pull-right _save">확인</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#default">&times;</button>
@@ -240,8 +240,8 @@
 					<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
 				</figure>
 				<div class="btnBoth">
-					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
-					<button type="button" class="fileTrigger x_btn x_btn-small x_btn-primary x_pull-right">변경</button>
+					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
+					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">변경</button>
 					<input type="file">
 				</div>
 			</form>
@@ -252,8 +252,8 @@
 					<!--<img src="" alt="마우스 오버 버튼 이미지">-->
 				</figure>
 				<div class="btnBoth">
-					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
-					<button type="button" class="fileTrigger x_btn x_btn-small x_btn-primary x_pull-right">이미지 올리기</button>
+					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
+					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">이미지 올리기</button>
 					<input type="file">
 				</div>
 			</form>
@@ -264,8 +264,8 @@
 					<!--<img src="" alt="선택 됨 버튼 이미지">-->
 				</figure>
 				<div class="btnBoth">
-					<button type="button" class="fileRemover x_btn x_btn-small x_pull-left">삭제</button>
-					<button type="button" class="fileTrigger x_btn x_btn-small x_btn-primary x_pull-right">이미지 올리기</button>
+					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
+					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">이미지 올리기</button>
 					<input type="file">
 				</div>
 			</form>
@@ -310,8 +310,8 @@
 				</script>
 			</ul>
 			<div class="btnBoth">
-				<button type="reset" class="x_btn x_btn-small x_pull-left">취소</button>
-				<button type="button" class="x_btn x_btn-small x_btn-primary x_pull-right">저장</button>
+				<button type="reset" class="x_btn x_pull-left">취소</button>
+				<button type="button" class="x_btn x_btn-primary x_pull-right">저장</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#design">&times;</button>
@@ -320,13 +320,17 @@
 		<form action="">
 			<h1>레이아웃</h1>
 			<label>
-				<input type="checkbox" checked title="사이트 기본 레이아웃 사용"> 사이트 기본 레이아웃 사용
-				<a href="#siteDefaultDesign" class="x_icon-share-alt">사이트 기본 레이아웃 설정</a>
+				<input type="checkbox" title="사이트 기본 레이아웃 사용"> 사이트 기본 레이아웃 사용
+				<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 레이아웃 설정</a>
+			</label>
+			<label>
+				<input type="checkbox" checked title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
 			</label>
 			<div class="list">
 				<h2>사용할 수 있는 레이아웃 목록</h2>
 				<ul>
-					<li>
+					<li class="selected">
+						<h3>엔터프라이즈</h3>
 						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
 							<i class="x_icon-ok"></i>
@@ -339,6 +343,7 @@
 						</ul>
 					</li>
 					<li>
+						<h3>엔터프라이즈</h3>
 						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
 							<i class="x_icon-ok"></i>
@@ -352,7 +357,7 @@
 					</li>
 				</ul>
 				<div class="x_btn-group">
-					<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 레이아웃 설치</a>
+					<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 레이아웃 설치</a>
 				</div>
 			</div>
 		</form>
@@ -391,12 +396,13 @@
 			<h1>스킨</h1>
 			<label>
 				<input type="checkbox" checked title="사이트 기본 스킨 사용"> 사이트 기본 스킨 사용
-				<a href="#siteDefaultDesign" class="x_icon-share-alt">사이트 기본 스킨 설정</a>
+				<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 스킨 설정</a>
 			</label>
 			<div class="list">
 				<h2>사용할 수 있는 스킨 목록</h2>
 				<ul>
-					<li>
+					<li class="selected">
+						<h3>엔터프라이즈</h3>
 						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
 							<i class="x_icon-ok"></i>
@@ -407,6 +413,7 @@
 						</ul>
 					</li>
 					<li>
+						<h3>엔터프라이즈</h3>
 						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 스킨이 적용 됐습니다.')">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
 							<i class="x_icon-ok"></i>
@@ -418,7 +425,7 @@
 					</li>
 				</ul>
 				<div class="x_btn-group">
-					<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-small x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
+					<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
 				</div>
 			</div>
 		</form>
@@ -510,7 +517,7 @@
 				</li>
 			</ul>
 			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-small x_btn-primary">확인</button>
+				<button type="button" class="x_btn x_btn-primary">확인</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#auth">&times;</button>
@@ -621,9 +628,9 @@
 .download a.x_icon-download-alt:focus{background-color:#333}
 .download p>i{font-style:normal;color:#ccc}
 /* Theme(layout|skin) */
-.theme img{width:220px}
+.theme img{width:110px}
 .theme label{margin:0;padding:8px 0;position:relative;border-bottom:1px solid #ddd}
-.theme label>a{position:absolute;top:4px;right:0;width:24px;height:24px;border-radius:3px;background-position:-330px -91px;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
+.theme label>a{position:absolute;top:4px;right:0;width:24px;height:24px;border-radius:3px;background-position:-427px 5px;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
 .theme label>a:hover,
 .theme label>a:focus{background-color:#000;background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png)}
 .theme h2{font-size:14px;border-bottom:1px solid #ddd;margin:0;padding:15px 0 8px 0}
@@ -631,12 +638,16 @@
 .theme ul{margin:0;padding:0;list-style:none}
 .theme li{zoom:1}
 .theme li:after{content:"";display:block;clear:both}
-.theme .list>ul>li{height:146px;padding:8px 0 8px 230px;border-top:1px dashed #ddd;position:relative}
+.theme .list>ul>li{height:93px;padding:8px 0 8px 120px;border-top:1px dashed #ddd;position:relative}
 .theme .list>ul>li:first-child{border:0}
-.theme .item{position:absolute;margin:0 -220px 0 0;left:0;top:8px}
+.theme .list>ul>li>h3{position:relative;color:#333;font-size:13px;white-space:nowrap;line-height:15px;margin:0 0 5px -120px}
+.theme .item{position:absolute;margin:0 -220px 0 0;left:0;top:28px}
+.theme .selected>.item{border:3px solid #F93}
+.theme .selected>.item>img{margin:-3px}
 .theme .item>i{display:none}
 .theme .item:hover>i,
-.theme .item:focus>i{display:block;position:absolute;bottom:0;right:0;background-color:#fff;width:24px;height:24px;opacity:.75;filter:alpha(opacity=75);background-position:-283px 5px}
+.theme .item:focus>i,
+.theme .selected>.item>i{display:block;position:absolute;bottom:0;right:0;background-color:#fff;width:24px;height:24px;opacity:.75;filter:alpha(opacity=75);background-position:-283px 5px}
 .theme ul ul{white-space:nowrap}
 .theme ul ul a>i{position:absolute;top:2px;right:2px}
 .theme ul ul>li>*{display:block;text-align:left;position:relative;text-decoration:none;padding:0 24px 0 5px;border-radius:3px;color:#000;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
@@ -2081,12 +2092,18 @@ setTimeout(function(){
 // Theme(layout | skin) list toggle
 	$('.theme .list').each(function(){
 		var $this = $(this);
-		var $check = $this.prev('label').children('input:checkbox');
+		var $label_1 = $this.parent('form').children('label:eq(0)');
+		var $label_2 = $this.parent('form').children('label:eq(1)');
+		var $check = $this.siblings('label').children('input:checkbox');
 		function toggleList(){
-			if($check.is(':checked')){
+			if($label_1.children(':checkbox').is(':checked')){
+				$this.hide();
+				$label_2.hide().children(':checkbox').removeAttr('checked');
+			} else if($label_2.children(':checkbox').is(':checked')){
 				$this.hide();
 			} else {
 				$this.show();
+				$label_2.show().children(':checkbox').removeAttr('checked');
 			}
 		}
 		$(window).load(toggleList);
