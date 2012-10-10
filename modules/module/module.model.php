@@ -233,8 +233,38 @@
 					$oCacheHandler->put($cache_key,$output);
 				}
 			}
+			else
+			{
+				$moduleInfo = $coutput->data;
+			}
 
 			$moduleInfo->is_layout_fix = ($moduleInfo->layout_srl == -1000) ? 'N' : 'Y';
+			if($moduleInfo->is_layout_fix == 'N' || $moduleInfo->is_skin_fix == 'N')
+			{
+				$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $moduleInfo->site_srl);
+				@include($designInfoFile);
+			}
+			
+			if($moduleInfo->is_layout_fix == 'N')
+			{
+				$moduleInfo->layout_srl = $designInfo->layout_srl;
+			}
+
+			if($moduleInfo->is_skin_fix == 'N')
+			{
+				$moduleInfo->skin = $designInfo->module->{$moduleInfo->module}->skin;
+
+				$skinVars = $designInfo->module->{$moduleInfo->module}->skin_vars;
+
+				if($skinVars)
+				{
+					$skinVars = unserialize($skinVars);
+					foreach($skinVars as $key => $val)
+					{
+						$moduleInfo->{$key} = $val;
+					}
+				}
+			}
 
             $moduleInfo = $this->addModuleExtraVars($moduleInfo);
 
