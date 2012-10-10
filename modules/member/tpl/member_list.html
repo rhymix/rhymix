@@ -21,7 +21,7 @@
 			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}</a>
 		</div>
 		<div class="x_clearfix" style="margin-bottom:-48px">
-		<div class="x_pull-right">
+		<div class="x_pull-right x_btn-group">
 			<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
 			<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
 		</div>
@@ -86,7 +86,7 @@
 		</table>
 	</div>
 	<div class="x_clearfix">
-	<div class="x_pull-right">
+	<div class="x_pull-right x_btn-group">
 		<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
 		<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
 	</div>
@@ -139,8 +139,7 @@
 	</form>
 </div>
 <div class="search">
-	<form action="" class="pagination" method="post">
-		<input type="hidden" name="error_return_url" value="" />
+	<form cond="$page_navigation" action="./" class="x_pagination x_pagination-centered" no-error-return-url="true">
 		<input type="hidden" name="module" value="{$module}" />
 		<input type="hidden" name="act" value="{$act}" />
 		<input cond="$order_target" type="hidden" name="order_target" value="{$order_target}" />
@@ -149,32 +148,39 @@
 		<input cond="$childrenList" type="hidden" name="childrenList" value="{$childrenList}" />
 		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
 
-		<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
 
-		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-			{@$isGoTo = true}
-			<a href="{getUrl('page', '')}">1</a>
-			<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		</block>
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+			</block>
 
-		<!--@while($page_no = $page_navigation->getNextPage())-->
-			{@$last_page = $page_no}
-			<strong cond="$page_no == $page">{$page_no}</strong>
-			<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-		<!--@end-->
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				{@$last_page = $page_no}
+				<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
 
-		<block cond="$last_page != $page_navigation->last_page">
-			{@$isGoTo = true}
-			<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-			<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-		</block>
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+				
+			</block>
 
-		<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
-
-		<span cond="$isGoTo" id="goTo" class="tgContent">
-			<input name="page" title="{$lang->cmd_go_to_page}" />
-			<button type="submit">Go</button>
-		</span>
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
 	</form>
 	<form action="" method="post" class="search center x_input-append">
 		<input type="hidden" name="module" value="{$module}" />
