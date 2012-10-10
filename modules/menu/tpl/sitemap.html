@@ -99,31 +99,8 @@
 				<li>
 					<div class="multilingual x_input-append">
 						<label for="menuName2">메뉴이름</label>
-						<input id="menuName2" class="_menuName" type="text" required style="width:179px">
-						<select title="사용 가능한 다국어 목록" style="width:192px">
-							<option>[다국어 새로 입력]</option>
-							<option>...1</option>
-							<option>...2</option>
-						</select>
-						<label class="x_muted x_add-on"><input type="checkbox"> 다국어 사용 <i class="x_icon-globe"></i></label>
+						<input id="menuName2" class="_menuName multi-lang" type="text" required style="width:179px">
 					</div>
-					<fieldset class="multilingual_item">
-						<input type="text" class="en" title="English"><br>
-						<input type="text" class="ko" title="한국어"><br>
-						<input type="text" class="jp" title="日本語"><br>
-						<input type="text" class="zh-CN" title="中文(中?)"><br>
-						<input type="text" class="zh-TW" title="中文(臺灣)"><br>
-						<input type="text" class="fr" title="Francais"><br>
-						<input type="text" class="de" title="Deutsch"><br>
-						<input type="text" class="ru" title="Русский"><br>
-						<input type="text" class="es" title="Espanol"><br>
-						<input type="text" class="tr" title="Turkce"><br>
-						<input type="text" class="vi" title="Ti?ng Vi?t"><br>
-						<input type="text" class="mn" title="Mongolian">
-						<p class="x_alert x_alert-info" style="width:169px">
-							지원하는 다국어 목록은 [<a href="{getUrl('','module','admin','act','dispAdminConfigGeneral')}">설정>일반</a>]에서 편집 가능
-						</p>
-					</fieldset>
 				</li>
 				<li class="typePage">
 					<label for="mid1">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">?</a></label>
@@ -164,26 +141,45 @@
 			<h1>다른 메뉴타입설치</h1>
 			<div class="list">
 				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
-					<div class="item">
+				
+					<div class="item ${IsInstalled}" data-param='{ "sPackageSrl":"${PackageSrl}"}'>
 						<img src="http://${ScreenShotURL}" alt="">
 						<h2>${MenuType}</h2>
 						<p>${MenuTypeDesc}</p>
 						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
-						<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+						
+						<div class="_install">
+							<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+						</div>
+						<div class="_already_installed">
+							<span style="position: absolute;top: 7px;right: 0;">이미 설치된 항목</span>
+						</div>
 					</div>
+					
 				</script>
 			</div>
+
+			<div class="_pagination"></div>
+			
+			<script id="tmpl_pagination" type="text/x-jquery-tmpl">
 			<div class="x_pagination x_pagination-centered">
-				<ul>
-					<li class="x_disabled"><a href="#">&laquo;</a></li>
-					<li class="x_active"><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li><a href="#">&raquo;</a></li>
+				<ul class="_list">
 				</ul>
 			</div>
+			</script>
+			<script id="tmpl_pagination_list" type="text/x-jquery-tmpl">
+				<li class='${ActiveClass}'><a  href="#" class="_toPage" data-param='{ "page": "${Page}"}' onclick="return false">${PageText}</a></li>
+			</script>
+			<script id="tmpl_pagination_jump" type="text/x-jquery-tmpl">
+				<li>
+					<a href="#goTo" data-admin-toggle="#goTo" title="${GoText}" onclick="return false">...</a>
+					<span id="goTo" class="x_input-append">
+						<input type="number" min="1" max="${LastPage}" required name="page" title="${GoText}" />
+						<button type="input" class="x_add-on _jumpTo">Go</button>
+					</span>
+				</li>
+			</script>
+			
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#download">&times;</button>
 	</div>
@@ -194,31 +190,8 @@
 				<li>
 					<div class="multilingual x_input-append">
 						<label for="menuName">메뉴이름</label>
-						<input id="menuName" class="_menuName" type="text" required style="width:179px">
-						<select title="사용 가능한 다국어 목록" style="width:192px">
-							<option>[다국어 새로 입력]</option>
-							<option>...1</option>
-							<option>...2</option>
-						</select>
-						<label class="x_muted x_add-on"><input type="checkbox"> 다국어 사용 <i class="x_icon-globe"></i></label>
+						<input id="menuName" class="_menuName multi-lang" type="text" required style="width:179px">
 					</div>
-					<fieldset class="multilingual_item">
-						<input type="text" class="en" title="English"><br>
-						<input type="text" class="ko" title="한국어"><br>
-						<input type="text" class="jp" title="日本語"><br>
-						<input type="text" class="zh-CN" title="中文(中?)"><br>
-						<input type="text" class="zh-TW" title="中文(臺灣)"><br>
-						<input type="text" class="fr" title="Francais"><br>
-						<input type="text" class="de" title="Deutsch"><br>
-						<input type="text" class="ru" title="Русский"><br>
-						<input type="text" class="es" title="Espanol"><br>
-						<input type="text" class="tr" title="Turkce"><br>
-						<input type="text" class="vi" title="Ti?ng Vi?t"><br>
-						<input type="text" class="mn" title="Mongolian">
-						<p class="x_alert x_alert-info" style="width:169px">
-							지원하는 다국어 목록은 [<a href="{getUrl('','module','admin','act','dispAdminConfigGeneral')}">설정>일반</a>]에서 편집 가능
-						</p>
-					</fieldset>
 				</li>
 				<li class="typePage">
 					<label for="mid2">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
@@ -309,18 +282,29 @@
 				</ul>
 				<div class="x_tab-content">
 					<div class="x_tab-pane x_active" id="pc">
-						<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="현재 설정된 PC 레이아웃">
-						<a href="#" target="_blank" class="x_icon-zoom-in" title="새창">크게 보기</a>
+						<div style="width:260px;height:200px;position:relative;border:1px solid; overflow:hidden">
+							<iframe class="_pc_preview" src="http://naver.com" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
+						</div>
+						<!--img src="http://naradesign.net/photo/DSCN0687.JPG" alt="현재 설정된 PC 레이아웃"-->
+						<a href="#" target="_blank" class="x_icon-zoom-in _pc_preview_open" title="새창">크게 보기</a>
 					</div>
 					<div class="x_tab-pane" id="mobile">
-						<img src="http://naradesign.net/photo/DSCN0810.JPG" alt="현재 설정된 모바일 레이아웃">
-						<a href="#" target="_blank" class="x_icon-zoom-in" title="새창">크게 보기</a>
+						<div style="width:260px;height:200px;position:relative;border:1px solid">
+							<iframe class="_mobile_preview" src="http://naver.com" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
+						</div>
+						<!--img src="http://naradesign.net/photo/DSCN0810.JPG" alt="현재 설정된 모바일 레이아웃"-->
+						<a href="#" target="_blank" class="x_icon-zoom-in _mobile_preview_open" title="새창">크게 보기</a>
 					</div>
 				</div>
 			</div>
-			<ul class="nav">
+			<ul class="nav _itemList">
+				<script id="tmpl_layoutItem" type="text/x-jquery-tmpl">
 				<li><a href="#layout" data-admin-show="#layout">레이아웃 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#skin" data-admin-show="#skin">{게시판} <i class="x_icon-circle-arrow-right"></i></a></li>
+				</script>
+				
+				<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
+				<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
+				</script>
 			</ul>
 			<div class="btnBoth">
 				<button type="reset" class="x_btn x_btn-small x_pull-left">취소</button>
@@ -716,6 +700,10 @@
 #msgBox {width:600px;margin-left:-300px}
 #msgBox._small {width:400px;margin-left:-200px}
 #msgBox._type_alert ._cancel{display:none}
+
+.download.col .item.installed ._install{display:none}
+.download.col .item ._already_installed{display:none}
+.download.col .item.installed ._already_installed{display:block}
 </style>
 <!--[if IE 7]>
 <script>
@@ -1151,7 +1139,8 @@ function setItemTypes(htTypes){
 	$._xeAdminVar.htItemTypes = htTypes || {};
 
 	$._xeAdminVar.htItemTypes._SHORTCUT = {
-		title: '바로가기'
+		title: '바로가기',
+		moduleName:''
 	}
 	console.log($._xeAdminVar.htItemTypes);
 }
@@ -1210,6 +1199,66 @@ jQuery(function($){
 	$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
 		setItemTypes(htData.menu_types);
 		console.log($._xeAdminVar.htItemTypes);
+	});
+	
+	$("#tmpl_pagination").template( "pagination" );
+	$("#tmpl_pagination_list").template( "paginationList" );
+	$("#tmpl_pagination_jump").template( "paginationJump" );
+	function createPagination($PlaceHolder, fnCallback, nCurPage, nTotalPages, sToFirstText, sToLastText, sToText){
+		nCurPage = parseInt(nCurPage);
+		nTotalPages = parseInt(nTotalPages);
+		var nMaxList = 5;
+		
+		var $Result = $.tmpl( "pagination", {});
+		
+		var nStart = nCurPage - parseInt(nMaxList/2);
+		if(nStart <= 0) nStart = 1;
+		
+		// -1 because it starts from "nStart", not "after nStart".
+		var nLast = nStart + nMaxList - 1;
+		if(nLast > nTotalPages){
+			nLast = nTotalPages;
+			if(nLast >= nMaxList) nStart = nLast - nMaxList + 1;
+		}
+		
+		var sActiveClass, sListHTML = "";
+
+		var sPageJump = $.tmpl("paginationJump", {GoText: sToText, LastPage:nTotalPages})[0].outerHTML
+		
+		if(nCurPage === 1) sActiveClass = "x_disabled";
+		sListHTML +=  $.tmpl("paginationList", {Page: 1, PageText: sToFirstText, ActiveClass:sActiveClass})[0].outerHTML;
+		if(nCurPage > nTotalPages/2 && nTotalPages > nMaxList){
+			sListHTML +=  sPageJump;
+		}
+		for(var i=nStart; i<=nLast; i++){
+			sActiveClass = "";
+			if(i === nCurPage) sActiveClass = "x_active";
+			sListHTML +=  $.tmpl("paginationList", {Page: i, PageText:i, ActiveClass:sActiveClass})[0].outerHTML;
+		}
+		if(!(nCurPage > nTotalPages/2) && nTotalPages > nMaxList){
+			sListHTML +=  sPageJump;
+		}
+		if(nCurPage === nTotalPages) sActiveClass = "x_disabled";
+		sListHTML +=  $.tmpl("paginationList", {Page: nTotalPages, PageText: sToLastText, ActiveClass:sActiveClass})[0].outerHTML;
+		$Result.find('._list').html(sListHTML);
+		
+		$PlaceHolder.html("");
+		$PlaceHolder.append($Result);
+		
+		$.data($PlaceHolder.find('.x_pagination')[0], "fnCallback", fnCallback);
+	}
+	$(document.body).on('click', '.x_pagination ._toPage', function(ev){
+		htParam = $.parseJSON($(this).attr('data-param'));
+		
+		$.data($(this).parents('.x_pagination')[0], "fnCallback")(htParam.page);
+	});
+
+	$(document.body).on('click', '.x_pagination ._jumpTo', function(ev){
+		htParam = $.parseJSON($(this).attr('data-param'));
+		console.log($(this).parent().find('input[name=page]'));
+		var nPage = parseInt($(this).parent().find('input[name=page]').val());
+
+		$.data($(this).parents('.x_pagination')[0], "fnCallback")(nPage);
 	});
 	
 	//$.jstree._themes = "PATH/TO/FOLDER/";
@@ -1473,14 +1522,14 @@ jQuery(function($){
 				item = $._xeAdminVar.htItemTypes[sModuleName];
 				sModuleTitle = item.title;
 				console.log(item);
-
+				
 				sResult += $.tmpl( "menuTypeItem", {
 					ModuleName : sModuleName,
 					ModuleTitle : sModuleTitle
 				} ).get()[0].outerHTML;
 			}
 
-			sResult += '<li><a href="#add_menu" data-admin-show="#add_menu"  data-param=\'{ "moduleName":"", "moduleTitle":"URL 링크" }\'>URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
+			//sResult += '<li><a href="#add_menu" data-admin-show="#add_menu"  data-param=\'{ "moduleName":"", "moduleTitle":"URL 링크" }\'>URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
 			$('#add ._itemList').html(sResult);
 			scrollToRight();
 		});
@@ -1489,12 +1538,28 @@ jQuery(function($){
 	});
 	
 	$("#tmpl_downloadableMenuTypeItem").template( "downloadableMenuTypeItem" );
-	$('#download').bind("show", function(){
+	$('#download').bind("show", function(ev){
+	// ignore bubbled show events
+		if(this !== ev.target){
+			return;
+		}
+		
 	//index.php?act=getAutoinstallAdminMenuPackageList
 		$('#add').nextAll().hide();
 		
+		drawMenuModuleList(1);
+	});
+	$('#download').bind("hide", function(ev){
+	// ignore bubbled show events
+		if(this !== ev.target){
+			return;
+		}
+		
+		$('#download ._pagination').html("");
+	});
+	function drawMenuModuleList(nPage){
 		var params = {};
-		params['menu_srl'] = 0;
+		params['page'] = nPage;
 		$.exec_json("menu.getAutoinstallAdminMenuPackageList", params, function(htData){
 			var sResult = "";
 			var item;
@@ -1508,17 +1573,30 @@ jQuery(function($){
 					Score: item.package_star,
 					TotalVotes: item.package_voted,
 					LastUpdated: item.item_regdate,
-					TotalDownloads: item.package_downloaded
+					TotalDownloads: item.package_downloaded,
+					IsInstalled: "installed",
+					PackageSrl: item.package_srl
 				} ).get()[0].outerHTML;
 			}
 
 			$('#download .list').html(sResult);
+			/*
+			"page_navigation":{
+                "total_count":"10",
+                "total_page":"1",
+                "cur_page":"1",
+                "page_count":"1",
+                "first_page":1,
+                "last_page":"1",
+                "point":0
+			},
+			*/
+			var htInfo = htData.page_navigation;
+			createPagination($('#download ._pagination'), drawMenuModuleList, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
+			
 			scrollToRight();
 		});
-	});
-	$('#download').bind("hide", function(){
-	});
-	
+	}
 	$('#add_menu').bind("show", function(ev){
 		// ignore bubbled show events
 		if(this !== ev.target){
@@ -1530,7 +1608,7 @@ jQuery(function($){
 		
 		$(this).find("._title").html($._xeAdminVar.sSelectedModuleTitle);
 		
-		if($._xeAdminVar.sSelectedModuleName == ""){
+		if($._xeAdminVar.sSelectedModuleName === "_SHORTCUT"){
 			$(this).removeClass("page");
 			$(this).addClass("url");
 		}else{
@@ -1563,8 +1641,9 @@ jQuery(function($){
 		var isShortCut = "N";
 		var $labels;
 		// URL?
-		if($._xeAdminVar.sSelectedModuleName == ""){
+		if($._xeAdminVar.sSelectedModuleName === "_SHORTCUT"){
 			isShortCut = "Y";
+			sSelectedModuleName = "";
 			
 			$labels = $('#add_menu .x_nav-tabs li');
 			for(var nSelectedTabIdx=0, nLen=$labels.length; nSelectedTabIdx<nLen; nSelectedTabIdx++){
@@ -1633,6 +1712,14 @@ jQuery(function($){
 		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 		
 		console.log(htInfo);
+		
+		if(htInfo.sModuleType === "_SHORTCUT"){
+			$(this).addClass('url');
+			$(this).removeClass('page');
+		}else{
+			$(this).removeClass('url');
+			$(this).addClass('page');
+		}
 		
 		$(this).find('#menuName').val(htInfo.sText);
 		$(this).find('#mid2').val(htInfo.url);
@@ -1717,6 +1804,64 @@ jQuery(function($){
 			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
 			loadSiteMap();
 		});
+	});
+	
+	$( "#tmpl_layoutItem" ).template( "design_layoutItem" );
+	$( "#tmpl_skinItem" ).template( "deisgn_skinItem" );
+	$('#design').bind('show', function(){
+		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
+		var htInfo = htNodeInfo[sMenuId];
+
+		var sResult = $.tmpl( "design_layoutItem", {})[0].outerHTML;
+		sResult += $.tmpl( "deisgn_skinItem", {
+			ModuleType : htInfo.sModuleType,
+			ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title
+		} )[0].outerHTML;
+
+		$(this).find('._itemList').html(sResult);
+		
+		// also preview here
+		var params = {
+			menu_item_srl : htInfo.sNodeSrl
+		};
+		$.exec_json("module.getModuleInfoByMenuItemSrl", params, function(htData){
+			console.log(htData);
+			
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			// module=모듈이름&mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름
+			var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
+				sModuleName : htData.module,
+				sMID : htData.mid,
+				sLayoutSrl : htData.layout_srl,
+				sPCSkin : htData.skin,
+				sMobileSkin : htData.mskin,
+				htData : {}
+			};
+			
+			$('._pc_preview').attr('src', '?act=dispLayoutPreviewWithModule&module='+htDesign.sModuleName+'&mid='+htDesign.sMID+'&layout_srl='+htDesign.sLayoutSrl+'&skin='+htDesign.sPCSkin);
+		});
+
+		//$('._pc_preview')
+		// /?act=dispLayoutPreviewWithModule&module=모듈이름&mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름
+		//console.log(htInfo);
+		//htInfo.sModuleType
+		//htInfo.url
+		//layout_srl
+		//
+	})
+	$('._pc_preview_open').click(function(ev){
+		window.open($('._pc_preview').attr('src'), "", "resizable=yes");
+		ev.preventDefault();
+		//
+	});
+	$('._mobile_preview_open').click(function(ev){
+		window.open($('._mobile_preview').attr('src'), "", "resizable=yes");
+		ev.preventDefault();
+		//
 	});
 	
 	$('._deleteMenu').click(function(){
