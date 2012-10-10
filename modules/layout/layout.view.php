@@ -56,39 +56,42 @@
 			$skinVars = json_decode($skinVars);
 
 			// Get the layout information.
-			if(!$layoutSrl || !$module)
+			if(!$mid && !$moduleSrl)
 			{
 				return new Object(-1, 'msg_invalid_request');
 			}
 
-			$oLayoutModel = getModel('layout');
-			$layoutInfo = $oLayoutModel->getLayout($layoutSrl);
-
-			if(!$layoutInfo) 
+			if($layoutSrl)
 			{
-				return new Object(-1, 'msg_invalid_request');
+				$oLayoutModel = getModel('layout');
+				$layoutInfo = $oLayoutModel->getLayout($layoutSrl);
+
+				if(!$layoutInfo) 
+				{
+					return new Object(-1, 'msg_invalid_request');
+				}
+
+				// Set names and values of extra_vars to $layout_info
+				if($layoutInfo->extra_var_count) 
+				{
+					foreach($layoutInfo->extra_var as $var_id => $val) 
+					{
+						$layoutInfo->{$var_id} = $val->value;
+					}
+				}
+
+				// menu in layout information becomes an argument for Context:: set
+				if($layoutInfo->menu_count) 
+				{
+					foreach($layoutInfo->menu as $menu_id => $menu) 
+					{
+						if(file_exists($menu->php_file)) @include($menu->php_file);
+						Context::set($menu_id, $menu);
+					}
+				}
+
+				Context::set('layout_info', $layoutInfo);
 			}
-
-            // Set names and values of extra_vars to $layout_info
-            if($layoutInfo->extra_var_count) 
-			{
-                foreach($layoutInfo->extra_var as $var_id => $val) 
-				{
-                    $layoutInfo->{$var_id} = $val->value;
-                }
-            }
-
-            // menu in layout information becomes an argument for Context:: set
-            if($layoutInfo->menu_count) 
-			{
-                foreach($layoutInfo->menu as $menu_id => $menu) 
-				{
-                    if(file_exists($menu->php_file)) @include($menu->php_file);
-                    Context::set($menu_id, $menu);
-                }
-            }
-
-            Context::set('layout_info', $layoutInfo);
 
 			// Get the module information.
 			$oModuleHandler = new ModuleHandler($module, '', $mid, '', $moduleSrl);
@@ -121,17 +124,25 @@
 				Context::set('content', Context::getLang('layout_preview_content'));
 			}
 			
-            // Compile
-            $oTemplate = &TemplateHandler::getInstance();
-            $layout_path = $layoutInfo->path;
-            $layout_file = 'layout';
-            $layout_tpl = $oTemplate->compile($layout_path, $layout_file);
-            Context::set('layout','none');
+			// Compile
+			$oTemplate = &TemplateHandler::getInstance();
+			if($layoutSrl)
+			{
+				$layout_path = $layoutInfo->path;
+				$layout_file = 'layout';
+			}
+			else
+			{
+				$layout_path = './common/tpl';
+				$layout_file = 'default_layout';
+			}
+			$layout_tpl = $oTemplate->compile($layout_path, $layout_file);
+			Context::set('layout','none');
 
-            // Convert widgets and others
-            $oContext = &Context::getInstance();
-            Context::set('layout_tpl', $layout_tpl);
-            $this->setTemplateFile('layout_preview');
+			// Convert widgets and others
+			$oContext = &Context::getInstance();
+			Context::set('layout_tpl', $layout_tpl);
+			$this->setTemplateFile('layout_preview');
 		}
 		/**
          * Preview a layout
