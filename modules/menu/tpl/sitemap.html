@@ -323,14 +323,15 @@
 				<input type="checkbox" class="_chkUseDefaultLayout" title="사이트 기본 레이아웃 사용"> 사이트 기본 레이아웃 사용
 				<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 레이아웃 설정</a>
 			</label>
-			<label>
-				<input type="checkbox" checked title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
-			</label>
 			<div class="list">
-				<h2>사용할 수 있는 레이아웃 목록</h2>
 				<ul>
-					<li class="selected">
-						<h3>엔터프라이즈</h3>
+					<li>
+						<label>
+							<input type="radio" checked name="layout_local" title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
+						</label>
+					</li>
+					<li>
+						<label><input type="radio" name="layout_local" title="엔터프라이즈"> 엔터프라이즈</label>
 						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
 							<i class="x_icon-ok"></i>
@@ -343,7 +344,7 @@
 						</ul>
 					</li>
 					<li>
-						<h3>엔터프라이즈</h3>
+						<label><input type="radio" name="layout_local" title="엔터프라이즈"> 엔터프라이즈</label>
 						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다." onClick="alert('\'XE 소개\' 메뉴에 \'엔터프라이즈\' 레이아웃이 적용 됐습니다.')">
 							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
 							<i class="x_icon-ok"></i>
@@ -638,10 +639,11 @@
 .theme ul{margin:0;padding:0;list-style:none}
 .theme li{zoom:1}
 .theme li:after{content:"";display:block;clear:both}
-.theme .list>ul>li{height:93px;padding:8px 0 8px 120px;border-top:1px dashed #ddd;position:relative}
+.theme .list>ul>li{padding:8px 0 8px 120px;border-top:1px dashed #ddd;position:relative}
 .theme .list>ul>li:first-child{border:0}
-.theme .list>ul>li>h3{position:relative;color:#333;font-size:13px;white-space:nowrap;line-height:15px;margin:0 0 5px -120px}
+.theme .list>ul>li>label{position:relative;color:#333;font-size:13px;white-space:nowrap;line-height:15px;margin:0 0 0 -120px;padding:0;border-bottom:0}
 .theme .item{position:absolute;margin:0 -220px 0 0;left:0;top:28px}
+.theme .selected>label{font-weight:bold}
 .theme .selected>.item{border:3px solid #F93}
 .theme .selected>.item>img{margin:-3px}
 .theme .item>i{display:none}
@@ -2097,24 +2099,31 @@ setTimeout(function(){
 		});
 	}, 1000);
 // Theme(layout | skin) list toggle
-	$('.theme .list').each(function(){
+	var $theme = $('.theme');
+	// layout, skin list toggle
+	$theme.find('.list').each(function(){
 		var $this = $(this);
-		var $label_1 = $this.parent('form').children('label:eq(0)');
-		var $label_2 = $this.parent('form').children('label:eq(1)');
-		var $check = $this.siblings('label').children('input:checkbox');
+		var $check = $this.prev('label').children('input:checkbox');
 		function toggleList(){
-			if($label_1.children(':checkbox').is(':checked')){
-				$this.hide();
-				$label_2.hide().children(':checkbox').removeAttr('checked');
-			} else if($label_2.children(':checkbox').is(':checked')){
+			if($check.is(':checked')){
 				$this.hide();
 			} else {
 				$this.show();
-				$label_2.show().children(':checkbox').removeAttr('checked');
 			}
 		}
 		$(window).load(toggleList);
 		$check.change(toggleList);
+	});
+	// .selected class toggle
+	$theme.find(':radio').change(function(){
+		var $this = $(this);
+		if($this.is(':checked')){
+			$this.closest('li').addClass('selected').siblings('li').removeClass('selected');
+		}
+	}).change();
+	// thumbnamil click
+	$theme.find('.item').click(function(){
+		$(this).prev('label').children(':radio').click();
 	});
 // Remove Menu Item Checkbox Toggle
 	var $mrc = $('#menuRemoveConfirm');
