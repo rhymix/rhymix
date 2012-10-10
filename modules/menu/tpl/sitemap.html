@@ -280,13 +280,15 @@
 					<li class="x_active"><a href="#pc">PC</a></li>
 					<li><a href="#mobile">모바일</a></li>
 				</ul>
+				<form action="./" target="xe_preview" class="_preview_form" method="post">
+				<input type="hidden" name="data" value="{skin_vars:{}}"/>
 				<div class="x_tab-content">
 					<div class="x_tab-pane x_active" id="pc">
 						<div style="width:260px;height:200px;position:relative;border:1px solid; overflow:hidden">
 							<iframe class="_pc_preview" src="http://naver.com" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
 						</div>
 						<!--img src="http://naradesign.net/photo/DSCN0687.JPG" alt="현재 설정된 PC 레이아웃"-->
-						<a href="#" target="_blank" class="x_icon-zoom-in _pc_preview_open" title="새창">크게 보기</a>
+							<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="크게 보기"/>
 					</div>
 					<div class="x_tab-pane" id="mobile">
 						<div style="width:260px;height:200px;position:relative;border:1px solid">
@@ -296,6 +298,7 @@
 						<a href="#" target="_blank" class="x_icon-zoom-in _mobile_preview_open" title="새창">크게 보기</a>
 					</div>
 				</div>
+				</form>
 			</div>
 			<ul class="nav _itemList">
 				<script id="tmpl_layoutItem" type="text/x-jquery-tmpl">
@@ -1832,17 +1835,20 @@ jQuery(function($){
 				return;
 			}
 			
+			var htTmp = htData.module_info_by_menu_item_srl;
 			// module=모듈이름&mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름
 			var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
-				sModuleName : htData.module,
-				sMID : htData.mid,
-				sLayoutSrl : htData.layout_srl,
-				sPCSkin : htData.skin,
-				sMobileSkin : htData.mskin,
+				sModuleName : htTmp.module,
+				sMID : htTmp.mid,
+				sLayoutSrl : htTmp.layout_srl,
+				sPCSkin : htTmp.skin,
+				sMobileSkin : htTmp.mskin,
 				htData : {}
 			};
 			
-			$('._pc_preview').attr('src', '?act=dispLayoutPreviewWithModule&module='+htDesign.sModuleName+'&mid='+htDesign.sMID+'&layout_srl='+htDesign.sLayoutSrl+'&skin='+htDesign.sPCSkin);
+			var sURL = './?act=dispLayoutPreviewWithModule&module='+htDesign.sModuleName+'&mid='+htDesign.sMID+'&layout_srl='+htDesign.sLayoutSrl+'&skin='+htDesign.sPCSkin;
+			$('._pc_preview').attr('src', sURL);
+			$('._preview_form').attr('action', sURL);
 		});
 
 		//$('._pc_preview')
@@ -1854,13 +1860,13 @@ jQuery(function($){
 		//
 	})
 	$('._pc_preview_open').click(function(ev){
-		window.open($('._pc_preview').attr('src'), "", "resizable=yes");
-		ev.preventDefault();
+		window.open($('._pc_preview').attr('src'), "xe_preview", "resizable=yes");
+		//ev.preventDefault();
 		//
 	});
 	$('._mobile_preview_open').click(function(ev){
-		window.open($('._mobile_preview').attr('src'), "", "resizable=yes");
-		ev.preventDefault();
+		window.open($('._mobile_preview').attr('src'), "xe_preview", "resizable=yes");
+		//ev.preventDefault();
 		//
 	});
 	
