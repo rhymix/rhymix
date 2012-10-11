@@ -924,17 +924,6 @@ function get_by_id(id) {
 }
 
 jQuery(function($){
-    $('.lang_code').each(
-		function() 
-		{
-			var objText = $(this);
-			var targetName = objText.attr("id");
-			if(typeof(targetName) == "undefined") targetName = objText.attr("name");
-			if(typeof(targetName) == "undefined") return;
-			objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>"); 
-		}
-    );
-
 	// display popup menu that contains member actions and document actions
 	$(document).click(function(evt) {
 		var $area = $('#popup_menu_area');

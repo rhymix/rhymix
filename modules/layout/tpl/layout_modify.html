@@ -67,17 +67,12 @@
 			<label class="x_control-label" for="{$name}">{$var->title}</label>
 			<div class="x_controls">
 				<div cond="$var->type == 'text'" class="multiLangEdit">
-					{@$use_multilang = true}
-					<input type="hidden" name="{$name}" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" class="vLang" />
-					<input type="text" id="{$name}" value="{$var->value}" class="vLang" />
-					<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+					<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" />
 				</div>
 
 				<div cond="$var->type == 'textarea'" class="multiLangEdit">
 					{@$use_multilang_textarea = true}
-					<input type="hidden" name="{$name}" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" class="vLang" />
-					<textarea id="{$name}" rows="8" cols="42" class="vLang">{$var->value}</textarea>
-					<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+					<textarea name="{$name}" rows="8" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end--></textarea>
 				</div>
 
 				<block cond="$var->type == 'image'">
@@ -95,7 +90,7 @@
 					<input type="hidden" name="name" value="{$name}" />
 						<p>
 							<input type="file" name="img" id="file_select_{$name}" value="" />
-							<input  type="submit" value="{$lang->cmd_submit}" />
+							<input class="x_btn x_btn-mini x_btn-primary" type="submit" value="{$lang->cmd_submit}" />
 						</p>
 					</form>
 				</block>

@@ -1,0 +1,48 @@
+{@
+	/* move current language to the top */
+	$a = array($lang_type=>$lang_supported[$lang_type]);
+	unset($lang_supported[$lang_type]);
+	$lang_supported = array_merge($a, $lang_supported);
+}
+<div class="x_modal" id="g11n" style="display:none">
+	<div class="x_modal-header">
+		<h3>{$lang->cmd_multilingual}</h3>
+	</div>
+	<div class="x_modal-body">
+		<div class="x_tabbable">
+			<ul class="x_nav x_nav-tabs">
+				<li class="x_active"><a href="#lang_create">{$lang->cmd_insert}</a></li>
+				<li><a href="#lang_search">{$lang->cmd_search}</a></li>
+			</ul>
+			<div class="x_tab-content">
+				<form action="" class="x_tab-pane x_active item" id="lang_create">
+					<fieldset class="editMode">
+						<textarea loop="$lang_supported => $code, $name" class="{$code}" rows="1" cols="12" title="{$name}" style="margin-right:5px"></textarea>
+						<div class="x_clearfix">
+							<button type="reset" class="x_btn cancel">{$lang->cmd_cancel}</button>
+							<span class="x_pull-right">
+								<button type="submit" class="x_btn x_btn-primary save-useit">{$lang->cmd_save_and_use_it}</button>
+							<span>
+						</div>
+					</fieldset>
+				</form>
+				<div class="x_tab-pane" id="lang_search">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="x_modal-footer">
+		<button type="button" class="x_btn x_pull-left" data-hide="#g11n">{$lang->cmd_close}</button>
+		<p class="x_pull-right">
+			{@
+				$link = '<a href="' . getUrl('', 'module', 'admin', 'act', 'dispModuleAdminLangcode') . '">' . $lang->about_multilingual_manage['link'] . '</a>';
+				$text = sprintf($lang->about_multilingual_manage['text'], $link);
+			}
+			{$text}
+		</p>
+	</div>
+</div>
+<script>
+	xe.msg_confirm_save_and_use_multilingual = '{$lang->msg_confirm_save_and_use_multilingual}';
+	xe.msg_empty_multilingual = '{$lang->msg_empty_multilingual}';
+</script>

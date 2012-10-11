@@ -421,5 +421,45 @@
 			return $output;
 		}
 
+		/**
+		 * return multilingual html
+		 */
+		function getModuleAdminMultilingualHtml()
+		{
+			$oTemplate = TemplateHandler::getInstance();
+			$tpl = $oTemplate->compile('./modules/module/tpl', 'multilingual_v17.html');
+
+			$this->add('html', $tpl);
+		}
+
+		/**
+		 * return multilingual list html
+		 */
+		function getModuleAdminLangListHtml()
+		{
+			$siteModuleInfo = Context::get('site_module_info');
+			$args->site_srl = (int)$site_module_info->site_srl;
+			$args->langCode = Context::get('lang_type');
+			$args->page = Context::get('page');
+			$args->sort_index = 'name';
+			$args->order_type = 'asc';
+			$args->search_keyword = Context::get('search_keyword');
+			$args->name = Context::get('name');
+			$args->list_count = 5;
+			$args->page_count = 5;
+
+			$output = $this->getLangListByLangcode($args);
+
+			Context::set('total_count', $output->total_count);
+			Context::set('total_page', $output->total_page);
+			Context::set('page', $output->page);
+			Context::set('lang_code_list', $output->data);
+			Context::set('page_navigation', $output->page_navigation);
+
+			$oTemplate = TemplateHandler::getInstance();
+			$tpl = $oTemplate->compile('./modules/module/tpl', 'multilingual_v17_list.html');
+
+			$this->add('html', $tpl);
+		}
     }
 ?>

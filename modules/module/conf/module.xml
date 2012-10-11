@@ -36,6 +36,8 @@
 		<action name="getFileBoxListHtml" type="model" />
 		<action name="getLangByLangcode" type="model" />
 		<action name="getModuleAdminGrant" type="model" />
+		<action name="getModuleAdminMultilingualHtml" type="model" />
+		<action name="getModuleAdminLangListHtml" type="model" />
 		<action name="getModuleInfoByMenuItemSrl" type="model" />
 
         <action name="procModuleAdminInsertCategory" type="controller" standalone="true" ruleset="insertCategory" />

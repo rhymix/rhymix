@@ -1,0 +1,64 @@
+{@
+	/* move current language to the top */
+	$a = array($lang_type=>$lang_supported[$lang_type]);
+	unset($lang_supported[$lang_type]);
+	$lang_supported = array_merge($a, $lang_supported);
+}
+<p>{sprintf($lang->about_multilingual_search_result, $total_count)}</p>
+<fieldset class="list">
+	<form loop="$lang_code_list => $no, $val" action="" class="item">
+		<a href="#lang-{$no}" data-toggle="#lang-{$no}" data-lang_code="{$val->name}"><span>{$val->value}<span></a>
+		<fieldset id="lang-{$no}">
+			<textarea loop="$lang_supported => $code, $lname" disabled class="{$code}" data-lang="{$code}" rows="1" cols="12" title="{$lname}" style="margin-right:5px"></textarea>
+			<div class="x_clearfix">
+				<span class="x_pull-left">
+					<button type="button" class="x_btn modify">{$lang->cmd_modify}</button>
+					<button type="reset" class="x_btn cancel">{$lang->cmd_cancel}</button>
+				</span>
+				<span class="x_pull-right">
+					<button type="button" class="x_btn useit x_btn-primary">{$lang->use}</button>
+					<button type="submit" class="x_btn save x_btn-primary">{$lang->cmd_save_and_use_it}</button>
+				</span>
+			</div>
+		</fieldset>
+	</form>
+</fieldset>
+<div class="x_clearfix">
+	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" data-search_keyword="{htmlspecialchars($search_keyword)}" no-error-return-url="true">
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="#" data-page="1" data-search_keyword="{htmlspecialchars($search_keyword)}">&laquo; {$lang->first_page}</a></li>
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a  href="#" data-page="{$page_no}" data-search_keyword="{htmlspecialchars($search_keyword)}">{$page_no}</a></li>
+			<!--@end-->
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="#" data-page="{$page_navigation->last_page}" data-search_keyword="{htmlspecialchars($search_keyword)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</form>
+	<form action="" class="search center x_input-append x_pull-right">
+		<input type="search" name="search_keyword" required title="Search" value="<!--@if($name)-->{htmlspecialchars($lang_code_list[1]->value)}<!--@else-->{htmlspecialchars($search_keyword)}<!--@end-->">
+		<span class="x_btn-group">
+			<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+			<button cond="$search_keyword || $name" id="search_cancel" class="x_btn" type="button">{$lang->cmd_cancel}</button>
+		</span>
+	</form>
+</div>

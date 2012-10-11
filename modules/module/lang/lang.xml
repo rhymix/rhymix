@@ -1057,4 +1057,30 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="en"><![CDATA[If content empty, maintain existing value.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[If content empty, maintain existing value.]]></value>
 	</item>
+	<item name="cmd_save_and_use_it">
+		<value xml:lang="ko"><![CDATA[저장 &amp; 사용]]></value>
+		<value xml:lang="en"><![CDATA[Save &amp; Use it]]></value>
+	</item>
+	<item name="about_multilingual_manage" type="array">
+		<item name="text">
+			<value xml:lang="ko"><![CDATA[지원하는 목록은 [%s]에서 편집 가능.]]></value>
+			<value xml:lang="en"><![CDATA[You can manage multilingual at [%s].]]></value>
+		</item>
+		<item name="link">
+			<value xml:lang="ko"><![CDATA[콘텐츠>다국어]]></value>
+			<value xml:lang="en"><![CDATA[Content>Mualtilungal]]></value>
+		</item>
+	</item>
+	<item name="about_multilingual_search_result">
+		<value xml:lang="ko"><![CDATA[<strong>%d</strong>개의 다국어 세트가 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There are <strong>%d</strong> multilingual sets.]]></value>
+	</item>
+	<item name="msg_confirm_save_and_use_multilingual">
+		<value xml:lang="ko"><![CDATA[현재 상태를 저장하고 사용하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Do you want to save and use this status?]]></value>
+	</item>
+	<item name="msg_empty_multilingual">
+		<value xml:lang="ko"><![CDATA[다국어를 입력해 주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter value for multilingual.]]></value>
+	</item>
 </lang>
