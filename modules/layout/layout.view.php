@@ -48,6 +48,9 @@
 			}
 
 			$layoutSrl = Context::get('layout_srl');
+			$layoutVars = Context::get('layout_vars');
+			$layoutVars = json_decode($layoutVars);
+
 			$moduleSrl = Context::get('module_srl');
 			$module = Context::get('module');
 			$mid = Context::get('mid');
@@ -77,6 +80,14 @@
 					foreach($layoutInfo->extra_var as $var_id => $val) 
 					{
 						$layoutInfo->{$var_id} = $val->value;
+					}
+				}
+
+				if($layoutVars)
+				{
+					foreach($layoutVars as $key => $val) 
+					{
+						$layoutInfo->{$key} = $val;
 					}
 				}
 
