@@ -3,8 +3,9 @@
 <load target="./js/_lib/jquery.hotkeys.js" />
 <load target="./js/jquery.jstree.js" />
 <load target="./js/jquery.scrollTo-1.4.2.js" />
+<load target="./js/jquery.tmpl.js" />
 
-<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+<!--script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script-->
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -99,7 +100,7 @@
 				<li>
 					<div class="multilingual x_input-append">
 						<label for="menuName2">메뉴이름</label>
-						<input id="menuName2" class="_menuName multi-lang" type="text" required style="width:179px">
+						<input id="menuName2" class="_menuName lang_code" type="text" required style="width:179px">
 					</div>
 				</li>
 				<li class="typePage">
@@ -190,7 +191,7 @@
 				<li>
 					<div class="multilingual x_input-append">
 						<label for="menuName">메뉴이름</label>
-						<input id="menuName" class="_menuName multi-lang" type="text" required style="width:179px">
+						<input id="menuName" class="_menuName lang_code" type="text" required style="width:179px">
 					</div>
 				</li>
 				<li class="typePage">
@@ -285,14 +286,14 @@
 				<div class="x_tab-content">
 					<div class="x_tab-pane x_active" id="pc">
 						<div style="width:260px;height:200px;position:relative;border:1px solid; overflow:hidden">
-							<iframe class="_pc_preview" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
+							<iframe name="_pc_preview_ifr" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
 						</div>
 						<!--img src="http://naradesign.net/photo/DSCN0687.JPG" alt="현재 설정된 PC 레이아웃"-->
 							<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="크게 보기"/>
 					</div>
 					<div class="x_tab-pane" id="mobile">
 						<div style="width:260px;height:200px;position:relative;border:1px solid">
-							<iframe class="_mobile_preview" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
+							<iframe name="_mobile_preview_ifr" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
 						</div>
 						<!--img src="http://naradesign.net/photo/DSCN0810.JPG" alt="현재 설정된 모바일 레이아웃"-->
 						<a href="#" target="_blank" class="x_icon-zoom-in _mobile_preview_open" title="새창">크게 보기</a>
@@ -324,16 +325,19 @@
 				<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 레이아웃 설정</a>
 			</label>
 			<div class="list">
-				<ul>
-					<li>
+				<ul class="_layout_list">
+					<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
+					<li class="${Selected}">
 						<label>
-							<input type="radio" checked name="layout_local" title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
+							<input type="radio" checked name="layout_item" title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
 						</label>
 					</li>
-					<li>
-						<label><input type="radio" name="layout_local" title="엔터프라이즈"> 엔터프라이즈</label>
-						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다.">
-							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
+					</script>
+					<script id="tmpl_layout_list_item" type="text/x-jquery-tmpl">
+					<li class="${Selected}">
+						<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
+						<button type="button" class="item _btnScreenshot" title="클릭하면 레이아웃이 적용됩니다.">
+							<img src="${ScreenShotURL}">
 						</button>
 						<ul>
 							<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -342,18 +346,7 @@
 							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
 						</ul>
 					</li>
-					<li>
-						<label><input type="radio" name="layout_local" title="엔터프라이즈"> 엔터프라이즈</label>
-						<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다.">
-							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 레이아웃">
-						</button>
-						<ul>
-							<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><a href="#layoutHTML">HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
-							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
-						</ul>
-					</li>
+					</script>
 				</ul>
 				<div class="x_btn-group">
 					<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 레이아웃 설치</a>
@@ -1152,6 +1145,19 @@ function setItemTypes(htTypes){
 	console.log($._xeAdminVar.htItemTypes);
 }
 jQuery(function($){
+	$.fn.outerHTML = function(){
+	 
+		// IE, Chrome & Safari will comply with the non-standard outerHTML, all others (FF) will have a fall-back for cloning
+		return (!this.length) ? this : (this[0].outerHTML || (
+		  function(el){
+			  var div = document.createElement('div');
+			  div.appendChild(el.cloneNode(true));
+			  var contents = div.innerHTML;
+			  div = null;
+			  return contents;
+		})(this[0]));
+	}
+	
 	var _hide = $.fn.hide;
 	$.fn.hide = function(speed, easing, callback, htOpt) {
 		$(this).trigger('hide', [htOpt]);
@@ -1837,6 +1843,30 @@ jQuery(function($){
 			menu_item_srl : htInfo.sNodeSrl
 		};
 		$.exec_json("module.getModuleInfoByMenuItemSrl", params, function(htData){
+			/*
+				browser_title: "게시판"
+				content: ""
+				description: ""
+				footer_text: ""
+				header_text: ""
+				is_default: "N"
+				is_layout_fix: "Y"
+				is_skin_fix: "N"
+				layout_srl: "0"
+				mcontent: ""
+				menu_srl: "59"
+				mid: "board_CZEA8836"
+				mlayout_srl: "0"
+				module: "board"
+				module_category_srl: "0"
+				module_srl: "270"
+				mskin: ""
+				open_rss: "Y"
+				regdate: "20121009140036"
+				site_srl: "0"
+				skin: ""
+				use_mobile: "N"
+			*/
 			console.log(htData);
 			
 			if(htData.error !== 0){
@@ -1855,9 +1885,17 @@ jQuery(function($){
 				htData : {}
 			};
 			
+			updatePreview({
+				sModuleName : htDesign.sModuleName,
+				sMID:   htDesign.sMID,
+				sLayoutSrl : htDesign.sLayoutSrl,
+				sSkin : htDesign.sPCSkin
+			});
+			/*
 			var sURL = './?act=dispLayoutPreviewWithModule&module='+htDesign.sModuleName+'&mid='+htDesign.sMID+'&layout_srl='+htDesign.sLayoutSrl+'&skin='+htDesign.sPCSkin;
 			$('._pc_preview').attr('src', sURL);
 			$('._preview_form').attr('action', sURL);
+			*/
 		});
 
 		//$('._pc_preview')
@@ -1868,19 +1906,165 @@ jQuery(function($){
 		//layout_srl
 		//
 	})
+	function updatePreview(htParam){
+			if(htParam.bClearPrevSetting){
+				$._xeAdminVar.htPrevSetting = {};
+			}
+			var htSetting = $._xeAdminVar.htPrevSetting || {};
+			
+			htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
+			htSetting.sMID = htParam.sMID || htSetting.sMID || "";
+			htSetting.sLayoutSrl = htParam.sLayoutSrl || htSetting.sLayoutSrl || "";
+			htSetting.sSkin = htParam.sSkin || htSetting.sSkin || "";
+			htSetting.bMobilePreviewTabOpen = htParam.bMobilePreviewTabOpen || htSetting.bMobilePreviewTabOpen || false;
+			htSetting.htLayoutData = htParam.htLayoutData || htSetting.htLayoutData || "";
+			htSetting.htSkinData = htParam.htSkinData || htSetting.htSkinData || "";
+
+			var sURL = './?act=dispLayoutPreviewWithModule&module='+htSetting.sModuleName+'&mid='+htSetting.sMID+'&layout_srl='+htSetting.sLayoutSrl+'&skin='+htSetting.sSkin;
+			$('._preview_form').attr('action', sURL);
+			
+			var sTarget = "_pc_preview_ifr";
+			if(htSetting.bMobilePreviewTabOpen) sTarget = "_mobile_preview_ifr";
+			$('._preview_form').attr('target', sTarget);
+			$('._preview_form').submit();
+			
+			$('._preview_form').attr('target', "xe_preview");
+			
+			$._xeAdminVar.htPrevSetting = htSetting;
+	}
+	
 	$('._pc_preview_open').click(function(ev){
-		window.open($('._pc_preview').attr('src'), "xe_preview", "resizable=yes");
+		window.open($('input[name=_pc_preview_ifr]').attr('src'), "xe_preview", "resizable=yes");
 		//ev.preventDefault();
 		//
 	});
 	$('._mobile_preview_open').click(function(ev){
-		window.open($('._mobile_preview').attr('src'), "xe_preview", "resizable=yes");
+		window.open($('input[name=_mobile_preview_ifr]').attr('src'), "xe_preview", "resizable=yes");
 		//ev.preventDefault();
 		//
 	});
 
 	$('#layout ._chkUseDefaultLayout').click(function(){
+		updateLayoutListDisplayStatus();
 	});
+	function updateLayoutListDisplayStatus(){
+		$ChkBox = $('#layout ._chkUseDefaultLayout');
+		if($ChkBox.attr('checked')){
+			$('#layout .list').hide();
+			
+			updatePreview({
+				sLayoutSrl : -1,
+				htLayoutData : {}
+			});
+		}else{
+			$('#layout .list').show();
+		}
+	}
+	$("#tmpl_layout_list_item_no_layout").template( "layoutListItem_nolayout" );
+	$("#tmpl_layout_list_item").template( "layoutListItem" );
+	$('#layout').on('show', function(ev){
+		if(this !== ev.target){
+			return;
+		}
+		
+		updateLayoutListDisplayStatus();
+		//loadInstalledLayoutList("P");
+	});
+	$('#layout').on('hide', function(ev){
+		if(this !== ev.target){
+			return;
+		}
+	});
+	$('#layout .list').on('show', function(){
+		loadInstalledLayoutList("P");
+	});
+
+	// sType: "P", "M" (PC/Mobile)
+	function loadInstalledLayoutList(sType){
+		var params = {
+			site_srl : 0,
+			layout_type : sType
+		};
+		$.exec_json("layout.getLayoutInstanceListForJSONP", params, function(htData){
+			var sResult = "";
+			//layout_list: Array[6]
+			/*
+				extra_vars: ""
+				layout: "user_layout"
+				layout_path: ""
+				layout_srl: "273"
+				layout_type: "P"
+				module_srl: "0"
+				regdate: "20121011112418"
+				site_srl: "0"
+				thumbnail: "./layouts/user_layout/thumbnail.png"
+				title: "테스트 레이아웃"
+			*/
+			var $List = $('#layout ._layout_list');
+			$List.html("");
+			
+			var sSelected = "";
+			
+			var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+			if(htDesign.sLayoutSrl == 0){
+				sSelectedSrl = "0";
+				sSelected = "selected";
+			}
+			$List.append($.tmpl("layoutListItem_nolayout", {
+				Selected : sSelected
+			}).data('LayoutSrl', "0"));
+			
+			for(var i=0, nLen=htData.layout_list.length; i<nLen; i++){
+				htInfo = htData.layout_list[i];
+				
+				sSelected = "";
+				if(htDesign.sLayoutSrl == htInfo.layout_srl){
+					sSelectedSrl = htInfo.layout_srl;
+					sSelected = "selected";
+				}
+				
+				$List.append($.tmpl("layoutListItem", {
+					Title : htInfo.title, 
+					ScreenShotURL : htInfo.thumbnail,
+					Selected : sSelected
+				}).data('LayoutSrl', htInfo.layout_srl));
+			}
+			
+			//console.log(sSelectedSrl);
+			updatePreview({
+				sLayoutSrl : sSelectedSrl,
+				htLayoutData : {}
+			});
+		});
+	/*
+	<li class="${Selected}">
+		<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
+		<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다.">
+			<img src="http://${ScreenShotURL}">
+		</button>
+		<ul>
+			<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+			<li><a href="#layoutHTML">HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
+			<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
+			<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+		</ul>
+	</li>
+	*/
+	}
+	$('#layout').on('click', 'button._btnScreenshot', function(){
+		$(this).closest('li').find('input[name=layout_item]').click();
+	});
+	$('#layout').on('click', 'input[name=layout_item]', function(){
+		$('#layout').find('li.selected').removeClass('selected');
+		$(this).closest('li').addClass('selected');
+		
+		var sLayoutSrl = $(this).closest('li').data('LayoutSrl');
+		
+		updatePreview({
+			sLayoutSrl : sLayoutSrl
+		});
+	})
+	
 	$('._deleteMenu').click(function(){
 		confirmDialog({
 			sTitle : "메뉴를 삭제 하겠습니까?",
@@ -2092,6 +2276,7 @@ setTimeout(function(){
 // Theme(layout | skin) list toggle
 	var $theme = $('.theme');
 	// layout, skin list toggle
+	/*
 	$theme.find('.list').each(function(){
 		var $this = $(this);
 		var $check = $this.prev('label').children('input:checkbox');
@@ -2105,6 +2290,7 @@ setTimeout(function(){
 		$(window).load(toggleList);
 		$check.change(toggleList);
 	});
+	*/
 	// .selected class toggle
 	$theme.find(':radio').change(function(){
 		var $this = $(this);
