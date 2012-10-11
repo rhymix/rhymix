@@ -941,7 +941,7 @@ $('.filebox')
 
 				// text change
 				var $hiddenInput = $this;
-				$displayInput.keydown(function(){
+				$displayInput.bind('change, keyup', function(){
 					$this = $(this);
 
 					if($this.closest('.g11n').hasClass('active')) return;
