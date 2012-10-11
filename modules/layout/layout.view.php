@@ -64,8 +64,46 @@
 				return new Object(-1, 'msg_invalid_request');
 			}
 
+			// Get the module information.
+			$oModuleHandler = new ModuleHandler($module, '', $mid, '', $moduleSrl);
+			$oModuleHandler->act = '';
+			
+			if ($oModuleHandler->init())
+			{
+				$oModule = $oModuleHandler->procModule();
+				
+				if($skin)
+				{
+					$template_path = sprintf("%sskins/%s/",$oModule->module_path, $skin);
+					$oModule->setTemplatePath($template_path);
+
+					if(is_array($skinVars))
+					{
+						foreach($skinVars as $key => $val)
+						{
+							$oModule->module_info->{$key} = $val;
+						}
+					}
+				}
+				require_once("./classes/display/HTMLDisplayHandler.php");
+				$handler = new HTMLDisplayHandler();
+				$output = $handler->toDoc($oModule);
+				Context::set('content', $output);
+			}
+			else
+			{
+				Context::set('content', Context::getLang('layout_preview_content'));
+			}
+
 			if($layoutSrl)
 			{
+				if($layoutSrl == -1)
+				{
+					$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $oModule->module_info->site_srl);
+					@include($designInfoFile);
+					$layoutSrl = $designInfo->layout_srl;
+				}
+
 				$oLayoutModel = getModel('layout');
 				$layoutInfo = $oLayoutModel->getLayout($layoutSrl);
 
@@ -103,38 +141,6 @@
 
 				Context::set('layout_info', $layoutInfo);
 			}
-
-			// Get the module information.
-			$oModuleHandler = new ModuleHandler($module, '', $mid, '', $moduleSrl);
-			$oModuleHandler->act = '';
-			
-			if ($oModuleHandler->init())
-			{
-				$oModule = $oModuleHandler->procModule();
-				
-				if($skin)
-				{
-					$template_path = sprintf("%sskins/%s/",$oModule->module_path, $skin);
-					$oModule->setTemplatePath($template_path);
-
-					if(is_array($skinVars))
-					{
-						foreach($skinVars as $key => $val)
-						{
-							$oModule->module_info->{$key} = $val;
-						}
-					}
-				}
-				require_once("./classes/display/HTMLDisplayHandler.php");
-				$handler = new HTMLDisplayHandler();
-				$output = $handler->toDoc($oModule);
-				Context::set('content', $output);
-			}
-			else
-			{
-				Context::set('content', Context::getLang('layout_preview_content'));
-			}
-			
 			// Compile
 			$oTemplate = &TemplateHandler::getInstance();
 			if($layoutSrl)
