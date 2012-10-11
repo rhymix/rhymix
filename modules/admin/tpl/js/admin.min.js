@@ -187,9 +187,6 @@ $.fn.xeModalWindow = function(){
 			// set state : showing
 			$modal.data('state', 'showing');
 
-			// workaroud for IE6
-			$('html,body').addClass('modalContainer');
-
 			// after event trigger
 			function after(){ $this.trigger('after-open.mw') };
 
@@ -202,8 +199,8 @@ $.fn.xeModalWindow = function(){
 
 			$modal
 				.fadeIn(duration, after)
-				.find('button.x_close:first').focus();
-			$('.x_modal-backdrop').show();
+				.find('button.x_close:first').focus().end()
+				.prev('.x_modal-backdrop').show();
 		})
 		.bind('close.mw', function(){
 			var $this = $(this), before_event, $modal, duration;
@@ -224,14 +221,11 @@ $.fn.xeModalWindow = function(){
 			// set state : hiding
 			$modal.data('state', 'hiding');
 
-			// workaroud for IE6
-			$('html,body').removeClass('modalContainer');
-
 			// after event trigger
 			function after(){ $this.trigger('after-close.mw') };
 
-			$modal.fadeOut(duration, after);
-			$('.x_modal-backdrop').hide();
+			$modal.fadeOut(duration, after)
+			.prev('.x_modal-backdrop').hide();
 			$this.focus();
 		});
 	$('div.x_modal').addClass('x').hide();
