@@ -159,7 +159,7 @@
 				else
 				{
 					// use the site default layout.
-					if($module_info->layout_srl == -1000)
+					if($module_info->layout_srl == -1)
 					{
 						$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $module_info->site_srl);
 						@include($designInfoFile);
