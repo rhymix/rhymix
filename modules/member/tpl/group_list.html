@@ -92,48 +92,31 @@
 	<div class="x_clearfix">
 		<span class="x_pull-right"><input class="x_btn x_btn-primary x_btn-large" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
-
-	<!-- Multilingual -->
-	<div id="langEdit" class="langEdit tgContent">
-		<ul class="langList"></ul>
-		<div class="langInput">
-			<h2>{$lang->cmd_multilingual} <strong>{$lang->cmd_modify}...</strong> | <a href="#langEdit">{$lang->cmd_insert}</a></h2>
-			<ul>
-				{@
-					/* move current language to the top */
-					$a = array($lang_type=>$lang_supported[$lang_type]);
-					unset($lang_supported[$lang_type]);
-					$lang_supported = array_merge($a, $lang_supported);
-				}
-				<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
-			</ul>
-			<div class="action">
-				<div class="btnArea">
-					<span class="btn small"><input type="submit" value="{$lang->use}|{$lang->use_after_save}" /></span>
-				</div>
-				<p><a href="{getUrl('act','dispModuleAdminLangcode')}">{$lang->multilingual_manager}</a></p>
-			</div>
-		</div>
-	</div>
 </form>
 
-<div class="modal" id="imageMark">
-	<div class="fg portlet">
-		<div class="_useImageMark" style="display:none">
-		<h2>{$lang->use_group_image_mark}</h2>
-				<input id="useImageMark" type="radio" name="useImageMark" value="Y" />
-				<label for="useImageMark">{$lang->use}</label>
-				<input id="noImageMark" type="radio" name="useImageMark" value="N" />
-				<label for="noImageMark">{$lang->notuse}</label>
+<div class="x_modal" id="imageMark">
+	<div class="x_modal-header">
+		<h3>{$lang->group_image_mark} {$lang->cmd_setup}</h3>
+	</div>
+	<div class="x_modal-body section">
+		<div class="_useImageMark x_control-group" style="display:none">
+			<p>{$lang->use_group_image_mark}</p>
+				<label for="useImageMark" class="x_inline"><input id="useImageMark" type="radio" name="useImageMark" value="Y" />
+				{$lang->use}</label>
+				<label for="noImageMark" class="x_inline"><input id="noImageMark" type="radio" name="useImageMark" value="N" />
+				{$lang->notuse}</label>
 		</div>
-		<!--@if($fileBoxList)-->
-		<div>
-		<h2>{$lang->usable_group_image_mark_list}</h2>
-		<div class="filebox_list">
+		<div class="x_control-group" cond="$fileBoxList">
+			<p>{$lang->usable_group_image_mark_list}</p>
+			<div class="filebox_list">
+			</div>
 		</div>
+		<div class="x_control-group">
+			<p>{$lang->add_group_image_mark}</p>
+			<a href="{getUrl('', 'module','admin', 'act', 'dispModuleAdminFileBox')}" target="_blank">{$lang->link_file_box}</a>
 		</div>
-		<!--@end-->
-		<h2>{$lang->add_group_image_mark}</h2>
-		<a href="{getUrl('', 'module','admin', 'act', 'dispModuleAdminFileBox')}" target="_blank">{$lang->link_file_box}</a>
+	</div>
+	<div class="x_modal-footer">
+		<button type="button" class="x_btn x_pull-left" data-hide="#exModal-1">Close</button>
 	</div>
 </div>
