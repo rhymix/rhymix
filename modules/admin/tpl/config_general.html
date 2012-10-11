@@ -14,74 +14,30 @@
 		<input type="hidden" name="act" value="procInstallAdminConfig" />
 
 		<div class="x_control-group">
-			<label class="x_control-label" for="ftp_host">{$lang->start_module}</label>
-			<div class="x_controls modulefinder moduleSearch">
-					<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
-					<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
-					<a href="#moduleSearchWindow" class="x_btn tgAnchor moduleSearch">{$lang->cmd_find}</a> {$lang->about_start_module}
-					<div id="moduleSearchWindow" class="moduleSearchWindow tgContent">
-					<div class="siteList sectionDiv">
-						<h2>{$lang->select_site}</h2>
-						<div class="siteListSearchBox">
-							<div class="siteListSearchBoxBorder">
-								<div class="searchImg icon-search"></div>
-								<input type="text" class="siteListSearchInput" name="site_filter">
-							</div>
-						</div>
-						<div class="siteListUL">
-							<ul>
-							</ul>
-						</div>
-					</div>
-					<div class="moduleTypeList sectionDiv">
-						<h2>{$lang->select_module_type}</h2>
-						<div>
-							<ul class="moduleTypeListUL">
-							</ul>
-						</div>
-					</div>
-					<div class="moduleInstanceList sectionDiv">
-						<h2>{$lang->select_module_instance}</h2>
-						<div>
-							<select class="moduleInstanceListSelect" size="8" multiple>
-							</select>
-						</div>
-						<button class="x_btn x_btn-mini moduleSearch_ok">{$lang->cmd_select}</button>
-					</div>
-				</div>
-			</div>
-			<div class="x_controls modulefinder moduleSearch" cond="0">
-				<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
+			<label class="x_control-label" for="_target_module">{$lang->start_module}</label>
+			<div class="x_controls moduleSearch">
 				<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
-				<button type="button" href="#moduleSearchWindow" class="x_btn tgAnchor moduleSearch">{$lang->cmd_find}</button> {$lang->about_start_module}
-				<div id="moduleSearchWindow" class="moduleSearchWindow tgContent" style="display:none">
-					<div class="siteList sectionDiv">
-						<h2>{$lang->select_site}</h2>
-						<div class="siteListSearchBox">
-							<div class="siteListSearchBoxBorder">
-								<div class="searchImg icon-search"></div>
-								<input type="text" class="siteListSearchInput" name="site_filter">
-							</div>
-						</div>
-						<div class="siteListUL">
-							<ul>
-							</ul>
-						</div>
+				<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
+				<a href="#msw" class="tgAnchor moduleTrigger x_btn">{$lang->cmd_find}</a> {$lang->about_start_module}
+				<div id="msw" class="tgContent moduleWindow x_well">
+					<div class="siteList x_control-group">
+						<label for="siteFinder">1. {$lang->select_site}</label>
+						<input type="search" class="siteFinder" id="siteFinder" name="site_filter" placeholder="URL">
+						<ul class="x_nav x_nav-tabs x_nav-stacked">
+						</ul>
 					</div>
-					<div class="moduleTypeList sectionDiv">
-						<h2>{$lang->select_module_type}</h2>
-						<div>
-							<ul class="moduleTypeListUL">
-							</ul>
-						</div>
+					<div class="moduleList x_control-group">
+						<label for>2. {$lang->select_module_type}</label>
+						<ul class="x_nav x_nav-tabs x_nav-stacked">
+						</ul>
 					</div>
-					<div class="moduleInstanceList sectionDiv">
-						<h2>{$lang->select_module_instance}</h2>
-						<div>
-							<select class="moduleInstanceListSelect" size="8">
-							</select>
-						</div>
-						<button class="btn btn_primary moduleSearch_ok">{$lang->cmd_select}</button>
+					<div class="instanceList x_control-group">
+						<label for="instanceList">3. {$lang->select_module_instance}</label>
+						<select size="8" id="instanceList" multiple>
+						</select>
+					</div>
+					<div class="x_pull-right">
+						<button type="button" class="moduleSearch_ok x_btn x_btn-inverse">{$lang->cmd_select}</button>
 					</div>
 				</div>
 			</div>

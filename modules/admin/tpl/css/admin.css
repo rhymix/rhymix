@@ -326,6 +326,15 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x#g11n #lang_search .editMode .useit{display:none}
 .x#g11n #lang_search .editMode .cancel,
 .x#g11n #lang_search .editMode .save{display:inline-block}
+/* Module Search */
+.x .moduleWindow{position:absolute;z-index:100;padding:15px 20px;margin:4px 0 0 0}
+.x .moduleWindow ul{margin-bottom:0}
+.x .moduleWindow .siteList{margin-right:14px}
+.x .moduleWindow .siteList>input[type="search"]{width:100%;padding-top:6px;padding-bottom:6px;border-radius:3px 3px 0 0}
+.x .moduleWindow .siteList>ul{margin:-1px -14px 0 0}
+.x .moduleWindow .siteList>ul>li{background:#fff}
+.x .moduleWindow .siteList>ul>li:first-child>a{border-top-left-radius:0;border-top-right-radius:0}
+.x .moduleWindow select{width:100%}
 
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
@@ -512,26 +521,3 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x #ftpSuggestion li button:active,
 .x #ftpSuggestion li button:focus,
 .x #ftpSuggestion li:hover{background:#eee}
-
-/* Module Search */
-.x .moduleSearchWindow{position:absolute;width:700px;z-index:100}
-.x .moduleSearchWindow, .moduleSearchWindow div{margin:0;padding:0;color:#2d2c2d;font-size:12px}
-.x .moduleSearchWindow h2{margin:0;padding:4px;height:24px;line-height:24px;background:#666;text-align:left;color:#fff;font-size:12px}
-.x .moduleSearchWindow .sectionDiv{position:relative;margin:0px;background:#fff;border:1px solid}
-.x .moduleSearchWindow .siteList{float:left;width:295px}
-.x .moduleSearchWindow .highlight{background:yellow;color:red;font-style:italic}
-.x .moduleSearchWindow .moduleTypeList{margin-left:5px;float:left;width:200px}
-.x .moduleSearchWindow .moduleInstanceList{float:right;width:190px}
-.x .moduleSearchWindow ul{margin:0;padding:0;border:0}
-.x .moduleSearchWindow li{font-size:12px;border:0;border-bottom:1px solid #ccc;margin:0;padding: 4px 4px;font-family: 나눔고딕,NanumGothic,"맑은 고딕","Malgun Gothic",AppleGothic,돋움,Dotum,굴림,Gulim,sans-serif}
-.x .moduleSearchWindow li:hover, .moduleSearchWindow li.on{background:#eee;cursor:pointer}
-.x .moduleSearchWindow li div{margin:0;padding:0;display:inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis}
-.x .moduleSearchWindow .siteList li div{width:270px}
-.x .moduleSearchWindow .siteListSearchBox{margin:0;padding:4px 0;height:24px;border-bottom:1px solid #888}
-.x .moduleSearchWindow .siteListSearchBoxBorder{margin-left:3px;height: 22px;width: 287px;border: 1px solid #ccc}
-.x .moduleSearchWindow input.siteListSearchInput{margin:0;padding:0;position:relative;float:right;width: 260px;margin-right:4px;border:0}
-.x .moduleSearchWindow .siteListSearchBox .searchImg{position:relative;float:left;margin-top:4px;margin-left:4px}
-.x .moduleSearchWindow .moduleTypeList li div{width:170px}
-.x .moduleSearchWindow .moduleInstanceList li div{width:190px}
-.x .moduleSearchWindow .moduleSearch_ok {float:right}
-.x .moduleSearchWindow select.moduleInstanceListSelect {width:100%}

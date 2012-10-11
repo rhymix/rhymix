@@ -491,20 +491,15 @@ jQuery(function($){
 _xeModuleSearch = function(){
 	var t = this;
 	var $t = $(this);
-
-	var $moduleSearchWindow = $t.find(".moduleSearchWindow");
-
-	var $siteListDiv = $moduleSearchWindow.find('.siteList');
-	var $moduleTypeListDiv = $moduleSearchWindow.find('.moduleTypeList');
-	var $moduleInstanceListDiv = $moduleSearchWindow.find('.moduleInstanceList');
-
-	var $siteList = $siteListDiv.find('UL');
-	var $moduleTypeList = $moduleTypeListDiv.find('UL');
-	var $moduleInstanceList = $moduleInstanceListDiv.find('SELECT');
-
-	var $siteListSearchInput = $moduleSearchWindow.find('INPUT.siteListSearchInput');
+	var $moduleWindow = $t.find(".moduleWindow");
+	var $siteListDiv = $moduleWindow.find('.siteList');
+	var $moduleListDiv = $moduleWindow.find('.moduleList');
+	var $instanceListDiv = $moduleWindow.find('.instanceList');
+	var $siteList = $siteListDiv.find('>ul');
+	var $moduleList = $moduleListDiv.find('>ul');
+	var $instanceList = $instanceListDiv.find('>select');
+	var $siteFinder = $moduleWindow.find('input.siteFinder');
 	var aSiteListData;
-
 	var MAX_LIST_HEIGHT = 280;
 	
 	function setListSize($UL, nHeight){
@@ -538,16 +533,15 @@ _xeModuleSearch = function(){
 
 			$li = $('<li />').appendTo($siteList);
 			$('<a>').attr('href', '#').html(
-				'<div>' + sDomain + '</div>' +
-				'<span class="x_icon-circle-arrow-right" style="display:inline-block;float:right;width:16px;height:16px;"></span>'
+				sDomain
 			).data('site_srl', list[i].site_srl).appendTo($li);
 		}
 
-		setListSize($siteList, MAX_LIST_HEIGHT - $siteListSearchInput.parent("DIV").height());
+		setListSize($siteList, MAX_LIST_HEIGHT - $siteFinder.parent("div").height());
 	}
 
-	$siteListSearchInput.keyup(function(){
-		setSiteList($siteListSearchInput.val());
+	$siteFinder.keyup(function(){
+		setSiteList($siteFinder.val());
 	});
 
 	if(typeof console == 'undefined'){
@@ -557,7 +551,7 @@ _xeModuleSearch = function(){
 	$t
 		.not('.xe-module-search')
 		.addClass('xe-module-search')
-		.find('a.tgAnchor.moduleSearch')
+		.find('a.moduleTrigger')
 			.bind('before-open.tc', function(){
 				var $this;
 
@@ -573,24 +567,24 @@ _xeModuleSearch = function(){
 
 					aSiteListData = list;
 
-					setSiteList($siteListSearchInput.val());
+					setSiteList($siteFinder.val());
 
-					$siteListSearchInput.focus();
+					$siteFinder.focus();
 				};
 
 				$siteList.empty();
-				$moduleInstanceList.empty();
-				$moduleTypeListDiv.hide();
-				$moduleInstanceListDiv.hide();
+				$instanceList.empty();
+				$moduleListDiv.hide();
+				$instanceListDiv.hide();
 				$.exec_json('admin.getSiteAllList', {domain:""}, on_complete);
 			})
 		.end()
-		.find('.tgContent .siteListUL')
+		.find('.tgContent .siteList>ul')
 			.delegate('a','click',function(oEvent){
 				var $this, $finder;
 
 				$this    = $(this);
-				$finder  = $this.closest('.modulefinder');
+				$finder  = $this.closest('.moduleSearch');
 
 				function on_complete(data) {
 
@@ -600,32 +594,28 @@ _xeModuleSearch = function(){
 
 					for(x in list) {
 						if(!list.hasOwnProperty(x)) continue;
-						$li = $('<li />').appendTo($moduleTypeList);
+						$li = $('<li />').appendTo($moduleList);
 						$('<a>').attr('href', '#').html(
-							'<div>'+list[x].title+'</div>' +
-							'<span class="x_icon-circle-arrow-right" style="display:inline-block;float:right;width:16px;height:16px;"></span>'
+							list[x].title
 						).data('moduleInstanceList', list[x].list).appendTo($li);
-						//$('<option />').attr('value', x).text(list[x].title).appendTo($mod_select);
 					}
 
-					$moduleSearchWindow.find('.moduleTypeList').show();
-					setListSize($moduleTypeList, MAX_LIST_HEIGHT);
+					$moduleWindow.find('.moduleList').show();
+					setListSize($moduleList, MAX_LIST_HEIGHT);
 
-					$siteList.find('li').removeClass('on');
-					$this.parent('li').addClass('on');
+					$siteList.find('li').removeClass('x_active');
+					$this.parent('li').addClass('x_active');
 				};
 
-				//$finder.find('a.tgAnchor.findsite').trigger('close.tc');
-				$moduleTypeList.empty();
-				$moduleInstanceListDiv.hide();
+				$moduleList.empty();
+				$instanceListDiv.hide();
 
 				$.exec_json('module.procModuleAdminGetList', {site_srl:$this.data('site_srl')}, on_complete);
 
 				oEvent.preventDefault();
 			})
 		.end()
-		//.find('.moduleList,.moduleIdList').hide().end()
-		.find('.moduleTypeListUL')
+		.find('.moduleList>ul')
 			.delegate('a', 'click', function(oEvent){
 			
 				var $this, $mid_select, val, list;
@@ -635,27 +625,27 @@ _xeModuleSearch = function(){
 				if(!list) return;
 
 				t.sSelectedModuleType = $this.text();
-				$moduleInstanceList.empty();
+				$instanceList.empty();
 
 				for(var x in list) {
 					if(!list.hasOwnProperty(x)) continue;
 
-					$li = $('<option />').html(list[x].browser_title).appendTo($moduleInstanceList).val(list[x].module_srl).data('mid', list[x].module_srl)
+					$li = $('<option />').html(list[x].browser_title).appendTo($instanceList).val(list[x].module_srl).data('mid', list[x].module_srl)
 							.data('module_srl', list[x].module_srl).data('layout_srl', list[x].layout_srl).data('browser_title', list[x].browser_title);
 				}
 
-				$moduleInstanceListDiv.show();
-				setListSize($moduleInstanceList, MAX_LIST_HEIGHT);
+				$instanceListDiv.show();
+				setListSize($instanceList, MAX_LIST_HEIGHT);
 
-				$moduleTypeList.find('li').removeClass('on');
-				$this.parent('li').addClass('on');
+				$moduleList.find('li').removeClass('x_active');
+				$this.parent('li').addClass('x_active');
 
 				oEvent.preventDefault();
 			})
 		.end()
 		.find('.moduleSearch_ok').click(function(oEvent){
 				var aSelected = [];
-				$t.find('.moduleInstanceListSelect option:selected').each(function(){
+				$t.find('select>option:selected').each(function(){
 					aSelected.push({
 						'type' : t.sSelectedModuleType,
 						'module_srl' : $(this).data('module_srl'),
@@ -665,7 +655,7 @@ _xeModuleSearch = function(){
 				});
 
 				$t.trigger('moduleSelect', [aSelected]);
-				$('.tgAnchor.moduleSearch').trigger('close.tc');
+				$('a.moduleTrigger').trigger('close.tc');
 				
 				oEvent.preventDefault();
 			});
