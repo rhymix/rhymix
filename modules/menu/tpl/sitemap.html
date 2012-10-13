@@ -285,14 +285,14 @@
 				</ul>
 				<div class="x_tab-content">
 					<div class="x_tab-pane x_active" id="pc">
-						<div style="width:260px;height:200px;position:relative;border:1px solid; overflow:hidden">
+						<div style="width:260px;height:200px;position:relative;border:1px solid #aaa; overflow:hidden">
 							<iframe name="_pc_preview_ifr" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
 						</div>
 						<!--img src="http://naradesign.net/photo/DSCN0687.JPG" alt="현재 설정된 PC 레이아웃"-->
 							<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="크게 보기"/>
 					</div>
 					<div class="x_tab-pane" id="mobile">
-						<div style="width:260px;height:200px;position:relative;border:1px solid">
+						<div style="width:260px;height:200px;position:relative;border:1px solid #aaa; overflow:hidden">
 							<iframe name="_mobile_preview_ifr" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
 						</div>
 						<!--img src="http://naradesign.net/photo/DSCN0810.JPG" alt="현재 설정된 모바일 레이아웃"-->
@@ -329,7 +329,7 @@
 					<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
 					<li class="${Selected}">
 						<label>
-							<input type="radio" checked name="layout_item" title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
+							<input type="radio" name="layout_item" title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
 						</label>
 					</li>
 					</script>
@@ -359,40 +359,54 @@
 		<section>
 			<h1>다른 레이아웃 설치</h1>
 			<div class="list">
-				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
+				<script id="tmpl_downloadableLayoutItem" type="text/x-jquery-tmpl">
 					<div class="item">
-						<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
-						<h2>${MenuType}</h2>
-						<p>${MenuTypeDesc}</p>
+						<img src="http://${ScreenShotURL}" alt="">
+						<h2>${Title}</h2>
+						<p>${Desc}</p>
 						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
 						<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
 					</div>
 				</script>
 			</div>
-			<div class="x_pagination x_pagination-centered">
-				<ul>
-					<li class="x_disabled"><a href="#">&laquo;</a></li>
-					<li class="x_active"><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li><a href="#">&raquo;</a></li>
-				</ul>
-			</div>
+			
+			<div class="_pagination"></div>
+			
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#downloadLayout">&times;</button>
 	</div>
+	
 	<div class="col theme" id="skin">
 		<form action="">
 			<h1>스킨</h1>
 			<label>
-				<input type="checkbox" checked title="사이트 기본 스킨 사용"> 사이트 기본 스킨 사용
+				<input type="checkbox" class="_chkUseDefault" title="사이트 기본 스킨 사용"> 사이트 기본 스킨 사용
 				<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 스킨 설정</a>
 			</label>
 			<div class="list">
-				<h2>사용할 수 있는 스킨 목록</h2>
-				<ul>
+				<ul class="_list">
+				
+					<script id="tmpl_skin_list_item_no_skin" type="text/x-jquery-tmpl">
+					<li class="${Selected}">
+						<label>
+							<input type="radio" name="skin_item" title="스킨 사용 안 함"> 스킨 사용 안 함
+						</label>
+					</li>
+					</script>
+				
+					<script id="tmpl_skin_list_item" type="text/x-jquery-tmpl">
+					<li class="${Selected}">
+						<label><input type="radio" name="skin_item" title="${Title}"> ${Title}</label>
+						<button type="button" class="item _btnScreenshot" title="클릭하면 스킨이 적용됩니다.">
+							<img src="${ScreenShotURL}">
+						</button>
+						<ul>
+							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+						</ul>
+					</li>
+					</script>
+<!--					
 					<li class="selected">
 						<h3>엔터프라이즈</h3>
 						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다.">
@@ -413,6 +427,7 @@
 							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
 						</ul>
 					</li>
+-->
 				</ul>
 				<div class="x_btn-group">
 					<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
@@ -435,17 +450,9 @@
 					</div>
 				</script>
 			</div>
-			<div class="x_pagination x_pagination-centered">
-				<ul>
-					<li class="x_disabled"><a href="#">&laquo;</a></li>
-					<li class="x_active"><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li><a href="#">&raquo;</a></li>
-				</ul>
-			</div>
+
+			<div class="_pagination"></div>
+			
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#downloadSkin">&times;</button>
 	</div>
@@ -1263,7 +1270,9 @@ jQuery(function($){
 	$(document.body).on('click', '.x_pagination ._toPage', function(ev){
 		htParam = $.parseJSON($(this).attr('data-param'));
 		
-		$.data($(this).parents('.x_pagination')[0], "fnCallback")(htParam.page);
+		$.data($(this).parents('.x_pagination')[0], "fnCallback")({
+			page: htParam.page
+		});
 	});
 
 	$(document.body).on('click', '.x_pagination ._jumpTo', function(ev){
@@ -1271,7 +1280,9 @@ jQuery(function($){
 		console.log($(this).parent().find('input[name=page]'));
 		var nPage = parseInt($(this).parent().find('input[name=page]').val());
 
-		$.data($(this).parents('.x_pagination')[0], "fnCallback")(nPage);
+		$.data($(this).parents('.x_pagination')[0], "fnCallback")({
+			page: nPage
+		});
 	});
 	
 	//$.jstree._themes = "PATH/TO/FOLDER/";
@@ -1560,7 +1571,7 @@ jQuery(function($){
 	//index.php?act=getAutoinstallAdminMenuPackageList
 		$('#add').nextAll().hide();
 		
-		drawMenuModuleList(1);
+		drawDownloadableList('download');
 	});
 	$('#download').bind("hide", function(ev){
 	// ignore bubbled show events
@@ -1570,42 +1581,89 @@ jQuery(function($){
 		
 		$('#download ._pagination').html("");
 	});
-	function drawMenuModuleList(nPage){
-		var params = {};
-		params['page'] = nPage;
-		$.exec_json("menu.getAutoinstallAdminMenuPackageList", params, function(htData){
-			var sResult = "";
-			var item;
-			for(var i=0, nLen=htData.item_list.length; i<nLen; i++){
-				item = htData.item_list[i];
-				
-				sResult += $.tmpl( "downloadableMenuTypeItem", {
-					MenuType: item.title,
-					MenuTypeDesc: item.package_description,
-					ScreenShotURL: item.item_screenshot_url.replace(/^http:\/\//, ""),
-					Score: item.package_star,
-					TotalVotes: item.package_voted,
-					LastUpdated: item.item_regdate,
-					TotalDownloads: item.package_downloaded,
-					IsInstalled: "installed",
-					PackageSrl: item.package_srl
-				} ).get()[0].outerHTML;
-			}
+	
+	$('#downloadLayout').bind("show", function(ev){
+	// ignore bubbled show events
+		if(this !== ev.target){
+			return;
+		}
+		
+	//index.php?act=getAutoinstallAdminMenuPackageList
+		$('#layout').nextAll().hide();
+		
+		drawDownloadableList('downloadLayout');
+	});
 
-			$('#download .list').html(sResult);
-			/*
-			"page_navigation":{
-                "total_count":"10",
-                "total_page":"1",
-                "cur_page":"1",
-                "page_count":"1",
-                "first_page":1,
-                "last_page":"1",
-                "point":0
-			},
-			*/
-			var htInfo = htData.page_navigation;
-			createPagination($('#download ._pagination'), drawMenuModuleList, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
+	$('#downloadSkin').bind("show", function(ev){
+	// ignore bubbled show events
+		if(this !== ev.target){
+			return;
+		}
+		
+	//index.php?act=getAutoinstallAdminMenuPackageList
+		$('#skin').nextAll().hide();
+		
+		drawDownloadableList('downloadSkin', {
+			parent_program : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType
+		});
+	});
+
+	//function drawMenuModuleList(nPage){
+	// sItemType : download, downloadLayout, downloadSkin
+	// htParams : download/{page}, downloadLayout/{page, type}, downloadSkin/{page, type, parent_program}
+	// https://code.google.com/p/xe-core/wiki/DownloadAvailableList_GET_API
+	function drawDownloadableList(sItemType, htParams){
+		var htDownloadableListAction = {
+			download:'menu.getAutoinstallAdminMenuPackageList',
+			downloadLayout:'menu.getAutoinstallAdminLayoutPackageList',
+			downloadSkin:'menu.getAutoinstallAdminSkinPackageList'
+		};
+		
+		htParams = htParams || {};
+		htParams.page = htParams.page || 1;
+
+		var $Panel = $('#'+sItemType);
+		var sAction = htDownloadableListAction[sItemType];
+
+		//var params = {};
+		//params['page'] = nPage;
+		//"menu.getAutoinstallAdminMenuPackageList"
+		$.exec_json(sAction, htParams, function(htData){
+			console.log(htData);
+			//var sResult = "";
+			$Panel.find('.list').html("");
+			
+			var item;
+			if(htData.item_list){
+				for(var i=0, nLen=htData.item_list.length; i<nLen; i++){
+					item = htData.item_list[i];
+					
+					$Panel.find('.list').append($.tmpl( "downloadableMenuTypeItem", {
+						MenuType: item.title,
+						MenuTypeDesc: item.package_description,
+						ScreenShotURL: item.item_screenshot_url.replace(/^http:\/\//, ""),
+						Score: item.package_star,
+						TotalVotes: item.package_voted,
+						LastUpdated: item.item_regdate,
+						TotalDownloads: item.package_downloaded,
+						IsInstalled: "installed",
+						PackageSrl: item.package_srl
+					} ));
+				}
+
+				//$Panel.find('.list').html(sResult);
+
+				var htInfo = htData.page_navigation;
+				
+				var fnCallback = function(htNewParams){
+					
+					htParams.page = htNewParams.page || htParams.page;
+					
+					return drawDownloadableList(sItemType, htParams);
+				}
+				//createPagination($('#download ._pagination'), drawMenuModuleList, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
+				createPagination($Panel.find('._pagination'), fnCallback, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
+			}
 			
 			scrollToRight();
 		});
@@ -1880,8 +1938,7 @@ jQuery(function($){
 				sModuleName : htTmp.module,
 				sMID : htTmp.mid,
 				sLayoutSrl : htTmp.layout_srl,
-				sPCSkin : htTmp.skin,
-				sMobileSkin : htTmp.mskin,
+				htSkin : {P: htTmp.skin, M : htTmp.mskin},
 				htData : {}
 			};
 			
@@ -1906,6 +1963,9 @@ jQuery(function($){
 		//layout_srl
 		//
 	})
+	$('#design').bind('hide', function(){
+		$._xeAdminVar.htPrevSetting = {};
+	});
 	function updatePreview(htParam){
 			if(htParam.bClearPrevSetting){
 				$._xeAdminVar.htPrevSetting = {};
@@ -1915,7 +1975,11 @@ jQuery(function($){
 			htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
 			htSetting.sMID = htParam.sMID || htSetting.sMID || "";
 			htSetting.sLayoutSrl = htParam.sLayoutSrl || htSetting.sLayoutSrl || "";
-			htSetting.sSkin = htParam.sSkin || htSetting.sSkin || "";
+			if(typeof htParam.sSkin === "string"){
+				htSetting.sSkin = htParam.sSkin;
+			}else{
+				htSetting.sSkin = htParam.sSkin || htSetting.sSkin || "";
+			}
 			htSetting.bMobilePreviewTabOpen = htParam.bMobilePreviewTabOpen || htSetting.bMobilePreviewTabOpen || false;
 			htSetting.htLayoutData = htParam.htLayoutData || htSetting.htLayoutData || "";
 			htSetting.htSkinData = htParam.htSkinData || htSetting.htSkinData || "";
@@ -1947,19 +2011,6 @@ jQuery(function($){
 	$('#layout ._chkUseDefaultLayout').click(function(){
 		updateLayoutListDisplayStatus();
 	});
-	function updateLayoutListDisplayStatus(){
-		$ChkBox = $('#layout ._chkUseDefaultLayout');
-		if($ChkBox.attr('checked')){
-			$('#layout .list').hide();
-			
-			updatePreview({
-				sLayoutSrl : -1,
-				htLayoutData : {}
-			});
-		}else{
-			$('#layout .list').show();
-		}
-	}
 	$("#tmpl_layout_list_item_no_layout").template( "layoutListItem_nolayout" );
 	$("#tmpl_layout_list_item").template( "layoutListItem" );
 	$('#layout').on('show', function(ev){
@@ -1979,27 +2030,28 @@ jQuery(function($){
 		loadInstalledLayoutList("P");
 	});
 
+	function updateLayoutListDisplayStatus(){
+		$ChkBox = $('#layout ._chkUseDefaultLayout');
+		if($ChkBox.attr('checked')){
+			$('#layout .list').hide();
+			
+			updatePreview({
+				sLayoutSrl : -1,
+				htLayoutData : {}
+			});
+		}else{
+			$('#layout .list').show();
+		}
+	}
 	// sType: "P", "M" (PC/Mobile)
 	function loadInstalledLayoutList(sType){
 		var params = {
 			site_srl : 0,
 			layout_type : sType
 		};
+		// https://code.google.com/p/xe-core/wiki/LayoutInfo_GET_API
 		$.exec_json("layout.getLayoutInstanceListForJSONP", params, function(htData){
 			var sResult = "";
-			//layout_list: Array[6]
-			/*
-				extra_vars: ""
-				layout: "user_layout"
-				layout_path: ""
-				layout_srl: "273"
-				layout_type: "P"
-				module_srl: "0"
-				regdate: "20121011112418"
-				site_srl: "0"
-				thumbnail: "./layouts/user_layout/thumbnail.png"
-				title: "테스트 레이아웃"
-			*/
 			var $List = $('#layout ._layout_list');
 			$List.html("");
 			
@@ -2029,6 +2081,8 @@ jQuery(function($){
 					Selected : sSelected
 				}).data('LayoutSrl', htInfo.layout_srl));
 			}
+			
+			$List.find('.selected input').attr('checked', 'checked');
 			
 			//console.log(sSelectedSrl);
 			updatePreview({
@@ -2111,7 +2165,113 @@ jQuery(function($){
 			}
 		});
 	});
-	
+
+	$("#tmpl_skin_list_item").template( "skinListItem");
+	$("#tmpl_skin_list_item_no_skin").template( "skinListItem_noskin");
+	$('#skin').on('show', function(ev){
+		if(this !== ev.target){
+			return;
+		}
+		
+		updateSkinListDisplayStatus();
+	});
+	$('#skin').on('hide', function(ev){
+		if(this !== ev.target){
+			return;
+		}
+	});
+	$('#skin .list').on('show', function(){
+		loadInstalledSkinList("P");
+	});
+
+	$('#skin ._chkUseDefault').click(function(){
+		updateSkinListDisplayStatus();
+	});
+	function updateSkinListDisplayStatus(){
+		$ChkBox = $('#skin ._chkUseDefault');
+		if($ChkBox.attr('checked')){
+			$('#skin .list').hide();
+			
+			updatePreview({
+				//sLayoutSrl : -1,
+				//htLayoutData : {}
+				sSkin : ""
+			});
+		}else{
+			$('#skin .list').show();
+		}
+	}
+	// sType: "P", "M" (PC/Mobile)
+	function loadInstalledSkinList(sType){
+		//params['module_name'] = 모듈이름;
+		//getModuleSkinInfoList	
+
+		var params = {
+			module_name : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType
+		};
+		// https://code.google.com/p/xe-core/wiki/ModuleSkinInfo_GET_API
+		$.exec_json("module.getModuleSkinInfoList", params, function(htData){
+			console.log(htData);
+			
+			//skin_info_list: Object
+			
+			var sResult = "";
+			var $List = $('#skin ._list');
+			$List.html("");
+			
+			var sSelected = "";
+			
+			var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+			if(htDesign.htSkin[sType] == ""){
+				sSelectedSkin = "";
+				sSelected = "selected";
+			}
+			$List.append($.tmpl("skinListItem_noskin", {
+				Selected : sSelected
+			}).data('SkinName', ""));
+			
+			for(var sName in htData.skin_info_list){
+				htInfo = htData.skin_info_list[sName];
+			//for(var i=0, nLen=htData.skin_info_list.length; i<nLen; i++){
+				htInfo.sName = sName;
+				
+				sSelected = "";
+				if(htDesign.htSkin[sType] == htInfo.sName){
+					sSelectedSkin = htInfo.sName;
+					sSelected = "selected";
+				}
+//				console.log(htInfo.title);
+				$List.append($.tmpl("skinListItem", {
+					Title : htInfo.title, 
+					ScreenShotURL : htInfo.thumbnail,
+					Selected : sSelected
+				}).data('SkinName', htInfo.sName));
+			}
+			$List.find('.selected input').attr('checked', 'checked');
+			//console.log(sSelectedSrl);
+
+			updatePreview({
+				sSkin : sSelectedSkin,
+				htSkinData : {}
+			});
+
+		});
+	}
+	$('#skin').on('click', 'button._btnScreenshot', function(){
+		$(this).closest('li').find('input[name=skin_item]').click();
+	});
+	$('#skin').on('click', 'input[name=skin_item]', function(){
+		$('#skin').find('li.selected').removeClass('selected');
+		$(this).closest('li').addClass('selected');
+		
+		var sSkinName = $(this).closest('li').data('SkinName');
+		
+		updatePreview({
+			sSkin : sSkinName
+		});
+	})
+//-----------------------
+
 	var $foggyLayer = $("<div>");
 	$foggyLayer.css({
 		position: 'absolute',
