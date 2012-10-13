@@ -12,6 +12,18 @@
 		<value xml:lang="tr"><![CDATA[Üye]]></value>
 		<value xml:lang="vi"><![CDATA[Thành viên]]></value>
 	</item>
+	<item name="site">
+		<value xml:lang="ko"><![CDATA[사이트]]></value>
+		<value xml:lang="en"><![CDATA[Site]]></value>
+		<value xml:lang="jp"><![CDATA[Site]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Site]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Site]]></value>
+		<value xml:lang="fr"><![CDATA[Site]]></value>
+		<value xml:lang="ru"><![CDATA[Site]]></value>
+		<value xml:lang="es"><![CDATA[Site]]></value>
+		<value xml:lang="tr"><![CDATA[Site]]></value>
+		<value xml:lang="vi"><![CDATA[Site]]></value>
+	</item>
 	<item name="member_default_info">
 		<value xml:lang="ko"><![CDATA[기본 정보]]></value>
 		<value xml:lang="en"><![CDATA[Basic Info]]></value>
