@@ -13,9 +13,9 @@ jQuery(function($){
 		var focusable = 'a,input,button,textarea,select';
 		$target.toggle();
 		if($target.is(':visible') && !$target.find(focusable).length){
-			$target.attr('tabindex','0').focus();
+			$target.attr('tabindex','0').not(':disabled').focus();
 		} else if($target.is(':visible') && $target.find(focusable).length) {
-			$target.find(focusable).eq(0).focus();
+			$target.find(focusable).not(':disabled').eq(0).focus();
 		} else {
 			$this.focus();
 		}
@@ -1079,7 +1079,7 @@ $('.filebox')
 					});
 
 					// text click
-					$('#lang_search').find('[href^="#lang-"]').append('<i class="x_icon-chevron-down"></i>').click(function(){
+					$('#lang_search').find('.set').append('<i class="x_icon-chevron-down"></i>').click(function(){
 						var $this = $(this);
 						var lang_code = $this.data('lang_code');
 
@@ -1091,16 +1091,16 @@ $('.filebox')
 						if($this.next('fieldset').is(':visible')){
 							$this.children('i').removeClass(up).addClass(down);
 						}else{
-							$this.children('i').removeClass(down).addClass(up);
 							$this.parent('.item').siblings('.item').find('a > i').removeClass(up).addClass(down).end().children('fieldset').hide();
+							$this.children('i').removeClass(down).addClass(up);
 						}
 
-						if($this.data('is_loaded')) return;
+						if(typeof $this.data('is_loaded') != 'undefined') return;
 
 						$.exec_json('module.getModuleAdminLangCode', {'name': lang_code}, on_complete);
 
 						function on_complete(data){
-							var $textareas = $($this.attr('href') + ' textarea');
+							var $textareas = $this.next('fieldset').find('textarea');
 
 							$textareas.each(function(){
 								var $this = $(this);
@@ -1116,6 +1116,8 @@ $('.filebox')
 
 							$this.data('is_loaded', true);
 						}
+
+
 					});
 
 					if(name){

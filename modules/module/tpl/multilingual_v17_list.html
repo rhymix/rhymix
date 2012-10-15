@@ -7,8 +7,8 @@
 <p cond="!$name">{sprintf($lang->about_multilingual_search_result, $total_count)}</p>
 <fieldset class="list">
 	<form loop="$lang_code_list => $no, $val" action="" class="item">
-		<a href="#lang-{$no}" data-toggle="#lang-{$no}" data-lang_code="{$val->name}"><span>{$val->value}<span></a>
-		<fieldset id="lang-{$no}">
+		<a class="set" href="#lang-{$no}"  data-toggle="#lang-{$no}" data-lang_code="{$val->name}"><span>{$val->value}</span></a>
+		<fieldset id="lang-{$no}" style="display:none">
 			<textarea loop="$lang_supported => $code, $lname" disabled class="{$code}" data-lang="{$code}" rows="1" cols="12" title="{$lname}" style="margin-right:5px"></textarea>
 			<div class="x_clearfix">
 				<span class="x_pull-left">
