@@ -291,43 +291,43 @@ to{-o-transform:rotate(360deg)}
 .x .g11n.active>.x_add-on.remover{display:inline-block}
 .x .g11n>.x_add-on:hover>i{opacity:1;filter:alpha(opacity=100)}
 .x .g11n>textarea{border-top-right-radius:0}
-.x#g11n #lang_search .list{border-top:2px solid #ddd}
-.x#g11n #lang_search .item{border-bottom:1px solid #ddd;margin:0}
-.x#g11n #lang_search .item>a{display:block;padding:8px 0;position:relative}
-.x#g11n #lang_search .item>a>i{position:absolute;top:50%;margin:-7px 0 0 0;right:0;opacity:.5;filter:alpha(opacity=50)}
-.x#g11n #lang_search .item>fieldset{display:none;padding:0 0 15px 0}
-.x#g11n .item>fieldset>input[type="text"],
-.x#g11n .item>fieldset>textarea{padding-left:25px;width:187px;background-repeat:no-repeat;background-position:4px 8px}
+#g11n #lang_search .list{border-top:2px solid #ddd}
+#g11n #lang_search .item{border-bottom:1px solid #ddd;margin:0}
+#g11n #lang_search .item>a{display:block;padding:8px 0;position:relative}
+#g11n #lang_search .item>a>i{position:absolute;top:50%;margin:-7px 0 0 0;right:0;opacity:.5;filter:alpha(opacity=50)}
+#g11n #lang_search .item>fieldset{display:none;padding:0 0 15px 0}
+#g11n .item input[type="text"],
+#g11n .item textarea{padding-left:25px;width:187px;background-repeat:no-repeat;background-position:4px 8px}
 html[lang="en"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.en{background-image:url(../img/flag.en.gif)}
+#g11n .item .en{background-image:url(../img/flag.en.gif)}
 html[lang="ko"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.ko{background-image:url(../img/flag.ko.gif)}
+#g11n .item .ko{background-image:url(../img/flag.ko.gif)}
 html[lang="jp"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.jp{background-image:url(../img/flag.jp.gif)}
+#g11n .item .jp{background-image:url(../img/flag.jp.gif)}
 html[lang="zh"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.zh-CN{background-image:url(../img/flag.cn.gif)}
+#g11n .item .zh-CN{background-image:url(../img/flag.cn.gif)}
 html[lang="zh"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.zh-TW{background-image:url(../img/flag.cn.gif)}
+#g11n .item .zh-TW{background-image:url(../img/flag.cn.gif)}
 html[lang="fr"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.fr{background-image:url(../img/flag.fr.gif)}
+#g11n .item .fr{background-image:url(../img/flag.fr.gif)}
 html[lang="de"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.de{background-image:url(../img/flag.de.gif)}
+#g11n .item .de{background-image:url(../img/flag.de.gif)}
 html[lang="ru"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.ru{background-image:url(../img/flag.ru.gif)}
+#g11n .item .ru{background-image:url(../img/flag.ru.gif)}
 html[lang="es"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.es{background-image:url(../img/flag.es.gif)}
+#g11n .item .es{background-image:url(../img/flag.es.gif)}
 html[lang="tr"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.tr{background-image:url(../img/flag.tr.gif)}
+#g11n .item .tr{background-image:url(../img/flag.tr.gif)}
 html[lang="vi"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.vi{background-image:url(../img/flag.vi.gif)}
+#g11n .item .vi{background-image:url(../img/flag.vi.gif)}
 html[lang="mn"] .x .g11n.active>[disabled],
-.x#g11n .item>fieldset>.mn{background-image:url(../img/flag.mn.gif)}
-.x#g11n #lang_search .cancel,
-.x#g11n #lang_search .save,
-.x#g11n #lang_search .editMode .modify,
-.x#g11n #lang_search .editMode .useit{display:none}
-.x#g11n #lang_search .editMode .cancel,
-.x#g11n #lang_search .editMode .save{display:inline-block}
+#g11n .item .mn{background-image:url(../img/flag.mn.gif)}
+#g11n #lang_search .cancel,
+#g11n #lang_search .save,
+#g11n #lang_search .editMode .modify,
+#g11n #lang_search .editMode .useit{display:none}
+#g11n #lang_search .editMode .cancel,
+#g11n #lang_search .editMode .save{display:inline-block}
 /* Module Search */
 .x .moduleWindow{position:absolute;z-index:100;padding:15px 20px;margin:4px 0 0 0}
 .x .moduleWindow ul{margin-bottom:0}
