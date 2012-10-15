@@ -10,11 +10,12 @@ jQuery(function($){
 	$(document.body).on('click', '.x [data-toggle]', function(){
 		var $this = $(this);
 		var $target = $($this.attr('data-toggle'));
+		var focusable = 'a,input,button,textarea,select';
 		$target.toggle();
-		if($target.is(':visible') && !$target.find('a,input,button,textarea,select').length){
+		if($target.is(':visible') && !$target.find(focusable).length){
 			$target.attr('tabindex','0').focus();
-		} else if($target.is(':visible') && $target.find('a,input,button,textarea,select').length) {
-			$target.find('a,input,button,textarea,select').eq(0).focus();
+		} else if($target.is(':visible') && $target.find(focusable).length) {
+			$target.find(focusable).eq(0).focus();
 		} else {
 			$this.focus();
 		}
@@ -45,29 +46,32 @@ jQuery(function($){
 	var $xContent = $xBody.children('#content.content');
 	var $xGnb = $xBody.find('>.gnb');
 	var $xGnb_li = $xGnb.find('>ul>li');
+// Active Submenu Copy
+	$xGnb_li.find('>ul>li.active_').clone().addClass('active').prependTo('#gnbNav');
 // GNB Hover toggle
-	function contentBugFix(){ // Chrome browser rendering bug fix
+	function reflow(){ // Chrome browser rendering bug fix
 		$xContent.width('99.99%');
 		setTimeout(function(){
 			$xContent.removeAttr('style');
-		}, 0);
+			if($xGnb.height() > $xContent.height()){
+				$xContent.height($xGnb.height());
+			}
+		}, 100);
 	}
 // GNB Click toggle
 	$xGnb_li.find('ul').prev('a')
 		.bind('click focus', function(){
 			var $this = $(this);
-			// Submenu toggle
-			$xGnb_li.not($this.parent('li')).removeClass('open');
-			$(this).parent('li').toggleClass('open');
+			$this.parent('li').addClass('open').siblings('li').removeClass('open');
 			$xBody.removeClass('wide');
-			contentBugFix();
+			reflow();
 			return false;
 		});
 // GNB Mobile Toggle
 	$xGnb.find('>a[href="#gnbNav"]').click(function(){
 		$(this).parent('.gnb').toggleClass('open');
 		$xBody.toggleClass('wide');
-		contentBugFix();
+		reflow();
 		return false;
 	});
 // GNB Close
@@ -76,7 +80,7 @@ jQuery(function($){
 		.append('<button type="button" class="close after" />');
 	$xGnb.find('>.close').focus(function(){
 		$xBody.addClass('wide');
-		contentBugFix();
+		reflow();
 	});
 // Check All
 	$('.x th>input[type="checkbox"]')
