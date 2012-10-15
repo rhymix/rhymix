@@ -20,31 +20,4 @@
             <title xml:lang="jp">グローバルメニュー</title>
         </menu>
     </menus>
-    <extra_vars>
-			<var name="cb" type="checkbox">
-				<title xml:lang="ko">1-1. 레이아웃 스타일</title>
-				<title xml:lang="en">1-1. Layout Style</title>
-				<options value="portal">
-					<title xml:lang="ko">포털 스타일</title>
-					<title xml:lang="en">Portal Style</title>
-				</options>
-				<options value="portalr2">
-					<title xml:lang="ko">포털 스타일</title>
-					<title xml:lang="en">Portal Style</title>
-				</options>
-			</var>
-			<var name="cbs" type="radio">
-			
-				<title xml:lang="ko">1-1. 레이아웃 스타일</title>
-				<title xml:lang="en">1-1. Layout Style</title>
-				<options value="portal" src="a.png">
-					<title xml:lang="ko">포털 스타일</title>
-					<title xml:lang="en">Portal Style</title>
-				</options>
-				<options value="portalr2">
-					<title xml:lang="ko">포털 스타일</title>
-					<title xml:lang="en">Portal Style</title>
-				</options>
-			</var>
-	</extra_vars>
 </layout>

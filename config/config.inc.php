@@ -189,7 +189,7 @@
 		 * Only particular servers may have a problem in IE browser when sending a compression
 		 * </pre>
 		 */
-		define('__OB_GZHANDLER_ENABLE__', 0);
+		define('__OB_GZHANDLER_ENABLE__', 1);
 	}
 
 	if(!defined('__ENABLE_PHPUNIT_TEST__'))
