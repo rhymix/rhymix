@@ -290,14 +290,14 @@ to{-o-transform:rotate(360deg)}
 .x .g11n.active>[disabled]{padding-left:25px;background-position:4px 6px;background-repeat:no-repeat}
 .x .g11n.active>.x_add-on.remover{display:inline-block}
 .x .g11n>.x_add-on:hover>i{opacity:1;filter:alpha(opacity=100)}
-.x .g11n>textarea{border-top-right-radius:0}
+.x .g11n>textarea{border-top-right-radius:0;overflow-x:hidden}
 #g11n #lang_search .list{border-top:2px solid #ddd}
 #g11n #lang_search .item{border-bottom:1px solid #ddd;margin:0}
 #g11n #lang_search .item>a{display:block;padding:8px 0;position:relative}
 #g11n #lang_search .item>a>i{position:absolute;top:50%;margin:-7px 0 0 0;right:0;opacity:.5;filter:alpha(opacity=50)}
 #g11n #lang_search .item>fieldset{display:none;padding:0 0 15px 0}
 #g11n .item input[type="text"],
-#g11n .item textarea{padding-left:25px;width:187px;background-repeat:no-repeat;background-position:4px 8px}
+#g11n .item textarea{padding-left:25px;width:187px;background-repeat:no-repeat;background-position:4px 8px;overflow-x:hidden}
 html[lang="en"] .x .g11n.active>[disabled],
 #g11n .item .en{background-image:url(../img/flag.en.gif)}
 html[lang="ko"] .x .g11n.active>[disabled],
