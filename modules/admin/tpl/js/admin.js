@@ -34,11 +34,20 @@ jQuery(function($){
 		return false;
 	});
 // Tab Navigation
+	$('.x .x_tabbable').each(function(){
+		var $this = $(this);
+		$this.find('>.x_nav-tabs>li>a').each(function(index){
+			$(this).attr('data-index', index+1);
+		});
+		$this.find('>.x_tab-content>.x_tab-pane').each(function(index){
+			$(this).attr('data-index', index+1);
+		});
+	});
 	$('.x .x_tab-content>.x_tab-pane:not(".x_active")').hide();
-	$(document.body).on('click', '.x .x_nav-tabs>li>a[href^="#"]', function(){
+	$(document.body).on('click', '.x .x_nav-tabs>li>a[href*="#"]', function(){
 		var $this = $(this);
 		$this.parent('li').addClass('x_active').siblings().removeClass('x_active');
-		$this.closest('.x_nav-tabs').next('.x_tab-content').find($this.attr('href')).addClass('x_active').show().siblings().removeClass('x_active').hide();
+		$this.closest('.x_nav-tabs').next('.x_tab-content').find('>.x_tab-pane').eq($this.attr('data-index')-1).addClass('x_active').show().siblings().removeClass('x_active').hide();
 		return false;
 	});
 // GNB
