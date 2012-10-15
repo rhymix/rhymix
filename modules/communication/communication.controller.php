@@ -195,12 +195,16 @@
             $oCommunicationModel = &getModel('communication');
             $message = $oCommunicationModel->getSelectedMessage($message_srl);
             if(!$message) return new Object(-1,'msg_invalid_request');
-            // Check a message type if 'S' or 'R'
-            if($message->sender_srl == $member_srl && $message->message_type == 'S') {
-                if(!$message_srl) return new Object(-1, 'msg_invalid_request');
-            } elseif($message->receiver_srl == $member_srl && $message->message_type == 'R') {
-                if(!$message_srl) return new Object(-1, 'msg_invalid_request');
-            }
+            // Check the grant
+			switch($message->message_type)
+			{
+				case 'S':
+					if($message->sender_srl != $member_srl) return new Object(-1, 'msg_invalid_request');
+					break;
+				case 'R':
+					if($message->receiver_srl != $member_srl) return new Object(-1, 'msg_invalid_request');
+					break;
+			}
             // Delete
             $args->message_srl = $message_srl;
             $output = executeQuery('communication.deleteMessage', $args);
