@@ -44,16 +44,10 @@
 		<div class="x_controls">
 			<div cond="$var->type == 'text'">
 				<input type="text" name="{$id}" class="lang_code" />
-				<script>
-					xe.registerApp(new xe.MultiLangManager('{$id}'));
-				</script>
 			</div>
 			<input cond="$var->type == 'color'" type="text" name="{$id}" value="" id="{$id}" class="color-indicator" style="width:178px" />
 			<div cond="$var->type == 'textarea'">
 				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}" class="lang_code" rows="8" cols="42"></textarea>
-				<script>
-					xe.registerApp(new xe.MultiLangManager('{$id}'));
-				</script>
 			</div>
 			<select cond="$var->type == 'select'" name="{$id}" id="{$id}" style="width:220px">
 				<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>

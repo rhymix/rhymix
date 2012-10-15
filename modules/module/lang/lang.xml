@@ -1083,4 +1083,12 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="ko"><![CDATA[다국어를 입력해 주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter value for multilingual.]]></value>
 	</item>
+	<item name="cmd_set_multilingual_text">
+		<value xml:lang="ko"><![CDATA[다국어 텍스트 설정]]></value>
+		<value xml:lang="en"><![CDATA[Set multilingual text]]></value>
+	</item>
+	<item name="cmd_remove_multilingual_text">
+		<value xml:lang="ko"><![CDATA[다국어 텍스트 해제]]></value>
+		<value xml:lang="en"><![CDATA[Remove multilingual text]]></value>
+	</item>
 </lang>

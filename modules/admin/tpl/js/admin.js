@@ -160,6 +160,7 @@ $.fn.xeModalWindow = function(){
 			var $this = $(this), $modal, $btnClose, disabled, before_event, duration;
 			
 			$modal = $( $this.attr('href') );
+			alert($this.attr('href'));
 			if(!$modal.parent('body').length) {
 				$btnClose = $('<button type="button" class="x_close">&times;</button>');
 				$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
@@ -966,14 +967,14 @@ $('.filebox')
 				}else{
 					var $displayInput = $('<input type="text" id="lang_' + id + '" class="displayInput" style="width:179px">').data('lang-id', id);
 				}
-				var $remover = $('<button type="button" class="x_add-on remover" title="Remove Multilingual Text"><i class="x_icon-remove"></i> Remove Multilingual Text</button>').data('lang-target', id);
-				var $setter = $('<a href="#g11n" class="x_add-on modalAnchor" title="Set Multilungual Text"><i class="x_icon-globe"></i> Set Multilingual Text</a>').data('lang-target', id);
+				var $remover = $('<button type="button" class="x_add-on remover" title="' + xe.cmd_remove_multilingual_text + '"><i class="x_icon-remove"></i>' + xe.cmd_remove_multilingual_text + '</button>').data('lang-target', id);
+				var $setter = $('<a href="#g11n" class="x_add-on modalAnchor" title="' + xe.cmd_set_multilingual_text + '"><i class="x_icon-globe"></i>' + xe.cmd_set_multilingual_text + '</a>').data('lang-target', id);
 
 				$this.parent().addClass('g11n').addClass('x_input-append');
 				$this.after($displayInput, $remover, $setter);
 				$this.parent().find('.vLang').remove();
 				$this.hide();
-				$setter.xeModalWindow();
+				$setter.attr('href', '#g11n').xeModalWindow();
 
 				// text change
 				var $hiddenInput = $this;
