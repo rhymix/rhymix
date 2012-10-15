@@ -34,16 +34,20 @@ jQuery(function($){
 		return false;
 	});
 // Tab Navigation
-	$('.x .x_tabbable').each(function(){
-		var $this = $(this);
-		$this.find('>.x_nav-tabs>li>a').each(function(index){
-			$(this).attr('data-index', index+1);
+	$.fn.xeTabbable = function(){
+		$(this).each(function(){
+			var $this = $(this);
+			$this.find('>.x_nav-tabs>li>a').each(function(index){
+				$(this).attr('data-index', index+1);
+			});
+			$this.find('>.x_tab-content>.x_tab-pane').each(function(index){
+				$(this).attr('data-index', index+1);
+			});
 		});
-		$this.find('>.x_tab-content>.x_tab-pane').each(function(index){
-			$(this).attr('data-index', index+1);
-		});
-	});
-	$('.x .x_tab-content>.x_tab-pane:not(".x_active")').hide();
+		$('.x .x_tab-content>.x_tab-pane:not(".x_active")').hide();
+	}
+	$('.x .x_tabbable').xeTabbable();
+
 	$(document.body).on('click', '.x .x_nav-tabs>li>a[href*="#"]', function(){
 		var $this = $(this);
 		$this.parent('li').addClass('x_active').siblings().removeClass('x_active');
@@ -1021,6 +1025,9 @@ $('.filebox')
 			var $g11n_create = $g11n_get.find('#lang_create'); // create section
 			var $g11n_search = $g11n_get.find('#lang_search'); // search section
 			var is_create_changed = false;
+
+			// tabbable
+			$g11n_get.find('.x_tabbable').xeTabbable();
 
 			// check create change
 			$g11n_create.find('.editMode textarea').change(function(){
