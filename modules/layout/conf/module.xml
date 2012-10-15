@@ -18,6 +18,8 @@
 		<action name="dispLayoutAdminEdit" type="view" menu_name="installedLayout" />
 		<action name="dispLayoutAdminCopyLayout" type="view" />
 
+		<action name="getLayoutAdminSetInfoView" type="model" />
+
 		<action name="dispLayoutPreview" type="view" />
 		<action name="dispLayoutPreviewWithModule" type="view" />
 
