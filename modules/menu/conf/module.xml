@@ -2,6 +2,7 @@
 <module>
     <grants />
 		<permission action="getMenuAdminSiteMap" target="manager" />
+		<permission action="procMenuAdminUpdateAuth" target="manager" />
     <permissions />
     <actions>
         <action name="dispMenuAdminContent" type="view" standalone="true" />
@@ -32,6 +33,7 @@
         <action name="procMenuAdminUploadButton" type="controller" standalone="true" />
         <action name="procMenuAdminDeleteButton" type="controller" standalone="true" />
         <action name="procMenuAdminAllActList" type="controller" standalone="true" />
+        <action name="procMenuAdminUpdateAuth" type="controller" standalone="true" />
 
 		<action name="dispMenuMenu" type="mobile" standalone="true" />
     </actions>

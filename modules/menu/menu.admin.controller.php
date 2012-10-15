@@ -410,18 +410,6 @@
 			return $output->toBool();
 		}
 
-		public function procMenuAdminInsertItem_old($request = NULL)
-		{
-			// check shortcut
-			if($args->is_shortcut == 'Y')
-			{
-			}
-			else
-			{
-			}
-
-		}
-
 		/**
 		 * Update an item to the menu, simple version
 		 * @return void
@@ -1146,6 +1134,95 @@
 
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
 			$this->setRedirectUrl($returnUrl);
+		}
+
+		/**
+		 * Update menu auth (Exposure and Access)
+		 * @return void
+		 */
+		public function procMenuAdminUpdateAuth()
+		{
+			$menuItemSrl = Context::get('menu_item_srl');
+			$exposureTarget = Context::get('exposure_target');
+			$exposureGroupList = Context::get('exposure_group_list');
+
+			$oMenuModel = &getAdminModel('menu');
+			$itemInfo = $oMenuModel->getMenuItemInfo($menuItemSrl);
+			$args = $itemInfo;
+
+			// Menu Exposure update
+			// if exposure target is only login user...
+			if($exposureTarget == -1)
+			{
+				$args->group_srls = -1;
+			}
+			else if($exposureGroupList)
+			{
+				if(is_array($exposureGroupList))
+				{
+					$args->group_srls = implode(',', $exposureGroupList);
+				}
+				else
+				{
+					$args->group_srls = $exposureGroupList;
+				}
+			}
+			else
+			{
+				$args->group_srls = '';
+			}
+
+			$output = executeQuery('menu.updateMenuItem', $args);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+
+			// Module Access update
+			unset($args);
+			$oMenuAdminModel = &getAdminModel('menu');
+			$menuInfo = $oMenuAdminModel->getMenu($itemInfo->menu_srl);
+
+			$oModuleModel = &getModel('module');
+			$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
+
+			$xml_info = $oModuleModel->getModuleActionXML($moduleInfo->module);
+
+			$grantList = $xml_info->grant;
+			$grantList->access->default = 'guest';
+			$grantList->manager->default = 'manager';
+
+			foreach($grantList AS $grantName=>$grantInfo)
+			{
+				// Get the default value
+				$default = Context::get($grantName.'_default');
+
+				// -1 = Log-in user only, -2 = site members only, 0 = all users
+				if(strlen($default))
+				{
+					$grant->{$grantName}[] = $default;
+					continue;
+				}
+				// users in a particular group
+				else
+				{
+					$group_srls = Context::get($grantName);
+					if($group_srls) {
+						if(strpos($group_srls,'|@|')!==false) $group_srls = explode('|@|',$group_srls);
+						elseif(strpos($group_srls,',')!==false) $group_srls = explode(',',$group_srls);
+						else $group_srls = array($group_srls);
+						$grant->{$grantName} = $group_srls;
+					}
+					continue;
+				}
+				$grant->{$group_srls} = array();
+			}
+
+			if(count($grant))
+			{
+				$oModuleController = getController('module');
+				$oModuleController->insertModuleGrants($moduleInfo->module_srl, $grant);
+			}
 		}
 
 		/**
