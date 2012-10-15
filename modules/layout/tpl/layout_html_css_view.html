@@ -1,0 +1,84 @@
+<section class="section">
+	<h1>{$lang->layout_image_repository}</h1>
+	<p>{nl2br($lang->about_layout_image_repository)}</p>
+
+	<ul class="x_thumbnails uploaded_image_list">
+		<li loop="$layout_image_list => $no, $file" class="x_span2">
+			{@$ext=substr(strrchr($file,'.'),1)}
+			<div class="x_thumbnail a uploaded_image">
+				<script cond="$ext == 'swf' || $ext == 'flv'">
+					//<![CDATA[
+					displayMultimedia('{getUrl('')}{$layout_image_path}{$file}', '100px', '100px');
+					//]]>
+				</script>
+				<img cond="$ext != 'swf' && $ext != 'flv'" src="{getUrl('')}{$layout_image_path}{$file}" />
+				<div class="x_caption">
+					<p class="uploaded_image_path">{$layout_image_path}{$file}</p>
+					<form action="./" method="post" style="margin:0;padding:0">
+						<input type="hidden" name="module" value="layout" />
+						<input type="hidden" name="act" value="procLayoutAdminUserImageDelete" />
+						<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+						<input type="hidden" name="filename" value="{$file}" />
+
+						<input class="x_btn x_btn-mini x_btn-danger" type="submit" value="{$lang->cmd_delete}" />
+					</form>
+				</div>
+			</div>
+		</li>
+	</ul>
+
+	<form ruleset="imageUpload" action="./" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="module" value="layout" />
+		<input type="hidden" name="act" value="procLayoutAdminUserImageUpload" />
+		<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+
+		<div class="x_control-group">
+			<input type="file" name="user_layout_image" value="" />
+			<span class="x_help-block">{$lang->msg_layout_image_target}</span>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>
+
+<block cond="$selected_layout->type == 'faceoff'">
+	<section class="section">
+		<h1>{$lang->faceoff_export}</h1>
+		<p>{nl2br($lang->about_faceoff_export)}</p>
+		<p>
+			<a class="x_btn" href="{getUrl('', 'act', 'procLayoutAdminUserLayoutExport', 'layout_srl', $layout_srl)}">{$lang->layout_btn_export}</a>
+		</p>
+	</section>
+</block>
+
+<form id="fo_layout" class="form" ruleset="codeUpdate" action="./" method="post">
+	<input type="hidden" name="module" value="layout" />
+	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+	<input type="hidden" name="act" value="procLayoutAdminCodeUpdate" />
+
+	<section class="section">
+		<h1>HTML</h1>
+		<textarea name="code" rows="8" cols="42" style="width:100%;height:300px;font-size:11px;">{$layout_code}</textarea>
+		<div class="x_btn-group">
+			<a loop="$widget_list => $widget" class="x_btn x_btn-mini" href="{getUrl('','module','admin','act','dispWidgetAdminGenerateCode','selected_widget',$widget->widget)}" target="_blank">{$widget->title}</a>
+		</div>
+	</section>
+
+	<section class="section">
+		<h1>CSS</h1>
+		<textarea name="code_css" rows="8" cols="42" style="width:100%;height:300px;font-size:11px;">{$layout_code_css}</textarea>
+	</section>
+
+	<div class="x_clearfix btnArea">
+		<span class="x_pull-left">
+			<button type="submit" class="x_btn" name="mode" value="reset">{$lang->cmd_reset}</button>
+		</span>
+		<span class="x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary" name="mode" value="save">{$lang->cmd_save}</button>
+		</span>
+	</div>
+
+</form>
