@@ -41,14 +41,16 @@ jQuery(function($){
 		$this.closest('.x_nav-tabs').next('.x_tab-content').find($this.attr('href')).addClass('x_active').show().siblings().removeClass('x_active').hide();
 		return false;
 	});
-// GNB Height 100%
+// GNB
 	var $xBody = $('.x>.body');
 	var $xContent = $xBody.children('#content.content');
 	var $xGnb = $xBody.find('>.gnb');
 	var $xGnb_li = $xGnb.find('>ul>li');
-// Active Submenu Copy
+	// Add icon
+	$xGnb_li.find('a').prepend('<i />');
+	// Active Submenu Copy
 	$xGnb_li.find('>ul>li.active_').clone().addClass('active').prependTo('#gnbNav');
-// GNB Hover toggle
+	// GNB Hover toggle
 	function reflow(){ // Chrome browser rendering bug fix
 		$xContent.width('99.99%');
 		setTimeout(function(){
@@ -58,7 +60,7 @@ jQuery(function($){
 			}
 		}, 100);
 	}
-// GNB Click toggle
+	// GNB Click toggle
 	$xGnb_li.find('ul').prev('a')
 		.bind('click focus', function(){
 			var $this = $(this);
@@ -67,14 +69,14 @@ jQuery(function($){
 			reflow();
 			return false;
 		});
-// GNB Mobile Toggle
+	// GNB Mobile Toggle
 	$xGnb.find('>a[href="#gnbNav"]').click(function(){
 		$(this).parent('.gnb').toggleClass('open');
 		$xBody.toggleClass('wide');
 		reflow();
 		return false;
 	});
-// GNB Close
+	// GNB Close
 	$xGnb
 		.prepend('<button type="button" class="close before" />')
 		.append('<button type="button" class="close after" />');
