@@ -798,18 +798,18 @@ function onSiteMapReceived(htData){
 			$._xeAdminVar.sSelectOnload = null;
 			
 			if(sRenameId){
-				console.log('renaming', sRenameId);
+				//console.log('renaming', sRenameId);
 				$("#siteMapTree").jstree("rename", $("#menu"+sRenameId));
 			}
 			
 			if(sSelectOnload){
-				console.log('selecting', sSelectOnload);
+				//console.log('selecting', sSelectOnload);
 				$("#siteMapTree").jstree("select_node", $("#menu"+sSelectOnload));
 			}
 			
         })
 		.bind("rename_node.jstree", function(event, data){
-			console.log(1, event, data);
+			//console.log(1, event, data);
 		/*
 			var params = new Array();
 			params['menu_srl'] = '889';
@@ -826,7 +826,7 @@ function onSiteMapReceived(htData){
 			params['title'] = sTitle;
 			params['menu_srl'] = $._xeAdminVar.sSelectedMenuSrl;
 			$.exec_json("menu.procMenuAdminUpdate", params, function(htData){
-				console.log(htData);
+				//console.log(htData);
 				if(htData.error !== 0){
 					alert(htData.message);
 					return;
@@ -842,7 +842,7 @@ function onSiteMapReceived(htData){
 			var params = {};
 			params['title'] = sTitle;
 			$.exec_json("menu.procMenuAdminInsert", params, function(htData){
-				console.log(htData);
+				//console.log(htData);
 				if(htData.error !== 0){
 					alert(htData.message);
 					return;
@@ -870,7 +870,7 @@ function onSiteMapReceived(htData){
 			showProp(sSelectedMenuSrl);
 		})
 		.bind("move_node.jstree", function(event, data){
-			console.log(event, data);
+			//console.log(event, data);
 			
 			
 			/*
@@ -895,12 +895,12 @@ function onSiteMapReceived(htData){
 			var sTargetPos = aMoveInfo.p;
 			var aNewParent = aMoveInfo.np;
 
-			console.log(aSource, aTargetPosRef, sTargetPos, aNewParent);
-			console.log(aSource[0], aTargetPosRef[0], sTargetPos, aNewParent[0]);
+			//console.log(aSource, aTargetPosRef, sTargetPos, aNewParent);
+			//console.log(aSource[0], aTargetPosRef[0], sTargetPos, aNewParent[0]);
 
 			var aNode, htParentInfo, htTargetInfo, htData, sMenuSrl, sTargetSrl, sParentSrl, nIdx;
 			//htData = $.parseJSON($(htSource).attr('data-param');
-			console.log(sTargetPos);
+			//console.log(sTargetPos);
 			sMenuSrl = aSource[0].id.replace("menu", "");
 			sParentSrl = aNewParent[0].id.replace("menu", "");
 			sTargetSrl = aTargetPosRef[0].id.replace("menu", "");
@@ -914,18 +914,18 @@ function onSiteMapReceived(htData){
 					htTargetInfo = htNodeInfo[sTargetSrl];
 					htParentInfo = htNodeInfo[htTargetInfo.sParentSrl];
 					
-					console.log(htParentInfo);
+					//console.log(htParentInfo);
 
 					aNode = htParentInfo.aNode;
 
 					for(var i=0, nLen=aNode.length; i<nLen; i++){
-						console.log(aNode[i].sText, aNode[i].sNodeSrl, "->", sTargetSrl);
+						//console.log(aNode[i].sText, aNode[i].sNodeSrl, "->", sTargetSrl);
 						if(aNode[i].sNodeSrl == sTargetSrl){
-							console.log('found');
+							//console.log('found');
 							break;
 						}
 					}
-					console.log(999, i);
+					//console.log(999, i);
 					
 					if(i === 0){
 						sTargetSrl = 0;
@@ -940,7 +940,7 @@ function onSiteMapReceived(htData){
 
 				case "last":
 					htParentInfo = htNodeInfo[sParentSrl];
-					console.log(222, htParentInfo, sParentSrl);
+					//console.log(222, htParentInfo, sParentSrl);
 					
 					aNode = htParentInfo.aNode;
 					if(aNode.length == 0){
@@ -961,7 +961,7 @@ function onSiteMapReceived(htData){
 			//sTargetSrl = ;
 			//sParentSrl = ;
 			
-			console.log(sMenuSrl, sTargetSrl, sParentSrl);
+			//console.log(sMenuSrl, sTargetSrl, sParentSrl);
 			
 			var params = {};
 			
@@ -980,7 +980,7 @@ function onSiteMapReceived(htData){
 			//exec_xml("menu","procMenuAdminMoveItem", params, completeTmp);
 			
 			$.exec_json("menu.procMenuAdminMoveItem", params, function(htData){
-				console.log(htData);
+				//console.log(htData);
 				if(htData.error !== 0){
 					alert(htData.message);
 					return;
@@ -1149,7 +1149,7 @@ function setItemTypes(htTypes){
 		title: '바로가기',
 		moduleName:''
 	}
-	console.log($._xeAdminVar.htItemTypes);
+	//console.log($._xeAdminVar.htItemTypes);
 }
 jQuery(function($){
 	$.fn.outerHTML = function(){
@@ -1218,7 +1218,7 @@ jQuery(function($){
 
 	$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
 		setItemTypes(htData.menu_types);
-		console.log($._xeAdminVar.htItemTypes);
+		//console.log($._xeAdminVar.htItemTypes);
 	});
 	
 	$("#tmpl_pagination").template( "pagination" );
@@ -1277,7 +1277,7 @@ jQuery(function($){
 
 	$(document.body).on('click', '.x_pagination ._jumpTo', function(ev){
 		htParam = $.parseJSON($(this).attr('data-param'));
-		console.log($(this).parent().find('input[name=page]'));
+		//console.log($(this).parent().find('input[name=page]'));
 		var nPage = parseInt($(this).parent().find('input[name=page]').val());
 
 		$.data($(this).parents('.x_pagination')[0], "fnCallback")({
@@ -1376,7 +1376,7 @@ jQuery(function($){
 		$("#siteMapTree").jstree("deselect_all");
 	});
 	$('#properties ._edit_cut').click(function(){
-		console.log(1, $._xeAdminVar.sSelectedMenuSrl);
+		//console.log(1, $._xeAdminVar.sSelectedMenuSrl);
 		
 		$('._edit_paste').removeAttr('disabled');
 		
@@ -1388,7 +1388,7 @@ jQuery(function($){
 		$('#menu'+$._xeAdminVar.sCopySourceMenuSrl).addClass('_isCut');
 	});
 	$('#properties ._edit_copy').click(function(){
-		console.log(2, $._xeAdminVar.sSelectedMenuSrl);
+		//console.log(2, $._xeAdminVar.sSelectedMenuSrl);
 		
 		$('._edit_paste').removeAttr('disabled');
 
@@ -1398,7 +1398,7 @@ jQuery(function($){
 		$._xeAdminVar.bCut = false;
 	});
 	$('._edit_paste').click(function(){
-		console.log($._xeAdminVar.sCopySourceMenuSrl);
+		//console.log($._xeAdminVar.sCopySourceMenuSrl);
 		
 		if(!$._xeAdminVar.sCopySourceMenuSrl) return;
 		
@@ -1432,7 +1432,7 @@ jQuery(function($){
 			params['source_srl'] = 0; 
 			
 			$.exec_json("menu.procMenuAdminMoveItem", params, function(htData){
-				console.log(htData);
+				//console.log(htData);
 				if(htData.error !== 0){
 					alert(htData.message);
 					return;
@@ -1450,7 +1450,7 @@ jQuery(function($){
 			params['menu_item_srl'] = $._xeAdminVar.sCopySourceMenuSrl;
 
 			$.exec_json("menu.procMenuAdminCopyItem", params, function(htData){
-				console.log(htData);
+				//console.log(htData);
 				if(htData.error !== 0){
 					alert(htData.message);
 					return;
@@ -1468,7 +1468,7 @@ jQuery(function($){
 		var params = {};
 		params['menu_srl'] = sSelectedMenuSrl;
 		$.exec_json("menu.procMenuAdminDelete", params, function(htData){
-			console.log(htData);
+			//console.log(htData);
 			if(htData.error !== 0){
 				alert(htData.message);
 				return;
@@ -1515,7 +1515,7 @@ jQuery(function($){
 			params['index_module_srl'] = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].module_srl;
 
 			$.exec_json("admin.procInstallAdminUpdateIndexModule", params, function(htData){
-				console.log(htData);
+				//console.log(htData);
 				if(htData.error !== 0){
 					alert(htData.message);
 					return;
@@ -1531,7 +1531,7 @@ jQuery(function($){
 	$("#tmpl_menuTypeItem").template( "menuTypeItem" );
 	$('#add').bind("show", function(){
 		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
-			console.log(htData);
+			//console.log(htData);
 
 			var sResult = "";
 			setItemTypes(htData.menu_types);
@@ -1545,7 +1545,7 @@ jQuery(function($){
 				
 				item = $._xeAdminVar.htItemTypes[sModuleName];
 				sModuleTitle = item.title;
-				console.log(item);
+				//console.log(item);
 				
 				sResult += $.tmpl( "menuTypeItem", {
 					ModuleName : sModuleName,
@@ -1629,7 +1629,7 @@ jQuery(function($){
 		//params['page'] = nPage;
 		//"menu.getAutoinstallAdminMenuPackageList"
 		$.exec_json(sAction, htParams, function(htData){
-			console.log(htData);
+			//console.log(htData);
 			//var sResult = "";
 			$Panel.find('.list').html("");
 			
@@ -1707,7 +1707,7 @@ jQuery(function($){
 		var sSelectedModuleName = $._xeAdminVar.sSelectedModuleName;
 		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 
-		console.log($._xeAdminVar, sSelectedModuleName, sSelectedMenuSrl, sMenuName, sUrl);
+		//console.log($._xeAdminVar, sSelectedModuleName, sSelectedMenuSrl, sMenuName, sUrl);
 
 		var isShortCut = "N";
 		var $labels;
@@ -1764,7 +1764,7 @@ jQuery(function($){
 		)
 		*/
 		$.exec_json("menu.procMenuAdminInsertItem", params, function(htData){
-			console.log(htData);
+			//console.log(htData);
 			if(htData.error !== 0){
 				alert(htData.message);
 				return;
@@ -1782,7 +1782,7 @@ jQuery(function($){
 	$('#default').bind("show", function(){
 		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 		
-		console.log(htInfo);
+		//console.log(htInfo);
 		
 		if(htInfo.sModuleType === "_SHORTCUT"){
 			$(this).addClass('url');
@@ -1822,7 +1822,7 @@ jQuery(function($){
 		//console.log(sMenuName, sMID, sNewWindow, sLeaveUnfolded);
 		//return;
 		
-		console.log($._xeAdminVar, sSelectedModuleName, sSelectedMenuSrl, sMenuName, sMID, sNewWindow, sLeaveUnfolded);
+		//console.log($._xeAdminVar, sSelectedModuleName, sSelectedMenuSrl, sMenuName, sMID, sNewWindow, sLeaveUnfolded);
 /*
 		var isShortCut = "N";
 		// URL?
@@ -1862,7 +1862,7 @@ jQuery(function($){
 		)
 		*/
 		$.exec_json("menu.procMenuAdminUpdateItem", params, function(htData){
-			console.log(htData);
+			//console.log(htData);
 			if(htData.error !== 0){
 				alert(htData.message);
 				return;
@@ -1925,7 +1925,7 @@ jQuery(function($){
 				skin: ""
 				use_mobile: "N"
 			*/
-			console.log(htData);
+			//console.log(htData);
 			
 			if(htData.error !== 0){
 				alert(htData.message);
@@ -2136,7 +2136,7 @@ jQuery(function($){
 				params['menu_item_srl'] = sSelectedMenuSrl;
 
 				$.exec_json("menu.procMenuAdminDeleteItem", params, function(htData){
-					console.log(htData);
+					//console.log(htData);
 					if(htData.error !== 0){
 						alert(htData.message);
 						return;
@@ -2211,7 +2211,7 @@ jQuery(function($){
 		};
 		// https://code.google.com/p/xe-core/wiki/ModuleSkinInfo_GET_API
 		$.exec_json("module.getModuleSkinInfoList", params, function(htData){
-			console.log(htData);
+			//console.log(htData);
 			
 			//skin_info_list: Object
 			
@@ -2270,8 +2270,31 @@ jQuery(function($){
 			sSkin : sSkinName
 		});
 	})
-//-----------------------
 
+	$('#auth').on('show', function(){
+		/*
+			var params2 = new Array();
+			var response_tags2 = new Array('grantList');
+			params2['target_module'] = 'board';
+			params2['module_srl'] = '106';
+			exec_xml("module","getModuleAdminGrant", params2, completeTmp, response_tags2);
+		*/
+		//console.log(htNodeInfo[$._xeAdminVar.sSelectedMenuSrl]);
+		var params = {
+			target_module : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType,
+			module_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].module_srl
+		};
+		/*
+		$.exec_json("module.getModuleAdminGrant", params, function(htData){
+			console.log(htData);
+		});
+		*/
+		
+		$.exec_json("menu.getMenuAdminSiteMap", {}, function(htData){
+			//console.log(htData);
+		});
+	});
+	
 	var $foggyLayer = $("<div>");
 	$foggyLayer.css({
 		position: 'absolute',
