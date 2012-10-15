@@ -1,10 +1,10 @@
 <load target="../../admin/tpl/js/admin.js" usecdn="true" />
 <load target="../../admin/tpl/css/admin.css" usecdn="true" />
+<load target="../../../common/css/bootstrap.css" usecdn="true" />
 <load cond="$lang_type=='ko'" target="../../admin/tpl/css/admin_ko.css" usecdn="true" />
 <load cond="$lang_type=='en'" target="../../admin/tpl/css/admin_en.css" usecdn="true" />
 <load target="css/widget.css" usecdn="true" />
 <load target="js/generate_code.js" usecdn="true" />
-<load target="js/multi_lang.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
 
 <script>
@@ -14,105 +14,96 @@
 </script>
 
 <div class="x" style="padding: 0 10px;">
-	<h1 class="h1">{$lang->widgetstyle}</h1>
+	<div id="content">
+		<div class="x_page-header">
+			<h1>{$lang->widgetstyle}</h1>
+		</div>
 
-	<form class="form" action="./" method="post" id="fo_widget">
-		<input type="hidden" name="module_srl" value="{$module_srl}" />
-		<input type="hidden" name="widget_sequence" value="" />
-		<input type="hidden" name="style" value="" />
-		<input type="hidden" name="widget_padding_left" value="" />
-		<input type="hidden" name="widget_padding_right" value="" />
-		<input type="hidden" name="widget_padding_top" value="" />
-		<input type="hidden" name="widget_padding_bottom" value="" />
-		<input type="hidden" name="module" value="widget" />
-		<input type="hidden" name="act" value="" />
-		<input type="hidden" name="widgetstyle" value="{$widgetstyle}" />
-		<input type="hidden" name="selected_widget" value="{$selected_widget}" />
+		<form class="x_form x_form-horizontal" action="./" method="post" id="fo_widget">
+			<input type="hidden" name="module_srl" value="{$module_srl}" />
+			<input type="hidden" name="widget_sequence" value="" />
+			<input type="hidden" name="style" value="" />
+			<input type="hidden" name="widget_padding_left" value="" />
+			<input type="hidden" name="widget_padding_right" value="" />
+			<input type="hidden" name="widget_padding_top" value="" />
+			<input type="hidden" name="widget_padding_bottom" value="" />
+			<input type="hidden" name="module" value="widget" />
+			<input type="hidden" name="act" value="" />
+			<input type="hidden" name="widgetstyle" value="{$widgetstyle}" />
+			<input type="hidden" name="selected_widget" value="{$selected_widget}" />
 
-		<a href="{getUrl('widgetstyle','none')}" class="widgetStyle"><img src="images/widgetstyle_none.gif" title="{$lang->notuse}" /></a>
-		<a loop="$widgetStyle_list => $key, $widgetStyle" cond="$widgetStyle->preview" href="{getUrl('widgetstyle',$widgetStyle->widgetStyle)}" class="widgetStyle <!--@if($widgetStyle->widgetStyle==$widgetstyle)-->selected<!--@end-->"><img src="{getUrl()}{$widgetStyle->preview}" title="{$widgetStyle->title}" /><span>{$widgetStyle->title}</span></a>
-		<block cond="$widgetstyle_info">
+			<a href="{getUrl('widgetstyle','none')}" class="widgetStyle"><img src="images/widgetstyle_none.gif" title="{$lang->notuse}" /></a>
+			<a loop="$widgetStyle_list => $key, $widgetStyle" cond="$widgetStyle->preview" href="{getUrl('widgetstyle',$widgetStyle->widgetStyle)}" class="widgetStyle <!--@if($widgetStyle->widgetStyle==$widgetstyle)-->selected<!--@end-->"><img src="{getUrl()}{$widgetStyle->preview}" title="{$widgetStyle->title}" /><span>{$widgetStyle->title}</span></a>
+			<block cond="$widgetstyle_info">
 
-			<h2 class="h2">{$widgetstyle_info->title} ver {$widgetstyle_info->version}</h2>
-			<ul>
-				<li>
-					<p class="q">{$lang->description}</p>
-					<p class="a">{$widgetstyle_info->description}</p>
-				</li>
-				<li>
-					<p class="q">{$lang->author}</p>
-					<p class="a">
+				<h2>{$widgetstyle_info->title} ver {$widgetstyle_info->version}</h2>
+				<div class="x_control-group">
+					<label class="x_control-label">{$lang->description}</label>
+					<div class="x_controls">
+						{$widgetstyle_info->description}
+					</div>
+				</div>
+				<div class="x_control-group">
+					<label class="x_control-label">{$lang->author}</label>
+					<div class="x_controls">
 						<block loop="$widgetstyle_info->author => $author">
 							{$author->name} ({$author->homepage})
 						</block>
-					</p>
-				</li>
-				<li>
-					<p class="q">{$lang->regdate}</p>
-					<p class="a">{zdate($widgetstyle_info->date,'Y-m-d')}</p>
-				</li>
-			</ul>
-
-			<block loop="$widgetstyle_info->extra_var => $id, $var">
-				{@$suggestion_id++}
-				<block cond="!$not_first && !$var->group"><ul></block>
-				<block cond="$group != $var->group">
-					<block cond="$not_first"></ul></block>
-					<h3 class="h3">{$var->group}</h3>
-					<ul>
-					{@$group = $var->group}
-				</block>
-				{@$not_first = true}
-				<li>
-					<p class="q"><label for="{$id}">{$var->name}</label></p>
-					<div class="a extra_vars">
-						<div cond="$var->type == 'text'" class="multiLangEdit">
-							{@$use_multilang = TRUE}
-							<input type="hidden" name="{$id}" value="" class="vLang" />
-							<input type="text" id="{$id}" class="vLang" />
-							<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
-							<script>
-								xe.registerApp(new xe.MultiLangManager('{$id}'));
-							</script>
-						</div>
-
-						<input cond="$var->type == 'color'" type="text" name="{$id}" class="color-indicator" />
-
-						<div cond="$var->type == 'textarea'" class="multiLangEdit">
-							{@$use_multilang_textarea = TRUE}
-							<input type="hidden" name="{$id}" value="" class="vLang" />
-							<textarea id="{$id}" rows="8" cols="42"></textarea>
-							<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingaul}</a></span>
-							<script>
-								xe.registerApp(new xe.MultiLangManager('{$id}'));
-							</script>
-						</div>
-
-						<select cond="$var->type == 'select'" name="{$id}">
-							<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
-						</select>
-
-						<block cond="$var->type == 'filebox'">
-							<input type="hidden" name="{$id}" />
-							<a href="#modalFilebox" class="modalAnchor filebox">{$lang->cmd_select}</a>
-							{@$use_filebox = TRUE}
-						</block>
 					</div>
-					<p class="desc">{$var->description}</p>
-				</li>
+				</div>
+				<div class="x_control-group">
+					<label class="x_control-label">{$lang->regdate}</label>
+					<div class="x_controls">
+						{zdate($widgetstyle_info->date,'Y-m-d')}
+					</div>
+				</div>
+
+				<block loop="$widgetstyle_info->extra_var => $id, $var">
+					{@$suggestion_id++}
+					<block cond="!$not_first && !$var->group"><section class="section"></block>
+					<block cond="$group != $var->group">
+						<block cond="$not_first"></section></block>
+						<h1>{$var->group}</h1>
+						<section class="section">
+						{@$group = $var->group}
+					</block>
+					{@$not_first = true}
+					<div class="x_control-group">
+						<label for="{$id}" class="x_control-label">{$var->name}</label>
+						<div class="x_controls extra_vars">
+							<div cond="$var->type == 'text'">
+								<input type="text" name="{$id}" value="" class="lang_code" />
+							</div>
+
+							<input cond="$var->type == 'color'" type="text" name="{$id}" class="color-indicator" />
+
+							<div cond="$var->type == 'textarea'">
+								<textarea name="{$id}" rows="8" cols="42" class="lang_code"></textarea>
+							</div>
+
+							<select cond="$var->type == 'select'" name="{$id}">
+								<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
+							</select>
+
+							<block cond="$var->type == 'filebox'">
+								<input type="hidden" name="{$id}" />
+								<a href="#modalFilebox" class="modalAnchor filebox">{$lang->cmd_select}</a>
+								{@$use_filebox = TRUE}
+							</block>
+							<span class="x_help-block">{$var->description}</span>
+						</div>
+					</div>
+				</block>
+				</section>
 			</block>
-			</ul>
-		</block>
 
-		<div class="btnArea">
-			<span class="btn small"><input type="submit" value="{$lang->cmd_setup}"  /></span>
-		</div>
-	</form>
-<script>
-	xe.current_lang = "{$lang_type}";
-</script>
-	<include target="widget_generate_code.filebox.html" />
-	<include target="widget_generate_code.multilang.html" />
-	<include target="widget_generate_code.multilang.textarea.html" />
-
+			<div class="btnArea">
+				<input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_setup}"  />
+			</div>
+		</form>
+		<script>
+			xe.current_lang = "{$lang_type}";
+		</script>
+		<include target="../../module/tpl/include.filebox.html" />
+	</div>
 </div>
