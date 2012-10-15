@@ -311,10 +311,12 @@ class HTMLDisplayHandler {
 				$oContext->loadFile(array('./modules/admin/tpl/css/admin.css', 'all', '', 100000), true);
 				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", 'all', '', 100000), true);
 				$oContext->loadFile('./modules/admin/tpl/js/admin.js', true);
+				$oContext->loadFile(array('./common/css/bootstrap.css', 'all', '', 1), true);
 			} else {
 				$oContext->loadFile(array('./modules/admin/tpl/css/admin.min.css', 'all', '', 100000), true);
 				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", 'all', '',10000), true);
 				$oContext->loadFile('./modules/admin/tpl/js/admin.min.js', true);
+				$oContext->loadFile(array('./common/css/bootstrap.min.css', 'all', '', 1), true);
 			}
 		}
 	}

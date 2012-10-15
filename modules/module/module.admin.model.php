@@ -461,5 +461,30 @@
 
 			$this->add('html', $tpl);
 		}
+
+		/**
+		 * return module searcher html
+		 */
+		function getModuleAdminModuleSearcherHtml()
+		{
+			Context::loadLang('./modules/admin/lang');
+			$oTemplate = TemplateHandler::getInstance();
+			$tpl = $oTemplate->compile('./modules/module/tpl', 'module_searcher_v17.html');
+
+			$this->add('html', $tpl);
+		}
+
+		/**
+		 * return module info.
+		 */
+		function getModuleAdminModuleInfo()
+		{
+			$module_srl = Context::get('module_srl');
+
+			$model = getModel('module');
+			$module_info = $model->getModuleInfoByModuleSrl($module_srl);
+
+			$this->add('module_info', $module_info);
+		}
     }
 ?>

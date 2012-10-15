@@ -33,32 +33,34 @@
 		</ul>
 	</form>
 </div>
-<div class="x" style="padding: 0 10px;">
-	<h2 class="h2">{$widget_info->title}</h2>
+<div class="x" style="padding: 10px">
+	<div class="x_page-header">
+		<h1>{$widget_info->title}</h1>
+	</div>
 	<p>{$widget_info->description}</p>
 
-	<h3 class="h3">{$lang->cmd_generate_code}</h3>
-	<p>{$lang->about_widget_code_in_page}</p>
+	<div id="content" class="x_well">
+		<h2>{$lang->cmd_generate_code}</h2>
+		<p>{$lang->about_widget_code_in_page}</p>
 
-	<form class="form" action="./" method="post" id="fo_widget">
-		<input type="hidden" name="module" value="widget" />
-		<input type="hidden" name="module_srl" value="{$module_srl}" />
-		<input type="hidden" name="widget_sequence" value="" />
-		<input type="hidden" name="style" value="float:left;width:100%;margin:none;padding:none;" />
-		<input type="hidden" name="widget_padding_left" value="" />
-		<input type="hidden" name="widget_padding_right" value="" />
-		<input type="hidden" name="widget_padding_top" value="" />
-		<input type="hidden" name="widget_padding_bottom" value="" />
-		<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
+		<form class="x_form x_form-horizontal" action="./" method="post" id="fo_widget">
+			<input type="hidden" name="module" value="widget" />
+			<input type="hidden" name="module_srl" value="{$module_srl}" />
+			<input type="hidden" name="widget_sequence" value="" />
+			<input type="hidden" name="style" value="float:left;width:100%;margin:none;padding:none;" />
+			<input type="hidden" name="widget_padding_left" value="" />
+			<input type="hidden" name="widget_padding_right" value="" />
+			<input type="hidden" name="widget_padding_top" value="" />
+			<input type="hidden" name="widget_padding_bottom" value="" />
+			<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
 
-		<include target="widget_generate_code.include.html" />
+			<include target="widget_generate_code.include.html" />
 
-		<div class="btnArea">
-			<span class="btn small"><input type="submit" value="{$lang->cmd_generate_code}" /></span>
-		</div>
-	</form>
+			<div class="btnArea">
+				<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_generate_code}" />
+			</div>
+		</form>
+	</div>
 
 	<include target="../../module/tpl/include.filebox.html" />
-	<include target="widget_generate_code.multilang.html" />
-	<include target="widget_generate_code.multilang.textarea.html" />
 </div>

@@ -41,12 +41,12 @@ function doDisplaySkinColorset(colorset)
 
 function doHideSkinColorset()
 {
-	jQuery('select[name=colorset]').parents('li').hide();
+	jQuery('select[name=colorset]').closest('.x_control-group').hide();
 }
 
 function doShowSkinColorset()
 {
-	jQuery('select[name=colorset]').parents('li').show();
+	jQuery('select[name=colorset]').closest('.x_control-group').show();
 }
 
 function completeGenerateCodeInPage(widget_code) {
@@ -219,7 +219,7 @@ jQuery(document).ready(function($){
 		if(src instanceof Object ) {
 			for(var i=0;i<src.length;i++){
 				if(src[i].id) {
-					htmlCode += '<img src="'+src[i].id+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"><button class="filebox_del text" type="button">'+xe.lang.cmd_delete+'</button>';
+					htmlCode += '<img src="'+src[i].id+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"><button class="filebox_del x_btn x_btn-mini x_btn-danger" type="button">'+xe.lang.cmd_delete+'</button> ';
 					if(i==0) $(this).siblings('input').val(src[i].id);
 					else {
 						var aux = $(this).siblings('input').val();
@@ -228,7 +228,7 @@ jQuery(document).ready(function($){
 				}
 				else {
 					if(src[i]){
-						htmlCode += '<img src="'+src[i]+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"><button class="filebox_del text" type="button">'+xe.lang.cmd_delete+'</button>';
+						htmlCode += '<img src="'+src[i]+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"><button class="filebox_del x_btn x_btn-mini x_btn-danger" type="button">'+xe.lang.cmd_delete+'</button> ';
 						if(i==0) $(this).siblings('input').val(src[i]);
 						else {
 							var aux = $(this).siblings('input').val();
@@ -238,7 +238,7 @@ jQuery(document).ready(function($){
 				}
 			}
 		} else {
-			htmlCode = '<img src="'+src+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"> <button class="filebox_del text" type="button">'+xe.lang.cmd_delete+'</button>';
+			htmlCode = '<img src="'+src+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"> <button class="filebox_del x_btn x_btn-mini x_btn-danger" type="button">'+xe.lang.cmd_delete+'</button> ';
 			$(this).siblings('input').val(src);
 		}
 		$(this).before(htmlCode);

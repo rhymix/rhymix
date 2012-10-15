@@ -4,7 +4,7 @@
 	unset($lang_supported[$lang_type]);
 	$lang_supported = array_merge($a, $lang_supported);
 }
-<p>{sprintf($lang->about_multilingual_search_result, $total_count)}</p>
+<p cond="!$name">{sprintf($lang->about_multilingual_search_result, $total_count)}</p>
 <fieldset class="list">
 	<form loop="$lang_code_list => $no, $val" action="" class="item">
 		<a href="#lang-{$no}" data-toggle="#lang-{$no}" data-lang_code="{$val->name}"><span>{$val->value}<span></a>

@@ -4,66 +4,58 @@
 <load target="js/multi_lang.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
 
-<ul>
-	<li>
-		<p class="q"><label for="skin">{$lang->skin}</label></p>
-		<p class="a">
-			<select name="skin" id="skin" style="width:280px">
+<div class="x_control-group">
+	<label class="x_control-label" for="skin">{$lang->skin}</label>
+	<div class="x_controls">
+			<select name="skin" id="skin" style="width:220px">
 				<option value="">{$lang->select}</option>
 				<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
 			</select>
-			<input type="button" value="{$lang->cmd_select}" />
-		</p>
-	</li>
-	<li>
-		<p class="q"><label for="colorset">{$lang->colorset}</label></p>
-		<p class="a">
-			<select name="colorset" id="widget_colorset" style="width:280px">
-			</select>
-		</p>
-	</li>
-	<li>
-		<p class="q"><label for="widget_cache">{$lang->widget_cache}</label></p>
-		<p class="a">
-			<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width:auto" /> {$lang->unit_min}
-			({$lang->about_widget_cache})
-		</p>
-	</li>
-</ul>
+			<input type="button" class="x_btn" value="{$lang->cmd_select}" />
+	</div>
+</div>
+<div class="x_control-group">
+	<label class="x_control-label" for="colorset">{$lang->colorset}</label>
+	<div class="x_controls">
+		<select name="colorset" id="widget_colorset" style="width:220px">
+		</select>
+	</div>
+</div>
+<div class="x_control-group">
+	<label class="x_control-label" for="widget_cache">{$lang->widget_cache}</label>
+	<div class="x_controls">
+		<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width:auto" /> {$lang->unit_min}
+		<span class="x_help-block">{$lang->about_widget_cache}</span>
+	</div>
+</div>
 {@$suggestion_id = 0}
 <block loop="$widget_info->extra_var => $id, $var">
 	{@$suggestion_id++}
-	<block cond="!$not_first && !$var->group"><ul class="extra_vars"></block>
+	<block cond="!$not_first && !$var->group"><section class="extra_vars section"></block>
 	<block cond="$group != $var->group">
-		<block cond="$not_first"></ul></block>
-		<h3 class="h3">{$var->group}</h3>
-		<ul class="extra_vars">
+		<block cond="$not_first"></section></block>
+		<section class="extra_vars section">
+		<h1>{$var->group}</h3>
 		{@$group = $var->group}
 	</block>
 	{@$not_first = true}
-	<li class="moduleSearch moduleSearch1 modulefinder"|cond="$var->type == 'mid' || $var->type == 'module_srl_list'">
-		<p class="q"><label for="{$id}">{$var->name}</label></p>
-		<div class="a">
-			<div cond="$var->type == 'text'" class="multiLangEdit">
-				{@$use_multilang = true}
-				<input type="hidden" name="{$id}" value="" class="vLang" />
-				<input type="text" id="{$id}" class="vLang" />
-				<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+	<div class="x_control-group <!--@if($var->type == 'mid' || $var->type == 'module_srl_list')-->moduleSearch moduleSearch1 modulefinder<!--@end-->">
+		<label class="x_control-label" for="{$id}">{$var->name}</label>
+		<div class="x_controls">
+			<div cond="$var->type == 'text'">
+				<input type="text" name="{$id}" class="lang_code" />
 				<script>
 					xe.registerApp(new xe.MultiLangManager('{$id}'));
 				</script>
 			</div>
-			<input cond="$var->type == 'color'" type="text" name="{$id}" value="" id="{$id}" class="color-indicator" />
-			<div cond="$var->type == 'textarea'" class="multiLangEdit">
-				{@$use_multilang_textarea = true}
-				<input type="hidden" name="{$id}" value="" class="vLang" />
-				<textarea cond="$var->type == 'textarea'" id="{$id}" class="vLang" rows="8" cols="42"></textarea>
-				<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+			<input cond="$var->type == 'color'" type="text" name="{$id}" value="" id="{$id}" class="color-indicator" style="width:178px" />
+			<div cond="$var->type == 'textarea'">
+				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}" class="lang_code" rows="8" cols="42"></textarea>
 				<script>
 					xe.registerApp(new xe.MultiLangManager('{$id}'));
 				</script>
 			</div>
-			<select cond="$var->type == 'select'" name="{$id}" id="{$id}" style="width:290px">
+			<select cond="$var->type == 'select'" name="{$id}" id="{$id}" style="width:220px">
 				<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
 			</select>
 			<block cond="$var->type == 'select-multi-order'">
@@ -73,168 +65,75 @@
 				<!--@else-->
 				<input type="hidden" name="{$id}" value="" />
 				<!--@end-->
-				<select class="multiorder_show" size="8" multiple="multiple" style="width:290px;vertical-align:top">
-					<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
-				</select>
-				<button type="button" class="text multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
-				<select class="multiorder_selected" size="8" multiple="multiple" style="width:290px;vertical-align:top">
-					<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
-				</select>
-				<button type="button" class="text multiorder_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
-				<button type="button" class="text multiorder_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
-				<button type="button" class="text multiorder_del" style="vertical-align:top">{$lang->cmd_delete}</button>
+				<div style="display:inline-block">
+					<select class="multiorder_show" size="8" multiple="multiple" style="width:220px;vertical-align:top">
+						<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
+					</select><br />
+					<button type="button" class="x_btn x_btn-mini multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
+				</div>
+				<div style="display:inline-block">
+					<select class="multiorder_selected" size="8" multiple="multiple" style="width:220px;vertical-align:top">
+						<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
+					</select><br />
+					<button type="button" class="x_btn x_btn-mini multiorder_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
+					<button type="button" class="x_btn x_btn-mini multiorder_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
+					<button type="button" class="x_btn x_btn-mini x_btn-danger multiorder_del" style="vertical-align:top">{$lang->cmd_delete}</button>
+				</div>
 				<script>
 					xe.registerApp(new xe.MultiOrderManager('{$id}'));
 				</script>
 			</block>
 			<block cond="$var->type == 'mid_list'">
-				<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin:1em 0; padding:.5em 1em">
-					<legend cond="$modules->title">{$modules->title}</legend>
-					<legend cond="!$modules->title">{$lang->none_category}</legend>
+				<fieldset loop="$mid_list => $module_category_srl, $modules">
+					<block cond="count($mid_list) > 1">
+						<legend cond="$modules->title">{$modules->title}</legend>
+						<legend cond="!$modules->title">{$lang->none_category}</legend>
+					</block>
 					<div loop="$modules->list => $key, $val">
-						<input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" />
-						<label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+						<label class="x_inline"><input type="checkbox" value="{$key}" name="{$id}" /> {$key} ({$val->browser_title})</label>
 					</div>
 				</fieldset>
 			</block>
 			<block cond="$var->type == 'member_group'">
 				<block loop="$group_list => $key, $val">
-					<input type="checkbox" value="{$key}" name="{$id}" id="chk_member_gruop_{$id}_{$key}" />
-					<label for="chk_member_gruop_{$id}_{$key}">{$val->title}</label>
+					<label class="x_inline"><input type="checkbox" value="{$key}" name="{$id}" id="chk_member_gruop_{$id}_{$key}" /> {$val->title}</label>
 				</block>
 			</block>
 			<block cond="$var->type == 'module_srl_list'">
 				<p class="desc">{$var->description}</p>
 				<input type="hidden" name="{$id}" value="" />
-				<select class="modulelist_selected" size="8" multiple="multiple" style="width:290px;"></select>
+				<select class="modulelist_selected" size="8" multiple="multiple" style="width:220px;"></select>
 				<br/>
-				<span style="padding:1px;margin:1px"><b><a href="#moduleSearchWindow1" class="tgAnchor moduleSearch">{$lang->cmd_add}</a></b></span>
-				<button type="button" class="text modulelist_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
-				<button type="button" class="text modulelist_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
-				<button type="button" class="text modulelist_del" style="vertical-align:top">{$lang->cmd_delete}</button>
+				<a href="#" type="button" id="__module_srl_list_{$id}" class="x_btn x_btn-mini moduleTrigger" data-multiple="true">{$lang->cmd_add}</a>
+				<button type="button" class="x_btn x_btn-mini modulelist_up">{$lang->cmd_move_up}</button>
+				<button type="button" class="x_btn x_btn-mini modulelist_down">{$lang->cmd_move_down}</button>
+				<button type="button" class="x_btn x_btn-mini x_btn-danger modulelist_del">{$lang->cmd_delete}</button>
 				<script>
 					xe.registerApp(new xe.ModuleListManager('{$id}'));
 				</script>
-
-				<script>
-				jQuery(function($){
-					$('.moduleSearch1').bind('moduleSelect', function(e, aSelected){
-						var sType, sName, sSrl;
-						
-						for(var i=0, nLen=aSelected.length; i<nLen; i++){
-							sType = aSelected[i].type;
-							sName = aSelected[i].browser_title;
-							sSrl = aSelected[i].module_srl;
-							xe.broadcast("ADD_MODULE_TO_MODULELIST_MANAGER", [sType, sName, sSrl]);
-						}
-					});
-				});
-
-				</script>
-
-				<!-- new module search -->
-				<div id="moduleSearchWindow1" class="moduleSearchWindow tgContent">
-					<div class="siteList sectionDiv">
-						<h2>{$lang->select_site}</h2>
-						<div class="siteListSearchBox">
-							<div class="siteListSearchBoxBorder">
-								<div class="searchImg icon-search"></div>
-								<input type="text" class="siteListSearchInput" name="site_filter">
-							</div>
-						</div>
-						<div class="siteListUL">
-							<ul>
-							</ul>
-						</div>
-					</div>
-					<div class="moduleTypeList sectionDiv">
-						<h2>{$lang->select_module_type}</h2>
-						<div>
-							<ul class="moduleTypeListUL">
-							</ul>
-						</div>
-					</div>
-					<div class="moduleInstanceList sectionDiv">
-						<h2>{$lang->select_module_instance}</h2>
-						<div>
-							<select class="moduleInstanceListSelect" multiple="multiple" size="8">
-							</select>
-						</div>
-						<button class="btn btn_primary moduleSearch_ok">{$lang->cmd_select}</button>
-					</div>
-				</div>
-				<!--// new module search -->
 			</block>
 			<block cond="$var->type == 'mid'">
 				<input type="hidden" name="{$id}" value="" />
-				<input type="text" readonly="readonly" /> <!--button class="text search">{$lang->cmd_search}</button> <button class="text delete">{$lang->cmd_delete}</button-->
-				<span style="padding:1px;margin:1px"><b><a href="#moduleSearchWindow2" class="tgAnchor moduleSearch">{$lang->cmd_select}</a></b></span>
-				<span style="padding:1px;margin:1px"><b><a href="#" class="text delete">{$lang->cmd_delete}</a></b></span>
-
-				<!-- callback function for moduleSearchWindow2 is defined in MidManager -->
-				<!-- new module search -->
-				<div id="moduleSearchWindow2" class="moduleSearchWindow tgContent">
-					<div class="siteList sectionDiv">
-						<h2>{$lang->select_site}</h2>
-						<div class="siteListSearchBox">
-							<div class="siteListSearchBoxBorder">
-								<div class="searchImg icon-search"></div>
-								<input type="text" class="siteListSearchInput" name="site_filter">
-							</div>
-						</div>
-						<div class="siteListUL">
-							<ul>
-							</ul>
-						</div>
-					</div>
-					<div class="moduleTypeList sectionDiv">
-						<h2>{$lang->select_module_type}</h2>
-						<div>
-							<ul class="moduleTypeListUL">
-							</ul>
-						</div>
-					</div>
-					<div class="moduleInstanceList sectionDiv">
-						<h2>{$lang->select_module_instance}</h2>
-						<div>
-							<select class="moduleInstanceListSelect"size="8">
-							</select>
-						</div>
-						<button class="btn btn_primary moduleSearch_ok">{$lang->cmd_select}</button>
-					</div>
-				</div>
-				<!--// new module search -->
-				<div class="finder" style="display: none;">
-					<div class="a">
-						
-						<input type="text" class="site_keyword" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findSite">{$lang->find_site}</a>
-						<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
-							<ul>
-							</ul>
-						</div>
-					</div>
-					<p class="a"><select class="moduleList" style="width:290px;"></select></p>
-					<p class="a"><select class="moduleIdList" style="width:290px;"></select> <button class="text">{$lang->cmd_select}</button></p>
-				</div>
+				<input type="text" style="width:220px" readonly="readonly" />
+				<a href="#" class="x_btn x_btn-mini moduleTrigger">{$lang->cmd_select}</a>
+				<button type="button" class="x_btn x_btn-mini x_btn-danger delete">{$lang->cmd_delete}</button>
 				<script>
 					xe.registerApp(new xe.MidManager('{$id}'));
 				</script>
-				
-
 			</block>
 			<block cond="$var->type == 'filebox'">
 				{@$use_filebox = true}
 				<input type="hidden" name="{$id}" />
-				<a class="modalAnchor filebox" href="#modalFilebox">{$lang->cmd_select}</a>
+				<a class="x_btn x_btn-mini modalAnchor filebox" href="#modalFilebox">{$lang->cmd_select}</a>
 			</block>
-			<select cond="$var->type == 'menu'" name="{$id}" style="width:290px">
+			<select cond="$var->type == 'menu'" name="{$id}" style="width:220px">
 				<option value="">-</option>
 				<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
 			</select>
 		</div>
-	</li>
+	</div>
 </block>
-</ul>
+</section>
 <script>
 	xe.current_lang = "{$lang_type}";
 </script>

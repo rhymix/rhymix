@@ -48,6 +48,7 @@ var default_url = "{Context::getDefaultUrl()}";
 <block cond="Context::get('_https_port')">var https_port = {Context::get("_https_port")};</block>
 <block cond="Context::get('_use_ssl') && Context::get('_use_ssl') == 'always'">var enforce_ssl = true;</block>
 xe.current_lang = "{$lang_type}";
+xe.cmd_find = "{$lang->cmd_find}";
 //]]>
 </script>
 </head>

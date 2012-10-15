@@ -15,31 +15,9 @@
 
 		<div class="x_control-group">
 			<label class="x_control-label" for="_target_module">{$lang->start_module}</label>
-			<div class="x_controls moduleSearch">
-				<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
-				<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
-				<a href="#msw" class="tgAnchor moduleTrigger x_btn">{$lang->cmd_find}</a> {$lang->about_start_module}
-				<div id="msw" class="tgContent moduleWindow x_well">
-					<div class="siteList x_control-group">
-						<label for="siteFinder">1. {$lang->select_site}</label>
-						<input type="search" class="siteFinder" id="siteFinder" name="site_filter" placeholder="URL">
-						<ul class="x_nav x_nav-tabs x_nav-stacked">
-						</ul>
-					</div>
-					<div class="moduleList x_control-group">
-						<label for>2. {$lang->select_module_type}</label>
-						<ul class="x_nav x_nav-tabs x_nav-stacked">
-						</ul>
-					</div>
-					<div class="instanceList x_control-group">
-						<label for="instanceList">3. {$lang->select_module_instance}</label>
-						<select size="8" id="instanceList" multiple>
-						</select>
-					</div>
-					<div class="x_pull-right">
-						<button type="button" class="moduleSearch_ok x_btn x_btn-inverse">{$lang->cmd_select}</button>
-					</div>
-				</div>
+			<div class="x_controls">
+				<input class="module_search" type="text" name="index_module_srl" value="{$start_module->index_module_srl}" />
+				{$lang->about_start_module}
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -232,19 +210,6 @@ jQuery(function($){
 			alert('*.png {$lang->msg_possible_only_file}');
 			return false;
 		}
-	});
-});
-
-jQuery(function($){
-	$('.moduleSearch').bind('moduleSelect', function(e, aSelected){
-		var sType, sName, sSrl;
-		
-		sType = aSelected[0].type;
-		sName = aSelected[0].browser_title;
-		sSrl = aSelected[0].module_srl;
-
-		$('#_target_module').val(sName);
-		$('#index_module_srl').val(sSrl);
 	});
 });
 </script>

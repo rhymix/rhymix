@@ -15,7 +15,6 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 
 		this.$selectedObj
 			.nextAll('button')
-				.filter('.modulelist_add').bind('click', function(){ self.cast('MODULELIST_ADD'); return false; }).hide().end()
 				.filter('.modulelist_del').bind('click', function(){ self.cast('MODULELIST_DEL'); return false; }).end()
 				.filter('.modulelist_up').bind('click', function(){ self.cast('MODULELIST_UP'); return false; }).end()
 				.filter('.modulelist_down').bind('click', function(){ self.cast('MODULELIST_DOWN'); return false; }).end()
@@ -23,6 +22,17 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 			.bind('show', function(){
 				$(this).nextAll().show();
 			});
+
+		this.$selectedObj.nextAll('a').filter('.moduleTrigger').bind('moduleSelect', function(e, aSelected){
+			var sType, sName, sSrl;
+			
+			for(var i=0, nLen=aSelected.length; i<nLen; i++){
+				sType = aSelected[i].mid + ', ' + aSelected[i].type;
+				sName = aSelected[i].browser_title;
+				sSrl = aSelected[i].module_srl;
+				self.cast("ADD_MODULE_TO_MODULELIST_MANAGER", [sType, sName, sSrl]);
+			}
+		}).end()
 
 		this.cast('MODULELIST_SYNC');
 	},
@@ -74,7 +84,7 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 			for(var i in data.module_list){
 				var module = data.module_list[i];
 				var obj = $(document.createElement('option'));
-				obj.val(module.module_srl).html(module.browser_title+' ('+module.module_name+')').appendTo(self.$selectedObj);
+				obj.val(module.module_srl).html(module.browser_title + ' (' + module.mid + ', ' + module.module_name + ')').appendTo(self.$selectedObj);
 			}
 		}
 

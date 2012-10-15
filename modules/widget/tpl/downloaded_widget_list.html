@@ -1,41 +1,42 @@
 <include target="header.html" />
 
-<div class="table even easyList dsTg">
-	<table width="100%" border="1" cellspacing="0">
-		<caption>
-			All({$tCount})
-			<span class="side"><button type="button" class="text"><span class="hide">{$lang->simple_view}</span><span class="show">{$lang->detail_view}</span></button></span>
-		</caption>
-		<thead>
-			<tr>
-				<th scope="col" class="title">{$lang->widget_name}</th>
-				<th scope="col" class="nowr">{$lang->version}</th>
-				<th scope="col" class="nowr">{$lang->author}</th>
-				<th scope="col" class="nowr">{$lang->path}</th>
-				<th scope="col" class="nowr">{$lang->cmd_generate_code}</th>
-				<th scope="col" class="nowr">{$lang->cmd_delete}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr loop="$widget_list => $widget">
-				<td class="title">
-					<p><strong>{$widget->title}</strong></p>
-					<p>{$widget->description}</p>
-					<p cond="$widget->need_update == 'Y'" class="update">
-						{$lang->msg_avail_easy_update} <a href="{$widget->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
-					</p>
-				</td>
-				<td class="nowr">{$widget->version}</td>
-				<td class="nowr">
-					<block loop="$widget->author => $author">
-						<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->name}</a>
-						<block cond="!$author->homepage">{$author->name}</block>
-					</block>
-				</td>
-				<td class="nowr">{$widget->path}</td>
-				<td class="nowr"><a href="{getUrl('act', 'dispWidgetAdminGenerateCode', 'selected_widget', $widget->widget)}">{$lang->cmd_generate_code}</a></td>
-				<td class="nowr"><a cond="$widget->remove_url" href="{$widget->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<table class="x_table x_table-striped x_table-hover dsTg">
+	<caption>
+		All({$tCount})
+		<div class="x_pull-right x_btn-group">
+			<button class="x_btn x_btn-mini x_active __simple">{$lang->simple_view}</button>
+			<button class="x_btn x_btn-mini __detail">{$lang->detail_view}</button>
+		</div>
+	</caption>
+	<thead>
+		<tr>
+			<th scope="col" class="title">{$lang->widget_name}</th>
+			<th scope="col" class="nowr">{$lang->version}</th>
+			<th scope="col" class="nowr">{$lang->author}</th>
+			<th scope="col" class="nowr">{$lang->path}</th>
+			<th scope="col" class="nowr">{$lang->cmd_generate_code}</th>
+			<th scope="col" class="nowr">{$lang->cmd_delete}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr loop="$widget_list => $widget">
+			<td class="title">
+				<p><strong>{$widget->title}</strong></p>
+				<p>{$widget->description}</p>
+				<p cond="$widget->need_update == 'Y'" class="update">
+					{$lang->msg_avail_easy_update} <a href="{$widget->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
+				</p>
+			</td>
+			<td class="nowr">{$widget->version}</td>
+			<td class="nowr">
+				<block loop="$widget->author => $author">
+					<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->name}</a>
+					<block cond="!$author->homepage">{$author->name}</block>
+				</block>
+			</td>
+			<td class="nowr">{$widget->path}</td>
+			<td class="nowr"><a class="x_btn" href="{getUrl('act', 'dispWidgetAdminGenerateCode', 'selected_widget', $widget->widget)}">{$lang->cmd_generate_code}</a></td>
+			<td class="nowr"><a class="x_btn x_btn-danger" cond="$widget->remove_url" href="{$widget->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
+		</tr>
+	</tbody>
+</table>

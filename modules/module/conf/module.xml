@@ -39,6 +39,8 @@
 		<action name="getModuleAdminMultilingualHtml" type="model" />
 		<action name="getModuleAdminLangListHtml" type="model" />
 		<action name="getModuleInfoByMenuItemSrl" type="model" />
+		<action name="getModuleAdminModuleSearcherHtml" type="model" />
+		<action name="getModuleAdminModuleInfo" type="model" />
 
         <action name="procModuleAdminInsertCategory" type="controller" standalone="true" ruleset="insertCategory" />
         <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" ruleset="updateCategory" />

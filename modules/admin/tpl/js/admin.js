@@ -482,178 +482,192 @@ $('.modulefinder').xeModuleFinder();
 // Module Search : A New Version Of Module Finder
 jQuery(function($){
 
+var tmpCount = 0;
 _xeModuleSearch = function(){
 	var t = this;
 	var $t = $(this);
-	var $moduleWindow = $t.find(".moduleWindow");
-	var $siteListDiv = $moduleWindow.find('.siteList');
-	var $moduleListDiv = $moduleWindow.find('.moduleList');
-	var $instanceListDiv = $moduleWindow.find('.instanceList');
-	var $siteList = $siteListDiv.find('>ul');
-	var $moduleList = $moduleListDiv.find('>ul');
-	var $instanceList = $instanceListDiv.find('>select');
-	var $siteFinder = $moduleWindow.find('input.siteFinder');
-	var aSiteListData;
-	var MAX_LIST_HEIGHT = 280;
-	
-	function setListSize($UL, nHeight){
-		var nWidth, $div;
-		$UL.find('li div').width('');
-		$UL.css('height', '');
-		$UL.css('overflow-y', '');
-		if($UL.height() > nHeight){
-			$div = $UL.find('li div');
-			$div.width($div.width()-20+'px');
-			$UL.css('height', nHeight+'px');
-			$UL.css('overflow-y', 'auto');
-		}
-	}
+	var is_multiple = $t.data('multiple');
+	if(!is_multiple) is_multiple = '';
+	var id = '__module_searcher_' + tmpCount;
+	tmpCount++;
 
-	function setSiteList(sFilter){
-		var sDomain;
-		var rxFilter = new RegExp(sFilter, "ig");
-		var list = aSiteListData;
+	// add html
+	$.exec_json('module.getModuleAdminModuleSearcherHtml', {'id': id, 'is_multiple': is_multiple}, function(data){
+		if(!data || !data.html) return;
 
-		$siteList.empty();
-	
-		for(i=0,c=list.length; i < c; i++) {
-			sDomain = list[i].domain;
-			if(sFilter){
-				if(!sDomain.match(rxFilter)) continue;
-				sDomain = sDomain.replace(rxFilter, function(sKeyword){
-					return '<span class="highlight">'+sKeyword+'</span>';
-				});
+		$t.after(data.html).addClass('tgAnchor').attr('href', '#' + id).xeContentToggler();
+
+		var $moduleWindow = $t.next(".moduleWindow");
+		var $siteListDiv = $moduleWindow.find('.siteList');
+		var $moduleListDiv = $moduleWindow.find('.moduleList');
+		var $instanceListDiv = $moduleWindow.find('.instanceList');
+		var $siteList = $siteListDiv.find('>ul');
+		var $moduleList = $moduleListDiv.find('>ul');
+		var $instanceList = $instanceListDiv.find('>select');
+		var $siteFinder = $moduleWindow.find('input.siteFinder');
+		var aSiteListData;
+		var MAX_LIST_HEIGHT = 280;
+
+		function setListSize($UL, nHeight){
+			var nWidth, $div;
+			$UL.find('li div').width('');
+			$UL.css('height', 'auto');
+			$UL.css('overflow-y', '');
+			if($UL.height() > nHeight){
+				$div = $UL.find('li div');
+				$div.width($div.width()-20+'px');
+				$UL.css('height', nHeight+'px');
+				$UL.css('overflow-y', 'auto');
 			}
-
-			$li = $('<li />').appendTo($siteList);
-			$('<a>').attr('href', '#').html(
-				sDomain
-			).data('site_srl', list[i].site_srl).appendTo($li);
 		}
 
-		setListSize($siteList, MAX_LIST_HEIGHT - $siteFinder.parent("div").height());
-	}
+		function setSiteList(sFilter){
+			var sDomain;
+			var rxFilter = new RegExp(sFilter, "ig");
+			var list = aSiteListData;
 
-	$siteFinder.keyup(function(){
-		setSiteList($siteFinder.val());
-	});
-
-	if(typeof console == 'undefined'){
-		console={log:function(){}};
-	}
-
-	$t
-		.not('.xe-module-search')
-		.addClass('xe-module-search')
-		.find('a.moduleTrigger')
-			.bind('before-open.tc', function(){
-				var $this;
-
-				$this = $(this);
-
-				function on_complete(data) {
-					var $li, list = data.site_list, i, c;
-
-					if(data.error || !$.isArray(list)) {
-						$this.trigger('close.tc');
-						return;
-					}
-
-					aSiteListData = list;
-
-					setSiteList($siteFinder.val());
-
-					$siteFinder.focus();
-				};
-
-				$siteList.empty();
-				$instanceList.empty();
-				$moduleListDiv.hide();
-				$instanceListDiv.hide();
-				$.exec_json('admin.getSiteAllList', {domain:""}, on_complete);
-			})
-		.end()
-		.find('.tgContent .siteList>ul')
-			.delegate('a','click',function(oEvent){
-				var $this, $finder;
-
-				$this    = $(this);
-				$finder  = $this.closest('.moduleSearch');
-
-				function on_complete(data) {
-
-					var list = data.module_list, x;
-
-					if(data.error || !list) return;
-
-					for(x in list) {
-						if(!list.hasOwnProperty(x)) continue;
-						$li = $('<li />').appendTo($moduleList);
-						$('<a>').attr('href', '#').html(
-							list[x].title
-						).data('moduleInstanceList', list[x].list).appendTo($li);
-					}
-
-					$moduleWindow.find('.moduleList').show();
-					setListSize($moduleList, MAX_LIST_HEIGHT);
-
-					$siteList.find('li').removeClass('x_active');
-					$this.parent('li').addClass('x_active');
-				};
-
-				$moduleList.empty();
-				$instanceListDiv.hide();
-
-				$.exec_json('module.procModuleAdminGetList', {site_srl:$this.data('site_srl')}, on_complete);
-
-				oEvent.preventDefault();
-			})
-		.end()
-		.find('.moduleList>ul')
-			.delegate('a', 'click', function(oEvent){
-			
-				var $this, $mid_select, val, list;
-
-				$this = $(this);
-				list = $this.data('moduleInstanceList');
-				if(!list) return;
-
-				t.sSelectedModuleType = $this.text();
-				$instanceList.empty();
-
-				for(var x in list) {
-					if(!list.hasOwnProperty(x)) continue;
-
-					$li = $('<option />').html(list[x].browser_title).appendTo($instanceList).val(list[x].module_srl).data('mid', list[x].module_srl)
-							.data('module_srl', list[x].module_srl).data('layout_srl', list[x].layout_srl).data('browser_title', list[x].browser_title);
+			$siteList.empty();
+		
+			for(i=0,c=list.length; i < c; i++) {
+				sDomain = list[i].domain;
+				if(sFilter){
+					if(!sDomain.match(rxFilter)) continue;
+					sDomain = sDomain.replace(rxFilter, function(sKeyword){
+						return '<span class="highlight">'+sKeyword+'</span>';
+					});
 				}
 
-				$instanceListDiv.show();
-				setListSize($instanceList, MAX_LIST_HEIGHT);
+				$li = $('<li />').appendTo($siteList);
+				$('<a>').attr('href', '#').html(
+					sDomain
+				).data('site_srl', list[i].site_srl).appendTo($li);
+			}
 
-				$moduleList.find('li').removeClass('x_active');
-				$this.parent('li').addClass('x_active');
+			setListSize($siteList, MAX_LIST_HEIGHT - $siteFinder.parent("div").height());
+		}
 
-				oEvent.preventDefault();
-			})
-		.end()
-		.find('.moduleSearch_ok').click(function(oEvent){
-				var aSelected = [];
-				$t.find('select>option:selected').each(function(){
-					aSelected.push({
-						'type' : t.sSelectedModuleType,
-						'module_srl' : $(this).data('module_srl'),
-						'layout_srl' : $(this).data('layout_srl'),
-						'browser_title' : $(this).data('browser_title')
-					});
+		$siteFinder.keyup(function(){
+			setSiteList($siteFinder.val());
+		});
+
+		if(typeof console == 'undefined'){
+			console={log:function(){}};
+		}
+
+		$t
+			.not('.xe-module-search')
+			.addClass('xe-module-search')
+			.parent()
+			.find('a.moduleTrigger')
+				.bind('before-open.tc', function(){
+					var $this;
+
+					$this = $(this);
+
+					function on_complete(data) {
+						var $li, list = data.site_list, i, c;
+
+						if(data.error || !$.isArray(list)) {
+							$this.trigger('close.tc');
+							return;
+						}
+
+						aSiteListData = list;
+
+						setSiteList($siteFinder.val());
+
+						$siteFinder.focus();
+					};
+
+					$siteList.empty();
+					$instanceList.empty();
+					$moduleListDiv.hide();
+					$instanceListDiv.hide();
+					$.exec_json('admin.getSiteAllList', {domain:""}, on_complete);
 				});
+		$moduleWindow
+			.find('.siteList>ul')
+				.delegate('a','click',function(oEvent){
+					var $this, $finder;
 
-				$t.trigger('moduleSelect', [aSelected]);
-				$('a.moduleTrigger').trigger('close.tc');
+					$this    = $(this);
+					$finder  = $this.closest('.moduleSearch');
+
+					function on_complete(data) {
+
+						var list = data.module_list, x;
+
+						if(data.error || !list) return;
+
+						for(x in list) {
+							if(!list.hasOwnProperty(x)) continue;
+							$li = $('<li />').appendTo($moduleList);
+							$('<a>').attr('href', '#').html(
+								list[x].title
+							).data('moduleInstanceList', list[x].list).appendTo($li);
+						}
+
+						$moduleWindow.find('.moduleList').show();
+						setListSize($moduleList, MAX_LIST_HEIGHT);
+
+						$siteList.find('li').removeClass('x_active');
+						$this.parent('li').addClass('x_active');
+					};
+
+					$moduleList.empty();
+					$instanceListDiv.hide();
+
+					$.exec_json('module.procModuleAdminGetList', {site_srl:$this.data('site_srl')}, on_complete);
+
+					oEvent.preventDefault();
+				})
+			.end()
+			.find('.moduleList>ul')
+				.delegate('a', 'click', function(oEvent){
 				
-				oEvent.preventDefault();
-			});
-			
+					var $this, $mid_select, val, list;
+
+					$this = $(this);
+					list = $this.data('moduleInstanceList');
+					if(!list) return;
+
+					t.sSelectedModuleType = $this.text();
+					$instanceList.empty();
+
+					for(var x in list) {
+						if(!list.hasOwnProperty(x)) continue;
+
+						$li = $('<option />').html(list[x].browser_title + ' (' + list[x].mid + ')').appendTo($instanceList).val(list[x].module_srl).data('mid', list[x].mid)
+								.data('module_srl', list[x].module_srl).data('layout_srl', list[x].layout_srl).data('browser_title', list[x].browser_title);
+					}
+
+					$instanceListDiv.show();
+					setListSize($instanceList, MAX_LIST_HEIGHT);
+
+					$moduleList.find('li').removeClass('x_active');
+					$this.parent('li').addClass('x_active');
+
+					oEvent.preventDefault();
+				})
+			.end()
+			.find('.moduleSearch_ok').click(function(oEvent){
+					var aSelected = [];
+					$instanceList.find('option:selected').each(function(){
+						aSelected.push({
+							'type' : t.sSelectedModuleType,
+							'module_srl' : $(this).data('module_srl'),
+							'layout_srl' : $(this).data('layout_srl'),
+							'browser_title' : $(this).data('browser_title'),
+							'mid' : $(this).data('mid')
+						});
+					});
+
+					$t.trigger('moduleSelect', [aSelected]);
+					$('a.moduleTrigger').trigger('close.tc');
+					
+					oEvent.preventDefault();
+				});
+	});
 
 	return this;
 };
@@ -662,7 +676,45 @@ $.fn.xeModuleSearch = function(){
 	$(this).each(_xeModuleSearch);
 };
 
-$('.moduleSearch').xeModuleSearch();
+$('.moduleTrigger').xeModuleSearch();
+
+// Add html for .module_search
+$.fn.xeModuleSearchHtml = function(){
+	var tmpCount = 0;
+
+	$(this).each(function(){
+		var $this = $(this);
+		var id = $this.attr('id');
+		if(!id) id = '__module_search_' + tmpCount;
+		tmpCount++;
+
+		// add html
+		var $btn = $('<a class="x_btn moduleTrigger">' + xe.cmd_find + '</a>');
+		var $displayInput = $('<input type="text" readonly>');
+		$this.after($btn).after('&nbsp;').after($displayInput).hide();
+		$btn.xeModuleSearch();
+
+		// on selected module
+		$btn.bind('moduleSelect', function(e, selected){
+			$displayInput.val(selected[0].browser_title + ' (' + selected[0].mid + ')');
+			$this.val(selected[0].module_srl);
+		});
+
+		// get module info
+		if($this.val()){
+			$.exec_json('module.getModuleAdminModuleInfo', {'module_srl': $this.val()}, function(data){
+				if(!data || !data.module_info) return;
+
+				$displayInput.val(data.module_info.browser_title + ' (' + data.module_info.mid + ')');
+			});
+		}
+	});
+
+	return this;
+}
+
+$('.module_search').xeModuleSearchHtml();
+
 });
 
 // Sortable table
@@ -937,14 +989,14 @@ $('.filebox')
 				$displayInput.val($hiddenInput.val());
 				var pattern = /^\$user_lang->/;
 				if(pattern.test($displayInput.val())){
-					$.exec_json('module.getModuleAdminLangCode', {'name': $displayInput.val().replace('$user_lang->', '')}, on_complete);
-
-					function on_complete(data){
+					function on_complete2(data){
 						if(!data || !data.langs) return;
 
 						$displayInput.closest('.g11n').addClass('active');
 						$displayInput.val(data.langs[xe.current_lang]).attr('disabled', 'disabled').width(135);
 					}
+
+					$.exec_json('module.getModuleAdminLangCode', {'name': $displayInput.val().replace('$user_lang->', '')}, on_complete2);
 				}
 			});
 
