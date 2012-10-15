@@ -22,6 +22,7 @@
 	<!--@elseif($act!='dispMemberLoginForm')-->
 	<li class="fl"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
 	<!--@end-->
+	<li class="fl" cond="$is_logged"><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}...</a></li>
 	<li class="fr"><a href="{getUrl('m',0)}">PC</a></li>
 	<li class="fr"><a href="{getUrl('act','dispModuleChangeLang','oldact',$act)}">LANG</a></li>
 </ul>
