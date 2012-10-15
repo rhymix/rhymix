@@ -63,7 +63,7 @@
 
 <section class="section">
 	<block cond="$mid_list">
-		<h1>{$lang->module}</h1>
+		<h1>{$lang->target}</h1>
 		<div class="x_control-group">{$lang->about_addon_mid}</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->run_method}</label>
@@ -79,15 +79,21 @@
 			<label class="x_control-label">{$lang->target}</label>
 			<div class="x_controls">
 				<label for="check_all"><input type="checkbox" id="check_all" /> Check all</label>
-				<fieldset loop="$mid_list => $module_category_srl, $modules">
+				<block  loop="$mid_list => $module_category_srl, $modules">
+				<!--@if(count($mid_list) > 1)-->
+				<fieldset>
 					<legend><!--@if($modules->title)-->{$modules->title}<!--@else-->{$lang->none_category}<!--@end--></legend>
+				<!--@end-->
 					<div loop="$modules->list => $key, $val">
-						<label for="chk_mid_list_{$key}">
+						<label>
 							<input type="checkbox" value="{$key}" name="mid_list[]" id="chk_mid_list_{$key}" checked="checked"|cond="in_array($key, $addon_info->mid_list)"/>
 							{$key} ({$val->browser_title})
 						</label>
 					</div>
+				<!--@if(count($mid_list) > 1)-->
 				</fieldset>
+				<!--@end-->
+				</block>
 			</div>
 		</div>
 	</block>

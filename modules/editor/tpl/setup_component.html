@@ -54,22 +54,24 @@
 			<div class="x_controls">
 				<span class="x_help-block">{$lang->about_component_mid}</span>
 				<!--@foreach($mid_list as $module_category_srl => $modules)-->
+				<!--@if(count($mid_list) > 1)-->
 				<fieldset>
 					<legend>
 						<input type="checkbox" onclick="XE.checkboxToggleAll('mid_list', { wrap:'section_{$module_category_srl}' }); return false;" />
 						<!--@if($modules->title)-->{$modules->title}<!--@else-->{$lang->none_category}<!--@end-->
 					</legend>
+				<!--@end-->
 					<div id="section_{$module_category_srl}">
 					<!--@foreach($modules->list as $key => $val)-->
-						<div class="module_list">
 							<label>
 								<input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $component->mid_list))-->checked="checked"<!--@end--> />
 								{$key} ({$val->browser_title})
 							</label>
-						</div>
 					<!--@end-->
 					</div>
+				<!--@if(count($mid_list) > 1)-->
 				</fieldset>
+				<!--@end-->
 				<!--@end-->
 			</div>
 		</div>
