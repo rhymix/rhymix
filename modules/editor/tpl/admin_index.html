@@ -8,7 +8,31 @@
 <!-- Editor Preview -->
 <section class="section">
 	<h1>{$lang->editor_preview}</h1>
-	<a href="{getUrl('module', 'admin', 'act', 'dispEditorConfigPreview')}" target="_blank">{$lang->cmd_preview}</a>
+	<a class="x_btn modalAnchor" href="#editor_preview">{$lang->cmd_preview}</a>
+	<div id="editor_preview" class="x_modal x">
+		<div class="x_modal-header">
+			<h3>{$lang->editor_preview}</h3>
+		</div>
+		<div class="x_modal-body">
+			<div class="x_tabbable" style="height:400px">
+				<ul class="x_nav x_nav-tabs">
+					<li class="x_active"><a href="#pre_document">{$lang->main_editor}</a></li>
+					<li><a href="#pre_comment">{$lang->comment_editor}</a></li>
+				</ul>
+				<div class="x_tab-content" >
+					<div class="x_tab-pane x_active" id="pre_document">
+						<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" width="100%" height="100%" style="border:0;width:1024px;height:600px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.65);-moz-transform-origin:0 0; -moz-transform: scale(.65);position:absolute"></iframe> 
+					</div>
+					<div class="x_tab-pane" id="pre_comment">
+						<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" width="100%" height="100%" style="border:0;width:1024px;height:600px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.65);-moz-transform-origin:0 0; -moz-transform: scale(.65);position:absolute"></iframe> 
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="x_modal-footer">
+			<button class="x_btn x_pull-left" type="button" data-hide="#editor_preview">Close</button>
+		</div>
+	</div>
 </section>
 
 <!-- Editor Option -->
@@ -22,7 +46,7 @@
 			<label for="change_lang_type" class="x_control-label">{$lang->guide_choose_main_editor}</label>
 			<div class="x_controls">
 				<!--@foreach($editor_skin_list as $editor)-->
-				<label for="doc_{$editor}" class="x_inline" id="label_doc_{$editor}">
+				<label class="x_inline" id="label_doc_{$editor}">
 					<input type="radio" name="editor_skin" value="{$editor}" id="doc_{$editor}" onClick="getEditorSkinColorList(this.value, null, 'document','label_doc_{$editor}')" checked="checked"|cond="$editor==$editor_config->editor_skin" />{$editor}
 				</label>
 				<label class="x_inline">
@@ -44,7 +68,7 @@
 			<label for="sel_comment_editor_colorset" class="x_control-label">{$lang->guide_choose_comment_editor}</label>
 			<div class="x_controls">
 				<!--@foreach($editor_skin_list as $editor)-->
-				<label for="com_{$editor}" class="x_inline" id="label_com_{$editor}">
+				<label class="x_inline" id="label_com_{$editor}">
 					<input type="radio" name="comment_editor_skin" value="{$editor}" id="com_{$editor}"  onclick="getEditorSkinColorList(this.value, null, 'reply','label_com_{$editor}')" checked="checked"|cond="$editor == $editor_config->comment_editor_skin" />{$editor}
 				</label>
 				<label class="x_inline">
@@ -67,7 +91,7 @@
 			<label class="x_control-label">{$lang->guide_choose_text_formatting}</label>
 			<div class="x_controls">
 					<!--@foreach($content_style_list as $key => $val)-->
-					<label for="style_{$key}" class="x_inline">
+					<label class="x_inline">
 						<input type="radio" name="content_style" value="{$key}" id="style_{$key}" checked="checked"|cond="$key==$editor_config->content_style||!$editor_config->content_style && $key=='default'"> {$key}
 					</label>
 					<!--@end-->
@@ -81,10 +105,10 @@
 					else $fontSize = str_replace('px','',$editor_config_default['content_font_size']);
 				}
 				<textarea rows="8" cols="42" class="fontPreview" style="font-family:{$editor_config->content_font};font-size:{$fontSize}px" title="Font Preview">{$lang->font_preview}</textarea>
-				<label for="font_noFont" style="font-family:''" class="fontSelector">
+				<label style="font-family:''" class="fontSelector">
 					<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font" />none(inherit)
 				</label>
-				<label for="font_{$name}" style="font-family:{$detail}" class="fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
+				<label style="font-family:{$detail}" class="fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
 					<input type="radio" name="content_font" id="font_{$name}" value="{$name}" <!--@if($editor_config->content_font==$name)-->checked="checked" <!--@end-->/> {$detail}
 				</label>
 			</div>

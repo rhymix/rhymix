@@ -1,17 +1,5 @@
-<load target="../../admin/tpl/css/admin.css" usecdn="true" />
-<div class="x" style="padding: 10px;">
-	<h2 class="h2">{$lang->editor_preview}</h2>
-	<h2 class="h3">{$lang->main_editor}</h2>
 	<form onSubmit="return false">	
 		<input type="hidden" name="dummy_content" />
 		<input type="hidden" name="dummy_key" value="1" />
-
 		<p>{$editor}</p>
-	</form><br />
-	<h2 class="h3">{$lang->comment_editor}</h2>
-	<form onSubmit="return false">
-		<input type="hidden" name="dummy_content2" />
-		<input type="hidden" name="dummy_key2" value="1" />
-		<p>{$editor_comment}</p>
 	</form>
-</div>
