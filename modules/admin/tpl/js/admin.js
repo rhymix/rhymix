@@ -160,7 +160,6 @@ $.fn.xeModalWindow = function(){
 			var $this = $(this), $modal, $btnClose, disabled, before_event, duration;
 			
 			$modal = $( $this.attr('href') );
-			alert($this.attr('href'));
 			if(!$modal.parent('body').length) {
 				$btnClose = $('<button type="button" class="x_close">&times;</button>');
 				$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
