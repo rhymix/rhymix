@@ -11,7 +11,7 @@ jQuery(function($){
 $('.checkxml')
 	.find('input:text')
 		.change(function(){
-			$(this).closest('.checkxml').find('.desr').hide();
+			$(this).closest('.checkxml').find('.x_help-inline').hide();
 		})
 	.end()
 	.find('button')
@@ -22,7 +22,7 @@ $('.checkxml')
 			$form      = $this.closest('form');
 			$container = $this.closest('.checkxml');
 			$input     = $container.find('input').prop('disabled', true).addClass('loading');
-			$message   = $container.find('.desc').hide();
+			$message   = $container.find('.x_help-inline').hide();
 
 			function on_complete(data) {
 				var $ul, $ttxml, $xml;
@@ -35,7 +35,7 @@ $('.checkxml')
 					
 				// when the file doesn't exists or any other error occurs
 				if(data.error || data.exists != 'true') {
-					$message.attr('class', 'desc error').fadeIn(300);
+					$message.attr('class', 'x_help-inline').fadeIn(300);
 					$ttxml = $ttxml.filter(':visible');
 					$ttxml.eq(-1).slideUp(100, function(){
 						$ttxml = $ttxml.slice(0,-1).eq(-1).slideUp(100,arguments.callee);
@@ -44,7 +44,7 @@ $('.checkxml')
 					return restore();
 				}
 
-				$message.attr('class', 'desc success').fadeIn(300);
+				$message.attr('class', 'x_help-inline').fadeIn(300);
 				$form.find(':submit').removeAttr('disabled');
 
 				$syncmember = $form.find('.syncmember:hidden');
@@ -71,7 +71,7 @@ $('.checkxml')
 			$.exec_json('importer.procImporterAdminCheckXmlFile', {filename:$.trim($input.val())}, on_complete);
 		})
 	.end()
-	.find('.desc').hide().end()
+	.find('.x_help-inline').hide().end()
 	.closest('form').find('>.ttxml').hide().end().end()
 	.closest('form').find(':submit').attr('disabled','disabled');
 

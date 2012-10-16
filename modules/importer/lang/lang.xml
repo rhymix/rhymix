@@ -317,11 +317,6 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="en"><![CDATA[Please enter the path of XML file.]]></value>
 		<value xml:lang="jp"><![CDATA[XMLファイルのパスを入力してください。]]></value>
 	</item>
-	<item name="path_info">
-		<value xml:lang="ko"><![CDATA[상대 경로와 절대 경로 모두 입력 가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can enter either relative path or absolute path.]]></value>
-		<value xml:lang="jp"><![CDATA[相対パスと絶対パスを入力できます。]]></value>
-	</item>
 	<item name="data_destination">
 		<value xml:lang="ko"><![CDATA[데이터의 목적지를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select the destination of data.]]></value>
@@ -336,11 +331,6 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="ko"><![CDATA[방명록 데이터의 목적지를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select the destination of guestbook data.]]></value>
 		<value xml:lang="jp"><![CDATA[ゲストブックデータの目的地を選択してください。]]></value>
-	</item>
-	<item name="import_desc">
-		<value xml:lang="ko"><![CDATA[가상 사이트의 도메인을 입력한 후 <em>사이트 찾기</em>를 클릭하면 됩니다. 도메인을 빈 칸으로 남겨두면 모든 사이트의 목록을 보여줍니다.]]></value>
-		<value xml:lang="en"><![CDATA[Enter the domain of virtual site, and click <em>Find Site</em>. If you leave the domain field empty, list of all the sites is displayed.]]></value>
-	　　<value xml:lang="jp"><![CDATA[仮想サイトのドメインを入力し、<em>サイト検索</em>をクリックします。ドメインを空欄にしておくと、すべてのサイトのリストを表示します。]]></value>
 	</item>
 	<item name="msg_sync_member">
 		<value xml:lang="ko"><![CDATA[동기화 버튼을 클릭하시면 회원정보와 게시물 정보의 동기화를 시작합니다.]]></value>
@@ -513,25 +503,25 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="vi"><![CDATA[Lựa chọn này sẽ đồng bộ thông tin thành viên trước khi đồng bộ Bài viết và thành viên.]]></value>
 	</item>
 	<item name="about_importer">
-		<value xml:lang="ko"><![CDATA[다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다. 이전을 위해서는 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>를 이용해서 원하는 데이터를 XML파일로 생성 후 업로드해주셔야 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다. 이전을 위해서는 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>를 이용해서 원하는 데이터를 XML파일로 생성 후 업로드해주셔야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Data Importer will help you import Zeroboard4, Zeroboard5 Beta or other program's data into XE.
-In order to import, you first have to use <a href="http://code.google.com/p/xe-migration/" onclick="winopen(this.href);return false;">XML Exporter</a> to convert the data you want into XML File.]]></value>
+In order to import, you first have to use <a href="http://code.google.com/p/xe-migration/" target="_blank">XML Exporter</a> to convert the data you want into XML File.]]></value>
 		<value xml:lang="jp"><![CDATA[ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをXEのデータに変換することができます。
-変換するためには、<a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードしてください。]]></value>
+変換するためには、<a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードしてください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到XE当中。
-导入数据时请利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>生成XML文件后再上传。]]></value>
+导入数据时请利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>生成XML文件后再上传。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[不僅可以匯入 Zeroboard 4，Zb5beta 的資料，也能夠把其他程式資料匯入到 XE 當中。
-匯入資料時，請利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a> 建立 XML 檔案後再上傳。]]></value>
+匯入資料時，請利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a> 建立 XML 檔案後再上傳。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez transférer les données de Zeroboard4, de Zeroboard5 Beta ou d'autres logiciels aux données de XE.
-Pour transférer, vous devez utiliser <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">Exporteur de XML</a> pour convertir les données en fichier de XML, et puis téléchargez-le.]]></value>
+Pour transférer, vous devez utiliser <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">Exporteur de XML</a> pour convertir les données en fichier de XML, et puis téléchargez-le.]]></value>
 		<value xml:lang="ru"><![CDATA[Вы можете импортировать данные Zeroboard4, Zeroboard5 Beta или других программ в XE.
-Чтобы импортировать, Вам следует использовать <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Экспортер (XML Exporter)</a>, чтобы конвертировать нужные данные в XML Файл и затем загрузить его.]]></value>
+Чтобы импортировать, Вам следует использовать <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Экспортер (XML Exporter)</a>, чтобы конвертировать нужные данные в XML Файл и затем загрузить его.]]></value>
 		<value xml:lang="es"><![CDATA[Es posible trasferir los datos de Zeroboard4, zb5beta o de otros programas a XE.
-Para la transferencia debe utilizar <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a> para transformar los datos en archivo XML, y luego subir ese archivo.]]></value>
+Para la transferencia debe utilizar <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a> para transformar los datos en archivo XML, y luego subir ese archivo.]]></value>
 		<value xml:lang="tr"><![CDATA[Veri Alıcısı XE'ye, Zeroboard4, Zeroboard5 Beta veya başka programların verilerini aktarmada yardımcı olacaktır.
-İçe aktarımı gerçekleştirebilmek için öncelikle <a href="http://code.google.com/p/xe-migration/" onclick="winopen(this.href);return false;">XML DışAktarımcı</a>'yı kullanıp istediğiniz veriyi XML türüne çevirmelisiniz.]]></value>
+İçe aktarımı gerçekleştirebilmek için öncelikle <a href="http://code.google.com/p/xe-migration/" target="_blank">XML DışAktarımcı</a>'yı kullanıp istediğiniz veriyi XML türüne çevirmelisiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có thể chuyển Data từ Zeroboard4, Zeroboard5 Beta hay Data của những mã nguồn khác vào Data của XE.
-Để hiểu rõ hơn công việc này, bạn có thể tham khảo cách chuyển đổi Data của bạn vào XE khi bạn đã Upload chúng tại <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>.]]></value>
+Để hiểu rõ hơn công việc này, bạn có thể tham khảo cách chuyển đổi Data của bạn vào XE khi bạn đã Upload chúng tại <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>.]]></value>
 	</item>
 	<item name="about_target_path">
 		<value xml:lang="ko"><![CDATA[첨부 파일을 받기 위해 제로보드4가 설치된 위치를 입력해주세요.
