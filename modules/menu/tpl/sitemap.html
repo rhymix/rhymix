@@ -460,6 +460,21 @@
 		<fieldset>
 			<h1>권한</h1>
 			<ul>
+				<script id="tmpl_permItem" type="text/x-jquery-tmpl">
+				<li>
+					<label for="auth${PermId}">${PermTitle}</label>
+					<select id="auth${PermId}">
+						<option value="all">모든 사용자</option>
+						<option value="loged">로그인 사용자</option>
+						<option value="selected">선택그룹 사용자</option>
+					</select>
+					<div class="selected x_hide">
+						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
+						<label><input type="checkbox" title="정회원"> 정회원</label>
+						<label><input type="checkbox" title="준회원"> 준회원</label>
+					</div>
+				</li>
+				</script>
 				<li>
 					<label for="authMenu">메뉴 노출 대상</label>
 					<select id="authMenu">
@@ -2275,28 +2290,105 @@ jQuery(function($){
 	})
 
 	$('#auth').on('show', function(){
-		/*
-			var params2 = new Array();
-			var response_tags2 = new Array('grantList');
-			params2['target_module'] = 'board';
-			params2['module_srl'] = '106';
-			exec_xml("module","getModuleAdminGrant", params2, completeTmp, response_tags2);
-		*/
-		//console.log(htNodeInfo[$._xeAdminVar.sSelectedMenuSrl]);
-		var params = {
-			target_module : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType,
-			module_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].module_srl
-		};
-		/*
-		$.exec_json("module.getModuleAdminGrant", params, function(htData){
-			console.log(htData);
-		});
-		*/
-		
-		$.exec_json("menu.getMenuAdminSiteMap", {}, function(htData){
-			//console.log(htData);
-		});
+		// https://code.google.com/p/xe-core/wiki/MenuPerm?ts=1350276450&updated=MenuPerm
+		$.exec_json("menu.getMenuAdminItemInfo", {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
+		}, PermAReceived);
 	});
+	function PermAReceived(htData){
+		console.log(1, htData);
+		
+		/*
+		{
+		   "message_type":"",
+		   "menu_item":{
+			  "group_srls":[
+
+			  ],
+			  "moduleType":"",
+			  "groupList":[
+				 {
+					"group_srl":"1",
+					"title":"관리그룹",
+					"isChecked":false
+				 },
+				 {
+					"group_srl":"2",
+					"title":"준회원",
+					"isChecked":false
+				 },
+				 {
+					"group_srl":"3",
+					"title":"정회원",
+					"isChecked":false
+				 }
+			  ],
+			  "name_key":"",
+			  "name":""
+		   },
+		   "error":0,
+		   "message":"success"
+		}
+		*/
+		var aUserGroups = $._xeAdminVar.aUserGroups = [];
+		var htUserGroups = $._xeAdminVar.htUserGroups = {};
+
+		var htNode = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
+		var aPerms =  htNode.aPerms = [];
+		
+		var htTmp;
+		for(var i=0, nLen=htData.menu_item.groupList.length; i<nLen; i++){
+			htTmp = htData.menu_item.groupList[i];
+			
+			aUserGroups[i] = htTmp;
+			htUserGroups[htTmp.group_srl] = htTmp;
+		}
+		
+		//console.log($._xeAdminVar.aUserGroups, $._xeAdminVar.htUserGroups);
+		aPerms[0] = {
+			sTitle : '메뉴 노출',
+			sDefault : 'guest',
+			sGrant : htData.menu_item.grant,
+			aGroup : htData.menu_item.group
+		};
+		
+		var params = {
+			target_module : htNode.sModuleType,
+			module_srl : htNode.module_srl
+		};
+
+		$.exec_json("module.getModuleAdminGrant", params, PermBReceived);
+	}
+	function PermBReceived(htData){
+		console.log(2, htData);
+
+		var htNode = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
+		var aPerms =  htNode.aPerms;
+
+		/*
+		  "write_document":{
+			 "title":"글 작성",
+			 "default":"guest",
+			 "grant":"group",
+			 "group":{
+				 1, 2, 3
+			 }
+		  },
+	  */
+		
+		for(var sPerm in htData.grantList){
+			htTmp = htData.grantList[sPerm];
+			
+			aPerms.push({
+				sTitle : htTmp.title,
+				sDefault : htTmp.default,
+				sGrant : htTmp.grant || "",
+				aGroup : htTmp.group || []
+			});
+		}
+		
+		console.log(aPerms);
+	}
 	
 	var $foggyLayer = $("<div>");
 	$foggyLayer.css({
