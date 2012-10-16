@@ -152,20 +152,30 @@ jQuery(function($){
 	});
 // label[for] + input[id]/textarea[id]/select[id] creator
 	$('label:not([for])').each(function(index){
-		var $this = $(this);
 		index = index + 1;
-		if($this.next('input[id], textarea[id], select[id]').not(':radio, :checkbox').length){ 
+		var $this = $(this);
+		var input = 'input, textarea, select';
+		var check = ':radio, :checkbox';
+		var id = '[id]';
+		var value = 'i' + index;
+		if($this.next(input).filter(id).not(check).length){ 
 		// next input, textarea, select id true
 			$this.attr('for', $this.next().attr('id'));
-		} else if ($this.next('input:not([id]), textarea:not([id]), select:not([id])').not(':radio, :checkbox').length) { 
+		} else if ($this.next(input).not(id).not(check).length) { 
 		// next input, textarea, select id false
-			$this.attr('for', 'i' + index).next().attr('id', 'i' + index);
-		} else if ($this.prev(':radio[id], :checkbox[id]').length) { 
+			$this.attr('for', value).next().attr('id', value);
+		} else if ($this.prev(check).filter(id).length) { 
 		// prev :radio :checkbox id true
 			$this.attr('for', $this.prev().attr('id'));
-		} else if ($this.prev(':radio:not([id]), :checkbox:not([id])').length) { 
+		} else if ($this.prev(check).not(id).length) { 
 		// prev :radio :checkbox id false
-			$this.attr('for', 'i' + index).prev().attr('id', 'i' + index);
+			$this.attr('for', value).prev().attr('id', value);
+		} else if ($this.children(input).filter(id).length) {
+		// children id true
+			$this.attr('for', $this.children(input).filter(id).eq(0).attr('id'));
+		} else if ($this.children(input).not(id).length) {
+		// children id false
+			$this.attr('for', value).children(input).not(id).eq(0).attr('id', value);
 		}
 	});
 });
