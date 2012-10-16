@@ -285,7 +285,7 @@ to{-o-transform:rotate(360deg)}
 .x .dashboard>section:nth-child(odd),
 .x .dashboard>section:nth-child(even){float:none;width:auto}
 }
-.x .g11n>.x_add-on{font-size:0;position:relative;cursor:pointer;text-decoration:none}
+.x .g11n>.x_add-on{font-size:0;position:relative;cursor:pointer;text-decoration:none;*color:#eee}
 .x .g11n>.x_add-on>i{position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px;z-index:1;opacity:.25;filter:alpha(opacity=25)}
 .x .g11n>.x_add-on.remover{display:none;width:26px;height:26px}
 .x .g11n.active>[disabled]{padding-left:25px;background-position:4px 6px;background-repeat:no-repeat}
