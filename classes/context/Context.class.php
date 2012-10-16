@@ -928,7 +928,10 @@ class Context {
 					$v = stripslashes($v);
 				}
 
-				$val[$k] = trim($v);
+				if(!is_array($v))
+				{
+					$val[$k] = trim($v);
+				}
 			}
 		}
 

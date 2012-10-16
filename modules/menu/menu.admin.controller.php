@@ -1143,8 +1143,8 @@
 		public function procMenuAdminUpdateAuth()
 		{
 			$menuItemSrl = Context::get('menu_item_srl');
-			$exposureTarget = Context::get('exposure_target');
-			$exposureGroupList = Context::get('exposure_group_list');
+			$exposure = Context::get('exposure');
+			$htPerm = Context::get('htPerm');
 
 			$oMenuModel = &getAdminModel('menu');
 			$itemInfo = $oMenuModel->getMenuItemInfo($menuItemSrl);
@@ -1152,24 +1152,20 @@
 
 			// Menu Exposure update
 			// if exposure target is only login user...
-			if($exposureTarget == -1)
+			if(!$exposure)
 			{
-				$args->group_srls = -1;
-			}
-			else if($exposureGroupList)
-			{
-				if(is_array($exposureGroupList))
-				{
-					$args->group_srls = implode(',', $exposureGroupList);
-				}
-				else
-				{
-					$args->group_srls = $exposureGroupList;
-				}
+				$args->group_srls = '';
 			}
 			else
 			{
-				$args->group_srls = '';
+				if(is_array($exposure))
+				{
+					$args->group_srls = implode(',', $exposure);
+				}
+				else if($exposure && !is_array($exposure))
+				{
+					$args->group_srls = -1;
+				}
 			}
 
 			$output = executeQuery('menu.updateMenuItem', $args);
@@ -1194,25 +1190,21 @@
 
 			foreach($grantList AS $grantName=>$grantInfo)
 			{
-				// Get the default value
-				$default = Context::get($grantName.'_default');
-
-				// -1 = Log-in user only, -2 = site members only, 0 = all users
-				if(strlen($default))
+				if(!$htPerm[$grantName])
 				{
-					$grant->{$grantName}[] = $default;
 					continue;
 				}
+
 				// users in a particular group
+				if(is_array($htPerm[$grantName]))
+				{
+					$grant->{$grantName} = $htPerm[$grantName];
+					continue;
+				}
+				// -1 = Log-in user only, -2 = site members only, 0 = all users
 				else
 				{
-					$group_srls = Context::get($grantName);
-					if($group_srls) {
-						if(strpos($group_srls,'|@|')!==false) $group_srls = explode('|@|',$group_srls);
-						elseif(strpos($group_srls,',')!==false) $group_srls = explode(',',$group_srls);
-						else $group_srls = array($group_srls);
-						$grant->{$grantName} = $group_srls;
-					}
+					$grant->{$grantName}[] = $htPerm[$grantName];
 					continue;
 				}
 				$grant->{$group_srls} = array();
