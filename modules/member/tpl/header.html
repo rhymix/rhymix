@@ -1,17 +1,19 @@
-<load target="js/member_admin.js" usecdn="true" />
-<load target="css/member_admin.css" usecdn="true" />
-<!--%load_js_plugin("ui")-->
-
-<h3 class="xeAdmin">{$lang->member} <span class="gray">{$lang->cmd_management}</span></h3>
-
-<div class="infoText">{nl2br($lang->about_member)}</div>
-
-<div class="header4">
-    <ul class="localNavigation">
-        <li <!--@if($act=='dispMemberAdminList')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminList','member_srl','')}">{$lang->cmd_member_list}</a></li>
-        <li <!--@if($act=='dispMemberAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminConfig')}">{$lang->cmd_module_config}</a></li>
-        <li <!--@if($act=='dispMemberAdminGroupList')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminGroupList')}">{$lang->cmd_member_group}</a></li>
-        <li <!--@if($act=='dispMemberAdminJoinFormList')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminJoinFormList')}">{$lang->cmd_manage_form}</a></li>
-        <li <!--@if($act=='dispMemberAdminDeniedIDList')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminDeniedIDList')}">{$lang->cmd_manage_id}</a></li>
-    </ul>
+<load target="js/config.js" />
+<div class="x_page-header">
+	<h1>{$lang->cmd_member_config}</h1>
 </div>
+
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act == 'dispMemberAdminConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminConfig')}">{$lang->member_default_info}</a></li>
+	<li id="signupTab" class="x_active"|cond="$act == 'dispMemberAdminSignUpConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminSignUpConfig')}">{$lang->cmd_signup}</a></li>
+	<li class="x_active"|cond="$act == 'dispMemberAdminLoginConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminLoginConfig')}">{$lang->cmd_login}</a></li>
+	<li class="x_active"|cond="$act == 'dispMemberAdminDesignConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminDesignConfig')}">{$lang->cmd_set_design_info}</a></li>
+</ul>
+
+<script>
+	enableSignUpTab({$config->enable_join == 'Y' ? 'true' : 'false'});
+</script>

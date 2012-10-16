@@ -1,3 +1,7 @@
+/**
+ * Deprecate this file.
+ *
+ */ 
 /* 사용자 추가 */
 function completeInsert(ret_obj) {
     var error = ret_obj['error'];

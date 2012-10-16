@@ -729,7 +729,7 @@
 		<value xml:lang="vi"><![CDATA[Xin hãy nhập tên của Webmaster để nhận Email và quản lý. (Mặc định: webmaster)]]></value>
 	</item>
 	<item name="about_webmaster_email">
-		<value xml:lang="ko"><![CDATA[웹마스터의 메일 주소를 입력해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[인증 메일이나 기타 사이트 관리 시 사용될 웹마스터의 메일 주소를 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter webmaster's email address.]]></value>
 		<value xml:lang="jp"><![CDATA[ウェブマスターのメールアドレスを入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入网站管理员的电子邮件地址。]]></value>
@@ -1851,7 +1851,7 @@
 		<value xml:lang="vi"><![CDATA[Cho phép thành viên đăng kí.]]></value>
 	</item>
 	<item name="about_enable_confirm">
-		<value xml:lang="ko"><![CDATA[입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인합니다. 가입자가 인증메일을 통해 인증절차를 완료해야만 정상적으로 로그인이 가능해집니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please check if you want new members to activate their accounts via their emails.]]></value>
 		<value xml:lang="jp"><![CDATA[登録されたメールアドレスに確認メールを送信し、会員登録を確認します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[为激活会员注册信息，将向会员输入的邮件地址发送注册认证邮件。]]></value>
@@ -1898,7 +1898,7 @@
 		<value xml:lang="vi"><![CDATA[Thành viên không thể đăng nhập nếu quá hạn xác nhận đăng kí.]]></value>
 	</item>
 	<item name="about_after_login_url">
-		<value xml:lang="ko"><![CDATA[로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[로그인 후 이동할 URL을 정하실 수 있습니다. 입력 URL이 없는 경우 해당 페이지가 유지됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can set a URL after login. Blank means the current page.]]></value>
 		<value xml:lang="jp"><![CDATA[ログイン後表示されるページのURLを指定できます。指定のない場合、現在のページが維持されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定登录后的页面转向url(留空为当前页面)。]]></value>
@@ -1909,7 +1909,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể thiết đặt địa chỉ nào đó sẽ hiển thị sau khi đăng nhập. Để trống nếu không sử dụng.]]></value>
 	</item>
 	<item name="about_after_logout_url">
-		<value xml:lang="ko"><![CDATA[로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[로그아웃 후 이동할 URL을 정하실 수 있습니다. 입력 URL이 없는 경우 해당 페이지가 유지됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can set a URL after logout. Blank means the current page.]]></value>
 		<value xml:lang="jp"><![CDATA[ログアウト後表示されるページのURLを指定できます。指定のない場合、現在のページが維持されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定退出登录后的页面转向url(留空为当前页面)。]]></value>
@@ -1920,7 +1920,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể thiết đặt địa chỉ nào đó sẽ hiển thị sau khi thoát. Để trống nếu không sử dụng.]]></value>
 	</item>
 	<item name="about_redirect_url">
-		<value xml:lang="ko"><![CDATA[회원 가입 후 이동할 url을 입력해 주세요. 비어 있으면 가입 이전 페이지로 돌아갑니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원 가입 후 이동할 url을 입력해 주세요. 입력 url이 없는 경우 이전 페이지로 돌아갑니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter a URL where users will go after sign up. When this is empty, it will be set as the previous page of the sign up page.]]></value>
 		<value xml:lang="jp"><![CDATA[会員登録後、表示されるページのURLを指定できます。指定のない場合は会員登録する前のページに戻ります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入注册会员后的页面转向 url。(留空为返回前页)]]></value>
@@ -2038,28 +2038,6 @@
 	<item name="about_temp_password">
 		<value xml:lang="ko"><![CDATA[임시 비밀번호가 정상적으로 발급되었습니다.<br />로그인 후 반드시 비밀번호를 변경하시기 바랍니다.<br/>]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已發送臨時密碼。<br />請登入後修改密碼。<br/>]]></value>
-	</item>
-	<item name="about_member">
-		<value xml:lang="ko"><![CDATA[회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입 폼 관리 등을 할 수 있는 회원 관리 모듈입니다.
-기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입 폼 관리를 통한 기본 정보외의 추가 정보를 요구할 수도 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Member module will help you create, modify and remove members and manage groups or the sign up form.
-You can add a custom group to manage members, and also get additional information by modifying the sign up form.]]></value>
-		<value xml:lang="jp"><![CDATA[会員の作成・修正・削除することができ、グループの管理、登録フォームの管理などが行える会員管理モジュールです。
-デフォルトで作成されたグループにグループを追加作成して会員管理ができるようにし、会員登録フォーム管理では基本情報の他、フォームの入力情報を追加することができます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以添加/修改/删除会员及管理用户组或注册表单的会员管理模块。
-此模块不仅可以生成缺省用户组以外的其他用户组来管理会员，并且通过注册表单的管理获得除会员基本信息以外的扩展信息。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可以新增/修改/刪除會員及管理群組或註冊表單的會員管理模組。
-此模組不僅可以建立預設群組以外的其他群組來管理會員，並且通過註冊表單的管理獲得會員基本資料以外的延伸資料。]]></value>
-		<value xml:lang="fr"><![CDATA[C'est le module pour administrer des membres avec lequel vous pouvez créer/modifier/supprimer des membres ou administrer les groupes et la formule d'inscription.
-Vous pouvez administrer membres par création un nouveau groupe, ou gagner les informations additionnelles par l'administration la formule d'inscrioption.]]></value>
-		<value xml:lang="ru"><![CDATA[Этот модуль служит для создания/изменения/удаления пользователей, управления их группами и формой регистрации.
-Вы можете управлять пользователями посредством создания новых групп, и получить дополнительную информацию, управляя формой регистрации]]></value>
-		<value xml:lang="es"><![CDATA[Esto es un módulo para crear/modificar/eliminar usuarios y manejar grupos o el formato del registro.
- Usted puede manejar usuarios creando nuevos grupos, y obtener información adicional manejando el formato del registro]]></value>
-		<value xml:lang="tr"><![CDATA[Üye modülü size; üyeleri oluşturmada, düzenlemede, silmede ve kayıt formunu ya da grupları düzenlemede yardımcı olur.
-Üyeleri yönetmek için özel gruplar ekleyebilir ve aynı zamanda kayıt formunu değiştirerek üyeler hakkında ek bilgi alabilirsiniz.]]></value>
-		<value xml:lang="vi"><![CDATA[Chức năng của Module này sẽ cho phép bạn tạo, sửa, xóa thành viên và quản lý nhóm hay Form đăng kí.
-Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, và thêm những thông tin trong Form đăng kí.]]></value>
 	</item>
 	<item name="about_ssl_port">
 		<value xml:lang="ko"><![CDATA[기본 포트 이외의 보안접속(SSL) 포트를 사용하는 경우 포트번호를 입력해주세요.]]></value>
@@ -2497,7 +2475,7 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="ko"><![CDATA[회원정보 동기화]]></value>
 	</item>
 	<item name="about_member_sync">
-		<value xml:lang="ko"><![CDATA[회원정보와 게시물과 댓글 정보를 동기화 합니다. 데이터가 많은 경우 시간이 오래 소요될 수 있습니다. 이용자가 많은 경우 반드시 서비스를 중단하시고 진행하시기 바랍니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원정보와 게시물/댓글 정보를 동기화 합니다. 데이터가 많은 경우 시간이 오래 소요될 수 있습니다. <strong>이용자가 많은 경우 반드시 서비스를 중단하시고 진행하시기 바랍니다.</strong>]]></value>
 	</item>
 	<item name="msg_success_modify_email_address">
 		<value xml:lang="ko"><![CDATA[이메일 주소가 정상적으로 변경되었습니다. 변경된 이메일 주소로 로그인 가능합니다.]]></value>

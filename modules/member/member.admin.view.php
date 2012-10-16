@@ -21,25 +21,45 @@
 		 **/
 		var $memberInfo = NULL;
 
+		/**
+		 * Member module config.
+		 *
+		 * @var Object
+		 **/
+		var $memberConfig = NULL;
+
         /**
          * initialization
 		 *
 		 * @return void
 		 **/
-        function init() {
+        function init() 
+		{
             $oMemberModel = &getModel('member');
+			$this->memberConfig = $oMemberModel->getMemberConfig();
+			Context::set('config', $this->memberConfig);
 
             // if member_srl exists, set memberInfo            
 			$member_srl = Context::get('member_srl');
-            if($member_srl) {
-                $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);                if(!$this->memberInfo) Context::set('member_srl','');                else Context::set('member_info',$this->memberInfo);            }
+            if($member_srl) 
+			{
+                $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);                
+				if(!$this->memberInfo)
+				{
+					Context::set('member_srl','');
+				}
+				else
+				{
+					Context::set('member_info',$this->memberInfo);
+				}
+			}
 
             // retrieve group list            
 			$this->group_list = $oMemberModel->getGroups();
             Context::set('group_list', $this->group_list);
 
 			$security = new Security();						
-			$security->encodeHTML('group_list..');
+			$security->encodeHTML('group_list..', 'config..');
 			
             $this->setTemplatePath($this->module_path.'tpl');
         }
@@ -70,7 +90,7 @@
                     $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
                 }
             }
-			$config = $oMemberModel->getMemberConfig();			
+			$config = $this->memberConfig;			
 			$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');			
 			$usedIdentifiers = array();			
 
@@ -96,18 +116,100 @@
 			$this->setTemplateFile('member_list');
         }
 
+		/**
+		 * Set the default config.
+		 *
+		 * @return void
+		 */
+		public function dispMemberAdminConfig()
+		{
+			$this->setTemplateFile('default_config');	
+
+		}
+
+		public function dispMemberAdminSignUpConfig()
+		{
+			$config = $this->memberConfig;
+
+			$oMemberModel = getModel('member');
+            // retrieve skins of editor
+            $oEditorModel = getModel('editor');
+            Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
+
+            // get an editor
+            $option->primary_key_name = 'temp_srl';
+            $option->content_key_name = 'agreement';
+            $option->allow_fileupload = false;
+            $option->enable_autosave = false;
+            $option->enable_default_component = true;
+            $option->enable_component = true;
+            $option->resizable = true;
+            $option->height = 300;
+            $editor = $oEditorModel->getEditor(0, $option);
+            Context::set('editor', $editor);
+
+			$signupForm = $config->signupForm;
+			foreach($signupForm as $val)
+			{
+				if($val->name == 'user_id')
+				{
+					$userIdInfo = $val;
+					break;
+				}
+			}
+
+			if($userIdInfo->isUse)
+			{
+				// get denied ID list
+				Context::set('useUserID', 1);
+				$denied_list = $oMemberModel->getDeniedIDs();
+				Context::set('deniedIDs', $denied_list);
+			}
+
+			// get denied NickName List
+			$deniedNickNames = $oMemberModel->getDeniedNickNames();
+			Context::set('deniedNickNames', $deniedNickNames);
+			$this->setTemplateFile('signup_config');
+		}
+
+		public function dispMemberAdminLoginConfig()
+		{
+			$this->setTemplateFile('login_config');
+		}
+
+		public function dispMemberAdminDesignConfig()
+		{
+			$oModuleModel = getModel('module');
+            // Get a layout list
+            $oLayoutModel = &getModel('layout');
+            $layout_list = $oLayoutModel->getLayoutList();
+
+            Context::set('layout_list', $layout_list);
+
+            $mlayout_list = $oLayoutModel->getLayoutList(0, 'M');
+
+            Context::set('mlayout_list', $mlayout_list);
+
+            // list of skins for member module
+            $skin_list = $oModuleModel->getSkins($this->module_path);
+            Context::set('skin_list', $skin_list);
+
+            // list of skins for member module
+            $mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
+            Context::set('mskin_list', $mskin_list);
+
+			$this->setTemplateFile('design_config');
+		}
+
         /**
          * default configuration for member management
 		 *
 		 * @return void
          **/
-        function dispMemberAdminConfig() 
+        function dispMemberAdminConfigOLD() 
 		{
             $oModuleModel = &getModel('module');
             $oMemberModel = &getModel('member');
-            $config = $oMemberModel->getMemberConfig();
-
-			Context::set('config',$config);
 
             // Get a layout list
             $oLayoutModel = &getModel('layout');
@@ -236,7 +338,7 @@
 			
 			$formTags = $this->_getMemberInputTag($memberInfo, true);			
 			Context::set('formTags', $formTags);			
-			$member_config = $oMemberModel->getMemberConfig();			
+			$member_config = $this->memberConfig;
 			
 			global $lang;			
 			$identifierForm->title = $lang->{$member_config->identifier};			
@@ -260,7 +362,7 @@
 			
 			if ($memberInfo)
 				$memberInfo = get_object_vars($memberInfo);
-			$member_config = $oMemberModel->getMemberConfig();
+			$member_config = $this->memberConfig;
 			$formTags = array();
 			global $lang;
 
@@ -443,54 +545,18 @@ EOD;
 		}
 
         /**
-         * display member delete form
-		 *
-		 * @return void
-         **/
-        function dispMemberAdminDeleteForm() {
-            if(!Context::get('member_srl')) return $this->dispMemberAdminList();
-            $this->setTemplateFile('delete_form');
-        }
-
-        /**
          * display group list
 		 *
 		 * @return void
          **/
-        function dispMemberAdminGroupList() {
+        function dispMemberAdminGroupList() 
+		{
             $oModuleModel = &getModel('module');
-
-            $config = $oModuleModel->getModuleConfig('member');
-            Context::set('config', $config);
-
-            $group_srl = Context::get('group_srl');
-			
-            if($group_srl && $this->group_list[$group_srl]) {
-                Context::set('selected_group', $this->group_list[$group_srl]);
-				$this->setTemplateFile('group_update_form');
-            } else {
-                $this->setTemplateFile('group_list');
-            }			
 			$output = $oModuleModel->getModuleFileBoxList();			
 			Context::set('fileBoxList', $output->data);        
-		}
 
-        /**
-         * Display a list of member join form
-		 * 
-		 * @return void
-		 **/
-        function dispMemberAdminJoinFormList() {
-            // Create a member model object            
-			$oMemberModel = &getModel('member');
-            // Get join form list which is additionally set            
-			$form_list = $oMemberModel->getJoinFormList();
-            Context::set('form_list', $form_list);
-			$security = new Security($form_list);						
-			$security->encodeHTML('form_list..');
-			
-            $this->setTemplateFile('join_form_list');
-        }
+			$this->setTemplateFile('group_list');
+		}
 
         /**
          * Display an admin page for memebr join forms
@@ -515,62 +581,5 @@ EOD;
             $this->setTemplateFile('insert_join_form');
         }
 
-        /**
-         * Display denied ID list
-		 *
-		 * @return void
-		 **/
-        function dispMemberAdminDeniedIDList() {
-            // Create a member model object            
-			$oMemberModel = &getModel('member');
-            // Get a denied ID list            
-			$output = $oMemberModel->getDeniedIDList();
-
-            Context::set('total_count', $output->total_count);
-            Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);
-            Context::set('member_list', $output->data);
-            Context::set('page_navigation', $output->page_navigation);
-			
-			$security = new Security();
-			$security->encodeHTML('member_list..');			
-            $this->setTemplateFile('denied_id_list');
-        }
-
-        /**
-         * Update all the member groups
-		 *
-		 * @return void
-		 **/
-        function dispMemberAdminManageGroup() {
-            // Get a list of the selected member            
-			$args->member_srl = trim(Context::get('member_srls'));
-            $output = executeQueryArray('member.getMembers', $args);
-            Context::set('member_list', $output->data);
-            // Get a list of the selected member            
-			$oMemberModel = &getModel('member');
-            Context::set('member_groups', $oMemberModel->getGroups());
-			
-			$security = new Security();
-			$security->encodeHTML('member_list..');	
-			
-            $this->setLayoutFile('popup_layout');
-            $this->setTemplateFile('manage_member_group');
-        }
-
-        /**
-         * Delete members
-		 *
-		 * @return void
-		 **/
-        function dispMemberAdminDeleteMembers() {
-            // Get a list of the selected member            
-			$args->member_srl = trim(Context::get('member_srls'));
-            $output = executeQueryArray('member.getMembers', $args);
-            Context::set('member_list', $output->data);
-
-			$this->setLayoutFile('popup_layout');
-            $this->setTemplateFile('delete_members');
-        }
     }
 ?>

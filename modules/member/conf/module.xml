@@ -22,16 +22,15 @@
         <action name="dispSavedDocumentList" type="view" standalone="true" />
 
         <action name="dispMemberAdminList" type="view" standalone="true" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
+        <!--action name="dispMemberAdminConfig" type="view" menu_name="userSetting" menu_index="true" /-->
         <action name="dispMemberAdminConfig" type="view" menu_name="userSetting" menu_index="true" />
+        <action name="dispMemberAdminSignUpConfig" type="view" menu_name="userSetting" />
+        <action name="dispMemberAdminLoginConfig" type="view" menu_name="userSetting" />
+        <action name="dispMemberAdminDesignConfig" type="view" menu_name="userSetting" />
         <action name="dispMemberAdminInsert" type="view" menu_name="userList" />
-        <action name="dispMemberAdminDeleteForm" type="view" standalone="true" />
         <action name="dispMemberAdminGroupList" type="view" menu_name="userGroup" menu_index="true" />
-        <action name="dispMemberAdminJoinFormList" type="view" standalone="true" />
         <action name="dispMemberAdminInfo" type="view" menu_name="userList" />
         <action name="dispMemberAdminInsertJoinForm" type="view" standalone="true" />
-        <action name="dispMemberAdminDeniedIDList" type="view" standalone="true" />
-        <action name="dispMemberAdminManageGroup" type="view" standalone="true" />
-        <action name="dispMemberAdminDeleteMembers" type="view" standalone="true" />
 
         <action name="getMemberMenu" type="model" standalone="true" />
         <action name="getMemberAdminColorset" type="model" standalone="true" />
@@ -72,7 +71,10 @@
 
         <action name="procMemberAdminInsert" type="controller" standalone="true" ruleset="insertAdminMember" />
         <action name="procMemberAdminDelete" type="controller" standalone="true" />
-        <action name="procMemberAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
+        <action name="procMemberAdminInsertDefaultConfig" type="controller" ruleset="insertDefaultConfig" />
+        <action name="procMemberAdminInsertSignupConfig" type="controller" />
+        <action name="procMemberAdminInsertLoginConfig" type="controller" />
+        <action name="procMemberAdminInsertDesignConfig" type="controller" />
         <action name="procMemberAdminInsertGroup" type="controller" standalone="true" ruleset="insertGroup" />
         <action name="procMemberAdminUpdateGroup" type="controller" standalone="true" ruleset="updateGroup" />
         <action name="procMemberAdminDeleteGroup" type="controller" standalone="true" ruleset="deleteGroup" />

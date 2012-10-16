@@ -1,0 +1,51 @@
+<include target="header.html" />
+<form action="./" class="x_form-horizontal" ruleset="insertLoginConfig" method="post">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberAdminInsertLoginConfig" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', $act)}" />
+	<div class="x_control-group">
+		<label class="x_control-label" for="change_password_date">{$lang->change_password_date}</label>
+		<div class="x_controls">
+			<input type="text" id="change_password_date" name="change_password_date" value="{$config->change_password_date}" style="width:30px" /> {$lang->unit_day}
+			<p class="desc">{$lang->about_change_password_date}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<p class="x_control-label">{$lang->enable_login_fail_report}</p>
+		<div class="x_controls">
+			<label class="x_inline" for="enable_login_fail_report_yes"><input type="radio" name="enable_login_fail_report" id="enable_login_fail_report_yes" value="Y" checked="checked"|cond="$config->enable_login_fail_report != 'N'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="enable_join_no"><input type="radio" name="enable_login_fail_report" id="enable_login_fail_report_no" value="N" checked="checked"|cond="$config->enable_login_fail_report == 'N'" /> {$lang->cmd_no}</label>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="max_error_count">{$lang->login_trial_limit1}</label>
+		<div class="x_controls">
+			<input type="text" id="max_error_count" name="max_error_count" value="{$config->max_error_count}" style="width:30px" /> {$lang->unit_count}
+			<p class="desc">{$lang->about_login_trial_limit1}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="max_error_count_time">{$lang->login_trial_limit2}</label>
+		<div class="x_controls">
+			<input type="text" id="max_error_count_time" name="max_error_count_time" value="{$config->max_error_count_time}" style="width:30px" /> {$lang->unit_sec}
+			<p class="desc">{$lang->about_login_trial_limit2}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="after_login_url">{$lang->after_login_url}</label>
+		<div class="x_controls">
+			<input type="text" id="after_login_url" name="after_login_url" value="{$config->after_login_url}" />
+			<p class="desc">{$lang->about_after_login_url}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="after_logout_url">{$lang->after_logout_url}</label>
+		<div class="x_controls">
+			<input type="text" id="after_logout_url" name="after_logout_url" value="{$config->after_logout_url}" />
+			<p class="desc">{$lang->about_after_logout_url}</p>
+		</div>
+	</div>
+	<div class="x_clearfix">
+		<span class="x_pull-right"><input class="x_btn x_btn-large x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
+</form>
