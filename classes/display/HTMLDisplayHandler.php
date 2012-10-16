@@ -297,26 +297,28 @@ class HTMLDisplayHandler {
 			$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000), true);
-			$oContext->loadFile(array('./common/css/xe.css', 'all', '', -100000), true);
+			$oContext->loadFile(array('./common/css/xe.css', '', '', -100000), true);
 		} else {
 			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/x.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/xe.min.js', 'head', '', -100000), true);
-			$oContext->loadFile(array('./common/css/xe.min.css', 'all', '', -100000), true);
+			$oContext->loadFile(array('./common/css/xe.min.css', '', '', -100000), true);
 		}
 
 		// for admin page, add admin css
 		if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
 			if(__DEBUG__) {
-				$oContext->loadFile(array('./modules/admin/tpl/css/admin.css', 'all', '', 100000), true);
-				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", 'all', '', 100000), true);
+				$oContext->loadFile(array('./modules/admin/tpl/css/admin.css', '', '', 100000), true);
+				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '', 100000), true);
+				$oContext->loadFile(array("./modules/admin/tpl/css/admin.iefix.css", '', 'ie', 100000), true);
 				$oContext->loadFile('./modules/admin/tpl/js/admin.js', true);
-				$oContext->loadFile(array('./common/css/bootstrap.css', 'all', '', 1), true);
+				$oContext->loadFile(array('./common/css/bootstrap.css', '', '', 1), true);
 			} else {
-				$oContext->loadFile(array('./modules/admin/tpl/css/admin.min.css', 'all', '', 100000), true);
-				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", 'all', '',10000), true);
+				$oContext->loadFile(array('./modules/admin/tpl/css/admin.min.css', '', '', 100000), true);
+				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '',10000), true);
+				$oContext->loadFile(array("./modules/admin/tpl/css/admin.iefix.min.css", '', 'ie', 100000), true);
 				$oContext->loadFile('./modules/admin/tpl/js/admin.min.js', true);
-				$oContext->loadFile(array('./common/css/bootstrap.min.css', 'all', '', 1), true);
+				$oContext->loadFile(array('./common/css/bootstrap.min.css', '', '', 1), true);
 			}
 		}
 	}
