@@ -58,11 +58,11 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_table:first-child{margin-top:0}
 .x .x_table>caption{text-align:left;padding:8px 0}
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}
-.x label[for],
-.x .x_form-horizontal .x_control-label{font-weight:bold}
+.x label.checked,
+.x input:checked+label,
+.x label:only-of-type{font-weight:bold}
 .x input[type="radio"]+label,
 .x input[type="checkbox"]+label{font-weight:normal}
-.x input:checked+label{font-weight:bold}
 .x label.x_inline{margin-right:16px}
 .x .x_input-append .x_add-on, 
 .x .x_input-prepend .x_add-on{height:16px;line-height:16px}

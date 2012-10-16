@@ -178,6 +178,14 @@ jQuery(function($){
 			$this.attr('for', value).children(input).not(id).eq(0).attr('id', value);
 		}
 	});
+// :radio, :checkbox checked class
+	$(':radio, :checkbox').change(function(){
+		var $this = $(this);
+		if($this.is(':checked')){
+			$this.parent('label').addClass('checked');
+		}
+		$(':radio, :checkbox').not(':checked').parent('label').removeClass('checked');
+	}).change();
 });
 // Modal Window
 jQuery(function($){
