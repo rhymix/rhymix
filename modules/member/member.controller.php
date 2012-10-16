@@ -1555,37 +1555,45 @@
             // Update the latest login time
             $args->member_srl = $this->memberInfo->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
-			// check if there is login fail records.
-			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
-			if($output->data && $output->data->content)
-			{
-				$title = Context::getLang('login_fail_report');
-				$message = '<ul>';
-				$content = unserialize($output->data->content);
-				foreach($content as $val)
-				{
-					$message .= '<li>'.date('Y-m-d H:i:s P',$val[2]).'<br /> Access IP: '.$val[0].'<br /> Message: '.$val[1].'</li>';
-				}
-				$message .= '</ul>';
-				$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d H:i:s P'));
 
-				//send message
-				$oCommunicationController = &getController('communication');
-				$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true);
-				
-				if($this->memberInfo->email_address && $this->memberInfo->allow_mailing == 'Y')
+			// Check if there is recoding table.
+			$oDB = &DB::getInstance();
+			if($oDB->isTableExists('member_count_history') && $config->enable_login_fail_report != 'N')
+			{
+				// check if there is login fail records.
+				$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
+				if($output->data && $output->data->content)
 				{
-					$view_url = Context::getRequestUri();
-					$title = sprintf("%s @ %s",$title,$view_url);
-					$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $this->memberInfo->nick_name, $this->memberInfo->email_id);
-					$oMail = new Mail();
-					$oMail->setTitle($title);
-					$oMail->setContent($content);
-					$oMail->setSender($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
-					$oMail->setReceiptor($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
-					$oMail->send();
+					$title = Context::getLang('login_fail_report');
+					$message = '<ul>';
+					$content = unserialize($output->data->content);
+					if(count($content) > $config->max_error_count)
+					{
+						foreach($content as $val)
+						{
+							$message .= '<li>'.date('Y-m-d H:i:s P',$val[2]).'<br /> Access IP: '.$val[0].'<br /> Message: '.$val[1].'</li>';
+						}
+						$message .= '</ul>';
+						$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d H:i:s P'));
+
+						//send message
+						$oCommunicationController = &getController('communication');
+						$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true);
+
+						if($this->memberInfo->email_address && $this->memberInfo->allow_mailing == 'Y')
+						{
+							$view_url = Context::getRequestUri();
+							$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $this->memberInfo->nick_name, $this->memberInfo->email_id);
+							$oMail = new Mail();
+							$oMail->setTitle($title);
+							$oMail->setContent($content);
+							$oMail->setSender($config->webmaster_name?$config->webmaster_name:'webmaster', $config->webmaster_email);
+							$oMail->setReceiptor($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
+							$oMail->send();
+						}
+						$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
+					}
 				}
-				$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
 			}
             // Call a trigger after successfully log-in (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);

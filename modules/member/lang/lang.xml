@@ -2487,18 +2487,23 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="en"><![CDATA[Group]]></value>
 	</item>
 	<item name="retrieve_password">
+		<value xml:lang="ko"><![CDATA[비밀번호 찾기]]></value>
 		<value xml:lang="en"><![CDATA[Retrieve password]]></value>
 	</item>
 	<item name="excess_ip_access_count">
 		<value xml:lang="ko"><![CDATA[로그인 가능 횟수를 초과하셨습니다. %s 간 로그인 하실 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There was too much sign in trial from your devices in a short time. You can not sign in for %s.]]></value>
 	</item>
+	<item name="enable_login_fail_report">
+		<value xml:lang="ko"><![CDATA[계정 무한 대입 방지 사용]]></value>
+		<value xml:lang="en"><![CDATA[Sign in failure]]></value>
+	</item>
 	<item name="login_fail_report">
 		<value xml:lang="ko"><![CDATA[로그인 실패 기록 보고 입니다.]]></value>
 		<value xml:lang="en"><![CDATA[Sign in failure report.]]></value>
 	</item>
 	<item name="login_fail_report_contents">
-		<value xml:lang="ko"><![CDATA[<h2>확인하지 않은 로그인 실패 기록이 있습니다.</h2><div>%1$s</div><p>* 이 알림은 한번만 보입니다.<br />* 이 메시지는 쪽지와 이메일로 발송됩니다.<br />* 이 메시지는 로그인이 성공한 순간, 로그인 성공 이전 실패 기록을 모아서 발송합니다.<br />발송 시각: %2$s</p>]]></value>
-		<value xml:lang="en"><![CDATA[<h2>There is unfolded sign in failure report</h2><div>%1$s</div><p>* This notification is shown once.<br />* This message will be send to your email and message.<br />* This message contains sign in failure records, before a ID sign in success.<br />Sending: %2$s</p>]]></value>
+		<value xml:lang="ko"><![CDATA[<h2>로그인 실패 기록을 알려드립니다.</h2><div>%1$s</div><p>* 비밀번호를 틀리는 등의 일이 없었는데 이 메시지를 보신다면, 계정 관리에 유의해주시기 바랍니다.<br />* 이 메시지는 로그인이 성공한 순간 누적 로그인 실패 기록이 많을 경우, 로그인 성공 이전 실패 기록을 모아서 발송합니다.<br />발송 시각: %2$s</p>]]></value>
+		<value xml:lang="en"><![CDATA[<h2>There is recorded sign in failures.</h2><div>%1$s</div><p>* This notification is shown once.<br />* This message contains sign in failure records, before a ID sign in success.<br />Sending: %2$s</p>]]></value>
 	</item>
 </lang>
