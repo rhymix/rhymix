@@ -93,6 +93,7 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x button{line-height:16px}
 .x select{width:auto;margin:0 4px 0 0;padding:0;height:26px;line-height:26px}
 .x select[multiple]{height:auto}
+.x .x_tab-content{overflow-x:hidden}
 /* Custom Styles */
 .x .section{margin:20px 0 40px 0}
 .x .section>h1{position:relative}
