@@ -150,6 +150,24 @@ jQuery(function($){
 			$this.addClass('vr');
 		}	
 	});
+// label[for] + input[id]/textarea[id]/select[id] creator
+	$('label:not([for])').each(function(index){
+		var $this = $(this);
+		index = index + 1;
+		if($this.next('input[id], textarea[id], select[id]').not(':radio, :checkbox').length){ 
+		// next input, textarea, select id true
+			$this.attr('for', $this.next().attr('id'));
+		} else if ($this.next('input:not([id]), textarea:not([id]), select:not([id])').not(':radio, :checkbox').length) { 
+		// next input, textarea, select id false
+			$this.attr('for', 'i' + index).next().attr('id', 'i' + index);
+		} else if ($this.prev(':radio[id], :checkbox[id]').length) { 
+		// prev :radio :checkbox id true
+			$this.attr('for', $this.prev().attr('id'));
+		} else if ($this.prev(':radio:not([id]), :checkbox:not([id])').length) { 
+		// prev :radio :checkbox id false
+			$this.attr('for', 'i' + index).prev().attr('id', 'i' + index);
+		}
+	});
 });
 // Modal Window
 jQuery(function($){
