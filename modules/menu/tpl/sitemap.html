@@ -459,77 +459,26 @@
 	<div class="col" id="auth">
 		<fieldset>
 			<h1>권한</h1>
-			<ul>
+			<ul class="_list">
 				<script id="tmpl_permItem" type="text/x-jquery-tmpl">
 				<li>
 					<label for="auth${PermId}">${PermTitle}</label>
 					<select id="auth${PermId}">
-						<option value="all">모든 사용자</option>
-						<option value="loged">로그인 사용자</option>
-						<option value="selected">선택그룹 사용자</option>
+						<option class="_group_all" value="0">모든 사용자</option>
+						<option class="_group_loggedin" value="-1">로그인 사용자</option>
+						<option class="_group_signedup" value="-2">가입한 사용자</option>
+						<option class="_group_selected" value="-10">선택그룹 사용자</option>
 					</select>
-					<div class="selected x_hide">
-						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
-						<label><input type="checkbox" title="정회원"> 정회원</label>
-						<label><input type="checkbox" title="준회원"> 준회원</label>
+					<div class="selected x_hide _groups _groups_${PermId}">
 					</div>
 				</li>
 				</script>
-				<li>
-					<label for="authMenu">메뉴 노출 대상</label>
-					<select id="authMenu">
-						<option value="all">모든 사용자</option>
-						<option value="loged">로그인 사용자</option>
-						<option value="selected">선택그룹 사용자</option>
-					</select>
-					<div class="selected x_hide">
-						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
-						<label><input type="checkbox" title="정회원"> 정회원</label>
-						<label><input type="checkbox" title="준회원"> 준회원</label>
-					</div>
-				</li>
-				<li>
-					<label for="displayMenu">글읽기</label>
-					<select id="displayMenu">
-						<option value="all">모든 사용자</option>
-						<option value="loged">로그인 사용자</option>
-						<option value="selected">선택그룹 사용자</option>
-					</select>
-					<div class="selected x_hide">
-						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
-						<label><input type="checkbox" title="정회원"> 정회원</label>
-						<label><input type="checkbox" title="준회원"> 준회원</label>
-					</div>
-				</li>
-				<li>
-					<label for="authWrite">글쓰기</label>
-					<select id="authWrite">
-						<option value="all">모든 사용자</option>
-						<option value="loged">로그인 사용자</option>
-						<option value="selected">선택그룹 사용자</option>
-					</select>
-					<div class="selected x_hide">
-						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
-						<label><input type="checkbox" title="정회원"> 정회원</label>
-						<label><input type="checkbox" title="준회원"> 준회원</label>
-					</div>
-				</li>
-				<li>
-					<label for="authReply">댓글쓰기</label>
-					<select id="authReply">
-						<option value="all">모든 사용자</option>
-						<option value="loged">로그인 사용자</option>
-						<option value="selected">선택그룹 사용자</option>
-					</select>
-					<div class="selected x_hide">
-						<label><input type="checkbox" title="관리그룹"> 관리그룹</label>
-						<label><input type="checkbox" title="정회원"> 정회원</label>
-						<label><input type="checkbox" title="준회원"> 준회원</label>
-					</div>
-				</li>
+				<script id="tmpl_perm_groupItem" type="text/x-jquery-tmpl">
+						<label><input type="checkbox" value="${ID}" title="${Title}"> ${Title}</label>
+				</script>
 			</ul>
 			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-primary">확인</button>
+				<button type="button" class="x_btn x_btn-primary _save">확인</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#auth">&times;</button>
@@ -587,12 +536,9 @@
 .mapi>ul>li>ul{border-top:2px solid #666;margin-top:7px;padding-top:7px}
 	/* li>a */
 .mapi li>a{border:0 !important;padding:0 8px !important;margin:0 60px 1px 0;border-radius:3px;position:relative;z-index:2;height:23px;line-height:23px;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
-.mapi .x_icon-home,
-.mapi .x_icon-share-alt{opacity:.5;filter:alpha(opacity=50)}
+.mapi .x_icon-home{opacity:.5;filter:alpha(opacity=50)}
 .mapi .jstree-hovered>.x_icon-home,
-.mapi .jstree-hovered>.x_icon-share-alt,
-.mapi .jstree-clicked>.x_icon-home,
-.mapi .jstree-clicked>.x_icon-share-alt{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);opacity:1;filter:alpha(opacity=100)}
+.mapi .jstree-clicked>.x_icon-home{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);opacity:1;filter:alpha(opacity=100)}
 	/* li>.side */
 .mapi .side{position:absolute;z-index:2;top:0;right:0;line-height:0}
 .mapi .side>button{border:0;border-radius:3px;width:23px;height:23px;overflow:hidden;font-size:0;line-height:0;text-indent:24px;background:url({getUrl('')}common/img/glyphicons-halflings.png) no-repeat;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
@@ -2289,14 +2235,16 @@ jQuery(function($){
 		});
 	})
 
-	$('#auth').on('show', function(){
+	$('#auth').on('show', function(ev){
+		if(this !== ev.target) return;
+		
 		// https://code.google.com/p/xe-core/wiki/MenuPerm?ts=1350276450&updated=MenuPerm
 		$.exec_json("menu.getMenuAdminItemInfo", {
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, PermAReceived);
 	});
 	function PermAReceived(htData){
-		console.log(1, htData);
+		//console.log(1, htData);
 		
 		/*
 		{
@@ -2346,10 +2294,11 @@ jQuery(function($){
 		
 		//console.log($._xeAdminVar.aUserGroups, $._xeAdminVar.htUserGroups);
 		aPerms[0] = {
-			sTitle : '메뉴 노출',
+			sKey : '',
+			sTitle : '메뉴 노출 대상',
 			sDefault : 'guest',
-			sGrant : htData.menu_item.grant,
-			aGroup : htData.menu_item.group
+			sGrant : htData.menu_item.grant || 'all',
+			aGroup : htData.menu_item.group_srls
 		};
 		
 		var params = {
@@ -2360,7 +2309,7 @@ jQuery(function($){
 		$.exec_json("module.getModuleAdminGrant", params, PermBReceived);
 	}
 	function PermBReceived(htData){
-		console.log(2, htData);
+		//console.log(2, htData);
 
 		var htNode = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 		var aPerms =  htNode.aPerms;
@@ -2375,20 +2324,206 @@ jQuery(function($){
 			 }
 		  },
 	  */
-		
 		for(var sPerm in htData.grantList){
 			htTmp = htData.grantList[sPerm];
 			
 			aPerms.push({
+				sKey : sPerm,
 				sTitle : htTmp.title,
-				sDefault : htTmp.default,
+				// IE7 takes 'default' as a keyword. So use this array form to access the value
+				sDefault : htTmp['default'],
 				sGrant : htTmp.grant || "",
-				aGroup : htTmp.group || []
+				aGroup : htTmp.group_srls || []
 			});
 		}
 		
-		console.log(aPerms);
+		drawPermSetupScreen(aPerms);
 	}
+	$("#tmpl_permItem").template( "permItem");
+	$("#tmpl_perm_groupItem").template( "perm_groupItem");
+	function drawPermSetupScreen(aPerms){
+		//console.log(aPerms);
+		
+		var $List = $('#auth ._list');
+		$List.html("");
+		
+		var aUserGroups = $._xeAdminVar.aUserGroups;
+		var htInfo, sDefault, $node, $groupNode, aGroup, sGrant;
+		for(var i=0, nLen=aPerms.length; i<nLen; i++){
+			htInfo = aPerms[i];
+				/*
+				<li>
+					<label for="auth${PermId}">${PermTitle}</label>
+					<select id="auth${PermId}">
+						<option class="_group_all" value="0">모든 사용자</option>
+						<option class="_group_loggedin" value="-1">로그인 사용자</option>
+						<option class="_group_signedup" value="-2">가입한 사용자</option>
+						<option class="_group_selected" value="-10">선택그룹 사용자</option>
+					</select>
+					<div class="selected x_hide">
+					</div>
+				</li>
+				*/
+				
+				sDefault = htInfo.sDefault;
+				aGroup = htInfo.aGroup;
+				sGrant = htInfo.sGrant;
+				
+				$node = $.tmpl("permItem", {
+					PermId : htInfo.sKey, 
+					PermTitle : htInfo.sTitle
+				});
+				$node.find('select').data('key', htInfo.sKey);
+				//console.log($node.find('select').data('key'));
+				
+				var htGrantStrToSelectValMap = {
+					'all': '0',
+					'member': '-1',
+					'site': '-2',
+					'group': '-10'
+				};
+				if(htInfo.sGrant){
+					$node.find('select').val(htGrantStrToSelectValMap[htInfo.sGrant]);
+				}
+				
+				// Add groups
+				//<label><input type="checkbox" value="${ID}" title="${Title}"> ${Title}</label>
+				for(var ii=0, nLen2=aUserGroups.length; ii<nLen2; ii++){
+					htInfo = aUserGroups[ii];
+					//console.log(222, htInfo.group_srl, aGroup);
+					sChecked = null;
+					if(sGrant === 'group'){
+					
+						$node.find('._groups').show();
+						
+						if(aGroup && $.inArray(htInfo.group_srl, aGroup) !== -1){
+							sChecked = "checked";
+						}
+					}
+					
+					$groupNode = $.tmpl("perm_groupItem", {
+								Title : htInfo.title ,
+								ID : htInfo.group_srl
+							});
+					$groupNode.find('input[type=checkbox]').attr('checked', sChecked);
+					$node.find('._groups').append($groupNode);
+				}
+				
+				if(i === 0){
+					$node.find('._group_signedup').remove();
+				}else{
+					/*
+						guest : 모든 옵션 사용 가능, 항상 권한 있음.
+						member : '모든 사용자' 제외하고 사용 가능, 로그인 정보가 있을 경우 true
+						site : '모든 사용자' 제외하고 사용 가능, 가상 사이트일 경우에는 가입된 그룹 정보가 있어야 하며, 가상 사이트가 아닐 경우에는 'member'와 동일.
+						manager : '선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
+						root : manager와 동일.
+					*/
+					switch(sDefault){
+						case 'guest':
+							//
+						break;
+						case 'member':
+							$node.find('._group_all').remove();
+						break;
+						case 'site':
+							$node.find('._group_all').remove();
+						break;
+						case 'manager':
+						case 'root':
+						default:
+							$node.find('._group_all').remove();
+							$node.find('._group_loggedIn').remove();
+							$node.find('._group_signedUp').remove();
+					}
+				}
+				$List.append($node);
+			
+		}
+	}
+// Auth
+	$('#auth').on('change', 'select', function(){
+		var $this = $(this);
+		
+		var sKey = $this.data('key');
+		
+		var $selected = $('#auth ._groups_'+sKey);
+		if($this.val() == '-10'){
+			$selected.show();
+		} else {
+			$selected.hide();
+		}
+	});
+	$('#auth ._save').click(function(){
+		// create json from the form values
+		var $select = $('#auth').find('select');
+
+		var vDisplay = readPermValue($($select[0]));
+		if(vDisplay === '0') vDisplay = "";
+		
+		var htPerm = {};
+		
+		var $node, sKey;
+		for(var i=1, nLen=$select.length; i<nLen; i++){
+			$node = $($select[i]);
+			sKey = $node.data('key');
+			htPerm[sKey] = readPermValue($node);
+		}
+		
+		//
+		//console.log($($select[1]).data('key'));
+		/*
+			{
+				menu_item_srl : '41368',
+				exposure : -1,
+				htPerm : {
+					'list' : -1,
+					'write_document' : -1,
+					'manager' : ['100', '200', '300']
+				}
+			};
+		*/
+		var htParam = {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl,
+			exposure : vDisplay,
+			htPerm : htPerm
+		};
+		
+		jQuery.exec_json("menu.procMenuAdminUpdateAuth", htParam, function(htData){
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+
+			//console.log(htData);
+			alert('저장 됐습니다.');
+			$('#auth').hide();
+		});
+	});
+	function readPermValue($select){
+		var sKey, $node, $chkbox, aGroup, vValue, $groups;
+		
+		$node = $($select);
+		
+		sKey = $node.data('key');
+		vValue = $node.val();
+		
+		if(vValue === '-10'){
+			vValue = [];
+			
+			var $groups = $('#auth ._groups_'+sKey+' input[type=checkbox]');
+
+			for(var ii=0, nLen2=$groups.length; ii<nLen2; ii++){
+				$chkbox = $($groups[ii]);
+				if($chkbox.attr('checked')){
+					vValue.push($chkbox.val());
+				}
+			}
+		}
+		
+		return vValue;
+	}
+	
 	
 	var $foggyLayer = $("<div>");
 	$foggyLayer.css({
@@ -2521,16 +2656,6 @@ setTimeout(function(){
 		});
 	});
 */
-// Auth
-	$('#auth select').change(function(){
-		var $this = $(this);
-		var $selected = $this.next('.selected');
-		if($this.find('>option:selected').val() == 'selected'){
-			$selected.show();
-		} else {
-			$selected.hide();
-		}
-	});
 // File upload
 	$('.fileTrigger').click(function(){
 		$(this).next('input[type="file"]').click();
