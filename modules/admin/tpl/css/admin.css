@@ -65,7 +65,7 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_input-prepend .x_add-on{height:16px;line-height:16px}
 .x.x_modal,
 .x_modal-backdrop{display:none}
-.x.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none}
+.x.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none;border-radius:6px;box-shadow:none}
 .x .x_control-group{padding-top:8px;margin-bottom:10px;border-top:1px dotted #ddd;clear:both}
 .x .x_control-group:before{content:"";display:block;clear:both}
 .x .x_control-group:first-child,
