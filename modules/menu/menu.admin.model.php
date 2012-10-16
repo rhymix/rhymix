@@ -152,6 +152,19 @@
 			}
 			else $menuItem->moduleType = 'url';
 
+			// grant setting
+			if(is_array($menuItem->group_srls))
+			{
+				if($menuItem->group_srls[0] == -1)
+				{
+					$menuItem->grant = 'member';
+				}
+				else
+				{
+					$menuItem->grant = 'group';
+				}
+			}
+
 			// get groups
 			$oMemberModel = &getModel('member');
 			$oModuleAdminModel = &getAdminModel('module');

@@ -208,7 +208,7 @@
 					}
 					if(isset($selectedGroup->{$key}))
 					{
-						$grantList->{$key}->group = $selectedGroup->{$key};
+						$grantList->{$key}->group_srls = $selectedGroup->{$key};
 					}
 				}
 			}
