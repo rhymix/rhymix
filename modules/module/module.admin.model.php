@@ -445,7 +445,7 @@
 			$args->order_type = 'asc';
 			$args->search_keyword = Context::get('search_keyword');
 			$args->name = Context::get('name');
-			$args->list_count = 5;
+			$args->list_count = Context::get('list_count');
 			$args->page_count = 5;
 
 			$output = $this->getLangListByLangcode($args);

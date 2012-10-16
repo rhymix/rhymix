@@ -951,27 +951,387 @@ $('.filebox')
 		detailBtn.addClass('x_active');
 		simpleBtn.removeClass('x_active');
 	});
+});
 
 // Multilingual
+$.fn.xeMultilingualWindow = function(options){
+	var $g11n_get = $(this);
+	var $g11n_create = $g11n_get.find('#lang_create');
+	var $g11n_search = $g11n_get.find('#lang_search');
+	var is_create_changed = false;
+	
+	// options
+	options = $.extend({
+		create_type: 'save_and_use',
+		modify_type: 'save_and_use',
+		view_use: true,
+		view_modify: true,
+		view_delete: false,
+		list_count: 5
+	}, options || {});
+	
+	// change text
+	if(options.create_type != 'save_and_use'){
+		$g11n_create.find('.save-useit').text(xe.cmd_save);
+	}
+	
+	// #lang_create confirm
+	function g11n_create_save_confirm(){
+		if($g11n_create.is(':visible') && is_create_changed){
+			if(confirm(xe.msg_confirm_save_and_use_multilingual)){
+				$g11n_create.find('.save-useit').trigger('click');
+			}
+		}
+
+		return true;
+	}
+
+	// #lang_search confirm
+	function g11n_search_save_confirm(){
+		if($g11n_search.is(':visible') && $g11n_search.find('.editMode').length){
+			var $search_item = $g11n_search.find('form.item');
+			if(confirm(xe.msg_confirm_save_and_use_multilingual)){
+				$search_item.find('.save').trigger('click').end().find('textarea').attr('disabled', 'disabled');
+			}else{
+				$search_item.find('.cancel').trigger('click');
+			}
+		}
+
+		return true;
+	}
+	
+	// #g11n Reset to default
+	function g11n_reset_default(){
+		$g11n_search.find('.item > fieldset').hide().prev('a').children('i').removeClass('x_icon-chevrom-up').addClass('x_icon-chevron-down');
+		$g11n_get.find('[href="#lang_create"]').trigger('click');
+		$g11n_create.find('.editMode').children('textarea').val('');
+		is_create_changed = false;
+
+		return true;
+	}
+	
+	// before open
+	function g11n_before_open(code){
+		if(!code){
+			g11n_get_list(1, '', '', false);
+		}else{
+			g11n_get_list(1, '', code, false);
+			$g11n_get.find('[href="#lang_search"]').trigger('click');
+		}
+	}
+	
+	// before close
+	function g11n_before_close(){
+		if(!g11n_create_save_confirm()) return false;
+		if(!g11n_search_save_confirm()) return false;
+		if(!g11n_reset_default()) return false;
+	}
+	
+	// use lang code
+	function g11n_use_lang_code(code, value){
+		var $target = $g11n_get.data('lang-target');
+		is_create_changed = false;
+		
+		if($target)
+			$target.trigger('selected.g11n', [code, value]);
+	}
+	
+	// get list
+	function g11n_get_list(page, search_keyword, name, scroll){
+		if(typeof page == 'undefined') page = 1;
+		if(typeof search_keyword == 'undefined') search_keyword = '';
+		if(typeof name == 'undefined') name = '';
+		if(typeof scroll == 'undefined') scroll = true;
+		console.log(scroll);
+		$.exec_json('module.getModuleAdminLangListHtml', {'page': page, 'search_keyword': search_keyword, 'name': name, 'list_count': options.list_count}, function(data){
+			if(!data || !data.html) return;
+			
+			$g11n_search.html(data.html);
+			
+			g11n_search_page();
+			g11n_search_search();
+			g11n_search_text();
+			g11n_search_button();
+			
+			if(scroll) document.location.href = '#lang_search';
+			
+			if(name){
+				$('#lang_search').find('[href^="#lang-"]').trigger('click');
+			}
+		});
+	}
+	
+	// page
+	function g11n_search_page(){
+		$g11n_search.find('.x_pagination a').click(function(){
+			var page = $(this).data('page');
+			var search_keyword = $(this).data('search_keyword');
+			
+			if(!page) return;
+			
+			g11n_get_list(page, search_keyword);
+			return false;
+		});
+		
+		$g11n_search.find('.x_pagination').submit(function(){
+			var page = $(this).find('[name="page"]').val();
+			var search_keyword = $(this).data('search_keyword');
+
+			if(!page) return false;
+
+			g11n_get_list(page, search_keyword);
+			return false;
+		});
+	}
+	
+	// search
+	function g11n_search_search(){
+		$g11n_search.find('.search').submit(function(){
+			var search_keyword = $(this).find('[name="search_keyword"]').val();
+			
+			g11n_get_list(1, search_keyword);
+			return false;
+		});
+		
+		$g11n_search.find('#search_cancel').click(function(){
+			g11n_get_list(1, '');
+		});
+	}
+	
+	// text click
+	function g11n_search_text(){
+		$g11n_search.find('.set').append('<i class="x_icon-chevron-down"></i>').click(function(){
+			var $this = $(this);
+			var lang_code = $this.data('lang_code');
+
+			g11n_search_save_confirm();
+
+			// Fieldset close/open display
+			var up = 'x_icon-chevron-up';
+			var down = 'x_icon-chevron-down';
+			if($this.next('fieldset').is(':visible')){
+				$this.children('i').removeClass(up).addClass(down);
+			}else{
+				$this.parent('.item').siblings('.item').find('a > i').removeClass(up).addClass(down).end().children('fieldset').hide();
+				$this.children('i').removeClass(down).addClass(up);
+			}
+
+			if(typeof $this.data('is_loaded') != 'undefined') return;
+
+			$.exec_json('module.getModuleAdminLangCode', {'name': lang_code}, on_complete);
+
+			function on_complete(data){
+				var $textareas = $this.next('fieldset').find('textarea');
+
+				$textareas.each(function(){
+					var $this = $(this);
+					var value = data.langs[$this.data('lang')];
+					var pattern = /^\$user_lang->/;
+
+					if(pattern.test(value)){
+						$this.val('').data('value', '');
+					}else{
+						$this.val(value).data('value', value);
+					}
+				});
+
+				$this.data('is_loaded', true);
+			}
+		});
+	}
+	
+	// search buttons
+	function g11n_search_button(){
+		if(!options.view_use) $g11n_search.find('.useit').hide();
+		if(!options.view_modify) $g11n_search.find('.modify').hide();
+		if(!options.view_delete) $g11n_search.find('.delete').hide();
+		if(options.modify_type == 'save'){
+			$g11n_search.find('.save').text(xe.cmd_save);
+		}
+		
+		// Modify click
+		$g11n_search.find('.modify').click(function(){
+			$(this).closest('fieldset').addClass('editMode').find('textarea').removeAttr('disabled');
+			$(this).siblings('.cancel').prependTo($(this).parent());
+			$(this).siblings('.delete').attr('disabled', 'disabled');
+		});
+
+		// Cancel Click
+		$g11n_search.find('.cancel').click(function(){
+			$(this).closest('fieldset').removeClass('editMode').find('textarea').attr('disabled', 'disabled').each(function(){
+				var $this = $(this);
+
+				$this.val($this.data('value'));
+			});
+			
+			$(this).siblings('.modify').prependTo($(this).parent());
+			$(this).siblings('.delete').removeAttr('disabled');
+
+			return false;
+		});
+		
+		// Delete click
+		$g11n_search.find('.delete').click(function(){
+			if(!confirm(xe.confirm_delete)) return;
+			
+			var $this = $(this);
+			
+			lang_name = $this.closest('.item').find('[href^="#lang-"]').data('lang_code');
+			
+			$.exec_json('module.procModuleAdminDeleteLang', {'name': lang_name}, function (data){
+				if(!data) return;
+				if(data.error){
+					alert(data.message);
+					return;
+				}
+				
+				var $pagination = $g11n_search.find('.x_pagination');
+				var page = $pagination.data('page');
+				var search_keyword = $pagination.data('search_keyword');
+			
+				if(!page) $page = 1;
+			
+				g11n_get_list(page, search_keyword);
+			});
+		});
+		
+		// Save Click
+		$g11n_search.find('.item').submit(function(){
+			var $this = $(this);
+			var $textareas = $this.find('.editMode').children('textarea');
+			var $anchor = $this.find('[href^="#lang-"]');
+			var params = {};
+			var current_lang_value = null;
+
+			// create lang list
+			$textareas.each(function(){
+				var $this = $(this);
+				params[$this.attr('class')] = $this.val();
+				$this.data('tmp_value', $this.val());
+				if(xe.current_lang == $this.attr('class')){
+					current_lang_value = $this.val();
+				}
+			});
+
+			params.lang_name = $anchor.data('lang_code');
+
+			// submit
+			$.exec_json('module.procModuleAdminInsertLang', params, function (data){
+				if(!data || data.error || !data.name) return;
+
+				$textareas.each(function(){
+					var $this = $(this);
+					$this.data('value', $this.data('tmp_value'));
+				});
+				$anchor.children('span').html(current_lang_value);
+
+				$g11n_search.find('.cancel').trigger('click');
+				$this.find('.useit').trigger('click');
+			});
+
+			return false;
+		});
+
+		// Useit click
+		$g11n_search.find('.useit').click(function(){
+			var $this = $(this);
+			var $anchor = $this.closest('.item').find('[href^="#lang-"]');
+			var name = $anchor.data('lang_code');
+			var value = $anchor.children('span').text();
+
+			g11n_use_lang_code(name, value);
+		});
+	}
+	
+	// tabbale
+	$g11n_get.find('.x_tabbable').xeTabbable();
+	
+	// check create change
+	$g11n_create.find('.editMode textarea').change(function(){
+		is_create_changed = true;
+	});
+	
+	// Save-Useit click
+	$g11n_create.submit(function(){
+		var $this = $(this);
+		var params = {};
+		var current_lang_value = null;
+
+		// create lang list
+		$this.find('.editMode').children('textarea').each(function(){
+			var $this = $(this);
+			params[$this.attr('class')] = $this.val();
+			if(xe.current_lang == $this.attr('class')){
+				current_lang_value = $this.val();
+			}
+		});
+
+		if(!current_lang_value){
+			alert(xe.msg_empty_multilingual);
+			return false;
+		}
+
+		// submit
+		$.exec_json('module.procModuleAdminInsertLang', params, on_complete);
+
+		function on_complete(data){
+			if(!data || data.error || !data.name) return;
+
+			if(options.create_type == 'save_and_use'){
+				g11n_use_lang_code(data.name, current_lang_value);
+			}else{
+				alert(data.message);
+				g11n_reset_default();
+			}
+		}
+
+		return false;
+	});
+	
+	// default
+	$g11n_get.bind('reset.g11n', function(){
+		g11n_reset_default();
+	});
+	
+	// before open
+	$g11n_get.bind('before-open.g11n', function(e, code){
+		g11n_before_open(code);
+	});
+	
+	// before close
+	$g11n_get.bind('before-close.g11n', function(){
+		return g11n_before_close();
+	});
+	
+	return this;
+};
+
+jQuery(function($){
 	var $multilinguals_v15 = $('.vLang[type="hidden"]');
 	var $multilinguals = $('.lang_code');
 
 	if($multilinguals_v15.length || $multilinguals.length){
 		function on_complete(data){
+			// append html
 			var $content = $('.x #content');
 			$content.append(data.html);
-
-			var tmpCount = 0;
-
+			
+			// create xeMultilingualWindow
+			var $multilingualWindow = $content.find('#g11n').xeMultilingualWindow();
+			
+			// Remove XE 1.5's markup
 			$multilinguals_v15.each(function(){
 				var $this = $(this);
 
 				$this.removeClass('vLang').addClass('lang_code');
 				$this.parent().find('.editUserLang').remove();
 			});
-
+			
+			// Re-find multilingual
 			$multilinguals = $('.lang_code');
-
+			
+			// Make multilingual UI
+			var tmpCount = 0;
 			$multilinguals.each(function(){
 				var $this = $(this);
 				var id = $this.attr('id');
@@ -981,6 +1341,7 @@ $('.filebox')
 					$this.attr('id', id);
 				}
 
+				// make markup
 				if(this.tagName == 'TEXTAREA' || $this.next('textarea.vLang').length){
 					var $displayInput = $('<textarea id="lang_' + id + '" class="displayInput" style="width:179px">').data('lang-id', id);
 				}else{
@@ -995,7 +1356,47 @@ $('.filebox')
 				$this.hide();
 				$setter.attr('href', '#g11n').xeModalWindow();
 
-				// text change
+				// bind selected
+				$displayInput.bind('selected.g11n', function(e, code, value){
+					$displayInput
+						.width(135)
+						.attr('disabled', 'disabled')
+						.val(value)
+						.parent('.g11n').addClass('active');
+					$displayInput.siblings('#' + $displayInput.data('lang-id')).val('$user_lang->' + code);
+					$setter.trigger('close.mw');
+				});
+				
+				// bind open window
+				$setter.bind('open.mw',function(){
+					var $this = $(this);
+					var $displayInput = $this.siblings('.displayInput');
+
+					if($this.closest('.g11n').hasClass('active')){
+						$multilingualWindow.trigger('before-open.g11n', $displayInput.prev('.lang_code').val().replace('$user_lang->', ''));
+					}else{
+						$multilingualWindow.trigger('before-open.g11n');
+					}
+
+					$multilingualWindow.data('lang-target', $displayInput);
+				});
+
+				// bind close window
+				$setter.bind('before-close.mw', function(){
+					return $multilingualWindow.trigger('before-close.g11n');
+				});
+				
+				// Remover click
+				$remover.click(function(){
+						var $this = $(this);
+						var $g11n_set_input = $('#lang_' + $this.data('lang-target'));
+						$g11n_set_input.val('').removeAttr('disabled')
+								.width(179)
+								.parent('.g11n').removeClass('active');
+						$this.siblings('.lang_code').val('');
+				});
+						
+				// if change text, copy
 				var $hiddenInput = $this;
 				$displayInput.bind('change, keyup', function(){
 					$this = $(this);
@@ -1018,296 +1419,6 @@ $('.filebox')
 
 					$.exec_json('module.getModuleAdminLangCode', {'name': $displayInput.val().replace('$user_lang->', '')}, on_complete2);
 				}
-			});
-
-			var $g11n_set = $('.x .g11n'); // set container
-			var $g11n_anchor = $g11n_set.children('.modalAnchor');
-			var $g11n_get = $('.x #g11n'); // get container
-			var $g11n_create = $g11n_get.find('#lang_create'); // create section
-			var $g11n_search = $g11n_get.find('#lang_search'); // search section
-			var is_create_changed = false;
-
-			// tabbable
-			$g11n_get.find('.x_tabbable').xeTabbable();
-
-			// check create change
-			$g11n_create.find('.editMode textarea').change(function(){
-				is_create_changed = true;
-			});
-
-			// use lang code
-			function g11n_use_lang_code($this, code, value){
-				var $displayInput = $('#lang_' + $this.closest('.x_modal').data('lang-target'));
-
-				$displayInput
-					.width(135)
-					.attr('disabled', 'disabled')
-					.val(value)
-					.parent('.g11n').addClass('active');
-				$displayInput.siblings('#' + $displayInput.data('lang-id')).val('$user_lang->' + code);
-
-				is_create_changed = false;
-				$displayInput.siblings('[href="#g11n"]').trigger('close.mw');
-
-			}
-
-			// get list
-			function g11n_get_list(page, search_keyword, name){
-				if(!page) page = 1;
-				if(!search_keyword) search_keyword = '';
-				if(!name) name = '';
-
-				$.exec_json('module.getModuleAdminLangListHtml', {'page': page, 'search_keyword': search_keyword, 'name': name}, on_complete);
-
-				function on_complete(data){
-					if(!data || !data.html) return;
-
-					$('#lang_search').html(data.html);
-
-					// page
-					$('#lang_search .x_pagination a').click(function(){
-						var page = $(this).data('page');
-						var search_keyword = $(this).data('search_keyword');
-
-						if(!page) return;
-
-						g11n_get_list(page, search_keyword);
-						return false;
-					});
-
-					$('#lang_search .x_pagination').submit(function(){
-						var page = $(this).find('[name="page"]').val();
-						var search_keyword = $(this).data('search_keyword');
-
-						if(!page) return false;
-
-						g11n_get_list(page, search_keyword);
-						return false;
-					});
-
-					// search
-					$('#lang_search .search').submit(function(){
-						var search_keyword = $(this).find('[name="search_keyword"]').val();
-
-						g11n_get_list(1, search_keyword);
-						return false;
-					});
-
-					$('#lang_search #search_cancel').click(function(){
-						g11n_get_list(1, '');
-					});
-
-					// text click
-					$('#lang_search').find('.set').append('<i class="x_icon-chevron-down"></i>').click(function(){
-						var $this = $(this);
-						var lang_code = $this.data('lang_code');
-
-						g11n_search_save_confirm();
-
-						// Fieldset close/open display
-						var up = 'x_icon-chevron-up';
-						var down = 'x_icon-chevron-down';
-						if($this.next('fieldset').is(':visible')){
-							$this.children('i').removeClass(up).addClass(down);
-						}else{
-							$this.parent('.item').siblings('.item').find('a > i').removeClass(up).addClass(down).end().children('fieldset').hide();
-							$this.children('i').removeClass(down).addClass(up);
-						}
-
-						if(typeof $this.data('is_loaded') != 'undefined') return;
-
-						$.exec_json('module.getModuleAdminLangCode', {'name': lang_code}, on_complete);
-
-						function on_complete(data){
-							var $textareas = $this.next('fieldset').find('textarea');
-
-							$textareas.each(function(){
-								var $this = $(this);
-								var value = data.langs[$this.data('lang')];
-								var pattern = /^\$user_lang->/;
-
-								if(pattern.test(value)){
-									$this.val('').data('value', '');
-								}else{
-									$this.val(value).data('value', value);
-								}
-							});
-
-							$this.data('is_loaded', true);
-						}
-
-
-					});
-
-					if(name){
-						$('#lang_search').find('[href^="#lang-"]').trigger('click');
-					}
-
-					// Modify click
-					$('#lang_search').find('.modify').click(function(){
-						$(this).closest('fieldset').addClass('editMode').find('textarea').removeAttr('disabled');
-					});
-
-					// Cancel Click
-					$('#lang_search').find('.cancel').click(function(){
-						$(this).closest('fieldset').removeClass('editMode').find('textarea').attr('disabled', 'disabled').each(function(){
-							var $this = $(this);
-
-							$this.val($this.data('value'));
-						});
-
-						return false;
-					});
-
-					// Save Click
-					$('#lang_search').find('.item').submit(function(){
-						var $this = $(this);
-						var $textareas = $this.find('.editMode').children('textarea');
-						var $anchor = $this.find('[href^="#lang-"]');
-						var params = {};
-						var current_lang_value = null;
-
-						// create lang list
-						$textareas.each(function(){
-							var $this = $(this);
-							params[$this.attr('class')] = $this.val();
-							$this.data('tmp_value', $this.val());
-							if(xe.current_lang == $this.attr('class')){
-								current_lang_value = $this.val();
-							}
-						});
-
-						params.lang_name = $anchor.data('lang_code');
-
-						// submit
-						$.exec_json('module.procModuleAdminInsertLang', params, on_complete);
-
-						function on_complete(data){
-							if(!data || data.error || !data.name) return;
-
-							$textareas.each(function(){
-								var $this = $(this);
-								$this.data('value', $this.data('tmp_value'));
-							});
-							$anchor.children('span').html(current_lang_value);
-
-							$('#lang_search').find('.cancel').trigger('click');
-							$this.find('.useit').trigger('click');
-						}
-
-						return false;
-					});
-
-					// Useit click
-					$('#lang_search').find('.useit').click(function(){
-						var $this = $(this);
-						var $anchor = $this.closest('.item').find('[href^="#lang-"]');
-						var name = $anchor.data('lang_code');
-						var value = $anchor.children('span').text();
-
-						g11n_use_lang_code($this, name, value);
-					});
-				}
-			}
-
-			// #lang_create confirm
-			function g11n_create_save_confirm(){
-				if($g11n_create.is(':visible') && is_create_changed){
-					if(confirm(xe.msg_confirm_save_and_use_multilingual)){
-						$g11n_create.find('.save-useit').trigger('click');
-					}
-				}
-
-				return true;
-			}
-
-			// #lang_search confirm
-			function g11n_search_save_confirm(){
-				if($g11n_search.is(':visible') && $g11n_search.find('.editMode').length){
-					var $search_item = $g11n_search.find('form.item');
-					if(confirm(xe.msg_confirm_save_and_use_multilingual)){
-						$search_item.find('.save').trigger('click').end().find('textarea').attr('disabled', 'disabled');
-					}else{
-						$search_item.find('.cancel').trigger('click');
-					}
-				}
-
-				return true;
-			}
-
-			// #g11n Reset to default
-			function g11n_reset_default(){
-				$g11n_search.find('.item > fieldset').hide().prev('a').children('i').removeClass('x_icon-chevrom-up').addClass('x_icon-chevron-down');
-				$g11n_get.find('[href="#lang_create"]').trigger('click');
-				$g11n_create.find('.editMode').children('textarea').val('');
-				is_create_changed = false;
-
-				return true;
-			}
-
-			// Save-Useit click
-			$g11n_create.submit(function(){
-				var $this = $(this);
-				var params = {};
-				var current_lang_value = null;
-
-				// create lang list
-				$this.find('.editMode').children('textarea').each(function(){
-					var $this = $(this);
-					params[$this.attr('class')] = $this.val();
-					if(xe.current_lang == $this.attr('class')){
-						current_lang_value = $this.val();
-					}
-				});
-
-				if(!current_lang_value){
-					alert(xe.msg_empty_multilingual);
-					return false;
-				}
-
-				// submit
-				$.exec_json('module.procModuleAdminInsertLang', params, on_complete);
-
-				function on_complete(data){
-					if(!data || data.error || !data.name) return;
-
-					g11n_use_lang_code($this, data.name, current_lang_value);
-				}
-
-				return false;
-
-			});
-
-			// Remover click
-			$g11n_set.children('.remover').click(function(){
-				var $this = $(this);
-				var $g11n_set_input = $('#lang_' + $this.data('lang-target'));
-				$g11n_set_input.val('').removeAttr('disabled')
-					.width(179)
-					.parent('.g11n').removeClass('active');
-				$this.siblings('.lang_code').val('');
-			});
-
-			// Close click
-			$g11n_anchor.bind('before-close.mw', function(){
-				if(!g11n_create_save_confirm()) return false;
-				if(!g11n_search_save_confirm()) return false;
-				if(!g11n_reset_default()) return false;
-			});
-
-			// .modalAnchor click
-			$g11n_anchor.bind('open.mw',function(){
-				var $this = $(this);
-				var $displayInput = $this.siblings('.displayInput');
-
-				if($this.closest('.g11n').hasClass('active')){
-					g11n_get_list(1, '', $displayInput.prev('.lang_code').val().replace('$user_lang->', ''));
-					$($this.attr('href')).find('[href="#lang_search"]').trigger('click');
-				}else{
-					g11n_get_list();
-				}
-
-				$($this.attr('href')).data('lang-target', $this.data('lang-target'));
 			});
 		}
 		$.exec_json('module.getModuleAdminMultilingualHtml', {}, on_complete);
