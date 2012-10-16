@@ -64,7 +64,7 @@ jQuery(function($){
 	// Active Submenu Copy
 	$xGnb_li.find('>ul>li.active_').clone().addClass('active').prependTo('#gnbNav');
 	// GNB Hover toggle
-	function reflow(){ // Chrome browser rendering bug fix
+	function reflow(){ // Browser bug fix & resize height
 		$xContent.width('99.99%');
 		setTimeout(function(){
 			$xContent.removeAttr('style');
@@ -129,6 +129,7 @@ jQuery(function($){
 			$section.removeClass('collapse').children('h1:first').siblings().show();
 			$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
 		}
+		reflow();
 	});
 // Alert Closer
 	var $xAlert = $('.x .x_alert');
