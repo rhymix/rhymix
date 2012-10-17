@@ -242,8 +242,7 @@
 				</figure>
 				<div class="btnBoth">
 					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">변경</button>
-					<input type="file">
+					<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="변경">
 				</div>
 			</form>
 			<form action="">
@@ -254,8 +253,7 @@
 				</figure>
 				<div class="btnBoth">
 					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">이미지 올리기</button>
-					<input type="file">
+					<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
 				</div>
 			</form>
 			<form action="">
@@ -266,8 +264,7 @@
 				</figure>
 				<div class="btnBoth">
 					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">이미지 올리기</button>
-					<input type="file">
+					<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
 				</div>
 			</form>
 		</fieldset>
@@ -2698,9 +2695,6 @@ setTimeout(function(){
 	});
 */
 // File upload
-	$('.fileTrigger').click(function(){
-		$(this).next('input[type="file"]').click();
-	});
 	$('input[type="file"]').change(function(){
 		$(this).closest('form').submit();
 	});

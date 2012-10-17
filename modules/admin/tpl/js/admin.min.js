@@ -190,9 +190,10 @@ jQuery(function($){
 // File input .overlap style
 	$('input[type="file"].overlap').each(function(){
 		var $this = $(this);
-		var $btn = $this.prev('button');
-		$this.parent().css('position','relative');
-		$this.width($btn.width()).height($btn.height()).offset($btn.offset());
+		$this.wrap('<span class="fileBtn" />').before('<button type="button">');
+		var $button = $this.prev('button');
+		$button.text($this.attr('title')).addClass($this.attr('class')).removeClass('overlap');
+		$this.attr('class','overlap').width($button.width()).height($button.height()).offset($button.offset());
 	});
 // Email Masking
 	$.fn.xeMask = function(){

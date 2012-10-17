@@ -110,7 +110,8 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x a.active{color:#000;font-weight:bold;text-decoration:none}
 .x .module_search+[readonly]{border-top-right-radius:0;border-bottom-right-radius:0}
 .x .module_search+[readonly]+a.x_btn{border-top-left-radius:0;border-bottom-left-radius:0;vertical-align:top;margin-left:-5px}
-.x input[type="file"].overlap{position:absolute;overflow:hidden;opacity:0;border:0;filter:alpha(opacity=0);padding:3px 9px;cursor:pointer}
+.x .fileBtn{position:relative;display:inline-block}
+.x .fileBtn>input[type="file"]{position:absolute;overflow:hidden;opacity:0;border:0;filter:alpha(opacity=0);padding:3px 9px;cursor:pointer}
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a>i,
