@@ -243,7 +243,7 @@
 				<div class="btnBoth">
 					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
 					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">변경</button>
-					<input type="file" class="overlap">
+					<input type="file">
 				</div>
 			</form>
 			<form action="">
@@ -255,7 +255,7 @@
 				<div class="btnBoth">
 					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
 					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">이미지 올리기</button>
-					<input type="file" class="overlap">
+					<input type="file">
 				</div>
 			</form>
 			<form action="">
@@ -267,7 +267,7 @@
 				<div class="btnBoth">
 					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
 					<button type="button" class="fileTrigger x_btn x_btn-primary x_pull-right">이미지 올리기</button>
-					<input type="file" class="overlap">
+					<input type="file">
 				</div>
 			</form>
 		</fieldset>
@@ -570,6 +570,7 @@
 .col .nav li>a:hover>i,
 .col .nav li>a:focus>i,
 .col .nav li.active>a>i{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png);background-repeat:no-repeat;opacity:1;filter:alpha(opacity=100)}
+.col input[type="file"]{width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;opacity:0;filter:alpha(opacity=0)}
 /* Menu Type */
 .col .typePage{display:none;border-top:1px solid #ddd;padding-top:8px;margin-top:8px}
 .col .typeUrl{display:none;border-top:1px solid #ddd;margin-top:8px}
@@ -2110,8 +2111,9 @@ jQuery(function($){
 				
 				var sUrl = $('#config_form').attr('action');
 				$.post( sUrl, htData,
-					function( htRes ) {
-						//console.log(999, htRes);
+					function( strRes ) {
+						var htData = $.parseJSON(strRes);
+						console.log(999, strRes, htData);
 					}
 				);
 			})
@@ -2696,6 +2698,9 @@ setTimeout(function(){
 	});
 */
 // File upload
+	$('.fileTrigger').click(function(){
+		$(this).next('input[type="file"]').click();
+	});
 	$('input[type="file"]').change(function(){
 		$(this).closest('form').submit();
 	});
