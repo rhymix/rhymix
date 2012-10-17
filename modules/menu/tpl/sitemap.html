@@ -2097,6 +2097,26 @@ jQuery(function($){
 			//console.log(htData);
 			$('#layoutSetup').find('._contents').html(htData.html);
 			
+			var $configForm = $('#config_form');
+			$configForm.on('submit', function(ev){
+				var htData = {};
+				var sKey, sValue;
+				$(this).find('input').each(function(){
+					sKey = $(this).attr('name');
+					sValue = $(this).val();
+					htData[sKey] = sValue;
+				});
+				console.log(htData);
+				ev.preventDefault();
+				
+				var sUrl = $('#config_form').attr('action');
+				$.post( sUrl, htData,
+					function( htRes ) {
+						//console.log(999, htRes);
+					}
+				);
+			})
+			
 			scrollToRight();
 		});
 	})
