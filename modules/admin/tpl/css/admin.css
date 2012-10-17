@@ -15,9 +15,9 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_page-header{padding-bottom:0;border-bottom:2px solid #ddd}
 .x .x_page-header>h1{margin-bottom:0}
 .x h1,.x h2,.x h3,.x h4,.x h5,.x h6{line-height:1.5;font-weight:600;color:#666}
-.x h1{font-size:26px}
-.x h2{font-size:22px}
-.x h3{font-size:18px}
+.x h1{font-size:24px}
+.x h2{font-size:20px}
+.x h3{font-size:16px}
 .x h4{font-size:14px}
 .x h5{font-size:12px}
 .x h6{font-size:12px}
@@ -90,7 +90,7 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x label, 
 .x input, 
 .x button{line-height:16px}
-.x select{width:auto;margin:0 4px 0 0;padding:0;height:26px;line-height:26px}
+.x select{width:auto;padding:0;height:26px;line-height:26px}
 .x select[multiple]{height:auto}
 .x .x_tab-content{overflow-x:hidden}
 /* Custom Styles */
@@ -99,6 +99,7 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .section>h1>.snToggle{position:absolute;bottom:0;right:0;width:32px;height:32px;opacity:.5;filter:alpha(opacity=50)}
 .x .section>h1>.snToggle.x_icon-chevron-up{background-position:-279px -112px}
 .x .section>h1>.snToggle.x_icon-chevron-down{background-position:-303px -111px}
+.x .section>h2{position:relative;border-bottom:1px dotted #ddd}
 .x .center{text-align:center}
 .x .search{margin:20px 0}
 .x .search>input[type="search"]{height:16px;line-height:16px;width:120px}
@@ -107,6 +108,8 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .btnArea{padding:8px 0;margin:20px 0;border-top:1px solid #ccc}
 .x li.active>a,
 .x a.active{color:#000;font-weight:bold;text-decoration:none}
+.x .module_search+[readonly]{border-top-right-radius:0;border-bottom-right-radius:0}
+.x .module_search+[readonly]+a.x_btn{border-top-left-radius:0;border-bottom-left-radius:0;vertical-align:top;margin-left:-5px}
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a>i,
@@ -330,10 +333,10 @@ html[lang="mn"] .x .g11n.active>[disabled],
 #g11n #lang_search .editMode .cancel,
 #g11n #lang_search .editMode .save{display:inline-block}
 /* Module Search */
-.x .moduleWindow{position:absolute;z-index:100;padding:15px 20px;margin:4px 0 0 0}
+.x .moduleWindow{position:absolute;z-index:100;padding:15px 20px}
 .x .moduleWindow ul{margin-bottom:0}
 .x .moduleWindow .siteList{margin-right:14px}
-.x .moduleWindow .siteList>input[type="search"]{width:100%;padding-top:6px;padding-bottom:6px;border-radius:3px 3px 0 0}
+.x .moduleWindow .siteList>input[type="search"]{width:100%;padding-top:6px;padding-bottom:6px;border-radius:3px 3px 0 0;margin-bottom:0}
 .x .moduleWindow .siteList>ul{margin:-1px -14px 0 0}
 .x .moduleWindow .siteList>ul>li{background:#fff}
 .x .moduleWindow .siteList>ul>li:first-child>a{border-top-left-radius:0;border-top-right-radius:0}
@@ -467,7 +470,7 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x .prgrs *{vertical-align:middle}
 .x .prgrs .pBar{position:relative;display:inline-block;background:#e9e9e9;margin:0 5px 0 0}
 .x .prgrs .pAction{display:inline-block;vertical-align:top;background:#99a6b6}
-.x .prgrs .pNum{position:absolute;width:100%;left:0;top:0;text-align:center;text-shadow:1px 1px 0 #fff}
+.x .prgrs .pNum{width:100%;left:0;top:0;text-align:center;text-shadow:1px 1px 0 #fff}
 .x .prgrs.prgrsSmall{font-size:14px;line-height:14px}
 .x .prgrs.prgrsSmall .pBar,
 .x .prgrs.prgrsSmall .pAction,

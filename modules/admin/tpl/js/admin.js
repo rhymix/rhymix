@@ -118,8 +118,9 @@ jQuery(function($){
 		return false;
 	});
 // Section Toggle
-	$('.x .section>h1').append('<button type="button" class="snToggle x_icon-chevron-up">Toggle this section</button>');
-	$('.x .section>h1>.snToggle').click(function(){
+	var $section_heading = $('.x .section').find('>h1:first');
+	$section_heading.append('<button type="button" class="snToggle x_icon-chevron-up">Toggle this section</button>');
+	$section_heading.find('>.snToggle').click(function(){
 		var $this = $(this);
 		var $section = $this.closest('.section');
 		if(!$section.hasClass('collapse')){

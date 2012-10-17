@@ -72,7 +72,7 @@ $('.checkxml')
 		})
 	.end()
 	.find('.x_help-inline').hide().end()
-	.closest('form').find('>.ttxml').hide().end().end()
+	.closest('form').find('>.ttxml')/*.hide()*/.end().end()
 	.closest('form').find(':submit').attr('disabled','disabled');
 
 // hide 'sync member' block
@@ -109,7 +109,7 @@ function doPreProcessing(form, formId) {
 
 	// show modal window
 	$process = $('#process');
-	if(!$process.find('.bg').length) $process.prepend('<span class="bg" />').appendTo('body');
+	if(!$('body').children('.x_modal-backdrop').length) $('body').append('<div class="x_modal-backdrop" />');
 	$('a[href="#process"].modalAnchor').trigger('open.mw');
 
     exec_xml(
