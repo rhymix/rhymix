@@ -187,6 +187,42 @@ jQuery(function($){
 		}
 		$(':radio, :checkbox').not(':checked').parent('label').removeClass('checked');
 	}).change();
+// File input .overlap style
+	$('input[type="file"].overlap').each(function(){
+		var $this = $(this);
+		var $btn = $this.prev('button');
+		$this.parent().css('position','relative');
+		$this.width($btn.width()).height($btn.height()).offset($btn.offset());
+	});
+// Email Masking
+	$.fn.xeMask = function(){
+		this
+			.each(function(){
+				var $this = $(this), text = $this.text();
+				var reg_mail = /^([\w\-\.]+?)@(([\w-]+\.)+[a-z]{2,})$/ig;
+
+				if(reg_mail.test(text)) {
+					$this
+						.html(text.replace(/(@.+)$/, '<span class="ellipsis">...</span><span class="cover">$1</span>'))
+						.find('>.ellipsis')
+							.css({position:'absolute',zIndex:1})
+							.hover(
+								function(){ $(this).next('.cover').mouseover() },
+								function(){ $(this).next('.cover').mouseout() }
+							)
+						.end()
+						.find('>.cover')
+							.css({zIndex:2,opacity:0})
+							.hover(
+								function(){ $(this).css('opacity',1).prev('span').css('visibility','hidden') },
+								function(){ $(this).css('opacity',0).prev('span').css('visibility','visible') }
+							)
+						.end();
+				}
+			})
+	};
+	$('.masked').xeMask();
+
 });
 // Modal Window
 jQuery(function($){
