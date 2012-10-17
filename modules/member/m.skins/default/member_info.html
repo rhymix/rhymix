@@ -2,7 +2,7 @@
 <div class="xm">
 <h2 class="h2">{$lang->member_info}</h2>
 <div class="table even">
-	<table width="100%" border="1" cellspacing="0">
+	<table class="x_table x_table-striped x_table-hover">
 		<tr loop="$displayDatas => $item">
 			<th scope="row" >{$item->title} <em cond="$item->required || $item->mustRequired">*</em></th>
 			<td class="text">{$item->value}</td>

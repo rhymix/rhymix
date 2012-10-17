@@ -3,78 +3,74 @@
 
 <h1 class="h1">{$lang->widget}</h1>
 <h2 class="h2">{$lang->widget_maker}</h2>
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
-    <tr>
-        <th scope="row"><div>{$lang->title}</div></th>
-        <td>{$widget_info->title} ver {$widget_info->version}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->author}</div></th>
-        <td>
-            <!--@foreach($widget_info->author as $author)-->
-            {$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
-            <!--@endforeach-->
-        </td>
-    </tr>
-    <!--@if($widget_info->homepage)-->
-    <tr>
-        <th scope="row"><div>{$lang->homepage}</div></th>
-        <td><a href="{$widget_info->homepage}" onclick="window.open(this.href);return false;">{$widget_info->homepage}</a></td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th scope="row"><div>{$lang->regdate}</div></th>
-        <td>{zdate($widget_info->date, 'Y-m-d')}</td>
-    </tr>
-    <!--@if($widget_info->license || $widget_info->license_link)-->
-    <tr>
-        <th scope="row"><div>{$lang->widget_license}</div></th>
-        <td>
-            {nl2br(trim($widget_info->license))}
-        <!--@if($widget_info->license_link)-->
-            <p><a href="{$widget_info->license_link}" onclick="window.close(); return false;">{$widget_info->license_link}</a></p>
-        <!--@end-->
-        </td>
-    </tr><!--@end-->
+<table class="x_table x_table-striped x_table-hover">
+<tr>
+	<th scope="row"><div>{$lang->title}</div></th>
+	<td>{$widget_info->title} ver {$widget_info->version}</td>
+</tr>
+<tr>
+	<th scope="row"><div>{$lang->author}</div></th>
+	<td>
+		<!--@foreach($widget_info->author as $author)-->
+		{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
+		<!--@endforeach-->
+	</td>
+</tr>
+<!--@if($widget_info->homepage)-->
+<tr>
+	<th scope="row"><div>{$lang->homepage}</div></th>
+	<td><a href="{$widget_info->homepage}" onclick="window.open(this.href);return false;">{$widget_info->homepage}</a></td>
+</tr>
+<!--@end-->
+<tr>
+	<th scope="row"><div>{$lang->regdate}</div></th>
+	<td>{zdate($widget_info->date, 'Y-m-d')}</td>
+</tr>
+<!--@if($widget_info->license || $widget_info->license_link)-->
+<tr>
+	<th scope="row"><div>{$lang->widget_license}</div></th>
+	<td>
+		{nl2br(trim($widget_info->license))}
+	<!--@if($widget_info->license_link)-->
+		<p><a href="{$widget_info->license_link}" onclick="window.close(); return false;">{$widget_info->license_link}</a></p>
+	<!--@end-->
+	</td>
+</tr><!--@end-->
 <!--@if($widget_info->description)-->
-    <tr>
-        <th scope="row"><div>{$lang->description}</div></th>
-        <td>{nl2br(trim($widget_info->description))}</td>
-    </tr><!--@end-->
-    </table>
-</div>
+<tr>
+	<th scope="row"><div>{$lang->description}</div></th>
+	<td>{nl2br(trim($widget_info->description))}</td>
+</tr><!--@end-->
+</table>
 
 <!--@if($widget_info->history)-->
 <h1 class="h1">{$lang->widget_history}</h1>
 
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
-    <!--@foreach($widget_info->history as $history)-->
-    <tr>
-        <th scope="row"><div>
-            {$history->version}<br />
-            {$history->date}
-        </div></th>
-        <td>
-            <!--@if($history->author)-->
-            <!--@foreach($history->author as $author)-->
-            <p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
-            <!--@endforeach-->
-            <!--@endif-->
+<table class="x_table x_table-striped x_table-hover">
+<!--@foreach($widget_info->history as $history)-->
+<tr>
+	<th scope="row"><div>
+		{$history->version}<br />
+		{$history->date}
+	</div></th>
+	<td>
+		<!--@if($history->author)-->
+		<!--@foreach($history->author as $author)-->
+		<p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
+		<!--@endforeach-->
+		<!--@endif-->
 
-            <!--@if($history->description)-->
-            <p>{nl2br(trim($history->description))}</p>
-            <!--@endif-->
+		<!--@if($history->description)-->
+		<p>{nl2br(trim($history->description))}</p>
+		<!--@endif-->
 
-            <!--@if($history->logs)-->
-            <ul>
-                <!--@foreach($history->logs as $log)--><li>{$log->text}</li><!--@endforeach-->
-            </ul>
-            <!--@endif-->
-        </td>
-    </tr>
-    <!--@endforeach-->
-    </table>
-</div>
+		<!--@if($history->logs)-->
+		<ul>
+			<!--@foreach($history->logs as $log)--><li>{$log->text}</li><!--@endforeach-->
+		</ul>
+		<!--@endif-->
+	</td>
+</tr>
+<!--@endforeach-->
+</table>
 <!--@endif-->

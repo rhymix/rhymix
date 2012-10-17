@@ -8,23 +8,21 @@
 	<input type="hidden" name="act" value="procCommunicationSendMessage" />
 	<input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
 	<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row"><label for="textfield1">{$lang->receiver}</label></th>
-				<td>{$receiver_info->nick_name}</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->title}</th>
-				<td><input type="text" name="title" id="message_title" value="{$source_message->title}"/></td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->cmd_option}</th>
-				<td><input type="checkbox" value="Y" name="send_mail" /> {$lang->cmd_send_mail}</td>
-			</tr>
-		</table>
-		{$editor}
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<tr>
+			<th scope="row"><label for="textfield1">{$lang->receiver}</label></th>
+			<td>{$receiver_info->nick_name}</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->title}</th>
+			<td><input type="text" name="title" id="message_title" value="{$source_message->title}"/></td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->cmd_option}</th>
+			<td><input type="checkbox" value="Y" name="send_mail" /> {$lang->cmd_send_mail}</td>
+		</tr>
+	</table>
+	{$editor}
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_send_message}" /></span>
 	</div>

@@ -16,45 +16,43 @@
 </div>
 
 <!-- 목록 -->
-<div class="table">
-	<table width="100%" border="1" cellspacing="0">
-		<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-		<thead>
-			<tr>
-				<th scope="col">{$lang->no}</th>
-				<th scope="col" >{$lang->document}</th>
-				<th scope="col">{$lang->trash_nick_name}</th>
-				<th scope="col">{$lang->trash_date}</th>
-				<th scope="col">{$lang->ipaddress}</th>
-				<th scope="col">{$lang->trash_description}</th>
-				<th scope="col">{$lang->cmd_restore}</th>
-				</tr>
-			</thead>
-		<tbody>
-			<!--@foreach($document_list as $no => $oDocument)-->
-			<tr>
-				<td>{$no}</td>
-				<td>
-					{$oDocument->getTitle()}
-					
-					<!--@if($oDocument->getCommentCount())-->
-					[{$oDocument->getCommentCount()}]
-					<!--@end-->
-					
-					<!--@if($oDocument->getTrackbackCount())-->
-					[{$oDocument->getTrackbackCount()}]
-					<!--@end-->
-					</td>
-				<td><a href="#popup_menu_area" class="member_{$oDocument->get('trash_member_srl')}">{htmlspecialchars($oDocument->get('trash_nick_name'))}</a></td>
-				<td>{zdate($oDocument->get('trash_date'), "Y-m-d H:i:s")}</td>
-				<td>{$oDocument->get('ipaddress')}</td>
-				<td >{$oDocument->get('trash_description')}</td>
-				<td><button type="button" onclick="executeFilterByTargetSrl('restore_form', {$oDocument->get('trash_srl')}, restore_trash);">{$lang->cmd_restore}</button></td>
-				</tr>
-			<!--@end-->
-			</tbody>
-	</table>
-</div>
+<table class="x_table x_table-striped x_table-hover">
+	<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+	<thead>
+		<tr>
+			<th scope="col">{$lang->no}</th>
+			<th scope="col" >{$lang->document}</th>
+			<th scope="col">{$lang->trash_nick_name}</th>
+			<th scope="col">{$lang->trash_date}</th>
+			<th scope="col">{$lang->ipaddress}</th>
+			<th scope="col">{$lang->trash_description}</th>
+			<th scope="col">{$lang->cmd_restore}</th>
+			</tr>
+		</thead>
+	<tbody>
+		<!--@foreach($document_list as $no => $oDocument)-->
+		<tr>
+			<td>{$no}</td>
+			<td>
+				{$oDocument->getTitle()}
+				
+				<!--@if($oDocument->getCommentCount())-->
+				[{$oDocument->getCommentCount()}]
+				<!--@end-->
+				
+				<!--@if($oDocument->getTrackbackCount())-->
+				[{$oDocument->getTrackbackCount()}]
+				<!--@end-->
+				</td>
+			<td><a href="#popup_menu_area" class="member_{$oDocument->get('trash_member_srl')}">{htmlspecialchars($oDocument->get('trash_nick_name'))}</a></td>
+			<td>{zdate($oDocument->get('trash_date'), "Y-m-d H:i:s")}</td>
+			<td>{$oDocument->get('ipaddress')}</td>
+			<td >{$oDocument->get('trash_description')}</td>
+			<td><button type="button" onclick="executeFilterByTargetSrl('restore_form', {$oDocument->get('trash_srl')}, restore_trash);">{$lang->cmd_restore}</button></td>
+			</tr>
+		<!--@end-->
+		</tbody>
+</table>
 
 </form>
 

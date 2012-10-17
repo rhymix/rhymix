@@ -6,33 +6,31 @@
 	<input type="hidden" name="module" value="trackback" />
 	<input type="hidden" name="act" value="procTrackbackSend" />
 	<input type="hidden" name="target_srl" value="{$oDocument->document_srl}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-		<tr>
-			<th scope="row"><label>{$lang->title}</label></th>
-			<td>{$oDocument->getTitleText()}</td>
-		</tr>
-		<tr>
-			<th scope="row"><label>{$lang->content}</label></th>
-			<td>{$oDocument->getSummary()}</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="textfield1">{$lang->send_trackback_url}</label></th>
-			<td>
-				<input type="text" id="textfield1" name="trackback_url" value="" />
-				<select name="charset">
-					<option value='UTF-8'>UTF-8</option>
-					<option value='EUC-KR'>EUC-KR</option>
-					<option value='EUC-JP'>EUC-JP</option>
-					<option value='SHIFT_JIS'>SHIFT_JIS</option>
-					<option value='EUC-CN'>EUC-CN</option>
-					<option value='HZ'>HZ</option>
-					<option value='BIG5'>BIG5</option>
-				</select>
-			</td>
-		</tr>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+	<tr>
+		<th scope="row"><label>{$lang->title}</label></th>
+		<td>{$oDocument->getTitleText()}</td>
+	</tr>
+	<tr>
+		<th scope="row"><label>{$lang->content}</label></th>
+		<td>{$oDocument->getSummary()}</td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="textfield1">{$lang->send_trackback_url}</label></th>
+		<td>
+			<input type="text" id="textfield1" name="trackback_url" value="" />
+			<select name="charset">
+				<option value='UTF-8'>UTF-8</option>
+				<option value='EUC-KR'>EUC-KR</option>
+				<option value='EUC-JP'>EUC-JP</option>
+				<option value='SHIFT_JIS'>SHIFT_JIS</option>
+				<option value='EUC-CN'>EUC-CN</option>
+				<option value='HZ'>HZ</option>
+				<option value='BIG5'>BIG5</option>
+			</select>
+		</td>
+	</tr>
+	</table>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_send_trackback}" /></span>
 	</div>

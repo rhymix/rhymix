@@ -11,30 +11,26 @@ var addLang = '{$lang->cmd_insert}';
 			<input type="hidden" name="layout" value="{$layout->layout}" />
 			<input type="hidden" name="act" value="procLayoutAdminCopyLayout" />
 			<input type="hidden" name="layout_srl" value="{$layout->layout_srl}" />
-			<div class="table">
-				<table width="100%" border="1" cellspacing="0">
-					<tr>
-						<th scope="row">{$lang->layout_name}</th>
-						<td>{$layout->title}</td>
-					</tr>
-					<tr>
-						<th scope="row">{$lang->title}</th>
-						<td>{$layout->layout_title}</td>
-					</tr>
-				</table>
-			</div>
-			<div class="table">
-				<table width="100%" border="1" cellspacing="0" id="inputTable">
-					<tr>
-						<th scope="col"><div>{$lang->title}<div></th>
-						<th scope="col"><div>{$lang->cmd_insert}</div></th>
-					</tr>
-					<tr>
-						<td><input type="text" name="title[]" size="50" /></td>
-						<td><span class="btn"><input type="button" value="{$lang->cmd_insert}" onclick="addLayoutCopyInputbox()" /></span></td>
-					</tr>
-				</table>
-			</div>
+			<table class="x_table x_table-striped x_table-hover">
+				<tr>
+					<th scope="row">{$lang->layout_name}</th>
+					<td>{$layout->title}</td>
+				</tr>
+				<tr>
+					<th scope="row">{$lang->title}</th>
+					<td>{$layout->layout_title}</td>
+				</tr>
+			</table>
+			<table width="100%" border="1" cellspacing="0" id="inputTable">
+				<tr>
+					<th scope="col"><div>{$lang->title}<div></th>
+					<th scope="col"><div>{$lang->cmd_insert}</div></th>
+				</tr>
+				<tr>
+					<td><input type="text" name="title[]" size="50" /></td>
+					<td><span class="btn"><input type="button" value="{$lang->cmd_insert}" onclick="addLayoutCopyInputbox()" /></span></td>
+				</tr>
+			</table>
 			<div class="btnArea">
 				<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
 			</div>

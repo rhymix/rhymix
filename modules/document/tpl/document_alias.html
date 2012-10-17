@@ -18,38 +18,36 @@
 	<input type="hidden" name="module_srl" value="{$oDocument->get('module_srl')}" />
 	
 	<h3 class="h3">{$lang->alias}</h3>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<thead>
-		<tr>
-			<th scope="col">{$lang->title}</th>
-			<th scope="col">{$lang->alias}</th>
-			<th scope="col"></th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr>
-			<td rowspan="{count($aliases)+1}">{$oDocument->getTitle()}</td>
-			{@ $bFirst = true; }
-			<!--@foreach($aliases as $val)-->
-			<!--@if(!$bFirst)-->
-		<tr>
-			{@ $bFirst = false; }
-			<!--@end-->
-			<td>{$val->alias_title}</td>
-			<td><button type="button" onclick="deleteByFilter('{$val->alias_srl}', delete_alias);">Delete</button>
-			</td>
-		</tr>
-			<!--@end-->
-			<!--@if(!$bFirst)-->
-		<tr>
-			<!--@end-->
-			<td>
-			<input type="text" name="alias_title" />
-			</td>
-			<td><span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span></td>
-		</tr>
-		</tbody>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<thead>
+	<tr>
+		<th scope="col">{$lang->title}</th>
+		<th scope="col">{$lang->alias}</th>
+		<th scope="col"></th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td rowspan="{count($aliases)+1}">{$oDocument->getTitle()}</td>
+		{@ $bFirst = true; }
+		<!--@foreach($aliases as $val)-->
+		<!--@if(!$bFirst)-->
+	<tr>
+		{@ $bFirst = false; }
+		<!--@end-->
+		<td>{$val->alias_title}</td>
+		<td><button type="button" onclick="deleteByFilter('{$val->alias_srl}', delete_alias);">Delete</button>
+		</td>
+	</tr>
+		<!--@end-->
+		<!--@if(!$bFirst)-->
+	<tr>
+		<!--@end-->
+		<td>
+		<input type="text" name="alias_title" />
+		</td>
+		<td><span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span></td>
+	</tr>
+	</tbody>
+	</table>
 </form>

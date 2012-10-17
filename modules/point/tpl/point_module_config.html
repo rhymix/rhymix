@@ -7,38 +7,36 @@
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	
 	<h3 class="h3">{$lang->point}</h3>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row"><label for="insert_document">{$lang->point_insert_document}</label></th>
-				<td class="text"><input type="text" name="insert_document" id="insert_document" value="{$module_config['insert_document']}" style="width:30px" /> {$module_config['point_name']}</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="insert_comment">{$lang->point_insert_comment}</label></th>
-				<td class="text"><input type="text" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment']}" style="width:30px" /> {$module_config['point_name']}</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="upload_file">{$lang->point_upload_file}</label></th>
-				<td class="text"><input type="text" name="upload_file" id="upload_file" value="{$module_config['upload_file']}" style="width:30px" /> {$module_config['point_name']}</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="download_file">{$lang->point_download_file}</label></th>
-				<td class="text"><input type="text" name="download_file" id="download_file" value="{$module_config['download_file']}" style="width:30px" /> {$module_config['point_name']}</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="read_document">{$lang->point_read_document}</label></th>
-				<td class="text"><input type="text" name="read_document" id="read_document" value="{$module_config['read_document']}" style="width:30px" /> {$module_config['point_name']}</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="voted">{$lang->point_voted}</label></th>
-				<td class="text"><input type="text" name="voted" id="voted" value="{$module_config['voted']}" style="width:30px" /> {$module_config['point_name']}</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="blamed">{$lang->point_blamed}</label></th>
-				<td class="text"><input type="text" name="blamed" id="blamed" value="{$module_config['blamed']}" style="width:30px" /> {$module_config['point_name']}</td>
-			</tr>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<tr>
+			<th scope="row"><label for="insert_document">{$lang->point_insert_document}</label></th>
+			<td class="text"><input type="text" name="insert_document" id="insert_document" value="{$module_config['insert_document']}" style="width:30px" /> {$module_config['point_name']}</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="insert_comment">{$lang->point_insert_comment}</label></th>
+			<td class="text"><input type="text" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment']}" style="width:30px" /> {$module_config['point_name']}</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="upload_file">{$lang->point_upload_file}</label></th>
+			<td class="text"><input type="text" name="upload_file" id="upload_file" value="{$module_config['upload_file']}" style="width:30px" /> {$module_config['point_name']}</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="download_file">{$lang->point_download_file}</label></th>
+			<td class="text"><input type="text" name="download_file" id="download_file" value="{$module_config['download_file']}" style="width:30px" /> {$module_config['point_name']}</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="read_document">{$lang->point_read_document}</label></th>
+			<td class="text"><input type="text" name="read_document" id="read_document" value="{$module_config['read_document']}" style="width:30px" /> {$module_config['point_name']}</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="voted">{$lang->point_voted}</label></th>
+			<td class="text"><input type="text" name="voted" id="voted" value="{$module_config['voted']}" style="width:30px" /> {$module_config['point_name']}</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="blamed">{$lang->point_blamed}</label></th>
+			<td class="text"><input type="text" name="blamed" id="blamed" value="{$module_config['blamed']}" style="width:30px" /> {$module_config['point_name']}</td>
+		</tr>
+	</table>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
 		<span class="btn"><button type="button" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}')">{$lang->cmd_reset}</button></span>

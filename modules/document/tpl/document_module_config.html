@@ -5,41 +5,39 @@
 <input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
     <h3 class="h3">{$lang->document}</h3>
-    <div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>    
-				<th scope="row"><label for="use_history">{$lang->history}</label></th>
-				<td class="text">
-					<select name="use_history" id="use_history">
-						<option value="N" selected="selected"|cond="$document_config->use_history=='N'">{$lang->notuse}</option>
-						<option value="Y" selected="selected"|cond="$document_config->use_history=='Y'">{$lang->use}</option>
-						<option value="Trace" selected="selected"|cond="$document_config->use_history=='Trace'">{$lang->trace_only}</option>
-					</select>
-					<span class="desc">{$lang->about_use_history}</span>
-				</td>
-			</tr>
-			<tr>    
-				<th scope="row"><label for="use_vote_up">{$lang->cmd_vote}</label></th>
-				<td class="text">
-					<select name="use_vote_up" id="use_vote_up">
-						<option value="Y" selected="selected"|cond="$document_config->use_vote_up=='Y'">{$lang->use}</option>
-						<option value="S" selected="selected"|cond="$document_config->use_vote_up=='S'">{$lang->use_and_display}</option>
-						<option value="N" selected="selected"|cond="$document_config->use_vote_up=='N'">{$lang->notuse}</option>
-					</select>
-				</td>
-			</tr>
-			<tr>    
-				<th scope="row"><label for="use_vote_down">{$lang->cmd_vote_down}</label></th>
-				<td class="text">
-					<select name="use_vote_down" id="use_vote_down">
-						<option value="Y" selected="selected"|cond="$document_config->use_vote_down=='Y'">{$lang->use}</option>
-						<option value="S" selected="selected"|cond="$document_config->use_vote_down=='S'">{$lang->use_and_display}</option>
-						<option value="N" selected="selected"|cond="$document_config->use_vote_down=='N'">{$lang->notuse}</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<tr>    
+			<th scope="row"><label for="use_history">{$lang->history}</label></th>
+			<td class="text">
+				<select name="use_history" id="use_history">
+					<option value="N" selected="selected"|cond="$document_config->use_history=='N'">{$lang->notuse}</option>
+					<option value="Y" selected="selected"|cond="$document_config->use_history=='Y'">{$lang->use}</option>
+					<option value="Trace" selected="selected"|cond="$document_config->use_history=='Trace'">{$lang->trace_only}</option>
+				</select>
+				<span class="desc">{$lang->about_use_history}</span>
+			</td>
+		</tr>
+		<tr>    
+			<th scope="row"><label for="use_vote_up">{$lang->cmd_vote}</label></th>
+			<td class="text">
+				<select name="use_vote_up" id="use_vote_up">
+					<option value="Y" selected="selected"|cond="$document_config->use_vote_up=='Y'">{$lang->use}</option>
+					<option value="S" selected="selected"|cond="$document_config->use_vote_up=='S'">{$lang->use_and_display}</option>
+					<option value="N" selected="selected"|cond="$document_config->use_vote_up=='N'">{$lang->notuse}</option>
+				</select>
+			</td>
+		</tr>
+		<tr>    
+			<th scope="row"><label for="use_vote_down">{$lang->cmd_vote_down}</label></th>
+			<td class="text">
+				<select name="use_vote_down" id="use_vote_down">
+					<option value="Y" selected="selected"|cond="$document_config->use_vote_down=='Y'">{$lang->use}</option>
+					<option value="S" selected="selected"|cond="$document_config->use_vote_down=='S'">{$lang->use_and_display}</option>
+					<option value="N" selected="selected"|cond="$document_config->use_vote_down=='N'">{$lang->notuse}</option>
+				</select>
+			</td>
+		</tr>
+	</table>
     <div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_save}"/></span>
 	</div>

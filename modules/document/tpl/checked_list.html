@@ -8,41 +8,39 @@
 <!--@if(count($document_list)==0)-->
 {$lang->msg_not_selected_document}
 <!--@else-->
-<div class="table">
-	<table width="100%" border="1" cellspacing="0">
-	<tr>
-		<th scope="row"><label for="textfield1">{$lang->checked_count} ({count($document_list)})</label></th>
-		<td>
-			<input type="checkbox" onclick="XE.checkboxToggleAll()" checked="checked"/> {$lang->cmd_select}
-			<ul class="document_list_box">
-				<!--@foreach($document_list as $key => $document)-->
-				<li class="document_list"><input type="checkbox" checked="checked" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this);"/> <address>{$document->getNickName()}</address> <span class="document_title">{$document->getTitle()}</span></li>
-				<!--@end-->
-			</ul>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->move_target_module}</th>
-		<td>
-			<input type="hidden" name="target_module" id="target_module" value="{$module_srl}" />
-			<input type="text" name="_target_module" id="_target_module" value="{$mid} ({$browser_title})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->category}</th>
-		<td>
-		  <select id="target_category" name="target_category">
-		  </select>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->cmd_send_message}</th>
-		<td>
-			<textarea name="message_content" rows="8" cols="42"></textarea>
-		</td>
-	</tr>
-	</table>
-</div>
+<table class="x_table x_table-striped x_table-hover">
+<tr>
+	<th scope="row"><label for="textfield1">{$lang->checked_count} ({count($document_list)})</label></th>
+	<td>
+		<input type="checkbox" onclick="XE.checkboxToggleAll()" checked="checked"/> {$lang->cmd_select}
+		<ul class="document_list_box">
+			<!--@foreach($document_list as $key => $document)-->
+			<li class="document_list"><input type="checkbox" checked="checked" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this);"/> <address>{$document->getNickName()}</address> <span class="document_title">{$document->getTitle()}</span></li>
+			<!--@end-->
+		</ul>
+	</td>
+</tr>
+<tr>
+	<th scope="row">{$lang->move_target_module}</th>
+	<td>
+		<input type="hidden" name="target_module" id="target_module" value="{$module_srl}" />
+		<input type="text" name="_target_module" id="_target_module" value="{$mid} ({$browser_title})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
+	</td>
+</tr>
+<tr>
+	<th scope="row">{$lang->category}</th>
+	<td>
+	  <select id="target_category" name="target_category">
+	  </select>
+	</td>
+</tr>
+<tr>
+	<th scope="row">{$lang->cmd_send_message}</th>
+	<td>
+		<textarea name="message_content" rows="8" cols="42"></textarea>
+	</td>
+</tr>
+</table>
 
 <div class="btnArea">
     <button type="button" onclick="doManageDocument('trash');">{$lang->cmd_trash}</button>

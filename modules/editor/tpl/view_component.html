@@ -3,74 +3,70 @@
 
 <h1 class="h1">{$component->title} ver. {$component->version}</h1>
 
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
-    <tr>
-        <th scope="row"><div>{$lang->component_author}</div></th>
-        <td>
-            <!--@foreach($component->author as $author)-->
-            {$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
-            <!--@end-->
-    </tr>
+<table class="x_table x_table-striped x_table-hover">
+<tr>
+	<th scope="row"><div>{$lang->component_author}</div></th>
+	<td>
+		<!--@foreach($component->author as $author)-->
+		{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
+		<!--@end-->
+</tr>
 <!--@if($component->homepage)-->
-    <tr>
-        <th scope="row"><div>{$lang->homepage}</div></th>
-        <td class="blue"><a href="{$component->homepage}" onclick="window.open(this.href);return false;">{$component->homepage}</a></td>
-    </tr><!--@end-->
-    <tr>
-        <th scope="row"><div>{$lang->regdate}</div></th>
-        <td>{zdate(str_replace('-',"",$component->date), 'Y-m-d')}</td>
-    </tr>
+<tr>
+	<th scope="row"><div>{$lang->homepage}</div></th>
+	<td class="blue"><a href="{$component->homepage}" onclick="window.open(this.href);return false;">{$component->homepage}</a></td>
+</tr><!--@end-->
+<tr>
+	<th scope="row"><div>{$lang->regdate}</div></th>
+	<td>{zdate(str_replace('-',"",$component->date), 'Y-m-d')}</td>
+</tr>
 <!--@if($component->license || $component->license_link)-->
-    <tr>
-        <th scope="row"><div>{$lang->component_license}</div></th>
-        <td>
-            {nl2br(trim($component->license))}
-        <!--@if($component->license_link)-->
-            <p><a href="{$component->license_link}" onclick="window.close(); return false;">{$component->license_link}</a></p>
-        <!--@end-->
-        </td>
-    </tr><!--@end-->
+<tr>
+	<th scope="row"><div>{$lang->component_license}</div></th>
+	<td>
+		{nl2br(trim($component->license))}
+	<!--@if($component->license_link)-->
+		<p><a href="{$component->license_link}" onclick="window.close(); return false;">{$component->license_link}</a></p>
+	<!--@end-->
+	</td>
+</tr><!--@end-->
 <!--@if($component->description)-->
-    <tr>
-        <th scope="row"><div>{$lang->component_description}</div></th>
-        <td>{nl2br(trim($component->description))}</td>
-    </tr><!--@end-->
-    </table>
-</div>
+<tr>
+	<th scope="row"><div>{$lang->component_description}</div></th>
+	<td>{nl2br(trim($component->description))}</td>
+</tr><!--@end-->
+</table>
 
 <!--@if($component->history)-->
 <h1 class="h1">{$lang->component_history}</h1>
 
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
-    <!--@foreach($component->history as $history)-->
-    <tr class="row{$cycle_idx}">
-        <th scope="row"><div>
-            {$history->version}<br />
-            {zdate($history->date, 'Y-m-d')}
-        </div></th>
-        <td >
-            <!--@foreach($history->author as $author)-->
-            <p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
-            <!--@endforeach-->
-            <!--@if($history->description)-->
-            <p>{nl2br(trim($history->description))}</p>
-            <!--@endif-->
-            <!--@if($history->logs)-->
-            <ul>
-                <!--@foreach($history->logs as $log)-->
-                <!--@if($log->link)-->
-                    <li><a href="{$log->link}" onclick="window.close(); return false;">{$log->text}</a></li>
-                <!--@else-->
-                    <li>{$log->text}</li>
-                <!--@endif-->
-                <!--@endforeach-->
-            </ul>
-            <!--@endif-->
-        </td>
-    </tr>
-    <!--@endforeach-->
-    </table>
-</div>
+<table class="x_table x_table-striped x_table-hover">
+<!--@foreach($component->history as $history)-->
+<tr class="row{$cycle_idx}">
+	<th scope="row"><div>
+		{$history->version}<br />
+		{zdate($history->date, 'Y-m-d')}
+	</div></th>
+	<td >
+		<!--@foreach($history->author as $author)-->
+		<p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
+		<!--@endforeach-->
+		<!--@if($history->description)-->
+		<p>{nl2br(trim($history->description))}</p>
+		<!--@endif-->
+		<!--@if($history->logs)-->
+		<ul>
+			<!--@foreach($history->logs as $log)-->
+			<!--@if($log->link)-->
+				<li><a href="{$log->link}" onclick="window.close(); return false;">{$log->text}</a></li>
+			<!--@else-->
+				<li>{$log->text}</li>
+			<!--@endif-->
+			<!--@endforeach-->
+		</ul>
+		<!--@endif-->
+	</td>
+</tr>
+<!--@endforeach-->
+</table>
 <!--@endif-->

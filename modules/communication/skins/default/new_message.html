@@ -1,23 +1,21 @@
 <load target="js/communication.js" />
 <!--@if($message)-->
 <h1 class="h1">{$lang->message_received}</h1>
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
-		<!--@if($message->member_srl != $logged_info->member_srl)-->
-		<tr>
-			<th scope="row">{$lang->sender}</th>
-			<td><a href="#popup_menu_area" class="member_{$message->member_srl}">{$message->nick_name}</a></td>
-		</tr>
-		<!--@end-->
-		<tr>
-			<th scope="row">{$lang->title}</th>
-			<td class="title">{htmlspecialchars($message->title)}</td>
-		</tr>
-		<tr>
-			<td colspan="2" class="xe_content">{$message->content}</td>
-		</tr>
-    </table>
-</div>
+<table class="x_table x_table-striped x_table-hover">
+	<!--@if($message->member_srl != $logged_info->member_srl)-->
+	<tr>
+		<th scope="row">{$lang->sender}</th>
+		<td><a href="#popup_menu_area" class="member_{$message->member_srl}">{$message->nick_name}</a></td>
+	</tr>
+	<!--@end-->
+	<tr>
+		<th scope="row">{$lang->title}</th>
+		<td class="title">{htmlspecialchars($message->title)}</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="xe_content">{$message->content}</td>
+	</tr>
+</table>
 <div class="btnArea">
     <span class="etc"><button type="button" onclick="location.href=location.href;return false;">{$lang->cmd_next}</button></span>
     <!--@if($message->member_srl != $logged_info->member_srl)-->

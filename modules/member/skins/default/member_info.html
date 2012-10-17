@@ -1,7 +1,7 @@
 <include target="./common_header.html" />
 <h1 class="h1">{$lang->member_info}</h1>
 <div class="table even">
-	<table width="100%" border="1" cellspacing="0">
+	<table class="x_table x_table-striped x_table-hover">
 		<tr loop="$displayDatas => $item">
 			<th scope="row" >{$item->title} <em cond="$item->required || $item->mustRequired">*</em></th>
 			<td class="text">{$item->value}</td>

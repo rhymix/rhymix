@@ -15,77 +15,73 @@
 	<input type="hidden" name="component" value="{$component_info->component_name}" />
 	<input type="hidden" name="method" value="insertPoll" />
 	<input type="hidden" name="poll_srl" value="" />
-    <div class="table">
-        <table width="100%" border="1" cellspacing="0">
-        <col width="100" />
-        <col />
-        <tr>
-            <th scope="row">{$lang->poll_stop_date}</th>
-            <td>
+	<table class="x_table x_table-striped x_table-hover">
+	<col width="100" />
+	<col />
+	<tr>
+		<th scope="row">{$lang->poll_stop_date}</th>
+		<td>
 
-            <input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*30)}" />
-            <input type="text" class="inputDate" value="{date('Y-m-d',time()+60*60*24*30)}" readonly="readonly" />
+		<input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*30)}" />
+		<input type="text" class="inputDate" value="{date('Y-m-d',time()+60*60*24*30)}" readonly="readonly" />
 <script>
 (function($){
-    $(function(){
-        var option = {
-            changeMonth:true,
-            changeYear:true,
-            gotoCurrent: false
-            ,yearRange:'-100:+10'
-            , onSelect:function(){
-                $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""));
-            }
-        };
-        $.extend(option,$.datepicker.regional['{$lang_type}']);
-        $(".inputDate").datepicker(option);
-    });
+$(function(){
+	var option = {
+		changeMonth:true,
+		changeYear:true,
+		gotoCurrent: false
+		,yearRange:'-100:+10'
+		, onSelect:function(){
+			$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""));
+		}
+	};
+	$.extend(option,$.datepicker.regional['{$lang_type}']);
+	$(".inputDate").datepicker(option);
+});
 })(jQuery);
 </script>
 
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang->skin}</th>
-            <td>
-                <select name="skin">
-                    <!--@foreach($skin_list as $skin=>$skin_info)-->
-                    <option value="{$skin}">{$skin_info->title} (skin by {$skin_info->maker->name})</option>
-                    <!--@end-->
-                </select>
-            </td>
-        </tr>
-        </table>
-        <div id="poll_source" style="display:none">
-			<div class="table">
-				<table width="100%" border="1" cellspacing="0">
-					<col width="100" />
-					<col />
-					<tr>
-						<th scope="row"><div><label>{$lang->poll_chk_count}</label></div></th>
-						<td><input type="text" name="checkcount_tidx" value="1" size="1"  /></td>
-					</tr>
-					<tr>
-						<th scope="row"><div>{$lang->poll_title}</div></th>
-						<td><input type="text" name="title_tidx" /></td>
-					</tr>
-					
-					<tr>
-						<th scope="row"><div>{$lang->poll_item} 1</div></th>
-						<td><input type="text" name="item_tidx_1" /></td>
-					</tr>
-					
-					<tr>
-						<th scope="row"><div>{$lang->poll_item} 2</div></th>
-						<td><input type="text" name="item_tidx_2" /></td>
-					</tr>
-				</table>
-			</div>
-			<button type="button" class="_add_item">{$lang->cmd_add_item}</button>
-			<button type="button" class="_del_item">{$lang->cmd_del_item}</button>
-			<button type="button" class="_del_poll">{$lang->cmd_del_poll}</button>
-        </div>
-    </div>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">{$lang->skin}</th>
+		<td>
+			<select name="skin">
+				<!--@foreach($skin_list as $skin=>$skin_info)-->
+				<option value="{$skin}">{$skin_info->title} (skin by {$skin_info->maker->name})</option>
+				<!--@end-->
+			</select>
+		</td>
+	</tr>
+	</table>
+	<div id="poll_source" style="display:none">
+		<table class="x_table x_table-striped x_table-hover">
+			<col width="100" />
+			<col />
+			<tr>
+				<th scope="row"><div><label>{$lang->poll_chk_count}</label></div></th>
+				<td><input type="text" name="checkcount_tidx" value="1" size="1"  /></td>
+			</tr>
+			<tr>
+				<th scope="row"><div>{$lang->poll_title}</div></th>
+				<td><input type="text" name="title_tidx" /></td>
+			</tr>
+			
+			<tr>
+				<th scope="row"><div>{$lang->poll_item} 1</div></th>
+				<td><input type="text" name="item_tidx_1" /></td>
+			</tr>
+			
+			<tr>
+				<th scope="row"><div>{$lang->poll_item} 2</div></th>
+				<td><input type="text" name="item_tidx_2" /></td>
+			</tr>
+		</table>
+		<button type="button" class="_add_item">{$lang->cmd_add_item}</button>
+		<button type="button" class="_del_item">{$lang->cmd_del_item}</button>
+		<button type="button" class="_del_poll">{$lang->cmd_del_poll}</button>
+	</div>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_submit}" /></span>
 		<span class="btn"><button type="button" id="add_poll">{$lang->cmd_add_poll}</button></span>

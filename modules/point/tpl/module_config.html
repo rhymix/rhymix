@@ -6,34 +6,32 @@
 <form action="./" method="post" id="fo_point">
 	<input type="hidden" name="module" value="point" />
 	<input type="hidden" name="act" value="procPointAdminInsertModuleConfig" />
-	<div class="table">
-		<table class="x_table x_table-striped x_table-hover">
-			<thead>
-				<tr>
-					<th scope="col">{$lang->module}</th>
-					<th scope="col">{$lang->point_insert_document}</th>
-					<th scope="col">{$lang->point_insert_comment}</th>
-					<th scope="col">{$lang->point_upload_file}</th>
-					<th scope="col">{$lang->point_download_file}</th>
-					<th scope="col">{$lang->point_read_document}</th>
-					<th scope="col">{$lang->point_voted}</th>
-					<th scope="col">{$lang->point_blamed}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr loop="$mid_list => $key,$val">
-					<th scope="row">{$val->browser_title}({$val->mid})</th>
-					<td><input type="text" style="width:30px;text-align:right" name="insert_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_document']}" /> {$config->point_name}</td>
-					<td><input type="text" style="width:30px;text-align:right" name="insert_comment_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_comment']}" /> {$config->point_name}</td>
-					<td><input type="text" style="width:30px;text-align:right" name="upload_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['upload_file']}" /> {$config->point_name}</td>
-					<td><input type="text" style="width:30px;text-align:right" name="download_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['download_file']}" /> {$config->point_name}</td>
-					<td><input type="text" style="width:30px;text-align:right" name="read_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['read_document']}" /> {$config->point_name}</td>
-					<td><input type="text" style="width:30px;text-align:right" name="voted_{$val->module_srl}" value="{$module_config[$val->module_srl]['voted']}" /> {$config->point_name}</td>
-					<td><input type="text" style="width:30px;text-align:right" name="blamed_{$val->module_srl}" value="{$module_config[$val->module_srl]['blamed']}" /> {$config->point_name}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<thead>
+			<tr>
+				<th scope="col">{$lang->module}</th>
+				<th scope="col">{$lang->point_insert_document}</th>
+				<th scope="col">{$lang->point_insert_comment}</th>
+				<th scope="col">{$lang->point_upload_file}</th>
+				<th scope="col">{$lang->point_download_file}</th>
+				<th scope="col">{$lang->point_read_document}</th>
+				<th scope="col">{$lang->point_voted}</th>
+				<th scope="col">{$lang->point_blamed}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$mid_list => $key,$val">
+				<th scope="row">{$val->browser_title}({$val->mid})</th>
+				<td><input type="text" style="width:30px;text-align:right" name="insert_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_document']}" /> {$config->point_name}</td>
+				<td><input type="text" style="width:30px;text-align:right" name="insert_comment_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_comment']}" /> {$config->point_name}</td>
+				<td><input type="text" style="width:30px;text-align:right" name="upload_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['upload_file']}" /> {$config->point_name}</td>
+				<td><input type="text" style="width:30px;text-align:right" name="download_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['download_file']}" /> {$config->point_name}</td>
+				<td><input type="text" style="width:30px;text-align:right" name="read_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['read_document']}" /> {$config->point_name}</td>
+				<td><input type="text" style="width:30px;text-align:right" name="voted_{$val->module_srl}" value="{$module_config[$val->module_srl]['voted']}" /> {$config->point_name}</td>
+				<td><input type="text" style="width:30px;text-align:right" name="blamed_{$val->module_srl}" value="{$module_config[$val->module_srl]['blamed']}" /> {$config->point_name}</td>
+			</tr>
+		</tbody>
+	</table>
     <div class="x_clearfix">
 		<span class="x_pull-right"><input class="x_btn x_btn-large x_btn-primary" type="submit" value="{$lang->cmd_registration}" /></span>
 	</div>

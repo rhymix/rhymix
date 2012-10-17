@@ -6,26 +6,24 @@
 	<input type="hidden" name="vid" value="{$vid}" />
 	<input type="hidden" name="filter" value="{$filter}" />
 	<input type="hidden" name="input" value="{$input}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tbody>
-				<tr>
-					<th>{$lang->description}</th>
-					<td><input type="text" name="comment" /></td>
-					</tr>
-				<tr>
-					<th>{$lang->file}</th>
-					<td><input type="file" name="addfile" />
-						<p>
-							<!--@if($arrfilter && is_array($arrfilter))-->
-							{@sprintf($lang->about_file_extension,join(", ",$arrfilter ))}
-							<!--@end-->
-							</p>
-						</td>
-					</tr>
-				</tbody>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<tbody>
+			<tr>
+				<th>{$lang->description}</th>
+				<td><input type="text" name="comment" /></td>
+				</tr>
+			<tr>
+				<th>{$lang->file}</th>
+				<td><input type="file" name="addfile" />
+					<p>
+						<!--@if($arrfilter && is_array($arrfilter))-->
+						{@sprintf($lang->about_file_extension,join(", ",$arrfilter ))}
+						<!--@end-->
+						</p>
+					</td>
+				</tr>
+			</tbody>
+	</table>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_submit}" /></span>
 	</div>

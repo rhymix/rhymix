@@ -7,31 +7,29 @@
 <form ruleset="insertConfig" action="./" method="post" id="fo_poll">
 <input type="hidden" name="module" value="poll" />
 <input type="hidden" name="act" value="procPollAdminInsertConfig" />
-<div class="table">
-	<table width="100%" border="1" cellspacing="0">
-		<tr>
-			<th scope="col">{$lang->skin}</th>
-			<td>
-				<select name="skin" onchange="doDisplaySkinColorset(this);return false;">
-					<!--@foreach($skin_list as $key => $val)-->
-					<option value="{$key}" <!--@if($config->skin == $key)-->selected="selected"<!--@end-->>{$val->title} ({htmlspecialchars($key)})</option>
-					<!--@end-->
-					</select>
-				</td>
-			</tr>
-		<tr>
-			<th scope="col">{$lang->colorset}</th>
-			<td>
-				<select name="colorset" id="poll_colorset">
-					<!--@foreach($colorset_list as $key => $val)-->
-					<option value="{$val->name}" <!--@if($config->colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title} ({$val->name})</option>
-					<!--@end-->
-					</select>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<table class="x_table x_table-striped x_table-hover">
+	<tr>
+		<th scope="col">{$lang->skin}</th>
+		<td>
+			<select name="skin" onchange="doDisplaySkinColorset(this);return false;">
+				<!--@foreach($skin_list as $key => $val)-->
+				<option value="{$key}" <!--@if($config->skin == $key)-->selected="selected"<!--@end-->>{$val->title} ({htmlspecialchars($key)})</option>
+				<!--@end-->
+				</select>
+			</td>
+		</tr>
+	<tr>
+		<th scope="col">{$lang->colorset}</th>
+		<td>
+			<select name="colorset" id="poll_colorset">
+				<!--@foreach($colorset_list as $key => $val)-->
+				<option value="{$val->name}" <!--@if($config->colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title} ({$val->name})</option>
+				<!--@end-->
+				</select>
+			</td>
+		</tr>
+	</tbody>
+</table>
 <div class="btnArea">
 	<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
 </div>

@@ -11,18 +11,16 @@
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
     <h3 class="h3">{$lang->confirm_delete}</h3>
 	<p>{$lang->page_delete_warning}</p>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row">{$lang->module_name}</th>
-				<td >{$module_info->mid}</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->module}</th>
-				<td>{$module_info->module}</td>
-			</tr>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<tr>
+			<th scope="row">{$lang->module_name}</th>
+			<td >{$module_info->mid}</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->module}</th>
+			<td>{$module_info->module}</td>
+		</tr>
+	</table>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_delete}" /></span>
 		<span class="btn"><a href="{getUrl('act','dispPageAdminContent')}">{$lang->cmd_back}</a></span>

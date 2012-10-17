@@ -6,90 +6,88 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="" class="form" method="post">
+<form action="" method="post">
 	<div class="x_page-header">
-	<h1>{$lang->user_list}</h1>
+		<h1>{$lang->user_list}</h1>
 	</div>
-	<div>
-		<div class="cnb">
-			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}</a>
-			<i>|</i>
-			<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}</a>
-			<i>|</i>
-			<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}</a>
-			<i>|</i>
-			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}</a>
-		</div>
-		<div class="x_clearfix" style="margin-bottom:-48px">
+	<p>
+		<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}</a>
+		<i>|</i>
+		<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}</a>
+		<i>|</i>
+		<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}</a>
+		<i>|</i>
+		<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}</a>
+	</p>
+	<div class="x_clearfix" style="margin-bottom:-48px">
 		<div class="x_pull-right x_btn-group">
 			<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
 			<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
 		</div>
-		</div>
-		<table class="_memberList x_table x_table-striped x_table-hover">
-			<caption>{$filter_type_title}({$total_count})</caption>
-			<thead>
-				<tr>
-					<th scope="col" class="nowr">{$lang->email}</th>
-					<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-					<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-					<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-					<th scope="col">{$lang->member_group}</th>
-					<th scope="col" class="nowr">{$lang->status}</th>
-					<th scope="col" class="nowr">{$lang->cmd_view}</th>
-					<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
-					<th scope="col">
-						<input type="checkbox" title="Check All" data-name="user" />
-					</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<th scope="col" class="nowr">{$lang->email}</th>
-					<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-					<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-					<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-					<th scope="col">{$lang->member_group}</th>
-					<th scope="col" class="nowr">{$lang->status}</th>
-					<th scope="col class="nowr"">{$lang->cmd_view}</th>
-					<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
-					<th scope="col">
-						<input type="checkbox" title="Check All" data-name="user" />
-					</th>
-				</tr>
-			</tfoot>
-			<tbody>
-				<tr loop="$member_list=>$no,$member_info">
+	</div>
+	<table class="_memberList x_table x_table-striped x_table-hover">
+		<caption>{$filter_type_title}({$total_count})</caption>
+		<thead>
+			<tr>
+				<th scope="col" class="nowr">{$lang->email}</th>
+				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
+				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col">{$lang->member_group}</th>
+				<th scope="col" class="nowr">{$lang->status}</th>
+				<th scope="col" class="nowr">{$lang->cmd_view}</th>
+				<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
+				<th scope="col">
+					<input type="checkbox" title="Check All" data-name="user" />
+				</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th scope="col" class="nowr">{$lang->email}</th>
+				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
+				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col">{$lang->member_group}</th>
+				<th scope="col" class="nowr">{$lang->status}</th>
+				<th scope="col class="nowr"">{$lang->cmd_view}</th>
+				<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
+				<th scope="col">
+					<input type="checkbox" title="Check All" data-name="user" />
+				</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			<tr loop="$member_list=>$no,$member_info">
 {@$member_info = get_object_vars($member_info)}
-					<td class="nowr">
-						<a href="#popup_menu_area" class="cMenu member_{$member_info['member_srl']}">Info</a>
-						<span class="masked">{getEncodeEmailAddress($member_info['email_address'])}</span>
-					</td>
-					{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
-					<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
-					<td class="nowr">{zdate($member_info['regdate'], 'Y-m-d')}</td>
-					<td class="nowr">{zdate($member_info['last_login'], 'Y-m-d')}</td>
-					<td>{$member_info['group_list']}&nbsp;</td>
-					{@ $lang_denied = ($member_info['denied'] == 'N')?$lang->approval:$lang->denied}
-					<td class="nowr">{$lang_denied}</td>
-					<td class="nowr">
-						<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_view}</a>
-					</td>
-					<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_modify}...</a></td>
-					{@$used_values = ''}
-					<!--@foreach($usedIdentifiers as $name=>$title)-->
-						{@$used_values .= "\t".$member_info[$name]}
-					<!--@end-->
-					<td><input type="checkbox" name="user" value="{$member_info['member_srl']."\t".$member_info['email_address'].$used_values."\t".$member_info['group_list']."\t".$lang_denied}" disabled="disabled"|cond="$member_info['is_admin'] == 'Y'"/></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+				<td class="nowr">
+					<a href="#popup_menu_area" class="cMenu member_{$member_info['member_srl']}">Info</a>
+					<span class="masked">{getEncodeEmailAddress($member_info['email_address'])}</span>
+				</td>
+				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
+				<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
+				<td class="nowr">{zdate($member_info['regdate'], 'Y-m-d')}</td>
+				<td class="nowr">{zdate($member_info['last_login'], 'Y-m-d')}</td>
+				<td>{$member_info['group_list']}&nbsp;</td>
+				{@ $lang_denied = ($member_info['denied'] == 'N')?$lang->approval:$lang->denied}
+				<td class="nowr">{$lang_denied}</td>
+				<td class="nowr">
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_view}</a>
+				</td>
+				<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_modify}...</a></td>
+				{@$used_values = ''}
+				<!--@foreach($usedIdentifiers as $name=>$title)-->
+					{@$used_values .= "\t".$member_info[$name]}
+				<!--@end-->
+				<td><input type="checkbox" name="user" value="{$member_info['member_srl']."\t".$member_info['email_address'].$used_values."\t".$member_info['group_list']."\t".$lang_denied}" disabled="disabled"|cond="$member_info['is_admin'] == 'Y'"/></td>
+			</tr>
+		</tbody>
+	</table>
 	<div class="x_clearfix">
-	<div class="x_pull-right x_btn-group">
-		<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
-		<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
-	</div>
+		<div class="x_pull-right x_btn-group">
+			<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
+			<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
+		</div>
 	</div>
 </form>
 <div class="x_modal" id="listManager">

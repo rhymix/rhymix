@@ -1,85 +1,81 @@
 <load target="../../admin/tpl/css/admin.css" usecdn="true" />
 <h1 class="h1">{$skin_info->title}</h1>
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
-    <col width="100" />
-    <col />
-    <tr>
-        <th scope="row"><label for="textfield1">{$lang->title}</label></th>
-        <td>{$skin_info->title}</td>
-    </tr>
-    <tr>
-        <th scope="row"><label for="textfield2">{$lang->author}</label></th>
-        <td class="blue">
-            <!--@foreach($skin_info->author as $author)-->
-            {$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
-            <!--@endforeach-->
-        </td>
-    </tr>
-    <!--@if($skin_info->homepage)-->
-    <tr>
-        <th scope="row"><label for="textfield2">{$lang->homepage}</label></th>
-        <td class="blue"><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a></td>
-    </tr>
-    <!--@endif-->
-    <tr>
-        <th scope="row"><label for="textfield2">{$lang->regdate}</label></th>
-        <td>{zdate($skin_info->date, 'Y-m-d')}</td>
-    </tr>
-    <!--@if($skin_info->license || $skin_info->license_link)-->
-    <tr>
-        <th scope="row">{$lang->skin_license}</th>
-        <td>
-            {nl2br(trim($skin_info->license))}
-        <!--@if($skin_info->license_link)-->
-            <p><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
-        <!--@end-->
-        </td>
-    </tr>
-    <!--@end-->
-    <!--@if($skin_info->description)-->
-    <tr>
-        <th scope="row" class="borderBottomNone">{$lang->description}</th>
-        <td class="borderBottomNone">{nl2br(trim($skin_info->description))}</td>
-    </tr>
-    <!--@end-->
-    </table>
-</div>
+<table class="x_table x_table-striped x_table-hover">
+<col width="100" />
+<col />
+<tr>
+	<th scope="row"><label for="textfield1">{$lang->title}</label></th>
+	<td>{$skin_info->title}</td>
+</tr>
+<tr>
+	<th scope="row"><label for="textfield2">{$lang->author}</label></th>
+	<td class="blue">
+		<!--@foreach($skin_info->author as $author)-->
+		{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
+		<!--@endforeach-->
+	</td>
+</tr>
+<!--@if($skin_info->homepage)-->
+<tr>
+	<th scope="row"><label for="textfield2">{$lang->homepage}</label></th>
+	<td class="blue"><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a></td>
+</tr>
+<!--@endif-->
+<tr>
+	<th scope="row"><label for="textfield2">{$lang->regdate}</label></th>
+	<td>{zdate($skin_info->date, 'Y-m-d')}</td>
+</tr>
+<!--@if($skin_info->license || $skin_info->license_link)-->
+<tr>
+	<th scope="row">{$lang->skin_license}</th>
+	<td>
+		{nl2br(trim($skin_info->license))}
+	<!--@if($skin_info->license_link)-->
+		<p><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
+	<!--@end-->
+	</td>
+</tr>
+<!--@end-->
+<!--@if($skin_info->description)-->
+<tr>
+	<th scope="row" class="borderBottomNone">{$lang->description}</th>
+	<td class="borderBottomNone">{nl2br(trim($skin_info->description))}</td>
+</tr>
+<!--@end-->
+</table>
 
 <!--@if($skin_info->history)-->
 <h1 class="h1">{$lang->skin_history}</h1>
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
-    <col width="100" />
-    <col />
+<table class="x_table x_table-striped x_table-hover">
+<col width="100" />
+<col />
 
-    <!--@foreach($skin_info->history as $history)-->
-    <tr>
-        <th scope="row">
-            {$history->version}<br />
-            {$history->date}
-        </th>
-        <td>
-            <!--@foreach($history->author as $author)-->
-            <p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
-            <!--@endforeach-->
-            <!--@if($history->description)-->
-            <p>{nl2br(trim($history->description))}</p>
-            <!--@endif-->
-            <!--@if($history->logs)-->
-            <ul>
-                <!--@foreach($history->logs as $log)-->
-                <!--@if($log->link)-->
-                <li><a href="{$log->link}">{$log->text}</a></li>
-                <!--@else-->
-                <li>{$log->text}</li>
-                <!--@endif-->
-                <!--@endforeach-->
-            </ul>
-            <!--@endif-->
-        </td>
-    </tr>
-    <!--@endforeach-->
-    </table>
-</div>
+<!--@foreach($skin_info->history as $history)-->
+<tr>
+	<th scope="row">
+		{$history->version}<br />
+		{$history->date}
+	</th>
+	<td>
+		<!--@foreach($history->author as $author)-->
+		<p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
+		<!--@endforeach-->
+		<!--@if($history->description)-->
+		<p>{nl2br(trim($history->description))}</p>
+		<!--@endif-->
+		<!--@if($history->logs)-->
+		<ul>
+			<!--@foreach($history->logs as $log)-->
+			<!--@if($log->link)-->
+			<li><a href="{$log->link}">{$log->text}</a></li>
+			<!--@else-->
+			<li>{$log->text}</li>
+			<!--@endif-->
+			<!--@endforeach-->
+		</ul>
+		<!--@endif-->
+	</td>
+</tr>
+<!--@endforeach-->
+</table>
 <!--@endif-->

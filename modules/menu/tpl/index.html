@@ -9,32 +9,30 @@
 </form>
 
 <!-- 목록 -->
-<div class="table">
-	<table width="100%" border="1" cellspacing="0">
-		<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-		<thead>
-			<tr>
-				<th scope="col">{$lang->no}</th>
-				<th scope="col" >{$lang->title}</th>
-				<th scope="col">{$lang->regdate}</th>
-				<th scope="col">&nbsp;</th>
-			</tr>
-		</thead>
-		<tbody>
-			<!--@foreach($menu_list as $no => $val)-->
-			<tr class="row{$cycle_idx}">
-				<td>{$no}</td>
-				<td >{$val->title}</td>
-				<td>{zdate($val->regdate,"Y-m-d")}</td>
-				<td>
-					<a href="{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}">{$lang->cmd_setup}</a>
-					<button type="button" onclick="doDeleteMenu('{$val->menu_srl}');return false;" title="{$lang->cmd_delete}" class="text">{$lang->cmd_delete}</button>
-				</td>
-			</tr>
-			<!--@end-->
-		</tbody>
-	</table>
-</div>
+<table class="x_table x_table-striped x_table-hover">
+	<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+	<thead>
+		<tr>
+			<th scope="col">{$lang->no}</th>
+			<th scope="col" >{$lang->title}</th>
+			<th scope="col">{$lang->regdate}</th>
+			<th scope="col">&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!--@foreach($menu_list as $no => $val)-->
+		<tr class="row{$cycle_idx}">
+			<td>{$no}</td>
+			<td >{$val->title}</td>
+			<td>{zdate($val->regdate,"Y-m-d")}</td>
+			<td>
+				<a href="{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}">{$lang->cmd_setup}</a>
+				<button type="button" onclick="doDeleteMenu('{$val->menu_srl}');return false;" title="{$lang->cmd_delete}" class="text">{$lang->cmd_delete}</button>
+			</td>
+		</tr>
+		<!--@end-->
+	</tbody>
+</table>
 <div class="btnArea">
 	<span class="btn"><a href="{getUrl('act','dispMenuAdminInsert','module_srl','')}">{$lang->cmd_make}</a></span>
 </div>

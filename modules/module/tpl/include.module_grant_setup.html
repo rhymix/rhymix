@@ -10,38 +10,36 @@
 	<input type="hidden" name="module_srls" value="{$module_srls}" />
     <h3 class="h3">{$lang->permission_setting}</h3>
     <p>{$lang->about_grant_deatil}</p>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<thead>
-				<tr>
-					<th scope="col">{$lang->grant}</th>
-					<th scope="col" colspan="3">{$lang->target}</th>
-				</tr>
-				</thead>
+	<table class="x_table x_table-striped x_table-hover">
+		<thead>
+			<tr>
+				<th scope="col">{$lang->grant}</th>
+				<th scope="col" colspan="3">{$lang->target}</th>
+			</tr>
+			</thead>
 
-			<tbody>
-				<!--@foreach($grant_list as $grant_name => $grant_item)-->
-				<tr class="row{$cycle_idx}">
-					<th scope="row">{$grant_item->title}</th>
-					<td >
-						<select name="{$grant_name}_default" class="grant_default">
-							<!--@if($grant_item->default == 'guest')--><option value="0">{$lang->grant_to_all}</option><!--@end-->
-							<!--@if($grant_item->default != 'manager')--><option value="-1">{$lang->grant_to_login_user}</option><!--@end-->
-							<!--@if($grant_item->default != 'manager')--><option value="-2" <!--@if($default_grant[$grant_name]=='site')-->selected="selected"<!--@end-->>{$lang->grant_to_site_user}</option><!--@end-->
-							<option value="">{$lang->grant_to_group}</option>
-						</select>
-						<div id="zone_{$grant_name}" style="display:none">
-							<!--@foreach($group_list as $group_srl => $group_item)-->
-							<input type="checkbox" class="checkbox" name="{$grant_name}[]" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" />
-							<label for="grant_{$grant_name}_{$group_srl}">{$group_item->title}</label>
-							<!--@end-->
-						</div>
-					</td>
-				</tr>
-				<!--@end-->
-				</tbody>
-		</table>
-	</div>
+		<tbody>
+			<!--@foreach($grant_list as $grant_name => $grant_item)-->
+			<tr class="row{$cycle_idx}">
+				<th scope="row">{$grant_item->title}</th>
+				<td >
+					<select name="{$grant_name}_default" class="grant_default">
+						<!--@if($grant_item->default == 'guest')--><option value="0">{$lang->grant_to_all}</option><!--@end-->
+						<!--@if($grant_item->default != 'manager')--><option value="-1">{$lang->grant_to_login_user}</option><!--@end-->
+						<!--@if($grant_item->default != 'manager')--><option value="-2" <!--@if($default_grant[$grant_name]=='site')-->selected="selected"<!--@end-->>{$lang->grant_to_site_user}</option><!--@end-->
+						<option value="">{$lang->grant_to_group}</option>
+					</select>
+					<div id="zone_{$grant_name}" style="display:none">
+						<!--@foreach($group_list as $group_srl => $group_item)-->
+						<input type="checkbox" class="checkbox" name="{$grant_name}[]" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" />
+						<label for="grant_{$grant_name}_{$group_srl}">{$group_item->title}</label>
+						<!--@end-->
+					</div>
+				</td>
+			</tr>
+			<!--@end-->
+			</tbody>
+	</table>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
 	</div>

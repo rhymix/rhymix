@@ -3,8 +3,7 @@
 <form action="./" method="post">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="act" value="procDocumentAdminInsertConfig" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
+	<table class="x_table x_table-striped x_table-hover">
 		<tr>
 			<th scope="col">{$lang->thumbnail_type}</th>
 		</tr>
@@ -14,8 +13,7 @@
 				<input type="radio" name="thumbnail_type" value="ratio" <!--@if($config->thumbnail_type == 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_ratio}
 			</td>
 		</tr>
-		</table>
-	</div>
+	</table>
     <div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
 		<span class="btn"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span>

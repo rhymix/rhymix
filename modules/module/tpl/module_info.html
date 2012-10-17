@@ -1,82 +1,78 @@
 <h1 class="h1">{$lang->module_maker}</h1>
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
-    <tr>
-        <th scope="row">{$lang->title}</th>
-        <td>{$module_info->title} ver {$module_info->version}</td>
-    </tr>
-    <tr>
-        <th scope="row">{$lang->author}</th>
-        <td class="blue">
-            <!--@foreach($module_info->author as $author)-->
-            {$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
-            <!--@endforeach-->
-        </td>
-    </tr>
-    <!--@if($module_info->homepage)-->
-    <tr>
-        <th scope="row">{$lang->homepage}</th>
-        <td class="blue"><a href="{$module_info->homepage}" onclick="window.open(this.href);return false;">{$module_info->homepage}</a></td>
-    </tr>
-    <!--@endif-->
-    <tr>
-        <th scope="row">{$lang->regdate}</th>
-        <td>{zdate($module_info->date, 'Y-m-d')}</td>
-    </tr>
-    <!--@if($module_info->license || $module_info->license_link)-->
-    <tr>
-        <th scope="row">{$lang->module_license}</th>
-        <td>
-            {nl2br(trim($module_info->license))}
-        <!--@if($module_info->license_link)-->
-            <p><a href="{$module_info->license_link}" onclick="window.close(); return false;">{$module_info->license_link}</a></p>
-        <!--@end-->
-        </td>
-    </tr>
-    <!--@endif--><!--@if($module_info->description)-->
-    <tr>
-        <th scope="row">{$lang->description}</th>
-        <td>{nl2br(trim($module_info->description))}</td>
-    </tr>
-    <!--@endif-->
-    </table>
-</div>
+<table class="x_table x_table-striped x_table-hover">
+<tr>
+	<th scope="row">{$lang->title}</th>
+	<td>{$module_info->title} ver {$module_info->version}</td>
+</tr>
+<tr>
+	<th scope="row">{$lang->author}</th>
+	<td class="blue">
+		<!--@foreach($module_info->author as $author)-->
+		{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
+		<!--@endforeach-->
+	</td>
+</tr>
+<!--@if($module_info->homepage)-->
+<tr>
+	<th scope="row">{$lang->homepage}</th>
+	<td class="blue"><a href="{$module_info->homepage}" onclick="window.open(this.href);return false;">{$module_info->homepage}</a></td>
+</tr>
+<!--@endif-->
+<tr>
+	<th scope="row">{$lang->regdate}</th>
+	<td>{zdate($module_info->date, 'Y-m-d')}</td>
+</tr>
+<!--@if($module_info->license || $module_info->license_link)-->
+<tr>
+	<th scope="row">{$lang->module_license}</th>
+	<td>
+		{nl2br(trim($module_info->license))}
+	<!--@if($module_info->license_link)-->
+		<p><a href="{$module_info->license_link}" onclick="window.close(); return false;">{$module_info->license_link}</a></p>
+	<!--@end-->
+	</td>
+</tr>
+<!--@endif--><!--@if($module_info->description)-->
+<tr>
+	<th scope="row">{$lang->description}</th>
+	<td>{nl2br(trim($module_info->description))}</td>
+</tr>
+<!--@endif-->
+</table>
 
 <!--@if($module_info->history)-->
 <h1 class="h1">{$lang->module_history}</h1>
 
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
-    <col width="100" />
-    <col />
+<table class="x_table x_table-striped x_table-hover">
+<col width="100" />
+<col />
 
-    <!--@foreach($module_info->history as $history)-->
-    <tr>
-        <th scope="row">
-            {$history->version}<br />
-            {$history->date}
-        </th>
-        <td>
-            <!--@foreach($history->author as $author)-->
-            <p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
-            <!--@endforeach-->
-            <!--@if($addon_info->description)-->
-            <p>{nl2br(trim($history->description))}</p>
-            <!--@endif-->
-            <!--@if($history->logs)-->
-            <ul>
-                <!--@foreach($history->logs as $log)-->
-                <!--@if($log->link)-->
-                <li><a href="{$log->text}" onclick="window.open(this.href);return false;">{$log->text}</a></li>
-                <!--@else-->
-                <li>{$log->text}</li>
-                <!--@endif-->
-                <!--@endforeach-->
-            </ul>
-            <!--@endif-->
-        </td>
-    </tr>
-    <!--@endforeach-->
-    </table>
-</div>
+<!--@foreach($module_info->history as $history)-->
+<tr>
+	<th scope="row">
+		{$history->version}<br />
+		{$history->date}
+	</th>
+	<td>
+		<!--@foreach($history->author as $author)-->
+		<p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
+		<!--@endforeach-->
+		<!--@if($addon_info->description)-->
+		<p>{nl2br(trim($history->description))}</p>
+		<!--@endif-->
+		<!--@if($history->logs)-->
+		<ul>
+			<!--@foreach($history->logs as $log)-->
+			<!--@if($log->link)-->
+			<li><a href="{$log->text}" onclick="window.open(this.href);return false;">{$log->text}</a></li>
+			<!--@else-->
+			<li>{$log->text}</li>
+			<!--@endif-->
+			<!--@endforeach-->
+		</ul>
+		<!--@endif-->
+	</td>
+</tr>
+<!--@endforeach-->
+</table>
 <!--@endif-->

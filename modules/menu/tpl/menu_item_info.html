@@ -7,8 +7,7 @@
 	<h3 class="h3">{$lang->menu}</h3>
 	<button type="button" onclick="hideCategoryInfo();return false" >{$lang->cmd_close}</button>
 	<div class="layerBody">
-		<div class="table">
-		<table width="100%" border="1" cellspacing="0">
+		<table class="x_table x_table-striped x_table-hover">
 			<!--@if($item_info->parent_menu_name)-->
 			<tr class="row{$cycle_idx}">
 				<th scope="row">{$lang->parent_menu_name}</th>
@@ -101,7 +100,6 @@
 				</td>
 			</tr>
 		</table>
-		</div>
 		<div class="btnArea"> 
 			<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
 		</div>

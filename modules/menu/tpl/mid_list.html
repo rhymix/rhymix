@@ -17,33 +17,31 @@
 		<!--@end-->
 	</select>
 	<input type="submit" name="go_button" id="go_button" value="GO" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<thead>
-				<tr>
-					<th scope="row">{$lang->module_category}</th>
-					<th scope="row">{$lang->module}</th>
-					<th scope="row" >{$lang->mid}</th>
-					<th scope="row">{$lang->cmd_select}</th>
-					</tr>
-				</thead>
-			<tbody>
-				
-				<!--@foreach($mid_list as $key => $val)-->
-				<tr>
-					<td>
-						<!--@if(!$val->module_category_srl)-->
-						{$lang->not_exists}
-						<!--@else-->
-						{$module_category[$val->module_category_srl]->title}
-						<!--@end-->
-						</td>
-					<td>{$val->module}</td>
-					<td>{$val->browser_title} ({$key})</td>
-					<td><button type="button" onclick="doInsertMid('{$key}','{$menu_id}'); return false;">{$lang->cmd_select}</button></td>
-					</tr>
-				<!--@end-->
-				</tbody>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<thead>
+			<tr>
+				<th scope="row">{$lang->module_category}</th>
+				<th scope="row">{$lang->module}</th>
+				<th scope="row" >{$lang->mid}</th>
+				<th scope="row">{$lang->cmd_select}</th>
+				</tr>
+			</thead>
+		<tbody>
+			
+			<!--@foreach($mid_list as $key => $val)-->
+			<tr>
+				<td>
+					<!--@if(!$val->module_category_srl)-->
+					{$lang->not_exists}
+					<!--@else-->
+					{$module_category[$val->module_category_srl]->title}
+					<!--@end-->
+					</td>
+				<td>{$val->module}</td>
+				<td>{$val->browser_title} ({$key})</td>
+				<td><button type="button" onclick="doInsertMid('{$key}','{$menu_id}'); return false;">{$lang->cmd_select}</button></td>
+				</tr>
+			<!--@end-->
+			</tbody>
+	</table>
 </form>

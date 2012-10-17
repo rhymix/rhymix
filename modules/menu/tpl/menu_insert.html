@@ -7,21 +7,19 @@
 <form ruleset="insertMenu" action="./" method="post">
 <input type="hidden" name="module" value="menu" />
 <input type="hidden" name="act" value="procMenuAdminInsert" />
-<div class="table">
-	<table width="100%" border="1" cellspacing="0">
-		<tr>
-			<th scope="col">{$lang->cmd_menu_insert}</th>
-			<td>{nl2br($lang->about_menu_management)}</td>
-		</tr>
-		<tr>
-			<th scope="col">{$lang->title}</th>
-			<td>
-				<input type="text" name="title" value="{$menu_info->title}" />
-				<p>{$lang->about_title}</p>
-			</td>
-		</tr>
-	</table>
-</div>
+<table class="x_table x_table-striped x_table-hover">
+	<tr>
+		<th scope="col">{$lang->cmd_menu_insert}</th>
+		<td>{nl2br($lang->about_menu_management)}</td>
+	</tr>
+	<tr>
+		<th scope="col">{$lang->title}</th>
+		<td>
+			<input type="text" name="title" value="{$menu_info->title}" />
+			<p>{$lang->about_title}</p>
+		</td>
+	</tr>
+</table>
 <div class="btnArea">
 	<span class="btn"><input type="submit" value="{$lang->cmd_submit}" /></span>
 </div>

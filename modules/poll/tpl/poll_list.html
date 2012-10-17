@@ -70,20 +70,18 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 	<input type="hidden" name="module" value="poll" />
 	<input type="hidden" name="act" value="procPollAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
-		<div class="table">
-			<table width="100%" border="1" cellspacing="0" id="pollManageListTable">
-				<caption>{$lang->selected_poll} <strong id="selectedPollCount"></strong></caption>
-				<thead>
-					<tr>
-						<th scope="col" class="text">{$lang->title}</th>
-						<th scope="col">{$lang->poll_join_count}</th>
-						<th scope="col">{$lang->author}</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-		</div>
+		<table width="100%" border="1" cellspacing="0" id="pollManageListTable">
+			<caption>{$lang->selected_poll} <strong id="selectedPollCount"></strong></caption>
+			<thead>
+				<tr>
+					<th scope="col" class="text">{$lang->title}</th>
+					<th scope="col">{$lang->poll_join_count}</th>
+					<th scope="col">{$lang->author}</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
 		<div class="btnArea">
 			<span class="btn"><input type="submit" value="Delete" /></span>
 		</div>

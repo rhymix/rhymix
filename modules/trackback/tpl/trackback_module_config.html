@@ -5,14 +5,12 @@
 <input type="hidden" name="target_module_srl" value="{$trackback_config->module_srl?$trackback_config->module_srl:$module_srls}" />
 
     <h3 class="h3">{$lang->trackback}</h3>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row"><label for="enable_trackback">{$lang->enable_trackback}</label></th>
-				<td class="text"><input type="checkbox" name="enable_trackback" id="enable_trackback" value="Y" <!--@if($trackback_config->enable_trackback == "Y")-->checked="checked"<!--@end--> /></td>
-			</tr>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<tr>
+			<th scope="row"><label for="enable_trackback">{$lang->enable_trackback}</label></th>
+			<td class="text"><input type="checkbox" name="enable_trackback" id="enable_trackback" value="Y" <!--@if($trackback_config->enable_trackback == "Y")-->checked="checked"<!--@end--> /></td>
+		</tr>
+	</table>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_save}"/></span>
 	</div>

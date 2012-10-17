@@ -11,33 +11,31 @@
 	<input type="hidden" name="is_trash" value="false" />
 	
 	<!-- 목록 -->
-	<div class="table">
-		<table width="100%" class="x_table x_table-striped x_table-hover">
-		<caption>{$lang->all} {number_format($total_count)}, {$lang->page} {number_format($page)}/{number_format($total_page)}</caption>
-		<thead>
-			<tr>
-				<th scope="col"><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></th>
-				<th scope="col">{$lang->comment}</th>
-				<th scope="col">{$lang->user_name}</th>
-				<th scope="col">{$lang->date}</th>
-				<th scope="col">{$lang->cmd_declare}</th>
-				<th scope="col">{$lang->ipaddress}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<!--@foreach($comment_list as $no => $oComment)-->
-			<tr>
-				<td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /></td>
-				<td><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$oComment->getSummary(100)}</a></td>
-				<td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
-				<td>{$oComment->getRegdate("Y-m-d")}</td>
-				<td><strong>{$oComment->get('declared_count')}</strong></td>
-				<td>{$oComment->get('ipaddress')}</td>
-			</tr>
-			<!--@end-->
-		</tbody>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+	<caption>{$lang->all} {number_format($total_count)}, {$lang->page} {number_format($page)}/{number_format($total_page)}</caption>
+	<thead>
+		<tr>
+			<th scope="col"><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></th>
+			<th scope="col">{$lang->comment}</th>
+			<th scope="col">{$lang->user_name}</th>
+			<th scope="col">{$lang->date}</th>
+			<th scope="col">{$lang->cmd_declare}</th>
+			<th scope="col">{$lang->ipaddress}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!--@foreach($comment_list as $no => $oComment)-->
+		<tr>
+			<td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /></td>
+			<td><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$oComment->getSummary(100)}</a></td>
+			<td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
+			<td>{$oComment->getRegdate("Y-m-d")}</td>
+			<td><strong>{$oComment->get('declared_count')}</strong></td>
+			<td>{$oComment->get('ipaddress')}</td>
+		</tr>
+		<!--@end-->
+	</tbody>
+	</table>
 	<div class="btnArea">
 		<div class="x_btn-group">
 			<button class="x_btn" type="button" onclick="doCancelDeclare();">{$lang->cmd_cancel_declare}</button>

@@ -9,24 +9,22 @@
 	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationAddFriend" />
 	<input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row">{$lang->nick_name}</th>
-				<td>{$target_info->nick_name}</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="friend_group_srl">{$lang->friend_group}</label></th>
-				<td>
-					<select name="friend_group_srl" id="friend_group_srl">
-						<option value="">{$lang->default_friend_group}</option>
-						<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
-					</select> 
-					<a href="{getUrl('act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
-				</td>
-			</tr>
-		</table>
-	</div>
+	<table class="x_table x_table-striped x_table-hover">
+		<tr>
+			<th scope="row">{$lang->nick_name}</th>
+			<td>{$target_info->nick_name}</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="friend_group_srl">{$lang->friend_group}</label></th>
+			<td>
+				<select name="friend_group_srl" id="friend_group_srl">
+					<option value="">{$lang->default_friend_group}</option>
+					<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
+				</select> 
+				<a href="{getUrl('act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+			</td>
+		</tr>
+	</table>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_add_friend}" /></span>
 	</div>

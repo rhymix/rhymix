@@ -23,41 +23,37 @@
 		<input type="hidden" name="act" value="procMenuAdminUpdate" />
 		<input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
 		<h3 class="h3">{$lang->menu_management}</h3>
-		<div class="table">
-			<table width="100%" border="1" cellspacing="0">
-				<tr>
-					<th scope="col">{$lang->title}</th>
-					<td>
-						<input type="text" name="title" value="{$menu_info->title}" />
-						<input type="submit" value="{$lang->cmd_modify}" />					
-					</td>
-				</tr>
-				<tr>
-					<th scope="col">{$lang->menu_management}</th>
-					<td >
-						{nl2br($lang->about_menu_management)} 
-						<button type="button" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;">{$lang->cmd_remake_cache}</button>
-					</td>
-				</tr>
-			</table>
-		</div>
+		<table class="x_table x_table-striped x_table-hover">
+			<tr>
+				<th scope="col">{$lang->title}</th>
+				<td>
+					<input type="text" name="title" value="{$menu_info->title}" />
+					<input type="submit" value="{$lang->cmd_modify}" />					
+				</td>
+			</tr>
+			<tr>
+				<th scope="col">{$lang->menu_management}</th>
+				<td >
+					{nl2br($lang->about_menu_management)} 
+					<button type="button" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;">{$lang->cmd_remake_cache}</button>
+				</td>
+			</tr>
+		</table>
 	</form>
 
     <!--@else-->
-        <div class="table">
-        	<table width="100%" border="1" cellspacing="0">
-        		<tr>
-        			<th scope="col">{$lang->title}</th>
-        			<td >
-        				{$menu_info->title}
-       				</td>
-       			</tr>
-        		<tr>
-        			<th scope="col">{$lang->menu_management}</th>
-        			<td >{nl2br($lang->about_menu_management)}</td>
-       			</tr>
-			</table>
-		</div>
+		<table class="x_table x_table-striped x_table-hover">
+			<tr>
+				<th scope="col">{$lang->title}</th>
+				<td >
+					{$menu_info->title}
+				</td>
+			</tr>
+			<tr>
+				<th scope="col">{$lang->menu_management}</th>
+				<td >{nl2br($lang->about_menu_management)}</td>
+			</tr>
+		</table>
     <!--@end-->
 
 
