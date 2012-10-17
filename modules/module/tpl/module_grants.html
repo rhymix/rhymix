@@ -5,7 +5,7 @@
     jQuery( function() { jQuery('.grant_default').change( function(event) { doShowGrantZone(); } ); doShowGrantZone() } );
 </script>
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_grant)" id="fo_obj" class="form">
+<form action="./" method="post" onsubmit="return procFilter(this, insert_grant)" id="fo_obj">
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="admin_member" value="<!--@foreach($admin_member as $key => $val)--><!--@if($member_config->identifier == 'email_address')-->{$val->email_address},<!--@else-->{$val->user_id},<!--@end--><!--@end-->" />
 	

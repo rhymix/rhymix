@@ -39,7 +39,7 @@ jQuery( function() { jQuery('.grant_default').change( function(event) { doShowMe
 </form>
 </block>
 
-<form action="./" method="post" class="form">
+<form action="./" method="post">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="procMenuAdminInsert" />
 <input type="hidden" name="title" value="{$lang->untitle}" />
@@ -50,7 +50,7 @@ jQuery( function() { jQuery('.grant_default').change( function(event) { doShowMe
 </form>
 <div class="modal" id="editMenu">
 	<div class="fg">
-		<form ruleset="insertMenuItem" id="editForm" action="./" method="post" enctype="multipart/form-data" class="form">
+		<form ruleset="insertMenuItem" id="editForm" action="./" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="menu" />
 		<input type="hidden" name="act" value="procMenuAdminInsertItem" />
 		<input type="hidden" name="menu_srl" value="" />

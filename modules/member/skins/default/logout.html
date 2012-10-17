@@ -1,6 +1,6 @@
 <include target="./common_header.html" />
 <import target="filter/logout.xml" />
-<form action="./" method="get" class="form" onsubmit="return procFilter(this, logout)">
+<form action="./" method="get" onsubmit="return procFilter(this, logout)">
 	<input type="hidden" name="mid" value="{$mid}" />
     <h1 class="h1">{$lang->cmd_logout}</h1>
 	<p>{$lang->confirm_logout}</p>

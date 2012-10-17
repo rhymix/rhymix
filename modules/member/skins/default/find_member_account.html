@@ -2,7 +2,7 @@
 <load target="filter/find_member_account.xml" />
 <h2 class="h2">{$lang->cmd_find_member_account_with_email}</h2>
 <p>{$lang->about_find_member_account}</p>
-<form action="./" method="get" class="form" onsubmit="return procFilter(this, find_member_account)">
+<form action="./" method="get" onsubmit="return procFilter(this, find_member_account)">
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="page" value="{$page}" />
@@ -19,7 +19,7 @@
 <!--@if(count($lang->find_account_question_items)>1)-->
 <h2 class="h2">{$lang->cmd_find_member_account_with_email_question}</h2>
 <p>{$lang->about_find_account_question}</p>
-<form action="./" method="get" class="form" ruleset="@find_member_account_by_question">
+<form action="./" method="get" ruleset="@find_member_account_by_question">
 	<input type="hidden" name="module" value="member" />
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />	
