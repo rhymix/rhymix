@@ -144,12 +144,12 @@ jQuery(function($){
 			return false;
 		}
 	});
-// Vertical Rule Style
+// Vertical Divider
 	$('.x i').each(function(){
 		var $this = $(this);
 		if($this.text() == '|'){
-			$this.addClass('vr');
-		}	
+			$this.addClass('vr').filter(':first-child, :last-child').remove();
+		}
 	});
 // label[for] + input[id]/textarea[id]/select[id] creator
 	$('label:not([for])').each(function(index){
