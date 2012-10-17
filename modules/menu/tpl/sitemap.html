@@ -340,7 +340,7 @@
 							<img src="${ScreenShotURL}">
 						</button>
 						<ul>
-							<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 							<li><a href="#layoutHTML">HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
 							<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
 							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
@@ -354,6 +354,13 @@
 			</div>
 		</form>
 		<button type="button" class="x_close" data-admin-hide="#layout">&times;</button>
+	</div>
+	<div class="col layoutSetup" id="layoutSetup">
+		<section>
+			<h1>레이아웃 설정</h1>
+			<div class="_contents"></div>
+		</section>
+		<button type="button" class="x_close" data-admin-hide="#layoutSetup">&times;</button>
 	</div>
 	<div class="col download" id="downloadLayout">
 		<section>
@@ -2042,7 +2049,8 @@ jQuery(function($){
 				$List.append($.tmpl("layoutListItem", {
 					Title : htInfo.title, 
 					ScreenShotURL : htInfo.thumbnail,
-					Selected : sSelected
+					Selected : sSelected,
+					LayoutSrl : htInfo.layout_srl
 				}).data('LayoutSrl', htInfo.layout_srl));
 			}
 			
@@ -2080,6 +2088,16 @@ jQuery(function($){
 		
 		updatePreview({
 			sLayoutSrl : sLayoutSrl
+		});
+	})
+	$('#layoutSetup').on('show', function(ev){
+		//console.log($._htMarkupActionParam.sLayoutSrl);
+		var sLayoutSrl = $._htMarkupActionParam.sLayoutSrl;
+		$.exec_json("layout.getLayoutAdminSetInfoView", {layout_srl: sLayoutSrl}, function(htData){
+			//console.log(htData);
+			$('#layoutSetup').find('._contents').html(htData.html);
+			
+			scrollToRight();
 		});
 	})
 	
