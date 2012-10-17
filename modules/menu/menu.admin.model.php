@@ -153,7 +153,7 @@
 			else $menuItem->moduleType = 'url';
 
 			// grant setting
-			if(is_array($menuItem->group_srls))
+			if(is_array($menuItem->group_srls) && count($menuItem->group_srls) > 0)
 			{
 				if($menuItem->group_srls[0] == -1)
 				{
