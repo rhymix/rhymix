@@ -2539,6 +2539,8 @@ jQuery(function($){
 			}
 		}
 		
+		// Output of $.param function used in exec_json does not have a representation for an empty array. So, use "[]" (string) instead.
+		if(vValue.length === 0) vValue = "[]";
 		return vValue;
 	}
 	
