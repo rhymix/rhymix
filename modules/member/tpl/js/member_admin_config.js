@@ -64,23 +64,6 @@ jQuery(function($){
 	// hide form if enable_join is setted "No" 
 	var suSetting = $('fieldset.suSetting'); // 회원가입 설정
 	var suForm = $('fieldset.suForm'); // 회원가입 양식
-	var isEnable = suSetting.find(':radio[name=enable_join]:checked').val();
-	if (isEnable == 'N'){
-		suSetting.find('>ul>li:gt(0)').hide();
-		suForm.hide();
-	}
-
-	suSetting.find(':radio[name=enable_join]').change(function(){
-		if($('#enable_join_yes').is(':checked')){ 
-			// 회원 가입을 허용하지 않는 경우 불필요한 항목을 모두 감춘다
-			suSetting.find('>ul>li:gt(0)').slideDown(200);
-			suForm.slideDown(200);
-		} else { 
-			// 회원 가입을 허용하는 경우 필요한 항목을 모두 펼친다
-			suSetting.find('>ul>li:gt(0)').slideUp(200);
-			suForm.slideUp(200);
-		}
-	});
 	suForm.find(':checkbox[name="usable_list[]"]').each(function(){
 		var $i = $(this);
 		$i.change(function(){

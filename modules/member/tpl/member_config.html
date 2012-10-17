@@ -55,6 +55,13 @@
 				<p class="a"><input type="text" id="change_password_date" name="change_password_date" value="{$config->change_password_date}" style="width:30px" /><span class="desc">{$lang->unit_day}({$lang->about_change_password_date})</span></p>
 			</li>
 			<li>
+				<p class="q">{$lang->enable_login_fail_report}</p>
+				<p class="a">
+					<input type="radio" name="enable_login_fail_report" id="enable_login_fail_report_yes" value="Y" checked="checked"|cond="$config->enable_login_fail_report != 'N'" /><label for="enable_login_fail_report_yes">{$lang->cmd_yes}</label>
+					<input type="radio" name="enable_login_fail_report" id="enable_login_fail_report_no" value="N" checked="checked"|cond="$config->enable_login_fail_report == 'N'" /><label for="enable_join_no">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
 				<p class="q"><label for="max_error_count">{$lang->login_trial_limit1}</label></p>
 				<p class="a"><input type="text" id="max_error_count" name="max_error_count" value="{$config->max_error_count}" style="width:30px" /><span class="desc">{$lang->about_login_trial_limit1}</span></p>
 			</li>
@@ -279,5 +286,6 @@
 		<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 		<div id="extendForm">
 		</div>
+
 	</form>
 </div>

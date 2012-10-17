@@ -138,6 +138,7 @@
 				'webmaster_email',
 				'limit_day',
 				'change_password_date',
+				'enable_login_fail_report',
 				'max_error_count','max_error_count_time',
 				'agreement',
 				'after_login_url',
