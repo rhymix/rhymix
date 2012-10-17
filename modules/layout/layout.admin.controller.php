@@ -90,11 +90,15 @@
             unset($extra_vars->apply_layout);
 			unset($extra_vars->apply_mobile_view);
 
+			$is_sitemap = $extra_vars->is_sitemap;
+			unset($extra_vars->is_sitemap);
+
             $args = Context::gets('layout_srl','title');
             // Get layout information
             $oLayoutModel = &getModel('layout');
             $oMenuAdminModel = &getAdminModel('menu');
             $layout_info = $oLayoutModel->getLayout($args->layout_srl);
+
 			if($layout_info->menu) {
 	            $menus = get_object_vars($layout_info->menu);
 			}
@@ -184,11 +188,23 @@
             $args->extra_vars = serialize($extra_vars);
 
             $output = $this->updateLayout($args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool())
+			{
+				return $output;
+			}
 
 			FileHandler::removeDir($tmpDir);
 
-			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
+			if(!$is_sitemap)
+			{
+				return $this->setRedirectUrl(Context::get('error_return_url'), $output);
+			}
+			else
+			{
+				$context = Context::getInstance();
+				$context->setRequestMethod('JSON');
+				$this->setMessage('success');
+			}
         }
 
         /**
