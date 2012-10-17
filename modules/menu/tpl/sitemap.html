@@ -338,7 +338,7 @@
 						</button>
 						<ul>
 							<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><a href="#layoutHTML">HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
+							<li><a href="#layoutMarkupSetup" data-admin-show="#layoutMarkupSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
 							<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
 							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
 						</ul>
@@ -359,6 +359,14 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#layoutSetup">&times;</button>
 	</div>
+	<div class="col layoutMarkupSetup" id="layoutMarkupSetup">
+		<section>
+			<h1>레이아웃 HTML/CSS 설정</h1>
+			<div class="_contents"></div>
+		</section>
+		<button type="button" class="x_close" data-admin-hide="#layoutMarkupSetup">&times;</button>
+	</div>
+	
 	<div class="col download" id="downloadLayout">
 		<section>
 			<h1>다른 레이아웃 설치</h1>
@@ -2110,7 +2118,14 @@ jQuery(function($){
 				$.post( sUrl, htData,
 					function( strRes ) {
 						var htData = $.parseJSON(strRes);
-						console.log(999, strRes, htData);
+						
+						if(htData.error !== 0){
+							alert(htData.message);
+							return;
+						}
+						
+						$('#layoutSetup').hide();
+						//console.log(999, strRes, htData);
 					}
 				);
 			})
@@ -2118,6 +2133,43 @@ jQuery(function($){
 			scrollToRight();
 		});
 	})
+	$('#layoutMarkupSetup').on('show', function(ev){
+		var sLayoutSrl = $._htMarkupActionParam.sLayoutSrl;
+		$.exec_json("layout.getLayoutAdminSetHTMLCSS", {layout_srl: sLayoutSrl}, function(htData){
+			//console.log(htData);
+			$('#layoutMarkupSetup').find('._contents').html(htData.html);
+			
+			var $configForm = $('#config_form');
+			$configForm.on('submit', function(ev){
+				var htData = {};
+				var sKey, sValue;
+				$(this).find('input').each(function(){
+					sKey = $(this).attr('name');
+					sValue = $(this).val();
+					htData[sKey] = sValue;
+				});
+				console.log(htData);
+				ev.preventDefault();
+				
+				var sUrl = $('#config_form').attr('action');
+				$.post( sUrl, htData,
+					function( strRes ) {
+						var htData = $.parseJSON(strRes);
+						
+						if(htData.error !== 0){
+							alert(htData.message);
+							return;
+						}
+						
+						$('#layoutSetup').hide();
+						//console.log(999, strRes, htData);
+					}
+				);
+			})
+			
+			scrollToRight();
+		});
+	});
 	
 	$('._deleteMenu').click(function(){
 		confirmDialog({
