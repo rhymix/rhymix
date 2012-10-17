@@ -58,7 +58,7 @@ class layoutAdminModel extends layout {
 		}
 		Context::set('selected_layout', $layout_info);
 
-		$script = '<script src="/xe1.7/modules/layout/tpl/js/layout_modify.js"></script>';
+		$script = '<script src="./modules/layout/tpl/js/layout_modify.js"></script>';
 		$oTemplate = &TemplateHandler::getInstance();
 		$html = $oTemplate->compile($this->module_path.'tpl/', 'layout_info_view');
 
