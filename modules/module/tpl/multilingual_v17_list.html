@@ -57,9 +57,7 @@
 	</form>
 	<form action="" class="search center x_input-append x_pull-right">
 		<input type="search" name="search_keyword" required title="Search" value="<!--@if($name)-->{htmlspecialchars($lang_code_list[1]->value)}<!--@else-->{htmlspecialchars($search_keyword)}<!--@end-->">
-		<span class="x_btn-group">
-			<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
-			<button cond="$search_keyword || $name" id="search_cancel" class="x_btn" type="button">{$lang->cmd_cancel}</button>
-		</span>
+		<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+		<button cond="$search_keyword || $name" id="search_cancel" class="x_btn" type="button">{$lang->cmd_cancel}</button>
 	</form>
 </div>
