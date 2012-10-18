@@ -250,7 +250,6 @@ $.fn.xeModalWindow = function(){
 			} else {
 				$this.trigger('open.mw');
 			}
-
 			return false;
 		})
 		.bind('open.mw', function(){

@@ -1,55 +1,57 @@
-<input type="hidden" name="member_join_form_srl" value="{$formInfo->member_join_form_srl}" />
-	<div class="x_page-header">
-		<h1>{$lang->cmd_input_extend_form}</h1>
+	<input type="hidden" name="member_join_form_srl" value="{$formInfo->member_join_form_srl}" />
+	<div class="x_modal-header">
+		<h3>{$lang->cmd_input_extend_form}</h3>
 	</div>
-	<div class="x_control-group">
-		<label for="column_id" class="x_control-label">{$lang->column_id} *</label>
-		<div class="x_controls">
-			<input type="text" id="column_id" name="column_id" value="{$formInfo->column_name}" />
-			<p class="x_help-block">{$lang->about_column_id}</p>
+	<div class="x_modal-body">
+		<div class="x_control-group">
+			<label for="column_id" class="x_control-label">{$lang->column_id} *</label>
+			<div class="x_controls">
+				<input type="text" id="column_id" name="column_id" value="{$formInfo->column_name}" />
+				<p class="x_help-inline">{$lang->about_column_id}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="column_title" class="x_control-label">{$lang->column_title} *</label>
+			<div class="x_controls">
+				<input type="text" id="column_title" name="column_title" value="{$formInfo->column_title}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="columnType" class="x_control-label">{$lang->column_type} *</label>
+			<div class="x_controls">
+				<select id="columnType" class="typeSelect" name="column_type">
+					<option loop="$lang->column_type_list=>$key,$type_info" value="{$key}" selected="selected"|cond="$formInfo->column_type == $key" >{$lang->column_type_list[$key]}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group multiExample">
+			<label for="multiSelect" class="x_control-label">{$lang->options} *</label>
+			<div class="x_controls">
+				<textarea rows="4" cols="42" id="multiSelect" name="default_value" style="vertical-align:top"><block cond="$default_value">{implode('<enter>', $default_value)}</block></textarea>
+				<p class="x_help-inline">{$lang->about_multi_type}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="desc" class="x_control-label">{$lang->description}</label>
+			<div class="x_controls">
+				<textarea rows="4" cols="42" id="desc" name="description">{$formInfo->description}</textarea>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_required}/{$lang->cmd_optional}</label>
+			<div class="x_controls">
+				<label for="radio_required" class="x_inline"><input type="radio" id="radio_required" name="required" value="Y" /> {$lang->cmd_required}</label>
+				<label for="radio_option" class="x_inline"><input type="radio" id="radio_option" name="required" value="N" /> {$lang->cmd_optional}</label>
+			</div>
 		</div>
 	</div>
-	<div class="x_control-group">
-		<label for="column_title" class="x_control-label">{$lang->column_title} *</label>
-		<div class="x_controls">
-			<input type="text" id="column_title" name="column_title" value="{$formInfo->column_title}" />
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label for="columnType" class="x_control-label">{$lang->column_type} *</label>
-		<div class="x_controls">
-			<select id="columnType" class="typeSelect" style="width:290px" name="column_type">
-				<option loop="$lang->column_type_list=>$key,$type_info" value="{$key}" selected="selected"|cond="$formInfo->column_type == $key" >{$lang->column_type_list[$key]}</option>
-			</select>
-		</div>
-	</div>
-	<div class="x_control-group multiExample">
-		<label for="multiSelect" class="x_control-label">{$lang->options} *</label>
-		<div class="x_controls">
-			<textarea rows="8" cols="42" id="multiSelect" name="default_value"><block cond="$default_value">{implode('<enter>', $default_value)}</block></textarea>
-			<p class="x_help-block">{$lang->about_multi_type}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label for="desc" class="x_control-label">{$lang->description}</label>
-		<div class="x_controls">
-			<textarea rows="8" cols="42" id="desc" name="description">{$formInfo->description}</textarea>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label">{$lang->cmd_required}/{$lang->cmd_optional}</label>
-		<div class="x_controls">
-			<label for="radio_required" class="x_inline"><input type="radio" id="radio_required" name="required" value="Y" /> {$lang->cmd_required}</label>
-			<label for="radio_option" class="x_inline"><input type="radio" id="radio_option" name="required" value="N" /> {$lang->cmd_optional}</label>
-		</div>
-	</div>
-	<div class="x_clearfix" style="margin-right:20px">
+	<div class="x_modal-footer">
 		<span class="x_pull-right"><button class="x_btn x_btn-primary" type="submit" name="mode" <!--@if($formInfo)-->value="update"<!--@else-->value="insert"<!--@end--> >{$lang->cmd_save}</button></span>
 	</div>
 <script>
 	var $ = jQuery;
 	var typeSelect = $('.typeSelect');
-	var multiOption = $('.typeSelect>option[value=checkbox], .typeSelect>option[value=radio], .typeSelect>option[value=selectM], .typeSelect>option[value=select]');
+	var multiOption = $('.typeSelect>option[value=checkbox], .typeSelect>option[value=radio], .typeSelect>option[value=select_multiple], .typeSelect>option[value=select]');
 	var multiExample = $('.multiExample');
 {@$default_value_types = array('checkbox', 'radio', 'select')}
 <!--@if(!in_array($formInfo->column_type, $default_value_types))-->

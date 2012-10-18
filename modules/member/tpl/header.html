@@ -2,18 +2,15 @@
 <div class="x_page-header">
 	<h1>{$lang->cmd_member_config}</h1>
 </div>
-
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-
 <ul class="x_nav x_nav-tabs">
 	<li class="x_active"|cond="$act == 'dispMemberAdminConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminConfig')}">{$lang->member_default_info}</a></li>
 	<li id="signupTab" class="x_active"|cond="$act == 'dispMemberAdminSignUpConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminSignUpConfig')}">{$lang->cmd_signup}</a></li>
 	<li class="x_active"|cond="$act == 'dispMemberAdminLoginConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminLoginConfig')}">{$lang->cmd_login}</a></li>
 	<li class="x_active"|cond="$act == 'dispMemberAdminDesignConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminDesignConfig')}">{$lang->cmd_set_design_info}</a></li>
 </ul>
-
 <script>
 	enableSignUpTab({$config->enable_join == 'Y' ? 'true' : 'false'});
 </script>

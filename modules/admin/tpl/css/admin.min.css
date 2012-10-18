@@ -25,7 +25,8 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
 .x .x_close{width:24px;height:24px}
 .x .x_alert{ position:relative}
-.x .x_alert>.x_close{position:absolute;top:0;right:0}
+.x .x_alert>.x_close,
+.x.x_modal>.x_close{position:absolute;top:0;right:0}
 .x .x_pagination{height:32px}
 .x .x_pagination ul>li>a, 
 .x .x_pagination ul>li>span,
@@ -59,7 +60,9 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}
 .x label.checked,
 .x input:checked+label,
-.x label:only-of-type{font-weight:bold}
+.x label:only-of-type,
+.x .x_form-horizontal .x_control-label{font-weight:bold}
+.x .x_form-horizontal .x_controls>label{padding-top:5px}
 .x input[type="radio"]+label,
 .x input[type="checkbox"]+label{font-weight:normal}
 .x label.x_inline{margin-right:16px}
@@ -92,6 +95,7 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x button{line-height:16px}
 .x select{width:auto;padding:0;height:26px;line-height:26px}
 .x select[multiple]{height:auto}
+.x textarea{vertical-align:top}
 .x .x_tab-content{overflow-x:hidden}
 /* Custom Styles */
 .x .section{margin:20px 0 40px 0}
@@ -343,6 +347,20 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x .moduleWindow .siteList>ul>li{background:#fff}
 .x .moduleWindow .siteList>ul>li:first-child>a{border-top-left-radius:0;border-top-right-radius:0}
 .x .moduleWindow select{width:100%}
+/* Text List */
+.x .textList{border:1px solid #ddd !important;line-height:1.5em;height:125px;overflow:auto}
+.x .textList li{border:0;padding:0 10px;height:25px;line-height:25px;white-space:nowrap;overflow:hidden}
+.x .textList li:nth-child(even){background:#eee}
+.x .textList li a{float:right;height:25px}
+/* Up-Down Dragable */
+.x .uDrag .wrap{position:relative;padding-left:20px}
+.x .uDrag li>.wrap{margin:0 0 0 8px}
+.x .uDrag .dragActive{background:#FFD}
+.x .uDrag .dragActive th,
+.x .uDrag .dragActive td{background:none !important}
+.x .uDrag .dragBtn{position:absolute;width:8px;height:100%;padding:0;overflow:hidden;background:url(../img/bgDragable.gif);top:1px;left:0;text-indent:12px;border:0;cursor:n-resize;white-space:nowrap;font-size:0px}
+/* Layer */
+.x .layer{position:absolute;display:none;font-weight:normal}
 
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
 /* ---------- Deprecated UI supports - Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
@@ -352,13 +370,6 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x .fvOff,
 .x .fvOn{display:inline-block;width:16px;height:16px;overflow:hidden;text-indent:16px;background:transparent url(../img/iconFavorite.gif) no-repeat;border:0}
 .x .fvOn{background-position:0 -16px}
-/* Up-Down Dragable */
-.x .uDrag .wrap{position:relative;padding-left:20px}
-.x .uDrag li>.wrap{margin:0 0 0 8px}
-.x .uDrag .dragActive{background:#FFD}
-.x .uDrag .dragActive th,
-.x .uDrag .dragActive td{background:none !important}
-.x .uDrag .dragBtn{position:absolute;width:8px;height:100%;padding:0;overflow:hidden;background:url(../img/bgDragable.gif);top:1px;left:0;text-indent:12px;border:0;cursor:n-resize;white-space:nowrap;font-size:0px}
 /* Section & Heading */
 .x .h2, 
 .x .h3, 
@@ -496,21 +507,6 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .modal .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
 .modalClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px}
 .modalBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
-/* Layer */
-.x .layer,
-.x.layer{position:absolute;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:2;zoom:1;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:0 0 6px #666;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
-.x .layer h2{font-size:14px}
-.x .layer ul, 
-.x .layer ol, 
-.x .layer .lined, 
-.x .layer .table{margin-bottom:1em}
-.x .layerClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px}
-.x .layerBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
-/* Text List */
-.x .textList{border:1px solid #ddd !important;line-height:1.5em;height:18.5em;overflow:auto}
-.x .textList li{border:0;padding:.25em 1em;height:1.5em;white-space:nowrap;overflow:hidden}
-.x .textList li:nth-child(even){background:#eee}
-.x .textList li a{float:right}
 /* Favicon Preview */
 .x #faviconPreview{position:relative;padding:80px 0 0 200px;background:url(../img/bgFavicon.gif) no-repeat}
 .x #faviconPreview img{position:absolute}

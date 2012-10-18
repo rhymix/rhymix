@@ -3308,6 +3308,31 @@
 			<value xml:lang="vi"><![CDATA[Khu vực nội dung]]></value>
 			<value xml:lang="mn"><![CDATA[Олон мөрөөр оруулах(textarea)]]></value>
 		</item>
+		<item name="radio">
+			<value xml:lang="ko"><![CDATA[단일 선택(radio)]]></value>
+			<value xml:lang="en"><![CDATA[radio button(radio)]]></value>
+			<value xml:lang="jp"><![CDATA[ラジオボタン(radio)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[单选框(radio)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[選項按紐(radio)]]></value>
+			<value xml:lang="de"><![CDATA[Radiobutton]]></value>
+			<value xml:lang="ru"><![CDATA[Кнопка радио(радио)]]></value>
+			<value xml:lang="tr"><![CDATA[radyo tuşu(radyo)]]></value>
+			<value xml:lang="mn"><![CDATA[Нэг eдeр сонгох(radio)]]></value>
+		</item>
+		<item name="select">
+			<value xml:lang="ko"><![CDATA[단일 선택(single select)]]></value>
+			<value xml:lang="en"><![CDATA[single select box]]></value>
+			<value xml:lang="jp"><![CDATA[ひとつ選択(select)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[下拉列表框(select)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[下拉式選單(select)]]></value>
+			<value xml:lang="fr"><![CDATA[Case d'option(seul choix)]]></value>
+			<value xml:lang="de"><![CDATA[Nur eine Auswahl]]></value>
+			<value xml:lang="ru"><![CDATA[Выбор(один вариант)]]></value>
+			<value xml:lang="es"><![CDATA[Selección(selección individual)]]></value>
+			<value xml:lang="tr"><![CDATA[kutuyu seç(tekli seçim)]]></value>
+			<value xml:lang="vi"><![CDATA[Ô chọn(Một lựa chọn)]]></value>
+			<value xml:lang="mn"><![CDATA[Ганц сонголт хийх(select)]]></value>
+		</item>
 		<item name="checkbox">
 			<value xml:lang="ko"><![CDATA[다중 선택(checkbox)]]></value>
 			<value xml:lang="en"><![CDATA[checkbox(multiple selection)]]></value>
@@ -3322,30 +3347,19 @@
 			<value xml:lang="vi"><![CDATA[Ô chọn(Nhiều lựa chọn)]]></value>
 			<value xml:lang="mn"><![CDATA[Олон сонголт хийх(checkbox)]]></value>
 		</item>
-		<item name="select">
-			<value xml:lang="ko"><![CDATA[단일 선택(select)]]></value>
-			<value xml:lang="en"><![CDATA[select box(single selection)]]></value>
-			<value xml:lang="jp"><![CDATA[ひとつ選択(select)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[下拉列表框(select)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[下拉式選單(select)]]></value>
-			<value xml:lang="fr"><![CDATA[Case d'option(seul choix)]]></value>
-			<value xml:lang="de"><![CDATA[Nur eine Auswahl]]></value>
-			<value xml:lang="ru"><![CDATA[Выбор(один вариант)]]></value>
-			<value xml:lang="es"><![CDATA[Selección(selección individual)]]></value>
-			<value xml:lang="tr"><![CDATA[kutuyu seç(tekli seçim)]]></value>
-			<value xml:lang="vi"><![CDATA[Ô chọn(Một lựa chọn)]]></value>
-			<value xml:lang="mn"><![CDATA[Ганц сонголт хийх(select)]]></value>
-		</item>
-		<item name="radio">
-			<value xml:lang="ko"><![CDATA[라디오 버튼(radio)]]></value>
-			<value xml:lang="en"><![CDATA[radio button(radio)]]></value>
-			<value xml:lang="jp"><![CDATA[ラジオボタン(radio)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[单选框(radio)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[選項按紐(radio)]]></value>
-			<value xml:lang="de"><![CDATA[Radiobutton]]></value>
-			<value xml:lang="ru"><![CDATA[Кнопка радио(радио)]]></value>
-			<value xml:lang="tr"><![CDATA[radyo tuşu(radyo)]]></value>
-			<value xml:lang="mn"><![CDATA[Нэг eдeр сонгох(radio)]]></value>
+		<item name="select_multiple">
+			<value xml:lang="ko"><![CDATA[다중 선택(multiple select)]]></value>
+			<value xml:lang="en"><![CDATA[multiple select box(multiple selection)]]></value>
+			<value xml:lang="jp"><![CDATA[multiple select box(multiple selection)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[multiple select box(multiple selection)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[multiple select box(multiple selection)]]></value>
+			<value xml:lang="fr"><![CDATA[multiple select box(multiple selection)]]></value>
+			<value xml:lang="de"><![CDATA[multiple select box(multiple selection)]]></value>
+			<value xml:lang="ru"><![CDATA[multiple select box(multiple selection)]]></value>
+			<value xml:lang="es"><![CDATA[multiple select box(multiple selection)]]></value>
+			<value xml:lang="tr"><![CDATA[multiple select box(multiple selection)]]></value>
+			<value xml:lang="vi"><![CDATA[multiple select box(multiple selection))]]></value>
+			<value xml:lang="mn"><![CDATA[multiple select box(multiple selection)]]></value>
 		</item>
 		<item name="kr_zip">
 			<value xml:lang="ko"><![CDATA[한국주소(zip)]]></value>
