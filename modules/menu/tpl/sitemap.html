@@ -47,48 +47,54 @@
 	<div class="col" id="propertiesRoot">
 		<section>
 			<h1><a href="#" target="_blank" class="title">{사이트맵 이름}</a></h1>
-			<ul class="nav">
-				<li><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><button type="button"  class="_edit_paste" disabled>붙여넣기</button></li>
-				<li><button class="_delSiteMap" type="button">삭제</button></li>
-			</ul>
+			<div class="cnt">
+				<ul class="nav">
+					<li><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><button type="button"  class="_edit_paste" disabled>붙여넣기</button></li>
+					<li><button class="_delSiteMap" type="button">삭제</button></li>
+				</ul>
+			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#propertiesRoot">&times;</button>
 	</div>
 	<div class="col prop-general" id="properties">
 		<section>
 			<h1><a href="#" target="_blank" class="title">{메뉴 이름}</a></h1>
-			<ul>
-				<li><strong>메뉴 ID</strong>: <span class="url"></span></li>
-				<li><strong>메뉴 타입</strong>: <span class="module_type"></span></li>
-				<li class="add"><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><button type="button" class="_edit_cut">잘라내기</button></li>
-				<li><button type="button" class="_edit_copy">복사</button></li>
-				<li><button type="button" class="_edit_paste" disabled>붙여넣기</button></li>
-				<li><button type="button" class="_deleteMenu">삭제</button></li>
-				<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox" class="_chkUseAsHome"> 사이트 접속 시 기본 페이지로 사용</label></li>
-				<li class="default"><a href="#default" data-admin-show="#default">기본 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#imgbtn" data-admin-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li class="design"><a href="#design" data-admin-show="#design">디자인 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#auth" data-admin-show="#auth">권한 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li class="details"><a href="#details" data-admin-show="#details">상세 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-			</ul>
+			<div class="cnt">
+				<ul>
+					<li><strong>메뉴 ID</strong>: <span class="url"></span></li>
+					<li><strong>메뉴 타입</strong>: <span class="module_type"></span></li>
+					<li class="add"><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><button type="button" class="_edit_cut">잘라내기</button></li>
+					<li><button type="button" class="_edit_copy">복사</button></li>
+					<li><button type="button" class="_edit_paste" disabled>붙여넣기</button></li>
+					<li><button type="button" class="_deleteMenu">삭제</button></li>
+					<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox" class="_chkUseAsHome"> 사이트 접속 시 기본 페이지로 사용</label></li>
+					<li class="default"><a href="#default" data-admin-show="#default">기본 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#imgbtn" data-admin-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li class="design"><a href="#design" data-admin-show="#design">디자인 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#auth" data-admin-show="#auth">권한 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li class="details"><a href="#details" data-admin-show="#details">상세 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+				</ul>
+			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#properties">&times;</button>
 	</div>
 	<div class="col" id="add">
 		<section>
 			<h1>메뉴 추가</h1>
-			<ul class="nav _itemList">
-				<script id="tmpl_menuTypeItem" type="text/x-jquery-tmpl">
-					<li><a href="#add_menu" data-admin-show="#add_menu" data-param='{ "moduleName" : "${ModuleName}", "moduleTitle": "${ModuleTitle}" }'>${ModuleTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
-				</script>
-				<li><a href="#add_menu" data-admin-show="#add_menu">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_menu" data-admin-show="#add_menu">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
-				<li><a href="#add_menu" data-admin-show="#add_menu">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
-			</ul>
-			<div class="x_btn-group">
-				<a href="#download" class="x_btn x_btn-inverse" data-admin-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입 설치</a>
+			<div class="cnt">
+				<ul class="nav _itemList">
+					<script id="tmpl_menuTypeItem" type="text/x-jquery-tmpl">
+						<li><a href="#add_menu" data-admin-show="#add_menu" data-param='{ "moduleName" : "${ModuleName}", "moduleTitle": "${ModuleTitle}" }'>${ModuleTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
+					</script>
+					<li><a href="#add_menu" data-admin-show="#add_menu">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#add_menu" data-admin-show="#add_menu">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#add_menu" data-admin-show="#add_menu">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
+				</ul>
+				<div class="x_btn-group">
+					<a href="#download" class="x_btn x_btn-inverse" data-admin-show="#download"><i class="x_icon-plus x_icon-white"></i> 다른 메뉴타입 설치</a>
+				</div>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#add">&times;</button>
@@ -96,43 +102,45 @@
 	<div class="col url" id="add_menu">
 		<fieldset>
 			<h1 class="_title">URL 링크</h1>
-			<ul>
-				<li>
-					<div class="multilingual x_input-append">
-						<label for="menuName2">메뉴이름</label>
-						<input id="menuName2" class="_menuName lang_code" type="text" required style="width:179px">
-					</div>
-				</li>
-				<li class="typePage">
-					<label for="mid1">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">?</a></label>
-					<div id="mid1_help" class="x_alert x_alert-info" style="display:none;width:169px">
-						<button type="button" class="x_close" data-admin-hide="#mid1_help">×</button>
-						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
-					</div>
-					<input id="mid1" class="_mid" type="text" required placeholder="생략시 임의값 사용" />
-				</li>
-				<li class="typeUrl">
-					<div class="x_tabbable">
-						<ul class="x_nav x_nav-tabs">
-							<li class="x_active"><a href="#add_linkUrl">URL 링크</a></li>
-							<li><a href="#add_linkMenu">메뉴 링크</a></li>
-						</ul>
-						<div class="x_tab-content">
-							<div class="x_tab-pane x_active" id="add_linkUrl">
-								<input type="text" class="_linkUrl" required title="URL 링크" />
-							</div>
-							<div class="x_tab-pane" id="add_linkMenu">
-								<input type="text" class="_linkMenuTitle" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
-								<input type="hidden" class="_linkMenuSrl" required  />
-								<div class="_menuSelector_menuTreeContainer clone">
+			<div class="cnt">
+				<ul>
+					<li>
+						<div class="multilingual x_input-append">
+							<label for="menuName2">메뉴이름</label>
+							<input id="menuName2" class="_menuName lang_code" type="text" required style="width:179px">
+						</div>
+					</li>
+					<li class="typePage">
+						<label for="mid1">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">?</a></label>
+						<div id="mid1_help" class="x_alert x_alert-info" style="display:none;width:169px">
+							<button type="button" class="x_close" data-admin-hide="#mid1_help">×</button>
+							<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
+						</div>
+						<input id="mid1" class="_mid" type="text" required placeholder="생략시 임의값 사용" />
+					</li>
+					<li class="typeUrl">
+						<div class="x_tabbable">
+							<ul class="x_nav x_nav-tabs">
+								<li class="x_active"><a href="#add_linkUrl">URL 링크</a></li>
+								<li><a href="#add_linkMenu">메뉴 링크</a></li>
+							</ul>
+							<div class="x_tab-content">
+								<div class="x_tab-pane x_active" id="add_linkUrl">
+									<input type="text" class="_linkUrl" required title="URL 링크" />
+								</div>
+								<div class="x_tab-pane" id="add_linkMenu">
+									<input type="text" class="_linkMenuTitle" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+									<input type="hidden" class="_linkMenuSrl" required  />
+									<div class="_menuSelector_menuTreeContainer clone">
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</li>
-			</ul>
-			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-primary _save">확인</button>
+					</li>
+				</ul>
+				<div class="x_btn-group">
+					<button type="button" class="x_btn x_btn-primary _save">확인</button>
+				</div>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#add_menu">&times;</button>
@@ -140,94 +148,95 @@
 	<div class="col download" id="download">
 		<section>
 			<h1>다른 메뉴타입설치</h1>
-			<div class="list">
-				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
-				
-					<div class="item ${IsInstalled}" data-param='{ "sPackageSrl":"${PackageSrl}"}'>
-						<img src="http://${ScreenShotURL}" alt="">
-						<h2>${MenuType}</h2>
-						<p>${MenuTypeDesc}</p>
-						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
-						
-						<div class="_install">
-							<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-						</div>
-						<div class="_already_installed">
-							<span style="position: absolute;top: 7px;right: 0;">이미 설치된 항목</span>
-						</div>
-					</div>
+			<div class="cnt">			
+				<div class="list">
+					<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
 					
+						<div class="item ${IsInstalled}" data-param='{ "sPackageSrl":"${PackageSrl}"}'>
+							<img src="http://${ScreenShotURL}" alt="">
+							<h2>${MenuType}</h2>
+							<p>${MenuTypeDesc}</p>
+							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+							
+							<div class="_install">
+								<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+							</div>
+							<div class="_already_installed">
+								<span style="position: absolute;top: 7px;right: 0;">이미 설치된 항목</span>
+							</div>
+						</div>
+						
+					</script>
+				</div>
+				<div class="_pagination"></div>
+				<script id="tmpl_pagination" type="text/x-jquery-tmpl">
+				<div class="x_pagination x_pagination-centered">
+					<ul class="_list">
+					</ul>
+				</div>
+				</script>
+				<script id="tmpl_pagination_list" type="text/x-jquery-tmpl">
+					<li class='${ActiveClass}'><a  href="#" class="_toPage" data-param='{ "page": "${Page}"}' onclick="return false">${PageText}</a></li>
+				</script>
+				<script id="tmpl_pagination_jump" type="text/x-jquery-tmpl">
+					<li>
+						<a href="#goTo" data-admin-toggle="#goTo" title="${GoText}" onclick="return false">...</a>
+						<span id="goTo" class="x_input-append">
+							<input type="number" min="1" max="${LastPage}" required name="page" title="${GoText}" />
+							<button type="input" class="x_add-on _jumpTo">Go</button>
+						</span>
+					</li>
 				</script>
 			</div>
-
-			<div class="_pagination"></div>
-			
-			<script id="tmpl_pagination" type="text/x-jquery-tmpl">
-			<div class="x_pagination x_pagination-centered">
-				<ul class="_list">
-				</ul>
-			</div>
-			</script>
-			<script id="tmpl_pagination_list" type="text/x-jquery-tmpl">
-				<li class='${ActiveClass}'><a  href="#" class="_toPage" data-param='{ "page": "${Page}"}' onclick="return false">${PageText}</a></li>
-			</script>
-			<script id="tmpl_pagination_jump" type="text/x-jquery-tmpl">
-				<li>
-					<a href="#goTo" data-admin-toggle="#goTo" title="${GoText}" onclick="return false">...</a>
-					<span id="goTo" class="x_input-append">
-						<input type="number" min="1" max="${LastPage}" required name="page" title="${GoText}" />
-						<button type="input" class="x_add-on _jumpTo">Go</button>
-					</span>
-				</li>
-			</script>
-			
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#download">&times;</button>
 	</div>
 	<div class="col url" id="default">
 		<fieldset>
 			<h1>기본 설정</h1>
-			<ul>
-				<li>
-					<div class="multilingual x_input-append">
-						<label for="menuName">메뉴이름</label>
-						<input id="menuName" class="_menuName lang_code" type="text" required style="width:179px">
-					</div>
-				</li>
-				<li class="typePage">
-					<label for="mid2">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
-					<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
-						<button type="button" class="x_close" data-admin-hide="#mid2_help">×</button>
-						<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
-					</div>
-					<input type="text" id="mid2" class="_mid">
-				</li>
-				<li class="typeUrl">
-					<div class="x_tabbable">
-						<ul class="x_nav x_nav-tabs">
-							<li class="x_active"><a href="#fix_linkUrl">URL 링크</a></li>
-							<li><a href="#fix_linkMenu">메뉴 링크</a></li>
-						</ul>
-						<div class="x_tab-content">
-							<div class="x_tab-pane x_active" id="fix_linkUrl">
-								<input type="text" required title="URL 링크" />
-							</div>
-							<div class="x_tab-pane" id="fix_linkMenu">
-								<input type="text" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+			<div class="cnt">
+				<ul>
+					<li>
+						<div class="multilingual x_input-append">
+							<label for="menuName">메뉴이름</label>
+							<input id="menuName" class="_menuName lang_code" type="text" required style="width:179px">
+						</div>
+					</li>
+					<li class="typePage">
+						<label for="mid2">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
+						<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
+							<button type="button" class="x_close" data-admin-hide="#mid2_help">×</button>
+							<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
+						</div>
+						<input type="text" id="mid2" class="_mid">
+					</li>
+					<li class="typeUrl">
+						<div class="x_tabbable">
+							<ul class="x_nav x_nav-tabs">
+								<li class="x_active"><a href="#fix_linkUrl">URL 링크</a></li>
+								<li><a href="#fix_linkMenu">메뉴 링크</a></li>
+							</ul>
+							<div class="x_tab-content">
+								<div class="x_tab-pane x_active" id="fix_linkUrl">
+									<input type="text" required title="URL 링크" />
+								</div>
+								<div class="x_tab-pane" id="fix_linkMenu">
+									<input type="text" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+								</div>
 							</div>
 						</div>
-					</div>
-				</li>
-				<li style="padding-top:12px;margin-top:5px;border-top:1px solid #ddd">
-					<label><input type="checkbox" class="_newWindow" title="메뉴 클릭시 새 창으로 열기"> 메뉴 클릭시 새 창으로 열기</label>
-				</li>
-				<li>
-					<label><input type="checkbox" class="_leaveUnfolded" title="늘 펼쳐진 상태로 있게 합니다"> 늘 펼쳐진 상태로 있게 합니다</label>
-				</li>
-			</ul>
-			<div class="btnBoth">
-				<button type="reset" class="x_btn x_pull-left" data-admin-hide="#default">취소</button>
-				<button type="button" class="x_btn x_btn-primary x_pull-right _save">확인</button>
+					</li>
+					<li style="padding-top:12px;margin-top:5px;border-top:1px solid #ddd">
+						<label><input type="checkbox" class="_newWindow" title="메뉴 클릭시 새 창으로 열기"> 메뉴 클릭시 새 창으로 열기</label>
+					</li>
+					<li>
+						<label><input type="checkbox" class="_leaveUnfolded" title="늘 펼쳐진 상태로 있게 합니다"> 늘 펼쳐진 상태로 있게 합니다</label>
+					</li>
+				</ul>
+				<div class="btnBoth">
+					<button type="reset" class="x_btn x_pull-left" data-admin-hide="#default">취소</button>
+					<button type="button" class="x_btn x_btn-primary x_pull-right _save">확인</button>
+				</div>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#default">&times;</button>
@@ -235,81 +244,79 @@
 	<div class="col" id="imgbtn">
 		<fieldset>
 			<h1>이미지 버튼</h1>
-			<form action="">
-				<figure>
-					<figcaption>일반</figcaption>
-					<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
-				</figure>
-				<div class="btnBoth">
-					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-					<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="변경">
-				</div>
-			</form>
-			<form action="">
-				<figure>
-					<figcaption>마우스 오버</figcaption>
-					<p>이미지 없음</p>
-					<!--<img src="" alt="마우스 오버 버튼 이미지">-->
-				</figure>
-				<div class="btnBoth">
-					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-					<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
-				</div>
-			</form>
-			<form action="">
-				<figure>
-					<figcaption>선택 됨</figcaption>
-					<p>이미지 없음</p>
-					<!--<img src="" alt="선택 됨 버튼 이미지">-->
-				</figure>
-				<div class="btnBoth">
-					<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-					<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
-				</div>
-			</form>
+			<div class="cnt">
+				<form action="">
+					<figure>
+						<figcaption>일반</figcaption>
+						<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
+					</figure>
+					<div class="btnBoth">
+						<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
+						<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="변경">
+					</div>
+				</form>
+				<form action="">
+					<figure>
+						<figcaption>마우스 오버</figcaption>
+						<p>이미지 없음</p>
+						<!--<img src="" alt="마우스 오버 버튼 이미지">-->
+					</figure>
+					<div class="btnBoth">
+						<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
+						<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
+					</div>
+				</form>
+				<form action="">
+					<figure>
+						<figcaption>선택 됨</figcaption>
+						<p>이미지 없음</p>
+						<!--<img src="" alt="선택 됨 버튼 이미지">-->
+					</figure>
+					<div class="btnBoth">
+						<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
+						<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
+					</div>
+				</form>
+			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#imgbtn">&times;</button>
 	</div>
 	<div class="col" id="design">
 		<fieldset>
 			<h1>디자인</h1>
-			<form action="./" target="xe_preview" class="_preview_form" method="post">
-			<input type="hidden" name="skin_vars" value="{}"/>
-			<div class="x_tabbable">
-				<ul class="x_nav x_nav-tabs">
-					<li class="x_active"><a href="#pc">PC</a></li>
-					<li><a href="#mobile">모바일</a></li>
+			<div class="cnt">
+				<form action="./" target="xe_preview" class="_preview_form" method="post">
+					<input type="hidden" name="skin_vars" value="{}"/>
+					<div class="x_tabbable">
+						<ul class="x_nav x_nav-tabs">
+							<li class="x_active"><a href="#pc">PC</a></li>
+							<li><a href="#mobile">모바일</a></li>
+						</ul>
+						<div class="x_tab-content">
+							<div class="x_tab-pane x_active" id="pc">
+								<iframe name="_pc_preview_ifr" src="about:_blank"></iframe>
+								<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="크게 보기" />
+							</div>
+							<div class="x_tab-pane" id="mobile">
+								<iframe name="_mobile_preview_ifr" src="about:_blank"></iframe>
+								<input type="submit" class="x_icon-zoom-in _mobile_preview_open" value="크게 보기" />
+							</div>
+						</div>
+					</div>
+				</form>
+				<ul class="nav _itemList">
+					<script id="tmpl_layoutItem" type="text/x-jquery-tmpl">
+					<li><a href="#layout" data-admin-show="#layout">레이아웃 <i class="x_icon-circle-arrow-right"></i></a></li>
+					</script>
+					
+					<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
+					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
+					</script>
 				</ul>
-				<div class="x_tab-content">
-					<div class="x_tab-pane x_active" id="pc">
-						<div style="width:260px;height:200px;position:relative;border:1px solid #aaa; overflow:hidden">
-							<iframe name="_pc_preview_ifr" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
-						</div>
-						<!--img src="http://naradesign.net/photo/DSCN0687.JPG" alt="현재 설정된 PC 레이아웃"-->
-							<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="크게 보기"/>
-					</div>
-					<div class="x_tab-pane" id="mobile">
-						<div style="width:260px;height:200px;position:relative;border:1px solid #aaa; overflow:hidden">
-							<iframe name="_mobile_preview_ifr" src="about:_blank" style="border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute"></iframe>
-						</div>
-						<!--img src="http://naradesign.net/photo/DSCN0810.JPG" alt="현재 설정된 모바일 레이아웃"-->
-						<a href="#" target="_blank" class="x_icon-zoom-in _mobile_preview_open" title="새창">크게 보기</a>
-					</div>
+				<div class="btnBoth">
+					<button type="reset" class="x_btn x_pull-left">취소</button>
+					<button type="button" class="x_btn x_btn-primary x_pull-right">저장</button>
 				</div>
-			</div>
-			</form>
-			<ul class="nav _itemList">
-				<script id="tmpl_layoutItem" type="text/x-jquery-tmpl">
-				<li><a href="#layout" data-admin-show="#layout">레이아웃 <i class="x_icon-circle-arrow-right"></i></a></li>
-				</script>
-				
-				<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
-				<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
-				</script>
-			</ul>
-			<div class="btnBoth">
-				<button type="reset" class="x_btn x_pull-left">취소</button>
-				<button type="button" class="x_btn x_btn-primary x_pull-right">저장</button>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#design">&times;</button>
@@ -317,36 +324,38 @@
 	<div class="col theme" id="layout">
 		<form action="">
 			<h1>레이아웃</h1>
-			<label>
-				<input type="checkbox" class="_chkUseDefaultLayout" title="사이트 기본 레이아웃 사용"> 사이트 기본 레이아웃 사용
-				<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 레이아웃 설정</a>
-			</label>
-			<div class="list">
-				<ul class="_layout_list">
-					<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
-					<li class="${Selected}">
-						<label>
-							<input type="radio" name="layout_item" title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
-						</label>
-					</li>
-					</script>
-					<script id="tmpl_layout_list_item" type="text/x-jquery-tmpl">
-					<li class="${Selected}">
-						<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
-						<button type="button" class="item _btnScreenshot" title="클릭하면 레이아웃이 적용됩니다.">
-							<img src="${ScreenShotURL}">
-						</button>
-						<ul class="_edit_menu">
-							<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><a href="#layoutMarkupSetup" data-admin-show="#layoutMarkupSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
-							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
-						</ul>
-					</li>
-					</script>
-				</ul>
-				<div class="x_btn-group">
-					<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 레이아웃 설치</a>
+			<div class="cnt">
+				<label>
+					<input type="checkbox" class="_chkUseDefaultLayout" title="사이트 기본 레이아웃 사용"> 사이트 기본 레이아웃 사용
+					<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 레이아웃 설정</a>
+				</label>
+				<div class="list">
+					<ul class="_layout_list">
+						<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
+						<li class="${Selected}">
+							<label>
+								<input type="radio" name="layout_item" title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
+							</label>
+						</li>
+						</script>
+						<script id="tmpl_layout_list_item" type="text/x-jquery-tmpl">
+						<li class="${Selected}">
+							<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
+							<button type="button" class="item _btnScreenshot" title="클릭하면 레이아웃이 적용됩니다.">
+								<img src="${ScreenShotURL}">
+							</button>
+							<ul class="_edit_menu">
+								<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+								<li><a href="#layoutMarkupSetup" data-admin-show="#layoutMarkupSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
+								<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
+								<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+							</ul>
+						</li>
+						</script>
+					</ul>
+					<div class="x_btn-group">
+						<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 레이아웃 설치</a>
+					</div>
 				</div>
 			</div>
 		</form>
@@ -355,14 +364,18 @@
 	<div class="col layoutSetup" id="layoutSetup">
 		<section>
 			<h1>레이아웃 설정</h1>
-			<div class="_contents"></div>
+			<div class="cnt">
+				<div class="_contents"></div>
+			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#layoutSetup">&times;</button>
 	</div>
 	<div class="col layoutMarkupSetup" id="layoutMarkupSetup">
 		<section>
 			<h1>레이아웃 HTML/CSS 설정</h1>
-			<div class="_contents"></div>
+			<div class="cnt">
+				<div class="_contents"></div>
+			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#layoutMarkupSetup">&times;</button>
 	</div>
@@ -370,20 +383,20 @@
 	<div class="col download" id="downloadLayout">
 		<section>
 			<h1>다른 레이아웃 설치</h1>
-			<div class="list">
-				<script id="tmpl_downloadableLayoutItem" type="text/x-jquery-tmpl">
-					<div class="item">
-						<img src="http://${ScreenShotURL}" alt="">
-						<h2>${Title}</h2>
-						<p>${Desc}</p>
-						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
-						<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-					</div>
-				</script>
+			<div class="cnt">
+				<div class="list">
+					<script id="tmpl_downloadableLayoutItem" type="text/x-jquery-tmpl">
+						<div class="item">
+							<img src="http://${ScreenShotURL}" alt="">
+							<h2>${Title}</h2>
+							<p>${Desc}</p>
+							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+							<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+						</div>
+					</script>
+				</div>
+				<div class="_pagination"></div>
 			</div>
-			
-			<div class="_pagination"></div>
-			
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#downloadLayout">&times;</button>
 	</div>
@@ -391,58 +404,60 @@
 	<div class="col theme" id="skin">
 		<form action="">
 			<h1>스킨</h1>
-			<label>
-				<input type="checkbox" class="_chkUseDefault" title="사이트 기본 스킨 사용"> 사이트 기본 스킨 사용
-				<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 스킨 설정</a>
-			</label>
-			<div class="list">
-				<ul class="_list">
-				
-					<script id="tmpl_skin_list_item_no_skin" type="text/x-jquery-tmpl">
-					<li class="${Selected}">
-						<label>
-							<input type="radio" name="skin_item" title="스킨 사용 안 함"> 스킨 사용 안 함
-						</label>
-					</li>
-					</script>
-				
-					<script id="tmpl_skin_list_item" type="text/x-jquery-tmpl">
-					<li class="${Selected}">
-						<label><input type="radio" name="skin_item" title="${Title}"> ${Title}</label>
-						<button type="button" class="item _btnScreenshot" title="클릭하면 스킨이 적용됩니다.">
-							<img src="${ScreenShotURL}">
-						</button>
-						<ul>
-							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
-						</ul>
-					</li>
-					</script>
-<!--					
-					<li class="selected">
-						<h3>엔터프라이즈</h3>
-						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다.">
-							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
-						</button>
-						<ul>
-							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
-						</ul>
-					</li>
-					<li>
-						<h3>엔터프라이즈</h3>
-						<button type="button" class="item" title="클릭하면 스킨이 적용됩니다.">
-							<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
-						</button>
-						<ul>
-							<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-							<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
-						</ul>
-					</li>
--->
-				</ul>
-				<div class="x_btn-group">
-					<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
+			<div class="cnt">
+				<label>
+					<input type="checkbox" class="_chkUseDefault" title="사이트 기본 스킨 사용"> 사이트 기본 스킨 사용
+					<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 스킨 설정</a>
+				</label>
+				<div class="list">
+					<ul class="_list">
+					
+						<script id="tmpl_skin_list_item_no_skin" type="text/x-jquery-tmpl">
+						<li class="${Selected}">
+							<label>
+								<input type="radio" name="skin_item" title="스킨 사용 안 함"> 스킨 사용 안 함
+							</label>
+						</li>
+						</script>
+					
+						<script id="tmpl_skin_list_item" type="text/x-jquery-tmpl">
+						<li class="${Selected}">
+							<label><input type="radio" name="skin_item" title="${Title}"> ${Title}</label>
+							<button type="button" class="item _btnScreenshot" title="클릭하면 스킨이 적용됩니다.">
+								<img src="${ScreenShotURL}">
+							</button>
+							<ul>
+								<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+								<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+							</ul>
+						</li>
+						</script>
+	<!--					
+						<li class="selected">
+							<h3>엔터프라이즈</h3>
+							<button type="button" class="item" title="클릭하면 스킨이 적용됩니다.">
+								<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
+							</button>
+							<ul>
+								<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+								<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+							</ul>
+						</li>
+						<li>
+							<h3>엔터프라이즈</h3>
+							<button type="button" class="item" title="클릭하면 스킨이 적용됩니다.">
+								<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
+							</button>
+							<ul>
+								<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+								<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+							</ul>
+						</li>
+	-->
+					</ul>
+					<div class="x_btn-group">
+						<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
+					</div>
 				</div>
 			</div>
 		</form>
@@ -451,46 +466,48 @@
 	<div class="col download" id="downloadSkin">
 		<section>
 			<h1>다른 스킨 설치</h1>
-			<div class="list">
-				<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
-					<div class="item">
-						<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
-						<h2>${MenuType}</h2>
-						<p>${MenuTypeDesc}</p>
-						<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
-						<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-					</div>
-				</script>
+			<div class="cnt">
+				<div class="list">
+					<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
+						<div class="item">
+							<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
+							<h2>${MenuType}</h2>
+							<p>${MenuTypeDesc}</p>
+							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+							<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+						</div>
+					</script>
+				</div>
+				<div class="_pagination"></div>
 			</div>
-
-			<div class="_pagination"></div>
-			
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#downloadSkin">&times;</button>
 	</div>
 	<div class="col" id="auth">
 		<fieldset>
 			<h1>권한</h1>
-			<ul class="_list">
-				<script id="tmpl_permItem" type="text/x-jquery-tmpl">
-				<li>
-					<label for="auth${PermId}">${PermTitle}</label>
-					<select id="auth${PermId}">
-						<option class="_group_all" value="0">모든 사용자</option>
-						<option class="_group_loggedin" value="-1">로그인 사용자</option>
-						<option class="_group_signedup" value="-2">가입한 사용자</option>
-						<option class="_group_selected" value="-10">선택그룹 사용자</option>
-					</select>
-					<div class="selected x_hide _groups _groups_${PermId}">
-					</div>
-				</li>
-				</script>
-				<script id="tmpl_perm_groupItem" type="text/x-jquery-tmpl">
-						<label><input type="checkbox" value="${ID}" title="${Title}"> ${Title}</label>
-				</script>
-			</ul>
-			<div class="x_btn-group">
-				<button type="button" class="x_btn x_btn-primary _save">확인</button>
+			<div class="cnt">
+				<ul class="_list">
+					<script id="tmpl_permItem" type="text/x-jquery-tmpl">
+					<li>
+						<label for="auth${PermId}">${PermTitle}</label>
+						<select id="auth${PermId}">
+							<option class="_group_all" value="0">모든 사용자</option>
+							<option class="_group_loggedin" value="-1">로그인 사용자</option>
+							<option class="_group_signedup" value="-2">가입한 사용자</option>
+							<option class="_group_selected" value="-10">선택그룹 사용자</option>
+						</select>
+						<div class="selected x_hide _groups _groups_${PermId}">
+						</div>
+					</li>
+					</script>
+					<script id="tmpl_perm_groupItem" type="text/x-jquery-tmpl">
+							<label><input type="checkbox" value="${ID}" title="${Title}"> ${Title}</label>
+					</script>
+				</ul>
+				<div class="x_btn-group">
+					<button type="button" class="x_btn x_btn-primary _save">확인</button>
+				</div>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#auth">&times;</button>
@@ -525,14 +542,20 @@
 #site .btnBoth,
 #site .x_btn-group{text-align:right;padding:10px 0;margin:15px 0;border-top:1px solid #ccc}
 #site .btnBoth:after{content:"";display:block;clear:both}
-.col{display:inline-block;vertical-align:top;position:relative;white-space:normal;height:100%;min-width:220px;padding:10px 25px 10px 10px;margin:0 4px 0 0;overflow-y:auto;overflow-x:hidden;border:1px solid #ddd}
-.col>*>h1{line-height:30px;font-size:16px;border-bottom:2px solid #666;margin:0;color:#333}
-.col>*>ul{margin:0;padding:0;list-style:none}
-.col>.x_close{position:absolute;top:0;right:0;width:32px;height:32px}
+.col{display:inline-block;vertical-align:top;position:relative;white-space:normal;height:100%;min-width:220px;padding:10px;margin:0 4px 0 0;border:1px solid #ddd}
+.col>*>h1{line-height:30px;font-size:14px;border-bottom:2px solid #000;margin:0;color:#fff;background:#333 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666), to(#333));background:#333 -moz-linear-gradient(top, #666, #333);background:#333 -o-linear-gradient(top, #666, #333);padding:0 8px;border-radius:2px 2px 0 0}
+.col>*>h1>a{color:#fff}
+.col>*>h1>a[target="_blank"]:after{background-image:url({getUrl('')}common/img/glyphicons-halflings-white.png)}
+.col>*>.cnt{overflow-x:hidden;overflow-y:auto;padding:0 10px 0 0;margin:0 -10px 0 0}
+.col>*>.cnt>ul{margin:0;padding:0;list-style:none}
+.col>.x_close{position:absolute;top:10px;right:10px;width:30px;height:30px;color:#fff;font-size:17px;opacity:.75;filter:alpha(opacity=75)}
+.col>.x_close:hover,
+.col>.x_close:focus{opacity:1;filter:alpha(opacity=100)}
 .col input[type="checkbox"],
 .col input[type="radio"]{margin:0}
-.col label{cursor:pointer}
-	/* .mapi * */
+.col>*>.cnt label{cursor:pointer;font-weight:normal}
+	/* .mapi */
+.col.map#site_map{overflow-x:hidden;overflow-y:auto}
 .mapi{margin:0 0 15px 0;min-width:200px;background-color:transparent !important}
 .mapi ul{margin:0;padding:0;list-style:none}
 .mapi li{padding:0 80px 0 0;white-space:nowrap;position:relative;line-height:30px;border-radius:3px;vertical-align:top}
@@ -618,7 +641,7 @@
 .theme .selected>label{font-weight:bold}
 .theme ul ul{white-space:nowrap;float:left;width:100%;margin:5px 0 0 0}
 .theme ul ul a>i{position:absolute;top:2px;right:2px}
-.theme ul ul>li>*{display:block;text-align:left;position:relative;text-decoration:none;padding:0 24px 0 5px;border-radius:3px;color:#000;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s}
+.theme ul ul>li>*{display:block;text-align:left;position:relative;text-decoration:none;padding:0 34px 0 5px;border-radius:3px;color:#000;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s;white-space:nowrap}
 .theme ul ul>li>*:hover,
 .theme ul ul>li>*:focus{background:#666;color:#fff}
 .theme ul ul>li>a:hover>i,
@@ -673,8 +696,9 @@
 #design ul{margin-top:8px}
 #design .btnBoth{border:0;margin-top:0}
 #design img{width:220px}
-#design .x_tab-pane{position:relative}
-#design .x_icon-zoom-in{position:absolute;right:0;bottom:0;width:24px;height:24px;background-color:#fff;opacity:.75;filter:alpha(opacity:75);background-position:-331px 5px}
+#design .x_tab-pane{position:relative;box-shadow:0 0 4px #999 inset;padding:4px;width:260px;height:200px;overflow:hidden}
+#design .x_tab-pane>iframe{border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.25);-moz-transform-origin:0 0; -moz-transform: scale(.25);position:absolute}
+#design .x_icon-zoom-in{position:absolute;right:4px;bottom:4px;width:24px;height:24px;background-color:#fff;opacity:.75;filter:alpha(opacity:75);background-position:-331px 5px}
 #design .x_icon-zoom-in:after{content:normal}
 
 #layout li ul._edit_menu {display:none}
@@ -2736,7 +2760,7 @@ jQuery(function($){
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
-		$('#site').height(wHeigh - 150).children('.col').height(wHeigh - 195);
+		$('#site').height(wHeigh - 150).children('.col').height(wHeigh - 195).find('.cnt').height(wHeigh - 227);
 	}).resize();
 // #linkMenu copy and set text to input
 /*
