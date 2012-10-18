@@ -648,13 +648,18 @@
 				return $this->stop('msg_empty_origin_layout');
 			}
 
+			$oLayoutModel = &getModel('layout');
+			$layout = $oLayoutModel->getLayout($sourceArgs->layout_srl);
+
+			if(!$sourceArgs->title)
+			{
+				$sourceArgs->title = array($layout->title.'_'.$this->_makeRandomMid());
+			}
+
 			if(!is_array($sourceArgs->title) || count($sourceArgs->title) == 0)
 			{
 				return $this->stop('msg_empty_target_layout');
 			}
-
-			$oLayoutModel = &getModel('layout');
-			$layout = $oLayoutModel->getLayout($sourceArgs->layout_srl);
 
 			$output = $oLayoutModel->getLayoutRawData($sourceArgs->layout_srl, array('extra_vars'));
 			$args->extra_vars = $output->extra_vars;
@@ -722,6 +727,19 @@
 				Context::close();
 				exit;
 			}
+		}
+
+		private function _makeRandomMid()
+		{
+			$time = time();
+			$randomString = "";
+			for($i=0;$i<4;$i++)
+			{
+				$doc = rand()%26+65;
+				$randomString .= chr($doc);
+			}
+
+			return $randomString.substr($time, -4);
 		}
 
 		/**
