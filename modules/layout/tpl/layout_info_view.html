@@ -61,11 +61,11 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="{$name}">{$var->title}</label>
 			<div class="x_controls">
-				<div cond="$var->type == 'text'" class="multiLangEdit">
+				<div cond="$var->type == 'text'">
 					<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" />
 				</div>
 
-				<div cond="$var->type == 'textarea'" class="multiLangEdit">
+				<div cond="$var->type == 'textarea'">
 					{@$use_multilang_textarea = true}
 					<textarea name="{$name}" rows="8" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end--></textarea>
 				</div>

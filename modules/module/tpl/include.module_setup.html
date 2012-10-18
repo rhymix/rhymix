@@ -80,20 +80,16 @@
 			</li>
 			<li>
 				<p class="q"><label for="header_text">{$lang->header_text}</label></p>
-				<p class="a multiLangEdit">
+				<p class="a">
 					{@$use_multilang_textarea=true}
-					<input type="hidden" name="header_text" class="vLang" />
-					<textarea id="header_text" rows="8" cols="42" class="vLang"></textarea>
-					<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+					<textarea id="header_text" name="header_text" class="lang_code" rows="8" cols="42"></textarea>
 				</p>
 				<p class="desc">{$lang->about_header_text}</p>
 			</li>
 			<li>
 				<p class="q"><label for="footer_text">{$lang->footer_text}</label></p>
-				<p class="a multiLangEdit">
-					<input type="hidden" name="footer_text" class="vLang" />
-					<textarea id="footer_text" rows="8" cols="42" class="vLang"></textarea>
-					<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+				<p class="a">
+					<textarea id="footer_text" name="footer_text" class="lang_code" rows="8" cols="42"></textarea>
 				</p>
 				<p class="desc">{$lang->about_footer_text}</p>
 			</li>

@@ -1,8 +1,8 @@
 <!--#include("./header.html")-->
-<p>{$lang->about_module_point}</p>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+<p>{$lang->about_module_point}</p>
 <form action="./" method="post" id="fo_point">
 	<input type="hidden" name="module" value="point" />
 	<input type="hidden" name="act" value="procPointAdminInsertModuleConfig" />

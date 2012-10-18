@@ -13,13 +13,13 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x a[target="_blank"]:after{ content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:0 0 0 2px;background-position:-120px -72px;opacity:.3;filter:alpha(opacity=30)}
 /* Bootstrap Override */
 .x .x_page-header{padding-bottom:0;border-bottom:2px solid #ddd}
-.x .x_page-header>h1{margin-bottom:0}
+.x .x_page-header>h1{margin-bottom:0;font-size:24px;color:#333}
 .x h1,.x h2,.x h3,.x h4,.x h5,.x h6{line-height:1.5;font-weight:600;color:#666}
-.x h1{font-size:24px}
-.x h2{font-size:20px}
-.x h3{font-size:16px}
-.x h4{font-size:14px}
-.x h5{font-size:12px}
+.x h1{font-size:22px}
+.x h2{font-size:18px}
+.x h3{font-size:14px}
+.x h4,
+.x h5,
 .x h6{font-size:12px}
 .x [class^="x_icon-"],
 .x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
@@ -51,10 +51,11 @@ body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13p
 .x .x_btn-group>.x_btn:first-child{border-bottom-left-radius:2px;border-top-left-radius:2px}
 .x input[type="radio"], 
 .x input[type="checkbox"]{margin:0}
+.x td select, .x td textarea, .x td input{margin-bottom:0}
 .x a.x_icon-question-sign,
 .x button.x_icon-question-sign{cursor:help}
 .x .x_nav-tabs>li>a{padding-top:6px;padding-bottom:6px}
-.x .x_table{margin:20px 0;border-top:2px solid #ddd;border-bottom:1px solid #ddd}
+.x .x_table{margin:10px 0;border-top:2px solid #ddd;border-bottom:1px solid #ddd}
 .x .x_table:first-child{margin-top:0}
 .x .x_table>caption{text-align:left;padding:8px 0}
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}

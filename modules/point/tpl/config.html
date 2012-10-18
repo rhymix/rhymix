@@ -7,109 +7,105 @@
 	<input type="hidden" name="act" value="procPointAdminInsertConfig" />
 	<section class="section">
 		<h1>{$lang->is_default}</h1>
-		<div>
-			<div class="x_control-group">
-				<label for="max_level" class="x_control-label">{$lang->max_level}</label>
-				<div class="x_controls">
-					<input type="text" value="{$config->max_level}" name="max_level" id="max_level" style="width:30px" />
-					{$lang->about_max_level}
-				</div>
-			</div>
-			<div class="x_control-group">
-				<label for="point_name" class="x_control-label">{$lang->point_name}</label>
-				<div class="x_controls">
-					<input type="text" value="{$config->point_name}" name="point_name" id="point_name" style="width:50px" />
-					{$lang->about_point_name}
-				</div>
-			</div>
-			<div class="x_control-group">
-				<label class="x_control-label">{$lang->give_point}</label>
-				<div class="x_controls">
-					<input type="text" value="{$config->signup_point}" name="signup_point" id="signup_point" style="width:30px" /> : 
-					<label for="signup_point" class="x_inline">{$lang->point_signup}</label>
-					<br />
-					<input type="text" value="{$config->login_point}" name="login_point" id="login_point" style="width:30px" /> :
-					<label for="login_point" class="x_inline">{$lang->cmd_login}</label>
-					<br />
-					<input type="text" name="insert_document" value="{$config->insert_document}" id="insert_document" style="width:30px" /> :
-					<label for="insert_document" class="x_inline">{$lang->point_insert_document}</label>
-					<br />
-					<input type="text" name="insert_comment" value="{$config->insert_comment}" id="insert_comment" style="width:30px" /> :
-					<label for="insert_comment" class="x_inline">{$lang->point_insert_comment}</label>
-					<br />
-					<input type="text" name="upload_file" value="{$config->upload_file}" id="upload_file" style="width:30px" /> :
-					<label for="upload_file" class="x_inline">{$lang->point_upload_file}</label>
-					<br />
-					<input type="text" name="download_file" value="{$config->download_file}" id="download_file" style="width:30px" /> :
-					<label for="download_file" class="x_inline">{$lang->point_download_file}</label>
-					<br />
-					<input type="text" name="read_document" value="{$config->read_document}" id="read_document" style="width:30px" /> :
-					<label for="read_document" class="x_inline">{$lang->point_read_document}</label>
-					<br />
-					<input type="text" name="voted" value="{$config->voted}" style="width:30px" id="voted" /> :
-					<label for="voted" class="x_inline">{$lang->point_voted}</label>
-					<br />
-					<input type="text" name="blamed" value="{$config->blamed}" id="blamed" style="width:30px" /> :
-					<label for="blamed" class="x_inline">{$lang->point_blamed}</label>
-				</div>
-			</div>
-			<div class="x_control-group">
-				<label for="level_icon" class="x_control-label">{$lang->level_icon}</label>
-				<div class="x_controls">
-					<select name="level_icon" id="level_icon">
-						<!--@foreach($level_icon_list as $key => $val)-->
-						<option value="{$val}" selected="selected"|cond="$config->level_icon == $val">{$val}</option>
-						<!--@end-->
-					</select>
-					<span class="x_help-block">{$lang->about_level_icon}</span>
-				</div>
-			</div>
-			<div class="x_control-group">
-				<label for="disable_download" class="x_control-label">{$lang->disable_download}</label>
-				<div class="x_controls">
-					<input type="checkbox" name="disable_download" id="disable_download" value="Y" checked="checked"|cond="$config->disable_download=='Y'" />
-					{$lang->about_disable_download}
-				</div>
-			</div>
-			<div class="x_control-group">
-				<label for="disable_read_document" class="x_control-label">{$lang->disable_read_document}</label>
-				<div class="x_controls">
-					<input type="checkbox" name="disable_read_document" id="disable_read_document" value="Y" checked="checked"|cond="$config->disable_read_document=='Y'" />
-					{$lang->about_disable_read_document}
-				</div>
+		<div class="x_control-group">
+			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
+			<div class="x_controls">
+				<input type="text" value="{$config->max_level}" name="max_level" id="max_level" style="width:30px" />
+				{$lang->about_max_level}
 			</div>
 		</div>
-		<div class="x_clearfix">
+		<div class="x_control-group">
+			<label for="point_name" class="x_control-label">{$lang->point_name}</label>
+			<div class="x_controls">
+				<input type="text" value="{$config->point_name}" name="point_name" id="point_name" style="width:50px" />
+				{$lang->about_point_name}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->give_point}</label>
+			<div class="x_controls">
+				<input type="text" value="{$config->signup_point}" name="signup_point" id="signup_point" style="width:30px" /> : 
+				<label for="signup_point" class="x_inline">{$lang->point_signup}</label>
+				<br />
+				<input type="text" value="{$config->login_point}" name="login_point" id="login_point" style="width:30px" /> :
+				<label for="login_point" class="x_inline">{$lang->cmd_login}</label>
+				<br />
+				<input type="text" name="insert_document" value="{$config->insert_document}" id="insert_document" style="width:30px" /> :
+				<label for="insert_document" class="x_inline">{$lang->point_insert_document}</label>
+				<br />
+				<input type="text" name="insert_comment" value="{$config->insert_comment}" id="insert_comment" style="width:30px" /> :
+				<label for="insert_comment" class="x_inline">{$lang->point_insert_comment}</label>
+				<br />
+				<input type="text" name="upload_file" value="{$config->upload_file}" id="upload_file" style="width:30px" /> :
+				<label for="upload_file" class="x_inline">{$lang->point_upload_file}</label>
+				<br />
+				<input type="text" name="download_file" value="{$config->download_file}" id="download_file" style="width:30px" /> :
+				<label for="download_file" class="x_inline">{$lang->point_download_file}</label>
+				<br />
+				<input type="text" name="read_document" value="{$config->read_document}" id="read_document" style="width:30px" /> :
+				<label for="read_document" class="x_inline">{$lang->point_read_document}</label>
+				<br />
+				<input type="text" name="voted" value="{$config->voted}" style="width:30px" id="voted" /> :
+				<label for="voted" class="x_inline">{$lang->point_voted}</label>
+				<br />
+				<input type="text" name="blamed" value="{$config->blamed}" id="blamed" style="width:30px" /> :
+				<label for="blamed" class="x_inline">{$lang->point_blamed}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="level_icon" class="x_control-label">{$lang->level_icon}</label>
+			<div class="x_controls">
+				<select name="level_icon" id="level_icon">
+					<!--@foreach($level_icon_list as $key => $val)-->
+					<option value="{$val}" selected="selected"|cond="$config->level_icon == $val">{$val}</option>
+					<!--@end-->
+				</select>
+				<span class="x_help-inline">{$lang->about_level_icon}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="disable_download" class="x_control-label">{$lang->disable_download}</label>
+			<div class="x_controls">
+				<input type="checkbox" name="disable_download" id="disable_download" value="Y" checked="checked"|cond="$config->disable_download=='Y'" />
+				{$lang->about_disable_download}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="disable_read_document" class="x_control-label">{$lang->disable_read_document}</label>
+			<div class="x_controls">
+				<input type="checkbox" name="disable_read_document" id="disable_read_document" value="Y" checked="checked"|cond="$config->disable_read_document=='Y'" />
+				{$lang->about_disable_read_document}
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
 			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
 	</section>
 
 	<section class="section">
 		<h1>{$lang->point_link_group}</h1>
-		<div>
-			<div class="x_clearfix">
-				{$lang->about_point_link_group}
-				<div class="x_pull-right">
-					<label for="group_reset_y" class="x_inline"><input type="radio" name="group_reset" id="group_reset_y" value="Y" checked="checked"|cond="$config->group_reset != 'N'" /> {$lang->point_group_reset_and_add}</label>
-					<label for="group_reset_n" class="x_inline"><input type="radio" name="group_reset" id="group_reset_n" value="N" checked="checked"|cond="$config->group_reset == 'N'" /> {$lang->point_group_add_only}</label>
-				</div>
+		<div class="x_clearfix" style="margin-bottom:-10px">
+			<p class="x_pull-left">{$lang->about_point_link_group}</p>
+			<div class="x_pull-right">
+				<label for="group_reset_y" class="x_inline"><input type="radio" name="group_reset" id="group_reset_y" value="Y" checked="checked"|cond="$config->group_reset != 'N'" /> {$lang->point_group_reset_and_add}</label>
+				<label for="group_reset_n" class="x_inline"><input type="radio" name="group_reset" id="group_reset_n" value="N" checked="checked"|cond="$config->group_reset == 'N'" /> {$lang->point_group_add_only}</label>
 			</div>
-			<table class="x_table x_table-striped x_table-hover">
-				<thead>
-					<tr>
-						<th>{$lang->member_group}</th>
-						<th>{$lang->level}</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr loop="$group_list => $key,$val">
-						<td><label for="point_group_{$key}">{$val->title}</label></td>
-						<td cond="$val->is_default != 'Y'"><input type="text" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:30px" /></td>
-						<td cond="$val->is_default == 'Y'"><span>{$lang->default_group}</span></td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
+		<table class="x_table x_table-striped x_table-hover">
+			<thead>
+				<tr>
+					<th>{$lang->member_group}</th>
+					<th>{$lang->level}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr loop="$group_list => $key,$val">
+					<td><label for="point_group_{$key}">{$val->title}</label></td>
+					<td cond="$val->is_default != 'Y'"><input type="text" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:30px" /></td>
+					<td cond="$val->is_default == 'Y'"><span>{$lang->default_group}</span></td>
+				</tr>
+			</tbody>
+		</table>
 		<div class="x_clearfix">
 			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
@@ -118,55 +114,53 @@
 	<section class="section">
 {@$point_group = @array_flip($config->point_group)}
 		<h1>{$lang->level_point}</h1>
-		<div>
-			<div class="x_clearfix">
-				{$lang->expression}
-				<span class="x_pull-right">
-					<input value="{$config->expression}" size="30" class="level_expression" />
-					<button type="button" class="x_btn calc_point">{$lang->level_point_calc}</button> 
-					<button type="button" class="x_btn x_btn-warning calc_point _reset">{$lang->cmd_exp_reset}</button>
-				</span>
-			</div>
-			<table class="x_table x_table-striped x_table-hover">
-				<tr>
-					<th scope="col">{$lang->level}</th>
-					<th scope="col">{$lang->level_icon}</th>
-					<th scope="col">{$lang->point}</th>
-					<th scope="col">{$lang->member_group}</th>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="" /></td>
-					<td><input type="text" name="level_step_1" value="{$config->level_step[1]}" style="width:40px;text-align:right" /> {$config->point_name}</td>
+		<div class="x_clearfix">
+			<p class="x_pull-left">{$lang->expression}</p>
+			<span class="x_pull-right x_input-append">
+				<input type="text" value="{$config->expression}" size="30" class="level_expression" />
+				<button type="button" class="x_btn calc_point">{$lang->level_point_calc}</button> 
+				<button type="button" class="x_btn x_btn-warning calc_point _reset">{$lang->cmd_exp_reset}</button>
+			</span>
+		</div>
+		<table class="x_table x_table-striped x_table-hover">
+			<tr>
+				<th scope="col">{$lang->level}</th>
+				<th scope="col">{$lang->level_icon}</th>
+				<th scope="col">{$lang->point}</th>
+				<th scope="col">{$lang->member_group}</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="" /></td>
+				<td><input type="text" name="level_step_1" value="{$config->level_step[1]}" style="width:40px;text-align:right" /> {$config->point_name}</td>
 {@$point_group_item = $point_group[1]}
 {@$title=array()}
 <!--@if($point_group_item)-->
-	<!--@if($config->group_reset != 'N')-->
-	{@$title[0] = $group_list[$point_group_item.'']->title}
-	<!--@else-->
-	{@$title[] = $group_list[$point_group_item.'']->title}
-	<!--@end-->
+<!--@if($config->group_reset != 'N')-->
+{@$title[0] = $group_list[$point_group_item.'']->title}
+<!--@else-->
+{@$title[] = $group_list[$point_group_item.'']->title}
 <!--@end-->
-					<td>{implode(', ', $title)}</td>
-				</tr>
-				<!--@for($i=2;$i<=$config->max_level;$i++)-->
+<!--@end-->
+				<td>{implode(', ', $title)}</td>
+			</tr>
+			<!--@for($i=2;$i<=$config->max_level;$i++)-->
 {@$point_group_item = $point_group[$i]}
 <!--@if($point_group_item)-->
-	<!--@if($config->group_reset != 'N')-->
-	{@$title[0] = $group_list[$point_group_item.'']->title}
-	<!--@else-->
-	{@$title[] = $group_list[$point_group_item.'']->title}
-	<!--@end-->
+<!--@if($config->group_reset != 'N')-->
+{@$title[0] = $group_list[$point_group_item.'']->title}
+<!--@else-->
+{@$title[] = $group_list[$point_group_item.'']->title}
 <!--@end-->
-				<tr class="row{(($i-1)%2+1)}">
-					<td>{$i}</td>
-					<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/{$i}.gif" alt="" /></td>
-					<td><input type="text" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:40px;text-align:right" /> {$config->point_name}</td>
-					<td>{implode(', ', $title)}</td>
-				</tr>
-				<!--@end-->
-			</table>
-		</div>
+<!--@end-->
+			<tr class="row{(($i-1)%2+1)}">
+				<td>{$i}</td>
+				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/{$i}.gif" alt="" /></td>
+				<td><input type="text" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:40px;text-align:right" /> {$config->point_name}</td>
+				<td>{implode(', ', $title)}</td>
+			</tr>
+			<!--@end-->
+		</table>
 		<div class="x_clearfix">
 			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
@@ -179,5 +173,5 @@
 		<div class="x_clearfix">
 			<span class="x_pull-right"><input class="x_btn x_btn-danger x_btn-large" type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal(); return false;"/></span>
 		</div>
-	</fieldset>
+	</section>
 </form>

@@ -36,11 +36,8 @@
 		</tr>
 		<tr>
 			<th scope="row">{$lang->browser_title}</th>
-			<td class="text multiLangEdit">
-				<input type="hidden" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}" class="vLang" />
-				<input type="text" value="{$module_info->browser_title}" class="vLang" />
-				<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang" data-effect="slide">{$lang->cmd_set_multilingual}</a></span>
-				<p>{$lang->about_browser_title}</p>
+			<td class="text">
+				<input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}" class="lang_code" />
 			</td>
 		</tr>
 		<tr>

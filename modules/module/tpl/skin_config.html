@@ -81,17 +81,13 @@
 			</block>
 			<li>
 				<p class="q">{$val->title}</p>
-				<p cond="$val->type == 'text'" class="a multiLangEdit">
+				<p cond="$val->type == 'text'" class="a">
 					{@$use_multilang = true}
-					<input type="hidden" name="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end-->" class="vLang" />
-					<input type="text" value="{$val->value}" class="vLang" />
-					<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+					<input type="text" name="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end-->" class="lang_code" />
 				</p>
-				<div cond="$val->type == 'textarea'" class="a multiLangEdit">
+				<div cond="$val->type == 'textarea'" class="a">
 					{@$use_multilang_textarea = true}
-					<input type="hidden" name="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end-->" class="vLang" />
-					<textarea rows="8" cols="42" class="vLang">{$val->value}</textarea>
-					<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+					<textarea rows="8" cols="42" name="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end-->" class="lang_code"></textarea>
 				</div>
 				<p cond="$val->type == 'select'" class="a">
 					<select name="{$val->name}">
