@@ -336,7 +336,7 @@
 						<button type="button" class="item _btnScreenshot" title="클릭하면 레이아웃이 적용됩니다.">
 							<img src="${ScreenShotURL}">
 						</button>
-						<ul>
+						<ul class="_edit_menu">
 							<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 							<li><a href="#layoutMarkupSetup" data-admin-show="#layoutMarkupSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
 							<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
@@ -676,6 +676,9 @@
 #design .x_tab-pane{position:relative}
 #design .x_icon-zoom-in{position:absolute;right:0;bottom:0;width:24px;height:24px;background-color:#fff;opacity:.75;filter:alpha(opacity:75);background-position:-331px 5px}
 #design .x_icon-zoom-in:after{content:normal}
+
+#layout li ul._edit_menu {display:none}
+#layout li.selected ul._edit_menu {display:block}
 
 #site_map li._isCut a{color:#aaa}
 
@@ -2095,10 +2098,14 @@ jQuery(function($){
 		});
 	})
 	$('#layoutSetup').on('show', function(ev){
+		if(this !== ev.target)  return;
+
 		//console.log($._htMarkupActionParam.sLayoutSrl);
 		var sLayoutSrl = $._htMarkupActionParam.sLayoutSrl;
 		$.exec_json("layout.getLayoutAdminSetInfoView", {layout_srl: sLayoutSrl}, function(htData){
 			//console.log(htData);
+			//console.log(htData.html.match(/<script[^>]*>/));
+			//htData.html = htData.html.replace(/<script[^>]*><\/script>/, "");
 			$('#layoutSetup').find('._contents').html(htData.html);
 			
 			var $configForm = $('#config_form');
