@@ -2188,7 +2188,7 @@ jQuery(function($){
 			scrollToRight();
 		});
 	})
-	function refreshLayoutMarkupSetup(){
+	top.refreshLayoutMarkupSetup = function(){
 		$('#layoutMarkupSetup').show();
 	}
 	$('#layoutMarkupSetup').on('show', function(ev){
@@ -2198,12 +2198,14 @@ jQuery(function($){
 			$contents = $('#layoutMarkupSetup ._contents');
 			$contents.html(htData.html);
 			
+			$allForms = $('#layoutMarkupSetup form');
+			
 			$fileChest = $contents.find('form[enctype="multipart/form-data"]');
 			$markup = $contents.find('#fo_layout');
 
-			$fileDelete = $('#layoutMarkupSetup form').not($fileChest).not($markup);
+			$fileDelete = $allForms.not($fileChest).not($markup);
 			
-			$fileChest.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "refreshLayoutMarkupSetup"));
+			$fileChest.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
 			$fileChest.attr('target', '_submitTarget');
 			
 			var $configForm = $('#config_form');
