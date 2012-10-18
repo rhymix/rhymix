@@ -1703,9 +1703,7 @@ jQuery(function($){
 		showMenuSelector($('._menuSelector_menuTreeContainer'));
 	});
 	$('#add_menu').bind("hide", function(ev){
-		if(this !== ev.target){
-			return;
-		}
+		if(this !== ev.target) return;
 
 		clearInputs($('#add_menu'));
 		 $('#add_menu .x_active ._linkUrl').val('http://');
@@ -1895,21 +1893,25 @@ jQuery(function($){
 	$previewForm.find('input[name=act]').remove();
 	$previewForm.find('input[name=mid]').remove();
 	$previewForm.find('input[name=vid]').remove();
-	/*
 	$('#design .x_tabbable').on('tab_change', function(ev, nIdx, $el){
-		console.log(44, ev, nIdx, $el);
-	});*/
-	$('#design').bind('show', function(){
+		//console.log('on "tab_change"', ev, nIdx, $el);
+		if(nIdx === 0){
+			// PC
+		}else{
+			// mobile
+		}
+	});
+	$('#design').bind('show', function(ev){
+		if(this !== ev.target) return;
+
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
 
-		var sResult = $.tmpl( "design_layoutItem", {})[0].outerHTML;
-		sResult += $.tmpl( "deisgn_skinItem", {
+		$(this).find('._itemList').html("").append($.tmpl( "design_layoutItem", {})).append($.tmpl( "deisgn_skinItem", {
 			ModuleType : htInfo.sModuleType,
 			ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title
-		} )[0].outerHTML;
-
-		$(this).find('._itemList').html(sResult);
+		} 
+		));
 		
 		// also preview here
 		var params = {
@@ -1963,20 +1965,7 @@ jQuery(function($){
 				sLayoutSrl : htDesign.sLayoutSrl,
 				sSkin : htDesign.sPCSkin
 			});
-			/*
-			var sURL = './?act=dispLayoutPreviewWithModule&module='+htDesign.sModuleName+'&mid='+htDesign.sMID+'&layout_srl='+htDesign.sLayoutSrl+'&skin='+htDesign.sPCSkin;
-			$('._pc_preview').attr('src', sURL);
-			$('._preview_form').attr('action', sURL);
-			*/
 		});
-
-		//$('._pc_preview')
-		// /?act=dispLayoutPreviewWithModule&module=모듈이름&mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름
-		//console.log(htInfo);
-		//htInfo.sModuleType
-		//htInfo.url
-		//layout_srl
-		//
 	})
 	$('#design').bind('hide', function(){
 		$._xeAdminVar.htPrevSetting = {};
