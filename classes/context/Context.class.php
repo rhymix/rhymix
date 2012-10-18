@@ -22,6 +22,11 @@ class Context {
 	 */
 	var $request_method  = 'GET';
 	/**
+	 * js callback function name.
+	 * @var string
+	 */
+	var $js_callback_func = '';
+	/**
 	 * Response method.If it's not set, it follows request method.
 	 * @var string HTML|XMLRPC 
 	 */
@@ -823,12 +828,12 @@ class Context {
 	function setRequestMethod($type='') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
-		$xe_js_callback = isset($_GET['xe_js_callback']) ? $_GET['xe_js_callback'] : $_POST['xe_js_callback'];
+		$self->js_callback_func = isset($_GET['xe_js_callback']) ? $_GET['xe_js_callback'] : $_POST['xe_js_callback'];
 
 		($type && $self->request_method=$type) or
 		(strpos($_SERVER['CONTENT_TYPE'],'json') && $self->request_method='JSON') or
 		($GLOBALS['HTTP_RAW_POST_DATA'] && $self->request_method='XMLRPC') or
-		($xe_js_callback && $self->request_method='JS_CALLBACK') or
+		($self->js_callback_func && $self->request_method='JS_CALLBACK') or
 		($self->request_method = $_SERVER['REQUEST_METHOD']);
 	}
 
@@ -1018,6 +1023,16 @@ class Context {
 			}
 		}
 		return $url;
+	}
+
+	/**
+	 * Return js callback func.
+	 * @return string callback func.
+	 */
+	function getJSCallbackFunc()
+	{
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+		return $self->js_callback_func;
 	}
 
 	/**

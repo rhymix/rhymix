@@ -12,7 +12,7 @@ class JSCallbackDisplayHandler{
 		$variables['error'] = $oModule->getError();
 		$variables['message'] = $oModule->getMessage();
 		$json = str_replace(array("\r\n","\n","\t"),array('\n','\n','\t'),json_encode2($variables));
-		$output = sprintf('<script>%s(%s);</script>', Context::get('xe_js_callback'), $json);
+		$output = sprintf('<script>%s(%s);</script>', Context::getJSCallbackFunc(), $json);
 		return $output;
 	}
 }
