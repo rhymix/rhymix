@@ -794,7 +794,7 @@ class Context {
 	function setResponseMethod($method='HTML') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
-		$methods = array('HTML'=>1, 'XMLRPC'=>1, 'JSON'=>1);
+		$methods = array('HTML'=>1, 'XMLRPC'=>1, 'JSON'=>1, 'JS_CALLBACK' => 1);
 		$self->response_method = isset($methods[$method]) ? $method : 'HTML';
 	}
 
@@ -809,7 +809,7 @@ class Context {
 		if($self->response_method) return $self->response_method;
 
 		$method  = $self->getRequestMethod();
-		$methods = array('HTML'=>1, 'XMLRPC'=>1, 'JSON'=>1);
+		$methods = array('HTML'=>1, 'XMLRPC'=>1, 'JSON'=>1, 'JS_CALLBACK' => 1);
 
 		return isset($methods[$method]) ? $method : 'HTML';
 	}
@@ -823,9 +823,12 @@ class Context {
 	function setRequestMethod($type='') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
+		$xe_js_callback = isset($_GET['xe_js_callback']) ? $_GET['xe_js_callback'] : $_POST['xe_js_callback'];
+
 		($type && $self->request_method=$type) or
 		(strpos($_SERVER['CONTENT_TYPE'],'json') && $self->request_method='JSON') or
 		($GLOBALS['HTTP_RAW_POST_DATA'] && $self->request_method='XMLRPC') or
+		($xe_js_callback && $self->request_method='JS_CALLBACK') or
 		($self->request_method = $_SERVER['REQUEST_METHOD']);
 	}
 

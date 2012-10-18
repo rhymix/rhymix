@@ -43,6 +43,11 @@
 				require_once("./classes/display/JSONDisplayHandler.php");
 				$handler = new JSONDisplayHandler();
 			}
+			else if(Context::getRequestMethod() == 'JS_CALLBACK')
+			{
+				require_once("./classes/display/JSCallbackDisplayHandler.php");
+				$handler = new JSCallbackDisplayHandler();
+			}
             else {
 				require_once("./classes/display/HTMLDisplayHandler.php");
 				$handler = new HTMLDisplayHandler();
@@ -65,7 +70,7 @@
 			if($httpStatusCode && $httpStatusCode != 200) $this->_printHttpStatusCode($httpStatusCode);
 			else
 			{
-				if(Context::getResponseMethod() == 'JSON') $this->_printJSONHeader();
+				if(Context::getResponseMethod() == 'JSON' || Context::getResponseMethod() == 'JS_CALLBACK') $this->_printJSONHeader();
 				else if(Context::getResponseMethod() != 'HTML') $this->_printXMLHeader();
 				else $this->_printHTMLHeader();
 			}
