@@ -1862,6 +1862,10 @@ jQuery(function($){
 	$previewForm.find('input[name=act]').remove();
 	$previewForm.find('input[name=mid]').remove();
 	$previewForm.find('input[name=vid]').remove();
+	/*
+	$('#design .x_tabbable').on('tab_change', function(ev, nIdx, $el){
+		console.log(44, ev, nIdx, $el);
+	});*/
 	$('#design').bind('show', function(){
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
@@ -2088,6 +2092,8 @@ jQuery(function($){
 		$(this).closest('li').find('input[name=layout_item]').click();
 	});
 	$('#layout').on('click', 'input[name=layout_item]', function(){
+		$('#layout').nextAll().hide();
+		
 		$('#layout').find('li.selected').removeClass('selected');
 		$(this).closest('li').addClass('selected');
 		
