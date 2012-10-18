@@ -10,29 +10,14 @@ function completeMessageOpenIDLogin(ret_obj, response_tags) {
     location.href = redirect_url;
 }
 
-function doLogin(o,filter){
-	jQuery('input.iText',o).each(function(){
-		var t = jQuery(this);
-		if(t.attr('title').length>0 && t.attr('title') == t.val()) t.val('');
+jQuery(function($){
+	$('#warning').hide();
+	$('#keepid').change(function(){
+		var $warning = $('#warning');
+		if($(this).is(':checked')){
+			$warning.slideDown(200);
+		} else {
+			$warning.slideUp(200);
+		}
 	});
-	procFilter(o,filter);
-	initLoginTitleMsg();
-	return false;
-}
-
-
-function initLoginTitleMsg(){
-	jQuery('.gLogin, .mLogin').find('input.iText').focus(function(){
-		var t = jQuery(this);
-		if(t.attr('title').length>0 && t.attr('title')==t.val()) t.val('');
-	}).blur(function(){
-		var t = jQuery(this);
-		if(t.attr('title').length>0 && t.val()=='') t.val(t.attr('title'));
-	}).focus().blur();
-}
-
-jQuery(function(){
-	initLoginTitleMsg();
 });
-
-
