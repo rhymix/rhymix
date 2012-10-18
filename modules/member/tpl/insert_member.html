@@ -46,30 +46,30 @@
 		</div>
 	</div>
 	<div loop="$formTags=>$formTag" class="x_control-group">
-		<label class="x_control-label">{$formTag->title}</label>
+		<label class="x_control-label" for="{$formTag->name}">{$formTag->title}</label>
 		<div class="x_controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
 		<div class="x_controls" cond="$formTag->name =='signature'">{$editor}</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->allow_mailing}</label>
 		<div class="x_controls">
-			<label for="mailingYes"><input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> {$lang->cmd_yes}</label>
-			<label for="mailingNo"><input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > {$lang->cmd_no}</label>
+			<label class="x_inline" for="mailingYes"><input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="mailingNo"><input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > {$lang->cmd_no}</label>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->allow_message}</label>
 		<div class="x_controls">
 			<block loop="$lang->allow_message_type=>$key,$val">
-				 <label for="allow_{$key}"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info->member_srl && $key == 'Y')" id="allow_{$key}" /> {$val}</label>
+				 <label class="x_inline" for="allow_{$key}"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info->member_srl && $key == 'Y')" id="allow_{$key}" /> {$val}</label>
 			</block>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->status}</label>
 		<div class="x_controls">
-			<label for="appoval"><input type="radio" name="denied" id="appoval" value="N" checked="checked"|cond="$member_info->denied != 'Y'" > {$lang->approval}</label>
-			<label for="deny"><input type="radio" name="denied" id="deny" value="Y" checked="checked"|cond="$member_info->denied == 'Y'" > {$lang->denied}</label>
+			<label class="x_inline" for="appoval"><input type="radio" name="denied" id="appoval" value="N" checked="checked"|cond="$member_info->denied != 'Y'" > {$lang->approval}</label>
+			<label class="x_inline" for="deny"><input type="radio" name="denied" id="deny" value="Y" checked="checked"|cond="$member_info->denied == 'Y'" > {$lang->denied}</label>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -77,22 +77,22 @@
 		<div class="x_controls">
 			<input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
 			<input type="text" class="inputDate" id="until" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
-			<input type="button" value="{$lang->cmd_delete}" class="dateRemover" />
-			<span class="desc">{$lang->about_limit_date}</span>
+			<input type="button" value="{$lang->cmd_delete}" class="x_btn dateRemover" />
+			<span class="x_help-inline">{$lang->about_limit_date}</span>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->is_admin}</label>
 		<div class="x_controls">
-			<label for="is_admin"><input type="radio" name="is_admin" id="is_admin" value="Y" checked="checked"|cond="$member_info->is_admin == 'Y'" > {$lang->cmd_yes}</label>
-			<label for="not_admin"><input type="radio" name="is_admin" id="not_admin" value="N" checked="checked"|cond="$member_info->is_admin != 'Y'" > {$lang->cmd_no}</label>
+			<label class="x_inline" for="is_admin"><input type="radio" name="is_admin" id="is_admin" value="Y" checked="checked"|cond="$member_info->is_admin == 'Y'" > {$lang->cmd_yes}</label>
+			<label class="x_inline" for="not_admin"><input type="radio" name="is_admin" id="not_admin" value="N" checked="checked"|cond="$member_info->is_admin != 'Y'" > {$lang->cmd_no}</label>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="description">{$lang->description}</label>
 		<div class="x_controls">
-			<textarea name="description" id="description" rows="8" cols="42">{htmlspecialchars($member_info->description)}</textarea>
-			<span class="desc">{$lang->about_member_description}</span>
+			<textarea name="description" id="description" rows="2" cols="42">{htmlspecialchars($member_info->description)}</textarea>
+			<span class="x_help-inline">{$lang->about_member_description}</span>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -104,7 +104,7 @@
 			<!--@end-->
 		</div>
 	</div>
-	<div class="x_clearfix">
+	<div class="x_clearfix btnArea">
 		<span class="x_pull-left" cond="$member_srl"><button class="x_btn x_btn-large" type="button" onclick="history.go(-1)">{$lang->cmd_cancel}</button></span>
 		<span class="x_pull-right"><input class="x_btn x_btn-primary x_btn-large" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>

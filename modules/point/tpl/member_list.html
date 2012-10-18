@@ -53,15 +53,18 @@
 		<tr loop="$member_list => $no,$val">
 			<td>{$no}</td>
 			<td cond="$identifier == 'user_id'">{$val->user_id}</td>
-			<td cond="$identifier != 'user_id'">{$val->email_address}</td>
+			<td cond="$identifier != 'user_id'"><span class="masked">{$val->email_address}</span></td>
 			<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
 			<td>
-				<form action="./" method="get">
+				<form action="./" method="get" style="margin:0">
 					<input type="hidden" name="module" value="point" />
 					<input type="hidden" name="member_srl" value="{$val->member_srl}" />
 					<input type="text" name="orgpoint" value="{$val->point}" disabled="disabled" style="width:40px;text-align:right" />
-					<input type="text" id="point_{$val->member_srl}" name="point" style="width:40px;text-align:right" />
-					<input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" class="text" />
+					->
+					<span class="x_input-append">
+						<input type="text" id="point_{$val->member_srl}" name="point" style="width:40px;text-align:right" />
+						<input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" class="x_btn" />
+					</span>
 				</form>
 			</td>
 			<td>{$val->level}</td>

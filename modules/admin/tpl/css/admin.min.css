@@ -6,8 +6,16 @@ body>.x{min-width:300px;max-width:1240px}
 @media all and (max-width:480px){
 body>.x{margin:0}
 }
-body>.x,.x label,.x table,.x input,.x textarea,.x select,.x button{font-size:13px}
-.x strong, .x th{font-weight:600}
+body>.x,
+.x label,
+.x table,
+.x input,
+.x textarea,
+.x select,
+.x button{font-size:13px}
+.x strong, 
+.x th{font-weight:600}
+.x em{font-style:normal}
 .x [disabled]{cursor:not-allowed}
 .x button[disabled]{color:#ccc !important}
 .x a[target="_blank"]:after{ content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:0 0 0 2px;background-position:-120px -72px;opacity:.3;filter:alpha(opacity=30)}

@@ -417,13 +417,13 @@
 					}//end imageType
 					elseif($formInfo->name == 'birthday'){
 						$formTag->type = 'date';
-						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="dateRemover" />'
+						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" placeholder="YYYY-MM-DD" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="x_btn dateRemover" />'
 								,$memberInfo['birthday']
 								,zdate($memberInfo['birthday'], 'Y-m-d', false)
 								,$lang->cmd_delete);
 					}elseif($formInfo->name == 'find_account_question'){
 						$formTag->type = 'select';
-						$inputTag = '<select name="find_account_question" id="find_account_question" style="width:290px; display:block;">%s</select>';
+						$inputTag = '<select name="find_account_question" id="find_account_question" style="width:220px;display:block;margin:0 0 8px 0">%s</select>';
 						$optionTag = array();
 						foreach($lang->find_account_question_items as $key=>$val){
 							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';
@@ -434,10 +434,10 @@
 													,$val);
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
-						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" class="inputText long tall" />';
+						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" />';
 					}else{
 						$formTag->type = 'text';
-						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" class="inputText long tall" />'
+						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" />'
 									,$formInfo->name
 									,$formInfo->name
 									,$memberInfo[$formInfo->name]);
