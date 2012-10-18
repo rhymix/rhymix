@@ -238,7 +238,7 @@
 				$moduleInfo = $coutput->data;
 			}
 
-			$moduleInfo->is_layout_fix = ($moduleInfo->layout_srl == -1000) ? 'N' : 'Y';
+			$moduleInfo->is_layout_fix = ($moduleInfo->layout_srl == -1) ? 'N' : 'Y';
 			if($moduleInfo->is_layout_fix == 'N' || $moduleInfo->is_skin_fix == 'N')
 			{
 				$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $moduleInfo->site_srl);
