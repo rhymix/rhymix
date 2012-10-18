@@ -182,6 +182,8 @@
 
             unset($db_info->lang_type);
             Context::setDBInfo($db_info);
+            $oInstallController = &getController('install');
+            $oInstallController->makeConfigFile();
 
             $site_args->site_srl = 0;
             $site_args->index_module_srl = Context::get('index_module_srl');//
