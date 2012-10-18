@@ -56,10 +56,58 @@
 	$output = $oLayoutAdminController->insertLayout($args);
 	if(!$output->toBool()) return $output;
 
-		// update Layout
+	// update Layout
 	$args->extra_vars = serialize($extra_vars);
 	$output = $oLayoutAdminController->updateLayout($args);
 	if(!$output->toBool()) return $output;
+
+	$siteDesignPath = _XE_PATH_.'files/site_design/';
+	FileHandler::makeDir($siteDesignPath);
+	$siteDesignFile = _XE_PATH_.'files/site_design/design_0.php';
+	$buff = sprintf('$designInfo->layout_srl = %s;', $layout_srl);
+
+	// after trigger
+	$moduleList = array('page');
+	$moutput = ModuleHandler::triggerCall('menu.getModuleListInSitemap', 'after', $moduleList);
+	if($moutput->toBool())
+	{
+		$moduleList = array_unique($moduleList);
+	}
+
+	$skinTypes = array('skin'=>'skins/', 'mskin'=>'m.skins/');
+
+	foreach($skinTypes as $key => $dir)
+	{
+		foreach($moduleList as $moduleName)
+		{
+			$moduleSkinPath = ModuleHandler::getModulePath($moduleName).$dir;
+			$skinName = 'default';
+			
+			$defualtSkinPath = $moduleSkinPath.$skinName;
+
+			if(!is_dir($defualtSkinPath))
+			{
+				$skins = FileHandler::readDir($moduleSkinPath);
+				if(count($skins) > 0)
+				{
+					$skinName = $skins[0];
+				}
+				else
+				{
+					$skinName = NULL;
+				}
+			}
+
+			if($skinName)
+			{
+				$buff .= sprintf('$designInfo->module->%s->%s = \'%s\';', $moduleName, $key, $skinName);
+			}
+		}
+	}
+
+	$buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); if(!defined("__XE__")) exit(); %s ?>', $buff);
+	FileHandler::writeFile($siteDesignFile, $buff);
+
 
 	// insertPageModule
 	$page_args->layout_srl = $layout_srl;
