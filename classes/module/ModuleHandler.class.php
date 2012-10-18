@@ -502,7 +502,7 @@
 
             $procResult = $oModule->proc();
 
-			$methodList = array('XMLRPC'=>1, 'JSON'=>1);
+			$methodList = array('XMLRPC'=>1, 'JSON'=>1, 'JS_CALLBACK'=>1);
 			if(!$oModule->stop_proc && !isset($methodList[Context::getRequestMethod()]))
 			{
 				$error = $oModule->getError();
@@ -599,7 +599,7 @@
             if(!$output->toBool()) $this->error = $output->getMessage();
 
             // Use message view object, if HTML call
-			$methodList = array('XMLRPC'=>1, 'JSON'=>1);
+			$methodList = array('XMLRPC'=>1, 'JSON'=>1, 'JS_CALLBACK'=>1);
             if(!isset($methodList[Context::getRequestMethod()])) {
 
 				if($_SESSION['XE_VALIDATOR_RETURN_URL'])
