@@ -851,6 +851,7 @@ class Context {
 
 			if($this->getRequestMethod()=='GET'&&isset($_GET[$key])) $set_to_vars = true;
 			elseif($this->getRequestMethod()=='POST'&&isset($_POST[$key])) $set_to_vars = true;
+			elseif($this->getRequestMethod()=='JS_CALLBACK' && (isset($_GET[$key]) || isset($_POST[$key]))) $set_to_vars = true;
 			else $set_to_vars = false;
 
 			if($set_to_vars)
@@ -969,7 +970,7 @@ class Context {
 	 * @return void
 	 */
 	function _setUploadedArgument() {
-		if($this->getRequestMethod() != 'POST') return;
+		if($_SERVER['REQUEST_METHOD'] != 'POST') return;
 		if(!preg_match('/multipart\/form-data/i',$_SERVER['CONTENT_TYPE'])) return;
 		if(!$_FILES) return;
 
