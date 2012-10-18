@@ -82,10 +82,14 @@
 					$oAdminClass = &getClass('admin');
 					$oAdminClass->createXeAdminMenu();
 				}
-				else if(!is_readable(FileHandler::getRealPath($output->php_file)))
+				else
 				{
-					$oMenuAdminController = &getAdminController('menu');
-					$oMenuAdminController->makeXmlFile($output->menu_srl);
+					if(!is_readable(FileHandler::getRealPath($output->php_file)))
+					{
+						$oMenuAdminController = &getAdminController('menu');
+						$oMenuAdminController->makeXmlFile($output->menu_srl);
+					}
+					Context::set('admin_menu_srl', $output->menu_srl);
 				}
 
 				$this->_oldAdminmenuDelete();
@@ -105,6 +109,7 @@
 			$args->listorder = $args->menu_srl * -1;
 			$output = executeQuery('menu.insertMenu', $args);
 			$menuSrl = $args->menu_srl;
+			Context::set('admin_menu_srl', $menuSrl);
 			unset($args);
 
 			// gnb item create
