@@ -324,8 +324,14 @@ class TemplateHandler {
 	 **/
 	function _replacePath($match)
 	{
+		//return origin conde when src value started '${'.
+		if(preg_match('@^\${@', $match[1]))
+		{
+			return $match[0];
+		}
+
 		//return origin code when src value include variable.
-		if(preg_match('/^[\'|"]\s*\.\s*\$/', $match[1]))
+		if(preg_match('@^[\'|"]\s*\.\s*\$@', $match[1]))
 		{
 			return $match[0];
 		}
