@@ -776,8 +776,12 @@
 		public function getModuleSkinInfoList()
 		{
 			$module = Context::get('module_name');
+
+			$skinType = Context::get('skin_type');
+
 			$path = ModuleHandler::getModulePath($module);
-			$skin_list = $this->getSkins($path, 'skins');
+			$dir = ($skinType == 'M') ? 'm.skins' : 'skins';
+			$skin_list = $this->getSkins($path, $dir);
 
 			$this->add('skin_info_list', $skin_list);
 		}
