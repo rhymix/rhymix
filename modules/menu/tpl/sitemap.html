@@ -538,7 +538,7 @@
 		</span>
 	</div>
 </fieldset>
-<iframe name="_submitTarget" src="about:_blank"></iframe>
+<iframe name="_submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
 <style>
 /* Site */
 body>.x{max-width:none}
@@ -2188,7 +2188,7 @@ jQuery(function($){
 			scrollToRight();
 		});
 	})
-	top.refreshLayoutMarkupSetup = function(){
+	top.refreshLayoutMarkupSetup = function(htData){
 		$('#layoutMarkupSetup').show();
 	}
 	$('#layoutMarkupSetup').on('show', function(ev){
@@ -2205,8 +2205,12 @@ jQuery(function($){
 
 			$fileDelete = $allForms.not($fileChest).not($markup);
 			
+			/*
 			$fileChest.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
 			$fileChest.attr('target', '_submitTarget');
+			*/
+			$allForms.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
+			$allForms.attr('target', '_submitTarget');
 			
 			var $configForm = $('#config_form');
 			$configForm.on('submit', function(ev){
