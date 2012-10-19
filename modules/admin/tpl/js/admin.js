@@ -1,4 +1,40 @@
 /* NHN (developers@xpressengine.com) */
+// insert fog layer
+function showWaitingFogLayer() {
+	var $bg = jQuery('<span class="bg"></span>');
+	$bg.height(jQuery(window).height());
+	jQuery('.wfsr')
+		.wrap('<div class="wfsr_fog" />')
+		.before($bg);
+}
+
+function hideWaitingFogLayer() {
+	jQuery('.wfsr').prev('span').remove();
+	jQuery('.wfsr').unwrap();
+}
+
+
+// install module
+function doInstallModule(module) {
+    var params = new Array();
+    params['module_name'] = module;
+    exec_xml('install','procInstallAdminInstall',params, completeInstallModule);
+	showWaitingFogLayer();
+}
+
+// upgrade module
+function doUpdateModule(module) {
+    var params = new Array();
+    params['module_name'] = module;
+    exec_xml('install','procInstallAdminUpdate',params, completeInstallModule);
+	showWaitingFogLayer();
+}
+
+function completeInstallModule(ret_obj) {
+    alert(ret_obj['message']);
+    location.reload();
+}
+
 jQuery(function($){
 // iSO mobile device toolbar remove
 	window.scrollTo(0,0);
