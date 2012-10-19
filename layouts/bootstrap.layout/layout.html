@@ -49,54 +49,49 @@
 		<!-- /GNB -->
 	</header>
 	<div class="body main"|cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'" class="body sub"|cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'">
-		<!-- CONTENT -->
-		<div class="content" id="content">
-			<!-- VISUAL | DEFAULT -->
-			<div class="visual" cond="!$layout_info->VISUAL_IMAGE_1 && !$layout_info->VISUAL_IMAGE_2 && !$layout_info->VISUAL_IMAGE_3 && $layout_info->VISUAL_USE=='YES'">
-				<div class="list">
-					<a href="{geturl('','module','admin','act','dispAdminConfigGeneral')}" class="item i1" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
-						<img src="visual.main.1.jpg" alt="" />
-						<p>Click, to change the site title.</p>
-					</a>
-					<a href="{geturl('','module','admin','act','dispMenuAdminSiteMap')}" class="item i2" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
-						<img src="visual.main.2.jpg" alt="" />
-						<p>Click, to change the site navigation.</p>
-					</a>
-					<a href="{geturl('','module','admin','act','dispLayoutAdminAllInstanceList')}" class="item i3" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
-						<img src="visual.main.3.jpg" alt="" />
-						<p>Click, to change the site visual image.</p>
-					</a>
-					<a href="{geturl('','module','admin','act','dispLayoutAdminAllInstanceList')}" class="item i1" cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'">
-						<img src="visual.sub.jpg" alt="" />
-						<p>Click, to change the site visual image.</p>
-					</a>
-				</div>
-				<button type="button" class="prev"><i></i>&lsaquo;</button>
-				<button type="button" class="next"><i></i>&rsaquo;</button>
+		<!-- VISUAL | DEFAULT -->
+		<div class="visual" cond="!$layout_info->VISUAL_IMAGE_1 && !$layout_info->VISUAL_IMAGE_2 && !$layout_info->VISUAL_IMAGE_3 && $layout_info->VISUAL_USE=='YES'">
+			<div class="list">
+				<a href="{geturl('','module','admin','act','dispAdminConfigGeneral')}" class="item i1" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
+					<img src="visual.main.1.jpg" alt="" />
+					<p>Click, to change the site title.</p>
+				</a>
+				<a href="{geturl('','module','admin','act','dispMenuAdminSiteMap')}" class="item i2" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
+					<img src="visual.main.2.jpg" alt="" />
+					<p>Click, to change the site navigation.</p>
+				</a>
+				<a href="{geturl('','module','admin','act','dispLayoutAdminAllInstanceList')}" class="item i3" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
+					<img src="visual.main.3.jpg" alt="" />
+					<p>Click, to change the site visual image.</p>
+				</a>
+				<a href="{geturl('','module','admin','act','dispLayoutAdminAllInstanceList')}" class="item i1" cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'">
+					<img src="visual.sub.jpg" alt="" />
+					<p>Click, to change the site visual image.</p>
+				</a>
 			</div>
-			<!-- VISUAL | USER DEFINE -->
-			<div class="visual" cond="$layout_info->VISUAL_IMAGE_1 || $layout_info->VISUAL_IMAGE_2 || $layout_info->VISUAL_IMAGE_3 && $layout_info->VISUAL_USE=='YES'">
-				<div class="list">
-					<a href="{$layout_info->VISUAL_LINK_1}" class="item i1" cond="$layout_info->VISUAL_IMAGE_1">
-						<img src="{$layout_info->VISUAL_IMAGE_1}" alt="" />
-						<p>{$layout_info->VISUAL_TEXT_1}</p>
-					</a>
-					<a href="{$layout_info->VISUAL_LINK_2}" class="item i2" cond="$layout_info->VISUAL_IMAGE_2">
-						<img src="{$layout_info->VISUAL_IMAGE_2}" alt="" />
-						<p>{$layout_info->VISUAL_TEXT_2}</p>
-					</a>
-					<a href="{$layout_info->VISUAL_LINK_3}" class="item i3" cond="$layout_info->VISUAL_IMAGE_3">
-						<img src="{$layout_info->VISUAL_IMAGE_3}" alt="" />
-						<p>{$layout_info->VISUAL_TEXT_3}</p>
-					</a>
-				</div>
-				<button type="button" class="prev"><i></i>&lsaquo;</button>
-				<button type="button" class="next"><i></i>&rsaquo;</button>
-			</div>
-			<!-- /VISUAL -->
-			{$content}
+			<button type="button" class="prev"><i></i>&lsaquo;</button>
+			<button type="button" class="next"><i></i>&rsaquo;</button>
 		</div>
-		<!-- /CONTENT -->
+		<!-- VISUAL | USER DEFINE -->
+		<div class="visual" cond="$layout_info->VISUAL_IMAGE_1 || $layout_info->VISUAL_IMAGE_2 || $layout_info->VISUAL_IMAGE_3 && $layout_info->VISUAL_USE=='YES'">
+			<div class="list">
+				<a href="{$layout_info->VISUAL_LINK_1}" class="item i1" cond="$layout_info->VISUAL_IMAGE_1">
+					<img src="{$layout_info->VISUAL_IMAGE_1}" alt="" />
+					<p>{$layout_info->VISUAL_TEXT_1}</p>
+				</a>
+				<a href="{$layout_info->VISUAL_LINK_2}" class="item i2" cond="$layout_info->VISUAL_IMAGE_2">
+					<img src="{$layout_info->VISUAL_IMAGE_2}" alt="" />
+					<p>{$layout_info->VISUAL_TEXT_2}</p>
+				</a>
+				<a href="{$layout_info->VISUAL_LINK_3}" class="item i3" cond="$layout_info->VISUAL_IMAGE_3">
+					<img src="{$layout_info->VISUAL_IMAGE_3}" alt="" />
+					<p>{$layout_info->VISUAL_TEXT_3}</p>
+				</a>
+			</div>
+			<button type="button" class="prev"><i></i>&lsaquo;</button>
+			<button type="button" class="next"><i></i>&rsaquo;</button>
+		</div>
+		<!-- /VISUAL -->
 		<!-- LNB -->
 		<nav class="lnb" cond="$layout_info->LAYOUT_TYPE == 'SUB_PAGE'">
 			<h2 loop="$GNB->list=>$key1,$val1" cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h2>
@@ -110,6 +105,11 @@
 			</ul>
 		</nav>
 		<!-- /LNB -->
+		<!-- CONTENT -->
+		<div class="content" id="content">
+			{$content}
+		</div>
+		<!-- /CONTENT -->
 	</div>
 	<footer class="footer">
 		<p>Powered by <a href="http://xpressengine.com/"><strong>XE</strong></a>.</p>

@@ -27,13 +27,13 @@ input[type=radio]{margin:0}
 .body:after{content:"";display:block;clear:both}
 @media all and (min-width:980px){
 .body.sub{padding-left:220px}
-.body.sub>.content{float:right;width:100%;margin-left:-100%}
+.body.sub>.content{width:100%;clear:both}
 .body.sub>.lnb{float:left;width:200px;position:relative;left:-220px}
 }
 .content{outline:0}
 .footer{margin:15px 0}
-.skip>a{height:1px;overflow:hidden;display:block;text-align:center;font-weight:bold;background:#333;margin:-1px 0 0 0;color:#fff;text-decoration:none}
-.skip>a:focus{height:auto;padding:8px 0;border-radius:0 0 4px 4px}
+.skip>a{height:1px;overflow:hidden;display:block;text-align:center;font-weight:bold;margin:-1px 0 0 0;color:#fff;text-decoration:none}
+.skip>a:focus{height:auto;padding:8px 0;border-radius:0 0 4px 4px;background:#333}
 /* Header */
 .header>.x_row{position:relative}
 .header h1 a{color:#333;font-family:Arial, Helvetica, sans-serif;text-decoration:none}
@@ -58,8 +58,8 @@ input[type=radio]{margin:0}
 /* Account */
 .account{position:absolute;right:0;bottom:5px;z-index:2;margin:0}
 /* Visual */
-.visual{display:none}
 .visual{display:block;position:relative;width:100%;overflow:hidden;margin:0 0 20px 0;border-radius:5px;overflow:hidden}
+.body.sub>.visual{float:right;margin-left:-100%}
 .visual>.list{position:relative;z-index:1;width:100%;zoom:1}
 .visual>.list.count1{width:100%;left:0}
 .visual>.list.count2{width:200%;left:0}

@@ -2,50 +2,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 ')}
 <div class="x">
-	<p class="skipNav"><a href="#content">{$lang->skip_to_content}</a></p>
-	<header class="header">
-		<h1><a href="{getUrl('','module','admin')}"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a></h1>
-		<p class="site"><a href="{getFullUrl('')}">{getFullUrl('')}</a></p>
-		<div class="account">
-			<ul>
-				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
-				<li><a href="{getUrl('', 'module','admin','act','procAdminLogout')}">{$lang->cmd_logout}</a></li>
-				<li><a href="#lang" class="lang" data-toggle="#lang">{$lang_supported[$lang_type]}</a>
-					<ul id="lang" class="x_dropdown-menu">
-						<li loop="$lang_supported=>$key,$val" class="x_active"|cond="$key==$lang_type"><a href="{getUrl('l',$key)}" data-langcode="{$key}" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-	</header>
-	<!-- BODY -->
-	<div class="body wide">
-		<!-- GNB -->
-		<nav class="gnb" id="gnb">
-			<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> 메뉴열기/닫기</a>
-			<ul id="gnbNav">
-				<li loop="$gnbUrlList=>$key,$value" class="active open"|cond="$parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act"><a href="{getFullUrl('')}{$value['href']}"><span class="tx">{$value['text']}</span></a>
-					<ul cond="count($value['list'])">
-						<li loop="$value['list']=>$key2,$value2" class="active_"|cond="$value2['text'] == $subMenuTitle"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
-					</ul>
-				</li>
-				<li>
-					<a href="#favorite"><span class="tx">{$lang->favorite}</span></a>
-					<ul id="favorite">
-						<li loop="$favorite_list => $favorite">
-							<a href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</a>
-							<form class="remove" action="./">
-								<input type="hidden" name="module" value="admin" />
-								<input type="hidden" name="act" value="procAdminToggleFavorite" />
-								<input type="hidden" name="site_srl" value="0" />
-								<input type="hidden" name="module_name" value="{$favorite->module}" />
-								<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-								<button type="submit" class="x_close" title="{$lang->cmd_delete}">&times;</button>
-							</form>
-						</li>
-						<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->no_data}</a></li>
-					</ul>
-				</li>
-			</ul>
-		</nav>
-		<!-- /GNB -->
+	<div class="xin">
+		<p class="skipNav"><a href="#content">{$lang->skip_to_content}</a></p>
+		<header class="header">
+			<h1><a href="{getUrl('','module','admin')}"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a></h1>
+			<p class="site"><a href="{getFullUrl('')}">{getFullUrl('')}</a></p>
+			<div class="account">
+				<ul>
+					<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
+					<li><a href="{getUrl('', 'module','admin','act','procAdminLogout')}">{$lang->cmd_logout}</a></li>
+					<li><a href="#lang" class="lang" data-toggle="#lang">{$lang_supported[$lang_type]}</a>
+						<ul id="lang" class="x_dropdown-menu">
+							<li loop="$lang_supported=>$key,$val" class="x_active"|cond="$key==$lang_type"><a href="{getUrl('l',$key)}" data-langcode="{$key}" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<!-- BODY -->
+		<div class="body wide">
+			<!-- GNB -->
+			<nav class="gnb" id="gnb">
+				<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> 메뉴열기/닫기</a>
+				<ul id="gnbNav">
+					<li loop="$gnbUrlList=>$key,$value" class="active open"|cond="$parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act"><a href="{getFullUrl('')}{$value['href']}"><span class="tx">{$value['text']}</span></a>
+						<ul cond="count($value['list'])">
+							<li loop="$value['list']=>$key2,$value2" class="active_"|cond="$value2['text'] == $subMenuTitle"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#favorite"><span class="tx">{$lang->favorite}</span></a>
+						<ul id="favorite">
+							<li loop="$favorite_list => $favorite">
+								<a href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</a>
+								<form class="remove" action="./">
+									<input type="hidden" name="module" value="admin" />
+									<input type="hidden" name="act" value="procAdminToggleFavorite" />
+									<input type="hidden" name="site_srl" value="0" />
+									<input type="hidden" name="module_name" value="{$favorite->module}" />
+									<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+									<button type="submit" class="x_close" title="{$lang->cmd_delete}">&times;</button>
+								</form>
+							</li>
+							<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->no_data}</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<!-- /GNB -->

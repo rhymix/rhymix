@@ -4,200 +4,175 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
 <load target="js/document_admin.js" usecdn="true" />
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-<p>{$XE_VALIDATOR_MESSAGE}</p>
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-	<form id="fo_list" action="./" method="get">
+<form id="fo_list" action="./" method="get">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="page" value="{$page}" />
-		<div class="x_page-header">
+	<div class="x_page-header">
 		<h1>{$lang->document}</h1>
-		</div>
-		<div class="table even">
-			<div class="x_tabbable">
-				<ul class="x_nav x_nav-tabs">
-					<li  <!--@if($search_keyword == '')-->class="x_active"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->all}</a></li>
-					<li <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="x_active"<!--@end-->><a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a></li>
-					<li <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="x_active"<!--@end-->><a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a></li>
-					<li <!--@if($search_target == 'is_secret' && $search_keyword == 'temp')-->class="x_active"<!--@end-->><a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a></li>
-					<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
-				</ul>
-			</div>
-			<table width="100%" id="documentListTable" class="x_table x_table-striped x_table-hover">
-				<caption>
-					<!--@if($search_keyword == '')-->
-					{$lang->all}
-					<!--@elseif($search_target == 'is_secret' && $search_keyword == 'N')-->
-					{$status_name_list['PUBLIC']}
-					<!--@elseif($search_target == 'is_secret' && $search_keyword == 'Y')-->
-					{$status_name_list['SECRET']}
-					<!--@elseif($search_target == 'is_secret' && $search_keyword == 'temp')-->
-					{$status_name_list['TEMP']}
-					<!--@end-->
-					({number_format($total_count)})
-					<div class="x_pull-right">
-						<a href="#manageForm" class="x_btn modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a>
-					</div>
-				</caption>
-				<thead>
-					<tr>
-						<th scope="col" class="title">{$lang->title}</th>
-						<th scope="col" class="nowr">{$lang->writer}</th>
-						<th scope="col" class="nowr">{$lang->readed_count}</th>
-						<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
-						<th scope="col" class="nowr">{$lang->date}</th>
-						<th scope="col" class="nowr">{$lang->ipaddress}</th>
-						<th scope="col" class="nowr">{$lang->status}</th>
-						<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
-					</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<th scope="col" class="title">{$lang->title}</th>
-						<th scope="col" class="nowr">{$lang->writer}</th>
-						<th scope="col" class="nowr">{$lang->readed_count}</th>
-						<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
-						<th scope="col" class="nowr">{$lang->date}</th>
-						<th scope="col" class="nowr">{$lang->ipaddress}</th>
-						<th scope="col" class="nowr">{$lang->status}</th>
-						<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
-					</tr>
-				</tfoot>
-				<tbody>
-					<!--@foreach($document_list as $no => $oDocument)-->
-					<tr>
-						<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitle()))-->{$oDocument->getTitle()}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a></td>
-						<td class="nowr"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
-						<td class="nowr">{$oDocument->get('readed_count')}</td>
-						<td class="nowr">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
-						<td class="nowr">{$oDocument->getRegdate("Y-m-d H:i")}</td>
-						<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'))}">{$oDocument->get('ipaddress')}</a></td>
-						<td class="nowr">{$status_name_list[$oDocument->get('status')]}</td>
-						<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
-					</tr>
-					<!--@end-->
-				</tbody>
-			</table>
+	</div>
+	<div class="x_tabbable">
+		<ul class="x_nav x_nav-tabs">
+			<li class="x_active"|cond="$search_keyword == ''"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->all}</a></li>
+			<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'N'"><a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a></li>
+			<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'"><a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a></li>
+			<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'temp'"><a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a></li>
+			<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
+		</ul>
+	</div>
+	<table id="documentListTable" class="x_table x_table-striped x_table-hover">
+		<caption>
+			<!--@if($search_keyword == '')-->
+			{$lang->all}
+			<!--@elseif($search_target == 'ipaddress')-->
+			{$lang->ipaddress}:{$search_keyword}
+			<!--@elseif($search_target == 'is_secret' && $search_keyword == 'N')-->
+			{$status_name_list['PUBLIC']}
+			<!--@elseif($search_target == 'is_secret' && $search_keyword == 'Y')-->
+			{$status_name_list['SECRET']}
+			<!--@elseif($search_target == 'is_secret' && $search_keyword == 'temp')-->
+			{$status_name_list['TEMP']}
+			<!--@end-->
+			(<strong>{number_format($total_count)}</strong>)
 			<div class="x_pull-right">
 				<a href="#manageForm" class="x_btn modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a>
 			</div>
-		</div>
-	</form>
-
-	<form action="./" method="post" class="x_modal fg" id="manageForm">
-	<input type="hidden" name="module" value="document" />
-	<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
-	<input type="hidden" name="type" value="" />
-	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'is_secret', $is_secret, 'search_target', $search_target, 'search_keyword', $search_keyword)}" cond="!empty($search_target) && !empty($search_keyword)" />
-
-	<div class="x_modal-header">
-		<h2>{$lang->document_manager}</h2>
+		</caption>
+		<thead>
+			<tr>
+				<th scope="col" class="title">{$lang->title}</th>
+				<th scope="col" class="nowr">{$lang->writer}</th>
+				<th scope="col" class="nowr">{$lang->readed_count}</th>
+				<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+				<th scope="col" class="nowr">{$lang->date}</th>
+				<th scope="col" class="nowr">{$lang->ipaddress}</th>
+				<th scope="col" class="nowr">{$lang->status}</th>
+				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th scope="col" class="title">{$lang->title}</th>
+				<th scope="col" class="nowr">{$lang->writer}</th>
+				<th scope="col" class="nowr">{$lang->readed_count}</th>
+				<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+				<th scope="col" class="nowr">{$lang->date}</th>
+				<th scope="col" class="nowr">{$lang->ipaddress}</th>
+				<th scope="col" class="nowr">{$lang->status}</th>
+				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
+			</tr>
+		</tfoot>
+		<tbody>
+			<tr loop="$document_list => $no, $oDocument">
+				<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitle()))-->{$oDocument->getTitle()}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a></td>
+				<td class="nowr"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
+				<td class="nowr">{$oDocument->get('readed_count')}</td>
+				<td class="nowr">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
+				<td class="nowr">{$oDocument->getRegdate("Y-m-d H:i")}</td>
+				<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'))}">{$oDocument->get('ipaddress')}</a></td>
+				<td class="nowr">{$status_name_list[$oDocument->get('status')]}</td>
+				<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="x_clearfix">
+		<a href="#manageForm" class="x_btn modalAnchor x_pull-right" onclick="getDocumentList();">{$lang->document_manager}...</a>
 	</div>
-	<div class="x_modal-body">
-		<div>
-			<table width="100%" id="documentManageListTable" class="x_table x_table-striped x_table-hover">
-				<caption>{$lang->selected_document} <strong id="selectedDocumentCount"></strong></caption>
-				<thead>
-					<tr>
-						<th scope="col" class="title">{$lang->title}</th>
-						<th scope="col" class="nowr">{$lang->writer}</th>
-						<th scope="col" class="nowr">{$lang->status}</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-		</div>
-		<p class="q"><label for="site">{$lang->selected_document_move}</label></p>
-		<div class="a">
-			<input type="text" name="site_keyword" id="site" />
-			<span class="desc"><a href="#suggestion" class="tgAnchor" onclick="getModuleList();">{$lang->find_site}</a></span>
-			<p>
-				<select name="target_module" id="module_list" style="width:290px">
-					<option>{$lang->select_module}</option>
-				</select>
-			</p>
-			<p>
-				<select name="module_srl" id="mid_list" style="width:290px">
-					<option>{$lang->select_module_id}</option>
-				</select>
-			</p>
-			<p>
-				<select id="target_category" name="target_category" style="width:290px">
-					<option>{$lang->select_category}</option>
-				</select>
-			</p>
-		</div>
-		<p class="q"><label for="message">{$lang->message_notice}</label></p>
-		<p>
-			<textarea rows="8" cols="42" name="message_content" id="message" style="width:98%"></textarea>
-		</p>
-	</div>
-	<div class="x_modal-footer">
-		<div class="x_btn-group">
-			<button type="submit" name="type" value="trash" class="x_btn x_btn-warning">{$lang->cmd_trash}</button>
-			<button type="submit" name="type" value="delete" class="x_btn x_btn-danger">{$lang->cmd_delete}</button>
-			<button type="submit" name="type" value="move" class="x_btn">{$lang->cmd_move}</button>
-			<button type="submit" name="type" value="copy" class="x_btn">{$lang->cmd_copy}</button>
-		</div>
-	</div>
-
-	</form>
-
-	<div class="search">
-
-<form action="./" class="x_pagination x_pagination-centered">
-	<input type="hidden" name="error_return_url" value="" />
-	<input type="hidden" name="module" value="{$module}" />
-	<input type="hidden" name="act" value="{$act}" />
-	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
-	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
-
-	<ul>
-		<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
-		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
-			<span cond="$isGoTo" id="goTo" class="x_input-append">
-				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
-				<button type="submit" class="x_add-on">Go</button>
-			</span>
-		</li>
-		</block>
-
-		<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
-		<!--@end-->
-
-		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
-			<span cond="$isGoTo" id="goTo" class="x_input-append">
-				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
-				<button type="submit" class="x_add-on">Go</button>
-			</span>
-		</li>
-		</block>
-		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
-	</ul>
 </form>
-
-		<form action="./" method="get" class="search center x_input-append" onsubmit="return checkSearch(this)">
+<div class="x_clearfix" style="margin-top:-20px">
+	<form action="./" class="x_pagination x_pull-left">
+		<input type="hidden" name="error_return_url" value="" />
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+		<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+	
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
+	
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</form>
+	<form action="./" method="get" class="search center x_input-append x_pull-right" onsubmit="return checkSearch(this)">
 		<input type="hidden" name="module" value="{$module}" />
 		<input type="hidden" name="act" value="{$act}" />
 		<input type="hidden" name="module_srl" value="{$module_srl}" />
 		<input type="hidden" name="error_return_url" value="" />
 
-            <select name="search_target">
-                <option value="">{$lang->search_target}</option>
-                <!--@foreach($lang->search_target_list as $key => $val)-->
-                <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-                <!--@end-->
-			</select>
-            <input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-			<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
-			<button class="x_btn" type="button">{$lang->cmd_cancel}</button>
-		</form>
+		<select name="search_target">
+			<option value="">{$lang->search_target}</option>
+			<!--@foreach($lang->search_target_list as $key => $val)-->
+			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+			<!--@end-->
+		</select>
+		<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" />
+		<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
+		<button class="x_btn" type="button">{$lang->cmd_cancel}</button>
+	</form>
+</div>
+<form action="./" method="post" class="x_modal" id="manageForm">
+	<input type="hidden" name="module" value="document" />
+	<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
+	<input type="hidden" name="type" value="" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'is_secret', $is_secret, 'search_target', $search_target, 'search_keyword', $search_keyword)}" cond="!empty($search_target) && !empty($search_keyword)" />
+	<div class="x_modal-header">
+		<h2>{$lang->document_manager}</h2>
 	</div>
+	<div class="x_modal-body">
+		<table width="100%" id="documentManageListTable" class="x_table x_table-striped x_table-hover">
+			<caption>{$lang->selected_document} <strong id="selectedDocumentCount"></strong></caption>
+			<thead>
+				<tr>
+					<th scope="col" class="title">{$lang->title}</th>
+					<th scope="col" class="nowr">{$lang->writer}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<div class="x_control-group" style="position:relative">
+			<label>{$lang->selected_document_move}</label>
+			<input type="text" class="module_search" />
+		</div>
+		<div class="x_control-group" style="padding-right:14px">
+			<label for="message">{$lang->message_notice}</label>
+			<textarea rows="4" cols="42" name="message_content" id="message" style="width:100%"></textarea>
+		</div>
+	</div>
+	<div class="x_modal-footer">
+		<div class="x_btn-group x_pull-left">
+			<button type="submit" name="type" value="trash" class="x_btn x_btn-warning">{$lang->cmd_trash}</button>
+			<button type="submit" name="type" value="delete" class="x_btn x_btn-danger">{$lang->cmd_delete}</button>
+		</div>
+		<div class="x_btn-group x_pull-right">
+			<button type="submit" name="type" value="move" class="x_btn x_btn-inverse">{$lang->cmd_move}</button>
+			<button type="submit" name="type" value="copy" class="x_btn">{$lang->cmd_copy}</button>
+		</div>
+	</div>
+</form>

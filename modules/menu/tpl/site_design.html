@@ -305,7 +305,7 @@ jQuery(function($){
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
-		$('#site').height(wHeigh - 150).children('.col').height(wHeigh - 195);
+		$('#site').height(wHeigh - 180).children('.col').height(wHeigh - 210).find('.cnt').height(wHeigh - 242);
 	}).resize();
 // Navigation a active/inactive
 	var $navAnchor = $('a>i.x_icon-circle-arrow-right').parent('a');

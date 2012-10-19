@@ -94,7 +94,7 @@ jQuery(function($){
 		return false;
 	});
 // GNB
-	var $xBody = $('.x>.body');
+	var $xBody = $('.x>.xin>.body');
 	var $xContent = $xBody.children('#content.content');
 	var $xGnb = $xBody.find('>.gnb');
 	var $xGnb_li = $xGnb.find('>ul>li');

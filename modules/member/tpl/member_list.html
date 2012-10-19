@@ -6,16 +6,16 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+<div class="x_page-header">
+	<h1>{$lang->user_list}</h1>
+</div>
+<div class="x_clearfix" style="margin-bottom:-38px">
+	<div class="x_pull-right x_btn-group">
+		<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
+		<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
+	</div>
+</div>
 <form action="" method="post">
-	<div class="x_page-header">
-		<h1>{$lang->user_list}</h1>
-	</div>
-	<div class="x_clearfix" style="margin-bottom:-38px">
-		<div class="x_pull-right x_btn-group">
-			<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
-			<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
-		</div>
-	</div>
 	<table class="_memberList x_table x_table-striped x_table-hover">
 		<caption>
 			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}<block cond="$filter_type==''">({$total_count})</block></a>
@@ -82,12 +82,71 @@
 			</tr>
 		</tbody>
 	</table>
-	<div class="x_clearfix">
-		<div class="x_pull-right x_btn-group">
-			<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
-			<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
-		</div>
+</form>
+<div class="x_clearfix">
+	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true" style="margin:0">
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input cond="$order_target" type="hidden" name="order_target" value="{$order_target}" />
+		<input cond="$order_type" type="hidden" name="order_type" value="{$order_type}" />
+		<input cond="$category_srl" type="hidden" name="category_srl" value="{$category_srl}" />
+		<input cond="$childrenList" type="hidden" name="childrenList" value="{$childrenList}" />
+		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+	
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+			</block>
+	
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				{@$last_page = $page_no}
+				<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
+	
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+				
+			</block>
+	
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</form>
+	<div class="x_pull-right x_btn-group">
+		<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
+		<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
 	</div>
+</div>
+<form action="" method="post" class="search center x_input-append">
+	<input type="hidden" name="module" value="{$module}" />
+	<select name="selected_group_srl" style="width:auto;margin-right:4px">
+		<option value="0">그룹 전체</option>
+		<!--@foreach($group_list as $key => $val)-->
+		<option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
+		<!--@end-->
+	</select>
+	<select name="search_target" style="width:auto;margin-right:4px">
+		<option value="">{$lang->search_target}</option>
+		{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}
+		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
+	</select>
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" style="width:140px">
+	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+	<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'page', $page)}">{$lang->cmd_cancel}</a>
 </form>
 <div class="x_modal" id="listManager">
 	<form action="./" ruleset="updateSeletecdMemberInfo" class="fg form" method="post">
@@ -133,65 +192,6 @@
 		</div>
 	</form>
 </div>
-<form cond="$page_navigation" action="./" class="x_pagination x_pagination-centered" no-error-return-url="true">
-	<input type="hidden" name="module" value="{$module}" />
-	<input type="hidden" name="act" value="{$act}" />
-	<input cond="$order_target" type="hidden" name="order_target" value="{$order_target}" />
-	<input cond="$order_type" type="hidden" name="order_type" value="{$order_type}" />
-	<input cond="$category_srl" type="hidden" name="category_srl" value="{$category_srl}" />
-	<input cond="$childrenList" type="hidden" name="childrenList" value="{$childrenList}" />
-	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
-	<ul>
-		<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
-
-		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
-			{@$isGoTo = true}
-			<li>
-				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
-				<span cond="$isGoTo" id="goTo" class="x_input-append">
-					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
-					<button type="submit" class="x_add-on">Go</button>
-				</span>
-			</li>
-		</block>
-
-		<!--@while($page_no = $page_navigation->getNextPage())-->
-			{@$last_page = $page_no}
-			<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
-		<!--@end-->
-
-		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
-			{@$isGoTo = true}
-			<li>
-				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
-				<span cond="$isGoTo" id="goTo" class="x_input-append">
-					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
-					<button type="submit" class="x_add-on">Go</button>
-				</span>
-			</li>
-			
-		</block>
-
-		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
-	</ul>
-</form>
-<form action="" method="post" class="search center x_input-append">
-	<input type="hidden" name="module" value="{$module}" />
-	<select name="selected_group_srl" style="width:auto;margin-right:4px">
-		<option value="0">그룹 전체</option>
-		<!--@foreach($group_list as $key => $val)-->
-		<option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
-		<!--@end-->
-	</select>
-	<select name="search_target" style="width:auto;margin-right:4px">
-		<option value="">{$lang->search_target}</option>
-		{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}
-		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
-	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" style="width:140px">
-	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
-	<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'page', $page)}">{$lang->cmd_cancel}</a>
-</form>
 <script>
 jQuery(function($){
 	var clickedBTN = '';
