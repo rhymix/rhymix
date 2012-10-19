@@ -335,14 +335,14 @@
 				<div class="list">
 					<ul class="_layout_list">
 						<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
-						<li class="${Selected}">
+						<li class="${Selected} _layoutItem">
 							<label>
 								<input type="radio" name="layout_item" title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
 							</label>
 						</li>
 						</script>
 						<script id="tmpl_layout_list_item" type="text/x-jquery-tmpl">
-						<li class="${Selected}">
+						<li class="${Selected} _layoutItem">
 							<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
 							<button type="button" class="item _btnScreenshot" title="클릭하면 레이아웃이 적용됩니다.">
 								<img src="${ScreenShotURL}">
@@ -350,8 +350,8 @@
 							<ul class="_edit_menu">
 								<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 								<li><a href="#layoutMarkupSetup" data-admin-show="#layoutMarkupSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
-								<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
-								<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+								<li><button type="button" class="_duplicateLayout">복사본 생성</button></li>
+								<li><button type="button" class="_deleteLayout">삭제</button></li>
 							</ul>
 						</li>
 						</script>
@@ -2076,6 +2076,7 @@ jQuery(function($){
 		};
 		// https://code.google.com/p/xe-core/wiki/LayoutInfo_GET_API
 		$.exec_json("layout.getLayoutInstanceListForJSONP", params, function(htData){
+			var $elItem, fnTmp;
 			var sResult = "";
 			var $List = $('#layout ._layout_list');
 			$List.html("");
@@ -2100,12 +2101,30 @@ jQuery(function($){
 					sSelected = "selected";
 				}
 				
-				$List.append($.tmpl("layoutListItem", {
+				$elItem = $.tmpl("layoutListItem", {
 					Title : htInfo.title, 
 					ScreenShotURL : htInfo.thumbnail,
 					Selected : sSelected,
 					LayoutSrl : htInfo.layout_srl
-				}).data('LayoutSrl', htInfo.layout_srl));
+				}).data('LayoutSrl', htInfo.layout_srl);
+				
+				/*
+				$elItem.find("._duplicateLayout").click(function(){
+					var sLayoutSrl = htInfo.layout_srl;
+					return function(ev){
+						//var sName = prompt("name?");
+						//console.log(sName, sLayoutSrl);
+					}
+				}());
+				$elItem.find("._deleteLayout").click(function(){
+					var sLayoutSrl = htInfo.layout_srl;
+					return function(ev){
+						console.log(sLayoutSrl);
+					}
+				}());
+				*/
+				
+				$List.append($elItem);
 			}
 			
 			$List.find('.selected input').attr('checked', 'checked');
@@ -2131,6 +2150,62 @@ jQuery(function($){
 	</li>
 	*/
 	}
+	$('#layout').on('click', 'button._duplicateLayout', function(){
+		var sLayoutSrl = $(this).closest('li._layoutItem').data('LayoutSrl');
+		
+		confirmDialog({
+			sTitle : "새 레이아웃명을 입력 해 주세요.",
+			
+			sText : '<input type="text" name="layout_name"  style="width: 95%"/><br/><div style="text-align:right">* 생략 시 임의의 값이 사용 됩니다.</div>',
+			
+			bSmall: true,
+			
+			fnOnOK : function(){
+				var sTitle = $msgBox.find('input[type="text"]').val();
+				$.exec_json("layout.procLayoutAdminCopyLayout", {
+					layout_srl : sLayoutSrl,
+					title : sTitle
+				}, function(htData){
+					//console.log(htData);
+					if(htData.error !== 0){
+						alert(htData.message);
+						return;
+					}
+				});
+			}
+		});
+	});
+	$('#layout').on('click', 'button._deleteLayout', function(){
+		var sLayoutSrl = $(this).closest('li._layoutItem').data('LayoutSrl');
+		
+		confirmDialog({
+			sTitle : "정말로 삭제 할까요?",
+			
+			sText : '',
+			
+			bSmall: true,
+			
+			fnOnOK : function(){
+				$.exec_json("layout.procLayoutAdminDelete", {
+					layout_srl : sLayoutSrl
+				}, function(htData){
+					//console.log(htData);
+					if(htData.error !== 0){
+						alert(htData.message);
+						return;
+					}
+				});
+			}
+		});
+	});
+
+	$('#layout').on('click', 'button._deleteLayout', function(){
+		var sLayoutSrl = $(this).closest('li._layoutItem').data('LayoutSrl');
+	});
+	/*
+	function duplicateLayout(sLayoutSrl){
+		console.log(sLayoutSrl);
+	}*/
 	$('#layout').on('click', 'button._btnScreenshot', function(){
 		$(this).closest('li').find('input[name=layout_item]').click();
 	});
@@ -2141,6 +2216,7 @@ jQuery(function($){
 		$(this).closest('li').addClass('selected');
 		
 		var sLayoutSrl = $(this).closest('li').data('LayoutSrl');
+		$._xeAdminVar.htSelectedMenuDesign.sLayoutSrl = sLayoutSrl;
 		
 		updatePreview({
 			sLayoutSrl : sLayoutSrl
@@ -2179,7 +2255,7 @@ jQuery(function($){
 							return;
 						}
 						
-						$('#layoutSetup').hide();
+						$('#layout').show();
 						//console.log(999, strRes, htData);
 					}
 				);
@@ -2188,7 +2264,20 @@ jQuery(function($){
 			scrollToRight();
 		});
 	})
+	top.refreshLayoutList = function(htData){
+		if(htData.error !== 0){
+			alert(htData.message);
+			return;
+		}
+		
+		$('#layout').show();
+	}
 	top.refreshLayoutMarkupSetup = function(htData){
+		if(htData.error !== 0){
+			alert(htData.message);
+			return;
+		}
+		
 		$('#layoutMarkupSetup').show();
 	}
 	$('#layoutMarkupSetup').on('show', function(ev){
@@ -2209,7 +2298,10 @@ jQuery(function($){
 			$fileChest.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
 			$fileChest.attr('target', '_submitTarget');
 			*/
-			$allForms.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
+			
+			$fileChest.add($fileDelete).append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
+			$markup.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutList"));
+			
 			$allForms.attr('target', '_submitTarget');
 			
 			var $configForm = $('#config_form');
@@ -2392,6 +2484,8 @@ jQuery(function($){
 		$(this).closest('li').addClass('selected');
 		
 		var sSkinName = $(this).closest('li').data('SkinName');
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+		$._xeAdminVar.htSelectedMenuDesign.htSkin[sMode]=sSkinName;
 		
 		updatePreview({
 			sSkin : sSkinName
