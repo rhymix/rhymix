@@ -8,10 +8,7 @@
 			</div>
 			<form action="./" method="post">
 				<input type="hidden" name="act" value="procConfigSetting" />
-				<div class="x_control-group">
-					<label for="rewrite"><input name="use_rewrite" value="Y" checked="checked"|cond="function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules())" type="checkbox" id="rewrite" /> {$lang->use_rewrite}</label>
-					<p>{$lang->about_rewrite}</p>
-				</div>
+				<input type="hidden" name="use_rewrite" value="{$use_rewrite}" />
 				<div class="x_control-group">
 					<select name="time_zone" style="width:100%">
 						<option loop="$time_zone => $key,$val" id="{$key}" value="{$key}" selected="selected"|cond="$key==date('O')">{$val}</option>

@@ -628,6 +628,10 @@
 		<value xml:lang="tr"><![CDATA[Eğer websunucusu yenidenyazma(rewritemod) destekliyorsa, http://ornek/?dosya_no=123 gibi URLler http://ornek/123 olarak kısaltılabilir]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu Host của bạn hỗ trợ Mod Rewrite, khi địa chỉ có dạng <b>http://blah/?document_srl=123</b> sẽ được rút ngắn thành <b>http://blah/123</b>]]></value>
 	</item>
+	<item name="disable_rewrite">
+		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없습니다.  웹 서버 담당자에게 <strong>rewrite_mod</strong>지원 여부를 확인하시기 바랍니다.]]></value>
+		<value xml:lang="en"><![CDATA[Required module for "Friendly URL" feature is not found. Please check with the web master about <strong>rewrite_mod</strong> module support.]]></value>
+	</item>
 	<item name="time_zone">
 		<value xml:lang="ko"><![CDATA[표준 시간대]]></value>
 		<value xml:lang="en"><![CDATA[Time Zone]]></value>

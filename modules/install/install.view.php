@@ -58,6 +58,10 @@
          * @brief Display messages about installation environment
          **/
         function dispInstallCheckEnv() {
+			$useRewrite = $this->useRewriteModule() ? 'Y' : 'N';
+			$_SESSION['use_rewrite'] = $useRewrite;
+			Context::set('use_rewrite', $useRewrite); 
+
             $this->setTemplateFile('check_env');
         }
 
@@ -100,10 +104,26 @@
 
 			include _XE_PATH_.'files/config/tmpDB.config.php';
 
+			Context::set('use_rewrite', $_SESSION['use_rewrite']); 
             Context::set('time_zone', $GLOBALS['time_zone']);
             Context::set('db_type', $db_info->db_type);
             $this->setTemplateFile('config_form');
         }
+
+		function useRewriteModule()
+		{
+			if(function_exists('apache_get_modules') && in_array('mod_rewrite',apache_get_modules()))
+			{
+				return true;
+			}
+
+			require_once(_XE_PATH_.'classes/httprequest/XEHttpRequest.class.php');
+			$httpRequest = new XEHttpRequest($_SERVER['HTTP_HOST'], $_SERVER['SERVER_PORT']);
+			$xeInstallPath = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php', 1));
+			$output = $httpRequest->send($xeInstallPath.'modules/install/conf/info.xml');
+
+			return (strpos($output->body, '<?xml') !== 0);
+		}
 
         /**
          * @brief Display a screen to enter DB and administrator's information

@@ -181,6 +181,8 @@
 
             // Display a message that installation is completed
             $this->setMessage('msg_install_completed');
+			
+			unset($_SESSION['use_rewrite']);
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
