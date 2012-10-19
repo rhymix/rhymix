@@ -44,21 +44,23 @@ jQuery(function($){
 		$i.change(function(){
 			if($i.is(':checked')){
 				$i.parent('td').next('td')
-							   .find(':radio, :text')
-									.removeAttr('disabled')
-									.end()
-							   .find(':radio[value=option]').attr('checked', 'checked')
-							   		.end()
-							   .next('td')
-							   .find(':input[value=Y]').removeAttr('disabled').attr('checked', 'checked');
+					.find('>._subItem').show().end()
+					.find(':radio, [type="number"]')
+						.removeAttr('disabled')
+						.end()
+					.find(':radio[value=option]').attr('checked', 'checked')
+						.end()
+					.next('td')
+					.find(':input[value=Y]').removeAttr('disabled').attr('checked', 'checked');
 				
 			} else {
 				$i.parent('td').next('td')
-							   .find(':radio, :text').attr('disabled','disabled').removeAttr('checked')
-							   		.next('label').css('fontWeight','normal').end()
-									.end()
-							   .next('td')
-								.find(':input[value=Y]').removeAttr('checked').attr('disabled', 'disabled');
+					.find('>._subItem').hide().end()
+					.find(':radio, [type="number"]').attr('disabled','disabled').removeAttr('checked')
+						.next('label').css('fontWeight','normal').end()
+						.end()
+					.next('td')
+					.find(':input[value=Y]').removeAttr('checked').attr('disabled', 'disabled');
 			}
 		});
 	});

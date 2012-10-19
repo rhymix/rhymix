@@ -417,7 +417,7 @@
 					}//end imageType
 					elseif($formInfo->name == 'birthday'){
 						$formTag->type = 'date';
-						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" placeholder="YYYY-MM-DD" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="x_btn dateRemover" />'
+						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="x_btn dateRemover" />'
 								,$memberInfo['birthday']
 								,zdate($memberInfo['birthday'], 'Y-m-d', false)
 								,$lang->cmd_delete);
@@ -435,6 +435,12 @@
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
 						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" />';
+					}elseif($formInfo->name == 'homepage'){
+						$formTag->type = 'url';
+						$inputTag = '<input type="url" name="homepage" id="homepage" value="'.$memberInfo['homepage'].'" />';
+					}elseif($formInfo->name == 'blog'){
+						$formTag->type = 'url';
+						$inputTag = '<input type="url" name="blog" id="blog" value="'.$memberInfo['blog'].'" />';
 					}else{
 						$formTag->type = 'text';
 						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" />'
@@ -450,8 +456,12 @@
 					$extentionReplace = array();
 
 					$formTag->type = $extendForm->column_type;
-					if($extendForm->column_type == 'text' || $extendForm->column_type == 'homepage' || $extendForm->column_type == 'email_address'){
+					if($extendForm->column_type == 'text'){
 						$template = '<input type="text" name="%column_name%" id="%column_name%" value="%value%" />';
+					}elseif($extendForm->column_type == 'homepage'){
+						$template = '<input type="url" name="%column_name%" id="%column_name%" value="%value%" />';
+					}elseif($extendForm->column_type == 'email_address'){
+						$template = '<input type="email" name="%column_name%" id="%column_name%" value="%value%" />';
 					}elseif($extendForm->column_type == 'tel'){
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
 												  'tel_1' => $extendForm->value[1],
@@ -529,7 +539,7 @@ EOD;
 					}elseif($extendForm->column_type == 'date'){
 						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'),
 												  'cmd_delete' => $lang->cmd_delete);
-						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="text" class="inputDate" value="%date%" readonly="readonly" /> <input type="button" value="%cmd_delete%" class="dateRemover" />';
+						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" readonly="readonly" /> <input type="button" value="%cmd_delete%" class="dateRemover" />';
 					}
 
 					$replace = array_merge($extentionReplace, $replace);

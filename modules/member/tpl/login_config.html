@@ -6,7 +6,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="change_password_date">{$lang->change_password_date}</label>
 		<div class="x_controls">
-			<input type="text" id="change_password_date" name="change_password_date" value="{$config->change_password_date}" style="width:30px" /> {$lang->unit_day}
+			<input type="number" min="0" id="change_password_date" name="change_password_date" value="{$config->change_password_date}" style="width:40px" /> {$lang->unit_day}
 			<p class="x_help-inline">{$lang->about_change_password_date}</p>
 		</div>
 	</div>
@@ -17,31 +17,31 @@
 			<label class="x_inline" for="enable_login_fail_report_no"><input type="radio" name="enable_login_fail_report" id="enable_login_fail_report_no" value="N" checked="checked"|cond="$config->enable_login_fail_report == 'N'" /> {$lang->cmd_no}</label>
 		</div>
 	</div>
-	<div class="x_control-group">
+	<div class="x_control-group _limit" style="display:none">
 		<label class="x_control-label" for="max_error_count">{$lang->login_trial_limit1}</label>
 		<div class="x_controls">
-			<input type="text" id="max_error_count" name="max_error_count" value="{$config->max_error_count}" style="width:30px" /> {$lang->unit_count}
+			<input type="number" min="0" id="max_error_count" name="max_error_count" value="{$config->max_error_count}" style="width:40px" /> {$lang->unit_count}
 			<p class="x_help-inline">{$lang->about_login_trial_limit1}</p>
 		</div>
 	</div>
-	<div class="x_control-group">
+	<div class="x_control-group _limit" style="display:none">
 		<label class="x_control-label" for="max_error_count_time">{$lang->login_trial_limit2}</label>
 		<div class="x_controls">
-			<input type="text" id="max_error_count_time" name="max_error_count_time" value="{$config->max_error_count_time}" style="width:30px" /> {$lang->unit_sec}
+			<input type="number" min="0" id="max_error_count_time" name="max_error_count_time" value="{$config->max_error_count_time}" style="width:40px" /> {$lang->unit_sec}
 			<p class="x_help-inline">{$lang->about_login_trial_limit2}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="after_login_url">{$lang->after_login_url}</label>
 		<div class="x_controls">
-			<input type="text" id="after_login_url" name="after_login_url" value="{$config->after_login_url}" />
+			<input type="url" id="after_login_url" name="after_login_url" value="{$config->after_login_url}" />
 			<p class="x_help-inline">{$lang->about_after_login_url}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="after_logout_url">{$lang->after_logout_url}</label>
 		<div class="x_controls">
-			<input type="text" id="after_logout_url" name="after_logout_url" value="{$config->after_logout_url}" />
+			<input type="url" id="after_logout_url" name="after_logout_url" value="{$config->after_logout_url}" />
 			<p class="x_help-inline">{$lang->about_after_logout_url}</p>
 		</div>
 	</div>
@@ -49,3 +49,15 @@
 		<span class="x_pull-right"><input class="x_btn x_btn-large x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 </form>
+<script>
+jQuery(function($){
+	$('input[name="enable_login_fail_report"]').change(function(){
+		var $limit = $(this).closest('.x_control-group').siblings('._limit');
+		if($('#enable_login_fail_report_yes').is(':checked')){
+			$limit.show();
+		} else {
+			$limit.hide();
+		}
+	}).change();
+});
+</script>

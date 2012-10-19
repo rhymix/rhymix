@@ -10,7 +10,7 @@
 		<div class="x_control-group">
 			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
 			<div class="x_controls">
-				<input type="text" value="{$config->max_level}" name="max_level" id="max_level" style="width:30px" />
+				<input type="number" min="0" max="1000" value="{$config->max_level}" name="max_level" id="max_level" style="width:50px" />
 				{$lang->about_max_level}
 			</div>
 		</div>
@@ -24,31 +24,31 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->give_point}</label>
 			<div class="x_controls">
-				<input type="text" value="{$config->signup_point}" name="signup_point" id="signup_point" style="width:30px" /> : 
+				<input type="number" value="{$config->signup_point}" name="signup_point" id="signup_point" style="width:50px;text-align:right" /> : 
 				<label for="signup_point" class="x_inline">{$lang->point_signup}</label>
 				<br />
-				<input type="text" value="{$config->login_point}" name="login_point" id="login_point" style="width:30px" /> :
+				<input type="number" value="{$config->login_point}" name="login_point" id="login_point" style="width:50px;text-align:right" /> :
 				<label for="login_point" class="x_inline">{$lang->cmd_login}</label>
 				<br />
-				<input type="text" name="insert_document" value="{$config->insert_document}" id="insert_document" style="width:30px" /> :
+				<input type="number" name="insert_document" value="{$config->insert_document}" id="insert_document" style="width:50px;text-align:right" /> :
 				<label for="insert_document" class="x_inline">{$lang->point_insert_document}</label>
 				<br />
-				<input type="text" name="insert_comment" value="{$config->insert_comment}" id="insert_comment" style="width:30px" /> :
+				<input type="number" name="insert_comment" value="{$config->insert_comment}" id="insert_comment" style="width:50px;text-align:right" /> :
 				<label for="insert_comment" class="x_inline">{$lang->point_insert_comment}</label>
 				<br />
-				<input type="text" name="upload_file" value="{$config->upload_file}" id="upload_file" style="width:30px" /> :
+				<input type="number" name="upload_file" value="{$config->upload_file}" id="upload_file" style="width:50px;text-align:right" /> :
 				<label for="upload_file" class="x_inline">{$lang->point_upload_file}</label>
 				<br />
-				<input type="text" name="download_file" value="{$config->download_file}" id="download_file" style="width:30px" /> :
+				<input type="number" name="download_file" value="{$config->download_file}" id="download_file" style="width:50px;text-align:right" /> :
 				<label for="download_file" class="x_inline">{$lang->point_download_file}</label>
 				<br />
-				<input type="text" name="read_document" value="{$config->read_document}" id="read_document" style="width:30px" /> :
+				<input type="number" name="read_document" value="{$config->read_document}" id="read_document" style="width:50px;text-align:right" /> :
 				<label for="read_document" class="x_inline">{$lang->point_read_document}</label>
 				<br />
-				<input type="text" name="voted" value="{$config->voted}" style="width:30px" id="voted" /> :
+				<input type="number" name="voted" value="{$config->voted}" style="width:50px;text-align:right" id="voted" /> :
 				<label for="voted" class="x_inline">{$lang->point_voted}</label>
 				<br />
-				<input type="text" name="blamed" value="{$config->blamed}" id="blamed" style="width:30px" /> :
+				<input type="number" name="blamed" value="{$config->blamed}" id="blamed" style="width:50px;text-align:right" /> :
 				<label for="blamed" class="x_inline">{$lang->point_blamed}</label>
 			</div>
 		</div>
@@ -101,7 +101,7 @@
 			<tbody>
 				<tr loop="$group_list => $key,$val">
 					<td><label for="point_group_{$key}">{$val->title}</label></td>
-					<td cond="$val->is_default != 'Y'"><input type="text" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:30px" /></td>
+					<td cond="$val->is_default != 'Y'"><input type="number" min="0" max="1000" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:50px" /></td>
 					<td cond="$val->is_default == 'Y'"><span>{$lang->default_group}</span></td>
 				</tr>
 			</tbody>
@@ -117,7 +117,7 @@
 		<div class="x_clearfix">
 			<p class="x_pull-left">{$lang->expression}</p>
 			<span class="x_pull-right x_input-append">
-				<input type="text" value="{$config->expression}" size="30" class="level_expression" />
+				<input type="text" value="{$config->expression}" placeholder="Math.pow(i,2) * 90" size="30" class="level_expression" />
 				<button type="button" class="x_btn calc_point">{$lang->level_point_calc}</button> 
 				<button type="button" class="x_btn x_btn-warning calc_point _reset">{$lang->cmd_exp_reset}</button>
 			</span>
@@ -131,8 +131,8 @@
 			</tr>
 			<tr>
 				<td>1</td>
-				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="" /></td>
-				<td><input type="text" name="level_step_1" value="{$config->level_step[1]}" style="width:40px;text-align:right" /> {$config->point_name}</td>
+				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="1" /></td>
+				<td><label for="level_step_1" style="margin:0"><input type="number" id="level_step_1" name="level_step_1" value="{$config->level_step[1]}" style="width:60px;text-align:right" /> {$config->point_name}</label></td>
 {@$point_group_item = $point_group[1]}
 {@$title=array()}
 <!--@if($point_group_item)-->
@@ -155,8 +155,8 @@
 <!--@end-->
 			<tr class="row{(($i-1)%2+1)}">
 				<td>{$i}</td>
-				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/{$i}.gif" alt="" /></td>
-				<td><input type="text" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:40px;text-align:right" /> {$config->point_name}</td>
+				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/{$i}.gif" alt="{$i}" /></td>
+				<td><label for="level_step_{$i}" style="margin:0"><input type="number" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:60px;text-align:right" /> {$config->point_name}</label></td>
 				<td>{implode(', ', $title)}</td>
 			</tr>
 			<!--@end-->

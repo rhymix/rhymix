@@ -7,7 +7,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="layout">{$lang->layout}</label>
 		<div class="x_controls">
-			<select id="layout" name="layout_srl">
+			<select id="layout" name="layout_srl" style="width:220px">
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->layout_srl">{$val->title} ({$val->layout})</option>
 			</select>
@@ -16,7 +16,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="skin">{$lang->skin}</label>
 		<div class="x_controls">
-			<select id="skin" name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value)">
+			<select id="skin" name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value)" style="width:220px">
 				<option loop="$skin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->skin==$key">{$val->title} ({$key})</option>
 			</select>
 		</div>
@@ -28,7 +28,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="mlayout">{$lang->mobile_layout}</label>
 		<div class="x_controls">
-			<select id="mlayout" name="mlayout_srl">
+			<select id="mlayout" name="mlayout_srl" style="width:220px">
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->mlayout_srl">{$val->title} ({$val->layout})</option>
 			</select>
@@ -37,7 +37,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
 		<div class="x_controls">
-			<select id="mskin" name="mskin">
+			<select id="mskin" name="mskin" style="width:220px">
 				<option loop="$mskin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->mskin==$key">{$val->title} ({$key})</option>
 			</select>
 		</div>

@@ -17,13 +17,13 @@
 			<option value="" <!--@if($is_denied!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
 			<option value="Y" <!--@if($is_denied=='Y')-->selected="selected"<!--@end-->>{$lang->denied}</option>
 		</select>
-		<select name="selected_group_srl" style="width:auto">
+		<select name="selected_group_srl" style="width:auto" title="{$lang->member_group}">
 			<option value="0">{$lang->member_group}</option>
 			<!--@foreach($group_list as $key => $val)-->
 			<option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
 			<!--@end-->
 		</select>
-		<select name="search_target" style="width:auto">
+		<select name="search_target" style="width:auto" title="{$lang->search_target}">
 			<option value="">{$lang->search_target}</option>
 			<option value="{$identifier}" selected="selected"|cond="$search_target == $identifier">{Context::getLang($identifier)}</option>
 			<!--@foreach($lang->search_target_list as $key => $val)-->
@@ -31,7 +31,7 @@
 			<!--@end-->
 		</select>
 		<span class="x_input-append">
-			<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" style="width:100px" />
+			<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
 			<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 			<button class="x_btn" type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button>
 		</span>
@@ -59,10 +59,10 @@
 				<form action="./" method="get" style="margin:0">
 					<input type="hidden" name="module" value="point" />
 					<input type="hidden" name="member_srl" value="{$val->member_srl}" />
-					<input type="text" name="orgpoint" value="{$val->point}" disabled="disabled" style="width:40px;text-align:right" />
+					<input type="number" name="orgpoint" value="{$val->point}" disabled="disabled" style="width:60px;text-align:right" />
 					->
 					<span class="x_input-append">
-						<input type="text" id="point_{$val->member_srl}" name="point" style="width:40px;text-align:right" />
+						<input type="number" id="point_{$val->member_srl}" name="point" required style="width:60px;text-align:right" />
 						<input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" class="x_btn" />
 					</span>
 				</form>
@@ -115,13 +115,13 @@
 				<option value="" <!--@if($is_denied!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
 				<option value="Y" <!--@if($is_denied=='Y')-->selected="selected"<!--@end-->>{$lang->denied}</option>
 			</select>
-			<select name="selected_group_srl" style="width:auto">
+			<select name="selected_group_srl" style="width:auto" title="{$lang->member_group}">
 				<option value="0">{$lang->member_group}</option>
 				<!--@foreach($group_list as $key => $val)-->
 				<option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
 				<!--@end-->
 			</select>
-			<select name="search_target" style="width:auto">
+			<select name="search_target" style="width:auto" title="{$lang->search_target}">
 				<option value="">{$lang->search_target}</option>
 				<option value="{$identifier}" selected="selected"|cond="$search_target == $identifier">{Context::getLang($identifier)}</option>
 				<!--@foreach($lang->search_target_list as $key => $val)-->
@@ -129,7 +129,7 @@
 				<!--@end-->
 			</select>
 			<span class="x_input-append">
-				<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" style="width:100px" />
+				<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
 				<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 				<button class="x_btn" type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button>
 			</span>

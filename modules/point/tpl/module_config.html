@@ -22,13 +22,13 @@
 		<tbody>
 			<tr loop="$mid_list => $key,$val">
 				<th scope="row">{$val->browser_title}({$val->mid})</th>
-				<td><input type="text" style="width:30px;text-align:right" name="insert_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_document']}" /> {$config->point_name}</td>
-				<td><input type="text" style="width:30px;text-align:right" name="insert_comment_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_comment']}" /> {$config->point_name}</td>
-				<td><input type="text" style="width:30px;text-align:right" name="upload_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['upload_file']}" /> {$config->point_name}</td>
-				<td><input type="text" style="width:30px;text-align:right" name="download_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['download_file']}" /> {$config->point_name}</td>
-				<td><input type="text" style="width:30px;text-align:right" name="read_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['read_document']}" /> {$config->point_name}</td>
-				<td><input type="text" style="width:30px;text-align:right" name="voted_{$val->module_srl}" value="{$module_config[$val->module_srl]['voted']}" /> {$config->point_name}</td>
-				<td><input type="text" style="width:30px;text-align:right" name="blamed_{$val->module_srl}" value="{$module_config[$val->module_srl]['blamed']}" /> {$config->point_name}</td>
+				<td><input type="number" style="width:50px;text-align:right" name="insert_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_document']}" title="{$config->point_name}" /> {$config->point_name}</td>
+				<td><input type="number" style="width:50px;text-align:right" name="insert_comment_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_comment']}" title="{$config->point_name}" /> {$config->point_name}</td>
+				<td><input type="number" style="width:50px;text-align:right" name="upload_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['upload_file']}" title="{$config->point_name}" /> {$config->point_name}</td>
+				<td><input type="number" style="width:50px;text-align:right" name="download_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['download_file']}" title="{$config->point_name}" /> {$config->point_name}</td>
+				<td><input type="number" style="width:50px;text-align:right" name="read_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['read_document']}" title="{$config->point_name}" /> {$config->point_name}</td>
+				<td><input type="number" style="width:50px;text-align:right" name="voted_{$val->module_srl}" value="{$module_config[$val->module_srl]['voted']}" title="{$config->point_name}" /> {$config->point_name}</td>
+				<td><input type="number" style="width:50px;text-align:right" name="blamed_{$val->module_srl}" value="{$module_config[$val->module_srl]['blamed']}" title="{$config->point_name}" /> {$config->point_name}</td>
 			</tr>
 		</tbody>
 	</table>

@@ -23,7 +23,7 @@
 		<label class="x_control-label" for="identifierForm">{$identifierForm->title} <em style="color:red">*</em></label>
 		<div class="x_controls">
 			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
-			<input id="identifierForm" type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
+			<input id="identifierForm" type="email" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 		</div>
 	</div>
 	<div cond="!$member_srl" class="x_control-group">
@@ -76,7 +76,7 @@
 		<label class="x_control-label" for="until">{$lang->limit_date}</label>
 		<div class="x_controls">
 			<input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
-			<input type="text" class="inputDate" id="until" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
+			<input type="date" placeholder="YYYY-MM-DD" class="inputDate" id="until" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
 			<input type="button" value="{$lang->cmd_delete}" class="x_btn dateRemover" />
 			<span class="x_help-inline">{$lang->about_limit_date}</span>
 		</div>

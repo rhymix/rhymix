@@ -24,7 +24,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="limit_day">{$lang->limit_day}</label>
 		<div class="x_controls">
-			<input type="text" id="limit_day" name="limit_day" value="{$config->limit_day}" style="width:30px" /> {$lang->unit_day}
+			<input type="number" min="0" id="limit_day" name="limit_day" value="{$config->limit_day}" style="width:40px" /> {$lang->unit_day}
 			<p class="x_help-inline">{$lang->about_limit_day}</p>
 		</div>
 	</div>
@@ -55,7 +55,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="redirect_url">{$lang->redirect_url}</label>
 		<div class="x_controls">
-			<input type="text" id="redirect_url" name="redirect_url" value="{$config->redirect_url}" />
+			<input type="url" id="redirect_url" name="redirect_url" value="{$config->redirect_url}" />
 			<p class="x_help-inline">{$lang->about_redirect_url}</p>
 		</div>
 	</div>
@@ -124,12 +124,12 @@
 						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_optional}</label>
-							<div cond="$item->imageType" class="_subItem">
-								<label for="{$item->name}_max_width" class="x_inline">{$lang->cmd_image_max_width} <input type="text" name="{$item->name}_max_width" id="{$item->name}_max_width" value="{$item->max_width}" style="width:30px" /> px</label>
+							<div cond="$item->imageType" class="_subItem" style="display:none">
+								<label for="{$item->name}_max_width" class="x_inline">{$lang->cmd_image_max_width} <input type="number" min="1" name="{$item->name}_max_width" id="{$item->name}_max_width" value="{$item->max_width}" style="width:40px" /> px</label>
 								/
-								<label for="{$item->name}_max_height" class="x_inline">{$lang->cmd_image_max_height} <input type="text" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" style="width:30px" /> px</label>
+								<label for="{$item->name}_max_height" class="x_inline">{$lang->cmd_image_max_height} <input type="number" min="1" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" style="width:40px" /> px</label>
 							</div>
-							<div cond="$item->name == 'signature'" style="padding-top:10px">
+							<div cond="$item->name == 'signature'" class="_subItem" style="display:none;padding-top:5px">
 								<select id="signature_editor" name="signature_editor_skin" onchange="getEditorSkinColorList(this.value)">
 								<!--@foreach($editor_skin_list as $editor_skin)-->
 								<option value="{$editor_skin}" selected="selected"|cond="$editor_skin==$config->signature_editor_skin">{$editor_skin}</option>
@@ -148,9 +148,9 @@
 					</tr>
 					<!--@else-->
 					<tr>
-						<input type="hidden" name="list_order[]" value="{$item->name}" />
-						<input type="hidden" name="{$item->name}_member_join_form_srl" value="{$item->member_join_form_srl}" />
 						<th scope="row">
+							<input type="hidden" name="list_order[]" value="{$item->name}" />
+							<input type="hidden" name="{$item->name}_member_join_form_srl" value="{$item->member_join_form_srl}" />
 							<div class="wrap">
 								<button type="button" class="dragBtn">Move to</button>
 								<span class="_title">{$item->title}</span>
