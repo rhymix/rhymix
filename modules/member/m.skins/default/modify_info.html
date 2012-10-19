@@ -35,7 +35,7 @@
 				<label for="{$formTag->name}">{$formTag->title}</label>
 				<div id="{$formTag->name}" cond="$formTag->name != 'signature' && $formTag->type != 'date'" class="tel"|cond="$formTag->type == 'tel'">{$formTag->inputTag}</div>
 				<textarea id="{$formTag->name}" cond="$formTag->name == 'signature'" name="signature" rows="8" cols="42" class="itxx">{$member_info->signature}</textarea>
-				<input id="{$formTag->name}" class="inputText" type="date" value="{$oMemberInfo[$formTag->name]}" cond="$formTag->type == 'date'" />
+				<input id="{$formTag->name}" class="inputText" type="date" name="{$formTag->name}" value="{$oMemberInfo[$formTag->name]}" cond="$formTag->type == 'date'" />
 			</li>
 			<li><label for="mailing" class="db fb al">{$lang->allow_mailing}</label><input id="mailing" type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p style="color:#666">{$lang->about_allow_mailing}</p></li>
 		</ul>

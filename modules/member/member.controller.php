@@ -436,6 +436,7 @@
             // Login Information
             $logged_info = Context::get('logged_info');
             $args->member_srl = $logged_info->member_srl;
+			$args->birthday = strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>''));
             // Remove some unnecessary variables from all the vars
             $all_args = Context::getRequestVars();
             unset($all_args->module);
