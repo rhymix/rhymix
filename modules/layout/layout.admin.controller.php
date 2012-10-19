@@ -295,7 +295,8 @@
             $layout_srl = Context::get('layout_srl');
             $code = Context::get('code');
             $code_css   = Context::get('code_css');
-			$is_post    = (Context::getRequestMethod() == 'POST');
+			$is_post    = ($_SERVER['REQUEST_METHOD'] == 'POST');
+
             if(!$layout_srl || !$code || !$is_post)
 			{
 				return new Object(-1, 'msg_invalid_request');
