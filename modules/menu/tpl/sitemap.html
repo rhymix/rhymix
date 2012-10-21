@@ -155,14 +155,14 @@
 				<div class="list">
 					<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
 					
-						<div class="item ${IsInstalled}" data-param='{ "sPackageSrl":"${PackageSrl}"}'>
+						<div class="item ${IsInstalled}">
 							<img src="http://${ScreenShotURL}" alt="">
 							<h2>${MenuType}</h2>
 							<p>${MenuTypeDesc}</p>
 							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
 							
 							<div class="_install">
-								<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+								<a href="#" class="x_icon-download-alt x_icon-white _install_this">설치</a>
 							</div>
 							<div class="_already_installed">
 								<span style="position: absolute;top: 7px;right: 0;">이미 설치된 항목</span>
@@ -1651,11 +1651,12 @@ jQuery(function($){
 			$Panel.find('.list').html("");
 			
 			var item;
+			var $node;
 			if(htData.item_list){
 				for(var i=0, nLen=htData.item_list.length; i<nLen; i++){
 					item = htData.item_list[i];
 					
-					$Panel.find('.list').append($.tmpl( "downloadableMenuTypeItem", {
+					$node = $.tmpl( "downloadableMenuTypeItem", {
 						MenuType: item.title,
 						MenuTypeDesc: item.package_description,
 						ScreenShotURL: item.item_screenshot_url.replace(/^http:\/\//, ""),
@@ -1663,9 +1664,11 @@ jQuery(function($){
 						TotalVotes: item.package_voted,
 						LastUpdated: item.item_regdate,
 						TotalDownloads: item.package_downloaded,
-						IsInstalled: "installed",
-						PackageSrl: item.package_srl
-					} ));
+						//IsInstalled: "installed",
+						IsInstalled: ""
+					} ).data('sItemType', sItemType).data('sPackageSrl', item.package_srl);
+					
+					$Panel.find('.list').append($node);
 				}
 
 				//$Panel.find('.list').html(sResult);
@@ -2885,6 +2888,87 @@ jQuery(function($){
 		htOptions.bAlert = false;
 		
 		msgBox(htOptions);
+	}
+
+	$('#download,#downloadLayout,#downloadSkin').on('click', '._install_this', function(ev){
+		console.log($(this));
+		var $item = $(this).closest('.item');
+		console.log($item);
+		var sPackageSrl = $item.data('sPackageSrl');
+		var sPackageType = $item.data('sItemType');
+
+		installPackage(sPackageSrl, sPackageType);
+	});
+	// sPackageType = menu/layout/skin
+	function installPackage(sPackageSrl, sPackageType){
+		//act=getAutoinstallAdminIsAuthed
+		$.exec_json("admin.getAutoinstallAdminIsAuthed", {}, function(htData){
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+
+			// FTP 비밀번호 뿐만 아니라 정보가 전혀 없을 경우?
+			if(htData.is_authed !== "1"){
+				console.log('no');
+				/*
+				confirmDialog(
+					{
+						sTitle : 'FTP 설정이 필요 합니다.',
+						sText : '확인을 누르시면 FTP 설정 페이지로 이동 합니다.',
+						bSmall : true,
+						fnOnOK : function(){
+							window.location.href="./?module=admin&act=dispAdminConfigFtp";
+						}
+					}
+				);
+				*/
+				confirmDialog(
+					{
+						sTitle : 'FTP 계정 정보가 필요 합니다.',
+						sText : 'FTP 비밀번호: <input type="password"/>',
+						bSmall : true,
+						fnOnOK : function(){
+							var sPw = $msgBox.find('input[type="password"]').val();
+							//console.log(sPackageSrl);
+							doInstallPackage(sPackageSrl, sPackageType, sPw);
+							//window.location.href="./?module=admin&act=dispAdminConfigFtp";
+						}
+					}
+				);
+				
+				//module=admin&act=dispAdminConfigFtp
+				return;
+			}
+			
+			console.log('ok');
+			doInstallPackage(sPackageSrl, sPackageType, "");
+		});
+	}
+	
+	function doInstallPackage(sPackageSrl, sPackageType, sPw){
+		/*
+		API: index.php?act=procAutoinstallAdminPackageinstall
+
+		파라미터
+
+		package_srl	 설치할 패키지 번호
+		ftp_password	 FTP 비밀번호. getAutoinstallAdminAuthed로 비밀번호 인증이 된 상태에서는 아무 값이나 넣음.
+		응답
+
+		{
+				"message_type":"update",
+				"error":0,
+				"message":"설치에 성공하였습니다."
+		}
+		*/
+		
+		$.exec_json("admin.procAutoinstallAdminPackageinstall", {
+			package_srl : sPackageSrl,
+			ftp_password : sPw
+		}, function(htData){
+			console.log(htData);
+		});
 	}
 	
 //	$('#add_url').bind("show", function(){console.log('show');});
