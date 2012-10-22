@@ -136,6 +136,19 @@ jQuery(function($){
 		$xBody.addClass('wide');
 		reflow();
 	});
+// Default Language Selection
+	$('.x #lang')
+		.mouseleave(function(){
+			$(this).hide();
+		})
+		.focusout(function(){
+			var $this = $(this);
+			setTimeout(function(){
+				if(!$this.find('a:focus').length){
+					$this.mouseleave();
+				}
+			}, 0);
+		});
 // Check All
 	$('.x th>input[type="checkbox"]')
 		.change(function() {
