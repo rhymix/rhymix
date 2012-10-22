@@ -1547,6 +1547,9 @@ jQuery(function($){
 	
 	$("#tmpl_menuTypeItem").template( "menuTypeItem" );
 	$('#add').bind("show", function(){
+		fillInInstalledMenuList();
+	});
+	function fillInInstalledMenuList(){
 		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
 			//console.log(htData);
 
@@ -1574,7 +1577,7 @@ jQuery(function($){
 			$('#add ._itemList').html(sResult);
 			scrollToRight();
 		});
-	});
+	}
 	$('#add').bind("hide", function(){
 	});
 	
@@ -1651,10 +1654,16 @@ jQuery(function($){
 			$Panel.find('.list').html("");
 			
 			var item;
-			var $node;
+			var $node, sIsInstalled;
 			if(htData.item_list){
 				for(var i=0, nLen=htData.item_list.length; i<nLen; i++){
 					item = htData.item_list[i];
+					
+					if(item.current_version){
+						sIsInstalled = "installed";
+					}else{
+						sIsInstalled = "";
+					}
 					
 					$node = $.tmpl( "downloadableMenuTypeItem", {
 						MenuType: item.title,
@@ -1664,8 +1673,7 @@ jQuery(function($){
 						TotalVotes: item.package_voted,
 						LastUpdated: item.item_regdate,
 						TotalDownloads: item.package_downloaded,
-						//IsInstalled: "installed",
-						IsInstalled: ""
+						IsInstalled: sIsInstalled
 					} ).data('sItemType', sItemType).data('sPackageSrl', item.package_srl);
 					
 					$Panel.find('.list').append($node);
@@ -2053,10 +2061,13 @@ jQuery(function($){
 		if(this !== ev.target) return;
 	});
 	$('#layout .list').on('show', function(){
+		fillInInstalledLayoutList();
+	});
+	function fillInInstalledLayoutList(){
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		
 		loadInstalledLayoutList(sMode);
-	});
+	}
 
 	function updateLayoutListDisplayStatus(){
 		$ChkBox = $('#layout ._chkUseDefaultLayout');
@@ -2167,7 +2178,7 @@ jQuery(function($){
 				var sTitle = $msgBox.find('input[type="text"]').val();
 				$.exec_json("layout.procLayoutAdminCopyLayout", {
 					layout_srl : sLayoutSrl,
-					title : sTitle
+					title : [sTitle]
 				}, function(htData){
 					//console.log(htData);
 					if(htData.error !== 0){
@@ -2401,9 +2412,13 @@ jQuery(function($){
 		}
 	});
 	$('#skin .list').on('show', function(){
-		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
-		loadInstalledSkinList(sMode);
+		fillInInstalledSkinList();
 	});
+	function fillInInstalledSkinList(){
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+		
+		loadInstalledSkinList(sMode);
+	}
 
 	$('#skin ._chkUseDefault').click(function(){
 		updateSkinListDisplayStatus();
@@ -2897,10 +2912,10 @@ jQuery(function($){
 		var sPackageSrl = $item.data('sPackageSrl');
 		var sPackageType = $item.data('sItemType');
 
-		installPackage(sPackageSrl, sPackageType);
+		installPackage(sPackageSrl, sPackageType, $item);
 	});
 	// sPackageType = menu/layout/skin
-	function installPackage(sPackageSrl, sPackageType){
+	function installPackage(sPackageSrl, sPackageType, $item){
 		//act=getAutoinstallAdminIsAuthed
 		$.exec_json("admin.getAutoinstallAdminIsAuthed", {}, function(htData){
 			if(htData.error !== 0){
@@ -2909,7 +2924,7 @@ jQuery(function($){
 			}
 
 			// FTP 비밀번호 뿐만 아니라 정보가 전혀 없을 경우?
-			if(htData.is_authed !== "1"){
+			if(htData.is_authed !== 1){
 				console.log('no');
 				/*
 				confirmDialog(
@@ -2931,7 +2946,7 @@ jQuery(function($){
 						fnOnOK : function(){
 							var sPw = $msgBox.find('input[type="password"]').val();
 							//console.log(sPackageSrl);
-							doInstallPackage(sPackageSrl, sPackageType, sPw);
+							doInstallPackage(sPackageSrl, sPackageType, sPw, $item);
 							//window.location.href="./?module=admin&act=dispAdminConfigFtp";
 						}
 					}
@@ -2942,32 +2957,28 @@ jQuery(function($){
 			}
 			
 			console.log('ok');
-			doInstallPackage(sPackageSrl, sPackageType, "");
+			doInstallPackage(sPackageSrl, sPackageType, ".", $item);
 		});
 	}
 	
-	function doInstallPackage(sPackageSrl, sPackageType, sPw){
-		/*
-		API: index.php?act=procAutoinstallAdminPackageinstall
-
-		파라미터
-
-		package_srl	 설치할 패키지 번호
-		ftp_password	 FTP 비밀번호. getAutoinstallAdminAuthed로 비밀번호 인증이 된 상태에서는 아무 값이나 넣음.
-		응답
-
-		{
-				"message_type":"update",
-				"error":0,
-				"message":"설치에 성공하였습니다."
-		}
-		*/
+	function doInstallPackage(sPackageSrl, sPackageType, sPw, $item){
+		var htFunc = {
+			download: fillInInstalledMenuList,
+			downloadLayout: fillInInstalledLayoutList,
+			downloadSkin: fillInInstalledSkinList
+		};
+		
+		showFoggy();
 		
 		$.exec_json("admin.procAutoinstallAdminPackageinstall", {
 			package_srl : sPackageSrl,
 			ftp_password : sPw
 		}, function(htData){
+			hideFoggy();
 			console.log(htData);
+			
+			$item.addClass('installed');
+			htFunc[sPackageType]();
 		});
 	}
 	
