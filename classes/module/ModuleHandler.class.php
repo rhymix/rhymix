@@ -684,6 +684,12 @@
                         if(file_exists($edited_layout)) $oModule->setEditedLayoutFile($edited_layout);
                     }
                 }
+				$isLayoutDrop = Context::get('isLayoutDrop');
+				if($isLayoutDrop)
+				{
+					$oModule->setLayoutPath('common/tpl');
+					$oModule->setLayoutFile('default_layout');
+				}
             }
 
             // Display contents

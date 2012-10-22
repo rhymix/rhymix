@@ -400,6 +400,37 @@
 		}
 
 		/**
+		 * Get module's detail setup contents
+		 * @return void
+		 */
+		public function getMenuAdminDetailSetup()
+		{
+			$menuItemSrl = Context::get('menu_item_srl');
+			if(!$menuItemSrl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$menuItemInfo = $this->getMenuItemInfo($menuItemSrl);
+
+			// if menu is shortcut
+			if($menuItemInfo->is_shortcut == 'Y')
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			// get module info
+			$oModuleModel = &getModel('module');
+			$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItemInfo->url);
+
+			// get xml info
+			$moduleConfInfo = $oModuleModel->getModuleInfoXml($moduleInfo->module);
+
+			$setupUrl = getNotEncodedUrl('', 'module', 'admin', 'act', $moduleConfInfo->setup_index_act, 'module_srl', $moduleInfo->module_srl, 'isLayoutDrop', '1');
+			$this->add('setupUrl', $setupUrl);
+		}
+
+		/**
 		 * Setting menu information(recursive)
 		 * @param array $menu
 		 * @return void

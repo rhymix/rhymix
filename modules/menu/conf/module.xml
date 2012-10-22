@@ -16,6 +16,7 @@
         <action name="getMenuAdminItemInfo" type="model" standalone="true" />
         <action name="getMenuAdminSiteMap" type="model" standalone="true" />
         <action name="getMenuAdminInstalledMenuType" type="model" standalone="true" />
+        <action name="getMenuAdminDetailSetup" type="model" standalone="true" />
 
         <action name="procMenuAdminInsert" type="controller" standalone="true" ruleset="insertMenu" />
         <action name="procMenuAdminUpdate" type="controller" standalone="true" ruleset="updateMenuTitle" />
