@@ -248,36 +248,64 @@
 		<fieldset>
 			<h1>이미지 버튼</h1>
 			<div class="cnt">
-				<form action="">
+<!--
+menu_item_srl : 업로드 하고자 하는 menu item의 serial number
+menu_normal_btn : 버튼 이미지(일반) form 이름
+menu_hover_btn : 버튼 이미지(마우스 오버) form 이름
+menu_active_btn : 버튼 이미지(선택 시) form 이름
+isNormalDelete : 기존 normal button을 삭제하고자 하는 경우 ('Y' or 'N')
+isHoverDelete : 기존 hover button을 삭제하고자 하는 경우 ('Y' or 'N')
+isActiveDelete : 기존 active button을 삭제하고자 하는 경우 ('Y' or 'N')
+callback : javascript callback 함수명
+-->
+				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="_submitTarget" method="post" enctype="multipart/form-data">
+					<input name="menu_item_srl" type="hidden" value=""/>
+					<input name="menu_normal_btn" type="hidden" value="new_img"/>
+					<input name="callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<figure>
 						<figcaption>일반</figcaption>
-						<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
+						<p class="_noImg">이미지 없음</p>
+						<img class="_yesImg" src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
 					</figure>
 					<div class="btnBoth">
-						<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-						<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="변경">
+						<button type="button" class="_yesImg fileRemover x_btn x_pull-left">삭제</button>
+						<input type="file" class="_yesImg overlap x_btn x_btn-primary x_pull-right" title="변경">
+						
+						<input type="file" name="new_img" class="_noImg overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
 					</div>
 				</form>
-				<form action="">
+				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_hover" target="_submitTarget" method="post" enctype="multipart/form-data">
+					<input name="menu_item_srl" type="hidden" value=""/>
+					<input name="menu_hover_btn" type="hidden" value="new_img"/>
+					<input name="callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<figure>
 						<figcaption>마우스 오버</figcaption>
-						<p>이미지 없음</p>
+						<p class="_noImg">이미지 없음</p>
+						<img class="_yesImg" src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
 						<!--<img src="" alt="마우스 오버 버튼 이미지">-->
 					</figure>
 					<div class="btnBoth">
-						<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-						<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
+						<button type="button" class="_yesImg fileRemover x_btn x_pull-left">삭제</button>
+						<input type="file" class="_yesImg overlap x_btn x_btn-primary x_pull-right" title="변경">
+						
+						<input type="file" name="new_img" class="_noImg overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
 					</div>
 				</form>
-				<form action="">
+				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_selected" target="_submitTarget" method="post" enctype="multipart/form-data">
+					<input name="menu_item_srl" type="hidden" value=""/>
+					<input name="menu_active_btn" type="hidden" value="new_img"/>
+					<input name="callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<figure>
 						<figcaption>선택 됨</figcaption>
-						<p>이미지 없음</p>
+						<p class="_noImg">이미지 없음</p>
+						<img class="_yesImg" src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
 						<!--<img src="" alt="선택 됨 버튼 이미지">-->
 					</figure>
 					<div class="btnBoth">
-						<button type="button" class="fileRemover x_btn x_pull-left">삭제</button>
-						<input type="file" class="overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
+						<button type="button" class="_yesImg fileRemover x_btn x_pull-left">삭제</button>
+						<input type="file" class="_yesImg overlap x_btn x_btn-primary x_pull-right" title="변경">
+						
+						<input type="file" name="new_img" class="_noImg overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
 					</div>
 				</form>
 			</div>
@@ -728,6 +756,11 @@ body>.x{max-width:none}
 .download.col .item.installed ._install{display:none}
 .download.col .item ._already_installed{display:none}
 .download.col .item.installed ._already_installed{display:block}
+
+#imgbtn ._yesImg {display:none}
+#imgbtn form._imgUploaded ._yesImg {display:block}
+#imgbtn form._imgUploaded ._noImg {display:none}
+
 </style>
 <!--[if IE 7]>
 <script>
@@ -2178,13 +2211,15 @@ jQuery(function($){
 				var sTitle = $msgBox.find('input[type="text"]').val();
 				$.exec_json("layout.procLayoutAdminCopyLayout", {
 					layout_srl : sLayoutSrl,
-					title : [sTitle]
+					title : sTitle.split(',')
 				}, function(htData){
 					//console.log(htData);
 					if(htData.error !== 0){
 						alert(htData.message);
 						return;
 					}
+					
+					fillInInstalledLayoutList();
 				});
 			}
 		});
@@ -2208,6 +2243,8 @@ jQuery(function($){
 						alert(htData.message);
 						return;
 					}
+					
+					fillInInstalledLayoutList();
 				});
 			}
 		});
@@ -2509,7 +2546,52 @@ jQuery(function($){
 			sSkin : sSkinName
 		});
 	})
+/*
+	<input name="menu_normal_btn" type="hidden" value="new_img"/>
+	<input name="callback" type="hidden" value="top.onBtnImgUploaded"/>
+	*/
+	top.onBtnImgUploaded = function(htData){
+		console.log(htData);
+	}
+	var $imgBtnForms = $("#imgbtn form");
+	$imgBtnForms.find('input[name=act]').val('procMenuAdminButtonUpload');
+	$imgBtnForms.find('input[name=mid]').remove();
+	$imgBtnForms.find('input[name=vid]').remove();
+	
+	$('#imgbtn').on('show', function(ev){
+		if(this !== ev.target) return;
+		
+		// http://code.google.com/p/xe-core/wiki/Menu_Button_load
+		$.exec_json("menu.getMenuAdminItemInfo", {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
+		}, BtnInfoReceived);
+	});
+	function BtnInfoReceived(htData){
+		console.log(htData);
+		$('#imgbtn input[name=menu_item_srl]').val(htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl);
+		
+		if(htData.menu_item.normal_btn){
+			$('#imgbtn form._btn_normal img').attr('src', htData.menu_item.normal_btn);
+			$('#imgbtn form._btn_normal').addClass('_imgUploaded');
+		}
 
+		if(htData.menu_item.hover_btn){
+			$('#imgbtn form._btn_hover img').attr('src', htData.menu_item.hover_btn);
+			$('#imgbtn form._btn_hover').addClass('_imgUploaded');
+		}
+
+		if(htData.menu_item.active_btn){
+			$('#imgbtn form._btn_selected img').attr('src', htData.menu_item.active_btn);
+			$('#imgbtn form._btn_selected').addClass('_imgUploaded');
+		}
+
+		/*
+        [normal_btn] => 
+        [hover_btn] => 
+        [active_btn] => 
+		*/
+	}
+	
 	$('#auth').on('show', function(ev){
 		if(this !== ev.target) return;
 		
