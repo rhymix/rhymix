@@ -269,6 +269,16 @@ class EmbedFilter
 		return $GLOBALS['__EMBEDFILTER_INSTANCE__'];
 	}
 
+	public function getWhiteUrlList()
+	{
+		return $this->whiteUrlList;
+	}
+
+	public function getWhiteIframeUrlList()
+	{
+		return $this->whiteIframeUrlList;
+	}
+
 	/**
 	 * Check the content.
 	 * @return void
@@ -393,6 +403,9 @@ class EmbedFilter
 	 */
 	function checkIframeTag(&$content)
 	{
+		// check in Purifier class
+		return;
+
 		preg_match_all('/<\s*iframe\s*[^>]+(?:\/?>)/is', $content, $m);
 		$iframeTagList = $m[0];
 		if($iframeTagList)
