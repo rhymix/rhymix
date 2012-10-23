@@ -248,7 +248,7 @@
 		 */
 		function getDistinctModules()
 		{
-			$output = executeQuery('comment.getDistinctModules');
+			$output = executeQueryArray('comment.getDistinctModules');
 			$module_srls = $output->data;
 			$oModuleModel = &getModel('module');
 			$result = array();
