@@ -2419,6 +2419,22 @@ jQuery(function($){
         [active_btn] => 
 		*/
 	}
+	$('#details').on('show', function(ev){
+		if(this !== ev.target) return;
+		
+		$.exec_json("menu.getMenuAdminDetailSetup", {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
+		}, function(htData){
+			console.log(htData);
+			$.ajax({
+			  url: htData.setupUrl,
+			  context: document.body
+			}).done(function(sData) { 
+			  console.log(999, sData);
+			});
+			//htData.setupUrl
+		});
+	});
 	
 	$('#auth').on('show', function(ev){
 		if(this !== ev.target) return;
@@ -2626,6 +2642,7 @@ jQuery(function($){
 			
 		}
 	}
+
 // Auth
 	$('#auth').on('change', 'select', function(){
 		var $this = $(this);
@@ -2939,6 +2956,7 @@ setTimeout(function(){
 		$check.change(toggleList);
 	});
 	*/
+	/*
 	// .selected class toggle
 	$theme.find(':radio').change(function(){
 		var $this = $(this);
@@ -2961,6 +2979,7 @@ setTimeout(function(){
 			$submit.addClass('x_disabled');
 		}
 	});
+	*/
 });
 //]]>
 </script>
