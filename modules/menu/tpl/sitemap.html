@@ -258,7 +258,7 @@ isHoverDelete : 기존 hover button을 삭제하고자 하는 경우 ('Y' or 'N'
 isActiveDelete : 기존 active button을 삭제하고자 하는 경우 ('Y' or 'N')
 callback : javascript callback 함수명
 
-form._imgUploaded : 이미지 등록 된 상태
+form._imgUploaded input {width:...}: 이미지 등록 된 상태
 -->
 				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="_submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
@@ -271,9 +271,9 @@ form._imgUploaded : 이미지 등록 된 상태
 					<div class="btnBoth">
 						<button type="button" class="_yesImg fileRemover x_btn x_pull-left">삭제</button>
 						
-						<input type="file" title="이미지 올리기" name="menu_normal_btn">
 						<button class="_yesImg x_btn overlap x_btn-primary x_pull-right" title="변경">변경</button>
 						<button class="_noImg x_btn overlap x_btn-primary x_pull-right" title="이미지 올리기">이미지 올리기</button>
+						<input type="file" title="이미지 올리기" name="menu_normal_btn">
 						
 					</div>
 				</form>
