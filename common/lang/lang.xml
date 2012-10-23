@@ -2903,6 +2903,10 @@
 		<value xml:lang="vi"><![CDATA[Đã xóa thành công.]]></value>
 		<value xml:lang="mn"><![CDATA[Устгагдсан]]></value>
 	</item>
+	<item name="success_declare_canceled">
+		<value xml:lang="ko"><![CDATA[신고 취소되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Declare was canceled successfully.]]></value>
+	</item>
 	<item name="success_restore">
 		<value xml:lang="ko"><![CDATA[복원했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Restored successfully.]]></value>

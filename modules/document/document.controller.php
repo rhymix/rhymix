@@ -1957,6 +1957,7 @@ class documentController extends document {
 		elseif($type == 'cancelDeclare') {
 			$args->document_srl = $document_srl_list;
 			$output = executeQuery('document.deleteDeclaredDocuments', $args);
+			$msg_code = 'success_declare_canceled';
 		}
 
 		$_SESSION['document_management'] = array();
