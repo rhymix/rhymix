@@ -736,6 +736,7 @@ body>.x{max-width:none}
 #imgbtn figcaption{font-weight:bold}
 #imgbtn p{margin:0}
 #imgbtn .btnBoth{border-top:0;border-bottom:1px solid #ddd;margin:0;padding:10px 0}
+#imgbtn img{max-width:220px; max-height:220px}
 /* Design */
 #design ._preview_form{margin:0}
 #design ul{margin-top:8px}
@@ -2555,6 +2556,9 @@ jQuery(function($){
 		console.log(htData);
 	}
 	var $imgBtnForms = $("#imgbtn form");
+	$imgBtnForms = $("#imgbtn form input[type=file]").change(function(){
+		$(this).closest('form').submit();
+	});
 	$imgBtnForms.find('input[name=act]').val('procMenuAdminButtonUpload');
 	$imgBtnForms.find('input[name=mid]').remove();
 	$imgBtnForms.find('input[name=vid]').remove();
@@ -3093,6 +3097,7 @@ setTimeout(function(){
 		});
 	});
 */
+/*
 // File upload
 	$('input[type="file"]').change(function(){
 		$(this).closest('form').submit();
@@ -3110,6 +3115,7 @@ setTimeout(function(){
 			}
 		});
 	}, 1000);
+	*/
 // Theme(layout | skin) list toggle
 	var $theme = $('.theme');
 	// layout, skin list toggle
