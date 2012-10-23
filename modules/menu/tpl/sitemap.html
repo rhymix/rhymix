@@ -261,7 +261,7 @@ callback : javascript callback 함수명
 
 form._imgUploaded input {width:...}: 이미지 등록 된 상태
 -->
-				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="_submitTarget" method="post" enctype="multipart/form-data">
+				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isNormalDelete" type="hidden" value="Y"/>
@@ -279,7 +279,7 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 						</span>
 					</div>
 				</form>
-				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_hover" target="_submitTarget" method="post" enctype="multipart/form-data">
+				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_hover" target="submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isHoverDelete" type="hidden" value="Y"/>
@@ -297,7 +297,7 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 						</span>
 					</div>
 				</form>
-				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_selected" target="_submitTarget" method="post" enctype="multipart/form-data">
+				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_selected" target="submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isActiveDelete" type="hidden" value="Y"/>
@@ -573,7 +573,7 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 		</span>
 	</div>
 </fieldset>
-<iframe name="_submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
+<iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
 
 <!--[if IE 7]>
 <script>
@@ -2163,13 +2163,13 @@ jQuery(function($){
 			
 			/*
 			$fileChest.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
-			$fileChest.attr('target', '_submitTarget');
+			$fileChest.attr('target', 'submitTarget');
 			*/
 			
 			$fileChest.add($fileDelete).append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
 			$markup.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutList"));
 			
-			$allForms.attr('target', '_submitTarget');
+			$allForms.attr('target', 'submitTarget');
 			
 			var $configForm = $('#config_form');
 			$configForm.on('submit', function(ev){
