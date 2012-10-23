@@ -509,17 +509,17 @@
 			}
 
 			// Button delete check
-			if($args->isNormalDelete == 'Y')
+			if(!$btnOutput['normal_btn'] && $args->isNormalDelete == 'Y')
 			{
 				$item_info->normal_btn = '';
 			}
-			if($args->isHoverDelete == 'Y')
+			if(!$btnOutput['hover_btn'] && $args->isHoverDelete == 'Y')
 			{
 				$item_info->hover_btn = '';
 			}
-			if($args->isActiveDelete == 'Y')
+			if(!$btnOutput['active_btn'] && $args->isActiveDelete == 'Y')
 			{
-				$item_info->active_btn == '';
+				$item_info->active_btn = '';
 			}
 
 			$output = executeQuery('menu.updateMenuItem', $item_info);
