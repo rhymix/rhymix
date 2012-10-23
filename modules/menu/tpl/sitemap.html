@@ -264,7 +264,7 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="_submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
-					<input name="isNormalDelete" type="hidden" value="N"/>
+					<input name="isNormalDelete" type="hidden" value="Y"/>
 					<figure>
 						<figcaption>일반</figcaption>
 						<p class="noImg">이미지 없음</p>
@@ -2394,16 +2394,22 @@ jQuery(function($){
 		if(htData.menu_item.normal_btn){
 			$('#imgbtn form._btn_normal img').attr('src', htData.menu_item.normal_btn);
 			$('#imgbtn form._btn_normal').addClass('_imgUploaded');
+		}else{
+			$('#imgbtn form._btn_normal').removeClass('_imgUploaded');
 		}
 
 		if(htData.menu_item.hover_btn){
 			$('#imgbtn form._btn_hover img').attr('src', htData.menu_item.hover_btn);
 			$('#imgbtn form._btn_hover').addClass('_imgUploaded');
+		}else{
+			$('#imgbtn form._btn_hover').removeClass('_imgUploaded');
 		}
 
 		if(htData.menu_item.active_btn){
 			$('#imgbtn form._btn_selected img').attr('src', htData.menu_item.active_btn);
 			$('#imgbtn form._btn_selected').addClass('_imgUploaded');
+		}else{
+			$('#imgbtn form._btn_selected').removeClass('_imgUploaded');
 		}
 
 		/*
