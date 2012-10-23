@@ -169,6 +169,7 @@ body>.x{max-width:none}
 #imgbtn figcaption{font-weight:bold}
 #imgbtn p{margin:0}
 #imgbtn .btnBoth{border-top:0;border-bottom:1px solid #ddd;margin:0;padding:10px 0}
+#imgbtn figure>img{max-width:200px;max-height:200px}
 #imgbtn figure>img,
 #imgbtn .delete,
 #imgbtn .modify{display:none}
