@@ -1,4 +1,5 @@
 <load target="./css/themes/classic/style.css" />
+<load target="./css/sitemap.css" />
 <load target="./js/_lib/jquery.cookie.js" />
 <load target="./js/_lib/jquery.hotkeys.js" />
 <load target="./js/jquery.jstree.js" />
@@ -260,22 +261,22 @@ callback : javascript callback 함수명
 
 form._imgUploaded input {width:...}: 이미지 등록 된 상태
 -->
-				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="_submitTarget" method="post" enctype="multipart/form-data">
+				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal _imgUploaded" target="_submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isNormalDelete" type="hidden" value="Y"/>
 					<figure>
 						<figcaption>일반</figcaption>
-						<p class="_noImg">이미지 없음</p>
-						<img class="_yesImg" src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
+						<p class="noImg">이미지 없음</p>
+						<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
 					</figure>
 					<div class="btnBoth">
-						<button type="submit" class="_yesImg fileRemover x_btn x_pull-left">삭제</button>
-						
-						<button class="_yesImg x_btn overlap x_btn-primary x_pull-right" title="변경">변경</button>
-						<button class="_noImg x_btn overlap x_btn-primary x_pull-right" title="이미지 올리기">이미지 올리기</button>
-						<input type="file" title="이미지 올리기" name="menu_normal_btn">
-						
+						<button type="submit" class="delete x_btn x_pull-left">삭제</button>
+						<span class="fileBtn x_pull-right">
+							<button class="modify x_btn x_btn-primary" title="변경">변경</button>
+							<button class="upload x_btn x_btn-primary" title="이미지 올리기">이미지 올리기</button>
+							<input type="file" title="변경/이미지 올리기" name="menu_normal_btn">
+						</span>
 					</div>
 				</form>
 				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_hover" target="_submitTarget" method="post" enctype="multipart/form-data">
@@ -284,15 +285,16 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 					<input name="isHoverDelete" type="hidden" value="Y"/>
 					<figure>
 						<figcaption>마우스 오버</figcaption>
-						<p class="_noImg">이미지 없음</p>
-						<img class="_yesImg" src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
-						<!--<img src="" alt="마우스 오버 버튼 이미지">-->
+						<p class="noImg">이미지 없음</p>
+						<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="마우스 오버 버튼 이미지">
 					</figure>
 					<div class="btnBoth">
-						<button type="submit" class="_yesImg fileRemover x_btn x_pull-left">삭제</button>
-						<input type="file" class="_yesImg overlap x_btn x_btn-primary x_pull-right" title="변경">
-						
-						<input type="file" name="menu_hover_btn" class="_noImg overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
+						<button type="submit" class="delete x_btn x_pull-left">삭제</button>
+						<span class="fileBtn x_pull-right">
+							<button class="modify x_btn x_btn-primary" title="변경">변경</button>
+							<button class="upload x_btn x_btn-primary" title="이미지 올리기">이미지 올리기</button>
+							<input type="file" title="변경/이미지 올리기" name="menu_hover_btn">
+						</span>
 					</div>
 				</form>
 				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_selected" target="_submitTarget" method="post" enctype="multipart/form-data">
@@ -301,15 +303,16 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 					<input name="isActiveDelete" type="hidden" value="Y"/>
 					<figure>
 						<figcaption>선택 됨</figcaption>
-						<p class="_noImg">이미지 없음</p>
-						<img class="_yesImg" src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
-						<!--<img src="" alt="선택 됨 버튼 이미지">-->
+						<p class="noImg">이미지 없음</p>
+						<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="선택 됨 버튼 이미지">
 					</figure>
 					<div class="btnBoth">
-						<button type="submit" class="_yesImg fileRemover x_btn x_pull-left">삭제</button>
-						<input type="file" class="_yesImg overlap x_btn x_btn-primary x_pull-right" title="변경">
-						
-						<input type="file" name="menu_active_btn" class="_noImg overlap x_btn x_btn-primary x_pull-right" title="이미지 올리기">
+						<button type="submit" class="delete x_btn x_pull-left">삭제</button>
+						<span class="fileBtn x_pull-right">
+							<button class="modify x_btn x_btn-primary" title="변경">변경</button>
+							<button class="upload x_btn x_btn-primary" title="이미지 올리기">이미지 올리기</button>
+							<input type="file" title="변경/이미지 올리기" name="menu_selected_btn">
+						</span>
 					</div>
 				</form>
 			</div>
@@ -571,6 +574,8 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 	</div>
 </fieldset>
 <iframe name="_submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
+<<<<<<< .mine
+=======
 <style>
 /* Site */
 body>.x{max-width:none}
@@ -767,6 +772,7 @@ body>.x{max-width:none}
 #imgbtn form._imgUploaded ._noImg {display:none}
 
 </style>
+>>>>>>> .r11825
 <!--[if IE 7]>
 <script>
 jQuery(function($){
@@ -3100,6 +3106,8 @@ setTimeout(function(){
 		});
 	});
 */
+<<<<<<< .mine
+=======
 /*
 // File upload
 	$('input[type="file"]').change(function(){
@@ -3118,6 +3126,7 @@ setTimeout(function(){
 			}
 		});
 	}, 1000);
+>>>>>>> .r11825
 	*/
 // Theme(layout | skin) list toggle
 	var $theme = $('.theme');
