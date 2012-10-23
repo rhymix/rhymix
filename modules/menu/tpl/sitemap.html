@@ -111,7 +111,7 @@
 					<li>
 						<div class="multilingual x_input-append">
 							<label for="lang_menuName2">메뉴이름</label>
-							<input id="menuName2" class="_menuName lang_code" type="text" required style="width:179px">
+							<input id="menuName2" class="_menuName vLang lang_code" type="text" required style="width:179px">
 						</div>
 					</li>
 					<li class="typePage">
@@ -967,12 +967,15 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			sText = sText + " ${s}";
 		}
 		*/
-		var sTextWithHome = sText;
+		var sTextWithIcons = sText;
 		if(sIsStartModule){
-			sTextWithHome = sTextWithHome + " ${h}";
+			sTextWithIcons += " ${h}";
+		}
+		if(!htNodeInfo[sNodeSrl].module){
+			sTextWithIcons += " ${s}";
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithHome,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,MenuType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${s}", "<i class='icon-share-alt'></i>").replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>");
+		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,MenuType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='icon-share-alt' title='Shortcut'></i>");
 	}
 	
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
