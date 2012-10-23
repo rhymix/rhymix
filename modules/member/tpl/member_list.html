@@ -58,9 +58,9 @@
 		</tfoot>
 		<tbody>
 			<tr loop="$member_list=>$no,$member_info">
-{@$member_info = get_object_vars($member_info)}
+				{@$member_info = get_object_vars($member_info)}
 				<td class="nowr">
-					<a href="#popup_menu_area" class="member_{$member_info['member_srl']}" title="Info"><i class="x_icon-user"></i></a>
+					<a href="#popup_menu_area" class="member_{$member_info['member_srl']}" title="Info"></a>
 					<span class="masked">{getEncodeEmailAddress($member_info['email_address'])}</span>
 				</td>
 				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
@@ -79,6 +79,9 @@
 					{@$used_values .= "\t".$member_info[$name]}
 				<!--@end-->
 				<td><input type="checkbox" name="user" value="{$member_info['member_srl']."\t".$member_info['email_address'].$used_values."\t".$member_info['group_list']."\t".$lang_denied}" disabled="disabled"|cond="$member_info['is_admin'] == 'Y'"/></td>
+			</tr>
+			<tr cond="$total_count==0">
+				<td class="_noresult">{$lang->msg_no_result}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -144,7 +147,7 @@
 		{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}
 		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
 	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" style="width:140px">
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" required style="width:140px">
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 	<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'page', $page)}">{$lang->cmd_cancel}</a>
 </form>
@@ -206,5 +209,7 @@ jQuery(function($){
 	var checkConfirm = new CheckConfirm();
 	var v = xe.getApp('Validator')[0];
 	v.registerPlugin(checkConfirm);
+	$('tbody td:first-child>a').prepend('<i class="x_icon-user" style="margin:0 3px 0 0;opacity:.5;filter:alpha(opacity=50)"></i>');
+	$('._noresult').attr('colspan', $('._memberList').find('thead th').length).css('text-align','center');
 });
 </script>

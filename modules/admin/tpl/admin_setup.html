@@ -38,15 +38,15 @@
 </section>
 <section class="section">
 	<h1>{$lang->admin_menu_setup}</h1>
-	<form id="listForm" action="./" class="siteMap" method="post" class="x_form-horizontal">
+	<form id="listForm" action="./" class="adminMap" method="post">
 		<input type="hidden" name="module" value="admin" />
 		<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
 		<input type="hidden" name="menu_srl" value="{$menu_srl}" />
 		<input type="hidden" name="title" value="{$menu_title}" />
 		<input type="hidden" name="menu_item_srl" value="" />
 		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminSetup')}" />
-		<div class="x_control-group adminMenu">
-			<ul class="lined">
+		<div class="adminMenu">
+			<ul>
 				<li class="parent" loop="$gnbUrlList=>$key,$value">
 					<input type="hidden" name="parent_key[]" value="{$value['parent_srl']}" class="_parent_key" />
 					<input type="hidden" name="item_key[]" value="{$value['node_srl']}" class="_item_key" />
@@ -100,3 +100,66 @@
 	</div>
 	</form>
 </div>
+<style>
+/* Admin Map */
+.x .adminMap ul{list-style:none}
+.x .adminMap label{cursor:text}
+.x .adminMap li li{text-indent:18px}
+.x .adminMap li li li{text-indent:36px}
+.x .adminMap li li li li{text-indent:54px}
+.x .adminMap li li li li li{text-indent:72px}
+.x .adminMap li li li li li li{text-indent:90px}
+.x .adminMap li li li li li li li{text-indent:108px}
+.x .adminMap li li li li li li li li{text-indent:126px}
+.x .adminMap li li li li li li li li li{text-indent:144px}
+.x .adminMap li li li li li li li li li li{text-indent:162px}
+.x .adminMap li li li li li li li li li li li{text-indent:180px}
+.x .adminMap li li li li li li li li li li li li{text-indent:198px}
+.x .adminMap li *{vertical-align:middle}
+.x .adminMap li .moveTo+input{width:200px;border:0;padding:0 .5em}
+.x .adminMap li .moveTo+input:hover,
+.x .adminMap li .moveTo+input:active,
+.x .adminMap li .moveTo+input:focus{border:1px dotted #ccc;overflow:visible}
+.x .adminMap .moveTo{position:relative;z-index:2;width:22px;height:32px;padding:32px 0 0 0;margin:0 3px;_margin-top:-1px;overflow:hidden;background:#fff url(../img/iconMoveTo.gif) no-repeat center 0;border:0;cursor:move}
+.x .adminMap li.active,
+.x .adminMap li.active .moveTo{background-color:#f7f7f7}
+.x .adminMap li.active li,
+.x .adminMap li.active ul{border-top-color:#f7f7f7}
+.x .adminMap li.active .moveTo{background-position:center -32px}
+.x .adminMap .vr,
+.x .adminMap .hr{display:none;position:absolute;z-index:1;left:14px;border:0px solid #ccc;overflow:hidden}
+.x .adminMap .vr{top:-16px;height:100%;border-left-width:1px}
+.x .adminMap .hr{top:16px;width:16px;border-top-width:1px}
+.x .adminMap li.active .vr,
+.x .adminMap li.active li .hr{display:block}
+.x .adminMap li li .vr,
+.x .adminMap li li li .hr{left:32px}
+.x .adminMap li li li .vr,
+.x .adminMap li li li li .hr{left:50px}
+.x .adminMap li li li li .vr,
+.x .adminMap li li li li li .hr{left:68px}
+.x .adminMap li li li li li .vr,
+.x .adminMap li li li li li li .hr{left:86px}
+.x .adminMap li li li li li li .vr,
+.x .adminMap li li li li li li li .hr{left:104px}
+.x .adminMap li li li li li li li .vr,
+.x .adminMap li li li li li li li li .hr{left:122px}
+.x .adminMap li li li li li li li li .vr,
+.x .adminMap li li li li li li li li li .hr{left:140px}
+.x .adminMap li li li li li li li li li .vr,
+.x .adminMap li li li li li li li li li li .hr{left:158px}
+.x .adminMap li li li li li li li li li li .vr,
+.x .adminMap li li li li li li li li li li li .hr{left:176px}
+.x .adminMap li li li li li li li li li li li .vr,
+.x .adminMap li li li li li li li li li li li li .hr{left:336px}
+.x .adminMap .side{padding-top:0 !important;padding-bottom:0 !important;line-height:30px;background:transparent !important}
+.x .adminMap .side button{text-indent:0;line-height:1}
+.x .adminMap .tgMap{position:absolute;top:12px;right:1em;padding:0 16px 0 0;line-height:16px;background:url(../img/iconArrow.gif) no-repeat right -126px}
+.x .adminMap.fold .tgMap{background-position:right -158px}
+.x .adminMap.fold .h2{border-bottom-color:#fff;border-radius:5px}
+.x .adminMap .placeholder{background:#bbb}
+.x .adminMap .draggable,
+.x .adminMap .draggable .moveTo{background-color:#ddd}
+.x .adminMap .draggable .summary{border-left:1px solid #ccc;padding-left:10px;margin-left:10px;font-size:11px;color:#999}
+.x .adminMap a.ms{text-decoration:underline}
+</style>

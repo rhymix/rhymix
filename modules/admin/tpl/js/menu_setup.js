@@ -51,7 +51,7 @@ jQuery(function($){
 // menu - drag and drop
 jQuery(function($){
 
-$('form.siteMap')
+$('form.adminMap')
 	.delegate('li:not(.placeholder)', 'dropped.st', function() {
 		var $this = $(this), $pkey, $mkey, is_child;
 
@@ -81,7 +81,7 @@ $('div.adminMenu')
 			$this  = $(this);
 			height = $this.height();
 			width  = $this.width();
-			$uls   = $this.parentsUntil('.siteMap').filter('ul');
+			$uls   = $this.parentsUntil('.adminMap').filter('ul');
 			$ul    = $uls.eq(-1);
 
 			$ul.css('position', 'relative');

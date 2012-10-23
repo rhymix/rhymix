@@ -37,10 +37,10 @@
 		
 		$config = $oMemberModel->getMemberConfig();
 
-        if($config->image_name == 'Y' && $image_name_file) $nick_name = sprintf('<img src="%s%s" border="0" alt="id: %s" title="id: %s" style="vertical-align:middle;margin-right:3px" />', Context::getRequestUri(),$image_name_file, strip_tags($nick_name), strip_tags($nick_name));
-        if($config->image_mark == 'Y' && $image_mark_file) $nick_name = sprintf('<img src="%s%s" border="0" alt="id: %s" title="id : %s" style="vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri(),$image_mark_file, strip_tags($nick_name), strip_tags($nick_name), $nick_name);
+        if($config->image_name == 'Y' && $image_name_file) $nick_name = sprintf('<img src="%s%s" alt="id: %s" title="id: %s" style="border:0;vertical-align:middle;margin-right:3px" />', Context::getRequestUri(),$image_name_file, strip_tags($nick_name), strip_tags($nick_name));
+        if($config->image_mark == 'Y' && $image_mark_file) $nick_name = sprintf('<img src="%s%s" alt="id: %s" title="id : %s" style="border:0;vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri(),$image_mark_file, strip_tags($nick_name), strip_tags($nick_name), $nick_name);
 
-        if($group_image) $nick_name = sprintf('<img src="%s" border="0" style="max-height:16px;vertical-align:middle;margin-right:3px" alt="%s" title="%s" />%s', $group_image->src, $group_image->title, $group_image->description, $nick_name);
+        if($group_image) $nick_name = sprintf('<img src="%s" style="border:0;max-height:16px;vertical-align:middle;margin-right:3px" alt="%s" title="%s" />%s', $group_image->src, $group_image->title, $group_image->description, $nick_name);
 
 
         $orig_text = preg_replace('/'.preg_quote($matches[5],'/').'<\/'.$matches[6].'>$/', '', $matches[0]);

@@ -346,6 +346,7 @@ $.fn.xeModalWindow = function(){
 				.fadeIn(duration, after)
 				.find('button.x_close:first').focus().end()
 				.prev('.x_modal-backdrop').show();
+			$('body').css('overflow','hidden');
 		})
 		.bind('close.mw', function(){
 			var $this = $(this), before_event, $modal, duration;
@@ -371,6 +372,7 @@ $.fn.xeModalWindow = function(){
 
 			$modal.fadeOut(duration, after)
 			.prev('.x_modal-backdrop').hide();
+			$('body').css('overflow','auto');
 			$this.focus();
 		});
 	$('div.x_modal').addClass('x').hide();

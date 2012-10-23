@@ -88,7 +88,7 @@
 		<value xml:lang="vi"><![CDATA[Trang chủ Admin]]></value>
 	</item>
 	<item name="control_panel">
-		<value xml:lang="ko"><![CDATA[제어판]]></value>
+		<value xml:lang="ko"><![CDATA[대시보드]]></value>
 		<value xml:lang="en"><![CDATA[Dashboard]]></value>
 		<value xml:lang="jp"><![CDATA[コントロールパネル]]></value>
 		<value xml:lang="zh-CN"><![CDATA[控制面板]]></value>
