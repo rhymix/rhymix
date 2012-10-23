@@ -2559,7 +2559,7 @@ jQuery(function($){
 		console.log(htData);
 	}
 	var $imgBtnForms = $("#imgbtn form");
-	$imgBtnForms = $("#imgbtn form input[type=file]").change(function(){
+	$imgBtnForms.find("input[type=file]").change(function(){
 		$(this).closest('form').submit();
 	});
 	$imgBtnForms.find('input[name=act]').val('procMenuAdminButtonUpload');
