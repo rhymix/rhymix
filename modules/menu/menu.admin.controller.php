@@ -508,6 +508,20 @@
 				unset($item_info->group_srls);
 			}
 
+			// Button delete check
+			if($args->isNormalDelete == 'Y')
+			{
+				$item_info->normal_btn = '';
+			}
+			if($args->isHoverDelete == 'Y')
+			{
+				$item_info->hover_btn = '';
+			}
+			if($args->isActiveDelete == 'Y')
+			{
+				$item_info->active_btn == '';
+			}
+
 			$output = executeQuery('menu.updateMenuItem', $item_info);
 		}
 
