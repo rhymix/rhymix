@@ -426,8 +426,10 @@
 			// get xml info
 			$moduleConfInfo = $oModuleModel->getModuleInfoXml($moduleInfo->module);
 
-			$setupUrl = getNotEncodedUrl('', 'module', 'admin', 'act', $moduleConfInfo->setup_index_act, 'module_srl', $moduleInfo->module_srl, 'isLayoutDrop', '1');
+			$setupUrl = sprintf('index.php?module=admin&act=%s&module_srl=%s&isLayoutDrop=1', $moduleConfInfo->setup_index_act, $moduleInfo->module_srl);
 			$this->add('setupUrl', $setupUrl);
+
+			$this->setRedirectUrl($setupUrl);
 		}
 
 		/**
