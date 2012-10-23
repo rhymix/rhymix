@@ -18,7 +18,7 @@ body>.x,
 .x em{font-style:normal}
 .x [disabled]{cursor:not-allowed}
 .x button[disabled]{color:#ccc !important}
-.x a[target="_blank"]:after{ content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:0 0 0 2px;background-position:-120px -72px;opacity:.3;filter:alpha(opacity=30)}
+.x a[target="_blank"]:after{ content:"";display:inline-block;width:14px;height:14px;vertical-align:text-bottom;margin:0 0 0 2px;background-position:-120px -72px;opacity:.3;filter:alpha(opacity=30)}
 /* Bootstrap Override */
 .x .x_page-header{padding-bottom:0;border-bottom:2px solid #ddd}
 .x .x_page-header>h1{margin-bottom:0;font-size:24px;color:#333}
@@ -31,7 +31,7 @@ body>.x,
 .x h6{font-size:12px}
 .x [class^="x_icon-"],
 .x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
-.x .x_close{width:24px;height:24px}
+.x .x_close{width:32px;height:32px}
 .x .x_alert{ position:relative}
 .x .x_alert>.x_close,
 .x.x_modal>.x_close{position:absolute;top:0;right:0}
@@ -123,8 +123,8 @@ body>.x,
 .x a.active{color:#000;font-weight:bold;text-decoration:none}
 .x .module_search+[readonly]{border-top-right-radius:0;border-bottom-right-radius:0}
 .x .module_search+[readonly]+a.x_btn{border-top-left-radius:0;border-bottom-left-radius:0;vertical-align:top;margin-left:-5px}
-.x .fileBtn{position:relative;display:inline-block}
-.x .fileBtn>input[type="file"]{position:absolute;overflow:hidden;opacity:0;border:0;filter:alpha(opacity=0);padding:3px 9px;cursor:pointer}
+.x .fileBtn{position:relative;display:inline-block;overflow:hidden;cursor:pointer}
+.x .fileBtn>input[type="file"]{position:absolute;top:0;right:0;height:100%;overflow:hidden;opacity:.5;border:0;filter:alpha(opacity=0);margin:0;padding:0;cursor:pointer;-webkit-transform:scale(3, 3);-webkit-transform-origin:0 0;-moz-transform:scale(3, 3);-moz-transform-origin:100% 0;-o-transform:scale(3, 3);-o-transform-origin:100% 0;filter:progid:DXImageTransform.Microsoft.Matrix(M11=3.0,M22=3.0);}
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.xin>.body>.gnb>ul>li>a>i,
