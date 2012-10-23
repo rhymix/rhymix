@@ -479,10 +479,12 @@
 		public function procMenuAdminButtonUpload()
 		{
 			$args = Context::getRequestVars();
-			$btnOutput = $this->_uploadButton($args);
 
 			$oMenuAdminModel = &getAdminModel('menu');
 			$item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
+			$args->menu_srl = $item_info->menu_srl;
+
+			$btnOutput = $this->_uploadButton($args);
 
 			if($btnOutput['normal_btn'])
 			{
@@ -500,13 +502,13 @@
 				$item_info->active_btn = $btnOutput['active_btn'];
 			}
 
+			// group_srls check
+			if(count($item_info->group_srls) == 0)
+			{
+				unset($item_info->group_srls);
+			}
+
 			$output = executeQuery('menu.updateMenuItem', $item_info);
-
-			$oJsonHandler = new JSONDisplayHandler();
-			$resultJson = $oJsonHandler->toDoc($this);
-
-			Context::set('resultJson', $resultJson);
-			$this->setTemplateFile('callback');
 		}
 
 		/**
@@ -1555,8 +1557,10 @@
 		{
 			// path setting
 			$path = sprintf('./files/attach/menu_button/%d/', $args->menu_srl);
-			if($args->menu_normal_btn || $args->menu_hover_btn || $args->menu_active_btn)
-                if(!is_dir($path)) FileHandler::makeDir($path);
+			if($args->menu_normal_btn || $args->menu_hover_btn || $args->menu_active_btn && !is_dir($path))
+			{
+				FileHandler::makeDir($path);
+			}
 
 			if($args->isNormalDelete == 'Y' || $args->isHoverDelete == 'Y' || $args->isActiveDelete == 'Y')
 			{
