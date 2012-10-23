@@ -124,7 +124,7 @@ body>.x,
 .x .module_search+[readonly]{border-top-right-radius:0;border-bottom-right-radius:0}
 .x .module_search+[readonly]+a.x_btn{border-top-left-radius:0;border-bottom-left-radius:0;vertical-align:top;margin-left:-5px}
 .x .fileBtn{position:relative;display:inline-block;overflow:hidden;cursor:pointer}
-.x .fileBtn>input[type="file"]{position:absolute;top:0;right:0;height:100%;overflow:hidden;opacity:.5;border:0;filter:alpha(opacity=0);margin:0;padding:0;cursor:pointer;-webkit-transform:scale(3, 3);-webkit-transform-origin:0 0;-moz-transform:scale(3, 3);-moz-transform-origin:100% 0;-o-transform:scale(3, 3);-o-transform-origin:100% 0;filter:progid:DXImageTransform.Microsoft.Matrix(M11=3.0,M22=3.0);}
+.x .fileBtn>input[type="file"]{position:absolute;top:0;right:0;height:100%;overflow:hidden;opacity:0;border:0;filter:alpha(opacity=0);margin:0;padding:0;cursor:pointer;-webkit-transform:scale(3, 3);-webkit-transform-origin:0 0;-moz-transform:scale(3, 3);-moz-transform-origin:100% 0;-o-transform:scale(3, 3);-o-transform-origin:100% 0;filter:progid:DXImageTransform.Microsoft.Matrix(M11=3.0,M22=3.0);}
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.xin>.body>.gnb>ul>li>a>i,
