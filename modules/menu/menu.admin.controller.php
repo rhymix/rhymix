@@ -1587,13 +1587,14 @@
 			}
 
 			$returnArray = array();
+			$date = date('YmdHis');
 			// normal button
 			if($args->menu_normal_btn)
 			{
 				$tmp_arr = explode('.',$args->menu_normal_btn['name']);
 				$ext = $tmp_arr[count($tmp_arr)-1];
 
-				$filename = sprintf('%s%d.%s.%s', $path, $args->menu_item_srl, 'menu_normal_btn', $ext);
+				$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_normal_btn', $ext);
 				move_uploaded_file($args->menu_normal_btn['tmp_name'], $filename);
 				$returnArray['normal_btn'] = $filename;
 			}
@@ -1604,7 +1605,7 @@
 				$tmp_arr = explode('.',$args->menu_hover_btn['name']);
 				$ext = $tmp_arr[count($tmp_arr)-1];
 
-				$filename = sprintf('%s%d.%s.%s', $path, $args->menu_item_srl, 'menu_hover_btn', $ext);
+				$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_hover_btn', $ext);
 				move_uploaded_file($args->menu_hover_btn['tmp_name'], $filename);
 				$returnArray['hover_btn'] = $filename;
 			}
@@ -1615,7 +1616,7 @@
 				$tmp_arr = explode('.',$args->menu_active_btn['name']);
 				$ext = $tmp_arr[count($tmp_arr)-1];
 
-				$filename = sprintf('%s%d.%s.%s', $path, $args->menu_item_srl, 'menu_active_btn', $ext);
+				$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_active_btn', $ext);
 				move_uploaded_file($args->menu_active_btn['tmp_name'], $filename);
 				$returnArray['active_btn'] = $filename;
 			}
