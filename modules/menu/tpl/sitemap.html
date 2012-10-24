@@ -17,6 +17,7 @@
 <div id="site" class="_siteDesign">
 <!--@end-->
 
+<!--@if($act == 'dispMenuAdminSiteMap')-->
 	<div class="col map" id="site_map">
 		<h1>사이트맵</h1>
 		<div class="cnt">
@@ -84,7 +85,7 @@
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li class="design"><a href="#design" data-admin-show="#design">디자인 <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">권한 <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li class="details"><a href="#details" data-admin-show="#details">상세 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li class="details"><a href="#details" class="_openFullSetup">상세 설정 <i class="x_icon-cog"></i></a></li>
 				</ul>
 			</div>
 		</section>
@@ -117,7 +118,7 @@
 					<li>
 						<div class="multilingual x_input-append">
 							<label for="lang_menuName2">메뉴이름</label>
-							<input id="menuName2" class="_menuName lang_code" type="text" required style="width:179px">
+							<input id="menuName2" class="_menuName " type="text" required style="width:179px">
 						</div>
 					</li>
 					<li class="typePage">
@@ -313,6 +314,8 @@
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#imgbtn">&times;</button>
 	</div>
+	<!--@end-->
+	
 	<div class="col" id="design">
 		<fieldset>
 			<h1 class="_item">디자인</h1>
@@ -459,9 +462,11 @@
 							<button type="button" class="item _btnScreenshot" title="클릭하면 스킨이 적용됩니다.">
 								<img src="${ScreenShotURL}">
 							</button>
+							<!--
 							<ul>
 								<li><a href="#skinSetup" data-admin-show="#skinSetup" data-param='{ "sSkinName":"${SkinName}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 							</ul>
+							-->
 						</li>
 						</script>
 					</ul>
@@ -580,6 +585,7 @@ jQuery(function($){
 */
 jQuery._xeAdminVar = {};
 
+<!--@if($act == 'dispMenuAdminSiteMap')-->
 function showMenuSelector($container){
 	var $ = jQuery;
 	var aMenuList = $._xeAdminVar.aMenuList;
@@ -798,15 +804,6 @@ function onSiteMapReceived(htData){
 				break;
 			}
 			
-			//if(sParentSrl === sTargetSrl || sTargetPos === "first"){
-			//htNodeInfo
-//
-			//aNode[i].sParentSrl
-			//sTargetSrl = ;
-			//sParentSrl = ;
-			
-			//console.log(sMenuSrl, sTargetSrl, sParentSrl);
-			
 			var params = {};
 			
 			params['mode'] = 'move';
@@ -1001,9 +998,10 @@ function setItemTypes(htTypes){
 	}
 	//console.log($._xeAdminVar.htItemTypes);
 }
+<!--@end-->
+
 jQuery(function($){
 	$.fn.outerHTML = function(){
-	 
 		// IE, Chrome & Safari will comply with the non-standard outerHTML, all others (FF) will have a fall-back for cloning
 		return (!this.length) ? this : (this[0].outerHTML || (
 		  function(el){
@@ -1055,9 +1053,7 @@ jQuery(function($){
 		return $result;
 	}
 	
-//	$('#site_map').nextAll().hide();
-	
-	//$( "#tmpl_siteMap" ).template( "siteMap" );
+	<!--@if($act == 'dispMenuAdminSiteMap')-->
 	$( "#tmpl_menuTree" ).template( "menuTree" );
 	$( "#tmpl_menuTreeNode" ).template( "menuTreeNode" );
 
@@ -1068,8 +1064,8 @@ jQuery(function($){
 
 	$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
 		setItemTypes(htData.menu_types);
-		//console.log($._xeAdminVar.htItemTypes);
 	});
+	<!--@end-->
 	
 	$("#tmpl_pagination").template( "pagination" );
 	$("#tmpl_pagination_list").template( "paginationList" );
@@ -1207,7 +1203,7 @@ jQuery(function($){
 		$('#site').scrollTo($('#site').width(), 0, {duration: 0 } );
 	}
 
-	// -----------------------------------------------------------------------------------------
+	<!--@if($act == 'dispMenuAdminSiteMap')-->
 	$("#site_map ._addSiteMap").click(function(){
 		$("#siteMapTree").jstree("deselect_all");
 		$("#siteMapTree").jstree("create", null, "first", { data: "New Sitemap" }, null, true);
@@ -1678,33 +1674,6 @@ jQuery(function($){
 		var sSelectedModuleName = $._xeAdminVar.sSelectedModuleName;
 		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 
-		//console.log(sMenuName, sMID, sNewWindow, sLeaveUnfolded);
-		//return;
-		
-		//console.log($._xeAdminVar, sSelectedModuleName, sSelectedMenuSrl, sMenuName, sMID, sNewWindow, sLeaveUnfolded);
-/*
-		var isShortCut = "N";
-		// URL?
-		if($._xeAdminVar.sSelectedModuleName == ""){
-			isShortCut = "Y";
-			if(!sMID){
-				alert("target is required");
-				return;
-			}
-		}
-*/
-		/*
-			var params = new Array();
-			var response_tags = new Array('menu_item_srl');
-			params['menu_item_srl'] = '918';
-			params['module_srl'] = '917';
-			params['menu_name'] = '테스트 제목';
-			params['url'] = 'boardboard';
-			params['menu_open_window'] = 'N';
-			params['menu_expand'] = 'N';
-
-			exec_xml("menu","procMenuAdminUpdateItem", params, completeTmp);
-		*/
 		var params = {};
 		params['menu_item_srl'] = sSelectedMenuSrl;
 		params['menu_name'] = sMenuName;
@@ -1712,23 +1681,11 @@ jQuery(function($){
 		params['menu_open_window'] = sNewWindow;
 		params['menu_expand'] = sLeaveUnfolded;
 
-		/*
-		Array
-		(
-			[error] => "0"
-			[message] => "등록했습니다."
-			[menu_item_srl] => "2"
-		)
-		*/
 		$.exec_json("menu.procMenuAdminUpdateItem", params, function(htData){
-			//console.log(htData);
 			if(htData.error !== 0){
 				alert(htData.message);
 				return;
 			}
-			
-			// select the newly created menu
-			//$._xeAdminVar.sSelectOnload = htData.menu_item_srl;
 			
 			// select currently selected menu
 			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
@@ -1736,10 +1693,378 @@ jQuery(function($){
 		});
 	});
 	
+	top.onBtnImgUploaded = function(htData){
+		console.log(234, htData);
+		$('#imgbtn').show();
+	}
+	var $imgBtnForms = $("#imgbtn form");
+	$imgBtnForms.find('input[name=act]').val('procMenuAdminButtonUpload');
+	$imgBtnForms.find('input[name=mid]').remove();
+	$imgBtnForms.find('input[name=vid]').remove();
+	
+	$('#imgbtn').on('show', function(ev){
+		if(this !== ev.target) return;
+		
+		// http://code.google.com/p/xe-core/wiki/Menu_Button_load
+		$.exec_json("menu.getMenuAdminItemInfo", {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
+		}, BtnInfoReceived);
+	});
+	function BtnInfoReceived(htData){
+		console.log(htData);
+		$('#imgbtn input[name=menu_item_srl]').val(htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl);
+		
+		// reset the file inputs
+		$('#imgbtn input[type=file]').each(function(){
+			($($(this).outerHTML())).insertAfter($(this));
+			$(this).remove();
+		});
+		$('#imgbtn input[type=file]').change(function(){
+			$(this).closest('form').submit();
+		});
+		
+		if(htData.menu_item.normal_btn){
+			$('#imgbtn form._btn_normal img').attr('src', htData.menu_item.normal_btn);
+			$('#imgbtn form._btn_normal').addClass('_imgUploaded');
+		}else{
+			$('#imgbtn form._btn_normal').removeClass('_imgUploaded');
+		}
+
+		if(htData.menu_item.hover_btn){
+			$('#imgbtn form._btn_hover img').attr('src', htData.menu_item.hover_btn);
+			$('#imgbtn form._btn_hover').addClass('_imgUploaded');
+		}else{
+			$('#imgbtn form._btn_hover').removeClass('_imgUploaded');
+		}
+
+		if(htData.menu_item.active_btn){
+			$('#imgbtn form._btn_selected img').attr('src', htData.menu_item.active_btn);
+			$('#imgbtn form._btn_selected').addClass('_imgUploaded');
+		}else{
+			$('#imgbtn form._btn_selected').removeClass('_imgUploaded');
+		}
+
+		/*
+        [normal_btn] => 
+        [hover_btn] => 
+        [active_btn] => 
+		*/
+	}
+	$('#details').on('show', function(ev){
+		if(this !== ev.target) return;
+		
+		$.exec_json("menu.getMenuAdminDetailSetup", {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
+		}, function(htData){
+			console.log(htData);
+			$.ajax({
+			  url: htData.setupUrl,
+			  context: document.body
+			}).done(function(sData) { 
+			  console.log(999, sData);
+			});
+			//htData.setupUrl
+		});
+	});
+	
+	$('#auth').on('show', function(ev){
+		if(this !== ev.target) return;
+		
+		// https://code.google.com/p/xe-core/wiki/MenuPerm?ts=1350276450&updated=MenuPerm
+		$.exec_json("menu.getMenuAdminItemInfo", {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
+		}, PermAReceived);
+	});
+	function PermAReceived(htData){
+		//console.log(1, htData);
+		
+		/*
+		{
+		   "message_type":"",
+		   "menu_item":{
+			  "group_srls":[
+
+			  ],
+			  "moduleType":"",
+			  "groupList":[
+				 {
+					"group_srl":"1",
+					"title":"관리그룹",
+					"isChecked":false
+				 },
+				 {
+					"group_srl":"2",
+					"title":"준회원",
+					"isChecked":false
+				 },
+				 {
+					"group_srl":"3",
+					"title":"정회원",
+					"isChecked":false
+				 }
+			  ],
+			  "name_key":"",
+			  "name":""
+		   },
+		   "error":0,
+		   "message":"success"
+		}
+		*/
+		var aUserGroups = $._xeAdminVar.aUserGroups = [];
+		var htUserGroups = $._xeAdminVar.htUserGroups = {};
+
+		var htNode = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
+		var aPerms =  htNode.aPerms = [];
+		
+		var htTmp;
+		for(var i=0, nLen=htData.menu_item.groupList.length; i<nLen; i++){
+			htTmp = htData.menu_item.groupList[i];
+			
+			aUserGroups[i] = htTmp;
+			htUserGroups[htTmp.group_srl] = htTmp;
+		}
+		
+		//console.log($._xeAdminVar.aUserGroups, $._xeAdminVar.htUserGroups);
+		aPerms[0] = {
+			sKey : '',
+			sTitle : '메뉴 노출 대상',
+			sDefault : 'guest',
+			sGrant : htData.menu_item.grant || 'all',
+			aGroup : htData.menu_item.group_srls
+		};
+		
+		var params = {
+			target_module : htNode.sModuleType,
+			module_srl : htNode.module_srl
+		};
+
+		$.exec_json("module.getModuleAdminGrant", params, PermBReceived);
+	}
+	function PermBReceived(htData){
+		//console.log(2, htData);
+
+		var htNode = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
+		var aPerms =  htNode.aPerms;
+
+		/*
+		  "write_document":{
+			 "title":"글 작성",
+			 "default":"guest",
+			 "grant":"group",
+			 "group":{
+				 1, 2, 3
+			 }
+		  },
+	  */
+		for(var sPerm in htData.grantList){
+			htTmp = htData.grantList[sPerm];
+			
+			aPerms.push({
+				sKey : sPerm,
+				sTitle : htTmp.title,
+				// IE7 takes 'default' as a keyword. So use this array form to access the value
+				sDefault : htTmp['default'],
+				sGrant : htTmp.grant || "",
+				aGroup : htTmp.group_srls || []
+			});
+		}
+		
+		drawPermSetupScreen(aPerms);
+	}
+	$("#tmpl_permItem").template( "permItem");
+	$("#tmpl_perm_groupItem").template( "perm_groupItem");
+	function drawPermSetupScreen(aPerms){
+		//console.log(aPerms);
+		
+		var $List = $('#auth ._list');
+		$List.html("");
+		
+		var aUserGroups = $._xeAdminVar.aUserGroups;
+		var htInfo, sDefault, $node, $groupNode, aGroup, sGrant;
+		for(var i=0, nLen=aPerms.length; i<nLen; i++){
+			htInfo = aPerms[i];
+				/*
+				<li>
+					<label for="auth${PermId}">${PermTitle}</label>
+					<select id="auth${PermId}">
+						<option class="_group_all" value="0">모든 사용자</option>
+						<option class="_group_loggedin" value="-1">로그인 사용자</option>
+						<option class="_group_signedup" value="-2">가입한 사용자</option>
+						<option class="_group_selected" value="-10">선택그룹 사용자</option>
+					</select>
+					<div class="selected x_hide">
+					</div>
+				</li>
+				*/
+				
+				sDefault = htInfo.sDefault;
+				aGroup = htInfo.aGroup;
+				sGrant = htInfo.sGrant;
+				
+				$node = $.tmpl("permItem", {
+					PermId : htInfo.sKey, 
+					PermTitle : htInfo.sTitle
+				});
+				$node.find('select').data('key', htInfo.sKey);
+				//console.log($node.find('select').data('key'));
+				
+				var htGrantStrToSelectValMap = {
+					'all': '0',
+					'member': '-1',
+					'site': '-2',
+					'group': '-10'
+				};
+				if(htInfo.sGrant){
+					$node.find('select').val(htGrantStrToSelectValMap[htInfo.sGrant]);
+				}
+				
+				// Add groups
+				//<label><input type="checkbox" value="${ID}" title="${Title}"> ${Title}</label>
+				for(var ii=0, nLen2=aUserGroups.length; ii<nLen2; ii++){
+					htInfo = aUserGroups[ii];
+					//console.log(222, htInfo.group_srl, aGroup);
+					sChecked = null;
+					if(sGrant === 'group'){
+					
+						$node.find('._groups').show();
+						
+						if(aGroup && $.inArray(htInfo.group_srl, aGroup) !== -1){
+							sChecked = "checked";
+						}
+					}
+					
+					$groupNode = $.tmpl("perm_groupItem", {
+								Title : htInfo.title ,
+								ID : htInfo.group_srl
+							});
+					$groupNode.find('input[type=checkbox]').attr('checked', sChecked);
+					$node.find('._groups').append($groupNode);
+				}
+				
+				if(i === 0){
+					$node.find('._group_signedup').remove();
+				}else{
+					/*
+						guest : 모든 옵션 사용 가능, 항상 권한 있음.
+						member : '모든 사용자' 제외하고 사용 가능, 로그인 정보가 있을 경우 true
+						site : '모든 사용자' 제외하고 사용 가능, 가상 사이트일 경우에는 가입된 그룹 정보가 있어야 하며, 가상 사이트가 아닐 경우에는 'member'와 동일.
+						manager : '선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
+						root : manager와 동일.
+					*/
+					switch(sDefault){
+						case 'guest':
+							//
+						break;
+						case 'member':
+							$node.find('._group_all').remove();
+						break;
+						case 'site':
+							$node.find('._group_all').remove();
+						break;
+						case 'manager':
+						case 'root':
+						default:
+							$node.find('._group_all').remove();
+							$node.find('._group_loggedIn').remove();
+							$node.find('._group_signedUp').remove();
+					}
+				}
+				$List.append($node);
+			
+		}
+	}
+
+// Auth
+	$('#auth').on('change', 'select', function(){
+		var $this = $(this);
+		
+		var sKey = $this.data('key');
+		
+		var $selected = $('#auth ._groups_'+sKey);
+		if($this.val() == '-10'){
+			$selected.show();
+		} else {
+			$selected.hide();
+		}
+	});
+	$('#auth ._save').click(function(){
+		// create json from the form values
+		var $select = $('#auth').find('select');
+
+		var vDisplay = readPermValue($($select[0]));
+		if(vDisplay === '0') vDisplay = "";
+		
+		var htPerm = {};
+		
+		var $node, sKey;
+		for(var i=1, nLen=$select.length; i<nLen; i++){
+			$node = $($select[i]);
+			sKey = $node.data('key');
+			htPerm[sKey] = readPermValue($node);
+		}
+		
+		//
+		//console.log($($select[1]).data('key'));
+		/*
+			{
+				menu_item_srl : '41368',
+				exposure : -1,
+				htPerm : {
+					'list' : -1,
+					'write_document' : -1,
+					'manager' : ['100', '200', '300']
+				}
+			};
+		*/
+		var htParam = {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl,
+			exposure : vDisplay,
+			htPerm : htPerm
+		};
+		
+		jQuery.exec_json("menu.procMenuAdminUpdateAuth", htParam, function(htData){
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+
+			//console.log(htData);
+			alert('저장 됐습니다.');
+			$('#auth').hide();
+		});
+	});
+	function readPermValue($select){
+		var sKey, $node, $chkbox, aGroup, vValue, $groups;
+		
+		$node = $($select);
+		
+		sKey = $node.data('key');
+		vValue = $node.val();
+		
+		if(vValue === '-10'){
+			vValue = [];
+			
+			var $groups = $('#auth ._groups_'+sKey+' input[type=checkbox]');
+
+			for(var ii=0, nLen2=$groups.length; ii<nLen2; ii++){
+				$chkbox = $($groups[ii]);
+				if($chkbox.attr('checked')){
+					vValue.push($chkbox.val());
+				}
+			}
+		}
+		
+		// Output of $.param function used in exec_json does not have a representation for an empty array. So, use "[]" (string) instead.
+		if(vValue.length === 0) vValue = "[]";
+		return vValue;
+	}
+	<!--@end-->
+	
 	$( "#tmpl_layoutItem" ).template( "design_layoutItem" );
 	$( "#tmpl_skinItem" ).template( "deisgn_skinItem" );
+	
 	// remove automatically added fields.
-	var $previewForm = $("._preview_form");
+	var $previewForm = $("#design  ._preview_form");
 	$previewForm.find('input[name=act]').remove();
 	$previewForm.find('input[name=mid]').remove();
 	$previewForm.find('input[name=vid]').remove();
@@ -1788,32 +2113,6 @@ jQuery(function($){
 			menu_item_srl : htInfo.sNodeSrl
 		};
 		$.exec_json("module.getModuleInfoByMenuItemSrl", params, function(htData){
-			/*
-				browser_title: "게시판"
-				content: ""
-				description: ""
-				footer_text: ""
-				header_text: ""
-				is_default: "N"
-				is_layout_fix: "Y"
-				is_skin_fix: "N"
-				layout_srl: "0"
-				mcontent: ""
-				menu_srl: "59"
-				mid: "board_CZEA8836"
-				mlayout_srl: "0"
-				module: "board"
-				module_category_srl: "0"
-				module_srl: "270"
-				mskin: ""
-				open_rss: "Y"
-				regdate: "20121009140036"
-				site_srl: "0"
-				skin: ""
-				use_mobile: "N"
-			*/
-			//console.log(htData);
-			
 			if(htData.error !== 0){
 				alert(htData.message);
 				return;
@@ -2353,426 +2652,10 @@ jQuery(function($){
 	$('#skinSetup').on('show', function(ev){
 		if(this !== ev.target)  return;
 
-		var sHtml;
-		var sSkinName = $._htMarkupActionParam.sSkinName;
-		console.log(sSkinName);
-		/*
-		params['menu_item_srl'] = '41390';
-		params['skin'] = 'xe_default';
-		exec_xml("menu","getMenuAdminModuleSkin", params, completeTmp);
-		*/
-		
-		$.exec_json("menu.getMenuAdminModuleSkin", {
-			menu_item_srl: htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl,
-			skin: sSkinName
-		}, function(htData){
-			console.log(htData);
-			//return;
-			//console.log(htData.html.match(/<script[^>]*>/));
-			//htData.html = htData.html.replace(/<script[^>]*><\/script>/, "");
-			sHtml = htData.skinContent;
-			$('#skinSetup').find('._contents').html(sHtml);
-/*
-			var $configForm = $('#config_form');
-			$configForm.on('submit', function(ev){
-				var htData = {};
-				var sKey, sValue;
-				$(this).find('input').each(function(){
-					sKey = $(this).attr('name');
-					sValue = $(this).val();
-					htData[sKey] = sValue;
-				});
-				console.log(htData);
-				ev.preventDefault();
-				
-				var sUrl = $('#config_form').attr('action');
-				$.post( sUrl, htData,
-					function( strRes ) {
-						var htData = $.parseJSON(strRes);
-						
-						if(htData.error !== 0){
-							alert(htData.message);
-							return;
-						}
-						
-						$('#layout').show();
-						//console.log(999, strRes, htData);
-					}
-				);
-			})
-*/
-			scrollToRight();
-		});
+		scrollToRight();
 	})
-/*
-	<input name="menu_normal_btn" type="hidden" value="new_img"/>
-	<input name="callback" type="hidden" value="top.onBtnImgUploaded"/>
-	*/
-	top.onBtnImgUploaded = function(htData){
-		console.log(234, htData);
-		$('#imgbtn').show();
-	}
-	var $imgBtnForms = $("#imgbtn form");
-	$imgBtnForms.find('input[name=act]').val('procMenuAdminButtonUpload');
-	$imgBtnForms.find('input[name=mid]').remove();
-	$imgBtnForms.find('input[name=vid]').remove();
-	
-	$('#imgbtn').on('show', function(ev){
-		if(this !== ev.target) return;
-		
-		// http://code.google.com/p/xe-core/wiki/Menu_Button_load
-		$.exec_json("menu.getMenuAdminItemInfo", {
-			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
-		}, BtnInfoReceived);
-	});
-	function BtnInfoReceived(htData){
-		console.log(htData);
-		$('#imgbtn input[name=menu_item_srl]').val(htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl);
-		
-		// reset the file inputs
-		$('#imgbtn input[type=file]').each(function(){
-			($($(this).outerHTML())).insertAfter($(this));
-			$(this).remove();
-		});
-		$('#imgbtn input[type=file]').change(function(){
-			$(this).closest('form').submit();
-		});
-		
-		if(htData.menu_item.normal_btn){
-			$('#imgbtn form._btn_normal img').attr('src', htData.menu_item.normal_btn);
-			$('#imgbtn form._btn_normal').addClass('_imgUploaded');
-		}else{
-			$('#imgbtn form._btn_normal').removeClass('_imgUploaded');
-		}
 
-		if(htData.menu_item.hover_btn){
-			$('#imgbtn form._btn_hover img').attr('src', htData.menu_item.hover_btn);
-			$('#imgbtn form._btn_hover').addClass('_imgUploaded');
-		}else{
-			$('#imgbtn form._btn_hover').removeClass('_imgUploaded');
-		}
 
-		if(htData.menu_item.active_btn){
-			$('#imgbtn form._btn_selected img').attr('src', htData.menu_item.active_btn);
-			$('#imgbtn form._btn_selected').addClass('_imgUploaded');
-		}else{
-			$('#imgbtn form._btn_selected').removeClass('_imgUploaded');
-		}
-
-		/*
-        [normal_btn] => 
-        [hover_btn] => 
-        [active_btn] => 
-		*/
-	}
-	$('#details').on('show', function(ev){
-		if(this !== ev.target) return;
-		
-		$.exec_json("menu.getMenuAdminDetailSetup", {
-			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
-		}, function(htData){
-			console.log(htData);
-			$.ajax({
-			  url: htData.setupUrl,
-			  context: document.body
-			}).done(function(sData) { 
-			  console.log(999, sData);
-			});
-			//htData.setupUrl
-		});
-	});
-	
-	$('#auth').on('show', function(ev){
-		if(this !== ev.target) return;
-		
-		// https://code.google.com/p/xe-core/wiki/MenuPerm?ts=1350276450&updated=MenuPerm
-		$.exec_json("menu.getMenuAdminItemInfo", {
-			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
-		}, PermAReceived);
-	});
-	function PermAReceived(htData){
-		//console.log(1, htData);
-		
-		/*
-		{
-		   "message_type":"",
-		   "menu_item":{
-			  "group_srls":[
-
-			  ],
-			  "moduleType":"",
-			  "groupList":[
-				 {
-					"group_srl":"1",
-					"title":"관리그룹",
-					"isChecked":false
-				 },
-				 {
-					"group_srl":"2",
-					"title":"준회원",
-					"isChecked":false
-				 },
-				 {
-					"group_srl":"3",
-					"title":"정회원",
-					"isChecked":false
-				 }
-			  ],
-			  "name_key":"",
-			  "name":""
-		   },
-		   "error":0,
-		   "message":"success"
-		}
-		*/
-		var aUserGroups = $._xeAdminVar.aUserGroups = [];
-		var htUserGroups = $._xeAdminVar.htUserGroups = {};
-
-		var htNode = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
-		var aPerms =  htNode.aPerms = [];
-		
-		var htTmp;
-		for(var i=0, nLen=htData.menu_item.groupList.length; i<nLen; i++){
-			htTmp = htData.menu_item.groupList[i];
-			
-			aUserGroups[i] = htTmp;
-			htUserGroups[htTmp.group_srl] = htTmp;
-		}
-		
-		//console.log($._xeAdminVar.aUserGroups, $._xeAdminVar.htUserGroups);
-		aPerms[0] = {
-			sKey : '',
-			sTitle : '메뉴 노출 대상',
-			sDefault : 'guest',
-			sGrant : htData.menu_item.grant || 'all',
-			aGroup : htData.menu_item.group_srls
-		};
-		
-		var params = {
-			target_module : htNode.sModuleType,
-			module_srl : htNode.module_srl
-		};
-
-		$.exec_json("module.getModuleAdminGrant", params, PermBReceived);
-	}
-	function PermBReceived(htData){
-		//console.log(2, htData);
-
-		var htNode = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
-		var aPerms =  htNode.aPerms;
-
-		/*
-		  "write_document":{
-			 "title":"글 작성",
-			 "default":"guest",
-			 "grant":"group",
-			 "group":{
-				 1, 2, 3
-			 }
-		  },
-	  */
-		for(var sPerm in htData.grantList){
-			htTmp = htData.grantList[sPerm];
-			
-			aPerms.push({
-				sKey : sPerm,
-				sTitle : htTmp.title,
-				// IE7 takes 'default' as a keyword. So use this array form to access the value
-				sDefault : htTmp['default'],
-				sGrant : htTmp.grant || "",
-				aGroup : htTmp.group_srls || []
-			});
-		}
-		
-		drawPermSetupScreen(aPerms);
-	}
-	$("#tmpl_permItem").template( "permItem");
-	$("#tmpl_perm_groupItem").template( "perm_groupItem");
-	function drawPermSetupScreen(aPerms){
-		//console.log(aPerms);
-		
-		var $List = $('#auth ._list');
-		$List.html("");
-		
-		var aUserGroups = $._xeAdminVar.aUserGroups;
-		var htInfo, sDefault, $node, $groupNode, aGroup, sGrant;
-		for(var i=0, nLen=aPerms.length; i<nLen; i++){
-			htInfo = aPerms[i];
-				/*
-				<li>
-					<label for="auth${PermId}">${PermTitle}</label>
-					<select id="auth${PermId}">
-						<option class="_group_all" value="0">모든 사용자</option>
-						<option class="_group_loggedin" value="-1">로그인 사용자</option>
-						<option class="_group_signedup" value="-2">가입한 사용자</option>
-						<option class="_group_selected" value="-10">선택그룹 사용자</option>
-					</select>
-					<div class="selected x_hide">
-					</div>
-				</li>
-				*/
-				
-				sDefault = htInfo.sDefault;
-				aGroup = htInfo.aGroup;
-				sGrant = htInfo.sGrant;
-				
-				$node = $.tmpl("permItem", {
-					PermId : htInfo.sKey, 
-					PermTitle : htInfo.sTitle
-				});
-				$node.find('select').data('key', htInfo.sKey);
-				//console.log($node.find('select').data('key'));
-				
-				var htGrantStrToSelectValMap = {
-					'all': '0',
-					'member': '-1',
-					'site': '-2',
-					'group': '-10'
-				};
-				if(htInfo.sGrant){
-					$node.find('select').val(htGrantStrToSelectValMap[htInfo.sGrant]);
-				}
-				
-				// Add groups
-				//<label><input type="checkbox" value="${ID}" title="${Title}"> ${Title}</label>
-				for(var ii=0, nLen2=aUserGroups.length; ii<nLen2; ii++){
-					htInfo = aUserGroups[ii];
-					//console.log(222, htInfo.group_srl, aGroup);
-					sChecked = null;
-					if(sGrant === 'group'){
-					
-						$node.find('._groups').show();
-						
-						if(aGroup && $.inArray(htInfo.group_srl, aGroup) !== -1){
-							sChecked = "checked";
-						}
-					}
-					
-					$groupNode = $.tmpl("perm_groupItem", {
-								Title : htInfo.title ,
-								ID : htInfo.group_srl
-							});
-					$groupNode.find('input[type=checkbox]').attr('checked', sChecked);
-					$node.find('._groups').append($groupNode);
-				}
-				
-				if(i === 0){
-					$node.find('._group_signedup').remove();
-				}else{
-					/*
-						guest : 모든 옵션 사용 가능, 항상 권한 있음.
-						member : '모든 사용자' 제외하고 사용 가능, 로그인 정보가 있을 경우 true
-						site : '모든 사용자' 제외하고 사용 가능, 가상 사이트일 경우에는 가입된 그룹 정보가 있어야 하며, 가상 사이트가 아닐 경우에는 'member'와 동일.
-						manager : '선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
-						root : manager와 동일.
-					*/
-					switch(sDefault){
-						case 'guest':
-							//
-						break;
-						case 'member':
-							$node.find('._group_all').remove();
-						break;
-						case 'site':
-							$node.find('._group_all').remove();
-						break;
-						case 'manager':
-						case 'root':
-						default:
-							$node.find('._group_all').remove();
-							$node.find('._group_loggedIn').remove();
-							$node.find('._group_signedUp').remove();
-					}
-				}
-				$List.append($node);
-			
-		}
-	}
-
-// Auth
-	$('#auth').on('change', 'select', function(){
-		var $this = $(this);
-		
-		var sKey = $this.data('key');
-		
-		var $selected = $('#auth ._groups_'+sKey);
-		if($this.val() == '-10'){
-			$selected.show();
-		} else {
-			$selected.hide();
-		}
-	});
-	$('#auth ._save').click(function(){
-		// create json from the form values
-		var $select = $('#auth').find('select');
-
-		var vDisplay = readPermValue($($select[0]));
-		if(vDisplay === '0') vDisplay = "";
-		
-		var htPerm = {};
-		
-		var $node, sKey;
-		for(var i=1, nLen=$select.length; i<nLen; i++){
-			$node = $($select[i]);
-			sKey = $node.data('key');
-			htPerm[sKey] = readPermValue($node);
-		}
-		
-		//
-		//console.log($($select[1]).data('key'));
-		/*
-			{
-				menu_item_srl : '41368',
-				exposure : -1,
-				htPerm : {
-					'list' : -1,
-					'write_document' : -1,
-					'manager' : ['100', '200', '300']
-				}
-			};
-		*/
-		var htParam = {
-			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl,
-			exposure : vDisplay,
-			htPerm : htPerm
-		};
-		
-		jQuery.exec_json("menu.procMenuAdminUpdateAuth", htParam, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-
-			//console.log(htData);
-			alert('저장 됐습니다.');
-			$('#auth').hide();
-		});
-	});
-	function readPermValue($select){
-		var sKey, $node, $chkbox, aGroup, vValue, $groups;
-		
-		$node = $($select);
-		
-		sKey = $node.data('key');
-		vValue = $node.val();
-		
-		if(vValue === '-10'){
-			vValue = [];
-			
-			var $groups = $('#auth ._groups_'+sKey+' input[type=checkbox]');
-
-			for(var ii=0, nLen2=$groups.length; ii<nLen2; ii++){
-				$chkbox = $($groups[ii]);
-				if($chkbox.attr('checked')){
-					vValue.push($chkbox.val());
-				}
-			}
-		}
-		
-		// Output of $.param function used in exec_json does not have a representation for an empty array. So, use "[]" (string) instead.
-		if(vValue.length === 0) vValue = "[]";
-		return vValue;
-	}
 	
 	
 	var $foggyLayer = $("<div>");
@@ -2897,9 +2780,8 @@ jQuery(function($){
 			}
 
 			// FTP 비밀번호 뿐만 아니라 정보가 전혀 없을 경우?
-			if(htData.is_authed !== 1){
-				console.log('no');
-				/*
+			switch(htData.is_authed){
+				case -1:
 				confirmDialog(
 					{
 						sTitle : 'FTP 설정이 필요 합니다.',
@@ -2910,7 +2792,9 @@ jQuery(function($){
 						}
 					}
 				);
-				*/
+				break;
+				
+				case 0:
 				confirmDialog(
 					{
 						sTitle : 'FTP 계정 정보가 필요 합니다.',
@@ -2918,18 +2802,16 @@ jQuery(function($){
 						bSmall : true,
 						fnOnOK : function(){
 							var sPw = $msgBox.find('input[type="password"]').val();
-							//console.log(sPackageSrl);
 							doInstallPackage(sPackageSrl, sPackageType, sPw, $item);
-							//window.location.href="./?module=admin&act=dispAdminConfigFtp";
 						}
 					}
 				);
+				break;
 				
-				//module=admin&act=dispAdminConfigFtp
-				return;
+				default:
+				break;
 			}
-			
-			console.log('ok');
+
 			doInstallPackage(sPackageSrl, sPackageType, ".", $item);
 		});
 	}
@@ -2955,23 +2837,19 @@ jQuery(function($){
 		});
 	}
 	
+	$('a._openFullSetup').click(function(ev){
+		ev.preventDefault();
+		
+		//window.open($('input[name=_pc_preview_ifr]').attr('src'), "xe_preview", "resizable=yes");
+		//console.log('test');
+	});
+	
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
 		$('#site').height(wHeigh - 180).children('.col').height(wHeigh - 230).find('.cnt').height(wHeigh - 262);
 	}).resize();
-// #linkMenu copy and set text to input
-	<!--@if($act == 'dispMenuAdminSiteMap')-->
-		//alert('test');
-/*
-setTimeout(function(){
-	$('.mapi').clone().removeClass().removeAttr('id').addClass('clone').appendTo('#add_linkMenu, #fix_linkMenu').find('li').removeAttr('id').removeAttr('class').find('ins, .side').remove();
-	$('.clone a').click(function(){
-		$(this).closest('.clone').prev('input[type="text"]').val($(this).text());
-	});
-}, 1000);
-*/
-	<!--@end-->
+
 });
 //]]>
 </script>
