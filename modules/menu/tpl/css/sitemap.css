@@ -2,7 +2,7 @@
 /* Site */
 body>.x{max-width:none !important}
 .x>.xin>.body>.content{margin-bottom:0}
-#site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap;margin-top:10px;padding:3px}
+#site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap;margin-top:10px;padding:3px;word-wrap:normal}
 #site .btnBoth,
 #site .x_btn-group{text-align:right;margin:10px 0}
 #site .btnBoth:after{content:"";display:block;clear:both}
