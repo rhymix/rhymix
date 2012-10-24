@@ -283,6 +283,7 @@
 				{
 					unset($args->group_srls);
 				}
+				$args->menu_srl = $request->menu_srl;
 				$args->name = $request->menu_name;
 				$args->parent_srl = $request->parent_srl;
 			}
