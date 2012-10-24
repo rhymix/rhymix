@@ -1148,7 +1148,7 @@ jQuery(function($){
 	
 	// TARGET toggle
 	$(document.body).on("click", ".x [data-admin-toggle]", function(ev){
-		$($(ev.srcElement).attr('data-admin-toggle')).toggle();
+		$($(this).attr('data-admin-toggle')).toggle();
 		return false;
 	});
 	
@@ -1172,7 +1172,7 @@ jQuery(function($){
 	
 	// TARGET hide
 	$(document.body).on("click", ".x [data-admin-hide]", function(ev){
-		var $target = $($(ev.srcElement).attr('data-admin-hide'));
+		var $target = $($(this).attr('data-admin-hide'));
 
 		$target.hide();
 	});
@@ -2353,21 +2353,26 @@ jQuery(function($){
 	$('#skinSetup').on('show', function(ev){
 		if(this !== ev.target)  return;
 
+		var sHtml;
 		var sSkinName = $._htMarkupActionParam.sSkinName;
 		console.log(sSkinName);
-		return;
 		/*
-		var params = new Array();
 		params['menu_item_srl'] = '41390';
+		params['skin'] = 'xe_default';
 		exec_xml("menu","getMenuAdminModuleSkin", params, completeTmp);
 		*/
 		
-		$.exec_json("menu.getMenuAdminModuleSkin", {menu_item_srl: sLayoutSrl}, function(htData){
-			//console.log(htData);
+		$.exec_json("menu.getMenuAdminModuleSkin", {
+			menu_item_srl: htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl,
+			skin: sSkinName
+		}, function(htData){
+			console.log(htData);
+			//return;
 			//console.log(htData.html.match(/<script[^>]*>/));
 			//htData.html = htData.html.replace(/<script[^>]*><\/script>/, "");
-			$('#layoutSetup').find('._contents').html(htData.html);
-			
+			sHtml = htData.skinContent;
+			$('#skinSetup').find('._contents').html(sHtml);
+/*
 			var $configForm = $('#config_form');
 			$configForm.on('submit', function(ev){
 				var htData = {};
@@ -2395,7 +2400,7 @@ jQuery(function($){
 					}
 				);
 			})
-			
+*/
 			scrollToRight();
 		});
 	})
