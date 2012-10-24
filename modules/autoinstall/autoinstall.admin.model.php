@@ -161,7 +161,19 @@
 		 */
 		function getAutoinstallAdminIsAuthed()
 		{
-			$this->add('is_authed', (int)isset($_SESSION['ftp_password']));
+			$is_authed = 0;
+
+			$ftp_info =  Context::getFTPInfo();
+			if(!$ftp_info->ftp_root_path)
+			{
+				$is_authed = -1;
+			}
+			else
+			{
+				$is_authed = (int)isset($_SESSION['ftp_password']);
+			}
+
+			$this->add('is_authed', $is_authed);
 		}
    }
 ?>
