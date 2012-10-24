@@ -805,6 +805,26 @@
                 $skin_list[$skin_name] = $skin_info;
             }
 
+			if($dir == 'skins')
+			{
+				$tmpPath = strtr($path, array('/' => ' '));
+				$tmpPath = trim($tmpPath);
+				$module = array_pop(explode(' ', $tmpPath));
+
+				$oAdminModel = getAdminModel('admin');
+				$themesInfo = $oAdminModel->getThemeList();
+
+				foreach($themesInfo as $themeName => $info)
+				{
+					$skinInfos = $info->skin_infos;
+					if(isset($skinInfos[$module]) && $skinInfos[$module]->is_theme)
+					{
+						$themeSkinInfo = $GLOBALS['__ThemeModuleSkin__'][$module]['skins'][$skinInfos[$module]->name];
+						$skin_list[$skinInfos[$module]->name] = $themeSkinInfo;
+					}
+				}
+			}
+
             return $skin_list;
         }
 
