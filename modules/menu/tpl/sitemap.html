@@ -118,7 +118,7 @@
 					<li>
 						<div class="multilingual x_input-append">
 							<label for="lang_menuName2">메뉴이름</label>
-							<input id="menuName2" class="_menuName " type="text" required style="width:179px">
+							<input id="menuName2" class="_menuName lang_code" type="text" required style="width:179px">
 						</div>
 					</li>
 					<li class="typePage">
@@ -180,24 +180,6 @@
 					</script>
 				</div>
 				<div class="_pagination"></div>
-				<script id="tmpl_pagination" type="text/x-jquery-tmpl">
-				<div class="x_pagination x_pagination-centered">
-					<ul class="_list">
-					</ul>
-				</div>
-				</script>
-				<script id="tmpl_pagination_list" type="text/x-jquery-tmpl">
-					<li class='${ActiveClass}'><a  href="#" class="_toPage" data-param='{ "page": "${Page}"}' onclick="return false">${PageText}</a></li>
-				</script>
-				<script id="tmpl_pagination_jump" type="text/x-jquery-tmpl">
-					<li>
-						<a href="#goTo" data-admin-toggle="#goTo" title="${GoText}" onclick="return false">...</a>
-						<span id="goTo" class="x_input-append">
-							<input type="number" min="1" max="${LastPage}" required name="page" title="${GoText}" />
-							<button type="input" class="x_add-on _jumpTo">Go</button>
-						</span>
-					</li>
-				</script>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#download">&times;</button>
@@ -432,6 +414,24 @@
 					</script>
 				</div>
 				<div class="_pagination"></div>
+				<script id="tmpl_pagination" type="text/x-jquery-tmpl">
+				<div class="x_pagination x_pagination-centered">
+					<ul class="_list">
+					</ul>
+				</div>
+				</script>
+				<script id="tmpl_pagination_list" type="text/x-jquery-tmpl">
+					<li class='${ActiveClass}'><a  href="#" class="_toPage" data-param='{ "page": "${Page}"}' onclick="return false">${PageText}</a></li>
+				</script>
+				<script id="tmpl_pagination_jump" type="text/x-jquery-tmpl">
+					<li>
+						<a href="#goTo" data-admin-toggle="#goTo" title="${GoText}" onclick="return false">...</a>
+						<span id="goTo" class="x_input-append">
+							<input type="number" min="1" max="${LastPage}" required name="page" title="${GoText}" />
+							<button type="input" class="x_add-on _jumpTo">Go</button>
+						</span>
+					</li>
+				</script>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#downloadLayout">&times;</button>
@@ -981,12 +981,14 @@ function loadSiteMap(){
 	params['menu_srl'] = 0;
 	$.exec_json("menu.getMenuAdminSiteMap", params, onSiteMapReceived);
 }
+<!--@end-->
 
 function clearInputs($elm){
 	var $ = jQuery;
 	
 	$elm.find('input').val("");
 }
+
 function setItemTypes(htTypes){
 	var $ = jQuery;
 	
@@ -998,7 +1000,6 @@ function setItemTypes(htTypes){
 	}
 	//console.log($._xeAdminVar.htItemTypes);
 }
-<!--@end-->
 
 jQuery(function($){
 	$.fn.outerHTML = function(){
@@ -1066,6 +1067,17 @@ jQuery(function($){
 		setItemTypes(htData.menu_types);
 	});
 	<!--@end-->
+	
+	<!--@if($act == 'dispMenuAdminSiteDesign')-->
+	//$('#design').nextAll().hide();
+	$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
+		setItemTypes(htData.menu_types);
+		
+		$('#design').show();
+	});
+
+	<!--@end-->
+	
 	
 	$("#tmpl_pagination").template( "pagination" );
 	$("#tmpl_pagination_list").template( "paginationList" );
@@ -1390,7 +1402,7 @@ jQuery(function($){
 			var sModuleTitle;
 			for(var sModuleName in $._xeAdminVar.htItemTypes){
 				//item = htData.menu_types[i];
-				if(htData.hasOwnProperty(item)) continue;
+				if(!$._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
 				
 				item = $._xeAdminVar.htItemTypes[sModuleName];
 				sModuleTitle = item.title;
@@ -2003,19 +2015,6 @@ jQuery(function($){
 			htPerm[sKey] = readPermValue($node);
 		}
 		
-		//
-		//console.log($($select[1]).data('key'));
-		/*
-			{
-				menu_item_srl : '41368',
-				exposure : -1,
-				htPerm : {
-					'list' : -1,
-					'write_document' : -1,
-					'manager' : ['100', '200', '300']
-				}
-			};
-		*/
 		var htParam = {
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl,
 			exposure : vDisplay,
@@ -2028,7 +2027,6 @@ jQuery(function($){
 				return;
 			}
 
-			//console.log(htData);
 			alert('저장 됐습니다.');
 			$('#auth').hide();
 		});
@@ -2099,6 +2097,59 @@ jQuery(function($){
 	$('#design').bind('show', function(ev){
 		if(this !== ev.target) return;
 
+		//module=menu&act=getMenuAdminInstalledMenuType
+		//
+		console.log($._xeAdminVar.htItemTypes);
+		
+		$list = $(this).find('._itemList');
+		$list.html("").append($.tmpl( "design_layoutItem", {}));
+
+		var item;
+		var sModuleTitle;
+		for(var sModuleName in $._xeAdminVar.htItemTypes){
+			if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
+			
+			item = $._xeAdminVar.htItemTypes[sModuleName];
+			sModuleTitle = item.title;
+			
+			$list.append($.tmpl( "deisgn_skinItem", {
+				ModuleType : sModuleName,
+				ModuleTypeTitle : sModuleTitle
+			}));
+
+		}
+		
+		scrollToRight();
+		
+		return;
+		// also preview here
+		var params = {
+			menu_item_srl : htInfo.sNodeSrl
+		};
+		$.exec_json("module.getModuleInfoByMenuItemSrl", params, function(htData){
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			var htTmp = htData.module_info_by_menu_item_srl;
+			// module=모듈이름&mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름
+			var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
+				sModuleName : htTmp.module,
+				sMID : htTmp.mid,
+				sLayoutSrl : htTmp.layout_srl,
+				htSkin : {P: htTmp.skin, M : htTmp.mskin},
+				htData : {}
+			};
+			
+			$('#design .x_tabbable a[href="#pc"]').click();
+		});
+	});
+	
+	/*
+	$('#design').bind('show', function(ev){
+		if(this !== ev.target) return;
+
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
 
@@ -2130,7 +2181,8 @@ jQuery(function($){
 			
 			$('#design .x_tabbable a[href="#pc"]').click();
 		});
-	})
+	});
+	*/
 	$('#design').bind('hide', function(){
 		$._xeAdminVar.htPrevSetting = {};
 	});
