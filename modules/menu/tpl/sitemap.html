@@ -9,7 +9,14 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+<!--@if($act == 'dispMenuAdminSiteMap')-->
+<div id="site">
+<!--@end-->
+
+<!--@if($act == 'dispMenuAdminSiteDesign')-->
 <div id="site" class="_siteDesign">
+<!--@end-->
+
 	<div class="col map" id="site_map">
 		<h1>사이트맵</h1>
 		<div class="cnt">
@@ -439,7 +446,7 @@
 					<ul class="_list">
 					
 						<script id="tmpl_skin_list_item_no_skin" type="text/x-jquery-tmpl">
-						<li class="${Selected}">
+						<li class="_item ${Selected}">
 							<label>
 								<input type="radio" name="skin_item" title="스킨 사용 안 함"> 스킨 사용 안 함
 							</label>
@@ -447,39 +454,16 @@
 						</script>
 					
 						<script id="tmpl_skin_list_item" type="text/x-jquery-tmpl">
-						<li class="${Selected}">
+						<li class="_item ${Selected}">
 							<label><input type="radio" name="skin_item" title="${Title}"> ${Title}</label>
 							<button type="button" class="item _btnScreenshot" title="클릭하면 스킨이 적용됩니다.">
 								<img src="${ScreenShotURL}">
 							</button>
 							<ul>
-								<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-								<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+								<li><a href="#skinSetup" data-admin-show="#skinSetup" data-param='{ "sSkinName":"${SkinName}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 							</ul>
 						</li>
 						</script>
-	<!--					
-						<li class="selected">
-							<h3>엔터프라이즈</h3>
-							<button type="button" class="item" title="클릭하면 스킨이 적용됩니다.">
-								<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
-							</button>
-							<ul>
-								<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-								<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
-							</ul>
-						</li>
-						<li>
-							<h3>엔터프라이즈</h3>
-							<button type="button" class="item" title="클릭하면 스킨이 적용됩니다.">
-								<img src="http://naradesign.net/photo/DSCN0687.JPG" alt="엔터프라이즈 스킨">
-							</button>
-							<ul>
-								<li><a href="#skinSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-								<li><button type="button" onClick="confirm('\'엔터프라이즈\' 스킨을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
-							</ul>
-						</li>
-	-->
 					</ul>
 					<div class="x_btn-group">
 						<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-inverse x_pull-right"><i class="x_icon-plus x_icon-white"></i> 다른 스킨 설치</a>
@@ -488,6 +472,15 @@
 			</div>
 		</form>
 		<button type="button" class="x_close" data-admin-hide="#skin">&times;</button>
+	</div>
+	<div class="col skinSetup" id="skinSetup">
+		<section>
+			<h1>스킨 설정</h1>
+			<div class="cnt">
+				<div class="_contents"></div>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-admin-hide="#skinSetup">&times;</button>
 	</div>
 	<div class="col download" id="downloadSkin">
 		<section>
@@ -943,7 +936,10 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		htNodeInfo[sNodeSrl].nNodeType = nNodeType;
 		htNodeInfo[sNodeSrl].sNodeSrl = sNodeSrl;
 		htNodeInfo[sNodeSrl].sText = sText;
-		htNodeInfo[sNodeSrl].sModuleType = sModuleType || "_SHORTCUT";
+		
+		if(nNodeType === 2){
+			htNodeInfo[sNodeSrl].sModuleType = sModuleType || "_SHORTCUT";
+		}
 
 		sSubTree = "";
 		if(aSubNode && aSubNode.length>0){
@@ -959,7 +955,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		if(sIsStartModule){
 			sTextWithIcons += " ${h}";
 		}
-		if(!htNodeInfo[sNodeSrl].module && nNodeType === 2){
+		if(htNodeInfo[sNodeSrl].sModuleType === "_SHORTCUT"){
 			sTextWithIcons += " ${s}";
 		}
 
@@ -2309,6 +2305,8 @@ jQuery(function($){
 			}).data('SkinName', ""));
 			
 			for(var sName in htData.skin_info_list){
+				if(!htData.skin_info_list.hasOwnProperty(sName)) continue;
+				
 				htInfo = htData.skin_info_list[sName];
 			//for(var i=0, nLen=htData.skin_info_list.length; i<nLen; i++){
 				htInfo.sName = sName;
@@ -2322,8 +2320,10 @@ jQuery(function($){
 				$List.append($.tmpl("skinListItem", {
 					Title : htInfo.title, 
 					ScreenShotURL : htInfo.thumbnail,
-					Selected : sSelected
+					Selected : sSelected,
+					SkinName : htInfo.sName
 				}).data('SkinName', htInfo.sName));
+				console.log(22, htInfo.sName);
 			}
 			$List.find('.selected input').attr('checked', 'checked');
 			//console.log(sSelectedSrl);
@@ -2348,6 +2348,55 @@ jQuery(function($){
 		
 		updatePreview({
 			sSkin : sSkinName
+		});
+	})
+	$('#skinSetup').on('show', function(ev){
+		if(this !== ev.target)  return;
+
+		var sSkinName = $._htMarkupActionParam.sSkinName;
+		console.log(sSkinName);
+		return;
+		/*
+		var params = new Array();
+		params['menu_item_srl'] = '41390';
+		exec_xml("menu","getMenuAdminModuleSkin", params, completeTmp);
+		*/
+		
+		$.exec_json("menu.getMenuAdminModuleSkin", {menu_item_srl: sLayoutSrl}, function(htData){
+			//console.log(htData);
+			//console.log(htData.html.match(/<script[^>]*>/));
+			//htData.html = htData.html.replace(/<script[^>]*><\/script>/, "");
+			$('#layoutSetup').find('._contents').html(htData.html);
+			
+			var $configForm = $('#config_form');
+			$configForm.on('submit', function(ev){
+				var htData = {};
+				var sKey, sValue;
+				$(this).find('input').each(function(){
+					sKey = $(this).attr('name');
+					sValue = $(this).val();
+					htData[sKey] = sValue;
+				});
+				console.log(htData);
+				ev.preventDefault();
+				
+				var sUrl = $('#config_form').attr('action');
+				$.post( sUrl, htData,
+					function( strRes ) {
+						var htData = $.parseJSON(strRes);
+						
+						if(htData.error !== 0){
+							alert(htData.message);
+							return;
+						}
+						
+						$('#layout').show();
+						//console.log(999, strRes, htData);
+					}
+				);
+			})
+			
+			scrollToRight();
 		});
 	})
 /*
