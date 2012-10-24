@@ -179,6 +179,7 @@ body>.x{max-width:none}
 #imgbtn form._imgUploaded .noImg,
 #imgbtn form._imgUploaded .upload{display:none}
 /* Design */
+#design ._site{display:none}
 #design ._preview_form{margin:0}
 #design ul{margin-top:8px}
 #design .btnBoth{border:0}
@@ -195,3 +196,9 @@ body>.x{max-width:none}
 #msgBox {width:600px;margin-left:-300px}
 #msgBox._small {width:400px;margin-left:-200px}
 #msgBox._type_alert ._cancel{display:none}
+/* Divide local/global settings view */
+._siteDesign #design ._item,
+._siteDesign #design .x_close,
+._siteDesign #skin ul ul,
+._siteDesign .theme .cnt>label:first-child{display:none !important}
+._siteDesign #design ._site{display:block}
