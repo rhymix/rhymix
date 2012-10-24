@@ -117,6 +117,7 @@
 				$vars->site_srl = 0;
 			}
 
+
 			// create a DesignInfo file 
 			$output = $this->updateDefaultDesignInfo($vars);
 			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
@@ -125,6 +126,8 @@
 		public function updateDefaultDesignInfo($vars)
 		{
 			$siteDesignPath = _XE_PATH_.'files/site_design/';
+
+			$vars->module_skin = json_decode($vars->module_skin);
 			
 			if(!is_dir($siteDesignPath))
 			{
@@ -132,6 +135,15 @@
 			}
 
 			$siteDesignFile = _XE_PATH_.'files/site_design/design_'.$vars->site_srl.'.php';
+
+			$layoutTarget = 'layout_srl';
+			$skinTarget = 'skin';
+
+			if ($vars->target_type == 'M')
+			{
+				$layoutTarget = 'mlayout_srl';
+				$skinTarget = 'mskin';
+			}
 
 			$buff = '';
 			if(is_readable($siteDesignFile))
@@ -143,41 +155,43 @@
 				$designInfo = new stdClass();
 			}
 
-			$layoutSrl = (!$vars->layout_srl) ? $designInfo->layout_srl : $vars->layout_srl;
+			$layoutSrl = (!$vars->layout_srl) ? $designInfo->{$layoutTarget} : $vars->layout_srl;
 
 			if($layoutSrl)
 			{
-				$buff .= sprintf('$designInfo->layout_srl = %s;', $layoutSrl);
+				$designInfo->{$layoutTarget} = $layoutSrl;
 			}
 
-			if($designInfo->module)
+			foreach($vars->module_skin as $moduleName => $skinName)
 			{
-				foreach($designInfo->module as $key => $val)
+				if(!$designInfo->module->{$moduleName}->{$skinTarget})
 				{
-					if($key == $vars->module)
-					{
-						$skin = $vars->module_skin;
-						$skin_vars = serialize($vars->skin_vars);
-					}
-					else
-					{
-						$skin = $val->skin;
-						$skin_vars = $val->skin_vars;
-					}
-					$buff .= sprintf('$designInfo->module->%s->skin = \'%s\';', $key, $skin);
-					$buff .= sprintf('$designInfo->module->%s->skin_vars = \'%s\';', $key, $skin_vars);
-				}
-			}
-			else
-			{
-				if($vars->module)
-				{
-					$buff .= sprintf('$designInfo->module->%s->skin = \'%s\';', $vars->module, $vars->module_skin);
-					$buff .= sprintf('$designInfo->module->%s->skin_vars = \'%s\';', $vars->module, serialize($vars->skin_vars));
+					$designInfo->module->{$moduleName}->{$skinTarget} = $skinName;
 				}
 			}
 
-			$buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); if(!defined("__XE__")) exit(); %s ?>', $buff);
+			if($designInfo->layout_srl)
+			{
+				$buff .= sprintf('$designInfo->layout_srl = %s; ', $designInfo->layout_srl)."\n";
+			}
+
+			if($designInfo->mlayout_srl)
+			{
+				$buff .= sprintf('$designInfo->mlayout_srl = %s;', $designInfo->mlayout_srl)."\n";
+			}
+
+			$buff .= '$designInfo->module = new stdClass();'."\n";
+
+			foreach($designInfo->module as $moduleName => $skinInfo)
+			{
+				$buff .= sprintf('$designInfo->module->%s = new stdClass();', $moduleName)."\n";
+				foreach($skinInfo as $target => $skinName)
+				{
+					$buff .= sprintf('$designInfo->module->%s->%s = \'%s\';', $moduleName, $target, $skinName)."\n";
+				}
+			}
+
+			$buff = sprintf('<?php if(!defined("__ZBXE__")) exit();' . "\n" . 'if(!defined("__XE__")) exit();' ."\n" . '$designInfo = new stdClass();' . "\n" . '%s ?>', $buff);
 
 			FileHandler::writeFile($siteDesignFile, $buff);
 
