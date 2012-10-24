@@ -1470,6 +1470,7 @@
                     $pos = strpos($href, $_SERVER['HTTP_HOST']);
                     if($pos !== false) $href = substr($href, $pos+strlen($_SERVER['HTTP_HOST']));
                 } else $href = $url;
+				$is_shortcut = $node->is_shortcut;
                 $open_window = $node->open_window;
                 $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn);
                 $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn);
@@ -1511,7 +1512,7 @@
                 }
                 // Create properties (check if it belongs to the menu node by url_list. It looks a trick but fast and powerful)
                 $attribute = sprintf(
-                    '"node_srl"=>"%s","parent_srl"=>"%s","text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s? ( array(%s)&&in_array(Context::get("mid"),array(%s)) ?%s:%s):""),',
+                    '"node_srl"=>"%s","parent_srl"=>"%s","text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"is_shortcut"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s? ( array(%s)&&in_array(Context::get("mid"),array(%s)) ?%s:%s):""),',
                     $node->menu_item_srl,
                     $node->parent_srl,
                     $group_check_code,
@@ -1520,6 +1521,7 @@
                     $href,
                     $group_check_code,
                     $url,
+                    $is_shortcut,
                     $open_window,
                     $normal_btn,
                     $hover_btn,

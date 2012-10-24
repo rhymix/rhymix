@@ -460,7 +460,7 @@
 					}
 					$menu['setup_index_act'] = $moduleInfo->setup_index_act;
 				}
-				if($midInfo->mid == $start_module->mid)
+				if($menu['is_shortcut'] == 'N' && $midInfo->mid == $start_module->mid)
 				{
 					$menu['is_start_module'] = true;
 				}
