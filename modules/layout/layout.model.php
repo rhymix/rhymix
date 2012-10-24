@@ -53,36 +53,33 @@
 
 			$layoutList = $this->getLayoutInstanceList($siteSrl, $layoutType);
 			$thumbs = array();
-			
-			if($layoutType != 'M')
-			{
-				foreach($layoutList as $key => $val)
-				{
-					if($thumbs[$val->layouts])
-					{
-						$val->thumbnail = $thumbs[$val->layouts];
-						continue;
-					}
 
-					$token = explode('|@|', $val->layout);
-					if(count($token) == 2)
-					{
-						$thumbnailPath = sprintf('./themes/%s/layouts/%s/thumbnail.png' , $token[0], $token[1]);
-					}
-					else
-					{
-						$thumbnailPath = sprintf('./layouts/%s/thumbnail.png' , $val->layout);
-					}
-					if(is_readable($thumbnailPath))
-					{
-						$val->thumbnail = $thumbnailPath;
-					}
-					else
-					{
-						$val->thumbnail = sprintf('./modules/layout/tpl/images/noThumbnail.jpg');
-					}
-					$thumbs[$val->layout] = $val->thumbnail;
+			foreach($layoutList as $key => $val)
+			{
+				if($thumbs[$val->layouts])
+				{
+					$val->thumbnail = $thumbs[$val->layouts];
+					continue;
 				}
+
+				$token = explode('|@|', $val->layout);
+				if(count($token) == 2)
+				{
+					$thumbnailPath = sprintf('./themes/%s/layouts/%s/thumbnail.png' , $token[0], $token[1]);
+				}
+				else
+				{
+					$thumbnailPath = sprintf('./layouts/%s/thumbnail.png' , $val->layout);
+				}
+				if(is_readable($thumbnailPath))
+				{
+					$val->thumbnail = $thumbnailPath;
+				}
+				else
+				{
+					$val->thumbnail = sprintf('./modules/layout/tpl/images/noThumbnail.jpg');
+				}
+				$thumbs[$val->layout] = $val->thumbnail;
 			}
 			$this->add('layout_list', $layoutList);
 		}
