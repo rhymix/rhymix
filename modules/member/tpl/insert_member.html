@@ -99,7 +99,7 @@
 		<label class="x_control-label">{$lang->member_group}</label>
 		<div class="x_controls">
 			<!--@foreach($group_list as $key=>$val)-->
-				<label for="group_{$key}" class="x_inline"><input type="checkbox" name="group_srl_divst[]" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="checked"<!--@end--> />
+				<label for="group_{$key}" class="x_inline"><input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="checked"<!--@end--> />
 				{$val->title}</label>
 			<!--@end-->
 		</div>
