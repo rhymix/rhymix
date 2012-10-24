@@ -94,7 +94,7 @@ jQuery(function($){
 		return false;
 	});
 // GNB
-	function GNB(){
+	$.fn.gnb = function(){
 		var $xBody = $('.x>.xin>.body');
 		var $xContent = $xBody.children('#content.content');
 		var $xGnb = $xBody.find('>.gnb');
@@ -142,8 +142,8 @@ jQuery(function($){
 			$xBody.addClass('wide');
 			reflow();
 		});
-	}
-	GNB();
+	};
+	$('.gnb').gnb();
 // Default Language Selection
 	$('.x #lang')
 		.mouseleave(function(){
@@ -180,6 +180,7 @@ jQuery(function($){
 // Section Toggle
 	var $section_heading = $('.x .section').find('>h1:first');
 	$section_heading.append('<button type="button" class="snToggle x_icon-chevron-up">Toggle this section</button>');
+	$('.x .section.collapse>h1>.snToggle').removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
 	$section_heading.find('>.snToggle').click(function(){
 		var $this = $(this);
 		var $section = $this.closest('.section');
@@ -205,56 +206,68 @@ jQuery(function($){
 		}
 	});
 // Vertical Divider
-	$('.x i').each(function(){
-		var $this = $(this);
-		if($this.text() == '|'){
-			$this.addClass('vr').filter(':first-child, :last-child').remove();
-		}
-	});
+	$.fn.vr = function(){
+		this.each(function(){
+			var $this = $(this);
+			if($this.text() == '|'){
+				$this.addClass('vr').filter(':first-child, :last-child').remove();
+			}
+		});
+	};
+	$('.x i').vr();
 // label[for] + input[id]/textarea[id]/select[id] creator
-	$('label:not([for])').each(function(index){
-		index = index + 1;
-		var $this = $(this);
-		var input = 'input, textarea, select';
-		var check = ':radio, :checkbox';
-		var id = '[id]';
-		var value = 'i' + index;
-		if($this.next(input).filter(id).not(check).length){ 
-		// next input, textarea, select id true
-			$this.attr('for', $this.next().attr('id'));
-		} else if ($this.next(input).not(id).not(check).length) { 
-		// next input, textarea, select id false
-			$this.attr('for', value).next().attr('id', value);
-		} else if ($this.prev(check).filter(id).length) { 
-		// prev :radio :checkbox id true
-			$this.attr('for', $this.prev().attr('id'));
-		} else if ($this.prev(check).not(id).length) { 
-		// prev :radio :checkbox id false
-			$this.attr('for', value).prev().attr('id', value);
-		} else if ($this.children(input).filter(id).length) {
-		// children id true
-			$this.attr('for', $this.children(input).filter(id).eq(0).attr('id'));
-		} else if ($this.children(input).not(id).length) {
-		// children id false
-			$this.attr('for', value).children(input).not(id).eq(0).attr('id', value);
-		}
-	});
+	$.fn.labelMaker = function(){
+		this.each(function(index){
+			index = index + 1;
+			var $this = $(this);
+			var input = 'input, textarea, select';
+			var check = ':radio, :checkbox';
+			var id = '[id]';
+			var value = 'i' + index;
+			if($this.next(input).filter(id).not(check).length){ 
+			// next input, textarea, select id true
+				$this.attr('for', $this.next().attr('id'));
+			} else if ($this.next(input).not(id).not(check).length) { 
+			// next input, textarea, select id false
+				$this.attr('for', value).next().attr('id', value);
+			} else if ($this.prev(check).filter(id).length) { 
+			// prev :radio :checkbox id true
+				$this.attr('for', $this.prev().attr('id'));
+			} else if ($this.prev(check).not(id).length) { 
+			// prev :radio :checkbox id false
+				$this.attr('for', value).prev().attr('id', value);
+			} else if ($this.children(input).filter(id).length) {
+			// children id true
+				$this.attr('for', $this.children(input).filter(id).eq(0).attr('id'));
+			} else if ($this.children(input).not(id).length) {
+			// children id false
+				$this.attr('for', value).children(input).not(id).eq(0).attr('id', value);
+			}
+		});
+	};
+	$('label:not([for])').labelMaker();
 // :radio, :checkbox checked class
-	$(':radio, :checkbox').change(function(){
-		var $this = $(this);
-		if($this.is(':checked')){
-			$this.parent('label').addClass('checked');
-		}
-		$(':radio, :checkbox').not(':checked').parent('label').removeClass('checked');
-	}).change();
+	$.fn.checkToggle = function(){
+		this.change(function(){
+			var $this = $(this);
+			if($this.is(':checked')){
+				$this.parent('label').addClass('checked');
+			}
+			$(':radio, :checkbox').not(':checked').parent('label').removeClass('checked');
+		});
+	};
+	$(':radio, :checkbox').checkToggle();
 // File input .overlap style
-	$('input[type="file"].overlap').each(function(){
-		var $this = $(this);
-		$this.wrap('<span class="fileBtn" />').before('<button type="button">');
-		var $button = $this.prev('button');
-		$button.text($this.attr('title')).addClass($this.attr('class')).removeClass('overlap');
-		$this.attr('class','overlap').width($button.width()).height($button.height()).offset($button.offset());
-	});
+	$.fn.fileTypeOverlap = function(){
+		this.each(function(){
+			var $this = $(this);
+			$this.wrap('<span class="fileBtn" />').before('<button type="button">');
+			var $button = $this.prev('button');
+			$button.text($this.attr('title')).addClass($this.attr('class')).removeClass('overlap');
+			$this.attr('class','overlap').width($button.width()).height($button.height()).offset($button.offset());
+		});
+	};
+	$('input[type="file"].overlap').fileTypeOverlap();
 // Email Masking
 	$.fn.xeMask = function(){
 		this
@@ -283,7 +296,18 @@ jQuery(function($){
 			})
 	};
 	$('.masked').xeMask();
-
+// Table Col Span
+	$.fn.tableSpan = function(){
+		this.each(function(){
+			var $this = $(this);
+			var thNum = $this.find('>thead>tr:eq(0)>th').length;
+			var $tdTarget = $this.find('>tbody>tr:eq(0)>td:only-child');
+			if(thNum != $tdTarget.attr('colspan')){
+				$tdTarget.attr('colspan', thNum).css('text-align','center');
+			}
+		});
+	};
+	$('table').tableSpan();
 });
 // Modal Window
 jQuery(function($){

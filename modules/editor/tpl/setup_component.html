@@ -49,7 +49,7 @@
 		<div class="x_control-group" cond="$mid_list">
 			<label class="x_control-label">
 				{$lang->module}
-				<input type="checkbox" onclick="XE.checkboxToggleAll('mid_list'); return false;" />
+				<input type="checkbox" />
 			</label>
 			<div class="x_controls">
 				<span class="x_help-block">{$lang->about_component_mid}</span>
@@ -57,7 +57,7 @@
 				<!--@if(count($mid_list) > 1)-->
 				<fieldset>
 					<legend>
-						<input type="checkbox" onclick="XE.checkboxToggleAll('mid_list', { wrap:'section_{$module_category_srl}' }); return false;" />
+						<input type="checkbox" />
 						<!--@if($modules->title)-->{$modules->title}<!--@else-->{$lang->none_category}<!--@end-->
 					</legend>
 				<!--@end-->
