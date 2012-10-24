@@ -247,12 +247,12 @@ to{-o-transform:rotate(360deg)}
 	/* li>a */
 .x>.xin>.body>.gnb>ul>li>a{padding:8px 5px 8px 10px;background:#f1f1f1;background:-webkit-gradient(linear,left top,left bottom,from(#F1F1F1),to(#E8E8E8));background:-moz-linear-gradient(top,#F1F1F1,#E8E8E8);background:-o-linear-gradient(top,#F1F1F1,#E8E8E8)}
 .x>.xin>.body>.gnb>ul>li>a>i{display:inline-block;width:14px;height:14px;margin:-4px 4px 0 0;vertical-align:middle;opacity:.75;filter:alpha(opacity=75)}
-.x>.xin>.body>.gnb>ul>li>a[href$="module=admin"]>i{background-position:-384px -144px}
-.x>.xin>.body>.gnb>ul>li>a[href*="act=dispMenuAdminSiteMap"]>i{background-position:0 -24px}
-.x>.xin>.body>.gnb>ul>li>a[href*="act=dispMemberAdminList"]>i{background-position:-168px 0}
-.x>.xin>.body>.gnb>ul>li>a[href*="act=dispDocumentAdminList"]>i{background-position:-48px -48px}
-.x>.xin>.body>.gnb>ul>li>a[href*="act=dispAdminConfigGeneral"]>i{background-position:-360px -144px}
-.x>.xin>.body>.gnb>ul>li>a[href*="act=dispAdminTheme"]>i{background-position:-432px 0}
+.x>.xin>.body>.gnb>ul>li[data-index="1"]>a>i{background-position:-384px -144px}
+.x>.xin>.body>.gnb>ul>li[data-index="2"]>a>i{background-position:0 -24px}
+.x>.xin>.body>.gnb>ul>li[data-index="3"]>a>i{background-position:-168px 0}
+.x>.xin>.body>.gnb>ul>li[data-index="4"]>a>i{background-position:-48px -48px}
+.x>.xin>.body>.gnb>ul>li[data-index="5"]>a>i{background-position:-360px -144px}
+.x>.xin>.body>.gnb>ul>li[data-index="6"]>a>i{background-position:-432px 0}
 .x>.xin>.body>.gnb>ul>li>a[href="#favorite"]>i{background-position:-120px 0}
 .x>.xin>.body>.gnb>ul>li>a:hover,
 .x>.xin>.body>.gnb>ul>li>a:focus{background:#f6f6f6;background:-webkit-gradient(linear,left top,left bottom,from(#f6f6f6),to(#F1F1F1));background:-moz-linear-gradient(top,#f6f6f6,#F1F1F1);background:-o-linear-gradient(top,#f6f6f6,#F1F1F1)}

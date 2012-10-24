@@ -94,48 +94,56 @@ jQuery(function($){
 		return false;
 	});
 // GNB
-	var $xBody = $('.x>.xin>.body');
-	var $xContent = $xBody.children('#content.content');
-	var $xGnb = $xBody.find('>.gnb');
-	var $xGnb_li = $xGnb.find('>ul>li');
-	// Add icon
-	$xGnb_li.find('a').prepend('<i />');
-	// Active Submenu Copy
-	$xGnb_li.find('>ul>li.active_').clone().addClass('active').prependTo('#gnbNav');
-	// GNB Hover toggle
-	function reflow(){ // Browser bug fix & resize height
-		$xContent.width('99.99%');
-		setTimeout(function(){
-			$xContent.removeAttr('style');
-			if($xGnb.height() > $xContent.height()){
-				$xContent.height($xGnb.height());
-			}
-		}, 100);
-	}
-	// GNB Click toggle
-	$xGnb_li.find('ul').prev('a')
-		.bind('click focus', function(){
-			var $this = $(this);
-			$this.parent('li').addClass('open').siblings('li').removeClass('open');
-			$xBody.removeClass('wide');
+	function GNB(){
+		var $xBody = $('.x>.xin>.body');
+		var $xContent = $xBody.children('#content.content');
+		var $xGnb = $xBody.find('>.gnb');
+		var $xGnb_li = $xGnb.find('>ul>li');
+		// Add icon
+		$xGnb_li.find('a').prepend('<i />');
+		// Active Submenu Copy
+		$xGnb_li.each(function(index){
+			$(this).attr('data-index', index+1);
+		});
+		var parentIndex = $xGnb_li.find('>ul>li.active_').closest('li.active').attr('data-index');
+		$xGnb_li.find('>ul>li.active_').clone().addClass('active').attr('data-index', parentIndex).prependTo('#gnbNav');
+		// Index 
+		// GNB Hover toggle
+		function reflow(){ // Browser bug fix & resize height
+			$xContent.width('99.99%');
+			setTimeout(function(){
+				$xContent.removeAttr('style');
+				if($xGnb.height() > $xContent.height()){
+					$xContent.height($xGnb.height());
+				}
+			}, 100);
+		}
+		// GNB Click toggle
+		$xGnb_li.find('ul').prev('a')
+			.bind('click focus', function(){
+				var $this = $(this);
+				$this.parent('li').addClass('open').siblings('li').removeClass('open');
+				$xBody.removeClass('wide');
+				reflow();
+				return false;
+			});
+		// GNB Mobile Toggle
+		$xGnb.find('>a[href="#gnbNav"]').click(function(){
+			$(this).parent('.gnb').toggleClass('open');
+			$xBody.toggleClass('wide');
 			reflow();
 			return false;
 		});
-	// GNB Mobile Toggle
-	$xGnb.find('>a[href="#gnbNav"]').click(function(){
-		$(this).parent('.gnb').toggleClass('open');
-		$xBody.toggleClass('wide');
-		reflow();
-		return false;
-	});
-	// GNB Close
-	$xGnb
-		.prepend('<button type="button" class="close before" />')
-		.append('<button type="button" class="close after" />');
-	$xGnb.find('>.close').focus(function(){
-		$xBody.addClass('wide');
-		reflow();
-	});
+		// GNB Close
+		$xGnb
+			.prepend('<button type="button" class="close before" />')
+			.append('<button type="button" class="close after" />');
+		$xGnb.find('>.close').focus(function(){
+			$xBody.addClass('wide');
+			reflow();
+		});
+	}
+	GNB();
 // Default Language Selection
 	$('.x #lang')
 		.mouseleave(function(){
