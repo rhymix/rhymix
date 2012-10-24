@@ -1277,6 +1277,10 @@
 		<value xml:lang="vi"><![CDATA[Tiêu đề]]></value>
 		<value xml:lang="mn"><![CDATA[Гарчиг]]></value>
 	</item>
+	<item name="new_title">
+		<value xml:lang="ko"><![CDATA[새 제목]]></value>
+		<value xml:lang="en"><![CDATA[New Subject]]></value>
+	</item>
 	<item name="title_content">
 		<value xml:lang="ko"><![CDATA[제목+내용]]></value>
 		<value xml:lang="en"><![CDATA[Subject+Content]]></value>
