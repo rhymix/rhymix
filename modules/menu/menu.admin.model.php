@@ -343,8 +343,14 @@
 		public function getMenuAdminModuleSkin()
 		{
 			$menuItemSrl = Context::get('menu_item_srl');
-			$menuItemInfo = $this->getMenuItemInfo($menuItemSrl);
+			$skin = Context::get('skin');
 
+			if(!$menuItemSrl || !$skin)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$menuItemInfo = $this->getMenuItemInfo($menuItemSrl);
 			if(!$menuItemInfo->menu_item_srl)
 			{
 				return new Object(-1, 'msg_invalid_request');
@@ -359,9 +365,40 @@
 			$oModuleModel = &getModel('module');
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItemInfo->url);
 
-			// get the grant infotmation from admin module 
-			$oModuleAdminModel = &getAdminModel('module');
-			$skinContent = $oModuleAdminModel->getModuleSkinHTML($moduleInfo->module_srl);
+			$modulePath = './modules/'.$moduleInfo->module;
+			$skinInfo = $oModuleModel->loadSkinInfo($modulePath, $skin);
+			$skinVars = $oModuleModel->getModuleSkinVars($moduleInfo->module_srl);
+
+			if(count($skinInfo->extra_vars)) 
+			{
+				foreach($skinInfo->extra_vars as $key => $val) 
+				{
+					$group = $val->group;
+					$name = $val->name;
+					$type = $val->type;
+					if($skinVars[$name]) 
+					{
+						$value = $skinVars[$name]->value;
+					}
+					else $value = '';
+					if($type=="checkbox")
+					{
+						$value = $value?unserialize($value):array();
+					}
+
+					$value = empty($value) ? $val->default : $value;
+					$skinInfo->extra_vars[$key]->value= $value;
+				}
+			}
+
+			Context::set('module_info', $moduleInfo);
+			Context::set('mid', $moduleInfo->mid);
+			Context::set('skin_info', $skinInfo);
+			Context::set('skin_vars', $skinVars);
+			Context::set('mode', 'P');
+
+			$oTemplate = &TemplateHandler::getInstance();
+			$skinContent = $oTemplate->compile($oModuleModel->module_path.'/tpl', 'skin_config');
 
 			$this->add('skinContent', $skinContent);
 		}
