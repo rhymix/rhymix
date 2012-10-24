@@ -226,6 +226,44 @@
 		}
 
 		/**
+		 * Module skin setup common page
+		 * @return void
+		 */
+		public function dispMenuAdminSkinSetup()
+		{
+			$menuItemSrl = Context::get('menu_item_srl');
+			if(!$menuItemSrl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$oMenuAdminModel = &getAdminModel('menu');
+			$menuItemInfo = $oMenuAdminModel->getMenuItemInfo($menuItemSrl);
+			if(!$menuItemInfo->menu_item_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			// If menu type is not module
+			if(empty($menuItemInfo->url) || preg_match('/^http/i', $menuItemInfo->url))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$oModuleModel = &getModel('module');
+			$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItemInfo->url);
+
+			// get the grant infotmation from admin module 
+			$oModuleAdminModel = &getAdminModel('module');
+			$skin_content = $oModuleAdminModel->getModuleSkinHTML($moduleInfo->module_srl);
+			Context::set('skin_content', $skin_content);
+
+			$this->setLayoutPath('common/tpl');
+			$this->setLayoutFile('default_layout');
+			$this->setTemplateFile('skin_info');
+		}
+
+		/**
 		 * Setting menu information(recursive)
 		 * @param array $menu
 		 * @return void
