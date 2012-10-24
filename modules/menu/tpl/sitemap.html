@@ -5,7 +5,6 @@
 <load target="./js/jquery.jstree.js" />
 <load target="./js/jquery.scrollTo-1.4.2.js" />
 <load target="./js/jquery.tmpl.js" />
-
 <!--script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script-->
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -2921,6 +2920,8 @@ jQuery(function($){
 		$('#site').height(wHeigh - 180).children('.col').height(wHeigh - 210).find('.cnt').height(wHeigh - 242);
 	}).resize();
 // #linkMenu copy and set text to input
+	<!--@if($act == 'dispMenuAdminSiteMap')-->
+		alert('test');
 /*
 setTimeout(function(){
 	$('.mapi').clone().removeClass().removeAttr('id').addClass('clone').appendTo('#add_linkMenu, #fix_linkMenu').find('li').removeAttr('id').removeAttr('class').find('ins, .side').remove();
@@ -2929,6 +2930,7 @@ setTimeout(function(){
 	});
 }, 1000);
 */
+	<!--@end-->
 /*
 	$('.x_close[data-admin-hide]').click(function(){
 		var inactiveTarget = $(this).attr('data-admin-hide');
