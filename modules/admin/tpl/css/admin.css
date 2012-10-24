@@ -22,7 +22,12 @@ body>.x,
 /* Bootstrap Override */
 .x .x_page-header{padding-bottom:0;border-bottom:2px solid #ddd}
 .x .x_page-header>h1{margin-bottom:0;font-size:24px;color:#333}
-.x h1,.x h2,.x h3,.x h4,.x h5,.x h6{line-height:1.5;font-weight:600;color:#666}
+.x h1,
+.x h2,
+.x h3,
+.x h4,
+.x h5,
+.x h6{line-height:1.5;font-weight:600;color:#666}
 .x h1{font-size:22px}
 .x h2{font-size:18px}
 .x h3{font-size:14px}
@@ -32,7 +37,7 @@ body>.x,
 .x [class^="x_icon-"],
 .x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
 .x .x_close{width:32px;height:32px}
-.x .x_alert{ position:relative}
+.x .x_alert{position:relative}
 .x .x_alert>.x_close,
 .x.x_modal>.x_close{position:absolute;top:0;right:0}
 .x .x_pagination{height:32px}

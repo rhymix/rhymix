@@ -69,7 +69,7 @@ var
 	dragging = false,
 	$holder  = $('<li class="placeholder">');
 
-$('div.adminMenu')
+$('form.adminMap>ul')
 	.delegate('li:not(.placeholder,.parent)', {
 		'mousedown.st' : function(event) {
 			var $this, $uls, $ul, width, height, offset, position, offsets, i, dropzone, wrapper='';
@@ -83,8 +83,6 @@ $('div.adminMenu')
 			width  = $this.width();
 			$uls   = $this.parentsUntil('.adminMap').filter('ul');
 			$ul    = $uls.eq(-1);
-
-			$ul.css('position', 'relative');
 
 			position = {x:event.pageX, y:event.pageY};
 			offset   = getOffset(this, $ul.get(0));
@@ -207,12 +205,9 @@ $('div.adminMenu')
 			return false;
 		}
 	})
-	.find('li')
-		.prepend('<button type="button" class="moveTo">Move to</button>')
-		.filter('.parent')
-			.find('>button.moveTo').css({'visibility':'hidden','margin-left':'-12px'}).end()
-		.end()
-	.end()
+	.find('li li')
+		.prepend('<button type="button" class="moveTo">Move to</button>').end()
+	.end();
 
 $('<div id="dropzone-marker" />')
 	.css({display:'none',position:'absolute',backgroundColor:'#000',opacity:0.7})
