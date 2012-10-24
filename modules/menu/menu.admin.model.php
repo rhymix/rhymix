@@ -336,6 +336,36 @@
             return $moduleInfoList;
 		}
 
+		/**
+		 * Return module skin setting page (html type)
+		 * @return void
+		 */
+		public function getMenuAdminModuleSkin()
+		{
+			$menuItemSrl = Context::get('menu_item_srl');
+			$menuItemInfo = $this->getMenuItemInfo($menuItemSrl);
+
+			if(!$menuItemInfo->menu_item_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			// If menu type is not module
+			if(empty($menuItemInfo->url) || preg_match('/^http/i', $menuItemInfo->url))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$oModuleModel = &getModel('module');
+			$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItemInfo->url);
+
+			// get the grant infotmation from admin module 
+			$oModuleAdminModel = &getAdminModel('module');
+			$skinContent = $oModuleAdminModel->getModuleSkinHTML($moduleInfo->module_srl);
+
+			$this->add('skinContent', $skinContent);
+		}
+
 		public function getMenuAdminSiteMap()
 		{
 			$menuSrl = Context::get('menu_srl');
