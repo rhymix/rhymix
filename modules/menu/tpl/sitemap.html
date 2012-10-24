@@ -248,18 +248,6 @@
 		<fieldset>
 			<h1>이미지 버튼</h1>
 			<div class="cnt">
-<!--
-menu_item_srl : 업로드 하고자 하는 menu item의 serial number
-menu_normal_btn : 버튼 이미지(일반) form 이름
-menu_hover_btn : 버튼 이미지(마우스 오버) form 이름
-menu_active_btn : 버튼 이미지(선택 시) form 이름
-isNormalDelete : 기존 normal button을 삭제하고자 하는 경우 ('Y' or 'N')
-isHoverDelete : 기존 hover button을 삭제하고자 하는 경우 ('Y' or 'N')
-isActiveDelete : 기존 active button을 삭제하고자 하는 경우 ('Y' or 'N')
-callback : javascript callback 함수명
-
-form._imgUploaded input {width:...}: 이미지 등록 된 상태
--->
 				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
@@ -267,7 +255,7 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 					<figure>
 						<figcaption>일반</figcaption>
 						<p class="noImg">이미지 없음</p>
-						<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="일반 버튼 이미지">
+						<img src="../../../common/img/blank.gif" alt="일반 버튼 이미지">
 					</figure>
 					<div class="btnBoth">
 						<button type="submit" class="delete x_btn x_pull-left">삭제</button>
@@ -285,7 +273,7 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 					<figure>
 						<figcaption>마우스 오버</figcaption>
 						<p class="noImg">이미지 없음</p>
-						<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="마우스 오버 버튼 이미지">
+						<img src="../../../common/img/blank.gif" alt="마우스 오버 버튼 이미지">
 					</figure>
 					<div class="btnBoth">
 						<button type="submit" class="delete x_btn x_pull-left">삭제</button>
@@ -303,7 +291,7 @@ form._imgUploaded input {width:...}: 이미지 등록 된 상태
 					<figure>
 						<figcaption>선택 됨</figcaption>
 						<p class="noImg">이미지 없음</p>
-						<img src="http://static.naver.net/www/u/2010/0611/nmms_215646753.gif" alt="선택 됨 버튼 이미지">
+						<img src="../../../common/img/blank.gif" alt="선택 됨 버튼 이미지">
 					</figure>
 					<div class="btnBoth">
 						<button type="submit" class="delete x_btn x_pull-left">삭제</button>
@@ -974,7 +962,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			sTextWithIcons += " ${s}";
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,MenuType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='icon-share-alt' title='Shortcut'></i>");
+		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,MenuType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='x_icon-share-alt' title='Shortcut'></i>");
 	}
 	
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
@@ -2370,9 +2358,6 @@ jQuery(function($){
 		$('#imgbtn').show();
 	}
 	var $imgBtnForms = $("#imgbtn form");
-	$imgBtnForms.find("input[type=file]").change(function(){
-		$(this).closest('form').submit();
-	});
 	$imgBtnForms.find('input[name=act]').val('procMenuAdminButtonUpload');
 	$imgBtnForms.find('input[name=mid]').remove();
 	$imgBtnForms.find('input[name=vid]').remove();
@@ -2391,7 +2376,11 @@ jQuery(function($){
 		
 		// reset the file inputs
 		$('#imgbtn input[type=file]').each(function(){
-			$(this).outerHTML($(this).outerHTML);
+			($($(this).outerHTML())).insertAfter($(this));
+			$(this).remove();
+		});
+		$('#imgbtn input[type=file]').change(function(){
+			$(this).closest('form').submit();
 		});
 		
 		if(htData.menu_item.normal_btn){
@@ -2911,9 +2900,6 @@ jQuery(function($){
 		});
 	}
 	
-//	$('#add_url').bind("show", function(){console.log('show');});
-//	$('#add_url').bind("hide", function(){console.log('hide');});
-
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
@@ -2921,7 +2907,7 @@ jQuery(function($){
 	}).resize();
 // #linkMenu copy and set text to input
 	<!--@if($act == 'dispMenuAdminSiteMap')-->
-		alert('test');
+		//alert('test');
 /*
 setTimeout(function(){
 	$('.mapi').clone().removeClass().removeAttr('id').addClass('clone').appendTo('#add_linkMenu, #fix_linkMenu').find('li').removeAttr('id').removeAttr('class').find('ins, .side').remove();
@@ -2931,60 +2917,6 @@ setTimeout(function(){
 }, 1000);
 */
 	<!--@end-->
-/*
-	$('.x_close[data-admin-hide]').click(function(){
-		var inactiveTarget = $(this).attr('data-admin-hide');
-		$navAnchor.each(function(){
-			var href = $(this).attr('href');
-			if(href == inactiveTarget){
-				$(this).parent('li').removeClass('active');
-			}
-		});
-	});
-*/
-
-// Theme(layout | skin) list toggle
-	//var $theme = $('.theme');
-	// layout, skin list toggle
-	/*
-	$theme.find('.list').each(function(){
-		var $this = $(this);
-		var $check = $this.prev('label').children('input:checkbox');
-		function toggleList(){
-			if($check.is(':checked')){
-				$this.hide();
-			} else {
-				$this.show();
-			}
-		}
-		$(window).load(toggleList);
-		$check.change(toggleList);
-	});
-	*/
-	/*
-	// .selected class toggle
-	$theme.find(':radio').change(function(){
-		var $this = $(this);
-		if($this.is(':checked')){
-			$this.closest('li').addClass('selected').siblings('li').removeClass('selected');
-		}
-	}).change();
-	// thumbnamil click
-	$theme.find('.item').click(function(){
-		$(this).prev('label').children(':radio').click();
-	});
-// Remove Menu Item Checkbox Toggle
-	var $mrc = $('#menuRemoveConfirm');
-	$mrc.find('input:checkbox').removeAttr('checked').change(function(){
-		var $this = $(this);
-		var $submit = $this.closest($mrc).find('[type="submit"]');
-		if($this.is(':checked')){
-			$submit.removeClass('x_disabled');
-		} else {
-			$submit.addClass('x_disabled');
-		}
-	});
-	*/
 });
 //]]>
 </script>
