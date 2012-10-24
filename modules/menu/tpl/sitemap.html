@@ -958,7 +958,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		if(sIsStartModule){
 			sTextWithIcons += " ${h}";
 		}
-		if(!htNodeInfo[sNodeSrl].module){
+		if(!htNodeInfo[sNodeSrl].module && nNodeType === 2){
 			sTextWithIcons += " ${s}";
 		}
 
