@@ -102,12 +102,12 @@
 .adminMap li:first-child{border:0 !important} 
 .adminMap li.parent{padding:0 15px 1px 15px;border-top:1px dotted #fff}
 .adminMap li.parent>span{display:block;height:33px;line-height:33px;font-weight:bold}
-.adminMap li>ul{background:#fff;border-radius:5px;margin:0 0 10px 0}
+.adminMap li>ul{background:#fff;border-radius:5px;margin:0 0 10px 0;box-shadow:0 0 4px #999 inset}
 .adminMap li li{cursor:move;border-top:1px dotted #ddd}
 .adminMap li *{vertical-align:middle}
-.adminMap .moveTo{position:relative;z-index:2;width:22px;height:32px;padding:32px 0 0 0;margin:0 3px;_margin-top:-1px;overflow:hidden;background:#fff url({getUrl()}modules/admin/tpl/img/iconMoveTo.gif) no-repeat center 0;border:0;cursor:move}
-.adminMap li.active,
-.adminMap li.active .moveTo{background-color:#f7f7f7}
+.adminMap .moveTo{position:relative;z-index:2;width:22px;height:32px;padding:32px 0 0 0;margin:0 3px;_margin-top:-1px;overflow:hidden;background:url({getUrl()}modules/admin/tpl/img/iconMoveTo.gif) no-repeat center 0;border:0;cursor:move}
+.adminMap li.active{background-color:#f7f7f7;border-radius:3px;box-shadow:0 0 3px #666;border:0;padding:1px 0 0 0}
+.adminMap li:first-child.active{padding:0}
 .adminMap li.active .moveTo{background-position:center -32px}
 .adminMap .side{position:absolute;top:0;right:15px;padding-top:0 !important;padding-bottom:0 !important;line-height:30px;background:transparent !important}
 .adminMap .parent>.side{right:30px}
