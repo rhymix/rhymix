@@ -313,8 +313,8 @@
 				foreach($moduleList AS $key=>$value)
 				{
 					$moduleInfo = $oModuleModel->getModuleInfoXml($value);
-					$moduleInfo->default_skin = 'default'; //TODO remove mock
-					$moduleInfo->default_mskin = 'default'; //TODO remove mock
+					$moduleInfo->default_skin = $oModuleModel->getModuleDefaultSkin($value, 'P');
+					$moduleInfo->default_mskin = $oModuleModel->getModuleDefaultSkin($value, 'M');
 
 					if($value == 'page')
 					{
