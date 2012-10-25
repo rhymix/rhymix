@@ -313,6 +313,7 @@
 									}
 				}
 				$skin_info->path = $val->directory->attrs->path;
+				$skin_info->is_theme = $is_theme; 
 				$skins[$module_name] = $skin_info;
 
 				if ($is_theme){
