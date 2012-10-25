@@ -38,12 +38,12 @@ class Purifier
 		$this->_config->set('URI.SafeIframeRegexp', $whiteDomainRegex);
 		$this->_config->set('Cache.SerializerPath', $this->_cacheDir);
 		$this->_config->set('Attr.AllowedClasses', $allowdClasses);
+
+		$this->_def = $this->_config->getHTMLDefinition(true);
 	}
 
 	private function _setDefinition(&$content)
 	{
-		$this->_def = $this->_config->getHTMLDefinition(true);
-
 		// add attribute for edit component
 		$editComponentAttrs = $this->_searchEditComponent($content);
 		if(is_array($editComponentAttrs))
