@@ -96,25 +96,32 @@
 					$oModule = $oModuleHandler->procModule();
 				}
 
-				if($skin)
+				if($oModule->toBool())
 				{
-					$skinDir = ($skinType == 'M') ? 'm.skins' : 'skins';
-					$template_path = sprintf("%s%s/%s/",$oModule->module_path, $skinDir, $skin);
-					$oModule->setTemplatePath($template_path);
-
-					if(is_array($skinVars))
+					if($skin)
 					{
-						foreach($skinVars as $key => $val)
+						$skinDir = ($skinType == 'M') ? 'm.skins' : 'skins';
+						$template_path = sprintf("%s%s/%s/",$oModule->module_path, $skinDir, $skin);
+						$oModule->setTemplatePath($template_path);
+
+						if(is_array($skinVars))
 						{
-							$oModule->module_info->{$key} = $val;
+							foreach($skinVars as $key => $val)
+							{
+								$oModule->module_info->{$key} = $val;
+							}
 						}
 					}
-				}
 
-				require_once("./classes/display/HTMLDisplayHandler.php");
-				$handler = new HTMLDisplayHandler();
-				$output = $handler->toDoc($oModule);
-				Context::set('content', $output);
+					require_once("./classes/display/HTMLDisplayHandler.php");
+					$handler = new HTMLDisplayHandler();
+					$output = $handler->toDoc($oModule);
+					Context::set('content', $output);
+				}
+				else
+				{
+					Context::set('content', Context::getLang('not_support_layout_preview'));
+				}
 			}
 			else
 			{

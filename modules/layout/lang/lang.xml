@@ -134,6 +134,10 @@
 		<value xml:lang="tr"><![CDATA[Burada görüntülenecek içerikler]]></value>
 		<value xml:lang="vi"><![CDATA[Khu vực nội dung sẽ hiển thị.]]></value>
 	</item>
+	<item name="not_support_layout_preview">
+		<value xml:lang="ko"><![CDATA[스킨적용 미리보기를 지원하지 않는 모듈입니다.]]></value>
+		<value xml:lang="en"><![CDATA[Skin preview not available for this module.]]></value>
+	</item>
 	<item name="not_apply_menu">
 		<value xml:lang="ko"><![CDATA[레이아웃 일괄 적용]]></value>
 		<value xml:lang="en"><![CDATA[Apply Layouts En Bloc]]></value>
