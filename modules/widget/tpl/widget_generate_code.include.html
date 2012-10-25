@@ -104,7 +104,6 @@
 				</block>
 			</block>
 			<block cond="$var->type == 'module_srl_list'">
-				<p class="desc">{$var->description}</p>
 				<input type="hidden" name="{$id}" value="" />
 				<select class="modulelist_selected" size="8" multiple="multiple" style="width:290px;"></select>
 				<br/>
@@ -232,6 +231,7 @@
 				<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
 			</select>
 		</div>
+		<p class="desc">{$var->description}</p>
 	</li>
 </block>
 </ul>
