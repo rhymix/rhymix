@@ -31,7 +31,6 @@
             $this->setTemplateFile('layout_detail_info');
         }
 
-
 		/**
 		 * Preview a layout with module.
 		 * 
@@ -51,30 +50,56 @@
 			$layoutVars = Context::get('layout_vars');
 			$layoutVars = json_decode($layoutVars);
 
-			$moduleSrl = Context::get('module_srl');
-			$module = Context::get('module');
-			$mid = Context::get('mid');
+			$moduleSrl = Context::get('target_module_srl');
+			$module = Context::get('module_name');
+			$mid = Context::get('target_mid');
 			$skin = Context::get('skin');
 			$skinVars = Context::get('skin_vars');
 			$skinVars = json_decode($skinVars);
 
-			// Get the layout information.
-			if(!$mid && !$moduleSrl)
+			$skinType = Context::get('skin_type');
+			$type = ($skinType == 'M') ? 'mobile' : 'view';
+
+			if($module == 'ARTICLE')
 			{
-				return new Object(-1, 'msg_invalid_request');
+				$module = 'page';
+				$page_type = 'ARTICLE';
+				$document_srl = 0;
 			}
 
-			// Get the module information.
-			$oModuleHandler = new ModuleHandler($module, '', $mid, '', $moduleSrl);
-			$oModuleHandler->act = '';
-			
-			if ($oModuleHandler->init())
+			if($module)
 			{
-				$oModule = $oModuleHandler->procModule();
-				
+				$oModuleModel = getModel('module');
+				$xml_info = $oModuleModel->getModuleActionXml($module);
+				//create content
+				if(!$mid && !$moduleSrl)
+				{
+					if($skin && !$module)
+					{
+						return $this->stop(-1, 'msg_invalid_request');
+					}
+
+					$oModule = ModuleHandler::getModuleInstance($module, $type);
+					$oModule->setAct($xml_info->default_index_act);
+					$module_info->module = $module;
+					$module_info->module_type = $type;
+					$module_info->page_type = $page_type;
+					$module_info->document_srl= $document_srl;
+					$oModule->setModuleInfo($this->module_info, $xml_info);
+					$oModule->proc();
+				}
+				else
+				{
+					$oModuleHandler = new ModuleHandler($module, '', $mid, '', $moduleSrl);
+					$oModuleHandler->act = '';
+					$oModuleHandler->init();
+					$oModule = $oModuleHandler->procModule();
+				}
+
 				if($skin)
 				{
-					$template_path = sprintf("%sskins/%s/",$oModule->module_path, $skin);
+					$skinDir = ($skinType == 'M') ? 'm.skins' : 'skins';
+					$template_path = sprintf("%s%s/%s/",$oModule->module_path, $skinDir, $skin);
 					$oModule->setTemplatePath($template_path);
 
 					if(is_array($skinVars))
@@ -85,6 +110,7 @@
 						}
 					}
 				}
+
 				require_once("./classes/display/HTMLDisplayHandler.php");
 				$handler = new HTMLDisplayHandler();
 				$output = $handler->toDoc($oModule);
@@ -99,7 +125,8 @@
 			{
 				if($layoutSrl == -1)
 				{
-					$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $oModule->module_info->site_srl);
+					$site_srl = ($oModule) ? $oModule->module_info->site_srl : 0;
+					$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $site_srl);
 					@include($designInfoFile);
 					$layoutSrl = $designInfo->layout_srl;
 				}
@@ -141,12 +168,17 @@
 
 				Context::set('layout_info', $layoutInfo);
 			}
+
 			// Compile
 			$oTemplate = &TemplateHandler::getInstance();
+			Context::clearHtmlHeader();
 			if($layoutSrl)
 			{
 				$layout_path = $layoutInfo->path;
 				$layout_file = 'layout';
+				$oModuleModel = getModel('module');
+                $part_config= $oModuleModel->getModulePartConfig('layout',$layoutSrl);
+                Context::addHtmlHeader($part_config->header_script);
 			}
 			else
 			{

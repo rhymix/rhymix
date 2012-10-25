@@ -1669,6 +1669,12 @@ class Context {
 		$self->html_header .= "\n".$header;
 	}
 
+	function clearHtmlHeader()
+	{
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+		$self->html_header = '';
+	}
+
 	/**
 	 * Returns added html code by addHtmlHeader()
 	 *
