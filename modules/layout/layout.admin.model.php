@@ -136,21 +136,27 @@ class layoutAdminModel extends layout {
 		$this->add('html', $script.$html);
 	}
 
-	function getLayoutAdminSiteDefaultLayout()
+	public function getLayoutAdminSiteDefaultLayout()
 	{
 		$siteSrl = Context::get('site_srl');
 		$type = Context::get('type');
 
-		//TODO remove mock
-		if($type == 'M')
-		{
-			$layoutSrl = 278;
-		}
-		else
-		{
-			$layoutSrl = 62;
-		}
+		$layoutSrl = $this->getSiteDefaultLayout($type, $siteSrl);
 
 		$this->add('layout_srl', $layoutSrl);
+	}
+
+	public function getSiteDefaultLayout($viewType = 'P', $siteSrl = 0)
+	{
+		$target = ($viewType == 'M') ? 'mlayout_srl' : 'layout_srl';
+		$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $siteSrl);
+		@include($designInfoFile);
+
+		if(!$designInfo || !$designInfo->{$target})
+		{
+			return 0;
+		}
+		
+		return $designInfo->{$target};
 	}
 }

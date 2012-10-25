@@ -88,6 +88,7 @@
 
             if(!$db_info->default_url) $db_info->default_url = Context::getRequestUri();
             $db_info->lang_type = Context::getLangType();
+			$db_info->use_mobile_view = 'Y';
 
             // Set DB type and information
             Context::setDBInfo($db_info);

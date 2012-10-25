@@ -291,6 +291,7 @@
             unset($extra_vars->mid);
             unset($extra_vars->is_skin_fix);
             unset($extra_vars->skin);
+            unset($extra_vars->is_mskin_fix);
 			unset($extra_vars->mskin);
             unset($extra_vars->browser_title);
             unset($extra_vars->description);
@@ -327,7 +328,8 @@
             if(!$args->module_srl) $args->module_srl = getNextSequence();
 
 			// default value
-			$args->is_skin_fix = (!$args->is_skin_fix) ? 'N' : 'Y';
+			$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
+			$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
 
             // Insert a module
             $output = executeQuery('module.insertModule', $args);
@@ -373,13 +375,15 @@
             }
 
 			// default value
-			$args->is_skin_fix = (!$args->is_skin_fix) ? 'N' : 'Y';
+			$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
+			$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
 
             $output = executeQuery('module.updateModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
+
             // Insert module extra vars
             $this->insertModuleExtraVars($args->module_srl, $extra_vars);
 

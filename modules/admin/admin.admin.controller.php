@@ -117,7 +117,6 @@
 				$vars->site_srl = 0;
 			}
 
-
 			// create a DesignInfo file 
 			$output = $this->updateDefaultDesignInfo($vars);
 			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
@@ -170,6 +169,13 @@
 				}
 			}
 
+			$this->makeDefaultDesignFile($designInfo, $vars->site_srl);
+
+			return new Object();
+		}
+
+		function makeDefaultDesignFile($designInfo, $site_srl = 0)
+		{
 			if($designInfo->layout_srl)
 			{
 				$buff .= sprintf('$designInfo->layout_srl = %s; ', $designInfo->layout_srl)."\n";
@@ -193,9 +199,8 @@
 
 			$buff = sprintf('<?php if(!defined("__ZBXE__")) exit();' . "\n" . 'if(!defined("__XE__")) exit();' ."\n" . '$designInfo = new stdClass();' . "\n" . '%s ?>', $buff);
 
+			$siteDesignFile = _XE_PATH_.'files/site_design/design_'.$site_srl.'.php';
 			FileHandler::writeFile($siteDesignFile, $buff);
-
-			return new Object();
 		}
 
 		/**

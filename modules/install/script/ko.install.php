@@ -61,12 +61,27 @@
 	$output = $oLayoutAdminController->updateLayout($args);
 	if(!$output->toBool()) return $output;
 
+	//create mobile layout
+	$mlayout_srl = $args->layout_srl = getNextSequence();
+	$args->layout = 'default';
+	$args->title = 'welcome_mobile_layout';
+	$args->layout_type = 'M';
+
+	$output = $oLayoutAdminController->insertLayout($args);
+	if(!$output->toBool()) return $output;
+
+	// update Layout
+	$args->extra_vars = serialize($extra_vars);
+	$output = $oLayoutAdminController->updateLayout($args);
+	if(!$output->toBool()) return $output;
+
 	$siteDesignPath = _XE_PATH_.'files/site_design/';
 	FileHandler::makeDir($siteDesignPath);
-	$siteDesignFile = _XE_PATH_.'files/site_design/design_0.php';
-	$buff = sprintf('$designInfo->layout_srl = %s;', $layout_srl);
 
-	// after trigger
+	$designInfo = new stdClass();
+	$designInfo->layout_srl = $layout_srl;
+	$designInfo->mlayout_srl = $mlayout_srl;
+
 	$moduleList = array('page');
 	$moutput = ModuleHandler::triggerCall('menu.getModuleListInSitemap', 'after', $moduleList);
 	if($moutput->toBool())
@@ -75,6 +90,8 @@
 	}
 
 	$skinTypes = array('skin'=>'skins/', 'mskin'=>'m.skins/');
+
+	$designInfo->module = new stdClass();
 
 	foreach($skinTypes as $key => $dir)
 	{
@@ -100,17 +117,17 @@
 
 			if($skinName)
 			{
-				$buff .= sprintf('$designInfo->module->%s->%s = \'%s\';', $moduleName, $key, $skinName);
+				$designInfo->module->{$moduleName}->{$key} = $skinName;
 			}
 		}
 	}
-
-	$buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); if(!defined("__XE__")) exit(); %s ?>', $buff);
-	FileHandler::writeFile($siteDesignFile, $buff);
-
+	
+	$oAdminController = getAdminController('admin');
+	$oAdminController->makeDefaultDesignFile($designInfo, 0);
 
 	// insertPageModule
 	$page_args->layout_srl = $layout_srl;
+	$page_args->mlayout_srl = $mlayout_srl;
 	$page_args->menu_srl = $menu_srl;
 	$page_args->browser_title = 'welcome_page';
 	$page_args->module = 'page';
@@ -119,6 +136,7 @@
 	$page_args->page_caching_interval = 0;
 	$page_args->page_type = 'ARTICLE';
 	$page_args->skin = 'default';
+	$page_args->use_mobile = 'Y';
 	
 	$oModuleController = &getController('module');
 	$output = $oModuleController->insertModule($page_args);
@@ -144,10 +162,16 @@
 	
 	$document_srl = $output->get('document_srl');
 
+	unset($obj->document_srl);
+	$output = $oDocumentController->insertDocument($obj);
+	if(!$output->toBool()) return $output;
+	
+	$mdocument_srl = $output->get('document_srl');
 	// save PageWidget
 	$oModuleModel = &getModel('module');
 	$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 	$module_info->document_srl = $document_srl;
+	$module_info->mdocument_srl = $mdocument_srl;
 	$output = $oModuleController->updateModule($module_info);
 	if(!$output->toBool()) return $output;
 

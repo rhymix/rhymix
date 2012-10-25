@@ -152,34 +152,22 @@
                 $this->module_info = $module_info;
                 Context::setBrowserTitle($module_info->browser_title);
 
-				if($module_info->use_mobile && Mobile::isFromMobilePhone())
+				$viewType = (Mobile::isFromMobilePhone())? 'M' : 'P';
+				$targetSrl = (Mobile::isFromMobilePhone())? 'mlayout_srl' : 'layout_srl';
+
+				// use the site default layout.
+				if($module_info->{$targetSrl} == -1)
 				{
-					$layoutSrl = $module_info->mlayout_srl;
+					$oLayoutAdminModel = getAdminModel('layout');
+					$layoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $module_info->site_srl);
 				}
 				else
 				{
-					// use the site default layout.
-					if($module_info->layout_srl == -1)
-					{
-						$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $module_info->site_srl);
-						@include($designInfoFile);
-						if(!$designInfo->layout_srl)
-						{
-							$layoutSrl = $site_module_info->layout_srl;
-						}
-						else
-						{
-							$layoutSrl = $designInfo->layout_srl;
-						}
-					}
-					else
-					{
-						$layoutSrl = $module_info->layout_srl;
-					}
-
-					// reset a layout_srl in module_info.
-					$module_info->layout_srl = $layoutSrl;
+					$layoutSrl = $module_info->{$targetSrl};
 				}
+
+				// reset a layout_srl in module_info.
+				$module_info->{$targetSrl} = $layoutSrl;
 
                 $part_config= $oModuleModel->getModulePartConfig('layout',$layoutSrl);
                 Context::addHtmlHeader($part_config->header_script);

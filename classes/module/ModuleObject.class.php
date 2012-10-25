@@ -340,30 +340,16 @@
 				}
 
                 // integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
-				if($this->module_info->is_skin_fix == 'N' && $this->module != 'admin' && strpos($this->act, 'Admin') === false)
+				$is_default_skin = ((!Mobile::isFromMobilePhone() && $this->module_info->is_skin_fix == 'N') || (Mobile::isFromMobilePhone() && $this->module_info->is_mskin_fix == 'N'));
+				if($is_default_skin && $this->module != 'admin' && strpos($this->act, 'Admin') === false)
 				{
-					$designInfoFile = sprintf(_XE_PATH_.'files/site_design/design_%s.php', $this->module_info->site_srl);
-					if(is_readable($designInfoFile))
+					$dir = (Mobile::isFromMobilePhone()) ? 'm.skins' : 'skins';
+					$oModuleModel = getModel('module');
+					$skinType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
+					$skinName = $oModuleModel->getModuleDefaultSkin($this->module, $skinType);
+					if($skinName)
 					{
-						@include($designInfoFile);
-
-						$skinName = $designInfo->module->{$this->module_info->module}->skin;
-
-						if($skinName)
-						{
-							$this->setTemplatePath(sprintf('%sskins/%s/', $this->module_path, $skinName));
-						}
-
-						$skinVars = $designInfo->module->{$this->module_info->module}->skin_vars;
-
-						if($skinVars)
-						{
-							$skinVars = unserialize($skinVars);
-							foreach($skinVars as $key => $val)
-							{
-								$this->module_info->{$key} = $val;
-							}
-						}
+						$this->setTemplatePath(sprintf('%s%s/%s/', $this->module_path, $dir, $skinName));
 					}
 				}
 				else

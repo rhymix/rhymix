@@ -239,7 +239,8 @@
 			}
 
 			$moduleInfo->is_layout_fix = ($moduleInfo->layout_srl == -1) ? 'N' : 'Y';
-			if($moduleInfo->is_layout_fix == 'N' || $moduleInfo->is_skin_fix == 'N')
+			$moduleInfo->is_mlayout_fix = ($moduleInfo->mlayout_srl == -1) ? 'N' : 'Y';
+			if($moduleInfo->is_layout_fix == 'N' || $moduleInfo->is_skin_fix == 'N' || $moduleInfo->is_mlayout_fix == 'N' || $moduleInfo->is_mskin_fix == 'N')
 			{
 				$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $moduleInfo->site_srl);
 				@include($designInfoFile);
@@ -253,17 +254,16 @@
 			if($moduleInfo->is_skin_fix == 'N')
 			{
 				$moduleInfo->skin = $designInfo->module->{$moduleInfo->module}->skin;
+			}
 
-				$skinVars = $designInfo->module->{$moduleInfo->module}->skin_vars;
+			if($moduleInfo->is_mlayout_fix == 'N')
+			{
+				$moduleInfo->mlayout_srl = $designInfo->mlayout_srl;
+			}
 
-				if($skinVars)
-				{
-					$skinVars = unserialize($skinVars);
-					foreach($skinVars as $key => $val)
-					{
-						$moduleInfo->{$key} = $val;
-					}
-				}
+			if($moduleInfo->is_mskin_fix == 'N')
+			{
+				$moduleInfo->mskin = $designInfo->module->{$moduleInfo->module}->mskin;
 			}
 
             $moduleInfo = $this->addModuleExtraVars($moduleInfo);
@@ -1423,6 +1423,43 @@
             foreach($output->data as $val) $skin_vars[$val->name] = $val;
             return $skin_vars;
         }
+
+		/**
+		 * Get default skin name
+		 **/
+		function getModuleDefaultSkin($module_name, $skin_type = 'P', $site_srl = 0)
+		{
+			$target = ($skin_type == 'M') ? 'mskin' : 'skin';
+			
+			$designInfoFile = sprintf(_XE_PATH_.'files/site_design/design_%s.php', $site_srl);
+			if(is_readable($designInfoFile))
+			{
+				@include($designInfoFile);
+
+				$skinName = $designInfo->module->{$module_name}->{$target};
+			}
+
+			if(!$skinName)
+			{
+				$dir = ($skin_type == 'M') ? 'm.skins/' : 'skins';
+				$moduleSkinPath = ModuleHandler::getModulePath($module_name).$dir;
+				$skins = FileHandler::readDir($moduleSkinPath);
+				if(count($skins) > 0)
+				{
+					$skinName = $skins[0];
+					$designInfo->module->{$module_name}->{$target} = $skinName;
+
+					$oAdminController = getAdminController('admin');
+					$oAdminController->makeDefaultDesignFile($designInfo, $site_srl);
+				}
+				else
+				{
+					$skinName = NULL;
+				}
+			}
+
+			return $skinName;
+		}
 
         /**
          * @brief Combine skin information with module information
