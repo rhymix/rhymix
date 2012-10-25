@@ -312,10 +312,13 @@
 			{
 				foreach($moduleList AS $key=>$value)
 				{
+					$moduleInfo = $oModuleModel->getModuleInfoXml($value);
+					$moduleInfo->default_skin = 'default'; //TODO remove mock
+					$moduleInfo->default_mskin = 'default'; //TODO remove mock
+
 					if($value == 'page')
 					{
 						$pageTypeName = Context::getLang('page_type_name');
-						$moduleInfo = $oModuleModel->getModuleInfoXml($value);
 						$moduleInfo->title = $pageTypeName['ARTICLE'];
 						$moduleInfoList['ARTICLE'] = $moduleInfo;
 						$wModuleInfo = clone $moduleInfo;
@@ -327,7 +330,6 @@
 					}
 					else
 					{
-						$moduleInfo = $oModuleModel->getModuleInfoXml($value);
 						$moduleInfoList[$value] = $moduleInfo;
 					}
 				}

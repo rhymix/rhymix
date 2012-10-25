@@ -135,4 +135,22 @@ class layoutAdminModel extends layout {
 
 		$this->add('html', $script.$html);
 	}
+
+	function getLayoutAdminSiteDefaultLayout()
+	{
+		$siteSrl = Context::get('site_srl');
+		$type = Context::get('type');
+
+		//TODO remove mock
+		if($type == 'M')
+		{
+			$layoutSrl = 278;
+		}
+		else
+		{
+			$layoutSrl = 62;
+		}
+
+		$this->add('layout_srl', $layoutSrl);
+	}
 }

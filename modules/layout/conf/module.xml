@@ -20,6 +20,7 @@
 
 		<action name="getLayoutAdminSetInfoView" type="model" />
 		<action name="getLayoutAdminSetHTMLCSS" type="model" />
+		<action name="getLayoutAdminSiteDefaultLayout" type="model" />
 
 		<action name="dispLayoutPreview" type="view" />
 		<action name="dispLayoutPreviewWithModule" type="view" />
