@@ -922,6 +922,11 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			sModuleType = aNode[i].module_type;
 			
 			sTargetPanel = "#properties";
+			
+			if(aNode[i].is_shortcut === "Y"){
+				sModuleType = "_SHORTCUT";
+			}
+
 			break;
 			
 			default:
@@ -934,10 +939,8 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		htNodeInfo[sNodeSrl].sNodeSrl = sNodeSrl;
 		htNodeInfo[sNodeSrl].sText = sText;
 		
-		if(nNodeType === 2){
-			htNodeInfo[sNodeSrl].sModuleType = sModuleType || "_SHORTCUT";
-		}
-
+		htNodeInfo[sNodeSrl].sModuleType = sModuleType;
+		
 		sSubTree = "";
 		if(aSubNode && aSubNode.length>0){
 			//sSubTree = createTreeMarkup(aSubNode, aNode[i], sMenuTree, sMenuTreeNode);
