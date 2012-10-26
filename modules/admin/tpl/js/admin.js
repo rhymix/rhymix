@@ -1570,18 +1570,23 @@ jQuery(function($){
 				});
 
 				// load value
-				$displayInput.val($hiddenInput.val());
-				var pattern = /^\$user_lang->/;
-				if(pattern.test($displayInput.val())){
-					function on_complete2(data){
-						if(!data || !data.langs) return;
+				function loadValue(){
+					$displayInput.val($hiddenInput.val());
+					var pattern = /^\$user_lang->/;
+					if(pattern.test($displayInput.val())){
+						function on_complete2(data){
+							if(!data || !data.langs) return;
 
-						$displayInput.closest('.g11n').addClass('active');
-						$displayInput.val(data.langs[xe.current_lang]).attr('disabled', 'disabled').width(135);
+							$displayInput.closest('.g11n').addClass('active');
+							$displayInput.val(data.langs[xe.current_lang]).attr('disabled', 'disabled').width(135);
+						}
+
+						$.exec_json('module.getModuleAdminLangCode', {'name': $displayInput.val().replace('$user_lang->', '')}, on_complete2);
 					}
-
-					$.exec_json('module.getModuleAdminLangCode', {'name': $displayInput.val().replace('$user_lang->', '')}, on_complete2);
 				}
+				
+				$this.bind('reload-multilingual', loadValue);
+				loadValue();
 			}
 			
 			if($('#g11n').length){
