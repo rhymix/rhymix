@@ -808,5 +808,81 @@
             }
         }
 
+		public function procModuleSetDesignInfo()
+		{
+			$moduleSrl = Context::get('target_module_srl');
+			$mid = Context::get('target_mid');
+
+			$skinType = Context::get('skin_type');
+			$skinType = ($skinType == 'M') ? 'M' : 'P';
+
+			$layoutSrl = Context::get('layout_srl');
+
+			$isSkinFix = Context::get('is_skin_fix');
+			$isSkinFix = ($is_skin_fix == 'N') ? 'N' : 'Y';
+
+			$skinName = Context::get('skin_name');
+			$skinVars = Context::get('skin_vars');
+
+			$output = $this->setDesignInfo($moduleSrl, $mid, $skinType, $layoutSrl, $isSkinFix, $skinName, $skinVars);
+
+			return $output;
+
+		}
+
+		public function setDesignInfo($moduleSrl = 0, $mid = '', $skinType = 'P', $layoutSrl = 0, $isSkinFix = 'Y', $skinName = '', $skinVars = NULL)
+		{
+			if(!$moduleSrl && !$mid)
+			{
+				return $this->stop(-1, 'msg_invalid_request');
+			}
+			
+			$oModuleModel = getModel('module');
+
+			if($mid)
+			{
+				$moduleInfo = $oModuleModel->getModuleInfoByMid($mid);
+			}
+			else
+			{
+				$moduleInfo = $oModuleModel->getModuleInfoByModuleSrl($moduleSrl);
+			}
+
+			if(!$moduleInfo)
+			{
+				return $this->stop(-1, 'msg_module_not_exists');
+			}
+
+			$skinTargetValue = ($skinType == 'M') ? 'mskin' : 'skin';
+			$layoutTargetValue = ($skinType == 'M') ? 'mlayout_srl' : 'layout_srl';
+			$skinFixTargetValue = ($skinType == 'M') ? 'is_mskin_fix' : 'is_skin_fix';
+
+			$moduleInfo->{$layoutTargetValue} = $layoutSrl;
+			$moduleInfo->{$skinFixTargetValue} = $isSkinFix;
+
+			if($isSkinFix == 'Y')
+			{
+				$moduleInfo->{$skinTargetValue} = $skinName;
+				$skinVars = json_decode($skinVars);
+
+				if(is_array($skinVars))
+				{
+					foreach($skinVars as $key => $val)
+					{
+						if(empty($val))
+						{
+							continue;
+						}
+
+						$moduleInfo->{$key} = $val;
+					}
+				}
+			}
+
+			$oModuleController = getController('module');
+			$output = $oModuleController->updateModule($moduleInfo);
+
+			return $output;
+		}
     }
 ?>
