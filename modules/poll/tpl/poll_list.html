@@ -11,7 +11,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 <div class="x_page-header">
 	<h1>{$lang->poll}</h1>
 </div>
-<form action="./" method="post" id="pollList">
+<form ruleset="deleteChecked" action="./" method="post" id="pollList">
 	<input type="hidden" name="act" value="procPollAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module" value="poll" />
@@ -30,7 +30,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 				<th scope="col" class="nowr">{$lang->author}</th>
 				<th scope="col" class="nowr">{$lang->regdate}</th>
 				<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
-				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
+				<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -41,7 +41,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 				<th scope="col" class="nowr">{$lang->author}</th>
 				<th scope="col" class="nowr">{$lang->regdate}</th>
 				<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
-				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
+				<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
 			</tr>
 		</tfoot>
 		<tbody>
@@ -53,7 +53,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 				<td class="nowr">{zdate($val->poll_regdate,"Y-m-d H:i")}</td>
 				<td class="nowr">{zdate($val->poll_stop_date,"Y-m-d")}</td>
 				<td>
-					<input type="checkbox" name="cart" value="{$val->poll_index_srl}" />
+					<input type="checkbox" name="cart[]" value="{$val->poll_index_srl}" />
 				</td>
 			</tr>
 		</tbody>
