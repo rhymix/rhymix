@@ -163,10 +163,7 @@
 
 			foreach($vars->module_skin as $moduleName => $skinName)
 			{
-				if(!$designInfo->module->{$moduleName}->{$skinTarget})
-				{
-					$designInfo->module->{$moduleName}->{$skinTarget} = $skinName;
-				}
+				$designInfo->module->{$moduleName}->{$skinTarget} = $skinName;
 			}
 
 			$this->makeDefaultDesignFile($designInfo, $vars->site_srl);
