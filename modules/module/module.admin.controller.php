@@ -808,7 +808,7 @@
             }
         }
 
-		public function procModuleSetDesignInfo()
+		public function procModuleAdminSetDesignInfo()
 		{
 			$moduleSrl = Context::get('target_module_srl');
 			$mid = Context::get('target_mid');
