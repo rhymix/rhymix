@@ -940,7 +940,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		htNodeInfo[sNodeSrl].sText = sText;
 		
 		htNodeInfo[sNodeSrl].sModuleType = sModuleType;
-if(!htNodeInfo[sNodeSrl].sModuleType) htNodeInfo[sNodeSrl].sModuleType = "_SHORTCUT";
+
 		sSubTree = "";
 		if(aSubNode && aSubNode.length>0){
 			//sSubTree = createTreeMarkup(aSubNode, aNode[i], sMenuTree, sMenuTreeNode);
@@ -2073,6 +2073,7 @@ jQuery(function($){
 		//console.log('on "tab_change"', ev, nIdx, $el);
 		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
 
+		<!--@if($act == 'dispMenuAdminSiteMap')-->
 		if(nIdx === 0){
 			// PC
 			$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = false;
@@ -2094,6 +2095,81 @@ jQuery(function($){
 				sSkin : htDesign.htSkin.M
 			});
 		}
+		<!--@end-->
+		
+		<!--@if($act == 'dispMenuAdminSiteDesign')-->
+		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
+			setItemTypes(htData.menu_types);
+
+			//module=menu&act=getMenuAdminInstalledMenuType
+			//
+			console.log($._xeAdminVar.htItemTypes);
+			
+			$list = $('#design').find('._itemList');
+			$list.html("").append($.tmpl( "design_layoutItem", {}));
+
+			var item;
+			var sModuleTitle;
+			for(var sModuleName in $._xeAdminVar.htItemTypes){
+				if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
+				if(sModuleName === "_SHORTCUT") continue;
+				
+				item = $._xeAdminVar.htItemTypes[sModuleName];
+
+				if(item.no_skin === "Y") continue;
+				
+				sModuleTitle = item.title;
+				
+				$list.append($.tmpl( "deisgn_skinItem", {
+					ModuleType : sModuleName,
+					ModuleTypeTitle : sModuleTitle
+				}));
+			}
+			
+			if(nIdx === 0){
+				// PC
+				$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = false;
+
+			}else{
+				// mobile
+				$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = true;
+
+				updatePreview({
+					sModuleName : htDesign.sModuleName,
+					sMID:   "",
+					sLayoutSrl : htDesign.sLayoutSrl,
+					sSkin : htDesign.htSkin.M
+				});
+			}			
+			var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+			
+			jQuery.exec_json("layout.getLayoutAdminSiteDefaultLayout", {
+				site_srl : 0,
+				type : sMode
+			}, function(htData){
+				if(htData.error !== 0){
+					alert(htData.message);
+					return;
+				}
+				var sDefaultLayoutSrl = htData.layout_srl;
+				
+				var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
+					sModuleName : "",
+					sMID : "",
+					sLayoutSrl : sDefaultLayoutSrl,
+					htSkin : {P: "", M : ""},
+					htData : {}
+				};
+				
+				updatePreview(htDesign);
+				
+				scrollToRight();
+			});
+
+		});
+
+
+		<!--@end-->
 	});
 	
 	<!--@if($act == 'dispMenuAdminSiteMap')-->
@@ -2137,64 +2213,14 @@ jQuery(function($){
 	<!--@if($act == 'dispMenuAdminSiteDesign')-->
 	$('#design').bind('show', function(ev){
 		if(this !== ev.target) return;
-		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
-			setItemTypes(htData.menu_types);
-
-			//module=menu&act=getMenuAdminInstalledMenuType
-			//
-			console.log($._xeAdminVar.htItemTypes);
-			
-			$list = $('#design').find('._itemList');
-			$list.html("").append($.tmpl( "design_layoutItem", {}));
-
-			var item;
-			var sModuleTitle;
-			for(var sModuleName in $._xeAdminVar.htItemTypes){
-				if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
-				if(sModuleName === "_SHORTCUT") continue;
-				
-				item = $._xeAdminVar.htItemTypes[sModuleName];
-				sModuleTitle = item.title;
-				
-				$list.append($.tmpl( "deisgn_skinItem", {
-					ModuleType : sModuleName,
-					ModuleTypeTitle : sModuleTitle
-				}));
-			}
-			
-			scrollToRight();
-			
-			//return;
-			
-			//jQuery.exec_json("사이트 디폴트 layout srl", {
-			jQuery.exec_json("layout.getLayoutAdminSiteDefaultLayout", {
-				site_srl : 0,
-				type : "P"
-			}, function(htData){
-				if(htData.error !== 0){
-					alert(htData.message);
-					return;
-				}
-				var sDefaultLayoutSrl = htData.layout_srl;
-				//var sDefaultLayoutSrl = "280";
-				
-				// also preview here
-				var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
-					sModuleName : "",
-					sMID : "",
-					sLayoutSrl : sDefaultLayoutSrl,
-					htSkin : {P: "", M : ""},
-					htData : {}
-				};
-				
-				$('#design .x_tabbable a[href="#pc"]').click();
-			});
-		});
+		$('#design .x_tabbable a[href="#pc"]').click();
+		
 	});
 	
 	$('#design ._btn_save').click(function(ev){
 		ev.preventDefault();
 
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		
 		var sLayoutSrl = $._xeAdminVar.htSelectedMenuDesign.sLayoutSrl;
 		var htSkins = {};
@@ -2205,28 +2231,26 @@ jQuery(function($){
 			item = $._xeAdminVar.htItemTypes[sModuleName];
 			sModuleTitle = item.title;
 			
-			htSkins[sModuleName] = item.default_skin;
+			htSkins[sModuleName] = (sMode === "P") ? item.default_skin : item.default_mskin;
 		}
-		
-		console.log({
+		var htParam = {
 			site_srl : 0,
 			layout_srl : sLayoutSrl,
-			target_type : "P",
-			module_skin : htSkins
-		});
-		/*
-		module_skins = {
-			'board':'xe_default', 
-			'page':'default'
-		};
-		var params = new Array();
-		params['site_srl'] = siteSrl; // (int)사이트 srl
+			target_type : sMode,
+			module_skin : $.stringify(htSkins)
+		}; 
 		
-		params['layout_srl'] = layoutSrl; // (int)선택된 레이아웃의 srl : 모듈 스킨 정보만 저장할 경우 생략 가능
-		params['target_type'] = "M"/"P"(default)
-		params['module_skin'] = JSON.encode(module_skins); // (str)스킨 이름 : 레이아웃 정보만 저장할 경우 생략 가능
-		exec_xml("admin","procAdminInsertDefaultDesignInfo", params, completeTmp)
-		*/
+		console.log(htParam);
+
+		jQuery.exec_json("admin.procAdminInsertDefaultDesignInfo", htParam, function(htData){
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			alert("저장 됐습니다.");
+			$('#design').show();
+		});
 	});
 
 	<!--@end-->
@@ -2247,13 +2271,11 @@ jQuery(function($){
 			
 			//htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
 			htSetting.sModuleName = $._xeAdminVar.htSelectedMenuDesign.sModuleName;
-			htSetting.sMID = htParam.sMID || htSetting.sMID || "";
-			htSetting.sLayoutSrl = htParam.sLayoutSrl || htSetting.sLayoutSrl || "";
-			if(typeof htParam.sSkin === "string"){
-				htSetting.sSkin = htParam.sSkin;
-			}else{
-				htSetting.sSkin = htParam.sSkin || htSetting.sSkin || "";
-			}
+			htSetting.sMID = (htParam.sMID==="")?"":htParam.sMID || htSetting.sMID || "";
+			htSetting.sLayoutSrl = (htParam.sLayoutSrl===0)?"":htParam.sLayoutSrl || htSetting.sLayoutSrl || "";
+			
+			htSetting.sSkin = (htParam.sSkin === "")?"":htParam.sSkin || htSetting.sSkin || "";
+
 			htSetting.bMobilePreviewTabOpen = htParam.bMobilePreviewTabOpen || htSetting.bMobilePreviewTabOpen || false;
 			htSetting.htLayoutData = htParam.htLayoutData || htSetting.htLayoutData || "";
 			htSetting.htSkinData = htParam.htSkinData || htSetting.htSkinData || "";
@@ -3029,6 +3051,43 @@ exec_xml("menu","getMenuAdminDetailSetup", params, completeTmp, response_tags);
 		$('#site').height(wHeigh - 180).children('.col').height(wHeigh - 230).find('.cnt').height(wHeigh - 262);
 	}).resize();
 
+});
+
+jQuery.extend({
+    stringify  : function stringify(obj) {         
+        if ("JSON" in window) {
+            return JSON.stringify(obj);
+        }
+
+        var t = typeof (obj);
+        if (t != "object" || obj === null) {
+            // simple data type
+            if (t == "string") obj = '"' + obj + '"';
+
+            return String(obj);
+        } else {
+            // recurse array or object
+            var n, v, json = [], arr = (obj && obj.constructor == Array);
+
+            for (n in obj) {
+                v = obj[n];
+                t = typeof(v);
+                if (obj.hasOwnProperty(n)) {
+                    if (t == "string") {
+                        v = '"' + v + '"';
+                    } else if (t == "object" && v !== null){
+                        v = jQuery.stringify(v);
+                    }
+
+                    json.push((arr ? "" : '"' + n + '":') + String(v));
+                }
+            }
+
+            return (arr ? "[" : "{" ) 
+				+ String(json) 
+				+ (arr ? "]" : "}" );
+        }
+    }
 });
 //]]>
 </script>
