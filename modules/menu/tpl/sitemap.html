@@ -1070,11 +1070,8 @@ jQuery(function($){
 	
 	<!--@if($act == 'dispMenuAdminSiteDesign')-->
 	//$('#design').nextAll().hide();
-	$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
-		setItemTypes(htData.menu_types);
-		
-		$('#design').show();
-	});
+
+	setTimeout(function(){$('#design').show();},0);
 
 	<!--@end-->
 	
@@ -2094,59 +2091,8 @@ jQuery(function($){
 			});
 		}
 	});
-	$('#design').bind('show', function(ev){
-		if(this !== ev.target) return;
-
-		//module=menu&act=getMenuAdminInstalledMenuType
-		//
-		console.log($._xeAdminVar.htItemTypes);
-		
-		$list = $(this).find('._itemList');
-		$list.html("").append($.tmpl( "design_layoutItem", {}));
-
-		var item;
-		var sModuleTitle;
-		for(var sModuleName in $._xeAdminVar.htItemTypes){
-			if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
-			
-			item = $._xeAdminVar.htItemTypes[sModuleName];
-			sModuleTitle = item.title;
-			
-			$list.append($.tmpl( "deisgn_skinItem", {
-				ModuleType : sModuleName,
-				ModuleTypeTitle : sModuleTitle
-			}));
-
-		}
-		
-		scrollToRight();
-		
-		return;
-		// also preview here
-		var params = {
-			menu_item_srl : htInfo.sNodeSrl
-		};
-		$.exec_json("module.getModuleInfoByMenuItemSrl", params, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			
-			var htTmp = htData.module_info_by_menu_item_srl;
-			// module=모듈이름&mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름
-			var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
-				sModuleName : htTmp.module,
-				sMID : htTmp.mid,
-				sLayoutSrl : htTmp.layout_srl,
-				htSkin : {P: htTmp.skin, M : htTmp.mskin},
-				htData : {}
-			};
-			
-			$('#design .x_tabbable a[href="#pc"]').click();
-		});
-	});
 	
-	/*
+	<!--@if($act == 'dispMenuAdminSiteMap')-->
 	$('#design').bind('show', function(ev){
 		if(this !== ev.target) return;
 
@@ -2154,9 +2100,9 @@ jQuery(function($){
 		var htInfo = htNodeInfo[sMenuId];
 
 		$(this).find('._itemList').html("").append($.tmpl( "design_layoutItem", {})).append($.tmpl( "deisgn_skinItem", {
-			ModuleType : htInfo.sModuleType,
-			ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title
-		} 
+				ModuleType : htInfo.sModuleType,
+				ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title
+			} 
 		));
 		
 		// also preview here
@@ -2182,7 +2128,68 @@ jQuery(function($){
 			$('#design .x_tabbable a[href="#pc"]').click();
 		});
 	});
-	*/
+	<!--@end-->
+
+	<!--@if($act == 'dispMenuAdminSiteDesign')-->
+	$('#design').bind('show', function(ev){
+		if(this !== ev.target) return;
+		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
+			setItemTypes(htData.menu_types);
+
+			//module=menu&act=getMenuAdminInstalledMenuType
+			//
+			console.log($._xeAdminVar.htItemTypes);
+			
+			$list = $('#design').find('._itemList');
+			$list.html("").append($.tmpl( "design_layoutItem", {}));
+
+			var item;
+			var sModuleTitle;
+			for(var sModuleName in $._xeAdminVar.htItemTypes){
+				if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
+				if(sModuleName === "_SHORTCUT") continue;
+				
+				item = $._xeAdminVar.htItemTypes[sModuleName];
+				sModuleTitle = item.title;
+				
+				$list.append($.tmpl( "deisgn_skinItem", {
+					ModuleType : sModuleName,
+					ModuleTypeTitle : sModuleTitle
+				}));
+			}
+			
+			scrollToRight();
+			
+			//return;
+			
+			//jQuery.exec_json("사이트 디폴트 layout srl", {
+			jQuery.exec_json("layout.getLayoutAdminSiteDefaultLayout", {
+				site_srl : 0,
+				type : "P"
+			}, function(htData){
+				if(htData.error !== 0){
+					alert(htData.message);
+					return;
+				}
+				var sDefaultLayoutSrl = htData.layout_srl;
+				//var sDefaultLayoutSrl = "280";
+				
+				// also preview here
+				var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
+					sModuleName : "",
+					sMID : "",
+					sLayoutSrl : sDefaultLayoutSrl,
+					htSkin : {P: "", M : ""},
+					htData : {}
+				};
+				
+				$('#design .x_tabbable a[href="#pc"]').click();
+			});
+		});
+	});
+	<!--@end-->
+
+	
 	$('#design').bind('hide', function(){
 		$._xeAdminVar.htPrevSetting = {};
 	});
@@ -2192,7 +2199,8 @@ jQuery(function($){
 			}
 			var htSetting = $._xeAdminVar.htPrevSetting || {};
 			
-			htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
+			//htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
+			htSetting.sModuleName = $._xeAdminVar.htSelectedMenuDesign.sModuleName;
 			htSetting.sMID = htParam.sMID || htSetting.sMID || "";
 			htSetting.sLayoutSrl = htParam.sLayoutSrl || htSetting.sLayoutSrl || "";
 			if(typeof htParam.sSkin === "string"){
@@ -2204,7 +2212,9 @@ jQuery(function($){
 			htSetting.htLayoutData = htParam.htLayoutData || htSetting.htLayoutData || "";
 			htSetting.htSkinData = htParam.htSkinData || htSetting.htSkinData || "";
 
-			var sURL = './?act=dispLayoutPreviewWithModule&module='+htSetting.sModuleName+'&mid='+htSetting.sMID+'&layout_srl='+htSetting.sLayoutSrl+'&skin='+htSetting.sSkin;
+			// ?act=dispLayoutPreviewWithModule&module_name=모듈이름&target_mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름&skin_type=M/P
+			var sURL = './?act=dispLayoutPreviewWithModule&module_name='+htSetting.sModuleName+'&target_mid='+htSetting.sMID+'&layout_srl='+htSetting.sLayoutSrl+'&skin='+htSetting.sSkin+'&skin_type='+(htSetting.bMobilePreviewTabOpen?"M":"P");
+			console.log(sURL);
 			$('._preview_form').attr('action', sURL);
 			
 			var sTarget = "_pc_preview_ifr";
@@ -2592,6 +2602,15 @@ jQuery(function($){
 			return;
 		}
 		
+		$._xeAdminVar.htSelectedMenuDesign.sModuleName = $._htMarkupActionParam.moduleType;
+		
+		<!--@if($act == 'dispMenuAdminSiteDesign')-->
+		$._xeAdminVar.htSelectedMenuDesign.htSkin = {
+			"P" : $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].default_skin,
+			"M" : $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].default_mskin
+		};
+		<!--@end-->
+		
 		updateSkinListDisplayStatus();
 	});
 	$('#skin').on('hide', function(ev){
@@ -2631,7 +2650,8 @@ jQuery(function($){
 		//getModuleSkinInfoList	
 
 		var params = {
-			module_name : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType,
+			//module_name : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType,
+			module_name : $._xeAdminVar.htSelectedMenuDesign.sModuleName,
 			skin_type : sType
 		};
 		// https://code.google.com/p/xe-core/wiki/ModuleSkinInfo_GET_API
@@ -2645,7 +2665,7 @@ jQuery(function($){
 			$List.html("");
 			
 			var sSelected = "";
-			
+			var sSelectedSkin = "";
 			var htDesign = $._xeAdminVar.htSelectedMenuDesign;
 			if(htDesign.htSkin[sType] == ""){
 				sSelectedSkin = "";
@@ -2661,7 +2681,7 @@ jQuery(function($){
 				htInfo = htData.skin_info_list[sName];
 			//for(var i=0, nLen=htData.skin_info_list.length; i<nLen; i++){
 				htInfo.sName = sName;
-				
+
 				sSelected = "";
 				if(htDesign.htSkin[sType] == htInfo.sName){
 					sSelectedSkin = htInfo.sName;
@@ -2674,7 +2694,6 @@ jQuery(function($){
 					Selected : sSelected,
 					SkinName : htInfo.sName
 				}).data('SkinName', htInfo.sName));
-				console.log(22, htInfo.sName);
 			}
 			$List.find('.selected input').attr('checked', 'checked');
 			//console.log(sSelectedSrl);
@@ -2696,6 +2715,9 @@ jQuery(function($){
 		var sSkinName = $(this).closest('li').data('SkinName');
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		$._xeAdminVar.htSelectedMenuDesign.htSkin[sMode]=sSkinName;
+		
+		var sSkinVar = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"default_mskin":"default_skin";
+		$._xeAdminVar.htItemTypes[$._xeAdminVar.htSelectedMenuDesign.sModuleName][sSkinVar] = sSkinName;
 		
 		updatePreview({
 			sSkin : sSkinName
@@ -2888,12 +2910,71 @@ jQuery(function($){
 			htFunc[sPackageType]();
 		});
 	}
-	
+	top.fullSetupDone = function(htData){
+		alert('done!');
+	}
 	$('a._openFullSetup').click(function(ev){
 		ev.preventDefault();
 		
+		var t = this;		
+		setTimeout(function(){
+			console.log($(t));
+			$(t).blur();
+		}, 0);
+		
+		$.exec_json("menu.getMenuAdminDetailSetup", {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
+		}, function(htData){
+			console.log(htData);
+			
+			//window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
+			var oSetupWin = window.open(htData.setupUrl, "xe_fullSetup", "");
+			
+			oSetupWin.onload = function(){
+				//console.log($(oSetupWin.document.body).html());
+				var $body = $(oSetupWin.document.body);
+				
+				//<iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
+				var $target = $("<iframe>").attr('name', 'submitTarget').attr('src', 'about:_blank').attr('style', 'position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px');
+				$body.append($target);
+				
+				var $form = $body.find('form[enctype="multipart/form-data"]');
+				$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.opener.top.fullSetupDone();top.window.close();var dummy="));
+				$form.attr('target', 'submitTarget');
+			};
+			/*
+			<form class="form" enctype="multipart/form-data" method="post" action="./">
+			<input type="hidden" value="/maserati/index.php?module=admin&act=dispBoardAdminInsertBoard&module_srl=291&isLayoutDrop=1" name="error_return_url">
+			<input type="hidden" value="" name="mid">
+			<input type="hidden" value="" name="vid">
+			*/
+		});
+
+/*
+params['menu_item_srl'] = '41390';
+exec_xml("menu","getMenuAdminDetailSetup", params, completeTmp, response_tags);
+
+	$('#details').on('show', function(ev){
+		if(this !== ev.target) return;
+		
+		$.exec_json("menu.getMenuAdminDetailSetup", {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
+		}, function(htData){
+			console.log(htData);
+			$.ajax({
+			  url: htData.setupUrl,
+			  context: document.body
+			}).done(function(sData) { 
+			  console.log(999, sData);
+			});
+			//htData.setupUrl
+		});
+	});
+*/		
 		//window.open($('input[name=_pc_preview_ifr]').attr('src'), "xe_preview", "resizable=yes");
 		//console.log('test');
+		
+		
 	});
 	
 // Set #site height fix
