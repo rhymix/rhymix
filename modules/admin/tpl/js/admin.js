@@ -1571,7 +1571,8 @@ jQuery(function($){
 
 				// load value
 				function loadValue(){
-					$displayInput.val($hiddenInput.val());
+					$displayInput.val($hiddenInput.val()).removeAttr('disabled');
+					
 					var pattern = /^\$user_lang->/;
 					if(pattern.test($displayInput.val())){
 						function on_complete2(data){

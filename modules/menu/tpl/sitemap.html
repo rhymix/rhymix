@@ -1671,7 +1671,7 @@ jQuery(function($){
 			$(this).find('._leaveUnfolded').attr("checked", "checked");
 		}
 		
-		$(this).find('.lang_code').xeApplyMultilingualUI();
+		$(this).find('.lang_code').trigger('reload-multilingual');
 	});
 	$('#default').bind("hide", function(){
 	});
