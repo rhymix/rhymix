@@ -675,8 +675,16 @@
 				$isLayoutDrop = Context::get('isLayoutDrop');
 				if($isLayoutDrop)
 				{
-					$oModule->setLayoutPath('common/tpl');
-					$oModule->setLayoutFile('default_layout');
+            		$kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
+					if($kind == 'admin')
+					{
+						$oModule->setLayoutFile('popup_layout');
+					}
+					else
+					{
+						$oModule->setLayoutPath('common/tpl');
+						$oModule->setLayoutFile('default_layout');
+					}
 				}
             }
 
