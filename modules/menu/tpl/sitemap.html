@@ -940,7 +940,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		htNodeInfo[sNodeSrl].sText = sText;
 		
 		htNodeInfo[sNodeSrl].sModuleType = sModuleType;
-		
+if(!htNodeInfo[sNodeSrl].sModuleType) htNodeInfo[sNodeSrl].sModuleType = "_SHORTCUT";
 		sSubTree = "";
 		if(aSubNode && aSubNode.length>0){
 			//sSubTree = createTreeMarkup(aSubNode, aNode[i], sMenuTree, sMenuTreeNode);
@@ -1340,7 +1340,6 @@ jQuery(function($){
 		
 		var sMenuId = $._htMarkupActionParam.sMenuId;
 		var htInfo = htNodeInfo[sMenuId];
-
 		$(ev.target).find('.title').html(htInfo.sText);
 		$(ev.target).find('.url').html(htInfo.url);
 		//$(ev.target).find('.module_type').html(htInfo.module_type || "");
