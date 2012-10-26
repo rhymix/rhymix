@@ -268,6 +268,12 @@
 
             $moduleInfo = $this->addModuleExtraVars($moduleInfo);
 
+			if($moduleInfo->module == 'page' && $moduleInfo->page_type != 'ARTICLE')
+			{
+				unset($moduleInfo->skin);
+				unset($moduleInfo->mskin);
+			}
+
 			$this->add('module_info_by_menu_item_srl', $moduleInfo);
 
 			return $moduleInfo;
