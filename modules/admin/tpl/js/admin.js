@@ -1561,9 +1561,8 @@ jQuery(function($){
 						
 				// if change text, copy
 				var $hiddenInput = $this;
-				$displayInput.bind('change, keyup', function(){
+				$displayInput.bind('change keyup', function(){
 					$this = $(this);
-					$hiddenInput.show();
 
 					if($this.closest('.g11n').hasClass('active')) return;
 

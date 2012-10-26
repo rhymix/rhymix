@@ -332,8 +332,8 @@
 					</script>
 				</ul>
 				<div class="btnBoth">
-					<button type="reset" class="x_btn x_pull-left">취소</button>
-					<button type="button" class="x_btn x_btn-primary x_pull-right">저장</button>
+					<button type="reset" class="x_btn x_pull-left _btn_cancel">취소</button>
+					<button type="button" class="x_btn x_btn-primary x_pull-right _btn_save">저장</button>
 				</div>
 			</div>
 		</fieldset>
@@ -1670,6 +1670,8 @@ jQuery(function($){
 		}else{
 			$(this).find('._leaveUnfolded').attr("checked", "checked");
 		}
+		
+		$(this).find('.lang_code').xeApplyMultilingualUI();
 	});
 	$('#default').bind("hide", function(){
 	});
@@ -2187,8 +2189,50 @@ jQuery(function($){
 			});
 		});
 	});
-	<!--@end-->
+	
+	$('#design ._btn_save').click(function(ev){
+		ev.preventDefault();
 
+		
+		var sLayoutSrl = $._xeAdminVar.htSelectedMenuDesign.sLayoutSrl;
+		var htSkins = {};
+		for(var sModuleName in $._xeAdminVar.htItemTypes){
+			if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
+			if(sModuleName === "_SHORTCUT") continue;
+			
+			item = $._xeAdminVar.htItemTypes[sModuleName];
+			sModuleTitle = item.title;
+			
+			htSkins[sModuleName] = item.default_skin;
+		}
+		
+		console.log({
+			site_srl : 0,
+			layout_srl : sLayoutSrl,
+			target_type : "P",
+			module_skin : htSkins
+		});
+		/*
+		module_skins = {
+			'board':'xe_default', 
+			'page':'default'
+		};
+		var params = new Array();
+		params['site_srl'] = siteSrl; // (int)사이트 srl
+		
+		params['layout_srl'] = layoutSrl; // (int)선택된 레이아웃의 srl : 모듈 스킨 정보만 저장할 경우 생략 가능
+		params['target_type'] = "M"/"P"(default)
+		params['module_skin'] = JSON.encode(module_skins); // (str)스킨 이름 : 레이아웃 정보만 저장할 경우 생략 가능
+		exec_xml("admin","procAdminInsertDefaultDesignInfo", params, completeTmp)
+		*/
+	});
+
+	<!--@end-->
+	$('#design ._btn_cancel').click(function(ev){
+		ev.preventDefault();
+		
+		$('#design').show();
+	});
 	
 	$('#design').bind('hide', function(){
 		$._xeAdminVar.htPrevSetting = {};
