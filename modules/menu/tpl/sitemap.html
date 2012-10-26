@@ -2208,6 +2208,51 @@ jQuery(function($){
 			$('#design .x_tabbable a[href="#pc"]').click();
 		});
 	});
+	
+	$('#design ._btn_save').click(function(ev){
+		ev.preventDefault();
+
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+		
+		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
+		var htInfo = htNodeInfo[sMenuId];
+		
+		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+		
+		var sSkinName = htDesign.htSkin[sMode];
+		var ynSkinFix = (sSkinName === "")?"N":"Y";
+		var htParam = {
+			target_module_srl : htInfo.module_srl,
+			skin_type : sMode,
+			layout_srl : htDesign.sLayoutSrl,
+			is_skin_fix : ynSkinFix,
+			skin_name : sSkinName,
+			skin_vars : "{}"
+		};
+		//console.log(htParam);
+		//return;
+		/*
+params['target_module_srl'] = 모듈srl (mid가 있는 경우 생략 가능)
+params['target_mid'] = 모듈ID (module_srl이 있는 경우 생략 가능)
+params['skin_type'] = 'M'/'P' (생략할 경우 'P')
+params['layout_srl'] = layout_srl
+params['is_skin_fix'] = 'N' : 사이트 기본 스킨 사용 시 / 'Y' : 모듈 스킨 사용시
+params['skin_name'] = 스킨 이름(skin/mskin 값)
+params['skin_vars'] = 스킨 설정 정보 json_encode(skin_vars);
+
+exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
+		*/
+
+		jQuery.exec_json("module.procModuleAdminSetDesignInfo", htParam, function(htData){
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			alert("저장 됐습니다.");
+			$('#design').show();
+		});
+	});
 	<!--@end-->
 
 	<!--@if($act == 'dispMenuAdminSiteDesign')-->
@@ -2996,20 +3041,8 @@ jQuery(function($){
 			console.log(htData);
 			
 			//window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
-			var oSetupWin = window.open(htData.setupUrl, "xe_fullSetup", "");
+			$._xeAdminVar.oSetupWin = window.open(htData.setupUrl, "xe_fullSetup", "");
 			
-			oSetupWin.onload = function(){
-				//console.log($(oSetupWin.document.body).html());
-				var $body = $(oSetupWin.document.body);
-				
-				//<iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
-				var $target = $("<iframe>").attr('name', 'submitTarget').attr('src', 'about:_blank').attr('style', 'position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px');
-				$body.append($target);
-				
-				var $form = $body.find('form[enctype="multipart/form-data"]');
-				$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.opener.top.fullSetupDone();top.window.close();var dummy="));
-				$form.attr('target', 'submitTarget');
-			};
 			/*
 			<form class="form" enctype="multipart/form-data" method="post" action="./">
 			<input type="hidden" value="/maserati/index.php?module=admin&act=dispBoardAdminInsertBoard&module_srl=291&isLayoutDrop=1" name="error_return_url">
@@ -3053,6 +3086,22 @@ exec_xml("menu","getMenuAdminDetailSetup", params, completeTmp, response_tags);
 
 });
 
+top.fullSetupWinLoaded = function(){
+	var oWin = jQuery._xeAdminVar.oSetupWin;
+
+	var $ = oWin.jQuery;
+	var $body = $(oWin.document.body);
+	
+	var $form = $body.find('form[enctype="multipart/form-data"]');
+	//<iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
+	var $target = $("<iframe>").attr('name', 'submitTarget').attr('src', 'about:_blank').attr('style', 'position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px');
+	$form.append($target);
+
+	$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.opener.top.fullSetupDone();top.window.close();var dummy="));
+	$form.attr('target', 'submitTarget');
+};
+
+			
 jQuery.extend({
     stringify  : function stringify(obj) {         
         if ("JSON" in window) {
