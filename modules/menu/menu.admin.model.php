@@ -276,7 +276,7 @@
 		 */
 		function getMenuAdminInstalledMenuType()
 		{
-			$this->add('menu_types', $this->getModuleListInSitemap(0, Context::get('no_skin')));
+			$this->add('menu_types', $this->getModuleListInSitemap(0));
 		}
 
 		/**
@@ -285,7 +285,7 @@
 		 * @param int $site_srl
 		 * @return array
 		 */
-		function getModuleListInSitemap($site_srl = 0, $noSkin = 'N')
+		function getModuleListInSitemap($site_srl = 0)
 		{
 			$oModuleModel = &getModel('module');
 			$columnList = array('module');
@@ -321,20 +321,18 @@
 						$pageTypeName = Context::getLang('page_type_name');
 						$moduleInfo->title = $pageTypeName['ARTICLE'];
 						$moduleInfoList['ARTICLE'] = $moduleInfo;
-
-						if($noSkin != 'Y')
-						{
-							$wModuleInfo = clone $moduleInfo;
-							unset($wModuleInfo->default_skin);
-							unset($wModuleInfo->default_mskin);
-							$wModuleInfo->title = $pageTypeName['WIDGET'];
-							$moduleInfoList['WIDGET'] = $wModuleInfo;
-							$oModuleInfo = clone $moduleInfo;
-							unset($oModuleInfo->default_skin);
-							unset($oModuleInfo->default_mskin);
-							$oModuleInfo->title = $pageTypeName['OUTSIDE'];
-							$moduleInfoList['OUTSIDE'] = $oModuleInfo;
-						}
+						$wModuleInfo = clone $moduleInfo;
+						unset($wModuleInfo->default_skin);
+						unset($wModuleInfo->default_mskin);
+						$wModuleInfo->title = $pageTypeName['WIDGET'];
+						$wModuleInfo->no_skin = 'Y';
+						$moduleInfoList['WIDGET'] = $wModuleInfo;
+						$oModuleInfo = clone $moduleInfo;
+						unset($oModuleInfo->default_skin);
+						unset($oModuleInfo->default_mskin);
+						$oModuleInfo->title = $pageTypeName['OUTSIDE'];
+						$oModuleInfo->no_skin = 'Y';
+						$moduleInfoList['OUTSIDE'] = $oModuleInfo;
 					}
 					else
 					{
