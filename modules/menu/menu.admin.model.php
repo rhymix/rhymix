@@ -322,9 +322,13 @@
 						$moduleInfo->title = $pageTypeName['ARTICLE'];
 						$moduleInfoList['ARTICLE'] = $moduleInfo;
 						$wModuleInfo = clone $moduleInfo;
+						unset($wModuleInfo->default_skin);
+						unset($wModuleInfo->default_mskin);
 						$wModuleInfo->title = $pageTypeName['WIDGET'];
 						$moduleInfoList['WIDGET'] = $wModuleInfo;
 						$oModuleInfo = clone $moduleInfo;
+						unset($oModuleInfo->default_skin);
+						unset($oModuleInfo->default_mskin);
 						$oModuleInfo->title = $pageTypeName['OUTSIDE'];
 						$moduleInfoList['OUTSIDE'] = $oModuleInfo;
 					}
