@@ -262,7 +262,7 @@
 
 				if(!$args->open_window) $args->open_window = 'N';
 				if(!$args->expand) $args->expand = 'N';
-				if(!$args->is_shortcut) $args->is_shortcut = 'N';
+				if(!$args->is_shortcut) $args->is_shortcut = 'Y';
 
 				if($request->menu_name_key) $args->name = $request->menu_name_key;
 				else $args->name = $request->menu_name;
@@ -286,6 +286,7 @@
 				$args->menu_srl = $request->menu_srl;
 				$args->name = $request->menu_name;
 				$args->parent_srl = $request->parent_srl;
+				$args->is_shortcut = $request->is_shortcut;
 			}
 			else
 			{
