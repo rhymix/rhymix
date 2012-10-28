@@ -2,12 +2,23 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="updatePage" action="./" method="post" enctype="multipart/form-data">
+<section class="section">
+<form ruleset="updatePage" action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 	<input type="hidden" name="module" value="page" />
 	<input type="hidden" name="act" value="procPageAdminUpdate" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<div class="x_control-group">
+		<label class="x_control-label" for="page_name">{$lang->mid}</label>
+		<div class="x_controls">
+			<input type="text" name="page_name" id="page_name" value="{$module_info->mid}" />
+			<p>{$lang->about_mid}</p>
+		</div>
+	</div>
+</form>
+</section>
+<form>
 	<table class="x_table x_table-striped x_table-hover">
 		<tr>
 			<th scope="row">{$lang->page_type}</th>

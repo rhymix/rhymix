@@ -2,42 +2,37 @@
 <!--#include("header.html")-->
 
 <!-- 검색 -->
-<form action="./" method="get" class="adminSearch">
+<form action="./" method="get" class="search center x_input-append">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="mid" value="{$mid}" />
 	<input type="hidden" name="vid" value="{$vid}" />
 	<input type="hidden" name="act" value="dispPageAdminContent" />
-
-        <fieldset>
-			{$lang->mid} <input type="text" name="s_mid" value="{htmlspecialchars($s_mid)}"  />
-			{$lang->browser_title} <input type="text" name="s_browser_title" value="{htmlspecialchars($s_browser_title)}"  />
-            <span class="button blue"><input type="submit" value="{$lang->cmd_search}" /></span>
-            <a href="{getUrl('s_mid','','s_browser_title','','page','')}" class="button black"><span>{$lang->cmd_cancel}</span></a>
-        </fieldset>
+	<select name="module_category_srl" style="margin-right:3px">
+		<option value="">{$lang->module_category}</option>
+		<option value="0" <!--@if($module_category_srl==="0")-->selected="selected"<!--@end-->>{$lang->not_exists}</option>
+		<!--@foreach($module_category as $key => $val)-->
+		<option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+		<!--@end-->
+		<option value="">---------</option>
+		<option value="-1">{$lang->cmd_management}</option>
+	</select>
+	<select name="search_target">
+		<option value="s_mid" selected="selected"|cond="$search_target=='s_mid'">{$lang->mid}</option>
+		<option value="s_browser_title" selected="selected"|cond="$search_target=='s_browser_title'">{$lang->browser_title}</option>
+	</select>
+	<input type="search" name="search_keyword" title="Search" value="{htmlspecialchars($search_keyword)}" style="width:150px" />
+	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 </form>
 
 <!-- 목록 -->
-<form action="./" method="get" onsubmit="return doChangeCategory(this);" id="fo_list">
+<form action="./" method="get">
 <table class="x_table x_table-striped x_table-hover">
-	<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+	<caption>Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}/{number_format($total_page)}</strong></caption>
 	<thead>
 		<tr>
 			<th scope="col">{$lang->no}</th>
 			<th scope="col"><input type="checkbox" /></th>
-			<th scope="col">
-				<input type="hidden" name="module" value="{$module}" />
-				<input type="hidden" name="act" value="{$act}" />
-				<select name="module_category_srl">
-					<option value="">{$lang->module_category}</option>
-					<option value="0" <!--@if($module_category_srl==="0")-->selected="selected"<!--@end-->>{$lang->not_exists}</option>
-					<!--@foreach($module_category as $key => $val)-->
-					<option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-					<!--@end-->
-					<option value="">---------</option>
-					<option value="-1">{$lang->cmd_management}</option>
-					</select>
-				<input type="submit" name="go_button" id="go_button" value="GO" />
-			</th>
+			<th scope="col">{$lang->module_category}</th>
 			<th scope="col">{$lang->page_type}</th>
 			<th scope="col">{$lang->mid}</th>
 			<th scope="col">{$lang->browser_title}</th>
@@ -76,26 +71,56 @@
 		</tbody>
 </table>
 
-<!-- 버튼 -->
-<div class="btnArea">
-    <div class="etc">
-        <a href="{getUrl('','module','module','act','dispModuleAdminModuleSetup')}" onclick="doCartSetup(this.href); return false;" class="button green"><span>{$lang->cmd_setup}</span></a>
-        <a href="{getUrl('','module','module','act','dispModuleAdminModuleGrantSetup')}" onclick="doCartSetup(this.href); return false;" class="button blue"><span>{$lang->cmd_manage_grant}</span></a>
-    </div>
-	<a href="{getUrl('act','dispPageAdminInsert','module_srl','')}" class="button black strong"><span>{$lang->cmd_page_create}</span></a>
+<div class="x_clearfix">
+	<div class="x_btn-group x_pull-left">
+		<a href="{getUrl('','module','module','act','dispModuleAdminModuleSetup')}" onclick="doCartSetup(this.href); return false;" class="x_btn">{$lang->cmd_setup}</a>
+		<a href="{getUrl('','module','module','act','dispModuleAdminModuleGrantSetup')}" onclick="doCartSetup(this.href); return false;" class="x_btn">{$lang->cmd_manage_grant}</a>
+	</div>
+	<div class="x_btn-group x_pull-right">
+		<a href="{getUrl('act','dispPageAdminInsert','module_srl','')}" class="x_btn x_btn-inverse"><span>{$lang->cmd_make}</span></a>
+	</div>
 </div>
 
 </form>
 
 <!-- 페이지 네비게이션 -->
-<div class="pagination">
-    <a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a>
+<form cond="$page_navigation" action="./" class="x_pagination x_pagination-centered" no-error-return-url="true" style="margin:0">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+	
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+			</block>
+
     <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <strong>{$page_no}</strong>
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
-        <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
-</div>
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
+
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+				
+			</block>
+	
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</form>
+

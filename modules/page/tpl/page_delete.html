@@ -9,8 +9,10 @@
 	<input type="hidden" name="act" value="procPageAdminDelete" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-    <h3 class="h3">{$lang->confirm_delete}</h3>
-	<p>{$lang->page_delete_warning}</p>
+	<section class="section">
+		<h2>{$lang->confirm_delete}</h2>
+			<p>{$lang->page_delete_warning}</p>
+			</section>
 	<table class="x_table x_table-striped x_table-hover">
 		<tr>
 			<th scope="row">{$lang->module_name}</th>
@@ -21,9 +23,11 @@
 			<td>{$module_info->module}</td>
 		</tr>
 	</table>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_delete}" /></span>
-		<span class="btn"><a href="{getUrl('act','dispPageAdminContent')}">{$lang->cmd_back}</a></span>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_delete}</button>
+			<a href="{getUrl('act','dispPageAdminContent','module_srl','')}" class="x_btn">{$lang->cmd_back}</a>
+		</div>
 	</div>
 </form>
 

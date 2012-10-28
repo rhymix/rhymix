@@ -53,11 +53,10 @@
             $args->page_count = 10;
             $args->s_module_category_srl = Context::get('module_category_srl');
 
-			$s_mid = Context::get('s_mid');
-			if($s_mid) $args->s_mid = $s_mid;
-
-			$s_browser_title = Context::get('s_browser_title');
-			if($s_browser_title) $args->s_browser_title = $s_browser_title;
+			$search_target_list = array('s_mid','s_browser_title');
+			$search_target = Context::get('search_target');
+			$search_keyword = Context::get('search_keyword');
+			if(in_array($search_target,$search_target_list) && $search_keyword) $args->{$search_target} = $search_keyword; 
 
             $output = executeQuery('page.getPageList', $args);
 			$oModuleModel = &getModel('module');
