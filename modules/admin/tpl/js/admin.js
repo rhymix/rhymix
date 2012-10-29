@@ -1139,9 +1139,9 @@ jQuery(function($){
 		// #lang_search confirm
 		function g11n_search_save_confirm(){
 			if($g11n_search.is(':visible') && $g11n_search.find('.editMode').length){
-				var $search_item = $g11n_search.find('form.item');
+				var $search_item = $g11n_search.find('.editMode');
 				if(confirm(xe.msg_confirm_save_and_use_multilingual)){
-					$search_item.find('.save').trigger('click').end().find('textarea').attr('disabled', 'disabled');
+					$search_item.find('.save').trigger('click');
 				}else{
 					$search_item.find('.cancel').trigger('click');
 				}
@@ -1436,6 +1436,10 @@ jQuery(function($){
 			}
 
 			return false;
+		});
+
+		$g11n_get.find('[href="#lang_search"]').click(function(){
+			g11n_get_list();
 		});
 		
 		// default
