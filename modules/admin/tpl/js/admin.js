@@ -1505,7 +1505,7 @@ jQuery(function($){
 			function makeUI(){
 				var $multilingualWindow = $('#g11n');
 				
-				if(t.tagName == 'TEXTAREA' || $this.next('textarea.vLang').length){
+				if(t.tagName == 'TEXTAREA' || $this.data('type') == 'textarea'){
 					var $displayInput = $('<textarea id="lang_' + id + '" class="displayInput" style="width:179px">').data('lang-id', id);
 				}else{
 					var $displayInput = $('<input type="text" id="lang_' + id + '" class="displayInput" style="width:179px">').data('lang-id', id);
@@ -1515,14 +1515,19 @@ jQuery(function($){
 
 				$this.parent().addClass('g11n').addClass('x_input-append');
 				$this.after($displayInput, $remover, $setter);
-				$this.parent().find('.vLang').remove();
 				$this.hide();
 				$setter.attr('href', '#g11n').xeModalWindow();
 
 				// bind selected
 				$displayInput.bind('selected.g11n', function(e, code, value){
+					var width = $displayInput.width();
+					
+					if(!$(this).parent().hasClass('active')){
+						width -= 44;
+					}
+					
 					$displayInput
-						.width(135)
+						.width(width)
 						.attr('disabled', 'disabled')
 						.val(value)
 						.parent('.g11n').addClass('active');
@@ -1553,8 +1558,9 @@ jQuery(function($){
 				$remover.click(function(){
 						var $this = $(this);
 						var $g11n_set_input = $('#lang_' + $this.data('lang-target'));
+						var width = $g11n_set_input.width();
 						$g11n_set_input.val('').removeAttr('disabled')
-								.width(179)
+								.width(width + 44)
 								.parent('.g11n').removeClass('active');
 						$this.siblings('.lang_code').val('');
 				});
@@ -1580,8 +1586,10 @@ jQuery(function($){
 						function on_complete2(data){
 							if(!data || !data.langs) return;
 
+							var width = $displayInput.width();
+							
 							$displayInput.closest('.g11n').addClass('active');
-							$displayInput.val(data.langs[xe.current_lang]).attr('disabled', 'disabled').width(135);
+							$displayInput.val(data.langs[xe.current_lang]).attr('disabled', 'disabled').width(width - 44);
 						}
 
 						$.exec_json('module.getModuleAdminLangCode', {'name': $displayInput.val().replace('$user_lang->', '')}, on_complete2);
@@ -1607,8 +1615,15 @@ jQuery(function($){
 	$('.vLang[type="hidden"]').each(function(){
 		var $this = $(this);
 
+		if($this.next('textarea.vLang').length){
+			$this.data('type', 'textarea');
+		}
+
 		$this.removeClass('vLang').addClass('lang_code');
-		$this.parent().find('.editUserLang').remove();
+		$this.parent()
+			.find('.editUserLang').remove()
+			.end()
+			.find('.vLang').remove();
 	});
 	
 	$('.lang_code').xeApplyMultilingualUI();
