@@ -9,37 +9,35 @@
 		<caption><strong>{$lang->cmd_denied_word}</strong></caption>
 		<thead>
 			<tr>
-				<th>IP</th>
-				<th style="width:100px" class="center">{$lang->latest_hit}</th>
-				<th style="width:50px" class="center">{$lang->hit}</th>
-				<th style="width:100px">{$lang->regdate}</th>
-				<th style="width:50px">{$lang->cmd_delete}</th>
+				<th scope="col">IP</th>
+				<th scope="col">{$lang->latest_hit}</th>
+				<th scope="col">{$lang->hit}</th>
+				<th scope="col">{$lang->regdate}</th>
+				<th scope="col">{$lang->cmd_delete}</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr loop="$word_list => $word_info">
 				<td>{$word_info->word}</td>
-				<td class="center"><!--@if($word_info->latest_hit)-->{$word_info->latest_hit}<!--@else-->-<!--@end--></td>
-				<td class="center">{$word_info->hit}</td>
+				<td><!--@if($word_info->latest_hit)-->{$word_info->latest_hit}<!--@else-->-<!--@end--></td>
+				<td>{$word_info->hit}</td>
 				<td>{zdate($word_info->regdate,'Y-m-d')}</td>
 				<td><a href="#" onclick="doDeleteDeniedWord('{$word_info->word}')">{$lang->cmd_delete}</a></td>
 			</tr>
+			<tr cond="!$word_list">
+				<td colspan="5" style="text-align:center">{$lang->no_data}</td>
+			</tr>
 		</tbody>
 	</table>
-	<form action="./" class="x_form-horizontal">
+	<form action="./" style="margin-right:14px">
 		<input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedWord" />
 		<input type="hidden" name="module" value="spamfilter" />
 		<input type="hidden" name="ruleset" value="insertDeniedWord" />
 		<input type="hidden" name="active" value="word" />
-		<div class="x_control-group">
-			<textarea name="word_list" title="{$lang->add_denied_word}"></textarea>
-			<span class="x_muted">{$lang->about_denied_word}</span>
-		</div>
-		<div class="x_clearfix btnArea">
-			<div class="x_pull-left">
-				<button type="submit" class="x_btn x_btn-primary">{$lang->add}</button>
-			</div>
-		</div>
+		<textarea name="word_list" title="{$lang->add_denied_word}: {$lang->about_denied_word}" placeholder="{$lang->about_denied_word}" rows="4" cols="42" style="width:100%"></textarea>
+		<span class="x_pull-right" style="margin-right:-14px">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->add_denied_word}</button>
+		</span>
 	</form>
 </section>
 <include target="./footer.html" />

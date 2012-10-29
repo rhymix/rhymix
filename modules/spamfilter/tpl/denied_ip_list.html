@@ -9,10 +9,10 @@
 		<caption><strong>{$lang->cmd_denied_ip}</strong></caption>
 		<thead>
 			<tr>
-				<th style="width:160px">IP</th>
-				<th>{$lang->description}</th>
-				<th style="width:100px">{$lang->regdate}</th>
-				<th style="width:50px">{$lang->cmd_delete}</th>
+				<th scope="col">IP</th>
+				<th scope="col">{$lang->description}</th>
+				<th scope="col">{$lang->regdate}</th>
+				<th scope="col">{$lang->cmd_delete}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,22 +22,20 @@
 				<td>{zdate($ip_info->regdate,'Y-m-d')}</td>
 				<td><a href="#" onclick="doDeleteDeniedIP('{$ip_info->ipaddress}')">{$lang->cmd_delete}</a></td>
 			</tr>
+			<tr cond="!$ip_list">
+				<td colspan="4" style="text-align:center">{$lang->no_data}</td>
+			</tr>
 		</tbody>
 	</table>
-	<form action="./" class="x_form-horizontal">
+	<form action="./" style="margin-right:14px">
 		<input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedIP" />
 		<input type="hidden" name="module" value="spamfilter" />
 		<input type="hidden" name="ruleset" value="insertDeniedIp" />
 		<input type="hidden" name="active" value="ip" />
-		<div class="x_control-group">
-			<textarea name="ipaddress_list" title="{$lang->add_denied_ip}"></textarea>
-			<span class="x_muted">{$lang->about_denied_ip}</span>
-		</div>
-		<div class="x_clearfix btnArea">
-			<div class="x_pull-left">
-				<button type="submit" class="x_btn x_btn-primary">{$lang->add}</button>
-			</div>
-		</div>
+		<textarea name="ipaddress_list" title="{$lang->add_denied_ip}: {$lang->about_denied_ip}" rows="4" cols="42" style="width:100%" placeholder="{$lang->about_denied_ip}"></textarea>
+		<span class="x_pull-right" style="margin-right:-14px">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->add_denied_ip}</button>
+		</span>
 	</form>
 </section>
 <include target="./footer.html" />

@@ -248,13 +248,12 @@ jQuery(function($){
 	$('label:not([for])').labelMaker();
 // :radio, :checkbox checked class
 	$.fn.checkToggle = function(){
-		this.change(function(){
-			var $this = $(this);
-			if($this.is(':checked')){
-				$this.parent('label').addClass('checked');
-			}
-			$(':radio, :checkbox').not(':checked').parent('label').removeClass('checked');
-		});
+		function check(){
+			$(':checked').parent('label').addClass('checked');
+			$(':not(":checked")').parent('label').removeClass('checked');
+		}
+		this.change(check);
+		check();
 	};
 	$(':radio, :checkbox').checkToggle();
 // File input .overlap style
