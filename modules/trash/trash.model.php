@@ -52,6 +52,28 @@ class trashModel extends trash
 	}
 
 	/**
+	 * Get TrashVO all list
+	 * @param object $args
+	 * @param array $columnList
+	 * @return object
+	 */
+	function getTrashAllList($args, $columnList = array())
+	{
+		$output = executeQueryArray('trash.getTrashAllList', $args, $columnList);
+
+		if(is_array($output->data))
+		{
+			foreach($output->data AS $key=>$value)
+			{
+				$oTrashVO = new TrashVO();
+				$this->_setTrashObject($oTrashVO, $value);
+				$output->data[$key] = $oTrashVO;
+			}
+		}
+		return $output;
+	}
+
+	/**
 	 * Set trash object from std object
 	 * @param TrashVO $oTrashVO
 	 * @param object $stdObject
