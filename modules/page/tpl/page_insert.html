@@ -51,8 +51,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="browser_title">{$lang->browser_title}</label>
 		<div class="x_controls">
-			<input type="text" name="browser_title" id="browser_title" value="{$module_info->browser_title}"  id="browser_title"/>
-			<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+			<input type="text" name="browser_title" id="browser_title" value="{$module_info->browser_title}"  class="lang_code"/>
 			<p>{$lang->about_browser_title}</p>
 		</div>
 	</div>
@@ -95,6 +94,13 @@
 		</div>
 	</div>
 	<div class="x_control-group optionnalData articleType">
+		<label class="x_control-label" for="is_skin_fix">{$lang->skin_fix}</label>
+		<div class="x_controls">
+			<input type="checkbox" name="is_skin_fix" id="is_skin_fix" value="Y" /> 
+			<p>{$lang->about_skin_fix}</p>
+		</div>
+	</div>
+	<div class="x_control-group optionnalData articleType">
 		<label class="x_control-label" for="skin">{$lang->skin}</label>
 		<div class="x_controls">
 			<select name="skin" id="skin">
@@ -132,7 +138,7 @@
 	</div>
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
-			<button class="x_btn x_btn-primary x_btn-large" type="submit">{$lang->cmd_delete}</button>
+			<button class="x_btn x_btn-primary x_btn-large" type="submit">{$lang->cmd_make}</button>
 		</div>
 	</div>
 	</form>

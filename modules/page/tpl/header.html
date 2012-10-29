@@ -7,7 +7,7 @@
 <div class="x_page-header" cond="$module_info->mid">
 	<h1>
 		{$module_info->mid}<block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
-		|<a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}">{$lang->view}</a>
+		<span style="font-weight:normal"> | <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank">{$lang->view}</a></span>
 	</h1>
 </div>
 <ul class="x_nav x_nav-tabs" cond="$act != 'dispPageAdminDelete'">

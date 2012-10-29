@@ -9,31 +9,29 @@
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="admin_member" value="<!--@foreach($admin_member as $key => $val)--><!--@if($member_config->identifier == 'email_address')-->{$val->email_address},<!--@else-->{$val->user_id},<!--@end--><!--@end-->" />
 	
-	<h2 class="h2">{$lang->module_admin}</h2>
+	<h1>{$lang->module_admin}</h1>
 	<p>{$lang->about_admin_id}</p>
-	<ul>
-		<li>
-			<p class="q">
+	<div class="x_control-group">
+		<label class="x_control-label">
 				<!--@if($member_config->identifier == 'email_address')-->
 					{$lang->admin_email_address}
 				<!--@else-->
 					{$lang->admin_id}
 				<!--@end-->
-			</p>
-			<p class="a">
-				<select name="_admin_member" multiple="multiple" size="{count($admin_member)?count($admin_member):1}" style="width:290px">
-					<!--@foreach($admin_member as $key => $val)-->
-					<option value="<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->">{$val->nick_name} (<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->)</option>
-					<!--@end-->
-				</select>
-				<br />
-				<input type="text" name="admin_id" />
-				<span class="btn"><button type="button" onclick="doInsertAdmin()">{$lang->cmd_insert}</button></span>
-				<span class="btn"><button type="button" onclick="doDeleteAdmin()">{$lang->cmd_delete}</button></span>
-			</p>
-		</li>
-	</ul>
-	<h2 class="h2">{$lang->permission_setting}</h2>
+</label>
+		<div class="x_controls">
+			<select name="_admin_member" multiple="multiple" size="{count($admin_member)?count($admin_member):1}" style="width:290px">
+				<!--@foreach($admin_member as $key => $val)-->
+				<option value="<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->">{$val->nick_name} (<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->)</option>
+				<!--@end-->
+			</select>
+			<br />
+			<input type="text" name="admin_id" />
+			<span class="btn"><button type="button" onclick="doInsertAdmin()">{$lang->cmd_insert}</button></span>
+			<span class="btn"><button type="button" onclick="doDeleteAdmin()">{$lang->cmd_delete}</button></span>
+		</div>
+	</div>
+	<h1>{$lang->permission_setting}</h1>
 	<p>{$lang->about_grant_deatil}</p>
 	<table class="x_table x_table-striped x_table-hover">
 		<thead>
@@ -65,7 +63,9 @@
 			<!--@end-->
 			</tbody>
 	</table>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_save}</button>
+		</div>
 	</div>
 </form>
