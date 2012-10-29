@@ -389,6 +389,7 @@
 			$cmArgs->site_srl = (int)$site_module_info->site_srl;
 			$cmArgs->browser_title = $args->name;
 			$cmArgs->menu_srl = $request->menu_srl;
+			$cmArgs->layout_srl = -1;
 
 			// if mid is empty, auto create mid
 			if(!$request->module_id)
