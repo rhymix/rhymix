@@ -7,23 +7,24 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<section>
-	<h2>{$lang->upload_file}</h2>
+<section class="section">
+	<h1>{$lang->upload_file}</h1>
 	<form action="./" class="x_form-horizontal" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="module" />
 		<input type="hidden" name="act" value="procModuleFileBoxAdd" />
 		<input type="hidden" name="vid" value="{$vid}" />
 		<input type="hidden" name="filter" value="{$filter}" />
 		<input type="hidden" name="input" value="{$input}" />
-		
 		<div class="x_control-group __attribute" data-count="1">
 			<label for="attribute_name1" class="x_control-label __attribute_name_label">{$lang->attribute_name}</label>
 			<div class="x_controls">
-				<input type="text" name="attribute_name[]" id="attribute_name1" class="__attribute_name" />
-				<label for="attribute_value1" class="x_inline __attribute_value_label">{$lang->attribute_value} <input type="text" name="attribute_value[]" id="attribute_value1" class="__attribute_value" /></label>
-				
-				<button type="button" class="x_btn x_btn-mini __addBtn" onclick="addRow('fileUp');">{$lang->cmd_add}</button>
-				<button type="button" class="x_btn x_btn-mini __deleteBtn" onclick="clearRow(this);">{$lang->cmd_delete}</button>
+				<input type="text" name="attribute_name[]" id="attribute_name1" class="__attribute_name" style="margin-right:20px" />
+				<label for="attribute_value1" class="x_inline __attribute_value_label">{$lang->attribute_value}</label>
+				<input type="text" name="attribute_value[]" id="attribute_value1" class="__attribute_value" style="margin-right:20px" />
+				<span class="x_btn-group">
+					<button type="button" class="x_btn __addBtn" onclick="addRow('fileUp');">{$lang->cmd_add}</button>
+					<button type="button" class="x_btn __deleteBtn" onclick="clearRow(this);">{$lang->cmd_delete}</button>
+				</span>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -38,11 +39,16 @@
 	</form>
 </section>
 
-<section>
+<section class="section">
+	<h1>{$lang->filebox_list}</h1>
 	<table class="x_table x_table-striped x_table-hover">
-		<col style="width:250px" />
-		<col />
-		<col style="width:50px; white-space:nowrap" />
+		<thead>
+			<tr>
+				<th scope="col">{$lang->file}</th>
+				<th scope="col">{$lang->attribute_name}:{$lang->attribute_value}</th>
+				<th scope="col">{$lang->cmd_delete}</th>
+			</tr>
+		</thead>
 		<tbody>
 			<tr loop="$filebox_list => $key, $val">
 				<td>
@@ -55,16 +61,16 @@
 							<embed height="100" width="100" wmode="transparent" flashvars="" autostart="false" src="{getUrl('')}{$val->filename}" xmlns="http://www.w3.org/1999/xhtml" />
 						</object>
 					<!--@elseif(in_array($val->fileextension,array('gif','png','jpg','jpeg')))-->
-						<img src="{getUrl('')}{$val->filename}" style="max-height:100px" />
+						<img src="{getUrl('')}{$val->filename}" style="max-height:60px" />
 					<!--@end-->
 				</td>
 				<td>
 					<p loop="$val->attributes => $name, $value">
-						{$name} : {$value}
+						{$name}: {$value}
 					</p>
 				</td>
 				<td>
-					<button type="button" class="x_btn x_btn-danger" style="white-space:nowrap" onclick="XE.filebox.deleteFile('{$val->module_filebox_srl}');">{$lang->cmd_delete}</button>
+					<button type="button" class="x_btn x_btn-link" style="white-space:nowrap" onclick="XE.filebox.deleteFile('{$val->module_filebox_srl}');">{$lang->cmd_delete}</button>
 				</td>
 			</tr>
 		</tbody>

@@ -331,6 +331,10 @@
 		<value xml:lang="en"><![CDATA[Upload File]]></value>
 		<value xml:lang="zh-TW"><![CDATA[上傳檔案]]></value>
 	</item>
+	<item name="filebox_list">
+		<value xml:lang="ko"><![CDATA[파일 목록]]></value>
+		<value xml:lang="en"><![CDATA[File List]]></value>
+	</item>
 	<item name="access_type">
 		<value xml:lang="ko"><![CDATA[접속 방법]]></value>
 		<value xml:lang="en"><![CDATA[Access Type]]></value>

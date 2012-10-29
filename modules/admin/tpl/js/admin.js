@@ -83,7 +83,6 @@ jQuery(function($){
 		$('.x .x_tab-content>.x_tab-pane:not(".x_active")').hide();
 	}
 	$('.x .x_tabbable').xeTabbable();
-
 	$(document.body).on('click', '.x .x_nav-tabs>li>a[href*="#"]', function(){
 		var $this = $(this);
 		$this.parent('li').addClass('x_active').siblings().removeClass('x_active');
@@ -161,7 +160,6 @@ jQuery(function($){
 	$('.x th>input[type="checkbox"]')
 		.change(function() {
 			var $this = $(this), name = $this.data('name');
-
 			$this.closest('table')
 				.find('input:checkbox')
 					.filter(function(){
@@ -178,21 +176,23 @@ jQuery(function($){
 		return false;
 	});
 // Section Toggle
-	var $section_heading = $('.x .section').find('>h1:first');
-	$section_heading.append('<button type="button" class="snToggle x_icon-chevron-up">Toggle this section</button>');
-	$('.x .section.collapse>h1>.snToggle').removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
-	$section_heading.find('>.snToggle').click(function(){
-		var $this = $(this);
-		var $section = $this.closest('.section');
-		if(!$section.hasClass('collapse')){
-			$section.addClass('collapse').children('h1:first').siblings().hide();
-			$this.removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
-		} else {
-			$section.removeClass('collapse').children('h1:first').siblings().show();
-			$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
-		}
-		reflow();
-	});
+	if($('.section').length > 1){
+		var $section_heading = $('.x .section').find('>h1:first');
+		$section_heading.append('<button type="button" class="snToggle x_icon-chevron-up">Toggle this section</button>');
+		$('.x .section.collapse>h1>.snToggle').removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
+		$section_heading.find('>.snToggle').click(function(){
+			var $this = $(this);
+			var $section = $this.closest('.section');
+			if(!$section.hasClass('collapse')){
+				$section.addClass('collapse').children('h1:first').siblings().hide();
+				$this.removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
+			} else {
+				$section.removeClass('collapse').children('h1:first').siblings().show();
+				$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
+			}
+			reflow();
+		});
+	}
 // Alert Closer
 	var $xAlert = $('.x .x_alert');
 	$xAlert.prepend('<button type="button" class="x_close">&times;</button>');

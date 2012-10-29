@@ -14,47 +14,47 @@
 		<div class="x_controls">
 			<label class="x_inline"><input type="radio" name="allow_outlink" id="allow_outlink_y" value="Y" checked="checked"|cond="$config->allow_outlink == 'Y'" /> {$lang->cmd_yes}</label>
 			<label class="x_inline"><input type="radio" name="allow_outlink" value="N" checked="checked"|cond="$config->allow_outlink == 'N'" /> {$lang->cmd_no}</label>
-			<span class="x_help-block">{$lang->about_allow_outlink}</span>
+			<p class="x_help-block">{$lang->about_allow_outlink}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="allow_outlink_format">{$lang->allow_outlink_format}</label>
 		<div class="x_controls">
 			<input type="text" name="allow_outlink_format" id="allow_outlink_format" value="{$config->allow_outlink_format}" />
-			<span class="x_help-block">{$lang->about_allow_outlink_format}</span>
+			<p class="x_help-inline">{$lang->about_allow_outlink_format}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="allow_outlink_site">{$lang->allow_outlink_site}</label>
 		<div class="x_controls">
-			<textarea name="allow_outlink_site" id="allow_outlink_site" rows="8" cols="42">{$config->allow_outlink_site}</textarea>
-			<span class="x_help-block">{$lang->about_allow_outlink_site}</span>
+			<textarea name="allow_outlink_site" id="allow_outlink_site" rows="4" cols="42">{$config->allow_outlink_site}</textarea>
+			<p class="x_help-inline">{$lang->about_allow_outlink_site}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label for="filesize" class="x_control-label">{$lang->allowed_filesize}</label>
 		<div class="x_controls">
 			<input id="filesize" type="text" name="allowed_filesize" value="{$config->allowed_filesize}" style="width:40px" /> MB / {ini_get('upload_max_filesize')}
-			<span class="x_help-block">{$lang->about_allowed_filesize}</span>
+			<p class="x_help-inline">{$lang->about_allowed_filesize}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label for="attachSize" class="x_control-label">{$lang->allowed_attach_size}</label>
 		<div class="x_controls">
 			<input id="attachSize" type="text" name="allowed_attach_size" value="{$config->allowed_attach_size}" style="width:40px" /> MB
-			<span class="x_help-block">{$lang->about_allowed_attach_size}</span>
+			<p class="x_help-inline">{$lang->about_allowed_attach_size}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label for="allowedFiletypes" class="x_control-label">{$lang->allowed_filetypes}</label>
 		<div class="x_controls">
 			<input id="allowedFiletypes" type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" />
-			<span class="x_help-block">{$lang->about_allowed_filetypes}</span>
+			<p class="x_help-inline">{$lang->about_allowed_filetypes}</p>
 		</div>
 	</div>
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
-			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			<button type="submit" class="x_btn x_btn-primary x_btn-large">{$lang->cmd_save}</button>
 		</div>
 	</div>
 </form>
