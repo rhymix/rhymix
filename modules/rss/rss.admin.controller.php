@@ -69,7 +69,7 @@
             if(!$alt_message) $alt_message = 'success_updated';
 
             $alt_message = Context::getLang($alt_message);
-            Context::set('msg', $alt_message);
+            $this->setMessage($alt_message, 'info');
 
             //$this->setLayoutPath('./common/tpl');
             //$this->setLayoutFile('default_layout.html');
