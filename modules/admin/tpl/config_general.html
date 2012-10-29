@@ -24,17 +24,16 @@
 			<label class="x_control-label">{$lang->lang_select}</label>
 			<div class="x_controls">
 				<label for="lang_{$key}" class="x_inline" loop="$langs=>$key,$val">
-					<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" disabled="disabled"|cond="$key==$selected_lang" checked="checked"|cond="isset($lang_selected[$key])" />{$val}
-					<!--@if($key==$selected_lang)-->
-					<input type="hidden" name="selected_lang[]" id="lang_{$key}" value="{$key}" />
-					<!--@end-->
+					<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" disabled="disabled"|cond="$key==$selected_lang" checked="checked"|cond="isset($lang_selected[$key])" />
+					{$val}
+					<input type="hidden" name="selected_lang[]" id="lang_{$key}" value="{$key}" cond="$key==$selected_lang" />
 				</label>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="change_lang_type" class="x_control-label">{$lang->default_lang}</label>
 			<div class="x_controls">
-				<select name="change_lang_type" id="change_lang_type">
+				<select name="change_lang_type" id="change_lang_type" style="width:220px">
 					<option value="{$key}" selected="selected"|cond="$key==$selected_lang" loop="$lang_supported=>$key,$val">{$val}</option>
 				</select>
 			</div>
@@ -51,30 +50,32 @@
 			<label class="x_control-label">{$lang->use_mobile_view}</label>
 			<div class="x_controls">
 				<label for="use_mobile_view_y" class="x_inline">
-					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" checked="checked"|cond="$use_mobile_view == 'Y'" />{$lang->cmd_yes}
+					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" checked="checked"|cond="$use_mobile_view == 'Y'" />
+					{$lang->cmd_yes}({$lang->about_use_mobile_view})
 				</label>
 				<label for="use_mobile_view_n" class="x_inline">
-					<input type="radio" name="use_mobile_view" id="use_mobile_view_n" value="N" checked="checked"|cond="$use_mobile_view != 'Y'" />{$lang->cmd_no}
+					<input type="radio" name="use_mobile_view" id="use_mobile_view_n" value="N" checked="checked"|cond="$use_mobile_view != 'Y'" />
+					{$lang->cmd_no}
 				</label>
-				<span class="x_help-block">{$lang->about_use_mobile_view}</span>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->thumbnail_type}</label>
 			<div class="x_controls">
 				<label for="thumbnail_type_crop" class="x_inline">
-					<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="corp" checked="checked"|cond="$thumbnail_type != 'ratio'" />{$lang->corp}
+					<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="corp" checked="checked"|cond="$thumbnail_type != 'ratio'" />
+					{$lang->corp}
 				</label>
 				<label for="thumbnail_type_ratio" class="x_inline">
-					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$thumbnail_type == 'ratio'" />{$lang->ratio}
+					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$thumbnail_type == 'ratio'" />
+					{$lang->ratio}
 				</label>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="htmlFooter">{$lang->input_footer_script}</label>
-			<div class="x_controls">
-				<textarea name="htmlFooter" id="htmlFooter" rows="8" cols="42">{$htmlFooter}</textarea>
-				<span class="x_help-block">{$lang->detail_input_footer_script}</span>
+			<div class="x_controls" style="margin-right:14px">
+				<textarea name="htmlFooter" id="htmlFooter" rows="4" cols="42" style="width:100%" placeholder="{$lang->detail_input_footer_script}" title="{$lang->detail_input_footer_script}">{$htmlFooter}</textarea>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -84,7 +85,7 @@
 					<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1">
 					<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2">
 				</p>
-				<a href="javascript:deleteIcon('favicon\.ico');">{$lang->cmd_delete}</a>
+				<button type="button" onclick="javascript:deleteIcon('favicon\.ico')" class="x_btn x_btn-link">{$lang->cmd_delete}</button>
 				<input type="file" name="favicon" id="favicon" title="favicon" />
 				<span class="x_help-block">{$lang->about_use_favicon}</span>
 			</div>
@@ -96,7 +97,7 @@
 					<img src="{$mobicon_url}" alt="Mobile Home Icon" width="32" height="32" />
 					<span>www</span>
 				</p>
-				<a href="javascript:deleteIcon('mobicon\.png');">{$lang->cmd_delete}</a>
+				<button type="button" onclick="javascript:deleteIcon('mobicon\.png')" class="x_btn x_btn-link">{$lang->cmd_delete}</button>
 				<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/>
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
 			</div>
@@ -113,33 +114,31 @@
 	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal" style="display:none">
 		<input type="hidden" name="module" value="install" />
 		<input type="hidden" name="act" value="procInstallAdminSaveTimeZone" />
-
 		<div class="x_control-group">
 			<label class="x_control-label" for="admin_ip_list">{$lang->admin_ip_limit}</label>
 			<div class="x_controls">
-				<textarea name="admin_ip_list" id="admin_ip_list" rows="8" cols="42">{$admin_ip_list}</textarea>
-				{$lang->local_ip_address} : {$IP}</p>
-				<span class="x_help-block">
+				<textarea name="admin_ip_list" id="admin_ip_list" rows="4" cols="42" placeholder="{$IP}({$lang->local_ip_address})" style="float:left;margin-right:10px">{$admin_ip_list}</textarea>
+				<p class="x_help-block">
 					{$lang->about_admin_ip_limit}
-				</span>
+				</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="default_url">{$lang->default_url}</label>
 			<div class="x_controls">
 				<input type="text" name="default_url" id="default_url" value="{$default_url}"/>
-				<span class="x_help-block">
+				<p class="x_help-inline">
 					{$lang->about_default_url}
-				</span>
+				</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_ssl}</label>
 			<div class="x_controls">
 				<!--@foreach($lang->ssl_options as $key => $val)-->
-				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" <!--@if($use_ssl==$key)-->checked="checked" <!--@end-->/> {$val}</label>
+				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" checked="checked"|cond="$use_ssl==$key" /> {$val}</label>
 				<!--@endforeach-->
-				<span class="x_help-block">{$lang->about_use_ssl}</span>
+				<p class="x_help-block">{$lang->about_use_ssl}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -154,7 +153,7 @@
 			<div class="x_controls">
 				<label for="cdn_y" class="x_inline"><input type="radio" name="use_cdn" id="cdn_y" value="Y" checked="checked"|cond="$use_cdn=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="cdn_n" class="x_inline"><input type="radio" name="use_cdn" id="cdn_n" value="N" checked="checked"|cond="$use_cdn!='Y'" /> {$lang->cmd_no}</label>
-				<span class="x_help-block">{$lang->about_cdn}</span>
+				<p class="x_help-block">{$lang->about_cdn}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -169,7 +168,7 @@
 			<div class="x_controls">
 				<label for="sso_y" class="x_inline"><input type="radio" name="use_sso" id="sso_y" value="Y" checked="checked"|cond="$use_sso=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="sso_n" class="x_inline"><input type="radio" name="use_sso" id="sso_n" value="N" checked="checked"|cond="$use_sso!='Y'" /> {$lang->cmd_no}</label>
-				<span class="x_help-block">{$lang->about_use_sso}</span>
+				<p class="x_help-block">{$lang->about_use_sso}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -177,7 +176,7 @@
 			<div class="x_controls">
 				<label for="use_db_session_y" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_y" value="Y" checked="checked"|cond="$use_db_session=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="use_db_session_n" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_n" value="N" checked="checked"|cond="$use_db_session!='Y'" /> {$lang->cmd_no}</label>
-				<span class="x_help-block">{$lang->about_db_session}</span>
+				<p class="x_help-block">{$lang->about_db_session}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -185,7 +184,7 @@
 			<div class="x_controls">
 				<label for="qmail_compatibility_y" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_y" value="Y" checked="checked"|cond="$qmail_compatibility=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="qmail_compatibility_n" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" checked="checked"|cond="$qmail_compatibility!='Y'" /> {$lang->cmd_no}</label>
-				<span class="x_help-block">{$lang->about_qmail_compatibility}</span>
+				<p class="x_help-block">{$lang->about_qmail_compatibility}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">

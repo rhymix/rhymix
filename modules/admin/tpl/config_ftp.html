@@ -15,7 +15,7 @@
 			<label class="x_control-label" for="ftp_host">{$lang->ftp_host}</label>
 			<div class="x_controls">
 				<input type="text" name="ftp_host" id="ftp_host" value="{$ftp_info->ftp_host}" /> Default : 127.0.0.1
-				<span class="x_help-block x_muted">{$lang->detail_about_ftp_info}</span>
+				<p class="x_help-block">{$lang->detail_about_ftp_info}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -37,32 +37,47 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="ftp_passive_n">{$lang->use_ftp_passive_mode}</label>
+			<p class="x_control-label">{$lang->use_ftp_passive_mode}</p>
 			<div class="x_controls">
-				<label class="x_inline" for="ftp_passive_y"><input type="radio" name="ftp_pasv" id="ftp_passive_y" value="Y" checked="checked"|cond="$ftp_info->ftp_pasv == 'Y'" />{$lang->cmd_yes}</label>
-				<label class="x_inline" for="ftp_passive_n"><input type="radio" name="ftp_pasv" id="ftp_passive_n" value="N" checked="checked"|cond="$ftp_info->ftp_pasv != 'Y'" />{$lang->cmd_no}</label>
+				<label class="x_inline" for="ftp_passive_y">
+					<input type="radio" name="ftp_pasv" id="ftp_passive_y" value="Y" checked="checked"|cond="$ftp_info->ftp_pasv == 'Y'" />
+					{$lang->cmd_yes}
+				</label>
+				<label class="x_inline" for="ftp_passive_n">
+					<input type="radio" name="ftp_pasv" id="ftp_passive_n" value="N" checked="checked"|cond="$ftp_info->ftp_pasv != 'Y'" />
+					{$lang->cmd_no}
+				</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="sftp_n">{$lang->use_ftp_sftp_support}</label>
+			<label class="x_control-label" for="sftp_n">{$lang->use_sftp_support}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="sftp_y"><input type="radio" name="sftp" id="sftp_y" value="Y" checked="checked"|cond="$ftp_info->sftp == 'Y'" disabled|cond="!$sftp_support" />{$lang->cmd_yes}</label>
 				<label class="x_inline" for="sftp_n"><input type="radio" name="sftp" id="sftp_n" value="N" checked="checked"|cond="$ftp_info->sftp != 'Y'" /> {$lang->cmd_no}</label>
-				<block cond="!$sftp_support">{$lang->disable_sftp_support}</block>
+				<p class="x_help-black" cond="!$sftp_support">{$lang->disable_sftp_support}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="ftp_root_path">{$lang->ftp_installed_ftp_realpath}</label>
+			<label class="x_control-label" for="ftp_root_path">{$lang->msg_ftp_installed_ftp_realpath}</label>
 			<div class="x_controls">
-				<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
-				<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="tgAnchor">{$lang->ftp_get_list}</a>
-				<span class="x_help-block">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_}</span>
-				<div id="ftpSuggestion">
+				<span class="x_input-append">
+					<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
+					<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="x_btn tgAnchor">{$lang->ftp_get_list}</a>
+				</span>
+				<div id="ftpSuggestion" class="x_thumbnail">
 				</div>
+				<p class="x_help-block" style="margin-top:10px">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_}</p>
 			</div>
 		</div>
 	<div class="btnArea">
-		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+		<input type="submit" value="{$lang->cmd_save}" class="x_btn x_btn-large x_btn-primary x_pull-right" />
 	</div>
 	</form>
 </section>
+<style>
+#ftpSuggestion{padding:8px 15px;margin:2px 0;position:absolute;background:#fff;box-shadow:1px 1px 1px #eee;width:188px}
+#ftpSuggestion ul{margin:0;padding:0;list-style:none}
+#ftpSuggestion button{overflow:visible;padding:0;background:none;border:0;display:block;width:100%;text-align:left}
+#ftpSuggestion button:hover,
+#ftpSuggestion button:focus{font-weight:bold}
+</style>

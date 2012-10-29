@@ -976,14 +976,14 @@
 		<value xml:lang="vi"><![CDATA[Đường dẫn thư mục đã cài đặt XE]]></value>
 	</item>
 	<item name="msg_ftp_installed_ftp_realpath">
-		<value xml:lang="ko"><![CDATA[설치된 XE의 FTP 경로 설정]]></value>
+		<value xml:lang="ko"><![CDATA[설치된 XE의 FTP 경로]]></value>
 		<value xml:lang="en"><![CDATA[Absolute FTP Path of XE]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされたXEのFTP絶対パス設定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP绝对路径设置]]></value>
 		<value xml:lang="zh-TW"><![CDATA[XE的 FTP 絕對路經]]></value>
-		<value xml:lang="fr"><![CDATA[설치된 XE의 FTP 절대경로 설정]]></value>
+		<value xml:lang="fr"><![CDATA[설치된 XE의 FTP 절대경로]]></value>
 		<value xml:lang="de"><![CDATA[absoluten Pfad des FTPs, in dem XE installiert ist, festlegen.]]></value>
-		<value xml:lang="es"><![CDATA[설치된 XE의 FTP 절대경로 설정]]></value>
+		<value xml:lang="es"><![CDATA[설치된 XE의 FTP 절대경로]]></value>
 		<value xml:lang="tr"><![CDATA[XE Salt FTP Yolu]]></value>
 		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP]]></value>
 	</item>

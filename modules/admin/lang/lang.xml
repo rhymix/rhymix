@@ -697,16 +697,16 @@
 		</item>
 	</item>
 	<item name="about_use_ssl">
-		<value xml:lang="ko"><![CDATA['선택적으로'는 회원가입, 정보수정 등의 지정된 동작(action)에서 보안접속(SSL)을 사용합니다.<br /> '항상 사용'은 모든 서비스에 SSL을 사용 합니다.<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
-		<value xml:lang="en"><![CDATA[Select 'Optional' to use SSL for the specified actions such as signing up and changing information.<br /> 'Always' to use SSL for all services.<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
-		<value xml:lang="jp"><![CDATA[「部分的に使う」は、「会員登録/会員情報変更」など指定のアクションでSSLを利用する場合。「常に使う」は、すべてのサービスにSSLを使う場合に選択します。<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
-		<value xml:lang="zh-CN"><![CDATA[选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
-		<value xml:lang="zh-TW"><![CDATA[選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL功能。<br/>選擇開啟時，所有的服務都會使用 SSL功能。<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
-		<value xml:lang="fr"><![CDATA[Si l'on choisit 'Optionnel' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l'on choisit 'Toujours', on utilise protocole SSL dans tous les services.<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
-		<value xml:lang="ru"><![CDATA[In case of "Optional", SSL will be used for actions such as signing up / changing information. And for "Always", your site will be served only via https<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
-		<value xml:lang="es"><![CDATA[Opcionalmente, la composición de suscripción / editar la información y el uso de SSL especificada en la acción es siempre el uso de SSL para todos los servicios que se utilizarán<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
-		<value xml:lang="tr"><![CDATA['İsteği Bağlı' seçiminde; SSL, kayıt olma/bilgi değiştirme gibi eylemler için kullanılacaktır. 'Her zaman' seçiminde, siteniz sadece http yoluyla hizmet verecektir.<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
-		<value xml:lang="vi"><![CDATA[Nếu bạn chọn 'Tùy chỉnh', SSL sẽ sử dụng và những công việc như đăng kí, sửa thông tin thành viên, .<br />Chỉ chọn 'Luôn luôn' khi Website của bạn đang chạy trên Server có hỗ trợ https.<br /><span style="color:red">SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.</span>]]></value>
+		<value xml:lang="ko"><![CDATA['선택적으로'는 회원가입, 정보수정 등의 지정된 동작(action)에서 보안접속(SSL)을 사용합니다. '항상 사용'은 모든 서비스에 SSL을 사용 합니다. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="en"><![CDATA[Select 'Optional' to use SSL for the specified actions such as signing up and changing information.  'Always' to use SSL for all services. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="jp"><![CDATA[「部分的に使う」は、「会員登録/会員情報変更」など指定のアクションでSSLを利用する場合。「常に使う」は、すべてのサービスにSSLを使う場合に選択します。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL功能。 選擇開啟時，所有的服務都會使用 SSL功能。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="fr"><![CDATA[Si l'on choisit 'Optionnel' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l'on choisit 'Toujours', on utilise protocole SSL dans tous les services. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="ru"><![CDATA[In case of "Optional", SSL will be used for actions such as signing up / changing information. And for "Always", your site will be served only via https SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="es"><![CDATA[Opcionalmente, la composición de suscripción / editar la información y el uso de SSL especificada en la acción es siempre el uso de SSL para todos los servicios que se utilizarán SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="tr"><![CDATA['İsteği Bağlı' seçiminde; SSL, kayıt olma/bilgi değiştirme gibi eylemler için kullanılacaktır. 'Her zaman' seçiminde, siteniz sadece http yoluyla hizmet verecektir. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu bạn chọn 'Tùy chỉnh', SSL sẽ sử dụng và những công việc như đăng kí, sửa thông tin thành viên, . Chỉ chọn 'Luôn luôn' khi Website của bạn đang chạy trên Server có hỗ trợ https. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
 	</item>
 	<item name="server_ports">
 		<value xml:lang="ko"><![CDATA[서버 포트 지정]]></value>
@@ -724,7 +724,7 @@
 		<value xml:lang="en"><![CDATA[If your web server does not use 80 for HTTP or 443 for HTTPS port, you should specify server ports.]]></value>
 		<value xml:lang="jp"><![CDATA[一般的に使われているHTTPの80、HTTPSの443以外の他のポートを使うには、ポートを指定してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[使用除HTTP（80）, HTTPS（443）以外的端口时，必须得指定该服务器端口号。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[HTTP、HTTPS預設埠口分別是『80』、『443』<br />如果想使用其他的埠口的話，請自行設定。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[HTTP、HTTPS預設埠口分別是『80』、『443』 如果想使用其他的埠口的話，請自行設定。]]></value>
 		<value xml:lang="fr"><![CDATA[Si l'on ne veut pas utiliser le port 80 pour HTTP mais un autre port, ou bien, si l'on ne veut pas utiliser le port 443 pour HTTPS mais un autre port, on doit déclarer les ports.]]></value>
 		<value xml:lang="es"><![CDATA[80 de HTTP, HTTPS al puerto 443 si se utiliza otro que se especifique lo contrario, el puerto va a necesitar.]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer web sunucunuz, HTTP bağlantı noktaları için 80 ya da HTTPS 443 portunu kullanmıyorsa, sunucu bağlantı noktalarını belirtmeniz gerekmektedir.]]></value>
@@ -740,15 +740,15 @@
 		<value xml:lang="vi"><![CDATA[Xác nhận Database]]></value>
 	</item>
 	<item name="about_db_session">
-		<value xml:lang="ko"><![CDATA[인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다.<br/>단, 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[This setting will use PHP session used for authentication as DB.<br/>For the Websites which do not use web server frequently, you can uncheck this setting to improve response time.<br/>However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
-		<value xml:lang="jp"><![CDATA[認証の際に使われるPHPセッションをDBで使う機能です。<br />ウェブサーバーの負荷が低いサイトではこの機能をオフにすることでむしろサイトのレスポンスが向上されることもあります。<br />ただし、この機能をオンにすると、「現在ログイン中の会員」の機能を利用できなくなります。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[用DB储存认证时的PHP会话。<br/>服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。<br/>只是无法统计在线会员。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[使用 PHP session進行 DB認證。<br/>關閉此功能對於負荷較低的網站可提高效率。<br/>使用此功能會無法統計線上人數。]]></value>
-		<value xml:lang="fr"><![CDATA[This setting will use PHP session used for authentication as DB.<br/>For the Websites which do not use web server frequently, you can uncheck this setting to improve response time.<br/>However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
-		<value xml:lang="ru"><![CDATA[It will use php session with DB when authenticating.<br/>Websites with infrequent usage of web server may expect faster response when this function is disabled.<br/>However session DB will make it unable to get current users, so you cannot use related functions]]></value>
-		<value xml:lang="es"><![CDATA[This setting will use PHP session used for authentication as DB.<br/>For the Websites which do not use web server frequently, you can uncheck this setting to improve response time.<br/>However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
-		<value xml:lang="tr"><![CDATA[Yetersiz web sunucusu kullanımı olan websiteleri için, bu özellik devredışı bırakıldığı zaman daha hızlı bir tepki beklenebilir.<br/>Ancak oturum veritabanı, mevcut kullanıcılar için veritabanını erişilemez hâle getirecektir ve ilgili işler kullanılamaz hale gelecektir.]]></value>
+		<value xml:lang="ko"><![CDATA[인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다. 웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다. 단, 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[This setting will use PHP session used for authentication as DB. For the Websites which do not use web server frequently, you can uncheck this setting to improve response time. However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
+		<value xml:lang="jp"><![CDATA[認証の際に使われるPHPセッションをDBで使う機能です。 ウェブサーバーの負荷が低いサイトではこの機能をオフにすることでむしろサイトのレスポンスが向上されることもあります。 ただし、この機能をオンにすると、「現在ログイン中の会員」の機能を利用できなくなります。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用DB储存认证时的PHP会话。 服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。 只是无法统计在线会员。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用 PHP session進行 DB認證。 關閉此功能對於負荷較低的網站可提高效率。 使用此功能會無法統計線上人數。]]></value>
+		<value xml:lang="fr"><![CDATA[This setting will use PHP session used for authentication as DB. For the Websites which do not use web server frequently, you can uncheck this setting to improve response time. However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
+		<value xml:lang="ru"><![CDATA[It will use php session with DB when authenticating. Websites with infrequent usage of web server may expect faster response when this function is disabled. However session DB will make it unable to get current users, so you cannot use related functions]]></value>
+		<value xml:lang="es"><![CDATA[This setting will use PHP session used for authentication as DB. For the Websites which do not use web server frequently, you can uncheck this setting to improve response time. However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
+		<value xml:lang="tr"><![CDATA[Yetersiz web sunucusu kullanımı olan websiteleri için, bu özellik devredışı bırakıldığı zaman daha hızlı bir tepki beklenebilir. Ancak oturum veritabanı, mevcut kullanıcılar için veritabanını erişilemez hâle getirecektir ve ilgili işler kullanılamaz hale gelecektir.]]></value>
 		<value xml:lang="vi"><![CDATA[PHP sẽ xác nhận với Database. Có thể cải thiện được tốc độ của Website.]]></value>
 	</item>
 	<item name="qmail_compatibility">
@@ -1014,16 +1014,16 @@
 		<value xml:lang="tr"><![CDATA[SSO(Single Sign On) kullanmak ister misiniz?]]></value>
 	</item>
 	<item name="about_use_sso">
-		<value xml:lang="ko"><![CDATA[사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다.<br />가상 사이트를 사용할 때만 필요합니다.]]></value>
-		<value xml:lang="en"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="jp"><![CDATA[ユーザが一度のログインで基本サイトと仮想サイトに同時にログインされる機能です。<br />仮想サイトの機能を使用してない場合、設定する必要がありません。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="zh-TW"><![CDATA[此功能可讓用戶只需登入一次即可訪問多個網站。<br />使用虛擬網站，這將會是很重要的功能。]]></value>
-		<value xml:lang="fr"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="ru"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="es"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="tr"><![CDATA[SSO kullanıcıları, geçreli ya da sanal siteye bir kere kayıt olmakla, ikisinden de yararlandıracaktır.<br />Bu, size sadece sanal websiteler kullandığınız durumda lazım olacaktır.]]></value>
-		<value xml:lang="vi"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="ko"><![CDATA[사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다. 가상 사이트를 사용할 때만 필요합니다.]]></value>
+		<value xml:lang="en"><![CDATA[SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザが一度のログインで基本サイトと仮想サイトに同時にログインされる機能です。 仮想サイトの機能を使用してない場合、設定する必要がありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此功能可讓用戶只需登入一次即可訪問多個網站。 使用虛擬網站，這將會是很重要的功能。]]></value>
+		<value xml:lang="fr"><![CDATA[SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="ru"><![CDATA[SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="es"><![CDATA[SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="tr"><![CDATA[SSO kullanıcıları, geçreli ya da sanal siteye bir kere kayıt olmakla, ikisinden de yararlandıracaktır. Bu, size sadece sanal websiteler kullandığınız durumda lazım olacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.]]></value>
 	</item>
 	<item name="about_cdn">
 		<value xml:lang="ko"><![CDATA[XE core의 css, js 파일을 CDN으로부터 제공받으려면 체크하세요.]]></value>
@@ -1448,14 +1448,14 @@
 		<value xml:lang="vi"><![CDATA[Đường dẫn thư mục đã cài đặt XE]]></value>
 	</item>
 	<item name="msg_ftp_installed_ftp_realpath">
-		<value xml:lang="ko"><![CDATA[설치된 XE의 FTP 경로 설정]]></value>
+		<value xml:lang="ko"><![CDATA[설치된 XE의 FTP 경로]]></value>
 		<value xml:lang="en"><![CDATA[Absolute FTP Path of XE]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされたXEのFTP絶対パス設定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP绝对路径设置]]></value>
 		<value xml:lang="zh-TW"><![CDATA[XE的 FTP 絕對路經]]></value>
-		<value xml:lang="fr"><![CDATA[설치된 XE의 FTP 절대경로 설정]]></value>
+		<value xml:lang="fr"><![CDATA[설치된 XE의 FTP 절대경로]]></value>
 		<value xml:lang="de"><![CDATA[absoluten Pfad des FTPs, in dem XE installiert ist, festlegen.]]></value>
-		<value xml:lang="es"><![CDATA[설치된 XE의 FTP 절대경로 설정]]></value>
+		<value xml:lang="es"><![CDATA[설치된 XE의 FTP 절대경로]]></value>
 		<value xml:lang="tr"><![CDATA[XE Salt FTP Yolu]]></value>
 		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP]]></value>
 	</item>
