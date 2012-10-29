@@ -363,7 +363,7 @@
 								<img src="${ScreenShotURL}">
 							</button>
 							<ul class="_edit_menu">
-								<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+								<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>상세 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 								<li><a href="#layoutMarkupSetup" data-admin-show="#layoutMarkupSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
 								<li><button type="button" class="_duplicateLayout">복사본 생성</button></li>
 								<li><button type="button" class="_deleteLayout">삭제</button></li>
@@ -754,7 +754,9 @@ function onSiteMapReceived(htData){
 			sMenuSrl = aSource[0].id.replace("menu", "");
 			sParentSrl = aNewParent[0].id.replace("menu", "");
 			sTargetSrl = aTargetPosRef[0].id.replace("menu", "");
-
+console.log(123, aTargetPosRef);
+console.log(sTargetSrl);
+console.log(htNodeInfo);
 			switch(sTargetPos){
 				case "after":
 					// use the values as-is
@@ -860,6 +862,8 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 	for(var i=0, nLen=aNode.length; i<nLen; i++){
 		aNode[i].sParentSrl = sParentSrl;
 		
+console.log(333, aNode[i].menuSrl||aNode[i].node_srl, sParentSrl);
+
 		// Only sitemap node has menuSrl
 		if(aNode[i].menuSrl){
 			nNodeType = 1;
@@ -1556,6 +1560,8 @@ jQuery(function($){
 		}
 		
 		//$('.mapi').clone().removeClass().removeAttr('id').addClass('clone').appendTo('#add_linkMenu, #fix_linkMenu').find('li').removeAttr('id').removeAttr('class').find('ins, .side').remove();
+		
+		$(this).find('.lang_code').trigger('reload-multilingual');
 		
 		showMenuSelector($('._menuSelector_menuTreeContainer'));
 	});
