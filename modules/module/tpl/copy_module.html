@@ -1,12 +1,13 @@
 <load target="js/module_admin.js" usecdn="true" />
-<h1 class="h1">{$lang->module_copy}</h1>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+<section class="section">
 <form rule="copyModule" action="./" method="post">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminCopyModule" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+	<h2>{$lang->module_copy}</h2>
 	<table class="x_table x_table-striped x_table-hover">
 		<tr>
 			<th scope="row">{$lang->module}</th>
@@ -67,7 +68,10 @@
 			<td><input type="text" name="browser_title_10" /></td>
 			</tr>
 	</table>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+	<div class="x_clearfix">
+		<div class="x_btn-group x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
 	</div>
 </form>
+</section>
