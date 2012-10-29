@@ -71,7 +71,7 @@ function checkSearch(form)
 
 jQuery(function ($){
 	$('#pollList').submit(function(e){
-		var cnt = $('#pollList input[name=cart[]]:checked').length;
+		var cnt = $('#pollList tbody :checked').length;
 		if(cnt == 0)
 		{
 			e.stopPropagation();

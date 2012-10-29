@@ -5,22 +5,22 @@ xe.lang.msg_select_poll = '{$lang->msg_poll_is_null}';
 xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 </script>
 <load target="js/poll_admin.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
 <div class="x_page-header">
 	<h1>{$lang->poll}</h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="deleteChecked" action="./" method="post" id="pollList">
 	<input type="hidden" name="act" value="procPollAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module" value="poll" />
-	<div class="x_clearfix" style="margin-bottom:-48px">
-		<span class="x_pull-right"><input type="submit" class="x_btn x_btn-danger _allowFreqSubmit" value="{$lang->cmd_delete_checked_poll}" /></span>
-	</div>
 	<table class="x_table x_table-striped x_table-hover" id="pollListTable">
 		<caption>
 			All({number_format($total_count)})
+			<span class="x_pull-right">
+				<input type="submit" class="x_btn x_btn-danger _allowFreqSubmit" value="{$lang->cmd_delete_checked_poll}" />
+			</span>
 		</caption>
 		<thead>
 			<tr>
@@ -30,7 +30,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 				<th scope="col" class="nowr">{$lang->author}</th>
 				<th scope="col" class="nowr">{$lang->regdate}</th>
 				<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
-				<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
+				<th scope="col"><input type="checkbox" title="Check All" /></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -41,7 +41,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 				<th scope="col" class="nowr">{$lang->author}</th>
 				<th scope="col" class="nowr">{$lang->regdate}</th>
 				<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
-				<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
+				<th scope="col"><input type="checkbox" title="Check All" /></th>
 			</tr>
 		</tfoot>
 		<tbody>
@@ -58,38 +58,12 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 			</tr>
 		</tbody>
 	</table>
-	<div class="x_clearfix">
-		<span class="x_pull-right"><input type="submit" class="x_btn x_btn-danger _allowFreqSubmit" value="{$lang->cmd_delete_checked_poll}" /></span>
-	</div>
+	<span class="x_pull-right">
+		<input type="submit" class="x_btn x_btn-danger _allowFreqSubmit" value="{$lang->cmd_delete_checked_poll}" />
+	</span>
 </form>
-<div class="x_modal" id="listManager">
-	<div class="x_page-header">	
-		<h1>{$lang->poll_manager}</h1>
-	</div>
-	<form ruleset="deleteChecked" action="./" method="post" class="fg form">
-	<input type="hidden" name="module" value="poll" />
-	<input type="hidden" name="act" value="procPollAdminDeleteChecked" />
-	<input type="hidden" name="page" value="{$page}" />
-		<table width="100%" border="1" cellspacing="0" id="pollManageListTable">
-			<caption>{$lang->selected_poll} <strong id="selectedPollCount"></strong></caption>
-			<thead>
-				<tr>
-					<th scope="col" class="text">{$lang->title}</th>
-					<th scope="col">{$lang->poll_join_count}</th>
-					<th scope="col">{$lang->author}</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-		<div class="btnArea">
-			<span class="btn"><input type="submit" value="Delete" /></span>
-		</div>
-	</form>
-</div>
 
-<!-- 페이지 네비게이션 -->
-<div class="x_pagination x_pagination-centered">
+<div class="x_pagination" style="margin-top:-10px">
 	<ul>
 		<li class="x_disabled"|cond="$page == 1 || !$page"><a href="{getUrl('page','','module_srl','')}">&laquo; {$lang->first_page}</a></li>
 		<!--@while($page_no = $page_navigation->getNextPage())-->
@@ -106,21 +80,19 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 				<button type="submit" class="x_add-on">Go</button>
 			</span>
 		</li>
-    	<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a></li>
+    	<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a></li>
 	</ul>
 </div>
 
-<form action="./" method="post" class="x_clearfix" onsubmit="return checkSearch(this)">		
-<input type="hidden" name="module" value="{$module}" />
-<input type="hidden" name="act" value="{$act}" />
-<input type="hidden" name="error_return_url" value="" />
-	<div class="x_pull-right search x_input-append">
+<form action="./" method="post" class="search center x_input-append" onsubmit="return checkSearch(this)">		
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input type="hidden" name="error_return_url" value="" />
 	<select name="search_target" style="width:auto">
 		<option value="">{$lang->search_target}</option>
 		<option loop="$lang->search_poll_target_list => $key, $val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 	</select>
 	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-	<input class="x_btn x_btn-inverse" type="submit" value="{$lang->cmd_search}" />
+	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 	<a class="x_btn" href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
-	</div>
 </form>
