@@ -32,7 +32,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" class="text">{$lang->file}</th>
+				<th scope="col">{$lang->file}</th>
 				<th scope="col" class="nowr">{$lang->file_size}</th>
 				<th scope="col" class="nowr">{$lang->cmd_download}</th>
 				<th scope="col" class="nowr">{$lang->author}</th>
@@ -44,7 +44,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		</thead>
 		<tfoot>
 			<tr>
-				<th scope="col" class="text">{$lang->file}</th>
+				<th scope="col">{$lang->file}</th>
 				<th scope="col" class="nowr">{$lang->file_size}</th>
 				<th scope="col" class="nowr">{$lang->cmd_download}</th>
 				<th scope="col" class="nowr">{$lang->author}</th>
@@ -67,7 +67,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<!--@end-->
 					{@ $cur_upload_target_srl = $val->upload_target_srl}
 			<tr>
-				<th colspan="8" class="text" scope="col">
+				<th colspan="8" scope="col">
 					<!--@if(!$val->upload_target_type)-->
 						<!--@if($val->isvalid=='Y')-->
 							{$lang->is_valid}
@@ -90,7 +90,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<!--@endif-->
 				<!-- one document end -->
 			<tr>
-				<td class="text"><a href="{$val->download_url}">{htmlspecialchars($val->source_filename)}</a></td>
+				<td><a href="{$val->download_url}">{htmlspecialchars($val->source_filename)}</a></td>
 				<td class="nowr">{FileHandler::filesize($val->file_size)}</td>
 				<td class="nowr">{$val->download_count}</td>
 				<td class="nowr">
@@ -110,39 +110,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<!--@endforeach-->
 		</tbody>
 	</table>
-	<div class="btnArea">
-		<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->file_manager}...</a></span>
-	</div>
+	<span class="x_pull-right">
+		<a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->file_manager}...</a>
+	</span>
 </form>
 
-<form ruleset="deleteChecked" action="./" method="post" class="x_modal fg" id="listManager">
-<input type="hidden" name="module" value="file" />
-<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
-<input type="hidden" name="page" value="{$page}" />
-	<div class="x_modal-header">
-		<h2>{$lang->file_manager}</h2>
-	</div>
-	<div class="x_modal-body">
-		<table width="100%" id="fileManageListTable" class="x_table x_table-striped x_table-hover">
-			<caption>{$lang->selected_file} <strong id="selectedFileCount"></strong></caption>
-			<thead>
-				<tr>
-					<th scope="col" class="text">{$lang->file}</th>
-					<th scope="col" class="nowr">{$lang->file_size}</th>
-					<th scope="col" class="nowr">{$lang->status}</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</div>
-	<div class="x_modal-footer">
-		<button type="submit" class="x_btn x_btn-danger">{$lang->cmd_delete}</button>
-	</div>
-</form>
-
-<div class="search">
-<form action="" class="x_pagination x_pagination-centered">
+<form action="" class="x_pagination" style="margin-top:-10px">
 	<input type="hidden" name="error_return_url" value="" />
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
@@ -181,19 +154,44 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</ul>
 </form>
 
-	<form action="./" method="get" onsubmit="return checkSearch(this)" class="search center x_input-append">
+<form action="./" method="get" onsubmit="return checkSearch(this)" class="search center x_input-append">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="error_return_url" value="" />
-		<select name="search_target">
-			<option value="">{$lang->search_target}</option>
-			<!--@foreach($lang->file_search_target_list as $key => $val)-->
-			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-			<!--@end-->
-		</select>
-		<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-		<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
-		<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
-	</form>
-</div>
+	<select name="search_target">
+		<option value="">{$lang->search_target}</option>
+		<!--@foreach($lang->file_search_target_list as $key => $val)-->
+		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+		<!--@end-->
+	</select>
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+	<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
+	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
+</form>
+
+<form ruleset="deleteChecked" action="./" method="post" class="x_modal fg" id="listManager">
+	<input type="hidden" name="module" value="file" />
+	<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
+	<input type="hidden" name="page" value="{$page}" />
+	<div class="x_modal-header">
+		<h3>{$lang->file_manager}</h3>
+	</div>
+	<div class="x_modal-body">
+		<table width="100%" id="fileManageListTable" class="x_table x_table-striped x_table-hover">
+			<caption>{$lang->selected_file} <strong id="selectedFileCount"></strong></caption>
+			<thead>
+				<tr>
+					<th scope="col">{$lang->file}</th>
+					<th scope="col" class="nowr">{$lang->file_size}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<div class="x_modal-footer">
+		<button type="submit" class="x_btn x_btn-danger">{$lang->cmd_delete}</button>
+	</div>
+</form>
