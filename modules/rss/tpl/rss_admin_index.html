@@ -1,8 +1,8 @@
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
 <div class="x_page-header">
 	<h1>RSS</h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
 	<h1>{$lang->total_feed} {$lang->cmd_management}</h1>
@@ -10,7 +10,7 @@
 		<input type="hidden" name="module" value="rss" />
 		<input type="hidden" name="act" value="procRssAdminInsertConfig" />
 		<div class="x_control-group">
-			<label for="">{$lang->total_feed}</label>
+			<p><strong>{$lang->total_feed}</strong></p>
 			<label class="x_inline">
 				<input type="radio" name="use_total_feed" value="Y" id="use_total_feed_yes" checked="checked"|cond="!$total_config->use_total_feed || $total_config->use_total_feed == 'Y'" />{$lang->use}(<a href="{getFullSiteUrl()}rss">{getFullSiteUrl()}rss</a>)
 			</label>
@@ -24,7 +24,7 @@
 		</div>
 		<div class="x_control-group">
 			<label for="feed_description">{$lang->description}</label>
-			<textarea name="feed_description" id="feed_description" rows="8" cols="42">{$total_config->feed_description}</textarea>
+			<textarea name="feed_description" id="feed_description" rows="4" cols="42">{$total_config->feed_description}</textarea>
 		</div>
 		<div class="x_control-group">
 			<label for="image">{$lang->feed_image}</label>
@@ -41,9 +41,9 @@
 		</div>
 		<div class="x_control-group">
 			<label for="feed_document_count">{$lang->feed_document_count}</label>
-			<input type="text" name="feed_document_count" value="{$total_config->feed_document_count}" id="feed_document_count" />
+			<input type="number" min="1" max="100" name="feed_document_count" value="{$total_config->feed_document_count}" id="feed_document_count" />
 		</div>
-		<div class="x_clearfix">
+		<div class="btnArea x_clearfix">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
 			</div>
