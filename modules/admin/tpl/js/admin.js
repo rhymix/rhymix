@@ -1560,13 +1560,16 @@ jQuery(function($){
 				
 				// Remover click
 				$remover.click(function(){
-						var $this = $(this);
-						var $g11n_set_input = $('#lang_' + $this.data('lang-target'));
-						var width = $g11n_set_input.width();
-						$g11n_set_input.val('').removeAttr('disabled')
-								.width(width + 44)
-								.parent('.g11n').removeClass('active');
-						$this.siblings('.lang_code').val('');
+					var $this = $(this);
+
+					if(!$this.closest('.g11n').hasClass('active')) return;
+
+					var $g11n_set_input = $('#lang_' + $this.data('lang-target'));
+					var width = $g11n_set_input.width();
+					$g11n_set_input.val('').removeAttr('disabled')
+							.width(width + 44)
+							.parent('.g11n').removeClass('active');
+					$this.siblings('.lang_code').val('');
 				});
 						
 				// if change text, copy
