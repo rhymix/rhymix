@@ -67,7 +67,8 @@ jQuery(function ($){
 			.find('input:radio').val(index).end()
 			.find('input[name="group_srls[]"]').val(index).end()
 			.show()
-			.appendTo($tbody);
+			.appendTo($tbody)
+			.find('.lang_code').xeApplyMultilingualUI();
 
 		return false;
 	});
