@@ -861,8 +861,6 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 	var sResult = "";
 	for(var i=0, nLen=aNode.length; i<nLen; i++){
 		aNode[i].sParentSrl = sParentSrl;
-		
-console.log(333, aNode[i].menuSrl||aNode[i].node_srl, sParentSrl);
 
 		// Only sitemap node has menuSrl
 		if(aNode[i].menuSrl){
@@ -908,7 +906,7 @@ console.log(333, aNode[i].menuSrl||aNode[i].node_srl, sParentSrl);
 			sLink  = aNode[i].link;
 			sURL  = aNode[i].url;
 			sNodeSrl  = aNode[i].node_srl;
-			sParentSrl  = aNode[i].parent_srl;
+			//sParentSrl  = aNode[i].parent_srl;
 
 			sExpand  = aNode[i].expand;
 			sOpenWindow  = aNode[i].open_window;
