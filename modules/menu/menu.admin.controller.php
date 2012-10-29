@@ -390,6 +390,8 @@
 			$cmArgs->browser_title = $args->name;
 			$cmArgs->menu_srl = $request->menu_srl;
 			$cmArgs->layout_srl = -1;
+			$cmArgs->is_skin_fix = 'N';
+			$cmArgs->is_mskin_fix = 'N';
 
 			// if mid is empty, auto create mid
 			if(!$request->module_id)
