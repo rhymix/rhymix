@@ -1507,11 +1507,12 @@ jQuery(function($){
 			
 			function makeUI(){
 				var $multilingualWindow = $('#g11n');
+				var width = $this.width() - 44;
 				
 				if(t.tagName == 'TEXTAREA' || $this.data('type') == 'textarea'){
-					var $displayInput = $('<textarea id="lang_' + id + '" class="displayInput" style="width:179px">').data('lang-id', id);
+					var $displayInput = $('<textarea id="lang_' + id + '" class="displayInput" style="width:' + width + 'px">').data('lang-id', id);
 				}else{
-					var $displayInput = $('<input type="text" id="lang_' + id + '" class="displayInput" style="width:179px">').data('lang-id', id);
+					var $displayInput = $('<input type="text" id="lang_' + id + '" class="displayInput" style="width:' + width + 'px">').data('lang-id', id);
 				}
 				var $remover = $('<button type="button" class="x_add-on remover" title="' + xe.cmd_remove_multilingual_text + '"><i class="x_icon-remove"></i>' + xe.cmd_remove_multilingual_text + '</button>').data('lang-target', id);
 				var $setter = $('<a href="#g11n" class="x_add-on modalAnchor" title="' + xe.cmd_set_multilingual_text + '"><i class="x_icon-globe"></i>' + xe.cmd_set_multilingual_text + '</a>').data('lang-target', id);
