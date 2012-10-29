@@ -124,6 +124,7 @@ function doRecompileCacheFile() {
 }
 function completeCacheMessage(ret_obj) {
     alert(ret_obj['message']);
+	hideWaitingFogLayer();
 }
 
 function doResetAdminMenu() {
