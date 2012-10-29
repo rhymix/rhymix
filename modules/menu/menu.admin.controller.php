@@ -439,7 +439,17 @@
 			// if menu type is module, check exists module and update
 			if($itemInfo->is_shortcut != 'Y' && !preg_match('/^http/i',$itemInfo->url))
 			{
+				// check already created module instance
 				$oModuleModel = &getModel('module');
+				if($request->url != $itemInfo->url)
+				{
+					$output = $oModuleModel->getModuleInfoByMid($request->url);
+					if($output->module_srl)
+					{
+						return new Object(-1, 'msg_module_name_exists');
+					}
+				}
+
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url);
 
 				// if not exist module, return error
