@@ -1623,7 +1623,7 @@
                 if (settings.window.expandable)
                 {
                   $(document.body).children('div.jPicker.Container').css({zIndex:10});
-                  container.css({zIndex:20});
+                  container.css({zIndex:2000});
                 }
                 switch (settings.window.effects.type)
                 {
@@ -1685,8 +1685,8 @@
                   container.mousedown(
                     function()
                     {
-                      $(document.body).children('div.jPicker.Container').css({zIndex:999});
-                      container.css({zIndex:999});
+                      $(document.body).children('div.jPicker.Container').css({zIndex:2000});
+                      container.css({zIndex:2000});
                     });
                   container.css( // positions must be set and display set to absolute before source code injection or IE will size the container to fit the window
                     {
@@ -1696,7 +1696,7 @@
                         win.position.x == 'right' ? (popup.offset().left - 10 + (win.position.y == 'center' ? 25 : 0)) + 'px' :
                         win.position.x == 'screenCenter' ? (($(document).width() >> 1) - 260) + 'px' : (popup.offset().left + parseInt(win.position.x)) + 'px',
                       position: 'absolute',
-                      top: win.position.y == 'top' ? (popup.offset().top - 312) + 'px' :
+                      top: win.position.y == 'top' ? (popup.offset().top - 312) > 0 ? (popup.offset().top - 312) : 50 + 'px' :
                            win.position.y == 'center' ? (popup.offset().top - 156) + 'px' :
                            win.position.y == 'bottom' ? (popup.offset().top + 25) + 'px' : (popup.offset().top + parseInt(win.position.y)) + 'px'
                     });

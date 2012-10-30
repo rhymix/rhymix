@@ -5,68 +5,84 @@
  **/
 
 function Tree(url){
+	var $ = jQuery;
+
     // clear tree;
-    jQuery('#menu > ul > li > ul').remove();
-    if(jQuery("ul.simpleTree > li > a").size() ==0)jQuery('<a href="#" class="add"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){addNode(0,e);}).appendTo("ul.simpleTree > li");
+    $('#menu > ul > li > ul').remove();
+
+    if($("ul.simpleTree > li > a").size() == 0){
+		$('<a href="#__category_info" class="add modalAnchor"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>')
+			.bind('before-open.mw', function(e){
+				addNode(0,e);
+			})
+			.appendTo("ul.simpleTree > li")
+			.xeModalWindow();
+	}
 
     //ajax get data and transeform ul il
-    jQuery.get(url,function(data){
-        jQuery(data).find("node").each(function(i){
-            var text = jQuery(this).attr("text");
-            var node_srl = jQuery(this).attr("node_srl");
-            var parent_srl = jQuery(this).attr("parent_srl");
-            var color = jQuery(this).attr("color");
-            var url = jQuery(this).attr("url");
+    $.get(url,function(data){
+        $(data).find("node").each(function(i){
+            var text = $(this).attr("text");
+            var node_srl = $(this).attr("node_srl");
+            var parent_srl = $(this).attr("parent_srl");
+            var color = $(this).attr("color");
+            var url = $(this).attr("url");
 
             // node
             var node = '';
             if(color && color !='transparent'){
-                node = jQuery('<li id="tree_'+node_srl+'"><span style="color:'+color+';">'+text+'</span></li>');
+                node = $('<li id="tree_'+node_srl+'"><span style="color:'+color+';">'+text+'</span></li>');
             }else{
-                node = jQuery('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
+                node = $('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
             }
 
             // button
-            jQuery('<a href="#" class="add"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){
-                jQuery("#tree_"+node_srl+" > span").click();
+            $('<a href="#__category_info" class="add modalAnchor"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){
+                $("#tree_"+node_srl+" > span").click();
+			})
+			.bind('before-open.mw', function(e){
                 addNode(node_srl,e);
-                return false;
-            }).appendTo(node);
+			})
+            .appendTo(node)
+			.xeModalWindow();
 
-            jQuery('<a href="#" class="modify"><img src="./common/js/plugins/ui.tree/images/iconModify.gif" /></a>').bind("click",function(e){
-                jQuery("#tree_"+node_srl+" > span").click();
+            $('<a href="#__category_info" class="modify modalAnchor"><img src="./common/js/plugins/ui.tree/images/iconModify.gif" /></a>').bind("click",function(e){
+                $("#tree_"+node_srl+" > span").click();
+			})
+			.bind('before-open.mw', function(e){
                 modifyNode(node_srl,e);
-                return false;
-            }).appendTo(node);
+            })
+			.appendTo(node)
+			.xeModalWindow();
 
-            jQuery('<a href="#" class="delete"><img src="./common/js/plugins/ui.tree/images/iconDel.gif" /></a>').bind("click",function(e){
+            $('<a href="#" class="delete"><img src="./common/js/plugins/ui.tree/images/iconDel.gif" /></a>').bind("click",function(e){
                 deleteNode(node_srl);
                 return false;
             }).appendTo(node);
 
             // insert parent child
             if(parent_srl>0){
-                if(jQuery('#tree_'+parent_srl+'>ul').length==0) jQuery('#tree_'+parent_srl).append(jQuery('<ul>'));
-                jQuery('#tree_'+parent_srl+'> ul').append(node);
+                if($('#tree_'+parent_srl+'>ul').length==0) $('#tree_'+parent_srl).append($('<ul>'));
+                $('#tree_'+parent_srl+'> ul').append(node);
             }else{
-                if(jQuery('#menu ul.simpleTree > li > ul').length==0) jQuery("<ul>").appendTo('#menu ul.simpleTree > li');
-                jQuery('#menu ul.simpleTree > li > ul').append(node);
+                if($('#menu ul.simpleTree > li > ul').length==0) $("<ul>").appendTo('#menu ul.simpleTree > li');
+                $('#menu ul.simpleTree > li > ul').append(node);
             }
 
         });
 
         //button show hide
-        jQuery("#menu li").each(function(){
-            if(jQuery(this).parents('ul').size() > max_menu_depth) jQuery("a.add",this).hide();
-            if(jQuery(">ul",this).size()>0) jQuery(">a.delete",this).hide();
+        $("#menu li").each(function(){
+            if($(this).parents('ul').size() > max_menu_depth) $("a.add",this).hide();
+            if($(">ul",this).size()>0) $(">a.delete",this).hide();
         });
 
 
         // draw tree
-        simpleTreeCollection = jQuery('.simpleTree').simpleTree({
+        simpleTreeCollection = $('.simpleTree').simpleTree({
             autoclose: false,
             afterClick:function(node){
-                jQuery('#category_info').html("");
+                $('#category_info').html("");
                 //alert("text-"+jQuery('span:first',node).text());
             },
             afterDblClick:function(node){
@@ -77,7 +93,7 @@ function Tree(url){
                     Tree(xml_url);
                     return;
                 }
-                var module_srl = jQuery("#fo_category input[name=module_srl]").val();
+                var module_srl = $("#fo_category input[name=module_srl]").val();
                 var parent_srl = destination.attr('id').replace(/.*_/g,'');
                 var source_srl = source.attr('id').replace(/.*_/g,'');
 
@@ -88,9 +104,9 @@ function Tree(url){
                     parent_srl = 0;
                 }
 
-                jQuery.exec_json("document.procDocumentMoveCategory",{ "module_srl":module_srl,"parent_srl":parent_srl,"target_srl":target_srl,"source_srl":source_srl},
+                $.exec_json("document.procDocumentMoveCategory",{ "module_srl":module_srl,"parent_srl":parent_srl,"target_srl":target_srl,"source_srl":source_srl},
                 function(data){
-                    jQuery('#category_info').html('');
+                    $('#category_info').html('');
                    if(data.error > 0) Tree(xml_url);
                 });
 
@@ -98,12 +114,12 @@ function Tree(url){
 
             // i want you !! made by sol
             beforeMovedToLine : function(destination, source, pos){
-                return (jQuery(destination).parents('ul').size() + jQuery('ul',source).size() <= max_menu_depth);
+                return ($(destination).parents('ul').size() + jQuery('ul',source).size() <= max_menu_depth);
             },
 
             // i want you !! made by sol
             beforeMovedToFolder : function(destination, source, pos){
-                return (jQuery(destination).parents('ul').size() + jQuery('ul',source).size() <= max_menu_depth-1);
+                return ($(destination).parents('ul').size() + jQuery('ul',source).size() <= max_menu_depth-1);
             },
             afterAjax:function()
             {
@@ -117,30 +133,72 @@ function Tree(url){
 
         // open all node
         nodeToggleAll();
+
     },"xml");
 }
-function addNode(node,e){
-    var params ={
-            "category_srl":0
-            ,"parent_srl":node
-            ,"module_srl":jQuery("#fo_category [name=module_srl]").val()
-            };
 
-    jQuery.exec_json('document.getDocumentCategoryTplInfo', params, function(data){
-        jQuery('#category_info').html(data.tpl).css('left',e.pageX).css('top',e.pageY);
-    });
+function clearValue(){
+	var $ = jQuery;
+	var $w = $('#__category_info');
+
+	// clear value
+	$w.find('input[type="text"], textarea').val('');
+	$w.find('input[type="checkbox"]').removeAttr('checked');
+	$w.find('.lang_code').trigger('reload-multilingual');
+	$w.find('.color-indicator').trigger('keyup');
+}
+
+function addNode(node,e){
+	var $ = jQuery;
+	var $w = $('#__category_info');
+
+	clearValue();
+
+	// set value
+	$w.find('input[name="category_srl"]').val(0);
+	$w.find('input[name="parent_srl"]').val(node);
+
+	if(node){
+		$('#__parent_category_info').show();
+		$('#__parent_category_title').text($('#tree_' + node + ' > span').text());
+	}else{
+		$('#__parent_category_info').hide();
+	}
 }
 
 function modifyNode(node,e){
-    var params ={
-            "category_srl":node
-            ,"parent_srl":0
-            ,"module_srl":jQuery("#fo_category [name=module_srl]").val()
-            };
+	var $ = jQuery;
+	var $w = $('#__category_info');
 
-    jQuery.exec_json('document.getDocumentCategoryTplInfo', params, function(data){
-        jQuery('#category_info').html(data.tpl).css('left',e.pageX).css('top',e.pageY);
-    });
+	clearValue();
+
+	// set value
+	$w.find('input[name="category_srl"]').val(node);
+	$w.find('input[name="parent_srl"]').val(0);
+
+	var module_srl = $w.find('input[name="module_srl"]').val();
+
+	$.exec_json('document.getDocumentCategoryTplInfo', {'module_srl': module_srl, 'category_srl': node}, function(data){
+		if(!data || !data.category_info) return;
+
+		if(data.error){
+			alert(data.message);
+			return;
+		}
+
+		$w.find('input[name="category_title"]').val(data.category_info.title).trigger('reload-multilingual');
+		$w.find('input[name="category_color"]').val(data.category_info.color).trigger('keyup');
+		$w.find('textarea[name="category_description"]').val(data.category_info.description).trigger('reload-multilingual');
+		for(var i in data.category_info.group_srls){
+			var group_srl = data.category_info.group_srls[i];
+			$w.find('input[name="group_srls[]"][value="' + group_srl + '"]').attr('checked', 'checked');
+		}
+		if(data.category_info.expand == 'Y'){
+			$w.find('input[name="expand"]').attr('checked', 'checked');
+		}
+	});
+
+	$('#__parent_category_info').hide();
 }
 
 
@@ -182,8 +240,4 @@ function doReloadTreeCategory(module_srl) {
     // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다.
     var response_tags = new Array('error','message', 'xml_file');
     exec_xml('document', 'procDocumentMakeXmlFile', params, completeInsertCategory, response_tags, params);
-}
-
-function doCategoryFormMove() {
-	jQuery(function($){ $('#fo_category').appendTo(document.body); $('#category_info').css('width', '550px'); });
 }

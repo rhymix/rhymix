@@ -857,6 +857,15 @@
             Context::set('category_xml_file', $category_xml_file);
 
 			Context::loadJavascriptPlugin('ui.tree');
+
+            // Get a list of member groups
+            $oMemberModel = &getModel('member');
+            $group_list = $oMemberModel->getGroups($module_info->site_srl);
+            Context::set('group_list', $group_list);
+
+			$security = new Security();
+			$security->encodeHTML('group_list..title');
+
             // Get information of module_grants
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($this->module_path.'tpl', 'category_list');
@@ -878,39 +887,13 @@
             if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
             $category_srl = Context::get('category_srl');
-            $parent_srl = Context::get('parent_srl');
-            // Get a list of member groups
-            $group_list = $oMemberModel->getGroups($module_info->site_srl);
-            Context::set('group_list', $group_list);
-            // Without the sub-menu has parent_srl category_srl chugaim
-            if(!$category_srl && $parent_srl) {
-                // Get information of the parent menu
-                $parent_info = $this->getCategory($parent_srl);
-                // Default parameter settings for a new menu
-                $category_info->category_srl = getNextSequence();
-                $category_info->parent_srl = $parent_srl;
-                $category_info->parent_category_title = $parent_info->title;
-            // Add to the root menu, or if an existing menu Modified
-            } else {
-                // If category_srl the menu brings the information
-                if($category_srl) $category_info = $this->getCategory($category_srl);
-            }
+			$category_info = $this->getCategory($category_srl);
+			if(!$category_info)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
 
-
-            $category_info->title = htmlspecialchars($category_info->title);
-            Context::set('category_info', $category_info);
-
-			$security = new Security();
-			$security->encodeHTML('group_list..title');
-
-            // tpl template file directly compile and will return a variable and puts it on.
-            $oTemplate = &TemplateHandler::getInstance();
-            $tpl = $oTemplate->compile('./modules/document/tpl', 'category_info');
-            // Changing user-defined language
-            $oModuleController = &getController('module');
-            $oModuleController->replaceDefinedLangCode($tpl);
-            // set of variables to return
-            $this->add('tpl', $tpl);
+			$this->add('category_info', $category_info);
         }
 
 		/**

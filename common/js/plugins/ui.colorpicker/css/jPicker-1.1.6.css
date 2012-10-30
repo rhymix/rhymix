@@ -26,7 +26,7 @@
 }
 .jPicker.Container {
   color: #000;
-  z-index: 999;
+  z-index: 2000;
 }
 table.jPicker {
   background-color: #efefef;
@@ -36,7 +36,7 @@ table.jPicker {
   margin: 0px;
   padding: 5px;
   width: 545px;
-  z-index: 20;
+  z-index: 2000;
 }
 .jPicker .Move {
   background-color: #dddddd;
