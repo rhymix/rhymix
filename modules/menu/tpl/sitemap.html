@@ -45,7 +45,7 @@
 				</script>
 				<script id="tmpl_menuSelector_menuTreeNode" type="text/x-jquery-tmpl">
 					<li>
-						<a href="#" class="_nodeType_${NodeType}" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }'>${MenuTitle}</a>
+						<a href="#" class="_nodeType_${NodeType} _menu_url_${MenuUrl}" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }'>${MenuTitle}</a>
 						{{html SubTree}}
 					</li>
 				</script>
@@ -140,8 +140,8 @@
 									<input type="text" class="_linkUrl" required title="URL 링크" />
 								</div>
 								<div class="x_tab-pane" id="add_linkMenu">
-									<input type="text" class="_linkMenuTitle" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
-									<input type="hidden" class="_linkMenuSrl" required  />
+									<input type="text" class="_linkMenuTitle" title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+									<input type="hidden" class="_linkMenuSrl" />
 									<div class="_menuSelector_menuTreeContainer clone">
 									</div>
 								</div>
@@ -214,7 +214,11 @@
 									<input type="text" class="_url_link" title="URL 링크" />
 								</div>
 								<div class="x_tab-pane" id="fix_linkMenu">
-									<input type="text" class="_menu_link" title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+									<!--input type="text" class="_menu_link" title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" /-->
+									<input type="text" class="_linkMenuTitle" title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+									<input type="hidden" class="_linkMenuSrl"  />
+									<div class="_menuSelector_menuTreeContainer clone">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -586,14 +590,19 @@ jQuery(function($){
 jQuery._xeAdminVar = {};
 
 <!--@if($act == 'dispMenuAdminSiteMap')-->
-function showMenuSelector($container){
+function showMenuSelector($container, sSelectedModule){
 	var $ = jQuery;
 	var aMenuList = $._xeAdminVar.aMenuList;
 	
 	$container.html(createTreeMarkup(aMenuList, 0, "menuSelector_menuTree", "menuSelector_menuTreeNode"));
 	
+	var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 	// disable sitemap labels and shortcuts.
 	$container.find('._nodeType_1, ._nodeType_3').parent('li').addClass('x_disabled');
+	
+	if(sSelectedModule){
+		$container.find('._menu_url_'+sSelectedModule).click();
+	}
 }
 
 function onSiteMapReceived(htData){
@@ -859,6 +868,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 	var nNodeType;
 
 	var sResult = "";
+	var sTargetPanel;
 	for(var i=0, nLen=aNode.length; i<nLen; i++){
 		aNode[i].sParentSrl = sParentSrl;
 
@@ -869,7 +879,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			nNodeType = 2;
 		}
 		
-		var sTargetPanel;
+		sURL = "";
 		switch(nNodeType){
 			/*
 				list: Array[1]
@@ -922,12 +932,13 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			aSubNode  = aNode[i].list;
 			
 			sModuleType = aNode[i].module_type;
+			sModule = aNode[i].module;
 			
 			sTargetPanel = "#properties";
 			
-			
 			if(aNode[i].is_shortcut === "Y"){
 				sModuleType = "_SHORTCUT";
+				sURL = "";
 				aNode[i].bShortCut = true;
 			}else{
 				aNode[i].bShortCut = false;
@@ -1199,7 +1210,7 @@ jQuery(function($){
 		$("#siteMapTree").jstree("select_node", "#menu"+sMenuId);
 	});
 
-	$(document.body).on("click", '.clone a', function(){
+	$(document.body).on("click", '._menuSelector_menuTreeContainer a', function(){
 		if($(this).hasClass('_nodeType_1')){
 			alert('no root plz');
 			return;
@@ -1210,11 +1221,11 @@ jQuery(function($){
 			return;
 		}
 		
-		$(this).closest('.clone').prevAll('input._linkMenuTitle').val($._htMarkupActionParam.sMenuTitle);
+		$(this).closest('._menuSelector_menuTreeContainer').prevAll('input._linkMenuTitle').val($._htMarkupActionParam.sMenuTitle);
 		//$(this).closest('.clone').prev('input[type="text"]').val($._htMarkupActionParam.sMenuTitle + " ["+$._htMarkupActionParam.sMenuUrl+"]");
-		$(this).closest('.clone').prev('input._linkMenuSrl').val($._htMarkupActionParam.sMenuId);
+		$(this).closest('._menuSelector_menuTreeContainer').prev('input._linkMenuSrl').val($._htMarkupActionParam.sMenuId);
 		
-		$(this).closest('.clone').find('li.x_selected').removeClass('x_selected');
+		$(this).closest('._menuSelector_menuTreeContainer').find('li.x_selected').removeClass('x_selected');
 		$(this).closest('li').addClass('x_selected');
 	});
 
@@ -1568,7 +1579,7 @@ jQuery(function($){
 		
 		$(this).find('.lang_code').trigger('reload-multilingual');
 		
-		showMenuSelector($('._menuSelector_menuTreeContainer'));
+		showMenuSelector($(this).find('._menuSelector_menuTreeContainer'));
 	});
 	$('#add_menu').bind("hide", function(ev){
 		if(this !== ev.target) return;
@@ -1680,6 +1691,7 @@ jQuery(function($){
 				// Menu shortcut
 				$(this).find('a[href="#fix_linkMenu"]').click();
 				//$(this).find('._menu_link').val();
+				showMenuSelector($(this).find('._menuSelector_menuTreeContainer'), htInfo.url);
 			}else{
 				// URL shortcut
 				$(this).find('a[href="#fix_linkUrl"]').click();
@@ -1707,8 +1719,10 @@ jQuery(function($){
 		$(this).find('._url_link').val('');
 	});
 	$('#default ._save').click(function(){
+		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
+		
 		var sMenuName = $('#default ._menuName').val();
-		var sMID = $('#default ._mid').val();
+		var sMID;
 
 		var sNewWindow = $('#default ._newWindow').attr("checked")?"Y":"N";
 		var sLeaveUnfolded = $('#default ._leaveUnfolded').attr("checked")?"Y":"N";
@@ -1717,9 +1731,16 @@ jQuery(function($){
 		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 
 		var params = {};
+
+		if(htInfo.sModuleType === "_SHORTCUT"){
+			sMID = $('#default ._linkMenuSrl').val();
+			params['shortcut_target'] = sMID;
+		}else{
+			sMID = $('#default ._mid').val();
+			params['url'] = sMID;
+		}
 		params['menu_item_srl'] = sSelectedMenuSrl;
 		params['menu_name'] = sMenuName;
-		params['url'] = sMID;
 		params['menu_open_window'] = sNewWindow;
 		params['menu_expand'] = sLeaveUnfolded;
 
