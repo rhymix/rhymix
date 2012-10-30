@@ -1,10 +1,10 @@
 <include target="header.html" />
 <table class="x_table x_table-striped x_table-hover dsTg">
 	<caption>
-		<strong>All({count($module_list)})</strong>
+		All({count($module_list)})
 		<div class="x_pull-right x_btn-group">
-			<button class="x_btn x_btn-mini x_active __simple">{$lang->simple_view}</button>
-			<button class="x_btn x_btn-mini __detail">{$lang->detail_view}</button>
+			<button class="x_btn x_active __simple">{$lang->simple_view}</button>
+			<button class="x_btn __detail">{$lang->detail_view}</button>
 		</div>
 	</caption>
 	<thead>
@@ -18,45 +18,41 @@
 		</tr>
 	</thead>
 	<tbody>
-		<!--@foreach($module_list as $key => $val)-->
-		<tr>
-			<td class="nowr">
-				<!--@if(in_array($val->module,$favoriteModuleList))-->
-				<button type="button" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->on})</button>
-				<!--@else-->
-				<button type="button" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->off})</button>
-				<!--@end-->
+		<tr loop="$module_list => $key,$val" data-type1="#"|cond="in_array($val->module,$favoriteModuleList)" data-type2="#"|cond="$val->need_install || $val->need_update || $val->need_autoinstall_update">
+			<td>
+				<button type="button" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="in_array($val->module,$favoriteModuleList)">{$lang->favorite}({$lang->on})</button>
+				<button type="button" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="!in_array($val->module,$favoriteModuleList)">{$lang->favorite}({$lang->off})</button>
 			</td>
 			<td class="title">
 				<p>
-					<!--@if($val->admin_index_act)-->	
-					<a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$val->title}</a>
-					<!--@else-->
-					<strong>{$val->title}</strong>
-					<!--@end-->
+					<a href="{getUrl('','module','admin','act',$val->admin_index_act)}" cond="$val->admin_index_act">{$val->title}</a>
+					<strong cond="!$val->admin_index_act">{$val->title}</strong>
 				</p>
 				<p>{$val->description}</p>
-				<p cond="$val->need_install" class="update">{$lang->msg_avail_install} <button class="text" type="button" onclick="doInstallModule('{$val->module}')">{$lang->msg_do_you_like_install}</button></p>
-				<p cond="$val->need_update" class="update">{$lang->msg_avail_update} <button class="text" type="button" onclick="doUpdateModule('{$val->module}')">{$lang->msg_do_you_like_update}</button></p>
-				<p cond="$val->need_autoinstall_update == 'Y'" class="update">{$lang->msg_avail_easy_update}<a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a></p>
+				<p cond="$val->need_install" class="x_alert x_alert-info">{$lang->msg_avail_install} <button class="text" type="button" onclick="doInstallModule('{$val->module}')">{$lang->msg_do_you_like_install}</button></p>
+				<p cond="$val->need_update" class="x_alert x_alert-info">{$lang->msg_avail_update} <button class="text" type="button" onclick="doUpdateModule('{$val->module}')">{$lang->msg_do_you_like_update}</button></p>
+				<p cond="$val->need_autoinstall_update == 'Y'" class="x_alert x_alert-info">{$lang->msg_avail_easy_update} <a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a></p>
 			</td>
-			<td class="nowr">{$val->version}</td>
-			<td class="nowr">
+			<td>{$val->version}</td>
+			<td>
 				<!--@foreach($val->author as $author)-->
 					<!--@if($author->homepage)-->
-						<a href="{$author->homepage}" onclick="window.open(this.href);return false;" target="_blank">{$author->name}</a>
+						<a href="{$author->homepage}" target="_blank">{$author->name}</a>
 					<!--@else-->
 						{$author->name}
 					<!--@endif-->
 				<!--@endforeach-->
 			</td>
-			<td class="nowr">{$val->path}</td>
-			<td class="nowr">
-				<!--@if($val->delete_url)-->
-				<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a>
-				<!--@end-->
+			<td>{$val->path}</td>
+			<td>
+				<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}" cond="$val->delete_url">{$lang->cmd_delete}</a>
 			</td>
 		</tr>
-		<!--@end-->
 	</tbody>
 </table>
+<script>
+jQuery(function($){
+	$('.dsTg>tbody>tr[data-type1]').prependTo('tbody');
+	$('.dsTg>tbody>tr[data-type2]').prependTo('tbody');
+});
+</script>

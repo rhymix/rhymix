@@ -5,22 +5,16 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
-<form ruleset="updateCategory" action="./" method="post" enctype="multipart/form-data"  class="x_form-horizontal">
+<form ruleset="updateCategory" action="./" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminUpdateCategory" />
 	<input type="hidden" name="module_category_srl" value="{$selected_category->module_category_srl}" />
 	<input type="hidden" name="mode" value="update" />
-	<div class="x_control-group">
-		<label class="x_control-label" for="category_title">{$lang->category_title}</label>
-		<div class="x_controls">
-			<input type="text" name="title" id="category_title" value="{$selected_category->title}" />
-		</div>
-	</div>
-	<div class="x_clearfix btnArea">
-		<div class="x_pull-right">
-			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_registration}</button>
-		</div>
-	</div>
+	<label for="category_title" style="display:inline-block;padding:4px 0 0 0">{$lang->category_title}: </label>
+	<span class="x_input-append">
+		<input type="text" name="title" id="category_title" value="{$selected_category->title}" />
+		<button type="submit" class="x_btn">{$lang->cmd_registration}</button>
+	</span>
 </form>
 </section>
 <!--@end-->

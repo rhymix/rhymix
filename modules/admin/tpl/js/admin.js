@@ -1083,10 +1083,8 @@ jQuery(function($){
 		var tdTitle = $('.x .dsTg td.title');
 		tdTitle.each(function(){
 			var $t = $(this)
-			if($t.find('p.update').length==0){
+			if($t.find('p.x_alert').length==0){
 				$t.addClass('tg').find('>*:not(:first-child)').hide();
-			} else {
-				$t.addClass('up');
 			}
 		});
 		var details = $('.x .dsTg td.tg>*:not(:first-child)');

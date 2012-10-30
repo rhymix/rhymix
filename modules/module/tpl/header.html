@@ -1,14 +1,11 @@
 <load target="js/module_admin.js" usecdn="true" />
-
+<div class="x_page-header">
+	<h1>{$lang->installed_modules}</h1>
+</div>
 <script>
 	xe.lang.favorite_on = '{$lang->favorite}({$lang->on})';
 	xe.lang.favorite_off = '{$lang->favorite}({$lang->off})';
 </script>
-
-<div class="x_page-header">
-	<h1>{$lang->installed_modules}</h1>
-</div>
-
 <ul class="x_nav x_nav-tabs">
 	<li class="x_active"|cond="$act=='dispModuleAdminContent'">
 		<a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->installed_modules}</a>
