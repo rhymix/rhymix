@@ -1,44 +1,42 @@
-<form ruleset="fileModuleConfig" action="./" method="post">
-	<input type="hidden" name="module" value="file" />
-	<input type="hidden" name="act" value="procFileAdminInsertModuleConfig" />
-	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
-    <h3 class="h3">{$lang->file}</h3>
-	<table class="x_table x_table-striped x_table-hover">
-		<tr>
-		<th scope="row"><label for="allowed_filesize">{$lang->allowed_filesize}</label></th>
-		<td class="text">
-			<input type="text" name="allowed_filesize" id="allowed_filesize" value="{$file_config->allowed_filesize}"  size="3" style="width:30px" /> MB
-			<p class="desc">{$lang->about_allowed_filesize}</p>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row"><label for="allowed_attach_size">{$lang->allowed_attach_size}</label></th>
-		<td class="text">
-			<input type="text" name="allowed_attach_size" id="allowed_attach_size" value="{$file_config->allowed_attach_size}" size="3" style="width:30px" /> MB
-			/ {ini_get('upload_max_filesize')}
-			<p class="desc">{$lang->about_allowed_attach_size}</p>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row"><label for="allowed_filetypes">{$lang->allowed_filetypes}</label></th>
-		<td class="text">
-			<input type="text" name="allowed_filetypes" id="allowed_filetypes" value="{$file_config->allowed_filetypes}" />
-			<p class="desc">{$lang->about_allowed_filetypes}</p>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->enable_download_group}</th>
-		<td class="text">
-			<!--@foreach($group_list as $k => $v)-->
-			<input type="checkbox" class="checkbox" name="download_grant[]" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(in_array($v->group_srl, $file_config->download_grant))-->checked="checked"<!--@end-->/> 
-			<label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
-			&nbsp;
-			<!--@end-->
-		</td>
-	</tr>
-	</table>
-    <div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
-	</div>
-</form>
+<section class="section">
+	<h1>{$lang->file}</h1>
+
+	<form ruleset="fileModuleConfig" action="./" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="file" />
+		<input type="hidden" name="act" value="procFileAdminInsertModuleConfig" />
+		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+		<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+
+		<div class="x_control-group">
+			<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="allowed_filesize" id="allowed_filesize" value="{$file_config->allowed_filesize}" size="3" style="width:40px" /> MB
+				<span class="x_help-block">{$lang->about_allowed_filesize}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="allowed_attach_size" class="x_control-label">{$lang->allowed_attach_size}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="allowed_attach_size" id="allowed_attach_size" value="{$file_config->allowed_attach_size}" size="3" style="width:40px" /> MB
+				/ {ini_get('upload_max_filesize')}
+				<span class="x_help-block">{$lang->about_allowed_attach_size}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="allowed_filetypes" class="x_control-label">{$lang->allowed_filetypes}</label>
+			<div class="x_controls">
+				<input type="text" name="allowed_filetypes" id="allowed_filetypes" value="{$file_config->allowed_filetypes}" />
+				<span class="x_help-block">{$lang->about_allowed_filetypes}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->enable_download_group}</label>
+			<div class="x_controls">
+				<label loop="$group_list => $k, $v" for="grant_{$key}_{$v->group_srl}"><input type="checkbox" name="download_grant[]" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" checked="checked"|cond="in_array($v->group_srl, $file_config->download_grant)" /> {$v->title}</label>
+			</div>
+		</div>
+		<div class="btnArea">
+			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_save}</button>
+		</div>
+	</form>
+</section>
