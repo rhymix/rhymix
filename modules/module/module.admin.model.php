@@ -162,6 +162,11 @@
 				return new Object(-1, 'msg_invalid_request');
 			}
 
+			if($targetModule == '_SHORTCUT')
+			{
+				return new Object(0);
+			}
+
 			$oModuleModel = &getModel('module');
 			$xmlInfo = $oModuleModel->getModuleActionXml($targetModule);
 
