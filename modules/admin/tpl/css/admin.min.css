@@ -70,6 +70,7 @@ body>.x,
 .x a.x_icon-question-sign,
 .x button.x_icon-question-sign{cursor:help}
 .x .x_nav-tabs>li>a{padding-top:6px;padding-bottom:6px}
+.x .x_nav-tabs>li.x_active>a{font-weight:bold}
 .x .x_table{margin:10px 0;border-top:2px solid #ddd;border-bottom:1px solid #ddd}
 .x .x_table:first-child{margin-top:0}
 .x .x_table>caption{text-align:left;padding:8px 0}
@@ -133,6 +134,7 @@ body>.x,
 .x .module_search+[readonly]+a.x_btn{vertical-align:top;border-top-left-radius:0;border-bottom-left-radius:0;margin-left:-5px}
 .x .fileBtn{position:relative;display:inline-block;overflow:hidden;cursor:pointer}
 .x .fileBtn>input[type="file"]{position:absolute;top:0;right:0;height:100%;overflow:hidden;opacity:0;border:0;filter:alpha(opacity=0);margin:0;padding:0;cursor:pointer;-webkit-transform:scale(3, 3);-webkit-transform-origin:0 0;-moz-transform:scale(3, 3);-moz-transform-origin:100% 0;-o-transform:scale(3, 3);-o-transform-origin:100% 0;filter:progid:DXImageTransform.Microsoft.Matrix(M11=3.0,M22=3.0);}
+.x td>form,
 .x td>p:only-of-type,
 .x td>p:last-of-type{margin:0}
 /* Image Sprite */
