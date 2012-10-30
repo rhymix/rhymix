@@ -782,7 +782,7 @@
 
 				$args->module_type = $moduleInfo->module;
 				$randomMid = $this->_makeRandomMid();
-				$args->module_id = $moduleInfo->mid.'_copy_'.$randomMid;
+				$args->module_id = $moduleInfo->module.'_'.$randomMid;
 				$args->layout_srl = $moduleInfo->layout_srl;
 
 				$oModuleAdminController = &getAdminController('module');
