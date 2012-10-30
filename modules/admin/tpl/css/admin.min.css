@@ -115,6 +115,8 @@ body>.x,
 .x textarea{vertical-align:top}
 .x .x_tab-content{overflow-x:hidden}
 .x .x_table thead th{vertical-align:top}
+.x .x_well>*:first-child{margin-top:0}
+.x .x_well>*:last-child{margin-bottom:0}
 /* Custom Styles */
 .x .section{margin:20px 0 40px 0}
 .x .section>h1{position:relative;border-bottom:1px solid #ddd}

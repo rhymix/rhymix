@@ -352,7 +352,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn cần phải chọn Skin cho Widget.]]></value>
 	</item>
 	<item name="about_widget_code">
-		<value xml:lang="ko"><![CDATA[선택하신 위젯에서 요구하는 아래 항목들의 값을 넣고 [코드생성]버튼을 누르시면 제일 아래 칸에 템플릿 파일에 적용할 수 있는 코드가 출력 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택하신 위젯에서 요구하는 아래 항목들의 값을 넣고 [코드생성]버튼을 누르면 제일 아래 칸에 템플릿 파일에 적용할 수 있는 코드가 출력 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please input the required value first, and click [Generate Code] button to generate the code for adding to the template file.]]></value>
 		<value xml:lang="jp"><![CDATA[選択したウィジェットで要求する下記項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用できるコードが出力されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入所选控件所需要的下列各项后，按『代码生成』按钮，即可在页面下方获得可以用在布局模版代码片断。]]></value>
@@ -364,7 +364,7 @@
 		<value xml:lang="vi"><![CDATA[Hãy nhập các thông tin cần thiết, sau đó bấm nút [<b>Tạo Code</b>] để lấy Code thêm vào giao diện.]]></value>
 	</item>
 	<item name="about_widget_code_in_page">
-		<value xml:lang="ko"><![CDATA[아래 필요한 값들을 입력하신 후 추가 버튼을 누르시면 페이지 내에 위젯이 삽입됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[아래 필요한 값들을 입력하신 후 추가 버튼을 누르면 페이지 내에 위젯이 삽입됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[After entering the required values, click the [Add] button to insert the widget code into the page.]]></value>
 		<value xml:lang="jp"><![CDATA[下記に必要な値を入力した後、追加ボタンをクリックするとページ内にウィジェットが挿入されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入下列各项必要值后，按『生成代码』按钮，即可把控件插入到页面当中。]]></value>

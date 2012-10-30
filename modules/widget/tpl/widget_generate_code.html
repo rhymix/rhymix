@@ -1,32 +1,25 @@
 <include cond="$in_admin" target="header.html" />
 <load target="js/generate_code.js" usecdn="true" />
-
 <div class="x_well">
 	<h2>{$widget_info->title}</h2>
 	<p>{$widget_info->description}</p>
 </div>
-
-<form id="widget_code_form" class="x_form-horizontal x_well" action="./" method="post">
+<form id="widget_code_form" class="x_form-horizontal" action="./" method="post">
 	<input type="hidden" name="module" value="widget" />
 	<input type="hidden" name="act" value="procWidgetGenerateCode" />
 	<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
-
-	<h3>{$lang->cmd_generate_code}</h3>
+	<h1>{$lang->cmd_generate_code}</h1>
 	<p>{$lang->about_widget_code}</p>
 	<include target="widget_generate_code.include.html" />
-
 	<div class="btnArea">
-		<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_generate_code}" />
+		<input type="submit" class="x_btn x_btn-large x_btn-primary" value="{$lang->cmd_generate_code}" />
 	</div>
 </form>
-
 <div class="x_well">
 	<h3>{$lang->widget_code}</h3>
-	<p><textarea id="widget_code" rows="8" cols="42" style="width:100%;height:50px;cursor:text" readonly="readonly"></textarea>
+	<p style="margin-right:14px"><textarea id="widget_code" rows="4" cols="42" style="width:100%;cursor:text" readonly="readonly"></textarea>
 </div>
-
-<div class="btnArea">
-	<a href="{getUrl('', 'module', 'admin', 'act', 'dispWidgetAdminDownloadedList')}" class="x_btn">{$lang->cmd_list}</a>
+<div class="x_clearfix">
+	<a href="{getUrl('', 'module', 'admin', 'act', 'dispWidgetAdminDownloadedList')}" class="x_btn x_pull-left">{$lang->cmd_list}</a>
 </div>
-
 <include target="../../module/tpl/include.filebox.html" />

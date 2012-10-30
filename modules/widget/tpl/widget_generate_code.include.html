@@ -2,15 +2,14 @@
 <load target="js/module_list.js" usecdn="true" />
 <load target="js/mid.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
-
 <div class="x_control-group">
 	<label class="x_control-label" for="skin">{$lang->skin}</label>
 	<div class="x_controls">
-			<select name="skin" id="skin" style="width:220px">
-				<option value="">{$lang->select}</option>
-				<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
-			</select>
-			<input type="button" class="x_btn" value="{$lang->cmd_select}" />
+		<select name="skin" id="skin" style="width:220px">
+			<option value="">{$lang->select}</option>
+			<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
+		</select>
+		<input type="button" class="x_btn" value="{$lang->cmd_select}" />
 	</div>
 </div>
 <div class="x_control-group">
@@ -23,8 +22,8 @@
 <div class="x_control-group">
 	<label class="x_control-label" for="widget_cache">{$lang->widget_cache}</label>
 	<div class="x_controls">
-		<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width:auto" /> {$lang->unit_min}
-		<span class="x_help-block">{$lang->about_widget_cache}</span>
+		<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width:30px" /> {$lang->unit_min}
+		<p class="x_help-inline">{$lang->about_widget_cache}</p>
 	</div>
 </div>
 {@$suggestion_id = 0}
