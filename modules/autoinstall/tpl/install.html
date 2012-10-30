@@ -12,15 +12,16 @@
 	<block cond="$package->depends">
 		<p>{$lang->about_depending_programs}</p>
 		<ul>
-		<li loop="$package->depends => $dep">
-			{$dep->title} ver. {$dep->version} -
-			<block cond="$dep->installed">{$lang->current_version}: {$dep->cur_version} <block cond="$dep->need_update">({$lang->require_update})</block></block>
-			<block cond="!$dep->installed">{$lang->require_installation}</block>
-			<block cond="$show_ftp_note && ($dep->need_update || !$dep->installed)">
-				<a href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->cmd_download}</a> ({$lang->path}: {$dep->path})
-			</block>
-		</li>
+			<li loop="$package->depends => $dep">
+				{$dep->title} ver. {$dep->version} -
+				<block cond="$dep->installed">{$lang->current_version}: {$dep->cur_version} <block cond="$dep->need_update">({$lang->require_update})</block></block>
+				<block cond="!$dep->installed">{$lang->require_installation}</block>
+				<block cond="$show_ftp_note && ($dep->need_update || !$dep->installed)">
+					<a href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->cmd_download}</a> ({$lang->path}: {$dep->path})
+				</block>
+			</li>
 		</ul>
+		<p>{$lang->description_install}</p>
 	</block>
 </div>
 
@@ -28,10 +29,9 @@
 	<div cond="$show_ftp_note" class="x_well x_clearfix">
 		<p>{$lang->description_download}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp')}">FTP Setup</a>)</p>
 		<p>{$lang->path}: {$package->path}</p>
-		<p><a class="x_btn x_btn-primary x_pull-right" href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
+		<p><a class="x_btn x_btn-large x_btn-primary x_pull-right" href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
 	</div>
 	<div cond="!$show_ftp_note">
-		<p style="border-bottom:1px solid #ccc"|cond="$need_password">{$lang->description_install}</p>
 		<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-error">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
@@ -47,13 +47,13 @@
 					<label class="x_control-label" for="ftp_password">FTP {$lang->password}</label>
 					<div class="x_controls">
 						<input type="password" name="ftp_password" id="ftp_password" value="" />
-						<span class="x_help-block">{$lang->about_ftp_password}</span>
+						<p class="x_help-inline">{$lang->about_ftp_password}</p>
 					</div>
 				</div>
 			</block>
 			<div class="x_clearfix btnArea">
 				<div class="x_pull-right">
-					<input class="x_btn x_btn-primary" type="submit" value="{$package->installed?$lang->update:$lang->install}" />
+					<input class="x_btn x_btn-large x_btn-primary" type="submit" value="{$package->installed?$lang->update:$lang->install}" />
 				</div>
 			</div>
 		</form>

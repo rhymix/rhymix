@@ -465,8 +465,6 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x .form input[type=text],
 .x .form input[type=password],
 .x .form input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
-.x .form input[type=text].loading,
-.x .form input.loading[type=password]{padding-right:24px;width:260px;background:transparent url(../img/preLoader16.gif) no-repeat 265px center}
 .x .form input[type=checkbox],
 .x .form input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
 .x .form input[type=text][disabled=disabled],
@@ -507,11 +505,6 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x .pagination .direction:focus{border:0;margin:0;text-decoration:underline}
 .x .pagination input{width:30px;text-align:center}
 .x .pagination button{overflow:visible}
-/* Star Rating */
-.x .starRating, 
-.x .starRating span{display:inline-block;height:14px;background:transparent url(../img/iconStarRating.gif) no-repeat;overflow:hidden}
-.x .starRating{width:79px;vertical-align:top}
-.x .starRating span{font-size:0;line-height:0;vertical-align:top;text-indent:-100px;*text-indent:0;background-position:0 -14px}
 /* Progress */
 .x .prgrs{white-space:nowrap;line-height:normal;vertical-align:middle}
 .x .prgrs *{vertical-align:middle}

@@ -1,6 +1,6 @@
 <include target="category.html" />
-<div class="x_clearfix">
-	<div cond="$act == 'dispAutoinstallAdminIndex'" class="x_pull-left">
+<div class="x_clearfix" style="margin-bottom:10px">
+	<div cond="$act == 'dispAutoinstallAdminIndex'" class="x_pull-left sort">
 		<!--@if($order_target == 'newest')-->
 			<!--@if($order_type == 'desc')-->{@$_newest_order_type = 'asc'}<!--@else-->{@$_newest_order_type = 'desc'}<!--@end-->
 		<!--@else-->
@@ -16,75 +16,66 @@
 		<!--@else-->
 			{@$_popular_order_type = 'desc'}
 		<!--@end-->
-		<a href="{getUrl('order_target','newest','order_type',$_newest_order_type)}">{$lang->order_newest}<!--@if($order_target == 'newest')--><i class="<!--@if($_newest_order_type == 'asc')-->x_icon-arrow-down<!--@else-->x_icon-arrow-up<!--@end-->">{$_newest_order_type}</i><!--@end--></a>
+		<a href="{getUrl('order_target','newest','order_type',$_newest_order_type)}" class="active"|cond="$order_target == 'newest'">{$lang->order_newest} <i cond="$order_target == 'newest'" class="x_icon-circle-arrow-down"|cond="$_newest_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_newest_order_type == 'desc'">{$_newest_order_type}</i></a>
 		<i>|</i>
-		<a href="{getUrl('order_target','download','order_type',$_download_order_type)}">{$lang->order_download}<!--@if($order_target == 'download')--><i class="<!--@if($_newest_order_type == 'asc')-->x_icon-arrow-down<!--@else-->x_icon-arrow-up<!--@end-->">{$_newest_order_type}</i><!--@end--></a>
+		<a href="{getUrl('order_target','download','order_type',$_download_order_type)}" class="active"|cond="$order_target == 'download'">{$lang->order_download} <i cond="$order_target == 'download'" class="x_icon-circle-arrow-down"|cond="$_download_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_download_order_type == 'desc'">{$_download_order_type}</i></a>
 		<i>|</i>
-		<a href="{getUrl('order_target','popular','order_type',$_popular_order_type)}">{$lang->order_popular}<!--@if($order_target == 'popular')--><i class="<!--@if($_newest_order_type == 'asc')-->x_icon-arrow-down<!--@else-->x_icon-arrow-up<!--@end-->">{$_newest_order_type}</i><!--@end--></a></li>
+		<a href="{getUrl('order_target','popular','order_type',$_popular_order_type)}" class="active"|cond="$order_target == 'popular'">{$lang->order_popular} <i cond="$order_target == 'popular'" class="x_icon-circle-arrow-down"|cond="$_popular_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_popular_order_type == 'desc'">{$_popular_order_type}</i></a></li>
 	</div>
-	<div class="x_btn-group x_pull-right x_nav">
-		<button id="__btn_simple" class="x_btn x_btn-mini x_active">{$lang->simple_view}</button>
-		<button id="__btn_detail" class="x_btn x_btn-mini">{$lang->detail_view}</button>
+	<div class="x_btn-group x_pull-right">
+		<button id="__btn_simple" class="x_btn x_active">{$lang->simple_view}</button>
+		<button id="__btn_detail" class="x_btn">{$lang->detail_view}</button>
 	</div>
 </div>
 
 <div id="__list_simple">
-	<strong>
+	<p>
 		<block cond="$current_category">{$current_category}</block>
 		<block cond="!$current_category">All</block>
 		({sprintf('%d', $page_navigation->total_count)})
-	</strong>
-	<div class="x_row-fluid">
-		{@$c = 0}
+	</p>
+	<div class="list">
 		<block loop="$item_list => $key, $item">
 			{@ $target_url = $original_site."?mid=download&package_srl=".$item->package_srl; }
-			{@$c++}
-			<div class="x_well x_span6" style="position:relative;padding-left:135px;">
-				<div class="x_thumbnail" style="position:absolute;left:15px">
-					<img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="100" height="100" />
+			<div class="x_thumbnail">
+				<div class="thumb">
+					<img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="80" height="80" />
 				</div>
-				<div class="x_clearfix">
-					<p>{$item->category}</p>
-					<h4 style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap"><a href="{$target_url}" title="{htmlspecialchars($item->title)}" target="_blank">{htmlspecialchars($item->title)}</a></h4>
-					<p class="x_pull-left nowr" style="margin-right:20px">
+				<div class="text">
+					<h3><span class="x_label x_label-info">{$item->category}</span> <a href="{$target_url}" title="{htmlspecialchars($item->title)}" target="_blank">{htmlspecialchars($item->title)}</a></h3>
+					<p>
 						<block cond="(int)$item->package_voter > 0">
-							<span class="starRating" style="text-align:left"><span style="width:{sprintf("%d",$item->package_voted/$item->package_voter*20)}%">{sprintf($lang->rate, $item->package_start)}</span></span>
-							<span class="x_label">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}/{number_format($item->package_voter)}</label>
+							<span class="starRating"><span style="width:{sprintf("%d",$item->package_voted/$item->package_voter*20)}%">{sprintf($lang->rate, $item->package_start)}</span></span>
+							<span class="x_badge">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}/{number_format($item->package_voter)}</label>
 						</block>
 						<block cond="(int)$item->package_voter <= 0">
-							<span class="starRating" style="text-align:left"><span style="width:0%">0</span></span>
-							<span class="x_label">0/0</span>
+							<span class="starRating"><span style="width:0%">0</span></span>
+							<span class="x_badge">0/0</span>
 						</block>
 					</p>
-					<p class="x_pull-right nowr">
+					<p class="x_btn-group" style="text-align:right">
 						<a cond="$item->current_version && $item->need_update != 'Y'" class="x_btn x_disabled" href="#">{$lang->installed}</a>
-						<a cond="!$item->current_version" class="x_btn x_btn-primary" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->install}</a>
-						<a cond="!$show_ftp_note && $item->current_version && $item->avail_remove" class="x_btn x_btn-primary" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}">{$lang->cmd_delete}</a>
-						<a cond="$item->current_version && $item->need_update == 'Y'" class="x_btn x_btn-primary" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->update}</a>
+						<a cond="!$item->current_version" class="x_btn" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}"><i class="x_icon-download-alt"></i> {$lang->install}</a>
+						<a cond="!$show_ftp_note && $item->current_version && $item->avail_remove" class="x_btn" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}"><i class="x_icon-remove"></i> {$lang->cmd_delete}</a>
+						<a cond="$item->current_version && $item->need_update == 'Y'" class="x_btn" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}"><i class="x_icon-refresh"></i> {$lang->update}</a>
 					</p>
 				</div>
 			</div>
-			<!--@if($c % 2 == 0)-->
-				</div>
-				<div class="x_row-fluid">
-			<!--@end-->
 		</block>
 	</div>
 </div>
 
 <table id="__list_detail" class="x_table x_table-striped x_table-hover" style="display:none">
 	<caption>
-		<strong>
-			<block cond="$current_category">{$current_category}</block>
-			<block cond="!$current_category">All</block>
-			({sprintf('%d', $page_navigation->total_count)})
-		</strong>
+		<block cond="$current_category">{$current_category}</block>
+		<block cond="!$current_category">All</block>
+		({sprintf('%d', $page_navigation->total_count)})
 	</caption>
 	<thead>
 		<tr>
 			<th scope="col" class="nowr">{$lang->category}</th>
 			<th scope="col" class="nowr">{$lang->thumbnail}</th>
-			<th scope="col" class="title">{$lang->name}</th>
+			<th scope="col" class="nowr">{$lang->name}</th>
 			<th scope="col" class="nowr">{$lang->distribute_version}</th>
 			<th scope="col" class="nowr">{$lang->current_version}</th>
 			<th scope="col" class="nowr">{$lang->run}</th>
@@ -93,13 +84,13 @@
 	<tbody>
 		<tr loop="$item_list => $key, $item">
 			{@ $target_url = $original_site."?mid=download&package_srl=".$item->package_srl; }
-			<td class="nowr">{$item->category}</td>
+			<td><span class="x_label x_label-info">{$item->category}</span></td>
 			<td>
 				<div class="x_thumbnail">
 					<img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="100" height="100" />
 				</div>
 			</td>
-			<td class="title">
+			<td>
 				<p><a href="{$target_url}" target="_blank">{htmlspecialchars($item->title)}</a></p>
 				<p>{cut_str(htmlspecialchars($item->package_description),200)}</p>
 				<p>
@@ -115,65 +106,64 @@
 					{$lang->package_downloaded_count} : {number_format($item->package_downloaded)}
 				</p>
 				<p cond="$item->deps">{$lang->dependant_list}:</p>
-				<ul cond="$item->deps">
+				<ul cond="$item->deps" class="">
 					<li loop="$item->deps => $package_srl">{$installed[$package_srl]->title}</li>
 				</ul>
 			</td>
-			<td class="nowr">{htmlspecialchars($item->item_version)}</td>
-			<td class="nowr">{htmlspecialchars($item->current_version)}</td>
-			<td class="nowr">
+			<td>{htmlspecialchars($item->item_version)}</td>
+			<td>{htmlspecialchars($item->current_version)}</td>
+			<td class="nowr x_btn-group">
 				<a cond="$item->current_version && $item->need_update != 'Y'" class="x_btn x_disabled" href="#">{$lang->installed}</a>
-				<a cond="!$item->current_version" class="x_btn x_btn-primary" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->install}</a>
-				<a cond="!$show_ftp_note && $item->current_version && $item->avail_remove" class="x_btn x_btn-primary" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}">{$lang->cmd_delete}</a>
-				<a cond="$item->current_version && $item->need_update == 'Y'" class="x_btn x_btn-primary" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->update}</a>
+				<a cond="!$item->current_version" class="x_btn" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}"><i class="x_icon-download-alt"></i> {$lang->install}</a>
+				<a cond="!$show_ftp_note && $item->current_version && $item->avail_remove" class="x_btn" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}"><i class="x_icon-remove"></i> {$lang->cmd_delete}</a>
+				<a cond="$item->current_version && $item->need_update == 'Y'" class="x_btn" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}"><i class="x_icon-refresh"></i> {$lang->update}</a>
 			</td>
 		</tr>
 	</tbody>
 </table>
-
-<form cond="$page_navigation" action="./" class="x_pagination x_pagination-centered" no-error-return-url="true">
-	{@
-		$urlInfo = parse_url(getRequestUriByServerEnviroment());
-		parse_str($urlInfo['query'], $param);
-	}
-	<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act'))" type="hidden" name="{$key}" value="{$val}" />
-	<ul>
-		<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
-		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
-			<span cond="$isGoTo" id="goTo" class="x_input-append">
-				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
-				<button type="submit" class="x_add-on">Go</button>
-			</span>
-		</li>
-		</block>
-		<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
-		<!--@end-->
-		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
-			<span cond="$isGoTo" id="goTo" class="x_input-append">
-				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
-				<button type="submit" class="x_add-on">Go</button>
-			</span>
-		</li>
-		</block>
-	<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
-	</ul>
-</form>
-
-<form action="./" class="search center x_input-append" no-error-return-url="true">
-	<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act', 'page'))" type="hidden" name="{$key}" value="{$val}" />
-	<input type="search" name="search_keyword" required title="Search" value="{htmlspecialchars($search_keyword)}">
-	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
-	<a href="{getUrl('page', '', 'search_keyword', '')}" class="x_btn">{$lang->cmd_cancel}</a>
-</form>
-
+<div class="x_clearfix" style="margin-top:-10px">
+	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true">
+		{@
+			$urlInfo = parse_url(getRequestUriByServerEnviroment());
+			parse_str($urlInfo['query'], $param);
+		}
+		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act'))" type="hidden" name="{$key}" value="{$val}" />
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</form>
+	<form action="./" class="search x_input-append x_pull-right" no-error-return-url="true">
+		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act', 'page'))" type="hidden" name="{$key}" value="{$val}" />
+		<input type="search" name="search_keyword" required title="Search" value="{htmlspecialchars($search_keyword)}">
+		<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+		<a href="{getUrl('page', '', 'search_keyword', '')}" class="x_btn">{$lang->cmd_cancel}</a>
+	</form>
+</div>
 <script>
 jQuery(function($){
 	var $btnSimple = $('#__btn_simple');

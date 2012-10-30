@@ -3,12 +3,14 @@
 	<li class="x_active"|cond="$act == 'dispAutoinstallAdminInstalledPackages'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages')}">Installed({$iCount})</a></li>
 </ul>
 
-<div cond="$act == 'dispAutoinstallAdminIndex'" class="x_row-fluid" style="margin-bottom:20px">
-	<ul loop="$categories => $category" cond="$category->depth == 0" class="x_nav x_nav-list x_well x_span6">
-		<li class="x_nav-header">{$category->title}</li>
-		<li loop="$category->children => $children" class="x_active"|cond="$children->category_srl == $category_srl">
-			<a href="{getUrl('','module','admin','act','dispAutoinstallAdminIndex','category_srl',$children->category_srl,'childrenList','')}">{$children->title}({$children->nPackages})</a>
-		</li>
-	</ul>
+<div cond="$act == 'dispAutoinstallAdminIndex'" class="x_thumbnail x_clearfix category">
+	<div loop="$categories => $category" cond="$category->depth == 0">
+		<h2>{$category->title}</h2>
+		<ul>
+			<li loop="$category->children => $children" class="active"|cond="$children->category_srl == $category_srl">
+				<a href="{getUrl('','module','admin','act','dispAutoinstallAdminIndex','category_srl',$children->category_srl,'childrenList','')}">{$children->title}({$children->nPackages})</a>
+			</li>
+		</ul>
+	</div>
 </div>
 

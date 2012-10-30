@@ -51,8 +51,6 @@
 .xc .form input[type=text],
 .xc .form input[type=password],
 .xc .form input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
-.xc .form input[type=text].loading,
-.xc .form input.loading[type=password]{padding-right:24px;width:260px;background:transparent url(../img/preLoader16.gif) no-repeat 265px center}
 .xc .form input[type=checkbox],
 .xc .form input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
 .xc .form input[type=text][disabled=disabled],
