@@ -45,7 +45,7 @@
 				</script>
 				<script id="tmpl_menuSelector_menuTreeNode" type="text/x-jquery-tmpl">
 					<li>
-						<a href="#" class="_menuType_${MenuType}" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }'>${MenuTitle}</a>
+						<a href="#" class="_nodeType_${NodeType}" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }'>${MenuTitle}</a>
 						{{html SubTree}}
 					</li>
 				</script>
@@ -57,7 +57,7 @@
 	</div>
 	<div class="col" id="propertiesRoot">
 		<section>
-			<h1><a href="#" target="_blank" class="title">{사이트맵 이름}</a></h1>
+			<h1 class="title">{사이트맵 이름}</h1>
 			<div class="cnt">
 				<ul class="nav">
 					<li><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -211,10 +211,10 @@
 							</ul>
 							<div class="x_tab-content">
 								<div class="x_tab-pane x_active" id="fix_linkUrl">
-									<input type="text" required title="URL 링크" />
+									<input type="text" class="_url_link" title="URL 링크" />
 								</div>
 								<div class="x_tab-pane" id="fix_linkMenu">
-									<input type="text" required title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+									<input type="text" class="_menu_link" title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
 								</div>
 							</div>
 						</div>
@@ -593,7 +593,7 @@ function showMenuSelector($container){
 	$container.html(createTreeMarkup(aMenuList, 0, "menuSelector_menuTree", "menuSelector_menuTreeNode"));
 	
 	// disable sitemap labels and shortcuts.
-	$container.find('._menuType_1, ._menuType_3').parent('li').addClass('x_disabled');
+	$container.find('._nodeType_1, ._nodeType_3').parent('li').addClass('x_disabled');
 }
 
 function onSiteMapReceived(htData){
@@ -925,8 +925,12 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			
 			sTargetPanel = "#properties";
 			
+			
 			if(aNode[i].is_shortcut === "Y"){
 				sModuleType = "_SHORTCUT";
+				aNode[i].bShortCut = true;
+			}else{
+				aNode[i].bShortCut = false;
 			}
 
 			break;
@@ -959,9 +963,10 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		}
 		if(htNodeInfo[sNodeSrl].sModuleType === "_SHORTCUT"){
 			sTextWithIcons += " ${s}";
+			nNodeType = 3;
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,MenuType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='x_icon-share-alt' title='Shortcut'></i>");
+		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='x_icon-share-alt' title='Shortcut'></i>");
 	}
 	
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
@@ -1195,12 +1200,12 @@ jQuery(function($){
 	});
 
 	$(document.body).on("click", '.clone a', function(){
-		if($(this).hasClass('_menuType_1')){
+		if($(this).hasClass('_nodeType_1')){
 			alert('no root plz');
 			return;
 		}
 		
-		if($(this).hasClass('_menuType_3')){
+		if($(this).hasClass('_nodeType_3')){
 			alert('no shortcut plz');
 			return;
 		}
@@ -1343,16 +1348,18 @@ jQuery(function($){
 		var sMenuId = $._htMarkupActionParam.sMenuId;
 		var htInfo = htNodeInfo[sMenuId];
 		$(ev.target).find('.title').html(htInfo.sText);
+
+		$(ev.target).find('.title').attr('href', htInfo.href);
 		$(ev.target).find('.url').html(htInfo.url);
 		//$(ev.target).find('.module_type').html(htInfo.module_type || "");
 		$(ev.target).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
 
-		if(htInfo.module){
-			$(ev.target).addClass('prop-general');
-			$(ev.target).removeClass('prop-shortcut ');
-		}else{
+		if(htInfo.bShortCut){
 			$(ev.target).removeClass('prop-general');
 			$(ev.target).addClass('prop-shortcut ');
+		}else{
+			$(ev.target).addClass('prop-general');
+			$(ev.target).removeClass('prop-shortcut ');
 		}
 		
 		if(htInfo.is_start_module){
@@ -1649,7 +1656,9 @@ jQuery(function($){
 		});
 	});
 	
-	$('#default').bind("show", function(){
+	$('#default').bind("show", function(ev){
+		if(this !== ev.target) return;
+		
 		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 		
 		//console.log(htInfo);
@@ -1665,6 +1674,19 @@ jQuery(function($){
 		$(this).find('#menuName').val(htInfo.sText);
 		$(this).find('#mid2').val(htInfo.url);
 		
+		//console.log(htInfo);
+		if(htInfo.sModuleType === "_SHORTCUT"){
+			if(htInfo.module){
+				// Menu shortcut
+				$(this).find('a[href="#fix_linkMenu"]').click();
+				//$(this).find('._menu_link').val();
+			}else{
+				// URL shortcut
+				$(this).find('a[href="#fix_linkUrl"]').click();
+				$(this).find('._url_link').val(htInfo.url);
+			}
+		}
+		
 		if(htInfo.open_window === "N"){
 			$(this).find('._newWindow').removeAttr("checked");
 		}else{
@@ -1679,7 +1701,10 @@ jQuery(function($){
 		
 		$(this).find('.lang_code').trigger('reload-multilingual');
 	});
-	$('#default').bind("hide", function(){
+	$('#default').bind("hide", function(ev){
+		if(this !== ev.target) return;
+		
+		$(this).find('._url_link').val('');
 	});
 	$('#default ._save').click(function(){
 		var sMenuName = $('#default ._menuName').val();
