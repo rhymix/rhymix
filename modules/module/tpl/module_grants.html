@@ -9,43 +9,42 @@
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="admin_member" value="<!--@foreach($admin_member as $key => $val)--><!--@if($member_config->identifier == 'email_address')-->{$val->email_address},<!--@else-->{$val->user_id},<!--@end--><!--@end-->" />
 	
-	<h1>{$lang->module_admin}</h1>
-	<p>{$lang->about_admin_id}</p>
-	<div class="x_control-group">
-		<label class="x_control-label">
-				<!--@if($member_config->identifier == 'email_address')-->
-					{$lang->admin_email_address}
-				<!--@else-->
-					{$lang->admin_id}
-				<!--@end-->
-</label>
-		<div class="x_controls">
-			<select name="_admin_member" multiple="multiple" size="{count($admin_member)?count($admin_member):1}" style="width:290px">
-				<!--@foreach($admin_member as $key => $val)-->
-				<option value="<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->">{$val->nick_name} (<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->)</option>
-				<!--@end-->
-			</select>
-			<br />
-			<input type="text" name="admin_id" />
-			<span class="btn"><button type="button" onclick="doInsertAdmin()">{$lang->cmd_insert}</button></span>
-			<span class="btn"><button type="button" onclick="doDeleteAdmin()">{$lang->cmd_delete}</button></span>
+	<div class="section">
+		<h1>{$lang->module_admin}</h1>
+		<p class="x_help-block">{$lang->about_admin_id}</p>
+		<div class="x_control-group">
+			<label class="x_control-label">
+					<!--@if($member_config->identifier == 'email_address')-->
+						{$lang->admin_email_address}
+					<!--@else-->
+						{$lang->admin_id}
+					<!--@end-->
+			</label>
+			<div class="x_controls">
+				<select name="_admin_member" multiple="multiple" size="{count($admin_member)?count($admin_member):1}" style="width:290px">
+					<!--@foreach($admin_member as $key => $val)-->
+					<option value="<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->">{$val->nick_name} (<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->)</option>
+					<!--@end-->
+				</select>
+				
+				<div class="x_input-append">
+					<input type="text" name="admin_id" />
+					<button class="x_btn" type="button" onclick="doInsertAdmin()">{$lang->cmd_insert}</button>
+					<button class="x_btn x_btn-danger" type="button" onclick="doDeleteAdmin()">{$lang->cmd_delete}</button>
+				</div>
+			</div>
 		</div>
 	</div>
-	<h1>{$lang->permission_setting}</h1>
-	<p>{$lang->about_grant_deatil}</p>
-	<table class="x_table x_table-striped x_table-hover">
-		<thead>
-			<tr>
-				<th scope="col">{$lang->grant}</th>
-				<th scope="col" colspan="3">{$lang->target}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<!--@foreach($grant_list as $grant_name => $grant_item)-->
-			<tr>
-				<th scope="row">{$grant_item->title}</th>
-				<td >
-					<select name="{$grant_name}_default" class="grant_default">
+
+	<div class="section">
+		<h1>{$lang->permission_setting}</h1>
+		<p class="x_help-block">{$lang->about_grant_deatil}</p>
+
+		<div class="x_form-horizontal">
+			<div loop="$grant_list => $grant_name, $grant_item" class="x_control-group">
+				<label for="{$grant_name}_default" class="x_control-label">{$grant_item->title}</label>
+				<div class="x_controls">
+					<select name="{$grant_name}_default" id="{$grant_name}_default" class="grant_default">
 						<!--@if($grant_item->default == 'guest')--><option value="0" <!--@if($default_grant[$grant_name]=='all')-->selected="selected"<!--@end-->>{$lang->grant_to_all}</option><!--@end-->
 						<!--@if($grant_item->default != 'manager')--><option value="-1" <!--@if($default_grant[$grant_name]=='member')-->selected="selected"<!--@end-->>{$lang->grant_to_login_user}</option><!--@end-->
 						<!--@if($grant_item->default != 'manager')--><option value="-2" <!--@if($default_grant[$grant_name]=='site')-->selected="selected"<!--@end-->>{$lang->grant_to_site_user}</option><!--@end-->
@@ -53,16 +52,14 @@
 					</select>
 					<div id="zone_{$grant_name}" style="display:none">
 						<!--@foreach($group_list as $group_srl => $group_item)-->
-						<input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" <!--@if(is_array($selected_group[$grant_name])&&in_array($group_srl,$selected_group[$grant_name]))-->checked="checked"<!--@end-->/>
-						<label for="grant_{$grant_name}_{$group_srl}">{$group_item->title}</label>
+						<label for="grant_{$grant_name}_{$group_srl}" class="x_inline"><input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" <!--@if(is_array($selected_group[$grant_name])&&in_array($group_srl,$selected_group[$grant_name]))-->checked="checked"<!--@end-->/> {$group_item->title}</label>
 						<!--@end-->
 					</div>
-					
-					</td>
-				</tr>
-			<!--@end-->
-			</tbody>
-	</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
 			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_save}</button>
