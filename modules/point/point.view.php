@@ -31,11 +31,11 @@
             }
             // Get the configuration information
             $oModuleModel = &getModel('module');
+			$config = $oModuleModel->getModuleConfig('point');
 
             if($current_module_srl) {
                 $module_config = $oModuleModel->getModulePartConfig('point', $current_module_srl);
                 if(!$module_config) {
-                    $config = $oModuleModel->getModuleConfig('point');
                     $module_config['insert_document'] = $config->insert_document;
                     $module_config['insert_comment'] = $config->insert_comment;
                     $module_config['upload_file'] = $config->upload_file;

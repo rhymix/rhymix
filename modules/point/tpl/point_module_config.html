@@ -1,47 +1,59 @@
-<!--%import("filter/insert_point_module_config.xml")-->
 <load target="js/point_admin.js" usecdn="true" />
-<form action="./" method="post" id="fo_point">
-	<input type="hidden" name="module" value="point" />
-	<input type="hidden" name="act" value="procPointAdminInsertPointModuleConfig" />
-	<input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_config['module_srl']:$module_srls}" />
-	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-	
-	<h3 class="h3">{$lang->point}</h3>
-	<table class="x_table x_table-striped x_table-hover">
-		<tr>
-			<th scope="row"><label for="insert_document">{$lang->point_insert_document}</label></th>
-			<td class="text"><input type="text" name="insert_document" id="insert_document" value="{$module_config['insert_document']}" style="width:30px" /> {$module_config['point_name']}</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="insert_comment">{$lang->point_insert_comment}</label></th>
-			<td class="text"><input type="text" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment']}" style="width:30px" /> {$module_config['point_name']}</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="upload_file">{$lang->point_upload_file}</label></th>
-			<td class="text"><input type="text" name="upload_file" id="upload_file" value="{$module_config['upload_file']}" style="width:30px" /> {$module_config['point_name']}</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="download_file">{$lang->point_download_file}</label></th>
-			<td class="text"><input type="text" name="download_file" id="download_file" value="{$module_config['download_file']}" style="width:30px" /> {$module_config['point_name']}</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="read_document">{$lang->point_read_document}</label></th>
-			<td class="text"><input type="text" name="read_document" id="read_document" value="{$module_config['read_document']}" style="width:30px" /> {$module_config['point_name']}</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="voted">{$lang->point_voted}</label></th>
-			<td class="text"><input type="text" name="voted" id="voted" value="{$module_config['voted']}" style="width:30px" /> {$module_config['point_name']}</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="blamed">{$lang->point_blamed}</label></th>
-			<td class="text"><input type="text" name="blamed" id="blamed" value="{$module_config['blamed']}" style="width:30px" /> {$module_config['point_name']}</td>
-		</tr>
-	</table>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
-		<span class="btn"><button type="button" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}')">{$lang->cmd_reset}</button></span>
-	</div>
-	
-	<!-- 버튼 -->
-	
-</form>
+<section class="section">
+	<h1>{$lang->point}</h1>
+
+	<form action="./" method="post" id="fo_point" class="x_form-horizontal">
+		<input type="hidden" name="module" value="point" />
+		<input type="hidden" name="act" value="procPointAdminInsertPointModuleConfig" />
+		<input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_config['module_srl']:$module_srls}" />
+		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+		
+		<div class="x_control-group">
+			<label for="insert_document" class="x_control-label">{$lang->point_insert_document}</label>
+			<div class="x_controls">
+				<input type="number" name="insert_document" id="insert_document" value="{$module_config['insert_document']}" style="width:40px" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="insert_comment" class="x_control-label">{$lang->point_insert_comment}</label>
+			<div class="x_controls">
+				<input type="number" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment']}" style="width:40px" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="upload_file" class="x_control-label">{$lang->point_upload_file}</label>
+			<div class="x_controls">
+				<input type="number" name="upload_file" id="upload_file" value="{$module_config['upload_file']}" style="width:40px" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="download_file" class="x_control-label">{$lang->point_download_file}</label>
+			<div class="x_controls">
+				<input type="number" name="download_file" id="download_file" value="{$module_config['download_file']}" style="width:40px" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="read_document" class="x_control-label">{$lang->point_read_document}</label>
+			<div class="x_controls">
+				<input type="number" name="read_document" id="read_document" value="{$module_config['read_document']}" style="width:40px" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="voted" class="x_control-label">{$lang->point_voted}</label>
+			<div class="x_controls">
+				<input type="number" name="voted" id="voted" value="{$module_config['voted']}" style="width:40px" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="blamed" class="x_control-label">{$lang->point_blamed}</label>
+			<div class="x_controls">
+				<input type="number" name="blamed" id="blamed" value="{$module_config['blamed']}" style="width:40px" /> {$module_config['point_name']}
+			</div>
+		</div>
+
+		<div class="x_clearfix btnArea">
+			<button class="x_btn x_pull-left" type="button" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}')">{$lang->cmd_reset}</button>
+			<button class="x_btn x_btn-primary x_pull-right" type="submit">{$lang->cmd_save}</button>
+		</div>
+	</form>
+</section>
