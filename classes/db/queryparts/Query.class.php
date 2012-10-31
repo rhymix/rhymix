@@ -56,13 +56,13 @@
 		 * argument list
 		 * @var array
 		 */
-		var $arguments = null;
+		var $arguments = NULL;
 
 		/**
 		 * column list
 		 * @var array
 		 */
-                var $columnList = null;
+                var $columnList = NULL;
 
 		/**
 		 * order by text
@@ -83,15 +83,15 @@
 		 * @param string $priority
 		 * @return void
 		 */
-		function Query($queryID = null
-			, $action = null
-			, $columns = null
-			, $tables = null
-			, $conditions = null
-			, $groups = null
-			, $orderby = null
-			, $limit = null
-			, $priority = null){
+		function Query($queryID = NULL
+			, $action = NULL
+			, $columns = NULL
+			, $tables = NULL
+			, $conditions = NULL
+			, $groups = NULL
+			, $orderby = NULL
+			, $limit = NULL
+			, $priority = NULL){
 			$this->queryID = $queryID;
 			$this->action = $action;
 			$this->priority = $priority;
@@ -106,7 +106,7 @@
 		}
 
 		function show(){
-			return true;
+			return TRUE;
 		}
 
 		function setQueryId($queryID){
@@ -149,7 +149,7 @@
 
 		function setTables($tables){
 			if(!isset($tables) || count($tables) === 0){
-				$this->setError(true);
+				$this->setError(TRUE);
 				$this->setMessage("You must provide at least one table for the query.");
 				return;
 			}
@@ -198,7 +198,7 @@
 		 * @param string|array $columns
 		 * @return Query return Query instance
 		 */
-		function select($columns= null){
+		function select($columns= NULL){
 			$this->action = 'select';
 			$this->setColumns($columns);
 			return $this;
@@ -264,11 +264,27 @@
 		}
 
 		/**
+		 * Check if current query uses the click count attribute
+		 * For CUBRID, this statement uses the click count feature.
+		 * For the other databases, using this attribute causes a query
+		 * to produce both a select and an update
+		 */
+		function usesClickCount()
+		{
+			foreach($this->columns as $column){
+				if($column->show() && $column instanceof ClickCountExpression)
+					return true;
+			}
+			return false;
+		}
+
+		/**
 		 * Return select sql
 		 * @param boolean $with_values
 		 * @return string
 		 */
-		function getSelectString($with_values = true){
+		function getSelectString($with_values = TRUE){
+			        $select = array();
                     foreach($this->columns as $column){
                             if($column->show())
                                     if($column->isSubquery()){
@@ -285,7 +301,7 @@
 		 * @param boolean $with_values
 		 * @return string
 		 */
-		function getUpdateString($with_values = true){
+		function getUpdateString($with_values = TRUE){
                     foreach($this->columns as $column){
                         if($column->show())
                            $update[] = $column->getExpression($with_values);
@@ -298,7 +314,7 @@
 		 * @param boolean $with_values
 		 * @return string
 		 */
-		function getInsertString($with_values = true){
+		function getInsertString($with_values = TRUE){
 			$columnsList = '';
 			if($this->subquery){ // means we have insert-select
 				
@@ -339,7 +355,7 @@
 		 * @param boolean $with_values
 		 * @return string
 		 */
-		function getFromString($with_values = true){
+		function getFromString($with_values = TRUE){
 			$from = '';
 			$simple_table_count = 0;
 			foreach($this->tables as $table){
@@ -360,7 +376,7 @@
 		 * @param boolean $with_optimization
 		 * @return string
 		 */
-		function getWhereString($with_values = true, $with_optimization = true){
+		function getWhereString($with_values = TRUE, $with_optimization = TRUE){
 			$where = '';
 			$condition_count = 0;
 

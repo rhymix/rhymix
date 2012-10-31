@@ -13,6 +13,7 @@
         require(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
         require(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
         require(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpressionWithoutArgument.class.php');
+		require(_XE_PATH_.'classes/db/queryparts/expression/ClickCountExpression.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/CubridTableWithHint.class.php');
