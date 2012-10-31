@@ -5,6 +5,7 @@
 <load target="./js/jquery.jstree.js" />
 <load target="./js/jquery.scrollTo-1.4.2.js" />
 <load target="./js/jquery.tmpl.js" />
+
 <!--script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script-->
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -55,7 +56,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col" id="propertiesRoot">
+	<div class="col" id="propertiesRoot" style="display:none">
 		<section>
 			<h1 class="title">{사이트맵 이름}</h1>
 			<div class="cnt">
@@ -68,7 +69,7 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#propertiesRoot">&times;</button>
 	</div>
-	<div class="col prop-general" id="properties">
+	<div class="col prop-general" id="properties" style="display:none">
 		<section>
 			<h1><a href="#" target="_blank" class="title">{메뉴 이름}</a></h1>
 			<div class="cnt">
@@ -91,7 +92,7 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#properties">&times;</button>
 	</div>
-	<div class="col" id="add">
+	<div class="col" id="add" style="display:none">
 		<section>
 			<h1>메뉴 추가</h1>
 			<div class="cnt">
@@ -110,7 +111,7 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#add">&times;</button>
 	</div>
-	<div class="col url" id="add_menu">
+	<div class="col url" id="add_menu" style="display:none">
 		<fieldset>
 			<h1 class="_title">URL 링크</h1>
 			<div class="cnt">
@@ -156,7 +157,7 @@
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#add_menu">&times;</button>
 	</div>
-	<div class="col download" id="download">
+	<div class="col download" id="download" style="display:none">
 		<section>
 			<h1>다른 메뉴타입설치</h1>
 			<div class="cnt">			
@@ -184,7 +185,7 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#download">&times;</button>
 	</div>
-	<div class="col url" id="default">
+	<div class="col url" id="default" style="display:none">
 		<fieldset>
 			<h1>기본 설정</h1>
 			<div class="cnt">
@@ -238,7 +239,7 @@
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#default">&times;</button>
 	</div>
-	<div class="col" id="imgbtn">
+	<div class="col" id="imgbtn" style="display:none">
 		<fieldset>
 			<h1>이미지 버튼</h1>
 			<div class="cnt">
@@ -302,7 +303,13 @@
 	</div>
 	<!--@end-->
 	
+	<!--@if($act == 'dispMenuAdminSiteMap')-->
+	<div class="col" id="design"  style="display:none">
+	<!--@end-->
+
+	<!--@if($act == 'dispMenuAdminSiteDesign')-->
 	<div class="col" id="design">
+	<!--@end-->
 		<fieldset>
 			<h1 class="_item">디자인</h1>
 			<h1 class="_site">사이트 디자인</h1>
@@ -343,7 +350,7 @@
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#design">&times;</button>
 	</div>
-	<div class="col theme" id="layout">
+	<div class="col theme" id="layout" style="display:none">
 		<form action="">
 			<h1>레이아웃</h1>
 			<div class="cnt">
@@ -383,7 +390,7 @@
 		</form>
 		<button type="button" class="x_close" data-admin-hide="#layout">&times;</button>
 	</div>
-	<div class="col layoutSetup" id="layoutSetup">
+	<div class="col layoutSetup" id="layoutSetup" style="display:none">
 		<section>
 			<h1>레이아웃 설정</h1>
 			<div class="cnt">
@@ -392,7 +399,7 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#layoutSetup">&times;</button>
 	</div>
-	<div class="col layoutMarkupSetup" id="layoutMarkupSetup">
+	<div class="col layoutMarkupSetup" id="layoutMarkupSetup" style="display:none">
 		<section>
 			<h1>레이아웃 HTML/CSS 설정</h1>
 			<div class="cnt">
@@ -402,7 +409,7 @@
 		<button type="button" class="x_close" data-admin-hide="#layoutMarkupSetup">&times;</button>
 	</div>
 	
-	<div class="col download" id="downloadLayout">
+	<div class="col download" id="downloadLayout" style="display:none">
 		<section>
 			<h1>다른 레이아웃 설치</h1>
 			<div class="cnt">
@@ -441,7 +448,7 @@
 		<button type="button" class="x_close" data-admin-hide="#downloadLayout">&times;</button>
 	</div>
 	
-	<div class="col theme" id="skin">
+	<div class="col theme" id="skin" style="display:none">
 		<form action="">
 			<h1>스킨</h1>
 			<div class="cnt">
@@ -482,7 +489,7 @@
 		</form>
 		<button type="button" class="x_close" data-admin-hide="#skin">&times;</button>
 	</div>
-	<div class="col skinSetup" id="skinSetup">
+	<div class="col skinSetup" id="skinSetup" style="display:none">
 		<section>
 			<h1>스킨 설정</h1>
 			<div class="cnt">
@@ -491,7 +498,7 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#skinSetup">&times;</button>
 	</div>
-	<div class="col download" id="downloadSkin">
+	<div class="col download" id="downloadSkin" style="display:none">
 		<section>
 			<h1>다른 스킨 설치</h1>
 			<div class="cnt">
@@ -511,7 +518,7 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#downloadSkin">&times;</button>
 	</div>
-	<div class="col" id="auth">
+	<div class="col" id="auth" style="display:none">
 		<fieldset>
 			<h1>권한</h1>
 			<div class="cnt">
@@ -540,11 +547,11 @@
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#auth">&times;</button>
 	</div>
-	<div class="col" id="details">
+	<div class="col" id="details" style="display:none">
 		{상세설정}
 		<button type="button" class="x_close" data-admin-hide="#details">&times;</button>
 	</div>
-	<div class="col" id="html">
+	<div class="col" id="html" style="display:none">
 		{HTML/CSS}
 		<button type="button" class="x_close" data-admin-hide="#html">&times;</button>
 	</div>
@@ -613,31 +620,14 @@ function onSiteMapReceived(htData){
 	
 	$("#siteMapTree").html(createTreeMarkup(aMenuList, 0));
 	
-	if($._xeAdminVar.bCut){
+	if($._xeAdminVar.sCopySourceMenuSrl){
+		$('._edit_paste').attr('disabled', 'disabled');
+		$('#siteMapTree ._isCut').removeClass('_isCut');
+
 		$._xeAdminVar.sCopySourceMenuSrl = null;
+		$._xeAdminVar.bCut = false;
 	}
 
-	var sNodeSrl;
-	var bCopySourceFound = false;
-	for(var x in htNodeInfo){
-		sNodeSrl = htNodeInfo[x].sNodeSrl;
-		if(sNodeSrl && sNodeSrl === $._xeAdminVar.sCopySourceMenuSrl){
-			bCopySourceFound = true;
-			break;
-		}
-	}
-	if(!bCopySourceFound){
-		console.log("src found");
-	/*
-		$._xeAdminVar.sCopySourceMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
-		$('._edit_paste').removeAttr('disabled');
-		$('#site_map li._isCut').removeClass('_isCut');
-		$('#menu'+$._xeAdminVar.sCopySourceMenuSrl).addClass('_isCut');
-	*/
-	}else{
-		console.log("src NOT found");
-	}
-	
 	var sInitiallyOpen = [];
 
 	$("#siteMapTree")
@@ -1060,6 +1050,8 @@ jQuery(function($){
 	$.fn.hide = function(speed, easing, callback, htOpt) {
 		$(this).trigger('hide', [htOpt]);
 		
+		$(this).find('.active').removeClass('active');
+		
 		var sId = $(this).attr("id");
 		
 		if($(this).hasClass("col")){
@@ -1196,7 +1188,8 @@ jQuery(function($){
 	// TARGET toggle
 	$(document.body).on("click", ".x [data-admin-toggle]", function(ev){
 		$($(this).attr('data-admin-toggle')).toggle();
-		return false;
+
+		ev.preventDefault();
 	});
 	
 	// TARGET show
@@ -1205,6 +1198,13 @@ jQuery(function($){
 		var $target = $($(this).attr('data-admin-show'));
 
 		showTargetClicked($anchor, $target);
+		
+		// FF keeps the focus, making the button highlighted even after the panel is closed.
+		if(this.tagName.toUpperCase() === "A"){
+			$(this).blur();
+		}
+		
+		ev.preventDefault();
 	});
 	function showTargetClicked($anchor, $target){
 		$anchor.parents('.col').next().hide();
@@ -2256,11 +2256,18 @@ jQuery(function($){
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
 
-		$(this).find('._itemList').html("").append($.tmpl( "design_layoutItem", {})).append($.tmpl( "deisgn_skinItem", {
-				ModuleType : htInfo.sModuleType,
-				ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title
-			} 
-		));
+		var $itemList = $(this).find('._itemList');
+		$itemList.html("");
+		$itemList.append($.tmpl( "design_layoutItem", {}));
+		
+		// if the module type has no skin support, do not even display the option.
+		if($._xeAdminVar.htItemTypes[htInfo.sModuleType].no_skin !== "Y"){
+			$itemList.append($.tmpl( "deisgn_skinItem", {
+					ModuleType : htInfo.sModuleType,
+					ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title
+				} 
+			));
+		}
 		
 		// also preview here
 		var params = {
