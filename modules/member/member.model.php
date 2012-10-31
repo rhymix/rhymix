@@ -43,6 +43,10 @@
 					if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
 				}
 			}
+			else
+			{
+				$config->signupForm = array();
+			}
 
             // Get terms of user
 			$config->agreement = memberModel::_getAgreement();
