@@ -1,5 +1,9 @@
 <load target="./js/module_admin.js" usecdn="true" />
-<h1 class="h1">{$lang->module_selector}</h1>
+<load target="../../../common/css/bootstrap.css" usecdn="true" />
+
+<div class="x_page-header">
+	<h1>{$lang->module_selector}</h1>
+</div>
 <form action="./" method="post">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="dispModuleSelectList" />
