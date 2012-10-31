@@ -103,7 +103,7 @@
 					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="{htmlspecialchars($val->value)}" class="lang_code" />
 
 					<!--// textarea -->
-					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" value="{htmlspecialchars($val->value)}" class="lang_code"></textarea>
+					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="lang_code">{htmlspecialchars($val->value)}</textarea>
 
 					<!--// select -->
 					<select cond="$val->type == 'select'" name="{$val->name}" id="{$val->name}">

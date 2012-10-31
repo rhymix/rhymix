@@ -1,52 +1,49 @@
-<!--#include("header.html")-->
-<load target="../../widget/tpl/js/widget_admin.js" usecdn="true" />
+<include target="header.html" />
+<load target="../../module/tpl/js/module_list.js" usecdn="true" />
 
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="insertConfig" action="./" method="post">
+
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal">
 	<input type="hidden" name="act" value="procIntegration_searchAdminInsertConfig" />
 	<input type="hidden" name="module" value="admin" />
-	<input type="hidden" name="target_module_srl" id="target_module_srl" value="{$config->target_module_srl}" />
-	<table class="x_table x_table-striped x_table-hover">
-		<tr>
-		<th scope="row">{$lang->sample_code}</th>
-		<td >
-			<textarea readonly="readonly" rows="8" cols="42">{$sample_code}</textarea>
-			<p>{$lang->about_sample_code}</p>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->skin}</th>
-		<td>
-			<select name="skin">
-				<!--@foreach($skin_list as $key=>$val)-->
-				<option value="{$key}" <!--@if($config->skin==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-				<!--@end-->
+
+	<div class="x_control-group">
+		<label for="sample_code" class="x_control-label">{$lang->sample_code}</label>
+		<div class="x_controls">
+			<textarea id="sample_code" readonly style="width:900px;height:100px;cursor:text">{$sample_code}</textarea>
+			<span class="x_help-block">{$lang->about_sample_code}</span>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label for="skin" class="x_control-label">{$lang->skin}</label>
+		<div class="x_controls">
+			<select name="skin" id="skin">
+				<option loop="$skin_list => $key, $val"  value="{$key}" selected="selected"|cond="$config->skin == $key">{$val->title}</option>
 			</select>
-			<p>{$lang->about_skin}</p>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->target}</th>
-		<td>
+			<span class="x_help-block">{$lang->about_skin}</span>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->target}</label>
+		<div class="x_controls">
 			<select name="target">
 				<option value="include">{$lang->include_search_target}</option>
-				<option value="exclude" <!--@if($config->target=='exclude')-->selected="selected"<!--@end-->>{$lang->exclude_search_target}</option>
+				<option value="exclude" selected="selected"|cond="$config->target=='exclude'">{$lang->exclude_search_target}</option>
 			</select>
 
-			<select name="_target_module_srl" id="_target_module_srl" size="8" style="display:block;margin:10px 0;"></select>
-
-			<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module_srl')}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_insert}</span></a>
-			<a href="#" onclick="midRemove('target_module_srl');return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
-
+			<input type="hidden" name="target_module_srl" id="target_module_srl" value="{$config->target_module_srl}" />
+			<select class="modulelist_selected" size="8" multiple="multiple" style="display:block;width:220px;vertical-align:top;margin:5px 0"></select>
+			<a href="#" id="__module_srl_list_target_module_srl" class="x_btn moduleTrigger" data-multiple="true" style="margin:0 -5px 0 0;border-radius:2px 0 0 0px">{$lang->cmd_add}</a>
+			<button type="button" class="x_btn modulelist_del" style="border-radius:0 2px 2px 0">{$lang->cmd_delete}</button>
 			<script>
-				jQuery( function() { getModuleSrlList('target_module_srl'); } );
+				xe.registerApp(new xe.ModuleListManager('target_module_srl'));
 			</script>
-		</td>
-	</tr>
-	</table>
+		</div>
+	</div>
+
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+		<button class="x_btn x_btn-primary x_btn-large" type="submit">{$lang->cmd_registration}</button>
 	</div>
 </form>

@@ -85,7 +85,7 @@
                 }
             }
             Context::set('skin_info', $skin_info);
-            Context::set('skin_vars', $skin_vars); //maybe not used
+            Context::set('skin_vars', $skin_vars);
 
             $config = $oModuleModel->getModuleConfig('integration_search');
             Context::set('module_info', unserialize($config->skin_vars));

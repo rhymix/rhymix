@@ -5,7 +5,7 @@ xe.MidManager = xe.createApp("MidManager", {
 
 	init: function(key){
 		var self = this;
-		var $keyObj = this.$keyObj = $('.extra_vars input[name='+key+']');
+		var $keyObj = this.$keyObj = $('input[name='+key+']');
 
 		$keyObj.parent().find('button.delete,a.delete').bind('click', function(){
 			$keyObj.val('').next().val('');
