@@ -92,7 +92,7 @@
 			<div class="x_controls">
 					<!--@foreach($content_style_list as $key => $val)-->
 					<label class="x_inline">
-						<input type="radio" name="content_style" value="{$key}" id="style_{$key}" checked="checked"|cond="$key==$editor_config->content_style||!$editor_config->content_style && $key=='default'"> {$key}
+						<input type="radio" name="content_style" value="{$key}" id="style_{$key}" checked="checked"|cond="$key==$editor_config->content_style||!$editor_config->content_style && $key=='default'"> {$val->title}
 					</label>
 					<!--@end-->
 			</div>
