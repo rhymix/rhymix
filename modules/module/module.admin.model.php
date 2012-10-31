@@ -197,6 +197,7 @@
 					if($val->group_srl == 0) $defaultGrant->{$val->name} = 'all';
 					else if($val->group_srl == -1) $defaultGrant->{$val->name} = 'member';
 					else if($val->group_srl == -2) $defaultGrant->{$val->name} = 'site';
+					else if($val->group_srl == -3) $defaultGrant->{$val->name} = 'manager';
 					else {
 						$selectedGroup->{$val->name}[] = $val->group_srl;
 						$defaultGrant->{$val->name} = 'group';

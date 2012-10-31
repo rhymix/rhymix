@@ -530,6 +530,7 @@
 							<option class="_group_all" value="0">모든 사용자</option>
 							<option class="_group_loggedin" value="-1">로그인 사용자</option>
 							<option class="_group_signedup" value="-2">가입한 사용자</option>
+							<option class="_group_manager" value="-3">관리자만</option>
 							<option class="_group_selected" value="-10">선택그룹 사용자</option>
 						</select>
 						<div class="selected x_hide _groups _groups_${PermId}">
@@ -1980,6 +1981,7 @@ jQuery(function($){
 						<option class="_group_all" value="0">모든 사용자</option>
 						<option class="_group_loggedin" value="-1">로그인 사용자</option>
 						<option class="_group_signedup" value="-2">가입한 사용자</option>
+						<option class="_group_manager" value="-3">관리자만</option>
 						<option class="_group_selected" value="-10">선택그룹 사용자</option>
 					</select>
 					<div class="selected x_hide">
@@ -2002,6 +2004,7 @@ jQuery(function($){
 					'all': '0',
 					'member': '-1',
 					'site': '-2',
+					'manager': '-3',
 					'group': '-10'
 				};
 				if(htInfo.sGrant){
@@ -2038,7 +2041,7 @@ jQuery(function($){
 						guest : 모든 옵션 사용 가능, 항상 권한 있음.
 						member : '모든 사용자' 제외하고 사용 가능, 로그인 정보가 있을 경우 true
 						site : '모든 사용자' 제외하고 사용 가능, 가상 사이트일 경우에는 가입된 그룹 정보가 있어야 하며, 가상 사이트가 아닐 경우에는 'member'와 동일.
-						manager : '선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
+						manager : '관리자만','선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
 						root : manager와 동일.
 					*/
 					switch(sDefault){

@@ -269,7 +269,7 @@
             foreach($grant_list as $grant_name => $grant_info) {
                 // Get the default value
                 $default = Context::get($grant_name.'_default');
-                // -1 = Log-in user only, -2 = site members only, 0 = all users
+                // -1 = Log-in user only, -2 = site members only, -3 = manager only, 0 = all users
                 if(strlen($default)){
                     $grant->{$grant_name}[] = $default;
                     continue;
