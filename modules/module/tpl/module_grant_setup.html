@@ -29,6 +29,7 @@
 						<!--@if($grant_item->default == 'guest')--><option value="0">{$lang->grant_to_all}</option><!--@end-->
 						<!--@if($grant_item->default != 'manager')--><option value="-1">{$lang->grant_to_login_user}</option><!--@end-->
 						<!--@if($grant_item->default != 'manager')--><option value="-2" <!--@if($default_grant[$grant_name]=='site')-->selected="selected"<!--@end-->>{$lang->grant_to_site_user}</option><!--@end-->
+						<option value="-3">{$lang->grant_to_admin}</option>
 						<option value="">{$lang->grant_to_group}</option>
 					</select>
 					<div id="zone_{$grant_name}" style="display:none">

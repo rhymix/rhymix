@@ -48,11 +48,12 @@
 						<!--@if($grant_item->default == 'guest')--><option value="0" <!--@if($default_grant[$grant_name]=='all')-->selected="selected"<!--@end-->>{$lang->grant_to_all}</option><!--@end-->
 						<!--@if($grant_item->default != 'manager')--><option value="-1" <!--@if($default_grant[$grant_name]=='member')-->selected="selected"<!--@end-->>{$lang->grant_to_login_user}</option><!--@end-->
 						<!--@if($grant_item->default != 'manager')--><option value="-2" <!--@if($default_grant[$grant_name]=='site')-->selected="selected"<!--@end-->>{$lang->grant_to_site_user}</option><!--@end-->
+						<option value="-3" <!--@if($default_grant[$grant_name]=='manager')-->selected="selected"<!--@end-->>{$lang->grant_to_admin}</option>
 						<option value="" <!--@if($default_grant[$grant_name]=='group')-->selected="selected"<!--@end-->>{$lang->grant_to_group}</option>
 					</select>
 					<div id="zone_{$grant_name}" style="display:none">
 						<!--@foreach($group_list as $group_srl => $group_item)-->
-						<label for="grant_{$grant_name}_{$group_srl}" class="x_inline"><input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" <!--@if(is_array($selected_group[$grant_name])&&in_array($group_srl,$selected_group[$grant_name]))-->checked="checked"<!--@end-->/> {$group_item->title}</label>
+						<label for="grant_{$grant_name}_{$group_srl}" class="x_inline"><input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" checked="checked"|cond="is_array($selected_group[$grant_name])&&in_array($group_srl,$selected_group[$grant_name])" disabled="disabled"|cond="!is_array($selected_group[$grant_name])" /> {$group_item->title}</label>
 						<!--@end-->
 					</div>
 				</div>

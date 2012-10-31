@@ -479,6 +479,15 @@
 		<value xml:lang="tr"><![CDATA[Kayıtlı kullanıcılar]]></value>
 		<value xml:lang="vi"><![CDATA[Đã đăng kí]]></value>
 	</item>
+	<item name="grant_to_admin">
+		<value xml:lang="ko"><![CDATA[모듈 관리자만]]></value>
+		<value xml:lang="en"><![CDATA[Only module administrator]]></value>
+		<value xml:lang="jp"><![CDATA[Only module administrator]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Only module administrator]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Only module administrator]]></value>
+		<value xml:lang="tr"><![CDATA[Only module administrator]]></value>
+		<value xml:lang="vi"><![CDATA[Only module administrator]]></value>
+	</item>
 	<item name="grant_to_group">
 		<value xml:lang="ko"><![CDATA[선택 그룹 사용자]]></value>
 		<value xml:lang="en"><![CDATA[Selected group users]]></value>

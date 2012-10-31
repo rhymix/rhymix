@@ -125,6 +125,7 @@
                     if($val->group_srl == 0) $default_grant[$val->name] = 'all';
                     else if($val->group_srl == -1) $default_grant[$val->name] = 'member';
                     else if($val->group_srl == -2) $default_grant[$val->name] = 'site';
+                    else if($val->group_srl == -3) $default_grant[$val->name] = 'manager';
                     else {
                         $selected_group[$val->name][] = $val->group_srl;
                         $default_grant[$val->name] = 'group';
