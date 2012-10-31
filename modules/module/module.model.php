@@ -781,7 +781,12 @@
 		 **/
 		public function getModuleSkinInfoList()
 		{
-			$module = Context::get('module_name');
+			$module = Context::get('module_type');
+
+			if($module == 'ARTICLE')
+			{
+				$module = 'page';
+			}
 
 			$skinType = Context::get('skin_type');
 
