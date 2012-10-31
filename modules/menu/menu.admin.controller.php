@@ -467,26 +467,26 @@
 			{
 				// check already created module instance
 				$oModuleModel = &getModel('module');
-				if($request->url != $itemInfo->url)
+				if($request->module_id != $itemInfo->url)
 				{
-					$output = $oModuleModel->getModuleInfoByMid($request->url);
+					$output = $oModuleModel->getModuleInfoByMid($request->module_id);
 					if($output->module_srl)
 					{
 						return new Object(-1, 'msg_module_name_exists');
 					}
 				}
 
-				$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url);
 				// if not exist module, return error
+				$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url);
 				if(!$moduleInfo)
 				{
 					return new Object(-1, 'msg_invalid_request');
 				}
 
-				$moduleInfo->mid = $request->url;
+				$moduleInfo->mid = $request->module_id;
 				$oModuleController = &getController('module');
 				$oModuleController->updateModule($moduleInfo);
-				$args->url = $request->url;
+				$args->url = $request->module_id;
 			}
 
 			if($request->menu_name_key)
