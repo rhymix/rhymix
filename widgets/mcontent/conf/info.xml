@@ -411,7 +411,7 @@
             <name xml:lang="ru">Число списка</name>
             <name xml:lang="zh-TW">目錄數</name>
             <name xml:lang="tr">Liste Sayısı</name>
-            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+            <description xml:lang="ko">출력될 목록의 수를 정할 수 있습니다. (기본 5개)</description>
             <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
             <description xml:lang="jp">出力するリスト数を指定します（デフォルト5個）。</description>
             <description xml:lang="en">You can set the number of articles to be displayed. (default is 5)</description>

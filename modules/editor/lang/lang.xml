@@ -536,7 +536,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<value xml:lang="vi"><![CDATA[Chiều cao khung viết bài]]></value>
 	</item>
 	<item name="about_editor_skin">
-		<value xml:lang="ko"><![CDATA[에디터 스킨을 선택하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[에디터 스킨을 선택할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may select the skin for the editor.]]></value>
 		<value xml:lang="jp"><![CDATA[エディターのスキンの選択ができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以选择编辑器皮肤。]]></value>
@@ -584,7 +584,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<value xml:lang="vi"><![CDATA[Bạn có thể chọn cỡ chữ để viết bài và hiển thị theo định dạng "px" hoặc "em".]]></value>
 	</item>
 	<item name="about_upload_file_grant">
-		<value xml:lang="ko"><![CDATA[파일을 첨부할 수 있는 권한을 지정하실 수 있습니다. (모두 해제 시 아무나 첨부 가능합니다)]]></value>
+		<value xml:lang="ko"><![CDATA[파일을 첨부할 수 있는 권한을 지정할 수 있습니다. (모두 해제 시 아무나 첨부 가능합니다)]]></value>
 		<value xml:lang="en"><![CDATA[Selected group(s) will be able to upload files. (Leave them blank if you want all groups to have this permission.)]]></value>
 		<value xml:lang="jp"><![CDATA[ファイル添付権限の設定ができます。(選択なしの場合、誰でも添付が可能)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以设置上传文件的权限(全部解除为无限制)。]]></value>
@@ -608,7 +608,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<value xml:lang="vi"><![CDATA[Chọn nhóm được phép sử dụng Thành phần mặc định. (Để trống nếu bạn muốn tất cả đều có thể sử dụng.)]]></value>
 	</item>
 	<item name="about_editor_height">
-		<value xml:lang="ko"><![CDATA[에디터의 기본 높이를 지정하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[에디터의 기본 높이를 지정할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may set the height of the editor.]]></value>
 		<value xml:lang="jp"><![CDATA[エディターの基本高さを設定します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定编辑器的默认高度。]]></value>

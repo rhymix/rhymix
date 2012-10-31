@@ -487,7 +487,7 @@
 		<value xml:lang="vi"><![CDATA[Danh sách điểm thành viên]]></value>
 	</item>
 	<item name="msg_cannot_download">
-		<value xml:lang="ko"><![CDATA[포인트가 부족하여 다운로드를 하실 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[포인트가 부족하여 다운로드할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You don't have enough points to download]]></value>
 		<value xml:lang="jp"><![CDATA[ポイントが不足しているため、ダウンロードできません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分不足无法下载！]]></value>

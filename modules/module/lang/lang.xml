@@ -426,8 +426,8 @@
 		<value xml:lang="zh-CN"><![CDATA[可以直接输入插入到html中&lt;head&gt;区的代码。 可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等标签。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以直接輸入，並插入到 HTML 的&lt;head&gt;之間。 可使用&lt;script&gt;,&lt;style&gt;或&lt;meta&gt;等標籤。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez entrer un script en html par vous-même entre &lt;header&gt; et &lt;/header&gt;. Vous pouvez utiliser &lt;script&gt;, &lt;style&gt; ou &lt;meta&gt; tag]]></value>
-		<value xml:lang="ru"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용하실 수 있습니다]]></value>
-		<value xml:lang="es"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용하실 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용할 수 있습니다]]></value>
 		<value xml:lang="tr"><![CDATA[Html betiğini(script) &lt;header&gt; ile &lt;/header&gt; arasına kendiniz ekleyebilirsiniz.  &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; tag kullanabilirsiniz]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn co thể nhập mã dang HTML vào giữa  &lt;header&gt; và &lt;/header&gt;. Bạn có thể sử dụng &lt;script&gt;, &lt;style&gt; hay &lt;meta&gt; tag]]></value>
 	</item>
@@ -704,7 +704,7 @@
 		<value xml:lang="vi"><![CDATA[Không thể di chuyển]]></value>
 	</item>
 	<item name="msg_cannot_delete_for_child">
-		<value xml:lang="ko"><![CDATA[하부 분류가 있는 분류는 삭제하실 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[하부 분류가 있는 분류는 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot delete a category which has child categories.]]></value>
 		<value xml:lang="jp"><![CDATA[下位カテゴリのあるカテゴリは削除できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不能删除有下级分类的分类！]]></value>
@@ -782,7 +782,7 @@
 		<value xml:lang="vi"><![CDATA[Nếu chọn, Sẽ hiển thị mặc định là (mid=NoValue) khi truy cập tên Module không đúng.]]></value>
 	</item>
 	<item name="about_module_category">
-		<value xml:lang="ko"><![CDATA[분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류 관리는 <a href="./?module=admin&amp;act=dispModuleAdminCategory">모듈관리 > 모듈분류</a>에서 하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류 관리는 <a href="./?module=admin&amp;act=dispModuleAdminCategory">모듈관리 > 모듈분류</a>에서 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[It enables you to manage it through a module category.
  The URL for the module manager is <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Module category </a>.]]></value>
 		<value xml:lang="jp"><![CDATA[カテゴリで管理できるようにします。モジュールのカテゴリの管理は、「<a href="./?module=admin&amp;act=dispModuleAdminCategory">モジュール管理 &gt; モジュールカテゴリ</a>」にて行います。]]></value>
@@ -846,7 +846,7 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="jp"><![CDATA[テーマ設定に関係なくスキンを固定させます。使用すると、テーマの一括スキン設定対象から外されます。]]></value>
 	</item>
 	<item name="about_skin">
-		<value xml:lang="ko"><![CDATA[모듈 스킨을 선택하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[모듈 스킨을 선택할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may choose a module skin.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールのスキンを選択します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以选择模块皮肤。]]></value>
@@ -870,7 +870,7 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="vi"><![CDATA[Nếu chon, chức năng thể loại sẽ hoạt động.]]></value>
 	</item>
 	<item name="about_list_count">
-		<value xml:lang="ko"><![CDATA[한 페이지에 표시될 글 수를 지정하실 수 있습니다. (기본 20개)]]></value>
+		<value xml:lang="ko"><![CDATA[한 페이지에 표시될 글 수를 지정할 수 있습니다. (기본 20개)]]></value>
 		<value xml:lang="en"><![CDATA[You can limit the number of article to show on one page. The default is 20.]]></value>
 		<value xml:lang="jp"><![CDATA[１ページ当たりに表示される書き込み数を指定できます（デフォルト20個）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定每页显示的主题数。(默认为20个)]]></value>
@@ -882,19 +882,19 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="vi"><![CDATA[Bạn có thể giới hạn bài viết hiển thị trên một trang.(Mặc định là 20)]]></value>
 	</item>
 	<item name="about_search_list_count">
-		<value xml:lang="ko"><![CDATA[검색, 카테고리 선택 등을 할 경우 표시될 글 수를 지정하실 수 있습니다. (기본 20개)]]></value>
+		<value xml:lang="ko"><![CDATA[검색, 카테고리 선택 등을 할 경우 표시될 글 수를 지정할 수 있습니다. (기본 20개)]]></value>
 		<value xml:lang="en"><![CDATA[You may set the number of articles to be exposed when you use search or category function. (default is 20)]]></value>
 		<value xml:lang="jp"><![CDATA[検索、カテゴリ選択などを行う場合に表示する書き込みの数を指定できます。（デフォルトは20件 ）]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定搜索或选择分类时每页要显示的帖子数(默认为20个)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以指定搜尋或選擇分類時，每頁要顯示的文章數(預設為 20 個)。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez configurer combien d'articles soient exposés quand vous utilisez la fonction de recherche ou de catégorie. (20 par défaut)]]></value>
-		<value xml:lang="ru"><![CDATA[검색 또는 카테고리 선택등을 할 경우 표시될 글의 수를 지정하실 수 있습니다. 기본(20개)]]></value>
+		<value xml:lang="ru"><![CDATA[검색 또는 카테고리 선택등을 할 경우 표시될 글의 수를 지정할 수 있습니다. 기본(20개)]]></value>
 		<value xml:lang="es"><![CDATA[Usted puede configurar el número de artículos que se exponen cuando se utiliza la función de búsqueda o categoría. (Por defecto es 20)]]></value>
 		<value xml:lang="tr"><![CDATA[Kategori veya arama özelliğini kullanırken gösterilecek makalelerin sayısını ayarlayabilirsiniz. (varsayılan : 20)]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có thể đặt giới hạn số bài viết sẽ hiển thị khi tìm kiếm hay chọn thể loại. (Mặc định là 20)]]></value>
 	</item>
 	<item name="about_page_count">
-		<value xml:lang="ko"><![CDATA[목록 하단, 페이지를 이동하는 링크 수를 지정하실 수 있습니다. (기본 10개)]]></value>
+		<value xml:lang="ko"><![CDATA[목록 하단, 페이지를 이동하는 링크 수를 지정할 수 있습니다. (기본 10개)]]></value>
 		<value xml:lang="en"><![CDATA[You can set the number of page links to move pages in a bottom of the page. (default is 10)]]></value>
 		<value xml:lang="jp"><![CDATA[リスト下部、ページ移動可能なリンク数を指定できます（デフォルト10個）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定显示在目录下方的页面数(默认为10个)。 ]]></value>

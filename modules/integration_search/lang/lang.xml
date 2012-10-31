@@ -61,7 +61,7 @@
 		<value xml:lang="vi"><![CDATA[Hãy nhập từ khóa để tìm kiếm!]]></value>
 	</item>
 	<item name="msg_document_more_search">
-		<value xml:lang="ko"><![CDATA['계속 검색' 버튼을 선택하면 아직 검색하지 않은 부분까지 계속 검색 하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA['계속 검색' 버튼을 선택하면 아직 검색하지 않은 부분까지 계속 검색할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Click 'Search Next' button to keep searching.]]></value>
 		<value xml:lang="jp"><![CDATA[継続サーチボタンを選択すると、まだ検索結果として引っかからなかった箇所を引き続き検索を行います。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[利用'继续搜索'按钮可以进一步搜索。]]></value>

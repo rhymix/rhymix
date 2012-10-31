@@ -269,7 +269,7 @@
                 <name xml:lang="ru">Число списка</name>
                 <name xml:lang="zh-TW">目錄數</name>
                 <name xml:lang="tr">Liste Sayısı</name>
-                <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+                <description xml:lang="ko">출력될 목록의 수를 정할 수 있습니다. (기본 5개)</description>
                 <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
                 <description xml:lang="jp">出力するリスト数を指定します（デフォルト5個）。</description>
                 <description xml:lang="en">You can set the number of articles to be displayed. (default is 5)</description>
@@ -289,7 +289,7 @@
                 <name xml:lang="ru">Число изображений по горизонтали</name>
                 <name xml:lang="zh-TW">橫向圖片數</name>
                 <name xml:lang="tr">Resim Sayısı</name>
-                <description xml:lang="ko">출력될 가로 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
+                <description xml:lang="ko">출력될 가로 이미지의 수를 정할 수 있습니다. (기본 5개)</description>
                 <description xml:lang="jp">表示する横並びのイメージ数を指定します（デフォルト5個）。</description>
                 <description xml:lang="zh-CN">可以指定要显示的横向图片个数。(默认为5个)</description>
                 <description xml:lang="en">You can set the number of images to display. (5 as default)</description>
@@ -789,7 +789,7 @@
                 <name xml:lang="ru">Ширина изображения</name>
                 <name xml:lang="zh-TW">圖片寬度</name>
                 <name xml:lang="tr">Resim Genişliği</name>
-                <description xml:lang="ko">출력될 이미지의 가로크기를 정하실 수 있습니다. (기본 100)</description>
+                <description xml:lang="ko">출력될 이미지의 가로크기를 정할 수 있습니다. (기본 100)</description>
                 <description xml:lang="jp">表示するイメージの横幅サイズを指定します（デフォルト100）。</description>
                 <description xml:lang="zh-CN">可以指定要显示的图片宽度。(默认为100)</description>
                 <description xml:lang="en">You can set the width of image. (100 as default)</description>
