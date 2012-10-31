@@ -10,38 +10,50 @@
 		<input type="hidden" name="module" value="rss" />
 		<input type="hidden" name="act" value="procRssAdminInsertConfig" />
 		<div class="x_control-group">
-			<p><strong>{$lang->total_feed}</strong></p>
-			<label class="x_inline">
-				<input type="radio" name="use_total_feed" value="Y" id="use_total_feed_yes" checked="checked"|cond="!$total_config->use_total_feed || $total_config->use_total_feed == 'Y'" />{$lang->use}(<a href="{getFullSiteUrl()}rss">{getFullSiteUrl()}rss</a>)
-			</label>
-			<label class="x_inline">
-				<input type="radio" name="use_total_feed" value="N" id="use_total_feed_no" checked="checked"|cond="$total_config->use_total_feed == 'N'" />{$lang->notuse}
-			</label>
+			<label class="x_control-label">{$lang->total_feed}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" name="use_total_feed" value="Y" id="use_total_feed_yes" checked="checked"|cond="!$total_config->use_total_feed || $total_config->use_total_feed == 'Y'" />{$lang->use}(<a href="{getFullSiteUrl()}rss">{getFullSiteUrl()}rss</a>)
+				</label>
+				<label class="x_inline">
+					<input type="radio" name="use_total_feed" value="N" id="use_total_feed_no" checked="checked"|cond="$total_config->use_total_feed == 'N'" />{$lang->notuse}
+				</label>
+			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="feed_title">{$lang->title}</label>
-			<input type="text" name="feed_title" value="{htmlspecialchars($total_config->feed_title)}" id="feed_title" />
+			<label class="x_control-label" for="feed_title">{$lang->title}</label>
+			<div class="x_controls">
+				<input type="text" name="feed_title" value="{htmlspecialchars($total_config->feed_title)}" id="feed_title" />
+			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="feed_description">{$lang->description}</label>
+			<label class="x_control-label" for="feed_description">{$lang->description}</label>
+			<div class="x_controls">
 			<textarea name="feed_description" id="feed_description" rows="4" cols="42">{$total_config->feed_description}</textarea>
+			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="image">{$lang->feed_image}</label>
+			<label class="x_control-label" for="image">{$lang->feed_image}</label>
+			<div class="x_controls">
 			<!--@if($total_config->image)-->
 				<img src="../../../{$total_config->image}" alt="image" />
 				<input type="checkbox" name="del_image" value="Y" id="del_image" />
 				<label for="del_image">{$lang->cmd_delete}</label>
 			<!--@end-->
 			<p class="a"><input type="file" name="image" value="" id="image" /></p>
+			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="feed_copyright">{$lang->feed_copyright}</label>
-			<input type="text" name="feed_copyright" value="{htmlspecialchars($total_config->feed_copyright)}" id="feed_copyright" />
+			<label class="x_control-label" for="feed_copyright">{$lang->feed_copyright}</label>
+			<div class="x_controls">
+				<input type="text" name="feed_copyright" value="{htmlspecialchars($total_config->feed_copyright)}" id="feed_copyright" />
+			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="feed_document_count">{$lang->feed_document_count}</label>
-			<input type="number" min="1" max="100" name="feed_document_count" value="{$total_config->feed_document_count}" id="feed_document_count" />
+			<label class="x_control-label" for="feed_document_count">{$lang->feed_document_count}</label>
+			<div class="x_controls">
+				<input type="number" min="1" max="100" name="feed_document_count" value="{$total_config->feed_document_count}" id="feed_document_count" />
+			</div>
 		</div>
 		<div class="btnArea x_clearfix">
 			<div class="x_pull-right">
@@ -83,6 +95,9 @@
 					</td>
 					<td><button type="submit" class="x_btn x_btn-link">{$lang->cmd_save}</button></td>
 				</form>
+			</tr>
+			<tr cond="!$feed_config">
+				<td colspan="4" style="text-align:center">{$lang->no_data}</td>
 			</tr>
 		</tbody>
 	</table>
