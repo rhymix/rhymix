@@ -249,8 +249,10 @@ jQuery(function($){
 // :radio, :checkbox checked class
 	$.fn.checkToggle = function(){
 		function check(){
-			$(':checked').parent('label').addClass('checked');
-			$(':not(":checked")').parent('label').removeClass('checked');
+			setTimeout(function(){
+				$(':checked').parent('label').addClass('checked');
+				$(':not(":checked")').parent('label').removeClass('checked');
+			},0);
 		}
 		this.change(check);
 		check();
@@ -1077,27 +1079,27 @@ jQuery(function($){
 
 			$.exec_json('module.getFileBoxListHtml', {'page': '1'}, on_complete);
 		});
-	// Details toggle in admin table
-		var simpleBtn = $('.x .dsTg .__simple');
-		var detailBtn = $('.x .dsTg .__detail');
-		var tdTitle = $('.x .dsTg td.title');
-		tdTitle.each(function(){
-			var $t = $(this)
-			if($t.find('p.x_alert').length==0){
-				$t.addClass('tg').find('>*:not(:first-child)').hide();
-			}
-		});
-		var details = $('.x .dsTg td.tg>*:not(:first-child)');
-		simpleBtn.click(function(){
-			details.slideUp(200);
-			detailBtn.removeClass('x_active');
-			simpleBtn.addClass('x_active');
-		});
-		detailBtn.click(function(){
-			details.slideDown(200);
-			detailBtn.addClass('x_active');
-			simpleBtn.removeClass('x_active');
-		});
+// Details toggle in admin table
+	var simpleBtn = $('.x .dsTg .__simple');
+	var detailBtn = $('.x .dsTg .__detail');
+	var tdTitle = $('.x .dsTg td.title');
+	tdTitle.each(function(){
+		var $t = $(this)
+		if($t.find('p.x_alert').length==0){
+			$t.addClass('tg').find('>*:not(:first-child)').hide();
+		}
+	});
+	var details = $('.x .dsTg td.tg>*:not(:first-child)');
+	simpleBtn.click(function(){
+		details.slideUp(200);
+		detailBtn.removeClass('x_active');
+		simpleBtn.addClass('x_active');
+	});
+	detailBtn.click(function(){
+		details.slideDown(200);
+		detailBtn.addClass('x_active');
+		simpleBtn.removeClass('x_active');
+	});
 });
 
 // Multilingual Window

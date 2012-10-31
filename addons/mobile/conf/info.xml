@@ -72,41 +72,13 @@
             <title xml:lang="vi">Charset</title>
 	    	<title xml:lang="ru">Charset</title>
             <title xml:lang="zh-TW">編碼</title>
-            <description xml:lang="ko">
-                모바일 기기의 경우 UTF-8 문자셋을 인식하지 못할 수 있습니다.
-                문자셋에 원하는 문자셋을 입력하면 자동으로 변환하여 출력하여 모바일에서 이상없이 출력하도록 합니다.
-                기본값은 UTF-8입니다.
-                (*SK Telecom 휴대전화의 경우 euc-kr인코딩만 지원하므로, 강제로 euc-kr인코딩만 지원합니다.)
-            </description>
-            <description xml:lang="jp">
-                ある特定のモバイル機器ではutf-8文字コードの認識が出来ない場合があります。
-                文字コードを設定すると、（日本語だけの場合）該当文字コードに自動変換して正常に表示出来るようになります。
-                本アドオンのデフォルト値はUTF-8で、日本の携帯はshift-jisが一般的です。
-            </description>
-            <description xml:lang="zh-CN">
-                手机有时无法识别utf-8编码，这时输入相应的编码值即可自动转换。
-                默认编码为UTF-8。
-            </description>
-            <description xml:lang="en">
-                utf-8 may be read with mobile tools.
-                Mobile tools will display correct charset when you input charset you want.
-                Default charset is UTF-8.
-            </description>
-            <description xml:lang="vi">
-                UTF-8 không thể đọc được cho các công cụ di động.
-                Những công cụ di động sẽ trình bày Charset đúng khi bạn nhập vào Charset bạn muốn.
-                Charset mặc định là UTF-8.
-            </description>
-	    	<description xml:lang="ru">
-                utf-8 may be read with mobile tools.
-                Mobile tools will display correct charset when you input charset you want.
-                Default charset is UTF-8.
-            </description>
-            <description xml:lang="zh-TW">
-                行動工具無法讀取utf-8編碼。
-                當您輸入所想要的編碼時，行動工具將會正確的顯示。
-                預設編碼是UTF-8.
-            </description>
+            <description xml:lang="ko">모바일 기기의 경우 UTF-8 문자셋을 인식하지 못할 수 있습니다. 문자셋에 원하는 문자셋을 입력하면 자동으로 변환하여 출력하여 모바일에서 이상없이 출력하도록 합니다. 기본값은 UTF-8입니다. (*SK Telecom 휴대전화의 경우 euc-kr인코딩만 지원하므로, 강제로 euc-kr인코딩만 지원합니다.)</description>
+            <description xml:lang="jp">ある特定のモバイル機器ではutf-8文字コードの認識が出来ない場合があります。文字コードを設定すると、（日本語だけの場合）該当文字コードに自動変換して正常に表示出来るようになります。本アドオンのデフォルト値はUTF-8で、日本の携帯はshift-jisが一般的です。</description>
+            <description xml:lang="zh-CN">手机有时无法识别utf-8编码，这时输入相应的编码值即可自动转换。默认编码为UTF-8。</description>
+            <description xml:lang="en">utf-8 may be read with mobile tools. Mobile tools will display correct charset when you input charset you want. Default charset is UTF-8.</description>
+            <description xml:lang="vi">UTF-8 không thể đọc được cho các công cụ di động. Những công cụ di động sẽ trình bày Charset đúng khi bạn nhập vào Charset bạn muốn. Charset mặc định là UTF-8.</description>
+	    	<description xml:lang="ru">utf-8 may be read with mobile tools. Mobile tools will display correct charset when you input charset you want. Default charset is UTF-8.</description>
+            <description xml:lang="zh-TW">行動工具無法讀取utf-8編碼。當您輸入所想要的編碼時，行動工具將會正確的顯示。預設編碼是UTF-8.</description>
         </var>
     </extra_vars>
 </addon>

@@ -1,49 +1,46 @@
-<h1 class="h1">{$lang->addon_maker}</h1>
+<h1>{$lang->addon_maker}</h1>
 <table class="x_table x_table-striped x_table-hover">
-<tr>
-	<th scope="row">{$lang->title}</th>
-	<td>{$addon_info->title} ver. {$addon_info->version}</td>
-</tr>
-<tr>
-	<th scope="row">{$lang->author}</th>
-	<td>
-		<!--@foreach($addon_info->author as $author)-->
-		{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
-		<!--@endforeach-->
-	</td>
-</tr>
-<!--@if($addon_info->homepage)-->
-<tr>
-	<th scope="row">{$lang->homepage}</th>
-	<td><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a></td>
-</tr><!--@end-->
-<tr>
-	<th scope="row">{$lang->regdate}</th>
-	<td>{zdate($addon_info->date, 'Y-m-d')}</td>
-</tr>
-<!--@if($addon_info->license || $addon_info->license_link)-->
-<tr>
-	<th scope="row">{$lang->addon_license}</th>
-	<td>
-		{nl2br(trim($addon_info->license))}
-	<!--@if($addon_info->license_link)-->
-		<p><a href="{$addon_info->license_link}" onclick="window.close(); return false;">{$addon_info->license_link}</a></p>
-	<!--@end-->
-	</td>
-</tr><!--@end-->
-<!--@if($addon_info->description)-->
-<tr>
-	<th scope="row">{$lang->description}</th>
-	<td>{nl2br(trim($addon_info->description))}</td>
-</tr><!--@end-->
+	<tr>
+		<th scope="row">{$lang->title}</th>
+		<td>{$addon_info->title} ver. {$addon_info->version}</td>
+	</tr>
+	<tr>
+		<th scope="row">{$lang->author}</th>
+		<td>
+			<!--@foreach($addon_info->author as $author)-->
+			{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
+			<!--@endforeach-->
+		</td>
+	</tr>
+	<!--@if($addon_info->homepage)-->
+	<tr>
+		<th scope="row">{$lang->homepage}</th>
+		<td><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a></td>
+	</tr><!--@end-->
+	<tr>
+		<th scope="row">{$lang->regdate}</th>
+		<td>{zdate($addon_info->date, 'Y-m-d')}</td>
+	</tr>
+	<!--@if($addon_info->license || $addon_info->license_link)-->
+	<tr>
+		<th scope="row">{$lang->addon_license}</th>
+		<td>
+			{nl2br(trim($addon_info->license))}
+		<!--@if($addon_info->license_link)-->
+			<p><a href="{$addon_info->license_link}" onclick="window.close(); return false;">{$addon_info->license_link}</a></p>
+		<!--@end-->
+		</td>
+	</tr><!--@end-->
+	<!--@if($addon_info->description)-->
+	<tr>
+		<th scope="row">{$lang->description}</th>
+		<td>{nl2br(trim($addon_info->description))}</td>
+	</tr><!--@end-->
 </table>
 
 <!--@if($addon_info->history)-->
-<h1 class="h1">{$lang->addon_history}</h1>
+<h1>{$lang->addon_history}</h1>
 <table class="x_table x_table-striped x_table-hover">
-<col width="100" />
-<col />
-
 <!--@foreach($addon_info->history as $history)-->
 <tr>
 	<th scope="row">

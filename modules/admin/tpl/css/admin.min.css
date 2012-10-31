@@ -77,7 +77,6 @@ body>.x,
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}
 .x label.checked,
 .x input:checked+label,
-.x label:only-of-type,
 .x .x_form-horizontal .x_control-label{font-weight:bold}
 .x .x_form-horizontal .x_controls>label{padding-top:5px}
 .x input[type="radio"]+label,
@@ -117,6 +116,7 @@ body>.x,
 .x .x_table thead th{vertical-align:top}
 .x .x_well>*:first-child{margin-top:0}
 .x .x_well>*:last-child{margin-bottom:0}
+.x legend{font-size:14px;font-weight:bold;line-height:24px}
 /* Custom Styles */
 .x .section{margin:20px 0 40px 0}
 .x .section>h1{position:relative;border-bottom:1px solid #ddd}
@@ -145,34 +145,6 @@ body>.x,
 .x .dashboard>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}
 .x>.xin>.body>.gnb>ul>li.open>a>i,
 .x>.xin>.body>.gnb>ul>li.active>a>i{background-image:url(../../../../common/img/glyphicons-halflings-white.png);background-repeat:no-repeat}
-/* Rotation 360 */
-.x .rotation{
-animation:ROTATION infinite 2s linear;
--webkit-animation:ROTATION infinite 2s linear;
--moz-animation:ROTATION infinite 1s linear;
--o-animation:ROTATION infinite 1s linear;
--ms-animation:ROTATION infinite 1s linear;
-}
-@keyframes ROTATION{
-from{transform:rotate(0deg)} 
-to{transform:rotate(360deg)} 
-} 
-@-webkit-keyframes ROTATION{
-from{-webkit-transform:rotate(0deg)} 
-to{-webkit-transform:rotate(360deg)} 
-} 
-@-moz-keyframes ROTATION{
-from{-moz-transform:rotate(0deg)} 
-to{-moz-transform:rotate(360deg)} 
-} 
-@-o-keyframes ROTATION{
-from{-o-transform:rotate(0deg)} 
-to{-o-transform:rotate(360deg)} 
-} 
-@-ms-keyframes ROTATION{
-from{-o-transform:rotate(0deg)} 
-to{-o-transform:rotate(360deg)} 
-} 
 /* Layout */
 .x>.xin{box-shadow:0 0 5px #999;border-radius:5px;margin:10px}
 .x>.xin>.skipNav{margin:0}

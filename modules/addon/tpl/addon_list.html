@@ -1,7 +1,7 @@
 <div class="x_page-header">
 	<h1>{$lang->installed_addons}</h1>
-	<p>{$lang->about_installed_addon}</p>
 </div>
+<p>{$lang->about_installed_addon}</p>
 <form action="./" method="post">
 	<input type="hidden" name="module" value="addon" />
 	<input type="hidden" name="act" value="procAddonAdminSaveActivate" />
@@ -12,10 +12,10 @@
 	</div>
 	<table class="x_table x_table-striped x_table-hover dsTg">
 		<caption>
-			<strong>All({$addon_count})</strong>
+			All({$addon_count})
 			<div class="x_pull-right x_btn-group">
-				<button type="button" class="x_btn x_btn-mini x_active __simple">{$lang->simple_view}</button>
-				<button type="button" class="x_btn x_btn-mini __detail">{$lang->detail_view}</button>
+				<button type="button" class="x_btn x_active __simple">{$lang->simple_view}</button>
+				<button type="button" class="x_btn __detail">{$lang->detail_view}</button>
 			</div>
 		</caption>
 		<thead>
@@ -39,24 +39,24 @@
 						{$lang->msg_avail_easy_update} <a href="{$addon->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
 					</p>
 				</td>
-				<td class="nowr">{$addon->version}</td>
+				<td>{$addon->version}</td>
 				<td class="nowr">
 					<block loop="$addon->author => $author">
 						<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->name}</a>
 						<block cond="!$author->homepage">{$author->name}</block>
 					</block>
 				</td>
-				<td class="nowr">{$addon->path}</td>
-				<td class="nowr"><a href="{getUrl('act', 'dispAddonAdminSetup', 'selected_addon', $addon->addon_name)}">{$lang->cmd_setup}</a></td>
-				<td class="nowr"><input type="checkbox" name="pc_on[]" title="PC" value="{htmlspecialchars($addon->addon_name)}" checked="checked"|cond="$addon->activated" /></td>
-				<td class="nowr"><input type="checkbox" name="mobile_on[]" title="Mobile" value="{htmlspecialchars($addon->addon_name)}" checked="checked"|cond="$addon->mactivated" /></td>
-				<td class="nowr"><a cond="$addon->remove_url" href="{$addon->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
+				<td>{$addon->path}</td>
+				<td><a href="{getUrl('act', 'dispAddonAdminSetup', 'selected_addon', $addon->addon_name)}">{$lang->cmd_setup}</a></td>
+				<td><input type="checkbox" name="pc_on[]" title="PC" value="{htmlspecialchars($addon->addon_name)}" checked="checked"|cond="$addon->activated" /></td>
+				<td><input type="checkbox" name="mobile_on[]" title="Mobile" value="{htmlspecialchars($addon->addon_name)}" checked="checked"|cond="$addon->mactivated" /></td>
+				<td><a cond="$addon->remove_url" href="{$addon->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
 			</tr>
 		</tbody>
 	</table>
 	<div class="x_clearfix">
 		<div class="x_pull-right">
-			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			<button type="submit" class="x_btn x_btn-large x_btn-primary">{$lang->cmd_save}</button>
 		</div>
 	</div>
 </form>
