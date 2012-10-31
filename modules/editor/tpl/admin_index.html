@@ -1,36 +1,27 @@
 <load target="js/editor_module_config.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
 <div class="x_page-header">
 	<h1>{$lang->editor}</h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <!-- Editor Preview -->
 <section class="section">
 	<h1>{$lang->editor_preview}</h1>
-	<a class="x_btn modalAnchor" href="#editor_preview">{$lang->cmd_preview}</a>
-	<div id="editor_preview" class="x_modal x">
-		<div class="x_modal-header">
-			<h3>{$lang->editor_preview}</h3>
-		</div>
-		<div class="x_modal-body">
-			<div class="x_tabbable" style="height:400px">
-				<ul class="x_nav x_nav-tabs">
-					<li class="x_active"><a href="#pre_document">{$lang->main_editor}</a></li>
-					<li><a href="#pre_comment">{$lang->comment_editor}</a></li>
-				</ul>
-				<div class="x_tab-content" >
-					<div class="x_tab-pane x_active" id="pre_document">
-						<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" width="100%" height="100%" style="border:0;width:1024px;height:600px;"></iframe> 
-					</div>
-					<div class="x_tab-pane" id="pre_comment">
-						<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" width="100%" height="100%" style="border:0;width:1024px;height:600px;"></iframe> 
-					</div>
-				</div>
+	<div class="x_tabbable">
+		<ul class="x_nav x_nav-tabs" style="margin-bottom:0;border-bottom:0">
+			<li class="x_active"><a href="#pre_document">{$lang->main_editor}</a></li>
+			<li><a href="#pre_comment">{$lang->comment_editor}</a></li>
+		</ul>
+		<div class="x_tab-content x_thumbnail">
+			<div class="x_tab-pane x_active" id="pre_document">
+				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" id="pre_document_frame" style="border:0;width:100%;height:500px"></iframe> 
+				<p class="x_modal-footer center"><a href="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" target="pre_document_frame" class="x_btn">{$lang->reload}</a></p>
 			</div>
-		</div>
-		<div class="x_modal-footer">
-			<button class="x_btn x_pull-left" type="button" data-hide="#editor_preview">Close</button>
+			<div class="x_tab-pane" id="pre_comment">
+				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" id="pre_comment_frame" style="border:0;width:100%;height:500px"></iframe> 
+				<p class="x_modal-footer center"><a href="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" target="pre_comment_frame" class="x_btn">{$lang->reload}</a></p>
+			</div>
 		</div>
 	</div>
 </section>
@@ -47,7 +38,7 @@
 			<div class="x_controls">
 				<!--@foreach($editor_skin_list as $editor)-->
 				<label class="x_inline" id="label_doc_{$editor}">
-					<input type="radio" name="editor_skin" value="{$editor}" id="doc_{$editor}" onClick="getEditorSkinColorList(this.value, null, 'document','label_doc_{$editor}')" checked="checked"|cond="$editor==$editor_config->editor_skin" />{$editor}
+					<input type="radio" name="editor_skin" value="{$editor}" id="doc_{$editor}" onClick="getEditorSkinColorList(this.value, null, 'document','label_doc_{$editor}')" checked="checked"|cond="$editor==$editor_config->editor_skin" /> {$editor}
 				</label>
 				<label class="x_inline">
 					<select name="sel_editor_colorset" style="display:none"|cond="$editor!=$editor_config->editor_skin">
@@ -61,7 +52,7 @@
 		<div class="x_control-group">
 			<label for="editor_height" class="x_control-label">{$lang->guide_set_height_main_editor}</label>
 			<div class="x_controls">
-				<input type="text" name="editor_height" id="editor_height" value="<!--@if($editor_config->editor_height)-->{$editor_config->editor_height}<!--@else-->{$editor_config_default['editor_height']}<!--@end-->" style="width:30px" /> px
+				<input type="number" name="editor_height" id="editor_height" value="<!--@if($editor_config->editor_height)-->{$editor_config->editor_height}<!--@else-->{$editor_config_default['editor_height']}<!--@end-->" style="width:50px" /> px
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -69,7 +60,7 @@
 			<div class="x_controls">
 				<!--@foreach($editor_skin_list as $editor)-->
 				<label class="x_inline" id="label_com_{$editor}">
-					<input type="radio" name="comment_editor_skin" value="{$editor}" id="com_{$editor}"  onclick="getEditorSkinColorList(this.value, null, 'reply','label_com_{$editor}')" checked="checked"|cond="$editor == $editor_config->comment_editor_skin" />{$editor}
+					<input type="radio" name="comment_editor_skin" value="{$editor}" id="com_{$editor}"  onclick="getEditorSkinColorList(this.value, null, 'reply','label_com_{$editor}')" checked="checked"|cond="$editor == $editor_config->comment_editor_skin" /> {$editor}
 				</label>
 				<label class="x_inline">
 					<select name="sel_comment_editor_colorset" style="display:none"|cond="$editor!=$editor_config->comment_editor_skin">
@@ -84,7 +75,7 @@
 		<div class="x_control-group">
 			<label for="comment_editor_height" class="x_control-label">{$lang->guide_set_height_comment_editor}</label>
 			<div class="x_controls">
-				<input type="text" name="comment_editor_height"id="comment_editor_height" value="<!--@if($editor_config->comment_editor_height)-->{$editor_config->comment_editor_height}<!--@else-->{$editor_config_default['comment_editor_height']}<!--@end-->" style="width:30px" /> px
+				<input type="number" name="comment_editor_height"id="comment_editor_height" value="<!--@if($editor_config->comment_editor_height)-->{$editor_config->comment_editor_height}<!--@else-->{$editor_config_default['comment_editor_height']}<!--@end-->" style="width:50px" /> px
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -104,7 +95,9 @@
 					if($editor_config->content_font_size) $fontSize = str_replace('px','',$editor_config->content_font_size);
 					else $fontSize = str_replace('px','',$editor_config_default['content_font_size']);
 				}
-				<textarea rows="8" cols="42" class="fontPreview" style="font-family:{$editor_config->content_font};font-size:{$fontSize}px" title="Font Preview">{$lang->font_preview}</textarea>
+				<div style="margin-right:14px">
+					<textarea rows="4" cols="42" class="fontPreview" style="font-family:{$editor_config->content_font};font-size:{$fontSize}px;width:100%" title="Font Preview">{$lang->font_preview}</textarea>
+				</div>
 				<label style="font-family:''" class="fontSelector">
 					<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font" />none(inherit)
 				</label>
@@ -116,7 +109,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="fontSize">{$lang->guide_choose_font_size_body}</label>
 			<div class="x_controls">
-				<input type="text" id="fontSize" name="content_font_size" value="{$fontSize}" style="width:30px" /> px
+				<input type="number" id="fontSize" name="content_font_size" value="{$fontSize}" style="width:50px" /> px
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
@@ -133,7 +126,7 @@
 		<input type="hidden" name="module" value="editor" />
 		<input type="hidden" name="act" value="procEditorAdminCheckUseListOrder" />
 		<table class="x_table x_table-striped x_table-hover sortable">
-			<caption><strong>{$lang->total_count}({$component_count})</strong></caption>
+			<caption>{$lang->total_count}({$component_count})</caption>
 			<thead>
 				<tr>
 					<th class="nowr">{$lang->cmd_move}</th>
@@ -174,7 +167,7 @@
 				<!--@end-->
 			</tbody>
 		</table>
-		<div class="x_clearfix" style="margin-top:-12px">
+		<div class="x_clearfix">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
 			</div>
@@ -203,7 +196,7 @@
 				$(this).val('28');
 				fontPreview.css('fontSize','28px');
 			};
-		});
+		}).change(function(){$(this).keyup()});
 	});
 </script>
 
