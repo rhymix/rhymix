@@ -613,11 +613,32 @@ function onSiteMapReceived(htData){
 	
 	$("#siteMapTree").html(createTreeMarkup(aMenuList, 0));
 	
-	var sInitiallyOpen = [];
-
 	if($._xeAdminVar.bCut){
 		$._xeAdminVar.sCopySourceMenuSrl = null;
 	}
+
+	var sNodeSrl;
+	var bCopySourceFound = false;
+	for(var x in htNodeInfo){
+		sNodeSrl = htNodeInfo[x].sNodeSrl;
+		if(sNodeSrl && sNodeSrl === $._xeAdminVar.sCopySourceMenuSrl){
+			bCopySourceFound = true;
+			break;
+		}
+	}
+	if(!bCopySourceFound){
+		console.log("src found");
+	/*
+		$._xeAdminVar.sCopySourceMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+		$('._edit_paste').removeAttr('disabled');
+		$('#site_map li._isCut').removeClass('_isCut');
+		$('#menu'+$._xeAdminVar.sCopySourceMenuSrl).addClass('_isCut');
+	*/
+	}else{
+		console.log("src NOT found");
+	}
+	
+	var sInitiallyOpen = [];
 
 	$("#siteMapTree")
 		.jstree({
@@ -1696,6 +1717,8 @@ jQuery(function($){
 				// URL shortcut
 				$(this).find('a[href="#fix_linkUrl"]').click();
 				$(this).find('._url_link').val(htInfo.url);
+				
+				showMenuSelector($(this).find('._menuSelector_menuTreeContainer'));
 			}
 		}
 		
@@ -1733,7 +1756,11 @@ jQuery(function($){
 		var params = {};
 
 		if(htInfo.sModuleType === "_SHORTCUT"){
-			sMID = $('#default ._linkMenuSrl').val();
+			if($('#fix_linkMenu').css("display") === "none"){
+				sMID = $('#default ._url_link').val();
+			}else{
+				sMID = $('#default ._linkMenuSrl').val();
+			}
 			params['shortcut_target'] = sMID;
 		}else{
 			sMID = $('#default ._mid').val();
@@ -1743,7 +1770,7 @@ jQuery(function($){
 		params['menu_name'] = sMenuName;
 		params['menu_open_window'] = sNewWindow;
 		params['menu_expand'] = sLeaveUnfolded;
-
+//console.log(params);return;
 		$.exec_json("menu.procMenuAdminUpdateItem", params, function(htData){
 			if(htData.error !== 0){
 				alert(htData.message);
