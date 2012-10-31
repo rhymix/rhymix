@@ -1,35 +1,33 @@
-<h1 class="h1">{$lang->message} {$lang->cmd_management}</h1>
+<div class="x_page-header">
+	<h1>{$lang->message}</h1>
+</div>
 
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="./" method="post">
+
+<form action="./" method="post" class="x_form-horizontal">
 <input type="hidden" name="module" value="message" />
 <input type="hidden" name="act" value="procMessageAdminInsertConfig" />
     <p>{$lang->about_skin}</p>
-	<ul>
-		<li>
-			<p class="q"><label for="skin">{$lang->skin}</label></p>
-			<p class="a">
-				<select name="skin" id="skin">
-					<!--@foreach($skin_list as $key => $val)-->
-					<option value="{$key}" <!--@if($key==$config->skin)-->selected="selected"<!--@end-->>{$val->title}</option>
-					<!--@end-->
-				</select>
-			</p>
-		</li>
-		<li>
-			<p class="q"><label for="mskin">{$lang->mobile_skin}</label></p>
-			<p class="a">
-				<select name="mskin" id="mskin">
-					<!--@foreach($mskin_list as $key => $val)-->
-					<option value="{$key}" <!--@if($key==$config->mskin)-->selected="selected"<!--@end-->>{$val->title}</option>
-					<!--@end-->
-				</select>
-			</p>
-		</li>
-	</ul>
+
+	<div class="x_control-group">
+		<label for="skin" class="x_control-label">{$lang->skin}</label>
+		<div class="x_controls">
+			<select name="skin" id="skin">
+				<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$key == $config->skin">{$val->title}</option>
+			</select>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label for="mskin" class="x_control-label">{$lang->mobile_skin}</label>
+		<div class="x_controls">
+			<select name="mskin" id="mskin">
+				<option loop="$mskin_list => $key, $val" value="{$key}" selected="selected"|cond="$key == $config->mskin">{$val->title}</option>
+			</select>
+		</div>
+	</div>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+		<button class="x_btn x_btn-large x_btn-primary" type="submit">{$lang->cmd_registration}</button>
 	</div>
 </form>
