@@ -6,14 +6,12 @@
         <action name="dispAdminIndex" type="view" standalone="true" index="true" />
         <action name="dispAdminConfigGeneral" type="view" standalone="true" menu_name="adminConfigurationGeneral" menu_index="true" />
         <action name="dispAdminConfigFtp" type="view" standalone="true" menu_name="adminConfigurationFtp" menu_index="true" />
-        <action name="dispAdminTheme" type="view" standalone="true" menu_name="theme" menu_index="true" />
         <action name="dispAdminSetup" type="view" standalone="true" menu_name="adminMenuSetup" menu_index="true" />
 
         <action name="procAdminRemoveIcons" type="controller" standalone="true" />
 		<action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
         <action name="procAdminLogout" type="controller" standalone="true" />
         <action name="procAdminInsertDefaultDesignInfo" type="controller" />
-        <action name="procAdminInsertThemeInfo" type="controller" standalone="true" ruleset="insertThemeInfo" />
 		<action name="procAdminToggleFavorite" type="controller" ruleset="toggleFavorite" />
 		<action name="procAdminEnviromentGatheringAgreement" type="controller" standalone="true" />
 		<action name="procAdminUpdateConfig" type="controller" standalone="true" />
@@ -62,19 +60,6 @@
 			<title xml:lang="vi">FTP Configuration</title>
 			<title xml:lang="mn">FTP Configuration</title>
 			<title xml:lang="tr">FTP Configuration</title>
-		</menu>
-		<menu name="theme" type="site">
-			<title xml:lang="en">Theme</title>
-			<title xml:lang="ko">테마</title>
-			<title xml:lang="zh-CN">主题</title>
-			<title xml:lang="jp">Theme</title>
-			<title xml:lang="es">Theme</title>
-			<title xml:lang="ru">Theme</title>
-			<title xml:lang="fr">Theme</title>
-			<title xml:lang="zh-TW">Theme</title>
-			<title xml:lang="vi">Theme</title>
-			<title xml:lang="mn">Theme</title>
-			<title xml:lang="tr">Theme</title>
 		</menu>
 	</menus>
 </module>

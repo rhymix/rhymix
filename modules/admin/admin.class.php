@@ -188,50 +188,46 @@
 					'subMenu'=>array('trash'),
 				),
 				11=>array(
-					'module'=>'admin',
-					'subMenu'=>array('theme'),
-				),
-				12=>array(
 					'module'=>'autoinstall',
 					'subMenu'=>array('easyInstall'),
 				),
-				13=>array(
+				12=>array(
 					'module'=>'layout',
 					'subMenu'=>array('installedLayout'),
 				),
-				14=>array(
+				13=>array(
 					'module'=>'module',
 					'subMenu'=>array('installedModule'),
 				),
-				15=>array(
+				14=>array(
 					'module'=>'widget',
 					'subMenu'=>array('installedWidget'),
 				),
-				16=>array(
+				15=>array(
 					'module'=>'addon',
 					'subMenu'=>array('installedAddon'),
 				),
-				17=>array(
+				16=>array(
 					'module'=>'editor',
 					'subMenu'=>array('editor'),
 				),
-				18=>array(
+				17=>array(
 					'module'=>'spamfilter',
 					'subMenu'=>array('spamFilter'),
 				),
-				19=>array(
+				18=>array(
 					'module'=>'admin',
 					'subMenu'=>array('adminConfigurationGeneral', 'adminConfigurationFtp', 'adminMenuSetup'),
 				),
-				20=>array(
+				19=>array(
 					'module'=>'file',
 					'subMenu'=>array('fileUpload'),
 				),
-				21=>array(
+				20=>array(
 					'module'=>'module',
 					'subMenu'=>array('filebox'),
 				),
-				22=>array(
+				21=>array(
 					'module'=>'point',
 					'subMenu'=>array('point')
 				),
@@ -305,7 +301,6 @@
 				case 'spamFilter':
 					return 'content';
 					break;
-				case 'theme':
 				case 'easyInstall':
 				case 'installedLayout':
 				case 'installedModule':
@@ -352,9 +347,6 @@
 				case 'importer':
 				case 'trash':
 					return 'content';
-					break;
-				case 'theme':
-					return 'theme';
 					break;
 				case 'easyInstall':
 				case 'installedLayout':
@@ -428,11 +420,13 @@
 							$result = $this->_getOldGnbKey($menuKey);
 							if($result == 'user_added_menu')
 							{
-								if($parentMenu[$menuItem->parent_srl] == 'theme')
+								// theme menu use not anymore
+								/*if($parentMenu[$menuItem->parent_srl] == 'theme')
 								{
 									$newParentItem = $newAdminParentMenuList['menu'];
 								} 
-								else if($parentMenu[$menuItem->parent_srl] == 'extensions')
+								else*/
+								if($parentMenu[$menuItem->parent_srl] == 'extensions')
 								{
 									$newParentItem = $newAdminParentMenuList['advanced'];
 								}
