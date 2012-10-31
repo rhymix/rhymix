@@ -3,12 +3,9 @@
 	<h1>{$lang->session} {$lang->cmd_management}</h1>
 </div>
 <section class="section">
-<form action="./" method="post" onsubmit="return false;" class="x_form-horizontal">
+<form action="./" method="post" onsubmit="return false;">
 	<p>{nl2br($lang->about_session)}</p>
-	<div class="x_clearfix btnArea">
-		<span class="x_pull-left">
-			<button class="x_btn x_btn-inverse" type="button" onclick="doClearSession(); return false;">{$lang->cmd_clear_session}</button>
-		</span>
-	</div>
+	<button class="x_btn x_btn-inverse" type="button" onclick="doClearSession(); return false;">{$lang->cmd_clear_session}</button>
+	<div class="x_clearfix btnArea"></div>
 </form>
 </section>
