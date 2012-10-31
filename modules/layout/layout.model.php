@@ -77,7 +77,7 @@
 				}
 				else
 				{
-					$val->thumbnail = sprintf('./modules/layout/tpl/images/noThumbnail.jpg');
+					$val->thumbnail = sprintf('./modules/layout/tpl/img/noThumbnail.png');
 				}
 				$thumbs[$val->layout] = $val->thumbnail;
 			}
