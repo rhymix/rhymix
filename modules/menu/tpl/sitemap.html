@@ -2543,7 +2543,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
 			<li><a href="#layoutHTML">HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
 			<li><button type="button" onClick="alert('\'엔터프라이즈[2]\' 레이아웃이 생성 됐습니다.')">복사본 생성</button></li>
-			<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제하시겠습니까? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
+			<li><button type="button" onClick="confirm('\'엔터프라이즈\' 레이아웃을 정말 삭제할까요? \'고급기능\'에서 다시 생성할 수 있습니다.')">삭제</button></li>
 		</ul>
 	</li>
 	*/
@@ -3049,7 +3049,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 				confirmDialog(
 					{
 						sTitle : 'FTP 설정이 필요 합니다.',
-						sText : '확인을 누르시면 FTP 설정 페이지로 이동 합니다.',
+						sText : '확인을 누르면 FTP 설정 페이지로 이동 합니다.',
 						bSmall : true,
 						fnOnOK : function(){
 							window.location.href="./?module=admin&act=dispAdminConfigFtp";

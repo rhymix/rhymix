@@ -396,7 +396,7 @@
 		<value xml:lang="vi"><![CDATA[Phiên bản mới nhất]]></value>
 	</item>
 	<item name="about_download_link">
-		<value xml:lang="ko"><![CDATA[최신 버전이 배포되었습니다. download 링크를 클릭하시면 다운 받으실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[최신 버전이 배포되었습니다. download 링크를 클릭하면 다운 받으실 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[New version of XE is now available! Please click the download link to get the latest version.]]></value>
 		<value xml:lang="jp"><![CDATA[新しいバージョンが配布されています。｢ダウンロード｣リンクをクリックするとダウンロードできます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[官方网站已发布最新版本XE。请点击[下载]链接下载最新版本。]]></value>
@@ -575,7 +575,7 @@
 		<value xml:lang="vi"><![CDATA[Chào mừng bạn đến với trang quản lý của XE!]]></value>
 	</item>
 	<item name="about_lang_env">
-		<value xml:lang="ko"><![CDATA[처음 방문하는 사용자들의 언어 설정을 동일하게 하려면, 원하는 언어로 변경 후 아래 [저장] 버튼을 클릭하시면 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[처음 방문하는 사용자들의 언어 설정을 동일하게 하려면, 원하는 언어로 변경 후 아래 [저장] 버튼을 클릭하면 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[To set the selected language as the default language, click the Save button.]]></value>
 		<value xml:lang="jp"><![CDATA[初めてサイトに訪問したユーザーに、上記での選択言語でサイトを表示させるためには、必ず下記の「保存」ボタンをクリックして適用してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以设置显示给首次访问者的同一语言环境。修改语言环境后请点击 [保存] 按钮进行保存。]]></value>
@@ -646,7 +646,7 @@
 		<value xml:lang="tr"><![CDATA[Gereksiz ve ya yanlış olan önbellek dosyalarını silmek istediğinizden emin misiniz?]]></value>
 	</item>
 	<item name="confirm_run">
-		<value xml:lang="ko"><![CDATA[오랜 시간이 걸릴 수 있습니다. 실행하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[오랜 시간이 걸릴 수 있습니다. 실행할까요?]]></value>
 		<value xml:lang="en"><![CDATA[It may take a long time. Do you want to run?]]></value>
 		<value xml:lang="zh-CN"><![CDATA[此过程可能需要耗费一段时间，是否继续?]]></value>
 		<value xml:lang="tr"><![CDATA[Bu işlem biraz uzun sürebilir. Başlatmak istiyor musunuz?]]></value>
@@ -697,16 +697,16 @@
 		</item>
 	</item>
 	<item name="about_use_ssl">
-		<value xml:lang="ko"><![CDATA['선택적으로'는 회원가입, 정보수정 등의 지정된 동작(action)에서 보안접속(SSL)을 사용합니다. '항상 사용'은 모든 서비스에 SSL을 사용 합니다. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
-		<value xml:lang="en"><![CDATA[Select 'Optional' to use SSL for the specified actions such as signing up and changing information.  'Always' to use SSL for all services. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
-		<value xml:lang="jp"><![CDATA[「部分的に使う」は、「会員登録/会員情報変更」など指定のアクションでSSLを利用する場合。「常に使う」は、すべてのサービスにSSLを使う場合に選択します。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
-		<value xml:lang="zh-CN"><![CDATA[选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
-		<value xml:lang="zh-TW"><![CDATA[選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL功能。 選擇開啟時，所有的服務都會使用 SSL功能。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
-		<value xml:lang="fr"><![CDATA[Si l'on choisit 'Optionnel' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l'on choisit 'Toujours', on utilise protocole SSL dans tous les services. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
-		<value xml:lang="ru"><![CDATA[In case of "Optional", SSL will be used for actions such as signing up / changing information. And for "Always", your site will be served only via https SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
-		<value xml:lang="es"><![CDATA[Opcionalmente, la composición de suscripción / editar la información y el uso de SSL especificada en la acción es siempre el uso de SSL para todos los servicios que se utilizarán SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
-		<value xml:lang="tr"><![CDATA['İsteği Bağlı' seçiminde; SSL, kayıt olma/bilgi değiştirme gibi eylemler için kullanılacaktır. 'Her zaman' seçiminde, siteniz sadece http yoluyla hizmet verecektir. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
-		<value xml:lang="vi"><![CDATA[Nếu bạn chọn 'Tùy chỉnh', SSL sẽ sử dụng và những công việc như đăng kí, sửa thông tin thành viên, . Chỉ chọn 'Luôn luôn' khi Website của bạn đang chạy trên Server có hỗ trợ https. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의하시기 바랍니다.]]></value>
+		<value xml:lang="ko"><![CDATA['선택적으로'는 회원가입, 정보수정 등의 지정된 동작(action)에서 보안접속(SSL)을 사용합니다. '항상 사용'은 모든 서비스에 SSL을 사용 합니다. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="en"><![CDATA[Select 'Optional' to use SSL for the specified actions such as signing up and changing information.  'Always' to use SSL for all services. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="jp"><![CDATA[「部分的に使う」は、「会員登録/会員情報変更」など指定のアクションでSSLを利用する場合。「常に使う」は、すべてのサービスにSSLを使う場合に選択します。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL功能。 選擇開啟時，所有的服務都會使用 SSL功能。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="fr"><![CDATA[Si l'on choisit 'Optionnel' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l'on choisit 'Toujours', on utilise protocole SSL dans tous les services. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="ru"><![CDATA[In case of "Optional", SSL will be used for actions such as signing up / changing information. And for "Always", your site will be served only via https SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="es"><![CDATA[Opcionalmente, la composición de suscripción / editar la información y el uso de SSL especificada en la acción es siempre el uso de SSL para todos los servicios que se utilizarán SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="tr"><![CDATA['İsteği Bağlı' seçiminde; SSL, kayıt olma/bilgi değiştirme gibi eylemler için kullanılacaktır. 'Her zaman' seçiminde, siteniz sadece http yoluyla hizmet verecektir. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu bạn chọn 'Tùy chỉnh', SSL sẽ sử dụng và những công việc như đăng kí, sửa thông tin thành viên, . Chỉ chọn 'Luôn luôn' khi Website của bạn đang chạy trên Server có hỗ trợ https. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
 	</item>
 	<item name="server_ports">
 		<value xml:lang="ko"><![CDATA[서버 포트 지정]]></value>
@@ -966,7 +966,7 @@
 		<value xml:lang="tr"><![CDATA[Yerel IP adresi]]></value>
 	</item>
 	<item name="about_admin_ip_limit">
-		<value xml:lang="ko"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다. 해당 IP에 대해서만 관리자 페이지로 접근이 가능하므로 주의해주시기 바랍니다. IP대역 정보는 /files/config/db.config.php 파일에 저장됩니다. 여러개의 항목은 줄을 바꾸어 입력하세요.]]></value>
+		<value xml:lang="ko"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다. 해당 IP에 대해서만 관리자 페이지로 접근이 가능하므로 주의 바랍니다. IP대역 정보는 /files/config/db.config.php 파일에 저장됩니다. 여러개의 항목은 줄을 바꾸어 입력하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please note that only the specified IP addresses can access the admin page. The information on IP address band is stored in  /files/config/db.config.php. Change the line to multiple IP.]]></value>
 	　　<value xml:lang="jp"><![CDATA[該当IPについてのみ管理者ページへアクセスできるため、注意してください。IP帯域情報は、/files/config/db.config.php ファイルに保存されます。Change the line to multiple IP.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请注意，只有绑定的IP才能访问后台。IP信息将保存在 /files/config/db.config.php. 每行一个IP。]]></value>
@@ -1033,7 +1033,7 @@
 		<value xml:lang="tr"><![CDATA[CSS XE çekirdek, js dosyaları CDN teklif almak için deneyin.]]></value>
 	</item>
 	<item name="about_arrange_session">
-		<value xml:lang="ko"><![CDATA[세션을 정리하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[세션을 정리할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to clean up session?]]></value>
 		<value xml:lang="jp"><![CDATA[セッションを整理しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[你想要整理session吗？]]></value>
@@ -1269,7 +1269,7 @@
 		<value xml:lang="tr"><![CDATA[Admin menüsünü sıfırlayın]]></value>
 	</item>
 	<item name="confirm_reset_admin_menu">
-		<value xml:lang="ko"><![CDATA[관리자 메뉴를 초기화하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[관리자 메뉴를 초기화할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to initialize the admin menu?]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请确认是否初始化后台菜单]]></value>
 		<value xml:lang="tr"><![CDATA[Admin menüsünü başlatmak istediğinize emin misiniz?]]></value>
@@ -1350,7 +1350,7 @@
 		<value xml:lang="jp"><![CDATA[PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用XE程序。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[當 PHP 的安全模式(safe_mode)開啟時，請輸入相關 FTP 資訊，否則無法正常安裝或使用程式。]]></value>
-		<value xml:lang="fr"><![CDATA[PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다]]></value>
+		<value xml:lang="fr"><![CDATA[PHP의 safe_mode가 On일 경우 FTP 정보를 입력해야 XE의 설치 및 사용이 가능합니다]]></value>
 		<value xml:lang="de"><![CDATA[Zur Installation und Nutzung des XEs muss die Angabe des FTPs festgestellt werden, wenn safe_mode in PHP 'An' ist.]]></value>
 		<value xml:lang="es"><![CDATA[Si la la variable safe_mode está activa[safe_mode=On], debe rellenar los datos de FTP para seguir instalando y usar con normalidad el XE.]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer PHP güvenli mod ayarları etkinse, XE'yi kurmak için FTP hesap bilgilerini girmelisiniz.]]></value>

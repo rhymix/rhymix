@@ -894,7 +894,7 @@
 		<value xml:lang="zh-TW"><![CDATA[變更電子郵件地址]]></value>
 	</item>
 	<item name="about_modify_member_email_address">
-		<value xml:lang="ko"><![CDATA[사용하시는 이메일 주소를 변경할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[사용하는 이메일 주소를 변경할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You could change Email Address.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可變更電子郵件地址]]></value>
 	</item>
@@ -1200,7 +1200,7 @@
 		<value xml:lang="vi"><![CDATA[Thông tin tài khoản.]]></value>
 	</item>
 	<item name="msg_find_account_comment">
-		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하시면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.]]></value>
 		<value xml:lang="en"><![CDATA[The password will be modified as the one above as you click the link below.<br />Please modify the password after login.]]></value>
 		<value xml:lang="jp"><![CDATA[下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[点击下面的链接您的注册密码将更新为上述的系统自动生成密码。<br />请重新登录后把密码改为您所熟悉的密码。]]></value>
@@ -1240,7 +1240,7 @@
 		<value xml:lang="vi"><![CDATA[Đây là thông tin bạn đã đăng kí tại Website http://4all.kr:]]></value>
 	</item>
 	<item name="msg_confirm_account_comment">
-		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하시면 가입 인증이 이루어집니다.]]></value>
+		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하면 가입 인증이 이루어집니다.]]></value>
 		<value xml:lang="en"><![CDATA[Click on the following link to complete your account activation.]]></value>
 		<value xml:lang="jp"><![CDATA[下記のURLをクリックして会員登録手続きを完了してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请点击下面链接完成会员认证。]]></value>
@@ -1251,7 +1251,7 @@
 		<value xml:lang="vi"><![CDATA[Bấm vào đường Link này để hoàn tất việc đăng kí.]]></value>
 	</item>
 	<item name="msg_confirm_email_address_change">
-		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하시면 이메일 주소가 %s으로 변경됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하면 이메일 주소가 %s으로 변경됩니다.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請按底下連結將電子郵件變更為 %s]]></value>
 	</item>
 	<item name="msg_auth_mail_sent">
@@ -1278,23 +1278,23 @@
 		<value xml:lang="vi"><![CDATA[Chúng tôi đã gửi Email xác nhận đến %s. Xin vui lòng bấm vào Link đi kèm trong Email để hoàn tất việc đăng kí!]]></value>
 	</item>
 	<item name="msg_invalid_modify_email_auth_key">
-		<value xml:lang="ko"><![CDATA[잘못된 이메일 변경 요청입니다.<br />이메일 변경요청을 다시 하시거나 사이트 관리자에게 문의해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[잘못된 이메일 변경 요청입니다.<br />이메일 변경요청을 다시 하거나 사이트 관리자에게 문의해주세요.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[無效的電子郵件變更請求。<br />要想變更電子郵件，請詢問網站管理員。]]></value>
 	</item>
 	<item name="msg_invalid_auth_key">
-		<value xml:lang="ko"><![CDATA[잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하시거나 사이트 관리자에게 계정 정보를 문의해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하거나 사이트 관리자에게 계정 정보를 문의해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[This is an invalid request of verification.<br />Please retry finding account info or contact the administrator.]]></value>
 		<value xml:lang="jp"><![CDATA[正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[错误的注册信息请求。<br />请重新查找用户名及密码， 或联系管理员。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[錯誤的認證請求。<br />請重新尋找帳號及密碼，或聯繫管理員。]]></value>
 		<value xml:lang="fr"><![CDATA[Cette Requête à Certifier est invalide.<br />Essayez encore une fois à retrouver votre information de compte ou contactez l'administrateur.]]></value>
 		<value xml:lang="ru"><![CDATA[Неверный запрос на авторизацию.<br />Пожалуйста, попытайтеть найти информацию аккаунта или свяжитесь с администратором.]]></value>
-		<value xml:lang="es"><![CDATA[잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하시거나 사이트 관리자에게 계정 정보를 문의해주세요]]></value>
+		<value xml:lang="es"><![CDATA[잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하거나 사이트 관리자에게 계정 정보를 문의해주세요]]></value>
 		<value xml:lang="tr"><![CDATA[Geçersiz doğrulama talebi.<br />Lütfen hesap bilgisini tekrar bulmayı deneyin ya da yöneticilerle iletişime geçin.]]></value>
 		<value xml:lang="vi"><![CDATA[Xác nhận không hợp lệ.<br />Xin vui lòng kiểm tra lại hoặc liên hệ với Webmaster để được hỗ trợ!]]></value>
 	</item>
 	<item name="msg_success_authed">
-		<value xml:lang="ko"><![CDATA[인증이 정상적으로 되어 로그인 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.]]></value>
+		<value xml:lang="ko"><![CDATA[인증이 정상적으로 되어 로그인 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하는 비밀번호로 변경하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Your account has been successfully activated and logged on.\n Please modify the password to your own one with the password in the mail.]]></value>
 		<value xml:lang="jp"><![CDATA[認証が正常に行われ、ログインできました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[新的注册信息已得到认证。请用邮件中的新密码修改您要想使用的密码。]]></value>
@@ -1465,7 +1465,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn đã đăng kí rồi.]]></value>
 	</item>
 	<item name="msg_not_logged">
-		<value xml:lang="ko"><![CDATA[로그인을 하지 않으셨습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[로그인을 하지 않았습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please sign in first.]]></value>
 		<value xml:lang="jp"><![CDATA[ログインしていません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您还没有登录。]]></value>
@@ -1547,7 +1547,7 @@
 		<value xml:lang="vi"><![CDATA[Hình thay thế nhóm đã không được gửi]]></value>
 	</item>
 	<item name="msg_accept_agreement">
-		<value xml:lang="ko"><![CDATA[약관에 동의하셔야 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[약관에 동의해야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You have to accept the agreement.]]></value>
 		<value xml:lang="jp"><![CDATA[利用規約に同意しなければなりません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您必须同意条款。]]></value>
@@ -1803,7 +1803,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể đặt giá trị mặc định.]]></value>
 	</item>
 	<item name="about_active">
-		<value xml:lang="ko"><![CDATA[활성 항목에 체크를 하셔야 가입시 정상적으로 노출됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[활성 항목에 체크를 해야 가입시 정상적으로 노출됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[You have to check on active items to show on signup form.]]></value>
 		<value xml:lang="jp"><![CDATA[有効項目にチェックを入れないと加入時に正常に表示されません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[必须选择此项后才可以正常启用。]]></value>
@@ -1815,7 +1815,7 @@
 		<value xml:lang="vi"><![CDATA[Nếu chọn, thông tin này sẽ được hiển thị trong bảng đăng kí.]]></value>
 	</item>
 	<item name="about_form_description">
-		<value xml:lang="ko"><![CDATA[설명란에 입력을 하시면 가입시 표시가 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[설명란에 입력을 하면 가입시 표시가 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[If you enter description in this form, it will be displayed on join form.]]></value>
 		<value xml:lang="jp"><![CDATA[説明欄に入力すると登録時に表示されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[说明栏里输入的内容，注册时将会显示。]]></value>
@@ -1827,7 +1827,7 @@
 		<value xml:lang="vi"><![CDATA[Nếu bạn nhập mô tả, nó sẽ được hiển thị trong bảng đăng kí.]]></value>
 	</item>
 	<item name="about_required">
-		<value xml:lang="ko"><![CDATA[체크하시면 회원가입시 필수항목으로 입력하도록 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[체크하면 회원가입시 필수항목으로 입력하도록 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Check this to make it mandatory item when signing up.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると会員登録時に必須入力項目として設定されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[注册时成为必填项目。]]></value>
@@ -2024,7 +2024,7 @@
 		<value xml:lang="vi"><![CDATA[Sẽ là nhóm mặc định khi thành viên đăng kí.]]></value>
 	</item>
 	<item name="about_find_member_account">
-		<value xml:lang="ko"><![CDATA[아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다.<br />가입할 때 등록하신 메일 주소를 입력하시고 "아이디/비밀번호 찾기" 버튼을 클릭해주세요.<br />]]></value>
+		<value xml:lang="ko"><![CDATA[아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다.<br />가입할 때 등록하신 메일 주소를 입력하고 "아이디/비밀번호 찾기" 버튼을 클릭해주세요.<br />]]></value>
 		<value xml:lang="en"><![CDATA[lease input the email address you have entered during the registration and we will send your account info to this email address.]]></value>
 		<value xml:lang="jp"><![CDATA[ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードのリマインダー」ボタンをクリックしてください。<br />]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户名/密码将发送到您注册时所输入的电子邮件当中。<br />输入注册时的电子邮件地址后，请点击“查找用户名/密码”按钮。<br />]]></value>
@@ -2036,7 +2036,7 @@
 		<value xml:lang="vi"><![CDATA[Thông tin tài khoản của bạn sẽ được tìm thấy với Email bạn đã đăng kí.<br />Xin vui lòng nhập Email mà bạn đã đăng kí và bấm "Lấy lại thông tin" để nhận được thông tin đăng nhập!.<br />]]></value>
 	</item>
 	<item name="about_temp_password">
-		<value xml:lang="ko"><![CDATA[임시 비밀번호가 정상적으로 발급되었습니다.<br />로그인 후 반드시 비밀번호를 변경하시기 바랍니다.<br/>]]></value>
+		<value xml:lang="ko"><![CDATA[임시 비밀번호가 정상적으로 발급되었습니다.<br />로그인 후 반드시 비밀번호를 변경하세요.<br/>]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已發送臨時密碼。<br />請登入後修改密碼。<br/>]]></value>
 	</item>
 	<item name="about_ssl_port">
@@ -2051,7 +2051,7 @@
 		<value xml:lang="vi"><![CDATA[Xin hãy nhập cổng kết nối mặc định cho SSL.]]></value>
 	</item>
 	<item name="about_reset_auth_mail">
-		<value xml:lang="ko"><![CDATA[현재등록된 이메일 주소는 %s입니다. 이메일 주소를 변경하시고자 하는 경우 새로운 이메일 주소로 회원정보 갱신 후 인증메일을 재발 송할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[현재등록된 이메일 주소는 %s입니다. 이메일 주소를 변경하고자 하는 경우 새로운 이메일 주소로 회원정보 갱신 후 인증메일을 재발 송할 수 있습니다.]]></value>
 	</item>
 	<item name="about_resend_auth_mail">
 		<value xml:lang="ko"><![CDATA[인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.]]></value>
@@ -2475,7 +2475,7 @@
 		<value xml:lang="ko"><![CDATA[회원정보 동기화]]></value>
 	</item>
 	<item name="about_member_sync">
-		<value xml:lang="ko"><![CDATA[회원정보와 게시물/댓글 정보를 동기화 합니다. 데이터가 많은 경우 시간이 오래 소요될 수 있습니다. <strong>이용자가 많은 경우 반드시 서비스를 중단하시고 진행하시기 바랍니다.</strong>]]></value>
+		<value xml:lang="ko"><![CDATA[회원정보와 게시물/댓글 정보를 동기화 합니다. 데이터가 많은 경우 시간이 오래 소요될 수 있습니다. <strong>이용자가 많은 경우 반드시 서비스를 중단하고 진행하세요.</strong>]]></value>
 	</item>
 	<item name="msg_success_modify_email_address">
 		<value xml:lang="ko"><![CDATA[이메일 주소가 정상적으로 변경되었습니다. 변경된 이메일 주소로 로그인 가능합니다.]]></value>
@@ -2489,7 +2489,7 @@
 		<value xml:lang="en"><![CDATA[Retrieve password]]></value>
 	</item>
 	<item name="excess_ip_access_count">
-		<value xml:lang="ko"><![CDATA[로그인 가능 횟수를 초과하셨습니다. %s 간 로그인 하실 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[로그인 가능 횟수를 초과했습니다. %s 간 로그인 하실 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There was too much sign in trial from your devices in a short time. You can not sign in for %s.]]></value>
 	</item>
 	<item name="enable_login_fail_report">
@@ -2501,7 +2501,7 @@
 		<value xml:lang="en"><![CDATA[Sign in failure report.]]></value>
 	</item>
 	<item name="login_fail_report_contents">
-		<value xml:lang="ko"><![CDATA[<h2>로그인 실패 기록을 알려드립니다.</h2>%1$s<hr /><p>* 비밀번호를 틀리는 등의 일이 없었는데 이 메시지를 보신다면, 계정 관리에 유의해주시기 바랍니다.<br />* 이 메시지는 로그인이 성공한 순간 누적 로그인 실패 기록이 많을 경우, 로그인 성공 이전 실패 기록을 모아서 발송합니다.<br />발송 시각: %2$s</p>]]></value>
+		<value xml:lang="ko"><![CDATA[<h2>로그인 실패 기록을 알려드립니다.</h2>%1$s<hr /><p>* 비밀번호를 틀리는 등의 일이 없었는데 이 메시지를 보신다면, 계정 관리에 유의 바랍니다.<br />* 이 메시지는 로그인이 성공한 순간 누적 로그인 실패 기록이 많을 경우, 로그인 성공 이전 실패 기록을 모아서 발송합니다.<br />발송 시각: %2$s</p>]]></value>
 		<value xml:lang="en"><![CDATA[<h2>There is recorded sign in failures.</h2>%1$s<hr /><p>* This notification is shown once.<br />* This message contains sign in failure records, before a ID sign in success.<br />Sending: %2$s</p>]]></value>
 	</item>
 </lang>

@@ -124,7 +124,7 @@
             <title xml:lang="ru">Фоновое изображение</title>
             <title xml:lang="es">Imagen de fondo</title>
 	    	<title xml:lang="vi">Hình nền</title>
-            <description xml:lang="ko">배경 이미지를 사용하시려면 등록해주세요.</description>
+            <description xml:lang="ko">배경 이미지를 사용하려면 등록해주세요.</description>
             <description xml:lang="jp">背景イメージを使う場合は、登録して下さい。</description>
             <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
             <description xml:lang="zh-TW">請在這裡上傳想要使用的背景圖片。</description>

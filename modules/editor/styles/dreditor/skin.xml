@@ -5,7 +5,7 @@
     <title xml:lang="tr">dreditor</title>
     <description xml:lang="ko">
 		단락편집기 문서서식입니다.
-		텍스타일 이외의 모듈에서 단락편집기를 사용할 때 사용하시면 단락편집기 스타일에 맞추어서 표시해줍니다.
+		텍스타일 이외의 모듈에서 단락편집기를 사용할 때 사용하면 단락편집기 스타일에 맞추어서 표시해줍니다.
     </description>
     <description xml:lang="en">
 		DrEditor document style.

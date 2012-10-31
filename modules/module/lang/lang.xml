@@ -17,13 +17,13 @@
 		<value xml:lang="zh-TW"><![CDATA[此項目有新版本]]></value>
     </item>
 	<item name="msg_do_you_like_install">
-		<value xml:lang="ko"><![CDATA[생성 하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[생성 할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to create?]]></value>
 		<value xml:lang="jp"><![CDATA[インストールしますか?]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要安裝嗎?]]></value>
 	</item>
 	<item name="msg_do_you_like_update">
-		<value xml:lang="ko"><![CDATA[업데이트 하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[업데이트 할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
 		<value xml:lang="jp"><![CDATA[アップデートしますか?]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要更新嗎?]]></value>
@@ -761,7 +761,7 @@
 (Chỉ cho phép chữ cái tiếng Anh + [chữ cái tiếng Anh, số, và dấu gạch dưới (_)] và tối đa 40 kí tự.)]]></value>
 	</item>
 	<item name="about_default">
-		<value xml:lang="ko"><![CDATA[선택하시면 사이트에 mid값 없이 접속하였을 경우 기본으로 보여줍니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택하면 사이트에 mid값 없이 접속하였을 경우 기본으로 보여줍니다.]]></value>
 		<value xml:lang="en"><![CDATA[If checked, this module will be shown when users access the site without mid value (mid=NoValue).]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると、サイトに「mid値」なしでアクセスした場合、デフォルトで表示します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用没有mid值的网址访问网站时，将会显示默认。]]></value>
@@ -849,7 +849,7 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="vi"><![CDATA[Banj có thể chọn Skin cho Module.]]></value>
 	</item>
 	<item name="about_use_category">
-		<value xml:lang="ko"><![CDATA[선택하시면 분류 기능을 사용할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택하면 분류 기능을 사용할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[If checked, the category function will be enabled.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れるとカテゴリ機能を使用できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项可以使用分类功能。]]></value>
@@ -937,7 +937,7 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="vi"><![CDATA[Khu vực Module trong XE ngoại trừ Library là tại [Module Manage]. Tất cả những Module đang có sẽ hiển thị, giúp bạn quản lý một cách dễ dàng.]]></value>
 	</item>
 	<item name="about_extra_vars_default_value">
-		<value xml:lang="ko"><![CDATA[다중/단일 선택 등 기본 값이 여러 개가 필요한 경우 , (콤마)로 연결하시면 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[다중/단일 선택 등 기본 값이 여러 개가 필요한 경우 , (콤마)로 연결하면 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[This is only for select,checkbox and radio button. If multiple default values are needed, you can link them with comma.]]></value>
 		<value xml:lang="jp"><![CDATA[多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[复选/单选缺省值需要多个时,用,(逗号)来分隔。]]></value>
@@ -949,14 +949,14 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="vi"><![CDATA[Nếu cần nhiều giá trị mặc định, bạn có thể thêm dấu (,) và giữa các kết nối.]]></value>
 	</item>
 	<item name="about_search_virtual_site">
-		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력하신 후 검색하세요.<br/>가상 사이트 이외의 모듈은 내용을 비우고 검색하시면 됩니다. (http:// 는 제외)]]></value>
+		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력하신 후 검색하세요.<br/>가상 사이트 이외의 모듈은 내용을 비우고 검색하면 됩니다. (http:// 는 제외)]]></value>
 		<value xml:lang="en"><![CDATA[Enter domain of virtual sites.<br />To search modules of non-virtual site, search with blank]]></value>
 		<value xml:lang="jp"><![CDATA[バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力して検索してください。<br />バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は省く）]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入子站点域名后再进行搜索。<br/>子站点以外的模块可以留空搜索。(输入时http://除外)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入網站域名後再搜尋。<br/>網站以外的模組可直接進行搜尋。(http://不用輸入)。]]></value>
-		<value xml:lang="fr"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="ru"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="es"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="fr"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="ru"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="es"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
 		<value xml:lang="tr"><![CDATA[Sanal sitelerin alanadlarını giriniz.<br />Sanal olmayan sitelerin modüllerini aramak için, boş arama yapınız]]></value>
 		<value xml:lang="vi"><![CDATA[Hãy nhập tên miền thực tế của Website.<br />Để tìm kiếm những Module không thực tế của Website hãy để trống.]]></value>
 	</item>
@@ -968,14 +968,14 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="zh-TW"><![CDATA[請輸入延伸變數名稱。( 只允許使用英文 + [ 英文，數字及底線 ] )]]></value>
 	</item>
 	<item name="about_langcode">
-		<value xml:lang="ko"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어 코드 찾기를 이용해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[언어별로 다르게 설정하고 싶으면 언어 코드 찾기를 이용해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[If you want to configure seperately, use 'find language code']]></value>
 		<value xml:lang="jp"><![CDATA[言語ごとに異なる設定をする場合、言語コード検索を利用してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[要想实现多国语言切换请点击[选择语言变量]按钮。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要實現多國語言功能，請按[語言代碼]按鈕。]]></value>
-		<value xml:lang="fr"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
-		<value xml:lang="ru"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
-		<value xml:lang="es"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
+		<value xml:lang="fr"><![CDATA[언어별로 다르게 설정하고 싶으면 언어코드 찾기를 이용해주세요]]></value>
+		<value xml:lang="ru"><![CDATA[언어별로 다르게 설정하고 싶으면 언어코드 찾기를 이용해주세요]]></value>
+		<value xml:lang="es"><![CDATA[언어별로 다르게 설정하고 싶으면 언어코드 찾기를 이용해주세요]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer tek tek yapılandırma yapmak istiyorsanız, 'dil kodu bul'' u kullanınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu bạn muốn sử dụng định hình riêng, hãy sử dụng 'Tìm kiếm mã ngôn ngữ']]></value>
 	</item>
@@ -1080,7 +1080,7 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="en"><![CDATA[There are <strong>%d</strong> multilingual sets.]]></value>
 	</item>
 	<item name="msg_confirm_save_and_use_multilingual">
-		<value xml:lang="ko"><![CDATA[현재 상태를 저장하고 사용하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[현재 상태를 저장하고 사용할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to save and use this status?]]></value>
 	</item>
 	<item name="msg_empty_multilingual">

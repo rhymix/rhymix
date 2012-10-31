@@ -10,7 +10,7 @@
 	</item>
 	<item name="about_session">
 		<value xml:lang="ko"><![CDATA[세션 관리를 하는 모듈입니다.
-틈틈이 세션 정리를 하시면 사이트 운영에 보다 좋은 효과를 낼 수 있습니다.]]></value>
+틈틈이 세션 정리를 하면 사이트 운영에 보다 좋은 효과를 낼 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This module manages sessions.
 Frequent session arrangement will provide a better environment for your site.]]></value>
 		<value xml:lang="jp"><![CDATA[セッションを管理するモジュールです。

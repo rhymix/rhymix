@@ -136,7 +136,7 @@
 		<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
 	</item>
 	<item name="msg_do_you_like_update">
-		<value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[업데이트할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
 		<value xml:lang="jp"><![CDATA[アップデートしますか？]]></value>
 	</item>
@@ -347,7 +347,7 @@
 		<value xml:lang="vi"><![CDATA[Không tìm thấy biên tập Thành phần %s]]></value>
 	</item>
 	<item name="msg_component_is_inserted">
-		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 이미 입력되어 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 컴포넌트는 이미 입력되어 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Selected component is already inserted.]]></value>
 		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは既に入力されています。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您选择的组件已插入！]]></value>
@@ -359,7 +359,7 @@
 		<value xml:lang="vi"><![CDATA[Đã chèn Thành phần được chọn.]]></value>
 	</item>
 	<item name="msg_component_is_first_order">
-		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 첫 번째에 위치하고 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 컴포넌트는 첫 번째에 위치하고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Selected component is located at the first position.]]></value>
 		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最上位にあります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您选择的组件已到最上端位置！]]></value>
@@ -371,7 +371,7 @@
 		<value xml:lang="vi"><![CDATA[Lựa chọn Thành phần trước một khu vực.]]></value>
 	</item>
 	<item name="msg_component_is_last_order">
-		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 마지막에 위치하고 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 컴포넌트는 마지막에 위치하고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Selected component is located at the last position.]]></value>
 		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最下位にあります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您选择的组件已到最下端位置！]]></value>
@@ -383,8 +383,8 @@
 		<value xml:lang="vi"><![CDATA[Lựa chọn Thành phần sau một khu vực.]]></value>
 	</item>
 	<item name="msg_load_saved_doc">
-		<value xml:lang="ko"><![CDATA[자동 저장된 글이 있습니다. 복구하시겠습니까?
-글을 다 쓰신 후 저장하시면 자동 저장 본은 사라집니다.]]></value>
+		<value xml:lang="ko"><![CDATA[자동 저장된 글이 있습니다. 복구할까요?
+글을 다 쓰신 후 저장하면 자동 저장 본은 사라집니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is a draft automatically saved. Do you want to restore it? The auto-saved draft will be discarded when you write and save it.]]></value>
 		<value xml:lang="jp"><![CDATA[自動保存された書き込みがあります。復旧しますか？
 書き終わってから登録すると前の自動保存データは削除されます。]]></value>
@@ -1244,7 +1244,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			<value xml:lang="vi"><![CDATA[Thứ tự chấm]]></value>
 		</item>
 		<item name="help_use_paragraph">
-			<value xml:lang="ko"><![CDATA[문단 나누기를 하시려면 Ctrl+Enter를 누르시면 됩니다. (글 작성완료 후 Alt+S를 누르면 저장이 됩니다.)]]></value>
+			<value xml:lang="ko"><![CDATA[문단 나누기를 하려면 Ctrl+Enter를 누르면 됩니다. (글 작성완료 후 Alt+S를 누르면 저장이 됩니다.)]]></value>
 			<value xml:lang="en"><![CDATA[Press Ctrl+Enter to use paragraph break. (Press Alt+S to save it.)]]></value>
 			<value xml:lang="jp"><![CDATA[段落機能を使用する場合は、「Ctrl+Enter」を押します（書き終わった後、「Alt+S」を押すと保存されます）。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[分段请按 Ctrl＋回车． (发表主题快捷键：Alt＋S)]]></value>
@@ -2068,7 +2068,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			<value xml:lang="vi"><![CDATA[Đóng hướng dẫn]]></value>
 		</item>
 		<item name="confirm_submit_without_saving">
-			<value xml:lang="ko"><![CDATA[저장하지 않은 단락이 있습니다.\n그냥 전송하시겠습니까?]]></value>
+			<value xml:lang="ko"><![CDATA[저장하지 않은 단락이 있습니다.\n그냥 전송할까요?]]></value>
 			<value xml:lang="en"><![CDATA[There are paragraphs which were not saved.\nProceed anyway?]]></value>
 			<value xml:lang="jp"><![CDATA[まだ保存してない内容があります。\nそのまま転送してよろしいでしょうか？]]></value>
 			<value xml:lang="zh-CN"><![CDATA[尚有未保存的段落。\n确定要提交吗？]]></value>
@@ -2099,7 +2099,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 	</item>
 	<item name="about_dblclick_in_editor">
-		<value xml:lang="ko"><![CDATA[배경, 글자, 이미지, 인용문등에서 더블클릭을 하시면 상세한 컴포넌트 설정이 가능합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[배경, 글자, 이미지, 인용문등에서 더블클릭을 하면 상세한 컴포넌트 설정이 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may set the component's detailed configurations by double-clicking background, text, images, or quotations.]]></value>
 		<value xml:lang="jp"><![CDATA[背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定できるコンポーネントを表示します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[双击背景, 文本, 图片, 引用即可对其相关组件进行详细设置。]]></value>

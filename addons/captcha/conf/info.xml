@@ -89,7 +89,7 @@
             <title xml:lang="en">How it works</title>
             <title xml:lang="ru">How it works</title>
             <title xml:lang="vi">Sử dụng</title>
-            <description xml:lang="ko">"1번만 동작"을 선택하시면 1번만 동작후 상태를 저장해서 다음부터 물어보지 않고 그렇지 않으면 매번 물어보게 됩니다</description>
+            <description xml:lang="ko">"1번만 동작"을 선택하면 1번만 동작후 상태를 저장해서 다음부터 물어보지 않고 그렇지 않으면 매번 물어보게 됩니다</description>
 	    	<description xml:lang="zh-CN">"一次"就是每个IP只出现一次验证。</description>
             <description xml:lang="jp">「1回だけ表示」を選択すると、最初だけ動作した後、その情報を記憶して次回からはCaptchaを見せないようにします。また、もう一つのオプションは毎回Captchaを表示します。</description>
             <description xml:lang="zh-TW">選擇"單次"，下次不會再顯示；選擇"每次"則會一直顯示。</description>
@@ -123,9 +123,9 @@
                 <title xml:lang="en">applying to an action finding account</title>
 				<title xml:lang="ru">applying to an action finding account</title>
                 <title xml:lang="vi">Khi lấy lại mật khẩu</title>
-                <description xml:lang="ko">적용으로 하시면 비밀번호 찾기 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
+                <description xml:lang="ko">적용으로 하면 비밀번호 찾기 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
                 <description xml:lang="zh-CN">启用此项功能可以有效地拦截以查找密码名义发送的垃圾邮件。</description>
-                <description xml:lang="jp">적용으로 하시면 비밀번호찾기 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
+                <description xml:lang="jp">적용으로 하면 비밀번호찾기 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
                 <description xml:lang="zh-TW">開啟功能後在忘記密碼時會顯示驗證碼。</description>
                 <description xml:lang="en">If you set this option as apply, CAPTCHA will work for finding account action, too.</description>
 				<description xml:lang="ru">If you set this option as apply, CAPTCHA will work for finding account action, too.</description>
@@ -157,9 +157,9 @@
             <title xml:lang="en">apply to an action resending authmail</title>
 	    	<title xml:lang="ru">apply to an action resending authmail</title>
             <title xml:lang="vi">Khi lấy lại mã kích hoạt</title>
-            <description xml:lang="ko">적용으로 하시면 인증 메일 재발송 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
+            <description xml:lang="ko">적용으로 하면 인증 메일 재발송 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
             <description xml:lang="zh-CN">启用此项功能可以有效地拦截以重新发送认证邮件名义发送的垃圾邮件。</description>
-            <description xml:lang="jp">적용으로 하시면 인증 메일 재발송 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
+            <description xml:lang="jp">적용으로 하면 인증 메일 재발송 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
             <description xml:lang="zh-TW">開啟功能後在重寄認證信時會顯示驗證碼。</description>
             <description xml:lang="en">If you set this option as apply, CAPTCHA will work for resending authmail action, too.</description>
 	    	<description xml:lang="ru">If you set this option as apply, CAPTCHA will work for resending authmail action, too.</description>
@@ -191,9 +191,9 @@
             <title xml:lang="en">Apply to member signup</title>
             <title xml:lang="ru">Apply to member signup</title>
             <title xml:lang="vi">Apply to member signup</title>
-            <description xml:lang="ko">적용으로 하시면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
+            <description xml:lang="ko">적용으로 하면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
             <description xml:lang="zh-CN">启用此项功能可以有效地拦截自动注册软件的施虐。</description>
-            <description xml:lang="jp">적용으로 하시면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
+            <description xml:lang="jp">적용으로 하면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
             <description xml:lang="zh-TW">開啟功能後在註冊時會顯示驗證碼。</description>
             <description xml:lang="en">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
             <description xml:lang="ru">If you set this option as apply, CAPTCHA will work for signup action, too.</description>

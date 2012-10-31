@@ -187,7 +187,7 @@
 		<value xml:lang="vi"><![CDATA[Xin hãy nhập tiêu đề của giao diện cho dễ dàng lựa chọn về sau.]]></value>
 	</item>
 	<item name="about_not_apply_menu">
-		<value xml:lang="ko"><![CDATA[체크하시면 연결된 모든 메뉴의 모듈 레이아웃을 일괄 변경합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[체크하면 연결된 모든 메뉴의 모듈 레이아웃을 일괄 변경합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Layouts of all modules connected via menu will be changed en bloc by checking this option.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると連動するすべてのメニューのモジュールのレイアウトを一括変更します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[勾选表示连接到此布局的菜单项全部采用此布局。]]></value>
@@ -199,7 +199,7 @@
 		<value xml:lang="vi"><![CDATA[Nếu chọn, tất cả các giao diện đang sử dụng sẽ được thay đổi thành giao diện này.]]></value>
 	</item>
 	<item name="about_layout">
-		<value xml:lang="ko"><![CDATA[레이아웃 모듈은 사이트의 레이아웃을 쉽게 만들 수 있도록 도와줍니다. 레이아웃 설정과 메뉴의 연결을 통해서 다양한 모듈이 완성된 사이트의 모습으로 보여줄 수 있도록 합니다. 삭제나 수정이 불가능한 레이아웃은 블로그나 기타 모듈의 자체 레이아웃이므로 해당 모듈로 가서 설정하셔야 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[레이아웃 모듈은 사이트의 레이아웃을 쉽게 만들 수 있도록 도와줍니다. 레이아웃 설정과 메뉴의 연결을 통해서 다양한 모듈이 완성된 사이트의 모습으로 보여줄 수 있도록 합니다. 삭제나 수정이 불가능한 레이아웃은 블로그나 기타 모듈의 자체 레이아웃이므로 해당 모듈로 가서 설정해야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Layout module helps you create the site's layout easily. By using layout setting and menu connection, website's completed shape will be displayed with various modules. Layouts which you cannot delete are the default layouts of blogs or other moduels, thus you have to delete them from their setting pages.]]></value>
 		<value xml:lang="jp"><![CDATA[レイアウトのモジュールはサイトのレイアウトを分かりやすく作成できるようにします。 レイアウトの設定とメニューのリンクで様々なモジュールで完成されたサイト構築ができます。 ブログまたは他のモジュールのレイアウトなどの削除・修正ができないレイアウトは、該当モジュールにて設定を行ってください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[布局模块使网站制作变得更简单。 通过布局设置及菜单的链接，可以轻松制作以多种模块组成的完整网站。 无法删除和修改的布局可能是博客或其他模块自带的模板，因此应到相关模块进行设置。]]></value>
@@ -213,9 +213,9 @@
 
 	</item>
 	<item name="about_layout_code">
-		<value xml:lang="ko"><![CDATA[아래 레이아웃의 코드를 직접 수정 후 저장하시면 서비스에 반영이 됩니다.
+		<value xml:lang="ko"><![CDATA[아래 레이아웃의 코드를 직접 수정 후 저장하면 서비스에 반영이 됩니다.
         꼭 미리보기를 하신 후에 저장을 하세요.
-        XE의 템플릿 문법은 <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE 템플릿</a> 을 참고하시면 됩니다.]]></value>
+        XE의 템플릿 문법은 <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE 템플릿</a> 을 참고하면 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[It will be applied to the service when you save the layout code after editing it.
         Please first preview your code and then save it.
         You can refer grammar of XE's template from <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE Template</a>.]]></value>
@@ -281,14 +281,14 @@
 		<value xml:lang="vi"><![CDATA[Nhập vào]]></value>
 	</item>
 	<item name="about_layout_import">
-		<value xml:lang="ko"><![CDATA[가져오기를 할 경우 기존에 수정된 레이아웃은 삭제됩니다. 가져오기를 하기 전에 내보내기를 통해 백업을 하시기 바랍니다.]]></value>
+		<value xml:lang="ko"><![CDATA[가져오기를 할 경우 기존에 수정된 레이아웃은 삭제됩니다. 가져오기를 하기 전에 내보내기를 통해 백업을 하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Previously modified layout will be deleted when you import a new one. Please export the current layout for a backup before importing a new one.]]></value>
 		<value xml:lang="jp"><![CDATA[インポートする場合、既存の修正されたレイアウトを上書きします。インポート前にエクスポートでバックアップすることをお勧めします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[导入之前请利用<strong>导出功能</strong>备份好当前的布局及设置，因为导入会删除当前的布局及设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[版面匯入時，將會刪除目前的版面設置。 版面匯入前，請先匯出備份目前的版面設置。]]></value>
-		<value xml:lang="fr"><![CDATA[가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하시기 바랍니다.]]></value>
+		<value xml:lang="fr"><![CDATA[가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하세요.]]></value>
 		<value xml:lang="ru"><![CDATA[Original layout will be deleted when you import. Please export current layout before importing.]]></value>
-		<value xml:lang="es"><![CDATA[가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하시기 바랍니다.]]></value>
+		<value xml:lang="es"><![CDATA[가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하세요.]]></value>
 		<value xml:lang="tr"><![CDATA[İçe yeni bir yerleşim düzeni aktarmanız durumunda, önceden değiştirdiğiniz yerleşim düzeni silinecektir. Lütfen içe aktarım yapmadan önce, mevcut yerleşim düzeninin yedeğini almış olmak için dışa aktarınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Giao diện nguyên bản sẽ bị xóa khi bạn nhập vào. Hãy xuất ra để lưu giao diện hiện thời trước khi nhập vào.]]></value>
 	</item>
@@ -914,13 +914,13 @@
 			<value xml:lang="vi"><![CDATA[Quản lý giao diện XpressEngine FaceOff]]></value>
 		</item>
 		<item name="description">
-			<value xml:lang="ko"><![CDATA[FaceOff Layout관리자로 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보시고 구성요소와 기능을 이용하여 원하시는 레이아웃을 만드세요.]]></value>
+			<value xml:lang="ko"><![CDATA[FaceOff Layout관리자로 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보고 구성요소와 기능을 이용하여 원하는 레이아웃을 만드세요.]]></value>
 			<value xml:lang="en"><![CDATA[FaceOff Layout Manager willl help you design layout on the web easily.<br/>Please design your own layout with components and functions as shown below.]]></value>
 			<value xml:lang="jp"><![CDATA[FaceOffレイアウト管理ツールでウェブ上で、かんたんにレイアウトを変更することができます。 下の図を参照しながら構成要素と機能を理解し、自由にレイアウトをカスタマイズしてみてください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[利用FaceOff布局管理工具，可以在线随意布置您的布局。<br/>请仔细查看下面的布局示意图和功能简介后，尽情发挥吧！<br/>FaceOff的布局示意图如下：]]></value>
 			<value xml:lang="zh-TW"><![CDATA[FaceOff Layout 版面管理者，可方便地在線上修改與設計版面。<br/>下圖為版面架構示意圖和功能簡介，瞭解後發揮創意製作出自己想要的版面吧!]]></value>
-			<value xml:lang="fr"><![CDATA[FaceOff Layout관리자는 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보시고 구성요소와 기능을 이용하여 원하시는 레이아웃을 만드세요]]></value>
-			<value xml:lang="es"><![CDATA[FaceOff Layout관리자는 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보시고 구성요소와 기능을 이용하여 원하시는 레이아웃을 만드세요]]></value>
+			<value xml:lang="fr"><![CDATA[FaceOff Layout관리자는 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보고 구성요소와 기능을 이용하여 원하는 레이아웃을 만드세요]]></value>
+			<value xml:lang="es"><![CDATA[FaceOff Layout관리자는 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보고 구성요소와 기능을 이용하여 원하는 레이아웃을 만드세요]]></value>
 			<value xml:lang="tr"><![CDATA[FaceOff Yerleşim Düzeni Yöneticisi, tarayıcınızı kullanarak kolayca yerleşim düzenini tasarlamanıza yardımcı olacaktır.<br/>Lütfen kendi yerleşim düzeninize, aşağıda da gösterildiği gibi, bileşenler ve özellikler tasarlayınız.]]></value>
 			<value xml:lang="vi"><![CDATA[Quản lý giao diện FaceOff sẽ giúp bạn tao ra một giao diện cho riêng mình một cách dễ dàng.<br/>Xin hãy thiết kế giao diện của mình với những thành phần và những chức năng hiển thị phía dưới.]]></value>
 		</item>
@@ -948,14 +948,14 @@
 			<value xml:lang="vi"><![CDATA[Menu phía bên trái.<br/><ul><li>"Lưu lại": là lưu lại những thiết lập hiện tại.</li><li>"Loại bỏ": là bỏ qua những thay đổi hiện tại và trở lại.</li><li>"Thiết lập lại": là xóa bỏ tất cả những thay đổi.</li><li>"Form": đặt Form dạng Cố định, Biến thiên, Cố định+Biến thiên (Nội dung).</li><li>"Thu nhỏ": là thu nhỏ hai phần mở rộng và nội dung.</li><li>"Căn chỉnh" : là sắp xếp sự thẳng hàng.</li></ul>]]></value>
 		</item>
 		<item name="hotkey">
-			<value xml:lang="ko"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하시면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을 때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을 때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
+			<value xml:lang="ko"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을 때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을 때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
 			<value xml:lang="en"><![CDATA[You can design your layout more easily with Hot Keys.<br/><ul><li>tab : Unless a widget is selected, Header, Body, Footer will be selected in order. If not, next widget will be selected.</li><li>Shift + tab : It does the opposite function to tab key.</li><li>Esc : If nothing is selected, Neck, Extension(e1,e2), Knee will be selected in order, if a widget is selected, area of the widget will be selected.</li><li>Arrow Key : If a widget is selected, arrow key will move the widget to other areas.</li></ul>]]></value>
 			<value xml:lang="jp"><![CDATA[マウスを使って各領域を選択しながら、Hot Keyを利用すると、より便利なカスタマイズできます。<br/><ul><li>tabキー : ウィジェットが選択されてない場合、Header、Body、 Footer順に選択されます。ウィジェットが選択されている場合は、次のウィジェットに選択されます。</li><li>Shift + tabキー : tabキーと逆の役割をします。</li><li>Esc : 何も選択されてない場合、Escを押すとNeck、Extension(e1、e2)、Knee順に選択され、また、ウィジェットが選択されている場合は選択されたウィジェットを囲む領域が選択されます。</li><li>矢印 : ウィジェットが選択されている時、矢印キーを用いて、ウィジェットを他の領域に移せます。</li></ul>]]></value>
 			<value xml:lang="zh-CN"><![CDATA[选取各个区域可以利用鼠标，还可以利用快捷键：<br/><ul><li>tab键 : 当前没有被选取的控件，选取顺序为： Header, Body, Footer；已有被选取的控件，将选取下一个控件。</li><li>Shift + tab键 : 与tab键作用相反。</li><li>Esc键 : 当前没有被选取的区域，选取顺序为： Neck, Extension(e1,e2),Knee；已有被选取的控件，将选取包含此控件的区域。</li><li>方向键 : 已有被选取的控件时，可以利用方向键移到别的区域。</li></ul>]]></value>
 			<value xml:lang="zh-TW"><![CDATA[除了可利用滑鼠選取各區域外，也能使用熱鍵選取：<br/><ul><li>tab鍵 : 當沒有選取 Widget 時，選擇順序是： Header, Footer, Body；當有選取 Widget 時，將會選擇下一個。</li><li>Shift + tab 鍵 : 功能和 tab 鍵相反</li><li>Esc 鍵 : 當沒有選擇區域時，選擇順序是： Neck, Extension(e1,e2),Knee；當有選擇 Widget 時，將會選則此 Widget 所屬的區域。</li><li>方向鍵 : 當有選擇 Widget 時，可利用方向鍵作移動。</li></ul>]]></value>
-			<value xml:lang="fr"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하시면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
+			<value xml:lang="fr"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
 			<value xml:lang="ru"><![CDATA[You can design your layout more easily with Hot Keys.<br/><ul><li>tab : Unless a widget is selected, Header, Body, Footer will be selected in order. If not, next widget will be selected.</li><li>Shift + tab : It does the opposite function to tab key.</li><li>Esc : If nothing is selected, Neck, Extension(e1,e2),Knee will be selected in order, if a widget is selected, area of the widget will be selected.</li><li>Arrow Key : If a widget is selected, arrow key will move the widget to other areas.</li></ul>]]></value>
-			<value xml:lang="es"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하시면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
+			<value xml:lang="es"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
 			<value xml:lang="tr"><![CDATA[Yerleşim düzenini kısayol tuşlarıyla daha kolay tasarlayabilirsiniz.<br/><ul><li>sekme tuşu(tab) : Bir widget seçilmedikçe; Header, Body, Footer sırasıyla seçilecektir. Eğer seçilmezse, bir sonraki widget seçilecektir.</li><li>Shift + sekme tuşu : Sekme tuşunun tersi hareket gerçekleştirir.</li><li>Esc : Eğer hiçbir şey seçilmediyse, Neck, Extension(e1,e2),Knee sırasıyla seçilecektir, eğer bir widget seçilmişse, widget alanı seçilecektir.</li><li>Yön Tuşları : Eğer bir widget seçiliyse, yön tuşları widget uygulanan yönlere hareket ettirecektir</li></ul>]]></value>
 			<value xml:lang="vi"><![CDATA[Bạn có thể thiết kế giao diện của mình dễ dàng hơn nữa với những phím tắt.<br/><ul><li>"Tab": trừ khi một Widget được chọn, Header, Body, Footer sẽ được chọn trong lệnh. Nếu không, Widget tiếp theo sẽ được chọn.</li><li>"Shift+Tab": nó ngược lại với phím "Tab".</li><li>"Esc": Nếu không có gì được chọn, Neck, Extension (e1, e2 ), Knee sẽ được lựa chọn theo thứ tự, nếu một Widget được chọn, kích thước Widget sẽ được lựa chọn.</li><li>"4 phím mũi tên": Nếu Widget đã được chọn, nó sẽ di chuyển Widget tới một vị trí mới.</li></ul>]]></value>
 		</item>
@@ -995,7 +995,7 @@
 		<value xml:lang="tr"><![CDATA[Hareketli Görünümü Uygula]]></value>
 	</item>
 	<item name="about_apply_mobile_view">
-		<value xml:lang="ko"><![CDATA[체크하시면 연결된 모든 메뉴에서 모바일 뷰를 사용합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[체크하면 연결된 모든 메뉴에서 모바일 뷰를 사용합니다.]]></value>
 		<value xml:lang="en"><![CDATA[All connected modules use the mobile view to display when accessing with mobile device.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると、繋がっているすべてのモジュールでモバイルスキンが適用されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[勾选表示连接到此布局的所有菜单项全部采用此移动版布局。]]></value>
@@ -1033,7 +1033,7 @@
 	</item>
 	<item name="faceoff_migration" type="array">
 		<item name="0">
-			<value xml:lang="ko"><![CDATA[FaceOff 레이아웃은 지원이 중단될 예정입니다. 반드시 안내에 따라 FaceOff 레이아웃을 일반 레이아웃으로 변경하여 주시기 바랍니다.]]></value>
+			<value xml:lang="ko"><![CDATA[FaceOff 레이아웃은 지원이 중단될 예정입니다. 반드시 안내에 따라 FaceOff 레이아웃을 일반 레이아웃으로 변경 바랍니다.]]></value>
 			<value xml:lang="en"><![CDATA[FaceOff layout will deprecated. You must change faceoff layout to general layout.]]></value>
 			<value xml:lang="jp"><![CDATA[FaceOffレイアウトは、サポートが中断される予定です。必ず案内に従って、FaceOffレイアウトを一般レイアウトに変更してください。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[將不在支援 FaceOff 版面。 必須將 FaceOff 版面變更一般版面。]]></value>
@@ -1069,7 +1069,7 @@
 			<value xml:lang="zh-TW"><![CDATA[透過 FTP 上傳檔案至 ./layouts]]></value>
 		</item>
 		<item name="6">
-			<value xml:lang="ko"><![CDATA[레이아웃 목록에서 업로드한 레이아웃을 이용하여 레이아웃을 생성합니다. 이때 레이아웃 경로가 업로드한 경로가 맞는지 확인하세요. 로고 이미지 등 레이아웃 설정은 다시 하셔야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[레이아웃 목록에서 업로드한 레이아웃을 이용하여 레이아웃을 생성합니다. 이때 레이아웃 경로가 업로드한 경로가 맞는지 확인하세요. 로고 이미지 등 레이아웃 설정은 다시 해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Insert new layout from installed layout. Make sure to check if the path of layout is the same as the uploaded path. You need to set the layout including logo images.]]></value>
 		　　<value xml:lang="jp"><![CDATA[レイアウトリストでアップロードしたレイアウトを利用してレイアウトを生成します。このとき、レイアウトのパスが、アップロードしたパスであるか確認してください。ロゴイメージはなどレイアウトの設定は、改めて行ってください。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[從"已安裝版面"中建立新版面。 確認版面路徑是否上傳正確及修改版面相關設定。]]></value>

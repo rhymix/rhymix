@@ -2,7 +2,7 @@
 <lang>
 	<item name="edit">
 		<item name="msg_dr_delete_confirm">
-			<value xml:lang="ko"><![CDATA[선택한 단락을 삭제하시겠습니까?]]></value>
+			<value xml:lang="ko"><![CDATA[선택한 단락을 삭제할까요?]]></value>
 			<value xml:lang="en"><![CDATA[Do you want to remove the selected paragraph?]]></value>
 			<value xml:lang="jp"><![CDATA[選択した段落を削除しますか？]]></value>
 			<value xml:lang="zh-CN"><![CDATA[确定要删除所选锻炼吗？]]></value>
@@ -445,7 +445,7 @@
 			<value xml:lang="vi"><![CDATA[* Tạo văn bản mới (1~9, 0, `)]]></value>
 		</item>
 		<item name="help_first_dd_1">
-			<value xml:lang="ko"><![CDATA[도구모음 버튼을 클릭함으로써 새 단락 쓰기를 시작할 수 있습니다. 도구모음 버튼에는 배치된 순서대로 왼쪽으로부터 1~9까지 단축키가 할당되어 있습니다. 숫자키 '0' 또는 ESC키 바로 아래 위치한 [`] 그레이브(grave) 키를 누르시면 숨겨진 도구모음 버튼을 보거나 토글(toggle)할 수 있습니다.]]></value>
+			<value xml:lang="ko"><![CDATA[도구모음 버튼을 클릭함으로써 새 단락 쓰기를 시작할 수 있습니다. 도구모음 버튼에는 배치된 순서대로 왼쪽으로부터 1~9까지 단축키가 할당되어 있습니다. 숫자키 '0' 또는 ESC키 바로 아래 위치한 [`] 그레이브(grave) 키를 누르면 숨겨진 도구모음 버튼을 보거나 토글(toggle)할 수 있습니다.]]></value>
 			<value xml:lang="en"><![CDATA[To start writing a new paragraph click on the toolbar. The buttons on the toolbar have keyboard shortcuts starting from 1 to 9, 1 representing the first left button. To toggle the toolbar, press the numeric '0' or the grave key (`) under the Esc key.]]></value>
 			<value xml:lang="jp"><![CDATA[ツールバーボタンをクリックすることで、新しい段落を書くことができます。ツールバーボタンには、配置順にに、左から1~9までショートカットキーが割り当てられています。数字キー '0' または、Escキーの下の[`] グレーブキーを押下すると、隠れているツールバーを表示したり、トグルすることができます。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[藉由點選工具列的按鈕可以編寫新的內容。 工具列的快速鍵是鍵盤的 1~9 數字鍵。 數字鍵 '0' 或是 ESC 鍵底下的 [`] 波浪鍵(grave) 可隱藏、顯示及切換(toggle)工具列。]]></value>

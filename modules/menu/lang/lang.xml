@@ -420,9 +420,9 @@
 		<value xml:lang="vi"><![CDATA[Xin hãy nhập tiêu đề để dễ dàng xác minh khi kết nối tới Module.]]></value>
 	</item>
 	<item name="about_menu_management">
-		<value xml:lang="ko"><![CDATA[메뉴관리는 선택하신 레이아웃에서 사용하는 메뉴를 구성할 수 있도록 합니다.
-정해진 단계까지 메뉴를 구성 가능하며 입력하신 메뉴를 클릭하시면 상세 정보를 입력할 수 있습니다.
-폴더 그림을 클릭하시면 메뉴를 확장하실 수 있습니다.
+		<value xml:lang="ko"><![CDATA[메뉴관리는 선택한 레이아웃에서 사용하는 메뉴를 구성할 수 있도록 합니다.
+정해진 단계까지 메뉴를 구성 가능하며 입력하신 메뉴를 클릭하면 상세 정보를 입력할 수 있습니다.
+폴더 그림을 클릭하면 메뉴를 확장하실 수 있습니다.
 간혹 메뉴가 정상적으로 나타나지 않으면 "캐시파일 재생성" 버튼을 눌러서 정보를 갱신하세요.
 * 정해진 단계 이상의 메뉴는 제대로 표시되지 않을 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The menu management enables you to organize your menus in the selected layout.
@@ -479,7 +479,7 @@ Nếu Menu không hiển thị một cách bình thường, hãy làm mới thô
 		<value xml:lang="vi"><![CDATA[Tên sẽ hiển thị là Tên Menu nếu không phải là Admin hay nút hình ảnh.]]></value>
 	</item>
 	<item name="about_menu_url">
-		<value xml:lang="ko"><![CDATA[메뉴 선택 시 이동할 URL입니다.<br />다른 모듈을 연결하고자 할 때는 mid값만 입력해주시면 됩니다.<br />내용이 없으면 이 메뉴를 선택해도 아무런 동작이 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[메뉴 선택 시 이동할 URL입니다.<br />다른 모듈을 연결하고자 할 때는 mid값만 입력하면 됩니다.<br />내용이 없으면 이 메뉴를 선택해도 아무런 동작이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[It is the menu URL when select the menu.<br />You may enter only id value to link to other module.<br />If no contents exist, nothing will happen even though you click the menu.]]></value>
 		<value xml:lang="jp"><![CDATA[メニュー選択時、移動するURLです。<br />他のモジュールとリンクを張る場合はIDの値のみ入力してください。<br />内容がない場合は、メニューを選択しても何の動作も行われません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[点击菜单时要移动的URL。<br />连接其他模块时只输入id值即可。<br />没有内容时点击菜单也不会有什么动作。]]></value>
@@ -527,7 +527,7 @@ Nếu Menu không hiển thị một cách bình thường, hãy làm mới thô
 		<value xml:lang="vi"><![CDATA[Nếu đăng kí nút hình ảnh, hình ảnh sẽ tự động chèn lên tên của Menu, và sẽ hiển thị trong giao diện.]]></value>
 	</item>
 	<item name="about_menu_group_srls">
-		<value xml:lang="ko"><![CDATA[그룹을 선택하시면 해당 그룹의 사용자만 메뉴가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다.)]]></value>
+		<value xml:lang="ko"><![CDATA[그룹을 선택하면 해당 그룹의 사용자만 메뉴가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다.)]]></value>
 		<value xml:lang="en"><![CDATA[If you select a group, only the group members can see the menu. (if xml file is directly opened, it will be visible to anyone who opens it.)]]></value>
 		<value xml:lang="jp"><![CDATA[グループを選択すると該当するグループのユーザーにのみメニューが表示されます（XMLファイルを直接開くと情報が表示されます）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[如选择用户组，只有所属组用户才能看到此菜单。 —（xml文件中不能隐藏）]]></value>

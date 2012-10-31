@@ -36,7 +36,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể đặt mức điểm khi thành viên gửi, thêm bài viết, bình luận, Download, Upload.<br />Nhưng điểm chỉ có thể cho và tích lũy khi Addon điểm được kích hoạt.]]></value>
 	</item>
 	<item name="about_act_config">
-		<value xml:lang="ko"><![CDATA[게시판, 블로그 등 각 모듈마다 글 작성/삭제/댓글작성/삭제 등의 action이 있습니다. 게시판/블로그 외에 다른 모듈에 포인트 기능 연동을 하고 싶을 때는 각 기능에 맞는 act값을 추가 하시면 됩니다.<br />연결은 ,(콤마)로 하시면 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[게시판, 블로그 등 각 모듈마다 글 작성/삭제/댓글작성/삭제 등의 action이 있습니다. 게시판/블로그 외에 다른 모듈에 포인트 기능 연동을 하고 싶을 때는 각 기능에 맞는 act값을 추가 하면 됩니다.<br />연결은 ,(콤마)로 하면 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Each module like board/blog has its own actions such as "writing/deleting/adding comments/deleting comments". You can just add act values to link modules with point system except board/blog.<br />Comma (,) will distinguish multiple values.]]></value>
 		<value xml:lang="jp"><![CDATA[掲示板、ブログなどのモジュールごとに「書き込み作成・削除/コメント作成・削除」などのアクションがあります。掲示板/ブログ以外のモジュールにポイントシステムを連動させたい場合は、各機能のアクションの「act値」を追加します。連動は半角「,（コンマ）」で区切って追加します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[版面，博客等模块都有发表/删除新帖，发表/删除评论等动作。 <br />要想与版面/博客之外的模块关联积分功能时，添加与其各模块功能相适合的act值即可。]]></value>
@@ -60,7 +60,7 @@
 		<value xml:lang="vi"><![CDATA[Cấp bậc lớn nhất]]></value>
 	</item>
 	<item name="about_max_level">
-		<value xml:lang="ko"><![CDATA[최고레벨을 지정할 수 있습니다. 레벨 아이콘을 염두에 두셔야 하고 최고 레벨은 1000이 한계입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[최고레벨을 지정할 수 있습니다. 레벨 아이콘을 염두에 두어야 하고 최고 레벨은 1000이 한계입니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may set the max level. Level icons should be considered and the level of 1000 is the maximum value you can set]]></value>
 		<value xml:lang="jp"><![CDATA[最高レベルを指定することができます。最高レベルは「1000」が最大値であるため、レベルアイコンに注意が必要です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定最高级别。级别共设1000级，因此制作级别图标时要好好考虑一下。]]></value>

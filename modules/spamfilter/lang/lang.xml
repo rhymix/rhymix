@@ -193,7 +193,7 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 		<value xml:lang="vi"><![CDATA[Chỉ cho phép gửi một bài viết với một IP trên một liên kết Web.]]></value>
 	</item>
 	<item name="msg_alert_limited_by_config">
-		<value xml:lang="ko"><![CDATA[%s 초 이내에 글 작성은 금지 됩니다. 계속 시도하시면 금지 IP에 등록되실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[%s 초 이내에 글 작성은 금지 됩니다. 계속 시도하면 금지 IP에 등록되실 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Posting an article within %s seconda is not allowed.\n If you keep trying, your IP address will be blacklisted.]]></value>
 		<value xml:lang="jp"><![CDATA[%s秒以内の書き込みは禁止されます。続けて行うとスパムとして認識され、禁止IPに登録されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[%s秒之内不能连续发表新主题。如您继续再试系统将自动禁止您的IP。]]></value>
@@ -217,7 +217,7 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 		<value xml:lang="vi"><![CDATA[Không được phép gửi từ "%s".]]></value>
 	</item>
 	<item name="msg_alert_registered_denied_ip">
-		<value xml:lang="ko"><![CDATA[금지 IP에 등록되셔서 정상적인 활동에 제한을 받게 되셨습니다. 문의는 사이트 관리자에게 해주시기 바랍니다.]]></value>
+		<value xml:lang="ko"><![CDATA[금지 IP에 등록되어 정상적인 활동에 제한을 받게 됐습니다. 사이트 관리자에게 문의 바랍니다.]]></value>
 		<value xml:lang="en"><![CDATA[Your IP address is blacklisted,\n so you may have limitations on normal using of this site.\n If you have any questions on that matter, please contact the site administrator.]]></value>
 		<value xml:lang="jp"><![CDATA[禁止IPに登録され、サイト内で正常な活動が制限されています。管理者にお問い合わせください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您的IP已被禁止，详情请联系网站管理员。]]></value>

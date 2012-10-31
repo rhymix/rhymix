@@ -91,7 +91,7 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 		<value xml:lang="vi"><![CDATA[Thời gian lưu trữ]]></value>
 	</item>
 	<item name="about_page_caching_interval">
-		<value xml:lang="ko"><![CDATA[분 단위이며 정해진 시간동안은 임시 저장한 데이터를 출력합니다.<br />다른 서버의 정보를 출력하거나, 데이터 출력하는데 많은 자원이 필요한 경우, 원하시는 분 단위 시간 간격으로 캐싱하는 것을 추천합니다.<br />0 으로 하시면 캐싱을 하지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[분 단위이며 정해진 시간동안은 임시 저장한 데이터를 출력합니다.<br />다른 서버의 정보를 출력하거나, 데이터 출력하는데 많은 자원이 필요한 경우, 원하는 분 단위 시간 간격으로 캐싱하는 것을 추천합니다.<br />0 으로 하면 캐싱을 하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The unit is minute, and it displays temporary saved data for assigned time.<br />It is recommended to cache for proper time if a lot of resources are needed when displaying other servers' data or information.<br />A value of 0 will not cache.]]></value>
 		<value xml:lang="jp"><![CDATA[分単位で指定でき、設定された時間の間は、一時保存されたデータを出力します。<br />他のサーバの情報を出力したり、データを出力する際、リソースが多く使われるため、数分単位でキャッシングすることをお勧めします。<br />「0」に指定するとキャッシングされません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[单位为分。缓冲时间间隔内页面将输出临时储存的数据。<br />显示外链服务器信息或数据时，如消耗资源很大，尽量把缓冲时间设置为大一点的相应值。<br />0 表示无缓冲。]]></value>

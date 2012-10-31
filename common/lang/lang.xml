@@ -3120,7 +3120,7 @@
 		<value xml:lang="mn"><![CDATA[Хариулт бичлэг байгаа тул устгах боломжгүй]]></value>
 	</item>
 	<item name="confirm_submit">
-		<value xml:lang="ko"><![CDATA[등록하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[등록할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to submit?]]></value>
 		<value xml:lang="jp"><![CDATA[登録しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确定要提交吗?]]></value>
@@ -3134,7 +3134,7 @@
 		<value xml:lang="mn"><![CDATA[Оруулах уу?]]></value>
 	</item>
 	<item name="confirm_logout">
-		<value xml:lang="ko"><![CDATA[로그아웃하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[로그아웃할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to sign out?]]></value>
 		<value xml:lang="jp"><![CDATA[ログアウトしますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确定要退出吗?]]></value>
@@ -3148,7 +3148,7 @@
 		<value xml:lang="mn"><![CDATA[Гарах уу?]]></value>
 	</item>
 	<item name="confirm_vote">
-		<value xml:lang="ko"><![CDATA[추천하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[추천할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to recommend?]]></value>
 		<value xml:lang="jp"><![CDATA[推薦しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确定要推荐吗?]]></value>
@@ -3162,7 +3162,7 @@
 		<value xml:lang="mn"><![CDATA[Санал болгох уу?]]></value>
 	</item>
 	<item name="confirm_delete">
-		<value xml:lang="ko"><![CDATA[삭제하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[삭제할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to delete?]]></value>
 		<value xml:lang="jp"><![CDATA[削除しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确定要删除吗?]]></value>
@@ -3176,7 +3176,7 @@
 		<value xml:lang="mn"><![CDATA[Устгах уу?]]></value>
 	</item>
 	<item name="confirm_restore">
-		<value xml:lang="ko"><![CDATA[복원하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[복원할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to restore?]]></value>
 		<value xml:lang="jp"><![CDATA[復元しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确定要复原吗?]]></value>
@@ -3186,7 +3186,7 @@
 		<value xml:lang="tr"><![CDATA[Yenilemek istediğine emin misin?]]></value>
 	</item>
 	<item name="confirm_move">
-		<value xml:lang="ko"><![CDATA[이동하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[이동할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to move?]]></value>
 		<value xml:lang="jp"><![CDATA[移動しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确定要移动吗?]]></value>
@@ -3200,7 +3200,7 @@
 		<value xml:lang="mn"><![CDATA[Шилжих үү?]]></value>
 	</item>
 	<item name="confirm_reset">
-		<value xml:lang="ko"><![CDATA[초기화 하시겠습니까??]]></value>
+		<value xml:lang="ko"><![CDATA[초기화 할까요??]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to reset?]]></value>
 		<value xml:lang="jp"><![CDATA[初期化しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确定要初始化吗?]]></value>
@@ -3214,7 +3214,7 @@
 		<value xml:lang="mn"><![CDATA[Reset хийх үү?]]></value>
 	</item>
 	<item name="confirm_leave">
-		<value xml:lang="ko"><![CDATA[탈퇴하시겠습니까??]]></value>
+		<value xml:lang="ko"><![CDATA[탈퇴할까요??]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to delete your account?]]></value>
 		<value xml:lang="jp"><![CDATA[退会しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确定要注销吗?]]></value>
@@ -3228,7 +3228,7 @@
 		<value xml:lang="mn"><![CDATA[Гишүүнээс гарах уу?]]></value>
 	</item>
 	<item name="confirm_update">
-		<value xml:lang="ko"><![CDATA[수정하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[수정할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to update?]]></value>
 		<value xml:lang="jp"><![CDATA[修正しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确定要更新吗?]]></value>
@@ -3594,7 +3594,7 @@
 			<value xml:lang="tr"><![CDATA[%s formatı geçersizdir.) http://xpressengine.com/]]></value>
 		</item>
 		<item name="invalid_korean">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 한글로만 입력하셔야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 한글로만 입력해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. Please enter Korean letters only.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。ハングルで入力してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入中文]]></value>
@@ -3607,7 +3607,7 @@
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. Солонгосоор оруулах ёстой]]></value>
 		</item>
 		<item name="invalid_korean_number">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 한글과 숫자로만 입력하셔야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 한글과 숫자로만 입력해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. Please enter Korean letters and numbers only.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。ハングルと半角数字で入力してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入中文或数字]]></value>
@@ -3620,7 +3620,7 @@
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. Солонгос үсэг болон тоогоор оруулах хэрэгтэй.]]></value>
 		</item>
 		<item name="invalid_alpha">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 영문으로만 입력하셔야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 영문으로만 입력해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. Please enter English alphabets only.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。半角英字で入力してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入英文字母]]></value>
@@ -3633,7 +3633,7 @@
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. Зөвхөн латин үсгээр оруулах ёстой]]></value>
 		</item>
 		<item name="invalid_alpha_number">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력하셔야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. Please enter English alphabets and numbers only.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。半角英数字で入力してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入英文或数字]]></value>
@@ -3646,14 +3646,14 @@
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. Зөвхөн латин үсэг болон тоогоор л оруулах ёстой.]]></value>
 		</item>
 		<item name="invalid_mid">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 첫 글자는 영문으로 시작해야 하며 '영문+숫자+_'로만 입력하셔야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 첫 글자는 영문으로 시작해야 하며 '영문+숫자+_'로만 입력해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. Module ID should be begun with a letter. Subsequent characters may be letters, digits or underscore characters.]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s 格式错误。 模块名称只能用英文、数字及下划线，开头必须是英文。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s 格式錯誤。 模組名稱只能使用英文、數字及底線，開頭必須是英文。]]></value>
 			<value xml:lang="tr"><![CDATA[%s formatı geçersizdir. Modülün ID'si harf ile başlaması gerekmektedir.]]></value>
 		</item>
 		<item name="invalid_number">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 숫자로만 입력하셔야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 숫자로만 입력해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. Please enter numbers only.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。半角数字で入力してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入数字]]></value>
@@ -3667,7 +3667,7 @@
 		</item>
 	</item>
 	<item name="security_warning_embed">
-		<value xml:lang="ko"><![CDATA[보안 문제로 관리자 아이디로는 embed를 볼 수 없습니다. 확인하시려면 다른 아이디로 접속하세요]]></value>
+		<value xml:lang="ko"><![CDATA[보안 문제로 관리자 아이디로는 embed를 볼 수 없습니다. 확인하려면 다른 아이디로 접속하세요]]></value>
 		<value xml:lang="en"><![CDATA[Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.]]></value>
 		<value xml:lang="jp"><![CDATA[セキュリティ問題のため、管理者IDではembedを見ることができません。<br />他のIDでログインしてください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[由于安全问题，不允许用系统管理员ID操作embed对象，请使用其他拥有管理权限的ID操作。]]></value>
@@ -3680,15 +3680,15 @@
 		<value xml:lang="ko"><![CDATA[모바일에 최적화된 화면으로 보기]]></value>
 		<value xml:lang="en"><![CDATA[View mobile optimized version of this page]]></value>
 		<value xml:lang="jp"><![CDATA[このページは、モバイル表示が可能です。モバイル表示へ移動しますか?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
+		<value xml:lang="zh-CN"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동할까요?]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此頁面有手機頁面，要移至手機頁面嗎？]]></value>
-		<value xml:lang="fr"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
+		<value xml:lang="fr"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동할까요?]]></value>
 		<value xml:lang="de"><![CDATA[Möchten Sie Mobile-Look?]]></value>
-		<value xml:lang="ru"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
-		<value xml:lang="es"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
+		<value xml:lang="ru"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동할까요?]]></value>
+		<value xml:lang="es"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동할까요?]]></value>
 		<value xml:lang="tr"><![CDATA[Bu sayfanın mobil versiyonu bulunmaktadır. Mobil sayfaya geçiş yapmak istiyor musunuz?]]></value>
-		<value xml:lang="vi"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
-		<value xml:lang="mn"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
+		<value xml:lang="vi"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동할까요?]]></value>
+		<value xml:lang="mn"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동할까요?]]></value>
 	</item>
 	<item name="cmd_yes">
 		<value xml:lang="ko"><![CDATA[예]]></value>

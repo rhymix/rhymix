@@ -223,7 +223,7 @@
 		<value xml:lang="vi"><![CDATA[Lề trái]]></value>
 	</item>
 	<item name="about_widget_fix_width">
-		<value xml:lang="ko"><![CDATA[선택하시면 가로 길이가 고정됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택하면 가로 길이가 고정됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Check this to fix the width.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると横幅が固定されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项将固定控件显示宽度。]]></value>
@@ -340,19 +340,19 @@
 		<value xml:lang="vi"><![CDATA[proc() của '%s' đã không được thực hiện.]]></value>
 	</item>
 	<item name="msg_widget_skin_is_null">
-		<value xml:lang="ko"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[위젯의 스킨을 선택해야 정상적으로 동작할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You should select widget's skin.]]></value>
 		<value xml:lang="jp"><![CDATA[ウィジェットスキンを選択しないと正常に動作できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择控件皮肤！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇一個可正常使用的 Widget 面板]]></value>
-		<value xml:lang="fr"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
-		<value xml:lang="ru"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
-		<value xml:lang="es"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
+		<value xml:lang="fr"><![CDATA[위젯의 스킨을 선택해야 정상적으로 동작할 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[위젯의 스킨을 선택해야 정상적으로 동작할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[위젯의 스킨을 선택해야 정상적으로 동작할 수 있습니다]]></value>
 		<value xml:lang="tr"><![CDATA[Widgetın dış görünümünü belirlemelisiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn cần phải chọn Skin cho Widget.]]></value>
 	</item>
 	<item name="about_widget_code">
-		<value xml:lang="ko"><![CDATA[선택하신 위젯에서 요구하는 아래 항목들의 값을 넣고 [코드생성]버튼을 누르면 제일 아래 칸에 템플릿 파일에 적용할 수 있는 코드가 출력 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 위젯에서 요구하는 아래 항목들의 값을 넣고 [코드생성]버튼을 누르면 제일 아래 칸에 템플릿 파일에 적용할 수 있는 코드가 출력 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please input the required value first, and click [Generate Code] button to generate the code for adding to the template file.]]></value>
 		<value xml:lang="jp"><![CDATA[選択したウィジェットで要求する下記項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用できるコードが出力されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入所选控件所需要的下列各项后，按『代码生成』按钮，即可在页面下方获得可以用在布局模版代码片断。]]></value>
