@@ -1,9 +1,8 @@
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<section class="section">
-	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
+<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="vid" value="{$vid}" />
 	<input type="hidden" name="mid" value="{$mid}" />
@@ -11,128 +10,129 @@
 	<input type="hidden" name="_mode" value="{$mode}" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 	<input type="hidden" name="page" value="{$page}" />
-	<h1>{$lang->skin_default_info}</h1>
-	<div class="x_control-group">
-		<label class="x_control-label">
-			{$lang->skin}
-		</label>
-		<div class="x_controls">
-			{$skin_info->title}
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label">
-			{$lang->skin_author}
-		</label>
-		<div class="x_controls">
-			<block loop="$skin_info->author=>$author">
-				{$author->name}
-				<block cond="$author->homepage || $author->email_address">
-					(<a href="{$author->homepage}" onclick="window.open(this.href);return false;" cond="$author->homepage">{$author->homepage}</a>
-					<block cond="$author->homepage && $author->email_address">, </block>
-					<a href="mailto:{$author->email_address}" cond="$author->email_address">{$author->email_address}</a>)
-				</block><br />
-			</block>
-		</div>
-	</div>
-	<div class="x_control-group" cond="$skin_info->homepage">
-		<label class="x_control-label">{$lang->homepage}
-		</label>
-		<div class="x_controls">
-	<a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label">{$lang->date}
-		</label>
-		<div class="x_controls">{zdate($skin_info->date, 'Y-m-d')}
-		</div>
-	</div>
-	<div class="x_control-group" cond="$skin_info->license || $skin_info->license_link">
-		<label class="x_control-label">{$lang->skin_license}
-		</label>
-		<div class="x_controls">
-			{nl2br(trim($skin_info->license))}
-			<p cond="$skin_info->license_link"><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
-		</div>
-	</div>
-	<div class="x_control-group" cond="$skin_info->description">
-		<label class="x_control-label">{$lang->description}
-		</label>
-		<div class="x_controls">{nl2br(trim($skin_info->description))}
-		</div>
-	</div>
 
-	<h1>{$lang->extra_vars}</h1>
-	<div class="x_control-group" cond="$skin_info->colorset" class="colorset">
-		<label class="x_control-label">{$lang->colorset}
-		</label>
-		<div class="x_controls">
-			<block loop="$skin_info->colorset => $key, $val">
-				<!--@if($val->screenshot)-->
-				{@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
-				<!--@else-->
-				{@ $_width = 200; $_height = 20; $_talign = "left"; }
-				<!--@end-->
-				<div style="display:inline-block;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
-					<label for="colorset_{$key}"><input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" checked="checked"|cond="$skin_vars['colorset']->value==$val->name" />
-					{$val->title}</label>
-					<block cond="$val->screenshot">
-						<br />
-						<img src="../../../{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
-					</block>
-				</div>
-			</block>
-		</div>
-	</div>
-	<block loop="$skin_info->extra_vars => $key, $val">
-		<block cond="$val->group && ((!$group) || $group != $val->group)">
-			{@$group = $val->group}
-			<h1>{$group}</h1>
-		</block>
+	<section class="section">
+		<h1>{$lang->skin_default_info}</h1>
 
-	<div class="x_control-group">
-		<label class="x_control-label">{$val->title}</label>
-		<div class="x_controls" cond="$val->type == 'text'">
-			{@$use_multilang = true}
-			<input type="text" name="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end-->" class="lang_code" />
-		</div>
-		<div class="x_controls" cond="$val->type == 'textarea'">
-			{@$use_multilang_textarea = true}
-			<textarea rows="8" cols="42" name="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end-->" class="lang_code"></textarea>
-		</div>
-		<div class="x_controls" cond="$val->type == 'select'">
-			<select name="{$val->name}">
-				<option loop="$val->options => $k, $v" value="{$v->value}" selected="selected"|cond="$v->value == $val->value">{$v->title}</option>
-			</select>
-		</div>
-		<div class="x_controls" cond="$val->type == 'checkbox'">
-			<label loop="$val->options => $k, $v" for="ch_{$key}_{$k}" class="x_inline"><input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="@in_array($v->value, $val->value)" class="checkbox" /> 
-				{$v->title}</label>
-		</div>
-		<div class="x_controls" cond="$val->type == 'radio'">
-			<label for="ch_{$key}_{$k}" loop="$val->options => $k, $v" class="x_inline"><input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="$v->value==$val->value" />{$v->title}</label>
-		</div>
-		<div class="x_controls" cond="$val->type == 'image'">
-			<div cond="$val->value">
-				<img src="{$val->value}" /><br />
-				<label for="del_{$val->name}"><input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" />
-				{$lang->cmd_delete}</label>
+		<div class="x_control-group">
+			<label class="x_control-label">
+				{$lang->skin}
+			</label>
+			<div class="x_controls">
+				{$skin_info->title}
 			</div>
-			<input type="file" name="{$val->name}" value="" />
 		</div>
-		<div class="x_controls" cond="$val->description" class="desc">
-			{nl2br(trim($val->description))}
+		<div class="x_control-group">
+			<label class="x_control-label">
+				{$lang->skin_author}
+			</label>
+			<div class="x_controls">
+				<block loop="$skin_info->author=>$author">
+					{$author->name}
+					<block cond="$author->homepage || $author->email_address">
+						(<a href="{$author->homepage}" target="_blank" cond="$author->homepage">{$author->homepage}</a>
+						<block cond="$author->homepage && $author->email_address">, </block>
+						<a href="mailto:{$author->email_address}" cond="$author->email_address">{$author->email_address}</a>)
+					</block><br />
+				</block>
+			</div>
 		</div>
-	</div>
+		<div class="x_control-group" cond="$skin_info->homepage">
+			<label class="x_control-label">{$lang->homepage}
+			</label>
+			<div class="x_controls">
+				<a href="{$skin_info->homepage}" target="_blank">{$skin_info->homepage}</a>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->date}
+			</label>
+			<div class="x_controls">{zdate($skin_info->date, 'Y-m-d')}
+			</div>
+		</div>
+		<div class="x_control-group" cond="$skin_info->license || $skin_info->license_link">
+			<label class="x_control-label">{$lang->skin_license}
+			</label>
+			<div class="x_controls">
+				{nl2br(trim($skin_info->license))}
+				<p cond="$skin_info->license_link"><a href="{$skin_info->license_link}" target="_blank">{$skin_info->license_link}</a></p>
+			</div>
+		</div>
+		<div class="x_control-group" cond="$skin_info->description">
+			<label class="x_control-label">{$lang->description}
+			</label>
+			<div class="x_controls">{nl2br(trim($skin_info->description))}
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<h1>{$lang->extra_vars}</h1>
+		<div class="x_control-group" cond="$skin_info->colorset" class="colorset">
+			<label class="x_control-label">{$lang->colorset}</label>
+			<div class="x_controls">
+				<block loop="$skin_info->colorset => $key, $val">
+					<!--@if($val->screenshot)-->
+					{@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
+					<!--@else-->
+					{@ $_width = 200; $_height = 20; $_talign = "left"; }
+					<!--@end-->
+					<div style="display:inline-block;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
+						<label for="colorset_{$key}"><input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" checked="checked"|cond="$skin_vars['colorset']->value==$val->name" />
+						{$val->title}</label>
+						<block cond="$val->screenshot">
+							<br />
+							<img src="../../../{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
+						</block>
+					</div>
+				</block>
+			</div>
+		</div>
+		<block loop="$skin_info->extra_vars => $key, $val">
+			<block cond="$val->group && ((!$group) || $group != $val->group)">
+				{@$group = $val->group}
+				</section>
+				<section class="section">
+					<h1>{$group}</h1>
+			</block>
+
+			<div class="x_control-group">
+				<label class="x_control-label" for="{$val->name}">{$val->title}</label>
+				<div class="x_controls">
+					<!--// text -->
+					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="{htmlspecialchars($val->value)}" class="lang_code" />
+
+					<!--// textarea -->
+					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" value="{htmlspecialchars($val->value)}" class="lang_code"></textarea>
+
+					<!--// select -->
+					<select cond="$val->type == 'select'" name="{$val->name}" id="{$val->name}">
+						<option loop="$val->options => $k, $v" value="{$v->value}" selected="selected"|cond="$v->value == $val->value">{$v->title}</option>
+					</select>
+
+					<!--// checkbox -->
+					<label cond="$val->type == 'checkbox'" loop="$val->options => $k, $v" for="ch_{$key}_{$k}" class="x_inline"><input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="@in_array($v->value, $val->value)" class="checkbox" /> {$v->title}</label>
+
+					<!--// radio -->
+					<label cond="$val->type == 'radio'" for="ch_{$key}_{$k}" loop="$val->options => $k, $v" class="x_inline"><input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="$v->value==$val->value" /> {$v->title}</label>
+
+					<!--// image -->
+					<block cond="$val->type == 'image'">
+						<div cond="$val->value">
+							<img src="{$val->value}" /><br />
+							<label for="del_{$val->name}"><input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" /> {$lang->cmd_delete}</label>
+						</div>
+						<input type="file" name="{$val->name}" value="" />
+					</block>
+					<span class="x_help-block" cond="$val->description">{nl2br(trim($val->description))}</span>
+				</div>
+			</div>
 		</block>
+	</section>
+
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
 			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
 		</div>
 	</div>
 </form>
-</section>
-
-<include target="../../module/tpl/include.multilang.html" />
-<include target="../../module/tpl/include.multilang.textarea.html" />
