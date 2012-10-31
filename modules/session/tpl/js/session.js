@@ -8,4 +8,5 @@ function doClearSession() {
 
 function completeClearSession(ret_obj, response_tags) {
     alert(ret_obj['result']);
+	hideWaitingFogLayer();
 }
