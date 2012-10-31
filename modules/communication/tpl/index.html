@@ -1,76 +1,87 @@
 <load target="js/communication_admin.js" usecdn="true" />
 <load target="../../editor/tpl/js/editor_module_config.js" usecdn="true" />
-<div class="x_page-header"><h1>{$lang->communication} {$lang->cmd_management}</h1></div>
-<p>{nl2br($lang->about_communication)}</p>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+
+<div class="x_page-header">
+	<h1>{$lang->communication} {$lang->cmd_management}</h1>
+</div>
+
+<p class="x_help-block">{nl2br($lang->about_communication)}</p>
+
+<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="insertConfig" action="./" method="post">
+
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal">
 	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationAdminInsertConfig">
-	<div class="x_clearfix">
-		<table class="x_table x_table-striped x_table-hover">
-			<tr>
-				<th>{$lang->editor_skin}</th>
-				<td>
-					<select name="editor_skin" onchange="getEditorSkinColorList(this.value)">
-					<!--@foreach($editor_skin_list as $editor_skin)-->
-					<option value="{$editor_skin}" <!--@if($editor_skin==$communication_config->editor_skin)-->selected="selected"<!--@end-->>{$editor_skin}</option>
-					<!--@end-->
-					</select>
-					<select name="editor_colorset" id="sel_editor_colorset" style="display:none">
-					</select>
-					<script>//<![CDATA[
-						getEditorSkinColorList('{$communication_config->editor_skin}','{$communication_config->editor_colorset}');
-					//]]></script>
-				</td>
-			</tr>
-			<tr>
-				<th>{$lang->layout}</th>
-				<td>
-					<select id="layout" name="layout_srl">
-						<option value="0">{$lang->notuse}</option>
-						<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->layout_srl">{$val->title} ({$val->layout})</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>{$lang->skin}</th>
-				<td>
-					<select name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value);return false;">
-					<!--@foreach($communication_skin_list as $key=>$val)-->
-					<option value="{$key}" <!--@if($key==$communication_config->skin)-->selected="selected"<!--@end-->>{$val->title}</option>
-					<!--@end-->
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>{$lang->colorset}</th>
-				<td><div id="communication_colorset"></div></td>
-			</tr>
-			<tr>
-				<th>{$lang->mobile_layout}</th>
-				<td>
-				<select id="layout" name="mlayout_srl">
-					<option value="0">{$lang->notuse}</option>
-					<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->mlayout_srl">{$val->title} ({$val->layout})</option>
-				</select>
-				</td>
-			</tr>
-			<tr>
-				<th>{$lang->mobile_skin}</th>
-				<td>
-					<select name="mskin">
-					<option loop="$communication_mobile_skin_list => $key,$val" value="{$key}" selected="selected"|cond="$key==$communication_config->mskin" >{$val->title}</option>
-					</select>
-				</td>
-			</tr>
-		</table>
+
+	<div class="x_control-group">
+		<label class="x_control-label" for="editor_skin">{$lang->editor_skin}</label>
+		<div class="x_controls">
+			<select name="editor_skin" id="editor_skin" onchange="getEditorSkinColorList(this.value)">
+				<option loop="$editor_skin_list => $editor_skin" value="{$editor_skin}" selected="selected"|cond="$editor_skin==$communication_config->editor_skin">{$editor_skin}</option>
+			</select>
+			<select name="sel_editor_colorset" style="display:none">
+			</select>
+			<script>//<![CDATA[
+				getEditorSkinColorList('{$communication_config->editor_skin}','{$communication_config->editor_colorset}');
+			//]]></script>
+		</div>
 	</div>
-	<div class="x_pull-right">
-		<input type="submit" value="{$lang->cmd_registration}" class="x_btn x_btn-large x_btn-primary"/>
+	<div class="x_control-group">
+		<label class="x_control-label" for="layout">{$lang->layout}</label>
+		<div class="x_controls">
+			<select id="layout" name="layout_srl">
+				<option value="0">{$lang->notuse}</option>
+				<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->layout_srl">{$val->title} ({$val->layout})</option>
+			</select>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="skin">{$lang->skin}</label>
+		<div class="x_controls">
+			<select name="skin" id="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value, 'P');return false;">
+				<option loop="$communication_skin_list => $key, $val" value="{$key}" <!--@if($key==$communication_config->skin)-->selected="selected"<!--@end-->>{$val->title}</option>
+			</select>
+		</div>
+	</div>
+	<div class="x_control-group" id="__skin_colorset">
+		<label class="x_control-label">{$lang->colorset}</label>
+		<div class="x_controls">
+			<div id="communication_colorset"></div>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="mlayout_srl">{$lang->mobile_layout}</label>
+		<div class="x_controls">
+			<select id="mlayout_srl" name="mlayout_srl">
+				<option value="0">{$lang->notuse}</option>
+				<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->mlayout_srl">{$val->title} ({$val->layout})</option>
+			</select>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
+		<div class="x_controls">
+			<select name="mskin" id="mskin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value, 'M');return false;">
+				<option loop="$communication_mobile_skin_list => $key,$val" value="{$key}" selected="selected"|cond="$key==$communication_config->mskin" >{$val->title}</option>
+			</select>
+		</div>
+	</div>
+	<div class="x_control-group" id="__mskin_colorset">
+		<label class="x_control-label">{$lang->colorset}</label>
+		<div class="x_controls">
+			<div id="communication_mcolorset"></div>
+		</div>
+	</div>
+
+	<div class="btnArea">
+		<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
 	</div>
 </form>
 <script>
-    jQuery(function() { doGetSkinColorset("{$communication_config->skin}"); });
+    jQuery(function() { 
+		doGetSkinColorset("{$communication_config->skin}", 'P'); 
+		doGetSkinColorset("{$communication_config->mskin}", 'M'); 
+	});
 </script>

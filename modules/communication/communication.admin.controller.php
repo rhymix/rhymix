@@ -19,7 +19,9 @@
          **/
         function procCommunicationAdminInsertConfig() {
             // get the default information
-            $args = Context::gets('skin','colorset','editor_skin','editor_colorset', 'mskin', 'layout_srl', 'mlayout_srl');
+            $args = Context::gets('skin','colorset','editor_skin','sel_editor_colorset', 'mskin', 'mcolorset', 'layout_srl', 'mlayout_srl');
+			$args->editor_colorset = $args->sel_editor_colorset;
+			unset($args->sel_editor_colorset);
 
             if(!$args->skin) $args->skin = 'default';
             if(!$args->colorset) $args->colorset = 'white';

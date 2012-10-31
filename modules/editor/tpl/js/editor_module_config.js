@@ -36,7 +36,13 @@ function resultGetEditorSkinColorList(ret_obj,response_tags, params) {
 			}			
 			var selectAttr = "";
 			for(var i=0;i<it.length;i++){
-				selectbox.append($('<option value="'+it[i].name+'" >'+it[i].title+'</option>'));				
+				var $options = $('<option value="'+it[i].name+'" >'+it[i].title+'</option>');
+
+				if(params.selected_colorset == it[i].name){
+					$options.attr('selected', 'selected');
+				}
+
+				selectbox.append($options);				
 			}
 			selectbox.show();
 		}else{

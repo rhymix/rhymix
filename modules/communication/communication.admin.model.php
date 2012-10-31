@@ -19,10 +19,22 @@
          **/
         function getCommunicationAdminColorset() {
             $skin = Context::get('skin');
+			$type = Context::get('type') == 'P' ? 'P' : 'M';
+			Context::set('type', $type);
+
+			if($type == 'P')
+			{
+				$dir = 'skins';
+			}
+			else
+			{
+				$dir = 'm.skins';
+			}
+
             if(!$skin) $tpl = "";
             else {
                 $oModuleModel = &getModel('module');
-                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin, $dir);
                 Context::set('skin_info', $skin_info);
 
                 $oModuleModel = &getModel('module');
@@ -39,6 +51,7 @@
             }
 
             $this->add('tpl', $tpl);
+			$this->add('type', $type);
         }
 
     }
