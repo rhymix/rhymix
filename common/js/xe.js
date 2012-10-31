@@ -312,7 +312,50 @@ if(jQuery) jQuery.noConflict();
     window.XE = {
         loaded_popup_menus : new Array(),
         addedDocument : new Array(),
+        /**
+         * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
+         * @param [itemName='cart',][options={}]
+         */
+        checkboxToggleAll : function(itemName) {
+            if(!is_def(itemName)) itemName='cart';
+            var options = {
+                wrap : null,
+                checked : 'toggle',
+                doClick : false
+            };
 
+            switch(arguments.length) {
+                case 1:
+                    if(typeof(arguments[0]) == "string") {
+                        itemName = arguments[0];
+                    } else {
+                        $.extend(options, arguments[0] || {});
+						itemName = 'cart';
+                    }
+                    break;
+                case 2:
+                    itemName = arguments[0];
+                    $.extend(options, arguments[1] || {});
+            }
+
+            if(options.doClick == true) options.checked = null;
+            if(typeof(options.wrap) == "string") options.wrap ='#'+options.wrap;
+
+            if(options.wrap) {
+                var obj = $(options.wrap).find('input[name='+itemName+']:checkbox');
+            } else {
+                var obj = $('input[name='+itemName+']:checkbox');
+            }
+			
+			if(options.checked == 'toggle') {
+                obj.each(function() {
+                    $(this).attr('checked', ($(this).attr('checked')) ? false : true);
+                });
+            } else {
+                (options.doClick == true) ? obj.click() : obj.attr('checked', options.checked);
+            }
+        },
+		
         /**
          * @brief 문서/회원 등 팝업 메뉴 출력
          */
@@ -1146,17 +1189,6 @@ function get_by_id(id) {
 }
 
 jQuery(function($){
-    $('.lang_code').each(
-		function() 
-		{
-			var objText = $(this);
-			var targetName = objText.attr("id");
-			if(typeof(targetName) == "undefined") targetName = objText.attr("name");
-			if(typeof(targetName) == "undefined") return;
-			objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>"); 
-		}
-    );
-
 	// display popup menu that contains member actions and document actions
 	$(document).click(function(evt) {
 		var $area = $('#popup_menu_area');
