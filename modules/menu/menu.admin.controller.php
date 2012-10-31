@@ -423,7 +423,7 @@
 		{
 			$request = Context::getRequestVars();
 
-			if(!$request->menu_item_srl || !$request->url || !$request->menu_name)
+			if(!$request->menu_item_srl || !$request->menu_name)
 			{
 				return new Object(-1, 'msg_invalid_request');
 			}
@@ -435,9 +435,35 @@
 			// Get original information
 			$oMenuAdminModel = &getAdminModel('menu');
 			$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->menu_item_srl);
+			$args = $itemInfo;
 
 			// if menu type is module, check exists module and update
-			if($itemInfo->is_shortcut != 'Y' && !preg_match('/^http/i',$itemInfo->url))
+			if($itemInfo->is_shortcut == 'Y')
+			{
+				// type is url
+				if(preg_match('/^http/i', $request->shortcut_target))
+				{
+					$args->url = $request->shortcut_target;
+				}
+				// type is module short cut
+				else if(is_numeric($request->shortcut_target))
+				{
+					// Get new original information
+					$newItemInfo = $oMenuAdminModel->getMenuItemInfo($request->shortcut_target);
+					if(!$newItemInfo->menu_item_srl)
+					{
+						return new Object(-1, 'msg_invalid_request');
+					}
+
+					$args->url = $newItemInfo->url;
+					$args->is_shortcut = 'Y';
+				}
+				else
+				{
+					return new Object(-1, 'msg_invalid_request');
+				}
+			}
+			else
 			{
 				// check already created module instance
 				$oModuleModel = &getModel('module');
@@ -451,7 +477,6 @@
 				}
 
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url);
-
 				// if not exist module, return error
 				if(!$moduleInfo)
 				{
@@ -461,29 +486,29 @@
 				$moduleInfo->mid = $request->url;
 				$oModuleController = &getController('module');
 				$oModuleController->updateModule($moduleInfo);
+				$args->url = $request->url;
 			}
 
 			if($request->menu_name_key)
 			{
-				$itemInfo->name = $request->menu_name_key;
+				$args->name = $request->menu_name_key;
 			}
 			else
 			{
-				$itemInfo->name = $request->menu_name;
+				$args->name = $request->menu_name;
 			}
 
-			$itemInfo->url = $request->url;
-			if(count($itemInfo->group_srls) == 0)
+			if(count($args->group_srls) == 0)
 			{
-				unset($itemInfo->group_srls);
+				unset($args->group_srls);
 			}
-			$itemInfo->open_window = $request->menu_open_window;
-			$itemInfo->expand = $request->menu_expand;
-			$output = executeQuery('menu.updateMenuItem', $itemInfo);
+			$args->open_window = $request->menu_open_window;
+			$args->expand = $request->menu_expand;
+			$output = executeQuery('menu.updateMenuItem', $args);
 
-			$this->makeXmlFile($itemInfo->menu_srl);
+			$this->makeXmlFile($args->menu_srl);
 
-			$this->add('menu_item_srl', $itemInfo->menu_item_srl);
+			$this->add('menu_item_srl', $args->menu_item_srl);
 			$this->setMessage('success_updated', 'info');
 		}
 
