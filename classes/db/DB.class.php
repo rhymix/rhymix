@@ -111,9 +111,9 @@
 		 * transaction flag
 		 * @var boolean
 		 */
-        var $transaction_started = false;
+        var $transaction_started = FALSE;
 
-        var $is_connected = false;
+        var $is_connected = FALSE;
 
 		/**
          * returns enable list in supported dbms list
@@ -250,7 +250,7 @@
 			$get_supported_list = array();
             $db_classes_path = _XE_PATH_."classes/db/";
             $filter = "/^DB([^\.]+)\.class\.php/i";
-            $supported_list = FileHandler::readDir($db_classes_path, $filter, true);
+            $supported_list = FileHandler::readDir($db_classes_path, $filter, TRUE);
             sort($supported_list);
 
             // after creating instance of class, check is supported
@@ -270,9 +270,9 @@
 
                 if(!$oDB) continue;
 
-                $obj = null;
+                $obj = NULL;
                 $obj->db_type = $db_type;
-                $obj->enable = $oDB->isSupported() ? true : false;
+                $obj->enable = $oDB->isSupported() ? TRUE : FALSE;
 
                 $get_supported_list[] = $obj;
             }
@@ -296,8 +296,8 @@
          * @return boolean true: connected, false: not connected
          */
         function isConnected($type = 'master', $indx = 0) {
-            if($type == 'master') return $this->master_db["is_connected"] ? true : false;
-            else return $this->slave_db[$indx]["is_connected"] ? true : false;
+            if($type == 'master') return $this->master_db["is_connected"] ? TRUE : FALSE;
+            else return $this->slave_db[$indx]["is_connected"] ? TRUE : FALSE;
         }
 
         /**
@@ -342,7 +342,7 @@
                     $debug_file = _XE_PATH_."files/_debug_db_query.php";
                     $buff = array();
                     if(!file_exists($debug_file)) $buff[] = '<?php exit(); ?>';
-                    $buff[] = print_r($log, true);
+                    $buff[] = print_r($log, TRUE);
 
                     if(@!$fp = fopen($debug_file, "a")) return;
                     fwrite($fp, implode("\n", $buff)."\n\n");
@@ -386,7 +386,7 @@
          * @return boolean true: error, false: no error
          */
         function isError() {
-            return $this->errno === 0 ? false : true;
+            return $this->errno === 0 ? FALSE : TRUE;
         }
 
         /**
@@ -536,8 +536,8 @@
          * @return int count of cache data
          */
         function getCountCache($tables, $condition) {
-            return false;
-            if(!$tables) return false;
+            return FALSE;
+            if(!$tables) return FALSE;
             if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
 
             $condition = md5($condition);
@@ -549,14 +549,14 @@
             if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
 
             $cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
-            if(!file_exists($cache_filename)) return false;
+            if(!file_exists($cache_filename)) return FALSE;
 
             $cache_mtime = filemtime($cache_filename);
 
             if(!is_array($tables)) $tables = array($tables);
             foreach($tables as $alias => $table) {
                 $table_filename = sprintf('%s/cache.%s%s', $this->count_cache_path, $this->prefix, $table) ;
-                if(!file_exists($table_filename) || filemtime($table_filename) > $cache_mtime) return false;
+                if(!file_exists($table_filename) || filemtime($table_filename) > $cache_mtime) return FALSE;
             }
 
             $count = (int)FileHandler::readFile($cache_filename);
@@ -571,8 +571,8 @@
          * @return void
          */
         function putCountCache($tables, $condition, $count = 0) {
-            return false;
-            if(!$tables) return false;
+            return FALSE;
+            if(!$tables) return FALSE;
             if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
 
             $condition = md5($condition);
@@ -594,8 +594,8 @@
          * @return boolean true: success, false: failed
          */
         function resetCountCache($tables) {
-            return false;
-            if(!$tables) return false;
+            return FALSE;
+            if(!$tables) return FALSE;
             if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
 
             if(!is_array($tables)) $tables = array($tables);
@@ -605,7 +605,7 @@
                 FileHandler::writeFile($filename, '');
             }
 
-            return true;
+            return TRUE;
         }
 
         /**
@@ -643,7 +643,7 @@
 		 * @param boolean $with_values
 		 * @return string
 		 */
-    	function getSelectSql($query, $with_values = true){
+    	function getSelectSql($query, $with_values = TRUE){
 			$select = $query->getSelectString($with_values);
 			if($select == '') return new Object(-1, "Invalid query");
 			$select = 'SELECT ' .$select;
@@ -678,13 +678,43 @@
 		}
 
 		/**
+		 * Given a SELECT statement that uses click count
+		 * returns the corresponding update sql string
+		 * for databases that don't have click count support built in
+		 * (aka all besides CUBRID)
+		 *
+		 * Function does not check if click count columns exist!
+		 * You must call $query->usesClickCount() before using this function
+		 *
+		 * @param $queryObject
+		 */
+		function getClickCountQuery($queryObject)
+		{
+			$new_update_columns = array();
+			$click_count_columns = $queryObject->getClickCountColumns();
+			foreach($click_count_columns as $click_count_column)
+			{
+				$click_count_column_name = $click_count_column->column_name;
+
+				$increase_by_1 = new Argument($click_count_column_name, null);
+				$increase_by_1->setColumnOperation('+');
+				$increase_by_1->ensureDefaultValue(1);
+
+				$update_expression = new UpdateExpression($click_count_column_name, $increase_by_1);
+				$new_update_columns[] = $update_expression;
+			}
+			$queryObject->columns = $new_update_columns;
+			return $queryObject;
+		}
+
+		/**
 		 * Return delete query string
 		 * @param object $query
 		 * @param boolean $with_values
 		 * @param boolean $with_priority
 		 * @return string
 		 */
-   		function getDeleteSql($query, $with_values = true, $with_priority = false){
+   		function getDeleteSql($query, $with_values = TRUE, $with_priority = FALSE){
 			$sql = 'DELETE ';
 
 			$sql .= $with_priority?$query->getPriority():'';
@@ -709,7 +739,7 @@
 		 * @param boolean $with_priority
 		 * @return string
 		 */
-    	function getUpdateSql($query, $with_values = true, $with_priority = false){
+    	function getUpdateSql($query, $with_values = TRUE, $with_priority = FALSE){
 			$columnsList = $query->getUpdateString($with_values);
 			if($columnsList == '') return new Object(-1, "Invalid query");
 
@@ -731,7 +761,7 @@
 		 * @param boolean $with_priority
 		 * @return string
 		 */
-    	function getInsertSql($query, $with_values = true, $with_priority = false){
+    	function getInsertSql($query, $with_values = TRUE, $with_priority = FALSE){
 			$tableName = $query->getFirstTableName();
 			$values = $query->getInsertString($with_values);
 			$priority = $with_priority?$query->getPriority():'';
@@ -779,10 +809,10 @@
 		 */
         function _dbInfoExists() {
             if (!$this->master_db)
-                return false;
+                return FALSE;
             if (count($this->slave_db) === 0)
-                return false;
-            return true;
+                return FALSE;
+            return TRUE;
         }
 
 		/**
@@ -812,7 +842,7 @@
 
             $this->_close($connection["resource"]);
 
-            $connection["is_connected"] = false;
+            $connection["is_connected"] = FALSE;
         }
 
 		/**
@@ -821,7 +851,7 @@
 		 * @return boolean
 		 */
         function _begin(){
-            return true;
+            return TRUE;
         }
 
 		/**
@@ -833,7 +863,7 @@
                 return;
 
             if($this->_begin())
-                 $this->transaction_started = true;
+                 $this->transaction_started = TRUE;
         }
 
 		/**
@@ -842,7 +872,7 @@
 		 * @return boolean
 		 */
         function _rollback(){
-            return true;
+            return TRUE;
         }
 
 		/**
@@ -853,7 +883,7 @@
             if (!$this->isConnected() || !$this->transaction_started)
                 return;
             if($this->_rollback())
-                $this->transaction_started = false;
+                $this->transaction_started = FALSE;
         }
 
 		/**
@@ -862,7 +892,7 @@
 		 * @return boolean
 		 */
         function _commit(){
-            return true;
+            return TRUE;
         }
 
 		/**
@@ -870,11 +900,11 @@
 		 * @param boolean $force regardless transaction start status or connect status, forced to commit
 		 * @return void
 		 */
-        function commit($force = false) {
+        function commit($force = FALSE) {
             if (!$force && (!$this->isConnected() || !$this->transaction_started))
                 return;
             if($this->_commit())
-                $this->transaction_started = false;
+                $this->transaction_started = FALSE;
         }
 
 		/**
@@ -895,8 +925,8 @@
 		 * @param resource $connection
 		 * @return resource
 		 */
-        function _query($query, $connection = null) {
-            if($connection == null)
+        function _query($query, $connection = NULL) {
+            if($connection == NULL)
                 $connection = $this->_getConnection('master');
             // Notify to start a query execution
             $this->actStart($query);
@@ -972,14 +1002,14 @@
                 $connection = &$this->slave_db[$indx];
 
             $result = $this->__connect($connection);
-            if($result === NULL || $result === false) {
-                $connection["is_connected"] = false;
+            if($result === NULL || $result === FALSE) {
+                $connection["is_connected"] = FALSE;
                 return;
             }
 
             // Check connections
             $connection["resource"] = $result;
-            $connection["is_connected"] = true;
+            $connection["is_connected"] = TRUE;
 
             // Save connection info for db logs
             $this->connection = ucfirst($type) . ' ' . $connection["db_hostname"];
@@ -1019,8 +1049,8 @@
 		 * @param boolean $force force load DBParser instance
 		 * @return DBParser
 		 */
-       function &getParser($force = false){
-            static $dbParser = null;
+       function &getParser($force = FALSE){
+            static $dbParser = NULL;
             if(!$dbParser || $force) {
                 $oDB = &DB::getInstance();
                 $dbParser = $oDB->getParser();

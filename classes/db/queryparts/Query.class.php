@@ -271,11 +271,17 @@
 		 */
 		function usesClickCount()
 		{
+			return count($this->getClickCountColumns()) > 0;
+		}
+
+		function getClickCountColumns()
+		{
+			$click_count_columns = array();
 			foreach($this->columns as $column){
 				if($column->show() && $column instanceof ClickCountExpression)
-					return true;
+					$click_count_columns[] = $column;
 			}
-			return false;
+			return $click_count_columns;
 		}
 
 		/**
