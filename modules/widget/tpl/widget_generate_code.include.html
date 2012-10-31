@@ -58,18 +58,22 @@
 				<input type="hidden" name="{$id}" value="" />
 				<!--@end-->
 				<div style="display:inline-block">
-					<select class="multiorder_show" size="8" multiple="multiple" style="width:220px;vertical-align:top">
+					<label>{$lang->display_no}</label>
+					<select class="multiorder_show" size="8" multiple="multiple" style="width:220px;vertical-align:top;margin-bottom:5px">
 						<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
-					</select><br />
-					<button type="button" class="x_btn x_btn-mini multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
+					</select>
+					<br>
+					<button type="button" class="x_btn multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
 				</div>
 				<div style="display:inline-block">
-					<select class="multiorder_selected" size="8" multiple="multiple" style="width:220px;vertical-align:top">
+					<label>{$lang->display_yes}</label>
+					<select class="multiorder_selected" size="8" multiple="multiple" style="width:220px;vertical-align:top;margin-bottom:5px">
 						<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
-					</select><br />
-					<button type="button" class="x_btn x_btn-mini multiorder_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
-					<button type="button" class="x_btn x_btn-mini multiorder_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
-					<button type="button" class="x_btn x_btn-mini x_btn-danger multiorder_del" style="vertical-align:top">{$lang->cmd_delete}</button>
+					</select>
+					<br>
+					<button type="button" class="x_btn multiorder_up" style="margin:0 -5px 0 0;border-radius:2px 0 0 2px">{$lang->cmd_move_up}</button>
+					<button type="button" class="x_btn multiorder_down" style="margin:0 -5px 0 0;border-radius:0">{$lang->cmd_move_down}</button>
+					<button type="button" class="x_btn multiorder_del" style="border-radius:0 2px 2px 0">{$lang->cmd_delete}</button>
 				</div>
 				<script>
 					xe.registerApp(new xe.MultiOrderManager('{$id}'));
@@ -92,14 +96,14 @@
 				</block>
 			</block>
 			<block cond="$var->type == 'module_srl_list'">
-				<p class="desc">{$var->description}</p>
 				<input type="hidden" name="{$id}" value="" />
-				<select class="modulelist_selected" size="8" multiple="multiple" style="width:220px;"></select>
-				<br/>
-				<a href="#" type="button" id="__module_srl_list_{$id}" class="x_btn x_btn-mini moduleTrigger" data-multiple="true">{$lang->cmd_add}</a>
-				<button type="button" class="x_btn x_btn-mini modulelist_up">{$lang->cmd_move_up}</button>
-				<button type="button" class="x_btn x_btn-mini modulelist_down">{$lang->cmd_move_down}</button>
-				<button type="button" class="x_btn x_btn-mini x_btn-danger modulelist_del">{$lang->cmd_delete}</button>
+				<select class="modulelist_selected" size="8" multiple="multiple" style="width:220px;vertical-align:top;margin-bottom:5px"></select>
+				<p class="x_help-inline">{$var->description}</p>
+				<br>
+				<a href="#" id="__module_srl_list_{$id}" class="x_btn moduleTrigger" data-multiple="true" style="margin:0 -5px 0 0;border-radius:2px 0 0 2px">{$lang->cmd_add}</a>
+				<button type="button" class="x_btn modulelist_up" style="margin:0 -5px 0 0;border-radius:0">{$lang->cmd_move_up}</button>
+				<button type="button" class="x_btn modulelist_down" style="margin:0 -5px 0 0;border-radius:0">{$lang->cmd_move_down}</button>
+				<button type="button" class="x_btn modulelist_del" style="border-radius:0 2px 2px 0">{$lang->cmd_delete}</button>
 				<script>
 					xe.registerApp(new xe.ModuleListManager('{$id}'));
 				</script>
@@ -107,8 +111,8 @@
 			<block cond="$var->type == 'mid'">
 				<input type="hidden" name="{$id}" value="" />
 				<input type="text" style="width:220px" readonly="readonly" />
-				<a href="#" class="x_btn x_btn-mini moduleTrigger">{$lang->cmd_select}</a>
-				<button type="button" class="x_btn x_btn-mini x_btn-danger delete">{$lang->cmd_delete}</button>
+				<a href="#" class="x_btn moduleTrigger">{$lang->cmd_select}</a>
+				<button type="button" class="x_btn delete">{$lang->cmd_delete}</button>
 				<script>
 					xe.registerApp(new xe.MidManager('{$id}'));
 				</script>

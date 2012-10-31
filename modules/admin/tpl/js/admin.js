@@ -729,7 +729,7 @@ jQuery(function($){
 				.not('.xe-module-search')
 				.addClass('xe-module-search')
 				.parent()
-				.find('a.moduleTrigger')
+				.find('.moduleTrigger')
 					.bind('before-open.tc', function(){
 						var $this;
 
@@ -834,7 +834,7 @@ jQuery(function($){
 						});
 
 						$t.trigger('moduleSelect', [aSelected]);
-						$('a.moduleTrigger').trigger('close.tc');
+						$('.moduleTrigger').trigger('close.tc');
 						
 						oEvent.preventDefault();
 					});
