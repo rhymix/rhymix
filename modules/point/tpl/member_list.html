@@ -81,26 +81,48 @@
 
 <div class="x_clearfix">
 	<!-- PAGINATION -->
-	<div class="x_pagination x_pagination-centered x_pull-left" style="margin:0">
+	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true" style="margin:0">
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input cond="$is_admin" type="hidden" name="is_admin" value="{$is_admin}" />
+		<input cond="$is_denied" type="hidden" name="is_denied" value="{$is_denied}" />
+		<input cond="$selected_group_srl" type="hidden" name="selected_group_srl" value="{$selected_group_srl}" />
+		<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
 		<ul>
-			<li class="x_disabled"|cond="$page == 1 || !$page"><a href="{getUrl('page','','module_srl','')}">&laquo; {$lang->first_page}</a></li>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+	
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+			</block>
+	
 			<!--@while($page_no = $page_navigation->getNextPage())-->
-			{@$last_page = $page_no}
-			<li class="x_active"|cond="$page == $page_no">
-				<span cond="$page == $page_no">{$page_no}</span>
-				<a cond="$page != $page_no" href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
-			</li>
+				{@$last_page = $page_no}
+				<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
 			<!--@end-->
-			<li cond="$last_page != $page_navigation->last_page">
-				<a href="#goTo" data-toggle="#goTo" title="Jump to">...</a>
-				<span id="goTo" class="x_input-append">
-					<input type="number" required name="page" title="Go to">
-					<button type="submit" class="x_add-on">Go</button>
-				</span>
-			</li>
-			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a></li>
+	
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+				
+			</block>
+	
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
 		</ul>
-	</div>
+	</form>
 
 	<!-- SEARCH -->
 	<form action="./" method="get" no-error-return-url="true" class="x_clearfix x_pull-right" style="margin:0">
