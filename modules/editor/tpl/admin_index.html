@@ -21,10 +21,10 @@
 				</ul>
 				<div class="x_tab-content" >
 					<div class="x_tab-pane x_active" id="pre_document">
-						<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" width="100%" height="100%" style="border:0;width:1024px;height:600px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.65);-moz-transform-origin:0 0; -moz-transform: scale(.65);position:absolute"></iframe> 
+						<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" width="100%" height="100%" style="border:0;width:1024px;height:600px;"></iframe> 
 					</div>
 					<div class="x_tab-pane" id="pre_comment">
-						<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" width="100%" height="100%" style="border:0;width:1024px;height:600px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.25,M22=0.25,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.65);-moz-transform-origin:0 0; -moz-transform: scale(.65);position:absolute"></iframe> 
+						<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" width="100%" height="100%" style="border:0;width:1024px;height:600px;"></iframe> 
 					</div>
 				</div>
 			</div>
@@ -109,7 +109,7 @@
 					<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font" />none(inherit)
 				</label>
 				<label style="font-family:{$detail}" class="fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
-					<input type="radio" name="content_font" id="font_{$name}" value="{$name}" <!--@if($editor_config->content_font==$name)-->checked="checked" <!--@end-->/> {$detail}
+					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" <!--@if(stripcslashes($editor_config->content_font)==$detail)-->checked="checked" <!--@end-->/>{$detail}
 				</label>
 			</div>
 		</div>

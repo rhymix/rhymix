@@ -135,7 +135,7 @@
 			$config->comment_editor_skin = $configVars->comment_editor_skin;
 			$config->comment_editor_height = $configVars->comment_editor_height;
 			$config->content_style = $configVars->content_style;
-			$config->content_font = $configVars->content_font;
+			$config->content_font = addslashes($configVars->content_font);
 			$config->content_font_size= $configVars->content_font_size.'px';
 			$config->sel_editor_colorset= $configVars->sel_editor_colorset;
 			$config->sel_comment_editor_colorset= $configVars->sel_comment_editor_colorset;

@@ -178,7 +178,7 @@
 			Context::set('editor', $editor);
 
 
-
+			$this->setLayoutFile('popup_layout');
 			$this->setTemplatePath($this->module_path.'tpl');
 			$this->setTemplateFile('config_preview');
 
