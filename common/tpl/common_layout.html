@@ -16,7 +16,7 @@
 <!-- CSS -->
 <block loop="$css_files=>$key,$css_file">
 <block cond="$css_file['targetie']"><!--[if {$css_file['targetie']}]></block>
-<link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}" />
+<link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}"|cond="$css_file['media'] != 'all'" />
 <block cond="$css_file['targetie']"><![endif]--></block>
 </block>
 <!-- JS -->

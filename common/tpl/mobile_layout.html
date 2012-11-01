@@ -9,7 +9,7 @@
 <!--@if($css_file['targetie'])-->
     <!--[if {$css_file['targetie']}]>
 <!--@end-->
-    <link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}" />
+    <link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}"|cond="$css_file['media'] != 'all'" />
 <!--@if($css_file['targetie'])-->
     <![endif]-->
 <!--@end-->
