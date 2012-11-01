@@ -99,13 +99,13 @@ jQuery(function($){
 		var $xGnb = $xBody.find('>.gnb');
 		var $xGnb_li = $xGnb.find('>ul>li');
 		// Add icon
-		$xGnb_li.find('a').prepend('<i />');
+		$xGnb_li.find('>a').prepend('<i />');
 		// Active Submenu Copy
 		$xGnb_li.each(function(index){
 			$(this).attr('data-index', index+1);
 		});
 		var parentIndex = $xGnb_li.find('>ul>li.active_').closest('li.active').attr('data-index');
-		$xGnb_li.find('>ul>li.active_').clone().addClass('active').attr('data-index', parentIndex).prependTo('#gnbNav');
+		$xGnb_li.find('>ul>li.active_').clone().addClass('active').attr('data-index', parentIndex).prependTo('#gnbNav').find('>a').prepend('<i />');
 		// Index 
 		// GNB Hover toggle
 		function reflow(){ // Browser bug fix & resize height
