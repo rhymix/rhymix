@@ -6,7 +6,7 @@
 
 <h2>{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})</h2>
 
-<div cond="$layout_info->layout != 'faceoff'" class="x_clearfix" style="margin-bottom:-13px">
+<div cond="$layout_info->layout != 'faceoff'" class="x_clearfix">
 	<div class="x_btn-group x_pull-right">
 		<a href="#insertLayout" class="x_btn modalAnchor">{$lang->cmd_insert}&hellip;</a>
 	</div>
@@ -38,13 +38,13 @@
 					<input type="hidden" name="module" value="layout" />
 					<input type="hidden" name="act" value="procLayoutAdminDelete" />
 					<input type="hidden" name="layout_srl" value="{$layout->layout_srl}" />
-					<input class="x_btn x_btn-danger" type="submit" value="{$lang->cmd_delete}" />
+					<input class="x_btn x_btn-link" type="submit" value="{$lang->cmd_delete}" />
 				</form>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<div cond="$layout_info->layout != 'faceoff'" class="x_clearfix" style="margin-top:-12px">
+<div cond="$layout_info->layout != 'faceoff'" class="x_clearfix">
 	<div class="x_btn-group x_pull-right">
 		<a href="#insertLayout" class="x_btn modalAnchor">{$lang->cmd_insert}&hellip;</a>
 	</div>
