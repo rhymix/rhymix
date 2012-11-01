@@ -119,7 +119,7 @@ body>.x{max-width:none !important}
 .theme ul ul>li>*:focus{background:#666;color:#fff}
 .theme ul ul>li>a:hover>i,
 .theme ul ul>li>a:focus>i{background-image:url(../../../../common/img/glyphicons-halflings-white.png)}
-.theme ul ul>li>button{width:100%}
+.theme ul ul>li>button{width:100%;padding-right:0}
 /* Properties */
 #properties ul{margin:8px 0 0 0;padding:0 0 8px 0;border-bottom:1px solid #ddd}
 #properties li{position:relative;white-space:nowrap}
