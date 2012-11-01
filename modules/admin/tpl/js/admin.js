@@ -154,7 +154,7 @@ jQuery(function($){
 				if(!$this.find('a:focus').length){
 					$this.mouseleave();
 				}
-			}, 0);
+			}, 100);
 		});
 // Check All
 	$('.x th>input[type="checkbox"]')
