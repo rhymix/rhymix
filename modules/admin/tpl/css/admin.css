@@ -51,7 +51,7 @@ body>.x,
 .x .x_pagination [id^="goTo"]>*{border:0;border-radius:0}
 .x .x_pagination [id^="goTo"]>[type="number"]{height:16px;line-height:16px;width:50px;text-align:center}
 .x .x_pagination [id^="goTo"]>[type="submit"]{line-height:24px;height:24px;padding:0 6px}
-.x .x_btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px}
+.x .x_btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px;text-decoration:none !important}
 .x .x_btn-large{font-size:16px;padding:9px 14px;font-weight:bold}
 .x .x_btn-small{font-size:14px}
 .x .x_btn-mini{font-size:11px;padding:1px 6px;line-height:17px}
@@ -69,7 +69,7 @@ body>.x,
 .x td input{margin-bottom:0}
 .x a.x_icon-question-sign,
 .x button.x_icon-question-sign{cursor:help}
-.x .x_nav-tabs>li>a{padding-top:6px;padding-bottom:6px}
+.x .x_nav-tabs>li>a{padding-top:6px;padding-bottom:6px;text-decoration:none !important}
 .x .x_nav-tabs>li.x_active>a{font-weight:bold}
 .x .x_table{margin:10px 0;border-top:2px solid #ddd;border-bottom:1px solid #ddd}
 .x .x_table:first-child{margin-top:0}
