@@ -104,9 +104,6 @@
             unset($extra_vars->act);
             unset($extra_vars->body);
 
-            if($extra_vars->target_group) $extra_vars->target_group = explode('|@|', $extra_vars->target_group);
-            if($extra_vars->mid_list) $extra_vars->mid_list = explode('|@|', $extra_vars->mid_list);
-
             $args->component_name = $component_name;
             $args->extra_vars = serialize($extra_vars);
             $args->site_srl = (int)$site_module_info->site_srl;
