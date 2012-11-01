@@ -348,9 +348,17 @@
 					$oModuleModel = getModel('module');
 					$skinType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
 					$skinName = $oModuleModel->getModuleDefaultSkin($this->module, $skinType);
-					if($skinName)
+					if($this->module == 'page')
 					{
-						$this->setTemplatePath(sprintf('%s%s/%s/', $this->module_path, $dir, $skinName));
+						$this->module_info->skin = $skinName;
+					}
+					else
+					{
+						$isTemplatPath = (strpos($this->getTemplatePath(), '/tpl/') !== FALSE);
+						if(!$isTemplatPath)
+						{
+							$this->setTemplatePath(sprintf('%s%s/%s/', $this->module_path, $dir, $skinName));
+						}
 					}
 				}
 				else
