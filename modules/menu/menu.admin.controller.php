@@ -690,7 +690,7 @@
 				$parent_srl = 0;
 			}
 
-			$this->moveMenuItem($menu_srl, $parent_srl, $source_srl, $target_srl, $mode);
+			$this->moveMenuItem($menu_srl, $parent_srl, $source_srl, $target_srl, $mode, $originMenu['is_shortcut'], $originMenu['url']);
 			if(count($originMenu['list']) > 0)
 			{
 				$this->_recursiveUpdateMenuItem($originMenu['list'], $menu_srl);
@@ -713,6 +713,19 @@
 					$args->menu_srl = $menu_srl;
 					$args->menu_item_srl = $node['node_srl'];
 					$output = executeQuery('menu.updateMenuItemNode', $args);
+
+					//module's menu_srl move also
+					if($node['is_shortcut'] == 'N' && !empty($node['url']))
+					{
+						$oModuleModel = &getModel('module');
+						$moduleInfo = $oModuleModel->getModuleInfoByMid($node['url']);
+						if($menu_srl != $moduleInfo->menu_srl)
+						{
+							$moduleInfo->menu_srl = $menu_srl;
+							$oModuleController = &getController('module');
+							$output = $oModuleController->updateModule($moduleInfo);
+						}
+					}
 
 					if(count($node['list']) > 0)
 					{
@@ -990,7 +1003,8 @@
 		 * @param string $mode 'move' or 'insert'
 		 * @return void
 		 */
-        function moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode){
+        function moveMenuItem($menu_srl, $parent_srl, $source_srl, $target_srl, $mode, $isShortcut='Y', $url=NULL)
+		{
             // Get the original menus
             $oMenuAdminModel = &getAdminModel('menu');
 
@@ -1019,6 +1033,19 @@
                 $args->menu_item_srl = $target_srl;
                 $output = executeQuery('menu.updateMenuItemNode', $args);
                 if(!$output->toBool()) return $output;
+
+				//module's menu_srl move also
+				if($isShortcut == 'N' && !empty($url))
+				{
+					$oModuleModel = &getModel('module');
+					$moduleInfo = $oModuleModel->getModuleInfoByMid($url);
+					if($menu_srl != $moduleInfo->menu_srl)
+					{
+						$moduleInfo->menu_srl = $menu_srl;
+						$oModuleController = &getController('module');
+						$output = $oModuleController->updateModule($moduleInfo);
+					}
+				}
             // Add a child
             } elseif($mode == 'insert') {
                 $args->menu_item_srl = $target_srl;
