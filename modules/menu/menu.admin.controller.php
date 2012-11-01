@@ -215,6 +215,9 @@
 				return new Object($result->error, $result->message);
 			}
 
+			// recreate menu cache file
+			$this->makeXmlFile($request->menu_srl);
+
 			if(!$isProc)
 			{
 				return $args->menu_item_srl;
@@ -299,7 +302,6 @@
 			if(!$output->toBool()) return $output;
 
 			$oDB->commit();
-			$this->makeXmlFile($args->menu_srl);
 
 			$this->add('menu_item_srl', $args->menu_item_srl);
 			$this->setMessage('success_registed', 'info');
@@ -357,7 +359,6 @@
 			if(!$output->toBool()) return $output;
 
 			$oDB->commit();
-			$this->makeXmlFile($args->menu_srl);
 
 			$this->add('menu_item_srl', $args->menu_item_srl);
 			$this->setMessage('success_registed', 'info');
@@ -564,6 +565,9 @@
 			}
 
 			$output = executeQuery('menu.updateMenuItem', $item_info);
+
+			// recreate menu cache file
+			$this->makeXmlFile($args->menu_srl);
 		}
 
 		/**
@@ -1299,6 +1303,9 @@
 				$oModuleController = getController('module');
 				$oModuleController->insertModuleGrants($moduleInfo->module_srl, $grant);
 			}
+
+			// recreate menu cache file
+			$this->makeXmlFile($itemInfo->menu_srl);
 		}
 
 		/**
