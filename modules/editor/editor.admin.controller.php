@@ -126,13 +126,21 @@
 		function procEditorAdminGeneralConfig(){
 			$oModuleController = &getController('module');
 			$configVars = Context::getRequestVars();
-			
+		
+			if($configVars->font_defined != 'Y') $config->font_defined = $configVars->font_defined = 'N';
+			else $config->font_defined = 'Y';
+
+			if($config->font_defined == 'Y')
+				$config->content_font = addslashes($configVars->content_font_defined);
+			else
+				$config->content_font = addslashes($configVars->content_font);
+				
 			$config->editor_skin = $configVars->editor_skin;
 			$config->editor_height = $configVars->editor_height;
 			$config->comment_editor_skin = $configVars->comment_editor_skin;
 			$config->comment_editor_height = $configVars->comment_editor_height;
 			$config->content_style = $configVars->content_style;
-			$config->content_font = addslashes($configVars->content_font);
+			
 			$config->content_font_size= $configVars->content_font_size.'px';
 			$config->sel_editor_colorset= $configVars->sel_editor_colorset;
 			$config->sel_comment_editor_colorset= $configVars->sel_comment_editor_colorset;

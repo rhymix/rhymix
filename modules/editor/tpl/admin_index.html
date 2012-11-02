@@ -18,7 +18,7 @@
 				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" id="pre_document_frame" style="border:0;width:100%;height:450px"></iframe> 
 			</div>
 			<div class="x_tab-pane" id="pre_comment">
-				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" id="pre_comment_frame" style="border:0;width:100%;height:450px"></iframe> 
+				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" id="pre_comment_frame" style="border:0;width:100%!important;height:450px!important"></iframe> 
 			</div>
 		</div>
 	</div>
@@ -97,11 +97,16 @@
 					<textarea rows="4" cols="42" class="fontPreview" style="font-family:{$editor_config->content_font};font-size:{$fontSize}px;width:100%" title="Font Preview">{$lang->font_preview}</textarea>
 				</div>
 				<label style="font-family:''" class="fontSelector">
-					<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font" />none(inherit)
+					<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font && $editor_config->font_defined!= 'Y'" />none(inherit)
 				</label>
 				<label style="font-family:{$detail}" class="fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
-					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" <!--@if(stripcslashes($editor_config->content_font)==$detail)-->checked="checked" <!--@end-->/>{$detail}
+					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="stripcslashes($editor_config->content_font)==$detail && $editor_config->font_defined!= 'Y'" />{$detail}
 				</label>
+				<label>
+					<input type="radio" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" />사용자 정의 : 
+					<input type="text" name="content_font_defined" value="{stripcslashes($editor_config->content_font)}"|cond="$editor_config->font_defined == 'Y'" />
+				</label>
+				<label>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -188,13 +193,14 @@
 		$('#fontSize').keyup(function(){
 			var mySize = $(this).val();
 			fontPreview.css('fontSize',mySize+'px');
-			if(mySize.length==0){ fontPreview.css('fontSize','') };
-			if(mySize>28){
-				alert('{$lang->msg_font_too_big}');
-				$(this).val('28');
-				fontPreview.css('fontSize','28px');
-			};
 		}).change(function(){$(this).keyup()});
+
+		$('input[name=font_defined]').click(function(){
+			$('input[name=content_font]').removeAttr('checked');
+		});
+		$('input[name=content_font]').click(function(){
+			$('input[name=font_defined]').removeAttr('checked');
+		});
 	});
 </script>
 
