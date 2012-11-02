@@ -8,17 +8,17 @@
 <!-- Editor Preview -->
 <section class="section">
 	<h1>{$lang->editor_now}</h1>
-	<div class="x_tabbable">
+	<div class="x_tabbable _preview">
 		<ul class="x_nav x_nav-tabs" style="margin-bottom:0;border-bottom:0">
 			<li class="x_active"><a href="#pre_document">{$lang->main_editor}</a></li>
 			<li><a href="#pre_comment">{$lang->comment_editor}</a></li>
 		</ul>
 		<div class="x_tab-content x_thumbnail">
 			<div class="x_tab-pane x_active" id="pre_document">
-				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" id="pre_document_frame" style="border:0;width:100%;height:450px"></iframe> 
+				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" id="pre_document_frame"></iframe>
 			</div>
 			<div class="x_tab-pane" id="pre_comment">
-				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" id="pre_comment_frame" style="border:0;width:100%!important;height:450px!important"></iframe> 
+				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" id="pre_comment_frame"></iframe> 
 			</div>
 		</div>
 	</div>
@@ -178,29 +178,40 @@
 	</form>
 </section>
 <script>
-	jQuery(function($){
-		//init
-		var fontPreview = $('.fontPreview');
-		var fontSelector = $('.fontSelector');
-		var checkedFont = fontSelector.filter(':checked').css('fontFamily');
-		var changedSize = $('#fontSize').val();
+jQuery(function($){
+// Editor Preview
+	function preview(){
+		$('._preview iframe').css({
+			width	: "100%",
+			height	: "450px",
+			border	:0
+		});
+	}
+	preview();
+	$('._preview li>a').click(preview);
+	
+//init
+	var fontPreview = $('.fontPreview');
+	var fontSelector = $('.fontSelector');
+	var checkedFont = fontSelector.filter(':checked').css('fontFamily');
+	var changedSize = $('#fontSize').val();
 
-		//change event
-		fontSelector.change(function(){
-			var myFont = $(this).css('fontFamily');
-			fontPreview.css('fontFamily',myFont);
-		});
-		$('#fontSize').keyup(function(){
-			var mySize = $(this).val();
-			fontPreview.css('fontSize',mySize+'px');
-		}).change(function(){$(this).keyup()});
-
-		$('input[name=font_defined]').click(function(){
-			$('input[name=content_font]').removeAttr('checked');
-		});
-		$('input[name=content_font]').click(function(){
-			$('input[name=font_defined]').removeAttr('checked');
-		});
+//change event
+	fontSelector.change(function(){
+		var myFont = $(this).css('fontFamily');
+		fontPreview.css('fontFamily',myFont);
 	});
+	$('#fontSize').keyup(function(){
+		var mySize = $(this).val();
+		fontPreview.css('fontSize',mySize+'px');
+	}).change(function(){$(this).keyup()});
+
+	$('input[name=font_defined]').click(function(){
+		$('input[name=content_font]').removeAttr('checked');
+	});
+	$('input[name=content_font]').click(function(){
+		$('input[name=font_defined]').removeAttr('checked');
+	});
+});
 </script>
 
