@@ -221,7 +221,8 @@ jQuery(function($){
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
-		$('#site').height(wHeigh - 180).children('.col').height(wHeigh - 210).find('.cnt').height(wHeigh - 242);
+		$('#site').height(wHeigh - 180).find('>.col').height(wHeigh - 230).find('.cnt').height(wHeigh - 262);
+		$('#site_map, #add, #design, #layout, #skin').find('.cnt').height(wHeigh - 295);
 	}).resize();
 // Navigation a active/inactive
 	var $navAnchor = $('a>i.x_icon-circle-arrow-right').parent('a');
