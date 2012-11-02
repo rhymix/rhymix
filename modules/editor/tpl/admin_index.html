@@ -15,10 +15,10 @@
 		</ul>
 		<div class="x_tab-content x_thumbnail">
 			<div class="x_tab-pane x_active" id="pre_document">
-				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" id="pre_document_frame"></iframe>
+				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','main')}" id="pre_document_frame" frameborder="0" style="border:0"></iframe>
 			</div>
 			<div class="x_tab-pane" id="pre_comment">
-				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" id="pre_comment_frame"></iframe> 
+				<iframe src="{getUrl('','act', 'dispEditorConfigPreview','mode','comment')}" id="pre_comment_frame" frameborder="0" style="border:0"></iframe> 
 			</div>
 		</div>
 	</div>
@@ -183,8 +183,7 @@ jQuery(function($){
 	function preview(){
 		$('._preview iframe').css({
 			width	: "100%",
-			height	: "450px",
-			border	:0
+			height	: "450px"
 		});
 	}
 	preview();

@@ -46,7 +46,7 @@
 					<p>
 						<block cond="(int)$item->package_voter > 0">
 							<span class="starRating"><span style="width:{sprintf("%d",$item->package_voted/$item->package_voter*20)}%">{sprintf($lang->rate, $item->package_start)}</span></span>
-							<span class="x_badge">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}/{number_format($item->package_voter)}</label>
+							<span class="x_badge">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}/{number_format($item->package_voter)}</span>
 						</block>
 						<block cond="(int)$item->package_voter <= 0">
 							<span class="starRating"><span style="width:0%">0</span></span>
@@ -191,5 +191,7 @@ jQuery(function($){
 	if(viewType == 'detail'){
 		$btnDetail.trigger('click');
 	}
+	$('.list>.x_thumbnail:odd').addClass('even');
+	$('.list>.x_thumbnail:even').addClass('odd');
 });
 </script>

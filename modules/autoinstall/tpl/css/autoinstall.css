@@ -10,10 +10,10 @@ a>i{opacity:.5;filter:alpha(opacity=50)}
 .category .active>a{font-weight:bold;color:#333}
 .list{zoom:1}
 .list:after{content:"";display:block;clear:both}
-.list>.x_thumbnail{padding:8px 10px; margin-bottom:10px;zoom:1;width:47%;box-shadow:1px 1px 3px #eee}
+.list>.x_thumbnail{padding:8px 10px; margin-bottom:10px;zoom:1;width:47%;box-shadow:1px 1px 3px #eee;overflow:hidden}
 .list>.x_thumbnail:after{content:"";display:block; clear:both}
-.list>.x_thumbnail:nth-child(odd){float:left}
-.list>.x_thumbnail:nth-child(even){float:right}
+.list>.x_thumbnail.odd{float:left}
+.list>.x_thumbnail.even{float:right}
 .list .thumb{border-radius:3px;float:left;overflow:hidden;box-shadow:0 0 3px #666 inset;margin:0 15px 0 0;padding:5px}
 .list .text>h3{margin:0 0 8px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .list .text>h3>a{color:#333}
@@ -26,6 +26,6 @@ a>i{opacity:.5;filter:alpha(opacity=50)}
 }
 @media all and (max-width:960px){
 .list>.x_thumbnail{width:auto}
-.list>.x_thumbnail:nth-child(odd),
-.list>.x_thumbnail:nth-child(even){float:none}
+.list>.x_thumbnail.odd,
+.list>.x_thumbnail.even{float:none}
 }

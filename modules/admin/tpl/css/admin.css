@@ -149,7 +149,7 @@ body>.x,
 .x>.xin>.skipNav{margin:0}
 .x>.xin>.skipNav>a{display:block;height:1px;text-align:center;border-radius:4px;overflow:hidden;color:#333;text-decoration:none}
 .x>.xin>.skipNav>a:focus{height:auto;margin:5px 0;padding:8px 0;background:#fff}
-.x>.xin>.header{border-radius:5px 5px 0 0;padding:10px 15px;zoom:1;border-bottom:1px solid #ddd;background:#f6f6f6;background:-webkit-gradient(linear, left top, left bottom, from(#F6F6F6), to(#F1F1F1));background:-moz-linear-gradient(top,#F6F6F6,#F1F1F1);background:-o-linear-gradient(top,#F6F6F6,#F1F1F1)}
+.x>.xin>.header{position:relative;z-index:2;border-radius:5px 5px 0 0;padding:10px 15px;zoom:1;border-bottom:1px solid #ddd;background:#f6f6f6;background:-webkit-gradient(linear, left top, left bottom, from(#F6F6F6), to(#F1F1F1));background:-moz-linear-gradient(top,#F6F6F6,#F1F1F1);background:-o-linear-gradient(top,#F6F6F6,#F1F1F1)}
 .x>.xin>.header:after{content:"";display:block;clear:both}
 .x>.xin>.body{position:relative;zoom:1;padding:0 20px 0 215px}
 .x>.xin>.body.wide{padding:0 20px 0 70px}
@@ -207,7 +207,7 @@ body>.x,
 .x>.xin>.body>.gnb>ul{position:relative;z-index:1;box-shadow:2px 2px 4px #ddd;border-right:2px solid #fff;border-bottom:2px solid #fff}
 .x>.xin>.body>.gnb>ul>li.active_{display:none}
 .x>.xin>.body>.gnb a{text-decoration:none;text-shadow:0 1px 0 #fff;color:#000;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.x>.xin>.body>.gnb>a[href="#gnbNav"]{display:block;position:absolute;z-index:2;white-space:nowrap;font-size:0;top:50%;right:-14px;background:#eee;width:12px;height:50px;border-radius:0 3px 3px 0;margin:-25px 0 0 0;border:1px solid #ddd;border-left:0}
+.x>.xin>.body>.gnb>a[href="#gnbNav"]{display:block;position:absolute;z-index:2;white-space:nowrap;font-size:0;top:50%;right:-14px;background:#eee;width:12px;height:50px;border-radius:0 3px 3px 0;margin:-25px 0 0 0;border:1px solid #ddd;border-left:0;overflow:hidden;text-indent:20px}
 .x>.xin>.body.wide>.gnb>a[href="#gnbNav"]>b{border-color:transparent;border-left-color:#666;margin:-4px 0 0 -2px}
 .x>.xin>.body>.gnb>a[href="#gnbNav"]>b{width:0;height:0;position:absolute;top:50%;left:50%;margin:-4px 0 0 -6px;border:4px solid;border-color:transparent;border-right-color:#666}
 .x>.xin>.body>.gnb>a>i{display:none}
