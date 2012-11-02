@@ -4,27 +4,23 @@ xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
 <load target="js/comment_admin.js" usecdn="true" />
+<div class="x_tabbable">
+    <ul class="x_nav x_nav-tabs">
+		<li class="x_active"|cond="$search_keyword == ''"><a href="{getUrl('search_keyword','','act','dispCommentAdminList', 'Y')}">{$lang->all}</a></li>
+		<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'N'"><a href="{getUrl('search_target','is_secret','search_keyword', 'N')}">{$secret_name_list['N']}</a></li>
+		<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'"><a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}">{$secret_name_list['Y']}</a></li>
+		<li class="x_active"|cond="$search_target == 'is_published' && $search_keyword == 'N'"><a href="{getUrl('search_target','is_published','search_keyword', 'N')}">{$lang->published_name_list['N']}</a></li>
+		<li class="x_active"|cond="$search_target == 'is_published' && $search_keyword == 'Y'"><a href="{getUrl('search_target','is_published','search_keyword', 'Y')}">{$lang->published_name_list['Y']}</a></li>
+        <li><a href="{getUrl('', 'module', 'admin', 'act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
+    </ul>
+</div>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="post">
-	<select cond="$modules_list" id="comment_modules" name="comment_modules" title="{$lang->select_module}" onchange="location.href='{getUrl('search_target','module','search_keyword','')}&amp;search_keyword='+this.value" style="width:220px">
-		<option>{$lang->select_module}</option>
-		<!--@foreach($modules_list as $key => $node)-->
-		<option value="{$key}"<!--@if($key==$search_keyword)-->selected<!--@end-->>{$node}</option>
-		<!--@end-->
-	</select>
 	<table id="commentListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
-			<a href="{getUrl('search_keyword','','act','dispCommentAdminList', 'Y')}" class="active"|cond="$search_keyword == ''">{$lang->all}</a><block cond="$search_keyword == ''">({number_format($total_count)})</block>
-			<i>|</i>
-			<a href="{getUrl('search_target','is_secret','search_keyword', 'N')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'N'">{$secret_name_list['N']}</a><block cond="$search_target == 'is_secret' && $search_keyword == 'N'">({number_format($total_count)})</block>
-			<i>|</i>
-			<a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'">{$secret_name_list['Y']}</a><block cond="$search_target == 'is_secret' && $search_keyword == 'Y'">({number_format($total_count)})</block>
-			<i>|</i>
-			<a href="{getUrl('search_target','is_published','search_keyword', 'N')}" class="active"|cond="$search_target == 'is_published' && $search_keyword == 'N'">{$lang->published_name_list['N']}</a><block cond="$search_target == 'is_published' && $search_keyword == 'N'">({number_format($total_count)})</block>
-			<i>|</i>
-			<a href="{getUrl('search_target','is_published','search_keyword', 'Y')}" class="active"|cond="$search_target == 'is_published' && $search_keyword == 'Y'">{$lang->published_name_list['Y']}</a><block cond="$search_target == 'is_published' && $search_keyword == 'Y'">({number_format($total_count)})</block>
+			{$lang->all}({number_format($total_count)})
 			<div class="x_pull-right">
 				<a href="#listManager" class="x_btn modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a>
 			</div>
@@ -119,7 +115,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="error_return_url" value="" />
-	<select name="search_target" title="{$lang->search_target}">
+	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
 		<!--@foreach($lang->search_target_list as $key => $val)-->
 		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 		<!--@end-->

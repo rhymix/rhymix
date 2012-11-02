@@ -3,15 +3,15 @@ xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
 <load target="js/document_admin.js" usecdn="true" />
+<div class="x_page-header">
+	<h1>{$lang->document}</h1>
+</div>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="get">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="page" value="{$page}" />
-	<div class="x_page-header">
-		<h1>{$lang->document}</h1>
-	</div>
 	<div class="x_tabbable">
 		<ul class="x_nav x_nav-tabs">
 			<li class="x_active"|cond="$search_keyword == ''"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->all}</a></li>
@@ -80,59 +80,57 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<a href="#manageForm" class="x_btn modalAnchor x_pull-right" onclick="getDocumentList();">{$lang->document_manager}...</a>
 	</div>
 </form>
-<div class="x_clearfix" style="margin-top:-20px">
-	<form action="./" class="x_pagination x_pull-left">
-		<input type="hidden" name="error_return_url" value="" />
-		<input type="hidden" name="module" value="{$module}" />
-		<input type="hidden" name="act" value="{$act}" />
-		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
-		<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
-		<ul>
-			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
-			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
-			{@$isGoTo = true}
-			<li>
-				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
-				<span cond="$isGoTo" id="goTo" class="x_input-append">
-					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
-					<button type="submit" class="x_add-on">Go</button>
-				</span>
-			</li>
-			</block>
-	
-			<!--@while($page_no = $page_navigation->getNextPage())-->
-			{@$last_page = $page_no}
-			<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
-			<!--@end-->
-	
-			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
-			{@$isGoTo = true}
-			<li>
-				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
-				<span cond="$isGoTo" id="goTo" class="x_input-append">
-					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
-					<button type="submit" class="x_add-on">Go</button>
-				</span>
-			</li>
-			</block>
-			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
-		</ul>
-	</form>
-	<form action="./" method="get" class="search center x_input-append x_pull-right">
-		<input type="hidden" name="module" value="{$module}" />
-		<input type="hidden" name="act" value="{$act}" />
-		<input type="hidden" name="module_srl" value="{$module_srl}" />
-		<input type="hidden" name="error_return_url" value="" />
-		<select name="search_target" title="{$lang->search_target}">
-			<!--@foreach($lang->search_target_list as $key => $val)-->
-			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-			<!--@end-->
-		</select>
-		<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" required />
-		<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
-		<button class="x_btn" type="button">{$lang->cmd_cancel}</button>
-	</form>
-</div>
+<form action="./" class="x_pagination x_pull-left" style="margin:-45px 0 0 0">
+	<input type="hidden" name="error_return_url" value="" />
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+	<ul>
+		<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+		{@$isGoTo = true}
+		<li>
+			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+			<span cond="$isGoTo" id="goTo" class="x_input-append">
+				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit" class="x_add-on">Go</button>
+			</span>
+		</li>
+		</block>
+
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		{@$last_page = $page_no}
+		<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+
+		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+		{@$isGoTo = true}
+		<li>
+			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+			<span cond="$isGoTo" id="goTo" class="x_input-append">
+				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit" class="x_add-on">Go</button>
+			</span>
+		</li>
+		</block>
+		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+	</ul>
+</form>
+<form action="./" method="get" class="search center x_input-append x_clearfix">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input type="hidden" name="module_srl" value="{$module_srl}" />
+	<input type="hidden" name="error_return_url" value="" />
+	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
+		<!--@foreach($lang->search_target_list as $key => $val)-->
+		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+		<!--@end-->
+	</select>
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" required />
+	<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
+	<button class="x_btn" type="button">{$lang->cmd_cancel}</button>
+</form>
 <form action="./" method="post" class="x_modal" id="manageForm">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
