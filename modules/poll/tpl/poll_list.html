@@ -56,6 +56,9 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 					<input type="checkbox" name="cart[]" value="{$val->poll_index_srl}" />
 				</td>
 			</tr>
+			<tr cond="!$poll_list">
+				<td colspan="7" style="text-align:center">{$lang->no_data}</td>
+			</tr>
 		</tbody>
 	</table>
 	<span class="x_pull-right">
@@ -105,7 +108,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="error_return_url" value="" />
-	<select name="search_target" title="{$lang->search_target}">
+	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
 		<option loop="$lang->search_poll_target_list => $key, $val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 	</select>
 	<input type="search" name="search_keyword" required value="{htmlspecialchars($search_keyword)}" />

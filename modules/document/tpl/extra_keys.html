@@ -84,71 +84,67 @@
 <!--@else-->
 
 <section class="section">
-	<h1>{$lang->extra_vars}</h1>
-
-	<div class="x_clearfix" style="margin-bottom:-48px">
+	<div class="x_clearfix">
 		<div class="x_btn-group x_pull-right">
 			<a class="x_btn" href="{getUrl('type','insertExtraForm','selected_var_idx','')}">{$lang->cmd_insert}</a>
 		</div>
 	</div>
-
 	<table class="x_table x_table-striped x_table-hover">
 		<thead>
-			<tr>
+			<tr class="nowr">
 				<th>{$lang->no}</th>
 				<th>{$lang->eid}</th>
 				<th>{$lang->column_name}</th>
 				<th>{$lang->column_type}</th>
+				<th>{$lang->default_value}</th>
+				<th>{$lang->description}</th>
 				<th>{$lang->is_required}</th>
 				<th>{$lang->cmd_search}</th>
+				<th>&nbsp;</th>
 				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tfoot>
-			<tr>
+			<tr class="nowr">
 				<th>{$lang->no}</th>
 				<th>{$lang->eid}</th>
 				<th>{$lang->column_name}</th>
 				<th>{$lang->column_type}</th>
+				<th>{$lang->default_value}</th>
+				<th>{$lang->description}</th>
 				<th>{$lang->is_required}</th>
 				<th>{$lang->cmd_search}</th>
+				<th>&nbsp;</th>
 				<th>&nbsp;</th>
 			</tr>
 		</tfoot>
 		<tbody>
-			<!--@foreach($extra_keys as $key => $val)-->
-			<tr>
-				<td rowspan="3">{$val->idx}</td>
-				<td rowspan="3">{$val->eid}</td>
-				<td><b>{$val->name}</b></td>
-				<td>{$lang->column_type_list[$val->type]}</td>
-				<td rowspan="3"><!--@if($val->is_required=='Y')--><b>{$lang->is_required}</b><!--@else-->N<!--@end--></td>
-				<td rowspan="3"><!--@if($val->search=='Y')--><b>{$lang->search_target}</b><!--@else-->N<!--@end--></td>
-				<td rowspan="3">
+			<tr loop="$extra_keys => $key,$val">
+				<td>{$val->idx}</td>
+				<td>{$val->eid}</td>
+				<td class="nowr"><strong>{$val->name}</strong></td>
+				<td class="nowr">{$lang->column_type_list[$val->type]}</td>
+				<td class="nowr">{$val->default}&nbsp;</td>
+				<td>{$val->desc}&nbsp;</td>
+				<td class="nowr"><!--@if($val->is_required=='Y')--><b>{$lang->is_required}</b><!--@else-->N<!--@end--></td>
+				<td class="nowr"><!--@if($val->search=='Y')--><b>{$lang->search_target}</b><!--@else-->N<!--@end--></td>
+				<td class="nowr">
 					<block cond="$val->idx > 1">
-						<a href="#" onclick="moveVar('up','{$module_srl}','{$val->idx}'); return false;">{$lang->cmd_move_up}</a> <i class="vr">|</i>
+						<button type="button" class="x_btn x_btn-link" onclick="moveVar('up','{$module_srl}','{$val->idx}')">{$lang->cmd_move_up}</button> <i>|</i>
 					</block>
 					<block cond="count($extra_keys) > $val->idx">
-						<a href="#" onclick="moveVar('down','{$module_srl}','{$val->idx}');return false;">{$lang->cmd_move_down}</a> <i class="vr">|</i>
+						<button type="button" class="x_btn x_btn-link" onclick="moveVar('down','{$module_srl}','{$val->idx}')">{$lang->cmd_move_down}</button> <i>|</i>
 					</block>
+				</td>
+				<td class="nowr">
 					<a href="{getUrl('selected_var_idx',$val->idx)}">{$lang->cmd_modify}...</a> <i class="vr">|</i>
-					<a href="#" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');">{$lang->cmd_delete}</a>
+					<button type="button" class="x_btn x_btn-link" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');">{$lang->cmd_delete}</button>
 				</td>
 			</tr>
-			<tr>
-				<td>{$lang->default_value}</td>
-				<td >{$val->default}&nbsp;</td>
-			</tr>
-			<tr>
-				<td>{$lang->description}</td>
-				<td >{$val->desc}&nbsp;</td>
-			</tr>
-			<!--@end-->
 		</tbody>
 	</table>
-
 	<div class="x_clearfix">
-		<div class="x_btn-group x_pull-right">
+		<div class="x_pull-right">
 			<a class="x_btn" href="{getUrl('type','insertExtraForm','selected_var_idx','')}">{$lang->cmd_insert}</a>
 		</div>
 	</div>
