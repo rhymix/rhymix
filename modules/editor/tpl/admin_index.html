@@ -103,7 +103,7 @@
 					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="stripcslashes($editor_config->content_font)==$detail && $editor_config->font_defined!= 'Y'" />{$detail}
 				</label>
 				<label>
-					<input type="radio" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" />사용자 정의 : 
+					<input type="radio" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" />{$lang->by_you} : 
 					<input type="text" name="content_font_defined" value="{stripcslashes($editor_config->content_font)}"|cond="$editor_config->font_defined == 'Y'" />
 				</label>
 				<label>
