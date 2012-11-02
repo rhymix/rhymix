@@ -141,6 +141,10 @@ jQuery(function($){
 			$xBody.addClass('wide');
 			reflow();
 		});
+		// Expert Menu Toggle
+		$xGnb.find('.exMenu>button').click(function(){
+			$('#gnbNav').toggleClass('ex');
+		});
 	};
 	$('.gnb').gnb();
 // Default Language Selection

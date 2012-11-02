@@ -43,6 +43,9 @@
 							</li>
 							<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->no_data}</a></li>
 						</ul>
+						<div class="exMenu">
+							<button type="button" title="{$lang->config_advanced}">&hellip;</button>
+						</div>
 					</li>
 					<!--@end-->
 					<li class="active open"|cond="$parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act">

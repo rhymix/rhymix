@@ -307,6 +307,13 @@
 			 <value xml:lang="en"><![CDATA[Advanced]]></value>
 		</item>
 	</item>
+	<item name="config_advanced">
+		 <value xml:lang="ko"><![CDATA[설정/고급]]></value>
+		 <value xml:lang="en"><![CDATA[Settings/Advanced]]></value>
+		 <value xml:lang="jp"><![CDATA[設定]]></value>
+		 <value xml:lang="zh-CN"><![CDATA[设置]]></value>
+		 <value xml:lang="tr"><![CDATA[Ayarlar]]></value>
+	</item>
 	<item name="newest_news">
 		<value xml:lang="ko"><![CDATA[최신 소식]]></value>
 		<value xml:lang="en"><![CDATA[Latest News]]></value>
