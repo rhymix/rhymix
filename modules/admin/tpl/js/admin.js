@@ -92,10 +92,22 @@ jQuery(function($){
 		
 		return false;
 	});
+// #content reflow
+	function reflow(){ // Browser bug fix & resize height
+		var $xBody = $('.x>.xin>.body');
+		var $xGnb = $xBody.find('>.gnb');
+		var $xContent = $xBody.children('#content.content');
+		$xContent.width('99.99%');
+		setTimeout(function(){
+			$xContent.removeAttr('style');
+			if($xGnb.height() > $xContent.height()){
+				$xContent.height($xGnb.height());
+			}
+		}, 100);
+	}
 // GNB
 	$.fn.gnb = function(){
 		var $xBody = $('.x>.xin>.body');
-		var $xContent = $xBody.children('#content.content');
 		var $xGnb = $xBody.find('>.gnb');
 		var $xGnb_li = $xGnb.find('>ul>li');
 		// Add icon
@@ -107,16 +119,6 @@ jQuery(function($){
 		var parentIndex = $xGnb_li.find('>ul>li.active_').closest('li.active').attr('data-index');
 		$xGnb_li.find('>ul>li.active_').clone().addClass('active').attr('data-index', parentIndex).prependTo('#gnbNav').find('>a').prepend('<i />');
 		// Index 
-		// GNB Hover toggle
-		function reflow(){ // Browser bug fix & resize height
-			$xContent.width('99.99%');
-			setTimeout(function(){
-				$xContent.removeAttr('style');
-				if($xGnb.height() > $xContent.height()){
-					$xContent.height($xGnb.height());
-				}
-			}, 100);
-		}
 		// GNB Click toggle
 		$xGnb_li.find('ul').prev('a')
 			.bind('click focus', function(){
