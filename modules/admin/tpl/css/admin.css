@@ -112,7 +112,7 @@ body>.x,
 .x select{width:auto;padding:0;height:26px;line-height:26px}
 .x select[multiple]{height:auto}
 .x textarea{vertical-align:top}
-.x .x_tab-content{overflow-x:hidden}
+.x .x_tab-content{overflow:visible}
 .x .x_table thead th{vertical-align:top}
 .x .x_well>*:first-child{margin-top:0}
 .x .x_well>*:last-child{margin-bottom:0}

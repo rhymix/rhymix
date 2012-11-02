@@ -118,7 +118,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
 		</ul>
 	</form>
-	<form action="./" method="get" class="search center x_input-append x_pull-right" onsubmit="return checkSearch(this)">
+	<form action="./" method="get" class="search center x_input-append x_pull-right">
 		<input type="hidden" name="module" value="{$module}" />
 		<input type="hidden" name="act" value="{$act}" />
 		<input type="hidden" name="module_srl" value="{$module_srl}" />
@@ -130,7 +130,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 			<!--@end-->
 		</select>
-		<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" />
+		<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" required />
 		<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 		<button class="x_btn" type="button">{$lang->cmd_cancel}</button>
 	</form>
