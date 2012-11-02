@@ -78,18 +78,20 @@
             $args->order_type = 'desc'; // /< sorted value
 
             // get a list
-            $declared_output = executeQuery('comment.getDeclaredList', $args);
+			$declared_output = executeQuery('comment.getDeclaredList', $args);
+			$oCommentModel = &getModel('comment');
 
             if($declared_output->data && count($declared_output->data)) {
                 $comment_list = array();
 
-                $oCommentModel = &getModel('comment');
                 foreach($declared_output->data as $key => $comment) {
                     $comment_list[$key] = new commentItem();
                     $comment_list[$key]->setAttribute($comment);
                 }
                 $declared_output->data = $comment_list;
             }
+
+			$secretNameList = $oCommentModel->getSecretNameList();
         
             // set values in the return object of comment_model:: getCommentList() in order to use a template.
             Context::set('total_count', $declared_output->total_count);
@@ -97,6 +99,7 @@
             Context::set('page', $declared_output->page);
             Context::set('comment_list', $declared_output->data);
             Context::set('page_navigation', $declared_output->page_navigation);
+            Context::set('secret_name_list', $secretNameList);
             // set the template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('declared_list');

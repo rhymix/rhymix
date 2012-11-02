@@ -4,8 +4,8 @@
 <div class="x_tabbable">
     <ul class="x_nav x_nav-tabs">
 		<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword','','act','dispCommentAdminList', 'Y')}">{$lang->all}</a></li>
-		<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target','is_secret','search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a></li>
-		<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target','is_secret','search_keyword', 'Y')}">{$status_name_list['SECRET']}</a></li>
+		<li><a href="{getUrl('search_target','is_secret','search_keyword', 'N')}">{$secret_name_list['N']}</a></li>
+		<li><a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}">{$secret_name_list['Y']}</a></li>
 		<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target','is_published','search_keyword', 'N')}">{$lang->published_name_list['N']}</a></li>
 		<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target','is_published','search_keyword', 'Y')}">{$lang->published_name_list['Y']}</a></li>
         <li class="x_active"><a href="{getUrl('', 'module', 'admin', 'act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
