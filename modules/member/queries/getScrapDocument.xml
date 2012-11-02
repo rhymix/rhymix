@@ -3,7 +3,7 @@
         <table name="member_scrap" />
     </tables>
     <columns>
-        <column name="count(*)" alias="count" />
+        <column name="count(document_srl)" alias="count" />
     </columns>
     <conditions>
         <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />

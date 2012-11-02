@@ -49,3 +49,6 @@ RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L,QSA]
 # vid + mid + entry title
 RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?vid=$1&mid=$2&entry=$3 [L,QSA]
 
+#shop / vid / [category|product] / identifier
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([a-zA-Z0-9_\.-]+)$ ./index.php?act=route&vid=$1&type=$2&identifier=$3 [L,QSA]

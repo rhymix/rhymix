@@ -62,6 +62,27 @@
             if($message_srl) {
 				$columnList = array('message_srl', 'sender_srl', 'receiver_srl', 'message_type', 'title', 'content', 'readed', 'regdate');
                 $message = $oCommunicationModel->getSelectedMessage($message_srl, $columnList);
+				switch($message->message_type)
+				{
+					case 'R':
+						if($message->receiver_srl != $logged_info->member_srl)
+						{
+							return $this->stop('msg_invalid_request');
+						}
+						break;
+					case 'S':
+						if($message->sender_srl != $logged_info->member_srl)
+						{
+							return $this->stop('msg_invalid_request');
+						}
+						break;
+					case 'T':
+						if($message->receiver_srl != $logged_info->member_srl && $message->sender_srl != $logged_info->member_srl)
+						{
+							return $this->stop('msg_invalid_request');
+						}
+						break;
+				}
                 if($message->message_srl == $message_srl && ($message->receiver_srl == $logged_info->member_srl || $message->sender_srl == $logged_info->member_srl) ) {
 					stripEmbedTagForAdmin($message->content, $message->sender_srl);
 					Context::set('message', $message);

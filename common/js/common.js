@@ -190,7 +190,7 @@ jQuery(function($) {
         });
     }
 	
-	jQuery('input[type="submit"]').click(function(ev){
+	jQuery('input[type="submit"],button[type="submit"]').click(function(ev){
 		var $el = jQuery(ev.currentTarget);
 		
 		setTimeout(function(){

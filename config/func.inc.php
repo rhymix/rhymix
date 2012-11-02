@@ -947,7 +947,7 @@
      **/
 	function getRequestUriByServerEnviroment()
 	{
-		return $_SERVER['REQUEST_URI'];
+		return removeHackTag($_SERVER['REQUEST_URI']);
 	}
 
     /**

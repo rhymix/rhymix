@@ -153,6 +153,9 @@
             $args = Context::gets(
 				'enable_confirm',
 				'limit_day',
+
+
+
 				'agreement',
 				'redirect_url',
                 'profile_image', 'profile_image_max_width', 'profile_image_max_height',
@@ -187,6 +190,16 @@
 			$args->signature  = $args->signature != 'Y' ? 'N' : 'Y';
 			$args->identifier = $all_args->identifier;
 
+
+
+
+
+
+
+
+
+
+
 			// set default
 			$all_args->is_nick_name_public = 'Y';
 			$all_args->is_find_account_question_public = 'N';
@@ -213,6 +226,12 @@
 
 				$signupItem->isPublic = ($all_args->{'is_'.$key.'_public'} == 'Y' && $signupItem->isUse) ? 'Y' : 'N';
 
+
+
+
+
+
+
 				if ($signupItem->imageType){
 					$signupItem->max_width = $all_args->{$key.'_max_width'};
 					$signupItem->max_height = $all_args->{$key.'_max_height'};
@@ -227,6 +246,16 @@
 					$signupItem->title = $extendItem->column_title;
 					$signupItem->description = $extendItem->description;
 
+
+
+
+
+
+
+
+
+
+
 					// check usable value change, required/option
 					if ($signupItem->isUse != ($extendItem->is_active == 'Y') || $signupItem->required != ($extendItem->required == 'Y')){
 						unset($update_args);
@@ -236,7 +265,27 @@
 
 						$update_output = executeQuery('member.updateJoinForm', $update_args);
 					}
+
+
 					unset($extendItem);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 				}
 				$signupForm[] = $signupItem;
 			}
