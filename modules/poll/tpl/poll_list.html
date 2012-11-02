@@ -101,15 +101,14 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 	</ul>
 </form>
 
-<form action="./" method="get" class="search center x_input-append" onsubmit="return checkSearch(this)">
+<form action="./" method="get" class="search center x_input-append">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="error_return_url" value="" />
-	<select name="search_target" style="width:auto">
-		<option value="">{$lang->search_target}</option>
+	<select name="search_target" title="{$lang->search_target}">
 		<option loop="$lang->search_poll_target_list => $key, $val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+	<input type="search" name="search_keyword" required value="{htmlspecialchars($search_keyword)}" />
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 	<a class="x_btn" href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
 </form>

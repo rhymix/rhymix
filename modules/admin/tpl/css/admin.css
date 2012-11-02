@@ -1,11 +1,8 @@
 ﻿@charset "utf-8";
 /* Reset */
 html,body{min-height:100%}
-body{-webkit-text-size-adjust:none}
+body{margin:8px;-webkit-text-size-adjust:none}
 body>.x{min-width:300px;max-width:1240px}
-@media all and (max-width:480px){
-body>.x{margin:0}
-}
 body>.x,
 .x label,
 .x table,
@@ -146,21 +143,21 @@ body>.x,
 .x>.xin>.body>.gnb>ul>li.open>a>i,
 .x>.xin>.body>.gnb>ul>li.active>a>i{background-image:url(../../../../common/img/glyphicons-halflings-white.png);background-repeat:no-repeat}
 /* Layout */
-.x>.xin{box-shadow:0 0 5px #999;border-radius:5px;margin:10px}
+.x>.xin{box-shadow:0 0 5px #999;border-radius:5px}
 .x>.xin>.skipNav{margin:0}
 .x>.xin>.skipNav>a{display:block;height:1px;text-align:center;border-radius:4px;overflow:hidden;color:#333;text-decoration:none}
 .x>.xin>.skipNav>a:focus{height:auto;margin:5px 0;padding:8px 0;background:#fff}
 .x>.xin>.header{border-radius:5px 5px 0 0;padding:10px 15px;zoom:1;border-bottom:1px solid #ddd;background:#f6f6f6;background:-webkit-gradient(linear, left top, left bottom, from(#F6F6F6), to(#F1F1F1));background:-moz-linear-gradient(top,#F6F6F6,#F1F1F1);background:-o-linear-gradient(top,#F6F6F6,#F1F1F1)}
 .x>.xin>.header:after{content:"";display:block;clear:both}
-.x>.xin>.body{position:relative;zoom:1;padding:0 20px 0 200px}
-.x>.xin>.body.wide{padding:0 20px 0 60px}
+.x>.xin>.body{position:relative;zoom:1;padding:0 20px 0 215px}
+.x>.xin>.body.wide{padding:0 20px 0 70px}
 .x>.xin>.body:after{content:"";display:block;clear:both}
 .x>.xin>.body>.content{width:100%;padding:1px 0 0 0;float:right;margin:0 0 30px -100%;outline:none}
 .x>.xin>.body>.content>*:first-child{margin-top:0}
-.x>.xin>.body>.gnb{width:180px;position:fixed;top:73px;left:10px}
+.x>.xin>.body>.gnb{width:180px;position:fixed;top:71px;left:10px}
 .x>.xin>.body.wide>.gnb{width:36px}
 @media all and (max-height:700px){
-.x>.xin>.body>.gnb{position:absolute;top:0;left:0}
+.x>.xin>.body>.gnb{position:absolute;top:1px;left:2px}
 }
 @media all and (max-width:980px){
 .x>.xin>.body,

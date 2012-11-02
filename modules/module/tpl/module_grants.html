@@ -26,7 +26,6 @@
 					<option value="<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->">{$val->nick_name} (<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->)</option>
 					<!--@end-->
 				</select>
-				
 				<div class="x_input-append">
 					<input type="text" name="admin_id" />
 					<button class="x_btn" type="button" onclick="doInsertAdmin()">{$lang->cmd_insert}</button>

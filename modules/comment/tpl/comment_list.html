@@ -119,13 +119,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="error_return_url" value="" />
-	<select name="search_target">
-		<option value="">{$lang->search_target}</option>
+	<select name="search_target" title="{$lang->search_target}">
 		<!--@foreach($lang->search_target_list as $key => $val)-->
 		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 		<!--@end-->
 	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+	<input type="search" required name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
 	<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 	<button class="x_btn" type="button" onclick="document.location.href='{getUrl('','module',$module,'act',$act)}'">{$lang->cmd_cancel}</button>
 </form>

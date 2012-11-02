@@ -1,15 +1,13 @@
 <load target="js/page_admin.js" usecdn="true" />
 <div class="x_page-header">
 	<h1>{$lang->page_management}</h1>
-	<p cond="!$module_info->mid">{nl2br($lang->about_page)}</p>
 </div>
+<p cond="!$module_info->mid">{nl2br($lang->about_page)}</p>
 <!--@if($module_info)-->
-<div class="x_page-header" cond="$module_info->mid">
-	<h1>
-		{$module_info->mid}<block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
-		<span style="font-weight:normal"> | <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank">{$lang->view}</a></span>
-	</h1>
-</div>
+<h2 cond="$module_info->mid">
+	{$module_info->mid}<block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
+	<a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" class="x_icon-share-alt" target="_blank" style="vertical-align:middle">{$lang->view}</a>
+</h2>
 <ul class="x_nav x_nav-tabs" cond="$act != 'dispPageAdminDelete'">
 	<li cond="$module=='admin'" class="x_active"|cond="$act=='dispPageAdminContent'"><a href="{getUrl('act','dispPageAdminContent','module_srl','')}">{$lang->cmd_list}</a></li>
 	<li cond="$module!='admin'"><a href="{getUrl('act','')}">{$lang->cmd_back}</a></li>
