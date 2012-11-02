@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <lang>
-	<item name="editor_preview">
-		<value xml:lang="ko"><![CDATA[에디터 미리보기]]></value>
-		<value xml:lang="en"><![CDATA[Editor Preview]]></value>
-		<value xml:lang="jp"><![CDATA[エディタープレビュー]]></value>
-		<value xml:lang="zh-CN"><![CDATA[Editor Preview]]></value>
-		<value xml:lang="zh-TW"><![CDATA[Editor Preview]]></value>
-		<value xml:lang="ru"><![CDATA[Editor Preview]]></value>
-		<value xml:lang="tr"><![CDATA[Editor Preview]]></value>
-		<value xml:lang="vi"><![CDATA[Editor Preview]]></value>
+	<item name="editor_now">
+		<value xml:lang="ko"><![CDATA[현재 설정 상태]]></value>
+		<value xml:lang="en"><![CDATA[현재 설정 상태]]></value>
+		<value xml:lang="jp"><![CDATA[현재 설정 상태]]></value>
+		<value xml:lang="zh-CN"><![CDATA[현재 설정 상태]]></value>
+		<value xml:lang="zh-TW"><![CDATA[현재 설정 상태]]></value>
+		<value xml:lang="ru"><![CDATA[현재 설정 상태]]></value>
+		<value xml:lang="tr"><![CDATA[현재 설정 상태]]></value>
+		<value xml:lang="vi"><![CDATA[현재 설정 상태]]></value>
 	</item>
 	<item name="editor_component">
 		<value xml:lang="ko"><![CDATA[에디터 컴포넌트]]></value>
