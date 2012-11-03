@@ -32,45 +32,45 @@
 .xm .nav li.active a span{padding-top:7px;font-weight:bold}
 /* Form */
 .xm .form{margin:1em 0;padding:0}
-.xm .form fieldset{margin:0 0 2em 0;padding:0;border:0}
-.xm .form em{font-style:normal;color:#e00}
-.xm .form label{margin-right:1em;line-height:1;vertical-align:middle}
-.xm .form input[type=checkbox]+label,
-.xm .form input[type=radio]+label,
-.xm .form input[type=file]{cursor:pointer}
-.xm .form ul{position:relative;margin:0;padding:0;list-style:none;border-top:2px solid #ccc;border-bottom:1px solid #ccc;zoom:1}
-.xm .form li{list-style:none;border:1px solid #ddd;border-left:0;border-right:0;margin:-1px 0;padding:8px 0;vertical-align:top;zoom:1}
-.xm .form li:first-child{border-top:0}
-.xm .form li>label:first-child{display:block;font-weight:bold}
-.xm .form li label em{font-weight:normal}
-.xm .form label.overlap{position:absolute;color:#aaa}
-.xm .form input[type=text],
-.xm .form input[type=password],
-.xm .form input[type=file],
-.xm .form textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent;*background:transparent url(../../../../../common/img/blank.gif);_background:transparent;}
-.xm .form input[type=text],
-.xm .form input[type=password],
-.xm .form input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
-.xm .form input[type=checkbox],
-.xm .form input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
-.xm .form input[type=text][disabled=disabled],
-.xm .form input[type=password][disabled=disabled],
-.xm .form input[type=checkbox][disabled=disabled],
-.xm .form input[type=radio][disabled=disabled],
-.xm .form input[type=file][disabled=disabled],
-.xm .form textarea[disabled=disabled],
-.xm .form select[disabled=disabled]{background:#ddd !important;text-shadow:1px 1px 0 #fff}
-.xm .form textarea{padding:3px 4px;vertical-align:top}
-.xm .form span.desc, 
-.xm .form em.desc{line-height:22px;vertical-align:middle;margin:0 10px}
-.xm .form p.desc{margin:.25em 0;line-height:1.4}
-.xm .form .q{font-weight:bold;margin:0 0 5px 0}
-.xm .form .a{margin:0 0 5px 0}
-.xm .form .tgForm{margin-right:1em}
-.xm .form .h1 + ul,
-.xm .form .h2 + ul,
-.xm .form .h3 + ul,
-.xm .form .h4 + ul{border-top:0}
+.xm fieldset{margin:0 0 2em 0;padding:0;border:0}
+.xm em{font-style:normal;color:#e00}
+.xm label{margin-right:1em;line-height:1;vertical-align:middle}
+.xm input[type=checkbox]+label,
+.xm input[type=radio]+label,
+.xm input[type=file]{cursor:pointer}
+.xm ul{position:relative;margin:0;padding:0;list-style:none;border-top:2px solid #ccc;border-bottom:1px solid #ccc;zoom:1}
+.xm li{list-style:none;border:1px solid #ddd;border-left:0;border-right:0;margin:-1px 0;padding:8px 0;vertical-align:top;zoom:1}
+.xm li:first-child{border-top:0}
+.xm li>label:first-child{display:block;font-weight:bold}
+.xm li label em{font-weight:normal}
+.xm label.overlap{position:absolute;color:#aaa}
+.xm input[type=text],
+.xm input[type=password],
+.xm input[type=file],
+.xm textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent;*background:transparent url(../../../../../common/img/blank.gif);_background:transparent;}
+.xm input[type=text],
+.xm input[type=password],
+.xm input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
+.xm input[type=checkbox],
+.xm input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
+.xm input[type=text][disabled=disabled],
+.xm input[type=password][disabled=disabled],
+.xm input[type=checkbox][disabled=disabled],
+.xm input[type=radio][disabled=disabled],
+.xm input[type=file][disabled=disabled],
+.xm textarea[disabled=disabled],
+.xm select[disabled=disabled]{background:#ddd !important;text-shadow:1px 1px 0 #fff}
+.xm textarea{padding:3px 4px;vertical-align:top}
+.xm span.desc, 
+.xm em.desc{line-height:22px;vertical-align:middle;margin:0 10px}
+.xm p.desc{margin:.25em 0;line-height:1.4}
+.xm .q{font-weight:bold;margin:0 0 5px 0}
+.xm .a{margin:0 0 5px 0}
+.xm .tgForm{margin-right:1em}
+.xm .h1 + ul,
+.xm .h2 + ul,
+.xm .h3 + ul,
+.xm .h4 + ul{border-top:0}
 /* Table */
 .xm .table{margin:1em 0}
 .xm .table table{width:100%;border:0;border-collapse:collapse;border-top:2px solid #ccc}
