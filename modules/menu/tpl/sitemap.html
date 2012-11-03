@@ -2270,6 +2270,9 @@ jQuery(function($){
 					htData : {}
 				};
 				
+				htDesign.sLayoutSrl = htDesign.htLayoutSrl[sMode];
+				htDesign.sSkin = htDesign.htSkin[sMode];
+				
 				updatePreview(htDesign);
 				
 				scrollToRight();
@@ -2358,6 +2361,7 @@ jQuery(function($){
 			skin_name : sSkinName,
 			skin_vars : "{}"
 		};
+console.log(htDesign);
 		//console.log(htParam);
 		//return;
 		/*
@@ -2455,8 +2459,14 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			htSetting.htLayoutData = htParam.htLayoutData || htSetting.htLayoutData || "";
 			htSetting.htSkinData = htParam.htSkinData || htSetting.htSkinData || "";
 
+			var sMode = htSetting.bMobilePreviewTabOpen?"M":"P";
+
 			// ?act=dispLayoutPreviewWithModule&module_name=모듈이름&target_mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름&skin_type=M/P
-			var sURL = './?act=dispLayoutPreviewWithModule&module_name='+htSetting.sModuleName+'&target_mid='+htSetting.sMID+'&layout_srl='+htSetting.sLayoutSrl+'&skin='+htSetting.sSkin+'&skin_type='+(htSetting.bMobilePreviewTabOpen?"M":"P");
+			var sURL = './?act=dispLayoutPreviewWithModule&module_name='+htSetting.sModuleName+'&target_mid='+htSetting.sMID+'&layout_srl='+htSetting.sLayoutSrl+'&skin='+htSetting.sSkin+'&skin_type='+sMode;
+			
+			$._xeAdminVar.htSelectedMenuDesign.htLayoutSrl[sMode] = htSetting.sLayoutSrl;
+			$._xeAdminVar.htSelectedMenuDesign.htSkin[sMode] = htSetting.sSkin;
+			
 			console.log(sURL);
 			$('._preview_form').attr('action', sURL);
 			
@@ -2490,15 +2500,24 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 		if(this !== ev.target){
 			return;
 		}
+
+		$('#layout .list').hide();
 		
+		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+		if(htDesign.htLayoutSrl['P'] == -1){
+			$('._chkUseDefaultLayout').attr('checked', 'checked');
+		}else{
+			$('._chkUseDefaultLayout').removeAttr('checked');
+		}
+
 		updateLayoutListDisplayStatus();
 		//loadInstalledLayoutList("P");
 	});
-	$('#layout').on('hide', function(ev){
-		if(this !== ev.target) return;
-	});
 	$('#layout .list').on('show', function(){
 		fillInInstalledLayoutList();
+	});
+	$('#layout').on('hide', function(ev){
+		if(this !== ev.target) return;
 	});
 	function fillInInstalledLayoutList(){
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
@@ -2516,6 +2535,13 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 				htLayoutData : {}
 			});
 		}else{
+		/*
+			updatePreview({
+				sLayoutSrl : 0,
+				htLayoutData : {}
+			});
+			*/
+			
 			$('#layout .list').show();
 		}
 	}
@@ -2535,6 +2561,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			var sSelected = "";
 			
 			var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+			
 			if(htDesign.htLayoutSrl[sType] == 0){
 				sSelectedSrl = "0";
 				sSelected = "selected";
@@ -2585,6 +2612,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 				sLayoutSrl : sSelectedSrl,
 				htLayoutData : {}
 			});
+			
 		});
 	/*
 	<li class="${Selected}">
