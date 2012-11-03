@@ -62,6 +62,7 @@
 					<li><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><button type="button"  class="_edit_paste" disabled>붙여넣기</button></li>
 					<li><button class="_delSiteMap" type="button">삭제</button></li>
+					<li><button class="_renameSiteMap" type="button">이름 변경</button></li>
 				</ul>
 			</div>
 		</section>
@@ -698,6 +699,23 @@ function onSiteMapReceived(htData){
 				loadSiteMap();
 				return;
 			});
+			
+		/*
+		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+		console.log(sSelectedMenuSrl, $("#menu"+sSelectedMenuSrl));
+
+		var params = {};
+		params['menu_srl'] = sSelectedMenuSrl;
+		$.exec_json("menu.procMenuAdminDelete", params, function(htData){
+			//console.log(htData);
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			loadSiteMap();
+		});
+		*/
 		})
 		.bind("create_node.jstree", function (event, data) {
 			//console.log(data.args[2].data[0]);
@@ -1366,6 +1384,9 @@ jQuery(function($){
 			
 			loadSiteMap();
 		});
+	});
+	$("._renameSiteMap").click(function(){
+		$("#siteMapTree").jstree("rename"); 
 	});
 	$('#properties').bind("show", function(ev, htOpt){
 		$('#site_map').next().hide(null, null, null, htOpt);
