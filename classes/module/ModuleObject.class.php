@@ -363,11 +363,9 @@
 						}
 					}
 				}
-				else
-				{
-					$oModuleModel = &getModel('module');
-					$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
-				}
+
+				$oModuleModel = &getModel('module');
+				$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
 				Context::set('module_info', $this->module_info);
 				// Run
 				$output = $this->{$this->act}();
