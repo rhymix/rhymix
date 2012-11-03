@@ -258,11 +258,25 @@
 
 			if($mode === 'P')
 			{
-            	$skin = $module_info->skin;
+				if($module_info->is_skin_fix == 'N')
+				{
+					$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, 'P', $module_info->site_srl);
+				}
+				else
+				{
+            		$skin = $module_info->skin;
+				}
 			}
 			else
 			{
-				$skin = $module_info->mskin;
+				if($module_info->is_mskin_fix == 'N')
+				{
+					$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, 'M', $module_info->site_srl);
+				}
+				else
+				{
+					$skin = $module_info->mskin;
+				}
 			}
 
             $module_path = './modules/'.$module_info->module;
