@@ -522,7 +522,7 @@
 							<option class="_group_all" value="0">모든 사용자</option>
 							<option class="_group_loggedin" value="-1">로그인 사용자</option>
 							<option class="_group_signedup" value="-2">가입한 사용자</option>
-							<option class="_group_manager" value="-3">관리자만</option>
+							<!--option class="_group_manager" value="-3">관리자만</option-->
 							<option class="_group_selected" value="-10">선택그룹 사용자</option>
 						</select>
 						<div class="selected x_hide _groups _groups_${PermId}">
@@ -1966,96 +1966,96 @@ jQuery(function($){
 		var htInfo, sDefault, $node, $groupNode, aGroup, sGrant;
 		for(var i=0, nLen=aPerms.length; i<nLen; i++){
 			htInfo = aPerms[i];
-				/*
-				<li>
-					<label for="auth${PermId}">${PermTitle}</label>
-					<select id="auth${PermId}">
-						<option class="_group_all" value="0">모든 사용자</option>
-						<option class="_group_loggedin" value="-1">로그인 사용자</option>
-						<option class="_group_signedup" value="-2">가입한 사용자</option>
-						<option class="_group_manager" value="-3">관리자만</option>
-						<option class="_group_selected" value="-10">선택그룹 사용자</option>
-					</select>
-					<div class="selected x_hide">
-					</div>
-				</li>
-				*/
-				
-				sDefault = htInfo.sDefault;
-				aGroup = htInfo.aGroup;
-				sGrant = htInfo.sGrant;
-				
-				$node = $.tmpl("permItem", {
-					PermId : htInfo.sKey, 
-					PermTitle : htInfo.sTitle
-				});
-				$node.find('select').data('key', htInfo.sKey);
-				//console.log($node.find('select').data('key'));
-				
-				var htGrantStrToSelectValMap = {
-					'all': '0',
-					'member': '-1',
-					'site': '-2',
-					'manager': '-3',
-					'group': '-10'
-				};
-				if(htInfo.sGrant){
-					$node.find('select').val(htGrantStrToSelectValMap[htInfo.sGrant]);
-				}
-				
-				// Add groups
-				//<label><input type="checkbox" value="${ID}" title="${Title}"> ${Title}</label>
-				for(var ii=0, nLen2=aUserGroups.length; ii<nLen2; ii++){
-					htInfo = aUserGroups[ii];
-					//console.log(222, htInfo.group_srl, aGroup);
-					sChecked = null;
-					if(sGrant === 'group'){
-					
-						$node.find('._groups').show();
-						
-						if(aGroup && $.inArray(htInfo.group_srl, aGroup) !== -1){
-							sChecked = "checked";
-						}
-					}
-					
-					$groupNode = $.tmpl("perm_groupItem", {
-								Title : htInfo.title ,
-								ID : htInfo.group_srl
-							});
-					$groupNode.find('input[type=checkbox]').attr('checked', sChecked);
-					$node.find('._groups').append($groupNode);
-				}
-				
-				if(i === 0){
-					$node.find('._group_signedup').remove();
-				}else{
-					/*
-						guest : 모든 옵션 사용 가능, 항상 권한 있음.
-						member : '모든 사용자' 제외하고 사용 가능, 로그인 정보가 있을 경우 true
-						site : '모든 사용자' 제외하고 사용 가능, 가상 사이트일 경우에는 가입된 그룹 정보가 있어야 하며, 가상 사이트가 아닐 경우에는 'member'와 동일.
-						manager : '관리자만','선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
-						root : manager와 동일.
-					*/
-					switch(sDefault){
-						case 'guest':
-							//
-						break;
-						case 'member':
-							$node.find('._group_all').remove();
-						break;
-						case 'site':
-							$node.find('._group_all').remove();
-						break;
-						case 'manager':
-						case 'root':
-						default:
-							$node.find('._group_all').remove();
-							$node.find('._group_loggedin').remove();
-							$node.find('._group_signedup').remove();
-					}
-				}
-				$List.append($node);
+			/*
+			<li>
+				<label for="auth${PermId}">${PermTitle}</label>
+				<select id="auth${PermId}">
+					<option class="_group_all" value="0">모든 사용자</option>
+					<option class="_group_loggedin" value="-1">로그인 사용자</option>
+					<option class="_group_signedup" value="-2">가입한 사용자</option>
+					<option class="_group_manager" value="-3">관리자만</option>
+					<option class="_group_selected" value="-10">선택그룹 사용자</option>
+				</select>
+				<div class="selected x_hide">
+				</div>
+			</li>
+			*/
 			
+			sDefault = htInfo.sDefault;
+			aGroup = htInfo.aGroup;
+			sGrant = htInfo.sGrant;
+			
+			$node = $.tmpl("permItem", {
+				PermId : htInfo.sKey, 
+				PermTitle : htInfo.sTitle
+			});
+			$node.find('select').data('key', htInfo.sKey);
+			//console.log($node.find('select').data('key'));
+			
+			var htGrantStrToSelectValMap = {
+				'all': '0',
+				'member': '-1',
+				'site': '-2',
+				'manager': '-3',
+				'group': '-10'
+			};
+			if(htInfo.sGrant){
+				$node.find('select').val(htGrantStrToSelectValMap[htInfo.sGrant]);
+			}
+			
+			// Add groups
+			//<label><input type="checkbox" value="${ID}" title="${Title}"> ${Title}</label>
+			for(var ii=0, nLen2=aUserGroups.length; ii<nLen2; ii++){
+				htInfo = aUserGroups[ii];
+				//console.log(222, htInfo.group_srl, aGroup);
+				sChecked = null;
+				if(sGrant === 'group'){
+				
+					$node.find('._groups').show();
+					
+					if(aGroup && $.inArray(htInfo.group_srl, aGroup) !== -1){
+						sChecked = "checked";
+					}
+				}
+				
+				$groupNode = $.tmpl("perm_groupItem", {
+							Title : htInfo.title ,
+							ID : htInfo.group_srl
+						});
+				$groupNode.find('input[type=checkbox]').attr('checked', sChecked);
+				$node.find('._groups').append($groupNode);
+			}
+			
+			if(i === 0){
+				$node.find('._group_signedup').remove();
+			}else{
+				/*
+					guest : 모든 옵션 사용 가능, 항상 권한 있음.
+					member : '모든 사용자' 제외하고 사용 가능, 로그인 정보가 있을 경우 true
+					site : '모든 사용자' 제외하고 사용 가능, 가상 사이트일 경우에는 가입된 그룹 정보가 있어야 하며, 가상 사이트가 아닐 경우에는 'member'와 동일.
+					manager : '관리자만','선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
+					root : manager와 동일.
+				*/
+				switch(sDefault){
+					case 'guest':
+						//
+					break;
+					case 'member':
+						$node.find('._group_all').remove();
+					break;
+					case 'site':
+						$node.find('._group_all').remove();
+					break;
+					case 'manager':
+					case 'root':
+					default:
+						$node.find('._group_all').remove();
+						$node.find('._group_loggedin').remove();
+						$node.find('._group_signedup').remove();
+				}
+			}
+			$List.append($node);
+			$('#auth select').trigger('change');
 		}
 	}
 
