@@ -238,27 +238,15 @@
 				$moduleInfo = $coutput->data;
 			}
 
-			$moduleInfo->is_layout_fix = ($moduleInfo->layout_srl == -1) ? 'N' : 'Y';
-			$moduleInfo->is_mlayout_fix = ($moduleInfo->mlayout_srl == -1) ? 'N' : 'Y';
-			if($moduleInfo->is_layout_fix == 'N' || $moduleInfo->is_skin_fix == 'N' || $moduleInfo->is_mlayout_fix == 'N' || $moduleInfo->is_mskin_fix == 'N')
+			if($moduleInfo->is_skin_fix == 'N' || $moduleInfo->is_mskin_fix == 'N')
 			{
 				$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $moduleInfo->site_srl);
 				@include($designInfoFile);
 			}
 			
-			if($moduleInfo->is_layout_fix == 'N')
-			{
-				$moduleInfo->layout_srl = $designInfo->layout_srl;
-			}
-
 			if($moduleInfo->is_skin_fix == 'N')
 			{
 				$moduleInfo->skin = $designInfo->module->{$moduleInfo->module}->skin;
-			}
-
-			if($moduleInfo->is_mlayout_fix == 'N')
-			{
-				$moduleInfo->mlayout_srl = $designInfo->mlayout_srl;
 			}
 
 			if($moduleInfo->is_mskin_fix == 'N')
