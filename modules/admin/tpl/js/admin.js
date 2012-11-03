@@ -133,8 +133,22 @@ jQuery(function($){
 			$(this).parent('.gnb').toggleClass('open');
 			$xBody.toggleClass('wide');
 			reflow();
+
+			// remember status
+			var d = new Date();
+			d.setTime(d.getTime() + 60*60*24*356);
+			if($(this).parent('.gnb').hasClass('open')){
+				setCookie('__xe_admin_gnb_status', 'open', d);
+			}else{
+				setCookie('__xe_admin_gnb_status', 'close', d);
+			}
+
 			return false;
 		});
+		if(getCookie('__xe_admin_gnb_status') == 'open'){
+			$xGnb.find('>a[href="#gnbNav"]').trigger('click');
+		}
+
 		// GNB Close
 		$xGnb
 			.prepend('<button type="button" class="close before" />')
