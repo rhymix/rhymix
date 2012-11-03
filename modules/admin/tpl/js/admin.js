@@ -1188,9 +1188,9 @@ jQuery(function($){
 		// before open
 		function g11n_before_open(code){
 			if(!code){
-				g11n_get_list(1, '', '', false);
+				g11n_get_list(1, xe.current_lang, '', '', false);
 			}else{
-				g11n_get_list(1, '', code, false);
+				g11n_get_list(1, xe.current_lang, '', code, false);
 				$g11n_get.find('[href="#lang_search"]').trigger('click');
 			}
 		}
@@ -1212,13 +1212,14 @@ jQuery(function($){
 		}
 		
 		// get list
-		function g11n_get_list(page, search_keyword, name, scroll){
+		function g11n_get_list(page, lang_code, search_keyword, name, scroll){
 			if(typeof page == 'undefined') page = 1;
+			if(typeof lang_code == 'undefined') lang_code = xe.current_lang;
 			if(typeof search_keyword == 'undefined') search_keyword = '';
 			if(typeof name == 'undefined') name = '';
 			if(typeof scroll == 'undefined') scroll = true;
 
-			$.exec_json('module.getModuleAdminLangListHtml', {'page': page, 'search_keyword': search_keyword, 'name': name, 'list_count': options.list_count}, function(data){
+			$.exec_json('module.getModuleAdminLangListHtml', {'page': page, 'lang_code': lang_code, 'search_keyword': search_keyword, 'name': name, 'list_count': options.list_count}, function(data){
 				if(!data || !data.html) return;
 				
 				$g11n_search.html(data.html);
@@ -1241,20 +1242,22 @@ jQuery(function($){
 			$g11n_search.find('.x_pagination a').click(function(){
 				var page = $(this).data('page');
 				var search_keyword = $(this).data('search_keyword');
+				var lang_code = $(this).data('current_lang');
 				
 				if(!page) return;
 				
-				g11n_get_list(page, search_keyword);
+				g11n_get_list(page, lang_code, search_keyword);
 				return false;
 			});
 			
 			$g11n_search.find('.x_pagination').submit(function(){
 				var page = $(this).find('[name="page"]').val();
 				var search_keyword = $(this).data('search_keyword');
+				var lang_code = $(this).data('current_lang');
 
 				if(!page) return false;
 
-				g11n_get_list(page, search_keyword);
+				g11n_get_list(page, lang_code, search_keyword);
 				return false;
 			});
 		}
@@ -1263,13 +1266,14 @@ jQuery(function($){
 		function g11n_search_search(){
 			$g11n_search.find('.search').submit(function(){
 				var search_keyword = $(this).find('[name="search_keyword"]').val();
+				var lang_code = $(this).find('[name="lang_code"]').val();
 				
-				g11n_get_list(1, search_keyword);
+				g11n_get_list(1, lang_code, search_keyword);
 				return false;
 			});
 			
 			$g11n_search.find('#search_cancel').click(function(){
-				g11n_get_list(1, '');
+				g11n_get_list(1, xe.current_lang, '');
 			});
 		}
 		
@@ -1363,10 +1367,11 @@ jQuery(function($){
 					var $pagination = $g11n_search.find('.x_pagination');
 					var page = $pagination.data('page');
 					var search_keyword = $pagination.data('search_keyword');
+					var lang_code = $pagination.data('lang_code');
 				
 					if(!page) $page = 1;
 				
-					g11n_get_list(page, search_keyword);
+					g11n_get_list(page, lang_code, search_keyword);
 				});
 			});
 			

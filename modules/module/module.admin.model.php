@@ -446,7 +446,7 @@
 		{
 			$siteModuleInfo = Context::get('site_module_info');
 			$args->site_srl = (int)$site_module_info->site_srl;
-			$args->langCode = Context::get('lang_type');
+			$args->langCode = Context::get('lang_code');
 			$args->page = Context::get('page');
 			$args->sort_index = 'name';
 			$args->order_type = 'asc';
@@ -454,6 +454,11 @@
 			$args->name = Context::get('name');
 			$args->list_count = Context::get('list_count');
 			$args->page_count = 5;
+
+			if(!$args->langCode)
+			{
+				$args->langCode = Context::get('lang_type');
+			}
 
 			$output = $this->getLangListByLangcode($args);
 

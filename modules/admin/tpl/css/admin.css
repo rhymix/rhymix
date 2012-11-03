@@ -320,30 +320,43 @@ body>.x,
 #g11n #lang_search .item>fieldset{display:none;padding:0 0 15px 0}
 #g11n .item input[type="text"],
 #g11n .item textarea{padding-left:25px;width:187px;background-repeat:no-repeat;background-position:4px 8px;overflow-x:hidden}
+#g11n .flag{padding-left:18px;background-repeat:no-repeat;background-position:0 50%}
 html[lang="en"] .x .g11n.active>[disabled],
-#g11n .item .en{background-image:url(../img/flag.en.gif)}
+#g11n .item .en,
+#g11n .flag.en{background-image:url(../img/flag.en.gif)}
 html[lang="ko"] .x .g11n.active>[disabled],
-#g11n .item .ko{background-image:url(../img/flag.ko.gif)}
+#g11n .item .ko,
+#g11n .flag.ko{background-image:url(../img/flag.ko.gif)}
 html[lang="jp"] .x .g11n.active>[disabled],
-#g11n .item .jp{background-image:url(../img/flag.jp.gif)}
+#g11n .item .jp,
+#g11n .flag.jp{background-image:url(../img/flag.jp.gif)}
 html[lang="zh"] .x .g11n.active>[disabled],
-#g11n .item .zh-CN{background-image:url(../img/flag.cn.gif)}
+#g11n .item .zh-CN,
+#g11n .flag.zh-CN{background-image:url(../img/flag.cn.gif)}
 html[lang="zh"] .x .g11n.active>[disabled],
-#g11n .item .zh-TW{background-image:url(../img/flag.cn.gif)}
+#g11n .item .zh-TW,
+#g11n .flag.zh-TW{background-image:url(../img/flag.cn.gif)}
 html[lang="fr"] .x .g11n.active>[disabled],
-#g11n .item .fr{background-image:url(../img/flag.fr.gif)}
+#g11n .item .fr,
+#g11n .flag.fr{background-image:url(../img/flag.fr.gif)}
 html[lang="de"] .x .g11n.active>[disabled],
-#g11n .item .de{background-image:url(../img/flag.de.gif)}
+#g11n .item .de,
+#g11n .flag.de{background-image:url(../img/flag.de.gif)}
 html[lang="ru"] .x .g11n.active>[disabled],
-#g11n .item .ru{background-image:url(../img/flag.ru.gif)}
+#g11n .item .ru,
+#g11n .flag.ru{background-image:url(../img/flag.ru.gif)}
 html[lang="es"] .x .g11n.active>[disabled],
-#g11n .item .es{background-image:url(../img/flag.es.gif)}
+#g11n .item .es,
+#g11n .flag.es{background-image:url(../img/flag.es.gif)}
 html[lang="tr"] .x .g11n.active>[disabled],
-#g11n .item .tr{background-image:url(../img/flag.tr.gif)}
+#g11n .item .tr,
+#gg1n .flag.tr{background-image:url(../img/flag.tr.gif)}
 html[lang="vi"] .x .g11n.active>[disabled],
-#g11n .item .vi{background-image:url(../img/flag.vi.gif)}
+#g11n .item .vi,
+#g11n .flag.vi{background-image:url(../img/flag.vi.gif)}
 html[lang="mn"] .x .g11n.active>[disabled],
-#g11n .item .mn{background-image:url(../img/flag.mn.gif)}
+#g11n .item .mn,
+#g11n .flag.mn{background-image:url(../img/flag.mn.gif)}
 #g11n #lang_search .cancel,
 #g11n #lang_search .save,
 #g11n #lang_search .editMode .modify,

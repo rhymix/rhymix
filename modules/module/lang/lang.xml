@@ -1085,8 +1085,8 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		</item>
 	</item>
 	<item name="about_multilingual_search_result">
-		<value xml:lang="ko"><![CDATA[<strong>%d</strong>개의 다국어 세트가 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[There are <strong>%d</strong> multilingual sets.]]></value>
+		<value xml:lang="ko"><![CDATA[<strong>%d</strong>개의 <span class="flag %s">%s</span> 다국어 세트가 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There are <strong>%d</strong> <span class="flag %s">%s</span> multilingual sets.]]></value>
 	</item>
 	<item name="msg_confirm_save_and_use_multilingual">
 		<value xml:lang="ko"><![CDATA[현재 상태를 저장하고 사용할까요?]]></value>
