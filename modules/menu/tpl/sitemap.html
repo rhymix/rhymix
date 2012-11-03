@@ -2492,6 +2492,13 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 	});
 
 	$('#layout ._chkUseDefaultLayout').click(function(){
+		if(!$(this).attr('checked')){
+			updatePreview({
+				sLayoutSrl : 0,
+				htLayoutData : {}
+			});
+		}
+
 		updateLayoutListDisplayStatus();
 	});
 	$("#tmpl_layout_list_item_no_layout").template( "layoutListItem_nolayout" );
@@ -2535,13 +2542,6 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 				htLayoutData : {}
 			});
 		}else{
-		/*
-			updatePreview({
-				sLayoutSrl : 0,
-				htLayoutData : {}
-			});
-			*/
-			
 			$('#layout .list').show();
 		}
 	}
