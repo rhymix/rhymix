@@ -2876,6 +2876,8 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			return;
 		}
 		
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+		
 		$._xeAdminVar.htSelectedMenuDesign.sModuleName = $._htMarkupActionParam.moduleType;
 		
 		<!--@if($act == 'dispMenuAdminSiteDesign')-->
@@ -2884,6 +2886,13 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			"M" : $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].default_mskin
 		};
 		<!--@end-->
+		
+		$ChkBox = $('#skin ._chkUseDefault');
+		if($._xeAdminVar.htSelectedMenuDesign.htSkin[sMode] == ""){
+			$ChkBox.attr('checked', 'checked');
+		}else{
+			$ChkBox.removeAttr('checked');
+		}
 		
 		updateSkinListDisplayStatus();
 	});
