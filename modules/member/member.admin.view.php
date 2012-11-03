@@ -364,7 +364,12 @@
 			{
 				$memberInfo = get_object_vars($memberInfo);
 			}
+
 			$member_config = $this->memberConfig;
+			if(!$this->memberConfig)
+			{
+				$member_config = $this->memberConfig = $oMemberModel->getMemberConfig();
+			}
 			
 			$formTags = array();
 			global $lang;
