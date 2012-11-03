@@ -361,8 +361,11 @@
             $extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
 			
 			if ($memberInfo)
+			{
 				$memberInfo = get_object_vars($memberInfo);
+			}
 			$member_config = $this->memberConfig;
+			
 			$formTags = array();
 			global $lang;
 

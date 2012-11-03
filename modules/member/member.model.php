@@ -33,19 +33,19 @@
             // Get member configuration stored in the DB
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
-			//for multi language
-			if(is_array($config->signupForm))
+
+			if(!$config->signupForm || !is_array($config->signupForm))
 			{
-				foreach($config->signupForm AS $key=>$value)
-				{
-					$config->signupForm[$key]->title = ($value->isDefaultForm) ? Context::getLang($value->name) : $value->title;
-					if($config->signupForm[$key]->isPublic != 'N') $config->signupForm[$key]->isPublic = 'Y';
-					if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
-				}
+				$oMemberAdminController = getAdminController('member');
+				$identifier = ($config->identifier) ? $config->identifier : 'email_address';
+				$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
 			}
-			else
+			//for multi language
+			foreach($config->signupForm AS $key=>$value)
 			{
-				$config->signupForm = array();
+				$config->signupForm[$key]->title = ($value->isDefaultForm) ? Context::getLang($value->name) : $value->title;
+				if($config->signupForm[$key]->isPublic != 'N') $config->signupForm[$key]->isPublic = 'Y';
+				if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
 			}
 
             // Get terms of user
