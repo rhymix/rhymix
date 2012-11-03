@@ -1120,7 +1120,8 @@ jQuery(function($){
 
 	<!--@end-->
 	
-	
+	$("#tmpl_downloadableMenuTypeItem").template( "downloadableMenuTypeItem" );
+
 	$("#tmpl_pagination").template( "pagination" );
 	$("#tmpl_pagination_list").template( "paginationList" );
 	$("#tmpl_pagination_jump").template( "paginationJump" );
@@ -1476,7 +1477,6 @@ jQuery(function($){
 	$('#add').bind("hide", function(){
 	});
 	
-	$("#tmpl_downloadableMenuTypeItem").template( "downloadableMenuTypeItem" );
 	$('#download').bind("show", function(ev){
 	// ignore bubbled show events
 		if(this !== ev.target){
@@ -1497,100 +1497,7 @@ jQuery(function($){
 		$('#download ._pagination').html("");
 	});
 	
-	$('#downloadLayout').bind("show", function(ev){
-	// ignore bubbled show events
-		if(this !== ev.target){
-			return;
-		}
-		
-	//index.php?act=getAutoinstallAdminMenuPackageList
-		$('#layout').nextAll().hide();
-		
-		drawDownloadableList('downloadLayout');
-	});
 
-	$('#downloadSkin').bind("show", function(ev){
-	// ignore bubbled show events
-		if(this !== ev.target){
-			return;
-		}
-		
-	//index.php?act=getAutoinstallAdminMenuPackageList
-		$('#skin').nextAll().hide();
-		
-		drawDownloadableList('downloadSkin', {
-			parent_program : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType
-		});
-	});
-
-	//function drawMenuModuleList(nPage){
-	// sItemType : download, downloadLayout, downloadSkin
-	// htParams : download/{page}, downloadLayout/{page, type}, downloadSkin/{page, type, parent_program}
-	// https://code.google.com/p/xe-core/wiki/DownloadAvailableList_GET_API
-	function drawDownloadableList(sItemType, htParams){
-		var htDownloadableListAction = {
-			download:'menu.getAutoinstallAdminMenuPackageList',
-			downloadLayout:'menu.getAutoinstallAdminLayoutPackageList',
-			downloadSkin:'menu.getAutoinstallAdminSkinPackageList'
-		};
-		
-		htParams = htParams || {};
-		htParams.page = htParams.page || 1;
-
-		var $Panel = $('#'+sItemType);
-		var sAction = htDownloadableListAction[sItemType];
-
-		//var params = {};
-		//params['page'] = nPage;
-		//"menu.getAutoinstallAdminMenuPackageList"
-		$.exec_json(sAction, htParams, function(htData){
-			//console.log(htData);
-			//var sResult = "";
-			$Panel.find('.list').html("");
-			
-			var item;
-			var $node, sIsInstalled;
-			if(htData.item_list){
-				for(var i=0, nLen=htData.item_list.length; i<nLen; i++){
-					item = htData.item_list[i];
-					
-					if(item.current_version){
-						sIsInstalled = "installed";
-					}else{
-						sIsInstalled = "";
-					}
-					
-					$node = $.tmpl( "downloadableMenuTypeItem", {
-						MenuType: item.title,
-						MenuTypeDesc: item.package_description,
-						ScreenShotURL: item.item_screenshot_url.replace(/^http:\/\//, ""),
-						Score: item.package_star,
-						TotalVotes: item.package_voted,
-						LastUpdated: item.item_regdate,
-						TotalDownloads: item.package_downloaded,
-						IsInstalled: sIsInstalled
-					} ).data('sItemType', sItemType).data('sPackageSrl', item.package_srl);
-					
-					$Panel.find('.list').append($node);
-				}
-
-				//$Panel.find('.list').html(sResult);
-
-				var htInfo = htData.page_navigation;
-				
-				var fnCallback = function(htNewParams){
-					
-					htParams.page = htNewParams.page || htParams.page;
-					
-					return drawDownloadableList(sItemType, htParams);
-				}
-				//createPagination($('#download ._pagination'), drawMenuModuleList, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
-				createPagination($Panel.find('._pagination'), fnCallback, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
-			}
-			
-			scrollToRight();
-		});
-	}
 	$('#add_menu').bind("show", function(ev){
 		// ignore bubbled show events
 		if(this !== ev.target){
@@ -2151,6 +2058,101 @@ jQuery(function($){
 		return vValue;
 	}
 	<!--@end-->
+	
+	$('#downloadLayout').bind("show", function(ev){
+	// ignore bubbled show events
+		if(this !== ev.target){
+			return;
+		}
+
+		//index.php?act=getAutoinstallAdminMenuPackageList
+		$('#layout').nextAll().hide();
+		
+		drawDownloadableList('downloadLayout');
+	});
+
+	$('#downloadSkin').bind("show", function(ev){
+	// ignore bubbled show events
+		if(this !== ev.target){
+			return;
+		}
+		
+	//index.php?act=getAutoinstallAdminMenuPackageList
+		$('#skin').nextAll().hide();
+		
+		drawDownloadableList('downloadSkin', {
+			parent_program : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType
+		});
+	});
+
+	//function drawMenuModuleList(nPage){
+	// sItemType : download, downloadLayout, downloadSkin
+	// htParams : download/{page}, downloadLayout/{page, type}, downloadSkin/{page, type, parent_program}
+	// https://code.google.com/p/xe-core/wiki/DownloadAvailableList_GET_API
+	function drawDownloadableList(sItemType, htParams){
+		var htDownloadableListAction = {
+			download:'menu.getAutoinstallAdminMenuPackageList',
+			downloadLayout:'menu.getAutoinstallAdminLayoutPackageList',
+			downloadSkin:'menu.getAutoinstallAdminSkinPackageList'
+		};
+		
+		htParams = htParams || {};
+		htParams.page = htParams.page || 1;
+
+		var $Panel = $('#'+sItemType);
+		var sAction = htDownloadableListAction[sItemType];
+
+		//var params = {};
+		//params['page'] = nPage;
+		//"menu.getAutoinstallAdminMenuPackageList"
+		$.exec_json(sAction, htParams, function(htData){
+			//console.log(htData);
+			//var sResult = "";
+			$Panel.find('.list').html("");
+			
+			var item;
+			var $node, sIsInstalled;
+			if(htData.item_list){
+				for(var i=0, nLen=htData.item_list.length; i<nLen; i++){
+					item = htData.item_list[i];
+					
+					if(item.current_version){
+						sIsInstalled = "installed";
+					}else{
+						sIsInstalled = "";
+					}
+					
+					$node = $.tmpl( "downloadableMenuTypeItem", {
+						MenuType: item.title,
+						MenuTypeDesc: item.package_description,
+						ScreenShotURL: item.item_screenshot_url.replace(/^http:\/\//, ""),
+						Score: item.package_star,
+						TotalVotes: item.package_voted,
+						LastUpdated: item.item_regdate,
+						TotalDownloads: item.package_downloaded,
+						IsInstalled: sIsInstalled
+					} ).data('sItemType', sItemType).data('sPackageSrl', item.package_srl);
+					
+					$Panel.find('.list').append($node);
+				}
+
+				//$Panel.find('.list').html(sResult);
+
+				var htInfo = htData.page_navigation;
+				
+				var fnCallback = function(htNewParams){
+					
+					htParams.page = htNewParams.page || htParams.page;
+					
+					return drawDownloadableList(sItemType, htParams);
+				}
+				//createPagination($('#download ._pagination'), drawMenuModuleList, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
+				createPagination($Panel.find('._pagination'), fnCallback, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
+			}
+			
+			scrollToRight();
+		});
+	}
 	
 	$( "#tmpl_layoutItem" ).template( "design_layoutItem" );
 	$( "#tmpl_skinItem" ).template( "deisgn_skinItem" );
