@@ -2128,7 +2128,7 @@ jQuery(function($){
 						ScreenShotURL: item.item_screenshot_url.replace(/^http:\/\//, ""),
 						Score: item.package_star,
 						TotalVotes: item.package_voted,
-						LastUpdated: item.item_regdate,
+						LastUpdated: formatUpdatedDate(item.item_regdate),
 						TotalDownloads: item.package_downloaded,
 						IsInstalled: sIsInstalled
 					} ).data('sItemType', sItemType).data('sPackageSrl', item.package_srl);
@@ -3207,6 +3207,15 @@ exec_xml("menu","getMenuAdminDetailSetup", params, completeTmp, response_tags);
 	}).resize();
 
 });
+
+function formatUpdatedDate(sDate){
+	//20120106184020
+	//2012-01-06 18:40:20
+	
+	return sDate.replace(/(....)(..)(..)(..)(..)(..)/, function(all, year, mon, day, hour, min, sec){
+		return year+"-"+mon+"-"+day+" "+hour+":"+min+":"+sec;
+	});
+}
 
 top.fullSetupWinLoaded = function(){
 	var oWin = jQuery._xeAdminVar.oSetupWin;
