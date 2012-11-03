@@ -20,9 +20,9 @@
 			</div>
 		</header>
 		<!-- BODY -->
-		<div class="body wide">
+		<div class="body <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->">
 			<!-- GNB -->
-			<nav class="gnb" id="gnb">
+			<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb">
 				<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> 메뉴열기/닫기</a>
 				<ul id="gnbNav">
 				<!--@foreach($gnbUrlList AS $key=>$value)-->

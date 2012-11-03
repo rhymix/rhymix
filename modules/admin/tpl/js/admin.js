@@ -150,9 +150,6 @@ jQuery(function($){
 
 			return false;
 		});
-		if(getCookie('__xe_admin_gnb_status') == 'open'){
-			$xGnb.find('>a[href="#gnbNav"]').trigger('click');
-		}
 
 		// GNB Close
 		$xGnb
