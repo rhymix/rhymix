@@ -72,7 +72,7 @@ $('.checkxml')
 		})
 	.end()
 	.find('.x_help-inline').hide().end()
-	.closest('form').find('>.ttxml')/*.hide()*/.end().end()
+	.closest('form').find('>.ttxml').hide().end().end()
 	.closest('form').find(':submit').attr('disabled','disabled');
 
 // hide 'sync member' block
