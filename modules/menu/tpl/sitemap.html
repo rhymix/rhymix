@@ -161,7 +161,7 @@
 				<div class="list">
 					<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
 					
-						<div class="item ${IsInstalled}">
+						<div class="item ${IsInstalled} ${IsUpToDate}">
 							<img src="http://${ScreenShotURL}" alt="">
 							<h2>${MenuType}</h2>
 							<p>${MenuTypeDesc}</p>
@@ -171,7 +171,12 @@
 								<a href="#" class="x_icon-download-alt x_icon-white _install_this">설치</a>
 							</div>
 							<div class="_already_installed">
-								<span style="position: absolute;top: 7px;right: 0;">이미 설치된 항목</span>
+								<div class="_already_up_to_date">
+									<span style="position: absolute;top: 7px;right: 0;">이미 설치된 항목</span>
+								</div>
+								<div class="_need_to_update">
+									<a href="#" style="position: absolute;top: 7px;right: 0;" class="_install_this">업데이트</a>
+								</div>
 							</div>
 						</div>
 						
@@ -1685,7 +1690,7 @@ jQuery(function($){
 			params['shortcut_target'] = sMID;
 		}else{
 			sMID = $('#default ._mid').val();
-			params['module_id'] = sMID;
+			params['moudule_id'] = sMID;
 		}
 		params['menu_item_srl'] = sSelectedMenuSrl;
 		params['menu_name'] = sMenuName;
@@ -2111,13 +2116,19 @@ jQuery(function($){
 			$Panel.find('.list').html("");
 			
 			var item;
-			var $node, sIsInstalled;
+			var $node, sIsInstalled, sIsUpToDate;
 			if(htData.item_list){
 				for(var i=0, nLen=htData.item_list.length; i<nLen; i++){
 					item = htData.item_list[i];
 					
 					if(item.current_version){
 						sIsInstalled = "installed";
+						
+						if(item.need_update === "N"){
+							sIsUpToDate = "up_to_date";
+						}else{
+							sIsUpToDate = "";
+						}
 					}else{
 						sIsInstalled = "";
 					}
@@ -2130,6 +2141,7 @@ jQuery(function($){
 						TotalVotes: item.package_voted,
 						LastUpdated: formatUpdatedDate(item.item_regdate),
 						TotalDownloads: item.package_downloaded,
+						IsUpToDate: sIsUpToDate,
 						IsInstalled: sIsInstalled
 					} ).data('sItemType', sItemType).data('sPackageSrl', item.package_srl);
 					
@@ -3141,6 +3153,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			console.log(htData);
 			
 			$item.addClass('installed');
+			$item.addClass('up_to_date');
 			htFunc[sPackageType]();
 		});
 	}
