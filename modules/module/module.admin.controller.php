@@ -818,8 +818,10 @@
 
 			$layoutSrl = Context::get('layout_srl');
 
-			$isSkinFix = Context::get('is_skin_fix');
-			$isSkinFix = ($is_skin_fix == 'N') ? 'N' : 'Y';
+			$skinFixTargetValue = ($skinType == 'M') ? 'is_mskin_fix' : 'is_skin_fix';
+			$isSkinFix = Context::get($skinFixTargetValue);
+
+			$isSkinFix = ($isSkinFix == 'N') ? 'N' : 'Y';
 
 			$skinName = Context::get('skin_name');
 			$skinVars = Context::get('skin_vars');
