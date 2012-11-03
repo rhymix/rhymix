@@ -2677,6 +2677,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			//console.log(htData.html.match(/<script[^>]*>/));
 			//htData.html = htData.html.replace(/<script[^>]*><\/script>/, "");
 			$('#layoutSetup').find('._contents').html(htData.html);
+			$('#layoutSetup').find('.lang_code').xeApplyMultilingualUI();
 			
 			var $configForm = $('#config_form');
 			$configForm.on('submit', function(ev){
