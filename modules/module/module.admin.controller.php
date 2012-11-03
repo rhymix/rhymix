@@ -880,6 +880,10 @@
 					}
 				}
 			}
+			else
+			{
+				$moduleInfo->{$skinTargetValue} = '';
+			}
 
 			$oModuleController = getController('module');
 			$output = $oModuleController->updateModule($moduleInfo);
