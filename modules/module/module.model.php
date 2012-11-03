@@ -238,22 +238,6 @@
 				$moduleInfo = $coutput->data;
 			}
 
-			if($moduleInfo->is_skin_fix == 'N' || $moduleInfo->is_mskin_fix == 'N')
-			{
-				$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $moduleInfo->site_srl);
-				@include($designInfoFile);
-			}
-			
-			if($moduleInfo->is_skin_fix == 'N')
-			{
-				$moduleInfo->skin = $designInfo->module->{$moduleInfo->module}->skin;
-			}
-
-			if($moduleInfo->is_mskin_fix == 'N')
-			{
-				$moduleInfo->mskin = $designInfo->module->{$moduleInfo->module}->mskin;
-			}
-
             $moduleInfo = $this->addModuleExtraVars($moduleInfo);
 
 			if($moduleInfo->module == 'page' && $moduleInfo->page_type != 'ARTICLE')
