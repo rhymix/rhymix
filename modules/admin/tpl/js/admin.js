@@ -85,6 +85,11 @@ jQuery(function($){
 	$('.x .x_tabbable').xeTabbable();
 	$(document.body).on('click', '.x .x_nav-tabs>li>a[href*="#"]', function(){
 		var $this = $(this);
+
+		if($this.parent('li').hasClass('x_disabled')){
+			return false;
+		}
+
 		$this.parent('li').addClass('x_active').siblings().removeClass('x_active');
 		$this.closest('.x_nav-tabs').next('.x_tab-content').find('>.x_tab-pane').eq($this.attr('data-index')-1).addClass('x_active').show().siblings().removeClass('x_active').hide();
 		

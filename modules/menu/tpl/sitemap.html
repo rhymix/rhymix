@@ -2250,6 +2250,8 @@ jQuery(function($){
 	$('#design').bind('show', function(ev){
 		if(this !== ev.target) return;
 
+		$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
+
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
 
@@ -2281,6 +2283,7 @@ jQuery(function($){
 			var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
 				sModuleName : htTmp.module,
 				sMID : htTmp.mid,
+				sUseMobile : htTmp.use_mobile,
 				htLayoutSrl : {
 					P:htTmp.layout_srl,
 					M:htTmp.mlayout_srl
@@ -2288,6 +2291,13 @@ jQuery(function($){
 				htSkin : {P: htTmp.skin, M : htTmp.mskin},
 				htData : {}
 			};
+
+			// If no use mobile, diabled mobile tab
+			if(htDesign.sUseMobile != 'Y'){
+				$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
+			}else{
+				$('#design .x_tabbable a[href="#mobile"]').parent().removeClass('x_disabled');
+			}
 			
 			$('#design .x_tabbable a[href="#pc"]').click();
 		});
