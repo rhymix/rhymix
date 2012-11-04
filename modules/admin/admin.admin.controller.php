@@ -154,12 +154,9 @@
 				$designInfo = new stdClass();
 			}
 
-			$layoutSrl = (!$vars->layout_srl) ? $designInfo->{$layoutTarget} : $vars->layout_srl;
+			$layoutSrl = (!$vars->layout_srl) ? 0 : $vars->layout_srl;
 
-			if($layoutSrl)
-			{
-				$designInfo->{$layoutTarget} = $layoutSrl;
-			}
+			$designInfo->{$layoutTarget} = $layoutSrl;
 
 			foreach($vars->module_skin as $moduleName => $skinName)
 			{
