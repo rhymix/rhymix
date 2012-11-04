@@ -329,7 +329,7 @@
 								<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="크게 보기" />
 							</div>
 							<div class="x_tab-pane" id="mobile">
-								<iframe name="_mobile_preview_ifr" src="about:_blank"></iframe><i class="mask"></i>
+								<iframe name="_mobile_preview_ifr" src="about:_blank" style="width:480px;height:800px;margin-left:60px"></iframe><i class="mask"></i>
 								<input type="submit" class="x_icon-zoom-in _mobile_preview_open" value="크게 보기" />
 							</div>
 						</div>
@@ -1271,6 +1271,10 @@ jQuery(function($){
 		$('#site').scrollTo($('#site').width(), 0, {duration: 0 } );
 	}
 
+	function scrollToTop($Area){
+		$Area.scrollTo(0, 0, {duration: 0 } );
+	}
+
 	<!--@if($act == 'dispMenuAdminSiteMap')-->
 	$("#site_map ._addSiteMap").click(function(){
 		$("#siteMapTree").jstree("deselect_all");
@@ -2189,6 +2193,7 @@ jQuery(function($){
 				createPagination($Panel.find('._pagination'), fnCallback, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
 			}
 			
+			scrollToTop($Panel.find('.cnt'));
 			scrollToRight();
 		});
 	}
@@ -2530,7 +2535,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 		//
 	});
 	$('._mobile_preview_open').click(function(ev){
-		window.open($('input[name=_mobile_preview_ifr]').attr('src'), "xe_preview", "resizable=yes");
+		window.open($('input[name=_mobile_preview_ifr]').attr('src'), "xe_preview", "resizable=yes,width=480,height=800");
 		//ev.preventDefault();
 		//
 	});
@@ -2994,16 +2999,19 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			var sSelected = "";
 			var sSelectedSkin = "";
 			var htDesign = $._xeAdminVar.htSelectedMenuDesign;
-			if(htDesign.htSkin[sType] == ""){
-				sSelectedSkin = "";
-				sSelected = "selected";
-			}
+			/*
 			$List.append($.tmpl("skinListItem_noskin", {
 				Selected : sSelected
 			}).data('SkinName', ""));
+			*/
 			
 			for(var sName in htData.skin_info_list){
 				if(!htData.skin_info_list.hasOwnProperty(sName)) continue;
+
+				// if nothing is selected, select the first one.
+				if(htDesign.htSkin[sType] == ""){
+					htDesign.htSkin[sType] = sName;
+				}
 				
 				htInfo = htData.skin_info_list[sName];
 			//for(var i=0, nLen=htData.skin_info_list.length; i<nLen; i++){
