@@ -103,7 +103,7 @@
 	</div>
 	<div class="col url" id="add_menu" style="display:none">
 		<fieldset>
-			<h1 class="_title"><!--URL 링크--></h1>
+			<h1><a class="title _title"><!--URL 링크--></a></h1>
 			<div class="cnt">
 				<ul>
 					<li>
@@ -1475,39 +1475,7 @@ jQuery(function($){
 		}
 	});
 	
-	$("#tmpl_menuTypeItem").template( "menuTypeItem" );
-	$('#add').bind("show", function(){
-		fillInInstalledMenuList();
-	});
-	function fillInInstalledMenuList(){
-		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
-			//console.log(htData);
 
-			var sResult = "";
-			setItemTypes(htData.menu_types);
-			//$._xeAdminVar.htItemTypes = htData.menu_types;
-
-			var item;
-			var sModuleTitle;
-			for(var sModuleName in $._xeAdminVar.htItemTypes){
-				//item = htData.menu_types[i];
-				if(!$._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
-				
-				item = $._xeAdminVar.htItemTypes[sModuleName];
-				sModuleTitle = item.title;
-				//console.log(item);
-				
-				sResult += $.tmpl( "menuTypeItem", {
-					ModuleName : sModuleName,
-					ModuleTitle : sModuleTitle
-				} ).get()[0].outerHTML;
-			}
-
-			//sResult += '<li><a href="#add_menu" data-admin-show="#add_menu"  data-param=\'{ "moduleName":"", "moduleTitle":"URL 링크" }\'>URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
-			$('#add ._itemList').html(sResult);
-			scrollToRight();
-		});
-	}
 	$('#add').bind("hide", function(){
 	});
 	
@@ -2117,9 +2085,18 @@ jQuery(function($){
 	//index.php?act=getAutoinstallAdminMenuPackageList
 		$('#skin').nextAll().hide();
 		
+		<!--@if($act == 'dispMenuAdminSiteMap')-->
 		drawDownloadableList('downloadSkin', {
 			parent_program : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType
 		});
+		<!--@end-->
+		
+		<!--@if($act == 'dispMenuAdminSiteDesign')-->
+		drawDownloadableList('downloadSkin', {
+			parent_program : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType
+		});
+		<!--@end-->
+		//./
 	});
 
 	//function drawMenuModuleList(nPage){
@@ -2488,6 +2465,40 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 	});
 
 	<!--@end-->
+	
+	$("#tmpl_menuTypeItem").template( "menuTypeItem" );
+	$('#add').bind("show", function(){
+		fillInInstalledMenuList();
+	});
+	function fillInInstalledMenuList(){
+		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
+			//console.log(htData);
+
+			var sResult = "";
+			setItemTypes(htData.menu_types);
+			//$._xeAdminVar.htItemTypes = htData.menu_types;
+
+			var item;
+			var sModuleTitle;
+			for(var sModuleName in $._xeAdminVar.htItemTypes){
+				//item = htData.menu_types[i];
+				if(!$._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
+				
+				item = $._xeAdminVar.htItemTypes[sModuleName];
+				sModuleTitle = item.title;
+				//console.log(item);
+				
+				sResult += $.tmpl( "menuTypeItem", {
+					ModuleName : sModuleName,
+					ModuleTitle : sModuleTitle
+				} ).get()[0].outerHTML;
+			}
+
+			//sResult += '<li><a href="#add_menu" data-admin-show="#add_menu"  data-param=\'{ "moduleName":"", "moduleTitle":"URL 링크" }\'>URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
+			$('#add ._itemList').html(sResult);
+			scrollToRight();
+		});
+	}
 	$('#design ._btn_cancel').click(function(ev){
 		ev.preventDefault();
 		
@@ -2567,7 +2578,9 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 		$('#layout .list').hide();
 		
 		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
-		if(htDesign.htLayoutSrl['P'] == -1){
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+		
+		if(htDesign.htLayoutSrl[sMode] == -1){
 			$('._chkUseDefaultLayout').attr('checked', 'checked');
 		}else{
 			$('._chkUseDefaultLayout').removeAttr('checked');
@@ -2626,6 +2639,8 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 				Selected : sSelected
 			}).data('LayoutSrl', "0"));
 			
+			//console.log(htDesign.htLayoutSrl[sType]);
+
 			for(var i=0, nLen=htData.layout_list.length; i<nLen; i++){
 				htInfo = htData.layout_list[i];
 				
