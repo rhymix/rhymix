@@ -159,28 +159,7 @@
 			<h1>다른 메뉴타입설치</h1>
 			<div class="cnt">			
 				<div class="list">
-					<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
-					
-						<div class="item ${IsInstalled} ${IsUpToDate}">
-							<img src="http://${ScreenShotURL}" alt="">
-							<h2>${MenuType}</h2>
-							<p>${MenuTypeDesc}</p>
-							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
-							
-							<div class="_install">
-								<a href="#" class="x_icon-download-alt x_icon-white _install_this">설치</a>
-							</div>
-							<div class="_already_installed">
-								<div class="_already_up_to_date">
-									<span style="position: absolute;top: 7px;right: 0;">이미 설치된 항목</span>
-								</div>
-								<div class="_need_to_update">
-									<a href="#" style="position: absolute;top: 7px;right: 0;" class="_install_this">업데이트</a>
-								</div>
-							</div>
-						</div>
-						
-					</script>
+
 				</div>
 				<div class="_pagination"></div>
 			</div>
@@ -501,15 +480,33 @@
 			<h1>다른 스킨 설치</h1>
 			<div class="cnt">
 				<div class="list">
-					<script id="tmpl_downloadableMenuTypeItem" type="text/x-jquery-tmpl">
-						<div class="item">
-							<img src="http://www.xpressengine.com/files/attach/images/18322904/188/195/021/de5626ccf0bb28ca223fbbeabd891462.jpg" alt="">
+				
+					<script id="tmpl_noDownloadableItem" type="text/x-jquery-tmpl">
+						다운로드 가능한 항목이 없습니다.
+					</script>
+					
+					<script id="tmpl_downloadableItem" type="text/x-jquery-tmpl">
+					
+						<div class="item ${IsInstalled} ${IsUpToDate}">
+							<img src="http://${ScreenShotURL}" alt="">
 							<h2>${MenuType}</h2>
 							<p>${MenuTypeDesc}</p>
 							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
-							<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
+							
+							<div class="_install">
+								<a href="#" class="x_icon-download-alt x_icon-white _install_this">설치</a>
+							</div>
+							<div class="_already_installed">
+								<div class="_already_up_to_date">
+									<span style="position: absolute;top: 7px;right: 0;">이미 설치된 항목</span>
+								</div>
+								<div class="_need_to_update">
+									<a href="#" style="position: absolute;top: 7px;right: 0;" class="_install_this">업데이트</a>
+								</div>
+							</div>
 						</div>
 					</script>
+					
 				</div>
 				<div class="_pagination"></div>
 			</div>
@@ -1125,7 +1122,8 @@ jQuery(function($){
 
 	<!--@end-->
 	
-	$("#tmpl_downloadableMenuTypeItem").template( "downloadableMenuTypeItem" );
+	$("#tmpl_noDownloadableItem").template( "noDownloadableItem" );
+	$("#tmpl_downloadableItem").template( "downloadableItem" );
 
 	$("#tmpl_pagination").template( "pagination" );
 	$("#tmpl_pagination_list").template( "paginationList" );
@@ -1557,6 +1555,8 @@ jQuery(function($){
 		
 		$(this).find('.lang_code').trigger('reload-multilingual');
 		
+		//./console.log('');
+		
 		showMenuSelector($(this).find('._menuSelector_menuTreeContainer'));
 	});
 	$('#add_menu').bind("hide", function(ev){
@@ -1598,11 +1598,12 @@ jQuery(function($){
 				}
 			}else{
 				sUrl = $('#add_menu .x_active ._linkMenuSrl').val();
-				
+/*
 				if(!sUrl){
 					alert("Target mid is required");
 					return;
 				}
+*/
 			}
 			
 			sTargetKey = 'shortcut_target';
@@ -2164,7 +2165,7 @@ jQuery(function($){
 						sIsInstalled = "";
 					}
 					
-					$node = $.tmpl( "downloadableMenuTypeItem", {
+					$node = $.tmpl( "downloadableItem", {
 						MenuType: item.title,
 						MenuTypeDesc: item.package_description,
 						ScreenShotURL: item.item_screenshot_url.replace(/^http:\/\//, ""),
@@ -2178,7 +2179,7 @@ jQuery(function($){
 					
 					$Panel.find('.list').append($node);
 				}
-
+				
 				//$Panel.find('.list').html(sResult);
 
 				var htInfo = htData.page_navigation;
@@ -2191,6 +2192,11 @@ jQuery(function($){
 				}
 				//createPagination($('#download ._pagination'), drawMenuModuleList, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
 				createPagination($Panel.find('._pagination'), fnCallback, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
+			}else{
+				$node = $.tmpl( "noDownloadableItem", {
+				} );
+				
+				$Panel.find('.list').append($node);
 			}
 			
 			scrollToTop($Panel.find('.cnt'));
@@ -3081,9 +3087,16 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 	
 	$(window).resize(function(){
 		$foggyLayer.css({
-			width: $(document).width(),
-			height: $(document).height()
+			width: 0,
+			height: 0
 		});
+	
+		setTimeout(function(){
+			$foggyLayer.css({
+				width: $(document).width(),
+				height: $(document).height()
+			});
+		}, 0);
 	});
 	function showFoggy(){
 		$foggyLayer.show();
