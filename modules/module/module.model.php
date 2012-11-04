@@ -1424,20 +1424,36 @@
 
 			if(!$skinName)
 			{
-				$dir = ($skin_type == 'M') ? 'm.skins/' : 'skins';
+				$dir = ($skin_type == 'M') ? 'm.skins/' : 'skins/';
 				$moduleSkinPath = ModuleHandler::getModulePath($module_name).$dir;
-				$skins = FileHandler::readDir($moduleSkinPath);
-				if(count($skins) > 0)
+
+				if(is_dir($moduleSkinPath.'default'))
 				{
-					$skinName = $skins[0];
+					$skinName = 'default';
+				}
+				else if(is_dir($moduleSkinPath.'xe_default'))
+				{
+					$skinName = 'xe_default';
+				}
+				else
+				{
+					$skins = FileHandler::readDir($moduleSkinPath);
+					if(count($skins) > 0)
+					{
+						$skinName = $skins[0];
+					}
+					else
+					{
+						$skinName = NULL;
+					}
+				}
+
+				if($skinName)
+				{
 					$designInfo->module->{$module_name}->{$target} = $skinName;
 
 					$oAdminController = getAdminController('admin');
 					$oAdminController->makeDefaultDesignFile($designInfo, $site_srl);
-				}
-				else
-				{
-					$skinName = NULL;
 				}
 			}
 
