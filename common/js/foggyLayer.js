@@ -7,7 +7,9 @@ jQuery(function($){
 		backgroundColor:'#000',
 		opacity: 0,
 		display:'none',
-		zIndex:100
+		zIndex:100,
+		width: $(document).width(),
+		height: $(document).height()
 	});
 	$($.find("body")).append($foggyLayer);
 	
@@ -26,4 +28,4 @@ jQuery(function($){
 	});
 	
 	$foggyLayer.show();
-}
+});
