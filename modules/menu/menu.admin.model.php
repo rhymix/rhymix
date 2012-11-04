@@ -306,6 +306,8 @@
 
 			$moduleList = array_unique($moduleList);
 
+			$oAutoinstallModel = getModel('autoinstall');
+
 			$moduleInfoList = array();
 			Context::loadLang('modules/page/lang');
 			if(is_array($moduleList))
@@ -315,6 +317,8 @@
 					$moduleInfo = $oModuleModel->getModuleInfoXml($value);
 					$moduleInfo->default_skin = $oModuleModel->getModuleDefaultSkin($value, 'P');
 					$moduleInfo->default_mskin = $oModuleModel->getModuleDefaultSkin($value, 'M');
+
+					$moduleInfo->package_srl = $oAutoinstallModel->getPackageSrlByPath('./modules/' . $value);
 
 					if($value == 'page')
 					{
