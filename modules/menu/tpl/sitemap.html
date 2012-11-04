@@ -2468,7 +2468,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 		}
 		var htParam = {
 			site_srl : 0,
-			layout_srl : sLayoutSrl,
+			layout_srl : sLayoutSrl?sLayoutSrl:"0",
 			target_type : sMode,
 			module_skin : $.stringify(htSkins)
 		}; 
