@@ -3760,6 +3760,10 @@
 		<value xml:lang="zh-TW"><![CDATA[使用+顯示]]></value>
 		<value xml:lang="tr"><![CDATA[Kullan + Göster]]></value>
 	</item>
+	<item name="mobile">
+		<value xml:lang="ko"><![CDATA[모바일]]></value>
+		<value xml:lang="en"><![CDATA[Mobile]]></value>
+	</item>
 	<item name="mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 뷰 사용]]></value>
 		<value xml:lang="en"><![CDATA[Mobile View]]></value>

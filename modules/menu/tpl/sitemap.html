@@ -20,7 +20,7 @@
 
 <!--@if($act == 'dispMenuAdminSiteMap')-->
 	<div class="col map" id="site_map">
-		<h1>사이트맵</h1>
+		<h1>{$lang->sitemap}</h1>
 		<div class="cnt">
 			<section class="mapi" id="siteMapTree">
 				<script id="tmpl_menuTree" type="text/x-jquery-tmpl">
@@ -31,10 +31,6 @@
 				<script id="tmpl_menuTreeNode" type="text/x-jquery-tmpl">
 					<li id="menu${MenuId}">
 						<a href="#" data-param='{ "sMenuId":"${MenuId}" }'>${MenuTitleWithHome}</a>
-						<!--span class="side">
-							<button type="button" class="addItem" data-admin-show="#add" data-param='{ "sMenuId":"${MenuId}" }'>메뉴추가</button>
-							<button type="button" class="showProp" data-param='{ "sMenuId":"${MenuId}" }'>속성편집</button>
-						</span-->
 						{{html SubTree}}
 					</li>
 				</script>
@@ -51,18 +47,18 @@
 					</li>
 				</script>
 			</section>
-			<button type="button" class="x_btn x_btn-link _addSiteMap" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> 사이트맵 추가</button>
+			<button type="button" class="x_btn x_btn-link _addSiteMap" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->add_new_sitemap}</button>
 		</div>
 	</div>
 	<div class="col" id="propertiesRoot" style="display:none">
 		<section>
-			<h1 class="title">{사이트맵 이름}</h1>
+			<h1 class="title"><!--사이트맵 이름--></h1>
 			<div class="cnt">
 				<ul class="nav">
-					<li><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li><button type="button"  class="_edit_paste" disabled>붙여넣기</button></li>
-					<li><button class="_delSiteMap" type="button">삭제</button></li>
-					<li><button class="_renameSiteMap" type="button">이름 변경</button></li>
+					<li><a href="#add" data-admin-show="#add">{$lang->add_menu} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><button type="button"  class="_edit_paste" disabled>{$lang->paste}</button></li>
+					<li><button class="_delSiteMap" type="button">{$lang->cmd_delete}</button></li>
+					<li><button class="_renameSiteMap" type="button">{$lang->change_name}</button></li>
 				</ul>
 			</div>
 		</section>
@@ -70,22 +66,22 @@
 	</div>
 	<div class="col prop-general" id="properties" style="display:none">
 		<section>
-			<h1><a href="#" target="_blank" class="title">{메뉴 이름}</a></h1>
+			<h1><a href="#" target="_blank" class="title"><!--메뉴 이름--></a></h1>
 			<div class="cnt">
 				<ul>
-					<li><strong>메뉴 ID</strong>: <span class="url"></span></li>
-					<li><strong>메뉴 타입</strong>: <span class="module_type"></span></li>
-					<li class="add"><a href="#add" data-admin-show="#add">메뉴 추가 <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li><button type="button" class="_edit_cut">잘라내기</button></li>
-					<li><button type="button" class="_edit_copy">복사</button></li>
-					<li><button type="button" class="_edit_paste" disabled>붙여넣기</button></li>
-					<li><button type="button" class="_deleteMenu">삭제</button></li>
-					<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox" class="_chkUseAsHome"> 사이트 접속 시 기본 페이지로 사용</label></li>
-					<li class="default"><a href="#default" data-admin-show="#default">기본 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li><a href="#imgbtn" data-admin-show="#imgbtn">이미지 버튼 <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li class="design"><a href="#design" data-admin-show="#design">디자인 <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li><a href="#auth" data-admin-show="#auth">권한 <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li class="details"><a href="#details" class="_openFullSetup">상세 설정 <i class="x_icon-cog"></i></a></li>
+					<li><strong>{$lang->menu_id}</strong>: <span class="url"></span></li>
+					<li><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li>
+					<li class="add"><a href="#add" data-admin-show="#add">{$lang->add_menu} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><button type="button" class="_edit_cut">{$lang->cut}</button></li>
+					<li><button type="button" class="_edit_copy">{$lang->copy}</button></li>
+					<li><button type="button" class="_edit_paste" disabled>{$lang->paste}</button></li>
+					<li><button type="button" class="_deleteMenu">{$lang->cmd_delete}</button></li>
+					<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox" class="_chkUseAsHome"> {$lang->use_site_default_module}</label></li>
+					<li class="default"><a href="#default" data-admin-show="#default">{$lang->general_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li class="design"><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li class="details"><a href="#details" class="_openFullSetup">{$lang->full_settings} <i class="x_icon-cog"></i></a></li>
 				</ul>
 			</div>
 		</section>
@@ -93,52 +89,49 @@
 	</div>
 	<div class="col" id="add" style="display:none">
 		<section>
-			<h1>메뉴 추가</h1>
+			<h1>{$lang->add_menu}</h1>
 			<div class="cnt">
 				<ul class="nav _itemList">
 					<script id="tmpl_menuTypeItem" type="text/x-jquery-tmpl">
 						<li><a href="#add_menu" data-admin-show="#add_menu" data-param='{ "moduleName" : "${ModuleName}", "moduleTitle": "${ModuleTitle}" }'>${ModuleTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
-					<li><a href="#add_menu" data-admin-show="#add_menu">위젯 페이지 <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li><a href="#add_menu" data-admin-show="#add_menu">게시판 <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li><a href="#add_menu" data-admin-show="#add_menu">URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>
 				</ul>
-				<a href="#download" class="x_btn x_btn-link" data-admin-show="#download" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> 다른 메뉴타입 설치</a>
+				<a href="#download" class="x_btn x_btn-link" data-admin-show="#download" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_menu_types}</a>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#add">&times;</button>
 	</div>
 	<div class="col url" id="add_menu" style="display:none">
 		<fieldset>
-			<h1 class="_title">URL 링크</h1>
+			<h1 class="_title"><!--URL 링크--></h1>
 			<div class="cnt">
 				<ul>
 					<li>
 						<div class="multilingual x_input-append">
-							<label for="lang_menuName2">메뉴이름</label>
+							<label for="lang_menuName2">{$lang->menu_name}</label>
 							<input id="menuName2" class="_menuName lang_code" type="text" required style="width:220px">
 						</div>
 					</li>
 					<li class="typePage">
-						<label for="mid1">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">?</a></label>
+						<label for="mid1">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">?</a></label>
 						<div id="mid1_help" class="x_alert x_alert-info" style="display:none;width:169px">
 							<button type="button" class="x_close" data-admin-hide="#mid1_help">×</button>
-							<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
+							<p>{$lang->about_menu_id} {$lang->about_new_menu_id}</p>
 						</div>
-						<input id="mid1" class="_mid" type="text" required placeholder="생략시 임의값 사용" />
+						<input id="mid1" class="_mid" type="text" required placeholder="{$lang->skip_menu_id}" />
 					</li>
 					<li class="typeUrl">
 						<div class="x_tabbable">
 							<ul class="x_nav x_nav-tabs">
-								<li class="x_active"><a href="#add_linkUrl">URL 링크</a></li>
-								<li><a href="#add_linkMenu">메뉴 링크</a></li>
+								<li class="x_active"><a href="#add_linkUrl">{$lang->url_link}</a></li>
+								<li><a href="#add_linkMenu">{$lang->menu_link}</a></li>
 							</ul>
 							<div class="x_tab-content">
 								<div class="x_tab-pane x_active" id="add_linkUrl">
-									<input type="text" class="_linkUrl" required title="URL 링크" />
+									<input type="text" class="_linkUrl" required title="{$lang->url_link}" />
 								</div>
 								<div class="x_tab-pane" id="add_linkMenu">
-									<input type="text" class="_linkMenuTitle" title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+									<input type="text" class="_linkMenuTitle" title="{$lang->menu_link}" disabled placeholder="{$lang->about_menu_link}" />
 									<input type="hidden" class="_linkMenuSrl" />
 									<div class="_menuSelector_menuTreeContainer clone">
 									</div>
@@ -148,7 +141,7 @@
 					</li>
 				</ul>
 				<div class="x_btn-group">
-					<button type="button" class="x_btn x_btn-primary _save">확인</button>
+					<button type="button" class="x_btn x_btn-primary _save">{$lang->cmd_confirm}</button>
 				</div>
 			</div>
 		</fieldset>
@@ -156,10 +149,9 @@
 	</div>
 	<div class="col download" id="download" style="display:none">
 		<section>
-			<h1>다른 메뉴타입설치</h1>
+			<h1>{$lang->install_other_menu_types}</h1>
 			<div class="cnt">			
 				<div class="list">
-
 				</div>
 				<div class="_pagination"></div>
 			</div>
@@ -168,36 +160,35 @@
 	</div>
 	<div class="col url" id="default" style="display:none">
 		<fieldset>
-			<h1>기본 설정</h1>
+			<h1>{$lang->general_settings}</h1>
 			<div class="cnt">
 				<ul>
 					<li>
 						<div class="multilingual x_input-append">
-							<label for="lang_menuName">메뉴이름</label>
+							<label for="lang_menuName">{$lang->menu_name}</label>
 							<input id="menuName" class="_menuName lang_code" type="text" required style="width:220px">
 						</div>
 					</li>
 					<li class="typePage">
-						<label for="mid2">메뉴 아이디 <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
+						<label for="mid2">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
 						<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
 							<button type="button" class="x_close" data-admin-hide="#mid2_help">×</button>
-							<p>페이지 URL로 사용. URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.</p>
+							<p>{$lang->about_menu_id}</p>
 						</div>
 						<input type="text" id="mid2" class="_mid">
 					</li>
 					<li class="typeUrl">
 						<div class="x_tabbable">
 							<ul class="x_nav x_nav-tabs">
-								<li class="x_active"><a href="#fix_linkUrl">URL 링크</a></li>
-								<li><a href="#fix_linkMenu">메뉴 링크</a></li>
+								<li class="x_active"><a href="#fix_linkUrl">{$lang->url_link}</a></li>
+								<li><a href="#fix_linkMenu">{$lang->menu_link}</a></li>
 							</ul>
 							<div class="x_tab-content">
 								<div class="x_tab-pane x_active" id="fix_linkUrl">
-									<input type="text" class="_url_link" title="URL 링크" />
+									<input type="text" class="_url_link" title="{$lang->url_link}" />
 								</div>
 								<div class="x_tab-pane" id="fix_linkMenu">
-									<!--input type="text" class="_menu_link" title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" /-->
-									<input type="text" class="_linkMenuTitle" title="메뉴 링크" disabled placeholder="메뉴를 선택하면 자동 입력됨" />
+									<input type="text" class="_linkMenuTitle" title="{$lang->menu_link}" disabled placeholder="{$lang->about_menu_link}" />
 									<input type="hidden" class="_linkMenuSrl"  />
 									<div class="_menuSelector_menuTreeContainer clone">
 									</div>
@@ -206,15 +197,15 @@
 						</div>
 					</li>
 					<li style="padding-top:12px;margin-top:5px;border-top:1px solid #ddd">
-						<label><input type="checkbox" class="_newWindow" title="메뉴 클릭시 새 창으로 열기"> 메뉴 클릭시 새 창으로 열기</label>
+						<label><input type="checkbox" class="_newWindow" title="{$lang->menu_open_window}"> {$lang->menu_open_window}</label>
 					</li>
 					<li>
-						<label><input type="checkbox" class="_leaveUnfolded" title="늘 펼쳐진 상태로 있게 합니다"> 늘 펼쳐진 상태로 있게 합니다</label>
+						<label><input type="checkbox" class="_leaveUnfolded" title="{$lang->menu_expand}"> {$lang->menu_expand}</label>
 					</li>
 				</ul>
 				<div class="btnBoth">
-					<button type="reset" class="x_btn x_pull-left" data-admin-hide="#default">취소</button>
-					<button type="button" class="x_btn x_btn-primary x_pull-right _save">확인</button>
+					<button type="reset" class="x_btn x_pull-left" data-admin-hide="#default">{$lang->cmd_cancel}</button>
+					<button type="button" class="x_btn x_btn-primary x_pull-right _save">{$lang->cmd_confirm}</button>
 				</div>
 			</div>
 		</fieldset>
@@ -222,23 +213,23 @@
 	</div>
 	<div class="col" id="imgbtn" style="display:none">
 		<fieldset>
-			<h1>이미지 버튼</h1>
+			<h1>{$lang->menu_img_btn}</h1>
 			<div class="cnt">
 				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isNormalDelete" type="hidden" value="Y"/>
 					<figure>
-						<figcaption>일반</figcaption>
-						<p class="noImg">이미지 없음</p>
-						<img src="../../../common/img/blank.gif" alt="일반 버튼 이미지">
+						<figcaption>{$lang->menu_normal_btn}</figcaption>
+						<p class="noImg">{$lang->menu_no_img_btn}</p>
+						<img src="../../../common/img/blank.gif" alt="{$lang->about_menu_normal_btn}">
 					</figure>
 					<div class="btnBoth">
-						<button type="submit" class="delete x_btn x_pull-left">삭제</button>
+						<button type="submit" class="delete x_btn x_pull-left">{$lang->cmd_delete}</button>
 						<span class="fileBtn x_pull-right">
-							<button class="modify x_btn x_btn-primary" title="변경">변경</button>
-							<button class="upload x_btn" title="이미지 올리기">이미지 올리기</button>
-							<input type="file" title="변경/이미지 올리기" name="menu_normal_btn">
+							<button class="modify x_btn x_btn-primary" title="{$lang->menu_change_btn}">{$lang->menu_change_btn}</button>
+							<button class="upload x_btn" title="{$lang->menu_upload_btn}">{$lang->menu_upload_btn}</button>
+							<input type="file" title="{$lang->menu_change_btn}/{$lang->menu_upload_btn}" name="menu_normal_btn">
 						</span>
 					</div>
 				</form>
@@ -247,16 +238,16 @@
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isHoverDelete" type="hidden" value="Y"/>
 					<figure>
-						<figcaption>마우스 오버</figcaption>
-						<p class="noImg">이미지 없음</p>
-						<img src="../../../common/img/blank.gif" alt="마우스 오버 버튼 이미지">
+						<figcaption>{$lang->menu_hover_btn}</figcaption>
+						<p class="noImg">{$lang->menu_no_img_btn}</p>
+						<img src="../../../common/img/blank.gif" alt="{$lang->about_menu_hover_btn}">
 					</figure>
 					<div class="btnBoth">
-						<button type="submit" class="delete x_btn x_pull-left">삭제</button>
+						<button type="submit" class="delete x_btn x_pull-left">{$lang->cmd_delete}</button>
 						<span class="fileBtn x_pull-right">
-							<button class="modify x_btn x_btn-primary" title="변경">변경</button>
-							<button class="upload x_btn" title="이미지 올리기">이미지 올리기</button>
-							<input type="file" title="변경/이미지 올리기" name="menu_hover_btn">
+							<button class="modify x_btn x_btn-primary" title="{$lang->menu_change_btn}">{$lang->menu_change_btn}</button>
+							<button class="upload x_btn" title="{$lang->menu_upload_btn}">{$lang->menu_upload_btn}</button>
+							<input type="file" title="{$lang->menu_change_btn}/{$lang->menu_upload_btn}" name="menu_hover_btn">
 						</span>
 					</div>
 				</form>
@@ -265,16 +256,16 @@
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isActiveDelete" type="hidden" value="Y"/>
 					<figure>
-						<figcaption>선택 됨</figcaption>
-						<p class="noImg">이미지 없음</p>
-						<img src="../../../common/img/blank.gif" alt="선택 됨 버튼 이미지">
+						<figcaption>{$lang->menu_active_btn}</figcaption>
+						<p class="noImg">{$lang->menu_no_img_btn}</p>
+						<img src="../../../common/img/blank.gif" alt="{$lang->about_menu_active_btn}">
 					</figure>
 					<div class="btnBoth">
-						<button type="submit" class="delete x_btn x_pull-left">삭제</button>
+						<button type="submit" class="delete x_btn x_pull-left">{$lang->cmd_delete}</button>
 						<span class="fileBtn x_pull-right">
-							<button class="modify x_btn x_btn-primary" title="변경">변경</button>
-							<button class="upload x_btn" title="이미지 올리기">이미지 올리기</button>
-							<input type="file" title="변경/이미지 올리기" name="menu_active_btn">
+							<button class="modify x_btn x_btn-primary" title="{$lang->menu_change_btn}">{$lang->menu_change_btn}</button>
+							<button class="upload x_btn" title="{$lang->menu_upload_btn}">{$lang->menu_upload_btn}</button>
+							<input type="file" title="{$lang->menu_change_btn}/{$lang->menu_upload_btn}" name="menu_active_btn">
 						</span>
 					</div>
 				</form>
@@ -292,31 +283,31 @@
 	<div class="col" id="design">
 	<!--@end-->
 		<fieldset>
-			<h1 class="_item">디자인</h1>
-			<h1 class="_site">사이트 디자인</h1>
+			<h1 class="_item">{$lang->design}</h1>
+			<h1 class="_site">{$lang->site_design}</h1>
 			<div class="cnt">
 				<form action="./" target="xe_preview" class="_preview_form" method="post">
 					<input type="hidden" name="skin_vars" value="{}"/>
 					<div class="x_tabbable">
 						<ul class="x_nav x_nav-tabs">
 							<li class="x_active"><a href="#pc">PC</a></li>
-							<li><a href="#mobile">모바일</a></li>
+							<li><a href="#mobile">{$lang->mobile}</a></li>
 						</ul>
 						<div class="x_tab-content">
 							<div class="x_tab-pane x_active" id="pc">
 								<iframe name="_pc_preview_ifr" src="about:_blank"></iframe><i class="mask"></i>
-								<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="크게 보기" />
+								<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="{$lang->view_zoom}" />
 							</div>
 							<div class="x_tab-pane" id="mobile">
 								<iframe name="_mobile_preview_ifr" src="about:_blank" style="width:480px;height:800px;margin-left:60px"></iframe><i class="mask"></i>
-								<input type="submit" class="x_icon-zoom-in _mobile_preview_open" value="크게 보기" />
+								<input type="submit" class="x_icon-zoom-in _mobile_preview_open" value="{$lang->view_zoom}" />
 							</div>
 						</div>
 					</div>
 				</form>
 				<ul class="nav _itemList">
 					<script id="tmpl_layoutItem" type="text/x-jquery-tmpl">
-					<li><a href="#layout" data-admin-show="#layout">레이아웃 <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#layout" data-admin-show="#layout">{$lang->layout} <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 					
 					<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
@@ -324,8 +315,8 @@
 					</script>
 				</ul>
 				<div class="btnBoth" style="position:absolute;bottom:0;left:0;margin:0;width:100%">
-					<button type="reset" class="x_btn x_btn-warning x_pull-left _btn_cancel">취소</button>
-					<button type="button" class="x_btn x_btn-primary x_pull-right _btn_save">저장</button>
+					<button type="reset" class="x_btn x_btn-warning x_pull-left _btn_cancel">{$lang->cmd_cancel}</button>
+					<button type="button" class="x_btn x_btn-primary x_pull-right _btn_save">{$lang->cmd_save}</button>
 				</div>
 			</div>
 		</fieldset>
@@ -333,37 +324,37 @@
 	</div>
 	<div class="col theme" id="layout" style="display:none">
 		<form action="">
-			<h1>레이아웃</h1>
+			<h1>{$lang->layout}</h1>
 			<div class="cnt">
 				<label>
-					<input type="checkbox" class="_chkUseDefaultLayout" title="사이트 기본 레이아웃 사용"> 사이트 기본 레이아웃 사용
-					<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 레이아웃 설정</a>
+					<input type="checkbox" class="_chkUseDefaultLayout" title="{$lang->use_site_default_layout}"> {$lang->use_site_default_layout}
+					<a href="#siteDefaultDesign" class="x_icon-cog">{$lang->site_default_layout_settings}</a>
 				</label>
 				<div class="list">
 					<ul class="_layout_list">
 						<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
 						<li class="${Selected} _layoutItem">
 							<label>
-								<input type="radio" name="layout_item" title="레이아웃 사용 안 함"> 레이아웃 사용 안 함
+								<input type="radio" name="layout_item" title="{$lang->no_use_layout}"> {$lang->no_use_layout}
 							</label>
 						</li>
 						</script>
 						<script id="tmpl_layout_list_item" type="text/x-jquery-tmpl">
 						<li class="${Selected} _layoutItem">
 							<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
-							<button type="button" class="item _btnScreenshot" title="클릭하면 레이아웃이 적용됩니다.">
+							<button type="button" class="item _btnScreenshot" title="{$lang->about_apply_layout}">
 								<img src="${ScreenShotURL}">
 							</button>
 							<ul class="_edit_menu">
-								<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>상세 설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+								<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>{$lang->full_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
 								<li><a href="#layoutMarkupSetup" data-admin-show="#layoutMarkupSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
-								<li><button type="button" class="_duplicateLayout">복사본 생성</button></li>
-								<li><button type="button" class="_deleteLayout">삭제</button></li>
+								<li><button type="button" class="_duplicateLayout">{$lang->make_copy}</button></li>
+								<li><button type="button" class="_deleteLayout">{$lang->cmd_delete}</button></li>
 							</ul>
 						</li>
 						</script>
 					</ul>
-					<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> 다른 레이아웃 설치</a>
+					<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_layouts}</a>
 				</div>
 			</div>
 		</form>
@@ -371,7 +362,7 @@
 	</div>
 	<div class="col layoutSetup" id="layoutSetup" style="display:none">
 		<section>
-			<h1>레이아웃 설정</h1>
+			<h1>{$lang->cmd_layout_management}</h1>
 			<div class="cnt">
 				<div class="_contents"></div>
 			</div>
@@ -380,7 +371,7 @@
 	</div>
 	<div class="col layoutMarkupSetup" id="layoutMarkupSetup" style="display:none">
 		<section>
-			<h1>레이아웃 HTML/CSS 설정</h1>
+			<h1>{$lang->layout_html_css_settings}</h1>
 			<div class="cnt">
 				<div class="_contents"></div>
 			</div>
@@ -390,18 +381,9 @@
 	
 	<div class="col download" id="downloadLayout" style="display:none">
 		<section>
-			<h1>다른 레이아웃 설치</h1>
+			<h1>{$lang->install_other_layouts}</h1>
 			<div class="cnt">
 				<div class="list">
-					<script id="tmpl_downloadableLayoutItem" type="text/x-jquery-tmpl">
-						<div class="item">
-							<img src="http://${ScreenShotURL}" alt="">
-							<h2>${Title}</h2>
-							<p>${Desc}</p>
-							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
-							<a href="#" class="x_icon-download-alt x_icon-white">설치</a>
-						</div>
-					</script>
 				</div>
 				<div class="_pagination"></div>
 				<script id="tmpl_pagination" type="text/x-jquery-tmpl">
@@ -429,11 +411,11 @@
 	
 	<div class="col theme" id="skin" style="display:none">
 		<form action="">
-			<h1>스킨</h1>
+			<h1>{$lang->skin}</h1>
 			<div class="cnt">
 				<label>
-					<input type="checkbox" class="_chkUseDefault" title="사이트 기본 스킨 사용"> 사이트 기본 스킨 사용
-					<a href="#siteDefaultDesign" class="x_icon-cog">사이트 기본 스킨 설정</a>
+					<input type="checkbox" class="_chkUseDefault" title="{$lang->use_site_default_skin}"> {$lang->use_site_default_skin}
+					<a href="#siteDefaultDesign" class="x_icon-cog">{$lang->site_default_skin_settings}</a>
 				</label>
 				<div class="list">
 					<ul class="_list">
@@ -449,18 +431,18 @@
 						<script id="tmpl_skin_list_item" type="text/x-jquery-tmpl">
 						<li class="_item ${Selected}">
 							<label><input type="radio" name="skin_item" title="${Title}"> ${Title}</label>
-							<button type="button" class="item _btnScreenshot" title="클릭하면 스킨이 적용됩니다.">
+							<button type="button" class="item _btnScreenshot" title="{$lang->about_apply_skin}">
 								<img src="${ScreenShotURL}">
 							</button>
 							<!--
 							<ul>
-								<li><a href="#skinSetup" data-admin-show="#skinSetup" data-param='{ "sSkinName":"${SkinName}"}'>설정 <i class="x_icon-circle-arrow-right"></i></a></li>
+								<li><a href="#skinSetup" data-admin-show="#skinSetup" data-param='{ "sSkinName":"${SkinName}"}'>{$lang->cmd_setup} <i class="x_icon-circle-arrow-right"></i></a></li>
 							</ul>
 							-->
 						</li>
 						</script>
 					</ul>
-					<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> 다른 스킨 설치</a>
+					<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_skins}</a>
 				</div>
 			</div>
 		</form>
@@ -477,12 +459,12 @@
 	</div>
 	<div class="col download" id="downloadSkin" style="display:none">
 		<section>
-			<h1>다른 스킨 설치</h1>
+			<h1>{$lang->install_other_skins}</h1>
 			<div class="cnt">
 				<div class="list">
 				
 					<script id="tmpl_noDownloadableItem" type="text/x-jquery-tmpl">
-						다운로드 가능한 항목이 없습니다.
+						{$lang->no_downloadable_item}
 					</script>
 					
 					<script id="tmpl_downloadableItem" type="text/x-jquery-tmpl">
@@ -491,17 +473,17 @@
 							<img src="http://${ScreenShotURL}" alt="">
 							<h2>${MenuType}</h2>
 							<p>${MenuTypeDesc}</p>
-							<p>별점 ${Score}/${TotalVotes} <i>|</i> 최근 업데이트 ${LastUpdated} <i>|</i> 전체 다운로드 : ${TotalDownloads}</p>
+							<p>별점 ${Score}/${TotalVotes} <i>|</i> {$lang->package_update} ${LastUpdated} <i>|</i> {$lang->package_downloaded_count} : ${TotalDownloads}</p>
 							
 							<div class="_install">
-								<a href="#" class="x_icon-download-alt x_icon-white _install_this">설치</a>
+								<a href="#" class="x_icon-download-alt x_icon-white _install_this">{$lang->install}</a>
 							</div>
 							<div class="_already_installed">
 								<div class="_already_up_to_date">
-									<span style="position: absolute;top: 7px;right: 0;">이미 설치된 항목</span>
+									<span style="position: absolute;top: 7px;right: 0;">{$lang->installed}</span>
 								</div>
 								<div class="_need_to_update">
-									<a href="#" style="position: absolute;top: 7px;right: 0;" class="_install_this">업데이트</a>
+									<a href="#" style="position: absolute;top: 7px;right: 0;" class="_install_this">{$lang->update}</a>
 								</div>
 							</div>
 						</div>
@@ -515,18 +497,18 @@
 	</div>
 	<div class="col" id="auth" style="display:none">
 		<fieldset>
-			<h1>권한</h1>
+			<h1>{$lang->grant}</h1>
 			<div class="cnt">
 				<ul class="_list">
 					<script id="tmpl_permItem" type="text/x-jquery-tmpl">
 					<li>
 						<label for="auth${PermId}">${PermTitle}</label>
 						<select id="auth${PermId}">
-							<option class="_group_all" value="0">모든 사용자</option>
-							<option class="_group_loggedin" value="-1">로그인 사용자</option>
-							<option class="_group_signedup" value="-2">가입한 사용자</option>
-							<!--option class="_group_manager" value="-3">관리자만</option-->
-							<option class="_group_selected" value="-10">선택그룹 사용자</option>
+							<option class="_group_all" value="0">{$lang->grant_to_all}</option>
+							<option class="_group_loggedin" value="-1">{$lang->grant_to_login_user}</option>
+							<option class="_group_signedup" value="-2">{$lang->grant_to_site_user}</option>
+							<!--option class="_group_manager" value="-3">{$lang->grant_to_admin}</option-->
+							<option class="_group_selected" value="-10">{$lang->grant_to_group}</option>
 						</select>
 						<div class="selected x_hide _groups _groups_${PermId}">
 						</div>
@@ -537,36 +519,54 @@
 					</script>
 				</ul>
 				<div class="x_btn-group">
-					<button type="button" class="x_btn x_btn-primary _save">확인</button>
+					<button type="button" class="x_btn x_btn-primary _save">{$lang->cmd_confirm}</button>
 				</div>
 			</div>
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#auth">&times;</button>
 	</div>
 	<div class="col" id="details" style="display:none">
-		{상세설정}
+		<!--상세설정-->
 		<button type="button" class="x_close" data-admin-hide="#details">&times;</button>
 	</div>
 	<div class="col" id="html" style="display:none">
-		{HTML/CSS}
+		<!--HTML/CSS-->
 		<button type="button" class="x_close" data-admin-hide="#html">&times;</button>
 	</div>
 </div>
 <fieldset class="x_modal" id="msgBox" style="display:none">
 	<div class="x_modal-header">
-		<h3 class="_title">Do you want to remove this menu item?</h3>
+		<h3 class="_title"></h3>
 	</div>
 	<div class="x_modal-body">
-		<p class="_text"><label><input type="checkbox"> 메뉴와 연결된 콘텐츠도 모두 삭제된다는 것을 이해하고 있습니다.</label></p>
+		<p class="_text"></p>
 	</div>
 	<div class="x_modal-footer">
-		<button type="button" class="x_btn x_pull-left _cancel">Cancel</button>
+		<button type="button" class="x_btn x_pull-left _cancel">{$lang->cmd_cancel}</button>
 		<span class="x_btn-group x_pull-right">
-			<button type="button" class="x_btn x_btn-danger _ok">OK</button>
+			<button type="button" class="x_btn x_btn-danger _ok">{$lang->cmd_confirm}</button>
 		</span>
 	</div>
 </fieldset>
 <iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
+
+<script>
+	xe.lang.shortcut = '{$lang->shortcut}';
+	xe.lang.msg_target_is_sub_of_origin = '{$lang->msg_target_is_sub_of_origin}';
+	xe.lang.confirm_menu_delete = '{$lang->confirm_menu_delete}';
+	xe.lang.confirm_delete_all_item_menu = '{$lang->confirm_delete_all_item_menu}';
+	xe.lang.confirm_delete_all_item = '{$lang->confirm_delete_all_item}';
+	xe.lang.target_of_view_menu = '{$lang->target_of_view_menu}';
+	xe.lang.success_saved = '{$lang->success_saved}';
+	xe.lang.first_page = '{$lang->first_page}';
+	xe.lang.last_page = '{$lang->last_page}';
+	xe.lang.cmd_go_to_page = '{$lang->cmd_go_to_page}';
+	xe.lang.input_new_layout_name = '{$lang->input_new_layout_name}';
+	xe.lang.skip_new_layout_name = '{$lang->skip_new_layout_name}';
+	xe.lang.confirm_delete = '{$lang->confirm_delete}';
+	xe.lang.need_to_ftp_setup = '{$lang->need_to_ftp_setup}';
+	xe.lang.go_to_ftp_setup = '{$lang->go_to_ftp_setup}';
+</script>
 
 <!--[if IE 7]>
 <script>
@@ -1040,7 +1040,7 @@ function setItemTypes(htTypes){
 	$._xeAdminVar.htItemTypes = htTypes || {};
 
 	$._xeAdminVar.htItemTypes._SHORTCUT = {
-		title: '바로가기',
+		title: xe.lang.shortcut,
 		moduleName:''
 	}
 	//console.log($._xeAdminVar.htItemTypes);
@@ -1325,7 +1325,7 @@ jQuery(function($){
 			var sParentSrl = $._xeAdminVar.sSelectedMenuSrl;
 			 do{
 				if(sParentSrl === $._xeAdminVar.sCopySourceMenuSrl){
-					alert('대상 메뉴가 원본 메뉴의 하위 메뉴 입니다.');
+					alert(xe.lang.msg_target_is_sub_of_origin);
 					return;
 				}
 
@@ -1382,9 +1382,9 @@ jQuery(function($){
 	$("._delSiteMap").click(function(){
 		
 		confirmDialog({
-			sTitle : "사이트맵을 삭제 하겠습니까?",
+			sTitle : xe.lang.confirm_menu_delete,
 			
-			sText : '<label><input type="checkbox"> 사이트맵에 포함된 메뉴 모두 삭제된다는 것을 이해하고 있습니다.</label>',
+			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_item  + '</label>',
 			
 			fnOnOK : function(){
 				if(!$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
@@ -1875,7 +1875,7 @@ jQuery(function($){
 		//console.log($._xeAdminVar.aUserGroups, $._xeAdminVar.htUserGroups);
 		aPerms[0] = {
 			sKey : '',
-			sTitle : '메뉴 노출 대상',
+			sTitle : xe.lang.target_of_view_menu,
 			sDefault : 'guest',
 			sGrant : htData.menu_item.grant || 'all',
 			aGroup : htData.menu_item.group_srls
@@ -2065,7 +2065,7 @@ jQuery(function($){
 				return;
 			}
 
-			alert('저장 됐습니다.');
+			alert(xe.lang.success_saved);
 			$('#auth').hide();
 		});
 	});
@@ -2192,7 +2192,7 @@ jQuery(function($){
 					return drawDownloadableList(sItemType, htParams);
 				}
 				//createPagination($('#download ._pagination'), drawMenuModuleList, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
-				createPagination($Panel.find('._pagination'), fnCallback, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
+				createPagination($Panel.find('._pagination'), fnCallback, htInfo.cur_page, htInfo.total_page, "&laquo; " + xe.lang.first_page, xe.lang.last_page + " &raquo;", xe.lang.cmd_go_to_page)
 			}else{
 				$node = $.tmpl( "noDownloadableItem", {
 				} );
@@ -2429,7 +2429,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 				return;
 			}
 			
-			alert("저장 됐습니다.");
+			alert(xe.lang.success_saved);
 			
 			var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 			$._xeAdminVar.sOpenDeisgnWith = sMode;
@@ -2482,7 +2482,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 				return;
 			}
 			
-			alert("저장 됐습니다.");
+			alert(xe.lang.success_saved);
 			$('#design').show();
 		});
 	});
@@ -2689,9 +2689,9 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 		var sLayoutSrl = $(this).closest('li._layoutItem').data('LayoutSrl');
 		
 		confirmDialog({
-			sTitle : "새 레이아웃명을 입력 해 주세요.",
+			sTitle : xe.lang.input_new_layout_name,
 			
-			sText : '<input type="text" name="layout_name"  style="width: 95%"/><br/><div style="text-align:right">* 생략 시 임의의 값이 사용 됩니다.</div>',
+			sText : '<input type="text" name="layout_name"  style="width: 95%"/><br/><div style="text-align:right">* ' + xe.lang.skip_new_layout_name + '</div>',
 			
 			bSmall: true,
 			
@@ -2716,7 +2716,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 		var sLayoutSrl = $(this).closest('li._layoutItem').data('LayoutSrl');
 		
 		confirmDialog({
-			sTitle : "정말로 삭제 할까요?",
+			sTitle : xe.lang.confirm_delete,
 			
 			sText : '',
 			
@@ -2880,9 +2880,9 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 	
 	$('._deleteMenu').click(function(){
 		confirmDialog({
-			sTitle : "메뉴를 삭제 하겠습니까?",
+			sTitle : xe.lang.confirm_menu_delete,
 			
-			sText : '<label><input type="checkbox"> 메뉴와 연결된 콘텐츠도 모두 삭제된다는 것을 이해하고 있습니다.</label>',
+			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_item_menu + '</label>',
 			
 			fnOnOK : function(){
 				if(!$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
@@ -3207,8 +3207,8 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 				case -1:
 				confirmDialog(
 					{
-						sTitle : 'FTP 설정이 필요 합니다.',
-						sText : '확인을 누르면 FTP 설정 페이지로 이동 합니다.',
+						sTitle : xe.lang.need_to_ftp_setup,
+						sText : xe.lang.go_to_ftp_setup,
 						bSmall : true,
 						fnOnOK : function(){
 							window.location.href="./?module=admin&act=dispAdminConfigFtp";
