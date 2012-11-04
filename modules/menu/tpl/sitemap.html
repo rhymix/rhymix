@@ -1378,17 +1378,44 @@ jQuery(function($){
 		}
 	});
 	$("._delSiteMap").click(function(){
-		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
-		var params = {};
-		params['menu_srl'] = sSelectedMenuSrl;
-		$.exec_json("menu.procMenuAdminDelete", params, function(htData){
-			//console.log(htData);
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
+		
+		confirmDialog({
+			sTitle : "사이트맵을 삭제 하겠습니까?",
 			
-			loadSiteMap();
+			sText : '<label><input type="checkbox"> 사이트맵에 포함된 메뉴 모두 삭제된다는 것을 이해하고 있습니다.</label>',
+			
+			fnOnOK : function(){
+				if(!$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
+
+				var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+				var params = {};
+				params['menu_srl'] = sSelectedMenuSrl;
+				$.exec_json("menu.procMenuAdminDelete", params, function(htData){
+					//console.log(htData);
+					if(htData.error !== 0){
+						alert(htData.message);
+						return;
+					}
+					
+					loadSiteMap();
+				});
+			},
+			
+			fnOnShow : function(){
+				$msgBox.find("._ok").addClass("x_disabled");
+				
+				$msgBox.find('input[type="checkbox"]').click(function(){
+					if($(this).attr('checked')){
+						$msgBox.find("._ok").removeClass("x_disabled");
+					}else{
+						$msgBox.find("._ok").addClass("x_disabled");
+					}
+				});
+			},
+			
+			fnOnHide : function(){
+				$msgBox.find("._ok").removeClass("x_disabled");
+			}
 		});
 	});
 	$("._renameSiteMap").click(function(){
@@ -2337,7 +2364,13 @@ jQuery(function($){
 				$('#design .x_tabbable a[href="#mobile"]').parent().removeClass('x_disabled');
 			}
 			
-			$('#design .x_tabbable a[href="#pc"]').click();
+			if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
+				$('#design .x_tabbable a[href="#mobile"]').click();
+			}else{
+				$('#design .x_tabbable a[href="#pc"]').click();
+			}
+			
+			$._xeAdminVar.sOpenDeisgnWith = "P";
 		});
 	});
 	
@@ -2356,7 +2389,9 @@ jQuery(function($){
 		var htParam = {
 			target_module_srl : htInfo.module_srl,
 			skin_type : sMode,
-			layout_srl : htDesign.htLayoutSrl[sMode],
+			//layout_srl : htDesign.htLayoutSrl[sMode],
+			layout_srl : htDesign.htLayoutSrl.P,
+			mlayout_srl : htDesign.htLayoutSrl.M,
 			is_skin_fix : ynSkinFix,
 			skin_name : sSkinName,
 			skin_vars : "{}"
@@ -2383,6 +2418,9 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			}
 			
 			alert("저장 됐습니다.");
+			
+			var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+			$._xeAdminVar.sOpenDeisgnWith = sMode;
 			$('#design').show();
 		});
 	});
@@ -2391,8 +2429,14 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 	<!--@if($act == 'dispMenuAdminSiteDesign')-->
 	$('#design').bind('show', function(ev){
 		if(this !== ev.target) return;
-		$('#design .x_tabbable a[href="#pc"]').click();
 		
+		if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
+			$('#design .x_tabbable a[href="#mobile"]').click();
+		}else{
+			$('#design .x_tabbable a[href="#pc"]').click();
+		}
+		
+		$._xeAdminVar.sOpenDeisgnWith = "P";
 	});
 	
 	$('#design ._btn_save').click(function(ev){
@@ -3211,6 +3255,9 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 		}, function(htData){
 			console.log(htData);
 			
+			if($._xeAdminVar.oSetupWin){
+				$._xeAdminVar.oSetupWin.close();
+			}
 			//window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
 			$._xeAdminVar.oSetupWin = window.open(htData.setupUrl, "xe_fullSetup");
 			
@@ -3280,6 +3327,12 @@ top.fullSetupWinLoaded = function(){
 
 	$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.opener.top.fullSetupDone();top.window.close();var dummy="));
 	$form.attr('target', 'submitTarget');
+	
+	//console.log(oWin);
+	/*
+	oWin.blur();
+	setTimeout(oWin.focus, 0);
+	*/
 };
 
 			
