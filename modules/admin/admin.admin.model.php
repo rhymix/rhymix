@@ -20,6 +20,173 @@
 		var $gnbLangBuffer;
 
 		/**
+		 * Find XE installed path on sftp
+		 */
+		function getSFTPPath()
+		{
+            $ftp_info =  Context::getRequestVars();
+			debugPrint($ftp_info);
+
+            if(!$ftp_info->ftp_host)
+            {
+                $ftp_info->ftp_host = "127.0.0.1";
+            }
+
+			if(!$ftp_info->ftp_port || !is_numeric($ftp_info->ftp_port))
+			{
+				$ftp_info->ftp_port = '22';
+			}
+
+            $connection = ssh2_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
+            if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
+            {
+                return new Object(-1,'msg_ftp_invalid_auth_info');
+            }
+			$sftp = ssh2_sftp($connection);
+
+			// create temp file
+			$pin = time();
+			FileHandler::writeFile('./files/cache/ftp_check', $pin);
+
+			// create path candidate
+			$xe_path = _XE_PATH_;
+			$path_info = array_reverse(explode('/', _XE_PATH_));
+			array_pop($path_info); // remove last '/'
+			$path_candidate = array();
+
+			$temp = '';
+			foreach($path_info as $path)
+			{
+				$temp = '/' . $path . $temp;
+				$path_candidate[] = $temp;
+			}
+
+			// try
+			foreach($path_candidate as $path)
+			{
+				// upload check file
+				if(!@ssh2_scp_send($connection, FileHandler::getRealPath('./files/cache/ftp_check'), $path . 'ftp_check.html'))
+				{
+					continue;
+				}
+
+				// get check file
+				$result = FileHandler::getRemoteResource(getNotencodedFullUrl() . 'ftp_check.html');
+
+				// delete temp check file
+				@ssh2_sftp_unlink($sftp, $path . 'ftp_check.html');
+
+				// found
+				if($result == $pin)
+				{
+					$found_path = $path;
+					break;
+				}
+			}
+
+			FileHandler::removeFile('./files/cache/ftp_check', $pin);
+
+			if($found_path)
+			{
+				$this->add('found_path', $found_path);
+			}
+		}
+
+		/**
+		 * Find XE installed path on ftp
+		 */
+		function getAdminFTPPath()
+		{
+			Context::loadLang('./modules/autoinstall/lang');
+			set_time_limit(5);
+			require_once(_XE_PATH_ . 'libs/ftp.class.php');
+
+			$ftp_info = Context::getRequestVars();
+
+			if(!$ftp_info->ftp_user || !$ftp_info->ftp_password)
+			{
+				return new Object(1, 'msg_ftp_invalid_auth_info');
+			}
+
+			if(!$ftp_info->ftp_host)
+			{
+				$ftp_info->ftp_host = '127.0.0.1';
+			}
+
+			if(!$ftp_info->ftp_port || !is_numeric($ftp_info->ftp_port))
+			{
+				$ftp_info->ftp_port = '21';
+			}
+
+            if($ftp_info->sftp == 'Y')
+            {
+				if(!function_exists(ssh2_sftp))
+				{
+                    return new Object(-1,'disable_sftp_support');
+				}
+                return $this->getSFTPPath();
+            }
+
+			$oFTP = new ftp();
+			if(!$oFTP->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port))
+			{
+				return new Object(1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_info->ftp_host));
+			}
+
+			if(!$oFTP->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password))
+			{
+				return new Object(1, 'msg_ftp_invalid_auth_info');
+			}
+
+			// create temp file
+			$pin = time();
+			FileHandler::writeFile('./files/cache/ftp_check', $pin);
+
+			// create path candidate
+			$xe_path = _XE_PATH_;
+			$path_info = array_reverse(explode('/', _XE_PATH_));
+			array_pop($path_info); // remove last '/'
+			$path_candidate = array();
+
+			$temp = '';
+			foreach($path_info as $path)
+			{
+				$temp = '/' . $path . $temp;
+				$path_candidate[] = $temp;
+			}
+
+			// try
+			foreach($path_candidate as $path)
+			{
+				// upload check file
+				if(!$oFTP->ftp_put($path . 'ftp_check.html', FileHandler::getRealPath('./files/cache/ftp_check')))
+				{
+					continue;
+				}
+
+				// get check file
+				$result = FileHandler::getRemoteResource(getNotencodedFullUrl() . 'ftp_check.html');
+
+				// delete temp check file
+				$oFTP->ftp_delete($path . 'ftp_check.html');
+
+				// found
+				if($result == $pin)
+				{
+					$found_path = $path;
+					break;
+				}
+			}
+
+			FileHandler::removeFile('./files/cache/ftp_check', $pin);
+
+			if($found_path)
+			{
+				$this->add('found_path', $found_path);
+			}
+		}
+
+		/**
 		 * Add file list to Object after sftp connect
 		 * @return void|Object
 		 */

@@ -19,6 +19,7 @@
 		<action name="procAdminMenuReset" type="controller" />
 
         <action name="getAdminFTPList" type="model" standalone="true" />
+        <action name="getAdminFTPPath" type="model" standalone="true" />
         <action name="getSiteAllList" type="model" standalone="true" />
     </actions>
 	<menus>

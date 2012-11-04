@@ -793,6 +793,10 @@
 		<value xml:lang="tr"><![CDATA[FTP Bilgisini Sil.]]></value>
 		<value xml:lang="vi"><![CDATA[Xóa thông tin FTP.]]></value>
 	</item>
+	<item name="msg_find_xe_path_fail">
+		<value xml:lang="ko"><![CDATA[XE 설치 경로를 자동으로 찾지 못하였습니다. 수동 설정해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Failed to search XE installed path. Please set manually.]]></value>
+	</item>
 	<item name="msg_ftp_invalid_path">
 		<value xml:lang="ko"><![CDATA[FTP 경로(Path)를 읽을 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to read the specified FTP Path.]]></value>

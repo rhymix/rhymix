@@ -7,17 +7,12 @@
 <div class="x_page-header">
 	<h1>{$lang->menu_gnb_sub['adminConfigurationFtp']}</h1>
 </div>
-<section class="section">
-	<form action="./" id="ftp_form" method="post" enctype="multipart/form-data" class="x_form-horizontal" ruleset="installFtpInfo">
-		<input type="hidden" name="module" value="install" />
-		<input type="hidden" name="act" value="procInstallAdminSaveFTPInfo" />
-		<div class="x_control-group">
-			<label class="x_control-label" for="ftp_host">{$lang->ftp_host}</label>
-			<div class="x_controls">
-				<input type="text" name="ftp_host" id="ftp_host" value="{$ftp_info->ftp_host}" /> Default : 127.0.0.1
-				<p class="x_help-block">{$lang->detail_about_ftp_info}</p>
-			</div>
-		</div>
+<p class="x_help-block">{$lang->detail_about_ftp_info}</p>
+<form action="./" id="ftp_form" method="post" enctype="multipart/form-data" class="x_form-horizontal" ruleset="installFtpInfo">
+	<input type="hidden" name="module" value="install" />
+	<input type="hidden" name="act" value="procInstallAdminSaveFTPInfo" />
+	<section class="section">
+		<h1>{$lang->subtitle_primary}</h1>
 		<div class="x_control-group">
 			<label class="x_control-label" for="ftp_user">{$lang->user_id}</label>
 			<div class="x_controls">
@@ -31,12 +26,33 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="ftp_port">{$lang->ftp_port}</label>
+			<label class="x_control-label" for="ftp_root_path">{$lang->msg_ftp_installed_ftp_realpath}</label>
 			<div class="x_controls">
-				<input type="text" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port}" /> Default : 21
+				<span class="x_input-append">
+					<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" readonly />
+					<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="x_btn tgAnchor" style="display:none">{$lang->ftp_get_list}</a>
+				</span>
+				<div id="ftpSuggestion" class="x_thumbnail">
+				</div>
+				<p class="x_help-block" style="margin-top:10px">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_}</p>
 			</div>
 		</div>
-		<div class="x_control-group">
+	</section>
+	<section class="section collapse">
+		<h1>{$lang->subtitle_advanced}</h1>
+		<div class="x_control-group" style="display:none">
+			<label class="x_control-label" for="ftp_host">{$lang->ftp_host}</label>
+			<div class="x_controls">
+				<input type="text" name="ftp_host" id="ftp_host" value="{$ftp_info->ftp_host ? $ftp_info->ftp_host : '127.0.0.1'}" /> Default : 127.0.0.1
+			</div>
+		</div>
+		<div class="x_control-group" style="display:none">
+			<label class="x_control-label" for="ftp_port">{$lang->ftp_port}</label>
+			<div class="x_controls">
+				<input type="text" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port ? $ftp_info->ftp_port : '21'}" /> Default : 21
+			</div>
+		</div>
+		<div class="x_control-group" style="display:none">
 			<p class="x_control-label">{$lang->use_ftp_passive_mode}</p>
 			<div class="x_controls">
 				<label class="x_inline" for="ftp_passive_y">
@@ -49,7 +65,7 @@
 				</label>
 			</div>
 		</div>
-		<div class="x_control-group">
+		<div class="x_control-group" style="display:none">
 			<label class="x_control-label" for="sftp_n">{$lang->use_sftp_support}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="sftp_y"><input type="radio" name="sftp" id="sftp_y" value="Y" checked="checked"|cond="$ftp_info->sftp == 'Y'" disabled|cond="!$sftp_support" />{$lang->cmd_yes}</label>
@@ -57,23 +73,11 @@
 				<p class="x_help-black" cond="!$sftp_support">{$lang->disable_sftp_support}</p>
 			</div>
 		</div>
-		<div class="x_control-group">
-			<label class="x_control-label" for="ftp_root_path">{$lang->msg_ftp_installed_ftp_realpath}</label>
-			<div class="x_controls">
-				<span class="x_input-append">
-					<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
-					<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="x_btn tgAnchor">{$lang->ftp_get_list}</a>
-				</span>
-				<div id="ftpSuggestion" class="x_thumbnail">
-				</div>
-				<p class="x_help-block" style="margin-top:10px">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_}</p>
-			</div>
-		</div>
+	</section>
 	<div class="btnArea">
 		<input type="submit" value="{$lang->cmd_save}" class="x_btn x_btn-large x_btn-primary x_pull-right" />
 	</div>
 	</form>
-</section>
 <style>
 #ftpSuggestion{padding:8px 15px;margin:2px 0;position:absolute;background:#fff;box-shadow:1px 1px 1px #eee;width:188px}
 #ftpSuggestion ul{margin:0;padding:0;list-style:none}
@@ -81,3 +85,39 @@
 #ftpSuggestion button:hover,
 #ftpSuggestion button:focus{font-weight:bold}
 </style>
+<script>
+jQuery(function($){
+	$('#ftp_form').submit(function(){
+		if($(this).data('found')){
+			return true;
+		}
+
+		$('input[name="ftp_root_path"]').val('');
+
+		param = {
+			'ftp_user': $('#ftp_user').val(),
+			'ftp_password': $('#ftp_password').val(),
+			'ftp_host': $('#ftp_host').val(),
+			'ftp_port': $('#ftp_port').val(),
+			'ftp_pasv': $('input:radio[name="ftp_pasv"]:checked').val(),
+			'sftp': $('input:radio[name="sftp"]:checked').val()
+		}
+
+		$.exec_json('admin.getAdminFTPPath', param, function(data){
+			if(data.error) return;
+
+			if(!data.found_path){
+				alert('{$lang->msg_find_xe_path_fail}');
+				$('input[name="ftp_root_path"]').removeAttr('readonly').next().show();
+				$('#ftp_form').data('found', true);
+				return;
+			}
+
+			$('input[name="ftp_root_path"]').val(data.found_path);
+			$('#ftp_form').data('found', true).submit();
+		});
+
+		return false;
+	});
+});
+</script>
