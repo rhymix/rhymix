@@ -93,32 +93,13 @@
 
 	$designInfo->module = new stdClass();
 
+	$oModuleModel = &getModel('module');
 	foreach($skinTypes as $key => $dir)
 	{
+		$skinType = $key == 'skin' ? 'P' : 'M';
 		foreach($moduleList as $moduleName)
 		{
-			$moduleSkinPath = ModuleHandler::getModulePath($moduleName).$dir;
-			$skinName = 'default';
-			
-			$defualtSkinPath = $moduleSkinPath.$skinName;
-
-			if(!is_dir($defualtSkinPath))
-			{
-				$skins = FileHandler::readDir($moduleSkinPath);
-				if(count($skins) > 0)
-				{
-					$skinName = $skins[0];
-				}
-				else
-				{
-					$skinName = NULL;
-				}
-			}
-
-			if($skinName)
-			{
-				$designInfo->module->{$moduleName}->{$key} = $skinName;
-			}
+			$designInfo->module->{$moduleName}->{$key} = $oModuleModel->getModuleDefaultSkin($moduleName, $skinType, 0, false);
 		}
 	}
 	
@@ -166,9 +147,8 @@
 	$output = $oDocumentController->insertDocument($obj);
 	if(!$output->toBool()) return $output;
 	
-	$mdocument_srl = $output->get('document_srl');
 	// save PageWidget
-	$oModuleModel = &getModel('module');
+	$mdocument_srl = $output->get('document_srl');
 	$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 	$module_info->document_srl = $document_srl;
 	$module_info->mdocument_srl = $mdocument_srl;

@@ -1410,7 +1410,7 @@
 		/**
 		 * Get default skin name
 		 **/
-		function getModuleDefaultSkin($module_name, $skin_type = 'P', $site_srl = 0)
+		function getModuleDefaultSkin($module_name, $skin_type = 'P', $site_srl = 0, $updateCache = true)
 		{
 			$target = ($skin_type == 'M') ? 'mskin' : 'skin';
 			
@@ -1448,7 +1448,7 @@
 					}
 				}
 
-				if($skinName)
+				if($updateCache && $skinName)
 				{
 					$designInfo->module->{$module_name}->{$target} = $skinName;
 
