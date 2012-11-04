@@ -38,6 +38,17 @@
             $args->site_srl = $site_srl;
 			$args->layout_type = $layout_type;
             $output = executeQueryArray('layout.getLayoutList', $args, $columnList);
+
+			$oLayoutAdminModel = getAdminModel('layout');
+			$siteDefaultLayoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($layout_type, $site_srl);
+			$siteDefaultLayoutInfo = $this->getlayout($siteDefaultLayoutSrl);
+			$newLayout = sprintf('%s, %s', $siteDefaultLayoutInfo->title, $siteDefaultLayoutInfo->title);
+			$siteDefaultLayoutInfo->layout_srl = -1;
+			$siteDefaultLayoutInfo->title = Context::getLang('use_site_default_layout');
+			$siteDefaultLayoutInfo->layout = $newLayout;
+
+			array_unshift($output->data, $siteDefaultLayoutInfo);
+		
 			return $output->data;
         }
 

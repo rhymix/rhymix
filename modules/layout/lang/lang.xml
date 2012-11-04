@@ -1086,4 +1086,7 @@
 	<item name="msg_at_least_one_layout">
 		<value xml:lang="ko"><![CDATA[해당 레이아웃의 마지막 한개 레이아웃은 삭제할 수 없습니다.]]></value>
 	</item>
+	<item name="use_site_default_layout">
+		<value xml:lang="ko"><![CDATA[사이트 기본 레이아웃 사용]]></value>
+	</item>
 </lang>
