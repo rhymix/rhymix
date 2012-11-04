@@ -890,5 +890,29 @@
 
 			return $output;
 		}
+
+		public function procModuleAdminUpdateUseMobile()
+		{
+			$menuItemSrl = Context::get('menu_item_srl');
+			$useMobile = Context::get('use_mobile');
+
+			if(!$menuItemSrl)
+			{
+				return $this->stop(-1, 'msg_invalid_request');
+			}
+
+			$oModuleModel = getModel('module');
+			$moduleInfo = $oModuleModel->getModuleInfoByMenuItemSrl($menuItemSrl);
+
+			$useMobile = $useMobile != 'Y' ? 'N' : 'Y';
+
+			$moduleInfo->use_mobile = $useMobile;
+
+			$oModuleController = getController('module');
+			$output = $oModuleController->updateModule($moduleInfo);
+
+			return $output;
+		}
+
     }
 ?>

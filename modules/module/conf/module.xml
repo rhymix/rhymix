@@ -54,6 +54,7 @@
         <action name="procModuleAdminDeleteLang" type="controller" standalone="true" />
         <action name="procModuleAdminGetList" type="controller" standalone="true" />
         <action name="procModuleAdminSetDesignInfo" type="controller" />
+        <action name="procModuleAdminUpdateUseMobile" type="controller" />
 
 		<action name="dispModuleChangeLang" type="mobile" />
     </actions>
