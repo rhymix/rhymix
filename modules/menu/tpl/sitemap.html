@@ -2165,10 +2165,11 @@ jQuery(function($){
 						sIsInstalled = "";
 					}
 					
+					var sScreenshot = item.item_screenshot_url.replace(/^http:\/\//, "");
 					$node = $.tmpl( "downloadableItem", {
 						MenuType: item.title,
 						MenuTypeDesc: item.package_description,
-						ScreenShotURL: item.item_screenshot_url.replace(/^http:\/\//, ""),
+						ScreenShotURL: sScreenshot,
 						Score: item.package_star,
 						TotalVotes: item.package_voted,
 						LastUpdated: formatUpdatedDate(item.item_regdate),
@@ -2400,9 +2401,9 @@ jQuery(function($){
 		var htParam = {
 			target_module_srl : htInfo.module_srl,
 			skin_type : sMode,
-			//layout_srl : htDesign.htLayoutSrl[sMode],
-			layout_srl : htDesign.htLayoutSrl.P,
-			mlayout_srl : htDesign.htLayoutSrl.M,
+			layout_srl : htDesign.htLayoutSrl[sMode],
+			//layout_srl : htDesign.htLayoutSrl.P,
+			//mlayout_srl : htDesign.htLayoutSrl.M,
 			is_skin_fix : ynSkinFix,
 			skin_name : sSkinName,
 			skin_vars : "{}"
@@ -3031,7 +3032,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 //				console.log(htInfo.title);
 				$List.append($.tmpl("skinListItem", {
 					Title : htInfo.title, 
-					ScreenShotURL : htInfo.thumbnail,
+					ScreenShotURL : htInfo.thumbnail?htInfo.thumbnail:'./modules/layout/tpl/img/noThumbnail.png',
 					Selected : sSelected,
 					SkinName : htInfo.sName
 				}).data('SkinName', htInfo.sName));
