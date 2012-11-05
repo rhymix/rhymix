@@ -471,7 +471,7 @@
 					
 						<div class="item ${IsInstalled} ${IsUpToDate}">
 							<img src="http://${ScreenShotURL}" alt="">
-							<h2>${MenuType}</h2>
+							<h2><a target="_blank" href="${URL}">${MenuType}</a></h2>
 							<p>${MenuTypeDesc}</p>
 							<p>별점 ${Score}/${TotalVotes} <i>|</i> {$lang->package_update} ${LastUpdated} <i>|</i> {$lang->package_downloaded_count} : ${TotalDownloads}</p>
 							
@@ -2160,6 +2160,7 @@ jQuery(function($){
 						TotalVotes: item.package_voted,
 						LastUpdated: formatUpdatedDate(item.item_regdate),
 						TotalDownloads: item.package_downloaded,
+						URL: item.url,
 						IsUpToDate: sIsUpToDate,
 						IsInstalled: sIsInstalled
 					} ).data('sItemType', sItemType).data('sPackageSrl', item.package_srl);
