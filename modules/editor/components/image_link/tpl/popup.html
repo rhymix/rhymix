@@ -1,86 +1,83 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
-<h1 class="h1">{$component_info->title} ver. {$component_info->version}</h1>
-<form action="./" method="get" onSubmit="return false" id="fo">
-
-	<table class="x_table x_table-striped x_table-hover">
-	<col width="100" />
-	<col />
-	<tr>
-		<th scope="row">{$lang->image_url}</th>
-		<td><input type="text" id="image_url" value="{url_decode($manual_url)}" /></td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->image_scale}</th>
-		<td>
-			<ul>
-				<li><input type="text" id="width" value="0" size="4" />px </li>
-				<li><input type="text" id="height" value="0" size="4" />px </li>
-				<li><button type="button" id="get_scale">{$lang->cmd_get_scale}</button></li>
-			</ul>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">URL</th>
-		<td><input type="text" id="link_url" value=""/></td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->urllink_open_window}</th>
-		<td><input type="checkbox" id="open_window" value="Y" /> {$lang->about_url_link_open_window}</td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->image_alt}</th>
-		<td><input type="text" id="image_alt" value=""/></td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->image_align}</th>
-		<td>
-			<div class="image_align">
-				<input type="radio" name="align" value="" id="align_normal" checked="checked"/>
+<section class="section">
+	<h1>{$component_info->title} ver. {$component_info->version}</h1>
+	<form action="./" method="get" onSubmit="return false" id="fo" class="x_form-horizontal">
+		<div class="x_control-group">
+			<label for="image_url" class="x_control-label">{$lang->image_url}</label>
+			<div class="x_controls">
+				<input type="text" id="image_url" value="{url_decode($manual_url)}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->image_scale}</label>
+			<div class="x_controls">
+				<input type="text" id="width" value="0" size="4" style="width:80px" /> px
+				<input type="text" id="height" value="0" size="4" style="width:80px" /> px
+				<button type="button" id="get_scale" class="x_btn">{$lang->cmd_get_scale}</button>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="link_url" class="x_control-label">URL</label>
+			<div class="x_controls">
+				<input type="text" id="link_url" value=""/>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="open_window" class="x_control-label">{$lang->urllink_open_window}</label>
+			<div class="x_controls">
+				<input type="checkbox" id="open_window" value="Y" /> {$lang->about_url_link_open_window}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="image_alt" class="x_control-label">{$lang->image_alt}</label>
+			<div class="x_controls">
+				<input type="text" id="image_alt" value=""/>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->image_align}</label>
+			<div class="x_controls">
 				<label for="align_normal">
+					<input type="radio" name="align" value="" id="align_normal" checked="checked"/>
 					<img src="./images/align_normal.gif" alt="{$lang->image_align_normal}" />
 					{$lang->image_align_normal}
 				</label>
-			</div>
-
-			<div class="image_align">
-				<input type="radio" name="align" value="left" id="align_left" />
 				<label for="align_left">
+					<input type="radio" name="align" value="left" id="align_left" />
 					<img src="./images/align_left.gif" alt="{$lang->image_align_left}" />
 					{$lang->image_align_left}
 				</label>
-			</div>
-
-			<div class="image_align">
-				<input type="radio" name="align" value="middle" id="align_middle" />
 				<label for="align_middle">
+					<input type="radio" name="align" value="middle" id="align_middle" />
 					<img src="./images/align_middle.gif" alt="{$lang->image_align_middle}" />
 					{$lang->image_align_middle}
 				</label>
-			</div>
-
-			<div class="image_align">
-				<input type="radio" name="align" value="right" id="align_right" />
 				<label for="align_right">
+					<input type="radio" name="align" value="right" id="align_right" />
 					<img src="./images/align_right.gif" alt="{$lang->image_align_right}" />
 					{$lang->image_align_right}
 				</label>
 			</div>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->image_border}</th>
-		<td><input type="text" id="image_border" value="0" size="2" />px</td>
-	</tr>
-	<tr>
-		<th scope="row">{$lang->image_margin}</th>
-		<td><input type="text" id="image_margin" value="0" size="2" />px</td>
-	</tr>
-	</table>
-    <div class="btnArea">
-        <span class="btn"><button type="button" id="btn_insert">{$lang->cmd_insert}</button></span>
-        <span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank" onclick="window.open('this.href','ComponentInfo','width=10,height=10');return false;">{$lang->about_component}</a></span>
-    </div>
-
-</form>
+		</div>
+		<div class="x_control-group">
+			<label for="image_border" class="x_control-label">{$lang->image_border}</label>
+			<div class="x_controls">
+				<input type="text" id="image_border" value="0" size="2" />px
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="image_margin" class="x_control-label">{$lang->image_margin}</label>
+			<div class="x_controls">
+				<input type="text" id="image_margin" value="0" size="2" />px
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="button" id="btn_insert" class="x_btn x_btn-primary">{$lang->cmd_insert}</button>
+				<a class="x_btn" href="{getUrl('','module','editor','act','dispEditorComponentInfo','component_name',$component_info->component_name)}" target="_blank" onclick="window.open(this.href,'ComponentInfo','width=10,height=10');return false;">{$lang->about_component}</a>
+			</div>
+		</div>
+	</form>
+</section>
