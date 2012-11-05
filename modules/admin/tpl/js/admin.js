@@ -137,6 +137,9 @@ jQuery(function($){
 		$xGnb.find('>a[href="#gnbNav"]').click(function(){
 			$(this).parent('.gnb').toggleClass('open');
 			$xBody.toggleClass('wide');
+			if($(window).width() <= 980 && !$xGnb.hasClass('open')){
+				$('#gnbNav').removeClass('ex');
+			}
 			reflow();
 
 			// remember status
@@ -147,7 +150,6 @@ jQuery(function($){
 			}else{
 				setCookie('__xe_admin_gnb_status', 'close', d);
 			}
-
 			return false;
 		});
 
