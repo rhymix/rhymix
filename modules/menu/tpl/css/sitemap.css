@@ -27,7 +27,7 @@ body>.x{max-width:none !important}
 .mapi li>ul{margin:0}
 .mapi a{text-decoration:none}
 .mapi>ul{padding:1px}
-.mapi._node_renaming a+input{margin-left:-16px;z-index:2}
+.mapi .jstree-rename-input{margin-left:-16px;z-index:2}
 	/* Root */
 .mapi>ul>li{margin-top:30px;position:relative}
 .mapi>ul>li:before{content:"";display:block;border-top:1px dotted #ccc;position:relative;top:-15px}

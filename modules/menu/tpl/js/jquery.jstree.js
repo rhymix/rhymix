@@ -1274,10 +1274,11 @@
 						"css" : {
 							"padding" : "0 4px",
 							"border" : "1px solid silver",
+							"borderRadius" : "3px",
 							"position" : "absolute",
 							"left"  : (rtl ? "auto" : (w1 + w2) + "px"),
 							"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
-							"top" : "1px",
+							"top" : "0",
 							"height" : (this.data.core.li_height - 2) + "px",
 							"lineHeight" : (this.data.core.li_height - 2) + "px",
 							"width" : "200px" // will be set a bit further down
