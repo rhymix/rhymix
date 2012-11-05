@@ -319,6 +319,7 @@
 					$moduleInfo->default_mskin = $oModuleModel->getModuleDefaultSkin($value, 'M');
 
 					$moduleInfo->package_srl = $oAutoinstallModel->getPackageSrlByPath('./modules/' . $value);
+					$moduleInfo->url = _XE_LOCATION_SITE_ . '?mid=download&package_srl=' . $moduleInfo->package_srl;
 
 					if($value == 'page')
 					{
