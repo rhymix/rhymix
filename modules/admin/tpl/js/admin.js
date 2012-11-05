@@ -91,7 +91,7 @@ jQuery(function($){
 		}
 
 		$this.parent('li').addClass('x_active').siblings().removeClass('x_active');
-		$this.closest('.x_nav-tabs').next('.x_tab-content').find('>.x_tab-pane').eq($this.attr('data-index')-1).addClass('x_active').show().siblings().removeClass('x_active').hide();
+		$this.closest('.x_nav-tabs').next('.x_tab-content').find('>.x_tab-pane').eq($this.attr('data-index')-1).addClass('x_active').show().siblings('.x_tab-pane').removeClass('x_active').hide();
 		
 		$(this).parents('.x_tabbable').trigger('tab_change', [parseInt($(this).attr('data-index'))-1, $(this)]);
 		

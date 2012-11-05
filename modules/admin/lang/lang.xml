@@ -1484,4 +1484,12 @@
 		<value xml:lang="ko"><![CDATA[모두 접기]]></value>
 		<value xml:lang="en"><![CDATA[Close All]]></value>
 	</item>
+	<item name="desktop_settings">
+		<value xml:lang="ko"><![CDATA[PC 설정]]></value>
+		<value xml:lang="en"><![CDATA[PC Settings]]></value>
+	</item>
+	<item name="mobile_settings">
+		<value xml:lang="ko"><![CDATA[모바일 설정]]></value>
+		<value xml:lang="en"><![CDATA[Mobile Settings]]></value>
+	</item>
 </lang>

@@ -295,12 +295,17 @@
 						</ul>
 						<div class="x_tab-content">
 							<div class="x_tab-pane x_active" id="pc">
-								<iframe name="_pc_preview_ifr" src="about:_blank"></iframe><i class="mask"></i>
-								<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="{$lang->view_zoom}" />
+								<div class="shadow">
+									<iframe name="_pc_preview_ifr" src="about:_blank"></iframe><i class="mask"></i>
+									<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="{$lang->view_zoom}" />
+								</div>
 							</div>
 							<div class="x_tab-pane" id="mobile">
-								<iframe name="_mobile_preview_ifr" src="about:_blank" style="width:480px;height:800px;margin-left:60px"></iframe><i class="mask"></i>
-								<input type="submit" class="x_icon-zoom-in _mobile_preview_open" value="{$lang->view_zoom}" />
+								<label class="mvOption"><input type="checkbox" name="use_mobile" value="Y"> {$lang->use_mobile_view}</label>
+								<div class="shadow">
+									<iframe name="_mobile_preview_ifr" src="about:_blank" style="width:480px;height:800px;margin-left:60px"></iframe><i class="mask"></i>
+									<input type="submit" class="x_icon-zoom-in _mobile_preview_open" value="{$lang->view_zoom}" />
+								</div>
 							</div>
 						</div>
 					</div>
@@ -316,7 +321,11 @@
 				</ul>
 				<div class="btnBoth" style="position:absolute;bottom:0;left:0;margin:0;width:100%">
 					<button type="reset" class="x_btn x_btn-warning x_pull-left _btn_cancel">{$lang->cmd_cancel}</button>
-					<button type="button" class="x_btn x_btn-primary x_pull-right _btn_save">{$lang->cmd_save}</button>
+					<button type="button" class="x_btn x_btn-primary x_pull-right _btn_save">
+						<span class="langDesktop">{$lang->desktop_settings}</span> 
+						<span class="langMobile">{$lang->mobile_settings}</span> 
+						{$lang->cmd_save}
+					</button>
 				</div>
 			</div>
 		</fieldset>
@@ -2315,7 +2324,7 @@ jQuery(function($){
 		if(this !== ev.target) return;
 
 		// 데모용
-		$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
+//		$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
 
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
@@ -2362,13 +2371,33 @@ jQuery(function($){
 				$('#design').addClass('_mobile_view_disabled');
 				
 				// 데모용
-				$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
+//				$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
 			}else{
-				$('#design').removeClass('_mobile_view_disabled');
+				$('#design').removeClass('_mobile_view_disabled').find('.mvOption>:checkbox').attr('checked','checked');
 				
 				// 데모용
-				$('#design .x_tabbable a[href="#mobile"]').parent().removeClass('x_disabled');
+//				$('#design .x_tabbable a[href="#mobile"]').parent().removeClass('x_disabled');
 			}
+// 데모용
+			$('.mvOption>:checkbox').change(function(){
+				var $design = $('#design');
+				if($(this).is(':checked')){
+					$design.removeClass('_mobile_view_disabled').find('.nav').show();
+				} else {
+					$design.addClass('_mobile_view_disabled').find('.nav').hide();
+				}
+			});
+// 데모용
+			$('._preview_form .x_nav a').click(function(){
+				var $this = $(this);
+				if($this.is('[href="#pc"]')){
+					$('.langDesktop, #design .nav').show();
+					$('.langMobile').hide();
+				} else if($this.is('[href="#mobile"]')) {
+					$('.langDesktop, #design._mobile_view_disabled .nav').hide();
+					$('.langMobile').show();
+				}
+			});
 			
 			if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
 				$('#design .x_tabbable a[href="#mobile"]').click();
