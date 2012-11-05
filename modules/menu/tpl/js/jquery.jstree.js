@@ -276,7 +276,7 @@
 				'.jstree-rtl li { margin-left:0; margin-right:18px; } ' + 
 				'.jstree > ul > li { margin-left:0px; } ' + 
 				'.jstree-rtl > ul > li { margin-right:0px; } ' + 
-				'.jstree ins { display:inline-block; text-decoration:none; width:18px; height:18px; margin:0 0 0 0; padding:0; vertical-align:top; background-color:#fff !important; border-top:3px solid #fff; } ' + 
+				'.jstree ins { display:inline-block; text-decoration:none; width:18px; height:18px; margin:0 0 0 0; padding:0; vertical-align:top; background-color:#fff !important } ' + 
 				'.jstree a { display:inline-block; line-height:16px; height:16px; color:black; white-space:nowrap; text-decoration:none; padding:1px 2px; margin:0; } ' + 
 				'.jstree a:focus { outline: none; } ' + 
 				'.jstree a > ins { height:16px; width:16px; } ' + 
@@ -1277,7 +1277,7 @@
 							"position" : "absolute",
 							"left"  : (rtl ? "auto" : (w1 + w2) + "px"),
 							"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
-							"top" : "6px",
+							"top" : "1px",
 							"height" : (this.data.core.li_height - 2) + "px",
 							"lineHeight" : (this.data.core.li_height - 2) + "px",
 							"width" : "200px" // will be set a bit further down
