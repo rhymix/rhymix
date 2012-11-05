@@ -674,6 +674,9 @@ function onSiteMapReceived(htData){
 			}
 			
         })
+		.bind("rename.jstree", function(event, data){
+			$("#siteMapTree").removeClass("_node_renaming"); 
+		})
 		.bind("rename_node.jstree", function(event, data){
 			//console.log(1, event, data);
 		/*
@@ -1422,6 +1425,13 @@ jQuery(function($){
 	});
 	$("._renameSiteMap").click(function(){
 		$("#siteMapTree").jstree("rename"); 
+		
+		/*
+		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
+		var $node = $('#menu'+sSelectedMenuSrl);
+		$node.addClass('_node_renaming');
+		*/
+		$("#siteMapTree").addClass('_node_renaming');
 	});
 	$('#properties').bind("show", function(ev, htOpt){
 		$('#site_map').next().hide(null, null, null, htOpt);
