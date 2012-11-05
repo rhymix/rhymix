@@ -1,8 +1,9 @@
 <load target="css/editor.css" usecdn="true" />
 <load target="../../../modules/admin/tpl/css/admin.css" usecdn="true" />
+<load target="../../../common/css/bootstrap.css" usecdn="true" />
 
-<h1 class="h1">{$component->title} ver. {$component->version}</h1>
-
+<section class="section">
+	<h1>{$component->title} ver. {$component->version}</h1>
 <table class="x_table x_table-striped x_table-hover">
 <tr>
 	<th scope="row"><div>{$lang->component_author}</div></th>
@@ -70,3 +71,4 @@
 <!--@endforeach-->
 </table>
 <!--@endif-->
+</section>
