@@ -2313,7 +2313,7 @@ jQuery(function($){
 	$('#design').bind('show', function(ev){
 		if(this !== ev.target) return;
 
-		$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
+		//$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
 
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
@@ -2355,11 +2355,13 @@ jQuery(function($){
 				htData : {}
 			};
 
-			// If no use mobile, diabled mobile tab
+			// If mobile view is disabled for the menu, display the mobile setup screen accordingly
 			if(htDesign.sUseMobile != 'Y'){
-				$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
+				$('#design').addClass('_mobile_view_disabled');
+				//$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
 			}else{
-				$('#design .x_tabbable a[href="#mobile"]').parent().removeClass('x_disabled');
+				$('#design').removeClass('_mobile_view_disabled');
+				//$('#design .x_tabbable a[href="#mobile"]').parent().removeClass('x_disabled');
 			}
 			
 			if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
