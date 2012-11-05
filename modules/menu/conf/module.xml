@@ -41,21 +41,28 @@
     </actions>
 	<menus>
 		<menu name="siteMap">
-			<title xml:lang="en">Menu Management</title>
+			<title xml:lang="en">Menu Editor</title>
 			<title xml:lang="ko">사이트 메뉴 편집</title>
 			<title xml:lang="jp">サイトマップ</title>
-			<title xml:lang="zh-CN">Menu Management</title>
+			<title xml:lang="zh-CN">Menu Editor</title>
 			<title xml:lang="zh-TW">選單管理</title>
-			<title xml:lang="es">Menu Management</title>
-			<title xml:lang="ru">Menu Management</title>
-			<title xml:lang="fr">Menu Management</title>
-			<title xml:lang="vi">Menu Management</title>
-			<title xml:lang="mn">Menu Management</title>
-			<title xml:lang="tr">Menu Management</title>
+			<title xml:lang="es">Menu Editor</title>
+			<title xml:lang="ru">Menu Editor</title>
+			<title xml:lang="fr">Menu Editor</title>
+			<title xml:lang="vi">Menu Editor</title>
+			<title xml:lang="mn">Menu Editor</title>
+			<title xml:lang="tr">Menu Editor</title>
 		</menu>
 		<menu name="siteDesign">
-			<title xml:lang="en">Menu Management</title>
+			<title xml:lang="en">Site Design</title>
 			<title xml:lang="ko">사이트 디자인 설정</title>
+			<title xml:lang="zh-CN">Site Design</title>
+			<title xml:lang="es">Site Design</title>
+			<title xml:lang="ru">Site Design</title>
+			<title xml:lang="fr">Site Design</title>
+			<title xml:lang="vi">Site Design</title>
+			<title xml:lang="mn">Site Design</title>
+			<title xml:lang="tr">Site Design</title>
 		</menu>
 	</menus>
 </module>
