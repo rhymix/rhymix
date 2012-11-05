@@ -761,6 +761,10 @@ jQuery(function($){
 				}
 
 				setListSize($siteList, MAX_LIST_HEIGHT - $siteFinder.parent("div").height());
+
+				if(list.length == 1){
+					$siteList.find('a').trigger('click');
+				}
 			}
 
 			$siteFinder.keyup(function(){
