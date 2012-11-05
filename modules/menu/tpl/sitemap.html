@@ -81,7 +81,7 @@
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li class="design"><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li class="details"><a href="#details" class="_openFullSetup">{$lang->full_settings} <i class="x_icon-cog"></i></a></li>
+					<li class="details"><a href="#" class="_openFullSetup">{$lang->full_settings} <i class="x_icon-cog"></i></a></li>
 				</ul>
 			</div>
 		</section>
@@ -3288,9 +3288,15 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 		});
 	}
 	top.fullSetupDone = function(htData){
-		alert('done!');
+		jQuery('#properties').show();
 	}
 	$('a._openFullSetup').click(function(ev){
+		if($._xeAdminVar.oSetupWin){
+			$._xeAdminVar.oSetupWin.close();
+		}
+		
+		$._xeAdminVar.oSetupWin = window.open("about:blank", "xe_fullSetup");
+		
 		ev.preventDefault();
 		
 		var t = this;		
@@ -3303,10 +3309,6 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, function(htData){
 			console.log(htData);
-			
-			if($._xeAdminVar.oSetupWin){
-				$._xeAdminVar.oSetupWin.close();
-			}
 			//window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
 			$._xeAdminVar.oSetupWin = window.open(htData.setupUrl, "xe_fullSetup");
 			
@@ -3317,31 +3319,6 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			<input type="hidden" value="" name="vid">
 			*/
 		});
-
-/*
-params['menu_item_srl'] = '41390';
-exec_xml("menu","getMenuAdminDetailSetup", params, completeTmp, response_tags);
-
-	$('#details').on('show', function(ev){
-		if(this !== ev.target) return;
-		
-		$.exec_json("menu.getMenuAdminDetailSetup", {
-			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
-		}, function(htData){
-			console.log(htData);
-			$.ajax({
-			  url: htData.setupUrl,
-			  context: document.body
-			}).done(function(sData) { 
-			  console.log(999, sData);
-			});
-			//htData.setupUrl
-		});
-	});
-*/		
-		//window.open($('input[name=_pc_preview_ifr]').attr('src'), "xe_preview", "resizable=yes");
-		//console.log('test');
-		
 		
 	});
 	
