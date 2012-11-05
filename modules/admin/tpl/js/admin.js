@@ -115,6 +115,10 @@ jQuery(function($){
 		var $xBody = $('.x>.xin>.body');
 		var $xGnb = $xBody.find('>.gnb');
 		var $xGnb_li = $xGnb.find('>ul>li');
+
+		var d365 = new Date();
+		d365.setTime(d365.getTime() + 60*60*24*356);
+
 		// Add icon
 		$xGnb_li.find('>a').prepend('<i />');
 		// Active Submenu Copy
@@ -143,12 +147,10 @@ jQuery(function($){
 			reflow();
 
 			// remember status
-			var d = new Date();
-			d.setTime(d.getTime() + 60*60*24*356);
 			if($(this).parent('.gnb').hasClass('open')){
-				setCookie('__xe_admin_gnb_status', 'open', d);
+				setCookie('__xe_admin_gnb_status', 'open', d365);
 			}else{
-				setCookie('__xe_admin_gnb_status', 'close', d);
+				setCookie('__xe_admin_gnb_status', 'close', d365);
 			}
 			return false;
 		});
@@ -165,7 +167,24 @@ jQuery(function($){
 		$xGnb.find('.exMenu>button').click(function(){
 			$('#gnbNav').toggleClass('ex');
 			reflow();
+
+			// remember status
+			if($('#gnbNav').hasClass('ex')){
+				setCookie('__xe_admin_gnb_ex_status', 'open', d365);
+			}else{
+				setCookie('__xe_admin_gnb_ex_status', 'close', d365);
+			}
 		});
+
+		// re-create cookie
+		var gnb_status = getCookie('__xe_admin_gnb_status');
+		if(gnb_status){
+			setCookie('__xe_admin_gnb_status', gnb_status, d365);
+		}
+		var gnb_ex_status = getCookie('__xe_admin_gnb_ex_status');
+		if(gnb_ex_status){
+			setCookie('__xe_admin_gnb_xe_status', gnb_ex_status, d365);
+		}
 	};
 	$('.gnb').gnb();
 // Default Language Selection
