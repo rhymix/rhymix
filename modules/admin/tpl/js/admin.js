@@ -162,6 +162,7 @@ jQuery(function($){
 		// Expert Menu Toggle
 		$xGnb.find('.exMenu>button').click(function(){
 			$('#gnbNav').toggleClass('ex');
+			reflow();
 		});
 	};
 	$('.gnb').gnb();
