@@ -1277,11 +1277,10 @@
 							"position" : "absolute",
 							"left"  : (rtl ? "auto" : (w1 + w2) + "px"),
 							"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
-							"top" : "0",
+							"top" : "6px",
 							"height" : (this.data.core.li_height - 2) + "px",
 							"lineHeight" : (this.data.core.li_height - 2) + "px",
-							"width" : "200px", // will be set a bit further down
-							"verticalAlign" : "baseline"
+							"width" : "200px" // will be set a bit further down
 						},
 						"blur" : $.proxy(function () {
 							var i = obj.children(".jstree-rename-input"),
