@@ -177,6 +177,8 @@
                 $v = $this->rearrange($item, $targets);
 				$v->item_screenshot_url = str_replace('./', _XE_DOWNLOAD_SERVER_, $v->item_screenshot_url);
 				$v->category = $this->categories[$v->category_srl]->title;
+				$v->url = _XE_LOCATION_SITE_ . '?mid=download&package_srl=' . $v->package_srl;
+
                 if($packages[$v->package_srl])
                 {
                     $v->current_version = $packages[$v->package_srl]->current_version;
