@@ -1272,15 +1272,16 @@
 						"class" : "jstree-rename-input",
 						// "size" : t.length,
 						"css" : {
-							"padding" : "0",
+							"padding" : "0 4px",
 							"border" : "1px solid silver",
 							"position" : "absolute",
 							"left"  : (rtl ? "auto" : (w1 + w2) + "px"),
 							"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
-							"top" : "8px",
+							"top" : "0",
 							"height" : (this.data.core.li_height - 2) + "px",
 							"lineHeight" : (this.data.core.li_height - 2) + "px",
-							"width" : "200px" // will be set a bit further down
+							"width" : "200px", // will be set a bit further down
+							"verticalAlign" : "baseline"
 						},
 						"blur" : $.proxy(function () {
 							var i = obj.children(".jstree-rename-input"),
