@@ -579,27 +579,28 @@
 		 * @return void|Object
 		 */
         function procMenuAdminDeleteItem() {
-            // List variables
-            $args = Context::gets('menu_item_srl');
+			// List variables
+			$args = Context::gets('menu_item_srl');
 
-            $oMenuAdminModel = &getAdminModel('menu');
+			$oModuleModel = &getModel('module');
+			$oMenuAdminModel = &getAdminModel('menu');
 
-            // Get original information
-            $item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
-			$args->menu_srl = $item_info->menu_srl;
+			// Get original information
+			$itemInfo = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
+			$args->menu_srl = $itemInfo->menu_srl;
 
-            // Get information of the menu
-            $menuInfo = $oMenuAdminModel->getMenu($args->menu_srl);
-            $menu_title = $menuInfo->title;
+			// Get information of the menu
+			$menuInfo = $oMenuAdminModel->getMenu($args->menu_srl);
+			$menu_title = $menuInfo->title;
 
 			// check admin menu delete
 			$oAdmin = &getClass('admin');
-			if($menu_title == $oAdmin->getAdminMenuName() && $item_info->parent_srl == 0)
+			if($menu_title == $oAdmin->getAdminMenuName() && $itemInfo->parent_srl == 0)
 			{
 				return $this->stop('msg_cannot_delete_for_admin_topmenu');
 			}
 
-			if($item_info->parent_srl) $parent_srl = $item_info->parent_srl;
+			if($itemInfo->parent_srl) $parent_srl = $itemInfo->parent_srl;
 
 			// get menu properies with child menu
 			$phpFile = sprintf("./files/cache/menu/%s.php", $args->menu_srl);
@@ -613,6 +614,15 @@
 				{
 					$this->_searchMenu($menu->list, $args->menu_item_srl, $originMenu);
 				}
+			}
+
+			// check start menu in originMenu
+			$siteInfo = $oModuleModel->getSiteInfo($menuInfo->site_srl);
+			$isStartmenuInclude = false;
+			$this->_checkStartMenuInOriginMenu($originMenu, $siteInfo->mid, $isStartmenuInclude);
+			if($isStartmenuInclude)
+			{
+				return new Object(-1, 'msg_cannot_delete_homemenu');
 			}
 
 			$oDB = DB::getInstance();
@@ -633,6 +643,22 @@
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
 			$this->setRedirectUrl($returnUrl);
         }
+
+		private function _checkStartMenuInOriginMenu($originMenu, $startMid, &$isStartmenuInclude)
+		{
+			if($originMenu['url'] == $startMid)
+			{
+				$isStartmenuInclude = true;
+			}
+
+			if(!$isStartmenuInclude && is_array($originMenu['list']))
+			{
+				foreach($originMenu['list'] AS $key=>$value)
+				{
+					$this->_checkStartMenuInOriginMenu($value, $startMid, $isStartmenuInclude);
+				}
+			}
+		}
 
 		private function _deleteMenuItem(&$oDB, &$menuInfo, $node)
 		{
@@ -657,7 +683,7 @@
 			if($node['is_shortcut'] != 'Y' && !preg_match('/^http/i',$node['url']))
 			{
 				$oModuleController = getController('module');
-				$oModuleModel = getModel('module');
+				$oModuleModel = &getModel('module');
 
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($node['url'], $menuInfo->site_srl);
 				if($moduleInfo->module_srl)
