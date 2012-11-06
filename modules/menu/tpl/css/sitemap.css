@@ -198,7 +198,10 @@ body>.x{max-width:none !important}
 #design .x_icon-zoom-in{position:absolute;right:4px;bottom:4px;width:24px;height:24px;background-color:#fff;opacity:.75;filter:alpha(opacity:75);background-position:-331px 5px}
 #design .x_icon-zoom-in:after{content:normal}
 #design .mask{position:absolute;width:100%;height:100%;top:0;left:0}
-#design._mobile_view_disabled #mobile .shadow{display:none}
+#design._mobile_view_disabled #mobile .shadow,
+#design._mobile_view_disabled._mobileMode .nav,
+#design._mobileMode .langDesktop,
+#design._pcMode .langMobile{display:none}
 /* Layout */
 #layout li ul._edit_menu {display:none}
 #layout li.selected ul._edit_menu {display:block}

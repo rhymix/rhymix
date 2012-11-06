@@ -320,7 +320,7 @@
 					</script>
 				</ul>
 				<div class="btnBoth" style="position:absolute;bottom:0;left:0;margin:0;width:100%">
-					<button type="reset" class="x_btn x_btn-warning x_pull-left _btn_cancel">{$lang->cmd_cancel}</button>
+					<button type="reset" class="x_btn x_pull-left _btn_cancel">{$lang->cmd_cancel}</button>
 					<button type="button" class="x_btn x_btn-primary x_pull-right _btn_save">
 						<span class="langDesktop">{$lang->desktop_settings}</span> 
 						<span class="langMobile">{$lang->mobile_settings}</span> 
@@ -2377,17 +2377,6 @@ jQuery(function($){
 				$('#design').removeClass('_mobile_view_disabled').find('.mvOption>:checkbox').attr('checked','checked');
 			}
 
-			$('._preview_form .x_nav a').click(function(){
-				var $this = $(this);
-				if($this.is('[href="#pc"]')){
-					//$('.langDesktop, #design .nav').show();
-					$('.langMobile').hide();
-				} else if($this.is('[href="#mobile"]')) {
-					//$('.langDesktop, #design._mobile_view_disabled .nav').hide();
-					$('.langMobile').show();
-				}
-			});
-			
 			if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
 				$('#design .x_tabbable a[href="#mobile"]').click();
 			}else{
