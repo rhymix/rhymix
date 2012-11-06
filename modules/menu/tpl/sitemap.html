@@ -3175,12 +3175,21 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 		$._xeAdminVar.msgBox.fnOnCancel();
 	});
 	$msgBox.bind("show", function(){
+		$._xeAdminVar.msgBox.bVisible = true;
 		showFoggy();
 		$._xeAdminVar.msgBox.fnOnShow();
 	});
 	$msgBox.bind("hide", function(){
+		$._xeAdminVar.msgBox.bVisible = false;
 		hideFoggy();
 		$._xeAdminVar.msgBox.fnOnHide();
+	});
+	$(document.body).on('keydown', function(ev){
+		if(!$._xeAdminVar.msgBox.bVisible) return;
+		
+		if(ev.keyCode === 27){
+			$msgBox.find("._cancel").click();
+		}
 	});
 	function msgBox(htOptions){
 		// sTitle, sText, fnOnOK, fnOnCancel, bSmall, bAlert, fnOnShow, fnOnHide
