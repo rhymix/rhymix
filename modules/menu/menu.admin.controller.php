@@ -291,9 +291,13 @@
 				$args->parent_srl = $request->parent_srl;
 				$args->is_shortcut = $request->is_shortcut;
 			}
+			// empty target shortcut
 			else
 			{
-				return new Object(-1, 'msg_invalid_request');
+				$args->menu_srl = $request->menu_srl;
+				$args->name = $request->menu_name;
+				$args->parent_srl = $request->parent_srl;
+				$args->is_shortcut = $request->is_shortcut;
 			}
 
 			$args->menu_item_srl = getNextSequence();
