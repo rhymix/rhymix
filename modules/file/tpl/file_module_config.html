@@ -11,7 +11,7 @@
 			<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
 			<div class="x_controls">
 				<input type="number" min="0" name="allowed_filesize" id="allowed_filesize" value="{$file_config->allowed_filesize}" size="3" style="width:40px" /> MB
-				<span class="x_help-block">{$lang->about_allowed_filesize}</span>
+				<p class="x_help-inline">{$lang->about_allowed_filesize}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -19,14 +19,14 @@
 			<div class="x_controls">
 				<input type="number" min="0" name="allowed_attach_size" id="allowed_attach_size" value="{$file_config->allowed_attach_size}" size="3" style="width:40px" /> MB
 				/ {ini_get('upload_max_filesize')}
-				<span class="x_help-block">{$lang->about_allowed_attach_size}</span>
+				<p class="x_help-inline">{$lang->about_allowed_attach_size}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="allowed_filetypes" class="x_control-label">{$lang->allowed_filetypes}</label>
 			<div class="x_controls">
 				<input type="text" name="allowed_filetypes" id="allowed_filetypes" value="{$file_config->allowed_filetypes}" />
-				<span class="x_help-block">{$lang->about_allowed_filetypes}</span>
+				<p class="x_help-inline">{$lang->about_allowed_filetypes}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

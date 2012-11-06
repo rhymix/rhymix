@@ -1,6 +1,6 @@
 <section class="section">
 	<h1>{$lang->open_rss}</h1>
-	<p class="x_help-block">{$lang->about_open_rss}</p>
+	<p>{$lang->about_open_rss}</p>
 
 	<form ruleset="insertRssModuleConfig" action="./" method="post" class="x_form-horizontal">
 		<input type="hidden" name="module" value="rss" />
@@ -11,7 +11,7 @@
 		<div class="x_control-group">
 			<label for="open_rss" class="x_control-label">{$lang->open_rss}</label>
 			<div class="x_controls">
-				<select name="open_rss" id="open_rss">
+				<select name="open_rss" id="open_rss" style="width:220px">
 					<option loop="$lang->open_rss_types => $key, $val" value="{$key}" selected="selected"|cond="(!$rss_config->open_rss && $key == 'N') || ($rss_config->open_rss == $key)">{$val}</option>
 				</select>
 			</div>
@@ -19,24 +19,24 @@
 		<div class="x_control-group">
 			<label for="open_total_feed" class="x_control-label">{$lang->open_feed_to_total}</label>
 			<div class="x_controls">
-				<select name="open_total_feed" id="open_total_feed">
-					<option value="N" <!--@if(!$rss_config->open_total_feed || $rss_config->open_total_feed == 'N')-->selected="selected"<!--@end-->>{$lang->use}</option>
-					<option value="T_N" <!--@if($rss_config->open_total_feed == 'T_N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+				<select name="open_total_feed" id="open_total_feed" style="width:220px">
+					<option value="N" selected="selected"|cond="!$rss_config->open_total_feed || $rss_config->open_total_feed == 'N'">{$lang->use}</option>
+					<option value="T_N" selected="selected"|cond="$rss_config->open_total_feed == 'T_N'">{$lang->notuse}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="feed_description" class="x_control-label">{$lang->description}</label>
 			<div class="x_controls">
-				<textarea name="feed_description" id="feed_description" rows="8" cols="42">{htmlspecialchars($rss_config->feed_description)}</textarea>
-				<span class="x_help-block">{$lang->about_feed_description}</span>
+				<textarea name="feed_description" id="feed_description" rows="4" cols="42">{htmlspecialchars($rss_config->feed_description)}</textarea>
+				<p class="x_help-inline">{$lang->about_feed_description}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="feed_copyright" class="x_control-label">{$lang->feed_copyright}</label>
 			<div class="x_controls">
-				<textarea name="feed_copyright" id="feed_copyright" rows="8" cols="42">{htmlspecialchars($rss_config->feed_copyright)}</textarea>
-				<span class="x_help-block">{$lang->about_feed_copyright}</span>
+				<textarea name="feed_copyright" id="feed_copyright" rows="4" cols="42">{htmlspecialchars($rss_config->feed_copyright)}</textarea>
+				<p class="x_help-inline">{$lang->about_feed_copyright}</p>
 			</div>
 		</div>
 		<div class="btnArea">

@@ -1560,7 +1560,7 @@ jQuery(function($){
 			
 			function makeUI(){
 				var $multilingualWindow = $('#g11n');
-				var width = $this.width() - 44;
+				var width = $this.width();
 				
 				if(t.tagName == 'TEXTAREA' || $this.data('type') == 'textarea'){
 					var $displayInput = $('<textarea id="lang_' + id + '" class="displayInput" style="width:' + width + 'px">').data('lang-id', id);

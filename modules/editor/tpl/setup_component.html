@@ -43,7 +43,6 @@
 			<div class="x_controls">
 				<label class="x_inline" loop="$group_list=>$key,$val">
                 <input type="checkbox" name="target_group" value="{$key}" <!--@if(in_array($key, $component->target_group))-->checked="checked"<!--@end--> id="group_{$key}"> {$val->title}</label>
-				<span class="x_help-block">{$lang->about_component_grant}</span>
 			</div>
 		</div>
 		<div class="x_control-group" cond="$mid_list">

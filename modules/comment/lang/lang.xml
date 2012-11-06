@@ -271,9 +271,11 @@
 		<value xml:lang="zh-TW"><![CDATA[已選回覆]]></value>
 	</item>
 	<item name="cmd_comment_validation">
+		<value xml:lang="ko"><![CDATA[승인 후 공개]]></value>
 		<value xml:lang="en"><![CDATA[Use comment validation]]></value>
 	</item>
 	<item name="about_comment_validation">
+		<value xml:lang="ko"><![CDATA[관리자 승인 후 댓글을 공개합니다.]]></value>
 		<value xml:lang="en"><![CDATA[If you want to use comment validation before displaying on your module frontend select USE, otherwise select NOT USE.]]></value>
 	</item>
 	<item name="published">
