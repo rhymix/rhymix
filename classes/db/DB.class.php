@@ -46,6 +46,18 @@
     class DB {
 
 		/**
+		 * priority of DBMS
+		 * @var array
+		 */
+		var $priority_dbms = array(
+			'mysqli' => 5,
+			'mysql' => 4,
+			'mysql_innodb' => 3,
+			'cubrid' => 2,
+			'mssql' => 1
+		);
+
+		/**
 		 * count cache path
 		 * @var string
 		 */
@@ -250,7 +262,6 @@
             $db_classes_path = _XE_PATH_."classes/db/";
             $filter = "/^DB([^\.]+)\.class\.php/i";
             $supported_list = FileHandler::readDir($db_classes_path, $filter, true);
-            sort($supported_list);
 
             // after creating instance of class, check is supported
             for($i = 0; $i < count($supported_list); $i++) {
@@ -275,9 +286,44 @@
 
                 $get_supported_list[] = $obj;
             }
+
+			// sort
+			@usort($get_supported_list, array($this, '_sortDBMS'));
+
 			$this->supported_list = $get_supported_list;
             return $this->supported_list;
         }
+
+		/**
+		 * sort dbms as priority
+		 */
+		function _sortDBMS($a, $b)
+		{
+			if(!isset($this->priority_dbms[$a->db_type]))
+			{
+				$priority_a = 0;
+			}
+			else
+			{
+				$priority_a = $this->priority_dbms[$a->db_type];
+			}
+
+			if(!isset($this->priority_dbms[$b->db_type]))
+			{
+				$priority_b = 0;
+			}
+			else
+			{
+				$priority_b = $this->priority_dbms[$b->db_type];
+			}
+
+			if($priority_a == $priority_b)
+			{
+				return 0;
+			}
+
+			return ($priority_a > $priority_b) ? -1 : 1;
+		}
 
         /**
          * Return dbms supportable status
