@@ -589,42 +589,77 @@
 			$args->menu_srl = $item_info->menu_srl;
 
             // Get information of the menu
-            $menu_info = $oMenuAdminModel->getMenu($args->menu_srl);
-            $menu_title = $menu_info->title;
+            $menuInfo = $oMenuAdminModel->getMenu($args->menu_srl);
+            $menu_title = $menuInfo->title;
 
+			// check admin menu delete
 			$oAdmin = &getClass('admin');
-			if($menu_title == $oAdmin->getAdminMenuName() && $item_info->parent_srl == 0)return $this->stop('msg_cannot_delete_for_admin_topmenu');
+			if($menu_title == $oAdmin->getAdminMenuName() && $item_info->parent_srl == 0)
+			{
+				return $this->stop('msg_cannot_delete_for_admin_topmenu');
+			}
 
-            if($item_info->parent_srl) $parent_srl = $item_info->parent_srl;
-            // Display an error that the category cannot be deleted if it has a child node
-            $output = executeQuery('menu.getChildMenuCount', $args);
-            if(!$output->toBool()) return $output;
-            if($output->data->count>0) return new Object(-1, 'msg_cannot_delete_for_child');
+			if($item_info->parent_srl) $parent_srl = $item_info->parent_srl;
+
+			// get menu properies with child menu
+			$phpFile = sprintf("./files/cache/menu/%s.php", $args->menu_srl);
+			$originMenu = NULL;
+
+			if(is_readable(FileHandler::getRealPath($phpFile)))
+			{
+				@include(FileHandler::getRealPath($phpFile));
+
+				if(is_array($menu->list))
+				{
+					$this->_searchMenu($menu->list, $args->menu_item_srl, $originMenu);
+				}
+			}
 
 			$oDB = DB::getInstance();
 			$oDB->begin();
 
-            // Remove from the DB
-            $output = executeQuery("menu.deleteMenuItem", $args);
-            if(!$output->toBool())
+			$this->_recursiveDeleteMenuItem($oDB, $menuInfo, $originMenu);
+
+			$oDB->commit();
+
+			// recreate menu cache file
+			$this->makeXmlFile($args->menu_srl);
+
+            $this->add('xml_file', $xml_file);
+            $this->add('menu_title', $menu_title);
+            $this->add('menu_item_srl', $parent_srl);
+            $this->setMessage('success_deleted');
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+			$this->setRedirectUrl($returnUrl);
+        }
+
+		private function _deleteMenuItem(&$oDB, &$menuInfo, $node)
+		{
+			// Remove from the DB
+			$args->menu_srl = $menuSrl;
+			$args->menu_item_srl = $node['node_srl'];
+			$output = executeQuery("menu.deleteMenuItem", $args);
+			if(!$output->toBool())
 			{
 				$oDB->rollback();
 				return $output;
 			}
-            // Update the xml file and get its location
-            $xml_file = $this->makeXmlFile($args->menu_srl);
-            // Delete all of image buttons
-            if($item_info->normal_btn) FileHandler::removeFile($item_info->normal_btn);
-            if($item_info->hover_btn) FileHandler::removeFile($item_info->hover_btn);
-            if($item_info->active_btn) FileHandler::removeFile($item_info->active_btn);
+
+			// Update the xml file and get its location
+			$xml_file = $this->makeXmlFile($args->menu_srl);
+			// Delete all of image buttons
+			if($node['normal_btn']) FileHandler::removeFile($node['normal_btn']);
+			if($node['hover_btn']) FileHandler::removeFile($node['hover_btn']);
+			if($node['active_btn']) FileHandler::removeFile($node['active_btn']);
 
 			// Delete module
-			if($item_info->is_shortcut != 'Y' && !preg_match('/^http/i',$item_info->url))
+			if($node['is_shortcut'] != 'Y' && !preg_match('/^http/i',$node['url']))
 			{
 				$oModuleController = getController('module');
 				$oModuleModel = getModel('module');
 
-				$moduleInfo = $oModuleModel->getModuleInfoByMid($item_info->url, $menu_info->site_srl);
+				$moduleInfo = $oModuleModel->getModuleInfoByMid($node['url'], $menuInfo->site_srl);
 				if($moduleInfo->module_srl)
 				{
 					$output = $oModuleController->deleteModule($moduleInfo->module_srl);
@@ -635,17 +670,25 @@
 					}
 				}
 			}
+			return new Object(0, 'success');
+		}
 
-			$oDB->commit();
+		private function _recursiveDeleteMenuItem(&$oDB, &$menuInfo, $node)
+		{
+			$output = $this->_deleteMenuItem($oDB, $menuInfo, $node);
+			if(!$output->toBool())
+			{
+				return new Object(-1, $output->message);
+			}
 
-            $this->add('xml_file', $xml_file);
-            $this->add('menu_title', $menu_title);
-            $this->add('menu_item_srl', $parent_srl);
-            $this->setMessage('success_deleted');
-
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
-			$this->setRedirectUrl($returnUrl);
-        }
+			if(is_array($node['list']))
+			{
+				foreach($node['list'] AS $key=>$value)
+				{
+					$this->_recursiveDeleteMenuItem($oDB, $menuInfo, $value);
+				}
+			}
+		}
 
 		/**
 		 * Move menu items
