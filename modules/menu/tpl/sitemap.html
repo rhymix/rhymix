@@ -2220,15 +2220,22 @@ jQuery(function($){
 			// PC
 			$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = false;
 
+			$('#design').addClass('_pcMode');
+			$('#design').removeClass('_mobileMode');
+
 			updatePreview({
 				sModuleName : htDesign.sModuleName,
 				sMID:   htDesign.sMID,
 				sLayoutSrl : htDesign.htLayoutSrl.P,
 				sSkin : htDesign.htSkin.P
 			});
+			
 		}else{
 			// mobile
 			$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = true;
+
+			$('#design').removeClass('_pcMode');
+			$('#design').addClass('_mobileMode');
 
 			updatePreview({
 				sModuleName : htDesign.sModuleName,
@@ -2323,9 +2330,6 @@ jQuery(function($){
 	$('#design').bind('show', function(ev){
 		if(this !== ev.target) return;
 
-		// 데모용
-//		$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
-
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
 
@@ -2369,32 +2373,17 @@ jQuery(function($){
 			// If mobile view is disabled for the menu, display the mobile setup screen accordingly
 			if(htDesign.sUseMobile != 'Y'){
 				$('#design').addClass('_mobile_view_disabled');
-				
-				// 데모용
-//				$('#design .x_tabbable a[href="#mobile"]').parent().addClass('x_disabled');
 			}else{
 				$('#design').removeClass('_mobile_view_disabled').find('.mvOption>:checkbox').attr('checked','checked');
-				
-				// 데모용
-//				$('#design .x_tabbable a[href="#mobile"]').parent().removeClass('x_disabled');
 			}
-// 데모용
-			$('.mvOption>:checkbox').change(function(){
-				var $design = $('#design');
-				if($(this).is(':checked')){
-					$design.removeClass('_mobile_view_disabled').find('.nav').show();
-				} else {
-					$design.addClass('_mobile_view_disabled').find('.nav').hide();
-				}
-			});
-// 데모용
+
 			$('._preview_form .x_nav a').click(function(){
 				var $this = $(this);
 				if($this.is('[href="#pc"]')){
-					$('.langDesktop, #design .nav').show();
+					//$('.langDesktop, #design .nav').show();
 					$('.langMobile').hide();
 				} else if($this.is('[href="#mobile"]')) {
-					$('.langDesktop, #design._mobile_view_disabled .nav').hide();
+					//$('.langDesktop, #design._mobile_view_disabled .nav').hide();
 					$('.langMobile').show();
 				}
 			});
@@ -2409,6 +2398,36 @@ jQuery(function($){
 		});
 	});
 	
+	$('#design .mvOption>:checkbox').change(function(){
+		//var $design = $('#design');
+		/*
+params['menu_item_srl'] = menu_item srl;
+params['use_mobile'] = Y/N;
+exec_xml("module","procModuleAdminUpdateUseMobile", params, completeTmp);
+		*/
+		var  sYN_useMobile;
+		
+		if($(this).is(':checked')){
+			sYN_useMobile = "Y";
+			//$design.removeClass('_mobile_view_disabled').find('.nav').show();
+		} else {
+			sYN_useMobile = "N";
+			//$design.addClass('_mobile_view_disabled').find('.nav').hide();
+		}
+		jQuery.exec_json("module.procModuleAdminUpdateUseMobile", {
+			menu_item_srl : $._xeAdminVar.sSelectedMenuSrl,
+			use_mobile : sYN_useMobile
+		}, function(htData){
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			$._xeAdminVar.sOpenDeisgnWith = "M";
+			$('#design').show();
+		});
+	});
+
 	$('#design ._btn_save').click(function(ev){
 		ev.preventDefault();
 
@@ -2431,20 +2450,6 @@ jQuery(function($){
 			skin_name : sSkinName,
 			skin_vars : "{}"
 		};
-console.log(htDesign);
-		//console.log(htParam);
-		//return;
-		/*
-params['target_module_srl'] = 모듈srl (mid가 있는 경우 생략 가능)
-params['target_mid'] = 모듈ID (module_srl이 있는 경우 생략 가능)
-params['skin_type'] = 'M'/'P' (생략할 경우 'P')
-params['layout_srl'] = layout_srl
-params['is_skin_fix'] = 'N' : 사이트 기본 스킨 사용 시 / 'Y' : 모듈 스킨 사용시
-params['skin_name'] = 스킨 이름(skin/mskin 값)
-params['skin_vars'] = 스킨 설정 정보 json_encode(skin_vars);
-
-exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
-		*/
 
 		jQuery.exec_json("module.procModuleAdminSetDesignInfo", htParam, function(htData){
 			if(htData.error !== 0){
@@ -3191,6 +3196,7 @@ exec_xml("module","procModuleAdminSetDesignInfo", params, completeTmp)
 			$msgBox.find("._cancel").click();
 		}
 	});
+	$._xeAdminVar.msgBox = {};
 	function msgBox(htOptions){
 		// sTitle, sText, fnOnOK, fnOnCancel, bSmall, bAlert, fnOnShow, fnOnHide
 		htOptions = htOptions || {};
