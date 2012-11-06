@@ -340,9 +340,9 @@
 			if($isProc)
 			{
 				$result = $this->_insertModule($request, $args);
-				if($result->error < 0)
+				if(!$result->toBool())
 				{
-					return new Object($result->error, $result->message);
+					return new Object(-1, $result->message);
 				}
 			}
 
@@ -418,7 +418,7 @@
 			$oModuleController = &getController('module');
 			$output = $oModuleController->insertModule($cmArgs);
 
-			return $output->toBool();
+			return $output;
 		}
 
 		/**

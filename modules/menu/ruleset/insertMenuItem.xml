@@ -4,5 +4,6 @@
     </customrules>
     <fields>
 		<field name="menu_name" required="true" />
+		<field name="module_id" length="0:40" />
     </fields>
 </ruleset>
