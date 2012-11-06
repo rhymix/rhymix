@@ -2371,8 +2371,8 @@ jQuery(function($){
 			};
 
 			// If mobile view is disabled for the menu, display the mobile setup screen accordingly
-			if(htDesign.sUseMobile != 'Y'){
-				$('#design').addClass('_mobile_view_disabled');
+			if(htDesign.sUseMobile !== 'Y'){
+				$('#design').addClass('_mobile_view_disabled').find('.mvOption>:checkbox').removeAttr('checked');
 			}else{
 				$('#design').removeClass('_mobile_view_disabled').find('.mvOption>:checkbox').attr('checked','checked');
 			}
@@ -2396,15 +2396,11 @@ jQuery(function($){
 			
 			$._xeAdminVar.sOpenDeisgnWith = "P";
 		});
+
 	});
 	
 	$('#design .mvOption>:checkbox').change(function(){
 		//var $design = $('#design');
-		/*
-params['menu_item_srl'] = menu_item srl;
-params['use_mobile'] = Y/N;
-exec_xml("module","procModuleAdminUpdateUseMobile", params, completeTmp);
-		*/
 		var  sYN_useMobile;
 		
 		if($(this).is(':checked')){
@@ -2566,6 +2562,10 @@ exec_xml("module","procModuleAdminUpdateUseMobile", params, completeTmp);
 			}
 			var htSetting = $._xeAdminVar.htPrevSetting || {};
 			
+			var sMode = htSetting.bMobilePreviewTabOpen?"M":"P";
+	
+			if(sMode === "M" && $._xeAdminVar.htSelectedMenuDesign.sUseMobile !== 'Y') return;
+			
 			//htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
 			htSetting.sModuleName = $._xeAdminVar.htSelectedMenuDesign.sModuleName;
 			htSetting.sMID = (htParam.sMID==="")?"":htParam.sMID || htSetting.sMID || "";
@@ -2576,8 +2576,6 @@ exec_xml("module","procModuleAdminUpdateUseMobile", params, completeTmp);
 			htSetting.bMobilePreviewTabOpen = htParam.bMobilePreviewTabOpen || htSetting.bMobilePreviewTabOpen || false;
 			htSetting.htLayoutData = htParam.htLayoutData || htSetting.htLayoutData || "";
 			htSetting.htSkinData = htParam.htSkinData || htSetting.htSkinData || "";
-
-			var sMode = htSetting.bMobilePreviewTabOpen?"M":"P";
 
 			// ?act=dispLayoutPreviewWithModule&module_name=모듈이름&target_mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름&skin_type=M/P
 			var sURL = './?act=dispLayoutPreviewWithModule&module_name='+htSetting.sModuleName+'&target_mid='+htSetting.sMID+'&layout_srl='+htSetting.sLayoutSrl+'&skin='+htSetting.sSkin+'&skin_type='+sMode;
