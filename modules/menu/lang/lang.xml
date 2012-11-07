@@ -433,6 +433,10 @@
 		<value xml:lang="tr"><![CDATA[Altmenüleri olan bir menü silinemez.]]></value>
 		<value xml:lang="vi"><![CDATA[Không thể xóa Menu khi có những Menu con.]]></value>
 	</item>
+	<item name="msg_cannot_delete_homemenu">
+		<value xml:lang="ko"><![CDATA[시작 메뉴가 포함된 경우 삭제할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot delete a menu with Home menu.]]></value>
+	</item>
 	<item name="msg_cannot_delete_for_admin_topmenu">
 		<value xml:lang="ko"><![CDATA[최상위 메뉴는 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[A top menu cannot be deleted]]></value>

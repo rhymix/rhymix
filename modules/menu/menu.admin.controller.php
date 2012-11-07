@@ -596,7 +596,7 @@
 				if(!$output->toBool()) return $output;
 				if($output->data->count > 0)
 				{
-					return new Object(-1, 'msg_cannot_delete_for_child');
+					return new Object(-1001, 'msg_cannot_delete_for_child');
 				}
 			}
 
