@@ -103,7 +103,7 @@
 	</div>
 	<div class="col url" id="add_menu" style="display:none">
 		<fieldset>
-			<h1 class="_title"><!--URL 링크--></h1>
+			<h1><a class="_title"></a></h1>
 			<div class="cnt">
 				<ul>
 					<li>
@@ -1528,7 +1528,16 @@ jQuery(function($){
 		$._xeAdminVar.sSelectedModuleName = $._htMarkupActionParam.moduleName;
 		$._xeAdminVar.sSelectedModuleTitle = $._htMarkupActionParam.moduleTitle;
 		
-		$(this).find("._title").html($._xeAdminVar.sSelectedModuleTitle);
+		var $title = $(this).find("._title");
+		$title.html($._xeAdminVar.sSelectedModuleTitle);
+		var htItemType = $._xeAdminVar.htItemTypes[$._xeAdminVar.sSelectedModuleName];
+		if(htItemType.package_srl && htItemType.url){
+			$title.attr('target', '_blank');
+			$title.attr('href', htItemType.url);
+		}else{
+			$title.removeAttr('target');
+			$title.removeAttr('href');
+		}
 		
 		if($._xeAdminVar.sSelectedModuleName === "_SHORTCUT"){
 			$(this).removeClass("page");
