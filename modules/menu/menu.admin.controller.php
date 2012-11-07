@@ -589,6 +589,17 @@
 			$itemInfo = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
 			$args->menu_srl = $itemInfo->menu_srl;
 
+			// Display an error that the category cannot be deleted if it has a child node	603	
+			if($args->is_force != 'Y')
+			{
+				$output = executeQuery('menu.getChildMenuCount', $args);
+				if(!$output->toBool()) return $output;
+				if($output->data->count > 0)
+				{
+					return new Object(-1, 'msg_cannot_delete_for_child');
+				}
+			}
+
 			// Get information of the menu
 			$menuInfo = $oMenuAdminModel->getMenu($args->menu_srl);
 			$menu_title = $menuInfo->title;
