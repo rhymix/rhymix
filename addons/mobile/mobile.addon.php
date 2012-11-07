@@ -31,10 +31,12 @@ $oMobile->setCharSet($addon_info->charset);
 $oMobile->setModuleInfo($this->module_info);
 // Register the current module object
 $oMobile->setModuleInstance($this);
-// Extract content and display/exit if navigate mode is or if WAP class exists
-if($called_position == 'before_module_proc') {
 
-	if($oMobile->isLangChange()) {
+// Extract content and display/exit if navigate mode is or if WAP class exists
+if($called_position == 'before_module_proc')
+{
+	if($oMobile->isLangChange())
+	{
 		$oMobile->setLangType();
 		$oMobile->displayLangSelect();
 	}
@@ -42,9 +44,13 @@ if($called_position == 'before_module_proc') {
 	if($oMobile->isNavigationMode()) $oMobile->displayNavigationContent();
 	// If you have a WAP class content output via WAP class
 	else $oMobile->displayModuleContent();
-// If neither navigation mode nor WAP class is, display the module's result
-} else if($called_position == 'after_module_proc')  {
+	// If neither navigation mode nor WAP class is, display the module's result
+}
+else if($called_position == 'after_module_proc')
+{
 	// Display
 	$oMobile->displayContent();
 }
-?>
+
+/* End of file mobile.addon.php */
+/* Location: ./addons/mobile/mobile.addon.php */

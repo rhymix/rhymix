@@ -8,11 +8,11 @@ if(!defined('__XE__')) exit();
  *
  * Find member_srl in the part with <div class="member_MemberSerialNumber"> .... </div>
  * Check if ther is image name and image mark. Then change it.
- **/
+ */
 
 /**
  * Just before displaying, change image name/ image mark
- **/
+ */
 if($called_position != "before_display_content" || Context::get('act')=='dispPageAdminContentModify') return;
 // Include a file having functions to replace member image name/mark
 require_once('./addons/member_extra_info/member_extra_info.lib.php');
@@ -20,4 +20,6 @@ require_once('./addons/member_extra_info/member_extra_info.lib.php');
 $temp_output = preg_replace_callback('!<(div|span|a)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span|a)\>!is', 'memberTransImageName', $output);
 if($temp_output) $output = $temp_output;
 unset($temp_output);
-?>
+
+/* End of file member_extra_info.addon.php */
+/* Location: ./addons/member_extra_info/member_extra_info.addon.php */

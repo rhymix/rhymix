@@ -435,4 +435,5 @@ RSDContent;
 			break;
 	}
 }
-?>
+/* End of file blogapi.addon.php */
+/* Location: ./addons/blogapi/blogapi.addon.php */

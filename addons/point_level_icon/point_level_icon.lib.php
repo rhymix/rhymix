@@ -1,8 +1,9 @@
 <?php
 /**
  * @brief Function to change point icon.
- **/
-function pointLevelIconTrans($matches) {
+ */
+function pointLevelIconTrans($matches)
+{
 	$member_srl = $matches[3];
 	if($member_srl<1) return $matches[0];
 
@@ -12,9 +13,11 @@ function pointLevelIconTrans($matches) {
 	$oMemberModel = &getModel('member');
 	if($oMemberModel->getGroupImageMark($member_srl)) return $orig_text.$matches[5].'</'.$matches[6].'>';
 
-	if(!isset($GLOBALS['_pointLevelIcon'][$member_srl])) {
+	if(!isset($GLOBALS['_pointLevelIcon'][$member_srl]))
+	{
 		// Get point configuration
-		if(!$GLOBALS['_pointConfig']) {
+		if(!$GLOBALS['_pointConfig'])
+		{
 			$oModuleModel = &getModel('module');
 			$GLOBALS['_pointConfig'] = $oModuleModel->getModuleConfig('point');
 		}
@@ -31,7 +34,8 @@ function pointLevelIconTrans($matches) {
 		// Get a path where level icon is
 		$level_icon = sprintf('%smodules/point/icons/%s/%d.gif', Context::getRequestUri(), $config->level_icon, $level);
 		// Get per to go to the next level if not a top level
-		if($level < $config->max_level) {
+		if($level < $config->max_level)
+		{
 			$next_point = $config->level_step[$level+1];
 			$present_point = $config->level_step[$level];
 			if($next_point > 0) { 
@@ -49,4 +53,6 @@ function pointLevelIconTrans($matches) {
 
 	return $orig_text.$text.$matches[5].'</'.$matches[6].'>';
 }
-?>
+
+/* End of file point_level_icon.lib.php */
+/* Location: ./addons/point_level_icon/point_level_icon.lib.php */
