@@ -1,11 +1,14 @@
 <?php
+include '../handler/Handler.class.php';
+include './CacheHandler.class.php';
+
 /**
  * Cache class for Wincache
  *
  * Wincache Handler
  *
  * @author Arnia (support@xpressengine.org)
- **/
+ */
 class CacheWincache extends CacheBase {
 	/**
 	 * Default valid time
@@ -19,7 +22,8 @@ class CacheWincache extends CacheBase {
 	 * @param void $opt Not used
 	 * @return CacheWincache instance of CacheWincache
 	 */
-	function getInstance($opt=null){
+	function getInstance($opt=null)
+	{
 		if(!$GLOBALS['__CacheWincache__']) {
 			$GLOBALS['__CacheWincache__'] = new CacheWincache();
 		}
@@ -31,7 +35,8 @@ class CacheWincache extends CacheBase {
 	 *
 	 * @return void
 	 */
-	function CacheWincache(){
+	function CacheWincache()
+	{
 	}
 
 	/**
@@ -39,7 +44,8 @@ class CacheWincache extends CacheBase {
 	 *
 	 * @return bool Return true on support or false on not support
 	 */
-	function isSupport(){
+	function isSupport()
+	{
 		return function_exists('wincache_ucache_set');
 	}
 
@@ -54,7 +60,8 @@ class CacheWincache extends CacheBase {
 	 *							If no ttl is supplied, use the default valid time CacheWincache::valid_time.
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function put($key, $buff, $valid_time = 0){
+	function put($key, $buff, $valid_time = 0)
+	{
 		if($valid_time == 0) $valid_time = $this->valid_time;
 		return wincache_ucache_set(md5(_XE_PATH_.$key), array(time(), $buff), $valid_time);
 	}
@@ -67,13 +74,15 @@ class CacheWincache extends CacheBase {
 	 *								If stored time is older then modified time, the data is invalid.
 	 * @return bool Return true on valid or false on invalid.
 	 */
-	function isValid($key, $modified_time = 0) {
+	function isValid($key, $modified_time = 0)
+	{
 		$_key = md5(_XE_PATH_.$key);
 		$obj = wincache_ucache_get($_key, $success);
 		if(!$success || !is_array($obj)) return false;
 		unset($obj[1]);
 
-		if($modified_time > 0 && $modified_time > $obj[0]) {
+		if($modified_time > 0 && $modified_time > $obj[0])
+		{
 			$this->_delete($_key);
 			return false;
 		}
@@ -89,12 +98,14 @@ class CacheWincache extends CacheBase {
 	 *								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure or older then modified time. Return the string associated with the $key on success.
 	 */
-	function get($key, $modified_time = 0) {
+	function get($key, $modified_time = 0)
+	{
 		$_key = md5(_XE_PATH_.$key);
 		$obj = wincache_ucache_get($_key, $success);
 		if(!$success || !is_array($obj)) return false;
 
-		if($modified_time > 0 && $modified_time > $obj[0]) {
+		if($modified_time > 0 && $modified_time > $obj[0])
+		{
 			$this->_delete($_key);
 			return false;
 		}
@@ -108,7 +119,8 @@ class CacheWincache extends CacheBase {
 	 * @param string $_key Used to store the value.
 	 * @return void
 	 */
-	function _delete($_key) {
+	function _delete($_key)
+	{
 		wincache_ucache_delete($_key);
 	}
 
@@ -118,7 +130,8 @@ class CacheWincache extends CacheBase {
 	 * @param string $key Used to store the value.
 	 * @return void
 	 */
-	function delete($key) {
+	function delete($key)
+	{
 		$_key = md5(_XE_PATH_.$key);
 		$this->_delete($_key);
 	}
@@ -128,7 +141,8 @@ class CacheWincache extends CacheBase {
 	 *
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function truncate() {
+	function truncate()
+	{
 		return wincache_ucache_clear();
 	}
 }

@@ -11,4 +11,4 @@ if($called_position == 'after_module_proc' && Context::getResponseMethod()!="XML
 	Context::loadFile(array('./addons/autolink/autolink.js', 'body', '', null), true);
 }
 /* End of file autolink.addon.php */
-/* Location: .//addons/autolink/autolink.addon.php */
+/* Location: ./addons/autolink/autolink.addon.php */

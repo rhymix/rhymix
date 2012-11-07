@@ -1,10 +1,14 @@
 <?php
+include '../handler/Handler.class.php';
+include './CacheHandler.class.php';
+
 /**
  * Cache class for APC
  *
  * @author NHN (developer@xpressengine.com)
  **/
-class CacheApc extends CacheBase {
+class CacheApc extends CacheBase
+{
 	/**
 	 * Default valid time
 	 * @var int
@@ -17,8 +21,10 @@ class CacheApc extends CacheBase {
 	 * @param void $opt Not used
 	 * @return CacheApc instance of CacheApc
 	 */
-	function getInstance($opt=null){
-		if(!$GLOBALS['__CacheApc__']) {
+	function getInstance($opt=null)
+	{
+		if(!$GLOBALS['__CacheApc__'])
+		{
 			$GLOBALS['__CacheApc__'] = new CacheApc();
 		}
 		return $GLOBALS['__CacheApc__'];
@@ -29,7 +35,8 @@ class CacheApc extends CacheBase {
 	 *
 	 * @return void
 	 */
-	function CacheApc(){
+	function CacheApc()
+	{
 	}
 
 	/**
@@ -37,7 +44,8 @@ class CacheApc extends CacheBase {
 	 *
 	 * @return bool Return true on support or false on not support
 	 */
-	function isSupport(){
+	function isSupport()
+	{
 		return function_exists('apc_add');
 	}
 
@@ -51,7 +59,8 @@ class CacheApc extends CacheBase {
 	 *							If no ttl is supplied, use the default valid time CacheApc::valid_time.
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function put($key, $buff, $valid_time = 0){
+	function put($key, $buff, $valid_time = 0)
+	{
 		if($valid_time == 0) $valid_time = $this->valid_time;
 		return apc_store(md5(_XE_PATH_.$key), array(time(), $buff), $valid_time);
 	}
@@ -64,17 +73,19 @@ class CacheApc extends CacheBase {
 	 *								If stored time is older then modified time, the data is invalid.
 	 * @return bool Return true on valid or false on invalid.
 	 */
-	function isValid($key, $modified_time = 0) {
+	function isValid($key, $modified_time = 0)
+	{
 		$_key = md5(_XE_PATH_.$key);
 		$obj = apc_fetch($_key, $success);
 		if(!$success || !is_array($obj)) return false;
 		unset($obj[1]);
 
-		if($modified_time > 0 && $modified_time > $obj[0]) {
+		if($modified_time > 0 && $modified_time > $obj[0])
+		{
 			$this->_delete($_key);
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -86,12 +97,14 @@ class CacheApc extends CacheBase {
 	 *								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure or older then modified time. Return the string associated with the $key on success.
 	 */
-	function get($key, $modified_time = 0) {
+	function get($key, $modified_time = 0)
+	{
 		$_key = md5(_XE_PATH_.$key);
 		$obj = apc_fetch($_key, $success);
 		if(!$success || !is_array($obj)) return false;
 
-		if($modified_time > 0 && $modified_time > $obj[0]) {
+		if($modified_time > 0 && $modified_time > $obj[0])
+		{
 			$this->_delete($_key);
 			return false;
 		}
@@ -105,7 +118,8 @@ class CacheApc extends CacheBase {
 	 * @param string $_key Used to store the value.
 	 * @return void
 	 */
-	function _delete($_key) {
+	function _delete($_key)
+	{
 		$this->put($_key,null,1);
 	}
 
@@ -115,7 +129,8 @@ class CacheApc extends CacheBase {
 	 * @param string $key Used to store the value.
 	 * @return void
 	 */
-	function delete($key) {
+	function delete($key)
+	{
 		$this->_delete($key);
 	}
 
@@ -124,7 +139,8 @@ class CacheApc extends CacheBase {
 	 *
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function truncate() {
+	function truncate()
+	{
 		return apc_clear_cache('user');
 	}
 }
