@@ -69,15 +69,17 @@
 			<h1><a href="#" target="_blank" class="title"><!--메뉴 이름--></a></h1>
 			<div class="cnt">
 				<ul>
-					<li><strong>{$lang->menu_id}</strong>: <span class="url"></span></li>
-					<li><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li>
+					<li class="default"><a href="#default" data-admin-show="#default">{$lang->general_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
+					
+					<!--li><strong>{$lang->menu_id}</strong>: <span class="url"></span></li>
+					<li><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li-->
+					
 					<li class="add"><a href="#add" data-admin-show="#add">{$lang->add_menu} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><button type="button" class="_edit_cut">{$lang->cut}</button></li>
 					<li><button type="button" class="_edit_copy">{$lang->copy}</button></li>
 					<li><button type="button" class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li><button type="button" class="_deleteMenu">{$lang->cmd_delete}</button></li>
 					<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox" class="_chkUseAsHome"> {$lang->use_site_default_module}</label></li>
-					<li class="default"><a href="#default" data-admin-show="#default">{$lang->general_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li class="design"><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -169,6 +171,16 @@
 							<input id="menuName" class="_menuName lang_code" type="text" required style="width:220px">
 						</div>
 					</li>
+
+					<li class="menuType"><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li>
+
+					<li style="padding-top:12px;margin-top:5px">
+						<label><input type="checkbox" class="_newWindow" title="{$lang->menu_open_window}"> {$lang->menu_open_window}</label>
+					</li>
+					<li>
+						<label><input type="checkbox" class="_leaveUnfolded" title="{$lang->menu_expand}"> {$lang->menu_expand}</label>
+					</li>
+					
 					<li class="typePage">
 						<label for="mid2">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
 						<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
@@ -177,6 +189,8 @@
 						</div>
 						<input type="text" id="mid2" class="_mid">
 					</li>
+					
+
 					<li class="typeUrl">
 						<div class="x_tabbable">
 							<ul class="x_nav x_nav-tabs">
@@ -195,12 +209,6 @@
 								</div>
 							</div>
 						</div>
-					</li>
-					<li style="padding-top:12px;margin-top:5px;border-top:1px solid #ddd">
-						<label><input type="checkbox" class="_newWindow" title="{$lang->menu_open_window}"> {$lang->menu_open_window}</label>
-					</li>
-					<li>
-						<label><input type="checkbox" class="_leaveUnfolded" title="{$lang->menu_expand}"> {$lang->menu_expand}</label>
 					</li>
 				</ul>
 				<div class="btnBoth">
@@ -516,7 +524,7 @@
 							<option class="_group_all" value="0">{$lang->grant_to_all}</option>
 							<option class="_group_loggedin" value="-1">{$lang->grant_to_login_user}</option>
 							<option class="_group_signedup" value="-2">{$lang->grant_to_site_user}</option>
-							<!--option class="_group_manager" value="-3">{$lang->grant_to_admin}</option-->
+							<option class="_group_manager" value="-3">{$lang->grant_to_admin}</option>
 							<option class="_group_selected" value="-10">{$lang->grant_to_group}</option>
 						</select>
 						<div class="selected x_hide _groups _groups_${PermId}">
@@ -1128,6 +1136,8 @@ jQuery(function($){
 	<!--@end-->
 	
 	<!--@if($act == 'dispMenuAdminSiteDesign')-->
+	$._xeAdminVar.bSiteDesignMode = true;
+	
 	//$('#design').nextAll().hide();
 
 	setTimeout(function(){$('#design').show();},0);
@@ -1450,9 +1460,8 @@ jQuery(function($){
 		$(ev.target).find('.title').html(htInfo.sText);
 
 		$(ev.target).find('.title').attr('href', htInfo.href);
-		$(ev.target).find('.url').html(htInfo.url);
-		//$(ev.target).find('.module_type').html(htInfo.module_type || "");
-		$(ev.target).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
+		//$(ev.target).find('.url').html(htInfo.url);
+		//$(ev.target).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
 
 		if(htInfo.bShortCut){
 			$(ev.target).removeClass('prop-general');
@@ -1475,10 +1484,10 @@ jQuery(function($){
 	});
 	$('#properties ._chkUseAsHome').click(function(){
 		if($(this).attr('checked')){
-			var params = {};
-			// ;;; menuSrl이어야 함
-			//params['index_module_srl'] = $._xeAdminVar.sSelectedMenuSrl;
-			params['index_module_srl'] = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].module_srl;
+			var params = {
+				menu_item_srl : $._xeAdminVar.sSelectedMenuSrl,
+				index_module_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].module_srl
+			};
 
 			$.exec_json("admin.procInstallAdminUpdateIndexModule", params, function(htData){
 				//console.log(htData);
@@ -1647,6 +1656,7 @@ jQuery(function($){
 		
 		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 		
+		$(this).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
 		//console.log(htInfo);
 		
 		if(htInfo.sModuleType === "_SHORTCUT"){
@@ -1989,6 +1999,7 @@ jQuery(function($){
 			
 			if(i === 0){
 				$node.find('._group_signedup').remove();
+				$node.find('._group_manager').remove();
 			}else{
 				/*
 					guest : 모든 옵션 사용 가능, 항상 권한 있음.
@@ -2287,10 +2298,16 @@ jQuery(function($){
 			if(nIdx === 0){
 				// PC
 				$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = false;
+				
+				$('#design').addClass('_pcMode');
+				$('#design').removeClass('_mobileMode');
 
 			}else{
 				// mobile
 				$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = true;
+				
+				$('#design').removeClass('_pcMode');
+				$('#design').addClass('_mobileMode');
 
 				updatePreview({
 					sModuleName : htDesign.sModuleName,
@@ -2464,6 +2481,8 @@ jQuery(function($){
 	$('#design').bind('show', function(ev){
 		if(this !== ev.target) return;
 		
+		//$('#design').addClass('_mobile_view_disabled').find('.mvOption>:checkbox').removeAttr('checked');
+		
 		if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
 			$('#design .x_tabbable a[href="#mobile"]').click();
 		}else{
@@ -2562,7 +2581,7 @@ jQuery(function($){
 			
 			var sMode = htSetting.bMobilePreviewTabOpen?"M":"P";
 	
-			if(sMode === "M" && $._xeAdminVar.htSelectedMenuDesign.sUseMobile !== 'Y') return;
+			if(!$._xeAdminVar.bSiteDesignMode && (sMode === "M" && $._xeAdminVar.htSelectedMenuDesign.sUseMobile !== 'Y')) return;
 			
 			//htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
 			htSetting.sModuleName = $._xeAdminVar.htSelectedMenuDesign.sModuleName;

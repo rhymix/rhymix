@@ -657,7 +657,7 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="en"><![CDATA[Use as Home page]]></value>
 	</item>
 	<item name="general_settings">
-		<value xml:lang="ko"><![CDATA[기본 설정]]></value>
+		<value xml:lang="ko"><![CDATA[메뉴 수정]]></value>
 		<value xml:lang="en"><![CDATA[General settings]]></value>
 	</item>
 	<item name="design">
