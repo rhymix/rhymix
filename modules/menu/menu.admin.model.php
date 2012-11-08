@@ -360,6 +360,7 @@
 			$menuList = array();
 			if($menuSrl)
 			{
+				$isMenuFixed = false;
 				$output = $this->getMenu($menuSrl);
 				$php_file = sprintf('./files/cache/menu/%s.php',$output->menu_srl);
 				if(file_exists($php_file)) @include($php_file);
@@ -368,8 +369,15 @@
 				{
 					foreach($menu->list AS $key=>$value)
 					{
-						$this->_menuInfoSetting($menu->list[$key], $start_module);
+						$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed);
 					}
+				}
+
+				// menu recreate
+				if($isMenuFixed)
+				{
+					$oMenuAdminController = &getAdminController('menu');
+					$oMenuAdminController->makeXmlFile($menuSrl);
 				}
 
 				$menuItems->menuSrl = $output->menu_srl;
@@ -393,12 +401,20 @@
 							$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
 							if(file_exists($value->php_file)) @include($value->php_file);
 
+							$isMenuFixed = false;
 							if(count($menu->list)>0)
 							{
 								foreach($menu->list AS $key2=>$value2)
 								{
-									$this->_menuInfoSetting($menu->list[$key2], $start_module);
+									$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed);
 								}
+							}
+
+							// menu recreate
+							if($isMenuFixed)
+							{
+								$oMenuAdminController = &getAdminController('menu');
+								$oMenuAdminController->makeXmlFile($value->menu_srl);
 							}
 
 							$menuItems->menuSrl = $value->menu_srl;
@@ -450,9 +466,25 @@
 		 * @param array $menu
 		 * @return void
 		 */
-		private function _menuInfoSetting(&$menu, &$start_module)
+		private function _menuInfoSetting(&$menu, &$start_module, &$isMenuFixed)
 		{
 			$oModuleModel = &getModel('module');
+			// if url is empty and is_shortcut is 'N', change to is_shortcut 'Y'
+			if(!$menu['url'] && $menu['is_shortcut'] == 'N')
+			{
+				$menu['is_shortcut'] = 'Y';
+
+				unset($args);
+				$args->menu_item_srl = $menu['node_srl'];
+				$args->is_shortcut = 'Y';
+				if($menu['menu_name_key']) $args->name = $menu['menu_name_key'];
+				else $args->name = $menu['menu_name'];
+				$output = executeQuery('menu.updateMenuItem', $args);
+
+				$isMenuFixed = true;
+			}
+
+			//if menu type is module menu
 			if(!empty($menu['url']) && !preg_match('/^http/i', $menu['url']))
 			{
 				unset($midInfo);
@@ -484,7 +516,7 @@
 			{
 				foreach($menu['list'] AS $key=>$value)
 				{
-					$this->_menuInfoSetting($menu['list'][$key], &$start_module);
+					$this->_menuInfoSetting($menu['list'][$key], &$start_module, $isMenuFixed);
 				}
 			}
 		}
