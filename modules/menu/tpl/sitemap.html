@@ -155,7 +155,7 @@
 			<div class="cnt">			
 				<div class="list">
 				</div>
-				<div class="_pagination"></div>
+				<div class="_pagination" style="float:left"></div>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#download">&times;</button>
@@ -402,11 +402,20 @@
 			<div class="cnt">
 				<div class="list">
 				</div>
-				<div class="_pagination"></div>
+				<div style="margin-top:-10px" class="x_clearfix">
+					<div class="_pagination"></div>
+					
+				</div>
 				<script id="tmpl_pagination" type="text/x-jquery-tmpl">
-				<div class="x_pagination x_pagination-centered">
+				<div class="x_pagination" style="float:left">
 					<ul class="_list">
 					</ul>
+				</div>
+					
+				<div class="search x_input-append x_pull-right">
+					<input type="search" value="" title="Search" name="search_keyword">
+					<button class="x_btn x_btn-inverse _search">검색</button>
+					<a class="x_btn _cancel" href="#">취소</a>
 				</div>
 				</script>
 				<script id="tmpl_pagination_list" type="text/x-jquery-tmpl">
@@ -507,7 +516,7 @@
 					</script>
 					
 				</div>
-				<div class="_pagination"></div>
+				<div class="_pagination" style="float:left"></div>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#downloadSkin">&times;</button>
@@ -1150,7 +1159,19 @@ jQuery(function($){
 	$("#tmpl_pagination").template( "pagination" );
 	$("#tmpl_pagination_list").template( "paginationList" );
 	$("#tmpl_pagination_jump").template( "paginationJump" );
-	function createPagination($PlaceHolder, fnCallback, nCurPage, nTotalPages, sToFirstText, sToLastText, sToText){
+	function createPagination(htOptions){
+		var $PlaceHolder = htOptions.$PlaceHolder;
+		var fnCallback = htOptions.fnCallback;
+		var nCurPage = htOptions.nCurPage;
+		var nTotalPages = htOptions.nTotalPages;
+		var sToFirstText = htOptions.sToFirstText;
+		var sToLastText = htOptions.sToLastText;
+		var sToText = htOptions.sToText;
+		var sSearchKeyword = htOptions.sSearchKeyword;
+		
+		$PlaceHolder.addClass('_pagination');
+		$PlaceHolder.data('search_keyword', sSearchKeyword);
+		
 		nCurPage = parseInt(nCurPage);
 		nTotalPages = parseInt(nTotalPages);
 		var nMaxList = 5;
@@ -1191,23 +1212,52 @@ jQuery(function($){
 		$PlaceHolder.html("");
 		$PlaceHolder.append($Result);
 		
-		$.data($PlaceHolder.find('.x_pagination')[0], "fnCallback", fnCallback);
+		if(sSearchKeyword){
+			$PlaceHolder.find('input[name=search_keyword]').val(sSearchKeyword);
+		}
+		
+		$.data($PlaceHolder[0], "fnCallback", fnCallback);
 	}
-	$(document.body).on('click', '.x_pagination ._toPage', function(ev){
+	$(document.body).on('click', '._pagination ._search', function(ev){
+		ev.preventDefault();
+		
+		var sSearchKeyword = $(this).closest('._pagination').find('input[name=search_keyword]').val();
+
+		$.data($(this).closest('._pagination')[0], "fnCallback")({
+			page: 1,
+			search_keyword: sSearchKeyword
+		});
+	});
+	$(document.body).on('click', '._pagination ._cancel', function(ev){
+		ev.preventDefault();
+		
+		$.data($(this).closest('._pagination')[0], "fnCallback")({
+			page: 1,
+			search_keyword: ""
+		});
+	});
+
+	$(document.body).on('click', '._pagination ._toPage', function(ev){
+		var sSearchKeyword = $(this).closest('._pagination').data('search_keyword');
+		
 		htParam = $.parseJSON($(this).attr('data-param'));
 		
-		$.data($(this).parents('.x_pagination')[0], "fnCallback")({
-			page: htParam.page
+		$.data($(this).parents('._pagination')[0], "fnCallback")({
+			page: htParam.page,
+			search_keyword: sSearchKeyword
 		});
 	});
 
 	$(document.body).on('click', '.x_pagination ._jumpTo', function(ev){
+		var sSearchKeyword = $(this).closest('._pagination').data('search_keyword');
+		
 		htParam = $.parseJSON($(this).attr('data-param'));
 		//console.log($(this).parent().find('input[name=page]'));
 		var nPage = parseInt($(this).parent().find('input[name=page]').val());
 
-		$.data($(this).parents('.x_pagination')[0], "fnCallback")({
-			page: nPage
+		$.data($(this).parents('._pagination')[0], "fnCallback")({
+			page: nPage,
+			search_keyword: sSearchKeyword
 		});
 	});
 	
@@ -2150,6 +2200,7 @@ jQuery(function($){
 		
 		htParams = htParams || {};
 		htParams.page = htParams.page || 1;
+		htParams.search_keyword = htParams.search_keyword || "";
 
 		var $Panel = $('#'+sItemType);
 		var sAction = htDownloadableListAction[sItemType];
@@ -2202,13 +2253,23 @@ jQuery(function($){
 				var htInfo = htData.page_navigation;
 				
 				var fnCallback = function(htNewParams){
-					
 					htParams.page = htNewParams.page || htParams.page;
+					htParams.search_keyword = typeof htNewParams.search_keyword === "string" ? htNewParams.search_keyword : htParams.search_keyword;
 					
 					return drawDownloadableList(sItemType, htParams);
 				}
+
 				//createPagination($('#download ._pagination'), drawMenuModuleList, htInfo.cur_page, htInfo.total_page, "&laquo; 첫 페이지", "끝 페이지 &raquo;", "페이지 직접 이동")
-				createPagination($Panel.find('._pagination'), fnCallback, htInfo.cur_page, htInfo.total_page, "&laquo; " + xe.lang.first_page, xe.lang.last_page + " &raquo;", xe.lang.cmd_go_to_page)
+				createPagination({
+					$PlaceHolder : $Panel.find('._pagination'), 
+					fnCallback : fnCallback, 
+					nCurPage : htInfo.cur_page, 
+					nTotalPages : htInfo.total_page, 
+					sToFirstText : "&laquo; " + xe.lang.first_page, 
+					sToLastText : xe.lang.last_page + " &raquo;", 
+					sToText : xe.lang.cmd_go_to_page, 
+					sSearchKeyword : htParams.search_keyword
+				});
 			}else{
 				$node = $.tmpl( "noDownloadableItem", {
 				} );
