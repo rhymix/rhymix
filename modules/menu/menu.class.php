@@ -41,6 +41,11 @@
 		/**
 		 * Execute update
 		 * @return Object
+        }
+
+		/**
+		 * Execute update
+		 * @return Object
 		 */
         function moduleUpdate() {
             $oDB = &DB::getInstance();
@@ -57,6 +62,32 @@
 			if(!$oDB->isColumnExists('menu_item', 'is_shortcut'))
 			{
 				$oDB->addColumn('menu_item', 'is_shortcut', 'char', 1, 'N');
+
+				// check empty url and change shortcut type
+				$oMenuAdminModel = &getAdminModel('menu');
+				$output = $oMenuAdminModel->getMenus();
+
+				if(is_array($output))
+				{
+					foreach($output  AS $key=>$value)
+					{
+						unset($args);
+						$args->menu_srl = $value->menu_srl;
+						$output2 = executeQueryArray('menu.getMenuItems', $args);
+						if(is_array($output2->data))
+						{
+							foreach($output2->data AS $key2=>$value2)
+							{
+								if($value2->is_shortcut == 'N' && !$value2->url)
+								{
+									$value2->is_shortcut = 'Y';
+
+									$output3 = executeQuery('menu.updateMenuItem', $value2);
+								}
+							}
+						}
+					}
+				}
 			}
 
             return new Object(0, 'success_updated');
