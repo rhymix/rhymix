@@ -122,6 +122,10 @@
 		<value xml:lang="tr"><![CDATA[İndirme Listesi]]></value>
 		<value xml:lang="vi"><![CDATA[Danh sách Download]]></value>
 	</item>
+	<item name="sitemap_with_homemenu">
+		<value xml:lang="ko"><![CDATA[시작메뉴가 있는 사이트맵]]></value>
+		<value xml:lang="en"><![CDATA[Sitemap with Home menu]]></value>
+	</item>
 	<item name="layout_preview_content">
 		<value xml:lang="ko"><![CDATA[내용이 출력되는 부분입니다.]]></value>
 		<value xml:lang="en"><![CDATA[The content gets displayed here.]]></value>

@@ -118,11 +118,34 @@
 
 		function procInstallAdminUpdateIndexModule()
 		{
-			if(!Context::get('index_module_srl')) return new Object(-1, 'msg_invalid_request');
+			if(!Context::get('index_module_srl') || !Context::get('menu_item_srl'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
 			$site_args->site_srl = 0;
 			$site_args->index_module_srl = Context::get('index_module_srl');
 			$oModuleController = &getController('module');
 			$oModuleController->updateSite($site_args);
+
+			// get menu item info
+			$menuItemSrl = Context::get('menu_item_srl');
+			$oMenuAdminModel = &getAdminModel('menu');
+			$output = $oMenuAdminModel->getMenuItemInfo($menuItemSrl);
+
+			// update homeSitemap.php cache file
+			$oMenuAdminController = &getAdminController('menu');
+			$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
+			if(file_exists($homeMenuCacheFile))
+			{
+				@include($homeMenuCacheFile);
+			}
+
+			if(!$homeMenuSrl || $homeMenuSrl != $output->menu_srl)
+			{
+				$oMenuAdminController->makeHomemenuCacheFile($output->menu_srl);
+			}
+
 			$this->setMessage('success_updated');
 		}
 

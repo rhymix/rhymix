@@ -204,38 +204,15 @@
 		 * @return void
          **/
         function dispLayoutAdminModify() {
-            // Set the layout after getting layout information
-            $layout_srl = Context::get('layout_srl');
+			$oLayoutAdminModel = &getAdminModel('layout');
+			$oLayoutAdminModel->setLayoutAdminSetInfoView();
 
-			// Get layout information
-            $oLayoutModel = &getModel('layout');
-            $layout_info = $oLayoutModel->getLayout($layout_srl);
+			Context::set('is_sitemap', '0');
+			$script = '<script src="./modules/layout/tpl/js/layout_modify.js"></script>';
+			$oTemplate = &TemplateHandler::getInstance();
+			$content = $oTemplate->compile($this->module_path.'tpl/', 'layout_info_view');
 
-			// Error appears if there is no layout information is registered
-            if(!$layout_info) return $this->stop('msg_invalid_request');
-
-            // If faceoff, no need to display the path
-            if($layout_info->type == 'faceoff') unset($layout_info->path);
-
-            // Get a menu list
-            $oMenuAdminModel = &getAdminModel('menu');
-            $menu_list = $oMenuAdminModel->getMenus();
-            Context::set('menu_list', $menu_list);
-
-			$security = new Security();
-			$security->encodeHTML('menu_list..');
-
-			$security = new Security($layout_info);
-			$layout_info = $security->encodeHTML('.', 'author..', 'extra_var..');
-
-			$layout_info->description = nl2br(trim($layout_info->description));
-			if (!is_object($layout_info->extra_var)) $layout_info->extra_var = new StdClass();
-			foreach($layout_info->extra_var as $var_name => $val)
-			{
-				if (isset($layout_info->{$var_name}->description))
-					$layout_info->{$var_name}->description = nl2br(trim($val->description));
-			}
-			Context::set('selected_layout', $layout_info);
+			Context::set('content', $content);
 
 			$this->setTemplateFile('layout_modify');
         }

@@ -33,6 +33,16 @@
 		 * @var array
 		 */
 		var $insertedMenuItemSrlList = array();
+		/**
+		 * home module's mid
+		 * @var string
+		 */
+		private $homeModuleMid = NULL;
+		/**
+		 * home menu cache file
+		 * @var string
+		 */
+		private $homeMenuCacheFile = './files/cache/menu/homeSitemap.php';
 
 		/**
 		 * Initialization
@@ -41,6 +51,7 @@
 		function init()
 		{
 			$this->setTemplatePath($this->module_path.'tpl');
+			//$this->homeMenuCacheFile = sprintf('./files/cache/menu/homeSitemap.php');
 		}
 
 		/**
@@ -778,6 +789,18 @@
 				$parent_srl = 0;
 			}
 
+			if(!$this->homeModuleMid)
+			{
+				$oModuleModel = &getModel('module');
+				$oMenuAdminController = &getAdminController('menu');
+				$columnList = array('modules.mid',);
+				$output = $oModuleModel->getSiteInfo(0, $columnList);
+				if($output->mid)
+				{
+					$this->homeModuleMid = $output->mid;
+				}
+			}
+
 			$this->moveMenuItem($menu_srl, $parent_srl, $source_srl, $target_srl, $mode, $originMenu['is_shortcut'], $originMenu['url']);
 			if(count($originMenu['list']) > 0)
 			{
@@ -1132,6 +1155,19 @@
 						$moduleInfo->menu_srl = $menu_srl;
 						$oModuleController = &getController('module');
 						$output = $oModuleController->updateModule($moduleInfo);
+					}
+
+					// change home menu cache file
+					if($url == $this->homeModuleMid)
+					{
+						if(file_exists($this->homeMenuCacheFile))
+						{
+							@include($this->homeMenuCacheFile);
+						}
+						if(!$homeMenuSrl || $homeMenuSrl != $menu_srl)
+						{
+							$this->makeHomemenuCacheFile($menu_srl);
+						}
 					}
 				}
             // Add a child
@@ -1828,6 +1864,19 @@
 			$tmp_arr = explode('.', $buttonPath);
 			$ext = $tmp_arr[count($tmp_arr)-1];
 			return sprintf('%s%d.%s.%s', $path, $menuItemSrl, 'menu_'.$mode.'_btn', $ext);
+		}
+
+		public function makeHomemenuCacheFile($menuSrl)
+		{
+			$cacheBuff .= sprintf('<?php if(!defined("__ZBXE__")) exit();');
+			$cacheBuff .= sprintf('$homeMenuSrl = %d;', $menuSrl);
+
+			FileHandler::writeFile($this->homeMenuCacheFile, $cacheBuff);
+		}
+
+		public function getHomeMenuCacheFile()
+		{
+			return $this->homeMenuCacheFile;
 		}
     }
 ?>

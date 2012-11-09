@@ -1,7 +1,7 @@
 <form id="config_form" ruleset="updateLayout" action="./" enctype="multipart/form-data" method="post">
 	<input type="hidden" name="module" value="layout" />
 	<input type="hidden" name="act" value="procLayoutAdminUpdate" />
-	<input type="hidden" name="is_sitemap" value="1" />
+	<input type="hidden" name="is_sitemap" value="{$is_sitemap}" />
 	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
 	<input type="hidden" name="layout" value="{$selected_layout->layout}" />
 	<input type="hidden" name="_layout_type" value="{$selected_layout->layout_type}" />
@@ -126,6 +126,7 @@
 				<div class="x_controls">
 					<select name="{$menu_name}" id="{$menu_name}" style="width:220px">
 						<option value="0">{$lang->cmd_select}</option>
+						<option selected="selected"|cond="!$menu_info->menu_srl||$menu_info->menu_srl == -1" value="-1">{$lang->sitemap_with_homemenu}</option>
 						<option loop="$menu_list => $key, $val" value="{$val->menu_srl}" selected="selected"|cond="$val->menu_srl == $menu_info->menu_srl">{$val->title}</option>
 					</select>
 				</div>

@@ -354,6 +354,7 @@
 			$menuSrl = Context::get('menu_srl');
 
 			$oModuleModel = &getModel('module');
+			$oMenuAdminController = &getAdminController('menu');
 			$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
 			$start_module = $oModuleModel->getSiteInfo(0, $columnList);
 
@@ -364,6 +365,10 @@
 				$output = $this->getMenu($menuSrl);
 				$php_file = sprintf('./files/cache/menu/%s.php',$output->menu_srl);
 				if(file_exists($php_file)) @include($php_file);
+				else
+				{
+					$oMenuAdminController->makeXmlFile($menuSrl);
+				}
 
 				if(count($menu->list)>0)
 				{
@@ -376,7 +381,6 @@
 				// menu recreate
 				if($isMenuFixed)
 				{
-					$oMenuAdminController = &getAdminController('menu');
 					$oMenuAdminController->makeXmlFile($menuSrl);
 				}
 
@@ -400,6 +404,10 @@
 							unset($menuItems);
 							$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
 							if(file_exists($value->php_file)) @include($value->php_file);
+							else
+							{
+								$oMenuAdminController->makeXmlFile($value->menu_srl);
+							}
 
 							$isMenuFixed = false;
 							if(count($menu->list)>0)
@@ -413,7 +421,6 @@
 							// menu recreate
 							if($isMenuFixed)
 							{
-								$oMenuAdminController = &getAdminController('menu');
 								$oMenuAdminController->makeXmlFile($value->menu_srl);
 							}
 

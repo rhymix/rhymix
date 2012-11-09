@@ -20,6 +20,23 @@ class layoutAdminModel extends layout {
 	 */
 	public function getLayoutAdminSetInfoView()
 	{
+		$this->setLayoutAdminSetInfoView();
+
+		Context::set('is_sitemap', '1');
+		$script = '<script src="./modules/layout/tpl/js/layout_modify.js"></script>';
+		$oTemplate = &TemplateHandler::getInstance();
+		$html = $oTemplate->compile($this->module_path.'tpl/', 'layout_info_view');
+
+		$this->add('html', $script.$html);
+
+		if($isReturn)
+		{
+			return $this->get('html');
+		}
+	}
+
+	public function setLayoutAdminSetInfoView()
+	{
 		$layout_srl = Context::get('layout_srl');
 
 		// Get layout information
@@ -57,12 +74,6 @@ class layoutAdminModel extends layout {
 			}
 		}
 		Context::set('selected_layout', $layout_info);
-
-		$script = '<script src="./modules/layout/tpl/js/layout_modify.js"></script>';
-		$oTemplate = &TemplateHandler::getInstance();
-		$html = $oTemplate->compile($this->module_path.'tpl/', 'layout_info_view');
-
-		$this->add('html', $script.$html);
 	}
 
 	public function getLayoutAdminSetHTMLCSS()
