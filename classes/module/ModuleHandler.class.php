@@ -656,6 +656,22 @@
                         // Set menus into context
                         if($layout_info->menu_count) {
                             foreach($layout_info->menu as $menu_id => $menu) {
+								// set default menu set(included home menu)
+								if(!$menu->menu_srl || $menu->menu_srl == -1)
+								{
+									$oMenuAdminController = &getAdminController('menu');
+									$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
+
+									if(file_exists($homeMenuCacheFile))
+									{
+										@include($homeMenuCacheFile);
+									}
+
+									if(!$menu->menu_srl) $menu->menu_srl = 0;
+
+									$menu->xml_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->xml_file);
+									$menu->php_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->php_file);
+								}
                                 if(file_exists($menu->php_file)) @include($menu->php_file);
                                 Context::set($menu_id, $menu);
                             }
