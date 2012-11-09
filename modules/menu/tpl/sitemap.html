@@ -3020,6 +3020,38 @@ jQuery(function($){
 		});
 	});
 	
+	function doDelete(sMenuSrl, bForce, sSelectOnload){
+		var params = {
+			menu_item_srl : sMenuSrl,
+			is_force : bForce ? 'Y' : 'N'
+		};
+
+		$.exec_json("menu.procMenuAdminDeleteItem", params, function(htData){
+			if(htData.error === -1001){
+				confirmDialog({
+					sTitle : xe.lang.confirm_menu_delete,
+					
+					sText : 'Delete sub trees?',
+					
+					fnOnOK : function(){
+						doDelete(sMenuSrl, true, sSelectOnload);
+					}
+				});				
+				
+				return;
+			}
+			
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			// select the parent of the menu being deleted
+			$._xeAdminVar.sSelectOnload = sSelectOnload;
+			loadSiteMap();
+		});
+	}
+	
 	$('._deleteMenu').click(function(){
 		confirmDialog({
 			sTitle : xe.lang.confirm_menu_delete,
@@ -3032,21 +3064,8 @@ jQuery(function($){
 				var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 
 				var sParentSrl = htNodeInfo[sSelectedMenuSrl].parent_srl;
-
-				var params = {};
-				params['menu_item_srl'] = sSelectedMenuSrl;
-
-				$.exec_json("menu.procMenuAdminDeleteItem", params, function(htData){
-					//console.log(htData);
-					if(htData.error !== 0){
-						alert(htData.message);
-						return;
-					}
-					
-					// select the parent of the menu being deleted
-					$._xeAdminVar.sSelectOnload = sParentSrl;
-					loadSiteMap();
-				});
+				
+				doDelete(sSelectedMenuSrl, false, sParentSrl);
 			},
 			
 			fnOnShow : function(){
