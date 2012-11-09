@@ -109,6 +109,9 @@
 			<div class="cnt">
 				<ul>
 					<li>
+						<span class="_description">Description</span> <a class='_link'>[link]</a>
+					</li>
+					<li>
 						<div class="multilingual x_input-append">
 							<label for="lang_menuName2">{$lang->menu_name}</label>
 							<input id="menuName2" class="_menuName lang_code" type="text" required style="width:220px">
@@ -345,7 +348,7 @@
 			<div class="cnt">
 				<label>
 					<input type="checkbox" class="_chkUseDefaultLayout" title="{$lang->use_site_default_layout}"> {$lang->use_site_default_layout}
-					<a href="#siteDefaultDesign" class="x_icon-cog">{$lang->site_default_layout_settings}</a>
+					<a href="?module=admin&act=dispMenuAdminSiteDesign" class="x_icon-cog">{$lang->site_default_layout_settings}</a>
 				</label>
 				<div class="list">
 					<ul class="_layout_list">
@@ -441,7 +444,7 @@
 			<div class="cnt">
 				<label>
 					<input type="checkbox" class="_chkUseDefault" title="{$lang->use_site_default_skin}"> {$lang->use_site_default_skin}
-					<a href="#siteDefaultDesign" class="x_icon-cog">{$lang->site_default_skin_settings}</a>
+					<a href="?module=admin&act=dispMenuAdminSiteDesign" class="x_icon-cog">{$lang->site_default_skin_settings}</a>
 				</label>
 				<div class="list">
 					<ul class="_list">
@@ -694,11 +697,13 @@ function onSiteMapReceived(htData){
 			if(sRenameId){
 				//console.log('renaming', sRenameId);
 				$("#siteMapTree").jstree("rename", $("#menu"+sRenameId));
+				$("#menu"+sRenameId)[0].scrollIntoView(true);
 			}
 			
 			if(sSelectOnload){
 				//console.log('selecting', sSelectOnload);
 				$("#siteMapTree").jstree("select_node", $("#menu"+sSelectOnload));
+				$("#menu"+sSelectOnload)[0].scrollIntoView(true);
 			}
 			
         })
@@ -729,6 +734,7 @@ function onSiteMapReceived(htData){
 					return;
 				}
 				
+				$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
 				loadSiteMap();
 				return;
 			});
@@ -1010,6 +1016,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		htNodeInfo[sNodeSrl].nNodeType = nNodeType;
 		htNodeInfo[sNodeSrl].sNodeSrl = sNodeSrl;
 		htNodeInfo[sNodeSrl].sText = sText;
+		htNodeInfo[sNodeSrl].sMenuNameKey = htNodeInfo[sNodeSrl].menu_name_key;
 		
 		htNodeInfo[sNodeSrl].sModuleType = sModuleType;
 
@@ -1589,16 +1596,26 @@ jQuery(function($){
 		$._xeAdminVar.sSelectedModuleName = $._htMarkupActionParam.moduleName;
 		$._xeAdminVar.sSelectedModuleTitle = $._htMarkupActionParam.moduleTitle;
 		
+		var $description = $(this).find('._description');
+		
 		var $title = $(this).find("._title");
 		$title.html($._xeAdminVar.sSelectedModuleTitle);
 		var htItemType = $._xeAdminVar.htItemTypes[$._xeAdminVar.sSelectedModuleName];
+
+		var $link = $(this).find("._link");
+		
+		$description.html(htItemType.description);
 		if(htItemType.package_srl && htItemType.url){
-			$title.attr('target', '_blank');
-			$title.attr('href', htItemType.url);
+		console.log($link);
+			$link.show();
+			$link.attr('target', '_blank');
+			$link.attr('href', htItemType.url);
 		}else{
-			$title.removeAttr('target');
-			$title.removeAttr('href');
+			$link.hide();
+			$link.removeAttr('target');
+			$link.removeAttr('href');
 		}
+
 		
 		if($._xeAdminVar.sSelectedModuleName === "_SHORTCUT"){
 			$(this).removeClass("page");
@@ -1611,8 +1628,6 @@ jQuery(function($){
 		//$('.mapi').clone().removeClass().removeAttr('id').addClass('clone').appendTo('#add_linkMenu, #fix_linkMenu').find('li').removeAttr('id').removeAttr('class').find('ins, .side').remove();
 		
 		$(this).find('.lang_code').trigger('reload-multilingual');
-		
-		//./console.log('');
 		
 		showMenuSelector($(this).find('._menuSelector_menuTreeContainer'));
 	});
@@ -1719,7 +1734,10 @@ jQuery(function($){
 			$(this).addClass('page');
 		}
 		
-		$(this).find('#menuName').val(htInfo.sText);
+		//$(this).find('#menuName').val(htInfo.sText);
+		$(this).find('#menuName').val(htInfo.sMenuNameKey);
+		//menu_name_key
+		
 		$(this).find('#mid2').val(htInfo.url);
 		
 		//console.log(htInfo);
@@ -3282,6 +3300,12 @@ jQuery(function($){
 		$._xeAdminVar.msgBox.bVisible = true;
 		showFoggy();
 		$._xeAdminVar.msgBox.fnOnShow();
+		
+		if($msgBox.find('input').length > 0){
+			setTimeout(function(){
+				$msgBox.find('input').focus()
+			},	0);
+		}
 	});
 	$msgBox.bind("hide", function(){
 		$._xeAdminVar.msgBox.bVisible = false;
@@ -3386,7 +3410,7 @@ jQuery(function($){
 						sText : xe.lang.go_to_ftp_setup,
 						bSmall : true,
 						fnOnOK : function(){
-							window.location.href="./?module=admin&act=dispAdminConfigFtp&success_return_url="+escape(window.location.href+"&continue_install_package="+sPackageSrl+"&continue_install_package_type="+sPackageType);
+							window.location.href="./?module=admin&act=dispAdminConfigFtp&success_return_url="+Base64.encode(window.location.href+"&continue_install_package="+sPackageSrl+"&continue_install_package_type="+sPackageType);
 						}
 					}
 				);
