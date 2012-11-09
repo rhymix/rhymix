@@ -591,7 +591,7 @@
 		 */
         function procMenuAdminDeleteItem() {
 			// List variables
-			$args = Context::gets('menu_item_srl');
+			$args = Context::getRequestVars();
 
 			$oModuleModel = &getModel('module');
 			$oMenuAdminModel = &getAdminModel('menu');
