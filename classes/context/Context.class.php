@@ -928,7 +928,7 @@ class Context {
 					$v = stripslashes($v);
 				}
 
-				$val[$k] = trim($v);
+				if (is_string($v)) $val[$k] = trim($v);
 			}
 		}
 
