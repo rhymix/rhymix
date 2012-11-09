@@ -3363,7 +3363,7 @@ jQuery(function($){
 						sText : xe.lang.go_to_ftp_setup,
 						bSmall : true,
 						fnOnOK : function(){
-							window.location.href="./?module=admin&act=dispAdminConfigFtp";
+							window.location.href="./?module=admin&act=dispAdminConfigFtp&success_return_url="+escape(window.location.href+"&continue_install_package="+sPackageSrl+"&continue_install_package_type="+sPackageType);
 						}
 					}
 				);
