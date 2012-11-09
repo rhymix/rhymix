@@ -7,6 +7,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="MI.url" var="url" notnull="notnull" />
+        <condition operation="equal" column="MI.is_shortcut" var="is_shortcut" defaut="N" pipe="and" />
         <query operation="in" column="MI.menu_srl" notnull="notnull" alias="getSiteSrl" pipe="and" >
 			<tables>
 				<table name="menu" alias="M" />

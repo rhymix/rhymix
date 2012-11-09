@@ -638,10 +638,10 @@
 				}
 			}
 
-			// check start menu in originMenu
+			// check home menu in originMenu
 			$siteInfo = $oModuleModel->getSiteInfo($menuInfo->site_srl);
 			$isStartmenuInclude = false;
-			$this->_checkStartMenuInOriginMenu($originMenu, $siteInfo->mid, $isStartmenuInclude);
+			$this->_checkHomeMenuInOriginMenu($originMenu, $siteInfo->mid, $isStartmenuInclude);
 			if($isStartmenuInclude)
 			{
 				return new Object(-1, 'msg_cannot_delete_homemenu');
@@ -666,7 +666,7 @@
 			$this->setRedirectUrl($returnUrl);
         }
 
-		private function _checkStartMenuInOriginMenu($originMenu, $startMid, &$isStartmenuInclude)
+		private function _checkHomeMenuInOriginMenu($originMenu, $startMid, &$isStartmenuInclude)
 		{
 			if($originMenu['url'] == $startMid)
 			{
@@ -677,7 +677,7 @@
 			{
 				foreach($originMenu['list'] AS $key=>$value)
 				{
-					$this->_checkStartMenuInOriginMenu($value, $startMid, $isStartmenuInclude);
+					$this->_checkHomeMenuInOriginMenu($value, $startMid, $isStartmenuInclude);
 				}
 			}
 		}
@@ -706,6 +706,23 @@
 			{
 				$oModuleController = getController('module');
 				$oModuleModel = &getModel('module');
+
+				// reference menu's url modify
+				$args->url = $node['url'];
+				$args->site_srl = $menuInfo->site_srl;
+				$args->is_shortcut = 'Y';
+				$output = executeQuery('menu.getMenuItemByUrl', $args);
+				if($output->data->menu_item_srl)
+				{
+					$output->data->url = '';
+					$referenceItem = $output->data;
+					$output = executeQuery('menu.updateMenuItem', $referenceItem);
+					if(!$output->toBool())
+					{
+						$oDB->rollback();
+						return $output;
+					}
+				}
 
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($node['url'], $menuInfo->site_srl);
 				if($moduleInfo->module_srl)
