@@ -580,8 +580,10 @@
 	xe.lang.shortcut = '{$lang->shortcut}';
 	xe.lang.msg_target_is_sub_of_origin = '{$lang->msg_target_is_sub_of_origin}';
 	xe.lang.confirm_menu_delete = '{$lang->confirm_menu_delete}';
-	xe.lang.confirm_delete_all_item_menu = '{$lang->confirm_delete_all_item_menu}';
+	xe.lang.confirm_delete_all_contents = '{$lang->confirm_delete_all_contents}';
 	xe.lang.confirm_delete_all_item = '{$lang->confirm_delete_all_item}';
+	xe.lang.confirm_delete_all_sub_items_title = '{$lang->confirm_delete_all_sub_items_title}';
+	xe.lang.confirm_delete_all_sub_items = '{$lang->confirm_delete_all_sub_items}';
 	xe.lang.target_of_view_menu = '{$lang->target_of_view_menu}';
 	xe.lang.success_saved = '{$lang->success_saved}';
 	xe.lang.first_page = '{$lang->first_page}';
@@ -3029,9 +3031,11 @@ jQuery(function($){
 		$.exec_json("menu.procMenuAdminDeleteItem", params, function(htData){
 			if(htData.error === -1001){
 				confirmDialog({
-					sTitle : xe.lang.confirm_menu_delete,
+					sTitle : xe.lang.confirm_delete_all_sub_items_title,
 					
-					sText : 'Delete sub trees?',
+					sText : xe.lang.confirm_delete_all_sub_items,
+					
+					bSmall : true,
 					
 					fnOnOK : function(){
 						doDelete(sMenuSrl, true, sSelectOnload);
@@ -3056,7 +3060,7 @@ jQuery(function($){
 		confirmDialog({
 			sTitle : xe.lang.confirm_menu_delete,
 			
-			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_item_menu + '</label>',
+			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_contents + '</label>',
 			
 			fnOnOK : function(){
 				if(!$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
