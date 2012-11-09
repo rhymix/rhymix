@@ -10,6 +10,6 @@
         <condition operation="notequal" column="title" default="__ADMINMENU_V17__" pipe="and" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="listorder" order="asc" />
+        <index var="sort_index" default="listorder" order="desc" />
     </navigation>
 </query>

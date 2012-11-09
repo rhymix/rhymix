@@ -8,6 +8,8 @@
 	 * @version 0.1
 	 */
     class menuAdminModel extends menu {
+		private $menuSrlWithinHome = 0;
+
 		/**
 		 * Initialization
 		 * @return void
@@ -374,7 +376,7 @@
 				{
 					foreach($menu->list AS $key=>$value)
 					{
-						$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed);
+						$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed, $menuSrl);
 					}
 				}
 
@@ -414,7 +416,7 @@
 							{
 								foreach($menu->list AS $key2=>$value2)
 								{
-									$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed);
+									$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed, $value->menu_srl);
 								}
 							}
 
@@ -427,11 +429,21 @@
 							$menuItems->menuSrl = $value->menu_srl;
 							$menuItems->title = $value->title;
 							$menuItems->menuItems = $menu;
-							array_push($menuList, $menuItems);
+
+							if($value->menu_srl == $this->menuSrlWithinHome)
+							{
+								$menuList[-1] = $menuItems;
+							}
+							else
+							{
+								array_push($menuList, $menuItems);
+							}
 						}
 					}
 				}
 			}
+			ksort($menuList);
+
 			$this->add('menuList', $menuList);
 		}
 
@@ -473,7 +485,7 @@
 		 * @param array $menu
 		 * @return void
 		 */
-		private function _menuInfoSetting(&$menu, &$start_module, &$isMenuFixed)
+		private function _menuInfoSetting(&$menu, &$start_module, &$isMenuFixed, $menuSrl)
 		{
 			$oModuleModel = &getModel('module');
 			// if url is empty and is_shortcut is 'N', change to is_shortcut 'Y'
@@ -515,6 +527,7 @@
 				if($menu['is_shortcut'] == 'N' && $midInfo->mid == $start_module->mid)
 				{
 					$menu['is_start_module'] = true;
+					$this->menuSrlWithinHome = $menuSrl;
 				}
 				// setting layout srl for layout management
 				$menu['layout_srl'] = $midInfo->layout_srl;
@@ -523,7 +536,7 @@
 			{
 				foreach($menu['list'] AS $key=>$value)
 				{
-					$this->_menuInfoSetting($menu['list'][$key], &$start_module, $isMenuFixed);
+					$this->_menuInfoSetting($menu['list'][$key], &$start_module, $isMenuFixed, $menuSrl);
 				}
 			}
 		}
