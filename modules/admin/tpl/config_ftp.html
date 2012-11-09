@@ -11,6 +11,7 @@
 <form action="./" id="ftp_form" method="post" enctype="multipart/form-data" class="x_form-horizontal" ruleset="installFtpInfo">
 	<input type="hidden" name="module" value="install" />
 	<input type="hidden" name="act" value="procInstallAdminSaveFTPInfo" />
+	<input type="hidden" name="success_return_url" value="{base64_decode($success_return_url)}" />
 	<section class="section">
 		<h1>{$lang->subtitle_primary}</h1>
 		<div class="x_control-group">

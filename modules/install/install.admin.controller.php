@@ -189,8 +189,10 @@
             $config_file = Context::getFTPConfigFile();
             FileHandler::WriteFile($config_file, $buff);
             if($_SESSION['ftp_password']) unset($_SESSION['ftp_password']);
-            $this->setMessage('success_updated');
-			$this->setRedirectUrl(Context::get('error_return_url'));
+
+			$this->setMessage('success_updated');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp');
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		function procInstallAdminConfig(){
