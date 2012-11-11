@@ -10,6 +10,13 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+
+<div class="_quick_help" style="border:1px;solid;position:absolute;top:-50px;left:300px;width:500px;background-color:#ff0;z-index:100;display:none">
+	<div class="_quick_help_msg">msg</div>
+	<div>다신 보지 않기 <input class="_quick_help_nomore" type="checkbox"/></div>
+	<input class="_quick_help_close" type="button" value="닫기"/>
+</div>
+
 <!--@if($act == 'dispMenuAdminSiteMap')-->
 <div id="site" style="word-wrap:normal">
 <!--@end-->
@@ -597,6 +604,7 @@
 	xe.lang.confirm_delete = '{$lang->confirm_delete}';
 	xe.lang.need_to_ftp_setup = '{$lang->need_to_ftp_setup}';
 	xe.lang.go_to_ftp_setup = '{$lang->go_to_ftp_setup}';
+	xe.lang.installation_completed = '{$lang->installation_completed}';
 </script>
 
 <!--[if IE 7]>
@@ -702,8 +710,12 @@ function onSiteMapReceived(htData){
 			
 			if(sSelectOnload){
 				//console.log('selecting', sSelectOnload);
-				$("#siteMapTree").jstree("select_node", $("#menu"+sSelectOnload));
-				$("#menu"+sSelectOnload)[0].scrollIntoView(true);
+				var el = $("#menu"+sSelectOnload)[0];
+				
+				if(el){
+					$("#siteMapTree").jstree("select_node", $(el));
+					el.scrollIntoView(true);
+				}
 			}
 			
         })
@@ -1438,6 +1450,8 @@ jQuery(function($){
 				// select currently selected menu
 				$._xeAdminVar.sSelectOnload = params['target_srl'];
 				loadSiteMap();
+				
+				showQuickHelp('can_drag_menu');
 			});
 			
 			$._xeAdminVar.sCopySourceMenuSrl = null;
@@ -1459,6 +1473,7 @@ jQuery(function($){
 			});
 
 		}
+		
 	});
 	$("._delSiteMap").click(function(){
 		
@@ -1715,6 +1730,8 @@ jQuery(function($){
 			// select currently selected menu
 			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
 			loadSiteMap();
+			
+			showQuickHelp('how_to_modify_menu');
 		});
 	});
 	
@@ -3254,8 +3271,46 @@ jQuery(function($){
 		scrollToRight();
 	})
 
-
-	
+	var d365 = new Date();
+	d365.setTime(d365.getTime() + 60*60*24*356);
+	var $quickHelp = $("._quick_help");
+	$quickHelp.css({
+		'opacity':0,
+		'display':'block'}
+	);
+	var htQuickHelpMsg = {
+		'how_to_modify_menu' : '메뉴명은 [메뉴 수정]에서 수정 할 수 있습니다.',
+		'can_drag_menu' : '사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.'
+	};
+	function showQuickHelp(sMsgCode){
+		$quickHelp.find('._quick_help_nomore').removeAttr('checked');
+		if($quickHelp.closeTimer) clearTimeout($quickHelp.closeTimer);
+		
+		if(getCookie('__xe_admin_quick_help_'+sMsgCode)) return;
+		
+		var sMsg = htQuickHelpMsg[sMsgCode];
+		$quickHelp.find('._quick_help_msg').html(sMsg);
+		$quickHelp.data('code', sMsgCode);
+		$quickHelp.css({ opacity: 100 });
+		//$quickHelp.show();
+		
+		$quickHelp.closeTimer = setTimeout(closeQuickHelp, 10000);
+	}
+	function closeQuickHelp(bNoMore){
+		var sMsgCode = $quickHelp.data('code');
+		
+		if(bNoMore){
+			setCookie('__xe_admin_quick_help_'+sMsgCode, "true", d365);
+		}
+		
+		$quickHelp.animate({ opacity: 0 }, 1000);
+	}
+	$quickHelp.on('click', '._quick_help_nomore', function(){
+		closeQuickHelp(true);
+	});
+	$quickHelp.on('click', '._quick_help_close', function(){
+		closeQuickHelp();
+	});
 	
 	var $foggyLayer = $("<div>");
 	$foggyLayer.css({
@@ -3394,6 +3449,8 @@ jQuery(function($){
 	});
 	// sPackageType = menu/layout/skin
 	function installPackage(sPackageSrl, sPackageType, $item){
+	console.log(window.location.href.replace(/#.*$/, "")+"&continue_install_package="+sPackageSrl+"&continue_install_package_type="+sPackageType);
+	return;
 		//act=getAutoinstallAdminIsAuthed
 		$.exec_json("admin.getAutoinstallAdminIsAuthed", {}, function(htData){
 			if(htData.error !== 0){
@@ -3410,7 +3467,8 @@ jQuery(function($){
 						sText : xe.lang.go_to_ftp_setup,
 						bSmall : true,
 						fnOnOK : function(){
-							window.location.href="./?module=admin&act=dispAdminConfigFtp&success_return_url="+Base64.encode(window.location.href+"&continue_install_package="+sPackageSrl+"&continue_install_package_type="+sPackageType);
+							var sSuccessReturnURL = window.location.href.replace(/#.*$/, "")+"&continue_install_package="+sPackageSrl+"&continue_install_package_type="+sPackageType;
+							window.location.href="./?module=admin&act=dispAdminConfigFtp&success_return_url="+Base64.encode(sSuccessReturnURL);
 						}
 					}
 				);
@@ -3454,9 +3512,13 @@ jQuery(function($){
 			hideFoggy();
 			console.log(htData);
 			
-			$item.addClass('installed');
-			$item.addClass('up_to_date');
-			htFunc[sPackageType]();
+			if($item){
+				$item.addClass('installed');
+				$item.addClass('up_to_date');
+				htFunc[sPackageType]();
+			}
+			
+			alert(xe.lang.installation_completed);
 		});
 	}
 	top.fullSetupDone = function(htData){
@@ -3501,7 +3563,24 @@ jQuery(function($){
 		$('#site_map, #add, #design, #layout, #skin').find('.cnt').height(wHeigh - 295);
 	}).resize();
 
+	var sPackageSrl = getParameterByName('continue_install_package');
+	var sPackageType = getParameterByName('continue_install_package_type');
+	if(sPackageSrl && sPackageType){
+		doInstallPackage(sPackageSrl, sPackageType, ".", null);
+	}
+
 });
+
+function getParameterByName(name){
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regexS = "[\\?&]" + name + "=([^&#]*)";
+  var regex = new RegExp(regexS);
+  var results = regex.exec(window.location.search);
+  if(results == null)
+    return "";
+  else
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
 function formatUpdatedDate(sDate){
 	//20120106184020

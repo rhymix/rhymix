@@ -772,6 +772,10 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[사이트맵에 포함된 메뉴 모두 삭제된다는 것을 이해하고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[I know delete all menu of sitemap.]]></value>
 	</item>
+	<item name="installation_completed">
+		<value xml:lang="ko"><![CDATA[설치가 완료 됐습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Installation is completed.]]></value>
+	</item>
 	<item name="shortcut">
 		<value xml:lang="ko"><![CDATA[바로가기]]></value>
 		<value xml:lang="en"><![CDATA[Shortcut]]></value>
