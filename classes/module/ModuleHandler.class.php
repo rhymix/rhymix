@@ -676,10 +676,16 @@
 										@include($homeMenuCacheFile);
 									}
 
-									if(!$menu->menu_srl) $menu->menu_srl = 0;
-
-									$menu->xml_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->xml_file);
-									$menu->php_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->php_file);
+									if(!$menu->menu_srl)
+									{
+										$menu->xml_file = str_replace('.xml.php', $homeMenuSrl.'.xml.php', $menu->xml_file);
+										$menu->php_file = str_replace('.php', $homeMenuSrl.'.php', $menu->php_file);
+									}
+									else
+									{
+										$menu->xml_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->xml_file);
+										$menu->php_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->php_file);
+									}
 								}
                                 if(file_exists($menu->php_file)) @include($menu->php_file);
                                 Context::set($menu_id, $menu);
