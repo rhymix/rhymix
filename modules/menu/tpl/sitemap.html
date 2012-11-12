@@ -11,10 +11,9 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<div class="_quick_help" style="border:1px;solid;position:absolute;top:-50px;left:300px;width:500px;background-color:#ff0;z-index:100;display:none">
-	<div class="_quick_help_msg">msg</div>
-	<div>다신 보지 않기 <input class="_quick_help_nomore" type="checkbox"/></div>
-	<input class="_quick_help_close" type="button" value="닫기"/>
+<div class="_quick_help x_alert x_alert-info">
+	<p class="_quick_help_msg">msg</p>
+	<label><input class="_quick_help_nomore" type="checkbox"/> 다시 보지 않기</label>
 </div>
 
 <!--@if($act == 'dispMenuAdminSiteMap')-->
@@ -3274,10 +3273,6 @@ jQuery(function($){
 	var d365 = new Date();
 	d365.setTime(d365.getTime() + 60*60*24*356);
 	var $quickHelp = $("._quick_help");
-	$quickHelp.css({
-		'opacity':0,
-		'display':'block'}
-	);
 	var htQuickHelpMsg = {
 		'how_to_modify_menu' : '메뉴명은 [메뉴 수정]에서 수정 할 수 있습니다.',
 		'can_drag_menu' : '사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.'
@@ -3291,8 +3286,7 @@ jQuery(function($){
 		var sMsg = htQuickHelpMsg[sMsgCode];
 		$quickHelp.find('._quick_help_msg').html(sMsg);
 		$quickHelp.data('code', sMsgCode);
-		$quickHelp.css({ opacity: 100 });
-		//$quickHelp.show();
+		$quickHelp.fadeIn();
 		
 		$quickHelp.closeTimer = setTimeout(closeQuickHelp, 10000);
 	}
@@ -3303,13 +3297,10 @@ jQuery(function($){
 			setCookie('__xe_admin_quick_help_'+sMsgCode, "true", d365);
 		}
 		
-		$quickHelp.animate({ opacity: 0 }, 1000);
+		$quickHelp.fadeOut(1000);
 	}
 	$quickHelp.on('click', '._quick_help_nomore', function(){
 		closeQuickHelp(true);
-	});
-	$quickHelp.on('click', '._quick_help_close', function(){
-		closeQuickHelp();
 	});
 	
 	var $foggyLayer = $("<div>");
