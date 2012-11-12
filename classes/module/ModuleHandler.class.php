@@ -212,6 +212,7 @@
 
             // If error occurred while preparation, return a message instance
             if($this->error) {
+				$this->_setInputErrorToContext();
 				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
                 $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
                 $oMessageObject->setError(-1);
@@ -240,6 +241,7 @@
                 $this->error = 'msg_module_is_not_exists';
 				$this->httpStatusCode = '404';
 
+				$this->_setInputErrorToContext();
 				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
                 $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
                 $oMessageObject->setError(-1);
@@ -262,6 +264,7 @@
 			// Admin ip
 			$logged_info = Context::get('logged_info');
 			if($kind == 'admin' && $_SESSION['denied_admin'] == 'Y'){
+				$this->_setInputErrorToContext();
 				$this->error = "msg_not_permitted_act";
 				$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
 				$oMessageObject->setError(-1);
@@ -290,6 +293,7 @@
 			}
 
 			if(!is_object($oModule)) {
+				$this->_setInputErrorToContext();
 				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
                 $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
                 $oMessageObject->setError(-1);
@@ -308,6 +312,7 @@
 
 				if(!Context::isInstalled())
 				{
+					$this->_setInputErrorToContext();
 					$this->error = 'msg_invalid_request';
 					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
 					$oMessageObject->setError(-1);
@@ -364,6 +369,7 @@
 
 					if(!is_object($oModule)) {
 						$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+						$this->_setInputErrorToContext();
 						$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage('msg_module_is_not_exists');
@@ -389,6 +395,8 @@
 								$oModule->setLayoutFile("layout.html");
 							}
 						}else{
+							$this->_setInputErrorToContext();
+
 							$this->error = 'msg_is_not_administrator';
 							$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
 							$oMessageObject->setError(-1);
@@ -400,6 +408,7 @@
 					if ($kind == 'admin'){
 						$grant = $oModuleModel->getGrant($this->module_info, $logged_info);		
 						if(!$grant->is_admin && !$grant->manager) {
+							$this->_setInputErrorToContext();
                             $this->error = 'msg_is_not_manager';
                             $oMessageObject = &ModuleHandler::getModuleInstance('message','view');
                             $oMessageObject->setError(-1);
