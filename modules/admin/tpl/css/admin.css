@@ -82,8 +82,10 @@ body>.x,
 .x input[type="radio"]+label,
 .x input[type="checkbox"]+label{font-weight:normal}
 .x label.x_inline{margin-right:16px}
-.x .x_input-append .x_add-on, 
-.x .x_input-prepend .x_add-on{height:16px;line-height:16px}
+.x .x_input-append a.x_add-on, 
+.x .x_input-prepend a.x_add-on{height:16px;line-height:16px}
+.x .x_input-append button.x_add-on, 
+.x .x_input-prepend button.x_add-on{height:24px;line-height:16px}
 .x.x_modal,
 .x_modal-backdrop{display:none}
 .x.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none;border-radius:6px;box-shadow:none}

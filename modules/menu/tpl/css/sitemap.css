@@ -94,14 +94,18 @@ body>.x{max-width:none !important}
 .download a.x_icon-download-alt:hover,
 .download a.x_icon-download-alt:focus{background-color:#333}
 .download p>i{font-style:normal;color:#ccc}
-
 .download .item.installed ._install{display:none}
 .download .item ._already_installed{display:none}
 .download .item.installed ._already_installed{display:block}
-
 .download .item.installed.up_to_date ._need_to_update{display:none}
 .download .item.installed ._already_up_to_date{display:none}
 .download .item.installed.up_to_date ._already_up_to_date{display:block}
+.download ._pagination{position:absolute;bottom:-5px;left:0;width:100%}
+.download ._pagination>.x_pagination,
+.download ._pagination>.search{margin:0}
+.download ._pagination>.x_pagination a{background-color:#fff !important;border:1px solid #aaa;border-left:0}
+.download ._pagination>.x_pagination li:first-child>a{border-left:1px solid #aaa}
+.download ._pagination>.x_pagination .x_active>a{background-color:#555 !important}
 
 /* Theme(layout|skin) */
 .theme img{width:110px;border:1px solid #ddd}

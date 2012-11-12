@@ -162,7 +162,7 @@
 			<div class="cnt">			
 				<div class="list">
 				</div>
-				<div class="_pagination" style="float:left"></div>
+				<div class="_pagination"></div>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#download">&times;</button>
@@ -2299,8 +2299,8 @@ jQuery(function($){
 					fnCallback : fnCallback, 
 					nCurPage : htInfo.cur_page, 
 					nTotalPages : htInfo.total_page, 
-					sToFirstText : "&laquo; " + xe.lang.first_page, 
-					sToLastText : xe.lang.last_page + " &raquo;", 
+					sToFirstText : "&laquo;", 
+					sToLastText : "&raquo;", 
 					sToText : xe.lang.cmd_go_to_page, 
 					sSearchKeyword : htParams.search_keyword
 				});
@@ -3549,7 +3549,7 @@ jQuery(function($){
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
 		$('#site').height(wHeigh - 180).find('>.col').height(wHeigh - 230).find('.cnt').height(wHeigh - 262);
-		$('#site_map, #add, #design, #layout, #skin').find('.cnt').height(wHeigh - 295);
+		$('#site_map, #add, #design, #layout, #skin, .download').find('.cnt').height(wHeigh - 295);
 	}).resize();
 
 	var sPackageSrl = getParameterByName('continue_install_package');
