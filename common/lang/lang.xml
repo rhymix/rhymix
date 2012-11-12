@@ -3815,4 +3815,18 @@
 		<value xml:lang="ko"><![CDATA[메뉴 건너뛰기]]></value>
 		<value xml:lang="en"><![CDATA[Skip to content]]></value>
 	</item>
+	<item name="dashboard">
+		 <value xml:lang="ko"><![CDATA[대시보드]]></value>
+		 <value xml:lang="en"><![CDATA[Dashboard]]></value>
+		 <value xml:lang="jp"><![CDATA[ダッシュボード]]></value>
+		 <value xml:lang="zh-CN"><![CDATA[控制面板]]></value>
+		 <value xml:lang="tr"><![CDATA[Kontrol Paneli]]></value>
+	</item>
+	<item name="user">
+		 <value xml:lang="ko"><![CDATA[회원]]></value>
+		 <value xml:lang="en"><![CDATA[Member]]></value>
+		 <value xml:lang="jp"><![CDATA[会員]]></value>
+		 <value xml:lang="zh-CN"><![CDATA[会员]]></value>
+		 <value xml:lang="tr"><![CDATA[Üye]]></value>
+	</item>
 </lang>
