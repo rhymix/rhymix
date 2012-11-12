@@ -673,16 +673,3 @@ function xStopPropagation(evt)
   if (evt && evt.stopPropagation) evt.stopPropagation();
   else if (window.event) window.event.cancelBubble = true;
 }
-
-// Admin Bar
-jQuery(function($){
-	$('#adminBar')
-		.mouseover(function(){
-			$('body').addClass('adminBar');
-		})
-		.mouseleave(function(){
-			setTimeout(function(){
-				$('body').removeClass('adminBar');
-			}, 3000);
-		});
-});

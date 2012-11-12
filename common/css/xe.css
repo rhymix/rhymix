@@ -49,17 +49,13 @@ body>.message{margin:1em}
 .wfsr_fog .bg{position:absolute;position:fixed;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
 .wfsr_fog .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
 /* Admin Bar */
-#adminBar{position:fixed;_position:absolute;left:0;top:0;background:#000;width:100%;opacity:0;filter:alpha(opacity=0);z-index:100;color:#fff;font:12px/32px Arial,Helvetica,sans-serif;height:0;padding:16px 0 0 0;overflow:hidden}
-body{-webkit-transition:padding-top .2s}
-.adminBar{padding-top:32px}
-.adminBar>#adminBar{padding:0;height:auto;opacity:.5;filter:alpha(opacity=50)}
-#adminBar>h1{margin:0 10px 0 0;padding:8px 0 0 10px;float:left;font-size:12px;line-height:1}
+#adminBar{position:absolute;left:0;top:0;background:#000;width:100%;opacity:.5;filter:alpha(opacity=50);z-index:100;color:#fff;font:12px/28px Arial,Helvetica,sans-serif;padding:0;overflow:hidden}
+#adminBar>h1{margin:0 10px 0 0;padding:6px 0 0 10px;float:left;font-size:12px;line-height:1}
 #adminBar img{vertical-align:top}
-#adminBar>ul{margin:0;padding:0;list-style:none}
-#adminBar li{display:inline}
-#adminBar li:before{content:".";vertical-align:top;margin:0 4px 0 0}
-#adminBar li:first-child:before,
-#adminBar>.abCxt li:first-child+li:before{content:normal}
-#adminBar>.abGrl{float:left}
-#adminBar>.abCxt{float:right;padding:0 10px 0 0}
-#adminBar a{color:#fff}
+#adminBar>p{margin:0}
+#adminBar>.admin{float:left}
+#adminBar>.link{float:right;padding:0 10px 0 0}
+#adminBar a{color:#fff;text-decoration:none}
+#adminBar a:hover,
+#adminBar a:active,
+#adminBar a:focus{text-decoration:underline}
