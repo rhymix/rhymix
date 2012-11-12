@@ -162,6 +162,7 @@ body>.x{max-width:none !important}
 /* Add Menu */
 #add_menu label{font-weight:bold}
 #add_menu .x_tabbable{padding-top:8px}
+#add_menu .desc{width:220px;border-bottom:1px solid #ddd;padding-bottom:8px;color:#666}
 /* Default */
 #default [for="lang_menuName"],
 #default [for="mid2"]{font-weight:bold}
