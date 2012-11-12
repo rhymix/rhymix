@@ -1084,6 +1084,16 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 			<value xml:lang="en"><![CDATA[Content>Mualtilungal]]></value>
 		</item>
 	</item>
+	<item name="about_language_list_manage" type="array">
+		<item name="text">
+			<value xml:lang="ko"><![CDATA[지원하는 언어 목록은 [%s]에서 편집 가능.]]></value>
+			<value xml:lang="en"><![CDATA[You can manage language list at [%s].]]></value>
+		</item>
+		<item name="link">
+			<value xml:lang="ko"><![CDATA[설정>일반]]></value>
+			<value xml:lang="en"><![CDATA[Settings>General]]></value>
+		</item>
+	</item>
 	<item name="about_multilingual_search_result">
 		<value xml:lang="ko"><![CDATA[<strong>%d</strong>개의 <span class="flag %s">%s</span> 다국어 세트가 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There are <strong>%d</strong> <span class="flag %s">%s</span> multilingual sets.]]></value>
