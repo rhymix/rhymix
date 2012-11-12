@@ -113,7 +113,7 @@
 		<fieldset>
 			<h1><a class="_title"></a></h1>
 			<div class="cnt">
-				<p class="desc"><dfn class="_description">Description</dfn> <a class='_link'>{$lang->details}</a></p>
+				<p class="desc"><dfn class="_description"></dfn> <a class='_link'>{$lang->details}</a></p>
 				<ul>
 					<li>
 						<div class="multilingual x_input-append">
@@ -1088,7 +1088,8 @@ function setItemTypes(htTypes){
 
 	$._xeAdminVar.htItemTypes._SHORTCUT = {
 		title: xe.lang.shortcut,
-		moduleName:''
+		moduleName:'',
+		description : "클릭 시에 특정 URL이나 다른 메뉴로 가는 메뉴"
 	}
 	//console.log($._xeAdminVar.htItemTypes);
 }
@@ -1616,7 +1617,7 @@ jQuery(function($){
 
 		var $link = $(this).find("._link");
 		
-		$description.html(htItemType.description);
+		$description.html(htItemType.description || "");
 		if(htItemType.package_srl && htItemType.url){
 		console.log($link);
 			$link.show();
@@ -2942,6 +2943,8 @@ jQuery(function($){
 	$('#layoutSetup').on('show', function(ev){
 		if(this !== ev.target)  return;
 
+		showQuickHelp('good_to_duplicate_layout');
+		
 		//console.log($._htMarkupActionParam.sLayoutSrl);
 		var sLayoutSrl = $._htMarkupActionParam.sLayoutSrl;
 		$.exec_json("layout.getLayoutAdminSetInfoView", {layout_srl: sLayoutSrl}, function(htData){
@@ -3273,7 +3276,8 @@ jQuery(function($){
 	var $quickHelp = $("._quick_help");
 	var htQuickHelpMsg = {
 		'how_to_modify_menu' : '생성한 메뉴는 [메뉴 수정]에서 수정 할 수 있습니다.',
-		'can_drag_menu' : '사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.'
+		'can_drag_menu' : '사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.',
+		'good_to_duplicate_layout' : '레이아웃 설정 변경 시, [복사본 생성] 버튼을 눌러 복사본을 만들어 설정을 변경 하는 것이 좋습니다.'
 	};
 	function showQuickHelp(sMsgCode){
 		$quickHelp.find('._quick_help_nomore').removeAttr('checked');
