@@ -493,6 +493,11 @@
 				}
 			}
 
+			// If view is not admin display, set admin menu to context in using admin tool bar
+			if($logged_info->is_admin == 'Y' && $kind != 'admin' && $type == 'view')
+			{
+				$this->_setAdminMenuToContext($oModule);
+			}
 
             // if failed message exists in session, set context
 			$this->_setInputErrorToContext();
@@ -923,6 +928,141 @@
 
 			Context::set('http_status_code', $code);
 			Context::set('http_status_message', $statusMessage);
+		}
+
+		/**
+		 * @brief set admin menu to context
+		 * @developer
+		 * @access private
+		 * @return array
+		 */
+		private function _setAdminMenuToContext($oModule)
+		{
+			// admin menu setting
+			global $lang;
+			Context::loadLang('./modules/admin/lang');
+			$oAdminClass = &getClass('admin');
+			$adminMenuName = $oAdminClass->getAdminMenuName();
+
+			$oMenuAdminModel = &getAdminModel('menu');
+			$menu_info = $oMenuAdminModel->getMenuByTitle($adminMenuName);
+
+			if(!is_readable($menu_info->php_file)) return;
+			include $menu_info->php_file;
+			Context::set("included_menu", '');
+
+			foreach((array)$menu->list as $parentKey=>$parentMenu)
+			{
+				if(!is_array($parentMenu['list']) || !count($parentMenu['list'])) continue;
+				if($parentMenu['href'] == '#' && count($parentMenu['list'])) {
+					$firstChild = current($parentMenu['list']);
+					$menu->list[$parentKey]['href'] = $firstChild['href'];
+				}
+
+				if($parentMenu['menu_name_key'] == '{$lang->menu_gnb[\'configuration\']}' || $parentMenu['menu_name_key'] == '{$lang->menu_gnb[\'advanced\']}')
+				{
+					unset($menu->list[$parentKey]);
+				}
+			}
+			debugPrint($menu);
+			Context::set('xeAdminMenu', $menu);
+
+			// write, modify url setting
+			$writeUrl = '';
+			$modifyUrl = '';
+			$moduleListForWrite = array('page', 'board', 'forum', 'wiki', 'textyle');
+			if(in_array($oModule->module, $moduleListForWrite))
+			{
+				$this->_makeWriteUrl($oModule, &$writeUrl, &$modifyUrl);
+			}
+			Context::set('xeAdminWriteUrl', $writeUrl);
+			Context::set('xeAdminModifyUrl', $modifyUrl);
+
+			// setup url setting
+			$setupUrl = '';
+			if($oModule->xml_info->setup_index_act || $oModule->module_info->module == 'textyle')
+			{
+				$this->_makeSetupUrl($oModule, &$setupUrl);
+			}
+			Context::set('xeAdminSetupUrl', $setupUrl);
+
+			// layout url setting
+			$layoutUrl = '';
+			if($oModule->module_info->layout_srl)
+			{
+				$oLayoutModel = &getModel('layout');
+				$layoutInfo = $oLayoutModel->getLayout($oModule->module_info->layout_srl);
+				$layoutUrl = getUrl('', 'act', 'dispLayoutAdminModify', 'type', $layoutInfo->layout_type, 'layout', $layoutInfo->layout, 'layout_srl', $layoutInfo->layout_srl);
+			}
+			Context::set('xeAdminLayoutUrl', $layoutUrl);
+		}
+
+		private function _makeWriteUrl($oModule, $writeUrl, $modifyUrl)
+		{
+			switch($oModule->module)
+			{
+				case 'board' :
+					$writeUrl = getUrl('', 'mid', $oModule->mid, 'act', 'dispBoardWrite');
+					if(Context::get('document_srl'))
+					{
+						$modifyUrl = getUrl('', 'mid', $oModule->mid, 'act', 'dispBoardWrite', 'document_srl', Context::get('document_srl'));
+					}
+					break;
+				case 'page':
+					$writeUrl = getUrl('', 'act', 'dispPageAdminInsert');
+					if($oModule->mid)
+					{
+						$modifyUrl = getUrl('', 'mid', $oModule->mid, 'act', 'dispPageAdminContentModify');
+					}
+					break;
+				case 'forum':
+					$writeUrl = getUrl('', 'mid', $oModule->mid, 'category', Context::get('category'), 'act', 'dispForumWrite');
+					if(Context::get('document_srl'))
+					{
+						$modifyUrl = getUrl('', 'mid', $oModule->mid, 'category', Context::get('category'), 'act', 'dispForumWrite', 'document_srl', Context::get('document_srl'));
+					}
+					break;
+				case 'wiki':
+					$writeUrl = getUrl('', 'mid', $oModule->mid, 'act', 'dispWikiEditPage');
+					if(Context::get('entry'))
+					{
+						$modifyUrl = getUrl('', 'mid', $oModule->mid, 'act', 'dispWikiEditPage', 'entry', Context::get('entry'));
+					}
+					break;
+				case 'textyle':
+					$writeUrl = getUrl('', 'vid', Context::get('vid'), 'act', 'dispTextyleToolPostManageWrite');
+					if(Context::get('document_srl'))
+					{
+						$modifyUrl = getUrl('', 'mid', Context::get('mid'), 'vid', Context::get('vid'), 'document_srl', Context::get('document_srl'), 'act', 'dispTextyleToolPostManageWrite');
+					}
+					break;
+				default :
+					break;
+			}
+		}
+
+		private function _makeSetupUrl($oModule, $setupUrl)
+		{
+			switch($oModule->module)
+			{
+				case 'board' :
+					$setupUrl = getUrl('', 'mid', $oModule->mid, 'act', $oModule->xml_info->setup_index_act);
+					break;
+				case 'page':
+					$setupUrl = getUrl('', 'act', $oModule->xml_info->setup_index_act, 'module_srl', $oModule->module_info->module_srl);
+					break;
+				case 'forum':
+					$setupUrl = getUrl('', 'act', $oModule->xml_info->setup_index_act, 'module_srl', $oModule->module_info->module_srl);
+					break;
+				case 'wiki':
+					$setupUrl = getUrl('', 'mid', $oModule->mid, 'act', $oModule->xml_info->setup_index_act);
+					break;
+				case 'textyle':
+					$setupUrl = getUrl('', 'mid', $oModule->mid, 'act', 'dispTextyleToolDashboard', 'vid', Context::get('vid'));
+					break;
+				default :
+					break;
+			}
 		}
     }
 ?>

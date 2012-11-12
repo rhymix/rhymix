@@ -1,16 +1,8 @@
 <nav id="adminBar">
 	<h1><img src="{$favicon_url}" alt="{$lang->cmd_management}" /></h1>
 	<ul class="abGrl">
-		<li><a href="#">{$lang->dashboard}</a></li>
-		<li><a href="#">{$lang->menu}</a></li>
-		<li><a href="#">{$lang->user}</a></li>
-		<li><a href="#">{$lang->content}</a></li>
+		<li loop="$xeAdminMenu->list=>$value"><a href="{$value['href']}">{$value['text']}</a> </li>
 	</ul>
 	<ul class="abCxt">
-		<li><strong>{$current_module_info->module}</strong>:</li>
-		<li><a href="#">{$lang->cmd_write}</a></li><!-- 현재 모듈의 새글쓰기 기능으로 게시판, 페이지, 위키 등 각 모듈의 새글쓰기 페이지로 이동 -->
-		<li><a href="#">{$lang->cmd_modify}</a></li><!-- 현재 모듈의 내용변경 기능으로 게시판, 페이지, 위키 등 각 모듈의 내용변경 페이지로 이동 -->
-		<li><a href="#">{$lang->cmd_setup}</a></li><!-- 현재 모듈의 설정변경 기능으로 게시판, 페이지, 위키 등 각 모듈의 설정변경 페이지로 이동 -->
-		<li><a href="#">{$lang->layout}</a></li><!-- 현재 모듈의 레이아웃 기능으로 게시판, 페이지, 위키 등 각 모듈의 레이아웃 페이지로 이동 -->
 	</ul>
 </nav>
