@@ -67,8 +67,7 @@ body>.x,
 .x td select, 
 .x td textarea, 
 .x td input{margin-bottom:0}
-.x a.x_icon-question-sign,
-.x button.x_icon-question-sign{cursor:help}
+.x .x_icon-question-sign{cursor:help;opacity:.5;filter:alpha(opacity=50)}
 .x .x_nav-tabs>li>a{padding-top:6px;padding-bottom:6px;text-decoration:none !important}
 .x .x_nav-tabs>li.x_active>a{font-weight:bold}
 .x .x_table{margin:10px 0;border-top:2px solid #ddd;border-bottom:1px solid #ddd}

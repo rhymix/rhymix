@@ -1492,4 +1492,8 @@
 		<value xml:lang="ko"><![CDATA[모바일 설정]]></value>
 		<value xml:lang="en"><![CDATA[Mobile Settings]]></value>
 	</item>
+	<item name="details">
+		<value xml:lang="ko"><![CDATA[자세히]]></value>
+		<value xml:lang="en"><![CDATA[Details]]></value>
+	</item>
 </lang>
