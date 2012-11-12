@@ -34,7 +34,7 @@ body>.x,
 .x h6{font-size:12px}
 .x [class^="x_icon-"],
 .x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
-.x .x_close{width:32px;height:32px}
+.x .x_close{width:32px;height:32px;font-size:17px;opacity:.4;filter:alpha(opacity=40)}
 .x .x_alert{position:relative}
 .x .x_alert>.x_close,
 .x.x_modal>.x_close{position:absolute;top:0;right:0}
