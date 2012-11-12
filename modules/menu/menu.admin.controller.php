@@ -522,7 +522,7 @@
 			$args->open_window = $request->menu_open_window;
 			$args->expand = $request->menu_expand;
 			$output = executeQuery('menu.updateMenuItem', $args);
-
+			
 			$this->makeXmlFile($args->menu_srl);
 
 			$this->add('menu_item_srl', $args->menu_item_srl);
@@ -1387,9 +1387,9 @@
 				{
 					$args->group_srls = implode(',', $exposure);
 				}
-				else if($exposure && !is_array($exposure))
+				else if($exposure && in_array($exposure,array('-1','-3')))
 				{
-					$args->group_srls = -1;
+					$args->group_srls = $exposure;
 				}
 			}
 
@@ -1434,7 +1434,6 @@
 				}
 				$grant->{$group_srls} = array();
 			}
-
 			if(count($grant))
 			{
 				$oModuleController = getController('module');
