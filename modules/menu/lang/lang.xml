@@ -116,6 +116,14 @@
 		<value xml:lang="jp"><![CDATA[モジュールID選択]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇模組 ID]]></value>
 	</item>
+	<item name="update">
+		<value xml:lang="ko"><![CDATA[업데이트]]></value>
+		<value xml:lang="en"><![CDATA[Update]]></value>
+	</item>
+	<item name="installed">
+		<value xml:lang="ko"><![CDATA[설치됨]]></value>
+		<value xml:lang="en"><![CDATA[Installed]]></value>
+	</item>
 	<item name="depth">
 		<value xml:lang="ko"><![CDATA[단계]]></value>
 		<value xml:lang="en"><![CDATA[Step]]></value>
