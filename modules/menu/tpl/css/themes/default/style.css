@@ -16,6 +16,8 @@
 .jstree-default>ul>li,
 .jstree-default li.jstree-last{background:transparent}
 .jstree-default>ul>li>ins{background-position:-54px -36px !important;vertical-align:baseline !important}
+.jstree-default>ul>li.jstree-open>ins{background-position:-72px 0 !important}
+.jstree-default>ul>li.jstree-closed>ins{background-position:-54px 0 !important}
 
 .jstree-default .jstree-hovered{background:#666;color:#fff;}
 .jstree-default .jstree-clicked{background:#000;color:#fff}
