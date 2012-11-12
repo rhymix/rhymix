@@ -2083,7 +2083,7 @@ jQuery(function($){
 			
 			if(i === 0){
 				$node.find('._group_signedup').remove();
-				$node.find('._group_manager').remove();
+				//$node.find('._group_manager').remove();
 			}else{
 				/*
 					guest : 모든 옵션 사용 가능, 항상 권한 있음.
@@ -3272,7 +3272,7 @@ jQuery(function($){
 	d365.setTime(d365.getTime() + 60*60*24*356);
 	var $quickHelp = $("._quick_help");
 	var htQuickHelpMsg = {
-		'how_to_modify_menu' : '메뉴명은 [메뉴 수정]에서 수정 할 수 있습니다.',
+		'how_to_modify_menu' : '생성한 메뉴는 [메뉴 수정]에서 수정 할 수 있습니다.',
 		'can_drag_menu' : '사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.'
 	};
 	function showQuickHelp(sMsgCode){
