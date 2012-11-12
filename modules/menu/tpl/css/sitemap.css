@@ -230,5 +230,5 @@ body>.x{max-width:none !important}
 ._siteDesign .theme .cnt>label:first-child{display:none !important}
 ._siteDesign #design ._site{display:block}
 /* Help Alert */
-._quick_help{display:none;position:fixed !important;*position:absolute !important;top:60px;left:226px;z-index:100;width:600px;box-shadow:0 0 3px #000}
+._quick_help{display:none;position:fixed !important;*position:absolute !important;top:60px;left:226px;z-index:100;width:600px;box-shadow:0 0 3px #000;color:#333}
 ._quick_help>label{display:inline-block;cursor:pointer}
