@@ -53,7 +53,7 @@ body>.message{margin:1em}
 body{-webkit-transition:padding-top .2s}
 .adminBar{padding-top:32px}
 .adminBar>#adminBar{padding:0;height:auto;opacity:.5;filter:alpha(opacity=50)}
-#adminBar>h1{margin:0 10px 0 0;padding:8px 0 0 10px;float:left;font-size:12px}
+#adminBar>h1{margin:0 10px 0 0;padding:8px 0 0 10px;float:left;font-size:12px;line-height:1}
 #adminBar img{vertical-align:top}
 #adminBar>ul{margin:0;padding:0;list-style:none}
 #adminBar li{display:inline}
