@@ -3442,8 +3442,7 @@ jQuery(function($){
 	});
 	// sPackageType = menu/layout/skin
 	function installPackage(sPackageSrl, sPackageType, $item){
-	console.log(window.location.href.replace(/#.*$/, "")+"&continue_install_package="+sPackageSrl+"&continue_install_package_type="+sPackageType);
-	return;
+
 		//act=getAutoinstallAdminIsAuthed
 		$.exec_json("admin.getAutoinstallAdminIsAuthed", {}, function(htData){
 			if(htData.error !== 0){
