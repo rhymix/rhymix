@@ -3464,6 +3464,7 @@ jQuery(function($){
 						}
 					}
 				);
+				return;
 				break;
 				
 				case 0:
@@ -3474,10 +3475,13 @@ jQuery(function($){
 						bSmall : true,
 						fnOnOK : function(){
 							var sPw = $msgBox.find('input[type="password"]').val();
-							doInstallPackage(sPackageSrl, sPackageType, sPw, $item);
+							setTimeout(function(){
+								doInstallPackage(sPackageSrl, sPackageType, sPw, $item);
+							}, 0);
 						}
 					}
 				);
+				return;
 				break;
 				
 				default:
