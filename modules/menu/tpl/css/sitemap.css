@@ -169,16 +169,17 @@ body>.x{max-width:none !important}
 #add_menu .desc{width:220px;border-bottom:1px solid #ddd;padding-bottom:8px;color:#666}
 #add_menu .desc>a{overflow:hidden;font-size:0;text-indent:20px;display:inline-block;width:14px;height:14px;background:url(../../../../common/img/glyphicons-halflings.png) no-repeat -120px -96px;opacity:.5;filter:alpha(opacity=50);vertical-align:middle}
 #add_menu .desc>a:after{content:normal}
+#add_menu .x_btn-group{position:absolute;margin:0;left:0;bottom:0;width:100%}
 /* Default */
 #default [for="lang_menuName"],
 #default [for="mid2"]{font-weight:bold}
-#default .btnBoth{border-top:1px solid #ddd;padding:10px 0}
+#default .btnBoth{position:absolute;width:100%;left:0;bottom:0;margin:0}
 /* Auth */
 #auth li{border-top:1px solid #ddd;padding:8px 0 0 0}
 #auth li:first-child{border:0}
 #auth li>label:first-child{font-weight:bold}
 #auth select{padding:0;width:100%}
-#auth .x_btn-group{border-top:1px solid #ddd;padding:10px 0}
+#auth .x_btn-group{position:absolute;width:100%;left:0;bottom:0;margin:0}
 /* Default */
 #default ul{margin:15px 0}
 /* Image Button */
@@ -229,4 +230,5 @@ body>.x{max-width:none !important}
 ._siteDesign .theme .cnt>label:first-child{display:none !important}
 ._siteDesign #design ._site{display:block}
 /* Help Alert */
-._quick_help{display:none;position:fixed !important;*position:absolute !important;top:60px;left:226px;z-index:100;width:600px}
+._quick_help{display:none;position:fixed !important;*position:absolute !important;top:60px;left:226px;z-index:100;width:600px;box-shadow:0 0 3px #000}
+._quick_help>label{display:inline-block;cursor:pointer}

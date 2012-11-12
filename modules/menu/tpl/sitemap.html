@@ -11,7 +11,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<div class="_quick_help x_alert x_alert-info">
+<div class="_quick_help x_alert">
 	<p class="_quick_help_msg">msg</p>
 	<label><input class="_quick_help_nomore" type="checkbox"/> 다시 보지 않기</label>
 </div>
@@ -3548,8 +3548,8 @@ jQuery(function($){
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
-		$('#site').height(wHeigh - 180).find('>.col').height(wHeigh - 230).find('.cnt').height(wHeigh - 262);
-		$('#site_map, #add, #design, #layout, #skin, .download').find('.cnt').height(wHeigh - 295);
+		$('#site').height(wHeigh - 180).find('>.col').height(wHeigh - 230).find('.cnt').height(wHeigh - 295);
+		$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').height(wHeigh - 262);
 	}).resize();
 
 	var sPackageSrl = getParameterByName('continue_install_package');
