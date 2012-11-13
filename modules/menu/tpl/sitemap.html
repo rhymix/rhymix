@@ -431,7 +431,7 @@
 				</div>
 				</script>
 				<script id="tmpl_pagination_list" type="text/x-jquery-tmpl">
-					<li class='${ActiveClass}'><a  href="#" class="_toPage" data-param='{ "page": "${Page}"}' onclick="return false">${PageText}</a></li>
+					<li class='${ActiveClass}'><a  href="#" class="_toPage" data-param='{ "page": "${Page}"}' title='${Page}' onclick="return false">${PageText}</a></li>
 				</script>
 				<script id="tmpl_pagination_jump" type="text/x-jquery-tmpl">
 					<li>
@@ -608,6 +608,8 @@
 	xe.lang.go_to_ftp_setup = '{$lang->go_to_ftp_setup}';
 	xe.lang.installation_completed = '{$lang->installation_completed}';
 	xe.lang.go_to_site_design_setup = '{$lang->go_to_site_design_setup}';
+	xe.lang.img_uploaded = '{$lang->img_uploaded}';
+	xe.lang.img_deleted = '{$lang->img_deleted}';
 </script>
 
 <!--[if IE 7]>
@@ -1839,8 +1841,16 @@ jQuery(function($){
 	});
 	
 	top.onBtnImgUploaded = function(htData){
-		console.log(234, htData);
+		console.log(111);
+		console.log(htData);
+		
 		$('#imgbtn').show();
+
+		if(htData.normal_btn || htData.hover_btn || htData.active_btn){
+			showQuickHelp('img_uploaded');
+		}else{
+			showQuickHelp('img_deleted');
+		}
 	}
 	var $imgBtnForms = $("#imgbtn form");
 	$imgBtnForms.find('input[name=act]').val('procMenuAdminButtonUpload');
@@ -2079,7 +2089,7 @@ jQuery(function($){
 				if(sGrant === 'group'){
 				
 					$node.find('._groups').show();
-console.log(htInfo.group_srl, aGroup);
+
 					if(aGroup && $.inArray("" + htInfo.group_srl, aGroup) !== -1){
 						sChecked = "checked";
 					}
@@ -3299,7 +3309,9 @@ console.log(htInfo.group_srl, aGroup);
 	var htQuickHelpMsg = {
 		'how_to_modify_menu' : '생성한 메뉴는 [메뉴 수정]에서 수정 할 수 있습니다.',
 		'can_drag_menu' : '사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.',
-		'good_to_duplicate_layout' : '레이아웃 설정 변경 시, [복사본 생성] 버튼을 눌러 복사본을 만들어 설정을 변경 하는 것이 좋습니다.'
+		'good_to_duplicate_layout' : '레이아웃 설정 변경 시, [복사본 생성] 버튼을 눌러 복사본을 만들어 설정을 변경 하는 것이 좋습니다.',
+		'img_uploaded' : xe.lang.img_uploaded,
+		'img_deleted' : xe.lang.img_deleted
 	};
 	function showQuickHelp(sMsgCode){
 		$quickHelp.find('._quick_help_nomore').removeAttr('checked');

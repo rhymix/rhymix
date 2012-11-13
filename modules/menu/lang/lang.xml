@@ -816,9 +816,17 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[사이트 기본 디자인 설정 페이지로 이동 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Redirecting to Site Design page.]]></value>
 	</item>
-	<item name="about_menu_type_in_default	">
+	<item name="about_menu_type_in_default">
 		<value xml:lang="ko"><![CDATA[메뉴 타입 변경을 위해서는 메뉴를 삭제 후 재생성 해야 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[To change the menu type, you have to delete and recreate the menu.]]></value>
+	</item>
+	<item name="img_uploaded">
+		<value xml:lang="ko"><![CDATA[버튼 이미지가 등록 됐습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Button image is uploaded.]]></value>
+	</item>
+	<item name="img_deleted">
+		<value xml:lang="ko"><![CDATA[버튼 이미지가 삭제 됐습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Button image is deleted.]]></value>
 	</item>
 
 </lang>
