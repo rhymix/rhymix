@@ -232,6 +232,9 @@ body>.x{max-width:none !important}
 #layout li ul._edit_menu {display:none}
 #layout li.selected ul._edit_menu {display:block}
 #layout .x_btn-group{border-top:1px solid #ddd;padding:10px 0}
+#layout .list{position:relative}
+#layout .mask{display:none;position:absolute;width:100%;height:100%;left:0;top:0;background:#fff;opacity:.5;filter:alpha(opacity=50);z-index:99}
+#layout .disabled>.mask{display:block}
 /* Message Box */
 #msgBox {width:600px;margin-left:-300px}
 #msgBox._small {width:400px;margin-left:-200px}

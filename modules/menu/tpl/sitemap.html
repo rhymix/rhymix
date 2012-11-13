@@ -364,13 +364,13 @@
 						<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
 						<li class="${Selected} _layoutItem">
 							<label>
-								<input type="radio" name="layout_item" title="{$lang->no_use_layout}"> {$lang->no_use_layout}
+								<input type="radio" disabled="disabled" name="layout_item" title="{$lang->no_use_layout}"> {$lang->no_use_layout}
 							</label>
 						</li>
 						</script>
 						<script id="tmpl_layout_list_item" type="text/x-jquery-tmpl">
 						<li class="${Selected} _layoutItem">
-							<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
+							<label><input type="radio" disabled="disabled" name="layout_item" title="${Title}"> ${Title}</label>
 							<button type="button" class="item _btnScreenshot" title="{$lang->about_apply_layout}">
 								<img src="${ScreenShotURL}">
 							</button>
@@ -383,8 +383,9 @@
 						</li>
 						</script>
 					</ul>
-					<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_layouts}</a>
+					<i class="mask"></i>
 				</div>
+				<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_layouts}</a>
 			</div>
 		</form>
 		<button type="button" class="x_close" data-admin-hide="#layout">&times;</button>
@@ -2769,7 +2770,7 @@ jQuery(function($){
 			return;
 		}
 
-		$('#layout .list').hide();
+		$('#layout .list').show();
 		
 		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
@@ -2798,14 +2799,13 @@ jQuery(function($){
 	function updateLayoutListDisplayStatus(){
 		$ChkBox = $('#layout ._chkUseDefaultLayout');
 		if($ChkBox.attr('checked')){
-			$('#layout .list').hide();
-			
+			$('#layout .list').addClass('disabled').find(':radio').attr('disabled','disabled');
 			updatePreview({
 				sLayoutSrl : -1,
 				htLayoutData : {}
 			});
 		}else{
-			$('#layout .list').show();
+			$('#layout .list').removeClass('disabled').find(':radio').removeAttr('disabled');
 		}
 	}
 	// sType: "P", "M" (PC/Mobile)
