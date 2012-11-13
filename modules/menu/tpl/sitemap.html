@@ -332,11 +332,11 @@
 				</form>
 				<ul class="nav _itemList">
 					<script id="tmpl_layoutItem" type="text/x-jquery-tmpl">
-					<li><a href="#layout" data-admin-show="#layout">{$lang->layout} <span class="themeName">[레이아웃이름]</span> <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#layout" data-admin-show="#layout">{$lang->layout} <span class="themeName">[${LayoutName}]</span> <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 					
 					<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
-					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} <span class="themeName">[스킨이름]</span> <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} <span class="themeName">[${SkinName}]</span> <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 				</ul>
 				<div class="btnBoth" style="position:absolute;bottom:0;left:0;margin:0;width:100%">
@@ -2381,11 +2381,13 @@ jQuery(function($){
 			//
 			console.log($._xeAdminVar.htItemTypes);
 			
+			var sLayoutName = '.layoutname.'
 			$list = $('#design').find('._itemList');
-			$list.html("").append($.tmpl( "design_layoutItem", {}));
+			$list.html("").append($.tmpl( "design_layoutItem", {LayoutName: sLayoutName}));
 
 			var item;
 			var sModuleTitle;
+			var sSkinName;
 			for(var sModuleName in $._xeAdminVar.htItemTypes){
 				if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
 				if(sModuleName === "_SHORTCUT") continue;
@@ -2396,9 +2398,18 @@ jQuery(function($){
 				
 				sModuleTitle = item.title;
 				
+				if(nIdx === 0){
+					// PC
+					sSkinName = item.default_skin;
+				}else{
+					// mobile
+					sSkinName = item.default_mskin;
+				}
+				
 				$list.append($.tmpl( "deisgn_skinItem", {
 					ModuleType : sModuleName,
-					ModuleTypeTitle : sModuleTitle
+					ModuleTypeTitle : sModuleTitle,
+					SkinName : sSkinName
 				}));
 			}
 			
