@@ -2044,12 +2044,8 @@ jQuery(function($){
 			*/
 			
 			sDefault = htInfo.sDefault;
-			//aGroup = htInfo.aGroup;
-			aGroup = [];
-			// The comparison target "htInfo.group_srl" is always string where htInfo.aGroup can be either string OR integer. For easier comparison, conver aGroup to string.
-			for(var n=0, nLen=htInfo.aGroup.length; n<nLen; n++){
-				aGroup[n] = "" + htInfo.aGroup[n];
-			}
+			aGroup = htInfo.aGroup;
+
 			sGrant = htInfo.sGrant;
 			
 			$node = $.tmpl("permItem", {
@@ -2079,8 +2075,8 @@ jQuery(function($){
 				if(sGrant === 'group'){
 				
 					$node.find('._groups').show();
-					
-					if(aGroup && $.inArray(htInfo.group_srl, aGroup) !== -1){
+console.log(htInfo.group_srl, aGroup);
+					if(aGroup && $.inArray("" + htInfo.group_srl, aGroup) !== -1){
 						sChecked = "checked";
 					}
 				}
