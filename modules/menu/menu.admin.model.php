@@ -161,6 +161,10 @@
 				{
 					$menuItem->grant = 'member';
 				}
+				else if($menuItem->group_srls[0] == -3)
+				{
+					$menuItem->grant = 'manager';
+				}
 				else
 				{
 					$menuItem->grant = 'group';
