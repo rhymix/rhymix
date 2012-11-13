@@ -127,26 +127,26 @@ jQuery(function($){
 		});
 		var parentIndex = $xGnb_li.find('>ul>li.active_').closest('li.active').attr('data-index');
 		$xGnb_li.find('>ul>li.active_').clone().addClass('active').attr('data-index', parentIndex).prependTo('#gnbNav').find('>a').prepend('<i />');
-		// Index 
 		// GNB Click toggle
 		$xGnb_li.find('>a').click(function(){
 			var $parent = $(this).parent('li');
 			var hasOpen = $parent.hasClass('open');
 			var hasActive = $parent.hasClass('active');
 			var hasList = $parent.find('>ul').length >= 1;
+			var hasWide = $xBody.hasClass('wide');
 			function openGNB(){
 				$xBody.removeClass('wide');
 				reflow();
 			}
-			if(!hasOpen && !hasActive && hasList){
+			if(!hasOpen && !hasActive && hasList){ // Down to open
 				$parent.addClass('open').find('>ul').slideDown(100);
 				openGNB();
 				return false;
-			} else if(hasOpen && !hasActive && hasList){
+			} else if(hasOpen && !hasActive && hasList && !hasWide){ // Up to close
 				$parent.removeClass('open').find('>ul').slideUp(100);
 				openGNB();
 				return false;
-			} else if($xBody.hasClass('wide') && !hasList || hasActive){
+			} else if(hasWide && !hasList || hasActive || hasWide && hasOpen){ // Right to open
 				openGNB();
 				return false;
 			}
