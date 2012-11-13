@@ -129,22 +129,27 @@ jQuery(function($){
 		$xGnb_li.find('>ul>li.active_').clone().addClass('active').attr('data-index', parentIndex).prependTo('#gnbNav').find('>a').prepend('<i />');
 		// Index 
 		// GNB Click toggle
-		$xGnb_li.find('>ul').prev('a').click(function(){
+		$xGnb_li.find('>a').click(function(){
 			var $parent = $(this).parent('li');
-			if(!$parent.hasClass('open') && !$parent.hasClass('active')){
-				$parent.addClass('open').find('>ul').slideDown(100);
-			} else if($parent.hasClass('open') && !$parent.hasClass('active')) {
-				$parent.removeClass('open').find('>ul').slideUp(100);
+			var hasOpen = $parent.hasClass('open');
+			var hasActive = $parent.hasClass('active');
+			var hasList = $parent.find('>ul').length >= 1;
+			function openGNB(){
+				$xBody.removeClass('wide');
+				reflow();
 			}
-			$xBody.removeClass('wide');
-			reflow();
-			return false;
-		});
-		$xGnb_li.find('>a').focus(function(){
-			var $parent = $(this).parent();
-			$parent.addClass('open').find('>ul').slideDown(100).end().siblings('li').removeClass('open').find('>ul').slideUp(100);
-			$xBody.removeClass('wide');
-			reflow();
+			if(!hasOpen && !hasActive && hasList){
+				$parent.addClass('open').find('>ul').slideDown(100);
+				openGNB();
+				return false;
+			} else if(hasOpen && !hasActive && hasList){
+				$parent.removeClass('open').find('>ul').slideUp(100);
+				openGNB();
+				return false;
+			} else if($xBody.hasClass('wide') && !hasList || hasActive){
+				openGNB();
+				return false;
+			}
 		});
 		// GNB Mobile Toggle
 		$xGnb.find('>a[href="#gnbNav"]').click(function(){
