@@ -347,6 +347,7 @@
 			
 			$oModuleModel = &getModel('module');
 			$config = $oModuleModel->getModuleConfig('module');
+       		Context::set('siteTitle',$config->siteTitle);
        		Context::set('htmlFooter',$config->htmlFooter);
 
 

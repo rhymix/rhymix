@@ -99,6 +99,10 @@
 		<value xml:lang="vi"><![CDATA[Bảng điều khiển]]></value>
 		<value xml:lang="tr"><![CDATA[Kontrol Paneli]]></value>
 	</item>
+	<item name="site_title">
+		<value xml:lang="ko"><![CDATA[사이트 제목]]></value>
+		<value xml:lang="en"><![CDATA[Site title]]></value>
+	</item>
 	<item name="start_module">
 		<value xml:lang="ko"><![CDATA[시작 모듈]]></value>
 		<value xml:lang="en"><![CDATA[Default Module]]></value>
@@ -110,6 +114,10 @@
 		<value xml:lang="es"><![CDATA[Módulo de inicio]]></value>
 		<value xml:lang="tr"><![CDATA[Varsayılan Modül]]></value>
 		<value xml:lang="vi"><![CDATA[Module trang chủ]]></value>
+	</item>
+	<item name="about_site_title">
+		<value xml:lang="ko"><![CDATA[세부 설정에서 사이트제목을 설정하지 않았을 경우 노출되는 제목입니다.]]></value>
+		<value xml:lang="en"><![CDATA[세부 설정에서 사이트제목을 설정하지 않았을 경우 노출되는 제목입니다.]]></value>
 	</item>
 	<item name="about_start_module">
 		<value xml:lang="ko"><![CDATA[사이트 접속 시 기본으로 호출될 모듈을 지정할 수 있습니다.]]></value>

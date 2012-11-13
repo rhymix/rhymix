@@ -14,6 +14,13 @@
 		<input type="hidden" name="act" value="procInstallAdminConfig" />
 
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->site_title}</label>
+			<div class="x_controls">
+				<input type="text" name="site_title" value="{$siteTitle}" />
+				{$lang->about_site_title}
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="_target_module">{$lang->start_module}</label>
 			<div class="x_controls">
 				<input class="module_search" type="text" name="index_module_srl" value="{$start_module->index_module_srl}" />
