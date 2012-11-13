@@ -36,7 +36,7 @@
 				</script>
 				<script id="tmpl_menuTreeNode" type="text/x-jquery-tmpl">
 					<li id="menu${MenuId}">
-						<a href="#" data-param='{ "sMenuId":"${MenuId}" }'>${MenuTitleWithHome}</a>
+						<a href="#" data-param='{ "sMenuId":"${MenuId}" }'><i class="x_icon-move x_icon-white"></i> ${MenuTitleWithHome}</a>
 						{{html SubTree}}
 					</li>
 				</script>
@@ -327,11 +327,11 @@
 				</form>
 				<ul class="nav _itemList">
 					<script id="tmpl_layoutItem" type="text/x-jquery-tmpl">
-					<li><a href="#layout" data-admin-show="#layout">{$lang->layout} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#layout" data-admin-show="#layout">{$lang->layout} <span class="themeName">[레이아웃이름]</span> <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 					
 					<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
-					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} <span class="themeName">[스킨이름]</span> <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 				</ul>
 				<div class="btnBoth" style="position:absolute;bottom:0;left:0;margin:0;width:100%">
@@ -1048,7 +1048,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			nNodeType = 3;
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='x_icon-share-alt' title='Shortcut'></i>");
+		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='x_icon-share' title='Shortcut'></i>");
 	}
 	
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
