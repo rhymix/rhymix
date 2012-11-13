@@ -1060,6 +1060,17 @@
 		function procMemberAdminGroupConfig() {
 			$vars = Context::getRequestVars();	
 
+			if(is_array($vars->group_titles))
+			{
+				foreach($vars->group_titles AS $key=>$value)
+				{
+					if(!$value)
+					{
+						return new Object(-1,'msg_insert_group_name');
+					}
+				}
+			}
+
 			$oMemberModel = &getModel('member');
 			$oModuleController = &getController('module');
 
