@@ -1010,11 +1010,14 @@
 			$randomString = "";
 			for($i=0;$i<4;$i++)
 			{
-				$doc = rand()%26+65;
+				$case = rand(0, 1);
+				if($case) $doc = rand(65, 90);
+				else $doc = rand(97, 122);
+
 				$randomString .= chr($doc);
 			}
 
-			return $randomString.substr($time, -4);
+			return $randomString.substr($time, -2);
 		}
 
 		/**

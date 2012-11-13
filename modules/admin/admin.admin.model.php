@@ -25,7 +25,6 @@
 		function getSFTPPath()
 		{
             $ftp_info =  Context::getRequestVars();
-			debugPrint($ftp_info);
 
             if(!$ftp_info->ftp_host)
             {
