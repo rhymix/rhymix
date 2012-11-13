@@ -129,14 +129,23 @@ jQuery(function($){
 		$xGnb_li.find('>ul>li.active_').clone().addClass('active').attr('data-index', parentIndex).prependTo('#gnbNav').find('>a').prepend('<i />');
 		// Index 
 		// GNB Click toggle
-		$xGnb_li.find('ul').prev('a')
-			.bind('click focus', function(){
-				var $this = $(this);
-				$this.parent('li').addClass('open').siblings('li').removeClass('open');
-				$xBody.removeClass('wide');
-				reflow();
-				return false;
-			});
+		$xGnb_li.find('>ul').prev('a').click(function(){
+			var $parent = $(this).parent('li');
+			if(!$parent.hasClass('open') && !$parent.hasClass('active')){
+				$parent.addClass('open').find('>ul').slideDown(100);
+			} else if($parent.hasClass('open') && !$parent.hasClass('active')) {
+				$parent.removeClass('open').find('>ul').slideUp(100);
+			}
+			$xBody.removeClass('wide');
+			reflow();
+			return false;
+		});
+		$xGnb_li.find('>a').focus(function(){
+			var $parent = $(this).parent();
+			$parent.addClass('open').find('>ul').slideDown(100).end().siblings('li').removeClass('open').find('>ul').slideUp(100);
+			$xBody.removeClass('wide');
+			reflow();
+		});
 		// GNB Mobile Toggle
 		$xGnb.find('>a[href="#gnbNav"]').click(function(){
 			$(this).parent('.gnb').toggleClass('open');
