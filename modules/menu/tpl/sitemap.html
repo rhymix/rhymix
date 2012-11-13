@@ -179,7 +179,12 @@
 						</div>
 					</li>
 
-					<li class="menuType"><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li>
+					<li class="menuType"><strong>{$lang->menu_type}</strong>: <span class="module_type"></span> <a href="#menuTypeHelpInDefault" class="x_icon-question-sign" data-admin-toggle="#menuTypeHelpInDefault">?</a>
+					<div id="menuTypeHelpInDefault" class="x_alert x_alert-info" style="display:none;width:169px">
+							<button type="button" class="x_close" data-admin-hide="#menuTypeHelpInDefault">×</button>
+							<p>{$lang->about_menu_type_in_default}</p>
+						</div>
+					</li>
 
 					<li style="padding-top:12px;margin-top:5px">
 						<label><input type="checkbox" class="_newWindow" title="{$lang->menu_open_window}"> {$lang->menu_open_window}</label>
@@ -352,7 +357,7 @@
 			<div class="cnt">
 				<label>
 					<input type="checkbox" class="_chkUseDefaultLayout" title="{$lang->use_site_default_layout}"> {$lang->use_site_default_layout}
-					<a href="?module=admin&act=dispMenuAdminSiteDesign" class="x_icon-cog">{$lang->site_default_layout_settings}</a>
+					<a href="?module=admin&act=dispMenuAdminSiteDesign" class="x_icon-cog _siteDesignSetupLink">{$lang->site_default_layout_settings}</a>
 				</label>
 				<div class="list">
 					<ul class="_layout_list">
@@ -448,7 +453,7 @@
 			<div class="cnt">
 				<label>
 					<input type="checkbox" class="_chkUseDefault" title="{$lang->use_site_default_skin}"> {$lang->use_site_default_skin}
-					<a href="?module=admin&act=dispMenuAdminSiteDesign" class="x_icon-cog">{$lang->site_default_skin_settings}</a>
+					<a href="?module=admin&act=dispMenuAdminSiteDesign" class="x_icon-cog _siteDesignSetupLink">{$lang->site_default_skin_settings}</a>
 				</label>
 				<div class="list">
 					<ul class="_list">
@@ -602,6 +607,7 @@
 	xe.lang.need_to_ftp_setup = '{$lang->need_to_ftp_setup}';
 	xe.lang.go_to_ftp_setup = '{$lang->go_to_ftp_setup}';
 	xe.lang.installation_completed = '{$lang->installation_completed}';
+	xe.lang.go_to_site_design_setup = '{$lang->go_to_site_design_setup}';
 </script>
 
 <!--[if IE 7]>
@@ -1449,7 +1455,7 @@ jQuery(function($){
 				$._xeAdminVar.sSelectOnload = params['target_srl'];
 				loadSiteMap();
 				
-				showQuickHelp('can_drag_menu');
+				//showQuickHelp('can_drag_menu');
 			});
 			
 			$._xeAdminVar.sCopySourceMenuSrl = null;
@@ -2038,7 +2044,11 @@ jQuery(function($){
 			*/
 			
 			sDefault = htInfo.sDefault;
-			aGroup = htInfo.aGroup;
+			//aGroup = htInfo.aGroup;
+			// The comparison target "htInfo.group_srl" is always string where htInfo.aGroup can be either string OR integer. For easier comparison, conver aGroup to string.
+			for(var n=0, nLen=htInfo.aGroup.length; n<nLen; n++){
+				aGroup[n] = ""+htInfo.aGroup[n];
+			}
 			sGrant = htInfo.sGrant;
 			
 			$node = $.tmpl("permItem", {
@@ -2069,7 +2079,7 @@ jQuery(function($){
 				
 					$node.find('._groups').show();
 					
-					if(aGroup && $.inArray("" + htInfo.group_srl, aGroup) !== -1){
+					if(aGroup && $.inArray(htInfo.group_srl, aGroup) !== -1){
 						sChecked = "checked";
 					}
 				}
@@ -3550,6 +3560,10 @@ jQuery(function($){
 			*/
 		});
 		
+	});
+	
+	$('a._siteDesignSetupLink').attr('title', xe.lang.go_to_site_design_setup).click(function(){
+		alert(xe.lang.go_to_site_design_setup);
 	});
 	
 // Set #site height fix
