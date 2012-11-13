@@ -52,7 +52,10 @@ xe.cmd_find = "{$lang->cmd_find}";
 //]]>
 </script>
 </head>
-{@$isAdminKind = strpos(strtolower(Context::get('act')),'admin')!==false?true:false}
+{@$isAdminKind = false}
+<!--@if(strpos(strtolower(Context::get('act')),'admin') || Context::get('module') == 'admin')-->
+{@$isAdminKind = true}
+<!--@end-->
 <body{Context::getBodyClass()} style="margin-top:28px!important"|cond="$logged_info->is_admin=='Y' && !$isAdminKind && Context::get('current_module_info')->module_type == 'view'">
 <include target="../../modules/admin/tpl/admin_bar.html" cond="$logged_info->is_admin=='Y' && !$isAdminKind && Context::get('current_module_info')->module_type == 'view'" />
 {Context::getBodyHeader()}
