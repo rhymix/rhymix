@@ -1415,7 +1415,7 @@ jQuery(function($){
 			// can't paste into a child menu of the source menu
 			var sParentSrl = $._xeAdminVar.sSelectedMenuSrl;
 			 do{
-				if(sParentSrl === $._xeAdminVar.sCopySourceMenuSrl){
+				if(sParentSrl == $._xeAdminVar.sCopySourceMenuSrl){
 					alert(xe.lang.msg_target_is_sub_of_origin);
 					return;
 				}
@@ -2069,7 +2069,7 @@ jQuery(function($){
 				
 					$node.find('._groups').show();
 					
-					if(aGroup && $.inArray(htInfo.group_srl, aGroup) !== -1){
+					if(aGroup && $.inArray("" + htInfo.group_srl, aGroup) !== -1){
 						sChecked = "checked";
 					}
 				}
