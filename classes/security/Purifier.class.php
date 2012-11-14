@@ -131,14 +131,14 @@ class Purifier
 		$whiteIframeUrlList = $oEmbedFilter->getWhiteIframeUrlList();
 
 		$whiteDomainRegex = '%^(';
-		if(is_array($whiteIframeUrlList))
-		{
-			foreach($whiteIframeUrlList AS $key=>$value)
-			{
+				if(is_array($whiteIframeUrlList))
+				{
+				foreach($whiteIframeUrlList AS $key=>$value)
+				{
 				$whiteDomainRegex .= $value;
-			}
-		}
-		$whiteDomainRegex .= ')%';
+				}
+				}
+				$whiteDomainRegex .= ')%';
 
 		return $whiteDomainRegex;
 	}
@@ -163,3 +163,4 @@ class Purifier
 }
 
 /* End of file : Purifier.class.php */
+/* Location: ./classes/security/Purifier.class.php */

@@ -7,7 +7,8 @@
  * @package /classes/httprequest
  * @version 0.1
  */
-class XEHttpRequest {
+class XEHttpRequest
+{
 	/**
 	 * target host
 	 * @var string
@@ -30,9 +31,9 @@ class XEHttpRequest {
 	 */
 	function XEHttpRequest($host, $port)
 	{
-	    $this->m_host = $host;
-	    $this->m_port = $port;
-	    $this->m_headers = array();
+		$this->m_host = $host;
+		$this->m_port = $port;
+		$this->m_headers = array();
 	}
 
 	/**
@@ -43,7 +44,7 @@ class XEHttpRequest {
 	 */
 	function addToHeader($key, $value)
 	{
-	    $this->m_headers[$key] = $value;
+		$this->m_headers[$key] = $value;
 	}
 
 	/**
@@ -71,9 +72,12 @@ class XEHttpRequest {
 		// list of post variables
 		if(!is_array($post_vars)) $post_vars = array();
 
-		if(false && is_callable('curl_init')) {
+		if(false && is_callable('curl_init'))
+		{
 			return $this->sendWithCurl($target, $method, $timeout, $post_vars);
-		} else {
+		}
+		else
+		{
 			return $this->sendWithSock($target, $method, $timeout, $post_vars);
 		}
 	}
@@ -91,7 +95,8 @@ class XEHttpRequest {
 		static $crlf = "\r\n";
 
 		$sock = @fsockopen($this->m_host, $this->m_port, $errno, $errstr, $timeout);
-		if(!$sock) {
+		if(!$sock)
+		{
 			return new Object(-1, 'socket_connect_failed');
 		}
 
@@ -100,8 +105,10 @@ class XEHttpRequest {
 
 		// post body
 		$post_body = '';
-		if($method == 'POST' && count($post_vars)) {
-			foreach($post_vars as $key=>$value) {
+		if($method == 'POST' && count($post_vars))
+		{
+			foreach($post_vars as $key=>$value)
+			{
 				$post_body .= urlencode($key).'='.urlencode($value).'&';
 			}
 			$post_body = substr($post_body, 0, -1);
@@ -111,7 +118,8 @@ class XEHttpRequest {
 		}
 
 		$request = "$method $target HTTP/1.1$crlf";
-		foreach($headers as $equiv=>$content) {
+		foreach($headers as $equiv=>$content)
+		{
 			$request .= "$equiv: $content$crlf";
 		}
 		$request .= $crlf.$post_body;
@@ -121,19 +129,25 @@ class XEHttpRequest {
 
 		// read response headers
 		$is_chunked = false;
-		while(strlen(trim($line = fgets($sock)))) {
+		while(strlen(trim($line = fgets($sock))))
+		{
 			list($equiv, $content) = preg_split('/ *: */', rtrim($line), 1);
-			if(!strcasecmp($equiv, 'Transfer-Encoding') && $content == 'chunked') {
+			if(!strcasecmp($equiv, 'Transfer-Encoding') && $content == 'chunked')
+			{
 				$is_chunked = true;
 			}
 		}
 
 		$body = '';
-		while(!feof($sock)) {
-			if ($is_chunked) {
+		while(!feof($sock))
+		{
+			if($is_chunked)
+			{
 				$chunk_size = hexdec(fgets($sock));
 				if($chunk_size) $body .= fread($sock, $chunk_size);
-			} else {
+			}
+			else
+			{
 				$body .= fgets($sock, 512);
 			}
 		}
@@ -171,9 +185,10 @@ class XEHttpRequest {
 		curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-		switch($method) {
-			case 'GET':  curl_setopt($ch, CURLOPT_HTTPGET, true); break;
-			case 'PUT':  curl_setopt($ch, CURLOPT_PUT, true); break;
+		switch($method)
+		{
+			case 'GET': curl_setopt($ch, CURLOPT_HTTPGET, true); break;
+			case 'PUT': curl_setopt($ch, CURLOPT_PUT, true); break;
 			case 'POST':
 				curl_setopt($ch, CURLOPT_POST, true);
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_vars);
@@ -181,14 +196,16 @@ class XEHttpRequest {
 		}
 
 		$arr_headers = array();
-		foreach($headers as $key=>$value){
+		foreach($headers as $key=>$value)
+		{
 			$arr_headers[] = "$key: $value";
 		}
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $arr_headers);
 
 		$body = curl_exec($ch);
-		if(curl_errno($ch)) {
+		if(curl_errno($ch))
+		{
 			return new Object(-1, 'socket_connect_failed');
 		}
 
@@ -201,4 +218,5 @@ class XEHttpRequest {
 		return $ret;
 	}
 }
-?>
+/* End of file XEHttpRequest.class.php */
+/* Location: ./classes/httprequest/XEHttpRequest.class.php */

@@ -9,10 +9,10 @@ else
 }
 
 /**
-* Mailing class for XpressEngine
-*
-* @author NHN (developers@xpressengine.com)
-*/
+ * Mailing class for XpressEngine
+ *
+ * @author NHN (developers@xpressengine.com)
+ */
 class Mail extends PHPMailer
 {
 	/**
@@ -130,22 +130,21 @@ class Mail extends PHPMailer
 	var $use_smtp = FALSE;
 
 	/**
-	* Constructor function
-	*
-	* @return void
-	*/
+	 * Constructor function
+	 *
+	 * @return void
+	 */
 	function Mail()
 	{
-
 	}
 
 	/**
-	* Set parameters for using Gmail
-	*
-	* @param string $account_name Password
-	* @param string $account_passwd Secure method ('ssl','tls')
-	* @return void
-	*/
+	 * Set parameters for using Gmail
+	 *
+	 * @param string $account_name Password
+	 * @param string $account_passwd Secure method ('ssl','tls')
+	 * @return void
+	 */
 	function useGmailAccount($account_name, $account_passwd)
 	{
 		$this->SMTPAuth = TRUE;
@@ -165,17 +164,17 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Set parameters for using SMTP protocol
-	*
-	* @param bool $auth SMTP authentication
-	* @param string $host SMTP host address
-	* @param string $user SMTP user id
-	* @param string $pass STMP user password
-	* @param string $secure method ('ssl','tls')
-	* @param int $port STMP port
-	*
-	* @return bool TRUE if SMTP is set correct, otherwise return FALSE
-	*/
+	 * Set parameters for using SMTP protocol
+	 *
+	 * @param bool $auth SMTP authentication
+	 * @param string $host SMTP host address
+	 * @param string $user SMTP user id
+	 * @param string $pass STMP user password
+	 * @param string $secure method ('ssl','tls')
+	 * @param int $port STMP port
+	 *
+	 * @return bool TRUE if SMTP is set correct, otherwise return FALSE
+	 */
 	function useSMTP($auth = NULL, $host = NULL, $user = NULL, $pass = NULL, $secure = NULL, $port = 25)
 	{
 		$this->SMTPAuth = $auth;
@@ -203,47 +202,47 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Set additional parameters
-	*
-	* @param string $additional_params Additional parameters
-	* @return void
-	*/
+	 * Set additional parameters
+	 *
+	 * @param string $additional_params Additional parameters
+	 * @return void
+	 */
 	function setAdditionalParams($additional_params)
 	{
 		$this->additional_params = $additional_params;
 	}
 
 	/**
-	* Add file attachment
-	*
-	* @param string $filename File name to attach
-	* @param string $orgfilename Real path of file to attach
-	* @return void
-	*/
+	 * Add file attachment
+	 *
+	 * @param string $filename File name to attach
+	 * @param string $orgfilename Real path of file to attach
+	 * @return void
+	 */
 	function addAttachment($filename, $orgfilename)
 	{
 		$this->attachments[$orgfilename] = $filename;
 	}
 
 	/**
-	* Add content attachment
-	*
-	* @param string $filename Real path of file to attach
-	* @param string $cid Content-CID
-	* @return void
-	*/
+	 * Add content attachment
+	 *
+	 * @param string $filename Real path of file to attach
+	 * @param string $cid Content-CID
+	 * @return void
+	 */
 	function addCidAttachment($filename, $cid)
 	{
 		$this->cidAttachments[$cid] = $filename;
 	}
 
 	/**
-	* Set Sender (From:)
-	*
-	* @param string $name Sender name
-	* @param string $email Sender email address
-	* @return void
-	*/
+	 * Set Sender (From:)
+	 *
+	 * @param string $name Sender name
+	 * @param string $email Sender email address
+	 * @return void
+	 */
 	function setSender($name, $email)
 	{
 		if($this->Mailer == "mail")
@@ -258,10 +257,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Get Sender (From:)
-	*
-	* @return string
-	*/
+	 * Get Sender (From:)
+	 *
+	 * @return string
+	 */
 	function getSender()
 	{
 		if(!stristr(PHP_OS, 'win') && $this->sender_name)
@@ -272,12 +271,12 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Set Receiptor (TO:)
-	*
-	* @param string $name Receiptor name
-	* @param string $email Receiptor email address
-	* @return void
-	*/
+	 * Set Receiptor (TO:)
+	 *
+	 * @param string $name Receiptor name
+	 * @param string $email Receiptor email address
+	 * @return void
+	 */
 	function setReceiptor($name, $email)
 	{
 		if($this->Mailer == "mail")
@@ -292,10 +291,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Get Receiptor (TO:)
-	*
-	* @return string
-	*/
+	 * Get Receiptor (TO:)
+	 *
+	 * @return string
+	 */
 	function getReceiptor()
 	{
 		if(!stristr(PHP_OS, 'win') && $this->receiptor_name && $this->receiptor_name != $this->receiptor_email)
@@ -306,11 +305,11 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Set Email's Title
-	*
-	* @param string $title Title to set
-	* @return void
-	*/
+	 * Set Email's Title
+	 *
+	 * @param string $title Title to set
+	 * @return void
+	 */
 	function setTitle($title)
 	{
 		if($this->Mailer == "mail")
@@ -324,21 +323,21 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Get Email's Title
-	*
-	* @return string
-	*/
+	 * Get Email's Title
+	 *
+	 * @return string
+	 */
 	function getTitle()
 	{
 		return '=?utf-8?b?' . base64_encode($this->title) . '?=';
 	}
 
 	/**
-	* Set BCC
-	*
-	* @param string $bcc
-	* @return void
-	*/
+	 * Set BCC
+	 *
+	 * @param string $bcc
+	 * @return void
+	 */
 	function setBCC($bcc)
 	{
 		if($this->Mailer == "mail")
@@ -352,33 +351,33 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Set Message ID
-	*
-	* @param string $messageId
-	* @return void
-	*/
+	 * Set Message ID
+	 *
+	 * @param string $messageId
+	 * @return void
+	 */
 	function setMessageID($messageId)
 	{
 		$this->messageId = $messageId;
 	}
 
 	/**
-	* Set references
-	*
-	* @param string $references
-	* @return void
-	*/
+	 * Set references
+	 *
+	 * @param string $references
+	 * @return void
+	 */
 	function setReferences($references)
 	{
 		$this->references = $references;
 	}
 
 	/**
-	* Set ReplyTo param
-	*
-	* @param string $replyTo
-	* @return void
-	*/
+	 * Set ReplyTo param
+	 *
+	 * @param string $replyTo
+	 * @return void
+	 */
 	function setReplyTo($replyTo)
 	{
 		if($this->Mailer == "mail")
@@ -392,11 +391,11 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Set message content
-	*
-	* @param string $content Content
-	* @return void
-	*/
+	 * Set message content
+	 *
+	 * @param string $content Content
+	 * @return void
+	 */
 	function setContent($content)
 	{
 		$content = preg_replace_callback('/<img([^>]+)>/i', array($this, 'replaceResourceRealPath'), $content);
@@ -411,53 +410,53 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Replace resourse path of the files
-	*
-	* @see Mail::setContent()
-	* @param array $matches Match info.
-	* @return string
-	*/
+	 * Replace resourse path of the files
+	 *
+	 * @see Mail::setContent()
+	 * @param array $matches Match info.
+	 * @return string
+	 */
 	function replaceResourceRealPath($matches)
 	{
 		return preg_replace('/src=(["\']?)files/i', 'src=$1' . Context::getRequestUri() . 'files', $matches[0]);
 	}
 
 	/**
-	* Get the Plain content of body message
-	*
-	* @return string
-	*/
+	 * Get the Plain content of body message
+	 *
+	 * @return string
+	 */
 	function getPlainContent()
 	{
 		return chunk_split(base64_encode(str_replace(array("<", ">", "&"), array("&lt;", "&gt;", "&amp;"), $this->content)));
 	}
 
 	/**
-	* Get the HTML content of body message
-	*
-	* @return string
-	*/
+	 * Get the HTML content of body message
+	 *
+	 * @return string
+	 */
 	function getHTMLContent()
 	{
 		return chunk_split(base64_encode($this->content_type != 'html' ? nl2br($this->content):$this->content));
 	}
 
 	/**
-	* Set the type of body's content
-	*
-	* @param string $mode
-	* @return void
-	*/
+	 * Set the type of body's content
+	 *
+	 * @param string $mode
+	 * @return void
+	 */
 	function setContentType($mode = 'html')
 	{
 		$this->content_type = $mode == 'html' ? 'html':'';
 	}
 
 	/**
-	* Process the images from attachments
-	*
-	* @return void
-	*/
+	 * Process the images from attachments
+	 *
+	 * @return void
+	 */
 	function procAttachments()
 	{
 		if($this->Mailer == "mail")
@@ -477,19 +476,19 @@ class Mail extends PHPMailer
 					$file_str = $file_handler->readFile($attachment);
 					$chunks = chunk_split(base64_encode($file_str));
 					$tempBody = sprintf(
-						"--" . $boundary . $this->eol .
-						"Content-Type: %s;" . $this->eol .
-						"\tname=\"%s\"" . $this->eol .
-						"Content-Transfer-Encoding: base64" . $this->eol .
-						"Content-Description: %s" . $this->eol .
-						"Content-Disposition: attachment;" . $this->eol .
-						"\tfilename=\"%s\"" . $this->eol . $this->eol .
-						"%s" . $this->eol . $this->eol,
-						$type,
-						$filename,
-						$filename,
-						$filename,
-						$chunks);
+							"--" . $boundary . $this->eol .
+							"Content-Type: %s;" . $this->eol .
+							"\tname=\"%s\"" . $this->eol .
+							"Content-Transfer-Encoding: base64" . $this->eol .
+							"Content-Description: %s" . $this->eol .
+							"Content-Disposition: attachment;" . $this->eol .
+							"\tfilename=\"%s\"" . $this->eol . $this->eol .
+							"%s" . $this->eol . $this->eol,
+							$type,
+							$filename,
+							$filename,
+							$filename,
+							$chunks);
 					$res[] = $tempBody;
 				}
 				$this->body = implode("", $res);
@@ -509,10 +508,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Process the images from body content. This functions is used if Mailer is set as mail not as SMTP
-	*
-	* @return void
-	*/
+	 * Process the images from body content. This functions is used if Mailer is set as mail not as SMTP
+	 *
+	 * @return void
+	 */
 	function procCidAttachments()
 	{
 		if(count($this->cidAttachments) > 0)
@@ -530,20 +529,20 @@ class Mail extends PHPMailer
 				$file_str = FileHandler::readFile($attachment);
 				$chunks = chunk_split(base64_encode($file_str));
 				$tempBody = sprintf(
-					"--" . $boundary . $this->eol .
-					"Content-Type: %s;" . $this->eol .
-					"\tname=\"%s\"" . $this->eol .
-					"Content-Transfer-Encoding: base64" . $this->eol .
-					"Content-ID: <%s>" . $this->eol .
-					"Content-Description: %s" . $this->eol .
-					"Content-Location: %s" . $this->eol . $this->eol .
-					"%s" . $this->eol . $this->eol,
-					$type,
-					$filename,
-					$cid,
-					$filename,
-					$filename,
-					$chunks);
+						"--" . $boundary . $this->eol .
+						"Content-Type: %s;" . $this->eol .
+						"\tname=\"%s\"" . $this->eol .
+						"Content-Transfer-Encoding: base64" . $this->eol .
+						"Content-ID: <%s>" . $this->eol .
+						"Content-Description: %s" . $this->eol .
+						"Content-Location: %s" . $this->eol . $this->eol .
+						"%s" . $this->eol . $this->eol,
+						$type,
+						$filename,
+						$cid,
+						$filename,
+						$filename,
+						$chunks);
 				$res[] = $tempBody;
 			}
 			$this->body = implode("", $res);
@@ -552,10 +551,10 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Send email
-	*
-	* @return bool TRUE in case of success, FALSE if sending fails
-	*/
+	 * Send email
+	 *
+	 * @return bool TRUE in case of success, FALSE if sending fails
+	 */
 	function send()
 	{
 		if($this->Mailer == "mail")
@@ -564,39 +563,39 @@ class Mail extends PHPMailer
 			$this->eol = $GLOBALS['_qmail_compatibility'] == "Y" ? "\n" : "\r\n";
 			$this->header = "Content-Type: multipart/alternative;" . $this->eol . "\tboundary=\"" . $boundary . "\"" . $this->eol . $this->eol;
 			$this->body = sprintf(
-				"--%s" . $this->eol .
-				"Content-Type: text/plain; charset=utf-8; format=flowed" . $this->eol .
-				"Content-Transfer-Encoding: base64" . $this->eol .
-				"Content-Disposition: inline" . $this->eol . $this->eol .
-				"%s" .
-				"--%s" . $this->eol .
-				"Content-Type: text/html; charset=utf-8" . $this->eol .
-				"Content-Transfer-Encoding: base64" . $this->eol .
-				"Content-Disposition: inline" . $this->eol . $this->eol .
-				"%s" .
-				"--%s--" .
-				"",
-				$boundary,
-				$this->getPlainContent(),
-				$boundary,
-				$this->getHTMLContent(),
-				$boundary
-			);
+					"--%s" . $this->eol .
+					"Content-Type: text/plain; charset=utf-8; format=flowed" . $this->eol .
+					"Content-Transfer-Encoding: base64" . $this->eol .
+					"Content-Disposition: inline" . $this->eol . $this->eol .
+					"%s" .
+					"--%s" . $this->eol .
+					"Content-Type: text/html; charset=utf-8" . $this->eol .
+					"Content-Transfer-Encoding: base64" . $this->eol .
+					"Content-Disposition: inline" . $this->eol . $this->eol .
+					"%s" .
+					"--%s--" .
+					"",
+					$boundary,
+					$this->getPlainContent(),
+					$boundary,
+					$this->getHTMLContent(),
+					$boundary
+					);
 			$this->procCidAttachments();
 			$this->procAttachments();
 			$headers = sprintf(
-				"From: %s" . $this->eol .
-				"%s" .
-				"%s" .
-				"%s" .
-				"%s" .
-				"MIME-Version: 1.0" . $this->eol . "",
-				$this->getSender(),
-				$this->messageId ? ("Message-ID: <" . $this->messageId . ">" . $this->eol):"",
-				$this->replyTo ? ("Reply-To: <" . $this->replyTo . ">" . $this->eol):"",
-				$this->bcc ? ("Bcc: " . $this->bcc . $this->eol):"",
-				$this->references ? ("References: <" . $this->references . ">" . $this->eol . "In-Reply-To: <" . $this->references . ">" . $this->eol):""
-			);
+					"From: %s" . $this->eol .
+					"%s" .
+					"%s" .
+					"%s" .
+					"%s" .
+					"MIME-Version: 1.0" . $this->eol . "",
+					$this->getSender(),
+					$this->messageId ? ("Message-ID: <" . $this->messageId . ">" . $this->eol):"",
+					$this->replyTo ? ("Reply-To: <" . $this->replyTo . ">" . $this->eol):"",
+					$this->bcc ? ("Bcc: " . $this->bcc . $this->eol):"",
+					$this->references ? ("References: <" . $this->references . ">" . $this->eol . "In-Reply-To: <" . $this->references . ">" . $this->eol):""
+					);
 			$headers .= $this->header;
 			if($this->additional_params)
 			{
@@ -612,11 +611,11 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Check if DNS of param is real or fake
-	*
-	* @param string $email_address Email address
-	* @return boolean TRUE if param is valid DNS otherwise FALSE
-	*/
+	 * Check if DNS of param is real or fake
+	 *
+	 * @param string $email_address Email address
+	 * @return boolean TRUE if param is valid DNS otherwise FALSE
+	 */
 	function checkMailMX($email_address)
 	{
 		if(!Mail::isVaildMailAddress($email_address))
@@ -639,11 +638,11 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Check if param is a valid email or not
-	*
-	* @param string $email_address Email address
-	* @return string email address if param is valid email address otherwise blank string
-	*/
+	 * Check if param is a valid email or not
+	 *
+	 * @param string $email_address Email address
+	 * @return string email address if param is valid email address otherwise blank string
+	 */
 	function isVaildMailAddress($email_address)
 	{
 		if(preg_match("/([a-z0-9\_\-\.]+)@([a-z0-9\_\-\.]+)/i", $email_address))
@@ -657,11 +656,11 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* Gets the MIME type of param
-	*
-	* @param string $filename filename
-	* @return string MIME type of ext
-	*/
+	 * Gets the MIME type of param
+	 *
+	 * @param string $filename filename
+	 * @return string MIME type of ext
+	 */
 	function returnMIMEType($filename)
 	{
 		preg_match("|\.([a-z0-9]{2,4})$|i", $filename, $fileSuffix);
