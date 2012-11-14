@@ -81,7 +81,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
 		{@$isGoTo = true}
 		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 			<span cond="$isGoTo" id="goTo" class="x_input-append">
 				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit" class="x_add-on">Go</button>
@@ -97,7 +97,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
 		{@$isGoTo = true}
 		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 			<span cond="$isGoTo" id="goTo" class="x_input-append">
 				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit" class="x_add-on">Go</button>
@@ -141,12 +141,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<div class="x_modal-footer">
 		<div class="x_btn-group x_pull-left">
 			<button type="submit" name="type" value="trash" class="x_btn">{$lang->cmd_trash}</button>
-			<button type="submit" name="type" value="delete" class="x_btn x_btn-danger">{$lang->cmd_delete}</button>
+			<button type="submit" name="type" value="delete" class="x_btn">{$lang->cmd_delete}</button>
 		</div>
 		<div class="x_btn-group x_pull-right">
-			<button type="submit" name="type" value="move" class="x_btn">{$lang->cmd_move}</button>
-			<button type="submit" name="type" value="copy" class="x_btn">{$lang->cmd_copy}</button>
-			<button type="submit" name="type" value="cancelDeclare" class="x_btn">{$lang->cmd_cancel_declare}</button>
+			<button type="submit" name="type" value="move" class="x_btn x_btn-inverse">{$lang->cmd_move}</button>
+			<button type="submit" name="type" value="copy" class="x_btn x_btn-inverse">{$lang->cmd_copy}</button>
+			<button type="submit" name="type" value="cancelDeclare" class="x_btn x_btn-inverse">{$lang->cmd_cancel_declare}</button>
 		</div>
 	</div>
 </form>

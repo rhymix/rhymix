@@ -44,7 +44,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="header_script">{$lang->header_script}</label>
 		<div class="x_controls">
-			<textarea name="header_script" id="header_script" rows="8" cols="42">{$selected_layout->header_script}</textarea>
+			<textarea name="header_script" id="header_script" rows="4" cols="42">{$selected_layout->header_script}</textarea>
 			<span class="x_help-block">{$lang->about_header_script}</span>
 		</div>
 	</div>
@@ -67,15 +67,15 @@
 
 				<div cond="$var->type == 'textarea'">
 					{@$use_multilang_textarea = true}
-					<textarea name="{$name}" rows="8" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end--></textarea>
+					<textarea name="{$name}" rows="4" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end--></textarea>
 				</div>
 
 				<block cond="$var->type == 'image'">
 					<input type="hidden" name="{$name}" id="file_{$name}" value="{$var->value}" />
-					<div id="preview_{$name}" class="x_thumbnail" style="<!--@if(!$var->value)-->display:none;<!--@end-->max-width:250px;margin-bottom:20px;">
-						<img src="../../../{$var->value}"|cond="$var->value" alt="" style="max-width:250px;" />
-						<div class="x_caption">
-							<input class="x_btn x_btn-danger x_btn-mini" type="button" value="{$lang->cmd_delete}" onclick="deleteImage('{$name}')" />
+					<div id="preview_{$name}" class="x_thumbnail" style="<!--@if(!$var->value)-->display:none;<!--@end-->max-width:210px;margin-bottom:20px;">
+						<img src="../../../{$var->value}"|cond="$var->value" alt="" style="max-width:100%" />
+						<div style="text-align:right">
+							<button class="x_icon-remove" type="button" onclick="deleteImage('{$name}')" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button>
 						</div>
 					</div>
 					<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload">
@@ -84,8 +84,8 @@
 					<input type="hidden" name="layout_srl" value="{$layout_srl}" />
 					<input type="hidden" name="name" value="{$name}" />
 						<p>
-							<input type="file" name="img" id="file_select_{$name}" value="" />
-							<input class="x_btn x_btn-mini x_btn-primary" type="submit" value="{$lang->cmd_submit}" />
+							<input type="file" name="img" id="file_select_{$name}" value="" title="{$lang->uploaded_file}" />
+							<input class="x_btn" type="submit" value="{$lang->cmd_submit}" />
 						</p>
 					</form>
 				</block>

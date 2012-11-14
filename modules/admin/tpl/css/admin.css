@@ -2,7 +2,7 @@
 /* Reset */
 html,body{min-height:100%}
 body{margin:8px;-webkit-text-size-adjust:none}
-body>.x{min-width:300px;max-width:1240px}
+body>.x{min-width:300px;max-width:1240px;margin:0 auto}
 body>.x,
 .x label,
 .x table,
@@ -16,7 +16,7 @@ body>.x,
 .x dfn{font-style:normal}
 .x [disabled]{cursor:not-allowed}
 .x button[disabled]{color:#ccc !important}
-.x a[target="_blank"]:after{ content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:0 0 0 2px;background-position:-120px -72px;opacity:.3;filter:alpha(opacity=30)}
+.x a[target="_blank"]:after{ content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:-2px 0 0 2px;background-position:-120px -72px;opacity:.3;filter:alpha(opacity=30)}
 .x a[target="_blank"]:hover:after,
 .x a[target="_blank"]:focus:after{opacity:.7;filter:alpha(opacity=70)}
 /* Bootstrap Override */
@@ -48,7 +48,7 @@ body>.x,
 .x .x_pagination ul>li>strong{line-height:24px;padding:0 8px}
 .x .x_pagination ul>.x_active>a, 
 .x .x_pagination ul>.x_active>span,
-.x .x_pagination ul>.x_active>strong{line-height:26px;border:0;background-color:#555;color:#fff;font-weight:bold;font-size:18px;font-family:Arial, Helvetica, sans-serif}
+.x .x_pagination ul>.x_active>strong{line-height:26px;border:0;background-color:#666;color:#fff;font-weight:bold;font-size:18px;font-family:Arial, Helvetica, sans-serif}
 .x .x_pagination [id^="goTo"]{display:none;margin:0;padding:0}
 .x .x_pagination [id^="goTo"]>*{border:0;border-radius:0}
 .x .x_pagination [id^="goTo"]>[type="number"]{height:16px;line-height:16px;width:50px;text-align:center}
@@ -279,7 +279,7 @@ body>.x,
 	/* li>ul>li */
 .x>.xin>.body>.gnb>ul>li>ul>li{border-top:1px solid #ddd;position:relative}
 .x>.xin>.body>.gnb>ul>li>ul>li:first-child{border:0}
-.x>.xin>.body>.gnb>ul>li>ul>li.active_{box-shadow:0 0 3px #000;z-index:99;border:1px solid #000;border-left:0;border-right:0}
+.x>.xin>.body>.gnb>ul>li>ul>li.active_{box-shadow:0 0 3px #999;z-index:99;border:1px solid #666;border-left:0;border-right:0}
 	/* li>ul>li>a */
 .x>.xin>.body>.gnb>ul>li>ul>li>a{padding:4px 5px 4px 15px;background:#e8e8e8;background:-webkit-gradient(linear,left top,left bottom,from(#f1f1f1),to(#e8e8e8));background:-moz-linear-gradient(top,#f1f1f1,#e8e8e8);background:-o-linear-gradient(top,#f1f1f1,#e8e8e8)}
 .x>.xin>.body>.gnb>ul>li>ul#favorite>li>a{padding:4px 25px 4px 15px}

@@ -11,7 +11,7 @@
 				<ul>
 					<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
 					<li><a href="{getUrl('', 'module','admin','act','procAdminLogout')}">{$lang->cmd_logout}</a></li>
-					<li><a href="#lang" class="lang" data-toggle="#lang">{$lang_supported[$lang_type]}</a>
+					<li><a href="#lang" class="lang" data-toggle>{$lang_supported[$lang_type]}</a>
 						<ul id="lang" class="x_dropdown-menu">
 							<li loop="$lang_supported=>$key,$val" class="x_active"|cond="$key==$lang_type"><a href="{getUrl('l',$key)}" data-langcode="{$key}" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
 						</ul>

@@ -11,15 +11,15 @@
 
 	<div class="x_control-group">
 		<label for="sample_code" class="x_control-label">{$lang->sample_code}</label>
-		<div class="x_controls">
-			<textarea id="sample_code" readonly style="width:900px;height:100px;cursor:text">{$sample_code}</textarea>
+		<div class="x_controls" style="margin-right:14px">
+			<textarea id="sample_code" readonly style="width:100%;height:100px;cursor:text">{$sample_code}</textarea>
 			<span class="x_help-block">{$lang->about_sample_code}</span>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label for="skin" class="x_control-label">{$lang->skin}</label>
 		<div class="x_controls">
-			<select name="skin" id="skin">
+			<select name="skin" id="skin" style="width:220px">
 				<option loop="$skin_list => $key, $val"  value="{$key}" selected="selected"|cond="$config->skin == $key">{$val->title}</option>
 			</select>
 			<span class="x_help-block">{$lang->about_skin}</span>
@@ -28,7 +28,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->target}</label>
 		<div class="x_controls">
-			<select name="target">
+			<select name="target" style="width:220px">
 				<option value="include">{$lang->include_search_target}</option>
 				<option value="exclude" selected="selected"|cond="$config->target=='exclude'">{$lang->exclude_search_target}</option>
 			</select>
@@ -44,6 +44,6 @@
 	</div>
 
 	<div class="btnArea">
-		<button class="x_btn x_btn-primary x_btn-large" type="submit">{$lang->cmd_registration}</button>
+		<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
 	</div>
 </form>

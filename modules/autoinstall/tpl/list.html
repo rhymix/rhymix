@@ -38,8 +38,8 @@
 		<block loop="$item_list => $key, $item">
 			{@ $target_url = $original_site."?mid=download&package_srl=".$item->package_srl; }
 			<div class="x_thumbnail">
-				<div class="thumb">
-					<img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="80" height="80" />
+				<div class="thumb" style="min-height:80px">
+					<img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="80" />
 				</div>
 				<div class="text">
 					<h3><span class="x_label x_label-info">{$item->category}</span> <a href="{$target_url}" title="{htmlspecialchars($item->title)}" target="_blank">{htmlspecialchars($item->title)}</a></h3>
@@ -133,7 +133,7 @@
 			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
 			{@$isGoTo = true}
 			<li>
-				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 				<span cond="$isGoTo" id="goTo" class="x_input-append">
 					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 					<button type="submit" class="x_add-on">Go</button>
@@ -147,7 +147,7 @@
 			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
 			{@$isGoTo = true}
 			<li>
-				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 				<span cond="$isGoTo" id="goTo" class="x_input-append">
 					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 					<button type="submit" class="x_add-on">Go</button>

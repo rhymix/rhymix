@@ -83,7 +83,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
 		{@$isGoTo = true}
 		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 			<span cond="$isGoTo" id="goTo" class="x_input-append">
 				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit" class="x_add-on">Go</button>
@@ -99,7 +99,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
 		{@$isGoTo = true}
 		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 			<span cond="$isGoTo" id="goTo" class="x_input-append">
 				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit" class="x_add-on">Go</button>
@@ -160,16 +160,16 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<div class="x_modal-footer">
 		<div class="x_btn-group x_pull-left">
 			<button type="submit" class="x_btn" name="is_trash" value="true">{$lang->cmd_trash}</button>
-			<button type="submit" class="x_btn x_btn-danger" name="is_trash" value="false">{$lang->cmd_delete}</button>
+			<button type="submit" class="x_btn" name="is_trash" value="false">{$lang->cmd_delete}</button>
 		</div>
 		<div class="x_btn-group x_pull-right">
 		<!--@if ($search_target=='is_published' && $search_keyword=="N")-->
-			<button type="submit" class="x_btn x_btn-primary" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button>
+			<button type="submit" class="x_btn x_btn-inverse" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button>
 		<!--@elseif ($search_target=='is_published' && $search_keyword=="Y")-->
-			<button type="submit" class="x_btn" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button>
+			<button type="submit" class="x_btn x_btn-inverse" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button>
 		<!--@else-->
-			<button type="submit" class="x_btn" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button>
-			<button type="submit" class="x_btn x_btn-primary" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button>
+			<button type="submit" class="x_btn x_btn-inverse" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button>
+			<button type="submit" class="x_btn x_btn-inverse" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button>
 		<!--@end-->
 		</div>
 	</div>

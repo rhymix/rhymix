@@ -119,7 +119,7 @@
 			<span class="x_pull-right x_input-append">
 				<input type="text" value="{$config->expression}" placeholder="Math.pow(i,2) * 90" size="30" class="level_expression" />
 				<button type="button" class="x_btn calc_point">{$lang->level_point_calc}</button> 
-				<button type="button" class="x_btn x_btn-warning calc_point _reset">{$lang->cmd_exp_reset}</button>
+				<button type="button" class="x_btn calc_point _reset">{$lang->cmd_exp_reset}</button>
 			</span>
 		</div>
 		<table class="x_table x_table-striped x_table-hover">
@@ -168,10 +168,8 @@
 
 	<section class="section">
 		<h1>{$lang->cmd_point_recal}</h1>
+		<p><input class="x_btn x_btn-warning" type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal()" style="min-width:220px" /></p>
 		<p>{$lang->about_cmd_point_recal}</p>
 		<p id="pointReCal"></p>
-		<div class="x_clearfix">
-			<span class="x_pull-right"><input class="x_btn x_btn-danger x_btn-large" type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal(); return false;"/></span>
-		</div>
 	</section>
 </form>

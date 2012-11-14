@@ -7,14 +7,14 @@
 <p cond="!$name">{sprintf($lang->about_multilingual_search_result, $total_count, $lang_code, $lang_supported[$lang_code])}</p>
 <fieldset class="list">
 	<form loop="$lang_code_list => $no, $val" action="" class="item">
-		<a class="set" href="#lang-{$no}"  data-toggle="#lang-{$no}" data-lang_code="{$val->name}"><span>{$val->value}</span></a>
+		<a class="set" href="#lang-{$no}" data-toggle data-lang_code="{$val->name}"><span>{$val->value}</span></a>
 		<fieldset id="lang-{$no}" style="display:none">
 			<textarea loop="$lang_supported => $code, $lname" disabled class="{$code}" data-lang="{$code}" rows="1" cols="12" title="{$lname}" style="margin-right:5px"></textarea>
 			<div class="x_clearfix">
 				<span class="x_pull-left x_btn-group">
 					<button type="button" class="x_btn modify">{$lang->cmd_modify}</button>
 					<button type="reset" class="x_btn cancel">{$lang->cmd_cancel}</button>
-					<button type="button" class="x_btn x_btn-danger delete">{$lang->cmd_delete}</button>
+					<button type="button" class="x_btn delete">{$lang->cmd_delete}</button>
 				</span>
 				<span class="x_pull-right">
 					<button type="button" class="x_btn useit x_btn-primary">{$lang->use}</button>
@@ -31,7 +31,7 @@
 			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
 			{@$isGoTo = true}
 			<li>
-				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 				<span cond="$isGoTo" id="goTo" class="x_input-append">
 					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 					<button type="submit" class="x_add-on">Go</button>
@@ -45,7 +45,7 @@
 			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
 			{@$isGoTo = true}
 			<li>
-				<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 				<span cond="$isGoTo" id="goTo" class="x_input-append">
 					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 					<button type="submit" class="x_add-on">Go</button>

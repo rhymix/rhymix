@@ -19,7 +19,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 			{$lang->trash}({number_format($total_count)})
 			<div class="x_pull-right x_btn-group">
 				<a href="#fo_list" class="x_btn modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a>
-				<button type="submit" class="x_btn x_btn-danger" name="is_all" value="true">{$lang->empty_trash_all}</button>
+				<button type="submit" class="x_btn" name="is_all" value="true">{$lang->empty_trash_all}</button>
 			</div>
 		</caption>
 		<thead>
@@ -57,7 +57,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 	</table>
 	<div class="x_pull-right x_btn-group">
 		<a href="#fo_list" class="x_btn modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a>
-		<button type="submit" class="x_btn x_btn-danger" name="is_all" value="true">{$lang->empty_trash_all}</button>
+		<button type="submit" class="x_btn" name="is_all" value="true">{$lang->empty_trash_all}</button>
 	</div>
 </form>
 
@@ -72,7 +72,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
 		{@$isGoTo = true}
 		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 			<span cond="$isGoTo" id="goTo" class="x_input-append">
 				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit" class="x_add-on">Go</button>
@@ -88,7 +88,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
 		{@$isGoTo = true}
 		<li>
-			<a href="#goTo" data-toggle="#goTo" title="{$lang->cmd_go_to_page}">...</a>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">...</a>
 			<span cond="$isGoTo" id="goTo" class="x_input-append">
 				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit" class="x_add-on">Go</button>
@@ -124,10 +124,10 @@ var no_text_comment = '{$lang->no_text_comment}';
 	</div>
 	<div class="x_modal-footer">
 		<div class="x_pull-left">
-			<button type="submit" class="x_btn x_btn-primary" name="act" value="procTrashAdminRestore">{$lang->cmd_restore}</button>
+			<button type="submit" class="x_btn" name="act" value="procTrashAdminRestore">{$lang->cmd_restore}</button>
 		</div>
 		<div class="x_pull-right">
-			<button type="submit" class="x_btn x_btn-danger" name="is_all" value="false">{$lang->cmd_delete}</button>
+			<button type="submit" class="x_btn x_btn-inverse" name="is_all" value="false">{$lang->cmd_delete}</button>
 		</div>
 	</div>
 </form>

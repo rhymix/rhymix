@@ -29,7 +29,7 @@
 	<div cond="$show_ftp_note" class="x_well x_clearfix">
 		<p>{$lang->description_download}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp')}">FTP Setup</a>)</p>
 		<p>{$lang->path}: {$package->path}</p>
-		<p><a class="x_btn x_btn-large x_btn-primary x_pull-right" href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
+		<p><a class="x_btn x_btn-primary x_pull-right" href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
 	</div>
 	<div cond="!$show_ftp_note">
 		<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-error">
@@ -53,7 +53,7 @@
 			</block>
 			<div class="x_clearfix btnArea">
 				<div class="x_pull-right">
-					<input class="x_btn x_btn-large x_btn-primary" type="submit" value="{$package->installed?$lang->update:$lang->install}" />
+					<input class="x_btn x_btn-primary" type="submit" value="{$package->installed?$lang->update:$lang->install}" />
 				</div>
 			</div>
 		</form>
