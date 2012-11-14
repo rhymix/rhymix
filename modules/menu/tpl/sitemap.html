@@ -842,9 +842,11 @@ function onSiteMapReceived(htData){
 			sMenuSrl = aSource[0].id.replace("menu", "");
 			sParentSrl = aNewParent[0].id.replace("menu", "");
 			sTargetSrl = aTargetPosRef[0].id.replace("menu", "");
+			/*
 console.log(123, aTargetPosRef);
 console.log(sTargetSrl);
 console.log(htNodeInfo);
+*/
 			switch(sTargetPos){
 				case "after":
 					// use the values as-is
@@ -1628,7 +1630,6 @@ jQuery(function($){
 		
 		$description.html(htItemType.description || "");
 		if(htItemType.package_srl && htItemType.url){
-		console.log($link);
 			$link.show();
 			$link.attr('target', '_blank');
 			$link.attr('href', htItemType.url);
@@ -1842,9 +1843,6 @@ jQuery(function($){
 	});
 	
 	top.onBtnImgUploaded = function(htData){
-		console.log(111);
-		console.log(htData);
-		
 		$('#imgbtn').show();
 
 		if(htData.normal_btn || htData.hover_btn || htData.active_btn){
@@ -1867,7 +1865,6 @@ jQuery(function($){
 		}, BtnInfoReceived);
 	});
 	function BtnInfoReceived(htData){
-		console.log(htData);
 		$('#imgbtn input[name=menu_item_srl]').val(htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl);
 		
 		// reset the file inputs
@@ -1912,12 +1909,11 @@ jQuery(function($){
 		$.exec_json("menu.getMenuAdminDetailSetup", {
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, function(htData){
-			console.log(htData);
 			$.ajax({
 			  url: htData.setupUrl,
 			  context: document.body
 			}).done(function(sData) { 
-			  console.log(999, sData);
+//			  console.log(999, sData);
 			});
 			//htData.setupUrl
 		});
@@ -2390,7 +2386,7 @@ jQuery(function($){
 
 			//module=menu&act=getMenuAdminInstalledMenuType
 			//
-			console.log($._xeAdminVar.htItemTypes);
+//			console.log($._xeAdminVar.htItemTypes);
 			
 			var sLayoutName = '.layoutname.'
 			$list = $('#design').find('._itemList');
@@ -2644,7 +2640,7 @@ jQuery(function($){
 			module_skin : $.stringify(htSkins)
 		}; 
 		
-		console.log(htParam);
+		//console.log(htParam);
 
 		jQuery.exec_json("admin.procAdminInsertDefaultDesignInfo", htParam, function(htData){
 			if(htData.error !== 0){
@@ -2702,7 +2698,7 @@ jQuery(function($){
 		$._xeAdminVar.htPrevSetting = {};
 	});
 	function updatePreview(htParam){
-	console.log(23, htParam);
+//console.log(23, htParam);
 			if(htParam.bClearPrevSetting){
 				$._xeAdminVar.htPrevSetting = {};
 			}
@@ -2729,7 +2725,7 @@ jQuery(function($){
 			$._xeAdminVar.htSelectedMenuDesign.htLayoutSrl[sMode] = htSetting.sLayoutSrl;
 			$._xeAdminVar.htSelectedMenuDesign.htSkin[sMode] = htSetting.sSkin;
 			
-			console.log(sURL);
+//			console.log(sURL);
 			$('._preview_form').attr('action', sURL);
 			
 			var sTarget = "_pc_preview_ifr";
@@ -2995,7 +2991,7 @@ jQuery(function($){
 					sValue = $(this).val();
 					htData[sKey] = sValue;
 				});
-				console.log(htData);
+//				console.log(htData);
 				ev.preventDefault();
 				
 				var sUrl = $('#config_form').attr('action');
@@ -3066,7 +3062,7 @@ jQuery(function($){
 					sValue = $(this).val();
 					htData[sKey] = sValue;
 				});
-				console.log(htData);
+
 				ev.preventDefault();
 				
 				var sUrl = $('#config_form').attr('action');
@@ -3466,9 +3462,8 @@ jQuery(function($){
 	}
 
 	$('#download,#downloadLayout,#downloadSkin').on('click', '._install_this', function(ev){
-		console.log($(this));
 		var $item = $(this).closest('.item');
-		console.log($item);
+
 		var sPackageSrl = $item.data('sPackageSrl');
 		var sPackageType = $item.data('sItemType');
 
@@ -3540,7 +3535,6 @@ jQuery(function($){
 			ftp_password : sPw
 		}, function(htData){
 			hideFoggy();
-			console.log(htData);
 			
 			if($item){
 				$item.addClass('installed');
@@ -3565,14 +3559,12 @@ jQuery(function($){
 		
 		var t = this;		
 		setTimeout(function(){
-			console.log($(t));
 			$(t).blur();
 		}, 0);
 		
 		$.exec_json("menu.getMenuAdminDetailSetup", {
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, function(htData){
-			console.log(htData);
 			//window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
 			$._xeAdminVar.oSetupWin = window.open(htData.setupUrl, "xe_fullSetup");
 			
