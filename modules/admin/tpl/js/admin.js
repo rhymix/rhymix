@@ -320,10 +320,7 @@ jQuery(function($){
 	$.fn.fileTypeOverlap = function(){
 		this.each(function(){
 			var $this = $(this);
-			$this.wrap('<span class="fileBtn" />').before('<button type="button">');
-			var $button = $this.prev('button');
-			$button.text($this.attr('title')).addClass($this.attr('class')).removeClass('overlap');
-			$this.attr('class','overlap').width($button.width()).height($button.height()).offset($button.offset());
+			$this.wrap('<span class="fileBtn x_btn" />').before($this.attr('title'));
 		});
 	};
 	$('input[type="file"].overlap').fileTypeOverlap();

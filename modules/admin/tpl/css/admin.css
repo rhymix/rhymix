@@ -137,8 +137,8 @@ body>.x,
 .x a.active{color:#000;font-weight:bold;text-decoration:none}
 .x .module_search+[readonly]{vertical-align:top;border-top-right-radius:0;border-bottom-right-radius:0}
 .x .module_search+[readonly]+a.x_btn{vertical-align:top;border-top-left-radius:0;border-bottom-left-radius:0;margin-left:-5px}
-.x .fileBtn{position:relative;display:inline-block;overflow:hidden;cursor:pointer}
-.x .fileBtn>input[type="file"]{position:absolute;top:0;right:0;height:100%;overflow:hidden;opacity:0;border:0;filter:alpha(opacity=0);margin:0;padding:0;cursor:pointer;-webkit-transform:scale(3, 3);-webkit-transform-origin:0 0;-moz-transform:scale(3, 3);-moz-transform-origin:100% 0;-o-transform:scale(3, 3);-o-transform-origin:100% 0;filter:progid:DXImageTransform.Microsoft.Matrix(M11=3.0,M22=3.0);}
+.x .fileBtn{position:relative;display:inline-block;overflow:hidden}
+.x .fileBtn>input[type="file"]{position:absolute;top:0;right:0;margin:0;padding:0;border:0;outline:0;cursor:pointer;opacity:0;filter:alpha(opacity=0);-webkit-transform:scale(4);-webkit-transform-origin:100% 0;-moz-transform:scale(4);-moz-transform-origin:100% 0;-o-transform:scale(4);-o-transform-origin:100% 0;transform:scale(4);transform-origin:100% 0}
 .x td>form,
 .x td>p:only-of-type,
 .x td>p:last-of-type{margin:0}
