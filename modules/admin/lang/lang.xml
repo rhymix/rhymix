@@ -1504,4 +1504,8 @@
 		<value xml:lang="ko"><![CDATA[자세히]]></value>
 		<value xml:lang="en"><![CDATA[Details]]></value>
 	</item>
+	<item name="help">
+		<value xml:lang="ko"><![CDATA[도움말]]></value>
+		<value xml:lang="en"><![CDATA[Help]]></value>
+	</item>
 </lang>

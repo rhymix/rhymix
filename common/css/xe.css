@@ -4,6 +4,7 @@
 body,table,input,textarea,select,button{font-family:Tahoma,Geneva,sans-serif;font-size:13px}
 body{word-wrap:break-word}
 a img{border:0}
+[hidden]{display:none}
 .xe_content img{max-width:100%;height:auto}
 @media \0screen{.xe_content img{max-width:none}}
 /* Button Area */

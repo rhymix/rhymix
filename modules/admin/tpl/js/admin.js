@@ -45,6 +45,10 @@ jQuery(function($){
 // TARGET toggle
 	$(document.body).on('click', '.x [data-toggle]', function(){
 		var $this = $(this);
+		if($this.is('a') && $this.attr('href') != $this.attr('data-toggle')){
+			var target = $this.attr('href');
+			$this.attr('data-toggle', target);
+		}
 		var $target = $($this.attr('data-toggle'));
 		var focusable = 'a,input,button,textarea,select';
 		$target.toggle();
@@ -59,12 +63,21 @@ jQuery(function($){
 	});
 // TARGET show
 	$(document.body).on('click', '.x [data-show]', function(){
-		$($(this).attr('data-show')).show().attr('tabindex','0').focus();
+		var $this = $(this);
+		if($this.is('a') && $this.attr('href') != $this.attr('data-show')){
+			var target = $this.attr('href');
+			$this.attr('data-show', target);
+		}
+		$($this.attr('data-show')).show().attr('tabindex','0').focus();
 		return false;
 	});
 // TARGET hide
 	$(document.body).on('click', '.x [data-hide]', function(){
 		var $this = $(this);
+		if($this.is('a') && $this.attr('href') != $this.attr('data-hide')){
+			var target = $this.attr('href');
+			$this.attr('data-hide', target);
+		}
 		$($this.attr('data-hide')).hide();
 		$this.focus();
 		return false;
