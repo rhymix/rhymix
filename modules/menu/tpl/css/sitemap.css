@@ -180,8 +180,10 @@ body>.x{max-width:none !important}
 #add_menu label{font-weight:bold}
 #add_menu .x_tabbable{padding-top:8px}
 #add_menu .desc{width:220px;border-bottom:1px solid #ddd;padding-bottom:8px;color:#666}
-#add_menu .desc>a{overflow:hidden;font-size:0;text-indent:20px;display:inline-block;width:14px;height:14px;background:url(../../../../common/img/glyphicons-halflings.png) no-repeat -120px -96px;opacity:.5;filter:alpha(opacity=50);vertical-align:middle}
+#add_menu .desc>a{overflow:hidden;font-size:0;text-indent:20px;display:inline-block;width:14px;height:14px;opacity:.5;filter:alpha(opacity=50);vertical-align:middle}
 #add_menu .desc>a:after{content:normal}
+#add_menu .desc>a:hover,
+#add_menu .desc>a:focus{opacity:1;filter:alpha(opacity=100)}
 #add_menu .x_btn-group{position:absolute;margin:0;left:0;bottom:0;width:100%}
 /* Default */
 #default [for="lang_menuName"],
