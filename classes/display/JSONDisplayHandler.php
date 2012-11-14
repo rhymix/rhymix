@@ -1,11 +1,11 @@
 <?php
-
-class JSONDisplayHandler {
+class JSONDisplayHandler
+{
 	/**
 	 * Produce JSON compliant content given a module object.\n
 	 * @param ModuleObject $oModule the module object
 	 * @return string
-	 **/
+	 */
 	function toDoc(&$oModule)
 	{
 		$variables = $oModule->getVariables();
@@ -15,3 +15,5 @@ class JSONDisplayHandler {
 		return $json;
 	}
 }
+/* End of file JSONDisplayHandler.class.php */
+/* Location: ./classes/display/JSONDisplayHandler.class.php */

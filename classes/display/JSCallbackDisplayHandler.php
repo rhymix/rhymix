@@ -1,11 +1,11 @@
 <?php
-
-class JSCallbackDisplayHandler{
+class JSCallbackDisplayHandler
+{
 	/**
 	 * Produce JSCallback compliant content given a module object.\n
 	 * @param ModuleObject $oModule the module object
 	 * @return string
-	 **/
+	 */
 	function toDoc(&$oModule)
 	{
 		$variables = $oModule->getVariables();
@@ -16,3 +16,5 @@ class JSCallbackDisplayHandler{
 		return $output;
 	}
 }
+/* End of file JSCallback.class.php */
+/* Location: ./classes/display/JSCallback.class.php */

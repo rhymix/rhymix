@@ -1,11 +1,11 @@
 <?php
-
-class XMLDisplayHandler {
+class XMLDisplayHandler
+{
 	/**
 	 * Produce XML compliant content given a module object.\n
 	 * @param ModuleObject $oModule the module object
 	 * @return string
-	 **/
+	 */
 	function toDoc(&$oModule)
 	{
 		$variables = $oModule->getVariables();
@@ -25,13 +25,14 @@ class XMLDisplayHandler {
 	 * produce XML code given variable object\n
 	 * @param object $obj 
 	 * @return string
-	 **/
+	 */
 	function _makeXmlDoc($obj) {
 		if(!count($obj)) return;
 
 		$xmlDoc = '';
 
-		foreach($obj as $key => $val) {
+		foreach($obj as $key => $val)
+		{
 			if(is_numeric($key)) $key = 'item';
 
 			if(is_string($val)) $xmlDoc .= sprintf('<%s><![CDATA[%s]]></%s>%s', $key, $val, $key,"\n");
@@ -42,5 +43,5 @@ class XMLDisplayHandler {
 		return $xmlDoc;
 	}
 }
-
-?>
+/* End of file XMLDisplayHandler.class.php */
+/* Location: ./classes/display/XMLDisplayHandler.class.php */
