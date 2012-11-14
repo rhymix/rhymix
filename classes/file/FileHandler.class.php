@@ -3,15 +3,17 @@
  * Contains methods for accessing file system
  *
  * @author NHN (developers@xpressengine.com)
- **/
-class FileHandler {
+ */
+class FileHandler
+{
 	/**
 	 * Changes path of target file, directory into absolute path
 	 *
 	 * @param string $source path to change into absolute path
 	 * @return string Absolute path
-	 **/
-	function getRealPath($source) {
+	 */
+	function getRealPath($source)
+	{
 		$temp = explode('/', $source);
 		if($temp[0] == '.') $source = _XE_PATH_.substr($source, 2);
 		return $source;
@@ -27,8 +29,9 @@ class FileHandler {
 	 * @param string $filter Regex to filter files. If file matches this regex, the file is not copied.
 	 * @param string $type If set as 'force'. Even if the file exists in target, the file is copied.
 	 * @return void
-	 **/
-	function copyDir($source_dir, $target_dir, $filter=null,$type=null){
+	 */
+	function copyDir($source_dir, $target_dir, $filter=null,$type=null)
+	{
 		$source_dir = FileHandler::getRealPath($source_dir);
 		$target_dir = FileHandler::getRealPath($target_dir);
 		if(!is_dir($source_dir)) return false;
@@ -39,15 +42,22 @@ class FileHandler {
 		if(substr($target_dir, -1) != '/') $target_dir .= '/';
 
 		$oDir = dir($source_dir);
-		while($file = $oDir->read()) {
+		while($file = $oDir->read())
+		{
 			if(substr($file,0,1)=='.') continue;
 			if($filter && preg_match($filter, $file)) continue;
-			if(is_dir($source_dir.$file)){
+			if(is_dir($source_dir.$file))
+			{
 				FileHandler::copyDir($source_dir.$file,$target_dir.$file,$type);
-			}else{
-				if($type == 'force'){
+			}
+			else
+			{
+				if($type == 'force')
+				{
 					@unlink($target_dir.$file);
-				}else{
+				}
+				else
+				{
 					if(!file_exists($target_dir.$file)) @copy($source_dir.$file,$target_dir.$file);
 				}
 			}
@@ -61,8 +71,9 @@ class FileHandler {
 	 * @param string $target Path of target file
 	 * @param string $force Y: overwrite
 	 * @return void
-	 **/
-	function copyFile($source, $target, $force='Y'){
+	 */
+	function copyFile($source, $target, $force='Y')
+	{
 		setlocale(LC_CTYPE, 'en_US.UTF8', 'ko_KR.UTF8'); 
 		$source = FileHandler::getRealPath($source);
 		$target_dir = FileHandler::getRealPath(dirname($target));
@@ -77,8 +88,9 @@ class FileHandler {
 	 *
 	 * @param string $file_name Path of target file
 	 * @return string The content of the file. If target file does not exist, this function returns nothing.
-	 **/
-	function readFile($file_name) {
+	 */
+	function readFile($file_name)
+	{
 		$file_name = FileHandler::getRealPath($file_name);
 
 		if(!file_exists($file_name)) return;
@@ -89,8 +101,10 @@ class FileHandler {
 
 		$fp = fopen($file_name, "r");
 		$buff = '';
-		if($fp) {
-			while(!feof($fp) && strlen($buff)<=$filesize) {
+		if($fp)
+		{
+			while(!feof($fp) && strlen($buff)<=$filesize)
+			{
 				$str = fgets($fp, 1024);
 				$buff .= $str;
 			}
@@ -106,8 +120,9 @@ class FileHandler {
 	 * @param string $buff Content to be writeen
 	 * @param string $mode a(append) / w(write)
 	 * @return void
-	 **/
-	function writeFile($file_name, $buff, $mode = "w") {
+	 */
+	function writeFile($file_name, $buff, $mode = "w")
+	{
 		$file_name = FileHandler::getRealPath($file_name);
 
 		$pathinfo = pathinfo($file_name);
@@ -127,8 +142,9 @@ class FileHandler {
 	 *
 	 * @param string $file_name path of target file
 	 * @return bool Returns true on success or false on failure.
-	 **/
-	function removeFile($file_name) {
+	 */
+	function removeFile($file_name)
+	{
 		$file_name = FileHandler::getRealPath($file_name);
 		return (file_exists($file_name) && @unlink($file_name));
 	}
@@ -141,8 +157,9 @@ class FileHandler {
 	 * @param string $source Path of source file
 	 * @param string $target Path of target file
 	 * @return bool Returns true on success or false on failure.
-	 **/
-	function rename($source, $target) {
+	 */
+	function rename($source, $target)
+	{
 		$source = FileHandler::getRealPath($source);
 		$target = FileHandler::getRealPath($target);
 		return @rename($source, $target);
@@ -155,7 +172,8 @@ class FileHandler {
 	 * @param string $target Path of target file
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function moveFile($source, $target) {
+	function moveFile($source, $target)
+	{
 		$source = FileHandler::getRealPath($source);
 		if(!file_exists($source))
 		{
@@ -173,8 +191,9 @@ class FileHandler {
 	 * @param string $source_dir Path of source directory
 	 * @param string $target_dir Path of target directory
 	 * @return void
-	 **/
-	function moveDir($source_dir, $target_dir) {
+	 */
+	function moveDir($source_dir, $target_dir)
+	{
 		FileHandler::rename($source_dir, $target_dir);
 	}
 
@@ -188,15 +207,17 @@ class FileHandler {
 	 * @param bool $to_lower If true, file names will be changed into lower case.
 	 * @param bool $concat_prefix If true, return file name as absolute path
 	 * @return string[] Array of the filenames in the path 
-	 **/
-	function readDir($path, $filter = '', $to_lower = false, $concat_prefix = false) {
+	 */
+	function readDir($path, $filter = '', $to_lower = false, $concat_prefix = false)
+	{
 		$path = FileHandler::getRealPath($path);
 
 		if(substr($path,-1)!='/') $path .= '/';
 		if(!is_dir($path)) return array();
 
 		$oDir = dir($path);
-		while($file = $oDir->read()) {
+		while($file = $oDir->read())
+		{
 			if(substr($file,0,1)=='.') continue;
 
 			if($filter && !preg_match($filter, $file)) continue;
@@ -206,7 +227,8 @@ class FileHandler {
 			if($filter) $file = preg_replace($filter, '$1', $file);
 			else $file = $file;
 
-			if($concat_prefix) {
+			if($concat_prefix)
+			{
 				$file = sprintf('%s%s', str_replace(_XE_PATH_, '', $path), $file);
 			}
 
@@ -224,14 +246,17 @@ class FileHandler {
 	 *
 	 * @param string $path_string Path of target directory
 	 * @return bool true if success. It might return nothing when ftp is used and connection to the ftp address failed.
-	 **/
-	function makeDir($path_string) {
+	 */
+	function makeDir($path_string)
+	{
 		static $oFtp = null;
 
 		// if safe_mode is on, use FTP 
-		if(ini_get('safe_mode')) {
+		if(ini_get('safe_mode'))
+		{
 			$ftp_info = Context::getFTPInfo();
-			if($oFtp == null) {
+			if($oFtp == null)
+			{
 				if(!Context::isFTPRegisted()) return;
 
 				require_once(_XE_PATH_.'libs/ftp.class.php');
@@ -239,7 +264,8 @@ class FileHandler {
 				if(!$ftp_info->ftp_host) $ftp_info->ftp_host = "127.0.0.1";
 				if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;
 				if(!$oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)) return;
-				if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
+				if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password))
+				{
 					$oFtp->ftp_quit();
 					return;
 				}
@@ -252,15 +278,20 @@ class FileHandler {
 		$path_list = explode('/', $path_string);
 
 		$path = _XE_PATH_;
-		for($i=0;$i<count($path_list);$i++) {
+		for($i=0;$i<count($path_list);$i++)
+		{
 			if(!$path_list[$i]) continue;
 			$path .= $path_list[$i].'/';
 			$ftp_path .= $path_list[$i].'/';
-			if(!is_dir($path)) {
-				if(ini_get('safe_mode')) {
+			if(!is_dir($path))
+			{
+				if(ini_get('safe_mode'))
+				{
 					$oFtp->ftp_mkdir($ftp_path);
 					$oFtp->ftp_site("CHMOD 777 ".$ftp_path);
-				} else {
+				}
+				else
+				{
 					@mkdir($path, 0755);
 					@chmod($path, 0755);
 				}
@@ -275,16 +306,22 @@ class FileHandler {
 	 *
 	 * @param string $path Path of the target directory
 	 * @return void
-	 **/
-	function removeDir($path) {
+	 */
+	function removeDir($path)
+	{
 		$path = FileHandler::getRealPath($path);
 		if(!is_dir($path)) return;
 		$directory = dir($path);
-		while($entry = $directory->read()) {
-			if ($entry != "." && $entry != "..") {
-				if (is_dir($path."/".$entry)) {
+		while($entry = $directory->read())
+		{
+			if ($entry != "." && $entry != "..")
+			{
+				if (is_dir($path."/".$entry))
+				{
 					FileHandler::removeDir($path."/".$entry);
-				} else {
+				}
+				else
+				{
 					@unlink($path."/".$entry);
 				}
 			}
@@ -298,14 +335,16 @@ class FileHandler {
 	 *
 	 * @param string $path Path of the target directory
 	 * @return void
-	 **/
-	function removeBlankDir($path) {
+	 */
+	function removeBlankDir($path)
+	{
 		$item_cnt = 0;
 
 		$path = FileHandler::getRealPath($path);
 		if(!is_dir($path)) return;
 		$directory = dir($path);
-		while($entry = $directory->read()) {
+		while($entry = $directory->read())
+		{
 			if ($entry == "." || $entry == "..") continue;
 			if (is_dir($path."/".$entry)) $item_cnt = FileHandler::removeBlankDir($path.'/'.$entry);
 		}
@@ -322,16 +361,22 @@ class FileHandler {
 	 *
 	 * @param string $path Path of the target directory
 	 * @return void
-	 **/
-	function removeFilesInDir($path) {
+	 */
+	function removeFilesInDir($path)
+	{
 		$path = FileHandler::getRealPath($path);
 		if(!is_dir($path)) return;
 		$directory = dir($path);
-		while($entry = $directory->read()) {
-			if ($entry != "." && $entry != "..") {
-				if (is_dir($path."/".$entry)) {
+		while($entry = $directory->read())
+		{
+			if ($entry != "." && $entry != "..")
+			{
+				if (is_dir($path."/".$entry))
+				{
 					FileHandler::removeFilesInDir($path."/".$entry);
-				} else {
+				}
+				else
+				{
 					@unlink($path."/".$entry);
 				}
 			}
@@ -345,8 +390,9 @@ class FileHandler {
 	 * @see FileHandler::returnBytes()
 	 * @param int $size Number of the size
 	 * @return string File size string
-	 **/
-	function filesize($size) {
+	 */
+	function filesize($size)
+	{
 		if(!$size) return '0Byte';
 		if($size === 1) return '1Byte';
 		if($size < 1024) return $size.'Bytes';
@@ -368,8 +414,9 @@ class FileHandler {
 	 * @param string[] $cookies Cookies key value array.
 	 * @param string $post_data Request arguments array for POST method
 	 * @return string If success, the content of the target file. Otherwise: none
-	 **/
-	function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
+	 */
+	function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array())
+	{
 		if(version_compare(PHP_VERSION, '5.0.0', '>='))
 		{
 			return include _XE_PATH_ . 'classes/file/getRemoteResourcePHP5.php';
@@ -394,31 +441,41 @@ class FileHandler {
 	 * @param string[] $cookies Cookies key value array.
 	 * @param string $post_data Request arguments array for POST method
 	 * @return string If success, the content of the target file. Otherwise: none
-	 **/
-	function _getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
+	 */
+	function _getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array())
+	{
 		requirePear();
 		require_once('HTTP/Request.php');
 
 		$parsed_url = parse_url(__PROXY_SERVER__);
-		if($parsed_url["host"]) {
+		if($parsed_url["host"])
+		{
 			$oRequest = new HTTP_Request(__PROXY_SERVER__);
 			$oRequest->setMethod('POST');
 			$oRequest->_timeout = $timeout;
 			$oRequest->addPostData('arg', serialize(array('Destination'=>$url, 'method'=>$method, 'body'=>$body, 'content_type'=>$content_type, "headers"=>$headers, "post_data"=>$post_data)));
-		} else {
+		}
+		else
+		{
 			$oRequest = new HTTP_Request($url);
-			if(count($headers)) {
-				foreach($headers as $key => $val) {
+			if(count($headers))
+			{
+				foreach($headers as $key => $val)
+				{
 					$oRequest->addHeader($key, $val);
 				}
 			}
-			if($cookies[$host]) {
-				foreach($cookies[$host] as $key => $val) {
+			if($cookies[$host])
+			{
+				foreach($cookies[$host] as $key => $val)
+				{
 					$oRequest->addCookie($key, $val);
 				}
 			}
-			if(count($post_data)) {
-				foreach($post_data as $key => $val) {
+			if(count($post_data))
+			{
+				foreach($post_data as $key => $val)
+				{
 					$oRequest->addPostData($key, $val);
 				}
 			}
@@ -435,13 +492,16 @@ class FileHandler {
 		$code = $oRequest->getResponseCode();
 		$header = $oRequest->getResponseHeader();
 		$response = $oRequest->getResponseBody();
-		if($c = $oRequest->getResponseCookies()) {
-			foreach($c as $k => $v) {
+		if($c = $oRequest->getResponseCookies())
+		{
+			foreach($c as $k => $v)
+			{
 				$cookies[$host][$v['name']] = $v['value'];
 			}
 		}
 
-		if($code > 300 && $code < 399 && $header['location']) {
+		if($code > 300 && $code < 399 && $header['location'])
+		{
 			return FileHandler::getRemoteResource($header['location'], $body, $timeout, $method, $content_type, $headers, $cookies, $post_data);
 		} 
 
@@ -461,8 +521,9 @@ class FileHandler {
 	 * @param string $content_type Content type header of HTTP request
 	 * @param string[] $headers Headers key vaule array.
 	 * @return bool true: success, false: failed 
-	 **/
-	function getRemoteFile($url, $target_filename, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array()) {
+	 */
+	function getRemoteFile($url, $target_filename, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array())
+	{
 		$body = FileHandler::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
 		if(!$body) return false;
 		$target_filename = FileHandler::getRealPath($target_filename);
@@ -518,8 +579,9 @@ class FileHandler {
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
 	 * @param string $thumbnail_type Thumbnail type(crop, ratio)
 	 * @return bool true: success, false: failed 
-	 **/
-	function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop') {
+	 */
+	function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop')
+	{
 		$source_file = FileHandler::getRealPath($source_file);
 		$target_file = FileHandler::getRealPath($target_file);
 
@@ -534,21 +596,22 @@ class FileHandler {
 
 		if($width<1 || $height<1) return;
 
-		switch($type) {
+		switch($type)
+		{
 			case '1' :
-					$type = 'gif';
+				$type = 'gif';
 				break;
 			case '2' :
-					$type = 'jpg';
+				$type = 'jpg';
 				break;
 			case '3' :
-					$type = 'png';
+				$type = 'png';
 				break;
 			case '6' :
-					$type = 'bmp';
+				$type = 'bmp';
 				break;
 			default :
-					return;
+				return;
 				break;
 		}
 
@@ -559,12 +622,15 @@ class FileHandler {
 		if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
 		else $height_per = 1;
 
-		if($thumbnail_type == 'ratio') {
+		if($thumbnail_type == 'ratio')
+		{
 			if($width_per>$height_per) $per = $height_per;
 			else $per = $width_per;
 			$resize_width = $width * $per;
 			$resize_height = $height * $per;
-		} else {
+		}
+		else
+		{
 			if($width_per < $height_per) $per = $height_per;
 			else $per = $width_per;
 		}
@@ -585,27 +651,28 @@ class FileHandler {
 		imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
 
 		// create temporary image having original type
-		switch($type) {
+		switch($type)
+		{
 			case 'gif' :
-					if(!function_exists('imagecreatefromgif')) return false;
-					$source = @imagecreatefromgif($source_file);
+				if(!function_exists('imagecreatefromgif')) return false;
+				$source = @imagecreatefromgif($source_file);
 				break;
-			// jpg
+				// jpg
 			case 'jpeg' :
 			case 'jpg' :
-					if(!function_exists('imagecreatefromjpeg')) return false;
-					$source = @imagecreatefromjpeg($source_file);
+				if(!function_exists('imagecreatefromjpeg')) return false;
+				$source = @imagecreatefromjpeg($source_file);
 				break;
-			// png
+				// png
 			case 'png' :
-					if(!function_exists('imagecreatefrompng')) return false;
-					$source = @imagecreatefrompng($source_file);
+				if(!function_exists('imagecreatefrompng')) return false;
+				$source = @imagecreatefrompng($source_file);
 				break;
-			// bmp
+				// bmp
 			case 'wbmp' :
 			case 'bmp' :
-					if(!function_exists('imagecreatefromwbmp')) return false;
-					$source = @imagecreatefromwbmp($source_file);
+				if(!function_exists('imagecreatefromwbmp')) return false;
+				$source = @imagecreatefromwbmp($source_file);
 				break;
 			default :
 				return;
@@ -615,42 +682,48 @@ class FileHandler {
 		$new_width = (int)($width * $per);
 		$new_height = (int)($height * $per);
 
-		if($thumbnail_type == 'crop') {
+		if($thumbnail_type == 'crop')
+		{
 			$x = (int)($resize_width/2 - $new_width/2);
 			$y = (int)($resize_height/2 - $new_height/2);
-		} else {
+		}
+		else
+		{
 			$x = 0;
 			$y = 0;
 		}
 
-		if($source) {
+		if($source)
+		{
 			if(function_exists('imagecopyresampled')) imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
 			else imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-		} else return false;
+		}
+		else return false;
 
 		// create directory 
 		$path = dirname($target_file);
 		if(!is_dir($path)) FileHandler::makeDir($path);
 
 		// write into the file
-		switch($target_type) {
+		switch($target_type)
+		{
 			case 'gif' :
-					if(!function_exists('imagegif')) return false;
-					$output = imagegif($thumb, $target_file);
+				if(!function_exists('imagegif')) return false;
+				$output = imagegif($thumb, $target_file);
 				break;
 			case 'jpeg' :
 			case 'jpg' :
-					if(!function_exists('imagejpeg')) return false;
-					$output = imagejpeg($thumb, $target_file, 100);
+				if(!function_exists('imagejpeg')) return false;
+				$output = imagejpeg($thumb, $target_file, 100);
 				break;
 			case 'png' :
-					if(!function_exists('imagepng')) return false;
-					$output = imagepng($thumb, $target_file, 9);
+				if(!function_exists('imagepng')) return false;
+				$output = imagepng($thumb, $target_file, 9);
 				break;
 			case 'wbmp' :
 			case 'bmp' :
-					if(!function_exists('imagewbmp')) return false;
-					$output = imagewbmp($thumb, $target_file, 100);
+				if(!function_exists('imagewbmp')) return false;
+				$output = imagewbmp($thumb, $target_file, 100);
 				break;
 		}
 
@@ -669,15 +742,15 @@ class FileHandler {
 	 * @see FileHandler::writeIniFile()
 	 * @param string $filename Path of the ini file
 	 * @return array ini array (if the target file does not exist, it returns false)
-	 **/
-	function readIniFile($filename){
+	 */
+	function readIniFile($filename)
+	{
 		$filename = FileHandler::getRealPath($filename);
 		if(!file_exists($filename)) return false;
 		$arr = parse_ini_file($filename, true);
 		if(is_array($arr) && count($arr)>0) return $arr;
 		else return array();
 	}
-
 
 	/**
 	 * Write array into ini file
@@ -692,8 +765,9 @@ class FileHandler {
 	 * @param string $filename Target ini file name
 	 * @param array $arr Array
 	 * @return bool if array contains nothing it returns false, otherwise true
-	 **/
-	function writeIniFile($filename, $arr){
+	 */
+	function writeIniFile($filename, $arr)
+	{
 		if(count($arr)==0) return false;
 		FileHandler::writeFile($filename, FileHandler::_makeIniBuff($arr));
 		return true;
@@ -705,17 +779,23 @@ class FileHandler {
 	 * @param array $arr Array
 	 * @return string
 	 */
-	function _makeIniBuff($arr){
+	function _makeIniBuff($arr)
+	{
 		$return = '';
-		foreach($arr as $key => $val){
+		foreach($arr as $key => $val)
+		{
 			// section
-			if(is_array($val)){
+			if(is_array($val))
+			{
 				$return .= sprintf("[%s]\n",$key);
-				foreach($val as $k => $v){
+				foreach($val as $k => $v)
+				{
 					$return .= sprintf("%s=\"%s\"\n",$k,$v);
 				}
-			// value
-			}else if(is_string($val) || is_int($val)){
+				// value
+			}
+			else if(is_string($val) || is_int($val))
+			{
 				$return .= sprintf("%s=\"%s\"\n",$key,$val);
 			}
 		}
@@ -730,7 +810,7 @@ class FileHandler {
 	 * @param string $filename Target file name
 	 * @param string $mode File mode for fopen
 	 * @return FileObject File object 
-	 **/
+	 */
 	function openFile($filename, $mode)
 	{
 		$pathinfo = pathinfo($filename);

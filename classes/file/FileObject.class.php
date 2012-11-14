@@ -3,7 +3,7 @@
  * File abstraction class 
  *
  * @author NHN (developers@xpressengine.com)
- **/
+ */
 class FileObject extends Object
 {
 	/**
@@ -30,7 +30,7 @@ class FileObject extends Object
 	 * @param string $path Path of target file
 	 * @param string $mode File open mode 
 	 * @return void
-	 **/
+	 */
 	function FileObject($path, $mode)
 	{
 		if($path != null) $this->Open($path, $mode);
@@ -41,7 +41,7 @@ class FileObject extends Object
 	 *
 	 * @param string $file_name Path of target file
 	 * @return void 
-	 **/
+	 */
 	function append($file_name)
 	{
 		$target = new FileObject($file_name, "r");
@@ -57,7 +57,7 @@ class FileObject extends Object
 	 * Check current file meets eof
 	 *
 	 * @return bool true: if eof. false: otherwise 
-	 **/
+	 */
 	function feof()
 	{
 		return feof($this->fp);
@@ -68,7 +68,7 @@ class FileObject extends Object
 	 *
 	 * @param int $size Size to read
 	 * @return string Returns the read string or false on failure.
-	 **/
+	 */
 	function read($size = 1024)
 	{
 		return fread($this->fp, $size);
@@ -80,7 +80,7 @@ class FileObject extends Object
 	 *
 	 * @param string $str String to write
 	 * @return int Returns the number of bytes written, or false on error.
-	 **/
+	 */
 	function write($str)
 	{
 		$len = strlen($str);
@@ -119,7 +119,7 @@ class FileObject extends Object
 	 * Return current file's path
 	 *
 	 * @return string Returns the path of current file.
-	 **/
+	 */
 	function getPath()
 	{
 		if($this->fp != null)
@@ -136,7 +136,7 @@ class FileObject extends Object
 	 * Close file 
 	 *
 	 * @return void
-	 **/
+	 */
 	function close()
 	{
 		if($this->fp != null)
