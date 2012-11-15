@@ -156,6 +156,9 @@ body>.x,
 .x .dashboard>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}
 .x>.xin>.body>.gnb>ul>li.open>a>i,
 .x>.xin>.body>.gnb>ul>li.active>a>i{background-image:url(../../../../common/img/glyphicons-halflings-white.png);background-repeat:no-repeat}
+@media all and (max-width:980px){
+.x>.xin>.body>.gnb>ul>li:first-child>a>i{background-image:url(../../../../common/img/glyphicons-halflings-white.png);background-repeat:no-repeat}
+}
 /* Layout */
 .x>.xin{box-shadow:0 0 5px #999;border-radius:5px}
 .x>.xin>.skipNav{margin:0}
@@ -270,7 +273,10 @@ body>.x,
 .x>.xin>.body>.gnb>ul>li>a:hover,
 .x>.xin>.body>.gnb>ul>li>a:focus{background:#f6f6f6;background:-webkit-gradient(linear,left top,left bottom,from(#f6f6f6),to(#F1F1F1));background:-moz-linear-gradient(top,#f6f6f6,#F1F1F1);background:-o-linear-gradient(top,#f6f6f6,#F1F1F1)}
 .x>.xin>.body>.gnb>ul>li.open>a{font-weight:bold;color:#fff;text-shadow:0 -1px 0 #333;background:#3886d0;background:-webkit-gradient(linear,left top,left bottom,from(#6ebcea),to(#3886d0));background:-moz-linear-gradient(top,#6ebcea,#3886d0);background:-o-linear-gradient(top,#6ebcea,#3886d0)}
-.x>.xin>.body>.gnb>ul>li.active>a{font-weight:bold;color:#fff;text-shadow:none;background:#222;background:-webkit-gradient(linear,left top,left bottom,from(#555),to(#222));background:-moz-linear-gradient(top,#555,#222);background:-o-linear-gradient(top,#555,#222)}
+.x>.xin>.body>.gnb>ul>li.active>a{font-weight:bold;color:#fff;text-shadow:none;background:#222;background:-webkit-linear-gradient(top,from(#555),to(#222));background:-moz-linear-gradient(top,#555,#222);background:-o-linear-gradient(top,#555,#222)}
+@media all and (max-width:980px){
+.x>.xin>.body>.gnb>ul>li:first-child>a{font-weight:bold;color:#fff;text-shadow:none;background:#222;background:-webkit-linear-gradient(top,from(#555),to(#222));background:-moz-linear-gradient(top,#555,#222);background:-o-linear-gradient(top,#555,#222)}
+}
 	/* li>a>span */
 .x>.xin>.body.wide>.gnb>ul>li>a>.tx{display:inline-block;width:1px;height:1px;overflow:hidden}
 	/* li>ul */
