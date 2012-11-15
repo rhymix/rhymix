@@ -48,7 +48,7 @@
 				<div class="x_controls">
 					<input cond="$var->type == 'text'" type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value)}">
 					<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" class="lang_code" rows="8" cols="42">{htmlspecialchars($var->value)}</textarea>
-					<select cond="$var->type == 'select'" name="{$var->name}" id="{$var->name}" style="width:220px">
+					<select cond="$var->type == 'select'" name="{$var->name}" id="{$var->name}">
 						<option loop="$var->options => $option" value="{$option->value}" selected="selected"|cond="$var->value == $option->value">{$option->title}</option>
 					</select>
 					<span class="x_help-inline">{nl2br($var->description)}</span>
@@ -68,7 +68,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->run_method}</label>
 			<div class="x_controls">
-				<select name="xe_run_method" style="width:220px">
+				<select name="xe_run_method">
 					<option value="run_selected" selected="selected"|cond="$addon_info->xe_run_method === 'run_selected'">{$lang->run_selected_module}</option>
 					<option value="no_run_selected" selected="selected"|cond="$addon_info->xe_run_method === 'no_run_selected'">{$lang->no_run_selected_module}</option>
 				</select>

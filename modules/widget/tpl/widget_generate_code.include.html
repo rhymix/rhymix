@@ -5,7 +5,7 @@
 <div class="x_control-group" style="border-top:0;padding-top:0">
 	<label class="x_control-label" for="skin">{$lang->skin}</label>
 	<div class="x_controls">
-		<select name="skin" id="skin" style="width:220px">
+		<select name="skin" id="skin">
 			<option value="">{$lang->select}</option>
 			<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
 		</select>
@@ -15,7 +15,7 @@
 <div class="x_control-group">
 	<label class="x_control-label" for="colorset">{$lang->colorset}</label>
 	<div class="x_controls">
-		<select name="colorset" id="widget_colorset" style="width:220px">
+		<select name="colorset" id="widget_colorset">
 		</select>
 	</div>
 </div>
@@ -47,7 +47,7 @@
 			<div cond="$var->type == 'textarea'">
 				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}" rows="8" cols="42"></textarea>
 			</div>
-			<select cond="$var->type == 'select'" name="{$id}" id="{$id}" style="width:220px">
+			<select cond="$var->type == 'select'" name="{$id}" id="{$id}">
 				<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
 			</select>
 			<block cond="$var->type == 'select-multi-order'">
@@ -59,7 +59,7 @@
 				<!--@end-->
 				<div style="display:inline-block">
 					<label>{$lang->display_no}</label>
-					<select class="multiorder_show" size="8" multiple="multiple" style="width:220px;vertical-align:top;margin-bottom:5px">
+					<select class="multiorder_show" size="8" multiple="multiple" style="vertical-align:top;margin-bottom:5px">
 						<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
 					</select>
 					<br>
@@ -67,7 +67,7 @@
 				</div>
 				<div style="display:inline-block">
 					<label>{$lang->display_yes}</label>
-					<select class="multiorder_selected" size="8" multiple="multiple" style="width:220px;vertical-align:top;margin-bottom:5px">
+					<select class="multiorder_selected" size="8" multiple="multiple" style="vertical-align:top;margin-bottom:5px">
 						<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
 					</select>
 					<br>
@@ -97,7 +97,7 @@
 			</block>
 			<block cond="$var->type == 'module_srl_list'">
 				<input type="hidden" name="{$id}" value="" />
-				<select class="modulelist_selected" size="8" multiple="multiple" style="width:220px;vertical-align:top;margin-bottom:5px"></select>
+				<select class="modulelist_selected" size="8" multiple="multiple" style="vertical-align:top;margin-bottom:5px"></select>
 				<p class="x_help-inline">{$var->description}</p>
 				<br>
 				<a href="#" id="__module_srl_list_{$id}" class="x_btn moduleTrigger" data-multiple="true" style="margin:0 -5px 0 0;border-radius:2px 0 0 2px">{$lang->cmd_add}</a>
@@ -110,7 +110,7 @@
 			</block>
 			<block cond="$var->type == 'mid'">
 				<input type="hidden" name="{$id}" value="" />
-				<input type="text" style="width:220px" readonly="readonly" />
+				<input type="text" readonly="readonly" />
 				<a href="#" class="x_btn moduleTrigger">{$lang->cmd_select}</a>
 				<button type="button" class="x_btn delete">{$lang->cmd_delete}</button>
 				<script>
@@ -122,7 +122,7 @@
 				<input type="hidden" name="{$id}" />
 				<a class="x_btn x_btn-mini modalAnchor filebox" href="#modalFilebox">{$lang->cmd_select}</a>
 			</block>
-			<select cond="$var->type == 'menu'" name="{$id}" style="width:220px">
+			<select cond="$var->type == 'menu'" name="{$id}">
 				<option value="">-</option>
 				<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
 			</select>

@@ -6,7 +6,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="module_category_srl">{$lang->module_category}</label>
 		<div class="x_controls">
-			<select name="module_category_srl" id="module_category_srl" style="width:220px">
+			<select name="module_category_srl" id="module_category_srl">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl==$key">{$val->title}</option>
@@ -17,7 +17,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="layout_srl">{$lang->layout}</label>
 		<div class="x_controls">
-			<select name="layout_srl" id="layout_srl" style="width:220px">
+			<select name="layout_srl" id="layout_srl">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
@@ -28,7 +28,7 @@
 	<div class="x_control-group" cond="count($skin_list)">
 		<label class="x_control-label" for="skin">{$lang->skin}</label>
 		<div class="x_controls">
-			<select name="skin" id="skin" style="width:220px">
+			<select name="skin" id="skin">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
 				<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$module_info->skin==$key">{$val->title}</option>
 			</select>
@@ -38,7 +38,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="mlayout_srl">{$lang->mobile_layout}</label>
 		<div class="x_controls">
-			<select name="mlayout_srl" id="mlayout_srl" style="width:220px">
+			<select name="mlayout_srl" id="mlayout_srl">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl== $val->layout_srl">{$val->title} ({$val->layout})</option>
@@ -48,7 +48,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
 		<div class="x_controls">
-			<select name="mskin" id="mskin" style="width:220px">
+			<select name="mskin" id="mskin">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
 				<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin== $key">{$val->title}</option>
 			</select>

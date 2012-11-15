@@ -19,7 +19,7 @@
 	<div class="x_control-group">
 		<label for="skin" class="x_control-label">{$lang->skin}</label>
 		<div class="x_controls">
-			<select name="skin" id="skin" style="width:220px">
+			<select name="skin" id="skin">
 				<option loop="$skin_list => $key, $val"  value="{$key}" selected="selected"|cond="$config->skin == $key">{$val->title}</option>
 			</select>
 			<span class="x_help-block">{$lang->about_skin}</span>
@@ -28,13 +28,13 @@
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->target}</label>
 		<div class="x_controls">
-			<select name="target" style="width:220px">
+			<select name="target">
 				<option value="include">{$lang->include_search_target}</option>
 				<option value="exclude" selected="selected"|cond="$config->target=='exclude'">{$lang->exclude_search_target}</option>
 			</select>
 
 			<input type="hidden" name="target_module_srl" id="target_module_srl" value="{$config->target_module_srl}" />
-			<select class="modulelist_selected" size="8" multiple="multiple" style="display:block;width:220px;vertical-align:top;margin:5px 0"></select>
+			<select class="modulelist_selected" size="8" multiple="multiple" style="display:block;vertical-align:top;margin:5px 0"></select>
 			<a href="#" id="__module_srl_list_target_module_srl" class="x_btn moduleTrigger" data-multiple="true" style="margin:0 -5px 0 0;border-radius:2px 0 0 0px">{$lang->cmd_add}</a>
 			<button type="button" class="x_btn modulelist_del" style="border-radius:0 2px 2px 0">{$lang->cmd_delete}</button>
 			<script>

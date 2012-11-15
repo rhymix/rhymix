@@ -12,7 +12,7 @@
 	<div loop="$grant_list => $grant_name, $grant_item" class="x_control-group">
 		<label class="x_control-label" for="{$grant_name}_default">{$grant_item->title}</label>
 		<div class="x_controls">
-			<select name="{$grant_name}_default" id="{$grant_name}_default" class="grant_default" style="width:220px">
+			<select name="{$grant_name}_default" id="{$grant_name}_default" class="grant_default">
 				<option value="0" cond="$grant_item->default == 'guest'">{$lang->grant_to_all}</option>
 				<option value="-1" cond="$grant_item->default != 'manager'">{$lang->grant_to_login_user}</option>
 				<option value="-2" cond="$grant_item->default != 'manager'" selected="selected"|cond="$default_grant[$grant_name]=='site'">{$lang->grant_to_site_user}</option>

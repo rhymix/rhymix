@@ -9,7 +9,7 @@
 		<div class="x_control-group">
 			<label for="use_history" class="x_control-label">{$lang->history}</label>
 			<div class="x_controls">
-				<select name="use_history" id="use_history" style="width:220px">
+				<select name="use_history" id="use_history">
 					<option value="N" selected="selected"|cond="$document_config->use_history=='N'">{$lang->notuse}</option>
 					<option value="Y" selected="selected"|cond="$document_config->use_history=='Y'">{$lang->use}</option>
 					<option value="Trace" selected="selected"|cond="$document_config->use_history=='Trace'">{$lang->trace_only}</option>
@@ -20,7 +20,7 @@
 		<div class="x_control-group">
 			<label for="use_vote_up" class="x_control-label">{$lang->cmd_vote}</label>
 			<div class="x_controls">
-				<select name="use_vote_up" id="use_vote_up" style="width:220px">
+				<select name="use_vote_up" id="use_vote_up">
 					<option value="Y" selected="selected"|cond="$document_config->use_vote_up=='Y'">{$lang->use}</option>
 					<option value="S" selected="selected"|cond="$document_config->use_vote_up=='S'">{$lang->use_and_display}</option>
 					<option value="N" selected="selected"|cond="$document_config->use_vote_up=='N'">{$lang->notuse}</option>
@@ -30,7 +30,7 @@
 		<div class="x_control-group">
 			<label for="use_vote_down" class="x_control-label">{$lang->cmd_vote_down}</label>
 			<div class="x_controls">
-				<select name="use_vote_down" id="use_vote_down" style="width:220px">
+				<select name="use_vote_down" id="use_vote_down">
 					<option value="Y" selected="selected"|cond="$document_config->use_vote_down=='Y'">{$lang->use}</option>
 					<option value="S" selected="selected"|cond="$document_config->use_vote_down=='S'">{$lang->use_and_display}</option>
 					<option value="N" selected="selected"|cond="$document_config->use_vote_down=='N'">{$lang->notuse}</option>

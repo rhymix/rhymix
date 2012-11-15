@@ -18,20 +18,20 @@
 			<tr>
 				<th scope="row" style="text-align:right">{$lang->editor_skin}</th>
 				<td>
-					<select name="editor_skin" onchange="getEditorSkinColorList(this.value, null, 'document')" style="width:220px">
+					<select name="editor_skin" onchange="getEditorSkinColorList(this.value, null, 'document')">
 						<option loop="$editor_skin_list => $editor" value="{$editor}" selected="selected"|cond="$editor==$editor_config->editor_skin">{$editor}</option>
 					</select>
 					<br/>
-					<select name="sel_editor_colorset" id="sel_editor_colorset" data-display="none"|cond="!count($editor_colorset_list)" style="width:220px">
+					<select name="sel_editor_colorset" id="sel_editor_colorset" data-display="none"|cond="!count($editor_colorset_list)">
 						<option loop="$editor_colorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$editor_config->sel_editor_colorset == $val->name">{$val->title}</option>
 					</select>
 				</td>
 				<td>
-					<select name="comment_editor_skin" onchange="getEditorSkinColorList(this.value, null, 'comment')" style="width:220px">
+					<select name="comment_editor_skin" onchange="getEditorSkinColorList(this.value, null, 'comment')">
 						<option loop="$editor_skin_list => $editor" value="{$editor}" selected="selected"|cond="$editor==$editor_config->comment_editor_skin">{$editor}</option>
 					</select>
 					<br/>
-					<select name="sel_comment_editor_colorset" id="sel_comment_editor_colorset" data-display="none"|cond="!count($editor_comment_colorset_list)" style="width:220px">
+					<select name="sel_comment_editor_colorset" id="sel_comment_editor_colorset" data-display="none"|cond="!count($editor_comment_colorset_list)">
 						<option loop="$editor_comment_colorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$editor_config->sel_comment_editor_colorset == $val->name">{$val->title}</option>
 					</select>
 				</td>
@@ -39,12 +39,12 @@
 			<tr>
 				<th scope="row" style="text-align:right">{$lang->content_style}</th>
 				<td>
-					<select name="content_style" style="width:220px">
+					<select name="content_style">
 						<option loop="$content_style_list => $key, $val" value="{$key}" selected="selected"|cond="$key==$editor_config->content_style||!$editor_config->content_style&&$key=='default'">{$val->title}</option>
 					</select>
 				</td>
 				<td>
-					<select name="comment_content_style" style="width:220px">
+					<select name="comment_content_style">
 						<option loop="$content_style_list => $key, $val" value="{$key}" selected="selected"|cond="$key==$editor_config->comment_content_style||!$editor_config->comment_content_style&&$key=='default'">{$val->title}</option>
 					</select>
 				</td>

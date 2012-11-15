@@ -40,7 +40,7 @@
 		<div class="x_control-group">
 			<label for="change_lang_type" class="x_control-label">{$lang->default_lang}</label>
 			<div class="x_controls">
-				<select name="change_lang_type" id="change_lang_type" style="width:220px">
+				<select name="change_lang_type" id="change_lang_type">
 					<option value="{$key}" selected="selected"|cond="$key==$selected_lang" loop="$lang_supported=>$key,$val">{$val}</option>
 				</select>
 			</div>

@@ -431,7 +431,7 @@
 								,$lang->cmd_delete);
 					}elseif($formInfo->name == 'find_account_question'){
 						$formTag->type = 'select';
-						$inputTag = '<select name="find_account_question" id="find_account_question" style="width:220px;display:block;margin:0 0 8px 0">%s</select>';
+						$inputTag = '<select name="find_account_question" id="find_account_question" style="display:block;margin:0 0 8px 0">%s</select>';
 						$optionTag = array();
 						foreach($lang->find_account_question_items as $key=>$val){
 							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';

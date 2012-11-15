@@ -117,7 +117,7 @@ body>.x,
 .x label, 
 .x input, 
 .x button{line-height:16px}
-.x select{width:auto;padding:0;height:26px;line-height:26px}
+.x select{padding:0;height:26px;line-height:26px}
 .x select[multiple]{height:auto}
 .x textarea{vertical-align:top}
 .x .x_tab-content{overflow:visible}
@@ -135,6 +135,7 @@ body>.x,
 .x .section>h2{position:relative;border-bottom:1px dotted #ddd}
 .x .center{text-align:center}
 .x .search{margin:20px 0}
+.x .search select{width:auto}
 .x .search>input[type="search"]{height:16px;line-height:16px;width:120px}
 .x .vr{color:#ccc;font-style:normal}
 .x .nowr{white-space:nowrap}

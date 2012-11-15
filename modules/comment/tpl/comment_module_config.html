@@ -15,7 +15,7 @@
 		<div class="x_control-group">
 			<label for="use_vote_up" class="x_control-label">{$lang->cmd_vote}</label>
 			<div class="x_controls">
-				<select name="use_vote_up" id="use_vote_up" style="width:220px">
+				<select name="use_vote_up" id="use_vote_up">
 					<option value="Y" selected="selected"|cond="$comment_config->use_vote_up=='Y'">{$lang->use}</option>
 					<option value="S" selected="selected"|cond="$comment_config->use_vote_up=='S'">{$lang->use_and_display}</option>
 					<option value="N" selected="selected"|cond="$comment_config->use_vote_up=='N'">{$lang->notuse}</option>
@@ -25,7 +25,7 @@
 		<div class="x_control-group">
 			<label for="use_vote_down" class="x_control-label">{$lang->cmd_vote_down}</label>
 			<div class="x_controls">
-				<select name="use_vote_down" id="use_vote_down" style="width:220px">
+				<select name="use_vote_down" id="use_vote_down">
 					<option value="Y" selected="selected"|cond="$comment_config->use_vote_down=='Y'">{$lang->use}</option>
 					<option value="S" selected="selected"|cond="$comment_config->use_vote_down=='S'">{$lang->use_and_display}</option>
 					<option value="N" selected="selected"|cond="$comment_config->use_vote_down=='N'">{$lang->notuse}</option>
@@ -35,7 +35,7 @@
 		<div class="x_control-group">
 			<label for="use_comment_validation" class="x_control-label">{$lang->cmd_comment_validation}</label>
 			<div class="x_controls">
-				<select name="use_comment_validation" id="use_comment_validation" style="width:220px">
+				<select name="use_comment_validation" id="use_comment_validation">
 					<option value="N" selected="selected"|cond="$comment_config->use_comment_validation=='N'">{$lang->notuse}</option>
 					<option value="Y" selected="selected"|cond="$comment_config->use_comment_validation=='Y'">{$lang->use}</option>
 				</select>

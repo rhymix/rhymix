@@ -11,7 +11,7 @@
 		<div class="x_control-group">
 			<label for="open_rss" class="x_control-label">{$lang->open_rss}</label>
 			<div class="x_controls">
-				<select name="open_rss" id="open_rss" style="width:220px">
+				<select name="open_rss" id="open_rss">
 					<option loop="$lang->open_rss_types => $key, $val" value="{$key}" selected="selected"|cond="(!$rss_config->open_rss && $key == 'N') || ($rss_config->open_rss == $key)">{$val}</option>
 				</select>
 			</div>
@@ -19,7 +19,7 @@
 		<div class="x_control-group">
 			<label for="open_total_feed" class="x_control-label">{$lang->open_feed_to_total}</label>
 			<div class="x_controls">
-				<select name="open_total_feed" id="open_total_feed" style="width:220px">
+				<select name="open_total_feed" id="open_total_feed">
 					<option value="N" selected="selected"|cond="!$rss_config->open_total_feed || $rss_config->open_total_feed == 'N'">{$lang->use}</option>
 					<option value="T_N" selected="selected"|cond="$rss_config->open_total_feed == 'T_N'">{$lang->notuse}</option>
 				</select>
