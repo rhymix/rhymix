@@ -1,5 +1,4 @@
 <?php
-include 'TableTag.class.php';
 /**
  * HintTableTag
  * Models the <table> tag inside an XML Query file and the corresponding <index_hint> tag
