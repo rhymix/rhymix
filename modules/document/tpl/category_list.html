@@ -18,7 +18,9 @@
 		<li class="root" id='tree_0'><span>{$lang->category}</span></li>
 	</ul>
 </div>
-<p class="x_pull-right"><button type="button" onclick="doReloadTreeCategory('{$module_info->module_srl}')" class="x_btn">{$lang->cmd_remake_cache}</button></p>
+<div class="btnArea">
+	<button type="button" onclick="doReloadTreeCategory('{$module_info->module_srl}')" class="x_btn">{$lang->cmd_remake_cache}</button>
+</div>
 <script>
 	var simpleTreeCollection;
 	var max_menu_depth = 999;
