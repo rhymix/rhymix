@@ -380,4 +380,26 @@ class MysqlSelectTest extends MysqlTest {
                         limit 5";
         $this->_test($xml_file, $argsString, $expected);
     }
+
+	/**
+	 * Add support for CAST / CONVERT function
+	 */
+	function testCast()
+	{
+		$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/cast.xml";
+		$argsString = '';
+		$expected = "select cast(`document_srl` as unsigned integer) from `xe_documents` as `documents`";
+		$this->_test($xml_file, $argsString, $expected);
+	}
+
+	/**
+	 * Add support for CAST / CONVERT function
+	 */
+	function testConvert()
+	{
+		$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/convert.xml";
+		$argsString = '';
+		$expected = "select convert(`document_srl`, unsigned integer) from `xe_documents` as `documents`";
+		$this->_test($xml_file, $argsString, $expected);
+	}
 }

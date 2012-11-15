@@ -144,7 +144,7 @@
 					if(strpos($match,')') !== false) continue;
 					if(in_array($match, array(',', '.'))) continue;
 					if($brackets == $total_brackets){
-						if(!is_numeric($match)) {
+						if(!is_numeric($match) && !in_array(strtoupper($match), array('UNSIGNED', 'INTEGER', 'AS'))) {
 							$match = $this->escapeColumnExpression($match);	
 						}
 					}
