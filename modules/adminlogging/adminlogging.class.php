@@ -1,42 +1,48 @@
 <?php
+/**
+ * adminlogging class
+ * Base class of adminlogging module
+ *
+ * @author NHN (developers@xpressengine.com)
+ * @package /modules/adminlogging
+ * @version 0.1
+ */
+class adminlogging extends ModuleObject
+{
 	/**
-	 * adminlogging class
-	 * Base class of adminlogging module
-	 *
-	 * @author NHN (developers@xpressengine.com)
-	 * @package /modules/adminlogging
-	 * @version 0.1
+	 * Install adminlogging module
+	 * @return Object
 	 */
-    class adminlogging extends ModuleObject {
-		/**
-		 * Install adminlogging module
-		 * @return Object
-		 */
-        function moduleInstall() {
-            return new Object();
-        }
+	function moduleInstall()
+	{
+		return new Object();
+	}
 
-		/**
-		 * If update is necessary it returns true
-		 * @return bool
-		 */
-        function checkUpdate() {
-            return false;
-        }
+	/**
+	 * If update is necessary it returns true
+	 * @return bool
+	 */
+	function checkUpdate()
+	{
+		return false;
+	}
 
-		/**
-		 * Update module
-		 * @return Object
-		 */
-        function moduleUpdate() {
-            return new Object();
-        }
+	/**
+	 * Update module
+	 * @return Object
+	 */
+	function moduleUpdate()
+	{
+		return new Object();
+	}
 
-		/**
-		 * Regenerate cache file
-		 * @return void
-		 */
-        function recompileCache() {
-        }
-    }
-?>
+	/**
+	 * Regenerate cache file
+	 * @return void
+	 */
+	function recompileCache()
+	{
+	}
+}
+/* End of file adminlogging.class.php */
+/* Location: ./modules/adminlogging/adminlogging.class.php */
