@@ -346,4 +346,4 @@ class Argument
 	}
 }
 /* End of file Argument.class.php */
-/* Location: ./classes/xml/xmlquery/Argument.class.php */
+/* Location: ./classes/xml/xmlquery/argument/Argument.class.php */
