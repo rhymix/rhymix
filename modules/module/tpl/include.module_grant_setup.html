@@ -19,7 +19,7 @@
 				<option value="-3">{$lang->grant_to_admin}</option>
 				<option value="">{$lang->grant_to_group}</option>
 			</select>
-			<div id="zone_{$grant_name}" data-display="none" style="margin-top:8px">
+			<div id="zone_{$grant_name}" hidden style="margin-top:8px">
 				<label loop="$group_list => $group_srl, $group_item" for="grant_{$grant_name}_{$group_srl}">
 					<input type="checkbox" name="{$grant_name}[]" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" />
 					{$group_item->title}

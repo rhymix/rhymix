@@ -8,9 +8,10 @@
 		<input type="hidden" name="target_module_srl" value="{$trackback_config->module_srl?$trackback_config->module_srl:$module_srls}" />
 
 		<div class="x_control-group">
-			<label for="enable_trackback" class="x_control-label">{$lang->enable_trackback}</label>
+			<label class="x_control-label">{$lang->enable_trackback}</label>
 			<div class="x_controls">
-				<input type="checkbox" name="enable_trackback" id="enable_trackback" value="Y" checked="checked"|cond="$trackback_config->enable_trackback == 'Y'" />
+				<label for="trackback_y" class="x_inline"><input type="radio" name="enable_trackback" id="trackback_y" value="Y" checked="checked"|cond="$trackback_config->enable_trackback == 'Y'" /> {$lang->yes}</label>
+				<label for="trackback_n" class="x_inline"><input type="radio" name="enable_trackback" id="trackback_n" value="N" checked="checked"|cond="$trackback_config->enable_trackback != 'Y'" /> {$lang->no}</label>
 			</div>
 		</div>
 

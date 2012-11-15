@@ -52,7 +52,7 @@
 						<option value="" <!--@if($default_grant[$grant_name]=='group')-->selected="selected"<!--@end-->>{$lang->grant_to_group}</option>
 					</select>
 					<p class="x_help-inline" cond="$grant_name == 'access'"><button type="button" class="x_icon-question-sign" data-toggle="#{$grant_name}">{$lang->help}</button><span hidden id="{$grant_name}">{$lang->about_grant_deatil}</span></p>
-					<div id="zone_{$grant_name}" style="display:none">
+					<div id="zone_{$grant_name}" hidden style="margin:8px 0 0 0">
 						<!--@foreach($group_list as $group_srl => $group_item)-->
 						<label for="grant_{$grant_name}_{$group_srl}" class="x_inline"><input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" checked="checked"|cond="is_array($selected_group[$grant_name])&&in_array($group_srl,$selected_group[$grant_name])" /> {$group_item->title}</label>
 						<!--@end-->

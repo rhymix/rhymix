@@ -18,7 +18,7 @@
 			<label class="x_control-label">
 				{$lang->skin}
 			</label>
-			<div class="x_controls">
+			<div class="x_controls" style="padding-top:3px">
 				{$skin_info->title}
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 			<label class="x_control-label">
 				{$lang->skin_author}
 			</label>
-			<div class="x_controls">
+			<div class="x_controls" style="padding-top:3px">
 				<block loop="$skin_info->author=>$author">
 					{$author->name}
 					<block cond="$author->homepage || $author->email_address">
@@ -38,37 +38,29 @@
 			</div>
 		</div>
 		<div class="x_control-group" cond="$skin_info->homepage">
-			<label class="x_control-label">{$lang->homepage}
-			</label>
-			<div class="x_controls">
-				<a href="{$skin_info->homepage}" target="_blank">{$skin_info->homepage}</a>
-			</div>
+			<label class="x_control-label">{$lang->homepage}</label>
+			<div class="x_controls" style="padding-top:3px"><a href="{$skin_info->homepage}" target="_blank">{$skin_info->homepage}</a></div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->date}
-			</label>
-			<div class="x_controls">{zdate($skin_info->date, 'Y-m-d')}
-			</div>
+			<label class="x_control-label">{$lang->date}</label>
+			<div class="x_controls" style="padding-top:3px">{zdate($skin_info->date, 'Y-m-d')}</div>
 		</div>
 		<div class="x_control-group" cond="$skin_info->license || $skin_info->license_link">
-			<label class="x_control-label">{$lang->skin_license}
-			</label>
-			<div class="x_controls">
+			<label class="x_control-label">{$lang->skin_license}</label>
+			<div class="x_controls" style="padding-top:3px">
 				{nl2br(trim($skin_info->license))}
 				<p cond="$skin_info->license_link"><a href="{$skin_info->license_link}" target="_blank">{$skin_info->license_link}</a></p>
 			</div>
 		</div>
 		<div class="x_control-group" cond="$skin_info->description">
-			<label class="x_control-label">{$lang->description}
-			</label>
-			<div class="x_controls">{nl2br(trim($skin_info->description))}
-			</div>
+			<label class="x_control-label">{$lang->description}</label>
+			<div class="x_controls" style="padding-top:3px">{nl2br(trim($skin_info->description))}</div>
 		</div>
 	</section>
 
 	<section class="section">
 		<h1>{$lang->extra_vars}</h1>
-		<div class="x_control-group" cond="$skin_info->colorset" class="colorset">
+		<div class="x_control-group" cond="$skin_info->colorset">
 			<label class="x_control-label">{$lang->colorset}</label>
 			<div class="x_controls">
 				<block loop="$skin_info->colorset => $key, $val">
@@ -77,12 +69,13 @@
 					<!--@else-->
 					{@ $_width = 200; $_height = 20; $_talign = "left"; }
 					<!--@end-->
-					<div style="display:inline-block;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
-						<label for="colorset_{$key}"><input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" checked="checked"|cond="$skin_vars['colorset']->value==$val->name" />
-						{$val->title}</label>
+					<div class="x_thumbnail" style="display:inline-block;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
+						<label for="colorset_{$key}">
+							<input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" checked="checked"|cond="$skin_vars['colorset']->value==$val->name" />
+							{$val->title}
+						</label>
 						<block cond="$val->screenshot">
-							<br />
-							<img src="../../../{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
+							<img src="../../../{$val->screenshot}" alt="{$val->title}" />
 						</block>
 					</div>
 				</block>
@@ -118,13 +111,13 @@
 
 					<!--// image -->
 					<block cond="$val->type == 'image'">
-						<div cond="$val->value">
-							<img src="{$val->value}" /><br />
-							<label for="del_{$val->name}"><input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" /> {$lang->cmd_delete}</label>
+						<div cond="$val->value" class="x_thumbnail" style="max-width:210px;margin:0 0 10px 0">
+							<img src="{$val->value}" />
+							<label for="del_{$val->name}" style="padding:8px 0 0 0"><input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" /> {$lang->cmd_delete}</label>
 						</div>
 						<input type="file" name="{$val->name}" value="" />
 					</block>
-					<span class="x_help-block" cond="$val->description">{nl2br(trim($val->description))}</span>
+					<p class="x_help-inline" cond="$val->description">{nl2br(trim($val->description))}</p>
 				</div>
 			</div>
 		</block>
