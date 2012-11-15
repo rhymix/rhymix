@@ -88,6 +88,7 @@ body>.x,
 .x input[type="radio"]+label,
 .x input[type="checkbox"]+label{font-weight:normal}
 .x label.x_inline{margin-right:16px}
+.x .x_input-append>*{vertical-align:top}
 .x .x_input-append a.x_add-on, 
 .x .x_input-prepend a.x_add-on{height:16px;line-height:16px}
 .x .x_input-append button.x_add-on, 

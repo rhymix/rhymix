@@ -18,7 +18,7 @@
 		<li class="root" id='tree_0'><span>{$lang->category}</span></li>
 	</ul>
 </div>
-<span style="float:right"><a href="#" onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="x_btn"><span>{$lang->cmd_remake_cache}</span></a></span>
+<p class="x_pull-right"><button type="button" onclick="doReloadTreeCategory('{$module_info->module_srl}')" class="x_btn">{$lang->cmd_remake_cache}</button></p>
 <script>
 	var simpleTreeCollection;
 	var max_menu_depth = 999;
@@ -30,7 +30,7 @@
 	});
 </script>
 
-<div class="x_modal x" id="__category_info" style="display:none">
+<div class="x_modal x" id="__category_info" hidden>
 	<form ruleset="insertCategory" id="fo_category" action="./" method="post" class="x_form x_form-horizontal" style="margin:0">
 		<input type="hidden" name="module" value="document" />
 		<input type="hidden" name="act" value="procDocumentInsertCategory" />
@@ -47,7 +47,7 @@
 			<div id="__parent_category_info" class="x_control-group">
 				<label class="x_control-label">{$lang->parent_category_title}</label>
 				<div class="x_controls">
-					<span id="__parent_category_title"></span>
+					<span id="__parent_category_title" style="display:inline-block;padding:3px 0 0 0"></span>
 				</div>
 			</div>
 			<div class="x_control-group">
@@ -59,8 +59,9 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="category_color">{$lang->category_color}</label>
 				<div class="x_controls">
-					<input type="text" class="color-indicator" name="category_color" id="category_color" value="" />
-					<span class="x_help-block">{$lang->about_category_color}</span>
+					<span class="x_input-append"><input type="text" class="color-indicator" name="category_color" id="category_color" value="" /></span>
+					<a href="#categoy_color_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+					<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
 				</div>
 			</div>
 			<div class="x_control-group">

@@ -159,10 +159,10 @@ function addNode(node,e){
 	$w.find('input[name="parent_srl"]').val(node);
 
 	if(node){
-		$('#__parent_category_info').show();
+		$('#__parent_category_info').show().next('.x_control-group').css('borderTop','1px dotted #ddd');
 		$('#__parent_category_title').text($('#tree_' + node + ' > span').text());
 	}else{
-		$('#__parent_category_info').hide();
+		$('#__parent_category_info').hide().next('.x_control-group').css('borderTop','0');
 	}
 }
 
@@ -198,7 +198,7 @@ function modifyNode(node,e){
 		}
 	});
 
-	$('#__parent_category_info').hide();
+	$('#__parent_category_info').hide().next('.x_control-group').css('borderTop','0');
 }
 
 
