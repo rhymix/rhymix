@@ -1,7 +1,10 @@
 <?php
 require_once(_XE_PATH_.'modules/communication/communication.view.php');
-class communicationMobile extends communicationView {
-	function init() {
+
+class communicationMobile extends communicationView
+{
+	function init()
+	{
 		$oCommunicationModel = &getModel('communication');
 
 		$this->communication_config = $oCommunicationModel->getConfig();
@@ -74,3 +77,5 @@ class communicationMobile extends communicationView {
 		$this->setTemplateFile($templateFile);
 	}
 }
+/* End of file communication.mobile.php */
+/* Location: ./modules/comment/communication.mobile.php */
