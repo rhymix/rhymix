@@ -1,25 +1,26 @@
 <?php
+/**
+ * commentAdminController class
+ * admin controller class of the comment module
+ *
+ * @author NHN (developers@xpressengine.com)
+ * @package /modules/comment
+ * @version 0.1
+ */
+class commentAdminController extends comment
+{
 	/**
-	 * commentAdminController class
-	 * admin controller class of the comment module
-	 *
-	 * @author NHN (developers@xpressengine.com)
-	 * @package /modules/comment
-	 * @version 0.1
+	 * Initialization
+	 * @return void
 	 */
-    class commentAdminController extends comment {
+	function init()
+	{
+	}
 
-		/**
-		 * Initialization
-		 * @return void
-		 */
-        function init() {
-        }
-		
 	/**
-	* Modify comment(s) status to publish/unpublish if calling module is using Comment Approval System
-	* @return void
-	*/
+	 * Modify comment(s) status to publish/unpublish if calling module is using Comment Approval System
+	 * @return void
+	 */
 	function procCommentAdminChangePublishedStatusChecked()
 	{	// Error display if none is selected
 		$cart = Context::get('cart');
@@ -31,17 +32,17 @@
 		{
 			$comment_srl_list = $cart;
 		}
-		
+
 		$this->procCommentAdminChangeStatus();
-		
+
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', '');
 		$this->setRedirectUrl($returnUrl);
 	}
-	
+
 	/**
-	* Change comment status
-	* @return void|object
-	*/
+	 * Change comment status
+	 * @return void|object
+	 */
 	function procCommentAdminChangeStatus()
 	{
 		$will_publish = Context::get('will_publish');
@@ -89,7 +90,7 @@
 				$comment = $oCommentModel->getComment($comment_srl);
 				if($comment->comment_srl != $comment_srl) return new Object(-1, 'msg_invalid_request');
 				$document_srl = $comment->document_srl;
-				if (!in_array($document_srl,$updated_documents_arr))
+				if(!in_array($document_srl,$updated_documents_arr))
 				{
 					$updated_documents_arr[] = $document_srl;
 					// update the number of comments
@@ -115,17 +116,18 @@
 						<br />Comment content:
 						".$comment->content."
 						<br />
-					";
+						";
 					$oMail->setContent($mail_content);
 					$oMail->setSender($logged_info->user_name, $logged_info->email_address);
 
 					$document_author_email = $oDocument->variables['email_address'];
 
 					//mail to author of thread - START
-					if($document_author_email != $comment->email_address && $logged_info->email_address != $document_author_email) {
-							$oMail->setReceiptor($document_author_email, $document_author_email);
-							$oMail->send();
-							$already_sent[] = $document_author_email;
+					if($document_author_email != $comment->email_address && $logged_info->email_address != $document_author_email)
+					{
+						$oMail->setReceiptor($document_author_email, $document_author_email);
+						$oMail->send();
+						$already_sent[] = $document_author_email;
 					}
 					//mail to author of thread - STOP
 
@@ -133,10 +135,12 @@
 					if($module_info->admin_mail)
 					{
 						$target_mail = explode(',',$module_info->admin_mail);
-						for($i=0;$i<count($target_mail);$i++) {
+						for($i=0;$i<count($target_mail);$i++)
+						{
 							$email_address = trim($target_mail[$i]);
 							if(!$email_address) continue;
-							if($author_email != $email_address) {
+							if($author_email != $email_address)
+							{
 								$oMail->setReceiptor($email_address, $email_address);
 								$oMail->send();
 							}
@@ -150,227 +154,235 @@
 			// call a trigger for calling "send mail to subscribers" (for moment just for forum)
 			ModuleHandler::triggerCall("comment.procCommentAdminChangeStatus","after",$comment_srl_list);
 		}
-		
 	}
-	
-		/**
-		 * Delete the selected comment from the administrator page
-		 * @return void
-		 */
-        function procCommentAdminDeleteChecked() {
-			$isTrash = Context::get('is_trash');
 
-            // Error display if none is selected
-            $cart = Context::get('cart');
-            if(!$cart) return $this->stop('msg_cart_is_null');
-            if(!is_array($cart)) $comment_srl_list= explode('|@|', $cart);
-			else $comment_srl_list = $cart;
-            $comment_count = count($comment_srl_list);
-            if(!$comment_count) return $this->stop('msg_cart_is_null');
+	/**
+	 * Delete the selected comment from the administrator page
+	 * @return void
+	 */
+	function procCommentAdminDeleteChecked()
+	{
+		$isTrash = Context::get('is_trash');
 
-			$oCommentController = &getController('comment');
-			// begin transaction
-			$oDB = &DB::getInstance();
-			$oDB->begin();
+		// Error display if none is selected
+		$cart = Context::get('cart');
+		if(!$cart) return $this->stop('msg_cart_is_null');
+		if(!is_array($cart)) $comment_srl_list= explode('|@|', $cart);
+		else $comment_srl_list = $cart;
+		$comment_count = count($comment_srl_list);
+		if(!$comment_count) return $this->stop('msg_cart_is_null');
 
-			// for message send - start
-			$message_content = Context::get('message_content');
-			if($message_content) $message_content = nl2br($message_content);
+		$oCommentController = &getController('comment');
+		// begin transaction
+		$oDB = &DB::getInstance();
+		$oDB->begin();
 
-			if($message_content) {
-				$oCommunicationController = &getController('communication');
-				$oCommentModel = &getModel('comment');
+		// for message send - start
+		$message_content = Context::get('message_content');
+		if($message_content) $message_content = nl2br($message_content);
 
-				$logged_info = Context::get('logged_info');
+		if($message_content)
+		{
+			$oCommunicationController = &getController('communication');
+			$oCommentModel = &getModel('comment');
 
-				$title = cut_str($message_content,10,'...');
-				$sender_member_srl = $logged_info->member_srl;
+			$logged_info = Context::get('logged_info');
 
-				for($i=0;$i<$comment_count;$i++) {
-					$comment_srl = $comment_srl_list[$i];
-					$oComment = $oCommentModel->getComment($comment_srl, true);
+			$title = cut_str($message_content,10,'...');
+			$sender_member_srl = $logged_info->member_srl;
 
-					if(!$oComment->get('member_srl') || $oComment->get('member_srl')==$sender_member_srl) continue;
+			for($i=0;$i<$comment_count;$i++)
+			{
+				$comment_srl = $comment_srl_list[$i];
+				$oComment = $oCommentModel->getComment($comment_srl, true);
 
-					$content = sprintf("<div>%s</div><hr /><div style=\"font-weight:bold\">%s</div>",$message_content, $oComment->getContentText(20));
+				if(!$oComment->get('member_srl') || $oComment->get('member_srl')==$sender_member_srl) continue;
 
-					$oCommunicationController->sendMessage($sender_member_srl, $oComment->get('member_srl'), $title, $content, false);
-				}
+				$content = sprintf("<div>%s</div><hr /><div style=\"font-weight:bold\">%s</div>",$message_content, $oComment->getContentText(20));
+
+				$oCommunicationController->sendMessage($sender_member_srl, $oComment->get('member_srl'), $title, $content, false);
 			}
-			// for message send - end
+		}
+		// for message send - end
 
-			// comment into trash
-			if($isTrash == 'true') $this->_moveCommentToTrash($comment_srl_list, $oCommentController, $oDB);
+		// comment into trash
+		if($isTrash == 'true') $this->_moveCommentToTrash($comment_srl_list, $oCommentController, $oDB);
 
-			$deleted_count = 0;
-			// Delete the comment posting
-			for($i=0;$i<$comment_count;$i++) {
-				$comment_srl = trim($comment_srl_list[$i]);
-				if(!$comment_srl) continue;
+		$deleted_count = 0;
+		// Delete the comment posting
+		for($i=0;$i<$comment_count;$i++)
+		{
+			$comment_srl = trim($comment_srl_list[$i]);
+			if(!$comment_srl) continue;
 
-				$output = $oCommentController->deleteComment($comment_srl, true, $isTrash);
+			$output = $oCommentController->deleteComment($comment_srl, true, $isTrash);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+
+			$deleted_count ++;
+		}
+
+		$oDB->commit();
+
+		$msgCode = '';
+		if($isTrash == 'true') $msgCode = 'success_trashed';
+		else $msgCode = 'success_deleted';
+		//$this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
+		$this->setMessage($msgCode, 'info');
+
+		//set url params
+		$search_keyword = Context::get('search_keyword');
+		$search_target = Context::get('search_target');
+		$page = Context::get('page');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', $search_keyword, 'search_target', $search_target,'page',$page);
+		$this->setRedirectUrl($returnUrl);
+	}
+
+	/**
+	 * comment move to trash
+	 * @return void|object
+	 */
+	function _moveCommentToTrash($commentSrlList, &$oCommentController, &$oDB)
+	{
+		require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
+
+		if(is_array($commentSrlList))
+		{
+			$logged_info = Context::get('logged_info');
+			$oCommentModel = &getModel('comment');
+			$commentItemList = $oCommentModel->getComments($commentSrlList);
+			$oTrashAdminController = &getAdminController('trash');
+
+			foreach($commentItemList AS  $key=>$oComment)
+			{
+				$oTrashVO = new TrashVO();
+				$oTrashVO->setTrashSrl(getNextSequence());
+				$oTrashVO->setTitle(trim(strip_tags($oComment->variables['content'])));
+				$oTrashVO->setOriginModule('comment');
+				$oTrashVO->setSerializedObject(serialize($oComment->variables));
+
+				$output = $oTrashAdminController->insertTrash($oTrashVO);
 				if(!$output->toBool())
 				{
 					$oDB->rollback();
 					return $output;
 				}
-
-				$deleted_count ++;
 			}
+		}
+	}
 
-			$oDB->commit();
+	/**
+	 * Cancel the blacklist of abused comments reported by other users
+	 * @return void|object
+	 */
+	function procCommentAdminCancelDeclare()
+	{
+		$comment_srl = trim(Context::get('comment_srl'));
 
-			$msgCode = '';
-			if($isTrash == 'true') $msgCode = 'success_trashed';
-			else $msgCode = 'success_deleted';
-            //$this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
-            $this->setMessage($msgCode, 'info');
-
-			//set url params
-			$search_keyword = Context::get('search_keyword');
-			$search_target = Context::get('search_target');
-			$page = Context::get('page');
-
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', $search_keyword, 'search_target', $search_target,'page',$page);
-			$this->setRedirectUrl($returnUrl);
-        }
-
-		/**
-		 * comment move to trash
-		 * @return void|object
-		 */
-		function _moveCommentToTrash($commentSrlList, &$oCommentController, &$oDB)
+		if($comment_srl)
 		{
-			require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
+			$args->comment_srl = $comment_srl;
+			$output = executeQuery('comment.deleteDeclaredComments', $args);
+			if(!$output->toBool()) return $output;
+		}
+	}
 
-			if(is_array($commentSrlList))
+	/**
+	 * Comment add to _SESSION
+	 * @return void
+	 */
+	function procCommentAdminAddCart()
+	{
+		$comment_srl = (int)Context::get('comment_srl');
+
+		$oCommentModel = &getModel('comment');
+		$columnList = array('comment_srl');
+		$commentSrlList = array($comment_srl);
+
+		$output = $oCommentModel->getComments($commentSrlList);
+
+		if(is_array($output))
+		{
+			foreach($output AS $key=>$value)
 			{
-				$logged_info = Context::get('logged_info');
-				$oCommentModel = &getModel('comment');
-				$commentItemList = $oCommentModel->getComments($commentSrlList);
-				$oTrashAdminController = &getAdminController('trash');
-
-				foreach($commentItemList AS  $key=>$oComment)
-				{
-					$oTrashVO = new TrashVO();
-					$oTrashVO->setTrashSrl(getNextSequence());
-					$oTrashVO->setTitle(trim(strip_tags($oComment->variables['content'])));
-					$oTrashVO->setOriginModule('comment');
-					$oTrashVO->setSerializedObject(serialize($oComment->variables));
-
-					$output = $oTrashAdminController->insertTrash($oTrashVO);
-					if (!$output->toBool()) {
-						$oDB->rollback();
-						return $output;
-					}
-				}
+				if($_SESSION['comment_management'][$key]) unset($_SESSION['comment_management'][$key]);
+				else $_SESSION['comment_management'][$key] = true;
 			}
 		}
+	}
 
-		/**
-		 * Cancel the blacklist of abused comments reported by other users
-		 * @return void|object
-		 */
-        function procCommentAdminCancelDeclare() {
-            $comment_srl = trim(Context::get('comment_srl'));
+	/**
+	 * Delete all comments of the specific module
+	 * @return object
+	 */
+	function deleteModuleComments($module_srl)
+	{
+		$args->module_srl = $module_srl;
+		$output = executeQuery('comment.deleteModuleComments', $args);
+		if(!$output->toBool()) return $output;
 
-            if($comment_srl) {
-                $args->comment_srl = $comment_srl;
-                $output = executeQuery('comment.deleteDeclaredComments', $args);
-                if(!$output->toBool()) return $output;
-            }
-        }
+		$output = executeQuery('comment.deleteModuleCommentsList', $args);
 
-		/**
-		 * Comment add to _SESSION
-		 * @return void
-		 */
-		function procCommentAdminAddCart()
+		//remove from cache
+		$oCacheHandler = &CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
 		{
-			$comment_srl = (int)Context::get('comment_srl');
-
-			$oCommentModel = &getModel('comment');
-			$columnList = array('comment_srl');
-			$commentSrlList = array($comment_srl);
-
-			$output = $oCommentModel->getComments($commentSrlList);
-
-			if(is_array($output))
-			{
-				foreach($output AS $key=>$value)
-				{
-					if($_SESSION['comment_management'][$key]) unset($_SESSION['comment_management'][$key]);
-					else $_SESSION['comment_management'][$key] = true;
-				}
-			}
+			// Invalidate newest comments. Per document cache is invalidated inside document admin controller.
+			$oCacheHandler->invalidateGroupKey('newestCommentsList');
 		}
+		return $output;
+	}
 
-		/**
-		 * Delete all comments of the specific module
-		 * @return object
-		 */
-        function deleteModuleComments($module_srl) {
-            $args->module_srl = $module_srl;
-            $output = executeQuery('comment.deleteModuleComments', $args);
-            if(!$output->toBool()) return $output;
+	/**
+	 * Restore comment from trash module, called by trash module
+	 * this method is passived
+	 * @return object
+	 */
+	function restoreTrash($originObject)
+	{
+		if(is_array($originObject)) $originObject = (object)$originObject;
 
-            $output = executeQuery('comment.deleteModuleCommentsList', $args);
+		$obj->document_srl = $originObject->document_srl;
+		$obj->comment_srl = $originObject->comment_srl;
+		$obj->parent_srl = $originObject->parent_srl;
+		$obj->content = $originObject->content;
+		$obj->password = $originObject->password;
+		$obj->nick_name = $originObject->nick_name;
+		$obj->member_srl = $originObject->member_srl;
+		$obj->email_address = $originObject->email_address;
+		$obj->homepage = $originObject->homepage;
+		$obj->is_secret = $originObject->is_secret;
+		$obj->notify_message = $originObject->notify_message;
+		$obj->module_srl = $originObject->module_srl;
 
-            //remove from cache
-            $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport())
-            {
-                // Invalidate newest comments. Per document cache is invalidated inside document admin controller.
-                $oCacheHandler->invalidateGroupKey('newestCommentsList');
-            }
-            return $output;
-        }
+		$oCommentController = &getController('comment');
+		$output = $oCommentController->insertComment($obj);
 
-        /**
-         * Restore comment from trash module, called by trash module
-		 * this method is passived
-		 * @return object
-         */
-		function restoreTrash($originObject)
-		{
-			if(is_array($originObject)) $originObject = (object)$originObject;
+		return $output;
+	}
 
-			$obj->document_srl = $originObject->document_srl;
-			$obj->comment_srl = $originObject->comment_srl;
-			$obj->parent_srl = $originObject->parent_srl;
-			$obj->content = $originObject->content;
-			$obj->password = $originObject->password;
-			$obj->nick_name = $originObject->nick_name;
-			$obj->member_srl = $originObject->member_srl;
-			$obj->email_address = $originObject->email_address;
-			$obj->homepage = $originObject->homepage;
-			$obj->is_secret = $originObject->is_secret;
-			$obj->notify_message = $originObject->notify_message;
-			$obj->module_srl = $originObject->module_srl;
+	/**
+	 * Empty comment in trash, called by trash module
+	 * this method is passived
+	 * @return object
+	 */
+	function emptyTrash($originObject)
+	{
+		$originObject = unserialize($originObject);
+		if(is_array($originObject)) $originObject = (object) $originObject;
 
-			$oCommentController = &getController('comment');
-			$output = $oCommentController->insertComment($obj);
+		$oComment = new commentItem();
+		$oComment->setAttribute($originObject);
 
-			return $output;
-		}
-
-		/**
-		 * Empty comment in trash, called by trash module
-		 * this method is passived
-		 * @return object
-		 */
-		function emptyTrash($originObject)
-		{
-			$originObject = unserialize($originObject);
-			if(is_array($originObject)) $originObject = (object) $originObject;
-
-			$oComment = new commentItem();
-			$oComment->setAttribute($originObject);
-
-			//already comment deleted, therefore only comment log delete
-			$oCommentController = &getController('comment');
-			$output = $oCommentController->deleteCommentLog($oComment->get('comment_srl'));
-			return $output;
-		}
-    }
-?>
+		//already comment deleted, therefore only comment log delete
+		$oCommentController = &getController('comment');
+		$output = $oCommentController->deleteCommentLog($oComment->get('comment_srl'));
+		return $output;
+	}
+}
+/* End of file comment.admin.controller.php */
+/* Location: ./modules/comment/comment.admin.controller.php */
