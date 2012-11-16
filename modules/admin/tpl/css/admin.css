@@ -134,6 +134,8 @@ body>.x,
 .x .section>h1>.snToggle.x_icon-chevron-up{background-position:-279px -112px}
 .x .section>h1>.snToggle.x_icon-chevron-down{background-position:-303px -111px}
 .x .section>h2{position:relative;border-bottom:1px dotted #ddd}
+.x .section.collapse>*{display:none}
+.x .section.collapse>h1{display:block}
 .x .center{text-align:center}
 .x .search{margin:20px 0}
 .x .search select{width:auto}

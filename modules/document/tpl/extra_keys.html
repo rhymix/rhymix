@@ -44,7 +44,7 @@
 				<label class="x_control-label">{$lang->is_required}</label>
 				<div class="x_controls">
 					<label class="x_inline" for="is_required_y"><input type="radio" name="is_required" id="is_required_y" value="Y" checked="checked"|cond="$selected_var->is_required == 'Y'" /> {$lang->yes}</label>
-					<label class="x_inline" for="is_required_n"><input type="radio" name="is_required" id="is_required_n" value="N" checked="checked"|cond="$selected_var->is_required != 'Y'" /> {$lang->no}</label>
+					<label class="x_inline" for="is_required_n"><input type="radio" name="is_required" id="is_required_n" value="N" checked="checked"|cond="$selected_var->is_required != 'Y'" /> {$lang->not}</label>
 				</div>
 			</div>
 			<div class="x_control-group">
@@ -64,7 +64,7 @@
 				<label class="x_control-label">{$lang->cmd_search}</label>
 				<div class="x_controls">
 					<label class="x_inline" for="search_y"><input type="radio" name="search" id="search_y" value="Y" checked="checked"|cond="$selected_var->search=='Y'" /> {$lang->yes}</label>
-					<label class="x_inline" for="search_n"><input type="radio" name="search" id="search_n" value="N" checked="checked"|cond="$selected_var->search!='Y'" /> {$lang->no}</label>
+					<label class="x_inline" for="search_n"><input type="radio" name="search" id="search_n" value="N" checked="checked"|cond="$selected_var->search!='Y'" /> {$lang->not}</label>
 				</div>
 			</div>
 

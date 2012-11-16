@@ -255,10 +255,10 @@ jQuery(function($){
 			var $this = $(this);
 			var $section = $this.closest('.section');
 			if(!$section.hasClass('collapse')){
-				$section.addClass('collapse').children('h1:first').siblings().hide();
+				$section.addClass('collapse');
 				$this.removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
 			} else {
-				$section.removeClass('collapse').children('h1:first').siblings().show();
+				$section.removeClass('collapse');
 				$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
 			}
 			reflow();
@@ -1591,6 +1591,7 @@ jQuery(function($){
 				}else{
 					var $displayInput = $('<input type="text" id="lang_' + id + '" class="displayInput" style="width:' + width + 'px">').data('lang-id', id);
 				}
+				$displayInput.attr('placeholder', $this.attr('placeholder'));
 				var $remover = $('<button type="button" class="x_add-on remover" title="' + xe.cmd_remove_multilingual_text + '"><i class="x_icon-remove"></i>' + xe.cmd_remove_multilingual_text + '</button>').data('lang-target', id);
 				var $setter = $('<a href="#g11n" class="x_add-on modalAnchor" title="' + xe.cmd_set_multilingual_text + '"><i class="x_icon-globe"></i>' + xe.cmd_set_multilingual_text + '</a>').data('lang-target', id);
 
@@ -1691,7 +1692,6 @@ jQuery(function($){
 			}
 			
 		});
-		
 		return this;
 	};
 	
