@@ -321,8 +321,16 @@
 				foreach($moduleList AS $key=>$value)
 				{
 					$moduleInfo = $oModuleModel->getModuleInfoXml($value);
-					$moduleInfo->default_skin = $oModuleModel->getModuleDefaultSkin($value, 'P');
-					$moduleInfo->default_mskin = $oModuleModel->getModuleDefaultSkin($value, 'M');
+					$defaultSkin = $oModuleModel->getModuleDefaultSkin($value, 'P');
+					$defaultMobileSkin = $oModuleModel->getModuleDefaultSkin($value, 'M');
+					$skinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($value), $defaultSkin);
+					$mobileSkinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($value), $defaultMobileSkin);
+					$moduleInfo->defaultSkin = new stdClass();
+					$moduleInfo->defaultSkin->skin = $defaultSkin;
+					$moduleInfo->defaultSkin->title = $skinInfo->title ? $skinInfo->title : $defaultSkin;
+					$moduleInfo->defaultMobileSkin = new stdClass();
+					$moduleInfo->defaultMobileSkin->skin = $defaultMobileSkin;
+					$moduleInfo->defaultMobileSkin->title = $mobileSkinInfo->title ? $mobileSkinInfo->title : $defaultMobileSkin;
 
 					$moduleInfo->package_srl = $oAutoinstallModel->getPackageSrlByPath('./modules/' . $value);
 					$moduleInfo->url = _XE_LOCATION_SITE_ . '?mid=download&package_srl=' . $moduleInfo->package_srl;

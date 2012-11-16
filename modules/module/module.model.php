@@ -201,9 +201,7 @@
 			}
 
 			$args->menu_item_srl = $menuItemSrl;
-
 			$output = executeQuery('module.getModuleInfoByMenuItemSrl', $args);
-
 			if(!$output->toBool())
 			{
 				return $output;
@@ -212,6 +210,41 @@
 			$moduleInfo = $output->data;
 			$mid = $moduleInfo->mid;
 			$site_srl = $moduleInfo->site_srl;
+
+			$moduleInfo->designSettings = new stdClass();
+			$moduleInfo->designSettings->layout = new stdClass();
+			$moduleInfo->designSettings->skin = new stdClass();
+
+			$oLayoutAdminModel = getAdminModel('layout');
+			$layoutSrlPc = ($moduleInfo->layout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('P', $moduleInfo->site_srl) : $moduleInfo->layout_srl;
+			$layoutSrlMobile = ($moduleInfo->mlayout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('M', $moduleInfo->site_srl) : $moduleInfo->mlayout_srl;
+			$skinNamePc = (!$moduleInfo->skin) ? $this->getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
+			$skinNameMobile = (!$moduleInfo->mskin) ? $this->getModuleDefaultSkin($moduleInfo->module, 'M') : $moduleInfo->mskin;
+
+			$oLayoutModel = getModel('layout');
+			$layoutInfoPc = $layoutSrlPc ? $oLayoutModel->getLayoutRawData($layoutSrlPc, array('title')) : NULL;
+			$layoutInfoMobile = $layoutSrlMobile ? $oLayoutModel->getLayoutRawData($layoutSrlMobile, array('title')) : NULL;
+			$skinInfoPc = $this->loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNamePc);
+			$skinInfoMobile = $this->loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNameMobile, 'm.skin');
+			if(!$skinInfoPc)
+			{
+				$skinInfoPc = new stdClass();
+				$skinInfoPc->title = $skinNamePc;
+			}
+			if(!$skinInfoMobile)
+			{
+				$skinInfoMobile = new stdClass();
+				$skinInfoMobile->title = $skinNameMobile;
+			}
+
+			$moduleInfo->designSettings->layout->pcIsDefault = $moduleInfo->layout_srl == -1 ? 1 : 0;
+			$moduleInfo->designSettings->layout->pc = $layoutInfoPc->title;
+			$moduleInfo->designSettings->layout->mobileIsDefault = $moduleInfo->mlayout_srl == -1 ? 1 : 0;
+			$moduleInfo->designSettings->layout->mobile = $layoutInfoMobile->title;
+			$moduleInfo->designSettings->skin->pcIsDefault = !$moduleInfo->skin ? 1 : 0;
+			$moduleInfo->designSettings->skin->pc = $skinInfoPc->title;
+			$moduleInfo->designSettings->skin->mobileIsDefault = !$moduleInfo->mskin ? 1 : 0;
+			$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
             $oCacheHandler = &CacheHandler::getInstance('object');
         	if($oCacheHandler->isSupport())

@@ -154,7 +154,11 @@ class layoutAdminModel extends layout {
 
 		$layoutSrl = $this->getSiteDefaultLayout($type, $siteSrl);
 
+		$oLayoutModel = getModel('layout');
+		$layoutInfo = $oLayoutModel->getLayoutRawData($layoutSrl, array('title'));
+
 		$this->add('layout_srl', $layoutSrl);
+		$this->add('title', $layoutInfo->title);
 	}
 
 	public function getSiteDefaultLayout($viewType = 'P', $siteSrl = 0)
