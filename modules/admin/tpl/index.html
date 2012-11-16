@@ -27,6 +27,14 @@
 		</block>
 		</ul>
 	</div>
+	<div class="message update" cond="count($newVersionList)">
+		<h2>{$lang->available_new_version}</h2>
+		<ul>
+			<li loop="$newVersionList => $key, $package" style="margin:0 0 4px 0">
+				[{$lang->typename[$package->type]}] {$package->title} ver. {$package->version} - <a href="{$package->url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->update}</a>
+			</li>
+		</ul>
+	</div>
 	<div class="dashboard">
 		<section class="status">
 			<h2>{$lang->current_state}</h2>

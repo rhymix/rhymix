@@ -338,4 +338,54 @@
 		<value xml:lang="ko"><![CDATA[설치 됨]]></value>
 		<value xml:lang="en"><![CDATA[Installed]]></value>
 	</item>
+	<item name="typename" type="array">
+		<item name="core">
+			<value xml:lang="ko"><![CDATA[코어]]></value>
+			<value xml:lang="en"><![CDATA[Core]]></value>
+		</item>
+		<item name="m.layout">
+			<value xml:lang="ko"><![CDATA[모바일 레이아웃]]></value>
+			<value xml:lang="en"><![CDATA[Mobile layout]]></value>
+		</item>
+		<item name="module">
+			<value xml:lang="ko"><![CDATA[모듈]]></value>
+			<value xml:lang="en"><![CDATA[Module]]></value>
+		</item>
+		<item name="addon">
+			<value xml:lang="ko"><![CDATA[애드온]]></value>
+			<value xml:lang="en"><![CDATA[Addon]]></value>
+		</item>
+		<item name="layout">
+			<value xml:lang="ko"><![CDATA[레이아웃]]></value>
+			<value xml:lang="en"><![CDATA[Layout]]></value>
+		</item>
+		<item name="widget">
+			<value xml:lang="ko"><![CDATA[위젯]]></value>
+			<value xml:lang="en"><![CDATA[Widget]]></value>
+		</item>
+		<item name="component">
+			<value xml:lang="ko"><![CDATA[에디터 콤포넌트]]></value>
+			<value xml:lang="en"><![CDATA[Editor component]]></value>
+		</item>
+		<item name="m.skin">
+			<value xml:lang="ko"><![CDATA[모바일 스킨]]></value>
+			<value xml:lang="en"><![CDATA[Mobile Skin]]></value>
+		</item>
+		<item name="skin">
+			<value xml:lang="ko"><![CDATA[스킨]]></value>
+			<value xml:lang="en"><![CDATA[Skin]]></value>
+		</item>
+		<item name="widgetstyle">
+			<value xml:lang="ko"><![CDATA[위젯스타일]]></value>
+			<value xml:lang="en"><![CDATA[Widget style]]></value>
+		</item>
+		<item name="style">
+			<value xml:lang="ko"><![CDATA[문서스타일]]></value>
+			<value xml:lang="en"><![CDATA[Document style]]></value>
+		</item>
+		<item name="drcomponent">
+			<value xml:lang="ko"><![CDATA[단락에디터 콤포넌트]]></value>
+			<value xml:lang="en"><![CDATA[DrEditor component]]></value>
+		</item>
+	</item>
 </lang>

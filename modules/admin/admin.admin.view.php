@@ -305,10 +305,16 @@ class adminAdminView extends admin
 				}
 			}
 		}
+
+		// Get need update from easy install
+		$oAutoinstallAdminModel = getAdminModel('autoinstall');
+		$needUpdateList = $oAutoinstallAdminModel->getNeedUpdateList();
+
 		Context::set('module_list', $module_list);
 		Context::set('needUpdate', $isUpdated);
 		Context::set('addTables', $addTables);
 		Context::set('needUpdate', $needUpdate);
+		Context::set('newVersionList', $needUpdateList);
 
 		// gathering enviroment check
 		$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));

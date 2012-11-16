@@ -176,6 +176,58 @@ class autoinstallAdminModel extends autoinstall
 
 		$this->add('is_authed', $is_authed);
 	}
+
+	/**
+	 * Returns list of need update
+	 */
+	public function getNeedUpdateList()
+	{
+		$oModel = getModel('autoinstall');
+		$output = executeQueryArray('autoinstall.getNeedUpdate');
+		if(!is_array($output->data)) return NULL;
+
+		$result = array();
+		$xml = new XmlParser();
+		foreach($output->data as $package)
+		{
+			$packageSrl = $package->package_srl;
+			
+			$packageInfo = new stdClass();
+			$packageInfo->currentVersion = $package->current_version;
+			$packageInfo->version = $package->version;
+			$packageInfo->type = $oModel->getTypeFromPath($package->path);
+			$packageInfo->url = $oModel->getUpdateUrlByPackageSrl($package->package_srl);
+
+			if($packageInfo->type == 'core')
+			{
+				$title = 'XpressEngine';
+			}
+			else
+			{
+				$configFile = $oModel->getConfigFilePath($packageInfo->type);
+				$xmlDoc = $xml->loadXmlFile(FileHandler::getRealPath($package->path) . $configFile);
+
+				if($xmlDoc)
+				{
+					$type = $packageInfo->type;
+					if($type == "drcomponent") $type = "component";
+					if($type == "style" || $type == "m.skin") $type = "skin";
+					if($type == "m.layout") $type = "layout";
+					$title = $xmlDoc->{$type}->title->body;
+				}
+				else
+				{
+					$pathInfo = explode('/', $package->path);
+					$title = $pathInfo[count($pathInfo) - 1];
+				}
+			}
+			$packageInfo->title = $title;
+
+			$result[] = $packageInfo;
+		}
+
+		return $result;
+	}
 }
 /* End of file autoinstall.admin.model.php */
 /* Location: ./modules/autoinstall/autoinstall.admin.model.php */
