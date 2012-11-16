@@ -26,12 +26,12 @@
 				<input type="password" name="ftp_password" id="ftp_password" value="" /> {$lang->about_ftp_password}
 			</div>
 		</div>
-		<div class="x_control-group">
+		<div id="__xe_path" class="x_control-group" hidden>
 			<label class="x_control-label" for="ftp_root_path">{$lang->msg_ftp_installed_ftp_realpath}</label>
 			<div class="x_controls">
 				<span class="x_input-append">
-					<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" readonly />
-					<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="x_btn tgAnchor" style="display:none">{$lang->ftp_get_list}</a>
+					<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
+					<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="x_btn tgAnchor">{$lang->ftp_get_list}</a>
 				</span>
 				<div id="ftpSuggestion" class="x_thumbnail">
 				</div>
@@ -41,19 +41,19 @@
 	</section>
 	<section class="section collapse">
 		<h1>{$lang->subtitle_advanced}</h1>
-		<div class="x_control-group" hidden>
+		<div class="x_control-group">
 			<label class="x_control-label" for="ftp_host">{$lang->ftp_host}</label>
 			<div class="x_controls">
 				<input type="text" name="ftp_host" id="ftp_host" value="{$ftp_info->ftp_host ? $ftp_info->ftp_host : '127.0.0.1'}" /> Default : 127.0.0.1
 			</div>
 		</div>
-		<div class="x_control-group" hidden>
+		<div class="x_control-group">
 			<label class="x_control-label" for="ftp_port">{$lang->ftp_port}</label>
 			<div class="x_controls">
 				<input type="text" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port ? $ftp_info->ftp_port : '21'}" /> Default : 21
 			</div>
 		</div>
-		<div class="x_control-group" hidden>
+		<div class="x_control-group">
 			<p class="x_control-label">{$lang->use_ftp_passive_mode}</p>
 			<div class="x_controls">
 				<label class="x_inline" for="ftp_passive_y">
@@ -66,7 +66,7 @@
 				</label>
 			</div>
 		</div>
-		<div class="x_control-group" hidden>
+		<div class="x_control-group">
 			<label class="x_control-label" for="sftp_n">{$lang->use_sftp_support}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="sftp_y"><input type="radio" name="sftp" id="sftp_y" value="Y" checked="checked"|cond="$ftp_info->sftp == 'Y'" disabled|cond="!$sftp_support" />{$lang->cmd_yes}</label>
@@ -109,7 +109,7 @@ jQuery(function($){
 
 			if(!data.found_path){
 				alert('{$lang->msg_find_xe_path_fail}');
-				$('input[name="ftp_root_path"]').removeAttr('readonly').next().show();
+				$('#__xe_path').show();
 				$('#ftp_form').data('found', true);
 				return;
 			}
