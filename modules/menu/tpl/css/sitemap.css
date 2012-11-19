@@ -87,6 +87,7 @@ body>.x{max-width:none !important}
 .col .clone li.x_selected>a{color:#000;font-weight:bold;text-decoration:underline}
 .col .clone ul ul{padding-left:8px;margin-left:8px !important;border-left:1px solid #ddd}
 .col .clone .root{margin-top:15px}
+.col .clone a{display:block;max-width:160px;white-space:nowrap;max-width:160px;text-overflow:ellipsis;overflow:hidden}
 /* Download */
 .download.col{max-width:600px}
 .download .list{padding:1px 0;border-bottom:1px solid #ddd}
