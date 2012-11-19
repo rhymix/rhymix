@@ -1,528 +1,579 @@
 <?php	
-    /**
-     * @class  memberAdminView
-     * @author NHN (developers@xpressengine.com)
-     * member module's admin view class
-     **/
+/**
+ * @class  memberAdminView
+ * @author NHN (developers@xpressengine.com)
+ * member module's admin view class
+ */
+class memberAdminView extends member
+{
+	/**
+	 * Group list
+	 * 
+	 * @var array
+	 */
+	var $group_list = NULL;
 
-    class memberAdminView extends member {
+	/**
+	 * Selected member info
+	 * 
+	 * @var array
+	 */
+	var $memberInfo = NULL;
 
-		/**
-		 * Group list
-		 * 
-		 * @var array
-		 **/
-        var $group_list = NULL;
+	/**
+	 * Member module config.
+	 *
+	 * @var Object
+	 */
+	var $memberConfig = NULL;
 
-		/**
-		 * Selected member info
-		 * 
-		 * @var array
-		 **/
-		var $memberInfo = NULL;
+	/**
+	 * initialization
+	 *
+	 * @return void
+	 */
+	function init() 
+	{
+		$oMemberModel = &getModel('member');
+		$this->memberConfig = $oMemberModel->getMemberConfig();
+		Context::set('config', $this->memberConfig);
 
-		/**
-		 * Member module config.
-		 *
-		 * @var Object
-		 **/
-		var $memberConfig = NULL;
-
-        /**
-         * initialization
-		 *
-		 * @return void
-		 **/
-        function init() 
+		// if member_srl exists, set memberInfo
+		$member_srl = Context::get('member_srl');
+		if($member_srl) 
 		{
-            $oMemberModel = &getModel('member');
-			$this->memberConfig = $oMemberModel->getMemberConfig();
-			Context::set('config', $this->memberConfig);
-
-            // if member_srl exists, set memberInfo            
-			$member_srl = Context::get('member_srl');
-            if($member_srl) 
+			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			if(!$this->memberInfo)
 			{
-                $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);                
-				if(!$this->memberInfo)
-				{
-					Context::set('member_srl','');
-				}
-				else
-				{
-					Context::set('member_info',$this->memberInfo);
-				}
+				Context::set('member_srl','');
 			}
-
-            // retrieve group list            
-			$this->group_list = $oMemberModel->getGroups();
-            Context::set('group_list', $this->group_list);
-
-			$security = new Security();						
-			$security->encodeHTML('group_list..', 'config..');
-			
-            $this->setTemplatePath($this->module_path.'tpl');
-        }
-
-        /**
-         * display member list
-		 *
-		 * @return void
-		 **/
-        function dispMemberAdminList() {
-            $oMemberAdminModel = &getAdminModel('member');
-            $oMemberModel = &getModel('member');
-            $output = $oMemberAdminModel->getMemberList();
-
-			$filter = Context::get('filter_type');
-			global $lang;			
-			switch($filter){				
-				case 'super_admin' : Context::set('filter_type_title', $lang->cmd_show_super_admin_member);break;
-				case 'site_admin' : Context::set('filter_type_title', $lang->cmd_show_site_admin_member);break;
-				case 'enable' :  Context::set('filter_type_title', $lang->approval);break;
-				case 'disable' : Context::set('filter_type_title', $lang->denied);break;
-				default : Context::set('filter_type_title', $lang->cmd_show_all_member);break;			
+			else
+			{
+				Context::set('member_info',$this->memberInfo);
 			}
-			// retrieve list of groups for each member
-            if($output->data) {
-                foreach($output->data as $key => $member)
-				{
-                    $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
-                }
-            }
-			$config = $this->memberConfig;			
-			$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');			
-			$usedIdentifiers = array();			
-
-			if (is_array($config->signupForm)){
-				foreach($config->signupForm as $signupItem){				
-					if (!count($memberIdentifiers)) break;				
-					if(in_array($signupItem->name, $memberIdentifiers) && ($signupItem->required || $signupItem->isUse)){					
-						unset($memberIdentifiers[$signupItem->name]);					
-						$usedIdentifiers[$signupItem->name] = $lang->{$signupItem->name};				
-					}			
-				}
-			}
-			Context::set('total_count', $output->total_count);
-            Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);
-            Context::set('member_list', $output->data);
-            Context::set('usedIdentifiers', $usedIdentifiers);            
-			Context::set('page_navigation', $output->page_navigation);
-			
-			$security = new Security();
-			$security->encodeHTML('member_list..user_name', 'member_list..nick_name', 'member_list..group_list..');
-			
-			$this->setTemplateFile('member_list');
-        }
-
-		/**
-		 * Set the default config.
-		 *
-		 * @return void
-		 */
-		public function dispMemberAdminConfig()
-		{
-			$this->setTemplateFile('default_config');	
-
 		}
 
-		public function dispMemberAdminSignUpConfig()
+		// retrieve group list
+		$this->group_list = $oMemberModel->getGroups();
+		Context::set('group_list', $this->group_list);
+
+		$security = new Security();
+		$security->encodeHTML('group_list..', 'config..');
+
+		$this->setTemplatePath($this->module_path.'tpl');
+	}
+
+	/**
+	 * display member list
+	 *
+	 * @return void
+	 */
+	function dispMemberAdminList()
+	{
+		$oMemberAdminModel = &getAdminModel('member');
+		$oMemberModel = &getModel('member');
+		$output = $oMemberAdminModel->getMemberList();
+
+		$filter = Context::get('filter_type');
+		global $lang;
+		switch($filter)
 		{
-			$config = $this->memberConfig;
-
-			$oMemberModel = getModel('member');
-            // retrieve skins of editor
-            $oEditorModel = getModel('editor');
-            Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
-
-            // get an editor
-            $option->primary_key_name = 'temp_srl';
-            $option->content_key_name = 'agreement';
-            $option->allow_fileupload = false;
-            $option->enable_autosave = false;
-            $option->enable_default_component = true;
-            $option->enable_component = true;
-            $option->resizable = true;
-            $option->height = 300;
-            $editor = $oEditorModel->getEditor(0, $option);
-            Context::set('editor', $editor);
-
-			$signupForm = $config->signupForm;
-			foreach($signupForm as $val)
+			case 'super_admin' : Context::set('filter_type_title', $lang->cmd_show_super_admin_member);break;
+			case 'site_admin' : Context::set('filter_type_title', $lang->cmd_show_site_admin_member);break;
+			case 'enable' :  Context::set('filter_type_title', $lang->approval);break;
+			case 'disable' : Context::set('filter_type_title', $lang->denied);break;
+			default : Context::set('filter_type_title', $lang->cmd_show_all_member);break;
+		}
+		// retrieve list of groups for each member
+		if($output->data)
+		{
+			foreach($output->data as $key => $member)
 			{
-				if($val->name == 'user_id')
+				$output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
+			}
+		}
+		$config = $this->memberConfig;
+		$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');
+		$usedIdentifiers = array();	
+
+		if(is_array($config->signupForm))
+		{
+			foreach($config->signupForm as $signupItem)
+			{
+				if(!count($memberIdentifiers)) break;
+				if(in_array($signupItem->name, $memberIdentifiers) && ($signupItem->required || $signupItem->isUse))
 				{
-					$userIdInfo = $val;
-					break;
+					unset($memberIdentifiers[$signupItem->name]);
+					$usedIdentifiers[$signupItem->name] = $lang->{$signupItem->name};
 				}
 			}
+		}
+		Context::set('total_count', $output->total_count);
+		Context::set('total_page', $output->total_page);
+		Context::set('page', $output->page);
+		Context::set('member_list', $output->data);
+		Context::set('usedIdentifiers', $usedIdentifiers);
+		Context::set('page_navigation', $output->page_navigation);
 
-			if($userIdInfo->isUse)
+		$security = new Security();
+		$security->encodeHTML('member_list..user_name', 'member_list..nick_name', 'member_list..group_list..');
+
+		$this->setTemplateFile('member_list');
+	}
+
+	/**
+	 * Set the default config.
+	 *
+	 * @return void
+	 */
+	public function dispMemberAdminConfig()
+	{
+		$this->setTemplateFile('default_config');
+
+	}
+
+	public function dispMemberAdminSignUpConfig()
+	{
+		$config = $this->memberConfig;
+
+		$oMemberModel = getModel('member');
+		// retrieve skins of editor
+		$oEditorModel = getModel('editor');
+		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
+
+		// get an editor
+		$option->primary_key_name = 'temp_srl';
+		$option->content_key_name = 'agreement';
+		$option->allow_fileupload = false;
+		$option->enable_autosave = false;
+		$option->enable_default_component = true;
+		$option->enable_component = true;
+		$option->resizable = true;
+		$option->height = 300;
+		$editor = $oEditorModel->getEditor(0, $option);
+		Context::set('editor', $editor);
+
+		$signupForm = $config->signupForm;
+		foreach($signupForm as $val)
+		{
+			if($val->name == 'user_id')
 			{
-				// get denied ID list
-				Context::set('useUserID', 1);
-				$denied_list = $oMemberModel->getDeniedIDs();
-				Context::set('deniedIDs', $denied_list);
+				$userIdInfo = $val;
+				break;
 			}
-
-			// get denied NickName List
-			$deniedNickNames = $oMemberModel->getDeniedNickNames();
-			Context::set('deniedNickNames', $deniedNickNames);
-			$this->setTemplateFile('signup_config');
 		}
 
-		public function dispMemberAdminLoginConfig()
+		if($userIdInfo->isUse)
 		{
-			$this->setTemplateFile('login_config');
+			// get denied ID list
+			Context::set('useUserID', 1);
+			$denied_list = $oMemberModel->getDeniedIDs();
+			Context::set('deniedIDs', $denied_list);
 		}
 
-		public function dispMemberAdminDesignConfig()
+		// get denied NickName List
+		$deniedNickNames = $oMemberModel->getDeniedNickNames();
+		Context::set('deniedNickNames', $deniedNickNames);
+		$this->setTemplateFile('signup_config');
+	}
+
+	public function dispMemberAdminLoginConfig()
+	{
+		$this->setTemplateFile('login_config');
+	}
+
+	public function dispMemberAdminDesignConfig()
+	{
+		$oModuleModel = getModel('module');
+		// Get a layout list
+		$oLayoutModel = &getModel('layout');
+		$layout_list = $oLayoutModel->getLayoutList();
+
+		Context::set('layout_list', $layout_list);
+
+		$mlayout_list = $oLayoutModel->getLayoutList(0, 'M');
+
+		Context::set('mlayout_list', $mlayout_list);
+
+		// list of skins for member module
+		$skin_list = $oModuleModel->getSkins($this->module_path);
+		Context::set('skin_list', $skin_list);
+
+		// list of skins for member module
+		$mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
+		Context::set('mskin_list', $mskin_list);
+
+		$this->setTemplateFile('design_config');
+	}
+
+	/**
+	 * default configuration for member management
+	 *
+	 * @return void
+	 */
+	function dispMemberAdminConfigOLD() 
+	{
+		$oModuleModel = &getModel('module');
+		$oMemberModel = &getModel('member');
+
+		// Get a layout list
+		$oLayoutModel = &getModel('layout');
+		$layout_list = $oLayoutModel->getLayoutList();
+
+		Context::set('layout_list', $layout_list);
+
+		$mlayout_list = $oLayoutModel->getLayoutList(0, 'M');
+
+		Context::set('mlayout_list', $mlayout_list);
+
+		// list of skins for member module
+		$skin_list = $oModuleModel->getSkins($this->module_path);
+		Context::set('skin_list', $skin_list);
+
+		// list of skins for member module
+		$mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
+		Context::set('mskin_list', $mskin_list);
+
+		// retrieve skins of editor
+		$oEditorModel = &getModel('editor');
+		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
+
+		// get an editor
+		$option->primary_key_name = 'temp_srl';
+		$option->content_key_name = 'agreement';
+		$option->allow_fileupload = false;
+		$option->enable_autosave = false;
+		$option->enable_default_component = true;
+		$option->enable_component = true;
+		$option->resizable = true;
+		$option->height = 300;
+		$editor = $oEditorModel->getEditor(0, $option);
+		Context::set('editor', $editor);
+
+		$signupForm = $config->signupForm;
+		foreach($signupForm as $val)
 		{
-			$oModuleModel = getModel('module');
-            // Get a layout list
-            $oLayoutModel = &getModel('layout');
-            $layout_list = $oLayoutModel->getLayoutList();
-
-            Context::set('layout_list', $layout_list);
-
-            $mlayout_list = $oLayoutModel->getLayoutList(0, 'M');
-
-            Context::set('mlayout_list', $mlayout_list);
-
-            // list of skins for member module
-            $skin_list = $oModuleModel->getSkins($this->module_path);
-            Context::set('skin_list', $skin_list);
-
-            // list of skins for member module
-            $mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
-            Context::set('mskin_list', $mskin_list);
-
-			$this->setTemplateFile('design_config');
+			if($val->name == 'user_id')
+			{
+				$userIdInfo = $val;
+				break;
+			}
 		}
 
-        /**
-         * default configuration for member management
-		 *
-		 * @return void
-         **/
-        function dispMemberAdminConfigOLD() 
+		if($userIdInfo->isUse)
 		{
-            $oModuleModel = &getModel('module');
-            $oMemberModel = &getModel('member');
+			// get denied ID list
+			Context::set('useUserID', 1);
+			$denied_list = $oMemberModel->getDeniedIDs();
+			Context::set('deniedIDs', $denied_list);
+		}
 
-            // Get a layout list
-            $oLayoutModel = &getModel('layout');
-            $layout_list = $oLayoutModel->getLayoutList();
+		// get denied NickName List
+		$deniedNickNames = $oMemberModel->getDeniedNickNames();
+		Context::set('deniedNickNames', $deniedNickNames);
 
-            Context::set('layout_list', $layout_list);
+		$security = new Security();
+		$security->encodeHTML('config..');
 
-            $mlayout_list = $oLayoutModel->getLayoutList(0, 'M');
+		$this->setTemplateFile('member_config');
+	}
 
-            Context::set('mlayout_list', $mlayout_list);
+	/**
+	 * display member information
+	 *
+	 * @return void
+	 */
+	function dispMemberAdminInfo()
+	{
+		$oMemberModel = &getModel('member');
+		$oModuleModel = &getModel('module');
 
-            // list of skins for member module
-            $skin_list = $oModuleModel->getSkins($this->module_path);
-            Context::set('skin_list', $skin_list);
+		$member_config = $oModuleModel->getModuleConfig('member');
+		Context::set('member_config', $member_config);
+		$extendForm = $oMemberModel->getCombineJoinForm($this->memberInfo);
+		Context::set('extend_form_list', $extendForm);
+		$memberInfo = get_object_vars(Context::get('member_info'));
+		if (!is_array($memberInfo['group_list'])) $memberInfo['group_list'] = array();
+		Context::set('memberInfo', $memberInfo);
 
-            // list of skins for member module
-            $mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
-            Context::set('mskin_list', $mskin_list);
+		$disableColumns = array('password', 'find_account_question');
+		Context::set('disableColumns', $disableColumns);
 
-            // retrieve skins of editor
-            $oEditorModel = &getModel('editor');
-            Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
+		$security = new Security();
+		$security->encodeHTML('member_config..');
+		$security->encodeHTML('extend_form_list...');
 
-            // get an editor
-            $option->primary_key_name = 'temp_srl';
-            $option->content_key_name = 'agreement';
-            $option->allow_fileupload = false;
-            $option->enable_autosave = false;
-            $option->enable_default_component = true;
-            $option->enable_component = true;
-            $option->resizable = true;
-            $option->height = 300;
-            $editor = $oEditorModel->getEditor(0, $option);
-            Context::set('editor', $editor);
+		$oMemberView = getView('member');
 
-			$signupForm = $config->signupForm;
-			foreach($signupForm as $val)
+		$oMemberView->_getDisplayedMemberInfo($this->memberInfo, $extendForm, $member_config);
+
+		$this->setTemplateFile('member_info');
+	}
+
+	/**
+	 * display member insert form
+	 *
+	 * @return void
+	 */
+	function dispMemberAdminInsert()
+	{
+		// retrieve extend form
+		$oMemberModel = &getModel('member');
+
+		$memberInfo = Context::get('member_info');
+		$memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);
+		Context::set('member_info', $memberInfo);
+
+		// get an editor for the signature
+		if($memberInfo->member_srl)
+		{
+			$oEditorModel = &getModel('editor');
+			$option->primary_key_name = 'member_srl';
+			$option->content_key_name = 'signature';
+			$option->allow_fileupload = false;
+			$option->enable_autosave = false;
+			$option->enable_default_component = true;
+			$option->enable_component = false;
+			$option->resizable = false;
+			$option->height = 200;
+			$editor = $oEditorModel->getEditor($this->memberInfo->member_srl, $option);
+			Context::set('editor', $editor);
+		}
+
+		$security = new Security();
+		$security->encodeHTML('extend_form_list..');
+		$security->encodeHTML('extend_form_list..default_value.');
+
+		$formTags = $this->_getMemberInputTag($memberInfo, true);
+		Context::set('formTags', $formTags);
+		$member_config = $this->memberConfig;
+
+		global $lang;
+		$identifierForm->title = $lang->{$member_config->identifier};
+		$identifierForm->name = $member_config->identifier;
+		$identifierForm->value = $memberInfo->{$member_config->identifier};
+		Context::set('identifierForm', $identifierForm);
+		$this->setTemplateFile('insert_member');
+	}
+
+	/**
+	 * Get tags by the member info type 
+	 *
+	 * @param object $memberInfo
+	 * @param boolean $isAdmin (true : admin, false : not admin)
+	 *
+	 * @return array
+	 */
+	function _getMemberInputTag($memberInfo, $isAdmin = false)
+	{
+		$oMemberModel = &getModel('member');
+		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+
+		if ($memberInfo)
+		{
+			$memberInfo = get_object_vars($memberInfo);
+		}
+
+		$member_config = $this->memberConfig;
+		if(!$this->memberConfig)
+		{
+			$member_config = $this->memberConfig = $oMemberModel->getMemberConfig();
+		}
+
+		$formTags = array();
+		global $lang;
+
+		foreach($member_config->signupForm as $no=>$formInfo)
+		{
+			if(!$formInfo->isUse)continue;
+			if($formInfo->name == $member_config->identifier || $formInfo->name == 'password') continue;
+			unset($formTag);
+			$inputTag = '';
+			$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
+			if($isAdmin)
 			{
-				if($val->name == 'user_id')
+				if($formInfo->mustRequired) $formTag->title = $formTag->title.' <em style="color:red">*</em>';
+			}
+			else
+			{
+				if ($formInfo->required && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em style="color:red">*</em>';
+			}
+			$formTag->name = $formInfo->name;
+
+			if($formInfo->isDefaultForm)
+			{
+				if($formInfo->imageType)
 				{
-					$userIdInfo = $val;
-					break;
-				}
-			}
+					$formTag->type = 'image';
+					if($formInfo->name == 'profile_image')
+					{
+						$target = $memberInfo['profile_image'];
+						$functionName = 'doDeleteProfileImage';
+					}
+					else if($formInfo->name == 'image_name')
+					{
+						$target = $memberInfo['image_name'];
+						$functionName = 'doDeleteImageName';
+					}
+					else if($formInfo->name == 'image_mark')
+					{
+						$target = $memberInfo['image_mark'];
+						$functionName = 'doDeleteImageMark';
+					}
 
-			if($userIdInfo->isUse)
-			{
-				// get denied ID list
-				Context::set('useUserID', 1);
-				$denied_list = $oMemberModel->getDeniedIDs();
-				Context::set('deniedIDs', $denied_list);
-			}
-
-			// get denied NickName List
-			$deniedNickNames = $oMemberModel->getDeniedNickNames();
-			Context::set('deniedNickNames', $deniedNickNames);
-
-			$security = new Security();
-			$security->encodeHTML('config..');
-
-            $this->setTemplateFile('member_config');
-        }
-
-        /**
-         * display member information
-		 *
-		 * @return void
-         **/
-        function dispMemberAdminInfo() {
-            $oMemberModel = &getModel('member');
-            $oModuleModel = &getModel('module');
-
-            $member_config = $oModuleModel->getModuleConfig('member');
-            Context::set('member_config', $member_config);
-			$extendForm = $oMemberModel->getCombineJoinForm($this->memberInfo);            
-			Context::set('extend_form_list', $extendForm);			
-			$memberInfo = get_object_vars(Context::get('member_info'));			
-			if (!is_array($memberInfo['group_list'])) $memberInfo['group_list'] = array();
-			Context::set('memberInfo', $memberInfo);			
-			
-			$disableColumns = array('password', 'find_account_question');			
-			Context::set('disableColumns', $disableColumns);			
-
-			$security = new Security();
-			$security->encodeHTML('member_config..');
-			$security->encodeHTML('extend_form_list...');
-
-			$oMemberView = getView('member');
-
-			$oMemberView->_getDisplayedMemberInfo($this->memberInfo, $extendForm, $member_config);
-			
-            $this->setTemplateFile('member_info');
-        }
-
-        /**
-         * display member insert form
-		 *
-		 * @return void
-         **/
-        function dispMemberAdminInsert() {
-            // retrieve extend form
-            $oMemberModel = &getModel('member');
-
-            $memberInfo = Context::get('member_info');            
-			$memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);            
-			Context::set('member_info', $memberInfo);
-            
-			// get an editor for the signature
-            if($memberInfo->member_srl) {                
-				$oEditorModel = &getModel('editor');
-                $option->primary_key_name = 'member_srl';
-                $option->content_key_name = 'signature';
-                $option->allow_fileupload = false;
-                $option->enable_autosave = false;
-                $option->enable_default_component = true;
-                $option->enable_component = false;
-                $option->resizable = false;
-                $option->height = 200;
-                $editor = $oEditorModel->getEditor($this->memberInfo->member_srl, $option);                
-				Context::set('editor', $editor);
-            }
-			
-			$security = new Security();				
-			$security->encodeHTML('extend_form_list..');
-			$security->encodeHTML('extend_form_list..default_value.');			
-			
-			$formTags = $this->_getMemberInputTag($memberInfo, true);			
-			Context::set('formTags', $formTags);			
-			$member_config = $this->memberConfig;
-			
-			global $lang;			
-			$identifierForm->title = $lang->{$member_config->identifier};			
-			$identifierForm->name = $member_config->identifier;			
-			$identifierForm->value = $memberInfo->{$member_config->identifier};			
-			Context::set('identifierForm', $identifierForm);            
-			$this->setTemplateFile('insert_member');
-        }
-
-        /**
-         * Get tags by the member info type 
-		 *
-		 * @param object $memberInfo
-		 * @param boolean $isAdmin (true : admin, false : not admin)
-		 *
-		 * @return array
-         **/
-		function _getMemberInputTag($memberInfo, $isAdmin = false){
-            $oMemberModel = &getModel('member');
-            $extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
-			
-			if ($memberInfo)
-			{
-				$memberInfo = get_object_vars($memberInfo);
-			}
-
-			$member_config = $this->memberConfig;
-			if(!$this->memberConfig)
-			{
-				$member_config = $this->memberConfig = $oMemberModel->getMemberConfig();
-			}
-			
-			$formTags = array();
-			global $lang;
-
-			foreach($member_config->signupForm as $no=>$formInfo){
-				if (!$formInfo->isUse)continue;
-				if ($formInfo->name == $member_config->identifier || $formInfo->name == 'password') continue;
-				unset($formTag);
-				$inputTag = '';
-				$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
-				if($isAdmin)
-				{
-					if($formInfo->mustRequired) $formTag->title = $formTag->title.' <em style="color:red">*</em>';
-				}
-				else
-				{
-					if ($formInfo->required && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em style="color:red">*</em>';
-				}
-				$formTag->name = $formInfo->name;
-
-				if($formInfo->isDefaultForm){
-					if($formInfo->imageType){
-						$formTag->type = 'image';
-						if($formInfo->name == 'profile_image'){
-							$target = $memberInfo['profile_image'];
-							$functionName = 'doDeleteProfileImage';
-						}elseif($formInfo->name == 'image_name'){
-							$target = $memberInfo['image_name'];
-							$functionName = 'doDeleteImageName';
-						}elseif($formInfo->name == 'image_mark'){
-							$target = $memberInfo['image_mark'];
-							$functionName = 'doDeleteImageMark';
-						}
-						if($target->src){
-							$inputTag = sprintf('<p class="a"><input type="hidden" name="__%s_exist" value="true" /><span id="%s"><img src="%s" alt="%s" /> <button type="button" class="text" onclick="%s(%d);return false;">%s</button></span></p>'
-												,$formInfo->name
-												,$formInfo->name.'tag'
-												,$target->src
-												,$formInfo->title
-												,$functionName
-												,$memberInfo['member_srl']
-												,$lang->cmd_delete);
-						}else{
-							$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="false" />', $formInfo->name);
-						}
-						$inputTag .= sprintf('<p class="a"><input type="file" name="%s" id="%s" value="" /></p><p><span class="desc">%s : %dpx, %s : %dpx</span></p>'
-											 ,$formInfo->name
-											 ,$formInfo->name
-											 ,$lang->{$formInfo->name.'_max_width'}
-											 ,$member_config->{$formInfo->name.'_max_width'}
-											 ,$lang->{$formInfo->name.'_max_height'}
-											 ,$member_config->{$formInfo->name.'_max_height'});
+					if($target->src)
+					{
+						$inputTag = sprintf('<p class="a"><input type="hidden" name="__%s_exist" value="true" /><span id="%s"><img src="%s" alt="%s" /> <button type="button" class="text" onclick="%s(%d);return false;">%s</button></span></p>',
+							$formInfo->name,
+							$formInfo->name.'tag',
+							$target->src,
+							$formInfo->title,
+							$functionName,
+							$memberInfo['member_srl'],
+							$lang->cmd_delete);
+					}
+					else
+					{
+						$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="false" />', $formInfo->name);
+					}
+					$inputTag .= sprintf('<p class="a"><input type="file" name="%s" id="%s" value="" /></p><p><span class="desc">%s : %dpx, %s : %dpx</span></p>',
+						$formInfo->name,
+						$formInfo->name,
+						$lang->{$formInfo->name.'_max_width'},
+						$member_config->{$formInfo->name.'_max_width'},
+						$lang->{$formInfo->name.'_max_height'},
+						$member_config->{$formInfo->name.'_max_height'});
 					}//end imageType
-					elseif($formInfo->name == 'birthday'){
+					else if($formInfo->name == 'birthday')
+					{
 						$formTag->type = 'date';
-						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="x_btn dateRemover" />'
-								,$memberInfo['birthday']
-								,zdate($memberInfo['birthday'], 'Y-m-d', false)
-								,$lang->cmd_delete);
-					}elseif($formInfo->name == 'find_account_question'){
+						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="x_btn dateRemover" />',
+							$memberInfo['birthday'],
+							zdate($memberInfo['birthday'], 'Y-m-d', false),
+							$lang->cmd_delete);
+					}
+					else if($formInfo->name == 'find_account_question')
+					{
 						$formTag->type = 'select';
 						$inputTag = '<select name="find_account_question" id="find_account_question" style="display:block;margin:0 0 8px 0">%s</select>';
 						$optionTag = array();
-						foreach($lang->find_account_question_items as $key=>$val){
+						foreach($lang->find_account_question_items as $key=>$val)
+						{
 							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';
 							else $selected = '';
-							$optionTag[] = sprintf('<option value="%s" %s >%s</option>'
-													,$key
-													,$selected
-													,$val);
+							$optionTag[] = sprintf('<option value="%s" %s >%s</option>',
+								$key,
+								$selected,
+								$val);
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
 						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" />';
-					}elseif($formInfo->name == 'homepage'){
+					}
+					else if($formInfo->name == 'homepage')
+					{
 						$formTag->type = 'url';
 						$inputTag = '<input type="url" name="homepage" id="homepage" value="'.$memberInfo['homepage'].'" />';
-					}elseif($formInfo->name == 'blog'){
+					}
+					else if($formInfo->name == 'blog')
+					{
 						$formTag->type = 'url';
 						$inputTag = '<input type="url" name="blog" id="blog" value="'.$memberInfo['blog'].'" />';
-					}else{
+					}
+					else
+					{
 						$formTag->type = 'text';
-						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" />'
-									,$formInfo->name
-									,$formInfo->name
-									,$memberInfo[$formInfo->name]);
+						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" />',
+							$formInfo->name,
+							$formInfo->name,
+							$memberInfo[$formInfo->name]);
 					}
 				}//end isDefaultForm
-				else{
+				else
+				{
 					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
-					$replace = array('column_name' => $extendForm->column_name,
-									 'value'		=> $extendForm->value);
+					$replace = array('column_name' => $extendForm->column_name, 'value' => $extendForm->value);
 					$extentionReplace = array();
 
 					$formTag->type = $extendForm->column_type;
-					if($extendForm->column_type == 'text'){
+					if($extendForm->column_type == 'text')
+					{
 						$template = '<input type="text" name="%column_name%" id="%column_name%" value="%value%" />';
-					}elseif($extendForm->column_type == 'homepage'){
+					}
+					else if($extendForm->column_type == 'homepage')
+					{
 						$template = '<input type="url" name="%column_name%" id="%column_name%" value="%value%" />';
-					}elseif($extendForm->column_type == 'email_address'){
+					}
+					else if($extendForm->column_type == 'email_address')
+					{
 						$template = '<input type="email" name="%column_name%" id="%column_name%" value="%value%" />';
-					}elseif($extendForm->column_type == 'tel'){
+					}
+					else if($extendForm->column_type == 'tel')
+					{
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
-												  'tel_1' => $extendForm->value[1],
-												  'tel_2' => $extendForm->value[2]);
+							'tel_1' => $extendForm->value[1],
+							'tel_2' => $extendForm->value[2]);
 						$template = '<input type="text" name="%column_name%[]" value="%tel_0%" size="4" maxlength="4" style="width:30px" />-<input type="text" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:30px" />-<input type="text" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:30px" />';
-					}elseif($extendForm->column_type == 'textarea'){
+					}
+					else if($extendForm->column_type == 'textarea')
+					{
 						$template = '<textarea name="%column_name%" rows="8" cols="42">%value%</textarea>';
-					}elseif($extendForm->column_type == 'checkbox'){
+					}
+					else if($extendForm->column_type == 'checkbox')
+					{
 						$template = '';
-						if($extendForm->default_value){
+						if($extendForm->default_value)
+						{
 							$__i = 0;
-							foreach($extendForm->default_value as $v){
+							foreach($extendForm->default_value as $v)
+							{
 								$checked = '';
 								if(is_array($extendForm->value) && in_array($v, $extendForm->value))$checked = 'checked="checked"';
 								$template .= '<input type="checkbox" id="%column_name%'.$__i.'" name="%column_name%[]" value="'.htmlspecialchars($v).'" '.$checked.' /><label for="%column_name%'.$__i.'">'.$v.'</label>';
 								$__i++;
 							}
 						}
-					}elseif($extendForm->column_type == 'radio'){
+					}
+					else if($extendForm->column_type == 'radio')
+					{
 						$template = '';
-						if($extendForm->default_value){
+						if($extendForm->default_value)
+						{
 							$template = '<ul class="radio">%s</ul>';
 							$optionTag = array();
-							foreach($extendForm->default_value as $v){
+							foreach($extendForm->default_value as $v)
+							{
 								if($extendForm->value == $v)$checked = 'checked="checked"';
 								else $checked = '';
 								$optionTag[] = '<li><input type="radio" name="%column_name%" value="'.$v.'" '.$checked.' />'.$v.'</li>';
 							}
 							$template = sprintf($template, implode('', $optionTag));
 						}
-					}elseif($extendForm->column_type == 'select'){
+					}
+					else if($extendForm->column_type == 'select')
+					{
 						$template = '<select name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
 						$optionTag = array();
-						if($extendForm->default_value){
-							foreach($extendForm->default_value as $v){
+						if($extendForm->default_value)
+						{
+							foreach($extendForm->default_value as $v)
+							{
 								if($v == $extendForm->value) $selected = 'selected="selected"';
 								else $selected = '';
-								$optionTag[] = sprintf('<option value="%s" %s >%s</option>'
-														,$v
-														,$selected
-														,$v);
+								$optionTag[] = sprintf('<option value="%s" %s >%s</option>', $v, $selected, $v);
 							}
 						}
 						$template = sprintf($template, implode('', $optionTag));
-					}elseif($extendForm->column_type == 'kr_zip'){
+					}
+					else if($extendForm->column_type == 'kr_zip')
+					{
 						Context::loadFile(array('./modules/member/tpl/js/krzip_search.js', 'body'), true);
 						$extentionReplace = array(
-										 'msg_kr_address'       => $lang->msg_kr_address,
-										 'msg_kr_address_etc'       => $lang->msg_kr_address_etc,
-										 'cmd_search'	=> $lang->cmd_search,
-										 'cmd_search_again'	=> $lang->cmd_search_again,
-										 'addr_0'	=> $extendForm->value[0],
-										 'addr_1'	=> $extendForm->value[1],);
+							'msg_kr_address' => $lang->msg_kr_address,
+							'msg_kr_address_etc' => $lang->msg_kr_address_etc,
+							'cmd_search' => $lang->cmd_search,
+							'cmd_search_again' => $lang->cmd_search_again,
+							'addr_0' => $extendForm->value[0],
+							'addr_1' => $extendForm->value[1],);
 						$replace = array_merge($extentionReplace, $replace);
 						$template = <<<EOD
 						<div class="krZip">
@@ -542,11 +593,14 @@
 						</div>
 						<script>jQuery(function($){ $.krzip('%column_name%') });</script>
 EOD;
-					}elseif($extendForm->column_type == 'jp_zip'){
+					}
+					else if($extendForm->column_type == 'jp_zip')
+					{
 						$template = '<input type="text" name="%column_name%" id="%column_name%" value="%value%" />';
-					}elseif($extendForm->column_type == 'date'){
-						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'),
-												  'cmd_delete' => $lang->cmd_delete);
+					}
+					else if($extendForm->column_type == 'date')
+					{
+						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'), 'cmd_delete' => $lang->cmd_delete);
 						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" readonly="readonly" /> <input type="button" value="%cmd_delete%" class="dateRemover" />';
 					}
 
@@ -558,46 +612,48 @@ EOD;
 				}
 				$formTag->inputTag = $inputTag;
 				$formTags[] = $formTag;
-			}
-			return $formTags;
 		}
+		return $formTags;
+	}
 
-        /**
-         * display group list
-		 *
-		 * @return void
-         **/
-        function dispMemberAdminGroupList() 
+	/**
+	 * display group list
+	 *
+	 * @return void
+	 */
+	function dispMemberAdminGroupList() 
+	{
+		$oModuleModel = &getModel('module');
+		$output = $oModuleModel->getModuleFileBoxList();
+		Context::set('fileBoxList', $output->data);
+
+		$this->setTemplateFile('group_list');
+	}
+
+	/**
+	 * Display an admin page for memebr join forms
+	 *
+	 * @return void
+	 */
+	function dispMemberAdminInsertJoinForm() {
+		// Get the value of join_form
+		$member_join_form_srl = Context::get('member_join_form_srl');
+		if($member_join_form_srl)
 		{
-            $oModuleModel = &getModel('module');
-			$output = $oModuleModel->getModuleFileBoxList();			
-			Context::set('fileBoxList', $output->data);        
+			$oMemberModel = &getModel('member');
+			$join_form = $oMemberModel->getJoinForm($member_join_form_srl);
 
-			$this->setTemplateFile('group_list');
+			if(!$join_form) Context::set('member_join_form_srl','',true);
+			else
+			{
+				Context::set('join_form', $join_form);
+				$security = new Security();
+				$security->encodeHTML('join_form..');
+			}
+
 		}
-
-        /**
-         * Display an admin page for memebr join forms
-		 *
-		 * @return void
-		 **/
-        function dispMemberAdminInsertJoinForm() {
-            // Get the value of join_form            
-			$member_join_form_srl = Context::get('member_join_form_srl');
-            if($member_join_form_srl) {
-                $oMemberModel = &getModel('member');
-                $join_form = $oMemberModel->getJoinForm($member_join_form_srl);
-
-                if(!$join_form) Context::set('member_join_form_srl','',true);
-                else {
-					Context::set('join_form', $join_form);
-					$security = new Security();
-					$security->encodeHTML('join_form..');
-				}
-				
-            }
-            $this->setTemplateFile('insert_join_form');
-        }
-
-    }
-?>
+		$this->setTemplateFile('insert_join_form');
+	}
+}
+/* End of file member.admin.view.php */
+/* Location: ./modules/member/member.admin.view.php */

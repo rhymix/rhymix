@@ -3,10 +3,9 @@
  * @class  layoutAdminView
  * @author NHN (developers@xpressengine.com)
  * admin view class of the layout module
- **/
-
-class layoutAdminModel extends layout {
-	
+ */
+class layoutAdminModel extends layout
+{
 	/**
 	 * init
 	 */
@@ -61,14 +60,14 @@ class layoutAdminModel extends layout {
 		$layout_info = $security->encodeHTML('.', 'author..', 'extra_var..');
 
 		$layout_info->description = nl2br(trim($layout_info->description));
-		if (!is_object($layout_info->extra_var))
+		if(!is_object($layout_info->extra_var))
 		{
 			$layout_info->extra_var = new StdClass();
 		}
 
 		foreach($layout_info->extra_var as $var_name => $val)
 		{
-			if (isset($layout_info->{$var_name}->description))
+			if(isset($layout_info->{$var_name}->description))
 			{
 				$layout_info->{$var_name}->description = nl2br(trim($val->description));
 			}
@@ -84,7 +83,7 @@ class layoutAdminModel extends layout {
 		$oLayoutModel = &getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
 		// Error appears if there is no layout information is registered
-		if(!$layout_info) 
+		if(!$layout_info)
 		{
 			return $this->dispLayoutAdminInstalledList();
 		}
@@ -92,7 +91,7 @@ class layoutAdminModel extends layout {
 		// Get Layout Code
 		$oLayoutModel = &getModel('layout');
 		$layout_file = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
-		
+
 		if(!file_exists($layout_file))
 		{
 			// If faceoff
@@ -127,16 +126,15 @@ class layoutAdminModel extends layout {
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
 		Context::set('widget_list', $widget_list);
 
-
 		$security = new Security($layout_info);
 		$layout_info = $security->encodeHTML('.', '.author..');
 		Context::set('selected_layout', $layout_info);
-		
+
 		//Security
 		$security = new Security();
-		$security->encodeHTML('layout_list..');	
-		$security->encodeHTML('layout_list..author..');	
-		
+		$security->encodeHTML('layout_list..');
+		$security->encodeHTML('layout_list..author..');
+
 		$security = new Security();
 		$security->encodeHTML('layout_code_css', 'layout_code', 'widget_list..title');
 
@@ -171,7 +169,9 @@ class layoutAdminModel extends layout {
 		{
 			return 0;
 		}
-		
+
 		return $designInfo->{$target};
 	}
 }
+/* End of file layout.admin.model.php */
+/* Location: ./modules/layout/layout.admin.model.php */
