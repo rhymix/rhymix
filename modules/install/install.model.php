@@ -1,6 +1,6 @@
 <?php
-
-class installModel extends install {
+class installModel extends install
+{
 	var $pwd;
 
 	function getSFTPList()
@@ -21,7 +21,8 @@ class installModel extends install {
 		$dh = @opendir($curpwd);
 		if(!$dh) return new Object(-1, 'msg_ftp_invalid_path');
 		$list = array();
-		while(($file = readdir($dh)) !== false) {
+		while(($file = readdir($dh)) !== false)
+		{
 			if(is_dir($curpwd.$file))
 			{
 				$file .= "/";
@@ -77,8 +78,10 @@ class installModel extends install {
 		{
 			require_once(_XE_PATH_.'libs/ftp.class.php');
 			$oFtp = new ftp();
-			if($oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)){
-				if($oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
+			if($oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port))
+			{
+				if($oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password))
+				{
 					$_list = $oFtp->ftp_rawlist($this->pwd);
 					$oFtp->ftp_quit();
 				}
@@ -91,8 +94,10 @@ class installModel extends install {
 		}
 		$list = array();
 
-		if($_list){
-			foreach($_list as $k => $v){
+		if($_list)
+		{
+			foreach($_list as $k => $v)
+			{
 				$src = null;
 				$src->data = $v;
 				$res = Context::convertEncoding($src);
@@ -103,4 +108,5 @@ class installModel extends install {
 		$this->add('list', $list);
 	}
 }
-?>
+/* End of file install.model.php */
+/* Location: ./modules/install/install.model.php */

@@ -1,81 +1,83 @@
 <?php
-    /**
-     * The view class of the integration_search module
+/**
+ * The view class of the integration_search module
+ *
+ * @author NHN (developers@xpressengine.com)
+ */
+class integration_search extends ModuleObject
+{
+	/**
+	 * Implement if additional tasks are necessary when installing
 	 *
-     * @author NHN (developers@xpressengine.com)
-     **/
+	 * @return Object
+	 */
+	function moduleInstall()
+	{
+		// Registered in action forward
+		$oModuleController = &getController('module');
+		$oModuleController->insertActionForward('integration_search', 'view', 'IS');
 
-    class integration_search extends ModuleObject {
+		return new Object();
+	}
 
-        /**
-         * Implement if additional tasks are necessary when installing
-		 *
-		 * @return Object
-         **/
-        function moduleInstall() {
-            // Registered in action forward
-            $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('integration_search', 'view', 'IS');
+	/**
+	 * Check methoda whether successfully installed
+	 *
+	 * @return bool
+	 */
+	function checkUpdate() 
+	{
+		$oModuleModel = &getModel('module');
+		$config = $oModuleModel->getModuleConfig('integration_search');
 
-            return new Object();
-        }
-
-        /**
-         * Check methoda whether successfully installed
-		 *
-		 * @return bool
-         **/
-        function checkUpdate() 
+		if($config->skin)
 		{
-			$oModuleModel = &getModel('module');
-			$config = $oModuleModel->getModuleConfig('integration_search');
-
-			if($config->skin)
+			$config_parse = explode('.', $config->skin);
+			if(count($config_parse) > 1)
 			{
-				$config_parse = explode('.', $config->skin);
-				if (count($config_parse) > 1)
+				$template_path = sprintf('./themes/%s/modules/integration_search/', $config_parse[0]);
+				if(is_dir($template_path)) return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Execute update
+	 *
+	 * @return Object
+	 */
+	function moduleUpdate() 
+	{
+		$oModuleModel = &getModel('module');
+		$config = $oModuleModel->getModuleConfig('message');
+
+		if($config->skin)
+		{
+			$config_parse = explode('.', $config->skin);
+			if(count($config_parse) > 1)
+			{
+				$template_path = sprintf('./themes/%s/modules/integration_search/', $config_parse[0]);
+				if(is_dir($template_path))
 				{
-					$template_path = sprintf('./themes/%s/modules/integration_search/', $config_parse[0]);
-					if(is_dir($template_path)) return true;
+					$config->skin = implode('|@|', $config_parse);
+					$oModuleController = &getController('module');
+					$oModuleController->updateModuleConfig('integration_search', $config);
 				}
 			}
-            return false;
-        }
+		}
 
-        /**
-         * Execute update
-		 *
-		 * @return Object
-         **/
-        function moduleUpdate() 
-		{
-			$oModuleModel = &getModel('module');
-			$config = $oModuleModel->getModuleConfig('message');
+		return new Object(0, 'success_updated');
+	}
 
-			if($config->skin)
-			{
-				$config_parse = explode('.', $config->skin);
-				if (count($config_parse) > 1)
-				{
-					$template_path = sprintf('./themes/%s/modules/integration_search/', $config_parse[0]);
-					if(is_dir($template_path))
-					{
-						$config->skin = implode('|@|', $config_parse);
-						$oModuleController = &getController('module');
-						$oModuleController->updateModuleConfig('integration_search', $config);
-					}
-				}
-			}
-
-            return new Object(0, 'success_updated');
-        }
-
-        /**
-         * Re-generate the cache file
-		 *
-		 * @return void
-         **/
-        function recompileCache() {
-        }
-    }
-?>
+	/**
+	 * Re-generate the cache file
+	 *
+	 * @return void
+	 */
+	function recompileCache()
+	{
+	}
+}
+/* End of file integration_search.class.php */
+/* Location: ./modules/integration_search/integration_search.class.php */
