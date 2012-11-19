@@ -675,7 +675,7 @@
             // Find an iamge file among attached files if exists
             if($this->get('uploaded_count')) {
                 $oFileModel = &getModel('file');
-                $file_list = $oFileModel->getFiles($this->document_srl);
+                $file_list = $oFileModel->getFiles($this->document_srl, array(), 'file_srl', true);
                 if(count($file_list)) {
                     foreach($file_list as $file) {
                         if($file->direct_download!='Y') continue;
@@ -819,7 +819,7 @@
 			if(!$this->uploadedFiles[$sortIndex])
 			{
 				$oFileModel = &getModel('file');
-				$this->uploadedFiles[$sortIndex] = $oFileModel->getFiles($this->document_srl, array(), $sortIndex);
+				$this->uploadedFiles[$sortIndex] = $oFileModel->getFiles($this->document_srl, array(), $sortIndex, true);
 			}
 
 			return $this->uploadedFiles[$sortIndex];
