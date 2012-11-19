@@ -7,7 +7,8 @@
  * @package /modules/menu
  * @version 0.1
  */
-class menuMobile extends moduleObject {
+class menuMobile extends moduleObject
+{
 	/**
 	 * Result data list
 	 * @var array
@@ -36,7 +37,8 @@ class menuMobile extends moduleObject {
 	 * Display menu
 	 * @return void
 	 */
-	function dispMenuMenu() {
+	function dispMenuMenu()
+	{
 		$menu_srl = Context::get('menu_srl');
 		$oAdminModel =& getAdminModel('menu');
 		$menu_info = $oAdminModel->getMenu($menu_srl);
@@ -50,7 +52,7 @@ class menuMobile extends moduleObject {
 
 		$this->setTemplatePath(sprintf("%stpl/",$this->module_path));
 		$this->setTemplateFile('menu.html');
-		
 	}
 }
-?>
+/* End of file menu.mobile.php */
+/* Location: ./modules/menu/menu.mobile.php */
