@@ -64,6 +64,10 @@
 		<value xml:lang="jp"><![CDATA[展開]]></value>
 		<value xml:lang="zh-TW"><![CDATA[展開]]></value>
 	</item>
+	<item name="edit_sitemap">
+		<value xml:lang="ko"><![CDATA[사이트맵 수정]]></value>
+		<value xml:lang="en"><![CDATA[Edit Sitemap]]></value>
+	</item>
 	<item name="add_menu">
 		<value xml:lang="ko"><![CDATA[메뉴 추가]]></value>
 		<value xml:lang="en"><![CDATA[Add Menu Item]]></value>

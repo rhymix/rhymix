@@ -61,6 +61,7 @@
 			<h1 class="title"><!--사이트맵 이름--></h1>
 			<div class="cnt">
 				<ul class="nav">
+					<li><a href="#addSiteMap" data-admin-show="#add_sitemap">{$lang->edit_sitemap} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#add" data-admin-show="#add">{$lang->add_menu} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><button type="button"  class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li><button class="_delSiteMap" type="button">{$lang->cmd_delete}</button></li>
@@ -75,10 +76,11 @@
 			<h1><a href="#" target="_blank" class="title"><!--메뉴 이름--></a></h1>
 			<div class="cnt">
 				<ul>
+					<li><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li>
+					
 					<li class="default"><a href="#default" data-admin-show="#default">{$lang->general_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
 					
-					<!--li><strong>{$lang->menu_id}</strong>: <span class="url"></span></li>
-					<li><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li-->
+					<!--li><strong>{$lang->menu_id}</strong>: <span class="url"></span></li-->
 					
 					<li class="add"><a href="#add" data-admin-show="#add">{$lang->add_menu} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><button type="button" class="_edit_cut">{$lang->cut}</button></li>
@@ -332,11 +334,11 @@
 				</form>
 				<ul class="nav _itemList">
 					<script id="tmpl_layoutItem" type="text/x-jquery-tmpl">
-					<li><a href="#layout" data-admin-show="#layout">{$lang->layout} <span class="themeName">[${LayoutName}]</span> <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#layout" data-admin-show="#layout">{$lang->layout} [<span class="themeName _layoutName">${LayoutName}</span>] <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 					
 					<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
-					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} <span class="themeName">[${SkinName}]</span> <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} [<span class="themeName _skinName">${SkinName}</span>] <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 				</ul>
 				<div class="btnBoth" style="position:absolute;bottom:0;left:0;margin:0;width:100%">
@@ -635,7 +637,10 @@ jQuery(function($){
 메뉴 타입 노출
 복사한 메뉴 삭제되면 붙여넣기 비활성화
 */
-jQuery._xeAdminVar = {};
+jQuery._xeAdminVar = {
+	htLayoutName : {},
+	htMLayoutName : {}
+};
 
 <!--@if($act == 'dispMenuAdminSiteMap')-->
 function showMenuSelector($container, sSelectedModule){
@@ -1544,7 +1549,7 @@ jQuery(function($){
 
 		$(ev.target).find('.title').attr('href', htInfo.href);
 		//$(ev.target).find('.url').html(htInfo.url);
-		//$(ev.target).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
+		$(ev.target).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
 
 		if(htInfo.bShortCut){
 			$(ev.target).removeClass('prop-general');
@@ -2010,7 +2015,7 @@ jQuery(function($){
 	  */
 		for(var sPerm in htData.grantList){
 			htTmp = htData.grantList[sPerm];
-			
+//console.log(11, htTmp);			
 			aPerms.push({
 				sKey : sPerm,
 				sTitle : htTmp.title,
@@ -2035,6 +2040,7 @@ jQuery(function($){
 		var htInfo, sDefault, $node, $groupNode, aGroup, sGrant;
 		for(var i=0, nLen=aPerms.length; i<nLen; i++){
 			htInfo = aPerms[i];
+			//console.log(3, i, nLen, htInfo);
 			/*
 			<li>
 				<label for="auth${PermId}">${PermTitle}</label>
@@ -2054,7 +2060,7 @@ jQuery(function($){
 			//aGroup = htInfo.aGroup;
 			aGroup = [];
 			// The comparison target "htInfo.group_srl" is always string where htInfo.aGroup can be either string OR integer. For easier comparison, conver aGroup to string.
-			for(var n=0, nLen=htInfo.aGroup.length; n<nLen; n++){
+			for(var n=0, nLen2=htInfo.aGroup.length; n<nLen2; n++){
 				aGroup[n] = "" + htInfo.aGroup[n];
 			}
 			sGrant = htInfo.sGrant;
@@ -2129,6 +2135,7 @@ jQuery(function($){
 						$node.find('._group_signedup').remove();
 				}
 			}
+			//console.log(22, $node);
 			$List.append($node);
 			$('#auth select').trigger('change');
 		}
@@ -2480,22 +2487,11 @@ jQuery(function($){
 	<!--@if($act == 'dispMenuAdminSiteMap')-->
 	$('#design').bind('show', function(ev){
 		if(this !== ev.target) return;
+		
+		var $panel = $(this);
 
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
-
-		var $itemList = $(this).find('._itemList');
-		$itemList.html("");
-		$itemList.append($.tmpl( "design_layoutItem", {}));
-		
-		// if the module type has no skin support, do not even display the option.
-		if($._xeAdminVar.htItemTypes[htInfo.sModuleType].no_skin !== "Y"){
-			$itemList.append($.tmpl( "deisgn_skinItem", {
-					ModuleType : htInfo.sModuleType,
-					ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title
-				} 
-			));
-		}
 		
 		// also preview here
 		var params = {
@@ -2506,8 +2502,23 @@ jQuery(function($){
 				alert(htData.message);
 				return;
 			}
-			
 			var htTmp = htData.module_info_by_menu_item_srl;
+			
+			var sLayoutName, sMLayoutName;
+			var sSkinName, sMSkinName;
+			
+			sLayoutName = htData.module_info_by_menu_item_srl.designSettings.layout.pc;
+			sSkinName = htData.module_info_by_menu_item_srl.designSettings.skin.pc;
+			sMLayoutName = htData.module_info_by_menu_item_srl.designSettings.layout.mobile;
+			sMSkinName = htData.module_info_by_menu_item_srl.designSettings.skin.mobile;
+//console.log(htInfo);
+			$._xeAdminVar.sDefaultLayoutName = sLayoutName;
+			$._xeAdminVar.sDefaultMLayoutName = sMLayoutName;
+			if(htTmp.layout_srl) $._xeAdminVar.htLayoutName[htTmp.layout_srl] = sLayoutName;
+			if(htTmp.mlayout_srl) $._xeAdminVar.htMLayoutName[htTmp.mlayout_srl] = sMLayoutName;
+			$._xeAdminVar.htItemTypes[htInfo.sModuleType].sSkinName = sSkinName;
+			$._xeAdminVar.htItemTypes[htInfo.sModuleType].sMSkinName = sMSkinName;
+			
 			// module=모듈이름&mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름
 			var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
 				sModuleName : htTmp.module,
@@ -2517,9 +2528,41 @@ jQuery(function($){
 					P:htTmp.layout_srl,
 					M:htTmp.mlayout_srl
 				},
-				htSkin : {P: htTmp.skin, M : htTmp.mskin},
+				htSkin : {
+					P : htTmp.skin, 
+					M : htTmp.mskin
+				},
 				htData : {}
 			};
+			
+			/*
+			designSettings
+				layout
+					pcIsDefault=0
+					pc="Bootstrap.Layout2"
+					mobileIsDefault=1
+					mobile="XE 심플 그레이 레이아웃"
+				skin
+					pcIsDefault=0
+					pc="XE Default 2008"
+					mobileIsDefault=1
+					mobile="simpleGray"
+			*/
+			var $itemList = $panel.find('._itemList');
+			$itemList.html("");
+			$itemList.append($.tmpl( "design_layoutItem", {
+				LayoutName: "sLayoutName"
+			}));
+			
+			// if the module type has no skin support, do not even display the option.
+			if($._xeAdminVar.htItemTypes[htInfo.sModuleType].no_skin !== "Y"){
+				$itemList.append($.tmpl( "deisgn_skinItem", {
+						ModuleType : htInfo.sModuleType,
+						ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title,
+						SkinName : "sSkinName"
+					} 
+				));
+			}
 
 			// If mobile view is disabled for the menu, display the mobile setup screen accordingly
 			if(htDesign.sUseMobile !== 'Y'){
@@ -2699,43 +2742,63 @@ jQuery(function($){
 	});
 	function updatePreview(htParam){
 //console.log(23, htParam);
-			if(htParam.bClearPrevSetting){
-				$._xeAdminVar.htPrevSetting = {};
-			}
-			var htSetting = $._xeAdminVar.htPrevSetting || {};
-			
-			var sMode = htSetting.bMobilePreviewTabOpen?"M":"P";
-	
-			if(!$._xeAdminVar.bSiteDesignMode && (sMode === "M" && $._xeAdminVar.htSelectedMenuDesign.sUseMobile !== 'Y')) return;
-			
-			//htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
-			htSetting.sModuleName = $._xeAdminVar.htSelectedMenuDesign.sModuleName;
-			htSetting.sMID = (htParam.sMID==="")?"":htParam.sMID || htSetting.sMID || "";
-			htSetting.sLayoutSrl = (htParam.sLayoutSrl == 0)?"":htParam.sLayoutSrl || htSetting.sLayoutSrl || "";
-			
-			htSetting.sSkin = (htParam.sSkin === "")?"":htParam.sSkin || htSetting.sSkin || "";
+		if(htParam.bClearPrevSetting){
+			$._xeAdminVar.htPrevSetting = {};
+		}
+		var htSetting = $._xeAdminVar.htPrevSetting || {};
+		
+		var sMode = htSetting.bMobilePreviewTabOpen?"M":"P";
 
-			htSetting.bMobilePreviewTabOpen = htParam.bMobilePreviewTabOpen || htSetting.bMobilePreviewTabOpen || false;
-			htSetting.htLayoutData = htParam.htLayoutData || htSetting.htLayoutData || "";
-			htSetting.htSkinData = htParam.htSkinData || htSetting.htSkinData || "";
+		if(!$._xeAdminVar.bSiteDesignMode && (sMode === "M" && $._xeAdminVar.htSelectedMenuDesign.sUseMobile !== 'Y')) return;
+		
+		//htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
+		htSetting.sModuleName = $._xeAdminVar.htSelectedMenuDesign.sModuleName;
+		htSetting.sMID = (htParam.sMID==="")?"":htParam.sMID || htSetting.sMID || "";
+		htSetting.sLayoutSrl = (htParam.sLayoutSrl == 0)?"":htParam.sLayoutSrl || htSetting.sLayoutSrl || "";
+		
+		htSetting.sSkin = (htParam.sSkin === "")?"":htParam.sSkin || htSetting.sSkin || "";
 
-			// ?act=dispLayoutPreviewWithModule&module_name=모듈이름&target_mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름&skin_type=M/P
-			var sURL = './?act=dispLayoutPreviewWithModule&module_name='+htSetting.sModuleName+'&target_mid='+htSetting.sMID+'&layout_srl='+htSetting.sLayoutSrl+'&skin='+htSetting.sSkin+'&skin_type='+sMode;
-			
-			$._xeAdminVar.htSelectedMenuDesign.htLayoutSrl[sMode] = htSetting.sLayoutSrl;
-			$._xeAdminVar.htSelectedMenuDesign.htSkin[sMode] = htSetting.sSkin;
-			
+		htSetting.bMobilePreviewTabOpen = htParam.bMobilePreviewTabOpen || htSetting.bMobilePreviewTabOpen || false;
+		htSetting.htLayoutData = htParam.htLayoutData || htSetting.htLayoutData || "";
+		htSetting.htSkinData = htParam.htSkinData || htSetting.htSkinData || "";
+
+		// ?act=dispLayoutPreviewWithModule&module_name=모듈이름&target_mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름&skin_type=M/P
+		var sURL = './?act=dispLayoutPreviewWithModule&module_name='+htSetting.sModuleName+'&target_mid='+htSetting.sMID+'&layout_srl='+htSetting.sLayoutSrl+'&skin='+htSetting.sSkin+'&skin_type='+sMode;
+		
+		$._xeAdminVar.htSelectedMenuDesign.htLayoutSrl[sMode] = htSetting.sLayoutSrl;
+		$._xeAdminVar.htSelectedMenuDesign.htSkin[sMode] = htSetting.sSkin;
+		
 //			console.log(sURL);
-			$('._preview_form').attr('action', sURL);
-			
-			var sTarget = "_pc_preview_ifr";
-			if(htSetting.bMobilePreviewTabOpen) sTarget = "_mobile_preview_ifr";
-			$('._preview_form').attr('target', sTarget);
-			$('._preview_form').submit();
-			
-			$('._preview_form').attr('target', "xe_preview");
-			
-			$._xeAdminVar.htPrevSetting = htSetting;
+		$('._preview_form').attr('action', sURL);
+		
+		var sTarget = "_pc_preview_ifr";
+		if(htSetting.bMobilePreviewTabOpen) sTarget = "_mobile_preview_ifr";
+		$('._preview_form').attr('target', sTarget);
+		$('._preview_form').submit();
+		
+		$('._preview_form').attr('target', "xe_preview");
+		
+		var sLayoutName;
+		if(htSetting.sLayoutSrl){
+			sLayoutName = sMode==="P"?$._xeAdminVar.htLayoutName[htSetting.sLayoutSrl]:$._xeAdminVar.htLayoutName[htSetting.sMLayoutSrl];
+		}else{
+			sLayoutName = sMode==="P"?$._xeAdminVar.sDefaultLayoutName:$._xeAdminVar.sDefaultMLayoutName;
+		}
+		
+		var sSkinName;
+		var sModuleType = htSetting.sModuleName==="page"?"ARTICLE":htSetting.sModuleName;
+		if($._xeAdminVar.htItemTypes[sModuleType]){
+			if(sMode === "P"){
+				sSkinName = $._xeAdminVar.htItemTypes[sModuleType].sSkinName;
+			}else{
+				sSkinName = $._xeAdminVar.htItemTypes[sModuleType].sMSkinName;
+			}
+		}
+		
+		$('#design ._layoutName').html(sLayoutName);
+		$('#design ._skinName').html(sSkinName);
+		
+		$._xeAdminVar.htPrevSetting = htSetting;
 	}
 	
 	$('._pc_preview_open').click(function(ev){
