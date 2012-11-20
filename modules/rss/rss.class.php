@@ -1,5 +1,4 @@
 <?php
-include '../../config/config.inc.php';
 /**
  * High class of rss module
  *
