@@ -1,17 +1,16 @@
 <!--@foreach($skin_info->colorset as $key => $val)-->
-    <!--@if($val->screenshot)-->
-        {@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
-    <!--@else-->
-        {@ $_width = 200; $_height = 20; $_talign = "left"; }
-    <!--@end-->
-<div style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
-    <input cond="$type == 'P'" type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($communication_config->colorset==$val->name)-->checked="checked"<!--@end-->/>  
-    <input cond="$type == 'M'" type="radio" name="mcolorset" value="{$val->name}" id="mcolorset_{$key}" <!--@if($communication_config->mcolorset==$val->name)-->checked="checked"<!--@end-->/>  
-    <label cond="$type == 'P'" for="colorset_{$key}">{$val->title}</label>
-    <label cond="$type == 'M'" for="mcolorset_{$key}">{$val->title}</label>
-    <!--@if($val->screenshot)-->
-    <br />
-    <img src="{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
-    <!--@end-->
-</div>
+	<!--@if($val->screenshot)-->
+	{@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
+	<!--@else-->
+	{@ $_width = 200; $_height = 20; $_talign = "left"; }
+	<!--@end-->
+
+	<div style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
+		<label cond="$type == 'P'" for="colorset_{$key}"><input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($communication_config->colorset==$val->name)-->checked="checked"<!--@end-->/>{$val->title}</label>
+		<label cond="$type == 'M'" for="mcolorset_{$key}"><input type="radio" name="mcolorset" value="{$val->name}" id="mcolorset_{$key}" <!--@if($communication_config->mcolorset==$val->name)-->checked="checked"<!--@end-->/>{$val->title}</label>
+		<!--@if($val->screenshot)-->
+		<br />
+		<img src="{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
+		<!--@end-->
+	</div>
 <!--@end-->
