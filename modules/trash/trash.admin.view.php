@@ -7,12 +7,14 @@
  * @package /modules/trash
  * @version 0.1
  */
-class trashAdminView extends trash {
+class trashAdminView extends trash
+{
 	/**
 	 * Initialization
 	 * @return void
 	 */
-	function init() {
+	function init()
+	{
 		// 템플릿 경로 지정 (board의 경우 tpl에 관리자용 템플릿 모아놓음)
 		$template_path = sprintf("%stpl/",$this->module_path);
 		$this->setTemplatePath($template_path);
@@ -22,7 +24,8 @@ class trashAdminView extends trash {
 	 * Trash list
 	 * @return void
 	 */
-	function dispTrashAdminList() {
+	function dispTrashAdminList()
+	{
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of posts to display on a single page
 		$args->page_count = 5; // /< the number of pages that appear in the page navigation
@@ -47,4 +50,5 @@ class trashAdminView extends trash {
 		$this->setTemplateFile('trash_list');
 	}
 }
-?>
+/* End of file trash.admin.view.php */
+/* Location: ./modules/trash/trash.admin.view.php */

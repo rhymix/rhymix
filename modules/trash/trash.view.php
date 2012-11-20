@@ -7,12 +7,15 @@
  * @package /modules/trash
  * @version 0.1
  */
-class trashView extends trash {
+class trashView extends trash
+{
 	/**
 	 * Initialization
 	 * @return void
 	 */
-	function init() {
+	function init()
+	{
 	}
 }
-?>
+/* End of file trash.view.php */
+/* Location: ./modules/trash/trash.view.php */

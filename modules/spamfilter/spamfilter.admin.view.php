@@ -3,14 +3,13 @@
  * @class  spamfilterAdminView
  * @author NHN (developers@xpressengine.com)
  * @brief The admin view class of the spamfilter module
- **/
-
+ */
 class spamfilterAdminView extends spamfilter 
 {
 	/**
 	 * @brief Initialization
-	 **/
-	function init() 
+	 */
+	function init()
 	{
 		// Set template path
 		$this->setTemplatePath($this->module_path.'tpl');
@@ -18,7 +17,7 @@ class spamfilterAdminView extends spamfilter
 
 	/**
 	 * @brief Output the list of banned IPs
-	 **/
+	 */
 	function dispSpamfilterAdminDeniedIPList()
 	{
 		// Get the list of denied IP addresses and words
@@ -36,7 +35,7 @@ class spamfilterAdminView extends spamfilter
 
 	/**
 	 * @brief Output the list of banned words
-	 **/
+	 */
 	function dispSpamfilterAdminDeniedWordList()
 	{
 		// Get the list of denied IP addresses and words
@@ -53,7 +52,7 @@ class spamfilterAdminView extends spamfilter
 
 	/**
 	 * @brief Configure auto block
-	 **/
+	 */
 	function dispSpamfilterAdminConfigBlock()
 	{
 		// Get configurations (using module model object)
@@ -63,5 +62,6 @@ class spamfilterAdminView extends spamfilter
 
 		$this->setTemplateFile('config_block');
 	}
-    }
-?>
+}
+/* End of file spamfilter.admin.view.php */
+/* Location: ./modules/spamfilter/spamfilter.admin.view.php */

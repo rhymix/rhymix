@@ -93,4 +93,5 @@ class trashModel extends trash
 		$oTrashVO->setRegdate($stdObject->regdate);
 	}
 }
-
+/* End of file trash.model.php */
+/* Location: ./modules/trash/trash.model.php */

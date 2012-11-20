@@ -159,7 +159,8 @@ class trashAdminController extends trash
 				$originObject = unserialize($output->data->getSerializedObject());
 				$output = $oAdminController->restoreTrash($originObject);
 
-				if(!$output->toBool()) {
+				if(!$output->toBool())
+				{
 					$oDB->rollback();
 					return new Object(-1, $output->message);
 				}
@@ -189,7 +190,8 @@ class trashAdminController extends trash
 		$trashSrls = Context::get('trash_srls');
 		if($trashSrls) $trashSrlList = explode(',', $trashSrls);
 
-		if(count($trashSrlList) > 0) {
+		if(count($trashSrlList) > 0)
+		{
 			$oTrashModel = &getModel('trash');
 			$args->trashSrl = $trashSrlList;
 			$output = $oTrashModel->getTrashList($args);
@@ -220,6 +222,5 @@ class trashAdminController extends trash
 		return true;
 	}
 }
-
-/* End of file trash.controller.php */
-/* Location: ./modules/trash/trash.controller.php */
+/* End of file trash.admin.controller.php */
+/* Location: ./modules/trash/trash.admin.controller.php */
