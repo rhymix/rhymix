@@ -24,6 +24,10 @@
 			<th>{$lang->addon_license}</th>
 			<td><a href="{$addon_info->license_link}"|cond="$addon_info->license_link" target="_blank">{$addon_info->license}</a></td>
 		</tr>
+		<tr cond="$addon_info->description">
+			<th>{$lang->description}</th>
+			<td>{$addon_info->description}</td>
+		</tr>
 	</tbody>
 </table>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
