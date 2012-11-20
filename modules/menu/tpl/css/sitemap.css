@@ -108,9 +108,12 @@ body>.x{max-width:none !important}
 .download ._pagination{position:absolute;bottom:-5px;left:0;width:100%}
 .download ._pagination>.x_pagination,
 .download ._pagination>.search{margin:0}
-.download ._pagination>.x_pagination a{background-color:#fff !important;border:1px solid #aaa;border-left:0}
-.download ._pagination>.x_pagination li:first-child>a{border-left:1px solid #aaa}
-.download ._pagination>.x_pagination .x_active>a{background-color:#555 !important}
+.download ._pagination>.x_pagination{text-shadow:0 1px 0 #fff}
+.download ._pagination>.x_pagination>ul{box-shadow:none}
+.download ._pagination>.x_pagination a{background-color:transparent !important;color:#333}
+.download ._pagination>.x_pagination a:hover,
+.download ._pagination>.x_pagination a:focus{font-weight:bold}
+.download ._pagination>.x_pagination .x_active>a{color:#000}
 
 /* Theme(layout|skin) */
 .theme img{width:110px;border:1px solid #ddd}
