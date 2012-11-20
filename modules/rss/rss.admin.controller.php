@@ -1,155 +1,164 @@
 <?php
-    /**
-     * The admin controller class of the rss module
+/**
+ * The admin controller class of the rss module
+ *
+ * @author NHN (developers@xpressengine.com)
+ */
+class rssAdminController extends rss
+{
+	/**
+	 * Initialization
 	 *
-     * @author NHN (developers@xpressengine.com)
-     **/
+	 * @return void
+	 */
+	function init()
+	{
+	}
 
-    class rssAdminController extends rss {
+	/**
+	 * All RSS feeds configurations
+	 *
+	 * @return void
+	 */
+	function procRssAdminInsertConfig()
+	{
+		$oModuleModel = &getModel('module');
+		$total_config = $oModuleModel->getModuleConfig('rss');
 
-        /**
-         * Initialization
-		 *
-		 * @return void
-         **/
-        function init() {
-        }
+		$config_vars = Context::getRequestVars();
 
-        /**
-         * All RSS feeds configurations
-		 *
-		 * @return void
-         **/
-        function procRssAdminInsertConfig() {
-            $oModuleModel = &getModel('module');
-            $total_config = $oModuleModel->getModuleConfig('rss');
+		$config_vars->feed_document_count = (int)$config_vars->feed_document_count;
 
-            $config_vars = Context::getRequestVars();
+		if(!$config_vars->use_total_feed) $alt_message = 'msg_invalid_request';
+		if(!in_array($config_vars->use_total_feed, array('Y','N'))) $config_vars->open_rss = 'Y';
 
-            $config_vars->feed_document_count = (int)$config_vars->feed_document_count;
+		if($config_vars->image || $config_vars->del_image)
+		{
+			$image_obj = $config_vars->image;
+			$config_vars->image = $total_config->image;
+			// Get a variable for the delete request
+			if($config_vars->del_image == 'Y' || $image_obj)
+			{
+				FileHandler::removeFile($config_vars->image);
+				$config_vars->image = '';
+				$total_config->image = '';
+			}
+			// Ignore if the file is not the one which has been successfully uploaded
+			if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name']))
+			{
+				// Ignore if the file is not an image (swf is accepted ~)
+				$image_obj['name'] = Context::convertEncodingStr($image_obj['name']);
 
-            if(!$config_vars->use_total_feed) $alt_message = 'msg_invalid_request';
-            if(!in_array($config_vars->use_total_feed, array('Y','N'))) $config_vars->open_rss = 'Y';
+				if(!preg_match("/\.(jpg|jpeg|gif|png)$/i", $image_obj['name'])) $alt_message = 'msg_rss_invalid_image_format';
+				else
+				{
+					// Upload the file to a path
+					$path = './files/attach/images/rss/';
+					// Create a directory
+					if(!FileHandler::makeDir($path)) $alt_message = 'msg_error_occured';
+					else
+					{
+						$filename = $path.$image_obj['name'];
+						// Move the file
+						if(!move_uploaded_file($image_obj['tmp_name'], $filename)) $alt_message = 'msg_error_occured';
+						else
+						{
+							$config_vars->image = $filename;
+						}
+					}
+				}
+			}
+		}
+		if(!$config_vars->image && $config_vars->del_image != 'Y') $config_vars->image = $total_config->image;
 
-            if($config_vars->image || $config_vars->del_image) {
-                $image_obj = $config_vars->image;
-                $config_vars->image = $total_config->image;
-                // Get a variable for the delete request
-                if($config_vars->del_image == 'Y' || $image_obj) {
-                    FileHandler::removeFile($config_vars->image);
-                    $config_vars->image = '';
-                    $total_config->image = '';
-                }
-                // Ignore if the file is not the one which has been successfully uploaded
-                if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name'])) {
-                    // Ignore if the file is not an image (swf is accepted ~)
-                    $image_obj['name'] = Context::convertEncodingStr($image_obj['name']);
+		$output = $this->setFeedConfig($config_vars);
 
-                    if(!preg_match("/\.(jpg|jpeg|gif|png)$/i", $image_obj['name'])) $alt_message = 'msg_rss_invalid_image_format';
-                    else {
-                        // Upload the file to a path
-                        $path = './files/attach/images/rss/';
-                        // Create a directory
-                        if(!FileHandler::makeDir($path)) $alt_message = 'msg_error_occured';
-                        else{
-                            $filename = $path.$image_obj['name'];
-                            // Move the file
-                            if(!move_uploaded_file($image_obj['tmp_name'], $filename)) $alt_message = 'msg_error_occured';
-                            else {
-                                $config_vars->image = $filename;
-                            }
-                        }
-                    }
-                }
-            }
-            if(!$config_vars->image && $config_vars->del_image != 'Y') $config_vars->image = $total_config->image;
+		if(!$alt_message) $alt_message = 'success_updated';
 
-            $output = $this->setFeedConfig($config_vars);
+		$alt_message = Context::getLang($alt_message);
+		$this->setMessage($alt_message, 'info');
 
-            if(!$alt_message) $alt_message = 'success_updated';
+		//$this->setLayoutPath('./common/tpl');
+		//$this->setLayoutFile('default_layout.html');
+		//$this->setTemplatePath($this->module_path.'tpl');
+		//$this->setTemplateFile("top_refresh.html");
 
-            $alt_message = Context::getLang($alt_message);
-            $this->setMessage($alt_message, 'info');
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispRssAdminIndex');
+		$this->setRedirectUrl($returnUrl);
+	}
 
-            //$this->setLayoutPath('./common/tpl');
-            //$this->setLayoutFile('default_layout.html');
-            //$this->setTemplatePath($this->module_path.'tpl');
-            //$this->setTemplateFile("top_refresh.html");
+	/**
+	 * RSS Module configurations
+	 *
+	 * @return void
+	 */
+	function procRssAdminInsertModuleConfig()
+	{
+		// Get the object
+		$module_srl = Context::get('target_module_srl');
+		// In case of batch configuration of several modules
+		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+		else $module_srl = array($module_srl);
+		if(!is_array($module_srl)) $module_srl[0] = $module_srl;
 
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispRssAdminIndex');
-			$this->setRedirectUrl($returnUrl);
-        }
+		$config_vars = Context::getRequestVars();
 
+		$open_rss = $config_vars->open_rss;
+		$open_total_feed = $config_vars->open_total_feed;
+		$feed_description = trim($config_vars->feed_description);
+		$feed_copyright = trim($config_vars->feed_copyright);
 
-        /**
-         * RSS Module configurations
-		 *
-		 * @return void
-         **/
-        function procRssAdminInsertModuleConfig() {
-            // Get the object
-            $module_srl = Context::get('target_module_srl');
-            // In case of batch configuration of several modules
-            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
-            else $module_srl = array($module_srl);
-            if(!is_array($module_srl)) $module_srl[0] = $module_srl;
+		if(!$module_srl || !$open_rss) return new Object(-1, 'msg_invalid_request');
 
-            $config_vars = Context::getRequestVars();
+		if(!in_array($open_rss, array('Y','H','N'))) $open_rss = 'N';
+		// Save configurations
+		for($i=0;$i<count($module_srl);$i++)
+		{
+			$srl = trim($module_srl[$i]);
+			if(!$srl) continue;
+			$output = $this->setRssModuleConfig($srl, $open_rss, $open_total_feed, $feed_description, $feed_copyright);
+		}
 
-            $open_rss = $config_vars->open_rss;
-            $open_total_feed = $config_vars->open_total_feed;
-            $feed_description = trim($config_vars->feed_description);
-            $feed_copyright = trim($config_vars->feed_copyright);
+		//$this->setError(0);
+		$this->setMessage('success_updated', 'info');
 
-            if(!$module_srl || !$open_rss) return new Object(-1, 'msg_invalid_request');
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+		$this->setRedirectUrl($returnUrl);
+	}
 
-            if(!in_array($open_rss, array('Y','H','N'))) $open_rss = 'N';
-            // Save configurations
-            for($i=0;$i<count($module_srl);$i++) {
-                $srl = trim($module_srl[$i]);
-                if(!$srl) continue;
-                $output = $this->setRssModuleConfig($srl, $open_rss, $open_total_feed, $feed_description, $feed_copyright);
-            }
+	/**
+	 * A funciton to configure all Feeds of the RSS module
+	 *
+	 * @param Object $config RSS all feeds config list
+	 * @return Object
+	 */
+	function setFeedConfig($config)
+	{
+		$oModuleController = &getController('module');
+		$oModuleController->insertModuleConfig('rss',$config);
+		return new Object();
+	}
 
-            //$this->setError(0);
-            $this->setMessage('success_updated', 'info');
-
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
-			$this->setRedirectUrl($returnUrl);
-        }
-
-
-        /**
-         * A funciton to configure all Feeds of the RSS module
-		 *
-		 * @param Object $config RSS all feeds config list
-		 * @return Object
-         **/
-        function setFeedConfig($config) {
-            $oModuleController = &getController('module');
-            $oModuleController->insertModuleConfig('rss',$config);
-            return new Object();
-        }
-
-
-        /**
-         * A function t configure the RSS module
-		 *
-		 * @param integer $module_srl Module_srl
-		 * @param string $open_rss Choose open rss type. Y : Open all, H : Open summary, N : Not open
-		 * @param string $open_total_feed N : use open total feed, T_N : not use open total feed
-		 * @param string $feed_description Default value is 'N'
-		 * @param string $feed_copyright Default value is 'N'
-		 * @return Object
-         **/
-        function setRssModuleConfig($module_srl, $open_rss, $open_total_feed = 'N', $feed_description = 'N', $feed_copyright = 'N') {
-            $oModuleController = &getController('module');
-            $config->open_rss = $open_rss;
-            $config->open_total_feed = $open_total_feed;
-            if($feed_description != 'N') { $config->feed_description = $feed_description; }
-            if($feed_copyright != 'N') { $config->feed_copyright = $feed_copyright; }
-            $oModuleController->insertModulePartConfig('rss',$module_srl,$config);
-            return new Object();
-        }
-    }
-?>
+	/**
+	 * A function t configure the RSS module
+	 *
+	 * @param integer $module_srl Module_srl
+	 * @param string $open_rss Choose open rss type. Y : Open all, H : Open summary, N : Not open
+	 * @param string $open_total_feed N : use open total feed, T_N : not use open total feed
+	 * @param string $feed_description Default value is 'N'
+	 * @param string $feed_copyright Default value is 'N'
+	 * @return Object
+	 */
+	function setRssModuleConfig($module_srl, $open_rss, $open_total_feed = 'N', $feed_description = 'N', $feed_copyright = 'N')
+	{
+		$oModuleController = &getController('module');
+		$config->open_rss = $open_rss;
+		$config->open_total_feed = $open_total_feed;
+		if($feed_description != 'N') { $config->feed_description = $feed_description; }
+		if($feed_copyright != 'N') { $config->feed_copyright = $feed_copyright; }
+		$oModuleController->insertModulePartConfig('rss',$module_srl,$config);
+		return new Object();
+	}
+}
+/* End of file rss.admin.controller.php */
+/* Location: ./modules/rss/rss.admin.controller.php */
