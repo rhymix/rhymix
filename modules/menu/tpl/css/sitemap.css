@@ -20,7 +20,8 @@ body>.x{max-width:none !important}
 .col input[type="radio"]{margin:0}
 .col .cnt{overflow-x:hidden;overflow-y:auto;padding:10px;margin:0 -10px;border-radius:5px;background:#fff;border:1px solid #999;border-right:0;border-bottom:0}
 .col .cnt>ul{margin:0;padding:0;list-style:none}
-.col .cnt label{cursor:pointer;font-weight:normal}
+.col .cnt label{font-weight:normal}
+.col .cnt label:only-child{cursor:pointer}
 	/* .mapi */
 .col.map .x_btn-group{border-top:1px solid #ddd;padding:10px 0}
 .col.map li._isCut a{color:#aaa}
