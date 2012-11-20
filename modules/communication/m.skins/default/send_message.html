@@ -1,0 +1,44 @@
+{@ Context::addJsFile("./common/js/jquery.min.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xe.min.js", true, '', -100000) }
+<load target="./css/mcommunication.css" />
+<load target="js/communication.js" />
+
+<div class="hx h2">
+	<h2>{$lang->cmd_send_message}</h2>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="sendMessage" action="./" method="post" class="ff" id="fo_comm">
+	<input type="hidden" name="module" value="communication" />
+	<input type="hidden" name="is_popup" value="Y" />
+	<input type="hidden" name="act" value="procCommunicationSendMessage" />
+	<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
+	<input type="hidden" name="source_content" value="{htmlspecialchars($source_message->content)}" />
+	<input type="hidden" name="content" value="" />
+	<ul>
+		<li>
+			<span class="memberInfo">{$receiver_info->nick_name}</span>
+		</li>
+		<li>
+			<label for="message_title">{$lang->title}</label>
+			<input type="text" name="title" id="message_title" value="{$source_message->title}"/>
+		</li>
+		<li class="xe_content">
+			{$source_message->content}
+		</li>
+		<li>
+			<label for="message_content">{$lang->content}</label>
+			<textarea id="message_content" name="new_content" rows="8" style="width:100%"></textarea>
+		</li>
+		<li>
+			<span id="message_send_mail"><input type="checkbox" value="Y" name="send_mail" /> {$lang->cmd_send_mail}</span>
+		</li>
+	</ul>
+	<div class="bna">
+		<span class="fl"><a href="{getUrl('act', 'dispCommunicationMessages')}" class="bn white">{$lang->cmd_back}</a></span>
+		<span class="fr"><button type="button" class="bn white" onClick="mergeContents();">{$lang->cmd_send_message}</button></span>
+	</div>
+</form>
+
+

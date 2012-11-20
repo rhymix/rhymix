@@ -1,12 +1,19 @@
+{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xe.min.js", true, '', -100000) }
 <load target="css/mcommunication.css" />
-
+<load target="./js/communication.js" />
 <div class="hx h2">
 	<h2>{$message->title}</h2><span class="ex">{$message->nick_name} | {zdate($message->regdate, "Y.m.d H:i")}</span>
 </div>
 <div class="co">
-				<div class="xe_content">{$message->content}</div>
+	<div class="xe_content">{$message->content}</div>
 </div>
 <div class="bna">
 	<span class="fl"><a href="{getUrl('message_srl', '')}" class="bn white">{$lang->cmd_list}</a></span>
+	<span class="fr"><a href="#" onClick="doDeleteMessage('{$message->message_srl}');" class="bn white">{$lang->cmd_delete}</a></span>
+	<span class="fr" cond="$message->sender_srl != $logged_info->member_srl"><a href="{getUrl('act','dispCommunicationSendMessage','receiver_srl',$message->sender_srl,'message_srl',$message->message_srl)}" class="bn white">{$lang->cmd_reply_message}</a></span>
 </div>
+<script>
+	var confirm_delete_msg = "{$lang->confirm_delete}";
+</script>
 
