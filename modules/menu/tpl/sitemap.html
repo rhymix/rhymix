@@ -366,13 +366,13 @@
 						<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
 						<li class="${Selected} _layoutItem">
 							<label>
-								<input type="radio" disabled="disabled" name="layout_item" title="{$lang->no_use_layout}"> {$lang->no_use_layout}
+								<input type="radio" name="layout_item" title="{$lang->no_use_layout}"> {$lang->no_use_layout}
 							</label>
 						</li>
 						</script>
 						<script id="tmpl_layout_list_item" type="text/x-jquery-tmpl">
 						<li class="${Selected} _layoutItem">
-							<label><input type="radio" disabled="disabled" name="layout_item" title="${Title}"> ${Title}</label>
+							<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
 							<button type="button" class="item _btnScreenshot" title="{$lang->about_apply_layout}">
 								<img src="${ScreenShotURL}">
 							</button>
@@ -613,6 +613,7 @@
 	xe.lang.go_to_site_design_setup = '{$lang->go_to_site_design_setup}';
 	xe.lang.img_uploaded = '{$lang->img_uploaded}';
 	xe.lang.img_deleted = '{$lang->img_deleted}';
+	xe.lang.no_use_layout = '{$lang->no_use_layout}';
 </script>
 
 <!--[if IE 7]>
@@ -2493,6 +2494,19 @@ jQuery(function($){
 		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
 		var htInfo = htNodeInfo[sMenuId];
 		
+		jQuery.exec_json("layout.getLayoutAdminSiteDefaultLayout", {
+			site_srl : 0,
+			type : "P"
+		}, function(htData){
+			$._xeAdminVar.sDefaultLayoutName = htData.title;
+		});
+		jQuery.exec_json("layout.getLayoutAdminSiteDefaultLayout", {
+			site_srl : 0,
+			type : "M"
+		}, function(htData){
+			$._xeAdminVar.sDefaultMLayoutName = htData.title;
+		});
+		
 		// also preview here
 		var params = {
 			menu_item_srl : htInfo.sNodeSrl
@@ -2512,10 +2526,11 @@ jQuery(function($){
 			sMLayoutName = htData.module_info_by_menu_item_srl.designSettings.layout.mobile;
 			sMSkinName = htData.module_info_by_menu_item_srl.designSettings.skin.mobile;
 //console.log(htInfo);
-			$._xeAdminVar.sDefaultLayoutName = sLayoutName;
-			$._xeAdminVar.sDefaultMLayoutName = sMLayoutName;
-			if(htTmp.layout_srl) $._xeAdminVar.htLayoutName[htTmp.layout_srl] = sLayoutName;
-			if(htTmp.mlayout_srl) $._xeAdminVar.htMLayoutName[htTmp.mlayout_srl] = sMLayoutName;
+			if(htTmp.layout_srl == -1) $._xeAdminVar.sDefaultLayoutName = sLayoutName;
+			if(htTmp.mlayout_srl == -1) $._xeAdminVar.sDefaultMLayoutName = sMLayoutName;
+			
+			if(htTmp.layout_srl > 0) $._xeAdminVar.htLayoutName[htTmp.layout_srl] = sLayoutName;
+			if(htTmp.mlayout_srl > 0) $._xeAdminVar.htMLayoutName[htTmp.mlayout_srl] = sMLayoutName;
 			$._xeAdminVar.htItemTypes[htInfo.sModuleType].sSkinName = sSkinName;
 			$._xeAdminVar.htItemTypes[htInfo.sModuleType].sMSkinName = sMSkinName;
 			
@@ -2534,7 +2549,7 @@ jQuery(function($){
 				},
 				htData : {}
 			};
-			
+console.log(11, htDesign.htLayoutSrl.P);
 			/*
 			designSettings
 				layout
@@ -2741,7 +2756,6 @@ jQuery(function($){
 		$._xeAdminVar.htPrevSetting = {};
 	});
 	function updatePreview(htParam){
-//console.log(23, htParam);
 		if(htParam.bClearPrevSetting){
 			$._xeAdminVar.htPrevSetting = {};
 		}
@@ -2779,10 +2793,17 @@ jQuery(function($){
 		$('._preview_form').attr('target', "xe_preview");
 		
 		var sLayoutName;
-		if(htSetting.sLayoutSrl){
-			sLayoutName = sMode==="P"?$._xeAdminVar.htLayoutName[htSetting.sLayoutSrl]:$._xeAdminVar.htLayoutName[htSetting.sMLayoutSrl];
-		}else{
-			sLayoutName = sMode==="P"?$._xeAdminVar.sDefaultLayoutName:$._xeAdminVar.sDefaultMLayoutName;
+		
+		switch(htSetting.sLayoutSrl){
+			case -1:
+			case "-1":
+				sLayoutName = sMode==="P"?$._xeAdminVar.sDefaultLayoutName:$._xeAdminVar.sDefaultMLayoutName;
+			break;
+			case "":
+				sLayoutName = xe.lang.no_use_layout;
+			break;
+			default:
+				sLayoutName = sMode==="P"?$._xeAdminVar.htLayoutName[htSetting.sLayoutSrl]:$._xeAdminVar.htLayoutName[htSetting.sMLayoutSrl];
 		}
 		
 		var sSkinName;
@@ -2813,13 +2834,14 @@ jQuery(function($){
 	});
 
 	$('#layout ._chkUseDefaultLayout').click(function(){
+	/*
 		if(!$(this).attr('checked')){
 			updatePreview({
 				sLayoutSrl : 0,
 				htLayoutData : {}
 			});
 		}
-
+*/
 		updateLayoutListDisplayStatus();
 	});
 	$("#tmpl_layout_list_item_no_layout").template( "layoutListItem_nolayout" );
@@ -2844,6 +2866,7 @@ jQuery(function($){
 		//loadInstalledLayoutList("P");
 	});
 	$('#layout .list').on('show', function(){
+
 		fillInInstalledLayoutList();
 	});
 	$('#layout').on('hide', function(ev){
@@ -2856,6 +2879,8 @@ jQuery(function($){
 	}
 
 	function updateLayoutListDisplayStatus(){
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+		
 		$ChkBox = $('#layout ._chkUseDefaultLayout');
 		if($ChkBox.attr('checked')){
 			$('#layout .list').addClass('disabled').find(':radio').attr('disabled','disabled');
@@ -2865,6 +2890,18 @@ jQuery(function($){
 			});
 		}else{
 			$('#layout .list').removeClass('disabled').find(':radio').removeAttr('disabled');
+
+			var $allRadio = $('#layout .list :radio');
+			var $selected = $('#layout .list :radio[checked]');
+			
+			// when the layer was first shown, the list is not yet available
+			if($allRadio.length){
+				if($selected.length){
+					$selected.click();
+				}else{
+					$($('#layout .list :radio')[0]).click();
+				}
+			}
 		}
 	}
 	// sType: "P", "M" (PC/Mobile)
@@ -2881,6 +2918,7 @@ jQuery(function($){
 			$List.html("");
 			
 			var sSelected = "";
+			var sSelectedSrl = -1;
 			
 			var htDesign = $._xeAdminVar.htSelectedMenuDesign;
 			
@@ -2902,7 +2940,7 @@ jQuery(function($){
 					sSelectedSrl = htInfo.layout_srl;
 					sSelected = "selected";
 				}
-				
+				//./
 				$elItem = $.tmpl("layoutListItem", {
 					Title : htInfo.title, 
 					ScreenShotURL : htInfo.thumbnail,
@@ -2910,6 +2948,7 @@ jQuery(function($){
 					LayoutSrl : htInfo.layout_srl
 				}).data('LayoutSrl', htInfo.layout_srl);
 				
+				$._xeAdminVar.htLayoutName[htInfo.layout_srl] = htInfo.title;
 				/*
 				$elItem.find("._duplicateLayout").click(function(){
 					var sLayoutSrl = htInfo.layout_srl;
@@ -3305,6 +3344,8 @@ jQuery(function($){
 			
 			for(var sName in htData.skin_info_list){
 				if(!htData.skin_info_list.hasOwnProperty(sName)) continue;
+				
+				//$._xeAdminVar.htItemTypes[sModuleType]
 
 				// if nothing is selected, select the first one.
 				if(htDesign.htSkin[sType] == ""){
