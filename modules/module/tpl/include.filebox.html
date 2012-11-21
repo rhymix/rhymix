@@ -1,7 +1,7 @@
 <block cond="$use_filebox">
 	<!--%load_js_plugin("filebox")-->
 	<style>
-		.filebox_item { border: 1px solid #ccc!important; padding: 5px; max-height: 200px; max-width: 200px; }
+		.filebox_item{max-height:200px;max-width:200px}
 	</style>
 
 	<div class="x_modal" id="modalFilebox" style="display:none">
@@ -26,8 +26,8 @@
 							<input type="text" name="attribute_name[]" id="attribute_name1" class="__attribute_name" />
 							<label for="attribute_value1" class="x_inline __attribute_value_label">{$lang->attribute_value} <input type="text" name="attribute_value[]" id="attribute_value1" class="__attribute_value" /></label>
 							
-							<button type="button" class="x_btn x_btn-mini __addBtn" onclick="addRow('fileUp');">{$lang->cmd_add}</button>
-							<button type="button" class="x_btn x_btn-mini __deleteBtn" onclick="clearRow(this);">{$lang->cmd_delete}</button>
+							<button type="button" class="x_btn __addBtn" onclick="addRow('fileUp');">{$lang->cmd_add}</button>
+							<button type="button" class="x_btn __deleteBtn" onclick="clearRow(this);">{$lang->cmd_delete}</button>
 						</div>
 					</div>
 					<div class="x_control-group">

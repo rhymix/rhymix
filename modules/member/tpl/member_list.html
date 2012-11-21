@@ -9,12 +9,6 @@
 <div class="x_page-header">
 	<h1>{$lang->user_list}</h1>
 </div>
-<div class="x_clearfix" style="margin-bottom:-38px">
-	<div class="x_pull-right x_btn-group">
-		<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
-		<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
-	</div>
-</div>
 <form action="" method="post">
 	<table class="_memberList x_table x_table-striped x_table-hover">
 		<caption>
@@ -25,6 +19,10 @@
 			<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}<block cond="$filter_type==enable">({$total_count})</block></a>
 			<i>|</i>
 			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}<block cond="$filter_type==disable">({$total_count})</block></a>
+			<div class="x_pull-right x_btn-group">
+				<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
+				<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
+			</div>
 		</caption>
 		<thead>
 			<tr>
@@ -151,7 +149,7 @@
 	<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'page', $page)}">{$lang->cmd_cancel}</a>
 </form>
 <div class="x_modal" id="listManager">
-	<form action="./" ruleset="updateSeletecdMemberInfo" class="fg form" method="post">
+	<form action="./" ruleset="updateSeletecdMemberInfo" method="post">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />

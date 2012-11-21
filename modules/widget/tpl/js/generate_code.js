@@ -238,7 +238,7 @@ jQuery(document).ready(function($){
 				}
 			}
 		} else {
-			htmlCode = '<img src="'+src+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"> <button class="filebox_del x_btn x_btn-mini x_btn-danger" type="button">'+xe.lang.cmd_delete+'</button> ';
+			htmlCode = '<img src="'+src+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"> <button class="filebox_del x_btn x_btn-danger" type="button">'+xe.lang.cmd_delete+'</button> ';
 			$(this).siblings('input').val(src);
 		}
 		$(this).before(htmlCode);

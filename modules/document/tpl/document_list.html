@@ -80,7 +80,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<a href="#manageForm" class="x_btn modalAnchor x_pull-right" onclick="getDocumentList();">{$lang->document_manager}...</a>
 	</div>
 </form>
-<form action="./" class="x_pagination x_pull-left" style="margin:-45px 0 0 0">
+<form action="./" class="x_pagination x_pull-left" style="margin:-36px 0 0 0">
 	<input type="hidden" name="error_return_url" value="" />
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
@@ -137,7 +137,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="type" value="" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'is_secret', $is_secret, 'search_target', $search_target, 'search_keyword', $search_keyword)}" cond="!empty($search_target) && !empty($search_keyword)" />
 	<div class="x_modal-header">
-		<h2>{$lang->document_manager}</h2>
+		<h3>{$lang->document_manager}</h3>
 	</div>
 	<div class="x_modal-body">
 		<table width="100%" id="documentManageListTable" class="x_table x_table-striped x_table-hover">
