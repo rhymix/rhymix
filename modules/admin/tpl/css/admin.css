@@ -127,6 +127,7 @@ body>.x,
 .x .x_well>*:last-child{margin-bottom:0}
 .x legend{font-size:14px;font-weight:bold;line-height:24px}
 .x label{font-weight:inherit}
+.x p:last-child{margin-bottom:0}
 /* Custom Styles */
 .x .section{margin:20px 0 40px 0}
 .x .section>h1{position:relative;border-bottom:1px solid #ddd}

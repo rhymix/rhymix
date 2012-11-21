@@ -71,23 +71,20 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#propertiesRoot">&times;</button>
 	</div>
-	<div class="col prop-general" id="properties" style="display:none">
+	<div class="col prop-general" id="properties">
 		<section>
 			<h1><a href="#" target="_blank" class="title"><!--메뉴 이름--></a></h1>
 			<div class="cnt">
 				<ul>
-					<li><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li>
-					
+					<li class="type"><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li>
 					<li class="default"><a href="#default" data-admin-show="#default">{$lang->general_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
-					
 					<!--li><strong>{$lang->menu_id}</strong>: <span class="url"></span></li-->
-					
 					<li class="add"><a href="#add" data-admin-show="#add">{$lang->add_menu} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><button type="button" class="_edit_cut">{$lang->cut}</button></li>
 					<li><button type="button" class="_edit_copy">{$lang->copy}</button></li>
 					<li><button type="button" class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li><button type="button" class="_deleteMenu">{$lang->cmd_delete}</button></li>
-					<li class="homepage"><label style="padding:0 0 0 8px"><input type="checkbox" class="_chkUseAsHome"> {$lang->use_site_default_module}</label></li>
+					<li class="homepage"><label style="padding:0 0 0 8px;margin:0"><input type="checkbox" class="_chkUseAsHome"> {$lang->use_site_default_module}</label></li>
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li class="design"><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -180,19 +177,20 @@
 							<input id="menuName" class="_menuName lang_code" type="text" required style="width:179px">
 						</div>
 					</li>
-
-					<li class="menuType"><strong>{$lang->menu_type}</strong>: <span class="module_type"></span> <a href="#menuTypeHelpInDefault" class="x_icon-question-sign" data-admin-toggle="#menuTypeHelpInDefault">?</a>
-					<div id="menuTypeHelpInDefault" class="x_alert x_alert-info" style="display:none;width:169px">
+					<li style="padding:6px 0 0 0">
+						<label><input type="checkbox" class="_newWindow" title="{$lang->menu_open_window}"> {$lang->menu_open_window}</label>
+					</li>
+					<li style="padding:0 0 6px 0">
+						<label><input type="checkbox" class="_leaveUnfolded" title="{$lang->menu_expand}"> {$lang->menu_expand}</label>
+					</li>
+					<li class="menuType">
+						<div style="line-height:30px">
+							<strong>{$lang->menu_type}</strong>: <span class="module_type"></span> <a href="#menuTypeHelpInDefault" class="x_icon-question-sign" data-admin-toggle="#menuTypeHelpInDefault">?</a>
+						</div>
+						<div id="menuTypeHelpInDefault" class="x_alert x_alert-info" style="display:none;width:169px">
 							<button type="button" class="x_close" data-admin-hide="#menuTypeHelpInDefault">×</button>
 							<p>{$lang->about_menu_type_in_default}</p>
 						</div>
-					</li>
-
-					<li style="padding-top:12px;margin-top:5px">
-						<label><input type="checkbox" class="_newWindow" title="{$lang->menu_open_window}"> {$lang->menu_open_window}</label>
-					</li>
-					<li>
-						<label><input type="checkbox" class="_leaveUnfolded" title="{$lang->menu_expand}"> {$lang->menu_expand}</label>
 					</li>
 					
 					<li class="typePage">
