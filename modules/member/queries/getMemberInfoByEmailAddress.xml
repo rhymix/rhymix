@@ -6,6 +6,6 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="email_address" var="email_address" notnull="notnull" />
+        <condition operation="equal" column="lower(email_address)" var="email_address" notnull="notnull" />
     </conditions>
 </query>
