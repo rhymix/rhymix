@@ -276,7 +276,21 @@ class layoutAdminController extends layout
 				$layoutList = $oLayoutModel->getLayoutInstanceList($layoutInfo->site_srl, $layoutInfo->layout_type, $layoutInfo->layout, array('layout_srl'));
 				if(count($layoutList) <= 1)
 				{
-					return new Object(-1, 'msg_at_least_one_layout');
+					// uninstall package
+					$path = $layoutInfo->path;
+
+					$oAutoinstallModel = &getModel('autoinstall');
+					$packageSrl = $oAutoinstallModel->getPackageSrlByPath($path);
+					$oAutoinstallAdminController = &getAdminController('autoinstall');
+
+					if($packageSrl)
+					{
+						$oAutoinstallAdminController->uninstallPackageByPackageSrl($packageSrl);
+					}
+					else
+					{
+						$oAutoinstallAdminController->uninstallPackageByPath($path);
+					}
 				}
 			}
 		}

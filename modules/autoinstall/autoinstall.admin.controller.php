@@ -286,8 +286,45 @@ class autoinstallAdminController extends autoinstall
 	function procAutoinstallAdminUninstallPackage()
 	{
 		$package_srl = Context::get('package_srl');
+
+		$this->uninstallPackageByPackageSrl($package_srl);
+
+		if(Context::get('return_url'))
+		{
+			$this->setRedirectUrl(Context::get('return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages'));
+		}
+	}
+
+	/**
+	 * Uninstall package by package serial number
+	 *
+	 * @return Object
+	 */
+	function uninstallPackageByPackageSrl($package_srl)
+	{
 		$oModel =& getModel('autoinstall');
 		$package = $oModel->getPackage($package_srl);
+
+		$this->_uninstallPackage($package);
+	}
+
+	/**
+	 * Uninstall package by package path
+	 *
+	 * @return Object
+	 */
+	function uninstallPackageByPath($path)
+	{
+		$package->path = $path;
+		$this->_uninstallPackage($package);
+	}
+
+	private function _uninstallPackage($package)
+	{
 		$path = $package->path;
 
 		if(!$_SESSION['ftp_password'])
@@ -323,15 +360,6 @@ class autoinstallAdminController extends autoinstall
 		$this->_updateinfo();
 
 		$this->setMessage('success_deleted', 'update');
-
-		if(Context::get('return_url'))
-		{
-			$this->setRedirectUrl(Context::get('return_url'));
-		}
-		else
-		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages'));
-		}
 	}
 }
 /* End of file autoinstall.admin.controller.php */

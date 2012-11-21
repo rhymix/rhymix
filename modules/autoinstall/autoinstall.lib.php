@@ -282,7 +282,6 @@ class ModuleInstaller
 		$output = $this->_removeDir_real($path);
 		return $output;
 	}
-
 }
 
 /**

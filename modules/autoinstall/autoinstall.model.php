@@ -215,6 +215,10 @@ class autoinstallModel extends autoinstall
 		if($path == ".") return "core";
 		$path_array = explode("/", $path);
 		$target_name = array_pop($path_array);
+		if(!$target_name)
+		{
+			$target_name = array_pop($path_array);
+		}
 		$type = substr(array_pop($path_array), 0, -1);
 		return $type;
 	}
