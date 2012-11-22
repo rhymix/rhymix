@@ -118,6 +118,11 @@
 					</block>
 					</div>
 				</block>
+				<block cond="$var->type == 'colorpicker'">
+					{@ $use_colorpicker = true; }
+					<input type="text" class="color-indicator" name="{$name}" id="{$name}" value="{$var->value}" />
+					<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
+				</block>
 			<span class="x_help-block">{$var->description}</span>
 			</div>
 		</div>
@@ -153,3 +158,6 @@
 	</div>
 </div>
 <iframe name="hiddenIframe" src="about:blank" width="1000px" height="1000px" frameborder="0" style="position:absolute;top:-9999px;left:-9999px"></iframe>
+<!--@if($use_colorpicker)-->
+	<!--%load_js_plugin("ui.colorpicker")-->
+<!--@end-->
