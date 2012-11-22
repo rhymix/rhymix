@@ -97,34 +97,35 @@
 			if (!is_array($args)) $args = array($args);
 
 			$pathInfo = pathinfo($args[0]);
+			$file = new stdClass();
 			$file->fileName = $pathInfo['basename'];
 			$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
 			$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
 			$file->fileExtension = strtolower($pathInfo['extension']);
-			$file->fileNameNoExt = preg_replace("/\.{$file->fileExtension}$/", '', $file->fileName);
+			$file->fileNameNoExt = preg_replace('/\.min$/', '', $pathInfo['filename']);
+			$file->keyName = implode('.', array($file->fileNameNoExt, $file->fileExtension));
 
-			// Remove .min
-			$file->fileNameNoExt = preg_replace("/\.min$/", '', $file->fileNameNoExt);
-			$file->fileName = $file->keyName = "{$file->fileNameNoExt}.{$file->fileExtension}";
-
-			// if no debug mode load minified file
-			if(!__DEBUG__)
+			if(strpos($file->filePath, '://') === FALSE)
 			{
-				$tmp = "{$file->fileNameNoExt}.min.{$file->fileExtension}";
-				if(file_exists("{$file->fileRealPath}/{$tmp}"))
+				if(!__DEBUG__)
 				{
-					$file->fileName = $tmp;
-					$file->useMin = TRUE;
+					// if no debug mode, load minifed file
+					$minifiedFileName = implode('.', array($file->fileNameNoExt, 'min', $file->fileExtension));
+					$minifiedRealPath = implode('/', array($file->fileRealPath, $minifiedFileName));
+					if(file_exists($minifiedRealPath))
+					{
+						$file->fileName = $minifiedFileName;
+					}
 				}
-			}
+				else
+				{
+					// Remove .min
+					if(file_exists(implode('/', array($file->fileRealPath, $file->keyName))))
+					{
+						$file->fileName = $file->keyName;
+					}
+				}
 
-			if(!$file->useMin && !file_exists("{$file->fileRealPath}/{$file->fileName}"))
-			{
-				$file->fileName = "{$file->fileNameNoExt}.min.{$file->fileExtension}";
-			}
-
-			if (strpos($file->filePath, '://') == false)
-			{
 				$file->useCdn = $useCdn;
 				$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
 				$file->cdnPrefix = $cdnPrefix;
