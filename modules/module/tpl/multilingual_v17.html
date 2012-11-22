@@ -18,11 +18,9 @@
 				<form action="" class="x_tab-pane <!--@if(!$use_in_page)-->x_active<!--@end--> item" id="lang_create">
 					<fieldset class="editMode">
 						<textarea loop="$lang_supported => $code, $name" class="{$code}" rows="1" cols="12" title="{$name}" style="margin-right:5px"></textarea>
-						<div class="x_clearfix">
-							<button type="reset" class="x_btn cancel">{$lang->cmd_cancel}</button>
-							<span class="x_pull-right">
-								<button type="submit" class="x_btn x_btn-primary save-useit">{$lang->use_after_save}</button>
-							</span>
+						<div class="x_clearfix btnArea">
+							<button type="reset" class="x_btn cancel x_pull-left">{$lang->cmd_cancel}</button>
+							<button type="submit" class="x_btn x_btn-primary save-useit">{$lang->use_after_save}</button>
 						</div>
 					</fieldset>
 				</form>

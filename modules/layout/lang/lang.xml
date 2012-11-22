@@ -993,7 +993,7 @@
 	</item>
 	<item name="installed_layout">
 		<value xml:lang="ko"><![CDATA[설치된 레이아웃]]></value>
-		<value xml:lang="en"><![CDATA[Layouts]]></value>
+		<value xml:lang="en"><![CDATA[Installed Layouts]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされているレイアウト]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已安裝版面]]></value>
 	</item>

@@ -66,6 +66,7 @@ body>.x,
 .x .x_btn-group>.x_btn:first-child{border-bottom-left-radius:2px;border-top-left-radius:2px}
 .x input[type="radio"], 
 .x input[type="checkbox"]{margin:0}
+.x input[type="file"]{height:auto}
 .x td select, 
 .x td textarea, 
 .x td input{margin-bottom:0}
@@ -83,7 +84,7 @@ body>.x,
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}
 .x label.checked,
 .x input:checked+label,
-.x .x_form-horizontal .x_control-label{font-weight:bold}
+.x .x_form-horizontal .x_control-label{font-weight:bold;word-break:keep-all}
 .x .x_form-horizontal .x_controls>label{padding-top:5px}
 .x input[type="radio"]+label,
 .x input[type="checkbox"]+label{font-weight:normal}
@@ -96,7 +97,7 @@ body>.x,
 .x.x_modal,
 .x_modal-backdrop{display:none}
 .x.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none;border-radius:6px;box-shadow:none}
-.x_modal>form{margin:0}
+.x.x_modal>form{margin:0}
 .x .x_control-group{padding-top:8px;margin-bottom:10px;border-top:1px dotted #ddd;clear:both}
 .x .x_control-group:before{content:"";display:block;clear:both}
 .x .x_control-group:first-child,

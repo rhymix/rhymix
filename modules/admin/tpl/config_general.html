@@ -48,7 +48,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="time_zone">{$lang->timezone}</label>
 			<div class="x_controls">
-				<select name="time_zone" id="time_zone">
+				<select name="time_zone" id="time_zone" style="width:auto">
 					<option value="{$key}" selected="selected"|cond="$time_zone==$key" loop="$time_zone_list=>$key,$val">{$val}</option>
 				</select>
 			</div>
@@ -118,7 +118,7 @@
 </section>
 <section class="section collapse">
 	<h1>{$lang->subtitle_advanced}</h1>
-	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal" style="display:none">
+	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 		<input type="hidden" name="module" value="install" />
 		<input type="hidden" name="act" value="procInstallAdminSaveTimeZone" />
 		<div class="x_control-group">
@@ -151,8 +151,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->server_ports}</label>
 			<div class="x_controls">
-				<label for="http_port" class="x_inline">HTTP: <input type="text" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:40px" /></label>
-				<label for="https_port" class="x_inline">HTTPS: <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" /></label>
+				<label for="http_port" class="x_inline">HTTP: <input type="number" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:50px" /></label>
+				<label for="https_port" class="x_inline">HTTPS: <input type="number" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:50px" /></label>
 			</div>
 		</div>
 		<div class="x_control-group" cond="__XE_CDN_VERSION__!='%__XE_CDN_VERSION__%'">

@@ -1,11 +1,11 @@
 <load target="./js/config.js" usecdn="true" />
 <load target="../install/lang/lang.xml" usecdn="true" />
 <load target="../../session/tpl/js/session.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
 <div class="x_page-header">
 	<h1>{$lang->menu_gnb_sub['adminConfigurationFtp']}</h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <p class="x_help-block">{$lang->detail_about_ftp_info}</p>
 <form action="./" id="ftp_form" method="post" enctype="multipart/form-data" class="x_form-horizontal" ruleset="installFtpInfo">
@@ -50,7 +50,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="ftp_port">{$lang->ftp_port}</label>
 			<div class="x_controls">
-				<input type="text" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port ? $ftp_info->ftp_port : '21'}" /> Default : 21
+				<input type="number" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port ? $ftp_info->ftp_port : '21'}" style="width:50px" /> Default : 21
 			</div>
 		</div>
 		<div class="x_control-group">

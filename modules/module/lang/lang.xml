@@ -869,26 +869,6 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="tr"><![CDATA[İşaretlediğiniz taktirde, kategori özelliği etkinleştirilecektir.]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu chon, chức năng thể loại sẽ hoạt động.]]></value>
 	</item>
-	<item name="about_use_grant_setup">
-		<value xml:lang="ko"><![CDATA[선택하면 권한을 관리할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[If checked, the content extra vars function will be enabled.]]></value>
-	</item>
-	<item name="about_use_addition_setup">
-		<value xml:lang="ko"><![CDATA[선택하면 추가 설정을 할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[If checked, the content extra vars function will be enabled.]]></value>
-	</item>
-	<item name="about_use_extra_vars">
-		<value xml:lang="ko"><![CDATA[선택하면 콘텐츠 확장변수를 사용할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[If checked, the content extra vars function will be enabled.]]></value>
-	</item>
-	<item name="about_use_skin_extra_vars">
-		<value xml:lang="ko"><![CDATA[선택하면 스킨 확장변수를 사용할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[If checked, the skin extra vars function will be enabled.]]></value>
-	</item>
-	<item name="about_use_mobile_skin_extra_vars">
-		<value xml:lang="ko"><![CDATA[선택하면 모바일 스킨 확장변수를 사용할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[If checked, the mobile skin extra vars function will be enabled.]]></value>
-	</item>
 	<item name="about_list_count">
 		<value xml:lang="ko"><![CDATA[한 페이지에 표시될 글 수를 지정할 수 있습니다. (기본 20개)]]></value>
 		<value xml:lang="en"><![CDATA[You can limit the number of article to show on one page. The default is 20.]]></value>
