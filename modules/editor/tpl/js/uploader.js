@@ -142,7 +142,7 @@ function _true(){ return true };
 
 defaultHandlers = {
 	onFileQueued : _true,
-	onFileQueueError : function(flie, errorCode, message) {
+	onFileQueueError : function(file, errorCode, message) {
 		try {
 			switch(errorCode) {
 				case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED :
