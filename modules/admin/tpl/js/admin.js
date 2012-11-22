@@ -1587,11 +1587,11 @@ jQuery(function($){
 				var width = $this.width();
 				
 				if(t.tagName == 'TEXTAREA' || $this.data('type') == 'textarea'){
-					var $displayInput = $('<textarea id="lang_' + id + '" class="displayInput" style="width:' + width + 'px">').data('lang-id', id);
+					var $displayInput = $('<textarea id="lang_' + id + '" class="displayInput" style="width:' + width + 'px" data-width="' + width + '">').data('lang-id', id);
 				}else{
-					var $displayInput = $('<input type="text" id="lang_' + id + '" class="displayInput" style="width:' + width + 'px">').data('lang-id', id);
+					var $displayInput = $('<input type="text" id="lang_' + id + '" class="displayInput" style="width:' + (width-28) + 'px" data-width="' + (width-28) + '">').data('lang-id', id);
 				}
-				$displayInput.attr('placeholder', $this.attr('placeholder'));
+				$displayInput.attr('placeholder', $this.attr('placeholder'))
 				var $remover = $('<button type="button" class="x_add-on remover" title="' + xe.cmd_remove_multilingual_text + '"><i class="x_icon-remove"></i>' + xe.cmd_remove_multilingual_text + '</button>').data('lang-target', id);
 				var $setter = $('<a href="#g11n" class="x_add-on modalAnchor" title="' + xe.cmd_set_multilingual_text + '"><i class="x_icon-globe"></i>' + xe.cmd_set_multilingual_text + '</a>').data('lang-target', id);
 
@@ -1604,7 +1604,7 @@ jQuery(function($){
 				$displayInput.bind('selected.g11n', function(e, code, value){
 					var width = $displayInput.width();
 					
-					if(!$(this).parent().hasClass('active')){
+					if(!$displayInput.data('active')){
 						width -= 44;
 					}
 					
@@ -1612,6 +1612,7 @@ jQuery(function($){
 						.width(width)
 						.attr('disabled', 'disabled')
 						.val(value)
+						.data('active', true)
 						.parent('.g11n').addClass('active');
 					$displayInput.siblings('#' + $displayInput.data('lang-id')).val('$user_lang->' + code);
 					$setter.trigger('close.mw');
@@ -1622,7 +1623,7 @@ jQuery(function($){
 					var $this = $(this);
 					var $displayInput = $this.siblings('.displayInput');
 
-					if($this.closest('.g11n').hasClass('active')){
+					if($displayInput.data('active')){
 						$multilingualWindow.trigger('before-open.g11n', $displayInput.prev('.lang_code').val().replace('$user_lang->', ''));
 					}else{
 						$multilingualWindow.trigger('before-open.g11n');
@@ -1639,14 +1640,18 @@ jQuery(function($){
 				// Remover click
 				$remover.click(function(){
 					var $this = $(this);
+					var $displayInput = $this.siblings('.displayInput');
 
-					if(!$this.closest('.g11n').hasClass('active')) return;
+					if(!$displayInput.data('active')) return;
 
 					var $g11n_set_input = $('#lang_' + $this.data('lang-target'));
 					var width = $g11n_set_input.width();
-					$g11n_set_input.val('').removeAttr('disabled')
-							.width(width + 44)
-							.parent('.g11n').removeClass('active');
+					$g11n_set_input
+						.val('')
+						.removeAttr('disabled')
+						.width(width + 44)
+						.data('active', false)
+						.parent('.g11n').removeClass('active');
 					$this.siblings('.lang_code').val('');
 				});
 						
@@ -1655,17 +1660,23 @@ jQuery(function($){
 				$displayInput.bind('change keyup', function(){
 					$this = $(this);
 
-					if($this.closest('.g11n').hasClass('active')) return;
+					if($this.data('active')) return;
 
 					$hiddenInput.val($this.val());
 				});
 
+				// reset
+				function reset(){
+					$displayInput
+						.val($hiddenInput.val())
+						.width($displayInput.data('width'))
+						.removeAttr('disabled');
+					$displayInput.parent('.g11n').removeClass('active');
+				}
+
 				// load value
 				function loadValue(){
-					var value = $hiddenInput.val();
-					$remover.trigger('click');
-					$hiddenInput.val(value);
-					$displayInput.val(value);
+					reset();
 					var pattern = /^\$user_lang->/;
 					if(pattern.test($displayInput.val())){
 						function on_complete2(data){
@@ -1674,7 +1685,7 @@ jQuery(function($){
 							var width = $displayInput.width();
 							
 							$displayInput.closest('.g11n').addClass('active');
-							$displayInput.val(data.langs[xe.current_lang]).attr('disabled', 'disabled').width(width - 44);
+							$displayInput.val(data.langs[xe.current_lang]).attr('disabled', 'disabled').width(width - 44).data('active', true);
 						}
 
 						$.exec_json('module.getModuleAdminLangCode', {'name': $displayInput.val().replace('$user_lang->', '')}, on_complete2);
