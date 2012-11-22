@@ -11,6 +11,9 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="Generator" content="XpressEngine">
+<block loop="Context::getMetaTag() => $no, $val">
+<meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}">
+</block>
 <!-- TITLE -->
 <title>{Context::getBrowserTitle()}</title>
 <!-- CSS -->
