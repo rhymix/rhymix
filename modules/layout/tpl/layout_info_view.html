@@ -28,10 +28,16 @@
 			{$selected_layout->description}
 		</div>
 	</div>
-	<div cond="$selected_layout->author->homepage" class="x_control-group">
+	<div cond="$selected_layout->author" class="x_control-group">
 		<label class="x_control-label">{$lang->author}</label>
 		<div class="x_controls">
-			<a href="{$selected_layout->author->homepage}" target="_blank">{$selected_layout->author->name}</a>
+			<block loop="$selected_layout->author=>$author_info">
+				<!--@if($author_info->homepage)-->
+				<a href="{$author_info->homepage}" target="_blank">{$author_info->name}</a>
+				<!--@else-->
+				{$author_info->name}
+				<!--@end-->
+			</block>
 		</div>
 	</div>
 	<div class="x_control-group">

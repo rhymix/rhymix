@@ -84,7 +84,13 @@
 			<div class="x_control-group">
 				<label class="x_control-label">{$lang->author}</label>
 				<div class="x_controls">
-					<a href="{$layout_info->author->homepage}" target="_blank">{$layout_info->layout->author->name}</a>
+					<block loop="$layout_info->author=>$author_info">
+						<!--@if($author_info->homepage)-->
+						<a href="{$author_info->homepage}" target="_blank">{$author_info->name}</a>
+						<!--@else-->
+						{$author_info->name}
+						<!--@end-->
+					</block>
 				</div>
 			</div>
 			<div class="x_control-group">
