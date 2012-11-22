@@ -179,7 +179,6 @@ class HTMLDisplayHandler
 		else
 		{
 			$this->_loadJSCSS();
-			$this->_addMetaTag();
 			$output = $oTemplate->compile('./common/tpl', 'common_layout');
 		}
 
@@ -342,17 +341,6 @@ class HTMLDisplayHandler
 				$oContext->loadFile(array('./common/css/bootstrap.min.css', '', '', 1), true);
 			}
 		}
-	}
-
-	/**
-	 * add meta tag.
-	 * @return void
-	 */
-	function _addMetaTag()
-	{
-		$oContext =& Context::getInstance();
-		$oContext->addMetaTag('Content-Type', 'text/html; charset=UTF-8', true);
-		$oContext->addMetaTag('imagetoolbar', 'no');
 	}
 }
 /* End of file HTMLDisplayHandler.class.php */
