@@ -402,4 +402,15 @@ class MysqlSelectTest extends MysqlTest {
 		$expected = "select convert(`document_srl`, unsigned integer) from `xe_documents` as `documents`";
 		$this->_test($xml_file, $argsString, $expected);
 	}
+
+	/**
+	 * Issue 1431 - xml click count error
+	 */
+	function testClickCount()
+	{
+		$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/click_count.xml";
+		$argsString = '$args->incr_expose_count = true;';
+		$expected = "select `expose_count` from `xe_modules` as `modules`";
+		$this->_test($xml_file, $argsString, $expected);
+	}
 }

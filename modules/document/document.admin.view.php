@@ -59,6 +59,9 @@
             Context::set('status_name_list', $statusNameList);
             Context::set('page_navigation', $output->page_navigation);
 
+			$oSecurity = new Security();
+			$oSecurity->encodeHTML('document_list..variables.');
+
             // set a search option used in the template
             $count_search_option = count($this->search_option);
             for($i=0;$i<$count_search_option;$i++) {
