@@ -53,15 +53,35 @@
 					</li>
 				</script>
 			</section>
-			<button type="button" class="x_btn x_btn-link _addSiteMap" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->add_new_sitemap}</button>
+			<button type="button" class="x_btn x_btn-link _addSiteMap1" data-admin-show="#add_sitemap" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->add_new_sitemap}</button>
 		</div>
+	</div>
+	<div class="col" id="add_sitemap" style="display:none">
+		<section>
+			<h1>{$lang->add_new_sitemap}</h1>
+			<div class="cnt">
+				<ul class="nav _itemList">
+					<li>
+						<div class="multilingual x_input-append">
+							<label for="sitemapName">{$lang->sitemap_name}</label>
+							<input id="sitemapName" class="_sitemapName" type="text" required style="width:179px">
+						</div>
+					</li>
+				</ul>
+				<div class="btnBoth">
+					<button type="reset" class="x_btn x_pull-left" data-admin-hide="#sitemap_general">{$lang->cmd_cancel}</button>
+					<button type="button" class="x_btn x_btn-primary x_pull-right _save">{$lang->cmd_confirm}</button>
+				</div>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-admin-hide="#add_sitemap">&times;</button>
 	</div>
 	<div class="col" id="propertiesRoot" style="display:none">
 		<section>
 			<h1 class="title"><!--사이트맵 이름--></h1>
 			<div class="cnt">
 				<ul class="nav">
-					<li><a href="#addSiteMap" data-admin-show="#add_sitemap">{$lang->edit_sitemap} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#sitemap_general" data-admin-show="#sitemap_general">{$lang->edit_sitemap} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#add" data-admin-show="#add">{$lang->add_menu} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><button type="button"  class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li><button class="_delSiteMap" type="button">{$lang->cmd_delete}</button></li>
@@ -70,6 +90,26 @@
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#propertiesRoot">&times;</button>
+	</div>
+	<div class="col" id="sitemap_general" style="display:none">
+		<section>
+			<h1>{$lang->edit_sitemap}</h1>
+			<div class="cnt">
+				<ul class="nav _itemList">
+					<li>
+						<div class="multilingual x_input-append">
+							<label for="sitemapName2">{$lang->sitemap_name}</label>
+							<input id="sitemapName2" class="_sitemapName" type="text" required style="width:179px">
+						</div>
+					</li>
+				</ul>
+				<div class="btnBoth">
+					<button type="reset" class="x_btn x_pull-left" data-admin-hide="#sitemap_general">{$lang->cmd_cancel}</button>
+					<button type="button" class="x_btn x_btn-primary x_pull-right _save">{$lang->cmd_confirm}</button>
+				</div>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-admin-hide="#sitemap_general">&times;</button>
 	</div>
 	<div class="col prop-general" id="properties">
 		<section>
@@ -586,6 +626,7 @@
 			<button type="button" class="x_btn x_btn-inverse _ok">{$lang->cmd_confirm}</button>
 		</span>
 	</div>
+	<button type="button" class="x_close _cancel" style="position:absolute;top:0;right:0">&times;</button>
 </fieldset>
 <iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
 
@@ -612,6 +653,7 @@
 	xe.lang.img_uploaded = '{$lang->img_uploaded}';
 	xe.lang.img_deleted = '{$lang->img_deleted}';
 	xe.lang.no_use_layout = '{$lang->no_use_layout}';
+	xe.lang.shortcut_desc = '{$lang->shortcut_desc}';
 </script>
 
 <!--[if IE 7]>
@@ -733,74 +775,16 @@ function onSiteMapReceived(htData){
 			$("#siteMapTree").removeClass("_node_renaming"); 
 		})
 		.bind("rename_node.jstree", function(event, data){
-			//console.log(1, event, data);
-		/*
-			var params = new Array();
-			params['menu_srl'] = '889';
-			params['title'] = "제목2";
-			exec_xml("menu","procMenuAdminUpdate", params, completeTmp)
-			*/
 			var sTitle = data.args[1];
-			var params = {};
-			
-			//console.log(htNodeInfo[$._xeAdminVar.sSelectedMenuSrl]);
 			var htOldInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 			if(htOldInfo.sText === sTitle) return;
 			
-			params['title'] = sTitle;
-			params['menu_srl'] = $._xeAdminVar.sSelectedMenuSrl;
-			$.exec_json("menu.procMenuAdminUpdate", params, function(htData){
-				//console.log(htData);
-				if(htData.error !== 0){
-					alert(htData.message);
-					return;
-				}
-				
-				$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
-				loadSiteMap();
-				return;
-			});
+			var sMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 			
-		/*
-		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
-		console.log(sSelectedMenuSrl, $("#menu"+sSelectedMenuSrl));
-
-		var params = {};
-		params['menu_srl'] = sSelectedMenuSrl;
-		$.exec_json("menu.procMenuAdminDelete", params, function(htData){
-			//console.log(htData);
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			
-			loadSiteMap();
-		});
-		*/
+			renameSitemap(sMenuSrl, sTitle);
 		})
 		.bind("create_node.jstree", function (event, data) {
-			//console.log(data.args[2].data[0]);
-			var sTitle = data.args[2].data[0];
-			var params = {};
-			params['title'] = sTitle;
-			$.exec_json("menu.procMenuAdminInsert", params, function(htData){
-				//console.log(htData);
-				if(htData.error !== 0){
-					alert(htData.message);
-					return;
-				}
-				
-				$._xeAdminVar.sRenameOnload = htData.menu_srl;
-				$._xeAdminVar.sSelectedMenuSrl = htData.menu_srl;
-				
-				loadSiteMap();
-				return;
-				/*
-				$(data.rslt.obj).attr("id", "menu"+htData.menu_srl);
-				$(data.rslt.obj).find('a').attr("data-param", '{ "sMenuId":"'+htData.menu_srl+'"}');
-				*/
-				
-			});
+
 		})
 		.bind("select_node.jstree", function(event, data){
 			$("#siteMapTree input").blur();
@@ -1069,6 +1053,25 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
 }
 
+function renameSitemap(sMenuSrl, sTitle){
+	var $ = jQuery;
+	
+	var params = {};
+	params.title = sTitle;
+	params.menu_srl = sMenuSrl;
+	
+	$.exec_json("menu.procMenuAdminUpdate", params, function(htData){
+		if(htData.error !== 0){
+			alert(htData.message);
+			return;
+		}
+		
+		$._xeAdminVar.sSelectOnload = sMenuSrl;
+		loadSiteMap();
+		return;
+	});
+}
+
 function showProp(sMenuId){
 	var $ = jQuery;
 	$._htMarkupActionParam = {sMenuId: sMenuId};
@@ -1104,7 +1107,7 @@ function setItemTypes(htTypes){
 	$._xeAdminVar.htItemTypes._SHORTCUT = {
 		title: xe.lang.shortcut,
 		moduleName:'',
-		description : "클릭 시에 특정 URL이나 다른 메뉴로 가는 메뉴"
+		description : xe.lang.shortcut_desc
 	}
 	//console.log($._xeAdminVar.htItemTypes);
 }
@@ -1395,6 +1398,8 @@ jQuery(function($){
 	$('#propertiesRoot').bind("hide", function(ev, htOpt){
 		if(htOpt && htOpt.bOpeningProp) return;
 		
+		if($('#properties').is(':visible')) return;
+		
 		$("#siteMapTree").jstree("deselect_all");
 	});
 	$('#properties ._edit_cut').click(function(){
@@ -1409,6 +1414,58 @@ jQuery(function($){
 		
 		$('#menu'+$._xeAdminVar.sCopySourceMenuSrl).addClass('_isCut');
 	});
+	$('#add_sitemap').bind('hide', function(){
+		var $panel = $(this);
+		$panel.find('INPUT._sitemapName').val('');
+	});
+	$('#add_sitemap ._save').click(function(){
+		var $panel = $('#add_sitemap');
+		
+		
+		var sTitle = $panel.find('INPUT._sitemapName').val();;
+		var params = {};
+		params['title'] = sTitle;
+		$.exec_json("menu.procMenuAdminInsert", params, function(htData){
+			//console.log(htData);
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			//./
+			//$._xeAdminVar.sRenameOnload = htData.menu_srl;
+			//$._xeAdminVar.sSelectedMenuSrl = htData.menu_srl;
+			$._xeAdminVar.sSelectOnload = htData.menu_srl;
+			
+			loadSiteMap();
+			return;
+		});
+	});
+	$('#sitemap_general').bind('show', function(){
+		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
+		var htInfo = htNodeInfo[sMenuId];
+		
+		var $panel = $(this);
+		$panel.find('INPUT._sitemapName').val(htInfo.title);
+	});
+	$('#sitemap_general ._save').click(function(){
+		var sTitle = $('#sitemap_general INPUT._sitemapName').val();
+		renameSitemap($._xeAdminVar.sSelectedMenuSrl, sTitle);
+	//./
+	/*
+		$.exec_json("menu.procMenuAdminUpdateItem", params, function(htData){
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			
+			// select currently selected menu
+			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
+			loadSiteMap();
+		});
+		*/
+	});
+	
 	$('#properties ._edit_copy').click(function(){
 		//console.log(2, $._xeAdminVar.sSelectedMenuSrl);
 		
@@ -1495,6 +1552,8 @@ jQuery(function($){
 			
 			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_item  + '</label>',
 			
+			bDanger : true,
+			
 			fnOnOK : function(){
 				if(!$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
 
@@ -1567,6 +1626,8 @@ jQuery(function($){
 	$('#properties').bind("hide", function(ev, htOpt){
 		if(htOpt && htOpt.bOpeningProp) return;
 
+		if($('#propertiesRoot').is(':visible')) return;
+		
 		$("#siteMapTree").jstree("deselect_all");
 	});
 	$('#properties ._chkUseAsHome').click(function(){
@@ -3027,6 +3088,8 @@ console.log(11, htDesign.htLayoutSrl.P);
 			
 			bSmall: true,
 			
+			bDanger: true,
+			
 			fnOnOK : function(){
 				$.exec_json("layout.procLayoutAdminDelete", {
 					layout_srl : sLayoutSrl
@@ -3200,6 +3263,8 @@ console.log(11, htDesign.htLayoutSrl.P);
 					
 					bSmall : true,
 					
+					bDanger : true,
+					
 					fnOnOK : function(){
 						doDelete(sMenuSrl, true, sSelectOnload);
 					}
@@ -3224,6 +3289,8 @@ console.log(11, htDesign.htLayoutSrl.P);
 			sTitle : xe.lang.confirm_menu_delete,
 			
 			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_contents + '</label>',
+			
+			bDanger : true,
 			
 			fnOnOK : function(){
 				if(!$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
@@ -3343,7 +3410,8 @@ console.log(11, htDesign.htLayoutSrl.P);
 			for(var sName in htData.skin_info_list){
 				if(!htData.skin_info_list.hasOwnProperty(sName)) continue;
 				
-				//$._xeAdminVar.htItemTypes[sModuleType]
+				//./
+				//$._xeAdminVar.htItemTypes[sType][sName].S = htInfo.title;
 
 				// if nothing is selected, select the first one.
 				if(htDesign.htSkin[sType] == ""){
@@ -3501,14 +3569,25 @@ console.log(11, htDesign.htLayoutSrl.P);
 	});
 	$._xeAdminVar.msgBox = {};
 	function msgBox(htOptions){
-		// sTitle, sText, fnOnOK, fnOnCancel, bSmall, bAlert, fnOnShow, fnOnHide
+		// sTitle, sText, fnOnOK, fnOnCancel, bSmall, bAlert, fnOnShow, fnOnHide, bDanger
 		htOptions = htOptions || {};
 		
 		var sTitle = htOptions.sTitle || "";
 		var sText = htOptions.sText || "";
+		
+		var bDanger = htOptions.bDanger || false;
 
 		$msgBox.find("._title") .html(sTitle);
 		$msgBox.find("._text").html(sText);
+		
+		var $confirmBtn = $msgBox.find('._ok');
+		if(bDanger){
+			$confirmBtn.removeClass('x_btn-inverse');
+			$confirmBtn.addClass('x_btn-danger');
+		}else{
+			$confirmBtn.removeClass('x_btn-danger');
+			$confirmBtn.addClass('x_btn-inverse');
+		}
 
 		// #msgBox._small {width:400px;margin-left:-200px}
 		// #msgBox._type_alert _cancel{display:none}

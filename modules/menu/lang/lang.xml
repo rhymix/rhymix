@@ -68,6 +68,10 @@
 		<value xml:lang="ko"><![CDATA[사이트맵 수정]]></value>
 		<value xml:lang="en"><![CDATA[Edit Sitemap]]></value>
 	</item>
+	<item name="sitemap_name">
+		<value xml:lang="ko"><![CDATA[사이트맵 이름]]></value>
+		<value xml:lang="en"><![CDATA[Sitemap Name]]></value>
+	</item>
 	<item name="add_menu">
 		<value xml:lang="ko"><![CDATA[메뉴 추가]]></value>
 		<value xml:lang="en"><![CDATA[Add Menu Item]]></value>
@@ -83,6 +87,10 @@
 	<item name="sitemap">
 		<value xml:lang="ko"><![CDATA[사이트맵]]></value>
 		<value xml:lang="en"><![CDATA[Sitemap]]></value>
+	</item>
+	<item name="edit_sitemap">
+		<value xml:lang="ko"><![CDATA[사이트맵 편집]]></value>
+		<value xml:lang="en"><![CDATA[Edit Sitemap]]></value>
 	</item>
 	<item name="add_new_sitemap">
 		<value xml:lang="ko"><![CDATA[사이트맵 추가]]></value>
@@ -233,8 +241,8 @@
 		<value xml:lang="vi"><![CDATA[Trải rộng]]></value>
 	</item>
 	<item name="menu_img_btn">
-		<value xml:lang="ko"><![CDATA[이미지 버튼]]></value>
-		<value xml:lang="en"><![CDATA[Image button]]></value>
+		<value xml:lang="ko"><![CDATA[메뉴 링크 이미지]]></value>
+		<value xml:lang="en"><![CDATA[Menu link image]]></value>
 		<value xml:lang="jp"><![CDATA[イメージボタン]]></value>
 		<value xml:lang="zh-CN"><![CDATA[图片按钮]]></value>
 		<value xml:lang="zh-TW"><![CDATA[圖片按鈕]]></value>
@@ -249,7 +257,7 @@
 		<value xml:lang="en"><![CDATA[No image]]></value>
 	</item>
 	<item name="menu_normal_btn">
-		<value xml:lang="ko"><![CDATA[일반]]></value>
+		<value xml:lang="ko"><![CDATA[기본]]></value>
 		<value xml:lang="en"><![CDATA[Normal]]></value>
 		<value xml:lang="jp"><![CDATA[一般ボタン]]></value>
 		<value xml:lang="zh-CN"><![CDATA[普通]]></value>
@@ -741,8 +749,8 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="en"><![CDATA[Install other layouts]]></value>
 	</item>
 	<item name="layout_html_css_settings">
-		<value xml:lang="ko"><![CDATA[레이아웃 HTML/CSS 설정]]></value>
-		<value xml:lang="en"><![CDATA[Layout HTML/CSS settings]]></value>
+		<value xml:lang="ko"><![CDATA[HTML/CSS 설정]]></value>
+		<value xml:lang="en"><![CDATA[HTML/CSS settings]]></value>
 	</item>
 	<item name="use_site_default_skin">
 		<value xml:lang="ko"><![CDATA[사이트 기본 스킨 사용]]></value>
@@ -792,6 +800,11 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[바로가기]]></value>
 		<value xml:lang="en"><![CDATA[Shortcut]]></value>
 	</item>
+	<item name="shortcut_desc">
+		<value xml:lang="ko"><![CDATA[URL 또는 다른 메뉴에 대한 링크입니다.]]></value>
+		<value xml:lang="en"><![CDATA[A shortcut is a link to a URL or to another menu]]></value>
+	</item>
+	
 	<item name="msg_target_is_sub_of_origin">
 		<value xml:lang="ko"><![CDATA[대상 메뉴가 원본 메뉴의 하위 메뉴 입니다.]]></value>
 		<value xml:lang="en"><![CDATA[Target menu is sub of origin menu.]]></value>
