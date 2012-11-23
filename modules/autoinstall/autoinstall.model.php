@@ -364,6 +364,11 @@ class autoinstallModel extends autoinstall
 	function getHaveInstance($columnList = array())
 	{
 		$output = executeQueryArray('autoinstall.getHaveInstance', NULL, $columnList);
+		if(!$output->data)
+		{
+			return array();
+		}
+
 		return $output->data;
 	}
 }
