@@ -228,6 +228,7 @@ class autoinstallAdminModel extends autoinstall
 
 		return $result;
 	}
+
 }
 /* End of file autoinstall.admin.model.php */
 /* Location: ./modules/autoinstall/autoinstall.admin.model.php */

@@ -360,6 +360,12 @@ class autoinstallModel extends autoinstall
 		return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
 	}
 
+
+	function getHaveInstance($columnList = array())
+	{
+		$output = executeQueryArray('autoinstall.getHaveInstance', NULL, $columnList);
+		return $output->data;
+	}
 }
 /* End of file autoinstall.model.php */
 /* Location: ./modules/autoinstall/autoinstall.model.php */

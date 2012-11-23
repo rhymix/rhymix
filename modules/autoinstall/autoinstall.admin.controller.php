@@ -228,7 +228,7 @@ class autoinstallAdminController extends autoinstall
 		{
 			$xmlDoc->response->packages->item = array($xmlDoc->response->packages->item);
 		}
-		$targets = array('package_srl', 'updatedate', 'latest_item_srl', 'path', 'version', 'category_srl');
+		$targets = array('package_srl', 'updatedate', 'latest_item_srl', 'path', 'version', 'category_srl', 'have_instance');
 		foreach($xmlDoc->response->packages->item as $item)
 		{
 			$args = null;

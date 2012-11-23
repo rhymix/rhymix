@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="path" var="path" notnull="notnull" />
+        <column name="have_instance" var="have_instance" notnull="notnull" />
         <column name="updatedate" var="updatedate" notnull="notnull" />
         <column name="category_srl" var="category_srl" filter="number" />
         <column name="latest_item_srl" var="latest_item_srl" notnull="notnull" />

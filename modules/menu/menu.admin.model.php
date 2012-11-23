@@ -329,9 +329,29 @@ class menuAdminModel extends menu
 		$output = ModuleHandler::triggerCall('menu.getModuleListInSitemap', 'after', $moduleList);
 		if(!$output->toBool()) return $output;
 
-		$moduleList = array_unique($moduleList);
+		$localModuleList = array_unique($moduleList);
 
 		$oAutoinstallModel = getModel('autoinstall');
+		
+		// get have instance
+		$remotePackageList = $oAutoinstallModel->getHaveInstance(array('path'));
+		$remoteModuleList = array();
+		foreach($remotePackageList as $package)
+		{
+			if(strpos($package->path, './modules/') !== 0) continue;
+
+			$pathInfo = explode('/', $package->path);
+			$remoteModuleList[] = $pathInfo[2];
+		}
+
+		// all module list
+		$allModuleList = FileHandler::readDir('./modules', '/^([a-zA-Z0-9_-]+)$/');
+
+		// union have instance and all module list
+		$haveInstance = array_intersect($remoteModuleList, $allModuleList);
+
+		// union
+		$moduleList = array_unique(array_merge($localModuleList, $haveInstance));
 
 		$moduleInfoList = array();
 		Context::loadLang('modules/page/lang');

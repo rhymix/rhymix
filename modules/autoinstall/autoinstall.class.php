@@ -108,6 +108,12 @@ class autoinstall extends ModuleObject
 		$config = $oModuleModel->getModuleConfig('autoinstall');
 		if(!isset($config->downloadServer))	return true;
 
+		// 2012.11.12 add column 'have_instance' in autoinstall_packages
+		if(!$oDB->isColumnExists('autoinstall_packages', 'have_instance'))
+		{
+			return TRUE;
+		}
+
 		return false;
 	}
 
@@ -146,6 +152,12 @@ class autoinstall extends ModuleObject
 		{
 			$config->downloadServer = _XE_DOWNLOAD_SERVER_;
 			$oModuleController->insertModuleConfig('autoinstall', $config);
+		}
+
+		// 2012.11.12 add column 'have_instance' in autoinstall_packages
+		if(!$oDB->isColumnExists('autoinstall_packages', 'have_instance'))
+		{
+			$oDB->addColumn('autoinstall_packages', 'have_instance', 'char', '1', 'N', TRUE);
 		}
 
 		return new Object(0, 'success_updated');
