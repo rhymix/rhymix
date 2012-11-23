@@ -666,7 +666,7 @@
                 <description xml:lang="zh-TW">按照指定的順序進行排列。</description>
                 <description xml:lang="tr">En yeni yazıların listesi, teslim edilme sırasına veya değişiklik sırasına göre sıralanabilir.</description>
                 <options>
-                    <value>list_order</value>
+                    <value>regdate</value>
                     <name xml:lang="ko">최신 등록순</name>
                     <name xml:lang="zh-CN">最新发表顺</name>
                     <name xml:lang="jp">最新登録順</name>
