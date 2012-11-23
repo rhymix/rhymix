@@ -282,7 +282,7 @@
 					<figure>
 						<figcaption>{$lang->menu_normal_btn}</figcaption>
 						<p class="noImg">{$lang->menu_no_img_btn}</p>
-						<img src="../../../common/img/blank.gif" alt="{$lang->about_menu_normal_btn}">
+						<img class="_thumbnail" src="../../../common/img/blank.gif" alt="{$lang->about_menu_normal_btn}">
 					</figure>
 					<div class="btnBoth">
 						<button type="submit" class="delete x_btn x_pull-left">{$lang->cmd_delete}</button>
@@ -300,14 +300,14 @@
 					<figure>
 						<figcaption>{$lang->menu_hover_btn}</figcaption>
 						<p class="noImg">{$lang->menu_no_img_btn}</p>
-						<img src="../../../common/img/blank.gif" alt="{$lang->about_menu_hover_btn}">
+						<img class="_thumbnail" src="../../../common/img/blank.gif" alt="{$lang->about_menu_hover_btn}">
 					</figure>
 					<div class="btnBoth">
 						<button type="submit" class="delete x_btn x_pull-left">{$lang->cmd_delete}</button>
 						<span class="fileBtn x_btn x_pull-right">
 							<span class="modify">{$lang->menu_change_btn}</span>
 							<span class="upload">{$lang->menu_upload_btn}</span>
-							<input type="file" title="{$lang->menu_change_btn}/{$lang->menu_upload_btn}" name="menu_normal_btn">
+							<input type="file" title="{$lang->menu_change_btn}/{$lang->menu_upload_btn}" name="menu_hover_btn">
 						</span>
 					</div>
 				</form>
@@ -318,14 +318,14 @@
 					<figure>
 						<figcaption>{$lang->menu_active_btn}</figcaption>
 						<p class="noImg">{$lang->menu_no_img_btn}</p>
-						<img src="../../../common/img/blank.gif" alt="{$lang->about_menu_active_btn}">
+						<img class="_thumbnail" src="../../../common/img/blank.gif" alt="{$lang->about_menu_active_btn}">
 					</figure>
 					<div class="btnBoth">
 						<button type="submit" class="delete x_btn x_pull-left">{$lang->cmd_delete}</button>
 						<span class="fileBtn x_btn x_pull-right">
 							<span class="modify">{$lang->menu_change_btn}</span>
 							<span class="upload">{$lang->menu_upload_btn}</span>
-							<input type="file" title="{$lang->menu_change_btn}/{$lang->menu_upload_btn}" name="menu_normal_btn">
+							<input type="file" title="{$lang->menu_change_btn}/{$lang->menu_upload_btn}" name="menu_active_btn">
 						</span>
 					</div>
 				</form>
@@ -1907,14 +1907,30 @@ jQuery(function($){
 		});
 	});
 	
+	top.onBtnImgUploadedTO = function(htData){
+		$._xeAdminVar.nBtnUploaded = null;
+		
+		if($._xeAdminVar.bBtnUploadCompleted){
+			top.onBtnImgUploaded();
+		}
+	};
+	
 	top.onBtnImgUploaded = function(htData){
+		$._xeAdminVar.bBtnUploadCompleted = true;
+		
+		if($._xeAdminVar.nBtnUploaded){
+			return;
+		}
+		
 		$('#imgbtn').show();
 
+		/*
 		if(htData.normal_btn || htData.hover_btn || htData.active_btn){
 			showQuickHelp('img_uploaded');
 		}else{
 			showQuickHelp('img_deleted');
 		}
+		*/
 	}
 	var $imgBtnForms = $("#imgbtn form");
 	$imgBtnForms.find('input[name=act]').val('procMenuAdminButtonUpload');
@@ -1938,7 +1954,15 @@ jQuery(function($){
 			$(this).remove();
 		});
 		$('#imgbtn input[type=file]').change(function(){
-			$(this).closest('form').submit();
+			var $form = $(this).closest('form');
+			$form.find('IMG._thumbnail').attr('src', 'common/img/msg.loading.gif');
+			$form.addClass('_imgUploaded');
+		
+			$._xeAdminVar.bBtnUploadCompleted = false;
+			if($._xeAdminVar.nBtnUploaded) clearTimeout($._xeAdminVar.nBtnUploaded);
+			$._xeAdminVar.nBtnUploaded = setTimeout(top.onBtnImgUploadedTO, 5000);
+			
+			$form.submit();
 		});
 		
 		if(htData.menu_item.normal_btn){
