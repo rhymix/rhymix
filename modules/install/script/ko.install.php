@@ -116,7 +116,7 @@ $page_args->module = 'page';
 $page_args->mid = 'welcome_page';
 $page_args->module_category_srl = 0;
 $page_args->page_caching_interval = 0;
-$page_args->page_type = 'ARTICLE';
+$page_args->page_type = 'WIDGET';
 $page_args->skin = 'default';
 $page_args->use_mobile = 'Y';
 
@@ -151,8 +151,8 @@ if(!$output->toBool()) return $output;
 // save PageWidget
 $mdocument_srl = $output->get('document_srl');
 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-$module_info->document_srl = $document_srl;
-$module_info->mdocument_srl = $mdocument_srl;
+$module_info->content = '<img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="width: 100%; float: left;" body="" document_srl="'.$document_srl.'" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0"  />';
+$module_info->mcontent = '<img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="width: 100%; float: left;" body="" document_srl="'.$mdocument_srl.'" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0"  />';
 $output = $oModuleController->updateModule($module_info);
 if(!$output->toBool()) return $output;
 
