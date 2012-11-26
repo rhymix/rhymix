@@ -113,6 +113,11 @@ class Context {
 	 * @var bool true if attached file exists
 	 */
 	var $is_uploaded = false;
+	/**
+	 * Check init
+	 * @var bool false if init fail
+	 */
+	var $isSuccessInit = true;
 
 	/**
 	 * returns static context object (Singleton). It's to use Context without declaration of an object
@@ -802,6 +807,12 @@ class Context {
 	function _setRequestArgument() {
 		if(!count($_REQUEST)) return;
 
+		$pattern = array(
+				'/<\?/iUsm',
+				'/<\%/iUsm',
+				'/<script(\s|\S)*language[\s]*=("|\')php("|\')(\s|\S)*/iUsm'
+				);
+
 		foreach($_REQUEST as $key => $val) {
 			if($val === '' || Context::get($key)) continue;
 			$val = $this->_filterRequestVar($key, $val);
@@ -812,9 +823,15 @@ class Context {
 
 			if($set_to_vars)
 			{
-				$val = preg_replace('/<\?.*(\?>)?/iUsm', '', $val);
-				$val = preg_replace('/<\%.*(\%>)?/iUsm', '', $val);
-				$val = preg_replace('/<script(\s|\S)*language[\s]*=("|\')php("|\')(\s|\S)*>.*<[\s]*\/[\s]*script[\s]*>/iUsm', '', $val);
+				foreach($pattern AS $key2=>$value2)
+				{
+					$result = preg_match($value2, $val);
+					if($result)
+					{
+						$this->isSuccessInit = false;
+						break;
+					}
+				}
 			}
 
 			$this->set($key, $val, $set_to_vars);
