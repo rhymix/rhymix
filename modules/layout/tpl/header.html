@@ -5,8 +5,9 @@
 <div class="x_page-header">
 	<h1>
 		{$lang->installed_layout}
-		<span cond="$layout_info" style="font-size:14px">&gt; {$layout_info->title} v{$layout_info->version}({$layout_info->layout})</span>
-		<span cond="$selected_layout" style="font-size:14px">&gt; {$selected_layout->title} v{$selected_layout->version}({$selected_layout->layout})</span>
+		<span cond="$layout_info" class="path" title="{$layout_info->layout}">&gt; {$layout_info->title} v{$layout_info->version}</span>
+		<span cond="$selected_layout" class="path" title="{$selected_layout->layout}">&gt; {$selected_layout->title} v{$selected_layout->version}</span>
+		<span cond="$selected_layout" class="path">&gt; {$selected_layout->layout_title}</span>
 	</h1>
 </div>
 

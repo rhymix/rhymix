@@ -182,14 +182,6 @@ jQuery(function($){
 			return false;
 		});
 
-		// GNB Close
-		$xGnb
-			.prepend('<button type="button" class="close before" />')
-			.append('<button type="button" class="close after" />');
-		$xGnb.find('>.close').focus(function(){
-			$xBody.addClass('wide');
-			reflow();
-		});
 		// Expert Menu Toggle
 		$xGnb.find('.exMenu>button').click(function(){
 			$('#gnbNav').toggleClass('ex');

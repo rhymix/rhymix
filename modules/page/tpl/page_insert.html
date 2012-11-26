@@ -1,5 +1,5 @@
 <!--%import("filter/insert_outside.xml")-->
-<!--#include("header.html")-->
+<include target="header.html" />
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -11,48 +11,45 @@
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 
-	<div class="x_control-group">
+	<div class="x_control-group" cond="!$module_srl">
 		<label class="x_control-label" for="page_type">{$lang->page_type}</label>
-		<div class="x_controls" class="text">
-		<!--@if(!$module_srl)-->
+		<div class="x_controls">
 			<select name="page_type" id="page_type">
 				<option value="">{$lang->click_choice}</option>
 				<option value="WIDGET">{$lang->page_type_name['WIDGET']}</option>
 				<option value="ARTICLE">{$lang->page_type_name['ARTICLE']}</option>
 				<option value="OUTSIDE">{$lang->page_type_name['OUTSIDE']}</option>
 			</select>
-			<p>{$lang->about_page_type}</p>
-		<!--@end-->
+			<a href="#aboutPageType" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<div class="x_help-block" id="aboutPageType" hidden>{$lang->about_page_type}</div>
 		</div>
 	</div>
-	<!--@if($logged_info->is_admin!='Y')-->
-	<input type="hidden" name="page_name" value="{$module_info->mid}" />
-	<!--@else-->
-	<div class="x_control-group">
+	<input type="hidden" name="page_name" value="{$module_info->mid}" cond="$logged_info->is_admin !='Y'" />
+	<div class="x_control-group" cond="$logged_info->is_admin =='Y'">
 		<label class="x_control-label" for="page_name">{$lang->mid}</label>
 		<div class="x_controls">
 			<input type="text" name="page_name" id="page_name" value="{$module_info->mid}" />
-			<p>{$lang->about_mid}</p>
+			<a href="#aboutMid" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutMid" hidden>{$lang->about_mid}</p>
 		</div>
 	</div>
-	<!--@end-->
 	<div class="x_control-group">
 		<label class="x_control-label" for="module_category_srl">{$lang->module_category}</label>
 		<div class="x_controls">
 			<select name="module_category_srl" id="module_category_srl">
 				<option value="0">{$lang->notuse}</option>
-				<!--@foreach($module_category as $key => $val)-->
-				<option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-				<!--@end-->
+				<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl==$key">{$val->title}</option>
 			</select>
-			<p>{$lang->about_module_category}</p>
+			<a href="#aboutCategory" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutCategory" hidden>{$lang->about_module_category}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label class="x_control-label" for="browser_title">{$lang->browser_title}</label>
+		<label class="x_control-label" for="lang_browser_title">{$lang->browser_title}</label>
 		<div class="x_controls">
 			<input type="text" name="browser_title" id="browser_title" value="{$module_info->browser_title}"  class="lang_code"/>
-			<p>{$lang->about_browser_title}</p>
+			<a href="#aboutBrowserTitle" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutBrowserTitle" hidden>{$lang->about_browser_title}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -60,18 +57,19 @@
 		<div class="x_controls">
 			<select name="layout_srl" id="layout_srl">
 				<option value="0">{$lang->notuse}</option>
-				<!--@foreach($layout_list as $key => $val)-->
-				<option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
-				<!--@end-->
-				</select>
-			<p>{$lang->about_layout}</p>
+				<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
+			</select>
+			<a href="#aboutLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label class="x_control-label" for="use_mobile">{$lang->mobile_view}</label>
+		<label class="x_control-label">{$lang->mobile_view}</label>
 		<div class="x_controls">
-				<input type="checkbox" name="use_mobile" id="use_mobile" value="Y" <!--@if($module_info->use_mobile == "Y")-->checked="checked"<!--@end--> />
-				<label for="use_mobile">{$lang->about_mobile_view}</label>
+			<label for="use_mobile">
+				<input type="checkbox" name="use_mobile" id="use_mobile" value="Y" checked="checked"|cond="$module_info->use_mobile == 'Y'" />
+				{$lang->about_mobile_view}
+			</label>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -79,71 +77,70 @@
 		<div class="x_controls">
 			<select name="mlayout_srl" id="mlayout_srl">
 				<option value="0">{$lang->notuse}</option>
-				<!--@foreach($mlayout_list as $key => $val)-->
-				<option value="{$val->layout_srl}" <!--@if($module_info->mlayout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
-				<!--@end-->
+				<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
 			</select>
-			<p>{$lang->about_layout}</p>
+			<a href="#aboutMobileLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutMobileLayout" hidden>{$lang->about_layout}</p>
 		</div>
 	</div>
 	<div class="x_control-group optionnalData widgetType outsideType">
 		<label class="x_control-label" for="page_caching_interval">{$lang->page_caching_interval}</label>
 		<div class="x_controls">
 			<input type="text" name="page_caching_interval" id="page_caching_interval" value="{(int)$module_info->caching_interval}"  /> {$lang->unit_min}
-			<p>{$lang->about_page_caching_interval}</p>
+			<a href="#aboutCaching" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutCaching" hidden>{$lang->about_page_caching_interval}</p>
 		</div>
 	</div>
 	<div class="x_control-group optionnalData articleType">
-		<label class="x_control-label" for="is_skin_fix">{$lang->skin_fix}</label>
+		<label class="x_control-label">{$lang->skin_fix}</label>
 		<div class="x_controls">
-			<input type="checkbox" name="is_skin_fix" id="is_skin_fix" value="Y" /> 
-			<p>{$lang->about_skin_fix}</p>
+			<label for="is_skin_fix">
+				<input type="checkbox" name="is_skin_fix" id="is_skin_fix" value="Y" /> 
+				{$lang->about_skin_fix}
+			</label>
 		</div>
 	</div>
 	<div class="x_control-group optionnalData articleType">
 		<label class="x_control-label" for="skin">{$lang->skin}</label>
 		<div class="x_controls">
 			<select name="skin" id="skin">
-				<!--@foreach($skin_list as $key=>$val)-->
-				<option value="{$key}" <!--@if($module_info->skin==$key ||(!$module_info->skin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
-				<!--@end-->
+				<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$module_info->skin==$key ||(!$module_info->skin && $key=='default')">{$val->title}</option>
 			</select>
-			<p>{$lang->about_skin}</p>
+			<a href="#aboutSkin" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutSkin" hidden>{$lang->about_skin}</p>
 		</div>
 	</div>
 	<div class="x_control-group optionnalData articleType">
 		<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
 		<div class="x_controls">
 			<select name="mskin" id="mskin">
-				<!--@foreach($mskin_list as $key=>$val)-->
-				<option value="{$key}" <!--@if($module_info->mskin==$key ||(!$module_info->mskin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
-				<!--@end-->
+				<option loop="$mskin_list => $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin==$key ||(!$module_info->mskin && $key=='default')">{$val->title}</option>
 			</select>
-			<p>{$lang->about_skin}</p>
+			<a href="#aboutMobileSkin" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutMobileSkin" hidden>{$lang->about_skin}</p>
 		</div>
 	</div>
 	<div class="x_control-group row optionnalData outsideType">
 		<label class="x_control-label" for="path">{$lang->opage_path}</label>
 		<div class="x_controls">
-		<input type="text" name="path" id="path" value="{htmlspecialchars($module_info->path)}"  />
-				<p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
+			<input type="text" name="path" id="path" value="{htmlspecialchars($module_info->path)}"  />
+			<a href="#aboutOpage" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutOpage" hidden>{$lang->about_opage_path} <mark>{realpath("./")}</mark></p>
 		</div>
 	</div>
 	<div class="x_control-group row optionnalData outsideType">
 		<label class="x_control-label" for="mpath">{$lang->opage_mobile_path}</label>
 		<div class="x_controls">
 			<input type="text" name="mpath" id="mpath" value="{htmlspecialchars($module_info->mpath)}"  />
-			<p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
+			<a href="#aboutOpageMobile" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+			<p class="x_help-block" id="aboutOpageMobile" hidden>{$lang->about_opage_mobile_path} <mark>{realpath("./")}</mark></p>
 		</div>
 	</div>
 	<div class="x_clearfix btnArea">
-		<div class="x_pull-right">
-			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_make}</button>
-		</div>
+		<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_make}</button>
 	</div>
 	</form>
 </section>
-
 <script>
 (function($){
 	$('.optionnalData').hide();

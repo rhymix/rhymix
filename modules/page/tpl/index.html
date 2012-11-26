@@ -37,6 +37,18 @@
 			<th scope="col"><input type="checkbox" /></th>
 		</tr>
 	</thead>
+	<tfoot>
+		<tr>
+			<th scope="col">{$lang->no}</th>
+			<th scope="col">{$lang->module_category}</th>
+			<th scope="col">{$lang->page_type}</th>
+			<th scope="col">{$lang->mid}</th>
+			<th scope="col">{$lang->browser_title}</th>
+			<th scope="col">{$lang->regdate}</th>
+			<th scope="col">&nbsp;</th>
+			<th scope="col"><input type="checkbox" /></th>
+		</tr>
+	</tfoot>
 	<tbody>
 		<!--@foreach($page_list as $no => $val)-->
 		<tr class="row{$cycle_idx}">
@@ -58,7 +70,9 @@
 			<td>{zdate($val->regdate,"Y-m-d")}</td>
 			<td>
 				<a href="{getUrl('act','dispPageAdminInfo','module_srl',$val->module_srl)}">{$lang->cmd_setup}</a>
+				<i>|</i>
 				<a href="{getUrl('','module','module','act','dispModuleAdminCopyModule','module_srl',$val->module_srl)}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a>
+				<i>|</i>
 				<a href="{getUrl('act','dispPageAdminDelete','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a>
 				</td>
 			<td><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
@@ -77,7 +91,7 @@
 </form>
 
 <!-- 페이지 네비게이션 -->
-<form cond="$page_navigation" action="./" class="x_pagination x_pagination-centered" no-error-return-url="true" style="margin:0">
+<form cond="$page_navigation" action="./" class="x_pagination" no-error-return-url="true" style="margin:-36px 0 0 0">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
