@@ -2,10 +2,13 @@
 <load target="../../editor/tpl/js/editor_module_config.js" usecdn="true" />
 
 <div class="x_page-header">
-	<h1>{$lang->communication} {$lang->cmd_management}</h1>
+	<h1>
+		{$lang->communication} {$lang->cmd_management}
+		<a href="#aboutCommunication" class="x_pull-right x_icon-question-sign" data-toggle style="margin-top:13px">{$lang->help}</a>
+	</h1>
 </div>
 
-<p class="x_help-block">{nl2br($lang->about_communication)}</p>
+<p class="x_alert x_alert-info" id="aboutCommunication" hidden>{nl2br($lang->about_communication)}</p>
 
 <div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -23,15 +26,17 @@
 			</select>
 			<select name="sel_editor_colorset" style="display:none">
 			</select>
-			<script>//<![CDATA[
+			<script>
+			//<![CDATA[
 				getEditorSkinColorList('{$communication_config->editor_skin}','{$communication_config->editor_colorset}');
-			//]]></script>
+			//]]>
+			</script>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="layout">{$lang->layout}</label>
 		<div class="x_controls">
-			<select id="layout" name="layout_srl">
+			<select id="layout" name="layout_srl" style="width:auto">
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->layout_srl">{$val->title} ({$val->layout})</option>
 			</select>
@@ -40,8 +45,8 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="skin">{$lang->skin}</label>
 		<div class="x_controls">
-			<select name="skin" id="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value, 'P');return false;">
-				<option loop="$communication_skin_list => $key, $val" value="{$key}" <!--@if($key==$communication_config->skin)-->selected="selected"<!--@end-->>{$val->title}</option>
+			<select name="skin" id="skin" style="width:auto" onchange="doGetSkinColorset(this.options[this.selectedIndex].value, 'P')">
+				<option loop="$communication_skin_list => $key, $val" value="{$key}" selected="selected"|cond="$key==$communication_config->skin">{$val->title}</option>
 			</select>
 		</div>
 	</div>
@@ -54,7 +59,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="mlayout_srl">{$lang->mobile_layout}</label>
 		<div class="x_controls">
-			<select id="mlayout_srl" name="mlayout_srl">
+			<select id="mlayout_srl" name="mlayout_srl" style="width:auto">
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->mlayout_srl">{$val->title} ({$val->layout})</option>
 			</select>
@@ -63,7 +68,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
 		<div class="x_controls">
-			<select name="mskin" id="mskin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value, 'M');return false;">
+			<select name="mskin" id="mskin" style="width:auto" onchange="doGetSkinColorset(this.options[this.selectedIndex].value, 'M')">
 				<option loop="$communication_mobile_skin_list => $key,$val" value="{$key}" selected="selected"|cond="$key==$communication_config->mskin" >{$val->title}</option>
 			</select>
 		</div>

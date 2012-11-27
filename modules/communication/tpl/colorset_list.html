@@ -1,16 +1,7 @@
-<!--@foreach($skin_info->colorset as $key => $val)-->
-	<!--@if($val->screenshot)-->
-	{@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
-	<!--@else-->
-	{@ $_width = 200; $_height = 20; $_talign = "left"; }
-	<!--@end-->
-
-	<div style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
-		<label cond="$type == 'P'" for="colorset_{$key}"><input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($communication_config->colorset==$val->name)-->checked="checked"<!--@end-->/>{$val->title}</label>
-		<label cond="$type == 'M'" for="mcolorset_{$key}"><input type="radio" name="mcolorset" value="{$val->name}" id="mcolorset_{$key}" <!--@if($communication_config->mcolorset==$val->name)-->checked="checked"<!--@end-->/>{$val->title}</label>
-		<!--@if($val->screenshot)-->
-		<br />
-		<img src="{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
-		<!--@end-->
+<div loop="$skin_info->colorset => $key, $val" style="padding:3px 0 0 0;display:inline-block;*display:inline;zoom:1;min-width:220px;vertical-align:top">
+	<label cond="$type == 'P'" for="colorset_{$key}"><input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" checked="checked"|cond="$communication_config->colorset==$val->name" /> {$val->title}</label>
+	<label cond="$type == 'M'" for="mcolorset_{$key}"><input type="radio" name="mcolorset" value="{$val->name}" id="mcolorset_{$key}" checked="checked"|cond="$communication_config->mcolorset==$val->name" /> {$val->title}</label>
+	<div class="x_thumbnail" cond="$val->screenshot" style="display:inline-block;*display:inline;zoom:1;min-width:200px">
+		<img src="{$val->screenshot}" alt="{$val->title}" style="min-width:200px" />
 	</div>
-<!--@end-->
+</div>

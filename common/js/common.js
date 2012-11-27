@@ -471,7 +471,7 @@ function setFixedPopupSize() {
 	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
 	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
 
-	if(w < 600) w = 600 + offset.left*2;
+	if(w < 800) w = 800 + offset.left*2;
 
 	dw = $win.width();
 	dh = $win.height();
