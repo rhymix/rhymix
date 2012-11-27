@@ -114,6 +114,15 @@ class Context {
 	 */
 	var $is_uploaded = false;
 	/**
+	 * Pattern for request vars check
+	 * @var array
+	 */
+	var $pattern = array(
+			'/<\?/iUsm',
+			'/<\%/iUsm',
+			'/<script(\s|\S)*language[\s]*=("|\')php("|\')(\s|\S)*/iUsm'
+			);
+	/**
 	 * Check init
 	 * @var bool false if init fail
 	 */
@@ -807,12 +816,6 @@ class Context {
 	function _setRequestArgument() {
 		if(!count($_REQUEST)) return;
 
-		$pattern = array(
-				'/<\?/iUsm',
-				'/<\%/iUsm',
-				'/<script(\s|\S)*language[\s]*=("|\')php("|\')(\s|\S)*/iUsm'
-				);
-
 		foreach($_REQUEST as $key => $val) {
 			if($val === '' || Context::get($key)) continue;
 			$val = $this->_filterRequestVar($key, $val);
@@ -823,18 +826,33 @@ class Context {
 
 			if($set_to_vars)
 			{
-				foreach($pattern AS $key2=>$value2)
-				{
-					$result = preg_match($value2, $val);
-					if($result)
-					{
-						$this->isSuccessInit = false;
-						break;
-					}
-				}
+				$this->_recursiveCheckVar($val);
 			}
 
 			$this->set($key, $val, $set_to_vars);
+		}
+	}
+
+	function _recursiveCheckVar($val)
+	{
+		if(is_string($val))
+		{
+			foreach($this->pattern as $pattern)
+			{
+				$result = preg_match($pattern, $val);
+				if($result)
+				{
+					$this->isSuccessInit = FALSE;
+					return;
+				}
+			}
+		}
+		else if(is_array($val))
+		{
+			foreach($val as $val2)
+			{
+				$this->_recursiveCheckVar($val2);
+			}
 		}
 	}
 
