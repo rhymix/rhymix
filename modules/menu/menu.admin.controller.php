@@ -507,6 +507,10 @@ class menuAdminController extends menu
 			}
 
 			$moduleInfo->mid = $request->module_id;
+			if($request->browser_title)
+			{
+				$moduleInfo->browser_title = $request->browser_title;
+			}
 			$oModuleController = &getController('module');
 			$oModuleController->updateModule($moduleInfo);
 			$args->url = $request->module_id;

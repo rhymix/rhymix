@@ -481,6 +481,7 @@ class menuAdminModel extends menu
 						$menuItems->title = $value->title;
 						$menuItems->menuItems = $menu;
 
+						// If include home menu, move first
 						if($value->menu_srl == $this->menuSrlWithinHome)
 						{
 							$menuList[-1] = $menuItems;
@@ -555,7 +556,8 @@ class menuAdminModel extends menu
 		}
 
 		//if menu type is module menu
-		if(!empty($menu['url']) && !preg_match('/^http/i', $menu['url']))
+		//if(!empty($menu['url']) && !preg_match('/^http/i', $menu['url']))
+		if($menu['is_shortcut'] != 'Y')
 		{
 			unset($midInfo);
 			unset($moduleInfo);
@@ -582,6 +584,7 @@ class menuAdminModel extends menu
 			}
 			// setting layout srl for layout management
 			$menu['layout_srl'] = $midInfo->layout_srl;
+			$menu['browser_title'] = $midInfo->browser_title;
 		}
 		if(count($menu['list']) > 0)
 		{
