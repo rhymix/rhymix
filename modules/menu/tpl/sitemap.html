@@ -223,7 +223,7 @@
 					<li style="padding:0 0 6px 0">
 						<label><input type="checkbox" class="_leaveUnfolded" title="{$lang->menu_expand}"> {$lang->menu_expand}</label>
 					</li>
-					<li class="menuType">
+					<!--li class="menuType">
 						<div style="line-height:30px">
 							<strong>{$lang->menu_type}</strong>: <span class="module_type"></span> <a href="#menuTypeHelpInDefault" class="x_icon-question-sign" data-admin-toggle="#menuTypeHelpInDefault">?</a>
 						</div>
@@ -231,9 +231,16 @@
 							<button type="button" class="x_close" data-admin-hide="#menuTypeHelpInDefault">×</button>
 							<p>{$lang->about_menu_type_in_default}</p>
 						</div>
-					</li>
+					</li-->
 					
-					<li class="typePage">
+					<li class="typePage" style="border-top:1px solid #DDD">
+						<label for="mid2">{$lang->browser_title} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
+						<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
+							<button type="button" class="x_close" data-admin-hide="#mid2_help">×</button>
+							<p>{$lang->about_browser_title}</p>
+						</div>
+						<input id="menuName" class="_menuName lang_code" type="text">
+						
 						<label for="mid2">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
 						<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
 							<button type="button" class="x_close" data-admin-hide="#mid2_help">×</button>
@@ -262,6 +269,12 @@
 							</div>
 						</div>
 					</li>
+					
+					<li style="border-top:1px solid #DDD">
+						<div id="menuTypeHelpInDefault" style="width:210px">
+							<p>{$lang->about_menu_type_in_default}</p>
+						</div>
+					</li>
 				</ul>
 				<div class="btnBoth">
 					<button type="reset" class="x_btn x_pull-left" data-admin-hide="#default">{$lang->cmd_cancel}</button>
@@ -275,6 +288,9 @@
 		<fieldset>
 			<h1>{$lang->menu_img_btn}</h1>
 			<div class="cnt">
+				<div style="border-bottom:1px solid #DDD; width:210px">
+					<p>{$lang->about_imgbtn}</p>
+				</div>
 				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
@@ -1813,7 +1829,7 @@ jQuery(function($){
 		
 		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 		
-		$(this).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
+		//$(this).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
 		//console.log(htInfo);
 		
 		if(htInfo.sModuleType === "_SHORTCUT"){
@@ -3015,6 +3031,7 @@ console.log(11, htDesign.htLayoutSrl.P);
 			
 			//console.log(htDesign.htLayoutSrl[sType]);
 
+			$._xeAdminVar.htLayoutInfo[P] = {};
 			for(var i=0, nLen=htData.layout_list.length; i<nLen; i++){
 				htInfo = htData.layout_list[i];
 				
@@ -3104,7 +3121,8 @@ console.log(11, htDesign.htLayoutSrl.P);
 	});
 	$('#layout').on('click', 'button._deleteLayout', function(){
 		var sLayoutSrl = $(this).closest('li._layoutItem').data('LayoutSrl');
-		
+		//console.log();
+		//./getLayoutInstanceListForJSONP
 		confirmDialog({
 			sTitle : xe.lang.confirm_delete,
 			

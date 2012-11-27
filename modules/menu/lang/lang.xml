@@ -195,6 +195,14 @@
 		<value xml:lang="es"><![CDATA[ID del menú]]></value>
 		<value xml:lang="tr"><![CDATA[Menü Kimliği]]></value>
 	</item>
+	<item name="browser_title">
+		<value xml:lang="ko"><![CDATA[브라우저 제목]]></value>
+		<value xml:lang="en"><![CDATA[Browser title]]></value>
+	</item>
+	<item name="about_browser_title">
+		<value xml:lang="ko"><![CDATA[브라우저 제목에 나타나는 값입니다. RSS/Trackback에서도 사용됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Text used as browser title. Also used for RSS/Trackback]]></value>
+	</item>
 	<item name="menu_type">
 		<value xml:lang="ko"><![CDATA[메뉴 타입]]></value>
 		<value xml:lang="en"><![CDATA[Menu type]]></value>
@@ -251,6 +259,10 @@
 		<value xml:lang="es"><![CDATA[Botón de imagen]]></value>
 		<value xml:lang="tr"><![CDATA[Resim Tuşu]]></value>
 		<value xml:lang="vi"><![CDATA[Hình nút bấm]]></value>
+	</item>
+	<item name="about_imgbtn">
+		<value xml:lang="ko"><![CDATA[사이트 네비게이션에 텍스트 메뉴명을 대신할 이미지를 등록 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Replace text natigation links with image buttons]]></value>
 	</item>
 	<item name="menu_no_img_btn">
 		<value xml:lang="ko"><![CDATA[이미지 없음]]></value>
