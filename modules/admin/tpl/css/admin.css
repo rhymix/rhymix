@@ -104,6 +104,7 @@ body>.x,
 .x .x_control-group:before{content:"";display:block;clear:both}
 .x .x_control-group:first-child,
 .x .x_control-group:first-of-type{border-top:0;padding-top:0}
+.x .x_control-group select{width:auto;min-width:220px}
 .x input[type="text"], 
 .x input[type="password"], 
 .x input[type="datetime"], 
@@ -133,6 +134,7 @@ body>.x,
 .x label{font-weight:inherit}
 .x p:last-child{margin-bottom:0}
 .x form{margin:0 0 10px 0}
+.x form .x_btn-primary[type="submit"]:only-of-type{min-width:160px}
 .x .x_help-inline{display:inline;vertical-align:baseline}
 /* Custom Styles */
 .x .section{margin:20px 0 40px 0}

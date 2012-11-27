@@ -12,8 +12,8 @@
 	<div class="x_control-group">
 		<label for="sample_code" class="x_control-label">{$lang->sample_code}</label>
 		<div class="x_controls" style="margin-right:14px">
-			<textarea id="sample_code" readonly style="width:100%;height:100px;cursor:text">{$sample_code}</textarea>
-			<span class="x_help-block">{$lang->about_sample_code}</span>
+			<textarea id="sample_code" readonly style="width:100%;height:100px;cursor:text;font-family:'Courier New', Courier, monospace">{$sample_code}</textarea>
+			<p class="x_help-block">{$lang->about_sample_code}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -22,7 +22,7 @@
 			<select name="skin" id="skin">
 				<option loop="$skin_list => $key, $val"  value="{$key}" selected="selected"|cond="$config->skin == $key">{$val->title}</option>
 			</select>
-			<span class="x_help-block">{$lang->about_skin}</span>
+			<p class="x_help-inline">{$lang->about_skin}</p>
 		</div>
 	</div>
 	<div class="x_control-group">

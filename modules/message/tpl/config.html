@@ -1,6 +1,10 @@
 <div class="x_page-header">
-	<h1>{$lang->message}</h1>
+	<h1>
+		{$lang->message}
+		<a href="#aboutSkin" class="x_icon-question-sign x_pull-right" data-toggle style="margin-top:13px">{$lang->help}</a>
+	</h1>
 </div>
+<p class="x_alert x_alert-info" id="aboutSkin" hidden>{$lang->about_skin}</p>
 
 <div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -9,12 +13,11 @@
 <form action="./" method="post" class="x_form-horizontal">
 <input type="hidden" name="module" value="message" />
 <input type="hidden" name="act" value="procMessageAdminInsertConfig" />
-    <p>{$lang->about_skin}</p>
 
 	<div class="x_control-group">
 		<label for="skin" class="x_control-label">{$lang->skin}</label>
 		<div class="x_controls">
-			<select name="skin" id="skin">
+			<select name="skin" id="skin" style="width:auto">
 				<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$key == $config->skin">{$val->title}</option>
 			</select>
 		</div>
@@ -22,7 +25,7 @@
 	<div class="x_control-group">
 		<label for="mskin" class="x_control-label">{$lang->mobile_skin}</label>
 		<div class="x_controls">
-			<select name="mskin" id="mskin">
+			<select name="mskin" id="mskin" style="width:auto">
 				<option loop="$mskin_list => $key, $val" value="{$key}" selected="selected"|cond="$key == $config->mskin">{$val->title}</option>
 			</select>
 		</div>

@@ -22,7 +22,7 @@
 <div class="x_control-group">
 	<label class="x_control-label" for="widget_cache">{$lang->widget_cache}</label>
 	<div class="x_controls">
-		<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width:30px" /> {$lang->unit_min}
+		<input type="number" name="widget_cache" id="widget_cache" value="0" size="2" style="width:50px" /> {$lang->unit_min}
 		<p class="x_help-inline">{$lang->about_widget_cache}</p>
 	</div>
 </div>
@@ -57,7 +57,7 @@
 				<!--@else-->
 				<input type="hidden" name="{$id}" value="" />
 				<!--@end-->
-				<div style="display:inline-block">
+				<div style="display:inline-block;padding-top:3px">
 					<label>{$lang->display_no}</label>
 					<select class="multiorder_show" size="8" multiple="multiple" style="vertical-align:top;margin-bottom:5px">
 						<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
@@ -65,7 +65,7 @@
 					<br>
 					<button type="button" class="x_btn multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
 				</div>
-				<div style="display:inline-block">
+				<div style="display:inline-block;padding-top:3px">
 					<label>{$lang->display_yes}</label>
 					<select class="multiorder_selected" size="8" multiple="multiple" style="vertical-align:top;margin-bottom:5px">
 						<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>

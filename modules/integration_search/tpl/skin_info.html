@@ -62,9 +62,9 @@
 		</div>
 	</section>
 
-	<section class="section">
+	<section class="section" cond="$skin_info->extra_vars || $skin_info->colorset">
 		<h1>{$lang->extra_vars}</h1>
-		<div class="x_control-group" cond="$skin_info->colorset" class="colorset">
+		<div class="x_control-group" cond="$skin_info->colorset">
 			<label class="x_control-label">{$lang->colorset}</label>
 			<div class="x_controls">
 				<block loop="$skin_info->colorset => $key, $val">

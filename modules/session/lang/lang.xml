@@ -9,22 +9,14 @@
 		<value xml:lang="tr"><![CDATA[Oturum]]></value>
 	</item>
 	<item name="about_session">
-		<value xml:lang="ko"><![CDATA[세션 관리를 하는 모듈입니다.
-틈틈이 세션 정리를 하면 사이트 운영에 보다 좋은 효과를 낼 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[This module manages sessions.
-Frequent session arrangement will provide a better environment for your site.]]></value>
-		<value xml:lang="jp"><![CDATA[セッションを管理するモジュールです。
-定期的なセッションの整理はサイトのパフォーマンスに効果的です。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[管理会话的模块。
-有时间清理无用会话，可提高网站效率。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[管理SESSION的模組。
-請定時清理SESSION，可提高網站效率。]]></value>
-		<value xml:lang="fr"><![CDATA[Ce module administre les sessions
-L'arrangement fréquent des sessions pourvoira de meilleur environnement pour votre site Web.]]></value>
-		<value xml:lang="tr"><![CDATA[Bu modül oturumları yönetir
-Alışılmış oturum düzenlemesi, sitenize daha iyi bir ortam sağlayacaktır.]]></value>
-		<value xml:lang="vi"><![CDATA[Module này quản lý những Session
-Thường xuyên xắp xếp Session sẽ giúp Website của bạn hoạt động ổn định và nhanh hơn.]]></value>
+		<value xml:lang="ko"><![CDATA[세션 관리를 하는 모듈입니다. 틈틈이 세션 정리를 하면 사이트 운영에 보다 좋은 효과를 낼 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[This module manages sessions. Frequent session arrangement will provide a better environment for your site.]]></value>
+		<value xml:lang="jp"><![CDATA[セッションを管理するモジュールです。定期的なセッションの整理はサイトのパフォーマンスに効果的です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理会话的模块。有时间清理无用会话，可提高网站效率。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理SESSION的模組。請定時清理SESSION，可提高網站效率。]]></value>
+		<value xml:lang="fr"><![CDATA[Ce module administre les sessions. L'arrangement fréquent des sessions pourvoira de meilleur environnement pour votre site Web.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu modül oturumları yönetir. Alışılmış oturum düzenlemesi, sitenize daha iyi bir ortam sağlayacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Module này quản lý những Session. Thường xuyên xắp xếp Session sẽ giúp Website của bạn hoạt động ổn định và nhanh hơn.]]></value>
 	</item>
 	<item name="cmd_clear_session">
 		<value xml:lang="ko"><![CDATA[세션 정리]]></value>
