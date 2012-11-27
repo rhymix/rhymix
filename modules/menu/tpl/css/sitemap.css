@@ -121,7 +121,7 @@ body>.x{max-width:none !important}
 .download .item.installed.up_to_date ._need_to_update{display:none}
 .download .item.installed ._already_up_to_date{display:none}
 .download .item.installed.up_to_date ._already_up_to_date{display:block}
-.download ._pagination{position:absolute;bottom:-5px;left:0;width:100%}
+.download ._pagination{position:absolute;bottom:3px;left:0;width:100%}
 .download ._pagination>.x_pagination,
 .download ._pagination>.search{margin:0}
 .download ._pagination>.x_pagination{text-shadow:0 1px 0 #fff}
