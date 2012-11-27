@@ -79,8 +79,9 @@ body>.x,
 .x .x_nav-tabs>li>a{padding-top:6px;padding-bottom:6px;text-decoration:none !important}
 .x .x_nav-tabs>li.x_active>a{font-weight:bold}
 .x .x_table{margin:10px 0;border-top:2px solid #ddd;border-bottom:1px solid #ddd}
-.x h1+.x_table{border-top:0}
-.x .x_table:first-child{margin-top:0}
+.x .x_table:first-child,
+.x .x_table:first-of-type{margin-top:0}
+.x h1+.x_table:first-of-type{border-top:0;margin-top:-10px}
 .x .x_table>caption{text-align:left;padding:0 0 10px 0;line-height:26px}
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}
 .x label.checked,

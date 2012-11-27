@@ -782,22 +782,17 @@
 		<value xml:lang="vi"><![CDATA[Nếu chọn, Sẽ hiển thị mặc định là (mid=NoValue) khi truy cập tên Module không đúng.]]></value>
 	</item>
 	<item name="about_module_category">
-		<value xml:lang="ko"><![CDATA[분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류 관리는 <a href="./?module=admin&amp;act=dispModuleAdminCategory">모듈관리 > 모듈분류</a>에서 할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류 관리는 <a href="./?module=admin&amp;act=dispModuleAdminCategory">모듈분류</a>에서 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[It enables you to manage it through a module category.
- The URL for the module manager is <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Module category </a>.]]></value>
-		<value xml:lang="jp"><![CDATA[カテゴリで管理できるようにします。モジュールのカテゴリの管理は、「<a href="./?module=admin&amp;act=dispModuleAdminCategory">モジュール管理 &gt; モジュールカテゴリ</a>」にて行います。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以分类管理模块。 模块分类可以在 <a href="./?module=admin&amp;act=dispModuleAdminCategory">模块管理 > 模块分类 </a>中进行管理。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可以分類管理模組。模組分類可以在<a href="./?module=admin&amp;act=dispModuleAdminCategory">模組管理 > 模組分類 </a>中進行管理。]]></value>
-		<value xml:lang="fr"><![CDATA[Ça vous permet d'administrer le module par la catégorie.
-On peut administrer la classification des modules à <a href="./?module=admin&amp;act=dispModuleAdminCategory">Administration des modules > Catégorie des Modules </a>.]]></value>
-		<value xml:lang="ru"><![CDATA[Это позволяет Вам управлять посредством категорий модулей.
-URL для менеджера модулей <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Категория Модуля </a>.]]></value>
-		<value xml:lang="es"><![CDATA[Es posible manejar a traves de categoría.
- EL URL para en manejo del módulo de categoría es <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manejo de módulo > Módulo de categoría </a>.]]></value>
-		<value xml:lang="tr"><![CDATA[Size, modül kategorisi yoluyla yönetme imkanı sunar.
- Modül Yöneticisi için URL: <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Modül Kategorisi</a>dir.]]></value>
-		<value xml:lang="vi"><![CDATA[Nó cho phép bạn quản lý thông qua Module thể loại.
- URL quản lý có dạng <a href="./?module=admin&amp;act=dispModuleAdminCategory">Quản lý Module > Module thể loại </a>.]]></value>
+ The URL for the module manager is <a href="./?module=admin&amp;act=dispModuleAdminCategory">Module category </a>.]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリで管理できるようにします。モジュールのカテゴリの管理は、「<a href="./?module=admin&amp;act=dispModuleAdminCategory">モジュールカテゴリ</a>」にて行います。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以分类管理模块。 模块分类可以在 <a href="./?module=admin&amp;act=dispModuleAdminCategory">模块分类 </a>中进行管理。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以分類管理模組。模組分類可以在<a href="./?module=admin&amp;act=dispModuleAdminCategory">模組分類</a>中進行管理。]]></value>
+		<value xml:lang="fr"><![CDATA[Ça vous permet d'administrer le module par la catégorie. On peut administrer la classification des modules à <a href="./?module=admin&amp;act=dispModuleAdminCategory">Catégorie des Modules </a>.]]></value>
+		<value xml:lang="ru"><![CDATA[Это позволяет Вам управлять посредством категорий модулей. URL для менеджера модулей <a href="./?module=admin&amp;act=dispModuleAdminCategory">Категория Модуля </a>.]]></value>
+		<value xml:lang="es"><![CDATA[Es posible manejar a traves de categoría. EL URL para en manejo del módulo de categoría es <a href="./?module=admin&amp;act=dispModuleAdminCategory">Módulo de categoría </a>.]]></value>
+		<value xml:lang="tr"><![CDATA[Size, modül kategorisi yoluyla yönetme imkanı sunar. Modül Yöneticisi için URL: <a href="./?module=admin&amp;act=dispModuleAdminCategory">Modül Kategorisi</a>dir.]]></value>
+		<value xml:lang="vi"><![CDATA[Nó cho phép bạn quản lý thông qua Module thể loại. URL quản lý có dạng <a href="./?module=admin&amp;act=dispModuleAdminCategory">Module thể loại </a>.]]></value>
 	</item>
 	<item name="about_description">
 		<value xml:lang="ko"><![CDATA[관리용으로 사용되는 설명입니다.]]></value>

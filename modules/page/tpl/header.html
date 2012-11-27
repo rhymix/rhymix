@@ -1,14 +1,15 @@
 <load target="js/page_admin.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->page_management}</h1>
+	<h1>
+		{$lang->page_management}
+		<span class="path" cond="$module_info->mid">
+			&gt; <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank">{$module_info->mid}</a><block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
+		</span>
+		<a href="#aboutPage" class="x_icon-question-sign x_pull-right" data-toggle cond="!$module_info->mid" style="margin-top:13px"></a>
+	</h1>
 </div>
-<p cond="!$module_info->mid">{nl2br($lang->about_page)}</p>
-<!--@if($module_info)-->
-<h2 cond="$module_info->mid">
-	{$module_info->mid}<block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
-	<a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" class="x_icon-share-alt" target="_blank" style="vertical-align:middle">{$lang->view}</a>
-</h2>
-<ul class="x_nav x_nav-tabs" cond="$act != 'dispPageAdminDelete'">
+<p id="aboutPage" class="x_alert x_alert-info" cond="!$module_info->mid" hidden>{nl2br($lang->about_page)}</p>
+<ul class="x_nav x_nav-tabs" cond="$act != 'dispPageAdminDelete' && $module_info">
 	<li cond="$module=='admin'" class="x_active"|cond="$act=='dispPageAdminContent'"><a href="{getUrl('act','dispPageAdminContent','module_srl','')}">{$lang->cmd_list}</a></li>
 	<li cond="$module!='admin'"><a href="{getUrl('act','')}">{$lang->cmd_back}</a></li>
 		<block cond="$module_srl">
@@ -20,9 +21,5 @@
 			<li class="x_active"|cond="$act === 'dispPageAdminMobileSkinInfo'"><a href="{getUrl('act','dispPageAdminMobileSkinInfo')}">{$lang->cmd_manage_mobile_skin}</a></li>
 			</block>
 		</block>
-		<block cond="!$module_srl">
-			<li class="x_active"|cond="$act=='dispPageAdminInsert'"><a href="{getUrl('act','dispPageAdminInsert')}">{$lang->cmd_page_create}</a></li>
-		</block>
 </ul>
-<!--@end-->
 
