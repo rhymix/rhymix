@@ -514,6 +514,18 @@
             } else {
                 $args->default_value = '';
             }
+
+			// Check ID duplicated
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+			foreach($config->signupForm as $item) 
+			{
+				if($item->name == $args->column_name)
+				{
+					if($args->member_join_form_srl && $args->member_join_form_srl == $item->member_join_form_srl) continue;
+					return new Object(-1,'msg_exists_user_id');
+				}
+			}
             // Fix if member_join_form_srl exists. Add if not exists.
             $isInsert;
 			if(!$args->member_join_form_srl){
