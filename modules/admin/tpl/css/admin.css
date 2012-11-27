@@ -2,7 +2,7 @@
 /* Reset */
 html,body{min-height:100%}
 body{margin:8px;-webkit-text-size-adjust:none}
-body>.x{min-width:300px;max-width:1240px;margin:0 auto}
+body>.x:first-child{min-width:300px;max-width:1240px;margin:0 auto}
 body>.x,
 .x label,
 .x table,
@@ -37,12 +37,9 @@ body>.x,
 .x h6{font-size:12px}
 .x [class^="x_icon-"],
 .x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
-.x .x_close{width:32px;height:32px;font-size:17px;opacity:.4;filter:alpha(opacity=40)}
+.x .x_close{width:32px;height:32px;font-size:17px;opacity:.5;filter:alpha(opacity=50)}
 .x .x_alert{position:relative}
-.x .x_alert>.x_close,
-.x.x_modal>.x_close{position:absolute;top:0;right:0}
-.x .x_modal>.x_close,
-.x.x_modal>.x_close{font-size:21px}
+.x .x_alert>.x_close{position:absolute;top:0;right:0}
 .x .x_pagination{height:26px;margin:10px 0 0 0}
 .x .x_pagination ul>li>a, 
 .x .x_pagination ul>li>span,
@@ -96,10 +93,15 @@ body>.x,
 .x .x_input-prepend a.x_add-on{height:16px;line-height:16px}
 .x .x_input-append button.x_add-on, 
 .x .x_input-prepend button.x_add-on{height:24px;line-height:16px}
-.x.x_modal,
+.x_modal,
 .x_modal-backdrop{display:none}
-.x.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none;border-radius:6px;box-shadow:none}
-.x.x_modal>form{margin:0}
+.x_modal-backdrop{opacity:.6;filter:alpha(opacity=60)}
+.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none;border-radius:6px;background-color:#333;background-image:-webkit-linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);background-image:-moz-linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);background-image:-o-linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);background-image:linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);}
+.x_modal>form{margin:0 !important}
+.x_modal>.x_close{position:absolute;top:10px;right:5px;font-size:21px;color:#fff}
+.x_modal .x_modal-header{padding:17px 15px;border-bottom:1px solid #aaa}
+.x_modal .x_modal-header>h3{color:#fff;text-shadow:0 -1px 0 #000}
+.x_modal .x_modal-body{background:#fff}
 .x .x_control-group{padding-top:8px;margin-bottom:10px;border-top:1px dotted #ddd;clear:both}
 .x .x_control-group:before{content:"";display:block;clear:both}
 .x .x_control-group:first-child,
