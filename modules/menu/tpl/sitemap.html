@@ -53,19 +53,17 @@
 					</li>
 				</script>
 			</section>
-			<button type="button" class="x_btn x_btn-link _addSiteMap1" data-admin-show="#add_sitemap" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->add_new_sitemap}</button>
+			<button type="button" class="x_btn x_btn-link _addSiteMap1" data-admin-show="#add_sitemap" style="position:absolute;right:5px;bottom:7px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->add_new_sitemap}</button>
 		</div>
 	</div>
 	<div class="col" id="add_sitemap" style="display:none">
 		<section>
 			<h1>{$lang->add_new_sitemap}</h1>
 			<div class="cnt">
-				<ul class="nav _itemList">
+				<ul class="_itemList">
 					<li>
-						<div class="multilingual x_input-append">
-							<label for="sitemapName">{$lang->sitemap_name}</label>
-							<input id="sitemapName" class="_sitemapName" type="text" required style="width:179px">
-						</div>
+						<label for="sitemapName">{$lang->sitemap_name}</label>
+						<input id="sitemapName" class="_sitemapName" type="text" required>
 					</li>
 				</ul>
 				<div class="btnBoth">
@@ -95,12 +93,10 @@
 		<section>
 			<h1>{$lang->edit_sitemap}</h1>
 			<div class="cnt">
-				<ul class="nav _itemList">
+				<ul class="_itemList">
 					<li>
-						<div class="multilingual x_input-append">
-							<label for="sitemapName2">{$lang->sitemap_name}</label>
-							<input id="sitemapName2" class="_sitemapName" type="text" required style="width:179px">
-						</div>
+						<label for="sitemapName2">{$lang->sitemap_name}</label>
+						<input id="sitemapName2" class="_sitemapName" type="text" required>
 					</li>
 				</ul>
 				<div class="btnBoth">
@@ -143,7 +139,7 @@
 						<li><a href="#add_menu" data-admin-show="#add_menu" data-param='{ "moduleName" : "${ModuleName}", "moduleTitle": "${ModuleTitle}" }'>${ModuleTitle} <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 				</ul>
-				<a href="#download" class="x_btn x_btn-link" data-admin-show="#download" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_menu_types}</a>
+				<a href="#download" class="x_btn x_btn-link" data-admin-show="#download" style="position:absolute;right:5px;bottom:7px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_menu_types}</a>
 			</div>
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#add">&times;</button>
@@ -161,7 +157,7 @@
 						</div>
 					</li>
 					<li class="typePage">
-						<label for="mid1">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">?</a></label>
+						<label for="mid1">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">{$lang->help}</a></label>
 						<div id="mid1_help" class="x_alert x_alert-info" style="display:none;width:169px">
 							<button type="button" class="x_close" data-admin-hide="#mid1_help">×</button>
 							<p>{$lang->about_menu_id} {$lang->about_new_menu_id}</p>
@@ -225,7 +221,7 @@
 					</li>
 					<!--li class="menuType">
 						<div style="line-height:30px">
-							<strong>{$lang->menu_type}</strong>: <span class="module_type"></span> <a href="#menuTypeHelpInDefault" class="x_icon-question-sign" data-admin-toggle="#menuTypeHelpInDefault">?</a>
+							<strong>{$lang->menu_type}</strong>: <span class="module_type"></span> <a href="#menuTypeHelpInDefault" class="x_icon-question-sign" data-admin-toggle="#menuTypeHelpInDefault">{$lang->help}</a>
 						</div>
 						<div id="menuTypeHelpInDefault" class="x_alert x_alert-info" style="display:none;width:169px">
 							<button type="button" class="x_close" data-admin-hide="#menuTypeHelpInDefault">×</button>
@@ -234,14 +230,14 @@
 					</li-->
 					
 					<li class="typePage" style="border-top:1px solid #DDD">
-						<label for="mid2">{$lang->browser_title} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
-						<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
-							<button type="button" class="x_close" data-admin-hide="#mid2_help">×</button>
+						<label for="lang_pageTitle">{$lang->browser_title} <a href="#help_menuName" class="x_icon-question-sign" data-admin-toggle="#help_menuName">{$lang->help}</a></label>
+						<div id="help_menuName" class="x_alert x_alert-info" style="display:none;width:169px">
+							<button type="button" class="x_close" data-admin-hide="#help_menuName">×</button>
 							<p>{$lang->about_browser_title}</p>
 						</div>
-						<input id="menuName" class="_menuName lang_code" type="text">
+						<input id="pageTitle" class="_menuName lang_code" type="text">
 						
-						<label for="mid2">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">?</a></label>
+						<label for="mid2">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">{$lang->help}</a></label>
 						<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
 							<button type="button" class="x_close" data-admin-hide="#mid2_help">×</button>
 							<p>{$lang->about_menu_id}</p>
@@ -269,11 +265,8 @@
 							</div>
 						</div>
 					</li>
-					
-					<li style="border-top:1px solid #DDD">
-						<div id="menuTypeHelpInDefault" style="width:210px">
-							<p>{$lang->about_menu_type_in_default}</p>
-						</div>
+					<li>
+						<p id="menuTypeHelpInDefault" style="width:220px">{$lang->about_menu_type_in_default}</p>
 					</li>
 				</ul>
 				<div class="btnBoth">
@@ -288,9 +281,7 @@
 		<fieldset>
 			<h1>{$lang->menu_img_btn}</h1>
 			<div class="cnt">
-				<div style="border-bottom:1px solid #DDD; width:210px">
-					<p>{$lang->about_imgbtn}</p>
-				</div>
+				<p style="border-bottom:1px solid #ddd;width:220px;padding-bottom:10px">{$lang->about_imgbtn}</p>
 				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
@@ -395,7 +386,7 @@
 					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} [<span class="themeName _skinName">${SkinName}</span>] <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 				</ul>
-				<div class="btnBoth" style="position:absolute;bottom:0;left:0;margin:0;width:100%">
+				<div class="btnBoth">
 					<button type="reset" class="x_btn x_pull-left _btn_cancel">{$lang->cmd_cancel}</button>
 					<button type="button" class="x_btn x_btn-primary x_pull-right _btn_save">
 						<span class="langDesktop">{$lang->desktop_settings}</span> 
@@ -441,7 +432,7 @@
 					</ul>
 					<i class="mask"></i>
 				</div>
-				<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_layouts}</a>
+				<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:7px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_layouts}</a>
 			</div>
 		</form>
 		<button type="button" class="x_close" data-admin-hide="#layout">&times;</button>
@@ -537,7 +528,7 @@
 						</li>
 						</script>
 					</ul>
-					<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:4px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_skins}</a>
+					<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:7px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_skins}</a>
 				</div>
 			</div>
 		</form>
@@ -642,7 +633,7 @@
 			<button type="button" class="x_btn x_btn-inverse _ok">{$lang->cmd_confirm}</button>
 		</span>
 	</div>
-	<button type="button" class="x_close _cancel" style="position:absolute;top:0;right:0">&times;</button>
+	<button type="button" class="x_close _cancel">&times;</button>
 </fieldset>
 <iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
 
@@ -3808,8 +3799,8 @@ console.log(11, htDesign.htLayoutSrl.P);
 // Set #site height fix
 	$(window).resize(function(){
 		var wHeigh = $(window).height();
-		$('#site').height(wHeigh - 155).find('>.col').height(wHeigh - 205).find('.cnt').height(wHeigh - 275);
-		$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').height(wHeigh - 262);
+		$('#site').height(wHeigh - 155).find('>.col').height(wHeigh - 205).find('.cnt').height(wHeigh - 272);
+		$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').height(wHeigh - 242);
 	}).resize();
 
 	var sPackageSrl = getParameterByName('continue_install_package');
