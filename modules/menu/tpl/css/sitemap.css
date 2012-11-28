@@ -108,14 +108,15 @@ body>.x{max-width:none !important}
 .col .clone a{display:block;max-width:160px;white-space:nowrap;max-width:160px;text-overflow:ellipsis;overflow:hidden}
 /* Download */
 .download.col{max-width:600px}
-.download .list{padding:1px 0;border-bottom:1px solid #ddd}
-.download .item{border-top:1px solid #ddd;padding:1px 0 1px 95px;position:relative}
+.download .list{margin-top:-10px}
+.download .item{border-top:1px solid #ddd;padding:1px 0 1px 100px;position:relative;min-height:115px}
 .download .item:first-child{border:0}
-.download .item>img{position:absolute;top:15px;left:0;width:80px;height:80px}
-.download h2{font-size:14px}
-.download a.x_icon-download-alt{width:24px;height:24px;background-color:#94A55C;position:absolute;top:7px;right:0;border-radius:3px;background-position:-90px -19px}
-.download a.x_icon-download-alt:hover,
-.download a.x_icon-download-alt:focus{background-color:#333}
+.download .item>img{position:absolute;top:15px;left:0;width:80px;height:80px;padding:4px;border:1px solid #ddd;border-radius:3px}
+.download h2{margin:10px 0;line-height:normal !important}
+.download h2>a{font-size:14px;color:#000}
+.download .x_icon-download-alt{width:24px;height:24px;background-color:#94A55C;position:absolute;top:15px;right:0;border-radius:3px;margin:0;border:0;background-position:-90px -19px;opacity:1;filter:alpha(opacity=100)}
+.download .x_icon-download-alt:hover,
+.download .x_icon-download-alt:focus{background-color:#333}
 .download p>i{font-style:normal;color:#ccc}
 .download .item.installed ._install{display:none}
 .download .item ._already_installed{display:none}
@@ -123,6 +124,16 @@ body>.x{max-width:none !important}
 .download .item.installed.up_to_date ._need_to_update{display:none}
 .download .item.installed ._already_up_to_date{display:none}
 .download .item.installed.up_to_date ._already_up_to_date{display:block}
+.download .done,
+.download .update{position:absolute;top:15px;right:0;border:0;background-color:transparent;border-radius:3px;color:#fff;overflow:visible;height:24px}
+.download .done>i,
+.download .update>i{opacity:1;filter:alpha(opacity=100)}
+.download .done{background:#666}
+.download .done:hover,
+.download .done:focus{background:#333}
+.download .update{background:#336}
+.download .update:hover,
+.download .update:focus{background:#333}
 .download ._pagination{position:absolute;bottom:4px;left:4px;right:4px}
 .download ._pagination>.x_pagination,
 .download ._pagination>.search{margin:0}
@@ -132,6 +143,15 @@ body>.x{max-width:none !important}
 .download ._pagination>.x_pagination a:hover,
 .download ._pagination>.x_pagination a:focus{font-weight:bold}
 .download ._pagination>.x_pagination .x_active>a{color:#000}
+.download .starRating, 
+.download .starRating>i{display:inline-block;height:15px;background:transparent url(../../../admin/tpl/img/starRating.png) no-repeat;overflow:hidden}
+.download .starRating{width:79px;vertical-align:middle}
+.download .starRating>i{font-size:0;line-height:0;vertical-align:top;text-indent:-100px;*text-indent:0;background-position:0 -15px}
+.download .starRating.score1>i{width:20%}
+.download .starRating.score2>i{width:40%}
+.download .starRating.score3>i{width:60%}
+.download .starRating.score4>i{width:80%}
+.download .starRating.score5>i{width:100%}
 /* Theme(layout|skin) */
 .theme img{width:110px;border:1px solid #ddd}
 .theme label{margin:0;padding:8px 0;position:relative;border-bottom:1px solid #ddd}
@@ -236,7 +256,7 @@ body>.x{max-width:none !important}
 #design ul{margin-top:8px}
 #design .btnBoth{border:0}
 #design img{width:220px}
-#design .shadow{position:relative;box-shadow:0 0 4px #999 inset;padding:4px;width:212px;height:160px;overflow:hidden;margin-right:18px}
+#design .shadow{position:relative;box-shadow:0 0 4px #999 inset;padding:4px;width:212px;height:160px;overflow:hidden}
 #design .shadow>iframe{border:0;width:1024px;height:768px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.20,M22=0.20,SizingMethod='auto expand');-webkit-transform-origin:0 0; -webkit-transform: scale(.20);-moz-transform-origin:0 0; -moz-transform: scale(.20);-0-transform-origin:0 0; -0-transform: scale(.20);position:absolute}
 #design .x_icon-zoom-in{position:absolute;right:4px;bottom:4px;width:24px;height:24px;background-color:#fff;opacity:.75;filter:alpha(opacity:75);background-position:-331px 5px}
 #design .x_icon-zoom-in:after{content:normal}

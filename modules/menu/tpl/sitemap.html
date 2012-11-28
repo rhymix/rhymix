@@ -1,5 +1,5 @@
-<load target="./css/themes/classic/style.css" />
-<load target="./css/sitemap.css" />
+<load target="./css/themes/classic/style.css" index="11" />
+<load target="./css/sitemap.css" index="11" />
 <load target="./js/_lib/jquery.cookie.js" />
 <load target="./js/_lib/jquery.hotkeys.js" />
 <load target="./js/jquery.jstree.js" />
@@ -559,17 +559,16 @@
 							<img src="http://${ScreenShotURL}" alt="">
 							<h2><a target="_blank" href="${URL}">${MenuType}</a></h2>
 							<p>${MenuTypeDesc}</p>
-							<p>별점 ${Score}/${TotalVotes} <i>|</i> {$lang->package_update} ${LastUpdated} <i>|</i> {$lang->package_downloaded_count} : ${TotalDownloads}</p>
-							
+							<p><i class="starRating score${Score}"><i></i></i> <b class="x_badge">${Score}/${TotalVotes}</b> {$lang->package_update}: <time title="YYYY-MM-DD HH:MM">${LastUpdated}</time> <i>|</i> {$lang->package_downloaded_count}: ${TotalDownloads}</p>
 							<div class="_install">
-								<a href="#" class="x_icon-download-alt x_icon-white _install_this">{$lang->install}</a>
+								<button type="button" class="x_icon-download-alt x_icon-white _install_this">{$lang->install}</button>
 							</div>
 							<div class="_already_installed">
 								<div class="_already_up_to_date">
-									<span style="position: absolute;top: 7px;right: 0;">{$lang->installed}</span>
+									<button type="button" class="done"><i class="x_icon-ok-sign x_icon-white"></i> {$lang->installed}</button>
 								</div>
 								<div class="_need_to_update">
-									<a href="#" style="position: absolute;top: 7px;right: 0;" class="_install_this">{$lang->update}</a>
+									<button type="button" class="update _install_this"><i class="x_icon-refresh x_icon-white"></i> {$lang->update}</button>
 								</div>
 							</div>
 						</div>
@@ -3827,7 +3826,8 @@ function formatUpdatedDate(sDate){
 	//2012-01-06 18:40:20
 	
 	return sDate.replace(/(....)(..)(..)(..)(..)(..)/, function(all, year, mon, day, hour, min, sec){
-		return year+"-"+mon+"-"+day+" "+hour+":"+min+":"+sec;
+		//return year+"-"+mon+"-"+day+" "+hour+":"+min+":"+sec;
+		return year+"-"+mon+"-"+day;
 	});
 }
 
