@@ -182,8 +182,9 @@ body>.x,
 .x>.skipNav{margin:0}
 .x>.skipNav>a{display:block;height:1px;text-align:center;border-radius:4px;overflow:hidden;color:#333;text-decoration:none}
 .x>.skipNav>a:focus{height:auto;margin:5px 0;padding:8px 0;background:#fff}
-.x>.header{position:relative;z-index:2;padding:10px 15px;zoom:1;border-bottom:1px solid #ddd}
+.x>.header{position:relative;z-index:2;padding:10px 15px;zoom:1;border-bottom:1px solid #ddd;background-color:#fff;zoom:1}
 .x>.header:after{content:"";display:block;clear:both}
+.x>.header:before{content:"";position:absolute;bottom:0;left:1px;right:1px;height:1px;box-shadow:0 2px 3px #ddd}
 .x>.body{position:relative;zoom:1;padding:0 0 50px 215px}
 .x>.body.wide{padding-left:70px}
 .x>.body:after{content:"";display:block;clear:both}
@@ -202,7 +203,7 @@ body>.x,
 .x>.header>h1{margin:0 15px 0 0;float:left}
 .x>.header>h1>a{text-decoration:none;color:#333;font-size:24px;line-height:40px;font-family:Arial, Helvetica, sans-serif}
 .x>.header>h1>a>img{vertical-align:text-bottom}
-.x>.header>.site{margin:14px 0 0 0;float:left;font-size:11px;text-shadow:0 1px 0 #fff}
+.x>.header>.site{margin:14px 0 0 0;float:left;font-size:11px}
 .x>.header>.site>a{text-decoration:none;color:#666;font-family:Tahoma, Geneva, sans-serif}
 .x>.header>.site>a:hover,
 .x>.header>.site>a:focus{text-decoration:underline}
@@ -211,7 +212,7 @@ body>.x,
 .x>.header>.account>ul>li{display:inline}
 .x>.header>.account>ul>li:before{content:"| ";color:#ddd}
 .x>.header>.account>ul>li:first-child:before{content:normal}
-.x>.header>.account>ul>li>a{text-decoration:none;color:#666;text-shadow:0 1px 0 #fff}
+.x>.header>.account>ul>li>a{text-decoration:none;color:#666}
 .x>.header>.account>ul>li>a:hover,
 .x>.header>.account>ul>li>a:focus{text-decoration:underline}
 .x>.header>.account .lang+#lang{position:absolute;top:20px;left:auto;right:0;min-width:0}
