@@ -112,7 +112,7 @@ jQuery(function($){
 	});
 // #content reflow
 	function reflow(){ // Browser bug fix & resize height
-		var $xBody = $('.x>.xin>.body');
+		var $xBody = $('.x>.body');
 		var $xGnb = $xBody.find('>.gnb');
 		var $xContent = $xBody.children('#content.content');
 		$xContent.width('99.99%');
@@ -125,7 +125,7 @@ jQuery(function($){
 	}
 // GNB
 	$.fn.gnb = function(){
-		var $xBody = $('.x>.xin>.body');
+		var $xBody = $('.x>.body');
 		var $xGnb = $xBody.find('>.gnb');
 		var $xGnb_li = $xGnb.find('>ul>li');
 
