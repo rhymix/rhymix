@@ -54,4 +54,4 @@ a:focus{text-decoration:underline}
 .x .language li{position:relative;margin:0 0 7px 0}
 .x .language li>i{position:absolute;top:2px;left:-20px}
 /* Waiting for server response */
-.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100;border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.loading.gif) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-weight:bold}
+.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;right:0;bottom:0;z-index:100;color:#fff;background:#333 url(../../common/img/msg.loading.gif) no-repeat center 90px;text-align:center;margin:0;padding:120px 0 0 0;opacity:.8;filter:alpha(opacity=80);font:bold 16px "Helvetica Neue", Helvetica, Arial, 돋움, Dotum, sans-serif}
