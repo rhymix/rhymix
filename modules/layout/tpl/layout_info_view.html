@@ -48,84 +48,96 @@
 			<span class="x_help-block">{$lang->about_header_script}</span>
 		</div>
 	</div>
+	<section class="section" cond="count($selected_layout->extra_var)">
+		<h1>{$lang->extra_vars}</h1>
+		<div class="x_tabbable">
+			{@$cnt = 1}
+			<block loop="$selected_layout->extra_var => $name, $var">
+				<block cond="$cnt == 1 && $var->group"><ul class="x_nav x_nav-tabs"></block>
+				<block cond="$group != $var->group">
+					<li class="x_active"|cond="$cnt == 1"><a href="#extra_var{$cnt}" data-index="{$cnt}">{$var->group}</a></li>
+					{@$group = $var->group}
+					{@$cnt ++}
+				</block>
+			</block>
+			</ul>
 
-	<block loop="$selected_layout->extra_var => $name, $var">
-		<block cond="!$not_first && !$var->group">
-			<section class="section">
-				<h1>{$lang->extra_vars}</h1>
-		</block>
-		<block cond="$group != $var->group">
-			<block cond="$not_first"></section></block>
-			<section>
-				<h2>{$var->group}</h2>
-				{@$group = $var->group}
-		</block>
-		{@$not_first = true}
-		<div class="x_control-group">
-			<label class="x_control-label" for="{$name}">{$var->title}</label>
-			<div class="x_controls">
-				<div cond="$var->type == 'text'">
-					<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" />
-				</div>
+			{@$group = ''}
+			{@$cnt = 1}
+			<div class="x_tab-content">
+				<block loop="$selected_layout->extra_var => $name, $var">
+					<block cond="$group != $var->group">
+						<block cond="$cnt != 1"></div></block>
+						<div style="display: none;"|cond="$cnt != 1" id="extra_var{$cnt}" class="x_tab-pane <!--@if($cnt == 1)-->x_active<!--@end-->" data-index="{$cnt}">
+						{@$group = $var->group}
+						{@$cnt ++}
+					</block>
+					<div class="x_control-group">
+						<label class="x_control-label" for="{$name}">{$var->title}</label>
+						<div class="x_controls">
+							<div cond="$var->type == 'text'">
+								<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" />
+							</div>
 
-				<div cond="$var->type == 'textarea'">
-					{@$use_multilang_textarea = true}
-					<textarea name="{$name}" rows="4" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end--></textarea>
-				</div>
+							<div cond="$var->type == 'textarea'">
+							{@$use_multilang_textarea = true}
+							<textarea name="{$name}" rows="4" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end--></textarea>
+							</div>
 
-				<block cond="$var->type == 'image'">
-					<input type="hidden" name="{$name}" id="file_{$name}" value="{$var->value}" />
-					<div id="preview_{$name}" class="x_thumbnail" style="<!--@if(!$var->value)-->display:none;<!--@end-->max-width:210px;margin-bottom:20px;">
-						<img src="../../../{$var->value}"|cond="$var->value" alt="" style="max-width:100%" />
-						<div style="text-align:right">
-							<button class="x_icon-remove" type="button" onclick="deleteImage('{$name}')" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button>
+							<block cond="$var->type == 'image'">
+								<input type="hidden" name="{$name}" id="file_{$name}" value="{$var->value}" />
+								<div id="preview_{$name}" class="x_thumbnail" style="<!--@if(!$var->value)-->display:none;<!--@end-->max-width:210px;margin-bottom:20px;">
+									<img src="../../../{$var->value}"|cond="$var->value" alt="" style="max-width:100%" />
+									<div style="text-align:right">
+										<button class="x_icon-remove" type="button" onclick="deleteImage('{$name}')" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button>
+									</div>
+								</div>
+								<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
+									<input type="hidden" name="module" value="layout" />
+									<input type="hidden" name="act" value="procLayoutAdminConfigImageUpload" />
+									<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+									<input type="hidden" name="name" value="{$name}" />
+									<p>
+										<input type="file" name="img" id="file_select_{$name}" value="" title="{$lang->uploaded_file}" />
+										<input class="x_btn" type="submit" value="{$lang->cmd_submit}" style="vertical-align:top" />
+									</p>
+								</form>
+							</block>
+
+							<select cond="$var->type == 'select'" name="{$name}" id="{$name}" style="width:auto">
+								<option loop="$var->options => $key, $val" value="{$key}" selected="selected"|cond="$key == $var->value">{$val->val}</option>
+							</select>
+
+							<block cond="$var->type == 'checkbox'">
+								<block loop="$var->options => $key, $val">
+									<label class="x_inline"><input type="checkbox" name="{$name}[]" value="{$key}" checked="checked"|cond="@in_array($key, $var->value)" /> {$val->val}</label>
+								</block>
+							</block>
+
+							<block cond="$var->type == 'radio'">
+								<div class="x_thumbnails">
+									<block loop="$var->options => $key, $val">
+										<div class="x_span2 <!--@if($val->thumbnail)-->x_thumbnail<!--@end-->">
+											<img src="../../../{$val->thumbnail}" cond="$val->thumbnail" alt="{$val->val}" />
+											<div class="x_caption">
+												<label><input type="radio" name="{$name}" value="{$key}" checked="checked"|cond="$key == $var->value" /> {$val->val}</label>
+											</div>
+										</div>
+									</block>
+								</div>
+							</block>
+							<block cond="$var->type == 'colorpicker'">
+								{@ $use_colorpicker = true; }
+								<input type="text" class="color-indicator" name="{$name}" id="{$name}" value="{$var->value}" />
+								<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
+							</block>
+							<p class="x_help-block">{$var->description}</p>
 						</div>
 					</div>
-					<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
-						<input type="hidden" name="module" value="layout" />
-						<input type="hidden" name="act" value="procLayoutAdminConfigImageUpload" />
-						<input type="hidden" name="layout_srl" value="{$layout_srl}" />
-						<input type="hidden" name="name" value="{$name}" />
-						<p>
-							<input type="file" name="img" id="file_select_{$name}" value="" title="{$lang->uploaded_file}" />
-							<input class="x_btn" type="submit" value="{$lang->cmd_submit}" style="vertical-align:top" />
-						</p>
-					</form>
 				</block>
-
-				<select cond="$var->type == 'select'" name="{$name}" id="{$name}" style="width:auto">
-					<option loop="$var->options => $key, $val" value="{$key}" selected="selected"|cond="$key == $var->value">{$val->val}</option>
-				</select>
-
-				<block cond="$var->type == 'checkbox'">
-					<block loop="$var->options => $key, $val">
-						<label class="x_inline"><input type="checkbox" name="{$name}[]" value="{$key}" checked="checked"|cond="@in_array($key, $var->value)" /> {$val->val}</label>
-					</block>
-				</block>
-
-				<block cond="$var->type == 'radio'">
-					<div class="x_thumbnails">
-					<block loop="$var->options => $key, $val">
-							<div class="x_span2 <!--@if($val->thumbnail)-->x_thumbnail<!--@end-->">
-								<img src="../../../{$val->thumbnail}" cond="$val->thumbnail" alt="{$val->val}" />
-								<div class="x_caption">
-									<label><input type="radio" name="{$name}" value="{$key}" checked="checked"|cond="$key == $var->value" /> {$val->val}</label>
-								</div>
-							</div>
-					</block>
-					</div>
-				</block>
-				<block cond="$var->type == 'colorpicker'">
-					{@ $use_colorpicker = true; }
-					<input type="text" class="color-indicator" name="{$name}" id="{$name}" value="{$var->value}" />
-					<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
-				</block>
-				<p class="x_help-block">{$var->description}</p>
 			</div>
 		</div>
-	</block>
 	</section>
-
 	<section class="section">
 		<h1 cond="$selected_layout->menu">{$lang->menu}</h1>
 		<div cond="$selected_layout->menu" class="x_form-horizontal">
