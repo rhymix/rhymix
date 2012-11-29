@@ -120,11 +120,9 @@ function doRecompileCacheFile() {
 	if (!confirm(xe.lang.confirm_run)) return;
 	var params = new Array();
 	exec_xml("admin","procAdminRecompileCacheFile", params, completeCacheMessage);
-	showWaitingFogLayer();
 }
 function completeCacheMessage(ret_obj) {
     alert(ret_obj['message']);
-	hideWaitingFogLayer();
 }
 
 function doResetAdminMenu() {
@@ -132,7 +130,6 @@ function doResetAdminMenu() {
 	var params = new Array();
 	params['menu_srl'] = admin_menu_srl;
 	exec_xml("admin","procAdminMenuReset", params, completeResetAdminMenu);
-	showWaitingFogLayer();
 }
 function completeResetAdminMenu(ret_obj) {
 	document.location.reload();
