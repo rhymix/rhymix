@@ -117,10 +117,10 @@ class Context {
 	 * Pattern for request vars check
 	 * @var array
 	 */
-	var $pattern = array(
+	var $patterns = array(
 			'/<\?/iUsm',
 			'/<\%/iUsm',
-			'/<script(\s|\S)*language[\s]*=("|\')php("|\')(\s|\S)*/iUsm'
+			'/<script(\s|\S)*language[\s]*=[\s]*("|\')?[\s]*php[\s]*("|\')?(\s|\S)*/iUsm'
 			);
 	/**
 	 * Check init
@@ -837,7 +837,7 @@ class Context {
 	{
 		if(is_string($val))
 		{
-			foreach($this->pattern as $pattern)
+			foreach($this->patterns as $pattern)
 			{
 				$result = preg_match($pattern, $val);
 				if($result)
