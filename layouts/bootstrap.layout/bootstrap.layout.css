@@ -3,7 +3,7 @@ body{min-width:300px;padding:0 10px}
 body,table,input,textarea,button,select{font-family:돋움,Dotum,Arial,Helvetica,sans-serif}
 @media all and (min-width:768px){
 body{padding:0}
-@font-face{font-family:NG;src:url(//themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.eot);src:local(※),url(//themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.woff) format('woff')}
+@font-face{font-family:NG;src:url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.eot);src:local(※),url(http://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.woff) format('woff')}
 body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,돋움,Dotum,Arial,Helvetica,sans-serif;font-size:13px}
 }
 h1,h2,h3,h4,h5,h6,th,strong,b{font-weight:600}
