@@ -61,25 +61,25 @@ xe.lang.confirm_delete = '{$lang->confirm_delete}';
 		<div class="x_modal-body">
 			<div class="x_control-group">
 				<label class="x_control-label">{$lang->layout}</label>
-				<div class="x_controls">
+				<div class="x_controls" style="padding-top:3px">
 					{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})
 				</div>
 			</div>
 			<div cond="$layout_info->path" class="x_control-group">
 				<label class="x_control-label">{$lang->path}</label>
-				<div class="x_controls">
+				<div class="x_controls" style="padding-top:3px">
 					{$layout_info->path}
 				</div>
 			</div>
 			<div cond="$layout_info->description" class="x_control-group">
 				<label class="x_control-label">{$lang->description}</label>
-				<div class="x_controls">
+				<div class="x_controls" style="padding-top:3px">
 					{$layout_info->description}
 				</div>
 			</div>
 			<div class="x_control-group">
 				<label class="x_control-label">{$lang->author}</label>
-				<div class="x_controls">
+				<div class="x_controls" style="padding-top:3px">
 					<block loop="$layout_info->author=>$author_info">
 						<!--@if($author_info->homepage)-->
 						<a href="{$author_info->homepage}" target="_blank">{$author_info->name}</a>
