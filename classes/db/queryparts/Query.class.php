@@ -278,7 +278,7 @@
 		{
 			$click_count_columns = array();
 			foreach($this->columns as $column){
-				if($column->show() && $column instanceof ClickCountExpression)
+				if($column->show() && is_a($column, 'ClickCountExpression'))
 					$click_count_columns[] = $column;
 			}
 			return $click_count_columns;
