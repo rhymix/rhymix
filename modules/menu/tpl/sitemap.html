@@ -235,7 +235,7 @@
 							<button type="button" class="x_close" data-admin-hide="#help_menuName">×</button>
 							<p>{$lang->about_browser_title}</p>
 						</div>
-						<input id="pageTitle" class="_menuName lang_code" type="text">
+						<input id="pageTitle" class="_browserTitle lang_code" type="text">
 						
 						<label for="mid2">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">{$lang->help}</a></label>
 						<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
@@ -1850,6 +1850,8 @@ jQuery(function($){
 				
 				showMenuSelector($(this).find('._menuSelector_menuTreeContainer'));
 			}
+		}else{
+			$(this).find('._browserTitle').val(htInfo.browser_title);
 		}
 		
 		if(htInfo.open_window === "N"){
@@ -1880,6 +1882,8 @@ jQuery(function($){
 		var sNewWindow = $('#default ._newWindow').attr("checked")?"Y":"N";
 		var sLeaveUnfolded = $('#default ._leaveUnfolded').attr("checked")?"Y":"N";
 		
+		var sBrowserTitle = $('#default ._browserTitle').val();
+		
 		var sSelectedModuleName = $._xeAdminVar.sSelectedModuleName;
 		var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 
@@ -1900,6 +1904,7 @@ jQuery(function($){
 		params['menu_name'] = sMenuName;
 		params['menu_open_window'] = sNewWindow;
 		params['menu_expand'] = sLeaveUnfolded;
+		params['browser_title'] = sBrowserTitle;
 //console.log(params);return;
 		$.exec_json("menu.procMenuAdminUpdateItem", params, function(htData){
 			if(htData.error !== 0){
@@ -3021,7 +3026,7 @@ console.log(11, htDesign.htLayoutSrl.P);
 			
 			//console.log(htDesign.htLayoutSrl[sType]);
 
-			$._xeAdminVar.htLayoutInfo[P] = {};
+			//$._xeAdminVar.htLayoutInfo[P] = {};
 			for(var i=0, nLen=htData.layout_list.length; i<nLen; i++){
 				htInfo = htData.layout_list[i];
 				
