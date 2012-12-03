@@ -107,7 +107,7 @@ body>.x{max-width:none !important}
 .col .clone .root{margin-top:15px}
 .col .clone a{display:block;max-width:160px;white-space:nowrap;max-width:160px;text-overflow:ellipsis;overflow:hidden}
 /* Download */
-.download.col{max-width:600px}
+.download.col{max-width:600px;min-width:300px}
 .download .list{margin-top:-10px}
 .download .item{border-top:1px solid #ddd;padding:1px 0 1px 100px;position:relative;min-height:115px}
 .download .item:first-child{border:0}
