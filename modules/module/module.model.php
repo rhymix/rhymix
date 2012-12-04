@@ -687,6 +687,7 @@ class moduleModel extends module
 		$module_info->admin_index_act = $action_info->admin_index_act;
 		$module_info->default_index_act = $action_info->default_index_act;
 		$module_info->setup_index_act = $action_info->setup_index_act;
+		$module_info->simple_setup_index_act = $action_info->simple_setup_index_act;
 
 		return $module_info;
 	}
@@ -796,6 +797,7 @@ class moduleModel extends module
 					$index = $action->attrs->index;
 					$admin_index = $action->attrs->admin_index;
 					$setup_index = $action->attrs->setup_index;
+					$simple_setup_index = $action->attrs->simple_setup_index;
 					$menu_index = $action->attrs->menu_index;
 
 					$output->action->{$name}->type = $type;
@@ -843,9 +845,14 @@ class moduleModel extends module
 						$setup_index_act = $name;
 						$info->setup_index_act = $name;
 					}
+					if($simple_setup_index=='true')
+					{
+						$simple_setup_index_act = $name;
+						$info->simple_setup_index_act = $name;
+					}
 				}
 			}
-			$buff = sprintf('<?php if(!defined("__ZBXE__")) exit();$info->default_index_act = \'%s\';$info->setup_index_act=\'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $setup_index_act, $admin_index_act, $buff);
+			$buff = sprintf('<?php if(!defined("__ZBXE__")) exit();$info->default_index_act = \'%s\';$info->setup_index_act=\'%s\';$info->simple_setup_index_act=\'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $setup_index_act, $simple_setup_index_act, $admin_index_act, $buff);
 
 			FileHandler::writeFile($cache_file, $buff);
 

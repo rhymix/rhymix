@@ -527,9 +527,17 @@ class menuAdminModel extends menu
 		$moduleConfInfo = $oModuleModel->getModuleInfoXml($moduleInfo->module);
 
 		$setupUrl = sprintf('index.php?module=admin&act=%s&module_srl=%s&isLayoutDrop=1', $moduleConfInfo->setup_index_act, $moduleInfo->module_srl);
-		$this->add('setupUrl', $setupUrl);
+		if($moduleConfInfo->simple_setup_index_act)
+		{
+			$oTargetmoduleAdminModel = &getAdminModel($moduleInfo->module);
+			$simpleSetupHtml = $oTargetmoduleAdminModel->{$moduleConfInfo->simple_setup_index_act}($moduleInfo->module_srl);
 
-		$this->setRedirectUrl($setupUrl);
+			if($simpleSetupHtml)
+			{
+				$this->add('simpleSetupHtml', $simpleSetupHtml);
+			}
+		}
+		$this->add('setupUrl', $setupUrl);
 	}
 
 	/**
