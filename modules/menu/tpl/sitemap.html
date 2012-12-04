@@ -419,7 +419,7 @@
 						<li class="${Selected} _layoutItem">
 							<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
 							<button type="button" class="item _btnScreenshot" title="{$lang->about_apply_layout}">
-								<img src="${ScreenShotURL}">
+								<img src="${ScreenShotURL}" class="_thumbnail">
 							</button>
 							<ul class="_edit_menu">
 								<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>{$lang->full_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -3115,13 +3115,20 @@ console.log(11, htDesign.htLayoutSrl.P);
 		});
 	});
 	$('#layout').on('click', 'button._deleteLayout', function(){
-		var sLayoutSrl = $(this).closest('li._layoutItem').data('LayoutSrl');
-		//console.log();
-		//./getLayoutInstanceListForJSONP
+		var $item = $($(this).closest('li._layoutItem'));
+		var sLayoutSrl = $item.data('LayoutSrl');
+		var $thumbnail = $item.find('img._thumbnail').clone();
+		var $label = $item.find('label');
+		
+		$thumbnail.css('width', '110px');
+		$thumbnail.css('height', '78px');
+		$thumbnail.css('border', '1px solid #888');
+		$thumbnail.css('padding', '3px');
+		
 		confirmDialog({
 			sTitle : xe.lang.confirm_delete,
-			
-			sText : '',
+
+			sText : $thumbnail.outerHTML() + '<div style="float:right;width:240px;text-align:left">' + $label.text() + '</div>',
 			
 			bSmall: true,
 			
