@@ -43,13 +43,16 @@ class layoutModel extends layout
 
 		$oLayoutAdminModel = getAdminModel('layout');
 		$siteDefaultLayoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($layout_type, $site_srl);
-		$siteDefaultLayoutInfo = $this->getlayout($siteDefaultLayoutSrl);
-		$newLayout = sprintf('%s, %s', $siteDefaultLayoutInfo->title, $siteDefaultLayoutInfo->title);
-		$siteDefaultLayoutInfo->layout_srl = -1;
-		$siteDefaultLayoutInfo->title = Context::getLang('use_site_default_layout');
-		$siteDefaultLayoutInfo->layout = $newLayout;
+		if($siteDefaultLayoutSrl)
+		{
+			$siteDefaultLayoutInfo = $this->getlayout($siteDefaultLayoutSrl);
+			$newLayout = sprintf('%s, %s', $siteDefaultLayoutInfo->title, $siteDefaultLayoutInfo->title);
+			$siteDefaultLayoutInfo->layout_srl = -1;
+			$siteDefaultLayoutInfo->title = Context::getLang('use_site_default_layout');
+			$siteDefaultLayoutInfo->layout = $newLayout;
 
-		array_unshift($output->data, $siteDefaultLayoutInfo);
+			array_unshift($output->data, $siteDefaultLayoutInfo);
+		}
 
 		return $output->data;
 	}
