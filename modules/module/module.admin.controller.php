@@ -960,6 +960,9 @@ class moduleAdminController extends module
 		$oModuleModel = getModel('module');
 		$moduleInfo = $oModuleModel->getModuleInfoByMenuItemSrl($menuItemSrl);
 
+		// designSettings is not original module info, so unset
+		unset($moduleInfo->designSettings);
+
 		$useMobile = $useMobile != 'Y' ? 'N' : 'Y';
 
 		$moduleInfo->use_mobile = $useMobile;
