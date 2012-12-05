@@ -17,18 +17,18 @@
 		</table>
 		<div class="x_tabbable">
 			<ul class="x_nav x_nav-tabs">
-				<li class="x_active"><a href="#tab1">{$lang->bundle_setup}</a></li>
-				<li><a href="#tab2">{$lang->bundle_addition_setup}</a></li>
-				<li><a href="#tab3">{$lang->bundle_grant_setup}</a></li>
+				<li class="x_active" cond="$tabChoice['tab1']"><a href="#tab1">{$lang->bundle_setup}</a></li>
+				<li cond="$tabChoice['tab2']"><a href="#tab2">{$lang->bundle_addition_setup}</a></li>
+				<li cond="$tabChoice['tab3']"><a href="#tab3">{$lang->bundle_grant_setup}</a></li>
 			</ul>
 			<div class="x_tab-content">
-				<div class="x_tab-pane x_active" id="tab1">
+				<div class="x_tab-pane x_active" id="tab1" cond="$tabChoice['tab1']">
 					<include target="include.module_setup.html" />
 				</div>
-				<div class="x_tab-pane" id="tab2">
+				<div class="x_tab-pane" id="tab2" cond="$tabChoice['tab2']">
 					<include target="include.module_addition_setup.html" />
 				</div>
-				<div class="x_tab-pane" id="tab3">
+				<div class="x_tab-pane" id="tab3" cond="$tabChoice['tab3']">
 					<include target="include.module_grant_setup.html" />
 				</div>
 			</div>

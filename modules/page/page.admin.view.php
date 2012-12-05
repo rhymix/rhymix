@@ -67,6 +67,11 @@ class pageAdminView extends page
 		$page_list = $oModuleModel->addModuleExtraVars($output->data);
 		moduleModel::syncModuleToSite($page_list);
 
+		$oModuleAdminModel = &getAdminModel('module');
+		$tabChoice = array('tab1'=>1, 'tab3'=>1);
+		$selected_manage_content = $oModuleAdminModel->getSelectedManageHTML($this->xml_info->grant, $tabChoice);
+		Context::set('selected_manage_content', $selected_manage_content);
+
 		// To write to a template context:: set
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);

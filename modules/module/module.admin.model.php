@@ -54,7 +54,7 @@ class moduleAdminModel extends module
 		return $output;
 	}
 
-	function getSelectedManageHTML($grantList)
+	function getSelectedManageHTML($grantList, $tabChoice = array())
 	{
 		// Grant virtual permission for access and manager
 		$grantList->access->title = Context::getLang('grant_access');
@@ -84,6 +84,12 @@ class moduleAdminModel extends module
 		$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'before', $content);
 		$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
 		Context::set('setup_content', $content);
+
+		if(count($tabChoice) == 0)
+		{
+			$tabChoice = array('tab1'=>1, 'tab2'=>1, 'tab3'=>1);
+		}
+		Context::set('tabChoice', $tabChoice);
 
 		// Get information of module_grants
 		$oTemplate = &TemplateHandler::getInstance();

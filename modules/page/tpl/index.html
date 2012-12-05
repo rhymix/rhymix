@@ -75,7 +75,7 @@
 				<i>|</i>
 				<a href="{getUrl('act','dispPageAdminDelete','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a>
 				</td>
-			<td><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
+			<td><input type="checkbox" name="cart" value="{$val->module_srl}" class="selectedModule" data-mid="{$val->mid}" data-browser_title="{$val->browser_title}" /></td>
 		</tr>
 	<!--@end-->
 	</tbody>
@@ -83,8 +83,7 @@
 
 <div class="x_clearfix">
 	<div class="x_btn-group x_pull-right">
-		<a href="{getUrl('','module','module','act','dispModuleAdminModuleSetup')}" onclick="doCartSetup(this.href); return false;" class="x_btn">{$lang->cmd_setup}...</a>
-		<a href="{getUrl('','module','module','act','dispModuleAdminModuleGrantSetup')}" onclick="doCartSetup(this.href); return false;" class="x_btn">{$lang->cmd_manage_grant}...</a>
+		<a class="x_btn modalAnchor x_pull-right" href="#manageSelectedModule">{$lang->cmd_manage_selected_page}...</a>
 	</div>
 </div>
 
@@ -131,3 +130,4 @@
 	</ul>
 </form>
 
+{$selected_manage_content}

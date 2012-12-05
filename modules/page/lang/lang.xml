@@ -15,6 +15,10 @@
 		<value xml:lang="ko"><![CDATA[내용이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This is empty page.]]></value>
 	</item>
+	<item name="cmd_manage_selected_page">
+		<value xml:lang="ko"><![CDATA[선택한 페이지 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage Selected Page]]></value>
+	</item>
 	<item name="about_page">
 		<value xml:lang="ko"><![CDATA[하나의 완성된 페이지를 제작할 수 있는 페이지 모듈입니다. 최근게시물이나 기타 위젯을 이용해서 동적인 페이지 생성이 가능하고 에디터 컴포넌트를 통해서 다양한 모습으로 꾸밀 수 있습니다. 접속 URL은 다른 모듈과 같이 mid=모듈이름 으로 접속 가능하며 기본으로 선택하면 접속 시 메인 페이지가 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[It is a blog module where you can create a complete page. Using latest or other widgets, you can create a dynamic page. Through the editor component, you can also create a great variety of pages. Its URL is same as other module's such as mid=module name. If it is selected as a default, it will be the main page of the site.]]></value>
