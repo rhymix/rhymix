@@ -1680,7 +1680,7 @@
                 if (win.expandable)
                 {
                   container.html(controlHtml);
-                  if($(document.body).children('div.jPicker.Container').length==0)$(document.body).prepend(container);
+                  if($(document.body).children('div.jPicker.Container').length==0)$(document.body).append(container);
                   else $(document.body).children('div.jPicker.Container:last').after(container);
                   container.mousedown(
                     function()
