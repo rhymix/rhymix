@@ -739,52 +739,62 @@ class Context {
 
 		$obj = clone($source_obj);
 
-		foreach($charset_list as $charset) {
-			$flag = true;
-			foreach($obj as $key=>$val) {
-				if(!$val) continue;
-				if(!is_array($val) && iconv($charset,$charset,$val)!=$val) $flag = false;
-				else if(is_array($val))
-				{
-					$userdata = array('charset1'=>$charset,'charset2'=>$charset,'useFlag'=>true);
-					Context::arrayConvWalkCallback($val,null,$userdata);
-					if($userdata['returnFlag'] === false) $flag = false;
-				}
-			}
-			if($flag) {
+		foreach($charset_list as $charset) 
+		{
+			array_walk($obj,'Context::checkConvertFlag',$charset);
+			$flag = Context::checkConvertFlag($flag = true);
+			if($flag)
+			{
 				if($charset == 'UTF-8') return $obj;
-				foreach($obj as $key => $val)
-				{
-					if(!is_array($val)) $obj->{$key} = iconv($charset,'UTF-8',$val);
-					else Context::arrayConvWalkCallback($val,null,array($charset,'UTF-8'));
-				}
-
+				array_walk($obj,'Context::doConvertEncoding',$charset);
 				return $obj;
 			}
 		}
-
 		return $obj;
 	}
+	/**
+	 * Check flag 
+	 *
+	 * @param mixed $val
+	 * @param string $key
+	 * @param mixed $charset charset 
+	 * @see arrayConvWalkCallback will replaced array_walk_recursive in >=PHP5
+	 * @return void
+	 */
+	function checkConvertFlag(&$val, $key = null, $charset = null)
+	{
+		static $flag = true;
+		if($charset)
+		{
+			if(is_array($val))
+				array_walk($val,'Context::checkConvertFlag',$charset);
+			else if($val && iconv($charset,$charset,$val)!=$val) $flag = false;
+			else $flag = false;
+		}
+		else
+		{
+			$return = $flag;
+			$flag = true;
+			return $return;
+		}
+	}
+
 	/**
 	 * Convert array type variables into UTF-8 
 	 *
 	 * @param mixed $val
 	 * @param string $key
-	 * @param mixed $userdata charset1 charset2 useFlag retrunFlag
+	 * @param string $charset character set
 	 * @see arrayConvWalkCallback will replaced array_walk_recursive in >=PHP5
 	 * @return object converted object
 	 */
-	function arrayConvWalkCallback(&$val, $key = null, &$userdata)
+	function doConvertEncoding(&$val, $key = null, $charset)
 	{
-		if (is_array($val)) array_walk($val,'Context::arrayConvWalkCallback',&$userdata);
-		else 
+		if (is_array($val))
 		{
-			if(!$userdata['useFlag']) $val = iconv($userdata['charset1'],$userdata['charset2'],$val);
-			else
-			{
-				if(iconv($charset,$charset,$val)!=$val) $userdata['returnFlag'] = (bool)false;
-			}
+			array_walk($val,'Context::doConvertEncoding',$charset);
 		}
+		else $val = iconv($charset,'UTF-8',$val);
 	}
 
 	/**
