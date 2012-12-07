@@ -45,15 +45,18 @@
 .xm li label em{font-weight:normal}
 .xm label.overlap{position:absolute;color:#aaa}
 .xm input[type=text],
+.xm input[type=email],
 .xm input[type=password],
 .xm input[type=file],
 .xm textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent;*background:transparent url(../../../../../common/img/blank.gif);_background:transparent;}
 .xm input[type=text],
+.xm input[type=email],
 .xm input[type=password],
 .xm input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
 .xm input[type=checkbox],
 .xm input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
 .xm input[type=text][disabled=disabled],
+.xm input[type=email][disabled=disabled],
 .xm input[type=password][disabled=disabled],
 .xm input[type=checkbox][disabled=disabled],
 .xm input[type=radio][disabled=disabled],

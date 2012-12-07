@@ -26,7 +26,7 @@
 		<ul>
 			<li> 
 				<label for="{$identifierForm->name}">{$identifierForm->title} <em style="color:red">*</em></label>
-				<input type="text" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" />
+				<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" />
 			</li>
 			<li> 
 				<label for="password">{$lang->password} <em style="color:red">*</em></label>

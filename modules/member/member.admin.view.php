@@ -469,6 +469,11 @@ class memberAdminView extends member
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
 						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" />';
 					}
+					else if($formInfo->name == 'email_address')
+					{
+						$formTag->type = 'email';
+						$inputTag = '<input type="email" name="email_address" id="email_address" value="'.$memberInfo['email_address'].'" />';
+					}
 					else if($formInfo->name == 'homepage')
 					{
 						$formTag->type = 'url';
@@ -512,7 +517,7 @@ class memberAdminView extends member
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
 							'tel_1' => $extendForm->value[1],
 							'tel_2' => $extendForm->value[2]);
-						$template = '<input type="text" name="%column_name%[]" value="%tel_0%" size="4" maxlength="4" style="width:30px" />-<input type="text" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:30px" />-<input type="text" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:30px" />';
+						$template = '<input type="tel" name="%column_name%[]" value="%tel_0%" size="4" maxlength="4" style="width:30px" />-<input type="tel" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:30px" />-<input type="tel" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:30px" />';
 					}
 					else if($extendForm->column_type == 'textarea')
 					{

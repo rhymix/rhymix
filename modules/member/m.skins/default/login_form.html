@@ -12,7 +12,7 @@
 		<input type="hidden" name="act" value="procMemberLogin" />
 		<input type="hidden" name="redirect_url" value="{getUrl('act','')}" />
 		<ul>
-			<li><label for="id"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label><input name="user_id" type="text" id="id" value="" /></li>
+			<li><label for="id"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label><input name="user_id" type="<!--@if($identifier == 'user_id')-->text<!--@else-->email<!--@end-->" id="id" value="" /></li>
 			<li><label for="pw">{$lang->password}</label><input name="password" type="password" id="pw" value="" /></li>
 		</ul>
 		<div class="message info" id="keep_msg" style="display:none;">

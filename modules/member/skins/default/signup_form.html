@@ -22,7 +22,7 @@
 			<li>
 				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
 				<p class="a">
-					<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" />
+					<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" value="{$identifierForm->value}" />
 				</p>
 			</li>
 			<li>

@@ -34,15 +34,23 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .ff li p{color:#666}
 .ff li>label:first-child{display:block;font-weight:bold}
 .ff label+input[type=text],
+.ff label+input[type=email],
+.ff label+input[type=url],
 .ff label+input[type=password],
 .ff label+textarea,
 .ff label+select,
 .ff label+select+input[type=text],
+.ff label+select+input[type=email],
+.ff label+select+input[type=url],
 .ff .inputText{display:block;width:96%;font-size:14px;margin:0 0 5px 0}
 .ff label+input[type=text],
+.ff label+input[type=email],
+.ff label+input[type=url],
 .ff label+input[type=password],
 .ff label+textarea,
 .ff label+select+input[type=text],
+.ff label+select+input[type=email],
+.ff label+select+input[type=url],
 .ff .inputText,
 .ff .tel input[type=text]{padding:5px}
 .ff .krZip input[type=text]{width:77%;font-size:14px;margin:0 0 5px 0;padding:5px}

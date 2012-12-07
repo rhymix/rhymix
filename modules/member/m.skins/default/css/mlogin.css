@@ -25,10 +25,12 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .ff ul{margin:0 10px 10px 10px;padding:10px 0 0 0;list-style:none}
 .ff li{margin:0 0 5px 0;padding:0}
 .ff label+input[type=text],
+.ff label+input[type=email],
 .ff label+input[type=password],
 .ff label+textarea,
 .ff label+select{display:block;width:96%;font-size:14px;margin:0 0 5px 0}
 .ff label+input[type=text],
+.ff label+input[type=email],
 .ff label+input[type=password],
 .ff label+textarea{padding:5px}
 /* Help */

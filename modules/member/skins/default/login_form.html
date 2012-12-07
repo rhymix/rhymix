@@ -10,7 +10,7 @@
 	<ul>
 		<li>
 			<p class="q"><label for="uid"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label></p>
-			<p class="a"><input type="text" name="user_id" id="uid" value="" /></p>
+			<p class="a"><input type="<!--@if($identifier == 'user_id')-->text<!--@else-->email<!--@end-->" name="user_id" id="uid" value="" /></p>
 		</li>
 		<li>
 			<p class="q"><label for="upw">{$lang->password}</label></p>
