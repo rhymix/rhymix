@@ -120,7 +120,7 @@
 					<li class="ex"><button type="button" class="_edit_copy">{$lang->copy}</button></li>
 					<li class="ex"><button type="button" class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li class="ex"><button type="button" class="_deleteMenu">{$lang->cmd_delete}</button></li>
-					<li class="homepage"><label style="padding:0 0 0 8px;margin:0"><input type="checkbox" class="_chkUseAsHome"> {$lang->use_site_default_module}</label></li>
+					<li class="homepage"><label style="padding:0 0 0 8px;margin:0"><input type="checkbox" class="_chkUseAsHome switch"><i></i> {$lang->use_site_default_module}</label></li>
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -402,8 +402,8 @@
 		<form action="">
 			<h1>{$lang->layout}</h1>
 			<div class="cnt">
-				<label>
-					<input type="checkbox" class="_chkUseDefaultLayout" title="{$lang->use_site_default_layout}"> {$lang->use_site_default_layout}
+				<label style="padding-right:40px;white-space:nowrap;cursor:pointer">
+					<input type="checkbox" class="_chkUseDefaultLayout switch" title="{$lang->use_site_default_layout}"><i></i> {$lang->use_site_default_layout}
 					<a href="?module=admin&act=dispMenuAdminSiteDesign" class="x_icon-cog _siteDesignSetupLink">{$lang->site_default_layout_settings}</a>
 				</label>
 				<div class="list">
@@ -411,7 +411,7 @@
 						<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
 						<li class="${Selected} _layoutItem">
 							<label>
-								<input type="radio" name="layout_item" title="{$lang->no_use_layout}"> {$lang->no_use_layout}
+								<input type="radio" name="layout_item" title="{$lang->no_use_layout}" class="switch"><i></i> {$lang->no_use_layout}
 							</label>
 						</li>
 						</script>
@@ -2928,6 +2928,12 @@ console.log(11, htDesign.htLayoutSrl.P);
 	});
 
 	$('#layout ._chkUseDefaultLayout').click(function(){
+		var $this = $(this);
+		if($this.is(':checked')){
+			$this.attr('checked','checked').parent().css('fontWeight','bold');
+		} else {
+			$this.removeAttr('checked').parent().css('fontWeight','normal');
+		}
 	/*
 		if(!$(this).attr('checked')){
 			updatePreview({
@@ -2951,9 +2957,9 @@ console.log(11, htDesign.htLayoutSrl.P);
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		
 		if(htDesign.htLayoutSrl[sMode] == -1){
-			$('._chkUseDefaultLayout').attr('checked', 'checked');
+			$('._chkUseDefaultLayout').attr('checked', 'checked').parent().css('fontWeight','bold');
 		}else{
-			$('._chkUseDefaultLayout').removeAttr('checked');
+			$('._chkUseDefaultLayout').removeAttr('checked').parent().css('fontWeight','normal');
 		}
 
 		updateLayoutListDisplayStatus();
@@ -3163,8 +3169,8 @@ console.log(11, htDesign.htLayoutSrl.P);
 	$('#layout').on('click', 'input[name=layout_item]', function(){
 		$('#layout').nextAll().hide();
 		
-		$('#layout').find('li.selected').removeClass('selected');
-		$(this).closest('li').addClass('selected');
+		$('#layout').find('li.selected').removeClass('selected').find('input[name="layout_item"]').removeAttr('checked');
+		$(this).attr('checked','checked').closest('li').addClass('selected');
 		
 		var sLayoutSrl = $(this).closest('li').data('LayoutSrl');
 		

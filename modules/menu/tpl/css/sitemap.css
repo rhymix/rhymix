@@ -8,7 +8,7 @@ body>.x{max-width:none !important}
 #site .btnBoth,
 #site .x_btn-group{text-align:right;margin:10px 0}
 #site .btnBoth:after{content:"";display:block;clear:both}
-.col{display:inline-block;*display:inline;*zoom:1;vertical-align:top;position:relative;background-color:#ddd;white-space:normal;height:100%;min-width:220px;padding:10px;margin:0 4px 0 0;border-radius:5px;box-shadow:1px 1px 1px #999;background-image:-webkit-linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);background-image:-moz-linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);background-image:-o-linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);background-image:linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);}
+.col{display:inline-block;*display:inline;*zoom:1;vertical-align:top;position:relative;background-color:#ddd;white-space:normal;height:100%;min-width:245px;padding:10px;margin:0 4px 0 0;border-radius:5px;box-shadow:1px 1px 1px #999;background-image:-webkit-linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);background-image:-moz-linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);background-image:-o-linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);background-image:linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);}
 .col>h1,
 .col>*>h1{line-height:32px !important;font-size:16px !important;margin:-10px -10px 0 -10px;color:#000 !important;padding:0 8px;text-shadow:0 1px 0 #fff;max-width:240px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .col>*>h1>a{color:#000;text-decoration:none}
