@@ -39,7 +39,7 @@
 			{@ $target_url = $original_site."?mid=download&package_srl=".$item->package_srl; }
 			<div class="x_thumbnail">
 				<div class="thumb" style="min-height:80px">
-					<img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="80" />
+					<img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" style="width:80px;height:80px" />
 				</div>
 				<div class="text">
 					<h3><span class="x_label x_label-info">{$item->category}</span> <a href="{$target_url}" title="{htmlspecialchars($item->title)}" target="_blank">{htmlspecialchars($item->title)}</a></h3>
