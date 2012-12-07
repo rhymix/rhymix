@@ -36,101 +36,80 @@
 		</ul>
 	</div>
 	<div class="dashboard">
-		<section class="status">
-			<h2>{$lang->current_state}</h2>
-			<ul>
-				<li>
-					<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->menu_gnb['user']}</a> 
-					<span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</span>
-				</li>
-				<li>
-					<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->menu_gnb_sub['document']}</a> 
-					<span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</span>
-				</li>
-				<li>
-					<a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">{$lang->menu_gnb_sub['comment']}</a> 
-					<span class="side">{number_format($status->comment->totalCount)}(<!--@if($status->comment->todayCount > 0)-->+<!--@end-->{$status->comment->todayCount})</span>
-				</li>
-				<li>
-					<a href="{getUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList')}">{$lang->menu_gnb_sub['trackback']}</a> 
-					<span class="side">{number_format($status->trackback->totalCount)}(<!--@if($status->trackback->todayCount > 0)-->+<!--@end-->{$status->trackback->todayCount})</span>
-				</li>
-				<li>
-					<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}">{$lang->menu_gnb_sub['file']}</a> 
-					<span class="side">{number_format($status->file->totalCount)}(<!--@if($status->file->todayCount > 0)-->+<!--@end-->{number_format($status->file->todayCount)})</span>
-				</li>
-			</ul>
-		</section>
-		<section class="document">
-			<h2>{$lang->latest_documents}</h2>
-			<ul>
-				<!--@foreach($latestDocumentList AS $key=>$value)-->
-				{@$document = $value->variables}
-				<li>
-					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()))-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> 
-					<span class="side">{$document['nick_name']}</span>
-					<form class="action">
-						<input type="hidden" name="module" value="admin" />
-						<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
-						<input type="hidden" name="cart[]" value="{$document['document_srl']}" />
-						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-						<button type="submit" name="type" value="trash" class="text">{$lang->cmd_trash}</button>
-						<button type="submit" name="type" value="delete" class="text">{$lang->cmd_delete}</button>
-					</form>
-				</li>
-				<!--@end-->
-				<li cond="!is_array($latestDocumentList) || count($latestDocumentList) < 1">{$lang->no_data}</li>
-			</ul>
-			<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
-		</section>
-		<section class="reply">
-			<h2>{$lang->latest_comments}</h2>
-			<ul>
-				<!--@foreach($latestCommentList AS $key=>$value)-->
-				<li>
-					<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> 
-					<span class="side">{$value->nick_name}</span> 
-					<form class="action">
-						<input type="hidden" name="module" value="admin" />
-						<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
-						<input type="hidden" name="cart[]" value="{$value->comment_srl}" />
-						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-						<button type="submit" name="is_trash" value="true" class="text">{$lang->cmd_trash}</button>
-						<button type="submit" name="is_trash" value="false" class="text">{$lang->cmd_delete}</button>
-					</form>
-				</li>
-				<!--@end-->
-				<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
-			</ul>
-			<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
-		</section>
-		<section class="trackback">
-			<h2>{$lang->latest_trackbacks}</h2>
-			<ul>
-				<!--@foreach($latestTrackbackList AS $key=>$value)-->
-				<li>
-					<a href="{$value->url}" target="_blank">{$value->title}</a> 
-					<span class="side">{$value->blog_name}</span>
-					<form class="action">
-						<input type="hidden" name="module" value="admin" />
-						<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
-						<input type="hidden" name="cart[]" value="{$value->trackback_srl}" />
-						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-						<button type="submit" class="text">{$lang->cmd_delete}</button>
-					</form>
-				</li>
-				<!--@end-->
-				<li cond="!is_array($latestTrackbackList) || count($latestTrackbackList) < 1">{$lang->no_data}</li>
-			</ul>
-			<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
-		</section>
+		<div>
+			<section class="status">
+				<h2>{$lang->uv}</h2>
+				<div style="margin:10px 15px">&lt;!-- Graph here --&gt;</div>
+				<div class="more">
+					<dl>
+						<dt>{$lang->menu_gnb['user']}:</dt><dd><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</a></dd>
+					</dl>
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispCounterAdminIndex')}"><i>&rsaquo;</i> {$lang->details}</a>
+				</div>
+			</section>
+			<section class="status">
+				<h2>{$lang->pv}</h2>
+				<div style="margin:10px 15px">&lt;!-- Graph here --&gt;</div>
+				<div class="more">
+					<dl>
+						<dt>{$lang->menu_gnb_sub['document']}:</dt><dd><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</a></dd>
+					</dl>
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispCounterAdminIndex')}"><i>&rsaquo;</i> {$lang->details}</a>
+				</div>
+			</section>
+		</div>
+		<div>
+			<section class="document">
+				<h2>{$lang->latest_documents}</h2>
+				<ul>
+					<!--@foreach($latestDocumentList AS $key=>$value)-->
+					{@$document = $value->variables}
+					<li>
+						<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()))-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> 
+						<span class="side">{$document['nick_name']}</span>
+						<form class="action">
+							<input type="hidden" name="module" value="admin" />
+							<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
+							<input type="hidden" name="cart[]" value="{$document['document_srl']}" />
+							<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+							<button type="submit" name="type" value="trash" class="x_icon-trash">{$lang->cmd_trash}</button>
+							<button type="submit" name="type" value="delete" class="x_icon-remove">{$lang->cmd_delete}</button>
+						</form>
+					</li>
+					<!--@end-->
+					<li cond="!is_array($latestDocumentList) || count($latestDocumentList) < 1">{$lang->no_data}</li>
+				</ul>
+				<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
+			</section>
+			<section class="reply">
+				<h2>{$lang->latest_comments}</h2>
+				<ul>
+					<!--@foreach($latestCommentList AS $key=>$value)-->
+					<li>
+						<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> 
+						<span class="side">{$value->nick_name}</span> 
+						<form class="action">
+							<input type="hidden" name="module" value="admin" />
+							<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
+							<input type="hidden" name="cart[]" value="{$value->comment_srl}" />
+							<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+							<button type="submit" name="is_trash" value="true" class="x_icon-trash">{$lang->cmd_trash}</button>
+							<button type="submit" name="is_trash" value="false" class="x_icon-remove">{$lang->cmd_delete}</button>
+						</form>
+					</li>
+					<!--@end-->
+					<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
+				</ul>
+				<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
+			</section>
+		</div>
 	</div>
 </div>
 <include target="./_footer.html" />
 <script>
 jQuery(function($){
 // Dashboard portlet UI
-	$('.dashboard>section>ul>li')
+	$('.dashboard>div>section>ul>li')
 		.bind('mouseenter focusin', function(){
 			$(this).addClass('hover').find('>.action').show();
 		})

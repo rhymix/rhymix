@@ -1520,4 +1520,12 @@
 		<value xml:lang="ko"><![CDATA[새 버전을 사용할 수 있습니다]]></value>
 		<value xml:lang="en"><![CDATA[Available new versions]]></value>
 	</item>
+	<item name="uv">
+		<value xml:lang="ko"><![CDATA[순 방문자]]></value>
+		<value xml:lang="en"><![CDATA[Unique Visitors]]></value>
+	</item>
+	<item name="pv">
+		<value xml:lang="ko"><![CDATA[페이지 뷰]]></value>
+		<value xml:lang="en"><![CDATA[Page Views]]></value>
+	</item>
 </lang>

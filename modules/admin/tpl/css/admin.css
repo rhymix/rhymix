@@ -178,7 +178,7 @@ body>.x,
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a>i,
-.x .dashboard>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}
+.x .dashboard>div>section>h2:before{background-image:url(../../../../common/img/glyphicons-halflings.png);background-repeat:no-repeat}
 .x>.body>.gnb>ul>li.open>a>i,
 .x>.body>.gnb>ul>li.active>a>i{background-image:url(../../../../common/img/glyphicons-halflings-white.png);background-repeat:no-repeat}
 @media all and (max-width:980px){
@@ -334,27 +334,30 @@ body>.x,
 /* Dashboard */
 .x .dashboard{zoom:1}
 .x .dashboard:after{content:"";display:block;clear:both}
-.x .dashboard>section{position:relative;border:1px solid #ddd;border-radius:4px;margin:0 0 25px 0;overflow:hidden}
-.x .dashboard>section:nth-child(odd){float:left;width:49%}
-.x .dashboard>section:nth-child(even){float:right;width:49%}
-.x .dashboard>section>h2{font-size:14px;margin:0;padding:6px 15px;border-bottom:1px solid #ddd;background:#e8e8e8;background:-webkit-gradient(linear,left top,left bottom,from(#F1F1F1),to(#E8E8E8));background:-moz-linear-gradient(top,#F1F1F1,#E8E8E8);background:-o-linear-gradient(top,#F1F1F1,#E8E8E8);text-shadow:0 1px 0 #fff}
-.x .dashboard>section>h2:before{content:"";display:inline-block;width:14px;height:14px;margin:0 4px 0 0;vertical-align:middle;opacity:.5;filter:alpha(opacity=50)}
-.x .dashboard>.status>h2:before{background-position:-264px -24px}
-.x .dashboard>.document>h2:before{background-position:-264px -48px}
-.x .dashboard>.reply>h2:before{background-position:-240px -120px}
-.x .dashboard>.trackback>h2:before{background-position:-216px -120px}
-.x .dashboard>section>.more{position:absolute;top:7px;right:15px;text-shadow:0 1px 0 #fff}
-.x .dashboard>section>.more i{font:12px Tahoma, Geneva, sans-serif}
-.x .dashboard>section ul{list-style:none;margin:10px;padding:0;height:140px;overflow:hidden;zoom:1}
-.x .dashboard>section li{position:relative;height:28px;line-height:28px;padding:0 70px 0 5px;white-space:nowrap;overflow:hidden;zoom:1;vertical-align:top}
-.x .dashboard>section li.hover{background:#f4f4f4;border-radius:4px}
-.x .dashboard>section li>a{display:block;width:100%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
-.x .dashboard>section li>.side{position:absolute;top:0;right:5px;line-height:28px;width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;zoom:1}
-.x .dashboard>section li>.action{display:none;position:absolute;top:0;right:5px;margin:0;padding:0 0 0 10px;text-align:right;white-space:nowrap;line-height:28px;background:#f4f4f4}
-.x .dashboard>section li>.action>button{margin:0 0 0 4px;padding:0;overflow:visible}
+.x .dashboard>div{float:right;width:49%}
+.x .dashboard>div:first-child{float:left}
+.x .dashboard>div>section{position:relative;height:196px;border:1px solid #ddd;border-radius:4px;margin:0 0 25px 0;overflow:hidden}
+.x .dashboard>div>section>h2{font-size:14px;margin:0;padding:6px 15px;border-bottom:1px solid #ddd;background:#e8e8e8;background:-webkit-gradient(linear,left top,left bottom,from(#F1F1F1),to(#E8E8E8));background:-moz-linear-gradient(top,#F1F1F1,#E8E8E8);background:-o-linear-gradient(top,#F1F1F1,#E8E8E8);text-shadow:0 1px 0 #fff}
+.x .dashboard>div>section>h2:before{content:"";display:inline-block;width:14px;height:14px;margin:0 4px 0 0;vertical-align:middle;opacity:.5;filter:alpha(opacity=50)}
+.x .dashboard>div>.status>h2:before{background-position:-408px 0}
+.x .dashboard>div>.status dl{color:#767676;display:inline-block;*display:inline;zoom:1;margin:0 8px 0 0;padding:1px 8px 0;font:11px/1 돋움, Dotum, Arial, Helvetica, sans-serif;background:#fff;box-shadow:0 0 3px #999 inset;border-radius:3px;min-width:60px;text-align:center}
+.x .dashboard>div>.status dt{display:inline;font-weight:normal}
+.x .dashboard>div>.status dd{display:inline;margin:0}
+.x .dashboard>div>.status dl a{color:#767676}
+.x .dashboard>div>.document>h2:before{background-position:-264px -48px}
+.x .dashboard>div>.reply>h2:before{background-position:-240px -120px}
+.x .dashboard>div>.trackback>h2:before{background-position:-216px -120px}
+.x .dashboard>div>section>.more{position:absolute;top:7px;right:15px;text-shadow:0 1px 0 #fff}
+.x .dashboard>div>section>.more i{font:12px Tahoma, Geneva, sans-serif}
+.x .dashboard>div>section ul{list-style:none;margin:10px;padding:0;overflow:hidden;zoom:1}
+.x .dashboard>div>section li{position:relative;height:28px;line-height:28px;padding:0 70px 0 5px;white-space:nowrap;overflow:hidden;zoom:1;vertical-align:top}
+.x .dashboard>div>section li.hover{background:#f4f4f4;border-radius:4px}
+.x .dashboard>div>section li>a{display:block;width:100%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.x .dashboard>div>section li>.side{position:absolute;top:0;right:5px;line-height:28px;width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;zoom:1}
+.x .dashboard>div>section li>.action{display:none;position:absolute;top:0;right:5px;margin:0;padding:0 0 0 10px;text-align:right;white-space:nowrap;line-height:28px;background:#f4f4f4}
+.x .dashboard>div>section li>.action>button{margin:0 0 0 4px;padding:0;overflow:visible}
 @media all and (max-width:980px){
-.x .dashboard>section:nth-child(odd),
-.x .dashboard>section:nth-child(even){float:none;width:auto}
+.x .dashboard>div{float:none !important;width:auto}
 }
 .x .g11n>.x_add-on{font-size:0;position:relative;cursor:pointer;text-decoration:none;*color:#eee}
 .x .g11n>.x_add-on>i{position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px;z-index:1;opacity:.25;filter:alpha(opacity=25)}
