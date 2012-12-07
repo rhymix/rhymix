@@ -24,7 +24,7 @@
 		<value xml:lang="vi"><![CDATA[Cấp bậc]]></value>
 	</item>
 	<item name="about_point_module">
-		<value xml:lang="ko"><![CDATA[포인트 모듈은 글 작성/댓글작성/업로드/다운로드 등의 행동을 할 때 포인트를 부여할 수 있게 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[글 작성/댓글작성/업로드/다운로드 등의 행동을 할 때 포인트를 부여할 수 있게 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can grant points for writing/adding comments/uploading/downloading.]]></value>
 		<value xml:lang="jp"><![CDATA[ポイントモジュールでは、書き込み作成/コメント作成/アップロード/ダウンロードなどのユーザーの活動に対してポイントの計算を行います。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分系统可以在发表新帖及评论，上传/下载文件等动作时，付与其相应的积分的模块。]]></value>
@@ -36,7 +36,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể đặt mức điểm khi thành viên gửi, thêm bài viết, bình luận, Download, Upload.<br />Nhưng điểm chỉ có thể cho và tích lũy khi Addon điểm được kích hoạt.]]></value>
 	</item>
 	<item name="about_act_config">
-		<value xml:lang="ko"><![CDATA[게시판, 블로그 등 각 모듈마다 글 작성/삭제/댓글작성/삭제 등의 action이 있습니다. 게시판/블로그 외에 다른 모듈에 포인트 기능 연동을 하고 싶을 때는 각 기능에 맞는 act값을 추가 하면 됩니다.<br />연결은 ,(콤마)로 하면 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[게시판, 블로그 등 각 페이지마다 글 작성/삭제/댓글작성/삭제 등의 action이 있습니다. 게시판/블로그 외에 다른 페이지에 포인트 기능 연동을 하고 싶을 때는 각 기능에 맞는 act값을 추가 하면 됩니다.<br />연결은 ,(콤마)로 하면 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Each module like board/blog has its own actions such as "writing/deleting/adding comments/deleting comments". You can just add act values to link modules with point system except board/blog.<br />Comma (,) will distinguish multiple values.]]></value>
 		<value xml:lang="jp"><![CDATA[掲示板、ブログなどのモジュールごとに「書き込み作成・削除/コメント作成・削除」などのアクションがあります。掲示板/ブログ以外のモジュールにポイントシステムを連動させたい場合は、各機能のアクションの「act値」を追加します。連動は半角「,（コンマ）」で区切って追加します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[版面，博客等模块都有发表/删除新帖，发表/删除评论等动作。 <br />要想与版面/博客之外的模块关联积分功能时，添加与其各模块功能相适合的act值即可。]]></value>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
-    <title xml:lang="ko">XE 그레이스톤 메세지(Message)모듈 스킨</title>
+    <title xml:lang="ko">XE 그레이스톤 메세지(Message) 스킨</title>
     <title xml:lang="en">XE Greystone Message Skin</title>
     <title xml:lang="zh-CN">XE灰石系信息皮肤</title>
 
     <description xml:lang="ko">
-        그레이스톤 테마에 어울리는 메세지 모듈 스킨.
+        그레이스톤 테마에 어울리는 메세지 스킨.
         NHN (developers@xpressengine.com)
     </description>
     <description xml:lang="en">

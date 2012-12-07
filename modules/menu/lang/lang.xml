@@ -99,32 +99,32 @@
 		<value xml:lang="zh-TW"><![CDATA[新增選單]]></value>
 	</item>
 	<item name="module_or_url">
-		<value xml:lang="ko"><![CDATA[모듈 또는 URL]]></value>
-		<value xml:lang="en"><![CDATA[Module or URL]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 또는 URL]]></value>
+		<value xml:lang="en"><![CDATA[Page or URL]]></value>
 		<value xml:lang="jp"><![CDATA[モジュール、またはURL]]></value>
 		<value xml:lang="zh-TW"><![CDATA[模組或連結]]></value>
 	</item>
 	<item name="create_module_in_menu">
-		<value xml:lang="ko"><![CDATA[모듈 생성]]></value>
-		<value xml:lang="en"><![CDATA[Create Module]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create Page]]></value>
 		<value xml:lang="jp"><![CDATA[モジュール生成]]></value>
 		<value xml:lang="zh-TW"><![CDATA[建立模組]]></value>
 	</item>
 	<item name="select_module_in_menu">
-		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
-		<value xml:lang="en"><![CDATA[Select Module]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Page]]></value>
 		<value xml:lang="jp"><![CDATA[モジュール選択]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇模組]]></value>
 	</item>
 	<item name="create_mid_in_menu">
-		<value xml:lang="ko"><![CDATA[모듈 아이디 생성]]></value>
-		<value xml:lang="en"><![CDATA[Create Module ID]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 아이디 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create Page ID]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールID生成]]></value>
 		<value xml:lang="zh-TW"><![CDATA[建立模組 ID]]></value>
 	</item>
 	<item name="select_mid_in_menu">
-		<value xml:lang="ko"><![CDATA[모듈 아이디 선택]]></value>
-		<value xml:lang="en"><![CDATA[Select Module ID]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 아이디 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Page ID]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールID選択]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇模組 ID]]></value>
 	</item>
@@ -476,8 +476,8 @@
 		<value xml:lang="zh-TW"><![CDATA[主選單無法刪除。]]></value>
 	</item>
 	<item name="about_title">
-		<value xml:lang="ko"><![CDATA[모듈에 연결할 때, 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please enter the title that is easy to verify when connecting to the module.]]></value>
+		<value xml:lang="ko"><![CDATA[페이지에 연결할 때, 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the title that is easy to verify when connecting to the page.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールをリンクする際に分かりやすいタイトルを入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入连接模块时容易区分的标题。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入連接模組時，容易區分的標題。]]></value>
@@ -547,7 +547,7 @@ Nếu Menu không hiển thị một cách bình thường, hãy làm mới thô
 		<value xml:lang="vi"><![CDATA[Tên sẽ hiển thị là Tên Menu nếu không phải là Admin hay nút hình ảnh.]]></value>
 	</item>
 	<item name="about_menu_url">
-		<value xml:lang="ko"><![CDATA[메뉴 선택 시 이동할 URL입니다.<br />다른 모듈을 연결하고자 할 때는 mid값만 입력하면 됩니다.<br />내용이 없으면 이 메뉴를 선택해도 아무런 동작이 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[메뉴 선택 시 이동할 URL입니다.<br />다른 페이지를 연결하고자 할 때는 mid값만 입력하면 됩니다.<br />내용이 없으면 이 메뉴를 선택해도 아무런 동작이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[It is the menu URL when select the menu.<br />You may enter only id value to link to other module.<br />If no contents exist, nothing will happen even though you click the menu.]]></value>
 		<value xml:lang="jp"><![CDATA[メニュー選択時、移動するURLです。<br />他のモジュールとリンクを張る場合はIDの値のみ入力してください。<br />内容がない場合は、メニューを選択しても何の動作も行われません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[点击菜单时要移动的URL。<br />连接其他模块时只输入id值即可。<br />没有内容时点击菜单也不会有什么动作。]]></value>
@@ -607,8 +607,8 @@ Nếu Menu không hiển thị một cách bình thường, hãy làm mới thô
 		<value xml:lang="vi"><![CDATA[Nếu lựa chọn nhóm, thì chỉ những nhóm được chọn mới thấy được Menu. (nếu File XML trực tiếp mở ra, nó sẽ được hiển thị).]]></value>
 	</item>
 	<item name="about_menu">
-		<value xml:lang="ko"><![CDATA[메뉴모듈은 생성된 모듈을 편리한 메뉴관리기를 통해 정리하고 레이아웃과 연결하여 별도의 수작업 없이 완성된 사이트를 구축하도록 도와줍니다.
-메뉴는 사이트를 관리하기 보다는 모듈과 레이아웃을 연결해 주며 레이아웃을 통해 여러 가지 형태의 메뉴를 표시할 수 있도록 하는 정보만 가지고 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[생성한 페이지를 레이아웃과 연결하여 완성된 사이트를 구축하도록 도와줍니다.
+메뉴는 사이트를 관리하기 보다는 페이지와 레이아웃을 연결해 주며 레이아웃을 통해 여러 가지 형태의 메뉴를 표시할 수 있도록 하는 정보만 가지고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Menu module will help you create a complete site through the convenient menu management which arranges the created modules and links to layouts without any manual work.
 However, menu is not a site manager. It just has the information which can link to modules and layouts so you can express different types of menus.]]></value>
 		<value xml:lang="jp"><![CDATA[メニューモジュールは、メニュー管理機能にて生成モジュールの整理やレイアウトとのリンクを設定し、かんたんに管理者画面でサイトを構築できるようにします。
@@ -641,23 +641,23 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="vi"><![CDATA[Chỉ được phép sử dụng File hình ảnh.]]></value>
 	</item>
 	<item name="cType">
-		<value xml:lang="ko"><![CDATA[모듈 또는 URL]]></value>
-		<value xml:lang="en"><![CDATA[Module or URL]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 또는 URL]]></value>
+		<value xml:lang="en"><![CDATA[Page or URL]]></value>
 		<value xml:lang="zh-TW"><![CDATA[模組或連結]]></value>
 	</item>
 	<item name="module_type">
-		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
-		<value xml:lang="en"><![CDATA[Select Module]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Page]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇模組]]></value>
 	</item>
 	<item name="create_menu_url">
-		<value xml:lang="ko"><![CDATA[모듈 아이디 생성]]></value>
-		<value xml:lang="en"><![CDATA[Create Module ID]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 아이디 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create Page ID]]></value>
 		<value xml:lang="zh-TW"><![CDATA[建立模組 ID]]></value>
 	</item>
 	<item name="select_menu_url">
-		<value xml:lang="ko"><![CDATA[모듈 아이디 선택]]></value>
-		<value xml:lang="en"><![CDATA[Select Module ID]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 아이디 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Page ID]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇模組 ID]]></value>
 	</item>
 	<item name="exposure_limits">

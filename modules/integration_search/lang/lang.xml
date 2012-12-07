@@ -25,8 +25,8 @@
 		<value xml:lang="vi"><![CDATA[Code mẫu]]></value>
 	</item>
 	<item name="about_target_module">
-		<value xml:lang="ko"><![CDATA[선택된 모듈만 검색 대상으로 정합니다. 권한설정에 대한 주의를 바랍니다.]]></value>
-		<value xml:lang="en"><![CDATA[Only chosen modules are the target. Please be careful on setting the permissions.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 페이지를 검색 대상으로 정합니다. 권한설정에 대한 주의를 바랍니다.]]></value>
+		<value xml:lang="en"><![CDATA[Only chosen pages are the target. Please be careful on setting the permissions.]]></value>
 		<value xml:lang="jp"><![CDATA[選択されたモジュールだけを検索対象とします。各モジュールの権限設定にも注意してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[所选模块作为搜索对象。请注意权限设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[只將所選擇的模組當作搜尋對象。請注意權限設置。]]></value>

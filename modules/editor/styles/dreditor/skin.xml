@@ -4,12 +4,12 @@
     <title xml:lang="en">dreditor</title>
     <title xml:lang="tr">dreditor</title>
     <description xml:lang="ko">
-		단락편집기 문서서식입니다.
-		텍스타일 이외의 모듈에서 단락편집기를 사용할 때 사용하면 단락편집기 스타일에 맞추어서 표시해줍니다.
+		단락편집기 문서 서식입니다.
+		텍스타일 이외의 페이지에서 단락편집기 스타일에 맞추어 서식을 표시해줍니다.
     </description>
     <description xml:lang="en">
 		DrEditor document style.
-		If you use DrEditor with other modules rather than Textyle, setting style as this would help disply better.
+		If you use DrEditor with other pages rather than Textyle, setting style as this would help disply better.
     </description>
     <description xml:lang="tr">
 		DrEditor belge şekli.
@@ -17,9 +17,9 @@
     </description>
     <version>0.1</version>
     <date>2010-05-25</date>
-    <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
-        <name xml:lang="ko">haneul</name>
-        <name xml:lang="en">haneul</name>
-        <name xml:lang="tr">haneul</name>
+    <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
+        <name xml:lang="ko">NHN</name>
+        <name xml:lang="en">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 </skin>

@@ -10,8 +10,8 @@
     <title xml:lang="zh-TW">綜合搜尋</title>
     <title xml:lang="tr">Birleşik Arama</title>
     <description xml:lang="ko">
-        선택한 모듈들을 대상으로 통합검색을 지원합니다.
-        선택된 모듈의 글중 비밀글만 검색을 하지 않고 나머지는 모두 검색을 하기에 공개되지 않은 모듈은 대상에 포함하지 않도록 해야 합니다.
+        선택한 페이지를 대상으로 통합검색을 지원합니다.
+        선택한 페이지의 글중 비밀글만 검색을 하지 않고 나머지는 모두 검색을 하기에 공개되지 않은 페이지는 대상에 포함하지 않도록 해야 합니다.
     </description>
     <description xml:lang="zh-CN">
         把所选模块作为搜索对象。

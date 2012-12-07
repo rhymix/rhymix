@@ -9,7 +9,7 @@
     <title xml:lang="ru">Виджеты</title>
     <title xml:lang="zh-TW">Widget</title>
     <title xml:lang="tr">Görsel Bileşen (widget)</title>
-    <description xml:lang="ko">위젯 관리 모듈</description>
+    <description xml:lang="ko">위젯 관리</description>
     <description xml:lang="zh-CN">控件管理模块。</description>
     <description xml:lang="jp">ウィジェット管理モジュール</description>
     <description xml:lang="en">Module for managing widgets.</description>

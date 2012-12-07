@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
-    <title xml:lang="ko">통합 검색 기본 스킨</title>
+    <title xml:lang="ko">통합검색 기본 스킨</title>
     <title xml:lang="vi">Skin trang tìm kiếm</title>
     <title xml:lang="zh-CN">搜索默认皮肤</title>
     <title xml:lang="jp">統合検索のデフォルトスキン</title>
@@ -8,7 +8,7 @@
     <title xml:lang="zh-TW">預設綜合搜尋面板</title>
     <title xml:lang="tr">Birleşik Arama Varsayılan Dış Görünümü</title>
     <description xml:lang="vi">Skin mặc định của trang tìm kiếm.</description>
-    <description xml:lang="ko">통합검색 모듈의 기본 스킨</description>
+    <description xml:lang="ko">통합검색 기본 스킨</description>
     <description xml:lang="zh-CN">搜索模块的默认皮肤。</description>
     <description xml:lang="jp">統合検索モジュールのデフォルトスキンです。</description>
     <description xml:lang="en">The Default Skin of the Integrated Search Module</description>

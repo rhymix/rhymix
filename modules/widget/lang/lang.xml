@@ -376,9 +376,9 @@
 		<value xml:lang="vi"><![CDATA[Sau khi nhập những thông tin cần thiết, bấm nút [<b>Tạo Code</b>] để chèn Code của Widget vào giao diện.]]></value>
 	</item>
 	<item name="about_widget">
-		<value xml:lang="ko"><![CDATA[위젯은 레이아웃이나 페이지 모듈에서 사용되는 작은 구성요소입니다.
-위젯은 내부 모듈 또는 외부 open api와 연동될 수도 있고, 설정을 통해 다양하게 응용될 수 있습니다.
-XE의 페이지 모듈이나 레이아웃 모듈을 사용하지 않더라도 [코드생성] 기능을 통해 직접 위젯 추가도 할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[위젯은 레이아웃이나 페이지에서 사용하는 작은 구성요소입니다.
+위젯은 내부 페이지 또는 외부 open api와 연동될 수도 있고, 설정을 통해 다양하게 응용될 수 있습니다.
+XE의 페이지나 레이아웃 모듈을 사용하지 않더라도 [코드생성] 기능을 통해 직접 위젯 추가도 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[A widget is a small free-standing application used in a layout or page module.
  It can be linked with internal module or external Open API. Through its configuration setting, wide application is possible. 
  You can directly add a widget by using the [Generate Code] function without using the XE page module or layout module.]]></value>

@@ -147,8 +147,8 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể đặt định dạng cho RSS.]]></value>
 	</item>
 	<item name="about_open_rss">
-		<value xml:lang="ko"><![CDATA[현재 모듈에 대한 피드(Feed) 공개를 선택할 수 있습니다. 글 열람 권한과 상관없이 옵션에 따라 RSS가 공개됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can select RSS on the current module to be open to the public.\nIf it is enabled, the article will be open to the public despite its view permissions.]]></value>
+		<value xml:lang="ko"><![CDATA[현재 페이지에 대한 피드(Feed) 공개를 선택할 수 있습니다. 글 열람 권한과 상관없이 옵션에 따라 RSS가 공개됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can select RSS on the current page to be open to the public.\nIf it is enabled, the article will be open to the public despite its view permissions.]]></value>
 		<value xml:lang="jp"><![CDATA[現在のモジュールに対して「RSS配信」を選択することができます。書き込みの内容が読める権限とは関係なくオプションによってRSSが配信されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定RSS公开程度,RSS公开不受查看内容权限的限制。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇該模組 RSS Feed 的公開程度。公開 RSS Feed 將不受檢視內容權限的限制，隨公開 RSS Feed 的選項公開 RSS Feed。]]></value>
@@ -159,7 +159,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể mở công khai RSS trên Module hiện tại.\nKhông ảnh hưởng tới quyền truy cập bài viết, RSS sẽ mở công khai với tùy chọn của nó.]]></value>
 	</item>
 	<item name="about_feed_description">
-		<value xml:lang="ko"><![CDATA[발행될 피드에 대한 설명을 입력할 수 있습니다. 설명을 입력하지 않으실 경우, 해당 모듈에 설정된 관리용 설명이 포함됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[발행될 피드에 대한 설명을 입력할 수 있습니다. 설명을 입력하지 않으실 경우, 해당 페이지에 설정된 관리용 설명이 포함됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can enter the description on the RSS feed to be published. If you don't enter this, the description of each module is displayed by default.]]></value>
 		<value xml:lang="jp"><![CDATA[発行するRSSに関する説明を入力します。未入力した場合は該当モジュールで設定された管理用説明が含まれます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以输入简单说明,留空输出该模块的说明。]]></value>

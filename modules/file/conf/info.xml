@@ -9,9 +9,9 @@
     <title xml:lang="ru">Вложения</title>
     <title xml:lang="zh-TW">附加檔案</title>
     <title xml:lang="tr">Ekler</title>
-    <description xml:lang="ko">첨부 파일 관리하는 모듈입니다.</description>
+    <description xml:lang="ko">첨부 파일을 관리합니다.</description>
     <description xml:lang="zh-CN">管理附件的模块。</description>
-    <description xml:lang="en">Module for managing attachments.</description>
+    <description xml:lang="en">Managing attachments.</description>
     <description xml:lang="vi">Module quản lý File đính kèm.</description>
     <description xml:lang="es">Módulo para manejar los archivos adjuntos.</description>
     <description xml:lang="jp">添付ファイルを管理するモジュールです。</description>

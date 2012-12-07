@@ -104,24 +104,24 @@
 		<value xml:lang="en"><![CDATA[Site title]]></value>
 	</item>
 	<item name="start_module">
-		<value xml:lang="ko"><![CDATA[시작 모듈]]></value>
-		<value xml:lang="en"><![CDATA[Default Module]]></value>
-		<value xml:lang="jp"><![CDATA[初期起動モジュール]]></value>
-		<value xml:lang="zh-CN"><![CDATA[首页模块]]></value>
-		<value xml:lang="zh-TW"><![CDATA[預設首頁]]></value>
-		<value xml:lang="fr"><![CDATA[Start Module]]></value>
-		<value xml:lang="ru"><![CDATA[Стартовый модуль]]></value>
-		<value xml:lang="es"><![CDATA[Módulo de inicio]]></value>
-		<value xml:lang="tr"><![CDATA[Varsayılan Modül]]></value>
-		<value xml:lang="vi"><![CDATA[Module trang chủ]]></value>
+		<value xml:lang="ko"><![CDATA[홈페이지]]></value>
+		<value xml:lang="en"><![CDATA[Homepage]]></value>
+		<value xml:lang="jp"><![CDATA[Homepage]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Homepage]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Homepage]]></value>
+		<value xml:lang="fr"><![CDATA[Homepage]]></value>
+		<value xml:lang="ru"><![CDATA[Homepage]]></value>
+		<value xml:lang="es"><![CDATA[Homepage]]></value>
+		<value xml:lang="tr"><![CDATA[Homepage]]></value>
+		<value xml:lang="vi"><![CDATA[Homepage]]></value>
 	</item>
 	<item name="about_site_title">
 		<value xml:lang="ko"><![CDATA[세부 설정에서 사이트제목을 설정하지 않았을 경우 노출되는 제목입니다.]]></value>
 		<value xml:lang="en"><![CDATA[세부 설정에서 사이트제목을 설정하지 않았을 경우 노출되는 제목입니다.]]></value>
 	</item>
 	<item name="about_start_module">
-		<value xml:lang="ko"><![CDATA[사이트 접속 시 기본으로 호출될 모듈을 지정할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can specify the default module for the site.]]></value>
+		<value xml:lang="ko"><![CDATA[사이트 접속 시 기본으로 호출될 페이지 지정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can specify the default page for the site.]]></value>
 		<value xml:lang="jp"><![CDATA[サイトへ接続した際にデフォルトで起動するモジュールを指定することができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可指定用户访问网站时的默认首页模块。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可將所選擇的模組作為預設首頁。]]></value>
@@ -156,16 +156,16 @@
 		<value xml:lang="vi"><![CDATA[Module Type]]></value>
 	</item>
 	<item name="select_module_instance">
-		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
-		<value xml:lang="en"><![CDATA[Module]]></value>
-		<value xml:lang="jp"><![CDATA[Module]]></value>
-		<value xml:lang="zh-CN"><![CDATA[Module]]></value>
-		<value xml:lang="zh-TW"><![CDATA[Module]]></value>
-		<value xml:lang="fr"><![CDATA[Module]]></value>
-		<value xml:lang="ru"><![CDATA[модуль]]></value>
-		<value xml:lang="es"><![CDATA[Módulo]]></value>
-		<value xml:lang="tr"><![CDATA[Modül]]></value>
-		<value xml:lang="vi"><![CDATA[Module]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 선택]]></value>
+		<value xml:lang="en"><![CDATA[Page]]></value>
+		<value xml:lang="jp"><![CDATA[Page]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Page]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Page]]></value>
+		<value xml:lang="fr"><![CDATA[Page]]></value>
+		<value xml:lang="ru"><![CDATA[Page]]></value>
+		<value xml:lang="es"><![CDATA[Page]]></value>
+		<value xml:lang="tr"><![CDATA[Page]]></value>
+		<value xml:lang="vi"><![CDATA[Page]]></value>
 	</item>
 	<item name="module_category_title" type="array">
 		<item name="service">
@@ -422,18 +422,6 @@
 		<value xml:lang="tr"><![CDATA[Zeroboard XE'nin yeni sürümü yayımlandı! Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Đã có phiên bản mới nhất của XE.  Hãy bấm vào Link để Download.]]></value>
 	</item>
-	<item name="item_module">
-		<value xml:lang="ko"><![CDATA[모듈 목록]]></value>
-		<value xml:lang="en"><![CDATA[Module List]]></value>
-		<value xml:lang="jp"><![CDATA[モジュールリスト]]></value>
-		<value xml:lang="zh-CN"><![CDATA[模块目录]]></value>
-		<value xml:lang="zh-TW"><![CDATA[模組列表]]></value>
-		<value xml:lang="fr"><![CDATA[Liste des Modules]]></value>
-		<value xml:lang="ru"><![CDATA[Список модулей]]></value>
-		<value xml:lang="es"><![CDATA[Lista de Módulos]]></value>
-		<value xml:lang="tr"><![CDATA[Modül Listesi]]></value>
-		<value xml:lang="vi"><![CDATA[Danh sách Module]]></value>
-	</item>
 	<item name="item_addon">
 		<value xml:lang="ko"><![CDATA[애드온 목록]]></value>
 		<value xml:lang="en"><![CDATA[Addon List]]></value>
@@ -612,18 +600,6 @@
 		<value xml:lang="es"><![CDATA[XE está bajo la Licencia de LGPL]]></value>
 		<value xml:lang="tr"><![CDATA[XE LGPL ile uyumludur]]></value>
 		<value xml:lang="vi"><![CDATA[XE sử dụng giấy phép LGPL]]></value>
-	</item>
-	<item name="about_shortcut">
-		<value xml:lang="ko"><![CDATA[자주 사용하는 모듈에 등록된 모듈의 바로가기를 삭제할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You may remove shortcuts of modules which are registered on frequently used module list.]]></value>
-		<value xml:lang="jp"><![CDATA[よく使うモジュールに登録されているモジュールのショートカットは、削除できます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以删除添加到常用模块中的快捷菜单。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可以刪除新增到常用模組中的快速選單。]]></value>
-		<value xml:lang="fr"><![CDATA[Vous pouvez supprimer les raccourcis pour les modules qui sont enrgistrés sur le liste des modules qui sont utilisés fréquemment]]></value>
-		<value xml:lang="ru"><![CDATA[Вы можете удалить ярлыки модулей, зарегистрированных в списке часто используемых модулей]]></value>
-		<value xml:lang="es"><![CDATA[Puede Eliminar los accesos directos de módulos, los cuales fueron registrados en la lista de módulos usados frecuentemente]]></value>
-		<value xml:lang="tr"><![CDATA[Sık kullanılan modüller listesine kaydedilmiş modüllerin kısayollarını silebilirsiniz.]]></value>
-		<value xml:lang="vi"><![CDATA[Bạn có thể loại bỏ phím tắt của Module được sử dụng thường xuyên trên danh sách.]]></value>
 	</item>
 	<item name="yesterday">
 		<value xml:lang="ko"><![CDATA[어제]]></value>
@@ -900,13 +876,6 @@
 		<value xml:lang="zh-CN"><![CDATA[执行]]></value>
 		<value xml:lang="tr"><![CDATA[Yürütme]]></value>
 	</item>
-	<item name="select_module_id">
-		<value xml:lang="ko"><![CDATA[모듈 아이디를 선택하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Select a module ID.]]></value>
-		<value xml:lang="jp"><![CDATA[モジュールIDを選択してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[选择Module ID]]></value>
-		<value xml:lang="tr"><![CDATA[Modül ID'sini seçin.]]></value>
-	</item>
 	<item name="use_cdn">
 		<value xml:lang="ko"><![CDATA[CDN 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use CDN]]></value>
@@ -1113,34 +1082,6 @@
 		<value xml:lang="jp"><![CDATA[追加]]></value>
 		<value xml:lang="zh-CN"><![CDATA[添加]]></value>
 		<value xml:lang="tr"><![CDATA[Ekle]]></value>
-	</item>
-	<item name="theme_desc">
-		<value xml:lang="ko"><![CDATA[테마는 레이아웃을 포함하여 현재 설치된 모듈의 스킨을 묶은 개념입니다. 테마를 선택하면 'Skin Setting' 항목을 알아서 선택합니다. 테마 일부가 마음에 들지 않으면 'Skin Setting'에서 테마 일부를 다시 설정 할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Theme is a set of skins for modules currently installed including layouts. When you select Theme, 'Skin Setting' is automatically selected. If you don't like some of the theme, you can edit it on 'Skin Setting'.]]></value>
-		<value xml:lang="jp"><![CDATA[テーマは、レイアウトを含み現在インストールされているモジュールのスキンをまとめたものです。テーマを選択すると、「スキン設定」項目が自動的に選択されます。テーマの一部が気に入らない場合は、「スキン設定」でテーマの一部を再設定できます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[主题是包含布局等一系列正确安装的模块的皮肤集.当选用此主题.'皮肤设置'将会被自动选用,如果你不喜欢某些主题,你可以在皮肤设定里面编辑.]]></value>
-		<value xml:lang="tr"><![CDATA[Kavramı birlikte modülü şu anda yüklü derileri düzeni gibi temalar. Bir tema 'Skin Setting' seçtiğinizde bir öğe seçmek için özen gösteriyoruz. Eğer beğenmezseniz geri kısmından temayı 'Skin Setting' teması bazı ayarlanabilir.]]></value>
-	</item>
-	<item name="selected_theme">
-		<value xml:lang="ko"><![CDATA[선택한 테마]]></value>
-		<value xml:lang="en"><![CDATA[Selected Theme]]></value>
-		<value xml:lang="jp"><![CDATA[選択したテーマ]]></value>
-		<value xml:lang="zh-CN"><![CDATA[已选择的主题]]></value>
-		<value xml:lang="tr"><![CDATA[Seçilen Tema]]></value>
-	</item>
-	<item name="no_selected_theme_desc">
-		<value xml:lang="ko"><![CDATA[관리자가 설정한 테마입니다. 테마를 설정하지 않은 경우 디폴트로 노출됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[This is a defult theme specified by the administrator. If you don't specify one, this theme will be shown by default.]]></value>
-		<value xml:lang="jp"><![CDATA[管理者が設定したテーマです。テーマを設定しない場合、デフォルト表示されます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[这是管理员设定的默认主题.此主题将会默认显示.]]></value>
-		<value xml:lang="tr"><![CDATA[Bu tema, yönetici tarafından belirlenen varsayılan temadır. Eğer herhangi bir temayı seçmezseniz, bu tema varsayılan tema şeklinde görünecektir.]]></value>
-	</item>
-	<item name="user_define_skin_select_desc">
-		<value xml:lang="ko"><![CDATA[테마의 일부가 마음에 들지 않으면 스킨을 직접 선택하세요. 스킨을 직접 선택하면 'Theme Setting' 설정은 'User Defined'로 설정됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[If you don't like some of the theme, select a skin for yourself. When you select your own skin, 'Theme Setting' is set to 'User Defined'.]]></value>
-	　　<value xml:lang="jp"><![CDATA[テーマの一部が気に入らなかった場合、スキンを選択してください。スキンを選択すると、「テーマ設定」は、「ユーザー定義」に設定されます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[如果你不喜欢某些主题，请自己选择一个皮肤。当你自定义一个皮肤后，'主题设置'将关联在'用户设置'下]]></value>
-		<value xml:lang="tr"><![CDATA[Eğer bazı temalar hoşunuza gitmideyse o halde kendinize bir yüzey seçebilirsiniz. Kendinize ait olan bir yüzey seçtiğinizde 'Tema Ayarları' seçeneği 'Kullanıcı Kararı' şeklinde değişecektir.]]></value>
 	</item>
 	<item name="selected_layout">
 		<value xml:lang="ko"><![CDATA[선택한 레이아웃]]></value>

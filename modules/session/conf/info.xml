@@ -8,7 +8,7 @@
     <title xml:lang="zh-TW">SESSION管理</title>
     <title xml:lang="tr">Oturum</title>
     <description xml:lang="ko">
-        접속자의 세션을 관리하는 모듈입니다.
+        접속자의 세션을 관리합니다.
         기본적인 세션 설정과 사용뿐 아니라 세션 정보를 이용하여 접속자등의 세션 기반의 정보를 제공하는 기능도 있습니다.
     </description>
     <description xml:lang="jp">

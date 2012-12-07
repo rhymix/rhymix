@@ -9,10 +9,10 @@
     <title xml:lang="ru">Модули</title>
     <title xml:lang="zh-TW">模組</title>
     <title xml:lang="tr">Modül</title>
-    <description xml:lang="ko">모듈 생성 및 관리하는 모듈입니다.</description>
+    <description xml:lang="ko">모듈을 생성하고 관리합니다.</description>
     <description xml:lang="zh-CN">生成及管理模块的模块。</description>
     <description xml:lang="jp">モジュールの生成、管理するモジュールです。</description>
-    <description xml:lang="en">This module is for creating/managering the other modules.</description>
+    <description xml:lang="en">Creating/managering the other modules.</description>
     <description xml:lang="vi">Module cho phép tạo và quản lý những Module khác.</description>
     <description xml:lang="es">Este módulo is para crear y manejar los otros módulos.</description>
     <description xml:lang="ru">Этот модуль служит для создания/управления другими модулями.</description>
