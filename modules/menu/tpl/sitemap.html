@@ -120,7 +120,7 @@
 					<li class="ex"><button type="button" class="_edit_copy">{$lang->copy}</button></li>
 					<li class="ex"><button type="button" class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li class="ex"><button type="button" class="_deleteMenu">{$lang->cmd_delete}</button></li>
-					<li class="homepage"><label style="padding:0 0 0 8px;margin:0"><input type="checkbox" class="_chkUseAsHome switch"><i></i> {$lang->use_site_default_module}</label></li>
+					<li class="homepage"><label style="padding:0 0 0 8px;margin:0"><input type="checkbox" class="_chkUseAsHome"> {$lang->use_site_default_module}</label></li>
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -383,7 +383,7 @@
 					</script>
 					
 					<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
-					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} [<span class="themeName _skinName">${SkinTitle}</span>] <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} [<span class="themeName _skinTitle">${SkinTitle}</span>] <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 				</ul>
 				<div class="btnBoth">
@@ -402,8 +402,8 @@
 		<form action="">
 			<h1>{$lang->layout}</h1>
 			<div class="cnt">
-				<label style="padding-right:40px;white-space:nowrap;cursor:pointer">
-					<input type="checkbox" class="_chkUseDefaultLayout switch" title="{$lang->use_site_default_layout}"><i></i> {$lang->use_site_default_layout}
+				<label>
+					<input type="checkbox" class="_chkUseDefaultLayout" title="{$lang->use_site_default_layout}"> {$lang->use_site_default_layout}
 					<a href="?module=admin&act=dispMenuAdminSiteDesign" class="x_icon-cog _siteDesignSetupLink">{$lang->site_default_layout_settings}</a>
 				</label>
 				<div class="list">
@@ -411,7 +411,7 @@
 						<script id="tmpl_layout_list_item_no_layout" type="text/x-jquery-tmpl">
 						<li class="${Selected} _layoutItem">
 							<label>
-								<input type="radio" name="layout_item" title="{$lang->no_use_layout}" class="switch"><i></i> {$lang->no_use_layout}
+								<input type="radio" name="layout_item" title="{$lang->no_use_layout}"> {$lang->no_use_layout}
 							</label>
 						</li>
 						</script>
@@ -2538,7 +2538,7 @@ jQuery(function($){
 				$itemList.append($.tmpl( "deisgn_skinItem", {
 						ModuleType : htInfo.sModuleType,
 						ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title,
-						SkinName : sSkinTitle
+						SkinTitle : sSkinTitle
 					} 
 				));
 			}
@@ -2550,6 +2550,7 @@ jQuery(function($){
 				$('#design').removeClass('_mobile_view_disabled').find('.mvOption>:checkbox').attr('checked','checked');
 			}
 
+			//console.log(htDesign);
 			updateSelectedDesign(htDesign);
 		});
 		<!--@end-->
@@ -2850,7 +2851,7 @@ jQuery(function($){
 		if(sSkinName == ""){
 			var sModuleType = htDesign.sModuleName==="page"?"ARTICLE":htDesign.sModuleName;
 			if($._xeAdminVar.htItemTypes[sModuleType]){
-			console.log($._xeAdminVar.htItemTypes[sModuleType]);
+			//console.log($._xeAdminVar.htItemTypes[sModuleType]);
 				if(sMode === "P"){
 					sSkinTitle = $._xeAdminVar.htItemTypes[sModuleType].defaultSkin.title;
 				}else{
@@ -2860,7 +2861,13 @@ jQuery(function($){
 		}
 		
 		$('#design ._layoutName').html(sLayoutTitle);
-		$('#design .active ._skinName').html(sSkinTitle);
+		<!--@if($act == 'dispMenuAdminSiteMap')-->
+		$('#design ._skinTitle').html(sSkinTitle);
+		<!--@end-->
+		<!--@if($act == 'dispMenuAdminSiteDesign')-->
+		$('#design .active ._skinTitle').html(sSkinTitle);
+		<!--@end-->
+
 		
 		updatePreview(htDesign);
 	}
@@ -2897,12 +2904,6 @@ jQuery(function($){
 	});
 
 	$('#layout ._chkUseDefaultLayout').click(function(){
-		var $this = $(this);
-		if($this.is(':checked')){
-			$this.attr('checked','checked').parent().css('fontWeight','bold');
-		} else {
-			$this.removeAttr('checked').parent().css('fontWeight','normal');
-		}
 		updateLayoutListDisplayStatus();
 	});
 	$("#tmpl_layout_list_item_no_layout").template( "layoutListItem_nolayout" );
@@ -2918,9 +2919,9 @@ jQuery(function($){
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		
 		if(htDesign.sLayoutSrl == -1){
-			$('._chkUseDefaultLayout').attr('checked', 'checked').parent().css('fontWeight','bold');
+			$('._chkUseDefaultLayout').attr('checked', 'checked');
 		}else{
-			$('._chkUseDefaultLayout').removeAttr('checked').parent().css('fontWeight','normal');
+			$('._chkUseDefaultLayout').removeAttr('checked');
 		}
 
 		//updateLayoutListDisplayStatus();
@@ -3106,8 +3107,8 @@ jQuery(function($){
 	$('#layout').on('click', 'input[name=layout_item]', function(){
 		$('#layout').nextAll().hide();
 		
-		$('#layout').find('li.selected').removeClass('selected').find('input[name="layout_item"]').removeAttr('checked');
-		$(this).attr('checked','checked').closest('li').addClass('selected');
+		$('#layout').find('li.selected').removeClass('selected');
+		$(this).closest('li').addClass('selected');
 		
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		
