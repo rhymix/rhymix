@@ -383,7 +383,7 @@
 					</script>
 					
 					<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
-					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} [<span class="themeName _skinName">${SkinName}</span>] <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} [<span class="themeName _skinName">${SkinTitle}</span>] <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 				</ul>
 				<div class="btnBoth">
@@ -1438,7 +1438,6 @@ jQuery(function($){
 				return;
 			}
 			
-			//./
 			//$._xeAdminVar.sRenameOnload = htData.menu_srl;
 			//$._xeAdminVar.sSelectedMenuSrl = htData.menu_srl;
 			$._xeAdminVar.sSelectOnload = htData.menu_srl;
@@ -1457,8 +1456,8 @@ jQuery(function($){
 	$('#sitemap_general ._save').click(function(){
 		var sTitle = $('#sitemap_general INPUT._sitemapName').val();
 		renameSitemap($._xeAdminVar.sSelectedMenuSrl, sTitle);
-	//./
-	/*
+
+		/*
 		$.exec_json("menu.procMenuAdminUpdateItem", params, function(htData){
 			if(htData.error !== 0){
 				alert(htData.message);
@@ -2446,57 +2445,127 @@ jQuery(function($){
 	$previewForm.find('input[name=mid]').remove();
 	$previewForm.find('input[name=vid]').remove();
 	$('#design .x_tabbable').on('tab_change', function(ev, nIdx, $el){
+		ev.preventDefault();
+		
 		$('#design').nextAll().hide();
 		
 		//console.log('on "tab_change"', ev, nIdx, $el);
 		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
 
-		<!--@if($act == 'dispMenuAdminSiteMap')-->
 		if(nIdx === 0){
 			// PC
 			$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = false;
-
+			
 			$('#design').addClass('_pcMode');
 			$('#design').removeClass('_mobileMode');
 
-			updatePreview({
-				sModuleName : htDesign.sModuleName,
-				sMID:   htDesign.sMID,
-				sLayoutSrl : htDesign.htLayoutSrl.P,
-				sSkin : htDesign.htSkin.P
-			});
-			
 		}else{
 			// mobile
 			$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = true;
-
+			
 			$('#design').removeClass('_pcMode');
 			$('#design').addClass('_mobileMode');
-
-			updatePreview({
-				sModuleName : htDesign.sModuleName,
-				sMID:   htDesign.sMID,
-				sLayoutSrl : htDesign.htLayoutSrl.M,
-				sSkin : htDesign.htSkin.M
-			});
 		}
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+
+		var $panel = $("#design");
+		
+		<!--@if($act == 'dispMenuAdminSiteMap')-->
+
+		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
+		var htInfo = htNodeInfo[sMenuId];
+
+		// also preview here
+		var params = {
+			menu_item_srl : htInfo.sNodeSrl
+		};
+//-----------------------------------
+		$.exec_json("module.getModuleInfoByMenuItemSrl", params, function(htData){
+		
+			if(htData.error !== 0){
+				alert(htData.message);
+				return;
+			}
+			var htTmp = htData.module_info_by_menu_item_srl;
+			
+			var sLayoutTitle, sLayoutSrl;
+			var sSkinTitle, sSkinName;
+			
+			if(sMode === "P"){
+				sLayoutSrl = htTmp.layout_srl;
+				sLayoutTitle = htData.module_info_by_menu_item_srl.designSettings.layout.pc;
+
+				if(htData.module_info_by_menu_item_srl.is_skin_fix == "Y"){
+					sSkinTitle = htData.module_info_by_menu_item_srl.designSettings.skin.pc;
+					sSkinName = htTmp.skin;
+				}else{
+					sSkinTitle = "";
+					sSkinName = "";
+				}
+			}else{
+				sLayoutSrl = htTmp.mlayout_srl;
+				sLayoutTitle = htData.module_info_by_menu_item_srl.designSettings.layout.mobile;
+
+				if(htData.module_info_by_menu_item_srl.is_mskin_fix == "Y"){
+					sSkinTitle = htData.module_info_by_menu_item_srl.designSettings.skin.mobile;
+					sSkinName = htTmp.mskin;
+				}else{
+					sSkinTitle = "";
+					sSkinName = "";
+				}
+			}
+			
+			// module=모듈이름&mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름
+			var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
+				sModuleName : htTmp.module,
+				sMID : htTmp.mid,
+				sUseMobile : htTmp.use_mobile,
+				sLayoutSrl : sLayoutSrl,
+				sLayoutTitle : sLayoutTitle,
+				sSkinName : sSkinName,
+				sSkinTitle : sSkinTitle,
+				htData : {}
+			};
+			
+			var $itemList = $panel.find('._itemList');
+			$itemList.html("");
+			$itemList.append($.tmpl( "design_layoutItem", {
+				LayoutName: sLayoutTitle
+			}));
+			
+			// if the module type has no skin support, do not even display the option.
+			if($._xeAdminVar.htItemTypes[htInfo.sModuleType].no_skin !== "Y"){
+				$itemList.append($.tmpl( "deisgn_skinItem", {
+						ModuleType : htInfo.sModuleType,
+						ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title,
+						SkinName : sSkinTitle
+					} 
+				));
+			}
+
+			// If mobile view is disabled for the menu, display the mobile setup screen accordingly
+			if(htDesign.sUseMobile !== 'Y'){
+				$('#design').addClass('_mobile_view_disabled').find('.mvOption>:checkbox').removeAttr('checked');
+			}else{
+				$('#design').removeClass('_mobile_view_disabled').find('.mvOption>:checkbox').attr('checked','checked');
+			}
+
+			updateSelectedDesign(htDesign);
+		});
 		<!--@end-->
 		
 		<!--@if($act == 'dispMenuAdminSiteDesign')-->
+			
 		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
 			setItemTypes(htData.menu_types);
-
-			//module=menu&act=getMenuAdminInstalledMenuType
-			//
-//			console.log($._xeAdminVar.htItemTypes);
 			
-			var sLayoutName = '.layoutname.'
+			var sLayoutTitle = $._xeAdminVar.htSiteDefaultLayout[sMode].title;
 			$list = $('#design').find('._itemList');
-			$list.html("").append($.tmpl( "design_layoutItem", {LayoutName: sLayoutName}));
+			$list.html("").append($.tmpl( "design_layoutItem", {LayoutName: sLayoutTitle}));
 
 			var item;
 			var sModuleTitle;
-			var sSkinName;
+			var sSkinName, sSkinTitle;
 			for(var sModuleName in $._xeAdminVar.htItemTypes){
 				if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
 				if(sModuleName === "_SHORTCUT") continue;
@@ -2509,41 +2578,21 @@ jQuery(function($){
 				
 				if(nIdx === 0){
 					// PC
-					sSkinName = item.default_skin;
+					sSkinName = item.defaultSkin.skin;
+					sSkinTitle = item.defaultSkin.title;
 				}else{
 					// mobile
-					sSkinName = item.default_mskin;
+					sSkinName = item.defaultMobileSkin.skin;
+					sSkinTitle = item.defaultMobileSkin.title;
 				}
 				
 				$list.append($.tmpl( "deisgn_skinItem", {
 					ModuleType : sModuleName,
 					ModuleTypeTitle : sModuleTitle,
-					SkinName : sSkinName
+					//SkinName : sSkinName.
+					SkinTitle : sSkinTitle
 				}));
 			}
-			
-			if(nIdx === 0){
-				// PC
-				$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = false;
-				
-				$('#design').addClass('_pcMode');
-				$('#design').removeClass('_mobileMode');
-
-			}else{
-				// mobile
-				$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = true;
-				
-				$('#design').removeClass('_pcMode');
-				$('#design').addClass('_mobileMode');
-
-				updatePreview({
-					sModuleName : htDesign.sModuleName,
-					sMID:   "",
-					sLayoutSrl : htDesign.sLayoutSrl,
-					sSkin : htDesign.htSkin.M
-				});
-			}			
-			var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 			
 			jQuery.exec_json("layout.getLayoutAdminSiteDefaultLayout", {
 				site_srl : 0,
@@ -2553,142 +2602,63 @@ jQuery(function($){
 					alert(htData.message);
 					return;
 				}
-				
+
 				var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
 					sModuleName : "",
 					sMID : "",
-					htLayoutSrl : {
-						P: htData.layout_srl,
-						M: htData.mlayout_srl
-					},
-					htSkin : {P: "", M : ""},
+					sLayoutSrl : $._xeAdminVar.htSiteDefaultLayout[sMode].layout_srl,
+					sLayoutTitle : $._xeAdminVar.htSiteDefaultLayout[sMode].title,
+					sSkinName : "",
+					sSkinTitle : "",
 					htData : {}
 				};
 				
-				htDesign.sLayoutSrl = htDesign.htLayoutSrl[sMode];
-				htDesign.sSkin = htDesign.htSkin[sMode];
+				//htDesign.sLayoutSrl = htDesign.htLayoutSrl[sMode];
+				//htDesign.sSkinName = htDesign.htSkin[sMode];
 				
 				updatePreview(htDesign);
 				
-				scrollToRight();
+				//scrollToRight();
 			});
 
 		});
-
-
 		<!--@end-->
 	});
-	
-	<!--@if($act == 'dispMenuAdminSiteMap')-->
-	$('#design').bind('show', function(ev){
-		if(this !== ev.target) return;
-		
-		var $panel = $(this);
-
-		var sMenuId = $._xeAdminVar.sSelectedMenuSrl;
-		var htInfo = htNodeInfo[sMenuId];
-		
+	function loadLayoutInfo(){
+		// Site Default Layout Info
+		$._xeAdminVar.htSiteDefaultLayout = {};
 		jQuery.exec_json("layout.getLayoutAdminSiteDefaultLayout", {
 			site_srl : 0,
 			type : "P"
 		}, function(htData){
-			$._xeAdminVar.sDefaultLayoutName = htData.title;
+			$._xeAdminVar.htSiteDefaultLayout.P = {
+				layout_srl : htData.layout_srl,
+				title : htData.title
+			}
 		});
 		jQuery.exec_json("layout.getLayoutAdminSiteDefaultLayout", {
 			site_srl : 0,
 			type : "M"
 		}, function(htData){
-			$._xeAdminVar.sDefaultMLayoutName = htData.title;
+			$._xeAdminVar.htSiteDefaultLayout.M = {
+				layout_srl : htData.layout_srl,
+				title : htData.title
+			}
 		});
+	}
+	loadLayoutInfo();
+	
+	<!--@if($act == 'dispMenuAdminSiteMap')-->
+	$('#design').bind('show', function(ev){
+		if(this !== ev.target) return;
+
+		if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
+			$('#design .x_tabbable a[href="#mobile"]').click();
+		}else{
+			$('#design .x_tabbable a[href="#pc"]').click();
+		}
 		
-		// also preview here
-		var params = {
-			menu_item_srl : htInfo.sNodeSrl
-		};
-		$.exec_json("module.getModuleInfoByMenuItemSrl", params, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			var htTmp = htData.module_info_by_menu_item_srl;
-			
-			var sLayoutName, sMLayoutName;
-			var sSkinName, sMSkinName;
-			
-			sLayoutName = htData.module_info_by_menu_item_srl.designSettings.layout.pc;
-			sSkinName = htData.module_info_by_menu_item_srl.designSettings.skin.pc;
-			sMLayoutName = htData.module_info_by_menu_item_srl.designSettings.layout.mobile;
-			sMSkinName = htData.module_info_by_menu_item_srl.designSettings.skin.mobile;
-//console.log(htInfo);
-			if(htTmp.layout_srl == -1) $._xeAdminVar.sDefaultLayoutName = sLayoutName;
-			if(htTmp.mlayout_srl == -1) $._xeAdminVar.sDefaultMLayoutName = sMLayoutName;
-			
-			if(htTmp.layout_srl > 0) $._xeAdminVar.htLayoutName[htTmp.layout_srl] = sLayoutName;
-			if(htTmp.mlayout_srl > 0) $._xeAdminVar.htMLayoutName[htTmp.mlayout_srl] = sMLayoutName;
-			$._xeAdminVar.htItemTypes[htInfo.sModuleType].sSkinName = sSkinName;
-			$._xeAdminVar.htItemTypes[htInfo.sModuleType].sMSkinName = sMSkinName;
-			
-			// module=모듈이름&mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름
-			var htDesign = $._xeAdminVar.htSelectedMenuDesign = {
-				sModuleName : htTmp.module,
-				sMID : htTmp.mid,
-				sUseMobile : htTmp.use_mobile,
-				htLayoutSrl : {
-					P:htTmp.layout_srl,
-					M:htTmp.mlayout_srl
-				},
-				htSkin : {
-					P : htTmp.skin, 
-					M : htTmp.mskin
-				},
-				htData : {}
-			};
-console.log(11, htDesign.htLayoutSrl.P);
-			/*
-			designSettings
-				layout
-					pcIsDefault=0
-					pc="Bootstrap.Layout2"
-					mobileIsDefault=1
-					mobile="XE 심플 그레이 레이아웃"
-				skin
-					pcIsDefault=0
-					pc="XE Default 2008"
-					mobileIsDefault=1
-					mobile="simpleGray"
-			*/
-			var $itemList = $panel.find('._itemList');
-			$itemList.html("");
-			$itemList.append($.tmpl( "design_layoutItem", {
-				LayoutName: "sLayoutName"
-			}));
-			
-			// if the module type has no skin support, do not even display the option.
-			if($._xeAdminVar.htItemTypes[htInfo.sModuleType].no_skin !== "Y"){
-				$itemList.append($.tmpl( "deisgn_skinItem", {
-						ModuleType : htInfo.sModuleType,
-						ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title,
-						SkinName : "sSkinName"
-					} 
-				));
-			}
-
-			// If mobile view is disabled for the menu, display the mobile setup screen accordingly
-			if(htDesign.sUseMobile !== 'Y'){
-				$('#design').addClass('_mobile_view_disabled').find('.mvOption>:checkbox').removeAttr('checked');
-			}else{
-				$('#design').removeClass('_mobile_view_disabled').find('.mvOption>:checkbox').attr('checked','checked');
-			}
-
-			if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
-				$('#design .x_tabbable a[href="#mobile"]').click();
-			}else{
-				$('#design .x_tabbable a[href="#pc"]').click();
-			}
-			
-			$._xeAdminVar.sOpenDeisgnWith = "P";
-		});
-
+		$._xeAdminVar.sOpenDeisgnWith = "P";
 	});
 	
 	$('#design .mvOption>:checkbox').change(function(){
@@ -2759,14 +2729,15 @@ console.log(11, htDesign.htLayoutSrl.P);
 		if(this !== ev.target) return;
 		
 		//$('#design').addClass('_mobile_view_disabled').find('.mvOption>:checkbox').removeAttr('checked');
-		
-		if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
-			$('#design .x_tabbable a[href="#mobile"]').click();
-		}else{
-			$('#design .x_tabbable a[href="#pc"]').click();
-		}
-		
-		$._xeAdminVar.sOpenDeisgnWith = "P";
+		//loadInstalledLayoutList("P", function(){
+			if($._xeAdminVar.sOpenDeisgnWith && $._xeAdminVar.sOpenDeisgnWith === "M"){
+				$('#design .x_tabbable a[href="#mobile"]').click();
+			}else{
+				$('#design .x_tabbable a[href="#pc"]').click();
+			}
+			
+			$._xeAdminVar.sOpenDeisgnWith = "P";
+		//});
 	});
 	
 	$('#design ._btn_save').click(function(ev){
@@ -2849,71 +2820,69 @@ console.log(11, htDesign.htLayoutSrl.P);
 	$('#design').bind('hide', function(){
 		$._xeAdminVar.htPrevSetting = {};
 	});
-	function updatePreview(htParam){
-		if(htParam.bClearPrevSetting){
-			$._xeAdminVar.htPrevSetting = {};
+	function updateSelectedDesign(htDesign){
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+		/*
+		$._xeAdminVar.htSiteDefaultLayout.P = {
+			layout_srl : htData.layout_srl,
+			title : htData.title
 		}
-		var htSetting = $._xeAdminVar.htPrevSetting || {};
+		*/
+		var sLayoutTitle;
 		
-		var sMode = htSetting.bMobilePreviewTabOpen?"M":"P";
+		switch(htDesign.sLayoutSrl){
+			case -1:
+			case "-1":
+				sLayoutTitle = $._xeAdminVar.htSiteDefaultLayout[sMode].title;
+			break;
+			case "":
+			case 0:
+			case "0":
+				sLayoutTitle = xe.lang.no_use_layout;
+			break;
+			default:
+				sLayoutTitle = htDesign.sLayoutTitle;
+		}
+//console.log(htDesign);
 
+		var sSkinTitle = htDesign.sSkinTitle;
+		var sSkinName = htDesign.sSkinName;
+		if(sSkinName == ""){
+			var sModuleType = htDesign.sModuleName==="page"?"ARTICLE":htDesign.sModuleName;
+			if($._xeAdminVar.htItemTypes[sModuleType]){
+			console.log($._xeAdminVar.htItemTypes[sModuleType]);
+				if(sMode === "P"){
+					sSkinTitle = $._xeAdminVar.htItemTypes[sModuleType].defaultSkin.title;
+				}else{
+					sSkinTitle = $._xeAdminVar.htItemTypes[sModuleType].defaultMobileSkin.title;
+				}
+			}
+		}
+		
+		$('#design ._layoutName').html(sLayoutTitle);
+		$('#design .active ._skinName').html(sSkinTitle);
+		
+		updatePreview(htDesign);
+	}
+	function updatePreview(htParam){
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+		
 		if(!$._xeAdminVar.bSiteDesignMode && (sMode === "M" && $._xeAdminVar.htSelectedMenuDesign.sUseMobile !== 'Y')) return;
 		
-		//htSetting.sModuleName = htParam.sModuleName || htSetting.sModuleName || "";
-		htSetting.sModuleName = $._xeAdminVar.htSelectedMenuDesign.sModuleName;
-		htSetting.sMID = (htParam.sMID==="")?"":htParam.sMID || htSetting.sMID || "";
-		htSetting.sLayoutSrl = (htParam.sLayoutSrl == 0)?"":htParam.sLayoutSrl || htSetting.sLayoutSrl || "";
-		
-		htSetting.sSkin = (htParam.sSkin === "")?"":htParam.sSkin || htSetting.sSkin || "";
-
-		htSetting.bMobilePreviewTabOpen = htParam.bMobilePreviewTabOpen || htSetting.bMobilePreviewTabOpen || false;
-		htSetting.htLayoutData = htParam.htLayoutData || htSetting.htLayoutData || "";
-		htSetting.htSkinData = htParam.htSkinData || htSetting.htSkinData || "";
-
 		// ?act=dispLayoutPreviewWithModule&module_name=모듈이름&target_mid=모듈ID&layout_srl=레이아웃srl&skin=스킨이름&skin_type=M/P
-		var sURL = './?act=dispLayoutPreviewWithModule&module_name='+htSetting.sModuleName+'&target_mid='+htSetting.sMID+'&layout_srl='+htSetting.sLayoutSrl+'&skin='+htSetting.sSkin+'&skin_type='+sMode;
+		var sURL = './?act=dispLayoutPreviewWithModule&module_name='+htParam.sModuleName+'&target_mid='+htParam.sMID+'&layout_srl='+htParam.sLayoutSrl+'&skin='+htParam.sSkinName+'&skin_type='+sMode;
 		
-		$._xeAdminVar.htSelectedMenuDesign.htLayoutSrl[sMode] = htSetting.sLayoutSrl;
-		$._xeAdminVar.htSelectedMenuDesign.htSkin[sMode] = htSetting.sSkin;
-		
-//			console.log(sURL);
 		$('._preview_form').attr('action', sURL);
 		
-		var sTarget = "_pc_preview_ifr";
-		if(htSetting.bMobilePreviewTabOpen) sTarget = "_mobile_preview_ifr";
+		var sTarget = (sMode === "P")?"_pc_preview_ifr":"_mobile_preview_ifr";
+		
+		// somehow, Firefox doesn't recognize the visibility change of the iframe without this line and opens up a new window to submit
+		var tmp = ($("iframe[name="+sTarget+"]").is(':visible'));
+		
 		$('._preview_form').attr('target', sTarget);
 		$('._preview_form').submit();
 		
 		$('._preview_form').attr('target', "xe_preview");
-		
-		var sLayoutName;
-		
-		switch(htSetting.sLayoutSrl){
-			case -1:
-			case "-1":
-				sLayoutName = sMode==="P"?$._xeAdminVar.sDefaultLayoutName:$._xeAdminVar.sDefaultMLayoutName;
-			break;
-			case "":
-				sLayoutName = xe.lang.no_use_layout;
-			break;
-			default:
-				sLayoutName = sMode==="P"?$._xeAdminVar.htLayoutName[htSetting.sLayoutSrl]:$._xeAdminVar.htLayoutName[htSetting.sMLayoutSrl];
-		}
-		
-		var sSkinName;
-		var sModuleType = htSetting.sModuleName==="page"?"ARTICLE":htSetting.sModuleName;
-		if($._xeAdminVar.htItemTypes[sModuleType]){
-			if(sMode === "P"){
-				sSkinName = $._xeAdminVar.htItemTypes[sModuleType].sSkinName;
-			}else{
-				sSkinName = $._xeAdminVar.htItemTypes[sModuleType].sMSkinName;
-			}
-		}
-		
-		$('#design ._layoutName').html(sLayoutName);
-		$('#design ._skinName').html(sSkinName);
-		
-		$._xeAdminVar.htPrevSetting = htSetting;
 	}
 	
 	$('._pc_preview_open').click(function(ev){
@@ -2934,14 +2903,6 @@ console.log(11, htDesign.htLayoutSrl.P);
 		} else {
 			$this.removeAttr('checked').parent().css('fontWeight','normal');
 		}
-	/*
-		if(!$(this).attr('checked')){
-			updatePreview({
-				sLayoutSrl : 0,
-				htLayoutData : {}
-			});
-		}
-*/
 		updateLayoutListDisplayStatus();
 	});
 	$("#tmpl_layout_list_item_no_layout").template( "layoutListItem_nolayout" );
@@ -2956,13 +2917,13 @@ console.log(11, htDesign.htLayoutSrl.P);
 		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		
-		if(htDesign.htLayoutSrl[sMode] == -1){
+		if(htDesign.sLayoutSrl == -1){
 			$('._chkUseDefaultLayout').attr('checked', 'checked').parent().css('fontWeight','bold');
 		}else{
 			$('._chkUseDefaultLayout').removeAttr('checked').parent().css('fontWeight','normal');
 		}
 
-		updateLayoutListDisplayStatus();
+		//updateLayoutListDisplayStatus();
 		//loadInstalledLayoutList("P");
 	});
 	$('#layout .list').on('show', function(){
@@ -2981,19 +2942,20 @@ console.log(11, htDesign.htLayoutSrl.P);
 	function updateLayoutListDisplayStatus(){
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		
+		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+		
 		$ChkBox = $('#layout ._chkUseDefaultLayout');
 		if($ChkBox.attr('checked')){
 			$('#layout .list').addClass('disabled').find(':radio').attr('disabled','disabled');
-			updatePreview({
-				sLayoutSrl : -1,
-				htLayoutData : {}
-			});
+			htDesign.sLayoutSrl = -1;
+			
+			updateSelectedDesign(htDesign);
 		}else{
 			$('#layout .list').removeClass('disabled').find(':radio').removeAttr('disabled');
 
 			var $allRadio = $('#layout .list :radio');
 			var $selected = $('#layout .list :radio[checked]');
-			
+
 			// when the layer was first shown, the list is not yet available
 			if($allRadio.length){
 				if($selected.length){
@@ -3005,7 +2967,7 @@ console.log(11, htDesign.htLayoutSrl.P);
 		}
 	}
 	// sType: "P", "M" (PC/Mobile)
-	function loadInstalledLayoutList(sType){
+	function loadInstalledLayoutList(sType, fnCallback){
 		var params = {
 			site_srl : 0,
 			layout_type : sType
@@ -3020,9 +2982,10 @@ console.log(11, htDesign.htLayoutSrl.P);
 			var sSelected = "";
 			var sSelectedSrl = -1;
 			
+			//var htDesign = $._xeAdminVar.htSelectedMenuDesign || {htLayoutSrl:{}};
 			var htDesign = $._xeAdminVar.htSelectedMenuDesign;
-			
-			if(htDesign.htLayoutSrl[sType] == 0){
+
+			if(htDesign.sLayoutSrl == 0){
 				sSelectedSrl = "0";
 				sSelected = "selected";
 			}
@@ -3030,52 +2993,33 @@ console.log(11, htDesign.htLayoutSrl.P);
 				Selected : sSelected
 			}).data('LayoutSrl', "0"));
 			
-			//console.log(htDesign.htLayoutSrl[sType]);
-
-			//$._xeAdminVar.htLayoutInfo[P] = {};
 			for(var i=0, nLen=htData.layout_list.length; i<nLen; i++){
 				htInfo = htData.layout_list[i];
+
+				$._xeAdminVar.htLayoutName[htInfo.layout_srl] = htInfo.title;
 				
 				sSelected = "";
-				if(htDesign.htLayoutSrl[sType] == htInfo.layout_srl){
+				if(htDesign.sLayoutSrl == htInfo.layout_srl){
 					sSelectedSrl = htInfo.layout_srl;
 					sSelected = "selected";
 				}
-				//./
+
 				$elItem = $.tmpl("layoutListItem", {
 					Title : htInfo.title, 
 					ScreenShotURL : htInfo.thumbnail,
 					Selected : sSelected,
 					LayoutSrl : htInfo.layout_srl
-				}).data('LayoutSrl', htInfo.layout_srl);
+				}).data('LayoutSrl', htInfo.layout_srl).data('LayoutTitle', htInfo.title);
 				
-				$._xeAdminVar.htLayoutName[htInfo.layout_srl] = htInfo.title;
-				/*
-				$elItem.find("._duplicateLayout").click(function(){
-					var sLayoutSrl = htInfo.layout_srl;
-					return function(ev){
-						//var sName = prompt("name?");
-						//console.log(sName, sLayoutSrl);
-					}
-				}());
-				$elItem.find("._deleteLayout").click(function(){
-					var sLayoutSrl = htInfo.layout_srl;
-					return function(ev){
-						console.log(sLayoutSrl);
-					}
-				}());
-				*/
 				
 				$List.append($elItem);
 			}
 			
 			$List.find('.selected input').attr('checked', 'checked');
 			
-			//console.log(sSelectedSrl);
-			updatePreview({
-				sLayoutSrl : sSelectedSrl,
-				htLayoutData : {}
-			});
+			updateLayoutListDisplayStatus();
+			
+			if(typeof fnCallback === "function") fnCallback();
 			
 		});
 	/*
@@ -3156,13 +3100,6 @@ console.log(11, htDesign.htLayoutSrl.P);
 		});
 	});
 
-	$('#layout').on('click', 'button._deleteLayout', function(){
-		var sLayoutSrl = $(this).closest('li._layoutItem').data('LayoutSrl');
-	});
-	/*
-	function duplicateLayout(sLayoutSrl){
-		console.log(sLayoutSrl);
-	}*/
 	$('#layout').on('click', 'button._btnScreenshot', function(){
 		$(this).closest('li').find('input[name=layout_item]').click();
 	});
@@ -3172,14 +3109,15 @@ console.log(11, htDesign.htLayoutSrl.P);
 		$('#layout').find('li.selected').removeClass('selected').find('input[name="layout_item"]').removeAttr('checked');
 		$(this).attr('checked','checked').closest('li').addClass('selected');
 		
-		var sLayoutSrl = $(this).closest('li').data('LayoutSrl');
-		
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
-		$._xeAdminVar.htSelectedMenuDesign.htLayoutSrl[sMode] = sLayoutSrl;
 		
-		updatePreview({
-			sLayoutSrl : sLayoutSrl
-		});
+		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+		var sLayoutSrl = $(this).closest('li').data('LayoutSrl');
+		var sLayoutTitle = $(this).closest('li').data('LayoutTitle');
+		htDesign.sLayoutSrl = sLayoutSrl;
+		htDesign.sLayoutTitle = sLayoutTitle;
+		
+		updateSelectedDesign(htDesign);
 	})
 	$('#layoutSetup').on('show', function(ev){
 		if(this !== ev.target)  return;
@@ -3379,17 +3317,21 @@ console.log(11, htDesign.htLayoutSrl.P);
 		
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		
-		$._xeAdminVar.htSelectedMenuDesign.sModuleName = $._htMarkupActionParam.moduleType;
+		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+		htDesign.sModuleName = $._htMarkupActionParam.moduleType;
 		
 		<!--@if($act == 'dispMenuAdminSiteDesign')-->
-		$._xeAdminVar.htSelectedMenuDesign.htSkin = {
-			"P" : $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].default_skin,
-			"M" : $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].default_mskin
-		};
+		if(sMode == "P"){
+			htDesign.sSkinName = $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultSkin.skin;
+			htDesign.sSkinTitle = $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultSkin.title;
+		}else{
+			htDesign.sSkinName = $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.skin;
+			htDesign.sSkinTitle = $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.title;
+		}
 		<!--@end-->
 		
 		$ChkBox = $('#skin ._chkUseDefault');
-		if($._xeAdminVar.htSelectedMenuDesign.htSkin[sMode] == ""){
+		if($._xeAdminVar.htSelectedMenuDesign.sSkinName == ""){
 			$ChkBox.attr('checked', 'checked');
 		}else{
 			$ChkBox.removeAttr('checked');
@@ -3416,14 +3358,16 @@ console.log(11, htDesign.htLayoutSrl.P);
 	});
 	function updateSkinListDisplayStatus(){
 		$ChkBox = $('#skin ._chkUseDefault');
-		if($ChkBox.attr('checked')){
-			$('#skin .list').hide();
+		
+		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+		
+		if($ChkBox.is(':visible') && $ChkBox.attr('checked')){
+			htDesign.sSkinName = "";
+			htDesign.sSkinTitle = "";
 			
-			updatePreview({
-				//sLayoutSrl : -1,
-				//htLayoutData : {}
-				sSkin : ""
-			});
+			$('#skin .list').hide();
+
+			updateSelectedDesign(htDesign);
 		}else{
 			$('#skin .list').show();
 		}
@@ -3449,7 +3393,8 @@ console.log(11, htDesign.htLayoutSrl.P);
 			$List.html("");
 			
 			var sSelected = "";
-			var sSelectedSkin = "";
+			var sSelectedSkinName = "";
+			var sSelectedSkinTitle = "";
 			var htDesign = $._xeAdminVar.htSelectedMenuDesign;
 			/*
 			$List.append($.tmpl("skinListItem_noskin", {
@@ -3460,21 +3405,23 @@ console.log(11, htDesign.htLayoutSrl.P);
 			for(var sName in htData.skin_info_list){
 				if(!htData.skin_info_list.hasOwnProperty(sName)) continue;
 				
-				//./
 				//$._xeAdminVar.htItemTypes[sType][sName].S = htInfo.title;
+				//console.log(htDesign.sSkinName);
 
 				// if nothing is selected, select the first one.
-				if(htDesign.htSkin[sType] == ""){
-					htDesign.htSkin[sType] = sName;
+				if(htDesign.sSkinName == ""){
+					htDesign.sSkinName = sName;
 				}
 				
 				htInfo = htData.skin_info_list[sName];
 			//for(var i=0, nLen=htData.skin_info_list.length; i<nLen; i++){
 				htInfo.sName = sName;
+				htInfo.sTitle = htInfo.title;
 
 				sSelected = "";
-				if(htDesign.htSkin[sType] == htInfo.sName){
-					sSelectedSkin = htInfo.sName;
+				if(htDesign.sSkinName == htInfo.sName){
+					sSelectedSkinName = htInfo.sName;
+					sSelectedSkinTitle = htInfo.sTitle;
 					sSelected = "selected";
 				}
 //				console.log(htInfo.title);
@@ -3483,16 +3430,15 @@ console.log(11, htDesign.htLayoutSrl.P);
 					ScreenShotURL : htInfo.thumbnail?htInfo.thumbnail:'./modules/layout/tpl/img/noThumbnail.png',
 					Selected : sSelected,
 					SkinName : htInfo.sName
-				}).data('SkinName', htInfo.sName));
+				}).data('SkinName', htInfo.sName).data('SkinTitle', htInfo.sTitle));
 			}
 			$List.find('.selected input').attr('checked', 'checked');
 			//console.log(sSelectedSrl);
 
-			updatePreview({
-				sSkin : sSelectedSkin,
-				htSkinData : {}
-			});
-
+			htDesign.sSkinName = sSelectedSkinName;
+			htDesign.sSkinTitle = sSelectedSkinTitle;
+			htDesign.htSkinData = {};
+			updateSelectedDesign(htDesign);
 		});
 	}
 	$('#skin').on('click', 'button._btnScreenshot', function(){
@@ -3500,18 +3446,30 @@ console.log(11, htDesign.htLayoutSrl.P);
 	});
 	$('#skin').on('click', 'input[name=skin_item]', function(){
 		$('#skin').find('li.selected').removeClass('selected');
-		$(this).closest('li').addClass('selected');
 		
-		var sSkinName = $(this).closest('li').data('SkinName');
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
-		$._xeAdminVar.htSelectedMenuDesign.htSkin[sMode]=sSkinName;
 		
-		var sSkinVar = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"default_mskin":"default_skin";
-		$._xeAdminVar.htItemTypes[$._xeAdminVar.htSelectedMenuDesign.sModuleName][sSkinVar] = sSkinName;
+		var $item = $(this).closest('li');
+		$item.addClass('selected');
+		var sSkinName = $item.data('SkinName');
+		var sSkinTitle = $item.data('SkinTitle');
 		
-		updatePreview({
-			sSkin : sSkinName
-		});
+		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
+		
+		<!--@if($act == 'dispMenuAdminSiteDesign')-->
+		if(sMode == "P"){
+			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultSkin.skin = sSkinName;
+			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultSkin.title = sSkinTitle;
+		}else{
+			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.skin = sSkinName;
+			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.title = sSkinTitle;
+		}
+
+		<!--@end-->
+		
+		htDesign.sSkinName = sSkinName;
+		htDesign.sSkinTitle = sSkinTitle;
+		updateSelectedDesign(htDesign);
 	})
 	$('#skinSetup').on('show', function(ev){
 		if(this !== ev.target)  return;
@@ -3629,6 +3587,12 @@ console.log(11, htDesign.htLayoutSrl.P);
 
 		$msgBox.find("._title") .html(sTitle);
 		$msgBox.find("._text").html(sText);
+		
+		if(sText === ""){
+			$msgBox.addClass('_nobody');
+		}else{
+			$msgBox.removeClass('_nobody');
+		}
 		
 		var $confirmBtn = $msgBox.find('._ok');
 		if(bDanger){
