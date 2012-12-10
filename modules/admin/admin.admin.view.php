@@ -221,38 +221,6 @@ class adminAdminView extends admin
 	 */
 	function dispAdminIndex()
 	{
-		// Get statistics
-		$args->date = date("Ymd000000", time()-60*60*24);
-		$today = date("Ymd");
-
-		// Member Status
-		$oMemberAdminModel = &getAdminModel('member');
-		$status->member->todayCount = $oMemberAdminModel->getMemberCountByDate($today);
-		$status->member->totalCount = $oMemberAdminModel->getMemberCountByDate();
-
-		// Document Status
-		$oDocumentAdminModel = &getAdminModel('document');
-		$statusList = array('PUBLIC', 'SECRET');
-		$status->document->todayCount = $oDocumentAdminModel->getDocumentCountByDate($today, array(), $statusList);
-		$status->document->totalCount = $oDocumentAdminModel->getDocumentCountByDate('', array(), $statusList);
-
-		// Comment Status
-		$oCommentModel = &getModel('comment');
-		$status->comment->todayCount = $oCommentModel->getCommentCountByDate($today);
-		$status->comment->totalCount = $oCommentModel->getCommentCountByDate();
-
-		// Trackback Status
-		$oTrackbackAdminModel = &getAdminModel('trackback');
-		$status->trackback->todayCount = $oTrackbackAdminModel->getTrackbackCountByDate($today);
-		$status->trackback->totalCount = $oTrackbackAdminModel->getTrackbackCountByDate();
-
-		// Attached files Status
-		$oFileAdminModel = &getAdminModel('file');
-		$status->file->todayCount = $oFileAdminModel->getFilesCountByDate($today);
-		$status->file->totalCount = $oFileAdminModel->getFilesCountByDate();
-
-		Context::set('status', $status);
-
 		// Latest Document
 		$oDocumentModel = &getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'title', 'nick_name', 'member_srl');
@@ -276,14 +244,6 @@ class adminAdminView extends admin
 			}
 		}
 		Context::set('latestCommentList', $output);
-		unset($args, $output, $columnList);
-
-		//Latest Trackback
-		$oTrackbackModel = &getModel('trackback');
-		$columnList = array();
-		$args->list_count = 5;
-		$output =$oTrackbackModel->getNewestTrackbackList($args);
-		Context::set('latestTrackbackList', $output->data);
 		unset($args, $output, $columnList);
 
 		// Get list of modules
