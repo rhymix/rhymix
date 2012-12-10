@@ -23,13 +23,13 @@
 </blockquote>
 <h2 id="UMAN_feature">XE 기능 및 특징</h2>
 <p>XE의 기능 및 특징은 다음과 같습니다.</p>
-<h4>손쉬운 사이트 구축</h4>
+<h4 id="UMAN_easy_construction">손쉬운 사이트 구축</h4>
 <p>XE는 Textyle(블로그형), CafeXE(카페형), PlanetXE(마이크로 블로그형) 등 다양한 모듈을 제공합니다. 사용자는 만들고자 하는 사이트에 적합한 모듈을 선택하여 편리하게 사이트를 구축할 수 있습니다.</p>
-<h4>모듈형 구조</h4>
+<h4 id="UMAN_modular_structure">모듈형 구조</h4>
 <p>XE에서 모듈은 하나의 프로그램을 의미합니다. XE는 기능의 제작과 추가, 사용이 쉽도록 레고 블록과 같은 모듈 구조로 제작되었습니다. 사용자는 XE에서 제공하는 기본 모듈과 커뮤니티를 통해 공유되는 확장 기능을 자유롭게 조합하여 다양한 웹 사이트를 제작할 수 있습니다. 개발자는 XE에 추가할 수 있는 새로운 기능의 모듈을 쉽게 개발하고 커뮤니티를 통해 공유할 수 있습니다.</p>
-<h4>오픈 커뮤니티</h4>
+<h4 id="UMAN_open_community">오픈 커뮤니티</h4>
 <p>XE는 오픈 커뮤니티를 통해 다양한 정보를 제공합니다. XE 커뮤니티에는 제로보드 시절부터 사용해 온 사용자와 자유/오픈 소스 프로젝트 멤버가 많습니다. 사용자는 커뮤니티 내에서 원하는 정보를 찾거나, 다른 사용자들에게 자유롭게 문의할 수 있습니다.</p>
-<h4>다국어 지원</h4>
+<h4 id="UMAN_multilingual">다국어 지원</h4>
 <p>XE는 여러 나라의 언어를 지원합니다. 사용자는 웹 사이트를 언어별로 분리하지 않고도 한국어뿐 아니라 영어, 일본어, 중국어, 러시아어 등의 웹 사이트를 쉽게 제작할 수 있습니다.</p>
 <h2 id="UMAN_terminology">용어 정리</h2>
 <dl>
@@ -607,17 +607,17 @@
 <li>XE 최초 설치시 기본페이지로 지정되어 있던 'menu1'이 '홈'으로 변경된 것을 확인할 수 있습니다.</li>
 </ol>
 
-<h2>Windows 환경 설정</h2>
+<h2 id="UMAN_config_on_window">Windows 환경 설정</h2>
 <p>Windows 환경에서 XE를 설치하는 방법에는 크게 두 가지가 있습니다. WPI를 사용하는 방법과 APMsetup을 사용하는 방법입니다. 두 가지 방법 모두 웹 서버인 IIS(Internet Information Server)를 설치할 때 포트 번호로 80을 사용하도록 설정하기 때문에, 한 컴퓨터에 두 가지 방법을 모두 사용할 수 없습니다. 사용자의 설치 환경에 따라 두 가지 방법 중 하나를 선택해서 사용합니다.</p>
 <blockquote>
 	<strong>참고</strong>
 	<p>Windows XP에서 WPI를 사용하여 XE를 설치하면 URL을 기억하기 쉽게 줄여주는 mod_rewrite를 사용할 수 없습니다. mod_rewrite를 사용하려면 APMsetup을 사용해서 XE를 설치해야 합니다.</p>
 	<p>WPI로 패키징된 XE는 1.4.0.5 버전입니다. 최신 버전의 XE를 설치하려면 APMsetup을 사용하거나, WPI를 사용해서 설치한 후에 XE core를 별도로 업데이트해야 합니다.</p>
 </blockquote>
-<h3>계정 설정</h3>
+<h3 id="UMAN_settting_account_on_window">계정 설정</h3>
 <p>Windows 계열 서버에 XE를 설치하려면 서버에 접근할 수 있는 계정이 필요합니다. 서버 계정은 서버 관리자에게 문의하여 얻습니다. 서버를 직접 관리하는 경우에는 기존 계정을 사용하거나 새로운 계정을 생성하여 사용합니다.</p>
 <p>계정 이름을 정하고 나면 계정 유형을 선택할 수 있습니다. 서버 보안을 유지하기 위해 가능하면 제한된 계정을 선택하여 해당 계정의 권한을 최소화하는 것을 권장합니다.</p>
-<h3>원격 데스크톱 연결</h3>
+<h3 id="UMAN_remote_desktop_connect">원격 데스크톱 연결</h3>
 <p>서버를 직접 조작할 수 없을 경우 원격에서 서버에 접속하여 조작할 수 있는 방법이 필요합니다. Windows 시스템은 다른 컴퓨터에 접속하여 조작할 수 있게 하는 ‘원격 데스크톱 연결’ 프로그램을 제공합니다.</p>
 <p>원격 데스크톱 연결을 사용하려면 서버의 도메인 주소나 IP 주소가 필요합니다. 이미 도메인 설정이 되어 있으면 설정된 도메인을 사용하여 접속하면 되지만, 그렇지 않은 경우 IP 주소를 사용해야 합니다. 서버의 IP 주소를 확인하고 원격 데스크톱 연결로 그 주소에 접속하는 방법은 다음과 같습니다.</p>
 <ol>
@@ -637,11 +637,11 @@
 </li>
 <li>서버의 계정과 암호를 입력하는 화면이 나타나면, &quot;계정 설정&quot;에서 생성한 계정 정보를 입력하여 서버에 로그인합니다.</li>
 </ol>
-<h3>WPI 사용</h3>
+<h3 id="UMAN_use_WPI">WPI 사용</h3>
 <p>WPI는 마이크로소프트 사에서 웹 플랫폼 제품을 편리하게 사용할 수 있도록 만든 도구입니다. 서버에 필요한 구성 요소나 웹 응용프로그램을 자동으로 설치 및 설정합니다.</p>
 <p>WPI는 웹 응용프로그램을 설치할 때 그 웹 응용프로그램에 필요한 구성 요소를 한꺼번에 설치합니다. 따라서 WPI를 사용하여 XE를 설치할 때 XE 설치에 필요한 프로그램도 함께 설치됩니다.</p>
 <p>마이크로소프트 웹 플랫폼 공식 사이트(<a href="http://www.microsoft.com/web/default.aspx">http://www.microsoft.com/web/default.aspx</a>)에서 WPI 실행기를 다운로드합니다.</p>
-<h4>WPI 실행기 실행 및 XE 설치 시작</h4>
+<h4 id="UMAN_launcher_execute">WPI 실행기 실행 및 XE 설치 시작</h4>
 <ol>
 <li>WPI 실행기를 실행하고, 웹 응용 프로그램 탭에서 콘텐츠 관리를 선택합니다.</li>
 <li>
@@ -652,14 +652,14 @@
 </li>
 <li>XE core를 설치하기 위해 추가로 설치 및 설정되는 구성 요소 정보를 확인하고 동의함을 클릭하여 설치합니다.</li>
 </ol>
-<h4>추가 구성 요소의 설치</h4>
+<h4 id="UMAN_install_additional_components">추가 구성 요소의 설치</h4>
 <p>추가로 설치되는 구성 요소 중에 MySQL DBMS가 포함되어 있으면 MySQL DBMS을 설치하면서 관리자 암호를 지정해야 합니다. 관리자 암호를 지정하는 화면이 나타나면 암호를 지정하고 계속을 클릭합니다.</p>
 <blockquote>
 	<strong>참고</strong>
 	<p>WPI에서 MySQL 관리자 암호를 처음 지정할 때, 영소문자, 영대문자, 숫자, 기호가 모두 포함된 암호를 지정해야 합니다. MySQL 관리자 암호는 XE를 설치할 때 반드시 필요한 정보이므로 꼭 기억해 두어야 합니다.</p>
 </blockquote>
 <p>계정 설정이 완료되면 구성 요소가 설치됩니다.</p>
-<h4>XE 설치에 필요한 정보 입력</h4>
+<h4 id="UMAN_input_information">XE 설치에 필요한 정보 입력</h4>
 <p>XE 설치에 필요한 구성 요소의 설치가 끝나면 XE 설치가 시작됩니다.</p>
 <ol>
 <li>
@@ -691,7 +691,7 @@
 	</ul>
 </li>
 </ol>
-<h4>설치 확인</h4>
+<h4 id="UMAN_confirm_install">설치 확인</h4>
 <p>모든 설치 과정이 완료되면 웹 브라우저를 사용하여 사이트에 접속합니다. 정상적으로 설치가 완료되었으면 다음과 같은 화면이 나타납니다.</p>
 <figure>
 	<img src="img/image050.jpg" width="565" height="355" alt="XE 설치 완료 화면">
@@ -701,9 +701,9 @@
 	<strong>참고</strong>
 	<p>WPI를 사용해서 XE를 설치하면 최신 버전의 XE core가 설치되지 않습니다. XE core를 최신 버전으로 업데이트하려면 공식사이트에서 제공하는 XE core 최신 버전 파일을 다운로드해서 압축을 해제한 후 XE 설치 사이트 최상위 폴더(C:\Inetpub\wwwroot\xe)에 덮어 쓰도록 합니다.</p>
 </blockquote>
-<h3>APMsetup 사용</h3>
+<h3 id="UMAN_use_APMsetup">APMsetup 사용</h3>
 <p>APMsetup은 XE를 설치하는 데 필요한 구성 요소인 아파치 웹 서버, PHP, MySQL 데이터베이스를 한 번에 설치하고, 사용에 필요한 연동 설정을 자동으로 해 주는 프로그램입니다.</p>
-<h4>APMsetup 설치</h4>
+<h4 id="UMAN_install_APMsetup">APMsetup 설치</h4>
 <p>다음과 같이 APMsetup을 설치합니다.</p>
 <li>APMsetup 공식 사이트(<a href="http://www.apmsetup.com">http://www.apmsetup.com</a>)에서 최신 APMsetup 설치 파일을 다운로드합니다. 문서 작성 시점에 배포되어 있는 최신 버전은 APMsetup 7입니다.</li>
 <li>
@@ -720,7 +720,7 @@
 	</figure>
 </li>
 </ol>
-<h4>APMsetup 설정</h4>
+<h4 id="UMAN_setting_APMsetup">APMsetup 설정</h4>
 <p>APMsetup 설정에서는 DB root 계정 패스워드를 변경하고 새로운 계정을 생성합니다. 이 과정이 XE를 설치하는 데 필수 조건은 아니지만 서버 보안을 위해서 아래와 같이 설정하기를 권장합니다.</p>
 <ol>
 <li>
@@ -746,14 +746,14 @@
 	</blockquote>
 </li>
 </ol>
-<h4>XE core 설치 파일 압축 해제</h4>
+<h4 id="UMAN_decompress_XECore">XE core 설치 파일 압축 해제</h4>
 <p>\APM_setup\htdocs에 XE core 최신 설치 파일의 압축을 해제합니다.</p>
 <p>압축 해제가 완료되면 xe 디렉터리가 생성된 것을 확인할 수 있습니다. 도메인 경로로 웹 페이지에 접근하려면 생성된 xe 디렉터리 하위 내용을 최상위 디렉터리로 이동시킵니다.</p>
 <p>이제 &quot;XE core 설치&quot;를 참조해서 XE core를 설치합니다.</p>
 
-<h2>Linux 환경 설정</h2>
+<h2 id="UMAN_config_on_linux">Linux 환경 설정</h2>
 <p>이 절에서는 Linux 서버를 사용하여 XE를 설치할 때 필요한 기본 정보를 설명합니다.</p>
-<h3>계정 설정</h3>
+<h3 id="UMAN_settting_account_on_linux">계정 설정</h3>
 <p>XE를 설치하기 위해서는 서버에 접근할 수 있는 계정과 XE 정보가 저장되는 데이터베이스의 계정이 필요합니다. 다음과 같이 서버와 데이터베이스 계정을 확인합니다.</p>
 <ol>
 <li>
@@ -772,7 +772,7 @@
 	</ul>
 </li>
 </ol>
-<h3>PuTTY 사용</h3>
+<h3 id="UMAN_use_PuTTY">PuTTY 사용</h3>
 <p>서버에 접근하기 위해서 PuTTY(퍼티)라는 원격 접속 프로그램을 사용합니다. PuTTY는 telnet이나 SSH(Secure Shell) 프로토콜을 지원하는 서버에서만 사용할 수 있습니다.</p>
 <p>PuTTY 프로그램의 설치 및 사용 방법은 다음과 같습니다.</p>
 <ol>
@@ -793,7 +793,7 @@
 	</figure>
 </li>
 </ol>
-<h3>XE core 설치 파일 업로드</h3>
+<h3 id="UMAN_upload_XECore">XE core 설치 파일 업로드</h3>
 <p>내 컴퓨터에 저장된 파일을 웹 서버에 업로드하려면 FTP(File Transfer Protocol) 프로그램이 필요합니다. 이 문서에서는 FileZilla라는 무료 공개 프로그램을 사용합니다. FileZilla는 FileZilla 공식 사이트(<a href="http://filezilla-project.org/download.php?type=client">http://filezilla-project.org/download.php?type=client</a>)에서 다운로드할 수 있습니다.</p>
 <p>FileZilla를 사용해서 XE가 설치될 서버에 접속하여 파일을 업로드합니다.</p>
 <ul>
@@ -807,14 +807,14 @@
 	<figcaption>FileZilla 실행 후 서버 접속 성공 화면</figcaption>
 </figure>
 
-<h2>XE core 설치 파일 형식별 업로드 방법</h2>
+<h2 id="UMAN_upload_by_type">XE core 설치 파일 형식별 업로드 방법</h2>
 <p>웹 서버에 XE core 파일을 업로드하는 방법에는 두 가지가 있습니다.</p>
 <ul>
 <li>zip 파일을 다운로드해서 압축을 해제한 후 서버에 업로드</li>
 <li>tgz 파일을 다운로드해서 서버에 업로드한 후 압축 해제</li>
 </ul>
 <p>두 가지 방법 중 편한 방법을 선택해서 사용합니다.</p>
-<h4>압축 해제 후 파일 업로드</h4>
+<h4 id="UMAN_upload_file">압축 해제 후 파일 업로드</h4>
 <ol>
 <li>확장자가 zip인 XE core 설치 파일을 내 컴퓨터에 다운로드해서 압축을 해제합니다.</li>
 <li>FileZilla를 사용해서 압축이 해제되어 생성된 xe 디렉터리에 포함된 파일을 서버에 업로드합니다.</li>
@@ -823,7 +823,7 @@
 	<strong>참고</strong>
 	<p>XE core 파일은 서버의 root 디렉터리에 업로드합니다. 예를 들어, manual.xpressengine.com 서버의 root 디렉터리에 xe 디렉터리를 업로드하면, manual.xpressengine.com/xe로 접근해야 합니다.</p>
 </blockquote>
-<h4>파일 업로드 후 압축 해제</h4>
+<h4 id="UMAN_decompress_file">파일 업로드 후 압축 해제</h4>
 <p>Windows 환경에서는 파일을 업로드한 후 설치된 압축 프로그램을 사용하여 압축을 해제합니다.</p>
 <p>Linux 환경에서는 다음과 같이 파일을 업로드한 후 압축을 해제합니다.</p>
 <ol>
@@ -854,12 +854,12 @@
 </li>
 </ol>
 
-<h2>Linux 명령어</h2>
-<h3>파일 압축 및 해제 명령어 - tar</h3>
+<h2 id="UMAN_linux_command">Linux 명령어</h2>
+<h3 id="UMAN_command_with_file_compression">파일 압축 및 해제 명령어 - tar</h3>
 <ul>
 <li>사용 형식: tar &lt;Operation&gt; [Options] (디렉터리 경로 또는 압축파일 경로)</li>
 </ul>
-<h4>&lt;Operation&gt;</h4>
+<h4 id="UMAN_operation_with_file_compression">&lt;Operation&gt;</h4>
 <ul>
 <li>[-]A: 압축 파일에 tar 파일 추가</li>
 <li>[-]c: tar 파일 생성</li>
@@ -870,7 +870,7 @@
 <li>[-]x: 압축 파일의 압축 해제</li>
 <li>--delete: 압축 파일에서 파일 삭제</li>
 </ul>
-<h4>&lt;Common Options&gt;</h4>
+<h4 id="UMAN_commonoption_with_file_compression">&lt;Common Options&gt;</h4>
 <ul>
 <li>-C: 압축 파일을 해제할 위치 지정</li>
 <li>-f: 파일 이름 지정</li>
@@ -879,47 +879,47 @@
 <li>-v: 압축하거나 해제할 때 과정을 자세히 출력</li>
 <li>-z: gzip으로 압축이나 압축 해제를 한꺼번에 하려고 할 때 사용</li>
 </ul>
-<h3>파일 및 디렉터리 삭제 명령어 - rm</h3>
+<h3 id="UMAN_command_with_file_delete">파일 및 디렉터리 삭제 명령어 - rm</h3>
 <ul>
 <li>사용 형식: rm [Option] (파일 또는 디렉터리 경로)</li>
 </ul>
-<h4>[Option]</h4>
+<h4 id="UMAN_option_with_file_delete">[Option]</h4>
 <ul>
 <li>[-]f: 삭제할 파일을 추가 확인 없이 강제로 삭제</li>
 <li>[-]r: 디렉터리와 하위 디렉터리 및 파일을 모두 삭제</li>
 <li>[-]v: 삭제하고 있는 파일의 정보 출력</li>
 </ul>
-<h3>파일 및 디렉터리 이동 명령어 - mv</h3>
+<h3 id="UMAN_command_with_file_move">파일 및 디렉터리 이동 명령어 - mv</h3>
 <ul>
 <li>사용 형식: mv [option] (파일 또는 디렉터리 경로) (파일 이름 또는 디렉터리 경로)</li>
 </ul>
-<h4>[Option]</h4>
+<h4 id="UMAN_option_with_file_move">[Option]</h4>
 <ul>
 <li>[-]b: 대상 파일이 있는 경우 덮어 쓰기 전 백업 파일 생성</li>
 <li>[-]f: 대상 파일이 있는 경우 강제로 덮어 씀</li>
 <li>[-]u: 대상 파일이 있는 경우 대상 내용이 최신일 때만 덮어 씀</li>
 <li>[-]v: 파일 이동 과정 출력</li>
 </ul>
-<h3>디렉터리 생성 명령어 - mkdir</h3>
+<h3 id="UMAN_command_with_file_makedir">디렉터리 생성 명령어 - mkdir</h3>
 <ul>
 <li>사용 형식: mkdir [Option] (디렉터리 이름)</li>
 </ul>
-<h4>[Option]</h4>
+<h4 id="UMAN_option_with_file_makedir">[Option]</h4>
 <ul>
 <li>[-]p: 최종 디렉터리 이름의 상위 디렉터리가 없으면 상위 디렉터리까지 모두 생성</li>
 </ul>
-<h3>파일 및 디렉터리 권한 변경 명령어 - chmod</h3>
+<h3 id="UMAN_command_with_file_chmod">파일 및 디렉터리 권한 변경 명령어 - chmod</h3>
 <ul>
 <li>사용 형식: chmod [Option] &lt;mode&gt; (파일 또는 디렉터리 경로)</li>
 </ul>
-<h4>[Option]</h4>
+<h4 id="UMAN_option_with_file_chmod">[Option]</h4>
 <ul>
 <li>[-]c: 실제로 파일의 권한이 바뀐 파일만 출력</li>
 <li>[-]f: 파일의 권한을 변경할 수 없는 경우에 발생하는 오류 메시지를 출력하지 않고자 할 때 사용</li>
 <li>[-]v: 변경된 권한에 대한 내용 출력</li>
 <li>[-]R: 디렉터리와 파일의 권한을 모두 변경</li>
 </ul>
-<h4>&lt;mode&gt;</h4>
+<h4 id="UMAN_mode_with_file_chmod">&lt;mode&gt;</h4>
 <p>파일 및 디렉터리가 가질 수 있는 권한은 r(read 읽기), w(write 쓰기), x(execute 실행) 이렇게 세 가지입니다. 각 권한은 아래 표와 같이 고유의 값을 가지며, 이 값을 더한 값으로 mode를 생성할 수 있습니다.</p>
 <table cellspacing="0" cellpadding="0">
 <thead>
@@ -960,9 +960,9 @@
 </tbody>
 </table>
 <p>예를 들어, 모든 권한을 주려면 위의 값을 모두 더한 777을 mode로 사용합니다. 사용자는 모든 권한을 갖고, 그 외의 사용자들은 읽기와 실행권한만 주려면, mode를 755로 설정합니다.</p>
-<h3>계정 생성 명령어 - useradd</h3>
+<h3 id="UMAN_command_with_useradd">계정 생성 명령어 - useradd</h3>
 <p>사용형식: useradd [Option] (계정이름)</p>
-<h4>[Option]</h4>
+<h4 id="UMAN_option_with_useradd">[Option]</h4>
 <ul>
 <li>[-]u: 사용자 ID</li>
 <li>[-]g: 그룹ID 또는 그룹 이름</li>
@@ -970,21 +970,21 @@
 <li>[-]d: 사용자 Home 디렉터리</li>
 </ul>
 
-<h2>오류 처리</h2>
+<h2 id="UMAN_error_handling">오류 처리</h2>
 <p>이 절에서는 XE를 설치 및 설정할 때 발생할 수 있는 오류와 해결 방법을 설명합니다.</p>
-<h3>MySQL 최소 버전 오류</h3>
+<h3 id="UMAN_error_mysql_minversion">MySQL 최소 버전 오류</h3>
 <ul>
 <li>오류 사항: &quot;XE cannot be installed under the version of MySQL 4.1. Current MySQL version is x.x.x-log&quot; 메시지가 나타납니다.</li>
 <li>원인: MySQL 버전이 최소 지원 버전보다 낮은 경우 발생합니다.</li>
 <li>해결 방법: MySQL을 4.1 이상으로 업데이트합니다.</li>
 </ul>
-<h3>DB 계정 정보 오류</h3>
+<h3 id="UMAN_error_db_account">DB 계정 정보 오류</h3>
 <ul>
 <li>오류 사항: &quot;Access denied for user ‘xxx’@’xxxx’ (using password: YES) xxx&quot; 메시지가 나타납니다.</li>
 <li>원인: DB 계정이 없거나, 비밀번호가 잘못되었거나, 연결하려는 데이터베이스에 대한 접근 권한이 없는 경우 발생합니다.</li>
 <li>해결 방법: 계정 설정 및 접근 권한 정보, 입력한 데이터베이스 정보가 올바른지 확인합니다.</li>
 </ul>
-<h3>XE 설치 시 권한 설정 누락 오류</h3>
+<h3 id="UMAN_error_permission">XE 설치 시 권한 설정 누락 오류</h3>
 <figure>
 	<img src="img/install/install_condition_check_error.PNG" width="814" height="402" alt="권한 설정 누락 오류 화면">
 	<figcaption>권한 설정 누락 오류 화면</figcaption>
@@ -1018,7 +1018,7 @@
 	</figure>
 </li>
 </ol>
-<h3>쉬운 설치 진행 시 FTP 홈 디렉터리 설정 오류</h3>
+<h3 id="UMAN_error_ftp_path">쉬운 설치 진행 시 FTP 홈 디렉터리 설정 오류</h3>
 <ul>
 <li>오류 사항: &quot;msg_make_directory_failed&quot; 메시지가 나타납니다.</li>
 <li>원인: 사이트 환경 설정의 ‘설치된 XE의 FTP경로 설정’ 값이 잘못된 경우 발생합니다.</li>
