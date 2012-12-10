@@ -25,10 +25,11 @@ input[type=radio]{margin:0}
 .header{position:relative;z-index:2;margin:15px 0}
 .body{position:relative;z-index:1;margin:15px 0;zoom:1}
 .body:after{content:"";display:block;clear:both}
+.body.sub>.lnb{display:none}
 @media all and (min-width:980px){
 .body.sub{padding-left:220px}
-.body.sub>.content{width:100%;clear:both}
-.body.sub>.lnb{float:left;width:200px;position:relative;left:-220px}
+.body.sub>.content{float:right;width:100%}
+.body.sub>.lnb{display:block;float:left;width:200px;position:relative;left:-220px;margin-right:-200px}
 }
 .content{outline:0}
 .footer{margin:15px 0}
@@ -59,7 +60,7 @@ input[type=radio]{margin:0}
 .account{position:absolute;right:0;bottom:5px;z-index:2;margin:0}
 /* Visual */
 .visual{display:block;position:relative;width:100%;overflow:hidden;margin:0 0 20px 0;border-radius:5px;overflow:hidden}
-.body.sub>.visual{float:right;margin-left:-100%}
+.body.sub>.visual{float:right}
 .visual>.list{position:relative;z-index:1;width:100%;zoom:1}
 .visual>.list.count1{width:100%;left:0}
 .visual>.list.count2{width:200%;left:0}

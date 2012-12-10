@@ -2,6 +2,7 @@
 /* NHN (developers@xpressengine.com) */
 /* Element Reset */
 body,table,input,textarea,select,button{font-family:Tahoma,Geneva,sans-serif;font-size:13px}
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display: block}
 body{word-wrap:break-word}
 a img{border:0}
 [hidden],
