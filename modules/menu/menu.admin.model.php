@@ -526,11 +526,12 @@ class menuAdminModel extends menu
 		// get xml info
 		$moduleConfInfo = $oModuleModel->getModuleInfoXml($moduleInfo->module);
 
-		$setupUrl = sprintf('index.php?module=admin&act=%s&module_srl=%s&isLayoutDrop=1', $moduleConfInfo->setup_index_act, $moduleInfo->module_srl);
+		$setupUrl = getUrl('', 'module', 'admin', 'act', $moduleConfInfo->setup_index_act, 'module_srl', $moduleInfo->module_srl, 'isLayoutDrop', '1');
 		if($moduleConfInfo->simple_setup_index_act)
 		{
 			$oTargetmoduleAdminModel = &getAdminModel($moduleInfo->module);
-			$simpleSetupHtml = $oTargetmoduleAdminModel->{$moduleConfInfo->simple_setup_index_act}($moduleInfo->module_srl);
+			$advancedSetupUrl = getUrl('', 'module', 'admin', 'act', $moduleConfInfo->setup_index_act, 'module_srl', $moduleInfo->module_srl);
+			$simpleSetupHtml = $oTargetmoduleAdminModel->{$moduleConfInfo->simple_setup_index_act}($moduleInfo->module_srl, $advancedSetupUrl);
 
 			if($simpleSetupHtml)
 			{
