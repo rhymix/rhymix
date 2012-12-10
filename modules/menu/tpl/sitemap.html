@@ -124,7 +124,7 @@
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li><a href="#" class="_openFullSetup">{$lang->full_settings} <i class="x_icon-cog"></i></a></li>
+					<li><a class="_openFullSetup">{$lang->full_settings} <i class="x_icon-cog"></i></a></li>
 				</ul>
 			</div>
 		</section>
@@ -559,7 +559,7 @@
 							<img src="http://${ScreenShotURL}" alt="">
 							<h2><a target="_blank" href="${URL}">${MenuType}</a></h2>
 							<p>${MenuTypeDesc}</p>
-							<p><i class="starRating score${Score}"><i></i></i> <b class="x_badge">${Score}/${TotalVotes}</b> {$lang->package_update}: <time title="YYYY-MM-DD HH:MM">${LastUpdated}</time> <i>|</i> {$lang->package_downloaded_count}: ${TotalDownloads}</p>
+							<p><i class="starRating score${Score}"><i></i></i> <b class="x_badge">${Score}/${TotalVotes}</b> {$lang->package_update}: <time title="${LastUpdatedWithTime}">${LastUpdated}</time> <i>|</i> {$lang->package_downloaded_count}: ${TotalDownloads}</p>
 							<div class="_install">
 								<button type="button" class="x_icon-download-alt x_icon-white _install_this">{$lang->install}</button>
 							</div>
@@ -610,9 +610,17 @@
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#auth">&times;</button>
 	</div>
-	<div class="col" id="details" style="display:none">
-		<!--상세설정-->
-		<button type="button" class="x_close" data-admin-hide="#details">&times;</button>
+	<!--상세설정-->
+	<div class="col" id="fullSetup" style="display:none">
+		<fieldset>
+			<h1>{$lang->full_settings}</h1>
+			<div class="cnt _setupHTML">
+			</div>
+			<div class="x_btn-group" style="margin-top:5px">
+				<button type="button" class="x_btn x_btn-primary _save">{$lang->cmd_confirm}</button>
+			</div>
+		</fieldset>
+		<button type="button" class="x_close" data-admin-hide="#fullSetup">&times;</button>
 	</div>
 	<div class="col" id="html" style="display:none">
 		<!--HTML/CSS-->
@@ -2002,6 +2010,7 @@ jQuery(function($){
         [active_btn] => 
 		*/
 	}
+	/*
 	$('#details').on('show', function(ev){
 		if(this !== ev.target) return;
 		
@@ -2017,7 +2026,7 @@ jQuery(function($){
 			//htData.setupUrl
 		});
 	});
-	
+	*/
 	$('#auth').on('show', function(ev){
 		if(this !== ev.target) return;
 		
@@ -2392,6 +2401,7 @@ jQuery(function($){
 						ScreenShotURL: sScreenshot,
 						Score: item.package_star,
 						TotalVotes: item.package_voted,
+						LastUpdatedWithTime: formatUpdatedDateWithTime(item.item_regdate),
 						LastUpdated: formatUpdatedDate(item.item_regdate),
 						TotalDownloads: item.package_downloaded,
 						URL: item.url,
@@ -2997,6 +3007,7 @@ jQuery(function($){
 				Selected : sSelected
 			}).data('LayoutSrl', "0"));
 			
+			$._xeAdminVar.htLayoutName = {};
 			for(var i=0, nLen=htData.layout_list.length; i<nLen; i++){
 				htInfo = htData.layout_list[i];
 
@@ -3044,10 +3055,25 @@ jQuery(function($){
 	$('#layout').on('click', 'button._duplicateLayout', function(){
 		var sLayoutSrl = $(this).closest('li._layoutItem').data('LayoutSrl');
 		
+		var htNames = $._xeAdminVar.htLayoutName;
+		var htNamesAsKey = {};
+		var sName = htNames[sLayoutSrl].replace(/\(\d+\)$/, '');
+		for(var sKey in htNames){
+			if(!htNames.hasOwnProperty(sKey)) continue;
+
+			htNamesAsKey[htNames[sKey]] = true;
+		}
+		var sCurName;
+		for(var i=2; i<9999999; i++){
+			sCurName = sName+"("+i+")";
+			
+			if(!htNamesAsKey[sCurName]) break;
+		}
+		
 		confirmDialog({
 			sTitle : xe.lang.input_new_layout_name,
 			
-			sText : '<input type="text" name="layout_name"  style="width: 95%"/><br/><div style="text-align:right">* ' + xe.lang.skip_new_layout_name + '</div>',
+			sText : '<input type="text" name="layout_name" style="width: 95%"/><br/><div style="text-align:right">* ' + xe.lang.skip_new_layout_name + '</div>',
 			
 			bSmall: true,
 			
@@ -3065,6 +3091,12 @@ jQuery(function($){
 					
 					fillInInstalledLayoutList();
 				});
+			},
+			
+			fnOnShow : function(){
+				setTimeout(function(){
+					$msgBox.find('input[type="text"]').val(sCurName).focus().select();
+				}, 10);
 			}
 		});
 	});
@@ -3106,6 +3138,9 @@ jQuery(function($){
 
 	$('#layout').on('click', 'button._btnScreenshot', function(){
 		$(this).closest('li').find('input[name=layout_item]').click();
+	});
+	$('#layout ul._layout_list').on('click', 'li._layoutItem', function(ev){
+		$(ev.target).find('input[name=layout_item]').click();
 	});
 	$('#layout').on('click', 'input[name=layout_item]', function(){
 		$('#layout').nextAll().hide();
@@ -3448,6 +3483,9 @@ jQuery(function($){
 	$('#skin').on('click', 'button._btnScreenshot', function(){
 		$(this).closest('li').find('input[name=skin_item]').click();
 	});
+	$('#skin ul._list').on('click', 'li._item', function(ev){
+		$(ev.target).find('input[name=skin_item]').click();
+	});
 	$('#skin').on('click', 'input[name=skin_item]', function(){
 		$('#skin').find('li.selected').removeClass('selected');
 		
@@ -3752,27 +3790,28 @@ jQuery(function($){
 			$._xeAdminVar.oSetupWin.close();
 		}
 		
-		$._xeAdminVar.oSetupWin = window.open("about:blank", "xe_fullSetup");
-		
 		ev.preventDefault();
+		
+		$('#properties').nextAll().hide();
 		
 		var t = this;		
 		setTimeout(function(){
 			$(t).blur();
 		}, 0);
 		
+		//.//
 		$.exec_json("menu.getMenuAdminDetailSetup", {
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, function(htData){
-			//window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
-			$._xeAdminVar.oSetupWin = window.open(htData.setupUrl, "xe_fullSetup");
-			
-			/*
-			<form class="form" enctype="multipart/form-data" method="post" action="./">
-			<input type="hidden" value="/maserati/index.php?module=admin&act=dispBoardAdminInsertBoard&module_srl=291&isLayoutDrop=1" name="error_return_url">
-			<input type="hidden" value="" name="mid">
-			<input type="hidden" value="" name="vid">
-			*/
+			console.log(htData.simpleSetupHtml)
+			if(htData.simpleSetupHtml){
+				$('#fullSetup').find('._setupHTML').html(htData.simpleSetupHtml);
+				$('#fullSetup').show();
+			}else{
+				//$._xeAdminVar.oSetupWin = window.open("about:blank", "xe_fullSetup");
+				$._xeAdminVar.oSetupWin = window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
+				//window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
+			}
 		});
 		
 	});
@@ -3805,6 +3844,16 @@ function getParameterByName(name){
     return "";
   else
     return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function formatUpdatedDateWithTime(sDate){
+	//20120106184020
+	//2012-01-06 18:40:20
+	
+	return sDate.replace(/(....)(..)(..)(..)(..)(..)/, function(all, year, mon, day, hour, min, sec){
+		//return year+"-"+mon+"-"+day+" "+hour+":"+min+":"+sec;
+		return year+"-"+mon+"-"+day+" "+hour+":"+min;
+	});
 }
 
 function formatUpdatedDate(sDate){
