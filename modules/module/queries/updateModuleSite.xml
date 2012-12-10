@@ -4,7 +4,7 @@
     </tables>
     <columns>
         <column name="site_srl" var="site_srl" notnull="notnull" />
-        <column name="layout_Srl" var="layout_srl" notnull="notnull" default="0" />
+        <column name="layout_srl" var="layout_srl" notnull="notnull" default="0" />
     </columns>
     <conditions>
         <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" pipe="and" />
