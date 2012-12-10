@@ -1,25 +1,4 @@
 <include target="./_header.html" />
-<script>
-function test()
-{
-	var params = {};
-	var response_tags = new Array('count');
-
-	exec_xml("member","getMemberAdminCountByDate", params, completeTmp, response_tags);
-
-	var params2 = {};
-	params2['date'] = '20121210';
-	var response_tags2 = new Array('count');
-
-	exec_xml("member","getMemberAdminCountByDate", params2, completeTmp, response_tags2);
-}
-
-function completeTmp(retObj)
-{
-	console.log(retObj);
-}
-</script>
-<a href="#" onclick="test();">test</a>
 <div class="content" id="content">
 	<div class="x_page-header">
 		<h1>{$lang->control_panel}</h1>
