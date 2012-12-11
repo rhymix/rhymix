@@ -253,6 +253,13 @@ class counterModel extends counter
 		return $status;
 	}
 
+	public function getWeeklyUniqueVisitor()
+	{
+		$date = date('Ymd');
+		$output = $this->getHourlyStatus('week', $date);
+
+		$this->add('data', $output);
+	}
 }
 /* End of file counter.model.php */
 /* Location: ./modules/counter/counter.model.php */

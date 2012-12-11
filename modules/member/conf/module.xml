@@ -3,7 +3,6 @@
     <grants />
     <permissions>
         <permission action="getApiGroups" target="manager" />
-        <permission action="getMemberAdminCountByDate" target="manager" />
     </permissions>
     <actions>
         <action name="dispMemberInfo" type="view" standalone="true" />
@@ -38,7 +37,6 @@
 		<action name="getMemberAdminInsertJoinForm" type="model" />
 		<action name="getMemberAdminIPCheck" type="model" standalone="true" />
 		<action name="getApiGroups" type="model" standalone="true" />
-		<action name="getMemberAdminCountByDate" type="model" standalone="true" />
 
         <action name="procMemberLogin" type="controller" standalone="true" ruleset="@login" />
         <action name="procMemberLogout" type="controller" standalone="true" />
