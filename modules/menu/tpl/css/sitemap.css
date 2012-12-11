@@ -1,6 +1,5 @@
 @charset "utf-8";
 /* Site */
-body{overflow:hidden}
 body>.x{max-width:none !important}
 .x>.body{padding-bottom:10px !important}
 .x>.body>.content{margin-bottom:0}
