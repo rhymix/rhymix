@@ -221,6 +221,23 @@ class adminAdminView extends admin
 	 */
 	function dispAdminIndex()
 	{
+		// Get statistics
+		$args->date = date("Ymd000000", time()-60*60*24);
+		$today = date("Ymd");
+		
+		// Member Status
+		$oMemberAdminModel = &getAdminModel('member');
+		$status->member->todayCount = $oMemberAdminModel->getMemberCountByDate($today);
+		$status->member->totalCount = $oMemberAdminModel->getMemberCountByDate();
+
+		// Document Status
+		$oDocumentAdminModel = &getAdminModel('document');
+		$statusList = array('PUBLIC', 'SECRET');
+		$status->document->todayCount = $oDocumentAdminModel->getDocumentCountByDate($today, array(), $statusList);
+		$status->document->totalCount = $oDocumentAdminModel->getDocumentCountByDate('', array(), $statusList);
+
+		Context::set('status', $status);
+
 		// Latest Document
 		$oDocumentModel = &getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'title', 'nick_name', 'member_srl');

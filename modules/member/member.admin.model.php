@@ -206,22 +206,6 @@ class memberAdminModel extends member
 		$this->add('tpl', $tpl);
 	}
 
-	/**
-	 * Return member count with date
-	 * 
-	 * @param string $date
-	 *
-	 * @return int
-	 */
-	public function getMemberAdminCountByDate()
-	{
-		if(Context::get('date'))
-		{
-			$date = date('Ymd', strtotime(Context::get('date')));
-		}
-		$count = $this->_getMemberCountByDate($date);
-		$this->add('count', $count);
-	}
 
 	/**
 	 * Return member count with date
@@ -230,7 +214,7 @@ class memberAdminModel extends member
 	 *
 	 * @return int
 	 */
-	private function _getMemberCountByDate($date = '')
+	public function getMemberCountByDate($date = '')
 	{
 		if($date) $args->regDate = date('Ymd', strtotime($date));
 
