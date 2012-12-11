@@ -18,7 +18,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display
 body,table,input,textarea,select,button{font-size:14px}
 /* Layout */
 .header h1{font-size:24px;line-height:1}
-.header+hr{height:10px;background:#6C0;border:0;border-radius:5px;margin:0}
+.header+hr{height:10px;background-color:#6C0;border:0;border-radius:5px;margin:0;background-image:-webkit-linear-gradient(left, #690, #6F0);background-image:-moz-linear-gradient(left, #690, #6F0);background-image:-o-linear-gradient(left, #690, #6F0);background-image:linear-gradient(left, #690, #6F0)}
 .footer{border-top:1px solid #ccc;padding:15px 0}
 .lnb{position:fixed;top:60px;left:10px;bottom:15px;width:280px;padding:15px 10px;background:#f4f4f4;font-size:13px;overflow-y:auto;border-radius:3px}
 .content{position:fixed;left:325px;top:60px;right:10px;bottom:15px;overflow-y:auto;padding-right:15px}
@@ -37,21 +37,26 @@ body{overflow:auto}
 .lnb ol ol{margin-left:18px}
 .lnb li{position:relative}
 .lnb li>i,
-.lnb li>button{position:absolute;left:0;top:0}
-.lnb a{display:block;padding:0 0 0 20px;color:#000}
+.lnb li>button{position:absolute;left:2px;top:2px}
+.lnb a{display:block;padding:0 0 0 20px;color:#000;border-radius:3px}
+.lnb a.active{background:#ff0}
 .lnb>button{display:none}
 @media all and (max-width:980px){
 .lnb{margin-bottom:10px}
 .lnb>ol{display:none}
-.lnb>button{position:absolute;z-index:2;top:0;right:0;display:block;width:40px;height:30px;border:0;border-radius:3px;background:-webkit-linear-gradient(top, #666, #000)}
+.lnb>button{position:absolute;z-index:2;top:0;right:0;display:block;width:40px;height:30px;border:0;border-radius:3px;background:-webkit-linear-gradient(top, #666, #000);background:-webkit-moz-gradient(top, #666, #000);background:-o-linear-gradient(top, #666, #000);background:linear-gradient(top, #666, #000)}
 .lnb>button>i{position:absolute;top:5px;left:5px;right:5px;height:4px;border-top:12px double #ddd;border-bottom:4px solid #ddd}
 }
 /* Content */
 .content img{max-width:100%;height:auto}
 .content section{padding:1px 0}
-.content h1:target{background:#ff0}
-.h1>h1{font-size:24px;line-height:1.25;border-bottom:4px solid #333}
-.h2>h1{font-size:20px;line-height:1.25;border-bottom:2px solid #ddd}
+.content h1:target{background:#ff0;border-radius:5px 5px 0 0}
+.h1>h1{font-size:24px;line-height:1.25;*border-bottom:4px solid #333}
+.h2>h1{font-size:20px;line-height:1.25;*border-bottom:2px solid #ddd}
+.h1>h1:after,
+.h2>h1:after{content:"";display:block;background-color:#6C0;background-image:-webkit-linear-gradient(left, #690, #6F0);background-image:-moz-linear-gradient(left, #690, #6F0);background-image:-o-linear-gradient(left, #690, #6F0);background-image:linear-gradient(left, #690, #6F0)}
+.h1>h1:after{height:8px;border-radius:4px}
+.h2>h1:after{height:4px;border-radius:2px}
 .h2>h2,
 .h3>h1{font-size:16px;line-height:1.25;border-bottom:1px dotted #ccc}
 .h3>h2{font-size:14px;line-height:1.25;color:#666}
@@ -60,6 +65,15 @@ body{overflow:auto}
 .content a[target="_blank"]:after{content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:-2px 0 0 2px;background:url(../../../../common/img/glyphicons-halflings.png) no-repeat -120px -72px;opacity:.3;filter:alpha(opacity=30)}
 .content a[target="_blank"]:hover:after,
 .content a[target="_blank"]:focus:after{opacity:.7;filter:alpha(opacity=70)}
+.content figure{border:1px solid #ddd;border-radius:4px;padding:10px;box-shadow:0 0 3px #ccc;margin-left:0;margin-right:0}
+.content figure>img{display:block;margin:0 auto}
+.content figcaption{text-align:center;margin-top:10px;padding-top:10px;border-top:1px dotted #ccc}
+.content blockquote{margin:10px 0;border:1px solid #ddd;background:#f4f4f4;border-radius:4px;padding:10px 15px}
+.content blockquote:before,
+.content blockquote:after{content:normal}
+.content blockquote p{font-size:inherit;line-height:normal}
+.content dd{margin-bottom:10px}
+.content .x_dl-horizontal>dd{margin-bottom:0}
 </style>
 <!--[if lt IE 9]>
 <style>
@@ -92,7 +106,8 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					<p>XE는 'eXpress'와 'Engine'이라는 두 단어를 합쳐 만든 이름으로, '사람들이 자신의 생각이나 느낌을 표현할 수 있도록 도와주는 장치'라는 의미를 담았습니다.</p>
 					<p>XE는 서버 컴퓨터에 설치해서 쓰는 웹 사이트 제작 프로그램입니다. 웹 사이트를 만들기 위해서는 HTML, CSS, PHP, SQL 등과 같은 프로그래밍 언어를 기본적으로 알아야 합니다. 하지만 XE를 사용하면 프로그래밍 언어를 잘 모르더라도 웹 사이트를 쉽게 만들 수 있습니다.</p>
 					<p>XE는 XE core라는 핵심 프로그램을 기반으로 다양한 추가 기능을 조합하여 사용자가 원하는 웹 사이트를 제작할 수 있습니다.</p>
-					<figure> <img src="img/image002.jpg" width="379" height="306" alt="XE 개요">
+					<figure> 
+						<img src="img/image002.jpg" width="379" height="306" alt="XE 개요">
 						<figcaption>XE 개요</figcaption>
 					</figure>
 					<blockquote> <strong>참고</strong>
@@ -282,10 +297,12 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 				<section class="h2">
 					<h1 id="UMAN_admin_startpage">관리자 페이지 시작</h1>
 					<p>다음과 같이 XE 관리자 페이지를 열고 관리자 계정 정보를 입력하여 로그인합니다. 아래 주소에서 'example.com'은 XE가 설치된 도메인 주소를 의미합니다.</p>
-					<ul>
-						<li>짧은 주소(mod_rewrite)를 사용할 경우: http://example.com/admin</li>
-						<li>짧은 주소(mod_rewrite)를 사용하지 않는 경우: http://example.com/index.php?module=admin</li>
-					</ul>
+					<dl>
+						<dt>짧은 주소(mod_rewrite)를 사용할 경우: 
+						<dd>http://example.com/admin</dd>
+						<dt>짧은 주소(mod_rewrite)를 사용하지 않는 경우: 
+						<dd>http://example.com/index.php?module=admin</dd>
+					</dl>
 					<figure> <img src="img/admin/dashboard.PNG" width="1280" height="929" alt="XE 관리자 페이지">
 						<figcaption>XE 관리자 페이지</figcaption>
 					</figure>
@@ -306,38 +323,41 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_member">회원</h1>
-						<h2 id="UMAN_member_list">회원 목록</h2>
-						<p>사이트에 가입된 사용자 목록을 보여줍니다. 사용자의 소속 그룹을 변경하거나, 로그인 차단 등 사용자 정보를 확인, 수정, 삭제할 수 있습니다.</p>
-						<h2 id="UMAN_member_config">회원 설정</h2>
-						<p>사이트 회원 가입 허가, 회원 가입 시 입력 양식 등 회원 관리에 필요한 다양한 설정을 할 수 있습니다.</p>
-						<h2 id="UMAN_member_group">회원 그룹</h2>
-						<p>사이트에서 사용하는 회원 그룹을 관리합니다. 새로운 그룹을 생성하거나, 기존 그룹을 수정, 삭제할 수 있습니다.</p>
-						<h2 id="UMAN_member_point">포인트</h2>
-						<p>회원이 글, 댓글을 작성하거나 업로드, 다운로드할 때 포인트를 부여할 수 있습니다. 또한 그룹의 레벨을 설정하여 포인트를 통한 레벨 업그레이드 기능을 설정할 수 있습니다.</p>
+						<dl>
+							<dt id="UMAN_member_list">회원 목록</dt>
+							<dd>사이트에 가입된 사용자 목록을 보여줍니다. 사용자의 소속 그룹을 변경하거나, 로그인 차단 등 사용자 정보를 확인, 수정, 삭제할 수 있습니다.</dd>
+							<dt id="UMAN_member_config">회원 설정</dt>
+							<dd>사이트 회원 가입 허가, 회원 가입 시 입력 양식 등 회원 관리에 필요한 다양한 설정을 할 수 있습니다.</dd>
+							<dt id="UMAN_member_group">회원 그룹</dt>
+							<dd>사이트에서 사용하는 회원 그룹을 관리합니다. 새로운 그룹을 생성하거나, 기존 그룹을 수정, 삭제할 수 있습니다.</dd>
+							<dt id="UMAN_member_point">포인트</dt>
+							<dd>회원이 글, 댓글을 작성하거나 업로드, 다운로드할 때 포인트를 부여할 수 있습니다. 또한 그룹의 레벨을 설정하여 포인트를 통한 레벨 업그레이드 기능을 설정할 수 있습니다.</dd>
+						</dl>
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_content">콘텐츠</h1>
-						<h2 id="UMAN_content_document">문서</h2>
-						<p>사이트에 등록된 문서를 관리합니다. 문서 내용을 확인하고 삭제할 수 있으며, 회원이 신고, 삭제한 문서를 확인할 수 있습니다.</p>
-						<h2 id="UMAN_content_comment">댓글</h2>
-						<p>사이트에 등록된 댓글을 관리합니다. 댓글 내용을 확인하고 삭제할 수 있으며, 신고된 댓글을 확인할 수 있습니다.</p>
-						<h2 id="UMAN_content_trackback">엮인글</h2>
-						<p>외부에서 링크했거나 엮인글의 목록을 볼 수 있습니다. 엮인글의 허용 여부를 선택할 수 있으며, 엮인글을 허용하지 않으면 글을 엮을 수 없고 링크하더라도 표시되지 않습니다.</p>
-						<h2 id="UMAN_content_file">파일</h2>
-						<p>사이트에 등록된 글과 댓글에 첨부된 파일을 관리합니다. 등록된 파일을 삭제할 수 있습니다.</p>
-						<h2 id="UMAN_content_poll">설문</h2>
-						<p>사이트에 등록된 설문 콘텐츠를 관리합니다.</p>
-						<h2 id="UMAN_content_rss">RSS</h2>
-						<p>XE를 통해 생성된 다양한 모듈의 RSS(Rich Site Summary) 피드를 하나로 묶어서 제공할 수 있습니다. 기본값은 통합피드 사용입니다. 사이트 초기 화면을 통해 통합 피드가 제공되며, 피드 공개가 허용되지 않은 개별 모듈은 피드 목록에서 제외됩니다. 일부 모듈은 피드 공개의 기본값이 공개하지 않음으로 되어 있으므로, 모든 피드를 공개하려면 반드시 개별 모듈의 추가 설정 메뉴에서 피드 공개 항목이 전문 공개 또는 요약 공개로 되어 있는지 확인해야 합니다.</p>
-						<h2 id="UMAN_content_langcode">다국어</h2>
-						<p>XE는 글로벌 사이트를 별도로 생성하지 않고 하나의 사이트에서 다국어를 지원합니다. 다국어에 추가한 단어/문장에 연동된 목록은 사이트 언어 설정을 변경하면 자동으로 해당 언어의 내용으로 변환되어 표시됩니다.</p>
-						<h2 id="UMAN_content_importer">데이터 들여오기</h2>
-						<p>제로보드4, zb5beta 또는 다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다.</p>
-						<h2 id="UMAN_content_trash">휴지통</h2>
-						<p>문서나 댓글을 삭제하면 DB에서 바로 제거하지 않고 휴지통으로 이동합니다. 관리자가 내용을 다시 확인한 후 삭제된 문서나 댓글을 복구하거나 완전히 삭제할 수 있습니다.</p>
-						<h2 id="UMAN_content_spamfilter">스팸필터</h2>
-						<p>글, 댓글 등이 등록될 때 스팸 여부를 확인하여 등록을 금지할 수 있습니다. 스팸필터 관리 메뉴에서 금지 IP와 금지 단어 목록을 설정할 수 있습니다.</p>
-						<p>다국어 메뉴는 사이트에 사용된 다국어 목록을 관리합니다. 등록된 다국어 목록을 확인할 수 있으며, 새로운 단어 또는 문장을 추가할 수 있습니다.</p>
+						<dl>
+							<dt id="UMAN_content_document">문서</dt>
+							<dd>사이트에 등록된 문서를 관리합니다. 문서 내용을 확인하고 삭제할 수 있으며, 회원이 신고, 삭제한 문서를 확인할 수 있습니다.</dd>
+							<dt id="UMAN_content_comment">댓글</dt>
+							<dd>사이트에 등록된 댓글을 관리합니다. 댓글 내용을 확인하고 삭제할 수 있으며, 신고된 댓글을 확인할 수 있습니다.</dd>
+							<dt id="UMAN_content_trackback">엮인글</dt>
+							<dd>외부에서 링크했거나 엮인글의 목록을 볼 수 있습니다. 엮인글의 허용 여부를 선택할 수 있으며, 엮인글을 허용하지 않으면 글을 엮을 수 없고 링크하더라도 표시되지 않습니다.</dd>
+							<dt id="UMAN_content_file">파일</dt>
+							<dd>사이트에 등록된 글과 댓글에 첨부된 파일을 관리합니다. 등록된 파일을 삭제할 수 있습니다.</dd>
+							<dt id="UMAN_content_poll">설문</dt>
+							<dd>사이트에 등록된 설문 콘텐츠를 관리합니다.</dd>
+							<dt id="UMAN_content_rss">RSS</dt>
+							<dd>XE를 통해 생성된 다양한 모듈의 RSS(Rich Site Summary) 피드를 하나로 묶어서 제공할 수 있습니다. 기본값은 통합피드 사용입니다. 사이트 초기 화면을 통해 통합 피드가 제공되며, 피드 공개가 허용되지 않은 개별 모듈은 피드 목록에서 제외됩니다. 일부 모듈은 피드 공개의 기본값이 공개하지 않음으로 되어 있으므로, 모든 피드를 공개하려면 반드시 개별 모듈의 추가 설정 메뉴에서 피드 공개 항목이 전문 공개 또는 요약 공개로 되어 있는지 확인해야 합니다.</dd>
+							<dt id="UMAN_content_langcode">다국어</dt>
+							<dd>XE는 글로벌 사이트를 별도로 생성하지 않고 하나의 사이트에서 다국어를 지원합니다. 다국어에 추가한 단어/문장에 연동된 목록은 사이트 언어 설정을 변경하면 자동으로 해당 언어의 내용으로 변환되어 표시됩니다. 다국어 메뉴는 사이트에 사용된 다국어 목록을 관리합니다. 등록된 다국어 목록을 확인할 수 있으며, 새로운 단어 또는 문장을 추가할 수 있습니다.</dd>
+							<dt id="UMAN_content_importer">데이터 들여오기</dt>
+							<dd>제로보드4, zb5beta 또는 다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다.</dd>
+							<dt id="UMAN_content_trash">휴지통</dt>
+							<dd>문서나 댓글을 삭제하면 DB에서 바로 제거하지 않고 휴지통으로 이동합니다. 관리자가 내용을 다시 확인한 후 삭제된 문서나 댓글을 복구하거나 완전히 삭제할 수 있습니다.</dd>
+							<dt id="UMAN_content_spamfilter">스팸필터</dt>
+							<dd>글, 댓글 등이 등록될 때 스팸 여부를 확인하여 등록을 금지할 수 있습니다. 스팸필터 관리 메뉴에서 금지 IP와 금지 단어 목록을 설정할 수 있습니다.</dd>
+						</dl>
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_favorite">즐겨찾기</h1>
@@ -345,34 +365,40 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_config">설정</h1>
-						<h2 id="UMAN_config_general">일반</h2>
-						<p>사이트 시작 화면을 결정하는 기본 모듈 설정, 기본 언어 등 사이트를 운영하기 위해 필요한 기본 설정을 할 수 있습니다. 또한, 보안을 위한 관리자 페이지 접근 가능 IP 대역 지정 등 다양한 고급 설정이 가능합니다.</p>
-						<h2 id="UMAN_config_ftp">FTP 설정</h2>
-						<p>쉬운 설치 사용을 위한 FTP 계정을 설정합니다.</p>
-						<h2 id="UMAN_config_admin">관리자 설정</h2>
-						<p>관리자 화면의 제목과 로고, 메뉴를 설정할 수 있습니다.</p>
-						<h2 id="UMAN_config_fileupload">파일 업로드</h2>
-						<p>사이트에 등록할 수 있는 파일의 종류와 크기 등을 설정할 수 있습니다.</p>
-						<h2 id="UMAN_config_filebox">파일박스</h2>
-						<p>파일박스를 관리할 수 있습니다. 파일박스는 관리자가 재사용할 수 있는 이미지 파일을 관리하는 기능입니다. 회원 그룹 아이콘을 등록하면 이미지 파일은 파일박스에 업로드됩니다.</p>
+						<dl>
+							<dt id="UMAN_config_general">일반</dt>
+							<dd>사이트 시작 화면을 결정하는 기본 모듈 설정, 기본 언어 등 사이트를 운영하기 위해 필요한 기본 설정을 할 수 있습니다. 또한, 보안을 위한 관리자 페이지 접근 가능 IP 대역 지정 등 다양한 고급 설정이 가능합니다.</dd>
+							<dt id="UMAN_config_ftp">FTP 설정</dt>
+							<dd>쉬운 설치 사용을 위한 FTP 계정을 설정합니다.</dd>
+							<dt id="UMAN_config_admin">관리자 설정</dt>
+							<dd>관리자 화면의 제목과 로고, 메뉴를 설정할 수 있습니다.</dd>
+							<dt id="UMAN_config_fileupload">파일 업로드</dt>
+							<dd>사이트에 등록할 수 있는 파일의 종류와 크기 등을 설정할 수 있습니다.</dd>
+							<dt id="UMAN_config_filebox">파일박스</dt>
+							<dd>파일박스를 관리할 수 있습니다. 파일박스는 관리자가 재사용할 수 있는 이미지 파일을 관리하는 기능입니다. 회원 그룹 아이콘을 등록하면 이미지 파일은 파일박스에 업로드됩니다.</dd>
+						</dl>
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_advanced">고급</h1>
-						<h2 id="UMAN_advanced_easyinstall">쉬운 설치</h2>
-						<p>모듈, 스킨, 레이아웃, 위젯 등을 추가로 설치할 때, XE 공식 사이트에서 해당 소스를 다운로드해서 서버에 업로드할 필요 없이 사이트에서 XE 공식 사이트와 연동하여 선택한 추가 기능을 바로 설치합니다.</p>
-						<h2 id="UMAN_advanced_installed_layout">설치된 레이아웃</h2>
-						<p>사이트에 설치된 레이아웃을 관리합니다. 각 레이아웃의 관리자 화면을 통해 인스턴스를 추가, 수정, 삭제할 수 있습니다.</p>
-						<h2 id="UMAN_advanced_installed_module">설치된 모듈</h2>
-						<p>사이트에 설치된 모듈을 출력합니다. 각 모듈의 관리자 화면에 접근하여 모듈을 관리할 수 있습니다. 목록의 즐겨찾기 버튼을 이용해서 자주 사용하는 모듈 관리자 링크를 화면 오른쪽 위에 즐겨찾기로 추가할 수 있습니다.</p>
-						<h2 id="UMAN_advanced_installed_widget">설치된 위젯</h2>
-						<p>사이트에 설치된 위젯을 출력합니다. 각 위젯의 코드를 생성할 수 있습니다.</p>
-						<h2 id="UMAN_advanced_installed_addon">설치된 애드온</h2>
-						<p>사이트에 설치된 애드온을 출력합니다. 각 애드온을 PC와 모바일 환경에서 사용하거나 사용하지 않도록 설정할 수 있습니다.</p>
-						<blockquote> <strong>참고</strong>
-							<p>1.5 버전부터는 쉬운 설치를 통해 설치된 레이아웃과 모듈, 위젯, 애드온을 '확장기능(v1.7에서는 고급) &gt; 설치된 레이아웃, 설치된 모듈, 설치된 위젯, 설치된 애드온' 관리자 화면에서 삭제할 수 있습니다.</p>
-						</blockquote>
-						<h2 id="UMAN_advanced_editor">에디터</h2>
-						<p>사이트의 기본 위지윅 에디터 설정과 확장 기능인 에디터 컴포넌트를 관리할 수 있습니다.</p>
+						<dl>
+							<dt id="UMAN_advanced_easyinstall">쉬운 설치</dt>
+							<dd>모듈, 스킨, 레이아웃, 위젯 등을 추가로 설치할 때, XE 공식 사이트에서 해당 소스를 다운로드해서 서버에 업로드할 필요 없이 사이트에서 XE 공식 사이트와 연동하여 선택한 추가 기능을 바로 설치합니다.</dd>
+							<dt id="UMAN_advanced_installed_layout">설치된 레이아웃</dt>
+							<dd>사이트에 설치된 레이아웃을 관리합니다. 각 레이아웃의 관리자 화면을 통해 인스턴스를 추가, 수정, 삭제할 수 있습니다.</dd>
+							<dt id="UMAN_advanced_installed_module">설치된 모듈</dt>
+							<dd>사이트에 설치된 모듈을 출력합니다. 각 모듈의 관리자 화면에 접근하여 모듈을 관리할 수 있습니다. 목록의 즐겨찾기 버튼을 이용해서 자주 사용하는 모듈 관리자 링크를 화면 오른쪽 위에 즐겨찾기로 추가할 수 있습니다.</dd>
+							<dt id="UMAN_advanced_installed_widget">설치된 위젯</dt>
+							<dd>사이트에 설치된 위젯을 출력합니다. 각 위젯의 코드를 생성할 수 있습니다.</dd>
+							<dt id="UMAN_advanced_installed_addon">설치된 애드온</dt>
+							<dd>사이트에 설치된 애드온을 출력합니다. 각 애드온을 PC와 모바일 환경에서 사용하거나 사용하지 않도록 설정할 수 있습니다.
+								<blockquote> 
+									<strong>참고</strong>
+									<p>1.5 버전부터는 쉬운 설치를 통해 설치된 레이아웃과 모듈, 위젯, 애드온을 '확장기능(v1.7에서는 고급) &gt; 설치된 레이아웃, 설치된 모듈, 설치된 위젯, 설치된 애드온' 관리자 화면에서 삭제할 수 있습니다.</p>
+								</blockquote>
+							</dd>
+							<dt id="UMAN_advanced_editor">에디터</dt>
+							<dd>사이트의 기본 위지윅 에디터 설정과 확장 기능인 에디터 컴포넌트를 관리할 수 있습니다.</dd>
+						</dl>
 					</section>
 				</section>
 			</section>
@@ -384,7 +410,8 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					<h2 id="UMAN_module">모듈</h2>
 					<p>XE에서 모듈은 하나의 프로그램을 의미합니다. 여러 개의 모듈이 모여서 하나의 큰 모듈을 구성하기도 하고, 모듈이 개별적으로 동작하기도 합니다. 즉, 모듈은 사이트에 특정 기능을 구현하기 위해 추가로 설치한 프로그램입니다.</p>
 					<p>XE에서 제공하는 대표적인 모듈에는 게시판, CafeXE, Textyle 등이 있습니다.</p>
-					<figure> <img src="img/image008.jpg" width="491" height="481" alt="모듈">
+					<figure> 
+						<img src="img/image008.jpg" width="491" height="481" alt="모듈">
 						<figcaption>모듈</figcaption>
 					</figure>
 					<h2 id="UMAN_addon">애드온</h2>
@@ -436,18 +463,24 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						<ol>
 							<li>관리자 메뉴의 '설정 &gt; FTP 설정'을 클릭합니다.</li>
 							<li> 다음과 같이 웹 서버의 FTP 계정 정보를 입력합니다.
-								<ul>
-									<li>아이디: 서버에 접근 가능한 아이디</li>
-									<li>비밀번호: 서버에 접근 가능한 비밀번호</li>
-								</ul>
+								<dl>
+									<dt>아이디:</dt> 
+									<dd>서버에 접근 가능한 아이디</dd>
+									<dt>비밀번호:</dt>
+									<dd>서버에 접근 가능한 비밀번호</dd>
+								</dl>
 							</li>
 							<li> 아이디, 비밀번호 외에 추가정보의 수정이 필요한 경우에는 '고급'에서 수정할 수 있습니다.
-								<ul>
-									<li>FTP 서버 주소: 서버 주소는 XE가 설치된 서버로부터 접근하기 위한 주소입니다. 특별한 경우가 아니라면 XE는 자신이 설치된 서버에 구성 요소를 설치합니다. 따라서 자기 자신을 나타내는 주소인 localhost, 혹은 127.0.0.1을 입력합니다.</li>
-									<li>FTP port: FTP 포트 번호의 경우 기본적으로 21을 쓰도록 되어 있으나, 서버에 따라 설정이 다를 수도 있습니다. 21이 아닐 때에는 서버 관리자에게 문의합니다.</li>
-									<li>Passive 모드를 사용: 클라이언트(사용할 웹 서버)가 방화벽 환경에 있어도 FTP 서비스를 정상적으로 사용할 수 있게 하는 기능입니다. 예를 선택해야 방화벽이 설치된 환경에서 FTP를 사용할 수 있습니다. 따라서 쉬운 설치 기능을 사용하려면 서버에서 FTP Passive mode를 지원해야 합니다.</li>
-									<li>SFTP를 사용: FTP 프로토콜을 통해 주고받는 데이터는 암호화되어 있지 않습니다. SFTP(SSH File Transfer Protocol)를 사용하면 쉬운 설치 기능을 더 안전하게 사용할 수 있습니다. SFTP는 관련 PHP 모듈이 설치되어 있어야 사용할 수 있습니다.</li>
-								</ul>
+								<dl>
+									<dt>FTP 서버 주소:</dt> 
+									<dd>서버 주소는 XE가 설치된 서버로부터 접근하기 위한 주소입니다. 특별한 경우가 아니라면 XE는 자신이 설치된 서버에 구성 요소를 설치합니다. 따라서 자기 자신을 나타내는 주소인 localhost, 혹은 127.0.0.1을 입력합니다.</dd>
+									<dt>FTP port:</dt> 
+									<dd>FTP 포트 번호의 경우 기본적으로 21을 쓰도록 되어 있으나, 서버에 따라 설정이 다를 수도 있습니다. 21이 아닐 때에는 서버 관리자에게 문의합니다.</dd>
+									<dt>Passive 모드를 사용:</dt> 
+									<dd>클라이언트(사용할 웹 서버)가 방화벽 환경에 있어도 FTP 서비스를 정상적으로 사용할 수 있게 하는 기능입니다. 예를 선택해야 방화벽이 설치된 환경에서 FTP를 사용할 수 있습니다. 따라서 쉬운 설치 기능을 사용하려면 서버에서 FTP Passive mode를 지원해야 합니다.</dd>
+									<dt>SFTP를 사용:</dt> 
+									<dd>FTP 프로토콜을 통해 주고받는 데이터는 암호화되어 있지 않습니다. SFTP(SSH File Transfer Protocol)를 사용하면 쉬운 설치 기능을 더 안전하게 사용할 수 있습니다. SFTP는 관련 PHP 모듈이 설치되어 있어야 사용할 수 있습니다.</dd>
+								</dl>
 								<figure> <img src="img/admin/ftp_config.PNG" width="802" height="762" alt="FTP 설정"> </figure>
 							</li>
 							<li>모든 정보를 입력했으면 '저장'을 클릭합니다.</li>
@@ -476,6 +509,10 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					<figure> <img src="img/make_general_site/home_page_completed.PNG" width="1187" height="904" alt="일반 사이트 완성">
 						<figcaption>일반 사이트 완성 화면</figcaption>
 					</figure>
+					<section class="h3">
+						<h1 id="UMAN_sitetitle">사이트 제목 바꾸기</h1>
+						<p>'설정 &gt; 일반 &gt; 기본 &gt; 사이트 제목' 항목을 작성 또는 변경합니다. '생성된 레이아웃'에서 사이트 제목을 설정하지 않았을 때 이 제목이 노출됩니다.</p>
+					</section>
 					<section class="h3">
 						<h1 id="UMAN_sitemap">사이트 메뉴 편집</h1>
 						<h2 id="UMAN_makehome">홈 만들기</h2>
@@ -550,33 +587,58 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 								<figure> <img src="img/make_general_site/home_page2.PNG" width="1188" height="266" alt="Content 위젯 선택"> </figure>
 							</li>
 							<li> 위젯 코드 생성 창이 나타나면 다음과 같이 필요한 항목을 입력하고 코드생성을 클릭합니다.
-								<ul>
-									<li>위젯: Content 위젯 ver 0.1</li>
-									<li>스킨: Content 위젯 기본 스킨(default)</li>
-									<li>캐시: 5분</li>
-									<li>추출대상: 변경하지 않음</li>
-									<li>내용형태: 이미지+제목+내용</li>
-									<li>탭형태: 없음</li>
-									<li>표시항목 및 순서: 제목, 등록일, 글쓴이, 내용</li>
-									<li>게시판 이름 표시: 출력하지 않음</li>
-									<li>댓글수 표시: 출력</li>
-									<li>엮인글수 표시: 출력</li>
-									<li>분류 표시: 출력</li>
-									<li>아이콘 표시: 출력</li>
-									<li>정렬 대상: 최신 등록순</li>
-									<li>정렬 방법: 내림차순</li>
-									<li>썸네일 생성 방법: Crop(채우기)</li>
-									<li>이미지 가로 크기: 100</li>
-									<li>이미지 세로 크기: 75</li>
-									<li>가로 이미지수: 5</li>
-									<li>목록수: 5</li>
-									<li>페이지수: 1</li>
-									<li>new 표시 시간 (hours): 12</li>
-									<li>제목 글자수: 0</li>
-									<li>내용 글자수: 100</li>
-									<li>대상 모듈: 추가를 클릭하고 모듈 선택 팝업에서 모듈에 게시판으로 검색하여 자유게시판을 선택</li>
-									<li>HTML 출력방식: Table</li>
-								</ul>
+								<dl class="x_dl-horizontal">
+									<dt>위젯: </dt>
+									<dd>Content 위젯 ver 0.1</dd>
+									<dt>스킨: </dt>
+									<dd>Content 위젯 기본 스킨(default)</dd>
+									<dt>캐시: </dt>
+									<dd>5분</dd>
+									<dt>추출대상: </dt>
+									<dd>변경하지 않음</dd>
+									<dt>내용형태: </dt>
+									<dd>이미지+제목+내용</dd>
+									<dt>탭형태: </dt>
+									<dd>없음</dd>
+									<dt>표시항목 및 순서: </dt>
+									<dd>제목, 등록일, 글쓴이, 내용</dd>
+									<dt>게시판 이름 표시: </dt>
+									<dd>출력하지 않음</dd>
+									<dt>댓글수 표시: </dt>
+									<dd>출력</dd>
+									<dt>엮인글수 표시: </dt>
+									<dd>출력</dd>
+									<dt>분류 표시: </dt>
+									<dd>출력</dd>
+									<dt>아이콘 표시: </dt>
+									<dd>출력</dd>
+									<dt>정렬 대상: </dt>
+									<dd>최신 등록순</dd>
+									<dt>정렬 방법: </dt>
+									<dd>내림차순</dd>
+									<dt>썸네일 생성 방법: </dt>
+									<dd>Crop(채우기)</dd>
+									<dt>이미지 가로 크기: </dt>
+									<dd>100</dd>
+									<dt>이미지 세로 크기: </dt>
+									<dd>75</dd>
+									<dt>가로 이미지수: </dt>
+									<dd>5</dd>
+									<dt>목록수: </dt>
+									<dd>5</dd>
+									<dt>페이지수: </dt>
+									<dd>1</dd>
+									<dt>new 표시 시간 (hours): </dt>
+									<dd>12</dd>
+									<dt>제목 글자수: </dt>
+									<dd>0</dd>
+									<dt>내용 글자수: </dt>
+									<dd>100</dd>
+									<dt>대상 모듈: </dt>
+									<dd>추가를 클릭하고 모듈 선택 팝업에서 모듈에 게시판으로 검색하여 자유게시판을 선택</dd>
+									<dt>HTML 출력방식: </dt>
+									<dd>Table</dd>
+								</dl>
 								<p>위젯이 생성되면 다음 그림과 같은 화면을 확인할 수 있습니다.</p>
 								<figure> <img src="img/make_general_site/home_page3.PNG" width="1194" height="691" alt="위젯 생성된 화면"> </figure>
 								<blockquote> <strong>참고</strong>
@@ -587,29 +649,39 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 							<li>추가된 위젯 영역 위로 마우스 커서를 움직여서 위젯 영역 왼쪽 윗부분에 표시되는 아이콘 메뉴 중 위젯 스타일 추가(<img width="18" height="16" src="img/image023.png" alt="위젯 스타일 추가 버튼">)를 클릭합니다.</li>
 							<li>위젯 스타일 팝업 창이 나타나면 적용할 위젯 스타일로 심플 스트롱을 선택하고 설정을 클릭합니다.</li>
 							<li> 위젯 스타일을 설정하는 화면이 나타나면 다음과 같이 설정합니다.
-								<ul>
-									<li>컬러셋: 하얀색</li>
-									<li>제목: 자유게시판</li>
-									<li>더보기 URL: 해당 게시판의 URL을 입력합니다. 자유게시판의 모듈 이름은 freeboard01이므로, http://xe설치경로/freeboard01을 입력합니다.</li>
-									<li>더보기 텍스트: 위젯과 연동된 게시판으로 이동하기 위한 링크의 텍스트입니다. 이 예제에서는 more로 지정합니다.</li>
-								</ul>
+								<dl class="x_dl-horizontal">
+									<dt>컬러셋: </dt>
+									<dd>하얀색</dd>
+									<dt>제목: </dt>
+									<dd>자유게시판</dd>
+									<dt>더보기 URL: </dt>
+									<dd>해당 게시판의 URL을 입력합니다. 자유게시판의 모듈 이름은 freeboard01이므로, http://xe설치경로/freeboard01을 입력합니다.</dd>
+									<dt>더보기 텍스트: </dt>
+									<dd>위젯과 연동된 게시판으로 이동하기 위한 링크의 텍스트입니다. 이 예제에서는 more로 지정합니다.</dd>
+								</dl>
 							</li>
 							<li> 자유게시판 위젯에 위젯 스타일이 다음과 같이 적용되었는지 확인합니다.
 								<figure> <img src="img/make_general_site/home_page4.PNG" width="1188" height="799" alt="위젯 스타일 적용 화면"> </figure>
 							</li>
 							<li> 나머지 두 게시판과 연동되는 위젯을 생성하고 위젯 스타일을 적용합니다.
 								<p>공지사항 코드를 생성할 때 아래의 설정 정보 외에 다른 내용은 모두 자유게시판 위젯을 생성할 때 입력한 내용과 동일하므로, 자유게시판 위젯 생성 과정을 참고하여 진행합니다.</p>
-								<ul>
-									<li>내용형태: 제목</li>
-									<li>표시항목 및 순서: 제목, 등록일, 글쓴이</li>
-									<li>대상 모듈: 추가를 클릭하고 모듈 선택 팝업에서 모듈에 공지사항을 선택</li>
-								</ul>
+								<dl class="x_dl-horizontal">
+									<dt>내용형태: </dt>
+									<dd>제목</dd>
+									<dt>표시항목 및 순서: </dt>
+									<dd>제목, 등록일, 글쓴이</dd>
+									<dt>대상 모듈: </dt>
+									<dd>추가를 클릭하고 모듈 선택 팝업에서 모듈에 공지사항을 선택</dd>
+								</dl>
 								<p>등업게시판 코드를 생성할 때도 아래의 설정 정보 외에 다른 내용은 모두 자유게시판 위젯을 생성할 때 입력한 내용과 동일합니다.</p>
-								<ul>
-									<li>내용형태: 제목</li>
-									<li>표시항목 및 순서: 제목, 등록일, 글쓴이</li>
-									<li>대상 모듈: 추가를 클릭하고 모듈 선택 팝업에서 모듈에 등업게시판을 선택</li>
-								</ul>
+								<dl class="x_dl-horizontal">
+									<dt>내용형태: </dt>
+									<dd>제목</dd>
+									<dt>표시항목 및 순서: </dt>
+									<dd>제목, 등록일, 글쓴이</dd>
+									<dt>대상 모듈: </dt>
+									<dd>추가를 클릭하고 모듈 선택 팝업에서 모듈에 등업게시판을 선택</dd>
+								</dl>
 							</li>
 							<li> 다음과 같이 3가지 위젯이 모두 추가되었는지 확인합니다. 단, 게시판에 게시된 글에 따라 위젯의 내용은 다를 수 있습니다.
 								<figure> <img src="img/make_general_site/home_page5.PNG" width="1190" height="1057" alt="추가된 위젯 확인"> </figure>
@@ -699,24 +771,40 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 								<figure> <img src="img/image049.jpg" width="511" height="396" alt="웹 플랫폼 설치 화면"> </figure>
 							</li>
 							<li> 다음과 같이 XE core 설치 정보를 입력하고 계속을 클릭합니다.
-								<ul>
-									<li>데이터베이스: XE에서 사용할 DBMS의 종류. 이 문서에서는 MySQL을 선택합니다.</li>
-									<li>새 데이터베이스 만들기 또는 기존 데이터베이스 사용: 기존의 데이터베이스를 사용하여 XE를 운영할 것인지, 새 데이터베이스를 사용할 것인지 선택. 가능하면 새 데이터베이스 만들기를 권장합니다.</li>
-									<li>데이터베이스 관리자: 선택된 DBMS의 관리자 ID. 이 문서에서 사용된 MySQL의 관리자 ID는 root입니다.</li>
-									<li>데이터베이스 관리자 암호: 선택된 DBMS의 관리자 암호. &quot;추가 구성 요소의 설치&quot;에서 지정한 MySQL 관리자 암호를 입력합니다.</li>
-									<li>데이터베이스 사용자 이름: XE에서 데이터베이스에 접근할 때 사용할 사용자 이름</li>
-									<li>데이터베이스 암호: XE에서 데이터베이스에 접근할 때 사용할 사용자 암호</li>
-									<li>데이터베이스 서버: DBMS가 설치된 위치를 URL 형식으로 지정. 이 문서에서는 서버와 DBMS가 같은 컴퓨터에서 동작하므로 localhost를 입력합니다.</li>
-									<li>데이터베이스 이름: XE에서 사용할 기존 혹은 새 데이터베이스의 이름</li>
-									<li>데이터베이스 테이블 접두사: XE에서 생성한 테이블 이름에 사용할 머리말</li>
-									<li>XE 관리자 ID: XE 관리자 ID</li>
-									<li>XE 관리자 이름: XE 관리자 이름</li>
-									<li>XE 관리자 닉네임: XE 관리자 계정의 별명</li>
-									<li>XE 관리자 패스워드: XE 관리자 계정의 패스워드</li>
-									<li>XE 관리자 e-mail 주소: XE 관리자 계정의 e-mail 주소</li>
-									<li>URL Rewrite 사용 여부: mod_rewrite 사용 여부. 이 항목을 활성화하면 URL을 기억하기 쉽게 줄여서 사용할 수 있습니다.</li>
-									<li>GMT Timezone: XE가 서비스할 지역의 표준시</li>
-								</ul>
+								<dl>
+									<dt>데이터베이스: </dt>
+									<dd>XE에서 사용할 DBMS의 종류. 이 문서에서는 MySQL을 선택합니다.</dd>
+									<dt>새 데이터베이스 만들기 또는 기존 데이터베이스 사용: </dt>
+									<dd>기존의 데이터베이스를 사용하여 XE를 운영할 것인지, 새 데이터베이스를 사용할 것인지 선택. 가능하면 새 데이터베이스 만들기를 권장합니다.</dd>
+									<dt>데이터베이스 관리자: </dt>
+									<dd>선택된 DBMS의 관리자 ID. 이 문서에서 사용된 MySQL의 관리자 ID는 root입니다.</dd>
+									<dt>데이터베이스 관리자 암호: </dt>
+									<dd>선택된 DBMS의 관리자 암호. &quot;추가 구성 요소의 설치&quot;에서 지정한 MySQL 관리자 암호를 입력합니다.</dd>
+									<dt>데이터베이스 사용자 이름: </dt>
+									<dd>XE에서 데이터베이스에 접근할 때 사용할 사용자 이름</dd>
+									<dt>데이터베이스 암호: </dt>
+									<dd>XE에서 데이터베이스에 접근할 때 사용할 사용자 암호</dd>
+									<dt>데이터베이스 서버: </dt>
+									<dd>DBMS가 설치된 위치를 URL 형식으로 지정. 이 문서에서는 서버와 DBMS가 같은 컴퓨터에서 동작하므로 localhost를 입력합니다.</dd>
+									<dt>데이터베이스 이름: </dt>
+									<dd>XE에서 사용할 기존 혹은 새 데이터베이스의 이름</dd>
+									<dt>데이터베이스 테이블 접두사: </dt>
+									<dd>XE에서 생성한 테이블 이름에 사용할 머리말</dd>
+									<dt>XE 관리자 ID: </dt>
+									<dd>XE 관리자 ID</dd>
+									<dt>XE 관리자 이름: </dt>
+									<dd>XE 관리자 이름</dd>
+									<dt>XE 관리자 닉네임: </dt>
+									<dd>XE 관리자 계정의 별명</dd>
+									<dt>XE 관리자 패스워드: </dt>
+									<dd>XE 관리자 계정의 패스워드</dd>
+									<dt>XE 관리자 e-mail 주소: </dt>
+									<dd>XE 관리자 계정의 e-mail 주소</dd>
+									<dt>URL Rewrite 사용 여부: </dt>
+									<dd>mod_rewrite 사용 여부. 이 항목을 활성화하면 URL을 기억하기 쉽게 줄여서 사용할 수 있습니다.</dd>
+									<dt>GMT Timezone: </dt>
+									<dd>XE가 서비스할 지역의 표준시</dd>
+								</dl>
 							</li>
 						</ol>
 						<h2 id="UMAN_confirm_install">설치 확인</h2>
@@ -780,14 +868,20 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 								<p>단, 웹 호스팅 업체에서 제공받은 서버라면 해당 업체에 문의하여 계정을 확인합니다.</p>
 							</li>
 							<li> XE 설치 및 운영에 필요한 모든 정보가 저장될 데이터베이스의 계정 정보를 확인합니다. 사용 중인 DBMS 계정 생성 및 확인 방법은 공식 사이트를 참고하시기 바랍니다.
-								<ul>
-									<li>CUBRID 공식 사이트(<a href="http://www.cubrid.com/zbxe/home">http://www.cubrid.com/zbxe/home</a>)</li>
-									<li>Firebird 공식 사이트(<a href="http://www.firebirdsql.org/">http://www.firebirdsql.org/</a>)</li>
-									<li>MySQL 공식 사이트 (<a href="http://www.MySQL.com/">http://www.MySQL.com/</a>)</li>
-									<li>PostgreSQL 공식 사이트(<a href="http://www.postgresql.org/">http://www.postgresql.org/</a>)</li>
-									<li>SQLite 공식 사이트(<a href="http://www.sqlite.org/">http://www.sqlite.org/</a>)</li>
-									<li>MS SQL 서버 공식 사이트(<a href="http://www.microsoft.com/korea/sqlserver/2008/default.aspx">http://www.microsoft.com/korea/sqlserver/2008/default.aspx</a>)</li>
-								</ul>
+								<dl>
+									<dt>CUBRID 공식 사이트</dt>
+									<dd><a href="http://www.cubrid.com/zbxe/home">http://www.cubrid.com/zbxe/home</a></dd>
+									<dt>Firebird 공식 사이트</dt>
+									<dd><a href="http://www.firebirdsql.org/">http://www.firebirdsql.org/</a></dd>
+									<dt>MySQL 공식 사이트 </dt>
+									<dd><a href="http://www.MySQL.com/">http://www.MySQL.com/</a></dd>
+									<dt>PostgreSQL 공식 사이트</dt>
+									<dd><a href="http://www.postgresql.org/">http://www.postgresql.org/</a></dd>
+									<dt>SQLite 공식 사이트</dt>
+									<dd><a href="http://www.sqlite.org/">http://www.sqlite.org/</a></dd>
+									<dt>MS SQL 서버 공식 사이트</dt>
+									<dd><a href="http://www.microsoft.com/korea/sqlserver/2008/default.aspx">http://www.microsoft.com/korea/sqlserver/2008/default.aspx</a></dd>
+								</dl>
 							</li>
 						</ol>
 					</section>
@@ -814,12 +908,16 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						<h1 id="UMAN_upload_XECore">XE core 설치 파일 업로드</h1>
 						<p>내 컴퓨터에 저장된 파일을 웹 서버에 업로드하려면 FTP(File Transfer Protocol) 프로그램이 필요합니다. 이 문서에서는 FileZilla라는 무료 공개 프로그램을 사용합니다. FileZilla는 FileZilla 공식 사이트(<a href="http://filezilla-project.org/download.php?type=client">http://filezilla-project.org/download.php?type=client</a>)에서 다운로드할 수 있습니다.</p>
 						<p>FileZilla를 사용해서 XE가 설치될 서버에 접속하여 파일을 업로드합니다.</p>
-						<ul>
-							<li>호스트: 서버 도메인 주소 또는 IP주소</li>
-							<li>사용자명: 서버 접근 권한이 있는 계정. 위에서 설명한 PuTTY로 서버에 접속할 때 사용한 계정을 입력합니다.</li>
-							<li>비밀번호: 계정 비밀번호</li>
-							<li>포트: 접근 서버의 FTP 포트 번호. 일반적으로 21을 사용합니다. 서버 관리자가 FTP 포트 번호를 변경할 수 있으므로, 접속이 되지 않으면 접근 서버의 FTP 포트 번호를 다시 한 번 확인하십시오.</li>
-						</ul>
+						<dl>
+							<dt>호스트: </dt>
+							<dd>서버 도메인 주소 또는 IP주소</dd>
+							<dt>사용자명: </dt>
+							<dd>서버 접근 권한이 있는 계정. 위에서 설명한 PuTTY로 서버에 접속할 때 사용한 계정을 입력합니다.</dd>
+							<dt>비밀번호: </dt>
+							<dd>계정 비밀번호</dd>
+							<dt>포트: </dt>
+							<dd>접근 서버의 FTP 포트 번호. 일반적으로 21을 사용합니다. 서버 관리자가 FTP 포트 번호를 변경할 수 있으므로, 접속이 되지 않으면 접근 서버의 FTP 포트 번호를 다시 한 번 확인하십시오.</dd>
+						</dl>
 						<figure> <img src="img/image055.jpg" width="574" height="488" alt="FileZilla 실행 후 서버 접속 성공 화면">
 							<figcaption>FileZilla 실행 후 서버 접속 성공 화면</figcaption>
 						</figure>
@@ -873,77 +971,108 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					<h1 id="UMAN_linux_command">Linux 명령어</h1>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_compression">파일 압축 및 해제 명령어 - tar</h1>
-						<ul>
-							<li>사용 형식: tar &lt;Operation&gt; [Options] (디렉터리 경로 또는 압축파일 경로)</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>사용 형식:</dt> 
+							<dd>tar &lt;Operation&gt; [Options] (디렉터리 경로 또는 압축파일 경로)</dd>
+						</dl>
 						<h2 id="UMAN_operation_with_file_compression">&lt;Operation&gt;</h2>
-						<ul>
-							<li>[-]A: 압축 파일에 tar 파일 추가</li>
-							<li>[-]c: tar 파일 생성</li>
-							<li>[-]d: 압축 파일과 비교할 때 사용. tar 파일과 해당 파일 시스템의 차이점을 확인할 때 사용</li>
-							<li>[-]r: 압축 파일의 끝부분에 파일 추가</li>
-							<li>[-]t: 압축 파일의 목록 확인</li>
-							<li>[-]u: 이미 압축되어 있는 파일보다 더 새로운 파일일 때 추가</li>
-							<li>[-]x: 압축 파일의 압축 해제</li>
-							<li>--delete: 압축 파일에서 파일 삭제</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>[-]A: </dt>
+							<dd>압축 파일에 tar 파일 추가</dd>
+							<dt>[-]c: </dt>
+							<dd>tar 파일 생성</dd>
+							<dt>[-]d: </dt>
+							<dd>압축 파일과 비교할 때 사용. tar 파일과 해당 파일 시스템의 차이점을 확인할 때 사용</dd>
+							<dt>[-]r: </dt>
+							<dd>압축 파일의 끝부분에 파일 추가</dd>
+							<dt>[-]t: </dt>
+							<dd>압축 파일의 목록 확인</dd>
+							<dt>[-]u: </dt>
+							<dd>이미 압축되어 있는 파일보다 더 새로운 파일일 때 추가</dd>
+							<dt>[-]x: </dt>
+							<dd>압축 파일의 압축 해제</dd>
+							<dt>--delete: </dt>
+							<dd>압축 파일에서 파일 삭제</dd>
+						</dl>
 						<h2 id="UMAN_commonoption_with_file_compression">&lt;Common Options&gt;</h2>
-						<ul>
-							<li>-C: 압축 파일을 해제할 위치 지정</li>
-							<li>-f: 파일 이름 지정</li>
-							<li>-j: bzip2로 압축 또는 압축 해제</li>
-							<li>-p: tar 파일을 생성하거나 압축을 해제할 때 원본 파일의 속성(권한, 디렉터리 소유자 등의 속성 정보)을 그대로 유지</li>
-							<li>-v: 압축하거나 해제할 때 과정을 자세히 출력</li>
-							<li>-z: gzip으로 압축이나 압축 해제를 한꺼번에 하려고 할 때 사용</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>-C: </dt>
+							<dd>압축 파일을 해제할 위치 지정</dd>
+							<dt>-f: </dt>
+							<dd>파일 이름 지정</dd>
+							<dt>-j: </dt>
+							<dd>bzip2로 압축 또는 압축 해제</dd>
+							<dt>-p: </dt>
+							<dd>tar 파일을 생성하거나 압축을 해제할 때 원본 파일의 속성(권한, 디렉터리 소유자 등의 속성 정보)을 그대로 유지</dd>
+							<dt>-v: </dt>
+							<dd>압축하거나 해제할 때 과정을 자세히 출력</dd>
+							<dt>-z: </dt>
+							<dd>gzip으로 압축이나 압축 해제를 한꺼번에 하려고 할 때 사용</dd>
+						</dl>
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_delete">파일 및 디렉터리 삭제 명령어 - rm</h1>
-						<ul>
-							<li>사용 형식: rm [Option] (파일 또는 디렉터리 경로)</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>사용 형식: </dt>
+							<dd>rm [Option] (파일 또는 디렉터리 경로)</dd>
+						</dl>
 						<h2 id="UMAN_option_with_file_delete">[Option]</h2>
-						<ul>
-							<li>[-]f: 삭제할 파일을 추가 확인 없이 강제로 삭제</li>
-							<li>[-]r: 디렉터리와 하위 디렉터리 및 파일을 모두 삭제</li>
-							<li>[-]v: 삭제하고 있는 파일의 정보 출력</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>[-]f: </dt>
+							<dd>삭제할 파일을 추가 확인 없이 강제로 삭제</dd>
+							<dt>[-]r: </dt>
+							<dd>디렉터리와 하위 디렉터리 및 파일을 모두 삭제</dd>
+							<dt>[-]v: </dt>
+							<dd>삭제하고 있는 파일의 정보 출력</dd>
+						</dl>
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_move">파일 및 디렉터리 이동 명령어 - mv</h1>
-						<ul>
-							<li>사용 형식: mv [option] (파일 또는 디렉터리 경로) (파일 이름 또는 디렉터리 경로)</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>사용 형식: </dt>
+							<dd>mv [option] (파일 또는 디렉터리 경로) (파일 이름 또는 디렉터리 경로)</dd>
+						</dl>
 						<h2 id="UMAN_option_with_file_move">[Option]</h2>
-						<ul>
-							<li>[-]b: 대상 파일이 있는 경우 덮어 쓰기 전 백업 파일 생성</li>
-							<li>[-]f: 대상 파일이 있는 경우 강제로 덮어 씀</li>
-							<li>[-]u: 대상 파일이 있는 경우 대상 내용이 최신일 때만 덮어 씀</li>
-							<li>[-]v: 파일 이동 과정 출력</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>[-]b: </dt>
+							<dd>대상 파일이 있는 경우 덮어 쓰기 전 백업 파일 생성</dd>
+							<dt>[-]f: </dt>
+							<dd>대상 파일이 있는 경우 강제로 덮어 씀</dd>
+							<dt>[-]u: </dt>
+							<dd>대상 파일이 있는 경우 대상 내용이 최신일 때만 덮어 씀</dd>
+							<dt>[-]v: </dt>
+							<dd>파일 이동 과정 출력</dd>
+						</dl>
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_makedir">디렉터리 생성 명령어 - mkdir</h1>
-						<ul>
-							<li>사용 형식: mkdir [Option] (디렉터리 이름)</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>사용 형식: </dt>
+							<dd>mkdir [Option] (디렉터리 이름)</dd>
+						</dl>
 						<h2 id="UMAN_option_with_file_makedir">[Option]</h2>
-						<ul>
-							<li>[-]p: 최종 디렉터리 이름의 상위 디렉터리가 없으면 상위 디렉터리까지 모두 생성</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>[-]p: </dt>
+							<dd>최종 디렉터리 이름의 상위 디렉터리가 없으면 상위 디렉터리까지 모두 생성</dd>
+						</dl>
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_chmod">파일 및 디렉터리 권한 변경 명령어 - chmod</h1>
-						<ul>
-							<li>사용 형식: chmod [Option] &lt;mode&gt; (파일 또는 디렉터리 경로)</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>사용 형식: </dt>
+							<dd>chmod [Option] &lt;mode&gt; (파일 또는 디렉터리 경로)</dd>
+						</dl>
 						<h2 id="UMAN_option_with_file_chmod">[Option]</h2>
-						<ul>
-							<li>[-]c: 실제로 파일의 권한이 바뀐 파일만 출력</li>
-							<li>[-]f: 파일의 권한을 변경할 수 없는 경우에 발생하는 오류 메시지를 출력하지 않고자 할 때 사용</li>
-							<li>[-]v: 변경된 권한에 대한 내용 출력</li>
-							<li>[-]R: 디렉터리와 파일의 권한을 모두 변경</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>[-]c: </dt>
+							<dd>실제로 파일의 권한이 바뀐 파일만 출력</dd>
+							<dt>[-]f: </dt>
+							<dd>파일의 권한을 변경할 수 없는 경우에 발생하는 오류 메시지를 출력하지 않고자 할 때 사용</dd>
+							<dt>[-]v: </dt>
+							<dd>변경된 권한에 대한 내용 출력</dd>
+							<dt>[-]R:</dt>
+							<dd> 디렉터리와 파일의 권한을 모두 변경</dd>
+						</dl>
 						<h2 id="UMAN_mode_with_file_chmod">&lt;mode&gt;</h2>
 						<p>파일 및 디렉터리가 가질 수 있는 권한은 r(read 읽기), w(write 쓰기), x(execute 실행) 이렇게 세 가지입니다. 각 권한은 아래 표와 같이 고유의 값을 가지며, 이 값을 더한 값으로 mode를 생성할 수 있습니다.</p>
 						<table class="x_table">
@@ -988,44 +1117,60 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_useradd">계정 생성 명령어 - useradd</h1>
-						<p>사용형식: useradd [Option] (계정이름)</p>
+						<dl class="x_dl-horizontal">
+							<dt>사용형식:</dt> 
+							<dd>useradd [Option] (계정이름)</dd>
+						</dl>
 						<h2 id="UMAN_option_with_useradd">[Option]</h2>
-						<ul>
-							<li>[-]u: 사용자 ID</li>
-							<li>[-]g: 그룹ID 또는 그룹 이름</li>
-							<li>[-]s: 사용되는 SHELL 정보</li>
-							<li>[-]d: 사용자 Home 디렉터리</li>
-						</ul>
+						<dl class="x_dl-horizontal">
+							<dt>[-]u: </dt>
+							<dd>사용자 ID</dd>
+							<dt>[-]g: </dt>
+							<dd>그룹ID 또는 그룹 이름</dd>
+							<dt>[-]s: </dt>
+							<dd>사용되는 SHELL 정보</dd>
+							<dt>[-]d: </dt>
+							<dd>사용자 Home 디렉터리</dd>
+						</dl>
 					</section>
 					<section class="h2">
 						<h1 id="UMAN_error_handling">오류 처리</h1>
 						<p>이 절에서는 XE를 설치 및 설정할 때 발생할 수 있는 오류와 해결 방법을 설명합니다.</p>
 						<section class="h3">
 							<h1 id="UMAN_error_mysql_minversion">MySQL 최소 버전 오류</h1>
-							<ul>
-								<li>오류 사항: &quot;XE cannot be installed under the version of MySQL 4.1. Current MySQL version is x.x.x-log&quot; 메시지가 나타납니다.</li>
-								<li>원인: MySQL 버전이 최소 지원 버전보다 낮은 경우 발생합니다.</li>
-								<li>해결 방법: MySQL을 4.1 이상으로 업데이트합니다.</li>
-							</ul>
+							<dl class="x_dl-horizontal">
+								<dt>오류 사항: </dt>
+								<dd>&quot;XE cannot be installed under the version of MySQL 4.1. Current MySQL version is x.x.x-log&quot; 메시지가 나타납니다.</dd>
+								<dt>원인: </dt>
+								<dd>MySQL 버전이 최소 지원 버전보다 낮은 경우 발생합니다.</dd>
+								<dt>해결 방법: </dt>
+								<dd>MySQL을 4.1 이상으로 업데이트합니다.</dd>
+							</dl>
 						</section>
 						<section class="h3">
 							<h1 id="UMAN_error_db_account">DB 계정 정보 오류</h1>
-							<ul>
-								<li>오류 사항: &quot;Access denied for user 'xxx'@'xxxx' (using password: YES) xxx&quot; 메시지가 나타납니다.</li>
-								<li>원인: DB 계정이 없거나, 비밀번호가 잘못되었거나, 연결하려는 데이터베이스에 대한 접근 권한이 없는 경우 발생합니다.</li>
-								<li>해결 방법: 계정 설정 및 접근 권한 정보, 입력한 데이터베이스 정보가 올바른지 확인합니다.</li>
-							</ul>
+							<dl class="x_dl-horizontal">
+								<dt>오류 사항: </dt>
+								<dd>&quot;Access denied for user 'xxx'@'xxxx' (using password: YES) xxx&quot; 메시지가 나타납니다.</dd>
+								<dt>원인: </dt>
+								<dd>DB 계정이 없거나, 비밀번호가 잘못되었거나, 연결하려는 데이터베이스에 대한 접근 권한이 없는 경우 발생합니다.</dd>
+								<dt>해결 방법: </dt>
+								<dd>계정 설정 및 접근 권한 정보, 입력한 데이터베이스 정보가 올바른지 확인합니다.</dd>
+							</dl>
 						</section>
 						<section class="h3">
 							<h1 id="UMAN_error_permission">XE 설치 시 권한 설정 누락 오류</h1>
 							<figure> <img src="img/install/install_condition_check_error.PNG" width="814" height="402" alt="권한 설정 누락 오류 화면">
 								<figcaption>권한 설정 누락 오류 화면</figcaption>
 							</figure>
-							<ul>
-								<li>오류 사항: &quot;[필수] XE의 설치 경로 또는 ./files 디렉터리의 퍼미션이 707이어야 합니다.&quot; 메시지가 나타납니다.</li>
-								<li>원인: XE 설치 경로에 files 디렉터리가 없는 경우 발생합니다.</li>
-								<li>해결 방법(Windows): XE 설치 경로에 files 디렉터리가 있는지 확인합니다.</li>
-							</ul>
+							<dl class="x_dl-horizontal">
+								<dt>오류 사항: </dt>
+								<dd>&quot;[필수] XE의 설치 경로 또는 ./files 디렉터리의 퍼미션이 707이어야 합니다.&quot; 메시지가 나타납니다.</dd>
+								<dt>원인: </dt>
+								<dd>XE 설치 경로에 files 디렉터리가 없는 경우 발생합니다.</dd>
+								<dt>해결 방법(Windows): </dt>
+								<dd>XE 설치 경로에 files 디렉터리가 있는지 확인합니다.</dd>
+							</dl>
 							<p>Windows XP에서는 파일이나 폴더에 대한 권한을 별도로 설정할 필요 없이 XE를 설치할 수 있습니다. 단, Windows 7(IIS7)에서는 다음과 같이 IIS_IUSRS(그룹) 및 IUSRS(사용자)에게 권한을 부여해야 합니다.</p>
 							<ol>
 								<li>XE를 설치한 폴더(여기서는 C:\Inetpub\wwwroot\xe)에서 마우스 오른쪽 버튼을 클릭하여 나타난 컨텍스트 메뉴에서 속성을 선택합니다.</li>
@@ -1038,20 +1183,25 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 								<li> 사용자와 그룹이 모두 추가되었으면 IUSR를 선택하고, 아래의 사용 권한 중 모든 권한에 허용을 클릭한 후 적용을 클릭합니다.
 									<figure> <img src="img/image059.jpg" width="340" height="330" alt="XE 의 사용권한"> </figure>
 								</li>
-								<li> IIS_IUSRS에도 동일하게 모든 권한을 적용하도록 설정합니다.
-									<p>해결 방법(Linux): XE 설치 경로에 files 디렉터리가 있는지 확인합니다.</p>
-									<p>Linux 환경에서는 files 디렉터리가 없으면 mkdir 명령어로 files 디렉터리를 생성하고, chmod 명령어를 이용하여 권한을 설정합니다.</p>
-									<figure> <img src="img/image060.jpg" width="453" height="281" alt="CMD Prompt 화면"> </figure>
-								</li>
+								<li> IIS_IUSRS에도 동일하게 모든 권한을 적용하도록 설정합니다.</li>
+								<dl class="x_dl-horizontal">
+									<dt>해결 방법(Linux):</dt> 
+									<dd>XE 설치 경로에 files 디렉터리가 있는지 확인합니다.</dd>
+								</dl>
+								<p>Linux 환경에서는 files 디렉터리가 없으면 mkdir 명령어로 files 디렉터리를 생성하고, chmod 명령어를 이용하여 권한을 설정합니다.</p>
+								<figure> <img src="img/image060.jpg" width="453" height="281" alt="CMD Prompt 화면"> </figure>
 							</ol>
 						</section>
 						<section class="h3">
 							<h1 id="UMAN_error_ftp_path">쉬운 설치 진행 시 FTP 홈 디렉터리 설정 오류</h1>
-							<ul>
-								<li>오류 사항: &quot;msg_make_directory_failed&quot; 메시지가 나타납니다.</li>
-								<li>원인: 사이트 환경 설정의 '설치된 XE의 FTP경로 설정' 값이 잘못된 경우 발생합니다.</li>
-								<li>해결 방법: 설치된 XE의 절대 경로를 확인하여 값을 다시 설정합니다(XE의 절대 경로 끝에 반드시 '/'를 함께 표기해야 합니다).</li>
-							</ul>
+							<dl class="x_dl-horizontal">
+								<dt>오류 사항: </dt>
+								<dd>&quot;msg_make_directory_failed&quot; 메시지가 나타납니다.</dd>
+								<dt>원인: </dt>
+								<dd>사이트 환경 설정의 '설치된 XE의 FTP경로 설정' 값이 잘못된 경우 발생합니다.</dd>
+								<dt>해결 방법: </dt>
+								<dd>설치된 XE의 절대 경로를 확인하여 값을 다시 설정합니다(XE의 절대 경로 끝에 반드시 '/'를 함께 표기해야 합니다).</dd>
+							</dl>
 						</section>
 					</section>
 				</section>
@@ -1125,6 +1275,13 @@ jQuery(function($){
 	// LNB Mobile Toggle
 	$lnb.find('>button').click(function(){
 		$(this).next().slideToggle(100);
+	});
+	// Active link style
+	$lnb.find('a').click(function(){
+		var $this = $(this);
+		$lnb.find('a').removeClass('active');
+		$this.addClass('active');
+		$($this.attr('href')).attr('tabindex','0').focus();
 	});
 });
 </script>
