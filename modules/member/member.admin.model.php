@@ -213,7 +213,24 @@ class memberAdminModel extends member
 	 *
 	 * @return int
 	 */
-	function getMemberCountByDate($date = '')
+	public function getMemberAdminCountByDate()
+	{
+		if(Context::get('date'))
+		{
+			$date = date('Ymd', strtotime(Context::get('date')));
+		}
+		$count = $this->_getMemberCountByDate($date);
+		$this->add('count', $count);
+	}
+
+	/**
+	 * Return member count with date
+	 * 
+	 * @param string $date
+	 *
+	 * @return int
+	 */
+	private function _getMemberCountByDate($date = '')
 	{
 		if($date) $args->regDate = date('Ymd', strtotime($date));
 
