@@ -104,7 +104,7 @@ class counterModel extends counter
 	 * @param integer $site_srl Site_srl
 	 * @return Object
 	 */
-	function getHourlyStatus($type='hour', $selected_date, $site_srl=0)
+	function getHourlyStatus($type='hour', $selected_date, $site_srl=0, $isPageView=false)
 	{
 		$max = 0;
 		$sum = 0;
@@ -137,7 +137,15 @@ class counterModel extends counter
 					{
 						$output = executeQuery('counter.getCounterStatus', $args);
 					}
-					$count = (int)$output->data->unique_visitor;
+
+					if(!$isPageView)
+					{
+						$count = (int)$output->data->unique_visitor;
+					}
+					else
+					{
+						$count = (int)$output->data->pageview;
+					}
 					$status->list[$i] = $count;
 					if($count>$max) $max = $count;
 					$sum += $count;
@@ -172,7 +180,15 @@ class counterModel extends counter
 					{
 						$output = executeQuery('counter.getCounterStatus', $args);
 					}
-					$count = (int)$output->data->unique_visitor;
+
+					if(!$isPageView)
+					{
+						$count = (int)$output->data->unique_visitor;
+					}
+					else
+					{
+						$count = (int)$output->data->pageview;
+					}
 					$status->list[$day] = (int)$count;
 					if($count>$max) $max = $count;
 					$sum += $count;
@@ -194,7 +210,15 @@ class counterModel extends counter
 					{
 						$output = executeQuery('counter.getCounterStatus', $args);
 					}
-					$count = (int)$output->data->unique_visitor;
+
+					if(!$isPageView)
+					{
+						$count = (int)$output->data->unique_visitor;
+					}
+					else
+					{
+						$count = (int)$output->data->pageview;
+					}
 					$status->list[$i] = (int)$count;
 					if($count>$max) $max = $count;
 					$sum += $count;
@@ -240,7 +264,15 @@ class counterModel extends counter
 					{
 						$output = executeQuery('counter.getCounterStatus', $args);
 					}
-					$count = (int)$output->data->unique_visitor;
+
+					if(!$isPageView)
+					{
+						$count = (int)$output->data->unique_visitor;
+					}
+					else
+					{
+						$count = (int)$output->data->pageview;
+					}
 					$status->list[$i] = $count;
 					if($count>$max) $max = $count;
 					$sum += $count;
@@ -257,6 +289,14 @@ class counterModel extends counter
 	{
 		$date = date('Ymd');
 		$output = $this->getHourlyStatus('week', $date);
+
+		$this->add('data', $output);
+	}
+
+	public function getWeeklyPageView()
+	{
+		$date = date('Ymd');
+		$output = $this->getHourlyStatus('week', $date, 0, true);
 
 		$this->add('data', $output);
 	}

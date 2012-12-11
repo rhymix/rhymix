@@ -3,10 +3,12 @@
     <grants />
     <permissions>
         <permission action="getWeeklyUniqueVisitor" target="manager" />
+        <permission action="getWeeklyPageView" target="manager" />
     </permissions>
     <actions>
         <action name="dispCounterAdminIndex" type="view" standalone="true" admin_index="true" />
         <action name="procCounterExecute" type="controller" standalone="true" />
         <action name="getWeeklyUniqueVisitor" type="model" standalone="true" />
+        <action name="getWeeklyPageView" type="model" standalone="true" />
     </actions>
 </module>
