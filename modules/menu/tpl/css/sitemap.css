@@ -271,9 +271,9 @@ body>.x{max-width:none !important}
 #layout li ul._edit_menu {display:none}
 #layout li.selected ul._edit_menu {display:block}
 #layout .x_btn-group{border-top:1px solid #ddd;padding:10px 0}
-#layout .list{position:relative}
-#layout .mask{display:none;position:absolute;width:100%;height:100%;left:0;top:0;background:#fff;opacity:.5;filter:alpha(opacity=50);z-index:99}
-#layout .disabled>.mask{display:block;cursor:not-allowed}
+#layout .list, #skin .list{position:relative}
+#layout .mask, #skin .mask{display:none;position:absolute;width:100%;height:100%;left:0;top:0;background:#fff;opacity:.5;filter:alpha(opacity=50);z-index:99}
+#layout .disabled>.mask, #skin .disabled>.mask{display:block;cursor:not-allowed}
 /* Message Box */
 #msgBox{width:600px;margin-left:-300px}
 #msgBox._small{width:400px;margin-left:-200px}
@@ -281,6 +281,9 @@ body>.x{max-width:none !important}
 #msgBox._type_alert ._cancel{display:none}
 #msgBox._nobody .x_modal-footer{border-top:0}
 /* Divide local/global settings view */
+._siteDesign .siteMapUI {display:none;}
+._siteMap .siteDesignUI {display:none;}
+
 ._siteDesign #design ._item,
 ._siteDesign #design .x_close,
 ._siteDesign #skin ul ul,
