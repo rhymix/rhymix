@@ -96,7 +96,7 @@
 						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
 						<input type="hidden" name="{$item->name}" value="requierd"/>
 						<th scope="row">
-							<span class="_title" style="padding-left:20px">{$item->title}</span>
+							<span class="_title" style="padding-left:20px">{$item->title} <a data-admin-toggle="#help_menuName" class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></span>
 						</th>
 						<td><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
 						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
