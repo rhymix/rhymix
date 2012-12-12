@@ -231,6 +231,20 @@
 		<value xml:lang="vi"><![CDATA[Lưu]]></value>
 		<value xml:lang="mn"><![CDATA[Хадгалах]]></value>
 	</item>
+	<item name="cmd_upload">
+		<value xml:lang="ko"><![CDATA[업로드]]></value>
+		<value xml:lang="en"><![CDATA[Upload]]></value>
+		<value xml:lang="jp"><![CDATA[Upload]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Upload]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Upload]]></value>
+		<value xml:lang="fr"><![CDATA[Upload]]></value>
+		<value xml:lang="de"><![CDATA[Upload]]></value>
+		<value xml:lang="ru"><![CDATA[Upload]]></value>
+		<value xml:lang="es"><![CDATA[Upload]]></value>
+		<value xml:lang="tr"><![CDATA[Upload]]></value>
+		<value xml:lang="vi"><![CDATA[Upload]]></value>
+		<value xml:lang="mn"><![CDATA[Upload]]></value>
+	</item>
 	<item name="cmd_load">
 		<value xml:lang="ko"><![CDATA[불러오기]]></value>
 		<value xml:lang="en"><![CDATA[Load]]></value>
