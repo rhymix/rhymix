@@ -2563,6 +2563,7 @@ jQuery(function($){
 				sLayoutTitle : sLayoutTitle,
 				sSkinName : sSkinName,
 				sSkinTitle : sSkinTitle,
+				sTmpSkinName : "",
 				htData : {}
 			};
 			
@@ -3453,8 +3454,8 @@ jQuery(function($){
 			$ChkBox.removeAttr('checked');
 		}
 		
-		//updateSkinListDisplayStatus();
 		$('#skin .list').show();
+		//updateSkinListDisplayStatus();
 	});
 	$('#skin').on('hide', function(ev){
 		if(this !== ev.target){
@@ -3477,22 +3478,21 @@ jQuery(function($){
 		$ChkBox = $('#skin ._chkUseDefault');
 		
 		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
-		
 		if($ChkBox.is(':visible') && $ChkBox.attr('checked')){
+			htDesign.sTmpSkinName = htDesign.sSkinName;
+			
 			htDesign.sSkinName = "";
 			htDesign.sSkinTitle = "";
 
 			$('#skin .list').addClass('disabled');
 			$ChkBox.parent().css('fontWeight','bold');
-			//$('#skin .list').hide();
-//.//
+
 			updateSelectedDesign(htDesign);
 		}else{
-		
 			$('#skin .list').removeClass('disabled');
 			$ChkBox.parent().css('fontWeight','normal');
-			
-			//$('#skin .list').show();
+
+			$('#skin .list .selected').click();
 		}
 	}
 	// sType: "P", "M" (PC/Mobile)
@@ -3533,9 +3533,10 @@ jQuery(function($){
 				//console.log(htDesign.sSkinName);
 
 				// if nothing is selected, select the first one.
-				sTmpName = htDesign.sSkinName || htDesign.sTmpSkinName;
-				if(sTmpName == ""){
-					htDesign.sSkinName = sName;
+				sTmpName = htDesign.sTmpSkinName || sName;
+				//console.log(22, sTmpName);
+				if(!htDesign.sSkinName){
+					htDesign.sSkinName = sTmpName;
 				}
 				
 				htInfo = htData.skin_info_list[sName];
@@ -3544,7 +3545,10 @@ jQuery(function($){
 				htInfo.sTitle = htInfo.title;
 
 				sSelected = "";
+				//console.log(33, sTmpName, sName, htDesign.sSkinName, htInfo.sName);
 				if(htDesign.sSkinName == htInfo.sName){
+					//htDesign.sTmpSkinName = "";
+					
 					sSelectedSkinName = htInfo.sName;
 					sSelectedSkinTitle = htInfo.sTitle;
 					sSelected = "selected";
@@ -3557,6 +3561,8 @@ jQuery(function($){
 					SkinName : htInfo.sName
 				}).data('SkinName', htInfo.sName).data('SkinTitle', htInfo.sTitle));
 			}
+			//console.log(sSelectedSkinName);
+			
 			$List.find('.selected input').attr('checked', 'checked');
 			//console.log(sSelectedSrl);
 
@@ -3564,6 +3570,8 @@ jQuery(function($){
 			htDesign.sSkinTitle = sSelectedSkinTitle;
 			htDesign.htSkinData = {};
 			updateSelectedDesign(htDesign);
+			
+			updateSkinListDisplayStatus();
 		});
 	}
 	$('#skin').on('click', 'button._btnScreenshot', function(){
