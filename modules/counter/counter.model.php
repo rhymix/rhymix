@@ -290,6 +290,13 @@ class counterModel extends counter
 		$date = date('Ymd');
 		$output = $this->getHourlyStatus('week', $date);
 
+		$tmp = array();
+		foreach($output->list AS $key=>$value)
+		{
+			$tmp["'".$key."'"] = $value;
+		}
+		$output->list = $tmp;
+
 		$this->add('data', $output);
 	}
 
@@ -297,6 +304,13 @@ class counterModel extends counter
 	{
 		$date = date('Ymd');
 		$output = $this->getHourlyStatus('week', $date, 0, true);
+
+		$tmp = array();
+		foreach($output->list AS $key=>$value)
+		{
+			$tmp["'".$key."'"] = $value;
+		}
+		$output->list = $tmp;
 
 		$this->add('data', $output);
 	}
