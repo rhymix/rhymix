@@ -1666,26 +1666,30 @@ jQuery(function($){
 			$(ev.target).find('._chkUseAsHome').removeAttr('disabled').removeAttr('checked');
 		}
 		
+		loadFullSetup();
+	});
+	function loadFullSetup(){
 		$.exec_json("menu.getMenuAdminDetailSetup", {
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, function(htData){
 			if(htData.simpleSetupHtml){
-				$(ev.target).addClass('_hasFullSetup');
+				$('#properties').addClass('_hasFullSetup');
 				$('#fullSetup').find('._setupHTML').html(htData.simpleSetupHtml);
 				var $form = $('#fullSetup form');
 				$form.attr('target', 'submitTarget');
 				$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.fullSetupSaved"));
 			}else{
-				$(ev.target).removeClass('_hasFullSetup');
+				$('#properties').removeClass('_hasFullSetup');
 				$._xeAdminVar.sFullSetupUrl = htData.setupUrl;
 			}
 		});
-
-	});
+	}
 	top.fullSetupSaved = function(htData){
 		console.log(htData);
-		alert('cool');
+		//alert('cool');
 		$('#fullSetup').hide();
+		
+		loadFullSetup();
 	};
 	$('#properties').bind("hide", function(ev, htOpt){
 		if(htOpt && htOpt.bOpeningProp) return;
