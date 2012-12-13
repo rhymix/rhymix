@@ -5083,7 +5083,10 @@ xe.XE_Editorresize = $.Class({
 		}
 	},
 	$ON_XE_EDITOR_RESIZE : function(){
-		this.inputArea.style.height = this.oIframe.style.height = this.oIframeBody[0].scrollHeight + 'px';
+		var t = this;
+		setTimeout(function(){
+			t.inputArea.style.height = t.oIframe.style.height = t.oIframeBody[0].scrollHeight + 'px';
+		}, 0);
 	}
 });
 //}

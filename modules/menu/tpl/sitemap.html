@@ -124,7 +124,8 @@
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
-					<li><a class="_openFullSetup">{$lang->full_settings} <i class="x_icon-cog"></i></a></li>
+					<li class="_hasFullSetupX"><a href="#" class="_openFullSetup">{$lang->full_settings} <i class="x_icon-cog"></i></a></li>
+					<li class="_hasFullSetupO"><a href="#fullSetup" data-admin-show="#fullSetup">{$lang->full_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
 				</ul>
 			</div>
 		</section>
@@ -1664,7 +1665,28 @@ jQuery(function($){
 		}else{
 			$(ev.target).find('._chkUseAsHome').removeAttr('disabled').removeAttr('checked');
 		}
+		
+		$.exec_json("menu.getMenuAdminDetailSetup", {
+			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
+		}, function(htData){
+			if(htData.simpleSetupHtml){
+				$(ev.target).addClass('_hasFullSetup');
+				$('#fullSetup').find('._setupHTML').html(htData.simpleSetupHtml);
+				var $form = $('#fullSetup form');
+				$form.attr('target', 'submitTarget');
+				$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.fullSetupSaved"));
+			}else{
+				$(ev.target).removeClass('_hasFullSetup');
+				$._xeAdminVar.sFullSetupUrl = htData.setupUrl;
+			}
+		});
+
 	});
+	top.fullSetupSaved = function(htData){
+		console.log(htData);
+		alert('cool');
+		$('#fullSetup').hide();
+	};
 	$('#properties').bind("hide", function(ev, htOpt){
 		if(htOpt && htOpt.bOpeningProp) return;
 
@@ -3616,6 +3638,10 @@ jQuery(function($){
 		$(this).find('.lang_code').trigger('reload-multilingual');
 		console.log($(this).find('.lang_code'));
 	});
+	//.//
+	$('#fullSetup ._save').click(function(ev){
+		$('#fullSetup form').submit();
+	});
 
 	var d365 = new Date();
 	d365.setTime(d365.getTime() + 60*60*24*356);
@@ -3883,36 +3909,32 @@ jQuery(function($){
 	top.fullSetupDone = function(htData){
 		jQuery('#properties').show();
 	}
+	
 	$('a._openFullSetup').click(function(ev){
 		if($._xeAdminVar.oSetupWin){
 			$._xeAdminVar.oSetupWin.close();
 		}
 		
-		ev.preventDefault();
+		$._xeAdminVar.oSetupWin = window.open($._xeAdminVar.sFullSetupUrl, "xe_fullSetup");
 		
-		$('#properties').nextAll().hide();
+		ev.preventDefault();
 		
 		var t = this;		
 		setTimeout(function(){
 			$(t).blur();
 		}, 0);
-		
+		/*
 		$.exec_json("menu.getMenuAdminDetailSetup", {
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, function(htData){
-			console.log(htData.simpleSetupHtml)
-			if(htData.simpleSetupHtml){
-				$('#fullSetup').find('._setupHTML').html(htData.simpleSetupHtml);
-				$('#fullSetup').show();
-			}else{
-				//$._xeAdminVar.oSetupWin = window.open("about:blank", "xe_fullSetup");
-				$._xeAdminVar.oSetupWin = window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
-				//window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
-			}
+			//window.open(htData.setupUrl, "xe_fullSetup", "resizable=yes");
+			$._xeAdminVar.oSetupWin = window.open(htData.setupUrl, "xe_fullSetup");
+			
 		});
+		*/
 		
 	});
-	
+		
 	$('a._siteDesignSetupLink').attr('title', xe.lang.go_to_site_design_setup).click(function(){
 		alert(xe.lang.go_to_site_design_setup);
 	});

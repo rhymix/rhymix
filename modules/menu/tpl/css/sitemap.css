@@ -209,6 +209,11 @@ body>.x{max-width:none !important}
 #properties.prop-shortcut li.homepage,
 #properties.prop-shortcut li.design,
 #properties.prop-shortcut li.details{display:none}
+
+#properties ._hasFullSetupO{display:none}
+#properties._hasFullSetup ._hasFullSetupO{display:block}
+#properties._hasFullSetup ._hasFullSetupX{display:none}
+
 /* Add */
 #add>*>.x_btn-group{border:0;padding:0}
 /* Add Menu */
