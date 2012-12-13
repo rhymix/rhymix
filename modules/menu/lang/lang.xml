@@ -764,6 +764,10 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[HTML/CSS 설정]]></value>
 		<value xml:lang="en"><![CDATA[HTML/CSS settings]]></value>
 	</item>
+	<item name="layout_settings">
+		<value xml:lang="ko"><![CDATA[설정]]></value>
+		<value xml:lang="en"><![CDATA[Settings]]></value>
+	</item>
 	<item name="use_site_default_skin">
 		<value xml:lang="ko"><![CDATA[사이트 기본 스킨 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use site default skin]]></value>

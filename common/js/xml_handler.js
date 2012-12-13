@@ -358,6 +358,11 @@ $.exec_json = function(action,data,func){
     if(typeof(data) == 'undefined') data = {};
     action = action.split(".");
     if(action.length == 2){
+		// The cover can be disturbing if it consistently blinks (because ajax call usually takes very short time). So make it invisible for the 1st 0.5 sec and then make it visible.
+		$(".wfsr").css('opacity', 0.0);
+		setTimeout(function(){
+			$(".wfsr").css('opacity', '');
+		}, 500);
         if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
         $.extend(data,{module:action[0],act:action[1]});
