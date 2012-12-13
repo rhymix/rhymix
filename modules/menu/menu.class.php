@@ -100,6 +100,15 @@ class menu extends ModuleObject
 	function recompileCache()
 	{
 		$oMenuAdminController = &getAdminController('menu');
+		$oMenuAdminModel = &getAdminModel('menu');
+
+		// get home module id
+		$oModuleModel = &getModel('module');
+		$columnList = array('modules.mid',);
+		$output = $oModuleModel->getSiteInfo(0, $columnList);
+		$homeModuleMid = $output->mid;
+		$homeMenuSrl = NULL;
+
 		// Wanted list of all the blog module
 		$output = executeQueryArray("menu.getMenus");
 		$list = $output->data;
@@ -109,6 +118,29 @@ class menu extends ModuleObject
 		{
 			$menu_srl = $menu_item->menu_srl;
 			$oMenuAdminController->makeXmlFile($menu_srl);
+
+			// for homeSitemap.php regenrate
+			if(!$homeMenuSrl)
+			{
+				$menuItemList = $oMenuAdminModel->getMenuItems($menu_srl);
+
+				if(is_array($menuItemList->data))
+				{
+					foreach($menuItemList->data AS $key=>$value)
+					{
+						if($homeModuleMid == $value->url)
+						{
+							$homeMenuSrl = $menu_srl;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		if($homeMenuSrl)
+		{
+			$oMenuAdminController->makeHomemenuCacheFile($homeMenuSrl);
 		}
 	}
 }
