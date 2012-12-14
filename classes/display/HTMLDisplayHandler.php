@@ -331,6 +331,8 @@ class HTMLDisplayHandler
 				$oContext->loadFile(array("./modules/admin/tpl/css/admin.iefix.css", '', 'ie', 10), true);
 				$oContext->loadFile('./modules/admin/tpl/js/admin.js', true);
 				$oContext->loadFile(array('./common/css/bootstrap.css', '', '', 1), true);
+				$oContext->loadFile(array('./modules/admin/tpl/js/jquery.tmpl.js', '', '', 1), true);
+				$oContext->loadFile(array('./modules/admin/tpl/js/jquery.jstree.js', '', '', 1), true);
 			}
 			else
 			{
@@ -339,6 +341,8 @@ class HTMLDisplayHandler
 				$oContext->loadFile(array("./modules/admin/tpl/css/admin.iefix.min.css", '', 'ie', 10), true);
 				$oContext->loadFile('./modules/admin/tpl/js/admin.min.js', true);
 				$oContext->loadFile(array('./common/css/bootstrap.min.css', '', '', 1), true);
+				$oContext->loadFile(array('./modules/admin/tpl/js/jquery.tmpl.js', '', '', 1), true);
+				$oContext->loadFile(array('./modules/admin/tpl/js/jquery.jstree.js', '', '', 1), true);
 			}
 		}
 	}
