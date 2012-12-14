@@ -741,6 +741,114 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 				</section>
 			</section>
 			<section class="h1">
+				<h1 id="UMAN_FAQ">FAQ</h1>
+				<section class="h2">
+					<h1 id="UMAN_faq_member_joinform">회원설정 가입폼 관리</h1>
+					<p>회원 가입폼을 커스터마이징 해서 사용할 수 있습니다. 원하는 폼 형식을 사용해서 회원 가입폼을 만들기 위해서는 다음과 같이 설정하면 됩니다.</p>
+					<ol>
+						<li>'회원 &gt; 회원설정 &gt; 회원가입 &gt; 가입 폼 관리'로 이동합니다. 아래와 같은 모습을 볼 수 있습니다.
+							<figure>
+								<img src="img/faq/joinform_manage.PNG" width="957" height="672" alt="가입 폼 관리">
+								<figcaption>'가입 폼 관리' 설정 화면</figcaption>
+							</figure>
+						</li>
+						<li>'사용' 컬럼에 있는 체크박스를 이용해서 회원 가입시 노출시키고 싶은 대상을 선택할 수 있습니다.</li>
+						<li>최초 설정된 내용 이외의 것을 회원 가입 시 받고 싶다면 '사용자 정의 항목 추가'를 클릭해서 새로운 form을 추가할 수 있습니다.
+							<figure>
+								<img src="img/faq/user_defined_joinform.PNG" width="899" height="474" alt="회원 정의 입력">
+								<figcaption>'회원 정의 입력' 화면</figcaption>
+							</figure>
+						</li>
+						<li>입력항목 ID는 프로그램에서 사용하는 값으로 영문, 숫자로 입력하면 됩니다. 화면에 표시 될 항목 이름은 '입력항목 제목'란에 입력하면 됩니다. 해당 form을 필수로 입력받길 원한다면 '필수/선택'란에서 '필수' 라디오에 체크를 합니다.</li>
+						<li>입력 형식은 매우 다양한 형태를 지원합니다. 원하는 형식을 선택하면 됩니다.
+							<figure>
+								<img src="img/faq/joinform_type.PNG" width="292" height="214" alt="입력 형식">
+								<figcaption>다양한 form 형식 지원</figcaption>
+							</figure>
+						</li>
+					</ol>
+					<h1 id="UMAN_faq_defence_login_limit">계정 무한 대입 방지</h1>
+					<p>악의적인 목적을 가지고 로그인을 시도하는 경우를 방지하고자 로그인 실패 횟수를 제한하는 장치입니다. '계정 무한 대입 방지'를 사용하고자 할 경우에는 다음과 같이 하면 됩니다.</p>
+					<ol>
+						<li>'회원 &gt; 회원설정 &gt; 로그인'으로 이동합니다. 아래와 같은 모습을 볼 수 있습니다.
+							<figure>
+								<img src="img/faq/login_config.PNG" width="1047" height="421" alt="로그인 설정">
+								<figcaption>로그인 설정</figcaption>
+							</figure>
+						</li>
+						<li>'계정 무한 대입 방지 사용'에 '예'를 선택합니다.</li>
+						<li>'로그인 시도 횟수 제한 횟수'에 몇번의 로그인 시도를 허용할지 원하는 숫자를 입력합니다.</li>
+						<li>'로그인 시도 횟수 제한 시간'에는 제한 횟수를 넘겼을 경우 로그인을 허용하지 않을 시간을 입력합니다.</li>
+						<li>10회 이상 로그인이 실패할 경우 아래와 같이 표시 됩니다.
+							<figure>
+								<img src="img/faq/defence_login_limit.PNG" width="214" height="246" alt="로그인 제한 초과">
+								<figcaption>로그인 설정</figcaption>
+							</figure>
+						</li>
+					</ol>
+					<h1 id="UMAN_faq_administrator">관리그룹, 관리자</h1>
+					<p>관리그룹과 관리자와의 이름이 유사하여 혼동이 생길 수 있습니다. 관리그룹과 관리자의 차이는 아래와 같습니다.</p>
+					<ul>
+						<li>관리그룹 : '회원 &gt; 회원 그룹'에 기본적으로 생성되는 그룹으로서 실질적 관리권한이 있는 것이 아닙니다. 각 모듈 별 '권한 관리'에서 관리권한을 '관리그룹'에게 줄 경우 해당 그룹에 속해있는 회원에게 권한이 부여됩니다.</li>
+						<li>관리자 : XE를 최초 설치할 때 입력한 정보의 회원을 말하는 것입니다. 사이트의 모든 실절적 권한은 '관리자'에게 있습니다.</li>
+					</ul>
+					<h1 id="UMAN_faq_temp_document">'임시' 문서</h1>
+					<p>'콘텐츠 &gt; 문서 &gt; 임시'에 보면 문서목록이 보입니다. 여기에 보이게 되는 문서는 회원들이 글을 작성하는 도중 '임시 저장' 버튼을 눌러 저장한 문서입니다.</p>
+					<p>임시 저장한 문서는 다른 회원들에게 보여지지 않습니다.</p>
+					<p>임시 저장한 문서는 추후 글쓰기 화면에서 '불러오기'를 통해 다시 불러 쓸 수 있습니다.</p>
+					<p>임시 저장과 비슷한 개념으로 '자동 저장'이 있습니다. 자동 저장은 임시저장과는 달리 글쓴이가 직접 저장하는 행동을 취하지 않아도 저장되며, 글쓰기를 시작할 때 자동저장 된 글이 있으면 자동저장된 글을 불러올 것인지 물어보게 됩니다. </p>
+					<h1 id="UMAN_faq_file_status">파일 목록의 '유효', '대기'</h1>
+					<p>'콘텐츠 &gt; 파일'에 보면 파일의 상태가 '유효'와 '대기'로 나누어 집니다. 각 상태는 아래와 같습니다.</p>
+					<ul>
+						<li>유효 : 문서를 작성하면서 파일을 등록한 후 <b>문서 작성을 완료</b>한 상태</li>
+						<li>대기 : 문서를 작성하면서 파일을 등록하였지만 아직 <b>문서 작성을 완료하지 않은 상태 또는 작성을 취소한 상태</b>에서 남아있는 파일</li>
+					</ul>
+					<h1 id="UMAN_faq_multilingual">다국어</h1>
+					<p>XE는 하나의 사이트에서 여러 언어로 된 콘텐츠를 제공할 수 있도록 다국어를 지원합니다.</p>
+					<p>또한 관리자가 정의한 다국어를 등록한 다음 등록된 다국어를 사이트에서 사용할 수도 있습니다. 관리자 정의 다국어는 아래와 같은 방법으로 사용합니다.</p>
+					<ol>
+						<li>'콘텐츠 &gt; 다국어'로 이동합니다.</li>
+						<li>'추가'탭에서 원하는 다국어를 입력한 후 '저장' 버튼을 눌러 저장합니다.
+							<figure>
+								<img src="img/faq/add_multilingual.PNG" width="779" height="282" alt="다국어 추가">
+								<figcaption>로그인 설정</figcaption>
+							</figure>
+						</li>
+						<li>이미 추가 된 다국어는 '검색' 탭에서 검색할 수 있습니다.
+							<figure>
+								<img src="img/faq/search_multilingual.PNG" width="782" height="287" alt="다국어 검색">
+								<figcaption>로그인 설정</figcaption>
+							</figure>
+						</li>
+						<li>추가된 다국어는 XE의 곳곳에서 사용 가능합니다. 하나의 예로 위에서 추가한 '한국어'란 다국어를 다음과 같이 활용할 수 있습니다.
+							<ol>
+								<li>'사이트 제작/편집 &gt; 사이트 메뉴 편집'으로 이동합니다.</li>
+								<li>특정 메뉴를 선택 후 '메뉴 수정'을 클릭합니다.</li>
+								<li>메뉴 수정 화면에서 '메뉴 이름' 옆에 나오는 지구본 모양 아이콘을 클릭합니다.
+									<figure>
+										<img src="img/faq/menu_name_modify.PNG" width="547" height="475" alt="메뉴 이름 수정">
+										<figcaption>로그인 설정</figcaption>
+									</figure>
+								</li>
+								<li>다국어 추가, 검색 대화창이 열립니다. 여기서 '검색' 탭을 클릭하고 바로 전에 입력한 '한국어'를 클릭합니다. 다국어가 많을 경우에는 검색을 활용합니다. 검색 입력 폼 앞의 select 옵션을 선택하면 각 언어별로 검색할 수 있습니다. '한국어'가 다국어로 어떻게 쓰일지 보여지고 확인을 하였다면 우측 하단의 '사용' 버튼을 누릅니다.
+									<figure>
+										<img src="img/faq/use_multilingual.PNG" width="918" height="427" alt="다국어 사용">
+										<figcaption>로그인 설정</figcaption>
+									</figure>
+								</li>
+								<li>아래와 같이 적용 된 것을 볼 수 있습니다. 적용된 다국어를 사용하고 싶지 않을 경우에는 X 버튼을 눌러 적용 해제할 수 있습니다.
+									<figure>
+										<img src="img/faq/apply_multilingual.PNG" width="238" height="67" alt="다국어 적용된 모습">
+										<figcaption>로그인 설정</figcaption>
+									</figure>
+								</li>
+							</ol>
+						</li>
+					</ol>
+					<h1 id="UMAN_faq_admin_ip_band">관리자 접속 아이피 대역 관리</h1>
+				</section>
+			</section>
+			<section class="h1">
 				<h1 id="supplement">부록</h1>
 				<section class="h2">
 					<h1 id="UMAN_config_on_window">Windows 환경 설정</h1>
