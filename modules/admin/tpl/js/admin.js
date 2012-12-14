@@ -935,7 +935,20 @@ jQuery(function($){
 
 	$('.module_search').xeModuleSearchHtml();
 });
-
+/*
+// Menu Selector
+jQuery(function($){
+	var tmpCount = 0;
+	_xeModuleSearch = function(){
+		var t = this;
+		var $t = $(this);
+		var is_multiple = $t.data('multiple');
+		if(!is_multiple) is_multiple = '';
+		var id = '__module_searcher_' + tmpCount;
+		tmpCount++;
+	}
+});
+*/
 // Sortable table
 jQuery(function($){
 	var
