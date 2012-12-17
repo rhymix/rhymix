@@ -376,11 +376,11 @@ $.exec_json = function(action,data,func){
             ,success : function(data){
                 $(".wfsr").hide().trigger('cancel_confirm');
                 if(data.error > 0) alert(data.message);
-//				if(data.error == -1 && data.message == 'msg_is_not_administrator'){
-//					alert('You are not logged in as an administrator');
-//					window.location.reload();
-//					return;
-//				}
+				if(data.error == -1 && data.message == 'msg_is_not_administrator'){
+					alert('You are not logged in as an administrator');
+					window.location.reload();
+					return;
+				}
                 if($.isFunction(func)) func(data);
             }
         });
