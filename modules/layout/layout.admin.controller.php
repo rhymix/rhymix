@@ -117,7 +117,24 @@ class layoutAdminController extends layout
 				$menu_srl = Context::get($menu_id);
 				if(!$menu_srl) continue;
 
+				// if menu is -1, get default menu in site
+				if($menu_srl == -1)
+				{
+					$oModuleModel = &getModel('module');
+					$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+					$tmpArgs->url = $start_module->mid;
+					$tmpArgs->site_srl = 0;
+					$output = executeQuery('menu.getMenuItemByUrl', $tmpArgs);
+					if(!$output->toBool())
+					{
+						return new Object(-1, 'fail_to_update');
+					}
+
+					$menu_srl = $output->data->menu_srl;
+				}
+
 				$output = $oMenuAdminModel->getMenu($menu_srl);
+
 				$menu_srl_list[] = $menu_srl;
 				$menu_name_list[$menu_srl] = $output->title;
 
