@@ -170,7 +170,7 @@ body>.x{max-width:none !important}
 .theme .selected>label{font-weight:bold}
 .theme ul ul{white-space:nowrap;float:left;width:100%;margin:5px 0 0 0}
 .theme ul ul a>i{position:absolute;top:2px;right:2px}
-.theme ul ul>li>*{display:block;text-align:left;position:relative;text-decoration:none;padding:0 34px 0 5px;border-radius:3px;color:#000;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s;white-space:nowrap}
+.theme ul ul>li>*{display:block;height:21px;line-height:21px;text-align:left;position:relative;text-decoration:none;padding:0 34px 0 5px;border-radius:3px;color:#000;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s;white-space:nowrap}
 .theme ul ul>li>*:hover,
 .theme ul ul>li>*:focus{background:#666;color:#fff}
 .theme ul ul>li>a:hover>i,
