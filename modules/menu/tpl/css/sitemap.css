@@ -5,7 +5,7 @@ body>.x{max-width:none !important}
 .x>.body>.content{margin-bottom:0}
 #site{position:relative;overflow-x:auto;overflow-y:hidden;white-space:nowrap;margin-top:10px;padding:3px;word-wrap:normal}
 #site .btnBoth,
-#site .x_btn-group{text-align:right;margin:10px 0}
+#site .x_btn-group{text-align:right}
 #site .btnBoth:after{content:"";display:block;clear:both}
 .col{display:inline-block;*display:inline;*zoom:1;vertical-align:top;position:relative;background-color:#ddd;white-space:normal;height:100%;min-width:245px;padding:10px;margin:0 4px 0 0;border-radius:5px;box-shadow:1px 1px 1px #999;background-image:-webkit-linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);background-image:-moz-linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);background-image:-o-linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);background-image:linear-gradient(top, #eee, #ddd 18px, #ccc 18px, #ddd 33px);}
 .col>h1,
@@ -60,7 +60,7 @@ body>.x{max-width:none !important}
 .col .nav li:first-child{border-top:0}
 .col .nav li>a,
 .col .nav li>button{text-align:left;color:#000;line-height:20px;background-color:transparent;border:0;display:block;padding:5px 20px 5px 8px;color:#333;text-decoration:none;background:#fff;overflow:hidden;text-overflow:ellipsis;-webkit-transition:.3s;-moz-transition:.3s;-o-transition:.3s;transition:.3s}
-.col .nav .themeName{font-size:11px;color:#666}
+.col .nav .themeName{font-size:11px;color:#666;font-weight:normal}
 .col .nav li>a{max-width:240px}
 .col .nav li>button{width:100%;max-width:268px}
 .col .nav li>a:hover,
@@ -176,6 +176,7 @@ body>.x{max-width:none !important}
 .theme ul ul>li>a:hover>i,
 .theme ul ul>li>a:focus>i{background-image:url(../../../../common/img/glyphicons-halflings-white.png)}
 .theme ul ul>li>button{width:100%;padding-right:0}
+.theme .x_btn-group{margin:0 !important;padding:0;position:absolute;left:4px;right:4px;bottom:4px}
 /* Add Sitemap */
 #add_sitemap [for="sitemapName"]{font-weight:bold}
 #add_sitemap .btnBoth{position:absolute;margin:0;bottom:4px;left:4px;right:4px}
@@ -209,7 +210,6 @@ body>.x{max-width:none !important}
 #properties.prop-shortcut li.homepage,
 #properties.prop-shortcut li.design,
 #properties.prop-shortcut li.details{display:none}
-
 #properties ._hasFullSetupO{display:none}
 #properties._hasFullSetup ._hasFullSetupO{display:block}
 #properties._hasFullSetup ._hasFullSetupX{display:none}
@@ -275,7 +275,6 @@ body>.x{max-width:none !important}
 /* Layout */
 #layout li ul._edit_menu {display:none}
 #layout li.selected ul._edit_menu {display:block}
-#layout .x_btn-group{border-top:1px solid #ddd;padding:10px 0}
 #layout .list, #skin .list{position:relative}
 #layout .mask, #skin .mask{display:none;position:absolute;width:100%;height:100%;left:0;top:0;background:#fff;opacity:.5;filter:alpha(opacity=50);z-index:99}
 #layout .disabled>.mask, #skin .disabled>.mask{display:block;cursor:not-allowed}
