@@ -126,6 +126,12 @@ class pointModel extends point
 		$search_target = trim(Context::get('search_target'));
 		$search_keyword = trim(Context::get('search_keyword'));
 
+		// if search keyword is emtpy, show all list
+		if(!$search_keyword)
+		{
+			unset($args, $search_target);
+		}
+
 		if($search_target && $search_keyword)
 		{
 			switch($search_target)

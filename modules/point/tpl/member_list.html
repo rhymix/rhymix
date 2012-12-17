@@ -135,7 +135,7 @@
 				<!--@end-->
 			</select>
 			<span class="x_input-append">
-				<input type="search" required name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
+				<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
 				<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 				<button class="x_btn" type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button>
 			</span>
