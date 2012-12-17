@@ -1,7 +1,7 @@
 <include target="./_header.html" />
 <div class="content" id="content">
 	<div class="x_page-header">
-		<h1>{$lang->control_panel}</h1>
+		<h1>{$lang->control_panel} <a class="x_icon-question-sign" href="./help/index.html#UMAN_dashboard" target="_blank">도움말</a></h1>
 	</div>
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -31,7 +31,7 @@
 		<h2>{$lang->available_new_version}</h2>
 		<ul>
 			<li loop="$newVersionList => $key, $package" style="margin:0 0 4px 0">
-				[{$lang->typename[$package->type]}] {$package->title} ver. {$package->version} - <a href="{$package->url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->update}</a>
+				[{$lang->typename[$package->type]} <a class="x_icon-question-sign" href="{$package->helpUrl}" target="_blank" cond="$package->helpUrl">도움말</a>] {$package->title} ver. {$package->version} - <a href="{$package->url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->update}</a>
 			</li>
 		</ul>
 	</div>

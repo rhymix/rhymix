@@ -25,7 +25,7 @@
 		<label class="x_control-label" for="limit_day">{$lang->limit_day}</label>
 		<div class="x_controls">
 			<input type="number" min="0" id="limit_day" name="limit_day" value="{$config->limit_day}" style="width:40px" /> {$lang->unit_day}
-			<p class="x_help-inline">{$lang->about_limit_day}</p>
+			<p class="x_help-block">{$lang->about_limit_day}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -68,7 +68,7 @@
 		</style>
 	</div>
 	<div class="x_control-group">
-		<p class="x_control-label">{$lang->cmd_manage_form}</p>
+		<p class="x_control-label">{$lang->cmd_manage_form} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_member_joinform" target="_blank">도움말</a></p>
 		<div class="x_controls">
 			<table class="__join_form sortable x_table x_table-striped x_table-hover">
 				<thead>
@@ -100,7 +100,7 @@
 						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
 						<input type="hidden" name="{$item->name}" value="requierd"/>
 						<th scope="row">
-							<span class="_title" style="padding-left:20px">{$item->title} <a data-admin-toggle="#help_menuName" class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></span>
+							<span class="_title" style="padding-left:20px">{$item->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></span>
 						</th>
 						<td><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
 						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>

@@ -287,6 +287,36 @@ class adminAdminView extends admin
 		$oAutoinstallAdminModel = getAdminModel('autoinstall');
 		$needUpdateList = $oAutoinstallAdminModel->getNeedUpdateList();
 
+		if(is_array($needUpdateList))
+		{
+			foreach($needUpdateList AS $key=>$value)
+			{
+				$helpUrl = './help/index.html#';
+				switch($value->type)
+				{
+					case 'addon':
+						$helpUrl .= 'UMAN_terminology_addon';
+						break;
+					case 'layout':
+					case 'm.layout':
+						$helpUrl .= 'UMAN_terminology_layout';
+						break;
+					case 'module':
+						$helpUrl .= 'UMAN_terminology_module';
+						break;
+					case 'widget':
+						$helpUrl .= 'UMAN_terminology_widget';
+						break;
+					case 'widgetstyle':
+						$helpUrl .= 'UMAN_terminology_widgetstyle';
+						break;
+					default:
+						$helpUrl = '';
+				}
+				$needUpdateList[$key]->helpUrl = $helpUrl;
+			}
+		}
+
 		Context::set('module_list', $module_list);
 		Context::set('needUpdate', $isUpdated);
 		Context::set('addTables', $addTables);
