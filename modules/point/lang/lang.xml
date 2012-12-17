@@ -640,8 +640,8 @@
 			<value xml:lang="vi"><![CDATA[Đăng nhập ít nhất]]></value>
 		</item>
 		<item name="extra_vars">
-			<value xml:lang="ko"><![CDATA[확장변수]]></value>
-			<value xml:lang="en"><![CDATA[Extra Vars]]></value>
+			<value xml:lang="ko"><![CDATA[사용자 정의]]></value>
+			<value xml:lang="en"><![CDATA[User Defined]]></value>
 			<value xml:lang="jp"><![CDATA[拡張変数]]></value>
 			<value xml:lang="zh-CN"><![CDATA[扩展信息]]></value>
 			<value xml:lang="zh-TW"><![CDATA[延伸變數]]></value>

@@ -1780,8 +1780,8 @@
 		<value xml:lang="mn"><![CDATA[Өнгө тохируулах]]></value>
 	</item>
 	<item name="extra_vars">
-		<value xml:lang="ko"><![CDATA[확장변수]]></value>
-		<value xml:lang="en"><![CDATA[Extra Vars]]></value>
+		<value xml:lang="ko"><![CDATA[사용자 정의]]></value>
+		<value xml:lang="en"><![CDATA[User Defined]]></value>
 		<value xml:lang="jp"><![CDATA[拡張変数]]></value>
 		<value xml:lang="zh-CN"><![CDATA[扩展变量]]></value>
 		<value xml:lang="zh-TW"><![CDATA[延伸變數]]></value>
@@ -3486,8 +3486,8 @@
 		<value xml:lang="mn"><![CDATA[Заавал бөглөх]]></value>
 	</item>
 	<item name="eid">
-		<value xml:lang="ko"><![CDATA[확장변수 이름]]></value>
-		<value xml:lang="en"><![CDATA[Name of extra variable]]></value>
+		<value xml:lang="ko"><![CDATA[사용자 정의 이름]]></value>
+		<value xml:lang="en"><![CDATA[Name of user defined]]></value>
 		<value xml:lang="jp"><![CDATA[拡張変数名]]></value>
 		<value xml:lang="zh-CN"><![CDATA[扩展变量名]]></value>
 		<value xml:lang="zh-TW"><![CDATA[延伸變數名稱]]></value>

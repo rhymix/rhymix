@@ -728,14 +728,14 @@
 		<value xml:lang="vi"><![CDATA[Tên Module chỉ hỗ trợ định dạng [Kí tự], [Kí tự+Số], [Kí tự+Số+_].]]></value>
 	</item>
 	<item name="msg_extra_name_exists">
-		<value xml:lang="ko"><![CDATA[이미 존재하는 확장 변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Already registered extra variable name. Please input another name.]]></value>
+		<value xml:lang="ko"><![CDATA[이미 존재하는 사용자 정의 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Already registered user defined name. Please input another name.]]></value>
 		<value xml:lang="jp"><![CDATA[既に存在する拡張変数名です。他の拡張変数名を入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已有的扩展变量名称，请重新输入！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已存在的延伸變數名稱。請輸入其他名稱。]]></value>
-		<value xml:lang="fr"><![CDATA[이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
-		<value xml:lang="ru"><![CDATA[이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
-		<value xml:lang="es"><![CDATA[이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="fr"><![CDATA[이미 존재하는 사용자 정의 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="ru"><![CDATA[이미 존재하는 사용자 정의 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="es"><![CDATA[이미 존재하는 사용자 정의 이름입니다. 다른 이름을 입력해주세요.]]></value>
 		<value xml:lang="tr"><![CDATA[Önceden kayıtlı değişken isim. Lütfen başka bir tane giriniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Tên biến đã được sử dụng. Xin hãy chọn tên khác.]]></value>
 	</item>
@@ -965,8 +965,8 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="vi"><![CDATA[Hãy nhập tên miền thực tế của Website.<br />Để tìm kiếm những Module không thực tế của Website hãy để trống.]]></value>
 	</item>
 	<item name="about_extra_vars_eid_value">
-		<value xml:lang="ko"><![CDATA[확장 변수의 이름을 적어주세요. 영문, 숫자, _를 조합해서 사용할 수 있으며 첫 글자는 영문이어야 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[Enter the name of extra var. You can use a combination of English alphabets, numbers and underscore(_), as long as it starts with an alphabet.]]></value>
+		<value xml:lang="ko"><![CDATA[사용자 정의 이름을 적어주세요. 영문, 숫자, _를 조합해서 사용할 수 있으며 첫 글자는 영문이어야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Enter the name of user defined. You can use a combination of English alphabets, numbers and underscore(_), as long as it starts with an alphabet.]]></value>
 		<value xml:lang="jp"><![CDATA[拡張変数名を入力してください。　（英字+[英字+数字+_]のみ可能（すべて半角））]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入扩展变量名称(只允许英文字母+[英文字母+数字+_])。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入延伸變數名稱。( 只允許使用英文 + [ 英文，數字及底線 ] )]]></value>
