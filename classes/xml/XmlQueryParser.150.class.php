@@ -44,6 +44,7 @@ if(!defined('__XE_LOADED_XML_CLASS__')){
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
  * @package /classes/xml
+ * @version 0.1
  */
 class XmlQueryParser extends XmlParser {
 

@@ -8,6 +8,7 @@
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
  * @package /classes/xml/xmlquery
+ * @version 0.1
  */
 class QueryParser {
 
