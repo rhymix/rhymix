@@ -17,10 +17,6 @@
 					<option value="" <!--@if($is_admin!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
 					<option value="Y" <!--@if($is_admin=='Y')-->selected="selected"<!--@end-->>{$lang->is_admin}</option>
 				</select>
-				<select name="is_denied" style="width:auto;margin:0">
-					<option value="" <!--@if($is_denied!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
-					<option value="Y" <!--@if($is_denied=='Y')-->selected="selected"<!--@end-->>{$lang->denied}</option>
-				</select>
 				<select name="selected_group_srl" style="width:auto;margin:0" title="{$lang->member_group}">
 					<option value="0">{$lang->member_group}</option>
 					<!--@foreach($group_list as $key => $val)-->
@@ -126,10 +122,6 @@
 			<select name="is_admin" style="width:auto;margin:0">
 				<option value="" <!--@if($is_admin!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
 				<option value="Y" <!--@if($is_admin=='Y')-->selected="selected"<!--@end-->>{$lang->is_admin}</option>
-			</select>
-			<select name="is_denied" style="width:auto;margin:0">
-				<option value="" <!--@if($is_denied!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
-				<option value="Y" <!--@if($is_denied=='Y')-->selected="selected"<!--@end-->>{$lang->denied}</option>
 			</select>
 			<select name="selected_group_srl" style="width:auto;margin:0" title="{$lang->member_group}">
 				<!--@foreach($group_list as $key => $val)-->

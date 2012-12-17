@@ -80,8 +80,6 @@ class memberAdminView extends member
 		{
 			case 'super_admin' : Context::set('filter_type_title', $lang->cmd_show_super_admin_member);break;
 			case 'site_admin' : Context::set('filter_type_title', $lang->cmd_show_site_admin_member);break;
-			case 'enable' :  Context::set('filter_type_title', $lang->approval);break;
-			case 'disable' : Context::set('filter_type_title', $lang->denied);break;
 			default : Context::set('filter_type_title', $lang->cmd_show_all_member);break;
 		}
 		// retrieve list of groups for each member

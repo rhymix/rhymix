@@ -15,10 +15,6 @@
 			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}<block cond="$filter_type==''">({$total_count})</block></a>
 			<i>|</i>
 			<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}<block cond="$filter_type==super_admin">({$total_count})</block></a>
-			<i>|</i>
-			<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}<block cond="$filter_type==enable">({$total_count})</block></a>
-			<i>|</i>
-			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}<block cond="$filter_type==disable">({$total_count})</block></a>
 			<div class="x_pull-right x_btn-group">
 				<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a>
 				<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}...</a>
@@ -31,7 +27,6 @@
 				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col">{$lang->member_group}</th>
-				<th scope="col" class="nowr">{$lang->status}</th>
 				<th scope="col" class="nowr">{$lang->cmd_view}</th>
 				<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
 				<th scope="col">
@@ -46,8 +41,7 @@
 				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col">{$lang->member_group}</th>
-				<th scope="col" class="nowr">{$lang->status}</th>
-				<th scope="col class="nowr"">{$lang->cmd_view}</th>
+				<th scope="col" class="nowr">{$lang->cmd_view}</th>
 				<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
 				<th scope="col">
 					<input type="checkbox" title="Check All" data-name="user" />
@@ -66,8 +60,6 @@
 				<td class="nowr">{zdate($member_info['regdate'], 'Y-m-d')}</td>
 				<td class="nowr">{zdate($member_info['last_login'], 'Y-m-d')}</td>
 				<td>{$member_info['group_list']}&nbsp;</td>
-				{@ $lang_denied = ($member_info['denied'] == 'N')?$lang->approval:$lang->denied}
-				<td class="nowr">{$lang_denied}</td>
 				<td class="nowr">
 					<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_view}</a>
 				</td>
@@ -163,17 +155,12 @@
 						<th scope="col">{$lang->email_address}</th>
 						<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 						<th scope="col" class="text">{$lang->member_group}</th>
-						<th scope="col">{$lang->status}</th>
+						<th scope="col">&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody id="popupBody">
 				</tbody>
 			</table>
-			<div class="x_control-group">
-				<h3>{$lang->status}</h3>
-				<label class="x_inline" ><input type="radio" name="denied" id="approval" value="N" > {$lang->approval}</label> 
-				<label class="x_inline" ><input type="radio" name="denied" id="deny" value="Y" > {$lang->denied}</label> 
-			</div>
 			<div class="x_control-group">
 				<h3>{$lang->member_group}</h3>
 				<label loop="$group_list => $key,$val" for="g{$val->group_srl}" class="x_inline"><input type="checkbox" name="groups[]" id="g{$val->group_srl}" value="{$val->group_srl}"/> {$val->title}</label>
