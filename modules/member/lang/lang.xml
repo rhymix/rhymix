@@ -496,6 +496,18 @@
 		<value xml:lang="tr"><![CDATA[Geçici Zaman Sınırı]]></value>
 		<value xml:lang="vi"><![CDATA[Hạn sử dụng]]></value>
 	</item>
+	<item name="limit_date">
+		<value xml:lang="ko"><![CDATA[제한일]]></value>
+		<value xml:lang="en"><![CDATA[Limit Date]]></value>
+		<value xml:lang="jp"><![CDATA[制限日]]></value>
+		<value xml:lang="zh-CN"><![CDATA[限制日期]]></value>
+		<value xml:lang="zh-TW"><![CDATA[限制日期]]></value>
+		<value xml:lang="fr"><![CDATA[Jour de Limite]]></value>
+		<value xml:lang="ru"><![CDATA[Дата лимита]]></value>
+		<value xml:lang="es"><![CDATA[Límite de fecha]]></value>
+		<value xml:lang="tr"><![CDATA[Zaman Sınırı]]></value>
+		<value xml:lang="vi"><![CDATA[Ngày giới hạn]]></value>
+	</item>
 	<item name="after_login_url">
 		<value xml:lang="ko"><![CDATA[로그인 후 이동할 주소(URL)]]></value>
 		<value xml:lang="en"><![CDATA[URL to redirect after Sign in]]></value>
@@ -1839,7 +1851,7 @@
 		<value xml:lang="vi"><![CDATA[Cho phép thành viên đăng kí.]]></value>
 	</item>
 	<item name="about_enable_confirm">
-		<value xml:lang="ko"><![CDATA[입력된 메일 주소로 인증 메일을 보내, 회원 가입을 확인합니다. 가입자가 인증메일을 통해 인증절차를 완료해야만 정상적으로 로그인이 가능해집니다.]]></value>
+		<value xml:lang="ko"><![CDATA[입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인합니다. 가입자가 인증메일을 통해 인증절차를 완료해야만 정상적으로 로그인이 가능해집니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please check if you want new members to activate their accounts via their emails.]]></value>
 		<value xml:lang="jp"><![CDATA[登録されたメールアドレスに確認メールを送信し、会員登録を確認します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[为激活会员注册信息，将向会员输入的邮件地址发送注册认证邮件。]]></value>
@@ -1872,6 +1884,18 @@
 		<value xml:lang="es"><![CDATA[Usted puede limitar la fecha de la certificación luego de registrar]]></value>
 		<value xml:lang="tr"><![CDATA[Kayıttan sonraki hesap etkinleştirme süresini kısıtlayabilirsiniz]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có thể giới hạn ngày xác nhận sau khi đăng kí.]]></value>
+	</item>
+	<item name="about_limit_date">
+		<value xml:lang="ko"><![CDATA[지정한 날짜까지 로그인을 할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Users cannot sign in until the specified date]]></value>
+		<value xml:lang="jp"><![CDATA[指定された期間まで該当ユーザーはログインできなくします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[直到指定日期该用户不能登录。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[直到指定日期，否則該帳號都無法登入。]]></value>
+		<value xml:lang="fr"><![CDATA[Utilisateur ne peut pas ouverir la connexion jusqu'au jour assigné]]></value>
+		<value xml:lang="ru"><![CDATA[Пользователь не может войти до указанной даты]]></value>
+		<value xml:lang="es"><![CDATA[Usuario no podra conectarse hasta la fecha indicada]]></value>
+		<value xml:lang="tr"><![CDATA[Üyeler, belirlenen tarihe kadar kayıt yapamazlar]]></value>
+		<value xml:lang="vi"><![CDATA[Thành viên không thể đăng nhập nếu quá hạn xác nhận đăng kí.]]></value>
 	</item>
 	<item name="about_after_login_url">
 		<value xml:lang="ko"><![CDATA[로그인 후 이동할 URL을 정할 수 있습니다. 입력 URL이 없는 경우 해당 페이지가 유지됩니다.]]></value>
@@ -2331,6 +2355,18 @@
 		<value xml:lang="en"><![CDATA[Site Admin]]></value>
 		<value xml:lang="jp"><![CDATA[サイト管理者]]></value>
 		<value xml:lang="zh-TW"><![CDATA[網站管理員]]></value>
+	</item>
+	<item name="approval">
+		<value xml:lang="ko"><![CDATA[승인]]></value>
+		<value xml:lang="en"><![CDATA[Approval]]></value>
+		<value xml:lang="jp"><![CDATA[承認]]></value>
+		<value xml:lang="zh-TW"><![CDATA[承認]]></value>
+	</item>
+	<item name="denied">
+		<value xml:lang="ko"><![CDATA[거부]]></value>
+		<value xml:lang="en"><![CDATA[Denied]]></value>
+		<value xml:lang="jp"><![CDATA[拒否]]></value>
+		<value xml:lang="zh-TW"><![CDATA[拒絕]]></value>
 	</item>
 	<item name="use_group_image_mark">
 		<value xml:lang="ko"><![CDATA[그룹 이미지 마크 사용]]></value>
