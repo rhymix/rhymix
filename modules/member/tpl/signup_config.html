@@ -62,10 +62,10 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="agreement">{$lang->agreement}</label>
 		<div class="x_controls">{$editor}</div>
-		<style scoped>
-			#smart_content,
-			#smart_content>.tool{clear:none !important}
-		</style>
+<style scoped>
+#smart_content,
+#smart_content>.tool{clear:none !important}
+</style>
 	</div>
 	<div class="x_control-group">
 		<p class="x_control-label">{$lang->cmd_manage_form} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_member_joinform" target="_blank">도움말</a></p>
@@ -73,23 +73,23 @@
 			<table class="__join_form sortable x_table x_table-striped x_table-hover">
 				<thead>
 				<tr>
-					<th scope="col">{$lang->target}</th>
-					<th scope="col">{$lang->identifier}
+					<th scope="col" class="nowr">{$lang->target}</th>
+					<th scope="col" class="nowr">{$lang->identifier}
 						[<a href="#helpDefault" data-toggle>?</a>]
 						<div class="layer x_alert x_alert-info" id="helpDefault">
 							<p>{$lang->about_identifier}</p>
 						</div>
 					</th>
-					<th scope="col">{$lang->use}</th>
-					<th scope="col">{$lang->cmd_required}/{$lang->cmd_optional}</th>
-					<th scope="col">{$lang->public}
+					<th scope="col" class="nowr">{$lang->use}</th>
+					<th scope="col" class="nowr">{$lang->public}
 						[<a href="#helpPublic" data-toggle>?</a>]
 						<div class="layer x_alert x_alert-info" id="helpPublic">
 							<p>{$lang->about_public_item}</p>
 						</div>
 					</th>
-					<th scope="col" class="text">{$lang->description}</th>
-					<th scope="col">{$lang->cmd_edit}</th>
+					<th scope="col" class="nowr">{$lang->cmd_required}/{$lang->cmd_optional}</th>
+					<th scope="col" class="desc">{$lang->description}</th>
+					<th scope="col" class="nowr">{$lang->cmd_edit}</th>
 				</thead>
 				<tbody class="uDrag">
 	{@$fixed_public_list = array('nick_name', 'find_account_question', 'password')}
@@ -100,16 +100,16 @@
 						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
 						<input type="hidden" name="{$item->name}" value="requierd"/>
 						<th scope="row">
-							<span class="_title" style="padding-left:20px">{$item->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></span>
+							<span class="_title" style="display:inline-block;white-space:nowrap;overflow:hidden;width:120px;text-overflow:ellipsis;padding-left:20px">{$item->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></span>
 						</th>
 						<td><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
 						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
+						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'"/></td>
 						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> {$lang->cmd_optional}</label>
 						</td>
-						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'"/></td>
-						<td class="text">&nbsp;</td>
+						<td class="desc">&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
 					<!--@elseif($item->isDefaultForm)-->
@@ -120,11 +120,12 @@
 						<th scope="row">
 							<div class="wrap">
 								<button type="button" class="dragBtn">Move to</button>
-								<span class="_title">{$item->title}</span>
+								<span class="_title" style="display:inline-block;white-space:nowrap;overflow:hidden;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
 							</div>
 						</th>
 						<td><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
 						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
+						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
 						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_optional}</label>
@@ -146,8 +147,7 @@
 								//]]></script>
 							</div>
 						</td>
-						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
-						<td class="text">&nbsp;</td>
+						<td class="desc">&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
 					<!--@else-->
@@ -157,24 +157,30 @@
 							<input type="hidden" name="{$item->name}_member_join_form_srl" value="{$item->member_join_form_srl}" />
 							<div class="wrap">
 								<button type="button" class="dragBtn">Move to</button>
-								<span class="_title">{$item->title}</span>
+								<span class="_title" style="display:inline-block;white-space:nowrap;overflow:hidden;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
 							</div>
 						</th>
 						<td></td>
 						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
+						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="!$item->isUse" /></td>
 						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->required" disabled="disabled"|cond="!$item->isUse"/> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="$item->isUse && !$item->required" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_optional}</label>
 						</td>
-						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="!$item->isUse" /></td>
-						<td class="text">{$item->description}</td>
-						<td id="{$item->member_join_form_srl}" class="nowr"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->cmd_edit}</a> | <a href="#" class="_extendFormDelete">{$lang->cmd_delete}</a></td>
+						<td class="desc" title="{$item->description}">{$item->description}</td>
+						<td id="{$item->member_join_form_srl}" class="nowr"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->cmd_edit}</a> <i>|</i> <a href="#" class="_extendFormDelete">{$lang->cmd_delete}</a></td>
 					</tr>
 					<!--@end-->
 					<!--@end-->
 				</tbody>
 			</table>
 			<a href="#userDefine" class="modalAnchor _extendFormEdit x_btn" style="min-width:200px">{$lang->add_extend_form}...</a>
+<style scoped>
+.x_table .desc{white-space:nowrap;overflow:hidden;max-width:200px;text-overflow:ellipsis}
+@media all and (max-width:1250px){
+.x_table .desc{display:none}
+}
+</style>
 		</div>
 	</div>
 	</section>
