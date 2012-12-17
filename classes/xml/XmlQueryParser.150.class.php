@@ -43,7 +43,7 @@ if(!defined('__XE_LOADED_XML_CLASS__')){
  * Parses XE XML query files
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package dbclasses
+ * @package /classes/xml
  */
 class XmlQueryParser extends XmlParser {
 
@@ -83,7 +83,7 @@ class XmlQueryParser extends XmlParser {
 		if(!$action) return;
 
 		// Write query cache file
-			$parser = new QueryParser($xml_obj->query);
+		$parser = new QueryParser($xml_obj->query);
 		FileHandler::writeFile($cache_file, $parser->toString());
 
 		return $parser;
