@@ -365,14 +365,14 @@
 							<div class="x_tab-pane x_active" id="pc">
 								<div class="shadow">
 									<iframe name="_pc_preview_ifr" src="about:_blank"></iframe><i class="mask"></i>
-									<input type="submit" class="x_icon-zoom-in _pc_preview_open" value="{$lang->view_zoom}" />
+									<input type="submit" class="x_icon-zoom-in x_icon-white _pc_preview_open" value="{$lang->view_zoom}" />
 								</div>
 							</div>
 							<div class="x_tab-pane" id="mobile">
 								<label class="mvOption"><input type="checkbox" name="use_mobile" value="Y"> {$lang->use_mobile_view}</label>
 								<div class="shadow">
-									<iframe name="_mobile_preview_ifr" src="about:_blank" style="width:480px;height:800px;margin-left:60px"></iframe><i class="mask"></i>
-									<input type="submit" class="x_icon-zoom-in _mobile_preview_open" value="{$lang->view_zoom}" />
+									<iframe name="_mobile_preview_ifr" src="about:_blank"></iframe><i class="mask"></i>
+									<input type="submit" class="x_icon-zoom-in x_icon-white _mobile_preview_open" value="{$lang->view_zoom}" />
 								</div>
 							</div>
 						</div>
@@ -417,9 +417,9 @@
 						</script>
 						<script id="tmpl_layout_list_item_add_new" type="text/x-jquery-tmpl">
 						<li data-admin-show="#downloadLayout">
-							<label>+Add new</label>
+							<label><i class="x_icon-plus-sign"></i> {$lang->install_other_layouts}</label>
 							<button type="button" class="item _btnScreenshot">
-								<img src="./modules/layout/tpl/img/noThumbnail.png" class="_thumbnail">
+								<img src="./modules/layout/tpl/img/download.png" class="_thumbnail" alt="{$lang->install_other_layouts}">
 							</button>
 						</li>
 						</script>
@@ -427,7 +427,7 @@
 						<li class="${Selected} _layoutItem">
 							<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
 							<button type="button" class="item _btnScreenshot" title="{$lang->about_apply_layout}">
-								<img src="${ScreenShotURL}" class="_thumbnail">
+								<img src="${ScreenShotURL}" class="_thumbnail" alt="${Title}">
 							</button>
 							<ul class="_edit_menu">
 								<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>{$lang->full_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
