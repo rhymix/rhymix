@@ -1,13 +1,12 @@
 <?php
 /**
- * ColumnTag class
- * Models the <column> tag inside an XML Query file
- * Since the <column> tag supports different attributes depending on
+ * Models the &lt;column&gt; tag inside an XML Query file <br />
+ * Since the &lt;column&gt; tag supports different attributes depending on
  * the type of query (select, update, insert, delete) this is only
  * the base class for the classes that will model each type <column> tag.
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml/xmlquery/tags/column
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
 class ColumnTag

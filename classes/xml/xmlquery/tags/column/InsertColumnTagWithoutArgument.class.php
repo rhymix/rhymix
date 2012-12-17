@@ -1,10 +1,9 @@
 <?php
 /**
- * InsertColumnTagWithoutArgument
- * Models the <column> tag inside an XML Query file whose action is 'insert-select'
+ * Models the &lt;column&gt; tag inside an XML Query file whose action is 'insert-select'
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml/xmlquery/tags/column
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
 class InsertColumnTagWithoutArgument extends ColumnTag

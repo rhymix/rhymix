@@ -1,28 +1,30 @@
 <?php
 /**
- * SelectColumnTag
- * Models the <column> tag inside an XML Query file whose action is 'select'
+ * Models the &lt;column&gt; tag inside an XML Query file whose action is 'select'
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml/xmlquery/tags/column
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
 class SelectColumnTag extends ColumnTag
 {
 	/**
 	 * Column alias
+	 *
 	 * @var string
 	 */
 	var $alias;
 
 	/**
 	 * Click count status
+	 *
 	 * @var bool
 	 */
 	var $click_count;
 
 	/**
 	 * Constructor
+	 *
 	 * @param string|object $column
 	 * @return void
 	 */
@@ -48,13 +50,16 @@ class SelectColumnTag extends ColumnTag
 	 * Returns the string to be output in the cache file
 	 *
 	 * A select column tag in an XML query can be used for:
-	 *   - a star expression: SELECT *
-	 *   - a click count expression: SELECT + UPDATE
-	 *   - any other select expression (column name, function call etc).
+	 * <ul>
+	 *   <li> a star expression: SELECT *
+	 *   <li> a click count expression: SELECT + UPDATE
+	 *   <li> any other select expression (column name, function call etc). </li>
+	 * </ul>
 	 *
 	 * @return string
 	 */
-	function getExpressionString(){
+	function getExpressionString()
+	{
 		if($this->name == '*') return "new StarExpression()";
 		if($this->click_count)
 			return sprintf('new ClickCountExpression(\'%s\', %s, $args->%s)', $this->name, $this->alias ? '\'' . $this->alias . '\'' : "''",$this->click_count);

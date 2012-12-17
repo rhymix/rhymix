@@ -1,26 +1,29 @@
 <?php
 /**
- * InsertColumnTag
- * Models the <column> tag inside an XML Query file whose action is 'insert'
+ * Models the &lt;column&gt; tag inside an XML Query file whose action is 'insert'
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml/xmlquery/tags/column
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
 class InsertColumnTag extends ColumnTag
 {
 	/**
 	 * Argument
+	 *
 	 * @var QueryArgument object
 	 */
 	var $argument;
 
 	/**
 	 * Constructor
+	 *
 	 * @param object $column
+	 *
 	 * @return void
 	 */
-	function InsertColumnTag($column) {
+	function InsertColumnTag($column)
+	{
 		parent::ColumnTag($column->attrs->name);
 		$dbParser = DB::getParser();
 		$this->name = $dbParser->parseColumnName($this->name);
@@ -34,7 +37,8 @@ class InsertColumnTag extends ColumnTag
 	 *
 	 * @return string
 	 */
-	function getExpressionString(){
+	function getExpressionString()
+	{
 		return sprintf('new InsertExpression(\'%s\', ${\'%s_argument\'})'
 					, $this->name
 					, $this->argument->argument_name);
@@ -45,7 +49,8 @@ class InsertColumnTag extends ColumnTag
 	 *
 	 * @return QueryArgument
 	 */
-	function getArgument(){
+	function getArgument()
+	{
 		return $this->argument;
 	}
 

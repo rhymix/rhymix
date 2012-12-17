@@ -3,17 +3,18 @@
  * File containing the QueryParser class
  */
 /**
- * Parses an XML Object and returns a string used for generating the PHP cache file
+ * Parses an XML Object and returns a string used for generating the PHP cache file <br />
  * The XML Object structure must be the one defined in the XmlParser class
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml/xmlquery
+ * @package classes\xml\xmlquery
  * @version 0.1
  */
 class QueryParser {
 
 	/**
 	 * Property containing the associated QueryTag object
+	 *
 	 * @var QueryTag object
 	 */
 	var $queryTag;
@@ -34,9 +35,9 @@ class QueryParser {
 	}
 
 	/**
-	 * Return table information
-	 * Used for finding column type info (string/numeric)
+	 * Returns table information
 	 *
+	 * Used for finding column type info (string/numeric) <br />
 	 * Obtains the table info from XE's XML schema files
 	 *
 	 * @param object $query_id

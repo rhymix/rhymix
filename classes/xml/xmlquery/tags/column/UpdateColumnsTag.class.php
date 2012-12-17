@@ -1,21 +1,23 @@
 <?php
 /**
- * UpdateColumnsTag
- * Models the <columns> tag inside an XML Query file whose action is 'update'
+ * Models the &lt;columns&gt; tag inside an XML Query file whose action is 'update'
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml/xmlquery/tags/column
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
-class UpdateColumnsTag{
+class UpdateColumnsTag
+{
 	/**
 	 * Column list
+	 *
 	 * @var array value is UpdateColumnTag object
 	 */
 	var $columns;
 
 	/**
 	 * Constructor
+	 *
 	 * @param array|object $xml_columns
 	 * @return void
 	 */

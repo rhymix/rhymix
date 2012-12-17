@@ -1,27 +1,30 @@
 <?php
 /**
- * UpdateColumnTag
- * Models the <column> tag inside an XML Query file whose action is 'update'
+ * Models the &lt;column&gt; tag inside an XML Query file whose action is 'update'
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml/xmlquery/tags/column
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
-class UpdateColumnTag extends ColumnTag {
+class UpdateColumnTag extends ColumnTag
+{
 	/**
 	 * Argument
+	 *
 	 * @var QueryArgument object
 	 */
 	var $argument;
 
 	/**
 	 * Default value
+	 *
 	 * @var string
 	 */
 	var $default_value;
 
 	/**
 	 * Constructor
+	 *
 	 * @param object $column
 	 * @return void
 	 */

@@ -1,16 +1,16 @@
 <?php
 /**
- * SelectColumnsTag class
- * Models the <columns> tag inside an XML Query file whose action is 'select'
+ * Models the &lt;columns&gt; tag inside an XML Query file whose action is 'select'
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml/xmlquery/tags/column
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
 class SelectColumnsTag
 {
 	/**
 	 * Column list
+	 *
 	 * @var array value is SelectColumnTag object
 	 */
 	var $columns;

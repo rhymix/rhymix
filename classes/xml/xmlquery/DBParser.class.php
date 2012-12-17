@@ -3,12 +3,12 @@
  * File containing the DBParser class
  */
 /**
- * Escapes query statements:
- *  - column names: member.member_srl => "member"."member_srl"
- *  - expressions: SUM(member.member_srl) => SUM("member"."member_srl")
+ * Escapes query statements: <br />
+ *  - column names: member.member_srl =&gt; "member"."member_srl" <br />
+ *  - expressions: SUM(member.member_srl) =&gt; SUM("member"."member_srl") <br />
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml/xmlquery
+ * @package classes\xml\xmlquery
  * @version 0.1
  */
 class DBParser
@@ -17,7 +17,7 @@ class DBParser
 	 * Character for escape target value on the left
 	 *
 	 * For example, in CUBRID left and right escape
-	 * chars are the same, the double quote - "
+	 * chars are the same, the double quote - "  <br />
 	 * But for SQL Server, the escape is made with
 	 * [double brackets], so the left and right char differ
 	 *
@@ -30,7 +30,7 @@ class DBParser
 	 * Character for escape target value on the right
 	 *
 	 * For example, in CUBRID left and right escape
-	 * chars are the same, the double quote - "
+	 * chars are the same, the double quote - "   <br />
 	 * But for SQL Server, the escape is made with
 	 * [double brackets], so the left and right char differ
 	 *
@@ -66,6 +66,7 @@ class DBParser
 
 	/**
 	 * Get escape character
+	 *
 	 * @param string $leftOrRight left or right
 	 * @return string
 	 */
@@ -77,6 +78,7 @@ class DBParser
 
 	/**
 	 * Escape the value
+	 *
 	 * @param mixed $name
 	 * @return string
 	 */
@@ -87,6 +89,7 @@ class DBParser
 
 	/**
 	 * Escape the string value
+	 *
 	 * @param string $name
 	 * @return string
 	 */
@@ -97,6 +100,7 @@ class DBParser
 
 	/**
 	 * Escape the string value
+	 *
 	 * @param string $value
 	 * @return string
 	 */
@@ -152,7 +156,7 @@ class DBParser
 	/**
 	 * Checks to see if a given column name is unqualified
 	 *
-	 * Ex: "member_srl"           -> unqualified
+	 * Ex: "member_srl"           -> unqualified <br />
 	 *     "member"."member_srl"  -> qualified
 	 *
 	 * @param string $column_name
@@ -167,7 +171,7 @@ class DBParser
 	/**
 	 * Checks to see if a given column name is qualified
 	 *
-	 * Ex: "member_srl"           -> unqualified
+	 * Ex: "member_srl"           -> unqualified <br />
 	 *     "member"."member_srl"  -> qualified
 	 *
 	 * @param string $column_name
@@ -182,12 +186,17 @@ class DBParser
 	/**
 	 * Escapes a query expression
 	 *
-	 * This can be:
-	 *  - a column name: "member_srl" or "xe_member"."member_srl"
-	 *  - an expression:
-	 *        - LEFT(UPPER("content"))
-	 *        - readed_count + voted_count
-	 *        - CAST(regdate as DATE)
+	 * An expression can be: <br />
+	 * <ul>
+	 *  <li> a column name: "member_srl" or "xe_member"."member_srl"
+	 *  <li> an expression:
+	 *     <ul>
+	 *        <li> LEFT(UPPER("content")) <br />
+	 *        <li> readed_count + voted_count <br />
+	 *        <li> CAST(regdate as DATE) </li>
+	 *     </ul>
+	 *  </li>
+	 * </ul>
 	 *
 	 * @param $column_name
 	 * @return string

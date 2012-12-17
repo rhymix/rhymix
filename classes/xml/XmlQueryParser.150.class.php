@@ -39,17 +39,18 @@ if(!defined('__XE_LOADED_XML_CLASS__')){
 }
 
 /**
- * New XmlQueryParser class
+ * New XmlQueryParser class  <br />
  * Parses XE XML query files
  *
  * @author Corina Udrescu (corina.udrescu@arnia.ro)
- * @package /classes/xml
+ * @package classes\xml
  * @version 0.1
  */
 class XmlQueryParser extends XmlParser {
 
 	/**
 	 * Create XmlQueryParser instance for Singleton
+	 *
 	 * @return XmlQueryParser object
 	 */
 	function &getInstance()
