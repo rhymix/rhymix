@@ -779,10 +779,10 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						<li>'계정 무한 대입 방지 사용'에 '예'를 선택합니다.</li>
 						<li>'로그인 시도 횟수 제한 횟수'에 몇번의 로그인 시도를 허용할지 원하는 숫자를 입력합니다.</li>
 						<li>'로그인 시도 횟수 제한 시간'에는 제한 횟수를 넘겼을 경우 로그인을 허용하지 않을 시간을 입력합니다.</li>
-						<li>10회 이상 로그인이 실패할 경우 아래와 같이 표시 됩니다.
+						<li>위에서 설정한 휫수 이상 로그인이 실패할 경우 아래와 같이 표시 됩니다.
 							<figure>
 								<img src="img/faq/defence_login_limit.PNG" width="214" height="246" alt="로그인 제한 초과">
-								<figcaption>로그인 설정</figcaption>
+								<figcaption>로그인 제한 초과</figcaption>
 							</figure>
 						</li>
 					</ol>
@@ -811,13 +811,13 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						<li>'추가'탭에서 원하는 다국어를 입력한 후 '저장' 버튼을 눌러 저장합니다.
 							<figure>
 								<img src="img/faq/add_multilingual.PNG" width="779" height="282" alt="다국어 추가">
-								<figcaption>로그인 설정</figcaption>
+								<figcaption>다국어 추가</figcaption>
 							</figure>
 						</li>
 						<li>이미 추가 된 다국어는 '검색' 탭에서 검색할 수 있습니다.
 							<figure>
 								<img src="img/faq/search_multilingual.PNG" width="782" height="287" alt="다국어 검색">
-								<figcaption>로그인 설정</figcaption>
+								<figcaption>다국어 검색</figcaption>
 							</figure>
 						</li>
 						<li>추가된 다국어는 XE의 곳곳에서 사용 가능합니다. 하나의 예로 위에서 추가한 '한국어'란 다국어를 다음과 같이 활용할 수 있습니다.
@@ -827,25 +827,59 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 								<li>메뉴 수정 화면에서 '메뉴 이름' 옆에 나오는 지구본 모양 아이콘을 클릭합니다.
 									<figure>
 										<img src="img/faq/menu_name_modify.PNG" width="547" height="475" alt="메뉴 이름 수정">
-										<figcaption>로그인 설정</figcaption>
+										<figcaption>메뉴 이름 수정</figcaption>
 									</figure>
 								</li>
 								<li>다국어 추가, 검색 대화창이 열립니다. 여기서 '검색' 탭을 클릭하고 바로 전에 입력한 '한국어'를 클릭합니다. 다국어가 많을 경우에는 검색을 활용합니다. 검색 입력 폼 앞의 select 옵션을 선택하면 각 언어별로 검색할 수 있습니다. '한국어'가 다국어로 어떻게 쓰일지 보여지고 확인을 하였다면 우측 하단의 '사용' 버튼을 누릅니다.
 									<figure>
 										<img src="img/faq/use_multilingual.PNG" width="918" height="427" alt="다국어 사용">
-										<figcaption>로그인 설정</figcaption>
+										<figcaption>다국어 사용</figcaption>
 									</figure>
 								</li>
 								<li>아래와 같이 적용 된 것을 볼 수 있습니다. 적용된 다국어를 사용하고 싶지 않을 경우에는 X 버튼을 눌러 적용 해제할 수 있습니다.
 									<figure>
 										<img src="img/faq/apply_multilingual.PNG" width="238" height="67" alt="다국어 적용된 모습">
-										<figcaption>로그인 설정</figcaption>
+										<figcaption>다국어 적용된 모습</figcaption>
 									</figure>
 								</li>
+								<li>위와 같이 설정을 마치고 나면 해당 메뉴는 한국어와 영어 모두 지원 됩니다. 한국어로 설정하면 '한국어'라는 메뉴가, 영어로 설정하면 'English'라는 메뉴가 노출되게 됩니다.</li>
 							</ol>
 						</li>
 					</ol>
 					<h1 id="UMAN_faq_admin_ip_band">관리자 접속 아이피 대역 관리</h1>
+					<p>관리자의 아이디와 비밀번호만 알게 되면 관리자로 어느 곳에서나 로그인이 가능합니다. 따라서 관리자 아이디로 접속할 수 있는 아이피 대역을 제한해 두면 보안에 유리합니다.</p>
+					<p>관리자의 아이디로 접속할 수 있는 아이피 대역을 설정하기 위해서는 다음과 같이 하면 됩니다.</p>
+					<ol>
+						<li>'설정 &gt; 일반'을 접속합니다.</li>
+						<li>'고급'의 '관리자 IP대역'에 원하는 IP를 입력합니다.
+							<figure>
+								<img src="img/faq/admin_ip_band.PNG" width="751" height="170" alt="관리자 IP 대역 입력">
+								<figcaption>관리자 IP 대역 입력</figcaption>
+							</figure>
+						</li>
+						<li>ip를 직접 수정하고 싶으신 분은 'XE설치폴더/files/db.config.php'의 "$db_info->admin_ip_list = '127.0.0.1,127.0.0.2';" 부분을 수정해 주면 됩니다.</li>
+						<li>관리자 아이디로 로그인 하였지만 ip 제한에 걸린 경우에는 다음과 같은 모습을 보게 됩니다.
+							<figure>
+								<img src="img/faq/deny_admin_by_ip.PNG" width="419" height="187" alt="관리자 접속 제한">
+								<figcaption>관리자 접속 제한</figcaption>
+							</figure>
+						</li>
+					</ol>
+					<h1 id="UMAN_faq_ssl">SSL 접속</h1>
+					<p>일반 접속은 사용자와 서버간에 전송되는 내용이 암호화되지 않아 중요한 정보가 악의적인 사용자에 의해 탈취당할 수 있습니다. 이를 방지하기 위해 SSL 접속을 사용할 수 있습니다.</p>
+					<p>XE에서는 SSL 접속을 '선택적'으로 또는 '항상' 사용할 수 있습니다.</p>
+					<p>선택적으로 사용할 경우에는 '회원가입', '정보 수정' 등에서만 SSL 접속을 유지합니다.</p>
+					<p>관련 설정은 '설정 &gt; 일반 &gt; 고급 &gt; SSL(Secure Sockets Layer) 사용'에서 선택할 수 있습니다.</p>
+					<blockquote> <strong>참고</strong>
+						<p>서버에 SSL이 설치되어 있지 않은 경우에는 접속 기능이 동작하지 않습니다. 먼저 SSL이 설치되어 있는지 확인 후 사용하시기  바랍니다.</p>
+					</blockquote>
+					<h1 id="UMAN_faq_rewrite">짧은 주소</h1>
+					<p>짧은 주소는 복잡하고 어려운 XE의 주소를 간단하게 사용할 수 있도록 줄여주는 기능입니다. 짧은 주소를 사용하게 되면 아래와 같은 이점이 있습니다.</p>
+					<ul>
+						<li>짧은 주소 : http://xemanual.com/freeboard/123</li>
+						<li>원래 주소 : http://xemanual.com/index.php?mid=freeboard&document_srl=123</li>
+					</ul>
+					<p>짧은 주소를 사용하길 원할 경우에는 '설정 &gt; 일반 &gt; 고급 &gt; 짧은 주소 사용'에 '예'를 선택하신 후 '저장'하면 됩니다.</p>
 				</section>
 			</section>
 			<section class="h1">
