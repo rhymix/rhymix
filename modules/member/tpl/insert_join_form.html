@@ -4,20 +4,20 @@
 	</div>
 	<div class="x_modal-body">
 		<div class="x_control-group">
-			<label for="column_id" class="x_control-label">{$lang->column_id} *</label>
+			<label for="column_id" class="x_control-label"><em style="color:red">*</em> {$lang->column_id}</label>
 			<div class="x_controls">
 				<input type="text" id="column_id" name="column_id" value="{$formInfo->column_name}" />
-				<p class="x_help-inline">{$lang->about_column_id}</p>
+				<p class="x_help-block">{$lang->about_column_id}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="column_title" class="x_control-label">{$lang->column_title} *</label>
+			<label for="column_title" class="x_control-label"><em style="color:red">*</em> {$lang->column_title}</label>
 			<div class="x_controls">
 				<input type="text" id="column_title" name="column_title" value="{$formInfo->column_title}" />
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="columnType" class="x_control-label">{$lang->column_type} *</label>
+			<label for="columnType" class="x_control-label"><em style="color:red">*</em> {$lang->column_type}</label>
 			<div class="x_controls">
 				<select id="columnType" class="typeSelect" name="column_type">
 					<option loop="$lang->column_type_list=>$key,$type_info" value="{$key}" selected="selected"|cond="$formInfo->column_type == $key" >{$lang->column_type_list[$key]}</option>
@@ -25,7 +25,7 @@
 			</div>
 		</div>
 		<div class="x_control-group multiExample">
-			<label for="multiSelect" class="x_control-label">{$lang->options} *</label>
+			<label for="multiSelect" class="x_control-label"><em style="color:red">*</em> {$lang->options}</label>
 			<div class="x_controls">
 				<textarea rows="4" cols="42" id="multiSelect" name="default_value" style="vertical-align:top"><block cond="$default_value">{implode('<enter>', $default_value)}</block></textarea>
 				<p class="x_help-inline">{$lang->about_multi_type}</p>
