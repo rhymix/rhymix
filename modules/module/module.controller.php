@@ -436,11 +436,57 @@ class moduleController extends module
 	}
 
 	/**
-	 * @brief Delete module
-	 *
+	 * Delete module
 	 * Attempt to delete all related information when deleting a module.
+	 * Origin method is changed. because menu validation check is needed
 	 */
 	function deleteModule($module_srl)
+	{
+		if(!$module_srl) return new Object(-1,'msg_invalid_request');
+
+		$site_module_info = Context::get('site_module_info');
+
+		$oModuleModel = &getModel('module');
+		$output = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$args->url = $output->mid;
+		$args->is_shortcut = 'N';
+		$args->site_srl = $site_module_info->site_srl;
+
+		unset($output);
+		$output = executeQuery('menu.getMenuItemByUrl', $args);
+
+		// menu delete
+		if($output->data)
+		{
+			unset($args);
+			$args->menu_srl = $output->data->menu_srl;
+			$args->menu_item_srl = $output->data->menu_item_srl;
+			$args->is_force = 'N';
+
+			$oMenuAdminController = &getAdminController('menu');
+			$output = $oMenuAdminController->deleteItem($args);
+
+			if($output->isSuccess)
+			{
+				return new Object(0, 'success_deleted');
+			}
+			else
+			{
+				return new Object($output->error, $output->message);
+			}
+		}
+		// only delete module
+		else
+		{
+			return $this->onlyDeleteModule($modue_srl);
+		}
+	}
+
+	/**
+	 * Delete module
+	 * Attempt to delete all related information when deleting a module.
+	 */
+	public function onlyDeleteModule($module_srl)
 	{
 		if(!$module_srl) return new Object(-1,'msg_invalid_request');
 

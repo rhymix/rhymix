@@ -150,7 +150,7 @@ class menuAdminController extends menu
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
 				if($moduleInfo->module_srl)
 				{
-					$output = $oModuleController->deleteModule($moduleInfo->module_srl);
+					$output = $oModuleController->onlyDeleteModule($moduleInfo->module_srl);
 					if(!$output->toBool())
 					{
 						$oDB->rollback();
@@ -601,9 +601,25 @@ class menuAdminController extends menu
 	 */
 	function procMenuAdminDeleteItem()
 	{
-		// List variables
-		$args = Context::getRequestVars();
+		// argument variables
+		$args->menu_srl = Context::get('menu_srl');
+		$args->menu_item_srl = Context::get('menu_item_srl');
+		$args->is_force = Context::get('is_force');
 
+		$returnObj = $this->deleteItem($args);
+
+		$this->setMessage('success_deleted');
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+		$this->setRedirectUrl($returnUrl);
+	}
+
+	/**
+	 * Delete menu item ( Only include BO )
+	 * @args menu_srl, menu_item_srl, is_force
+	 * @return void|Object
+	 */
+	public function deleteItem($args)
+	{
 		$oModuleModel = &getModel('module');
 		$oMenuAdminModel = &getAdminModel('menu');
 
@@ -671,10 +687,8 @@ class menuAdminController extends menu
 		$this->add('xml_file', $xml_file);
 		$this->add('menu_title', $menu_title);
 		$this->add('menu_item_srl', $parent_srl);
-		$this->setMessage('success_deleted');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
-		$this->setRedirectUrl($returnUrl);
+		return new Object(0, 'success_deleted');
 	}
 
 	private function _checkHomeMenuInOriginMenu($originMenu, $startMid, &$isStartmenuInclude)
@@ -738,7 +752,7 @@ class menuAdminController extends menu
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($node['url'], $menuInfo->site_srl);
 			if($moduleInfo->module_srl)
 			{
-				$output = $oModuleController->deleteModule($moduleInfo->module_srl);
+				$output = $oModuleController->onlyDeleteModule($moduleInfo->module_srl);
 				if(!$output->toBool())
 				{
 					$oDB->rollback();
