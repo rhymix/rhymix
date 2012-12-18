@@ -117,6 +117,7 @@ jQuery(function($){
 
 		// Add icon
 		$xGnb_li.find('>a').prepend('<i />');
+		$xGnb_li.find('>ul').prev('a').append('<b />');
 		// Active Submenu Copy
 		$xGnb_li.each(function(index){
 			$(this).attr('data-index', index+1);
