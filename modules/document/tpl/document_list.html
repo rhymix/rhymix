@@ -35,8 +35,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			{$status_name_list['TEMP']}
 			<!--@end-->
 			(<strong>{number_format($total_count)}</strong>)
-			<div class="x_pull-right">
-				<a href="#manageForm" class="x_btn modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a>
+			<div class="x_btn-group x_pull-right">
+				<span class="x_btn" style="background:none;cursor:default">{$lang->document_manager}</span>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->cmd_trash}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->cmd_delete}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->cmd_move}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->cmd_copy}</a>
 			</div>
 		</caption>
 		<thead>
@@ -77,7 +81,13 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		</tbody>
 	</table>
 	<div class="x_clearfix">
-		<a href="#manageForm" class="x_btn modalAnchor x_pull-right" onclick="getDocumentList();">{$lang->document_manager}...</a>
+		<div class="x_btn-group x_pull-right">
+			<span class="x_btn" style="background:none;cursor:default">{$lang->document_manager}</span>
+			<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->cmd_trash}</a>
+			<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->cmd_delete}</a>
+			<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->cmd_move}</a>
+			<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->cmd_copy}</a>
+		</div>
 	</div>
 </form>
 <form action="./" class="x_pagination x_pull-left" style="margin:-36px 0 0 0">
@@ -137,7 +147,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="type" value="" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'is_secret', $is_secret, 'search_target', $search_target, 'search_keyword', $search_keyword)}" cond="!empty($search_target) && !empty($search_keyword)" />
 	<div class="x_modal-header">
-		<h3>{$lang->document_manager}</h3>
+		<h3>{$lang->document_manager}: <span class="_sub"></span></h3>
 	</div>
 	<div class="x_modal-body">
 		<table width="100%" id="documentManageListTable" class="x_table x_table-striped x_table-hover">
@@ -152,7 +162,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tbody>
 			</tbody>
 		</table>
-		<div class="x_control-group" style="position:relative">
+		<div class="x_control-group _moveTarget" style="position:relative" hidden>
 			<label>{$lang->selected_document_move}</label>
 			<input type="text" name="module_srl"  class="module_search" />
 		</div>
@@ -162,13 +172,41 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		</div>
 	</div>
 	<div class="x_modal-footer">
-		<div class="x_btn-group x_pull-left">
-			<button type="submit" name="type" value="trash" class="x_btn">{$lang->cmd_trash}</button>
-			<button type="submit" name="type" value="delete" class="x_btn">{$lang->cmd_delete}</button>
-		</div>
-		<div class="x_btn-group x_pull-right">
-			<button type="submit" name="type" value="move" class="x_btn x_btn-inverse">{$lang->cmd_move}</button>
-			<button type="submit" name="type" value="copy" class="x_btn x_btn-inverse">{$lang->cmd_copy}</button>
-		</div>
+		<button type="submit" name="type" value="" class="x_btn x_btn-inverse x_pull-right">{$lang->cmd_confirm}</button>
+		<!-- value="trash|delete|move|copy" -->
 	</div>
 </form>
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#documentListTable');
+	$docTable.find(':checkbox').change(function(){
+		var $modalAnchor = $('a[data-value]');
+		if($docTable.find(':checked').length < 1){
+			$modalAnchor.removeAttr('href').addClass('x_disabled');
+		} else {
+			$modalAnchor.attr('href','#manageForm').removeClass('x_disabled');
+		}
+	}).change();
+	// Button action
+	$('a[data-value]').click(function(){
+		if($docTable.find(':checked').length < 1){
+			$('body').css('overflow','auto');
+			alert('{$lang->msg_not_selected_document}');
+			return false;
+		} else {
+			var $this = $(this);
+			var $moveTarget = $('._moveTarget');
+			var thisValue = $this.attr('data-value');
+			var thisText = $this.text();
+			getDocumentList();
+			$('#manageForm').find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]').val(thisValue).text(thisText);
+			if(thisValue == 'trash' || thisValue == 'delete'){
+				$moveTarget.hide().next().css('borderTopWidth','0');
+			} else {
+				$moveTarget.show().next().css('borderTopWidth','1px');
+			}
+		}
+	});
+});
+</script>

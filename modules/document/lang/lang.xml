@@ -787,7 +787,7 @@
 		<value xml:lang="vi"><![CDATA[Đã chuyển tới thùng rác thành công.]]></value>
 	</item>
 	<item name="msg_not_selected_document">
-		<value xml:lang="ko"><![CDATA[선택된 문서가 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 문서가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There are no selected articles.]]></value>
 		<value xml:lang="jp"><![CDATA[選択された書き込みがありません。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[尚未選擇文章]]></value>
