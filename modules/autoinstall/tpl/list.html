@@ -124,11 +124,11 @@
 	</tbody>
 </table>
 <div class="x_clearfix" style="margin-top:-10px">
+	{@
+		$urlInfo = parse_url(getRequestUriByServerEnviroment());
+		parse_str($urlInfo['query'], $param);
+	}
 	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true">
-		{@
-			$urlInfo = parse_url(getRequestUriByServerEnviroment());
-			parse_str($urlInfo['query'], $param);
-		}
 		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act'))" type="hidden" name="{$key}" value="{$val}" />
 		<ul>
 			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
