@@ -359,9 +359,21 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 							<dt id="UMAN_content_rss">RSS</dt>
 							<dd>XE를 통해 생성된 다양한 모듈의 RSS(Rich Site Summary) 피드를 하나로 묶어서 제공할 수 있습니다. 기본값은 통합피드 사용입니다. 사이트 초기 화면을 통해 통합 피드가 제공되며, 피드 공개가 허용되지 않은 개별 모듈은 피드 목록에서 제외됩니다. 일부 모듈은 피드 공개의 기본값이 공개하지 않음으로 되어 있으므로, 모든 피드를 공개하려면 반드시 개별 모듈의 추가 설정 메뉴에서 피드 공개 항목이 전문 공개 또는 요약 공개로 되어 있는지 확인해야 합니다.</dd>
 							<dt id="UMAN_content_langcode">다국어</dt>
-							<dd>XE는 글로벌 사이트를 별도로 생성하지 않고 하나의 사이트에서 다국어를 지원합니다. 다국어에 추가한 단어/문장에 연동된 목록은 사이트 언어 설정을 변경하면 자동으로 해당 언어의 내용으로 변환되어 표시됩니다. 다국어 메뉴는 사이트에 사용된 다국어 목록을 관리합니다. 등록된 다국어 목록을 확인할 수 있으며, 새로운 단어 또는 문장을 추가할 수 있습니다.</dd>
+							<dd>
+								XE는 글로벌 사이트를 별도로 생성하지 않고 하나의 사이트에서 다국어를 지원합니다. 다국어에 추가한 단어/문장에 연동된 목록은 사이트 언어 설정을 변경하면 자동으로 해당 언어의 내용으로 변환되어 표시됩니다. 다국어 메뉴는 사이트에 사용된 다국어 목록을 관리합니다. 등록된 다국어 목록을 확인할 수 있으며, 새로운 단어 또는 문장을 추가할 수 있습니다.
+								<blockquote> 
+									<strong>참고</strong>
+									<p>다국어의 자세한 사용법은 FAQ의 <a href="#UMAN_faq_multilingual">&quot;다국어&quot;</a>를 참고하시기 바랍니다.</p>
+								</blockquote>
+							</dd>
 							<dt id="UMAN_content_importer">데이터 들여오기</dt>
-							<dd>제로보드4, zb5beta 또는 다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다.</dd>
+							<dd>
+								제로보드4, zb5beta 또는 다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다.
+								<blockquote> 
+									<strong>참고</strong>
+									<p>데이터 들여오기의 자세한 사용법은 FAQ의 <a href="#UMAN_faq_import">&quot;데이터 들여오기&quot;</a>를 참고하시기 바랍니다.</p>
+								</blockquote>
+							</dd>
 							<dt id="UMAN_content_trash">휴지통</dt>
 							<dd>문서나 댓글을 삭제하면 DB에서 바로 제거하지 않고 휴지통으로 이동합니다. 관리자가 내용을 다시 확인한 후 삭제된 문서나 댓글을 복구하거나 완전히 삭제할 수 있습니다.</dd>
 							<dt id="UMAN_content_spamfilter">스팸필터</dt>
@@ -888,6 +900,66 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						<li>원래 주소 : http://xemanual.com/index.php?mid=freeboard&document_srl=123</li>
 					</ul>
 					<p>짧은 주소를 사용하길 원할 경우에는 '설정 &gt; 일반 &gt; 고급 &gt; 짧은 주소 사용'에 '예'를 선택하신 후 '저장'하면 됩니다.</p>
+					<h1 id="UMAN_faq_import">데이터 들여오기</h1>
+					<p>제로보드4, zb5beta 또는 다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다. 데이터의 추출은 공식사이트의 <a href="http://www.xpressengine.com/index.php?mid=download&category_srl=18324038&parent_srl=18322917" target="_blank">자료실</a>에서 다운로드 받으시거나 svn을 통해 <a href="http://xe-migration.googlecode.com/svn/" target="_blank">xe-migration project</a>를 export 받으시면 됩니다.</p>
+					<p>XE의 '게시물 정보'를 다른 XE사이트 게시물로 이전하는 작업을 예로 들어 설명해 드리도록 하겠습니다.</p>
+					<ol>
+						<li>공식사이트의 자료실에서 <a href="http://www.xpressengine.com/index.php?mid=download&category_srl=18324038&parent_srl=18322917&package_srl=18324314" target="_blank">&quot;XpressEngine 데이터 추출 Ver 0.3&quot;</a>을 다운로드 받거나 <a href="http://xe-migration.googlecode.com/svn/" target="_blank">xe-migration project</a>에서 소스를 export 받습니다.</li>
+						<li>다운로드 받은 소스를 URL로 접근 가능한 곳에 압축을 풉니다. 이 예제에서는 XE의 URL이 http://example.com/xe/라면 http://example.com/migration/ 아래로 하겠습니다.</li>
+						<li>브라우져로 http://example.com/migration/index.php으로 접근하면 아래와 같은 모습을 볼 수 있습니다.
+							<figure>
+								<img src="img/faq/export1.PNG" width="569" height="234" alt="XE data export 초기화면">
+								<figcaption>XE data export 초기화면</figcaption>
+							</figure>
+						</li>
+						<li>2번에서 이야기한 url에 근거해 '설치 경로 입력'란에 "../xe" 라고 입력합니다. 절대 경로로 입력해도 됩니다. 사용자에 따라 입력 경로가 달라질 수 있습니다.</li>
+						<li>설치 경로 입력 후 '설치 경로 입력' 버튼을 누르면 아래와 같은 모습을 볼 수 있습니다.
+							<figure>
+								<img src="img/faq/export2.PNG" width="550" height="312" alt="추출 대상 선택">
+								<figcaption>추출 대상 선택</figcaption>
+							</figure>
+						</li>
+						<li>이 예제에서는 게시물 정보를 이전할 예정이니 '게시판'을 선택 후 '자유게시판'을 선택합니다. 선택 후 '추출 대상 선택' 버튼을 누릅니다.</li>
+						<li>아래와 같은 결과가 나옵니다.
+							<figure>
+								<img src="img/faq/export3.PNG" width="562" height="243" alt="추출 옵션 선택 및 다운로드">
+								<figcaption>추출 옵션 선택 및 다운로드</figcaption>
+							</figure>
+						</li>
+						<li>분할 수는 추출하는 데이터를 몇개의 파일로 나누어서 받을 지 결정하는 것입니다. 여기서는 게시물의 수가 많지 않으므로 1개로 받도록 하겠습니다.</li>
+						<li>첨부파일을 포함하고 싶지 않을 경우에는 '첨부파일 미포함'에 체크를 합니다.</li>
+						<li>데이터 들여오기 시 실제 xml 파일을 서버에 올려놓아 사용하거나 URL을 복사해서 사용할 수 있습니다. 여기서는 실제 xml 파일을 다운로드 받아 사용하도록 하겠습니다.</li>
+						<li>옵션을 모두 결정했다면 파일명(module_57395.000001.xml)을 눌러 다운로드를 받습니다.</li>
+						<li>다운로드 받은 파일을 xe가 설치된 위치에 업로드 합니다.</li>
+						<li>관리자의 '콘텐츠 &gt; 데이터 들여오기'로 들어갑니다.</li>
+						<li>'게시물 정보'의 xml 파일 입력 폼에 파일 명을 아래와 같이 입력한 후 '경로 확인' 버튼을 누릅니다.
+							<figure>
+								<img src="img/faq/import1.PNG" width="755" height="415" alt="경로 확인">
+								<figcaption>경로 확인</figcaption>
+							</figure>
+							<blockquote> <strong>참고</strong>
+								<p>실제 파일이 아니라 export에서 복사한 url을 입력해도 됩니다.</br></br>ex) http://example.com/migration/export.php?filename=module_57395.000001.xml&path=..%2Fmaserati&target_module=module&module_id=57395&start=0&limit_count=1232&exclude_attach=</p>
+							</blockquote>
+						</li>
+						<li>'XML 파일을 찾았습니다.'란 메시지가 뜨면서 추가 입력상자가 보이게 됩니다. 'XML 파일을 찾을 수 없습니다.'라는 메시지가 보이게 되면 경로가 잘못 입력한 것이니 경로를 위치가 맞는지 확인해 보아야 합니다.</li>
+						<li>'찾기' 버튼을 통해 어떤 메뉴로 데이터를 이전할 것인지 선택합니다.</li>
+						<li>회원 아이디 기반으로 회원정보를 동기화 시키고 싶다면 '회원정보 동기화' 체크박스에 체크합니다.</li>
+						<li>필요한 내용을 모두 입력하였으면, '데이터 들여오기' 버튼을 클릭합니다. 아래와 같이 '데이터 이전중입니다'라는 프로그레스바가 보이면서 데이터가 이전 됩니다.
+							<figure>
+								<img src="img/faq/import2.PNG" width="533" height="163" alt="데이터 이전 중">
+								<figcaption>데이터 이전 중</figcaption>
+							</figure>
+							<blockquote> <strong>참고</strong>
+								<p>데이터 이전에는 오랜 시간이 걸릴 수 있으므로, 게시물의 수가 많을 경우에는 분할하여 이전하시고 프로그레스바가 표시 중일때는 브라우져를 새로고침하지 말고 기다려 주시기 바랍니다.</p>
+							</blockquote>
+						</li>
+						<li>데이터 이전이 완료되면 아래와 같이 메시지가 나타납니다.
+							<figure>
+								<img src="img/faq/import_complete.PNG" width="604" height="154" alt="데이터 이전 완료">
+								<figcaption>데이터 이전 완료</figcaption>
+							</figure>
+						</li>
+					</ol>
 				</section>
 			</section>
 			<section class="h1">

@@ -20,14 +20,14 @@
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" cond="$member_srl" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispMemberAdminList')}" cond="!$member_srl" />
 	<div cond="$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title}</label>
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></label>
 		<div class="x_controls">
 			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
 			<input id="identifierForm" type="email" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 		</div>
 	</div>
 	<div cond="!$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title}</label>
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></label>
 		<div class="x_controls">
 			<input id="identifierForm" type="text" name="{$identifierForm->name}" value="" />
 		</div>

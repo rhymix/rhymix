@@ -13,7 +13,7 @@
 			<label class="x_control-label">{$lang->total_feed}</label>
 			<div class="x_controls">
 				<label class="x_inline">
-					<input type="radio" name="use_total_feed" value="Y" id="use_total_feed_yes" checked="checked"|cond="!$total_config->use_total_feed || $total_config->use_total_feed == 'Y'" />{$lang->use}(<a href="{getFullSiteUrl()}rss">{getFullSiteUrl()}rss</a>)
+					<input type="radio" name="use_total_feed" value="Y" id="use_total_feed_yes" checked="checked"|cond="!$total_config->use_total_feed || $total_config->use_total_feed == 'Y'" />{$lang->use}(<a href="{getFullSiteUrl()}rss" target="_blank">{getFullSiteUrl()}rss</a>)
 				</label>
 				<label class="x_inline">
 					<input type="radio" name="use_total_feed" value="N" id="use_total_feed_no" checked="checked"|cond="$total_config->use_total_feed == 'N'" />{$lang->notuse}
