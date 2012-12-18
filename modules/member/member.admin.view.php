@@ -390,11 +390,11 @@ class memberAdminView extends member
 			$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
 			if($isAdmin)
 			{
-				if($formInfo->mustRequired) $formTag->title = $formTag->title.' <em style="color:red">*</em>';
+				if($formInfo->mustRequired) $formTag->title = '<em style="color:red">*</em> '.$formTag->title;
 			}
 			else
 			{
-				if ($formInfo->required && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em style="color:red">*</em>';
+				if ($formInfo->required && $formInfo->name != 'password') $formTag->title = '<em style="color:red">*</em> '.$formTag->title;
 			}
 			$formTag->name = $formInfo->name;
 

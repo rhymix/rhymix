@@ -11,7 +11,7 @@
 		<td>{zdate($memberInfo[last_login],"Y-m-d H:i:s")}</td>
 	</tr>
 	<tr loop="$displayDatas => $item">
-		<th scope="row" >{$item->title} <em style="color:red" cond="$item->required || $item->mustRequired">*</em></th>
+		<th scope="row" ><em style="color:red" cond="$item->required || $item->mustRequired">*</em> {$item->title}</th>
 		<td class="text">{$item->value}</td>
 	</tr>
 	<tr>
@@ -38,6 +38,9 @@
 		<th scope="row"><div>{$lang->description}</div></th>
 		<td>{$memberInfo['description']}&nbsp;</td>
 	</tr>
+<style scoped>
+.x_table th{text-align:right}
+</style>
 </table>
 <div class="x_clearfix">
 	<span class="x_pull-left" cond="$member_srl"><button class="x_btn" type="button" onclick="history.go(-1)">{$lang->cmd_back}</button></span>

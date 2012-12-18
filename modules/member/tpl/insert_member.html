@@ -20,27 +20,27 @@
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" cond="$member_srl" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispMemberAdminList')}" cond="!$member_srl" />
 	<div cond="$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm">{$identifierForm->title} <em style="color:red">*</em></label>
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title}</label>
 		<div class="x_controls">
 			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
 			<input id="identifierForm" type="email" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 		</div>
 	</div>
 	<div cond="!$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm">{$identifierForm->title} <em style="color:red">*</em></label>
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title}</label>
 		<div class="x_controls">
 			<input id="identifierForm" type="text" name="{$identifierForm->name}" value="" />
 		</div>
 	</div>
 	<div cond="$member_srl" class="x_control-group">
-		<label class="x_control-label" for="password">{$lang->password} <em style="color:red">*</em></label>
+		<label class="x_control-label" for="password"><em style="color:red">*</em> {$lang->password}</label>
 		<div class="x_controls">
 			<input type="hidden" name="password" value="{$member_info->password}" />
 			<input id="password" type="text" name="reset_password" value="" />
 		</div>
 	</div>
 	<div cond="!$member_srl" class="x_control-group">
-		<label class="x_control-label" for="password">{$lang->password} <em style="color:red">*</em></label>
+		<label class="x_control-label" for="password"><em style="color:red">*</em> {$lang->password}</label>
 		<div class="x_controls">
 			<input id="password" type="text" name="password" value="" />
 		</div>
