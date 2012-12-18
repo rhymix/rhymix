@@ -33,17 +33,6 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 				<th scope="col"><input type="checkbox" title="Check All" /></th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<th scope="col" class="text">{$lang->title}</th>
-				<th scope="col" class="nowr">{$lang->poll_checkcount}</th>
-				<th scope="col" class="nowr">{$lang->poll_join_count}</th>
-				<th scope="col" class="nowr">{$lang->author}</th>
-				<th scope="col" class="nowr">{$lang->regdate}</th>
-				<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
-				<th scope="col"><input type="checkbox" title="Check All" /></th>
-			</tr>
-		</tfoot>
 		<tbody>
 			<tr loop="$poll_list => $no,$val">
 				<td class="title"><a href="<!--@if($val->document_srl)-->{getUrl('')}?document_srl={$val->document_srl}<!--@end--><!--@if($val->comment_srl)-->#comment_{$val->comment_srl}<!--@end-->" target="_blank">{$val->title}</a></td>

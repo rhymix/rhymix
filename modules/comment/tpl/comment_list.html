@@ -37,18 +37,6 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<th scope="col">{$lang->comment}</th>
-				<th scope="col" class="nowr">{$lang->writer}</th>
-				<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
-				<th scope="col" class="nowr">{$lang->date}</th>
-				<th scope="col" class="nowr">{$lang->ipaddress}</th>
-				<th scope="col" class="nowr">{$lang->status}</th>
-				<th scope="col">{$lang->published}</th>
-				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
-			</tr>
-		</tfoot>
 		<tbody>
 			<tr loop="$comment_list => $no, $val">
 				{@ $comment = cut_str(trim(strip_tags($val->content)), 200, '...')}

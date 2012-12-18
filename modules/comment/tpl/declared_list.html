@@ -34,16 +34,6 @@
 				<th scope="col" style="width:15px"><input type="checkbox" /></th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<th scope="col">{$lang->comment}</th>
-				<th scope="col">{$lang->user_name}</th>
-				<th scope="col">{$lang->date}</th>
-				<th scope="col">{$lang->cmd_declare}</th>
-				<th scope="col">{$lang->ipaddress}</th>
-				<th scope="col" style="width:15px"><input type="checkbox" /></th>
-			</tr>
-		</tfoot>
 		<tbody>
 			<tr loop="$comment_list => $no, $oComment">
 				<td><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$oComment->getSummary(100)}</a></td>
