@@ -1,31 +1,23 @@
 <include target="./common_header.html" />
-<h1 class="h1">{$lang->member_info}</h1>
-<div class="table even">
-	<table class="x_table x_table-striped x_table-hover">
-		<tr loop="$displayDatas => $item">
-			<th scope="row" >{$item->title} <em cond="$item->required || $item->mustRequired">*</em></th>
-			<td class="text">{$item->value}</td>
-		</tr>
-		<tr>
-			<th scope="row">{$lang->member_group}</th>
-			<td class="text">{implode(', ', $memberInfo['group_list'])}</td>
-		</tr>
-		<tr>
-			<th>{$lang->signup_date}</th>
-			<td>{zdate($memberInfo[regdate],"Y-m-d")}</td>
-		</tr>
-		<!--@if($memberInfo[member_srl] == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
-		<tr>
-			<th>{$lang->last_login}</th>
-			<td>{zdate($memberInfo[last_login],"Y-m-d")}</td>
-		</tr>
-		<!--@end-->
-    </table>
-</div>
-<div class="btnArea" cond="$memberInfo['member_srl'] == $logged_info->member_srl">
-	<span class="btn" cond="$member_config->identifier == 'email_address'"><a href="{getUrl('act', 'dispMemberModifyEmailAddress')}">{$lang->cmd_modify_member_email_address}</a></span>
-	<span class="btn"><a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}">{$lang->cmd_modify_member_info}</a></span>
-	<span class="btn"><a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}">{$lang->cmd_modify_member_password}</a></span>
-	<span class="btn"><a href="{getUrl('act','dispMemberLeave','member_srl','')}">{$lang->cmd_leave}</a></span>
+<h1>{$lang->member_info}</h1>
+<dl class="x_dl-horizontal">
+	<block loop="$displayDatas => $item">
+		<dt><em cond="$item->required || $item->mustRequired">*</em> {$item->title}</dt>
+		<dd>{$item->value}</dd>
+	</block>
+	<dt>{$lang->member_group}</dt>
+	<dd>{implode(', ', $memberInfo['group_list'])}</dd>
+	<dt>{$lang->signup_date}</dt>
+	<dd>{zdate($memberInfo[regdate],"Y-m-d")}</dd>
+	<block cond="$memberInfo[member_srl] == $logged_info->member_srl || $logged_info->is_admin == 'Y'">
+		<dt>{$lang->last_login}</dt>
+		<dd>{zdate($memberInfo[last_login],"Y-m-d")}</dd>
+	</block>
+</dl>
+<div class="btnArea x_btn-group" cond="$memberInfo['member_srl'] == $logged_info->member_srl">
+	<a href="{getUrl('act', 'dispMemberModifyEmailAddress')}" class="x_btn" cond="$member_config->identifier == 'email_address'">{$lang->cmd_modify_member_email_address}</a>
+	<a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="x_btn">{$lang->cmd_modify_member_info}</a>
+	<a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="x_btn">{$lang->cmd_modify_member_password}</a>
+	<a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="x_btn">{$lang->cmd_leave}</a>
 </div>
 <include target="./common_footer.html" />

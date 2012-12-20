@@ -1,8 +1,7 @@
 <include target="./common_header.html" />
-<h1 class="h1">{$member_title = $lang->cmd_view_saved_document}</h1>
-<div class="table even">
-	<table class="x_table x_table-striped x_table-hover">
-	<caption>Total: {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+<h1>{$member_title = $lang->cmd_view_saved_document}</h1>
+<table class="x_table x_table-striped x_table-hover">
+	<caption>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</caption>
 	<thead>
 		<tr>
 			<th class="title">{$lang->title}</th>
@@ -21,16 +20,13 @@
 		</tr>
 	</tbody>
 </table>
-</div>
-<div class="pagination">
-    <a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a> 
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <strong>{$page_no}</strong> 
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
-        <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
+<div class="x_pagination x_pagination-centered">
+	<ul>
+		<li><a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {$lang->first_page}</a></li> 
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		<li class="x_active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li> 
+		<!--@end-->
+		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a></li>
+	</ul>
 </div>
 <include target="./common_footer.html" />

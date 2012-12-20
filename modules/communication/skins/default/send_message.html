@@ -1,10 +1,8 @@
-<load target="js/communication.js" />
 <load target="../../../../common/css/bootstrap.min.css" />
-
+<load target="js/communication.js" />
 <div class="x_page-header">
 	<h1>{$lang->cmd_send_message}</h1>
 </div>
-
 <div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -20,7 +18,7 @@
 		</tr>
 		<tr>
 			<th scope="row">{$lang->title}</th>
-			<td><input type="text" name="title" id="message_title" value="{$source_message->title}"/></td>
+			<td><input type="text" name="title" id="message_title" value="{$source_message->title}" style="width:90%" /></td>
 		</tr>
 		<tr>
 			<th scope="row">{$lang->cmd_option}</th>
@@ -29,6 +27,6 @@
 	</table>
 	{$editor}
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_send_message}" /></span>
+		<input type="submit" value="{$lang->cmd_send_message}" class="x_btn x_btn-inverse" />
 	</div>
 </form>
