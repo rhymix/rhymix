@@ -72,24 +72,25 @@
 		<div class="x_controls">
 			<table class="__join_form sortable x_table x_table-striped x_table-hover">
 				<thead>
-				<tr>
-					<th scope="col" class="nowr">{$lang->target}</th>
-					<th scope="col" class="nowr">{$lang->identifier}
-						[<a href="#helpDefault" data-toggle>?</a>]
-						<div class="layer x_alert x_alert-info" id="helpDefault">
-							<p>{$lang->about_identifier}</p>
-						</div>
-					</th>
-					<th scope="col" class="nowr">{$lang->use}</th>
-					<th scope="col" class="nowr">{$lang->public}
-						[<a href="#helpPublic" data-toggle>?</a>]
-						<div class="layer x_alert x_alert-info" id="helpPublic">
-							<p>{$lang->about_public_item}</p>
-						</div>
-					</th>
-					<th scope="col" class="nowr">{$lang->cmd_required}/{$lang->cmd_optional}</th>
-					<th scope="col" class="desc">{$lang->description}</th>
-					<th scope="col" class="nowr">{$lang->cmd_edit}</th>
+					<tr>
+						<th scope="col" class="nowr" style="text-align:center">{$lang->target}</th>
+						<th scope="col" class="nowr" style="text-align:center">{$lang->identifier}
+							[<a href="#helpDefault" data-toggle>?</a>]
+							<div class="layer x_alert x_alert-info" id="helpDefault">
+								<p>{$lang->about_identifier}</p>
+							</div>
+						</th>
+						<th scope="col" class="nowr" style="text-align:center">{$lang->use}</th>
+						<th scope="col" class="nowr" style="text-align:center">{$lang->public}
+							[<a href="#helpPublic" data-toggle>?</a>]
+							<div class="layer x_alert x_alert-info" id="helpPublic">
+								<p>{$lang->about_public_item}</p>
+							</div>
+						</th>
+						<th scope="col" class="nowr" style="text-align:center">{$lang->cmd_required}/{$lang->cmd_optional}</th>
+						<th scope="col" class="desc" style="text-align:center">{$lang->description}</th>
+						<th scope="col" class="nowr" style="text-align:center">{$lang->cmd_edit}</th>
+					</tr>
 				</thead>
 				<tbody class="uDrag">
 	{@$fixed_public_list = array('nick_name', 'find_account_question', 'password')}
@@ -102,15 +103,15 @@
 						<th scope="row">
 							<span class="_title" style="display:inline-block;white-space:nowrap;overflow:hidden;width:120px;text-overflow:ellipsis;padding-left:20px">{$item->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></span>
 						</th>
-						<td><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
-						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
-						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'"/></td>
-						<td class="nowr">
+						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
+						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
+						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'"/></td>
+						<td class="nowr" style="text-align:center">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> {$lang->cmd_optional}</label>
 						</td>
 						<td class="desc">&nbsp;</td>
-						<td>&nbsp;</td>
+						<td style="text-align:center">&nbsp;</td>
 					</tr>
 					<!--@elseif($item->isDefaultForm)-->
 					<tr class="_imageType"|cond="$item->imageType">
@@ -123,10 +124,10 @@
 								<span class="_title" style="display:inline-block;white-space:nowrap;overflow:hidden;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
 							</div>
 						</th>
-						<td><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
-						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
-						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
-						<td class="nowr">
+						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
+						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
+						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
+						<td class="nowr" style="text-align:center">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_optional}</label>
 							<div cond="$item->imageType" class="_subItem" style="display:none">
@@ -148,7 +149,7 @@
 							</div>
 						</td>
 						<td class="desc">&nbsp;</td>
-						<td>&nbsp;</td>
+						<td style="text-align:center">&nbsp;</td>
 					</tr>
 					<!--@else-->
 					<tr>
@@ -161,20 +162,20 @@
 							</div>
 						</th>
 						<td></td>
-						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
-						<td><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="!$item->isUse" /></td>
-						<td class="nowr">
+						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
+						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="!$item->isUse" /></td>
+						<td class="nowr" style="text-align:center">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->required" disabled="disabled"|cond="!$item->isUse"/> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="$item->isUse && !$item->required" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_optional}</label>
 						</td>
 						<td class="desc" title="{$item->description}">{$item->description}</td>
-						<td id="{$item->member_join_form_srl}" class="nowr"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->cmd_edit}</a> <i>|</i> <a href="#" class="_extendFormDelete">{$lang->cmd_delete}</a></td>
+						<td id="{$item->member_join_form_srl}" class="nowr" style="text-align:center"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->cmd_edit}</a> <i>|</i> <a href="#" class="_extendFormDelete">{$lang->cmd_delete}</a></td>
 					</tr>
 					<!--@end-->
 					<!--@end-->
 				</tbody>
 			</table>
-			<a href="#userDefine" class="modalAnchor _extendFormEdit x_btn" style="min-width:200px">{$lang->add_extend_form}</a>
+			<a href="#userDefine" class="modalAnchor _extendFormEdit x_btn"><i class="x_icon-plus-sign"></i> {$lang->add_extend_form}</a>
 <style scoped>
 .x_table .desc{white-space:nowrap;overflow:hidden;max-width:200px;text-overflow:ellipsis}
 @media all and (max-width:1250px){
