@@ -72,7 +72,7 @@ class documentModelTest extends PHPUnit_Framework_TestCase
 		$inputObj->category_srl = 237465;
 		$inputObj->title = 'title';
 		$inputObj->extra_vars2 = 'extra_vars';
-		$inputObj->_saved_doc_message = "자동 저장된 글이 있습니다. 복구할까요?\n글을 다 쓰신 후 저장하면 자동 저장 본은 사라집니다.";
+		$inputObj->_saved_doc_message = "자동 저장된 글이 있습니다. 복구하시겠습니까?\n글을 다 쓰신 후 저장하면 자동 저장 본은 사라집니다.";
 		$inputObj->comment_status = 'ALLOW';
 		$inputObj->allow_trackback = 'Y';
 		$inputObj->status = 'PUBLIC';

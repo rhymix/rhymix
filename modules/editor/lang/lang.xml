@@ -136,7 +136,7 @@
 		<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
 	</item>
 	<item name="msg_do_you_like_update">
-		<value xml:lang="ko"><![CDATA[업데이트할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
 		<value xml:lang="jp"><![CDATA[アップデートしますか？]]></value>
 	</item>
@@ -371,25 +371,16 @@
 		<value xml:lang="vi"><![CDATA[Lựa chọn Thành phần sau một khu vực.]]></value>
 	</item>
 	<item name="msg_load_saved_doc">
-		<value xml:lang="ko"><![CDATA[자동 저장된 글이 있습니다. 복구할까요?
-글을 다 쓰신 후 저장하면 자동 저장 본은 사라집니다.]]></value>
+		<value xml:lang="ko"><![CDATA[자동 저장된 글이 있습니다. 복구하시겠습니까? 글을 다 쓰신 후 저장하면 자동 저장 본은 사라집니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is a draft automatically saved. Do you want to restore it? The auto-saved draft will be discarded when you write and save it.]]></value>
-		<value xml:lang="jp"><![CDATA[自動保存された書き込みがあります。復旧しますか？
-書き終わってから登録すると前の自動保存データは削除されます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[有自动保存的内容， 确定要恢复吗？
-发布主题后，自动保存的文本将会被删除。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[有自動儲存的內容，確定要恢復嗎?
-儲存內容後，自動儲存的內容將會被刪除。]]></value>
-		<value xml:lang="fr"><![CDATA[Il y a un article conservé automatiquement. Voulez-vous le réstaurer?
-L'esquisse conservé automatiquement va être débarrasser après conserver l'article courant.]]></value>
-		<value xml:lang="ru"><![CDATA[Существует автоматически сохраненная статья. Хотите ли Вы ее восстановить?
-Автоматически сохраненный черновик будет отменен после сохранения текущей статьи]]></value>
-		<value xml:lang="es"><![CDATA[Existe un documento guardado automáticamente ¿desea recuperarlo ?
-Después de guardar el documento escrito, el documento autoguardado sera eliminado.]]></value>
-		<value xml:lang="tr"><![CDATA[Kendiliğinden kaydolan bir makale mevcut. Bunu kurtarmak ister misiniz?
-Otomatik kaydolan taslak, geçerli makaleyi kaydedince, çıkartılacaktır]]></value>
-		<value xml:lang="vi"><![CDATA[Đã có bài viết tự động lưu. Bạn có muốn khôi phục nó không?
-Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành bài viết này và bấm 'Gửi']]></value>
+		<value xml:lang="jp"><![CDATA[自動保存された書き込みがあります。復旧しますか？書き終わってから登録すると前の自動保存データは削除されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[有自动保存的内容， 确定要恢复吗？发布主题后，自动保存的文本将会被删除。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[有自動儲存的內容，確定要恢復嗎? 儲存內容後，自動儲存的內容將會被刪除。]]></value>
+		<value xml:lang="fr"><![CDATA[Il y a un article conservé automatiquement. Voulez-vous le réstaurer? L'esquisse conservé automatiquement va être débarrasser après conserver l'article courant.]]></value>
+		<value xml:lang="ru"><![CDATA[Существует автоматически сохраненная статья. Хотите ли Вы ее восстановить? Автоматически сохраненный черновик будет отменен после сохранения текущей статьи]]></value>
+		<value xml:lang="es"><![CDATA[Existe un documento guardado automáticamente ¿desea recuperarlo ? Después de guardar el documento escrito, el documento autoguardado sera eliminado.]]></value>
+		<value xml:lang="tr"><![CDATA[Kendiliğinden kaydolan bir makale mevcut. Bunu kurtarmak ister misiniz? Otomatik kaydolan taslak, geçerli makaleyi kaydedince, çıkartılacaktır]]></value>
+		<value xml:lang="vi"><![CDATA[Đã có bài viết tự động lưu. Bạn có muốn khôi phục nó không? Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành bài viết này và bấm 'Gửi']]></value>
 	</item>
 	<item name="msg_auto_saved">
 		<value xml:lang="ko"><![CDATA[자동 저장되었습니다.]]></value>
@@ -1973,7 +1964,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			<value xml:lang="vi"><![CDATA[Đóng hướng dẫn]]></value>
 		</item>
 		<item name="confirm_submit_without_saving">
-			<value xml:lang="ko"><![CDATA[저장하지 않은 단락이 있습니다.\n그냥 전송할까요?]]></value>
+			<value xml:lang="ko"><![CDATA[저장하지 않은 단락이 있습니다.\n그냥 전송하시겠습니까?]]></value>
 			<value xml:lang="en"><![CDATA[There are paragraphs which were not saved.\nProceed anyway?]]></value>
 			<value xml:lang="jp"><![CDATA[まだ保存してない内容があります。\nそのまま転送してよろしいでしょうか？]]></value>
 			<value xml:lang="zh-CN"><![CDATA[尚有未保存的段落。\n确定要提交吗？]]></value>

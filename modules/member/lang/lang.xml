@@ -1333,8 +1333,8 @@
 		<value xml:lang="en"><![CDATA[Re-checked password]]></value>
 	</item>
 	<item name="msg_update_member">
-		<value xml:lang="ko"><![CDATA[회원 정보 수정]]></value>
-		<value xml:lang="en"><![CDATA[Modify User Info]]></value>
+		<value xml:lang="ko"><![CDATA[회원정보 조회/수정]]></value>
+		<value xml:lang="en"><![CDATA[Inquiry/Modify User Info]]></value>
 		<value xml:lang="jp"><![CDATA[会員情報修正]]></value>
 		<value xml:lang="zh-CN"><![CDATA[修改会员信息]]></value>
 		<value xml:lang="zh-TW"><![CDATA[修改會員資料]]></value>

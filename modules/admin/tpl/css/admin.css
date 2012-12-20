@@ -61,6 +61,7 @@ body>.x,
 .x .x_btn-group>.x_btn:last-child, 
 .x .x_btn-group>.x_dropdown-toggle{border-top-right-radius:2px;border-bottom-right-radius:2px}
 .x .x_btn-group>.x_btn:first-child{border-bottom-left-radius:2px;border-top-left-radius:2px}
+.x .x_btn-group>.x_btn-inverse+.x_btn-inverse{border-left-color:#555}
 .x input[type="radio"], 
 .x input[type="checkbox"]{margin:0}
 .x input[type="file"]{height:auto}
@@ -139,8 +140,8 @@ body>.x,
 .x td p,
 .x p:last-child{margin-bottom:0}
 .x form{margin:0 0 10px 0}
-.x form .x_btn-primary[type="submit"]:only-of-type{min-width:160px}
-.x .x_help-inline{display:inline;vertical-align:baseline}
+.x form .x_btn-primary[type="submit"]:only-of-type{min-width:120px}
+.x .x_help-inline{display:inline}
 .x .x_btn.x_disabled, 
 .x .x_btn[disabled]{opacity:.5;filter:alpha(opacity=50);cursor:not-allowed}
 @media all and (max-width:980px){
@@ -435,9 +436,9 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x .moduleWindow select{width:100%}
 /* Text List */
 .x .textList{border:1px solid #ddd !important;line-height:1.5em;height:125px;overflow:auto}
-.x .textList li{border:0;padding:0 10px;height:25px;line-height:25px;white-space:nowrap;overflow:hidden}
+.x .textList li{position:relative;border:0;padding:0 10px;height:25px;line-height:25px;white-space:nowrap;overflow:hidden}
 .x .textList li:nth-child(even){background:#eee}
-.x .textList li a{float:right;height:25px}
+.x .textList li>button{position:absolute;right:8px;top:50%;margin:-7px 0 0 0}
 /* Up-Down Dragable */
 .x .uDrag .wrap{position:relative;padding-left:20px}
 .x .uDrag li>.wrap{margin:0 0 0 8px}

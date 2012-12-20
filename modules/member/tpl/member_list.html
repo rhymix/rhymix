@@ -31,8 +31,7 @@
 				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col">{$lang->member_group}</th>
-				<th scope="col" class="nowr">{$lang->cmd_view}</th>
-				<th scope="col" class="nowr">{$lang->cmd_modify}</th>
+				<th scope="col" class="nowr">{$lang->inquiry}/{$lang->cmd_modify}</th>
 				<th scope="col">
 					<input type="checkbox" title="Check All" data-name="user" />
 				</th>
@@ -50,10 +49,7 @@
 				<td class="nowr">{zdate($member_info['regdate'], 'Y-m-d')}</td>
 				<td class="nowr">{zdate($member_info['last_login'], 'Y-m-d')}</td>
 				<td>{$member_info['group_list']}&nbsp;</td>
-				<td class="nowr">
-					<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_view}</a>
-				</td>
-				<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_modify}</a></td>
+				<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->inquiry}/{$lang->cmd_modify}</a></td>
 				{@$used_values = ''}
 				<!--@foreach($usedIdentifiers as $name=>$title)-->
 					{@$used_values .= "\t".$member_info[$name]}

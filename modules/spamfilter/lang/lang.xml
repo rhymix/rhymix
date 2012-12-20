@@ -241,12 +241,12 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 		<value xml:lang="vi"><![CDATA[Chỉ cho phép một liên kết Web trên một bài viết.]]></value>
 	</item>
 	<item name="cmd_interval">
-		<value xml:lang="ko"><![CDATA[10초 동안 3회 이상 글을 작성하면 스패머로 간주할까요? 글, 댓글 작성과 엮인글 발송을 차단합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[10초 동안 3회 이상 글을 작성하면 스패머로 간주하시겠습니까? 글, 댓글 작성과 엮인글 발송을 차단합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to blacklist the users who attempt to post articles more than 3 times for 10 seconds? The blacklisted users cannot write articles or comments and send trackbacks.]]></value>
 	　　<value xml:lang="jp"><![CDATA[10秒の間3回以上書き込みをすると、スパムとみなしますか？書き込み、コメント作成とトラックバックの送信をブロックします。]]></value>
 	</item>
 	<item name="cmd_check_trackback">
-		<value xml:lang="ko"><![CDATA[하나의 글에 2회 이상 엮인글을 등록하면 스패머로 간주할까요? 엮인글을 차단합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[하나의 글에 2회 이상 엮인글을 등록하면 스패머로 간주하시겠습니까? 엮인글을 차단합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to blacklist the users who attempt to post more than 2 trackbacks to one article? The blacklisted users cannot post trackbacks.]]></value>
 	　　<value xml:lang="jp"><![CDATA[ひとつの書き込みに2回以上トラックバックを登録するとスパムとみなしますか？トラックバックをブロックします。]]></value>
 	</item>

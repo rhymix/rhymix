@@ -637,7 +637,7 @@
 		<value xml:lang="tr"><![CDATA[Gereksiz ve ya yanlış olan önbellek dosyalarını silmek istediğinizden emin misiniz?]]></value>
 	</item>
 	<item name="confirm_run">
-		<value xml:lang="ko"><![CDATA[오랜 시간이 걸릴 수 있습니다. 실행할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[오랜 시간이 걸릴 수 있습니다. 실행하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[It may take a long time. Do you want to run?]]></value>
 		<value xml:lang="zh-CN"><![CDATA[此过程可能需要耗费一段时间，是否继续?]]></value>
 		<value xml:lang="tr"><![CDATA[Bu işlem biraz uzun sürebilir. Başlatmak istiyor musunuz?]]></value>
@@ -1021,7 +1021,7 @@
 		<value xml:lang="tr"><![CDATA[CSS XE çekirdek, js dosyaları CDN teklif almak için deneyin.]]></value>
 	</item>
 	<item name="about_arrange_session">
-		<value xml:lang="ko"><![CDATA[세션을 정리할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[세션을 정리하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to clean up session?]]></value>
 		<value xml:lang="jp"><![CDATA[セッションを整理しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[你想要整理session吗？]]></value>
@@ -1229,7 +1229,7 @@
 		<value xml:lang="tr"><![CDATA[Admin menüsünü sıfırlayın]]></value>
 	</item>
 	<item name="confirm_reset_admin_menu">
-		<value xml:lang="ko"><![CDATA[관리자 메뉴를 초기화할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[관리자 메뉴를 초기화하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to initialize the admin menu?]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请确认是否初始化后台菜单]]></value>
 		<value xml:lang="tr"><![CDATA[Admin menüsünü başlatmak istediğinize emin misiniz?]]></value>

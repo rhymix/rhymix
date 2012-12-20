@@ -318,5 +318,5 @@ $lang->filter->invalid_alpha_number = "The format of %s is invalid. Please input
 $lang->filter->invalid_number = "The format of %s is invalid. Please input numbers only";
 
 $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
-$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동할까요?';
+$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
 ?>

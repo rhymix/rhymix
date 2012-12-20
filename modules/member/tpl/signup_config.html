@@ -33,7 +33,7 @@
 		<div class="x_controls">
 			<p>{sprintf($lang->count_manage_nick_name, count($deniedNickNames))}</p>
 			<ul class="textList" id="deniedNickNameList" style="margin-left:0">
-				<li loop="$deniedNickNames=>$nicknameInfo" id="denied_{$nicknameInfo->nick_name}">{$nicknameInfo->nick_name} <a href="#" class="side" onclick="doUpdateDeniedNickName('{$nicknameInfo->nick_name}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</a></li>
+				<li loop="$deniedNickNames=>$nicknameInfo" id="denied_{$nicknameInfo->nick_name}">{$nicknameInfo->nick_name} <button type="button" class="x_icon-remove" onclick="doUpdateDeniedNickName('{$nicknameInfo->nick_name}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</button></li>
 			</ul>
 			<textarea rows="2" cols="42" id="prohibited_nick_name" title="{$lang->add_prohibited_id}" style="vertical-align:top"></textarea>
 			<button type="button" class="_addDeniedNickName x_btn">{$lang->add}</button>
@@ -45,7 +45,7 @@
 		<div class="x_controls">
 			<p>{sprintf($lang->count_manage_id, count($deniedIDs))}</p>
 			<ul class="textList" id="deniedList" style="margin-left:0">
-				<li loop="$deniedIDs=>$denied_info" id="denied_{$denied_info->user_id}">{$denied_info->user_id} <a href="#" class="side" onclick="doUpdateDeniedID('{$denied_info->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</a></li>
+				<li loop="$deniedIDs=>$denied_info" id="denied_{$denied_info->user_id}">{$denied_info->user_id} <button type="button" class="x_icon-remove" onclick="doUpdateDeniedID('{$denied_info->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</button></li>
 			</ul>
 			<textarea rows="2" cols="42" id="prohibited_id" title="{$lang->add_prohibited_id}" style="vertical-align:top"></textarea>
 			<button type="button" class="_addDeniedID x_btn">{$lang->add}</button>

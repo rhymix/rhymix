@@ -143,7 +143,7 @@
 		<value xml:lang="vi"><![CDATA[%d đã được xóa.]]></value>
 	</item>
 	<item name="confirm_poll_delete">
-		<value xml:lang="ko"><![CDATA[%s개의 설문을 삭제할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[%s개의 설문을 삭제하시겠습니까?]]></value>
 	</item>
 	<item name="msg_check_poll_item">
 		<value xml:lang="ko"><![CDATA[설문에 응할 항목을 선택하여 주세요. (설문조사 마다 필수 선택항목이 다를 수 있습니다.)]]></value>
@@ -182,7 +182,7 @@
 		<value xml:lang="vi"><![CDATA[Không có giá trị để gửi một thăm dò. Xin hãy thử lại.]]></value>
 	</item>
 	<item name="confirm_poll_submit">
-		<value xml:lang="ko"><![CDATA[설문조사에 응할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[설문조사에 응하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Confirm to submit the poll?]]></value>
 		<value xml:lang="jp"><![CDATA[アンケート調査に応募しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您要参与投票吗？]]></value>
