@@ -80,7 +80,7 @@ jQuery(function ($){
 		if ($targetImage.length){
 			$targetImage.attr('src', src);
 		}else{
-			$targetImage = $('<img src="'+src+'" alt="" />').insertBefore(this);
+			$targetImage = $('<img src="'+src+'" alt="" style="margin-right:4px" />').insertBefore(this);
 		}
 		$imageMarkHidden.val(src);
 	});

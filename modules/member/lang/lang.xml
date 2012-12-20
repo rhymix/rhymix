@@ -2393,8 +2393,8 @@
 		<value xml:lang="zh-TW"><![CDATA[新增群組圖標]]></value>
 	</item>
 	<item name="link_file_box">
-		<value xml:lang="ko"><![CDATA[파일박스 관리 바로가기...]]></value>
-		<value xml:lang="en"><![CDATA[Go to Manage FileBox...]]></value>
+		<value xml:lang="ko"><![CDATA[파일박스 관리 바로가기]]></value>
+		<value xml:lang="en"><![CDATA[Go to Manage FileBox]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルボックス管理]]></value>
 		<value xml:lang="zh-TW"><![CDATA[前往檔案盒]]></value>
 	</item>

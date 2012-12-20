@@ -65,14 +65,14 @@
 		</div>
 		<div class="x_control-group">
 			<label for="disable_download" class="x_control-label">{$lang->disable_download}</label>
-			<div class="x_controls">
+			<div class="x_controls" style="padding-top:3px">
 				<input type="checkbox" name="disable_download" id="disable_download" value="Y" checked="checked"|cond="$config->disable_download=='Y'" />
 				{$lang->about_disable_download}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="disable_read_document" class="x_control-label">{$lang->disable_read_document}</label>
-			<div class="x_controls">
+			<div class="x_controls" style="padding-top:3px">
 				<input type="checkbox" name="disable_read_document" id="disable_read_document" value="Y" checked="checked"|cond="$config->disable_read_document=='Y'" />
 				{$lang->about_disable_read_document}
 			</div>
@@ -91,22 +91,14 @@
 				<label for="group_reset_n" class="x_inline"><input type="radio" name="group_reset" id="group_reset_n" value="N" checked="checked"|cond="$config->group_reset == 'N'" /> {$lang->point_group_add_only}</label>
 			</div>
 		</div>
-		<table class="x_table x_table-striped x_table-hover">
-			<thead>
-				<tr>
-					<th>{$lang->member_group}</th>
-					<th>{$lang->level}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr loop="$group_list => $key,$val">
-					<td><label for="point_group_{$key}">{$val->title}</label></td>
-					<td cond="$val->is_default != 'Y'"><input type="number" min="0" max="1000" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:50px" /></td>
-					<td cond="$val->is_default == 'Y'"><span>{$lang->default_group}</span></td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="x_clearfix">
+		<div class="x_control-group" loop="$group_list => $key,$val">
+			<label class="x_control-label" for="point_group_{$key}">{$val->title}</label>
+			<div class="x_controls">
+				<input cond="$val->is_default != 'Y'" type="number" min="0" max="1000" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:50px" />
+				<span cond="$val->is_default == 'Y'" style="display:inline-block;padding-top:3px">{$lang->default_group}</span>
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
 			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
 	</section>

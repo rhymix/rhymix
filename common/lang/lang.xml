@@ -2621,10 +2621,10 @@
 		<value xml:lang="zh-TW"><![CDATA[系統正在連接伺服器，請稍後。]]></value>
 		<value xml:lang="fr"><![CDATA[En demandant sur le serveur, attendez S.V.P.]]></value>
 		<value xml:lang="de"><![CDATA[Request an den Server senden, bitte warten!]]></value>
-		<value xml:lang="ru"><![CDATA[Идет обработка. Пожалуйста, подождите...]]></value>
+		<value xml:lang="ru"><![CDATA[Идет обработка. Пожалуйста, подождите]]></value>
 		<value xml:lang="es"><![CDATA[Solicitando al servidor, espere un momento]]></value>
 		<value xml:lang="tr"><![CDATA[Sunucuya bağlanıyor, lütfen bekleyiniz]]></value>
-		<value xml:lang="vi"><![CDATA[Đang kết nối tới máy chủ, Xin vui lòng đợi! ...]]></value>
+		<value xml:lang="vi"><![CDATA[Đang kết nối tới máy chủ, Xin vui lòng đợi! ]]></value>
 		<value xml:lang="mn"><![CDATA[Сервер ачаалж байна. Түр хүлээнэ үү.]]></value>
 	</item>
 	<item name="msg_db_not_setted">

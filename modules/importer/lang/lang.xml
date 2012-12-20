@@ -28,10 +28,10 @@
 		<value xml:lang="ko"><![CDATA[데이터 이전을 위한 사전 준비 중입니다.]]></value>
 		<value xml:lang="en"><![CDATA[XE is preparing for importing.]]></value>
 		<value xml:lang="jp"><![CDATA[データ移転のため、準備中です。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[正准备数据导入...]]></value>
-		<value xml:lang="zh-TW"><![CDATA[匯入資料中...]]></value>
+		<value xml:lang="zh-CN"><![CDATA[正准备数据导入]]></value>
+		<value xml:lang="zh-TW"><![CDATA[匯入資料中]]></value>
 		<value xml:lang="fr"><![CDATA[On est en train de préparer pour transférer les données.]]></value>
-		<value xml:lang="ru"><![CDATA[Идет подготовка для импортирования данных...]]></value>
+		<value xml:lang="ru"><![CDATA[Идет подготовка для импортирования данных]]></value>
 		<value xml:lang="es"><![CDATA[데이터 이전을 위한 사전 준비중입니다.]]></value>
 		<value xml:lang="tr"><![CDATA[XE içe aktarım için hazırlanıyor.]]></value>
 		<value xml:lang="vi"><![CDATA[Đang chuẩn bị cho việc chuyển dữ liệu.]]></value>
@@ -279,7 +279,7 @@ You may input both the absolute and relative path.]]></value>
 			<value xml:lang="fr"><![CDATA[Entrez le chemin du fichier en XML pour transférer les données.
 S'il est localisé dans le même compte, entréz le chemin absolut ou relatif. Sinon, entrez l'URL commençant avec http://..]]></value>
 			<value xml:lang="ru"><![CDATA[Пожайлуста, введите расположение XML файла, который Вы хотите импортировать.
-Если он находится в одном аккаунте, то введите абсолютный/относительный путь. Если нет, то введите URL, начинающийся с http://...]]></value>
+Если он находится в одном аккаунте, то введите абсолютный/относительный путь. Если нет, то введите URL, начинающийся с http://]]></value>
 			<value xml:lang="es"><![CDATA[Ingrese la ubicación del archivo XML para transfer los datos.
 Puede ser ruta absoluto o relativo.]]></value>
 			<value xml:lang="tr"><![CDATA[lütfen içe aktarılacak veriyi içeren XML dosyalarının konumunu giriniz.
@@ -301,14 +301,14 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		</item>
 		<item name="99">
 			<value xml:lang="ko"><![CDATA[데이터 이전중입니다.]]></value>
-			<value xml:lang="en"><![CDATA[Importing...]]></value>
+			<value xml:lang="en"><![CDATA[Importing]]></value>
 			<value xml:lang="jp"><![CDATA[データを変換しています。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[正在数据导入中...]]></value>
-			<value xml:lang="zh-TW"><![CDATA[資料匯入中...]]></value>
+			<value xml:lang="zh-CN"><![CDATA[正在数据导入中]]></value>
+			<value xml:lang="zh-TW"><![CDATA[資料匯入中]]></value>
 			<value xml:lang="fr"><![CDATA[En train de transférer]]></value>
 			<value xml:lang="ru"><![CDATA[Идет процесс импортирования данных]]></value>
 			<value xml:lang="es"><![CDATA[데이터를 이전중입니다]]></value>
-			<value xml:lang="tr"><![CDATA[İçe Aktarılıyor...]]></value>
+			<value xml:lang="tr"><![CDATA[İçe Aktarılıyor]]></value>
 			<value xml:lang="vi"><![CDATA[Đang đồng bộ hóa dữ liệu.]]></value>
 		</item>
 	</item>

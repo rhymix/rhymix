@@ -271,12 +271,12 @@
 		<value xml:lang="vi"><![CDATA[Chọn lọc Module]]></value>
 	</item>
 	<item name="do_selected">
-		<value xml:lang="ko"><![CDATA[선택된 것들을...]]></value>
+		<value xml:lang="ko"><![CDATA[선택된 것들을]]></value>
 		<value xml:lang="en"><![CDATA[I want to]]></value>
-		<value xml:lang="jp"><![CDATA[選択したものを...]]></value>
-		<value xml:lang="zh-CN"><![CDATA[把所选模块...]]></value>
-		<value xml:lang="zh-TW"><![CDATA[選擇項目...]]></value>
-		<value xml:lang="ru"><![CDATA[Выбранные...]]></value>
+		<value xml:lang="jp"><![CDATA[選択したものを]]></value>
+		<value xml:lang="zh-CN"><![CDATA[把所选模块]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇項目]]></value>
+		<value xml:lang="ru"><![CDATA[Выбранные]]></value>
 		<value xml:lang="tr"><![CDATA[Şunu yap]]></value>
 		<value xml:lang="vi"><![CDATA[Bình chọn / Phê bình.]]></value>
 	</item>
@@ -420,7 +420,7 @@
 		<value xml:lang="tr"><![CDATA[Başlık Betiği(script)]]></value>
 	</item>
 	<item name="about_header_script">
-		<value xml:lang="ko"><![CDATA[HTML &lt;head&gt;...&lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. 예) &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; ...]]></value>
+		<value xml:lang="ko"><![CDATA[HTML &lt;head&gt;...&lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. 예) &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; ]]></value>
 		<value xml:lang="en"><![CDATA[You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself. You can use &lt;script&gt;, &lt;style&gt; or &lt;meta&gt; tags.]]></value>
 		<value xml:lang="jp"><![CDATA[HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力できます。 &lt;script&gt;、&lt;style&gt;または&lt;meta&gt;タグなどを利用できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以直接输入插入到html中&lt;head&gt;区的代码。 可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等标签。]]></value>
@@ -1005,10 +1005,10 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="zh-TW"><![CDATA[XE 目前支援 12 種國際語言。 想添加其他語言，請將 /common/lang/ 目錄的檔案新增翻譯後，寄至 XE 開發團隊(contact@xpressengine.com)]]></value>
 	</item>
 	<item name="add_word">
-		<value xml:lang="ko"><![CDATA[새로운 단어 또는 문장 추가...]]></value>
-		<value xml:lang="en"><![CDATA[Add New Word or Sentence...]]></value>
-		<value xml:lang="jp"><![CDATA[新しい単語、または文章追加...]]></value>
-		<value xml:lang="zh-TW"><![CDATA[新增文字或字句...]]></value>
+		<value xml:lang="ko"><![CDATA[새로운 단어 또는 문장 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add New Word or Sentence]]></value>
+		<value xml:lang="jp"><![CDATA[新しい単語、または文章追加]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增文字或字句]]></value>
 	</item>
 	<item name="installed_modules">
 		<value xml:lang="ko"><![CDATA[설치된 모듈]]></value>

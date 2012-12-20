@@ -268,13 +268,13 @@
 		<value xml:lang="vi"><![CDATA[Xóa những bài đã chọn]]></value>
 	</item>
 	<item name="cmd_document_do">
-		<value xml:lang="ko"><![CDATA[이 게시물을...]]></value>
+		<value xml:lang="ko"><![CDATA[이 게시물을]]></value>
 		<value xml:lang="en"><![CDATA[I want to]]></value>
 		<value xml:lang="jp"><![CDATA[この書き込みを..]]></value>
 		<value xml:lang="zh-CN"><![CDATA[将把此主题..]]></value>
 		<value xml:lang="zh-TW"><![CDATA[將此文章..]]></value>
 		<value xml:lang="fr"><![CDATA[Vous voudriez..]]></value>
-		<value xml:lang="ru"><![CDATA[Эту запись...]]></value>
+		<value xml:lang="ru"><![CDATA[Эту запись]]></value>
 		<value xml:lang="es"><![CDATA[Usted ..]]></value>
 		<value xml:lang="tr"><![CDATA[Şunu yap]]></value>
 		<value xml:lang="vi"><![CDATA[Bình chọn / Phê bình]]></value>

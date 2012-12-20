@@ -114,12 +114,12 @@
 		</item>
 		<item name="uploading">
 			<value xml:lang="ko"><![CDATA[업로드 중입니다]]></value>
-			<value xml:lang="en"><![CDATA[Uploading...]]></value>
+			<value xml:lang="en"><![CDATA[Uploading]]></value>
 			<value xml:lang="jp"><![CDATA[アップロードしています。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[正在上传图片…]]></value>
-			<value xml:lang="zh-TW"><![CDATA[上傳中...]]></value>
-			<value xml:lang="tr"><![CDATA[Yükleniyor...]]></value>
-			<value xml:lang="vi"><![CDATA[Đang Upload ...]]></value>
+			<value xml:lang="zh-TW"><![CDATA[上傳中]]></value>
+			<value xml:lang="tr"><![CDATA[Yükleniyor]]></value>
+			<value xml:lang="vi"><![CDATA[Đang Upload ]]></value>
 		</item>
 		<item name="uploading_info">
 			<value xml:lang="ko"><![CDATA[%s MB까지 업로드할 수 있습니다]]></value>

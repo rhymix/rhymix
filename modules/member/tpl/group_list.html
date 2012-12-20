@@ -47,7 +47,7 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td class="_imageMarkButton">&nbsp;</td>
-				<td><a href="#" class="_addGroup"><i class="x_icon-plus-sign"></i> {$lang->cmd_add_group}</a></td>
+				<td><a href="#" class="_addGroup">{$lang->cmd_add}</a></td>
 			</tr>
 		</tfoot>
 		<tbody class="uDrag _groupList">
@@ -62,9 +62,11 @@
 				</td>
 				<td><input type="text" name="descriptions[]" value="{$group_info->description}" title="{$lang->description}" /></td>
 				<td><input type="radio" name="defaultGroup" value="{$group_info->group_srl}" title="Default" checked="checked"|cond="$group_info->is_default=='Y'" /></td>
-				<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
-					<img src="{$group_info->image_mark}" alt="{$group_info->title}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
-					<a href="#imageMark" class="modalAnchor _imageMark filebox">{$lang->cmd_modify}</a></td>
+				<td class="_imageMarkButton">
+					<input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
+					<img src="{$group_info->image_mark}" alt="{htmlspecialchars($group_info->title)}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
+					<a href="#imageMark" class="modalAnchor _imageMark filebox">{$lang->cmd_modify}</a>
+				</td>
 				<td><div class="_deleteTD" style="display:none"|cond="$group_info->is_default == 'Y'"><a href="#{$group_srl}" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
 			</tr>
 			<tr style="display:none" class="_template">

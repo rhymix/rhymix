@@ -96,7 +96,7 @@
 		<value xml:lang="vi"><![CDATA[Thư mục chứa Icon của cấp bậc có dạng "./module/point/icons/[level].gif" và cấp độ lớn nhất có thể khác với bộ Icon hiện tại. Vì vậy xin hãy cẩn thận.]]></value>
 	</item>
 	<item name="point_name">
-		<value xml:lang="ko"><![CDATA[포인트 명칭]]></value>
+		<value xml:lang="ko"><![CDATA[포인트 이름]]></value>
 		<value xml:lang="en"><![CDATA[Point Name]]></value>
 		<value xml:lang="jp"><![CDATA[ポイント名]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分名]]></value>
