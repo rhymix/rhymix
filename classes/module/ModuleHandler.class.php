@@ -595,7 +595,7 @@
             }
 
             // If connection to DB has a problem even though it's not install module, set error
-            if($this->module != 'install' && $GLOBALS['__DB__'][Context::getDBType()]->isConnected() == false) {
+            if($this->module != 'install' && isset($GLOBALS['__DB__']) && $GLOBALS['__DB__'][Context::getDBType()]->isConnected() == false) {
                 $this->error = 'msg_dbconnect_failed';
             }
 
