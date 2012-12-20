@@ -12,29 +12,21 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 <form id="fo_list" action="./" method="get">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="page" value="{$page}" />
-	<div class="x_tabbable">
-		<ul class="x_nav x_nav-tabs">
-			<li class="x_active"|cond="$search_keyword == ''"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->all}</a></li>
-			<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'N'"><a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a></li>
-			<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'"><a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a></li>
-			<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'temp'"><a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a></li>
-			<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
-		</ul>
-	</div>
 	<table id="documentListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
-			<!--@if($search_keyword == '')-->
-			{$lang->all}
-			<!--@elseif($search_target == 'ipaddress')-->
-			{$lang->ipaddress}:{$search_keyword}
-			<!--@elseif($search_target == 'is_secret' && $search_keyword == 'N')-->
-			{$status_name_list['PUBLIC']}
-			<!--@elseif($search_target == 'is_secret' && $search_keyword == 'Y')-->
-			{$status_name_list['SECRET']}
-			<!--@elseif($search_target == 'is_secret' && $search_keyword == 'temp')-->
-			{$status_name_list['TEMP']} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_temp_document" target="_blank">{$lang->help}</a>
-			<!--@end-->
-			(<strong>{number_format($total_count)}</strong>)
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}" class="active"|cond="$search_keyword == ''">{$lang->all}<block cond="$search_keyword == ''">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'N'">{$status_name_list['PUBLIC']}<block cond="$search_target == 'is_secret' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'">{$status_name_list['SECRET']}<block cond="$search_target == 'is_secret' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'temp'">{$status_name_list['TEMP']}<block cond="$search_target == 'is_secret' && $search_keyword == 'temp'">({number_format($total_count)})</block></a> 
+			<a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_temp_document" target="_blank">{$lang->help}</a>
+			<i>|</i>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a>
+			<i cond="$search_target == 'ipaddress'">|</i>
+			<a href="{getUrl('search_target', 'ipaddress')}" cond="$search_target == 'ipaddress'">{$lang->ipaddress}:{$search_keyword}({number_format($total_count)})</a>
+
 			<div class="x_btn-group x_pull-right">
 				<span class="x_btn" style="background:none;cursor:default">{$lang->document_manager}</span>
 				<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->cmd_trash}</a>

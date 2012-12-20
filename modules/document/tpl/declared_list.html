@@ -4,7 +4,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
 <load target="js/document_admin.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->cmd_declared_list}</h1>
+	<h1>{$lang->document} <a class="x_icon-question-sign" href="./help/index.html#UMAN_content_document" target="_blank">{$lang->help}</a></h1>
 </div>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -12,18 +12,19 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 <form id="fo_list" action="./" method="get">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="page" value="{$page}" />
-	<div class="x_tabbable">
-		<ul class="x_nav x_nav-tabs">
-			<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->all}</a></li>
-			<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a></li>
-			<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a></li>
-			<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a></li>
-			<li class="x_active"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
-		</ul>
-	</div>
 	<table class="x_table x_table-striped x_table-hover" id="documentListTable">
 		<caption>
-			{$lang->all} ({number_format($total_count)})
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->all}</a>
+			<i>|</i>
+			<a href="{getUrl('act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a>
+			<i>|</i>
+			<a href="{getUrl('act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a>
+			<i>|</i>
+			<a href="{getUrl('act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a> 
+			<a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_temp_document" target="_blank">{$lang->help}</a>
+			<i>|</i>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" class="active"|cond="$act == 'dispDocumentAdminDeclared'">{$lang->cmd_declared_list}({number_format($total_count)})</a>
+
 			<div class="x_pull-right">
 				<a href="#manageForm" class="x_btn modalAnchor" onclick="getDocumentList();">{$lang->document_manager}</a>
 			</div>
@@ -40,8 +41,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			</tr>
 		</thead>
 		<tbody>
-			<!--@foreach($document_list as $no => $oDocument)-->
-			<tr>
+			<tr loop="$document_list => $no,$oDocument">
 				<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank">{$oDocument->getTitle()}</a></td>
 				<td class="nowr"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
 				<td class="nowr">{$oDocument->get('declared_count')}</td>
@@ -50,7 +50,6 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<td class="nowr">{$oDocument->getRegdate("Y-m-d H:i")}</td>
 				<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
 			</tr>
-			<!--@end-->
 		</tbody>
 	</table>
 	<div class="x_pull-right">
