@@ -1,3 +1,4 @@
+<load target="../../../../common/css/bootstrap.min.css" />
 <load target="../../tpl/js/signup_check.js" />
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui")-->
@@ -14,8 +15,10 @@
 				{$member_config->agreement}
 			</div>
 			<div class="confirm">
-				<input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
-				<label for="accept_agree">{$lang->about_accept_agreement}</label>
+				<label for="accept_agree">
+					<input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
+					{$lang->about_accept_agreement}
+				</label>
 			</div>
 		</div>
 		<ul>

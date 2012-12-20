@@ -5,7 +5,7 @@
 .xm input,
 .xm textarea,
 .xm select,
-.xm button{font-family:Tahoma,Geneva,sans-serif;font-size:12px;color:#333}
+.xm button{font-family:Tahoma,Geneva,sans-serif;font-size:13px;color:#333}
 .xm button,
 .xm input[type=submit],
 .xm input[type=reset],
@@ -114,5 +114,5 @@
 .xm button.text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;color:#33a;background:none;text-decoration:underline}
 /* Agreement */
 .xm .agreement{margin:1em 0}
-.xm .agreement .text{height:200px;overflow:auto;margin:1em 0}
+.xm .agreement .text{max-height:200px;overflow:auto;margin:1em 0}
 .xm .agreement .confirm{margin:1em 0}

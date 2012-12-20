@@ -1,6 +1,6 @@
 @charset "utf-8";
 @import url(../../../../../modules/admin/tpl/css/admin.css);
-@import url(../../../../../common/css/bootstrap.css);
+@import url(../../../../../common/css/bootstrap.min.css);
 
 .display_date { cursor:pointer; width:80px; float:left; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px; font-family:tahoma; }
 
