@@ -20,14 +20,14 @@
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" cond="$member_srl" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispMemberAdminList')}" cond="!$member_srl" />
 	<div cond="$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></label>
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
 			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
 			<input id="identifierForm" type="email" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 		</div>
 	</div>
 	<div cond="!$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></label>
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
 			<input id="identifierForm" type="text" name="{$identifierForm->name}" value="" />
 		</div>
@@ -50,6 +50,10 @@
 		<div class="x_controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
 		<div class="x_controls" cond="$formTag->name =='signature'">{$editor}</div>
 	</div>
+<style scoped>
+.xpress-editor>#smart_content,
+.xpress-editor>#smart_content>.tool{clear:none}
+</style>
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->allow_mailing}</label>
 		<div class="x_controls">
@@ -98,10 +102,10 @@
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->member_group}</label>
 		<div class="x_controls">
-			<!--@foreach($group_list as $key=>$val)-->
-				<label for="group_{$key}" class="x_inline"><input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="checked"<!--@end--> />
-				{$val->title}</label>
-			<!--@end-->
+			<label for="group_{$key}" class="x_inline" loop="$group_list => $key,$val">
+				<input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" checked="checked"|cond="$member_info->group_list[$key]" />
+				{$val->title}
+			</label>
 		</div>
 	</div>
 	<div class="x_clearfix btnArea">

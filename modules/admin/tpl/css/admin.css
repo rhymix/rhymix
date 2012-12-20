@@ -80,6 +80,7 @@ body>.x,
 .x .x_table>caption>a,
 .x .x_table>caption>i{position:relative;top:7px}
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}
+.x .x_page-header+.x_form-horizontal{margin-top:-20px}
 .x label.checked,
 .x input:checked+label,
 .x .x_form-horizontal .x_control-label{font-weight:bold;word-break:keep-all}
