@@ -4,7 +4,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
 <load target="js/document_admin.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->document} <a class="x_icon-question-sign" href="./help/index.html#UMAN_content_document" target="_blank">도움말</a></h1>
+	<h1>{$lang->document} <a class="x_icon-question-sign" href="./help/index.html#UMAN_content_document" target="_blank">{$lang->help}</a></h1>
 </div>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -32,7 +32,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<!--@elseif($search_target == 'is_secret' && $search_keyword == 'Y')-->
 			{$status_name_list['SECRET']}
 			<!--@elseif($search_target == 'is_secret' && $search_keyword == 'temp')-->
-			{$status_name_list['TEMP']} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_temp_document" target="_blank">도움말</a>
+			{$status_name_list['TEMP']} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_temp_document" target="_blank">{$lang->help}</a>
 			<!--@end-->
 			(<strong>{number_format($total_count)}</strong>)
 			<div class="x_btn-group x_pull-right">

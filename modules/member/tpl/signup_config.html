@@ -68,7 +68,7 @@
 </style>
 	</div>
 	<div class="x_control-group">
-		<p class="x_control-label">{$lang->cmd_manage_form} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_member_joinform" target="_blank">도움말</a></p>
+		<p class="x_control-label">{$lang->cmd_manage_form} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_member_joinform" target="_blank">{$lang->help}</a></p>
 		<div class="x_controls">
 			<table class="__join_form sortable x_table x_table-striped x_table-hover">
 				<thead>
@@ -100,7 +100,7 @@
 						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
 						<input type="hidden" name="{$item->name}" value="requierd"/>
 						<th scope="row">
-							<span class="_title" style="display:inline-block;white-space:nowrap;overflow:hidden;width:120px;text-overflow:ellipsis;padding-left:20px">{$item->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">도움말</a></span>
+							<span class="_title" style="display:inline-block;white-space:nowrap;overflow:hidden;width:120px;text-overflow:ellipsis;padding-left:20px">{$item->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></span>
 						</th>
 						<td><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
 						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>

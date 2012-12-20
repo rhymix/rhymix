@@ -11,7 +11,7 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<p class="x_control-label">{$lang->enable_login_fail_report} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_defence_login_limit" target="_blank">도움말</a></p>
+		<p class="x_control-label">{$lang->enable_login_fail_report} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_defence_login_limit" target="_blank">{$lang->help}</a></p>
 		<div class="x_controls">
 			<label class="x_inline" for="enable_login_fail_report_yes"><input type="radio" name="enable_login_fail_report" id="enable_login_fail_report_yes" value="Y" checked="checked"|cond="$config->enable_login_fail_report != 'N'" /> {$lang->cmd_yes}</label>
 			<label class="x_inline" for="enable_login_fail_report_no"><input type="radio" name="enable_login_fail_report" id="enable_login_fail_report_no" value="N" checked="checked"|cond="$config->enable_login_fail_report == 'N'" /> {$lang->cmd_no}</label>

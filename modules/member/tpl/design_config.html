@@ -5,7 +5,7 @@
 	<input type="hidden" name="act" value="procMemberAdminInsertDesignConfig" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', $act)}" />
 	<div class="x_control-group">
-		<label class="x_control-label" for="layout">{$lang->layout} <a data-admin-toggle="#help_menuName" class="x_icon-question-sign" href="./help/index.html#UMAN_layout" target="_blank">도움말</a></label>
+		<label class="x_control-label" for="layout">{$lang->layout} <a data-admin-toggle="#help_menuName" class="x_icon-question-sign" href="./help/index.html#UMAN_layout" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
 			<select id="layout" name="layout_srl">
 				<option value="0">{$lang->notuse}</option>
@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label class="x_control-label" for="skin">{$lang->skin} <a data-admin-toggle="#help_menuName" class="x_icon-question-sign" href="./help/index.html#UMAN_skin" target="_blank">도움말</a></label>
+		<label class="x_control-label" for="skin">{$lang->skin} <a data-admin-toggle="#help_menuName" class="x_icon-question-sign" href="./help/index.html#UMAN_skin" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
 			<select id="skin" name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value)">
 				<option loop="$skin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->skin==$key">{$val->title} ({$key})</option>
