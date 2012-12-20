@@ -16,7 +16,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 	<input type="hidden" name="is_all" value="true" />
 	<table id="trashListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
-			{$lang->trash}({number_format($total_count)})
+			<strong>{$lang->all}({number_format($total_count)})</strong>
 			<div class="x_pull-right x_btn-group">
 				<a href="#fo_list" class="x_btn modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a>
 				<button type="submit" class="x_btn" name="is_all" value="true">{$lang->empty_trash_all}</button>

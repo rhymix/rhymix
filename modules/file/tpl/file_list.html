@@ -11,23 +11,15 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<div class="x_page-header">
 		<h1>{$lang->file} <a class="x_icon-question-sign" href="./help/index.html#UMAN_content_file" target="_blank">{$lang->help}</a></h1>
 	</div>
-	<div class="x_tabbable">
-		<ul class="x_nav x_nav-tabs">
-			<li <!--@if($search_keyword == '')-->class="x_active"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}">All</a></li>
-			<li <!--@if($search_target == 'isvalid' && $search_keyword == 'Y')-->class="x_active"<!--@end-->><a href="{getUrl('search_target','isvalid','search_keyword','Y')}">{$lang->is_valid}</a></li>
-			<li <!--@if($search_target == 'isvalid' && $search_keyword == 'N')-->class="x_active"<!--@end-->><a href="{getUrl('search_target','isvalid','search_keyword','N')}">{$lang->is_stand_by}</a></li>
-		</ul>
-	</div>
 	<table id="fileListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
-			<!--@if($search_keyword == '')-->
-			All
-			<!--@elseif($search_target == 'isvalid' && $search_keyword == 'Y')-->
-			{$lang->is_valid} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_file_status" target="_blank">{$lang->help}</a>
-			<!--@elseif($search_target == 'isvalid' && $search_keyword == 'N')-->
-			{$lang->is_stand_by} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_file_status" target="_blank">{$lang->help}</a>
-			<!--@end-->
-			({number_format($total_count)})
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}" class="active"|cond="$search_keyword == ''">{$lang->all}<block cond="$search_keyword == ''">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','isvalid','search_keyword','Y')}" class="active"|cond="$search_target == 'isvalid' && $search_keyword == 'Y'">{$lang->is_valid}<block cond="$search_target == 'isvalid' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','isvalid','search_keyword','N')}" class="active"|cond="$search_target == 'isvalid' && $search_keyword == 'N'">{$lang->is_stand_by}<block cond="$search_target == 'isvalid' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
+			<a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_file_status" target="_blank">{$lang->help}</a>
+			
 			<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->file_manager}</a></span>
 		</caption>
 		<thead>
