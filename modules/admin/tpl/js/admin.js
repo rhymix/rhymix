@@ -1505,7 +1505,7 @@ jQuery(function($){
 	$.fn.xeLoadMultilingualWindowHtml = function(){
 		function on_complete(data){
 			// append html
-			var $content = $('.x #content');
+			var $content = $('#content');
 			$(data.html).appendTo($content).xeMultilingualWindow();
 			$('.lang_code').trigger('loaded-multilingualWindow');
 		}
