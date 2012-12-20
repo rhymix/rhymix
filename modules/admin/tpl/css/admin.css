@@ -21,7 +21,8 @@ body>.x,
 .x mark{background-color:#FF0;color:#000}
 /* Bootstrap Override */
 .x .x_page-header{margin-top:10px;padding-bottom:0;border-bottom:2px solid #ddd}
-.x .x_page-header>h1{margin-bottom:0;font-size:24px;color:#333}
+.x .x_page-header>h1{position:relative;margin-bottom:0;font-size:24px;color:#333}
+.x .x_page-header>h1>.x_icon-question-sign{position:absolute;top:50%;right:0;margin:-7px 0 0 0}
 .x h1,
 .x h2,
 .x h3,
@@ -35,7 +36,7 @@ body>.x,
 .x h5,
 .x h6{font-size:12px}
 .x [class^="x_icon-"],
-.x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0}
+.x [class*=" x_icon-"]{text-decoration:none;border:0;padding:0;background-color:transparent;overflow:hidden;font-size:0;text-indent:100%}
 .x .x_close{width:32px;height:32px;font-size:17px;opacity:.5;filter:alpha(opacity=50)}
 .x .x_alert{position:relative}
 .x .x_alert>.x_close{position:absolute;top:0;right:0}

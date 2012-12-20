@@ -5,7 +5,7 @@
 		<span class="path" cond="$module_info->mid">
 			&gt; <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank">{$module_info->mid}</a><block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
 		</span>
-		<a href="#aboutPage" class="x_icon-question-sign x_pull-right" data-toggle cond="!$module_info->mid" style="margin-top:13px"></a>
+		<a href="#aboutPage" class="x_icon-question-sign" data-toggle cond="!$module_info->mid"></a>
 	</h1>
 </div>
 <p id="aboutPage" class="x_alert x_alert-info" cond="!$module_info->mid" hidden>{nl2br($lang->about_page)}</p>
