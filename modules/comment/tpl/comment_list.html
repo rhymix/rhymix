@@ -4,23 +4,26 @@ xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
 <load target="js/comment_admin.js" usecdn="true" />
-<div class="x_tabbable">
-    <ul class="x_nav x_nav-tabs">
-		<li class="x_active"|cond="$search_keyword == ''"><a href="{getUrl('search_keyword','','act','dispCommentAdminList', 'Y')}">{$lang->all}</a></li>
-		<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'N'"><a href="{getUrl('search_target','is_secret','search_keyword', 'N')}">{$secret_name_list['N']}</a></li>
-		<li class="x_active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'"><a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}">{$secret_name_list['Y']}</a></li>
-		<li class="x_active"|cond="$search_target == 'is_published' && $search_keyword == 'N'"><a href="{getUrl('search_target','is_published','search_keyword', 'N')}">{$lang->published_name_list['N']}</a></li>
-		<li class="x_active"|cond="$search_target == 'is_published' && $search_keyword == 'Y'"><a href="{getUrl('search_target','is_published','search_keyword', 'Y')}">{$lang->published_name_list['Y']}</a></li>
-        <li><a href="{getUrl('', 'module', 'admin', 'act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
-    </ul>
-</div>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="post">
 	<table id="commentListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
-			{$lang->all}({number_format($total_count)})
+			<a href="{getUrl('','module','admin','act','dispCommentAdminList','Y')}" class="active"|cond="$search_keyword == ''">{$lang->all}<block cond="$search_keyword == ''">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','is_secret','search_keyword','N')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'N'">{$secret_name_list['N']}<block cond="$search_target == 'is_secret' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','is_secret','search_keyword','Y')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'">{$secret_name_list['Y']}<block cond="$search_target == 'is_secret' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','is_published','search_keyword','N')}" class="active"|cond="$search_target == 'is_published' && $search_keyword == 'N'">{$lang->published_name_list['N']}<block cond="$search_target == 'is_published' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','is_published','search_keyword','Y')}" class="active"|cond="$search_target == 'is_published' && $search_keyword == 'Y'">{$lang->published_name_list['Y']}<block cond="$search_target == 'is_published' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('', 'module', 'admin', 'act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a>
+			<i cond="$search_target == 'ipaddress'">|</i>
+			<a href="{getUrl('search_target', 'ipaddress')}" class="active" cond="$search_target == 'ipaddress'">{$lang->ipaddress}:{$search_keyword}({number_format($total_count)})</a>
+			
 			<div class="x_pull-right">
 				<a href="#listManager" class="x_btn modalAnchor" onclick="getCommentList();">{$lang->comment_manager}</a>
 			</div>

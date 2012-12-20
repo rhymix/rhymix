@@ -1,16 +1,6 @@
 <div class="x_page-header">
 	<h1>{$lang->comment} {$lang->cmd_management}</h1>
 </div>
-<div class="x_tabbable">
-    <ul class="x_nav x_nav-tabs">
-		<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword','','act','dispCommentAdminList', 'Y')}">{$lang->all}</a></li>
-		<li><a href="{getUrl('search_target','is_secret','search_keyword', 'N')}">{$secret_name_list['N']}</a></li>
-		<li><a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}">{$secret_name_list['Y']}</a></li>
-		<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target','is_published','search_keyword', 'N')}">{$lang->published_name_list['N']}</a></li>
-		<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target','is_published','search_keyword', 'Y')}">{$lang->published_name_list['Y']}</a></li>
-        <li class="x_active"><a href="{getUrl('', 'module', 'admin', 'act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
-    </ul>
-</div>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -23,7 +13,24 @@
 	
 	<!-- 목록 -->
 	<table class="x_table x_table-striped x_table-hover">
-		<caption>{$lang->all} {number_format($total_count)}, {$lang->page} {number_format($page)}/{number_format($total_page)}</caption>
+		<caption>
+			<a href="{getUrl('search_keyword','','search_target','','act','dispCommentAdminList','Y')}">{$lang->all}</a>
+			<i>|</i>
+			<a href="{getUrl('act','dispCommentAdminList','search_target','is_secret','search_keyword','N')}">{$secret_name_list['N']}</a>
+			<i>|</i>
+			<a href="{getUrl('act','dispCommentAdminList','search_target','is_secret','search_keyword','Y')}">{$secret_name_list['Y']}</a>
+			<i>|</i>
+			<a href="{getUrl('act','dispCommentAdminList','search_target','is_published','search_keyword','N')}">{$lang->published_name_list['N']}</a>
+			<i>|</i>
+			<a href="{getUrl('act','dispCommentAdminList','search_target','is_published','search_keyword','Y')}">{$lang->published_name_list['Y']}</a>
+			<i>|</i>
+			<a href="{getUrl('', 'module', 'admin', 'act','dispCommentAdminDeclared')}" class="active"|cond="$act == 'dispCommentAdminDeclared'">{$lang->cmd_declared_list}({number_format($total_count)})</a>
+
+			<div class="x_pull-right x_btn-group">
+				<button class="x_btn" type="submit" name="trash" onclick="this.form.is_trash.value=true">{$lang->cmd_trash}</button>
+				<button class="x_btn" type="submit" onclick="this.form.is_trash.value=false">{$lang->cmd_delete_checked_comment}</button>
+			</div>
+		</caption>
 		<thead>
 			<tr>
 				<th scope="col">{$lang->comment}</th>
