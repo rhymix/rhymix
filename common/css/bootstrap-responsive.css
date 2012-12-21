@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Responsive v2.1.1
+ * Bootstrap Responsive v2.2.2
  *
  * Copyright 2012 Twitter, Inc
  * Licensed under the Apache License v2.0
@@ -7,6 +7,10 @@
  *
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
+
+@-ms-viewport {
+  width: device-width;
+}
 
 .x_clearfix {
   *zoom: 1;
@@ -214,6 +218,9 @@
   }
   .x_row-fluid [class*="x_span"]:first-child {
     margin-left: 0;
+  }
+  .x_row-fluid .x_controls-row [class*="x_span"] + [class*="x_span"] {
+    margin-left: 2.564102564102564%;
   }
   .x_row-fluid .x_span12 {
     width: 100%;
@@ -562,6 +569,9 @@
   .x_row-fluid [class*="x_span"]:first-child {
     margin-left: 0;
   }
+  .x_row-fluid .x_controls-row [class*="x_span"] + [class*="x_span"] {
+    margin-left: 2.7624309392265194%;
+  }
   .x_row-fluid .x_span12 {
     width: 100%;
     *width: 99.94680851063829%;
@@ -814,6 +824,7 @@
     margin-left: 0;
   }
   [class*="x_span"],
+  .uneditable-input[class*="span"],
   .x_row-fluid [class*="x_span"] {
     display: block;
     float: none;
@@ -829,6 +840,9 @@
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
+  }
+  .x_row-fluid [class*="x_offset"]:first-child {
+    margin-left: 0;
   }
   .x_input-large,
   .x_input-xlarge,
@@ -862,8 +876,11 @@
     width: auto;
     margin: 0;
   }
+  .x_modal.x_fade {
+    top: -100px;
+  }
   .x_modal.x_fade.x_in {
-    top: auto;
+    top: 20px;
   }
 }
 
@@ -894,6 +911,16 @@
   .x_form-horizontal .x_form-actions {
     padding-right: 10px;
     padding-left: 10px;
+  }
+  .x_media .x_pull-left,
+  .x_media .x_pull-right {
+    display: block;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .x_media-object {
+    margin-right: 0;
+    margin-left: 0;
   }
   .x_modal {
     top: 10px;
@@ -979,6 +1006,10 @@
   .x_nav-collapse .x_dropdown-menu a:hover {
     background-color: #f2f2f2;
   }
+  .x_navbar-inverse .x_nav-collapse .x_nav > li > a,
+  .x_navbar-inverse .x_nav-collapse .x_dropdown-menu a {
+    color: #999999;
+  }
   .x_navbar-inverse .x_nav-collapse .x_nav > li > a:hover,
   .x_navbar-inverse .x_nav-collapse .x_dropdown-menu a:hover {
     background-color: #111111;
@@ -991,7 +1022,7 @@
     position: static;
     top: auto;
     left: auto;
-    display: block;
+    display: none;
     float: none;
     max-width: none;
     padding: 0;
@@ -1004,6 +1035,9 @@
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
+  }
+  .x_nav-collapse .x_open > .x_dropdown-menu {
+    display: block;
   }
   .x_nav-collapse .x_dropdown-menu:before,
   .x_nav-collapse .x_dropdown-menu:after {
