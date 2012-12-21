@@ -2,9 +2,9 @@
 <load target="./css/sitemap.css" index="11" />
 <load target="./js/_lib/jquery.cookie.js" />
 <load target="./js/_lib/jquery.hotkeys.js" />
-<load target="./js/jquery.jstree.js" />
+<!--load target="./js/jquery.jstree.js" />
+<load target="./js/jquery.tmpl.js" /-->
 <load target="./js/jquery.scrollTo-1.4.2.js" />
-<load target="./js/jquery.tmpl.js" />
 
 <!--script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script-->
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -657,21 +657,7 @@
 		<button type="button" class="x_close" data-admin-hide="#html">&times;</button>
 	</div>
 </div>
-<fieldset class="x_modal" id="msgBox" style="display:none">
-	<div class="x_modal-header">
-		<h3 class="_title"></h3>
-	</div>
-	<div class="x_modal-body">
-		<p class="_text"></p>
-	</div>
-	<div class="x_modal-footer">
-		<button type="button" class="x_btn x_pull-left _cancel">{$lang->cmd_cancel}</button>
-		<span class="x_btn-group x_pull-right">
-			<button type="button" class="x_btn x_btn-inverse _ok">{$lang->cmd_confirm}</button>
-		</span>
-	</div>
-	<button type="button" class="x_close _cancel">&times;</button>
-</fieldset>
+
 <iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
 
 <script>
@@ -1171,7 +1157,7 @@ jQuery(function($){
 	
 	var _hide = $.fn.hide;
 	$.fn.hide = function(speed, easing, callback, htOpt) {
-		$(this).trigger('hide', [htOpt]);
+		//$(this).trigger('hide', [htOpt]);
 		
 		$(this).find('.active').removeClass('active');
 		
@@ -1190,7 +1176,7 @@ jQuery(function($){
 	
 	var _show = $.fn.show;
 	$.fn.show = function(speed, easing, callback, htOpt) {
-		$(this).trigger('show', [htOpt]);
+		//$(this).trigger('show', [htOpt]);
 
 		if($(this).hasClass("col")){
 			$(this).next().hide(speed, easing, callback, htOpt);
@@ -1900,7 +1886,9 @@ jQuery(function($){
 		
 		//console.log(htInfo);
 		if(htInfo.sModuleType === "_SHORTCUT"){
-			if(htInfo.module){
+		//console.log(htInfo);
+			//if(htInfo.module){
+			if(htInfo.href !== htInfo.url){
 				// Menu shortcut
 				$(this).find('a[href="#fix_linkMenu"]').click();
 				//$(this).find('._menu_link').val();
@@ -3684,149 +3672,6 @@ jQuery(function($){
 	$quickHelp.on('click', '._quick_help_nomore', function(){
 		closeQuickHelp(true);
 	});
-	
-	var $foggyLayer = $("<div>");
-	$foggyLayer.css({
-		position: 'absolute',
-		top:0,
-		left:0,
-		backgroundColor:'#000',
-		opacity: 0.5,
-		display:'none',
-		zIndex:100
-	});
-	$($.find("body")).append($foggyLayer);
-	
-	$(window).resize(function(){
-		$foggyLayer.css({
-			width: 0,
-			height: 0
-		});
-	
-		setTimeout(function(){
-			$foggyLayer.css({
-				width: $(document).width(),
-				height: $(document).height()
-			});
-		}, 0);
-	});
-	function showFoggy(){
-		$foggyLayer.show();
-	}
-	function hideFoggy(){
-		$foggyLayer.hide();
-	}
-	
-	var $msgBox = $("#msgBox");
-	$msgBox.find("._ok").click(function(){
-		$._xeAdminVar.msgBox.fnOnOK();
-	});
-	$msgBox.find("._cancel").click(function(){
-		$._xeAdminVar.msgBox.fnOnCancel();
-	});
-	$msgBox.bind("show", function(){
-		$._xeAdminVar.msgBox.bVisible = true;
-		showFoggy();
-		$._xeAdminVar.msgBox.fnOnShow();
-		
-		if($msgBox.find('input').length > 0){
-			setTimeout(function(){
-				$msgBox.find('input').focus()
-			},	0);
-		}
-	});
-	$msgBox.bind("hide", function(){
-		$._xeAdminVar.msgBox.bVisible = false;
-		hideFoggy();
-		$._xeAdminVar.msgBox.fnOnHide();
-	});
-	$(document.body).on('keydown', function(ev){
-		if(!$._xeAdminVar.msgBox.bVisible) return;
-		
-		if(ev.keyCode === 27){
-			$msgBox.find("._cancel").click();
-		}
-	});
-	$._xeAdminVar.msgBox = {};
-	function msgBox(htOptions){
-		// sTitle, sText, fnOnOK, fnOnCancel, bSmall, bAlert, fnOnShow, fnOnHide, bDanger
-		htOptions = htOptions || {};
-		
-		var sTitle = htOptions.sTitle || "";
-		var sText = htOptions.sText || "";
-		
-		var bDanger = htOptions.bDanger || false;
-
-		$msgBox.find("._title") .html(sTitle);
-		$msgBox.find("._text").html(sText);
-		
-		if(sText === ""){
-			$msgBox.addClass('_nobody');
-		}else{
-			$msgBox.removeClass('_nobody');
-		}
-		
-		var $confirmBtn = $msgBox.find('._ok');
-		if(bDanger){
-			$confirmBtn.removeClass('x_btn-inverse');
-			$confirmBtn.addClass('x_btn-danger');
-		}else{
-			$confirmBtn.removeClass('x_btn-danger');
-			$confirmBtn.addClass('x_btn-inverse');
-		}
-
-		// #msgBox._small {width:400px;margin-left:-200px}
-		// #msgBox._type_alert _cancel{display:none}
-		if(htOptions.bSmall){
-			$msgBox.addClass("_small");
-		}else{
-			$msgBox.removeClass("_small");
-		}
-
-		if(htOptions.bAlert){
-			$msgBox.addClass("_type_alert");
-		}else{
-			$msgBox.removeClass("_type_alert");
-		}
-
-		$._xeAdminVar.msgBox = {
-			fnOnOK : function(){
-				if(typeof htOptions.fnOnOK === "function"){
-					if(htOptions.fnOnOK()) return;
-				}
-					
-				$msgBox.hide();
-			},
-			
-			fnOnCancel : function(){
-				if(typeof htOptions.fnOnCancel === "function") htOptions.fnOnCancel();
-				
-				$msgBox.hide();
-			},
-			
-			fnOnShow : function(){
-				if(typeof htOptions.fnOnShow === "function") htOptions.fnOnShow();
-			},
-			
-			fnOnHide : function(){
-				if(typeof htOptions.fnOnHide === "function") htOptions.fnOnHide();
-			}
-		};
-
-		$msgBox.show();
-	}
-	function alertDialog(htOptions){
-		htOptions = htOptions || {};
-		htOptions.bAlert = true;
-		
-		msgBox(htOptions);
-	}
-	function confirmDialog(htOptions){
-		htOptions = htOptions || {};
-		htOptions.bAlert = false;
-		
-		msgBox(htOptions);
-	}
 
 	$('#download,#downloadLayout,#downloadSkin').on('click', '._install_this', function(ev){
 		var $item = $(this).closest('.item');

@@ -922,6 +922,231 @@ jQuery(function($){
 	}
 });
 */
+jQuery(function($){	
+	var _hide = $.fn.hide;
+	$.fn.hide = function(htOpt) {
+		$(this).trigger('hide', [htOpt]);
+		
+		return _hide.apply(this, arguments);
+	}
+	
+	var _show = $.fn.show;
+	$.fn.show = function(htOpt) {
+		$(this).trigger('show', [htOpt]);
+
+		return _show.apply(this, arguments);
+	}
+});
+	
+jQuery(function($){	
+	/*
+	<fieldset class="x_modal" id="msgBox" style="display:none">
+	<div class="x_modal-header">
+		<h3 class="_title"></h3>
+	</div>
+	<div class="x_modal-body">
+		<p class="_text"></p>
+	</div>
+	<div class="x_modal-footer">
+		<button type="button" class="x_btn x_pull-left _cancel">{$lang->cmd_cancel}</button>
+		<span class="x_btn-group x_pull-right">
+			<button type="button" class="x_btn x_btn-inverse _ok">{$lang->cmd_confirm}</button>
+		</span>
+	</div>
+	<button type="button" class="x_close _cancel">&times;</button>
+	</fieldset>
+	*/
+	
+	$.xeMsgBox = {
+		htOptions : {}
+	};
+	
+	var $msgBox = $.xeMsgBox.$msgBox = $("<div>").addClass("x_modal _common x").css('display', 'none');
+	$msgBox.html('<button type="button" class="x_close _cancel">×</button>\
+		<div class="x_modal-header">\
+			<h3 class="_title"></h3>\
+		</div>\
+		<div class="x_modal-body">\
+			<p class="_text"></p>\
+		</div>\
+		<div class="x_modal-footer">\
+			<button type="button" class="x_btn x_pull-left _cancel">{$lang->cmd_cancel}</button>\
+			<span class="x_btn-group x_pull-right">\
+				<button type="submit" class="x_btn x_btn-inverse _ok">{$lang->cmd_confirm}</button>\
+			</span>\
+		</div>');
+	
+	//console.log($msgBox.html());
+	$($.find("body")).append($msgBox);
+	//console.log($.find("body"));
+	//$msgBox.show();
+	/*
+	<div class="x_modal x" id="exModal-2" style="display: block;"><button type="button" class="x_close">×</button>
+		<div class="x_modal-header">
+			<h3>Modal 2 header</h3>
+		</div>
+		<div class="x_modal-body">
+			<p>One fine body…</p>
+		</div>
+		<div class="x_modal-footer">
+			<button type="button" class="x_btn x_pull-left" data-hide="#exModal-2">Close</button>
+			<span class="x_btn-group x_pull-right">
+				<button type="submit" class="x_btn">Modify</button>
+				<button type="submit" class="x_btn x_btn-danger">Delete</button>
+			</span>
+		</div>
+	</div>
+	*/
+
+	//var $msgBox = $("#msgBox");
+	$msgBox.find("._ok").click(function(){
+		$.xeMsgBox.fnOnOK();
+	});
+	$msgBox.find("._cancel").click(function(){
+		$.xeMsgBox.fnOnCancel();
+	});
+	$msgBox.bind("show", function(){
+		$.xeMsgBox.bVisible = true;
+		$.xeMsgBox._showFoggy();
+		$.xeMsgBox.fnOnShow();
+		
+		if($msgBox.find('input').length > 0){
+			setTimeout(function(){
+				$msgBox.find('input').focus()
+			},	0);
+		}
+	});
+	$msgBox.bind("hide", function(){
+		$.xeMsgBox.bVisible = false;
+		$.xeMsgBox._hideFoggy();
+		$.xeMsgBox.fnOnHide();
+	});
+	$(document.body).on('keydown', function(ev){
+		if(!$.xeMsgBox.bVisible) return;
+		
+		if(ev.keyCode === 27){
+			$msgBox.find("._cancel").click();
+		}
+	});
+	
+	$.xeMsgBox.fnOnOK = function(){
+		if(typeof $.xeMsgBox.htOptions.fnOnOK === "function"){
+			if($.xeMsgBox.htOptions.fnOnOK()) return;
+		}
+			
+		$msgBox.hide();
+	};
+	
+	$.xeMsgBox.fnOnCancel = function(){
+		if(typeof $.xeMsgBox.htOptions.fnOnCancel === "function") $.xeMsgBox.htOptions.fnOnCancel();
+		
+		$msgBox.hide();
+	};
+	
+	$.xeMsgBox.fnOnShow = function(){
+		if(typeof $.xeMsgBox.htOptions.fnOnShow === "function") $.xeMsgBox.htOptions.fnOnShow();
+	};
+	
+	$.xeMsgBox.fnOnHide = function(){
+		if(typeof $.xeMsgBox.htOptions.fnOnHide === "function") $.xeMsgBox.htOptions.fnOnHide();
+	};
+
+
+	$.xeMsgBox.showMsgBox = function(htOptions){
+		// sTitle, sText, fnOnOK, fnOnCancel, bSmall, bAlert, fnOnShow, fnOnHide, bDanger
+		htOptions = $.xeMsgBox.htOptions = htOptions || {};
+		
+		var sTitle = htOptions.sTitle || "";
+		var sText = htOptions.sText || "";
+		
+		var bDanger = htOptions.bDanger || false;
+
+		$msgBox.find("._title") .html(sTitle);
+		$msgBox.find("._text").html(sText);
+		
+		if(sText === ""){
+			$msgBox.addClass('_nobody');
+		}else{
+			$msgBox.removeClass('_nobody');
+		}
+		
+		var $confirmBtn = $msgBox.find('._ok');
+		if(bDanger){
+			$confirmBtn.removeClass('x_btn-inverse');
+			$confirmBtn.addClass('x_btn-danger');
+		}else{
+			$confirmBtn.removeClass('x_btn-danger');
+			$confirmBtn.addClass('x_btn-inverse');
+		}
+
+		// #msgBox._small {width:400px;margin-left:-200px}
+		// #msgBox._type_alert _cancel{display:none}
+		if(htOptions.bSmall){
+			$msgBox.addClass("_small");
+		}else{
+			$msgBox.removeClass("_small");
+		}
+
+		if(htOptions.bAlert){
+			$msgBox.addClass("_type_alert");
+		}else{
+			$msgBox.removeClass("_type_alert");
+		}
+
+		$msgBox.show();
+	}
+	$.xeMsgBox.alertDialog = function(htOptions){
+		htOptions = htOptions || {};
+		htOptions.bAlert = true;
+		
+		this.showMsgBox(htOptions);
+	}
+	$.xeMsgBox.confirmDialog = function(htOptions){
+		htOptions = htOptions || {};
+		htOptions.bAlert = false;
+		
+		this.showMsgBox(htOptions);
+	}
+	
+	var $foggyLayer = $.xeMsgBox.$foggyLayer = $("<div>");
+	$foggyLayer.css({
+		position: 'absolute',
+		top:0,
+		left:0,
+		backgroundColor:'#000',
+		opacity: 0.5,
+		display:'none',
+		zIndex:100
+	});
+	//$($.find("body")).append($msgBox);
+	$($.find("body")).append($foggyLayer);
+
+	$.xeMsgBox._resizeFoggy = function(){
+		$foggyLayer.css({
+			width: 0,
+			height: 0
+		});
+	
+		setTimeout(function(){
+			$foggyLayer.css({
+				width: $(document).width(),
+				height: $(document).height()
+			});
+		}, 0);
+	}
+	$(window).resize($.xeMsgBox._resizeFoggy);
+	$.xeMsgBox._resizeFoggy();
+	
+	$.xeMsgBox._showFoggy = function(){
+		$foggyLayer.show();
+	}
+	$.xeMsgBox._hideFoggy = function(){
+		$foggyLayer.hide();
+	}
+	
+
+});
+
 // Sortable table
 jQuery(function($){
 	var
