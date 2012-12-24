@@ -1515,7 +1515,7 @@ jQuery(function($){
 	});
 	$("._delSiteMap").click(function(){
 		
-		confirmDialog({
+		$.xeMsgBox.confirmDialog({
 			sTitle : xe.lang.confirm_menu_delete,
 			
 			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_item  + '</label>',
@@ -1523,7 +1523,7 @@ jQuery(function($){
 			bDanger : true,
 			
 			fnOnOK : function(){
-				if(!$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
+				if(!$.xeMsgBox.$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
 
 				var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 				var params = {};
@@ -1534,19 +1534,19 @@ jQuery(function($){
 			},
 			
 			fnOnShow : function(){
-				$msgBox.find("._ok").addClass("x_disabled");
+				$.xeMsgBox.$msgBox.find("._ok").addClass("x_disabled");
 				
-				$msgBox.find('input[type="checkbox"]').click(function(){
+				$.xeMsgBox.$msgBox.find('input[type="checkbox"]').click(function(){
 					if($(this).attr('checked')){
-						$msgBox.find("._ok").removeClass("x_disabled");
+						$.xeMsgBox.$msgBox.find("._ok").removeClass("x_disabled");
 					}else{
-						$msgBox.find("._ok").addClass("x_disabled");
+						$.xeMsgBox.$msgBox.find("._ok").addClass("x_disabled");
 					}
 				});
 			},
 			
 			fnOnHide : function(){
-				$msgBox.find("._ok").removeClass("x_disabled");
+				$.xeMsgBox.$msgBox.find("._ok").removeClass("x_disabled");
 			}
 		});
 	});
@@ -3042,7 +3042,7 @@ jQuery(function($){
 			if(!htNamesAsKey[sCurName]) break;
 		}
 		
-		confirmDialog({
+		$.xeMsgBox.confirmDialog({
 			sTitle : xe.lang.input_new_layout_name,
 			
 			sText : '<input type="text" name="layout_name" style="width: 95%"/><br/><div style="text-align:right">* ' + xe.lang.skip_new_layout_name + '</div>',
@@ -3050,7 +3050,7 @@ jQuery(function($){
 			bSmall: true,
 			
 			fnOnOK : function(){
-				var sTitle = $msgBox.find('input[type="text"]').val();
+				var sTitle = $.xeMsgBox.$msgBox.find('input[type="text"]').val();
 				$.exec_json("layout.procLayoutAdminCopyLayout", {
 					layout_srl : sLayoutSrl,
 					title : sTitle.split(',')
@@ -3061,7 +3061,7 @@ jQuery(function($){
 			
 			fnOnShow : function(){
 				setTimeout(function(){
-					$msgBox.find('input[type="text"]').val(sCurName).focus().select();
+					$.xeMsgBox.$msgBox.find('input[type="text"]').val(sCurName).focus().select();
 				}, 10);
 			}
 		});
@@ -3077,7 +3077,7 @@ jQuery(function($){
 		$thumbnail.css('border', '1px solid #888');
 		$thumbnail.css('padding', '3px');
 		
-		confirmDialog({
+		$.xeMsgBox.confirmDialog({
 			sTitle : xe.lang.confirm_delete,
 
 			sText : $thumbnail.outerHTML() + '<div style="float:right;width:240px;text-align:left">' + $label.text() + '</div>',
@@ -3223,7 +3223,7 @@ jQuery(function($){
 
 		$.exec_json("menu.procMenuAdminDeleteItem", params, function(htData){
 			if(htData.error === -1001){
-				confirmDialog({
+				$.xeMsgBox.confirmDialog({
 					sTitle : xe.lang.confirm_delete_all_sub_items_title,
 					
 					sText : xe.lang.confirm_delete_all_sub_items,
@@ -3247,7 +3247,7 @@ jQuery(function($){
 	}
 	
 	$('._deleteMenu').click(function(){
-		confirmDialog({
+		$.xeMsgBox.confirmDialog({
 			sTitle : xe.lang.confirm_menu_delete,
 			
 			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_contents + '</label>',
@@ -3255,7 +3255,7 @@ jQuery(function($){
 			bDanger : true,
 			
 			fnOnOK : function(){
-				if(!$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
+				if(!$.xeMsgBox.$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
 
 				var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 
@@ -3265,19 +3265,19 @@ jQuery(function($){
 			},
 			
 			fnOnShow : function(){
-				$msgBox.find("._ok").addClass("x_disabled");
+				$.xeMsgBox.$msgBox.find("._ok").addClass("x_disabled");
 				
-				$msgBox.find('input[type="checkbox"]').click(function(){
+				$.xeMsgBox.$msgBox.find('input[type="checkbox"]').click(function(){
 					if($(this).attr('checked')){
-						$msgBox.find("._ok").removeClass("x_disabled");
+						$.xeMsgBox.$msgBox.find("._ok").removeClass("x_disabled");
 					}else{
-						$msgBox.find("._ok").addClass("x_disabled");
+						$.xeMsgBox.$msgBox.find("._ok").addClass("x_disabled");
 					}
 				});
 			},
 			
 			fnOnHide : function(){
-				$msgBox.find("._ok").removeClass("x_disabled");
+				$.xeMsgBox.$msgBox.find("._ok").removeClass("x_disabled");
 			}
 		});
 	});
@@ -3532,7 +3532,7 @@ jQuery(function($){
 			// FTP 비밀번호 뿐만 아니라 정보가 전혀 없을 경우?
 			switch(htData.is_authed){
 				case -1:
-				confirmDialog(
+				$.xeMsgBox.confirmDialog(
 					{
 						sTitle : xe.lang.need_to_ftp_setup,
 						sText : xe.lang.go_to_ftp_setup,
@@ -3547,13 +3547,13 @@ jQuery(function($){
 				break;
 				
 				case 0:
-				confirmDialog(
+				$.xeMsgBox.confirmDialog(
 					{
 						sTitle : 'FTP 계정 정보가 필요 합니다.',
 						sText : 'FTP 비밀번호: <input type="password"/>',
 						bSmall : true,
 						fnOnOK : function(){
-							var sPw = $msgBox.find('input[type="password"]').val();
+							var sPw = $.xeMsgBox.$msgBox.find('input[type="password"]').val();
 							setTimeout(function(){
 								doInstallPackage(sPackageSrl, sPackageType, sPw, $item);
 							}, 0);
@@ -3578,13 +3578,15 @@ jQuery(function($){
 			downloadSkin: fillInInstalledSkinList
 		};
 		
-		showFoggy();
+		//showFoggy();
+		$.xeFoggy.show(true);
 		
 		$.exec_json("admin.procAutoinstallAdminPackageinstall", {
 			package_srl : sPackageSrl,
 			ftp_password : sPw
 		}, function(htData){
-			hideFoggy();
+			//hideFoggy();
+			$.xeFoggy.hide();
 			
 			if($item){
 				$item.addClass('installed');

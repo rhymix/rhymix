@@ -1002,7 +1002,7 @@ jQuery(function($){
 		</div>');
 	
 	//console.log($msgBox.html());
-	$($("body")).append($msgBox);
+	$("body").append($msgBox);
 	//console.log($msgBox);
 	//console.log($.find("body"));
 	//$msgBox.show();
@@ -1179,8 +1179,54 @@ jQuery(function($){
 	$.xeMsgBox._hideFoggy = function(){
 		$foggyLayer.hide();
 	}
-	
+});
 
+jQuery(function($){
+	$.xeFoggy = {};
+	
+	var $foggyLayer = $.xeFoggy.$foggyLayer = $("<div>");
+	$foggyLayer.css({
+		position: 'absolute',
+		top:0,
+		left:0,
+		backgroundColor:'#000',
+		opacity: 0.5,
+		display:'none',
+		zIndex:9998
+	});
+	$("body").append($foggyLayer);
+
+	$.xeFoggy._resizeFoggy = function(){
+		$foggyLayer.css({
+			width: 0,
+			height: 0
+		});
+	
+		setTimeout(function(){
+			$foggyLayer.css({
+				width: $(document).width(),
+				height: $(document).height()
+			});
+		}, 0);
+	}
+	$(window).resize($.xeFoggy._resizeFoggy);
+	$.xeFoggy._resizeFoggy();
+	
+	$.xeFoggy.show = function(bClear){
+		if(bClear){
+			$foggyLayer.css({
+				opacity: 0
+			});
+		}else{
+			$foggyLayer.css({
+				opacity: 0.5
+			});
+		}
+		$foggyLayer.show();
+	}
+	$.xeFoggy.hide = function(){
+		$foggyLayer.hide();
+	}
 });
 
 // Sortable table
