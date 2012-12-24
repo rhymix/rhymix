@@ -2613,6 +2613,14 @@
 		<value xml:lang="vi"><![CDATA[Để trang trí giao diện bằng các Module. Bạn có thể điều chỉnh chúng bằng Menu trên đầu trang.]]></value>
 		<value xml:lang="mn"><![CDATA[Лэйаут нь модиулын гадаад байдлыг чимж өгнө. Дээрх лэйаут менюнээс удирдаж болно]]></value>
 	</item>
+	<item name="msg_no_root">
+		<value xml:lang="ko"><![CDATA[루트는 선택 할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You cannot select a root.]]></value>
+	</item>
+	<item name="msg_no_shortcut">
+		<value xml:lang="ko"><![CDATA[바로가기는 선택 할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You cannot select a shortcut.]]></value>
+	</item>
 	<item name="msg_call_server">
 		<value xml:lang="ko"><![CDATA[서버에 요청 중입니다. 잠시만 기다려주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Requesting to the server, please wait.]]></value>

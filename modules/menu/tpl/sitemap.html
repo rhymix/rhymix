@@ -931,12 +931,6 @@ console.log(htNodeInfo);
 			//exec_xml("menu","procMenuAdminMoveItem", params, completeTmp);
 			
 			$.exec_json("menu.procMenuAdminMoveItem", params, function(htData){
-				//console.log(htData);
-				if(htData.error !== 0){
-					alert(htData.message);
-					return;
-				}
-				
 				// select the newly created menu
 				//$._xeAdminVar.sSelectOnload = htData.menu_item_srl;
 				
@@ -1091,11 +1085,6 @@ function renameSitemap(sMenuSrl, sTitle){
 	params.menu_srl = sMenuSrl;
 	
 	$.exec_json("menu.procMenuAdminUpdate", params, function(htData){
-		if(htData.error !== 0){
-			alert(htData.message);
-			return;
-		}
-		
 		$._xeAdminVar.sSelectOnload = sMenuSrl;
 		loadSiteMap();
 		return;
@@ -1355,12 +1344,12 @@ jQuery(function($){
 
 	$(document.body).on("click", '._menuSelector_menuTreeContainer a', function(){
 		if($(this).hasClass('_nodeType_1')){
-			alert('no root plz');
+			$.xeMsgBox.alert(xe.msg_no_root);
 			return;
 		}
 		
 		if($(this).hasClass('_nodeType_3')){
-			alert('no shortcut plz');
+			$.xeMsgBox.alert(xe.msg_no_shortcut);
 			return;
 		}
 		
@@ -1424,12 +1413,6 @@ jQuery(function($){
 		var params = {};
 		params['title'] = sTitle;
 		$.exec_json("menu.procMenuAdminInsert", params, function(htData){
-			//console.log(htData);
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			
 			//$._xeAdminVar.sRenameOnload = htData.menu_srl;
 			//$._xeAdminVar.sSelectedMenuSrl = htData.menu_srl;
 			$._xeAdminVar.sSelectOnload = htData.menu_srl;
@@ -1485,7 +1468,7 @@ jQuery(function($){
 			var sParentSrl = $._xeAdminVar.sSelectedMenuSrl;
 			 do{
 				if(sParentSrl == $._xeAdminVar.sCopySourceMenuSrl){
-					alert(xe.lang.msg_target_is_sub_of_origin);
+					$.xeMsgBox.alert(xe.lang.msg_target_is_sub_of_origin);
 					return;
 				}
 
@@ -1508,12 +1491,6 @@ jQuery(function($){
 			params['source_srl'] = 0; 
 			
 			$.exec_json("menu.procMenuAdminMoveItem", params, function(htData){
-				//console.log(htData);
-				if(htData.error !== 0){
-					alert(htData.message);
-					return;
-				}
-				
 				// select currently selected menu
 				$._xeAdminVar.sSelectOnload = params['target_srl'];
 				loadSiteMap();
@@ -1528,12 +1505,6 @@ jQuery(function($){
 			params['menu_item_srl'] = $._xeAdminVar.sCopySourceMenuSrl;
 
 			$.exec_json("menu.procMenuAdminCopyItem", params, function(htData){
-				//console.log(htData);
-				if(htData.error !== 0){
-					alert(htData.message);
-					return;
-				}
-				
 				// select currently selected menu
 				$._xeAdminVar.sSelectOnload = params['menu_item_srl'];
 				loadSiteMap();
@@ -1558,12 +1529,6 @@ jQuery(function($){
 				var params = {};
 				params['menu_srl'] = sSelectedMenuSrl;
 				$.exec_json("menu.procMenuAdminDelete", params, function(htData){
-					//console.log(htData);
-					if(htData.error !== 0){
-						alert(htData.message);
-						return;
-					}
-					
 					loadSiteMap();
 				});
 			},
@@ -1639,8 +1604,6 @@ jQuery(function($){
 		});
 	}
 	top.fullSetupSaved = function(htData){
-		console.log(htData);
-		//alert('cool');
 		$('#fullSetup').hide();
 		
 		loadFullSetup();
@@ -1660,12 +1623,6 @@ jQuery(function($){
 			};
 
 			$.exec_json("admin.procInstallAdminUpdateIndexModule", params, function(htData){
-				//console.log(htData);
-				if(htData.error !== 0){
-					alert(htData.message);
-					return;
-				}
-				
 				// select currently selected menu
 				$._xeAdminVar.sSelectOnload =  $._xeAdminVar.sSelectedMenuSrl;
 				loadSiteMap();
@@ -1772,7 +1729,7 @@ jQuery(function($){
 			if(nSelectedTabIdx === 0){
 				sUrl = $('#add_menu .x_active ._linkUrl').val();
 				if(!sUrl || sUrl === "http://"){
-					alert('URL is required');
+					$.xeMsgBox.alert('URL is required');
 					return;
 				}
 				if(!sUrl.match(/^http:\/\//)){
@@ -1813,12 +1770,6 @@ jQuery(function($){
 		)
 		*/
 		$.exec_json("menu.procMenuAdminInsertItem", params, function(htData){
-			//console.log(htData);
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			
 			// select the newly created menu
 			//$._xeAdminVar.sSelectOnload = htData.menu_item_srl;
 			
@@ -1925,11 +1876,6 @@ jQuery(function($){
 		params['browser_title'] = sBrowserTitle;
 //console.log(params);return;
 		$.exec_json("menu.procMenuAdminUpdateItem", params, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			
 			// select currently selected menu
 			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
 			loadSiteMap();
@@ -2291,12 +2237,8 @@ jQuery(function($){
 		};
 		
 		jQuery.exec_json("menu.procMenuAdminUpdateAuth", htParam, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-
-			alert(xe.lang.success_saved);
+			//alert(xe.lang.success_saved);//.//
+			$.xeMsgBox.alert(xe.lang.success_saved);
 			$('#auth').hide();
 		});
 	});
@@ -2502,11 +2444,6 @@ jQuery(function($){
 		};
 //-----------------------------------
 		$.exec_json("module.getModuleInfoByMenuItemSrl", params, function(htData){
-		
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
 			var htTmp = htData.module_info_by_menu_item_srl;
 			
 			var sLayoutTitle, sLayoutSrl;
@@ -2620,11 +2557,6 @@ jQuery(function($){
 				site_srl : 0,
 				type : sMode
 			}, function(htData){
-				if(htData.error !== 0){
-					alert(htData.message);
-					return;
-				}
-
 				$._xeAdminVar.htSiteDefaultLayout[sMode].layout_srl = htData.layout_srl;
 				$._xeAdminVar.htSiteDefaultLayout[sMode].title = htData.title;
 				
@@ -2703,11 +2635,6 @@ jQuery(function($){
 			menu_item_srl : $._xeAdminVar.sSelectedMenuSrl,
 			use_mobile : sYN_useMobile
 		}, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			
 			$._xeAdminVar.sOpenDeisgnWith = "M";
 			$('#design').show();
 		});
@@ -2730,12 +2657,7 @@ jQuery(function($){
 		};
 
 		jQuery.exec_json("module.procModuleAdminSetDesignInfo", htParam, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			
-			alert(xe.lang.success_saved);
+			$.xeMsgBox.alert(xe.lang.success_saved);
 			
 			var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 			$._xeAdminVar.sOpenDeisgnWith = sMode;
@@ -2764,12 +2686,7 @@ jQuery(function($){
 		};
 
 		jQuery.exec_json("module.procModuleAdminSetDesignInfo", htParam, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			
-			alert(xe.lang.success_saved);
+			$.xeMsgBox.alert(xe.lang.success_saved);
 			
 			var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 			$._xeAdminVar.sOpenDeisgnWith = sMode;
@@ -2822,12 +2739,7 @@ jQuery(function($){
 		//console.log(htParam);
 
 		jQuery.exec_json("admin.procAdminInsertDefaultDesignInfo", htParam, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-			
-			alert(xe.lang.success_saved);
+			$.xeMsgBox.alert(xe.lang.success_saved);
 			$('#design').show();
 		});
 	});
@@ -3143,12 +3055,6 @@ jQuery(function($){
 					layout_srl : sLayoutSrl,
 					title : sTitle.split(',')
 				}, function(htData){
-					//console.log(htData);
-					if(htData.error !== 0){
-						alert(htData.message);
-						return;
-					}
-					
 					fillInInstalledLayoutList();
 				});
 			},
@@ -3184,12 +3090,6 @@ jQuery(function($){
 				$.exec_json("layout.procLayoutAdminDelete", {
 					layout_srl : sLayoutSrl
 				}, function(htData){
-					//console.log(htData);
-					if(htData.error !== 0){
-						alert(htData.message);
-						return;
-					}
-					
 					fillInInstalledLayoutList();
 				});
 			}
@@ -3249,11 +3149,6 @@ jQuery(function($){
 					function( strRes ) {
 						var htData = $.parseJSON(strRes);
 						
-						if(htData.error !== 0){
-							alert(htData.message);
-							return;
-						}
-						
 						$('#layout').show();
 						//console.log(999, strRes, htData);
 					}
@@ -3264,19 +3159,9 @@ jQuery(function($){
 		});
 	})
 	top.refreshLayoutList = function(htData){
-		if(htData.error !== 0){
-			alert(htData.message);
-			return;
-		}
-		
 		$('#layout').show();
 	}
 	top.refreshLayoutMarkupSetup = function(htData){
-		if(htData.error !== 0){
-			alert(htData.message);
-			return;
-		}
-		
 		$('#layoutMarkupSetup').show();
 	}
 	$('#layoutMarkupSetup').on('show', function(ev){
@@ -3320,11 +3205,6 @@ jQuery(function($){
 					function( strRes ) {
 						var htData = $.parseJSON(strRes);
 						
-						if(htData.error !== 0){
-							alert(htData.message);
-							return;
-						}
-						
 						$('#layoutSetup').hide();
 						//console.log(999, strRes, htData);
 					}
@@ -3357,11 +3237,6 @@ jQuery(function($){
 					}
 				});				
 				
-				return;
-			}
-			
-			if(htData.error !== 0){
-				alert(htData.message);
 				return;
 			}
 			
@@ -3654,11 +3529,6 @@ jQuery(function($){
 
 		//act=getAutoinstallAdminIsAuthed
 		$.exec_json("admin.getAutoinstallAdminIsAuthed", {}, function(htData){
-			if(htData.error !== 0){
-				alert(htData.message);
-				return;
-			}
-
 			// FTP 비밀번호 뿐만 아니라 정보가 전혀 없을 경우?
 			switch(htData.is_authed){
 				case -1:
@@ -3722,7 +3592,7 @@ jQuery(function($){
 				htFunc[sPackageType]();
 			}
 			
-			alert(xe.lang.installation_completed);
+			$.xeMsgBox.alert(xe.lang.installation_completed);
 		});
 	}
 	top.fullSetupDone = function(htData){
@@ -3755,7 +3625,7 @@ jQuery(function($){
 	});
 		
 	$('a._siteDesignSetupLink').attr('title', xe.lang.go_to_site_design_setup).click(function(){
-		alert(xe.lang.go_to_site_design_setup);
+		$.xeMsgBox.alert(xe.lang.go_to_site_design_setup);
 	});
 // Set #site height fix
 	$(window).resize(function(){

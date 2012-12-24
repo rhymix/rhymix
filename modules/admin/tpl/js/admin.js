@@ -1002,7 +1002,8 @@ jQuery(function($){
 		</div>');
 	
 	//console.log($msgBox.html());
-	$($.find("body")).append($msgBox);
+	$($("body")).append($msgBox);
+	//console.log($msgBox);
 	//console.log($.find("body"));
 	//$msgBox.show();
 	/*
@@ -1123,6 +1124,16 @@ jQuery(function($){
 	$.xeMsgBox.alertDialog = function(htOptions){
 		htOptions = htOptions || {};
 		htOptions.bAlert = true;
+		
+		this.showMsgBox(htOptions);
+	}
+	$.xeMsgBox.alert = function(sTitle){
+		htOptions = {
+			bAlert : true,
+			bNobody : true,
+			bSmall: true,
+			sTitle : sTitle
+		};
 		
 		this.showMsgBox(htOptions);
 	}
@@ -2271,5 +2282,10 @@ jQuery(function($){
 	});
 	*/
 });
-
 //----------------menu selector end
+
+jQuery(function($){
+	alert = function(){
+		return $.xeMsgBox.alert.apply($.xeMsgBox, arguments);
+	}
+});
