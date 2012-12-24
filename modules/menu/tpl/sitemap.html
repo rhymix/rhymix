@@ -1154,39 +1154,7 @@ jQuery(function($){
 			  return contents;
 		})(this[0]));
 	}
-	
-	var _hide = $.fn.hide;
-	$.fn.hide = function(speed, easing, callback, htOpt) {
-		//$(this).trigger('hide', [htOpt]);
-		
-		$(this).find('.active').removeClass('active');
-		
-		var sId = $(this).attr("id");
-		
-		if($(this).hasClass("col")){
-			$(this).next().hide(speed, easing, callback, htOpt);
 
-			if(sId){
-				$(this).parent().find('a[href="#'+sId+'"]').parent('li.active').removeClass('active');
-			}
-		}
-
-		return _hide.apply(this, arguments);
-	}
-	
-	var _show = $.fn.show;
-	$.fn.show = function(speed, easing, callback, htOpt) {
-		//$(this).trigger('show', [htOpt]);
-
-		if($(this).hasClass("col")){
-			$(this).next().hide(speed, easing, callback, htOpt);
-			
-			setTimeout(scrollToRight, 0);
-			//scrollToRight();
-		}
-
-		return _show.apply(this, arguments);
-	}
 	
 	$.fn.prevUntilAnd = function(){
 		var $result = $.fn.prevUntil.apply(this, arguments);

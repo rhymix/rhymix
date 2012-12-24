@@ -906,7 +906,7 @@ jQuery(function($){
 		return this;
 	}
 
-	$('.module_search').xeModuleSearchHtml();
+	//$('.module_search').xeModuleSearchHtml();
 });
 /*
 // Menu Selector
@@ -922,22 +922,46 @@ jQuery(function($){
 	}
 });
 */
+
 jQuery(function($){	
+
 	var _hide = $.fn.hide;
-	$.fn.hide = function(htOpt) {
+	$.fn.hide = function(speed, easing, callback, htOpt) {
 		$(this).trigger('hide', [htOpt]);
+		$(this).find('.active').removeClass('active');
 		
+		var sId = $(this).attr("id");
+		
+		if($(this).hasClass("col")){
+			$(this).next().hide(speed, easing, callback, htOpt);
+
+			if(sId){
+				$(this).parent().find('a[href="#'+sId+'"]').parent('li.active').removeClass('active');
+			}
+		}
+
 		return _hide.apply(this, arguments);
 	}
 	
 	var _show = $.fn.show;
-	$.fn.show = function(htOpt) {
+	$.fn.show = function(speed, easing, callback, htOpt) {
 		$(this).trigger('show', [htOpt]);
+
+		if($(this).hasClass("col")){
+			$(this).next().hide(speed, easing, callback, htOpt);
+			
+			var $container = $(this).parent();
+			setTimeout(function(){
+				$container.scrollTo($container.width(), 0, {duration: 0 } );
+			}, 0);
+			//scrollToRight();
+		}
 
 		return _show.apply(this, arguments);
 	}
-});
 	
+});
+
 jQuery(function($){	
 	/*
 	<fieldset class="x_modal" id="msgBox" style="display:none">
@@ -960,8 +984,9 @@ jQuery(function($){
 	$.xeMsgBox = {
 		htOptions : {}
 	};
-	
-	var $msgBox = $.xeMsgBox.$msgBox = $("<div>").addClass("x_modal _common x").css('display', 'none');
+	//xe.cmd_cancel = "{$lang->cmd_cancel}";
+	//xe.cmd_confirm = "{$lang->cmd_confirm}";
+	var $msgBox = $.xeMsgBox.$msgBox = $("<div>").addClass("x_modal _common x").css('display', 'none').css('z-index', 9999);
 	$msgBox.html('<button type="button" class="x_close _cancel">×</button>\
 		<div class="x_modal-header">\
 			<h3 class="_title"></h3>\
@@ -970,9 +995,9 @@ jQuery(function($){
 			<p class="_text"></p>\
 		</div>\
 		<div class="x_modal-footer">\
-			<button type="button" class="x_btn x_pull-left _cancel">{$lang->cmd_cancel}</button>\
+			<button type="button" class="x_btn x_pull-left _cancel">'+xe.cmd_cancel+'</button>\
 			<span class="x_btn-group x_pull-right">\
-				<button type="submit" class="x_btn x_btn-inverse _ok">{$lang->cmd_confirm}</button>\
+				<button type="submit" class="x_btn x_btn-inverse _ok">'+xe.cmd_confirm+'</button>\
 			</span>\
 		</div>');
 	
@@ -1116,7 +1141,7 @@ jQuery(function($){
 		backgroundColor:'#000',
 		opacity: 0.5,
 		display:'none',
-		zIndex:100
+		zIndex:9998
 	});
 	//$($.find("body")).append($msgBox);
 	$($.find("body")).append($foggyLayer);
@@ -1922,3 +1947,329 @@ function getOffset(elem, offsetParent) {
 
 	return {top:top, left:left};
 }
+
+//----------------menu selector start
+jQuery._xeAdminVar = jQuery._xeAdminVar || {};
+
+jQuery(function($){
+	var $container;
+	var aSelectedModules;
+	var htNodeInfo;
+	var fnOnSelect;
+	
+	$.template( "menuSelector_menuTree", '<ul>{{html Nodes}}</ul>' );
+	$.template( "menuSelector_menuTreeNode", '	<li>\
+		<a href="#" class="_nodeType_${NodeType} _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'>${MenuTitle}</a>\
+		{{html SubTree}}\
+	</li>' );
+	//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
+	function onSiteMapReceived(htData){
+		var $ = jQuery;
+
+		var aMenuList = htData.menuList;
+		
+		var sTreeHtml = createTreeMarkup(aMenuList, 0, "menuSelector_menuTree", "menuSelector_menuTreeNode");
+		$container.html(sTreeHtml);
+		
+		$container
+			.jstree({
+				"plugins" : ["themes","html_data","ui","crrm"],
+				
+				"crrm" : {
+					"move" : {
+						"check_move" : function (m) {
+							var p = this._get_parent(m.o);
+
+							// root is not draggable
+							if(p === -1) return false;
+							
+							// a menu cann't be dragged to a root position
+							p = this._get_parent(m.np);
+							if(!p) return false;
+							
+							return true;
+						}
+					}
+				},
+				
+				"core" : {  }
+			})
+			.bind("loaded.jstree", function (event, data) {
+				data.inst.open_all();
+				
+				var sRenameId = $._xeAdminVar.sRenameOnload;
+				$._xeAdminVar.sRenameOnload = null;
+				
+				var sSelectOnload = $._xeAdminVar.sSelectOnload;
+				$._xeAdminVar.sSelectOnload = null;
+				
+				if(sRenameId){
+					//console.log('renaming', sRenameId);
+					$("#siteMapTree").jstree("rename", $("#menu"+sRenameId));
+					$("#menu"+sRenameId)[0].scrollIntoView(true);
+				}
+				
+				if(sSelectOnload){
+					//console.log('selecting', sSelectOnload);
+					var el = $("#menu"+sSelectOnload)[0];
+					
+					if(el){
+						$("#siteMapTree").jstree("select_node", $(el));
+						el.scrollIntoView(true);
+					}
+				}
+				
+			})
+			.bind("select_node.jstree", function(event, data){
+				//console.log(data);
+				//jstree-clicked
+			});
+		
+		// disable sitemap labels and shortcuts.
+		$container.find('._nodeType_1, ._nodeType_3').parent('li').addClass('x_disabled');
+
+		/*
+		if(sSelectedModule){
+			$container.find('._menu_url_'+sSelectedModule).click();
+		}
+		*/
+	}
+
+	$.xeShowMenuSelector = function($container_param, fnOnSelect_param, aSelectedModules_param){
+		var $ = jQuery;
+		
+		var params = {
+			menu_srl : 0
+		};
+		
+		$container = $container_param;
+		aSelectedModules = aSelectedModules_param;
+		fnOnSelect = fnOnSelect_param;
+		htNodeInfo = {};
+
+		$.exec_json("menu.getMenuAdminSiteMap", params, onSiteMapReceived);
+	}
+
+	// return html
+	function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
+		var $ = jQuery;
+		
+		sMenuTree = sMenuTree || "menuSelector_menuTree";
+		sMenuTreeNode = sMenuTreeNode || "menuSelector_menuTreeNode";
+		
+		var $ = jQuery;
+		
+		if(aNode.length == 0){
+			return "";
+		}
+		
+		var sActiveBtn, sNormalBtn, sHoverBtn, sExpand, sLink, aSubNodes, sNodeSrl, sOpenWindow, sParentSrl, nSelected, sText, sURL, sIsStartModule, aSubNode, sModuleType;
+		
+		// 1: Sitemap node, 2: Menu node
+		var nNodeType;
+
+		var sResult = "";
+		var sTargetPanel;
+		for(var i=0, nLen=aNode.length; i<nLen; i++){
+			aNode[i].sParentSrl = sParentSrl;
+
+			// Only sitemap node has menuSrl
+			if(aNode[i].menuSrl){
+				nNodeType = 1;
+			}else{
+				nNodeType = 2;
+			}
+			
+			sURL = "";
+			switch(nNodeType){
+				case 1:
+				sText  = aNode[i].title;
+				sNodeSrl  = aNode[i].menuSrl;
+				
+				aSubNode  = aNode[i].menuItems.list;
+				
+				sTargetPanel = "#propertiesRoot";
+				break;
+				
+				case 2:
+				sText  = aNode[i].text;
+				sLink  = aNode[i].link;
+				sURL  = aNode[i].url;
+				sNodeSrl  = aNode[i].node_srl;
+				//sParentSrl  = aNode[i].parent_srl;
+
+				sExpand  = aNode[i].expand;
+				sOpenWindow  = aNode[i].open_window;
+
+				nSelected  = aNode[i].selected;
+
+				sActiveBtn  = aNode[i].active_btn;
+				sNormalBtn  = aNode[i].normal_btn;
+				sHoverBtn = aNode[i].hover_btn;
+				
+				sIsStartModule = aNode[i].is_start_module;
+				
+				aSubNode  = aNode[i].list;
+				
+				sModuleType = aNode[i].module_type;
+				sModule = aNode[i].module;
+				
+				sTargetPanel = "#properties";
+				
+				if(aNode[i].is_shortcut === "Y"){
+					sModuleType = "_SHORTCUT";
+					sURL = "";
+					aNode[i].bShortCut = true;
+				}else{
+					aNode[i].bShortCut = false;
+				}
+
+				break;
+				
+				default:
+			}
+
+			htNodeInfo[sNodeSrl] = aNode[i];
+			htNodeInfo[sNodeSrl].aNode = aSubNode || [];
+
+			htNodeInfo[sNodeSrl].nNodeType = nNodeType;
+			htNodeInfo[sNodeSrl].sNodeSrl = sNodeSrl;
+			htNodeInfo[sNodeSrl].sText = sText;
+			htNodeInfo[sNodeSrl].sMenuNameKey = htNodeInfo[sNodeSrl].menu_name_key;
+			
+			htNodeInfo[sNodeSrl].sModuleType = sModuleType;
+
+			sSubTree = "";
+			if(aSubNode && aSubNode.length>0){
+				sSubTree = createTreeMarkup(aSubNode, sNodeSrl, sMenuTree, sMenuTreeNode);
+			}
+			/*
+			if(sMenuType === "shortcut"){
+				sText = sText + " ${s}";
+			}
+			*/
+			var sTextWithIcons = sText;
+			if(sIsStartModule){
+				sTextWithIcons += " ${h}";
+			}
+			if(htNodeInfo[sNodeSrl].sModuleType === "_SHORTCUT"){
+				sTextWithIcons += " ${s}";
+				nNodeType = 3;
+			}
+
+			var $node = $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} )
+						.data('sMenuId', sNodeSrl).data('sMenuUrl', sURL).data('sMenuTitle', sText);
+			//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
+			//console.log($node);
+			sResult += $node[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='x_icon-share' title='Shortcut'></i>");
+		}
+		
+		return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
+	}
+
+});
+
+
+jQuery(function($){
+	// <a class="x_btn moduleTrigger tgAnchor xe-content-toggler xe-module-search" href="#__module_searcher_0">찾기</a>
+	/*
+	$t
+		.not('.xe-module-search')
+		.addClass('xe-module-search')
+		.parent()
+		.find('.moduleTrigger')
+	*/
+	
+	function xeMenuSearch(ev){
+		var $btn = $(ev.target);
+		
+		$.xeMsgBox.confirmDialog({
+			sTitle : 'TITLE',
+
+			sText : '<div style="width:368px;height:300px;border:1px solid;overflow:scroll"><div class="tree"></div></div>',
+			
+			bSmall: true,
+			
+			bDanger: true,
+			
+			fnOnOK : function(){
+				console.log($container.find('.jstree-clicked'));
+				
+				var aSelected = [];
+				$container.find('.jstree-clicked').each(function(idx, el){
+					var htParam = $.parseJSON($(this).attr('data-param'));
+					/*
+					sMenuId : "552"
+					sMenuTitle : "222"
+					sMenuUrl : "page_QLQK2400"
+					*/
+					aSelected.push({browser_title: htParam.sMenuTitle, mid: htParam.sMenuUrl, module_srl: htParam.sMenuId});
+					console.log(htParam);
+					//console.log($(el).closest('li'), $(el).closest('li').data('sMenuId'));
+				});
+				
+				$btn.trigger('moduleSelect', [aSelected]);
+			}
+		});
+		
+		$container = $('.x_modal._common .tree');
+		$.xeShowMenuSelector($container);
+		console.log(ev);
+	}
+	
+	// Add html for .module_search
+	$.fn.xeMenuSearchHtml = function(){
+		var tmpCount = 0;
+
+		$(this).each(function(){
+			var $this = $(this);
+			var id = $this.attr('id');
+			if(!id) id = '__module_search_' + tmpCount;
+			tmpCount++;
+
+			// add html
+			var $btn = $('<a class="x_btn moduleTrigger">' + xe.cmd_find + '</a>');
+			var $displayInput = $('<input type="text" readonly>');
+			$this.after($btn).after('&nbsp;').after($displayInput).hide();
+			$btn.on('click', xeMenuSearch);
+
+			// on selected module
+			$btn.bind('moduleSelect', function(e, selected){
+				$displayInput.val(selected[0].browser_title + ' (' + selected[0].mid + ')');
+				$this.val(selected[0].module_srl);
+			});
+
+			// get module info
+			if($this.val()){
+				$.exec_json('module.getModuleAdminModuleInfo', {'module_srl': $this.val()}, function(data){
+					if(!data || !data.module_info) return;
+
+					$displayInput.val(data.module_info.browser_title + ' (' + data.module_info.mid + ')');
+				});
+			}
+		});
+
+		return this;
+	}
+
+	$('.module_search').xeMenuSearchHtml();
+
+	//$.xeShowMenuSelector($container);
+	//$('.module_search').xeModuleSearchHtml();
+	//console.log($('.module_search'));
+	/*
+	$('.module_search').each(function(){
+		var $t = $(this);
+		
+		if($t.hasClass('.xe-module-search')) return;
+		
+		$t.addClass('xe-module-search');
+
+		console.log($t);
+		
+		
+	});
+	*/
+});
+
+//----------------menu selector end
