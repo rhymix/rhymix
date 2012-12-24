@@ -99,7 +99,7 @@ body>.x,
 .x_modal,
 .x_modal-backdrop{display:none}
 .x_modal-backdrop{opacity:.6;filter:alpha(opacity=60)}
-.x_modal{padding:0;width:90%;margin:-250px 0 0 -45%;max-width:none;border-radius:6px;background-color:#333;background-image:-webkit-linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);background-image:-moz-linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);background-image:-o-linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);background-image:linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);}
+.x_modal{padding:0;width:90%;margin:0 0 0 -45%;max-width:none;border-radius:6px;background-color:#333;background-image:-webkit-linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);background-image:-moz-linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);background-image:-o-linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);background-image:linear-gradient(top, #666, #333 28px, #000 28px, #333 56px);}
 .x_modal>form{margin:0 !important}
 .x_modal>.x_close{position:absolute;top:10px;right:5px;font-size:21px;color:#fff}
 .x_modal .x_modal-header{padding:15px;border-bottom:1px solid #aaa}
