@@ -390,11 +390,11 @@ class memberAdminView extends member
 			$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
 			if($isAdmin)
 			{
-				if($formInfo->mustRequired) $formTag->title = '<em style="color:red">*</em> '.$formTag->title;
+				if($formInfo->mustRequired) $formTag->title = '<em>*</em> '.$formTag->title;
 			}
 			else
 			{
-				if ($formInfo->required && $formInfo->name != 'password') $formTag->title = '<em style="color:red">*</em> '.$formTag->title;
+				if ($formInfo->required && $formInfo->name != 'password') $formTag->title = '<em>*</em> '.$formTag->title;
 			}
 			$formTag->name = $formInfo->name;
 
@@ -421,7 +421,7 @@ class memberAdminView extends member
 
 					if($target->src)
 					{
-						$inputTag = sprintf('<p class="a"><input type="hidden" name="__%s_exist" value="true" /><span id="%s"><img src="%s" alt="%s" /> <button type="button" class="text" onclick="%s(%d);return false;">%s</button></span></p>',
+						$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="true" /><span id="%s"><img src="%s" alt="%s" /> <button type="button" onclick="%s(%d);return false;">%s</button></span>',
 							$formInfo->name,
 							$formInfo->name.'tag',
 							$target->src,
@@ -434,7 +434,7 @@ class memberAdminView extends member
 					{
 						$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="false" />', $formInfo->name);
 					}
-					$inputTag .= sprintf('<p class="a"><input type="file" name="%s" id="%s" value="" /></p><p><span class="desc">%s : %dpx, %s : %dpx</span></p>',
+					$inputTag .= sprintf('<input type="file" name="%s" id="%s" value="" accept="image/*" /><p class="x_help-block">%s: %dpx, %s: %dpx</p>',
 						$formInfo->name,
 						$formInfo->name,
 						$lang->{$formInfo->name.'_max_width'},
@@ -515,25 +515,28 @@ class memberAdminView extends member
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
 							'tel_1' => $extendForm->value[1],
 							'tel_2' => $extendForm->value[2]);
-						$template = '<input type="tel" name="%column_name%[]" value="%tel_0%" size="4" maxlength="4" style="width:30px" />-<input type="tel" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:30px" />-<input type="tel" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:30px" />';
+						$template = '<input type="tel" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="4" maxlength="4" style="width:30px" title="First Number" /> - <input type="tel" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:30px" title="Second Number" /> - <input type="tel" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:30px" title="Third Number" />';
 					}
 					else if($extendForm->column_type == 'textarea')
 					{
-						$template = '<textarea name="%column_name%" rows="8" cols="42">%value%</textarea>';
+						$template = '<textarea name="%column_name%" id="%column_name%" rows="4" cols="42">%value%</textarea>';
 					}
 					else if($extendForm->column_type == 'checkbox')
 					{
 						$template = '';
 						if($extendForm->default_value)
 						{
+							$template = '<div style="padding-top:5px">%s</div>';
 							$__i = 0;
+							$optionTag = array();
 							foreach($extendForm->default_value as $v)
 							{
 								$checked = '';
 								if(is_array($extendForm->value) && in_array($v, $extendForm->value))$checked = 'checked="checked"';
-								$template .= '<input type="checkbox" id="%column_name%'.$__i.'" name="%column_name%[]" value="'.htmlspecialchars($v).'" '.$checked.' /><label for="%column_name%'.$__i.'">'.$v.'</label>';
+								$optionTag[] = '<label for="%column_name%'.$__i.'"><input type="checkbox" id="%column_name%'.$__i.'" name="%column_name%[]" value="'.htmlspecialchars($v).'" '.$checked.' /> '.$v.'</label>';
 								$__i++;
 							}
+							$template = sprintf($template, implode('', $optionTag));
 						}
 					}
 					else if($extendForm->column_type == 'radio')
@@ -541,13 +544,13 @@ class memberAdminView extends member
 						$template = '';
 						if($extendForm->default_value)
 						{
-							$template = '<ul class="radio">%s</ul>';
+							$template = '<div style="padding-top:5px">%s</div>';
 							$optionTag = array();
 							foreach($extendForm->default_value as $v)
 							{
 								if($extendForm->value == $v)$checked = 'checked="checked"';
 								else $checked = '';
-								$optionTag[] = '<li><input type="radio" name="%column_name%" value="'.$v.'" '.$checked.' />'.$v.'</li>';
+								$optionTag[] = '<label><input type="radio" name="%column_name%" value="'.$v.'" '.$checked.' /> '.$v.'</label>';
 							}
 							$template = sprintf($template, implode('', $optionTag));
 						}
@@ -579,18 +582,20 @@ class memberAdminView extends member
 							'addr_1' => $extendForm->value[1],);
 						$replace = array_merge($extentionReplace, $replace);
 						$template = <<<EOD
-						<div class="krZip">
-							<div class="a" id="zone_address_search_%column_name%" >
-								<label for="krzip_address1_%column_name%">%msg_kr_address%</label><br />
-								<input type="text" id="krzip_address1_%column_name%" value="%addr_0%" />
-								<button type="button">%cmd_search%</button>
+						<div class="krZip" style="padding-top:5px">
+							<div id="zone_address_search_%column_name%" style="margin-bottom:10px">
+								<label for="krzip_address1_%column_name%">%msg_kr_address%</label>
+								<span class="x_input-append">
+									<input type="text" id="krzip_address1_%column_name%" value="%addr_0%" />
+									<button type="button" class="x_btn">%cmd_search%</button>
+								</span>
 							</div>
-							<div class="a" id="zone_address_list_%column_name%" style="display:none">
+							<div id="zone_address_list_%column_name%" hidden style="margin-bottom:10px">
 								<select name="%column_name%[]" id="address_list_%column_name%"><option value="%addr_0%">%addr_0%</select>
 								<button type="button">%cmd_search_again%</button>
 							</div>
-							<div class="a address2">
-								<label for="krzip_address2_%column_name%">%msg_kr_address_etc%</label><br />
+							<div class="address2" style="margin-bottom:10px">
+								<label for="krzip_address2_%column_name%">%msg_kr_address_etc%</label>
 								<input type="text" name="%column_name%[]" id="krzip_address2_%column_name%" value="%addr_1%" />
 							</div>
 						</div>
@@ -611,7 +616,7 @@ EOD;
 					$inputTag = preg_replace('@%(\w+)%@e', '$replace[$1]', $template);
 
 					if($extendForm->description)
-						$inputTag .= '<p style="color:#999;">'.htmlspecialchars($extendForm->description).'</p>';
+						$inputTag .= '<p class="x_help-block">'.htmlspecialchars($extendForm->description).'</p>';
 				}
 				$formTag->inputTag = $inputTag;
 				$formTags[] = $formTag;

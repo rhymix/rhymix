@@ -6,6 +6,38 @@
 .xm .x_table{border-top:1px solid #ddd;border-bottom:1px solid #ddd}
 .xm .x_table>caption{text-align:left;font-weight:bold}
 .xm .x_table>caption>.x_pull-right{position:relative;top:-8px}
+.xm .signin{width:400px;margin:30px auto;background-color:#ffffff;border:1px solid #999;border-radius:6px;box-shadow:0 3px 7px #ccc;box-sizing:border-box}
+.xm .signin>.login-header{padding:9px 15px;border-bottom:1px solid #eee}
+.xm .signin>.login-header>h1{margin:0;font-size:16px;line-height:1.4;font-weight:600;color:#666}
+.xm .signin>.login-header>h1>i{opacity:.5;filter:alpha(opacity=50);margin:2px 0 0 0}
+.xm .signin>.login-body{max-height:400px;padding:15px}
+.xm .signin>.login-body>*:first-child{margin-top:0}
+.xm .signin>.login-footer{padding:14px 15px 15px;margin-bottom:0;text-align:right;background-color:#f5f5f5;border-top:1px solid #ddd;-webkit-border-radius:0 0 6px 6px;-moz-border-radius:0 0 6px 6px;border-radius:0 0 6px 6px;*zoom:1;-webkit-box-shadow:inset 0 1px 0 #ffffff;-moz-box-shadow:inset 0 1px 0 #ffffff;box-shadow:inset 0 1px 0 #ffffff; color:#ccc}
+.xm .signin>.login-footer:before,
+.xm .signin>.login-footer:after{display:table;line-height:0;content:"";clear:both}
+.xm .signin>.login-footer>a{text-decoration:none}
+.xm .signin>.login-footer>a:hover,
+.xm .signin>.login-footer>a:active,
+.xm .signin>.login-footer>a:focus{text-decoration:underline}
+.xm .signin .x_control-group{position:relative;padding:0 14px 0 0;margin:0;clear:both}
+.xm .signin .x_control-group:before{content:"";display:block;clear:both}
+.xm .signin form{margin:0}
+.xm .signin fieldset{margin:0}
+.xm .signin label{cursor:pointer;display:inline-block}
+.xm .signin input[type="text"],
+.xm .signin input[type="email"],
+.xm .signin input[type="password"]{width:100%}
+.xm .signin input[type="checkbox"]{margin:0}
+.xm .signin .x_btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px}
+.xm .signin .submit{position:absolute;top:0;right:0}
+.xm .signin #warning{margin-right:-14px}
+.xm .signin #warning>p{margin:10px 0}
+.xm .agreement{border:1px solid #ddd;padding:15px 15px 10px 15px;border-radius:5px;background:#f8f8f8;margin-bottom:15px}
+.xm .agreement>.text{max-height:200px;overflow:auto}
+.xm .agreement>.confirm{padding:10px 0 0 0;margin:10px 0 0 0;border-top:1px dotted #ccc}
+@media all and (max-width:480px){
+.xm .signin{margin:0;width:100%}
+}
 @media all and (min-width:768px){
 .xm .x_dl-horizontal>dt{margin-bottom:10px}
 }

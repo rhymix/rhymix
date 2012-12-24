@@ -953,14 +953,14 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="vi"><![CDATA[Nếu cần nhiều giá trị mặc định, bạn có thể thêm dấu (,) và giữa các kết nối.]]></value>
 	</item>
 	<item name="about_search_virtual_site">
-		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력하신 후 검색하세요.<br/>가상 사이트 이외의 모듈은 내용을 비우고 검색하면 됩니다. (http:// 는 제외)]]></value>
+		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력한 후 검색하세요.<br/>가상 사이트 이외의 모듈은 내용을 비우고 검색하면 됩니다. (http:// 는 제외)]]></value>
 		<value xml:lang="en"><![CDATA[Enter domain of virtual sites.<br />To search modules of non-virtual site, search with blank]]></value>
 		<value xml:lang="jp"><![CDATA[バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力して検索してください。<br />バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は省く）]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入子站点域名后再进行搜索。<br/>子站点以外的模块可以留空搜索。(输入时http://除外)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入網站域名後再搜尋。<br/>網站以外的模組可直接進行搜尋。(http://不用輸入)。]]></value>
-		<value xml:lang="fr"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="ru"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="es"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="fr"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="ru"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="es"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
 		<value xml:lang="tr"><![CDATA[Sanal sitelerin alanadlarını giriniz.<br />Sanal olmayan sitelerin modüllerini aramak için, boş arama yapınız]]></value>
 		<value xml:lang="vi"><![CDATA[Hãy nhập tên miền thực tế của Website.<br />Để tìm kiếm những Module không thực tế của Website hãy để trống.]]></value>
 	</item>

@@ -3,57 +3,46 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<h2 class="h2">{$lang->cmd_find_member_account_with_email}</h2>
-<p>{$lang->about_find_member_account}</p>
-<form action="./" method="get" onsubmit="return procFilter(this, find_member_account)">
-    <input type="hidden" name="mid" value="{$mid}" />
-    <input type="hidden" name="document_srl" value="{$document_srl}" />
-    <input type="hidden" name="page" value="{$page}" />
-	<ul>
-		<li>
-			<p class="q"><label for="cpw">{$lang->email_address}</label></p>
-			<p class="a"><input type="text" name="email_address" /></p>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_find_member_account}" /></span>
-	</div>
-</form>
-<!--@if(count($lang->find_account_question_items)>1)-->
-<h2 class="h2">{$lang->cmd_find_member_account_with_email_question}</h2>
-<p>{$lang->about_find_account_question}</p>
-<form action="./" method="get" ruleset="@find_member_account_by_question">
-	<input type="hidden" name="module" value="member" />
-    <input type="hidden" name="mid" value="{$mid}" />
-    <input type="hidden" name="document_srl" value="{$document_srl}" />	
-	<input type="hidden" name="act" value="procMemberFindAccountByQuestion" />
-	<input type="hidden" name="success_return_url" value="{getUrl('', 'act', 'dispMemberGetTempPassword')}" />
-    <input type="hidden" name="page" value="{$page}" />
-	<ul>
-		<li cond="$identifier == 'user_id'">
-			<p class="q"><label for="cpw">{$lang->user_id}</label></p>
-			<p class="a"><input type="text" name="user_id" /></p>
-		</li>
-		<li>
-			<p class="q"><label for="cpw">{$lang->email_address}</label></p>
-			<p class="a"><input type="text" name="email_address" /></p>
-		</li>
-		<li>
-			<p class="q"><label for="cpw">{$lang->find_account_question}</label></p>
-			<p class="a">
-				<select name="find_account_question" style="width:290px">
-				<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
-					<option value="{$i}">{$lang->find_account_question_items[$i]}</option>
-				<!--@end-->
-				</select>
-				<br />
-				<input type="text" name="find_account_answer" value="" />
-			</p>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_get_temp_password}" /></span>
-	</div>
-</form>
-<!--@end-->
+<section>
+	<h1>{$lang->cmd_find_member_account_with_email}</h1>
+	<p>{$lang->about_find_member_account}</p>
+	<form action="./" method="get" onsubmit="return procFilter(this, find_member_account)">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$document_srl}" />
+		<input type="hidden" name="page" value="{$page}" />
+		<span class="x_input-append">
+			<input type="email" name="email_address" required placeholder="{$lang->email_address}" title="{$lang->email_address}" /> 
+			<input type="submit" class="x_btn x_btn-inverse" value="{$lang->cmd_find_member_account}" />
+		</span>
+	</form>
+</section>
+<section cond="count($lang->find_account_question_items)>1">
+	<h1>{$lang->cmd_find_member_account_with_email_question}</h1>
+	<p>{$lang->about_find_account_question}</p>
+	<form action="./" method="get" ruleset="@find_member_account_by_question">
+		<input type="hidden" name="module" value="member" />
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$document_srl}" />	
+		<input type="hidden" name="act" value="procMemberFindAccountByQuestion" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'act', 'dispMemberGetTempPassword')}" />
+		<input type="hidden" name="page" value="{$page}" />
+		<div>
+			<input type="text" name="user_id" required placeholder="{$lang->user_id}" title="{$lang->user_id}" cond="$identifier == 'user_id'" />
+		</div>
+		<div>
+			<input type="email" name="email_address" required placeholder="{$lang->email_address}" title="{$lang->email_address}" />
+		</div>
+		<div>
+			<select name="find_account_question">
+			<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
+				<option value="{$i}">{$lang->find_account_question_items[$i]}</option>
+			<!--@end-->
+			</select>
+		</div>
+		<div>
+			<input type="text" name="find_account_answer" value="" required placeholder="{$lang->find_account_question}" title="{$lang->find_account_question}" />
+		</div>
+		<input type="submit" class="x_btn x_btn-inverse" value="{$lang->cmd_get_temp_password}" style="min-width:220px" />
+	</form>
+</section>
 <include target="./common_footer.html" />

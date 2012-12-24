@@ -1,5 +1,5 @@
 <include target="./common_header.html" />
-<h1 class="h1">{$member_title = $lang->msg_leave_member}</h1>
+<h1>{$member_title = $lang->msg_leave_member}</h1>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -9,18 +9,14 @@
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="page" value="{$page}" />
-	<ul>
-		<li>
-			<p class="q">{Context::getLang($identifier)}</p>
-			<p class="a">{$formValue}</p>
-		</li>
-		<li>
-			<p class="q"><label for="cpw">{$lang->password}</label></p>
-			<p class="a"><input type="password" name="password" id="cpw" /></p>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_leave}" /></span>
+	<div>
+		<input type="email" value="{$formValue}" readonly title="{Context::getLang($identifier)}" />
+	</div>
+	<div>
+		<span class="x_input-append">
+			<input type="password" name="password" id="cpw" required placeholder="{$lang->password}" title="{$lang->password}" />
+			<input type="submit" value="{$lang->cmd_leave}" class="x_btn x_btn-inverse" />
+		</span>
 	</div>
 </form>
 <include target="./common_footer.html" />

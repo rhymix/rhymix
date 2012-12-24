@@ -499,7 +499,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn không đủ điểm để Download.]]></value>
 	</item>
 	<item name="msg_disallow_by_point">
-		<value xml:lang="ko"><![CDATA[포인트가 부족하여 글을 읽으실 수 없습니다. (필요한 포인트 : %d, 현재 포인트 : %d)]]></value>
+		<value xml:lang="ko"><![CDATA[포인트가 부족하여 글을 읽을 수 없습니다. (필요한 포인트 : %d, 현재 포인트 : %d)]]></value>
 		<value xml:lang="en"><![CDATA[You need more points to read the article (You need %d, but you have %d).]]></value>
 		<value xml:lang="jp"><![CDATA[ポイントが不足しているため、閲覧ができません。(必要なポイント : %d、 現在のポイント : %d)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分不够，无法查看主题。(所需积分 : %d, 当前积分 : %d)]]></value>

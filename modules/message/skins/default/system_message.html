@@ -3,14 +3,14 @@
 <load target="../../../../common/css/bootstrap.min.css" index="1" />
 <load target="./message.css" index="2" />
 <load target="./message.js" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
 <div id="access">
 	<div class="login-header">
-		<h1>{$system_message}</h1>
+		<h1><i class="x_icon-user"></i> {$system_message}</h1>
 	</div>
 	<div class="login-body">
+		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
 		<form cond="!$is_logged && $module == 'admin'" ruleset="@login" action="{getUrl('','act','procMemberLogin')}" method="post">
 			<input type="hidden" name="module" value="member" />
 			<input type="hidden" name="act" value="procMemberLogin" />
@@ -27,18 +27,18 @@
 						{$lang->keep_signed}
 					</label>
 					<p id="warning">{$lang->about_keep_warning}</p>
-					<input type="submit" value="{$lang->cmd_login}" class="submit x_btn x_btn-primary x_btn-inverse" />
+					<input type="submit" value="{$lang->cmd_login}" class="submit x_btn x_btn-inverse" />
 				</div>
 			</fieldset>
 		</form>
-		<p cond="$is_logged && $module == 'admin'" style="text-align:center">
+		<p cond="$is_logged" style="text-align:center">
 			<a href="{getUrl('act','dispMemberLogout','module','')}" class="x_btn">{$lang->cmd_logout}</a>
 		</p>
 		<p cond="!$is_logged && $module != 'admin'" style="text-align:center">
 			<a href="{getUrl('act','dispMemberLoginForm','module','', 'mid', '')}" class="x_btn">{$lang->cmd_login}</a>
 		</p>
 	</div>
-	<div class="login-footer">
+	<div class="login-footer" cond="!$is_logged">
 		<div class="x_pull-right">
 			<a href="{getUrl('','act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
 			|

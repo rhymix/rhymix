@@ -1188,7 +1188,7 @@
 		<value xml:lang="vi"><![CDATA[Thông tin đăng kí tại Website http;//4all.kr]]></value>
 	</item>
 	<item name="msg_find_account_info">
-		<value xml:lang="ko"><![CDATA[요청하신 계정 정보는 아래와 같습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[요청한 계정 정보는 아래와 같습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This is requested account info.]]></value>
 		<value xml:lang="jp"><![CDATA[登録された会員情報は下記の通りです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您要查找的注册信息如下。]]></value>
@@ -1200,7 +1200,7 @@
 		<value xml:lang="vi"><![CDATA[Thông tin tài khoản.]]></value>
 	</item>
 	<item name="msg_find_account_comment">
-		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 한 후 비밀번호를 바꾸어주세요.]]></value>
 		<value xml:lang="en"><![CDATA[The password will be modified as the one above as you click the link below.<br />Please modify the password after login.]]></value>
 		<value xml:lang="jp"><![CDATA[下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[点击下面的链接您的注册密码将更新为上述的系统自动生成密码。<br />请重新登录后把密码改为您所熟悉的密码。]]></value>
@@ -1228,14 +1228,14 @@
 		<value xml:lang="zh-TW"><![CDATA[電子郵件變更確認信]]></value>
 	</item>
 	<item name="msg_confirm_account_info">
-		<value xml:lang="ko"><![CDATA[가입하신 계정 정보는 아래와 같습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[가입한 계정 정보는 아래와 같습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This is your account information:]]></value>
 		<value xml:lang="jp"><![CDATA[作成した会員の情報]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您的注册信息如下:]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您的註冊資料如下:]]></value>
 		<value xml:lang="fr"><![CDATA[Voilà votre Information de l'inscription du Compte:]]></value>
 		<value xml:lang="ru"><![CDATA[Информация аккаунта при регистрации]]></value>
-		<value xml:lang="es"><![CDATA[가입하신 계정 정보는 아래와 같습니다]]></value>
+		<value xml:lang="es"><![CDATA[가입한 계정 정보는 아래와 같습니다]]></value>
 		<value xml:lang="tr"><![CDATA[Hesap Bilginiz:]]></value>
 		<value xml:lang="vi"><![CDATA[Đây là thông tin bạn đã đăng kí tại Website http://4all.kr:]]></value>
 	</item>
@@ -1453,7 +1453,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn không thể đăng kí.]]></value>
 	</item>
 	<item name="msg_already_logged">
-		<value xml:lang="ko"><![CDATA[이미 회원 가입을 하신 상태입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[이미 회원 가입을 한 상태입니다.]]></value>
 		<value xml:lang="en"><![CDATA[You have already signed up.]]></value>
 		<value xml:lang="jp"><![CDATA[既に会員登録されています。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您是注册会员。]]></value>
@@ -1559,7 +1559,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn phải đồng ý với điều khoản sử dụng của chúng tôi.]]></value>
 	</item>
 	<item name="msg_user_denied">
-		<value xml:lang="ko"><![CDATA[입력하신 아이디의 사용이 중지 되었습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[입력한 아이디의 사용이 중지 되었습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You have entered a prohibited ID.]]></value>
 		<value xml:lang="jp"><![CDATA[利用が中止されているユーザIDです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您输入的用户名已禁止使用！]]></value>
@@ -1583,7 +1583,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn chưa xác nhận việc đăng kí. Xin vui lòng kiểm tra Email!]]></value>
 	</item>
 	<item name="msg_user_limited">
-		<value xml:lang="ko"><![CDATA[입력하신 아이디는 %s 이후부터 사용할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[입력한 아이디는 %s 이후부터 사용할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You have entered an ID that can be used after %s]]></value>
 		<value xml:lang="jp"><![CDATA[入力したユーザーIDは%s以降から使用できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您输入的用户名%s以后才可以开始使用。]]></value>
@@ -2024,16 +2024,16 @@
 		<value xml:lang="vi"><![CDATA[Sẽ là nhóm mặc định khi thành viên đăng kí.]]></value>
 	</item>
 	<item name="about_find_member_account">
-		<value xml:lang="ko"><![CDATA[아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다.<br />가입할 때 등록하신 메일 주소를 입력하고 "아이디/비밀번호 찾기" 버튼을 클릭해주세요.<br />]]></value>
+		<value xml:lang="ko"><![CDATA[아이디/비밀번호는 가입시 등록한 메일 주소로 알려드립니다. 가입할 때 등록한 메일 주소를 입력하고 "ID/PW 찾기" 버튼을 클릭해주세요.<br />]]></value>
 		<value xml:lang="en"><![CDATA[lease input the email address you have entered during the registration and we will send your account info to this email address.]]></value>
-		<value xml:lang="jp"><![CDATA[ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードのリマインダー」ボタンをクリックしてください。<br />]]></value>
-		<value xml:lang="zh-CN"><![CDATA[用户名/密码将发送到您注册时所输入的电子邮件当中。<br />输入注册时的电子邮件地址后，请点击“查找用户名/密码”按钮。<br />]]></value>
-		<value xml:lang="zh-TW"><![CDATA[帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。<br />輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />]]></value>
-		<value xml:lang="fr"><![CDATA[Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />]]></value>
-		<value xml:lang="ru"><![CDATA[ID и пароль при регистрации будут посланы Вам по имейл адресу.<br /> Введите имейл адрес, указанный при регистрации и кликните на кнопку "Поиск ID/пароль".<br />]]></value>
-		<value xml:lang="es"><![CDATA[Su información de la cuenta será observado por dirección de correo electrónico registrada. <br /> Introduce la dirección de correo electrónico que usted tiene de entrada en el registro, y pulse "Buscar" Información de la cuenta ". <br />]]></value>
-		<value xml:lang="tr"><![CDATA[Hesap bilginiz, kayıt olduğunuz e-posta adresine gönderilecektir.<br />Kayıt esnasında kullandığınız e-posta adresini giriniz ve "Hesap Bilgisini Bul" tuşuna basınız.<br />]]></value>
-		<value xml:lang="vi"><![CDATA[Thông tin tài khoản của bạn sẽ được tìm thấy với Email bạn đã đăng kí.<br />Xin vui lòng nhập Email mà bạn đã đăng kí và bấm "Lấy lại thông tin" để nhận được thông tin đăng nhập!.<br />]]></value>
+		<value xml:lang="jp"><![CDATA[ID/パスワードは登録時に登録されたメールにてお知らせします。登録時に登録したメールアドレスを入力して「IDとパスワードのリマインダー」ボタンをクリックしてください。<br />]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户名/密码将发送到您注册时所输入的电子邮件当中。输入注册时的电子邮件地址后，请点击“查找用户名/密码”按钮。<br />]]></value>
+		<value xml:lang="zh-TW"><![CDATA[帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />]]></value>
+		<value xml:lang="fr"><![CDATA[Your account info will be noticed by registered email address. Please input email address which you have input on registration, and press "Find Account Info" button.<br />]]></value>
+		<value xml:lang="ru"><![CDATA[ID и пароль при регистрации будут посланы Вам по имейл адресу. Введите имейл адрес, указанный при регистрации и кликните на кнопку "Поиск ID/пароль".<br />]]></value>
+		<value xml:lang="es"><![CDATA[Su información de la cuenta será observado por dirección de correo electrónico registrada. Introduce la dirección de correo electrónico que usted tiene de entrada en el registro, y pulse "Buscar" Información de la cuenta ". <br />]]></value>
+		<value xml:lang="tr"><![CDATA[Hesap bilginiz, kayıt olduğunuz e-posta adresine gönderilecektir. Kayıt esnasında kullandığınız e-posta adresini giriniz ve "Hesap Bilgisini Bul" tuşuna basınız.<br />]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin tài khoản của bạn sẽ được tìm thấy với Email bạn đã đăng kí. Xin vui lòng nhập Email mà bạn đã đăng kí và bấm "Lấy lại thông tin" để nhận được thông tin đăng nhập!.<br />]]></value>
 	</item>
 	<item name="about_temp_password">
 		<value xml:lang="ko"><![CDATA[임시 비밀번호가 정상적으로 발급되었습니다.<br />로그인 후 반드시 비밀번호를 변경하세요.<br/>]]></value>
@@ -2054,7 +2054,7 @@
 		<value xml:lang="ko"><![CDATA[현재등록된 이메일 주소는 %s입니다. 이메일 주소를 변경하고자 하는 경우 새로운 이메일 주소로 회원정보 갱신 후 인증메일을 재발 송할 수 있습니다.]]></value>
 	</item>
 	<item name="about_resend_auth_mail">
-		<value xml:lang="ko"><![CDATA[인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[인증 메일을 받지 못한 경우 다시 받을 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can request for the activation email if you have not activated yet.]]></value>
 		<value xml:lang="jp"><![CDATA[認証メールが届いてなかった場合、再送信の申請が可能です。<br />※申請の前に、当サイトからメールの受信ができるように設定してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[没有收到认证邮件时，可以在此重新发送认证邮件。]]></value>

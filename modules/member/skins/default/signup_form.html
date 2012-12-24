@@ -3,11 +3,11 @@
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
 <include target="./common_header.html" />
-    <h1 class="h1">{$lang->cmd_signup}</h1>
+    <h1 style="border-bottom:1px solid #ccc">{$lang->cmd_signup}</h1>
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-    <form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data">
+    <form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 		<input type="hidden" name="act" value="procMemberInsert" />
 		<div class="agreement" cond="$member_config->agreement">
 			<div class="text">
@@ -20,64 +20,69 @@
 				</label>
 			</div>
 		</div>
-		<ul>
-			<li>
-				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
-				<p class="a">
-					<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" value="{$identifierForm->value}" />
-				</p>
-			</li>
-			<li>
-				<p class="q">{$lang->password} <em style="color:red">*</em></p>
-				<p class="a">
-					<input type="password" name="password" value=""/>
-				</p>
-				<p class="desc">{$lang->about_password}</p>
-			</li>
-			<li>
-				<p class="q">{$lang->password3} <em style="color:red">*</em></p>
-				<p class="a">
-					<input type="password" name="password2" value=""/>
-				</p>
-			</li>
-			<li loop="$formTags=>$formTag" cond="$formTag->name != 'signature'">
-				<p class="q">{$formTag->title}</p>
-				<div class="a">{$formTag->inputTag}</div>
-			</li>
-			<li>
-				<p class="q">{$lang->allow_mailing}</p>
-				<p class="a">
-					<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'" /> <label for="mailingYes">{$lang->cmd_yes}</label>
-					<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" /> <label for="mailingNo">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q">{$lang->allow_message}</p>
-				<p class="a">
-					<block loop="$lang->allow_message_type=>$key,$val">
-						<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info && $key == 'Y')" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
-					</block>
-				</p>
-			</li>
-		</ul>
-		<div class="btnArea">
-			<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
-			<span class="btn"><a href="{getUrl('act','','member_srl','')}">{$lang->cmd_cancel}</a></span>
+		<div class="x_control-group">
+			<label for="{$identifierForm->name}" class="x_control-label"><em>*</em> {$identifierForm->title}</label>
+			<div class="x_controls">
+				<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" required />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="password" class="x_control-label"><em>*</em> {$lang->password}</label>
+			<div class="x_controls">
+				<input type="password" name="password" id="password" value="" required />
+				<p class="x_help-inline">{$lang->about_password}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="password2" class="x_control-label"><em>*</em> {$lang->password3}</label>
+			<div class="x_controls">
+				<input type="password" name="password2" id="password2" value="" required />
+			</div>
+		</div>
+		<div class="x_control-group" loop="$formTags=>$formTag" cond="$formTag->name != 'signature'">
+			<label for="" class="x_control-label">{$formTag->title}</label>
+			<div class="x_controls">{$formTag->inputTag}</div>
+		</div>
+		<div class="x_control-group">
+			<div class="x_control-label">{$lang->allow_mailing}</div>
+			<div class="x_controls" style="padding-top:5px">
+				<label for="mailingYes"><input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'" /> {$lang->cmd_yes}</label>
+				<label for="mailingNo"><input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<div class="x_control-label">{$lang->allow_message}</div>
+			<div class="x_controls" style="padding-top:5px">
+				<label for="allow_{$key}" loop="$lang->allow_message_type=>$key,$val"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info && $key == 'Y')" id="allow_{$key}" /> {$val}</label>
+			</div>
+		</div>
+		<div class="btnArea" style="border-top:1px solid #ccc;padding-top:10px">
+			<input type="submit" value="{$lang->cmd_registration}" class="x_btn x_btn-inverse x_pull-right" />
+			<a href="{getUrl('act','','member_srl','')}" class="x_btn x_pull-left">{$lang->cmd_cancel}</a>
 		</div>
 	</form>
-	<script>
-	(function($){
-		$(function(){
-			var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
-	
-				$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
-			};
-			$.extend(option,$.datepicker.regional['{$lang_type}']);
-			$(".inputDate").datepicker(option);
-			$(".dateRemover").click(function() {
-				$(this).parent().prevAll('input').val('');
-				return false;});
-		});
-	})(jQuery);
-	</script>
+<script>
+jQuery(function($){
+	// label for setup
+	$('.x_control-label[for]').each(function(){
+		var $this = $(this);
+		if($this.attr('for') == ''){
+			$this.attr('for', $this.next().children(':visible:first').attr('id'));
+		}
+	});
+});
+(function($){
+	$(function(){
+		var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
+
+			$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+		};
+		$.extend(option,$.datepicker.regional['{$lang_type}']);
+		$(".inputDate").datepicker(option);
+		$(".dateRemover").click(function() {
+			$(this).parent().prevAll('input').val('');
+			return false;});
+	});
+})(jQuery);
+</script>
 <include target="./common_footer.html" />

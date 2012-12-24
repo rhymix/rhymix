@@ -40,7 +40,7 @@ function completeMemberCheckValue(ret_obj, response_tags, field) {
     }
 
 	if (!dummy.length) {
-		dummy = jQuery('<div class="checkValue" />').attr('id', _id).appendTo(field.parentNode);
+		dummy = jQuery('<div class="checkValue x_help-inline" style="color:red" />').attr('id', _id).appendTo(field.parentNode);
 	}
 
 	dummy.html(ret_obj['message']).show();
