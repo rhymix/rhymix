@@ -175,6 +175,11 @@ class documentController extends document {
 	 * @return object
 	 */
 	function insertDocument($obj, $manual_inserted = false, $isRestore = false) {
+		if(!checkCSRF())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -309,6 +314,11 @@ class documentController extends document {
 	 * @return object
 	 */
 	function updateDocument($source_obj, $obj) {
+		if(!checkCSRF())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = 'SECRET';
 		if(!$obj->status) $obj->status = 'PUBLIC';
@@ -1861,6 +1871,11 @@ class documentController extends document {
 	function procDocumentManageCheckedDocument() {
 		set_time_limit(0);
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+
+		if(!checkCSRF())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
 
 		$type = Context::get('type');
 		$target_module = Context::get('target_module');
