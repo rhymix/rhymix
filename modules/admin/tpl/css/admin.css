@@ -107,7 +107,8 @@ body>.x,
 .x_modal .x_modal-body{background:#fff;min-height:50px}
 .x .x_control-group{padding-top:8px;margin-bottom:10px;border-top:1px dotted #ddd;clear:both}
 .x .x_control-group:before{content:"";display:block;clear:both}
-.x .x_control-group:first-child{border-top:0;padding-top:0}
+.x .x_control-group:first-child,
+.x .x_control-group:first-of-type{border-top:0;padding-top:0}
 .x .x_control-group select{width:auto;min-width:220px}
 .x input[type="text"], 
 .x input[type="password"], 
@@ -155,6 +156,7 @@ body>.x,
 .x .section>h1>.snToggle.x_icon-chevron-up{background-position:-279px -112px}
 .x .section>h1>.snToggle.x_icon-chevron-down{background-position:-303px -111px}
 .x .section>h2{position:relative;border-bottom:1px dotted #ddd}
+.x .section>h2+.x_control-group{border-top:0}
 .x .section.collapse>*{display:none}
 .x .section.collapse>h1{display:block}
 .x .center{text-align:center}

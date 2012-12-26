@@ -837,8 +837,8 @@
 		<value xml:lang="en"><![CDATA[New email address]]></value>
 	</item>
 	<item name="cmd_set_design_info">
-		<value xml:lang="ko"><![CDATA[디자인 설정]]></value>
-		<value xml:lang="en"><![CDATA[Desgin Setting]]></value>
+		<value xml:lang="ko"><![CDATA[디자인]]></value>
+		<value xml:lang="en"><![CDATA[Desgin]]></value>
 	</item>
 	<item name="cmd_login">
 		<value xml:lang="ko"><![CDATA[로그인]]></value>
