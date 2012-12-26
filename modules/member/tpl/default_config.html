@@ -6,7 +6,7 @@
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', $act)}" />
 	<div class="x_control-group">
 		<div class="x_control-label">{$lang->enable_join}</div>
-		<div class="x_controls" style="padding-top:3px">
+		<div class="x_controls">
 			<label class="x_inline" for="enable_join_yes"><input type="radio" name="enable_join" id="enable_join_yes" value="Y" checked="checked"|cond="$config->enable_join == 'Y'" /> {$lang->cmd_yes}</label>
 			<label class="x_inline" for="enable_join_no"><input type="radio" name="enable_join" id="enable_join_no" value="N" checked="checked"|cond="$config->enable_join != 'Y'" /> {$lang->cmd_no}</label>
 		</div>

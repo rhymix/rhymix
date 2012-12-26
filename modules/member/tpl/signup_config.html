@@ -15,7 +15,7 @@
 	<input type="hidden" name="agreement" value="{$config->agreement}" />
 	<div class="x_control-group">
 		<div class="x_control-label">{$lang->enable_confirm}</div>
-		<div class="x_controls" style="padding-top:3px">
+		<div class="x_controls">
 			<label class="x_inline" for="enable_confirm_yes"><input type="radio" name="enable_confirm" id="enable_confirm_yes" value="Y" checked="checked"|cond="$config->enable_confirm == 'Y'" /> {$lang->cmd_yes}</label>
 			<label class="x_inline" for="enable_confirm_no"><input type="radio" name="enable_confirm" id="enable_confirm_no" value="N" checked="checked"|cond="$config->enable_confirm != 'Y'"/> {$lang->cmd_no}</label>
 			<p class="x_help-block">{$lang->about_enable_confirm}</p>
