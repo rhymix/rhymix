@@ -251,11 +251,11 @@
 	<item name="published_name_list" type="array">
 		<item name="Y">
 			<value xml:lang="en"><![CDATA[Published]]></value>
-			<value xml:lang="ko"><![CDATA[공개 발행]]></value>
+			<value xml:lang="ko"><![CDATA[발행완료]]></value>
 		</item>
 		<item name="N">
 			<value xml:lang="en"><![CDATA[Unpublished]]></value>
-			<value xml:lang="ko"><![CDATA[발행 대기]]></value>
+			<value xml:lang="ko"><![CDATA[발행대기]]></value>
 		</item>
 	</item>
 	<item name="comment_manager">

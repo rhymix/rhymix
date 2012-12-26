@@ -208,7 +208,7 @@ jQuery(function($){
 		.change(function() {
 			var $this = $(this), name = $this.data('name');
 			$this.closest('table')
-				.find('input:checkbox')
+				.find(':checkbox')
 					.filter(function(){
 						var $this = $(this);
 						return !$this.prop('disabled') && (($this.attr('name') == name) || ($this.data('name') == name));

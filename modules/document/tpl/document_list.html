@@ -28,10 +28,10 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<a href="{getUrl('search_target', 'ipaddress')}" class="active" cond="$search_target == 'ipaddress'">{$lang->ipaddress}:{$search_keyword}({number_format($total_count)})</a>
 
 			<div class="x_btn-group x_pull-right">
-				<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->cmd_trash}</a>
-				<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->cmd_delete}</a>
-				<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->cmd_move}</a>
-				<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->cmd_copy}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->trash}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->delete}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->move}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->copy}</a>
 			</div>
 		</caption>
 		<thead>
@@ -43,7 +43,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<th scope="col" class="nowr">{$lang->date}</th>
 				<th scope="col" class="nowr">{$lang->ipaddress}</th>
 				<th scope="col" class="nowr">{$lang->status}</th>
-				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
+				<th scope="col"><input type="checkbox" name="cart" title="Check All" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -61,10 +61,10 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</table>
 	<div class="x_clearfix">
 		<div class="x_btn-group x_pull-right">
-			<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->cmd_trash}</a>
-			<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->cmd_delete}</a>
-			<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->cmd_move}</a>
-			<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->cmd_copy}</a>
+			<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->trash}</a>
+			<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->delete}</a>
+			<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->move}</a>
+			<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->copy}</a>
 		</div>
 	</div>
 </form>
@@ -129,7 +129,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</div>
 	<div class="x_modal-body">
 		<table width="100%" id="documentManageListTable" class="x_table x_table-striped x_table-hover">
-			<caption>{$lang->selected_document} <strong id="selectedDocumentCount"></strong></caption>
+			<caption><strong>{$lang->selected_document} <span id="selectedDocumentCount"></span></strong></caption>
 			<thead>
 				<tr>
 					<th scope="col" class="title">{$lang->title}</th>
@@ -154,48 +154,13 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<!-- value="trash|delete|move|copy" -->
 	</div>
 </form>
-<style>
-.menu_selector {
-	position:absolute;
-	width:100%;
-	border:3px solid green; 
-	top:100px;
-	z-index: 100;
-}
-.menu_selector ul {list-style-type:none; margin:0;}
-.menu_selector .contents {
-	border:1px solid black;
-	background:white;
-	
-	max-width:500px;
-	min-width:300px;
-	height:500px;
-	box-shadow:10px 10px 5px #888;
-	border-radius:5px;
-	margin-left:auto;
-	margin-right:auto;
-	margin-top:20px;
-}
-
-@media only screen and (max-width:1024px){
-	.menu_selector li {display:inline;}
-	.menu_selector .contents {margin-top:0;}
-	.menu_selector .contents {background:#afa;}
-}
-
-@media only screen and (max-width:800px){
-	.menu_selector li {display:inline;}
-	.menu_selector .contents {background:#aaf;}
-}
-</style>
 <script>
-
 jQuery(function($){
 	// Modal anchor activation
 	var $docTable = $('#documentListTable');
 	$docTable.find(':checkbox').change(function(){
 		var $modalAnchor = $('a[data-value]');
-		if($docTable.find(':checked').length < 1){
+		if($docTable.find(':checked').length == 0){
 			$modalAnchor.removeAttr('href').addClass('x_disabled');
 		} else {
 			$modalAnchor.attr('href','#manageForm').removeClass('x_disabled');
@@ -203,7 +168,7 @@ jQuery(function($){
 	}).change();
 	// Button action
 	$('a[data-value]').click(function(){
-		if($docTable.find(':checked').length < 1){
+		if($docTable.find(':checked').length == 0){
 			$('body').css('overflow','auto');
 			alert('{$lang->msg_not_selected_document}');
 			return false;

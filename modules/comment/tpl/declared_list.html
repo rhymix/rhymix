@@ -10,7 +10,7 @@
 	<input type="hidden" name="is_trash" value="false" />
 	
 	<!-- 목록 -->
-	<table class="x_table x_table-striped x_table-hover">
+	<table id="commentListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
 			<a href="{getUrl('search_keyword','','search_target','','act','dispCommentAdminList','Y')}">{$lang->all}</a>
 			<i>|</i>
@@ -101,3 +101,17 @@
 		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
 	</ul>
 </form>
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#commentListTable');
+	$docTable.find(':checkbox').change(function(){
+		var $btn = $('#fo_list [type="submit"], #fo_list [type="button"]');
+		if($docTable.find(':checked').length == 0){
+			$btn.addClass('x_disabled');
+		} else {
+			$btn.removeClass('x_disabled');
+		}
+	}).change();
+});
+</script>

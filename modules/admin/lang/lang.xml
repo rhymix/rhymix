@@ -1069,6 +1069,16 @@
 		<value xml:lang="zh-CN"><![CDATA[选择]]></value>
 		<value xml:lang="tr"><![CDATA[Seç]]></value>
 	</item>
+	<item name="move">
+		<value xml:lang="ko"><![CDATA[이동]]></value>
+		<value xml:lang="en"><![CDATA[Move]]></value>
+		<value xml:lang="jp"><![CDATA[移動]]></value>
+		<value xml:lang="zh-CN"><![CDATA[移动]]></value>
+		<value xml:lang="zh-TW"><![CDATA[搬移]]></value>
+		<value xml:lang="ru"><![CDATA[Перейти]]></value>
+		<value xml:lang="tr"><![CDATA[Taşı]]></value>
+		<value xml:lang="vi"><![CDATA[Di chuyển]]></value>
+	</item>
 	<item name="delete">
 		<value xml:lang="ko"><![CDATA[삭제]]></value>
 		<value xml:lang="en"><![CDATA[Delete]]></value>

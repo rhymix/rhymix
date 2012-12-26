@@ -255,3 +255,4 @@ function checkSearch(form)
 		return false;
 	}
 }
+

@@ -1859,16 +1859,6 @@
 			<value xml:lang="tr"><![CDATA[Simge Durumuna Küçült]]></value>
 			<value xml:lang="vi"><![CDATA[Thu nhỏ]]></value>
 		</item>
-		<item name="move">
-			<value xml:lang="ko"><![CDATA[이동]]></value>
-			<value xml:lang="en"><![CDATA[Move]]></value>
-			<value xml:lang="jp"><![CDATA[移動]]></value>
-			<value xml:lang="zh-CN"><![CDATA[移动]]></value>
-			<value xml:lang="zh-TW"><![CDATA[搬移]]></value>
-			<value xml:lang="ru"><![CDATA[Перейти]]></value>
-			<value xml:lang="tr"><![CDATA[Taşı]]></value>
-			<value xml:lang="vi"><![CDATA[Di chuyển]]></value>
-		</item>
 		<item name="refresh">
 			<value xml:lang="ko"><![CDATA[새로 고침]]></value>
 			<value xml:lang="en"><![CDATA[Refresh]]></value>

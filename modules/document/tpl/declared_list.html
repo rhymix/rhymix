@@ -25,8 +25,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<i>|</i>
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" class="active"|cond="$act == 'dispDocumentAdminDeclared'">{$lang->cmd_declared_list}({number_format($total_count)})</a>
 
-			<div class="x_pull-right">
-				<a href="#manageForm" class="x_btn modalAnchor" onclick="getDocumentList();">{$lang->document_manager}</a>
+			<div class="x_btn-group x_pull-right">
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->trash}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->delete}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->move}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->copy}</a>
+				<a href="#manageForm" class="x_btn modalAnchor" data-value="cancelDeclare">{$lang->cmd_cancel_declare}</a>
 			</div>
 		</caption>
 		<thead>
@@ -37,7 +41,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<th scope="col" class="nowr">{$lang->readed_count}</th>
 				<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
 				<th scope="col" class="nowr">{$lang->date}</th>
-				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
+				<th scope="col"><input type="checkbox" name="cart" title="Check All" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -52,8 +56,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			</tr>
 		</tbody>
 	</table>
-	<div class="x_pull-right">
-		<a href="#manageForm" class="x_btn modalAnchor" onclick="getDocumentList();">{$lang->document_manager}</a></span>
+	<div class="x_btn-group x_pull-right">
+		<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->trash}</a>
+		<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->delete}</a>
+		<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->move}</a>
+		<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->copy}</a>
+		<a href="#manageForm" class="x_btn modalAnchor" data-value="cancelDeclare">{$lang->cmd_cancel_declare}</a>
 	</div>
 </form>
 
@@ -102,11 +110,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="type" value="" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" />
 	<div class="x_modal-header">
-		<h3>{$lang->document_manager}</h3>
+		<h3>{$lang->document_manager}: <span class="_sub"></span></h3>
 	</div>
 	<div class="x_modal-body">
 		<table width="100%" id="documentManageListTable" class="x_table x_table-striped x_table-hover">
-			<caption>{$lang->selected_document} <strong id="selectedDocumentCount"></strong></caption>
+			<caption><strong>{$lang->selected_document} <span id="selectedDocumentCount"></span></strong></caption>
 			<thead>
 				<tr>
 					<th scope="col" class="title">{$lang->title}</th>
@@ -117,7 +125,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tbody>
 			</tbody>
 		</table>
-		<div class="x_control-group" style="position:relative">
+		<div class="x_control-group _moveTarget" style="position:relative" hidden>
 			<label>{$lang->selected_document_move}</label>
 			<input type="text" name="module_srl"  class="module_search" />
 		</div>
@@ -127,15 +135,41 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		</div>
 	</div>
 	<div class="x_modal-footer">
-		<div class="x_btn-group x_pull-left">
-			<button type="submit" name="type" value="trash" class="x_btn">{$lang->cmd_trash}</button>
-			<button type="submit" name="type" value="delete" class="x_btn">{$lang->cmd_delete}</button>
-		</div>
-		<div class="x_btn-group x_pull-right">
-			<button type="submit" name="type" value="move" class="x_btn x_btn-inverse">{$lang->cmd_move}</button>
-			<button type="submit" name="type" value="copy" class="x_btn x_btn-inverse">{$lang->cmd_copy}</button>
-			<button type="submit" name="type" value="cancelDeclare" class="x_btn x_btn-inverse">{$lang->cmd_cancel_declare}</button>
-		</div>
+		<button type="submit" name="type" value="" class="x_btn x_btn-inverse x_pull-right">{$lang->cmd_confirm}</button>
+		<!-- value="trash|delete|move|copy|cancelDeclare" -->
 	</div>
 </form>
-
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#documentListTable');
+	$docTable.find(':checkbox').change(function(){
+		var $modalAnchor = $('a[data-value]');
+		if($docTable.find(':checked').length == 0){
+			$modalAnchor.removeAttr('href').addClass('x_disabled');
+		} else {
+			$modalAnchor.attr('href','#manageForm').removeClass('x_disabled');
+		}
+	}).change();
+	// Button action
+	$('a[data-value]').click(function(){
+		if($docTable.find(':checked').length == 0){
+			$('body').css('overflow','auto');
+			alert('{$lang->msg_not_selected_document}');
+			return false;
+		} else {
+			var $this = $(this);
+			var $moveTarget = $('._moveTarget');
+			var thisValue = $this.attr('data-value');
+			var thisText = $this.text();
+			getDocumentList();
+			$('#manageForm').find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]').val(thisValue).text(thisText);
+			if(thisValue == 'trash' || thisValue == 'delete' || thisValue == 'cancelDeclare'){
+				$moveTarget.hide().next().css('borderTopWidth','0');
+			} else {
+				$moveTarget.show().next().css('borderTopWidth','1px');
+			}
+		}
+	});
+});
+</script>
