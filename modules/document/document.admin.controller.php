@@ -435,13 +435,16 @@ class documentAdminController extends document
 		$oCacheHandler = &CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			foreach($document_srl_list as $document_srl)
+			if(is_array($document_srl_list))
 			{
-				$cache_key = 'object:'.$document_srl;
-				$oCacheHandler->delete($cache_key);
-				$cache_key_item = 'object_document_item:'.$document_srl;
-				$oCacheHandler->delete($cache_key_item);
-				$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
+				foreach($document_srl_list as $document_srl)
+				{
+					$cache_key = 'object:'.$document_srl;
+					$oCacheHandler->delete($cache_key);
+					$cache_key_item = 'object_document_item:'.$document_srl;
+					$oCacheHandler->delete($cache_key_item);
+					$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
+				}
 			}
 			$oCacheHandler->invalidateGroupKey('documentList');
 		}
