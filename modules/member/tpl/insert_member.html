@@ -116,6 +116,9 @@
 <script>
 (function($){
     $(function(){
+		$tmp = $("<input>").attr("type", "date");
+		if($tmp[0].type === "date") return;
+		
         var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
 
             $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
@@ -124,7 +127,8 @@
         $(".inputDate").datepicker(option);
 		$(".dateRemover").click(function() {
 			$(this).prevAll('input').val('');
-			return false;});
+			return false;
+		});
     });
 })(jQuery);
 </script>
