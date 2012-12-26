@@ -987,18 +987,16 @@ jQuery(function($){
 	//xe.cmd_cancel = "{$lang->cmd_cancel}";
 	//xe.cmd_confirm = "{$lang->cmd_confirm}";
 	var $msgBox = $.xeMsgBox.$msgBox = $("<div>").addClass("x_modal _common x").css('display', 'none').css('z-index', 9999);
-	$msgBox.html('<button type="button" class="x_close _cancel">×</button>\
+	$msgBox.html('<button type="button" class="x_close _cancel">&times;</button>\
 		<div class="x_modal-header">\
 			<h3 class="_title"></h3>\
 		</div>\
 		<div class="x_modal-body">\
-			<p class="_text"></p>\
+			<div class="_text"></div>\
 		</div>\
 		<div class="x_modal-footer">\
 			<button type="button" class="x_btn x_pull-left _cancel">'+xe.cmd_cancel+'</button>\
-			<span class="x_btn-group x_pull-right">\
-				<button type="submit" class="x_btn x_btn-inverse _ok">'+xe.cmd_confirm+'</button>\
-			</span>\
+			<button type="submit" class="x_btn x_btn-inverse x_pull-right _ok">'+xe.cmd_confirm+'</button>\
 		</div>');
 	
 	//console.log($msgBox.html());
@@ -1080,6 +1078,7 @@ jQuery(function($){
 
 	$.xeMsgBox.showMsgBox = function(htOptions){
 		// sTitle, sText, fnOnOK, fnOnCancel, bSmall, bAlert, fnOnShow, fnOnHide, bDanger
+		$('head>link[rel="stylesheet"]:last').after('<link rel="stylesheet" href="./modules/menu/tpl/css/themes/default/style.css" />');
 		htOptions = $.xeMsgBox.htOptions = htOptions || {};
 		
 		var sTitle = htOptions.sTitle || "";
@@ -2243,7 +2242,7 @@ jQuery(function($){
 		$.xeMsgBox.confirmDialog({
 			sTitle : 'TITLE',
 
-			sText : '<div style="width:368px;height:300px;border:1px solid;overflow:scroll"><div class="tree"></div></div>',
+			sText : '<select style="width:100%"><option>...</option></select><div class="tree"></div>',
 			
 			bSmall: true,
 			
