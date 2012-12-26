@@ -287,32 +287,58 @@ class counterModel extends counter
 
 	public function getWeeklyUniqueVisitor()
 	{
-		$date = date('Ymd');
-		$output = $this->getHourlyStatus('week', $date);
+		//for last week
+		$date1 = date('Ymd', strtotime('-1 week'));
+		$output1 = $this->getHourlyStatus('week', $date1);
 
 		$tmp = array();
-		foreach($output->list AS $key=>$value)
+		foreach($output1->list AS $key=>$value)
 		{
 			$tmp["'".$key."'"] = $value;
 		}
-		$output->list = $tmp;
+		$output1->list = $tmp;
 
-		$this->add('data', $output);
+		//for this week
+		$date2 = date('Ymd');
+		$output2 = $this->getHourlyStatus('week', $date2);
+
+		$tmp = array();
+		foreach($output2->list AS $key=>$value)
+		{
+			$tmp["'".$key."'"] = $value;
+		}
+		$output2->list = $tmp;
+
+		$this->add('last_week', $output1);
+		$this->add('this_week', $output2);
 	}
 
 	public function getWeeklyPageView()
 	{
-		$date = date('Ymd');
-		$output = $this->getHourlyStatus('week', $date, 0, true);
+		//for last week
+		$date1 = date('Ymd', strtotime('-1 week'));
+		$output1 = $this->getHourlyStatus('week', $date1, 0, true);
 
 		$tmp = array();
-		foreach($output->list AS $key=>$value)
+		foreach($output1->list AS $key=>$value)
 		{
 			$tmp["'".$key."'"] = $value;
 		}
-		$output->list = $tmp;
+		$output1->list = $tmp;
 
-		$this->add('data', $output);
+		//for this week
+		$date2 = date('Ymd');
+		$output2 = $this->getHourlyStatus('week', $date2, 0, true);
+
+		$tmp = array();
+		foreach($output2->list AS $key=>$value)
+		{
+			$tmp["'".$key."'"] = $value;
+		}
+		$output2->list = $tmp;
+
+		$this->add('last_week', $output1);
+		$this->add('this_week', $output2);
 	}
 }
 /* End of file counter.model.php */
