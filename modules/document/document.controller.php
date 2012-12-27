@@ -1626,6 +1626,7 @@ class documentController extends document {
 		$xml_buff = sprintf(
 				'<?php '.
 				'define(\'__ZBXE__\', true); '.
+				'define(\'__XE__\', true); '.
 				'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
 				'$oContext = &Context::getInstance(); '.
 				'$oContext->init(); '.
