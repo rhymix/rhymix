@@ -119,7 +119,7 @@
 			<value xml:lang="zh-TW"><![CDATA[Widget 頁面]]></value>
 		</item>
 		<item name="OUTSIDE">
-			<value xml:lang="ko"><![CDATA[외부 페이지 삽입]]></value>
+			<value xml:lang="ko"><![CDATA[외부 페이지]]></value>
 			<value xml:lang="en"><![CDATA[External Page]]></value>
 			<value xml:lang="jp"><![CDATA[外部ページ]]></value>
 			<value xml:lang="zh-TW"><![CDATA[外連頁面]]></value>

@@ -58,7 +58,10 @@
 	</div>
 	<div class="col" id="add_sitemap" style="display:none">
 		<section>
-			<h1>{$lang->add_new_sitemap}</h1>
+			<h1>
+				{$lang->add_new_sitemap}
+				<a class="x_icon-question-sign" href="./help/index.html#UMAN_terminology_sitemap" target="_blank">{$lang->help}</a>
+			</h1>
 			<div class="cnt">
 				<ul class="_itemList">
 					<li>
@@ -120,7 +123,10 @@
 					<li class="ex"><button type="button" class="_edit_copy">{$lang->copy}</button></li>
 					<li class="ex"><button type="button" class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li class="ex"><button type="button" class="_deleteMenu">{$lang->cmd_delete}</button></li>
-					<li class="homepage"><label style="padding:0 0 0 8px;margin:0"><input type="checkbox" class="_chkUseAsHome switch"><i></i> {$lang->use_site_default_module}</label></li>
+					<li class="homepage">
+						<label style="padding:0 24px 0 8px;margin:0"><input type="checkbox" class="_chkUseAsHome switch"><i></i> {$lang->use_site_default_module}</label>
+						<a class="x_icon-question-sign" href="./help/index.html#UMAN_setting_startpage" target="_blank" style="padding:0;position:absolute;top:50%;right:5px;margin:-7px 0 0 0;background-color:transparent">{$lang->help}</a>
+					</li>
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li class="design"><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -173,7 +179,7 @@
 							</ul>
 							<div class="x_tab-content">
 								<div class="x_tab-pane x_active" id="add_linkUrl">
-									<input type="text" class="_linkUrl" required title="{$lang->url_link}" />
+									<input type="url" class="_linkUrl" required title="{$lang->url_link}" />
 								</div>
 								<div class="x_tab-pane" id="add_linkMenu">
 									<input type="text" class="_linkMenuTitle" title="{$lang->menu_link}" disabled placeholder="{$lang->about_menu_link}" />
@@ -401,7 +407,10 @@
 	</div>
 	<div class="col theme" id="layout" style="display:none">
 		<form action="">
-			<h1>{$lang->layout}</h1>
+			<h1>
+				{$lang->layout}
+				<a class="x_icon-question-sign" href="./help/index.html#UMAN_terminology_layout" target="_blank">{$lang->help}</a>
+			</h1>
 			<div class="cnt">
 				<label style="white-space:nowrap;cursor:pointer;width:100%">
 					{$lang->use_site_default_layout}<input type="checkbox" class="_chkUseDefaultLayout switch" title="{$lang->use_site_default_layout}"><i style="float:right"></i>
@@ -1692,7 +1701,6 @@ jQuery(function($){
 			$link.removeAttr('href');
 		}
 
-		
 		if($._xeAdminVar.sSelectedModuleName === "_SHORTCUT"){
 			$(this).removeClass("page");
 			$(this).addClass("url");
@@ -1701,11 +1709,21 @@ jQuery(function($){
 			$(this).removeClass("url");
 		}
 		
-		//$('.mapi').clone().removeClass().removeAttr('id').addClass('clone').appendTo('#add_linkMenu, #fix_linkMenu').find('li').removeAttr('id').removeAttr('class').find('ins, .side').remove();
+		// Insert help link
+		if($._xeAdminVar.sSelectedModuleName === "ARTICLE"){
+			$title.append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_article" target="_blank">{$lang->help}</a>');
+		} else if($._xeAdminVar.sSelectedModuleName === "WIDGET"){
+			$title.append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_widget" target="_blank">{$lang->help}</a>');
+		} else if($._xeAdminVar.sSelectedModuleName === "OUTSIDE"){
+			$title.append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_opage" target="_blank">{$lang->help}</a>');
+		} else if($._xeAdminVar.sSelectedModuleName === "_SHORTCUT"){
+			$title.append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_shortcut" target="_blank">{$lang->help}</a>');
+		}
 		
 		$(this).find('.lang_code').trigger('reload-multilingual');
 		
 		showMenuSelector($(this).find('._menuSelector_menuTreeContainer'));
+		
 	});
 	$('#add_menu').bind("hide", function(ev){
 		if(this !== ev.target) return;
@@ -2052,7 +2070,7 @@ jQuery(function($){
 		
 		//console.log($._xeAdminVar.aUserGroups, $._xeAdminVar.htUserGroups);
 		aPerms[0] = {
-			sKey : '',
+			sKey : 'target',
 			sTitle : xe.lang.target_of_view_menu,
 			sDefault : 'guest',
 			sGrant : htData.menu_item.grant || 'all',
@@ -2208,6 +2226,7 @@ jQuery(function($){
 			$List.append($node);
 			$('#auth select').trigger('change');
 		}
+		$('label[for="authtarget"]').append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_exposure_target" target="_blank">{$lang->help}</a>');
 	}
 
 // Auth

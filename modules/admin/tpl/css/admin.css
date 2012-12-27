@@ -23,6 +23,7 @@ body>.x,
 .x .x_page-header{margin-top:10px;padding-bottom:0;border-bottom:2px solid #ddd}
 .x .x_page-header>h1{position:relative;margin-bottom:0;font-size:24px;color:#333}
 .x .x_page-header>h1>.x_icon-question-sign{position:absolute;top:50%;right:0;margin:-7px 0 0 0}
+.x .x_icon-question-sign{vertical-align:middle}
 .x h1,
 .x h2,
 .x h3,
