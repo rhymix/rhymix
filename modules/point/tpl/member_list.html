@@ -8,7 +8,7 @@
 
 <table class="x_table x_table-striped x_table-hover">
 	<caption>
-		Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+		<strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong>
 		<form action="./" method="get" no-error-return-url="true"  class="x_pull-right"style="margin:0;height:26px">
 			<input type="hidden" name="module" value="{$module}" />
 			<input type="hidden" name="act" value="{$act}" />

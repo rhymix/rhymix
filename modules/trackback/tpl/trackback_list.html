@@ -14,7 +14,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<caption>
 			<strong>{$lang->all}({number_format($total_count)})</strong>
 			<span class="x_pull-right">
-				<a href="#listManager" class="x_btn modalAnchor" onclick="getTrackbackList();">{$lang->trackback_manager}</a>
+				<a href="#listManager" class="x_btn modalAnchor" onclick="getTrackbackList();">{$lang->delete}</a>
 			</span>
 		</caption>
 		<thead>
@@ -27,8 +27,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			</tr>
 		</thead>
 		<tbody>
-			<!--@foreach($trackback_list as $no => $val)-->
-			<tr>
+			<tr loop="$trackback_list => $no, $val">
 				<td>
 					<a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}" target="_blank">{htmlspecialchars($val->title)}</a>
 					<p>{$val->excerpt}</p>
@@ -38,11 +37,10 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
 				<td><input type="checkbox" name="cart" value="{$val->trackback_srl}" /></td>
 			</tr>
-			<!--@end-->
 		</tbody>
 	</table>
 	<div class="x_pull-right">
-		<a href="#listManager" class="x_btn modalAnchor" onclick="getTrackbackList();">{$lang->trackback_manager}</a>
+		<a href="#listManager" class="x_btn modalAnchor" onclick="getTrackbackList();">{$lang->delete}</a>
 	</div>
 </form>
 <form action="" class="x_pagination">
@@ -101,12 +99,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
 	<div class="x_modal-header">
-		<h3>{$lang->trackback_manager}</h3>
+		<h3>{$lang->trackback_manager}: {$lang->delete}</h3>
 	</div>
 	<div class="x_modal-body">
 		<table id="trackbackManageListTable" class="x_table x_table-striped x_table-hover">
 			<caption>
-			{$lang->selected_trackback} <strong id="selectedTrackbackCount"></strong>
+				<strong>{$lang->selected_trackback} <span id="selectedTrackbackCount"></span></strong>
 			</caption>
 			<thead>
 				<tr>
@@ -122,4 +120,25 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_delete}</button>
 	</div>
 </form>
-
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#trackbackListTable');
+	$docTable.find(':checkbox').change(function(){
+		var $modalAnchor = $('a.modalAnchor');
+		if($docTable.find(':checked').length == 0){
+			$modalAnchor.removeAttr('href').addClass('x_disabled');
+		} else {
+			$modalAnchor.attr('href','#listManager').removeClass('x_disabled');
+		}
+	}).change();
+	// Modal anchor button action
+	$('a.modalAnchor').click(function(){
+		if($docTable.find(':checked').length == 0){
+			$('body').css('overflow','auto');
+			alert('{$lang->msg_cart_is_null}');
+			return false;
+		}
+	});
+});
+</script>
