@@ -19,7 +19,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 		<caption>
 			<strong>{$lang->all}({number_format($total_count)})</strong>
 			<span class="x_pull-right">
-				<input type="submit" class="x_btn _allowFreqSubmit" value="{$lang->cmd_delete_checked_poll}" />
+				<input type="submit" class="x_btn _allowFreqSubmit" value="{$lang->delete}" />
 			</span>
 		</caption>
 		<thead>
@@ -51,7 +51,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 		</tbody>
 	</table>
 	<span class="x_pull-right">
-		<input type="submit" class="x_btn _allowFreqSubmit" value="{$lang->cmd_delete_checked_poll}" />
+		<input type="submit" class="x_btn _allowFreqSubmit" value="{$lang->delete}" />
 	</span>
 </form>
 
@@ -104,3 +104,24 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 	<a class="x_btn" href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
 </form>
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#pollListTable');
+	var $submit = $('#pollList [type="submit"]');
+	$docTable.find(':checkbox').change(function(){
+		if($docTable.find(':checked').length == 0){
+			$submit.addClass('x_disabled');
+		} else {
+			$submit.removeClass('x_disabled');
+		}
+	}).change();
+	// Button action
+	$submit.click(function(){
+		if($docTable.find(':checked').length == 0){
+			alert(xe.lang.msg_select_poll);
+			return false;
+		}
+	});
+});
+</script>

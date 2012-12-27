@@ -28,7 +28,7 @@ body>.x,
 .x h3,
 .x h4,
 .x h5,
-.x h6{line-height:1.5;font-weight:600;color:#666}
+.x h6{line-height:1.5;font-weight:600;color:#666;text-rendering:auto}
 .x h1{font-size:22px}
 .x h2{font-size:18px}
 .x h3{font-size:14px}

@@ -26,7 +26,7 @@
 			<th scope="col">{$lang->trash_date}</th>
 			<th scope="col">{$lang->ipaddress}</th>
 			<th scope="col">{$lang->trash_description}</th>
-			<th scope="col">{$lang->cmd_restore}</th>
+			<th scope="col">{$lang->restore}</th>
 			</tr>
 		</thead>
 	<tbody>
@@ -48,7 +48,7 @@
 			<td>{zdate($oDocument->get('trash_date'), "Y-m-d H:i:s")}</td>
 			<td>{$oDocument->get('ipaddress')}</td>
 			<td >{$oDocument->get('trash_description')}</td>
-			<td><button type="button" onclick="executeFilterByTargetSrl('restore_form', {$oDocument->get('trash_srl')}, restore_trash);">{$lang->cmd_restore}</button></td>
+			<td><button type="button" onclick="executeFilterByTargetSrl('restore_form', {$oDocument->get('trash_srl')}, restore_trash);">{$lang->restore}</button></td>
 			</tr>
 		<!--@end-->
 		</tbody>

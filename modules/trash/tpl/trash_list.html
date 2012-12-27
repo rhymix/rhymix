@@ -18,13 +18,15 @@ var no_text_comment = '{$lang->no_text_comment}';
 		<caption>
 			<strong>{$lang->all}({number_format($total_count)})</strong>
 			<div class="x_pull-right x_btn-group">
-				<a href="#fo_list" class="x_btn modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a>
 				<button type="submit" class="x_btn" name="is_all" value="true">{$lang->empty_trash_all}</button>
+				<a href="#fo_list" class="x_btn modalAnchor" data-name="is_all" data-value="false">{$lang->delete}</a>
+				<a href="#fo_list" class="x_btn modalAnchor" data-name="act" data-value="procTrashAdminRestore">{$lang->restore}</a>
 			</div>
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" class="title">{$lang->document}({$lang->origin_module_type})</th>
+				<th scope="col" class="title">{$lang->document}</th>
+				<th scope="col" class="nowr">{$lang->origin_module_type}</th>
 				<th scope="col" class="nowr">{$lang->trash_nick_name}</th>
 				<th scope="col" class="nowr">{$lang->trash_date}</th>
 				<th scope="col" class="nowr">{$lang->ipaddress}</th>
@@ -33,21 +35,27 @@ var no_text_comment = '{$lang->no_text_comment}';
 			</tr>
 		</thead>
 		<tbody>
-			<!--@foreach($trash_list as $no => $oTrashVO)-->
-			<tr>
-				<td class="title"><!--@if(!trim($oTrashVO->getTitle()) && $oTrashVO->getOriginModule() == 'comment')--><strong>{$lang->no_text_comment}</strong><!--@else-->{$oTrashVO->getTitle()}<!--@end--> (<!--@if($oTrashVO->getOriginModule() == 'document')-->{$lang->document}<!--@else-->{$lang->comment}<!--@end-->)</td>
-				<td class="nowr"><span class="member_{$oTrashVO->getRemoverSrl()}">{htmlspecialchars($oTrashVO->getNickName())}</span></td>
+			<tr loop="$trash_list => $no, $oTrashVO">
+				<td class="title">
+					<strong cond="!trim($oTrashVO->getTitle()) && $oTrashVO->getOriginModule() == 'comment'">{$lang->no_text_comment}</strong>
+					<block cond="trim($oTrashVO->getTitle())">{$oTrashVO->getTitle()}</block>
+				</td>
+				<td class="nowr"><!--@if($oTrashVO->getOriginModule() == 'document')-->{$lang->document}<!--@else-->{$lang->comment}<!--@end--></td>
+				<td class="nowr"><a href="#popup_menu_area" class="member_{$oTrashVO->getRemoverSrl()}">{htmlspecialchars($oTrashVO->getNickName())}</a></td>
 				<td class="nowr">{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
 				<td class="nowr">{$oTrashVO->getIpaddress()}</td>
 				<td class="title">{$oTrashVO->getDescription()}</td>
 				<td><input type="checkbox" name="cart" value="{$oTrashVO->getTrashSrl()}" /></td>
 			</tr>
-			<!--@end-->
+			<tr cond="!$trash_list">
+				<td>{$lang->no_documents}</td>
+			</tr>
 		</tbody>
 	</table>
 	<div class="x_pull-right x_btn-group">
-		<a href="#fo_list" class="x_btn modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a>
 		<button type="submit" class="x_btn" name="is_all" value="true">{$lang->empty_trash_all}</button>
+		<a href="#fo_list" class="x_btn modalAnchor" data-name="is_all" data-value="false">{$lang->delete}</a>
+		<a href="#fo_list" class="x_btn modalAnchor" data-name="act" data-value="procTrashAdminRestore">{$lang->restore}</a>
 	</div>
 </form>
 
@@ -96,11 +104,13 @@ var no_text_comment = '{$lang->no_text_comment}';
 	<input type="hidden" name="is_all" value="false" />
 	<input type="hidden" name="origin_module" value="{$origin_module}" />
 	<div class="x_modal-header">
-		<h3>{$lang->document_manager}</h3>
+		<h3>{$lang->document_manager}: <span class="_sub"></span></h3>
 	</div>
 	<div class="x_modal-body">
 		<table id="trashManageListTable" class="x_table x_table-striped x_table-hover">
-			<caption>{$lang->selected_document} <strong id="selectedTrashCount">0</strong></caption>
+			<caption>
+				<strong>{$lang->selected_document} <span id="selectedTrashCount"></span></strong>
+			</caption>
 			<thead>
 				<tr>
 					<th scope="col" class="title">{$lang->document}</th>
@@ -113,12 +123,35 @@ var no_text_comment = '{$lang->no_text_comment}';
 		</table>
 	</div>
 	<div class="x_modal-footer">
-		<div class="x_pull-left">
-			<button type="submit" class="x_btn" name="act" value="procTrashAdminRestore">{$lang->cmd_restore}</button>
-		</div>
-		<div class="x_pull-right">
-			<button type="submit" class="x_btn x_btn-inverse" name="is_all" value="false">{$lang->cmd_delete}</button>
-		</div>
+		<button type="submit" class="x_btn x_btn-inverse x_pull-right" name="is_all|act" value="false|procTrashAdminRestore">{$lang->confirm}</button>
 	</div>
 </form>
-
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#trashListTable');
+	$docTable.find(':checkbox').change(function(){
+		var $modalAnchor = $('a[data-value]');
+		if($docTable.find(':checked').length == 0){
+			$modalAnchor.removeAttr('href').addClass('x_disabled');
+		} else {
+			$modalAnchor.attr('href','#fo_list').removeClass('x_disabled');
+		}
+	}).change();
+	// Modal anchor button action
+	$('a[data-value]').click(function(){
+		if($docTable.find(':checked').length == 0){
+			$('body').css('overflow','auto');
+			alert('{$lang->msg_not_selected_document}');
+			return false;
+		} else {
+			var $this = $(this);
+			var thisName = $this.attr('data-name');
+			var thisValue = $this.attr('data-value');
+			var thisText = $this.text();
+			getTrashList();
+			$('#fo_list').find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]').val(thisValue).attr('name',thisName).text(thisText);
+		}
+	});
+});
+</script>

@@ -6,12 +6,6 @@
 		<value xml:lang="jp"><![CDATA[ゴミ箱]]></value>
 		<value xml:lang="zh-TW"><![CDATA[回收桶]]></value>
 	</item>
-	<item name="cmd_restore">
-		<value xml:lang="ko"><![CDATA[복원]]></value>
-		<value xml:lang="en"><![CDATA[Restore]]></value>
-		<value xml:lang="jp"><![CDATA[復元]]></value>
-		<value xml:lang="zh-TW"><![CDATA[復原]]></value>
-	</item>
 	<item name="cmd_restore_all">
 		<value xml:lang="ko"><![CDATA[모두 복원]]></value>
 		<value xml:lang="en"><![CDATA[Restore All]]></value>
@@ -79,9 +73,9 @@
 		<value xml:lang="zh-TW"><![CDATA[復原失敗]]></value>
 	</item>
 	<item name="origin_module_type">
-		<value xml:lang="ko"><![CDATA[원본 타입]]></value>
-		<value xml:lang="en"><![CDATA[Source Type]]></value>
-		<value xml:lang="jp"><![CDATA[原本タイプ]]></value>
-		<value xml:lang="zh-TW"><![CDATA[原始類型]]></value>
+		<value xml:lang="ko"><![CDATA[타입]]></value>
+		<value xml:lang="en"><![CDATA[Type]]></value>
+		<value xml:lang="jp"><![CDATA[タイプ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[類型]]></value>
 	</item>
 </lang>

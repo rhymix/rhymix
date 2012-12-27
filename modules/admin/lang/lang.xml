@@ -1093,6 +1093,12 @@
 		<value xml:lang="vi"><![CDATA[Thay đổi]]></value>
 		<value xml:lang="mn"><![CDATA[Засах]]></value>
 	</item>
+	<item name="restore">
+		<value xml:lang="ko"><![CDATA[복원]]></value>
+		<value xml:lang="en"><![CDATA[Restore]]></value>
+		<value xml:lang="jp"><![CDATA[復元]]></value>
+		<value xml:lang="zh-TW"><![CDATA[復原]]></value>
+	</item>
 	<item name="delete">
 		<value xml:lang="ko"><![CDATA[삭제]]></value>
 		<value xml:lang="en"><![CDATA[Delete]]></value>
