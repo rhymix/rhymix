@@ -869,7 +869,7 @@ jQuery(function($){
 		$(this).each(_xeModuleSearch);
 	};
 
-	$('.moduleTrigger').xeModuleSearch();
+	//$('.moduleTrigger').xeModuleSearch();
 
 	// Add html for .module_search
 	$.fn.xeModuleSearchHtml = function(){
@@ -999,30 +999,7 @@ jQuery(function($){
 			<button type="submit" class="x_btn x_btn-inverse x_pull-right _ok">'+xe.cmd_confirm+'</button>\
 		</div>');
 	
-	//console.log($msgBox.html());
 	$("body").append($msgBox);
-	//console.log($msgBox);
-	//console.log($.find("body"));
-	//$msgBox.show();
-	/*
-	<div class="x_modal x" id="exModal-2" style="display: block;"><button type="button" class="x_close">×</button>
-		<div class="x_modal-header">
-			<h3>Modal 2 header</h3>
-		</div>
-		<div class="x_modal-body">
-			<p>One fine body…</p>
-		</div>
-		<div class="x_modal-footer">
-			<button type="button" class="x_btn x_pull-left" data-hide="#exModal-2">Close</button>
-			<span class="x_btn-group x_pull-right">
-				<button type="submit" class="x_btn">Modify</button>
-				<button type="submit" class="x_btn x_btn-danger">Delete</button>
-			</span>
-		</div>
-	</div>
-	*/
-
-	//var $msgBox = $("#msgBox");
 	$msgBox.find("._ok").click(function(){
 		$.xeMsgBox.fnOnOK();
 	});
@@ -2012,10 +1989,14 @@ jQuery(function($){
 	var aSelectedModules;
 	var htNodeInfo;
 	var fnOnSelect;
+	var bMultiSelect;
 	
+	//data-multiple
+	$.xeMenuSelectorVar = {bMultiSelect: false};
+
 	$.template( "menuSelector_menuTree", '<ul>{{html Nodes}}</ul>' );
 	$.template( "menuSelector_menuTreeNode", '	<li>\
-		<a href="#" class="_nodeType_${NodeType} _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'>${MenuTitle}</a>\
+		<a href="#" class="_nodeType_${NodeType} _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}", "sType":"${MenuType}" }\'>${MenuTitle}</a>\
 		{{html SubTree}}\
 	</li>' );
 	//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
@@ -2027,8 +2008,9 @@ jQuery(function($){
 		var sTreeHtml = createTreeMarkup(aMenuList, 0, "menuSelector_menuTree", "menuSelector_menuTreeNode");
 		$container.html(sTreeHtml);
 		
-		$container
-			.jstree({
+		bMultiSelect = $.xeMenuSelectorVar.bMultiSelect;
+
+		var htConf = {
 				"plugins" : ["themes","html_data","ui","crrm"],
 				
 				"crrm" : {
@@ -2049,7 +2031,15 @@ jQuery(function($){
 				},
 				
 				"core" : {  }
-			})
+			};
+			
+		if(!bMultiSelect){
+			htConf.ui = {
+					select_multiple_modifier : false
+				};
+		}
+		$container
+			.jstree(htConf)
 			.bind("loaded.jstree", function (event, data) {
 				data.inst.open_all();
 				
@@ -2091,11 +2081,12 @@ jQuery(function($){
 		*/
 	}
 
-	$.xeShowMenuSelector = function($container_param, fnOnSelect_param, aSelectedModules_param){
+	$.xeShowMenuSelector = function($container_param, site_srl_param, fnOnSelect_param, aSelectedModules_param){
 		var $ = jQuery;
 		
 		var params = {
-			menu_srl : 0
+			menu_srl : 0,
+			site_srl : site_srl_param
 		};
 		
 		$container = $container_param;
@@ -2213,8 +2204,8 @@ jQuery(function($){
 				nNodeType = 3;
 			}
 
-			var $node = $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} )
-						.data('sMenuId', sNodeSrl).data('sMenuUrl', sURL).data('sMenuTitle', sText);
+			var $node = $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,MenuType:sModuleType,SubTree:sSubTree,Target:sTargetPanel} )
+						.data('sMenuId', sNodeSrl).data('sMenuUrl', sURL).data('sMenuTitle', sText).data('sMenuType', sModuleType);
 			//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
 			//console.log($node);
 			sResult += $node[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='x_icon-share' title='Shortcut'></i>");
@@ -2235,21 +2226,22 @@ jQuery(function($){
 		.parent()
 		.find('.moduleTrigger')
 	*/
-	
 	function xeMenuSearch(ev){
 		var $btn = $(ev.target);
-		
+		$.xeMenuSelectorVar.bMultiSelect = ""+$btn.data('multiple') == "true";
+		//bMultiSelect = //data-multiple
+
 		$.xeMsgBox.confirmDialog({
 			sTitle : 'TITLE',
 
-			sText : '<select style="width:100%"><option>...</option></select><div class="tree"></div>',
+			sText : '<select class="site_selector" style="width:100%;display:none"></select><div class="tree"></div>',
 			
 			bSmall: true,
 			
 			bDanger: true,
 			
 			fnOnOK : function(){
-				console.log($container.find('.jstree-clicked'));
+//				console.log($container.find('.jstree-clicked'));
 				
 				var aSelected = [];
 				$container.find('.jstree-clicked').each(function(idx, el){
@@ -2259,18 +2251,48 @@ jQuery(function($){
 					sMenuTitle : "222"
 					sMenuUrl : "page_QLQK2400"
 					*/
-					aSelected.push({browser_title: htParam.sMenuTitle, mid: htParam.sMenuUrl, module_srl: htParam.sMenuId});
-					console.log(htParam);
-					//console.log($(el).closest('li'), $(el).closest('li').data('sMenuId'));
+					aSelected.push({browser_title: htParam.sMenuTitle, mid: htParam.sMenuUrl, module_srl: htParam.sMenuId, type: htParam.sType});
+//					console.log(htParam);
 				});
 				
 				$btn.trigger('moduleSelect', [aSelected]);
 			}
 		});
 		
+		
+		$.exec_json('admin.getSiteAllList', {domain:""}, onSiteAllListCompleted);
+	}
+	
+	function onSiteAllListCompleted(htRes){
+		var aSiteList = htRes.site_list;
+		
 		$container = $('.x_modal._common .tree');
-		$.xeShowMenuSelector($container);
-		console.log(ev);
+
+		//console.log(aSiteList);
+		/*
+		[
+			{
+				domain : "nagoon97.xpressengine.com/maserati/"
+				site_srl : "0"
+			},
+			{
+				domain : "nagoon97.xpressengine.com/maserati123/"
+				site_srl : "1"
+			},
+		]
+		*/
+		var nLen = aSiteList.length;
+		if(nLen <= 1){
+			// leave the site selector hidden
+		}else{
+			// show and fill in
+			$SiteSelector = $('.x_modal._common .site_selector');
+			for(var i=0; i<nLen; i++){
+				$SiteSelector.append($("<option>").val(aSiteList[i].site_srl).html(aSiteList[i].domain));
+			}
+			$SiteSelector.show();
+		}
+		$.xeShowMenuSelector($container, "0");
 	}
 	
 	// Add html for .module_search
@@ -2287,6 +2309,7 @@ jQuery(function($){
 			var $btn = $('<a class="x_btn moduleTrigger">' + xe.cmd_find + '</a>');
 			var $displayInput = $('<input type="text" readonly>');
 			$this.after($btn).after('&nbsp;').after($displayInput).hide();
+			$btn.data('multiple', $(this).data('multiple'));
 			$btn.on('click', xeMenuSearch);
 
 			// on selected module
@@ -2308,24 +2331,22 @@ jQuery(function($){
 		return this;
 	}
 
-	$('.module_search').xeMenuSearchHtml();
-
-	//$.xeShowMenuSelector($container);
-	//$('.module_search').xeModuleSearchHtml();
-	//console.log($('.module_search'));
-	/*
-	$('.module_search').each(function(){
-		var $t = $(this);
-		
-		if($t.hasClass('.xe-module-search')) return;
-		
-		$t.addClass('xe-module-search');
-
-		console.log($t);
-		
-		
+	$msgBox = $('.x_modal._common');
+	$msgBox.on('change', '.site_selector', function(ev){
+		var sSiteSrl = $(this).val();
+		$.xeShowMenuSelector($container, sSiteSrl);
 	});
-	*/
+	
+	$.fn.xeMenuSearch = function(){
+		$(this).each(function(nIdx, el){
+			$(el).on('click', xeMenuSearch);
+		});
+	};
+
+	$('.module_search').xeMenuSearchHtml();
+	
+	$('.moduleTrigger').xeMenuSearch();
+
 });
 //----------------menu selector end
 
