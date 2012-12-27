@@ -10,10 +10,10 @@
 	<input type="hidden" name="act" value="procModuleAdminUpdateCategory" />
 	<input type="hidden" name="module_category_srl" value="{$selected_category->module_category_srl}" />
 	<input type="hidden" name="mode" value="update" />
-	<label for="category_title" style="display:inline-block;padding:4px 0 0 0">{$lang->category_title}: </label>
+	<label for="category_title" style="display:inline-block;padding:4px 0 0 0"><strong>{$lang->category_title}</strong>: </label>
 	<span class="x_input-append">
 		<input type="text" name="title" id="category_title" value="{$selected_category->title}" />
-		<button type="submit" class="x_btn">{$lang->cmd_registration}</button>
+		<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_registration}">
 	</span>
 </form>
 </section>

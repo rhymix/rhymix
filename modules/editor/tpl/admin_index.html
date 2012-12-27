@@ -129,7 +129,7 @@
 		<input type="hidden" name="module" value="editor" />
 		<input type="hidden" name="act" value="procEditorAdminCheckUseListOrder" />
 		<table class="x_table x_table-striped x_table-hover sortable">
-			<caption>{$lang->total_count}({$component_count})</caption>
+			<caption><strong>{$lang->total_count}({$component_count})</strong></caption>
 			<thead>
 				<tr>
 					<th class="nowr">{$lang->cmd_move}</th>
@@ -154,10 +154,8 @@
 						<!--@end-->
 					</td>
 					<td>{$xml_info->version}</td>
-					<td>
-					   <!--@foreach($xml_info->author as $author)-->
-						<a href="{$author->homepage}" target="_blank">{$author->name}</a>
-						<!--@endforeach-->
+					<td class="nowr">
+						<a href="{$author->homepage}" target="_blank" loop="$xml_info->author => $author">{$author->name}</a>
 					</td>
 					<td>{$xml_info->path}</td>
 					<td><input type="checkbox" name="enables[]" id="enable" value="{$xml_info->component_name}" title="Use this component " <!--@if($xml_info->enabled=='Y')--> checked="checked"<!--@end--> /></td>

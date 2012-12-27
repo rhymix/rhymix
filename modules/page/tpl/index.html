@@ -24,7 +24,7 @@
 <!-- 목록 -->
 <form action="./" method="get" id="fo_list">
 <table class="x_table x_table-striped x_table-hover">
-	<caption>Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}/{number_format($total_page)}</strong></caption>
+	<caption><strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong></caption>
 	<thead>
 		<tr>
 			<th scope="col">{$lang->no}</th>
@@ -119,3 +119,26 @@
 </form>
 
 {$selected_manage_content}
+
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#fo_list>table');
+	$docTable.find(':checkbox').change(function(){
+		var $modalAnchor = $('a.modalAnchor');
+		if($docTable.find(':checked').length == 0){
+			$modalAnchor.removeAttr('href').addClass('x_disabled');
+		} else {
+			$modalAnchor.attr('href','#manageSelectedModule').removeClass('x_disabled');
+		}
+	}).change();
+	// Button action
+	$('a.modalAnchor').click(function(){
+		if($docTable.find(':checked').length == 0){
+			$('body').css('overflow','auto');
+			alert('{$lang->msg_not_selected_document}');
+			return false;
+		}
+	});
+});
+</script>
