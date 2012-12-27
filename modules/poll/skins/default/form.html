@@ -22,19 +22,18 @@
     <input type="hidden" name="poll_srl_indexes" value="" />
     <input type="hidden" name="skin" value="{$skin}" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-
     <table cellspacing="0" class="poll_table">
     <col width="7" />
     <col />
     <col width="7" />
-    <tr>
+    <tr class="cap">
         <td><img src="./images/lh.png" alt="lh" width="7" height="7" /></td>
         <td class="h"><img src="./images/blank.gif" height="7" alt="blank" /></td>
         <td><img src="./images/rh.png" alt="rh" width="7" height="7" /></td>
     </tr>
     <tr>
         <td class="title" colspan="3">
-            {$lang->poll_stop_date} : <strong>{zdate($poll->stop_date, "Y-m-d")}</strong>
+            {$lang->poll_stop_date}: <strong>{zdate($poll->stop_date, "Y-m-d")}</strong>
         </td>
     </tr>
     <tr>
@@ -82,7 +81,7 @@
             </div>
         </td>
     </tr>
-    <tr>
+    <tr class="cap">
         <td class="lb" ><img src="./images/lb.png" alt="lb" width="7" height="7" /></td>
         <td class="b"><img src="./images/blank.gif" alt="blank" /></td>
         <td class="rb" ><img src="./images/rb.png" alt="rb" width="7" height="7" /></td>
