@@ -1079,6 +1079,20 @@
 		<value xml:lang="tr"><![CDATA[Taşı]]></value>
 		<value xml:lang="vi"><![CDATA[Di chuyển]]></value>
 	</item>
+	<item name="modify">
+		<value xml:lang="ko"><![CDATA[수정]]></value>
+		<value xml:lang="en"><![CDATA[Update]]></value>
+		<value xml:lang="jp"><![CDATA[修正]]></value>
+		<value xml:lang="zh-CN"><![CDATA[修改]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改]]></value>
+		<value xml:lang="fr"><![CDATA[Modifier]]></value>
+		<value xml:lang="de"><![CDATA[Ändern]]></value>
+		<value xml:lang="ru"><![CDATA[Изменить]]></value>
+		<value xml:lang="es"><![CDATA[Modificar]]></value>
+		<value xml:lang="tr"><![CDATA[Düzelt]]></value>
+		<value xml:lang="vi"><![CDATA[Thay đổi]]></value>
+		<value xml:lang="mn"><![CDATA[Засах]]></value>
+	</item>
 	<item name="delete">
 		<value xml:lang="ko"><![CDATA[삭제]]></value>
 		<value xml:lang="en"><![CDATA[Delete]]></value>

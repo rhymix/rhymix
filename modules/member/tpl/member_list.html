@@ -10,7 +10,7 @@
 	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./help/index.html#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
 </div>
 <form action="" method="post">
-	<table class="_memberList x_table x_table-striped x_table-hover">
+	<table id="memberList" class="x_table x_table-striped x_table-hover">
 		<caption>
 			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}<block cond="$filter_type==''">({$total_count})</block></a>
 			<i>|</i>
@@ -21,7 +21,8 @@
 			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}<block cond="$filter_type==disable">({$total_count})</block></a>
 			<div class="x_pull-right x_btn-group">
 				<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
-				<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}</a>
+				<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
+				<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
 			</div>
 		</caption>
 		<thead>
@@ -41,8 +42,7 @@
 			<tr loop="$member_list=>$no,$member_info">
 				{@$member_info = get_object_vars($member_info)}
 				<td class="nowr">
-					<a href="#popup_menu_area" class="member_{$member_info['member_srl']}" title="Info"></a>
-					{getEncodeEmailAddress($member_info['email_address'])}
+					<a href="#popup_menu_area" class="member_{$member_info['member_srl']}" title="Info">{getEncodeEmailAddress($member_info['email_address'])}</a>
 				</td>
 				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
 				<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
@@ -57,7 +57,7 @@
 				<td><input type="checkbox" name="user" value="{$member_info['member_srl']."\t".$member_info['email_address'].$used_values."\t".$member_info['group_list']."\t".$lang_denied}" disabled="disabled"|cond="$member_info['is_admin'] == 'Y'"/></td>
 			</tr>
 			<tr cond="$total_count==0">
-				<td class="_noresult">{$lang->msg_no_result}</td>
+				<td>{$lang->msg_no_result}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -107,7 +107,8 @@
 	</form>
 	<div class="x_pull-right x_btn-group">
 		<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
-		<a href="#listManager" class="modalAnchor _member x_btn">{$lang->cmd_selected_user_manage}</a>
+		<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
+		<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
 	</div>
 </div>
 <form action="" method="post" class="search center x_input-append">
@@ -132,7 +133,7 @@
 	<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 		<div class="x_modal-header">
-		<h3>{$lang->cmd_selected_user_manage}</h3>
+			<h3>{$lang->cmd_selected_user_manage}: <span class="_sub"></span></h3>
 		</div>
 		<div class="x_modal-body">
 			<table class="x_table x_table-striped x_table-hover">
@@ -147,7 +148,7 @@
 				<tbody id="popupBody">
 				</tbody>
 			</table>
-			<div class="x_control-group">
+			<div class="x_control-group _moveTarget" hidden>
 				<h3>{$lang->member_group}</h3>
 				<label loop="$group_list => $key,$val" for="g{$val->group_srl}" class="x_inline"><input type="checkbox" name="groups[]" id="g{$val->group_srl}" value="{$val->group_srl}"/> {$val->title}</label>
 			</div>
@@ -159,27 +160,38 @@
 		<div class="x_modal-footer">
 			<button type="button" class="x_btn x_pull-left" data-hide="#listManager">{$lang->cmd_close}</button>
 			<span class="x_btn-group x_pull-right">
-				<button type="submit" name="type" value="modify" class="x_btn x_btn-inverse">{$lang->cmd_modify}</button>
-				<button type="submit" name="type" value="delete" class="x_btn x_btn-inverse">{$lang->cmd_delete}</button>
+				<button type="submit" name="type" value="modify|delete" class="x_btn x_btn-inverse">{$lang->confirm}</button>
 			</span>
 		</div>
 	</form>
 </div>
 <script>
 jQuery(function($){
-	var clickedBTN = '';
-	$('.btnArea button').click(function(){
-		clickedBTN = $(this).val();
-	});
-	var CheckConfirm = xe.createPlugin('checkConfirm', {
-		API_BEFORE_VALIDATE : function(sender, params){
-			if (clickedBTN == 'delete') return confirm(xe.lang.msg_delete_user);
+	// Modal anchor activation
+	var $memberList = $('#memberList');
+	$memberList.find(':checkbox').change(function(){
+		var $modalAnchor = $('a[data-value]');
+		if($memberList.find(':checked').length == 0){
+			$modalAnchor.removeAttr('href').addClass('x_disabled');
+		} else {
+			$modalAnchor.attr('href','#listManager').removeClass('x_disabled');
+		}
+	}).change();
+
+	// Modal anchor button action
+	$('a[data-value]').click(function(){
+		if($memberList.find(':checked').length != 0){
+			var $this = $(this);
+			var $moveTarget = $('._moveTarget');
+			var thisValue = $this.attr('data-value');
+			var thisText = $this.text();
+			$('#listManager').find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]').val(thisValue).text(thisText);
+			if(thisValue == 'delete'){
+				$moveTarget.hide().next().css('borderTopWidth','0');
+			} else {
+				$moveTarget.show().next().css('borderTopWidth','1px');
+			}
 		}
 	});
-	var checkConfirm = new CheckConfirm();
-	var v = xe.getApp('Validator')[0];
-	v.registerPlugin(checkConfirm);
-	$('tbody td:first-child>a').prepend('<i class="x_icon-user" style="margin:0 3px 0 0;opacity:.5;filter:alpha(opacity=50)"></i>');
-	$('._noresult').attr('colspan', $('._memberList').find('thead th').length).css('text-align','center');
 });
 </script>
