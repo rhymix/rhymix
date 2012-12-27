@@ -3,13 +3,13 @@ xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
 <load target="js/file_admin.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
 <form id="fo_list" action="./" method="post">
 	<input type="hidden" name="module" value="file" />
 	<div class="x_page-header">
 		<h1>{$lang->file} <a class="x_icon-question-sign" href="./help/index.html#UMAN_content_file" target="_blank">{$lang->help}</a></h1>
+	</div>
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<table id="fileListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
@@ -20,7 +20,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<a href="{getUrl('search_target','isvalid','search_keyword','N')}" class="active"|cond="$search_target == 'isvalid' && $search_keyword == 'N'">{$lang->is_stand_by}<block cond="$search_target == 'isvalid' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
 			<a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_file_status" target="_blank">{$lang->help}</a>
 			
-			<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->file_manager}</a></span>
+			<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->delete}</a></span>
 		</caption>
 		<thead>
 			<tr>
@@ -88,10 +88,13 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				</td>
 			</tr>
 			<!--@endforeach-->
+			<tr cond="!$file_list">
+				<td>{$lang->no_files}</td>
+			</tr>
 		</tbody>
 	</table>
 	<span class="x_pull-right">
-		<a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->file_manager}</a>
+		<a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->delete}</a>
 	</span>
 </form>
 
@@ -149,16 +152,18 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 </form>
 
-<form ruleset="deleteChecked" action="./" method="post" class="x_modal fg" id="listManager">
+<form ruleset="deleteChecked" action="./" method="post" class="x_modal" id="listManager">
 	<input type="hidden" name="module" value="file" />
 	<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
 	<div class="x_modal-header">
-		<h3>{$lang->file_manager}</h3>
+		<h3>{$lang->file_manager}: {$lang->delete}</h3>
 	</div>
 	<div class="x_modal-body">
 		<table width="100%" id="fileManageListTable" class="x_table x_table-striped x_table-hover">
-			<caption>{$lang->selected_file} <strong id="selectedFileCount"></strong></caption>
+			<caption>
+				<strong>{$lang->selected_file} <span id="selectedFileCount"></span></strong>
+			</caption>
 			<thead>
 				<tr>
 					<th scope="col">{$lang->file}</th>
@@ -174,3 +179,25 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_delete}</button>
 	</div>
 </form>
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#fileListTable');
+	$docTable.find(':checkbox').change(function(){
+		var $modalAnchor = $('a.modalAnchor');
+		if($docTable.find(':checked').length == 0){
+			$modalAnchor.removeAttr('href').addClass('x_disabled');
+		} else {
+			$modalAnchor.attr('href','#listManager').removeClass('x_disabled');
+		}
+	}).change();
+	// Button action
+	$('a.modalAnchor').click(function(){
+		if($docTable.find(':checked').length == 0){
+			$('body').css('overflow','auto');
+			alert('{$lang->msg_cart_is_null}');
+			return false;
+		}
+	});
+});
+</script>
