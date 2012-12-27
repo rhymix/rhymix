@@ -29,7 +29,7 @@ if($called_position == 'before_module_init' && $this->module != 'member')
 	$flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($logged_info->member_srl);
 	$flag_file = $flag_path.$logged_info->member_srl;
 
-	if(file_exists($flag_file))
+	if(file_exists($flag_file) && $addon_info->use_alarm != 'N')
 	{
 		$new_message_count = trim(FileHandler::readFile($flag_file));
 		FileHandler::removeFile($flag_file);

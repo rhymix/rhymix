@@ -55,4 +55,40 @@
         <name xml:lang="ru">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
     </author>
+	<extra_vars>
+		<var name="use_alarm" type="select">
+			<title xml:lang="ko">알람기능 사용</title>
+			<title xml:lang="zh-CN">Using alarm</title>
+			<title xml:lang="jp">Using alarm</title>
+			<title xml:lang="zh-TW">Using alarm</title>
+			<title xml:lang="en">Using alarm</title>
+			<title xml:lang="ru">Using alarm</title>
+			<title xml:lang="vi">Using alarm</title>
+			<description xml:lang="ko">새로운 쪽지가 왔을때 팝업으로 알립니다.</description>
+			<description xml:lang="zh-CN">Pop-up alram when new message received.</description>
+			<description xml:lang="jp">Pop-up alram when new message received.</description>
+			<description xml:lang="zh-TW">Pop-up alram when new message received.</description>
+			<description xml:lang="en">Pop-up alram when new message received.</description>
+			<description xml:lang="ru">Pop-up alram when new message received.</description>
+			<description xml:lang="vi">Pop-up alram when new message received.</description>
+			<options value="">
+				<title xml:lang="ko">사용함</title>
+				<title xml:lang="zh-CN">Using</title>
+				<title xml:lang="jp">Using</title>
+				<title xml:lang="zh-TW">Using</title>
+				<title xml:lang="en">Using</title>
+				<title xml:lang="ru">Using</title>
+				<title xml:lang="vi">Using</title>
+			</options>
+			<options value="N">
+				<title xml:lang="ko">사용하지 않음</title>
+				<title xml:lang="zh-CN">Not using</title>
+				<title xml:lang="jp">Not using</title>
+				<title xml:lang="zh-TW">Not using</title>
+				<title xml:lang="en">Not using</title>
+				<title xml:lang="ru">Not using</title>
+				<title xml:lang="vi">Not using</title>
+			</options>
+		</var>
+	</extra_vars>
 </addon>
