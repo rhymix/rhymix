@@ -895,7 +895,7 @@ jQuery(function($){
 
 			// get module info
 			if($this.val()){
-				$.exec_json('module.getModuleAdminModuleInfo', {'module_srl': $this.val()}, function(data){
+				$.exec_json('module.getModuleAdminModuleInfo', {'search_module_srl': $this.val()}, function(data){
 					if(!data || !data.module_info) return;
 
 					$displayInput.val(data.module_info.browser_title + ' (' + data.module_info.mid + ')');
@@ -2320,7 +2320,7 @@ jQuery(function($){
 
 			// get module info
 			if($this.val()){
-				$.exec_json('module.getModuleAdminModuleInfo', {'module_srl': $this.val()}, function(data){
+				$.exec_json('module.getModuleAdminModuleInfo', {'search_module_srl': $this.val()}, function(data){
 					if(!data || !data.module_info) return;
 
 					$displayInput.val(data.module_info.browser_title + ' (' + data.module_info.mid + ')');
