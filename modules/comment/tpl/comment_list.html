@@ -185,11 +185,11 @@ jQuery(function($){
 			var thisName = $this.attr('data-name');
 			var thisText = $this.text();
 			getCommentList();
-			$('#listManager').find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]').val(thisValue).attr('name', thisName).text(thisText);
+			$('#listManager').find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]:eq(0)').val(thisValue).attr('name', thisName).text(thisText);
 		}
 	});
-	$('[type="submit"][name="will_publish"]').click(function(){
-		doChangePublishedStatus(this.value);
+	$('.x_modal-footer').on("click", '[type="submit"][name="will_publish"]', function(){
+		doChangePublishedStatus($(this).val());
 	});
 });
 </script>
