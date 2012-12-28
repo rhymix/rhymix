@@ -404,7 +404,14 @@ class menuAdminModel extends menu
 
 	public function getMenuAdminSiteMap()
 	{
+		$siteSrl = Context::get('site_srl');
 		$menuSrl = Context::get('menu_srl');
+
+		if(!isset($siteSrl))
+		{
+			$site_module_info = Context::get('site_module_info');
+			$siteSrl = (int)$site_module_info->site_srl;
+		}
 
 		$oModuleModel = &getModel('module');
 		$oMenuAdminController = &getAdminController('menu');
@@ -444,7 +451,7 @@ class menuAdminModel extends menu
 		}
 		else
 		{
-			$menuListFromDB = $this->getMenus();
+			$menuListFromDB = $this->getMenus($siteSrl);
 			if(is_array($menuListFromDB))
 			{
 				$oAdmin = &getClass('admin');
