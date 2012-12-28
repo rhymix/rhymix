@@ -191,9 +191,13 @@ class memberAdminController extends member
 			FileHandler::removeFile($agreement_file);
 			$args->agreement = NULL;
 		}
-		if(!trim(strip_tags($args->redirect_url)))
+
+		if($args->redirect_url)
 		{
-			$args->redirect_url = NULL;
+			$tmpArgs->menu_item_srl = (int)$args->redirect_url;
+			$output = executeQuery('module.getModuleInfoByMenuItemSrl', $tmpArgs);
+
+			$args->redirect_url = Context::getDefaultUrl().$output->data->mid;
 		}
 
 		$args->profile_image = $args->profile_image ? 'Y' : 'N';

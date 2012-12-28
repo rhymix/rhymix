@@ -535,7 +535,14 @@ class moduleAdminModel extends module
 	 */
 	function getModuleAdminModuleInfo()
 	{
-		$module_srl = Context::get('module_srl');
+		if(Context::get('search_module_srl'))
+		{
+			$module_srl = Context::get('search_module_srl');
+		}
+		else
+		{
+			$module_srl = Context::get('module_srl');
+		}
 
 		$model = getModel('module');
 		$module_info = $model->getModuleInfoByModuleSrl($module_srl);

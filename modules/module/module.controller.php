@@ -478,7 +478,7 @@ class moduleController extends module
 		// only delete module
 		else
 		{
-			return $this->onlyDeleteModule($modue_srl);
+			return $this->onlyDeleteModule($module_srl);
 		}
 	}
 

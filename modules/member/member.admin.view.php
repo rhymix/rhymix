@@ -134,6 +134,19 @@ class memberAdminView extends member
 	{
 		$config = $this->memberConfig;
 
+		if($config->redirect_url)
+		{
+			$mid = str_ireplace(Context::getDefaultUrl(), '', $config->redirect_url);
+
+			$siteModuleInfo = Context::get('site_module_info');
+
+			$oModuleModel = getModel('module');
+			$moduleInfo = $oModuleModel->getModuleInfoByMid($mid, (int)$siteModuleInfo->site_srl);
+
+			$config->redirect_url = $moduleInfo->module_srl;
+			Context::set('config', $config);
+		}
+
 		$oMemberModel = getModel('member');
 		// retrieve skins of editor
 		$oEditorModel = getModel('editor');
