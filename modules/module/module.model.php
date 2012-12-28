@@ -279,21 +279,18 @@ class moduleModel extends module
 				$cache_key = 'object_module_info:'.$module_srl;
 				$coutput = $oCacheHandler->get($cache_key);
 			}
-		}
 
-		if(!$coutput)
-		{
-			if($oCacheHandler->isSupport())
+			if(!$coutput)
 			{
 				$cache_key = 'object:'.$mid.'_'.$site_srl;
-				$oCacheHandler->put($cache_key,$output->data->module_srl);
+				$oCacheHandler->put($cache_key, $output->data->module_srl);
 				$cache_key = 'object_module_info:'.$output->data->module_srl;
-				$oCacheHandler->put($cache_key,$output);
+				$oCacheHandler->put($cache_key, $moduleInfo);
 			}
-		}
-		else
-		{
-			$moduleInfo = $coutput->data;
+			else
+			{
+				$moduleInfo = $coutput;
+			}
 		}
 
 		$moduleInfo = $this->addModuleExtraVars($moduleInfo);
