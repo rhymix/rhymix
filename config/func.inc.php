@@ -1131,6 +1131,24 @@
 		}
 	}
 
+	function checkCSRF()
+	{
+		if($_SERVER['REQUEST_METHOD'] != 'POST')
+		{
+			return false;
+		}
+
+		$defaultUrl = Context::getDefaultUrl();
+		$referer = parse_url($_SERVER["HTTP_REFERER"]);
+
+		if(!strstr($defaultUrl, $referer['host']))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * Print raw html header
 	 *
