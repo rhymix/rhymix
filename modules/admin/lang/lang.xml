@@ -1499,4 +1499,40 @@
 		<value xml:lang="ko"><![CDATA[페이지 뷰]]></value>
 		<value xml:lang="en"><![CDATA[Page Views]]></value>
 	</item>
+	<item name="this_week">
+		<value xml:lang="ko"><![CDATA[이번주]]></value>
+		<value xml:lang="en"><![CDATA[This Week]]></value>
+	</item>
+	<item name="next_week">
+		<value xml:lang="ko"><![CDATA[다음주]]></value>
+		<value xml:lang="en"><![CDATA[Next Week]]></value>
+	</item>
+	<item name="mon">
+		<value xml:lang="ko"><![CDATA[월]]></value>
+		<value xml:lang="en"><![CDATA[Mon]]></value>
+	</item>
+	<item name="tue">
+		<value xml:lang="ko"><![CDATA[화]]></value>
+		<value xml:lang="en"><![CDATA[Tue]]></value>
+	</item>
+	<item name="wed">
+		<value xml:lang="ko"><![CDATA[수]]></value>
+		<value xml:lang="en"><![CDATA[Wed]]></value>
+	</item>
+	<item name="thu">
+		<value xml:lang="ko"><![CDATA[목]]></value>
+		<value xml:lang="en"><![CDATA[Thu]]></value>
+	</item>
+	<item name="fri">
+		<value xml:lang="ko"><![CDATA[금]]></value>
+		<value xml:lang="en"><![CDATA[Fri]]></value>
+	</item>
+	<item name="sat">
+		<value xml:lang="ko"><![CDATA[토]]></value>
+		<value xml:lang="en"><![CDATA[Sat]]></value>
+	</item>
+	<item name="sun">
+		<value xml:lang="ko"><![CDATA[일]]></value>
+		<value xml:lang="en"><![CDATA[Sun]]></value>
+	</item>
 </lang>

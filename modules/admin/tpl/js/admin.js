@@ -2284,9 +2284,11 @@ jQuery(function($){
 		var nLen = aSiteList.length;
 		if(nLen <= 1){
 			// leave the site selector hidden
+			$SiteSelector.hide();
 		}else{
 			// show and fill in
 			$SiteSelector = $('.x_modal._common .site_selector');
+			$SiteSelector.html("");
 			for(var i=0; i<nLen; i++){
 				$SiteSelector.append($("<option>").val(aSiteList[i].site_srl).html(aSiteList[i].domain));
 			}
