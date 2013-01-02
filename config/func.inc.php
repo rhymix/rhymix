@@ -1154,7 +1154,7 @@
 		else
 		{
 			$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
-			if(!strstr(strtolower($virtualSiteInfo->domain), strtolower($referer['host'])))
+			if(strtolower($virtualSiteInfo->domain) != strtolower(Context::get('vid'))  && !strstr(strtolower($virtualSiteInfo->domain), strtolower($referer['host'])))
 			{
 				return false;
 			}
