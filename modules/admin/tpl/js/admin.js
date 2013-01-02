@@ -93,19 +93,6 @@ jQuery(function($){
 		
 		return false;
 	});
-// #content reflow
-	function reflow(){ // Browser bug fix & resize height
-		var $xBody = $('.x>.body');
-		var $xGnb = $xBody.find('>.gnb');
-		var $xContent = $xBody.children('#content.content');
-		$xContent.width('99.99%');
-		setTimeout(function(){
-			$xContent.removeAttr('style');
-			if($xGnb.height() > $xContent.height()){
-				$xContent.height($xGnb.height());
-			}
-		}, 100);
-	}
 // GNB
 	$.fn.gnb = function(){
 		var $xBody = $('.x>.body');
@@ -133,7 +120,6 @@ jQuery(function($){
 			var hasWide = $xBody.hasClass('wide');
 			function openGNB(){
 				$xBody.removeClass('wide');
-				reflow();
 			}
 			if(!hasOpen && !hasActive && hasList){ // Down to open
 				$parent.addClass('open').find('>ul').slideDown(100);
@@ -155,7 +141,6 @@ jQuery(function($){
 			if($(window).width() <= 980 && !$xGnb.hasClass('open')){
 				$('#gnbNav').removeClass('ex');
 			}
-			reflow();
 
 			// remember status
 			if($(this).parent('.gnb').hasClass('open')){
@@ -169,7 +154,6 @@ jQuery(function($){
 		// Expert Menu Toggle
 		$xGnb.find('.exMenu>button').click(function(){
 			$('#gnbNav').toggleClass('ex');
-			reflow();
 
 			// remember status
 			if($('#gnbNav').hasClass('ex')){
@@ -237,7 +221,6 @@ jQuery(function($){
 				$section.removeClass('collapse');
 				$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
 			}
-			reflow();
 		});
 	}
 // Alert Closer
