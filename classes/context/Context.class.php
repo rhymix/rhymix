@@ -120,7 +120,7 @@ class Context {
 	var $patterns = array(
 			'/<\?/iUsm',
 			'/<\%/iUsm',
-			'/<script(\s|\S)*language[\s]*=[\s]*("|\')?[\s]*php[\s]*("|\')?(\s|\S)*/iUsm'
+			'/<script\s*?language\s*?=\s*?("|\')?\s*?php\s*("|\')?/iUsm'
 			);
 	/**
 	 * Check init
