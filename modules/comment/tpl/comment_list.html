@@ -120,7 +120,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 		<!--@end-->
 	</select>
-	<input type="search" required name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
 	<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 	<button class="x_btn" type="button" onclick="document.location.href='{getUrl('','module',$module,'act',$act)}'">{$lang->cmd_cancel}</button>
 </form>

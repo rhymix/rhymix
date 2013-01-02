@@ -123,7 +123,7 @@
 		{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}
 		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
 	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" required style="width:140px">
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" style="width:140px">
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 	<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'page', $page)}">{$lang->cmd_cancel}</a>
 </form>

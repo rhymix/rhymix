@@ -59,7 +59,7 @@
 		<select name="lang_code">
 			<option loop="$lang_supported => $code, $lname" value="{$code}" selected="selected"|cond="$code == $lang_code">{$lname}</option>
 		</select>
-		<input type="search" name="search_keyword" required title="Search" value="<!--@if($name)-->{htmlspecialchars($lang_code_list[1]->value)}<!--@else-->{htmlspecialchars($search_keyword)}<!--@end-->">
+		<input type="search" name="search_keyword" title="Search" value="<!--@if($name)-->{htmlspecialchars($lang_code_list[1]->value)}<!--@else-->{htmlspecialchars($search_keyword)}<!--@end-->">
 		<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 		<button cond="$search_keyword || $name" id="search_cancel" class="x_btn" type="button">{$lang->cmd_cancel}</button>
 	</form>

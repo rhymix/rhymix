@@ -51,9 +51,11 @@ function checkSearch(form)
 		alert(xe.lang.msg_empty_search_target);
 		return false;
 	}
+	/*
 	if(form.search_keyword.value == '')
 	{
 		alert(xe.lang.msg_empty_search_keyword);
 		return false;
 	}
+	*/
 }
