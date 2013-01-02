@@ -74,11 +74,13 @@ class integration_searchModel extends module
 		if(is_array($module_srls_list))
 		{
 			if (count($module_srls_list) > 0) $module_srls = implode(',',$module_srls_list); 
-			else $module_srls = 0; 
 		}
 		else
 		{
-			$module_srls = ($module_srls_list)?$module_srls_list:0;
+			if($module_srls_list)
+			{
+				$module_srls = $module_srls_list;
+			}
 		}
 		if($target == 'exclude') $args->exclude_module_srl = $module_srls;
 		else $args->module_srl = $module_srls;
