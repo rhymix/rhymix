@@ -1141,9 +1141,23 @@
 		$defaultUrl = Context::getDefaultUrl();
 		$referer = parse_url($_SERVER["HTTP_REFERER"]);
 
-		if(!strstr($defaultUrl, $referer['host']))
+		$oModuleModel = &getModel('module');
+		$siteModuleInfo = $oModuleModel->getDefaultMid();
+
+		if($siteModuleInfo->site_srl === 0)
 		{
-			return false;
+			if(!strstr($defaultUrl, $referer['host']))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
+			if(!strstr($virtualSiteInfo->domain, $referer['host']))
+			{
+				return false;
+			}
 		}
 
 		return true;
