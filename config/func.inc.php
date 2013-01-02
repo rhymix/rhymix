@@ -1146,7 +1146,7 @@
 
 		if($siteModuleInfo->site_srl === 0)
 		{
-			if(!strstr($defaultUrl, $referer['host']))
+			if(!strstr(strtolower($defaultUrl), strtolower($referer['host'])))
 			{
 				return false;
 			}
@@ -1154,7 +1154,7 @@
 		else
 		{
 			$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
-			if(!strstr($virtualSiteInfo->domain, $referer['host']))
+			if(!strstr(strtolower($virtualSiteInfo->domain), strtolower($referer['host'])))
 			{
 				return false;
 			}
