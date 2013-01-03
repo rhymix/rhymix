@@ -116,8 +116,10 @@ class HTMLDisplayHandler
 		if(__DEBUG__==3) $start = getMicroTime();
 
 		// move <style ..></style> in body to the header
-		//$output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $output);
 		$output = preg_replace_callback('!<style(.*?)>(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $output);
+
+		// move <link ..></link> in body to the header
+		$output = preg_replace_callback('!<link(.*?)/>!is', array($this,'_moveLinkToHeader'), $output);
 
 		// move <meta ../> in body to the header
 		$output = preg_replace_callback('!<meta(.*?)(?:\/|)>!is', array($this,'_moveMetaToHeader'), $output);
@@ -273,6 +275,17 @@ class HTMLDisplayHandler
 		{
 			return $matches[0];
 		}
+		Context::addHtmlHeader($matches[0]);
+	}
+
+	/**
+	 * add html link code extracted from html body to Context, which will be
+	 * printed inside <header></header> later.
+	 * @param array $matches
+	 * @return void
+	 */
+	function _moveLinkToHeader($matches)
+	{
 		Context::addHtmlHeader($matches[0]);
 	}
 
