@@ -116,7 +116,8 @@ class HTMLDisplayHandler
 		if(__DEBUG__==3) $start = getMicroTime();
 
 		// move <style ..></style> in body to the header
-		$output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $output);
+		//$output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $output);
+		$output = preg_replace_callback('!<style(.*?)>(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $output);
 
 		// move <meta ../> in body to the header
 		$output = preg_replace_callback('!<meta(.*?)(?:\/|)>!is', array($this,'_moveMetaToHeader'), $output);
@@ -268,6 +269,10 @@ class HTMLDisplayHandler
 	 */
 	function _moveStyleToHeader($matches)
 	{
+		if(isset($matches[1]) && stristr($matches[1], 'scoped'))
+		{
+			return $matches[0];
+		}
 		Context::addHtmlHeader($matches[0]);
 	}
 
