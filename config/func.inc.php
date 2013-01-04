@@ -1144,7 +1144,7 @@
 		$oModuleModel = &getModel('module');
 		$siteModuleInfo = $oModuleModel->getDefaultMid();
 
-		if($siteModuleInfo->site_srl === 0)
+		if($siteModuleInfo->site_srl == 0)
 		{
 			if(!strstr(strtolower($defaultUrl), strtolower($referer['host'])))
 			{
