@@ -1979,7 +1979,7 @@ jQuery(function($){
 
 	$.template( "menuSelector_menuTree", '<ul>{{html Nodes}}</ul>' );
 	$.template( "menuSelector_menuTreeNode", '	<li>\
-		<a href="#" class="_nodeType_${NodeType} _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}", "sType":"${MenuType}" }\'>${MenuTitle}</a>\
+		<a href="#" class="_nodeType_${NodeType} _menu_node _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}", "sType":"${MenuType}" }\'>${MenuTitle}</a>\
 		{{html SubTree}}\
 	</li>' );
 	//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
@@ -2048,10 +2048,29 @@ jQuery(function($){
 					}
 				}
 				
+				//console.log($(this).find('A._menu_node').css('visibility', 'hidden'));
+				$(this).find('A._menu_node').filter(function(nIdx, node){
+					var $node = $(node);
+					
+					if(!isSelectable($node)){
+						$node.css('opacity', '0.2');
+					}
+				});
+				//jstree-leaf
 			})
 			.bind("select_node.jstree", function(event, data){
 				//console.log(data);
 				//jstree-clicked
+			})
+			.bind('before.jstree', function (event, data){
+				if (data.func == 'select_node') {
+					$node = $(data.args[0]);
+					
+					if(!isSelectable($node)){
+						event.stopImmediatePropagation();
+						return false;
+					}
+				}
 			});
 		
 		// disable sitemap labels and shortcuts.
@@ -2062,6 +2081,20 @@ jQuery(function($){
 			$container.find('._menu_url_'+sSelectedModule).click();
 		}
 		*/
+	}
+	
+	function isSelectable($node){
+		//data-param:{sMenuId":"578", "sMenuUrl":"page_ANom60", "sMenuTitle":"wwww", "sType":"WIDGET" }
+		var htParam = $.parseJSON($node.attr('data-param'));
+		//console.log(htParam);
+		if($.xeMenuSelectorVar.aAllowedType.length > 0 && $.inArray(htParam.sType, $.xeMenuSelectorVar.aAllowedType) < 0){
+			return false;
+		}
+		if($.inArray(htParam.sType, $.xeMenuSelectorVar.aDisallowedType) > -1){
+			return false;
+		}
+
+		return true;
 	}
 
 	$.xeShowMenuSelector = function($container_param, site_srl_param, fnOnSelect_param, aSelectedModules_param){
@@ -2119,6 +2152,8 @@ jQuery(function($){
 				aSubNode  = aNode[i].menuItems.list;
 				
 				sTargetPanel = "#propertiesRoot";
+				sModuleType = "_ROOT";
+				
 				break;
 				
 				case 2:
@@ -2212,6 +2247,18 @@ jQuery(function($){
 	function xeMenuSearch(ev){
 		var $btn = $(ev.target);
 		$.xeMenuSelectorVar.bMultiSelect = ""+$btn.data('multiple') == "true";
+		//{sMenuId":"578", "sMenuUrl":"page_ANom60", "sMenuTitle":"wwww", "sType":"WIDGET" }
+		$.xeMenuSelectorVar.aAllowedType = $.grep((""+($btn.data('allowedType') || "")).split(','), function(el){return el !== ""});
+		$.xeMenuSelectorVar.aDisallowedType = $.grep((""+($btn.data('disallowedType') || "")).split(','), function(el){return el !== ""});
+
+		if($.inArray("page", $.xeMenuSelectorVar.aAllowedType) > -1){
+			$.xeMenuSelectorVar.aAllowedType.push("ARTICLE", "WIDGET", "OUTSIDE");
+		}
+		
+		if($.inArray("page", $.xeMenuSelectorVar.aDisallowedType) > -1){
+			$.xeMenuSelectorVar.aDisallowedType.push("ARTICLE", "WIDGET", "OUTSIDE");
+		}
+		
 		//bMultiSelect = //data-multiple
 
 		$.xeMsgBox.confirmDialog({
@@ -2251,19 +2298,6 @@ jQuery(function($){
 		
 		$container = $('.x_modal._common .tree');
 
-		//console.log(aSiteList);
-		/*
-		[
-			{
-				domain : "nagoon97.xpressengine.com/maserati/"
-				site_srl : "0"
-			},
-			{
-				domain : "nagoon97.xpressengine.com/maserati123/"
-				site_srl : "1"
-			},
-		]
-		*/
 		var nLen = aSiteList.length;
 		if(nLen <= 1){
 			// leave the site selector hidden
@@ -2290,8 +2324,15 @@ jQuery(function($){
 			if(!id) id = '__module_search_' + tmpCount;
 			tmpCount++;
 
+			var sMultiple = $this.attr('data-multiple');
+			var sAllowedType = $this.attr('data-allowedType');
+			var sDisallowedType = $this.attr('data-disallowedType');
+
 			// add html
 			var $btn = $('<a class="x_btn moduleTrigger">' + xe.cmd_find + '</a>');
+			$btn.data('multiple', sMultiple);
+			$btn.data('allowedType', sAllowedType);
+			$btn.data('disallowedType', sDisallowedType);
 			var $displayInput = $('<input type="text" readonly>');
 			$this.after($btn).after('&nbsp;').after($displayInput).hide();
 			$btn.data('multiple', $(this).data('multiple'));
