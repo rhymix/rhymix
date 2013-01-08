@@ -46,7 +46,7 @@
 		<div>
 			<section class="status">
 				<h2>{$lang->uv}</h2>
-				<div style="margin:10px 15px; height:150px" id="visitors"></div>
+				<div style="margin:10px 15px; height:142px" id="visitors"></div>
 				<div class="more">
 					<dl>
 						<dt>{$lang->menu_gnb['user']}:</dt><dd><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</a></dd>
@@ -56,7 +56,7 @@
 			</section>
 			<section class="status">
 				<h2>{$lang->pv}</h2>
-				<div style="margin:10px 15px; height:150px" id="page_views"></div>
+				<div style="margin:10px 15px; height:142px" id="page_views"></div>
 				<div class="more">
 					<dl>
 						<dt>{$lang->menu_gnb_sub['document']}:</dt><dd><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</a></dd>
@@ -69,9 +69,8 @@
 			<section class="document">
 				<h2>{$lang->latest_documents}</h2>
 				<ul>
-					<!--@foreach($latestDocumentList AS $key=>$value)-->
-					{@$document = $value->variables}
-					<li>
+					<li loop="$latestDocumentList => $key,$value">
+						{@$document = $value->variables}
 						<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()))-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> 
 						<span class="side">{$document['nick_name']}</span>
 						<form class="action">
@@ -83,7 +82,6 @@
 							<button type="submit" name="type" value="delete" class="x_icon-remove">{$lang->cmd_delete}</button>
 						</form>
 					</li>
-					<!--@end-->
 					<li cond="!is_array($latestDocumentList) || count($latestDocumentList) < 1">{$lang->no_data}</li>
 				</ul>
 				<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
@@ -91,8 +89,7 @@
 			<section class="reply">
 				<h2>{$lang->latest_comments}</h2>
 				<ul>
-					<!--@foreach($latestCommentList AS $key=>$value)-->
-					<li>
+					<li loop="$latestCommentList => $key,$value">
 						<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> 
 						<span class="side">{$value->nick_name}</span> 
 						<form class="action">
@@ -104,7 +101,6 @@
 							<button type="submit" name="is_trash" value="false" class="x_icon-remove">{$lang->cmd_delete}</button>
 						</form>
 					</li>
-					<!--@end-->
 					<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
 				</ul>
 				<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
