@@ -2297,7 +2297,6 @@ jQuery(function($){
 				var aSelected = [];
 				$container.find('.jstree-clicked').each(function(idx, el){
 					var htParam = $.parseJSON($(this).attr('data-param'));
-					console.log(htParam);
 					/*
 					sMenuId : "552"
 					sMenuTitle : "222"
