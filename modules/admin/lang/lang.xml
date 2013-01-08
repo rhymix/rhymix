@@ -1507,6 +1507,10 @@
 		<value xml:lang="ko"><![CDATA[다음주]]></value>
 		<value xml:lang="en"><![CDATA[Next Week]]></value>
 	</item>
+	<item name="last_week">
+		<value xml:lang="ko"><![CDATA[지난주]]></value>
+		<value xml:lang="en"><![CDATA[Last Week]]></value>
+	</item>
 	<item name="mon">
 		<value xml:lang="ko"><![CDATA[월]]></value>
 		<value xml:lang="en"><![CDATA[Mon]]></value>
