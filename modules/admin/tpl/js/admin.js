@@ -93,6 +93,19 @@ jQuery(function($){
 		
 		return false;
 	});
+// #content reflow
+	function reflow(){ // Browser bug fix & resize height
+		var $xBody = $('.x>.body');
+		var $xGnb = $xBody.find('>.gnb');
+		var $xContent = $xBody.children('#content.content');
+		$xContent.width('99.99%');
+		setTimeout(function(){
+			$xContent.removeAttr('style');
+			if($xGnb.height() > $xContent.height()){
+				$xContent.height($xGnb.height());
+			}
+		}, 100);
+	}
 // GNB
 	$.fn.gnb = function(){
 		var $xBody = $('.x>.body');
@@ -120,6 +133,7 @@ jQuery(function($){
 			var hasWide = $xBody.hasClass('wide');
 			function openGNB(){
 				$xBody.removeClass('wide');
+				reflow();
 			}
 			if(!hasOpen && !hasActive && hasList){ // Down to open
 				$parent.addClass('open').find('>ul').slideDown(100);
@@ -141,6 +155,7 @@ jQuery(function($){
 			if($(window).width() <= 980 && !$xGnb.hasClass('open')){
 				$('#gnbNav').removeClass('ex');
 			}
+			reflow();
 
 			// remember status
 			if($(this).parent('.gnb').hasClass('open')){
@@ -154,6 +169,7 @@ jQuery(function($){
 		// Expert Menu Toggle
 		$xGnb.find('.exMenu>button').click(function(){
 			$('#gnbNav').toggleClass('ex');
+			reflow();
 
 			// remember status
 			if($('#gnbNav').hasClass('ex')){
@@ -221,6 +237,7 @@ jQuery(function($){
 				$section.removeClass('collapse');
 				$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
 			}
+			reflow();
 		});
 	}
 // Alert Closer
@@ -1979,7 +1996,7 @@ jQuery(function($){
 
 	$.template( "menuSelector_menuTree", '<ul>{{html Nodes}}</ul>' );
 	$.template( "menuSelector_menuTreeNode", '	<li>\
-		<a href="#" class="_nodeType_${NodeType} _menu_node _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}", "sType":"${MenuType}" }\'>${MenuTitle}</a>\
+		<a href="#" class="_nodeType_${NodeType} _menu_node _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}", "sType":"${MenuType}", "sModuleSrl":"${ModuleSrl}" }\'>${MenuTitle}</a>\
 		{{html SubTree}}\
 	</li>' );
 	//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
@@ -2130,11 +2147,12 @@ jQuery(function($){
 		
 		// 1: Sitemap node, 2: Menu node
 		var nNodeType;
-
+		var sModuleSrl;
 		var sResult = "";
 		var sTargetPanel;
 		for(var i=0, nLen=aNode.length; i<nLen; i++){
 			aNode[i].sParentSrl = sParentSrl;
+			sModuleSrl = "";
 
 			// Only sitemap node has menuSrl
 			if(aNode[i].menuSrl){
@@ -2201,6 +2219,7 @@ jQuery(function($){
 			htNodeInfo[sNodeSrl].sNodeSrl = sNodeSrl;
 			htNodeInfo[sNodeSrl].sText = sText;
 			htNodeInfo[sNodeSrl].sMenuNameKey = htNodeInfo[sNodeSrl].menu_name_key;
+			htNodeInfo[sNodeSrl].sModuleSrl = sModuleSrl = htNodeInfo[sNodeSrl].module_srl;
 			
 			htNodeInfo[sNodeSrl].sModuleType = sModuleType;
 
@@ -2222,7 +2241,7 @@ jQuery(function($){
 				nNodeType = 3;
 			}
 
-			var $node = $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,MenuType:sModuleType,SubTree:sSubTree,Target:sTargetPanel} )
+			var $node = $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,MenuType:sModuleType,SubTree:sSubTree,Target:sTargetPanel,ModuleSrl:sModuleSrl} )
 						.data('sMenuId', sNodeSrl).data('sMenuUrl', sURL).data('sMenuTitle', sText).data('sMenuType', sModuleType);
 			//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
 			//console.log($node);
@@ -2250,6 +2269,8 @@ jQuery(function($){
 		//{sMenuId":"578", "sMenuUrl":"page_ANom60", "sMenuTitle":"wwww", "sType":"WIDGET" }
 		$.xeMenuSelectorVar.aAllowedType = $.grep((""+($btn.data('allowedType') || "")).split(','), function(el){return el !== ""});
 		$.xeMenuSelectorVar.aDisallowedType = $.grep((""+($btn.data('disallowedType') || "")).split(','), function(el){return el !== ""});
+		$.xeMenuSelectorVar.aDisallowedType.push("_ROOT");
+		$.xeMenuSelectorVar.aDisallowedType.push("_SHORTCUT");
 
 		if($.inArray("page", $.xeMenuSelectorVar.aAllowedType) > -1){
 			$.xeMenuSelectorVar.aAllowedType.push("ARTICLE", "WIDGET", "OUTSIDE");
@@ -2276,12 +2297,13 @@ jQuery(function($){
 				var aSelected = [];
 				$container.find('.jstree-clicked').each(function(idx, el){
 					var htParam = $.parseJSON($(this).attr('data-param'));
+					console.log(htParam);
 					/*
 					sMenuId : "552"
 					sMenuTitle : "222"
 					sMenuUrl : "page_QLQK2400"
 					*/
-					aSelected.push({browser_title: htParam.sMenuTitle, mid: htParam.sMenuUrl, module_srl: htParam.sMenuId, type: htParam.sType});
+					aSelected.push({browser_title: htParam.sMenuTitle, mid: htParam.sMenuUrl, module_srl: htParam.sModuleSrl, menu_id: htParam.sMenuId, type: htParam.sType});
 //					console.log(htParam);
 				});
 				
