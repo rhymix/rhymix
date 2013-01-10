@@ -107,16 +107,51 @@ class menuAdminController extends menu
 		$menu_srl = Context::get('menu_srl');
 
 		$oMenuAdminModel = &getAdminModel('menu');
-		$menu_info = $oMenuAdminModel->getMenu($menu_srl);
+		$menuInfo = $oMenuAdminModel->getMenu($menu_srl);
 
 		$oAdmin = &getClass('admin');
-		if($menu_info->title == $oAdmin->getAdminMenuName())
+		if($menuInfo->title == $oAdmin->getAdminMenuName())
 			return new Object(-1, 'msg_adminmenu_cannot_delete');
 
-		$this->deleteMenu($menu_srl);
+		// get menu properies with child menu
+		$phpFile = sprintf("./files/cache/menu/%s.php", $menu_srl);
+		$originMenu = NULL;
+
+		if(is_readable(FileHandler::getRealPath($phpFile)))
+		{
+			@include(FileHandler::getRealPath($phpFile));
+		}
+
+		// check home menu in originMenu
+		$oModuleModel = &getModel('module');
+		$siteInfo = $oModuleModel->getSiteInfo($menuInfo->site_srl);
+
+		$isStartmenuInclude = false;
+
+		if(is_array($menu->list))
+		{
+			foreach($menu->list AS $key=>$value)
+			{
+				$originMenu = $value;
+				$this->_checkHomeMenuInOriginMenu($originMenu, $siteInfo->mid, $isStartmenuInclude);
+
+				if($isStartmenuInclude)
+					break;
+			}
+		}
+
+		if($isStartmenuInclude)
+		{
+			return new Object(-1, 'msg_cannot_delete_homemenu');
+		}
+
+		$output = $this->deleteMenu($menu_srl);
+		if(!$output->toBool())
+		{
+			return new Object(-1, $output->message);
+		}
 
 		$this->setMessage('success_deleted', 'info');
-
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap');
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -141,7 +176,7 @@ class menuAdminController extends menu
 		}
 
 		$oModuleController = getController('module');
-		$oModuleModel = getModel('module');
+		$oModuleModel = &getModel('module');
 
 		foreach($output->data as $itemInfo)
 		{
