@@ -702,6 +702,7 @@
 	xe.lang.img_deleted = '{$lang->img_deleted}';
 	xe.lang.no_use_layout = '{$lang->no_use_layout}';
 	xe.lang.shortcut_desc = '{$lang->shortcut_desc}';
+	xe.lang.msg_cannot_delete_homemenu = '{$lang->msg_cannot_delete_homemenu}';
 </script>
 
 <!--[if IE 7]>
@@ -3277,6 +3278,12 @@ jQuery(function($){
 	}
 	
 	$('._deleteMenu').click(function(){
+		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
+		if(htInfo.is_start_module){
+			alert(xe.lang.msg_cannot_delete_homemenu);
+			return;
+		}
+		
 		$.xeMsgBox.confirmDialog({
 			sTitle : xe.lang.confirm_menu_delete,
 			
