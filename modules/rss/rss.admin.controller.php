@@ -87,6 +87,25 @@ class rssAdminController extends rss
 		$this->setRedirectUrl($returnUrl);
 	}
 
+	public function procRssAdminDeleteFeedImage()
+	{
+		$delImage = Context::get('del_image');
+
+		$oModuleModel = &getModel('module');
+		$originConfig = $oModuleModel->getModuleConfig('rss');
+
+		// Get a variable for the delete request
+		if($delImage == 'Y')
+		{
+			FileHandler::removeFile($originConfig->image);
+
+			$originConfig->image = '';
+			$output = $this->setFeedConfig($originConfig);
+			return new Object(0, 'success_updated');
+		}
+		return new Object(-1, 'fail_to_delete');
+	}
+
 	/**
 	 * RSS Module configurations
 	 *
