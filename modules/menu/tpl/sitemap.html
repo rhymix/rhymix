@@ -110,7 +110,7 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#sitemap_general">&times;</button>
 	</div>
-	<div class="col prop-general" id="properties">
+	<div class="col prop-general" id="properties" style="display:none;">
 		<section>
 			<h1><a href="#" target="_blank" class="title"><!--메뉴 이름--></a></h1>
 			<div class="cnt">
@@ -1603,7 +1603,9 @@ jQuery(function($){
 			$(ev.target).find('._chkUseAsHome').removeAttr('disabled').removeAttr('checked');
 		}
 		
-		loadFullSetup();
+		if(!htInfo.bShortCut){
+			loadFullSetup();
+		}
 	});
 	function loadFullSetup(){
 		$.exec_json("menu.getMenuAdminDetailSetup", {

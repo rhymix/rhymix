@@ -2283,7 +2283,7 @@ jQuery(function($){
 		//bMultiSelect = //data-multiple
 
 		$.xeMsgBox.confirmDialog({
-			sTitle : 'TITLE',
+			sTitle : xe.msg_select_menu,
 
 			sText : '<select class="site_selector" style="width:100%;display:none"></select><div class="tree"></div>',
 			
@@ -2401,4 +2401,6 @@ jQuery(function($){
 	alert = function(){
 		return $.xeMsgBox.alert.apply($.xeMsgBox, arguments);
 	}
+	
+	setTimeout(function(){$('div.message.info').fadeOut(1000);}, 2500);
 });

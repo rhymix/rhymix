@@ -2621,6 +2621,10 @@
 		<value xml:lang="ko"><![CDATA[바로가기는 선택 할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You cannot select a shortcut.]]></value>
 	</item>
+	<item name="msg_select_menu">
+		<value xml:lang="ko"><![CDATA[대상 메뉴 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select target menu]]></value>
+	</item>
 	<item name="msg_call_server">
 		<value xml:lang="ko"><![CDATA[서버에 요청 중입니다. 잠시만 기다려주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Requesting to the server, please wait.]]></value>
