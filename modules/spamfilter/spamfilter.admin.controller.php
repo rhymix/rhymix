@@ -70,14 +70,7 @@ class spamfilterAdminController extends spamfilter
 	function procSpamfilterAdminDeleteDeniedIP()
 	{
 		$ipAddressList = Context::get('ipaddress');
-
-		if(is_array($ipAddressList))
-		{
-			foreach($ipAddressList AS $key=>$ipaddress)
-			{
-				$this->deleteIP($ipaddress);
-			}
-		}
+		$this->deleteIP($ipAddressList);
 
 		$this->setMessage(Context::getLang('success_deleted'));
 
@@ -90,12 +83,13 @@ class spamfilterAdminController extends spamfilter
 	 */
 	function procSpamfilterAdminDeleteDeniedWord()
 	{
-		$word = Context::get('word');
-		//$word = base64_decode(Context::get('word'));
-		$output = $this->deleteWord($word);
+		$wordList = Context::get('word');
+		$this->deleteWord($wordList);
+
+		$this->setMessage(Context::getLang('success_deleted'));
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedWordList','active','word');
-		return $this->setRedirectUrl($returnUrl, $output);
+		return $this->setRedirectUrl($returnUrl);
 	}
 
 	/**

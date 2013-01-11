@@ -5,6 +5,11 @@
 		<li class="x_active"><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedWordList')}">{$lang->cmd_denied_word}</a></li>
 		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminConfigBlock')}">{$lang->cmd_config_block}</a></li>
 	</ul>
+
+	<form action="./" method="post" style="margin-right:14px">
+	<input type="hidden" name="act" value="procSpamfilterAdminDeleteDeniedWord" />
+	<input type="hidden" name="module" value="spamfilter" />
+
 	<table class="x_table x_table-striped x_table-hover">
 		<caption><strong>{$lang->cmd_denied_word}</strong></caption>
 		<thead>
@@ -13,7 +18,7 @@
 				<th scope="col">{$lang->latest_hit}</th>
 				<th scope="col">{$lang->hit}</th>
 				<th scope="col">{$lang->regdate}</th>
-				<th scope="col">{$lang->cmd_delete}</th>
+				<th scope="col"><input type="checkbox" name="word" title="Check All" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,13 +27,16 @@
 				<td><!--@if($word_info->latest_hit)-->{$word_info->latest_hit}<!--@else-->-<!--@end--></td>
 				<td>{$word_info->hit}</td>
 				<td>{zdate($word_info->regdate,'Y-m-d')}</td>
-				<td><a href="#" onclick="doDeleteDeniedWord('{$word_info->word}')">{$lang->cmd_delete}</a></td>
+				<td><input type="checkbox" name="word[]" value="{$word_info->word}" /></td>
 			</tr>
 			<tr cond="!$word_list">
 				<td colspan="5" style="text-align:center">{$lang->no_data}</td>
 			</tr>
 		</tbody>
 	</table>
+	<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_delete}</button>
+	</form>
+
 	<form action="./" style="margin-right:14px">
 		<input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedWord" />
 		<input type="hidden" name="module" value="spamfilter" />
