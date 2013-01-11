@@ -5,6 +5,11 @@
 		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedWordList')}">{$lang->cmd_denied_word}</a></li>
 		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminConfigBlock')}">{$lang->cmd_config_block}</a></li>
 	</ul>
+
+	<form action="./" method="post" style="margin-right:14px">
+	<input type="hidden" name="act" value="procSpamfilterAdminDeleteDeniedIP" />
+	<input type="hidden" name="module" value="spamfilter" />
+
 	<table class="x_table x_table-striped x_table-hover">
 		<caption><strong>{$lang->cmd_denied_ip}</strong></caption>
 		<thead>
@@ -12,7 +17,7 @@
 				<th scope="col">IP</th>
 				<th scope="col">{$lang->description}</th>
 				<th scope="col">{$lang->regdate}</th>
-				<th scope="col">{$lang->cmd_delete}</th>
+				<th scope="col"><input type="checkbox" name="ipaddress" title="Check All" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -20,13 +25,16 @@
 				<td>{$ip_info->ipaddress}</td>
 				<td>{$ip_info->description}</td>
 				<td>{zdate($ip_info->regdate,'Y-m-d')}</td>
-				<td><a href="#" onclick="doDeleteDeniedIP('{$ip_info->ipaddress}')">{$lang->cmd_delete}</a></td>
+				<td><input type="checkbox" name="ipaddress[]" value="{$ip_info->ipaddress}" /></td>
 			</tr>
 			<tr cond="!$ip_list">
 				<td colspan="4" style="text-align:center">{$lang->no_data}</td>
 			</tr>
 		</tbody>
 	</table>
+	<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_delete}</button>
+	</form>
+
 	<form action="./" style="margin-right:14px">
 		<input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedIP" />
 		<input type="hidden" name="module" value="spamfilter" />
