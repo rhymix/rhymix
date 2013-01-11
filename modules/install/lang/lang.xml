@@ -56,10 +56,6 @@
 			<value xml:lang="en"><![CDATA[Enter Administrator information]]></value>
 			<value xml:lang="jp"><![CDATA[管理者情報入力]]></value>
 		</item>
-		<item name="configManually">
-			<value xml:lang="ko"><![CDATA[db.config.php 생성]]></value>
-			<value xml:lang="en"><![CDATA[db.config.php Creation]]></value>
-		</item>
 	</item>
 	<item name="install_condition_enable">
 		<value xml:lang="ko"><![CDATA[설치가 가능합니다.]]></value>
