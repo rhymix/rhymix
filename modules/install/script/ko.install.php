@@ -41,16 +41,16 @@ $oMenuAdminController->makeXmlFile($menu_srl);
 
 // create Layout
 //extra_vars init
-$extra_vars->colorset = 'default';
-$extra_vars->main_menu = $menu_srl;
-$extra_vars->bottom_menu = $menu_srl;
+$extra_vars->GNB = $menu_srl;
+$extra_vars->LAYOUT_TYPE = 'MAIN_PAGE';
+$extra_vars->VISUAL_USE = 'YES';
 $extra_vars->menu_name_list = array();
 $extra_vars->menu_name_list[$menu_srl] = 'welcome_menu';
 
 $args->site_srl = 0;
 $layout_srl = $args->layout_srl = getNextSequence();
-$args->layout = 'xe_official';
-$args->title = 'welcome_layout';
+$args->layout = 'bootstrap.layout';
+$args->title = 'bootstrap.layout';
 $args->layout_type = 'P';
 
 $oLayoutAdminController = &getAdminController('layout');

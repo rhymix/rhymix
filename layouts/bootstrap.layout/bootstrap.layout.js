@@ -6,6 +6,9 @@ jQuery(function($){
 	$('.skip>a').click(function(){
 		$($(this).attr('href')).attr('tabindex','0').focus();
 	});
+	
+// Login Error
+	$('#fo_login_widget .message').parent('.x_well').show();
 
 // GNB
 	var $gnb = $('.gnb');

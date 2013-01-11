@@ -32,6 +32,7 @@ input[type=radio]{margin:0}
 .body.sub>.lnb{display:block;float:left;width:200px;position:relative;left:-220px;margin-right:-200px}
 }
 .content{outline:0}
+.content:after{content:"";display:block;clear:both}
 .footer{margin:15px 0}
 .skip>a{height:1px;overflow:hidden;display:block;text-align:center;font-weight:bold;margin:-1px 0 0 0;color:#fff;text-decoration:none}
 .skip>a:focus{height:auto;padding:8px 0;border-radius:0 0 4px 4px;background:#333}
