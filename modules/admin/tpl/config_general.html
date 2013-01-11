@@ -92,7 +92,7 @@
 					<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1">
 					<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2">
 				</p>
-				<button type="button" onclick="javascript:deleteIcon('favicon\.ico')" class="x_btn x_btn-link">{$lang->cmd_delete}</button>
+				<input type="checkbox" name="is_delete_favicon" value="1" /> {$lang->cmd_delete}
 				<input type="file" name="favicon" id="favicon" title="favicon" />
 				<span class="x_help-block">{$lang->about_use_favicon}</span>
 			</div>
@@ -104,7 +104,7 @@
 					<img src="{$mobicon_url}" alt="Mobile Home Icon" width="32" height="32" />
 					<span>www</span>
 				</p>
-				<button type="button" onclick="javascript:deleteIcon('mobicon\.png')" class="x_btn x_btn-link">{$lang->cmd_delete}</button>
+				<input type="checkbox" name="is_delete_mobicon" value="1" /> {$lang->cmd_delete}
 				<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/>
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
 			</div>

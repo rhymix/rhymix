@@ -237,12 +237,14 @@ class installAdminController extends install
 		$this->setModulesConfig($config);
 
 		//파비콘
+		$isDeleteFavicon = Context::get('is_delete_favicon');
 		$favicon = Context::get('favicon');
-		$this->saveIcon($favicon,'favicon.ico');
+		$this->saveIcon($favicon,'favicon.ico', $isDeleteFavicon);
 
 		//모바일아이콘
+		$isDeleteMobicon = Context::get('is_delete_mobicon');
 		$mobicon = Context::get('mobicon');
-		$this->saveIcon($mobicon,'mobicon.png');
+		$this->saveIcon($mobicon,'mobicon.png', $isDeleteMobicon);
 
 		$this->setRedirectUrl(Context::get('error_return_url'));
 	}
@@ -285,12 +287,17 @@ class installAdminController extends install
 		return $output;
 	}
 
-	function saveIcon($icon,$iconname)
+	function saveIcon($icon, $iconname, $isDelete = false)
 	{
 		$mobicon_size = array('57','114');
 		$target_file = $icon['tmp_name'];
 		$type = $icon['type'];
 		$target_filename = _XE_PATH_.'files/attach/xeicon/'.$iconname;
+
+		if($isDelete && is_readable($target_filename))
+		{
+			@FileHandler::removeFile($target_filename);
+		}
 
 		list($width, $height, $type_no, $attrs) = @getimagesize($target_file);
 		if($iconname == 'favicon.ico' && preg_match('/^.*(icon).*$/',$type))
