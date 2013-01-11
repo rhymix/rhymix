@@ -209,5 +209,21 @@ function drawChart(sContainerId, sTitle, aLastWeek, aThisWeek) {
             }
         }
     });
+	// jpplot resize
+	jQuery(function($){
+		$(window).resize(function(){
+			var targetWidth = $('.jqplot-target').width();
+			$('.jqplot-base-canvas, .jqplot-grid-canvas').width(targetWidth).height(142);
+			$('.jqplot-series-shadowCanvas, .jqplot-series-canvas, .jqplot-barRenderer-highlight-canvas, .jqplot-event-canvas,').width(targetWidth/10 * 8).height(109);
+			$('.jqplot-xaxis').width(targetWidth/10 * 8).css('left','17px');
+			$('.jqplot-xaxis-tick').css({
+				position: 'static',
+				left: '0',
+				display: 'inline-block',
+				width: '14.285714%',
+				textAlign: 'center'
+			});
+		}).resize();
+	});
 };
 </script>
