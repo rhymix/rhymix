@@ -83,7 +83,7 @@
 					<th>
 						<!--@if($value['url'])--><a href="{$value['url']}" target="_blank"><!--@endif-->{$value['mid']}<!--@if($value['url'])--></a><!--@endif-->
 					</th>
-					<td class="title">{$value['feed_description']}</td>
+					<td class="title">{$value['feed_description']}<textarea name="feed_description" style="display:none;">{$value['feed_description']}</textarea></td>
 					<td>
 						<!--@foreach($lang->open_rss_types as $key2=>$value2)-->
 						<label class="x_inline"><input type="radio" name="open_rss" value="{$key2}" id="feed_open_{$key2}" <!--@if($key2 == $value['open_feed'])-->checked="checked"<!--@end--> />{$value2}</label>
