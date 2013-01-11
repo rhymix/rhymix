@@ -90,7 +90,7 @@
 						<!--@end-->
 					</td>
 					<td>
-						<label class="x_inline"><input type="radio" name="open_total_feed" value="N" id="open_total_feed_N" <!--@if($value['open_total_feed'] == 'N')-->checked="checked"<!--@end--> />{$lang->use}</label>
+						<label class="x_inline"><input type="radio" name="open_total_feed" value="N" id="open_total_feed_N" <!--@if($value['open_total_feed'] != 'T_N')-->checked="checked"<!--@end--> />{$lang->use}</label>
 						<label class="x_inline"><input type="radio" name="open_total_feed" value="T_N" id="open_total_feed_T_N" <!--@if($value['open_total_feed'] == 'T_N')-->checked="checked"<!--@end--> />{$lang->notuse}</label>
 					</td>
 					<td><button type="submit" class="x_btn x_btn-link">{$lang->cmd_save}</button></td>
