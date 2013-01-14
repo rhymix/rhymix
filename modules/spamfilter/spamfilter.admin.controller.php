@@ -110,10 +110,17 @@ class spamfilterAdminController extends spamfilter
 	 */
 	function insertWord($word_list)
 	{
-		if(!preg_match("/^(.{2,40}\s*)*$/",$word_list)) return new Object(-1, 'msg_invalid');
-
 		$word_list = str_replace("\r","",$word_list);
 		$word_list = explode("\n",$word_list);
+
+		foreach($word_list as $word)
+		{
+			if(!preg_match("/^(.{2,40}[\r\n]+)*.{2,40}$/", $word))
+			{
+				return new Object(-1, 'msg_invalid');
+			}
+		}
+
 		$fail_word = '';
 		foreach($word_list as $word)
 		{
