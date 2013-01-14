@@ -1,5 +1,5 @@
 <div class="x_page-header">
-	<h1>File Upload <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_fileupload" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->file_upload} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_fileupload" target="_blank">{$lang->help}</a></h1>
 </div>
 
 <div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -10,11 +10,10 @@
 	<input type="hidden" name="module" value="file" />
 	<input type="hidden" name="act" value="procFileAdminInsertConfig" />
 	<div class="x_control-group">
-		<label class="x_control-label">{$lang->allow_outlink}</label>
+		<label class="x_control-label">{$lang->allow_outlink} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_file_outlink" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
 			<label class="x_inline"><input type="radio" name="allow_outlink" id="allow_outlink_y" value="Y" checked="checked"|cond="$config->allow_outlink == 'Y'" /> {$lang->cmd_yes}</label>
 			<label class="x_inline"><input type="radio" name="allow_outlink" value="N" checked="checked"|cond="$config->allow_outlink == 'N'" /> {$lang->cmd_no}</label>
-			<p class="x_help-block">{$lang->about_allow_outlink}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -32,17 +31,15 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label for="filesize" class="x_control-label">{$lang->allowed_filesize}</label>
+		<label for="filesize" class="x_control-label">{$lang->allowed_filesize} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_file_size" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
 			<input id="filesize" type="number" name="allowed_filesize" value="{$config->allowed_filesize}" style="width:40px" /> MB/{ini_get('upload_max_filesize')}
-			<p class="x_help-inline">{$lang->about_allowed_filesize}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label for="attachSize" class="x_control-label">{$lang->allowed_attach_size}</label>
+		<label for="attachSize" class="x_control-label">{$lang->allowed_attach_size} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_file_document_attach_limit" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
 			<input id="attachSize" type="number" name="allowed_attach_size" value="{$config->allowed_attach_size}" style="width:40px" /> MB
-			<p class="x_help-inline">{$lang->about_allowed_attach_size}</p>
 		</div>
 	</div>
 	<div class="x_control-group">

@@ -14,6 +14,10 @@
 		<value xml:lang="vi"><![CDATA[Đính kèm]]></value>
 		<value xml:lang="mn"><![CDATA[file]]></value>
 	</item>
+	<item name="file_upload">
+		<value xml:lang="ko"><![CDATA[파일 업로드]]></value>
+		<value xml:lang="en"><![CDATA[File Upload]]></value>
+	</item>
 	<item name="file_name">
 		<value xml:lang="ko"><![CDATA[파일 이름]]></value>
 		<value xml:lang="en"><![CDATA[File Name]]></value>
