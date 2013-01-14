@@ -132,7 +132,7 @@ jQuery(function($){
 	var $docTable = $('#trashListTable');
 	$docTable.find(':checkbox').change(function(){
 		var $modalAnchor = $('a[data-value]');
-		if($docTable.find(':checked').length == 0){
+		if($docTable.find('tbody :checked').length == 0){
 			$modalAnchor.removeAttr('href').addClass('x_disabled');
 		} else {
 			$modalAnchor.attr('href','#fo_list').removeClass('x_disabled');
@@ -140,7 +140,7 @@ jQuery(function($){
 	}).change();
 	// Modal anchor button action
 	$('a[data-value]').click(function(){
-		if($docTable.find(':checked').length == 0){
+		if($docTable.find('tbody :checked').length == 0){
 			$('body').css('overflow','auto');
 			alert('{$lang->msg_not_selected_document}');
 			return false;

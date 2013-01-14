@@ -171,7 +171,7 @@ jQuery(function($){
 	var $memberList = $('#memberList');
 	$memberList.find(':checkbox').change(function(){
 		var $modalAnchor = $('a[data-value]');
-		if($memberList.find(':checked').length == 0){
+		if($memberList.find('tbody :checked').length == 0){
 			$modalAnchor.removeAttr('href').addClass('x_disabled');
 		} else {
 			$modalAnchor.attr('href','#listManager').removeClass('x_disabled');

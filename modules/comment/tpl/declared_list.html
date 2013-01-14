@@ -107,7 +107,7 @@ jQuery(function($){
 	var $docTable = $('#commentListTable');
 	$docTable.find(':checkbox').change(function(){
 		var $btn = $('#fo_list [type="submit"], #fo_list [type="button"]');
-		if($docTable.find(':checked').length == 0){
+		if($docTable.find('tbody :checked').length == 0){
 			$btn.addClass('x_disabled');
 		} else {
 			$btn.removeClass('x_disabled');

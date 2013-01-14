@@ -110,7 +110,7 @@ jQuery(function($){
 	var $docTable = $('#pollListTable');
 	var $submit = $('#pollList [type="submit"]');
 	$docTable.find(':checkbox').change(function(){
-		if($docTable.find(':checked').length == 0){
+		if($docTable.find('tbody :checked').length == 0){
 			$submit.addClass('x_disabled');
 		} else {
 			$submit.removeClass('x_disabled');
@@ -118,7 +118,7 @@ jQuery(function($){
 	}).change();
 	// Button action
 	$submit.click(function(){
-		if($docTable.find(':checked').length == 0){
+		if($docTable.find('tbody :checked').length == 0){
 			alert(xe.lang.msg_select_poll);
 			return false;
 		}
