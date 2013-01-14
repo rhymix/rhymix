@@ -33,18 +33,17 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="feed_description">{$lang->description}</label>
 			<div class="x_controls">
-			<textarea name="feed_description" id="feed_description" rows="4" cols="42">{$total_config->feed_description}</textarea>
+				<textarea name="feed_description" id="feed_description" rows="4" cols="42">{$total_config->feed_description}</textarea>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="image">{$lang->feed_image}</label>
 			<div class="x_controls">
-			<!--@if($total_config->image)-->
-				<img src="../../../{$total_config->image}" alt="image" />
-				<input type="checkbox" name="del_image" value="Y" id="del_image" />
-				<label for="del_image">{$lang->cmd_delete}</label>
-			<!--@end-->
-			<p class="a"><input type="file" name="image" value="" id="image" /></p>
+				<div class="x_thumbnail" cond="$total_config->image" style="display:inline-block;margin:0 0 5px 0"> 
+					<img src="../../../{$total_config->image}" alt="image" style="max-width:210px;max-height:150px" />
+					<label for="del_image" class="x_caption" style="padding:5px 0 0 0;margin:0"><input type="checkbox" name="del_image" value="Y" id="del_image" /> {$lang->cmd_delete}</label>
+				</div>
+				<p><input type="file" name="image" value="" id="image" /></p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -56,53 +55,53 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="feed_document_count">{$lang->feed_document_count}</label>
 			<div class="x_controls">
-				<input type="number" min="1" max="100" name="feed_document_count" value="{$total_config->feed_document_count}" id="feed_document_count" />
+				<input type="number" min="1" max="100" name="feed_document_count" value="{$total_config->feed_document_count}" id="feed_document_count" style="width:50px" />
 			</div>
 		</div>
 		<div class="btnArea x_clearfix">
-			<div class="x_pull-right">
-				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
-			</div>
+			<button type="submit" class="x_btn x_btn-primary x_pull-right">{$lang->cmd_save}</button>
 		</div>
 	</form>
 </section>
 <section class="section">
-	<h1>{$lang->feed} {$lang->cmd_management}</h1>
-	<table class="x_table x_table-striped x_table-hover">
-		<thead>
-			<tr>
-				<th>{$lang->mid}</th>
-				<th>{$lang->description}</th>
-				<th>{$lang->open_rss}</th>
-				<th>{$lang->open_feed_to_total}</th>
-				<th style="width:50px">{$lang->cmd_save}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr loop="$feed_config => $key,$value">
-				<form ruleset="insertRssModuleConfig" action="./" method="post">
-					<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
-					<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', 'dispRssAdminIndex')}" />
-					<input type="hidden" name="target_module_srl" value="{$key}" />
-					<th>
-						<!--@if($value['url'])--><a href="{$value['url']}" target="_blank"><!--@endif-->{$value['mid']}<!--@if($value['url'])--></a><!--@endif-->
+	<h1 style="margin-bottom:0">{$lang->feed} {$lang->cmd_management}</h1>
+	<form ruleset="insertRssModuleConfig" action="./" method="post">
+		<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', 'dispRssAdminIndex')}" />
+		<input type="hidden" name="target_module_srl" value="{$key}" />
+		<table class="x_table x_table-striped x_table-hover" style="border-top:0;margin-top:0">
+			<thead>
+				<tr>
+					<th>{$lang->mid}</th>
+					<th>{$lang->description}</th>
+					<th>{$lang->open_rss}</th>
+					<th>{$lang->open_feed_to_total}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr loop="$feed_config => $key,$value">
+					<th cond="!$value['url']">
+						{$value['mid']}
 					</th>
-					<td class="title">{$value['feed_description']}<textarea name="feed_description" style="display:none;">{$value['feed_description']}</textarea></td>
+					<th cond="$value['url']">
+						<a href="{$value['url']}" target="_blank">{$value['mid']}</a>
+					</th>
+					<td class="title">{$value['feed_description']}<textarea name="feed_description" hidden>{$value['feed_description']}</textarea></td>
 					<td>
-						<!--@foreach($lang->open_rss_types as $key2=>$value2)-->
-						<label class="x_inline"><input type="radio" name="open_rss" value="{$key2}" id="feed_open_{$key2}" <!--@if($key2 == $value['open_feed'])-->checked="checked"<!--@end--> />{$value2}</label>
-						<!--@end-->
+						<label class="x_inline" loop="$lang->open_rss_types => $key2,$value2"><input type="radio" name="open_rss" value="{$key2}" id="feed_open_{$key2}" checked="checked"|cond="$key2 == $value['open_feed']" /> {$value2}</label>
 					</td>
 					<td>
-						<label class="x_inline"><input type="radio" name="open_total_feed" value="N" id="open_total_feed_N" <!--@if($value['open_total_feed'] != 'T_N')-->checked="checked"<!--@end--> />{$lang->use}</label>
-						<label class="x_inline"><input type="radio" name="open_total_feed" value="T_N" id="open_total_feed_T_N" <!--@if($value['open_total_feed'] == 'T_N')-->checked="checked"<!--@end--> />{$lang->notuse}</label>
+						<label class="x_inline"><input type="radio" name="open_total_feed" value="N" id="open_total_feed_N" checked="checked"|cond="$value['open_total_feed'] != 'T_N'" /> {$lang->use}</label>
+						<label class="x_inline"><input type="radio" name="open_total_feed" value="T_N" id="open_total_feed_T_N" checked="checked"|cond="$value['open_total_feed'] == 'T_N'" /> {$lang->notuse}</label>
 					</td>
-					<td><button type="submit" class="x_btn x_btn-link">{$lang->cmd_save}</button></td>
-				</form>
-			</tr>
-			<tr cond="!$feed_config">
-				<td colspan="4" style="text-align:center">{$lang->no_data}</td>
-			</tr>
-		</tbody>
-	</table>
+				</tr>
+				<tr cond="!$feed_config">
+					<td style="text-align:center">{$lang->no_data}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="x_clearfix">
+			<button type="submit" class="x_btn x_btn-primary x_pull-right">{$lang->cmd_save}</button>
+		</div>
+	</form>
 </section>
