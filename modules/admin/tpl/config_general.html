@@ -14,17 +14,15 @@
 		<input type="hidden" name="act" value="procInstallAdminConfig" />
 
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->site_title}</label>
+			<label class="x_control-label">{$lang->site_title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_site_title" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input type="text" name="site_title" value="{$siteTitle}" />
-				{$lang->about_site_title}
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="_target_module">{$lang->start_module}</label>
+			<label class="x_control-label" for="_target_module">{$lang->start_module} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_homepage" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input class="module_search" type="text" name="index_module_srl" value="{$start_module->index_module_srl}" />
-				{$lang->about_start_module}
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -54,11 +52,11 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_mobile_view}</label>
+			<label class="x_control-label">{$lang->use_mobile_view} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_mobile_view" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="use_mobile_view_y" class="x_inline">
 					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" checked="checked"|cond="$use_mobile_view == 'Y'" />
-					{$lang->cmd_yes}({$lang->about_use_mobile_view})
+					{$lang->cmd_yes}
 				</label>
 				<label for="use_mobile_view_n" class="x_inline">
 					<input type="radio" name="use_mobile_view" id="use_mobile_view_n" value="N" checked="checked"|cond="$use_mobile_view != 'Y'" />
@@ -122,30 +120,23 @@
 		<input type="hidden" name="module" value="install" />
 		<input type="hidden" name="act" value="procInstallAdminSaveTimeZone" />
 		<div class="x_control-group">
-			<label class="x_control-label" for="admin_ip_list">{$lang->admin_ip_limit}</label>
+			<label class="x_control-label" for="admin_ip_list">{$lang->admin_ip_limit} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_admin_iplist" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<textarea name="admin_ip_list" id="admin_ip_list" rows="4" cols="42" placeholder="{$IP}({$lang->local_ip_address})" style="float:left;margin-right:10px">{$admin_ip_list}</textarea>
-				<p class="x_help-block">
-					{$lang->about_admin_ip_limit}
-				</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="default_url">{$lang->default_url}</label>
+			<label class="x_control-label" for="default_url">{$lang->default_url} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_default_url" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input type="text" name="default_url" id="default_url" value="{$default_url}"/>
-				<p class="x_help-inline">
-					{$lang->about_default_url}
-				</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_ssl}</label>
+			<label class="x_control-label">{$lang->use_ssl} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<!--@foreach($lang->ssl_options as $key => $val)-->
 				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" checked="checked"|cond="$use_ssl==$key" /> {$val}</label>
 				<!--@endforeach-->
-				<p class="x_help-block">{$lang->about_use_ssl}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -171,27 +162,24 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_sso}</label>
+			<label class="x_control-label">{$lang->use_sso} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_sso" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="sso_y" class="x_inline"><input type="radio" name="use_sso" id="sso_y" value="Y" checked="checked"|cond="$use_sso=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="sso_n" class="x_inline"><input type="radio" name="use_sso" id="sso_n" value="N" checked="checked"|cond="$use_sso!='Y'" /> {$lang->cmd_no}</label>
-				<p class="x_help-block">{$lang->about_use_sso}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_db_session}</label>
+			<label class="x_control-label">{$lang->use_db_session} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_db_session" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="use_db_session_y" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_y" value="Y" checked="checked"|cond="$use_db_session=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="use_db_session_n" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_n" value="N" checked="checked"|cond="$use_db_session!='Y'" /> {$lang->cmd_no}</label>
-				<p class="x_help-block">{$lang->about_db_session}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->qmail_compatibility}</label>
+			<label class="x_control-label">{$lang->qmail_compatibility} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_qmail" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="qmail_compatibility_y" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_y" value="Y" checked="checked"|cond="$qmail_compatibility=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="qmail_compatibility_n" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" checked="checked"|cond="$qmail_compatibility!='Y'" /> {$lang->cmd_no}</label>
-				<p class="x_help-block">{$lang->about_qmail_compatibility}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">

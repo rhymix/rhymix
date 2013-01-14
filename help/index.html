@@ -388,7 +388,20 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						<h1 id="UMAN_config">설정</h1>
 						<dl>
 							<dt id="UMAN_config_general">일반</dt>
-							<dd>사이트 시작 화면을 결정하는 기본 모듈 설정, 기본 언어 등 사이트를 운영하기 위해 필요한 기본 설정을 할 수 있습니다. 또한, 보안을 위한 관리자 페이지 접근 가능 IP 대역 지정 등 다양한 고급 설정이 가능합니다.</dd>
+							<dd>
+								<p>사이트 시작 화면을 결정하는 기본 모듈 설정, 기본 언어 등 사이트를 운영하기 위해 필요한 기본 설정을 할 수 있습니다. 또한, 보안을 위한 관리자 페이지 접근 가능 IP 대역 지정 등 다양한 고급 설정이 가능합니다.</p>
+								<ul>
+									<li id="UMAN_config_general_site_title">사이트 제목 : 세부 설정에서 사이트제목을 설정하지 않았을 경우 노출되는 제목입니다.</li>
+									<li id="UMAN_config_general_homepage">홈페이지 : 사이트 접속 시 기본으로 호출될 페이지 지정할 수 있습니다.</li>
+									<li id="UMAN_config_general_mobile_view">모바일 뷰 사용 : 모바일 기기로 접속시 모바일 페이지를 보여줍니다.</li>
+									<li id="UMAN_config_general_admin_iplist">관리자 IP대역 : 관리자 페이지로 접근가능한 IP대역을 지정합니다. 해당 IP에 대해서만 관리자 페이지로 접근이 가능하므로 주의 바랍니다. IP대역 정보는 /files/config/db.config.php 파일에 저장됩니다. 여러개의 항목은 줄을 바꾸어 입력하세요.</li>
+									<li id="UMAN_config_general_default_url">기본 URL : 여러 사이트를 운영할 때 기본 URL이 필요합니다. XE 설치 경로를 포함한 URL을 입력하세요. (예: http://도메인/설치경로)</li>
+									<li id="UMAN_config_general_ssl">SSL(Secure Socket Layer) 사용 : '선택적으로'는 회원가입, 정보수정 등의 지정된 동작(action)에서 보안접속(SSL)을 사용합니다. '항상 사용'은 모든 서비스에 SSL을 사용 합니다. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.</li>
+									<li id="UMAN_config_general_sso">SSO 사용 : 사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다. 가상 사이트를 사용할 때만 필요합니다.</li>
+									<li id="UMAN_config_general_db_session">인증 세션 DB 사용 : 인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다. 웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다. 단, 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.</li>
+									<li id="UMAN_config_general_qmail">Qmail 호환 : Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.</li>
+								</ul>
+							</dd>
 							<dt id="UMAN_config_ftp">FTP 설정</dt>
 							<dd>쉬운 설치 사용을 위한 FTP 계정을 설정합니다.</dd>
 							<dt id="UMAN_config_admin">관리자 설정</dt>
