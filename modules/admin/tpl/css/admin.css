@@ -22,7 +22,8 @@ body>.x,
 /* Bootstrap Override */
 .x .x_page-header{margin-top:10px;padding-bottom:0;border-bottom:2px solid #ddd}
 .x .x_page-header>h1{position:relative;margin-bottom:0;font-size:24px;color:#333}
-.x .x_page-header>h1>.x_icon-question-sign{position:absolute;top:50%;right:0;margin:-7px 0 0 0}
+.x .x_page-header>h1>.x_icon-question-sign{margin:0}
+.x .x_page-header>h1>.path+.x_icon-question-sign{margin:4px 0 0 0}
 .x .x_icon-question-sign{vertical-align:middle}
 .x h1,
 .x h2,
@@ -85,6 +86,7 @@ body>.x,
 .x .x_table>caption>strong{position:relative;top:7px}
 .x .x_inline{display:inline-block;*display:inline;*zoom:1}
 .x .x_page-header+.x_form-horizontal{margin-top:-20px}
+.x .x_controls:after{content:"";display:block;clear:both}
 .x label.checked,
 .x input:checked+label,
 .x .x_form-horizontal .x_control-label{font-weight:bold;word-break:keep-all}
