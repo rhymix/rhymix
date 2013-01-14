@@ -108,6 +108,7 @@ body>.x,
 .x_modal .x_modal-header{padding:15px;border-bottom:1px solid #aaa}
 .x_modal .x_modal-header>h3{color:#fff;text-shadow:0 -1px 0 #000;font-size:16px}
 .x_modal .x_modal-body{background:#fff;min-height:50px}
+.x_modal-body:after{content:"";display:block;clear:both}
 .x .x_control-group{padding-top:8px;margin-bottom:10px;border-top:1px dotted #ddd;clear:both}
 .x .x_control-group:before{content:"";display:block;clear:both}
 .x .x_control-group:first-child,
@@ -190,6 +191,13 @@ body>.x,
 .x_modal._common._nobody .x_modal-body,
 .x_modal._common._type_alert ._cancel{display:none}
 .x_modal._common._nobody .x_modal-footer{border-top:0}
+.x_modal-body.showTree .moveList{float:left;width:60%}
+.x_modal-body.showTree .moveTree{display:block !important;float:right;width:38%}
+.x_modal-body.showTree .moveTree>h1{font-size:13px;color:#333;border-bottom:2px solid #ddd;padding:10px 0 7px 0}
+@media all and (max-width:960px){
+.x_modal-body.showTree .moveList,
+.x_modal-body.showTree .moveTree{float:none;width:auto}
+}
 /* Image Sprite */
 .x a[target="_blank"]:after,
 .x>.body>.gnb>ul>li>a>i,

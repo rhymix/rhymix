@@ -128,26 +128,31 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<h3>{$lang->document_manager}: <span class="_sub"></span></h3>
 	</div>
 	<div class="x_modal-body">
-		<table width="100%" id="documentManageListTable" class="x_table x_table-striped x_table-hover">
-			<caption><strong>{$lang->selected_document} <span id="selectedDocumentCount"></span></strong></caption>
-			<thead>
-				<tr>
-					<th scope="col" class="title">{$lang->title}</th>
-					<th scope="col" class="nowr">{$lang->writer}</th>
-					<th scope="col" class="nowr">{$lang->status}</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-		<div class="x_control-group _moveTarget" style="position:relative" hidden>
-			<label>{$lang->selected_document_move}</label>
-			<input type="text" name="module_srl" data-disallowedType="page,_SHORTCUT,_ROOT" class="module_search" />
-		</div>
-		<div class="x_control-group" style="padding-right:14px">
-			<label for="message">{$lang->message_notice}</label>
-			<textarea rows="4" cols="42" name="message_content" id="message" style="width:100%"></textarea>
-		</div>
+		<section class="moveList">
+			<table width="100%" id="documentManageListTable" class="x_table x_table-striped x_table-hover">
+				<caption><strong>{$lang->selected_document} <span id="selectedDocumentCount"></span></strong></caption>
+				<thead>
+					<tr>
+						<th scope="col" class="title">{$lang->title}</th>
+						<th scope="col" class="nowr">{$lang->writer}</th>
+						<th scope="col" class="nowr">{$lang->status}</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<div class="x_control-group" style="padding-right:14px;border-top:0">
+				<label for="message">{$lang->message_notice}</label>
+				<textarea rows="4" cols="42" name="message_content" id="message" style="width:100%"></textarea>
+			</div>
+		</section>
+		<section class="moveTree" hidden>
+			<h1>{$lang->msg_select_menu}</h1>
+			<p>{$lang->selected_document_move}</p>
+			<div class="tree">
+				&lt;!-- Tree Here --&gt;
+			</div>
+		</section>
 	</div>
 	<div class="x_modal-footer">
 		<button type="submit" name="type" value="" class="x_btn x_btn-inverse x_pull-right">{$lang->cmd_confirm}</button>
@@ -174,15 +179,16 @@ jQuery(function($){
 			return false;
 		} else {
 			var $this = $(this);
-			var $moveTarget = $('._moveTarget');
+			var $manageForm = $('#manageForm');
+			var $modalBody = $manageForm.find('.x_modal-body');
 			var thisValue = $this.attr('data-value');
 			var thisText = $this.text();
 			getDocumentList();
-			$('#manageForm').find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]').val(thisValue).text(thisText);
+			$manageForm.find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]').val(thisValue).text(thisText);
 			if(thisValue == 'trash' || thisValue == 'delete'){
-				$moveTarget.hide().next().css('borderTopWidth','0');
-			} else {
-				$moveTarget.show().next().css('borderTopWidth','1px');
+				$modalBody.removeClass('showTree');
+			} else if(thisValue == 'move' || thisValue == 'copy') {
+				$modalBody.addClass('showTree');
 			}
 		}
 	});
