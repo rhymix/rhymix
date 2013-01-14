@@ -124,8 +124,11 @@
 					<li class="ex"><button type="button" class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li class="ex"><button type="button" class="_deleteMenu">{$lang->cmd_delete}</button></li>
 					<li class="homepage">
-						<label style="padding:0 24px 0 8px;margin:0"><input type="checkbox" class="_chkUseAsHome switch"><i></i> {$lang->use_site_default_module}</label>
-						<a class="x_icon-question-sign" href="./help/index.html#UMAN_setting_startpage" target="_blank" style="padding:0;position:absolute;top:50%;right:5px;margin:-7px 0 0 0;background-color:transparent">{$lang->help}</a>
+						<label style="padding:0 0 0 8px;margin:0">
+							<input type="checkbox" class="_chkUseAsHome" hidden>
+							<span>{$lang->set_as_homepage}|{$lang->has_been_set_as_homepage}</span>
+							<a class="x_icon-question-sign" href="./help/index.html#UMAN_setting_startpage" target="_blank" style="padding:0;margin:0;background-color:transparent">{$lang->help}</a>
+						</label>						
 					</li>
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li class="design"><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -703,6 +706,8 @@
 	xe.lang.no_use_layout = '{$lang->no_use_layout}';
 	xe.lang.shortcut_desc = '{$lang->shortcut_desc}';
 	xe.lang.msg_cannot_delete_homemenu = '{$lang->msg_cannot_delete_homemenu}';
+	xe.lang.set_as_homepage = '{$lang->set_as_homepage}';
+	xe.lang.has_been_set_as_homepage = '{$lang->has_been_set_as_homepage}';
 </script>
 
 <!--[if IE 7]>
@@ -1597,11 +1602,10 @@ jQuery(function($){
 			$(ev.target).addClass('prop-general');
 			$(ev.target).removeClass('prop-shortcut');
 		}
-		
 		if(htInfo.is_start_module){
-			$(ev.target).find('._chkUseAsHome').attr('checked', 'checked').attr('disabled', 'disabled');
+			$(ev.target).find('._chkUseAsHome').attr('checked', 'checked').attr('disabled', 'disabled').next('span').text(xe.lang.has_been_set_as_homepage);
 		}else{
-			$(ev.target).find('._chkUseAsHome').removeAttr('disabled').removeAttr('checked');
+			$(ev.target).find('._chkUseAsHome').removeAttr('disabled').removeAttr('checked').next('span').text(xe.lang.set_as_homepage);
 		}
 		
 		if(!htInfo.bShortCut){

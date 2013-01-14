@@ -228,6 +228,7 @@ body>.x{max-width:none !important}
 #properties ._hasFullSetupO{display:none}
 #properties._hasFullSetup ._hasFullSetupO{display:block}
 #properties._hasFullSetup ._hasFullSetupX{display:none}
+#properties .homepage input[checked="checked"]+span{font-weight:bold}
 
 /* Add */
 #add>*>.x_btn-group{border:0;padding:0}

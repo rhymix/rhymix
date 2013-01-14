@@ -684,9 +684,13 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[이름 변경]]></value>
 		<value xml:lang="en"><![CDATA[Change name]]></value>
 	</item>
-	<item name="use_site_default_module">
-		<value xml:lang="ko"><![CDATA[홈 페이지로 사용]]></value>
-		<value xml:lang="en"><![CDATA[Use as Home page]]></value>
+	<item name="set_as_homepage">
+		<value xml:lang="ko"><![CDATA[홈 페이지로 사용하기]]></value>
+		<value xml:lang="en"><![CDATA[Set as homepage]]></value>
+	</item>
+	<item name="has_been_set_as_homepage">
+		<value xml:lang="ko"><![CDATA[홈 페이지로 사용중]]></value>
+		<value xml:lang="en"><![CDATA[Has been set as homepage]]></value>
 	</item>
 	<item name="general_settings">
 		<value xml:lang="ko"><![CDATA[메뉴 수정]]></value>
