@@ -288,7 +288,7 @@ Kesin yol ve ilgili yol girebilirsiniz.]]></value>
 Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http://..]]></value>
 		</item>
 		<item name="3">
-			<value xml:lang="ko"><![CDATA[회원정보와 게시물 정보가 이전 후에 맞지 않을 수 있습니다. 이때 동기화를 하면 user_id를 기반으로 올바르게 동작하도록 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[게시물과 글쓴이의 회원 정보가 일치하지 않는 경우 사용자 아이디를 기반으로 게시물에 대한 글쓴이의 회원 정보를 바로잡아 줍니다. 게시물에 동기화할 회원 아이디가 없는 경우에는 관리자가 글쓴이로 표시됩니다.]]></value>
 			<value xml:lang="en"><![CDATA[Member and article data may not be corrected after the import. If so, please synchronize to recover them with user_id.]]></value>
 			<value xml:lang="jp"><![CDATA[会員情報と変換後の書き込みデータが一致しない場合があります。この場合は、同期化を行うと「user_id」をもとに正しく動作するようになります。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[数据导入后可能会导致会员信息和文章内容信息的误差。这时以user_id进行同步即可解决问题。]]></value>
@@ -503,7 +503,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="vi"><![CDATA[Lựa chọn này sẽ đồng bộ thông tin thành viên trước khi đồng bộ Bài viết và thành viên.]]></value>
 	</item>
 	<item name="about_importer">
-		<value xml:lang="ko"><![CDATA[다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다. 이전을 위해서는 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>를 이용해서 원하는 데이터를 XML파일로 생성 후 업로드해야 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[다른 프로그램의 데이터를 XML 형식으로 변환 후 업로드하면 XE로 이전할 수 있습니다. <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>를 이용하면 XML파일로 변환할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Data Importer will help you import Zeroboard4, Zeroboard5 Beta or other program's data into XE.
 In order to import, you first have to use <a href="http://code.google.com/p/xe-migration/" target="_blank">XML Exporter</a> to convert the data you want into XML File.]]></value>
 		<value xml:lang="jp"><![CDATA[ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをXEのデータに変換することができます。
