@@ -288,16 +288,16 @@ Kesin yol ve ilgili yol girebilirsiniz.]]></value>
 Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http://..]]></value>
 		</item>
 		<item name="3">
-			<value xml:lang="ko"><![CDATA[게시물과 글쓴이의 회원 정보가 일치하지 않는 경우 사용자 아이디를 기반으로 게시물에 대한 글쓴이의 회원 정보를 바로잡아 줍니다. 게시물에 동기화할 회원 아이디가 없는 경우에는 관리자가 글쓴이로 표시됩니다.]]></value>
-			<value xml:lang="en"><![CDATA[Member and article data may not be corrected after the import. If so, please synchronize to recover them with user_id.]]></value>
-			<value xml:lang="jp"><![CDATA[会員情報と変換後の書き込みデータが一致しない場合があります。この場合は、同期化を行うと「user_id」をもとに正しく動作するようになります。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[数据导入后可能会导致会员信息和文章内容信息的误差。这时以user_id进行同步即可解决问题。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[資料匯入後，可能會導致會員資料和文章內容產生誤差。請以『user_id』進行同步即可解決。]]></value>
+			<value xml:lang="ko"><![CDATA[게시물과 글쓴이의 회원 정보가 일치하지 않는 경우 아이디를 기반으로 게시물에 대한 글쓴이의 회원 정보를 바로잡아 줍니다. 게시물에 동기화할 회원 아이디가 없는 경우에는 관리자가 글쓴이로 표시됩니다.]]></value>
+			<value xml:lang="en"><![CDATA[Member and article data may not be corrected after the import. If so, please synchronize to recover them with ID.]]></value>
+			<value xml:lang="jp"><![CDATA[会員情報と変換後の書き込みデータが一致しない場合があります。この場合は、同期化を行うと「ID」をもとに正しく動作するようになります。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[数据导入后可能会导致会员信息和文章内容信息的误差。这时以ID进行同步即可解决问题。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[資料匯入後，可能會導致會員資料和文章內容產生誤差。請以『ID』進行同步即可解決。]]></value>
 			<value xml:lang="fr"><![CDATA[Les données des membres et ceux des articles peuvent ne pas s'accorder après la transfèrement. Dans ce cas, synchronisez S.V.P. Ça arrangera les données en étant basé sur le compte d'utilisateur.]]></value>
-			<value xml:lang="ru"><![CDATA[Данные пользователей и статей могут быть некорректны после импорта. В таком случае, выполните синхронизацию для восстановления, основанного на user_id.]]></value>
+			<value xml:lang="ru"><![CDATA[Данные пользователей и статей могут быть некорректны после импорта. В таком случае, выполните синхронизацию для восстановления, основанного на ID.]]></value>
 			<value xml:lang="es"><![CDATA[La información del usuario y del documento podría ser incorrecto luego de la transferencia. Si ese es el caso, sincroniza para la corrección basado a la ID del usuario.]]></value>
-			<value xml:lang="tr"><![CDATA[Veri içe aktarımından sonra üye ve makale verileri doğru olmayabilir. Eğer böyleyse lütfen verileri doğru elde etmek için, kullanıcı_kimliğiyle (user_id) senkronize ediniz.]]></value>
-			<value xml:lang="vi"><![CDATA[Đã không thể kết nối tới File Data thành viên và bài viết. Nếu đã đúng đường dẫn xin hãy kiểm tra Data với user_id.]]></value>
+			<value xml:lang="tr"><![CDATA[Veri içe aktarımından sonra üye ve makale verileri doğru olmayabilir. Eğer böyleyse lütfen verileri doğru elde etmek için, kullanıcı_kimliğiyle (ID) senkronize ediniz.]]></value>
+			<value xml:lang="vi"><![CDATA[Đã không thể kết nối tới File Data thành viên và bài viết. Nếu đã đúng đường dẫn xin hãy kiểm tra Data với ID.]]></value>
 		</item>
 		<item name="99">
 			<value xml:lang="ko"><![CDATA[데이터 이전중입니다.]]></value>
