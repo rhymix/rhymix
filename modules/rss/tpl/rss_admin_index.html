@@ -40,10 +40,26 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="image">{$lang->feed_image}</label>
 			<div class="x_controls">
+			
+			<!--@if($total_config->image)-->
+			<div class="_rss_image_container">
+				<!--
+				<img src="../../../{$total_config->image}" alt="image" />
+				<input type="checkbox" name="del_image" value="Y" id="del_image" />
+				<label for="del_image">{$lang->cmd_delete}</label>
+				-->
 				<div class="x_thumbnail" cond="$total_config->image" style="display:inline-block;margin:0 0 5px 0"> 
 					<img src="../../../{$total_config->image}" alt="image" style="max-width:210px;max-height:150px" />
+
+					<!--
 					<label for="del_image" class="x_caption" style="padding:5px 0 0 0;margin:0"><input type="checkbox" name="del_image" value="Y" id="del_image" /> {$lang->cmd_delete}</label>
+					-->
+
+					<input type="button" class="_delete_rss_image" value="{$lang->cmd_delete}" />
 				</div>
+				
+			</div>
+			<!--@end-->
 				<p><input type="file" name="image" value="" id="image" /></p>
 			</div>
 		</div>
@@ -105,3 +121,12 @@
 		</div>
 	</form>
 </section>
+<script>
+jQuery(function($){
+	$("._delete_rss_image").click(function(){
+		$.exec_json('rss.procRssAdminDeleteFeedImage', {del_image:'Y'}, function(){
+			$("._rss_image_container").hide();
+		});
+	});
+});
+</script>

@@ -1010,10 +1010,16 @@ jQuery(function($){
 		$.xeMsgBox.bVisible = true;
 		$.xeMsgBox._showFoggy();
 		$.xeMsgBox.fnOnShow();
-		
-		if($msgBox.find('input').length > 0){
+
+		if($msgBox.find('input,button').length > 0){
 			setTimeout(function(){
-				$msgBox.find('input').focus()
+				$msgBox.find('input,button').each(function(n, el){
+					var $el = $(el);
+					if($el.is(":visible")){
+						$el.focus();
+						return false;
+					}
+				});
 			},	0);
 		}
 	});
