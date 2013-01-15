@@ -39,7 +39,7 @@
 			</div>
 		</div>
 	</section>
-	<section class="section collapse">
+	<section class="section collapse" style="margin-bottom:0">
 		<h1>{$lang->subtitle_advanced}</h1>
 		<div class="x_control-group">
 			<label class="x_control-label" for="ftp_host">{$lang->ftp_host}</label>
@@ -54,7 +54,7 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<p class="x_control-label">{$lang->use_ftp_passive_mode}</p>
+			<div class="x_control-label">{$lang->use_ftp_passive_mode}</div>
 			<div class="x_controls">
 				<label class="x_inline" for="ftp_passive_y">
 					<input type="radio" name="ftp_pasv" id="ftp_passive_y" value="Y" checked="checked"|cond="$ftp_info->ftp_pasv == 'Y'" />
@@ -75,7 +75,7 @@
 			</div>
 		</div>
 	</section>
-	<div class="btnArea">
+	<div class="btnArea" style="margin-top:0">
 		<input type="submit" value="{$lang->cmd_save}" class="x_btn x_btn-primary x_pull-right" />
 	</div>
 	</form>

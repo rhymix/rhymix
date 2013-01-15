@@ -92,7 +92,7 @@ body>.x,
 .x .x_form-horizontal .x_control-label{font-weight:bold;word-break:keep-all}
 .x .x_form-horizontal .x_control-label{width:180px}
 .x .x_form-horizontal .x_controls{margin-left:200px}
-.x .x_form-horizontal .x_controls label{padding-top:5px}
+.x .x_form-horizontal .x_controls label{padding:5px 0;margin-bottom:0}
 .x input[type="radio"]+label,
 .x input[type="checkbox"]+label{font-weight:normal}
 .x label.x_inline{margin-right:16px}
@@ -171,7 +171,7 @@ body>.x,
 .x .search>input[type="search"]{height:16px;line-height:16px;width:120px}
 .x .vr{color:#ccc;font-style:normal}
 .x .nowr{white-space:nowrap}
-.x .btnArea{padding:10px 0;margin:20px 0;border-top:1px solid #ccc}
+.x .btnArea{padding:10px 0;margin:10px 0;border-top:1px solid #ccc}
 .x li.active>a,
 .x a.active{color:#000;font-weight:bold;text-decoration:none}
 .x .module_search+[readonly]{vertical-align:top;border-top-right-radius:0;border-bottom-right-radius:0}

@@ -90,8 +90,8 @@
 					<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1">
 					<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2">
 				</p>
-				<input type="checkbox" name="is_delete_favicon" value="1" /> {$lang->cmd_delete}
-				<input type="file" name="favicon" id="favicon" title="favicon" />
+				<label><input type="checkbox" name="is_delete_favicon" value="1" /> {$lang->cmd_delete}</label>
+				<label><input type="file" name="favicon" id="favicon" title="favicon" /></label>
 				<span class="x_help-block">{$lang->about_use_favicon}</span>
 			</div>
 		</div>
@@ -102,8 +102,8 @@
 					<img src="{$mobicon_url}" alt="Mobile Home Icon" width="32" height="32" />
 					<span>www</span>
 				</p>
-				<input type="checkbox" name="is_delete_mobicon" value="1" /> {$lang->cmd_delete}
-				<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/>
+				<label><input type="checkbox" name="is_delete_mobicon" value="1" /> {$lang->cmd_delete}</label>
+				<label><input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/></label>
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
 			</div>
 		</div>
@@ -128,7 +128,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="default_url">{$lang->default_url} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_default_url" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
-				<input type="text" name="default_url" id="default_url" value="{$default_url}"/>
+				<input type="url" name="default_url" id="default_url" value="{$default_url}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -142,8 +142,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->server_ports}</label>
 			<div class="x_controls">
-				<label for="http_port" class="x_inline">HTTP: <input type="number" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:50px" /></label>
-				<label for="https_port" class="x_inline">HTTPS: <input type="number" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:50px" /></label>
+				<label for="http_port" class="x_inline" style="margin-bottom:0;padding-top:0">HTTP: <input type="number" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:50px" /></label>
+				<label for="https_port" class="x_inline" style="margin-bottom:0;padding-top:0">HTTPS: <input type="number" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:50px" /></label>
 			</div>
 		</div>
 		<div class="x_control-group" cond="__XE_CDN_VERSION__!='%__XE_CDN_VERSION__%'">

@@ -7,14 +7,14 @@
 <table class="x_table x_table-striped x_table-hover">
 	<thead>
 		<tr>
-			<th scope="col">{$lang->number}</th>
-			<th scope="col">{$lang->layout_name}</th>
-			<th scope="col">{$lang->title}</th>
-			<th scope="col">{$lang->regdate}</th>
-			<th scope="col">{$lang->cmd_layout_management}</th>
-			<th scope="col">{$lang->cmd_layout_edit}</th>
-			<th scope="col">{$lang->cmd_copy}</th>
-			<th scope="col">{$lang->cmd_delete}</th>
+			<th scope="col" class="nowr">{$lang->number}</th>
+			<th scope="col" class="nowr">{$lang->layout_name}</th>
+			<th scope="col" class="nowr">{$lang->title}</th>
+			<th scope="col" class="nowr">{$lang->regdate}</th>
+			<th scope="col" class="nowr">{$lang->cmd_setup}</th>
+			<th scope="col" class="nowr">{$lang->cmd_edit}</th>
+			<th scope="col" class="nowr">{$lang->cmd_copy}</th>
+			<th scope="col" class="nowr">{$lang->cmd_delete}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -27,8 +27,8 @@
 			<td rowspan="{count($layout)}" cond="$no === 0" >{$layout_name}</td>
 			<td>{$item->title}</td>
 			<td>{zdate($item->regdate, "Y-m-d")}</td>
-			<td><a href="{getUrl('act', 'dispLayoutAdminModify', 'layout_srl', $item->layout_srl)}">{$lang->cmd_layout_management}</a></td>
-			<td><a href="{getUrl('act', 'dispLayoutAdminEdit', 'layout_srl', $item->layout_srl)}">{$lang->cmd_layout_edit}</a></td>
+			<td><a href="{getUrl('act', 'dispLayoutAdminModify', 'layout_srl', $item->layout_srl)}">{$lang->cmd_setup}</a></td>
+			<td><a href="{getUrl('act', 'dispLayoutAdminEdit', 'layout_srl', $item->layout_srl)}">{$lang->cmd_edit}</a></td>
 			<td><a href="{getUrl('', 'module', 'layout', 'act', 'dispLayoutAdminCopyLayout', 'layout_srl', $item->layout_srl)}" onclick="popopen(this.href);return false;" title="{$lang->cmd_copy}">{$lang->cmd_copy}</a></td>
 			<td>
 				<form cond="count($layout) > 1" class="layout_delete_form" ruleset="deleteLayout" action="./" method="post">

@@ -26,20 +26,20 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="allow_outlink_site">{$lang->allow_outlink_site}</label>
 		<div class="x_controls">
-			<textarea name="allow_outlink_site" id="allow_outlink_site" rows="4" cols="42">{$config->allow_outlink_site}</textarea>
-			<p class="x_help-inline">{$lang->about_allow_outlink_site}</p>
+			<textarea name="allow_outlink_site" id="allow_outlink_site" rows="4" cols="42" style="float:left;margin-right:10px">{$config->allow_outlink_site}</textarea>
+			<p class="x_help-block">{$lang->about_allow_outlink_site}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label for="filesize" class="x_control-label">{$lang->allowed_filesize} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_file_size" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
-			<input id="filesize" type="number" name="allowed_filesize" value="{$config->allowed_filesize}" style="width:40px" /> MB/{ini_get('upload_max_filesize')}
+			<input id="filesize" type="number" name="allowed_filesize" value="{$config->allowed_filesize}" style="width:50px" /> MB/{ini_get('upload_max_filesize')}
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label for="attachSize" class="x_control-label">{$lang->allowed_attach_size} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_file_document_attach_limit" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
-			<input id="attachSize" type="number" name="allowed_attach_size" value="{$config->allowed_attach_size}" style="width:40px" /> MB
+			<input id="attachSize" type="number" name="allowed_attach_size" value="{$config->allowed_attach_size}" style="width:50px" /> MB
 		</div>
 	</div>
 	<div class="x_control-group">

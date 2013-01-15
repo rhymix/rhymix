@@ -10,7 +10,7 @@ a>i{opacity:.5;filter:alpha(opacity=50)}
 .category .active>a{font-weight:bold;color:#333}
 .list{zoom:1}
 .list:after{content:"";display:block;clear:both}
-.list>.x_thumbnail{padding:8px 10px; margin-bottom:10px;zoom:1;width:47%;box-shadow:1px 1px 3px #eee;overflow:hidden}
+.list>.x_thumbnail{padding:8px 10px; margin-bottom:10px;zoom:1;width:46.5%;box-shadow:1px 1px 3px #eee;overflow:hidden}
 .list>.x_thumbnail:after{content:"";display:block; clear:both}
 .list>.x_thumbnail.odd{float:left}
 .list>.x_thumbnail.even{float:right}

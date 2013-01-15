@@ -1413,12 +1413,12 @@ jQuery(function($){
 	});
 	var details = $('.x .dsTg td.tg>*:not(:first-child)');
 	simpleBtn.click(function(){
-		details.slideUp(200);
+		details.hide();
 		detailBtn.removeClass('x_active');
 		simpleBtn.addClass('x_active');
 	});
 	detailBtn.click(function(){
-		details.slideDown(200);
+		details.show();
 		detailBtn.addClass('x_active');
 		simpleBtn.removeClass('x_active');
 	});

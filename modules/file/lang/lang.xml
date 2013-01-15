@@ -133,7 +133,7 @@
 		<value xml:lang="vi"><![CDATA[Những định dạng cho phép]]></value>
 	</item>
 	<item name="allowed_filesize">
-		<value xml:lang="ko"><![CDATA[파일 제한 크기]]></value>
+		<value xml:lang="ko"><![CDATA[파일 크기 제한]]></value>
 		<value xml:lang="en"><![CDATA[Maximum File Size]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルサイズ制限]]></value>
 		<value xml:lang="zh-CN"><![CDATA[文件大小限制]]></value>
