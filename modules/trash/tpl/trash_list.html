@@ -14,11 +14,14 @@ var no_text_comment = '{$lang->no_text_comment}';
 	<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="is_all" value="true" />
+	<p>
+		<button type="submit" class="x_btn x_btn-warning x_btn-primary" name="is_all" value="true">{$lang->empty_trash_all}</button>
+		&nbsp;{$lang->remove_all_trash_item}
+	</p>
 	<table id="trashListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
 			<strong>{$lang->all}({number_format($total_count)})</strong>
 			<div class="x_pull-right x_btn-group">
-				<button type="submit" class="x_btn" name="is_all" value="true">{$lang->empty_trash_all}</button>
 				<a href="#fo_list" class="x_btn modalAnchor" data-name="is_all" data-value="false">{$lang->delete}</a>
 				<a href="#fo_list" class="x_btn modalAnchor" data-name="act" data-value="procTrashAdminRestore">{$lang->restore}</a>
 			</div>
@@ -53,7 +56,6 @@ var no_text_comment = '{$lang->no_text_comment}';
 		</tbody>
 	</table>
 	<div class="x_pull-right x_btn-group">
-		<button type="submit" class="x_btn" name="is_all" value="true">{$lang->empty_trash_all}</button>
 		<a href="#fo_list" class="x_btn modalAnchor" data-name="is_all" data-value="false">{$lang->delete}</a>
 		<a href="#fo_list" class="x_btn modalAnchor" data-name="act" data-value="procTrashAdminRestore">{$lang->restore}</a>
 	</div>

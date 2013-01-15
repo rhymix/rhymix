@@ -5,11 +5,11 @@
 <table class="x_table">
 	<tbody>
 		<tr>
-			<th>{$lang->version}</th>
+			<th class="nowr">{$lang->version}</th>
 			<td>{$addon_info->version} ({zdate($addon_info->date, 'Y-m-d')})</td>
 		</tr>
 		<tr>
-			<th>{$lang->author}</th>
+			<th class="nowr">{$lang->author}</th>
 			<td>
 				<block loop="$addon_info->author => $author">
 					{$author->name} (<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->homepage}</a>, <a cond="$author->email_address" href="mailto:{$author->email_address}">{$author->email_address}</a>) <br />
@@ -17,15 +17,15 @@
 			</td>
 		</tr>
 		<tr cond="$addon_info->homepage">
-			<th>{$lang->homepage}</th>
+			<th class="nowr">{$lang->homepage}</th>
 			<td><a href="{$addon_info->homepage}" target="_blank">{$addon_info->homepage}</a></td>
 		</tr>
 		<tr cond="$addon_info->license">
-			<th>{$lang->addon_license}</th>
+			<th class="nowr">{$lang->addon_license}</th>
 			<td><a href="{$addon_info->license_link}"|cond="$addon_info->license_link" target="_blank">{$addon_info->license}</a></td>
 		</tr>
 		<tr cond="$addon_info->description">
-			<th>{$lang->description}</th>
+			<th class="nowr">{$lang->description}</th>
 			<td>{$addon_info->description}</td>
 		</tr>
 	</tbody>

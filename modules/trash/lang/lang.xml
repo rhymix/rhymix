@@ -78,4 +78,8 @@
 		<value xml:lang="jp"><![CDATA[タイプ]]></value>
 		<value xml:lang="zh-TW"><![CDATA[類型]]></value>
 	</item>
+	<item name="remove_all_trash_item">
+		<value xml:lang="ko"><![CDATA[휴지통을 완전히 비웁니다. 실행 후에는 복원이 불가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Remove all trash items. After execute could not be recovered.]]></value>
+	</item>
 </lang>

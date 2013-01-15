@@ -8,11 +8,13 @@
 	<input type="hidden" name="type" value="module" />
 	<input type="hidden" name="unit_count" value="10" />
 	<h2>{$lang->type_module}</h2>
-	<div class="x_control-group x_input-append checkxml">
-		<label>{$lang->xml_path}</label>
-		<input type="text" name="xml_file" value="./" />
-		<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
-		<span class="x_help-inline" style="font-size:13px"></span>
+	<div class="x_control-group checkxml">
+		<span class="x_input-append">
+			<label>{$lang->xml_path}</label>
+			<input type="text" name="xml_file" value="./" style="width:280px;font:11px Tahoma, Geneva, sans-serif" />
+			<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
+		</span>
+		<p class="x_help-inline" style="line-height:26px"></p>
 	</div>
 	<div class="x_control-group xml ttxml">
 		<label>{$lang->data_destination}</label>
@@ -38,11 +40,13 @@
 	<input type="hidden" name="type" value="member" />
 	<input type="hidden" name="unit_count" value="100" />
 	<h2>{$lang->type_member}</h2>
-	<div class="x_control-group x_input-append checkxml">
-		<label>{$lang->xml_path}</label>
-		<input type="text" name="xml_file" value="./" />
-		<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
-		<span class="x_help-inline" style="font-size:13px">{$lang->msg_no_xml_file}</span>
+	<div class="x_control-group checkxml">
+		<span class="x_input-append">
+			<label>{$lang->xml_path}</label>
+			<input type="text" name="xml_file" value="./" style="width:280px;font:11px Tahoma, Geneva, sans-serif" />
+			<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
+		</span>
+		<p class="x_help-inline" style="line-height:26px">{$lang->msg_no_xml_file}</p>
 	</div>
 	<div class="x_control-group syncmember">
 		<label><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</label>
@@ -56,11 +60,13 @@
 	<input type="hidden" name="type" value="message" />
 	<input type="hidden" name="unit_count" value="100" />
 	<h2>{$lang->type_message}</h2>
-	<div class="x_control-group x_input-append checkxml">
-		<label>{$lang->xml_path}</label>
-		<input type="text" name="xml_file" value="./" />
-		<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
-		<span class="x_help-inline" style="font-size:13px"></span>
+	<div class="x_control-group checkxml">
+		<span class="x_input-append">
+			<label>{$lang->xml_path}</label>
+			<input type="text" name="xml_file" value="./" style="width:280px;font:11px Tahoma, Geneva, sans-serif" />
+			<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
+		</span>
+		<p class="x_help-inline" style="line-height:26px"></p>
 	</div>
 	<div class="btnArea">
 		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
