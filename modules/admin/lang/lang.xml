@@ -640,11 +640,11 @@
 		<value xml:lang="tr"><![CDATA[Bu işlem biraz uzun sürebilir. Başlatmak istiyor musunuz?]]></value>
 	</item>
 	<item name="use_ssl">
-		<value xml:lang="ko"><![CDATA[SSL(Secure Sockets Layer) 사용]]></value>
-		<value xml:lang="en"><![CDATA[Use SSL(Secure Sockets Layer)]]></value>
-		<value xml:lang="jp"><![CDATA[SSL(Secure Sockets Layer)を使用]]></value>
-		<value xml:lang="zh-CN"><![CDATA[是否使用SSL安全连接?]]></value>
-		<value xml:lang="tr"><![CDATA[SSL(Secure Sockets Layer)'i kullanmak istiyor musunuz?]]></value>
+		<value xml:lang="ko"><![CDATA[<abbr title="Secure Sockets Layer">SSL</abbr> 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use <abbr title="Secure Sockets Layer">SSL</abbr>]]></value>
+		<value xml:lang="jp"><![CDATA[<abbr title="Secure Sockets Layer">SSL</abbr>を使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[是否使用<abbr title="Secure Sockets Layer">SSL</abbr>安全连接?]]></value>
+		<value xml:lang="tr"><![CDATA[<abbr title="Secure Sockets Layer">SSL</abbr>'i kullanmak istiyor musunuz?]]></value>
 	</item>
 	<item name="ssl_options" type="array">
 		<item name="none">
@@ -992,11 +992,11 @@
 		<value xml:lang="tr"><![CDATA[57 x 57 veya 114 x 114 boyutu<em>*.Png</em> dosyalar yüklenebilir.]]></value>
 	</item>
 	<item name="use_sso">
-		<value xml:lang="ko"><![CDATA[SSO(Single Sign On) 사용]]></value>
-		<value xml:lang="en"><![CDATA[Use Single Sign On (SSO)?]]></value>
-		<value xml:lang="jp"><![CDATA[SSO(Single Sign On)を使用]]></value>
-		<value xml:lang="zh-CN"><![CDATA[是否启用通行证（SSO）?]]></value>
-		<value xml:lang="tr"><![CDATA[SSO(Single Sign On) kullanmak ister misiniz?]]></value>
+		<value xml:lang="ko"><![CDATA[<abbr title="Single Sign On">SSO</abbr> 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use <abbr title="Single Sign On">SSO</abbr>?]]></value>
+		<value xml:lang="jp"><![CDATA[<abbr title="Single Sign On">SSO</abbr>を使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[是否启用通行证<abbr title="Single Sign On">SSO</abbr>?]]></value>
+		<value xml:lang="tr"><![CDATA[<abbr title="Single Sign On">SSO</abbr> kullanmak ister misiniz?]]></value>
 	</item>
 	<item name="about_use_sso">
 		<value xml:lang="ko"><![CDATA[사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다. 가상 사이트를 사용할 때만 필요합니다.]]></value>
