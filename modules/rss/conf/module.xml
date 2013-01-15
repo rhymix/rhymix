@@ -8,7 +8,7 @@
         <action name="atom" type="view" standalone="true" />
         <action name="procRssAdminInsertConfig" type="controller" standalone="true" ruleset="insertRssConfig" />
         <action name="procRssAdminDeleteFeedImage" type="controller" standalone="true" />
-        <action name="procRssAdminInsertModuleConfig" type="controller" standalone="true" ruleset="insertRssModuleConfig" />
+        <action name="procRssAdminInsertModuleConfig" type="controller" standalone="true" />
     </actions>
 	<menus>
 		<menu name="rss">

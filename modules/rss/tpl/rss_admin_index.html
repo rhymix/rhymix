@@ -66,10 +66,9 @@
 </section>
 <section class="section">
 	<h1 style="margin-bottom:0">{$lang->feed} {$lang->cmd_management}</h1>
-	<form ruleset="insertRssModuleConfig" action="./" method="post">
+	<form action="./" method="post">
 		<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
 		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', 'dispRssAdminIndex')}" />
-		<input type="hidden" name="target_module_srl" value="{$key}" />
 		<table class="x_table x_table-striped x_table-hover" style="border-top:0;margin-top:0">
 			<thead>
 				<tr>
@@ -87,13 +86,13 @@
 					<th cond="$value['url']">
 						<a href="{$value['url']}" target="_blank">{$value['mid']}</a>
 					</th>
-					<td class="title">{$value['feed_description']}<textarea name="feed_description" hidden>{$value['feed_description']}</textarea></td>
+					<td class="title">{$value['feed_description']}<textarea name="feed_description[{$key}]" hidden>{$value['feed_description']}</textarea></td>
 					<td>
-						<label class="x_inline" loop="$lang->open_rss_types => $key2,$value2"><input type="radio" name="open_rss" value="{$key2}" id="feed_open_{$key2}" checked="checked"|cond="$key2 == $value['open_feed']" /> {$value2}</label>
+						<label class="x_inline" loop="$lang->open_rss_types => $key2,$value2"><input type="radio" name="open_rss[{$key}]" value="{$key2}" checked="checked"|cond="$key2 == $value['open_feed']" /> {$value2}</label>
 					</td>
 					<td>
-						<label class="x_inline"><input type="radio" name="open_total_feed" value="N" id="open_total_feed_N" checked="checked"|cond="$value['open_total_feed'] != 'T_N'" /> {$lang->use}</label>
-						<label class="x_inline"><input type="radio" name="open_total_feed" value="T_N" id="open_total_feed_T_N" checked="checked"|cond="$value['open_total_feed'] == 'T_N'" /> {$lang->notuse}</label>
+						<label class="x_inline"><input type="radio" name="open_total_feed[{$key}]" value="N" checked="checked"|cond="$value['open_total_feed'] != 'T_N'" /> {$lang->use}</label>
+						<label class="x_inline"><input type="radio" name="open_total_feed[{$key}]" value="T_N" checked="checked"|cond="$value['open_total_feed'] == 'T_N'" /> {$lang->notuse}</label>
 					</td>
 				</tr>
 				<tr cond="!$feed_config">

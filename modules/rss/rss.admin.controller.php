@@ -113,29 +113,26 @@ class rssAdminController extends rss
 	 */
 	function procRssAdminInsertModuleConfig()
 	{
-		// Get the object
-		$module_srl = Context::get('target_module_srl');
-		// In case of batch configuration of several modules
-		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
-		else $module_srl = array($module_srl);
-		if(!is_array($module_srl)) $module_srl[0] = $module_srl;
-
 		$config_vars = Context::getRequestVars();
 
-		$open_rss = $config_vars->open_rss;
-		$open_total_feed = $config_vars->open_total_feed;
-		$feed_description = trim($config_vars->feed_description);
-		$feed_copyright = trim($config_vars->feed_copyright);
+		$openRssList = $config_vars->open_rss;
+		$openTotalFeedList = $config_vars->open_total_feed;
+		$feedDescriptionList = $config_vars->feed_description;
+		$feedCopyrightList = $config_vars->feed_copyright;
 
-		if(!$module_srl || !$open_rss) return new Object(-1, 'msg_invalid_request');
-
-		if(!in_array($open_rss, array('Y','H','N'))) $open_rss = 'N';
-		// Save configurations
-		for($i=0;$i<count($module_srl);$i++)
+		if(is_array($openRssList))
 		{
-			$srl = trim($module_srl[$i]);
-			if(!$srl) continue;
-			$output = $this->setRssModuleConfig($srl, $open_rss, $open_total_feed, $feed_description, $feed_copyright);
+			foreach($openRssList AS $module_srl=>$open_rss)
+			{
+				if(!$module_srl || !$open_rss)
+				{
+					return new Object(-1, 'msg_invalid_request');
+				}
+
+				if(!in_array($open_rss, array('Y','H','N'))) $open_rss = 'N';
+
+				$this->setRssModuleConfig($module_srl, $open_rss, $openTotalFeedList[$module_srl], $feedDescriptionList[$module_srl], $feedCopyrightList[$module_srl]);
+			}
 		}
 
 		//$this->setError(0);
