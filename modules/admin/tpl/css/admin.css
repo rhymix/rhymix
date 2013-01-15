@@ -1,8 +1,8 @@
 ﻿@charset "utf-8";
 /* Reset */
 html,body{min-height:100%}
-body{margin:8px;-webkit-text-size-adjust:none}
-body>.x:first-child{min-width:300px;max-width:1240px;margin:0 auto}
+body{-webkit-text-size-adjust:none}
+body>.x:first-child{min-width:300px;max-width:1240px;margin:8px}
 body>.x,
 .x label,
 .x table,
