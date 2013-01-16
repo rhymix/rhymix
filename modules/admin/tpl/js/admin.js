@@ -2324,14 +2324,15 @@ jQuery(function($){
 		var aSiteList = htRes.site_list;
 		
 		$container = $('.x_modal._common .tree');
+		
+		// show and fill in
+		var $SiteSelector = $('.x_modal._common .site_selector');
 
 		var nLen = aSiteList.length;
 		if(nLen <= 1){
 			// leave the site selector hidden
 			$SiteSelector.hide();
 		}else{
-			// show and fill in
-			$SiteSelector = $('.x_modal._common .site_selector');
 			$SiteSelector.html("");
 			for(var i=0; i<nLen; i++){
 				$SiteSelector.append($("<option>").val(aSiteList[i].site_srl).html(aSiteList[i].domain));
