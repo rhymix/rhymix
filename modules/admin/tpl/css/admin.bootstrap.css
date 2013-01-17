@@ -87,7 +87,7 @@
 .x .x_clearfix:after{clear:both}
 .x .x_hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0}
 .x .x_input-block-level{display:block;width:100%;min-height:30px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
-.x{font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#ffffff}
+.x{line-height:20px;color:#333333;background-color:#ffffff}
 .x a{color:#0088cc;text-decoration:none}
 .x a:hover{color:#005580;text-decoration:underline}
 .x .x_img-rounded{-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px}

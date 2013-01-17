@@ -163,8 +163,8 @@ body>.x,
 .x .section>h1>.snToggle.x_icon-chevron-down{background-position:-303px -111px}
 .x .section>h2{position:relative;border-bottom:1px dotted #ddd}
 .x .section>h2+.x_control-group{border-top:0}
-.x .section.collapse>*{display:none}
-.x .section.collapse>h1{display:block}
+.x .section.collapsed>*{display:none}
+.x .section.collapsed>h1{display:block}
 .x .center{text-align:center}
 .x .search{margin:10px 0 0 0}
 .x .search select{width:auto}

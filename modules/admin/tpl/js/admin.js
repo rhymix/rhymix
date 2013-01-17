@@ -226,15 +226,15 @@ jQuery(function($){
 	if($('.section').length > 1){
 		var $section_heading = $('.x .section').find('>h1:first');
 		$section_heading.append('<button type="button" class="snToggle x_icon-chevron-up">Toggle this section</button>');
-		$('.x .section.collapse>h1>.snToggle').removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
+		$('.x .section.collapsed>h1>.snToggle').removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
 		$section_heading.find('>.snToggle').click(function(){
 			var $this = $(this);
 			var $section = $this.closest('.section');
-			if(!$section.hasClass('collapse')){
-				$section.addClass('collapse');
+			if(!$section.hasClass('collapsed')){
+				$section.addClass('collapsed');
 				$this.removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
 			} else {
-				$section.removeClass('collapse');
+				$section.removeClass('collapsed');
 				$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
 			}
 			reflow();
