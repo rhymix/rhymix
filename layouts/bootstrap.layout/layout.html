@@ -5,11 +5,11 @@
 <load target="bootstrap.layout.ie9fix.css" index="2" targetie="IE 9" />
 <load target="../../common/js/respond.min.js" targetie="lt IE 9" />
 <load target="bootstrap.layout.js" type="body" />
-<div class="x_container">
+<div class="container">
 	<p class="skip"><a href="#content">{$lang->skip_to_content}</a></p>
 	<header class="header">
-		<div class="x_row">
-			<h1 class="x_span6">
+		<div class="row">
+			<h1 class="span6">
 				<a href="{geturl('')}" id="siteTitle"><img src="siteTitle.png" alt="XpressEngine"></a>
 			</h1>
 			<!-- ACCOUNT -->
@@ -17,31 +17,31 @@
 			<!-- /ACCOUNT -->
 		</div>
 		<!-- GNB -->
-		<nav class="gnb x_navbar x_navbar-inverse" id="gnb">
-			<div class="x_navbar-inner">
-				<div class="x_container">
-					<a class="x_btn x_btn-navbar" data-toggle="collapse" data-target=".x_nav-collapse">
-						<span class="x_icon-bar"></span>
-						<span class="x_icon-bar"></span>
-						<span class="x_icon-bar"></span>
+		<nav class="gnb navbar navbar-inverse" id="gnb">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
 					</a>
-					<a class="x_brand" href="{geturl('')}">HOME</a>
-					<div class="x_nav-collapse">
-						<ul class="x_nav">
-							<li loop="$GNB->list=>$key1,$val1" class="x_dropdown"|cond="!$val1['selected']" class="x_dropdown x_active"|cond="$val1['selected']">
-								<a href="{$val1['href']}" class="x_dropdown-toggle" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
-								<ul cond="$val1['list']" class="x_dropdown-menu">
-									<li loop="$val1['list']=>$key2,$val2" class="x_active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+					<a class="brand" href="{geturl('')}">HOME</a>
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li loop="$GNB->list=>$key1,$val1" class="dropdown"|cond="!$val1['selected']" class="dropdown active"|cond="$val1['selected']">
+								<a href="{$val1['href']}" class="dropdown-toggle" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+								<ul cond="$val1['list']" class="dropdown-menu">
+									<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
 								</ul>
 							</li>
 						</ul>
 						<!-- SEARCH -->
-						<form action="{getUrl()}" method="get" class="x_navbar-form x_pull-right">
+						<form action="{getUrl()}" method="get" class="navbar-form pull-right">
 							<input type="hidden" name="vid" value="{$vid}" />
 							<input type="hidden" name="mid" value="{$mid}" />
 							<input type="hidden" name="act" value="IS" />
 							<input type="text" name="is_keyword" value="{$is_keyword}" required placeholder="{$lang->cmd_search}" title="{$lang->cmd_search}" style="width:120px;height:18px;line-height:18px" />
-							<input type="submit" value="{$lang->cmd_search}" class="x_btn x_btn-inverse" />
+							<input type="submit" value="{$lang->cmd_search}" class="btn btn-inverse" />
 						</form>
 						<!-- /SEARCH -->
 					</div>
@@ -54,10 +54,10 @@
 		<!-- LNB -->
 		<nav class="lnb" cond="$layout_info->LAYOUT_TYPE == 'SUB_PAGE'">
 			<h2 loop="$GNB->list=>$key1,$val1" cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h2>
-			<ul loop="$GNB->list=>$key1,$val1" cond="$val1['selected'] && $val1['list']" class="x_nav x_nav-tabs x_nav-stacked">
-				<li loop="$val1['list']=>$key2,$val2" class="x_active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+			<ul loop="$GNB->list=>$key1,$val1" cond="$val1['selected'] && $val1['list']" class="nav nav-tabs nav-stacked">
+				<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
 					<ul cond="$val2['list']">
-						<li loop="$val2['list']=>$key3,$val3" class="x_active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a>
+						<li loop="$val2['list']=>$key3,$val3" class="active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a>
 						</li>
 					</ul>
 				</li>

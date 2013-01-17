@@ -8,9 +8,9 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 }
 h1,h2,h3,h4,h5,h6,th,strong,b{font-weight:600}
 /* Bootstrap Override */
-.x_close{font-family:"Helvetica Neue", Helvetica, Arial, sans-serif}
-.x_btn-link{margin:0;padding:0}
-.x_navbar .x_brand{font-size:14px;color:#fff}
+.close{font-family:"Helvetica Neue", Helvetica, Arial, sans-serif}
+.btn-link{margin:0;padding:0}
+.navbar .brand{font-size:14px;color:#fff}
 h1,h2,h3,h4,h5,h6{line-height:1.5}
 h1{font-size:26px}
 h2{font-size:22px}
@@ -37,25 +37,25 @@ input[type=radio]{margin:0}
 .skip>a{height:1px;overflow:hidden;display:block;text-align:center;font-weight:bold;margin:-1px 0 0 0;color:#fff;text-decoration:none}
 .skip>a:focus{height:auto;padding:8px 0;border-radius:0 0 4px 4px;background:#333}
 /* Header */
-.header>.x_row{position:relative}
+.header>.row{position:relative}
 .header h1 a{color:#333;font-family:Arial, Helvetica, sans-serif;text-decoration:none}
 /* GNB */
-.gnb.x_navbar .x_dropdown-menu{background:none;margin:0 10px}
-.gnb.x_navbar .x_dropdown-menu a{font-weight:normal}
-.gnb.x_navbar .x_dropdown-menu:before,
-.gnb.x_navbar .x_dropdown-menu:after{content:normal !important}
-.gnb.x_navbar-inverse .x_navbar-inner{background:#444;border-color:#444}
-.gnb.x_navbar-inverse .active .x_dropdown-toggle{background:#111}
-.gnb.x_navbar-inverse .x_dropdown-toggle{color:#fff}
-.gnb.x_navbar-inverse .x_dropdown-menu a{color:#fff}
-.gnb.x_navbar .x_navbar-form{border-color:#666;border-bottom:0;box-shadow:none;padding:10px 0}
-.gnb.x_navbar .x_btn-navbar{margin-right:0}
+.gnb.navbar .dropdown-menu{background:none;margin:0 10px}
+.gnb.navbar .dropdown-menu a{font-weight:normal}
+.gnb.navbar .dropdown-menu:before,
+.gnb.navbar .dropdown-menu:after{content:normal !important}
+.gnb.navbar-inverse .navbar-inner{background:#444;border-color:#444}
+.gnb.navbar-inverse .active .dropdown-toggle{background:#111}
+.gnb.navbar-inverse .dropdown-toggle{color:#fff}
+.gnb.navbar-inverse .dropdown-menu a{color:#fff}
+.gnb.navbar .navbar-form{border-color:#666;border-bottom:0;box-shadow:none;padding:10px 0}
+.gnb.navbar .btn-navbar{margin-right:0}
 @media all and (min-width:980px){
-.gnb.x_navbar{position:relative;z-index:1;margin:5px 0 20px 0}
-.gnb.x_navbar .x_dropdown-toggle{font-weight:bold;padding:10px 20px}
-.gnb.x_navbar .x_dropdown-menu{border-radius:0 0 6px 6px;margin:0}
-.gnb.x_navbar-inverse .x_dropdown-menu{background:#111}
-.gnb.x_navbar .x_navbar-form{padding:0}
+.gnb.navbar{position:relative;z-index:1;margin:5px 0 20px 0}
+.gnb.navbar .dropdown-toggle{font-weight:bold;padding:10px 20px}
+.gnb.navbar .dropdown-menu{border-radius:0 0 6px 6px;margin:0}
+.gnb.navbar-inverse .dropdown-menu{background:#111}
+.gnb.navbar .navbar-form{padding:0}
 }
 /* Account */
 .account{position:absolute;right:0;bottom:5px;z-index:2;margin:0}

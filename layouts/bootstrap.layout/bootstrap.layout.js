@@ -8,12 +8,12 @@ jQuery(function($){
 	});
 	
 // Login Error
-	$('#fo_login_widget .message').parent('.x_well').show();
+	$('#fo_login_widget .message').parent('.well').show();
 
 // GNB
 	var $gnb = $('.gnb');
-	var $gnb_drop_toggle = $gnb.find('a.x_dropdown-toggle');
-	var $gnb_drop_menu = $gnb.find('ul.x_dropdown-menu');
+	var $gnb_drop_toggle = $gnb.find('a.dropdown-toggle');
+	var $gnb_drop_menu = $gnb.find('ul.dropdown-menu');
 	$(window).resize(function(){
 		var ww = $(window).width();
 		if(ww >= 980){
@@ -181,7 +181,7 @@ jQuery(function($){
 
       dimension = this.dimension()
       scroll = $.camelCase(['scroll', dimension].join('-'))
-      actives = this.$parent && this.$parent.find('> .x_accordion-group > .x_in')
+      actives = this.$parent && this.$parent.find('> .accordion-group > .in')
 
       if (actives && actives.length) {
         hasData = actives.data('collapse')
@@ -208,11 +208,11 @@ jQuery(function($){
       var dimension = this.dimension()
 
       this.$element
-        .removeClass('x_collapse')
+        .removeClass('collapse')
         [dimension](size || 'auto')
         [0].offsetWidth
 
-      this.$element[size !== null ? 'addClass' : 'removeClass']('x_collapse')
+      this.$element[size !== null ? 'addClass' : 'removeClass']('collapse')
 
       return this
     }
@@ -231,15 +231,15 @@ jQuery(function($){
 
       this.transitioning = 1
 
-      this.$element[method]('x_in')
+      this.$element[method]('in')
 
-      $.support.transition && this.$element.hasClass('x_collapse') ?
+      $.support.transition && this.$element.hasClass('collapse') ?
         this.$element.one($.support.transition.end, complete) :
         complete()
     }
 
   , toggle: function () {
-      this[this.$element.hasClass('x_in') ? 'hide' : 'show']()
+      this[this.$element.hasClass('in') ? 'hide' : 'show']()
     }
 
   }
@@ -275,7 +275,7 @@ jQuery(function($){
           || e.preventDefault()
           || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
         , option = $(target).data('collapse') ? 'toggle' : $this.data()
-      $this[$(target).hasClass('x_in') ? 'addClass' : 'removeClass']('x_collapsed')
+      $this[$(target).hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
       $(target).collapse(option)
     })
   })

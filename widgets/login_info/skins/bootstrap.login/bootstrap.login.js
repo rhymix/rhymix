@@ -31,8 +31,8 @@ jQuery(function($){
 	// Close
 	$account
 		.find('>#acField')
-			.append('<button type="button" class="x_close">&times;</button>')
-		.find('>.x_close').click(function(){
+			.append('<button type="button" class="close">&times;</button>')
+		.find('>.close').click(function(){
 			$(this).closest('#acField').slideUp(200, function(){
 				$acTog.eq(0).focus();
 			});
