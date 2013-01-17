@@ -2256,11 +2256,27 @@ jQuery(function($){
 		
 		return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
 	}
+	
+	$.xeShowMenuSelectorIn = function($container){
+		$.xeMenuSelectorVar.$container = $container;
+		var $btn = $container;
+		
+		$.xeMenuSelectorVar.bMultiSelect = ""+$btn.data('multiple') == "true";
+		//{sMenuId":"578", "sMenuUrl":"page_ANom60", "sMenuTitle":"wwww", "sType":"WIDGET" }
+		$.xeMenuSelectorVar.aAllowedType = $.grep((""+($btn.data('allowedType') || "")).split(','), function(el){return el !== ""});
+		$.xeMenuSelectorVar.aDisallowedType = $.grep((""+($btn.data('disallowedType') || "")).split(','), function(el){return el !== ""});
+		$.xeMenuSelectorVar.aDisallowedType.push("_ROOT");
+		$.xeMenuSelectorVar.aDisallowedType.push("_SHORTCUT");
 
-});
-
-
-jQuery(function($){
+		$container.not('._eventBound').addClass('_eventBound').on('change', '.site_selector', function(ev){
+			var sSiteSrl = $(this).val();
+			$.xeShowMenuSelector($container.find('.tree'), sSiteSrl);
+			
+			$container.trigger('site_changed');
+		});
+		
+		$.exec_json('admin.getSiteAllList', {domain:""}, onSiteAllListCompleted);
+	}
 	// <a class="x_btn moduleTrigger tgAnchor xe-content-toggler xe-module-search" href="#__module_searcher_0">찾기</a>
 	/*
 	$t
@@ -2287,7 +2303,9 @@ jQuery(function($){
 		}
 		
 		//bMultiSelect = //data-multiple
-
+		
+		$.xeMenuSelectorVar.$container = $.xeMsgBox.$msgBox;
+		
 		$.xeMsgBox.confirmDialog({
 			sTitle : xe.msg_select_menu,
 
@@ -2323,10 +2341,12 @@ jQuery(function($){
 	function onSiteAllListCompleted(htRes){
 		var aSiteList = htRes.site_list;
 		
-		$container = $('.x_modal._common .tree');
+		//$container = $('.x_modal._common .tree');
+		$container = $.xeMenuSelectorVar.$container.find('.tree');
 		
 		// show and fill in
-		var $SiteSelector = $('.x_modal._common .site_selector');
+		//var $SiteSelector = $('.x_modal._common .site_selector');
+		var $SiteSelector = $.xeMenuSelectorVar.$container.find('.site_selector');
 
 		var nLen = aSiteList.length;
 		if(nLen <= 1){
@@ -2402,6 +2422,7 @@ jQuery(function($){
 	$('.moduleTrigger').xeMenuSearch();
 
 });
+
 //----------------menu selector end
 
 jQuery(function($){
