@@ -4986,7 +4986,7 @@ xe.XE_Table = $.Class({
 			}
 		}
 
-		var sTable = '<table style="background:'+sBorderColorCode+'" cellspacing="'+iBorderWidth+'">';
+		var sTable = '<table style="background:'+sBorderColorCode+';border-spacing:1px" cellspacing="'+iBorderWidth+'">';
 		var sRow = '<tr style="background:'+sBGColorCode+'">';
 		var iColumns = this.oColumnInput.value;
 		for(var i=0; i<iColumns; i++){

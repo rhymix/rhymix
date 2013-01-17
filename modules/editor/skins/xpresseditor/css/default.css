@@ -105,6 +105,7 @@
 .xpress-editor .tool li.blockquote button{width:22px;background-position:-381px 0}
 .xpress-editor .tool li.url button{width:26px;background-position:-403px 0}
 .xpress-editor .tool li.character button{background-position:-429px 0}
+.xpress-editor .tool li.table{width:auto}
 .xpress-editor .tool li.table button{width:22px;background-position:-450px 0}
 .xpress-editor .tool li.merge button{background-position:-472px 0}
 .xpress-editor .tool li.splitCol button{background-position:-493px 0}
@@ -305,13 +306,13 @@
 .xpress-editor .tool li.character .layer{width:433px;height:242px;overflow:hidden}
 .xpress-editor .tool li.character .layer ul{margin:0}
 .xpress-editor .tool li.character .layer h3{position:absolute;width:0;height:0;overflow:hidden;visibility:hidden}
-.xpress-editor .tool li.character .layer .nav{position:absolute;top:11px;left:-1px;overflow:hidden;white-space:nowrap}
-.xpress-editor .tool li.character .layer .nav li{display:inline;margin:0 -4px 0 0;padding:0 8px !important;background:url(../img/vr_layer_character.gif) no-repeat 0 0}
-.xpress-editor .tool li.character .layer .nav li a{color:#444;text-decoration:none;letter-spacing:-1px}
-.xpress-editor .tool li.character .layer .nav li a:hover,
-.xpress-editor .tool li.character .layer .nav li a:active,
-.xpress-editor .tool li.character .layer .nav li a:focus{text-decoration:underline}
-.xpress-editor .tool li.character .layer .nav li a.on{font-weight:bold;color:#004790;display:inline}
+.xpress-editor .tool li.character .layer .characterNav{position:absolute;top:11px;left:-1px;overflow:hidden;white-space:nowrap}
+.xpress-editor .tool li.character .layer .characterNav li{display:inline;margin:0 -4px 0 0;padding:0 8px !important;background:url(../img/vr_layer_character.gif) no-repeat 0 0}
+.xpress-editor .tool li.character .layer .characterNav li a{color:#444;text-decoration:none;letter-spacing:-1px}
+.xpress-editor .tool li.character .layer .characterNav li a:hover,
+.xpress-editor .tool li.character .layer .characterNav li a:active,
+.xpress-editor .tool li.character .layer .characterNav li a:focus{text-decoration:underline}
+.xpress-editor .tool li.character .layer .characterNav li a.on{font-weight:bold;color:#004790;display:inline}
 .xpress-editor .tool li.character .layer .list{position:absolute;left:7px;top:30px;width:421px;height:172px;background:url(../img/bx_character.gif) no-repeat}
 .xpress-editor .tool li.character .layer .list li{position:relative;top:1px;left:1px;float:left;width:20px;height:18px;margin:0 1px 1px 0 !important}
 .xpress-editor .tool li.character .layer .list li button{width:20px;height:18px}

@@ -329,14 +329,14 @@ class HTMLDisplayHandler
 			$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000), true);
-			$oContext->loadFile(array('./common/css/xe.css', '', '', -100000), true);
+			$oContext->loadFile(array('./common/css/xe.css', '', '', -1000000), true);
 		}
 		else
 		{
 			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/x.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/xe.min.js', 'head', '', -100000), true);
-			$oContext->loadFile(array('./common/css/xe.min.css', '', '', -100000), true);
+			$oContext->loadFile(array('./common/css/xe.min.css', '', '', -1000000), true);
 		}
 
 		// for admin page, add admin css
