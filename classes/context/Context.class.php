@@ -741,12 +741,12 @@ class Context {
 
 		foreach($charset_list as $charset) 
 		{
-			array_walk($obj,'Context::checkConvertFlag',$charset);
+			array_walk($obj,array('Context','checkConvertFlag'),$charset);
 			$flag = Context::checkConvertFlag($flag = true);
 			if($flag)
 			{
 				if($charset == 'UTF-8') return $obj;
-				array_walk($obj,'Context::doConvertEncoding',$charset);
+				array_walk($obj,array('Context','doConvertEncoding'),$charset);
 				return $obj;
 			}
 		}
@@ -767,7 +767,7 @@ class Context {
 		if($charset)
 		{
 			if(is_array($val))
-				array_walk($val,'Context::checkConvertFlag',$charset);
+				array_walk($val,array('Context','checkConvertFlag'),$charset);
 			else if($val && iconv($charset,$charset,$val)!=$val) $flag = false;
 			else $flag = false;
 		}
@@ -792,7 +792,7 @@ class Context {
 	{
 		if (is_array($val))
 		{
-			array_walk($val,'Context::doConvertEncoding',$charset);
+			array_walk($val,array('Context','doConvertEncoding'),$charset);
 		}
 		else $val = iconv($charset,'UTF-8',$val);
 	}
