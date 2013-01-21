@@ -7,9 +7,6 @@ jQuery(function($){
 		$($(this).attr('href')).attr('tabindex','0').focus();
 	});
 	
-// Login Error
-	$('#fo_login_widget .message').parent('.well').show();
-
 // GNB
 	var $gnb = $('.gnb');
 	var $gnb_drop_toggle = $gnb.find('a.dropdown-toggle');

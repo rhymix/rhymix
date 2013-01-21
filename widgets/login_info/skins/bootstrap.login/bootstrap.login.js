@@ -47,4 +47,6 @@ jQuery(function($){
 			$acWarning.slideUp(200);
 		}
 	});
+	// Login Error
+	$('#fo_login_widget .message').parent('.well').show();
 });
