@@ -111,11 +111,12 @@ body>.x,
 .x_modal .x_modal-header>h3{color:#fff;text-shadow:0 -1px 0 #000;font-size:16px}
 .x_modal .x_modal-body{background:#fff;min-height:50px}
 .x_modal-body:after{content:"";display:block;clear:both}
-.x .x_control-group{padding-top:8px;margin-bottom:10px;border-top:1px dotted #ddd;clear:both}
+.x .x_control-group{padding-top:8px;border-top:1px dotted #ddd;clear:both}
 .x .x_control-group:before{content:"";display:block;clear:both}
 .x .x_control-group:first-child,
 .x .x_control-group:first-of-type{border-top:0;padding-top:0}
 .x .x_control-group select{width:auto;min-width:220px}
+.x .x_form-horizontal .x_control-group{margin-bottom:10px}
 .x input[type="text"], 
 .x input[type="password"], 
 .x input[type="datetime"], 

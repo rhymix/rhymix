@@ -6,7 +6,7 @@
 		<select name="message_box" style="margin:0">
 			<option loop="$lang->message_box => $key,$val" selected="selected"|cond="$key==$message_type" value="{$key}" >{$val}</option>
 		</select>
-		<input type="submit" value="{$lang->cmd_select}" class="x_btn" />
+		<input type="submit" value="{$lang->cmd_select}" class="btn" />
 	</form>
 	<form action="./" method="POST" class="setupMessage">
 		<input type="hidden" name="module" value="communication" />
@@ -15,10 +15,10 @@
 		<select name="allow_message" style="margin:0">
 			<option loop="$lang->allow_message_type => $key,$val" value="{$key}" selected="selected"|cond="$logged_info->allow_message==$key">{$val}</option>
 		</select>
-		<input type="submit" value="{$lang->cmd_save}" class="x_btn">
+		<input type="submit" value="{$lang->cmd_save}" class="btn">
 	</form>
 </div>
-<table class="x_table x_table-striped x_table-hover" cond="$message">
+<table class="table table-striped table-hover" cond="$message">
 	<tr>
 		<th>{$message->title}</th>
 	</tr>
@@ -34,17 +34,17 @@
 		</td>
 	</tr>
 </table>
-<div class="btnArea x_btn-group" cond="$message" style="margin-bottom:20px">
-	<button class="x_btn" cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</button>
-	<button class="x_btn" cond="$message->message_type == 'R'" type="button" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</button>
-	<button class="x_btn" type="button" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</button>
+<div class="btnArea btn-group" cond="$message" style="margin-bottom:20px">
+	<button class="btn" cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</button>
+	<button class="btn" cond="$message->message_type == 'R'" type="button" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</button>
+	<button class="btn" type="button" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</button>
 </div>
 
 <form action="./" method="get" id="fo_message_list">
 	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationDeleteMessages" />
 	<input type="hidden" name="message_type" value="{$message_type}" />
-	<table class="x_table x_table-striped x_table-hover">
+	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
 				<th scope="col" class="title">{$lang->title}</th>
@@ -78,14 +78,14 @@
 		</tbody>
 	</table>
 	<div class="btnArea">
-		<input type="submit" class="x_btn" value="{$lang->cmd_delete}" />
+		<input type="submit" class="btn" value="{$lang->cmd_delete}" />
 	</div>
 </form>
-<div class="x_pagination x_pagination-centered">
+<div class="pagination pagination-centered">
 	<ul>
 		<li><a href="{getUrl('page','','document_srl','')}" class="direction">&laquo; {$lang->first_page}</a></li>
 		<!--@while($page_no = $page_navigation->getNextPage())-->
-		<li class="x_active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a></li>
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a></li>
 		<!--@end-->
 		<li><a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="direction">{$lang->last_page} &raquo;</a></li>
 	</ul>

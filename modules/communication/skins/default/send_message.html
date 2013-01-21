@@ -1,10 +1,10 @@
 <load target="../../../../common/css/bootstrap.min.css" />
 <load target="../../../../common/css/bootstrap-responsive.min.css" />
 <load target="js/communication.js" />
-<div class="x_page-header">
+<div class="page-header">
 	<h1>{$lang->cmd_send_message}</h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE" class="alert alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="sendMessage" action="./" method="post">
@@ -12,7 +12,7 @@
 	<input type="hidden" name="act" value="procCommunicationSendMessage" />
 	<input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
 	<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
-	<table class="x_table x_table-striped x_table-hover">
+	<table class="table table-striped table-hover">
 		<tr>
 			<th scope="row"><label for="textfield1">{$lang->receiver}</label></th>
 			<td>{$receiver_info->nick_name}</td>
@@ -28,6 +28,6 @@
 	</table>
 	{$editor}
 	<div class="btnArea">
-		<input type="submit" value="{$lang->cmd_send_message}" class="x_btn x_btn-inverse" />
+		<input type="submit" value="{$lang->cmd_send_message}" class="btn btn-inverse" />
 	</div>
 </form>

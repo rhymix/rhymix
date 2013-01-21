@@ -1,4 +1,7 @@
-<load target="../../modules/admin/tpl/css/admin.css" />
+<load target="../../modules/admin/tpl/css/admin.bootstrap.min.css" usecdn="true" />
+<load target="../../modules/admin/tpl/css/admin.min.css" usecdn="true" />
+<load cond="$lang_type=='ko'" target="../../modules/admin/tpl/css/admin_ko.css" usecdn="true" />
+<load cond="$lang_type=='en'" target="../../modules/admin/tpl/css/admin_en.css" usecdn="true" />
 <div class="x">
     {$content}
 </div>

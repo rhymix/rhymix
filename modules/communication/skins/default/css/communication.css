@@ -1,8 +1,8 @@
 @charset "utf-8";
-.xc .x_nav a,
-.xc .x_btn{text-decoration:none}
-.xc .x_table{border-top:1px solid #ddd;border-bottom:1px solid #ddd}
-.xc .x_table>caption{text-align:left;font-weight:bold}
-.xc .x_table>caption>.x_pull-right{position:relative;top:-8px}
-.xc .x_control-group:first-child,
-.xc .x_control-group:first-of-type{border-top:0}
+.xc .nav a,
+.xc .btn{text-decoration:none}
+.xc .table{border-top:1px solid #ddd;border-bottom:1px solid #ddd}
+.xc .table>caption{text-align:left;font-weight:bold}
+.xc .table>caption>.pull-right{position:relative;top:-8px}
+.xc .control-group:first-child,
+.xc .control-group:first-of-type{border-top:0}

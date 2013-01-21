@@ -366,26 +366,26 @@
 		<value xml:lang="vi"><![CDATA[Với ID Website]]></value>
 	</item>
 	<item name="about_domain">
-		<value xml:lang="ko"><![CDATA[1개 이상의 사이트를 만들기 위해서는 전용 도메인이 있어야 합니다.<br />독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />예) www.xpressengine.com/xe]]></value>
-		<value xml:lang="en"><![CDATA[In order to create more than one virtual site, every club needs to have its own domain name.<br />A sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path where XE is installed. <br /> ex) www.xpressengine.com/xe]]></value>
-		<value xml:lang="jp"><![CDATA[複数のホームページを作成するためには、「オリジナルドメイン」や「サブ ドメイン」のような専用のドメインが必要です。<br />また、 XEのインストールパスも一緒に記入してください。<br />ex) www.xpressengine.com/xe]]></value>
-		<value xml:lang="zh-CN"><![CDATA[要创建一个站点必须有一个专用域名。<br />一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。<br />ex) www.xpressengine.com/xe]]></value>
-		<value xml:lang="zh-TW"><![CDATA[要建立網站必須要有個專屬域名。<br />頂級域名或次級域名都可以。輸入時，請將 XE 安裝路徑也一起輸入。<br />例) www.xpressengine.com/xe]]></value>
-		<value xml:lang="es"><![CDATA[Para crear un dominio privado de la site requiere. <br /> Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto. <br /> Ej.) www.xpressengine.com / zbxe]]></value>
-		<value xml:lang="tr"><![CDATA[Birden fazla sanal website oluşturabilmek için, her birinin kendi alanadına ihtiyacı vardır.<br />Alt-alanadı (örn., aaa.bbb.com of bbb.com) da kullanılabilir. XE'nin de içinde kurulu olduğu yolun adresini giriniz. <br /> örn.) www.xpressengine.com/xe]]></value>
-		<value xml:lang="vi"><![CDATA[Để tạo nhiều Website nhỏ, các Website nhỏ này cần những tên miền riêng của mình.<br />Có thể sử dụng những Subdomain dạng aaa.bbb.com của bbb.com. Hãy nhập địa chỉ bao gồm cả Domain cài đặt XE. <br /> Ví dụ: www.vietxe.net/xe]]></value>
+		<value xml:lang="ko"><![CDATA[1개 이상의 사이트를 만들기 위해서는 전용 도메인이 있어야 합니다. 독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요. 예) www.xpressengine.com/xe]]></value>
+		<value xml:lang="en"><![CDATA[In order to create more than one virtual site, every club needs to have its own domain name. A sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path where XE is installed.   ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="jp"><![CDATA[複数のホームページを作成するためには、「オリジナルドメイン」や「サブ ドメイン」のような専用のドメインが必要です。 また、 XEのインストールパスも一緒に記入してください。 ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="zh-CN"><![CDATA[要创建一个站点必须有一个专用域名。 一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。 ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="zh-TW"><![CDATA[要建立網站必須要有個專屬域名。 頂級域名或次級域名都可以。輸入時，請將 XE 安裝路徑也一起輸入。 例) www.xpressengine.com/xe]]></value>
+		<value xml:lang="es"><![CDATA[Para crear un dominio privado de la site requiere.   Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto.   Ej.) www.xpressengine.com / zbxe]]></value>
+		<value xml:lang="tr"><![CDATA[Birden fazla sanal website oluşturabilmek için, her birinin kendi alanadına ihtiyacı vardır. Alt-alanadı (örn., aaa.bbb.com of bbb.com) da kullanılabilir. XE'nin de içinde kurulu olduğu yolun adresini giriniz.   örn.) www.xpressengine.com/xe]]></value>
+		<value xml:lang="vi"><![CDATA[Để tạo nhiều Website nhỏ, các Website nhỏ này cần những tên miền riêng của mình. Có thể sử dụng những Subdomain dạng aaa.bbb.com của bbb.com. Hãy nhập địa chỉ bao gồm cả Domain cài đặt XE.   Ví dụ: www.vietxe.net/xe]]></value>
 	</item>
 	<item name="about_vid">
-		<value xml:lang="ko"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)과 중복될 수 없습니다.<br />첫 글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="en"><![CDATA[Users can access via http://XEaddress/ID. You cannot use same site id as the existing module name(mid).<br />Site id should start with an alphabet character. Alphabet characters, numbers and underscore can be used for the site id.]]></value>
-		<value xml:lang="jp"><![CDATA[別途のドメインではなく、「http://XEアドレス/ID」へのアクセスが可能です。この際、モジュール名(mid)と重複しないように登録してください。<br />必ず、頭文字は半角英文字にし、「（すべて半角の）英数字・_ 」 だけの組み合わせで入力してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[直接以http://XE安装地址/ID的方式访问。<br />模块名(mid)不能重复。<br />模块名要以英文字母开头，且只允许使用英文字母，数字及"_"。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[直接以 http://程式安裝位址/ID 的方式訪問。模組名稱(mid)不能重複。<br />必須要以英文字母開頭，只允許使用底線、英文及數字。]]></value>
-		<value xml:lang="fr"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="ru"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="es"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="tr"><![CDATA[Kullanıcılar, http://XEaddress/ID adresiyle ulaşabilirler. Varolan bir modül adıyla(mid) aynı olan site kimliği kullanamazsınız .<br />Site kimliği bir harfle başlamaladır . Alfabetik karakterler, sayılar ve _ işareti site kimliği için kullanılabilir.]]></value>
-		<value xml:lang="vi"><![CDATA[Người sử dụng có thể truy cập qua http://XEaddress/ID. Bạn không thể sử dụng ID giống nhau và giống tên Module đã có.<br />Teen ID có dạng là các chữ cái, số và dấu gạch dưới (_).]]></value>
+		<value xml:lang="ko"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)과 중복될 수 없습니다. 첫 글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="en"><![CDATA[Users can access via http://XEaddress/ID. You cannot use same site id as the existing module name(mid). Site id should start with an alphabet character. Alphabet characters, numbers and underscore can be used for the site id.]]></value>
+		<value xml:lang="jp"><![CDATA[別途のドメインではなく、「http://XEアドレス/ID」へのアクセスが可能です。この際、モジュール名(mid)と重複しないように登録してください。 必ず、頭文字は半角英文字にし、「（すべて半角の）英数字・_ 」 だけの組み合わせで入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[直接以http://XE安装地址/ID的方式访问。 模块名(mid)不能重复。 模块名要以英文字母开头，且只允许使用英文字母，数字及"_"。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[直接以 http://程式安裝位址/ID 的方式訪問。模組名稱(mid)不能重複。 必須要以英文字母開頭，只允許使用底線、英文及數字。]]></value>
+		<value xml:lang="fr"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다. 첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다. 첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다. 첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Kullanıcılar, http://XEaddress/ID adresiyle ulaşabilirler. Varolan bir modül adıyla(mid) aynı olan site kimliği kullanamazsınız . Site kimliği bir harfle başlamaladır . Alfabetik karakterler, sayılar ve _ işareti site kimliği için kullanılabilir.]]></value>
+		<value xml:lang="vi"><![CDATA[Người sử dụng có thể truy cập qua http://XEaddress/ID. Bạn không thể sử dụng ID giống nhau và giống tên Module đã có. Teen ID có dạng là các chữ cái, số và dấu gạch dưới (_).]]></value>
 	</item>
 	<item name="msg_already_registed_vid">
 		<value xml:lang="ko"><![CDATA[이미 등록된 사이트 ID 입니다. 게시판 등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.]]></value>
@@ -755,7 +755,7 @@
 		<value xml:lang="ko"><![CDATA[모듈 이름은 http://주소/?mid=모듈이름 처럼 직접 호출할 수 있는 값입니다. (영문+[영문+숫자+_] 만 가능. 최대 40 글자)]]></value>
 		<value xml:lang="en"><![CDATA[The module name will be used like http://address/?mid=ModuleName.
 (Only english alphabet letters, numbers and underscore can be used. The maximum length is 40.)]]></value>
-		<value xml:lang="jp"><![CDATA[モジュール名は「http://アドレス/?mid=モジュール名」のように直接呼び出せるパラメーター値です。<br />※英数の頭文字と[英数と_のみ]の組み合わせ （すべて半角、最大40文字） ]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール名は「http://アドレス/?mid=モジュール名」のように直接呼び出せるパラメーター値です。 ※英数の頭文字と[英数と_のみ]の組み合わせ （すべて半角、最大40文字） ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[模块名称只允许使用英文，数字和下划线(最多不能超过40字节)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[模組名稱只允許使用英文，數字和底線。最大長度 40 個字元。]]></value>
 		<value xml:lang="fr"><![CDATA[Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.
@@ -953,16 +953,16 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="vi"><![CDATA[Nếu cần nhiều giá trị mặc định, bạn có thể thêm dấu (,) và giữa các kết nối.]]></value>
 	</item>
 	<item name="about_search_virtual_site">
-		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력한 후 검색하세요.<br/>가상 사이트 이외의 모듈은 내용을 비우고 검색하면 됩니다. (http:// 는 제외)]]></value>
-		<value xml:lang="en"><![CDATA[Enter domain of virtual sites.<br />To search modules of non-virtual site, search with blank]]></value>
-		<value xml:lang="jp"><![CDATA[バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力して検索してください。<br />バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は省く）]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请输入子站点域名后再进行搜索。<br/>子站点以外的模块可以留空搜索。(输入时http://除外)。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[請輸入網站域名後再搜尋。<br/>網站以外的模組可直接進行搜尋。(http://不用輸入)。]]></value>
-		<value xml:lang="fr"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="ru"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="es"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="tr"><![CDATA[Sanal sitelerin alanadlarını giriniz.<br />Sanal olmayan sitelerin modüllerini aramak için, boş arama yapınız]]></value>
-		<value xml:lang="vi"><![CDATA[Hãy nhập tên miền thực tế của Website.<br />Để tìm kiếm những Module không thực tế của Website hãy để trống.]]></value>
+		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력한 후 검색하세요. 가상 사이트 이외의 모듈은 내용을 비우고 검색하면 됩니다. (http:// 는 제외)]]></value>
+		<value xml:lang="en"><![CDATA[Enter domain of virtual sites. To search modules of non-virtual site, search with blank]]></value>
+		<value xml:lang="jp"><![CDATA[バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力して検索してください。 バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は省く）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入子站点域名后再进行搜索。 子站点以外的模块可以留空搜索。(输入时http://除外)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入網站域名後再搜尋。 網站以外的模組可直接進行搜尋。(http://不用輸入)。]]></value>
+		<value xml:lang="fr"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요. 가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="ru"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요. 가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="es"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요. 가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="tr"><![CDATA[Sanal sitelerin alanadlarını giriniz. Sanal olmayan sitelerin modüllerini aramak için, boş arama yapınız]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy nhập tên miền thực tế của Website. Để tìm kiếm những Module không thực tế của Website hãy để trống.]]></value>
 	</item>
 	<item name="about_extra_vars_eid_value">
 		<value xml:lang="ko"><![CDATA[사용자 정의 이름을 적어주세요. 영문, 숫자, _를 조합해서 사용할 수 있으며 첫 글자는 영문이어야 합니다.]]></value>
