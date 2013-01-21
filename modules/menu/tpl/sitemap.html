@@ -3433,6 +3433,7 @@ jQuery(function($){
 			var sTmpName;
 			for(var sName in htData.skin_info_list){
 				if(!htData.skin_info_list.hasOwnProperty(sName)) continue;
+				if(sName == '/USE_DEFAULT/') continue;
 				
 				//$._xeAdminVar.htItemTypes[sType][sName].S = htInfo.title;
 				//console.log(htDesign.sSkinName);

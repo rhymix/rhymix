@@ -1109,4 +1109,7 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="ko"><![CDATA[다국어 텍스트 해제]]></value>
 		<value xml:lang="en"><![CDATA[Remove multilingual text]]></value>
 	</item>
+	<item name="use_site_default_skin">
+		<value xml:lang="ko"><![CDATA[사이트 기본 스킨 사용]]></value>
+	</item>
 </lang>

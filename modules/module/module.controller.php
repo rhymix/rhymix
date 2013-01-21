@@ -343,8 +343,37 @@ class moduleController extends module
 		if(!$args->module_srl) $args->module_srl = getNextSequence();
 
 		// default value
-		$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
-		$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
+		if($args->skin == '/USE_DEFAULT/')
+		{
+			$args->is_skin_fix = 'N';
+		}
+		else
+		{
+			if(isset($args->is_skin_fix))
+			{
+				$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
+			}
+			else
+			{
+				$args->is_skin_fix = 'Y';
+			}
+		}
+		
+		if($args->mskin = '/USE_DEFAULT/')
+		{
+			$args->is_mskin_fix = 'N';
+		}
+		else
+		{
+			if(isset($args->is_skin_fix))
+			{
+				$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
+			}
+			else
+			{
+				$args->is_mskin_fix = 'Y';
+			}
+		}
 
 		// Insert a module
 		$output = executeQuery('module.insertModule', $args);
@@ -393,8 +422,37 @@ class moduleController extends module
 		}
 
 		// default value
-		$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
-		$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
+		if($args->skin == '/USE_DEFAULT/')
+		{
+			$args->is_skin_fix = 'N';
+		}
+		else
+		{
+			if(isset($args->is_skin_fix))
+			{
+				$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
+			}
+			else
+			{
+				$args->is_skin_fix = 'Y';
+			}
+		}
+		
+		if($args->mskin = '/USE_DEFAULT/')
+		{
+			$args->is_mskin_fix = 'N';
+		}
+		else
+		{
+			if(isset($args->is_skin_fix))
+			{
+				$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
+			}
+			else
+			{
+				$args->is_mskin_fix = 'Y';
+			}
+		}
 
 		$output = executeQuery('module.updateModule', $args);
 		if(!$output->toBool())

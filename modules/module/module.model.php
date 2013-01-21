@@ -66,6 +66,7 @@ class moduleModel extends module
 	{
 		$args->document_srl = $document_srl;
 		$output = executeQuery('module.getModuleInfoByDocument', $args);
+		$this->applyDefaultSkin($output->data);
 		return $this->addModuleExtraVars($output->data);
 	}
 
@@ -201,6 +202,7 @@ class moduleModel extends module
 		}
 
 		$module_info = $output->data;
+		$this->applyDefaultSkin($module_info);
 		if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
 		return $this->addModuleExtraVars($module_info);
 	}
@@ -241,8 +243,8 @@ class moduleModel extends module
 		$oLayoutAdminModel = getAdminModel('layout');
 		$layoutSrlPc = ($moduleInfo->layout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('P', $moduleInfo->site_srl) : $moduleInfo->layout_srl;
 		$layoutSrlMobile = ($moduleInfo->mlayout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('M', $moduleInfo->site_srl) : $moduleInfo->mlayout_srl;
-		$skinNamePc = (!$moduleInfo->skin) ? $this->getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
-		$skinNameMobile = (!$moduleInfo->mskin) ? $this->getModuleDefaultSkin($moduleInfo->module, 'M') : $moduleInfo->mskin;
+		$skinNamePc = ($moduleInfo->is_skin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
+		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, 'M') : $moduleInfo->mskin;
 
 		$oLayoutModel = getModel('layout');
 		$layoutInfoPc = $layoutSrlPc ? $oLayoutModel->getLayoutRawData($layoutSrlPc, array('title')) : NULL;
@@ -264,9 +266,9 @@ class moduleModel extends module
 		$moduleInfo->designSettings->layout->pc = $layoutInfoPc->title;
 		$moduleInfo->designSettings->layout->mobileIsDefault = $moduleInfo->mlayout_srl == -1 ? 1 : 0;
 		$moduleInfo->designSettings->layout->mobile = $layoutInfoMobile->title;
-		$moduleInfo->designSettings->skin->pcIsDefault = !$moduleInfo->skin ? 1 : 0;
+		$moduleInfo->designSettings->skin->pcIsDefault = $moduleInfo->is_skin_fix == 'N' ? 1 : 0;
 		$moduleInfo->designSettings->skin->pc = $skinInfoPc->title;
-		$moduleInfo->designSettings->skin->mobileIsDefault = !$moduleInfo->mskin ? 1 : 0;
+		$moduleInfo->designSettings->skin->mobileIsDefault = $moduleInfo->is_mskin_fix == 'N' ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
 		$oCacheHandler = &CacheHandler::getInstance('object');
@@ -323,6 +325,7 @@ class moduleModel extends module
 		{
 			$output = executeQuery('module.getMidInfo', $args );
 			if(!$output->data) return;
+			$this->applyDefaultSkin($output->data);
 			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
 		}
 		if(count($columnList))
@@ -339,6 +342,23 @@ class moduleModel extends module
 		return $this->addModuleExtraVars($module_info);
 	}
 
+	/**
+	 * Apply default skin info
+	 * 
+	 * @param stdClass $moduleInfo Module information
+	 */
+	private function applyDefaultSkin(&$moduleInfo)
+	{
+		if($moduleInfo->is_skin_fix == 'N')
+		{
+			$moduleInfo->skin = '/USE_DEFAULT';
+		}
+		
+		if($moduleInfo->is_mskin_fix == 'N')
+		{
+			$moduleInfo->mskin = '/USE_DEFAULT';
+		}
+	}
 	/**
 	 * @brief Get module information corresponding to layout_srl
 	 */
@@ -904,12 +924,12 @@ class moduleModel extends module
 			$skin_list[$skin_name] = $skin_info;
 		}
 
+		$tmpPath = strtr($path, array('/' => ' '));
+		$tmpPath = trim($tmpPath);
+		$module = array_pop(explode(' ', $tmpPath));
+
 		if($dir == 'skins')
 		{
-			$tmpPath = strtr($path, array('/' => ' '));
-			$tmpPath = trim($tmpPath);
-			$module = array_pop(explode(' ', $tmpPath));
-
 			$oAdminModel = getAdminModel('admin');
 			$themesInfo = $oAdminModel->getThemeList();
 
@@ -924,6 +944,31 @@ class moduleModel extends module
 			}
 		}
 
+		$siteInfo = Context::get('site_module_info');
+		
+		if($dir == 'skins')
+		{
+			$type = 'P';
+		}
+		else
+		{
+			$type = 'M';
+		}
+		
+		$defaultSkinName = $this->getModuleDefaultSkin($module, $type, $site_info->site_srl);
+		
+		if(isset($defaultSkinName))
+		{
+			$defaultSkinInfo = $this->loadSkinInfo($path, $defaultSkinName, $dir);
+
+			$useDefault = new stdClass();
+			$useDefault->title = Context::getLang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
+
+			$useDefaultList['/USE_DEFAULT/'] = $useDefault;
+
+			$skin_list = array_merge($useDefaultList, $skin_list);
+		}
+		
 		return $skin_list;
 	}
 
