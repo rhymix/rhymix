@@ -72,6 +72,10 @@
 		<value xml:lang="tr"><![CDATA[Sıradan Üye]]></value>
 		<value xml:lang="vi"><![CDATA[Moderator]]></value>
 	</item>
+	<item name="default_group">
+		<value xml:lang="ko"><![CDATA[기본그룹]]></value>
+		<value xml:lang="en"><![CDATA[Default Group]]></value>
+	</item>
 	<item name="admin_group">
 		<value xml:lang="ko"><![CDATA[관리그룹]]></value>
 		<value xml:lang="en"><![CDATA[Managing Group]]></value>
