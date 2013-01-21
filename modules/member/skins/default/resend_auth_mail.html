@@ -8,9 +8,9 @@
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberResendAuthMail" />
 	<input type="hidden" name="success_return_url" value="{getUrl(act, $act)}" />
-	<span class="x_input-append">
+	<span class="input-append">
 		<input type="email" id="email_address" name="email_address" value="" required placeholder="{$lang->email_address}" title="{$lang->email_address}" />
-		<input type="submit" value="{$lang->cmd_resend_auth_mail}" class="x_btn x_btn-inverse" />
+		<input type="submit" value="{$lang->cmd_resend_auth_mail}" class="btn btn-inverse" />
 	</span>
 </form>
 <include target="./common_footer.html" />

@@ -12,23 +12,23 @@
 	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
 </script>
-<form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
+<form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data" class="form-horizontal">
     <input type="hidden" name="act" value="procMemberModifyInfo" />
     <input type="hidden" name="module" value="member" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
     <input type="hidden" name="page" value="{$page}" />
-	<div class="x_control-group">
-		<label for="{$identifierForm->name}" class="x_control-label">{$identifierForm->title} <em style="color:red">*</em></label>
-		<div class="x_controls">
+	<div class="control-group">
+		<label for="{$identifierForm->name}" class="control-label">{$identifierForm->title} <em style="color:red">*</em></label>
+		<div class="controls">
 			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
 			<input type="text" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 		</div>
 	</div>
-	<div class="x_control-group" loop="$formTags=>$formTag">
-		<label for="" class="x_control-label">{$formTag->title}</label>
-		<div class="x_controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
-		<div class="x_controls" cond="$formTag->name =='signature'">
+	<div class="control-group" loop="$formTags=>$formTag">
+		<label for="" class="control-label">{$formTag->title}</label>
+		<div class="controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
+		<div class="controls" cond="$formTag->name =='signature'">
 			{$editor}
 <style scoped>
 .xpress-editor>#smart_content,
@@ -36,28 +36,28 @@
 </style>
 		</div>
 	</div>
-	<div class="x_control-group">
-		<div class="x_control-label">{$lang->allow_mailing}</div>
-		<div class="x_controls" style="padding-top:5px">
+	<div class="control-group">
+		<div class="control-label">{$lang->allow_mailing}</div>
+		<div class="controls" style="padding-top:5px">
 			<label for="mailingYes"><input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> {$lang->cmd_yes}</label>
 			<label for="mailingNo"><input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > {$lang->cmd_no}</label>
 		</div>
 	</div>
-	<div class="x_control-group">
-		<div class="x_control-label">{$lang->allow_message}</div>
-		<div class="x_controls" style="padding-top:5px">
+	<div class="control-group">
+		<div class="control-label">{$lang->allow_message}</div>
+		<div class="controls" style="padding-top:5px">
 			<label for="allow_{$key}" loop="$lang->allow_message_type=>$key,$val"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> {$val}</label>
 		</div>
 	</div>
 	<div class="btnArea" style="border-top:1px solid #ccc;padding-top:10px">
-		<input type="submit" value="{$lang->cmd_registration}" class="x_btn x_btn-inverse x_pull-right" />
-		<a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="x_btn x_pull-left">{$lang->cmd_cancel}</a>
+		<input type="submit" value="{$lang->cmd_registration}" class="btn btn-inverse pull-right" />
+		<a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="btn pull-left">{$lang->cmd_cancel}</a>
 	</div>
 </form>
 <script>
 jQuery(function($){
 	// label for setup
-	$('.x_control-label[for]').each(function(){
+	$('.control-label[for]').each(function(){
 		var $this = $(this);
 		if($this.attr('for') == ''){
 			$this.attr('for', $this.next().children(':visible:first').attr('id'));
