@@ -1033,6 +1033,7 @@ jQuery(function($){
 		
 		if(ev.keyCode === 27){
 			$msgBox.find("._cancel").click();
+			ev.preventDefault();
 		}
 	});
 	
@@ -2426,9 +2427,29 @@ jQuery(function($){
 //----------------menu selector end
 
 jQuery(function($){
+	_alert = alert;
+	
 	alert = function(){
 		return $.xeMsgBox.alert.apply($.xeMsgBox, arguments);
 	}
 	
 	setTimeout(function(){$('div.message.info').fadeOut(1000);}, 2500);
+});
+
+jQuery(function($){
+	$(document.body).on('keydown', 'input', function(ev){
+		var $container, $btn;
+		if(ev.keyCode === 13){
+			$container = $(ev.target).parent();
+			while($container){
+				$btn = $container.find('button.x_btn-primary');
+				if($btn.length>0){
+					ev.preventDefault();
+					$btn.click();
+					break;
+				}
+				$container = $container.parent();
+			}
+		}
+	});
 });

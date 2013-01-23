@@ -1386,7 +1386,7 @@ jQuery(function($){
 	});
 
 	function scrollToRight(){
-		$('#site').scrollTo($('#site').width(), 0, {duration: 0 } );
+		$('#site').scrollTo($('#site')[0].scrollWidth, 0, {duration: 0 } );
 	}
 
 	function scrollToTop($Area){
@@ -3246,7 +3246,6 @@ jQuery(function($){
 					}
 				);
 			})
-			
 			scrollToRight();
 		});
 	});
