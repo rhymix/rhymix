@@ -2085,12 +2085,18 @@ jQuery(function($){
 			aGroup : htData.menu_item.group_srls
 		};
 		
-		var params = {
-			target_module : htNode.sModuleType,
-			module_srl : htNode.module_srl
-		};
+		if(htNode.sModuleType === "_SHORTCUT"){
+			PermBReceived({
+				grantList : {}
+			});
+		}else{
+			var params = {
+				target_module : htNode.sModuleType,
+				module_srl : htNode.module_srl
+			};
 
-		$.exec_json("module.getModuleAdminGrant", params, PermBReceived);
+			$.exec_json("module.getModuleAdminGrant", params, PermBReceived);
+		}
 	}
 	function PermBReceived(htData){
 		//console.log(2, htData);
