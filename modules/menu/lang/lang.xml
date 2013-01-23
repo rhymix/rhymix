@@ -704,6 +704,10 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[사이트 디자인]]></value>
 		<value xml:lang="en"><![CDATA[Site design]]></value>
 	</item>
+	<item name="use_site_design">
+		<value xml:lang="ko"><![CDATA[사이트 디자인 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use site design]]></value>
+	</item>
 	<item name="full_settings">
 		<value xml:lang="ko"><![CDATA[상세 설정]]></value>
 		<value xml:lang="en"><![CDATA[Full settings]]></value>
