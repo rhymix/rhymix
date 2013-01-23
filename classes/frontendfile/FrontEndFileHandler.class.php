@@ -102,7 +102,10 @@
 			$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
 			$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
 			$file->fileExtension = strtolower($pathInfo['extension']);
-			$file->fileNameNoExt = preg_replace('/\.min$/', '', $pathInfo['filename']);
+
+			// Remove .min
+			$file->fileNameNoExt = preg_replace("/\.{$file->fileExtension}$/", '', $file->fileName);
+			$file->fileNameNoExt = preg_replace("/\.min$/", '', $file->fileNameNoExt);
 			$file->keyName = implode('.', array($file->fileNameNoExt, $file->fileExtension));
 
 			if(strpos($file->filePath, '://') === FALSE)
