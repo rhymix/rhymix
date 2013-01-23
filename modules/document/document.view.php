@@ -97,6 +97,9 @@ class documentView extends document
 		Context::set('mid',$module_info->mid);
 		Context::set('browser_title',$module_info->browser_title);
 
+		// not show admin bar
+		Context::set('admin_bar', 'false');
+
 		// Select Pop-up layout
 		$this->setLayoutPath('./common/tpl');
 		$this->setLayoutFile('popup_layout');
