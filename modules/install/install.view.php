@@ -116,6 +116,9 @@ class installView extends install
 
 		// Output the file, disp_db_info_form.html
 		$tpl_filename = sprintf('form.%s', Context::get('db_type'));
+
+		$title = sprintf(Context::getLang('input_dbinfo_by_dbtype'), Context::get('db_type'));
+		Context::set('title', $title);
 		$this->setTemplateFile($tpl_filename);
 	}
 

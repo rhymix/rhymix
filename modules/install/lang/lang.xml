@@ -16,6 +16,10 @@
 		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>
 		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>
 	</item>
+	<item name="input_dbinfo_by_dbtype">
+		<value xml:lang="ko"><![CDATA[%s 정보입력]]></value>
+		<value xml:lang="en"><![CDATA[Input %s info]]></value>
+	</item>
 	<item name="install_progress_menu" type="array">
 		<item name="language">
 			<value xml:lang="ko"><![CDATA[설치 언어 선택]]></value>
