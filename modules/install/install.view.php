@@ -84,6 +84,21 @@ class installView extends install
 		}
 		else
 		{
+			$defaultDatabase = 'mysqli';
+			$disableList = DB::getDisableList();
+			if(is_array($disableList))
+			{
+				foreach($disableList AS $key=>$value)
+				{
+					if($value->db_type == $defaultDatabase)
+					{
+						$defaultDatabase = 'mysql';
+						break;
+					}
+				}
+			}
+			Context::set('defaultDatabase', $defaultDatabase);
+
 			Context::set('progressMenu', '4');
 			$this->setTemplateFile('select_db');
 		}
