@@ -996,7 +996,7 @@ jQuery(function($){
 		</div>\
 		<div class="x_modal-footer">\
 			<button type="button" class="x_btn x_pull-left _cancel">'+xe.cmd_cancel+'</button>\
-			<button type="submit" class="x_btn x_btn-inverse x_pull-right _ok">'+xe.cmd_confirm+'</button>\
+			<button type="submit" class="x_btn x_btn-inverse x_pull-right x_btn-primary _ok">'+xe.cmd_confirm+'</button>\
 		</div>');
 	
 	$("body").append($msgBox);
