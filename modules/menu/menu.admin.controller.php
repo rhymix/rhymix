@@ -642,8 +642,16 @@ class menuAdminController extends menu
 		$args->is_force = Context::get('is_force');
 
 		$returnObj = $this->deleteItem($args);
+		if(is_object($returnObj))
+		{
+			$this->setError($returnObj->error);
+			$this->setMessage($returnObj->message);
+		}
+		else
+		{
+			$this->setMessage('success_deleted');
+		}
 
-		$this->setMessage('success_deleted');
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
 		$this->setRedirectUrl($returnUrl);
 	}
