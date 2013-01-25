@@ -167,7 +167,7 @@
 		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
 		</ul>
 	</form>
-	<form action="./" class="search x_input-append x_pull-right" no-error-return-url="true">
+	<form action="./" class="search x_input-append x_pull-right" no-error-return-url="true" cond="$act!=dispAutoinstallAdminInstalledPackages">
 		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act', 'page'))" type="hidden" name="{$key}" value="{$val}" />
 		<input type="search" name="search_keyword" required title="Search" value="{htmlspecialchars($search_keyword)}">
 		<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
