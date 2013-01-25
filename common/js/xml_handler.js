@@ -385,7 +385,7 @@ $.exec_json = function(action,data,func){
             ,data:$.param(data)
             ,success : function(data){
                 $(".wfsr").hide().trigger('cancel_confirm');
-                if(data.error != 0 and data.error > -1000){
+                if(data.error != 0 && data.error > -1000){
 					if(data.error == -1 && data.message == 'msg_is_not_administrator'){
 						alert('You are not logged in as an administrator');
 	//					window.location.reload();
