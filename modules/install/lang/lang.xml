@@ -541,9 +541,14 @@
 		<value xml:lang="vi"><![CDATA[Tên Table]]></value>
 	</item>
 	<item name="db_info_desc">
-		<value xml:lang="ko"><![CDATA[<p><strong>DB 호스트 네임</strong>, <strong>DB Port</strong>, <strong>DB 아이디</strong>, <strong>DB 비밀번호</strong>, <strong>DB 이름</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p><p><strong>DB 테이블 머리말</strong> 정보는 사용자 정의 할 수 있습니다. 영문 소문자를 권장 합니다. 숫자를 포함할 수 있습니다. 특수 문자를 사용할 수 없습니다.</p>]]></value>
+		<value xml:lang="ko"><![CDATA[<p><strong>DB 아이디</strong>, <strong>DB 비밀번호</strong>, <strong>DB 이름</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p>]]></value>
+		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p>]]></value>
+	　　<value xml:lang="jp"><![CDATA[<p><strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p>]]></value>
+	</item>
+	<item name="db_prefix_desc">
+		<value xml:lang="ko"><![CDATA[<p><strong>DB 호스트 네임</strong>, <strong>DB Port</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p><p><strong>DB 테이블 머리말</strong> 정보는 사용자 정의 할 수 있습니다. 영문 소문자를 권장 합니다. 숫자를 포함할 수 있습니다. 특수 문자를 사용할 수 없습니다.</p>]]></value>
 		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table prefix</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>]]></value>
-	　　<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong>, <strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
+	　　<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
 	</item>
 	<item name="admin_title">
 		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
