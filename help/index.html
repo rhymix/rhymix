@@ -23,6 +23,9 @@ body,table,input,textarea,select,button{font-size:14px}
 .body:after{content:"";display:block;clear:both}
 .lnb{position:fixed;top:80px;left:10px;bottom:15px;width:280px;padding:15px 10px;background:#f4f4f4;font-size:13px;overflow-y:auto;border-radius:3px}
 .content{position:fixed;left:325px;top:80px;right:10px;bottom:15px;overflow-y:auto;padding-right:15px}
+.skip{position:fixed;top:20px;right:10px}
+.skip>a{display:block;height:1px;overflow:hidden;text-align:center}
+.skip>a:focus{height:auto}
 @media all and (max-width:980px){
 body{overflow:auto}
 .body{padding:15px 0}
@@ -54,23 +57,27 @@ body{overflow:auto}
 .content section{padding:1px 0}
 .content h1>a,
 .content h2>a{display:none;margin:0 0 0 4px}
+.content h1.focus,
+.content h2.focus,
+.content h1.active,
+.content h2.active,
 .content h1:target,
-.content h2:target{background:#fcf8e3;border-radius:5px 5px 0 0}
-.content h1:hover>a,
-.content h1:focus>a,
-.content h2:hover>a,
-.content h2:focus>a,
+.content h2:target{background:#eee;border-radius:5px 5px 0 0}
+.content h1.focus>a,
+.content h2.focus>a,
+.content h1.active>a,
+.content h2.active>a,
 .content h1:target>a,
 .content h2:target>a{display:inline}
-.h1>h1{font-size:24px;line-height:1.25;*border-bottom:4px solid #333}
-.h2>h1{font-size:20px;line-height:1.25;*border-bottom:2px solid #ddd}
+.h1>h1{font-size:24px;line-height:1.8;*border-bottom:4px solid #333}
+.h2>h1{font-size:20px;line-height:1.8;*border-bottom:2px solid #ddd}
 .h1>h1:after,
 .h2>h1:after{content:"";display:block;border-radius:3px;background-color:#6C0;background-image:-webkit-linear-gradient(top, #62c462, #57a957);background-image:-moz-linear-gradient(top, #62c462, #57a957);background-image:-o-linear-gradient(top, #62c462, #57a957);background-image:linear-gradient(top, #62c462, #57a957);opacity:.5;filter:alpha(opacity=50)}
 .h1>h1:after{height:12px}
 .h2>h1:after{height:8px}
 .h2>h2,
-.h3>h1{font-size:16px;line-height:1.25;border-bottom:1px dotted #ccc}
-.h3>h2{font-size:14px;line-height:1.25;color:#666}
+.h3>h1{font-size:16px;line-height:1.8;border-bottom:1px dotted #ccc}
+.h3>h2{font-size:14px;line-height:1.8;color:#666}
 .table{border-bottom:1px solid #ddd}
 .table>caption{font-weight:bold;text-align:left;line-height:32px}
 .content a[target="_blank"]:after{content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:-2px 0 0 2px;background:url(../common/img/glyphicons-halflings.png) no-repeat -120px -72px;opacity:.3;filter:alpha(opacity=30)}
@@ -99,6 +106,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 </head>
 <body>
 <div class="container">
+	<p class="skip"><a href="#content">메뉴건너뛰기</a></p>
 	<header class="header">
 		<h1>XE Admin Help</h1>
 	</header>
@@ -1557,7 +1565,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 		</section>
 	</div>
 </div>
-<script src="../common/js/jquery.js"></script> 
+<script src="http://code.jquery.com/jquery-latest.min.js"></script> 
 <script>
 jQuery(function($){
 	// LNB Table of Content
@@ -1624,15 +1632,36 @@ jQuery(function($){
 		$(this).next().slideToggle(100);
 	});
 	// Tabindex & Anchor
-	$('h1[id], h2[id]').attr('tabindex','0').each(function(){
-		$(this).append('<a href="">#</a>').find('>a').attr('href', '#'+$(this).attr('id'));
+	var $hx = $('h1[id], h2[id]');
+	$(window).load(function(){
+		$('h1:target, h2:target').addClass('active');
 	});
+	$hx
+		.attr('tabindex','0')
+		.each(function(){
+			$(this).append('<a href="">#</a>').find('>a').attr('href', '#'+$(this).attr('id'));
+		})
+		.mouseover(function(){
+			$hx.removeClass('focus');
+			$(this).addClass('focus');
+		})
+		.focus(function(){
+			$(this).mouseover();
+		})
+		.click(function(){
+			$hx.removeClass('active');
+			$(this).addClass('active');
+		});
 	// Active link style
 	$lnb.find('a').click(function(){
 		var $this = $(this);
 		$lnb.find('a').removeClass('active');
 		$this.addClass('active');
 		$($this.attr('href')).focus();
+	});
+	// Anchor Navigation
+	$('a[href^="#"]').click(function(){
+		$($(this).attr('href')).attr('tabindex','0').focus();
 	});
 });
 </script>
