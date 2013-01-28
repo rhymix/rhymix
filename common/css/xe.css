@@ -49,7 +49,7 @@ body>.message{margin:1em}
 /* Waiting for server response */
 .wfsr{display:none;position:absolute;position:fixed;left:0;top:0;right:0;bottom:0;z-index:100;color:#fff;background:#333 url(../../common/img/msg.loading.gif) no-repeat center 90px;text-align:center;margin:0;padding:120px 0 0 0;opacity:.8;filter:alpha(opacity=80);font:bold 16px "Helvetica Neue", Helvetica, Arial, 돋움, Dotum, sans-serif}
 /* Admin Bar */
-#adminBar{position:absolute;left:0;top:0;background:#000;width:100%;opacity:.5;filter:alpha(opacity=50);z-index:100;color:#fff;font:12px/28px Arial,Helvetica,sans-serif;padding:0;overflow:hidden}
+#adminBar{position:absolute;left:0;top:0;background:#666;width:100%;z-index:100;color:#fff;font:12px/28px Arial,Helvetica,sans-serif;padding:0;overflow:hidden;border-top:1px solid #eee;border-bottom:1px solid #eee;box-shadow:0 0 5px #333}
 #adminBar>h1{margin:0 10px 0 0;padding:6px 0 0 10px;float:left;font-size:12px;line-height:1}
 #adminBar img{vertical-align:top}
 #adminBar>p{margin:0}
