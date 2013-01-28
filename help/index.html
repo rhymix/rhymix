@@ -17,11 +17,12 @@ body{margin:10px;overflow:hidden;min-width:300px;word-wrap:break-word;word-break
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display: block}
 body,table,input,textarea,select,button{font-size:14px}
 /* Layout */
-.header h1{font-size:24px;line-height:1}
-.header+hr{height:10px;background-color:#6C0;border:0;border-radius:5px;margin:0;background-image:-webkit-linear-gradient(left, #690, #6F0);background-image:-moz-linear-gradient(left, #690, #6F0);background-image:-o-linear-gradient(left, #690, #6F0);background-image:linear-gradient(left, #690, #6F0)}
-.footer{border-top:1px solid #ccc;padding:15px 0}
-.lnb{position:fixed;top:60px;left:10px;bottom:15px;width:280px;padding:15px 10px;background:#f4f4f4;font-size:13px;overflow-y:auto;border-radius:3px}
-.content{position:fixed;left:325px;top:60px;right:10px;bottom:15px;overflow-y:auto;padding-right:15px}
+.container{margin:0;width:auto}
+.header h1{font-size:24px;line-height:1;font-family:Arial, Helvetica, sans-serif}
+.header+hr{height:16px;background-color:#6C0;border:0;border-radius:3px;margin:0;background-image:-webkit-linear-gradient(top, #62c462, #57a957);background-image:-moz-linear-gradient(top, #62c462, #57a957);background-image:-o-linear-gradient(top, #62c462, #57a957);background-image:linear-gradient(top, #62c462, #57a957);opacity:.75;filter:alpha(opacity=75)}
+.body:after{content:"";display:block;clear:both}
+.lnb{position:fixed;top:80px;left:10px;bottom:15px;width:280px;padding:15px 10px;background:#f4f4f4;font-size:13px;overflow-y:auto;border-radius:3px}
+.content{position:fixed;left:325px;top:80px;right:10px;bottom:15px;overflow-y:auto;padding-right:15px}
 @media all and (max-width:980px){
 body{overflow:auto}
 .body{padding:15px 0}
@@ -30,7 +31,7 @@ body{overflow:auto}
 .content{padding:0}
 }
 /* LNB */
-.lnb .x_icon-file{opacity:.5;filter:alpha(opacity=50)}
+.lnb .icon-file{opacity:.5;filter:alpha(opacity=50)}
 .lnb button{border:0;background-color:transparent;font-size:0}
 .lnb>ol{display:block}
 .lnb ol{list-style:none;margin:0;padding:0}
@@ -51,18 +52,27 @@ body{overflow:auto}
 /* Content */
 .content img{max-width:100%;height:auto}
 .content section{padding:1px 0}
-.content *:target{background:#ff0;border-radius:5px 5px 0 0}
+.content h1>a,
+.content h2>a{display:none;margin:0 0 0 4px}
+.content h1:target,
+.content h2:target{background:#fcf8e3;border-radius:5px 5px 0 0}
+.content h1:hover>a,
+.content h1:focus>a,
+.content h2:hover>a,
+.content h2:focus>a,
+.content h1:target>a,
+.content h2:target>a{display:inline}
 .h1>h1{font-size:24px;line-height:1.25;*border-bottom:4px solid #333}
 .h2>h1{font-size:20px;line-height:1.25;*border-bottom:2px solid #ddd}
 .h1>h1:after,
-.h2>h1:after{content:"";display:block;background-color:#6C0;background-image:-webkit-linear-gradient(left, #690, #6F0);background-image:-moz-linear-gradient(left, #690, #6F0);background-image:-o-linear-gradient(left, #690, #6F0);background-image:linear-gradient(left, #690, #6F0)}
-.h1>h1:after{height:8px;border-radius:4px}
-.h2>h1:after{height:4px;border-radius:2px}
+.h2>h1:after{content:"";display:block;border-radius:3px;background-color:#6C0;background-image:-webkit-linear-gradient(top, #62c462, #57a957);background-image:-moz-linear-gradient(top, #62c462, #57a957);background-image:-o-linear-gradient(top, #62c462, #57a957);background-image:linear-gradient(top, #62c462, #57a957);opacity:.5;filter:alpha(opacity=50)}
+.h1>h1:after{height:12px}
+.h2>h1:after{height:8px}
 .h2>h2,
 .h3>h1{font-size:16px;line-height:1.25;border-bottom:1px dotted #ccc}
 .h3>h2{font-size:14px;line-height:1.25;color:#666}
-.x_table{border-bottom:1px solid #ddd}
-.x_table>caption{font-weight:bold;text-align:left;line-height:32px}
+.table{border-bottom:1px solid #ddd}
+.table>caption{font-weight:bold;text-align:left;line-height:32px}
 .content a[target="_blank"]:after{content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:-2px 0 0 2px;background:url(../common/img/glyphicons-halflings.png) no-repeat -120px -72px;opacity:.3;filter:alpha(opacity=30)}
 .content a[target="_blank"]:hover:after,
 .content a[target="_blank"]:focus:after{opacity:.7;filter:alpha(opacity=70)}
@@ -74,7 +84,7 @@ body{overflow:auto}
 .content blockquote:after{content:normal}
 .content blockquote p{font-size:inherit;line-height:normal}
 .content dd{margin-bottom:10px}
-.content .x_dl-horizontal>dd{margin-bottom:0}
+.content .dl-horizontal>dd{margin-bottom:0}
 </style>
 <!--[if lt IE 9]>
 <style>
@@ -178,7 +188,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					<section class="h3">
 						<h1 id="UMAN_program_list">설치 프로그램 목록</h1>
 						<p>웹 서버가 구축된 환경에서 XE 설치를 위해 필요한 프로그램 목록은 다음과 같습니다. WPI(Microsoft Web Platform Installer)나 APMsetup을 사용해서 XE를 설치할 경우에는 아래 프로그램이 자동으로 설치됩니다. 그렇지 않은 경우에는 필요한 프로그램과 라이브러리를 미리 확인하여 설치해야 합니다.</p>
-						<table class="x_table">
+						<table class="table">
 							<caption>
 							설치 프로그램 목록
 							</caption>
@@ -629,7 +639,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 								<figure> <img src="img/make_general_site/home_page2.PNG" width="1188" height="266" alt="Content 위젯 선택"> </figure>
 							</li>
 							<li> 위젯 코드 생성 창이 나타나면 다음과 같이 필요한 항목을 입력하고 코드생성을 클릭합니다.
-								<dl class="x_dl-horizontal">
+								<dl class="dl-horizontal">
 									<dt>위젯: </dt>
 									<dd>Content 위젯 ver 0.1</dd>
 									<dt>스킨: </dt>
@@ -691,7 +701,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 							<li>추가된 위젯 영역 위로 마우스 커서를 움직여서 위젯 영역 왼쪽 윗부분에 표시되는 아이콘 메뉴 중 위젯 스타일 추가(<img width="18" height="16" src="img/image023.png" alt="위젯 스타일 추가 버튼">)를 클릭합니다.</li>
 							<li>위젯 스타일 팝업 창이 나타나면 적용할 위젯 스타일로 심플 스트롱을 선택하고 설정을 클릭합니다.</li>
 							<li> 위젯 스타일을 설정하는 화면이 나타나면 다음과 같이 설정합니다.
-								<dl class="x_dl-horizontal">
+								<dl class="dl-horizontal">
 									<dt>컬러셋: </dt>
 									<dd>하얀색</dd>
 									<dt>제목: </dt>
@@ -707,7 +717,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 							</li>
 							<li> 나머지 두 게시판과 연동되는 위젯을 생성하고 위젯 스타일을 적용합니다.
 								<p>공지사항 코드를 생성할 때 아래의 설정 정보 외에 다른 내용은 모두 자유게시판 위젯을 생성할 때 입력한 내용과 동일하므로, 자유게시판 위젯 생성 과정을 참고하여 진행합니다.</p>
-								<dl class="x_dl-horizontal">
+								<dl class="dl-horizontal">
 									<dt>내용형태: </dt>
 									<dd>제목</dd>
 									<dt>표시항목 및 순서: </dt>
@@ -716,7 +726,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 									<dd>추가를 클릭하고 모듈 선택 팝업에서 모듈에 공지사항을 선택</dd>
 								</dl>
 								<p>등업게시판 코드를 생성할 때도 아래의 설정 정보 외에 다른 내용은 모두 자유게시판 위젯을 생성할 때 입력한 내용과 동일합니다.</p>
-								<dl class="x_dl-horizontal">
+								<dl class="dl-horizontal">
 									<dt>내용형태: </dt>
 									<dd>제목</dd>
 									<dt>표시항목 및 순서: </dt>
@@ -1308,12 +1318,12 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					<h1 id="UMAN_linux_command">Linux 명령어</h1>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_compression">파일 압축 및 해제 명령어 - tar</h1>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>사용 형식:</dt> 
 							<dd>tar &lt;Operation&gt; [Options] (디렉터리 경로 또는 압축파일 경로)</dd>
 						</dl>
 						<h2 id="UMAN_operation_with_file_compression">&lt;Operation&gt;</h2>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>[-]A: </dt>
 							<dd>압축 파일에 tar 파일 추가</dd>
 							<dt>[-]c: </dt>
@@ -1332,7 +1342,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 							<dd>압축 파일에서 파일 삭제</dd>
 						</dl>
 						<h2 id="UMAN_commonoption_with_file_compression">&lt;Common Options&gt;</h2>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>-C: </dt>
 							<dd>압축 파일을 해제할 위치 지정</dd>
 							<dt>-f: </dt>
@@ -1349,12 +1359,12 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_delete">파일 및 디렉터리 삭제 명령어 - rm</h1>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>사용 형식: </dt>
 							<dd>rm [Option] (파일 또는 디렉터리 경로)</dd>
 						</dl>
 						<h2 id="UMAN_option_with_file_delete">[Option]</h2>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>[-]f: </dt>
 							<dd>삭제할 파일을 추가 확인 없이 강제로 삭제</dd>
 							<dt>[-]r: </dt>
@@ -1365,12 +1375,12 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_move">파일 및 디렉터리 이동 명령어 - mv</h1>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>사용 형식: </dt>
 							<dd>mv [option] (파일 또는 디렉터리 경로) (파일 이름 또는 디렉터리 경로)</dd>
 						</dl>
 						<h2 id="UMAN_option_with_file_move">[Option]</h2>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>[-]b: </dt>
 							<dd>대상 파일이 있는 경우 덮어 쓰기 전 백업 파일 생성</dd>
 							<dt>[-]f: </dt>
@@ -1383,24 +1393,24 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_makedir">디렉터리 생성 명령어 - mkdir</h1>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>사용 형식: </dt>
 							<dd>mkdir [Option] (디렉터리 이름)</dd>
 						</dl>
 						<h2 id="UMAN_option_with_file_makedir">[Option]</h2>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>[-]p: </dt>
 							<dd>최종 디렉터리 이름의 상위 디렉터리가 없으면 상위 디렉터리까지 모두 생성</dd>
 						</dl>
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_file_chmod">파일 및 디렉터리 권한 변경 명령어 - chmod</h1>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>사용 형식: </dt>
 							<dd>chmod [Option] &lt;mode&gt; (파일 또는 디렉터리 경로)</dd>
 						</dl>
 						<h2 id="UMAN_option_with_file_chmod">[Option]</h2>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>[-]c: </dt>
 							<dd>실제로 파일의 권한이 바뀐 파일만 출력</dd>
 							<dt>[-]f: </dt>
@@ -1412,7 +1422,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						</dl>
 						<h2 id="UMAN_mode_with_file_chmod">&lt;mode&gt;</h2>
 						<p>파일 및 디렉터리가 가질 수 있는 권한은 r(read 읽기), w(write 쓰기), x(execute 실행) 이렇게 세 가지입니다. 각 권한은 아래 표와 같이 고유의 값을 가지며, 이 값을 더한 값으로 mode를 생성할 수 있습니다.</p>
-						<table class="x_table">
+						<table class="table">
 							<thead>
 								<tr>
 									<th scope="col" colspan="3">User</th>
@@ -1454,12 +1464,12 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					</section>
 					<section class="h3">
 						<h1 id="UMAN_command_with_useradd">계정 생성 명령어 - useradd</h1>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>사용형식:</dt> 
 							<dd>useradd [Option] (계정이름)</dd>
 						</dl>
 						<h2 id="UMAN_option_with_useradd">[Option]</h2>
-						<dl class="x_dl-horizontal">
+						<dl class="dl-horizontal">
 							<dt>[-]u: </dt>
 							<dd>사용자 ID</dd>
 							<dt>[-]g: </dt>
@@ -1475,7 +1485,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						<p>이 절에서는 XE를 설치 및 설정할 때 발생할 수 있는 오류와 해결 방법을 설명합니다.</p>
 						<section class="h3">
 							<h1 id="UMAN_error_mysql_minversion">MySQL 최소 버전 오류</h1>
-							<dl class="x_dl-horizontal">
+							<dl class="dl-horizontal">
 								<dt>오류 사항: </dt>
 								<dd>&quot;XE cannot be installed under the version of MySQL 4.1. Current MySQL version is x.x.x-log&quot; 메시지가 나타납니다.</dd>
 								<dt>원인: </dt>
@@ -1486,7 +1496,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						</section>
 						<section class="h3">
 							<h1 id="UMAN_error_db_account">DB 계정 정보 오류</h1>
-							<dl class="x_dl-horizontal">
+							<dl class="dl-horizontal">
 								<dt>오류 사항: </dt>
 								<dd>&quot;Access denied for user 'xxx'@'xxxx' (using password: YES) xxx&quot; 메시지가 나타납니다.</dd>
 								<dt>원인: </dt>
@@ -1500,7 +1510,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 							<figure> <img src="img/install/install_condition_check_error.PNG" width="814" height="402" alt="권한 설정 누락 오류 화면">
 								<figcaption>권한 설정 누락 오류 화면</figcaption>
 							</figure>
-							<dl class="x_dl-horizontal">
+							<dl class="dl-horizontal">
 								<dt>오류 사항: </dt>
 								<dd>&quot;[필수] XE의 설치 경로 또는 ./files 디렉터리의 퍼미션이 707이어야 합니다.&quot; 메시지가 나타납니다.</dd>
 								<dt>원인: </dt>
@@ -1521,7 +1531,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 									<figure> <img src="img/image059.jpg" width="340" height="330" alt="XE 의 사용권한"> </figure>
 								</li>
 								<li> IIS_IUSRS에도 동일하게 모든 권한을 적용하도록 설정합니다.</li>
-								<dl class="x_dl-horizontal">
+								<dl class="dl-horizontal">
 									<dt>해결 방법(Linux):</dt> 
 									<dd>XE 설치 경로에 files 디렉터리가 있는지 확인합니다.</dd>
 								</dl>
@@ -1531,7 +1541,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						</section>
 						<section class="h3">
 							<h1 id="UMAN_error_ftp_path">쉬운 설치 진행 시 FTP 홈 디렉터리 설정 오류</h1>
-							<dl class="x_dl-horizontal">
+							<dl class="dl-horizontal">
 								<dt>오류 사항: </dt>
 								<dd>&quot;msg_make_directory_failed&quot; 메시지가 나타납니다.</dd>
 								<dt>원인: </dt>
@@ -1588,18 +1598,18 @@ jQuery(function($){
 	// LNB icon button
 	var $lnb = $('.lnb');
 	$lnb.find('ol ol').parent().prepend('<button type="button">Toggle</button>');
-	$lnb.find('ol ol:visible').siblings('button').addClass('x_icon-folder-open');
-	$lnb.find('ol ol:hidden').siblings('button').addClass('x_icon-folder-close');
+	$lnb.find('ol ol:visible').siblings('button').addClass('icon-folder-open');
+	$lnb.find('ol ol:hidden').siblings('button').addClass('icon-folder-close');
 	var $btn = $lnb.find('li>button');
 	$btn.click(function(){
 		var $this = $(this);
-		if($this.hasClass('x_icon-folder-open')){
-			$this.removeClass('x_icon-folder-open').addClass('x_icon-folder-close').siblings('ol').slideUp(100);
+		if($this.hasClass('icon-folder-open')){
+			$this.removeClass('icon-folder-open').addClass('icon-folder-close').siblings('ol').slideUp(100);
 		} else {
-			$this.removeClass('x_icon-folder-close').addClass('x_icon-folder-open').siblings('ol').slideDown(100);
+			$this.removeClass('icon-folder-close').addClass('icon-folder-open').siblings('ol').slideDown(100);
 		}
 	});
-	$lnb.find('a:only-child').before('<i class="x_icon-file"></i>');
+	$lnb.find('a:only-child').before('<i class="icon-file"></i>');
 	// LNB Show/Hide by Resize 
 	$(window).resize(function(){
 		var ww = $(window).width();
@@ -1613,12 +1623,16 @@ jQuery(function($){
 	$lnb.find('>button').click(function(){
 		$(this).next().slideToggle(100);
 	});
+	// Tabindex & Anchor
+	$('h1[id], h2[id]').attr('tabindex','0').each(function(){
+		$(this).append('<a href="">#</a>').find('>a').attr('href', '#'+$(this).attr('id'));
+	});
 	// Active link style
 	$lnb.find('a').click(function(){
 		var $this = $(this);
 		$lnb.find('a').removeClass('active');
 		$this.addClass('active');
-		$($this.attr('href')).attr('tabindex','0').focus();
+		$($this.attr('href')).focus();
 	});
 });
 </script>
