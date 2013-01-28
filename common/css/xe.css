@@ -5,9 +5,7 @@ body,table,input,textarea,select,button{font-family:Tahoma,Geneva,sans-serif;fon
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display: block}
 body{word-wrap:break-word}
 a img{border:0}
-[hidden],
-[hidden][id],
-[hidden][class]{display:none}
+[hidden]{display:none}
 .xe_content img{max-width:100%;height:auto}
 @media \0screen{.xe_content img{max-width:none}}
 /* Button Area */

@@ -15,6 +15,7 @@ body>.x,
 .x em,
 .x dfn{font-style:normal}
 .x [disabled]{cursor:not-allowed}
+.x [hidden]{display:none}
 .x a[target="_blank"]:after{ content:"";display:inline-block;width:14px;height:14px;vertical-align:middle;margin:-2px 0 0 2px;background-position:-120px -72px;opacity:.3;filter:alpha(opacity=30)}
 .x a[target="_blank"]:hover:after,
 .x a[target="_blank"]:focus:after{opacity:.7;filter:alpha(opacity=70)}
