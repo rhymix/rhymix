@@ -252,26 +252,64 @@ class fileController extends file
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'before', $file_obj);
 		if(!$output->toBool()) return $this->stop(($output->message)?$output->message:'msg_not_permitted_download');
-		// File Output
+
+
+		// 다운로드 후 (가상)
+		// Increase download_count
+		$args->file_srl = $file_srl;
+		executeQuery('file.updateFileDownloadCount', $args);
+		// Call a trigger (after)
+		$output = ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
+
+		$file_key = $_SESSION['__FILE_KEY__'][$file_srl] = hash('md5',rand());
+		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput','file_srl',$file_srl,'file_key',$file_key));
+		Context::close();
+		exit();
+
+	}
+
+	public function procFileOutput()
+	{
+		$oFileModel = &getModel('file');
+		$file_srl = Context::get('file_srl');
+		$file_key = Context::get('file_key');
+		if(strstr($_SERVER['HTTP_USER_AGENT'], "Android")) $is_android = true;
+
+		if($is_android && $_SESSION['__FILE_KEY_AND__'][$file_srl]) $session_key = '__FILE_KEY_AND__';
+		else $session_key = '__FILE_KEY__';
+		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
+		$file_obj = $oFileModel->getFile($file_srl, $columnList);
+
+		$uploaded_filename = $file_obj->uploaded_filename;
+
+		if(!file_exists($uploaded_filename)) return $this->stop('msg_file_not_found');
+		print_r($_SESSION[$session_key][$file_srl]);
+	$_SESSION[$session_key][$file_srl];	
+		exit;
+		if(!$file_key || $_SESSION[$session_key][$file_srl] != $file_key)
+		{
+			unset($_SESSION[$session_key][$file_srl]);
+			return $this->stop('invalid_request');
+		}
+		
+		$file_size = $file_obj->file_size;
+		$filename = $file_obj->source_filename;
 		if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
 		{
 			$filename = rawurlencode($filename);
 			$filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
 		}
 
-		$uploaded_filename = $file_obj->uploaded_filename;
-		if(!file_exists($uploaded_filename)) return $this->stop('msg_file_not_found');
-
 		$fp = fopen($uploaded_filename, 'rb');
 		if(!$fp) return $this->stop('msg_file_not_found');
 
-		header("Cache-Control: "); 
+		header("Cache-Control: ");
 		header("Pragma: "); 
 		header("Content-Type: application/octet-stream"); 
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); 
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
-		header("Content-Length: " .(string)($file_obj->file_size)); 
-		header('Content-Disposition: attachment; filename="'.$filename.'"'); 
+		header("Content-Length: " .(string)($file_size)); 
+		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		header("Content-Transfer-Encoding: binary\n"); 
 
 		// if file size is lager than 10MB, use fread function (#18675748)
@@ -285,11 +323,13 @@ class fileController extends file
 			fpassthru($fp); 
 		}
 
-		// Increase download_count
-		$args->file_srl = $file_srl;
-		executeQuery('file.updateFileDownloadCount', $args);
-		// Call a trigger (after)
-		$output = ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
+
+		if($is_android)
+		{
+			if($_SESSION['__FILE_KEY__'][$file_srl]) $_SESSION['__FILE_KEY_ADNROID__'][$file_srl] = $file_key;
+		}
+
+		unset($_SESSION[$session_key][$file_srl]);
 
 		Context::close();
 
