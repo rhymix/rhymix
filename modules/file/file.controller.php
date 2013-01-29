@@ -283,9 +283,7 @@ class fileController extends file
 		$uploaded_filename = $file_obj->uploaded_filename;
 
 		if(!file_exists($uploaded_filename)) return $this->stop('msg_file_not_found');
-		print_r($_SESSION[$session_key][$file_srl]);
-	$_SESSION[$session_key][$file_srl];	
-		exit;
+		$_SESSION[$session_key][$file_srl];
 		if(!$file_key || $_SESSION[$session_key][$file_srl] != $file_key)
 		{
 			unset($_SESSION[$session_key][$file_srl]);
