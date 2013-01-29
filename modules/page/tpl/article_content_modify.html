@@ -17,10 +17,10 @@
 	<div class="btnArea">
         <!--@if($is_logged)-->
 		<!--@if(!$oDocument->isExists() || $oDocument->get('status') == 'TEMP')-->
-        <span class="btn"><button type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button></span>
-        <span class="btn"><button type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button></span>
+        <button class="btn" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
+        <button class="btn" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
 		<!--@end-->
         <!--@end-->
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+		<input class="btn" type="submit" value="{$lang->cmd_registration}" />
 	</div>
 </form>
