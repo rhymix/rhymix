@@ -1141,7 +1141,7 @@ function clearInputs($elm){
 
 function setItemTypes(htTypes){
 	var $ = jQuery;
-	
+$.test=htTypes;
 	$._xeAdminVar.htItemTypes = htTypes || {};
 
 	$._xeAdminVar.htItemTypes._SHORTCUT = {
@@ -2749,19 +2749,18 @@ jQuery(function($){
 			$._xeAdminVar.sOpenDeisgnWith = "P";
 		//});
 	});
-	
 	$('#design ._btn_save').click(function(ev){
 		ev.preventDefault();
-
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
-		
+
 		//var sLayoutSrl = $._xeAdminVar.htSelectedMenuDesign.htLayoutSrl[sMode];
 		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
 		var htSkins = {};
+		var item;
 		for(var sModuleName in $._xeAdminVar.htItemTypes){
 			if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
 			if(sModuleName === "_SHORTCUT") continue;
-			
+
 			item = $._xeAdminVar.htItemTypes[sModuleName];
 			sModuleTitle = item.title;
 			
@@ -2774,7 +2773,7 @@ jQuery(function($){
 			target_type : sMode,
 			module_skin : $.stringify(htSkins)
 		}; 
-		
+
 		//console.log(htParam);
 
 		jQuery.exec_json("admin.procAdminInsertDefaultDesignInfo", htParam, function(htData){
@@ -3508,7 +3507,6 @@ jQuery(function($){
 			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.skin = sSkinName;
 			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.title = sSkinTitle;
 		}
-
 		<!--@end-->
 		
 		htDesign.sSkinName = sSkinName;

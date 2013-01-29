@@ -191,7 +191,9 @@ body>.x,
 .x_modal._common {width:600px;margin-left:-300px}
 .x_modal._common._small{width:400px;margin-left:-200px}
 .x_modal._common._nobody .x_modal-body,
+.x_modal._common._type_alert .x_modal-header,
 .x_modal._common._type_alert ._cancel{display:none}
+.x_modal._common._type_alert .x_modal-body{border-radius:6px 6px 0 0;}
 .x_modal._common._nobody .x_modal-footer{border-top:0}
 .x_modal-body.showTree .moveList{float:left;width:60%}
 .x_modal-body.showTree .moveTree{display:block !important;float:right;width:38%}

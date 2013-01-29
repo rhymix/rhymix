@@ -1106,12 +1106,12 @@ jQuery(function($){
 		
 		this.showMsgBox(htOptions);
 	}
-	$.xeMsgBox.alert = function(sTitle){
+	$.xeMsgBox.alert = function(sText){
 		htOptions = {
 			bAlert : true,
 			bNobody : true,
 			bSmall: true,
-			sTitle : sTitle
+			sText : sText
 		};
 		
 		this.showMsgBox(htOptions);
