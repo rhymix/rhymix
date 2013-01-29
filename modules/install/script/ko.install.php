@@ -145,6 +145,7 @@ if(!$output->toBool()) return $output;
 $document_srl = $output->get('document_srl');
 
 unset($obj->document_srl);
+$obj->title = 'Welcome mobile XE';
 $output = $oDocumentController->insertDocument($obj);
 if(!$output->toBool()) return $output;
 
