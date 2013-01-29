@@ -53,7 +53,7 @@ function addLayoutCopyInputbox()
 {
 	var html = '<tr>';
 	html += '<td><input type="text" name="title[]" size="50" /></td>';
-	html += '<td><span class="btn"><input type="button" value="'+addLang+'" onclick="addLayoutCopyInputbox()" /></span></td>';
+	html += '<td><input class="btn" type="button" value="'+addLang+'" onclick="addLayoutCopyInputbox()" /></td>';
 	html += '</tr>';
 
 	var it  = jQuery('#inputTable');

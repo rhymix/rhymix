@@ -61,7 +61,7 @@ class integration_searchAdminView extends integration_search
 		$security->encodeHTML('skin_list..title');
 
 		// Sample Code
-		Context::set('sample_code', htmlspecialchars('<form action="{getUrl()}" method="get"><input type="hidden" name="vid" value="{$vid}" /><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" name="is_keyword"  value="{$is_keyword}" /><span class="btn"><input type="submit" value="{$lang->cmd_search}" /></span></form>') );
+		Context::set('sample_code', htmlspecialchars('<form action="{getUrl()}" method="get"><input type="hidden" name="vid" value="{$vid}" /><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" name="is_keyword"  value="{$is_keyword}" /><input class="btn" type="submit" value="{$lang->cmd_search}" /></form>') );
 
 		$this->setTemplateFile("index");
 	}
