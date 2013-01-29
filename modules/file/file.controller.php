@@ -261,7 +261,7 @@ class fileController extends file
 		// Call a trigger (after)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
 
-		$file_key = $_SESSION['__FILE_KEY__'][$file_srl] = hash('md5',rand());
+		$file_key = $_SESSION['__XE_FILE_KEY__'][$file_srl] = hash('md5',rand());
 		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput','file_srl',$file_srl,'file_key',$file_key));
 		Context::close();
 		exit();
@@ -275,19 +275,19 @@ class fileController extends file
 		$file_key = Context::get('file_key');
 		if(strstr($_SERVER['HTTP_USER_AGENT'], "Android")) $is_android = true;
 
-		if($is_android && $_SESSION['__FILE_KEY_AND__'][$file_srl]) $session_key = '__FILE_KEY_AND__';
-		else $session_key = '__FILE_KEY__';
+		if($is_android && $_SESSION['__XE_FILE_KEY_AND__'][$file_srl]) $session_key = '__XE_FILE_KEY_AND__';
+		else $session_key = '__XE_FILE_KEY__';
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
 		$file_obj = $oFileModel->getFile($file_srl, $columnList);
 
 		$uploaded_filename = $file_obj->uploaded_filename;
 
 		if(!file_exists($uploaded_filename)) return $this->stop('msg_file_not_found');
-		$_SESSION[$session_key][$file_srl];
+		
 		if(!$file_key || $_SESSION[$session_key][$file_srl] != $file_key)
 		{
 			unset($_SESSION[$session_key][$file_srl]);
-			return $this->stop('invalid_request');
+			return $this->stop('msg_invalid_request');
 		}
 		
 		$file_size = $file_obj->file_size;
@@ -297,6 +297,13 @@ class fileController extends file
 			$filename = rawurlencode($filename);
 			$filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
 		}
+
+		if($is_android)
+		{
+			if($_SESSION['__XE_FILE_KEY__'][$file_srl]) $_SESSION['__XE_FILE_KEY_AND__'][$file_srl] = $file_key;
+		}
+
+		unset($_SESSION[$session_key][$file_srl]);
 
 		$fp = fopen($uploaded_filename, 'rb');
 		if(!$fp) return $this->stop('msg_file_not_found');
@@ -320,14 +327,6 @@ class fileController extends file
 		{
 			fpassthru($fp); 
 		}
-
-
-		if($is_android)
-		{
-			if($_SESSION['__FILE_KEY__'][$file_srl]) $_SESSION['__FILE_KEY_ADNROID__'][$file_srl] = $file_key;
-		}
-
-		unset($_SESSION[$session_key][$file_srl]);
 
 		Context::close();
 
