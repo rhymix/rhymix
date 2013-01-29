@@ -21,10 +21,6 @@ function completeInstallModule(ret_obj) {
 jQuery(function($){
 // iSO mobile device toolbar remove
 	window.scrollTo(0,0);
-// Skip to content
-	$('.x .skipNav>a').click(function(){
-		$($(this).attr('href')).attr('tabindex','0').css('outline','0').focus();
-	});
 // TARGET toggle
 	$(document.body).on('click', '.x [data-toggle]', function(){
 		var $this = $(this);
