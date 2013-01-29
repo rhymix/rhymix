@@ -40,7 +40,7 @@
 .x select,
 .x textarea{margin:0;font-size:100%;vertical-align:middle}
 .x button,
-.x input{*overflow:visible;line-height:normal}
+.x input{*overflow:visible}
 .x button::-moz-focus-inner, 
 .x input::-moz-focus-inner{padding:0;border:0}
 .x button,
@@ -280,7 +280,7 @@
 .x input,
 .x button,
 .x select,
-.x textarea{font-size:14px;font-weight:normal;line-height:20px}
+.x textarea{font-size:14px;font-weight:normal}
 .x input,
 .x button,
 .x select,

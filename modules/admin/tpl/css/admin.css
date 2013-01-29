@@ -54,6 +54,7 @@ body>.x,
 .x .x_pagination [id^="goTo"]>*{border:0;border-radius:0}
 .x .x_pagination [id^="goTo"]>[type="number"]{height:16px;line-height:16px;width:50px;text-align:center}
 .x .x_pagination [id^="goTo"]>[type="submit"]{line-height:24px;height:24px;padding:0 6px}
+.x .btn{color:#333}
 .x .x_btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px;text-decoration:none !important}
 .x .x_btn-large{font-size:16px;padding:9px 14px;font-weight:bold}
 .x .x_btn-small{font-size:14px}
@@ -133,9 +134,6 @@ body>.x,
 .x input[type="tel"], 
 .x input[type="color"], 
 .x_uneditable-input{height:16px}
-.x label, 
-.x input, 
-.x button{line-height:16px}
 .x select{padding:0;height:26px;line-height:26px}
 .x select[multiple]{height:auto}
 .x textarea{vertical-align:top}
