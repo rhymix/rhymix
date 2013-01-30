@@ -1,33 +1,24 @@
 <load target="js/widget.js" usecdn="true" />
 <load target="css/widget.css" usecdn="true" />
-
-<div class="x" style="padding: 0 10px;">
-
-	<h2 class="h2">{$lang->cmd_content_insert}</h2>
-
-	<form action="./" method="get" onsubmit="return addContentWidget(this); return false;" id="content_fo">
-		<input type="hidden" name="content" value="{$oDocument->getContentText()}" />
-		<input type="hidden" name="mid" value="{$module_info->mid}" />
-		<input type="hidden" name="module_srl" value="{$module_srl}" />
-		<input type="hidden" name="document_srl" value="{$document_srl}" />
-		<input type="hidden" name="style" value="float:left;padding:none;margin:none;width:100%;" />
-		<input type="hidden" name="widget_padding_left" value="" />
-		<input type="hidden" name="widget_padding_right" value="" />
-		<input type="hidden" name="widget_padding_top" value="" />
-		<input type="hidden" name="widget_padding_bottom" value="" />
-
+<form action="./" method="get" onsubmit="return addContentWidget(this); return false;" id="content_fo">
+	<input type="hidden" name="content" value="{$oDocument->getContentText()}" />
+	<input type="hidden" name="mid" value="{$module_info->mid}" />
+	<input type="hidden" name="module_srl" value="{$module_srl}" />
+	<input type="hidden" name="document_srl" value="{$document_srl}" />
+	<input type="hidden" name="style" value="float:left;padding:none;margin:none;width:100%;" />
+	<input type="hidden" name="widget_padding_left" value="" />
+	<input type="hidden" name="widget_padding_right" value="" />
+	<input type="hidden" name="widget_padding_top" value="" />
+	<input type="hidden" name="widget_padding_bottom" value="" />
+	<div class="x_modal-header">
+		<h1>{$lang->cmd_content_insert}</h1>
+	</div>
+	<div class="x_modal-body">
 		<div class="pageAddContent"></div>
-
-		<div class="editor">
-			{$editor}
-		</div>
-
-		<script>
-			xAddEventListener(window, 'load', doSyncPageContent);
-		</script>
-
-		<div class="btnArea">
-			<input class="btn" type="submit" value="{$lang->cmd_save}" class="editor_button" />
-		</div>
-	</form>
-</div>
+		<div class="editor">{$editor}</div>
+		<script>xAddEventListener(window, 'load', doSyncPageContent);</script>
+	</div>
+	<div class="x_modal-footer">
+		<input type="submit" value="{$lang->cmd_save}" class="x_btn x_btn-inverse" />
+	</div>
+</form>

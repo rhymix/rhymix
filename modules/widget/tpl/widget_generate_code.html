@@ -1,14 +1,11 @@
 <include cond="$in_admin" target="header.html" />
 <load target="js/generate_code.js" usecdn="true" />
-<div class="x_alert x_alert-info" hidden id="widgetInfo">
-	<p>{$widget_info->description}</p>
-</div>
-<form id="widget_code_form" class="x_form-horizontal section" action="./" method="post">
+<div class="x_alert x_alert-info" id="widgetInfo" hidden><p>{$widget_info->description}</p></div>
+<div class="x_alert x_alert-info" id="codeHelp" hidden><p>{$lang->about_widget_code}</p></div>
+<form id="widget_code_form" class="x_form-horizontal" action="./" method="post">
 	<input type="hidden" name="module" value="widget" />
 	<input type="hidden" name="act" value="procWidgetGenerateCode" />
 	<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
-	<h1>{$lang->cmd_generate_code} <a href="#codeHelp" class="x_icon-question-sign" data-toggle style="vertical-align:middle">{$lang->help}</a></h1>
-	<div class="x_alert x_alert-info" id="codeHelp" hidden><p>{$lang->about_widget_code}</p></div>
 	<include target="widget_generate_code.include.html" />
 	<div class="x_clearfix btnArea">
 		<a href="{getUrl('', 'module', 'admin', 'act', 'dispWidgetAdminDownloadedList')}" class="x_btn x_pull-left">{$lang->cmd_list}</a>

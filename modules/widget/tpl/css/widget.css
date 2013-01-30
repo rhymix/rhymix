@@ -26,7 +26,7 @@
 .widgetButtons .widgetBoxCopy{background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px;width:14px;height:14px;cursor:pointer;z-index:1000}
 .widgetButtons .widgetBoxSize{background:transparent url("../images/widget_size.gif") no-repeat 1px 1px;width:14px;height:14px;cursor:pointer;z-index:1000}
 .widgetButtons .widgetBoxRemove{background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px;width:14px;height:14px;cursor:pointer;z-index:1000}
-#pageSizeLayer{width:500px;overflow:hidden;border:1px solid #888;background:#fff;z-index:1999;position:absolute}
+/*#pageSizeLayer{width:500px;overflow:hidden;border:1px solid #888;background:#fff;z-index:1999;position:absolute}
 #pageSizeLayer table{border:0;width:100%;table-layout:fixed}
 #pageSizeLayer table th{padding:4px 0 4px 0;background-color:#DEDEDE;text-align:center;color:#888}
 #pageSizeLayer table th.line {border-top:1px dotted #eee}
@@ -38,7 +38,7 @@
 #pageSizeLayer .full_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:90%}
 #pageSizeLayer .small_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:20px}
 #pageSizeLayer .color_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:44px}
-#pageSizeLayer .submit{width:90%;border:1px solid #DEDEDE;background-color:#fff}
+#pageSizeLayer .submit{width:90%;border:1px solid #DEDEDE;background-color:#fff}*/
 .help{padding:5px 0;background-color:#EFEFEF;border-top:1px solid #ccc}
 ul.midCommand{float:left;margin:0 0 0 10px;;padding:0;*zoom:1}
 ul.midCommand li{display:block;margin-bottom:5px;list-style:none}

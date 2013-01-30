@@ -114,6 +114,7 @@ class widgetView extends widget
 		$oWidgetModel = &getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
 		Context::set('widget_list',$widget_list);
+		Context::set('admin_bar','false');
 		// When there is no widget is selected in the first widget
 		if(!Context::get('selected_widget')) Context::set('selected_widget',$widget_list[0]->widget);
 
@@ -131,6 +132,7 @@ class widgetView extends widget
 		$oWidgetModel = &getModel('widget');
 		$widgetStyle_list = $oWidgetModel->getDownloadedWidgetStyleList();
 		Context::set('widgetStyle_list',$widgetStyle_list);
+		Context::set('admin_bar','false');
 		// Selected list of widget styles
 		$widgetstyle = Context::get('widgetstyle');
 		$widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetstyle);

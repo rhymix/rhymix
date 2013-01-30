@@ -1,13 +1,11 @@
-<load target="../../admin/tpl/js/admin.js" usecdn="true" />
+<load target="../../admin/tpl/css/admin.bootstrap.css" usecdn="true" />
 <load target="../../admin/tpl/css/admin.css" usecdn="true" />
 <load cond="$lang_type=='ko'" target="../../admin/tpl/css/admin_ko.css" usecdn="true" />
 <load cond="$lang_type=='en'" target="../../admin/tpl/css/admin_en.css" usecdn="true" />
+<load target="../../admin/tpl/js/admin.js" usecdn="true" />
 <load target="js/generate_code.js" usecdn="true" />
-<load target="../../../common/css/bootstrap.min.css" index="1" usecdn="true" />
 <load target="../../admin/tpl/js/jquery.tmpl.js" usecdn="true" />
 <load target="../../admin/tpl/js/jquery.jstree.js" usecdn="true" />
-<load target="../../admin/tpl/css/admin.bootstrap.css" usecdn="true" />
-
 <script>
 	xe.lang.cmd_delete = '{$lang->cmd_delete}';
 
@@ -15,37 +13,30 @@
 		doFillWidgetVars();
 	});
 </script>
-<div cond="$type=='faceoff'" class="x" style="padding: 0 10px;">
-	<form>
-	<input type="hidden" name="module" value="widget" />
-	<input type="hidden" name="type" value="faceoff" />
-	<input type="hidden" name="act" value="dispWidgetGenerateCodeInPage" />
-	<input type="hidden" name="error_return_url" value="" />
-
-	<h2>{$lang->widget}</h2>
-		<ul>
-			<li>
-				<p class="a">
-					<select name="selected_widget">
+<div class="x">
+	<div class="x_modal-header">
+		<h1>{$widget_info->title} {$lang->cmd_generate_code}</h1>
+	</div>
+	<div id="content" class="x_modal-body">
+		<p>{$widget_info->description} {$lang->about_widget_code_in_page}</p>
+		<form cond="$type=='faceoff'" class="x_form-horizontal">
+			<input type="hidden" name="module" value="widget" />
+			<input type="hidden" name="type" value="faceoff" />
+			<input type="hidden" name="act" value="dispWidgetGenerateCodeInPage" />
+			<input type="hidden" name="error_return_url" value="" />
+			<div class="x_control-group">
+				<label for="selected_widget" class="x_control-label">
+					{$lang->widget}
+				</label>
+				<div class="x_controls">
+					<select name="selected_widget" id="selected_widget" style="margin:0">
 						<option loop="$widget_list => $list_widget_info" value="{$list_widget_info->widget}">{$list_widget_info->title}</option>
 					</select>
-					<input type="submit" value="{$lang->cmd_select}" />
-				</p>
-			</li>
-		</ul>
-	</form>
-</div>
-<div class="x" style="padding: 10px">
-	<div class="x_page-header">
-		<h1>{$widget_info->title}</h1>
-	</div>
-	<p>{$widget_info->description}</p>
-
-	<div id="content" class="x_well">
-		<h2>{$lang->cmd_generate_code}</h2>
-		<p>{$lang->about_widget_code_in_page}</p>
-
-		<form class="x_form x_form-horizontal" action="./" method="post" id="fo_widget">
+					<input type="submit" value="{$lang->cmd_select}" class="x_btn" />
+				</div>
+			</div>
+		</form>
+		<form class="x_form-horizontal" action="./" method="post" id="fo_widget">
 			<input type="hidden" name="module" value="widget" />
 			<input type="hidden" name="module_srl" value="{$module_srl}" />
 			<input type="hidden" name="widget_sequence" value="" />

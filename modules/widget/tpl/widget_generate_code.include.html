@@ -2,12 +2,12 @@
 <load target="../../module/tpl/js/module_list.js" usecdn="true" />
 <load target="../../module/tpl/js/mid.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
-<div class="x_control-group" style="border-top:0;padding-top:0">
+<div class="x_control-group">
 	<label class="x_control-label" for="skin">{$lang->skin}</label>
 	<div class="x_controls">
 		<select name="skin" id="skin">
 			<option value="">{$lang->select}</option>
-			<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
+			<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title}({$skin_name})</option>
 		</select>
 		<input type="button" class="x_btn" value="{$lang->cmd_select}" />
 	</div>
