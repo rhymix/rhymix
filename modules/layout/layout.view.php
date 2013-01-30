@@ -206,7 +206,7 @@ class layoutView extends layout
 	 * Preview a layout
 	 * @return void|Object (void : success, Object : fail)
 	 */
-	function dispLayoutPreview() 
+	function dispLayoutPreview()
 	{
 		// admin check
 		// this act is admin view but in normal view because do not load admin css/js files
@@ -261,6 +261,7 @@ class layoutView extends layout
 		// Convert widgets and others
 		$oContext = &Context::getInstance();
 		Context::set('layout_tpl', $layout_tpl);
+		Context::set('admin_bar', 'false');
 		// Delete Temporary Files
 		FileHandler::removeFile($edited_layout_file);
 		$this->setTemplateFile('layout_preview');
