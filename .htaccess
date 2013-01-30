@@ -22,7 +22,9 @@ RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/(rss|atom|api)$ ./index.php?vid=$1&
 
 # trackback
 RewriteRule ^([0-9]+)/(.+)/trackback$ ./index.php?document_srl=$1&key=$2&act=trackback [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback$ ./index.php?mid=$1&document_srl=$2&key=$3&act=trackback [L]
 RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback$ ./index.php?vid=$1&document_srl=$2&key=$3&act=trackback [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback$ ./index.php?vid=$1&mid=$2&document_srl=$3&key=$4&act=trackback [L]
 
 # administrator page
 RewriteRule ^admin/?$ ./index.php?module=admin [L]
@@ -47,3 +49,6 @@ RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L,QSA]
 # vid + mid + entry title
 RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?vid=$1&mid=$2&entry=$3 [L,QSA]
 
+#shop / vid / [category|product] / identifier
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([a-zA-Z0-9_\.-]+)$ ./index.php?act=route&vid=$1&type=$2&identifier=$3 [L,QSA]

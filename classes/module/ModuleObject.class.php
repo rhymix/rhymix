@@ -30,6 +30,8 @@
 		var $module_config = NULL;
 		var $ajaxRequestMethod = array('XMLRPC', 'JSON');
 
+		var $gzhandler_enable = TRUE;
+
         /**
          * setter to set the name of module
          * @param string $module name of module

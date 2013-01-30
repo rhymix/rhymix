@@ -9,5 +9,6 @@
     <tag name="mid" />
     <tag name="document_srl" />
     <tag name="category_srl" />
+    <tag name="is_mobile" />
   </response>
 </filter>

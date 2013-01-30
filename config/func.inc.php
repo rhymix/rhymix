@@ -326,7 +326,7 @@
 		$request_uri = Context::getRequestUri();
         if(!$num_args) return $request_uri;
 
-        $url = Context::getUrl($num_args, $args_list);
+        $url = Context::getUrl($num_args, $args_list, null, false);
         if(!preg_match('/^http/i',$url)){
 			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
 			$url = Context::getUrl($num_args, $args_list, null, false);
@@ -780,7 +780,7 @@
 		$oEmbedFilter->check($content);
 
         // change the specific tags to the common texts
-        $content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet)(/*)[\w\s>])@i', '&lt;$1', $content);
+        $content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet)(/*).*?>)@i', '&lt;$1', $content);
 
         /**
          * Remove codes to abuse the admin session in src by tags of imaages and video postings
@@ -938,7 +938,7 @@
      **/
 	function getRequestUriByServerEnviroment()
 	{
-		return $_SERVER['REQUEST_URI'];
+		return removeHackTag($_SERVER['REQUEST_URI']);
 	}
 
     /**
@@ -1129,6 +1129,38 @@
 			set_include_path(_XE_PATH_."libs/PEAR.1.9");	
 
 		}
+	}
+
+	function checkCSRF()
+	{
+		if($_SERVER['REQUEST_METHOD'] != 'POST')
+		{
+			return false;
+		}
+
+		$defaultUrl = Context::getDefaultUrl();
+		$referer = parse_url($_SERVER["HTTP_REFERER"]);
+
+		$oModuleModel = &getModel('module');
+		$siteModuleInfo = $oModuleModel->getDefaultMid();
+
+		if($siteModuleInfo->site_srl == 0)
+		{
+			if(!strstr(strtolower($defaultUrl), strtolower($referer['host'])))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
+			if(strtolower($virtualSiteInfo->domain) != strtolower(Context::get('vid'))  && !strstr(strtolower($virtualSiteInfo->domain), strtolower($referer['host'])))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**

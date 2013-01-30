@@ -4,6 +4,7 @@ if(!defined('__XE__')) require dirname(__FILE__).'/../../Bootstrap.php';
 
 require_once _XE_PATH_.'classes/handler/Handler.class.php';
 require_once _XE_PATH_.'classes/frontendfile/FrontEndFileHandler.class.php';
+require_once _XE_PATH_.'classes/file/FileHandler.class.php';
 
 
 class FrontEndFileHandlerTest extends PHPUnit_Framework_TestCase
@@ -16,12 +17,12 @@ class FrontEndFileHandlerTest extends PHPUnit_Framework_TestCase
 		$handler = new FrontEndFileHandler();
 
 		// js(head)
-		$handler->loadFile(array('./common/js/jquery.js'));
+		$handler->loadFile(array('./common/js/jquery.min.js'));
 		$handler->loadFile(array('./common/js/js_app.js'));
 		$handler->loadFile(array('./common/js/common.js'));
 		$handler->loadFile(array('./common/js/xml_handler.js'));
 		$handler->loadFile(array('./common/js/xml_js_filter.js'));
-		
+
 		$expected[] = array('file' => '/xe/common/js/jquery.js', 'targetie' => '');
 		$expected[] = array('file' => '/xe/common/js/js_app.js', 'targetie' => '');
 		$expected[] = array('file' => '/xe/common/js/common.js', 'targetie' => '');

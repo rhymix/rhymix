@@ -90,10 +90,14 @@ function getScreen() {
 
 			$("#xe_gallery_controls,#xe_gallery_screen").css({
 				display:"block",
-				width  : clientWidth + "px",
-				height : clientHeight + "px",
-				left   : $(document).scrollLeft(),
-				top    : $(document).scrollTop()
+				width  : $(document).width() + "px",
+				height : $(document).height() + "px",
+				left   : 0,
+				top    : 0
+				//width  : clientWidth + "px",
+				//height : clientHeight + "px",
+				// left   : $(document).scrollLeft(),
+				// top    : $(document).scrollTop()
 			});
 
 			closebtn.css("left", Math.round((clientWidth-60)/2) + "px");
@@ -126,8 +130,13 @@ function getScreen() {
             if(!src) src = this.list.eq(this.index).attr("src");
 
 			imgframe.attr("src", src).css({
-				left : Math.round( Math.max( (clientWidth-imgframe.width()-14)/2, 0 ) ) + "px",
-				top  : Math.round( Math.max( (clientHeight-imgframe.height()-14)/2, 0 ) ) + "px"
+				left : Math.round( Math.max( parseInt($(document).scrollLeft()) + (clientWidth-imgframe.width()-14)/2, 0 ) ) + "px",
+				top  : Math.round( Math.max( parseInt($(document).scrollTop()) + (clientHeight-imgframe.height()-14)/2, 0 ) ) + "px"
+			});
+
+			closebtn.css({
+				left : Math.round( Math.max( parseInt($(document).scrollLeft()) + (clientWidth-closebtn.width())/2, 0 ) ) + "px",
+				top  : Math.round( Math.max( parseInt($(document).scrollTop()) + 10, 0 ) ) + "px"
 			});
 		};
 

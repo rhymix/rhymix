@@ -310,7 +310,7 @@
             if($default) $query .= sprintf(" default '%s' ", $default);
             if($notnull) $query .= " not null ";
 
-            $this->_query($query);
+            return $this->_query($query);
         }
 
 		/**
@@ -729,6 +729,12 @@
 				$data = $this->_fetch($result);
 				$buff = new Object ();
 				$buff->data = $data;
+
+				if($queryObject->usesClickCount())
+				{
+					$update_query = $this->getClickCountQuery($queryObject);
+					$this->_executeUpdateAct($update_query);
+				}
 			}
 			return $buff;
 		}

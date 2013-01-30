@@ -112,6 +112,9 @@
             // Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
             if(!$oModuleModel->getTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before')) return true;
 
+			// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+			if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'point', 'controller', 'triggerCopyModule', 'after')) return true;
+
             return false;
         }
 
@@ -155,6 +158,11 @@
             // Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
             if(!$oModuleModel->getTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before')) 
                 $oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');
+			// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+			if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'point', 'controller', 'triggerCopyModule', 'after'))
+			{
+				$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'point', 'controller', 'triggerCopyModule', 'after');
+			}
 
             return new Object(0, 'success_updated');
         }

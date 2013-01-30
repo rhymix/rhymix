@@ -1,5 +1,8 @@
 <include target="./common_header.html" />
 <load target="filter/find_member_account.xml" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <h2 class="h2">{$lang->cmd_find_member_account_with_email}</h2>
 <p>{$lang->about_find_member_account}</p>
 <form action="./" method="get" class="form" onsubmit="return procFilter(this, find_member_account)">

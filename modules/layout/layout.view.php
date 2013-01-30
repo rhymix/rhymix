@@ -44,9 +44,6 @@
             $layout_srl = Context::get('layout_srl');
             $code = Context::get('code');
 
-			$code = preg_replace('/<\?.*(\?>)?/Usm', '', $code);
-			$code = preg_replace('/<script[\s]*language[\s]*=("|\')php("|\')[\s]*>.*<\/script>/Usm', '', $code);
-
             $code_css = Context::get('code_css');
             if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
             // Get the layout information

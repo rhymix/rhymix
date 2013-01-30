@@ -388,7 +388,7 @@
 	            $memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 				$this->memberInfo->password = $memberInfo->password;
 			}
-            // Verify the cuttent password
+            // Verify the current password
             if(!$oMemberModel->isValidPassword($this->memberInfo->password, $password))
 			{
 				return new Object(-1, 'invalid_password');
@@ -396,7 +396,7 @@
 
 			$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
 
-			$redirectUrl = getUrl('', 'act', 'dispMemberModifyInfo');
+			$redirectUrl = getNotEncodedUrl('', 'act', 'dispMemberModifyInfo');
 			$this->setRedirectUrl($redirectUrl);
 
 		}
@@ -436,6 +436,7 @@
             // Login Information
             $logged_info = Context::get('logged_info');
             $args->member_srl = $logged_info->member_srl;
+			$args->birthday = strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>''));
             // Remove some unnecessary variables from all the vars
             $all_args = Context::getRequestVars();
             unset($all_args->module);
@@ -1020,7 +1021,7 @@
             }
             // Get content of the email to send a member
             Context::set('auth_args', $auth_args);
-            Context::set('member_info', $member_info);
+            Context::set('memberInfo', $member_info);
 
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
@@ -1081,7 +1082,7 @@
             if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
             $auth_info = $output->data[0];
             // Get content of the email to send a member
-            Context::set('member_info', $memberInfo);
+            Context::set('memberInfo', $memberInfo);
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
             if(!$member_config->skin) $member_config->skin = "default";
@@ -1555,37 +1556,45 @@
             // Update the latest login time
             $args->member_srl = $this->memberInfo->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
-			// check if there is login fail records.
-			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
-			if($output->data && $output->data->content)
-			{
-				$title = Context::getLang('login_fail_report');
-				$message = '<ul>';
-				$content = unserialize($output->data->content);
-				foreach($content as $val)
-				{
-					$message .= '<li>'.date('Y-m-d H:i:s P',$val[2]).'<br /> Access IP: '.$val[0].'<br /> Message: '.$val[1].'</li>';
-				}
-				$message .= '</ul>';
-				$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d H:i:s P'));
 
-				//send message
-				$oCommunicationController = &getController('communication');
-				$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true);
-				
-				if($this->memberInfo->email_address && $this->memberInfo->allow_mailing == 'Y')
+			// Check if there is recoding table.
+			$oDB = &DB::getInstance();
+			if($oDB->isTableExists('member_count_history') && $config->enable_login_fail_report != 'N')
+			{
+				// check if there is login fail records.
+				$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
+				if($output->data && $output->data->content)
 				{
-					$view_url = Context::getRequestUri();
-					$title = sprintf("%s @ %s",$title,$view_url);
-					$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $this->memberInfo->nick_name, $this->memberInfo->email_id);
-					$oMail = new Mail();
-					$oMail->setTitle($title);
-					$oMail->setContent($content);
-					$oMail->setSender($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
-					$oMail->setReceiptor($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
-					$oMail->send();
+					$title = Context::getLang('login_fail_report');
+					$message = '<ul>';
+					$content = unserialize($output->data->content);
+					if(count($content) > $config->max_error_count)
+					{
+						foreach($content as $val)
+						{
+							$message .= '<li>'.date('Y-m-d H:i:s P',$val[2]).'<br /> Access IP: '.$val[0].'<br /> Message: '.$val[1].'</li>';
+						}
+						$message .= '</ul>';
+						$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d H:i:s P'));
+
+						//send message
+						$oCommunicationController = &getController('communication');
+						$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true);
+
+						if($this->memberInfo->email_address && $this->memberInfo->allow_mailing == 'Y')
+						{
+							$view_url = Context::getRequestUri();
+							$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $this->memberInfo->nick_name, $this->memberInfo->email_id);
+							$oMail = new Mail();
+							$oMail->setTitle($title);
+							$oMail->setContent($content);
+							$oMail->setSender($config->webmaster_name?$config->webmaster_name:'webmaster', $config->webmaster_email);
+							$oMail->setReceiptor($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
+							$oMail->send();
+						}
+						$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
+					}
 				}
-				$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
 			}
             // Call a trigger after successfully log-in (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
@@ -2047,6 +2056,10 @@
          **/
         function destroySessionInfo() {
             if(!$_SESSION || !is_array($_SESSION)) return;
+
+			$memberInfo = Context::get('logged_info');
+			$memberSrl = $memberInfo->member_srl;
+
             foreach($_SESSION as $key => $val) {
                 $_SESSION[$key] = '';
             }
@@ -2054,10 +2067,11 @@
             setcookie(session_name(), '', time()-42000, '/');
             setcookie('sso','',time()-42000, '/');
 
-            if($_COOKIE['xeak']) {
-                $args->autologin_key = $_COOKIE['xeak'];
-                executeQuery('member.deleteAutologin', $args);
-            }
+			if($memberSrl)
+			{
+				$args->member_srl = $memberSrl;
+				$output = executeQuery('member.deleteAutologin', $args);
+			}
         }
 
 		function _updatePointByGroup($memberSrl, $groupSrlList)

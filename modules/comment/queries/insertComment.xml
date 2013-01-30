@@ -24,6 +24,6 @@
 		<column name="last_update" var="last_update" default="curdate()" />
 		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
 		<column name="list_order" var="list_order" default="0" />
-		<column name="status" var="status" notnull="notnull" default="0" />
+		<column name="status" var="status" notnull="notnull" default="1" />
 	</columns>
 </query>

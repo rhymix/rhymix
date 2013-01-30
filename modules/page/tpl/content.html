@@ -9,7 +9,7 @@
 		<!--@if($module_info->page_type != 'OUTSIDE')-->
         <span class="btn"><a href="{getUrl('act','dispPageAdminContentModify','document_srl','')}">{$lang->cmd_page_modify}...</a></span>
         <!--@end-->
-		<!--@if($module_info->use_mobile =="Y" && $module_info->page_type == 'WIDGET')-->
+		<!--@if($module_info->use_mobile =="Y" && $module_info->page_type != 'OUTSIDE')-->
         <span class="btn"><a href="{getUrl('act','dispPageAdminMobileContent','module_srl',$module_info->module_srl)}">Mobile</a></span>
 		<!--@end-->
     </div>

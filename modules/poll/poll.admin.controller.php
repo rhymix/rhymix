@@ -80,11 +80,18 @@
         /**
          * @brief Delete the poll (when several questions are registered in one poll, delete this question)
          **/
-        function deletePollTitle($poll_index_srl) {
+        function deletePollTitle($poll_index_srl) 
+		{
             $args->poll_index_srl = $poll_index_srl;
 
             $oDB = &DB::getInstance();
             $oDB->begin();
+
+			$output = executeQueryArray('poll.getPollByDeletePollTitle', $args);
+			if($output->toBool() && $output->data && $output->data[0]->count == 1)
+			{
+				$dargs->poll_srl = $output->data[0]->poll_srl;
+			}
 
             $output = $oDB->executeQuery('poll.deletePollTitle', $args);
             if(!$output) {
@@ -98,6 +105,20 @@
                 return $output;
             }
 
+			if($dargs->poll_srl)
+			{
+				$output = executeQuery('poll.deletePoll', $dargs);
+				if(!$output) {
+					$oDB->rollback();
+					return $output;
+				}
+
+				$output = executeQuery('poll.deletePollLog', $dargs);
+				if(!$output) {
+					$oDB->rollback();
+					return $output;
+				}
+			}
             $oDB->commit();
 
             return new Object();

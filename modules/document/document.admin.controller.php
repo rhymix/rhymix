@@ -267,7 +267,7 @@
                 }
 
                 // Write a post
-                $output = $oDocumentController->insertDocument($obj, true);
+                $output = $oDocumentController->insertDocument($obj, true, true);
                 if(!$output->toBool()) {
                     $oDB->rollback();
                     return $output;
@@ -361,6 +361,7 @@
             }
 
             // Call a trigger (before)
+			$triggerObj->copied_srls = $copied_srls;
             $output = ModuleHandler::triggerCall('document.copyDocumentModule', 'after', $triggerObj);
             if(!$output->toBool()) {
                 $oDB->rollback();
@@ -480,7 +481,7 @@
             $type = Context::get('type');
             $is_required = Context::get('is_required');
             $default = Context::get('default');
-            $desc = Context::get('desc');
+            $desc = Context::get('desc') ? Context::get('desc') : '';
             $search = Context::get('search');
 			$eid = Context::get('eid');
 
@@ -709,7 +710,7 @@
             $oDB->begin();
 
 			//DB restore
-			$output = $oDocumentController->insertDocument($originObject, false, true);
+			$output = $oDocumentController->insertDocument($originObject, false, true, false);
 			if(!$output->toBool()) return new Object(-1, $output->getMessage());
 
 			//FILE restore

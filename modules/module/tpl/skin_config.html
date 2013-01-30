@@ -100,7 +100,7 @@
 				</p>
 				<p cond="$val->type == 'checkbox'" class="a">
 					<span loop="$val->options => $k, $v">
-						<input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="in_array($v->value, $val->value)" class="checkbox" /> 
+						<input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="@in_array($v->value, $val->value)" class="checkbox" /> 
 						<label for="ch_{$key}_{$k}">{$v->title}</label>
 					</span>
 				</p>

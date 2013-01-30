@@ -1,6 +1,6 @@
 <include target="category.html" />
 
-<div class="table even easyList">
+<div class="table even easyList dsTg">
 	<table width="100%" border="1" cellspacing="0">
 		<caption>
 			<block cond="$current_category">{$current_category}</block>
@@ -28,11 +28,12 @@
 				<a href="{getUrl('order_target','download','order_type',$_download_order_type)}">{$lang->order_download}<!--@if($order_target == 'download')--><!--@if($_download_order_type == 'asc')-->▼<!--@else-->▲<!--@end--><!--@end--></a> |
 				<a href="{getUrl('order_target','popular','order_type',$_popular_order_type)}">{$lang->order_popular}<!--@if($order_target == 'popular')--><!--@if($_popular_order_type == 'asc')-->▼<!--@else-->▲<!--@end--><!--@end--></a>
 			</span>
+			<span class="side"><button type="button" class="text"><span class="hide">{$lang->simple_view}</span><span class="show">{$lang->detail_view}</span></button></span>
 		</caption>
 		<thead>
 			<tr>
 				<th scope="col" class="nowr">{$lang->category}</th>
-				<th scope="col">{$lang->thumbnail}</th>
+				<th scope="col" class="thumb">{$lang->thumbnail}</th>
 				<th scope="col" class="title">{$lang->name}</th>
 				<th scope="col" class="nowr">{$lang->distribute_version}</th>
 				<th scope="col" class="nowr">{$lang->current_version}</th>
@@ -43,7 +44,7 @@
 			<tr loop="$item_list => $key, $item">
 				{@ $target_url = $original_site."?mid=download&package_srl=".$item->package_srl; }
 				<td class="nowr">{$item->category}</td>
-				<td><img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="100" height="100" /></td>
+				<td class="thumb"><img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="100" height="100" /></td>
 				<td class="title">
 					<p><a href="{$target_url}">{htmlspecialchars($item->title)}</a></p>
 					<p>{cut_str(htmlspecialchars($item->package_description),200)}</p>

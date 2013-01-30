@@ -115,9 +115,17 @@
 
             Context::set('layout_list', $layout_list);
 
+            $mlayout_list = $oLayoutModel->getLayoutList(0, 'M');
+
+            Context::set('mlayout_list', $mlayout_list);
+
             // list of skins for member module
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list', $skin_list);
+
+            // list of skins for member module
+            $mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
+            Context::set('mskin_list', $mskin_list);
 
             // retrieve skins of editor
             $oEditorModel = &getModel('editor');
@@ -269,6 +277,7 @@
 
 				if($formInfo->isDefaultForm){
 					if($formInfo->imageType){
+						$formTag->type = 'image';
 						if($formInfo->name == 'profile_image'){
 							$target = $memberInfo['profile_image'];
 							$functionName = 'doDeleteProfileImage';
@@ -300,12 +309,14 @@
 											 ,$member_config->{$formInfo->name.'_max_height'});
 					}//end imageType
 					elseif($formInfo->name == 'birthday'){
+						$formTag->type = 'date';
 						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="dateRemover" />'
 								,$memberInfo['birthday']
 								,zdate($memberInfo['birthday'], 'Y-m-d', false)
 								,$lang->cmd_delete);
 					}elseif($formInfo->name == 'find_account_question'){
-						$inputTag = '<select name="find_account_question" style="width:290px; display:block;">%s</select>';
+						$formTag->type = 'select';
+						$inputTag = '<select name="find_account_question" id="find_account_question" style="width:290px; display:block;">%s</select>';
 						$optionTag = array();
 						foreach($lang->find_account_question_items as $key=>$val){
 							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';
@@ -316,9 +327,11 @@
 													,$val);
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
-						$inputTag .= '<input type="text" name="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" class="inputText long tall" />';
+						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" class="inputText long tall" />';
 					}else{
-						$inputTag = sprintf('<input type="text" name="%s" value="%s" class="inputText long tall" />'
+						$formTag->type = 'text';
+						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" class="inputText long tall" />'
+									,$formInfo->name
 									,$formInfo->name
 									,$memberInfo[$formInfo->name]);
 					}
@@ -329,8 +342,9 @@
 									 'value'		=> $extendForm->value);
 					$extentionReplace = array();
 
+					$formTag->type = $extendForm->column_type;
 					if($extendForm->column_type == 'text' || $extendForm->column_type == 'homepage' || $extendForm->column_type == 'email_address'){
-						$template = '<input type="text" name="%column_name%" value="%value%" />';
+						$template = '<input type="text" name="%column_name%" id="%column_name%" value="%value%" />';
 					}elseif($extendForm->column_type == 'tel'){
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
 												  'tel_1' => $extendForm->value[1],
@@ -362,7 +376,7 @@
 							$template = sprintf($template, implode('', $optionTag));
 						}
 					}elseif($extendForm->column_type == 'select'){
-						$template = '<select name="'.$formInfo->name.'">%s</select>';
+						$template = '<select name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
 						$optionTag = array();
 						if($extendForm->default_value){
 							foreach($extendForm->default_value as $v){
@@ -404,7 +418,7 @@
 						<script type="text/javascript">jQuery(function($){ $.krzip('%column_name%') });</script>
 EOD;
 					}elseif($extendForm->column_type == 'jp_zip'){
-						$template = '<input type="text" name="%column_name%" value="%value%" />';
+						$template = '<input type="text" name="%column_name%" id="%column_name%" value="%value%" />';
 					}elseif($extendForm->column_type == 'date'){
 						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'),
 												  'cmd_delete' => $lang->cmd_delete);

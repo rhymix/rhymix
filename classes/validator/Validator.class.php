@@ -239,7 +239,13 @@ class Validator
 				$value  = $exists ? $fields[$fname] : null;
 			}
 
-			if(is_array($value)) $value = implode('', $value);
+			if(is_array($value)) {
+                if(!isset($value[tmp_name])){
+                    $value = implode('', $value);
+                }else{
+                    $value = $value['name'];
+                }
+            }
 
 			// conditional statement
 			foreach($filter['if'] as $cond) {

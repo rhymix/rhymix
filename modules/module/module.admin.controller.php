@@ -114,14 +114,34 @@
 				}
 			}
 
+			$tmpModuleSkinVars = $oModuleModel->getModuleSkinVars($module_srl);
+			$tmpModuleMobileSkinVars = $oModuleModel->getModuleMobileSkinVars($module_srl);
 
+			if($tmpModuleSkinVars)
+			{
+				foreach($tmpModuleSkinVars AS $key=>$value)
+				{
+					$moduleSkinVars->{$key} = $value->value;
+				}
+			}
+
+			if($tmpModuleMobileSkinVars)
+			{
+				foreach($tmpModuleMobileSkinVars AS $key=>$value)
+				{
+					$moduleMobileSkinVars->{$key} = $value->value;
+				}
+			}
 
             $oDB = &DB::getInstance();
             $oDB->begin();
             // Copy a module
 			$triggerObj->originModuleSrl = $module_srl;
 			$triggerObj->moduleSrlList = array();
-            foreach($clones as $mid => $browser_title) {
+
+			$errorLog = array();
+            foreach($clones as $mid => $browser_title) 
+			{
                 $clone_args = null;
                 $clone_args = clone($module_info);
                 $clone_args->module_srl = null;
@@ -131,6 +151,12 @@
                 $clone_args->is_default = 'N';
                 // Create a module
                 $output = $oModuleController->insertModule($clone_args);
+
+				if(!$output->toBool())
+				{
+					$errorLog[] = $mid . ' : '. $output->message;
+					continue;
+				}
                 $module_srl = $output->get('module_srl');
 
 				if($module_info->module == 'page' && $extra_vars->page_type == 'ARTICLE')
@@ -143,11 +169,24 @@
 					{
 						$extra_vars->document_srl = array_pop($document_srls);
 					}
+
+					if($extra_vars->mdocument_srl)
+					{
+						$copyOutput = $oDocumentAdminController->copyDocumentModule(array($extra_vars->mdocument_srl), $module_srl, $module_info->category_srl);
+						$copiedSrls = $copyOutput->get('copied_srls');
+						if($copiedSrls && count($copiedSrls) > 0)
+						{
+							$extra_vars->mdocument_srl = array_pop($copiedSrls);
+						}
+					}
 				}
 
                 // Grant module permissions
                 if(count($grant)) $oModuleController->insertModuleGrants($module_srl, $grant);
 				if ($extra_vars) $oModuleController->insertModuleExtraVars($module_srl, $extra_vars);
+
+				if($moduleSkinVars) $oModuleController->insertModuleSkinVars($module_srl, $moduleSkinVars);
+				if($moduleMobileSkinVars) $oModuleController->insertModuleMobileSkinVars($module_srl, $moduleMobileSkinVars);
 
 				array_push($triggerObj->moduleSrlList, $module_srl);
             }
@@ -155,11 +194,22 @@
             $output = ModuleHandler::triggerCall('module.procModuleAdminCopyModule', 'after', $triggerObj);
 
             $oDB->commit();
-            $this->setMessage('success_registed');
+
+			if(count($errorLog) > 0)
+			{
+				$message = implode('\n', $errorLog);
+				$this->setMessage($message);
+			}
+			else
+			{
+				$mseeage = $lang->success_registed;
+            	$this->setMessage('success_registed');
+			}
+
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				global $lang;
 				htmlHeader();
-				alertScript($lang->success_registed);
+				alertScript($message);
 				reload(true);
 				closePopupScript();
 				htmlFooter();
@@ -574,6 +624,7 @@
             // Variable setting for site keyword
             $site_keyword = Context::get('site_keyword');
             $site_srl = Context::get('site_srl');
+            $vid = Context::get('vid');
             // If there is no site keyword, use as information of the current virtual site
             $args = null;
             $logged_info = Context::get('logged_info');
@@ -582,7 +633,7 @@
 
 			if(!$site_srl)
 			{
-				if($logged_info->is_admin == 'Y' && !$site_keyword) $args->site_srl = 0;
+				if($logged_info->is_admin == 'Y' && !$site_keyword && !$vid) $args->site_srl = 0;
 				else $args->site_srl = (int)$site_module_info->site_srl;
 			}
 			else $args->site_srl = $site_srl;

@@ -97,6 +97,7 @@ class Argument {
 	}
 
 	function getUnescapedValue() {
+		if($this->value === 'null') return null;
 		return $this->value;
 	}
 
@@ -163,9 +164,35 @@ class Argument {
 	 * @return string
 	 */
 	function _escapeStringValue($value) {
+		// Remove non-utf8 chars.
+		$regex = '@((?:[\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}){1,100})|([\xF0-\xF7][\x80-\xBF]{3})|([\x80-\xBF])|([\xC0-\xFF])@x';
+
+		$value = preg_replace_callback($regex, array($this, 'utf8Replacer'), $value);
 		$db = &DB::getInstance();
 		$value = $db->addQuotes($value);
 		return '\'' . $value . '\'';
+	}
+
+	function utf8Replacer($captures) {
+		if (!empty($captures[1]))
+		{
+			// Valid byte sequence. Return unmodified.
+			return $captures[1];
+		}
+		elseif(!empty($captures[2]))
+		{
+			// Remove user defined area
+			if("\xF3\xB0\x80\x80" <= $captures[2])
+			{
+				return;
+			}
+
+			return $captures[2];
+		}
+		else
+		{
+			return;
+		}
 	}
 
 	function isValid() {
@@ -174,8 +201,10 @@ class Argument {
 	
 	function isColumnName(){
 		$type = $this->getType();
+		$value = $this->getUnescapedValue();
 		if($type == 'column_name') return true;
-		if($type == 'number' && !is_numeric($this->value) && $this->uses_default_value) return true;
+		if($type == 'number' && is_null($value)) return false;
+		if($type == 'number' && !is_numeric($value) && $this->uses_default_value) return true;
 		return false;
 	}
 

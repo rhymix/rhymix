@@ -97,12 +97,35 @@
 			if (!is_array($args)) $args = array($args);
 
 			$pathInfo = pathinfo($args[0]);
+			$file = new stdClass();
 			$file->fileName = $pathInfo['basename'];
 			$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
+			$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
 			$file->fileExtension = strtolower($pathInfo['extension']);
+			$file->fileNameNoExt = preg_replace('/\.min$/', '', $pathInfo['filename']);
+			$file->keyName = implode('.', array($file->fileNameNoExt, $file->fileExtension));
 
-			if (strpos($file->filePath, '://') == false)
+			if(strpos($file->filePath, '://') === FALSE)
 			{
+				if(!__DEBUG__)
+				{
+					// if no debug mode, load minifed file
+					$minifiedFileName = implode('.', array($file->fileNameNoExt, 'min', $file->fileExtension));
+					$minifiedRealPath = implode('/', array($file->fileRealPath, $minifiedFileName));
+					if(file_exists($minifiedRealPath))
+					{
+						$file->fileName = $minifiedFileName;
+					}
+				}
+				else
+				{
+					// Remove .min
+					if(file_exists(implode('/', array($file->fileRealPath, $file->keyName))))
+					{
+						$file->fileName = $file->keyName;
+					}
+				}
+
 				$file->useCdn = $useCdn;
 				$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
 				$file->cdnPrefix = $cdnPrefix;
@@ -121,7 +144,7 @@
 				if (!$file->media) $file->media = 'all';
 				$map = &$this->cssMap;
 				$mapIndex = &$this->cssMapIndex;
-				$key = $file->filePath . $file->fileName . "\t" . $file->targetIe . "\t" . $file->media;
+				$key = $file->filePath . $file->keyName . "\t" . $file->targetIe . "\t" . $file->media;
 
 				$this->_arrangeCssIndex($pathInfo['dirname'], $file);
 			}
@@ -138,11 +161,11 @@
 					$map = &$this->jsHeadMap;
 					$mapIndex = &$this->jsHeadMapIndex;
 				}
-				$key = $file->filePath . $file->fileName . "\t" . $file->targetIe;
+				$key = $file->filePath . $file->keyName . "\t" . $file->targetIe;
 			}
 
 			(is_null($file->index))?$file->index=0:$file->index=$file->index;
-			if (!isset($map[$file->index][$key]) || $mapIndex[$key] != $file->index)
+			if (!isset($map[$file->index][$key]) || $mapIndex[$key] > $file->index)
 			{
 				$this->unloadFile($args[0], $args[2], $args[1]);
 				$map[$file->index][$key] = $file;

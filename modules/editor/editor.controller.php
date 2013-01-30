@@ -426,5 +426,20 @@
             FileHandler::removeFile($oEditorModel->getCacheFile(true, $site_srl));
             FileHandler::removeFile($oEditorModel->getCacheFile(false, $site_srl));
         }
+
+		function triggerCopyModule(&$obj)
+		{
+			$oModuleModel = &getModel('module');
+			$editorConfig = $oModuleModel->getModulePartConfig('editor', $obj->originModuleSrl);
+
+			$oModuleController = &getController('module');
+			if(is_array($obj->moduleSrlList))
+			{
+				foreach($obj->moduleSrlList AS $key=>$moduleSrl)
+				{
+					$oModuleController->insertModulePartConfig('editor', $moduleSrl, $editorConfig);
+				}
+			}
+		}
     }
 ?>

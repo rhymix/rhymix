@@ -1,6 +1,8 @@
 var ConfirmCheck = xe.createPlugin('confirm_check', {
 	API_BEFORE_VALIDATE: function(sender, params){
-		return confirm(xe.lang.confirm_delete);
+		if(params[0].className == 'layout_delete_form'){
+			return confirm(xe.lang.confirm_delete);
+		}
 	}
 });
 

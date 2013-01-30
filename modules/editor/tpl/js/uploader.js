@@ -88,6 +88,11 @@ function start(cfg) {
 		uploaderStatusID : cfg.uploaderStatusID
 	};
 
+	if(typeof(enforce_ssl)!=="undefined" && enforce_ssl)
+	{
+		settings.upload_url = request_uri+'index.php';
+	};
+
 	// preview
 	$('#'+cfg.fileListAreaID).click(previewFiles);
 
@@ -137,7 +142,7 @@ function _true(){ return true };
 
 defaultHandlers = {
 	onFileQueued : _true,
-	onFileQueueError : function(flie, errorCode, message) {
+	onFileQueueError : function(file, errorCode, message) {
 		try {
 			switch(errorCode) {
 				case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED :

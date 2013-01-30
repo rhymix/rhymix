@@ -120,7 +120,7 @@
                 return new Object(-1,'msg_alert_trackback_denied');
             }
             // If trackbacks have been registered by one C-class IP address more than once for the last 30 minutes, ban the IP address and delete all the posts
-            /* 호스팅 환경을 감안하여 일단 이 부분은 동작하지 않도록 주석 처리
+            /* ?�스???�경??감안?�여 ?�단 ??부분�? ?�작?��? ?�도�?주석 처리
             $count = $oTrackbackModel->getRegistedTrackback(30*60, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
             if($count > 1) {
                 $oTrackbackController->deleteTrackbackSender(3*60, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);

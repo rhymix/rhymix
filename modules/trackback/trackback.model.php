@@ -158,8 +158,8 @@
 		 * @param int $document_srl
 		 * @return string
 		 */
-        function getTrackbackUrl($document_srl) {
-            $url = getFullUrl('','document_srl',$document_srl,'act','trackback','key',$this->getTrackbackKey($document_srl));
+        function getTrackbackUrl($document_srl, $mid = NULL) {
+            $url = getFullUrl('', 'mid', $mid, 'document_srl',$document_srl,'act','trackback','key',$this->getTrackbackKey($document_srl));
             return $url;
         }
 

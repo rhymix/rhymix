@@ -151,6 +151,11 @@
          * @brief Get module information by mid
          **/
         function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array()) {
+			if(!$mid)
+			{
+				return;
+			}
+
             $args->mid = $mid;
             $args->site_srl = (int)$site_srl;
             $oCacheHandler = &CacheHandler::getInstance('object');

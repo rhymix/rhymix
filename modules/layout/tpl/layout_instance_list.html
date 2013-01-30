@@ -38,5 +38,46 @@
 	</table>
 </div>
 <div cond="$layout_info->layout != 'faceoff'" class="btnArea">
-	<span class="btn"><a href="{getUrl('act', 'dispLayoutAdminInsert', 'layout', $layout_info->layout)}">{$lang->cmd_insert}...</a></span>
+	<span class="btn"><a href="#insertLayout" class="modalAnchor">{$lang->cmd_insert}...</a></span>
+</div>
+<div id="insertLayout" class="modal">
+	<div class="fg">
+		<h2></h2>
+		
+		<form ruleset="insertLayout" action="./" class="form">
+			<input type="hidden" name="module" value="layout" />
+			<input type="hidden" name="act" value="procLayoutAdminInsert" />
+			<input type="hidden" name="layout" value="{$layout_info->layout}" />
+			<input type="hidden" name="_layout_type" value="{$type}" />
+			<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispLayoutAdminInstanceList')}" />
+			<ul>
+				<li>
+					<p class="q">{$lang->layout}</p>
+					<p class="a">{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})</p>
+				</li>
+				<li cond="$layout_info->path">
+					<p class="q">{$lang->path}</p>
+					<p class="a">{$layout_info->path}</p>
+				</li>
+				<li cond="$layout_info->description">
+					<p class="q">{$lang->description}</p>
+					<p class="a">{$layout_info->description}</p>
+				</li>
+				<li>
+					<p class="q">{$lang->author}</p>
+					<p class="a"><a href="{$layout_info->author->homepage}" target="_blank">{$layout_info->layout->author->name}</a></p>
+				</li>
+				<li>
+					<p class="q">{$lang->title}</p>
+					<p class="a">
+						<input type="text" name="title" value="" />
+					</p>
+					<p class="desc">{$lang->about_title}</p>
+				</li>
+			</ul>
+			<div class="btnArea">
+				<span class="btn"><input type="submit" value="{$lang->cmd_insert}" /></span>
+			</div>
+		</form>
+	</div>
 </div>

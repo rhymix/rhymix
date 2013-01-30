@@ -76,6 +76,8 @@
 		}
 
 		function _getArticleContent(){
+			$oTemplate = &TemplateHandler::getInstance();
+
 			$oDocumentModel = &getModel('document');
 			$oDocument = $oDocumentModel->getDocument(0, true);
 			
@@ -86,13 +88,18 @@
 			}
 			Context::set('oDocument', $oDocument);
 
-			Context::set('module_info', $this->module_info);
-
 			if ($this->module_info->skin)
-				$this->setTemplatePath(sprintf($this->module_path.'skins/%s', $this->module_info->skin));
+			{
+				$templatePath = (sprintf($this->module_path.'skins/%s', $this->module_info->skin));
+			}
 			else
-				$this->setTemplatePath($this->module_path.'skins/default');
-				
+			{
+				$templatePath = ($this->module_path.'skins/default');
+			}
+
+			$page_content = $oTemplate->compile($templatePath, 'content');
+
+			return $page_content;
 		}
 
 		function _getOutsideContent(){

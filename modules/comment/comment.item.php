@@ -314,7 +314,7 @@
             if(!$this->get('uploaded_count')) return;
 
             $oFileModel = &getModel('file');
-            $file_list = $oFileModel->getFiles($this->comment_srl, $is_admin);
+            $file_list = $oFileModel->getFiles($this->comment_srl, array(), 'file_srl', true);
             return $file_list;
         }
 

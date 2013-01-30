@@ -245,6 +245,16 @@
 				Context::set('formInfo', $output->data);
 			}
 
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+			foreach($config->signupForm as $item) 
+			{
+				$list[] = $item->name;
+			}
+
+			$id_list = implode(',',$list);
+			Context::set('id_list',$id_list);
+
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($this->module_path.'tpl', 'insert_join_form');
 

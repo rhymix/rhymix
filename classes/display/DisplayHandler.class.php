@@ -27,7 +27,8 @@
                 (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
                 strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false &&
                 function_exists('ob_gzhandler') &&
-                extension_loaded('zlib')
+                extension_loaded('zlib') &&
+				$oModule->gzhandler_enable
             ) $this->gz_enabled = true;
             // Extract contents to display by the request method
             if(Context::get('xeVirtualRequestMethod')=='xml') {

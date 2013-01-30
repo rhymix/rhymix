@@ -174,7 +174,12 @@ class documentController extends document {
 	 * @param bool $isRestore
 	 * @return object
 	 */
-	function insertDocument($obj, $manual_inserted = false, $isRestore = false) {
+	function insertDocument($obj, $manual_inserted = false, $isRestore = false, $isLatest = true) {
+		if(!checkCSRF())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -212,7 +217,7 @@ class documentController extends document {
 		}
 		// Set the read counts and update order.
 		if(!$obj->readed_count) $obj->readed_count = 0;
-		if(!$isRestore) $obj->update_order = $obj->list_order = getNextSequence() * -1;
+		if($isLatest) $obj->update_order = $obj->list_order = getNextSequence() * -1;
 		else $obj->update_order = $obj->list_order;
 		// Check the status of password hash for manually inserting. Apply md5 hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
@@ -309,6 +314,11 @@ class documentController extends document {
 	 * @return object
 	 */
 	function updateDocument($source_obj, $obj) {
+		if(!checkCSRF())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = 'SECRET';
 		if(!$obj->status) $obj->status = 'PUBLIC';
@@ -745,6 +755,8 @@ class documentController extends document {
             $cache_key = 'object_document_item:'.$document_srl;
             $oCacheHandler->delete($cache_key);
         }
+
+		return TRUE;
 	}
 
 	/**
@@ -1616,6 +1628,7 @@ class documentController extends document {
 		$xml_buff = sprintf(
 				'<?php '.
 				'define(\'__ZBXE__\', true); '.
+				'define(\'__XE__\', true); '.
 				'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
 				'$oContext = &Context::getInstance(); '.
 				'$oContext->init(); '.
@@ -1862,6 +1875,11 @@ class documentController extends document {
 		set_time_limit(0);
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
 
+		if(!checkCSRF())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
 		$type = Context::get('type');
 		$target_module = Context::get('target_module');
 		$module_srl = Context::get('module_srl');
@@ -1918,14 +1936,14 @@ class documentController extends document {
 			$msg_code = 'success_moved';
 
 		}
-		elseif($type == 'copy') {
+		elseif($type == 'copy')
+		{
 			if(!$module_srl) return new Object(-1, 'fail_to_move');
 
 			$output = $oDocumentAdminController->copyDocumentModule($document_srl_list, $module_srl, $category_srl);
 			if(!$output->toBool()) return new Object(-1, 'fail_to_move');
 
-			$msg_code = 'success_copy';
-
+			$msg_code = 'success_copied';
 		}
 		elseif($type =='delete') {
 			$oDB = &DB::getInstance();
@@ -2127,6 +2145,21 @@ class documentController extends document {
 				{
 					$oDocumentController->insertDocumentExtraKey($value, $extraItem->idx, $extraItem->name, $extraItem->type, $extraItem->is_required , $extraItem->search , $extraItem->default , $extraItem->desc, $extraItem->eid) ;
 				}
+			}
+		}
+	}
+
+	function triggerCopyModule(&$obj)
+	{
+		$oModuleModel = &getModel('module');
+		$documentConfig = $oModuleModel->getModulePartConfig('document', $obj->originModuleSrl);
+
+		$oModuleController = &getController('module');
+		if(is_array($obj->moduleSrlList))
+		{
+			foreach($obj->moduleSrlList AS $key=>$moduleSrl)
+			{
+				$oModuleController->insertModulePartConfig('document', $moduleSrl, $documentConfig);
 			}
 		}
 	}

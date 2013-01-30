@@ -119,7 +119,7 @@
                     if(in_array($group_srl, $manager_group)) $is_admin = true;
                 }
             }
-            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_info->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
             // Enter post
             $oDocumentModel = &getModel('document');
             $oDocumentController = &getController('document');
@@ -171,7 +171,7 @@
                     if(in_array($group_srl, $manager_group)) $is_admin = true;
                 }
             }
-            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_info->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
 
             $output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $oDocument->get('module_srl'),0);
             if(!$output->toBool()) return $output;
@@ -208,7 +208,7 @@
                     if(in_array($group_srl, $manager_group)) $is_admin = true;
                 }
             }
-            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_info->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
 
             $output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true);
             if(!$output->toBool()) return $output;

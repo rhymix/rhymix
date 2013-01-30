@@ -272,9 +272,6 @@
 				return new Object(-1, 'msg_invalid_request');
 			}
 
-			$code = preg_replace('/<\?.*(\?>)?/Usm', '', $code);
-			$code = preg_replace('/<script[\s]*language[\s]*=("|\')php("|\')[\s]*>.*<\/script>/Usm', '', $code);
-
             $oLayoutModel = &getModel('layout');
             $layout_file = $oLayoutModel->getUserLayoutHtml($layout_srl);
             FileHandler::writeFile($layout_file, $code);
@@ -630,7 +627,8 @@
 			$oLayoutModel = &getModel('layout');
 			$layout = $oLayoutModel->getLayout($sourceArgs->layout_srl);
 
-			$args->extra_vars = $oLayoutModel->getLayoutRawData($sourceArgs->layout_srl, array('extra_vars'));
+			$output = $oLayoutModel->getLayoutRawData($sourceArgs->layout_srl, array('extra_vars'));
+			$args->extra_vars = $output->extra_vars;
 			$extra_vars = unserialize($args->extra_vars);
 
 			$oModuleController = &getController('module');

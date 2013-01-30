@@ -113,6 +113,20 @@ class Context {
 	 * @var bool true if attached file exists
 	 */
 	var $is_uploaded = false;
+	/**
+	 * Pattern for request vars check
+	 * @var array
+	 */
+	var $patterns = array(
+			'/<\?/iUsm',
+			'/<\%/iUsm',
+			'/<script\s*?language\s*?=\s*?("|\')?\s*?php\s*("|\')?/iUsm'
+			);
+	/**
+	 * Check init
+	 * @var bool false if init fail
+	 */
+	var $isSuccessInit = true;
 
 	/**
 	 * returns static context object (Singleton). It's to use Context without declaration of an object
@@ -235,16 +249,19 @@ class Context {
 			$oMemberModel = &getModel('member');
 			$oMemberController = &getController('member');
 
-			// if signed in, validate it.
-			if($oMemberModel->isLogged()) {
-				$oMemberController->setSessionInfo();
-			}
-			elseif($_COOKIE['xeak']) { // check auto sign-in
-				$oMemberController->doAutologin();
-			}
+			if($oMemberController && $oMemberModel)
+			{
+				// if signed in, validate it.
+				if($oMemberModel->isLogged()) {
+					$oMemberController->setSessionInfo();
+				}
+				elseif($_COOKIE['xeak']) { // check auto sign-in
+					$oMemberController->doAutologin();
+				}
 
-			$this->set('is_logged', $oMemberModel->isLogged() );
-			$this->set('logged_info', $oMemberModel->getLoggedInfo() );
+				$this->set('is_logged', $oMemberModel->isLogged() );
+				$this->set('logged_info', $oMemberModel->getLoggedInfo() );
+			}
 		}
 
 		// load common language file
@@ -722,20 +739,62 @@ class Context {
 
 		$obj = clone($source_obj);
 
-		foreach($charset_list as $charset) {
-			$flag = true;
-			foreach($obj as $key=>$val) {
-				if(!$val) continue;
-				if($val && iconv($charset,$charset,$val)!=$val) $flag = false;
-			}
-			if($flag) {
+		foreach($charset_list as $charset) 
+		{
+			array_walk($obj,'Context::checkConvertFlag',$charset);
+			$flag = Context::checkConvertFlag($flag = true);
+			if($flag)
+			{
 				if($charset == 'UTF-8') return $obj;
-				foreach($obj as $key => $val) $obj->{$key} = iconv($charset,'UTF-8',$val);
+				array_walk($obj,'Context::doConvertEncoding',$charset);
 				return $obj;
 			}
 		}
-
 		return $obj;
+	}
+	/**
+	 * Check flag 
+	 *
+	 * @param mixed $val
+	 * @param string $key
+	 * @param mixed $charset charset 
+	 * @see arrayConvWalkCallback will replaced array_walk_recursive in >=PHP5
+	 * @return void
+	 */
+	function checkConvertFlag(&$val, $key = null, $charset = null)
+	{
+		static $flag = true;
+		if($charset)
+		{
+			if(is_array($val))
+				array_walk($val,'Context::checkConvertFlag',$charset);
+			else if($val && iconv($charset,$charset,$val)!=$val) $flag = false;
+			else $flag = false;
+		}
+		else
+		{
+			$return = $flag;
+			$flag = true;
+			return $return;
+		}
+	}
+
+	/**
+	 * Convert array type variables into UTF-8 
+	 *
+	 * @param mixed $val
+	 * @param string $key
+	 * @param string $charset character set
+	 * @see arrayConvWalkCallback will replaced array_walk_recursive in >=PHP5
+	 * @return object converted object
+	 */
+	function doConvertEncoding(&$val, $key = null, $charset)
+	{
+		if (is_array($val))
+		{
+			array_walk($val,'Context::doConvertEncoding',$charset);
+		}
+		else $val = iconv($charset,'UTF-8',$val);
 	}
 
 	/**
@@ -812,12 +871,33 @@ class Context {
 
 			if($set_to_vars)
 			{
-				$val = preg_replace('/<\?.*(\?>)?/iUsm', '', $val);
-				$val = preg_replace('/<\%.*(\%>)?/iUsm', '', $val);
-				$val = preg_replace('/<script(\s|\S)*language[\s]*=("|\')php("|\')(\s|\S)*>.*<[\s]*\/[\s]*script[\s]*>/iUsm', '', $val);
+				$this->_recursiveCheckVar($val);
 			}
 
 			$this->set($key, $val, $set_to_vars);
+		}
+	}
+
+	function _recursiveCheckVar($val)
+	{
+		if(is_string($val))
+		{
+			foreach($this->patterns as $pattern)
+			{
+				$result = preg_match($pattern, $val);
+				if($result)
+				{
+					$this->isSuccessInit = FALSE;
+					return;
+				}
+			}
+		}
+		else if(is_array($val))
+		{
+			foreach($val as $val2)
+			{
+				$this->_recursiveCheckVar($val2);
+			}
 		}
 	}
 
@@ -893,7 +973,7 @@ class Context {
 					$v = stripslashes($v);
 				}
 
-				$val[$k] = trim($v);
+				if (is_string($v)) $val[$k] = trim($v);
 			}
 		}
 
@@ -1097,7 +1177,9 @@ class Context {
 					'act.mid'    =>$is_feed?"$mid/$act":'',
 					'act.mid.vid'=>$is_feed?"$vid/$mid/$act":'',
 					'act.document_srl.key'    =>($act=='trackback')?"$srl/$key/$act":'',
-					'act.document_srl.key.vid'=>($act=='trackback')?"$vid/$srl/$key/$act":''
+					'act.document_srl.key.mid'=>($act=='trackback')?"$mid/$srl/$key/$act":'',
+					'act.document_srl.key.vid'=>($act=='trackback')?"$vid/$srl/$key/$act":'',
+					'act.document_srl.key.mid.vid'=>($act=='trackback')?"$vid/$mid/$srl/$key/$act":''
 				);
 
 				$query  = $target_map[$target];
@@ -1109,7 +1191,7 @@ class Context {
 					if(is_array($val) && count($val)) {
 						foreach($val as $k => $v) $queries[] = $key.'['.$k.']='.urlencode($v);
 					} else {
-						$queries[] = $key.'='.urlencode($val);
+						$queries[] = $key.'='.@urlencode($val);
 					}
 				}
 				if(count($queries)) $query = 'index.php?'.implode('&', $queries);

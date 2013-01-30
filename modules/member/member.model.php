@@ -38,7 +38,7 @@
 			{
 				foreach($config->signupForm AS $key=>$value)
 				{
-					$config->signupForm[$key]->title = Context::getLang($value->title);
+					$config->signupForm[$key]->title = ($value->isDefaultForm) ? Context::getLang($value->name) : $value->title;
 					if($config->signupForm[$key]->isPublic != 'N') $config->signupForm[$key]->isPublic = 'Y';
 					if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
 				}
@@ -63,12 +63,6 @@
 
 			if (!$config->max_error_count) $config->max_error_count = 10;
 			if (!$config->max_error_count_time) $config->max_error_count_time = 300;
-			if (!$config->layout_srl)
-			{
-				$oModuleModel = &getModel('module');
-				$defaultModuleInfo = $oModuleModel->getDefaultMid();
-				$config->layout_srl = $defaultModuleInfo->layout_srl;
-			}
 
 			if (!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'xpresseditor';
 			if (!$config->sel_editor_colorset) $config->sel_editor_colorset = 'white';

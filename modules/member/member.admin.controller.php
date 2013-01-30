@@ -26,7 +26,7 @@
             $config = $oMemberModel->getMemberConfig ();
 			$getVars = array();
 			if ($config->signupForm){
-				foreach($config->signupForm as $formInfo){
+				foreach($config->signupForm as $formInfo) {
 					if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired)){
 						$getVars[] = $formInfo->name;
 					}
@@ -138,6 +138,7 @@
 				'webmaster_email',
 				'limit_day',
 				'change_password_date',
+				'enable_login_fail_report',
 				'max_error_count','max_error_count_time',
 				'agreement',
 				'after_login_url',
@@ -146,6 +147,8 @@
 				'layout_srl',
 				'skin',
 				'colorset',
+				'mlayout_srl',
+				'mskin',
                 'profile_image', 'profile_image_max_width', 'profile_image_max_height',
                 'image_name', 'image_name_max_width', 'image_name_max_height',
                 'image_mark', 'image_mark_max_width', 'image_mark_max_height',
@@ -160,91 +163,91 @@
             $oMemberModel = &getModel('member');
 
 			// default setting start
-            if($input_args->enable_join != 'Y'){
-				$args->enable_join = 'N';
-			}else{
-				$args = $input_args;
-				$args->enable_join = 'Y';
-				if($args->enable_confirm !='Y') $args->enable_confirm = 'N';
-				$args->limit_day = (int)$args->limit_day;
-				if(!$args->change_password_date) $args->change_password_date = 0; 
-				if(!trim(strip_tags($args->agreement)))
-				{
-					$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
-					FileHandler::removeFile($agreement_file);
-					$args->agreement = null;
-				}
-				if(!trim(strip_tags($args->after_login_url))) $args->after_login_url = null;
-				if(!trim(strip_tags($args->after_logout_url))) $args->after_logout_url = null;
-				if(!trim(strip_tags($args->redirect_url))) $args->redirect_url = null;
-
-				if(!$args->skin) $args->skin = "default";
-				if(!$args->colorset) $args->colorset = "white";
-
-				$args->profile_image = $args->profile_image?'Y':'N';
-				$args->image_name = $args->image_name?'Y':'N';
-				$args->image_mark = $args->image_mark?'Y':'N';
-				if($args->signature!='Y') $args->signature = 'N';
-				$args->identifier = $all_args->identifier;
-
-				// set default
-				$all_args->is_nick_name_public = 'Y';
-				$all_args->is_find_account_question_public = 'N';
-
-				// signupForm
-				global $lang;
-				$signupForm = array();
-				$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark', 'profile_image_max_width', 'profile_image_max_height', 'image_name_max_width', 'image_name_max_height', 'image_mark_max_width', 'image_mark_max_height');
-				$mustRequireds = array('email_address', 'nick_name', 'password', 'find_account_question');
-				$extendItems = $oMemberModel->getJoinFormList();
-				foreach($list_order as $key){
-					unset($signupItem);
-					$signupItem->isIdentifier = ($key == $all_args->identifier);
-					$signupItem->isDefaultForm = in_array($key, $items);
-					
-					$signupItem->name = $key;
-					if(!in_array($key, $items)) $signupItem->title = $key;
-					else $signupItem->title = $lang->{$key};
-					$signupItem->mustRequired = in_array($key, $mustRequireds);
-					$signupItem->imageType = (strpos($key, 'image') !== false);
-					$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired || $signupItem->isIdentifier;
-					$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
-
-					$signupItem->isPublic = ($all_args->{'is_'.$key.'_public'} == 'Y' && $signupItem->isUse) ? 'Y' : 'N';
-
-					if ($signupItem->imageType){
-						$signupItem->max_width = $all_args->{$key.'_max_width'};
-						$signupItem->max_height = $all_args->{$key.'_max_height'};
-					}
-
-					// set extends form
-					if (!$signupItem->isDefaultForm){
-						$extendItem = $extendItems[$all_args->{$key.'_member_join_form_srl'}];
-						$signupItem->type = $extendItem->column_type;
-						$signupItem->member_join_form_srl = $extendItem->member_join_form_srl;
-						$signupItem->title = $extendItem->column_title;
-						$signupItem->description = $extendItem->description;
-
-						// check usable value change, required/option
-						if ($signupItem->isUse != ($extendItem->is_active == 'Y') || $signupItem->required != ($extendItem->required == 'Y')){
-							unset($update_args);
-							$update_args->member_join_form_srl = $extendItem->member_join_form_srl;
-							$update_args->is_active = $signupItem->isUse?'Y':'N';
-							$update_args->required = $signupItem->required?'Y':'N';
-
-							$update_output = executeQuery('member.updateJoinForm', $update_args);
-						}
-						unset($extendItem);
-					}
-					$signupForm[] = $signupItem;
-				}
-				$args->signupForm = $signupForm;
-
-				// create Ruleset
-				$this->_createSignupRuleset($signupForm, $args->agreement);
-				$this->_createLoginRuleset($args->identifier);
-				$this->_createFindAccountByQuestion($args->identifier);
+			$args = $input_args;
+			$args->enable_join = $args->enable_join != 'N' ? 'Y' : 'N';
+			if($args->enable_confirm !='Y') $args->enable_confirm = 'N';
+			$args->limit_day = (int)$args->limit_day;
+			if(!$args->change_password_date) $args->change_password_date = 0; 
+			if(!trim(strip_tags($args->agreement)))
+			{
+				$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
+				FileHandler::removeFile($agreement_file);
+				$args->agreement = null;
 			}
+			if(!trim(strip_tags($args->after_login_url))) $args->after_login_url = null;
+			if(!trim(strip_tags($args->after_logout_url))) $args->after_logout_url = null;
+			if(!trim(strip_tags($args->redirect_url))) $args->redirect_url = null;
+
+			if(!$args->skin) $args->skin = 'default';
+			if(!$args->colorset) $args->colorset = 'white';
+
+			if(!$args->mskin) $args->mskin = 'default';
+
+			$args->profile_image = $args->profile_image?'Y':'N';
+			$args->image_name = $args->image_name?'Y':'N';
+			$args->image_mark = $args->image_mark?'Y':'N';
+			if($args->signature!='Y') $args->signature = 'N';
+			$args->identifier = $all_args->identifier;
+			$args->layout_srl = $args->layout_srl ? $args->layout_srl : null;
+			$args->mlayout_srl = $args->mlayout_srl ? $args->mlayout_srl : null;
+
+			// set default
+			$all_args->is_nick_name_public = 'Y';
+			$all_args->is_find_account_question_public = 'N';
+
+			// signupForm
+			global $lang;
+			$signupForm = array();
+			$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark', 'profile_image_max_width', 'profile_image_max_height', 'image_name_max_width', 'image_name_max_height', 'image_mark_max_width', 'image_mark_max_height');
+			$mustRequireds = array('email_address', 'nick_name', 'password', 'find_account_question');
+			$extendItems = $oMemberModel->getJoinFormList();
+			foreach($list_order as $key){
+				unset($signupItem);
+				$signupItem->isIdentifier = ($key == $all_args->identifier);
+				$signupItem->isDefaultForm = in_array($key, $items);
+				
+				$signupItem->name = $key;
+				if(!in_array($key, $items)) $signupItem->title = $key;
+				else $signupItem->title = $lang->{$key};
+				$signupItem->mustRequired = in_array($key, $mustRequireds);
+				$signupItem->imageType = (strpos($key, 'image') !== false);
+				$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired || $signupItem->isIdentifier;
+				$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
+
+				$signupItem->isPublic = ($all_args->{'is_'.$key.'_public'} == 'Y' && $signupItem->isUse) ? 'Y' : 'N';
+
+				if ($signupItem->imageType){
+					$signupItem->max_width = $all_args->{$key.'_max_width'};
+					$signupItem->max_height = $all_args->{$key.'_max_height'};
+				}
+
+				// set extends form
+				if (!$signupItem->isDefaultForm){
+					$extendItem = $extendItems[$all_args->{$key.'_member_join_form_srl'}];
+					$signupItem->type = $extendItem->column_type;
+					$signupItem->member_join_form_srl = $extendItem->member_join_form_srl;
+					$signupItem->title = $extendItem->column_title;
+					$signupItem->description = $extendItem->description;
+
+					// check usable value change, required/option
+					if ($signupItem->isUse != ($extendItem->is_active == 'Y') || $signupItem->required != ($extendItem->required == 'Y')){
+						unset($update_args);
+						$update_args->member_join_form_srl = $extendItem->member_join_form_srl;
+						$update_args->is_active = $signupItem->isUse?'Y':'N';
+						$update_args->required = $signupItem->required?'Y':'N';
+
+						$update_output = executeQuery('member.updateJoinForm', $update_args);
+					}
+					unset($extendItem);
+				}
+				$signupForm[] = $signupItem;
+			}
+			$args->signupForm = $signupForm;
+
+			// create Ruleset
+			$this->_createSignupRuleset($signupForm, $args->agreement);
+			$this->_createLoginRuleset($args->identifier);
+			$this->_createFindAccountByQuestion($args->identifier);
 
 			// check agreement value exist
 			if($args->agreement)
@@ -493,7 +496,8 @@
          * Add a join form
 		 * @return void|Object (void : success, Object : fail)
          **/
-        function procMemberAdminInsertJoinForm() {
+        function procMemberAdminInsertJoinForm() 
+		{
             $args->member_join_form_srl = Context::get('member_join_form_srl');
 
             $args->column_type = Context::get('column_type');
@@ -503,13 +507,25 @@
             $args->required = Context::get('required');
 			$args->is_active = (isset($args->required));
             if(!in_array(strtoupper($args->required), array('Y','N')))$args->required = 'N';
-            $args->description = Context::get('description');
+            $args->description = Context::get('description') ? Context::get('description') : '';
             // Default values
             if(in_array($args->column_type, array('checkbox','select','radio')) && count($args->default_value) ) {
                 $args->default_value = serialize($args->default_value);
             } else {
                 $args->default_value = '';
             }
+
+			// Check ID duplicated
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+			foreach($config->signupForm as $item) 
+			{
+				if($item->name == $args->column_name)
+				{
+					if($args->member_join_form_srl && $args->member_join_form_srl == $item->member_join_form_srl) continue;
+					return new Object(-1,'msg_exists_user_id');
+				}
+			}
             // Fix if member_join_form_srl exists. Add if not exists.
             $isInsert;
 			if(!$args->member_join_form_srl){
@@ -534,6 +550,7 @@
 
 			$oMemberModel = &getModel('member');
 			$config = $oMemberModel->getMemberConfig();
+			unset($config->agreement);
 
 			if($isInsert){
 				$config->signupForm[] = $signupItem;	
@@ -563,6 +580,7 @@
 
 			$oMemberModel = &getModel('member');
 			$config = $oMemberModel->getMemberConfig();
+			unset($config->agreement);
 
 			foreach($config->signupForm as $key=>$val){
 				if ($val->member_join_form_srl == $member_join_form_srl){
@@ -940,6 +958,7 @@
 			// group image mark option
 			$config = $oMemberModel->getMemberConfig();
 			$config->group_image_mark = $vars->group_image_mark;
+			unset($config->agreement);
 			$output = $oModuleController->updateModuleConfig('member', $config);
 
 			// group data save

@@ -370,6 +370,32 @@ class FileHandler {
 	 * @return string If success, the content of the target file. Otherwise: none
 	 **/
 	function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
+		if(version_compare(PHP_VERSION, '5.0.0', '>='))
+		{
+			return include _XE_PATH_ . 'classes/file/getRemoteResourcePHP5.php';
+		}
+		else
+		{
+			return FileHandler::_getRemoteResource($url, $boyd, $timeout, $mehtod, $conent_type, $headers, $cookies, $post_data);
+		}
+	}
+
+	/**
+	 * Return remote file's content via HTTP
+	 *
+	 * If the target is moved (when return code is 300~399), this function follows the location specified response header.
+	 *
+	 * @param string $url The address of the target file 
+	 * @param string $body HTTP request body
+	 * @param int $timeout Connection timeout
+	 * @param string $method GET/POST
+	 * @param string $content_type Content type header of HTTP request
+	 * @param string[] $headers Headers key vaule array.
+	 * @param string[] $cookies Cookies key value array.
+	 * @param string $post_data Request arguments array for POST method
+	 * @return string If success, the content of the target file. Otherwise: none
+	 **/
+	function _getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
 		requirePear();
 		require_once('HTTP/Request.php');
 

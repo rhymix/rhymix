@@ -38,6 +38,14 @@
                 $this->act = Context::get('act');
                 return;
             }
+
+			$oContext = Context::getInstance();
+			if($oContext->isSuccessInit == false)
+			{
+				$this->error = 'msg_invalid_request';
+				return;
+			}
+
             // Set variables from request arguments
             $this->module = $module?$module:Context::get('module');
             $this->act    = $act?$act:Context::get('act');
@@ -151,7 +159,17 @@
                 $this->mid = $module_info->mid;
                 $this->module_info = $module_info;
                 Context::setBrowserTitle($module_info->browser_title);
-                $part_config= $oModuleModel->getModulePartConfig('layout',$module_info->layout_srl);
+
+				if($module_info->use_mobile && Mobile::isFromMobilePhone())
+				{
+					$layoutSrl = $module_info->mlayout_srl;
+				}
+				else
+				{
+					$layoutSrl = $module_info->layout_srl;
+				}
+
+                $part_config= $oModuleModel->getModulePartConfig('layout',$layoutSrl);
                 Context::addHtmlHeader($part_config->header_script);
             }
 
@@ -361,6 +379,20 @@
 					{
 						$oModule = &$this->getModuleInstance($forward->module, $type, $kind);
 					}
+
+					if(!is_object($oModule)) {
+						$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+						$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+						$oMessageObject->setError(-1);
+						$oMessageObject->setMessage('msg_module_is_not_exists');
+						$oMessageObject->dispMessage();
+						if($this->httpStatusCode)
+						{
+							$oMessageObject->setHttpStatusCode($this->httpStatusCode);
+						}
+						return $oMessageObject;
+					}
+
                     $xml_info = $oModuleModel->getModuleActionXml($forward->module);
 					$oMemberModel = &getModel('member');
 
@@ -686,6 +718,7 @@
 
             if(__DEBUG__==3) $start_time = getMicroTime();
 
+			$parent_module = $module;
 			$kind = strtolower($kind);
 			$type = strtolower($type);
 
@@ -702,10 +735,13 @@
             // if there is no instance of the module in global variable, create a new one
 			if(!isset($GLOBALS['_loaded_module'][$module][$type][$kind]))
 			{
-				$parent_module = $module;
+				ModuleHandler::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
 
-				$class_path = ModuleHandler::getModulePath($module);
-				if(!is_dir(FileHandler::getRealPath($class_path))) return NULL;
+				if($extend_module && (!is_readable($high_class_file) || !is_readable($class_file)))
+				{
+					$module = $parent_module;
+					ModuleHandler::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
+				}
 
                 // Get base class name and load the file contains it
                 if(!class_exists($module)) {
@@ -713,23 +749,6 @@
                     if(!file_exists($high_class_file)) return NULL;
                     require_once($high_class_file);
                 }
-
-                // Get the object's name
-				$types = explode(' ', 'view controller model api wap mobile class');
-				if(!in_array($type, $types)) $type = $types[0];
-				if($type == 'class') {
-					$instance_name = '%s';
-					$class_file    = '%s%s.%s.php';
-				} elseif($kind == 'admin' && array_search($type, $types) < 3) {
-					$instance_name = '%sAdmin%s';
-					$class_file    = '%s%s.admin.%s.php';
-				} else{
-					$instance_name = '%s%s';
-					$class_file    = '%s%s.%s.php';
-				}
-				$instance_name = sprintf($instance_name, $module, ucfirst($type));
-				$class_file    = sprintf($class_file, $class_path, $module, $type);
-				$class_file    = FileHandler::getRealPath($class_file);
 
                 // Get the name of the class file
                 if(!is_readable($class_file)) return NULL;
@@ -766,6 +785,31 @@
             // return the instance
             return $GLOBALS['_loaded_module'][$module][$type][$kind];
         }
+
+		function _getModuleFilePath($module, $type, $kind, &$classPath, &$highClassFile, &$classFile, &$instanceName)
+		{
+			$classPath = ModuleHandler::getModulePath($module);
+
+			$highClassFile = sprintf('%s%s%s.class.php', _XE_PATH_,$classPath, $module);
+			$highClassFile = FileHandler::getRealPath($highClassFile);
+
+			$types = explode(' ', 'view controller model api wap mobile class');
+			if(!in_array($type, $types)) $type = $types[0];
+			if($type == 'class') {
+				$instanceName = '%s';
+				$classFile    = '%s%s.%s.php';
+			} elseif($kind == 'admin' && array_search($type, $types) < 3) {
+				$instanceName = '%sAdmin%s';
+				$classFile    = '%s%s.admin.%s.php';
+			} else{
+				$instanceName = '%s%s';
+				$classFile    = '%s%s.%s.php';
+			}
+
+			$instanceName = sprintf($instanceName, $module, ucfirst($type));
+			$classFile    = sprintf($classFile, $classPath, $module, $type);
+			$classFile    = FileHandler::getRealPath($classFile);
+		}
 
         /**
          * call a trigger

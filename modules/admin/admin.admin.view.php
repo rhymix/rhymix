@@ -468,7 +468,7 @@
 					unset($layout_info);
 					$layout_info = $oLayoutModel->getLayout($val->layout_srl);
 					if (!$layout_info) continue;
-					$layout_parse = explode('.', $layout_info->layout);
+					$layout_parse = explode('|@|', $layout_info->layout);
 					if (count($layout_parse) == 2){
 						$thumb_path = sprintf('./themes/%s/layouts/%s/thumbnail.png', $layout_parse[0], $layout_parse[1]);
 					}

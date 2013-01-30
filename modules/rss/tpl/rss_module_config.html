@@ -1,9 +1,9 @@
 <form ruleset="insertRssModuleConfig" action="./" method="post" class="form">
-<input type="hidden" name="module" value="rss" />
-<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
-<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-<input type="hidden" name="target_module_srl" value="{$rss_config->module_srl?$rss_config->module_srl:$module_srls}" />
-
+	<input type="hidden" name="module" value="rss" />
+	<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="target_module_srl" value="{$rss_config->module_srl?$rss_config->module_srl:$module_srls}" />
+	
     <h3 class="h3">{$lang->open_rss}</h3>
     <p>{$lang->about_open_rss}</p>
 	<div class="table">

@@ -51,7 +51,7 @@
 .xpress-editor .tool:after{content:"";display:block;clear:both}
 .xpress-editor .tool ul{position:relative;overflow:visible;float:left;margin:0 5px 2px 0 !important;z-index:2;border:0 !important}
 .xpress-editor .tool ul.action{width:43px}
-.xpress-editor .tool ul.type{width:auto;white-space:nowrap}
+.xpress-editor .tool ul.type{width:auto;white-space:nowrap;height:21px}
 .xpress-editor .tool ul.style{width:169px;z-index:6}
 .xpress-editor .tool ul.paragraph{width:169px;z-index:5}
 .xpress-editor .tool ul.extra1{width:69px;z-index:4}

@@ -70,6 +70,9 @@
             $this->updateCategory($xmlDoc);
             $this->updatePackages($xmlDoc);
             $this->checkInstalled();
+
+			$oAdminController = &getAdminController('admin');
+			$output = $oAdminController->cleanFavorite();
 		}
 
 		/**

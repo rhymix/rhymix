@@ -150,11 +150,14 @@
             $schema_dir = sprintf('%s/schemas/', $this->package->path);
             $schema_files = FileHandler::readDir($schema_dir);
 			$oDB =& DB::getInstance();
-			foreach($schema_files as $file)
+			if(is_array($schema_files))
 			{
-				$filename_arr = explode(".", $file);
-				$filename = array_shift($filename_arr);
-				$oDB->dropTable($filename);
+				foreach($schema_files as $file)
+				{
+					$filename_arr = explode(".", $file);
+					$filename = array_shift($filename_arr);
+					$oDB->dropTable($filename);
+				}
 			}
 			return new Object();
 		}
@@ -399,22 +402,25 @@
 			if(!$output->toBool()) return $output;
             $target_dir = $this->ftp_info->ftp_root_path.$this->target_path;
 
-            foreach($file_list as $k => $file){
-                $org_file = $file;
-                if($this->package->path == ".")
-                {
-                    $file = substr($file,3);
-                }
-                $path = FileHandler::getRealPath("./".$this->target_path."/".$file);
-                $pathname = dirname($target_dir."/".$file);
+			if(is_array($file_list))
+			{
+				foreach($file_list as $k => $file){
+					$org_file = $file;
+					if($this->package->path == ".")
+					{
+						$file = substr($file,3);
+					}
+					$path = FileHandler::getRealPath("./".$this->target_path."/".$file);
+					$pathname = dirname($target_dir."/".$file);
 
-                if(!file_exists(FileHandler::getRealPath($real_path)))
-                {
-                    ssh2_sftp_mkdir($this->sftp, $pathname, 0755, true);
-                }
+					if(!file_exists(FileHandler::getRealPath($real_path)))
+					{
+						ssh2_sftp_mkdir($this->sftp, $pathname, 0755, true);
+					}
 
-                ssh2_scp_send($this->connection, FileHandler::getRealPath($this->download_path."/".$org_file), $target_dir."/".$file);
-            }
+					ssh2_scp_send($this->connection, FileHandler::getRealPath($this->download_path."/".$org_file), $target_dir."/".$file);
+				}
+			}
             return new Object();
         }
     }
@@ -550,54 +556,57 @@
 			}
             $target_dir = $this->ftp_info->ftp_root_path.$this->target_path;
 
-            foreach($file_list as $k => $file){
-				if(!$file) continue;
-                $org_file = $file;
-                if($this->package->path == ".")
-                {
-                    $file = substr($file,3);
-                }
-                $path = FileHandler::getRealPath("./".$this->target_path."/".$file);
-                $path_list = explode('/', dirname($this->target_path."/".$file));
+			if(is_array($file_list))
+			{
+				foreach($file_list as $k => $file){
+					if(!$file) continue;
+					$org_file = $file;
+					if($this->package->path == ".")
+					{
+						$file = substr($file,3);
+					}
+					$path = FileHandler::getRealPath("./".$this->target_path."/".$file);
+					$path_list = explode('/', dirname($this->target_path."/".$file));
 
-                $real_path = "./";
-                $ftp_path = $this->ftp_info->ftp_root_path;
+					$real_path = "./";
+					$ftp_path = $this->ftp_info->ftp_root_path;
 
-                for($i=0;$i<count($path_list);$i++)
-                {
-                    if($path_list=="") continue;
-                    $real_path .= $path_list[$i]."/";
-                    $ftp_path .= $path_list[$i]."/";
-                    if(!file_exists(FileHandler::getRealPath($real_path)))
-                    {
-                        if(!@ftp_mkdir($this->connection, $ftp_path))
-                        {
-                            return new Object(-1, "msg_make_directory_failed");
-                        }
+					for($i=0;$i<count($path_list);$i++)
+					{
+						if($path_list=="") continue;
+						$real_path .= $path_list[$i]."/";
+						$ftp_path .= $path_list[$i]."/";
+						if(!file_exists(FileHandler::getRealPath($real_path)))
+						{
+							if(!@ftp_mkdir($this->connection, $ftp_path))
+							{
+								return new Object(-1, "msg_make_directory_failed");
+							}
 
-						if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
-                        {
-                            if (function_exists('ftp_chmod')) {
-                                if(!ftp_chmod($this->connection, 0755, $ftp_path))
-                                {
-                                    return new Object(-1, "msg_permission_adjust_failed");
-                                }
-                            }
-                            else
-                            {
-                                if(!ftp_site($this->connection, "CHMOD 755 ".$ftp_path))
-                                {
-                                    return new Object(-1, "msg_permission_adjust_failed");
-                                }
-                            }
-                        }
-                    }
-                }
-				if(!ftp_put($this->connection, $target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file), FTP_BINARY))
-				{
-					return new Object(-1, "msg_ftp_upload_failed");
+							if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
+							{
+								if (function_exists('ftp_chmod')) {
+									if(!ftp_chmod($this->connection, 0755, $ftp_path))
+									{
+										return new Object(-1, "msg_permission_adjust_failed");
+									}
+								}
+								else
+								{
+									if(!ftp_site($this->connection, "CHMOD 755 ".$ftp_path))
+									{
+										return new Object(-1, "msg_permission_adjust_failed");
+									}
+								}
+							}
+						}
+					}
+					if(!ftp_put($this->connection, $target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file), FTP_BINARY))
+					{
+						return new Object(-1, "msg_ftp_upload_failed");
+					}
 				}
-            }
+			}
 			$this->_close();
             return new Object();
         }
@@ -718,31 +727,34 @@
 			$oFtp =& $this->oFtp;
             $target_dir = $this->ftp_info->ftp_root_path.$this->target_path;
 
-            foreach($file_list as $k => $file){
-                $org_file = $file;
-                if($this->package->path == ".")
-                {
-                    $file = substr($file,3);
-                }
-                $path = FileHandler::getRealPath("./".$this->target_path."/".$file);
-                $path_list = explode('/', dirname($this->target_path."/".$file));
+			if(is_array($file_list))
+			{
+				foreach($file_list as $k => $file){
+					$org_file = $file;
+					if($this->package->path == ".")
+					{
+						$file = substr($file,3);
+					}
+					$path = FileHandler::getRealPath("./".$this->target_path."/".$file);
+					$path_list = explode('/', dirname($this->target_path."/".$file));
 
-                $real_path = "./";
-                $ftp_path = $this->ftp_info->ftp_root_path;
+					$real_path = "./";
+					$ftp_path = $this->ftp_info->ftp_root_path;
 
-                for($i=0;$i<count($path_list);$i++)
-                {
-                    if($path_list=="") continue;
-                    $real_path .= $path_list[$i]."/";
-                    $ftp_path .= $path_list[$i]."/";
-                    if(!file_exists(FileHandler::getRealPath($real_path)))
-                    {
-                        $oFtp->ftp_mkdir($ftp_path);
-                        $oFtp->ftp_site("CHMOD 755 ".$ftp_path);
-                    }
-                }
-                $oFtp->ftp_put($target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file));
-            }
+					for($i=0;$i<count($path_list);$i++)
+					{
+						if($path_list=="") continue;
+						$real_path .= $path_list[$i]."/";
+						$ftp_path .= $path_list[$i]."/";
+						if(!file_exists(FileHandler::getRealPath($real_path)))
+						{
+							$oFtp->ftp_mkdir($ftp_path);
+							$oFtp->ftp_site("CHMOD 755 ".$ftp_path);
+						}
+					}
+					$oFtp->ftp_put($target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file));
+				}
+			}
 
 			$this->_close();
 

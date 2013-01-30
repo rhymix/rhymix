@@ -177,9 +177,10 @@
 		 * @param string $sortIndex The column that used as sort index
 		 * @return array Returns array of object that contains file information. If no result returns null.
          **/
-        function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl') {
+        function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl', $ckValid = false) {
             $args->upload_target_srl = $upload_target_srl;
             $args->sort_index = $sortIndex;
+			if($ckValid) $args->isvalid = 'Y';
             $output = executeQuery('file.getFiles', $args, $columnList);
             if(!$output->data) return;
 

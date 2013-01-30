@@ -1,0 +1,28 @@
+<load target="css/member.css" />
+<div class="xm">
+	<div  class="hx h2">
+		<h2>{$lang->member_info}</h2>
+	</div>
+	<div class="co">
+		<dl class="dl">
+		<block loop="$displayDatas => $item">
+			<dt>{$item->title} <em cond="$item->required || $item->mustRequired">*</em></dt>
+			<dd>{$item->value}</dd>
+		</block>
+			<dt>{$lang->member_group}</dt>
+			<dd>{implode(', ', $memberInfo['group_list'])}</dd>
+			<dt>{$lang->signup_date}</dt>
+			<dd>{zdate($memberInfo[regdate],"Y-m-d")}</dd>
+		<block cond="$memberInfo[member_srl] == $logged_info->member_srl || $logged_info->is_admin == 'Y'">
+			<dt>{$lang->last_login}</dt>
+			<dd>{zdate($memberInfo[last_login],"Y-m-d")}</dd>
+		</block>
+		</dl>
+		<ul class="ba" cond="$memberInfo['member_srl'] == $logged_info->member_srl">
+			<li cond="$member_config->identifier == 'email_address'"><a href="{getUrl('act', 'dispMemberModifyEmailAddress')}">{$lang->cmd_modify_member_email_address}</a></li>
+			<li><a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}">{$lang->cmd_modify_member_info}</a></li>
+			<li><a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}">{$lang->cmd_modify_member_password}</a></li>
+			<li><a href="{getUrl('act','dispMemberLeave','member_srl','')}">{$lang->cmd_leave}</a></li>
+		</ul>
+	</div>
+</div>
