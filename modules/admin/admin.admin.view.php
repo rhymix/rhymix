@@ -118,7 +118,8 @@ class adminAdminView extends admin
 		$menuPhpFile = $oAdminAdminModel->checkAdminMenu();
 		if(!$menuPhpFile)
 		{
-			return $this->setRedirectUrl(getUrl('', 'module', 'admin'));
+			header('Location: '.getNotEncodedUrl('', 'module','admin'));
+			Context::close();
 		}
 		include $menuPhpFile;
 
