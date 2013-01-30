@@ -5,7 +5,7 @@
 <load target="./message.js" />
 <div id="access">
 	<div class="login-header">
-		<h1><i class="x_icon-user"></i> {$system_message}</h1>
+		<h1><i class="icon-user"></i> {$system_message}</h1>
 	</div>
 	<div class="login-body">
 		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -16,30 +16,30 @@
 			<input type="hidden" name="act" value="procMemberLogin" />
 			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 			<fieldset>
-				<div class="x_control-group">
+				<div class="control-group">
 					<input type="text" name="user_id" id="uid" title="{$lang->user_id}" placeholder="{$lang->user_id}" required autofocus cond="$member_config->identifier != 'email_address'" />
 					<input type="email" name="user_id" id="uid" title="{$lang->email_address}" placeholder="{$lang->email_address}" required autofocus cond="$member_config->identifier == 'email_address'" />
 					<input type="password" name="password" id="upw" title="{$lang->password}" placeholder="{$lang->password}" required />
 				</div>
-				<div class="x_control-group">
+				<div class="control-group">
 					<label for="keepid">
 						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()>0?'addClass':'removeClass')]('open');" />						
 						{$lang->keep_signed}
 					</label>
 					<p id="warning">{$lang->about_keep_warning}</p>
-					<input type="submit" value="{$lang->cmd_login}" class="submit x_btn x_btn-inverse" />
+					<input type="submit" value="{$lang->cmd_login}" class="submit btn btn-inverse" />
 				</div>
 			</fieldset>
 		</form>
 		<p cond="$is_logged" style="text-align:center">
-			<a href="{getUrl('act','dispMemberLogout','module','')}" class="x_btn">{$lang->cmd_logout}</a>
+			<a href="{getUrl('act','dispMemberLogout','module','')}" class="btn">{$lang->cmd_logout}</a>
 		</p>
 		<p cond="!$is_logged && $module != 'admin'" style="text-align:center">
-			<a href="{getUrl('act','dispMemberLoginForm','module','', 'mid', '')}" class="x_btn">{$lang->cmd_login}</a>
+			<a href="{getUrl('act','dispMemberLoginForm','module','', 'mid', '')}" class="btn">{$lang->cmd_login}</a>
 		</p>
 	</div>
 	<div class="login-footer" cond="!$is_logged">
-		<div class="x_pull-right">
+		<div class="pull-right">
 			<a href="{getUrl('','act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
 			|
 			<a href="{getUrl('','act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a>
