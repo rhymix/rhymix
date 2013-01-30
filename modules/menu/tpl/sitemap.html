@@ -2316,8 +2316,9 @@ jQuery(function($){
 
 		//index.php?act=getAutoinstallAdminMenuPackageList
 		$('#layout').nextAll().hide();
-		
-		drawDownloadableList('downloadLayout');
+
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
+		drawDownloadableList('downloadLayout', { 'type': sMode});
 	});
 
 	$('#downloadSkin').bind("show", function(ev){
@@ -2328,16 +2329,19 @@ jQuery(function($){
 		
 	//index.php?act=getAutoinstallAdminMenuPackageList
 		$('#skin').nextAll().hide();
+		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		
 		<!--@if($act == 'dispMenuAdminSiteMap')-->
 		drawDownloadableList('downloadSkin', {
-			parent_program : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType
+			parent_program : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sModuleType,
+			type: sMode
 		});
 		<!--@end-->
 		
 		<!--@if($act == 'dispMenuAdminSiteDesign')-->
 		drawDownloadableList('downloadSkin', {
-			parent_program : $._xeAdminVar.htSelectedMenuDesign.sModuleName
+			parent_program : $._xeAdminVar.htSelectedMenuDesign.sModuleName,
+			type: sMode
 		});
 		<!--@end-->
 	});
