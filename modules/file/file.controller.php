@@ -735,6 +735,8 @@ class fileController extends file
 		$srls = explode(',',$file_srl);
 		if(!count($srls)) return;
 
+		$oDocumentController = &getController('document');
+		$documentSrlList = array();
 		for($i=0;$i<count($srls);$i++)
 		{
 			$srl = (int)$srls[$i];
@@ -743,10 +745,16 @@ class fileController extends file
 			$args = null;
 			$args->file_srl = $srl;
 			$output = executeQuery('file.getFile', $args);
+
 			if(!$output->toBool()) continue;
 
 			$file_info = $output->data;
 			if(!$file_info) continue;
+
+			if($file_info->upload_target_srl)
+			{
+				array_push($documentSrlList, $file_info->upload_target_srl);
+			}
 
 			$source_filename = $output->data->source_filename;
 			$uploaded_filename = $output->data->uploaded_filename;
@@ -763,6 +771,8 @@ class fileController extends file
 			// If successfully deleted, remove the file
 			FileHandler::removeFile($uploaded_filename);
 		}
+
+		$oDocumentController->updateUploaedCount($documentSrlList);
 
 		return $output;
 	}
