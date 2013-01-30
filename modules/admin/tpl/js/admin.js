@@ -2440,6 +2440,9 @@ jQuery(function($){
 			while($container && !$container.hasClass('col')){
 				$btn = $container.find('button.x_btn-primary,button.x_btn-inverse');
 				if($btn.length>0){
+					// multi-lang field won't set the value until the input element is blured
+					if($(ev.target).hasClass('displayInput')) $(ev.target).blur();
+					
 					ev.preventDefault();
 					$btn.click();
 					break;
