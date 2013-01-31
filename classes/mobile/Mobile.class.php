@@ -129,8 +129,7 @@ class Mobile {
 		if(isset($UACheck)) return $UACheck;
 
 		$oMobile =& Mobile::getInstance();
-		// stripos is only for PHP5.
-		$mobileAgent = unserialize(strtolower(serialize(array('iPod','iPhone','Android','BlackBerry','SymbianOS','Bada','Tizen','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','Dorothy Browser','Mobile','Opera Mobi','Opera Mini','Minimo','AvantGo','NetFront','Nokia','LGPlayer','SonyEricsson','HTC'))));
+		$mobileAgent = array('iPod','iPhone','Android','BlackBerry','SymbianOS','Bada','Tizen','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','Dorothy Browser','Mobile','Opera Mobi','Opera Mini','Minimo','AvantGo','NetFront','Nokia','LGPlayer','SonyEricsson','HTC');
 
 		if($oMobile->isMobilePadCheckByAgent())
 		{
@@ -140,9 +139,7 @@ class Mobile {
 
 		foreach($mobileAgent as $agent)
 		{
-			// stripos is only for PHP5..
-			$httpUA = strtolower($_SERVER['HTTP_USER_AGENT']);
-			if(strpos($httpUA, $agent) !== FALSE)
+			if(stripos($_SERVER['HTTP_USER_AGENT'], $agent) !== FALSE)
 			{
 				$UACheck = TRUE;
 				return TRUE;
