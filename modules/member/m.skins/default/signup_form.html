@@ -38,7 +38,7 @@
 			</li>
 			<li loop="$formTags=>$formTag">
 				<label for="{$formTag->name}">{$formTag->title}</label>
-				<div id="{$formTag->name}" cond="$formTag->name != 'signature' && $formTag->type != 'date'" class="tel"|cond="$formTag->type == 'tel'">{$formTag->inputTag}</div>
+				<div cond="$formTag->name != 'signature' && $formTag->type != 'date'" class="tel"|cond="$formTag->type == 'tel'">{$formTag->inputTag}</div>
 				<input id="{$formTag->name}" class="inputText" type="date" value="{$oMemberInfo[$formTag->name]}" cond="$formTag->type == 'date'" />
 			</li>
 			<li> 
