@@ -145,9 +145,9 @@ class editorAdminController extends editor
 		else $config->font_defined = 'Y';
 
 		if($config->font_defined == 'Y')
-			$config->content_font = addslashes($configVars->content_font_defined);
+			$config->content_font = $configVars->content_font_defined;
 		else
-			$config->content_font = addslashes($configVars->content_font);
+			$config->content_font = $configVars->content_font;
 
 		$config->editor_skin = $configVars->editor_skin;
 		$config->editor_height = $configVars->editor_height;
