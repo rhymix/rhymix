@@ -736,7 +736,7 @@ class menuAdminController extends menu
 
 	private function _checkHomeMenuInOriginMenu($originMenu, $startMid, &$isStartmenuInclude)
 	{
-		if($originMenu['url'] == $startMid)
+		if($originMenu['is_shortcut'] != 'Y' && $originMenu['url'] == $startMid)
 		{
 			$isStartmenuInclude = true;
 		}
