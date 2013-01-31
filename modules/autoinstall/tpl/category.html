@@ -3,7 +3,7 @@
 	<li class="x_active"|cond="$act == 'dispAutoinstallAdminInstalledPackages'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages')}">Installed({$iCount})</a></li>
 </ul>
 
-<div cond="$act == 'dispAutoinstallAdminIndex'" class="x_thumbnail x_clearfix category">
+<nav cond="$act == 'dispAutoinstallAdminIndex'" class="x_thumbnail x_clearfix category">
 	<div loop="$categories => $category" cond="$category->depth == 0">
 		<h2>{$category->title}</h2>
 		<ul>
@@ -12,5 +12,5 @@
 			</li>
 		</ul>
 	</div>
-</div>
+</nav>
 

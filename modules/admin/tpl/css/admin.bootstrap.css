@@ -338,7 +338,7 @@
 .x input[type="search"]:focus,
 .x input[type="tel"]:focus,
 .x input[type="color"]:focus,
-.x .x_uneditable-input:focus{border-color:rgba(82, 168, 236, 0.8);outline:0;outline:thin dotted \9;/* IE6-9 */-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);-moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6)}
+.x .x_uneditable-input:focus{border-color:rgba(82, 168, 236, 0.8);outline:0;outline:thin dotted \9; /* IE6-9 */ -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);-moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6)}
 .x input[type="radio"],
 .x input[type="checkbox"]{margin:4px 0 0;margin-top:1px \9;*margin-top:0;line-height:normal}
 .x input[type="file"],
@@ -349,7 +349,7 @@
 .x input[type="radio"],
 .x input[type="checkbox"]{width:auto}
 .x select,
-.x input[type="file"]{height:30px;/* In IE7, the height of the select element cannot be changed by height, only font-size */*margin-top:4px;/* For IE7, add top margin to align select with labels */line-height:30px}
+.x input[type="file"]{height:30px; /* In IE7, the height of the select element cannot be changed by height, only font-size */ *margin-top:4px; /* For IE7, add top margin to align select with labels */ line-height:30px}
 .x select{width:220px;background-color:#ffffff;border:1px solid #cccccc}
 .x select[multiple],
 .x select[size]{height:auto}
@@ -596,7 +596,7 @@
 .x .x_input-prepend.x_input-append .x_add-on:last-child,
 .x .x_input-prepend.x_input-append .x_btn:last-child{margin-left:-1px;-webkit-border-radius:0 4px 4px 0;-moz-border-radius:0 4px 4px 0;border-radius:0 4px 4px 0}
 .x .x_input-prepend.x_input-append .x_btn-group:first-child{margin-left:0}
-.x input.x_search-query{padding-right:14px;padding-right:4px \9;padding-left:14px;padding-left:4px \9;/* IE7-8 doesn't have border-radius, so don't indent the padding */margin-bottom:0;-webkit-border-radius:15px;-moz-border-radius:15px;border-radius:15px}
+.x input.x_search-query{padding-right:14px;padding-right:4px \9;padding-left:14px;padding-left:4px \9; /* IE7-8 doesn't have border-radius, so don't indent the padding */ margin-bottom:0;-webkit-border-radius:15px;-moz-border-radius:15px;border-radius:15px}
 /* Allow for input prepend/append in search forms */
 .x .x_form-search .x_input-append .x_search-query,
 .x .x_form-search .x_input-prepend .x_search-query{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}
@@ -1020,7 +1020,7 @@
 .x .x_btn-success[disabled]{color:#ffffff;background-color:#51a351;*background-color:#499249}
 .x .x_btn-success:active,
 .x .x_btn-success.x_active{background-color:#408140 \9}
-.x .x_btn-info{color:#ffffff;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);background-color:#49afcd;*background-color:#2f96b4;background-image:-moz-linear-gradient(top, #5bc0de, #2f96b4);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#2f96b4));background-image:-webkit-linear-gradient(top, #5bc0de, #2f96b4);background-image:-o-linear-gradient(top, #5bc0de, #2f96b4);background-image:linear-gradient(to bottom, #5bc0de, #2f96b4);background-repeat:repeat-x;border-color:#2f96b4 #2f96b4 #1f6377;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);filter:progid:DXImageTransform.Microsoft.gradient(enabled=false)}
+.x .x_btn-info{color:#ffffff;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);background-color:#49afcd;*background-color:#2f96b4;background-image:-moz-linear-gradient(top, #5bc0de, #2f96b4);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#2f96b4));background-image:-webkit-linear-gradient(top, #5bc0de, #2f96b4);background-image:-o-linear-gradient(top, #5bc0de, #2f96b4);background-image:linear-gradient(to bottom, #5bc0de, #2f96b4);background-repeat:repeat-x;border-color:#2f96b4 #2f96b4 #1f6377;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5bc0de', endColorstr='#2f96b4', GradientType=0);filter:progid:DXImageTransform.Microsoft.gradient(enabled=false)}
 .x .x_btn-info:hover,
 .x .x_btn-info:active,
 .x .x_btn-info.x_active,
@@ -1028,7 +1028,7 @@
 .x .x_btn-info[disabled]{color:#ffffff;background-color:#2f96b4;*background-color:#2a85a0}
 .x .x_btn-info:active,
 .x .x_btn-info.x_active{background-color:#24748c \9}
-.x .x_btn-inverse{color:#ffffff;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);background-color:#363636;*background-color:#222222;background-image:-moz-linear-gradient(top, #444444, #222222);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));background-image:-webkit-linear-gradient(top, #444444, #222222);background-image:-o-linear-gradient(top, #444444, #222222);background-image:linear-gradient(to bottom, #444444, #222222);background-repeat:repeat-x;border-color:#222222 #222222 #000000;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);filter:progid:DXImageTransform.Microsoft.gradient(enabled=false)}
+.x .x_btn-inverse{color:#ffffff;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);background-color:#363636;*background-color:#222222;background-image:-moz-linear-gradient(top, #444444, #222222);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));background-image:-webkit-linear-gradient(top, #444444, #222222);background-image:-o-linear-gradient(top, #444444, #222222);background-image:linear-gradient(to bottom, #444444, #222222);background-repeat:repeat-x;border-color:#222222 #222222 #000000;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#222222', GradientType=0);filter:progid:DXImageTransform.Microsoft.gradient(enabled=false)}
 .x .x_btn-inverse:hover,
 .x .x_btn-inverse:active,
 .x .x_btn-inverse.x_active,
@@ -1103,7 +1103,7 @@
 .x .x_btn-info .x_caret,
 .x .x_btn-success .x_caret,
 .x .x_btn-inverse .x_caret{border-top-color:#ffffff;border-bottom-color:#ffffff}
-.x .x_btn-group-vertical{display:inline-block;*display:inline;/* IE7 inline-block hack */*zoom:1}
+.x .x_btn-group-vertical{display:inline-block;*display:inline; /* IE7 inline-block hack */ *zoom:1}
 .x .x_btn-group-vertical>.x_btn{display:block;float:none;max-width:100%;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}
 .x .x_btn-group-vertical>.x_btn+.x_btn{margin-top:-1px;margin-left:0}
 .x .x_btn-group-vertical>.x_btn:first-child{-webkit-border-radius:4px 4px 0 0;-moz-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0}
