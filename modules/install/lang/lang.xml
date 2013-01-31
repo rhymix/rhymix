@@ -847,7 +847,7 @@
 		<value xml:lang="vi"><![CDATA[Cổng kết nối]]></value>
 	</item>
 	<item name="about_ftp_password">
-		<value xml:lang="ko"><![CDATA[FTP Password는 저장되지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[비밀번호는 FTP 경로 확인을 위한 FTP 접속 시 필요하며 사용 후 저장하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[FTP password will not be stored.]]></value>
 		<value xml:lang="jp"><![CDATA[FTP情報は保存できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP密码不会被保存。]]></value>
