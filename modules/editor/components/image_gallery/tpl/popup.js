@@ -11,7 +11,7 @@ function getSlideShow() {
     if($node.is('img')) {
         selected_node = node;
 
-        width = $(node).width() - 4;
+        width = $node.width();
         style = $node.attr('gallery_style');
         align = $node.attr('gallery_align') || 'center';
         border_color = $node.attr('border_color');
