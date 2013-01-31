@@ -59,6 +59,7 @@ class menu extends ModuleObject
 			$oDB->addIndex('menu', 'idx_title', array('title'));
 		}
 
+		// 1.7(maserati) shortcut column add and mirgration
 		if(!$oDB->isColumnExists('menu_item', 'is_shortcut'))
 		{
 			$oDB->addColumn('menu_item', 'is_shortcut', 'char', 1, 'N');
@@ -96,6 +97,7 @@ class menu extends ModuleObject
 					}
 				}
 
+				$oModuleModel = &getModel('module');
 				// if duplicate reference, change type to shortcut
 				$shortcutItemList = array_diff_assoc($menuItemAllList, $menuItemUniqueList);
 				foreach($output AS $key=>$value)
@@ -107,6 +109,19 @@ class menu extends ModuleObject
 					{
 						foreach($output2->data AS $key2=>$value2)
 						{
+							if(!empty($value2->url) && !preg_match('/^http/i',$value2->url))
+							{
+								$moduleInfo = $oModuleModel->getModuleInfoByMid($value2->url);
+								if(!$moduleInfo->module_srl)
+								{
+									$value2->url = Context::getDefaultUrl();
+									if(!$value2->url) $value2->url = '#';
+									$value2->is_shortcut = 'Y';
+
+									$updateOutput = executeQuery('menu.updateMenuItem', $value2);
+								}
+							}
+
 							if($shortcutItemList[$value2->menu_item_srl])
 							{
 								$value2->is_shortcut = 'Y';
