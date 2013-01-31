@@ -504,7 +504,6 @@ class memberView extends member
 	{
 		if(Context::get('is_logged')) return $this->stop('already_logged');
 
-		$oMemberModel = &getModel('member');
 		$config = $this->member_config;
 
 		Context::set('identifier', $config->identifier);
