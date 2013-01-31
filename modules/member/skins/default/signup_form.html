@@ -21,20 +21,20 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label for="{$identifierForm->name}" class="control-label"><em>*</em> {$identifierForm->title}</label>
+			<label for="{$identifierForm->name}" class="control-label"><em style="color:red">*</em> {$identifierForm->title}</label>
 			<div class="controls">
 				<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" required />
 			</div>
 		</div>
 		<div class="control-group">
-			<label for="password" class="control-label"><em>*</em> {$lang->password}</label>
+			<label for="password" class="control-label"><em style="color:red">*</em> {$lang->password}</label>
 			<div class="controls">
 				<input type="password" name="password" id="password" value="" required />
 				<p class="help-inline">{$lang->about_password}</p>
 			</div>
 		</div>
 		<div class="control-group">
-			<label for="password2" class="control-label"><em>*</em> {$lang->password3}</label>
+			<label for="password2" class="control-label"><em style="color:red">*</em> {$lang->password3}</label>
 			<div class="controls">
 				<input type="password" name="password2" id="password2" value="" required />
 			</div>
