@@ -1,7 +1,4 @@
 <?php
-include '../handler/Handler.class.php';
-include './CacheHandler.class.php';
-
 /**
  * Cache class for APC
  *
