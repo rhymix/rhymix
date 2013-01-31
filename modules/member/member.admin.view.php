@@ -447,7 +447,7 @@ class memberAdminView extends member
 					{
 						$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="false" />', $formInfo->name);
 					}
-					$inputTag .= sprintf('<input type="file" name="%s" id="%s" value="" accept="image/*" /><p class="x_help-block">%s: %dpx, %s: %dpx</p>',
+					$inputTag .= sprintf('<input type="file" name="%s" id="%s" value="" accept="image/*" /><p class="help-block">%s: %dpx, %s: %dpx</p>',
 						$formInfo->name,
 						$formInfo->name,
 						$lang->{$formInfo->name.'_max_width'},
@@ -458,7 +458,7 @@ class memberAdminView extends member
 					else if($formInfo->name == 'birthday')
 					{
 						$formTag->type = 'date';
-						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="x_btn dateRemover" />',
+						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="btn dateRemover" />',
 							$memberInfo['birthday'],
 							zdate($memberInfo['birthday'], 'Y-m-d', false),
 							$lang->cmd_delete);
@@ -598,9 +598,9 @@ class memberAdminView extends member
 						<div class="krZip" style="padding-top:5px">
 							<div id="zone_address_search_%column_name%" style="margin-bottom:10px">
 								<label for="krzip_address1_%column_name%">%msg_kr_address%</label>
-								<span class="x_input-append">
+								<span class="input-append">
 									<input type="text" id="krzip_address1_%column_name%" value="%addr_0%" />
-									<button type="button" class="x_btn">%cmd_search%</button>
+									<button type="button" class="btn">%cmd_search%</button>
 								</span>
 							</div>
 							<div id="zone_address_list_%column_name%" hidden style="margin-bottom:10px">
@@ -629,7 +629,7 @@ EOD;
 					$inputTag = preg_replace('@%(\w+)%@e', '$replace[$1]', $template);
 
 					if($extendForm->description)
-						$inputTag .= '<p class="x_help-block">'.htmlspecialchars($extendForm->description).'</p>';
+						$inputTag .= '<p class="help-block">'.htmlspecialchars($extendForm->description).'</p>';
 				}
 				$formTag->inputTag = $inputTag;
 				$formTags[] = $formTag;

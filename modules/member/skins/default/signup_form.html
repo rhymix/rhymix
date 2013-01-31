@@ -40,7 +40,7 @@
 			</div>
 		</div>
 		<div class="control-group" loop="$formTags=>$formTag" cond="$formTag->name != 'signature'">
-			<label for="" class="control-label">{$formTag->title}</label>
+			<label for="{$formTag->name}" class="control-label">{$formTag->title}</label>
 			<div class="controls">{$formTag->inputTag}</div>
 		</div>
 		<div class="control-group">

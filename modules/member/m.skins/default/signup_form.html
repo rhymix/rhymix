@@ -36,10 +36,9 @@
 				<label for="password2">{$lang->password3} <em style="color:red">*</em></label>
 				<input type="password" name="password2" id="password2" value=""/>
 			</li>
-			<li loop="$formTags=>$formTag">
+			<li loop="$formTags=>$formTag" cond="$formTag->name != 'signature'">
 				<label for="{$formTag->name}">{$formTag->title}</label>
-				<div cond="$formTag->name != 'signature' && $formTag->type != 'date'" class="tel"|cond="$formTag->type == 'tel'">{$formTag->inputTag}</div>
-				<input id="{$formTag->name}" class="inputText" type="date" value="{$oMemberInfo[$formTag->name]}" cond="$formTag->type == 'date'" />
+				<div>{$formTag->inputTag}</div>
 			</li>
 			<li> 
 				<label>{$lang->allow_mailing}</label>

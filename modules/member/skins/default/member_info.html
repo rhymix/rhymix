@@ -3,7 +3,7 @@
 <dl class="dl-horizontal">
 	<block loop="$displayDatas => $item">
 		<dt><em cond="$item->required || $item->mustRequired">*</em> {$item->title}</dt>
-		<dd>{$item->value}</dd>
+		<dd>{$item->value}&nbsp;</dd>
 	</block>
 	<dt>{$lang->member_group}</dt>
 	<dd>{implode(', ', $memberInfo['group_list'])}</dd>
