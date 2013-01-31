@@ -804,6 +804,14 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[메뉴와 연결된 콘텐츠도 모두 삭제된다는 것을 이해하고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[I understand that the contents will be deleted as well.]]></value>
 	</item>
+	<item name="confirm_shortcut_delete">
+		<value xml:lang="ko"><![CDATA[바로가기를 삭제 하겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Do you want to remove this shortcut item?]]></value>
+	</item>
+	<item name="confirm_shortcut_desc">
+		<value xml:lang="ko"><![CDATA[바로가기를 삭제해도 실제 메뉴는 지워지지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[바로가기를 삭제해도 실제 메뉴는 지워지지 않습니다.]]></value>
+	</item>
 	<item name="confirm_delete_all_sub_items_title">
 		<value xml:lang="ko"><![CDATA[하위 메뉴가 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The menu has sub-menu(s)]]></value>

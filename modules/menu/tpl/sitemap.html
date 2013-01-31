@@ -683,6 +683,8 @@
 	xe.lang.msg_target_is_sub_of_origin = '{$lang->msg_target_is_sub_of_origin}';
 	xe.lang.confirm_menu_delete = '{$lang->confirm_menu_delete}';
 	xe.lang.confirm_delete_all_contents = '{$lang->confirm_delete_all_contents}';
+	xe.lang.confirm_shortcut_delete = '{$lang->confirm_shortcut_delete}';
+	xe.lang.confirm_shortcut_desc = '{$lang->confirm_shortcut_desc}';
 	xe.lang.confirm_delete_all_item = '{$lang->confirm_delete_all_item}';
 	xe.lang.confirm_delete_all_sub_items_title = '{$lang->confirm_delete_all_sub_items_title}';
 	xe.lang.confirm_delete_all_sub_items = '{$lang->confirm_delete_all_sub_items}';
@@ -3294,10 +3296,24 @@ jQuery(function($){
 			return;
 		}
 		
+		console.log(htInfo);
+		var tmpTitle = '';
+		var tmpText = '';
+		if(htInfo.is_shortcut == 'Y')
+		{
+			tmpTitle = xe.lang.confirm_shortcut_delete;
+			tmpText = xe.lang.confirm_shortcut_desc;
+		}
+		else
+		{
+			tmpTitle = xe.lang.confirm_menu_delete;
+			tmpText = xe.lang.confirm_delete_all_contents;
+		}
+
 		$.xeMsgBox.confirmDialog({
-			sTitle : xe.lang.confirm_menu_delete,
+			sTitle : tmpTitle,
 			
-			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_contents + '</label>',
+			sText : '<label><input type="checkbox"> ' + tmpText + '</label>',
 			
 			bDanger : true,
 			
