@@ -93,6 +93,21 @@ class HTMLDisplayHandler
 				if(!$layout_file) $layout_file = 'default_layout';
 				$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
+				// if popup_layout, remove admin bar.
+				$realLayoutPath = FileHandler::getRealPath($layout_path);
+				if(substr($realLayoutPath, -1) != '/')
+				{
+					$realLayoutPath .= '/';
+				}
+
+				$pathInfo = pathinfo($layout_file);
+				$onlyLayoutFile = $pathInfo['filename'];
+
+				if($realLayoutPath === _XE_PATH_ . 'common/tpl/' && $onlyLayoutFile === 'popup_layout')
+				{
+					Context::set('admin_bar', 'false');
+				}
+
 				if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
 
 				if(preg_match('/MSIE/i',$_SERVER['HTTP_USER_AGENT']) && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
