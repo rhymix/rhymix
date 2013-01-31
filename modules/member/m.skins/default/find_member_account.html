@@ -22,7 +22,7 @@
 		<input type="submit" class="bn dark" value="{$lang->cmd_send_mail}" />
 	</div>
 </form>
-<block cond="count($lang->find_account_question_items)>1)">
+<block cond="count($lang->find_account_question_items)>1">
 	<div class="hx h2"><h2>{$lang->cmd_find_member_account_with_email_question}</h2></div>
 	<p style="margin:3px 10px;color:#666">{$lang->about_find_account_question}</p>
 	<form action="./" method="post" class="ff" ruleset="@find_member_account_by_question">
