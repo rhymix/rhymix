@@ -46,18 +46,16 @@ xe.lang.confirm_delete = '{$lang->confirm_delete}';
 	</div>
 </div>
 
-<div id="insertLayout" class="x_modal">
+<section id="insertLayout" class="x_modal">
 	<form ruleset="insertLayout" action="./" class="x_form-horizontal">
 		<input type="hidden" name="module" value="layout" />
 		<input type="hidden" name="act" value="procLayoutAdminInsert" />
 		<input type="hidden" name="layout" value="{$layout_info->layout}" />
 		<input type="hidden" name="_layout_type" value="{$type}" />
 		<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispLayoutAdminInstanceList')}" />
-
 		<div class="x_modal-header">
-			<h3>{$lang->cmd_insert}</h3>
+			<h1>{$lang->cmd_insert}</h1>
 		</div>
-
 		<div class="x_modal-body">
 			<div class="x_control-group">
 				<label class="x_control-label">{$lang->layout}</label>
@@ -97,7 +95,6 @@ xe.lang.confirm_delete = '{$lang->confirm_delete}';
 				</div>
 			</div>
 		</div>
-
 		<div class="x_modal-footer">
 			<button type="button" class="x_btn x_pull-left" data-hide="#insertLayout">{$lang->cmd_close}</button>
 			<span class="x_btn-group x_pull-right">
@@ -105,4 +102,4 @@ xe.lang.confirm_delete = '{$lang->confirm_delete}';
 			</span>
 		</div>
 	</form>
-</div>
+</section>

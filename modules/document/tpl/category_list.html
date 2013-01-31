@@ -32,7 +32,7 @@
 	});
 </script>
 
-<div class="x_modal x" id="__category_info" hidden>
+<section class="x_modal x" id="__category_info" hidden>
 	<form ruleset="insertCategory" id="fo_category" action="./" method="post" class="x_form x_form-horizontal" style="margin:0">
 		<input type="hidden" name="module" value="document" />
 		<input type="hidden" name="act" value="procDocumentInsertCategory" />
@@ -41,9 +41,8 @@
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 		<input type="hidden" name="parent_srl" value="{$category_info->parent_srl}" />
 		<input type="hidden" name="category_srl" value="{$category_info->category_srl}" />
-
 		<div class="x_modal-header">
-			<h3>{$lang->category}</h3>
+			<h1>{$lang->category}</h1>
 		</div>
 		<div class="x_modal-body">
 			<div id="__parent_category_info" class="x_control-group">
@@ -92,4 +91,4 @@
 			<button type="submit" class="x_btn x_btn-primary x_pull-right">{$lang->cmd_save}</button>
 		</div>
 	</form>
-</div>
+</section>

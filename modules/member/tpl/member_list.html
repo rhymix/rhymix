@@ -127,13 +127,13 @@
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 	<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'page', $page)}">{$lang->cmd_cancel}</a>
 </form>
-<div class="x_modal" id="listManager">
+<section class="x_modal" id="listManager">
 	<form action="./" ruleset="updateSeletecdMemberInfo" method="post">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 		<div class="x_modal-header">
-			<h3>{$lang->cmd_selected_user_manage}: <span class="_sub"></span></h3>
+			<h1>{$lang->cmd_selected_user_manage}: <span class="_sub"></span></h1>
 		</div>
 		<div class="x_modal-body">
 			<table class="x_table x_table-striped x_table-hover">
@@ -164,7 +164,7 @@
 			</span>
 		</div>
 	</form>
-</div>
+</section>
 <script>
 jQuery(function($){
 	// Modal anchor activation

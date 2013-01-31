@@ -4,9 +4,9 @@
 	unset($lang_supported[$lang_type]);
 	$lang_supported = array_merge($a, $lang_supported);
 }
-<div class="x_modal"|cond="!$use_in_page" id="g11n" style="display:none"|cond="!$use_in_page">
+<div class="x_modal"|cond="!$use_in_page" id="g11n" hidden|cond="!$use_in_page">
 	<div class="x_modal-header" cond="!$use_in_page">
-		<h3>{$lang->cmd_multilingual}</h3>
+		<h1>{$lang->cmd_multilingual}</h1>
 	</div>
 	<div class="x_modal-body"|cond="!$use_in_page">
 		<div class="x_tabbable">

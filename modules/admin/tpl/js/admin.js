@@ -901,23 +901,7 @@ jQuery(function($){
 
 		return this;
 	}
-
-	//$('.module_search').xeModuleSearchHtml();
 });
-/*
-// Menu Selector
-jQuery(function($){
-	var tmpCount = 0;
-	_xeModuleSearch = function(){
-		var t = this;
-		var $t = $(this);
-		var is_multiple = $t.data('multiple');
-		if(!is_multiple) is_multiple = '';
-		var id = '__module_searcher_' + tmpCount;
-		tmpCount++;
-	}
-});
-*/
 
 jQuery(function($){	
 
@@ -959,33 +943,15 @@ jQuery(function($){
 });
 
 jQuery(function($){	
-	/*
-	<fieldset class="x_modal" id="msgBox" style="display:none">
-	<div class="x_modal-header">
-		<h3 class="_title"></h3>
-	</div>
-	<div class="x_modal-body">
-		<p class="_text"></p>
-	</div>
-	<div class="x_modal-footer">
-		<button type="button" class="x_btn x_pull-left _cancel">{$lang->cmd_cancel}</button>
-		<span class="x_btn-group x_pull-right">
-			<button type="button" class="x_btn x_btn-inverse _ok">{$lang->cmd_confirm}</button>
-		</span>
-	</div>
-	<button type="button" class="x_close _cancel">&times;</button>
-	</fieldset>
-	*/
-	
 	$.xeMsgBox = {
 		htOptions : {}
 	};
 	//xe.cmd_cancel = "{$lang->cmd_cancel}";
 	//xe.cmd_confirm = "{$lang->cmd_confirm}";
-	var $msgBox = $.xeMsgBox.$msgBox = $("<div>").addClass("x_modal _common x").css('display', 'none').css('z-index', 9999);
+	var $msgBox = $.xeMsgBox.$msgBox = $("<section />").addClass("x_modal _common x").hide().css('z-index', 9999);
 	$msgBox.html('<button type="button" class="x_close _cancel">&times;</button>\
 		<div class="x_modal-header">\
-			<h3 class="_title"></h3>\
+			<h1 class="_title"></h1>\
 		</div>\
 		<div class="x_modal-body">\
 			<div class="_text"></div>\
@@ -1123,7 +1089,7 @@ jQuery(function($){
 		this.showMsgBox(htOptions);
 	}
 	
-	var $foggyLayer = $.xeMsgBox.$foggyLayer = $("<div>");
+	var $foggyLayer = $.xeMsgBox.$foggyLayer = $("<div />");
 	$foggyLayer.css({
 		position: 'absolute',
 		top:0,
@@ -1163,7 +1129,7 @@ jQuery(function($){
 jQuery(function($){
 	$.xeFoggy = {};
 	
-	var $foggyLayer = $.xeFoggy.$foggyLayer = $("<div>");
+	var $foggyLayer = $.xeFoggy.$foggyLayer = $("<div />");
 	$foggyLayer.css({
 		position: 'absolute',
 		top:0,
@@ -2095,12 +2061,6 @@ jQuery(function($){
 		
 		// disable sitemap labels and shortcuts.
 		$container.find('._nodeType_1, ._nodeType_3').parent('li').addClass('x_disabled');
-
-		/*
-		if(sSelectedModule){
-			$container.find('._menu_url_'+sSelectedModule).click();
-		}
-		*/
 	}
 	
 	function isSelectable($node){
@@ -2230,11 +2190,6 @@ jQuery(function($){
 			if(aSubNode && aSubNode.length>0){
 				sSubTree = createTreeMarkup(aSubNode, sNodeSrl, sMenuTree, sMenuTreeNode);
 			}
-			/*
-			if(sMenuType === "shortcut"){
-				sText = sText + " ${s}";
-			}
-			*/
 			var sTextWithIcons = sText;
 			if(sIsStartModule){
 				sTextWithIcons += " ${h}";
@@ -2274,14 +2229,6 @@ jQuery(function($){
 		
 		$.exec_json('admin.getSiteAllList', {domain:""}, onSiteAllListCompleted);
 	}
-	// <a class="x_btn moduleTrigger tgAnchor xe-content-toggler xe-module-search" href="#__module_searcher_0">찾기</a>
-	/*
-	$t
-		.not('.xe-module-search')
-		.addClass('xe-module-search')
-		.parent()
-		.find('.moduleTrigger')
-	*/
 	function xeMenuSearch(ev){
 		var $btn = $(ev.target);
 		$.xeMenuSelectorVar.bMultiSelect = ""+$btn.data('multiple') == "true";
