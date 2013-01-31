@@ -945,28 +945,37 @@ class moduleModel extends module
 		}
 
 		$siteInfo = Context::get('site_module_info');
-		
-		if($dir == 'skins')
+		$oMenuAdminModel = getAdminModel('menu');
+		$installedMenuTypes = $oMenuAdminModel->getModuleListInSitemap($siteInfo->site_srl);
+		$moduleName = $module;
+		if($moduleName === 'page')
 		{
-			$type = 'P';
+			$moduleName = 'ARTICLE';
 		}
-		else
+		if(array_key_exists($moduleName, $installedMenuTypes))
 		{
-			$type = 'M';
-		}
-		
-		$defaultSkinName = $this->getModuleDefaultSkin($module, $type, $site_info->site_srl);
-		
-		if(isset($defaultSkinName))
-		{
-			$defaultSkinInfo = $this->loadSkinInfo($path, $defaultSkinName, $dir);
+			if($dir == 'skins')
+			{
+				$type = 'P';
+			}
+			else
+			{
+				$type = 'M';
+			}
 
-			$useDefault = new stdClass();
-			$useDefault->title = Context::getLang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
+			$defaultSkinName = $this->getModuleDefaultSkin($module, $type, $site_info->site_srl);
 
-			$useDefaultList['/USE_DEFAULT/'] = $useDefault;
+			if(isset($defaultSkinName))
+			{
+				$defaultSkinInfo = $this->loadSkinInfo($path, $defaultSkinName, $dir);
 
-			$skin_list = array_merge($useDefaultList, $skin_list);
+				$useDefault = new stdClass();
+				$useDefault->title = Context::getLang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
+
+				$useDefaultList['/USE_DEFAULT/'] = $useDefault;
+
+				$skin_list = array_merge($useDefaultList, $skin_list);
+			}
 		}
 		
 		return $skin_list;
