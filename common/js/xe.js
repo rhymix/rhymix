@@ -424,6 +424,11 @@ if(jQuery) jQuery.noConflict();
 /* jQuery(document).ready() */
 jQuery(function($) {
 
+	// Anchor: focus move to target
+	$('a[href^="#"]').click(function(){
+		$($(this).attr('href')).attr('tabindex','0').css('outline','0').focus();
+	});
+
     /* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
     if($.browser.msie) {
         $('select').each(function(i, sels) {
@@ -755,7 +760,7 @@ function setFixedPopupSize() {
 	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
 	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
 
-	if(w < 600) w = 600 + offset.left*2;
+	if(w < 800) w = 800 + offset.left*2;
 
 	dw = $win.width();
 	dh = $win.height();
@@ -1568,6 +1573,14 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	// ajax 통신중 대기 메세지 출력 (show_waiting_message값을 false로 세팅시 보이지 않음)
 	var waiting_obj = $('.wfsr');
 	if(show_waiting_message && waiting_obj.length) {
+	
+		var timeoutId = $(".wfsr").data('timeout_id');
+		if(timeoutId) clearTimeout(timeoutId);
+		$(".wfsr").css('opacity', 0.0);
+		$(".wfsr").data('timeout_id', setTimeout(function(){
+			$(".wfsr").css('opacity', '');
+		}, 1000));
+
 		waiting_obj.html(waiting_message).show();
 	}
 }
@@ -1613,6 +1626,13 @@ $.exec_json = function(action,data,func){
     if(typeof(data) == 'undefined') data = {};
     action = action.split(".");
     if(action.length == 2){
+		// The cover can be disturbing if it consistently blinks (because ajax call usually takes very short time). So make it invisible for the 1st 0.5 sec and then make it visible.
+		var timeoutId = $(".wfsr").data('timeout_id');
+		if(timeoutId) clearTimeout(timeoutId);
+		$(".wfsr").css('opacity', 0.0);
+		$(".wfsr").data('timeout_id', setTimeout(function(){
+			$(".wfsr").css('opacity', '');
+		}, 1000));
         if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
         $.extend(data,{module:action[0],act:action[1]});
@@ -1625,7 +1645,16 @@ $.exec_json = function(action,data,func){
             ,data:$.param(data)
             ,success : function(data){
                 $(".wfsr").hide().trigger('cancel_confirm');
-                if(data.error > 0) alert(data.message);
+                if(data.error != 0 && data.error > -1000){
+					if(data.error == -1 && data.message == 'msg_is_not_administrator'){
+						alert('You are not logged in as an administrator');
+	//					window.location.reload();
+						return;
+					}else{
+						alert(data.message);
+						return;
+					}
+				}
                 if($.isFunction(func)) func(data);
             }
         });
@@ -1639,6 +1668,12 @@ $.fn.exec_html = function(action,data,type,func,args){
     var self = $(this);
     action = action.split(".");
     if(action.length == 2){
+		var timeoutId = $(".wfsr").data('timeout_id');
+		if(timeoutId) clearTimeout(timeoutId);
+		$(".wfsr").css('opacity', 0.0);
+		$(".wfsr").data('timeout_id', setTimeout(function(){
+			$(".wfsr").css('opacity', '');
+		}, 1000));
         if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
         $.extend(data,{module:action[0],act:action[1]});
