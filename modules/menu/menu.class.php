@@ -69,6 +69,8 @@ class menu extends ModuleObject
 
 			if(is_array($output))
 			{
+				$menuItemUniqueList = array();
+				$menuItemAllList = array();
 				foreach($output  AS $key=>$value)
 				{
 					unset($args);
@@ -78,16 +80,44 @@ class menu extends ModuleObject
 					{
 						foreach($output2->data AS $key2=>$value2)
 						{
+							$menuItemAllList[$value2->menu_item_srl] = $value2->url;
+							if(!in_array($value2->url, $menuItemUniqueList))
+							{
+								$menuItemUniqueList[$value2->menu_item_srl] = $value2->url;
+							}
+
+							// if url is empty, change type to shortcurt
 							if($value2->is_shortcut == 'N' && !$value2->url)
 							{
 								$value2->is_shortcut = 'Y';
+								$output3 = executeQuery('menu.updateMenuItem', $value2);
+							}
+						}
+					}
+				}
 
+				// if duplicate reference, change type to shortcut
+				$shortcutItemList = array_diff_assoc($menuItemAllList, $menuItemUniqueList);
+				foreach($output AS $key=>$value)
+				{
+					unset($args);
+					$args->menu_srl = $value->menu_srl;
+					$output2 = executeQueryArray('menu.getMenuItems', $args);
+					if(is_array($output2->data))
+					{
+						foreach($output2->data AS $key2=>$value2)
+						{
+							if($shortcutItemList[$value2->menu_item_srl])
+							{
+								$value2->is_shortcut = 'Y';
 								$output3 = executeQuery('menu.updateMenuItem', $value2);
 							}
 						}
 					}
 				}
 			}
+
+			$this->recompileCache();
 		}
 
 		return new Object(0, 'success_updated');
