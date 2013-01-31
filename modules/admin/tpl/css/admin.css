@@ -136,7 +136,7 @@ body>.x,
 .x input[type="search"], 
 .x input[type="tel"], 
 .x input[type="color"], 
-.x_uneditable-input{height:16px}
+.x_uneditable-input{height:16px;line-height:16px}
 .x select{padding:0;height:26px;line-height:26px}
 .x select[multiple]{height:auto}
 .x textarea{vertical-align:top}
