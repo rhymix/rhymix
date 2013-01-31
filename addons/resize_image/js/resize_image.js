@@ -16,18 +16,18 @@ function getScreen() {
 		xScreen = $("<div>")
 			.attr("id","xe_gallery_screen")
 			.css({
-				position:"absolute",
+				position:"fixed",
 				display:"none",
 				backgroundColor:"black",
 				zIndex:500,
-				opacity:0.5
+				opacity:0.7
 			});
 
 		// 이미지를 보여주고 컨트롤 버튼을 다룰 레이어
 		controls = $("<div>")
 			.attr("id","xe_gallery_controls")
 			.css({
-				position:"absolute",
+				position:"fixed",
 				display:"none",
 				overflow:"hidden",
 				zIndex:510
@@ -77,8 +77,11 @@ function getScreen() {
 		// 이미지 홀더
 		imgframe = $("<img>")
 			.attr("id", "xe_gallery_holder")
-			.css("border", "7px solid white")
-			.css("zIndex", 520)
+			.css({
+				border: '7px solid white',
+				zindex: 520,
+				'max-width': 'none'
+			})
 			.appendTo(controls).draggable();
 
 		body.append(xScreen).append(controls);
@@ -130,8 +133,8 @@ function getScreen() {
             if(!src) src = this.list.eq(this.index).attr("src");
 
 			imgframe.attr("src", src).css({
-				left : Math.round( Math.max( parseInt($(document).scrollLeft()) + (clientWidth-imgframe.width()-14)/2, 0 ) ) + "px",
-				top  : Math.round( Math.max( parseInt($(document).scrollTop()) + (clientHeight-imgframe.height()-14)/2, 0 ) ) + "px"
+				left : Math.round( parseInt($(document).scrollLeft()) + (clientWidth-imgframe.width()-14)/2, 0 ) + "px",
+				top  : Math.round( parseInt($(document).scrollTop()) + (clientHeight-imgframe.height()-14)/2, 0 ) + "px"
 			});
 
 			closebtn.css({
