@@ -115,13 +115,13 @@ class adminAdminView extends admin
 		$oAdminAdminModel   = &getAdminModel('admin');
 		$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
 
-		$menuPhpFile = $oAdminAdminModel->checkAdminMenu();
-		if(!$menuPhpFile)
+		$result = $oAdminAdminModel->checkAdminMenu();
+		if(!$result->php_file)
 		{
 			header('Location: '.getNotEncodedUrl('', 'module','admin'));
 			Context::close();
 		}
-		include $menuPhpFile;
+		include $result->php_file;
 
 		$oModuleModel = &getModel('module');
 		$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
@@ -138,8 +138,16 @@ class adminAdminView extends admin
 		}
 
 		$parentSrl = 0;
+		$oMenuAdminConroller = &getAdminController('menu');
 		foreach((array)$menu->list as $parentKey=>$parentMenu)
 		{
+			if(!$parentMenu['text'])
+			{
+				$oMenuAdminConroller->makeXmlFile($result->menu_srl);
+				header('Location: '.getNotEncodedUrl('', 'module','admin'));
+				break;
+			}
+
 			if(!is_array($parentMenu['list']) || !count($parentMenu['list'])) continue;
 			if($parentMenu['href'] == '#' && count($parentMenu['list']))
 			{
@@ -149,6 +157,13 @@ class adminAdminView extends admin
 
 			foreach($parentMenu['list'] as $childKey=>$childMenu)
 			{
+				if(!$childMenu['text'])
+				{
+					$oMenuAdminConroller->makeXmlFile($result->menu_srl);
+					header('Location: '.getNotEncodedUrl('', 'module','admin'));
+					break;
+				}
+
 				if($subMenuTitle == $childMenu['text'])
 				{
 					$parentSrl = $childMenu['parent_srl'];

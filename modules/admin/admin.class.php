@@ -98,7 +98,11 @@ class admin extends ModuleObject
 			}
 
 			$this->_oldAdminmenuDelete();
-			return FileHandler::getRealPath($output->php_file);
+
+			$returnObj->menu_srl = $output->menu_srl;
+			$returnObj->php_file = FileHandler::getRealPath($output->php_file);
+
+			return $returnObj;
 		}
 	}
 
