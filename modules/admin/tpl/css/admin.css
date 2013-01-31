@@ -479,7 +479,7 @@ html[lang="mn"] .x .g11n.active>[disabled],
 .x #faviconPreview .fn2{top:55px;left:68px}
 /* Mobile Icon Preview */
 .x #mobiconPreview{position:relative;padding:270px 0 0 200px;background:url(../img/bgMobileTop.png) no-repeat}
-.x #mobiconPreview img{position:absolute;top:20px;left:10px}
+.x #mobiconPreview img{position:absolute;top:20px;left:10px;width:32px;height:32px}
 .x #mobiconPreview span{position:absolute;width:32px;text-align:center;top:52px;left:10px;color:#fff;font-size:9px}
 /* Layer */
 .x .layer{position:absolute;display:none;font-weight:normal}
