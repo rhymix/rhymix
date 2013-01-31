@@ -488,7 +488,7 @@ class moduleAdminModel extends module
 	 */
 	function getModuleAdminLangListHtml()
 	{
-		$siteModuleInfo = Context::get('site_module_info');
+		$site_module_info = Context::get('site_module_info');
 		$args->site_srl = (int)$site_module_info->site_srl;
 		$args->langCode = Context::get('lang_code');
 		$args->page = Context::get('page');

@@ -419,7 +419,7 @@ jQuery(function($){
 				$('body').css('overflow','auto');
 				$this.focus();
 			});
-		$('div.x_modal').addClass('x').hide();
+		$('div.x_modal').addClass('x');
 	};
 	$('a.modalAnchor').xeModalWindow();
 });
