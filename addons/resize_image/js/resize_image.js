@@ -144,11 +144,11 @@ function getScreen() {
             var src = this.list.eq(this.index).attr("rawsrc");
             if(!src) src = this.list.eq(this.index).attr("src");
 			imgframe.attr("src", src).css({
-				left : Math.round( parseInt($(document).scrollLeft()) + (clientWidth-imgframe.width()-14)/2, 0 ) + "px",
-				top  : Math.round( (clientHeight-imgframe.height()-14)/2, 0 ) + "px"
+				left : clientWidth/2 - imgframe.width()/2 + "px",
+				top  : clientHeight/2 - imgframe.height()/2 + "px"
 			});
 			closebtn.css({
-				left : Math.round( Math.max( parseInt($(document).scrollLeft()) + (clientWidth-closebtn.width())/2, 0 ) ) + "px",
+				left : clientWidth/2 - 32 + "px",
 				top  : "10px"
 			}).focus();
 		};
