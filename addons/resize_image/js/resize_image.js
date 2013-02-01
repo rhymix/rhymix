@@ -9,7 +9,6 @@ var xScreen = null;
 function getScreen() {
 	var body    = $(document.body);
 	var controls, imgframe, closebtn, prevbtn, nextbtn;
-
 	// 스크린이 없으면 스크린을 만든다.
 	if (!xScreen) {
 		// 검은 스크린
@@ -33,54 +32,80 @@ function getScreen() {
 				zIndex:510
 			});
 
-		// 닫기 버튼
-		closebtn = $("<img>")
-			.attr("id", "xe_gallery_closebtn")
-			.attr("src", request_uri+"addons/resize_image/iconClose.png")
+		// 이전 버튼
+		prevbtn = $('<button type="button" id="xe_gallery_prevbtn" />')
 			.css({
-				top : "10px"
+				left: "10px",
+				backgroundPosition: "0 -64px"
+			})
+			.click(function(){xScreen.xePrev()})
+			.appendTo(controls);
+
+		// 닫기 버튼
+		closebtn = $('<button type="button" id="xe_gallery_closebtn" />')
+			.css({
+				top: "10px",
+				backgroundPosition: "0 0"
 			})
 			.click(function(){xScreen.xeHide()})
 			.appendTo(controls);
 
-		// 이전 버튼
-		prevbtn = $("<img>")
-			.attr("id", "xe_gallery_prevbtn")
-			.attr("src", request_uri+"addons/resize_image/iconLeft.png")
-			.css("left","10px")
-			.click(function(){xScreen.xePrev()})
-			.appendTo(controls);
-
 		// 다음 버튼
-		nextbtn = $("<img>")
+		nextbtn = $('<button type="button" id="xe_gallery_nextbtn" />')
 			.attr("id", "xe_gallery_nextbtn")
-			.attr("src", request_uri+"addons/resize_image/iconRight.png")
-			.css("right","10px")
+			.css({
+				right: "10px",
+				backgroundPosition: "0 -128px"
+			})
 			.click(function(){xScreen.xeNext()})
 			.appendTo(controls);
 
 		// 버튼 공통 속성
-		controls.find("img")
-			.attr({
-				width  : 60,
-				height : 60,
-				className : "iePngFix"
-			})
+		controls.find(">button")
 			.css({
 				position : "absolute",
-				width : "60px",
-				height : "60px",
+				width : "64px",
+				height : "64px",
 				zIndex : 530,
-				cursor : "pointer"
-			});
+				cursor : "pointer",
+				border : 0,
+				margin : 0,
+				padding : 0,
+				backgroundColor: "transparent",
+				backgroundImage: "url(" + request_uri + "addons/resize_image/btn.png)",
+				backgroundRepeat: "no-repeat",
+				opacity: ".5",
+				filter: "alpha(opacity=50)"
+			})
+			.mouseover(function(){
+				$(this).css({
+					opacity: "1",
+					filter: "alpha(opacity=100)"
+				});
+			})
+			.mouseout(function(){
+				$(this).css({
+					opacity: ".5",
+					filter: "alpha(opacity=50)"
+				});
+			})
+			.focus(function(){
+				$(this).trigger('mouseover');
+			})
+			.blur(function(){
+				$(this).trigger('mouseout');
+			})
+			;
 
 		// 이미지 홀더
 		imgframe = $("<img>")
 			.attr("id", "xe_gallery_holder")
 			.css({
-				border: '7px solid white',
+				border: '5px solid white',
 				zindex: 520,
-				'max-width': 'none'
+				maxWidth: 'none',
+				borderRadius: '5px',
+				boxShadow: '0 0 10px #000'
 			})
 			.appendTo(controls).draggable();
 
@@ -90,28 +115,18 @@ function getScreen() {
 		xScreen.xeShow = function() {
 			var clientWidth  = $(window).width();
 			var clientHeight = $(window).height();
-
-			$("#xe_gallery_controls,#xe_gallery_screen").css({
-				display:"block",
-				width  : $(document).width() + "px",
-				height : $(document).height() + "px",
-				left   : 0,
-				top    : 0
-				//width  : clientWidth + "px",
-				//height : clientHeight + "px",
-				// left   : $(document).scrollLeft(),
-				// top    : $(document).scrollTop()
+			$("#xe_gallery_controls,#xe_gallery_screen").show().css({
+				top		: 0,
+				right   : 0,
+				bottom	: 0,
+				left	: 0
 			});
-
-			closebtn.css("left", Math.round((clientWidth-60)/2) + "px");
-
-			$("#xe_gallery_prevbtn,#xe_gallery_nextbtn").css("top", Math.round( (clientHeight-60)/2 ) + "px");
-
+			$("#xe_gallery_prevbtn,#xe_gallery_nextbtn").css("top", Math.round(clientHeight/2 - 32) + "px");
 			this.xeMove(0);
 		};
 		xScreen.xeHide = function(event) {
-			xScreen.css("display","none");
-			controls.css("display","none");
+			xScreen.hide();
+			controls.hide();
 		};
 		xScreen.xePrev = function() {
 			this.xeMove(-1);
@@ -122,29 +137,31 @@ function getScreen() {
 		xScreen.xeMove = function(val) {
 			var clientWidth  = $(window).width();
 			var clientHeight = $(window).height();
-
 			this.index += val;
-
 			prevbtn.css("visibility", (this.index>0)?"visible":"hidden");
 			nextbtn.css("visibility", (this.index<this.list.size()-1)?"visible":"hidden");
-
             //textyle 이미지 리사이즈 처리
             var src = this.list.eq(this.index).attr("rawsrc");
             if(!src) src = this.list.eq(this.index).attr("src");
-
 			imgframe.attr("src", src).css({
 				left : Math.round( parseInt($(document).scrollLeft()) + (clientWidth-imgframe.width()-14)/2, 0 ) + "px",
-				top  : Math.round( parseInt($(document).scrollTop()) + (clientHeight-imgframe.height()-14)/2, 0 ) + "px"
+				top  : Math.round( (clientHeight-imgframe.height()-14)/2, 0 ) + "px"
 			});
-
 			closebtn.css({
 				left : Math.round( Math.max( parseInt($(document).scrollLeft()) + (clientWidth-closebtn.width())/2, 0 ) ) + "px",
-				top  : Math.round( Math.max( parseInt($(document).scrollTop()) + 10, 0 ) ) + "px"
-			});
+				top  : "10px"
+			}).focus();
 		};
 
 		// 스크린을 닫는 상황
-		$(document).keydown(xScreen.xeHide);
+		$(document).keydown(function(e){
+			if(e.which == 27){
+				xScreen.xeHide();
+				return false;
+			} else {
+				return true;
+			}
+		});
 	} else {
 		controls = $("#xe_gallery_controls");
 		imgframe = $("#xe_gallery_holder");
@@ -152,7 +169,6 @@ function getScreen() {
 		prevbtn  = $("#xe_gallery_prevbtn");
 		nextbtn  = $("#xe_gallery_nextbtn");
 	}
-
 	return xScreen;
 }
 
@@ -169,15 +185,15 @@ function slideshow(event) {
 	xScreen.xeShow();
 }
 
-/* DOM READY */
-$(function() {
+/* Window Load */
+$(window).load(function(){
 	var regx_skip = /(?:(modules|addons|classes|common|layouts|libs|widgets|widgetstyles)\/)/i;
 	var regx_allow_i6pngfix = /(?:common\/tpl\/images\/blank\.gif$)/i;
 	/**
 	 * 본문 폭 구하기 위한 개체
 	 * IE6에서 본문폭을 넘는 이미지가 있으면 그 크기로 구해지는 문제 우회용
 	 **/
-	var dummy = $('<div style="height:1; overflow:hidden; opacity:0; display:block; clear:both;"></div>');
+	var dummy = $('<div style="height:1px;overflow:hidden;opacity:0;display:block;clear:both"></div>');
 
 	/**
 	 * 리사이즈 실행 함수
@@ -211,7 +227,7 @@ $(function() {
 			});
 	}
 
-	$('div.xe_content').each(function() {
+	$('.xe_content').each(function() {
 		var contentWidth = dummy.appendTo(this).width();
 		dummy.remove();
 		if(!contentWidth) return;
@@ -220,9 +236,7 @@ $(function() {
 			var $img = $(this);
 			var imgSrc = $img.attr('src');
 			if(regx_skip.test(imgSrc) && !regx_allow_i6pngfix.test(imgSrc)) return;
-
 			$img.attr('rel', 'xe_gallery');
-
 			doResize.call($img, contentWidth);
 		});
 
