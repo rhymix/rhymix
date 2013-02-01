@@ -146,9 +146,15 @@ class memberAdminController extends member
 	{
 		$args = Context::gets(
 			'enable_join',
+			'enable_confirm',
 			'webmaster_name',
 			'webmaster_email'
 		);
+
+		if((!$args->webmaster_name || !$args->webmaster_email) && $args->enable_confirm == 'Y')
+		{
+			return new Object(-1, 'msg_mail_authorization');
+		}
 
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('member', $args);
@@ -166,7 +172,6 @@ class memberAdminController extends member
 		$oModuleController = getController('module');
 
 		$args = Context::gets(
-			'enable_confirm',
 			'limit_day',
 			'agreement',
 			'redirect_url',
@@ -180,10 +185,6 @@ class memberAdminController extends member
 		$usable_list = Context::get('usable_list');
 		$all_args = Context::getRequestVars();
 
-		if($args->enable_confirm !='Y')
-		{
-			$args->enable_confirm = 'N';
-		}
 		$args->limit_day = (int)$args->limit_day;
 		if(!trim(strip_tags($args->agreement)))
 		{

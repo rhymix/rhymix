@@ -662,6 +662,10 @@
 		<value xml:lang="tr"><![CDATA[Giriş yapmış Kullanıcılar]]></value>
 		<value xml:lang="vi"><![CDATA[Thành viên đăng nhập]]></value>
 	</item>
+	<item name="msg_mail_authorization">
+		<value xml:lang="ko"><![CDATA[메일 인증을 사용하려면 웸마스터의 이름과 메일주소가 유효해야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[메일 인증을 사용하려면 웸마스터의 이름과 메일주소가 유효해야 합니다.]]></value>
+	</item>
 	<item name="webmaster_name">
 		<value xml:lang="ko"><![CDATA[웹마스터 이름]]></value>
 		<value xml:lang="en"><![CDATA[Webmaster Name]]></value>

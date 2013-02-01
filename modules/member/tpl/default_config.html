@@ -12,6 +12,14 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<div class="x_control-label">{$lang->enable_confirm}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="enable_confirm_yes"><input type="radio" name="enable_confirm" id="enable_confirm_yes" value="Y" checked="checked"|cond="$config->enable_confirm == 'Y'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="enable_confirm_no"><input type="radio" name="enable_confirm" id="enable_confirm_no" value="N" checked="checked"|cond="$config->enable_confirm != 'Y'"/> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_enable_confirm}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label" for="webmaster_name">{$lang->webmaster_name}</label>
 		<div class="x_controls">
 			<input type="text" id="webmaster_name" name="webmaster_name" value="{$config->webmaster_name}" size="20" />
