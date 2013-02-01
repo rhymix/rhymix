@@ -434,7 +434,7 @@ class menuAdminModel extends menu
 			{
 				foreach($menu->list AS $key=>$value)
 				{
-					$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed, $menuSrl);
+					$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed, $menuSrl,$siteSrl);
 				}
 			}
 
@@ -474,7 +474,7 @@ class menuAdminModel extends menu
 						{
 							foreach($menu->list AS $key2=>$value2)
 							{
-								$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed, $value->menu_srl);
+								$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed, $value->menu_srl,$siteSrl);
 							}
 						}
 
@@ -502,7 +502,6 @@ class menuAdminModel extends menu
 			}
 		}
 		ksort($menuList);
-
 		$this->add('menuList', $menuList);
 	}
 
@@ -553,7 +552,7 @@ class menuAdminModel extends menu
 	 * @param array $menu
 	 * @return void
 	 */
-	private function _menuInfoSetting(&$menu, &$start_module, &$isMenuFixed, $menuSrl)
+	private function _menuInfoSetting(&$menu, &$start_module, &$isMenuFixed, $menuSrl,$siteSrl = 0)
 	{
 		$oModuleModel = &getModel('module');
 		// if url is empty and is_shortcut is 'N', change to is_shortcut 'Y'
@@ -577,7 +576,7 @@ class menuAdminModel extends menu
 		{
 			unset($midInfo);
 			unset($moduleInfo);
-			$midInfo = $oModuleModel->getModuleInfoByMid($menu['url'], 0);
+			$midInfo = $oModuleModel->getModuleInfoByMid($menu['url'], $siteSrl);
 			$moduleInfo = $oModuleModel->getModuleInfoXml($midInfo->module);
 			if($moduleInfo->setup_index_act)
 			{
