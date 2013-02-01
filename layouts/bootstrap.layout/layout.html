@@ -87,7 +87,7 @@
 			<button type="button" class="next"><i></i>&rsaquo;</button>
 		</div>
 		<!-- VISUAL | USER DEFINE -->
-		<div class="visual" cond="$layout_info->VISUAL_IMAGE_1 || $layout_info->VISUAL_IMAGE_2 || $layout_info->VISUAL_IMAGE_3 && $layout_info->VISUAL_USE=='YES'">
+		<div class="visual" cond="($layout_info->VISUAL_IMAGE_1 || $layout_info->VISUAL_IMAGE_2 || $layout_info->VISUAL_IMAGE_3) && $layout_info->VISUAL_USE=='YES'">
 			<div class="list">
 				<a href="{$layout_info->VISUAL_LINK_1}" class="item i1" cond="$layout_info->VISUAL_IMAGE_1">
 					<img src="{$layout_info->VISUAL_IMAGE_1}" alt="" />
