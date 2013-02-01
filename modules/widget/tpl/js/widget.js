@@ -42,10 +42,11 @@ function doStartPageModify(zoneID, module_srl) {
 
     // 위젯 크기/여백 조절 레이어를 가장 밖으로 뺌
 	jQuery('#tmpPageSizeLayer')
-		.attr('id', 'pageSizeLayer')
-		.css({position:'absolute',left:0,top:0})
-		.hide()
 		.appendTo('body')
+		.hide()
+		.attr('id', 'pageSizeLayer')
+		.css({position:'fixed'})
+		.before('<div class="x_modal-backdrop" />')
 		.find('>form')
 		.submit(function(){ doApplyWidgetSize(this); return false; });
 
@@ -57,7 +58,6 @@ function doStartPageModify(zoneID, module_srl) {
 	xAddEventListener(document.getElementById('zonePageContent'), "mousedown",doCheckWidgetDrag);
 	xAddEventListener(document.getElementById('zonePageContent'), 'mouseover',widgetSetup);
 }
-
 
 // 내용 모두 삭제
 function removeAllWidget() {
@@ -304,7 +304,6 @@ function doAddWidget(fo) {
     var idx = sel.selectedIndex;
     var val = sel.options[idx].value;
     var module_srl = fo.module_srl.value;
-
     var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetGenerateCodeInPage').setQuery('selected_widget', val).setQuery('module_srl', module_srl);
     popopen(url,'GenerateWidgetCode');
 }
@@ -313,11 +312,11 @@ function doAddWidget(fo) {
 
 // widgetBorder에 height를 widgetOutput와 맞춰줌
 function doFitBorderSize() {
-    var obj_list = jQuery('.widgetBorer', zonePageObj).get();
+    /*var obj_list = jQuery('.widgetBorer', zonePageObj).get();
     for(var i=0;i<obj_list.length;i++) {
         var obj = obj_list[i];
         var height = xHeight(obj.parentNode);
-        if(height<3) height = 20;
+        if(height<10) height = 24;
         xHeight(obj, height);
         obj.parentNode.style.clear = '';
     }
@@ -326,7 +325,7 @@ function doFitBorderSize() {
         var obj = obj_list[i];
         xHeight(obj, xHeight(obj.parentNode));
         obj.parentNode.style.clear = '';
-    }
+    }*/
 }
 
 var selectedWidget = null;
@@ -432,20 +431,6 @@ function doAddWidgetCode(widget_code) {
     }
     checkDocumentWrite = false;
     selectedWidget = null;
-
-    /*
-    //zoneObj.style.visibility = 'hidden';
-    zoneObj.style.opacity = 0.2;
-    zoneObj.style.filter = "alpha(opacity=20)";
-
-    // 위젯 추가후 페이지 리로딩
-    var tpl = getWidgetContent();
-
-    var fo_obj = get_by_id('pageFo');
-    fo_obj.content.value = tpl;
-    fo_obj.mid.value = current_mid;
-    fo_obj.submit();
-    */
 }
 
 // 클릭 이벤트시 위젯의 수정/제거/이벤트 무효화 처리
@@ -672,13 +657,32 @@ function doShowWidgetSizeSetup(px, py, obj) {
 			opts.background_y = pos[1];
 		}
 	}
-
-	layer.css('top', py+'px').show();
-	var _zonePageObj   = jQuery(zonePageObj)
-	var zoneOffsetLeft = _zonePageObj.offset().left;
-	var zoneWidth      = _zonePageObj.width();
-	if (px + layer.width() > zoneOffsetLeft + zoneWidth) px = zoneOffsetLeft + zoneWidth - layer.width() - 5;
-	layer.css('left', px+'px');
+	layer.show();
+	jQuery(function($){
+		var $psLayer = $('#pageSizeLayer');
+		var $backdrop = $('.x_modal-backdrop');
+		var ww = $(window).width();
+		var wh = $(window).height();
+		var pw = $psLayer.width();
+		var ph = $psLayer.height();
+		if(ww>pw && wh>ph){
+			$backdrop.show();
+			$psLayer.css({
+				position	: 'fixed',
+				top			: wh/2 - ph/2 + 'px',
+				left		: ww/2 - pw/2 + 'px',
+				width		: '700px'
+			});
+		}else{
+			$backdrop.hide();
+			$psLayer.css({
+				position	: 'static',
+				top			: 'auto',
+				left		: 'auto',
+				width		: 'auto'
+			});
+		}
+	});
 
 	jQuery.each(opts, function(key, val){
 		var el = form[0].elements[key];
@@ -702,11 +706,22 @@ function doShowWidgetSizeSetup(px, py, obj) {
 }
 
 function doHideWidgetSizeSetup() {
-	jQuery('#pageSizeLayer').hide();
-	//var layer = get_by_id("pageSizeLayer");
-    //layer.style.visibility = "hidden";
-    //layer.style.display = "none";
+	jQuery('#pageSizeLayer, .x_modal-backdrop, .jPicker.Container').hide();
 }
+jQuery(function($){
+	$(document).keydown(function(e){
+		var $jpicker = $('.jPicker.Container:visible');
+		if(e.which == 27 && !$jpicker.length){
+			doHideWidgetSizeSetup();
+			return false;
+		}else if(e.which == 27 && $jpicker.length){
+			$jpicker.hide();
+			return false;
+		}else{
+			return true;
+		}
+	});
+});
 
 function _getSize(value) {
     if(!value) return 0;
@@ -884,14 +899,6 @@ function showWidgetButton(name, obj) {
     if(!widgetButton) return;
     widgetButton.style.visibility = 'visible';
     obj.insertBefore(widgetButton, obj.firstChild);
-    /*
-    var cobj = obj.firstChild;
-    while(cobj) {
-        cobj = cobj.nextSibling;
-    }
-
-    obj.appendChild(widgetButton);
-    */
 }
 
 function widgetSetup(evt) {
@@ -907,12 +914,6 @@ function widgetSetup(evt) {
         restoreWidgetButtons();
         return;
     }
-    /*
-    if(!obj || typeof(obj.className)=='undefined' || obj.className != 'widgetOutput') {
-        restoreWidgetButtons();
-        return;
-    }
-*/
 
     obj = o.get(0);
     var widget = o.attr('widget');
@@ -1117,10 +1118,7 @@ function widgetDrag(tobj, dx, dy) {
             var ll =  parseInt(l,10) + parseInt(xWidth(p_tobj),10);
             var tt =  parseInt(t,10) + parseInt(xHeight(p_tobj),10);
             if( (tobj.xDPX < l || tobj.xDPX > ll) || (tobj.xDPY < t || tobj.xDPY > tt) ) {
-
-//                zonePageObj.insertBefore(tobj, tobj.parentNode.parentNode.parentNode);
                 zonePageObj.insertBefore(tobj, jQuery(tobj).parents('div.widgetOutput[widget=widgetBox]').get(0));
-
                 doFitBorderSize();
                 return;
             }
@@ -1220,33 +1218,6 @@ function widgetDisapearObject(obj, tobj) {
     obj.parentNode.removeChild(obj);
     widgetTmpObject[tobj.id] = null;
     return;
-
-    /*
-    var it = 5;
-    var ib = 1;
-
-    var x = parseInt(xPageX(obj),10);
-    var y = parseInt(xPageY(obj),10);
-    var ldt = (x - parseInt(xPageX(tobj),10)) / ib;
-    var tdt = (y - parseInt(xPageY(tobj),10)) / ib;
-
-    return setInterval(function() {
-        if(ib < 1) {
-            clearInterval(widgetDisapear);
-            xInnerHtml(tobj,xInnerHtml(obj));
-            xInnerHtml(obj,'');
-            xDisplay(obj, 'none');
-            obj.parentNode.removeChild(obj);
-            widgetTmpObject[tobj.id] = null;
-            return;
-        }
-        ib -= 5;
-        x-=ldt;
-        y-=tdt;
-        xLeft(obj, x);
-        xTop(obj, y);
-    }, it/ib);
-    */
 }
 
 // 마우스다운 이벤트 발생시 호출됨
@@ -1312,10 +1283,7 @@ function widgetDragDisable(id) {
     obj.dragStart = null;
     obj.drag = null;
     obj.dragEnd = null;
-    //obj.style.backgroundColor = obj.getAttribute('source_color');
-
     xRemoveEventListener(obj, 'mousedown', widgetMouseDown, false);
-
     return;
 }
 

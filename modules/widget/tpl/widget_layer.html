@@ -1,5 +1,5 @@
-<section id="tmpPageSizeLayer" class="x_modal x wgs">
-	<button type="button" class="x_close" data-hide=".wgs">&times;</button>
+<section id="tmpPageSizeLayer" class="x_modal x wgs" hidden>
+	<button type="button" class="x_close" data-hide=".wgs, .x_modal-backdrop, .jPicker.Container">&times;</button>
 	<form action="index.php">
 		<div class="x_modal-header">
 			<h1>{$lang->cmd_widget_size}</h1>
@@ -20,34 +20,38 @@
 				</tr>
 				<tr>
 					<th>{$lang->cmd_widget_size}</th>
-					<td colspan="2"><input type="text" name="width" value="" /> - <input type="text" name="height" value="" /></td>
+					<td colspan="2">
+						<label for="width" style="display:inline">W:</label> <input type="text" name="width" id="width" value="" /> 
+						&nbsp;&nbsp;
+						<label for="height" style="display:inline">H:</label> <input type="text" name="height" id="height" value="" />
+					</td>
 				</tr>
 				<tr>
 					<th rowspan="3">{$lang->cmd_widget_margin}</th>
-					<td colspan="2" class="line tCenter"><input type="text" name="margin_top" value="" /> px</td>
+					<td colspan="2" style="text-align:center"><label for="margin_top" style="display:inline">T:</label> <input type="number" name="margin_top" id="margin_top" value="" /> px</td>
 				</tr>
 				<tr>
-					<td><input type="text" name="margin_left" value="" /> px</td>
-					<td class="tRight"><input type="text" name="margin_right" value="" /> px</td>
+					<td style="text-align:left"><label for="margin_left" style="display:inline">L:</label> <input type="number" name="margin_left" id="margin_left" value="" /> px</td>
+					<td style="text-align:right"><label for="margin_right" style="display:inline">R:</label> <input type="number" name="margin_right" id="margin_right" value="" /> px</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="tCenter"><input type="text" name="margin_bottom" value="" /> px</td>
+					<td colspan="2" style="text-align:center"><label for="margin_bottom" style="display:inline">B:</label> <input type="number" name="margin_bottom" id="margin_bottom" value="" /> px</td>
 				</tr>
 				<tr>
 					<th rowspan="3">{$lang->cmd_widget_padding}</th>
-					<td colspan="2" class="line tCenter"><input type="text" name="padding_top" value="" /> px</td>
+					<td colspan="2" style="text-align:center"><label for="padding_top" style="display:inline">T:</label> <input type="number" name="padding_top" id="padding_top" value="" /> px</td>
 				</tr>
 				<tr>
-					<td><input type="text" name="padding_left" value="" /> px</td>
-					<td class="tRight"><input type="text" name="padding_right" value="" /> px</td>
+					<td style="text-align:left"><label for="padding_left" style="display:inline">L:</label> <input type="number" name="padding_left" id="padding_left" value="" /> px</td>
+					<td style="text-align:right"><label for="padding_right" style="display:inline">R:</label> <input type="number" name="padding_right" id="padding_right" value="" /> px</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="tCenter"><input type="text" name="padding_bottom" value="" /> px</td>
+					<td colspan="2" style="text-align:center"><label for="padding_bottom" style="display:inline">B:</label> <input type="number" name="padding_bottom" id="padding_bottom" value="" /> px</td>
 				</tr>
 				<tr>
 					<th rowspan="3">{$lang->cmd_widget_border}</th>
-					<td colspan="2" class="tCenter line">
-						<input type="text" name="border_top_thick" value="" class="small_input" /> px
+					<td colspan="2" style="text-align:center">
+						<input type="number" name="border_top_thick" value="" class="small_input" /> px
 						<select name="border_top_type">
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
@@ -56,16 +60,16 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
-						<input type="text" name="border_left_thick" value="" class="small_input" /> px
+					<td style="text-align:left">
+						<input type="number" name="border_left_thick" value="" class="small_input" /> px
 						<select name="border_left_type">
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
 						</select>
 						<input type="text" name="border_left_color" value="" class="color_input color-indicator" maxlength="6"/>
 					</td>
-					<td class="tRight">
-						<input type="text" name="border_right_thick" value="" class="small_input" /> px
+					<td style="text-align:right">
+						<input type="number" name="border_right_thick" value="" class="small_input" /> px
 						<select name="border_right_type">
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
@@ -74,8 +78,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="tCenter">
-						<input type="text" name="border_bottom_thick" value="" class="small_input" /> px
+					<td colspan="2" style="text-align:center">
+						<input type="number" name="border_bottom_thick" value="" class="small_input" /> px
 						<select name="border_bottom_type">
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>

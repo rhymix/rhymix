@@ -1,7 +1,6 @@
 <!--%import("filter/insert_page_content.xml")-->
 <load target="js/page_admin.js" usecdn="true" />
 <load target="css/page.css" usecdn="true" />
-
 <load target="../../widget/tpl/js/widget.js" usecdn="true" />
 <load target="../../widget/tpl/css/widget.css" usecdn="true" />
 <div id="zonePageContent">{$page_content}</div>
@@ -11,8 +10,7 @@
 	<input type="hidden" name="act" value="dispPageAdminContentModify" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 	<input type="hidden" name="content" value="{htmlspecialchars($content)}" />
-
-	<div class="btnArea" id="pageBtnArea" style="display:none;">
+	<div class="btnArea" id="pageBtnArea" hidden>
 		<div class="etc">
 			<span class="btn-group">
 				<input class="btn" type="button" value="{$lang->cmd_box_widget_insert}" onclick="doAddWidgetBox()" />
@@ -31,7 +29,6 @@
 		</span>
 	</div>
 </form>
-
 <div id="widgetButton" class="widgetButtons">
     <button type="button" class="widgetSetup" title="{$lang->cmd_setup}">{$lang->cmd_setup}</button>
     <button type="button" class="widgetSize" title="{$lang->cmd_widget_size}">{$lang->cmd_widget_size}</button>
@@ -44,7 +41,6 @@
     <button type="button" class="widgetStyle" title="{$lang->widgetstyle}">{$lang->widgetstyle}</button>
     <button type="button" class="widgetBoxRemove" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button>
 </div>
-
 <script>
     var confirm_delete_msg = "{$lang->confirm_delete}";
     xAddEventListener(window,"load",function() { doStartPageModify('zonePageContent', '{$module_info->module_srl}'); jQuery('div.admin').css('background-color','transparent');});

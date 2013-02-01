@@ -1,4 +1,5 @@
-@charset "utf-8";.widget_title{border:1px solid #ddd;margin:10px 5px 5px 0;padding:3px}
+@charset "utf-8";
+.widget_title{border:1px solid #ddd;margin:10px 5px 5px 0;padding:3px}
 .widget_mid_list{margin:0 0 5px 10px}
 .widget_description{color:#aaa;border-top:1px dotted #eee;margin:5px 0 0 0;padding:5px 0 0 0}
 #colorset_area{margin-top:.5em}
@@ -6,14 +7,14 @@
 #colorset_area .footer{float:left}
 #zonePageContent{overflow:hidden;width:100%;padding:0 !important;margin:0 !important}
 .pageAddContent{width:700px}
-.widgetOutput{float:left;cursor:move;z-index:998;overflow:hidden;position:relative;width:100%}
-.widgetOutput .widgetBorder{border:1px dashed #ccc;z-index:999}
-.widgetOutput .widgetBoxBorder{border:1px dashed #ccc;z-index:999}
+.widgetOutput{float:left;cursor:move;z-index:998;overflow:hidden;position:relative;width:100%;min-height:24px}
+.widgetOutput .widgetBorder,
+.widgetOutput .widgetBoxBorder{position:absolute;top:0;left:0;right:0;bottom:0;border:1px dashed #ccc;z-index:999}
 .widgetOutput .widgetResize {border:0;background:transparent url("../images/btn_resize.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:1px;right:1px;cursor:pointer;z-index:1000}
 .widgetOutput .widgetResizeLeft {border:0;background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:0;left:1px;cursor:pointer;z-index:1000}
 .widgetOutput .widgetBoxResize {border:0;background:transparent url("../images/btn_resize.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:1px;right:1px;cursor:pointer;z-index:1000}
 .widgetOutput .widgetBoxResizeLeft{border:0;background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:0;left:1px;cursor:pointer;z-index:1000}
-.widgetButtons{z-index:999;overflow:hidden;*zoom:1;float:left;padding:0 6px;line-height:24px;position:absolute;visibility:hidden;border-radius:3px;box-shadow:0 0 3px #000 inset}
+.widgetButtons{z-index:1000;overflow:hidden;*zoom:1;float:left;padding:0 10px;line-height:24px;position:absolute;visibility:hidden;box-shadow:0 0 3px #333 inset}
 .widgetButtons#widgetButton{background-color:#C7DBE9;left:0;top:0}
 .widgetButtons#widgetBoxButton{background-color:#D2E9C7;right:0;top:0}
 .widgetButtons>button{border:0;width:14px;height:14px;padding:14px 0 0 0;overflow:hidden;cursor:pointer;z-index:99;background:transparent url("../../../admin/tpl/img/glyphicons-halflings.png") no-repeat}
