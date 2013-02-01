@@ -330,7 +330,7 @@ class ExtraItem
 				$buff .= '<select name="'.$column_name.'" class="select">';
 				foreach($default as $v)
 				{
-					if($value && in_array($v,$value)) $selected = ' selected="selected"';
+					if($value && in_array(trim($v),$value)) $selected = ' selected="selected"';
 					else $selected = '';
 					$buff .= '<option value="'.$v.'" '.$selected.'>'.$v.'</option>';
 				}
@@ -341,7 +341,7 @@ class ExtraItem
 				$buff .= '<ul>';
 				foreach($default as $v)
 				{
-					if($value && in_array($v,$value)) $checked = ' checked="checked"';
+					if($value && in_array(trim($v),$value)) $checked = ' checked="checked"';
 					else $checked = '';
 
 					// Temporary ID for labeling
