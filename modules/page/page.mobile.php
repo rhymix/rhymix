@@ -106,6 +106,12 @@ class pageMobile extends pageView
 			$oDocument->setDocument($document_srl);
 			Context::set('document_srl', $document_srl);
 		}
+		if(!$oDocument->isExists())
+		{
+			$document_srl = $this->module_info->document_srl;
+			$oDocument->setDocument($document_srl);
+			Context::set('document_srl', $document_srl);
+		}
 		Context::set('oDocument', $oDocument);
 
 		if($this->module_info->mskin)
