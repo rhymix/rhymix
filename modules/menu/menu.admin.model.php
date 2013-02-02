@@ -363,7 +363,7 @@ class menuAdminModel extends menu
 				$defaultSkin = $oModuleModel->getModuleDefaultSkin($value, 'P');
 				$defaultMobileSkin = $oModuleModel->getModuleDefaultSkin($value, 'M');
 				$skinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($value), $defaultSkin);
-				$mobileSkinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($value), $defaultMobileSkin);
+				$mobileSkinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($value), $defaultMobileSkin, 'm.skins');
 				$moduleInfo->defaultSkin = new stdClass();
 				$moduleInfo->defaultSkin->skin = $defaultSkin;
 				$moduleInfo->defaultSkin->title = $skinInfo->title ? $skinInfo->title : $defaultSkin;
