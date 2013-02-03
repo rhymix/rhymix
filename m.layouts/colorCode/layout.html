@@ -35,7 +35,7 @@
 	<li><a href="{getUrl('act','dispMemberLoginForm')}" >{$lang->cmd_login}...</a></li>
 	<!--@end-->
 	<li><a href="{getUrl('m',0)}">PC</a></li>
-	<li class="lang off">
+	<li class="lang off" cond="count($lang_supported)>1">
 		<a href="#" onclick="return false;" title="{$lang_type}">{$lang_supported[$lang_type]} <i class="icon_arr_draw"></i></a>
 		<ul class="lang_lst">
 		<!--@foreach($lang_supported as $key=>$val)-->
