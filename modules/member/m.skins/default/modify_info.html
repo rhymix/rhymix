@@ -13,18 +13,18 @@
 	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
 </script>
+<h2 class="hx h2">{$lang->msg_update_member}</h2>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <div class="bd">
-	<h2 class="h2">{$lang->msg_update_member}</h2>
-    <form ruleset="@insertMember" id="fo_insert_member" class="ff" action="./" method="POST">
-    <input type="hidden" name="act" value="procMemberModifyInfo" />
-    <input type="hidden" name="module" value="member" />
-    <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-    <input type="hidden" name="page" value="{$page}" />
+	<form ruleset="@insertMember" id="fo_insert_member" class="ff" action="./" method="POST">
+	<input type="hidden" name="act" value="procMemberModifyInfo" />
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+	<input type="hidden" name="page" value="{$page}" />
 
-    <fieldset class="sn">
+	<fieldset class="sn">
 		<ul>
 			<li>
 				<label for="identifierForm">{$identifierForm->title} <em style="color:red">*</em></label>
@@ -41,8 +41,8 @@
 			<li><label for="mailing" class="db fb al">{$lang->allow_mailing}</label><input id="mailing" type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p style="color:#666">{$lang->about_allow_mailing}</p></li>
 		</ul>
 	</fieldset>
-	<div class="cm">
-		<input type="submit" value="{$lang->cmd_registration}" class="bn"/>
+	<div class="bna">
+		<input type="submit" value="{$lang->cmd_registration}" class="bn dark"/>
 		<a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="bn"><span>{$lang->cmd_cancel}</span></a>
 	</div>
 	</form>
