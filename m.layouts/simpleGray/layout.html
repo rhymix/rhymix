@@ -9,6 +9,7 @@
 <ul class="eg ft">
 	<!--@if($is_logged)-->
 	<li class="fl"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+	<li class="fl"><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
 	<!--@elseif($act!='dispMemberLoginForm')-->
 	<li class="fl"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
 	<!--@end-->

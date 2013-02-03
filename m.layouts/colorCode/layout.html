@@ -31,7 +31,7 @@
 	<ul class="link">
 	<!--@if($is_logged)-->
 	<li><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
-	<li cond="$is_logged"><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+	<li><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
 	<!--@elseif($act!='dispMemberLoginForm')-->
 	<li><a href="{getUrl('act','dispMemberLoginForm')}" >{$lang->cmd_login}...</a></li>
 	<!--@end-->
