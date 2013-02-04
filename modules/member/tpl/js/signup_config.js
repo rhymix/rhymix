@@ -192,7 +192,7 @@ jQuery(function($){
 		}
 	});
 	
-	$('#userDefine form').submit(function(e) {
+	$('#userDefine').submit(function(e) {
 		var id_list = $(this).find('input[name=join_form_id_list]').val();
 		var id_list_arr = id_list.split(',');
 
