@@ -1610,6 +1610,7 @@ class menuAdminController extends menu
 		$xml_buff = sprintf(
 			'<?php '.
 			'define(\'__ZBXE__\', true); '.
+			'define(\'__XE__\', true); '.
 			'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
 			'$oContext = &Context::getInstance(); '.
 			'$oContext->init(); '.
@@ -1631,6 +1632,7 @@ class menuAdminController extends menu
 		$php_buff = sprintf(
 			'<?php '.
 			'if(!defined("__ZBXE__")) exit(); '.
+			'if(!defined("__XE__")) exit(); '.
 			'%s; '.
 			'%s; '.
 			'$menu->list = array(%s); '.

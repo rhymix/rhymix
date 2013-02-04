@@ -4,6 +4,7 @@
     </tables>
     <conditions>
         <condition operation="equal" column="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="isvalid" var="isvalid" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" defualt="source_filename" order="asc" />

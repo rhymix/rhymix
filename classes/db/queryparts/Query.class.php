@@ -57,13 +57,13 @@ class Query extends Object
 	 * argument list
 	 * @var array
 	 */
-	var $arguments = null;
+	var $arguments = NULL;
 
 	/**
 	 * column list
 	 * @var array
 	 */
-	var $columnList = null;
+	var $columnList = NULL;
 
 	/**
 	 * order by text
@@ -84,15 +84,15 @@ class Query extends Object
 	 * @param string $priority
 	 * @return void
 	 */
-	function Query($queryID = null
-			, $action = null
-			, $columns = null
-			, $tables = null
-			, $conditions = null
-			, $groups = null
-			, $orderby = null
-			, $limit = null
-			, $priority = null)
+	function Query($queryID = NULL
+			, $action = NULL
+			, $columns = NULL
+			, $tables = NULL
+			, $conditions = NULL
+			, $groups = NULL
+			, $orderby = NULL
+			, $limit = NULL
+			, $priority = NULL)
 	{
 		$this->queryID = $queryID;
 		$this->action = $action;
@@ -109,7 +109,7 @@ class Query extends Object
 
 	function show()
 	{
-		return true;
+		return TRUE;
 	}
 
 	function setQueryId($queryID)
@@ -162,7 +162,7 @@ class Query extends Object
 	{
 		if(!isset($tables) || count($tables) === 0)
 		{
-			$this->setError(true);
+			$this->setError(TRUE);
 			$this->setMessage("You must provide at least one table for the query.");
 			return;
 		}
@@ -217,7 +217,7 @@ class Query extends Object
 	 * @param string|array $columns
 	 * @return Query return Query instance
 	 */
-	function select($columns= null)
+	function select($columns= NULL)
 	{
 		$this->action = 'select';
 		$this->setColumns($columns);
@@ -291,11 +291,32 @@ class Query extends Object
 	}
 
 	/**
+	 * Check if current query uses the click count attribute
+	 * For CUBRID, this statement uses the click count feature.
+	 * For the other databases, using this attribute causes a query
+	 * to produce both a select and an update
+	 */
+	function usesClickCount()
+	{
+		return count($this->getClickCountColumns()) > 0;
+	}
+
+	function getClickCountColumns()
+	{
+		$click_count_columns = array();
+		foreach($this->columns as $column){
+			if($column->show() && is_a($column, 'ClickCountExpression'))
+				$click_count_columns[] = $column;
+		}
+		return $click_count_columns;
+	}
+
+	/**
 	 * Return select sql
 	 * @param boolean $with_values
 	 * @return string
 	 */
-	function getSelectString($with_values = true)
+	function getSelectString($with_values = TRUE)
 	{
 		foreach($this->columns as $column)
 		{
@@ -315,7 +336,7 @@ class Query extends Object
 	 * @param boolean $with_values
 	 * @return string
 	 */
-	function getUpdateString($with_values = true)
+	function getUpdateString($with_values = TRUE)
 	{
 		foreach($this->columns as $column)
 		{
@@ -330,7 +351,7 @@ class Query extends Object
 	 * @param boolean $with_values
 	 * @return string
 	 */
-	function getInsertString($with_values = true)
+	function getInsertString($with_values = TRUE)
 	{
 		$columnsList = '';
 		// means we have insert-select
@@ -374,7 +395,7 @@ class Query extends Object
 	 * @param boolean $with_values
 	 * @return string
 	 */
-	function getFromString($with_values = true)
+	function getFromString($with_values = TRUE)
 	{
 		$from = '';
 		$simple_table_count = 0;
@@ -397,7 +418,7 @@ class Query extends Object
 	 * @param boolean $with_optimization
 	 * @return string
 	 */
-	function getWhereString($with_values = true, $with_optimization = true)
+	function getWhereString($with_values = TRUE, $with_optimization = TRUE)
 	{
 		$where = '';
 		$condition_count = 0;

@@ -845,7 +845,7 @@ function removeHackTag($content)
 	purifierHtml($content);
 
 	// change the specific tags to the common texts
-	$content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet)(/*)[\w\s>])@i', '&lt;$1', $content);
+	$content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet)(/*).*?>)@i', '&lt;$1', $content);
 
 	/**
 	 * Remove codes to abuse the admin session in src by tags of imaages and video postings
@@ -853,7 +853,7 @@ function removeHackTag($content)
 	 */
 	$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)($|>|<)@i', 'removeSrcHack', $content);
 
-	// xmp tag ?•ì¸ ë°?ì¶”ê?
+	// xmp tag ?ëº¤ì”¤ è«??°ë¶½?
 	$content = checkXmpTag($content);
 	return $content;
 }
@@ -887,7 +887,7 @@ function removeSrcHack($match)
 {
 	$tag = strtolower($match[2]);
 
-	// xmp tag ?•ë¦¬
+	// xmp tag ?ëº£â”
 	if($tag=='xmp') return "<{$match[1]}xmp>";
 	if($match[1]) return $match[0];
 	if($match[4]) $match[4] = ' '.$match[4];
@@ -1222,6 +1222,38 @@ function requirePear()
 		set_include_path(_XE_PATH_."libs/PEAR.1.9");	
 	}
 }
+
+	function checkCSRF()
+	{
+		if($_SERVER['REQUEST_METHOD'] != 'POST')
+		{
+			return false;
+		}
+
+		$defaultUrl = Context::getDefaultUrl();
+		$referer = parse_url($_SERVER["HTTP_REFERER"]);
+
+		$oModuleModel = &getModel('module');
+		$siteModuleInfo = $oModuleModel->getDefaultMid();
+
+		if($siteModuleInfo->site_srl == 0)
+		{
+			if(!strstr(strtolower($defaultUrl), strtolower($referer['host'])))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
+			if(strtolower($virtualSiteInfo->domain) != strtolower(Context::get('vid'))  && !strstr(strtolower($virtualSiteInfo->domain), strtolower($referer['host'])))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 /**
  * Print raw html header

@@ -109,6 +109,7 @@ class Argument
 
 	function getUnescapedValue()
 	{
+		if($this->value === 'null') return null;
 		return $this->value;
 	}
 
@@ -228,8 +229,10 @@ class Argument
 	function isColumnName()
 	{
 		$type = $this->getType();
+		$value = $this->getUnescapedValue();
 		if($type == 'column_name') return true;
-		if($type == 'number' && !is_numeric($this->value) && $this->uses_default_value) return true;
+		if($type == 'number' && is_null($value)) return false;
+		if($type == 'number' && !is_numeric($value) && $this->uses_default_value) return true;
 		return false;
 	}
 

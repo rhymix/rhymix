@@ -1,46 +1,55 @@
 <?php
 /**
- * UpdateColumnTag
- * Models the <column> tag inside an XML Query file whose action is 'update'
+ * Models the &lt;column&gt; tag inside an XML Query file whose action is 'update'
  *
- * @author Arnia Software
- * @package /classes/xml/xmlquery/tags/column
+ * @author Corina Udrescu (corina.udrescu@arnia.ro)
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
 class UpdateColumnTag extends ColumnTag
 {
 	/**
-	 * argument
+	 * Argument
+	 *
 	 * @var QueryArgument object
 	 */
 	var $argument;
+
 	/**
-	 * default value
+	 * Default value
+	 *
 	 * @var string
 	 */
 	var $default_value;
 
 	/**
-	 * constructor
+	 * Constructor
+	 *
 	 * @param object $column
 	 * @return void
 	 */
 	function UpdateColumnTag($column)
 	{
 		parent::ColumnTag($column->attrs->name);
+
 		$dbParser = DB::getParser();
 		$this->name = $dbParser->parseColumnName($this->name);
+
 		if($column->attrs->var)
 			$this->argument = new QueryArgument($column);
 		else
 		{
-			if(strpos($column->attrs->default, '.') !== false)
+			if(strpos($column->attrs->default, '.') !== FALSE)
+			{
 				$this->default_value = "'" . $dbParser->parseColumnName($column->attrs->default) . "'";
+			}
 			else
 			{
 				$default_value = new DefaultValue($this->name, $column->attrs->default);
 				if($default_value->isOperation())
-					$this->argument = new QueryArgument($column, true);
+				{
+					$this->argument = new QueryArgument($column, TRUE);
+				}
 				//else $this->default_value = $dbParser->parseColumnName($column->attrs->default);
 				else
 				{
@@ -58,6 +67,11 @@ class UpdateColumnTag extends ColumnTag
 		}
 	}
 
+	/**
+	 * Returns the string to be output in the cache file
+	 *
+	 * @return string
+	 */
 	function getExpressionString()
 	{
 		if($this->argument)
@@ -74,6 +88,11 @@ class UpdateColumnTag extends ColumnTag
 		}
 	}
 
+	/**
+	 * Returns the Argument associated with this update statement
+	 *
+	 * @return QueryArgument
+	 */
 	function getArgument()
 	{
 		return $this->argument;

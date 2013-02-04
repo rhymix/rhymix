@@ -191,5 +191,18 @@ jQuery(function($){
 			// add sticky class 
 		}
 	});
+	
+	$('#userDefine form').submit(function(e) {
+		var id_list = $(this).find('input[name=join_form_id_list]').val();
+		var id_list_arr = id_list.split(',');
+
+		var column_id = $(this).find('input[name=column_id]').val();
+		var old_column_id = $(this).find('input[name=old_column_id]').val();
+		if($.inArray(column_id, id_list_arr) > -1 && column_id != old_column_id) {
+			alert(xe.lang.msg_exists_user_id);
+			return false;
+		}
+		else return true;
+	});
 
 });

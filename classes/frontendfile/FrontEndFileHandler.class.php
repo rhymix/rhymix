@@ -2,7 +2,7 @@
 /**
  * Handle front end files
  * @author NHN (developers@xpressengine.com)
- */
+ **/
 class FrontEndFileHandler extends Handler
 {
 	/**
@@ -91,40 +91,41 @@ class FrontEndFileHandler extends Handler
 	 * @param string $cdnPrefix CDN url prefix. (http://static.xpressengine.com/core/)
 	 * @param string $cdnVersion CDN version string (ardent1)
 	 * @return void
-	 */
+	 **/
 	function loadFile($args, $useCdn = false, $cdnPrefix = '', $cdnVersion = '')
 	{
 		if (!is_array($args)) $args = array($args);
 
 		$pathInfo = pathinfo($args[0]);
+		$file = new stdClass();
 		$file->fileName = $pathInfo['basename'];
 		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
 		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
 		$file->fileExtension = strtolower($pathInfo['extension']);
-		$file->fileNameNoExt = preg_replace("/\.{$file->fileExtension}$/", '', $file->fileName);
+		$file->fileNameNoExt = preg_replace('/\.min$/', '', $pathInfo['filename']);
+		$file->keyName = implode('.', array($file->fileNameNoExt, $file->fileExtension));
 
-		// Remove .min
-		$file->fileNameNoExt = preg_replace("/\.min$/", '', $file->fileNameNoExt);
-		$file->fileName = $file->keyName = "{$file->fileNameNoExt}.{$file->fileExtension}";
-
-		// if no debug mode load minified file
-		if(!__DEBUG__)
+		if(strpos($file->filePath, '://') === FALSE)
 		{
-			$tmp = "{$file->fileNameNoExt}.min.{$file->fileExtension}";
-			if(file_exists("{$file->fileRealPath}/{$tmp}"))
+			if(!__DEBUG__)
 			{
-				$file->fileName = $tmp;
-				$file->useMin = TRUE;
+				// if no debug mode, load minifed file
+				$minifiedFileName = implode('.', array($file->fileNameNoExt, 'min', $file->fileExtension));
+				$minifiedRealPath = implode('/', array($file->fileRealPath, $minifiedFileName));
+				if(file_exists($minifiedRealPath))
+				{
+					$file->fileName = $minifiedFileName;
+				}
 			}
-		}
+			else
+			{
+				// Remove .min
+				if(file_exists(implode('/', array($file->fileRealPath, $file->keyName))))
+				{
+					$file->fileName = $file->keyName;
+				}
+			}
 
-		if(!$file->useMin && !file_exists("{$file->fileRealPath}/{$file->fileName}"))
-		{
-			$file->fileName = "{$file->fileNameNoExt}.min.{$file->fileExtension}";
-		}
-
-		if(strpos($file->filePath, '://') == false)
-		{
 			$file->useCdn = $useCdn;
 			$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
 			$file->cdnPrefix = $cdnPrefix;
@@ -132,25 +133,25 @@ class FrontEndFileHandler extends Handler
 		}
 
 		$availableExtension = array('css'=>1, 'js'=>1);
-		if(!isset($availableExtension[$file->fileExtension])) return;
+		if (!isset($availableExtension[$file->fileExtension])) return;
 
 		$file->targetIe = $args[2];
 		$file->index = (int)$args[3];
 
-		if($file->fileExtension == 'css')
+		if ($file->fileExtension == 'css')
 		{
 			$file->media = $args[1];
-			if(!$file->media) $file->media = 'all';
+			if (!$file->media) $file->media = 'all';
 			$map = &$this->cssMap;
 			$mapIndex = &$this->cssMapIndex;
 			$key = $file->filePath . $file->keyName . "\t" . $file->targetIe . "\t" . $file->media;
 
 			$this->_arrangeCssIndex($pathInfo['dirname'], $file);
 		}
-		else if($file->fileExtension == 'js')
+		else if ($file->fileExtension == 'js')
 		{
 			$type = $args[1];
-			if($type == 'body')
+			if ($type == 'body')
 			{
 				$map = &$this->jsBodyMap;
 				$mapIndex = &$this->jsBodyMapIndex;
@@ -164,7 +165,7 @@ class FrontEndFileHandler extends Handler
 		}
 
 		(is_null($file->index))?$file->index=0:$file->index=$file->index;
-		if(!isset($map[$file->index][$key]) || $mapIndex[$key] > $file->index)
+		if (!isset($map[$file->index][$key]) || $mapIndex[$key] > $file->index)
 		{
 			$this->unloadFile($args[0], $args[2], $args[1]);
 			$map[$file->index][$key] = $file;
@@ -188,7 +189,7 @@ class FrontEndFileHandler extends Handler
 		$fileExtension = strtolower($pathInfo['extension']);
 		$key = $filePath . $fileName . "\t" . $targetIe;
 
-		if($fileExtension == 'css')
+		if ($fileExtension == 'css')
 		{
 			if(empty($media))
 			{
@@ -196,7 +197,7 @@ class FrontEndFileHandler extends Handler
 			}
 
 			$key .= "\t" . $media;
-			if(isset($this->cssMapIndex[$key]))
+			if (isset($this->cssMapIndex[$key]))
 			{
 				$index = $this->cssMapIndex[$key];
 				unset($this->cssMap[$index][$key]);
@@ -205,13 +206,13 @@ class FrontEndFileHandler extends Handler
 		}
 		else
 		{
-			if(isset($this->jsHeadMapIndex[$key]))
+			if (isset($this->jsHeadMapIndex[$key]))
 			{
 				$index = $this->jsHeadMapIndex[$key];
 				unset($this->jsHeadMap[$index][$key]);
 				unset($this->jsHeadMapIndex[$key]);
 			}
-			if(isset($this->jsBodyMapIndex[$key]))
+			if (isset($this->jsBodyMapIndex[$key]))
 			{
 				$index = $this->jsBodyMapIndex[$key];
 				unset($this->jsBodyMap[$index][$key]);
@@ -228,13 +229,13 @@ class FrontEndFileHandler extends Handler
 	 */
 	function unloadAllFiles($type = 'all')
 	{
-		if($type == 'css' || $type == 'all')
+		if ($type == 'css' || $type == 'all')
 		{
 			$this->cssMap = array();
 			$this->cssMapIndex = array();
 		}
 
-		if($type == 'js' || $type == 'all')
+		if ($type == 'js' || $type == 'all')
 		{
 			$this->jsHeadMap = array();
 			$this->jsBodyMap = array();
@@ -263,7 +264,7 @@ class FrontEndFileHandler extends Handler
 		{
 			foreach($indexedMap as $file)
 			{
-				if($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+				if ($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
 				{
 					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
@@ -287,7 +288,7 @@ class FrontEndFileHandler extends Handler
 	 */
 	function getJsFileList($type = 'head')
 	{
-		if($type == 'head')
+		if ($type == 'head')
 		{
 			$map = &$this->jsHeadMap;
 			$mapIndex = &$this->jsHeadMapIndex;
@@ -308,7 +309,7 @@ class FrontEndFileHandler extends Handler
 		{
 			foreach($indexedMap as $file)
 			{
-				if($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+				if ($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
 				{
 					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
@@ -344,7 +345,7 @@ class FrontEndFileHandler extends Handler
 	 */
 	function _normalizeFilePath($path)
 	{
-		if(strpos($path, '://') === false && $path{0} != '/' && $path{0} != '.')
+		if (strpos($path, '://') === false && $path{0} != '/' && $path{0} != '.')
 		{
 			$path = './' . $path;
 		}
@@ -371,7 +372,7 @@ class FrontEndFileHandler extends Handler
 
 		if(strpos($path, './') === 0)
 		{
-			if(dirname($_SERVER['SCRIPT_NAME']) == '/' || dirname($_SERVER['SCRIPT_NAME']) == '\\')
+			if (dirname($_SERVER['SCRIPT_NAME']) == '/' || dirname($_SERVER['SCRIPT_NAME']) == '\\')
 			{
 				$path = '/' . substr($path, 2);
 			}

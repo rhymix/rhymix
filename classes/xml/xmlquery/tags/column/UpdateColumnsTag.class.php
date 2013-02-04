@@ -1,23 +1,24 @@
 <?php
 /**
- * UpdateColumnsTag
- * Models the <column> tag inside an XML Query file whose action is 'update'
+ * Models the &lt;columns&gt; tag inside an XML Query file whose action is 'update'
  *
- * @author Arnia Software
- * @package /classes/xml/xmlquery/tags/column
+ * @author Corina Udrescu (corina.udrescu@arnia.ro)
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
 class UpdateColumnsTag
 {
 	/**
 	 * Column list
+	 *
 	 * @var array value is UpdateColumnTag object
 	 */
 	var $columns;
 
 	/**
-	 * constructor
-	 * @param array|string $xml_columns
+	 * Constructor
+	 *
+	 * @param array|object $xml_columns
 	 * @return void
 	 */
 	function UpdateColumnsTag($xml_columns)
@@ -34,7 +35,8 @@ class UpdateColumnsTag
 	}
 
 	/**
-	 * UpdateColumnTag object to string
+	 * Returns the string to be output in the cache file
+	 *
 	 * @return string
 	 */
 	function toString()
@@ -51,6 +53,7 @@ class UpdateColumnsTag
 
 	/**
 	 * Return argument list
+	 *
 	 * @return array
 	 */
 	function getArguments()

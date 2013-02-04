@@ -36,6 +36,7 @@
     require_once(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpressionWithoutArgument.class.php');
+	require_once(_XE_PATH_.'classes/db/queryparts/expression/ClickCountExpression.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/CubridTableWithHint.class.php');

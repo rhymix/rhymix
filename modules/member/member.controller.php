@@ -1072,7 +1072,7 @@ class memberController extends member
 		}
 		// Get content of the email to send a member
 		Context::set('auth_args', $auth_args);
-		Context::set('member_info', $member_info);
+		Context::set('memberInfo', $member_info);
 
 		$oModuleModel = &getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
@@ -1134,7 +1134,7 @@ class memberController extends member
 		if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
 		$auth_info = $output->data[0];
 		// Get content of the email to send a member
-		Context::set('member_info', $memberInfo);
+		Context::set('memberInfo', $memberInfo);
 		$oModuleModel = &getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
 		if(!$member_config->skin) $member_config->skin = "default";

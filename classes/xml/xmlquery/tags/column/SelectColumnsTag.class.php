@@ -1,22 +1,25 @@
 <?php
 /**
- * SelectColumnTag class
+ * Models the &lt;columns&gt; tag inside an XML Query file whose action is 'select'
  *
- * @author Arnia Software
- * @package /classes/xml/xmlquery/tags/column
+ * @author Corina Udrescu (corina.udrescu@arnia.ro)
+ * @package classes\xml\xmlquery\tags\column
  * @version 0.1
  */
 class SelectColumnsTag
 {
 	/**
 	 * Column list
+	 *
 	 * @var array value is SelectColumnTag object
 	 */
 	var $columns;
 
 	/**
-	 * constructor
-	 * @param Xml_Node_ $xml_columns
+	 * Constructor
+	 *
+	 * @param $xml_columns_tag
+	 * @internal param \Xml_Node_ $xml_columns
 	 * @return void
 	 */
 	function SelectColumnsTag($xml_columns_tag)
@@ -52,12 +55,13 @@ class SelectColumnsTag
 
 		foreach($xml_queries as $column)
 		{
-			$this->columns[] = new QueryTag($column, true);
+			$this->columns[] = new QueryTag($column, TRUE);
 		}
 	}
 
 	/**
-	 * SelectColumnTag object to string
+	 * Returns the string to be output in the cache file
+	 *
 	 * @return string
 	 */
 	function toString()
@@ -77,6 +81,7 @@ class SelectColumnsTag
 
 	/**
 	 * Return argument list
+	 *
 	 * @return array
 	 */
 	function getArguments()

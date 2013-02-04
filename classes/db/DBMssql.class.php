@@ -767,6 +767,12 @@ class DBMssql extends DB
 				$buff->data = array();
 				$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
 				return $buff;
+
+				if($queryObject->usesClickCount())
+				{
+					$update_query = $this->getClickCountQuery($queryObject);
+					$this->_executeUpdateAct($update_query);
+				}
 			}
 
 			$start_count = ($page - 1) * $list_count;

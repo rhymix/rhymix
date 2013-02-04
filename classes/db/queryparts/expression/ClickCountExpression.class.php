@@ -26,9 +26,8 @@ class ClickCountExpression extends SelectExpression
 
 		if(!is_bool($click_count))
 		{
-			error_log("Click_count value for $column_name was not boolean", 0);
+			// error_log("Click_count value for $column_name was not boolean", 0);
 			$this->click_count = false;
-			return;
 		}
 		$this->click_count = $click_count;
 	}
@@ -44,7 +43,15 @@ class ClickCountExpression extends SelectExpression
 	 */
 	function getExpression()
 	{
-		return "$this->column_name = $this->column_name + 1";
+		$db_type = Context::getDBType();
+		if($db_type == 'cubrid')
+		{
+			return "INCR($this->column_name)";
+		}
+		else
+		{
+			return "$this->column_name";
+		}
 	}
 }
 

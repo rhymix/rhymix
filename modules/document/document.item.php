@@ -754,7 +754,7 @@ class documentItem extends Object
 		if($this->get('uploaded_count'))
 		{
 			$oFileModel = &getModel('file');
-			$file_list = $oFileModel->getFiles($this->document_srl);
+			$file_list = $oFileModel->getFiles($this->document_srl, array(), 'file_srl', true);
 			if(count($file_list))
 			{
 				foreach($file_list as $file)
@@ -910,7 +910,7 @@ class documentItem extends Object
 		if(!$this->uploadedFiles[$sortIndex])
 		{
 			$oFileModel = &getModel('file');
-			$this->uploadedFiles[$sortIndex] = $oFileModel->getFiles($this->document_srl, array(), $sortIndex);
+			$this->uploadedFiles[$sortIndex] = $oFileModel->getFiles($this->document_srl, array(), $sortIndex, true);
 		}
 
 		return $this->uploadedFiles[$sortIndex];

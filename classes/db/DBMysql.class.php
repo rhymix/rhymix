@@ -545,6 +545,13 @@ class DBMysql extends DB
 			$data = $this->_fetch($result);
 			$buff = new Object ();
 			$buff->data = $data;
+
+			if($queryObject->usesClickCount())
+			{
+				$update_query = $this->getClickCountQuery($queryObject);
+				$this->_executeUpdateAct($update_query, $with_values);
+			}
+
 			return $buff;
 		}
 	}
