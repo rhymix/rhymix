@@ -179,7 +179,20 @@ class memberModel extends member
 	 * @brief Check if logged-in
 	 */
 	function isLogged() {
-		if($_SESSION['is_logged'] && (!Mobile::isFromMobilePhone() && $_SESSION['ipaddress']==$_SERVER['REMOTE_ADDR'])) return true;
+		if($_SESSION['is_logged'])
+		{
+			if(Mobile::isFromMobilePhone())
+			{
+				return true;
+			}
+			else
+			{
+				if($_SESSION['ipaddress'] == $_SERVER['REMOTE_ADDR'])
+				{
+					return true;
+				}
+			}
+		}
 
 		$_SESSION['is_logged'] = false;
 		return false;
@@ -380,15 +393,6 @@ class memberModel extends member
 		$args->nick_name = $nick_name;
 		$output = executeQuery('member.getMemberSrl', $args);
 		return $output->data->member_srl;
-	}
-
-	/**
-	 * @brief Return member_srl of the current logged-in user
-	 */
-	function getLoggedMemberSrl()
-	{
-		if(!$this->isLogged()) return;
-		return $_SESSION['member_srl'];
 	}
 
 	/**
