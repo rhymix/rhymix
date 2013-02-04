@@ -89,17 +89,13 @@ class counterController extends counter
 	{
 		if($site_srl)
 		{
-			$args->regdate = '0';
+			$args->regdate = '0' . date('Ymd');
 			$args->site_srl = $site_srl;
-			$output = executeQuery('counter.updateSiteCounterUnique', $args);
-			$args->regdate = date('Ymd');
 			$output = executeQuery('counter.updateSiteCounterUnique', $args);
 		}
 		else
 		{
-			$args->regdate = '0';
-			$output = executeQuery('counter.updateCounterUnique', $args);
-			$args->regdate = date('Ymd');
+			$args->regdate = '0' . date('Ymd');
 			$output = executeQuery('counter.updateCounterUnique', $args);
 		}
 	}
@@ -112,19 +108,16 @@ class counterController extends counter
 	 */
 	function insertPageView($site_srl=0)
 	{
+		$args = new stdClass;
+		$args->regdate = '0,' . date('Ymd');
+
 		if($site_srl)
 		{
-			$args->regdate = '0';
 			$args->site_srl = $site_srl;
-			executeQuery('counter.updateSiteCounterPageview', $args);
-			$args->regdate = date('Ymd');
 			executeQuery('counter.updateSiteCounterPageview', $args);
 		}
 		else
 		{
-			$args->regdate = '0';
-			executeQuery('counter.updateCounterPageview', $args);
-			$args->regdate = date('Ymd');
 			executeQuery('counter.updateCounterPageview', $args);
 		}
 	}
@@ -137,6 +130,7 @@ class counterController extends counter
 	 */
 	function insertTotalStatus($site_srl=0)
 	{
+		$args = new stdClass;
 		$args->regdate = 0;
 		if($site_srl)
 		{
@@ -158,6 +152,7 @@ class counterController extends counter
 	 */
 	function insertTodayStatus($regdate = 0, $site_srl=0)
 	{
+		$args = new stdClass;
 		if($regdate) $args->regdate = $regdate;
 		else $args->regdate = date("Ymd");
 		if($site_srl)

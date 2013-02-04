@@ -23,11 +23,25 @@ class counterModel extends counter
 	 */
 	function isLogged($site_srl=0)
 	{
-		$args->regdate = date("Ymd");
+		$args = new stdClass;
+		$args->regdate = date('Ymd');
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$args->site_srl = $site_srl;
+
+		$oCacheHandler = &CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$object_key = 'object:' . $site_srl . '_' . str_replace('.', '-', $args->ipaddress);
+			$cache_key = $oCacheHandler->getGroupKey('counterIpLogged_' . $args->regdate, $object_key);
+			if($oCacheHandler->isValid($cache_key)) return $oCacheHandler->get($cache_key);
+		}
+
 		$output = executeQuery('counter.getCounterLog', $args);
-		return $output->data->count?true:false;
+
+		$result = $output->data->count ? TRUE : FALSE;
+		if($result && $oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $result);
+
+		return $result;
 	}
 
 	/**
@@ -38,17 +52,32 @@ class counterModel extends counter
 	 */
 	function isInsertedTodayStatus($site_srl=0)
 	{
-		$args->regdate = date("Ymd");
+		$args = new stdClass;
+		$args->regdate = date('Ymd');
+
+		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'object:insertedTodayStatus:' . $site_srl . '_' . $args->regdate;
+			if($oCacheHandler->isValid($cache_key)) return $oCacheHandler->get($cache_key);
+		}
+
 		if($site_srl)
 		{
 			$args->site_srl = $site_srl;
 			$output = executeQuery('counter.getSiteTodayStatus', $args);
 		}
-		else
+		else $output = executeQuery('counter.getTodayStatus', $args);
+		
+		$result = $output->data->count ? TRUE : FALSE;
+		if($result && $oCacheHandler->isSupport())
 		{
-			$output = executeQuery('counter.getTodayStatus', $args);
+			$oCacheHandler->put($cache_key, $result);
+			$_old_date = date('Ymd', strtotime('-1 day'));
+			$oCacheHandler->delete('object:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
 		}
-		return $output->data->count?true:false;
+
+		return $result;
 	}
 
 	/**
