@@ -236,7 +236,14 @@ class content extends WidgetHandler
 		$obj->module_srl = $args->module_srl;
 		$obj->category_srl = $args->category_srl;
 		$obj->sort_index = $args->order_target;
-		$obj->order_type = $args->order_type=="desc"?"asc":"desc";
+		if($args->order_target == 'list_order' || $args->order_target == 'update_order')
+		{
+			$obj->order_type = $args->order_type=="desc"?"asc":"desc";
+		}
+		else
+		{
+			$obj->order_type = $args->order_type=="desc"?"desc":"asc";
+		}
 		$obj->list_count = $args->list_count * $args->page_count;
 		$obj->statusList = array('PUBLIC');
 		$output = executeQueryArray('widgets.content.getNewestDocuments', $obj);
