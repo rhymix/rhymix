@@ -1,13 +1,14 @@
 <?php
-if(!defined('__XE__')) exit();
+
+if(!defined('__XE__'))
+	exit();
 
 /**
  * @file resize_image.addon.php
  * @author NHN (developers@xpressengine.com)
  * @brief Add-on to resize images in the body
  */
-
-if($called_position == 'after_module_proc' && Context::getResponseMethod()=="HTML")
+if($called_position == 'after_module_proc' && Context::getResponseMethod() == "HTML")
 {
 	if(Mobile::isFromMobilePhone())
 	{

@@ -1,27 +1,26 @@
 <?php
-if(!defined('__XE__')) exit();
+
+if(!defined('__XE__'))
+	exit();
 
 /**
  * @file ./addons/blogapi/blogapi.func.php
  * @author NHN (developers@xpressengine.com)
  * @brief Function collections for the implementation of blogapi
- **/
-
+ * */
 // Error messages
 function getXmlRpcFailure($error, $message)
 {
-	return 
-		sprintf(
-				"<methodResponse>\n<fault><value><struct>\n<member>\n<name>faultCode</name>\n<value><int>%d</int></value>\n</member>\n<member>\n<name>faultString</name>\n<value><string>%s</string></value>\n</member>\n</struct></value></fault>\n</methodResponse>\n",
-				$error,
-				htmlspecialchars($message)
-			   );
+	return
+			sprintf(
+					"<methodResponse>\n<fault><value><struct>\n<member>\n<name>faultCode</name>\n<value><int>%d</int></value>\n</member>\n<member>\n<name>faultString</name>\n<value><string>%s</string></value>\n</member>\n</struct></value></fault>\n</methodResponse>\n", $error, htmlspecialchars($message)
+	);
 }
 
 // Display results
 function getXmlRpcResponse($params)
 {
-	$buff = '<?xml version="1.0" encoding="utf-8"?>'."\n<methodResponse><params>";
+	$buff = '<?xml version="1.0" encoding="utf-8"?>' . "\n<methodResponse><params>";
 	$buff .= _getEncodedVal($params);
 	$buff .= "</params>\n</methodResponse>\n";
 
@@ -31,16 +30,29 @@ function getXmlRpcResponse($params)
 // Encoding
 function _getEncodedVal($val, $is_sub_set = false)
 {
-	if(is_int($val)) $buff = sprintf("<value><i4>%d</i4></value>", $val);
-	elseif(is_string($val)&&preg_match('/^([0-9]+)T([0-9\:]+)$/', $val)) $buff = sprintf("<value><dateTime.iso8601>%s</dateTime.iso8601></value>\n", $val);
-	elseif(is_double($val)) $buff = sprintf("<value><double>%f</double></value>", $val);
-	elseif(is_bool($val)) $buff = sprintf("<value><boolean>%d</boolean></value>", $val?1:0);
+	if(is_int($val))
+	{
+		$buff = sprintf("<value><i4>%d</i4></value>", $val);
+	}
+	elseif(is_string($val) && preg_match('/^([0-9]+)T([0-9\:]+)$/', $val))
+	{
+		$buff = sprintf("<value><dateTime.iso8601>%s</dateTime.iso8601></value>\n", $val);
+	}
+	elseif(is_double($val))
+	{
+		$buff = sprintf("<value><double>%f</double></value>", $val);
+	}
+	elseif(is_bool($val))
+	{
+		$buff = sprintf("<value><boolean>%d</boolean></value>", $val ? 1 : 0);
+	}
 	elseif(is_object($val))
 	{
 		$values = get_object_vars($val);
 		$val_count = count($values);
 		$buff = "<value><struct>";
-		foreach($values as $k => $v) {
+		foreach($values as $k => $v)
+		{
 			$buff .= sprintf("<member>\n<name>%s</name>\n%s</member>\n", htmlspecialchars($k), _getEncodedVal($v, true));
 		}
 		$buff .= "</struct></value>\n";
@@ -49,7 +61,8 @@ function _getEncodedVal($val, $is_sub_set = false)
 	{
 		$val_count = count($val);
 		$buff = "<value><array>\n<data>";
-		for($i=0;$i<$val_count;$i++) {
+		for($i = 0; $i < $val_count; $i++)
+		{
 			$buff .= _getEncodedVal($val[$i], true);
 		}
 		$buff .= "</data>\n</array></value>";
@@ -58,7 +71,10 @@ function _getEncodedVal($val, $is_sub_set = false)
 	{
 		$buff = sprintf("<value><string>%s</string></value>\n", $val);
 	}
-	if(!$is_sub_set) return sprintf("<param>\n%s</param>", $buff);
+	if(!$is_sub_set)
+	{
+		return sprintf("<param>\n%s</param>", $buff);
+	}
 	return $buff;
 }
 
@@ -75,5 +91,6 @@ function printContent($content)
 	Context::close();
 	exit();
 }
+
 /* End of file blogapi.func.php */
 /* Location: ./addons/blogapi/blogapi.func.php */

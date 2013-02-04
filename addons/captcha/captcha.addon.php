@@ -1,20 +1,23 @@
 <?php
-if(!defined("__ZBXE__")) exit();
+
+if(!defined("__ZBXE__"))
+	exit();
 
 /**
  * @file captcha.addon.php
  * @author NHN (developers@xpressengine.com)
  * @brief Captcha for a particular action
  * English alphabets and voice verification added
- **/
-
+ * */
 if(!class_exists('AddonCaptcha'))
 {
 	// On the mobile mode, XE Core does not load jquery and xe.js as normal.
-	Context::loadFile(array('./common/js/jquery.min.js','head', NULL,-100000),true);
-	Context::loadFile(array('./common/js/xe.min.js','head', NULL,-100000),true);
+	Context::loadFile(array('./common/js/jquery.min.js', 'head', NULL, -100000), true);
+	Context::loadFile(array('./common/js/xe.min.js', 'head', NULL, -100000), true);
+
 	class AddonCaptcha
 	{
+
 		var $addon_info;
 
 		function setInfo(&$addon_info)
@@ -33,19 +36,40 @@ if(!class_exists('AddonCaptcha'))
 		function before_module_init(&$ModuleHandler)
 		{
 			$logged_info = Context::get('logged_info');
-			if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin) return false;
-			if($this->addon_info->target != 'all' && Context::get('is_logged')) return false;
-			if($_SESSION['XE_VALIDATOR_ERROR'] == -1) $_SESSION['captcha_authed'] = false;
-			if($_SESSION['captcha_authed']) return false;
+			if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin)
+			{
+				return false;
+			}
+			if($this->addon_info->target != 'all' && Context::get('is_logged'))
+			{
+				return false;
+			}
+			if($_SESSION['XE_VALIDATOR_ERROR'] == -1)
+			{
+				$_SESSION['captcha_authed'] = false;
+			}
+			if($_SESSION['captcha_authed'])
+			{
+				return false;
+			}
 
 			$type = Context::get('captchaType');
 
-			$target_acts = array('procBoardInsertDocument','procBoardInsertComment','procIssuetrackerInsertIssue','procIssuetrackerInsertHistory','procTextyleInsertComment');
-			if($this->addon_info->apply_find_account=='apply') $target_acts[] = 'procMemberFindAccount';
-			if($this->addon_info->apply_resend_auth_mail=='apply') $target_acts[] = 'procMemberResendAuthMail';
-			if($this->addon_info->apply_signup=='apply') $target_acts[] = 'procMemberInsert';
+			$target_acts = array('procBoardInsertDocument', 'procBoardInsertComment', 'procIssuetrackerInsertIssue', 'procIssuetrackerInsertHistory', 'procTextyleInsertComment');
+			if($this->addon_info->apply_find_account == 'apply')
+			{
+				$target_acts[] = 'procMemberFindAccount';
+			}
+			if($this->addon_info->apply_resend_auth_mail == 'apply')
+			{
+				$target_acts[] = 'procMemberResendAuthMail';
+			}
+			if($this->addon_info->apply_signup == 'apply')
+			{
+				$target_acts[] = 'procMemberInsert';
+			}
 
-			if(Context::getRequestMethod()!='XMLRPC' && Context::getRequestMethod()!=='JSON')
+			if(Context::getRequestMethod() != 'XMLRPC' && Context::getRequestMethod() !== 'JSON')
 			{
 				if($type == 'inline')
 				{
@@ -53,7 +77,7 @@ if(!class_exists('AddonCaptcha'))
 					{
 						Context::loadLang('./addons/captcha/lang');
 						$_SESSION['XE_VALIDATOR_ERROR'] = -1;
-						$_SESSION['XE_VALIDATOR_MESSAGE'] = Context::getLang('captcha_denied');;
+						$_SESSION['XE_VALIDATOR_MESSAGE'] = Context::getLang('captcha_denied');
 						$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
 						$_SESSION['XE_VALIDATOR_RETURN_URL'] = Context::get('error_return_url');
 						$ModuleHandler->_setInputValueToSession();
@@ -61,7 +85,7 @@ if(!class_exists('AddonCaptcha'))
 				}
 				else
 				{
-					Context::addHtmlHeader('<script> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
+					Context::addHtmlHeader('<script> var captchaTargetAct = new Array("' . implode('","', $target_acts) . '"); </script>');
 					Context::loadFile(array('./addons/captcha/captcha.min.js', 'body', '', null), true);
 				}
 			}
@@ -79,22 +103,26 @@ if(!class_exists('AddonCaptcha'))
 		function createKeyword()
 		{
 			$type = Context::get('captchaType');
-			if ($type == 'inline' && $_SESSION['captcha_keyword']) return;
+			if($type == 'inline' && $_SESSION['captcha_keyword'])
+			{
+				return;
+			}
 
-			$arr = range('A','Y');
+			$arr = range('A', 'Y');
 			shuffle($arr);
-			$arr = array_slice($arr,0,6);
+			$arr = array_slice($arr, 0, 6);
 			$_SESSION['captcha_keyword'] = join('', $arr);
 		}
 
 		function before_module_init_setCaptchaSession()
 		{
-			if($_SESSION['captcha_authed']) return false;
+			if($_SESSION['captcha_authed'])
+			{
+				return false;
+			}
 			// Load language files
-
-			Context::loadLang(_XE_PATH_.'addons/captcha/lang');
+			Context::loadLang(_XE_PATH_ . 'addons/captcha/lang');
 			// Generate keywords
-
 			$this->createKeyword();
 
 			$target = Context::getLang('target_captcha');
@@ -105,20 +133,26 @@ if(!class_exists('AddonCaptcha'))
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
 			printf("<response>\r\n <error>0</error>\r\n <message>success</message>\r\n <about_captcha><![CDATA[%s]]></about_captcha>\r\n <captcha_reload><![CDATA[%s]]></captcha_reload>\r\n <captcha_play><![CDATA[%s]]></captcha_play>\r\n <cmd_input><![CDATA[%s]]></cmd_input>\r\n <cmd_cancel><![CDATA[%s]]></cmd_cancel>\r\n </response>"
-					,Context::getLang('about_captcha')
-					,Context::getLang('captcha_reload')
-					,Context::getLang('captcha_play')
-					,Context::getLang('cmd_input')
-					,Context::getLang('cmd_cancel')
-					);
+					, Context::getLang('about_captcha')
+					, Context::getLang('captcha_reload')
+					, Context::getLang('captcha_play')
+					, Context::getLang('cmd_input')
+					, Context::getLang('cmd_cancel')
+			);
 			Context::close();
 			exit();
 		}
 
 		function before_module_init_captchaImage()
 		{
-			if($_SESSION['captcha_authed']) return false;
-			if(Context::get('renew')) $this->createKeyword();
+			if($_SESSION['captcha_authed'])
+			{
+				return false;
+			}
+			if(Context::get('renew'))
+			{
+				$this->createKeyword();
+			}
 
 			$keyword = $_SESSION['captcha_keyword'];
 			$im = $this->createCaptchaImage($keyword);
@@ -137,85 +171,99 @@ if(!class_exists('AddonCaptcha'))
 		function createCaptchaImage($string)
 		{
 			$arr = array();
-			for($i=0,$c=strlen($string);$i<$c;$i++) $arr[] = $string{$i};
-			// Font site
+			for($i = 0, $c = strlen($string); $i < $c; $i++)
+			{
+				$arr[] = $string{$i};
+			}
 
+			// Font site
 			$w = 18;
 			$h = 25;
+
 			// Character length
-
 			$c = count($arr);
+
 			// Character image
-
 			$im = array();
+
 			// Create an image by total size
+			$im[] = imagecreate(($w + 2) * count($arr), $h);
 
-			$im[] = imagecreate(($w+2)*count($arr), $h);
-
-			$deg = range(-30,30);
+			$deg = range(-30, 30);
 			shuffle($deg);
-			// Create an image for each letter
 
+			// Create an image for each letter
 			foreach($arr as $i => $str)
 			{
-				$im[$i+1] = @imagecreate($w, $h);
-				$background_color = imagecolorallocate($im[$i+1], 255, 255, 255);
-				$text_color = imagecolorallocate($im[$i+1], 0, 0, 0);
-				// Control font size
+				$im[$i + 1] = @imagecreate($w, $h);
+				$background_color = imagecolorallocate($im[$i + 1], 255, 255, 255);
+				$text_color = imagecolorallocate($im[$i + 1], 0, 0, 0);
 
-				$ran = range(1,20);
+				// Control font size
+				$ran = range(1, 20);
 				shuffle($ran);
 
 				if(function_exists('imagerotate'))
 				{
-					imagestring($im[$i+1], (array_pop($ran)%3)+3, 2, (array_pop($ran)%8),  $str, $text_color);
-					$im[$i+1] = imagerotate($im[$i+1], array_pop($deg), 0);
+					imagestring($im[$i + 1], (array_pop($ran) % 3) + 3, 2, (array_pop($ran) % 8), $str, $text_color);
+					$im[$i + 1] = imagerotate($im[$i + 1], array_pop($deg), 0);
 
-					$background_color = imagecolorallocate($im[$i+1], 255, 255, 255);
-					imagecolortransparent($im[$i+1], $background_color);
+					$background_color = imagecolorallocate($im[$i + 1], 255, 255, 255);
+					imagecolortransparent($im[$i + 1], $background_color);
 				}
 				else
 				{
-					imagestring($im[$i+1], (array_pop($ran)%3)+3, 2, (array_pop($ran)%4), $str, $text_color);
+					imagestring($im[$i + 1], (array_pop($ran) % 3) + 3, 2, (array_pop($ran) % 4), $str, $text_color);
 				}
 			}
 
 			// Combine images of each character
-
-			for($i=1;$i<count($im);$i++)
+			for($i = 1; $i < count($im); $i++)
 			{
-				imagecopy($im[0],$im[$i],(($w+2)*($i-1)),0,0,0,$w,$h);
+				imagecopy($im[0], $im[$i], (($w + 2) * ($i - 1)), 0, 0, 0, $w, $h);
 				imagedestroy($im[$i]);
 			}
-			// Larger image
 
+			// Larger image
 			$big_count = 2;
-			$big = imagecreatetruecolor(($w+2)*$big_count*$c, $h*$big_count);
-			imagecopyresized($big, $im[0], 0, 0, 0, 0, ($w+2)*$big_count*$c, $h*$big_count, ($w+2)*$c, $h);
+			$big = imagecreatetruecolor(($w + 2) * $big_count * $c, $h * $big_count);
+			imagecopyresized($big, $im[0], 0, 0, 0, 0, ($w + 2) * $big_count * $c, $h * $big_count, ($w + 2) * $c, $h);
 			imagedestroy($im[0]);
 
-			if(function_exists('imageantialias')) imageantialias($big,true);
-			// Background line
+			if(function_exists('imageantialias'))
+			{
+				imageantialias($big, true);
+			}
 
+			// Background line
 			$line_color = imagecolorallocate($big, 0, 0, 0);
 
-			$w = ($w+2)*$big_count*$c;
-			$h = $h*$big_count;
+			$w = ($w + 2) * $big_count * $c;
+			$h = $h * $big_count;
 			$d = array_pop($deg);
 
-			for($i=-abs($d);$i<$h+abs($d);$i=$i+7) imageline($big,0,$i+$d,$w,$i,$line_color);
+			for($i = -abs($d); $i < $h + abs($d); $i = $i + 7)
+			{
+				imageline($big, 0, $i + $d, $w, $i, $line_color);
+			}
 
-			$x = range(0,($w-10));
+			$x = range(0, ($w - 10));
 			shuffle($x);
 
-			for($i=0;$i<200;$i++) imagesetpixel($big,$x[$i]%$w,$x[$i+1]%$h,$line_color);
+			for($i = 0; $i < 200; $i++)
+			{
+				imagesetpixel($big, $x[$i] % $w, $x[$i + 1] % $h, $line_color);
+			}
 
 			return $big;
 		}
 
 		function before_module_init_captchaAudio()
 		{
-			if($_SESSION['captcha_authed']) return false;
+			if($_SESSION['captcha_authed'])
+			{
+				return false;
+			}
 
 			$keyword = strtoupper($_SESSION['captcha_keyword']);
 			$data = $this->createCaptchaAudio($keyword);
@@ -236,18 +284,21 @@ if(!class_exists('AddonCaptcha'))
 		{
 			$data = '';
 			$_audio = './addons/captcha/audio/F_%s.mp3';
-			for($i=0,$c=strlen($string);$i<$c;$i++)
+			for($i = 0, $c = strlen($string); $i < $c; $i++)
 			{
 				$_data = FileHandler::readFile(sprintf($_audio, $string{$i}));
 
 				$start = rand(5, 68); // Random start in 4-byte header and 64 byte data
 				$datalen = strlen($_data) - $start - 256; // Last unchanged 256 bytes
 
-				for($j=$start;$j<$datalen;$j+=64)
+				for($j = $start; $j < $datalen; $j+=64)
 				{
 					$ch = ord($_data{$j});
-					if($ch<9 || $ch>119) continue;
-					$_data{$j} = chr($ch+rand(-8,8));
+					if($ch < 9 || $ch > 119)
+					{
+						continue;
+					}
+					$_data{$j} = chr($ch + rand(-8, 8));
 				}
 
 				$data .= $_data;
@@ -258,7 +309,10 @@ if(!class_exists('AddonCaptcha'))
 
 		function compareCaptcha()
 		{
-			if($_SESSION['captcha_authed']) return true;
+			if($_SESSION['captcha_authed'])
+			{
+				return true;
+			}
 
 			if(strtoupper($_SESSION['captcha_keyword']) == strtoupper(Context::get('secret_text')))
 			{
@@ -295,13 +349,13 @@ if(!class_exists('AddonCaptcha'))
 			unset($_SESSION['captcha_authed']);
 			$this->createKeyword();
 
-			$swfURL = getUrl().'addons/captcha/swf/play.swf';
+			$swfURL = getUrl() . 'addons/captcha/swf/play.swf';
 			Context::unloadFile('./addons/captcha/captcha.min.js');
-			Context::loadFile(array('./addons/captcha/inline_captcha.js','body'));
+			Context::loadFile(array('./addons/captcha/inline_captcha.js', 'body'));
 
 			global $lang;
 
-			$tags=<<<EOD
+			$tags = <<<EOD
 <img src="%s" id="captcha_image" alt="CAPTCHA" width="240" height="50" style="width:240px; height:50px; border:1px solid #b0b0b0" />
 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="0" height="0" id="captcha_audio" align="middle">
 <param name="allowScriptAccess" value="always" />
@@ -317,15 +371,15 @@ if(!class_exists('AddonCaptcha'))
 <input type="hidden" name="captchaType" value="inline" />
 <input name="secret_text" type="text" id="secret_text" />
 EOD;
-			$tags = sprintf($tags, getUrl('captcha_action','captchaImage', 'rand', mt_rand(10000, 99999))
-							, $swfURL
-							, $swfURL
-							, $lang->reload
-							, $lang->play);
+			$tags = sprintf($tags, getUrl('captcha_action', 'captchaImage', 'rand', mt_rand(10000, 99999))
+					, $swfURL
+					, $swfURL
+					, $lang->reload
+					, $lang->play);
 			return $tags;
 		}
-	}
 
+	}
 	$GLOBALS['__AddonCaptcha__'] = new AddonCaptcha;
 	$GLOBALS['__AddonCaptcha__']->setInfo($addon_info);
 	Context::set('oCaptcha', $GLOBALS['__AddonCaptcha__']);
@@ -342,9 +396,9 @@ if(method_exists($oAddonCaptcha, $called_position))
 }
 
 $addon_act = Context::get('captcha_action');
-if($addon_act && method_exists($oAddonCaptcha, $called_position.'_'.$addon_act))
+if($addon_act && method_exists($oAddonCaptcha, $called_position . '_' . $addon_act))
 {
-	if(!call_user_func_array(array(&$oAddonCaptcha, $called_position.'_'.$addon_act), array(&$this)))
+	if(!call_user_func_array(array(&$oAddonCaptcha, $called_position . '_' . $addon_act), array(&$this)))
 	{
 		return false;
 	}
