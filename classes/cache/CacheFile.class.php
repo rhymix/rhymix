@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cache class for file
  *
@@ -8,6 +9,7 @@
  */
 class CacheFile extends CacheBase
 {
+
 	/**
 	 * Default valid time
 	 * @var int
@@ -27,7 +29,8 @@ class CacheFile extends CacheBase
 	 */
 	function getInstance()
 	{
-		if(!$GLOBALS['__CacheFile__']) {
+		if(!$GLOBALS['__CacheFile__'])
+		{
 			$GLOBALS['__CacheFile__'] = new CacheFile();
 		}
 		return $GLOBALS['__CacheFile__'];
@@ -41,7 +44,10 @@ class CacheFile extends CacheBase
 	function CacheFile()
 	{
 		$this->cache_dir = _XE_PATH_ . $this->cache_dir;
-		if(!is_dir($this->cache_dir)) FileHandler::makeDir($this->cache_dir);
+		if(!is_dir($this->cache_dir))
+		{
+			FileHandler::makeDir($this->cache_dir);
+		}
 	}
 
 	/**
@@ -75,7 +81,7 @@ class CacheFile extends CacheBase
 	 */
 	function put($key, $obj, $valid_time = 0)
 	{
-		$cache_file = $this->getCacheFileName($key);		
+		$cache_file = $this->getCacheFileName($key);
 		$text = serialize($obj);
 		FileHandler::writeFile($cache_file, $text);
 	}
@@ -90,7 +96,10 @@ class CacheFile extends CacheBase
 	function isValid($key, $modified_time = 0)
 	{
 		$cache_file = $this->getCacheFileName($key);
-		if(file_exists($cache_file)) return true;
+		if(file_exists($cache_file))
+		{
+			return true;
+		}
 
 		return false;
 	}
@@ -106,7 +115,10 @@ class CacheFile extends CacheBase
 	{
 		$cache_file = $this->getCacheFileName($key);
 		$content = FileHandler::readFile($cache_file);
-		if(!$content) return false;
+		if(!$content)
+		{
+			return false;
+		}
 
 		return unserialize($content);
 	}
@@ -143,7 +155,7 @@ class CacheFile extends CacheBase
 	{
 		FileHandler::removeFilesInDir($this->cache_dir);
 	}
-}
 
+}
 /* End of file CacheFile.class.php */
 /* Location: ./classes/cache/CacheFile.class.php */

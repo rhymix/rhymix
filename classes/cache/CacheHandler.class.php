@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CacheHandler
  *
@@ -6,6 +7,7 @@
  */
 class CacheHandler extends Handler
 {
+
 	/**
 	 * instance of cache handler
 	 * @var CacheBase
@@ -49,37 +51,59 @@ class CacheHandler extends Handler
 	 */
 	function CacheHandler($target, $info = null, $always_use_file = false)
 	{
-		if(!$info) $info = Context::getDBInfo();
+		if(!$info)
+		{
+			$info = Context::getDBInfo();
+		}
+
 		if($info)
 		{
 			if($target == 'object')
 			{
-				if($info->use_object_cache =='apc') $type = 'apc';
-				else if(substr($info->use_object_cache,0,8)=='memcache')
+				if($info->use_object_cache == 'apc')
+				{
+					$type = 'apc';
+				}
+				else if(substr($info->use_object_cache, 0, 8) == 'memcache')
 				{
 					$type = 'memcache';
 					$url = $info->use_object_cache;
 				}
-				else if($info->use_object_cache == 'wincache') $type = 'wincache';
-				else if($info->use_object_cache =='file') $type = 'file';
-				else if($always_use_file) $type = 'file';
+				else if($info->use_object_cache == 'wincache')
+				{
+					$type = 'wincache';
+				}
+				else if($info->use_object_cache == 'file')
+				{
+					$type = 'file';
+				}
+				else if($always_use_file)
+				{
+					$type = 'file';
+				}
 			}
 			else if($target == 'template')
 			{
-				if($info->use_template_cache =='apc') $type = 'apc';
-				else if(substr($info->use_template_cache,0,8)=='memcache')
+				if($info->use_template_cache == 'apc')
+				{
+					$type = 'apc';
+				}
+				else if(substr($info->use_template_cache, 0, 8) == 'memcache')
 				{
 					$type = 'memcache';
 					$url = $info->use_template_cache;
 				}
-				else if($info->use_template_cache == 'wincache') $type = 'wincache';
+				else if($info->use_template_cache == 'wincache')
+				{
+					$type = 'wincache';
+				}
 			}
 
 			if($type)
 			{
 				$class = 'Cache' . ucfirst($type);
 				include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
-				$this->handler = call_user_func(array($class,'getInstance'), $url);
+				$this->handler = call_user_func(array($class, 'getInstance'), $url);
 				$this->keyGroupVersions = $this->handler->get('key_group_versions', 0);
 				if(!$this->keyGroupVersions)
 				{
@@ -97,7 +121,10 @@ class CacheHandler extends Handler
 	 */
 	function isSupport()
 	{
-		if($this->handler && $this->handler->isSupport()) return true;
+		if($this->handler && $this->handler->isSupport())
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -106,12 +133,15 @@ class CacheHandler extends Handler
 	 *
 	 * @param string $key Cache key
 	 * @param int $modified_time 	Unix time of data modified.
-	 *								If stored time is older then modified time, return false.
+	 * 								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure or older then modified time. Return the string associated with the $key on success.
 	 */
 	function get($key, $modified_time = 0)
 	{
-		if(!$this->handler) return false;
+		if(!$this->handler)
+		{
+			return false;
+		}
 		return $this->handler->get($key, $modified_time);
 	}
 
@@ -121,13 +151,16 @@ class CacheHandler extends Handler
 	 * @param string $key Cache key
 	 * @param mixed $obj	Value of a variable to store. $value supports all data types except resources, such as file handlers.
 	 * @param int $valid_time	Time for the variable to live in the cache in seconds.
-	 *							After the value specified in ttl has passed the stored variable will be deleted from the cache.
-	 *							If no ttl is supplied, use the default valid time.
+	 * 							After the value specified in ttl has passed the stored variable will be deleted from the cache.
+	 * 							If no ttl is supplied, use the default valid time.
 	 * @return bool|void Returns true on success or false on failure. If use CacheFile, returns void.
 	 */
 	function put($key, $obj, $valid_time = 0)
 	{
-		if(!$this->handler) return false;
+		if(!$this->handler)
+		{
+			return false;
+		}
 		return $this->handler->put($key, $obj, $valid_time);
 	}
 
@@ -139,7 +172,10 @@ class CacheHandler extends Handler
 	 */
 	function delete($key)
 	{
-		if(!$this->handler) return false;
+		if(!$this->handler)
+		{
+			return false;
+		}
 		return $this->handler->delete($key);
 	}
 
@@ -148,12 +184,15 @@ class CacheHandler extends Handler
 	 *
 	 * @param string $key Cache key
 	 * @param int $modified_time 	Unix time of data modified.
-	 *								If stored time is older then modified time, the data is invalid.
+	 * 								If stored time is older then modified time, the data is invalid.
 	 * @return bool Return true on valid or false on invalid.
 	 */
 	function isValid($key, $modified_time)
 	{
-		if(!$this->handler) return false;
+		if(!$this->handler)
+		{
+			return false;
+		}
 		return $this->handler->isValid($key, $modified_time);
 	}
 
@@ -164,7 +203,10 @@ class CacheHandler extends Handler
 	 */
 	function truncate()
 	{
-		if(!$this->handler) return false;
+		if(!$this->handler)
+		{
+			return false;
+		}
 		return $this->handler->truncate();
 	}
 
@@ -206,6 +248,7 @@ class CacheHandler extends Handler
 		$this->keyGroupVersions[$keyGroupName]++;
 		$this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
 	}
+
 }
 
 /**
@@ -215,12 +258,13 @@ class CacheHandler extends Handler
  */
 class CacheBase
 {
+
 	/**
 	 * Get cached data
 	 *
 	 * @param string $key Cache key
 	 * @param int $modified_time 	Unix time of data modified.
-	 *								If stored time is older then modified time, return false.
+	 * 								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure or older then modified time. Return the string associated with the $key on success.
 	 */
 	function get($key, $modified_time = 0)
@@ -234,8 +278,8 @@ class CacheBase
 	 * @param string $key Cache key
 	 * @param mixed $obj	Value of a variable to store. $value supports all data types except resources, such as file handlers.
 	 * @param int $valid_time	Time for the variable to live in the cache in seconds.
-	 *							After the value specified in ttl has passed the stored variable will be deleted from the cache.
-	 *							If no ttl is supplied, use the default valid time.
+	 * 							After the value specified in ttl has passed the stored variable will be deleted from the cache.
+	 * 							If no ttl is supplied, use the default valid time.
 	 * @return bool|void Returns true on success or false on failure. If use CacheFile, returns void.
 	 */
 	function put($key, $obj, $valid_time = 0)
@@ -248,7 +292,7 @@ class CacheBase
 	 *
 	 * @param string $key Cache key
 	 * @param int $modified_time 	Unix time of data modified.
-	 *								If stored time is older then modified time, the data is invalid.
+	 * 								If stored time is older then modified time, the data is invalid.
 	 * @return bool Return true on valid or false on invalid.
 	 */
 	function isValid($key, $modified_time = 0)
@@ -275,7 +319,7 @@ class CacheBase
 	{
 		return false;
 	}
-}
 
+}
 /* End of file CacheHandler.class.php */
 /* Location: ./classes/cache/CacheHandler.class.php */
