@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * DeleteExpression
  *
@@ -9,6 +10,7 @@
  */
 class DeleteExpression extends Expression
 {
+
 	/**
 	 * column value
 	 * @var mixed
@@ -39,15 +41,22 @@ class DeleteExpression extends Expression
 	function getValue()
 	{
 		// TODO Escape value according to column type instead of variable type
-		if(!is_numeric($this->value)) return "'".$this->value."'";
+		if(!is_numeric($this->value))
+		{
+			return "'" . $this->value . "'";
+		}
 		return $this->value;
 	}
 
 	function show()
 	{
-		if(!$this->value) return false;
+		if(!$this->value)
+		{
+			return false;
+		}
 		return true;
 	}
+
 }
 /* End of file DeleteExpression.class.php */
 /* Location: ./classes/db/queryparts/expression/DeleteExpression.class.php */

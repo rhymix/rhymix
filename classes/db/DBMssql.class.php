@@ -1,4 +1,5 @@
 <?php
+
 /**
  * - DBMSSQL
  * - Modified to use MSSQL driver by sol (sol@ngleader.com)
@@ -9,12 +10,13 @@
  */
 class DBMssql extends DB
 {
+
 	/**
 	 * prefix of XE tables(One more XE can be installed on a single DB)
 	 * @var string
 	 */
-	var $prefix		= 'xe';
-	var $param		= array();
+	var $prefix = 'xe';
+	var $param = array();
 	var $comment_syntax = '/* %s */';
 
 	/**
@@ -25,15 +27,15 @@ class DBMssql extends DB
 	 * @var array
 	 */
 	var $column_type = array(
-			'bignumber' => 'bigint',
-			'number' => 'int',
-			'varchar' => 'varchar',
-			'char' => 'char',
-			'text' => 'text',
-			'bigtext' => 'text',
-			'date' => 'varchar(14)',
-			'float' => 'float',
-			);
+		'bignumber' => 'bigint',
+		'number' => 'int',
+		'varchar' => 'varchar',
+		'char' => 'char',
+		'text' => 'text',
+		'bigtext' => 'text',
+		'date' => 'varchar(14)',
+		'float' => 'float',
+	);
 
 	/**
 	 * Constructor
@@ -61,7 +63,10 @@ class DBMssql extends DB
 	 */
 	function isSupported()
 	{
-		if (!extension_loaded("sqlsrv")) return false;
+		if(!extension_loaded("sqlsrv"))
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -81,7 +86,7 @@ class DBMssql extends DB
 		if(!$result)
 		{
 			$errors = print_r(sqlsrv_errors(), true);
-			$this->setError (-1, 'database connect fail' . PHP_EOL . $errors);
+			$this->setError(-1, 'database connect fail' . PHP_EOL . $errors);
 			return;
 		}
 		return $result;
@@ -107,7 +112,10 @@ class DBMssql extends DB
 	 */
 	function addQuotes($string)
 	{
-		if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
+		if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc())
+		{
+			$string = stripslashes(str_replace("\\", "\\\\", $string));
+		}
 		//if(!is_numeric($string)) $string = str_replace("'","''",$string);
 
 		return $string;
@@ -121,7 +129,10 @@ class DBMssql extends DB
 	function _begin()
 	{
 		$connection = $this->_getConnection('master');
-		if(sqlsrv_begin_transaction($connection) === false) return;
+		if(sqlsrv_begin_transaction($connection) === false)
+		{
+			return;
+		}
 		return true;
 	}
 
@@ -164,12 +175,21 @@ class DBMssql extends DB
 		{
 			foreach($this->param as $k => $o)
 			{
-				if($o->isColumnName()) continue;
+				if($o->isColumnName())
+				{
+					continue;
+				}
 				if($o->getType() == 'number')
 				{
 					$value = $o->getUnescapedValue();
-					if(is_array($value)) $_param = array_merge($_param, $value);
-					else $_param[] = $o->getUnescapedValue();
+					if(is_array($value))
+					{
+						$_param = array_merge($_param, $value);
+					}
+					else
+					{
+						$_param[] = $o->getUnescapedValue();
+					}
 				}
 				else
 				{
@@ -177,9 +197,14 @@ class DBMssql extends DB
 					if(is_array($value))
 					{
 						foreach($value as $v)
+						{
 							$_param[] = array($v, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+						}
 					}
-					else $_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+					else
+					{
+						$_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+					}
 				}
 			}
 		}
@@ -196,18 +221,20 @@ class DBMssql extends DB
 			$stmt = sqlsrv_prepare($connection, $query);
 		}
 
-		if(!$stmt) 
+		if(!$stmt)
 		{
 			$result = false;
 		}
-		else 
+		else
 		{
 			$result = sqlsrv_execute($stmt);
 		}
 
 		// Error Check
-		if(!$result) 
-			$this->setError(print_r(sqlsrv_errors(),true));
+		if(!$result)
+		{
+			$this->setError(print_r(sqlsrv_errors(), true));
+		}
 
 		$this->param = array();
 
@@ -217,14 +244,16 @@ class DBMssql extends DB
 	/**
 	 * Parameters to sqlsrv_prepare need to be references, and not literals
 	 * Parameters are sent as an array, where each parameter can be:
-	 *	- a PHP variable (by reference)
-	 *	- a PHP array (containng param value, type and direction) -> also needs to be sent by reference
+	 * 	- a PHP variable (by reference)
+	 * 	- a PHP array (containng param value, type and direction) -> also needs to be sent by reference
 	 * @param array $_param
 	 * @return array
 	 */
-	function _getParametersByReference($_param) 
+	function _getParametersByReference($_param)
 	{
-		$copy = array(); $args = array(); $i = 0;
+		$copy = array();
+		$args = array();
+		$i = 0;
 		foreach($_param as $key => $value)
 		{
 			if(is_array($value))
@@ -235,7 +264,7 @@ class DBMssql extends DB
 				$value_arg[] = $value_copy[1];
 				$value_arg[] = $value_copy[2];
 			}
-			else 
+			else
 			{
 				$value_arg = $value;
 			}
@@ -254,30 +283,47 @@ class DBMssql extends DB
 	function _fetch($result, $arrayIndexEndValue = NULL)
 	{
 		$output = array();
-		if(!$this->isConnected() || $this->isError() || !$result) return $output;
+		if(!$this->isConnected() || $this->isError() || !$result)
+		{
+			return $output;
+		}
 
 		$c = sqlsrv_num_fields($result);
 		$m = null;
 
 		while(sqlsrv_fetch($result))
 		{
-			if(!$m) $m = sqlsrv_field_metadata($result);
-			unset($row);
-			for($i=0;$i<$c;$i++)
+			if(!$m)
 			{
-				$row->{$m[$i]['Name']} = sqlsrv_get_field( $result, $i, SQLSRV_PHPTYPE_STRING( 'utf-8' ));
+				$m = sqlsrv_field_metadata($result);
 			}
-			if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $row;
-			else $output[] = $row;
+			unset($row);
+			for($i = 0; $i < $c; $i++)
+			{
+				$row->{$m[$i]['Name']} = sqlsrv_get_field($result, $i, SQLSRV_PHPTYPE_STRING('utf-8'));
+			}
+			if($arrayIndexEndValue)
+			{
+				$output[$arrayIndexEndValue--] = $row;
+			}
+			else
+			{
+				$output[] = $row;
+			}
 		}
 
-		if(count($output)==1)
+		if(count($output) == 1)
 		{
-			if(isset($arrayIndexEndValue)) return $output;
-			else return $output[0];
+			if(isset($arrayIndexEndValue))
+			{
+				return $output;
+			}
+			else
+			{
+				return $output[0];
+			}
 		}
 		return $output;
-
 	}
 
 	/**
@@ -309,7 +355,10 @@ class DBMssql extends DB
 		$result = $this->_query($query);
 		$tmp = $this->_fetch($result);
 
-		if(!$tmp) return false;
+		if(!$tmp)
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -323,17 +372,36 @@ class DBMssql extends DB
 	 * @param boolean $notnull not null status, default value is false
 	 * @return void
 	 */
-	function addColumn($table_name, $column_name, $type='number', $size='', $default = '', $notnull=false)
+	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
 	{
-		if($this->isColumnExists($table_name, $column_name)) return;
+		if($this->isColumnExists($table_name, $column_name))
+		{
+			return;
+		}
 		$type = $this->column_type[$type];
-		if(strtoupper($type)=='INTEGER') $size = '';
+		if(strtoupper($type) == 'INTEGER')
+		{
+			$size = '';
+		}
 
 		$query = sprintf("alter table %s%s add %s ", $this->prefix, $table_name, $column_name);
-		if($size) $query .= sprintf(" %s(%s) ", $type, $size);
-		else $query .= sprintf(" %s ", $type);
-		if($default) $query .= sprintf(" default '%s' ", $default);
-		if($notnull) $query .= " not null ";
+		if($size)
+		{
+			$query .= sprintf(" %s(%s) ", $type, $size);
+		}
+		else
+		{
+			$query .= sprintf(" %s ", $type);
+		}
+
+		if($default)
+		{
+			$query .= sprintf(" default '%s' ", $default);
+		}
+		if($notnull)
+		{
+			$query .= " not null ";
+		}
 
 		return $this->_query($query);
 	}
@@ -346,7 +414,10 @@ class DBMssql extends DB
 	 */
 	function dropColumn($table_name, $column_name)
 	{
-		if(!$this->isColumnExists($table_name, $column_name)) return;
+		if(!$this->isColumnExists($table_name, $column_name))
+		{
+			return;
+		}
 		$query = sprintf("alter table %s%s drop %s ", $this->prefix, $table_name, $column_name);
 		$this->_query($query);
 	}
@@ -361,9 +432,15 @@ class DBMssql extends DB
 	{
 		$query = sprintf("select syscolumns.name as name from syscolumns, sysobjects where sysobjects.name = '%s%s' and sysobjects.id = syscolumns.id and syscolumns.name = '%s'", $this->prefix, $table_name, $column_name);
 		$result = $this->_query($query);
-		if($this->isError()) return;
+		if($this->isError())
+		{
+			return;
+		}
 		$tmp = $this->_fetch($result);
-		if(!$tmp->name) return false;
+		if(!$tmp->name)
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -379,10 +456,16 @@ class DBMssql extends DB
 	 */
 	function addIndex($table_name, $index_name, $target_columns, $is_unique = false)
 	{
-		if($this->isIndexExists($table_name, $index_name)) return;
-		if(!is_array($target_columns)) $target_columns = array($target_columns);
+		if($this->isIndexExists($table_name, $index_name))
+		{
+			return;
+		}
+		if(!is_array($target_columns))
+		{
+			$target_columns = array($target_columns);
+		}
 
-		$query = sprintf("create %s index %s on %s%s (%s)", $is_unique?'unique':'', $index_name, $this->prefix, $table_name, implode(',',$target_columns));
+		$query = sprintf("create %s index %s on %s%s (%s)", $is_unique ? 'unique' : '', $index_name, $this->prefix, $table_name, implode(',', $target_columns));
 		$this->_query($query);
 	}
 
@@ -395,7 +478,10 @@ class DBMssql extends DB
 	 */
 	function dropIndex($table_name, $index_name, $is_unique = false)
 	{
-		if(!$this->isIndexExists($table_name, $index_name)) return;
+		if(!$this->isIndexExists($table_name, $index_name))
+		{
+			return;
+		}
 		$query = sprintf("drop index %s%s.%s", $this->prefix, $table_name, $index_name);
 		$this->_query($query);
 	}
@@ -411,10 +497,16 @@ class DBMssql extends DB
 		$query = sprintf("select sysindexes.name as name from sysindexes, sysobjects where sysobjects.name = '%s%s' and sysobjects.id = sysindexes.id and sysindexes.name = '%s'", $this->prefix, $table_name, $index_name);
 
 		$result = $this->_query($query);
-		if($this->isError()) return;
+		if($this->isError())
+		{
+			return;
+		}
 		$tmp = $this->_fetch($result);
 
-		if(!$tmp->name) return false;
+		if(!$tmp->name)
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -435,7 +527,10 @@ class DBMssql extends DB
 	 */
 	function createTableByXmlFile($file_name)
 	{
-		if(!file_exists($file_name)) return;
+		if(!file_exists($file_name))
+		{
+			return;
+		}
 		// read xml file
 		$buff = FileHandler::readFile($file_name);
 		return $this->_createTable($buff);
@@ -457,26 +552,35 @@ class DBMssql extends DB
 		$xml_obj = $oXml->parse($xml_doc);
 		// Create a table schema
 		$table_name = $xml_obj->table->attrs->name;
-		if($this->isTableExists($table_name)) return;
+		if($this->isTableExists($table_name))
+		{
+			return;
+		}
 
 		if($table_name == 'sequence')
 		{
-			$table_name = $this->prefix.$table_name;
+			$table_name = $this->prefix . $table_name;
 			$query = sprintf('create table %s ( sequence int identity(1,1), seq int )', $table_name);
 			return $this->_query($query);
 		}
 		else
 		{
-			$table_name = $this->prefix.$table_name;
+			$table_name = $this->prefix . $table_name;
 
-			if(!is_array($xml_obj->table->column)) $columns[] = $xml_obj->table->column;
-			else $columns = $xml_obj->table->column;
+			if(!is_array($xml_obj->table->column))
+			{
+				$columns[] = $xml_obj->table->column;
+			}
+			else
+			{
+				$columns = $xml_obj->table->column;
+			}
 
 			$primary_list = array();
 			$unique_list = array();
 			$index_list = array();
 
-			$typeList = array('number'=>1, 'text'=>1);
+			$typeList = array('number' => 1, 'text' => 1);
 			foreach($columns as $column)
 			{
 				$name = $column->attrs->name;
@@ -489,34 +593,39 @@ class DBMssql extends DB
 				$default = $column->attrs->default;
 				$auto_increment = $column->attrs->auto_increment;
 
-				$column_schema[] = sprintf('[%s] %s%s %s %s %s',
-						$name,
-						$this->column_type[$type],
-						!isset($typeList[$type])&&$size?'('.$size.')':'',
-					isset($default)?"default '".$default."'":'',
-					$notnull?'not null':'null',
-					$auto_increment?'identity(1,1)':''
-						);
+				$column_schema[] = sprintf('[%s] %s%s %s %s %s', $name, $this->column_type[$type], !isset($typeList[$type]) && $size ? '(' . $size . ')' : '', isset($default) ? "default '" . $default . "'" : '', $notnull ? 'not null' : 'null', $auto_increment ? 'identity(1,1)' : '');
 
-				if($primary_key) $primary_list[] = $name;
-				else if($unique) $unique_list[$unique][] = $name;
-				else if($index) $index_list[$index][] = $name;
+				if($primary_key)
+				{
+					$primary_list[] = $name;
+				}
+				else if($unique)
+				{
+					$unique_list[$unique][] = $name;
+				}
+				else if($index)
+				{
+					$index_list[$index][] = $name;
+				}
 			}
 
-			if(count($primary_list)) 
+			if(count($primary_list))
 			{
-				$column_schema[] = sprintf("primary key (%s)", '"'.implode($primary_list,'","').'"');
-			}				
+				$column_schema[] = sprintf("primary key (%s)", '"' . implode($primary_list, '","') . '"');
+			}
 
-			$schema = sprintf('create table [%s] (%s%s)', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"));
+			$schema = sprintf('create table [%s] (%s%s)', $this->addQuotes($table_name), "\n", implode($column_schema, ",\n"));
 			$output = $this->_query($schema);
-			if(!$output) return false;
+			if(!$output)
+			{
+				return false;
+			}
 
 			if(count($unique_list))
 			{
 				foreach($unique_list as $key => $val)
 				{
-					$query = sprintf("create unique index %s on %s (%s);", $key, $table_name, '['.implode('],[',$val).']');
+					$query = sprintf("create unique index %s on %s (%s);", $key, $table_name, '[' . implode('],[', $val) . ']');
 					$this->_query($query);
 				}
 			}
@@ -525,15 +634,13 @@ class DBMssql extends DB
 			{
 				foreach($index_list as $key => $val)
 				{
-					$query = sprintf("create index %s on %s (%s);", $key, $table_name, '['.implode('],[',$val).']');
+					$query = sprintf("create index %s on %s (%s);", $key, $table_name, '[' . implode('],[', $val) . ']');
 					$this->_query($query);
 				}
 			}
 			return true;
 		}
 	}
-
-
 
 	/**
 	 * Handles insertAct
@@ -570,24 +677,35 @@ class DBMssql extends DB
 	function getUpdateSql($query, $with_values = true, $with_priority = false)
 	{
 		$columnsList = $query->getUpdateString($with_values);
-		if($columnsList == '') return new Object(-1, "Invalid query");
+		if($columnsList == '')
+		{
+			return new Object(-1, "Invalid query");
+		}
 
 		$from = $query->getFromString($with_values);
-		if($from == '') return new Object(-1, "Invalid query");
+		if($from == '')
+		{
+			return new Object(-1, "Invalid query");
+		}
 
 		$tables = $query->getTables();
 		$alias_list = '';
 		foreach($tables as $table)
+		{
 			$alias_list .= $table->getAlias();
+		}
 		implode(',', explode(' ', $alias_list));
 
 		$where = $query->getWhereString($with_values);
-		if($where != '') $where = ' WHERE ' . $where;
+		if($where != '')
+		{
+			$where = ' WHERE ' . $where;
+		}
 
-		$priority = $with_priority?$query->getPriority():'';
+		$priority = $with_priority ? $query->getPriority() : '';
 
-		return "UPDATE $priority $alias_list SET $columnsList FROM ".$from.$where;
-	}		
+		return "UPDATE $priority $alias_list SET $columnsList FROM " . $from . $where;
+	}
 
 	/**
 	 * Handles deleteAct
@@ -614,31 +732,56 @@ class DBMssql extends DB
 		//$limitOffset = $query->getLimit()->getOffset();
 		//if($limitOffset)
 		// TODO Implement Limit with offset with subquery
-		$limit = '';$limitCount = '';
+		$limit = '';
+		$limitCount = '';
 		$limitQueryPart = $query->getLimit();
 		if($limitQueryPart)
+		{
 			$limitCount = $limitQueryPart->getLimit();
-		if($limitCount != '') $limit = 'SELECT TOP ' . $limitCount;
+		}
+		if($limitCount != '')
+		{
+			$limit = 'SELECT TOP ' . $limitCount;
+		}
 
 		$select = $query->getSelectString($with_values);
-		if($select == '') return new Object(-1, "Invalid query");
+		if($select == '')
+		{
+			return new Object(-1, "Invalid query");
+		}
 		if($limit != '')
-			$select = $limit.' '.$select;
+		{
+			$select = $limit . ' ' . $select;
+		}
 		else
-			$select = 'SELECT ' .$select;
+		{
+			$select = 'SELECT ' . $select;
+		}
 
 		$from = $query->getFromString($with_values);
-		if($from == '') return new Object(-1, "Invalid query");
-		$from = ' FROM '.$from;
+		if($from == '')
+		{
+			return new Object(-1, "Invalid query");
+		}
+		$from = ' FROM ' . $from;
 
 		$where = $query->getWhereString($with_values);
-		if($where != '') $where = ' WHERE ' . $where;
+		if($where != '')
+		{
+			$where = ' WHERE ' . $where;
+		}
 
 		$groupBy = $query->getGroupByString();
-		if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
+		if($groupBy != '')
+		{
+			$groupBy = ' GROUP BY ' . $groupBy;
+		}
 
 		$orderBy = $query->getOrderByString();
-		if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
+		if($orderBy != '')
+		{
+			$orderBy = ' ORDER BY ' . $orderBy;
+		}
 
 		return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
 	}
@@ -655,16 +798,25 @@ class DBMssql extends DB
 	{
 		$query = $this->getSelectSql($queryObject);
 
-		if(strpos($query, "substr")) $query = str_replace ("substr", "substring", $query);
+		if(strpos($query, "substr"))
+		{
+			$query = str_replace("substr", "substring", $query);
+		}
 
 		// TODO Decide if we continue to pass parameters like this
 		$this->param = $queryObject->getArguments();
 
-		$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+		$query .= (__DEBUG_QUERY__ & 1 && $output->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 		$result = $this->_query($query, $connection);
 
-		if ($this->isError ()) return $this->queryError($queryObject);
-		else return $this->queryPageLimit($queryObject, $result, $connection);
+		if($this->isError())
+		{
+			return $this->queryError($queryObject);
+		}
+		else
+		{
+			return $this->queryPageLimit($queryObject, $result, $connection);
+		}
 	}
 
 	/**
@@ -685,18 +837,20 @@ class DBMssql extends DB
 	function queryError($queryObject)
 	{
 		$limit = $queryObject->getLimit();
-		if ($limit && $limit->isPageHandler())
+		if($limit && $limit->isPageHandler())
 		{
 			$buff = new Object ();
 			$buff->total_count = 0;
 			$buff->total_page = 0;
 			$buff->page = 1;
-			$buff->data = array ();
-			$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
+			$buff->data = array();
+			$buff->page_navigation = new PageHandler(/* $total_count */0, /* $total_page */1, /* $page */1, /* $page_count */10); //default page handler values
 			return $buff;
 		}
 		else
+		{
 			return;
+		}
 	}
 
 	/**
@@ -709,7 +863,7 @@ class DBMssql extends DB
 	function queryPageLimit($queryObject, $result, $connection)
 	{
 		$limit = $queryObject->getLimit();
-		if ($limit && $limit->isPageHandler())
+		if($limit && $limit->isPageHandler())
 		{
 			// Total count
 			$temp_where = $queryObject->getWhereString(true, false);
@@ -724,9 +878,9 @@ class DBMssql extends DB
 				$count_query = sprintf('select %s %s %s %s'
 						, $temp_select
 						, 'FROM ' . $queryObject->getFromString(true)
-						, ($temp_where === '' ? '' : ' WHERE '. $temp_where)
+						, ($temp_where === '' ? '' : ' WHERE ' . $temp_where)
 						, ($uses_groupby ? ' GROUP BY ' . $queryObject->getGroupByString() : '')
-						);
+				);
 
 				// If query uses grouping or distinct, count from original select
 				$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
@@ -739,24 +893,32 @@ class DBMssql extends DB
 			$total_count = (int) $count_output->count;
 
 			$list_count = $limit->list_count->getValue();
-			if (!$list_count)
+			if(!$list_count)
+			{
 				$list_count = 20;
+			}
 			$page_count = $limit->page_count->getValue();
-			if (!$page_count)
+			if(!$page_count)
+			{
 				$page_count = 10;
+			}
 			$page = $limit->page->getValue();
-			if (!$page)
+			if(!$page)
+			{
 				$page = 1;
+			}
 			// Total pages
-			if ($total_count)
+			if($total_count)
 			{
 				$total_page = (int) (($total_count - 1) / $list_count) + 1;
 			}
 			else
+			{
 				$total_page = 1;
+			}
 
 			// check the page variables
-			if ($page > $total_page)
+			if($page > $total_page)
 			{
 				// If requested page is bigger than total number of pages, return empty list
 

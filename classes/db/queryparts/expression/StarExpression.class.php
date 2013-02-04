@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * StarExpression
  * Represents the * in 'select * from ...' statements 
@@ -9,6 +10,7 @@
  */
 class StarExpression extends SelectExpression
 {
+
 	/**
 	 * constructor, set the column to asterisk
 	 * @return void
@@ -28,6 +30,7 @@ class StarExpression extends SelectExpression
 		// StarExpression has no arguments
 		return array();
 	}
+
 }
 /* End of file StarExpression.class.php */
 /* Location: ./classes/db/queryparts/expression/StarExpression.class.php */

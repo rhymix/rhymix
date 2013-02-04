@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * class JoinTable
  * 		$conditions in an array of Condition objects 
@@ -9,11 +10,13 @@
  */
 class JoinTable extends Table
 {
+
 	/**
 	 * join type
 	 * @var string
 	 */
 	var $join_type;
+
 	/**
 	 * condition list
 	 * @var array
@@ -37,11 +40,13 @@ class JoinTable extends Table
 
 	function toString($with_value = true)
 	{
-		$part = $this->join_type . ' ' . $this->name ;
+		$part = $this->join_type . ' ' . $this->name;
 		$part .= $this->alias ? ' as ' . $this->alias : '';
 		$part .= ' on ';
 		foreach($this->conditions as $conditionGroup)
+		{
 			$part .= $conditionGroup->toString($with_value);
+		}
 		return $part;
 	}
 
@@ -54,9 +59,12 @@ class JoinTable extends Table
 	{
 		$args = array();
 		foreach($this->conditions as $conditionGroup)
-			$args = array_merge($args, $conditionGroup->getArguments());			
+		{
+			$args = array_merge($args, $conditionGroup->getArguments());
+		}
 		return $args;
 	}
+
 }
 /* End of file JoinTable.class.php */
 /* Location: ./classes/db/queryparts/table/JoinTable.class.php */

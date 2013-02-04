@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts/table
@@ -6,11 +7,13 @@
  */
 class IndexHint
 {
+
 	/**
 	 * index name
 	 * @var string
 	 */
 	var $index_name;
+
 	/**
 	 * index hint type, ex) IGNORE, FORCE, USE...
 	 * @var string
@@ -38,6 +41,7 @@ class IndexHint
 	{
 		return $this->index_hint_type;
 	}
+
 }
 /* End of file IndexHint.class.php */
 /* Location: ./classes/db/queryparts/table/IndexHint.class.php */

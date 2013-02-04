@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts/table
@@ -6,11 +7,13 @@
  */
 class Table
 {
+
 	/**
 	 * table name
 	 * @var string
 	 */
 	var $name;
+
 	/**
 	 * table alias
 	 * @var string
@@ -49,7 +52,7 @@ class Table
 	{
 		return false;
 	}
-}
 
+}
 /* End of file Table.class.php */
 /* Location: ./classes/db/queryparts/table/Table.class.php */

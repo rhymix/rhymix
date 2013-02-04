@@ -1,5 +1,7 @@
 <?php
+
 require_once('DBMysql.class.php');
+
 /**
  * Class to use MySQL innoDB DBMS
  * mysql innodb handling class
@@ -92,7 +94,10 @@ class DBMysql_innodb extends DBMysql
 		// Run the query statement
 		$result = @mysql_query($query, $connection);
 		// Error Check
-		if(mysql_error($connection)) $this->setError(mysql_errno($connection), mysql_error($connection));
+		if(mysql_error($connection))
+		{
+			$this->setError(mysql_errno($connection), mysql_error($connection));
+		}
 		// Return result
 		return $result;
 	}
@@ -113,11 +118,20 @@ class DBMysql_innodb extends DBMysql
 		$xml_obj = $oXml->parse($xml_doc);
 		// Create a table schema
 		$table_name = $xml_obj->table->attrs->name;
-		if($this->isTableExists($table_name)) return;
-		$table_name = $this->prefix.$table_name;
+		if($this->isTableExists($table_name))
+		{
+			return;
+		}
+		$table_name = $this->prefix . $table_name;
 
-		if(!is_array($xml_obj->table->column)) $columns[] = $xml_obj->table->column;
-		else $columns = $xml_obj->table->column;
+		if(!is_array($xml_obj->table->column))
+		{
+			$columns[] = $xml_obj->table->column;
+		}
+		else
+		{
+			$columns = $xml_obj->table->column;
+		}
 
 		foreach($columns as $column)
 		{
@@ -131,30 +145,32 @@ class DBMysql_innodb extends DBMysql
 			$default = $column->attrs->default;
 			$auto_increment = $column->attrs->auto_increment;
 
-			$column_schema[] = sprintf('`%s` %s%s %s %s %s',
-					$name,
-					$this->column_type[$type],
-					$size?'('.$size.')':'',
-				isset($default)?"default '".$default."'":'',
-				$notnull?'not null':'',
-				$auto_increment?'auto_increment':''
-					);
+			$column_schema[] = sprintf('`%s` %s%s %s %s %s', $name, $this->column_type[$type], $size ? '(' . $size . ')' : '', isset($default) ? "default '" . $default . "'" : '', $notnull ? 'not null' : '', $auto_increment ? 'auto_increment' : '');
 
-			if($primary_key) $primary_list[] = $name;
-			else if($unique) $unique_list[$unique][] = $name;
-			else if($index) $index_list[$index][] = $name;
+			if($primary_key)
+			{
+				$primary_list[] = $name;
+			}
+			else if($unique)
+			{
+				$unique_list[$unique][] = $name;
+			}
+			else if($index)
+			{
+				$index_list[$index][] = $name;
+			}
 		}
 
 		if(count($primary_list))
 		{
-			$column_schema[] = sprintf("primary key (%s)", '`'.implode($primary_list,'`,`').'`');
+			$column_schema[] = sprintf("primary key (%s)", '`' . implode($primary_list, '`,`') . '`');
 		}
 
 		if(count($unique_list))
 		{
 			foreach($unique_list as $key => $val)
 			{
-				$column_schema[] = sprintf("unique %s (%s)", $key, '`'.implode($val,'`,`').'`');
+				$column_schema[] = sprintf("unique %s (%s)", $key, '`' . implode($val, '`,`') . '`');
 			}
 		}
 
@@ -162,15 +178,19 @@ class DBMysql_innodb extends DBMysql
 		{
 			foreach($index_list as $key => $val)
 			{
-				$column_schema[] = sprintf("index %s (%s)", $key, '`'.implode($val,'`,`').'`');
+				$column_schema[] = sprintf("index %s (%s)", $key, '`' . implode($val, '`,`') . '`');
 			}
 		}
 
-		$schema = sprintf('create table `%s` (%s%s) %s;', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"), "ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci");
+		$schema = sprintf('create table `%s` (%s%s) %s;', $this->addQuotes($table_name), "\n", implode($column_schema, ",\n"), "ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci");
 
 		$output = $this->_query($schema);
-		if(!$output) return false;
+		if(!$output)
+		{
+			return false;
+		}
 	}
+
 }
 /* End of file DBMysql_innodb.class.php */
 /* Location: ./classes/db/DBMysql_innodb.class.php */

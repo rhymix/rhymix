@@ -1,4 +1,5 @@
 <?php
+
 require_once('DBMysql.class.php');
 
 /**
@@ -11,7 +12,8 @@ require_once('DBMysql.class.php');
  * @package /classes/db
  * @version 0.1
  */
-class DBMysqli extends DBMysql {
+class DBMysqli extends DBMysql
+{
 
 	/**
 	 * Constructor
@@ -30,7 +32,10 @@ class DBMysqli extends DBMysql {
 	 */
 	function isSupported()
 	{
-		if(!function_exists('mysqli_connect')) return false;
+		if(!function_exists('mysqli_connect'))
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -52,28 +57,28 @@ class DBMysqli extends DBMysql {
 	function __connect($connection)
 	{
 		// Attempt to connect
-		if ($connection["db_port"])
+		if($connection["db_port"])
 		{
 			$result = @mysqli_connect($connection["db_hostname"]
-					, $connection["db_userid"]
-					, $connection["db_password"]
-					, $connection["db_database"]
-					, $connection["db_port"]);
+							, $connection["db_userid"]
+							, $connection["db_password"]
+							, $connection["db_database"]
+							, $connection["db_port"]);
 		}
 		else
 		{
 			$result = @mysqli_connect($connection["db_hostname"]
-					, $connection["db_userid"]
-					, $connection["db_password"]
-					, $connection["db_database"]);
+							, $connection["db_userid"]
+							, $connection["db_password"]
+							, $connection["db_database"]);
 		}
 		$error = mysqli_connect_errno();
 		if($error)
 		{
-			$this->setError($error,mysqli_connect_error());
+			$this->setError($error, mysqli_connect_error());
 			return;
 		}
-		mysqli_set_charset($result,'utf8');
+		mysqli_set_charset($result, 'utf8');
 		return $result;
 	}
 
@@ -95,11 +100,14 @@ class DBMysqli extends DBMysql {
 	 */
 	function addQuotes($string)
 	{
-		if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
+		if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc())
+		{
+			$string = stripslashes(str_replace("\\", "\\\\", $string));
+		}
 		if(!is_numeric($string))
 		{
 			$connection = $this->_getConnection('master');
-			$string = mysqli_escape_string($connection,$string);
+			$string = mysqli_escape_string($connection, $string);
 		}
 		return $string;
 	}
@@ -114,7 +122,7 @@ class DBMysqli extends DBMysql {
 	function __query($query, $connection)
 	{
 		if($this->use_prepared_statements == 'Y')
-		{			
+		{
 			// 1. Prepare query
 			$stmt = mysqli_prepare($connection, $query);
 			if($stmt)
@@ -126,7 +134,7 @@ class DBMysqli extends DBMysql {
 				if(!empty($params))
 				{
 					$args[0] = $stmt;
-					$args[1] = $types; 
+					$args[1] = $types;
 
 					$i = 2;
 					foreach($params as $key => $param)
@@ -136,25 +144,28 @@ class DBMysqli extends DBMysql {
 					}
 
 					// 2. Bind parameters
-					$status = call_user_func_array('mysqli_stmt_bind_param',$args);   
+					$status = call_user_func_array('mysqli_stmt_bind_param', $args);
 					if(!$status)
-						$this->setError(-1, "Invalid arguments: $query" . mysqli_error($connection) . PHP_EOL . print_r($args, true));						
+					{
+						$this->setError(-1, "Invalid arguments: $query" . mysqli_error($connection) . PHP_EOL . print_r($args, true));
+					}
 				}
 
 				// 3. Execute query
 				$status = mysqli_stmt_execute($stmt);
 
 				if(!$status)
+				{
 					$this->setError(-1, "Prepared statement failed: $query" . mysqli_error($connection) . PHP_EOL . print_r($args, true));
+				}
 
 				// Return stmt for other processing - like retrieving resultset (_fetch)
 				return $stmt;
 				// mysqli_stmt_close($stmt);
 			}
-
 		}
 		// Run the query statement
-		$result = mysqli_query($connection,$query);
+		$result = mysqli_query($connection, $query);
 		// Error Check
 		$error = mysqli_error($connection);
 		if($error)
@@ -176,7 +187,10 @@ class DBMysqli extends DBMysql {
 	{
 		$types = '';
 		$params = array();
-		if(!$this->param) return;
+		if(!$this->param)
+		{
+			return;
+		}
 
 		foreach($this->param as $k => $o)
 		{
@@ -184,21 +198,24 @@ class DBMysqli extends DBMysql {
 			$type = $o->getType();
 
 			// Skip column names -> this should be concatenated to query string
-			if($o->isColumnName()) continue;
+			if($o->isColumnName())
+			{
+				continue;
+			}
 
 			switch($type)
 			{
-				case 'number' : 
-					$type = 'i'; 
+				case 'number' :
+					$type = 'i';
 					break;
-				case 'varchar' : 
-					$type = 's'; 
-					break;
-				default: 
+				case 'varchar' :
 					$type = 's';
-			}				
+					break;
+				default:
+					$type = 's';
+			}
 
-			if(is_array($value)) 
+			if(is_array($value))
 			{
 				foreach($value as $v)
 				{
@@ -211,10 +228,7 @@ class DBMysqli extends DBMysql {
 				$params[] = $value;
 				$types .= $type;
 			}
-
-
-
-		}			
+		}
 	}
 
 	/**
@@ -230,7 +244,10 @@ class DBMysqli extends DBMysql {
 			return parent::_fetch($result, $arrayIndexEndValue);
 		}
 		$output = array();
-		if(!$this->isConnected() || $this->isError() || !$result) return $output;
+		if(!$this->isConnected() || $this->isError() || !$result)
+		{
+			return $output;
+		}
 
 		// Prepared stements: bind result variable and fetch data
 		$stmt = $result;
@@ -246,13 +263,18 @@ class DBMysqli extends DBMysql {
 		foreach($fields as $field)
 		{
 			if(isset($resultArray[$field->name])) // When joined tables are used and the same column name appears twice, we should add it separately, otherwise bind_result fails
-				$field->name = 'repeat_' . $field->name;				
+			{
+				$field->name = 'repeat_' . $field->name;
+			}
 
 			// Array passed needs to contain references, not values
 			$row[$field->name] = "";
 			$resultArray[$field->name] = &$row[$field->name];
 
-			if($field->type == 252) $longtext_exists = true;
+			if($field->type == 252)
+			{
+				$longtext_exists = true;
+			}
 		}
 		$resultArray = array_merge(array($stmt), $resultArray);
 
@@ -270,15 +292,21 @@ class DBMysqli extends DBMysql {
 
 			foreach($resultArray as $key => $value)
 			{
-				if($key === 0) continue; // Skip stmt object
-				if(strpos($key, 'repeat_')) $key = substr($key, 6);
+				if($key === 0)
+				{
+					continue; // Skip stmt object
+				}
+				if(strpos($key, 'repeat_'))
+				{
+					$key = substr($key, 6);
+				}
 				$resultObject->$key = $value;
 			}
 
 			$rows[] = $resultObject;
 		}
 
-		mysqli_stmt_close($stmt);			
+		mysqli_stmt_close($stmt);
 
 		if($arrayIndexEndValue)
 		{
@@ -287,19 +315,25 @@ class DBMysqli extends DBMysql {
 				$output[$arrayIndexEndValue--] = $row;
 			}
 		}
-		else 
+		else
 		{
 			$output = $rows;
 		}
 
-		if(count($output)==1)
+		if(count($output) == 1)
 		{
-			if(isset($arrayIndexEndValue)) return $output;
-			else return $output[0];
+			if(isset($arrayIndexEndValue))
+			{
+				return $output;
+			}
+			else
+			{
+				return $output[0];
+			}
 		}
 
 		return $output;
-	}		
+	}
 
 	/**
 	 * Handles insertAct
@@ -307,7 +341,8 @@ class DBMysqli extends DBMysql {
 	 * @param boolean $with_values
 	 * @return resource
 	 */
-	function _executeInsertAct($queryObject, $with_values = false){
+	function _executeInsertAct($queryObject, $with_values = false)
+	{
 		if($this->use_prepared_statements != 'Y')
 		{
 			return parent::_executeInsertAct($queryObject);
@@ -324,11 +359,12 @@ class DBMysqli extends DBMysql {
 	 * @param boolean $with_values
 	 * @return resource
 	 */
-	function _executeUpdateAct($queryObject, $with_values = false) {
+	function _executeUpdateAct($queryObject, $with_values = false)
+	{
 		if($this->use_prepared_statements != 'Y')
 		{
 			return parent::_executeUpdateAct($queryObject);
-		}			
+		}
 		$this->param = $queryObject->getArguments();
 		$result = parent::_executeUpdateAct($queryObject, $with_values);
 		unset($this->param);
@@ -341,16 +377,17 @@ class DBMysqli extends DBMysql {
 	 * @param boolean $with_values
 	 * @return resource
 	 */
-	function _executeDeleteAct($queryObject, $with_values = false) {
+	function _executeDeleteAct($queryObject, $with_values = false)
+	{
 		if($this->use_prepared_statements != 'Y')
 		{
 			return parent::_executeDeleteAct($queryObject);
-		}				
+		}
 		$this->param = $queryObject->getArguments();
 		$result = parent::_executeDeleteAct($queryObject, $with_values);
 		unset($this->param);
 		return $result;
-	}		
+	}
 
 	/**
 	 * Handle selectAct
@@ -366,9 +403,9 @@ class DBMysqli extends DBMysql {
 		if($this->use_prepared_statements != 'Y')
 		{
 			return parent::_executeSelectAct($queryObject, $connection);
-		}				
+		}
 		$this->param = $queryObject->getArguments();
-		$result = parent::_executeSelectAct($queryObject, $connection, $with_values);		
+		$result = parent::_executeSelectAct($queryObject, $connection, $with_values);
 		unset($this->param);
 		return $result;
 	}
@@ -382,7 +419,7 @@ class DBMysqli extends DBMysql {
 	function db_insert_id()
 	{
 		$connection = $this->_getConnection('master');
-		return  mysqli_insert_id($connection);
+		return mysqli_insert_id($connection);
 	}
 
 	/**
@@ -402,8 +439,9 @@ class DBMysqli extends DBMysql {
 	 */
 	function db_free_result(&$result)
 	{
-		return mysqli_free_result($result);		
-	}		
+		return mysqli_free_result($result);
+	}
+
 }
 /* End of file DBMysqli.class.php */
 /* Location: ./classes/db/DBMysqli.class.php */

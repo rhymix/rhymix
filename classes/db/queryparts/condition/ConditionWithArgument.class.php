@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts/condition
@@ -6,6 +7,7 @@
  */
 class ConditionWithArgument extends Condition
 {
+
 	/**
 	 * constructor
 	 * @param string $column_name
@@ -16,14 +18,19 @@ class ConditionWithArgument extends Condition
 	 */
 	function ConditionWithArgument($column_name, $argument, $operation, $pipe = "")
 	{
-		if($argument === null) { $this->_show = false; return; }
+		if($argument === null)
+		{
+			$this->_show = false;
+			return;
+		}
 		parent::Condition($column_name, $argument, $operation, $pipe);
 		$this->_value = $argument->getValue();
 	}
 
 	function getArgument()
 	{
-		if(!$this->show()) return;
+		if(!$this->show())
+			return;
 		return $this->argument;
 	}
 
@@ -38,11 +45,17 @@ class ConditionWithArgument extends Condition
 		if(is_array($value))
 		{
 			$q = '';
-			foreach ($value as $v) $q .= '?,';
-			if($q !== '') $q = substr($q, 0, -1);
+			foreach($value as $v)
+			{
+				$q .= '?,';
+			}
+			if($q !== '')
+			{
+				$q = substr($q, 0, -1);
+			}
 			$q = '(' . $q . ')';
 		}
-		else 
+		else
 		{
 			// Prepared statements: column names should not be sent as query arguments, but instead concatenated to query string
 			if($this->argument->isColumnName())
@@ -64,8 +77,14 @@ class ConditionWithArgument extends Condition
 	{
 		if(!isset($this->_show))
 		{
-			if(!$this->argument->isValid()) $this->_show = false;
-			if($this->_value === '\'\'') $this->_show = false;
+			if(!$this->argument->isValid())
+			{
+				$this->_show = false;
+			}
+			if($this->_value === '\'\'')
+			{
+				$this->_show = false;
+			}
 			if(!isset($this->_show))
 			{
 				return parent::show();
@@ -73,6 +92,7 @@ class ConditionWithArgument extends Condition
 		}
 		return $this->_show;
 	}
+
 }
 /* End of file ConditionWithArgument.class.php */
 /* Location: ./classes/db/queryparts/condition/ConditionWithArgument.class.php */

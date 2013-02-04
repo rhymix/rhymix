@@ -1,4 +1,5 @@
 <?php
+
 /**
  * UpdateExpression
  *
@@ -8,6 +9,7 @@
  */
 class UpdateExpression extends Expression
 {
+
 	/**
 	 * argument
 	 * @var object
@@ -33,7 +35,9 @@ class UpdateExpression extends Expression
 	function getExpression($with_value = true)
 	{
 		if($with_value)
+		{
 			return $this->getExpressionWithValue();
+		}
 		return $this->getExpressionWithoutValue();
 	}
 
@@ -46,7 +50,9 @@ class UpdateExpression extends Expression
 		$value = $this->argument->getValue();
 		$operation = $this->argument->getColumnOperation();
 		if(isset($operation))
+		{
 			return "$this->column_name = $this->column_name $operation $value";
+		}
 		return "$this->column_name = $value";
 	}
 
@@ -59,7 +65,9 @@ class UpdateExpression extends Expression
 	{
 		$operation = $this->argument->getColumnOperation();
 		if(isset($operation))
+		{
 			return "$this->column_name = $this->column_name $operation ?";
+		}
 		return "$this->column_name = ?";
 	}
 
@@ -67,15 +75,24 @@ class UpdateExpression extends Expression
 	{
 		// TODO Escape value according to column type instead of variable type
 		$value = $this->argument->getValue();
-		if(!is_numeric($value)) return "'".$value."'";
+		if(!is_numeric($value))
+		{
+			return "'" . $value . "'";
+		}
 		return $value;
 	}
 
 	function show()
 	{
-		if(!$this->argument) return false;
+		if(!$this->argument)
+		{
+			return false;
+		}
 		$value = $this->argument->getValue();
-		if(!isset($value)) return false;
+		if(!isset($value))
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -86,12 +103,16 @@ class UpdateExpression extends Expression
 
 	function getArguments()
 	{
-		if ($this->argument)
+		if($this->argument)
+		{
 			return array($this->argument);
+		}
 		else
+		{
 			return array();
+		}
 	}
-}
 
+}
 /* End of file UpdateExpression.class.php */
 /* Location: ./classes/db/queryparts/expression/UpdateExpression.class.php */

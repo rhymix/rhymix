@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts/condition
@@ -6,6 +7,7 @@
  */
 class ConditionSubquery extends Condition
 {
+
 	/**
 	 * constructor
 	 * @param string $column_name
@@ -19,6 +21,7 @@ class ConditionSubquery extends Condition
 		parent::Condition($column_name, $argument, $operation, $pipe);
 		$this->_value = $this->argument->toString();
 	}
+
 }
 /* End of file ConditionSubquery.class.php */
 /* Location: ./classes/db/queryparts/condition/ConditionSubquery.class.php */

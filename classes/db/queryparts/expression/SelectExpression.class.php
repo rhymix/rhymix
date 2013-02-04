@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SelectExpression
  * Represents an expresion that appears in the select clause
@@ -6,8 +7,8 @@
  * 		$column_name can be:
  *  		- a table column name
  *  		- an sql function - like count(*)
- *	  		- an sql expression - substr(column_name, 1, 8) or score1 + score2
- *		$column_name is already escaped
+ * 	  		- an sql expression - substr(column_name, 1, 8) or score1 + score2
+ * 		$column_name is already escaped
  *
  * @author Arnia Software
  * @package /classes/db/queryparts/expression
@@ -15,6 +16,7 @@
  */
 class SelectExpression extends Expression
 {
+
 	/**
 	 * column alias name
 	 * @var string
@@ -39,7 +41,7 @@ class SelectExpression extends Expression
 	 */
 	function getExpression()
 	{
-		return sprintf("%s%s", $this->column_name, $this->column_alias ? " as ".$this->column_alias : "");
+		return sprintf("%s%s", $this->column_name, $this->column_alias ? " as " . $this->column_alias : "");
 	}
 
 	function show()
@@ -61,6 +63,7 @@ class SelectExpression extends Expression
 	{
 		return false;
 	}
+
 }
 /* End of file SelectExpression.class.php */
 /* Location: ./classes/db/queryparts/expression/SelectExpression.class.php */

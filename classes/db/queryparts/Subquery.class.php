@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts
@@ -6,11 +7,13 @@
  */
 class Subquery extends Query
 {
+
 	/**
 	 * table alias
 	 * @var string
 	 */
 	var $alias;
+
 	/**
 	 * join type
 	 * @var string
@@ -52,7 +55,10 @@ class Subquery extends Query
 
 	function isJoinTable()
 	{
-		if($this->join_type) return true;
+		if($this->join_type)
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -60,14 +66,14 @@ class Subquery extends Query
 	{
 		$oDB = &DB::getInstance();
 
-		return '(' .$oDB->getSelectSql($this, $with_values) . ')';
-
+		return '(' . $oDB->getSelectSql($this, $with_values) . ')';
 	}
 
 	function isSubquery()
 	{
 		return true;
 	}
+
 }
 /* End of file Subquery.class.php */
 /* Location: ./classes/db/queryparts/Subquery.class.php */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts/table
@@ -6,16 +7,19 @@
  */
 class MysqlTableWithHint extends Table
 {
+
 	/**
 	 * table name
 	 * @var string
 	 */
 	var $name;
+
 	/**
 	 * table alias
 	 * @var string
 	 */
 	var $alias;
+
 	/**
 	 * index hint type, ex) IGNORE, FORCE, USE...
 	 * @var array
@@ -39,13 +43,24 @@ class MysqlTableWithHint extends Table
 	{
 		$result = parent::toString();
 
-		$use_index_hint = ''; $force_index_hint = ''; $ignore_index_hint = '';
+		$use_index_hint = '';
+		$force_index_hint = '';
+		$ignore_index_hint = '';
 		foreach($this->index_hints_list as $index_hint)
 		{
 			$index_hint_type = $index_hint->getIndexHintType();
-			if($index_hint_type == 'USE') $use_index_hint .= $index_hint->getIndexName() . ', ';
-			else if($index_hint_type == 'FORCE') $force_index_hint .= $index_hint->getIndexName() . ', ';
-			else if($index_hint_type == 'IGNORE') $ignore_index_hint .= $index_hint->getIndexName() . ', ';
+			if($index_hint_type == 'USE')
+			{
+				$use_index_hint .= $index_hint->getIndexName() . ', ';
+			}
+			else if($index_hint_type == 'FORCE')
+			{
+				$force_index_hint .= $index_hint->getIndexName() . ', ';
+			}
+			else if($index_hint_type == 'IGNORE')
+			{
+				$ignore_index_hint .= $index_hint->getIndexName() . ', ';
+			}
 		}
 		if($use_index_hint != '')
 		{
@@ -61,6 +76,7 @@ class MysqlTableWithHint extends Table
 		}
 		return $result;
 	}
+
 }
 /* End of file MysqlTableWithHint.class.php */
 /* Location: ./classes/db/queryparts/table/MysqlTableWithHint.class.php */

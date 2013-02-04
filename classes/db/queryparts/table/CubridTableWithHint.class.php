@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts/table
@@ -6,16 +7,19 @@
  */
 class CubridTableWithHint extends Table
 {
+
 	/**
 	 * table name
 	 * @var string
 	 */
 	var $name;
+
 	/**
 	 * table alias
 	 * @var string
 	 */
 	var $alias;
+
 	/**
 	 * index hint list
 	 * @var array
@@ -53,14 +57,15 @@ class CubridTableWithHint extends Table
 			if($index_hint_type !== 'IGNORE')
 			{
 				$result .= $this->alias . '.'
-					. '"' . $prefix . substr($index_hint->getIndexName(), 1)
-					. ($index_hint_type == 'FORCE' ? '(+)' : '')
-					. ', ';
+						. '"' . $prefix . substr($index_hint->getIndexName(), 1)
+						. ($index_hint_type == 'FORCE' ? '(+)' : '')
+						. ', ';
 			}
 		}
 		$result = substr($result, 0, -2);
 		return $result;
 	}
+
 }
 /* End of file CubridTableWithHint.class.php */
 /* Location: ./classes/db/queryparts/table/CubridTableWithHint.class.php */

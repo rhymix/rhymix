@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Expression
  * Represents an expression used in select/update/insert/delete statements
@@ -13,6 +14,7 @@
  */
 class Expression
 {
+
 	/**
 	 * column name
 	 * @var string
@@ -45,8 +47,9 @@ class Expression
 	 */
 	function getExpression()
 	{
+		
 	}
-}
 
+}
 /* End of file Expression.class.php */
 /* Location: ./classes/db/queryparts/expression/Expression.class.php */

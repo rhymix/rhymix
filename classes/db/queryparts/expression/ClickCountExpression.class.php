@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * ClickCountExpression
  * @author Arnia Software
@@ -7,6 +8,7 @@
  */
 class ClickCountExpression extends SelectExpression
 {
+
 	/**
 	 * click count
 	 * @var bool
@@ -53,7 +55,7 @@ class ClickCountExpression extends SelectExpression
 			return "$this->column_name";
 		}
 	}
-}
 
+}
 /* End of file ClickCountExpression.class.php */
 /* Location: ./classes/db/queryparts/expression/ClickCountExpression.class.php */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts/condition
@@ -6,12 +7,14 @@
  */
 class Condition
 {
+
 	/**
 	 * column name
 	 * @var string
 	 */
 	var $column_name;
 	var $argument;
+
 	/**
 	 * operation can use 'equal', 'more', 'excess', 'less', 'below', 'like_tail', 'like_prefix', 'like', 'notlike_tail',
 	 * 'notlike_prefix', 'notlike', 'in', 'notin', 'not_in', 'and', 'or', 'xor', 'not', 'notequal', 'between'
@@ -19,14 +22,13 @@ class Condition
 	 * @var string
 	 */
 	var $operation;
+
 	/**
 	 * pipe can use 'and', 'or'...
 	 * @var string
 	 */
 	var $pipe;
-
 	var $_value;
-
 	var $_show;
 	var $_value_to_string;
 
@@ -58,13 +60,13 @@ class Condition
 	 */
 	function toString($withValue = true)
 	{
-		if (!isset($this->_value_to_string))
+		if(!isset($this->_value_to_string))
 		{
-			if (!$this->show()) 
+			if(!$this->show())
 			{
 				$this->_value_to_string = '';
 			}
-			else if ($withValue)
+			else if($withValue)
 			{
 				$this->_value_to_string = $this->toStringWithValue();
 			}
@@ -135,17 +137,34 @@ class Condition
 					case 'not':
 					case 'notequal' :
 						// if variable is not set or is not string or number, return
-						if(!isset($this->_value)) { $this->_show = false; break;}
-						if($this->_value === '') { $this->_show = false; break; }
-						$tmpArray = array('string'=>1, 'integer'=>1);
+						if(!isset($this->_value))
+						{
+							$this->_show = false;
+							break;
+						}
+						if($this->_value === '')
+						{
+							$this->_show = false;
+							break;
+						}
+						$tmpArray = array('string' => 1, 'integer' => 1);
 						if(!isset($tmpArray[gettype($this->_value)]))
 						{
-							$this->_show = false; break;
+							$this->_show = false;
+							break;
 						}
 						break;
 					case 'between' :
-						if(!is_array($this->_value)) { $this->_show = false; break;}
-						if(count($this->_value)!=2) {$this->_show = false; break;}
+						if(!is_array($this->_value))
+						{
+							$this->_show = false;
+							break;
+						}
+						if(count($this->_value) != 2)
+						{
+							$this->_show = false;
+							break;
+						}
 					case 'null':
 					case 'notnull':
 						break;
@@ -171,67 +190,68 @@ class Condition
 		switch($operation)
 		{
 			case 'equal' :
-				return $name.' = '.$value;
+				return $name . ' = ' . $value;
 				break;
 			case 'more' :
-				return $name.' >= '.$value;
+				return $name . ' >= ' . $value;
 				break;
 			case 'excess' :
-				return $name.' > '.$value;
+				return $name . ' > ' . $value;
 				break;
 			case 'less' :
-				return $name.' <= '.$value;
+				return $name . ' <= ' . $value;
 				break;
 			case 'below' :
-				return $name.' < '.$value;
+				return $name . ' < ' . $value;
 				break;
 			case 'like_tail' :
 			case 'like_prefix' :
 			case 'like' :
-				if(defined('__CUBRID_VERSION__') 
-						&& __CUBRID_VERSION__ >= '8.4.1') 
-					return $name.' rlike '.$value;
+				if(defined('__CUBRID_VERSION__')
+						&& __CUBRID_VERSION__ >= '8.4.1')
+					return $name . ' rlike ' . $value;
 				else
-					return $name.' like '.$value;
+					return $name . ' like ' . $value;
 				break;
 			case 'notlike_tail' :
 			case 'notlike_prefix' :
 			case 'notlike' :
-				return $name.' not like '.$value;
+				return $name . ' not like ' . $value;
 				break;
 			case 'in' :
-				return $name.' in '.$value;
+				return $name . ' in ' . $value;
 				break;
 			case 'notin' :
 			case 'not_in' :
-				return $name.' not in '.$value;
+				return $name . ' not in ' . $value;
 				break;
 			case 'notequal' :
-				return $name.' <> '.$value;
+				return $name . ' <> ' . $value;
 				break;
 			case 'notnull' :
-				return $name.' is not null';
+				return $name . ' is not null';
 				break;
 			case 'null' :
-				return $name.' is null';
+				return $name . ' is null';
 				break;
 			case 'and' :
-				return $name.' & '.$value;
+				return $name . ' & ' . $value;
 				break;
 			case 'or' :
-				return $name.' | '.$value;
+				return $name . ' | ' . $value;
 				break;
 			case 'xor' :
-				return $name.' ^ '.$value;
+				return $name . ' ^ ' . $value;
 				break;
 			case 'not' :
-				return $name.' ~ '.$value;
+				return $name . ' ~ ' . $value;
 				break;
 			case 'between' :
-				return $name.' between ' . $value[0] . ' and ' . $value[1];
+				return $name . ' between ' . $value[0] . ' and ' . $value[1];
 				break;
 		}
 	}
+
 }
 /* End of file Condition.class.php */
 /* Location: ./classes/db/queryparts/condition/Condition.class.php */

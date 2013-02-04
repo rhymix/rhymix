@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts/condition
@@ -6,17 +7,18 @@
  */
 class ConditionGroup
 {
+
 	/**
 	 * condition list
 	 * @var array
 	 */
 	var $conditions;
+
 	/**
 	 * pipe can use 'and', 'or'...
 	 * @var string
 	 */
 	var $pipe;
-
 	var $_group;
 	var $_show;
 
@@ -32,10 +34,18 @@ class ConditionGroup
 		foreach($conditions as $condition)
 		{
 			if($condition->show())
+			{
 				$this->conditions[] = $condition;
+			}
 		}
-		if(count($this->conditions) === 0) $this->_show = false;
-		else $this->_show = true;
+		if(count($this->conditions) === 0)
+		{
+			$this->_show = false;
+		}
+		else
+		{
+			$this->_show = true;
+		}
 
 		$this->pipe = $pipe;
 	}
@@ -47,7 +57,10 @@ class ConditionGroup
 
 	function setPipe($pipe)
 	{
-		if($this->pipe !== $pipe) $this->_group = null;
+		if($this->pipe !== $pipe)
+		{
+			$this->_group = null;
+		}
 		$this->pipe = $pipe;
 	}
 
@@ -65,7 +78,10 @@ class ConditionGroup
 
 			foreach($this->conditions as $condition)
 			{
-				if($cond_indx === 0) $condition->setPipe("");
+				if($cond_indx === 0)
+				{
+					$condition->setPipe("");
+				}
 				$group .= $condition->toString($with_value) . ' ';
 				$cond_indx++;
 			}
@@ -90,10 +106,14 @@ class ConditionGroup
 		foreach($this->conditions as $condition)
 		{
 			$arg = $condition->getArgument();
-			if($arg) $args[] = $arg;
+			if($arg)
+			{
+				$args[] = $arg;
+			}
 		}
 		return $args;
 	}
+
 }
 /* End of file ConditionGroup.class.php */
 /* Location: ./classes/db/queryparts/condition/ConditionGroup.class.php */

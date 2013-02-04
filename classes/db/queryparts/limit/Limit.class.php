@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db/queryparts/limit
@@ -6,21 +7,25 @@
  */
 class Limit
 {
+
 	/**
 	 * start number
 	 * @var int
 	 */
 	var $start;
+
 	/**
 	 * list count
 	 * @var int
 	 */
 	var $list_count;
+
 	/**
 	 * page count
 	 * @var int
 	 */
 	var $page_count;
+
 	/**
 	 * current page
 	 * @var int
@@ -34,10 +39,10 @@ class Limit
 	 * @param int $page_count
 	 * @return void
 	 */
-	function Limit($list_count, $page= NULL, $page_count= NULL)
+	function Limit($list_count, $page = NULL, $page_count = NULL)
 	{
 		$this->list_count = $list_count;
-		if ($page)
+		if($page)
 		{
 			$list_count_value = $list_count->getValue();
 			$page_value = $page->getValue();
@@ -53,8 +58,14 @@ class Limit
 	 */
 	function isPageHandler()
 	{
-		if ($this->page)return true;
-		else return false;
+		if($this->page)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	function getOffset()
@@ -69,9 +80,16 @@ class Limit
 
 	function toString()
 	{
-		if ($this->page) return $this->start . ' , ' . $this->list_count->getValue();
-		else return $this->list_count->getValue();
+		if($this->page)
+		{
+			return $this->start . ' , ' . $this->list_count->getValue();
+		}
+		else
+		{
+			return $this->list_count->getValue();
+		}
 	}
+
 }
 /* End of file Limit.class.php */
 /* Location: ./classes/db/limit/Limit.class.php */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * InsertExpression
  *
@@ -8,6 +9,7 @@
  */
 class InsertExpression extends Expression
 {
+
 	/**
 	 * argument
 	 * @var object
@@ -29,15 +31,23 @@ class InsertExpression extends Expression
 	function getValue($with_values = true)
 	{
 		if($with_values)
+		{
 			return $this->argument->getValue();
+		}
 		return '?';
 	}
 
 	function show()
 	{
-		if(!$this->argument) return false;
+		if(!$this->argument)
+		{
+			return false;
+		}
 		$value = $this->argument->getValue();
-		if(!isset($value)) return false;
+		if(!isset($value))
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -48,11 +58,16 @@ class InsertExpression extends Expression
 
 	function getArguments()
 	{
-		if ($this->argument)
+		if($this->argument)
+		{
 			return array($this->argument);
+		}
 		else
+		{
 			return array();
+		}
 	}
+
 }
 /* End of file InsertExpression.class.php */
 /* Location: ./classes/db/queryparts/expression/InsertExpression.class.php */
