@@ -1,6 +1,8 @@
 <?php
+
 class HTMLDisplayHandler
 {
+
 	/**
 	 * Produce HTML compliant content given a module object.\n
 	 * @param ModuleObject $oModule the module object
@@ -8,7 +10,7 @@ class HTMLDisplayHandler
 	 */
 	function toDoc(&$oModule)
 	{
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 
 		// compile module tpl
 		// deprecated themes skin 
@@ -17,32 +19,36 @@ class HTMLDisplayHandler
 
 		if(!is_dir($template_path))
 		{
-			if ($oModule->module_info->module == $oModule->module)
-				$skin = $oModule->origin_module_info->skin;
-			else
-				$skin = $oModule->module_config->skin;
-
-			if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin') === false)
+			if($oModule->module_info->module == $oModule->module)
 			{
-				if ($skin && is_string($skin))
+				$skin = $oModule->origin_module_info->skin;
+			}
+			else
+			{
+				$skin = $oModule->module_config->skin;
+			}
+
+			if(Context::get('module') != 'admin' && strpos(Context::get('act'), 'Admin') === false)
+			{
+				if($skin && is_string($skin))
 				{
 					$theme_skin = explode('|@|', $skin);
 					$template_path = $oModule->getTemplatePath();
-					if(count($theme_skin) == 2) 
+					if(count($theme_skin) == 2)
 					{
-						$theme_path = sprintf('./themes/%s',$theme_skin[0]);
-						if(substr($theme_path,0,strlen($theme_path)) != $theme_path)
+						$theme_path = sprintf('./themes/%s', $theme_skin[0]);
+						if(substr($theme_path, 0, strlen($theme_path)) != $theme_path)
 						{
 							$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
 						}
-					}	
+					}
 				}
 				else
 				{
 					$template_path = $oModule->getTemplatePath();
 				}
 			}
-			else 
+			else
 			{
 				$template_path = $oModule->getTemplatePath();
 			}
@@ -55,11 +61,17 @@ class HTMLDisplayHandler
 		// add .x div for adminitration pages
 		if(Context::getResponseMethod() == 'HTML')
 		{
-			if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')>0) $output = '<div class="x">'.$output.'</div>';
+			if(Context::get('module') != 'admin' && strpos(Context::get('act'), 'Admin') > 0)
+			{
+				$output = '<div class="x">' . $output . '</div>';
+			}
 
 			if(Context::get('layout') != 'none')
 			{
-				if(__DEBUG__==3) $start = getMicroTime();
+				if(__DEBUG__ == 3)
+				{
+					$start = getMicroTime();
+				}
 
 				Context::set('content', $output, false);
 
@@ -69,7 +81,7 @@ class HTMLDisplayHandler
 				$edited_layout_file = $oModule->getEditedLayoutFile();
 
 				// get the layout information currently requested
-				$oLayoutModel = &getModel('layout');
+				$oLayoutModel = getModel('layout');
 				$layout_info = Context::get('layout_info');
 				$layout_srl = $layout_info->layout_srl;
 
@@ -87,10 +99,19 @@ class HTMLDisplayHandler
 					// search if the changes CSS exists in the admin layout edit window
 					$edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
 
-					if(file_exists($edited_layout_css)) Context::loadFile(array($edited_layout_css,'all','',100));
+					if(file_exists($edited_layout_css))
+					{
+						Context::loadFile(array($edited_layout_css, 'all', '', 100));
+					}
 				}
-				if(!$layout_path) $layout_path = './common/tpl';
-				if(!$layout_file) $layout_file = 'default_layout';
+				if(!$layout_path)
+				{
+					$layout_path = './common/tpl';
+				}
+				if(!$layout_file)
+				{
+					$layout_file = 'default_layout';
+				}
 				$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
 				// if popup_layout, remove admin bar.
@@ -108,9 +129,12 @@ class HTMLDisplayHandler
 					Context::set('admin_bar', 'false');
 				}
 
-				if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
+				if(__DEBUG__ == 3)
+				{
+					$GLOBALS['__layout_compile_elapsed__'] = getMicroTime() - $start;
+				}
 
-				if(preg_match('/MSIE/i',$_SERVER['HTTP_USER_AGENT']) && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
+				if(preg_match('/MSIE/i', $_SERVER['HTTP_USER_AGENT']) && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
 				{
 					Context::addHtmlFooter('<iframe id="xeTmpIframe" name="xeTmpIframe" style="width:1px;height:1px;position:absolute;top:-2px;left:-2px;"></iframe>');
 				}
@@ -126,21 +150,27 @@ class HTMLDisplayHandler
 	 */
 	function prepareToPrint(&$output)
 	{
-		if(Context::getResponseMethod() != 'HTML') return;
+		if(Context::getResponseMethod() != 'HTML')
+		{
+			return;
+		}
 
-		if(__DEBUG__==3) $start = getMicroTime();
+		if(__DEBUG__ == 3)
+		{
+			$start = getMicroTime();
+		}
 
 		// move <style ..></style> in body to the header
-		$output = preg_replace_callback('!<style(.*?)>(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $output);
+		$output = preg_replace_callback('!<style(.*?)>(.*?)<\/style>!is', array($this, '_moveStyleToHeader'), $output);
 
 		// move <link ..></link> in body to the header
-		$output = preg_replace_callback('!<link(.*?)/>!is', array($this,'_moveLinkToHeader'), $output);
+		$output = preg_replace_callback('!<link(.*?)/>!is', array($this, '_moveLinkToHeader'), $output);
 
 		// move <meta ../> in body to the header
-		$output = preg_replace_callback('!<meta(.*?)(?:\/|)>!is', array($this,'_moveMetaToHeader'), $output);
+		$output = preg_replace_callback('!<meta(.*?)(?:\/|)>!is', array($this, '_moveMetaToHeader'), $output);
 
 		// change a meta fine(widget often put the tag like <!--Meta:path--> to the content because of caching)
-		$output = preg_replace_callback('/<!--(#)?Meta:([a-z0-9\_\/\.\@]+)-->/is', array($this,'_transMeta'), $output);
+		$output = preg_replace_callback('/<!--(#)?Meta:([a-z0-9\_\/\.\@]+)-->/is', array($this, '_transMeta'), $output);
 
 		// handles a relative path generated by using the rewrite module
 		if(Context::isAllowRewrite())
@@ -149,14 +179,14 @@ class HTMLDisplayHandler
 			$real_path = $url['path'];
 
 			$pattern = '/src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/s';
-			$output = preg_replace($pattern, 'src=$1'.$real_path.'$3/$4.$5$6', $output);
+			$output = preg_replace($pattern, 'src=$1' . $real_path . '$3/$4.$5$6', $output);
 
 			$pattern = '/href=("|\'){1}(\?[^"\']+)/s';
-			$output = preg_replace($pattern, 'href=$1'.$real_path.'$2', $output);
+			$output = preg_replace($pattern, 'href=$1' . $real_path . '$2', $output);
 
 			if(Context::get('vid'))
 			{
-				$pattern = '/\/'.Context::get('vid').'\?([^=]+)=/is';
+				$pattern = '/\/' . Context::get('vid') . '\?([^=]+)=/is';
 				$output = preg_replace($pattern, '/?$1=', $output);
 			}
 		}
@@ -168,20 +198,23 @@ class HTMLDisplayHandler
 		{
 			$INPUT_ERROR = Context::get('INPUT_ERROR');
 			$keys = array_keys($INPUT_ERROR);
-			$keys = '('.implode('|', $keys).')';
+			$keys = '(' . implode('|', $keys) . ')';
 
-			$output = preg_replace_callback('@(<input)([^>]*?)\sname="'.$keys.'"([^>]*?)/?>@is', array(&$this, '_preserveValue'), $output);
-			$output = preg_replace_callback('@<select[^>]*\sname="'.$keys.'".+</select>@isU', array(&$this, '_preserveSelectValue'), $output);
-			$output = preg_replace_callback('@<textarea[^>]*\sname="'.$keys.'".+</textarea>@isU', array(&$this, '_preserveTextAreaValue'), $output);
+			$output = preg_replace_callback('@(<input)([^>]*?)\sname="' . $keys . '"([^>]*?)/?>@is', array(&$this, '_preserveValue'), $output);
+			$output = preg_replace_callback('@<select[^>]*\sname="' . $keys . '".+</select>@isU', array(&$this, '_preserveSelectValue'), $output);
+			$output = preg_replace_callback('@<textarea[^>]*\sname="' . $keys . '".+</textarea>@isU', array(&$this, '_preserveTextAreaValue'), $output);
 		}
 
-		if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
+		if(__DEBUG__ == 3)
+		{
+			$GLOBALS['__trans_content_elapsed__'] = getMicroTime() - $start;
+		}
 
 		// Remove unnecessary information
-		$output = preg_replace('/member\_\-([0-9]+)/s','member_0',$output);
+		$output = preg_replace('/member\_\-([0-9]+)/s', 'member_0', $output);
 
 		// set icon
-		$oAdminModel = &getAdminModel('admin');
+		$oAdminModel = getAdminModel('admin');
 		$favicon_url = $oAdminModel->getFaviconUrl();
 		$mobicon_url = $oAdminModel->getMobileIconUrl();
 		Context::set('favicon_url', $favicon_url);
@@ -189,7 +222,7 @@ class HTMLDisplayHandler
 
 		// convert the final layout
 		Context::set('content', $output);
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		if(Mobile::isFromMobilePhone())
 		{
 			$output = $oTemplate->compile('./common/tpl', 'mobile_layout');
@@ -201,7 +234,7 @@ class HTMLDisplayHandler
 		}
 
 		// replace the user-defined-language
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($output);
 	}
 
@@ -214,17 +247,20 @@ class HTMLDisplayHandler
 	{
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
 
-		$str = $match[1].$match[2].' name="'.$match[3].'"'.$match[4];
+		$str = $match[1] . $match[2] . ' name="' . $match[3] . '"' . $match[4];
 
 		// get type
 		$type = 'text';
-		if(preg_match('/\stype="([a-z]+)"/i', $str, $m)) $type = strtolower($m[1]);
+		if(preg_match('/\stype="([a-z]+)"/i', $str, $m))
+		{
+			$type = strtolower($m[1]);
+		}
 
 		switch($type)
 		{
 			case 'text':
 			case 'hidden':
-				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.@htmlspecialchars($INPUT_ERROR[$match[3]]).'"';
+				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str) . ' value="' . @htmlspecialchars($INPUT_ERROR[$match[3]]) . '"';
 				break;
 			case 'password':
 				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str);
@@ -232,14 +268,14 @@ class HTMLDisplayHandler
 			case 'radio':
 			case 'checkbox':
 				$str = preg_replace('@\schecked(="[^"]*?")?@', ' ', $str);
-				if(@preg_match('@\s(?i:value)="'.$INPUT_ERROR[$match[3]].'"@', $str))
+				if(@preg_match('@\s(?i:value)="' . $INPUT_ERROR[$match[3]] . '"@', $str))
 				{
 					$str .= ' checked="checked"';
 				}
 				break;
 		}
 
-		return $str.' />';
+		return $str . ' />';
 	}
 
 	/**
@@ -263,7 +299,7 @@ class HTMLDisplayHandler
 
 		$m[0][$key] = preg_replace('@(\svalue=".*?")@is', '$1 selected="selected"', $m[0][$key]);
 
-		return $mm[0].implode('', $m[0]).'</select>';
+		return $mm[0] . implode('', $m[0]) . '</select>';
 	}
 
 	/**
@@ -275,7 +311,7 @@ class HTMLDisplayHandler
 	{
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
 		preg_match('@<textarea.*?>@is', $matches[0], $mm);
-		return $mm[0].$INPUT_ERROR[$matches[1]].'</textarea>';
+		return $mm[0] . $INPUT_ERROR[$matches[1]] . '</textarea>';
 	}
 
 	/**
@@ -322,7 +358,10 @@ class HTMLDisplayHandler
 	 */
 	function _transMeta($matches)
 	{
-		if($matches[1]) return '';
+		if($matches[1])
+		{
+			return '';
+		}
 		Context::loadFile($matches[2]);
 	}
 
@@ -332,8 +371,8 @@ class HTMLDisplayHandler
 	 */
 	function _loadJSCSS()
 	{
-		$oContext  =& Context::getInstance();
-		$lang_type =  Context::getLangType();
+		$oContext = Context::getInstance();
+		$lang_type = Context::getLangType();
 
 		// add common JS/CSS files
 		if(__DEBUG__)
@@ -355,7 +394,7 @@ class HTMLDisplayHandler
 		}
 
 		// for admin page, add admin css
-		if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0)
+		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
 		{
 			if(__DEBUG__)
 			{
@@ -370,7 +409,7 @@ class HTMLDisplayHandler
 			else
 			{
 				$oContext->loadFile(array('./modules/admin/tpl/css/admin.min.css', '', '', 10), true);
-				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '',10), true);
+				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '', 10), true);
 				$oContext->loadFile(array("./modules/admin/tpl/css/admin.iefix.min.css", '', 'ie', 10), true);
 				$oContext->loadFile('./modules/admin/tpl/js/admin.min.js', true);
 				$oContext->loadFile(array('./modules/admin/tpl/css/admin.bootstrap.min.css', '', '', 1), true);
@@ -379,6 +418,7 @@ class HTMLDisplayHandler
 			}
 		}
 	}
+
 }
 /* End of file HTMLDisplayHandler.class.php */
 /* Location: ./classes/display/HTMLDisplayHandler.class.php */
