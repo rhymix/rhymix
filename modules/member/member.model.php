@@ -179,7 +179,7 @@ class memberModel extends member
 	 * @brief Check if logged-in
 	 */
 	function isLogged() {
-		if($_SESSION['is_logged']&&$_SESSION['ipaddress']==$_SERVER['REMOTE_ADDR']) return true;
+		if($_SESSION['is_logged'] && (!Mobile::isFromMobilePhone() && $_SESSION['ipaddress']==$_SERVER['REMOTE_ADDR'])) return true;
 
 		$_SESSION['is_logged'] = false;
 		return false;
