@@ -304,7 +304,7 @@ class menuAdminController extends menu
 		$oDB->begin();
 
 		// type is url
-		if(preg_match('/^http/i', $request->shortcut_target))
+		if(preg_match('/^http/i', $request->shortcut_target) || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
 		{
 			// set menu variable
 			$args->menu_srl = $request->menu_srl;
@@ -499,7 +499,7 @@ class menuAdminController extends menu
 		if($itemInfo->is_shortcut == 'Y')
 		{
 			// type is url
-			if(preg_match('/^http/i', $request->shortcut_target))
+			if(preg_match('/^http/i', $request->shortcut_target) || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
 			{
 				$args->url = $request->shortcut_target;
 			}
