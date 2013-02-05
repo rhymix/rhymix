@@ -135,6 +135,7 @@ class addonAdminModel extends addon
 		if(!$xml_obj) return;
 
 		// DB is set to bring history
+		$db_args = new stdClass();
 		$db_args->addon = $addon;
 		if($gtype == 'global') $output = executeQuery('addon.getAddonInfo',$db_args);
 		else
@@ -144,6 +145,7 @@ class addonAdminModel extends addon
 		}
 		$extra_vals = unserialize($output->data->extra_vars);
 
+		$addon_info = new stdClass();
 		if($extra_vals->mid_list)
 		{
 			$addon_info->mid_list = $extra_vals->mid_list;
@@ -178,7 +180,7 @@ class addonAdminModel extends addon
 
 			foreach($author_list as $author)
 			{
-				unset($author_obj);
+				$author_obj = new stdClass();
 				$author_obj->name = $author->name->body;
 				$author_obj->email_address = $author->attrs->email_address;
 				$author_obj->homepage = $author->attrs->link;
@@ -199,7 +201,7 @@ class addonAdminModel extends addon
 
 					foreach($extra_vars as $key => $val)
 					{
-						unset($obj);
+						$obj = new stdClass();
 						if(!$val->attrs->type) { $val->attrs->type = 'text'; }
 
 						$obj->group = $group->title->body;
@@ -222,6 +224,7 @@ class addonAdminModel extends addon
 
 						for($i = 0, $c = count($val->options); $i < $c; $i++)
 						{
+							$obj->options[$i] = new stdClass();
 							$obj->options[$i]->title = $val->options[$i]->title->body;
 							$obj->options[$i]->value = $val->options[$i]->attrs->value;
 						}
@@ -247,7 +250,7 @@ class addonAdminModel extends addon
 
 						foreach($obj->author_list as $author)
 						{
-							unset($author_obj);
+							$author_obj = new stdClass();
 							$author_obj->name = $author->name->body;
 							$author_obj->email_address = $author->attrs->email_address;
 							$author_obj->homepage = $author->attrs->link;
@@ -268,7 +271,7 @@ class addonAdminModel extends addon
 
 						foreach($obj->log as $log)
 						{
-							unset($log_obj);
+							$log_obj = new stdClass();
 							$log_obj->text = $log->body;
 							$log_obj->link = $log->attrs->link;
 							$obj->logs[] = $log_obj;
@@ -346,6 +349,7 @@ class addonAdminModel extends addon
 	 */
 	function getInsertedAddons($site_srl = 0, $gtype = 'site')
 	{
+		$args = new stdClass();
 		$args->list_order = 'addon';
 		if($gtype == 'global') $output = executeQuery('addon.getAddons', $args);
 		else

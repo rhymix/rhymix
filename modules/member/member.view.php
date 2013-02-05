@@ -205,6 +205,7 @@ class memberView extends member
 		Context::set('formTags', $formTags);
 
 		global $lang;
+		$identifierForm = new stdClass();
 		$identifierForm->title = $lang->{$member_config->identifier};
 		$identifierForm->name = $member_config->identifier;
 		$identifierForm->value = $member_info->{$member_config->identifier};
@@ -282,6 +283,7 @@ class memberView extends member
 		if($member_info->member_srl)
 		{
 			$oEditorModel = &getModel('editor');
+			$option = new stdClass();
 			$option->primary_key_name = 'member_srl';
 			$option->content_key_name = 'signature';
 			$option->allow_fileupload = false;
@@ -304,6 +306,7 @@ class memberView extends member
 		Context::set('formTags', $formTags);
 
 		global $lang;
+		$identifierForm = new stdClass();
 		$identifierForm->title = $lang->{$member_config->identifier};
 		$identifierForm->name = $member_config->identifier;
 		$identifierForm->value = $member_info->{$member_config->identifier};
@@ -349,6 +352,7 @@ class memberView extends member
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
 		$logged_info = Context::get('logged_info');
+		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->page = (int)Context::get('page');
 
@@ -372,6 +376,7 @@ class memberView extends member
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 		// Get the saved document(module_srl is set to member_srl instead)
 		$logged_info = Context::get('logged_info');
+		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->page = (int)Context::get('page');
 		$args->statusList = array('TEMP');

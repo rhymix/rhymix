@@ -40,6 +40,7 @@ class memberAdminModel extends member
 	function getMemberList()
 	{
 		// Search option
+		$args = new stdClass();
 		$args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
 		$args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
 		$args->selected_group_srl = Context::get('selected_group_srl');
@@ -216,6 +217,7 @@ class memberAdminModel extends member
 	 */
 	public function getMemberCountByDate($date = '')
 	{
+		$args = new stdClass();
 		if($date) $args->regDate = date('Ymd', strtotime($date));
 
 		$output = executeQuery('member.getMemberCountByDate', $args);
@@ -250,6 +252,7 @@ class memberAdminModel extends member
 	{
 		$member_join_form_srl = Context::get('member_join_form_srl');
 
+		$args = new stdClass();
 		$args->member_join_form_srl = $member_join_form_srl;
 		$output = executeQuery('member.getJoinForm', $args);
 

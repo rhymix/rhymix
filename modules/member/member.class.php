@@ -388,6 +388,7 @@ class member extends ModuleObject {
 		$oDB = &DB::getInstance();
 		if(!$oDB->isTableExists('member_login_count') || $config->enable_login_fail_report == 'N') return new Object($error, $message);
 
+		$args = new stdClass();
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 
 		$output = executeQuery('member.getLoginCountByIp', $args);

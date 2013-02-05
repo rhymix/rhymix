@@ -149,6 +149,7 @@ class pageAdminController extends page
 
 		$oDocumentModel = &getModel('document');
 		$oDocumentController = &getController('document');
+		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
 		$obj->list_count = 99999999;
 		$output = $oDocumentModel->getDocumentList($obj);

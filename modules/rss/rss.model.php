@@ -46,7 +46,11 @@ class rssModel extends rss
 		// Get the configurations of the rss module
 		$oModuleModel = &getModel('module');
 		$module_rss_config = $oModuleModel->getModulePartConfig('rss', $module_srl);
-		if(!$module_rss_config) $module_rss_config->open_rss = 'N';
+		if(!$module_rss_config)
+		{
+			$module_rss_config = new stdClass();
+			$module_rss_config->open_rss = 'N';
+		}
 		$module_rss_config->module_srl = $module_srl;
 		return $module_rss_config;
 	}

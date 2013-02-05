@@ -321,6 +321,7 @@ class commentAdminController extends comment
 	 */
 	function deleteModuleComments($module_srl)
 	{
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$output = executeQuery('comment.deleteModuleComments', $args);
 		if(!$output->toBool()) return $output;
@@ -346,6 +347,7 @@ class commentAdminController extends comment
 	{
 		if(is_array($originObject)) $originObject = (object)$originObject;
 
+		$obj = new stdClass();
 		$obj->document_srl = $originObject->document_srl;
 		$obj->comment_srl = $originObject->comment_srl;
 		$obj->parent_srl = $originObject->parent_srl;

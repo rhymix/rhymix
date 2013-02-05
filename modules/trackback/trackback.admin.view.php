@@ -29,6 +29,7 @@ class trackbackAdminView extends trackback
 		Context::set('config',$config);
 
 		// Options to get a list
+		$args = new stdClass();
 		$args->page = Context::get('page'); // / "Page
 		$args->list_count = 30; // / "One page of posts to show the
 		$args->page_count = 10; // / "Number of pages that appear in the page navigation

@@ -123,6 +123,7 @@ class commentModel extends comment
 	 */
 	function getChildComments($comment_srl)
 	{
+		$args = new stdClass();
 		$args->comment_srl = $comment_srl;
 		$output = executeQueryArray('comment.getChildComments', $args);
 		return $output->data;
@@ -153,6 +154,7 @@ class commentModel extends comment
 	{
 		if(is_array($comment_srl_list)) $comment_srls = implode(',',$comment_srl_list);
 		// fetch from a database
+		$args = new stdClass();
 		$args->comment_srls = $comment_srls;
 		$output = executeQuery('comment.getComments', $args, $columnList);
 		if(!$output->toBool()) return;
@@ -181,6 +183,7 @@ class commentModel extends comment
 	 */
 	function getCommentCount($document_srl)
 	{
+		$args = new stdClass();
 		$args->document_srl = $document_srl;
 
 		// get the number of comments on the document module
@@ -229,6 +232,7 @@ class commentModel extends comment
 	 */
 	function getCommentAllCount($module_srl,$published=null)
 	{
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 
 		if(is_null($published))
@@ -288,6 +292,7 @@ class commentModel extends comment
 	 */
 	function getNewestCommentList($obj, $columnList = array())
 	{
+		$args = new stdClass();
 		if($obj->mid)
 		{
 			$oModuleModel = &getModel('module');
@@ -390,6 +395,7 @@ class commentModel extends comment
 			// get a very last page if no page exists
 			if(!$page) $page = (int)( ($oDocument->getCommentCount()-1) / $comment_count) + 1;
 			// get a list of comments
+			$args = new stdClass();
 			$args->document_srl = $document_srl;
 			$args->list_count = $comment_count;
 			$args->page = $page;
@@ -532,6 +538,7 @@ class commentModel extends comment
 	{
 		$query_id = 'comment.getTotalCommentList';
 		// Variables
+		$args = new stdClass();
 		$args->sort_index = 'list_order';
 		$args->page = $obj->page?$obj->page:1;
 		$args->list_count = $obj->list_count?$obj->list_count:20;
@@ -701,6 +708,10 @@ class commentModel extends comment
 	{
 		$oModuleModel = &getModel('module');
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
+		if(!$comment_config)
+		{
+			$comment_config = new stdClass();
+		}
 		if(!isset($comment_config->comment_count)) $comment_config->comment_count = 50;
 		return $comment_config;
 	}

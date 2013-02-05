@@ -1,5 +1,6 @@
 <?php
-require_once(_XE_PATH_.'modules/addon/addon.controller.php');
+
+require_once(_XE_PATH_ . 'modules/addon/addon.controller.php');
 
 /**
  * Admin controller class of addon modules
@@ -15,6 +16,7 @@ class addonAdminController extends addonController
 	 */
 	function init()
 	{
+
 	}
 
 	/**
@@ -30,19 +32,43 @@ class addonAdminController extends addonController
 
 		$site_module_info = Context::get('site_module_info');
 
-		if($site_module_info->site_srl) $site_srl = $site_module_info->site_srl;
-		else $site_srl = 0;
+		if($site_module_info->site_srl)
+		{
+			$site_srl = $site_module_info->site_srl;
+		}
+		else
+		{
+			$site_srl = 0;
+		}
 
-		if(!$pcOnList) $pcOnList = array();
-		if(!$mobileOnList) $mobileOnList = array();
-		if(!$fixed) $fixed = array();
+		if(!$pcOnList)
+		{
+			$pcOnList = array();
+		}
+		if(!$mobileOnList)
+		{
+			$mobileOnList = array();
+		}
+		if(!$fixed)
+		{
+			$fixed = array();
+		}
 
-		if(!is_array($pcOnList)) $pcOnList = array($pcOnList);
-		if(!is_array($mobileOnList)) $pcOnList = array($mobileOnList);
-		if(!is_array($fixed)) $pcOnList = array($fixed);
+		if(!is_array($pcOnList))
+		{
+			$pcOnList = array($pcOnList);
+		}
+		if(!is_array($mobileOnList))
+		{
+			$pcOnList = array($mobileOnList);
+		}
+		if(!is_array($fixed))
+		{
+			$pcOnList = array($fixed);
+		}
 
 		// get current addon info
-		$oModel = &getAdminModel('addon');
+		$oModel = getAdminModel('addon');
 		$currentAddonList = $oModel->getAddonList($site_srl, 'site');
 
 		// get need update addon list
@@ -71,28 +97,43 @@ class addonAdminController extends addonController
 		// update
 		foreach($updateList as $targetAddon)
 		{
-			unset($args);
+			$args = new stdClass();
 
 			if(in_array($targetAddon, $pcOnList))
+			{
 				$args->is_used = 'Y';
+			}
 			else
+			{
 				$args->is_used = 'N';
+			}
 
 			if(in_array($targetAddon, $mobileOnList))
+			{
 				$args->is_used_m = 'Y';
+			}
 			else
+			{
 				$args->is_used_m = 'N';
+			}
 
 			if(in_array($targetAddon, $fixed))
+			{
 				$args->fixed = 'Y';
+			}
 			else
+			{
 				$args->fixed = 'N';
+			}
 
 			$args->addon = $targetAddon;
 			$args->site_srl = $site_srl;
 
 			$output = executeQuery('addon.updateSiteAddon', $args);
-			if (!$output->toBool()) return $output;
+			if(!$output->toBool())
+			{
+				return $output;
+			}
 		}
 
 		if(count($updateList))
@@ -119,19 +160,28 @@ class addonAdminController extends addonController
 	 */
 	function procAddonAdminToggleActivate()
 	{
-		$oAddonModel = &getAdminModel('addon');
+		$oAddonModel = getAdminModel('addon');
 
 		$site_module_info = Context::get('site_module_info');
 		// batahom addon values
 		$addon = Context::get('addon');
 		$type = Context::get('type');
-		if(!$type) $type = "pc";
+		if(!$type)
+		{
+			$type = "pc";
+		}
 		if($addon)
 		{
 			// If enabled Disables
-			if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl, $type)) $this->doDeactivate($addon, $site_module_info->site_srl, $type);
+			if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl, $type))
+			{
+				$this->doDeactivate($addon, $site_module_info->site_srl, $type);
+			}
 			// If it is disabled Activate
-			else $this->doActivate($addon, $site_module_info->site_srl, $type);
+			else
+			{
+				$this->doActivate($addon, $site_module_info->site_srl, $type);
+			}
 		}
 
 		$this->makeCacheFile($site_module_info->site_srl, $type);
@@ -156,7 +206,10 @@ class addonAdminController extends addonController
 		$site_module_info = Context::get('site_module_info');
 
 		$output = $this->doSetup($addon_name, $args, $site_module_info->site_srl, 'site');
-		if (!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$this->makeCacheFile($site_module_info->site_srl, "pc", 'site');
 		$this->makeCacheFile($site_module_info->site_srl, "mobile", 'site');
@@ -177,7 +230,10 @@ class addonAdminController extends addonController
 	{
 		$args->addon = $addon;
 		$args->is_used = $isUsed;
-		if($gtype == 'global') return executeQuery('addon.insertAddon', $args);
+		if($gtype == 'global')
+		{
+			return executeQuery('addon.insertAddon', $args);
+		}
 		$args->site_srl = $site_srl;
 		return executeQuery('addon.insertSiteAddon', $args);
 	}
@@ -193,10 +249,20 @@ class addonAdminController extends addonController
 	 */
 	function doActivate($addon, $site_srl = 0, $type = "pc", $gtype = 'site')
 	{
+		$args = new stdClass();
 		$args->addon = $addon;
-		if($type == "pc") $args->is_used = 'Y';
-		else $args->is_used_m = "Y";
-		if($gtype == 'global') return executeQuery('addon.updateAddon', $args);
+		if($type == "pc")
+		{
+			$args->is_used = 'Y';
+		}
+		else
+		{
+			$args->is_used_m = "Y";
+		}
+		if($gtype == 'global')
+		{
+			return executeQuery('addon.updateAddon', $args);
+		}
 		$args->site_srl = $site_srl;
 		return executeQuery('addon.updateSiteAddon', $args);
 	}
@@ -211,13 +277,24 @@ class addonAdminController extends addonController
 	 */
 	function doDeactivate($addon, $site_srl = 0, $type = "pc", $gtype = 'site')
 	{
+		$args = new stdClass();
 		$args->addon = $addon;
-		if($type == "pc") $args->is_used = 'N';
-		else $args->is_used_m = 'N';
-		if($gtype == 'global') return executeQuery('addon.updateAddon', $args);
+		if($type == "pc")
+		{
+			$args->is_used = 'N';
+		}
+		else
+		{
+			$args->is_used_m = 'N';
+		}
+		if($gtype == 'global')
+		{
+			return executeQuery('addon.updateAddon', $args);
+		}
 		$args->site_srl = $site_srl;
 		return executeQuery('addon.updateSiteAddon', $args);
 	}
+
 }
 /* End of file addon.admin.controller.php */
 /* Location: ./modules/addon/addon.admin.controller.php */

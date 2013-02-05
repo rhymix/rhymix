@@ -53,6 +53,7 @@ class editorAdminController extends editor
 	 */
 	function editorCheckUse($componentList, $site_srl = 0)
 	{
+		$args = new stdClass();
 		$args->site_srl = $site_srl;
 
 		foreach($componentList as $componentName => $value)
@@ -79,6 +80,7 @@ class editorAdminController extends editor
 	 */
 	function editorListOrder($component_names, $site_srl = 0)
 	{
+		$args = new stdClass();
 		$args->site_srl = $site_srl;
 		$list_order_num = '30';
 		if(is_array($component_names))

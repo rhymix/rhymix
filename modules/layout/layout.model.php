@@ -37,6 +37,7 @@ class layoutModel extends layout
 			$site_module_info = Context::get('site_module_info');
 			$site_srl = (int)$site_module_info->site_srl;
 		}
+		$args = new stdClass();
 		$args->site_srl = $site_srl;
 		$args->layout_type = $layout_type;
 		$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
@@ -115,6 +116,7 @@ class layoutModel extends layout
 			$siteModuleInfo = Context::get('site_module_info');
 			$siteSrl = (int)$siteModuleInfo->site_srl;
 		}
+		$args = new stdClass();
 		$args->site_srl = $siteSrl;
 		$args->layout_type = $layoutType;
 		$args->layout = $layout;
@@ -205,6 +207,7 @@ class layoutModel extends layout
 		if(!$layout_info)
 		{
 			// Get information from the DB
+			$args = new stdClass();
 			$args->layout_srl = $layout_srl;
 			$output = executeQuery('layout.getLayout', $args);
 			if(!$output->data) return;
@@ -226,6 +229,7 @@ class layoutModel extends layout
 
 	function getLayoutRawData($layout_srl, $columnList = array())
 	{
+		$args = new stdClass();
 		$args->layout_srl = $layout_srl;
 		$output = executeQuery('layout.getLayout', $args, $columnList);
 		if(!$output->toBool())

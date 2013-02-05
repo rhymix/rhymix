@@ -56,7 +56,13 @@ class moduleAdminModel extends module
 
 	function getSelectedManageHTML($grantList, $tabChoice = array())
 	{
+		$grant_list =new stdClass();
 		// Grant virtual permission for access and manager
+		if(!$grantList)
+		{
+			$grantList =new stdClass();
+		}
+		$grantList->access = new stdClass();
 		$grantList->access->title = Context::getLang('grant_access');
 		$grantList->access->default = 'guest';
 		if(count($grantList))
@@ -68,6 +74,7 @@ class moduleAdminModel extends module
 				$grant_list->{$key} = $val;
 			}
 		}
+		$grant_list->manager = new stdClass();
 		$grant_list->manager->title = Context::getLang('grant_manager');
 		$grant_list->manager->default = 'manager';
 		Context::set('grant_list', $grant_list);
@@ -116,6 +123,8 @@ class moduleAdminModel extends module
 		$columnList = array('module_srl', 'site_srl');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		// Grant virtual permission for access and manager
+		$grant_list = new stdClass();
+		$grant_list->access = new stdClass();
 		$grant_list->access->title = Context::getLang('grant_access');
 		$grant_list->access->default = 'guest';
 		if(count($source_grant_list))
@@ -127,11 +136,13 @@ class moduleAdminModel extends module
 				$grant_list->{$key} = $val;
 			}
 		}
+		$grant_list->manager = new stdClass();
 		$grant_list->manager->title = Context::getLang('grant_manager');
 		$grant_list->manager->default = 'manager';
 		Context::set('grant_list', $grant_list);
 		// Get a permission group granted to the current module
 		$default_grant = array();
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$output = executeQueryArray('module.getModuleGrants', $args);
 		if($output->data)
@@ -189,6 +200,8 @@ class moduleAdminModel extends module
 		$xmlInfo = $oModuleModel->getModuleActionXml($targetModule);
 
 		// Grant virtual permission for access and manager
+		$grantList = new stdClass();
+		$grantList->access = new stdClass();
 		$grantList->access->title = Context::getLang('grant_access');
 		$grantList->access->default = 'guest';
 		if(count($xmlInfo->grant))
@@ -200,11 +213,13 @@ class moduleAdminModel extends module
 				$grantList->{$key} = $val;
 			}
 		}
+		$grantList->manager = new stdClass();
 		$grantList->manager->title = Context::getLang('grant_manager');
 		$grantList->manager->default = 'manager';
 
 		// Get a permission group granted to the current module
 		$defaultGrant = new stdClass();
+		$args = new stdClass();
 		$args->module_srl = $moduleSrl;
 		$output = executeQueryArray('module.getModuleGrants', $args);
 		if($output->data)
@@ -360,6 +375,7 @@ class moduleAdminModel extends module
 
 		if(substr($name,0,12)=='$user_lang->')
 		{
+			$args = new stdClass();
 			$args->site_srl = (int)$site_srl;
 			$args->name = substr($name,12);
 			$output = executeQueryArray('module.getLang', $args);
@@ -489,6 +505,7 @@ class moduleAdminModel extends module
 	function getModuleAdminLangListHtml()
 	{
 		$site_module_info = Context::get('site_module_info');
+		$args = new stdClass();
 		$args->site_srl = (int)$site_module_info->site_srl;
 		$args->langCode = Context::get('lang_code');
 		$args->page = Context::get('page');

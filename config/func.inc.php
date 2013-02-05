@@ -876,7 +876,7 @@ function delObjectVars($target_obj, $del_obj)
 		return $target_obj;
 	}
 
-	$return_obj = NULL;
+	$return_obj = new stdClass();
 
 	$target_count = count($target);
 	for($i = 0; $i < $target_count; $i++)

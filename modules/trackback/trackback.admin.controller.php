@@ -125,6 +125,7 @@ class trackbackAdminController extends trackback
 	 */
 	function setTrackbackModuleConfig($module_srl, $enable_trackback)
 	{
+		$config = new stdClass();
 		$config->enable_trackback = $enable_trackback;
 
 		$oModuleController = &getController('module');
@@ -140,6 +141,7 @@ class trackbackAdminController extends trackback
 	function deleteModuleTrackbacks($module_srl)
 	{
 		// Delete
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$output = executeQuery('trackback.deleteModuleTrackbacks', $args);
 

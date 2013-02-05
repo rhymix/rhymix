@@ -238,6 +238,7 @@ class commentController extends comment
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// Enter a list of comments first
+		$list_args = new stdClass();
 		$list_args->comment_srl = $obj->comment_srl;
 		$list_args->document_srl = $obj->document_srl;
 		$list_args->module_srl = $obj->module_srl;
@@ -252,6 +253,7 @@ class commentController extends comment
 		else
 		{
 			// get information of the parent comment posting
+			$parent_args = new stdClass();
 			$parent_args->comment_srl = $obj->parent_srl;
 			$parent_output = executeQuery('comment.getCommentListItem', $parent_args);
 			// return if no parent comment exists
@@ -640,6 +642,7 @@ class commentController extends comment
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// Delete
+		$args =new stdClass();
 		$args->comment_srl = $comment_srl;
 		$output = executeQuery('comment.deleteComment', $args);
 		if(!$output->toBool())
@@ -727,6 +730,7 @@ class commentController extends comment
 		}
 		if(!$oDocument->isExists() || !$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
 		// get a list of comments and then execute a trigger(way to reduce the processing cost for delete all)
+		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$comments = executeQueryArray('comment.getAllComments',$args);
 		if($comments->data)
@@ -903,6 +907,7 @@ class commentController extends comment
 		// Fail if session information already has a reported document
 		if($_SESSION['declared_comment'][$comment_srl]) return new Object(-1, 'failed_declared');
 		// check if already reported
+		$args = new stdClass();
 		$args->comment_srl = $comment_srl;
 		$output = executeQuery('comment.getDeclaredComment', $args);
 		if(!$output->toBool()) return $output;
@@ -970,6 +975,7 @@ class commentController extends comment
 		$comment_popup_menu_list = Context::get('comment_popup_menu_list');
 		if(!is_array($comment_popup_menu_list)) $comment_popup_menu_list = array();
 
+		$obj = new stdClass();
 		$obj->url = $url;
 		$obj->str = $str;
 		$obj->icon = $icon;

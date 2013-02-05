@@ -122,6 +122,7 @@ class communicationController extends communication
 		$content = removeHackTag($content); 
 		$title = htmlspecialchars($title);
 		// messages to save in the sendor's message box
+		$sender_args = new stdClass();
 		$sender_args->sender_srl = $sender_srl;
 		$sender_args->receiver_srl = $receiver_srl;
 		$sender_args->message_type = 'S';
@@ -133,6 +134,7 @@ class communicationController extends communication
 		$sender_args->message_srl = getNextSequence();
 		$sender_args->list_order = getNextSequence()*-1;
 		// messages to save in the receiver's message box
+		$receiver_args = new stdClass();
 		$receiver_args->message_srl = $sender_args->related_srl;
 		$receiver_args->related_srl = 0;
 		$receiver_args->list_order = $sender_args->related_srl*-1;

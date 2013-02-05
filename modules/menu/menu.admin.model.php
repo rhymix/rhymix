@@ -57,6 +57,7 @@ class menuAdminModel extends menu
 			$site_srl = (int)$site_module_info->site_srl;
 		}
 		// Get information from the DB
+		$args = new stdClass();
 		$args->site_srl = $site_srl ;
 		$args->menu_srl = $menu_srl;
 		$output = executeQueryArray('menu.getMenus', $args);
@@ -74,6 +75,7 @@ class menuAdminModel extends menu
 	function getMenu($menu_srl)
 	{
 		// Get information from the DB
+		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
 		$output = executeQuery('menu.getMenu', $args);
 		if(!$output->data) return;
@@ -93,6 +95,7 @@ class menuAdminModel extends menu
 	function getMenuByTitle($title)
 	{
 		// Get information from the DB
+		$args = new stdClass();
 		$args->title = $title;
 		$output = executeQuery('menu.getMenuByTitle', $args);
 		if(!$output->data) return;
@@ -117,6 +120,7 @@ class menuAdminModel extends menu
 	function getMenuItemInfo($menu_item_srl)
 	{
 		// Get the menu information if menu_item_srl exists
+		$args = new stdClass();
 		$args->menu_item_srl = $menu_item_srl;
 		$output = executeQuery('menu.getMenuItem', $args);
 		$node = $output->data;
@@ -191,7 +195,7 @@ class menuAdminModel extends menu
 			$groupList = array();
 			foreach($output AS $key=>$value)
 			{
-
+				$groupList[$value->group_srl] = new stdClass();
 				$groupList[$value->group_srl]->group_srl = $value->group_srl;
 				if(substr($value->title,0,12)=='$user_lang->')
 				{
@@ -222,6 +226,7 @@ class menuAdminModel extends menu
 	 */
 	function getMenuItems($menu_srl, $parent_srl = null, $columnList = array())
 	{
+		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
 		$args->parent_srl = $parent_srl;
 
@@ -484,6 +489,7 @@ class menuAdminModel extends menu
 							$oMenuAdminController->makeXmlFile($value->menu_srl);
 						}
 
+						$menuItems = new stdClass();
 						$menuItems->menuSrl = $value->menu_srl;
 						$menuItems->title = $value->title;
 						$menuItems->menuItems = $menu;

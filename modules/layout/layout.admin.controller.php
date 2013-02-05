@@ -143,7 +143,7 @@ class layoutAdminController extends layout
 
 				if($apply_layout=='Y' || $apply_mobile_view=='Y')
 				{
-					$menu_args = null;
+					$menu_args = new stdClass();
 					$menu_args->menu_srl = $menu_srl;
 					$menu_args->site_srl = $layout_info->site_srl;
 					$output = executeQueryArray('layout.getLayoutModules', $menu_args);
@@ -157,6 +157,7 @@ class layoutAdminController extends layout
 
 						if(count($modules))
 						{
+							$update_args = new stdClass();
 							$update_args->module_srls = implode(',',$modules);
 							if($apply_layout == "Y")
 							{
@@ -214,6 +215,7 @@ class layoutAdminController extends layout
 		// Save header script into "config" of layout module
 		$oModuleModel = &getModel('module');
 		$oModuleController = &getController('module');
+		$layout_config = new stdClass();
 		$layout_config->header_script = Context::get('header_script');
 		$oModuleController->insertModulePartConfig('layout',$args->layout_srl,$layout_config);
 		// Save a title of the menu
@@ -318,6 +320,7 @@ class layoutAdminController extends layout
 		$layout_file = $oLayoutModel->getUserLayoutHtml($layout_srl);
 		if(file_exists($layout_file)) FileHandler::removeFile($layout_file);
 		// Delete Layout
+		$args = new stdClass();
 		$args->layout_srl = $layout_srl;
 		$output = executeQuery("layout.deleteLayout", $args);
 		//remove from cache
@@ -730,10 +733,12 @@ class layoutAdminController extends layout
 		}
 
 		$output = $oLayoutModel->getLayoutRawData($sourceArgs->layout_srl, array('extra_vars'));
+		$args = new stdClass();
 		$args->extra_vars = $output->extra_vars;
 		$extra_vars = unserialize($args->extra_vars);
 
 		$oModuleController = &getController('module');
+		$layout_config = new stdClass();
 		$layout_config->header_script = $extra_vars->header_script;
 
 		// Get information to create a layout

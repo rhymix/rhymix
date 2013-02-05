@@ -30,6 +30,7 @@ class sessionModel extends session
 		}
 		if(!$output->data)
 		{
+			$args = new stdClass();
 			$args->session_key = $session_key;
 			$columnList = array('session_key', 'cur_mid', 'val');
 			$output = executeQuery('session.getSession', $args, $columnList);

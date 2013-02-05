@@ -62,6 +62,7 @@ class module extends ModuleObject
 			if($oDB->isColumnExists("documents","extra_vars".$i)) return true;
 		}
 		// Insert site information to the table, sites
+		$args = new stdClass();
 		$args->site_srl = 0;
 		$output = $oDB->executeQuery('module.getSite', $args);
 		if(!$output->data) return true;

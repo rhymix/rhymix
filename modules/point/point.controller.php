@@ -488,6 +488,7 @@ class pointController extends point
 		$prev_point = $oPointModel->getPoint($member_srl, true);
 		$prev_level = $oPointModel->getLevel($prev_point, $config->level_step);
 		// Change points
+		$args =new stdClass();
 		$args->member_srl = $member_srl;
 		$args->point = $prev_point;
 

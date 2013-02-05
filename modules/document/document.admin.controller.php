@@ -59,6 +59,7 @@ class documentAdminController extends document
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
+		$triggerObj = new stdClass();
 		$triggerObj->document_srls = implode(',',$document_srl_list);
 		$triggerObj->module_srl = $module_srl;
 		$triggerObj->category_srl = $category_srl;
@@ -138,6 +139,7 @@ class documentAdminController extends document
 			}
 		}
 
+		$args = new stdClass();
 		$args->document_srls = implode(',',$document_srl_list);
 		$args->module_srl = $module_srl;
 		// move the comment
@@ -212,6 +214,7 @@ class documentAdminController extends document
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
+		$triggerObj = new stdClass();
 		$triggerObj->document_srls = implode(',',$document_srl_list);
 		$triggerObj->module_srl = $module_srl;
 		$triggerObj->category_srl = $category_srl;
@@ -418,6 +421,7 @@ class documentAdminController extends document
 	 */
 	function deleteModuleDocument($module_srl)
 	{
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$oDocumentModel = &getModel('document');
 		$args->module_srl = $module_srl;
@@ -537,6 +541,7 @@ class documentAdminController extends document
 		// set the max value if idx is not specified
 		if(!$var_idx)
 		{
+			$obj = new stdClass();
 			$obj->module_srl = $module_srl;
 			$output = executeQuery('document.getDocumentMaxExtraKeyIdx', $obj);
 			$var_idx = $output->data->var_idx+1;
@@ -604,6 +609,7 @@ class documentAdminController extends document
 		else $new_idx = $var_idx+1;
 		if($new_idx<1) return new Object(-1,'msg_invalid_request');
 
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$args->var_idx = $new_idx;
 		$output = executeQuery('document.getDocumentExtraKeys', $args);
@@ -614,6 +620,7 @@ class documentAdminController extends document
 		// update immediately if there is no idx to change
 		if(!$extra_keys[$new_idx])
 		{
+			$args = new stdClass();
 			$args->module_srl = $module_srl;
 			$args->var_idx = $var_idx;
 			$args->new_idx = $new_idx;
@@ -625,6 +632,7 @@ class documentAdminController extends document
 		}
 		else
 		{
+			$args = new stdClass();
 			$args->module_srl = $module_srl;
 			$args->var_idx = $new_idx;
 			$args->new_idx = -10000;

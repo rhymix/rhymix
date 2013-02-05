@@ -263,6 +263,7 @@ class moduleAdminView extends module
 	{
 		// Get the language file of the current site
 		$site_module_info = Context::get('site_module_info');
+		$args = new stdClass();
 		$args->site_srl = (int)$site_module_info->site_srl;
 		$args->langCode = Context::get('lang_type');
 		$args->page = Context::get('page'); // /< Page

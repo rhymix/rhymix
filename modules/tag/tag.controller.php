@@ -49,6 +49,7 @@ class tagController extends tag
 		$output = $this->triggerDeleteTag($obj);
 		if(!$output->toBool()) return $output;
 		// Re-enter the tag
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$args->document_srl = $document_srl;
 
@@ -75,6 +76,7 @@ class tagController extends tag
 		$document_srl = $obj->document_srl;
 		if(!$document_srl) return new Object();
 
+		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		return executeQuery('tag.deleteTag', $args);
 	}

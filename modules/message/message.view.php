@@ -22,6 +22,11 @@ class messageView extends message
 		$oModuleModel = &getModel('module');
 		$this->module_config = $config = $oModuleModel->getModuleConfig('message', $this->module_info->site_srl);
 
+		if(!$config)
+		{
+			$config = new stdClass();
+		}
+		
 		if(!$config->skin)
 		{
 			$config->skin = 'default';

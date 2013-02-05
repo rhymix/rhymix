@@ -35,6 +35,7 @@ class pointModel extends point
 			return true;
 		}
 
+		$args =new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('point.getPoint', $args);
 		if($output->data->member_srl == $member_srl)
@@ -64,6 +65,7 @@ class pointModel extends point
 			return $this->pointList[$member_srl] = trim(FileHandler::readFile($cache_filename));
 
 		// Get from the DB
+		$args =new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('point.getPoint', $args);
 

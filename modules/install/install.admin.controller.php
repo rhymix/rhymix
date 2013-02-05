@@ -125,6 +125,7 @@ class installAdminController extends install
 			return new Object(-1, 'msg_invalid_request');
 		}
 
+		$site_args = new stdClass();
 		$site_args->site_srl = 0;
 		$site_args->index_module_srl = Context::get('index_module_srl');
 		$oModuleController = &getController('module');
@@ -220,6 +221,7 @@ class installAdminController extends install
 		$oInstallController = &getController('install');
 		$oInstallController->makeConfigFile();
 
+		$site_args = new stdClass();
 		$site_args->site_srl = 0;
 		$site_args->index_module_srl = Context::get('index_module_srl');//
 		$site_args->default_language = Context::get('change_lang_type');//
@@ -231,6 +233,7 @@ class installAdminController extends install
 		$this->saveLangSelected($selected_lang);
 
 		//모듈 설정 저장(썸네일, 풋터스크립트)
+		$config = new stdClass();
 		$config->thumbnail_type = Context::get('thumbnail_type');
 		$config->htmlFooter = Context::get('htmlFooter');
 		$config->siteTitle = Context::get('site_title');
@@ -271,7 +274,8 @@ class installAdminController extends install
 	/* 썸내일 보여주기 방식 변경.*/
 	function setModulesConfig($config)
 	{
-
+		$args = new stdClass();
+		
 		if(!$config->thumbnail_type || $config->thumbnail_type != 'ratio' ) $args->thumbnail_type = 'crop';
 		else $args->thumbnail_type = 'ratio';
 

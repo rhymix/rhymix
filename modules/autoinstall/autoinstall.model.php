@@ -39,6 +39,7 @@ class autoinstallModel extends autoinstall
 	 */
 	function getInstalledPackage($package_srl)
 	{
+		$args = new stdClass();
 		$args->package_srl = $package_srl;
 		$output = executeQueryArray("autoinstall.getInstalledPackage", $args);
 		if(!$output->data) return null;
@@ -53,6 +54,7 @@ class autoinstallModel extends autoinstall
 	 */
 	function getPackage($package_srl)
 	{
+		$args = new stdClass();
 		$args->package_srl = $package_srl;
 		$output = executeQueryArray("autoinstall.getPackage", $args);
 		if(!$output->data) return null;
@@ -104,6 +106,7 @@ class autoinstallModel extends autoinstall
 	 */
 	function getPackageCount($category_srl)
 	{
+		$args = new stdClass();
 		$args->category_srl = $category_srl;
 		$output = executeQuery("autoinstall.getPackageCount", $args);
 		if(!$output->data) return 0;
@@ -168,6 +171,7 @@ class autoinstallModel extends autoinstall
 	 */
 	function getInstalledPackages($package_list)
 	{
+		$args = new stdClass();
 		$args->package_list = $package_list;
 		$output = executeQueryArray("autoinstall.getInstalledPackages", $args);
 		$result = array();
@@ -187,6 +191,7 @@ class autoinstallModel extends autoinstall
 	 */
 	function getInstalledPackageList($page)
 	{
+		$args = new stdClass();
 		$args->page = $page;
 		$args->list_count = 10;
 		$args->page_count = 5;
@@ -287,6 +292,7 @@ class autoinstallModel extends autoinstall
 
 		if(!$GLOBLAS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path])
 		{
+			$args = new stdClass();
 			$args->path = $path;
 			$output = executeQuery('autoinstall.getPackageSrlByPath', $args);
 

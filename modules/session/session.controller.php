@@ -33,6 +33,7 @@ class sessionController extends session
 			$cache_vars = $oCacheHandler->get($cache_key);
 		}
 
+		$args = new stdClass();
 		$args->session_key = $session_key;
 		if($cache_vars) $session_info = $cache_vars;
 		else
@@ -121,6 +122,7 @@ class sessionController extends session
 			$oCacheHandler->delete($cache_key);
 		}
 		//remove session from db
+		$args = new stdClass();
 		$args->session_key = $session_key;
 		executeQuery('session.deleteSession', $args);
 		return true;

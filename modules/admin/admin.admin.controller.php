@@ -169,6 +169,7 @@ class adminAdminController extends admin
 
 		foreach($vars->module_skin as $moduleName => $skinName)
 		{
+			$designInfo->module->{$moduleName} = new stdClass();
 			$designInfo->module->{$moduleName}->{$skinTarget} = $skinName;
 		}
 
@@ -373,6 +374,7 @@ class adminAdminController extends admin
 	 */
 	function _insertFavorite($siteSrl, $module, $type = 'module')
 	{
+		$args = new stdClass();
 		$args->adminFavoriteSrl = getNextSequence();
 		$args->site_srl = $siteSrl;
 		$args->module = $module;
@@ -387,6 +389,7 @@ class adminAdminController extends admin
 	 */
 	function _deleteFavorite($favoriteSrl)
 	{
+		$args = new stdClass();
 		$args->admin_favorite_srl = $favoriteSrl;
 		$output = executeQuery('admin.deleteFavorite', $args);
 		return $output;

@@ -81,6 +81,7 @@ class fileModel extends file
 	 */
 	function getFilesCount($upload_target_srl)
 	{
+		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
 		$output = executeQuery('file.getFilesCount', $args);
 		return (int)$output->data->count;
@@ -114,6 +115,8 @@ class fileModel extends file
 		if($module_srl) $file_config = $oModuleModel->getModulePartConfig('file',$module_srl);
 		if(!$file_config) $file_config = $file_module_config;
 
+		$config = new stdClass();
+		
 		if($file_config)
 		{
 			$config->allowed_filesize = $file_config->allowed_filesize;
@@ -151,6 +154,7 @@ class fileModel extends file
 	 */
 	function getFile($file_srl, $columnList = array())
 	{
+		$args = new stdClass();
 		$args->file_srl = $file_srl;
 		$output = executeQueryArray('file.getFile', $args, $columnList);
 		if(!$output->toBool()) return $output;
@@ -190,6 +194,7 @@ class fileModel extends file
 	 */
 	function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl', $ckValid = false)
 	{
+		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
 		$args->sort_index = $sortIndex;
 		if($ckValid) $args->isvalid = 'Y';
@@ -220,6 +225,7 @@ class fileModel extends file
 	function getUploadConfig()
 	{
 		$logged_info = Context::get('logged_info');
+		$file_config = new stdClass();
 		if($logged_info->is_admin == 'Y')
 		{
 			$file_config->allowed_filesize = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));

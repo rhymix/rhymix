@@ -28,6 +28,8 @@ class trackbackAdminModel extends trackback
 		$search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
 		$search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
 
+		$args = new stdClass();
+		
 		if($search_target && $search_keyword)
 		{
 			switch($search_target)
@@ -57,6 +59,7 @@ class trackbackAdminModel extends trackback
 			}
 		}
 		// Variables
+		$args = new stdClass();
 		$args->sort_index = $obj->sort_index;
 		$args->page = $obj->page?$obj->page:1;
 		$args->list_count = $obj->list_count?$obj->list_count:20;

@@ -256,6 +256,7 @@ class fileController extends file
 
 		// 다운로드 후 (가상)
 		// Increase download_count
+		$args = new stdClass();
 		$args->file_srl = $file_srl;
 		executeQuery('file.updateFileDownloadCount', $args);
 		// Call a trigger (after)
@@ -536,6 +537,10 @@ class fileController extends file
 	 */
 	function setUploadInfo($editor_sequence, $upload_target_srl=0)
 	{
+		if(!isset($_SESSION['upload_info'][$editor_sequence]))
+		{
+			$_SESSION['upload_info'][$editor_sequence] = new stdClass();
+		}
 		$_SESSION['upload_info'][$editor_sequence]->enabled = true;
 		$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
 	}
@@ -549,6 +554,7 @@ class fileController extends file
 	 */
 	function setFilesValid($upload_target_srl)
 	{
+		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
 		return executeQuery('file.updateFileValid', $args);
 	}
@@ -792,6 +798,7 @@ class fileController extends file
 		// Success returned if no attachement exists
 		if(!is_array($file_list)||!count($file_list)) return new Object();
 		// Remove from the DB
+		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
 		$output = executeQuery('file.deleteFiles', $args);
 		if(!$output->toBool()) return $output;

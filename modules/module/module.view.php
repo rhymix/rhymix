@@ -52,7 +52,7 @@ class moduleView extends module
 		// Variable setting for site keyword
 		$site_keyword = Context::get('site_keyword');
 		// If there is no site keyword, use as information of the current virtual site
-		$args = null;
+		$args = new stdClass();
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin == 'Y')
 		{
@@ -98,7 +98,7 @@ class moduleView extends module
 				if(!$module) continue;
 
 				$category = $val->category;
-				$obj = null;
+				$obj = new stdClass();
 				$obj->module_srl = $val->module_srl;
 				$obj->browser_title = $val->browser_title;
 				$mid_list[$module]->list[$category][$val->mid] = $obj;

@@ -174,6 +174,7 @@ class adminAdminView extends admin
 
 		// Admin logo, title setup
 		$objConfig = $oModuleModel->getModuleConfig('admin');
+		$gnbTitleInfo = new stdClass();
 		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle:'XE Admin';
 		$gnbTitleInfo->adminLogo  = $objConfig->adminLogo ? $objConfig->adminLogo:'modules/admin/tpl/img/xe.h1.png';
 
@@ -208,7 +209,7 @@ class adminAdminView extends admin
 
 				foreach($item as $key => $val)
 				{
-					$obj = null;
+					$obj = new stdClass();
 					$obj->title = $val->body;
 					$obj->date = $val->attrs->date;
 					$obj->url = $val->attrs->url;
@@ -238,17 +239,21 @@ class adminAdminView extends admin
 	function dispAdminIndex()
 	{
 		// Get statistics
+		$args = new stdClass();
 		$args->date = date("Ymd000000", time()-60*60*24);
 		$today = date("Ymd");
 		
 		// Member Status
 		$oMemberAdminModel = &getAdminModel('member');
+		$status = new stdClass();
+		$status->member = new stdClass();
 		$status->member->todayCount = $oMemberAdminModel->getMemberCountByDate($today);
 		$status->member->totalCount = $oMemberAdminModel->getMemberCountByDate();
 
 		// Document Status
 		$oDocumentAdminModel = &getAdminModel('document');
 		$statusList = array('PUBLIC', 'SECRET');
+		$status->document = new stdClass();
 		$status->document->todayCount = $oDocumentAdminModel->getDocumentCountByDate($today, array(), $statusList);
 		$status->document->totalCount = $oDocumentAdminModel->getDocumentCountByDate('', array(), $statusList);
 
@@ -267,6 +272,7 @@ class adminAdminView extends admin
 		// Latest Comment
 		$oCommentModel = &getModel('comment');
 		$columnList = array('comment_srl', 'module_srl', 'document_srl', 'content', 'nick_name', 'member_srl');
+		$args = new stdClass();
 		$args->list_count = 5;
 		$output = $oCommentModel->getNewestCommentList($args, $columnList);
 		if(is_array($output))

@@ -132,6 +132,10 @@ class documentView extends document
 		{
 			$document_config = $oModuleModel->getModulePartConfig('document', $current_module_srl);
 		}
+		if(!$document_config)
+		{
+			$document_config = new stdClass();
+		}
 		if(!isset($document_config->use_history)) $document_config->use_history = 'N';
 		Context::set('document_config', $document_config);
 

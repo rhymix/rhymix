@@ -97,6 +97,7 @@ class documentAdminModel extends document
 	 */
 	function getDocumentCountByDate($date = '', $moduleSrlList = array(), $statusList = array())
 	{
+		$args = new stdClass();
 		if($date) $args->regDate = date('Ymd', strtotime($date));
 		if(count($moduleSrlList)>0) $args->moduleSrlList = $moduleSrlList;
 		if(count($statusList)>0) $args->statusList = $statusList;

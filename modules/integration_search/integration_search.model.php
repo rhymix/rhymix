@@ -31,6 +31,7 @@ class integration_searchModel extends module
 	{
 		if(is_array($module_srls_list)) $module_srls_list = implode(',',$module_srls_list);
 
+		$args = new stdClass();
 		if($target == 'exclude')
 		{
 			$module_srls_list .= ',0'; // exclude 'trash'
@@ -71,6 +72,8 @@ class integration_searchModel extends module
 	 */
 	function getComments($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20)
 	{
+		$args = new stdClass();
+		
 		if(is_array($module_srls_list))
 		{
 			if (count($module_srls_list) > 0) $module_srls = implode(',',$module_srls_list); 
@@ -113,6 +116,8 @@ class integration_searchModel extends module
 	 */
 	function getTrackbacks($target, $module_srls_list, $search_target = "title", $search_keyword, $page=1, $list_count = 20)
 	{
+		$args = new stdClass();
+		
 		if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
 		else $module_srls = $module_srls_list;
 		if($target == 'exclude') $args->exclude_module_srl = $module_srls;
@@ -145,6 +150,8 @@ class integration_searchModel extends module
 	 */
 	function _getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, $direct_download = 'Y')
 	{
+		$args = new stdClass();
+		
 		if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
 		else $module_srls = $module_srls_list;
 		if($target == 'exclude') $args->exclude_module_srl = $module_srls;

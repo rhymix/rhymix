@@ -20,6 +20,7 @@ class trashModel extends trash
 		$oTrashVO = new TrashVO();
 		if(!$trashSrl) return $oTrashVO;
 
+		$args = new stdClass();
 		$args->trashSrl = $trashSrl;
 		$output = executeQuery('trash.getTrash', $args, $columnList);
 

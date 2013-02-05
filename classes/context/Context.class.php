@@ -1788,6 +1788,7 @@ class Context
 		is_a($this, 'Context') ? $self = $this : $self = Context::getInstance();
 
 		$args_list = func_get_args();
+		$output = new stdClass();
 		foreach($args_list as $v)
 		{
 			$output->{$v} = $self->get($v);

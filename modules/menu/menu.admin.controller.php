@@ -63,6 +63,7 @@ class menuAdminController extends menu
 	{
 		// List variables
 		$site_module_info = Context::get('site_module_info');
+		$args = new stdClass();
 		$args->site_srl = (int)$site_module_info->site_srl;
 		$args->title = Context::get('title');
 
@@ -86,6 +87,7 @@ class menuAdminController extends menu
 	function procMenuAdminUpdate()
 	{
 		// List variables
+		$args = new stdClass();
 		$args->title = Context::get('title');
 		$args->menu_srl = Context::get('menu_srl');
 
@@ -166,6 +168,7 @@ class menuAdminController extends menu
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
+		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
 
 		// Delete modules
@@ -346,6 +349,7 @@ class menuAdminController extends menu
 		// empty target shortcut
 		else
 		{
+			$args = new stdClass();
 			$args->menu_srl = $request->menu_srl;
 			$args->name = $request->menu_name;
 			$args->parent_srl = $request->parent_srl;
@@ -369,6 +373,7 @@ class menuAdminController extends menu
 		$oDB->begin();
 
 		// set menu variable
+		$args = new stdClass();
 		$args->menu_srl = $request->menu_srl;
 		$args->parent_srl = $request->parent_srl;
 		$args->open_window = $request->menu_open_window;
@@ -428,6 +433,7 @@ class menuAdminController extends menu
 	 */
 	private function _insertModule(&$request, &$args)
 	{
+		$cmArgs = new stdClass();
 		switch ($request->module_type)
 		{
 			case 'WIDGET' :
@@ -637,6 +643,7 @@ class menuAdminController extends menu
 	function procMenuAdminDeleteItem()
 	{
 		// argument variables
+		$args = new stdClass();
 		$args->menu_srl = Context::get('menu_srl');
 		$args->menu_item_srl = Context::get('menu_item_srl');
 		$args->is_force = Context::get('is_force');
@@ -753,6 +760,7 @@ class menuAdminController extends menu
 	private function _deleteMenuItem(&$oDB, &$menuInfo, $node)
 	{
 		// Remove from the DB
+		$args = new stdClass();
 		$args->menu_srl = $menuSrl;
 		$args->menu_item_srl = $node['node_srl'];
 		$output = executeQuery("menu.deleteMenuItem", $args);
@@ -996,6 +1004,7 @@ class menuAdminController extends menu
 		$menuItemInfo = $oMenuAdminModel->getMenuItemInfo($originMenu['node_srl']);
 
 		// default argument setting
+		$args = new stdClass();
 		$args->menu_srl = $menuSrl;
 		if($parentSrl == 0) $args->parent_srl = $menuSrl;
 		else $args->parent_srl = $parentSrl;
@@ -1021,6 +1030,7 @@ class menuAdminController extends menu
 			$args->layout_srl = $moduleInfo->layout_srl;
 
 			$oModuleAdminController = &getAdminController('module');
+			$copyArg = new stdClass();
 			$copyArg->module_srl = $moduleInfo->module_srl;
 			$copyArg->mid_1 = $args->module_id;
 			$copyArg->browser_title_1 = $moduleInfo->browser_title;
@@ -1095,6 +1105,7 @@ class menuAdminController extends menu
 	function procMenuAdminArrangeItem()
 	{
 		$this->menuSrl = Context::get('menu_srl');
+		$args = new stdClass();
 		$args->title = Context::get('title');
 		$parentKeyList = Context::get('parent_key');
 		$this->itemKeyList = Context::get('item_key');
@@ -1122,7 +1133,7 @@ class menuAdminController extends menu
 			{
 				if(!$this->checked[$srl])
 				{
-					unset($target);
+					$target = new stdClass();
 					$this->checked[$srl] = 1;
 					$target->node = $srl;
 					$target->child= array();
@@ -1165,6 +1176,7 @@ class menuAdminController extends menu
 		$child_srl = $this->itemKeyList[$child_index];
 		$this->checked[$child_srl] = 1;
 
+		$child_node = new stdClass();
 		$child_node->node = $child_srl;
 		$child_node->parent_node = $parent_srl;
 		$child_node->child = array();
@@ -1215,6 +1227,7 @@ class menuAdminController extends menu
 		// Move the menu location(change the order menu appears)
 		if($mode == 'move')
 		{
+			$args = new stdClass();
 			$args->parent_srl = $parent_srl;
 			$args->menu_srl = $menu_srl;
 
@@ -1498,7 +1511,9 @@ class menuAdminController extends menu
 		$xml_info = $oModuleModel->getModuleActionXML($moduleInfo->module);
 
 		$grantList = $xml_info->grant;
+		$grantList->access = new stdClass();
 		$grantList->access->default = 'guest';
+		$grantList->manager = new stdClass();
 		$grantList->manager->default = 'manager';
 
 		foreach($grantList AS $grantName=>$grantInfo)
@@ -1542,6 +1557,7 @@ class menuAdminController extends menu
 		// Return if there is no information when creating the xml file
 		if(!$menu_srl) return;
 		// Get menu informaton
+		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
 		$output = executeQuery('menu.getMenu', $args);
 		if(!$output->toBool() || !$output->data) return $output;
@@ -1591,7 +1607,7 @@ class menuAdminController extends menu
 			'$site_srl = '.$site_srl.';'.
 			'$site_admin = false;'.
 			'if($site_srl) { '.
-			'$oModuleModel = &getModel(\'module\');'.
+			'$oModuleModel = getModel(\'module\');'.
 			'$site_module_info = $oModuleModel->getSiteInfo($site_srl); '.
 			'if($site_module_info) Context::set(\'site_module_info\',$site_module_info);'.
 			'else $site_module_info = Context::get(\'site_module_info\');'.
@@ -1609,10 +1625,9 @@ class menuAdminController extends menu
 		// Create the xml cache file (a separate session is needed for xml cache)
 		$xml_buff = sprintf(
 			'<?php '.
-			'define(\'__ZBXE__\', true); '.
 			'define(\'__XE__\', true); '.
 			'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
-			'$oContext = &Context::getInstance(); '.
+			'$oContext = Context::getInstance(); '.
 			'$oContext->init(); '.
 			'header("Content-Type: text/xml; charset=UTF-8"); '.
 			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
@@ -1631,8 +1646,8 @@ class menuAdminController extends menu
 		$php_output = $this->getPhpCacheCode($tree[0], $tree, $site_srl, $domain);
 		$php_buff = sprintf(
 			'<?php '.
-			'if(!defined("__ZBXE__")) exit(); '.
 			'if(!defined("__XE__")) exit(); '.
+			'$menu = new stdClass();' .
 			'%s; '.
 			'%s; '.
 			'$menu->list = array(%s); '.

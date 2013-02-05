@@ -93,6 +93,7 @@ class counterModel extends counter
 		if(is_array($selected_date))
 		{
 			$date_count = count($selected_date);
+			$args = new stdClass();
 			$args->regdate = implode(',',$selected_date);
 			// If a single date log is selected
 		}
@@ -154,7 +155,7 @@ class counterModel extends counter
 				if(!$start_year) $start_year = date("Y");
 				for($i=$start_year;$i<=date("Y");$i++)
 				{
-					unset($args);
+					$args = new stdClass();
 					$args->start_date = sprintf('%04d0000', $i);
 					$args->end_date = sprintf('%04d1231', $i);
 					if($site_srl)
@@ -197,7 +198,7 @@ class counterModel extends counter
 				asort($thisWeek);
 				foreach($thisWeek as $day)
 				{
-					unset($args);
+					$args = new stdClass();
 					$args->start_date = $day;
 					$args->end_date = $day;
 					if($site_srl)
@@ -227,7 +228,7 @@ class counterModel extends counter
 				$year = substr($selected_date, 0, 4);
 				for($i=1;$i<=12;$i++)
 				{
-					unset($args);
+					$args = new stdClass();
 					$args->start_date = sprintf('%04d%02d00', $year, $i);
 					$args->end_date = sprintf('%04d%02d31', $year, $i);
 					if($site_srl)
@@ -256,7 +257,7 @@ class counterModel extends counter
 			case 'hour' :
 				for($i=0;$i<24;$i++)
 				{
-					unset($args);
+					$args = new stdClass();
 					$args->start_date = sprintf('%08d%02d0000', $selected_date, $i);
 					$args->end_date = sprintf('%08d%02d5959', $selected_date, $i);
 					if($site_srl)
@@ -281,7 +282,7 @@ class counterModel extends counter
 				$end_day = date('t', mktime(0,0,0,$month,1,$year));
 				for($i=1;$i<=$end_day;$i++)
 				{
-					unset($args);
+					$args = new stdClass();
 					$args->start_date = sprintf('%04d%02d%02d', $year, $month, $i);
 					$args->end_date = sprintf('%04d%02d%02d', $year, $month, $i);
 					if($site_srl)

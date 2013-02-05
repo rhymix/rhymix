@@ -67,6 +67,11 @@ class widgetModel extends widget
 			// Wanted information on the Widget
 			$widget_info = $this->getWidgetInfo($widget);
 
+			if(!$widget_info)
+			{
+				$widget_info = new stdClass();
+			}
+
 			// get easyinstall remove url
 			$packageSrl = $oAutoinstallModel->getPackageSrlByPath($widget_info->path);
 			$widget_info->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);

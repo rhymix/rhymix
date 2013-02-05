@@ -399,6 +399,7 @@ class adminAdminModel extends admin
 		$xml_obj = $_xml_obj->theme;
 
 		// 스킨이름
+		$theme_info = new stdClass();
 		$theme_info->name = $theme_name;
 		$theme_info->title = $xml_obj->title->body;
 		$thumbnail = './themes/'.$theme_name.'/thumbnail.png';
@@ -414,7 +415,7 @@ class adminAdminModel extends admin
 
 		foreach($publisher_list as $publisher)
 		{
-			unset($publisher_obj);
+			$publisher_obj = new stdClass();
 			$publisher_obj->name = $publisher->name->body;
 			$publisher_obj->email_address = $publisher->attrs->email_address;
 			$publisher_obj->homepage = $publisher->attrs->link;
@@ -424,6 +425,7 @@ class adminAdminModel extends admin
 		$layout = $xml_obj->layout;
 		$layout_path = $layout->directory->attrs->path;
 		$layout_parse = explode('/',$layout_path);
+		$layout_info = new stdClass();
 		switch($layout_parse[1])
 		{
 			case 'themes' :
@@ -462,6 +464,7 @@ class adminAdminModel extends admin
 		if ($is_new_layout)
 		{
 			$site_module_info = Context::get('site_module_info');
+			$args = new stdClass();
 			$args->site_srl = (int)$site_module_info->site_srl;
 			$args->layout_srl = getNextSequence();
 			$args->layout = $layout_info->name;
@@ -483,7 +486,7 @@ class adminAdminModel extends admin
 		$skins = array();
 		foreach($skin_list as $val)
 		{
-			unset($skin_info);
+			$skin_info = new stdClass();
 			unset($skin_parse);
 			$skin_parse = explode('/',$val->directory->attrs->path);
 			switch($skin_parse[1])
@@ -605,6 +608,7 @@ class adminAdminModel extends admin
 	 */
 	function getFavoriteList($siteSrl = 0, $isGetModuleInfo = false)
 	{
+		$args = new stdClass();
 		$args->site_srl = $siteSrl;
 		$output = executeQueryArray('admin.getFavoriteList', $args);
 		if(!$output->toBool()) return $output;
@@ -634,6 +638,7 @@ class adminAdminModel extends admin
 	 */
 	function isExistsFavorite($siteSrl, $module)
 	{
+		$args = new stdClass();
 		$args->site_srl = $siteSrl;
 		$args->module = $module;
 		$output = executeQuery('admin.getFavorite', $args);

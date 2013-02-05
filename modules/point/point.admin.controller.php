@@ -308,7 +308,7 @@ class pointAdminController extends point
 			{
 				list($member_srl, $point) = explode(',',$str);
 
-				$args = null;
+				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$args->point = $point;
 				$output = executeQuery('point.insertPoint',$args);
@@ -349,7 +349,7 @@ class pointAdminController extends point
 		{
 			$srl = trim($module_srl[$i]);
 			if(!$srl) continue;
-			unset($args);
+			$args = new stdClass();
 			$args->module = 'point';
 			$args->module_srl = $srl;
 			executeQuery('module.deleteModulePartConfig', $args);

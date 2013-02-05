@@ -99,10 +99,12 @@ class editorView extends editor
 		Context::set('editor_comment_colorset_list', $skin_info->colorset);
 
 		$contents = FileHandler::readDir(_XE_PATH_.'modules/editor/styles');
+		$content_style_list = array();
 		for($i=0,$c=count($contents);$i<$c;$i++)
 		{
 			$style = $contents[$i];
 			$info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
+			$content_style_list[$style] = new stdClass();
 			$content_style_list[$style]->title = $info->title;
 		}			
 		Context::set('content_style_list', $content_style_list);
@@ -152,6 +154,7 @@ class editorView extends editor
 
 		if($mode != 'main')
 		{
+			$option_com = new stdClass();
 			$option_com->allow_fileupload = false;
 			$option_com->content_style = $config->content_style;
 			$option_com->content_font = $config->content_font;
@@ -170,6 +173,7 @@ class editorView extends editor
 		}
 		else
 		{
+			$option = new stdClass();
 			$option->allow_fileupload = false;
 			$option->content_style = $config->content_style;
 			$option->content_font = $config->content_font;

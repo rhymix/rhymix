@@ -63,6 +63,7 @@ class fileAdminModel extends file
 	 */
 	function getFileList($obj, $columnList = array())
 	{
+		$args = new stdClass();
 		$this->_makeSearchParam($obj, $args);
 
 		// Set valid/invalid state

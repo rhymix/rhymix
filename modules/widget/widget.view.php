@@ -73,6 +73,7 @@ class widgetView extends widget
 		$module_categories = $oModuleModel->getModuleCategories();
 		// Get a mid list
 		$site_module_info = Context::get('site_module_info');
+		$args = new stdClass();
 		$args->site_srl = $site_module_info->site_srl;
 		$columnList = array('module_srl', 'module_category_srl', 'browser_title', 'mid');
 		$mid_list = $oModuleModel->getMidList($args, $columnList);
@@ -90,6 +91,7 @@ class widgetView extends widget
 		}
 		else
 		{
+			$module_categories[0] = new stdClass();
 			$module_categories[0]->list = $mid_list;
 		}
 

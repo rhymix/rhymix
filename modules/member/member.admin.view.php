@@ -153,6 +153,7 @@ class memberAdminView extends member
 		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
 
 		// get an editor
+		$option = new stdClass();
 		$option->primary_key_name = 'temp_srl';
 		$option->content_key_name = 'agreement';
 		$option->allow_fileupload = false;
@@ -332,13 +333,17 @@ class memberAdminView extends member
 		$oMemberModel = &getModel('member');
 
 		$memberInfo = Context::get('member_info');
-		$memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);
+		if(isset($memberInfo))
+		{
+			$memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);
+		}
 		Context::set('member_info', $memberInfo);
 
 		// get an editor for the signature
 		if($memberInfo->member_srl)
 		{
 			$oEditorModel = &getModel('editor');
+			$option = new stdClass();
 			$option->primary_key_name = 'member_srl';
 			$option->content_key_name = 'signature';
 			$option->allow_fileupload = false;
@@ -360,6 +365,7 @@ class memberAdminView extends member
 		$member_config = $this->memberConfig;
 
 		global $lang;
+		$identifierForm = new stdClass();
 		$identifierForm->title = $lang->{$member_config->identifier};
 		$identifierForm->name = $member_config->identifier;
 		$identifierForm->value = $memberInfo->{$member_config->identifier};
@@ -398,7 +404,7 @@ class memberAdminView extends member
 		{
 			if(!$formInfo->isUse)continue;
 			if($formInfo->name == $member_config->identifier || $formInfo->name == 'password') continue;
-			unset($formTag);
+			$formTag = new stdClass();
 			$inputTag = '';
 			$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
 			if($isAdmin)

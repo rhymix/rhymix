@@ -33,7 +33,7 @@ class editorModel extends editor
 		$oModuleModel = &getModel('module');
 		$editor_default_config = $oModuleModel->getModuleConfig('editor');
 
-		if(!is_object($editor_config)) $editor_config = null;
+		if(!is_object($editor_config)) $editor_config = new stdClass();
 
 		if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
 		if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
@@ -368,6 +368,9 @@ class editorModel extends editor
 	{
 		// Get editor settings of the module
 		$editor_config = $this->getEditorConfig($module_srl);
+
+		$config = new stdClass();
+		
 		// Configurations listed according to a type
 		if($type == 'document')
 		{
@@ -408,6 +411,7 @@ class editorModel extends editor
 			$group_list = array();
 		}
 		// Pre-set option variables of editor
+		$option = new stdClass();
 		$option->skin = $config->editor_skin;
 		$option->content_style = $config->content_style;
 		$option->content_font = $config->content_font;
@@ -488,6 +492,7 @@ class editorModel extends editor
 	 */
 	function getSavedDoc($upload_target_srl)
 	{
+		$auto_save_args = new stdClass();
 		// Find a document by using member_srl for logged-in user and ipaddress for non-logged user
 		if(Context::get('is_logged'))
 		{
@@ -658,6 +663,7 @@ class editorModel extends editor
 	 */
 	function getComponent($component_name, $site_srl = 0)
 	{
+		$args =new stdClass();
 		$args->component_name = $component_name;
 
 		if($site_srl)
@@ -732,6 +738,7 @@ class editorModel extends editor
 		// Component information listed
 		if($xml_doc->component->version && $xml_doc->component->attrs->version == '0.2')
 		{
+			$component_info = new stdClass();
 			$component_info->component_name = $component;
 			$component_info->title = $xml_doc->component->title->body;
 			$component_info->description = str_replace('\n', "\n", $xml_doc->component->description->body);
@@ -742,6 +749,7 @@ class editorModel extends editor
 			$component_info->license_link = $xml_doc->component->license->attrs->link;
 
 			$buff = '<?php if(!defined("__ZBXE__")) exit(); ';
+			$buff .= '$xml_info = new stdClass();';
 			$buff .= sprintf('$xml_info->component_name = "%s";', $component_info->component_name);
 			$buff .= sprintf('$xml_info->title = "%s";', $component_info->title);
 			$buff .= sprintf('$xml_info->description = "%s";', $component_info->description);
@@ -756,6 +764,7 @@ class editorModel extends editor
 
 			for($i=0; $i < count($author_list); $i++)
 			{
+				$buff .= '$xml_info->author[' . $i .']= new stdClass();';
 				$buff .= sprintf('$xml_info->author['.$i.']->name = "%s";', $author_list[$i]->name->body);
 				$buff .= sprintf('$xml_info->author['.$i.']->email_address = "%s";', $author_list[$i]->attrs->email_address);
 				$buff .= sprintf('$xml_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
@@ -772,6 +781,7 @@ class editorModel extends editor
 					unset($obj);
 					sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
 					$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+					$buff .= '$xml_info->history[' . $i . '] = new stdClass();';
 					$buff .= sprintf('$xml_info->history['.$i.']->description = "%s";', $history_list[$i]->description->body);
 					$buff .= sprintf('$xml_info->history['.$i.']->version = "%s";', $history_list[$i]->attrs->version);
 					$buff .= sprintf('$xml_info->history['.$i.']->date = "%s";', $date);
@@ -782,6 +792,7 @@ class editorModel extends editor
 
 						for($j=0; $j < count($obj->author_list); $j++)
 						{
+							$buff .= '$xml_info->history[' . $i . ']->author[' . $j . '] = new stdClass();';
 							$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->name = "%s";', $obj->author_list[$j]->name->body);
 							$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->email_address = "%s";', $obj->author_list[$j]->attrs->email_address);
 							$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->homepage = "%s";', $obj->author_list[$j]->attrs->link);
@@ -794,6 +805,7 @@ class editorModel extends editor
 
 						for($j=0; $j < count($obj->log_list); $j++)
 						{
+							$buff .= '$xml_info->history[' . $i . ']->log[' . $j . '] = new stdClass();';
 							$buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->text = "%s";', $obj->log_list[$j]->body);
 							$buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->link = "%s";', $obj->log_list[$j]->attrs->link);
 						}
@@ -805,6 +817,7 @@ class editorModel extends editor
 		{
 			sscanf($xml_doc->component->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+			$xml_info = new stdClass();
 			$xml_info->component_name = $component;
 			$xml_info->title = $xml_doc->component->title->body;
 			$xml_info->description = str_replace('\n', "\n", $xml_doc->component->author->description->body);
@@ -815,6 +828,7 @@ class editorModel extends editor
 			$xml_info->author->homepage = $xml_doc->component->author->attrs->link;
 
 			$buff = '<?php if(!defined("__ZBXE__")) exit(); ';
+			$buff .= '$xml_info = new stdClass();';
 			$buff .= sprintf('$xml_info->component_name = "%s";', $xml_info->component_name);
 			$buff .= sprintf('$xml_info->title = "%s";', $xml_info->title);
 			$buff .= sprintf('$xml_info->description = "%s";', $xml_info->description);
@@ -838,6 +852,7 @@ class editorModel extends editor
 				$xml_info->extra_vars->{$key}->title = $title;
 				$xml_info->extra_vars->{$key}->description = $description;
 
+				$buff .= sprintf('$xml_info->extra_vars->%s = new stdClass();', $key);
 				$buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'title', $title);
 				$buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'description', $description);
 			}

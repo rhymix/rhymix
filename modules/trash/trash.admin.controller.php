@@ -193,6 +193,7 @@ class trashAdminController extends trash
 		if(count($trashSrlList) > 0)
 		{
 			$oTrashModel = &getModel('trash');
+			$args = new stdClass();
 			$args->trashSrl = $trashSrlList;
 			$output = $oTrashModel->getTrashList($args);
 			$trashList = $output->data;
@@ -215,6 +216,7 @@ class trashAdminController extends trash
 	function _emptyTrash($trashSrls)
 	{
 		if(!is_array($trashSrls)) return false;
+		$args = new stdClass();
 		$args->trashSrls = $trashSrls;
 		$output = executeQuery('trash.deleteTrash', $args);
 		if(!$output->toBool()) return false;

@@ -139,7 +139,7 @@ class autoinstallAdminController extends autoinstall
 				$version = $xmlDoc->{$type}->version->body;
 			}
 
-			$args = null;
+			$args = new stdClass();
 			$args->package_srl = $package->package_srl;
 			$args->version = $package->version;
 			$args->current_version = $version;
@@ -269,7 +269,7 @@ class autoinstallAdminController extends autoinstall
 		$list_order = 0;
 		foreach($xmlDoc->response->categorylist->item as $item)
 		{
-			$args = null;
+			$args = new stdClass();
 			$args->category_srl = $item->category_srl->body;
 			$args->parent_srl = $item->parent_srl->body;
 			$args->title = $item->title->body;

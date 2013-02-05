@@ -82,11 +82,12 @@ class layoutView extends layout
 
 				$oModule = ModuleHandler::getModuleInstance($module, $type);
 				$oModule->setAct($xml_info->default_index_act);
+				$module_info = new stdClass();
 				$module_info->module = $module;
 				$module_info->module_type = $type;
 				$module_info->page_type = $page_type;
 				$module_info->document_srl= $document_srl;
-				$oModule->setModuleInfo($this->module_info, $xml_info);
+				$oModule->setModuleInfo($module_info, $xml_info);
 				$oModule->proc();
 			}
 			else

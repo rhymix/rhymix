@@ -65,7 +65,7 @@ class content extends WidgetHandler
 			// Apply to all modules in the site if a target module is not specified
 			if(!$args->module_srls)
 			{
-				unset($obj);
+				$obj = new stdClass();
 				$obj->site_srl = (int)$site_module_info->site_srl;
 				$output = executeQueryArray('widgets.content.getMids', $obj);
 				if($output->data)
@@ -223,6 +223,7 @@ class content extends WidgetHandler
 		// Get model object from the document module
 		$oDocumentModel = &getModel('document');
 		// Get categories
+		$obj = new stdClass();
 		$obj->module_srl = $args->module_srl;
 		$output = executeQueryArray('widgets.content.getCategories',$obj);
 		if($output->toBool() && $output->data)
@@ -701,6 +702,7 @@ class content extends WidgetHandler
 	{
 		$oTemplate = &TemplateHandler::getInstance();
 		// Set variables for widget
+		$widget_info = new stdClass();
 		$widget_info->modules_info = $args->modules_info;
 		$widget_info->option_view_arr = $args->option_view_arr;
 		$widget_info->list_count = $args->list_count;

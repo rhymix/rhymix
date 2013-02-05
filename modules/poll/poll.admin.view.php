@@ -39,6 +39,7 @@ class pollAdminView extends poll
 			}
 		}
 		// Options to get a list of pages
+		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->list_count = 50; // The number of posts to show on one page
 		$args->page_count = 10; // The number of pages to display in the page navigation

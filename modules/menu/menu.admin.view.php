@@ -174,6 +174,7 @@ class menuAdminView extends menu
 					}
 
 					//array_push($menuList, $value->xml_file);
+					$menuItems = new stdClass();
 					$menuItems->menuSrl = $value->menu_srl;
 					$menuItems->title = $value->title;
 					$menuItems->menuItems = $menu;
@@ -214,6 +215,7 @@ class menuAdminView extends menu
 			$groupList = array();
 			foreach($output AS $key=>$value)
 			{
+				$groupList[$value->group_srl] = new stdClass();
 				$groupList[$value->group_srl]->group_srl = $value->group_srl;
 				$groupList[$value->group_srl]->title = $value->title;
 			}

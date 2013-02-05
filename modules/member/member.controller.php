@@ -127,6 +127,7 @@ class memberController extends member
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		// Variables
+		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$args->member_srl = $logged_info->member_srl;
 		$args->user_id = $oDocument->get('user_id');
@@ -879,6 +880,7 @@ class memberController extends member
 			if($output->toBool() && $output->data->count != '0') return new Object(-1, 'msg_user_not_confirmed');
 		}
 		// Insert data into the authentication DB
+		$args = new stdClass();
 		$args->user_id = $member_info->user_id;
 		$args->member_srl = $member_info->member_srl;
 		$args->new_password = rand(111111,999999);
@@ -1405,6 +1407,7 @@ class memberController extends member
 	 */
 	function addMemberToGroup($member_srl,$group_srl,$site_srl=0)
 	{
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->group_srl = $group_srl;
 		if($site_srl) $args->site_srl = $site_srl;
@@ -1565,6 +1568,7 @@ class memberController extends member
 		$user_id = strtolower($user_id);
 		if(!$user_id) return new Object(-1, 'null_user_id');
 		// Call a trigger before log-in (before)
+		$trigger_obj = new stdClass();
 		$trigger_obj->user_id = $user_id;
 		$trigger_obj->password = $password;
 		$trigger_output = ModuleHandler::triggerCall('member.doLogin', 'before', $trigger_obj);
@@ -1574,6 +1578,7 @@ class memberController extends member
 
 		// check IP access count.
 		$config = $oMemberModel->getMemberConfig();
+		$args = new stdClass();
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$output = executeQuery('member.getLoginCountByIp', $args);
 		$count = (int)$output->data->count;
@@ -2105,6 +2110,7 @@ class memberController extends member
 	function deleteMember($member_srl)
 	{
 		// Call a trigger (before)
+		$tirgger_obj = new stdClass();
 		$trigger_obj->member_srl = $member_srl;
 		$output = ModuleHandler::triggerCall('member.deleteMember', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
@@ -2123,6 +2129,7 @@ class memberController extends member
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		// Delete the entries in member_auth_mail
 		$output = executeQuery('member.deleteAuthMail', $args);
@@ -2195,6 +2202,7 @@ class memberController extends member
 
 		if($memberSrl || $_COOKIE['xeak'])
 		{
+			$args = new stdClass();
 			$args->member_srl = $memberSrl;
 			$args->autologin_key = $_COOKIE['xeak'];
 			$output = executeQuery('member.deleteAutologin', $args);

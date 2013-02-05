@@ -37,6 +37,7 @@ class layout extends ModuleObject
 
 		if(!$oDB->isColumnExists('layouts', 'layout_type')) return true;
 
+		$args = new stdClass();
 		$args->layout = '.';
 		$output = executeQueryArray('layout.getLayoutDotList', $args);
 		if($output->data && count($output->data) > 0)

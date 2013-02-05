@@ -195,6 +195,7 @@ class memberAdminController extends member
 
 		if($args->redirect_url)
 		{
+			$tmpArgs = new stdClass();
 			$tmpArgs->menu_item_srl = (int)$args->redirect_url;
 			$output = executeQuery('module.getModuleInfoByMenuItemSrl', $tmpArgs);
 
@@ -219,7 +220,7 @@ class memberAdminController extends member
 		$extendItems = $oMemberModel->getJoinFormList();
 		foreach($list_order as $key)
 		{
-			unset($signupItem);
+			$signupItem = new stdClass();
 			$signupItem->isIdentifier = ($key == $all_args->identifier);
 			$signupItem->isDefaultForm = in_array($key, $items);
 
@@ -617,6 +618,7 @@ class memberAdminController extends member
 	 */
 	function procMemberAdminInsertJoinForm() 
 	{
+		$args = new stdClass();
 		$args->member_join_form_srl = Context::get('member_join_form_srl');
 
 		$args->column_type = Context::get('column_type');
@@ -664,6 +666,7 @@ class memberAdminController extends member
 		if(!$output->toBool()) return $output;
 
 		// memberConfig update
+		$signupItem = new stdClass();
 		$signupItem->name = $args->column_name;
 		$signupItem->title = $args->column_title;
 		$signupItem->type = $args->column_type;
@@ -773,7 +776,7 @@ class memberAdminController extends member
 		$oMemberController = &getController('member');
 		foreach($members as $key=>$member_srl)
 		{
-			unset($args);
+			$args = new stdClass();
 			$args->member_srl = $member_srl; 
 			switch($var->type)
 			{
@@ -1150,7 +1153,7 @@ class memberAdminController extends member
 		$group_srls = $vars->group_srls;
 		foreach($group_srls as $order=>$group_srl)
 		{
-			unset($update_args);
+			$update_args = new stdClass();
 			$update_args->title = $vars->group_titles[$order];
 			$update_args->is_default = ($vars->defaultGroup == $group_srl)?'Y':'N';
 			$update_args->description = $vars->descriptions[$order];
@@ -1198,6 +1201,7 @@ class memberAdminController extends member
 	 */
 	function insertDeniedID($user_id, $description = '')
 	{
+		$args = new stdClass();
 		$args->user_id = $user_id;
 		$args->description = $description;
 		$args->list_order = -1*getNextSequence();
@@ -1207,6 +1211,7 @@ class memberAdminController extends member
 
 	function insertDeniedNickName($nick_name, $description = '')
 	{
+		$args = new stdClass();
 		$args->nick_name = $nick_name;
 		$args->description = $description;
 
@@ -1242,6 +1247,7 @@ class memberAdminController extends member
 	 */
 	function deleteJoinForm($member_join_form_srl)
 	{
+		$args = new stdClass();
 		$args->member_join_form_srl = $member_join_form_srl;
 		$output = executeQuery('member.deleteJoinForm', $args);
 		return $output;

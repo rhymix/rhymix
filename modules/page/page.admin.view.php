@@ -51,6 +51,7 @@ class pageAdminView extends page
 	 */
 	function dispPageAdminContent()
 	{
+		$args = new stdClass();
 		$args->sort_index = "module_srl";
 		$args->page = Context::get('page');
 		$args->list_count = 40;

@@ -80,7 +80,7 @@ class autoinstallAdminView extends autoinstall
 	 */
 	function rearrange(&$item, &$targets)
 	{
-		$ret = null;
+		$ret = new stdClass();
 		foreach($targets as $target)
 		{
 			$ret->{$target} = $item->{$target}->body;
@@ -308,6 +308,7 @@ class autoinstallAdminView extends autoinstall
 		if($xmlDoc)
 		{
 			$xmlPackage =& $xmlDoc->response->package;
+			$package = new stdClass();
 			$package->package_srl = $xmlPackage->package_srl->body;
 			$package->title = $xmlPackage->title->body;
 			$package->package_description = $xmlPackage->package_description->body;
@@ -319,7 +320,7 @@ class autoinstallAdminView extends autoinstall
 				$package->depends = array();
 				foreach($xmlPackage->depends->item as $item)
 				{
-					$dep_item = null;
+					$dep_item = new stdClass();
 					$dep_item->package_srl = $item->package_srl->body;
 					$dep_item->title = $item->title->body;
 					$dep_item->version = $item->version->body;

@@ -20,6 +20,7 @@ class moduleController extends module
 	 */
 	function insertActionForward($module, $type, $act)
 	{
+		$args = new stdClass();
 		$args->module = $module;
 		$args->type = $type;
 		$args->act = $act;
@@ -33,6 +34,7 @@ class moduleController extends module
 	 */
 	function deleteActionForward($module, $type, $act)
 	{
+		$args = new stdClass();
 		$args->module = $module;
 		$args->type = $type;
 		$args->act = $act;
@@ -48,6 +50,7 @@ class moduleController extends module
 	 */
 	function insertTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
+		$args = new stdClass();
 		$args->trigger_name = $trigger_name;
 		$args->module = $module;
 		$args->type = $type;
@@ -76,6 +79,7 @@ class moduleController extends module
 	 */
 	function deleteTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
+		$args = new stdClass();
 		$args->trigger_name = $trigger_name;
 		$args->module = $module;
 		$args->type = $type;
@@ -144,6 +148,7 @@ class moduleController extends module
 
 	function updateModuleConfig($module, $config, $site_srl = 0)
 	{
+		$args = new stdClass();
 		$args->module = $module;
 		$args->site_srl = $site_srl;
 
@@ -164,6 +169,7 @@ class moduleController extends module
 	 */
 	function insertModuleConfig($module, $config, $site_srl = 0)
 	{
+		$args =new stdClass();
 		$args->module = $module;
 		$args->config = serialize($config);
 		$args->site_srl = $site_srl;
@@ -189,6 +195,7 @@ class moduleController extends module
 	 */
 	function insertModulePartConfig($module, $module_srl, $config)
 	{
+		$args = new stdClass();
 		$args->module = $module;
 		$args->module_srl = $module_srl;
 		$args->config = serialize($config);
@@ -338,6 +345,7 @@ class moduleController extends module
 		// Get colorset from the skin information
 		$module_path = ModuleHandler::getModulePath($args->module);
 		$skin_info = $oModuleModel->loadSkinInfo($module_path, $args->skin);
+		$skin_vars = new stdClass();
 		$skin_vars->colorset = $skin_info->colorset[0]->name;
 		// Arrange variables and then execute a query
 		if(!$args->module_srl) $args->module_srl = getNextSequence();
@@ -506,6 +514,7 @@ class moduleController extends module
 
 		$oModuleModel = &getModel('module');
 		$output = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$args = new stdClass();
 		$args->url = $output->mid;
 		$args->is_shortcut = 'N';
 		$args->site_srl = $site_module_info->site_srl;
@@ -555,6 +564,7 @@ class moduleController extends module
 		if($module_srl == $start_module->index_module_srl) return new Object(-1, 'msg_cannot_delete_startmodule');
 
 		// Call a trigger (before)
+		$trigger_obj = new stdClass();
 		$trigger_obj->module_srl = $module_srl;
 		$output = ModuleHandler::triggerCall('module.deleteModule', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
@@ -563,6 +573,7 @@ class moduleController extends module
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		// Delete module information from the DB
 		$output = executeQuery('module.deleteModule', $args);
@@ -703,6 +714,7 @@ class moduleController extends module
 			$member_info = $oMemberModel->getMemberInfoByUserID($admin_id);
 
 		if(!$member_info->member_srl) return;
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$args->member_srl = $member_info->member_srl;
 		return executeQuery('module.insertAdminId', $args);
@@ -713,6 +725,7 @@ class moduleController extends module
 	 */
 	function deleteAdminId($module_srl, $admin_id = '')
 	{
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 
 		if($admin_id)
@@ -820,6 +833,7 @@ class moduleController extends module
 	 */
 	function _deleteModuleSkinVars($module_srl, $mode)
 	{
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$mode = $mode === 'P' ? 'P' : 'M';
 
@@ -854,7 +868,7 @@ class moduleController extends module
 
 		foreach($obj as $key => $val)
 		{
-			$args = null;
+			$args = new stdClass();
 			$args->module_srl = $module_srl;
 			$args->name = trim($key);
 			$args->value = trim($val);
@@ -868,6 +882,7 @@ class moduleController extends module
 	 */
 	function deleteModuleExtraVars($module_srl)
 	{
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		return executeQuery('module.deleteModuleExtraVars', $args);
 		//remove from cache
@@ -893,7 +908,7 @@ class moduleController extends module
 
 			foreach($val as $group_srl)
 			{
-				$args = null;
+				$args = new stdClass();
 				$args->module_srl = $module_srl;
 				$args->name = $name;
 				$args->group_srl = trim($group_srl);
@@ -908,6 +923,7 @@ class moduleController extends module
 	 */
 	function deleteModuleGrants($module_srl)
 	{
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		return executeQuery('module.deleteModuleGrants', $args);
 	}
@@ -1111,6 +1127,7 @@ class moduleController extends module
 
 		$module_filebox_srl = Context::get('module_filebox_srl');
 		if(!$module_filebox_srl) return new Object(-1, 'msg_invalid_request');
+		$vars = new stdClass();
 		$vars->module_filebox_srl = $module_filebox_srl;
 		$output = $this->deleteModuleFileBox($vars);
 		if(!$output->toBool()) return $output;
@@ -1123,6 +1140,7 @@ class moduleController extends module
 		$output = $oModuleModel->getModuleFileBox($vars->module_filebox_srl);
 		FileHandler::removeFile($output->data->filename);
 
+		$args = new stdClass();
 		$args->module_filebox_srl = $vars->module_filebox_srl;
 		return executeQuery('module.deleteModuleFileBox', $args);
 	}

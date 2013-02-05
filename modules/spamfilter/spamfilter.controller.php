@@ -147,13 +147,13 @@ class spamfilterController extends spamfilter
 	 */
 	function insertIP($ipaddress_list, $description = null)
 	{
-		print_r($ipaddress_list);
 		$regExr = "/^((\d{1,3}(?:.(\d{1,3}|\*)){3})\s*(\/\/(.*)\s*)?)*\s*$/";
 		if(!preg_match($regExr,$ipaddress_list)) return new Object(-1, 'msg_invalid');
 		$ipaddress_list = str_replace("\r","",$ipaddress_list);
 		$ipaddress_list = explode("\n",$ipaddress_list);
 		foreach($ipaddress_list as $ipaddressValue)
 		{
+			$args = new stdClass();
 			preg_match("/(\d{1,3}(?:.(\d{1,3}|\*)){3})\s*(\/\/(.*)\s*)?/",$ipaddressValue,$matches);
 			if($ipaddress=trim($matches[1]))
 			{

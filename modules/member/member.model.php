@@ -262,6 +262,7 @@ class memberModel extends member
 	{
 		if(!$email_address) return;
 
+		$args = new stdClass();
 		$args->email_address = $email_address;
 		$output = executeQuery('member.getMemberInfoByEmailAddress', $args);
 		if(!$output->toBool()) return $output;
@@ -290,6 +291,7 @@ class memberModel extends member
 
 			if(!$GLOBALS['__member_info__'][$member_srl])
 			{
+				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$output = executeQuery('member.getMemberInfoByMemberSrl', $args, $columnList);
 				if(!$output->data) return;
@@ -370,6 +372,7 @@ class memberModel extends member
 	 */
 	function getMemberSrlByUserID($user_id)
 	{
+		$args = new stdClass();
 		$args->user_id = $user_id;
 		$output = executeQuery('member.getMemberSrl', $args);
 		return $output->data->member_srl;
@@ -380,6 +383,7 @@ class memberModel extends member
 	 */
 	function getMemberSrlByEmailAddress($email_address)
 	{
+		$args = new stdClass();
 		$args->email_address = $email_address;
 		$output = executeQuery('member.getMemberSrl', $args);
 		return $output->data->member_srl;
@@ -390,6 +394,7 @@ class memberModel extends member
 	 */
 	function getMemberSrlByNickName($nick_name)
 	{
+		$args = new stdClass();
 		$args->nick_name = $nick_name;
 		$output = executeQuery('member.getMemberSrl', $args);
 		return $output->data->member_srl;
@@ -431,6 +436,7 @@ class memberModel extends member
 		{
 			if(!$output)
 			{
+				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$args->site_srl = $site_srl;
 				$output = executeQuery('member.getMemberGroups', $args);
@@ -475,6 +481,7 @@ class memberModel extends member
 	 */
 	function getDefaultGroup($site_srl = 0, $columnList = array())
 	{
+		$args = new stdClass();
 		$args->site_srl = $site_srl;
 		$output = executeQuery('member.getDefaultGroup', $args, $columnList);
 		return $output->data;
@@ -512,6 +519,7 @@ class memberModel extends member
 			{
 				$site_srl = 0;
 			}
+			$args = new stdClass();
 			$args->site_srl = $site_srl;
 			$args->sort_index = 'list_order';
 			$args->order_type = 'asc';
@@ -557,6 +565,7 @@ class memberModel extends member
 		if(!$this->join_form_list)
 		{
 			// Argument setting to sort list_order column
+			$args = new stdClass();
 			$args->sort_index = "list_order";
 			$output = executeQuery('member.getJoinFormList', $args);
 			// NULL if output data deosn't exist
@@ -624,6 +633,7 @@ class memberModel extends member
 	 */
 	function getUsedJoinFormList()
 	{
+		$args = new stdClass();
 		$args->sort_index = "list_order";
 		$output = executeQueryArray('member.getJoinFormList', $args);
 
@@ -756,6 +766,7 @@ class memberModel extends member
 	 */
 	function isDeniedID($user_id)
 	{
+		$args = new stdClass();
 		$args->user_id = $user_id;
 		$output = executeQuery('member.chkDeniedID', $args);
 		if($output->data->count) return true;
@@ -767,6 +778,7 @@ class memberModel extends member
 	 */
 	function isDeniedNickName($nickName) 
 	{
+		$args = new stdClass();
 		$args->nick_name = $nickName;
 		$output = executeQuery('member.chkDeniedNickName', $args);
 		if($output->data->count) return true;
@@ -876,6 +888,7 @@ class memberModel extends member
 					{
 						if($group_info->image_mark)
 						{
+							$info = new stdClass();
 							$info->title = $group_info->title;
 							$info->description = $group_info->description;
 							$info->src = $group_info->image_mark;

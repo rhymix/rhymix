@@ -28,6 +28,11 @@ class editorAdminView extends editor
 		$oModuleModel = &getModel('module');
 		$editor_config = $oModuleModel->getModuleConfig('editor');
 
+		if(!$editor_config)
+		{
+			$editor_config = new stdClass();
+		}
+
 		//editor_config init
 		if(!$editor_config->editor_height) $editor_config->editor_height = 300;
 		if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 100;
@@ -42,10 +47,12 @@ class editorAdminView extends editor
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);
 
 		$contents = FileHandler::readDir(_XE_PATH_.'modules/editor/styles');
+		$content_style_list = array();
 		for($i=0,$c=count($contents);$i<$c;$i++)
 		{
 			$style = $contents[$i];
 			$info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
+			$content_style_list[$style] = new stdClass();
 			$content_style_list[$style]->title = $info->title;
 		}
 
@@ -71,6 +78,7 @@ class editorAdminView extends editor
 		//editor preview
 		$config = $oEditorModel->getEditorConfig();
 
+		$option = new stdClass();
 		$option->allow_fileupload = false;
 		$option->content_style = $config->content_style;
 		$option->content_font = $config->content_font;
@@ -88,6 +96,7 @@ class editorAdminView extends editor
 
 		Context::set('preview_editor', $editor);
 
+		$option_com = new stdClass();
 		$option_com->allow_fileupload = false;
 		$option_com->content_style = $config->content_style;
 		$option_com->content_font = $config->content_font;
@@ -142,6 +151,7 @@ class editorAdminView extends editor
 		// Get a mid list
 		$oModuleModel = &getModel('module');
 
+		$args =new stdClass();
 		$args->site_srl = $site_srl;
 		$columnList = array('module_srl', 'mid', 'module_category_srl', 'browser_title');
 		$mid_list = $oModuleModel->getMidList($args, $columnList);

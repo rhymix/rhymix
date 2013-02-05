@@ -22,6 +22,7 @@ class fileAdminController extends file
 	function deleteModuleFiles($module_srl)
 	{
 		// Get a full list of attachments
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$columnList = array('file_srl', 'uploaded_filename');
 		$output = executeQueryArray('file.getModuleFiles',$args, $columnList);

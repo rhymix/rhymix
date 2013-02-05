@@ -47,6 +47,7 @@ class commentItem extends Object
 	{
 		if(!$this->comment_srl) return;
 
+		$args =new stdClass();
 		$args->comment_srl = $this->comment_srl;
 		$output = executeQuery('comment.getComment', $args, $this->columnList);
 

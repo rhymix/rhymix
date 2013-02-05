@@ -99,6 +99,7 @@ class admin extends ModuleObject
 
 			$this->_oldAdminmenuDelete();
 
+			$returnObj = new stdClass();
 			$returnObj->menu_srl = $output->menu_srl;
 			$returnObj->php_file = FileHandler::getRealPath($output->php_file);
 
@@ -113,6 +114,7 @@ class admin extends ModuleObject
 	public function createXeAdminMenu()
 	{
 		//insert menu
+		$args = new stdClass();
 		$args->title = $this->adminMenuName;
 		$args->menu_srl = getNextSequence();
 		$args->listorder = $args->menu_srl * -1;
@@ -126,6 +128,7 @@ class admin extends ModuleObject
 		foreach($gnbList AS $key=>$value)
 		{
 			//insert menu item
+			$args = new stdClass();
 			$args->menu_srl = $menuSrl;
 			$args->menu_item_srl = getNextSequence();
 			$args->name = '{$lang->menu_gnb[\''.$value.'\']}';
@@ -248,6 +251,7 @@ class admin extends ModuleObject
 
 		// gnb sub item create
 		// common argument setting
+		$args = new stdClass();
 		$args->menu_srl = $menuSrl;
 		$args->open_window = 'N';
 		$args->expand = 'N';

@@ -28,6 +28,7 @@ class spamfilterModel extends spamfilter
 	 */
 	function getDeniedIPList()
 	{
+		$args = new stdClass();
 		$args->sort_index = "regdate";
 		$args->page = Context::get('page')?Context::get('page'):1;
 		$output = executeQuery('spamfilter.getDeniedIPList', $args);
@@ -61,6 +62,7 @@ class spamfilterModel extends spamfilter
 	 */
 	function getDeniedWordList()
 	{
+		$args = new stdClass();
 		$args->sort_index = "hit";
 		$output = executeQuery('spamfilter.getDeniedWordList', $args);
 		if(!$output->data) return;
