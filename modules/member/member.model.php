@@ -395,6 +395,15 @@ class memberModel extends member
 		return $output->data->member_srl;
 	}
 
+	/** 
+	 * @brief Return member_srl of the current logged-in user 
+	 */ 
+	function getLoggedMemberSrl() 
+	{ 
+		if(!$this->isLogged()) return; 
+		return $_SESSION['member_srl'];
+	}
+
 	/**
 	 * @brief Return user_id of the current logged-in user
 	 */
