@@ -948,7 +948,7 @@ class ModuleHandler extends Handler
 			}
 
 			// Create an instance with eval function
-			require($class_file);
+			require_once($class_file);
 			if(!class_exists($instance_name))
 			{
 				return NULL;
