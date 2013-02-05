@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * JoinConditionsTag class
  *
@@ -8,6 +9,7 @@
  */
 class JoinConditionsTag extends ConditionsTag
 {
+
 	/**
 	 * constructor
 	 * @param object $xml_conditions
@@ -18,6 +20,7 @@ class JoinConditionsTag extends ConditionsTag
 		parent::ConditionsTag($xml_conditions);
 		$this->condition_groups[0]->conditions[0]->setPipe("");
 	}
+
 }
 /* End of file JoinConditionsTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/condition/JoinConditionsTag.class.php */

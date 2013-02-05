@@ -1,4 +1,5 @@
 <?php
+
 /**
  * QueryTag class
  *
@@ -8,86 +9,103 @@
  */
 class QueryTag
 {
+
 	/**
 	 * Action for example, 'select', 'insert', 'delete'...
 	 * @var string
 	 */
 	var $action;
+
 	/**
 	 * Query id
 	 * @var string
 	 */
 	var $query_id;
+
 	/**
 	 * Priority
 	 * @var string
 	 */
 	var $priority;
+
 	/**
 	 * column type list
 	 * @var array
 	 */
 	var $column_type;
+
 	/**
 	 * Query stdClass object
 	 * @var object
 	 */
 	var $query;
+
 	/**
 	 * Columns in xml tags
 	 * @var object
 	 */
 	var $columns;
+
 	/**
 	 * Tables in xml tags
 	 * @var object
 	 */
 	var $tables;
+
 	/**
 	 * Subquery in xml tags
 	 * @var object
 	 */
 	var $subquery;
+
 	/**
 	 * Conditions in xml tags
 	 * @var object
 	 */
 	var $conditions;
+
 	/**
 	 * Groups in xml tags
 	 * @var object
 	 */
 	var $groups;
+
 	/**
 	 * Navigation in xml tags
 	 * @var object
 	 */
 	var $navigation;
+
 	/**
 	 * Arguments in xml tags
 	 * @var object
 	 */
 	var $arguments;
+
 	/**
 	 * PreBuff
 	 * @var string
 	 */
 	var $preBuff;
+
 	/**
 	 * Buff
 	 * @var string
 	 */
 	var $buff;
+
 	/**
 	 * Subquery status
 	 * @var bool
 	 */
 	var $isSubQuery;
+
 	/**
 	 * Join type
 	 * @var string
 	 */
 	var $join_type;
+
 	/**
 	 * alias
 	 * @var string
@@ -100,7 +118,7 @@ class QueryTag
 	 * @param bool $isSubQuery
 	 * @return void
 	 */
-	function QueryTag($query, $isSubQuery = false)
+	function QueryTag($query, $isSubQuery = FALSE)
 	{
 		$this->action = $query->attrs->action;
 		$this->query_id = $query->attrs->id;
@@ -108,7 +126,9 @@ class QueryTag
 		$this->query = $query;
 		$this->isSubQuery = $isSubQuery;
 		if($this->isSubQuery)
+		{
 			$this->action = 'select';
+		}
 		if($query->attrs->alias)
 		{
 			$dbParser = DB::getParser();
@@ -130,7 +150,7 @@ class QueryTag
 
 	function show()
 	{
-		return true;
+		return TRUE;
 	}
 
 	function getQueryId()
@@ -155,7 +175,7 @@ class QueryTag
 		{
 			$table_tags = $tables->getTables();
 			$column_type = array();
-			foreach ($table_tags as $table_tag)
+			foreach($table_tags as $table_tag)
 			{
 				if(is_a($table_tag, 'TableTag'))
 				{
@@ -173,30 +193,33 @@ class QueryTag
 	{
 		if($this->action == 'select')
 		{
-			return $this->columns =  new SelectColumnsTag($this->query->columns);
+			return $this->columns = new SelectColumnsTag($this->query->columns);
 		}
 		else if($this->action == 'insert' || $this->action == 'insert-select')
 		{
-			return $this->columns =  new InsertColumnsTag($this->query->columns->column);
+			return $this->columns = new InsertColumnsTag($this->query->columns->column);
 		}
 		else if($this->action == 'update')
 		{
-			return $this->columns =  new UpdateColumnsTag($this->query->columns->column);
+			return $this->columns = new UpdateColumnsTag($this->query->columns->column);
 		}
 		else if($this->action == 'delete')
 		{
-			return $this->columns =  null;
+			return $this->columns = null;
 		}
 	}
 
 	function getPrebuff()
 	{
-		if($this->isSubQuery) return;
+		if($this->isSubQuery)
+		{
+			return;
+		}
 		// TODO Check if this work with arguments in join clause
 		$arguments = $this->getArguments();
 
 		$prebuff = '';
-		foreach ($arguments as $argument)
+		foreach($arguments as $argument)
 		{
 			if(isset($argument))
 			{
@@ -209,26 +232,30 @@ class QueryTag
 					$table_alias = $argument->getTableName();
 					if(isset($table_alias))
 					{
-						if (isset($this->column_type[$this->getQueryId()][$table_alias][$argument->getColumnName()]))
-							$column_type = $this->column_type[$this->getQueryId()][$table_alias][$argument->getColumnName()];	
+						if(isset($this->column_type[$this->getQueryId()][$table_alias][$argument->getColumnName()]))
+						{
+							$column_type = $this->column_type[$this->getQueryId()][$table_alias][$argument->getColumnName()];
+						}
 					}
-					else 
+					else
 					{
 						$current_tables = $this->column_type[$this->getQueryId()];
 						$column_name = $argument->getColumnName();
 						foreach($current_tables as $current_table)
 						{
 							if(isset($current_table[$column_name]))
+							{
 								$column_type = $current_table[$column_name];
+							}
 						}
 					}
 
-					if (isset($column_type))
+					if(isset($column_type))
 					{
 						$prebuff .= sprintf('if(${\'%s_argument\'} !== null) ${\'%s_argument\'}->setColumnType(\'%s\');' . "\n"
-							, $arg_name
-							, $arg_name
-							, $column_type);
+								, $arg_name
+								, $arg_name
+								, $column_type);
 					}
 				}
 			}
@@ -265,15 +292,19 @@ class QueryTag
 		$buff .= sprintf('$query->setPriority("%s");%s', $this->priority, "\n");
 		$buff .= $this->preBuff;
 		if($this->columns)
+		{
 			$buff .= '$query->setColumns(' . $this->columns->toString() . ');' . PHP_EOL;
+		}
 
-		$buff .= '$query->setTables(' . $this->tables->toString() .');'.PHP_EOL;
+		$buff .= '$query->setTables(' . $this->tables->toString() . ');' . PHP_EOL;
 		if($this->action == 'insert-select')
-			$buff .= '$query->setSubquery(' . $this->subquery->toString() .');'.PHP_EOL;
-		$buff .= '$query->setConditions('.$this->conditions->toString() .');'.PHP_EOL;
-		$buff .= '$query->setGroups(' . $this->groups->toString() . ');'.PHP_EOL;
-		$buff .= '$query->setOrder(' . $this->navigation->getOrderByString() .');'.PHP_EOL;
-		$buff .= '$query->setLimit(' . $this->navigation->getLimitString() .');'.PHP_EOL;
+		{
+			$buff .= '$query->setSubquery(' . $this->subquery->toString() . ');' . PHP_EOL;
+		}
+		$buff .= '$query->setConditions(' . $this->conditions->toString() . ');' . PHP_EOL;
+		$buff .= '$query->setGroups(' . $this->groups->toString() . ');' . PHP_EOL;
+		$buff .= '$query->setOrder(' . $this->navigation->getOrderByString() . ');' . PHP_EOL;
+		$buff .= '$query->setLimit(' . $this->navigation->getLimitString() . ');' . PHP_EOL;
 
 		$this->buff = $buff;
 		return $this->buff;
@@ -282,9 +313,13 @@ class QueryTag
 	function getTables()
 	{
 		if($this->query->index_hint && ($this->query->index_hint->attrs->for == 'ALL' || Context::getDBType() == strtolower($this->query->index_hint->attrs->for)))
+		{
 			return $this->tables = new TablesTag($this->query->tables, $this->query->index_hint);
+		}
 		else
+		{
 			return $this->tables = new TablesTag($this->query->tables);
+		}
 	}
 
 	function getSubquery()
@@ -303,9 +338,13 @@ class QueryTag
 	function getGroups()
 	{
 		if($this->query->groups)
+		{
 			return $this->groups = new GroupsTag($this->query->groups->group);
+		}
 		else
+		{
 			return $this->groups = new GroupsTag(NULL);
+		}
 	}
 
 	function getNavigation()
@@ -337,14 +376,19 @@ class QueryTag
 	{
 		$arguments = array();
 		if($this->columns)
+		{
 			$arguments = array_merge($arguments, $this->columns->getArguments());
-		if($this->action =='insert-select')
+		}
+		if($this->action == 'insert-select')
+		{
 			$arguments = array_merge($arguments, $this->subquery->getArguments());
+		}
 		$arguments = array_merge($arguments, $this->tables->getArguments());
 		$arguments = array_merge($arguments, $this->conditions->getArguments());
 		$arguments = array_merge($arguments, $this->navigation->getArguments());
 		return $arguments;
 	}
+
 }
 /* End of file QueryTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/navigation/QueryTag.class.php */

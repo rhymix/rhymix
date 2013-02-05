@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * GroupsTag class
  *
@@ -8,6 +9,7 @@
  */
 class GroupsTag
 {
+
 	/**
 	 * column list
 	 * @var array
@@ -25,14 +27,20 @@ class GroupsTag
 
 		if($xml_groups)
 		{
-			if(!is_array($xml_groups)) $xml_groups = array($xml_groups);
+			if(!is_array($xml_groups))
+			{
+				$xml_groups = array($xml_groups);
+			}
 
 			$dbParser = &DB::getParser();
-			for($i=0;$i<count($xml_groups);$i++)
+			for($i = 0; $i < count($xml_groups); $i++)
 			{
 				$group = $xml_groups[$i];
 				$column = trim($group->attrs->column);
-				if(!$column) continue;
+				if(!$column)
+				{
+					continue;
+				}
 
 				$column = $dbParser->parseExpression($column);
 				$this->groups[] = $column;
@@ -48,9 +56,10 @@ class GroupsTag
 			$output .= "'" . $group . "' ,";
 		}
 		$output = substr($output, 0, -1);
-		$output .= ')';	
+		$output .= ')';
 		return $output;
 	}
+
 }
 /* End of file GroupsTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/group/GroupsTag.class.php */

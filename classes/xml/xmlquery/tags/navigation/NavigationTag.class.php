@@ -1,4 +1,5 @@
 <?php
+
 /**
  * NavigationTag class
  *
@@ -8,26 +9,31 @@
  */
 class NavigationTag
 {
+
 	/**
 	 * Order
 	 * @var array
 	 */
 	var $order;
+
 	/**
 	 * List count
 	 * @var int
 	 */
 	var $list_count;
+
 	/**
 	 * Page count
 	 * @var int
 	 */
 	var $page_count;
+
 	/**
 	 * Page
 	 * @var int
 	 */
 	var $page;
+
 	/**
 	 * Limit
 	 * @var LimitTag object
@@ -47,23 +53,34 @@ class NavigationTag
 			$order = $xml_navigation->index;
 			if($order)
 			{
-				if(!is_array($order)) $order = array($order);
+				if(!is_array($order))
+				{
+					$order = array($order);
+				}
 				foreach($order as $order_info)
 				{
 					$this->order[] = new IndexTag($order_info);
 				}
 
 				if($xml_navigation->page && $xml_navigation->page->attrs || $xml_navigation->list_count && $xml_navigation->list_count->attrs)
+				{
 					$this->limit = new LimitTag($xml_navigation);
+				}
 
 				if($xml_navigation->list_count)
-				   $this->list_count = $xml_navigation->list_count->attrs;
+				{
+					$this->list_count = $xml_navigation->list_count->attrs;
+				}
 
 				if($xml_navigation->page_count)
-				   $this->page_count = $xml_navigation->page_count->attrs;
+				{
+					$this->page_count = $xml_navigation->page_count->attrs;
+				}
 
 				if($xml_navigation->page)
+				{
 					$this->page = $xml_navigation->page->attrs;
+				}
 			}
 		}
 	}
@@ -90,8 +107,14 @@ class NavigationTag
 	 */
 	function getLimitString()
 	{
-		if($this->limit)	return $this->limit->toString();
-		else return "";
+		if($this->limit)
+		{
+			return $this->limit->toString();
+		}
+		else
+		{
+			return "";
+		}
 	}
 
 	function getArguments()
@@ -101,9 +124,13 @@ class NavigationTag
 		{
 			$arguments = array_merge($order->getArguments(), $arguments);
 		}
-		if($this->limit)	$arguments = array_merge($this->limit->getArguments(), $arguments);
+		if($this->limit)
+		{
+			$arguments = array_merge($this->limit->getArguments(), $arguments);
+		}
 		return $arguments;
 	}
+
 }
 /* End of file NavigationTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/navigation/NavigationTag.class.php */

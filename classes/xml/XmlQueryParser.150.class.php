@@ -1,36 +1,36 @@
 <?php
+
 /**
  * File containing the XE 1.5 XmlQueryParserClass
  */
-
 if(!defined('__XE_LOADED_XML_CLASS__'))
 {
 	define('__XE_LOADED_XML_CLASS__', 1);
 
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/query/QueryTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/table/TableTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/table/HintTableTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/table/TablesTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/ColumnTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/SelectColumnTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnTagWithoutArgument.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/UpdateColumnTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/SelectColumnsTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnsTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/UpdateColumnsTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionsTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/condition/JoinConditionsTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionGroupTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/group/GroupsTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/NavigationTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/IndexTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/LimitTag.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/queryargument/SortQueryArgument.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/queryargument/validator/QueryArgumentValidator.class.php');
-	require(_XE_PATH_.'classes/xml/xmlquery/queryargument/DefaultValue.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/query/QueryTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/table/TableTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/table/HintTableTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/table/TablesTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/column/ColumnTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/column/SelectColumnTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/column/InsertColumnTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/column/InsertColumnTagWithoutArgument.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/column/UpdateColumnTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/column/SelectColumnsTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/column/InsertColumnsTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/column/UpdateColumnsTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/condition/ConditionTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/condition/ConditionsTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/condition/JoinConditionsTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/condition/ConditionGroupTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/group/GroupsTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/navigation/NavigationTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/navigation/IndexTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/tags/navigation/LimitTag.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/queryargument/SortQueryArgument.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/queryargument/validator/QueryArgumentValidator.class.php');
+	require(_XE_PATH_ . 'classes/xml/xmlquery/queryargument/DefaultValue.class.php');
 }
 
 /**
@@ -43,12 +43,14 @@ if(!defined('__XE_LOADED_XML_CLASS__'))
  */
 class XmlQueryParser extends XmlParser
 {
+
 	/**
 	 * constructor
 	 * @return void
 	 */
 	function XmlQueryParser()
 	{
+
 	}
 
 	/**
@@ -86,7 +88,10 @@ class XmlQueryParser extends XmlParser
 
 		// insert, update, delete, select action
 		$action = strtolower($xml_obj->query->attrs->action);
-		if(!$action) return;
+		if(!$action)
+		{
+			return;
+		}
 
 		// Write query cache file
 		$parser = new QueryParser($xml_obj->query);
@@ -120,10 +125,14 @@ class XmlQueryParser extends XmlParser
 	{
 		$buff = FileHandler::readFile($xml_file);
 		$xml_obj = parent::parse($buff);
-		if(!$xml_obj) return;
+		if(!$xml_obj)
+		{
+			return;
+		}
 		unset($buff);
 		return $xml_obj;
 	}
+
 }
 /* End of file XmlQueryParser.150.class.php */
 /* Location: ./classes/xml/XmlQueryParser.150.class.php */

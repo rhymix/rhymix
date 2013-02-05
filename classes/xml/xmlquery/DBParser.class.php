@@ -1,7 +1,9 @@
 <?php
+
 /**
  * File containing the DBParser class
  */
+
 /**
  * Escapes query statements: <br />
  *  - column names: member.member_srl =&gt; "member"."member_srl" <br />
@@ -13,6 +15,7 @@
  */
 class DBParser
 {
+
 	/**
 	 * Character for escape target value on the left
 	 *
@@ -56,11 +59,17 @@ class DBParser
 	 *
 	 * @return void
 	 */
-	function DBParser($escape_char_left,  $escape_char_right = "", $table_prefix = "xe_")
+	function DBParser($escape_char_left, $escape_char_right = "", $table_prefix = "xe_")
 	{
 		$this->escape_char_left = $escape_char_left;
-		if ($escape_char_right !== "")$this->escape_char_right = $escape_char_right;
-		else $this->escape_char_right = $escape_char_left;
+		if($escape_char_right !== "")
+		{
+			$this->escape_char_right = $escape_char_right;
+		}
+		else
+		{
+			$this->escape_char_right = $escape_char_left;
+		}
 		$this->table_prefix = $table_prefix;
 	}
 
@@ -72,8 +81,14 @@ class DBParser
 	 */
 	function getEscapeChar($leftOrRight)
 	{
-		if ($leftOrRight === 'left')return $this->escape_char_left;
-		else return $this->escape_char_right;
+		if($leftOrRight === 'left')
+		{
+			return $this->escape_char_left;
+		}
+		else
+		{
+			return $this->escape_char_right;
+		}
 	}
 
 	/**
@@ -95,7 +110,7 @@ class DBParser
 	 */
 	function escapeString($name)
 	{
-		return "'".$this->escapeStringValue($name)."'";
+		return "'" . $this->escapeStringValue($name) . "'";
 	}
 
 	/**
@@ -106,8 +121,14 @@ class DBParser
 	 */
 	function escapeStringValue($value)
 	{
-		if($value == "*")	return $value;
-		if (is_string($value))	return $value = str_replace("'","''",$value);
+		if($value == "*")
+		{
+			return $value;
+		}
+		if(is_string($value))
+		{
+			return $value = str_replace("'", "''", $value);
+		}
 		return $value;
 	}
 
@@ -144,12 +165,14 @@ class DBParser
 	function escapeColumn($column_name)
 	{
 		if($this->isUnqualifiedColumnName($column_name))
+		{
 			return $this->escape($column_name);
+		}
 		if($this->isQualifiedColumnName($column_name))
 		{
 			list($table, $column) = explode('.', $column_name);
 			// $table can also be an alias, so the prefix should not be added
-			return $this->escape($table).'.'.$this->escape($column);
+			return $this->escape($table) . '.' . $this->escape($column);
 			//return $this->escape($this->parseTableName($table)).'.'.$this->escape($column);
 		}
 	}
@@ -165,7 +188,10 @@ class DBParser
 	 */
 	function isUnqualifiedColumnName($column_name)
 	{
-		if(strpos($column_name,'.')===FALSE && strpos($column_name,'(')===FALSE) return TRUE;
+		if(strpos($column_name, '.') === FALSE && strpos($column_name, '(') === FALSE)
+		{
+			return TRUE;
+		}
 		return FALSE;
 	}
 
@@ -180,7 +206,10 @@ class DBParser
 	 */
 	function isQualifiedColumnName($column_name)
 	{
-		if(strpos($column_name,'.')!==FALSE && strpos($column_name,'(')===FALSE) return TRUE;
+		if(strpos($column_name, '.') !== FALSE && strpos($column_name, '(') === FALSE)
+		{
+			return TRUE;
+		}
 		return FALSE;
 	}
 
@@ -204,26 +233,39 @@ class DBParser
 	 */
 	function parseExpression($column_name)
 	{
-		$functions = preg_split('/([\+\-\*\/\ ])/', $column_name, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+		$functions = preg_split('/([\+\-\*\/\ ])/', $column_name, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 		foreach($functions as $k => $v)
 		{
 			$function = &$functions[$k];
-			if(strlen($function)==1) continue; // skip delimiters
+			if(strlen($function) == 1)
+			{
+				continue; // skip delimiters
+			}
 			$pos = strrpos("(", $function);
-			$matches = preg_split('/([a-zA-Z0-9_*]+)/', $function, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+			$matches = preg_split('/([a-zA-Z0-9_*]+)/', $function, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 			$total_brackets = substr_count($function, "(");
 			$brackets = 0;
 			foreach($matches as $i => $j)
 			{
 				$match = &$matches[$i];
-				if($match == '(') {$brackets++; continue;}
-				if(strpos($match,')') !== FALSE) continue;
-				if(in_array($match, array(',', '.'))) continue;
+				if($match == '(')
+				{
+					$brackets++;
+					continue;
+				}
+				if(strpos($match, ')') !== FALSE)
+				{
+					continue;
+				}
+				if(in_array($match, array(',', '.')))
+				{
+					continue;
+				}
 				if($brackets == $total_brackets)
 				{
 					if(!is_numeric($match) && !in_array(strtoupper($match), array('UNSIGNED', 'INTEGER', 'AS')))
 					{
-						$match = $this->escapeColumnExpression($match);	
+						$match = $this->escapeColumnExpression($match);
 					}
 				}
 			}
@@ -240,7 +282,10 @@ class DBParser
 	 */
 	function isStar($column_name)
 	{
-		if(substr($column_name,-1) == '*') return TRUE;
+		if(substr($column_name, -1) == '*')
+		{
+			return TRUE;
+		}
 		return FALSE;
 	}
 
@@ -253,7 +298,10 @@ class DBParser
 	 */
 	function isStarFunction($column_name)
 	{
-		if(strpos($column_name, "(*)")!==FALSE) return TRUE;
+		if(strpos($column_name, "(*)") !== FALSE)
+		{
+			return TRUE;
+		}
 		return FALSE;
 	}
 
@@ -264,14 +312,21 @@ class DBParser
 	 */
 	function escapeColumnExpression($column_name)
 	{
-		if($this->isStar($column_name)) return $column_name;
+		if($this->isStar($column_name))
+		{
+			return $column_name;
+		}
 		if($this->isStarFunction($column_name))
 		{
 			return $column_name;
 		}
-		if(strpos(strtolower($column_name), 'distinct') !== FALSE) return $column_name;
+		if(strpos(strtolower($column_name), 'distinct') !== FALSE)
+		{
+			return $column_name;
+		}
 		return $this->escapeColumn($column_name);
 	}
+
 }
 /* End of file DBParser.class.php */
 /* Location: ./classes/xml/xmlquery/DBParser.class.php */

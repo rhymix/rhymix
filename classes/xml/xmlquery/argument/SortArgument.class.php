@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SortArgument class
  * @author NHN (developers@xpressengine.com)
@@ -7,10 +8,12 @@
  */
 class SortArgument extends Argument
 {
+
 	function getValue()
 	{
 		return $this->getUnescapedValue();
 	}
+
 }
 /* End of file SortArgument.class.php */
 /* Location: ./classes/xml/xmlquery/argument/SortArgument.class.php */

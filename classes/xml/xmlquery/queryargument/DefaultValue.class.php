@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DefaultValue class
  * @author NHN (developers@xpressengine.com)
@@ -7,41 +8,48 @@
  */
 class DefaultValue
 {
+
 	/**
 	 * Column name
 	 * @var string
 	 */
 	var $column_name;
+
 	/**
 	 * Value
 	 * @var mixed
 	 */
 	var $value;
+
 	/**
 	 * sequnence status
 	 * @var bool
 	 */
-	var $is_sequence = false;
+	var $is_sequence = FALSE;
+
 	/**
 	 * operation status
 	 * @var bool
 	 */
-	var $is_operation = false;
+	var $is_operation = FALSE;
+
 	/**
 	 * operation
 	 * @var string
 	 */
 	var $operation = '';
+
 	/**
 	 * Checks if value is plain string or name of XE function (ipaddress, plus, etc).
 	 * @var bool
 	 */
-	var $_is_string = false;
+	var $_is_string = FALSE;
+
 	/**
 	 * Checks if value is string resulted from evaluating a piece of PHP code (see $_SERVER[REMOTE_ADDR])
 	 * @var bool
 	 */
-	var $_is_string_from_function = false;
+	var $_is_string_from_function = FALSE;
 
 	/**
 	 * constructor
@@ -51,7 +59,7 @@ class DefaultValue
 	 */
 	function DefaultValue($column_name, $value)
 	{
-		$dbParser = &DB::getParser();
+		$dbParser = DB::getParser();
 		$this->column_name = $dbParser->parseColumnName($column_name);
 		$this->value = $value;
 		$this->value = $this->_setValue();
@@ -61,8 +69,11 @@ class DefaultValue
 	{
 		return $this->_is_string;
 		$str_pos = strpos($this->value, '(');
-		if($str_pos===false) return true;
-		return false;
+		if($str_pos === false)
+		{
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	function isStringFromFunction()
@@ -87,65 +98,68 @@ class DefaultValue
 
 	function _setValue()
 	{
-		if(!isset($this->value)) return;
+		if(!isset($this->value))
+		{
+			return;
+		}
 
 		// If value contains comma separated values and does not contain paranthesis
 		//  -> default value is an array
-		if(strpos($this->value, ',') !== false && strpos($this->value, '(') === false)
+		if(strpos($this->value, ',') !== FALSE && strpos($this->value, '(') === FALSE)
 		{
 			return sprintf('array(%s)', $this->value);
 		}
 
 		$str_pos = strpos($this->value, '(');
 		// // TODO Replace this with parseExpression
-		if($str_pos===false)
+		if($str_pos === FALSE)
 		{
-			$this->_is_string = true;
-			return '\''.$this->value.'\'';
+			$this->_is_string = TRUE;
+			return '\'' . $this->value . '\'';
 		}
 		//if($str_pos===false) return $this->value;
 
 		$func_name = substr($this->value, 0, $str_pos);
-		$args = substr($this->value, $str_pos+1, -1);
+		$args = substr($this->value, $str_pos + 1, -1);
 
 		switch($func_name)
 		{
 			case 'ipaddress' :
 				$val = '$_SERVER[\'REMOTE_ADDR\']';
-				$this->_is_string_from_function = true;
+				$this->_is_string_from_function = TRUE;
 				break;
 			case 'unixtime' :
 				$val = 'time()';
 				break;
 			case 'curdate' :
 				$val = 'date("YmdHis")';
-				$this->_is_string_from_function = true;
+				$this->_is_string_from_function = TRUE;
 				break;
 			case 'sequence' :
-				$this->is_sequence = true;
+				$this->is_sequence = TRUE;
 				$val = '$sequence';
 				break;
 			case 'plus' :
 				$args = abs($args);
-				$this->is_operation = true;
+				$this->is_operation = TRUE;
 				$this->operation = '+';
 				$val = sprintf('%d', $args);
 				break;
 			case 'minus' :
 				$args = abs($args);
-				$this->is_operation = true;
+				$this->is_operation = TRUE;
 				$this->operation = '-';
 				$val = sprintf('%d', $args);
 				break;
 			case 'multiply' :
 				$args = intval($args);
-				$this->is_operation = true;
+				$this->is_operation = TRUE;
 				$this->operation = '*';
 				$val = sprintf('%d', $args);
 				break;
 			default :
 				$val = '\'' . $this->value . '\'';
-				//$val = $this->value;
+			//$val = $this->value;
 		}
 
 		return $val;
@@ -155,6 +169,7 @@ class DefaultValue
 	{
 		return $this->value;
 	}
+
 }
 /* End of file DefaultValue.class.php */
 /* Location: ./classes/xml/xmlquery/queryargument/DefaultValue.class.php */

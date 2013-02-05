@@ -1,4 +1,5 @@
 <?php
+
 /**
  * IndexTag class
  *
@@ -8,26 +9,31 @@
  */
 class IndexTag
 {
+
 	/**
 	 * argument name
 	 * @var string
 	 */
 	var $argument_name;
+
 	/**
 	 * QueryArgument object
 	 * @var QueryArgument
 	 */
 	var $argument;
+
 	/**
 	 * Default value
 	 * @var string
 	 */
 	var $default;
+
 	/**
 	 * Sort order
 	 * @var string
 	 */
 	var $sort_order;
+
 	/**
 	 * Sort order argument
 	 * @var SortQueryArgument object
@@ -51,7 +57,7 @@ class IndexTag
 
 		// Sort order - asc / desc
 		$this->sort_order = $index->attrs->order;
-		$sortList = array('asc'=>1, 'desc'=>1);
+		$sortList = array('asc' => 1, 'desc' => 1);
 		if(!isset($sortList[$this->sort_order]))
 		{
 			$arg = new Xml_Node_();
@@ -59,9 +65,12 @@ class IndexTag
 			$arg->attrs->var = $this->sort_order;
 			$arg->attrs->default = 'asc';
 			$this->sort_order_argument = new SortQueryArgument($arg);
-			$this->sort_order = '$'.$this->sort_order_argument->getArgumentName().'_argument';
+			$this->sort_order = '$' . $this->sort_order_argument->getArgumentName() . '_argument';
 		}
-		else $this->sort_order = '"'.$this->sort_order.'"';
+		else
+		{
+			$this->sort_order = '"' . $this->sort_order . '"';
+		}
 	}
 
 	function toString()
@@ -74,9 +83,12 @@ class IndexTag
 		$arguments = array();
 		$arguments[] = $this->argument;
 		if($this->sort_order_argument)
+		{
 			$arguments[] = $this->sort_order_argument;
+		}
 		return $arguments;
 	}
+
 }
 /* End of file IndexTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/navigation/IndexTag.class.php */

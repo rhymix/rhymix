@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LimitTag class
  *
@@ -8,21 +9,25 @@
  */
 class LimitTag
 {
+
 	/**
 	 * Value is relate to limit query
 	 * @var array
 	 */
 	var $arguments;
+
 	/**
 	 * QueryArgument object
 	 * @var QueryArgument
 	 */
 	var $page;
+
 	/**
 	 * QueryArgument object
 	 * @var QueryArgument
 	 */
 	var $page_count;
+
 	/**
 	 * QueryArgument object
 	 * @var QueryArgument
@@ -50,14 +55,21 @@ class LimitTag
 
 	function toString()
 	{
-		if($this->page)return sprintf('new Limit(${\'%s_argument\'}, ${\'%s_argument\'}, ${\'%s_argument\'})', $this->list_count->getArgumentName(), $this->page->getArgumentName(),  $this->page_count->getArgumentName());
-		else return sprintf('new Limit(${\'%s_argument\'})', $this->list_count->getArgumentName());
+		if($this->page)
+		{
+			return sprintf('new Limit(${\'%s_argument\'}, ${\'%s_argument\'}, ${\'%s_argument\'})', $this->list_count->getArgumentName(), $this->page->getArgumentName(), $this->page_count->getArgumentName());
+		}
+		else
+		{
+			return sprintf('new Limit(${\'%s_argument\'})', $this->list_count->getArgumentName());
+		}
 	}
 
 	function getArguments()
 	{
 		return $this->arguments;
 	}
+
 }
 /* End of file LimitTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/navigation/LimitTag.class.php */

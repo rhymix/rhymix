@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @class WidgetHandler
  * @author NHN (developers@xpressengine.com)
@@ -7,7 +8,9 @@
  */
 class WidgetHandler
 {
+
 	var $widget_path = '';
+
 }
 /* End of file WidgetHandler.class.php */
 /* Location: ./classes/widget/WidgetHandler.class.php */

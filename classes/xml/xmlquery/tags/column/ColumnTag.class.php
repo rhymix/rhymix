@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Models the &lt;column&gt; tag inside an XML Query file <br />
  * Since the &lt;column&gt; tag supports different attributes depending on
@@ -11,6 +12,7 @@
  */
 class ColumnTag
 {
+
 	/**
 	 * Column name
 	 * @var string
@@ -26,6 +28,7 @@ class ColumnTag
 	{
 		$this->name = $name;
 	}
+
 }
 /* End of file ColumnTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/column/ColumnTag.class.php */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * XmlGenerator class
  * @author NHN (developers@xpressengine.com)
@@ -7,6 +8,7 @@
  */
 class XmlGenerator
 {
+
 	/**
 	 * object change to xml
 	 * @param object $xml
@@ -36,12 +38,11 @@ class XmlGenerator
 			switch($key)
 			{
 				case 'node_name' : break;
-				case 'attrs' :
-					{
+				case 'attrs' : {
 						$attrs = '';
-						if (isset($value))
+						if(isset($value))
 						{
-							foreach($value as $attrName=>$attrValue)
+							foreach($value as $attrName => $attrValue)
 							{
 								$attrs .= sprintf(' %s="%s"', $attrName, htmlspecialchars($attrValue));
 							}
@@ -51,9 +52,8 @@ class XmlGenerator
 				case 'body' :
 					$body = $value;
 					break;
-				default :
-					{
-						if (is_array($value))
+				default : {
+						if(is_array($value))
 						{
 							foreach($value as $idx => $arrNode)
 							{
@@ -67,8 +67,9 @@ class XmlGenerator
 					}
 			}
 		}
-		return sprintf('<%s%s>%s</%s>'."\n", $node->node_name, $attrs, $body, $node->node_name);
+		return sprintf('<%s%s>%s</%s>' . "\n", $node->node_name, $attrs, $body, $node->node_name);
 	}
+
 }
 /* End of file XmlGenerator.class.php */
 /* Location: ./classes/xml/XmlGenerator.class.php */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * HintTableTag
  * Models the <table> tag inside an XML Query file and the corresponding <index_hint> tag
@@ -9,6 +10,7 @@
  */
 class HintTableTag extends TableTag
 {
+
 	/**
 	 * Action for example, 'select', 'insert', 'delete'...
 	 * @var array
@@ -36,13 +38,13 @@ class HintTableTag extends TableTag
 		$result = sprintf('new %sTableWithHint(\'%s\'%s, array('
 				, $dbType == 'Mysqli' ? 'Mysql' : $dbType
 				, $dbParser->escape($this->name)
-				, $this->alias ? ', \'' . $dbParser->escape($this->alias) .'\'' : ', null'
+				, $this->alias ? ', \'' . $dbParser->escape($this->alias) . '\'' : ', null'
 				//, ', \'' . $dbParser->escape($this->index->name) .'\', \'' . $this->index->type .'\''
-				);
+		);
 		foreach($this->index as $indx)
 		{
 			$result .= "new IndexHint(";
-			$result .= '\'' . $dbParser->escape($indx->name) .'\', \'' . $indx->type .'\'' . ') , ';
+			$result .= '\'' . $dbParser->escape($indx->name) . '\', \'' . $indx->type . '\'' . ') , ';
 		}
 		$result = substr($result, 0, -2);
 		$result .= '))';
@@ -51,9 +53,13 @@ class HintTableTag extends TableTag
 
 	function getArguments()
 	{
-		if(!isset($this->conditionsTag)) return array();
+		if(!isset($this->conditionsTag))
+		{
+			return array();
+		}
 		return $this->conditionsTag->getArguments();
 	}
+
 }
 /* End of file HintTableTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/table/HintTableTag.class.php */

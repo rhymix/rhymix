@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Xml_Node_ class
  * Element node or attribute node.
@@ -8,6 +9,7 @@
  */
 class Xml_Node_
 {
+
 	/** In PHP5 this will silence E_STRICT warnings
 	 * for undeclared properties.
 	 * No effect in PHP4
@@ -16,6 +18,7 @@ class Xml_Node_
 	{
 		return NULL;
 	}
+
 }
 
 /**
@@ -33,21 +36,25 @@ class Xml_Node_
  */
 class XmlParser
 {
+
 	/**
 	 * Xml parser
 	 * @var resource
 	 */
 	var $oParser = NULL;
+
 	/**
 	 * Input xml
 	 * @var string
 	 */
 	var $input = NULL;
+
 	/**
 	 * Output object in array
 	 * @var array
 	 */
 	var $output = array();
+
 	/**
 	 * The default language type
 	 * @var string
@@ -61,7 +68,10 @@ class XmlParser
 	 */
 	function loadXmlFile($filename)
 	{
-		if(!file_exists($filename)) return;
+		if(!file_exists($filename))
+		{
+			return;
+		}
 		$buff = FileHandler::readFile($filename);
 
 		$oXmlParser = new XmlParser();
@@ -78,12 +88,15 @@ class XmlParser
 	function parse($input = '', $arg1 = NULL, $arg2 = NULL)
 	{
 		// Save the compile starting time for debugging
-		if(__DEBUG__==3) $start = getMicroTime();
+		if(__DEBUG__ == 3)
+		{
+			$start = getMicroTime();
+		}
 
 		$this->lang = Context::getLangType();
 
-		$this->input = $input?$input:$GLOBALS['HTTP_RAW_POST_DATA'];
-		$this->input = str_replace(array('',''),array('',''),$this->input);
+		$this->input = $input ? $input : $GLOBALS['HTTP_RAW_POST_DATA'];
+		$this->input = str_replace(array('', ''), array('', ''), $this->input);
 
 		// extracts a supported language
 		preg_match_all("/xml:lang=\"([^\"].+)\"/i", $this->input, $matches);
@@ -120,15 +133,20 @@ class XmlParser
 		xml_parse($this->oParser, $this->input);
 		xml_parser_free($this->oParser);
 
-		if(!count($this->output)) return;
+		if(!count($this->output))
+		{
+			return;
+		}
 
 		$output = array_shift($this->output);
 		// Save compile starting time for debugging
-		if(__DEBUG__==3) $GLOBALS['__xmlparse_elapsed__'] += getMicroTime() - $start;
+		if(__DEBUG__ == 3)
+		{
+			$GLOBALS['__xmlparse_elapsed__'] += getMicroTime() - $start;
+		}
 
 		return $output;
 	}
-
 
 	/**
 	 * Start element handler.
@@ -146,7 +164,6 @@ class XmlParser
 		array_push($this->output, $obj);
 	}
 
-
 	/**
 	 * Character data handler
 	 * Variable in the last element of this->output
@@ -157,7 +174,7 @@ class XmlParser
 	function _tagBody($parser, $body)
 	{
 		//if(!trim($body)) return;
-		$this->output[count($this->output)-1]->body .= $body;
+		$this->output[count($this->output) - 1]->body .= $body;
 	}
 
 	/**
@@ -170,9 +187,15 @@ class XmlParser
 	{
 		$node_name = strtolower($node_name);
 		$cur_obj = array_pop($this->output);
-		$parent_obj = &$this->output[count($this->output)-1];
-		if($this->lang&&$cur_obj->attrs->{'xml:lang'}&&$cur_obj->attrs->{'xml:lang'}!=$this->lang) return;
-		if($this->lang&&$parent_obj->{$node_name}->attrs->{'xml:lang'}&&$parent_obj->{$node_name}->attrs->{'xml:lang'}!=$this->lang) return;
+		$parent_obj = &$this->output[count($this->output) - 1];
+		if($this->lang && $cur_obj->attrs->{'xml:lang'} && $cur_obj->attrs->{'xml:lang'} != $this->lang)
+		{
+			return;
+		}
+		if($this->lang && $parent_obj->{$node_name}->attrs->{'xml:lang'} && $parent_obj->{$node_name}->attrs->{'xml:lang'} != $this->lang)
+		{
+			return;
+		}
 
 		if(isset($parent_obj->{$node_name}))
 		{
@@ -191,7 +214,9 @@ class XmlParser
 		else
 		{
 			if(!is_object($parent_obj))
-				$parent_obj = (object)$parent_obj;
+			{
+				$parent_obj = (object) $parent_obj;
+			}
 
 			$parent_obj->{$node_name} = $cur_obj;
 		}
@@ -212,6 +237,7 @@ class XmlParser
 		}
 		return $output;
 	}
+
 }
 /* End of file XmlParser.class.php */
 /* Location: ./classes/xml/XmlParser.class.php */

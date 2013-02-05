@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ConditionGroupTag class
  *
@@ -8,11 +9,13 @@
  */
 class ConditionGroupTag
 {
+
 	/**
 	 * condition list
 	 * @var string|array value is ConditionTag object
 	 */
 	var $conditions;
+
 	/**
 	 * pipe
 	 * @var string
@@ -29,7 +32,10 @@ class ConditionGroupTag
 	{
 		$this->pipe = $pipe;
 
-		if(!is_array($conditions)) $conditions = array($conditions);
+		if(!is_array($conditions))
+		{
+			$conditions = array($conditions);
+		}
 
 		foreach($conditions as $condition)
 		{
@@ -49,15 +55,15 @@ class ConditionGroupTag
 	 */
 	function getConditionGroupString()
 	{
-		$conditions_string = 'array('.PHP_EOL;
+		$conditions_string = 'array(' . PHP_EOL;
 		foreach($this->conditions as $condition)
 		{
 			$conditions_string .= $condition->getConditionString() . PHP_EOL . ',';
 		}
-		$conditions_string = substr($conditions_string, 0, -2);//remove ','
+		$conditions_string = substr($conditions_string, 0, -2); //remove ','
 		$conditions_string .= ')';
 
-		return sprintf("new ConditionGroup(%s%s)", $conditions_string, $this->pipe ? ',\''.$this->pipe . '\'': '');
+		return sprintf("new ConditionGroup(%s%s)", $conditions_string, $this->pipe ? ',\'' . $this->pipe . '\'' : '');
 	}
 
 	function getArguments()
@@ -69,6 +75,7 @@ class ConditionGroupTag
 		}
 		return $arguments;
 	}
+
 }
 /* End of file ConditionGroupTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/condition/ConditionGroupTag.class.php */

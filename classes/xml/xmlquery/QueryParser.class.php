@@ -1,7 +1,9 @@
 <?php
+
 /**
  * File containing the QueryParser class
  */
+
 /**
  * Parses an XML Object and returns a string used for generating the PHP cache file <br />
  * The XML Object structure must be the one defined in the XmlParser class
@@ -60,12 +62,14 @@ class QueryParser
 		else if(count($id_args) == 3)
 		{
 			$target = $id_args[0];
-			$targetList = array('modules'=>1, 'addons'=>1, 'widgets'=>1);
-			if (!isset($targetList[$target]))
+			$targetList = array('modules' => 1, 'addons' => 1, 'widgets' => 1);
+			if(!isset($targetList[$target]))
+			{
 				return;
+			}
 			$module = $id_args[1];
 			$id = $id_args[2];
-		} 
+		}
 
 		// get column properties from the table
 		$table_file = sprintf('%s%s/%s/schemas/%s.xml', _XE_PATH_, 'modules', $module, $table_name);
@@ -77,7 +81,9 @@ class QueryParser
 			{
 				$table_file = sprintf('%s%s/%s/schemas/%s.xml', _XE_PATH_, 'modules', $searched_list[$i], $table_name);
 				if(file_exists($table_file))
+				{
 					break;
+				}
 			}
 		}
 
@@ -111,9 +117,10 @@ class QueryParser
 	function toString()
 	{
 		return "<?php if(!defined('__ZBXE__')) exit();\n"
-			. $this->queryTag->toString()
-			. 'return $query; ?>';
+				. $this->queryTag->toString()
+				. 'return $query; ?>';
 	}
+
 }
 /* End of file QueryParser.class.php */
 /* Location: ./classes/xml/xmlquery/QueryParser.class.php */

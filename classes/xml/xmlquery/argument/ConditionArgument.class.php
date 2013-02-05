@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ConditionArgument class
  * @author NHN (developers@xpressengine.com)
@@ -7,6 +8,7 @@
  */
 class ConditionArgument extends Argument
 {
+
 	/**
 	 * Operator keyword. for example 'in', 'notint', 'between'
 	 * @var string
@@ -22,7 +24,7 @@ class ConditionArgument extends Argument
 	 */
 	function ConditionArgument($name, $value, $operation)
 	{
-		$operationList = array('in'=>1, 'notin'=>1, 'not_in'=>1, 'between'=>1);
+		$operationList = array('in' => 1, 'notin' => 1, 'not_in' => 1, 'between' => 1);
 		if(isset($value) && isset($operationList[$operation]) && !is_array($value) && $value != '')
 		{
 			$value = str_replace(' ', '', $value);
@@ -39,7 +41,10 @@ class ConditionArgument extends Argument
 	 */
 	function createConditionValue()
 	{
-		if(!isset($this->value)) return;
+		if(!isset($this->value))
+		{
+			return;
+		}
 
 		$operation = $this->operation;
 		$value = $this->value;
@@ -52,13 +57,19 @@ class ConditionArgument extends Argument
 					$this->value = '^' . str_replace('%', '(.*)', preg_quote($value));
 				}
 				else
-					$this->value =  $value.'%';
+				{
+					$this->value = $value . '%';
+				}
 				break;
 			case 'like_tail' :
-				if(defined('__CUBRID_VERSION__') && __CUBRID_VERSION__ >= '8.4.1') 
+				if(defined('__CUBRID_VERSION__') && __CUBRID_VERSION__ >= '8.4.1')
+				{
 					$this->value = str_replace('%', '(.*)', preg_quote($value)) . '$';
-				else								
-					$this->value = '%'.$value;
+				}
+				else
+				{
+					$this->value = '%' . $value;
+				}
 				break;
 			case 'like' :
 				if(defined('__CUBRID_VERSION__') && __CUBRID_VERSION__ >= '8.4.1')
@@ -66,23 +77,31 @@ class ConditionArgument extends Argument
 					$this->value = str_replace('%', '(.*)', preg_quote($value));
 				}
 				else
-					$this->value = '%'.$value.'%';
+				{
+					$this->value = '%' . $value . '%';
+				}
 				break;
 			case 'notlike' :
-				$this->value = '%'.$value.'%';
+				$this->value = '%' . $value . '%';
 				break;
 			case 'notlike_prefix' :
-				$this->value = $value.'%';
+				$this->value = $value . '%';
 				break;
 			case 'notlike_tail' :
-				$this->value = '%'.$value;
+				$this->value = '%' . $value;
 				break;
 			case 'in':
-				if(!is_array($value)) $this->value = array($value);
+				if(!is_array($value))
+				{
+					$this->value = array($value);
+				}
 				break;
 			case 'notin':
 			case 'not_in':
-				if(!is_array($value)) $this->value = array($value);
+				if(!is_array($value))
+				{
+					$this->value = array($value);
+				}
 				break;
 		}
 	}
@@ -101,14 +120,14 @@ class ConditionArgument extends Argument
 	function getType()
 	{
 		if($this->type)
-		{				
+		{
 			return $this->type;
 		}
 		else if(!is_numeric($this->value))
 		{
 			return 'varchar';
 		}
-		else 
+		else
 		{
 			return '';
 		}
@@ -116,8 +135,14 @@ class ConditionArgument extends Argument
 
 	function setColumnType($column_type)
 	{
-		if(!isset($this->value)) return;
-		if($column_type === '') return;
+		if(!isset($this->value))
+		{
+			return;
+		}
+		if($column_type === '')
+		{
+			return;
+		}
 
 		$this->type = $column_type;
 	}

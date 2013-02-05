@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TablesTag class
  * Models the <tables> tag inside an XML Query file
@@ -18,6 +19,7 @@
  */
 class TablesTag
 {
+
 	/**
 	 * Table list
 	 * @var array
@@ -35,15 +37,24 @@ class TablesTag
 		$this->tables = array();
 
 		$xml_tables = $xml_tables_tag->table;
-		if(!is_array($xml_tables)) $xml_tables = array($xml_tables);
+		if(!is_array($xml_tables))
+		{
+			$xml_tables = array($xml_tables);
+		}
 
 		if($xml_index_hints_tag)
 		{
 			$index_nodes = $xml_index_hints_tag->index;
-			if(!is_array($index_nodes)) $index_nodes = array($index_nodes);
+			if(!is_array($index_nodes))
+			{
+				$index_nodes = array($index_nodes);
+			}
 			foreach($index_nodes as $index_node)
 			{
-				if(!isset($indexes[$index_node->attrs->table])) $indexes[$index_node->attrs->table] = array();
+				if(!isset($indexes[$index_node->attrs->table]))
+				{
+					$indexes[$index_node->attrs->table] = array();
+				}
 				$count = count($indexes[$index_node->attrs->table]);
 				$indexes[$index_node->attrs->table][$count] = (object) NULL;
 				$indexes[$index_node->attrs->table][$count]->name = $index_node->attrs->name;
@@ -60,9 +71,13 @@ class TablesTag
 			else
 			{
 				if(isset($indexes[$tag->attrs->name]) && $indexes[$tag->attrs->name])
+				{
 					$this->tables[] = new HintTableTag($tag, $indexes[$tag->attrs->name]);
+				}
 				else
+				{
 					$this->tables[] = new TableTag($tag);
+				}
 			}
 		}
 	}
@@ -78,9 +93,13 @@ class TablesTag
 		foreach($this->tables as $table)
 		{
 			if(is_a($table, 'QueryTag'))
+			{
 				$output_tables .= $table->toString() . PHP_EOL . ',';
+			}
 			else
+			{
 				$output_tables .= $table->getTableString() . PHP_EOL . ',';
+			}
 		}
 		$output_tables = substr($output_tables, 0, -1);
 		$output_tables .= ')';
@@ -91,9 +110,12 @@ class TablesTag
 	{
 		$arguments = array();
 		foreach($this->tables as $table)
+		{
 			$arguments = array_merge($arguments, $table->getArguments());
+		}
 		return $arguments;
 	}
+
 }
 /* End of file TablesTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/table/TablesTag.class.php */

@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * TableTag
  * Models the <table> tag inside an XML Query file
@@ -20,32 +21,38 @@
  */
 class TableTag
 {
+
 	/**
 	 * Unescaped name
 	 * @var string
 	 */
 	var $unescaped_name;
+
 	/**
 	 * name
 	 * @var string
 	 */
 	var $name;
+
 	/**
 	 * alias
 	 * @var string
 	 */
 	var $alias;
+
 	/**
 	 * Join type
 	 * @example 'left join', 'left outer join', 'right join', 'right outer join'
 	 * @var string
 	 */
 	var $join_type;
+
 	/**
 	 * Condition object
 	 * @var object
 	 */
 	var $conditions;
+
 	/**
 	 * JoinConditionsTag
 	 * @var JoinConditionsTag object
@@ -66,21 +73,28 @@ class TableTag
 		$this->name = $dbParser->parseTableName($table->attrs->name);
 
 		$this->alias = $table->attrs->alias;
-		if(!$this->alias) $this->alias = $table->attrs->name; 
+		if(!$this->alias)
+		{
+			$this->alias = $table->attrs->name;
+		}
 
 		$this->join_type = $table->attrs->type;
 
-		$this->conditions = $table->conditions;			
+		$this->conditions = $table->conditions;
 
 		if($this->isJoinTable())
+		{
 			$this->conditionsTag = new JoinConditionsTag($this->conditions);
+		}
 	}
 
 	function isJoinTable()
 	{
-		$joinList = array('left join'=>1, 'left outer join'=>1, 'right join'=>1, 'right outer join'=>1);
-		if(isset($joinList[$this->join_type])
-				&& count($this->conditions)) return true;
+		$joinList = array('left join' => 1, 'left outer join' => 1, 'right join' => 1, 'right outer join' => 1);
+		if(isset($joinList[$this->join_type]) && count($this->conditions))
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -107,20 +121,24 @@ class TableTag
 		if($this->isJoinTable())
 		{
 			return sprintf('new JoinTable(\'%s\', \'%s\', "%s", %s)'
-				, $dbParser->escape($this->name)
-				, $dbParser->escape($this->alias)
-				, $this->join_type, $this->conditionsTag->toString());
+							, $dbParser->escape($this->name)
+							, $dbParser->escape($this->alias)
+							, $this->join_type, $this->conditionsTag->toString());
 		}
 		return sprintf('new Table(\'%s\'%s)'
-			, $dbParser->escape($this->name)
-			, $this->alias ? ', \'' . $dbParser->escape($this->alias) .'\'' : '');			
+						, $dbParser->escape($this->name)
+						, $this->alias ? ', \'' . $dbParser->escape($this->alias) . '\'' : '');
 	}
 
 	function getArguments()
 	{
-		if(!isset($this->conditionsTag)) return array();
+		if(!isset($this->conditionsTag))
+		{
+			return array();
+		}
 		return $this->conditionsTag->getArguments();
 	}
+
 }
 /* End of file TableTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/table/TableTag.class.php */

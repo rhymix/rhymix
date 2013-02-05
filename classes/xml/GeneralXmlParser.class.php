@@ -1,4 +1,5 @@
 <?php
+
 /**
  * GeneralXmlParser class
  * Generic XML parser for XE
@@ -8,6 +9,7 @@
  */
 class GeneralXmlParser
 {
+
 	/**
 	 * result of parse
 	 * @var array
@@ -29,7 +31,10 @@ class GeneralXmlParser
 		xml_parse($oParser, $input);
 		xml_parser_free($oParser);
 
-		if(!count($this->output)) return;
+		if(!count($this->output))
+		{
+			return;
+		}
 		$this->output = array_shift($this->output);
 
 		return $this->output;
@@ -61,7 +66,7 @@ class GeneralXmlParser
 	function _tagBody($parser, $body)
 	{
 		//if(!trim($body)) return;
-		$this->output[count($this->output)-1]->body .= $body;
+		$this->output[count($this->output) - 1]->body .= $body;
 	}
 
 	/**
@@ -74,9 +79,9 @@ class GeneralXmlParser
 	{
 		$node_name = strtolower($node_name);
 		$cur_obj = array_pop($this->output);
-		$parent_obj = &$this->output[count($this->output)-1];
+		$parent_obj = &$this->output[count($this->output) - 1];
 
-		if($parent_obj->childNodes[$node_name]) 
+		if($parent_obj->childNodes[$node_name])
 		{
 			$tmp_obj = $parent_obj->childNodes[$node_name];
 			if(is_array($tmp_obj))
@@ -95,6 +100,7 @@ class GeneralXmlParser
 			$parent_obj->childNodes[$node_name] = $cur_obj;
 		}
 	}
+
 }
 /* End of file GeneralXmlParser.class.php */
 /* Location: ./classes/xml/GeneralXmlParser.class.php */

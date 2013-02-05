@@ -1,4 +1,5 @@
 <?php
+
 /**
  * filter class traslate xml content into javascript code
  *
@@ -46,11 +47,13 @@
  */
 class XmlJsFilter extends XmlParser
 {
+
 	/**
 	 * version
 	 * @var string
 	 */
 	var $version = '0.2.5';
+
 	/**
 	 * compiled javascript cache path
 	 * @var string
@@ -61,6 +64,7 @@ class XmlJsFilter extends XmlParser
 	 * @var string
 	 */
 	var $xml_file = NULL;
+
 	/**
 	 * Compiled js file
 	 * @var string
@@ -73,10 +77,14 @@ class XmlJsFilter extends XmlParser
 	 * @param string $xml_file
 	 * @return void
 	 */
+
 	function XmlJsFilter($path, $xml_file)
 	{
-		if(substr($path,-1)!=='/') $path .= '/';
-		$this->xml_file = sprintf("%s%s",$path, $xml_file);
+		if(substr($path, -1) !== '/')
+		{
+			$path .= '/';
+		}
+		$this->xml_file = sprintf("%s%s", $path, $xml_file);
 		$this->js_file = $this->_getCompiledFileName($this->xml_file);
 	}
 
@@ -86,10 +94,19 @@ class XmlJsFilter extends XmlParser
 	 */
 	function compile()
 	{
-		if(!file_exists($this->xml_file)) return;
-		if(!file_exists($this->js_file)) $this->_compile();
-		else if(filemtime($this->xml_file)>filemtime($this->js_file)) $this->_compile();
-		Context::loadFile(array($this->js_file, 'body', '',null));
+		if(!file_exists($this->xml_file))
+		{
+			return;
+		}
+		if(!file_exists($this->js_file))
+		{
+			$this->_compile();
+		}
+		else if(filemtime($this->xml_file) > filemtime($this->js_file))
+		{
+			$this->_compile();
+		}
+		Context::loadFile(array($this->js_file, 'body', '', null));
 	}
 
 	/**
@@ -110,21 +127,30 @@ class XmlJsFilter extends XmlParser
 		$rules = $xml_obj->filter->rules;
 
 		// XmlJsFilter handles three data; filter_name, field, and parameter
-		$filter_name       = $attrs->name;
-		$confirm_msg_code  = $attrs->confirm_msg_code;
-		$module            = $attrs->module;
-		$act               = $attrs->act;
-		$extend_filter     = $attrs->extend_filter;
+		$filter_name = $attrs->name;
+		$confirm_msg_code = $attrs->confirm_msg_code;
+		$module = $attrs->module;
+		$act = $attrs->act;
+		$extend_filter = $attrs->extend_filter;
 
 
 		$field_node = $xml_obj->filter->form->node;
-		if($field_node && !is_array($field_node)) $field_node = array($field_node);
+		if($field_node && !is_array($field_node))
+		{
+			$field_node = array($field_node);
+		}
 
 		$parameter_param = $xml_obj->filter->parameter->param;
-		if($parameter_param && !is_array($parameter_param)) $parameter_param = array($parameter_param);
+		if($parameter_param && !is_array($parameter_param))
+		{
+			$parameter_param = array($parameter_param);
+		}
 
 		$response_tag = $xml_obj->filter->response->tag;
-		if($response_tag && !is_array($response_tag)) $response_tag = array($response_tag);
+		if($response_tag && !is_array($response_tag))
+		{
+			$response_tag = array($response_tag);
+		}
 
 		// If extend_filter exists, result returned by calling the method
 		if($extend_filter)
@@ -133,46 +159,52 @@ class XmlJsFilter extends XmlParser
 			$this->js_file .= '.nocache.js';
 
 			// Separate the extend_filter
-			list($module_name, $method) = explode('.',$extend_filter);
+			list($module_name, $method) = explode('.', $extend_filter);
 
 			// contibue if both module_name and methos exist.
-			if($module_name&&$method)
+			if($module_name && $method)
 			{
 				// get model object of the module
-				$oExtendFilter = &getModel($module_name);
+				$oExtendFilter = getModel($module_name);
 
 				// execute if method exists
 				if(method_exists($oExtendFilter, $method))
 				{
 					// get the result
-					$extend_filter_list  = $oExtendFilter->{$method}(true);
+					$extend_filter_list = $oExtendFilter->{$method}(TRUE);
 					$extend_filter_count = count($extend_filter_list);
 
 					// apply lang_value from the result to the variable
-					for($i=0; $i < $extend_filter_count; $i++)
+					for($i = 0; $i < $extend_filter_count; $i++)
 					{
 						$name = $extend_filter_list[$i]->name;
 						$lang_value = $extend_filter_list[$i]->lang;
-						if($lang_value) $lang->{$name} = $lang_value;
+						if($lang_value)
+						{
+							$lang->{$name} = $lang_value;
+						}
 					}
 				}
 			}
 		}
 
 		// search the field to be used for entering language
-		$target_list      = array();
+		$target_list = array();
 		$target_type_list = array();
 
 		// javascript contents
-		$js_rules       = array();
-		$js_messages    = array();
+		$js_rules = array();
+		$js_messages = array();
 
 		$fields = array();
 
 		// create custom rule
 		if($rules && $rules->rule)
 		{
-			if(!is_array($rules->rule)) $rules->rule = array($rules->rule);
+			if(!is_array($rules->rule))
+			{
+				$rules->rule = array($rules->rule);
+			}
 			foreach($rules->rule as $r)
 			{
 				if($r->attrs->type == 'regex')
@@ -186,87 +218,138 @@ class XmlJsFilter extends XmlParser
 		$node_count = count($field_node);
 		if($node_count)
 		{
-			foreach($field_node as $key =>$node)
+			foreach($field_node as $key => $node)
 			{
-				$attrs  = $node->attrs;
+				$attrs = $node->attrs;
 				$target = trim($attrs->target);
 
-				if(!$target) continue;
+				if(!$target)
+				{
+					continue;
+				}
 
-				$rule    = trim($attrs->rule?$attrs->rule:$attrs->filter);
+				$rule = trim($attrs->rule ? $attrs->rule : $attrs->filter);
 				$equalto = trim($attrs->equalto);
 
 				$field = array();
 
-				if($attrs->required == 'true') $field[] = 'required:true';
-				if($attrs->minlength > 0)      $field[] = 'minlength:'.$attrs->minlength;
-				if($attrs->maxlength > 0)      $field[] = 'maxlength:'.$attrs->maxlength;
-				if($equalto) $field[] = "equalto:'{$attrs->equalto}'";
-				if($rule)    $field[] = "rule:'{$rule}'";
+				if($attrs->required == 'true')
+				{
+					$field[] = 'required:true';
+				}
+				if($attrs->minlength > 0)
+				{
+					$field[] = 'minlength:' . $attrs->minlength;
+				}
+				if($attrs->maxlength > 0)
+				{
+					$field[] = 'maxlength:' . $attrs->maxlength;
+				}
+				if($equalto)
+				{
+					$field[] = "equalto:'{$attrs->equalto}'";
+				}
+				if($rule)
+				{
+					$field[] = "rule:'{$rule}'";
+				}
 
-				$fields[] = "'{$target}': {".implode(',', $field)."}";
+				$fields[] = "'{$target}': {" . implode(',', $field) . "}";
 
-				if(!in_array($target, $target_list)) $target_list[] = $target;
-				if(!$target_type_list[$target]) $target_type_list[$target] = $filter;
+				if(!in_array($target, $target_list))
+				{
+					$target_list[] = $target;
+				}
+				if(!$target_type_list[$target])
+				{
+					$target_type_list[$target] = $filter;
+				}
 			}
 		}
 
 		// Check extend_filter_item
-		$rule_types = array('homepage'=>'homepage', 'email_address'=>'email');
+		$rule_types = array('homepage' => 'homepage', 'email_address' => 'email');
 
-		for($i=0;$i<$extend_filter_count;$i++)
+		for($i = 0; $i < $extend_filter_count; $i++)
 		{
 			$filter_item = $extend_filter_list[$i];
-			$target      = trim($filter_item->name);
+			$target = trim($filter_item->name);
 
-			if(!$target) continue;
+			if(!$target)
+			{
+				continue;
+			}
 
 			// get the filter from the type of extend filter item
-			$type  = $filter_item->type;
-			$rule  = $rule_types[$type]?$rule_types[$type]:'';
+			$type = $filter_item->type;
+			$rule = $rule_types[$type] ? $rule_types[$type] : '';
 			$required = ($filter_item->required == 'true');
 
 			$field = array();
-			if($required) $field[] = 'required:true';
-			if($rule)     $field[] = "rule:'{$rule}'";
-			$fields[] = "\t\t'{$target}' : {".implode(',', $field)."}";
+			if($required)
+			{
+				$field[] = 'required:true';
+			}
+			if($rule)
+			{
+				$field[] = "rule:'{$rule}'";
+			}
+			$fields[] = "\t\t'{$target}' : {" . implode(',', $field) . "}";
 
-			if(!in_array($target, $target_list)) $target_list[] = $target;
-			if(!$target_type_list[$target]) $target_type_list[$target] = $type;
+			if(!in_array($target, $target_list))
+			{
+				$target_list[] = $target;
+			}
+			if(!$target_type_list[$target])
+			{
+				$target_type_list[$target] = $type;
+			}
 		}
 
 		// generates parameter script to create dbata
-		$rename_params   = array();
+		$rename_params = array();
 		$parameter_count = count($parameter_param);
 		if($parameter_count)
 		{
 			// contains parameter of the default filter contents
-			foreach($parameter_param as $key =>$param)
+			foreach($parameter_param as $key => $param)
 			{
-				$attrs  = $param->attrs;
-				$name   = trim($attrs->name);
+				$attrs = $param->attrs;
+				$name = trim($attrs->name);
 				$target = trim($attrs->target);
 
 				//if($name && $target && ($name != $target)) $js_doc[] = "\t\tparams['{$name}'] = params['{$target}']; delete params['{$target}'];";
-				if($name && $target && ($name != $target))  $rename_params[] = "'{$target}':'{$name}'";
-				if($name && !in_array($name, $target_list)) $target_list[] = $name;
+				if($name && $target && ($name != $target))
+				{
+					$rename_params[] = "'{$target}':'{$name}'";
+				}
+				if($name && !in_array($name, $target_list))
+				{
+					$target_list[] = $name;
+				}
 			}
 
 			// Check extend_filter_item
-			for($i=0;$i<$extend_filter_count;$i++)
+			for($i = 0; $i < $extend_filter_count; $i++)
 			{
 				$filter_item = $extend_filter_list[$i];
 				$target = $name = trim($filter_item->name);
-				if(!$name || !$target) continue;
+				if(!$name || !$target)
+				{
+					continue;
+				}
 
-				if(!in_array($name, $target_list)) $target_list[] = $name;
+				if(!in_array($name, $target_list))
+				{
+					$target_list[] = $name;
+				}
 			}
 		}
 
 		// generates the response script
 		$response_count = count($response_tag);
 		$responses = array();
-		for($i=0;$i<$response_count;$i++)
+		for($i = 0; $i < $response_count; $i++)
 		{
 			$attrs = $response_tag[$i]->attrs;
 			$name = $attrs->name;
@@ -275,47 +358,59 @@ class XmlJsFilter extends XmlParser
 
 		// writes lang values of the form field
 		$target_count = count($target_list);
-		for($i=0;$i<$target_count;$i++)
+		for($i = 0; $i < $target_count; $i++)
 		{
 			$target = $target_list[$i];
-			if(!$lang->{$target}) $lang->{$target} = $target;
+			if(!$lang->{$target})
+			{
+				$lang->{$target} = $target;
+			}
 			$text = preg_replace('@\r?\n@', '\\n', addslashes($lang->{$target}));
 			$js_messages[] = "v.cast('ADD_MESSAGE',['{$target}','{$text}']);";
 		}
 
 		// writes the target type
 		/*
-		   $target_type_count = count($target_type_list);
-		   if($target_type_count) {
-		   foreach($target_type_list as $target => $type) {
-		//$js_doc .= sprintf("target_type_list[\"%s\"] = \"%s\";\n", $target, $type);
-		}
-		}
+		  $target_type_count = count($target_type_list);
+		  if($target_type_count) {
+		  foreach($target_type_list as $target => $type) {
+		  //$js_doc .= sprintf("target_type_list[\"%s\"] = \"%s\";\n", $target, $type);
+		  }
+		  }
 		 */
 
 		// writes error messages
 		foreach($lang->filter as $key => $val)
 		{
-			if(!$val) $val = $key;
+			if(!$val)
+			{
+				$val = $key;
+			}
 			$val = preg_replace('@\r?\n@', '\\n', addslashes($val));
 			$js_messages[] = sprintf("v.cast('ADD_MESSAGE',['%s','%s']);", $key, $val);
 		}
 
 		$callback_func = $xml_obj->filter->response->attrs->callback_func;
-		if(!$callback_func) $callback_func = "filterAlertMessage";
+		if(!$callback_func)
+		{
+			$callback_func = "filterAlertMessage";
+		}
 
 		$confirm_msg = '';
-		if ($confirm_msg_code) $confirm_msg = $lang->{$confirm_msg_code};
+		if($confirm_msg_code)
+		{
+			$confirm_msg = $lang->{$confirm_msg_code};
+		}
 
-		$jsdoc   = array();
-		$jsdoc[] = "function {$filter_name}(form){ return legacy_filter('{$filter_name}', form, '{$module}', '{$act}', {$callback_func}, [".implode(',', $responses)."], '".addslashes($confirm_msg)."', {".implode(',', $rename_params)."}) };";
+		$jsdoc = array();
+		$jsdoc[] = "function {$filter_name}(form){ return legacy_filter('{$filter_name}', form, '{$module}', '{$act}', {$callback_func}, [" . implode(',', $responses) . "], '" . addslashes($confirm_msg) . "', {" . implode(',', $rename_params) . "}) };";
 		$jsdoc[] = '(function($){';
-				$jsdoc[] = "\tvar v=xe.getApp('validator')[0];if(!v)return false;";
-				$jsdoc[] = "\t".'v.cast("ADD_FILTER", ["'.$filter_name.'", {'.implode(',', $fields).'}]);';
-				$jsdoc[] = "\t".implode("\n\t", $js_rules);
-				$jsdoc[] = "\t".implode("\n\t", $js_messages);
-				$jsdoc[] = '})(jQuery);';
-		$jsdoc   = implode("\n", $jsdoc);
+		$jsdoc[] = "\tvar v=xe.getApp('validator')[0];if(!v)return false;";
+		$jsdoc[] = "\t" . 'v.cast("ADD_FILTER", ["' . $filter_name . '", {' . implode(',', $fields) . '}]);';
+		$jsdoc[] = "\t" . implode("\n\t", $js_rules);
+		$jsdoc[] = "\t" . implode("\n\t", $js_messages);
+		$jsdoc[] = '})(jQuery);';
+		$jsdoc = implode("\n", $jsdoc);
 
 		// generates the js file
 		FileHandler::writeFile($this->js_file, $jsdoc);
@@ -328,8 +423,9 @@ class XmlJsFilter extends XmlParser
 	 */
 	function _getCompiledFileName($xml_file)
 	{
-		return sprintf('%s%s.%s.compiled.js',$this->compiled_path, md5($this->version.$xml_file),Context::getLangType());
+		return sprintf('%s%s.%s.compiled.js', $this->compiled_path, md5($this->version . $xml_file), Context::getLangType());
 	}
+
 }
 /* End of file XmlJsFilter.class.php */
 /* Location: ./classes/xml/XmlJsFilter.class.php */

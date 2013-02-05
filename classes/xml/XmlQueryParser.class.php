@@ -1,4 +1,5 @@
 <?php
+
 /**
  * XmlQueryParser
  * Case to parse XE xml query 
@@ -27,28 +28,37 @@ class XmlQueryParser extends XmlParser
 		// query xml 파일을 찾아서 파싱, 결과가 없으면 return
 		$buff = FileHandler::readFile($xml_file);
 		$xml_obj = parent::parse($buff);
-		if(!$xml_obj) return;
+		if(!$xml_obj)
+		{
+			return;
+		}
 		unset($buff);
 
 		$id_args = explode('.', $query_id);
-		if(count($id_args)==2)
+		if(count($id_args) == 2)
 		{
 			$target = 'modules';
 			$module = $id_args[0];
 			$id = $id_args[1];
 		}
-		elseif(count($id_args)==3)
+		elseif(count($id_args) == 3)
 		{
 			$target = $id_args[0];
-			$typeList = array('modules'=>1, 'addons'=>1, 'widgets'=>1);
-			if(!isset($typeList[$target])) return;
+			$typeList = array('modules' => 1, 'addons' => 1, 'widgets' => 1);
+			if(!isset($typeList[$target]))
+			{
+				return;
+			}
 			$module = $id_args[1];
 			$id = $id_args[2];
 		}
 
 		// insert, update, delete, select등의 action
 		$action = strtolower($xml_obj->query->attrs->action);
-		if(!$action) return;
+		if(!$action)
+		{
+			return;
+		}
 
 		// 테이블 정리 (배열코드로 변환)
 		$tables = $xml_obj->query->tables->table;
@@ -56,21 +66,30 @@ class XmlQueryParser extends XmlParser
 
 		$left_conditions = array();
 
-		if(!$tables) return;
-		if(!is_array($tables)) $tables = array($tables);
-		$joinList = array('left join'=>1, 'left outer join'=>1, 'right join'=>1, 'right outer join'=>1);
+		if(!$tables)
+		{
+			return;
+		}
+		if(!is_array($tables))
+		{
+			$tables = array($tables);
+		}
+		$joinList = array('left join' => 1, 'left outer join' => 1, 'right join' => 1, 'right outer join' => 1);
 		foreach($tables as $key => $val)
 		{
 			// 테이블과 alias의 이름을 구함
 			$table_name = $val->attrs->name;
 			$alias = $val->attrs->alias;
-			if(!$alias) $alias = $table_name;
+			if(!$alias)
+			{
+				$alias = $table_name;
+			}
 
 			$output->tables[$alias] = $table_name;
 
 			if(isset($joinList[$val->attrs->type]) && count($val->conditions))
 			{
-				$output->left_tables[$alias] =  $val->attrs->type;
+				$output->left_tables[$alias] = $val->attrs->type;
 				$left_conditions[$alias] = $val->conditions;
 			}
 
@@ -78,12 +97,15 @@ class XmlQueryParser extends XmlParser
 			$table_file = sprintf('%s%s/%s/schemas/%s.xml', _XE_PATH_, 'modules', $module, $table_name);
 			if(!file_exists($table_file))
 			{
-				$searched_list = FileHandler::readDir(_XE_PATH_.'modules');
+				$searched_list = FileHandler::readDir(_XE_PATH_ . 'modules');
 				$searched_count = count($searched_list);
-				for($i=0;$i<$searched_count;$i++)
+				for($i = 0; $i < $searched_count; $i++)
 				{
 					$table_file = sprintf('%s%s/%s/schemas/%s.xml', _XE_PATH_, 'modules', $searched_list[$i], $table_name);
-					if(file_exists($table_file)) break;
+					if(file_exists($table_file))
+					{
+						break;
+					}
 				}
 			}
 
@@ -142,12 +164,12 @@ class XmlQueryParser extends XmlParser
 		$buff .= '$output->tables = array( ';
 		foreach($output->tables as $key => $val)
 		{
-			if(!array_key_exists($key,$output->left_tables))
+			if(!array_key_exists($key, $output->left_tables))
 			{
 				$buff .= sprintf('"%s"=>"%s",', $key, $val);
 			}
 		}
-		$buff .= ' );'."\n";
+		$buff .= ' );' . "\n";
 
 		// php script 생성
 		$buff .= '$output->_tables = array( ';
@@ -155,7 +177,7 @@ class XmlQueryParser extends XmlParser
 		{
 			$buff .= sprintf('"%s"=>"%s",', $key, $val);
 		}
-		$buff .= ' );'."\n";
+		$buff .= ' );' . "\n";
 
 		if(count($output->left_tables))
 		{
@@ -164,7 +186,7 @@ class XmlQueryParser extends XmlParser
 			{
 				$buff .= sprintf('"%s"=>"%s",', $key, $val);
 			}
-			$buff .= ' );'."\n";
+			$buff .= ' );' . "\n";
 		}
 
 		// column 정리
@@ -172,7 +194,7 @@ class XmlQueryParser extends XmlParser
 		{
 			$buff .= '$output->columns = array ( ';
 			$buff .= $this->_getColumn($output->columns);
-			$buff .= ' );'."\n";
+			$buff .= ' );' . "\n";
 		}
 
 		// conditions 정리
@@ -180,7 +202,7 @@ class XmlQueryParser extends XmlParser
 		{
 			$buff .= '$output->conditions = array ( ';
 			$buff .= $this->_getConditions($output->conditions);
-			$buff .= ' );'."\n";
+			$buff .= ' );' . "\n";
 		}
 
 		// conditions 정리
@@ -193,7 +215,7 @@ class XmlQueryParser extends XmlParser
 				$buff .= $this->_getConditions($val);
 				$buff .= "),\n";
 			}
-			$buff .= ' );'."\n";
+			$buff .= ' );' . "\n";
 		}
 
 		// args 변수 확인
@@ -202,8 +224,8 @@ class XmlQueryParser extends XmlParser
 		{
 			foreach($arg_list as $arg)
 			{
-				$pre_buff .= 'if(is_object($args->'.$arg.')){ $args->'.$arg.' = array_values(get_method_vars($args->'.$arg.')); }'. "\n";
-				$pre_buff .= 'if(is_array($args->'.$arg.') && count($args->'.$arg.')==0){ unset($args->'.$arg.'); };'."\n";
+				$pre_buff .= 'if(is_object($args->' . $arg . ')){ $args->' . $arg . ' = array_values(get_method_vars($args->' . $arg . ')); }' . "\n";
+				$pre_buff .= 'if(is_array($args->' . $arg . ') && count($args->' . $arg . ')==0){ unset($args->' . $arg . '); };' . "\n";
 			}
 		}
 
@@ -215,31 +237,31 @@ class XmlQueryParser extends XmlParser
 			{
 				$buff .= sprintf('array($args->%s?$args->%s:"%s",in_array($args->%s,array("asc","desc"))?$args->%s:("%s"?"%s":"asc")),', $val->var, $val->var, $val->default, $val->order, $val->order, $val->order, $val->order);
 			}
-			$buff .= ');'."\n";
+			$buff .= ');' . "\n";
 		}
 
 		// list_count 정리
 		if($output->list_count)
 		{
-			$buff .= sprintf('$output->list_count = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->list_count->var, $output->list_count->var, $output->list_count->var, $output->list_count->default,"\n");
+			$buff .= sprintf('$output->list_count = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->list_count->var, $output->list_count->var, $output->list_count->var, $output->list_count->default, "\n");
 		}
 
 		// page_count 정리
 		if($output->page_count)
 		{
-			$buff .= sprintf('$output->page_count = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page_count->var, $output->page_count->var, $output->page_count->var, $output->page_count->default,"\n");
+			$buff .= sprintf('$output->page_count = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page_count->var, $output->page_count->var, $output->page_count->var, $output->page_count->default, "\n");
 		}
 
 		// page 정리
 		if($output->page)
 		{
-			$buff .= sprintf('$output->page = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page->var, $output->page->var, $output->page->var, $output->list->default,"\n");
+			$buff .= sprintf('$output->page = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page->var, $output->page->var, $output->page->var, $output->list->default, "\n");
 		}
 
 		// group by 정리
 		if($output->groups)
 		{
-			$buff .= sprintf('$output->groups = array("%s");%s', implode('","',$output->groups),"\n");
+			$buff .= sprintf('$output->groups = array("%s");%s', implode('","', $output->groups), "\n");
 		}
 
 		// minlength check
@@ -247,7 +269,7 @@ class XmlQueryParser extends XmlParser
 		{
 			foreach($minlength_list as $key => $val)
 			{
-				$pre_buff .= 'if($args->'.$key.'&&strlen($args->'.$key.')<'.$val.') return new Object(-1, sprintf($lang->filter->outofrange, $lang->'.$key.'?$lang->'.$key.':\''.$key.'\'));'."\n";
+				$pre_buff .= 'if($args->' . $key . '&&strlen($args->' . $key . ')<' . $val . ') return new Object(-1, sprintf($lang->filter->outofrange, $lang->' . $key . '?$lang->' . $key . ':\'' . $key . '\'));' . "\n";
 			}
 		}
 
@@ -256,7 +278,7 @@ class XmlQueryParser extends XmlParser
 		{
 			foreach($maxlength_list as $key => $val)
 			{
-				$pre_buff .= 'if($args->'.$key.'&&strlen($args->'.$key.')>'.$val.') return new Object(-1, sprintf($lang->filter->outofrange, $lang->'.$key.'?$lang->'.$key.':\''.$key.'\'));'."\n";
+				$pre_buff .= 'if($args->' . $key . '&&strlen($args->' . $key . ')>' . $val . ') return new Object(-1, sprintf($lang->filter->outofrange, $lang->' . $key . '?$lang->' . $key . ':\'' . $key . '\'));' . "\n";
 			}
 		}
 
@@ -265,7 +287,7 @@ class XmlQueryParser extends XmlParser
 		{
 			foreach($this->filter_list as $key => $val)
 			{
-				$pre_buff .= sprintf('if(isset($args->%s)) { unset($_output); $_output = $this->checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output; } %s',$val->var, $val->var,$val->var,$val->filter,"\n");
+				$pre_buff .= sprintf('if(isset($args->%s)) { unset($_output); $_output = $this->checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output; } %s', $val->var, $val->var, $val->var, $val->filter, "\n");
 			}
 		}
 
@@ -274,7 +296,7 @@ class XmlQueryParser extends XmlParser
 		{
 			foreach($this->default_list as $key => $val)
 			{
-				$pre_buff .= 'if(!isset($args->'.$key.')) $args->'.$key.' = '.$val.';'."\n";
+				$pre_buff .= 'if(!isset($args->' . $key . ')) $args->' . $key . ' = ' . $val . ';' . "\n";
 			}
 		}
 
@@ -283,16 +305,16 @@ class XmlQueryParser extends XmlParser
 		{
 			foreach($this->notnull_list as $key => $val)
 			{
-				$pre_buff .= 'if(!isset($args->'.$val.')) return new Object(-1, sprintf($lang->filter->isnull, $lang->'.$val.'?$lang->'.$val.':\''.$val.'\'));'."\n";
+				$pre_buff .= 'if(!isset($args->' . $val . ')) return new Object(-1, sprintf($lang->filter->isnull, $lang->' . $val . '?$lang->' . $val . ':\'' . $val . '\'));' . "\n";
 			}
 		}
 
 		$buff = "<?php if(!defined('__ZBXE__')) exit();\n"
-			. sprintf('$output->query_id = "%s";%s', $query_id, "\n")
-			. sprintf('$output->action = "%s";%s', $action, "\n")
-			. $pre_buff
-			. $buff
-			. 'return $output; ?>';
+				. sprintf('$output->query_id = "%s";%s', $query_id, "\n")
+				. sprintf('$output->action = "%s";%s', $action, "\n")
+				. $pre_buff
+				. $buff
+				. 'return $output; ?>';
 
 		// 저장
 		FileHandler::writeFile($cache_file, $buff);
@@ -311,16 +333,19 @@ class XmlQueryParser extends XmlParser
 		}
 		else
 		{
-			if(!is_array($columns)) $columns = array($columns);
+			if(!is_array($columns))
+			{
+				$columns = array($columns);
+			}
 			foreach($columns as $key => $val)
 			{
 				$name = $val->attrs->name;
 				/*
-				if(strpos('.',$name)===false && count($output->tables)==1) {
-				$tmp = array_values($output->tables);
-				$name = sprintf('%s.%s', $tmp[0], $val->attrs->name);
-				}
-				*/
+				  if(strpos('.',$name)===false && count($output->tables)==1) {
+				  $tmp = array_values($output->tables);
+				  $name = sprintf('%s.%s', $tmp[0], $val->attrs->name);
+				  }
+				 */
 
 				$output->columns[] = array(
 					"name" => $name,
@@ -354,11 +379,23 @@ class XmlQueryParser extends XmlParser
 			$condition = array($obj);
 		}
 		$condition_group = $conditions->group;
-		if($condition_group && !is_array($condition_group)) $condition_group = array($condition_group);
+		if($condition_group && !is_array($condition_group))
+		{
+			$condition_group = array($condition_group);
+		}
 
-		if($condition && $condition_group) $cond = array_merge($condition, $condition_group);
-		elseif($condition_group) $cond = $condition_group;
-		else $cond = $condition;
+		if($condition && $condition_group)
+		{
+			$cond = array_merge($condition, $condition_group);
+		}
+		elseif($condition_group)
+		{
+			$cond = $condition_group;
+		}
+		else
+		{
+			$cond = $condition;
+		}
 
 		if($cond)
 		{
@@ -366,16 +403,31 @@ class XmlQueryParser extends XmlParser
 			{
 				unset($cond_output);
 
-				if($val->attrs->pipe) $cond_output->pipe = $val->attrs->pipe;
-				else $cond_output->pipe = null;
+				if($val->attrs->pipe)
+				{
+					$cond_output->pipe = $val->attrs->pipe;
+				}
+				else
+				{
+					$cond_output->pipe = null;
+				}
 
-				if(!$val->condition) continue;
-				if(!is_array($val->condition)) $val->condition = array($val->condition);
+				if(!$val->condition)
+				{
+					continue;
+				}
+				if(!is_array($val->condition))
+				{
+					$val->condition = array($val->condition);
+				}
 
 				foreach($val->condition as $k => $v)
 				{
 					$obj = $v->attrs;
-					if(!$obj->alias) $obj->alias = $obj->column;
+					if(!$obj->alias)
+					{
+						$obj->alias = $obj->column;
+					}
 					$cond_output->condition[] = $obj;
 				}
 
@@ -395,15 +447,24 @@ class XmlQueryParser extends XmlParser
 		// group 정리
 		if($group_list)
 		{
-			if(!is_array($group_list)) $group_list = array($group_list);
-			for($i=0;$i<count($group_list);$i++)
+			if(!is_array($group_list))
+			{
+				$group_list = array($group_list);
+			}
+			for($i = 0; $i < count($group_list); $i++)
 			{
 				$group = $group_list[$i];
 				$column = trim($group->attrs->column);
-				if(!$column) continue;
+				if(!$column)
+				{
+					continue;
+				}
 				$group_column_list[] = $column;
 			}
-			if(count($group_column_list)) $output->groups = $group_column_list;
+			if(count($group_column_list))
+			{
+				$output->groups = $group_column_list;
+			}
 		}
 		return $output;
 	}
@@ -421,7 +482,10 @@ class XmlQueryParser extends XmlParser
 			$order = $navigation->index;
 			if($order)
 			{
-				if(!is_array($order)) $order = array($order);
+				if(!is_array($order))
+				{
+					$order = array($order);
+				}
 				foreach($order as $order_info)
 				{
 					$output->order[] = $order_info->attrs;
@@ -435,7 +499,7 @@ class XmlQueryParser extends XmlParser
 			$output->page_count = $page_count;
 
 			$page = $navigation->page->attrs;
-			$output->page = $page ;
+			$output->page = $page;
 		}
 		return $output;
 	}
@@ -460,18 +524,18 @@ class XmlQueryParser extends XmlParser
 			$print_vars[] = $val['alias'];
 
 			$val['default'] = $this->getDefault($val['name'], $val['default']);
-			if($val['var'] && strpos($val['var'],'.')===false)
+			if($val['var'] && strpos($val['var'], '.') === FALSE)
 			{
 				if($val['default'])
 				{
-					$str .= ',"value"=>$args->%s?$args->%s:%s'; 
+					$str .= ',"value"=>$args->%s?$args->%s:%s';
 					$print_vars[] = $val['var'];
 					$print_vars[] = $val['var'];
 					$print_vars[] = $val['default'];
 				}
 				else
 				{
-					$str .= ',"value"=>$args->%s'; 
+					$str .= ',"value"=>$args->%s';
 					$print_vars[] = $val['var'];
 				}
 			}
@@ -479,7 +543,7 @@ class XmlQueryParser extends XmlParser
 			{
 				if($val['default'])
 				{
-					$str .= ',"value"=>%s'; 
+					$str .= ',"value"=>%s';
 					$print_vars[] = $val['default'];
 				}
 			}
@@ -509,17 +573,26 @@ class XmlQueryParser extends XmlParser
 		$buff = '';
 		foreach($conditions as $key => $val)
 		{
-			$buff .= sprintf('array("pipe"=>"%s",%s"condition"=>array(', $val->pipe,"\n");
+			$buff .= sprintf('array("pipe"=>"%s",%s"condition"=>array(', $val->pipe, "\n");
 			foreach($val->condition as $k => $v)
 			{
 				$v->default = $this->getDefault($v->column, $v->default);
 				if($v->var)
 				{
-					if(strpos($v->var,".")===false)
+					if(strpos($v->var, ".") === false)
 					{
-						if($v->default) $this->default_list[$v->var] = $v->default;
-						if($v->filter) $this->filter_list[] = $v;
-						if($v->notnull) $this->notnull_list[] = $v->var;
+						if($v->default)
+						{
+							$this->default_list[$v->var] = $v->default;
+						}
+						if($v->filter)
+						{
+							$this->filter_list[] = $v;
+						}
+						if($v->notnull)
+						{
+							$this->notnull_list[] = $v->var;
+						}
 						if($v->default)
 						{
 							$buff .= sprintf('array("column"=>"%s", "value"=>$args->%s?$args->%s:%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->var, $v->default, $v->pipe, $v->operation, "\n");
@@ -540,15 +613,15 @@ class XmlQueryParser extends XmlParser
 				{
 					if($v->default)
 					{
-						$buff .= sprintf('array("column"=>"%s", "value"=>%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->default ,$v->pipe, $v->operation,"\n");
+						$buff .= sprintf('array("column"=>"%s", "value"=>%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->default, $v->pipe, $v->operation, "\n");
 					}
 					else
 					{
-						$buff .= sprintf('array("column"=>"%s", "pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->pipe, $v->operation,"\n");
+						$buff .= sprintf('array("column"=>"%s", "pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->pipe, $v->operation, "\n");
 					}
 				}
 			}
-			$buff .= ')),'."\n";
+			$buff .= ')),' . "\n";
 		}
 		return $buff;
 	}
@@ -580,13 +653,19 @@ class XmlQueryParser extends XmlParser
 	 */
 	function getDefault($name, $value)
 	{
-		$db_info = Context::getDBInfo ();
-		if(!isset($value)) return;
+		$db_info = Context::getDBInfo();
+		if(!isset($value))
+		{
+			return;
+		}
 		$str_pos = strpos($value, '(');
-		if($str_pos===false) return '"'.$value.'"';
+		if($str_pos === FALSE)
+		{
+			return '"' . $value . '"';
+		}
 
 		$func_name = substr($value, 0, $str_pos);
-		$args = substr($value, $str_pos+1, strlen($value)-1);
+		$args = substr($value, $str_pos + 1, strlen($value) - 1);
 
 		switch($func_name)
 		{
@@ -606,7 +685,7 @@ class XmlQueryParser extends XmlParser
 				$args = abs($args);
 				if($db_info->db_type == 'cubrid')
 				{
-					$val = sprintf ('"\\"%s\\"+%d"', $name, $args);
+					$val = sprintf('"\\"%s\\"+%d"', $name, $args);
 				}
 				else
 				{
@@ -617,7 +696,7 @@ class XmlQueryParser extends XmlParser
 				$args = abs($args);
 				if($db_info->db_type == 'cubrid')
 				{
-					$val = sprintf ('"\\"%s\\"-%d"', $name, $args);
+					$val = sprintf('"\\"%s\\"-%d"', $name, $args);
 				}
 				else
 				{
@@ -628,7 +707,7 @@ class XmlQueryParser extends XmlParser
 				$args = intval($args);
 				if($db_info->db_type == 'cubrid')
 				{
-					$val = sprintf ('"\\"%s\\"*%d"', $name, $args);
+					$val = sprintf('"\\"%s\\"*%d"', $name, $args);
 				}
 				else
 				{
@@ -639,6 +718,7 @@ class XmlQueryParser extends XmlParser
 
 		return $val;
 	}
+
 }
 /* End of file XmlQueryParser.class.php */
 /* Location: ./classes/xml/XmlQueryParser.class.php */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Models the &lt;columns&gt; tag inside an XML Query file whose action is 'update'
  *
@@ -8,6 +9,7 @@
  */
 class UpdateColumnsTag
 {
+
 	/**
 	 * Column list
 	 *
@@ -25,12 +27,21 @@ class UpdateColumnsTag
 	{
 		$this->columns = array();
 
-		if(!is_array($xml_columns)) $xml_columns = array($xml_columns);
+		if(!is_array($xml_columns))
+		{
+			$xml_columns = array($xml_columns);
+		}
 
 		foreach($xml_columns as $column)
 		{
-			if($column->name === 'query') $this->columns[] = new QueryTag($column, true);
-			else $this->columns[] = new UpdateColumnTag($column);
+			if($column->name === 'query')
+			{
+				$this->columns[] = new QueryTag($column, true);
+			}
+			else
+			{
+				$this->columns[] = new UpdateColumnTag($column);
+			}
 		}
 	}
 
@@ -65,6 +76,7 @@ class UpdateColumnsTag
 		}
 		return $arguments;
 	}
+
 }
 /* End of file UpdateColumnsTag.class.php */
 /* Location: ./classes/xml/xmlquery/tags/column/UpdateColumnsTag.class.php */

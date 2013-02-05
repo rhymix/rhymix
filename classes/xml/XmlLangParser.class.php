@@ -1,4 +1,5 @@
 <?php
+
 /**
  * XmlLangParser class
  * Change to lang php file from xml.
@@ -8,6 +9,7 @@
  */
 class XmlLangParser extends XmlParser
 {
+
 	/**
 	 * compiled language cache path
 	 * @var string
@@ -18,21 +20,25 @@ class XmlLangParser extends XmlParser
 	 * @var string
 	 */
 	var $xml_file = NULL;
+
 	/**
 	 * Target php file
 	 * @var string
 	 */
 	var $php_file = NULL;
+
 	/**
 	 * result source code
 	 * @var string
 	 */
 	var $code;
+
 	/**
 	 * language list, for example ko, en...
 	 * @var array
 	 */
 	var $lang_types;
+
 	/**
 	 * language type
 	 * @see _XE_PATH_.'/common/lang/lang.info'
@@ -59,18 +65,27 @@ class XmlLangParser extends XmlParser
 	 */
 	function compile()
 	{
-		if(!file_exists($this->xml_file)) return false;
+		if(!file_exists($this->xml_file))
+		{
+			return FALSE;
+		}
 		if(!file_exists($this->php_file))
 		{
 			$this->_compile();
 		}
 		else
 		{
-			if(filemtime($this->xml_file)>filemtime($this->php_file)) $this->_compile();
-			else return $this->php_file;
+			if(filemtime($this->xml_file) > filemtime($this->php_file))
+			{
+				$this->_compile();
+			}
+			else
+			{
+				return $this->php_file;
+			}
 		}
 
-		return $this->_writeFile() ? $this->php_file : false;
+		return $this->_writeFile() ? $this->php_file : FALSE;
 	}
 
 	/**
@@ -79,7 +94,10 @@ class XmlLangParser extends XmlParser
 	 */
 	function getCompileContent()
 	{
-		if(!file_exists($this->xml_file)) return false;
+		if(!file_exists($this->xml_file))
+		{
+			return FALSE;
+		}
 		$this->_compile();
 
 		return $this->code;
@@ -96,16 +114,19 @@ class XmlLangParser extends XmlParser
 
 		// read xml file
 		$buff = FileHandler::readFile($this->xml_file);
-		$buff = str_replace('xml:lang','xml_lang',$buff);
+		$buff = str_replace('xml:lang', 'xml_lang', $buff);
 
 		// xml parsing
 		$xml_obj = parent::parse($buff);
 
 		$item = $xml_obj->lang->item;
-		if(!is_array($item)) $item = array($item);
+		if(!is_array($item))
+		{
+			$item = array($item);
+		}
 		foreach($item as $i)
 		{
-			$this->_parseItem($i, $var='$lang->%s');
+			$this->_parseItem($i, $var = '$lang->%s');
 		}
 	}
 
@@ -115,8 +136,11 @@ class XmlLangParser extends XmlParser
 	 */
 	function _writeFile()
 	{
-		if(!$this->code) return;
-		FileHandler::writeFile($this->php_file, "<?php\n".$this->code);
+		if(!$this->code)
+		{
+			return;
+		}
+		FileHandler::writeFile($this->php_file, "<?php\n" . $this->code);
 		return false;
 	}
 
@@ -138,22 +162,24 @@ class XmlLangParser extends XmlParser
 
 			if($type == 'array')
 			{
-				$this->code .= $var."=array();\n";
+				$this->code .= $var . "=array();\n";
 				$var .= '[\'%s\']';
 			}
 			else
 			{
-				$this->code .= $var."=new stdClass;\n";
+				$this->code .= $var . "=new stdClass;\n";
 				$var .= '->%s';
 			}
 
 			$items = $item->item;
-			if(!is_array($items)) $items = array($items);
+			if(!is_array($items))
+			{
+				$items = array($items);
+			}
 			foreach($items as $item)
 			{
 				$this->_parseItem($item, $var);
 			}
-
 		}
 		else
 		{
@@ -170,23 +196,44 @@ class XmlLangParser extends XmlParser
 	 */
 	function _parseValues($nodes, $var)
 	{
-		if(!is_array($nodes)) $nodes = array($nodes);
+		if(!is_array($nodes))
+		{
+			$nodes = array($nodes);
+		}
 
 		$value = array();
 		foreach($nodes as $node)
 		{
 			$return = $this->_parseValue($node, $var);
-			if($return && is_array($return)) $value = array_merge($value, $return);
+			if($return && is_array($return))
+			{
+				$value = array_merge($value, $return);
+			}
 		}
 
-		if($value[$this->lang_type]) return $value[$this->lang_type];
-		else if($value['en']) return $value['en'];
-		else if($value['ko']) return $value['ko'];
+		if($value[$this->lang_type])
+		{
+			return $value[$this->lang_type];
+		}
+		else if($value['en'])
+		{
+			return $value['en'];
+		}
+		else if($value['ko'])
+		{
+			return $value['ko'];
+		}
 
 		foreach($this->lang_types as $lang_type)
 		{
-			if($lang_type == 'en' || $lang_type == 'ko' || $lang_type == $this->lang_type) continue;
-			if($value[$lang_type]) return $value[$lang_type];
+			if($lang_type == 'en' || $lang_type == 'ko' || $lang_type == $this->lang_type)
+			{
+				continue;
+			}
+			if($value[$lang_type])
+			{
+				return $value[$lang_type];
+			}
 		}
 
 		return '';
@@ -202,10 +249,13 @@ class XmlLangParser extends XmlParser
 	{
 		$lang_type = $node->attrs->xml_lang;
 		$value = $node->body;
-		if(!$value) return false;
+		if(!$value)
+		{
+			return false;
+		}
 
-		$var .= '=\'' . str_replace("'","\'",$value) . "';\n";
-		return array($lang_type=>$var);
+		$var .= '=\'' . str_replace("'", "\'", $value) . "';\n";
+		return array($lang_type => $var);
 	}
 
 	/**
@@ -214,10 +264,11 @@ class XmlLangParser extends XmlParser
 	 * @param string $type
 	 * @return string
 	 */
-	function _getCompiledFileName($lang_type, $type='php')
+	function _getCompiledFileName($lang_type, $type = 'php')
 	{
-		return sprintf('%s%s.%s.php',$this->compiled_path, md5($this->xml_file), $lang_type);
+		return sprintf('%s%s.%s.php', $this->compiled_path, md5($this->xml_file), $lang_type);
 	}
+
 }
 /* End of file XmlLangParser.class.php */
 /* Location: ./classes/xml/XmlLangParser.class.php */
