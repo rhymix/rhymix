@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File abstraction class 
  *
@@ -6,17 +7,18 @@
  */
 class FileObject extends Object
 {
+
 	/**
 	 * File descriptor
 	 * @var resource
 	 */
-	var $fp = null;
+	var $fp = NULL;
 
 	/**
 	 * File path
 	 * @var string
 	 */
-	var $path = null;
+	var $path = NULL;
 
 	/**
 	 * File open mode
@@ -33,7 +35,10 @@ class FileObject extends Object
 	 */
 	function FileObject($path, $mode)
 	{
-		if($path != null) $this->Open($path, $mode);
+		if($path != NULL)
+		{
+			$this->Open($path, $mode);
+		}
 	}
 
 	/**
@@ -74,7 +79,6 @@ class FileObject extends Object
 		return fread($this->fp, $size);
 	}
 
-
 	/**
 	 * Write string to current file 
 	 *
@@ -84,8 +88,14 @@ class FileObject extends Object
 	function write($str)
 	{
 		$len = strlen($str);
-		if(!$str || $len <= 0) return false;
-		if(!$this->fp) return false;
+		if(!$str || $len <= 0)
+		{
+			return FALSE;
+		}
+		if(!$this->fp)
+		{
+			return FALSE;
+		}
 		$written = fwrite($this->fp, $str);
 		return $written;
 	}
@@ -101,18 +111,18 @@ class FileObject extends Object
 	 */
 	function open($path, $mode)
 	{
-		if($this->fp != null)
-		{   
+		if($this->fp != NULL)
+		{
 			$this->close();
 		}
 		$this->fp = fopen($path, $mode);
-		if(! is_resource($this->fp) )
+		if(!is_resource($this->fp))
 		{
-			$this->fp = null; 
-			return false;
+			$this->fp = NULL;
+			return FALSE;
 		}
 		$this->path = $path;
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -122,13 +132,13 @@ class FileObject extends Object
 	 */
 	function getPath()
 	{
-		if($this->fp != null)
+		if($this->fp != NULL)
 		{
 			return $this->path;
 		}
 		else
 		{
-			return null; 
+			return NULL;
 		}
 	}
 
@@ -139,13 +149,13 @@ class FileObject extends Object
 	 */
 	function close()
 	{
-		if($this->fp != null)
+		if($this->fp != NULL)
 		{
 			fclose($this->fp);
-			$this->fp = null;
+			$this->fp = NULL;
 		}
 	}
-}
 
+}
 /* End of file FileObject.class.php */
 /* Location: ./classes/file/FileObject.class.php */
