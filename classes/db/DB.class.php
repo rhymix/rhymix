@@ -1397,7 +1397,7 @@ class DB
 		static $dbParser = NULL;
 		if(!$dbParser || $force)
 		{
-			$oDB = &DB::getInstance();
+			$oDB = DB::getInstance();
 			$dbParser = $oDB->getParser();
 		}
 
