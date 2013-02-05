@@ -353,6 +353,8 @@ class commentController extends comment
 		{
 			$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
 			$oCacheHandler->invalidateGroupKey('newestCommentsList');
+
+			$oCacheHandler->delete('object:'.$document_srl);
 		}
 		return $output;
 	}
@@ -685,6 +687,8 @@ class commentController extends comment
 		{
 			$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
 			$oCacheHandler->invalidateGroupKey('newestCommentsList');
+
+			$oCacheHandler->delete('object:'.$document_srl);
 		}
 		return $output;
 	}
