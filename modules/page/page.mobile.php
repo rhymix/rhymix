@@ -116,7 +116,7 @@ class pageMobile extends pageView
 
 		if($this->module_info->mskin)
 		{
-			$templatePath = (sprintf($this->module_path.'m.skins/%s', $this->module_info->skin));
+			$templatePath = (sprintf($this->module_path.'m.skins/%s', $this->module_info->mskin));
 		}
 		else
 		{
