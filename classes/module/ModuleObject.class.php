@@ -407,12 +407,13 @@ class ModuleObject extends Object
 			if($usedSkinModule && $is_default_skin && $this->module != 'admin' && strpos($this->act, 'Admin') === false)
 			{
 				$dir = (Mobile::isFromMobilePhone()) ? 'm.skins' : 'skins';
+				$valueName = (Mobile::isFromMobilePhone()) ? 'mskin' : 'skin';
 				$oModuleModel = getModel('module');
 				$skinType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
 				$skinName = $oModuleModel->getModuleDefaultSkin($this->module, $skinType);
 				if($this->module == 'page')
 				{
-					$this->module_info->skin = $skinName;
+					$this->module_info->{$valueName} = $skinName;
 				}
 				else
 				{
