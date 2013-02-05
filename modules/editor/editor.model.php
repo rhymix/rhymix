@@ -353,7 +353,7 @@ class editorModel extends editor
 		// load editor skin lang
 		Context::loadLang($tpl_path.'lang');
 		// Return the compiled result from tpl file
-		$oTemplate = new TemplateHandler();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 
