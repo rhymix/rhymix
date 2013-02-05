@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @class PageHandler
  * @author NHN (developers@xpressengine.com)
@@ -10,6 +11,7 @@
  */
 class PageHandler extends Handler
 {
+
 	var $total_count = 0; ///< number of total items
 	var $total_page = 0; ///< number of total pages
 	var $cur_page = 0; ///< current page number
@@ -26,6 +28,7 @@ class PageHandler extends Handler
 	 * @param int $page_count number of page links displayed at one time 
 	 * @return void
 	 */
+
 	function PageHandler($total_count, $total_page, $cur_page, $page_count = 10)
 	{
 		$this->total_count = $total_count;
@@ -34,8 +37,11 @@ class PageHandler extends Handler
 		$this->page_count = $page_count;
 		$this->point = 0;
 
-		$first_page = $cur_page - (int)($page_count/2);
-		if($first_page<1) $first_page = 1;
+		$first_page = $cur_page - (int) ($page_count / 2);
+		if($first_page < 1)
+		{
+			$first_page = 1;
+		}
 
 		if($total_page > $page_count && $first_page + $page_count - 1 > $total_page)
 		{
@@ -43,12 +49,18 @@ class PageHandler extends Handler
 		}
 
 		$last_page = $total_page;
-		if($last_page>$total_page) $last_page = $total_page;
+		if($last_page > $total_page)
+		{
+			$last_page = $total_page;
+		}
 
 		$this->first_page = $first_page;
 		$this->last_page = $last_page;
 
-		if($total_page < $this->page_count) $this->page_count = $total_page;
+		if($total_page < $this->page_count)
+		{
+			$this->page_count = $total_page;
+		}
 	}
 
 	/**
@@ -57,8 +69,11 @@ class PageHandler extends Handler
 	 */
 	function getNextPage()
 	{
-		$page = $this->first_page+$this->point++;
-		if($this->point > $this->page_count || $page > $this->last_page) $page = 0;
+		$page = $this->first_page + $this->point++;
+		if($this->point > $this->page_count || $page > $this->last_page)
+		{
+			$page = 0;
+		}
 		return $page;
 	}
 
@@ -67,10 +82,11 @@ class PageHandler extends Handler
 	 * @param int $offset
 	 * @return int
 	 */
-	function getPage($offset) 
+	function getPage($offset)
 	{
 		return max(min($this->cur_page + $offset, $this->total_page), '');
 	}
+
 }
 /* End of file PageHandler.class.php */
 /* Location: ./classes/page/PageHandler.class.php */

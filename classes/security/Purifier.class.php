@@ -1,6 +1,8 @@
 <?php
+
 class Purifier
 {
+
 	private $_cacheDir;
 	private $_htmlPurifier;
 	private $_config;
@@ -11,7 +13,7 @@ class Purifier
 		$this->_checkCacheDir();
 
 		// purifier setting
-		require_once _XE_PATH_.'classes/security/htmlpurifier/library/HTMLPurifier.auto.php';
+		require_once _XE_PATH_ . 'classes/security/htmlpurifier/library/HTMLPurifier.auto.php';
 		require_once 'HTMLPurifier.func.php';
 
 		$this->_setConfig();
@@ -33,13 +35,13 @@ class Purifier
 
 		$this->_config = HTMLPurifier_Config::createDefault();
 		$this->_config->set('HTML.TidyLevel', 'light');
-		$this->_config->set('HTML.SafeObject', true);
-		$this->_config->set('HTML.SafeIframe', true);
+		$this->_config->set('HTML.SafeObject', TRUE);
+		$this->_config->set('HTML.SafeIframe', TRUE);
 		$this->_config->set('URI.SafeIframeRegexp', $whiteDomainRegex);
 		$this->_config->set('Cache.SerializerPath', $this->_cacheDir);
 		$this->_config->set('Attr.AllowedClasses', $allowdClasses);
 
-		$this->_def = $this->_config->getHTMLDefinition(true);
+		$this->_def = $this->_config->getHTMLDefinition(TRUE);
 	}
 
 	private function _setDefinition(&$content)
@@ -48,7 +50,7 @@ class Purifier
 		$editComponentAttrs = $this->_searchEditComponent($content);
 		if(is_array($editComponentAttrs))
 		{
-			foreach($editComponentAttrs AS $k=>$v)
+			foreach($editComponentAttrs AS $k => $v)
 			{
 				$this->_def->addAttribute('img', $v, 'CDATA');
 			}
@@ -58,7 +60,7 @@ class Purifier
 		$widgetAttrs = $this->_searchWidget($content);
 		if(is_array($widgetAttrs))
 		{
-			foreach($widgetAttrs AS $k=>$v)
+			foreach($widgetAttrs AS $k => $v)
 			{
 				$this->_def->addAttribute('img', $v, 'CDATA');
 			}
@@ -77,7 +79,7 @@ class Purifier
 		$attributeList = array();
 		if(is_array($m[2]))
 		{
-			foreach($m[2] AS $key=>$value)
+			foreach($m[2] AS $key => $value)
 			{
 				unset($script, $m2);
 				$script = " {$m[2][$key]} editor_component={$m[3][$key]}";
@@ -85,7 +87,7 @@ class Purifier
 				preg_match_all('/([a-z0-9_-]+)="([^"]+)"/is', $script, $m2);
 				if(is_array($m2[1]))
 				{
-					foreach($m2[1] AS $key2=>$value2)
+					foreach($m2[1] AS $key2 => $value2)
 					{
 						array_push($attributeList, $value2);
 					}
@@ -109,12 +111,12 @@ class Purifier
 		{
 			$content = str_replace('<img class="zbxe_widget_output"', '<img src="" class="zbxe_widget_output"', $content);
 
-			foreach($m[3] AS $key=>$value)
+			foreach($m[3] AS $key => $value)
 			{
 				preg_match_all('/([a-z0-9_-]+)="([^"]+)"/is', $m[3][$key], $m2);
 				if(is_array($m2[1]))
 				{
-					foreach($m2[1] AS $key2=>$value2)
+					foreach($m2[1] AS $key2 => $value2)
 					{
 						array_push($attributeList, $value2);
 					}
@@ -126,19 +128,19 @@ class Purifier
 
 	private function _getWhiteDomainRegx()
 	{
-		require_once(_XE_PATH_.'classes/security/EmbedFilter.class.php');
+		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
 		$oEmbedFilter = EmbedFilter::getInstance();
 		$whiteIframeUrlList = $oEmbedFilter->getWhiteIframeUrlList();
 
 		$whiteDomainRegex = '%^(';
-				if(is_array($whiteIframeUrlList))
-				{
-				foreach($whiteIframeUrlList AS $key=>$value)
-				{
+		if(is_array($whiteIframeUrlList))
+		{
+			foreach($whiteIframeUrlList AS $key => $value)
+			{
 				$whiteDomainRegex .= $value;
-				}
-				}
-				$whiteDomainRegex .= ')%';
+			}
+		}
+		$whiteDomainRegex .= ')%';
 
 		return $whiteDomainRegex;
 	}
@@ -146,7 +148,7 @@ class Purifier
 	private function _checkCacheDir()
 	{
 		// check htmlpurifier cache directory
-		$this->_cacheDir = _XE_PATH_.'files/cache/htmlpurifier';
+		$this->_cacheDir = _XE_PATH_ . 'files/cache/htmlpurifier';
 		if(!file_exists($this->_cacheDir))
 		{
 			FileHandler::makeDir($this->_cacheDir);
@@ -160,7 +162,7 @@ class Purifier
 
 		$content = $this->_htmlPurifier->purify($content);
 	}
-}
 
+}
 /* End of file : Purifier.class.php */
 /* Location: ./classes/security/Purifier.class.php */
