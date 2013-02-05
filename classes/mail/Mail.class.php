@@ -1,4 +1,5 @@
 <?php
+
 if(version_compare(PHP_VERSION, '5.0.0', '>='))
 {
 	require_once _XE_PATH_ . "libs/phpmailer/phpmailer.php";
@@ -15,6 +16,7 @@ else
  */
 class Mail extends PHPMailer
 {
+
 	/**
 	 * Sender name
 	 * @var string
@@ -85,7 +87,7 @@ class Mail extends PHPMailer
 	 * Content attachements
 	 * @var array
 	 */
-	var $cidAttachments  = array();
+	var $cidAttachments = array();
 
 	/**
 	 * ???
@@ -136,6 +138,7 @@ class Mail extends PHPMailer
 	 */
 	function Mail()
 	{
+
 	}
 
 	/**
@@ -178,10 +181,10 @@ class Mail extends PHPMailer
 	function useSMTP($auth = NULL, $host = NULL, $user = NULL, $pass = NULL, $secure = NULL, $port = 25)
 	{
 		$this->SMTPAuth = $auth;
-		$this->Host	= $host;
+		$this->Host = $host;
 		$this->Username = $user;
 		$this->Password = $pass;
-		$this->Port	= $port;
+		$this->Port = $port;
 
 		if($secure == 'ssl' || $secure == 'tls')
 		{
@@ -438,7 +441,7 @@ class Mail extends PHPMailer
 	 */
 	function getHTMLContent()
 	{
-		return chunk_split(base64_encode($this->content_type != 'html' ? nl2br($this->content):$this->content));
+		return chunk_split(base64_encode($this->content_type != 'html' ? nl2br($this->content) : $this->content));
 	}
 
 	/**
@@ -449,7 +452,7 @@ class Mail extends PHPMailer
 	 */
 	function setContentType($mode = 'html')
 	{
-		$this->content_type = $mode == 'html' ? 'html':'';
+		$this->content_type = $mode == 'html' ? 'html' : '';
 	}
 
 	/**
@@ -483,12 +486,7 @@ class Mail extends PHPMailer
 							"Content-Description: %s" . $this->eol .
 							"Content-Disposition: attachment;" . $this->eol .
 							"\tfilename=\"%s\"" . $this->eol . $this->eol .
-							"%s" . $this->eol . $this->eol,
-							$type,
-							$filename,
-							$filename,
-							$filename,
-							$chunks);
+							"%s" . $this->eol . $this->eol, $type, $filename, $filename, $filename, $chunks);
 					$res[] = $tempBody;
 				}
 				$this->body = implode("", $res);
@@ -536,13 +534,7 @@ class Mail extends PHPMailer
 						"Content-ID: <%s>" . $this->eol .
 						"Content-Description: %s" . $this->eol .
 						"Content-Location: %s" . $this->eol . $this->eol .
-						"%s" . $this->eol . $this->eol,
-						$type,
-						$filename,
-						$cid,
-						$filename,
-						$filename,
-						$chunks);
+						"%s" . $this->eol . $this->eol, $type, $filename, $cid, $filename, $filename, $chunks);
 				$res[] = $tempBody;
 			}
 			$this->body = implode("", $res);
@@ -574,13 +566,8 @@ class Mail extends PHPMailer
 					"Content-Disposition: inline" . $this->eol . $this->eol .
 					"%s" .
 					"--%s--" .
-					"",
-					$boundary,
-					$this->getPlainContent(),
-					$boundary,
-					$this->getHTMLContent(),
-					$boundary
-					);
+					"", $boundary, $this->getPlainContent(), $boundary, $this->getHTMLContent(), $boundary
+			);
 			$this->procCidAttachments();
 			$this->procAttachments();
 			$headers = sprintf(
@@ -589,13 +576,8 @@ class Mail extends PHPMailer
 					"%s" .
 					"%s" .
 					"%s" .
-					"MIME-Version: 1.0" . $this->eol . "",
-					$this->getSender(),
-					$this->messageId ? ("Message-ID: <" . $this->messageId . ">" . $this->eol):"",
-					$this->replyTo ? ("Reply-To: <" . $this->replyTo . ">" . $this->eol):"",
-					$this->bcc ? ("Bcc: " . $this->bcc . $this->eol):"",
-					$this->references ? ("References: <" . $this->references . ">" . $this->eol . "In-Reply-To: <" . $this->references . ">" . $this->eol):""
-					);
+					"MIME-Version: 1.0" . $this->eol . "", $this->getSender(), $this->messageId ? ("Message-ID: <" . $this->messageId . ">" . $this->eol) : "", $this->replyTo ? ("Reply-To: <" . $this->replyTo . ">" . $this->eol) : "", $this->bcc ? ("Bcc: " . $this->bcc . $this->eol) : "", $this->references ? ("References: <" . $this->references . ">" . $this->eol . "In-Reply-To: <" . $this->references . ">" . $this->eol) : ""
+			);
 			$headers .= $this->header;
 			if($this->additional_params)
 			{
@@ -739,6 +721,7 @@ class Mail extends PHPMailer
 				return "unknown/" . trim($fileSuffix[0], ".");
 		}
 	}
+
 }
 /* End of file Mail.class.php */
 /* Location: ./classes/mail/Mail.class.php */
