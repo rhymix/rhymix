@@ -1,4 +1,5 @@
 <?php
+
 /**
  * adminlogging class
  * Base class of adminlogging module
@@ -9,6 +10,7 @@
  */
 class adminlogging extends ModuleObject
 {
+
 	/**
 	 * Install adminlogging module
 	 * @return Object
@@ -24,7 +26,7 @@ class adminlogging extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -42,7 +44,9 @@ class adminlogging extends ModuleObject
 	 */
 	function recompileCache()
 	{
+		
 	}
+
 }
 /* End of file adminlogging.class.php */
 /* Location: ./modules/adminlogging/adminlogging.class.php */
