@@ -9,14 +9,14 @@
 .pageAddContent{width:700px}
 .widgetOutput{float:left;cursor:move;z-index:998;overflow:hidden;position:relative;width:100%;min-height:24px}
 .widgetOutput .widgetBorder,
-.widgetOutput .widgetBoxBorder{position:absolute;top:0;left:0;right:0;bottom:0;border:1px dashed #ccc;z-index:999}
+.widgetOutput .widgetBoxBorder{height:100%;border:1px dashed #ccc;z-index:999;box-sizing:border-box;min-height:24px}
 .widgetOutput .widgetResize {border:0;background:transparent url("../images/btn_resize.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:1px;right:1px;cursor:pointer;z-index:1000}
-.widgetOutput .widgetResizeLeft {border:0;background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:0;left:1px;cursor:pointer;z-index:1000}
+.widgetOutput .widgetResizeLeft {border:0;background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:1px;left:1px;cursor:pointer;z-index:1000}
 .widgetOutput .widgetBoxResize {border:0;background:transparent url("../images/btn_resize.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:1px;right:1px;cursor:pointer;z-index:1000}
 .widgetOutput .widgetBoxResizeLeft{border:0;background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:0;left:1px;cursor:pointer;z-index:1000}
-.widgetButtons{z-index:1000;overflow:hidden;*zoom:1;float:left;padding:0 10px;line-height:24px;position:absolute;visibility:hidden;box-shadow:0 0 3px #333 inset}
-.widgetButtons#widgetButton{background-color:#C7DBE9;left:0;top:0}
-.widgetButtons#widgetBoxButton{background-color:#D2E9C7;right:0;top:0}
+.widgetButtons{z-index:1000;overflow:hidden;*zoom:1;float:left;padding:0 10px;line-height:24px;position:absolute;top:0;visibility:hidden;box-shadow:0 0 3px #333 inset}
+.widgetButtons#widgetButton{background-color:#C7DBE9;left:0}
+.widgetButtons#widgetBoxButton{background-color:#D2E9C7;right:0}
 .widgetButtons>button{border:0;width:14px;height:14px;padding:14px 0 0 0;overflow:hidden;cursor:pointer;z-index:99;background:transparent url("../../../admin/tpl/img/glyphicons-halflings.png") no-repeat}
 .widgetButtons .widgetSetup{background-position:-432px 0}
 .widgetButtons .widgetSize,

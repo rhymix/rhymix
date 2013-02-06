@@ -50,9 +50,6 @@ function doStartPageModify(zoneID, module_srl) {
 		.find('>form')
 		.submit(function(){ doApplyWidgetSize(this); return false; });
 
-    // 모든 위젯들의 크기를 정해진 크기로 맞춤
-    doFitBorderSize();
-
     // 드래그와 리사이즈와 관련된 이벤트 리스너 생성
 	xAddEventListener(document.getElementById('zonePageContent'), "click",doCheckWidget);
 	xAddEventListener(document.getElementById('zonePageContent'), "mousedown",doCheckWidgetDrag);
@@ -213,9 +210,6 @@ function doSyncPageContent() {
     }
 
     if(typeof(editorStart)!='undefined') editorStart(1, "module_srl", "content", false, 400 );
-    //editor_upload_start(1);
-
-    //setFixedPopupSize();
 }
 
 // 부모창에 위젯을 추가
@@ -263,7 +257,7 @@ function addContentWidget(fo_obj) {
 				'<button type="button" class="widgetResize"></button>'+
 				'<button type="button" class="widgetResizeLeft"></button>'+
 				'<div class="widgetBorder">'+
-				'<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+
+				'<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px '+fo_obj.widget_padding_bottom.value+'px '+fo_obj.widget_padding_left.value+'px"></div>'+content+
 				'</div>'+
 				'<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;"></div>'+
 				'</div>';
@@ -294,7 +288,6 @@ function doAddWidgetBox() {
         '</div>'+
     '</div>';
 	zonePageObj.innerHTML += tpl;
-    doFitBorderSize();
 }
 
 
@@ -308,25 +301,6 @@ function doAddWidget(fo) {
     popopen(url,'GenerateWidgetCode');
 }
 
-
-
-// widgetBorder에 height를 widgetOutput와 맞춰줌
-function doFitBorderSize() {
-    /*var obj_list = jQuery('.widgetBorer', zonePageObj).get();
-    for(var i=0;i<obj_list.length;i++) {
-        var obj = obj_list[i];
-        var height = xHeight(obj.parentNode);
-        if(height<10) height = 24;
-        xHeight(obj, height);
-        obj.parentNode.style.clear = '';
-    }
-    var obj_list = jQuery('.widgetBoxBorder', zonePageObj).get();
-    for(var i=0;i<obj_list.length;i++) {
-        var obj = obj_list[i];
-        xHeight(obj, xHeight(obj.parentNode));
-        obj.parentNode.style.clear = '';
-    }*/
-}
 
 var selectedWidget = null;
 var writedText = null;
@@ -763,17 +737,6 @@ function doApplyWidgetSize(fo_obj) {
         var width = _getSize(fo_obj.width.value);
         if(width) selectedSizeWidget.style.width = width;
 
-        var height = _getSize(fo_obj.height.value);
-        if(height && height != "100%") selectedSizeWidget.style.height = height;
-        else {
-            selectedSizeWidget.style.height = '';
-            var widgetBorder = xGetElementsByClassName('widgetBorder',selectedSizeWidget);
-            for(var i=0;i<widgetBorder.length;i++) {
-                var obj = widgetBorder[i];
-                obj.style.height = '';
-            }
-        }
-
         selectedSizeWidget.style.borderTop = _getBorderStyle(fo_obj.border_top_color, fo_obj.border_top_thick, fo_obj.border_top_type);
         selectedSizeWidget.style.borderBottom = _getBorderStyle(fo_obj.border_bottom_color, fo_obj.border_bottom_thick, fo_obj.border_bottom_type);
         selectedSizeWidget.style.borderLeft = _getBorderStyle(fo_obj.border_left_color, fo_obj.border_left_thick, fo_obj.border_left_type);
@@ -947,7 +910,6 @@ var widgetDisappear = 0;
 
 function widgetCreateTmpObject(obj) {
     var id = obj.getAttribute('id');
-
     tmpObj = xCreateElement('DIV');
     tmpObj.id = id + '_tmp';
     tmpObj.className = obj.className;
@@ -955,15 +917,12 @@ function widgetCreateTmpObject(obj) {
     tmpObj.style.margin= '0px';
     tmpObj.style.padding = '0px';
     tmpObj.style.width = obj.style.width;
-
     tmpObj.style.display = 'none';
     tmpObj.style.position = 'absolute';
     tmpObj.style.opacity = 1;
     tmpObj.style.filter = 'alpha(opacity=100)';
-
     xLeft(tmpObj, xPageX(obj));
     xTop(tmpObj, xPageY(obj));
-
     document.body.appendChild(tmpObj);
     widgetTmpObject[obj.id] = tmpObj;
     return tmpObj;
@@ -1044,10 +1003,6 @@ function widgetDrag(tobj, dx, dy) {
 
         if( zoneRight < sx+new_width) new_width = zoneRight - sx;
 
-        // 위젯의 크기 조절
-        xWidth(tobj.nextSibling.nextSibling, new_width);
-        xHeight(tobj.nextSibling.nextSibling, new_height);
-
         xWidth(tobj.parentNode, new_width);
         xHeight(tobj.parentNode, new_height);
 
@@ -1063,10 +1018,6 @@ function widgetDrag(tobj, dx, dy) {
 
         var new_height = ny - sy;
         if(new_height < minHeight) new_height = minHeight;
-
-        // 위젯의 크기 조절
-        xWidth(tobj.nextSibling, new_width);
-        xHeight(tobj.nextSibling, new_height);
 
         xWidth(tobj.parentNode, new_width);
         xHeight(tobj.parentNode, new_height);
@@ -1104,7 +1055,6 @@ function widgetDrag(tobj, dx, dy) {
 
                     if(next1) next1.parentNode.insertBefore(tobj, next1);
                     if(next2) next2.parentNode.insertBefore(target_obj, next2);
-                    doFitBorderSize();
                     widgetList = null;
                     return;
                 }
@@ -1119,7 +1069,6 @@ function widgetDrag(tobj, dx, dy) {
             var tt =  parseInt(t,10) + parseInt(xHeight(p_tobj),10);
             if( (tobj.xDPX < l || tobj.xDPX > ll) || (tobj.xDPY < t || tobj.xDPY > tt) ) {
                 zonePageObj.insertBefore(tobj, jQuery(tobj).parents('div.widgetOutput[widget=widgetBox]').get(0));
-                doFitBorderSize();
                 return;
             }
 
@@ -1158,7 +1107,6 @@ function widgetDrag(tobj, dx, dy) {
                             // 이동을 멈춤
                             widgetManualEnd();
 
-                            doFitBorderSize();
                             boxList = null;
                             return;
                         }
@@ -1193,7 +1141,6 @@ function widgetDrag(tobj, dx, dy) {
 
                     if(next1) next1.parentNode.insertBefore(tobj, next1);
                     if(next2) next2.parentNode.insertBefore(target_obj, next2);
-                    doFitBorderSize();
                     widgetList = null;
                     return;
                 }
