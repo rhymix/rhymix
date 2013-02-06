@@ -1,10 +1,12 @@
 <?php
+
 /**
  * High class of addon modules
  * @author NHN (developers@xpressengine.com)
  */
 class addon extends ModuleObject
 {
+
 	/**
 	 * Implement if additional tasks are necessary when installing
 	 *
@@ -13,7 +15,7 @@ class addon extends ModuleObject
 	function moduleInstall()
 	{
 		// Register to add a few
-		$oAddonController = &getAdminController('addon');
+		$oAddonController = getAdminController('addon');
 		$oAddonController->doInsert('autolink', 0, 'site', 'Y');
 		$oAddonController->doInsert('blogapi');
 		$oAddonController->doInsert('counter', 0, 'site', 'Y');
@@ -35,14 +37,23 @@ class addon extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oDB = &DB::getInstance();
-		if(!$oDB->isColumnExists("addons", "is_used_m")) return true;
-		if(!$oDB->isColumnExists("addons_site", "is_used_m")) return true;
+		$oDB = DB::getInstance();
+		if(!$oDB->isColumnExists("addons", "is_used_m"))
+		{
+			return TRUE;
+		}
+		if(!$oDB->isColumnExists("addons_site", "is_used_m"))
+		{
+			return TRUE;
+		}
 
 		// 2011. 7. 29. add is_fixed column
-		if(!$oDB->isColumnExists('addons', 'is_fixed')) return true;
+		if(!$oDB->isColumnExists('addons', 'is_fixed'))
+		{
+			return TRUE;
+		}
 
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -52,20 +63,20 @@ class addon extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		if(!$oDB->isColumnExists("addons", "is_used_m"))
 		{
-			$oDB->addColumn("addons", "is_used_m", "char", 1, "N", true);
+			$oDB->addColumn("addons", "is_used_m", "char", 1, "N", TRUE);
 		}
 		if(!$oDB->isColumnExists("addons_site", "is_used_m"))
 		{
-			$oDB->addColumn("addons_site", "is_used_m", "char", 1, "N", true);
+			$oDB->addColumn("addons_site", "is_used_m", "char", 1, "N", TRUE);
 		}
 
 		// 2011. 7. 29. add is_fixed column
 		if(!$oDB->isColumnExists('addons', 'is_fixed'))
 		{
-			$oDB->addColumn('addons', 'is_fixed', 'char', 1, 'N', true);
+			$oDB->addColumn('addons', 'is_fixed', 'char', 1, 'N', TRUE);
 
 			// move addon info to addon_site table
 			$output = executeQueryArray('addon.getAddons');
@@ -73,6 +84,7 @@ class addon extends ModuleObject
 			{
 				foreach($output->data as $row)
 				{
+					$args = new stdClass();
 					$args->site_srl = 0;
 					$args->addon = $row->addon;
 					$args->is_used = $row->is_used;
@@ -93,6 +105,7 @@ class addon extends ModuleObject
 	 */
 	function recompileCache()
 	{
+
 	}
 
 }
