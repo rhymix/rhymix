@@ -1,10 +1,12 @@
 <?php
+
 /**
  * XML Generater
  * @author NHN (developers@xpressengine.com)
  */
 class XmlGenerater
 {
+
 	/**
 	 * Generate XML using given data
 	 *
@@ -14,7 +16,11 @@ class XmlGenerater
 	function generate(&$params)
 	{
 		$xmlDoc = '<?xml version="1.0" encoding="utf-8" ?><methodCall><params>';
-		if(!is_array($params)) return null;
+		if(!is_array($params))
+		{
+			return NULL;
+		}
+
 		$params["module"] = "resourceapi";
 		foreach($params as $key => $val)
 		{
@@ -34,11 +40,16 @@ class XmlGenerater
 	{
 		$body = XmlGenerater::generate($params);
 		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
-		if(!$buff) return;
+		if(!$buff)
+		{
+			return;
+		}
+
 		$xml = new XmlParser();
 		$xmlDoc = $xml->parse($buff);
 		return $xmlDoc;
 	}
+
 }
 
 /**
@@ -47,6 +58,7 @@ class XmlGenerater
  */
 class autoinstall extends ModuleObject
 {
+
 	/**
 	 * Temporary directory path
 	 */
@@ -59,9 +71,9 @@ class autoinstall extends ModuleObject
 	 */
 	function autoinstall()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('autoinstall');
-		if ($config->downloadServer != _XE_DOWNLOAD_SERVER_)
+		if($config->downloadServer != _XE_DOWNLOAD_SERVER_)
 		{
 			$this->stop('msg_not_match_server');
 		}
@@ -74,7 +86,7 @@ class autoinstall extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		$config->downloadServer = _XE_DOWNLOAD_SERVER_;
 		$oModuleController->insertModuleConfig('autoinstall', $config);
@@ -87,26 +99,32 @@ class autoinstall extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oDB =& DB::getInstance();
-		$oModuleModel = &getModel('module');
+		$oDB = DB::getInstance();
+		$oModuleModel = getModel('module');
 
 		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
 				&& $oDB->isTableExists("autoinstall_installed_packages"))
 		{
-			return true;
+			return TRUE;
 		}
 		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))
 				&& $oDB->isTableExists("autoinstall_remote_categories"))
 		{
-			return true;
+			return TRUE;
 		}
 
 		// 2011.08.08 add column 'list_order' in ai_remote_categories
-		if(!$oDB->isColumnExists('ai_remote_categories', 'list_order'))	return true;
+		if(!$oDB->isColumnExists('ai_remote_categories', 'list_order'))
+		{
+			return TRUE;
+		}
 
 		// 2011.08.08 set _XE_DOWNLOAD_SERVER_ at module config
 		$config = $oModuleModel->getModuleConfig('autoinstall');
-		if(!isset($config->downloadServer))	return true;
+		if(!isset($config->downloadServer))
+		{
+			return TRUE;
+		}
 
 		// 2012.11.12 add column 'have_instance' in autoinstall_packages
 		if(!$oDB->isColumnExists('autoinstall_packages', 'have_instance'))
@@ -114,7 +132,7 @@ class autoinstall extends ModuleObject
 			return TRUE;
 		}
 
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -124,9 +142,9 @@ class autoinstall extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oDB =& DB::getInstance();
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oDB = DB::getInstance();
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 
 		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
 				&& $oDB->isTableExists("autoinstall_installed_packages"))
@@ -142,7 +160,7 @@ class autoinstall extends ModuleObject
 		// 2011.08.08 add column 'list_order' in 'ai_remote_categories
 		if(!$oDB->isColumnExists('ai_remote_categories', 'list_order'))
 		{
-			$oDB->addColumn('ai_remote_categories', 'list_order', 'number', 11, null, true);
+			$oDB->addColumn('ai_remote_categories', 'list_order', 'number', 11, NULL, TRUE);
 			$oDB->addIndex('ai_remote_categories', 'idx_list_order', array('list_order'));
 		}
 
@@ -169,7 +187,9 @@ class autoinstall extends ModuleObject
 	 */
 	function recompileCache()
 	{
+		
 	}
+
 }
 /* End of file autoinstall.class.php */
 /* Location: ./modules/autoinstall/autoinstall.class.php */

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Model class of the autoinstall module
  * @author NHN (developers@xpressengine.com)
  */
 class autoinstallModel extends autoinstall
 {
+
 	/**
 	 * Get category information
 	 *
@@ -13,9 +15,13 @@ class autoinstallModel extends autoinstall
 	 */
 	function getCategory($category_srl)
 	{
+		$args = new stdClass();
 		$args->category_srl = $category_srl;
 		$output = executeQueryArray("autoinstall.getCategory", $args);
-		if(!$output->data) return null;
+		if(!$output->data)
+		{
+			return null;
+		}
 		return array_shift($output->data);
 	}
 
@@ -27,7 +33,10 @@ class autoinstallModel extends autoinstall
 	function getPackages()
 	{
 		$output = executeQueryArray("autoinstall.getPackages");
-		if(!$output->data) return array();
+		if(!$output->data)
+		{
+			return array();
+		}
 		return $output->data;
 	}
 
@@ -42,7 +51,10 @@ class autoinstallModel extends autoinstall
 		$args = new stdClass();
 		$args->package_srl = $package_srl;
 		$output = executeQueryArray("autoinstall.getInstalledPackage", $args);
-		if(!$output->data) return null;
+		if(!$output->data)
+		{
+			return null;
+		}
 		return array_shift($output->data);
 	}
 
@@ -57,7 +69,10 @@ class autoinstallModel extends autoinstall
 		$args = new stdClass();
 		$args->package_srl = $package_srl;
 		$output = executeQueryArray("autoinstall.getPackage", $args);
-		if(!$output->data) return null;
+		if(!$output->data)
+		{
+			return null;
+		}
 		return array_shift($output->data);
 	}
 
@@ -69,7 +84,10 @@ class autoinstallModel extends autoinstall
 	function getCategoryList()
 	{
 		$output = executeQueryArray("autoinstall.getCategories");
-		if(!$output->toBool() || !$output->data) return array();
+		if(!$output->toBool() || !$output->data)
+		{
+			return array();
+		}
 
 		$categoryList = array();
 		foreach($output->data as $category)
@@ -83,7 +101,7 @@ class autoinstallModel extends autoinstall
 		{
 			if($category->parent_srl)
 			{
-				$categoryList[$category->parent_srl]->children[] =& $categoryList[$key];
+				$categoryList[$category->parent_srl]->children[] = & $categoryList[$key];
 			}
 			else
 			{
@@ -109,7 +127,10 @@ class autoinstallModel extends autoinstall
 		$args = new stdClass();
 		$args->category_srl = $category_srl;
 		$output = executeQuery("autoinstall.getPackageCount", $args);
-		if(!$output->data) return 0;
+		if(!$output->data)
+		{
+			return 0;
+		}
 		return $output->data->count;
 	}
 
@@ -120,8 +141,11 @@ class autoinstallModel extends autoinstall
 	 */
 	function getInstalledPackageCount()
 	{
-		$output = executeQuery("autoinstall.getInstalledPackageCount", $args);
-		if(!$output->data) return 0;
+		$output = executeQuery("autoinstall.getInstalledPackageCount");
+		if(!$output->data)
+		{
+			return 0;
+		}
 		return $output->data->count;
 	}
 
@@ -136,12 +160,12 @@ class autoinstallModel extends autoinstall
 	 */
 	function setDepth(&$item, $depth, &$list, &$resultList)
 	{
-		$resultList[$item->category_srl] =& $item;
+		$resultList[$item->category_srl] = &$item;
 		$item->depth = $depth;
 		$siblingList = $item->category_srl;
 		foreach($item->children as $child)
 		{
-			$siblingList .= ",".$this->setDepth($list[$child->category_srl], $depth+1, $list, $resultList);
+			$siblingList .= "," . $this->setDepth($list[$child->category_srl], $depth + 1, $list, $resultList);
 		}
 		if(count($item->children) < 1)
 		{
@@ -159,7 +183,10 @@ class autoinstallModel extends autoinstall
 	function getLatestPackage()
 	{
 		$output = executeQueryArray("autoinstall.getLatestPackage");
-		if(!$output->data) return null;
+		if(!$output->data)
+		{
+			return null;
+		}
 		return array_shift($output->data);
 	}
 
@@ -175,7 +202,10 @@ class autoinstallModel extends autoinstall
 		$args->package_list = $package_list;
 		$output = executeQueryArray("autoinstall.getInstalledPackages", $args);
 		$result = array();
-		if(!$output->data) return $result;
+		if(!$output->data)
+		{
+			return $result;
+		}
 		foreach($output->data as $value)
 		{
 			$result[$value->package_srl] = $value;
@@ -216,8 +246,16 @@ class autoinstallModel extends autoinstall
 	 */
 	function getTypeFromPath($path)
 	{
-		if(!$path) return null;
-		if($path == ".") return "core";
+		if(!$path)
+		{
+			return NULL;
+		}
+
+		if($path == ".")
+		{
+			return "core";
+		}
+
 		$path_array = explode("/", $path);
 		$target_name = array_pop($path_array);
 		if(!$target_name)
@@ -236,7 +274,7 @@ class autoinstallModel extends autoinstall
 	 */
 	function getConfigFilePath($type)
 	{
-		$config_file = null;
+		$config_file = NULL;
 		switch($type)
 		{
 			case "m.layout":
@@ -272,10 +310,19 @@ class autoinstallModel extends autoinstall
 	{
 		$path_array = explode("/", $path);
 		$target_name = array_pop($path_array);
-		$oModule =& getModule($target_name, "class");
-		if(!$oModule) return false;
-		if(method_exists($oModule, "moduleUninstall")) return true;
-		else return false;
+		$oModule = getModule($target_name, "class");
+		if(!$oModule)
+		{
+			return FALSE;
+		}
+		if(method_exists($oModule, "moduleUninstall"))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 
 	/**
@@ -286,9 +333,15 @@ class autoinstallModel extends autoinstall
 	 */
 	function getPackageSrlByPath($path)
 	{
-		if(!$path) return;
+		if(!$path)
+		{
+			return;
+		}
 
-		if(substr($path,-1) == '/') $path = substr($path, 0, strlen($path)-1);
+		if(substr($path, -1) == '/')
+		{
+			$path = substr($path, 0, strlen($path) - 1);
+		}
 
 		if(!$GLOBLAS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path])
 		{
@@ -310,10 +363,16 @@ class autoinstallModel extends autoinstall
 	 */
 	function getRemoveUrlByPackageSrl($packageSrl)
 	{
-		$ftp_info =  Context::getFTPInfo();
-		if(!$ftp_info->ftp_root_path) return;
+		$ftp_info = Context::getFTPInfo();
+		if(!$ftp_info->ftp_root_path)
+		{
+			return;
+		}
 
-		if(!$packageSrl) return;
+		if(!$packageSrl)
+		{
+			return;
+		}
 
 		return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
 	}
@@ -326,13 +385,22 @@ class autoinstallModel extends autoinstall
 	 */
 	function getRemoveUrlByPath($path)
 	{
-		if(!$path) return;
+		if(!$path)
+		{
+			return;
+		}
 
-		$ftp_info =  Context::getFTPInfo();
-		if (!$ftp_info->ftp_root_path) return;
+		$ftp_info = Context::getFTPInfo();
+		if(!$ftp_info->ftp_root_path)
+		{
+			return;
+		}
 
 		$packageSrl = $this->getPackageSrlByPath($path);
-		if(!$packageSrl) return;
+		if(!$packageSrl)
+		{
+			return;
+		}
 
 		return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
 	}
@@ -345,7 +413,10 @@ class autoinstallModel extends autoinstall
 	 */
 	function getUpdateUrlByPackageSrl($packageSrl)
 	{
-		if(!$packageSrl) return;
+		if(!$packageSrl)
+		{
+			return;
+		}
 
 		return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
 	}
@@ -358,14 +429,19 @@ class autoinstallModel extends autoinstall
 	 */
 	function getUpdateUrlByPath($path)
 	{
-		if(!$path) return;
+		if(!$path)
+		{
+			return;
+		}
 
 		$packageSrl = $this->getPackageSrlByPath($path);
-		if (!$packageSrl) return;
+		if(!$packageSrl)
+		{
+			return;
+		}
 
 		return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
 	}
-
 
 	function getHaveInstance($columnList = array())
 	{
@@ -377,6 +453,7 @@ class autoinstallModel extends autoinstall
 
 		return $output->data;
 	}
+
 }
 /* End of file autoinstall.model.php */
 /* Location: ./modules/autoinstall/autoinstall.model.php */

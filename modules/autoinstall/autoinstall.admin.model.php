@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Model class of the autoinstall module
  * @author NHN (developers@xpressengine.com)
@@ -28,7 +29,7 @@ class autoinstallAdminModel extends autoinstall
 			$order_type = 'desc';
 		}
 
-		$page = (int)$page;
+		$page = (int) $page;
 		if($page < 1)
 		{
 			$page = 1;
@@ -164,14 +165,14 @@ class autoinstallAdminModel extends autoinstall
 	{
 		$is_authed = 0;
 
-		$ftp_info =  Context::getFTPInfo();
+		$ftp_info = Context::getFTPInfo();
 		if(!$ftp_info->ftp_root_path)
 		{
 			$is_authed = -1;
 		}
 		else
 		{
-			$is_authed = (int)isset($_SESSION['ftp_password']);
+			$is_authed = (int) isset($_SESSION['ftp_password']);
 		}
 
 		$this->add('is_authed', $is_authed);
@@ -184,14 +185,17 @@ class autoinstallAdminModel extends autoinstall
 	{
 		$oModel = getModel('autoinstall');
 		$output = executeQueryArray('autoinstall.getNeedUpdate');
-		if(!is_array($output->data)) return NULL;
+		if(!is_array($output->data))
+		{
+			return NULL;
+		}
 
 		$result = array();
 		$xml = new XmlParser();
 		foreach($output->data as $package)
 		{
 			$packageSrl = $package->package_srl;
-			
+
 			$packageInfo = new stdClass();
 			$packageInfo->currentVersion = $package->current_version;
 			$packageInfo->version = $package->version;
@@ -210,9 +214,18 @@ class autoinstallAdminModel extends autoinstall
 				if($xmlDoc)
 				{
 					$type = $packageInfo->type;
-					if($type == "drcomponent") $type = "component";
-					if($type == "style" || $type == "m.skin") $type = "skin";
-					if($type == "m.layout") $type = "layout";
+					if($type == "drcomponent")
+					{
+						$type = "component";
+					}
+					if($type == "style" || $type == "m.skin")
+					{
+						$type = "skin";
+					}
+					if($type == "m.layout")
+					{
+						$type = "layout";
+					}
 					$title = $xmlDoc->{$type}->title->body;
 				}
 				else
