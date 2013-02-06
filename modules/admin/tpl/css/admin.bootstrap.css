@@ -10,6 +10,7 @@
  *
  * This file is customized for XE admin.
  */
+.x{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;line-height:20px;color:#333}
 .x article,
 .x aside,
 .x details,
@@ -24,7 +25,6 @@
 .x canvas,
 .x video{display:inline-block;*display:inline;*zoom:1}
 .x audio:not([controls]){display:none}
-.x{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
 .x a:focus{outline:thin dotted #333;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}
 .x a:hover,
 .x a:active{outline:0}
@@ -87,7 +87,6 @@
 .x .x_clearfix:after{clear:both}
 .x .x_hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0}
 .x .x_input-block-level{display:block;width:100%;min-height:30px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
-.x{line-height:20px;color:#333333;background-color:#ffffff}
 .x a{color:#0088cc;text-decoration:none}
 .x a:hover{color:#005580;text-decoration:underline}
 .x .x_img-rounded{-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px}
