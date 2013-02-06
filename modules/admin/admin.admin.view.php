@@ -1,4 +1,5 @@
 <?php
+
 /**
  * adminAdminView class
  * Admin view class of admin module
@@ -9,11 +10,13 @@
  */
 class adminAdminView extends admin
 {
+
 	/**
 	 * layout list
 	 * @var array
 	 */
 	var $layout_list;
+
 	/**
 	 * easy install check file
 	 * @var array
@@ -27,12 +30,15 @@ class adminAdminView extends admin
 	function init()
 	{
 		// forbit access if the user is not an administrator
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$logged_info = $oMemberModel->getLoggedInfo();
-		if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
+		if($logged_info->is_admin != 'Y')
+		{
+			return $this->stop("msg_is_not_administrator");
+		}
 
 		// change into administration layout
-		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setLayoutPath($this->getTemplatePath());
 		$this->setLayoutFile('layout.html');
 
@@ -44,17 +50,23 @@ class adminAdminView extends admin
 
 		Context::set('time_zone_list', $GLOBALS['time_zone']);
 		Context::set('time_zone', $GLOBALS['_time_zone']);
-		Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
-		Context::set('use_sso', $db_info->use_sso=='Y'?'Y':'N');
-		Context::set('use_html5', $db_info->use_html5=='Y'?'Y':'N');
-		Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');//not use
-		Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
-		Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
-		Context::set('use_mobile_view', $db_info->use_mobile_view =='Y'?'Y':'N');
-		Context::set('use_ssl', $db_info->use_ssl?$db_info->use_ssl:"none");
-		Context::set('use_cdn', $db_info->use_cdn?$db_info->use_cdn:"none");
-		if($db_info->http_port) Context::set('http_port', $db_info->http_port);
-		if($db_info->https_port) Context::set('https_port', $db_info->https_port);
+		Context::set('use_rewrite', $db_info->use_rewrite == 'Y' ? 'Y' : 'N');
+		Context::set('use_sso', $db_info->use_sso == 'Y' ? 'Y' : 'N');
+		Context::set('use_html5', $db_info->use_html5 == 'Y' ? 'Y' : 'N');
+		Context::set('use_spaceremover', $db_info->use_spaceremover ? $db_info->use_spaceremover : 'Y'); //not use
+		Context::set('qmail_compatibility', $db_info->qmail_compatibility == 'Y' ? 'Y' : 'N');
+		Context::set('use_db_session', $db_info->use_db_session == 'N' ? 'N' : 'Y');
+		Context::set('use_mobile_view', $db_info->use_mobile_view == 'Y' ? 'Y' : 'N');
+		Context::set('use_ssl', $db_info->use_ssl ? $db_info->use_ssl : "none");
+		Context::set('use_cdn', $db_info->use_cdn ? $db_info->use_cdn : "none");
+		if($db_info->http_port)
+		{
+			Context::set('http_port', $db_info->http_port);
+		}
+		if($db_info->https_port)
+		{
+			Context::set('https_port', $db_info->https_port);
+		}
 
 		$this->showSendEnv();
 		$this->checkEasyinstall();
@@ -66,10 +78,13 @@ class adminAdminView extends admin
 	 */
 	function checkEasyinstall()
 	{
-		$lastTime = (int)FileHandler::readFile($this->easyinstallCheckFile);
-		if ($lastTime > time() - 60*60*24*30) return;
+		$lastTime = (int) FileHandler::readFile($this->easyinstallCheckFile);
+		if($lastTime > time() - 60 * 60 * 24 * 30)
+		{
+			return;
+		}
 
-		$oAutoinstallModel = &getModel('autoinstall');
+		$oAutoinstallModel = getModel('autoinstall');
 		$params = array();
 		$params["act"] = "getResourceapiLastupdate";
 		$body = XmlGenerater::generate($params);
@@ -78,7 +93,7 @@ class adminAdminView extends admin
 		$lUpdateDoc = $xml_lUpdate->parse($buff);
 		$updateDate = $lUpdateDoc->response->updatedate->body;
 
-		if (!$updateDate)
+		if(!$updateDate)
 		{
 			$this->_markingCheckEasyinstall();
 			return;
@@ -87,7 +102,7 @@ class adminAdminView extends admin
 		$item = $oAutoinstallModel->getLatestPackage();
 		if(!$item || $item->updatedate < $updateDate)
 		{
-			$oController = &getAdminController('autoinstall');
+			$oController = getAdminController('autoinstall');
 			$oController->_updateinfo();
 		}
 		$this->_markingCheckEasyinstall();
@@ -112,23 +127,23 @@ class adminAdminView extends admin
 	{
 		global $lang;
 
-		$oAdminAdminModel   = &getAdminModel('admin');
+		$oAdminAdminModel = getAdminModel('admin');
 		$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
 
 		$result = $oAdminAdminModel->checkAdminMenu();
 		if(!$result->php_file)
 		{
-			header('Location: '.getNotEncodedUrl('', 'module','admin'));
+			header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
 			Context::close();
 		}
 		include $result->php_file;
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
 
-		$currentAct   = Context::get('act');
+		$currentAct = Context::get('act');
 		$subMenuTitle = '';
-		foreach((array)$moduleActionInfo->menu as $key=>$value)
+		foreach((array) $moduleActionInfo->menu as $key => $value)
 		{
 			if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
 			{
@@ -138,29 +153,32 @@ class adminAdminView extends admin
 		}
 
 		$parentSrl = 0;
-		$oMenuAdminConroller = &getAdminController('menu');
-		foreach((array)$menu->list as $parentKey=>$parentMenu)
+		$oMenuAdminConroller = getAdminController('menu');
+		foreach((array) $menu->list as $parentKey => $parentMenu)
 		{
 			if(!$parentMenu['text'])
 			{
 				$oMenuAdminConroller->makeXmlFile($result->menu_srl);
-				header('Location: '.getNotEncodedUrl('', 'module','admin'));
+				header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
 				break;
 			}
 
-			if(!is_array($parentMenu['list']) || !count($parentMenu['list'])) continue;
+			if(!is_array($parentMenu['list']) || !count($parentMenu['list']))
+			{
+				continue;
+			}
 			if($parentMenu['href'] == '#' && count($parentMenu['list']))
 			{
 				$firstChild = current($parentMenu['list']);
 				$menu->list[$parentKey]['href'] = $firstChild['href'];
 			}
 
-			foreach($parentMenu['list'] as $childKey=>$childMenu)
+			foreach($parentMenu['list'] as $childKey => $childMenu)
 			{
 				if(!$childMenu['text'])
 				{
 					$oMenuAdminConroller->makeXmlFile($result->menu_srl);
-					header('Location: '.getNotEncodedUrl('', 'module','admin'));
+					header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
 					break;
 				}
 
@@ -175,13 +193,13 @@ class adminAdminView extends admin
 		// Admin logo, title setup
 		$objConfig = $oModuleModel->getModuleConfig('admin');
 		$gnbTitleInfo = new stdClass();
-		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle:'XE Admin';
-		$gnbTitleInfo->adminLogo  = $objConfig->adminLogo ? $objConfig->adminLogo:'modules/admin/tpl/img/xe.h1.png';
+		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'XE Admin';
+		$gnbTitleInfo->adminLogo = $objConfig->adminLogo ? $objConfig->adminLogo : 'modules/admin/tpl/img/xe.h1.png';
 
-		$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard').' - '.$gnbTitleInfo->adminTitle;
+		$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard') . ' - ' . $gnbTitleInfo->adminTitle;
 
 		// Get list of favorite
-		$oAdminAdminModel = &getAdminModel('admin');
+		$oAdminAdminModel = getAdminModel('admin');
 		$output = $oAdminAdminModel->getFavoriteList(0, true);
 		Context::set('favorite_list', $output->get('favoriteList'));
 
@@ -189,12 +207,12 @@ class adminAdminView extends admin
 		// move from index method, because use in admin footer
 		$newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
 		$cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
-		if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time())
+		if(!file_exists($cache_file) || filemtime($cache_file) + 60 * 60 < time())
 		{
 			// Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
 			// Ensure to access the administration page even though news cannot be displayed
-			FileHandler::writeFile($cache_file,'');
-			FileHandler::getRemoteFile($newest_news_url, $cache_file, null, 1, 'GET', 'text/html', array('REQUESTURL'=>getFullUrl('')));
+			FileHandler::writeFile($cache_file, '');
+			FileHandler::getRemoteFile($newest_news_url, $cache_file, null, 1, 'GET', 'text/html', array('REQUESTURL' => getFullUrl('')));
 		}
 
 		if(file_exists($cache_file))
@@ -205,7 +223,10 @@ class adminAdminView extends admin
 			$item = $buff->zbxe_news->item;
 			if($item)
 			{
-				if(!is_array($item)) $item = array($item);
+				if(!is_array($item))
+				{
+					$item = array($item);
+				}
 
 				foreach($item as $key => $val)
 				{
@@ -226,8 +247,8 @@ class adminAdminView extends admin
 		}
 
 		Context::set('subMenuTitle', $subMenuTitle);
-		Context::set('gnbUrlList',   $menu->list);
-		Context::set('parentSrl',    $parentSrl);
+		Context::set('gnbUrlList', $menu->list);
+		Context::set('parentSrl', $parentSrl);
 		Context::set('gnb_title_info', $gnbTitleInfo);
 		Context::setBrowserTitle($browserTitle);
 	}
@@ -240,18 +261,18 @@ class adminAdminView extends admin
 	{
 		// Get statistics
 		$args = new stdClass();
-		$args->date = date("Ymd000000", time()-60*60*24);
+		$args->date = date("Ymd000000", time() - 60 * 60 * 24);
 		$today = date("Ymd");
-		
+
 		// Member Status
-		$oMemberAdminModel = &getAdminModel('member');
+		$oMemberAdminModel = getAdminModel('member');
 		$status = new stdClass();
 		$status->member = new stdClass();
 		$status->member->todayCount = $oMemberAdminModel->getMemberCountByDate($today);
 		$status->member->totalCount = $oMemberAdminModel->getMemberCountByDate();
 
 		// Document Status
-		$oDocumentAdminModel = &getAdminModel('document');
+		$oDocumentAdminModel = getAdminModel('document');
 		$statusList = array('PUBLIC', 'SECRET');
 		$status->document = new stdClass();
 		$status->document->todayCount = $oDocumentAdminModel->getDocumentCountByDate($today, array(), $statusList);
@@ -260,24 +281,25 @@ class adminAdminView extends admin
 		Context::set('status', $status);
 
 		// Latest Document
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'title', 'nick_name', 'member_srl');
-		$args->list_count = 5;;
-		$output = $oDocumentModel->getDocumentList($args, false, false, $columnList);
+		$args->list_count = 5;
+		;
+		$output = $oDocumentModel->getDocumentList($args, FALSE, FALSE, $columnList);
 		Context::set('latestDocumentList', $output->data);
 		$security = new Security();
 		$security->encodeHTML('latestDocumentList..variables.nick_name');
 		unset($args, $output, $columnList);
 
 		// Latest Comment
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 		$columnList = array('comment_srl', 'module_srl', 'document_srl', 'content', 'nick_name', 'member_srl');
 		$args = new stdClass();
 		$args->list_count = 5;
 		$output = $oCommentModel->getNewestCommentList($args, $columnList);
 		if(is_array($output))
 		{
-			foreach($output AS $key=>$value)
+			foreach($output AS $key => $value)
 			{
 				$value->content = strip_tags($value->content);
 			}
@@ -286,21 +308,21 @@ class adminAdminView extends admin
 		unset($args, $output, $columnList);
 
 		// Get list of modules
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_list = $oModuleModel->getModuleList();
 		if(is_array($module_list))
 		{
-			$needUpdate = false;
-			$addTables = false;
-			foreach($module_list AS $key=>$value)
+			$needUpdate = FALSE;
+			$addTables = FALSE;
+			foreach($module_list AS $key => $value)
 			{
 				if($value->need_install)
 				{
-					$addTables = true;
+					$addTables = TRUE;
 				}
 				if($value->need_update)
 				{
-					$needUpdate = true;
+					$needUpdate = TRUE;
 				}
 			}
 		}
@@ -311,7 +333,7 @@ class adminAdminView extends admin
 
 		if(is_array($needUpdateList))
 		{
-			foreach($needUpdateList AS $key=>$value)
+			foreach($needUpdateList AS $key => $value)
 			{
 				$helpUrl = './help/index.html#';
 				switch($value->type)
@@ -347,11 +369,14 @@ class adminAdminView extends admin
 
 		// gathering enviroment check
 		$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));
-		$path = FileHandler::getRealPath('./files/env/'.$mainVersion);
-		$isEnviromentGatheringAgreement = false;
-		if(file_exists($path)) $isEnviromentGatheringAgreement = true;
+		$path = FileHandler::getRealPath('./files/env/' . $mainVersion);
+		$isEnviromentGatheringAgreement = FALSE;
+		if(file_exists($path))
+		{
+			$isEnviromentGatheringAgreement = TRUE;
+		}
 		Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
-		Context::set('layout','none');
+		Context::set('layout', 'none');
 
 		$this->setTemplateFile('index');
 	}
@@ -373,32 +398,32 @@ class adminAdminView extends admin
 
 		Context::set('lang_selected', Context::loadLangSelected());
 
-		$admin_ip_list = preg_replace("/[,]+/","\r\n",$db_info->admin_ip_list);
+		$admin_ip_list = preg_replace("/[,]+/", "\r\n", $db_info->admin_ip_list);
 		Context::set('admin_ip_list', $admin_ip_list);
 
-		$oAdminModel = &getAdminModel('admin');
+		$oAdminModel = getAdminModel('admin');
 		$favicon_url = $oAdminModel->getFaviconUrl();
 		$mobicon_url = $oAdminModel->getMobileIconUrl();
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
-		Context::set('thumbnail_type',$config->thumbnail_type);
+		Context::set('thumbnail_type', $config->thumbnail_type);
 
-		Context::set('IP',$_SERVER['REMOTE_ADDR']);
+		Context::set('IP', $_SERVER['REMOTE_ADDR']);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
-		Context::set('siteTitle',$config->siteTitle);
-		Context::set('htmlFooter',$config->htmlFooter);
+		Context::set('siteTitle', $config->siteTitle);
+		Context::set('htmlFooter', $config->htmlFooter);
 
 
 		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
 		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
 		Context::set('start_module', $start_module);
 
-		Context::set('pwd',$pwd);
+		Context::set('pwd', $pwd);
 		$this->setTemplateFile('config_general');
 
 		$security = new Security();
@@ -429,11 +454,11 @@ class adminAdminView extends admin
 	 */
 	function dispAdminSetup()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$configObject = $oModuleModel->getModuleConfig('admin');
 
-		$oAdmin = &getClass('admin');
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oAdmin = getClass('admin');
+		$oMenuAdminModel = getAdminModel('menu');
 		$output = $oMenuAdminModel->getMenuByTitle($oAdmin->getAdminMenuName());
 
 		Context::set('menu_srl', $output->menu_srl);
@@ -442,14 +467,16 @@ class adminAdminView extends admin
 		$this->setTemplateFile('admin_setup');
 	}
 
-
 	/**
 	 * Enviroment information send to XE collect server
 	 * @return void
 	 */
 	function showSendEnv()
 	{
-		if(Context::getResponseMethod() != 'HTML') return;
+		if(Context::getResponseMethod() != 'HTML')
+		{
+			return;
+		}
 
 		$server = 'http://collect.xpressengine.com/env/img.php?';
 		$path = './files/env/';
@@ -458,29 +485,30 @@ class adminAdminView extends admin
 
 		if(file_exists(FileHandler::getRealPath($install_env)))
 		{
-			$oAdminAdminModel = &getAdminModel('admin');
+			$oAdminAdminModel = getAdminModel('admin');
 			$params = $oAdminAdminModel->getEnv('INSTALL');
-			$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
+			$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server . $params);
 			Context::addHtmlFooter($img);
 
 			FileHandler::removeDir($path);
-			FileHandler::writeFile($path.$mainVersion,'1');
+			FileHandler::writeFile($path . $mainVersion, '1');
 		}
-		else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path.$mainVersion)))
+		else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path . $mainVersion)))
 		{
-			if($_SESSION['enviroment_gather']=='Y')
+			if($_SESSION['enviroment_gather'] == 'Y')
 			{
-				$oAdminAdminModel = &getAdminModel('admin');
+				$oAdminAdminModel = getAdminModel('admin');
 				$params = $oAdminAdminModel->getEnv();
-				$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
+				$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server . $params);
 				Context::addHtmlFooter($img);
 			}
 
 			FileHandler::removeDir($path);
-			FileHandler::writeFile($path.$mainVersion,'1');
+			FileHandler::writeFile($path . $mainVersion, '1');
 			unset($_SESSION['enviroment_gather']);
 		}
 	}
+
 }
 /* End of file admin.admin.view.php */
 /* Location: ./modules/admin/admin.admin.view.php */

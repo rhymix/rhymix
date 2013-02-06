@@ -1,4 +1,5 @@
 <?php
+
 /**
  * admin class
  * Base class of admin module
@@ -9,6 +10,7 @@
  */
 class admin extends ModuleObject
 {
+
 	private $adminMenuName = '__ADMINMENU_V17__';
 
 	public function getAdminMenuName()
@@ -31,10 +33,13 @@ class admin extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oDB = &DB::getInstance();
-		if(!$oDB->isColumnExists("admin_favorite", "type")) return true;
+		$oDB = DB::getInstance();
+		if(!$oDB->isColumnExists("admin_favorite", "type"))
+		{
+			return TRUE;
+		}
 
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -43,21 +48,21 @@ class admin extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		if(!$oDB->isColumnExists("admin_favorite", "type"))
 		{
-			$oAdminAdminModel = &getAdminModel('admin');
+			$oAdminAdminModel = getAdminModel('admin');
 			$output = $oAdminAdminModel->getFavoriteList();
 			$favoriteList = $output->get('favoriteList');
 
 			$oDB->dropColumn('admin_favorite', 'admin_favorite_srl');
-			$oDB->addColumn('admin_favorite',"admin_favorite_srl","number",11,0);
-			$oDB->addColumn('admin_favorite',"type","varchar",30, 'module');
+			$oDB->addColumn('admin_favorite', "admin_favorite_srl", "number", 11, 0);
+			$oDB->addColumn('admin_favorite', "type", "varchar", 30, 'module');
 			if(is_array($favoriteList))
 			{
-				$oAdminAdminController = &getAdminController('admin');
+				$oAdminAdminController = getAdminController('admin');
 				$oAdminAdminController->_deleteAllFavorite();
-				foreach($favoriteList AS $key=>$value)
+				foreach($favoriteList AS $key => $value)
 				{
 					$oAdminAdminController->_insertFavorite($value->site_srl, $value->module);
 				}
@@ -72,6 +77,7 @@ class admin extends ModuleObject
 	 */
 	function recompileCache()
 	{
+
 	}
 
 	public function checkAdminMenu()
@@ -79,19 +85,19 @@ class admin extends ModuleObject
 		// for admin menu
 		if(Context::isInstalled())
 		{
-			$oMenuAdminModel = &getAdminModel('menu');
+			$oMenuAdminModel = getAdminModel('menu');
 			$output = $oMenuAdminModel->getMenuByTitle($this->adminMenuName);
 
 			if(!$output->menu_srl)
 			{
-				$oAdminClass = &getClass('admin');
+				$oAdminClass = getClass('admin');
 				$oAdminClass->createXeAdminMenu();
 			}
 			else
 			{
 				if(!is_readable(FileHandler::getRealPath($output->php_file)))
 				{
-					$oMenuAdminController = &getAdminController('menu');
+					$oMenuAdminController = getAdminController('menu');
 					$oMenuAdminController->makeXmlFile($output->menu_srl);
 				}
 				Context::set('admin_menu_srl', $output->menu_srl);
@@ -125,28 +131,31 @@ class admin extends ModuleObject
 
 		// gnb item create
 		$gnbList = array('dashboard', 'menu', 'user', 'content', 'configuration', 'advanced');
-		foreach($gnbList AS $key=>$value)
+		foreach($gnbList AS $key => $value)
 		{
 			//insert menu item
 			$args = new stdClass();
 			$args->menu_srl = $menuSrl;
 			$args->menu_item_srl = getNextSequence();
-			$args->name = '{$lang->menu_gnb[\''.$value.'\']}';
+			$args->name = '{$lang->menu_gnb[\'' . $value . '\']}';
 			if($value == 'dashboard')
 			{
 				$args->url = 'index.php?module=admin';
 			}
-			else $args->url = '#';
-			$args->listorder = -1*$args->menu_item_srl;
+			else
+			{
+				$args->url = '#';
+			}
+			$args->listorder = -1 * $args->menu_item_srl;
 			$output = executeQuery('menu.insertMenuItem', $args);
 		}
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$columnList = array('menu_item_srl', 'name');
 		$output = $oMenuAdminModel->getMenuItems($menuSrl, 0, $columnList);
 		if(is_array($output->data))
 		{
-			foreach($output->data AS $key=>$value)
+			foreach($output->data AS $key => $value)
 			{
 				preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $value->name, $m);
 				$gnbDBList[$m[1]] = $value->menu_item_srl;
@@ -155,97 +164,97 @@ class admin extends ModuleObject
 		unset($args);
 
 		$gnbModuleList = array(
-			0=>array(
-				'module'=>'menu',
-				'subMenu'=>array('siteMap', 'siteDesign'),
-				),
-			1=>array(
-				'module'=>'member',
-				'subMenu'=>array('userList', 'userSetting', 'userGroup'),
-				),
-			2=>array(
-				'module'=>'document',
-				'subMenu'=>array('document'),
-				),
-			3=>array(
-				'module'=>'comment',
-				'subMenu'=>array('comment'),
-				),
-			4=>array(
-				'module'=>'trackback',
-				'subMenu'=>array('trackback'),
-				),
-			5=>array(
-					'module'=>'file',
-					'subMenu'=>array('file'),
-					),
-			6=>array(
-					'module'=>'poll',
-					'subMenu'=>array('poll'),
-					),
-			7=>array(
-					'module'=>'rss',
-					'subMenu'=>array('rss'),
-					),
-			8=>array(
-					'module'=>'module',
-					'subMenu'=>array('multilingual'),
-					),
-			9=>array(
-					'module'=>'importer',
-					'subMenu'=>array('importer'),
-					),
-			10=>array(
-					'module'=>'trash',
-					'subMenu'=>array('trash'),
-					),
-			11=>array(
-					'module'=>'autoinstall',
-					'subMenu'=>array('easyInstall'),
-					),
-			12=>array(
-					'module'=>'layout',
-					'subMenu'=>array('installedLayout'),
-					),
-			13=>array(
-					'module'=>'module',
-					'subMenu'=>array('installedModule'),
-					),
-			14=>array(
-					'module'=>'widget',
-					'subMenu'=>array('installedWidget'),
-					),
-			15=>array(
-					'module'=>'addon',
-					'subMenu'=>array('installedAddon'),
-					),
-			16=>array(
-					'module'=>'editor',
-					'subMenu'=>array('editor'),
-					),
-			17=>array(
-					'module'=>'spamfilter',
-					'subMenu'=>array('spamFilter'),
-					),
-			18=>array(
-					'module'=>'admin',
-					'subMenu'=>array('adminConfigurationGeneral', 'adminConfigurationFtp', 'adminMenuSetup'),
-					),
-			19=>array(
-					'module'=>'file',
-					'subMenu'=>array('fileUpload'),
-					),
-			20=>array(
-					'module'=>'module',
-					'subMenu'=>array('filebox'),
-					),
-			21=>array(
-					'module'=>'point',
-					'subMenu'=>array('point')
-					),
-			);
+			0 => array(
+				'module' => 'menu',
+				'subMenu' => array('siteMap', 'siteDesign'),
+			),
+			1 => array(
+				'module' => 'member',
+				'subMenu' => array('userList', 'userSetting', 'userGroup'),
+			),
+			2 => array(
+				'module' => 'document',
+				'subMenu' => array('document'),
+			),
+			3 => array(
+				'module' => 'comment',
+				'subMenu' => array('comment'),
+			),
+			4 => array(
+				'module' => 'trackback',
+				'subMenu' => array('trackback'),
+			),
+			5 => array(
+				'module' => 'file',
+				'subMenu' => array('file'),
+			),
+			6 => array(
+				'module' => 'poll',
+				'subMenu' => array('poll'),
+			),
+			7 => array(
+				'module' => 'rss',
+				'subMenu' => array('rss'),
+			),
+			8 => array(
+				'module' => 'module',
+				'subMenu' => array('multilingual'),
+			),
+			9 => array(
+				'module' => 'importer',
+				'subMenu' => array('importer'),
+			),
+			10 => array(
+				'module' => 'trash',
+				'subMenu' => array('trash'),
+			),
+			11 => array(
+				'module' => 'autoinstall',
+				'subMenu' => array('easyInstall'),
+			),
+			12 => array(
+				'module' => 'layout',
+				'subMenu' => array('installedLayout'),
+			),
+			13 => array(
+				'module' => 'module',
+				'subMenu' => array('installedModule'),
+			),
+			14 => array(
+				'module' => 'widget',
+				'subMenu' => array('installedWidget'),
+			),
+			15 => array(
+				'module' => 'addon',
+				'subMenu' => array('installedAddon'),
+			),
+			16 => array(
+				'module' => 'editor',
+				'subMenu' => array('editor'),
+			),
+			17 => array(
+				'module' => 'spamfilter',
+				'subMenu' => array('spamFilter'),
+			),
+			18 => array(
+				'module' => 'admin',
+				'subMenu' => array('adminConfigurationGeneral', 'adminConfigurationFtp', 'adminMenuSetup'),
+			),
+			19 => array(
+				'module' => 'file',
+				'subMenu' => array('fileUpload'),
+			),
+			20 => array(
+				'module' => 'module',
+				'subMenu' => array('filebox'),
+			),
+			21 => array(
+				'module' => 'point',
+				'subMenu' => array('point')
+			),
+		);
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$output = $oMemberModel->getAdminGroup(array('group_srl'));
 		$adminGroupSrl = $output->group_srl;
 
@@ -259,29 +268,29 @@ class admin extends ModuleObject
 		$args->hover_btn = '';
 		$args->active_btn = '';
 		$args->group_srls = $adminGroupSrl;
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
-		foreach($gnbModuleList AS $key=>$value)
+		foreach($gnbModuleList AS $key => $value)
 		{
 			if(is_array($value['subMenu']))
 			{
 				$moduleActionInfo = $oModuleModel->getModuleActionXml($value['module']);
-				foreach($value['subMenu'] AS $key2=>$value2)
+				foreach($value['subMenu'] AS $key2 => $value2)
 				{
-					$gnbKey = "'".$this->_getGnbKey($value2)."'";
+					$gnbKey = "'" . $this->_getGnbKey($value2) . "'";
 
 					//insert menu item
 					$args->menu_item_srl = getNextSequence();
 					$args->parent_srl = $gnbDBList[$gnbKey];
-					$args->name = '{$lang->menu_gnb_sub[\''.$value2.'\']}';
-					$args->url = 'index.php?module=admin&act='.$moduleActionInfo->menu->{$value2}->index;
-					$args->listorder = -1*$args->menu_item_srl;
+					$args->name = '{$lang->menu_gnb_sub[\'' . $value2 . '\']}';
+					$args->url = 'index.php?module=admin&act=' . $moduleActionInfo->menu->{$value2}->index;
+					$args->listorder = -1 * $args->menu_item_srl;
 					$output = executeQuery('menu.insertMenuItem', $args);
 				}
 			}
 		}
 
-		$oMenuAdminConroller = &getAdminController('menu');
+		$oMenuAdminConroller = getAdminController('menu');
 		$oMenuAdminConroller->makeXmlFile($menuSrl);
 	}
 
@@ -386,7 +395,7 @@ class admin extends ModuleObject
 
 	private function _oldAdminmenuDelete()
 	{
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		$output = $oMenuAdminModel->getMenuByTitle($this->adminMenuName);
 		$newAdminmenuSrl = $output->menu_srl;
@@ -394,7 +403,7 @@ class admin extends ModuleObject
 		$newAdminParentMenuList = array();
 		if(is_array($output->data))
 		{
-			foreach($output->data AS $key=>$value)
+			foreach($output->data AS $key => $value)
 			{
 				$tmp = explode('\'', $value->name);
 				$newAdminParentMenuList[$tmp[1]] = $value;
@@ -408,13 +417,13 @@ class admin extends ModuleObject
 
 		if($menuSrl)
 		{
-			$oMenuAdminController = &getAdminController('menu');
+			$oMenuAdminController = getAdminController('menu');
 
 			$output = $oMenuAdminModel->getMenuItems($menuSrl);
 			if(is_array($output->data))
 			{
 				$parentMenu = array();
-				foreach($output->data AS $key=>$menuItem)
+				foreach($output->data AS $key => $menuItem)
 				{
 					if($menuItem->parent_srl == 0)
 					{
@@ -424,8 +433,8 @@ class admin extends ModuleObject
 					}
 				}
 
-				$isUserAddedMenuMoved = false;
-				foreach($output->data AS $key=>$menuItem)
+				$isUserAddedMenuMoved = FALSE;
+				foreach($output->data AS $key => $menuItem)
 				{
 					if($menuItem->parent_srl != 0)
 					{
@@ -436,11 +445,11 @@ class admin extends ModuleObject
 						if($result == 'user_added_menu')
 						{
 							// theme menu use not anymore
-							/*if($parentMenu[$menuItem->parent_srl] == 'theme')
+							/* if($parentMenu[$menuItem->parent_srl] == 'theme')
 							  {
 							  $newParentItem = $newAdminParentMenuList['menu'];
-							  } 
-							  else*/
+							  }
+							  else */
 							if($parentMenu[$menuItem->parent_srl] == 'extensions')
 							{
 								$newParentItem = $newAdminParentMenuList['advanced'];
@@ -453,7 +462,7 @@ class admin extends ModuleObject
 							$menuItem->parent_srl = $newParentItem->menu_item_srl;
 
 							$output = executeQuery('menu.updateMenuItem', $menuItem);
-							$isUserAddedMenuMoved = true;
+							$isUserAddedMenuMoved = TRUE;
 						}
 					}
 				}
@@ -467,6 +476,7 @@ class admin extends ModuleObject
 			$oMenuAdminController->deleteMenu($menuSrl);
 		}
 	}
+
 }
 /* End of file admin.class.php */
 /* Location: ./modules/admin/admin.class.php */
