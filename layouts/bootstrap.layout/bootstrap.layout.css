@@ -16,6 +16,7 @@ h3{font-size:18px}
 h4{font-size:14px}
 h5{font-size:12px}
 h6{font-size:12px;color:#666;text-transform:none}
+blockquote p{font-size:inherit}
 /* Common */
 input[type=checkbox],
 input[type=radio]{margin:0}

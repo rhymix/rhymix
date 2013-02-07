@@ -1,7 +1,4 @@
 jQuery(function($){
-// Remove content CSS /modules/editor/styles/
-	$('head>link[href*="/modules/editor/styles/"]').remove();
-
 // Skip to content
 	$('.skip>a').click(function(){
 		$($(this).attr('href')).attr('tabindex','0').focus();
