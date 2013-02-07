@@ -271,7 +271,10 @@ class memberController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
+			if($val == 'birthday') $args->birthday_ui = Context::get('birthday_ui');
 		}
+		$args->birthday = intval(strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 		$args->member_srl = getNextSequence();
 		$args->list_order = -1 * $args->member_srl;
 		$args->find_account_answer = Context::get('find_account_answer');
@@ -455,11 +458,13 @@ class memberController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
+			if($val == 'birthday') $args->birthday_ui = Context::get('birthday_ui');
 		}
 		// Login Information
 		$logged_info = Context::get('logged_info');
 		$args->member_srl = $logged_info->member_srl;
-		$args->birthday = strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>''));
+		$args->birthday = intval(strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
