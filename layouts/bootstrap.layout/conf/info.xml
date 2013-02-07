@@ -17,6 +17,18 @@
         </menu>
     </menus>
 	<extra_vars>
+		<var name="WEB_FONT" type="select">
+			<title xml:lang="ko">웹 폰트</title>
+			<title xml:lang="en">Web Font</title>
+			<options value="NO">
+				<title xml:lang="ko">'나눔고딕' 웹 폰트 사용 안함</title>
+				<title xml:lang="en">Do not use 'NanumGothic' web font</title>
+			</options>
+			<options value="YES">
+				<title xml:lang="ko">'나눔고딕' 웹 폰트 사용</title>
+				<title xml:lang="en">Use 'NanumGothic' web font</title>
+			</options>
+		</var>
 		<var name="LAYOUT_TYPE" type="select">
 			<title xml:lang="ko">레이아웃 유형</title>
 			<title xml:lang="en">Layout Type</title>
