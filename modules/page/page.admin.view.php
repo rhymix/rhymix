@@ -220,6 +220,11 @@ class pageAdminView extends page
 		$method = '_get' . ucfirst($page_type_name) . 'Content';
 		if(method_exists($oPageMobile, $method))
 		{
+			if($method == '_getArticleContent' && $this->module_info->is_mskin_fix == 'N')
+			{
+				$oModuleModel = getModel('module');
+				$oPageMobile->module_info->mskin = $oModuleModel->getModuleDefaultSkin('page', 'M');
+			}
 			$page_content = $oPageMobile->{$method}();
 		}
 		else
