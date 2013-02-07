@@ -2372,7 +2372,7 @@ jQuery(function($){
 jQuery(function($){
 	//_alert = alert;
 	try {
-		alert = function(){
+		window.alert = function(){
 			return $.xeMsgBox.alert.apply($.xeMsgBox, arguments);
 		}
 		setTimeout(function(){$('div.message.info').fadeOut(1000);}, 2500);
