@@ -1,4 +1,5 @@
 <?php
+
 /**
  * commentItem class
  * comment Object
@@ -9,11 +10,13 @@
  */
 class commentItem extends Object
 {
+
 	/**
 	 * comment number
 	 * @var int
 	 */
 	var $comment_srl = 0;
+
 	/**
 	 * Get the column list int the table
 	 * @var array
@@ -45,9 +48,12 @@ class commentItem extends Object
 	 */
 	function _loadFromDB()
 	{
-		if(!$this->comment_srl) return;
+		if(!$this->comment_srl)
+		{
+			return;
+		}
 
-		$args =new stdClass();
+		$args = new stdClass();
 		$args->comment_srl = $this->comment_srl;
 		$output = executeQuery('comment.getComment', $args, $this->columnList);
 
@@ -62,83 +68,112 @@ class commentItem extends Object
 	{
 		if(!$attribute->comment_srl)
 		{
-			$this->comment_srl = null;
+			$this->comment_srl = NULL;
 			return;
 		}
+
 		$this->comment_srl = $attribute->comment_srl;
 		$this->adds($attribute);
+
 		// define vars on the object for backward compatibility of skins
-		if(count($attribute)) foreach($attribute as $key => $val) $this->{$key} = $val;
+		if(count($attribute))
+		{
+			foreach($attribute as $key => $val)
+			{
+				$this->{$key} = $val;
+			}
+		}
 	}
 
 	function isExists()
 	{
-		return $this->comment_srl ? true : false;
+		return $this->comment_srl ? TRUE : FALSE;
 	}
 
 	function isGranted()
 	{
-		if($_SESSION['own_comment'][$this->comment_srl]) return true;
+		if($_SESSION['own_comment'][$this->comment_srl])
+		{
+			return TRUE;
+		}
 
-		if(!Context::get('is_logged')) return false;
+		if(!Context::get('is_logged'))
+		{
+			return FALSE;
+		}
 
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin == 'Y') return true;
+		if($logged_info->is_admin == 'Y')
+		{
+			return TRUE;
+		}
 
 		$grant = Context::get('grant');
-		if($grant->manager) return true;
+		if($grant->manager)
+		{
+			return TRUE;
+		}
 
-		if($this->get('member_srl') && ($this->get('member_srl') == $logged_info->member_srl || $this->get('member_srl')*-1 == $logged_info->member_srl)) return true;
+		if($this->get('member_srl') && ($this->get('member_srl') == $logged_info->member_srl || $this->get('member_srl') * -1 == $logged_info->member_srl))
+		{
+			return TRUE;
+		}
 
-		return false;
+		return FALSE;
 	}
 
 	function setGrant()
 	{
-		$_SESSION['own_comment'][$this->comment_srl] = true;
-		$this->is_granted = true;
+		$_SESSION['own_comment'][$this->comment_srl] = TRUE;
+		$this->is_granted = TRUE;
 	}
 
 	function setAccessible()
 	{
-		$_SESSION['accessibled_comment'][$this->comment_srl] = true;
+		$_SESSION['accessibled_comment'][$this->comment_srl] = TRUE;
 	}
 
 	function isEditable()
 	{
-		if($this->isGranted() || !$this->get('member_srl')) return true;
-		return false;
+		if($this->isGranted() || !$this->get('member_srl'))
+		{
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	function isSecret()
 	{
-		return $this->get('is_secret') == 'Y' ? true : false;
+		return $this->get('is_secret') == 'Y' ? TRUE : FALSE;
 	}
 
 	function isAccessible()
 	{
-		if($_SESSION['accessibled_comment'][$this->comment_srl]) return true;
+		if($_SESSION['accessibled_comment'][$this->comment_srl])
+		{
+			return TRUE;
+		}
 
 		if($this->isGranted() || !$this->isSecret())
 		{
 			$this->setAccessible();
-			return true;
+			return TRUE;
 		}
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($this->get('document_srl'));
 		if($oDocument->isGranted())
 		{
 			$this->setAccessible();
-			return true;
+			return TRUE;
 		}
 
-		return false;
+		return FALSE;
 	}
 
 	function useNotify()
 	{
-		return $this->get('notify_message')=='Y' ? true : false;
+		return $this->get('notify_message') == 'Y' ? TRUE : FALSE;
 	}
 
 	/**
@@ -148,44 +183,76 @@ class commentItem extends Object
 	function notify($type, $content)
 	{
 		// return if not useNotify
-		if(!$this->useNotify()) return;
+		if(!$this->useNotify())
+		{
+			return;
+		}
+
 		// pass if the author is not logged-in user 
-		if(!$this->get('member_srl')) return;
+		if(!$this->get('member_srl'))
+		{
+			return;
+		}
+
 		// return if the currently logged-in user is an author of the comment.
 		$logged_info = Context::get('logged_info');
-		if($logged_info->member_srl == $this->get('member_srl')) return;
+		if($logged_info->member_srl == $this->get('member_srl'))
+		{
+			return;
+		}
+
 		// get where the comment belongs to 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($this->get('document_srl'));
+
 		// Variables
-		if($type) $title = "[".$type."] ";
+		if($type)
+		{
+			$title = "[" . $type . "] ";
+		}
+
 		$title .= cut_str(strip_tags($content), 30, '...');
-		$content = sprintf('%s<br /><br />from : <a href="%s#comment_%s" target="_blank">%s</a>',$content, getFullUrl('','document_srl',$this->get('document_srl')), $this->get('comment_srl'),  getFullUrl('','document_srl',$this->get('document_srl')));
+		$content = sprintf('%s<br /><br />from : <a href="%s#comment_%s" target="_blank">%s</a>', $content, getFullUrl('', 'document_srl', $this->get('document_srl')), $this->get('comment_srl'), getFullUrl('', 'document_srl', $this->get('document_srl')));
 		$receiver_srl = $this->get('member_srl');
 		$sender_member_srl = $logged_info->member_srl;
+
 		// send a message
-		$oCommunicationController = &getController('communication');
-		$oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+		$oCommunicationController = getController('communication');
+		$oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, FALSE);
 	}
 
 	function getIpAddress()
 	{
-		if($this->isGranted()) return $this->get('ipaddress');
-		return preg_replace('/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/','*.$2.$3.$4', $this->get('ipaddress'));
+		if($this->isGranted())
+		{
+			return $this->get('ipaddress');
+		}
+
+		return preg_replace('/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/', '*.$2.$3.$4', $this->get('ipaddress'));
 	}
 
 	function isExistsHomepage()
 	{
-		if(trim($this->get('homepage'))) return true;
-		return false;
+		if(trim($this->get('homepage')))
+		{
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	function getHomepageUrl()
 	{
 		$url = trim($this->get('homepage'));
-		if(!$url) return;
+		if(!$url)
+		{
+			return;
+		}
 
-		if(!preg_match("/^http:\/\//i",$url)) $url = "http://".$url;
+		if(!preg_match("/^http:\/\//i", $url))
+		{
+			$url = "http://" . $url;
+		}
 
 		return $url;
 	}
@@ -216,11 +283,17 @@ class commentItem extends Object
 	 */
 	function getContentText($strlen = 0)
 	{
-		if($this->isSecret() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
+		if($this->isSecret() && !$this->isAccessible())
+		{
+			return Context::getLang('msg_is_secret');
+		}
 
 		$content = $this->get('content');
 
-		if($strlen) return cut_str(strip_tags($content),$strlen,'...');
+		if($strlen)
+		{
+			return cut_str(strip_tags($content), $strlen, '...');
+		}
 
 		return htmlspecialchars($content);
 	}
@@ -229,21 +302,24 @@ class commentItem extends Object
 	 * Return content after filter
 	 * @return string
 	 */
-	function getContent($add_popup_menu = true, $add_content_info = true, $add_xe_content_class = true)
+	function getContent($add_popup_menu = TRUE, $add_content_info = TRUE, $add_xe_content_class = TRUE)
 	{
-		if($this->isSecret() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
+		if($this->isSecret() && !$this->isAccessible())
+		{
+			return Context::getLang('msg_is_secret');
+		}
 
 		$content = $this->get('content');
 		stripEmbedTagForAdmin($content, $this->get('member_srl'));
+
 		// when displaying the comment on the pop-up menu
-		if($add_popup_menu && Context::get('is_logged') )
+		if($add_popup_menu && Context::get('is_logged'))
 		{
 			$content = sprintf(
-					'%s<div class="comment_popup_menu"><a href="#popup_menu_area" class="comment_%d" onclick="return false">%s</a></div>',
-					$content,
-					$this->comment_srl, Context::getLang('cmd_comment_do')
-					);
+					'%s<div class="comment_popup_menu"><a href="#popup_menu_area" class="comment_%d" onclick="return false">%s</a></div>', $content, $this->comment_srl, Context::getLang('cmd_comment_do')
+			);
 		}
+
 		// if additional information which can access contents is set
 		if($add_content_info)
 		{
@@ -253,17 +329,16 @@ class commentItem extends Object
 				$memberSrl = 0;
 			}
 			$content = sprintf(
-					'<!--BeforeComment(%d,%d)--><div class="comment_%d_%d xe_content">%s</div><!--AfterComment(%d,%d)-->',
-					$this->comment_srl, $memberSrl,
-					$this->comment_srl, $memberSrl,
-					$content,
-					$this->comment_srl, $memberSrl
-					);
+					'<!--BeforeComment(%d,%d)--><div class="comment_%d_%d xe_content">%s</div><!--AfterComment(%d,%d)-->', $this->comment_srl, $memberSrl, $this->comment_srl, $memberSrl, $content, $this->comment_srl, $memberSrl
+			);
 			// xe_content class name should be specified although content access is not necessary.
 		}
 		else
 		{
-			if($add_xe_content_class) $content = sprintf('<div class="xe_content">%s</div>', $content);
+			if($add_xe_content_class)
+			{
+				$content = sprintf('<div class="xe_content">%s</div>', $content);
+			}
 		}
 
 		return $content;
@@ -275,21 +350,28 @@ class commentItem extends Object
 	 */
 	function getSummary($str_size = 50, $tail = '...')
 	{
-		$content = $this->getContent(false, false);
+		$content = $this->getContent(FALSE, FALSE);
+
 		// for newline, insert a blank.
 		$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
+
 		// replace tags such as </p> , </div> , </li> by blanks.
 		$content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
+
 		// Remove tags
-		$content = preg_replace('!<([^>]*?)>!is','', $content);
+		$content = preg_replace('!<([^>]*?)>!is', '', $content);
+
 		// replace < , >, " 
-		$content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
+		$content = str_replace(array('&lt;', '&gt;', '&quot;', '&nbsp;'), array('<', '>', '"', ' '), $content);
+
 		// delete a series of blanks
 		$content = preg_replace('/ ( +)/is', ' ', $content);
+
 		// truncate strings
 		$content = trim(cut_str($content, $str_size, $tail));
+
 		// restore >, <, , "\
-		$content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
+		$content = str_replace(array('<', '>', '"'), array('&lt;', '&gt;', '&quot;'), $content);
 
 		return $content;
 	}
@@ -302,18 +384,18 @@ class commentItem extends Object
 	function getRegdateTime()
 	{
 		$regdate = $this->get('regdate');
-		$year = substr($regdate,0,4);
-		$month = substr($regdate,4,2);
-		$day = substr($regdate,6,2);
-		$hour = substr($regdate,8,2);
-		$min = substr($regdate,10,2);
-		$sec = substr($regdate,12,2);
-		return mktime($hour,$min,$sec,$month,$day,$year);
+		$year = substr($regdate, 0, 4);
+		$month = substr($regdate, 4, 2);
+		$day = substr($regdate, 6, 2);
+		$hour = substr($regdate, 8, 2);
+		$min = substr($regdate, 10, 2);
+		$sec = substr($regdate, 12, 2);
+		return mktime($hour, $min, $sec, $month, $day, $year);
 	}
 
 	function getRegdateGM()
 	{
-		return $this->getRegdate('D, d M Y H:i:s').' '.$GLOBALS['_time_zone'];
+		return $this->getRegdate('D, d M Y H:i:s') . ' ' . $GLOBALS['_time_zone'];
 	}
 
 	function getUpdate($format = 'Y.m.d H:i:s')
@@ -323,18 +405,18 @@ class commentItem extends Object
 
 	function getPermanentUrl()
 	{
-		return getFullUrl('','document_srl',$this->get('document_srl')).'#comment_'.$this->get('comment_srl');
+		return getFullUrl('', 'document_srl', $this->get('document_srl')) . '#comment_' . $this->get('comment_srl');
 	}
 
 	function getUpdateTime()
 	{
-		$year = substr($this->get('last_update'),0,4);
-		$month = substr($this->get('last_update'),4,2);
-		$day = substr($this->get('last_update'),6,2);
-		$hour = substr($this->get('last_update'),8,2);
-		$min = substr($this->get('last_update'),10,2);
-		$sec = substr($this->get('last_update'),12,2);
-		return mktime($hour,$min,$sec,$month,$day,$year);
+		$year = substr($this->get('last_update'), 0, 4);
+		$month = substr($this->get('last_update'), 4, 2);
+		$day = substr($this->get('last_update'), 6, 2);
+		$hour = substr($this->get('last_update'), 8, 2);
+		$min = substr($this->get('last_update'), 10, 2);
+		$sec = substr($this->get('last_update'), 12, 2);
+		return mktime($hour, $min, $sec, $month, $day, $year);
 	}
 
 	function getUpdateGM()
@@ -344,17 +426,27 @@ class commentItem extends Object
 
 	function hasUploadedFiles()
 	{
-		if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted()) return false;
-		return $this->get('uploaded_count')? true : false;
+		if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted())
+		{
+			return FALSE;
+		}
+		return $this->get('uploaded_count') ? TRUE : FALSE;
 	}
 
 	function getUploadedFiles()
 	{
-		if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted()) return;
-		if(!$this->get('uploaded_count')) return;
+		if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted())
+		{
+			return;
+		}
 
-		$oFileModel = &getModel('file');
-		$file_list = $oFileModel->getFiles($this->comment_srl, array(), 'file_srl', true);
+		if(!$this->get('uploaded_count'))
+		{
+			return;
+		}
+
+		$oFileModel = getModel('file');
+		$file_list = $oFileModel->getFiles($this->comment_srl, array(), 'file_srl', TRUE);
 		return $file_list;
 	}
 
@@ -365,8 +457,11 @@ class commentItem extends Object
 	function getEditor()
 	{
 		$module_srl = $this->get('module_srl');
-		if(!$module_srl) $module_srl = Context::get('module_srl');
-		$oEditorModel = &getModel('editor');
+		if(!$module_srl)
+		{
+			$module_srl = Context::get('module_srl');
+		}
+		$oEditorModel = getModel('editor');
 		return $oEditorModel->getModuleEditor('comment', $module_srl, $this->comment_srl, 'comment_srl', 'content');
 	}
 
@@ -376,10 +471,16 @@ class commentItem extends Object
 	 */
 	function getProfileImage()
 	{
-		if(!$this->isExists() || !$this->get('member_srl')) return;
-		$oMemberModel = &getModel('member');
+		if(!$this->isExists() || !$this->get('member_srl'))
+		{
+			return;
+		}
+		$oMemberModel = getModel('member');
 		$profile_info = $oMemberModel->getProfileImage($this->get('member_srl'));
-		if(!$profile_info) return;
+		if(!$profile_info)
+		{
+			return;
+		}
 
 		return $profile_info->src;
 	}
@@ -391,53 +492,96 @@ class commentItem extends Object
 	function getSignature()
 	{
 		// pass if the posting not exists.
-		if(!$this->isExists() || !$this->get('member_srl')) return;
+		if(!$this->isExists() || !$this->get('member_srl'))
+		{
+			return;
+		}
+
 		// get the signiture information
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$signature = $oMemberModel->getSignature($this->get('member_srl'));
+
 		// check if max height of the signiture is specified on the member module
 		if(!isset($GLOBALS['__member_signature_max_height']))
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$member_config = $oModuleModel->getModuleConfig('member');
 			$GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
 		}
+
 		$max_signature_height = $GLOBALS['__member_signature_max_height'];
-		if($max_signature_height) $signature = sprintf('<div style="max-height:%dpx;overflow:auto;overflow-x:hidden;height:expression(this.scrollHeight > %d ? \'%dpx\': \'auto\')">%s</div>', $max_signature_height, $max_signature_height, $max_signature_height, $signature);
+
+		if($max_signature_height)
+		{
+			$signature = sprintf('<div style="max-height:%dpx;overflow:auto;overflow-x:hidden;height:expression(this.scrollHeight > %d ? \'%dpx\': \'auto\')">%s</div>', $max_signature_height, $max_signature_height, $max_signature_height, $signature);
+		}
 
 		return $signature;
 	}
 
 	function thumbnailExists($width = 80, $height = 0, $type = '')
 	{
-		if(!$this->comment_srl) return false;
-		if(!$this->getThumbnail($width, $height, $type)) return false;
-		return true;
+		if(!$this->comment_srl)
+		{
+			return FALSE;
+		}
+
+		if(!$this->getThumbnail($width, $height, $type))
+		{
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	function getThumbnail($width = 80, $height = 0, $thumbnail_type = '')
 	{
 		// return false if no doc exists
-		if(!$this->comment_srl) return;
+		if(!$this->comment_srl)
+		{
+			return;
+		}
+
 		// If signiture height setting is omitted, create a square
-		if(!$height) $height = $width;
+		if(!$height)
+		{
+			$height = $width;
+		}
+
 		// return false if neigher attached file nor image;
-		if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content'))) return;
+		if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content')))
+		{
+			return;
+		}
+
 		// get thumbail generation info on the doc module configuration.
-		if(!in_array($thumbnail_type, array('crop','ratio'))) $thumbnail_type = 'crop';
+		if(!in_array($thumbnail_type, array('crop', 'ratio')))
+		{
+			$thumbnail_type = 'crop';
+		}
+
 		// Define thumbnail information
-		$thumbnail_path = sprintf('files/cache/thumbnails/%s',getNumberingPath($this->comment_srl, 3));
+		$thumbnail_path = sprintf('files/cache/thumbnails/%s', getNumberingPath($this->comment_srl, 3));
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
-		$thumbnail_url  = Context::getRequestUri().$thumbnail_file;
+		$thumbnail_url = Context::getRequestUri() . $thumbnail_file;
+
 		// return false if a size of existing thumbnail file is 0. otherwise return the file path
 		if(file_exists($thumbnail_file))
 		{
-			if(filesize($thumbnail_file)<1) return false;
-			else return $thumbnail_url;
+			if(filesize($thumbnail_file) < 1)
+			{
+				return FALSE;
+			}
+			else
+			{
+				return $thumbnail_url;
+			}
 		}
+
 		// Target file
-		$source_file = null;
-		$is_tmp_file = false;
+		$source_file = NULL;
+		$is_tmp_file = FALSE;
+
 		// find an image file among attached files
 		if($this->hasUploadedFiles())
 		{
@@ -446,41 +590,76 @@ class commentItem extends Object
 			{
 				foreach($file_list as $file)
 				{
-					if($file->direct_download!='Y') continue;
-					if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i",$file->source_filename)) continue;
+					if($file->direct_download != 'Y')
+					{
+						continue;
+					}
+					if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i", $file->source_filename))
+					{
+						continue;
+					}
 
 					$source_file = $file->uploaded_filename;
-					if(!file_exists($source_file)) $source_file = null;
-					else break;
+					if(!file_exists($source_file))
+					{
+						$source_file = NULL;
+					}
+					else
+					{
+						break;
+					}
 				}
 			}
 		}
+
 		// get an image file from the doc content if no file attached. 
 		if(!$source_file)
 		{
 			$content = $this->get('content');
-			$target_src = null;
+			$target_src = NULL;
+
 			preg_match_all("!src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
+
 			$cnt = count($matches);
-			for($i=0;$i<$cnt;$i++)
+
+			for($i = 0; $i < $cnt; $i++)
 			{
 				$target_src = $matches[$i][2];
-				if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src)) continue;
+				if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src))
+				{
+					continue;
+				}
 				else
 				{
-					if(!preg_match('/^(http|https):\/\//i',$target_src)) $target_src = Context::getRequestUri().$target_src;
+					if(!preg_match('/^(http|https):\/\//i', $target_src))
+					{
+						$target_src = Context::getRequestUri() . $target_src;
+					}
 
-					$tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111,999999).$this->comment_srl));
-					if(!is_dir('./files/cache/tmp')) FileHandler::makeDir('./files/cache/tmp');
+					$tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111, 999999) . $this->comment_srl));
+
+					if(!is_dir('./files/cache/tmp'))
+					{
+						FileHandler::makeDir('./files/cache/tmp');
+					}
+
 					FileHandler::getRemoteFile($target_src, $tmp_file);
-					if(!file_exists($tmp_file)) continue;
+
+					if(!file_exists($tmp_file))
+					{
+						continue;
+					}
 					else
 					{
 						list($_w, $_h, $_t, $_a) = @getimagesize($tmp_file);
-						if($_w<$width || $_h<$height) continue;
+
+						if($_w < $width || $_h < $height)
+						{
+							continue;
+						}
 
 						$source_file = $tmp_file;
-						$is_tmp_file = true;
+						$is_tmp_file = TRUE;
 						break;
 					}
 				}
@@ -489,11 +668,22 @@ class commentItem extends Object
 
 		$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
 
-		if($is_tmp_file) FileHandler::removeFile($source_file);
+		if($is_tmp_file)
+		{
+			FileHandler::removeFile($source_file);
+		}
+
 		// return the thumbnail path if successfully generated.
-		if($output) return $thumbnail_url;
+		if($output)
+		{
+			return $thumbnail_url;
+		}
+
 		// create an empty file not to attempt to generate the thumbnail afterwards
-		else FileHandler::writeFile($thumbnail_file, '','w');
+		else
+		{
+			FileHandler::writeFile($thumbnail_file, '', 'w');
+		}
 
 		return;
 	}
@@ -502,6 +692,7 @@ class commentItem extends Object
 	{
 		return $_SESSION['comment_management'][$this->comment_srl];
 	}
+
 }
 /* End of file comment.item.php */
 /* Location: ./modules/comment/comment.item.php */

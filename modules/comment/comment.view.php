@@ -1,4 +1,5 @@
 <?php
+
 /**
  * commentView class
  * comment module's view class
@@ -9,12 +10,14 @@
  */
 class commentView extends comment
 {
+
 	/**
 	 * Initialization
 	 * @return void
 	 */
 	function init()
 	{
+
 	}
 
 	/**
@@ -32,23 +35,30 @@ class commentView extends comment
 			// get information of the selected module
 			$current_module_info = Context::get('current_module_info');
 			$current_module_srl = $current_module_info->module_srl;
-			if(!$current_module_srl) return new Object();
+			if(!$current_module_srl)
+			{
+				return new Object();
+			}
 		}
+
 		// get the comment configuration
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 		$comment_config = $oCommentModel->getCommentConfig($current_module_srl);
 		Context::set('comment_config', $comment_config);
+
 		// get a group list
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups();
 		Context::set('group_list', $group_list);
+
 		// Set a template file
-		$oTemplate = &TemplateHandler::getInstance();
-		$tpl = $oTemplate->compile($this->module_path.'tpl', 'comment_module_config');
+		$oTemplate = TemplateHandler::getInstance();
+		$tpl = $oTemplate->compile($this->module_path . 'tpl', 'comment_module_config');
 		$obj .= $tpl;
 
 		return new Object();
 	}
+
 }
 /* End of file comment.view.php */
 /* Location: ./modules/comment/comment.view.php */

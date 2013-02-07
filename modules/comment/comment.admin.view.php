@@ -1,4 +1,5 @@
 <?php
+
 /**
  * commentAdminView class
  * admin view class of the comment module
@@ -9,12 +10,14 @@
  */
 class commentAdminView extends comment
 {
+
 	/**
 	 * Initialization
 	 * @return void
 	 */
 	function init()
 	{
+
 	}
 
 	/**
@@ -33,25 +36,25 @@ class commentAdminView extends comment
 
 		$args->module_srl = Context::get('module_srl');
 		/*
-		   $search_target = Context::get('search_target');
-		   $search_keyword = Context::get('search_keyword');
-		   if ($search_target == 'is_published' && $search_keyword == 'Y')
-		   {
-		   $args->status = 1;
-		   }
-		   if ($search_target == 'is_published' && $search_keyword == 'N')
-		   {
-		   $args->status = 0;
-		   }
+		  $search_target = Context::get('search_target');
+		  $search_keyword = Context::get('search_keyword');
+		  if ($search_target == 'is_published' && $search_keyword == 'Y')
+		  {
+		  $args->status = 1;
+		  }
+		  if ($search_target == 'is_published' && $search_keyword == 'N')
+		  {
+		  $args->status = 0;
+		  }
 		 */
 
 		// get a list by using comment->getCommentList. 
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 		$secretNameList = $oCommentModel->getSecretNameList();
 		$columnList = array('comment_srl', 'document_srl', 'is_secret', 'status', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress', 'voted_count', 'blamed_count');
 		$output = $oCommentModel->getTotalCommentList($args, $columnList);
 
-		$oCommentModel = &getModel("comment");
+		$oCommentModel = getModel("comment");
 		$modules = $oCommentModel->getDistinctModules();
 		$modules_list = $modules;
 
@@ -64,7 +67,7 @@ class commentAdminView extends comment
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('secret_name_list', $secretNameList);
 		// set the template 
-		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('comment_list');
 	}
 
@@ -75,17 +78,16 @@ class commentAdminView extends comment
 	function dispCommentAdminDeclared()
 	{
 		// option to get a blacklist
-		$args =  new stdClass();
+		$args = new stdClass();
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of comment postings to appear on a single page
 		$args->page_count = 10; // /< the number of pages to appear on the page navigation
 
 		$args->sort_index = 'comment_declared.declared_count'; // /< sorting values
 		$args->order_type = 'desc'; // /< sorted value
-
 		// get a list
 		$declared_output = executeQuery('comment.getDeclaredList', $args);
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 
 		if($declared_output->data && count($declared_output->data))
 		{
@@ -109,9 +111,10 @@ class commentAdminView extends comment
 		Context::set('page_navigation', $declared_output->page_navigation);
 		Context::set('secret_name_list', $secretNameList);
 		// set the template
-		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('declared_list');
 	}
+
 }
 /* End of file comment.admin.view.php */
 /* Location: ./modules/comment/comment.admin.view.php */
