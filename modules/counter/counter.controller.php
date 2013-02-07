@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Counter module's controller class
  *
@@ -6,6 +7,7 @@
  */
 class counterController extends counter
 {
+
 	/**
 	 * Initialization
 	 *
@@ -13,6 +15,7 @@ class counterController extends counter
 	 */
 	function init()
 	{
+
 	}
 
 	/**
@@ -23,6 +26,7 @@ class counterController extends counter
 	 */
 	function procCounterExecute()
 	{
+
 	}
 
 	/**
@@ -32,17 +36,19 @@ class counterController extends counter
 	 */
 	function counterExecute()
 	{
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$site_module_info = Context::get('site_module_info');
-		$site_srl = (int)$site_module_info->site_srl;
+		$site_srl = (int) $site_module_info->site_srl;
+
 		// Check the logs
-		$oCounterModel = &getModel('counter');
+		$oCounterModel = getModel('counter');
+
 		// Register today's row if not exist
 		if(!$oCounterModel->isInsertedTodayStatus($site_srl))
 		{
-			$this->insertTodayStatus(0,$site_srl);
+			$this->insertTodayStatus(0, $site_srl);
 			// check user if the previous row exists
 		}
 		else
@@ -71,11 +77,13 @@ class counterController extends counter
 	 * @param integer $site_srl
 	 * @return Object result of count query
 	 */
-	function insertLog($site_srl=0)
+	function insertLog($site_srl = 0)
 	{
+		$args = new stdClass();
 		$args->regdate = date("YmdHis");
-		$args->user_agent = substr ($_SERVER['HTTP_USER_AGENT'], 0, 250);
+		$args->user_agent = substr($_SERVER['HTTP_USER_AGENT'], 0, 250);
 		$args->site_srl = $site_srl;
+
 		return executeQuery('counter.insertCounterLog', $args);
 	}
 
@@ -85,8 +93,10 @@ class counterController extends counter
 	 * @param integer $site_srl
 	 * @return void
 	 */
-	function insertUniqueVisitor($site_srl=0)
+	function insertUniqueVisitor($site_srl = 0)
 	{
+		$args = new stdClass();
+
 		if($site_srl)
 		{
 			$args->regdate = '0' . date('Ymd');
@@ -106,7 +116,7 @@ class counterController extends counter
 	 * @param integer $site_srl
 	 * @return void
 	 */
-	function insertPageView($site_srl=0)
+	function insertPageView($site_srl = 0)
 	{
 		$args = new stdClass;
 		$args->regdate = '0,' . date('Ymd');
@@ -128,10 +138,11 @@ class counterController extends counter
 	 * @param integer $site_srl
 	 * @return void
 	 */
-	function insertTotalStatus($site_srl=0)
+	function insertTotalStatus($site_srl = 0)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->regdate = 0;
+
 		if($site_srl)
 		{
 			$args->site_srl = $site_srl;
@@ -150,11 +161,18 @@ class counterController extends counter
 	 * @param integer $site_srl
 	 * @return void
 	 */
-	function insertTodayStatus($regdate = 0, $site_srl=0)
+	function insertTodayStatus($regdate = 0, $site_srl = 0)
 	{
-		$args = new stdClass;
-		if($regdate) $args->regdate = $regdate;
-		else $args->regdate = date("Ymd");
+		$args = new stdClass();
+		if($regdate)
+		{
+			$args->regdate = $regdate;
+		}
+		else
+		{
+			$args->regdate = date("Ymd");
+		}
+
 		if($site_srl)
 		{
 			$args->site_srl = $site_srl;
@@ -168,9 +186,12 @@ class counterController extends counter
 			$query_id = 'counter.insertTodayStatus';
 			executeQuery($query_id); // /< when inserting a daily row, attempt to inser total rows(where regdate=0) together
 		}
+
 		$output = executeQuery($query_id, $args);
+
 		// Leave logs
 		$this->insertLog($site_srl);
+
 		// Register unique and pageview
 		$this->insertUniqueVisitor($site_srl);
 	}
@@ -183,10 +204,12 @@ class counterController extends counter
 	 */
 	function deleteSiteCounterLogs($site_srl)
 	{
+		$args = new stdClass();
 		$args->site_srl = $site_srl;
-		executeQuery('counter.deleteSiteCounter',$args);
-		executeQuery('counter.deleteSiteCounterLog',$args);
+		executeQuery('counter.deleteSiteCounter', $args);
+		executeQuery('counter.deleteSiteCounterLog', $args);
 	}
+
 }
 /* End of file counter.controller.php */
 /* Location: ./modules/counter/counter.controller.php */

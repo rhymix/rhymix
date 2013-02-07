@@ -1,4 +1,5 @@
 <?php
+
 /**
  * High class of counter module
  *
@@ -6,15 +7,18 @@
  */
 class counter extends ModuleObject
 {
+
 	/**
 	 * Implement if additional tasks are necessary when installing
 	 * @return Object
 	 */
 	function moduleInstall()
 	{
-		$oCounterController = &getController('counter');
+		$oCounterController = getController('counter');
+
 		// add a row for the total visit history 
 		//$oCounterController->insertTotalStatus();
+
 		// add a row for today's status
 		//$oCounterController->insertTodayStatus();
 
@@ -29,11 +33,18 @@ class counter extends ModuleObject
 	function checkUpdate()
 	{
 		// Add site_srl to the counter
-		$oDB = &DB::getInstance();
-		if(!$oDB->isColumnExists('counter_log', 'site_srl')) return true;
-		if(!$oDB->isIndexExists('counter_log','idx_site_counter_log')) return true;
+		$oDB = DB::getInstance();
+		if(!$oDB->isColumnExists('counter_log', 'site_srl'))
+		{
+			return TRUE;
+		}
 
-		return false;
+		if(!$oDB->isIndexExists('counter_log', 'idx_site_counter_log'))
+		{
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	/**
@@ -44,9 +55,17 @@ class counter extends ModuleObject
 	function moduleUpdate()
 	{
 		// Add site_srl to the counter
-		$oDB = &DB::getInstance();
-		if(!$oDB->isColumnExists('counter_log', 'site_srl')) $oDB->addColumn('counter_log','site_srl','number',11,0,true);
-		if(!$oDB->isIndexExists('counter_log','idx_site_counter_log')) $oDB->addIndex('counter_log','idx_site_counter_log',array('site_srl','ipaddress'),false);
+		$oDB = DB::getInstance();
+
+		if(!$oDB->isColumnExists('counter_log', 'site_srl'))
+		{
+			$oDB->addColumn('counter_log', 'site_srl', 'number', 11, 0, TRUE);
+		}
+
+		if(!$oDB->isIndexExists('counter_log', 'idx_site_counter_log'))
+		{
+			$oDB->addIndex('counter_log', 'idx_site_counter_log', array('site_srl', 'ipaddress'), FALSE);
+		}
 
 		return new Object(0, 'success_updated');
 	}
@@ -58,7 +77,9 @@ class counter extends ModuleObject
 	 */
 	function recompileCache()
 	{
+		
 	}
+
 }
 /* End of file counter.class.php */
 /* Location: ./modules/counter/counter.class.php */
