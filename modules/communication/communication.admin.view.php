@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @class  communicationAdminView
  * @author NHN (developers@xpressengine.com)
@@ -6,34 +7,41 @@
  */
 class communicationAdminView extends communication
 {
+
 	/**
 	 * Initialization
 	 */
 	function init()
 	{
+
 	}
 
 	/**
 	 * configuration to manage messages and friends
 	 * @return void
 	 */
-	function dispCommunicationAdminConfig() 
+	function dispCommunicationAdminConfig()
 	{
 		// Creating an object
-		$oEditorModel = &getModel('editor');
-		$oModuleModel = &getModel('module');
-		$oLayoutModel = &getModel('layout');
-		$oCommunicationModel = &getModel('communication');
+		$oEditorModel = getModel('editor');
+		$oModuleModel = getModel('module');
+		$oLayoutModel = getModel('layout');
+		$oCommunicationModel = getModel('communication');
+
 		// get the configurations of communication module
-		Context::set('communication_config', $oCommunicationModel->getConfig() );
+		Context::set('communication_config', $oCommunicationModel->getConfig());
+
 		// get a list of layout
-		Context::set('layout_list', $oLayoutModel->getLayoutList() );
+		Context::set('layout_list', $oLayoutModel->getLayoutList());
+
 		// get a list of editor skins
-		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList() );
+		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
+
 		// get a list of communication skins
-		Context::set('communication_skin_list', $oModuleModel->getSkins($this->module_path) );
+		Context::set('communication_skin_list', $oModuleModel->getSkins($this->module_path));
+
 		// get a list of communication skins
-		Context::set('communication_mobile_skin_list', $oModuleModel->getSkins($this->module_path, 'm.skins') );
+		Context::set('communication_mobile_skin_list', $oModuleModel->getSkins($this->module_path, 'm.skins'));
 
 		// Get a layout list
 		$layout_list = $oLayoutModel->getLayoutList();
@@ -42,7 +50,7 @@ class communicationAdminView extends communication
 		$mlayout_list = $oLayoutModel->getLayoutList(0, 'M');
 		Context::set('mlayout_list', $mlayout_list);
 
-		$security = new Security();		
+		$security = new Security();
 		$security->encodeHTML('communication_config..');
 		$security->encodeHTML('layout_list..');
 		$security->encodeHTML('editor_skin_list..');
@@ -50,9 +58,10 @@ class communicationAdminView extends communication
 		$security->encodeHTML('communication_mobile_skin_list..title');
 
 		// specify a template
-		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('index');
 	}
+
 }
 /* End of file communication.admin.view.php */
 /* Location: ./modules/comment/communication.admin.view.php */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @class  communication 
  * @author NHN (developers@xpressengine.com)
@@ -6,6 +7,7 @@
  */
 class communication extends ModuleObject
 {
+
 	/**
 	 * Implement if additional tasks are necessary when installing
 	 * @return Object
@@ -23,21 +25,27 @@ class communication extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		if(!is_dir("./files/member_extra_info/new_message_flags")) return true;
+		if(!is_dir("./files/member_extra_info/new_message_flags"))
+		{
+			return TRUE;
+		}
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('message');
 
 		if($config->skin)
 		{
 			$config_parse = explode('.', $config->skin);
-			if (count($config_parse) > 1)
+			if(count($config_parse) > 1)
 			{
 				$template_path = sprintf('./themes/%s/modules/communication/', $config_parse[0]);
-				if(is_dir($template_path)) return true;
+				if(is_dir($template_path))
+				{
+					return TRUE;
+				}
 			}
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -46,26 +54,33 @@ class communication extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		if(!is_dir("./files/member_extra_info/new_message_flags")) 
+		if(!is_dir("./files/member_extra_info/new_message_flags"))
+		{
 			FileHandler::makeDir('./files/member_extra_info/new_message_flags');
+		}
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('message');
+		if(!is_object($config))
+		{
+			$config = new stdClass();
+		}
 
 		if($config->skin)
 		{
 			$config_parse = explode('.', $config->skin);
-			if (count($config_parse) > 1)
+			if(count($config_parse) > 1)
 			{
 				$template_path = sprintf('./themes/%s/modules/communication/', $config_parse[0]);
 				if(is_dir($template_path))
 				{
 					$config->skin = implode('|@|', $config_parse);
-					$oModuleController = &getController('module');
+					$oModuleController = getController('module');
 					$oModuleController->updateModuleConfig('communication', $config);
 				}
 			}
 		}
+		
 		return new Object(0, 'success_updated');
 	}
 
@@ -75,7 +90,9 @@ class communication extends ModuleObject
 	 */
 	function recompileCache()
 	{
+		
 	}
+
 }
 /* End of file communication.class.php */
 /* Location: ./modules/comment/communication.class.php */

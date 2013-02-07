@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @class  communicationModel
  * @author NHN (developers@xpressengine.com)
@@ -6,12 +7,14 @@
  */
 class communicationModel extends communication
 {
+
 	/**
 	 * Initialization
 	 * @return void
 	 */
 	function init()
 	{
+
 	}
 
 	/**
@@ -20,18 +23,33 @@ class communicationModel extends communication
 	 */
 	function getConfig()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$communication_config = $oModuleModel->getModuleConfig('communication');
 
-		if(!$communication_config)
+		if(!is_object($communication_config))
 		{
 			$communication_config = new stdClass();
 		}
 
-		if(!$communication_config->skin) $communication_config->skin = 'default';
-		if(!$communication_config->colorset) $communication_config->colorset = 'white';
-		if(!$communication_config->editor_skin) $communication_config->editor_skin = 'default';
-		if(!$communication_config->mskin) $communication_config->mskin = 'default';
+		if(!$communication_config->skin)
+		{
+			$communication_config->skin = 'default';
+		}
+
+		if(!$communication_config->colorset)
+		{
+			$communication_config->colorset = 'white';
+		}
+
+		if(!$communication_config->editor_skin)
+		{
+			$communication_config->editor_skin = 'default';
+		}
+
+		if(!$communication_config->mskin)
+		{
+			$communication_config->mskin = 'default';
+		}
 
 		return $communication_config;
 	}
@@ -46,27 +64,44 @@ class communicationModel extends communication
 	{
 		$logged_info = Context::get('logged_info');
 
+		$args = new stdClass();
 		$args->message_srl = $message_srl;
-		$output = executeQuery('communication.getMessage',$args, $columnList);
+		$output = executeQuery('communication.getMessage', $args, $columnList);
+
 		$message = $output->data;
-		if(!$message) return ;
+		if(!$message)
+		{
+			return;
+		}
+
 		// get recipient's information if it is a sent message
-		$oMemberModel = &getModel('member');
-		if($message->sender_srl == $logged_info->member_srl && $message->message_type == 'S') $member_info = $oMemberModel->getMemberInfoByMemberSrl($message->receiver_srl);
+		$oMemberModel = getModel('member');
+
+		if($message->sender_srl == $logged_info->member_srl && $message->message_type == 'S')
+		{
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($message->receiver_srl);
+		}
 		// get sendor's information if it is a received/archived message
-		else $member_info = $oMemberModel->getMemberInfoByMemberSrl($message->sender_srl);
+		else
+		{
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($message->sender_srl);
+		}
 
 		if($member_info)
 		{
 			foreach($member_info as $key => $val)
 			{
-				if($key != 'regdate') $message->{$key} = $val;
+				if($key != 'regdate')
+				{
+					$message->{$key} = $val;
+				}
 			}
 		}
+
 		// change the status if is a received and not yet read message
 		if($message->message_type == 'R' && $message->readed != 'Y')
 		{
-			$oCommunicationController = &getController('communication');
+			$oCommunicationController = getController('communication');
 			$oCommunicationController->setMessageReaded($message_srl);
 		}
 
@@ -81,14 +116,20 @@ class communicationModel extends communication
 	function getNewMessage($columnList = array())
 	{
 		$logged_info = Context::get('logged_info');
+
+		$args = new stdClass();
 		$args->receiver_srl = $logged_info->member_srl;
 		$args->readed = 'N';
 
 		$output = executeQuery('communication.getNewMessage', $args, $columnList);
-		if(!count($output->data)) return;
+		if(!count($output->data))
+		{
+			return;
+		}
+
 		$message = array_pop($output->data);
 
-		$oCommunicationController = &getController('communication');
+		$oCommunicationController = getController('communication');
 		$oCommunicationController->setMessageReaded($message->message_srl);
 
 		return $message;
@@ -112,22 +153,26 @@ class communicationModel extends communication
 				$args->message_type = 'R';
 				$query_id = 'communication.getReceivedMessages';
 				break;
+
 			case 'T' :
 				$args->member_srl = $logged_info->member_srl;
 				$args->message_type = 'T';
 				$query_id = 'communication.getStoredMessages';
 				break;
+
 			default :
 				$args->member_srl = $logged_info->member_srl;
 				$args->message_type = 'S';
 				$query_id = 'communication.getSendedMessages';
 				break;
 		}
+
 		// Other variables
 		$args->sort_index = 'message.list_order';
 		$args->page = Context::get('page');
 		$args->list_count = 20;
 		$args->page_count = 10;
+		
 		return executeQuery($query_id, $args, $columnList);
 	}
 
@@ -141,15 +186,18 @@ class communicationModel extends communication
 	{
 		$logged_info = Context::get('logged_info');
 
-		$args =new stdClass();
+		$args = new stdClass();
 		$args->friend_group_srl = $friend_group_srl;
 		$args->member_srl = $logged_info->member_srl;
+
 		// Other variables
 		$args->page = Context::get('page');
 		$args->sort_index = 'friend.list_order';
 		$args->list_count = 10;
 		$args->page_count = 10;
+
 		$output = executeQuery('communication.getFriends', $args, $columnList);
+		
 		return $output;
 	}
 
@@ -162,9 +210,12 @@ class communicationModel extends communication
 	{
 		$logged_info = Context::get('logged_info');
 
+		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->target_srl = $member_srl;
+		
 		$output = executeQuery('communication.isAddedFriend', $args);
+
 		return $output->data->count;
 	}
 
@@ -177,10 +228,12 @@ class communicationModel extends communication
 	{
 		$logged_info = Context::get('logged_info');
 
+		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->friend_group_srl = $friend_group_srl;
 
 		$output = executeQuery('communication.getFriendGroup', $args);
+		
 		return $output->data;
 	}
 
@@ -191,12 +244,18 @@ class communicationModel extends communication
 	function getFriendGroups()
 	{
 		$logged_info = Context::get('logged_info');
-		$args =new stdClass();
+
+		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 
 		$output = executeQueryArray('communication.getFriendGroups', $args);
+
 		$group_list = $output->data;
-		if(!$group_list) return;
+		if(!$group_list)
+		{
+			return;
+		}
+		
 		return $group_list;
 	}
 
@@ -209,12 +268,20 @@ class communicationModel extends communication
 	{
 		$logged_info = Context::get('logged_info');
 
+		$args = new stdClass();
 		$args->member_srl = $target_srl;
 		$args->target_srl = $logged_info->member_srl;
+
 		$output = executeQuery('communication.isAddedFriend', $args);
-		if($output->data->count) return true;
-		return false;
+
+		if($output->data->count)
+		{
+			return TRUE;
+		}
+
+		return FALSE;
 	}
+
 }
 /* End of file communication.model.php */
 /* Location: ./modules/comment/communication.model.php */
