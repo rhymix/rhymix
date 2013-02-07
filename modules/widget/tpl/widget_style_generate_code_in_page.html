@@ -4,6 +4,7 @@
 <load cond="$lang_type=='en'" target="../../admin/tpl/css/admin_en.css" usecdn="true" />
 <load target="css/widget.css" usecdn="true" />
 <load target="../../admin/tpl/js/admin.js" usecdn="true" />
+<load target="../../admin/tpl/js/jquery.tmpl.js" usecdn="true" />
 <load target="js/generate_code.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
 <script>
@@ -11,7 +12,7 @@
 		getWidgetVars();
 	});
 </script>
-<div class="x">
+<div id="content" class="x">
 	<form action="./" method="post" id="fo_widget">
 		<input type="hidden" name="module_srl" value="{$module_srl}" />
 		<input type="hidden" name="widget_sequence" value="" />
