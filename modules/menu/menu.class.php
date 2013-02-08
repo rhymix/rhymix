@@ -88,7 +88,7 @@ class menu extends ModuleObject
 							}
 
 							// if url is empty, change type to shortcurt
-							if($value2->is_shortcut == 'N' && !$value2->url)
+							if($value2->is_shortcut == 'N' && (!$value2->url || preg_match('/^http/i',$value2->url)))
 							{
 								$value2->is_shortcut = 'Y';
 								$output3 = executeQuery('menu.updateMenuItem', $value2);
