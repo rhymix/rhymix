@@ -1651,6 +1651,7 @@ class menuAdminController extends menu
 			'%s; '.
 			'%s; '.
 			'$menu->list = array(%s); '.
+			'if(!$is_admin) { recurciveExposureCheck($menu->list); }'.
 			'Context::set("included_menu", $menu); '.
 			'?>',
 			$header_script,
@@ -1850,10 +1851,11 @@ class menuAdminController extends menu
 			}
 			// Create properties (check if it belongs to the menu node by url_list. It looks a trick but fast and powerful)
 			$attribute = sprintf(
-				'"node_srl"=>"%s","parent_srl"=>"%s","menu_name_key"=>\'%s\',"text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"is_shortcut"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s? ( array(%s)&&in_array(Context::get("mid"),array(%s)) ?%s:%s):""),',
+				'"node_srl"=>"%s","parent_srl"=>"%s","menu_name_key"=>\'%s\',"isShow"=>(%s?true:false),"text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"is_shortcut"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s? ( array(%s)&&in_array(Context::get("mid"),array(%s)) ?%s:%s):""),',
 				$node->menu_item_srl,
 				$node->parent_srl,
 				addslashes($node->name),
+				$group_check_code,
 				$group_check_code,
 				$node->menu_item_srl,
 				$group_check_code,
@@ -1875,6 +1877,7 @@ class menuAdminController extends menu
 				$link_active,
 				$link
 			);
+
 			// Generate buff data
 			$output['buff'] .=  sprintf('%s=>array(%s),', $node->menu_item_srl, $attribute);
 			$output['name'] .= $name_str;

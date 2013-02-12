@@ -1449,6 +1449,29 @@ function checkCSRF()
 }
 
 /**
+ * menu exposure check by isShow column
+ * @param array $menu
+ * @return void
+ */
+function recurciveExposureCheck(&$menu)
+{
+	if(is_array($menu))
+	{
+		foreach($menu AS $key=>$value)
+		{
+			if(!$value['isShow'])
+			{
+				unset($menu[$key]);
+			}
+			if(is_array($value['list']) && count($value['list']) > 0)
+			{
+				recurciveExposureCheck($menu[$key]['list']);
+			}
+		}
+	}
+}
+
+/**
  * Print raw html header
  *
  * @return void
