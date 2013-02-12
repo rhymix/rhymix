@@ -681,6 +681,7 @@
 <script>
 	xe.lang.shortcut = '{$lang->shortcut}';
 	xe.lang.msg_target_is_sub_of_origin = '{$lang->msg_target_is_sub_of_origin}';
+	xe.lang.confirm_sitemap_delete = '{$lang->confirm_sitemap_delete}';
 	xe.lang.confirm_menu_delete = '{$lang->confirm_menu_delete}';
 	xe.lang.confirm_delete_all_contents = '{$lang->confirm_delete_all_contents}';
 	xe.lang.confirm_shortcut_delete = '{$lang->confirm_shortcut_delete}';
@@ -1539,7 +1540,7 @@ jQuery(function($){
 	$("._delSiteMap").click(function(){
 		
 		$.xeMsgBox.confirmDialog({
-			sTitle : xe.lang.confirm_menu_delete,
+			sTitle : xe.lang.confirm_sitemap_delete,
 			
 			sText : '<label><input type="checkbox"> ' + xe.lang.confirm_delete_all_item  + '</label>',
 			

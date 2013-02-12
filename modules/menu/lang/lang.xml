@@ -796,6 +796,10 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[다운로드 가능한 항목이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There are no downloadable item.]]></value>
 	</item>
+	<item name="confirm_sitemap_delete">
+		<value xml:lang="ko"><![CDATA[사이트맵을 삭제 하겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Do you want to remove this sitemap?]]></value>
+	</item>
 	<item name="confirm_menu_delete">
 		<value xml:lang="ko"><![CDATA[메뉴를 삭제 하겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to remove this menu item?]]></value>
