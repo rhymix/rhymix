@@ -116,7 +116,7 @@ class QueryParser
 	 */
 	function toString()
 	{
-		return "<?php if(!defined('__ZBXE__')) exit();\n"
+		return "<?php if(!defined('__XE__')) exit();\n"
 				. $this->queryTag->toString()
 				. 'return $query; ?>';
 	}
