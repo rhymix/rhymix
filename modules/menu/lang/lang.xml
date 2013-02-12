@@ -717,8 +717,8 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="en"><![CDATA[Install other menu types]]></value>
 	</item>
 	<item name="about_new_menu_id">
-		<value xml:lang="ko"><![CDATA[URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.]]></value>
-		<value xml:lang="en"><![CDATA[URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [속성&gt;일반]에서 수정 가능.]]></value>
+		<value xml:lang="ko"><![CDATA[URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [메뉴 수정]에서 수정 가능.]]></value>
+		<value xml:lang="en"><![CDATA[URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [메뉴 수정]에서 수정 가능.]]></value>
 	</item>
 	<item name="about_menu_id">
 		<value xml:lang="ko"><![CDATA[페이지 URL로 사용(40자 이내).]]></value>
