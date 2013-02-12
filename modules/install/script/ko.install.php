@@ -134,7 +134,7 @@ $oDocumentModel = &getModel('document');
 $oDocumentController = &getController('document');
 
 $obj->module_srl = $module_srl;
-Context::set('version', __ZBXE_VERSION__);
+Context::set('version', __XE_VERSION__);
 $obj->title = 'Welcome XE';
 
 $obj->content = $oTemplateHandler->compile('./modules/install/script/welcome_content', 'welcome_content_'.$lang);

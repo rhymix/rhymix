@@ -217,7 +217,7 @@ class adminAdminController extends admin
 			}
 		}
 
-		$buff = sprintf('<?php if(!defined("__ZBXE__")) exit();' . "\n" . 'if(!defined("__XE__")) exit();' . "\n" . '$designInfo = new stdClass();' . "\n" . '%s ?>', $buff);
+		$buff = sprintf('<?php if(!defined("__XE__")) exit();' . "\n" . '$designInfo = new stdClass();' . "\n" . '%s ?>', $buff);
 
 		$siteDesignFile = _XE_PATH_ . 'files/site_design/design_' . $site_srl . '.php';
 		FileHandler::writeFile($siteDesignFile, $buff);

@@ -1584,7 +1584,7 @@ class menuAdminController extends menu
 		{
 			$xml_buff = "<root />";
 			FileHandler::writeFile($xml_file, $xml_buff);
-			FileHandler::writeFile($php_file, '<?php if(!defined("__ZBXE__")) exit(); ?>');
+			FileHandler::writeFile($php_file, '<?php if(!defined("__XE__")) exit(); ?>');
 			return $xml_file;
 		}
 		// Change to an array if only a single data is obtained
@@ -2011,7 +2011,7 @@ class menuAdminController extends menu
 
 	public function makeHomemenuCacheFile($menuSrl)
 	{
-		$cacheBuff .= sprintf('<?php if(!defined("__ZBXE__")) exit();');
+		$cacheBuff .= sprintf('<?php if(!defined("__XE__")) exit();');
 		$cacheBuff .= sprintf('$homeMenuSrl = %d;', $menuSrl);
 
 		FileHandler::writeFile($this->homeMenuCacheFile, $cacheBuff);

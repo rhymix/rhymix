@@ -1383,7 +1383,7 @@ class memberController extends member
 
 		if(!$check_signature) return FileHandler::removeFile($filename);
 
-		$buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
+		$buff = sprintf('<?php if(!defined("__XE__")) exit();?>%s', $signature);
 		FileHandler::makeDir($path);
 		FileHandler::writeFile($filename, $buff);
 	}

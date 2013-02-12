@@ -102,7 +102,7 @@ class autoinstallAdminController extends autoinstall
 			$type = $oModel->getTypeFromPath($package->path);
 			if($type == "core")
 			{
-				$version = __ZBXE_VERSION__;
+				$version = __XE_VERSION__;
 			}
 			else
 			{

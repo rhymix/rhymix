@@ -34,8 +34,6 @@
  * @brief Declare constants for generic use and for checking to avoid a direct call from the Web
  **/
 define('__XE__',   TRUE);
-define('__ZBXE__', TRUE); // deprecated : __ZBXE__ will be removed. Use __XE__ instead.
-
 /**
  * @brief Include the necessary configuration files
  **/

@@ -740,7 +740,7 @@ class moduleModel extends module
 		$xml_file = sprintf("%sconf/module.xml", $class_path);
 		if(!file_exists($xml_file)) return;
 		// Check if cached file exists
-		$cache_file = sprintf("./files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __ZBXE_VERSION__);
+		$cache_file = sprintf("./files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
 		// Update if no cache file exists or it is older than xml file
 		if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file))
 		{
@@ -889,7 +889,7 @@ class moduleModel extends module
 					}
 				}
 			}
-			$buff = sprintf('<?php if(!defined("__ZBXE__")) exit();$info->default_index_act = \'%s\';$info->setup_index_act=\'%s\';$info->simple_setup_index_act=\'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $setup_index_act, $simple_setup_index_act, $admin_index_act, $buff);
+			$buff = sprintf('<?php if(!defined("__XE__")) exit();$info->default_index_act = \'%s\';$info->setup_index_act=\'%s\';$info->simple_setup_index_act=\'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $setup_index_act, $simple_setup_index_act, $admin_index_act, $buff);
 
 			FileHandler::writeFile($cache_file, $buff);
 

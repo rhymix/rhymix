@@ -21,6 +21,11 @@ if(!defined('__XE__'))
 }
 
 /**
+ * @deprecated __ZBXE__ will be removed. Use __XE__ instead.
+ */
+define('__ZBXE__', __XE__);
+
+/**
  * Display XE's full version.
  * The version should be revised when releasing even if no change is made.
 

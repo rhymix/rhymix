@@ -320,7 +320,7 @@ class adminAdminModel extends admin
 		$info['package'] = _XE_PACKAGE_;
 		$info['host'] = $db_type->default_url ? $db_type->default_url : getFullUrl();
 		$info['app'] = $_SERVER['SERVER_SOFTWARE'];
-		$info['xe_version'] = __ZBXE_VERSION__;
+		$info['xe_version'] = __XE_VERSION__;
 		$info['php'] = phpversion();
 
 		$db_info = Context::getDBInfo();

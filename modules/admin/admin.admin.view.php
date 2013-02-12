@@ -205,7 +205,7 @@ class adminAdminView extends admin
 
 		// Retrieve recent news and set them into context,
 		// move from index method, because use in admin footer
-		$newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
+		$newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __XE_VERSION__, _XE_PACKAGE_);
 		$cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
 		if(!file_exists($cache_file) || filemtime($cache_file) + 60 * 60 < time())
 		{
@@ -368,7 +368,7 @@ class adminAdminView extends admin
 		Context::set('newVersionList', $needUpdateList);
 
 		// gathering enviroment check
-		$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));
+		$mainVersion = join('.', array_slice(explode('.', __XE_VERSION__), 0, 2));
 		$path = FileHandler::getRealPath('./files/env/' . $mainVersion);
 		$isEnviromentGatheringAgreement = FALSE;
 		if(file_exists($path))
@@ -481,7 +481,7 @@ class adminAdminView extends admin
 		$server = 'http://collect.xpressengine.com/env/img.php?';
 		$path = './files/env/';
 		$install_env = $path . 'install';
-		$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));
+		$mainVersion = join('.', array_slice(explode('.', __XE_VERSION__), 0, 2));
 
 		if(file_exists(FileHandler::getRealPath($install_env)))
 		{

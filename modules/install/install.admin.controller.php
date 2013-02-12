@@ -185,7 +185,7 @@ class installAdminController extends install
 			$ftp_info->ftp_password = Context::get('ftp_password');
 		}
 
-		$buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
+		$buff = '<?php if(!defined("__XE__")) exit();'."\n";
 		foreach($ftp_info as $key => $val)
 		{
 			if(!$val) continue;
