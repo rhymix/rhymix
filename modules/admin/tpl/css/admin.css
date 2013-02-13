@@ -2,7 +2,7 @@
 /* Reset */
 html,body{min-height:100%}
 body{-webkit-text-size-adjust:none}
-body>.x:first-child{min-width:300px;max-width:1240px}
+body>.x:first-child{min-width:300px;max-width:1240px;margin:0 auto}
 body>.x,
 .x label,
 .x table,
