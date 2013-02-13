@@ -753,6 +753,22 @@ class Context
 	}
 
 	/**
+	 * Return layout's title
+	 * @return string layout's title
+	 */
+	public function getSiteTitle()
+	{
+		$oModuleModel = &getModel('module');
+		$moduleConfig = $oModuleModel->getModuleConfig('module');
+
+		if(isset($moduleConfig->siteTitle))
+		{
+			return $moduleConfig->siteTitle;
+		}
+		return '';
+	}
+
+	/**
 	 * Get browser title
 	 * @deprecated
 	 */
