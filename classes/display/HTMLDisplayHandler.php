@@ -394,7 +394,7 @@ class HTMLDisplayHandler
 		}
 
 		// for admin page, add admin css
-		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0 || Context::get('grant')->manager)
+		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
 		{
 			if(__DEBUG__)
 			{
