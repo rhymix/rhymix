@@ -395,6 +395,24 @@ class module extends ModuleObject
 		}
 
 		// XE 1.7
+		if(!$oDB->isColumnExists("modules", "is_mskin_fix"))
+		{
+			$oDB->addColumn('modules', 'is_mskin_fix', 'char', 1, 'N');
+			$output = executeQueryArray('module.getAllMobileSkinSetModule');
+			if($output->toBool() && $output->data)
+			{
+				$module_srls = array();
+				foreach($output->data as $val)
+				{
+					$module_srls[] = $val->module_srl;
+				}
+				unset($args);
+				$args->module_srls = implode(',', $module_srls);
+				$args->is_mskin_fix = 'Y';
+				$output = executeQuery('module.updateMobileSkinFixModules', $args);
+			}
+		}
+
 		$output = executeQueryArray('module.getNotLinkedModuleGroupSiteSrl');
 		if($output->toBool() && $output->data && count($output->data) > 0)
 		{
@@ -427,23 +445,6 @@ class module extends ModuleObject
 
 		}
 
-		if(!$oDB->isColumnExists("modules", "is_mskin_fix"))
-		{
-			$oDB->addColumn('modules', 'is_mskin_fix', 'char', 1, 'N');
-			$output = executeQueryArray('module.getAllMobileSkinSetModule');
-			if($output->toBool() && $output->data)
-			{
-				$module_srls = array();
-				foreach($output->data as $val)
-				{
-					$module_srls[] = $val->module_srl;
-				}
-				unset($args);
-				$args->module_srls = implode(',', $module_srls);
-				$args->is_mskin_fix = 'Y';
-				$output = executeQuery('module.updateMobileSkinFixModules', $args);
-			}
-		}
 		return new Object(0, 'success_updated');
 	}
 
