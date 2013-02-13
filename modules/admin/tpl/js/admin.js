@@ -325,6 +325,12 @@ jQuery(function($){
 // Modal Window
 jQuery(function($){
 	var ESC = 27;
+	var xeModalStack = new Array();
+	var xeModalInitailZIndex = 1040;
+
+	// modal backdrop
+	var $xeModalBackdrop = $('<div class="x_modal-backdrop"></div>').appendTo('body').hide();
+
 	$.fn.xeModalWindow = function(){
 		this
 			.not('.xe-modal-window')
@@ -347,13 +353,19 @@ jQuery(function($){
 			})
 			.bind('open.mw', function(){
 				var $this = $(this), $modal, $btnClose, disabled, before_event, duration;
-				
+
+				// get modal window
 				$modal = $( $this.attr('href') );
+
+				// if stack top is this modal, ignore
+				if(xeModalStack.length && xeModalStack[xeModalStack.length - 1].get(0) == $modal.get(0)){
+					return;
+				}
+
 				if(!$modal.parent('body').length) {
 					$btnClose = $('<button type="button" class="x_close">&times;</button>');
 					$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
 					$modal.find('[data-hide]').click(function(){ $modal.data('anchor').trigger('close.mw') });
-					$('body').append('<div class="x_modal-backdrop"></div>').append($modal); // append background
 					$modal.prepend($btnClose); // prepend close button
 				}
 				
@@ -366,9 +378,6 @@ jQuery(function($){
 
 				// is event canceled?
 				if(before_event.isDefaultPrevented()) return false;
-
-				// get modal window
-				$modal = $( $this.attr('href') );
 
 				// get duration
 				duration = $this.data('duration') || 'fast';
@@ -388,12 +397,29 @@ jQuery(function($){
 
 				$modal
 					.fadeIn(duration, after)
-					.find('button.x_close:first').focus().end()
-					.prev('.x_modal-backdrop').show();
+					.find('button.x_close:first').focus();
+
 				$('body').css('overflow','hidden');
+
+				// push to stack
+				xeModalStack.push($modal);
+
+				// show backdrop and adjust z-index
+				var zIndex = xeModalInitailZIndex + ((xeModalStack.length - 1) * 2);
+
+				$xeModalBackdrop.css('z-index', zIndex).show();
+				$modal.css('z-index', zIndex + 1);
 			})
 			.bind('close.mw', function(){
 				var $this = $(this), before_event, $modal, duration;
+
+				// get modal window
+				$modal = $( $this.attr('href') );
+
+				// if stack top is not this modal, ignore
+				if(xeModalStack.length && xeModalStack[xeModalStack.length - 1].get(0) != $modal.get(0)){
+					return;
+				}
 
 				// before event trigger
 				before_event = $.Event('before-close.mw');
@@ -401,9 +427,6 @@ jQuery(function($){
 
 				// is event canceled?
 				if(before_event.isDefaultPrevented()) return false;
-
-				// get modal window
-				$modal = $( $this.attr('href') );
 
 				// get duration
 				duration = $this.data('duration') || 'fast';
@@ -414,10 +437,22 @@ jQuery(function($){
 				// after event trigger
 				function after(){ $this.trigger('after-close.mw') };
 
-				$modal.fadeOut(duration, after)
-				.prev('.x_modal-backdrop').hide();
+				$modal.fadeOut(duration, after);
 				$('body').css('overflow','auto');
 				$this.focus();
+
+				// pop from stack
+				xeModalStack.pop();
+
+				// hide backdrop and adjust z-index
+				var zIndex = xeModalInitailZIndex + ((xeModalStack.length - 1) * 2);
+
+				if(xeModalStack.length){
+					$xeModalBackdrop.css('z-index', zIndex);
+				}else{
+					$xeModalBackdrop.hide();
+				}
+
 			});
 		$('div.x_modal').addClass('x');
 	};
