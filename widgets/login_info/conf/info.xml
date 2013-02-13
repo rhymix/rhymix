@@ -20,7 +20,6 @@
     <description xml:lang="tr">Bu görsel bileşen giriş şeklini veya giriş bilgilerini görüntüler.</description>
     <version>0.1</version>
     <date>2007-02-28</date>
-
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NHN</name>
         <name xml:lang="zh-CN">NHN</name>
@@ -32,5 +31,4 @@
         <name xml:lang="zh-TW">NHN</name>
         <name xml:lang="tr">NHN</name>
     </author>
-    <extra_vars />
 </widget>

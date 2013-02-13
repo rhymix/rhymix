@@ -8,12 +8,10 @@
 	</description>
 	<version>0.1</version>
 	<date>2012-09-21</date>
-
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
 		<name xml:lang="ko">NHN</name>
 		<name xml:lang="en">NHN</name>
 		<name xml:lang="zh-TW">NHN</name>
 		<name xml:lang="tr">NHN</name>
 	</author>
-	<extra_vars />
 </skin>
