@@ -65,7 +65,7 @@ xe.msg_select_menu = "{$lang->msg_select_menu}";
 <!--@if(strpos(strtolower(Context::get('act')),'admin') || Context::get('module') == 'admin')-->
 {@$isAdminKind = true}
 <!--@end-->
-<body{Context::getBodyClass()} style="margin-top:28px!important"|cond="$logged_info->is_admin=='Y' && !$isAdminKind && Context::get('current_module_info')->module_type == 'view' && Context::get('admin_bar') != 'false'">
+<body{Context::getBodyClass()} style="margin-top:30px!important"|cond="$logged_info->is_admin=='Y' && !$isAdminKind && Context::get('current_module_info')->module_type == 'view' && Context::get('admin_bar') != 'false'">
 <include target="../../modules/admin/tpl/admin_bar.html" cond="$logged_info->is_admin=='Y' && !$isAdminKind && Context::get('current_module_info')->module_type == 'view' && Context::get('admin_bar') != 'false'" />
 {Context::getBodyHeader()}
 {$content}
