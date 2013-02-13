@@ -356,7 +356,7 @@ function winopen(url, target, attribute) {
 function popopen(url, target) {
     if(typeof(target) == "undefined") target = "_blank";
     if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
-    winopen(url, target, "width=650,height=500,scrollbars=yes,resizable=yes,toolbars=no");
+    winopen(url, target, "width=800,height=600,scrollbars=yes,resizable=yes,toolbars=no");
 }
 
 /**
