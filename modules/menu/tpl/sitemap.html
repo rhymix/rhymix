@@ -10,7 +10,7 @@
 
 <div class="_quick_help x_alert">
 	<p class="_quick_help_msg">msg</p>
-	<label><input class="_quick_help_nomore" type="checkbox"/> 다시 보지 않기</label>
+	<label><input class="_quick_help_nomore" type="checkbox"/> {$lang->do_not_display_again}</label>
 </div>
 
 <!--@if($act == 'dispMenuAdminSiteMap')-->
@@ -226,16 +226,6 @@
 					<li style="padding:0 0 6px 0">
 						<label><input type="checkbox" class="_leaveUnfolded" title="{$lang->menu_expand}"> {$lang->menu_expand}</label>
 					</li>
-					<!--li class="menuType">
-						<div style="line-height:30px">
-							<strong>{$lang->menu_type}</strong>: <span class="module_type"></span> <a href="#menuTypeHelpInDefault" class="x_icon-question-sign" data-admin-toggle="#menuTypeHelpInDefault">{$lang->help}</a>
-						</div>
-						<div id="menuTypeHelpInDefault" class="x_alert x_alert-info" style="display:none;width:169px">
-							<button type="button" class="x_close" data-admin-hide="#menuTypeHelpInDefault">×</button>
-							<p>{$lang->about_menu_type_in_default}</p>
-						</div>
-					</li-->
-					
 					<li class="typePage" style="border-top:1px solid #DDD">
 						<label for="lang_pageTitle">{$lang->browser_title} <a href="#help_menuName" class="x_icon-question-sign" data-admin-toggle="#help_menuName">{$lang->help}</a></label>
 						<div id="help_menuName" class="x_alert x_alert-info" style="display:none;width:169px">

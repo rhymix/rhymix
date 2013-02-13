@@ -93,7 +93,7 @@ body>.x,
 .x input:checked+label,
 .x .x_form-horizontal .x_control-label{font-weight:bold;word-break:keep-all}
 .x .x_form-horizontal .x_control-label{width:180px}
-.x .x_form-horizontal .x_controls{margin-left:200px}
+.x .x_form-horizontal .x_controls{margin-left:200px;*margin-left:0}
 .x .x_form-horizontal .x_controls label{padding:5px 0;margin-bottom:0}
 .x input[type="radio"]+label,
 .x input[type="checkbox"]+label{font-weight:normal}
@@ -283,7 +283,7 @@ body>.x,
 .x>.body>.gnb>a>i{display:none}
 .x>.body>.gnb .exMenu{position:absolute;width:100%}
 .x>.body>.gnb .exMenu>button{width:100%;border:0;background:none;font-size:20px;line-height:25px}
-.x>.body>.gnb .exMenu>button>i{opacity:.5;filter:alpha(opacity=50);vertical-align:middle}
+.x>.body>.gnb .exMenu>button>i{opacity:.5;filter:alpha(opacity=50);vertical-align:middle;text-indent:0}
 .x>.body>.gnb .exMenu>button:hover>i,
 .x>.body>.gnb .exMenu>button:focus>i{opacity:1;filter:alpha(opacity=100)}
 .x>.body>.gnb .exMenu .x_icon-chevron-up,

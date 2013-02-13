@@ -881,5 +881,8 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[버튼 이미지가 삭제 됐습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Button image is deleted.]]></value>
 	</item>
-
+	<item name="do_not_display_again">
+		<value xml:lang="ko"><![CDATA[다시 보지 않기.]]></value>
+		<value xml:lang="en"><![CDATA[Do not display again.]]></value>
+	</item>
 </lang>
