@@ -366,6 +366,7 @@ jQuery(function($){
 					$btnClose = $('<button type="button" class="x_close">&times;</button>');
 					$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
 					$modal.find('[data-hide]').click(function(){ $modal.data('anchor').trigger('close.mw') });
+					$('body').append($modal);
 					$modal.prepend($btnClose); // prepend close button
 				}
 				
