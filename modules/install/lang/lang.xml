@@ -69,6 +69,10 @@
 		<value xml:lang="ko"><![CDATA[자세히]]></value>
 		<value xml:lang="en"><![CDATA[Details]]></value>
 	</item>
+	<item name="install_simply">
+		<value xml:lang="ko"><![CDATA[간단히]]></value>
+		<value xml:lang="en"><![CDATA[Simply]]></value>
+	</item>
 	<item name="advanced_setup">
 		<value xml:lang="ko"><![CDATA[고급 설정]]></value>
 		<value xml:lang="en"><![CDATA[Advanced Setup]]></value>
