@@ -108,7 +108,68 @@ class FrontEndFileHandler extends Handler
 			$args = array($args);
 		}
 
-		$pathInfo = pathinfo($args[0]);
+		$file = $this->getFileInfo($args[0], $args[2], $args[1]);
+
+		$availableExtension = array('css' => 1, 'js' => 1);
+		if(!isset($availableExtension[$file->fileExtension]))
+		{
+			return;
+		}
+
+		$file->useCdn = $useCdn;
+		$file->cdnPrefix = $cdnPrefix;
+		$file->cdnVersion = $cdnVersion;
+		$file->index = (int) $args[3];
+
+		if($file->fileExtension == 'css')
+		{
+			$map = &$this->cssMap;
+			$mapIndex = &$this->cssMapIndex;
+
+			$this->_arrangeCssIndex($pathInfo['dirname'], $file);
+		}
+		else if($file->fileExtension == 'js')
+		{
+			$type = $args[1];
+			if($type == 'body')
+			{
+				$map = &$this->jsBodyMap;
+				$mapIndex = &$this->jsBodyMapIndex;
+			}
+			else
+			{
+				$map = &$this->jsHeadMap;
+				$mapIndex = &$this->jsHeadMapIndex;
+			}
+		}
+
+		(is_null($file->index)) ? $file->index = 0 : $file->index = $file->index;
+		if(!isset($mapIndex[$file->key]) || $mapIndex[$file->key] > $file->index)
+		{
+			$this->unloadFile($args[0], $args[2], $args[1]);
+			$map[$file->index][$file->key] = $file;
+			$mapIndex[$file->key] = $file->index;
+		}
+	}
+
+	/**
+	 * Get file information
+	 *
+	 * @param string $fileName The file name
+	 * @param string $targetIe Target IE of file
+	 * @param string $media Media of file
+	 * @return stdClass The file information
+	 */
+	private function getFileInfo($fileName, $targetIe = '', $media = 'all')
+	{
+		static $existsInfo = array();
+
+		if(isset($existsInfo[$existsKey]))
+		{
+			return $existsInfo[$existsKey];
+		}
+		
+		$pathInfo = pathinfo($fileName);
 		$file = new stdClass();
 		$file->fileName = $pathInfo['basename'];
 		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
@@ -116,6 +177,7 @@ class FrontEndFileHandler extends Handler
 		$file->fileExtension = strtolower($pathInfo['extension']);
 		$file->fileNameNoExt = preg_replace('/\.min$/', '', $pathInfo['filename']);
 		$file->keyName = implode('.', array($file->fileNameNoExt, $file->fileExtension));
+		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
 
 		if(strpos($file->filePath, '://') === FALSE)
 		{
@@ -137,58 +199,25 @@ class FrontEndFileHandler extends Handler
 					$file->fileName = $file->keyName;
 				}
 			}
-
-			$file->useCdn = $useCdn;
-			$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
-			$file->cdnPrefix = $cdnPrefix;
-			$file->cdnVersion = $cdnVersion;
 		}
 
-		$availableExtension = array('css' => 1, 'js' => 1);
-		if(!isset($availableExtension[$file->fileExtension]))
-		{
-			return;
-		}
-
-		$file->targetIe = $args[2];
-		$file->index = (int) $args[3];
+		$file->targetIe = $targetIe;
 
 		if($file->fileExtension == 'css')
 		{
-			$file->media = $args[1];
+			$file->media = $media;
 			if(!$file->media)
 			{
 				$file->media = 'all';
 			}
-			$map = &$this->cssMap;
-			$mapIndex = &$this->cssMapIndex;
-			$key = $file->filePath . $file->keyName . "\t" . $file->targetIe . "\t" . $file->media;
-
-			$this->_arrangeCssIndex($pathInfo['dirname'], $file);
+			$file->key = $file->filePath . $file->keyName . "\t" . $file->targetIe . "\t" . $file->media;
 		}
 		else if($file->fileExtension == 'js')
 		{
-			$type = $args[1];
-			if($type == 'body')
-			{
-				$map = &$this->jsBodyMap;
-				$mapIndex = &$this->jsBodyMapIndex;
-			}
-			else
-			{
-				$map = &$this->jsHeadMap;
-				$mapIndex = &$this->jsHeadMapIndex;
-			}
-			$key = $file->filePath . $file->keyName . "\t" . $file->targetIe;
+			$file->key = $file->filePath . $file->keyName . "\t" . $file->targetIe;
 		}
 
-		(is_null($file->index)) ? $file->index = 0 : $file->index = $file->index;
-		if(!isset($map[$file->index][$key]) || $mapIndex[$key] > $file->index)
-		{
-			$this->unloadFile($args[0], $args[2], $args[1]);
-			$map[$file->index][$key] = $file;
-			$mapIndex[$key] = $file->index;
-		}
+		return $file;
 	}
 
 	/**
@@ -201,40 +230,30 @@ class FrontEndFileHandler extends Handler
 	 */
 	function unloadFile($fileName, $targetIe = '', $media = 'all')
 	{
-		$pathInfo = pathinfo($fileName);
-		$fileName = $pathInfo['basename'];
-		$filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
-		$fileExtension = strtolower($pathInfo['extension']);
-		$key = $filePath . $fileName . "\t" . $targetIe;
+		$file = $this->getFileInfo($fileName, $targetIe, $media);
 
 		if($fileExtension == 'css')
 		{
-			if(empty($media))
+			if(isset($this->cssMapIndex[$file->key]))
 			{
-				$media = 'all';
-			}
-
-			$key .= "\t" . $media;
-			if(isset($this->cssMapIndex[$key]))
-			{
-				$index = $this->cssMapIndex[$key];
-				unset($this->cssMap[$index][$key]);
-				unset($this->cssMapIndex[$key]);
+				$index = $this->cssMapIndex[$file->key];
+				unset($this->cssMap[$index][$file->key]);
+				unset($this->cssMapIndex[$file->key]);
 			}
 		}
 		else
 		{
-			if(isset($this->jsHeadMapIndex[$key]))
+			if(isset($this->jsHeadMapIndex[$file->key]))
 			{
-				$index = $this->jsHeadMapIndex[$key];
-				unset($this->jsHeadMap[$index][$key]);
-				unset($this->jsHeadMapIndex[$key]);
+				$index = $this->jsHeadMapIndex[$file->key];
+				unset($this->jsHeadMap[$index][$file->key]);
+				unset($this->jsHeadMapIndex[$file->key]);
 			}
-			if(isset($this->jsBodyMapIndex[$key]))
+			if(isset($this->jsBodyMapIndex[$file->key]))
 			{
-				$index = $this->jsBodyMapIndex[$key];
-				unset($this->jsBodyMap[$index][$key]);
-				unset($this->jsBodyMapIndex[$key]);
+				$index = $this->jsBodyMapIndex[$file->key];
+				unset($this->jsBodyMap[$index][$file->key]);
+				unset($this->jsBodyMapIndex[$file->key]);
 			}
 		}
 	}
