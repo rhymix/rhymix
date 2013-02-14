@@ -335,6 +335,7 @@ class menuAdminController extends menu
 			{
 				return new Object(-1, 'msg_invalid_request');
 			}
+			unset($itemInfo->normal_btn, $itemInfo->hover_btn, $itemInfo->active_btn);
 
 			$args = $itemInfo;
 			if(count($args->group_srls) == 0)
