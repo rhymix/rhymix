@@ -26,7 +26,7 @@ class TemplateHandler
 	 * constructor
 	 * @return void
 	 */
-	private function __construct()
+	public function __construct()
 	{
 		$this->xe_path = rtrim(preg_replace('/([^\.^\/]+)\.php$/i', '', $_SERVER['SCRIPT_NAME']), '/');
 	}
