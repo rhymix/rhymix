@@ -10,7 +10,7 @@ jQuery(function($){
 		var focusable = 'a,input,button,textarea,select';
 		$target.toggle();
 		if($target.is(':visible') && !$target.find(focusable).length){
-			$target.not(':disabled').attr('tabindex','0').css('outline','0').focus();
+			$target.not(':disabled').attr('tabindex','0').focus();
 		} else if($target.is(':visible') && $target.find(focusable).length) {
 			$target.not(':disabled').find(focusable).eq(0).focus();
 		} else {
