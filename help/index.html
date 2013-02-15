@@ -409,7 +409,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 							<dd>
 								<p>사이트 시작 화면을 결정하는 기본 모듈 설정, 기본 언어 등 사이트를 운영하기 위해 필요한 기본 설정을 할 수 있습니다. 또한, 보안을 위한 관리자 페이지 접근 가능 IP 대역 지정 등 다양한 고급 설정이 가능합니다.</p>
 								<ul>
-									<li id="UMAN_config_general_site_title">사이트 제목: 세부 설정에서 사이트제목을 설정하지 않았을 경우 노출되는 제목입니다.</li>
+									<li id="UMAN_config_general_site_title">사이트 제목: XE Core 1.7 이상에서 새롭게 추가된 값입니다. skin에서 {Context::getSiteTitle()} 를 통해서 사용할 수 있습니다. 현재 적용된 layout으로는 bootstrap.layout이 있습니다.</li>
 									<li id="UMAN_config_general_homepage">홈페이지: 사이트 접속 시 기본으로 호출될 페이지 지정할 수 있습니다.</li>
 									<li id="UMAN_config_general_mobile_view">모바일 뷰 사용: 모바일 기기로 접속시 모바일 페이지를 보여줍니다.</li>
 									<li id="UMAN_config_general_admin_iplist">관리자 IP대역: 관리자 페이지로 접근가능한 IP대역을 지정합니다. 해당 IP에 대해서만 관리자 페이지로 접근이 가능하므로 주의 바랍니다. IP대역 정보는 /files/config/db.config.php 파일에 저장됩니다. 여러개의 항목은 줄을 바꾸어 입력하세요.</li>
