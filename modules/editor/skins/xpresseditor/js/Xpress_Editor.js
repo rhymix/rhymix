@@ -3192,7 +3192,6 @@ xe.XE_EditingAreaVerticalResizer = $.Class({
 
 	_assignHTMLObjects : function(oAppContainer){
 		oAppContainer = $.$(oAppContainer) || document;
-
 		this.oResizeGrip = $(".xpress_xeditor_editingArea_verticalResizer", oAppContainer).get(0);
 	},
 
