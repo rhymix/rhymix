@@ -1202,7 +1202,7 @@ class Context
 
 		foreach($params as $key => $val)
 		{
-			$val = $this->_filterRequestVar($key, $val, 0);
+			$val = $this->_filterRequestVar($key, $val, 1);
 			$this->set($key, $val, true);
 		}
 	}
