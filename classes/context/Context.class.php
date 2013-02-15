@@ -180,7 +180,7 @@ class Context
 		$this->get_vars = new stdClass();
 
 		// include ssl action cache file
-		$this->sslActionCacheFile = FileHandler::getRealPath($theInstance->sslActionCacheFile);
+		$this->sslActionCacheFile = FileHandler::getRealPath($this->sslActionCacheFile);
 		if(is_readable($this->sslActionCacheFile))
 		{
 			require_once($this->sslActionCacheFile);
@@ -1839,7 +1839,7 @@ class Context
 	}
 
 	/**
-	 * Register if actions is to be encrypted by SSL. Those actions are sent to https in common/js/xml_handler.js
+	 * Register if an action is to be encrypted by SSL. Those actions are sent to https in common/js/xml_handler.js
 	 *
 	 * @param string $action act name
 	 * @return void
@@ -1858,6 +1858,51 @@ class Context
 		{
 			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
 			FileHandler::writeFile($self->sslActionCacheFile, $sslActionCacheString, 'a');
+		}
+	}
+
+	/**
+	 * Register if actions are to be encrypted by SSL. Those actions are sent to https in common/js/xml_handler.js
+	 *
+	 * @param string $action act name
+	 * @return void
+	 */
+	function addSSLActions($action_array)
+	{
+		is_a($this, 'Context') ? $self = $this : $self = Context::getInstance();
+
+		if(!is_readable($self->sslActionCacheFile))
+		{
+			$buff = '<?php if(!defined("__XE__"))exit;';
+			FileHandler::writeFile($self->sslActionCacheFile, $buff);
+		}
+
+		foreach($action_array as $action)
+		{
+			if(!isset($self->ssl_actions[$action]))
+			{
+				$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
+				FileHandler::writeFile($self->sslActionCacheFile, $sslActionCacheString, 'a');
+			}
+		}
+	}
+
+	/**
+	 * Delete if action is registerd to be encrypted by SSL.
+	 *
+	 * @param string $action act name
+	 * @return void
+	 */
+	function subtractSSLAction($action)
+	{
+		is_a($this, 'Context') ? $self = $this : $self = Context::getInstance();
+
+		if($self->isExistsSSLAction($action))
+		{
+			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
+			$buff = FileHandler::readFile($self->sslActionCacheFile);
+			$buff = str_replace($sslActionCacheString, '', $buff);
+			FileHandler::writeFile($self->sslActionCacheFile, $buff);
 		}
 	}
 

@@ -23,29 +23,7 @@ class member extends ModuleObject {
 
 		$oModuleModel = &getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
-		// Set to use SSL upon actions related member join/information/password and so on
-		if(Context::get('_use_ssl') == 'optional')
-		{
-			Context::addSSLAction('dispMemberModifyPassword');
-			Context::addSSLAction('dispMemberSignUpForm');
-			Context::addSSLAction('dispMemberModifyInfo');
-			Context::addSSLAction('dispMemberModifyEmailAddress');
-			Context::addSSLAction('dispMemberGetTempPassword');
-			Context::addSSLAction('dispMemberResendAuthMail');
-			Context::addSSLAction('dispMemberLoginForm');
-			Context::addSSLAction('dispMemberFindAccount');
-			Context::addSSLAction('dispMemberLeave');
-			Context::addSSLAction('procMemberLogin');
-			Context::addSSLAction('procMemberModifyPassword');
-			Context::addSSLAction('procMemberInsert');
-			Context::addSSLAction('procMemberModifyInfo');
-			Context::addSSLAction('procMemberFindAccount');
-			Context::addSSLAction('procMemberModifyEmailAddress');
-			Context::addSSLAction('procMemberUpdateAuthMail');
-			Context::addSSLAction('procMemberResendAuthMail');
-			Context::addSSLAction('procMemberLeave');
-			//Context::addSSLAction('getMemberMenu');
-		}
+
 	}
 
 	/**
@@ -224,6 +202,12 @@ class member extends ModuleObject {
 		if(!is_readable('./files/ruleset/login.xml')) return true;
 		if(!is_readable('./files/ruleset/find_member_account_by_question.xml')) return true;
 
+		// Set to use SSL upon actions related member join/information/password and so on. 2013.02.15
+		if(!Context::isExistsSSLAction('getMemberMenu'))
+		{
+			return TRUE;
+		}
+
 		return false;
 	}
 
@@ -360,6 +344,13 @@ class member extends ModuleObject {
 			$oMemberAdminController->_createLoginRuleset($config->identifier);
 		if(!is_readable('./files/ruleset/find_member_account_by_question.xml'))
 			$oMemberAdminController->_createFindAccountByQuestion($config->identifier);
+
+		// Set to use SSL upon actions related member join/information/password and so on. 2013.02.15
+		if(!Context::isExistsSSLAction('getMemberMenu'))
+		{
+			$ssl_actions = array('dispMemberModifyPassword', 'dispMemberSignUpForm', 'dispMemberModifyInfo', 'dispMemberModifyEmailAddress', 'dispMemberGetTempPassword', 'dispMemberResendAuthMail', 'dispMemberLoginForm', 'dispMemberFindAccount', 'dispMemberLeave', 'procMemberLogin', 'procMemberModifyPassword', 'procMemberInsert', 'procMemberModifyInfo', 'procMemberFindAccount', 'procMemberModifyEmailAddress', 'procMemberUpdateAuthMail', 'procMemberResendAuthMail', 'procMemberLeave', 'getMemberMenu');
+			Context::addSSLActions($ssl_actions);
+		}
 
 		return new Object(0, 'success_updated');
 	}
