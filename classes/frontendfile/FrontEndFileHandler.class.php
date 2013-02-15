@@ -232,7 +232,7 @@ class FrontEndFileHandler extends Handler
 	{
 		$file = $this->getFileInfo($fileName, $targetIe, $media);
 
-		if($fileExtension == 'css')
+		if($file->fileExtension == 'css')
 		{
 			if(isset($this->cssMapIndex[$file->key]))
 			{
