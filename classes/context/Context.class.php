@@ -1856,6 +1856,7 @@ class Context
 
 		if(!isset($self->ssl_actions[$action]))
 		{
+			$self->ssl_actions[$action] = 1;
 			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
 			FileHandler::writeFile($self->sslActionCacheFile, $sslActionCacheString, 'a');
 		}
@@ -1873,6 +1874,7 @@ class Context
 
 		if(!is_readable($self->sslActionCacheFile))
 		{
+			unset($self->ssl_actions);
 			$buff = '<?php if(!defined("__XE__"))exit;';
 			FileHandler::writeFile($self->sslActionCacheFile, $buff);
 		}
@@ -1881,6 +1883,7 @@ class Context
 		{
 			if(!isset($self->ssl_actions[$action]))
 			{
+				$self->ssl_actions[$action] = 1;
 				$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
 				FileHandler::writeFile($self->sslActionCacheFile, $sslActionCacheString, 'a');
 			}
