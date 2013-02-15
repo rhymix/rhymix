@@ -362,6 +362,9 @@ class member extends ModuleObject {
 	 */
 	function recompileCache()
 	{
+		// Set to use SSL upon actions related member join/information/password and so on. 2013.02.15
+		$ssl_actions = array('dispMemberModifyPassword', 'dispMemberSignUpForm', 'dispMemberModifyInfo', 'dispMemberModifyEmailAddress', 'dispMemberGetTempPassword', 'dispMemberResendAuthMail', 'dispMemberLoginForm', 'dispMemberFindAccount', 'dispMemberLeave', 'procMemberLogin', 'procMemberModifyPassword', 'procMemberInsert', 'procMemberModifyInfo', 'procMemberFindAccount', 'procMemberModifyEmailAddress', 'procMemberUpdateAuthMail', 'procMemberResendAuthMail', 'procMemberLeave', 'getMemberMenu');
+		Context::addSSLActions($ssl_actions);
 	}
 
 	/**
