@@ -595,6 +595,7 @@ class documentModel extends document
 		$args->var_idx = $search_obj->s_var_idx;
 		$args->var_eid = $search_obj->s_var_eid;
 		$args->var_value = $search_obj->s_var_value;
+		$args->var_lang_code = Context::getLangType();
 
 		$output = executeQuery('document.getDocumentExtraVarsCount', $args);
 		// Return total number of
@@ -920,7 +921,7 @@ class documentModel extends document
 		$extra_keys = $this->getExtraKeys($module_srl);
 		Context::set('extra_keys', $extra_keys);
 		$security = new Security();
-		$security->encodeHTML('extra_keys..eid');
+		$security->encodeHTML('extra_keys..');
 
 		// Get information of module_grants
 		$oTemplate = &TemplateHandler::getInstance();
@@ -1351,6 +1352,10 @@ class documentModel extends document
 					$args->{"s_".$search_target} = $search_keyword;
 					break;
 				case 'is_notice' :
+					if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
+					elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
+					else $args->{"s_".$search_target} = '';
+					break;
 				case 'is_secret' :
 					if($search_keyword=='N') $args->statusList = array($this->getConfigStatus('public'));
 					elseif($search_keyword=='Y') $args->statusList = array($this->getConfigStatus('secret'));

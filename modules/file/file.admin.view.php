@@ -32,7 +32,7 @@ class fileAdminView extends file
 		// Get a list
 		$oFileAdminModel = &getAdminModel('file');
 		$columnList = array('file_srl', 'upload_target_srl', 'upload_target_type', 'sid', 'module_srl'
-				, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'ipaddress');
+				, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'ipaddress', 'member.member_srl', 'member.nick_name');
 		$output = $oFileAdminModel->getFileList($args, $columnList);
 		// Get the document for looping a list
 		if($output->data)
@@ -199,8 +199,8 @@ class fileAdminView extends file
 		Context::set('page_navigation', $output->page_navigation);
 		// Set a template
 		$security = new Security();
-		$security->encodeHTML('file_list..source_filename','file_list..ipaddress');
-		$security->encodeHTML('module_list..browser_title','module_list..mid');						
+		$security->encodeHTML('file_list..');
+		$security->encodeHTML('module_list..');						
 
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('file_list');

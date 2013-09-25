@@ -106,9 +106,6 @@ if(jQuery) jQuery.noConflict();
                                         click_str = " onclick=\""+url+"; return false; \"";
                                         url="#";
                                     break;
-                                default :
-                                        click_str = " onclick=\"window.open(this.href); return false;\"";
-                                    break;
                             }
 
                             html += '<li '+styleText+'><a href="'+url+'"'+click_str+'>'+str+'</a></li> ';
@@ -128,11 +125,10 @@ if(jQuery) jQuery.noConflict();
                 if(area.outerWidth()+areaOffset.left > $(window).width()+$(window).scrollLeft())
                     areaOffset.left = $(window).width() - area.outerWidth() + $(window).scrollLeft();
 
-                area.css({ top:areaOffset.top, left:areaOffset.left }).show();
+                area.css({ top:areaOffset.top, left:areaOffset.left }).show().focus();
             }
         }
     }
-
 }) (jQuery);
 
 
@@ -913,7 +909,7 @@ jQuery(function($){
 	// display popup menu that contains member actions and document actions
 	$(document).click(function(evt) {
 		var $area = $('#popup_menu_area');
-		if(!$area.length) $area = $('<div id="popup_menu_area" style="display:none;z-index:9999" />').appendTo(document.body);
+		if(!$area.length) $area = $('<div id="popup_menu_area" tabindex="0" style="display:none;z-index:9999" />').appendTo(document.body);
 
 		// 이전에 호출되었을지 모르는 팝업메뉴 숨김
 		$area.hide();

@@ -1,16 +1,17 @@
 <load target="./../../../../common/js/jquery.min.js" usecdn="true" index="-1000000" />
 <load target="css/mlogin.css" usecdn="true" />
 <div class="bd">
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
 <div class="hx h2">
 	<h2>{$lang->cmd_login}</h2>
 </div>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/m.skin/default/login_form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
 	<form action="./" method="POST" class="ff">
 		<input type="hidden" name="module" value="member" />
 		<input type="hidden" name="act" value="procMemberLogin" />
 		<input type="hidden" name="redirect_url" value="{getUrl('act','')}" />
+		<input type="hidden" name="xe_validator_id" value="modules/member/m.skin/default/login_form/1" />
 		<ul>
 			<li><label for="id"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label><input name="user_id" type="<!--@if($identifier == 'user_id')-->text<!--@else-->email<!--@end-->" id="id" value="" /></li>
 			<li><label for="pw">{$lang->password}</label><input name="password" type="password" id="pw" value="" /></li>

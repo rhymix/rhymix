@@ -283,7 +283,7 @@ class widgetController extends widget
 		else $vars = $xml_doc->attrs;
 
 		$widget = $vars->widget;
-		if(!$widget) return $match[0];
+		if(!$widget) return $matches[0];
 		unset($vars->widget);
 
 		return $this->execute($widget, $vars, $this->javascript_mode);
@@ -623,6 +623,11 @@ class widgetController extends widget
 	 */
 	function getWidgetObject($widget)
 	{
+		if(!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $widget))
+		{
+			return Context::getLang('msg_invalid_request');
+		}
+
 		if(!$GLOBALS['_xe_loaded_widgets_'][$widget])
 		{
 			// Finding the location of a widget
@@ -635,8 +640,12 @@ class widgetController extends widget
 			require_once($class_file);
 
 			// Creating Objects
-			$tmp_fn  = create_function('', "return new {$widget}();");
-			$oWidget = $tmp_fn();
+			if(!class_exists($widget))
+			{
+				return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
+			}
+
+			$oWidget = new $widget();
 			if(!is_object($oWidget)) return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
 
 			if(!method_exists($oWidget, 'proc')) return sprintf(Context::getLang('msg_widget_proc_is_null'), $widget);

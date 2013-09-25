@@ -1,4 +1,7 @@
 <include target="header.html" />
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/uninstall/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <table class="x_table x_table-striped x_table-hover">
 	<caption>
 		<strong>All({count($module_list)})</strong>

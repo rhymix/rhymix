@@ -1,8 +1,8 @@
 <load target="./js/menu_setup.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->admin_setup} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_admin" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->admin_setup} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_admin" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/admin_setup/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
@@ -10,6 +10,7 @@
 	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 		<input type="hidden" name="module" value="admin" />
 		<input type="hidden" name="act" value="procAdminUpdateConfig" />
+		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/admin_setup/1" />
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->admin_logo}</label>
 			<div class="x_controls">
@@ -71,7 +72,7 @@
 </section>
 <!--// Modal -->
 <section class="x_modal" id="editMenu">
-	<form id="editForm" action="./" class="x_form-horizontal" style="margin:0">
+	<form id="editForm" action="./" class="x_form-horizontal" method="POST" style="margin:0">
 	<div class="x_modal-header">
 		<h1>{$lang->admin_menu_add}</h1>
 	</div>

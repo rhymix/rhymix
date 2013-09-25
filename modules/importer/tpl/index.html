@@ -1,12 +1,13 @@
 <include target="./header.html" />
 <load target="js/importer_admin.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/importer/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form class="section" action="./" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
 	<input type="hidden" name="act" value="" />
 	<input type="hidden" name="type" value="module" />
 	<input type="hidden" name="unit_count" value="10" />
+	<input type="hidden" name="xe_validator_id" value="modules/importer/tpl/index/1" />
 	<h2>{$lang->type_module}</h2>
 	<div class="x_control-group checkxml">
 		<span class="x_input-append">
@@ -39,6 +40,7 @@
 <form class="section" action="./" method="get" onsubmit="return doPreProcessing(this, 'memberForm')" id="memberForm">
 	<input type="hidden" name="type" value="member" />
 	<input type="hidden" name="unit_count" value="100" />
+	<input type="hidden" name="xe_validator_id" value="modules/importer/tpl/index/1" />
 	<h2>{$lang->type_member}</h2>
 	<div class="x_control-group checkxml">
 		<span class="x_input-append">
@@ -59,6 +61,7 @@
 <form class="section" action="./" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
 	<input type="hidden" name="type" value="message" />
 	<input type="hidden" name="unit_count" value="100" />
+	<input type="hidden" name="xe_validator_id" value="modules/importer/tpl/index/1" />
 	<h2>{$lang->type_message}</h2>
 	<div class="x_control-group checkxml">
 		<span class="x_input-append">

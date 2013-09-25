@@ -19,7 +19,7 @@
                 <dt><a href="{getUrl('','document_srl',$trackback->document_srl)}" onclick="window.open(this.href);return false;">{htmlspecialchars($trackback->title)}</a> </span></dt>
                 <dd>{cut_str(htmlspecialchars($trackback->excerpt))}</dd>
             </dl>
-            <address><strong><a href="{$trackback->url}" onclick="window.open(this.href); return false;">{htmlspecialchars($trackback->blog_name)}</a></strong> | <span class="time">{zdate($trackback->regdate, "Y-m-d H:i")}</span> </address>
+            <address><strong><a href="{$trackback->url}">{htmlspecialchars($trackback->blog_name)}</a></strong> | <span class="time">{zdate($trackback->regdate, "Y-m-d H:i")}</span> </address>
 
         </li>
     <!--@end-->

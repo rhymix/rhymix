@@ -134,3 +134,4 @@ function doResetAdminMenu() {
 function completeResetAdminMenu(ret_obj) {
 	document.location.reload();
 }
+

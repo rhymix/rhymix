@@ -14,10 +14,11 @@
 	<input type="hidden" name="act" value="procMemberAdminInsertSignupConfig" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 	<input type="hidden" name="agreement" value="{$config->agreement}" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/signup_cofig/1" />
 	<div class="x_control-group">
 		<label class="x_control-label" for="limit_day">{$lang->limit_day}</label>
 		<div class="x_controls">
-			<input type="number" min="0" id="limit_day" name="limit_day" value="{$config->limit_day}" style="width:40px" /> {$lang->unit_day}
+			<input type="number" min="0" id="limit_day" name="limit_day" value="{$config->limit_day}" /> {$lang->unit_day}
 			<p class="x_help-block">{$lang->about_limit_day}</p>
 		</div>
 	</div>
@@ -49,6 +50,7 @@
 		<label class="x_control-label" for="redirect_url">{$lang->redirect_url}</label>
 		<div class="x_controls">
 			<input class="module_search" type="text" name="redirect_url" value="{$config->redirect_url}" />
+			<button type="button" class="__redirect_url_btn x_btn" cond="$config->redirect_url">{$lang->delete}</button>
 			<p class="x_help-inline">{$lang->about_redirect_url}</p>
 		</div>
 	</div>
@@ -61,7 +63,7 @@
 </style>
 	</div>
 	<div class="x_control-group">
-		<p class="x_control-label">{$lang->cmd_manage_form} <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_member_joinform" target="_blank">{$lang->help}</a></p>
+		<p class="x_control-label">{$lang->cmd_manage_form} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_member_joinform" target="_blank">{$lang->help}</a></p>
 		<div class="x_controls">
 			<table class="__join_form sortable x_table x_table-striped x_table-hover">
 				<thead>
@@ -80,7 +82,7 @@
 								<p>{$lang->about_public_item}</p>
 							</div>
 						</th>
-						<th scope="col" class="nowr" style="text-align:center">{$lang->cmd_required}/{$lang->cmd_optional}</th>
+						<th scope="col" class="nowr">{$lang->cmd_required}/{$lang->cmd_optional}</th>
 						<th scope="col" class="desc" style="text-align:center">{$lang->description}</th>
 						<th scope="col" class="nowr" style="text-align:center">{$lang->cmd_edit}</th>
 					</tr>
@@ -94,12 +96,12 @@
 						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
 						<input type="hidden" name="{$item->name}" value="requierd"/>
 						<th scope="row">
-							<span class="_title" style="display:inline-block;white-space:nowrap;overflow:hidden;width:120px;text-overflow:ellipsis;padding-left:20px">{$item->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></span>
+							<span class="_title" style="display:inline-block;white-space:nowrap;overflow:hidden;width:120px;text-overflow:ellipsis;padding-left:20px">{$item->title} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></span>
 						</th>
 						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
 						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
 						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'"/></td>
-						<td class="nowr" style="text-align:center">
+						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> {$lang->cmd_optional}</label>
 						</td>
@@ -120,15 +122,15 @@
 						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
 						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
 						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
-						<td class="nowr" style="text-align:center">
+						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_optional}</label>
-							<div cond="$item->imageType" class="_subItem" style="display:none">
-								<label for="{$item->name}_max_width" class="x_inline">{$lang->cmd_image_max_width} <input type="number" min="1" name="{$item->name}_max_width" id="{$item->name}_max_width" value="{$item->max_width}" style="width:40px" /> px</label>
+							<div cond="$item->imageType" class="_subItem" style="display:none"|cond="!$item->isUse">
+								<label for="{$item->name}_max_width" class="x_inline">{$lang->cmd_image_max_width} <input type="number" min="1" name="{$item->name}_max_width" id="{$item->name}_max_width" value="{$item->max_width}" /> px</label>
 								/
-								<label for="{$item->name}_max_height" class="x_inline">{$lang->cmd_image_max_height} <input type="number" min="1" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" style="width:40px" /> px</label>
+								<label for="{$item->name}_max_height" class="x_inline">{$lang->cmd_image_max_height} <input type="number" min="1" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" /> px</label>
 							</div>
-							<div cond="$item->name == 'signature'" class="_subItem" style="display:none;padding-top:5px">
+							<div cond="$item->name == 'signature'" class="_subItem" style="display:none;padding-top:5px"|cond="!$item->isUse">
 								<select id="signature_editor" name="signature_editor_skin" onchange="getEditorSkinColorList(this.value)">
 								<!--@foreach($editor_skin_list as $editor_skin)-->
 								<option value="{$editor_skin}" selected="selected"|cond="$editor_skin==$config->signature_editor_skin">{$editor_skin}</option>
@@ -157,7 +159,7 @@
 						<td></td>
 						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
 						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="!$item->isUse" /></td>
-						<td class="nowr" style="text-align:center">
+						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->required" disabled="disabled"|cond="!$item->isUse"/> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="$item->isUse && !$item->required" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_optional}</label>
 						</td>
@@ -186,6 +188,7 @@
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminInsertJoinForm" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/signup_cofig/2" />
 	<div id="extendForm" class="x_form-horizontal">
 	</div>
 </form>

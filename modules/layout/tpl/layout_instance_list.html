@@ -35,6 +35,7 @@ xe.lang.confirm_delete = '{$lang->confirm_delete}';
 					<input type="hidden" name="act" value="procLayoutAdminDelete" />
 					<input type="hidden" name="layout_srl" value="{$layout->layout_srl}" />
 					<input class="x_btn x_btn-link" type="submit" value="{$lang->cmd_delete}" />
+					<input type="hidden" name="xe_validator_id" value="modules/layout/tpl/layout_instance_list/1" />
 				</form>
 			</td>
 		</tr>
@@ -47,12 +48,13 @@ xe.lang.confirm_delete = '{$lang->confirm_delete}';
 </div>
 
 <section id="insertLayout" class="x_modal">
-	<form ruleset="insertLayout" action="./" class="x_form-horizontal">
+	<form action="./" method="post" ruleset="insertLayout" class="x_form-horizontal">
 		<input type="hidden" name="module" value="layout" />
 		<input type="hidden" name="act" value="procLayoutAdminInsert" />
 		<input type="hidden" name="layout" value="{$layout_info->layout}" />
 		<input type="hidden" name="_layout_type" value="{$type}" />
 		<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispLayoutAdminInstanceList')}" />
+		<input type="hidden" name="xe_validator_id" value="modules/layout/tpl/layout_instance_list/2" />
 		<div class="x_modal-header">
 			<h1>{$lang->cmd_insert}</h1>
 		</div>

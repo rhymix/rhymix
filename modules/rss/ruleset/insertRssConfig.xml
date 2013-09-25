@@ -7,7 +7,10 @@
 		<field name="module" required="true" default="rss" />
 		<field name="act" required="true" default="procRssAdminInsertConfig" />
 		<field name="use_total_feed" required="true" default="Y" rule="boolean" />
-		<field name="feed_title" required="true" />
+		<field name="feed_title" required="true">
+			<title xml:lang="ko">피드(Feed) 제목</title>
+			<title xml:lang="en">Feed Title</title>
+		</field>
 		<field name="feed_document_count" required="true" rule="number" default="15" />
     </fields>
 </ruleset>

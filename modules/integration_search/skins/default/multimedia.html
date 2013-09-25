@@ -8,9 +8,9 @@
     <ul class="searchImageResult">
     <!--@foreach($output->data as $no => $image)-->
         <li>    
-            <a href="{$image->url}" onclick="window.open(this.href); return false;">{$image->src}</a>
+            <a href="{$image->url}">{$image->src}</a>
             <dl>
-                <dt><a href="{$image->url}" onclick="window.open(this.href); return false;">{$image->filename}</a></dt>
+                <dt><a href="{$image->url}">{$image->filename}</a></dt>
             </dl>
             <address><strong>{$image->nick_name}</strong><br /><span class="time">{$image->regdate}</span></address>
         </li>

@@ -1,7 +1,6 @@
-<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/module/tpl/skin_config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-
 <form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="vid" value="{$vid}" />
@@ -10,10 +9,9 @@
 	<input type="hidden" name="_mode" value="{$mode}" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 	<input type="hidden" name="page" value="{$page}" />
-
+	<input type="hidden" name="xe_validator_id" value="modules/module/tpl/skin_config/1" />
 	<section class="section">
 		<h1>{$lang->skin_default_info}</h1>
-
 		<div class="x_control-group">
 			<label class="x_control-label">
 				{$lang->skin}
@@ -70,14 +68,12 @@
 					<!--@else-->
 					{@ $_width = 200; $_height = 20; $_talign = "left"; }
 					<!--@end-->
-					<div class="x_thumbnail" style="display:inline-block;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
+					<div class="x_thumbnail"|cond="$val->screenshot" style="display:inline-block;width:{$_width}px;margin-right:10px;">
 						<label for="colorset_{$key}">
 							<input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" checked="checked"|cond="$skin_vars['colorset']->value==$val->name" />
 							{$val->title}
 						</label>
-						<block cond="$val->screenshot">
-							<img src="../../../{$val->screenshot}" alt="{$val->title}" />
-						</block>
+						<img src="../../../{$val->screenshot}" alt="{$val->title}" cond="$val->screenshot" />
 					</div>
 				</block>
 			</div>
@@ -91,13 +87,13 @@
 			</block>
 
 			<div class="x_control-group">
-				<label class="x_control-label" for="{$val->name}">{$val->title}</label>
+				<label class="x_control-label" for="{$val->name}"|cond="$val->type!='text'&&$val->type!='textarea'" for="lang_{$val->name}"|cond="$val->type=='text'||$val->type=='textarea'">{$val->title}</label>
 				<div class="x_controls">
 					<!--// text -->
-					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="{htmlspecialchars($val->value)}" class="lang_code" />
+					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end-->" class="lang_code" />
 
 					<!--// textarea -->
-					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="lang_code">{htmlspecialchars($val->value)}</textarea>
+					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="lang_code"><!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value)}<!--@end--></textarea>
 
 					<!--// select -->
 					<select cond="$val->type == 'select'" name="{$val->name}" id="{$val->name}">
@@ -124,17 +120,15 @@
 						<input type="text" class="color-indicator" name="{$val->name}" id="{$val->name}" value="{$val->value}" />
 						<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
 					</div>
-	
-					<p class="x_help-inline" cond="$val->description">{nl2br(trim($val->description))}</p>
+					<a href="#about_{$val->name}" data-toggle class="x_icon-question-sign" cond="$val->description" style="vertical-align:top;margin-top:5px"|cond="$val->type == 'textarea'">{$lang->help}</a>
+					<p class="x_help-block" id="about_{$val->name}" hidden cond="$val->description">{nl2br(trim($val->description))}</p>
 				</div>
 			</div>
 		</block>
 	</section>
 	<!--@end-->
-	<div class="x_clearfix btnArea">
-		<div class="x_pull-right">
-			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
-		</div>
+	<div class="btnArea">
+		<button class="x_btn x_btn-primary x_pull-right" type="submit">{$lang->cmd_registration}</button>
 	</div>
 </form>
 <!--@if($use_colorpicker)-->

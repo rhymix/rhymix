@@ -18,7 +18,7 @@
 	<!--@end-->
 <!--@end-->
 <!--@if($layout_info->logo_image)-->
-	<h1 class="title"><a href="{$layout_info->index_url}" class="img"><img src="{$layout_info->logo_image}" alt="{$layout_info->index_title}" /></a></h1>
+	<h1 class="title"><a href="{$layout_info->index_url}" class="img"><img src="{$layout_info->logo_image}" alt="{$layout_info->index_title}"|cond="$layout_info->index_title" alt="{Context::getSiteTitle()}"|cond="!$layout_info->index_title && Context::getSiteTitle()" /></a></h1>
 <!--@elseif($layout_info->index_title)-->
 	<h1 class="title"><span class="txt">{$layout_info->index_title}</span></h1>
 <!--@end-->

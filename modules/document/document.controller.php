@@ -187,7 +187,7 @@ class documentController extends document
 	 */
 	function insertDocument($obj, $manual_inserted = false, $isRestore = false, $isLatest = true)
 	{
-		if(!checkCSRF())
+		if(!$manual_inserted && !checkCSRF())
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
@@ -202,6 +202,7 @@ class documentController extends document
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
+		if(!$obj->email_address) $obj->email_address = '';
 		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board?�서 form key값으�?ipaddress�??�용?�면 ?�한 ip가 ?�록?? ?�터?�???��??�슴
 
 		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
@@ -239,9 +240,11 @@ class documentController extends document
 		if(Context::get('is_logged') && !$manual_inserted && !$isRestore)
 		{
 			$obj->member_srl = $logged_info->member_srl;
-			$obj->user_id = $logged_info->user_id;
-			$obj->user_name = $logged_info->user_name;
-			$obj->nick_name = $logged_info->nick_name;
+
+			// user_id, user_name and nick_name already encoded
+			$obj->user_id = htmlspecialchars_decode($logged_info->user_id);
+			$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
+			$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
 			$obj->email_address = $logged_info->email_address;
 			$obj->homepage = $logged_info->homepage;
 		}
@@ -331,11 +334,12 @@ class documentController extends document
 	 * Update the document
 	 * @param object $source_obj
 	 * @param object $obj
+	 * @param bool $manual_updated
 	 * @return object
 	 */
-	function updateDocument($source_obj, $obj)
+	function updateDocument($source_obj, $obj, $manual_updated = FALSE)
 	{
-		if(!checkCSRF())
+		if(!$manual_updated && !checkCSRF())
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
@@ -412,8 +416,8 @@ class documentController extends document
 			if($source_obj->get('member_srl')==$logged_info->member_srl || $bUseHistory)
 			{
 				$obj->member_srl = $logged_info->member_srl;
-				$obj->user_name = $logged_info->user_name;
-				$obj->nick_name = $logged_info->nick_name;
+				$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
+				$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
 				$obj->email_address = $logged_info->email_address;
 				$obj->homepage = $logged_info->homepage;
 			}
@@ -434,6 +438,14 @@ class documentController extends document
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+		if(Mobile::isFromMobilePhone())
+		{
+			if($obj->use_html != 'Y')
+			{
+				$obj->content = htmlspecialchars($obj->content);
+			}
+			$obj->content = nl2br($obj->content);
+		}
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType())
 		{
@@ -685,9 +697,11 @@ class documentController extends document
 		{
 			$logged_info = Context::get('logged_info');
 			$trash_args->member_srl = $logged_info->member_srl;
-			$trash_args->user_id = $logged_info->user_id;
-			$trash_args->user_name = $logged_info->user_name;
-			$trash_args->nick_name = $logged_info->nick_name;
+
+			// user_id, user_name and nick_name already encoded
+			$trash_args->user_id = htmlspecialchars_decode($logged_info->user_id);
+			$trash_args->user_name = htmlspecialchars_decode($logged_info->user_name);
+			$trash_args->nick_name = htmlspecialchars_decode($logged_info->nick_name);
 		}
 		// Date setting for updating documents
 		$doucment_args = new stdClass();
@@ -1446,14 +1460,15 @@ class documentController extends document
 
 		$logged_info = Context::get('logged_info');
 
-		foreach($extra_keys as $idx => $val) 
+		foreach($extra_keys as $idx => $val)
 		{
 			$idx = $val->idx;
 			if($val->type == 'kr_zip')
 			{
 				$idx .= '[]';
 			}
-			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $idx, $val->name);
+			$name = str_ireplace(array('<script', '</script'), array('<scr" + "ipt', '</scr" + "ipt'), $val->name);
+			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $idx, $name);
 			if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $idx);
 		}
 
@@ -1830,7 +1845,7 @@ class documentController extends document
 				$category_srl,
 				getUrl('','mid',$node->mid,'category',$category_srl),
 				$expand,
-				$color,
+				htmlspecialchars($color),
 				$group_check_code,
 				$category_srl,
 				$node->document_count
@@ -2001,7 +2016,7 @@ class documentController extends document
 	 */
 	function procDocumentManageCheckedDocument()
 	{
-		set_time_limit(0);
+		@set_time_limit(0);
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
 
 		if(!checkCSRF())
@@ -2244,6 +2259,8 @@ class documentController extends document
 			$documentList = array();
 			$this->setMessage($lang->no_documents);
 		}
+		$oSecurity = new Security($documentList);
+		$oSecurity->encodeHTML('..variables.');
 		$this->add('document_list', $documentList);
 	}
 

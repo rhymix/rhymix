@@ -3,11 +3,12 @@
 	xe.lang.msg_select_user = '{$lang->msg_select_user}';
 	xe.lang.msg_delete_user = '{$lang->msg_delete_user}';
 </script>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
+
 <div class="x_page-header">
-	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./help/index.html#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/member_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="" method="post">
 	<table id="memberList" class="x_table x_table-striped x_table-hover">
@@ -54,7 +55,7 @@
 				<!--@foreach($usedIdentifiers as $name=>$title)-->
 					{@$used_values .= "\t".$member_info[$name]}
 				<!--@end-->
-				<td><input type="checkbox" name="user" value="{$member_info['member_srl']."\t".$member_info['email_address'].$used_values."\t".$member_info['group_list']."\t".$lang_denied}" disabled="disabled"|cond="$member_info['is_admin'] == 'Y'"/></td>
+				<td><input type="checkbox" name="user" value="{$member_info['member_srl']."\t".$member_info['email_address'].$used_values."\t".$member_info['group_list']}" disabled="disabled"|cond="$member_info['is_admin'] == 'Y'"/></td>
 			</tr>
 			<tr cond="$total_count==0">
 				<td>{$lang->msg_no_result}</td>
@@ -111,7 +112,7 @@
 		<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
 	</div>
 </div>
-<form action="" method="post" class="search center x_input-append">
+<form action="./" method="get" class="search center x_input-append" no-error-return-url="true">
 	<input type="hidden" name="module" value="{$module}" />
 	<select name="selected_group_srl" style="margin-right:4px">
 		<option value="0">{$lang->all_group}</option>
@@ -132,6 +133,7 @@
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/member_list/1" />
 		<div class="x_modal-header">
 			<h1>{$lang->cmd_selected_user_manage}: <span class="_sub"></span></h1>
 		</div>

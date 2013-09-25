@@ -168,4 +168,7 @@
 		<value xml:lang="en"><![CDATA[If you delete a page, the files of the page will be removed also.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[如果刪除頁面，頁面標題將會一起被刪除。]]></value>
 	</item>
+	<item name="msg_not_selected_page">
+		<value xml:lang="ko"><![CDATA[선택한 페이지가 없습니다.]]></value>
+	</item>
 </lang>

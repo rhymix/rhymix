@@ -1,16 +1,17 @@
 <!--#include("./header.html")-->
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/point/tpl/config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal">
 	<input type="hidden" name="module" value="point" />
 	<input type="hidden" name="act" value="procPointAdminInsertConfig" />
+	<input type="hidden" name="xe_validator_id" value="modules/point/tpl/config/1" />
 	<section class="section">
 		<h1>{$lang->is_default}</h1>
 		<div class="x_control-group">
 			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
 			<div class="x_controls">
-				<input type="number" min="0" max="1000" value="{$config->max_level}" name="max_level" id="max_level" style="width:50px" />
+				<input type="number" min="0" max="1000" value="{$config->max_level}" name="max_level" id="max_level" />
 				{$lang->about_max_level}
 			</div>
 		</div>
@@ -24,31 +25,31 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->give_point}</label>
 			<div class="x_controls">
-				<input type="number" value="{$config->signup_point}" name="signup_point" id="signup_point" style="width:50px;text-align:right" /> : 
+				<input type="number" value="{$config->signup_point}" name="signup_point" id="signup_point" style="text-align:right" /> : 
 				<label for="signup_point" class="x_inline">{$lang->point_signup}</label>
 				<br />
-				<input type="number" value="{$config->login_point}" name="login_point" id="login_point" style="width:50px;text-align:right" /> :
+				<input type="number" value="{$config->login_point}" name="login_point" id="login_point" style="text-align:right" /> :
 				<label for="login_point" class="x_inline">{$lang->cmd_login}</label>
 				<br />
-				<input type="number" name="insert_document" value="{$config->insert_document}" id="insert_document" style="width:50px;text-align:right" /> :
+				<input type="number" name="insert_document" value="{$config->insert_document}" id="insert_document" style="text-align:right" /> :
 				<label for="insert_document" class="x_inline">{$lang->point_insert_document}</label>
 				<br />
-				<input type="number" name="insert_comment" value="{$config->insert_comment}" id="insert_comment" style="width:50px;text-align:right" /> :
+				<input type="number" name="insert_comment" value="{$config->insert_comment}" id="insert_comment" style="text-align:right" /> :
 				<label for="insert_comment" class="x_inline">{$lang->point_insert_comment}</label>
 				<br />
-				<input type="number" name="upload_file" value="{$config->upload_file}" id="upload_file" style="width:50px;text-align:right" /> :
+				<input type="number" name="upload_file" value="{$config->upload_file}" id="upload_file" style="text-align:right" /> :
 				<label for="upload_file" class="x_inline">{$lang->point_upload_file}</label>
 				<br />
-				<input type="number" name="download_file" value="{$config->download_file}" id="download_file" style="width:50px;text-align:right" /> :
+				<input type="number" name="download_file" value="{$config->download_file}" id="download_file" style="text-align:right" /> :
 				<label for="download_file" class="x_inline">{$lang->point_download_file}</label>
 				<br />
-				<input type="number" name="read_document" value="{$config->read_document}" id="read_document" style="width:50px;text-align:right" /> :
+				<input type="number" name="read_document" value="{$config->read_document}" id="read_document" style="text-align:right" /> :
 				<label for="read_document" class="x_inline">{$lang->point_read_document}</label>
 				<br />
-				<input type="number" name="voted" value="{$config->voted}" style="width:50px;text-align:right" id="voted" /> :
+				<input type="number" name="voted" value="{$config->voted}" style="text-align:right" id="voted" /> :
 				<label for="voted" class="x_inline">{$lang->point_voted}</label>
 				<br />
-				<input type="number" name="blamed" value="{$config->blamed}" id="blamed" style="width:50px;text-align:right" /> :
+				<input type="number" name="blamed" value="{$config->blamed}" id="blamed" style="text-align:right" /> :
 				<label for="blamed" class="x_inline">{$lang->point_blamed}</label>
 			</div>
 		</div>

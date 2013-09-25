@@ -24,10 +24,8 @@ function getSlideShow() {
         get_by_id('border_thickness').value = thickness; 
 
         get_by_id('border_color_input').value = border_color; 
-        manual_select_color('border', get_by_id('border_color_input'));
 
         get_by_id('bg_color_input').value = bg_color; 
-        manual_select_color("bg", get_by_id('bg_color_input'));
 
         selected_images = $node.attr('images_list');
     }
@@ -116,43 +114,6 @@ function insertSlideShow() {
 function select_color(type, code) {
   get_by_id(type+"_preview_color").style.backgroundColor = "#"+code;
   get_by_id(type+"_color_input").value = code;
-}
-
-/* 수동 색상 변경시 */
-function manual_select_color(type, obj) {
-  if(obj.value.length!=6) return;
-  code = obj.value;
-  get_by_id(type+"_preview_color").style.backgroundColor = "#"+code;
-}
-
-/* 색상표를 출력 */
-function printColor(type, blank_img_src) {
-  var colorTable = new Array('22','44','66','88','AA','CC','EE');
-  var html = "";
-
-  for(var i=0;i<8;i+=1) html += printColorBlock(type, i.toString(16)+i.toString(16)+i.toString(16)+i.toString(16)+i.toString(16)+i.toString(16), blank_img_src);
-
-  for(var i=0; i<colorTable.length; i+=3) {
-    for(var j=0; j<colorTable.length; j+=2) {
-      for(var k=0; k<colorTable.length; k++) {
-        var code = colorTable[i] + colorTable[j] + colorTable[k];
-        html += printColorBlock(type, code, blank_img_src);
-      }
-    }
-  }
-
-  for(var i=8;i<16;i+=1) html += printColorBlock(type, i.toString(16)+i.toString(16)+i.toString(16)+i.toString(16)+i.toString(16)+i.toString(16), blank_img_src);
-
-  document.write(html);
-}
-
-/* 개별 색상 block 출력 함수 */
-function printColorBlock(type, code, blank_img_src) {
-  if(type=="bg") {
-    return "<div style=\"float:left;background-color:#"+code+"\"><img src=\""+blank_img_src+"\" class=\"color_icon\" onmouseover=\"this.className='color_icon_over'\" onmouseout=\"this.className='color_icon'\" onclick=\"select_color('"+type+"','"+code+"')\" alt=\"color\" \/><\/div>";
-  } else {
-    return "<div style=\"float:left;background-color:#"+code+"\"><img src=\""+blank_img_src+"\" class=\"color_icon\" onmouseover=\"this.className='color_icon_over'\" onmouseout=\"this.className='color_icon'\" onclick=\"select_color('"+type+"','"+code+"')\" alt=\"color\" \/><\/div>";
-  }
 }
 
 jQuery(function($){

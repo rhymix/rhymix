@@ -14,6 +14,9 @@ class memberMobile extends memberView
 		$oMemberModel = &getModel('member');
 		$this->member_config = $oMemberModel->getMemberConfig();
 		Context::set('member_config', $this->member_config);
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('member_config.signupForm..');
+
 
 		$mskin = $this->member_config->mskin;
 		// Set the template path

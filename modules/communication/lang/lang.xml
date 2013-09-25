@@ -371,4 +371,8 @@
 		<value xml:lang="en"><![CDATA[Send a message to the author about this. If you don't write a message, it is not sent.]]></value>
 		<value xml:lang="jp"><![CDATA[作成者にメッセージを送信し、知らせます。作成しなければ送信されません。]]></value>
 	</item>
+	<item name="friends_page_does_not_support">
+		<value xml:lang="ko"><![CDATA[모바일 환경에서는 친구 보기 페이지를 지원하지 않습니다. PC 화면으로 이동하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Friends in a mobile environment is not supported. Please go to the PC page.]]></value>
+	</item>
 </lang>

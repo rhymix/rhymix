@@ -634,6 +634,7 @@ class ttimport
 		$tobj->notify_message = 'N';
 		$tobj->content = nl2br($val->content->body);
 		$tobj->voted_count = 0;
+		$tobj->status = 1;
 		if($author_xml_id && $val->commenter->attrs->id == $author_xml_id)
 		{
 			$tobj->password = '';

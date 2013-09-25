@@ -362,7 +362,7 @@ function arr2obj(arr) {
 /**
  * @brief exec_json (exec_xml와 같은 용도)
  **/
-$.exec_json = function(action,data,func){
+$.exec_json = function(action,data,func,f_error){
     if(typeof(data) == 'undefined') data = {};
     action = action.split(".");
     if(action.length == 2){
@@ -389,9 +389,11 @@ $.exec_json = function(action,data,func){
 					if(data.error == -1 && data.message == 'msg_is_not_administrator'){
 						alert('You are not logged in as an administrator');
 	//					window.location.reload();
+						if($.isFunction(f_error)) f_error(data);
 						return;
 					}else{
 						alert(data.message);
+						if($.isFunction(f_error)) f_error(data);
 						return;
 					}
 				}

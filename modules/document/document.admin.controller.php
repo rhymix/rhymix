@@ -131,6 +131,14 @@ class documentAdminController extends document
 				$oDB->rollback();
 				return $output;
 			}
+
+			//Move a module of the extra vars
+			$output = executeQuery('document.moveDocumentExtraVars', $obj);
+			if(!$output->toBool()) {
+				$oDB->rollback();
+				return $output;
+			}
+
 			// Set 0 if a new category doesn't exist after catergory change
 			if($source_category_srl != $category_srl)
 			{

@@ -254,7 +254,7 @@ class commentItem extends Object
 			$url = "http://" . $url;
 		}
 
-		return $url;
+		return htmlspecialchars($url);
 	}
 
 	function getMemberSrl()

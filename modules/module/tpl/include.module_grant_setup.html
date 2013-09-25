@@ -7,6 +7,7 @@
 	<input type="hidden" name="act" value="procModuleAdminModuleGrantSetup" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<input type="hidden" name="module_srls" value="{$module_srls}" />
+	<input type="hidden" name="xe_validator_id" value="modules/module/tpl/manage_selected" />
     <h1>{$lang->permission_setting}</h1>
     <p>{$lang->about_grant_deatil}</p>
 	<div loop="$grant_list => $grant_name, $grant_item" class="x_control-group">

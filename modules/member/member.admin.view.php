@@ -37,6 +37,8 @@ class memberAdminView extends member
 		$oMemberModel = &getModel('member');
 		$this->memberConfig = $oMemberModel->getMemberConfig();
 		Context::set('config', $this->memberConfig);
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('config.signupForm..');
 
 		// if member_srl exists, set memberInfo
 		$member_srl = Context::get('member_srl');
@@ -175,17 +177,20 @@ class memberAdminView extends member
 			}
 		}
 
+		$oSecurity = new Security();
 		if($userIdInfo->isUse)
 		{
 			// get denied ID list
 			Context::set('useUserID', 1);
 			$denied_list = $oMemberModel->getDeniedIDs();
 			Context::set('deniedIDs', $denied_list);
+			$oSecurity->encodeHTML('deniedIDs..user_id');
 		}
 
 		// get denied NickName List
 		$deniedNickNames = $oMemberModel->getDeniedNickNames();
 		Context::set('deniedNickNames', $deniedNickNames);
+			$oSecurity->encodeHTML('deniedNickNames..nick_name');
 		$this->setTemplateFile('signup_config');
 	}
 
@@ -356,10 +361,6 @@ class memberAdminView extends member
 			Context::set('editor', $editor);
 		}
 
-		$security = new Security();
-		$security->encodeHTML('extend_form_list..');
-		$security->encodeHTML('extend_form_list..default_value.');
-
 		$formTags = $this->_getMemberInputTag($memberInfo, true);
 		Context::set('formTags', $formTags);
 		$member_config = $this->memberConfig;
@@ -385,6 +386,8 @@ class memberAdminView extends member
 	{
 		$oMemberModel = &getModel('member');
 		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$security = new Security($extend_form_list);
+		$security->encodeHTML('..column_title', '..description', '..default_value.');
 
 		if ($memberInfo)
 		{
@@ -464,7 +467,7 @@ class memberAdminView extends member
 					else if($formInfo->name == 'birthday')
 					{
 						$formTag->type = 'date';
-						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="date" placeholder="YYYY-MM-DD" name="birthday_ui" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="btn dateRemover" />',
+						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" placeholder="YYYY-MM-DD" name="birthday_ui" class="inputDate" id="birthday" value="%s" readonly="readonly" /> <input type="button" value="%s" class="btn dateRemover" />',
 							$memberInfo['birthday'],
 							zdate($memberInfo['birthday'], 'Y-m-d', false),
 							$lang->cmd_delete);
@@ -552,7 +555,7 @@ class memberAdminView extends member
 							{
 								$checked = '';
 								if(is_array($extendForm->value) && in_array($v, $extendForm->value))$checked = 'checked="checked"';
-								$optionTag[] = '<label for="%column_name%'.$__i.'"><input type="checkbox" id="%column_name%'.$__i.'" name="%column_name%[]" value="'.htmlspecialchars($v).'" '.$checked.' /> '.$v.'</label>';
+								$optionTag[] = '<label for="%column_name%'.$__i.'"><input type="checkbox" id="%column_name%'.$__i.'" name="%column_name%[]" value="'.$v.'" '.$checked.' /> '.$v.'</label>';
 								$__i++;
 							}
 							$template = sprintf($template, implode('', $optionTag));
@@ -598,7 +601,7 @@ class memberAdminView extends member
 							'cmd_search' => $lang->cmd_search,
 							'cmd_search_again' => $lang->cmd_search_again,
 							'addr_0' => $extendForm->value[0],
-							'addr_1' => $extendForm->value[1],);
+							'addr_1' => $extendForm->value[1]);
 						$replace = array_merge($extentionReplace, $replace);
 						$template = <<<EOD
 						<div class="krZip" style="padding-top:5px">
@@ -628,14 +631,14 @@ EOD;
 					else if($extendForm->column_type == 'date')
 					{
 						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'), 'cmd_delete' => $lang->cmd_delete);
-						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" readonly="readonly" /> <input type="button" value="%cmd_delete%" class="dateRemover" />';
+						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="text" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" readonly="readonly" /> <input type="button" value="%cmd_delete%" class="btn dateRemover" />';
 					}
 
 					$replace = array_merge($extentionReplace, $replace);
 					$inputTag = preg_replace('@%(\w+)%@e', '$replace[$1]', $template);
 
 					if($extendForm->description)
-						$inputTag .= '<p class="help-block">'.htmlspecialchars($extendForm->description).'</p>';
+						$inputTag .= '<p class="help-block">'.$extendForm->description.'</p>';
 				}
 				$formTag->inputTag = $inputTag;
 				$formTags[] = $formTag;

@@ -59,7 +59,6 @@ class trackbackAdminModel extends trackback
 			}
 		}
 		// Variables
-		$args = new stdClass();
 		$args->sort_index = $obj->sort_index;
 		$args->page = $obj->page?$obj->page:1;
 		$args->list_count = $obj->list_count?$obj->list_count:20;

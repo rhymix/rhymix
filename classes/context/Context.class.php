@@ -33,7 +33,7 @@ class Context
 
 	/**
 	 * Response method.If it's not set, it follows request method.
-	 * @var string HTML|XMLRPC 
+	 * @var string HTML|XMLRPC
 	 */
 	var $response_method = '';
 
@@ -44,13 +44,13 @@ class Context
 	var $context = NULL;
 
 	/**
-	 * DB info 
+	 * DB info
 	 * @var object
 	 */
 	var $db_info = NULL;
 
 	/**
-	 * FTP info 
+	 * FTP info
 	 * @var object
 	 */
 	var $ftp_info = NULL;
@@ -98,20 +98,20 @@ class Context
 	var $html_footer = NULL;
 
 	/**
-	 * path of Xpress Engine 
+	 * path of Xpress Engine
 	 * @var string
 	 */
 	var $path = '';
 	// language information - it is changed by HTTP_USER_AGENT or user's cookie
 	/**
-	 * language type 
+	 * language type
 	 * @var string
 	 */
 	var $lang_type = '';
 
 	/**
 	 * contains language-specific data
-	 * @var object 
+	 * @var object
 	 */
 	var $lang = NULL;
 
@@ -134,7 +134,7 @@ class Context
 	var $get_vars = NULL;
 
 	/**
-	 * Checks uploaded 
+	 * Checks uploaded
 	 * @var bool true if attached file exists
 	 */
 	var $is_uploaded = false;
@@ -517,7 +517,7 @@ class Context
 	/**
 	 * Return ssl status
 	 *
-	 * @return object SSL status (Optional - none|always|optional) 
+	 * @return object SSL status (Optional - none|always|optional)
 	 */
 	function getSslStatus()
 	{
@@ -959,7 +959,7 @@ class Context
 	 */
 	function setLang($code, $val)
 	{
-		if(isset($GLOBALS['lang']))
+		if(!isset($GLOBALS['lang']))
 		{
 			$GLOBALS['lang'] = new stdClass();
 		}
@@ -987,7 +987,7 @@ class Context
 
 		$obj = clone $source_obj;
 
-		foreach($charset_list as $charset) 
+		foreach($charset_list as $charset)
 		{
 			array_walk($obj,'Context::checkConvertFlag',$charset);
 			$flag = Context::checkConvertFlag($flag = true);
@@ -1005,11 +1005,11 @@ class Context
 	}
 
 	/**
-	 * Check flag 
+	 * Check flag
 	 *
 	 * @param mixed $val
 	 * @param string $key
-	 * @param mixed $charset charset 
+	 * @param mixed $charset charset
 	 * @see arrayConvWalkCallback will replaced array_walk_recursive in >=PHP5
 	 * @return void
 	 */
@@ -1032,7 +1032,7 @@ class Context
 	}
 
 	/**
-	 * Convert array type variables into UTF-8 
+	 * Convert array type variables into UTF-8
 	 *
 	 * @param mixed $val
 	 * @param string $key
@@ -1912,12 +1912,15 @@ class Context
 	/**
 	 * Get SSL Action
 	 *
-	 * @return string act
+	 * @return string acts in array
 	 */
 	function getSSLActions()
 	{
 		is_a($this, 'Context') ? $self = $this : $self = Context::getInstance();
-		return $self->ssl_actions;
+		if($self->getSslStatus() == 'optional')
+		{
+			return $self->ssl_actions;
+		}
 	}
 
 	/**
@@ -2098,7 +2101,7 @@ class Context
 	 * Add javascript filter
 	 *
 	 * @param string $path File path
-	 * @param string $filename File name 
+	 * @param string $filename File name
 	 * @return void
 	 */
 	function addJsFilter($path, $filename)
@@ -2200,6 +2203,60 @@ class Context
 		return $self->oFrontEndFileHandler->getCssFileList();
 	}
 
+	/**
+	 * Returns javascript plugin file info
+	 * @param string $pluginName
+	 * @return stdClass
+	 */
+	function getJavascriptPluginInfo($pluginName)
+	{
+		if($plugin_name == 'ui.datepicker')
+		{
+			$plugin_name = 'ui';
+		}
+
+		$plugin_path = './common/js/plugins/' . $pluginName . '/';
+		$info_file = $plugin_path . 'plugin.load';
+		if(!is_readable($info_file))
+		{
+			return;
+		}
+
+		$list = file($info_file);
+		$result = new stdClass();
+		$result->jsList = array();
+		$result->cssList = array();
+
+		foreach($list as $filename)
+		{
+			$filename = trim($filename);
+			if(!$filename)
+			{
+				continue;
+			}
+
+			if(substr($filename, 0, 2) == './')
+			{
+				$filename = substr($filename, 2);
+			}
+
+			if(preg_match('/\.js$/i', $filename))
+			{
+				$result->jsList[] = $plugin_path . $filename;
+			}
+			elseif(preg_match('/\.css$/i', $filename))
+			{
+				$result->cssList[] = $plugin_path . $filename;
+			}
+		}
+
+		if(is_dir($plugin_path . 'lang'))
+		{
+			$result->langPath = $plugin_path . 'lang';
+		}
+
+		return $result;
+	}
 	/**
 	 * Load javascript plugin
 	 *

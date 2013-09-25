@@ -159,6 +159,12 @@ class DB
 	var $use_prepared_statements;
 
 	/**
+	 * leve of transaction
+	 * @var unknown
+	 */
+	private $transationNestedLevel = 0;
+
+	/**
 	 * returns instance of certain db type
 	 * @param string $db_type type of db
 	 * @return DB return DB object instance
@@ -1160,14 +1166,15 @@ class DB
 	 */
 	function begin()
 	{
-		if(!$this->isConnected() || $this->transaction_started)
+		if(!$this->isConnected())
 		{
 			return;
 		}
 
-		if($this->_begin())
+		if($this->_begin($this->transationNestedLevel))
 		{
 			$this->transaction_started = TRUE;
+			$this->transationNestedLevel++;
 		}
 	}
 
@@ -1191,9 +1198,14 @@ class DB
 		{
 			return;
 		}
-		if($this->_rollback())
+		if($this->_rollback($this->transationNestedLevel))
 		{
-			$this->transaction_started = FALSE;
+			$this->transationNestedLevel--;
+
+			if(!$this->transationNestedLevel)
+			{
+				$this->transaction_started = FALSE;
+			}
 		}
 	}
 
@@ -1218,9 +1230,14 @@ class DB
 		{
 			return;
 		}
-		if($this->_commit())
+		if($this->transationNestedLevel == 1 && $this->_commit())
 		{
 			$this->transaction_started = FALSE;
+			$this->transationNestedLevel = 0;
+		}
+		else
+		{
+			$this->transationNestedLevel--;
 		}
 	}
 

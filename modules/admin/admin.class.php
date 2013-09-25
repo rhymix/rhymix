@@ -292,6 +292,10 @@ class admin extends ModuleObject
 
 		$oMenuAdminConroller = getAdminController('menu');
 		$oMenuAdminConroller->makeXmlFile($menuSrl);
+
+		// does not recreate lang cache sometimes
+		FileHandler::RemoveFilesInDir('./files/cache/lang');
+		FileHandler::RemoveFilesInDir('./files/cache/menu/admin_lang');
 	}
 
 	/**
@@ -415,10 +419,9 @@ class admin extends ModuleObject
 		$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
 		$menuSrl = $output->menu_srl;
 
+		$oMenuAdminController = getAdminController('menu');
 		if($menuSrl)
 		{
-			$oMenuAdminController = getAdminController('menu');
-
 			$output = $oMenuAdminModel->getMenuItems($menuSrl);
 			if(is_array($output->data))
 			{
@@ -472,8 +475,16 @@ class admin extends ModuleObject
 					$oMenuAdminController->makeXmlFile($newAdminmenuSrl);
 				}
 			}
+		}
 
-			$oMenuAdminController->deleteMenu($menuSrl);
+		// all old admin menu delete
+		$output = $oMenuAdminModel->getMenuListByTitle('__XE_ADMIN__');
+		if(is_array($output))
+		{
+			foreach($output AS $key=>$value)
+			{
+				$oMenuAdminController->deleteMenu($value->menu_srl);
+			}
 		}
 	}
 

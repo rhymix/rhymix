@@ -5,7 +5,6 @@ function doDeleteDeniedIP(ipaddress) {
 	var fo_obj = get_by_id('spamfilterDelete');
     fo_obj.ipaddress.value = ipaddress;
 	fo_obj.act.value = "procSpamfilterAdminDeleteDeniedIP";
-	fo_obj.ruleset.value = 'deleteDeniedIp';
 	fo_obj.submit();
 }
 
@@ -16,6 +15,5 @@ function doDeleteDeniedWord(word) {
 	var fo_obj = get_by_id('spamfilterDelete');
 	fo_obj.word.value = word;
 	fo_obj.act.value = "procSpamfilterAdminDeleteDeniedWord";
-	fo_obj.ruleset.value = 'deleteDeniedWord';
 	fo_obj.submit();
 }

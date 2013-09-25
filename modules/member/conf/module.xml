@@ -63,8 +63,8 @@
 
         <action name="procMemberFindAccount" type="controller" standalone="true" />
         <action name="procMemberFindAccountByQuestion" type="controller" standalone="true" />
-        <action name="procMemberAuthAccount" type="controller" standalone="true" />
-        <action name="procMemberAuthEmailAddress" type="controller" />
+        <action name="procMemberAuthAccount" type="controller" standalone="true" method="GET|POST" />
+        <action name="procMemberAuthEmailAddress" type="controller" method="GET|POST" />
         <action name="procMemberUpdateAuthMail" type="controller" standalone="true" />
 		<action name="procMemberResendAuthMail" type="controller" standalone="true" ruleset="resendAuthMail" />
 		<action name="procMemberResetAuthMail" type="controller" ruleset="resetAuthMail" />

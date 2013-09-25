@@ -1,7 +1,7 @@
 <load target="js/page_admin.js" usecdn="true" />
 <!--#include("header.html")-->
 
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/page/tpl/page_delete/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="deletePage" action="./" method="post">
@@ -9,6 +9,7 @@
 	<input type="hidden" name="act" value="procPageAdminDelete" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+	<input type="hidden" name="xe_validator_id" value="modules/page/tpl/page_delete/1" />
 	<section class="section">
 		<h2>{$lang->confirm_delete}</h2>
 			<p>{$lang->page_delete_warning}</p>

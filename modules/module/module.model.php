@@ -259,7 +259,7 @@ class moduleModel extends module
 		$layoutInfoPc = $layoutSrlPc ? $oLayoutModel->getLayoutRawData($layoutSrlPc, array('title')) : NULL;
 		$layoutInfoMobile = $layoutSrlMobile ? $oLayoutModel->getLayoutRawData($layoutSrlMobile, array('title')) : NULL;
 		$skinInfoPc = $this->loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNamePc);
-		$skinInfoMobile = $this->loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNameMobile, 'm.skin');
+		$skinInfoMobile = $this->loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNameMobile, 'm.skins');
 		if(!$skinInfoPc)
 		{
 			$skinInfoPc = new stdClass();
@@ -355,19 +355,19 @@ class moduleModel extends module
 
 	/**
 	 * Apply default skin info
-	 * 
+	 *
 	 * @param stdClass $moduleInfo Module information
 	 */
 	private function applyDefaultSkin(&$moduleInfo)
 	{
 		if($moduleInfo->is_skin_fix == 'N')
 		{
-			$moduleInfo->skin = '/USE_DEFAULT';
+			$moduleInfo->skin = '/USE_DEFAULT/';
 		}
-		
+
 		if($moduleInfo->is_mskin_fix == 'N')
 		{
-			$moduleInfo->mskin = '/USE_DEFAULT';
+			$moduleInfo->mskin = '/USE_DEFAULT/';
 		}
 	}
 	/**
@@ -833,6 +833,7 @@ class moduleModel extends module
 					$grant = $action->attrs->grant?$action->attrs->grant:'guest';
 					$standalone = $action->attrs->standalone=='true'?'true':'false';
 					$ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
+					$method = $action->attrs->method?$action->attrs->method:'';
 
 					$index = $action->attrs->index;
 					$admin_index = $action->attrs->admin_index;
@@ -845,6 +846,7 @@ class moduleModel extends module
 					$info->action->{$name}->grant = $grant;
 					$info->action->{$name}->standalone = $standalone=='true'?true:false;
 					$info->action->{$name}->ruleset = $ruleset;
+					$info->action->{$name}->method = $method;
 					if($action->attrs->menu_name)
 					{
 						if($menu_index == 'true')
@@ -866,6 +868,7 @@ class moduleModel extends module
 					$buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
 					$buff .= sprintf('$info->action->%s->standalone=%s;', $name, $standalone);
 					$buff .= sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
+					$buff .= sprintf('$info->action->%s->method=\'%s\';', $name, $method);
 
 					if($index=='true')
 					{
@@ -929,6 +932,11 @@ class moduleModel extends module
 	 */
 	function getSkins($path, $dir = 'skins')
 	{
+		if(substr($path, -1) == '/')
+		{
+			$path = substr($path, 0, -1);
+		}
+
 		$skin_path = sprintf("%s/%s/", $path, $dir);
 		$list = FileHandler::readDir($skin_path);
 		if(!count($list)) return;
@@ -937,6 +945,10 @@ class moduleModel extends module
 
 		foreach($list as $skin_name)
 		{
+			if(!is_dir($skin_path . $skin_name))
+			{
+				continue;
+			}
 			unset($skin_info);
 			$skin_info = $this->loadSkinInfo($path, $skin_name, $dir);
 			if(!$skin_info)
@@ -986,7 +998,6 @@ class moduleModel extends module
 			{
 				$type = 'M';
 			}
-
 			$defaultSkinName = $this->getModuleDefaultSkin($module, $type, $site_info->site_srl);
 
 			if(isset($defaultSkinName))
@@ -1001,7 +1012,7 @@ class moduleModel extends module
 				$skin_list = array_merge($useDefaultList, $skin_list);
 			}
 		}
-		
+
 		return $skin_list;
 	}
 
@@ -1693,6 +1704,7 @@ class moduleModel extends module
 	function getModuleDefaultSkin($module_name, $skin_type = 'P', $site_srl = 0, $updateCache = true)
 	{
 		$target = ($skin_type == 'M') ? 'mskin' : 'skin';
+		if(!$site_srl) $site_srl = 0;
 
 		$designInfoFile = sprintf(_XE_PATH_.'files/site_design/design_%s.php', $site_srl);
 		if(is_readable($designInfoFile))
@@ -1701,7 +1713,6 @@ class moduleModel extends module
 
 			$skinName = $designInfo->module->{$module_name}->{$target};
 		}
-
 		if(!$skinName)
 		{
 			$dir = ($skin_type == 'M') ? 'm.skins/' : 'skins/';
@@ -1835,7 +1846,7 @@ class moduleModel extends module
 	function getGrant($module_info, $member_info, $xml_info = '')
 	{
 		$grant = new stdClass();
-		
+
 		if(!$xml_info)
 		{
 			$module = $module_info->module;
@@ -2059,7 +2070,7 @@ class moduleModel extends module
 		Context::set('page_navigation', $output->page_navigation);
 
 		$security = new Security();
-		$security->encodeHTML('filebox_list..comment');
+		$security->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
 
 		$oTemplate = &TemplateHandler::getInstance();
 		$html = $oTemplate->compile('./modules/module/tpl/', 'filebox_list_html');

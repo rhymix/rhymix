@@ -19,6 +19,8 @@ class memberView extends member
 		$oMemberModel = &getModel('member');
 		$this->member_config = $oMemberModel->getMemberConfig();
 		Context::set('member_config', $this->member_config);
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('member_config.signupForm..');
 
 		$skin = $this->member_config->skin;
 		// Set the template path
@@ -178,6 +180,8 @@ class memberView extends member
 		}
 
 		Context::set('displayDatas', $displayDatas);
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('displayDatas..title', 'displayDatas..description');
 		return $displayDatas;
 	}
 
@@ -587,13 +591,14 @@ class memberView extends member
 		$errorLang = array();
 		foreach($extraList as $val) 
 		{
+			$title = str_ireplace(array('<script', '</script'), array('<scr"+"ipt', '</scr"+"ipt'), addslashes($val->column_title));
 			if($val->column_type == 'kr_zip' || $val->column_type == 'tel')
 			{
-				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s[]","%s"]);', $val->column_name, $val->column_title);
+				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s[]","%s"]);', $val->column_name, $title);
 			}
 			else
 			{
-				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s","%s"]);', $val->column_name, $val->column_title);
+				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["%s","%s"]);', $val->column_name, $title);
 			}
 			$errorLang[$val->column_name] = $val->column_title;
 		}

@@ -294,7 +294,7 @@
 		<value xml:lang="tr"><![CDATA[İndirmek için izniniz yok]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn không được quyền Download.]]></value>
 	</item>
-	<item name="msg_cart_is_null">
+	<item name="msg_file_cart_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 파일을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select a file(s) to delete.]]></value>
 		<value xml:lang="jp"><![CDATA[削除するファイルを選択してください]]></value>

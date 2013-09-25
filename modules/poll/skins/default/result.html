@@ -1,5 +1,8 @@
 <load target="css/poll.css" />
 <div class="poll_box" style="{$poll->style}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
 
     <table cellspacing="0" class="poll_table">
     <col width="7" />

@@ -4,9 +4,9 @@ var no_text_comment = '{$lang->no_text_comment}';
 </script>
 <load target="js/trash_admin.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->trash} <a class="x_icon-question-sign" href="./help/index.html#UMAN_content_trash" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->trash} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_content_trash" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/trash/tpl/trash_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="emptyTrash" action="./" method="post">
@@ -44,7 +44,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 					<block cond="trim($oTrashVO->getTitle())">{$oTrashVO->getTitle()}</block>
 				</td>
 				<td class="nowr"><!--@if($oTrashVO->getOriginModule() == 'document')-->{$lang->document}<!--@else-->{$lang->comment}<!--@end--></td>
-				<td class="nowr"><a href="#popup_menu_area" class="member_{$oTrashVO->getRemoverSrl()}">{htmlspecialchars($oTrashVO->getNickName())}</a></td>
+				<td class="nowr"><a href="#popup_menu_area" class="member_{$oTrashVO->getRemoverSrl()}">{$oTrashVO->getNickName()}</a></td>
 				<td class="nowr">{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
 				<td class="nowr">{$oTrashVO->getIpaddress()}</td>
 				<td class="title">{$oTrashVO->getDescription()}</td>
@@ -105,6 +105,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="is_all" value="false" />
 	<input type="hidden" name="origin_module" value="{$origin_module}" />
+	<input type="hidden" name="xe_validator_id" value="modules/trash/tpl/trash_list/1" />
 	<div class="x_modal-header">
 		<h1>{$lang->document_manager}: <span class="_sub"></span></h1>
 	</div>
@@ -141,7 +142,7 @@ jQuery(function($){
 		}
 	}).change();
 	// Modal anchor button action
-	$('a[data-value]').click(function(){
+	$('a[data-value]').bind('before-open.mw', function(){
 		if($docTable.find('tbody :checked').length == 0){
 			$('body').css('overflow','auto');
 			alert('{$lang->msg_not_selected_document}');

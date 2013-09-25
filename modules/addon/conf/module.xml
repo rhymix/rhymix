@@ -8,8 +8,6 @@
         <action name="dispAddonAdminSetup" type="view" standalone="true" menu_name="installedAddon" />
         <action name="procAddonAdminToggleActivate" type="controller" standalone="true" />
         <action name="procAddonAdminSetupAddon" type="controller" standalone="true" ruleset="updateAddonSetup" />
-        <action name="procAddonSetupAddonAddMid" type="controller" />
-        <action name="procAddonSetupAddonDelMid" type="controller" />
 		<action name="procAddonAdminSaveActivate" type="controller" />
     </actions>
 	<menus>

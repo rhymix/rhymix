@@ -9,7 +9,7 @@
 		<p>{$lang->description_uninstall}</p>
 	</div>
 
-	<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-error">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/uninstall/1'" class="message error">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<form action="./" class="x_form-horizontal" method="post" ruleset="ftp">
@@ -18,6 +18,7 @@
 		<input type="hidden" name="package_srl" value="{$package_srl}" />
 		<input type="hidden" name="return_url" value="{$return_url}" />
 		<input cond="!$need_password" type="hidden" name="ftp_password" value="dummy" />
+		<input type="hidden" name="xe_validator_id" value="modules/autoinstall/tpl/uninstall/1" />
 
 		<block cond="$need_password">
 			<div class="x_control-group">

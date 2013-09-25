@@ -31,9 +31,13 @@ function Tree(url){
             // node
             var node = '';
             if(color && color !='transparent'){
-                node = $('<li id="tree_'+node_srl+'"><span style="color:'+color+';">'+text+'</span></li>');
+                node = $('<li id="tree_'+node_srl+'"></li>');
+				var $span = $('<span></span>').css('color', color).text(text);
+				node.append($span);
             }else{
-                node = $('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
+                node = $('<li id="tree_'+node_srl+'"></li>');
+				var $span = $('<span></span>').text(text);
+				node.append($span);
             }
 
             // button
@@ -171,10 +175,8 @@ function modifyNode(node,e){
 	var $w = $('#__category_info');
 
 	clearValue();
-
 	// set value
 	$w.find('input[name="category_srl"]').val(node);
-	$w.find('input[name="parent_srl"]').val(0);
 
 	var module_srl = $w.find('input[name="module_srl"]').val();
 
@@ -186,6 +188,7 @@ function modifyNode(node,e){
 			return;
 		}
 
+		$w.find('input[name="parent_srl"]').val(data.category_info.parent_srl);
 		$w.find('input[name="category_title"]').val(data.category_info.title).trigger('reload-multilingual');
 		$w.find('input[name="category_color"]').val(data.category_info.color).trigger('keyup');
 		$w.find('textarea[name="category_description"]').val(data.category_info.description).trigger('reload-multilingual');

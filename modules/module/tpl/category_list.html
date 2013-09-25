@@ -1,8 +1,14 @@
 <!--%import("filter/update_category.xml")-->
 
 <!--#include("./header.html")-->
-
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+{@
+	$validator_ids = array(
+		'modules/module/tpl/category_list/1' => 1,
+		'modules/module/tpl/category_list/2' => 1,
+		'modules/module/tpl/category_update_form/1' => 1
+	);
+}
+<div cond="$XE_VALIDATOR_MESSAGE && isset($validator_ids[$XE_VALIDATOR_ID])" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <!-- 카테고리의 위/아래, 삭제와 관련된 form -->
@@ -10,6 +16,7 @@
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminDeleteCategory" />
     <input type="hidden" name="module_category_srl" value="" />
+	<input type="hidden" name="xe_validator_id" value="modules/module/tpl/category_list/1" />
 </form>
 <table class="x_table x_table-striped x_table-hover">
 	<thead>
@@ -45,6 +52,7 @@
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="module_category_srl" value="" />
+	<input type="hidden" name="xe_validator_id" value="modules/module/tpl/category_list/2" />
 	<div class="x_pull-right x_input-append">
 		<input type="text" name="title" title="{$lang->category_title}" placeholder="{$lang->category_title}" required />
 		<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_registration}">

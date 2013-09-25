@@ -56,7 +56,7 @@
 		</ul>
 	</form>
 	<form action="" class="search center x_input-append x_pull-right">
-		<select name="lang_code">
+		<select name="lang_code" style="margin-right:4px">
 			<option loop="$lang_supported => $code, $lname" value="{$code}" selected="selected"|cond="$code == $lang_code">{$lname}</option>
 		</select>
 		<input type="search" name="search_keyword" title="Search" value="<!--@if($name)-->{htmlspecialchars($lang_code_list[1]->value)}<!--@else-->{htmlspecialchars($search_keyword)}<!--@end-->">

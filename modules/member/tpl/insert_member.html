@@ -1,16 +1,17 @@
 <load target="js/krzip_search.js" usecdn="true" />
+<load target="js/member_admin.js" />
 <!--%load_js_plugin("ui.datepicker")-->
 <script>
 	xe.lang.deleteProfileImage = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
 </script>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
 <div class="x_page-header">
 	<h1 cond="$member_srl">{$lang->msg_update_member}</h1>
 	<h1 cond="!$member_srl">{$lang->msg_new_member}</h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/insert_member/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="./" class="x_form-horizontal" ruleset="insertAdminMember" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="member" />
@@ -19,15 +20,16 @@
 	<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" cond="$member_srl" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispMemberAdminList')}" cond="!$member_srl" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/insert_member/1" />
 	<div cond="$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></label>
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
 			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
 			<input id="identifierForm" type="email" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 		</div>
 	</div>
 	<div cond="!$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></label>
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">
 			<input id="identifierForm" type="text" name="{$identifierForm->name}" value="" />
 		</div>
@@ -80,7 +82,7 @@
 		<label class="x_control-label" for="until">{$lang->limit_date}</label>
 		<div class="x_controls">
 			<input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
-			<input type="date" placeholder="YYYY-MM-DD" class="inputDate" id="until" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
+			<input type="text" readonly placeholder="YYYY-MM-DD" class="inputDate" id="until" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
 			<input type="button" value="{$lang->cmd_delete}" class="x_btn dateRemover" />
 			<span class="x_help-inline">{$lang->about_limit_date}</span>
 		</div>
@@ -95,7 +97,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="description">{$lang->description}</label>
 		<div class="x_controls">
-			<textarea name="description" id="description" rows="2" cols="42" style="vertical-align:top">{htmlspecialchars($member_info->description)}</textarea>
+			<textarea name="description" id="description" rows="2" cols="42" style="vertical-align:top">{$member_info->description}</textarea>
 			<span class="x_help-inline">{$lang->about_member_description}</span>
 		</div>
 	</div>
@@ -116,11 +118,7 @@
 <script>
 (function($){
     $(function(){
-		$tmp = $("<input>").attr("type", "date");
-		if($tmp[0].type === "date") return;
-		
         var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
-
             $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
         };
         $.extend(option,$.datepicker.regional['{$lang_type}']);

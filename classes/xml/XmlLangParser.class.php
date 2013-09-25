@@ -90,7 +90,7 @@ class XmlLangParser extends XmlParser
 
 	/**
 	 * Return compiled content
-	 * @return string Returns compiled lang source code 
+	 * @return string Returns compiled lang source code
 	 */
 	function getCompileContent()
 	{
@@ -159,15 +159,20 @@ class XmlLangParser extends XmlParser
 		if($item->item)
 		{
 			$type = $item->attrs->type;
+			$mode = $item->attrs->mode;
 
 			if($type == 'array')
 			{
-				$this->code .= $var . "=array();\n";
+				$this->code .= "if(!is_array({$var})){\n";
+				$this->code .= "	{$var} = array();\n";
+				$this->code .= "}\n";
 				$var .= '[\'%s\']';
 			}
 			else
 			{
-				$this->code .= $var . "=new stdClass;\n";
+				$this->code .= "if(!is_object({$var})){\n";
+				$this->code .= "	{$var} = new stdClass();\n";
+				$this->code .= "}\n";
 				$var .= '->%s';
 			}
 

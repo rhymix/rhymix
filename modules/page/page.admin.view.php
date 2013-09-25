@@ -61,16 +61,17 @@ class pageAdminView extends page
 		$search_target_list = array('s_mid','s_browser_title');
 		$search_target = Context::get('search_target');
 		$search_keyword = Context::get('search_keyword');
-		if(in_array($search_target,$search_target_list) && $search_keyword) $args->{$search_target} = $search_keyword; 
+		if(in_array($search_target,$search_target_list) && $search_keyword) $args->{$search_target} = $search_keyword;
 
 		$output = executeQuery('page.getPageList', $args);
 		$oModuleModel = &getModel('module');
 		$page_list = $oModuleModel->addModuleExtraVars($output->data);
 		moduleModel::syncModuleToSite($page_list);
 
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = &getAdminModel('module'); /* @var $oModuleAdminModel moduleAdminModel */
+
 		$tabChoice = array('tab1'=>1, 'tab3'=>1);
-		$selected_manage_content = $oModuleAdminModel->getSelectedManageHTML($this->xml_info->grant, $tabChoice);
+		$selected_manage_content = $oModuleAdminModel->getSelectedManageHTML($this->xml_info->grant, $tabChoice, $this->module_path);
 		Context::set('selected_manage_content', $selected_manage_content);
 
 		// To write to a template context:: set
@@ -79,6 +80,7 @@ class pageAdminView extends page
 		Context::set('page', $output->page);
 		Context::set('page_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
+
 		//Security
 		$security = new Security();
 		$security->encodeHTML('page_list..browser_title');
@@ -156,60 +158,14 @@ class pageAdminView extends page
 		$security->encodeHTML('module_info.');
 	}
 
-	/**
-	 * @brief Add Page Form Output
-	 */
-	function dispPageAdminInsert()
-	{
-		// Get module_srl by GET parameter
-		$module_srl = Context::get('module_srl');
-		// Get and set module information if module_srl exists
-		if($module_srl)
-		{
-			$oModuleModel = &getModel('module');
-			$columnList = array('module_srl', 'mid', 'module_category_srl', 'browser_title', 'layout_srl', 'use_mobile', 'mlayout_srl');
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-			if($module_info->module_srl == $module_srl) Context::set('module_info',$module_info);
-			else
-			{
-				unset($module_info);
-				unset($module_srl);
-			}
-		}
-		// Get a layout list
-		$oLayoutModel = &getModel('layout');
-		$layout_list = $oLayoutModel->getLayoutList();
-		Context::set('layout_list', $layout_list);
-
-		$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
-		Context::set('mlayout_list', $mobile_layout_list);
-
-		$oModuleModel = &getModel('module');
-		$skin_list = $oModuleModel->getSkins($this->module_path);
-		Context::set('skin_list',$skin_list);
-
-		$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
-		Context::set('mskin_list', $mskin_list);
-
-		//Security
-		$security = new Security();
-		$security->encodeHTML('layout_list..layout');
-		$security->encodeHTML('layout_list..title');
-		$security->encodeHTML('mlayout_list..layout');
-		$security->encodeHTML('mlayout_list..title');
-
-		// Set a template file
-		$this->setTemplateFile('page_insert');
-	}
-
-	function dispPageAdminMobileContent() 
+	function dispPageAdminMobileContent()
 	{
 		if($this->module_info->page_type == 'OUTSIDE')
 		{
 			return $this->stop(-1, 'msg_invalid_request');
 		}
 
-		if($this->module_srl) 
+		if($this->module_srl)
 		{
 			Context::set('module_srl',$this->module_srl);
 		}
@@ -238,7 +194,7 @@ class pageAdminView extends page
 		$this->setTemplateFile('mcontent');
 	}
 
-	function dispPageAdminMobileContentModify() 
+	function dispPageAdminMobileContentModify()
 	{
 		Context::set('module_info', $this->module_info);
 
@@ -270,7 +226,7 @@ class pageAdminView extends page
 		}
 	}
 
-	function _setWidgetTypeContentModify($isMobile = false) 
+	function _setWidgetTypeContentModify($isMobile = false)
 	{
 		// Setting contents
 		if($isMobile)
@@ -288,7 +244,7 @@ class pageAdminView extends page
 
 		Context::set('content', $content);
 		// Convert them to teach the widget
-		$oWidgetController = &getController('widget');
+		$oWidgetController = getController('widget');
 		$content = $oWidgetController->transWidgetCode($content, true, !$isMobile);
 		// $content = str_replace('$', '&#36;', $content);
 		Context::set('page_content', $content);
@@ -305,7 +261,7 @@ class pageAdminView extends page
 		$this->setTemplateFile($templateFile);
 	}
 
-	function _setArticleTypeContentModify($isMobile = false) 
+	function _setArticleTypeContentModify($isMobile = false)
 	{
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument(0, true);
@@ -326,6 +282,10 @@ class pageAdminView extends page
 			$document_srl = $this->module_info->{$target};
 			$oDocument->setDocument($document_srl);
 			Context::set('document_srl', $document_srl);
+		}
+		else
+		{
+			$oDocument->add('module_srl', $this->module_info->module_srl);
 		}
 
 		Context::addJsFilter($this->module_path.'tpl/filter', 'insert_article.xml');

@@ -45,8 +45,9 @@ class image_gallery extends EditorHandler
 		$gallery_info->srl = rand(111111,999999);
 		$gallery_info->border_thickness = $xml_obj->attrs->border_thickness;
 		$gallery_info->gallery_style = $xml_obj->attrs->gallery_style;
-		$gallery_info->border_color = $xml_obj->attrs->border_color;
-		$gallery_info->bg_color = $xml_obj->attrs->bg_color;
+		$color_preg = "/^([a-fA-F0-9]{6})/";
+		$gallery_info->border_color = preg_replace($color_preg,"#$1",$xml_obj->attrs->border_color);
+		$gallery_info->bg_color = preg_replace($color_preg,"#$1",$xml_obj->attrs->bg_color);
 		$gallery_info->gallery_align = $xml_obj->attrs->gallery_align;
 
 		$images_list = $xml_obj->attrs->images_list;

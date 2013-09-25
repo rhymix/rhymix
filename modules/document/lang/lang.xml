@@ -454,7 +454,7 @@
 			<value xml:lang="tr"><![CDATA[Gizli]]></value>
 			<value xml:lang="vi"><![CDATA[Bí mật]]></value>
 		</item>
-		<item name="tags">
+		<item name="tag">
 			<value xml:lang="ko"><![CDATA[태그]]></value>
 			<value xml:lang="en"><![CDATA[Tag]]></value>
 			<value xml:lang="jp"><![CDATA[タグ]]></value>
@@ -492,7 +492,7 @@
 		<item name="blamed_count">
 			<value xml:lang="ko"><![CDATA[비추천 수 (이상)]]></value>
 		</item>
-		<item name="comment_count ">
+		<item name="comment_count">
 			<value xml:lang="ko"><![CDATA[댓글 수 (이상)]]></value>
 			<value xml:lang="en"><![CDATA[Number of Comments (over)]]></value>
 			<value xml:lang="jp"><![CDATA[コメント数（以上）]]></value>
@@ -504,7 +504,7 @@
 			<value xml:lang="tr"><![CDATA[Yorum Sayısı (over)]]></value>
 			<value xml:lang="vi"><![CDATA[Số bình luận]]></value>
 		</item>
-		<item name="trackback_count ">
+		<item name="trackback_count">
 			<value xml:lang="ko"><![CDATA[트랙백 수 (이상)]]></value>
 			<value xml:lang="en"><![CDATA[Number of Trackbacks (over)]]></value>
 			<value xml:lang="jp"><![CDATA[トラックバック数（以上）]]></value>
@@ -516,7 +516,7 @@
 			<value xml:lang="tr"><![CDATA[Geri İzleme Sayısı (over)]]></value>
 			<value xml:lang="vi"><![CDATA[Số liên kết Web]]></value>
 		</item>
-		<item name="uploaded_count ">
+		<item name="uploaded_count">
 			<value xml:lang="ko"><![CDATA[첨부파일 수 (이상)]]></value>
 			<value xml:lang="en"><![CDATA[Number of Attachments (over)]]></value>
 			<value xml:lang="jp"><![CDATA[添付ファイル数（以上）]]></value>

@@ -2,9 +2,9 @@
 <load target="../install/lang/lang.xml" usecdn="true" />
 <load target="../../session/tpl/js/session.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->menu_gnb_sub['adminConfigurationFtp']} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_ftp" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->menu_gnb_sub['adminConfigurationFtp']} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_ftp" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_ftp/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <p class="x_help-block">{$lang->detail_about_ftp_info}</p>
@@ -12,6 +12,7 @@
 	<input type="hidden" name="module" value="install" />
 	<input type="hidden" name="act" value="procInstallAdminSaveFTPInfo" />
 	<input type="hidden" name="success_return_url" value="{base64_decode($success_return_url)}" />
+	<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_ftp/1" />
 	<section class="section">
 		<h1>{$lang->subtitle_primary}</h1>
 		<div class="x_control-group">
@@ -51,7 +52,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="ftp_port">{$lang->ftp_port}</label>
 			<div class="x_controls">
-				<input type="number" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port ? $ftp_info->ftp_port : '21'}" style="width:50px" /> Default : 21
+				<input type="number" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port ? $ftp_info->ftp_port : '21'}" /> Default : 21
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -81,7 +82,7 @@
 	</div>
 	</form>
 <style>
-#ftpSuggestion{padding:8px 15px;margin:2px 0;position:absolute;background:#fff;box-shadow:1px 1px 1px #eee;width:188px}
+#ftpSuggestion{padding:8px 15px;margin:2px 0;position:absolute;background:#fff;box-shadow:1px 1px 1px #eee;width:188px;z-index:99}
 #ftpSuggestion ul{margin:0;padding:0;list-style:none}
 #ftpSuggestion button{overflow:visible;padding:0;background:none;border:0;display:block;width:100%;text-align:left}
 #ftpSuggestion button:hover,

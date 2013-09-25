@@ -96,13 +96,16 @@ class pointAdminController extends point
 	{
 		$args = Context::getRequestVars();
 
-		foreach($args as $key => $val)
+		$configTypeList = array('insert_document', 'insert_comment', 'upload_file', 'download_file', 'read_document', 'voted', 'blamed');
+		foreach($configTypeList AS $config)
 		{
-			preg_match("/^(insert_document|insert_comment|upload_file|download_file|read_document|voted|blamed)_([0-9]+)$/", $key, $matches);
-			if(!$matches[1]) continue;
-			$name = $matches[1];
-			$module_srl = $matches[2];
-			if(strlen($val)>0) $module_config[$module_srl][$name] = (int)$val;
+			if(is_array($args->{$config}))
+			{
+				foreach($args->{$config} AS $key=>$value)
+				{
+					$module_config[$key][$config] = $value;
+				}
+			}
 		}
 
 		$oModuleController = &getController('module');
@@ -197,7 +200,7 @@ class pointAdminController extends point
 	 */
 	function procPointAdminReCal()
 	{
-		set_time_limit(0);
+		@set_time_limit(0);
 		// Get per-module points information
 		$oModuleModel = &getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');

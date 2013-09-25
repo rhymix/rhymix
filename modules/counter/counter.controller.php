@@ -99,13 +99,13 @@ class counterController extends counter
 
 		if($site_srl)
 		{
-			$args->regdate = '0' . date('Ymd');
+			$args->regdate = '0,' . date('Ymd');
 			$args->site_srl = $site_srl;
 			$output = executeQuery('counter.updateSiteCounterUnique', $args);
 		}
 		else
 		{
-			$args->regdate = '0' . date('Ymd');
+			$args->regdate = '0,' . date('Ymd');
 			$output = executeQuery('counter.updateCounterUnique', $args);
 		}
 	}

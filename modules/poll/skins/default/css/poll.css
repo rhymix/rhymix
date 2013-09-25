@@ -17,7 +17,7 @@
 .poll_table td.poll_content div.item_text strong{font-weight:bold;color:#000000;font-family:돋움;font-size:12px}
 .poll_table td.poll_content table.item_bar_table{width:100%;table-layout:fixed;border-bottom:1px solid #EDEDED;margin-top:10px}
 .poll_table td.poll_content table.noborder{border-bottom:none;margin-bottom:10px}
-.poll_table td.poll_content table.item_bar_table td.bar{padding:0 0 5px 0;background:url(../images/back_bar.png) repeat-x left 4px}
+.poll_table td.poll_content table.item_bar_table td.bar{padding:0 0 5px 0;background:url(../images/back_bar.png) repeat-x left center}
 .poll_table td.poll_content table.item_bar_table td.bar img{width:100%;height:6px}
 .poll_table td.poll_content table.item_bar_table td.status{font-size:.9em;padding-bottom:5px;color:#636363;padding-left:15px}
 .poll_table td.poll_content table.item_bar_table td.status strong{font-weight:bold;color:#58C011}

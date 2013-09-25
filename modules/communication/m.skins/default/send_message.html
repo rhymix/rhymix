@@ -6,7 +6,7 @@
 <div class="hx h2">
 	<h2>{$lang->cmd_send_message}</h2>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/m.skins/default/send_message/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="sendMessage" action="./" method="post" class="ff" id="fo_comm">
@@ -16,6 +16,7 @@
 	<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
 	<input type="hidden" name="source_content" value="{htmlspecialchars($source_message->content)}" />
 	<input type="hidden" name="content" value="" />
+	<input type="hidden" name="xe_validator_id" value="modules/communication/m.skins/default/send_message/1" />
 	<ul>
 		<li>
 			<span class="memberInfo">{$receiver_info->nick_name}</span>

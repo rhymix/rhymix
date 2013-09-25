@@ -1,7 +1,10 @@
 <!--%import("css/poll.css")-->
 
 <div style="{$poll->style}">
-
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'module/poll/skins/simple/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	
     <table cellspacing="0" class="simple_poll">
     <tr>
         <td>

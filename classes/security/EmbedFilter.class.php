@@ -313,7 +313,7 @@ class EmbedFilter
 	 */
 	function checkObjectTag(&$content)
 	{
-		preg_match_all('/<\s*object\s*[^>]+(?:\/?>)/is', $content, $m);
+		preg_match_all('/<\s*object\s*[^>]+(?:\/?>?)/is', $content, $m);
 		$objectTagList = $m[0];
 		if($objectTagList)
 		{
@@ -366,7 +366,7 @@ class EmbedFilter
 	 */
 	function checkEmbedTag(&$content)
 	{
-		preg_match_all('/<\s*embed\s*[^>]+(?:\/?>)/is', $content, $m);
+		preg_match_all('/<\s*embed\s*[^>]+(?:\/?>?)/is', $content, $m);
 		$embedTagList = $m[0];
 		if($embedTagList)
 		{
@@ -422,7 +422,7 @@ class EmbedFilter
 		// check in Purifier class
 		return;
 
-		preg_match_all('/<\s*iframe\s*[^>]+(?:\/?>)/is', $content, $m);
+		preg_match_all('/<\s*iframe\s*[^>]+(?:\/?>?)/is', $content, $m);
 		$iframeTagList = $m[0];
 		if($iframeTagList)
 		{
@@ -462,7 +462,7 @@ class EmbedFilter
 	 */
 	function checkParamTag(&$content)
 	{
-		preg_match_all('/<\s*param\s*[^>]+(?:\/?>)/is', $content, $m);
+		preg_match_all('/<\s*param\s*[^>]+(?:\/?>?)/is', $content, $m);
 		$paramTagList = $m[0];
 		if($paramTagList)
 		{
@@ -665,6 +665,11 @@ class EmbedFilter
 					else
 						$buff .= sprintf('$whiteIframeUrlList[] = \'%s\';', $patternList->body);
 				}
+			}
+
+			if(Context::getDefaultUrl())
+			{
+				$buff .= sprintf('$whiteIframeUrlList[] = \'%s\';', Context::getDefaultUrl());
 			}
 			$buff .= '?>';
 			FileHandler::writeFile($this->whiteUrlCacheFile, $buff);

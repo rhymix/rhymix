@@ -39,154 +39,180 @@ class layoutView extends layout
 	 */
 	public function dispLayoutPreviewWithModule()
 	{
-		// admin check
-		// this act is admin view but in normal view because do not load admin css/js files
-		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin != 'Y')
-		{
-			return $this->stop('msg_invalid_request');
-		}
-
+		$content = '';
 		$layoutSrl = Context::get('layout_srl');
-		$layoutVars = Context::get('layout_vars');
-		$layoutVars = json_decode($layoutVars);
 
-		$moduleSrl = Context::get('target_module_srl');
 		$module = Context::get('module_name');
 		$mid = Context::get('target_mid');
 		$skin = Context::get('skin');
-		$skinVars = Context::get('skin_vars');
-		$skinVars = json_decode($skinVars);
-
 		$skinType = Context::get('skin_type');
-		$type = ($skinType == 'M') ? 'mobile' : 'view';
 
-		if($module == 'ARTICLE')
+		try
 		{
-			$module = 'page';
-			$page_type = 'ARTICLE';
-			$document_srl = 0;
-		}
-
-		if($module)
-		{
-			$oModuleModel = getModel('module');
-			$xml_info = $oModuleModel->getModuleActionXml($module);
-			//create content
-			if(!$mid && !$moduleSrl)
+			// admin check
+			// this act is admin view but in normal view because do not load admin css/js files
+			$logged_info = Context::get('logged_info');
+			if($logged_info->is_admin != 'Y')
 			{
-				if($skin && !$module)
+				throw new Exception(Context::getLang('msg_invalid_request'));
+			}
+
+			// if module is 'ARTiCLE' and from site design setting, make content directly
+			if($module == 'ARTICLE' && !$mid)
+			{
+				$oDocumentModel = &getModel('document');
+				$oDocument = $oDocumentModel->getDocument(0, true);
+
+				$t = Context::getLang('article_preview_title');
+
+				$c = '';
+				for($i = 0; $i < 4; $i++)
 				{
-					return $this->stop(-1, 'msg_invalid_request');
+					$c .= '<p>';
+					for($j = 0; $j < 20; $j++)
+					{
+						$c .= Context::getLang('article_preview_content') . ' ';
+					}
+					$c .= '</p>';
 				}
 
-				$oModule = ModuleHandler::getModuleInstance($module, $type);
-				$oModule->setAct($xml_info->default_index_act);
-				$module_info = new stdClass();
-				$module_info->module = $module;
-				$module_info->module_type = $type;
-				$module_info->page_type = $page_type;
-				$module_info->document_srl= $document_srl;
-				$oModule->setModuleInfo($module_info, $xml_info);
-				$oModule->proc();
+				$attr = new stdClass();
+				$attr->title = $t;
+				$attr->content = $c;
+				$attr->document_srl = -1;
+				$oDocument->setAttribute($attr, FALSE);
+
+				Context::set('oDocument', $oDocument);
+
+				if ($skinType == 'M')
+				{
+					$templatePath = './modules/page/m.skins/' . $skin;
+					$templateFile = 'mobile';
+				}
+				else
+				{
+					$templatePath = './modules/page/skins/' . $skin;
+					$templateFile = 'content';
+				}
+
+				$oTemplate = TemplateHandler::getInstance();
+				$content = $oTemplate->compile($templatePath, $templateFile);
 			}
+
+			// else use real module
 			else
 			{
-				$oModuleHandler = new ModuleHandler($module, '', $mid, '', $moduleSrl);
-				$oModuleHandler->act = '';
-				$oModuleHandler->init();
-				$oModule = $oModuleHandler->procModule();
+				$content = $this->procRealModule($module, $mid, $skin, $skinType);
 			}
+			Context::set('content', $content);
 
-			if($oModule->toBool())
+			// find layout
+			if($layoutSrl)
 			{
-				if($skin)
+				if($layoutSrl == -1)
 				{
-					$skinDir = ($skinType == 'M') ? 'm.skins' : 'skins';
-					$template_path = sprintf("%s%s/%s/",$oModule->module_path, $skinDir, $skin);
-					$oModule->setTemplatePath($template_path);
+					$site_srl = ($oModule) ? $oModule->module_info->site_srl : 0;
+					$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $site_srl);
+					@include($designInfoFile);
 
-					if(is_array($skinVars))
+					if($skinType == 'M')
 					{
-						foreach($skinVars as $key => $val)
-						{
-							$oModule->module_info->{$key} = $val;
-						}
+						$layoutSrl = $designInfo->mlayout_srl;
+					}
+					else
+					{
+						$layoutSrl = $designInfo->layout_srl;
 					}
 				}
 
-				require_once("./classes/display/HTMLDisplayHandler.php");
-				$handler = new HTMLDisplayHandler();
-				$output = $handler->toDoc($oModule);
-				Context::set('content', $output);
-			}
-			else
-			{
-				Context::set('content', Context::getLang('not_support_layout_preview'));
+				$oLayoutModel = getModel('layout');
+				$layoutInfo = $oLayoutModel->getLayout($layoutSrl);
+
+				// If there is no layout, pass it.
+				if($layoutInfo)
+				{
+					// Adhoc...
+
+					// Input extra_vars into $layout_info
+					if($layoutInfo->extra_var_count)
+					{
+
+						foreach($layoutInfo->extra_var as $var_id => $val)
+						{
+							if($val->type == 'image')
+							{
+								if(preg_match('/^\.\/files\/attach\/images\/(.+)/i', $val->value))
+								{
+									$val->value = Context::getRequestUri() . substr($val->value, 2);
+								}
+							}
+							$layoutInfo->{$var_id} = $val->value;
+						}
+					}
+
+					// Set menus into context
+					if($layoutInfo->menu_count)
+					{
+						foreach($layoutInfo->menu as $menu_id => $menu)
+						{
+							// set default menu set(included home menu)
+							if(!$menu->menu_srl || $menu->menu_srl == -1)
+							{
+								$oMenuAdminController = getAdminController('menu');
+								$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
+
+								if(file_exists($homeMenuCacheFile))
+								{
+									@include($homeMenuCacheFile);
+								}
+
+								if(!$menu->menu_srl)
+								{
+									$menu->xml_file = str_replace('.xml.php', $homeMenuSrl . '.xml.php', $menu->xml_file);
+									$menu->php_file = str_replace('.php', $homeMenuSrl . '.php', $menu->php_file);
+									$layout_info->menu->{$menu_id}->menu_srl = $homeMenuSrl;
+								}
+								else
+								{
+									$menu->xml_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->xml_file);
+									$menu->php_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->php_file);
+								}
+							}
+							if(file_exists($menu->php_file))
+							{
+								@include($menu->php_file);
+							}
+							Context::set($menu_id, $menu);
+						}
+					}
+
+					Context::set('layout_info', $layoutInfo);
+				}
 			}
 		}
-		else
+		catch(Exception $e)
 		{
-			Context::set('content', Context::getLang('layout_preview_content'));
-		}
-
-		if($layoutSrl)
-		{
-			if($layoutSrl == -1)
-			{
-				$site_srl = ($oModule) ? $oModule->module_info->site_srl : 0;
-				$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $site_srl);
-				@include($designInfoFile);
-				$layoutSrl = $designInfo->layout_srl;
-			}
-
-			$oLayoutModel = getModel('layout');
-			$layoutInfo = $oLayoutModel->getLayout($layoutSrl);
-
-			if(!$layoutInfo) 
-			{
-				return new Object(-1, 'msg_invalid_request');
-			}
-
-			// Set names and values of extra_vars to $layout_info
-			if($layoutInfo->extra_var_count) 
-			{
-				foreach($layoutInfo->extra_var as $var_id => $val) 
-				{
-					$layoutInfo->{$var_id} = $val->value;
-				}
-			}
-
-			if($layoutVars)
-			{
-				foreach($layoutVars as $key => $val) 
-				{
-					$layoutInfo->{$key} = $val;
-				}
-			}
-
-			// menu in layout information becomes an argument for Context:: set
-			if($layoutInfo->menu_count) 
-			{
-				foreach($layoutInfo->menu as $menu_id => $menu) 
-				{
-					if(file_exists($menu->php_file)) @include($menu->php_file);
-					Context::set($menu_id, $menu);
-				}
-			}
-
-			Context::set('layout_info', $layoutInfo);
+			$content = '<div class="message error"><p id="preview_error">' . $e->getMessage() . '</p></div>';
+			Context::set('content', $content);
+			$layoutSrl = 0;
 		}
 
 		// Compile
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		Context::clearHtmlHeader();
-		if($layoutSrl)
+
+		if($layoutInfo)
 		{
 			$layout_path = $layoutInfo->path;
+			$editLayoutTPL = $this->getRealLayoutFile($layoutSrl);
+			$editLayoutCSS = $this->getRealLayoutCSS($layoutSrl);
+			if($editLayoutCSS != '')
+			{
+				Context::addCSSFile($editLayoutCSS);
+			}
 			$layout_file = 'layout';
 			$oModuleModel = getModel('module');
-			$part_config= $oModuleModel->getModulePartConfig('layout',$layoutSrl);
+			$part_config = $oModuleModel->getModulePartConfig('layout', $layoutSrl);
 			Context::addHtmlHeader($part_config->header_script);
 		}
 		else
@@ -194,16 +220,94 @@ class layoutView extends layout
 			$layout_path = './common/tpl';
 			$layout_file = 'default_layout';
 		}
-		$layout_tpl = $oTemplate->compile($layout_path, $layout_file);
+
+		$layout_tpl = $oTemplate->compile($layout_path, $layout_file, $editLayoutTPL);
 		Context::set('layout','none');
 
 		// Convert widgets and others
-		$oContext = &Context::getInstance();
+		$oContext = Context::getInstance();
 		Context::set('layout_tpl', $layout_tpl);
 		Context::set('admin_bar', 'false');
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('layout_preview');
 	}
+
+	/**
+	 * Get content of real module
+	 *
+	 * @param string $module module name
+	 * @param string $mid module id
+	 * @param string $skin skin name
+	 * @param string $skinType PC(P) or mobile(M)
+	 * @return string content of real module
+	 */
+	private function procRealModule($module, $mid, $skin, $skinType)
+	{
+		// if form site design and preview module, find target module
+		if($module && !$mid)
+		{
+			$args = new stdClass();
+			$args->module = $module;
+			$output = executeQuery('layout.getOneModuleInstanceByModuleName', $args);
+			if(!$output->toBool())
+			{
+				throw new Exception($output->getMessage());
+			}
+
+			// if there is no module instance, error...
+			if(!$output->data)
+			{
+				throw new Exception(Context::getLang('msg_unabled_preview'));
+			}
+		
+			$mid = current($output->data)->mid;
+		}
+
+		// if form site design and preview layout, find start module
+		elseif(!$module && !$mid)
+		{
+			$oModuleModel = getModel('module');
+			$columnList = array('modules.mid', 'sites.index_module_srl');
+			$startModuleInfo = $oModuleModel->getSiteInfo(0, $columnList);
+			$mid = $startModuleInfo->mid;
+		}
+
+		$oModuleHandler = new ModuleHandler('', '', $mid, '', '');
+
+		// Adhoc...
+		$oModuleHandler->act = '';
+
+		$oModuleHandler->init();
+
+		// Adhoc...
+		$oModuleHandler->module_info->use_mobile = 'Y';
+		$oModuleHandler->module_info->is_skin_fix = 'Y';
+		$oModuleHandler->module_info->is_mskin_fix = 'Y';
+
+		if($skinType == 'M')
+		{
+			Mobile::setMobile(TRUE);
+			$oModuleHandler->module_info->mskin = $skin;
+		}
+		else
+		{
+			Mobile::setMobile(FALSE);
+			$oModuleHandler->module_info->skin = $skin;
+		}
+
+		// Proc module
+		$oModule = $oModuleHandler->procModule();
+		if(!$oModule->toBool())
+		{
+			throw new Exception(Context::getLang('not_support_layout_preview'));
+		}
+
+		// get module html
+		require_once("./classes/display/HTMLDisplayHandler.php");
+		$handler = new HTMLDisplayHandler();
+		return $handler->toDoc($oModule);
+	}
+
 	/**
 	 * Preview a layout
 	 * @return void|Object (void : success, Object : fail)
@@ -268,6 +372,40 @@ class layoutView extends layout
 		FileHandler::removeFile($edited_layout_file);
 		$this->setTemplateFile('layout_preview');
 	}
+
+	private function getRealLayoutFile($layoutSrl)
+	{
+		$oLayoutModel = getModel('layout');
+		$layoutFile = $oLayoutModel->getUserLayoutHtml($layoutSrl);
+
+		if(file_exists($layoutFile))
+		{
+			return $layoutFile;
+		}
+		else
+		{
+			return ''; 
+		}
+
+	}
+
+	private function getRealLayoutCSS($layoutSrl)
+	{
+		$oLayoutModel = getModel('layout');
+		$cssFile = $oLayoutModel->getUserLayoutCss($layoutSrl);
+
+		if(file_exists($cssFile))
+		{
+			return $cssFile;
+		}
+		else
+		{
+			return ''; 
+		}
+
+	}
+
+
 
 }
 /* End of file layout.view.php */

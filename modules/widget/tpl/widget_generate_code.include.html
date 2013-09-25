@@ -22,7 +22,7 @@
 <div class="x_control-group">
 	<label class="x_control-label" for="widget_cache">{$lang->widget_cache}</label>
 	<div class="x_controls">
-		<input type="number" name="widget_cache" id="widget_cache" value="0" size="2" style="width:50px" /> {$lang->unit_min}
+		<input type="number" name="widget_cache" id="widget_cache" value="0" size="2" /> {$lang->unit_min}
 		<p class="x_help-inline">{$lang->about_widget_cache}</p>
 	</div>
 </div>
@@ -126,6 +126,7 @@
 				<option value="">-</option>
 				<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
 			</select>
+			<p cond="$var->description">{$var->description}</p>
 		</div>
 	</div>
 </block>

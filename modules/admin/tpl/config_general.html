@@ -2,25 +2,28 @@
 <load target="../install/lang/lang.xml" usecdn="true" />
 <load target="../../session/tpl/js/session.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->menu_gnb_sub['adminConfigurationGeneral']} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->menu_gnb_sub['adminConfigurationGeneral']} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_general/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
 	<h1>{$lang->subtitle_primary}</h1>
-	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
+	<form action="./" method="post" enctype="multipart/form-data" id="config_form" class="x_form-horizontal">
 		<input type="hidden" name="module" value="install" />
 		<input type="hidden" name="act" value="procInstallAdminConfig" />
-
+		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_general/1" />
+		<div></div>
+	</form>
+	<div class="x_form-horizontal" id="admin_config">
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->site_title} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_site_title" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->site_title} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_site_title" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input type="text" name="site_title" value="{$siteTitle}" />
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="_target_module">{$lang->start_module} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_homepage" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="_target_module">{$lang->start_module} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_homepage" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input class="module_search" type="text" name="index_module_srl" value="{$start_module->index_module_srl}" />
 			</div>
@@ -52,7 +55,7 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_mobile_view} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_mobile_view" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_mobile_view} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_mobile_view" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="use_mobile_view_y" class="x_inline">
 					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" checked="checked"|cond="$use_mobile_view == 'Y'" />
@@ -87,11 +90,18 @@
 			<label class="x_control-label">{$lang->allow_use_favicon}</label>
 			<div class="x_controls">
 				<p id="faviconPreview">
-					<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1">
-					<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2">
+					<img src="{$favicon_url}" alt="favicon" class="fn1" style="width:16px;height:16px">
+					<img src="{$favicon_url}" alt="favicon Image" class="fn2" style="width:16px;height:16px">
 				</p>
 				<label><input type="checkbox" name="is_delete_favicon" value="1" /> {$lang->cmd_delete}</label>
-				<label><input type="file" name="favicon" id="favicon" title="favicon" /></label>
+				<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
+					<input type="hidden" name="module" value="install">
+					<input type="hidden" name="act" value="procInstallAdminConfigIconUpload">
+					<p>
+						<input type="file" name="favicon" id="favicon" title="Mobile Home Icon"/>
+						<input class="x_btn" type="submit" value="{$lang->cmd_submit}" style="vertical-align:top">
+					</p>
+				</form>
 				<span class="x_help-block">{$lang->about_use_favicon}</span>
 			</div>
 		</div>
@@ -103,36 +113,44 @@
 					<span>www</span>
 				</p>
 				<label><input type="checkbox" name="is_delete_mobicon" value="1" /> {$lang->cmd_delete}</label>
-				<label><input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/></label>
+				<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
+					<input type="hidden" name="module" value="install">
+					<input type="hidden" name="act" value="procInstallAdminConfigIconUpload">
+					<p>
+						<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/>
+						<input class="x_btn" type="submit" value="{$lang->cmd_submit}" style="vertical-align:top">
+					</p>
+				</form>
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
-				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+				<button type="submit" class="x_btn x_btn-primary" onclick="doSubmitConfig()">{$lang->cmd_save}</button>
 			</div>
 		</div>
-	</form>
+	</div>
 </section>
 <section class="section collapsed">
 	<h1>{$lang->subtitle_advanced}</h1>
 	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 		<input type="hidden" name="module" value="install" />
 		<input type="hidden" name="act" value="procInstallAdminSaveTimeZone" />
+		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_general/1" />
 		<div class="x_control-group">
-			<label class="x_control-label" for="admin_ip_list">{$lang->admin_ip_limit} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_admin_iplist" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="admin_ip_list">{$lang->admin_ip_limit} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_admin_iplist" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<textarea name="admin_ip_list" id="admin_ip_list" rows="4" cols="42" placeholder="{$IP}({$lang->local_ip_address})" style="float:left;margin-right:10px">{$admin_ip_list}</textarea>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="default_url">{$lang->default_url} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_default_url" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="default_url">{$lang->default_url} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_default_url" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input type="url" name="default_url" id="default_url" value="{$default_url}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_ssl} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_ssl} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<!--@foreach($lang->ssl_options as $key => $val)-->
 				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" checked="checked"|cond="$use_ssl==$key" /> {$val}</label>
@@ -142,8 +160,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->server_ports}</label>
 			<div class="x_controls">
-				<label for="http_port" class="x_inline" style="margin-bottom:0;padding-top:0">HTTP: <input type="number" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:50px" /></label>
-				<label for="https_port" class="x_inline" style="margin-bottom:0;padding-top:0">HTTPS: <input type="number" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:50px" /></label>
+				<label for="http_port" class="x_inline" style="margin-bottom:0;padding-top:0">HTTP: <input type="number" name="http_port" id="http_port" size="5" value="{$http_port}" /></label>
+				<label for="https_port" class="x_inline" style="margin-bottom:0;padding-top:0">HTTPS: <input type="number" name="https_port" id="https_port" size="5" value="{$https_port}" /></label>
 			</div>
 		</div>
 		<div class="x_control-group" cond="__XE_CDN_VERSION__!='%__XE_CDN_VERSION__%'">
@@ -162,21 +180,21 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_sso} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_sso" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_sso} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_sso" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="sso_y" class="x_inline"><input type="radio" name="use_sso" id="sso_y" value="Y" checked="checked"|cond="$use_sso=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="sso_n" class="x_inline"><input type="radio" name="use_sso" id="sso_n" value="N" checked="checked"|cond="$use_sso!='Y'" /> {$lang->cmd_no}</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_db_session} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_db_session" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_db_session} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_db_session" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="use_db_session_y" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_y" value="Y" checked="checked"|cond="$use_db_session=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="use_db_session_n" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_n" value="N" checked="checked"|cond="$use_db_session!='Y'" /> {$lang->cmd_no}</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->qmail_compatibility} <a class="x_icon-question-sign" href="./help/index.html#UMAN_config_general_qmail" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->qmail_compatibility} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_qmail" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="qmail_compatibility_y" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_y" value="Y" checked="checked"|cond="$qmail_compatibility=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="qmail_compatibility_n" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" checked="checked"|cond="$qmail_compatibility!='Y'" /> {$lang->cmd_no}</label>
@@ -189,22 +207,36 @@
 		</div>
 	</form>
 </section>
+<iframe name="hiddenIframe" src="about:blank" hidden></iframe>
 <script>
-jQuery(function($){
-	$('#favicon').change(function(){
-		var re_favicon = /[^.]+\.ico$/
-		if(re_favicon.test($(this).val()) != true){
-			alert('*.ico {$lang->msg_possible_only_file}');
-			return false;
-		}
+function afterUploadConfigImage(name, fileName, tmpFileName)
+{
+	jQuery('#' + name + 'Preview img').attr('src', tmpFileName);
+	jQuery('#' + name).val('');
+}
+
+function alertUploadMessage(msg) {
+	alert(msg);
+}
+
+function doSubmitConfig()
+{
+	var $forms = jQuery('#admin_config').find('input[name][type="hidden"], input[name][type="text"], input[name][type="checkbox"]:checked, select[name], textarea[name], input[name][type="radio"]:checked');
+	var $configForm = jQuery('#config_form');
+	var $container = $configForm.children('div');
+	$container.empty();
+
+	$forms.each(function($)
+	{
+		var $this = jQuery(this);
+
+		if($this.parents('.imageUpload').length) return;
+
+		var $input = jQuery('<input>').attr('type', 'hidden').attr('name', $this.attr('name')).val($this.val());
+		$container.append($input);
 	});
-	$('#mobicon').change(function(){
-		var re_favicon = /[^.]+\.png$/
-		if(re_favicon.test($(this).val()) != true){
-			alert('*.png {$lang->msg_possible_only_file}');
-			return false;
-		}
-	});
-});
+	$configForm.submit();
+}
+
 </script>
 

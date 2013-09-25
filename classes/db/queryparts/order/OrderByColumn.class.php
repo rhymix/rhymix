@@ -45,6 +45,16 @@ class OrderByColumn
 		return is_a($this->column_name, 'Argument') ? $this->column_name->getValue() : $this->column_name;
 	}
 
+	function getPureColumnName()
+	{
+		return is_a($this->column_name, 'Argument') ? $this->column_name->getPureValue() : $this->column_name;
+	}
+
+	function getPureSortOrder()
+	{
+		return is_a($this->sort_order, 'Argument') ? $this->sort_order->getPureValue() : $this->sort_order;
+	}
+
 	function getArguments()
 	{
 		$args = array();

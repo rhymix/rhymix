@@ -66,7 +66,7 @@
 					</block>
 					{@$not_first = true}
 					<div class="x_control-group">
-						<label for="{$id}" class="x_control-label">{$var->name}</label>
+						<label class="x_control-label" for="{$id}"|cond="$var->type!='text'&&$var->type!='textarea'" for="lang_{$id}"|cond="$var->type=='text'||$var->type=='textarea'">{$var->name}</label>
 						<div class="x_controls extra_vars">
 							<div cond="$var->type == 'text'">
 								<input type="text" name="{$id}" value="" class="lang_code" />

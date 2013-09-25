@@ -185,7 +185,7 @@ class moduleController extends module
 		{
 			$cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
 			$oCacheHandler->delete($cache_key);
-		}			
+		}
 		return $output;
 	}
 
@@ -263,7 +263,7 @@ class moduleController extends module
 
 			if($args->domain && !isSiteID($args->domain))
 			{
-				$args->domain = $args->domain;
+				$args->domain = preg_replace('/\/$/','',$args->domain);
 			}
 		}
 		$output = executeQuery('module.updateSite', $args);
@@ -332,6 +332,15 @@ class moduleController extends module
 	 */
 	function insertModule($args)
 	{
+		if(isset($args->isMenuCreate))
+		{
+			$isMenuCreate = $args->isMenuCreate;
+		}
+		else
+		{
+			$isMenuCreate = TRUE;
+		}
+
 		$output = $this->arrangeModuleInfo($args, $extra_vars);
 		if(!$output->toBool()) return $output;
 		// Check whether the module name already exists
@@ -366,8 +375,8 @@ class moduleController extends module
 				$args->is_skin_fix = 'Y';
 			}
 		}
-		
-		if($args->mskin = '/USE_DEFAULT/')
+
+		if($args->mskin == '/USE_DEFAULT/')
 		{
 			$args->is_mskin_fix = 'N';
 		}
@@ -383,6 +392,57 @@ class moduleController extends module
 			}
 		}
 
+		unset($output);
+
+		if($isMenuCreate == TRUE)
+		{
+			$menuArgs->menu_srl = $args->menu_srl;
+			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
+
+			// if menu is not created, create menu also. and does not supported that in virtual site.
+			if(!$menuOutput->data && !$args->site_srl)
+			{
+				$oMenuAdminModel = &getAdminModel('menu');
+				$tempMenu = $oMenuAdminModel->getMenuByTitle(array('Temporary menu'));
+
+				if(!$tempMenu)
+				{
+					$siteMapOutput->site_srl = 0;
+					$siteMapArgs->title = 'Temporary menu';
+					$tempMenu->menu_srl = $siteMapArgs->menu_srl = getNextSequence();
+					$siteMapArgs->listorder = $siteMapArgs->menu_srl * -1;
+
+					$siteMapOutput = executeQuery('menu.insertMenu', $siteMapArgs);
+					if(!$siteMapOutput->toBool())
+					{
+						$oDB->rollback();
+						return $siteMapOutput;
+					}
+				}
+
+				$menuArgs->menu_srl = $tempMenu->menu_srl;
+				$menuArgs->menu_item_srl = getNextSequence();
+				$menuArgs->parent_srl = 0;
+				$menuArgs->open_window = 'N';
+				$menuArgs->url = $args->mid;
+				$menuArgs->expand = 'N';
+				$menuArgs->is_shortcut = 'N';
+				$menuArgs->name = $args->browser_title;
+				$menuArgs->listorder = $args->menu_item_srl * -1;
+
+				$menuItemOutput = executeQuery('menu.insertMenuItem', $menuArgs);
+				if(!$menuItemOutput->toBool())
+				{
+					$oDB->rollback();
+					return $menuItemOutput;
+				}
+
+				$oMenuAdminController = &getAdminController('menu');
+				$oMenuAdminController->makeXmlFile($tempMenu->menu_srl);
+			}
+		}
+
+		$args->menu_srl = $menuArgs->menu_srl;
 		// Insert a module
 		$output = executeQuery('module.insertModule', $args);
 		if(!$output->toBool())
@@ -407,17 +467,16 @@ class moduleController extends module
 	{
 		$output = $this->arrangeModuleInfo($args, $extra_vars);
 		if(!$output->toBool()) return $output;
-
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
+		$oModuleModel = &getModel('module');
+		$columnList = array('module_srl', 'site_srl', 'browser_title', 'mid');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+
 		if(!$args->site_srl || !$args->browser_title)
 		{
-			$oModuleModel = &getModel('module');
-			$columnList = array('module_srl', 'site_srl', 'browser_title');
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
-
 			if(!$args->site_srl) $args->site_srl = (int)$module_info->site_srl;
 			if(!$args->browser_title) $args->browser_title = $module_info->browser_title;
 		}
@@ -445,14 +504,14 @@ class moduleController extends module
 				$args->is_skin_fix = 'Y';
 			}
 		}
-		
-		if($args->mskin = '/USE_DEFAULT/')
+
+		if($args->mskin == '/USE_DEFAULT/')
 		{
 			$args->is_mskin_fix = 'N';
 		}
 		else
 		{
-			if(isset($args->is_skin_fix))
+			if(isset($args->is_mskin_fix))
 			{
 				$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
 			}
@@ -461,12 +520,30 @@ class moduleController extends module
 				$args->is_mskin_fix = 'Y';
 			}
 		}
-
 		$output = executeQuery('module.updateModule', $args);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
+		}
+
+		$menuArgs->url = $module_info->mid;
+		$menuArgs->site_srl = $module_info->site_srl;
+		$menuOutput = executeQuery('menu.getMenuItemByUrl', $menuArgs);
+
+		if($menuOutput->data->menu_item_srl)
+		{
+			$oMenuAdminController = &getAdminController('menu');
+
+			$itemInfo = $menuOutput->data;
+			$itemInfo->url = $args->mid;
+
+			$updateMenuItemOutput = $oMenuAdminController->updateMenuItem($itemInfo);
+			if(!$updateMenuItemOutput->toBool())
+			{
+				$oDB->rollback();
+				return $updateMenuItemOutput;
+			}
 		}
 
 		// Insert module extra vars
@@ -506,7 +583,7 @@ class moduleController extends module
 	 * Attempt to delete all related information when deleting a module.
 	 * Origin method is changed. because menu validation check is needed
 	 */
-	function deleteModule($module_srl)
+	function deleteModule($module_srl, $site_srl = 0)
 	{
 		if(!$module_srl) return new Object(-1,'msg_invalid_request');
 
@@ -517,11 +594,25 @@ class moduleController extends module
 		$args = new stdClass();
 		$args->url = $output->mid;
 		$args->is_shortcut = 'N';
-		$args->site_srl = $site_module_info->site_srl;
+		if(!$site_srl) $args->site_srl = $site_module_info->site_srl;
+		else $args->site_srl = $site_srl;
 
 		unset($output);
-		$output = executeQuery('menu.getMenuItemByUrl', $args);
 
+		$oMenuAdminModel = &getAdminModel('menu');
+		$menuOutput = $oMenuAdminModel->getMenuList($args);
+
+		// get menu_srl by site_srl
+		if(is_array($menuOutput->data))
+		{
+			foreach($menuOutput->data AS $key=>$value)
+			{
+				$args->menu_srl = $value->menu_srl;
+				break;
+			}
+		}
+
+		$output = executeQuery('menu.getMenuItemByUrl', $args);
 		// menu delete
 		if($output->data)
 		{

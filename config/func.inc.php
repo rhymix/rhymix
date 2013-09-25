@@ -1471,6 +1471,25 @@ function recurciveExposureCheck(&$menu)
 	}
 }
 
+function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_url')
+{
+	if($requestKey != $dbKey)
+	{
+		$arrayUrl = parse_url(Context::get('success_return_url'));
+		if($arrayUrl['query'])
+		{
+			parse_str($arrayUrl['query'], $parsedStr);
+
+			if(isset($parsedStr[$key]))
+			{
+				$parsedStr[$key] = $requestKey;
+				$successReturnUrl .= $arrayUrl['path'].'?'.http_build_query($parsedStr);
+				Context::set($urlName, $successReturnUrl);
+			}
+		}
+	}
+}
+
 /**
  * Print raw html header
  *

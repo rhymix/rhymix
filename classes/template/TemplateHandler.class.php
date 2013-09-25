@@ -73,6 +73,10 @@ class TemplateHandler
 		{
 			$tpl_path .= '/';
 		}
+		if(!is_dir($tpl_path))
+		{
+			return;
+		}
 		if(!file_exists($tpl_path . $tpl_filename) && file_exists($tpl_path . $tpl_filename . '.html'))
 		{
 			$tpl_filename .= '.html';
@@ -302,7 +306,7 @@ class TemplateHandler
 
 				$matches[2] = '<input type="hidden" name="ruleset" value="' . $m[1] . '" />' . $matches[2];
 				//assign to addJsFile method for js dynamic recache
-				$matches[1] = '<?php Context::addJsFile("' . $path . '", FALSE, "", 0, "head", TRUE, "' . $autoPath . '") ?' . '>' . $matches[1];
+				$matches[1] = '<?php Context::addJsFile("' . $path . '", FALSE, "", 0, "body", TRUE, "' . $autoPath . '") ?' . '>' . $matches[1];
 			}
 		}
 
@@ -372,7 +376,7 @@ class TemplateHandler
 
 	/**
 	 * preg_replace_callback hanlder
-	 * 
+	 *
 	 * replace image path
 	 * @param array $match
 	 *
@@ -610,12 +614,14 @@ class TemplateHandler
 				// <!--%load_js_plugin-->
 				case 'load_js_plugin':
 					$plugin = $this->_replaceVar($m[5]);
+					$s = "<!--#JSPLUGIN:{$plugin}-->";
 					if(strpos($plugin, '$__Context') === false)
 					{
 						$plugin = "'{$plugin}'";
 					}
 
-					return "<?php Context::loadJavascriptPlugin({$plugin}); ?>";
+					$s .= "<?php Context::loadJavascriptPlugin({$plugin}); ?>";
+					return $s;
 				// <load ...> or <unload ...> or <!--%import ...--> or <!--%unload ...-->
 				case 'import':
 				case 'load':

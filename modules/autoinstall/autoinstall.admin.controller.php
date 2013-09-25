@@ -136,7 +136,7 @@ class autoinstallAdminController extends autoinstall
 						$type = "theme";
 						break;
 				}
-				
+
 				if(!$config_file)
 				{
 					continue;
@@ -144,7 +144,7 @@ class autoinstallAdminController extends autoinstall
 
 				$xml = new XmlParser();
 				$xmlDoc = $xml->loadXmlFile($real_path . $config_file);
-				
+
 				if(!$xmlDoc)
 				{
 					continue;
@@ -329,7 +329,7 @@ class autoinstallAdminController extends autoinstall
 		$oModel = getModel('autoinstall');
 		$package = $oModel->getPackage($package_srl);
 
-		$this->_uninstallPackage($package);
+		return $this->_uninstallPackage($package);
 	}
 
 	/**
@@ -340,7 +340,7 @@ class autoinstallAdminController extends autoinstall
 	function uninstallPackageByPath($path)
 	{
 		$package->path = $path;
-		$this->_uninstallPackage($package);
+		return $this->_uninstallPackage($package);
 	}
 
 	private function _uninstallPackage($package)
@@ -383,6 +383,8 @@ class autoinstallAdminController extends autoinstall
 		$this->_updateinfo();
 
 		$this->setMessage('success_deleted', 'update');
+
+		return new Object();
 	}
 
 }

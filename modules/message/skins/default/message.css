@@ -6,7 +6,6 @@ body, #access table, #access input, #access textarea, #access select, #access bu
 body, #access table, #access input, #access textarea, #access select, #access button, #access label{font-family:돋움,Dotum,Arial,Helvetica,sans-serif}
 }
 #access{width:400px;margin:30px auto;background-color:#ffffff;border:1px solid #999;border-radius:6px;box-shadow:0 3px 7px #ccc;box-sizing:border-box}
-#access .btn{text-decoration:none}
 #access>.login-header{padding:9px 15px;border-bottom:1px solid #eee}
 #access>.login-header>h1{margin:0;font-size:16px;line-height:1.4;font-weight:600;color:#666}
 #access>.login-header>h1>i{opacity:.5;filter:alpha(opacity=50);margin:2px 0 0 0}
@@ -24,10 +23,11 @@ body, #access table, #access input, #access textarea, #access select, #access bu
 #access input[type="email"],
 #access input[type="password"]{width:100%}
 #access input[type="checkbox"]{margin:0}
-#access .btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px}
+#access .btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;height:auto;padding:3px 9px;text-decoration:none}
 #access .submit{position:absolute;top:0;right:0}
 #access p{margin:10px 0}
 #access #warning{margin-right:-14px}
+#access a{color: #0088cc;text-decoration: none;}
 @media all and (max-width:480px){
 #access{position:static;margin:0;width:100%}
 }

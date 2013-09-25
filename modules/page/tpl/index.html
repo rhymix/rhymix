@@ -1,25 +1,40 @@
 <load target="js/page_admin.js" usecdn="true" />
 <include target="header.html" />
 
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/module/tpl/manage_selected'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
 <!-- 검색 -->
 <form action="./" method="get" class="search x_input-append x_pull-right" style="margin-bottom:-28px">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="mid" value="{$mid}" />
 	<input type="hidden" name="vid" value="{$vid}" />
 	<input type="hidden" name="act" value="dispPageAdminContent" />
-	<select name="module_category_srl" title="{$lang->module_category}" style="margin-right:4px">
-		<option value="0" <!--@if($module_category_srl==="0")-->selected="selected"<!--@end-->>{$lang->not_exists}</option>
-		<!--@foreach($module_category as $key => $val)-->
-		<option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-		<!--@end-->
-	</select>
-	<select name="search_target" style="margin-right:4px">
+	<select name="search_target" id="search_target" style="margin-right:4px">
 		<option value="s_mid" selected="selected"|cond="$search_target=='s_mid'">{$lang->mid}</option>
 		<option value="s_browser_title" selected="selected"|cond="$search_target=='s_browser_title'">{$lang->browser_title}</option>
+		<option cond="$module_category">{$lang->module_category}</option>
+	</select>
+	<select name="module_category_srl" title="{$lang->module_category}" cond="$module_category" style="margin-right:4px">
+		<option loop="$module_category => $key,$val" value="{$key}" selected="selected"|cond="$module_category_srl==$key">{$val->title}</option>
 	</select>
 	<input type="search" name="search_keyword" title="Search" value="{htmlspecialchars($search_keyword)}" required style="width:150px" />
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 </form>
+<script>
+jQuery(function($){
+	$('#search_target').change(function(){
+		var $this = $(this);
+		if($this.find('>option:last-child').is(':selected')){
+			$this.next('select').show().removeAttr('disabled').next('input[type="search"]').hide().attr('disabled','disabled');
+		} else {
+			$this.next('select').hide().attr('disabled','disabled').next('input[type="search"]').show().removeAttr('disabled');
+		}
+	}).change();
+});
+</script>
 
 <!-- 목록 -->
 <form action="./" method="get" id="fo_list">
@@ -71,7 +86,7 @@
 
 <div class="x_clearfix">
 	<div class="x_btn-group x_pull-right">
-		<a class="x_btn modalAnchor x_pull-right" href="#manageSelectedModule">{$lang->cmd_manage_selected_page}</a>
+		<a class="x_btn modalAnchor x_pull-right _manageSelected" href="#manageSelectedModule">{$lang->cmd_manage_selected_page}</a>
 	</div>
 </div>
 
@@ -125,7 +140,7 @@ jQuery(function($){
 	// Modal anchor activation
 	var $docTable = $('#fo_list>table');
 	$docTable.find(':checkbox').change(function(){
-		var $modalAnchor = $('a.modalAnchor');
+		var $modalAnchor = $('a.modalAnchor._manageSelected');
 		if($docTable.find('tbody :checked').length == 0){
 			$modalAnchor.removeAttr('href').addClass('x_disabled');
 		} else {
@@ -136,7 +151,7 @@ jQuery(function($){
 	$('a.modalAnchor').click(function(){
 		if($docTable.find('tbody :checked').length == 0){
 			$('body').css('overflow','auto');
-			alert('{$lang->msg_not_selected_document}');
+			alert('{$lang->msg_not_selected_page}');
 			return false;
 		}
 	});

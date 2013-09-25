@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <lang>  
+	<item name="admin">
+		<value xml:lang="ko"><![CDATA[관리자]]></value>
+		<value xml:lang="en"><![CDATA[Admin]]></value>
+		<value xml:lang="jp"><![CDATA[管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理员]]></value>
+		<value xml:lang="tr"><![CDATA[yönetim]]></value>
+	</item>
 	<item name="subtitle_primary">
 		<value xml:lang="ko"><![CDATA[기본]]></value>
 		<value xml:lang="en"><![CDATA[Primary]]></value>
@@ -648,7 +655,7 @@
 	</item>
 	<item name="ssl_options" type="array">
 		<item name="none">
-			 <value xml:lang="ko"><![CDATA[사용 안함]]></value>
+			 <value xml:lang="ko"><![CDATA[사용안함]]></value>
 			 <value xml:lang="en"><![CDATA[Never]]></value>
 			 <value xml:lang="jp"><![CDATA[使わない]]></value>
 			 <value xml:lang="zh-CN"><![CDATA[不使用]]></value>
@@ -971,7 +978,7 @@
 		<value xml:lang="tr"><![CDATA[Favicon'u kullanmak istiyor musunuz?]]></value>
 	</item>	 
 	<item name="about_use_favicon">
-		<value xml:lang="ko"><![CDATA[16 x 16 크기의<em>*.ico</em> 파일만 업로드 가능.]]></value>
+		<value xml:lang="ko"><![CDATA[16 x 16 크기의<em>*.ico</em> 파일 업로드 권장.]]></value>
 		<value xml:lang="en"><![CDATA[You can upload 16x16 size<em>*.ico</em> file only.]]></value>
 		<value xml:lang="jp"><![CDATA[16 x 16 サイズの<em>*.ico</em> ファイルのみ登録できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请上传16*16像素的<em>*.ico</em>文件.]]></value>
@@ -1030,20 +1037,6 @@
 		<value xml:lang="jp"><![CDATA[セッション整理]]></value>
 		<value xml:lang="zh-CN"><![CDATA[整理sessioon]]></value>
 		<value xml:lang="tr"><![CDATA[Oturum temizleme]]></value>
-	</item>
-	<item name="msg_not_correct_iconname">
-		<value xml:lang="ko"><![CDATA[아이콘 형식이 바르지 않습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Invalid icon type]]></value>
-		<value xml:lang="jp"><![CDATA[アイコン形式が正しくありません。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[无效的icon格式]]></value>   
-		<value xml:lang="tr"><![CDATA[Geçerli olmayan simge biçimi.]]></value>
-	</item>
-	<item name="msg_possible_only_file">
-		<value xml:lang="ko"><![CDATA[파일만 업로드 가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can upload files only.]]></value>
-		<value xml:lang="jp"><![CDATA[ファイルのみアップロード可能です。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请上传文件.]]></value>
-		<value xml:lang="tr"><![CDATA[Sadece dosyalarını yükleyebilirsiniz.]]></value>
 	</item>
 	<item name="save">
 		<value xml:lang="ko"><![CDATA[저장]]></value>
@@ -1471,18 +1464,6 @@
 	<item name="details">
 		<value xml:lang="ko"><![CDATA[자세히]]></value>
 		<value xml:lang="en"><![CDATA[Details]]></value>
-	</item>
-	<item name="help">
-		<value xml:lang="ko"><![CDATA[도움말]]></value>
-		<value xml:lang="en"><![CDATA[Help]]></value>
-	</item>
-	<item name="yes">
-		<value xml:lang="ko"><![CDATA[예]]></value>
-		<value xml:lang="en"><![CDATA[Yes]]></value>
-	</item>
-	<item name="not">
-		<value xml:lang="ko"><![CDATA[아니오]]></value>
-		<value xml:lang="en"><![CDATA[No]]></value>
 	</item>
 	<item name="available_new_version">
 		<value xml:lang="ko"><![CDATA[새 버전을 사용할 수 있습니다]]></value>

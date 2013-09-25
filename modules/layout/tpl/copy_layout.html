@@ -1,15 +1,23 @@
 <script>
+var newTitle = '{$lang->new_title}';
+var layoutTitle = '{$layout->layout_title}';
 var addLang = '{$lang->cmd_insert}';
 </script>
+<load target="js/layout_admin.js" usecdn="true" />
 
-<form action="./" method="post" id="__layout_copy">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/layout/tpl/copy_layout/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<form action="./" method="post">
 	<div class="x_modal-header">
 		<h1>{$lang->cmd_layout_copy}</h1>
 	</div>
-	<div class="x_modal-body x_form-horizontal">
+	<div class="x_modal-body x_form-horizontal" id="inputDiv">
 		<input type="hidden" name="layout" value="{$layout->layout}" />
 		<input type="hidden" name="act" value="procLayoutAdminCopyLayout" />
 		<input type="hidden" name="layout_srl" value="{$layout->layout_srl}" />
+		<input type="hidden" name="xe_validator_id" value="modules/layout/tpl/copy_layout/1" />
 		<div class="x_control-group">
 			<div class="x_control-label">{$lang->layout_name}</div>
 			<div class="x_controls">{$layout->title}</div>
@@ -29,7 +37,7 @@ var addLang = '{$lang->cmd_insert}';
 		</div>
 	</div>
 	<div class="x_modal-footer">
-		<button type="button" class="x_btn x_pull-left" data-hide="#__layout_copy">{$lang->cmd_close}</button>
+		<button type="button" class="x_btn x_pull-left" onclick="window.close();">{$lang->cmd_close}</button>
 		<input type="submit" value="{$lang->cmd_save}" class="x_btn x_btn-primary x_pull-right" />
 	</div>
 </form>

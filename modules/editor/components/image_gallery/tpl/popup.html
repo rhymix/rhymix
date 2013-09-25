@@ -39,29 +39,13 @@
 		<div class="x_control-group">
 			<label for="" class="x_control-label">{$lang->gallery_border_color}</label>
 			<div class="x_controls">
-				<div class="editor_color_box">
-					<script>
-					printColor("border", "{$tpl_path}/images/blank.gif");
-					</script>
-				</div>
-				<ul class="buttonLeft">
-					<li><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></li>
-					<li>#<input type="text" id="border_color_input" size="7" maxlength="6"  value="000000" onkeyup="manual_select_color('border',this)"/></li>
-				</ul>
+				<input type="text" id="border_color_input" class="color-indicator" size="7" maxlength="6"  value="#000000" />
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="" class="x_control-label">{$lang->gallery_bg_color}</label>
 			<div class="x_controls">
-				<div class="editor_color_box">
-					<script>
-						printColor("bg", "{$tpl_path}/images/blank.gif");
-					</script>
-				</div>
-				<ul class="buttonLeft">
-					<li><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></li>
-					<li>#<input type="text" id="bg_color_input" size="7" maxlength="6"  value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></li>
-				</ul>
+				<input type="text" id="bg_color_input" class="color-indicator"  size="7" maxlength="6"  value="#FFFFFF" />
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -80,4 +64,5 @@
 		</div>
 	</form>
 </section>
+<!--%load_js_plugin("ui.colorpicker")-->
 

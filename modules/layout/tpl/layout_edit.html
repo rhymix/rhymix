@@ -1,7 +1,6 @@
 <include target="header.html" />
 <load target="js/adminEdit.js" usecdn="true" />
 <p>{nl2br($lang->about_layout_code)}</p>
-
 <section class="section">
 	<h1>{$lang->layout_image_repository}</h1>
 	<p>{nl2br($lang->about_layout_image_repository)}</p>
@@ -30,12 +29,17 @@
 		</li>
 	</ul>
 
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/layout/tpl/layout_edit/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+
 	<form ruleset="imageUpload" action="./" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="layout" />
 		<input type="hidden" name="act" value="procLayoutAdminUserImageUpload" />
 		<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+		<input type="hidden" name="xe_validator_id" value="modules/layout/tpl/layout_edit/1" />
 		<p>
-			<input type="file" class="overlap" name="user_layout_image" value="" title="{$lang->uploaded_file}" />
+			<input type="file" name="user_layout_image" value="" title="{$lang->uploaded_file}" />
 			<span class="x_help-inline">{$lang->msg_layout_image_target}</span>
 		</p>
 		<div class="x_clearfix btnArea">
@@ -60,6 +64,7 @@
 	<input type="hidden" name="module" value="layout" />
 	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
 	<input type="hidden" name="act" value="procLayoutAdminCodeUpdate" />
+	<input type="hidden" name="xe_validator_id" value="modules/layouts/tpl/layout_edit/1" />
 
 	<section class="section">
 		<h1>HTML</h1>

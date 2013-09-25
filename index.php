@@ -53,10 +53,19 @@ if($oContext->checkSSO())
 {
 	$oModuleHandler = new ModuleHandler();
 
-	if($oModuleHandler->init())
+	try
 	{
-		$oModule = &$oModuleHandler->procModule();
-		$oModuleHandler->displayContent($oModule);
+		if($oModuleHandler->init())
+		{
+			$oModule = &$oModuleHandler->procModule();
+			$oModuleHandler->displayContent($oModule);
+		}
+	}
+	catch(Exception $e)
+	{
+		htmlHeader();
+		echo Context::getLang($e->getMessage());
+		htmlFooter();
 	}
 }
 

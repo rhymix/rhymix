@@ -19,8 +19,8 @@ class messageAdminController extends message
 	function procMessageAdminInsertConfig()
 	{
 		// Get information
-		$args = Context::gets('skin', 'mskin');
-		// Create a module Controller object 
+		$args = Context::gets('skin', 'mskin', 'colorset', 'mcolorset');
+		// Create a module Controller object
 		$oModuleController = &getController('module');
 		$output = $oModuleController->insertModuleConfig('message',$args);
 		if(!$output->toBool()) return $output;

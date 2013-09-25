@@ -1,12 +1,13 @@
 <load target="js/poll_admin.js" usecdn="true" />
 <!--#include("./header.html")-->
 
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/tpl/config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertConfig" action="./" method="post" id="fo_poll">
 <input type="hidden" name="module" value="poll" />
 <input type="hidden" name="act" value="procPollAdminInsertConfig" />
+<input type="hidden" name="xe_validator_id" value="modules/poll/tpl/config/1" />
 <table class="x_table x_table-striped x_table-hover">
 	<tr>
 		<th scope="col">{$lang->skin}</th>

@@ -1,13 +1,14 @@
 <div class="x_page-header">
-	<h1>{$lang->installed_addons} <a class="x_icon-question-sign" href="./help/index.html#UMAN_advanced_installed_addon" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->installed_addons} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_advanced_installed_addon" target="_blank">{$lang->help}</a></h1>
 </div>
 <p>{$lang->about_installed_addon}</p>
 <form action="./" method="post">
 	<input type="hidden" name="module" value="addon" />
 	<input type="hidden" name="act" value="procAddonAdminSaveActivate" />
 	<input type="hidden" name="sccess_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="xe_validator_id" value="modules/addon/tpl/addon_list/1" />
 
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/addon/tpl/addon_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<table class="x_table x_table-striped x_table-hover dsTg">

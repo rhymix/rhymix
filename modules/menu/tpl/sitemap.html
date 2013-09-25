@@ -1,9 +1,8 @@
 <load target="./css/themes/classic/style.css" index="11" />
 <load target="./css/sitemap.css" index="11" />
+<load target="./css/sitemap.ie78.css" index="11" targetie="lt IE 9" />
 <load target="./js/_lib/jquery.cookie.js" />
 <load target="./js/jquery.scrollTo-1.4.2.js" />
-
-<!--script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script-->
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -23,7 +22,7 @@
 
 <!--@if($act == 'dispMenuAdminSiteMap')-->
 	<div class="col map" id="site_map">
-		<h1>{$lang->menu_gnb_sub['siteMap']} <a class="x_icon-question-sign" href="./help/index.html#UMAN_site_menu" target="_blank">{$lang->help}</a></h1>
+		<h1>{$lang->menu_gnb_sub['siteMap']} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_site_menu" target="_blank">{$lang->help}</a></h1>
 		<div class="cnt">
 			<section class="mapi" id="siteMapTree">
 				<script id="tmpl_menuTree" type="text/x-jquery-tmpl">
@@ -57,7 +56,7 @@
 		<section>
 			<h1>
 				{$lang->add_new_sitemap}
-				<a class="x_icon-question-sign" href="./help/index.html#UMAN_terminology_sitemap" target="_blank">{$lang->help}</a>
+				<a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_terminology_sitemap" target="_blank">{$lang->help}</a>
 			</h1>
 			<div class="cnt">
 				<ul class="_itemList">
@@ -109,7 +108,7 @@
 	</div>
 	<div class="col prop-general" id="properties" style="display:none;">
 		<section>
-			<h1><a href="#" target="_blank" class="title"><!--메뉴 이름--></a></h1>
+			<h1><a href="" target="_blank" class="title"><!--메뉴 이름--></a></h1>
 			<div class="cnt">
 				<ul>
 					<li class="type"><strong>{$lang->menu_type}</strong>: <span class="module_type"></span></li>
@@ -124,7 +123,7 @@
 						<label style="padding:0 0 0 8px;margin:0">
 							<input type="checkbox" class="_chkUseAsHome" hidden>
 							<span>{$lang->set_as_homepage}|{$lang->has_been_set_as_homepage}</span>
-							<a class="x_icon-question-sign" href="./help/index.html#UMAN_setting_startpage" target="_blank" style="padding:0;margin:0;background-color:transparent">{$lang->help}</a>
+							<a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_setting_startpage" target="_blank" style="padding:0;margin:0;background-color:transparent">{$lang->help}</a>
 						</label>						
 					</li>
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -348,7 +347,7 @@
 	<!--@end-->
 		<fieldset>
 			<h1 class="_item">{$lang->design}</h1>
-			<h1 class="_site">{$lang->menu_gnb_sub['siteDesign']} <a class="x_icon-question-sign" href="./help/index.html#UMAN_site_design" target="_blank">{$lang->help}</a></h1>
+			<h1 class="_site">{$lang->menu_gnb_sub['siteDesign']} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_site_design" target="_blank">{$lang->help}</a></h1>
 			<div class="cnt">
 				<form action="./" target="xe_preview" class="_preview_form" method="post">
 					<input type="hidden" name="skin_vars" value="{}"/>
@@ -360,14 +359,14 @@
 						<div class="x_tab-content">
 							<div class="x_tab-pane x_active" id="pc">
 								<div class="shadow">
-									<iframe name="_pc_preview_ifr" src="about:_blank"></iframe><i class="mask"></i>
+									<iframe name="_pc_preview_ifr" src="about:_blank"></iframe><i class="mask"><span></span></i>
 									<input type="submit" class="x_icon-zoom-in x_icon-white _pc_preview_open" value="{$lang->view_zoom}" />
 								</div>
 							</div>
 							<div class="x_tab-pane" id="mobile">
 								<label class="mvOption"><input type="checkbox" name="use_mobile" value="Y"> {$lang->use_mobile_view}</label>
 								<div class="shadow">
-									<iframe name="_mobile_preview_ifr" src="about:_blank"></iframe><i class="mask"></i>
+									<iframe name="_mobile_preview_ifr" src="about:_blank"></iframe><i class="mask"><span></span></i>
 									<input type="submit" class="x_icon-zoom-in x_icon-white _mobile_preview_open" value="{$lang->view_zoom}" />
 								</div>
 							</div>
@@ -380,7 +379,7 @@
 					</script>
 					
 					<script id="tmpl_skinItem" type="text/x-jquery-tmpl">
-					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} [<span class="themeName _skinTitle">${SkinTitle}</span>] <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#skin" data-admin-show="#skin" data-param='{ "moduleType" : "${ModuleType}"}'>${ModuleTypeTitle} [<span class="themeName _skinTitle">{{if SkinTitle}}${SkinTitle}{{else}}{$lang->no_skin}{{/if}}</span>] <i class="x_icon-circle-arrow-right"></i></a></li>
 					</script>
 				</ul>
 				<div class="btnBoth siteDesignUI">
@@ -399,7 +398,7 @@
 		<form action="">
 			<h1>
 				{$lang->layout}
-				<a class="x_icon-question-sign" href="./help/index.html#UMAN_terminology_layout" target="_blank">{$lang->help}</a>
+				<a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_terminology_layout" target="_blank">{$lang->help}</a>
 			</h1>
 			<div class="cnt">
 				<label style="white-space:nowrap;cursor:pointer;width:100%">
@@ -691,6 +690,9 @@
 	xe.lang.go_to_ftp_setup = '{$lang->go_to_ftp_setup}';
 	xe.lang.installation_completed = '{$lang->installation_completed}';
 	xe.lang.go_to_site_design_setup = '{$lang->go_to_site_design_setup}';
+	xe.lang.how_to_modify_menu = '{$lang->how_to_modify_menu}';
+	xe.lang.can_drag_menu = '{$lang->can_drag_menu}';
+	xe.lang.good_to_duplicate_layout = '{$lang->good_to_duplicate_layout}';
 	xe.lang.img_uploaded = '{$lang->img_uploaded}';
 	xe.lang.img_deleted = '{$lang->img_deleted}';
 	xe.lang.no_use_layout = '{$lang->no_use_layout}';
@@ -698,6 +700,12 @@
 	xe.lang.msg_cannot_delete_homemenu = '{$lang->msg_cannot_delete_homemenu}';
 	xe.lang.set_as_homepage = '{$lang->set_as_homepage}';
 	xe.lang.has_been_set_as_homepage = '{$lang->has_been_set_as_homepage}';
+	xe.lang.need_ftp_password = '{$lang->need_ftp_password}';
+	xe.lang.need_ftp_password_title = '{$lang->need_ftp_password_title}';
+	xe.lang.need_core_update = '{$lang->need_core_update}';
+	xe.lang.need_core_update_continue = '{$lang->need_core_update_continue}';
+	xe.lang.password = '{$lang->password}';
+	xe.lang.not_found_module = '{$lang->not_found_module}';
 </script>
 
 <!--[if IE 7]>
@@ -1134,7 +1142,7 @@ function clearInputs($elm){
 
 function setItemTypes(htTypes){
 	var $ = jQuery;
-$.test=htTypes;
+	$.test=htTypes;
 	$._xeAdminVar.htItemTypes = htTypes || {};
 
 	$._xeAdminVar.htItemTypes._SHORTCUT = {
@@ -1143,6 +1151,18 @@ $.test=htTypes;
 		description : xe.lang.shortcut_desc
 	}
 	//console.log($._xeAdminVar.htItemTypes);
+}
+
+function setAllModules(htModules){
+	var $ = jQuery;
+	$.test = htModules;
+	$._xeAdminVar.htAllModules = htModules || {};
+
+	$._xeAdminVar.htAllModules._SHORTCUT = {
+		title: xe.lang.shortcut,
+		moduleName:'',
+		description : xe.lang.shortcut_desc
+	}
 }
 
 jQuery(function($){
@@ -1179,6 +1199,7 @@ jQuery(function($){
 
 	$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
 		setItemTypes(htData.menu_types);
+		setAllModules(htData.all_modules);
 	});
 	<!--@end-->
 	
@@ -1190,6 +1211,8 @@ jQuery(function($){
 	setTimeout(function(){$('#design').show();},0);
 
 	<!--@end-->
+
+	$._xeAdminVar.htPrevSetting = {};
 	
 	$("#tmpl_noDownloadableItem").template( "noDownloadableItem" );
 	$("#tmpl_downloadableItem").template( "downloadableItem" );
@@ -1394,7 +1417,7 @@ jQuery(function($){
 
 		var sMenuId = $._htMarkupActionParam.sMenuId;
 		var htInfo = htNodeInfo[sMenuId];
-		$(ev.target).find('.title').html(htInfo.sText);
+		$(ev.target).find('.title').text(htInfo.sText);
 	});
 	$('#propertiesRoot').bind("hide", function(ev, htOpt){
 		if(htOpt && htOpt.bOpeningProp) return;
@@ -1575,16 +1598,27 @@ jQuery(function($){
 		$("#siteMapTree").addClass('_node_renaming');
 	});
 	$('#properties').bind("show", function(ev, htOpt){
+		if(ev.target != this) return;
+		if(typeof($._xeAdminVar.htAllModules) == 'undefined') return;
+		
 		$('#site_map').next().hide(null, null, null, htOpt);
 		
 		var sMenuId = $._htMarkupActionParam.sMenuId;
 		var htInfo = htNodeInfo[sMenuId];
-		$(ev.target).find('.title').html(htInfo.sText);
+		$(ev.target).find('.title').text(htInfo.sText);
 
 		$(ev.target).find('.title').attr('href', htInfo.href);
-		//$(ev.target).find('.url').html(htInfo.url);
+
+		var title = htInfo.sModuleType;
+		if($._xeAdminVar.htAllModules[htInfo.sModuleType]){
+			title = $._xeAdminVar.htAllModules[htInfo.sModuleType].title;
+		}
 		
-		$(ev.target).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
+		if(!$._xeAdminVar.htAllModules[htInfo.sModuleType]){
+			$(ev.target).find('.module_type').text(htInfo.sModuleType + '(' + xe.lang.not_found_module +')');
+		}else{
+			$(ev.target).find('.module_type').text($._xeAdminVar.htAllModules[htInfo.sModuleType].title);
+		}
 
 		if(htInfo.bShortCut){
 			$(ev.target).removeClass('prop-general');
@@ -1607,15 +1641,19 @@ jQuery(function($){
 		$.exec_json("menu.getMenuAdminDetailSetup", {
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, function(htData){
+			$('#properties ._hasFullSetupX, #properties ._hasFullSetupO').hide();
+			$('#properties').removeClass('_hasFullSetup');
+			
 			if(htData.simpleSetupHtml){
 				$('#properties').addClass('_hasFullSetup');
 				$('#fullSetup').find('._setupHTML').html(htData.simpleSetupHtml);
 				var $form = $('#fullSetup form');
 				$form.attr('target', 'submitTarget');
 				$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.fullSetupSaved"));
-			}else{
-				$('#properties').removeClass('_hasFullSetup');
+				$('#properties ._hasFullSetupO').show();
+			}else if(htData.setupUrl){
 				$._xeAdminVar.sFullSetupUrl = htData.setupUrl;
+				$('#properties ._hasFullSetupX').show();
 			}
 		});
 	}
@@ -1625,6 +1663,7 @@ jQuery(function($){
 		loadFullSetup();
 	};
 	$('#properties').bind("hide", function(ev, htOpt){
+		if(ev.target != this) return;
 		if(htOpt && htOpt.bOpeningProp) return;
 
 		if($('#propertiesRoot').is(':visible')) return;
@@ -1661,6 +1700,9 @@ jQuery(function($){
 		
 		drawDownloadableList('download');
 	});
+	$('#download').bind("after-show", function(ev){
+		scrollToRight();
+	});
 	$('#download').bind("hide", function(ev){
 	// ignore bubbled show events
 		if(this !== ev.target){
@@ -1683,12 +1725,12 @@ jQuery(function($){
 		var $description = $(this).find('._description');
 		
 		var $title = $(this).find("._title");
-		$title.html($._xeAdminVar.sSelectedModuleTitle);
-		var htItemType = $._xeAdminVar.htItemTypes[$._xeAdminVar.sSelectedModuleName];
+		$title.text($._xeAdminVar.sSelectedModuleTitle);
+		var htItemType = $._xeAdminVar.htAllModules[$._xeAdminVar.sSelectedModuleName];
 
 		var $link = $(this).find("._link");
 		
-		$description.html(htItemType.description || "");
+		$description.text(htItemType.description || "");
 		if(htItemType.package_srl && htItemType.url){
 			$link.show();
 			$link.attr('target', '_blank');
@@ -1709,19 +1751,22 @@ jQuery(function($){
 		
 		// Insert help link
 		if($._xeAdminVar.sSelectedModuleName === "ARTICLE"){
-			$title.append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_article" target="_blank">{$lang->help}</a>');
+			$title.append(' <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_article" target="_blank">{$lang->help}</a>');
 		} else if($._xeAdminVar.sSelectedModuleName === "WIDGET"){
-			$title.append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_widget" target="_blank">{$lang->help}</a>');
+			$title.append(' <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_widget" target="_blank">{$lang->help}</a>');
 		} else if($._xeAdminVar.sSelectedModuleName === "OUTSIDE"){
-			$title.append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_opage" target="_blank">{$lang->help}</a>');
+			$title.append(' <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_opage" target="_blank">{$lang->help}</a>');
 		} else if($._xeAdminVar.sSelectedModuleName === "_SHORTCUT"){
-			$title.append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_shortcut" target="_blank">{$lang->help}</a>');
+			$title.append(' <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_shortcut" target="_blank">{$lang->help}</a>');
 		}
 		
 		$(this).find('.lang_code').trigger('reload-multilingual');
 		
 		showMenuSelector($(this).find('._menuSelector_menuTreeContainer'));
 		
+	});
+	$('#add_menu').bind("after-show", function(ev){
+		scrollToRight();
 	});
 	$('#add_menu').bind("hide", function(ev){
 		if(this !== ev.target) return;
@@ -1811,9 +1856,6 @@ jQuery(function($){
 		
 		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 		
-		//$(this).find('.module_type').html($._xeAdminVar.htItemTypes[htInfo.sModuleType].title);
-		//console.log(htInfo);
-		
 		if(htInfo.sModuleType === "_SHORTCUT"){
 			$(this).addClass('url');
 			$(this).removeClass('page');
@@ -1840,7 +1882,7 @@ jQuery(function($){
 			}else{
 				// URL shortcut
 				$(this).find('a[href="#fix_linkUrl"]').click();
-				$(this).find('._url_link').val(htInfo.url);
+				$(this).find('._url_link').val($('<div />').text(htInfo.url).text());
 				
 				showMenuSelector($(this).find('._menuSelector_menuTreeContainer'));
 			}
@@ -1861,6 +1903,9 @@ jQuery(function($){
 		}
 		
 		$(this).find('.lang_code').trigger('reload-multilingual');
+	});
+	$('#default').bind("after-show", function(ev){
+		scrollToRight();
 	});
 	$('#default').bind("hide", function(ev){
 		if(this !== ev.target) return;
@@ -1945,6 +1990,9 @@ jQuery(function($){
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, BtnInfoReceived);
 	});
+	$('#imgbtn').bind("after-show", function(){
+		scrollToRight();
+	});
 	function BtnInfoReceived(htData){
 		$('#imgbtn input[name=menu_item_srl]').val(htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl);
 		
@@ -2016,6 +2064,9 @@ jQuery(function($){
 		$.exec_json("menu.getMenuAdminItemInfo", {
 			menu_item_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].sNodeSrl
 		}, PermAReceived);
+	});
+	$('#auth').bind('after-show', function(ev){
+		scrollToRight();
 	});
 	function PermAReceived(htData){
 		//console.log(1, htData);
@@ -2230,7 +2281,7 @@ jQuery(function($){
 			$List.append($node);
 			$('#auth select').trigger('change');
 		}
-		$('label[for="authtarget"]').append(' <a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_exposure_target" target="_blank">{$lang->help}</a>');
+		$('label[for="authtarget"]').append(' <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_exposure_target" target="_blank">{$lang->help}</a>');
 	}
 
 // Auth
@@ -2313,6 +2364,9 @@ jQuery(function($){
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
 		drawDownloadableList('downloadLayout', { 'type': sMode});
 	});
+	$('#downloadLayout').bind("after-show", function(ev){
+		scrollToRight();
+	});
 
 	$('#downloadSkin').bind("show", function(ev){
 	// ignore bubbled show events
@@ -2337,6 +2391,9 @@ jQuery(function($){
 			type: sMode
 		});
 		<!--@end-->
+	});
+	$('#downloadSkin').bind("after-show", function(ev){
+		scrollToRight();
 	});
 
 	//function drawMenuModuleList(nPage){
@@ -2401,8 +2458,6 @@ jQuery(function($){
 					$Panel.find('.list').append($node);
 				}
 				
-				//$Panel.find('.list').html(sResult);
-
 				var htInfo = htData.page_navigation;
 				
 				var fnCallback = function(htNewParams){
@@ -2454,6 +2509,7 @@ jQuery(function($){
 		if(nIdx === 0){
 			// PC
 			$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = false;
+			$._xeAdminVar.sOpenDeisgnWith = "P";
 			
 			$('#design').addClass('_pcMode');
 			$('#design').removeClass('_mobileMode');
@@ -2461,6 +2517,7 @@ jQuery(function($){
 		}else{
 			// mobile
 			$._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen = true;
+			$._xeAdminVar.sOpenDeisgnWith = "M";
 			
 			$('#design').removeClass('_pcMode');
 			$('#design').addClass('_mobileMode');
@@ -2484,6 +2541,10 @@ jQuery(function($){
 			
 			var sLayoutTitle, sLayoutSrl;
 			var sSkinTitle, sSkinName;
+			
+			if(htTmp.module == 'page'){
+				htTmp.module = htTmp.page_type;
+			}
 			
 			if(sMode === "P"){
 				sLayoutSrl = htTmp.layout_srl;
@@ -2529,10 +2590,10 @@ jQuery(function($){
 			}));
 			
 			// if the module type has no skin support, do not even display the option.
-			if($._xeAdminVar.htItemTypes[htInfo.sModuleType].no_skin !== "Y"){
+			if($._xeAdminVar.htAllModules[htInfo.sModuleType] && $._xeAdminVar.htAllModules[htInfo.sModuleType].no_skin !== "Y"){
 				$itemList.append($.tmpl( "deisgn_skinItem", {
 						ModuleType : htInfo.sModuleType,
-						ModuleTypeTitle : $._xeAdminVar.htItemTypes[htInfo.sModuleType].title,
+						ModuleTypeTitle : $._xeAdminVar.htAllModules[htInfo.sModuleType].title,
 						SkinTitle : sSkinTitle
 					} 
 				));
@@ -2550,9 +2611,17 @@ jQuery(function($){
 		<!--@end-->
 		
 		<!--@if($act == 'dispMenuAdminSiteDesign')-->
-			
+		
+		if(!$._xeAdminVar.htSiteDefaultLayout || !$._xeAdminVar.htSiteDefaultLayout[sMode]){
+			var $this = $(this);
+			setTimeout(function(){
+				$this.trigger('tab_change', [nIdx, $el]);
+			}, 10);
+			return false;
+		}
 		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
 			setItemTypes(htData.menu_types);
+			setAllModules(htData.all_modules);
 			
 			var sLayoutTitle = $._xeAdminVar.htSiteDefaultLayout[sMode].title;
 			$list = $('#design').find('._itemList');
@@ -2565,7 +2634,8 @@ jQuery(function($){
 				if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
 				if(sModuleName === "_SHORTCUT") continue;
 				
-				item = $._xeAdminVar.htItemTypes[sModuleName];
+				item = $._xeAdminVar.htAllModules[sModuleName];
+				if(!item) continue;
 
 				if(item.no_skin === "Y") continue;
 				
@@ -2581,6 +2651,7 @@ jQuery(function($){
 					sSkinTitle = item.defaultMobileSkin.title;
 				}
 				
+
 				$list.append($.tmpl( "deisgn_skinItem", {
 					ModuleType : sModuleName,
 					ModuleTypeTitle : sModuleTitle,
@@ -2628,7 +2699,7 @@ jQuery(function($){
 		}, function(htData){
 			$._xeAdminVar.htSiteDefaultLayout.P = {
 				layout_srl : htData.layout_srl,
-				title : htData.title
+				title : htData.layout_srl > 0 ? htData.title : xe.lang.no_use_layout
 			}
 		});
 		jQuery.exec_json("layout.getLayoutAdminSiteDefaultLayout", {
@@ -2637,7 +2708,7 @@ jQuery(function($){
 		}, function(htData){
 			$._xeAdminVar.htSiteDefaultLayout.M = {
 				layout_srl : htData.layout_srl,
-				title : htData.title
+				title : htData.layout_srl > 0 ? htData.title : xe.lang.no_use_layout
 			}
 		});
 	}
@@ -2654,6 +2725,9 @@ jQuery(function($){
 		}
 		
 		$._xeAdminVar.sOpenDeisgnWith = "P";
+	});
+	$('#design').bind("after-show", function(){
+		scrollToRight();
 	});
 	
 	$('#design .mvOption>:checkbox').change(function(){
@@ -2743,7 +2817,6 @@ jQuery(function($){
 				$('#design .x_tabbable a[href="#pc"]').click();
 			}
 			
-			$._xeAdminVar.sOpenDeisgnWith = "P";
 		//});
 	});
 	$('#design ._btn_save').click(function(ev){
@@ -2758,7 +2831,7 @@ jQuery(function($){
 			if(! $._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
 			if(sModuleName === "_SHORTCUT") continue;
 
-			item = $._xeAdminVar.htItemTypes[sModuleName];
+			item = $._xeAdminVar.htAllModules[sModuleName];
 			sModuleTitle = item.title;
 			
 			htSkins[sModuleName] = (sMode === "P") ? item.defaultSkin.skin : item.defaultMobileSkin.skin;
@@ -2785,12 +2858,16 @@ jQuery(function($){
 	$('#add').bind("show", function(){
 		fillInInstalledMenuList();
 	});
+	$('#add').bind("after-show", function(){
+		scrollToRight();
+	});
 	function fillInInstalledMenuList(){
 		$.exec_json("menu.getMenuAdminInstalledMenuType", {}, function(htData){
 			//console.log(htData);
 
 			var sResult = "";
 			setItemTypes(htData.menu_types);
+			setAllModules(htData.all_modules);
 			//$._xeAdminVar.htItemTypes = htData.menu_types;
 
 			var item;
@@ -2799,7 +2876,10 @@ jQuery(function($){
 				//item = htData.menu_types[i];
 				if(!$._xeAdminVar.htItemTypes.hasOwnProperty(sModuleName)) continue;
 				
-				item = $._xeAdminVar.htItemTypes[sModuleName];
+				item = $._xeAdminVar.htAllModules[sModuleName];
+				if(!item){
+					continue;
+				}
 				sModuleTitle = item.title;
 				//console.log(item);
 				
@@ -2811,7 +2891,6 @@ jQuery(function($){
 
 			//sResult += '<li><a href="#add_menu" data-admin-show="#add_menu"  data-param=\'{ "moduleName":"", "moduleTitle":"URL 링크" }\'>URL 링크 <i class="x_icon-circle-arrow-right"></i></a></li>';
 			$('#add ._itemList').html(sResult);
-			scrollToRight();
 		});
 	}
 	$('#design ._btn_cancel').click(function(ev){
@@ -2820,8 +2899,10 @@ jQuery(function($){
 		$('#design').show();
 	});
 	
-	$('#design').bind('hide', function(){
-		$._xeAdminVar.htPrevSetting = {};
+	$('#design').bind('hide', function(e){
+		if(e.target == this){
+			$._xeAdminVar.htPrevSetting = {};
+		}
 	});
 	function updateSelectedDesign(htDesign){
 		var sMode = $._xeAdminVar.htPrevSetting.bMobilePreviewTabOpen?"M":"P";
@@ -2851,22 +2932,26 @@ jQuery(function($){
 		var sSkinName = htDesign.sSkinName;
 		if(sSkinName == ""){
 			var sModuleType = htDesign.sModuleName==="page"?"ARTICLE":htDesign.sModuleName;
-			if($._xeAdminVar.htItemTypes[sModuleType]){
+			if($._xeAdminVar.htAllModules[sModuleType]){
 				if(sMode === "P"){
-					sSkinTitle = $._xeAdminVar.htItemTypes[sModuleType].defaultSkin.title;
+					sSkinTitle = $._xeAdminVar.htAllModules[sModuleType].defaultSkin.title;
 				}else{
-					sSkinTitle = $._xeAdminVar.htItemTypes[sModuleType].defaultMobileSkin.title;
+					sSkinTitle = $._xeAdminVar.htAllModules[sModuleType].defaultMobileSkin.title;
 				}
 			}
 		}
 		
-		$('#design ._layoutName').html(sLayoutTitle);
+		if(!sSkinTitle){
+			sSkinTitle = '{$lang->no_skin}';
+		}
+		
+		$('#design ._layoutName').text(sLayoutTitle);
 		
 		<!--@if($act == 'dispMenuAdminSiteMap')-->
-		$('#design ._skinTitle').html(sSkinTitle);
+		$('#design ._skinTitle').text(sSkinTitle);
 		<!--@end-->
 		<!--@if($act == 'dispMenuAdminSiteDesign')-->
-		$('#design .active ._skinTitle').html(sSkinTitle);
+		$('#design .active ._skinTitle').text(sSkinTitle);
 		<!--@end-->
 		
 		updatePreview(htDesign);
@@ -2890,7 +2975,34 @@ jQuery(function($){
 		$('._preview_form').submit();
 		
 		$('._preview_form').attr('target', "xe_preview");
+
+		var $iframe = $("iframe[name="+sTarget+"]");
+		var $container = $iframe.next('i');
+		var $text = $container.children('span');
+		var $zoom = $container.next('input');
+		$text.hide();
+		$container.removeClass('on_message');
+		$zoom.hide();
+		$container.addClass('loading');
 	}
+
+	$('iframe[name=_pc_preview_ifr], iframe[name=_mobile_preview_ifr]').bind("load", function(){
+		var $this = $(this);
+		var $errElm = $('#preview_error', $this.contents());
+		var message = $errElm.text();
+		var $container = $this.next('i');
+		var $text = $container.children('span');
+		var $zoom = $container.next('input');
+
+		if($errElm.length){
+			$text.text(message).show();
+			$container.addClass('on_message');
+			$container.removeClass('loading');
+		}else{
+			$zoom.show();
+			$container.removeClass('loading');
+		}
+	});
 	
 	$('._pc_preview_open').click(function(ev){
 		window.open($('input[name=_pc_preview_ifr]').attr('src'), "xe_preview", "resizable=yes,width=" + jQuery('body').width() + ",height=" + jQuery('body').height());
@@ -2942,6 +3054,9 @@ jQuery(function($){
 
 		//updateLayoutListDisplayStatus();
 		//loadInstalledLayoutList("P");
+	});
+	$('#layout').bind("after-show", function(ev){
+		scrollToRight();
 	});
 	$('#layout .list').on('show', function(){
 
@@ -3112,10 +3227,12 @@ jQuery(function($){
 		$thumbnail.css('border', '1px solid #888');
 		$thumbnail.css('padding', '3px');
 		
+		var $text = $('<div style="float:right;width:240px;text-align:left"></div>');
+		$text.text($label.text());
 		$.xeMsgBox.confirmDialog({
 			sTitle : xe.lang.confirm_delete,
 
-			sText : $thumbnail.outerHTML() + '<div style="float:right;width:240px;text-align:left">' + $label.text() + '</div>',
+			sText : $thumbnail.outerHTML() + $text.html(),
 			
 			bSmall: true,
 			
@@ -3150,6 +3267,7 @@ jQuery(function($){
 		var sLayoutTitle = $(this).closest('li').data('LayoutTitle');
 		htDesign.sLayoutSrl = sLayoutSrl;
 		htDesign.sLayoutTitle = sLayoutTitle;
+		//htDesign.sModuleName = '';
 		
 		updateSelectedDesign(htDesign);
 	})
@@ -3169,18 +3287,10 @@ jQuery(function($){
 			
 			var $configForm = $('#config_form');
 			$configForm.on('submit', function(ev){
-				var htData = {};
-				var sKey, sValue;
-				$(this).find('input').each(function(){
-					sKey = $(this).attr('name');
-					sValue = $(this).val();
-					htData[sKey] = sValue;
-				});
-//				console.log(htData);
 				ev.preventDefault();
 				
 				var sUrl = $('#config_form').attr('action');
-				$.post( sUrl, htData,
+				$.post( sUrl, $(this).serialize(),
 					function( strRes ) {
 						var htData = $.parseJSON(strRes);
 						
@@ -3193,6 +3303,9 @@ jQuery(function($){
 			scrollToRight();
 		});
 	})
+	$('#layoutSetup').bind('after-show', function(ev){
+		scrollToRight();
+	});
 	top.refreshLayoutList = function(htData){
 		$('#layout').show();
 	}
@@ -3245,8 +3358,12 @@ jQuery(function($){
 					}
 				);
 			})
+			
 			scrollToRight();
 		});
+	});
+	$('#layoutMarkupSetup').on('after-show', function(ev){
+		scrollToRight();
 	});
 	
 	function doDelete(sMenuSrl, bForce, sSelectOnload){
@@ -3350,11 +3467,11 @@ jQuery(function($){
 		
 		<!--@if($act == 'dispMenuAdminSiteDesign')-->
 		if(sMode == "P"){
-			htDesign.sSkinName = $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultSkin.skin;
-			htDesign.sSkinTitle = $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultSkin.title;
+			htDesign.sSkinName = $._xeAdminVar.htAllModules[$._htMarkupActionParam.moduleType].defaultSkin.skin;
+			htDesign.sSkinTitle = $._xeAdminVar.htAllModules[$._htMarkupActionParam.moduleType].defaultSkin.title;
 		}else{
-			htDesign.sSkinName = $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.skin;
-			htDesign.sSkinTitle = $._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.title;
+			htDesign.sSkinName = $._xeAdminVar.htAllModules[$._htMarkupActionParam.moduleType].defaultMobileSkin.skin;
+			htDesign.sSkinTitle = $._xeAdminVar.htAllModules[$._htMarkupActionParam.moduleType].defaultMobileSkin.title;
 		}
 		<!--@end-->
 		
@@ -3367,6 +3484,9 @@ jQuery(function($){
 		
 		$('#skin .list').show();
 		//updateSkinListDisplayStatus();
+	});
+	$('#skin').on('after-show', function(ev){
+		scrollToRight();
 	});
 	$('#skin').on('hide', function(ev){
 		if(this !== ev.target){
@@ -3450,11 +3570,11 @@ jQuery(function($){
 				//console.log(htDesign.sSkinName);
 
 				// if nothing is selected, select the first one.
-				sTmpName = htDesign.sTmpSkinName || sName;
+				//sTmpName = htDesign.sTmpSkinName || sName;
 				//console.log(22, sTmpName);
-				if(!htDesign.sSkinName){
-					htDesign.sSkinName = sTmpName;
-				}
+				//if(!htDesign.sSkinName){
+				//	htDesign.sSkinName = sTmpName;
+				//}
 				
 				htInfo = htData.skin_info_list[sName];
 			//for(var i=0, nLen=htData.skin_info_list.length; i<nLen; i++){
@@ -3463,7 +3583,11 @@ jQuery(function($){
 
 				sSelected = "";
 				//console.log(33, sTmpName, sName, htDesign.sSkinName, htInfo.sName);
-				if(htDesign.sSkinName == htInfo.sName){
+				var sSkinName = htDesign.sSkinName;
+				if(!sSkinName){
+					sSkinName = sType == 'P' ? $._xeAdminVar.htAllModules[htDesign.sModuleName].defaultSkin.skin : $._xeAdminVar.htAllModules[htDesign.sModuleName].defaultMobileSkin.skin;
+				}
+				if(sSkinName == htInfo.sName){
 					//htDesign.sTmpSkinName = "";
 					
 					sSelectedSkinName = htInfo.sName;
@@ -3511,11 +3635,11 @@ jQuery(function($){
 		
 		<!--@if($act == 'dispMenuAdminSiteDesign')-->
 		if(sMode == "P"){
-			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultSkin.skin = sSkinName;
-			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultSkin.title = sSkinTitle;
+			$._xeAdminVar.htAllModules[$._htMarkupActionParam.moduleType].defaultSkin.skin = sSkinName;
+			$._xeAdminVar.htAllModules[$._htMarkupActionParam.moduleType].defaultSkin.title = sSkinTitle;
 		}else{
-			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.skin = sSkinName;
-			$._xeAdminVar.htItemTypes[$._htMarkupActionParam.moduleType].defaultMobileSkin.title = sSkinTitle;
+			$._xeAdminVar.htAllModules[$._htMarkupActionParam.moduleType].defaultMobileSkin.skin = sSkinName;
+			$._xeAdminVar.htAllModules[$._htMarkupActionParam.moduleType].defaultMobileSkin.title = sSkinTitle;
 		}
 		<!--@end-->
 		
@@ -3532,7 +3656,10 @@ jQuery(function($){
 		if(this !== ev.target)  return;
 		
 		$(this).find('.lang_code').xeApplyMultilingualUI();
-		console.log($(this).find('.lang_code'));
+// 		console.log($(this).find('.lang_code'));
+	});
+	$('#fullSetup').bind("after-show", function(ev){
+		scrollToRight();
 	});
 	//.//
 	$('#fullSetup ._save').click(function(ev){
@@ -3543,9 +3670,9 @@ jQuery(function($){
 	d365.setTime(d365.getTime() + 60*60*24*356);
 	var $quickHelp = $("._quick_help");
 	var htQuickHelpMsg = {
-		'how_to_modify_menu' : '생성한 메뉴는 [메뉴 수정]에서 수정 할 수 있습니다.',
-		'can_drag_menu' : '사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.',
-		'good_to_duplicate_layout' : '레이아웃 설정 변경 시, [복사본 생성] 버튼을 눌러 복사본을 만들어 설정을 변경 하는 것이 좋습니다.',
+		'how_to_modify_menu' : xe.lang.how_to_modify_menu,
+		'can_drag_menu' : xe.lang.can_drag_menu,
+		'good_to_duplicate_layout' : xe.lang.good_to_duplicate_layout,
 		'img_uploaded' : xe.lang.img_uploaded,
 		'img_deleted' : xe.lang.img_deleted
 	};
@@ -3597,7 +3724,7 @@ jQuery(function($){
 						sText : xe.lang.go_to_ftp_setup,
 						bSmall : true,
 						fnOnOK : function(){
-							var sSuccessReturnURL = window.location.href.replace(/#.*$/, "")+"&continue_install_package="+sPackageSrl+"&continue_install_package_type="+sPackageType;
+							var sSuccessReturnURL = current_url.setQuery('continue_install_package', sPackageSrl).setQuery('continue_install_package_type', sPackageType);
 							window.location.href="./?module=admin&act=dispAdminConfigFtp&success_return_url="+Base64.encode(sSuccessReturnURL);
 						}
 					}
@@ -3608,14 +3735,20 @@ jQuery(function($){
 				case 0:
 				$.xeMsgBox.confirmDialog(
 					{
-						sTitle : 'FTP 계정 정보가 필요 합니다.',
-						sText : 'FTP 비밀번호: <input type="password"/>',
+						sTitle : xe.lang.need_ftp_password,
+						sText :  xe.lang.password + ': <input type="password"/>',
 						bSmall : true,
 						fnOnOK : function(){
 							var sPw = $.xeMsgBox.$msgBox.find('input[type="password"]').val();
 							setTimeout(function(){
-								doInstallPackage(sPackageSrl, sPackageType, sPw, $item);
+								getInstallInfo(sPackageSrl, sPackageType, sPw, $item);
 							}, 0);
+						},
+						fnOnCancel: function(){
+							if($._xeAdminVar.isFromFtpSetup){
+								window.location = current_url.setQuery('continue_install_package', '').setQuery('continue_install_package_type', '');
+								$._xeAdminVar.isFromFtpSetup = false;
+							}
 						}
 					}
 				);
@@ -3626,8 +3759,39 @@ jQuery(function($){
 				break;
 			}
 
-			doInstallPackage(sPackageSrl, sPackageType, ".", $item);
+			getInstallInfo(sPackageSrl, sPackageType, ".", $item);
 		});
+	}
+
+	function getInstallInfo(sPackageSrl, sPackageType, sPw, $item){
+		// get install info
+		$.exec_json('autoinstall.getAutoInstallAdminInstallInfo', {
+			package_srl: sPackageSrl
+		}, function(htData){
+			if(!htData) return;
+
+			// check contain core.
+			if(htData.package.contain_core){
+				$.xeMsgBox.confirmDialog(
+					{
+						sTitle : xe.lang.need_core_update,
+						sText : xe.lang.need_core_update_continue,
+						bSmall : true,
+						fnOnOK : function(){
+							setTimeout(function(){
+								doInstallPackage(htData.package.package_srl, sPackageType, sPw, $item);
+							}, 0);
+						}
+					}
+				);
+				
+				return;
+			}
+
+			// pass all packagesrls
+			doInstallPackage(htData.package.package_srl, sPackageType, sPw, $item);
+		});
+		return;
 	}
 	
 	function doInstallPackage(sPackageSrl, sPackageType, sPw, $item){
@@ -3636,7 +3800,7 @@ jQuery(function($){
 			downloadLayout: fillInInstalledLayoutList,
 			downloadSkin: fillInInstalledSkinList
 		};
-		
+
 		//showFoggy();
 		$.xeFoggy.show(true);
 		
@@ -3653,7 +3817,27 @@ jQuery(function($){
 				htFunc[sPackageType]();
 			}
 			
-			$.xeMsgBox.alert(xe.lang.installation_completed);
+			$.xeMsgBox.alertDialog({
+				sText: xe.lang.installation_completed,
+				bNobody : true,
+				bSmall: true,
+				fnOnShow: function(){
+					if($._xeAdminVar.isFromFtpSetup){
+						setTimeout(function(){ window.location = current_url.setQuery('continue_install_package', '').setQuery('continue_install_package_type', ''); }, 500);
+						$._xeAdminVar.isFromFtpSetup = false;
+					}else{
+						setTimeout(function(){ $.xeMsgBox.$msgBox.find("._ok").trigger('click') }, 500);
+					}
+				}
+			});
+		}, function(htData){
+			$.xeMsgBox.htOptions.fnOnHide = function(){
+				if($._xeAdminVar.isFromFtpSetup){
+					window.location = current_url.setQuery('continue_install_package', '').setQuery('continue_install_package_type', '');
+					$._xeAdminVar.isFromFtpSetup = false;
+				}
+			}
+			$.xeFoggy.hide();
 		});
 	}
 	top.fullSetupDone = function(htData){
@@ -3689,24 +3873,68 @@ jQuery(function($){
 		$.xeMsgBox.alert(xe.lang.go_to_site_design_setup);
 	});
 // Set #site height fix
-	$(window).resize(function(){
-		var wHeigh = $(window).height();
-		$('#site').height(wHeigh - 145).find('>.col').height(wHeigh - 185).find('.cnt').height(wHeigh - 252);
-		$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').height(wHeigh - 222);
+	<!--@if(Mobile::isMobileCheckByAgent())-->
+		$._xeAdminVar.prevColumn = new Array();
+		$._xeAdminVar.prevColumn.push($('#site_map'));
+		$('#site').css({ 'display': 'inline-block', 'min-width': '100%'});
+		$('#site_map').css('display', 'inline-block');
+		$('#site > .col').css({
+			'box-sizing': 'border-box',
+			'-moz-box-sizing': 'border-box',
+			'-webkit-box-sizing': 'border-box',
+			'width': '100%',
+			'margin': 0
+		});
+		$('#site > .col .cnt').css('margin-bottom', '25px');
+		$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').css('margin-bottom', '25px');
 
+		var wHeigh = $(window).height();
 		<!--@if($act == 'dispMenuAdminSiteMap')-->
-		$('#design').find('.cnt').height(wHeigh - 222);
+		//$('#design').find('.cnt').height(wHeigh - 75);
 		<!--@end-->
 		
 		<!--@if($act == 'dispMenuAdminSiteDesign')-->
-		$('#layout, #skin').find('.cnt').height(wHeigh - 222);
+		//$('#layout, #skin').find('.cnt').height(wHeigh - 75);
 		<!--@end-->
-	}).resize();
+
+		$('#site > .col').bind('show', function(ev){
+			if(ev.target != this) return;
+			$(this).css('display', 'inline-block').siblings().css('display', 'none');
+			$._xeAdminVar.prevColumn.push(this);
+		});
+		$('#site > .col').bind('after-show', function(ev){
+			if(ev.target != this) return;
+			
+		});
+		$('#site > .col').bind('hide', function(ev){
+			if(ev.target != this) return;
+			if($._xeAdminVar.prevColumn[$._xeAdminVar.prevColumn.length - 1] != this) return;
+			$._xeAdminVar.prevColumn.pop();
+			var $prev = $($._xeAdminVar.prevColumn[$._xeAdminVar.prevColumn.length - 1]);
+			$prev.css('display', 'inline-block');
+		});
+	<!--@else-->
+		$(window).resize(function(){
+			var wHeigh = $(window).height();
+			
+			$('#site').height(wHeigh - 147).find('>.col').height(wHeigh - 185).find('.cnt').height(wHeigh - 252);
+			$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').height(wHeigh - 222);
+
+			<!--@if($act == 'dispMenuAdminSiteMap')-->
+			$('#design').find('.cnt').height(wHeigh - 222);
+			<!--@end-->
+			
+			<!--@if($act == 'dispMenuAdminSiteDesign')-->
+			$('#layout, #skin').find('.cnt').height(wHeigh - 222);
+			<!--@end-->
+		}).resize();
+	<!--@end-->
 
 	var sPackageSrl = getParameterByName('continue_install_package');
 	var sPackageType = getParameterByName('continue_install_package_type');
 	if(sPackageSrl && sPackageType){
-		doInstallPackage(sPackageSrl, sPackageType, ".", null);
+		$._xeAdminVar.isFromFtpSetup = true;
+		installPackage(sPackageSrl, sPackageType, null);
 	}
 
 });

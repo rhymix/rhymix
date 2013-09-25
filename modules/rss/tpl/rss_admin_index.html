@@ -1,7 +1,7 @@
 <div class="x_page-header">
-	<h1>RSS <a class="x_icon-question-sign" href="./help/index.html#UMAN_content_rss" target="_blank">{$lang->help}</a></h1>
+	<h1>RSS <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_content_rss" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/rss/tpl/rss_admin_index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
@@ -9,6 +9,7 @@
 	<form ruleset="insertRssConfig" action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 		<input type="hidden" name="module" value="rss" />
 		<input type="hidden" name="act" value="procRssAdminInsertConfig" />
+		<input type="hidden" name="xe_validator_id" value="modules/rss/tpl/rss_admin_index/1" />
 		<div class="x_control-group">
 			<div class="x_control-label">{$lang->url}</div>
 			<div class="x_controls" style="padding-top:5px"><a href="{getFullSiteUrl()}rss" target="_blank">{getFullSiteUrl()}rss</a></div>
@@ -43,19 +44,9 @@
 			
 			<!--@if($total_config->image)-->
 			<div class="_rss_image_container">
-				<!--
-				<img src="../../../{$total_config->image}" alt="image" />
-				<input type="checkbox" name="del_image" value="Y" id="del_image" />
-				<label for="del_image">{$lang->cmd_delete}</label>
-				-->
 				<div class="x_thumbnail" cond="$total_config->image" style="display:inline-block;margin:0 0 5px 0"> 
 					<img src="../../../{$total_config->image}" alt="image" style="max-width:210px;max-height:150px" />
-
-					<!--
-					<label for="del_image" class="x_caption" style="padding:5px 0 0 0;margin:0"><input type="checkbox" name="del_image" value="Y" id="del_image" /> {$lang->cmd_delete}</label>
-					-->
-
-					<input type="button" class="_delete_rss_image" value="{$lang->cmd_delete}" />
+					<input type="button" class="_delete_rss_image x_icon-remove" value="{$lang->cmd_delete}" style="width:14px" />
 				</div>
 				
 			</div>
@@ -72,7 +63,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="feed_document_count">{$lang->feed_document_count}</label>
 			<div class="x_controls">
-				<input type="number" min="1" max="100" name="feed_document_count" value="{$total_config->feed_document_count}" id="feed_document_count" style="width:50px" />
+				<input type="number" min="1" max="100" name="feed_document_count" value="{$total_config->feed_document_count}" id="feed_document_count" />
 			</div>
 		</div>
 		<div class="btnArea x_clearfix">
@@ -85,6 +76,7 @@
 	<form action="./" method="post">
 		<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
 		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', 'dispRssAdminIndex')}" />
+		<input type="hidden" name="xe_validator_id" value="modules/rss/tpl/rss_admin_index/1" />
 		<table class="x_table x_table-striped x_table-hover" style="border-top:0;margin-top:0">
 			<thead>
 				<tr>

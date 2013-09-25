@@ -225,6 +225,10 @@ class autoinstallModel extends autoinstall
 		$args->page = $page;
 		$args->list_count = 10;
 		$args->page_count = 5;
+		if(Context::getDBType() == 'mssql')
+		{
+			$args->sort_index = 'package_srl';
+		}
 		$output = executeQueryArray("autoinstall.getInstalledPackageList", $args);
 		$res = array();
 		if($output->data)
@@ -282,6 +286,7 @@ class autoinstallModel extends autoinstall
 			case "addon":
 			case "layout":
 			case "widget":
+			case 'theme': // for backward compatibility
 				$config_file = "/conf/info.xml";
 				break;
 			case "component":

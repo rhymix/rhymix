@@ -12,7 +12,7 @@
 
 <div id="poll_{$poll->poll_srl}" style="{$poll->style}">
 
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
     <form ruleset="poll" action="./" method="post" onsubmit="return doPoll(this)">
@@ -22,6 +22,7 @@
     <input type="hidden" name="poll_srl_indexes" value="" />
     <input type="hidden" name="skin" value="{$skin}" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="xe_validator_id" value="modules/poll/skins/default/form/1" />
     <table cellspacing="0" class="poll_table">
     <col width="7" />
     <col />

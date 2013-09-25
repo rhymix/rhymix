@@ -3,7 +3,7 @@
 	<h1>
 		{$lang->page_management}
 		<span class="path" cond="$module_info->mid">
-			&gt; <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank">{$module_info->mid}</a><block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
+			&gt; <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank"|cond="$module=='admin'">{$module_info->mid}</a><block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
 		</span>
 		<a href="#aboutPage" class="x_icon-question-sign" data-toggle cond="!$module_info->mid"></a>
 	</h1>

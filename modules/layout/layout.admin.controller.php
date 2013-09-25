@@ -292,7 +292,7 @@ class layoutAdminController extends layout
 			$layoutInfo = $oLayoutModel->getLayout($layout_srl);
 			if($layoutInfo)
 			{
-				$layoutList = $oLayoutModel->getLayoutInstanceList($layoutInfo->site_srl, $layoutInfo->layout_type, $layoutInfo->layout, array('layout_srl'));
+				$layoutList = $oLayoutModel->getLayoutInstanceList($layoutInfo->site_srl, $layoutInfo->layout_type, $layoutInfo->layout, array('layout_srl', 'layout'));
 				if(count($layoutList) <= 1)
 				{
 					// uninstall package
@@ -304,11 +304,16 @@ class layoutAdminController extends layout
 
 					if($packageSrl)
 					{
-						$oAutoinstallAdminController->uninstallPackageByPackageSrl($packageSrl);
+						$output = $oAutoinstallAdminController->uninstallPackageByPackageSrl($packageSrl);
 					}
 					else
 					{
-						$oAutoinstallAdminController->uninstallPackageByPath($path);
+						$output = $oAutoinstallAdminController->uninstallPackageByPath($path);
+					}
+
+					if(!$output->toBool())
+					{
+						return new Object(-1, $output->message);
 					}
 				}
 			}
@@ -736,6 +741,17 @@ class layoutAdminController extends layout
 		$args = new stdClass();
 		$args->extra_vars = $output->extra_vars;
 		$extra_vars = unserialize($args->extra_vars);
+		
+		if($layout->extra_var_count) {
+			$reg = "/^.\/files\/attach\/images\/([0-9]+)\/(.*)/";
+			foreach($extra_vars as $key => $val) {
+				if($layout->extra_var->{$key}->type == 'image') {
+					if(!preg_match($reg,$val,$matches)) continue;
+					$image_list[$key]->filename = $matches[2];
+					$image_list[$key]->old_file = $val;
+				}
+			}
+		}
 
 		$oModuleController = &getController('module');
 		$layout_config = new stdClass();
@@ -744,7 +760,7 @@ class layoutAdminController extends layout
 		// Get information to create a layout
 		$args->site_srl = (int)$layout->site_srl;
 		$args->layout = $layout->layout;
-		$args->layout_type = $layout->type;
+		$args->layout_type = $layout->layout_type;
 		if(!$args->layout_type) $args->layout_type = "P";
 
 		$oDB = &DB::getInstance();
@@ -761,6 +777,15 @@ class layoutAdminController extends layout
 
 				$args->layout_srl = getNextSequence();
 				$args->title = $value;
+
+				if(is_array($image_list)) {
+					foreach($image_list as $key=>$val) {
+						$new_file = sprintf("./files/attach/images/%s/%s", $args->layout_srl,$val->filename);
+						FileHandler::copyFile($val->old_file, $new_file);
+						$extra_vars->{$key} = $new_file;
+					}
+					$args->extra_vars = serialize($extra_vars);
+				}
 
 				// for header script
 				$oModuleController->insertModulePartConfig('layout', $args->layout_srl, $layout_config);

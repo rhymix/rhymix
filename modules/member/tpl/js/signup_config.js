@@ -39,29 +39,36 @@ jQuery(function($){
 	// hide form if enable_join is setted "No" 
 	var suForm = $('table.__join_form'); // 회원가입 양식
 
-	suForm.find(':checkbox[name="usable_list[]"]').each(function(){
-		var $i = $(this);
-		$i.change(function(){
+	function changeTable($i)
+	{
 			if($i.is(':checked')){
-				$i.parent('td').next('td')
+				$i.parent('td').next('td').next('td')
 					.find('>._subItem').show().end()
 					.find(':radio, [type="number"]')
 						.removeAttr('disabled')
 						.end()
 					.find(':radio[value=option]').attr('checked', 'checked')
 						.end()
-					.next('td')
+					.prev('td')
 					.find(':input[value=Y]').removeAttr('disabled').attr('checked', 'checked');
 				
 			} else {
-				$i.parent('td').next('td')
+				$i.parent('td').next('td').next('td')
 					.find('>._subItem').hide().end()
 					.find(':radio, [type="number"]').attr('disabled','disabled').removeAttr('checked')
 						.next('label').css('fontWeight','normal').end()
 						.end()
-					.next('td')
+					.prev('td')
 					.find(':input[value=Y]').removeAttr('checked').attr('disabled', 'disabled');
 			}
+
+	}
+
+	suForm.find(':checkbox[name="usable_list[]"]').each(function(){
+		var $i = $(this);
+
+		$i.change(function(){
+			changeTable($i);
 		});
 	});
 
@@ -119,7 +126,7 @@ jQuery(function($){
 			if(userIds == '') return;
 			var uids = userIds.split(',');
 			for (var i=0; i<uids.length; i++){
-				tag = '<li id="denied_'+uids[i]+'">'+uids[i]+' <a href="#" class="side" onclick="doUpdateDeniedID(\''+uids[i]+'\', \'delete\', \''+xe.lang.confirm_delete+'\');return false;">'+xe.lang.cmd_delete+'</a></li>';
+				tag = '<li id="denied_'+uids[i]+'">'+uids[i]+' <button type="button" class="x_icon-remove" onclick="doUpdateDeniedID(\''+uids[i]+'\',\'delete\',\''+xe.lang.confirm_delete+'\');return false;">'+xe.lang.cmd_delete+'</button></li>';
 				$('#deniedList').append($(tag));
 			}
 			$('#prohibited_id').val('');
@@ -152,7 +159,7 @@ jQuery(function($){
 			var uids = nickNames.split(',');
 			for (var i=0; i<uids.length; i++)
 			{
-				tag = '<li id="denied_'+uids[i]+'">'+uids[i]+' <a href="#" class="side" onclick="doUpdateDeniedNickName(\''+uids[i]+'\', \'delete\', \''+xe.lang.confirm_delete+'\');return false;">'+xe.lang.cmd_delete+'</a></li>';
+				tag = '<li id="denied_'+uids[i]+'">'+uids[i]+' <button type="button" class="x_icon-remove" onclick="doUpdateDeniedNickName(\''+uids[i]+'\',\'delete\',\''+xe.lang.confirm_delete+'\');return false;">'+xe.lang.cmd_delete+'</button></li>';
 				$('#deniedNickNameList').append($(tag));
 			}
 
@@ -205,4 +212,8 @@ jQuery(function($){
 		else return true;
 	});
 
+	$('.__redirect_url_btn').click(function(e){
+		$(this).parent().find('input[name=redirect_url]').val('');
+		$(this).parent().find('input[type=text]').val('');
+	});
 });

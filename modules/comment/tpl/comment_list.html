@@ -3,7 +3,7 @@
 xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/comment/tpl/comment_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="post">
@@ -46,9 +46,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		</thead>
 		<tbody>
 			<tr loop="$comment_list => $no, $val">
-				{@ $comment = cut_str(trim(strip_tags($val->content)), 200, '...')}
+				{@ $comment = $val->getContentText(200)}
 				<td><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
-				<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+				<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->getNickName()}</a></td>
 				<td class="nowr">{number_format($val->get('voted_count'))}/{number_format($val->get('blamed_count'))}</td>
 				<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
 				<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
@@ -122,7 +122,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</select>
 	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
 	<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
-	<button class="x_btn" type="button" onclick="document.location.href='{getUrl('','module',$module,'act',$act)}'">{$lang->cmd_cancel}</button>
+	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 </form>
 
 <form ruleset="deleteChecked" action="./" method="post" class="x_modal x" id="listManager">
@@ -133,6 +133,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="will_publish" value="0" />
 	<input type="hidden" name="search_target" value="{$search_target}" />
 	<input type="hidden" name="search_keyword" value="{$search_keyword}" />
+	<input type="hidden" name="xe_validator_id" value="modules/comment/tpl/comment_list/1" />
 	<div class="x_modal-header">
 		<h1>{$lang->comment_manager}: <span class="_sub"></span></h1>
 	</div>
@@ -174,10 +175,10 @@ jQuery(function($){
 		}
 	}).change();
 	// Button action
-	$('a[data-value]').click(function(){
+	$('a[data-value]').bind('before-open.mw', function(){
 		if($docTable.find('tbody :checked').length == 0){
 			$('body').css('overflow','auto');
-			alert('{$lang->msg_not_selected_document}');
+			alert('{$lang->msg_not_selected_comment}');
 			return false;
 		} else {
 			var $this = $(this);

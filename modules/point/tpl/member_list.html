@@ -1,6 +1,6 @@
 <include target="header.html" />
 <load target="js/point_admin.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/point/tpl/member_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <p>{$lang->about_point_module} {$lang->point_update_desc}</p>
@@ -26,7 +26,7 @@
 					<option loop="$lang->search_target_list => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 				</select>
 				<span class="x_input-append">
-					<input type="search" required name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
+					<input type="search" required name="search_keyword" required value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
 					<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 					<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 				</span>
@@ -52,6 +52,7 @@
 				<form action="./" method="get" style="margin:0">
 					<input type="hidden" name="module" value="point" />
 					<input type="hidden" name="member_srl" value="{$val->member_srl}" />
+					<input type="hidden" name="xe_validator_id" value="modules/point/tpl/member_list/1" />
 					<input type="text" name="orgpoint" value="{$val->point}" disabled="disabled" style="width:40px;text-align:right" />
 					-&gt;
 					<span class="x_input-append">
@@ -127,7 +128,7 @@
 				<option loop="$lang->search_target_list => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 			</select>
 			<span class="x_input-append">
-				<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
+				<input type="search" name="search_keyword" required value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
 				<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 				<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 			</span>
@@ -140,5 +141,6 @@
 	<input type="hidden" name="act" value="procPointAdminUpdatePoint" />
     <input type="hidden" id="update_member_srl" name="member_srl" value="" />
     <input type="hidden" id="update_point" name="point" />
+	<input type="hidden" name="xe_validator_id" value="modules/point/tpl/member_list/1" />
 </form>
 

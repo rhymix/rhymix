@@ -272,6 +272,8 @@ class autoinstallAdminView extends autoinstall
 			}
 
 			Context::set('installed', $installed);
+			$oSecurity = new Security();
+			$oSecurity->encodeHTML('installed..');
 
 			foreach($installed as $key => $val)
 			{
@@ -354,85 +356,11 @@ class autoinstallAdminView extends autoinstall
 			return $this->dispAutoinstallAdminIndex();
 		}
 
-		$params["act"] = "getResourceapiInstallInfo";
-		$params["package_srl"] = $package_srl;
-		$xmlDoc = XmlGenerater::getXmlDoc($params);
-		$oModel = getModel('autoinstall');
+		$oAdminModel = getAdminModel('autoinstall');
+		$package = $oAdminModel->getInstallInfo($package_srl);
 
-		$targetpackages = array();
-		if($xmlDoc)
-		{
-			$xmlPackage = & $xmlDoc->response->package;
-			$package = new stdClass();
-			$package->package_srl = $xmlPackage->package_srl->body;
-			$package->title = $xmlPackage->title->body;
-			$package->package_description = $xmlPackage->package_description->body;
-			$package->version = $xmlPackage->version->body;
-			$package->path = $xmlPackage->path->body;
-			if($xmlPackage->depends)
-			{
-				if(!is_array($xmlPackage->depends->item))
-				{
-					$xmlPackage->depends->item = array($xmlPackage->depends->item);
-				}
-
-				$package->depends = array();
-				foreach($xmlPackage->depends->item as $item)
-				{
-					$dep_item = new stdClass();
-					$dep_item->package_srl = $item->package_srl->body;
-					$dep_item->title = $item->title->body;
-					$dep_item->version = $item->version->body;
-					$dep_item->path = $item->path->body;
-					$package->depends[] = $dep_item;
-					$targetpackages[$dep_item->package_srl] = 1;
-				}
-
-				$packages = $oModel->getInstalledPackages(array_keys($targetpackages));
-				$package->deplist = "";
-				foreach($package->depends as $key => $dep)
-				{
-					if(!$packages[$dep->package_srl])
-					{
-						$package->depends[$key]->installed = FALSE;
-						$package->package_srl .= "," . $dep->package_srl;
-					}
-					else
-					{
-						$package->depends[$key]->installed = TRUE;
-						$package->depends[$key]->cur_version = $packages[$dep->package_srl]->current_version;
-						if(version_compare($dep->version, $packages[$dep->package_srl]->current_version, ">"))
-						{
-							$package->depends[$key]->need_update = TRUE;
-							$package->package_srl .= "," . $dep->package_srl;
-
-							if($dep->path === '.')
-							{
-								Context::set('contain_core', TRUE);
-							}
-						}
-						else
-						{
-							$package->need_update = FALSE;
-						}
-					}
-				}
-			}
-
-			$installedPackage = $oModel->getInstalledPackage($package_srl);
-			if($installedPackage)
-			{
-				$package->installed = TRUE;
-				$package->cur_version = $installedPackage->current_version;
-				$package->need_update = version_compare($package->version, $installedPackage->current_version, ">");
-			}
-			Context::set("package", $package);
-
-			if($package->path === '.')
-			{
-				Context::set('contain_core', TRUE);
-			}
-		}
+		Context::set("package", $package);
+		Context::set('contain_core', $package->contain_core);
 
 		if(!$_SESSION['ftp_password'])
 		{
@@ -545,7 +473,7 @@ class autoinstallAdminView extends autoinstall
 		}
 
 		$security = new Security();
-		$security->encodeHTML('package.', 'package.depends..');
+		$security->encodeHTML('package.', 'package.depends..', 'item_list..');
 	}
 
 	/**

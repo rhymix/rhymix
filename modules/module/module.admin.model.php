@@ -54,8 +54,33 @@ class moduleAdminModel extends module
 		return $output;
 	}
 
-	function getSelectedManageHTML($grantList, $tabChoice = array())
+	function getSelectedManageHTML($grantList, $tabChoice = array(), $modulePath = NULL)
 	{
+		if($modulePath)
+		{
+			// get the skins path
+			$oModuleModel = &getModel('module');
+			$skin_list = $oModuleModel->getSkins($modulePath);
+			Context::set('skin_list',$skin_list);
+
+			$mskin_list = $oModuleModel->getSkins($modulePath, "m.skins");
+			Context::set('mskin_list', $mskin_list);
+		}
+
+		// get the layouts path
+		$oLayoutModel = &getModel('layout');
+		$layout_list = $oLayoutModel->getLayoutList();
+		Context::set('layout_list', $layout_list);
+
+		$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
+		Context::set('mlayout_list', $mobile_layout_list);
+
+		$security = new Security();
+		$security->encodeHTML('layout_list..layout', 'layout_list..title');
+		$security->encodeHTML('mlayout_list..layout', 'mlayout_list..title');
+		$security->encodeHTML('skin_list..title');
+		$security->encodeHTML('mskin_list..title');
+
 		$grant_list =new stdClass();
 		// Grant virtual permission for access and manager
 		if(!$grantList)
@@ -369,9 +394,16 @@ class moduleAdminModel extends module
 	 * @brief Get values for a particular language code
 	 * Return its corresponding value if lang_code is specified. Otherwise return $name.
 	 */
-	function getLangCode($site_srl, $name)
+	function getLangCode($site_srl, $name, $isFullLanguage = FALSE)
 	{
-		$lang_supported = Context::get('lang_supported');
+		if($isFullLanguage)
+		{
+			$lang_supported = Context::loadLangSupported();
+		}
+		else
+		{
+			$lang_supported = Context::get('lang_supported');
+		}
 
 		if(substr($name,0,12)=='$user_lang->')
 		{
@@ -528,6 +560,9 @@ class moduleAdminModel extends module
 		Context::set('page', $output->page);
 		Context::set('lang_code_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
+
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('lang_code_list..');
 
 		$oTemplate = TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile('./modules/module/tpl', 'multilingual_v17_list.html');

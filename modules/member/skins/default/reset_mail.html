@@ -1,13 +1,14 @@
 <include target="./common_header.html" />
 <h1>{$lang->cmd_resend_auth_mail}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<p>{sprintf($lang->about_reset_auth_mail, $memberInfo->email_address)}</p>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/reset_mail/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<p>{sprintf($lang->about_reset_auth_mail, $memberInfo->email_address)}</p>
 <form action="./" method="post">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberResendAuthMail" />
 	<input type="hidden" name="email_address" value="{$memberInfo->email_address}" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/skins/default/reset_mail/1" />
 	<div class="input-append">
 		<input type="text" readonly="readonly" disabled="disabled" value="{$memberInfo->email_address}" title="{$lang->cmd_resend_auth_mail}" /> 
 		<input type="submit" id="resend_button" name="" value="{$lang->cmd_resend_auth_mail}" class="btn btn-inverse" />

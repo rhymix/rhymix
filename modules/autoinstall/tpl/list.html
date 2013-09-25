@@ -16,11 +16,11 @@
 		<!--@else-->
 			{@$_popular_order_type = 'desc'}
 		<!--@end-->
-		<a href="{getUrl('order_target','newest','order_type',$_newest_order_type)}" class="active"|cond="$order_target == 'newest'">{$lang->order_newest} <i cond="$order_target == 'newest'" class="x_icon-circle-arrow-down"|cond="$_newest_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_newest_order_type == 'desc'">{$_newest_order_type}</i></a>
+		<a href="{getUrl('order_target','newest','order_type',$_newest_order_type,page,'')}" class="active"|cond="$order_target == 'newest'">{$lang->order_newest} <i cond="$order_target == 'newest'" class="x_icon-circle-arrow-down"|cond="$_newest_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_newest_order_type == 'desc'">{$_newest_order_type}</i></a>
 		<i>|</i>
-		<a href="{getUrl('order_target','download','order_type',$_download_order_type)}" class="active"|cond="$order_target == 'download'">{$lang->order_download} <i cond="$order_target == 'download'" class="x_icon-circle-arrow-down"|cond="$_download_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_download_order_type == 'desc'">{$_download_order_type}</i></a>
+		<a href="{getUrl('order_target','download','order_type',$_download_order_type,page,'')}" class="active"|cond="$order_target == 'download'">{$lang->order_download} <i cond="$order_target == 'download'" class="x_icon-circle-arrow-down"|cond="$_download_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_download_order_type == 'desc'">{$_download_order_type}</i></a>
 		<i>|</i>
-		<a href="{getUrl('order_target','popular','order_type',$_popular_order_type)}" class="active"|cond="$order_target == 'popular'">{$lang->order_popular} <i cond="$order_target == 'popular'" class="x_icon-circle-arrow-down"|cond="$_popular_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_popular_order_type == 'desc'">{$_popular_order_type}</i></a></li>
+		<a href="{getUrl('order_target','popular','order_type',$_popular_order_type,page,'')}" class="active"|cond="$order_target == 'popular'">{$lang->order_popular} <i cond="$order_target == 'popular'" class="x_icon-circle-arrow-down"|cond="$_popular_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_popular_order_type == 'desc'">{$_popular_order_type}</i></a></li>
 	</div>
 </div>
 
@@ -44,7 +44,7 @@
 					<img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" style="width:80px;height:80px" />
 				</div>
 				<div class="text">
-					<h3><span class="x_label x_label-info">{$item->category}</span> <a href="{$target_url}" title="{htmlspecialchars($item->title)}" target="_blank">{htmlspecialchars($item->title)}</a></h3>
+					<h3><span class="x_label x_label-info">{$item->category}</span> <a href="{$target_url}" title="{$item->title}" target="_blank">{$item->title}</a></h3>
 					<p>
 						<block cond="(int)$item->package_voter > 0">
 							<span class="starRating"><span style="width:{sprintf("%d",$item->package_voted/$item->package_voter*20)}%">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}{sprintf($lang->rate, $item->package_start)}</span></span>
@@ -97,8 +97,8 @@
 				</div>
 			</td>
 			<td>
-				<p><span class="x_label x_label-info">{$item->category}</span> <a href="{$target_url}" target="_blank">{htmlspecialchars($item->title)}</a></p>
-				<p style="margin:5px 0">{cut_str(htmlspecialchars($item->package_description),200)}</p>
+				<p><span class="x_label x_label-info">{$item->category}</span> <a href="{$target_url}" target="_blank">{$item->title}</a></p>
+				<p style="margin:5px 0">{cut_str($item->package_description,200)}</p>
 				<p style="margin:5px 0">
 					<block cond="(int)$item->package_voter > 0">
 						<span class="starRating"><span style="width:{sprintf("%d",$item->package_voted/$item->package_voter*20)}%">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}{sprintf($lang->rate, $item->package_start)}</span></span>
@@ -118,8 +118,8 @@
 					<li loop="$item->deps => $package_srl">{$installed[$package_srl]->title}</li>
 				</ul>
 			</td>
-			<td>{htmlspecialchars($item->item_version)}</td>
-			<td>{htmlspecialchars($item->current_version)}</td>
+			<td>{$item->item_version}</td>
+			<td>{$item->current_version}</td>
 			<td>
 				<span class="x_btn-group">
 					<a cond="$item->current_version && $item->need_update != 'Y'" class="x_btn x_disabled" href="#">{$lang->installed}</a>

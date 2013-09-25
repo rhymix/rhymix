@@ -375,7 +375,7 @@ class SFTPModuleInstaller extends ModuleInstaller
 			$ftp_host = "127.0.0.1";
 		}
 		$this->connection = ssh2_connect($ftp_host, $this->ftp_info->ftp_port);
-		if(!ssh2_auth_password($this->connection, $this->ftp_info->ftp_user, $this->ftp_password))
+		if(!@ssh2_auth_password($this->connection, $this->ftp_info->ftp_user, $this->ftp_password))
 		{
 			return new Object(-1, 'msg_ftp_invalid_auth_info');
 		}

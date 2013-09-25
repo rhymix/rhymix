@@ -2,20 +2,16 @@
 /* Welcome */
 .welcomeXE{zoom:1}
 .welcomeXE:after{content:"";display:block;clear:both}
-.welcomeXE>section{margin:0 0 20px 0;height:102px;background:url(../../../../common/img/welcome.png) no-repeat}
-.welcomeXE>section.i1{background-position:0 0}
-.welcomeXE>section.i2{background-position:0 -100px}
-.welcomeXE>section.i3{background-position:0 -200px}
-.welcomeXE>section.i4{background-position:0 -300px}
-.welcomeXE>section.i5{background-position:0 -400px}
-.welcomeXE>section.i6{background-position:0 -500px}
-.welcomeXE>section>h3,
-.welcomeXE>section>p{padding:0 0 0 100px}
-.welcomeXE>section{width:48%}
-.welcomeXE>section.odd{float:left}
-.welcomeXE>section.even{float:right}
-@media all and (max-width:767px){
-.welcomeXE>section{width:auto;float:none;height:auto;background:none}
-.welcomeXE>section>h3,
-.welcomeXE>section>p{padding:0}
-}
+.welcomeXE>h1{margin:20px 0 40px 40px;font-size:20px;color:#333}
+.welcomeXE>section{width:270px;float:left;padding:0 0 0 40px;margin:0 0 80px 0}
+.welcomeXE>.i4{clear:left}
+.welcomeXE>section>h1{padding:60px 0 0 0;background:url(welcome.gif) no-repeat;font-size:18px;margin:0 0 15px 0;color:#333}
+.welcomeXE>.i1>h1{background-position:0 0}
+.welcomeXE>.i2>h1{background-position:0 -100px}
+.welcomeXE>.i3>h1{background-position:0 -200px}
+.welcomeXE>.i4>h1{background-position:0 -300px}
+.welcomeXE>.i5>h1{background-position:0 -400px}
+.welcomeXE>.i6>h1{background-position:0 -500px}
+.welcomeXE>section>p{font-size:12px;color:#666;line-height:18px;margin:15px 0}
+.welcomeXE>section>p>a{color:#666}
+.welcomeXE>section>a{display:inline-block;background:#e2e6e7;border:1px solid #d7dce0;border-radius:2px;padding:0 15px;font-size:11px;line-height:25px;text-decoration:none;font-weight:bold;color:#666}

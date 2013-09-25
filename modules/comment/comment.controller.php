@@ -161,7 +161,7 @@ class commentController extends comment
 	 */
 	function isModuleUsingPublishValidation($module_srl = NULL)
 	{
-		if(!$module_srl == NULL)
+		if($module_srl == NULL)
 		{
 			return FALSE;
 		}
@@ -221,7 +221,6 @@ class commentController extends comment
 				$obj->status = 0;
 			}
 		}
-
 		$obj->__isupdate = FALSE;
 
 		// call a trigger (before)
@@ -271,9 +270,11 @@ class commentController extends comment
 			{
 				$logged_info = Context::get('logged_info');
 				$obj->member_srl = $logged_info->member_srl;
-				$obj->user_id = $logged_info->user_id;
-				$obj->user_name = $logged_info->user_name;
-				$obj->nick_name = $logged_info->nick_name;
+
+				// user_id, user_name and nick_name already encoded
+				$obj->user_id = htmlspecialchars_decode($logged_info->user_id);
+				$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
+				$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
 				$obj->email_address = $logged_info->email_address;
 				$obj->homepage = $logged_info->homepage;
 			}
@@ -823,15 +824,19 @@ class commentController extends comment
 		// update the number of comments
 		$comment_count = $oCommentModel->getCommentCount($document_srl);
 
-		// create the controller object of the document
-		$oDocumentController = getController('document');
-
-		// update comment count of the article posting
-		$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, NULL, FALSE);
-		if(!$output->toBool())
+		// only document is exists
+		if(isset($comment_count))
 		{
-			$oDB->rollback();
-			return $output;
+			// create the controller object of the document
+			$oDocumentController = getController('document');
+
+			// update comment count of the article posting
+			$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, NULL, FALSE);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
 
 		// call a trigger (after)
@@ -1081,7 +1086,7 @@ class commentController extends comment
 		$obj = new stdClass();
 		$obj->member_srl = $oComment->get('member_srl');
 		$obj->module_srl = $oComment->get('module_srl');
-		$obj->comment_srl = $oComment->get('comment');
+		$obj->comment_srl = $oComment->get('comment_srl');
 		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
 		$obj->point = $point;
 		$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
@@ -1328,6 +1333,9 @@ class commentController extends comment
 			$commentList = array();
 			$this->setMessage($lang->no_documents);
 		}
+
+		$oSecurity = new Security($commentList);
+		$oSecurity->encodeHTML('..variables.', '..');
 
 		$this->add('comment_list', $commentList);
 	}

@@ -1,3 +1,4 @@
+
 <section class="section">
 	<h1>{$lang->layout_image_repository}</h1>
 	<p>{nl2br($lang->about_layout_image_repository)}</p>
@@ -30,12 +31,8 @@
 		<input type="hidden" name="module" value="layout" />
 		<input type="hidden" name="act" value="procLayoutAdminUserImageUpload" />
 		<input type="hidden" name="layout_srl" value="{$layout_srl}" />
-		<p>
-			<span class="x_btn fileBtn0">
-				{$lang->uploaded_file} <input style="background: none" type="file" name="user_layout_image" value="" title="{$lang->uploaded_file}" />
-			</span>
-			<div><span class="x_help-inline">{$lang->msg_layout_image_target}</span></div>
-		</p>
+		<input type="file" name="user_layout_image" value="" title="{$lang->uploaded_file}" />
+		<p>{$lang->msg_layout_image_target}</p>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_upload}</button>
@@ -100,3 +97,4 @@
 		</span>
 	</div>
 </form>
+

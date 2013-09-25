@@ -195,11 +195,15 @@ class memberAdminController extends member
 
 		if($args->redirect_url)
 		{
-			$tmpArgs = new stdClass();
-			$tmpArgs->menu_item_srl = (int)$args->redirect_url;
-			$output = executeQuery('module.getModuleInfoByMenuItemSrl', $tmpArgs);
+			$oModuleModel = getModel('module');
+			$redirectModuleInfo = $oModuleModel->getModuleInfoByModuleSrl($args->redirect_url, array('mid'));
 
-			$args->redirect_url = Context::getDefaultUrl().$output->data->mid;
+			if(!$redirectModuleInfo)
+			{
+				return new Object('-1', 'msg_exist_selected_module');
+			}
+
+			$args->redirect_url = Context::getDefaultUrl().$redirectModuleInfo->mid;
 		}
 
 		$args->profile_image = $args->profile_image ? 'Y' : 'N';
@@ -277,6 +281,7 @@ class memberAdminController extends member
 
 			unset($args->agreement);
 		}
+
 		$output = $oModuleController->updateModuleConfig('member', $args);
 
 		// default setting end
@@ -455,7 +460,7 @@ class memberAdminController extends member
 				}
 				else if($formInfo->name == 'password')
 				{
-					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="3:20" /></field>';
+					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="6:20" /></field>';
 					$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
 				}
 				else if($formInfo->name == 'find_account_question')
@@ -1125,20 +1130,9 @@ class memberAdminController extends member
 	 * Set group config
 	 * @return void
 	 */
-	function procMemberAdminGroupConfig()
+	public function procMemberAdminGroupConfig()
 	{
 		$vars = Context::getRequestVars();	
-
-		if(is_array($vars->group_titles))
-		{
-			foreach($vars->group_titles AS $key=>$value)
-			{
-				if(!$value)
-				{
-					return new Object(-1,'msg_insert_group_name');
-				}
-			}
-		}
 
 		$oMemberModel = &getModel('member');
 		$oModuleController = &getController('module');
@@ -1149,31 +1143,46 @@ class memberAdminController extends member
 		unset($config->agreement);
 		$output = $oModuleController->updateModuleConfig('member', $config);
 
-		// group data save
+		$defaultGroup = $oMemberModel->getDefaultGroup(0);
+		$defaultGroupSrl = $defaultGroup->group_srl;
 		$group_srls = $vars->group_srls;
 		foreach($group_srls as $order=>$group_srl)
 		{
+			$isInsert = false;
 			$update_args = new stdClass();
 			$update_args->title = $vars->group_titles[$order];
-			$update_args->is_default = ($vars->defaultGroup == $group_srl)?'Y':'N';
 			$update_args->description = $vars->descriptions[$order];
 			$update_args->image_mark = $vars->image_marks[$order];
 			$update_args->list_order = $order + 1;
 
-			if(is_numeric($group_srl))
-			{
+			if(!$update_args->title) continue;
+
+			if(is_numeric($group_srl)) {
 				$update_args->group_srl = $group_srl;
 				$output = $this->updateGroup($update_args);
 			}
-			else
+			else {
+				$update_args->group_srl = getNextSequence();
 				$output = $this->insertGroup($update_args);
+			}
+
+			if($vars->defaultGroup == $group_srl) {
+				$defaultGroupSrl = $update_args->group_srl;
+			}
 		}
 
-		$this->setMessage('success_updated');
+		//set default group
+		$default_args = $oMemberModel->getGroup($defaultGroupSrl);
+		$default_args->is_default = 'Y';
+		$default_args->group_srl = $defaultGroupSrl;
+		$output = $this->updateGroup($default_args);
+
+		$this->setMessage(Context::getLang('success_updated').' ('.Context::getLang('msg_insert_group_name_detail').')');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
 		$this->setRedirectUrl($returnUrl);
 	}
+
 
 	/**
 	 * Set group order

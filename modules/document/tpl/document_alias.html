@@ -8,7 +8,7 @@
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
 </form>
 
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/document_alias/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertAlias" action="{Context::getRequestUri()}" method="post">
@@ -16,6 +16,7 @@
 	<input type="hidden" name="act" value="procDocumentAdminInsertAlias" />
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
 	<input type="hidden" name="module_srl" value="{$oDocument->get('module_srl')}" />
+	<input type="hidden" name="xe_validator_id" value="modules/document/tpl/document_alias/1" />
 	
 	<h1>{$lang->alias}</h1>
 	<table class="x_table x_table-striped x_table-hover">

@@ -1,13 +1,14 @@
 <include target="./common_header.html" />
 <load target="filter/delete_friend_group.xml" />
 <load target="filter/move_friend.xml" />
-<h1 class="h1">{$member_title = $lang->cmd_view_friend }</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<h1>{$member_title = $lang->cmd_view_friend }</h1>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/frineds/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="deleteCheckedFriend" id="fo_friend_list" action="./" method="post">
 	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationDeleteFriend" />
+	<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/frineds/1" />
 
 	<div class="btnArea">
 		<span class="etc">
@@ -52,7 +53,7 @@
 		<select name="target_friend_group_srl" style="margin:0">
 			<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
 		</select>
-		<span class="btn-group">
+		<span class="btn-group __submit_group">
 			<button type="submit" name="act" class="btn" value="procCommunicationMoveFriend">{$lang->cmd_move}</button>
 			<button type="submit" name="act" class="btn" value="procCommunicationDeleteFriend">{$lang->cmd_delete}</button>
 		</span>
@@ -69,5 +70,6 @@
 </form>
 <form action="./" method="get" id="for_delete_group">
 	<input type="hidden" name="friend_group_srl" value="" />
+	<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/frineds/1" />
 </form>
 <include target="./common_footer.html" />

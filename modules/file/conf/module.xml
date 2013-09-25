@@ -8,9 +8,9 @@
         <action name="getFileList" type="model" standalone="true" />
         <action name="procFileUpload" type="controller" standalone="true" />
         <action name="procFileIframeUpload" type="controller" standalone="true" />
-        <action name="procFileImageResize" type="controller" standalone="true" />
+        <action name="procFileImageResize" type="controller" standalone="true" ruleset="imageResize" />
         <action name="procFileDelete" type="controller" standalone="true" />
-        <action name="procFileDownload" type="controller" standalone="true" />
+        <action name="procFileDownload" type="controller" standalone="true" method="GET|POST" />
         <action name="procFileOutput" type="controller" standalone="true" />
         <action name="procFileAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
         <action name="procFileAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />

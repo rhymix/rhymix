@@ -11,7 +11,7 @@
 	<li class="fl"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
 	<li class="fl"><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
 	<!--@elseif($act!='dispMemberLoginForm')-->
-	<li class="fl"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+	<li class="fl"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
 	<!--@end-->
 	<li class="fr"><a href="{getUrl('m',0)}">PC</a></li>
 	<li class="fr" cond="count($lang_supported)>1"><a href="{getUrl('act','dispModuleChangeLang','oldact',$act)}">LANG</a></li>

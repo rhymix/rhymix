@@ -1,5 +1,5 @@
 <!--#include("header.html")-->
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/page/tpl/page_info/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
@@ -9,6 +9,7 @@
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="xe_validator_id" value="modules/page/tpl/page_info/1" />
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->page_type}</label>
 		<div class="x_controls" style="padding-top:4px">{$lang->page_type_name[$module_info->page_type]}</div>
@@ -35,7 +36,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="lang_browser_title">{$lang->browser_title}</label>
 		<div class="x_controls">
-			<input type="text" name="browser_title" id="browser_title" value="{htmlspecialchars($module_info->browser_title)}" class="lang_code" />
+			<input type="text" name="browser_title" id="browser_title" value="<!--@if(strpos($module_info->browser_title, '$user_lang->') === false)-->{$module_info->browser_title}<!--@else-->{htmlspecialchars($module_info->browser_title)}<!--@end-->" class="lang_code" />
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -80,7 +81,7 @@
 	<div class="x_control-group" cond="$module_info->page_type == 'OUTSIDE'">
 		<label class="x_control-label" for="path">{$lang->opage_path}</label>
 		<div class="x_controls">
-			<input type="text" name="path" id="path" value="{htmlspecialchars($module_info->path)}" />
+			<input type="text" name="path" id="path" value="{$module_info->path}" />
 			<a href="#aboutOpagePath" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 			<p class="x_help-block" id="aboutOpagePath" hidden>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
 		</div>
@@ -88,7 +89,7 @@
 	<div class="x_control-group" cond="$module_info->page_type == 'OUTSIDE'">
 		<label class="x_control-label" for="mpath">{$lang->opage_mobile_path}</label>
 		<div class="x_controls">
-			<input type="text" name="mpath" id="mpath" value="{htmlspecialchars($module_info->mpath)}"  />
+			<input type="text" name="mpath" id="mpath" value="{$module_info->mpath}"  />
 			<a href="#aboutOpageMobilePath" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 			<p class="x_help-block" id="aboutOpageMobilePath" hidden>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
 		</div>

@@ -298,4 +298,8 @@
 		<value xml:lang="ko"><![CDATA[페이지]]></value>
 		<value xml:lang="en"><![CDATA[Page]]></value>
 	</item>
+	<item name="msg_not_selected_comment">
+		<value xml:lang="ko"><![CDATA[선택한 댓글이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There are no selected comment.]]></value>
+	</item>
 </lang>

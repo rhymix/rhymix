@@ -94,9 +94,11 @@ function execute($dir) {
 	echo "  Minifying CSS files...";
 	$css_files = get_target_files('css', $dir, $files_to_skip);
 
-	if(count($css_files) && !class_exists('CssMin')) {
-		require dirname(__FILE__).'/cssmin/cssmin.php';
+	if(count($css_files) && !class_exists('CSSmin')) {
+		require dirname(__FILE__).'/cssmin/CSSmin.php';
 	}
+
+	$oCSSmin = new CSSmin();
 
 	foreach($css_files as $file) {
 		if(!is_readable($file)) continue;
@@ -104,7 +106,7 @@ function execute($dir) {
 		$target  = preg_replace('@\.css$@', '.min.css', $file);
 		$content = file_get_contents($file);
 
-		file_put_contents($target, $copyright.CssMin::minify($content, $option));
+		file_put_contents($target, $copyright.$oCSSmin->run($content));
 		echo '.';
 	}
 	echo " Done\n";

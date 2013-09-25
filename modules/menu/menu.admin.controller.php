@@ -63,21 +63,41 @@ class menuAdminController extends menu
 	{
 		// List variables
 		$site_module_info = Context::get('site_module_info');
+
+		$output = $this->addMenu(Context::get('title'), (int)$site_module_info->site_srl);
+		if(!$output->toBool()) return $output;
+
+		$this->add('menu_srl', $output->get('menuSrl'));
+		$this->setMessage('success_registed');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminContent');
+		$this->setRedirectUrl($returnUrl);
+	}
+
+	/**
+	 * Add a menu
+	 *
+	 * @param string $title
+	 * @param int $siteSrl
+	 * @return Object If success, it contains menuSrl
+	 */
+	public function addMenu($title, $siteSrl = 0)
+	{
 		$args = new stdClass();
-		$args->site_srl = (int)$site_module_info->site_srl;
-		$args->title = Context::get('title');
+		$args->site_srl = $siteSrl;
+		$args->title = $title;
 
 		$args->menu_srl = getNextSequence();
 		$args->listorder = $args->menu_srl * -1;
 
 		$output = executeQuery('menu.insertMenu', $args);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
-		$this->add('menu_srl', $args->menu_srl);
-		$this->setMessage('success_registed');
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminContent');
-		$this->setRedirectUrl($returnUrl);
+		$output->add('menuSrl', $args->menu_srl);
+		return $output;
 	}
 
 	/**
@@ -170,6 +190,9 @@ class menuAdminController extends menu
 
 		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
+
+		$oMenuAdminModel = &getAdminModel('menu');
+		$menuInfo = $oMenuAdminModel->getMenu($args->menu_srl);
 
 		// Delete modules
 		$output = executeQueryArray('menu.getMenuItems', $args);
@@ -275,7 +298,7 @@ class menuAdminController extends menu
 
 		if(!$isProc)
 		{
-			return $args->menu_item_srl;
+			return $this->get('menu_item_srl');
 		}
 	}
 
@@ -355,6 +378,7 @@ class menuAdminController extends menu
 			$args->name = $request->menu_name;
 			$args->parent_srl = $request->parent_srl;
 			$args->is_shortcut = $request->is_shortcut;
+			$args->url = '#';
 		}
 
 		$args->menu_item_srl = getNextSequence();
@@ -525,7 +549,7 @@ class menuAdminController extends menu
 			}
 			else
 			{
-				return new Object(-1, 'msg_invalid_request');
+				$args->url = '#';
 			}
 		}
 		else
@@ -637,6 +661,15 @@ class menuAdminController extends menu
 		$this->makeXmlFile($args->menu_srl);
 	}
 
+	public function updateMenuItem($itemInfo)
+	{
+		$output = executeQuery('menu.updateMenuItem', $itemInfo);
+
+		// recreate menu cache file
+		$this->makeXmlFile($itemInfo->menu_srl);
+		return $output;
+	}
+
 	/**
 	 * Delete menu item(menu of the menu)
 	 * @return void|Object
@@ -678,7 +711,7 @@ class menuAdminController extends menu
 		$itemInfo = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
 		$args->menu_srl = $itemInfo->menu_srl;
 
-		// Display an error that the category cannot be deleted if it has a child node	603	
+		// Display an error that the category cannot be deleted if it has a child node	603
 		if($args->is_force != 'Y')
 		{
 			$output = executeQuery('menu.getChildMenuCount', $args);
@@ -1035,6 +1068,7 @@ class menuAdminController extends menu
 			$copyArg->module_srl = $moduleInfo->module_srl;
 			$copyArg->mid_1 = $args->module_id;
 			$copyArg->browser_title_1 = $moduleInfo->browser_title;
+			$copyArg->isMenuCreate = FALSE;
 			$copiedModuleSrl = $oModuleAdminController->procModuleAdminCopyModule($copyArg);
 
 			$args->module_srl = $copiedModuleSrl;
@@ -1843,7 +1877,7 @@ class menuAdminController extends menu
 				if($hover_btn) $hover_str = sprintf('onmouseover=\"this.src=\'%s\'\"', $hover_btn); else $hover_str = '';
 				if($active_btn) $active_str = sprintf('onmousedown=\"this.src=\'%s\'\"', $active_btn); else $active_str = '';
 				$link = sprintf('"<img src=\"%s\" onmouseout=\"this.src=\'%s\'\" alt=\"".$_menu_names[%d][$lang_type]."\" %s %s %s />"', $normal_btn, $normal_btn, $node->menu_item_srl, $hover_str, $active_str, $classname);
-				if($active_btn) $link_active = sprintf('"<img src=\"%s\" alt=\"".$_menu_names[%d][$lang_type]."\" %s />"', $active_btn, $node->menu_item_srl, $classname);
+				if($active_btn) $link_active = sprintf('"<img src=\"%s\" onmouseout=\"this.src=\'%s\'\" alt=\"".$_menu_names[%d][$lang_type]."\" %s %s />"', $active_btn, $active_btn, $node->menu_item_srl, $hover_str, $classname);
 				else $link_active = $link;
 			}
 			else

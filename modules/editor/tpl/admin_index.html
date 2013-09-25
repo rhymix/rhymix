@@ -1,8 +1,8 @@
 <load target="js/editor_module_config.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->editor} <a class="x_icon-question-sign" href="./help/index.html#UMAN_advanced_editor" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->editor} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_advanced_editor" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/editor/tpl/admin_index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <!-- Editor Preview -->
@@ -30,6 +30,7 @@
 	<form action="./" method="post" ruleset="generalConfig" class="x_form-horizontal">
 		<input type="hidden" name="module" value="editor" />
 		<input type="hidden" name="act" value="procEditorAdminGeneralConfig" />
+		<input type="hidden" name="xe_validator_id" value="modules/editor/tpl/admin_index/1" />
 
 		<div class="x_control-group">
 			<label for="change_lang_type" class="x_control-label">{$lang->guide_choose_main_editor}</label>
@@ -50,7 +51,7 @@
 		<div class="x_control-group">
 			<label for="editor_height" class="x_control-label">{$lang->guide_set_height_main_editor}</label>
 			<div class="x_controls">
-				<input type="number" name="editor_height" id="editor_height" value="<!--@if($editor_config->editor_height)-->{$editor_config->editor_height}<!--@else-->{$editor_config_default['editor_height']}<!--@end-->" style="width:50px" /> px
+				<input type="number" name="editor_height" id="editor_height" value="{$editor_config->editor_height}"|cond="$editor_config->editor_height" value="{$editor_config_default['editor_height']}"|cond="!$editor_config->editor_height" /> px
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -73,7 +74,7 @@
 		<div class="x_control-group">
 			<label for="comment_editor_height" class="x_control-label">{$lang->guide_set_height_comment_editor}</label>
 			<div class="x_controls">
-				<input type="number" name="comment_editor_height"id="comment_editor_height" value="<!--@if($editor_config->comment_editor_height)-->{$editor_config->comment_editor_height}<!--@else-->{$editor_config_default['comment_editor_height']}<!--@end-->" style="width:50px" /> px
+				<input type="number" name="comment_editor_height"id="comment_editor_height" value="{$editor_config->comment_editor_height}"|cond="$editor_config->comment_editor_height" value="{$editor_config_default['comment_editor_height']}"|cond="!$editor_config->comment_editor_height" /> px
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -112,7 +113,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="fontSize">{$lang->guide_choose_font_size_body}</label>
 			<div class="x_controls">
-				<input type="number" id="fontSize" name="content_font_size" value="{$fontSize}" style="width:50px" /> px
+				<input type="number" id="fontSize" name="content_font_size" value="{$fontSize}" /> px
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
@@ -128,6 +129,7 @@
 	<form action="./" method="post" ruleset="componentOrderAndUse">
 		<input type="hidden" name="module" value="editor" />
 		<input type="hidden" name="act" value="procEditorAdminCheckUseListOrder" />
+		<input type="hidden" name="xe_validator_id" value="modules/editor/tpl/admin_index/1" />
 		<table class="x_table x_table-striped x_table-hover sortable">
 			<caption><strong>{$lang->total_count}({$component_count})</strong></caption>
 			<thead>

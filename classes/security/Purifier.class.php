@@ -31,15 +31,18 @@ class Purifier
 	private function _setConfig()
 	{
 		$whiteDomainRegex = $this->_getWhiteDomainRegx();
-		$allowdClasses = array('emoticon');
+		//$allowdClasses = array('emoticon');
 
 		$this->_config = HTMLPurifier_Config::createDefault();
 		$this->_config->set('HTML.TidyLevel', 'light');
+		$this->_config->set('Output.FlashCompat', TRUE);
 		$this->_config->set('HTML.SafeObject', TRUE);
+		$this->_config->set('HTML.SafeEmbed', TRUE);
 		$this->_config->set('HTML.SafeIframe', TRUE);
 		$this->_config->set('URI.SafeIframeRegexp', $whiteDomainRegex);
 		$this->_config->set('Cache.SerializerPath', $this->_cacheDir);
-		$this->_config->set('Attr.AllowedClasses', $allowdClasses);
+		$this->_config->set('Attr.AllowedFrameTargets', array('_blank'));
+		//$this->_config->set('Attr.AllowedClasses', $allowdClasses);
 
 		$this->_def = $this->_config->getHTMLDefinition(TRUE);
 	}
@@ -53,6 +56,7 @@ class Purifier
 			foreach($editComponentAttrs AS $k => $v)
 			{
 				$this->_def->addAttribute('img', $v, 'CDATA');
+				$this->_def->addAttribute('div', $v, 'CDATA');
 			}
 		}
 
@@ -133,11 +137,20 @@ class Purifier
 		$whiteIframeUrlList = $oEmbedFilter->getWhiteIframeUrlList();
 
 		$whiteDomainRegex = '%^(';
+		$whiteDomainCount = count($whiteIframeUrlList);
+
+		$i=1;
 		if(is_array($whiteIframeUrlList))
 		{
 			foreach($whiteIframeUrlList AS $key => $value)
 			{
 				$whiteDomainRegex .= $value;
+
+				if($i < $whiteDomainCount)
+				{
+					$whiteDomainRegex .= '|';
+				}
+				$i++;
 			}
 		}
 		$whiteDomainRegex .= ')%';

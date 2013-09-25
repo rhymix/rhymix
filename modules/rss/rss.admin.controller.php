@@ -119,6 +119,15 @@ class rssAdminController extends rss
 		$openTotalFeedList = $config_vars->open_total_feed;
 		$feedDescriptionList = $config_vars->feed_description;
 		$feedCopyrightList = $config_vars->feed_copyright;
+		$targetModuleSrl = $config_vars->target_module_srl;
+
+		if($targetModuleSrl && !is_array($openRssList))
+		{
+			$openRssList = array($targetModuleSrl => $openRssList);
+			$openTotalFeedList = array($targetModuleSrl => $openTotalFeedList);
+			$feedDescriptionList = array($targetModuleSrl => $feedDescriptionList);
+			$feedCopyrightList = array($targetModuleSrl => $feedCopyrightList);
+		}
 
 		if(is_array($openRssList))
 		{

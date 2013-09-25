@@ -6,9 +6,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 <form id="fo_list" action="./" method="post">
 	<input type="hidden" name="module" value="file" />
 	<div class="x_page-header">
-		<h1>{$lang->file} <a class="x_icon-question-sign" href="./help/index.html#UMAN_content_file" target="_blank">{$lang->help}</a></h1>
+		<h1>{$lang->file} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_content_file" target="_blank">{$lang->help}</a></h1>
 	</div>
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/file_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<table id="fileListTable" class="x_table x_table-striped x_table-hover">
@@ -18,7 +18,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<a href="{getUrl('search_target','isvalid','search_keyword','Y')}" class="active"|cond="$search_target == 'isvalid' && $search_keyword == 'Y'">{$lang->is_valid}<block cond="$search_target == 'isvalid' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
 			<i>|</i>
 			<a href="{getUrl('search_target','isvalid','search_keyword','N')}" class="active"|cond="$search_target == 'isvalid' && $search_keyword == 'N'">{$lang->is_stand_by}<block cond="$search_target == 'isvalid' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
-			<a class="x_icon-question-sign" href="./help/index.html#UMAN_faq_file_status" target="_blank">{$lang->help}</a>
+			<a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_file_status" target="_blank">{$lang->help}</a>
 			
 			<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->delete}</a></span>
 		</caption>
@@ -78,6 +78,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<a href="#popup_menu_area" class="member_{$document_list[$document_srl]->get('member_srl')}">{$document_list[$document_srl]->getNickName()}</a>
 					<!--@elseif($val->upload_target_type == 'com' && $comment_list[$val->upload_target_srl])-->
 					<a href="#popup_menu_area" class="member_{$comment_list[$val->upload_target_srl]->get('member_srl')}">{$comment_list[$val->upload_target_srl]->getNickName()}</a>
+					<!--@else-->
+					<a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a>
 					<!--@end-->
 				</td>
 				<td class="nowr">{zdate($val->regdate,"Y-m-d H:i")}</td>
@@ -156,6 +158,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="module" value="file" />
 	<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="xe_validator_id" value="modules/file/tpl/file_list/1" />
 	<div class="x_modal-header">
 		<h1>{$lang->file_manager}: {$lang->delete}</h1>
 	</div>
@@ -192,10 +195,10 @@ jQuery(function($){
 		}
 	}).change();
 	// Button action
-	$('a.modalAnchor').click(function(){
+	$('a.modalAnchor').bind('before-open.mw', function(){
 		if($docTable.find('tbody :checked').length == 0){
 			$('body').css('overflow','auto');
-			alert('{$lang->msg_cart_is_null}');
+			alert('{$lang->msg_file_cart_is_null}');
 			return false;
 		}
 	});

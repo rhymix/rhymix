@@ -11,49 +11,50 @@
 		<div class="x_control-group">
 			<label for="insert_document" class="x_control-label">{$lang->point_insert_document}</label>
 			<div class="x_controls">
-				<input type="number" name="insert_document" id="insert_document" value="{$module_config['insert_document']}" style="width:40px" /> {$module_config['point_name']}
+				<input type="number" name="insert_document" id="insert_document" value="{$module_config['insert_document']}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="insert_comment" class="x_control-label">{$lang->point_insert_comment}</label>
 			<div class="x_controls">
-				<input type="number" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment']}" style="width:40px" /> {$module_config['point_name']}
+				<input type="number" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment']}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="upload_file" class="x_control-label">{$lang->point_upload_file}</label>
 			<div class="x_controls">
-				<input type="number" name="upload_file" id="upload_file" value="{$module_config['upload_file']}" style="width:40px" /> {$module_config['point_name']}
+				<input type="number" name="upload_file" id="upload_file" value="{$module_config['upload_file']}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="download_file" class="x_control-label">{$lang->point_download_file}</label>
 			<div class="x_controls">
-				<input type="number" name="download_file" id="download_file" value="{$module_config['download_file']}" style="width:40px" /> {$module_config['point_name']}
+				<input type="number" name="download_file" id="download_file" value="{$module_config['download_file']}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="read_document" class="x_control-label">{$lang->point_read_document}</label>
 			<div class="x_controls">
-				<input type="number" name="read_document" id="read_document" value="{$module_config['read_document']}" style="width:40px" /> {$module_config['point_name']}
+				<input type="number" name="read_document" id="read_document" value="{$module_config['read_document']}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="voted" class="x_control-label">{$lang->point_voted}</label>
 			<div class="x_controls">
-				<input type="number" name="voted" id="voted" value="{$module_config['voted']}" style="width:40px" /> {$module_config['point_name']}
+				<input type="number" name="voted" id="voted" value="{$module_config['voted']}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="blamed" class="x_control-label">{$lang->point_blamed}</label>
 			<div class="x_controls">
-				<input type="number" name="blamed" id="blamed" value="{$module_config['blamed']}" style="width:40px" /> {$module_config['point_name']}
+				<input type="number" name="blamed" id="blamed" value="{$module_config['blamed']}" /> {$module_config['point_name']}
 			</div>
 		</div>
-
 		<div class="x_clearfix btnArea">
-			<button class="x_btn x_pull-left" type="button" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}')">{$lang->cmd_reset}</button>
-			<input class="x_btn x_btn-primary x_pull-right" type="submit" value="{$lang->cmd_save}">
+			<button class="x_btn x_btn-warning x_pull-left" type="button" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}')">{$lang->cmd_reset}</button>
+			<span class="x_pull-right">
+				<input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}">
+			</span>
 		</div>
 	</form>
 </section>

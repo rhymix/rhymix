@@ -101,6 +101,28 @@ class ModuleHandler extends Handler
 	 * */
 	function init()
 	{
+		// if success_return_url and error_return_url is incorrect
+		$urls = array(Context::get('success_return_url'), Context::get('error_return_url'));
+		foreach($urls as $url)
+		{
+			if(empty($url))
+			{
+				continue;
+			}
+
+			$urlInfo = parse_url($url);
+			$host = $urlInfo['host'];
+
+			$dbInfo = Context::getDBInfo();
+			$defaultUrlInfo = parse_url($dbInfo->default_url);
+			$defaultHost = $defaultUrlInfo['host'];
+
+			if($host && $host != $defaultHost)
+			{
+				throw new Exception('msg_default_url_is_null');
+			}
+		}
+		
 		$oModuleModel = getModel('module');
 		$site_module_info = Context::get('site_module_info');
 
@@ -331,6 +353,32 @@ class ModuleHandler extends Handler
 		{
 			$kind = 'admin';
 		}
+
+		// check REQUEST_METHOD in controller
+		if($type == 'controller')
+		{
+			$allowedMethod = $xml_info->action->{$this->act}->method;
+
+			if(!$allowedMethod)
+			{
+				$allowedMethodList[0] = 'POST';
+			}
+			else
+			{
+				$allowedMethodList = explode('|', strtoupper($allowedMethod));
+			}
+
+			if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
+			{
+				$this->error = "msg_invalid_request";
+				$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+				$oMessageObject->setError(-1);
+				$oMessageObject->setMessage($this->error);
+				$oMessageObject->dispMessage();
+				return $oMessageObject;
+			}
+		}
+
 		if($this->module_info->use_mobile != "Y")
 		{
 			Mobile::setMobile(FALSE);
@@ -554,6 +602,7 @@ class ModuleHandler extends Handler
 					$_SESSION['XE_VALIDATOR_MESSAGE'] = $this->error;
 					$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
 					$_SESSION['XE_VALIDATOR_RETURN_URL'] = $returnUrl;
+					$_SESSION['XE_VALIDATOR_ID'] = Context::get('xe_validator_id');
 					$this->_setInputValueToSession();
 					return $oModule;
 				}
@@ -565,7 +614,11 @@ class ModuleHandler extends Handler
 		$this->module_info->module_type = $type;
 		$oModule->setModuleInfo($this->module_info, $xml_info);
 
-		if($type == "view" && $this->module_info->use_mobile == "Y" && Mobile::isMobileCheckByAgent())
+		$skipAct = array(
+				'dispEditorConfigPreview' => 1,
+				'dispLayoutPreviewWithModule' => 1
+		);
+		if($type == "view" && $this->module_info->use_mobile == "Y" && Mobile::isMobileCheckByAgent() && !isset($skipAct[Context::get('act')]))
 		{
 			global $lang;
 			$header = '<style>div.xe_mobile{opacity:0.7;margin:1em 0;padding:.5em;background:#333;border:1px solid #666;border-left:0;border-right:0}p.xe_mobile{text-align:center;margin:1em 0}a.xe_mobile{color:#ff0;font-weight:bold;font-size:24px}@media only screen and (min-width:500px){a.xe_mobile{font-size:15px}}</style>';
@@ -615,14 +668,11 @@ class ModuleHandler extends Handler
 			}
 			else
 			{
-				if(count($_SESSION['INPUT_ERROR']))
-				{
-					Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
-					$_SESSION['INPUT_ERROR'] = '';
-				}
+
 			}
 
 			$_SESSION['XE_VALIDATOR_ERROR'] = $error;
+			$_SESSION['XE_VALIDATOR_ID'] = Context::get('xe_validator_id');
 			if($message != 'success')
 			{
 				$_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
@@ -661,6 +711,14 @@ class ModuleHandler extends Handler
 		{
 			Context::set('XE_VALIDATOR_RETURN_URL', $_SESSION['XE_VALIDATOR_RETURN_URL']);
 		}
+		if($_SESSION['XE_VALIDATOR_ID'] && !Context::get('XE_VALIDATOR_ID'))
+		{
+			Context::set('XE_VALIDATOR_ID', $_SESSION['XE_VALIDATOR_ID']);
+		}
+		if(count($_SESSION['INPUT_ERROR']))
+		{
+			Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
+		}
 
 		$this->_clearErrorSession();
 	}
@@ -675,6 +733,8 @@ class ModuleHandler extends Handler
 		$_SESSION['XE_VALIDATOR_MESSAGE'] = '';
 		$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = '';
 		$_SESSION['XE_VALIDATOR_RETURN_URL'] = '';
+		$_SESSION['XE_VALIDATOR_ID'] = '';
+		$_SESSION['INPUT_ERROR'] = '';
 	}
 
 	/**
@@ -826,6 +886,7 @@ class ModuleHandler extends Handler
 								{
 									$menu->xml_file = str_replace('.xml.php', $homeMenuSrl . '.xml.php', $menu->xml_file);
 									$menu->php_file = str_replace('.php', $homeMenuSrl . '.php', $menu->php_file);
+									$layout_info->menu->{$menu_id}->menu_srl = $homeMenuSrl;
 								}
 								else
 								{

@@ -51,10 +51,18 @@ class DBMysql_innodb extends DBMysql
 	 * this method is private
 	 * @return boolean
 	 */
-	function _begin()
+	function _begin($transactionLevel)
 	{
 		$connection = $this->_getConnection('master');
-		$this->_query("begin", $connection);
+
+		if(!$transactionLevel)
+		{
+			$this->_query("START TRANSACTION", $connection);
+		}
+		else
+		{
+			$this->_query("SAVEPOINT SP" . $transactionLevel, $connection);
+		}
 		return true;
 	}
 
@@ -63,10 +71,20 @@ class DBMysql_innodb extends DBMysql
 	 * this method is private
 	 * @return boolean
 	 */
-	function _rollback()
+	function _rollback($transactionLevel)
 	{
 		$connection = $this->_getConnection('master');
-		$this->_query("rollback", $connection);
+
+		$point = $transactionLevel - 1;
+
+		if($point)
+		{
+			$this->_query("ROLLBACK TO SP" . $point, $connection);
+		}
+		else
+		{
+			$this->_query("ROLLBACK", $connection);
+		}
 		return true;
 	}
 
@@ -91,6 +109,11 @@ class DBMysql_innodb extends DBMysql
 	 */
 	function __query($query, $connection)
 	{
+		if(!$connection)
+		{
+			Context::close();
+			exit();
+		}
 		// Run the query statement
 		$result = @mysql_query($query, $connection);
 		// Error Check

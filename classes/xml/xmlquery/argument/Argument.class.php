@@ -54,7 +54,7 @@ class Argument
 	 * Caches escaped and toString value so that the parsing won't happen multiple times
 	 * @var mixed
 	 */
-	var $_value; // 
+	var $_value; //
 
 	/**
 	 * constructor
@@ -107,6 +107,11 @@ class Argument
 			$this->_value = $this->toString($value);
 		}
 		return $this->_value;
+	}
+
+	function getPureValue()
+	{
+		return $this->value;
 	}
 
 	function getColumnOperation()
@@ -228,12 +233,12 @@ class Argument
 
 	function utf8Replacer($captures)
 	{
-		if(!empty($captures[1]))
+		if(strlen($captures[1]))
 		{
 			// Valid byte sequence. Return unmodified.
 			return $captures[1];
 		}
-		else if(!empty($captures[2]))
+		else if(strlen($captures[2]))
 		{
 			// Remove user defined area
 			if("\xF3\xB0\x80\x80" <= $captures[2])

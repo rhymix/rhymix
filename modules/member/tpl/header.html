@@ -1,8 +1,17 @@
 <load target="js/config.js" />
 <div class="x_page-header">
-	<h1>{$lang->cmd_member_config} <a class="x_icon-question-sign" href="./help/index.html#UMAN_member_config" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->cmd_member_config} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_member_config" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+{@
+	$validator_ids = array(
+		'modules/member/tpl/default_config/1' => 1,
+		'modules/member/tpl/design_config/1' => 1,
+		'modules/member/tpl/login_config/1' => 1,
+		'modules/member/tpl/signup_cofig/1' => 1,
+		'modules/member/tpl/signup_cofig/2' => 1,
+	);
+}
+<div cond="$XE_VALIDATOR_MESSAGE && isset($validator_ids[$XE_VALIDATOR_ID])" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <ul class="x_nav x_nav-tabs">

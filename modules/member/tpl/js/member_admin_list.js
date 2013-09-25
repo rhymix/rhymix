@@ -9,11 +9,22 @@ jQuery(function($){
 		var memberTag = "";
 		$('input[name="groups[]"]:checked').removeAttr('checked');
 		$('#message').val('');
+		$('#popupBody').empty();
 		for (var i = 0; i<$memberList.length; i++){
 			memberInfo = $memberList.eq(i).val().split('\t');
 			memberSrl = memberInfo.shift();
-			memberTag += '<tr><td>'+memberInfo.join("</td><td>")+'<input type="hidden" name="member_srls[]" value="'+memberSrl+'"/></td></tr>' 
+
+			$tr = $('<tr></tr>');
+
+			for(var j in memberInfo)
+			{
+				var info = memberInfo[j];
+				var $td = $('<td></td>').text(info);
+				$tr.append($td);
+			}
+
+			$tr.append('<td><input type="hidden" name="member_srls[]" value="'+memberSrl+'"/></td>');
+			$('#popupBody').append($tr);
 		}
-		$('#popupBody').empty().html(memberTag);
 	});
 });

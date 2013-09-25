@@ -404,7 +404,7 @@ class ModuleObject extends Object
 			// integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
 			$is_default_skin = ((!Mobile::isFromMobilePhone() && $this->module_info->is_skin_fix == 'N') || (Mobile::isFromMobilePhone() && $this->module_info->is_mskin_fix == 'N'));
 			$usedSkinModule = !($this->module == 'page' && ($this->module_info->page_type == 'OUTSIDE' || $this->module_info->page_type == 'WIDGET'));
-			if($usedSkinModule && $is_default_skin && $this->module != 'admin' && strpos($this->act, 'Admin') === false)
+			if($usedSkinModule && $is_default_skin && $this->module != 'admin' && strpos($this->act, 'Admin') === false && $this->module == $this->module_info->module)
 			{
 				$dir = (Mobile::isFromMobilePhone()) ? 'm.skins' : 'skins';
 				$valueName = (Mobile::isFromMobilePhone()) ? 'mskin' : 'skin';

@@ -131,7 +131,7 @@ class pointModel extends point
 		// if search keyword is emtpy, show all list
 		if(!$search_keyword)
 		{
-			unset($args, $search_target);
+			unset($args->is_admin, $args->is_denied, $args->selected_group_srl, $search_target);
 		}
 
 		if($search_target && $search_keyword)

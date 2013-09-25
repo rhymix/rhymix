@@ -5124,7 +5124,8 @@ var
 
 var
 	allow_tags  = 'a,abbr,acronym,address,area,blockquote,br,caption,center,cite,code,col,colgroup,dd,del,dfn,div,dl,dt,em,embed,h1,h2,h3,h4,h5,h6,hr,img,ins,kbd,li,map,object,ol,p,param,pre,q,samp,span,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,tt,u,ul,var,iframe,object,param,style'.split(','),
-	lonely_tags = 'area,br,col,embed,hr,img,input,param'.split(',');
+	no_closing_tags = 'area,br,col,embed,hr,img,input,param,base,meta,link,basefont,isindex'.split(',');
+
 
 var
 	replace_tags = {
@@ -5205,10 +5206,10 @@ xe.XE_XHTMLFormatter = $.Class({
 			attrs   = $.trim(attrs || '');
 
 			if (!closing) {
-				if ($.inArray(tag,lonely_tags) >= 0) {
+				if ($.inArray(tag,no_closing_tags) >= 0) {
 					var len = attrs.length;
 					if (tag == 'br') attrs = '';
-					if (!attrs || attrs.substring(len-1,len) != '/') attrs += '/';
+					if (!attrs || attrs.substring(len-1,len) != '/') attrs += ' /';
 
 					return '<'+tag+' '+$.trim(attrs)+'>';
 				} else {
@@ -5218,7 +5219,7 @@ xe.XE_XHTMLFormatter = $.Class({
 				var tags = [], t = '';
 
 				// if the tag does not require a closing tag, simply remove the closing tag
-				if ($.inArray(tag,lonely_tags) >= 0) {
+				if ($.inArray(tag,no_closing_tags) >= 0) {
 					return '';
 				}
 

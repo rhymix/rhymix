@@ -1,5 +1,5 @@
 <?php
-header('Location: ' . preg_replace('/admin\/|admin/', 'index.php?module=admin', $_SERVER['REQUEST_URI']));
+header('Location: ../index.php?module=admin');
 
 /* End of file index.php */
 /* Location: ./admin/index.php */

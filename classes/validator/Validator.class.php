@@ -40,6 +40,18 @@ class Validator
 	var $_filters;
 
 	/**
+	 * custom message list
+	 * @var array
+	 */
+	var $_messages;
+
+	/**
+	 * custom field name list
+	 * @var array
+	 */
+	var $_fieldNames;
+
+	/**
 	 * Can usable status for multibyte string function
 	 * @var boolean
 	 */
@@ -127,6 +139,7 @@ class Validator
 			}
 
 			$rules = array();
+			$messages = array();
 			foreach($customrules as $rule)
 			{
 				if(!isset($rule->attrs) || !isset($rule->attrs->name))
@@ -134,11 +147,17 @@ class Validator
 					continue;
 				}
 
+				$message = $rule->message ? $rule->message->body : NULL;
 				$rule = (array) $rule->attrs;
+				$rule['message'] = $message;
 				$name = $rule['name'];
 				unset($rule['name']);
 
 				$rules[$name] = $rule;
+				if(isset($message))
+				{
+					$messages['invalid_' . $name] = $message;
+				}
 			}
 			if(count($rules))
 			{
@@ -154,6 +173,7 @@ class Validator
 		}
 
 		$filters = array();
+		$fieldsNames = array();
 		foreach($fields as $field)
 		{
 			$name = '';
@@ -163,9 +183,17 @@ class Validator
 			{
 				continue;
 			}
+
+			$title = $field->title ? $field->title->body : NULL;
 			$filter = (array) $field->attrs;
+			$filter['title'] = $title;
 
 			$name = $filter['name'];
+			if(isset($title))
+			{
+				$fieldsNames[$name] = $title;
+			}
+			
 			unset($filter['name']);
 
 			// conditional statement
@@ -188,6 +216,8 @@ class Validator
 
 		$this->_xml_ruleset = $xml->ruleset;
 		$this->_filters = $filters;
+		$this->_message = $messages;
+		$this->_fieldNames = $fieldsNames;
 		$this->_xml_path = $xml_path;
 
 		return TRUE;
@@ -430,9 +460,26 @@ class Validator
 	 */
 	function error($field, $msg)
 	{
-		$lang_filter = Context::getLang('filter');
-		$msg = isset($lang_filter->{$msg}) ? $lang_filter->{$msg} : $lang_filter->invalid;
-		$msg = sprintf($msg, Context::getLang($field));
+		if(isset($this->_message[$msg]))
+		{
+			$msg = $this->_message[$msg];
+		}
+		else
+		{
+			$lang_filter = Context::getLang('filter');
+			$msg = isset($lang_filter->{$msg}) ? $lang_filter->{$msg} : $lang_filter->invalid;
+		}
+
+		if(isset($this->_fieldNames[$field]))
+		{
+			$fieldName = $this->_fieldNames[$field];
+		}
+		else
+		{
+			$fieldName = Context::getLang($field);
+		}
+
+		$msg = sprintf($msg, $fieldName);
 
 		$this->_last_error = array('field' => $field, 'msg' => $msg);
 
@@ -676,6 +723,8 @@ class Validator
 		$addrules = array();
 		foreach($this->_rules as $name => $rule)
 		{
+			$name = strtolower($name);
+
 			if(strpos('email,userid,url,alpha,alpha_number,number,', $name . ',') !== false)
 			{
 				continue;
@@ -683,15 +732,22 @@ class Validator
 			switch($rule['type'])
 			{
 				case 'regex':
-					$content[] = "v.cast('ADD_RULE', ['{$name}', {$rule['test']}]);";
+					$addrules[] = "v.cast('ADD_RULE', ['{$name}', {$rule['test']}]);";
 					break;
 				case 'enum':
 					$enums = '"' . implode('","', $rule['test']) . '"';
-					$content[] = "v.cast('ADD_RULE', ['{$name}', function($$){ return ($.inArray($$,[{$enums}]) > -1); }]);";
+					$addrules[] = "v.cast('ADD_RULE', ['{$name}', function($$){ return ($.inArray($$,[{$enums}]) > -1); }]);";
 					break;
 				case 'expr':
-					$content[] = "v.cast('ADD_RULE', ['{$name}', function($$){ return ({$rule['test']}); }]);";
+					$addrules[] = "v.cast('ADD_RULE', ['{$name}', function($$){ return ({$rule['test']}); }]);";
 					break;
+			}
+
+			// if have a message, add message
+			if(isset($rule['message']))
+			{
+				$text = preg_replace('@\r?\n@', '\\n', addslashes($rule['message']));
+				$addrules[] = "v.cast('ADD_MESSAGE',['invalid_{$name}','{$text}']);";
 			}
 		}
 		$addrules = implode('', $addrules);
@@ -704,7 +760,12 @@ class Validator
 			$field = array();
 
 			// form filed name
-			if(isset($lang->{$name}))
+			if(isset($filter['title']))
+			{
+				$field_lang = addslashes($filter['title']);
+				$messages[] = "v.cast('ADD_MESSAGE',['{$name}','{$field_lang}']);";
+			}
+			elseif(isset($lang->{$name}))
 			{
 				$field_lang = addslashes($lang->{$name});
 				$messages[] = "v.cast('ADD_MESSAGE',['{$name}','{$field_lang}']);";
@@ -716,7 +777,7 @@ class Validator
 			}
 			if($filter['rule'])
 			{
-				$field[] = "rule:'{$filter['rule']}'";
+				$field[] = "rule:'" . strtolower($filter['rule']) . "'";
 			}
 			if($filter['default'])
 			{

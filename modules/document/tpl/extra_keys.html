@@ -5,7 +5,7 @@
 <block cond="$selected_var_idx && $extra_keys[$selected_var_idx]">
     {@ $selected_var = $extra_keys[$selected_var_idx] }
 </block>
-<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/extra_keys/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
@@ -18,6 +18,7 @@
 			<input type="hidden" name="module_srl" value="{$module_srl}" />
 			<input type="hidden" name="var_idx" value="{$selected_var_idx}" />
 			<input type="hidden" name="success_return_url" value="{getUrl('type', '')}" />
+			<input type="hidden" name="xe_validator_id" value="modules/document/tpl/extra_keys/1" />
 
 			<div class="x_control-group">
 				<label class="x_control-label" for="eid">{$lang->eid}</label>
@@ -29,7 +30,7 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="lang_name">{$lang->column_name}</label>
 				<div class="x_controls">
-					<input type="text" name="name" id="name" value="{htmlspecialchars($selected_var->name)}" class="lang_code" placeholder="Ex) Your favorite color." />
+					<input type="text" name="name" id="name" value="<!--@if(strpos($selected_var->name, '$user_lang->') === false)-->{$selected_var->name}<!--@else-->{htmlspecialchars($selected_var->name)}<!--@end-->" class="lang_code" placeholder="Ex) Your favorite color." />
 				</div>
 			</div>
 			<div class="x_control-group">
@@ -57,7 +58,7 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="lang_desc">{$lang->description}</label>
 				<div class="x_controls">
-					<input type="text" name="desc" id="desc" value="{htmlspecialchars($selected_var->desc)}" class="lang_code" placeholder="Ex) Displayed as your choice." />
+					<input type="text" name="desc" id="desc" value="{$selected_var->desc}" class="lang_code" placeholder="Ex) Displayed as your choice." />
 				</div>
 			</div>
 			<div class="x_control-group">
@@ -99,36 +100,36 @@
 				<th>{$lang->column_name}</th>
 				<th>{$lang->column_type}</th>
 				<th>{$lang->default_value}</th>
-				<th>{$lang->description}</th>
 				<th>{$lang->is_required}</th>
 				<th>{$lang->cmd_search}</th>
-				<th>&nbsp;</th>
 				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr loop="$extra_keys => $key,$val">
-				<td>{$val->idx}</td>
+			<block loop="$extra_keys => $key,$val">
+			<tr>
+				<td rowspan="2"|cond="$val->desc">{$val->idx}</td>
 				<td>{$val->eid}</td>
 				<td class="nowr"><strong>{$val->name}</strong></td>
 				<td class="nowr">{$lang->column_type_list[$val->type]}</td>
-				<td class="nowr">{$val->default}&nbsp;</td>
-				<td>{$val->desc}&nbsp;</td>
-				<td class="nowr"><!--@if($val->is_required=='Y')--><b>{$lang->is_required}</b><!--@else-->N<!--@end--></td>
-				<td class="nowr"><!--@if($val->search=='Y')--><b>{$lang->search_target}</b><!--@else-->N<!--@end--></td>
-				<td class="nowr">
+				<td>{$val->default}&nbsp;</td>
+				<td class="nowr"><!--@if($val->is_required=='Y')--><strong>Y</strong><!--@else-->N<!--@end--></td>
+				<td class="nowr"><!--@if($val->search=='Y')--><strong>Y</strong><!--@else-->N<!--@end--></td>
+				<td class="nowr" style="text-align:right">
 					<block cond="$val->idx > 1">
-						<button type="button" class="x_btn x_btn-link" onclick="moveVar('up','{$module_srl}','{$val->idx}')">{$lang->cmd_move_up}</button> <i>|</i>
+						<button type="button" class="x_icon-arrow-up" onclick="moveVar('up','{$module_srl}','{$val->idx}')">{$lang->cmd_move_up}</button>
 					</block>
 					<block cond="count($extra_keys) > $val->idx">
-						<button type="button" class="x_btn x_btn-link" onclick="moveVar('down','{$module_srl}','{$val->idx}')">{$lang->cmd_move_down}</button> <i>|</i>
+						<button type="button" class="x_icon-arrow-down" onclick="moveVar('down','{$module_srl}','{$val->idx}')">{$lang->cmd_move_down}</button>
 					</block>
-				</td>
-				<td class="nowr">
-					<a href="{getUrl('selected_var_idx',$val->idx)}">{$lang->cmd_modify}</a> <i class="vr">|</i>
-					<button type="button" class="x_btn x_btn-link" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');">{$lang->cmd_delete}</button>
+					<a href="{getUrl('selected_var_idx',$val->idx)}" class="x_icon-wrench">{$lang->cmd_modify}</a>
+					<button type="button" class="x_icon-trash" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');">{$lang->cmd_delete}</button>
 				</td>
 			</tr>
+			<tr cond="$val->desc">
+				<td colspan="7">{$val->desc}</td>
+			</tr>
+			</block>
 		</tbody>
 	</table>
 	<div class="x_clearfix">

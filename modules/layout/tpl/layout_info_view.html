@@ -5,6 +5,7 @@
 	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
 	<input type="hidden" name="layout" value="{$selected_layout->layout}" />
 	<input type="hidden" name="_layout_type" value="{$selected_layout->layout_type}" />
+	<input type="hidden" name="xe_validator_id" value="modules/layout/tpl/lyaout_info_view/1" />
 	<!--// For submit config. Do not delete this division. -->
 	<div></div>
 </form>
@@ -12,19 +13,19 @@
 <section id="layout_config" class="x_form-horizontal">
 	<div cond="$selected_layout->path" class="x_control-group">
 		<label class="x_control-label">{$lang->path}</label>
-		<div class="x_controls">
+		<div class="x_controls" style="padding-top:5px">
 			{$selected_layout->path}
 		</div>
 	</div>
 	<div cond="$selected_layout->description" class="x_control-group">
 		<label class="x_control-label">{$lang->description}</label>
-		<div class="x_controls">
+		<div class="x_controls" style="padding-top:5px">
 			{$selected_layout->description}
 		</div>
 	</div>
 	<div cond="$selected_layout->author" class="x_control-group">
 		<label class="x_control-label">{$lang->author}</label>
-		<div class="x_controls">
+		<div class="x_controls" style="padding-top:5px">
 			<block loop="$selected_layout->author=>$author_info">
 				<!--@if($author_info->homepage)-->
 				<a href="{$author_info->homepage}" target="_blank">{$author_info->name}</a>
@@ -73,7 +74,7 @@
 				{@$cnt ++}
 			</block>
 			<div class="x_control-group">
-				<label class="x_control-label" for="{$name}">{$var->title}</label>
+				<label class="x_control-label" for="{$name}"|cond="$var->type!='text'&&$var->type!='textarea'" for="lang_{$name}"|cond="$var->type=='text'||$var->type=='textarea'">{$var->title}</label>
 				<div class="x_controls">
 					<div cond="$var->type == 'text'">
 						<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" />
@@ -160,6 +161,10 @@
 	</section>
 
 	<div class="x_clearfix btnArea">
+		<span class="etc">
+			<a cond="$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout)}">{$lang->cmd_list}</a>
+			<a cond="!$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList')}">{$lang->cmd_list}</a>
+		</span>
 		<span class="x_btn-group x_pull-right">
 			<input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" onclick="doSubmitConfig()"/>
 		</span>

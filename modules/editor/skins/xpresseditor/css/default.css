@@ -41,7 +41,7 @@
 .xpress-editor .input_control span{display:block;zoom:1;height:21px;visibility:hidden;overflow:visible;font-size:0;line-height:0;white-space:nowrap;color:#fff}
 .xpress-editor .input_auto{position:relative;z-index:2;zoom:1;white-space:nowrap;display:block;height:0;border-top:1px solid #ccc;margin:0 0 24px 0;*margin:0}
 .xpress-editor .input_auto input{margin:0 4px 0 0 !important;padding:0;width:13px;height:13px;vertical-align:middle}
-.xpress-editor .input_auto label{font-size:11px;color:#666;padding:0 5px;line-height:25px;font-weight:normal !important}
+.xpress-editor .input_auto label{position:absolute;font-size:11px;color:#666;padding:0 5px !important;line-height:25px;font-weight:normal !important}
 .xpress-editor.black .input_control {background:#111 url(../img/btn_expand.black.gif) no-repeat center center}
 .xpress-editor.black .input_control span{border-top:1px solid #333; color:#000}
 .xpress-editor .tool{position:relative;overflow:visible;padding:5px 10px 6px 10px;*padding:5px 10px 8px 10px;z-index:40;clear:both;background:#f8f8f8 url(../img/bg_tool.gif) repeat-x left bottom;border:0;*zoom:1}

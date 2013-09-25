@@ -88,5 +88,16 @@ function doMoveFriend() {
 /* 친구 그룹 선택 */
 function doJumpFriendGroup() {
     var sel_val = jQuery('#jumpMenu option:selected').val();
-    location.href = current_url.setQuery('friend_group_srl', sel_val);
+	location.href = current_url.setQuery('friend_group_srl', sel_val);
 }
+
+jQuery(function($){
+	$('.__submit_group button[type=submit]').click(function(e){
+		var sel_val = $('input[name="friend_srl_list[]"]:checked').length;
+		if(sel_val == 0)
+		{
+			e.preventDefault();
+			return false;
+		}
+	});
+});

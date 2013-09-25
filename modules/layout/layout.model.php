@@ -42,6 +42,14 @@ class layoutModel extends layout
 		$args->layout_type = $layout_type;
 		$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
 
+		foreach($output->data as $no => &$val)
+		{
+			if(!$this->isExistsLayoutFile($val->layout, $layout_type))
+			{
+				unset($output->data[$no]);
+			}
+		}
+
 		$oLayoutAdminModel = getAdminModel('layout');
 		$siteDefaultLayoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($layout_type, $site_srl);
 		if($siteDefaultLayoutSrl)
@@ -126,9 +134,16 @@ class layoutModel extends layout
 		$instanceList = array();
 		if(is_array($output->data))
 		{
-			foreach($output->data as $iInfo)
+			foreach($output->data as $no => $iInfo)
 			{
-				$instanceList[] = $iInfo->layout;
+				if($this->isExistsLayoutFile($iInfo->layout, $layoutType))
+				{
+					$instanceList[] = $iInfo->layout;
+				}
+				else
+				{
+					unset($output->data[$no]);
+				}
 			}
 		}
 
@@ -184,9 +199,54 @@ class layoutModel extends layout
 		if($isCreateInstance)
 		{
 			$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
+
+			if(is_array($output->data))
+			{
+				foreach($output->data as $no => $iInfo)
+				{
+					if(!$this->isExistsLayoutFile($iInfo->layout, $layoutType))
+					{
+						unset($output->data[$no]);
+					}
+				}
+			}
 		}
 
 		return $output->data;
+	}
+
+	/**
+	 * If exists layout file returns true
+	 *
+	 * @param string $layout layout name
+	 * @param string $layoutType P or M
+	 * @return bool
+	 */
+	function isExistsLayoutFile($layout, $layoutType)
+	{
+		//TODO If remove a support themes, remove this codes also.
+		if($layoutType == 'P')
+		{
+			$pathPrefix = _XE_PATH_ . 'layouts/';
+			$themePathFormat = _XE_PATH_ . 'themes/%s/layouts/%s';
+		}
+		else
+		{
+			$pathPrefix = _XE_PATH_ . 'm.layouts/';
+			$themePathFormat = _XE_PATH_ . 'themes/%s/m.layouts/%s';
+		}
+
+		if(strpos($layout, '|@|') !== FALSE)
+		{
+			list($themeName, $layoutName) = explode('|@|', $layout);
+			$path = sprintf($themePathFormat, $themeName, $layoutName);
+		}
+		else
+		{
+			$path = $pathPrefix . $layout;
+		}
+
+		return is_readable($path . '/layout.html');
 	}
 
 	/**
@@ -725,7 +785,7 @@ class layoutModel extends layout
 	 * Get ini configurations and make them an array.
 	 * @param int $layout_srl
 	 * @param string $layout_name
-	 * @return array 
+	 * @return array
 	 */
 	function getUserLayoutIniConfig($layout_srl, $layout_name=null)
 	{
@@ -809,9 +869,9 @@ class layoutModel extends layout
 	function getUserLayoutHtml($layout_srl)
 	{
 		$src = $this->getUserLayoutPath($layout_srl). 'layout.html';
-		$temp = $this->getUserLayoutTempHtml($layout_srl);
 		if($this->useUserLayoutTemp == 'temp')
 		{
+			$temp = $this->getUserLayoutTempHtml($layout_srl);
 			if(!file_exists(FileHandler::getRealPath($temp))) FileHandler::copyFile($src,$temp);
 			return $temp;
 		}

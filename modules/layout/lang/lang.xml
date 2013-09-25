@@ -1074,4 +1074,13 @@
 	<item name="use_site_default_layout">
 		<value xml:lang="ko"><![CDATA[사이트 기본 레이아웃 사용]]></value>
 	</item>
+	<item name="msg_unabled_preview">
+		<value xml:lang="ko"><![CDATA[해당 메뉴 타입의 페이지가 하나도 없어 미리보기가 불가능합니다.]]></value>
+	</item>
+	<item name="article_preview_title">
+		<value xml:lang="ko"><![CDATA[문서의 제목입니다.]]></value>
+	</item>
+	<item name="article_preview_content">
+		<value xml:lang="ko"><![CDATA[무궁화 꽃이 피었습니다.]]></value>
+	</item>
 </lang>

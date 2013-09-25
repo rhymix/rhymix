@@ -1,5 +1,5 @@
 <include target="header.html" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/comment/tpl/declared_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="deleteChecked" id="fo_list" action="./" method="post">
@@ -8,6 +8,7 @@
 	<input type="hidden" value="{getUrl('', 'module', $module, 'act', $act)}" name="success_return_url">
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="is_trash" value="false" />
+	<input type="hidden" name="xe_validator_id" value="modules/comment/tpl/declared_list/1" />
 	
 	<!-- 목록 -->
 	<table id="commentListTable" class="x_table x_table-striped x_table-hover">

@@ -46,6 +46,7 @@ class trashAdminView extends trash
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
 		Context::set('page_navigation', $output->page_navigation);
+		debugPrint($output->data);
 
 		// 템플릿 파일 지정
 		$this->setTemplateFile('trash_list');

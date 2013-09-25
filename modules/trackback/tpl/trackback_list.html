@@ -5,9 +5,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 <load target="js/trackback_admin.js" usecdn="true" />
 <form action="">
 	<div class="x_page-header">
-		<h1>{$lang->trackback} <a class="x_icon-question-sign" href="./help/index.html#UMAN_content_trackback" target="_blank">{$lang->help}</a></h1>
+		<h1>{$lang->trackback} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_content_trackback" target="_blank">{$lang->help}</a></h1>
 	</div>
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/trackback/tpl/trackback_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<table width="100%" id="trackbackListTable" class="x_table x_table-striped x_table-hover">
@@ -98,6 +98,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="module" value="trackback" />
 	<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="xe_validator_id" value="modules/trackback/tpl/trackback_list/1" />
 	<div class="x_modal-header">
 		<h1>{$lang->trackback_manager}: {$lang->delete}</h1>
 	</div>
@@ -133,7 +134,7 @@ jQuery(function($){
 		}
 	}).change();
 	// Modal anchor button action
-	$('a.modalAnchor').click(function(){
+	$('a.modalAnchor').bind('before-open.mw', function(){
 		if($docTable.find('tbody :checked').length == 0){
 			$('body').css('overflow','auto');
 			alert('{$lang->msg_cart_is_null}');

@@ -390,9 +390,6 @@ if(jQuery) jQuery.noConflict();
                                         click_str = " onclick=\""+url+"; return false; \"";
                                         url="#";
                                     break;
-                                default :
-                                        click_str = " onclick=\"window.open(this.href); return false;\"";
-                                    break;
                             }
 
                             html += '<li '+styleText+'><a href="'+url+'"'+click_str+'>'+str+'</a></li> ';
@@ -412,22 +409,16 @@ if(jQuery) jQuery.noConflict();
                 if(area.outerWidth()+areaOffset.left > $(window).width()+$(window).scrollLeft())
                     areaOffset.left = $(window).width() - area.outerWidth() + $(window).scrollLeft();
 
-                area.css({ top:areaOffset.top, left:areaOffset.left }).show();
+                area.css({ top:areaOffset.top, left:areaOffset.left }).show().focus();
             }
         }
     }
-
 }) (jQuery);
 
 
 
 /* jQuery(document).ready() */
 jQuery(function($) {
-
-	// Anchor: focus move to target
-	$('a[href^="#"]').click(function(){
-		$($(this).attr('href')).attr('tabindex','0').focus();
-	});
 
     /* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
     if($.browser.msie) {
@@ -640,7 +631,7 @@ function winopen(url, target, attribute) {
 function popopen(url, target) {
     if(typeof(target) == "undefined") target = "_blank";
     if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
-    winopen(url, target, "width=650,height=500,scrollbars=yes,resizable=yes,toolbars=no");
+    winopen(url, target, "width=800,height=600,scrollbars=yes,resizable=yes,toolbars=no");
 }
 
 /**
@@ -1197,7 +1188,7 @@ jQuery(function($){
 	// display popup menu that contains member actions and document actions
 	$(document).click(function(evt) {
 		var $area = $('#popup_menu_area');
-		if(!$area.length) $area = $('<div id="popup_menu_area" style="display:none;z-index:9999" />').appendTo(document.body);
+		if(!$area.length) $area = $('<div id="popup_menu_area" tabindex="0" style="display:none;z-index:9999" />').appendTo(document.body);
 
 		// 이전에 호출되었을지 모르는 팝업메뉴 숨김
 		$area.hide();
@@ -1622,7 +1613,7 @@ function arr2obj(arr) {
 /**
  * @brief exec_json (exec_xml와 같은 용도)
  **/
-$.exec_json = function(action,data,func){
+$.exec_json = function(action,data,func,f_error){
     if(typeof(data) == 'undefined') data = {};
     action = action.split(".");
     if(action.length == 2){
@@ -1649,9 +1640,11 @@ $.exec_json = function(action,data,func){
 					if(data.error == -1 && data.message == 'msg_is_not_administrator'){
 						alert('You are not logged in as an administrator');
 	//					window.location.reload();
+						if($.isFunction(f_error)) f_error(data);
 						return;
 					}else{
 						alert(data.message);
+						if($.isFunction(f_error)) f_error(data);
 						return;
 					}
 				}

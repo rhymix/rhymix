@@ -1,6 +1,8 @@
 <load target="../../../../common/js/jquery.min.js" usecdn="true" index="-1000000" />
-<load target="./filter/openid_login.xml" />
+<block cond="!$is_logged && $module == 'admin'">
 <load target="../../../../common/css/bootstrap.min.css" index="1" />
+</block>
+<load target="./filter/openid_login.xml" />
 <load target="./message.css" index="2" />
 <load target="./message.js" />
 <div id="access">
@@ -8,13 +10,14 @@
 		<h1><i class="icon-user"></i> {$system_message}</h1>
 	</div>
 	<div class="login-body">
-		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/message/skins/default/system_message/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
 		<form cond="!$is_logged && $module == 'admin'" ruleset="@login" action="{getUrl('','act','procMemberLogin')}" method="post">
 			<input type="hidden" name="module" value="member" />
 			<input type="hidden" name="act" value="procMemberLogin" />
 			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+			<input type="hidden" name="xe_validator_id" value="modules/message/skins/default/system_message/1" />
 			<fieldset>
 				<div class="control-group">
 					<input type="text" name="user_id" id="uid" title="{$lang->user_id}" placeholder="{$lang->user_id}" required autofocus cond="$member_config->identifier != 'email_address'" />

@@ -205,6 +205,8 @@ class trashAdminController extends trash
 			$this->setMessage($lang->no_documents);
 		}
 
+		$oSecurity = new Security($trashList);
+		$oSecurity->encodeHTML('..');
 		$this->add('trash_list', $trashList);
 	}
 

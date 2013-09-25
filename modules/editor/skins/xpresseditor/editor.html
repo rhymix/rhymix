@@ -16,7 +16,7 @@
 
     <div class="xeTextEditor {$editor_class}">
         <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
-        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" rows="8" cols="42" class="iTextArea"></textarea>
+        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;font-family:{$content_font};" rows="8" cols="42" class="iTextArea"></textarea>
     </div>
     <script>//<![CDATA[
         editorStartTextarea({$editor_sequence}, "{$editor_content_key_name}", "{$editor_primary_key_name}");
@@ -62,7 +62,7 @@
                     <select class="xpress_xeditor_ui_fontName_select" disabled="disabled">
                         <option value="">{$lang->edit->fontname}</option>
                         <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-                        <option value="{$key}" style="font-family:{$obj}">{$obj}</option>
+                        <option value="{htmlspecialchars($obj)}" style="font-family:{$obj}">{$obj}</option>
                         <!--@end-->
                     </select>
                 </li>

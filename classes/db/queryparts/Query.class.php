@@ -245,6 +245,11 @@ class Query extends Object
 		$this->orderby = $order;
 	}
 
+	function getOrder()
+	{
+		return $this->orderby;
+	}
+
 	function setLimit($limit = NULL)
 	{
 		if(!isset($limit))

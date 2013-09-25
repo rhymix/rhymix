@@ -499,7 +499,7 @@ class ExtraItem
 		}
 		if($this->desc)
 		{
-			$buff .= '<p>' . $this->desc . '</p>';
+			$buff .= '<p>' . htmlspecialchars($this->desc) . '</p>';
 		}
 		
 		return $buff;

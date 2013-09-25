@@ -22,11 +22,11 @@
         <action name="dispSpamfilterAdminDeniedWordList" type="view" standalone="true" menu_name="spamFilter" />
         <action name="dispSpamfilterAdminConfigBlock" type="view" standalone="true" menu_name="spamFilter" />
 
-		<action name="procSpamfilterAdminInsertDeniedIP" type="controller" standalone="true" ruleset="insertDeniedIp" />
+		<action name="procSpamfilterAdminInsertDeniedIP" type="controller" standalone="true" />
         <action name="procSpamfilterAdminInsertDeniedWord" type="controller" standalone="true" />
 
-        <action name="procSpamfilterAdminDeleteDeniedIP" type="controller" standalone="true" ruleset="deleteDeniedIp" />
-        <action name="procSpamfilterAdminDeleteDeniedWord" type="controller" standalone="true" ruleset="deleteDeniedWord" />
+        <action name="procSpamfilterAdminDeleteDeniedIP" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminDeleteDeniedWord" type="controller" standalone="true" />
         <action name="procSpamfilterAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
 
 	</actions>

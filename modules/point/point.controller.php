@@ -81,11 +81,11 @@ class pointController extends point
 			$cur_point = $oPointModel->getPoint($member_srl, true);
 
 			$point = $module_config['insert_document'];
-			if(!isset($point)) $point = $config->insert_document;
+			if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_document;
 			$cur_point += $point;
 			// Add points for attaching a file
 			$point = $module_config['upload_file'];
-			if(!isset($point)) $point = $config->upload_file;
+			if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
 			if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
 			// Increase the point
 			$this->setPoint($member_srl,$cur_point);
@@ -117,11 +117,11 @@ class pointController extends point
 			$cur_point = $oPointModel->getPoint($oDocument->get('member_srl'), true);
 
 			$point = $module_config['insert_document'];
-			if(!isset($point)) $point = $config->insert_document;
+			if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_document;
 			$cur_point += $point;
 			// Add points for attaching a file
 			$point = $module_config['upload_file'];
-			if(!isset($point)) $point = $config->upload_file;
+			if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
 			if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
 			// Increase the point
 			$this->setPoint($oDocument->get('member_srl'), $cur_point);
@@ -147,7 +147,7 @@ class pointController extends point
 		$module_config = $oModuleModel->getModulePartConfig('point',$oDocument->get('module_srl'));
 		// The process related to clearing the post comments
 		$comment_point = $module_config['insert_comment'];
-		if(!isset($comment_point)) $comment_point = $config->insert_comment;
+		if(strlen($comment_point) == 0 && !is_int($comment_point)) $comment_point = $config->insert_comment;
 		// If there are comment points, attempt to deduct
 		if($comment_point>0) return new Object();
 		// Get all the comments related to this post
@@ -201,13 +201,13 @@ class pointController extends point
 		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
 		$point = $module_config['insert_document'];
-		if(!isset($point)) $point = $config->insert_document;
+		if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_document;
 		// if the point is set to decrease when writing a document, make sure it does not increase the points when deleting an article
 		if($point < 0) return new Object();
 		$cur_point -= $point;
 		// Add points related to deleting an attachment
 		$point = $module_config['upload_file'];
-		if(!isset($point)) $point = $config->upload_file;
+		if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
 		if($obj->uploaded_count) $cur_point -= $point * $obj->uploaded_count;
 		// Increase the point
 		$this->setPoint($member_srl,$cur_point);
@@ -237,7 +237,7 @@ class pointController extends point
 		$cur_point = $oPointModel->getPoint($member_srl, true);
 
 		$point = $module_config['insert_comment'];
-		if(!isset($point)) $point = $config->insert_comment;
+		if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_comment;
 		// Increase the point
 		$cur_point += $point;
 		$this->setPoint($member_srl,$cur_point);
@@ -269,7 +269,7 @@ class pointController extends point
 		$cur_point = $oPointModel->getPoint($member_srl, true);
 
 		$point = $module_config['insert_comment'];
-		if(!isset($point)) $point = $config->insert_comment;
+		if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_comment;
 		// if the point is set to decrease when writing a comment, make sure it does not increase the points when deleting a comment
 		if($point < 0) return new Object();
 		// Increase the point
@@ -308,7 +308,7 @@ class pointController extends point
 		$cur_point = $oPointModel->getPoint($member_srl, true);
 
 		$point = $module_config['upload_file'];
-		if(!isset($point)) $point = $config->upload_file;
+		if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
 		// Increase the point
 		$cur_point -= $point;
 		$this->setPoint($member_srl,$cur_point);
@@ -334,7 +334,7 @@ class pointController extends point
 		// If it is set not to allow downloading for non-logged in users, do not permit
 		if(!Context::get('is_logged'))
 		{
-			if($config->disable_download == 'Y' && isset($module_config['download_file'])) return new Object(-1,'msg_not_permitted_download');
+			if($config->disable_download == 'Y' && strlen($module_config['download_file']) == 0 && !is_int($module_config['download_file'])) return new Object(-1,'msg_not_permitted_download');
 			else return new Object();
 		}
 		// Get the points of the member
@@ -342,7 +342,7 @@ class pointController extends point
 		$cur_point = $oPointModel->getPoint($member_srl, true);
 		// Get the points
 		$point = $module_config['download_file'];
-		if(!isset($point)) $point = $config->download_file;
+		if(strlen($point) == 0 && !is_int($point)) $point = $config->download_file;
 		// If points are less than 0, and if downloading a file is not allowed in this case, give an errors
 		if($cur_point + $point < 0 && $config->disable_download == 'Y') return new Object(-1,'msg_cannot_download');
 
@@ -371,7 +371,7 @@ class pointController extends point
 		$cur_point = $oPointModel->getPoint($member_srl, true);
 		// Get the points
 		$point = $module_config['download_file'];
-		if(!isset($point)) $point = $config->download_file;
+		if(strlen($point) == 0 && !is_int($point)) $point = $config->download_file;
 		// Increase the point
 		$cur_point += $point;
 		$this->setPoint($member_srl,$cur_point);
@@ -399,7 +399,7 @@ class pointController extends point
 		$module_config = $oModuleModel->getModulePartConfig('point', $obj->get('module_srl'));
 		// Get hits points
 		$point = $module_config['read_document'];
-		if(!isset($point)) $point = $config->read_document;
+		if(strlen($point) == 0 && !is_int($point)) $point = $config->read_document;
 		// Pass if there are no requested points
 		if(!$point) return new Object();
 		// In case of a registered member, if it is read but cannot just pass, then get the current points
@@ -455,12 +455,12 @@ class pointController extends point
 		if( $obj->point > 0 )
 		{
 			$point = $module_config['voted'];
-			if(!isset($point)) $point = $config->voted;
+			if(strlen($point) == 0 && !is_int($point)) $point = $config->voted;
 		}
 		else
 		{
 			$point = $module_config['blamed'];
-			if(!isset($point)) $point = $config->blamed;
+			if(strlen($point) == 0 && !is_int($point)) $point = $config->blamed;
 		}
 
 		if(!$point) return new Object();

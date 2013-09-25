@@ -28,7 +28,14 @@ class widgetAdminView extends widget
 
 		foreach($widget_list as $no => $widget)
 		{
-			$widget_list[$no]->description = nl2br(trim($widget->description));
+			if($widget->widget)
+			{
+				$widget_list[$no]->description = nl2br(trim($widget->description));
+			}
+			else
+			{
+				unset($widget_list[$no]);
+			}
 		}
 
 		Context::set('widget_list', $widget_list);

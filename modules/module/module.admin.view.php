@@ -146,6 +146,9 @@ class moduleAdminView extends module
 		$columnList = array('module_srl', 'module', 'mid', 'browser_title');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		Context::set('module_info', $module_info);
+
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('module_info.');
 		// Set the layout to be pop-up
 		$this->setLayoutPath('./common/tpl');
 		$this->setLayoutFile('popup_layout');
@@ -301,6 +304,10 @@ class moduleAdminView extends module
 		Context::set('filebox_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('page', $page);
+		
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
+		debugPrint($output->data);
 		$this->setTemplateFile('adminFileBox');
 	}
 }

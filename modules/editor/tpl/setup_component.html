@@ -4,7 +4,7 @@
 <div class="x_page-header">
 	<h1>{$lang->editor}</h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/editor/tpl/setup_component/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
@@ -13,6 +13,7 @@
 		<input type="hidden" name="module" value="editor" />
 		<input type="hidden" name="act" value="procEditorAdminSetupComponent" />
 		<input type="hidden" name="component_name" value="{$component_name}" />
+		<input type="hidden" name="xe_validator_id" value="modules/editor/tpl/setup_component/1" />
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->component_name}</label>
 			<div class="x_controls">{$component->title}({$component->component_name}) ver. {$component->version}</div>
@@ -42,7 +43,8 @@
 			<label class="x_control-label">{$lang->grant}</label>
 			<div class="x_controls">
 				<label class="x_inline" loop="$group_list=>$key,$val">
-                <input type="checkbox" name="target_group" value="{$key}" <!--@if(in_array($key, $component->target_group))-->checked="checked"<!--@end--> id="group_{$key}"> {$val->title}</label>
+					<input type="checkbox" name="target_group[]" value="{$key}" <!--@if(in_array($key, $component->target_group))-->checked="checked"<!--@end--> id="group_{$key}"> {$val->title}
+				</label>
 			</div>
 		</div>
 		<div class="x_control-group" cond="$mid_list">

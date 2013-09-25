@@ -3,7 +3,7 @@
 	<div class="hx h2">
 		<h2>{$system_message}</h2>
 	</div>
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/message/m.skin/default/system_message/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<div class="co">
@@ -19,6 +19,7 @@
 			<form action="{getUrl('','act','procMemberLogin')}" method="post" ruleset="@login" class="ff">
 			<input type="hidden" name="module" value="member" />
 			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+			<input type="hidden" name="xe_validator_id" value="modules/message/m.skin/default/system_message/1" />
 				<fieldset>
 					<ul>
 						<li cond="$member_config->identifier == 'user_id'"><label for="uid">{$lang->user_id}</label><input type="text" name="user_id" id="uid" required autofocus /></li>

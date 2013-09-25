@@ -126,12 +126,20 @@ class DBMssql extends DB
 	 * this method is private
 	 * @return boolean
 	 */
-	function _begin()
+	function _begin($transactionLevel)
 	{
 		$connection = $this->_getConnection('master');
-		if(sqlsrv_begin_transaction($connection) === false)
+
+		if(!$transactionLevel)
 		{
-			return;
+			if(sqlsrv_begin_transaction($connection) === false)
+			{
+				return;
+			}
+		}
+		else
+		{
+			$this->_query("SAVE TRANS SP" . $transactionLevel, $connection);
 		}
 		return true;
 	}
@@ -141,10 +149,20 @@ class DBMssql extends DB
 	 * this method is private
 	 * @return boolean
 	 */
-	function _rollback()
+	function _rollback($transactionLevel)
 	{
 		$connection = $this->_getConnection('master');
-		sqlsrv_rollback($connection);
+
+		$point = $transactionLevel - 1;
+
+		if($point)
+		{
+			$this->_query("ROLLBACK TRANS SP" . $point, $connection);
+		}
+		else
+		{
+			sqlsrv_rollback($connection);
+		}
 		return true;
 	}
 
@@ -725,7 +743,7 @@ class DBMssql extends DB
 	 * @param boolean $with_values
 	 * @return string
 	 */
-	function getSelectSql($query, $with_values = TRUE)
+	function getSelectSql($query, $with_values = TRUE, $connection=NULL)
 	{
 		$with_values = false;
 
@@ -783,7 +801,49 @@ class DBMssql extends DB
 			$orderBy = ' ORDER BY ' . $orderBy;
 		}
 
-		return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
+		if($limitCount != '' && $query->limit->start > 0)
+		{
+			$order = $query->getOrder();
+			$first_columns = array();
+			foreach($order as $val)
+			{
+				$tmpColumnName = $val->getPureColumnName();
+				$first_columns[] = sprintf('%s(%s) as %s', $val->getPureSortOrder()=='asc'?'max':'min', $tmpColumnName, $tmpColumnName);
+				$first_sub_columns[] = $tmpColumnName;
+			}
+
+			$first_query = sprintf("select %s from (select top %d %s %s %s %s %s) xet", implode(',',$first_columns),  $query->limit->start, implode(',',$first_sub_columns), $from, $where, $groupBy, $orderBy);
+			$this->param = $query->getArguments();
+			$result = $this->__query($first_query, $connection);
+			$tmp = $this->_fetch($result);
+
+			$sub_cond = array();
+			foreach($order as $k => $v)
+			{
+				//for example... use Document
+				if(get_class($v->sort_order) == 'SortArgument')
+				{
+					$sort_order = $v->sort_order->value;
+				}
+				//for example... use comment, file
+				else
+				{
+					$sort_order = $v->sort_order;
+				}
+
+				$sub_cond[] = sprintf("%s %s '%s'", $v->getPureColumnName(), $sort_order=='asc'?'>':'<', $tmp->{$v->getPureColumnName()});
+			}
+
+			if(!$where)
+			{
+				$sub_condition = ' WHERE ( '.implode(' and ',$sub_cond).' )';
+			}
+			else
+			{
+				$sub_condition = ' and ( '.implode(' and ',$sub_cond).' )';
+			}
+		}
+		return $select . ' ' . $from . ' ' . $where .$sub_condition. ' ' . $groupBy . ' ' . $orderBy;
 	}
 
 	/**
@@ -796,7 +856,7 @@ class DBMssql extends DB
 	 */
 	function _executeSelectAct($queryObject, $connection = null)
 	{
-		$query = $this->getSelectSql($queryObject);
+		$query = $this->getSelectSql($queryObject, true, $connection);
 
 		if(strpos($query, "substr"))
 		{
@@ -903,7 +963,7 @@ class DBMssql extends DB
 				$page_count = 10;
 			}
 			$page = $limit->page->getValue();
-			if(!$page)
+			if(!$page || $page < 1)
 			{
 				$page = 1;
 			}

@@ -52,10 +52,10 @@
 			<tr>
 				<th scope="row" style="text-align:right">{$lang->editor_height}</th>
 				<td>
-					<input type="number" min="0" name="editor_height" value="{$editor_config->editor_height}" style="width:50px" /> px
+					<input type="number" min="0" name="editor_height" value="{$editor_config->editor_height}" /> px
 				</td>
 				<td>
-					<input type="number" min="0" name="comment_editor_height" value="{$editor_config->comment_editor_height}" style="width:50px" /> px
+					<input type="number" min="0" name="comment_editor_height" value="{$editor_config->comment_editor_height}" /> px
 				</td>
 			</tr>
 			<tr>
@@ -72,7 +72,7 @@
 			<tr>
 				<th scope="row" style="text-align:right">{$lang->enable_autosave}</th>
 				<td colspan="2">
-					<label for="enable_autosave">
+					<label for="enable_autosave" class="x_inline">
 						<input type="checkbox" value="Y" id="enable_autosave" name="enable_autosave" checked="checked"|cond="$editor_config->enable_autosave=='Y'" />
 						{$lang->about_enable_autosave}
 					</label>

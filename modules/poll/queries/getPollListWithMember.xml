@@ -1,8 +1,16 @@
 <query id="getPollListWithMember" action="select">
     <tables>
         <table name="poll_title" alias="P" />
-        <table name="poll" alias="P2" />
-        <table name="member" alias="M" />
+		<table name="poll" alias="P2" type="left join">
+			<conditions>
+				<condition operation="equal" column="P2.poll_srl" var="P.poll_srl" />
+			</conditions>
+		</table>
+        <table name="member" alias="M" type="left outer join">
+			<conditions>
+				<condition operation="equal" column="P2.member_srl" var="M.member_srl" />
+			</conditions>
+		</table>
     </tables>
     <columns>
         <column name="P.poll_srl" alias="poll_srl" />
@@ -17,15 +25,14 @@
         <column name="M.*" />
     </columns>
     <conditions>
+		
+		<condition operation="in" column="poll_index_srl" var="pollIndexSrlList" filter="number" pipe="and" />
+		
 		<group pipe="and">
-			<condition operation="equal" column="P.member_srl" var="M.member_srl" notnull="notnull" />
-			<condition operation="equal" column="P2.member_srl" var="M.member_srl" notnull="notnull" pipe="and" />
-			<condition operation="equal" column="P2.poll_srl" var="P.poll_srl" notnull="notnull" pipe="and" />
-			<condition operation="in" column="poll_index_srl" var="pollIndexSrlList" filter="number" pipe="and" />
+			<condition operation="like" column="P.title" var="s_title" pipe="or"/>
+			<condition operation="like_prefix" column="P.regdate" var="s_regdate" pipe="or" />
+			<condition operation="like_prefix" column="P.ipaddress" var="s_ipaddress" pipe="or" />
 		</group>
-        <condition operation="like" column="P.title" var="s_title" pipe="or"/>
-        <condition operation="like_prefix" column="P.regdate" var="s_regdate" pipe="or" />
-        <condition operation="like_prefix" column="P.ipaddress" var="s_ipaddress" pipe="or" />
     </conditions>
     <navigation>
         <index var="sort_index" default="P.list_order" order="asc" />

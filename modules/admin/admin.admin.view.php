@@ -127,6 +127,13 @@ class adminAdminView extends admin
 	{
 		global $lang;
 
+		// Check is_shortcut column
+		$oDB = DB::getInstance();
+		if(!$oDB->isColumnExists('menu_item', 'is_shortcut'))
+		{
+			return;
+		}
+
 		$oAdminAdminModel = getAdminModel('admin');
 		$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
 
@@ -135,6 +142,7 @@ class adminAdminView extends admin
 		{
 			header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
 			Context::close();
+			exit;
 		}
 		include $result->php_file;
 
@@ -154,38 +162,45 @@ class adminAdminView extends admin
 
 		$parentSrl = 0;
 		$oMenuAdminConroller = getAdminController('menu');
-		foreach((array) $menu->list as $parentKey => $parentMenu)
+		if(!$_SESSION['isMakeXml'])
 		{
-			if(!$parentMenu['text'])
+			foreach((array) $menu->list as $parentKey => $parentMenu)
 			{
-				$oMenuAdminConroller->makeXmlFile($result->menu_srl);
-				header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
-				break;
-			}
-
-			if(!is_array($parentMenu['list']) || !count($parentMenu['list']))
-			{
-				continue;
-			}
-			if($parentMenu['href'] == '#' && count($parentMenu['list']))
-			{
-				$firstChild = current($parentMenu['list']);
-				$menu->list[$parentKey]['href'] = $firstChild['href'];
-			}
-
-			foreach($parentMenu['list'] as $childKey => $childMenu)
-			{
-				if(!$childMenu['text'])
+				if(!$parentMenu['text'])
 				{
 					$oMenuAdminConroller->makeXmlFile($result->menu_srl);
+					$_SESSION['isMakeXml'] = true;
 					header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
-					break;
+					Context::close();
+					exit;
 				}
 
-				if($subMenuTitle == $childMenu['text'])
+				if(!is_array($parentMenu['list']) || !count($parentMenu['list']))
 				{
-					$parentSrl = $childMenu['parent_srl'];
-					break;
+					continue;
+				}
+				if($parentMenu['href'] == '#' && count($parentMenu['list']))
+				{
+					$firstChild = current($parentMenu['list']);
+					$menu->list[$parentKey]['href'] = $firstChild['href'];
+				}
+
+				foreach($parentMenu['list'] as $childKey => $childMenu)
+				{
+					if(!$childMenu['text'])
+					{
+						$oMenuAdminConroller->makeXmlFile($result->menu_srl);
+						$_SESSION['isMakeXml'] = true;
+						header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
+						Context::close();
+						exit;
+					}
+
+					if($subMenuTitle == $childMenu['text'])
+					{
+						$parentSrl = $childMenu['parent_srl'];
+						break;
+					}
 				}
 			}
 		}
@@ -287,8 +302,6 @@ class adminAdminView extends admin
 		;
 		$output = $oDocumentModel->getDocumentList($args, FALSE, FALSE, $columnList);
 		Context::set('latestDocumentList', $output->data);
-		$security = new Security();
-		$security->encodeHTML('latestDocumentList..variables.nick_name');
 		unset($args, $output, $columnList);
 
 		// Latest Comment
@@ -335,7 +348,7 @@ class adminAdminView extends admin
 		{
 			foreach($needUpdateList AS $key => $value)
 			{
-				$helpUrl = './help/index.html#';
+				$helpUrl = './admin/help/index.html#';
 				switch($value->type)
 				{
 					case 'addon':
@@ -366,6 +379,9 @@ class adminAdminView extends admin
 		Context::set('addTables', $addTables);
 		Context::set('needUpdate', $needUpdate);
 		Context::set('newVersionList', $needUpdateList);
+
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('module_list..', 'module_list..author..', 'newVersionList..');
 
 		// gathering enviroment check
 		$mainVersion = join('.', array_slice(explode('.', __XE_VERSION__), 0, 2));
@@ -404,8 +420,8 @@ class adminAdminView extends admin
 		$oAdminModel = getAdminModel('admin');
 		$favicon_url = $oAdminModel->getFaviconUrl();
 		$mobicon_url = $oAdminModel->getMobileIconUrl();
-		Context::set('favicon_url', $favicon_url);
-		Context::set('mobicon_url', $mobicon_url);
+		Context::set('favicon_url', $favicon_url.'?'.time());
+		Context::set('mobicon_url', $mobicon_url.'?'.time());
 
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();

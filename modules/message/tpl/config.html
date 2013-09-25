@@ -1,3 +1,4 @@
+<load target="js/config.js" />
 <div class="x_page-header">
 	<h1>
 		{$lang->message}
@@ -6,28 +7,41 @@
 </div>
 <p class="x_alert x_alert-info" id="aboutSkin" hidden>{$lang->about_skin}</p>
 
-<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/message/tpl/config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
 <form action="./" method="post" class="x_form-horizontal">
 <input type="hidden" name="module" value="message" />
 <input type="hidden" name="act" value="procMessageAdminInsertConfig" />
+<input type="hidden" name="xe_validator_id" value="modules/message/tpl/config/1" />
 
 	<div class="x_control-group">
 		<label for="skin" class="x_control-label">{$lang->skin}</label>
 		<div class="x_controls">
-			<select name="skin" id="skin" style="width:auto">
+			<select name="skin" id="skin" style="width:auto" onchange="doGetSkinColorset(this.options[this.selectedIndex].value)">
 				<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$key == $config->skin">{$val->title}</option>
 			</select>
+		</div>
+	</div>
+	<div id="colorset" class="x_control-group" style="display:none">
+		<label class="x_control-label" for="message_colorset">{$lang->colorset}</label>
+		<div class="x_controls">
+			<div id="message_colorset"></div>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label for="mskin" class="x_control-label">{$lang->mobile_skin}</label>
 		<div class="x_controls">
-			<select name="mskin" id="mskin" style="width:auto">
+			<select name="mskin" id="mskin" style="width:auto" onchange="doGetSkinColorset(this.options[this.selectedIndex].value, 'M')">
 				<option loop="$mskin_list => $key, $val" value="{$key}" selected="selected"|cond="$key == $config->mskin">{$val->title}</option>
 			</select>
+		</div>
+	</div>
+	<div id="mcolorset" class="x_control-group" style="display:none">
+		<label class="x_control-label" for="message_mcolorset">{$lang->colorset}</label>
+		<div class="x_controls">
+			<div id="message_mcolorset"></div>
 		</div>
 	</div>
 	<div class="btnArea">

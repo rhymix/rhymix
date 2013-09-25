@@ -1,13 +1,14 @@
 <include target="header.html" />
 <load target="../../module/tpl/js/module_list.js" usecdn="true" />
 
-<div cond="$XE_VALIDATOR_MESSAGE" class="x_alert x_alert-{$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/integration_search/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
 <form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal">
 	<input type="hidden" name="act" value="procIntegration_searchAdminInsertConfig" />
 	<input type="hidden" name="module" value="admin" />
+	<input type="hidden" name="xe_validator_id" value="modules/integration_search/tpl/index/1" />
 
 	<div class="x_control-group">
 		<label for="sample_code" class="x_control-label">{$lang->sample_code}</label>
