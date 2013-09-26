@@ -22,6 +22,12 @@ class memberAdminController extends member
 	{
 		// if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
 		// Extract the necessary information in advance
+		$logged_info = Context::get('loggd_info');
+		if($logged_info->is_admin != 'Y' || !checkCSRF())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
 		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
 		$oMemberModel = &getModel ('member');
 		$config = $oMemberModel->getMemberConfig ();
