@@ -21,6 +21,7 @@ class pollController extends poll
 		$stop_date = Context::get('stop_date');
 		if($stop_date < date("Ymd")) $stop_date = date("YmdHis", time()+60*60*24*365);
 
+		$logged_info = Context::get('logged_info');
 		$vars = Context::getRequestVars();
 		foreach($vars as $key => $val)
 		{
@@ -32,12 +33,7 @@ class pollController extends poll
 
 			$poll_index = $tmp_arr[1];
 
-			if(Context::get('is_logged'))
-			{
-				$logged_info = Context::get('logged_info');
-				// Remove the tag if the it is not the top administrator in the session
-				if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val);
-			}
+			if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val);
 
 			if($tmp_arr[0]=='title') $tmp_args[$poll_index]->title = $val;
 			else if($tmp_arr[0]=='checkcount') $tmp_args[$poll_index]->checkcount = $val;
@@ -56,7 +52,6 @@ class pollController extends poll
 		// Configure the variables
 		$poll_srl = getNextSequence();
 
-		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
 
 		$oDB = &DB::getInstance();
