@@ -42,7 +42,7 @@ define('__ZBXE__', __XE__);
  * '2' means 'release candidate' status.
  * '3' means 'final' status.
  */
-define('__XE_VERSION__', '1.7.3.4');
+define('__XE_VERSION__', '1.7.3.5');
 
 /**
  * @deprecated __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.
