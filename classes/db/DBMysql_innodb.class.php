@@ -111,8 +111,7 @@ class DBMysql_innodb extends DBMysql
 	{
 		if(!$connection)
 		{
-			Context::close();
-			exit();
+			exit('XE cannot handle DB connection.');
 		}
 		// Run the query statement
 		$result = @mysql_query($query, $connection);
