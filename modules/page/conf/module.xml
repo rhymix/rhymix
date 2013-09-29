@@ -13,7 +13,6 @@
         <action name="dispPageAdminGrantInfo" type="view" menu_name="page" />
         <action name="dispPageAdminInfo" type="view" setup_index="true" menu_name="page" />
         <action name="dispPageAdminPageAdditionSetup" type="view" menu_name="page" />
-        <action name="dispPageAdminInsert" type="view" menu_name="page" />
         <action name="dispPageAdminDelete" type="view" standalone="true" />
         <action name="dispPageAdminContentModify" type="view" standalone="true" />
         <action name="dispPageAdminAddContent" type="view" standalone="true" />

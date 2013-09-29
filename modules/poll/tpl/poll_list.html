@@ -1,131 +1,126 @@
-<script type="text/javascript">
+<script>
 xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
+xe.lang.msg_select_poll = '{$lang->msg_poll_is_null}';
+xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 </script>
 <load target="js/poll_admin.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div class="x_page-header">
+	<h1>{$lang->poll} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_content_poll" target="_blank">{$lang->help}</a></h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/tpl/poll_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="" class="form">
-	<input type="hidden" name="module" value="poll" />
-	<h1 class="h1">{$lang->poll}</h1>
-	<div class="table even">
-		<table width="100%" border="1" cellspacing="0" id="pollListTable">
-			<caption>
-				All({number_format($total_count)})
-				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getPollList();">{$lang->poll_manager}...</a></span></span>
-			</caption>
-			<thead>
-				<tr>
-					<th scope="col" class="text">{$lang->title}</th>
-					<th scope="col" class="nowr">{$lang->poll_checkcount}</th>
-					<th scope="col" class="nowr">{$lang->poll_join_count}</th>
-					<th scope="col" class="nowr">{$lang->author}</th>
-					<th scope="col" class="nowr">{$lang->regdate}</th>
-					<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
-					<th scope="col"><input type="checkbox" data-name="cart"title="Check All" /></th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<th scope="col" class="text">{$lang->title}</th>
-					<th scope="col" class="nowr">{$lang->poll_checkcount}</th>
-					<th scope="col" class="nowr">{$lang->poll_join_count}</th>
-					<th scope="col" class="nowr">{$lang->author}</th>
-					<th scope="col" class="nowr">{$lang->regdate}</th>
-					<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
-					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
-				</tr>
-			</tfoot>
-			<tbody>
-				<!--@foreach($poll_list as $no => $val)-->
-				<tr>
-					<td class="title"><a href="<!--@if($val->document_srl)-->{getUrl('')}?document_srl={$val->document_srl}<!--@end--><!--@if($val->comment_srl)-->#comment_{$val->comment_srl}<!--@end-->" target="_blank">{$val->title}</a></td>
-					<td class="nowr"><!--@if($val->checkcount == 1)-->{$lang->single_check}<!--@else-->{$lang->multi_check}<!--@end--></td>
-					<td class="nowr">{$val->poll_count}</td>
-					<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
-					<td class="nowr">{zdate($val->poll_regdate,"Y-m-d H:i")}</td>
-					<td class="nowr">{zdate($val->poll_stop_date,"Y-m-d")}</td>
-					<td>
-						<input type="checkbox" name="cart" value="{$val->poll_index_srl}" />
-					</td>
-				</tr>
-				<!--@end-->
-			</tbody>
-		</table>
-		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getPollList();">{$lang->poll_manager}...</a></span>
-		</div>
-	</div>
-</form>
-<div class="modal" id="listManager">
-	<form ruleset="deleteChecked" action="./" method="post" class="fg form">
-	<input type="hidden" name="module" value="poll" />
+<form ruleset="deleteChecked" action="./" method="post" id="pollList">
 	<input type="hidden" name="act" value="procPollAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
-		<h2 class="h2">{$lang->poll_manager}</h2>
-		<div class="table">
-			<table width="100%" border="1" cellspacing="0" id="pollManageListTable">
-				<caption>{$lang->selected_poll} <strong id="selectedPollCount"></strong></caption>
-				<thead>
-					<tr>
-						<th scope="col" class="text">{$lang->title}</th>
-						<th scope="col">{$lang->poll_join_count}</th>
-						<th scope="col">{$lang->author}</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-		</div>
-		<div class="btnArea">
-			<span class="btn"><input type="submit" value="Delete" /></span>
-		</div>
-	</form>
-</div>
-<div class="search">
-<form action="" class="pagination">
-	<input type="hidden" name="error_return_url" value="" />
-	<input type="hidden" name="module" value="{$module}" />
-	<input type="hidden" name="act" value="{$act}" />
-  	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
-  	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
-
-	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
-	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-	</block>
-	<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<strong cond="$page_no == $page">{$page_no}</strong>
-		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-	<!--@end-->
-	<block cond="$last_page != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-	</block>
-	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
-	<span cond="$isGoTo" id="goTo" class="tgContent">
-		<input name="page" title="{$lang->cmd_go_to_page}" />
-		<button type="submit">Go</button>
+	<input type="hidden" name="module" value="poll" />
+	<input type="hidden" name="xe_validator_id" value="modules/poll/tpl/poll_list/1" />
+	<table class="x_table x_table-striped x_table-hover" id="pollListTable">
+		<caption>
+			<strong>{$lang->all}({number_format($total_count)})</strong>
+			<span class="x_pull-right">
+				<input type="submit" class="x_btn _allowFreqSubmit" value="{$lang->delete}" />
+			</span>
+		</caption>
+		<thead>
+			<tr>
+				<th scope="col" class="text">{$lang->title}</th>
+				<th scope="col" class="nowr">{$lang->poll_checkcount}</th>
+				<th scope="col" class="nowr">{$lang->poll_join_count}</th>
+				<th scope="col" class="nowr">{$lang->author}</th>
+				<th scope="col" class="nowr">{$lang->regdate}</th>
+				<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
+				<th scope="col"><input type="checkbox" title="Check All" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$poll_list => $no,$val">
+				<td class="title"><a href="<!--@if($val->document_srl)-->{getUrl('')}?document_srl={$val->document_srl}<!--@end--><!--@if($val->comment_srl)-->#comment_{$val->comment_srl}<!--@end-->" target="_blank">{$val->title}</a></td>
+				<td class="nowr"><!--@if($val->checkcount == 1)-->{$lang->single_check}<!--@else-->{$lang->multi_check}<!--@end--></td>
+				<td class="nowr">{$val->poll_count}</td>
+				<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+				<td class="nowr">{zdate($val->poll_regdate,"Y-m-d H:i")}</td>
+				<td class="nowr">{zdate($val->poll_stop_date,"Y-m-d")}</td>
+				<td>
+					<input type="checkbox" name="cart[]" value="{$val->poll_index_srl}" />
+				</td>
+			</tr>
+			<tr cond="!$poll_list">
+				<td colspan="7" style="text-align:center">{$lang->no_data}</td>
+			</tr>
+		</tbody>
+	</table>
+	<span class="x_pull-right">
+		<input type="submit" class="x_btn _allowFreqSubmit" value="{$lang->delete}" />
 	</span>
 </form>
 
-	<form action="./" method="get" onsubmit="return checkSearch(this)">		
+<form action="./" class="x_pagination x_pull-left" style="margin:0" no-error-return-url="true">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
-	<input type="hidden" name="error_return_url" value="" />
-		<select name="search_target">
-			<option value="">{$lang->search_target}</option>
-			<!--@foreach($lang->search_target_list as $key => $val)-->
-			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-			<!--@end-->
-		</select>
-		<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-		<input type="submit" value="{$lang->cmd_search}" />
-		<a href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
-	</form>
-</div>
+	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+	<ul>
+		<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+		{@$isGoTo = true}
+		<li>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+			<span cond="$isGoTo" id="goTo" class="x_input-append">
+				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit" class="x_add-on">Go</button>
+			</span>
+		</li>
+		</block>
+
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		{@$last_page = $page_no}
+		<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+
+		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+		{@$isGoTo = true}
+		<li>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+			<span cond="$isGoTo" id="goTo" class="x_input-append">
+				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit" class="x_add-on">Go</button>
+			</span>
+		</li>
+		</block>
+		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+	</ul>
+</form>
+
+<form action="./" method="get" class="search center x_input-append" style="clear:both;padding:10px 0 0 0;margin:0" no-error-return-url="true">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
+		<option loop="$lang->search_poll_target_list => $key, $val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+	</select>
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+	<a class="x_btn" href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
+</form>
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#pollListTable');
+	var $submit = $('#pollList [type="submit"]');
+	$docTable.find(':checkbox').change(function(){
+		if($docTable.find('tbody :checked').length == 0){
+			$submit.addClass('x_disabled');
+		} else {
+			$submit.removeClass('x_disabled');
+		}
+	}).change();
+	// Button action
+	$submit.click(function(){
+		if($docTable.find('tbody :checked').length == 0){
+			alert(xe.lang.msg_select_poll);
+			return false;
+		}
+	});
+});
+</script>

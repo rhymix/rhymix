@@ -17,7 +17,9 @@
         <column name="modules.use_mobile" alias="use_mobile" />
         <column name="modules.menu_srl" alias="menu_srl" />
         <column name="modules.mid" alias="mid" />
+        <column name="modules.is_skin_fix" alias="is_skin_fix" />
         <column name="modules.skin" alias="skin" />
+        <column name="modules.is_mskin_fix" alias="is_mskin_fix" />
         <column name="modules.mskin" alias="mskin" />
         <column name="modules.browser_title" alias="browser_title" />
         <column name="modules.description" alias="description" />

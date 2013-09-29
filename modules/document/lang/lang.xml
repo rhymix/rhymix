@@ -184,7 +184,7 @@
 		<value xml:lang="vi"><![CDATA[Hãy nhập tên thể loại]]></value>
 	</item>
 	<item name="about_expand">
-		<value xml:lang="ko"><![CDATA[선택하시면 늘 펼쳐진 상태로 있게 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택하면 늘 펼쳐진 상태로 있게 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Select this option, and they will stay expanded.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると常に展開された状態になります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项将维持展开状态。]]></value>
@@ -196,14 +196,14 @@
 		<value xml:lang="vi"><![CDATA[Nếu sử dụng tùy chọn này, Thể loại sẽ luôn luôn được trải rộng.]]></value>
 	</item>
 	<item name="about_category_group_srls">
-		<value xml:lang="ko"><![CDATA[선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 그룹만 현재 카테고리를 지정할 수 있도록 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Only the selected group will be able to use this category.]]></value>
 		<value xml:lang="jp"><![CDATA[選択したグループのみ、現在のカテゴリの指定ができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[所选用户组才可以查看此分类。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[被選擇的群組才可以檢視此分類。]]></value>
 		<value xml:lang="fr"><![CDATA[Le groupe choisi seulement pourra utiliser la catégorie courante]]></value>
 		<value xml:lang="ru"><![CDATA[Только выбранные группы можно отнести к этой категории]]></value>
-		<value xml:lang="es"><![CDATA[선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다]]></value>
+		<value xml:lang="es"><![CDATA[선택한 그룹만 현재 카테고리를 지정할 수 있도록 합니다]]></value>
 		<value xml:lang="tr"><![CDATA[Sadece seçilen grup geçerli kategoriyi kullanabilecektir]]></value>
 		<value xml:lang="vi"><![CDATA[Chỉ những nhóm đã chọn mới được phép sử dụng thể loại này.]]></value>
 	</item>
@@ -268,13 +268,13 @@
 		<value xml:lang="vi"><![CDATA[Xóa những bài đã chọn]]></value>
 	</item>
 	<item name="cmd_document_do">
-		<value xml:lang="ko"><![CDATA[이 게시물을...]]></value>
+		<value xml:lang="ko"><![CDATA[이 게시물을]]></value>
 		<value xml:lang="en"><![CDATA[I want to]]></value>
 		<value xml:lang="jp"><![CDATA[この書き込みを..]]></value>
 		<value xml:lang="zh-CN"><![CDATA[将把此主题..]]></value>
 		<value xml:lang="zh-TW"><![CDATA[將此文章..]]></value>
 		<value xml:lang="fr"><![CDATA[Vous voudriez..]]></value>
-		<value xml:lang="ru"><![CDATA[Эту запись...]]></value>
+		<value xml:lang="ru"><![CDATA[Эту запись]]></value>
 		<value xml:lang="es"><![CDATA[Usted ..]]></value>
 		<value xml:lang="tr"><![CDATA[Şunu yap]]></value>
 		<value xml:lang="vi"><![CDATA[Bình chọn / Phê bình]]></value>
@@ -328,7 +328,7 @@
 		<value xml:lang="vi"><![CDATA[%d bài viết đã được xóa.]]></value>
 	</item>
 	<item name="move_target_module">
-		<value xml:lang="ko"><![CDATA[대상 모듈]]></value>
+		<value xml:lang="ko"><![CDATA[대상 페이지]]></value>
 		<value xml:lang="en"><![CDATA[Target module ]]></value>
 		<value xml:lang="jp"><![CDATA[移動対象モジュール]]></value>
 		<value xml:lang="zh-CN"><![CDATA[目标模块]]></value>
@@ -454,7 +454,7 @@
 			<value xml:lang="tr"><![CDATA[Gizli]]></value>
 			<value xml:lang="vi"><![CDATA[Bí mật]]></value>
 		</item>
-		<item name="tags">
+		<item name="tag">
 			<value xml:lang="ko"><![CDATA[태그]]></value>
 			<value xml:lang="en"><![CDATA[Tag]]></value>
 			<value xml:lang="jp"><![CDATA[タグ]]></value>
@@ -492,7 +492,7 @@
 		<item name="blamed_count">
 			<value xml:lang="ko"><![CDATA[비추천 수 (이상)]]></value>
 		</item>
-		<item name="comment_count ">
+		<item name="comment_count">
 			<value xml:lang="ko"><![CDATA[댓글 수 (이상)]]></value>
 			<value xml:lang="en"><![CDATA[Number of Comments (over)]]></value>
 			<value xml:lang="jp"><![CDATA[コメント数（以上）]]></value>
@@ -504,7 +504,7 @@
 			<value xml:lang="tr"><![CDATA[Yorum Sayısı (over)]]></value>
 			<value xml:lang="vi"><![CDATA[Số bình luận]]></value>
 		</item>
-		<item name="trackback_count ">
+		<item name="trackback_count">
 			<value xml:lang="ko"><![CDATA[트랙백 수 (이상)]]></value>
 			<value xml:lang="en"><![CDATA[Number of Trackbacks (over)]]></value>
 			<value xml:lang="jp"><![CDATA[トラックバック数（以上）]]></value>
@@ -516,7 +516,7 @@
 			<value xml:lang="tr"><![CDATA[Geri İzleme Sayısı (over)]]></value>
 			<value xml:lang="vi"><![CDATA[Số liên kết Web]]></value>
 		</item>
-		<item name="uploaded_count ">
+		<item name="uploaded_count">
 			<value xml:lang="ko"><![CDATA[첨부파일 수 (이상)]]></value>
 			<value xml:lang="en"><![CDATA[Number of Attachments (over)]]></value>
 			<value xml:lang="jp"><![CDATA[添付ファイル数（以上）]]></value>
@@ -787,7 +787,7 @@
 		<value xml:lang="vi"><![CDATA[Đã chuyển tới thùng rác thành công.]]></value>
 	</item>
 	<item name="msg_not_selected_document">
-		<value xml:lang="ko"><![CDATA[선택된 문서가 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 문서가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There are no selected articles.]]></value>
 		<value xml:lang="jp"><![CDATA[選択された書き込みがありません。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[尚未選擇文章]]></value>

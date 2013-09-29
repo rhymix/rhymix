@@ -14,6 +14,10 @@
 		<value xml:lang="vi"><![CDATA[Đính kèm]]></value>
 		<value xml:lang="mn"><![CDATA[file]]></value>
 	</item>
+	<item name="file_upload">
+		<value xml:lang="ko"><![CDATA[파일 업로드]]></value>
+		<value xml:lang="en"><![CDATA[File Upload]]></value>
+	</item>
 	<item name="file_name">
 		<value xml:lang="ko"><![CDATA[파일 이름]]></value>
 		<value xml:lang="en"><![CDATA[File Name]]></value>
@@ -99,7 +103,7 @@
 		<value xml:lang="vi"><![CDATA[Danh sách đính kèm]]></value>
 	</item>
 	<item name="allow_outlink">
-		<value xml:lang="ko"><![CDATA[다른 사이트에서 첨부파일 링크하는 것을 허용할까요?]]></value>
+		<value xml:lang="ko"><![CDATA[파일 외부 링크]]></value>
 		<value xml:lang="en"><![CDATA[Allow External Link?]]></value>
 		<value xml:lang="jp"><![CDATA[外部からのファイルリンク]]></value>
 		<value xml:lang="zh-CN"><![CDATA[防盗链]]></value>
@@ -129,7 +133,7 @@
 		<value xml:lang="vi"><![CDATA[Những định dạng cho phép]]></value>
 	</item>
 	<item name="allowed_filesize">
-		<value xml:lang="ko"><![CDATA[파일 제한 크기]]></value>
+		<value xml:lang="ko"><![CDATA[파일 크기 제한]]></value>
 		<value xml:lang="en"><![CDATA[Maximum File Size]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルサイズ制限]]></value>
 		<value xml:lang="zh-CN"><![CDATA[文件大小限制]]></value>
@@ -177,14 +181,14 @@
 		<value xml:lang="vi"><![CDATA[Nhóm được phép Download]]></value>
 	</item>
 	<item name="about_allow_outlink">
-		<value xml:lang="ko"><![CDATA[리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다. (*.wmv, *.mp3등 미디어 파일 제외)]]></value>
-		<value xml:lang="en"><![CDATA[You can block external links according to referers (except media files like *.wmv and *.mp3).]]></value>
+		<value xml:lang="ko"><![CDATA[리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다.(*.wmv, *.mp3등 미디어 파일 제외)]]></value>
+		<value xml:lang="en"><![CDATA[You can block external links according to referers(except media files like *.wmv and *.mp3).]]></value>
 		<value xml:lang="jp"><![CDATA[リファラーによって外部からのファイルリンクを制御できます。(*.wmv, *.mp3などのメディアファイルは除く)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[根据反向链接防止盗链。(*.wmv, *.mp3等媒体文件除外)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[是否允許連結外部檔案。(*.wmv, *.mp3等影音檔案除外)]]></value>
 		<value xml:lang="fr"><![CDATA[리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다.(*.wmv, *.mp3등 미디어 파일 제외)]]></value>
-		<value xml:lang="es"><![CDATA[Enlaces externos a Rusia Ripper puede bloquear el archivo. (*. WMV, *. mp3, etc, excepto los archivos multimedia)]]></value>
-		<value xml:lang="tr"><![CDATA[Dış bağlantıları kapatabilirsiniz. (*.wmv, *.mp3 gibi ortam dosyaları hariç)]]></value>
+		<value xml:lang="es"><![CDATA[Enlaces externos a Rusia Ripper puede bloquear el archivo.(*. WMV, *. mp3, etc, excepto los archivos multimedia)]]></value>
+		<value xml:lang="tr"><![CDATA[Dış bağlantıları kapatabilirsiniz.(*.wmv, *.mp3 gibi ortam dosyaları hariç)]]></value>
 		<value xml:lang="vi"><![CDATA[Những định dạng Link File từ bên ngoài được phép đính kèm.(Ngoại trừ định dạng Media *.wmv, *.mp3)]]></value>
 	</item>
 	<item name="about_allow_outlink_format">
@@ -193,7 +197,7 @@
 		<value xml:lang="jp"><![CDATA[外部からのファイルリンク設定に関係なく、常に外部からのリンクを許可する拡張子です。複数登録時には、「半角コンマ（,）」区切りで記入してください。 eg)txt,doc,zip,pdf]]></value>
 		<value xml:lang="zh-TW"><![CDATA[設定允許外部連結的檔案格式。可以用逗號(,)來區隔多個副檔名。 例) hwp, doc, zip, pdf]]></value>
 		<value xml:lang="tr"><![CDATA[Bu biçimlere her zaman izin verilecektir. Lütfen çoklu giriş için virgül(,) kullanınız. örn.)hwp,doc,zip,pdf]]></value>
-		<value xml:lang="vi"><![CDATA[Những định dạng này sẽ được phép liên kết. Hãy sử dụng dấu (,) để thêm nhiều định dạng . Ví dụ: .hwp, .doc, .zip, .pdf]]></value>
+		<value xml:lang="vi"><![CDATA[Những định dạng này sẽ được phép liên kết. Hãy sử dụng dấu(,) để thêm nhiều định dạng . Ví dụ: .hwp, .doc, .zip, .pdf]]></value>
 	</item>
 	<item name="about_allow_outlink_site">
 		<value xml:lang="ko"><![CDATA[파일 외부 링크 설정에 상관없이 허용하는 사이트 주소입니다. 여러 개 입력 시에 줄을 바꿔서 구분해주세요. 예)http://www.xpressengine.com]]></value>
@@ -208,28 +212,28 @@
 		<value xml:lang="vi"><![CDATA[Những Website được phép liên kết. Hãy nhập địa chỉ của những Website được phép. Ví dụ: http://xpressengine.com/]]></value>
 	</item>
 	<item name="about_allowed_filesize">
-		<value xml:lang="ko"><![CDATA[하나의 파일에 대해 최고 용량을 지정할 수 있습니다. (관리자는 제외)]]></value>
-		<value xml:lang="en"><![CDATA[You can assign file size limit for each file. (Exclude administrators)]]></value>
+		<value xml:lang="ko"><![CDATA[하나의 파일에 대해 최고 용량을 지정할 수 있습니다.(관리자는 제외)]]></value>
+		<value xml:lang="en"><![CDATA[You can assign file size limit for each file.(Exclude administrators)]]></value>
 		<value xml:lang="jp"><![CDATA[一つのファイルに対して、アップロード可能なファイルの最大サイズを指定します（管理者は除く）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[最大单个上传文件大小(管理员不受此限制)。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[最大單一上傳檔案大小 (管理員不受此限制)。]]></value>
-		<value xml:lang="fr"><![CDATA[Vous pouvez designer la limite de mesure pour chaque fichier. (Exclure administrateurs)]]></value>
-		<value xml:lang="ru"><![CDATA[Вы можете присвоить лимит размера для каждого файла. (Исключая администраторов)]]></value>
-		<value xml:lang="es"><![CDATA[Puede definir el límite del tamaño del archivo adjunto. (exceptuando el administrador)]]></value>
-		<value xml:lang="tr"><![CDATA[Her dosya için dosya boyut limiti atayabilirsiniz. (Yöneticiler için limitsizdir)]]></value>
-		<value xml:lang="vi"><![CDATA[Giới hạn dung lượng mỗi File đính kèm. (Ngoại trừ Administrators)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[最大單一上傳檔案大小(管理員不受此限制)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez designer la limite de mesure pour chaque fichier.(Exclure administrateurs)]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете присвоить лимит размера для каждого файла.(Исключая администраторов)]]></value>
+		<value xml:lang="es"><![CDATA[Puede definir el límite del tamaño del archivo adjunto.(exceptuando el administrador)]]></value>
+		<value xml:lang="tr"><![CDATA[Her dosya için dosya boyut limiti atayabilirsiniz.(Yöneticiler için limitsizdir)]]></value>
+		<value xml:lang="vi"><![CDATA[Giới hạn dung lượng mỗi File đính kèm.(Ngoại trừ Administrators)]]></value>
 	</item>
 	<item name="about_allowed_attach_size">
-		<value xml:lang="ko"><![CDATA[하나의 문서에 첨부할 수 있는 최고 용량을 지정할 수 있습니다. (관리자는 제외)]]></value>
-		<value xml:lang="en"><![CDATA[You can assign file size limit for each document. (Exclude administrators)]]></value>
+		<value xml:lang="ko"><![CDATA[하나의 문서에 첨부할 수 있는 최고 용량을 지정할 수 있습니다.(관리자는 제외)]]></value>
+		<value xml:lang="en"><![CDATA[You can assign file size limit for each document.(Exclude administrators)]]></value>
 		<value xml:lang="jp"><![CDATA[一つの書き込みに対して、管理者以外のユーザーが添付可能な最大サイズを指定します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每个主题最大上传文件大小(管理员不受此限制)。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[每個主題最大上傳檔案大小 (管理員不受此限制)。]]></value>
-		<value xml:lang="fr"><![CDATA[Vous pouvez designer la limite de mesure pour chaque document. (Exclure administrateurs)]]></value>
-		<value xml:lang="ru"><![CDATA[Вы можете присвоить лимит размера для каждого документа. (Исключая администраторов]]></value>
-		<value xml:lang="es"><![CDATA[Puede definir el límite del tamaño total de los archivos adjuntos por documento. (exceptuando el administrador)]]></value>
-		<value xml:lang="tr"><![CDATA[Her belge için dosya boyutu limiti atayabilirsiniz. (Yöneticiler için limitsizdir)]]></value>
-		<value xml:lang="vi"><![CDATA[Giới hạn dung lượng tối đa cho tất cả các File đính kèm trong một bài viết. (Ngoại trừ Administrators)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[每個主題最大上傳檔案大小(管理員不受此限制)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez designer la limite de mesure pour chaque document.(Exclure administrateurs)]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете присвоить лимит размера для каждого документа.(Исключая администраторов]]></value>
+		<value xml:lang="es"><![CDATA[Puede definir el límite del tamaño total de los archivos adjuntos por documento.(exceptuando el administrador)]]></value>
+		<value xml:lang="tr"><![CDATA[Her belge için dosya boyutu limiti atayabilirsiniz.(Yöneticiler için limitsizdir)]]></value>
+		<value xml:lang="vi"><![CDATA[Giới hạn dung lượng tối đa cho tất cả các File đính kèm trong một bài viết.(Ngoại trừ Administrators)]]></value>
 	</item>
 	<item name="about_allowed_filetypes">
 		<value xml:lang="ko"><![CDATA["*.확장자"로 지정할 수 있고 ";" 으로 여러 개 지정이 가능합니다. 예) *.* or *.jpg;*.gif;]]></value>
@@ -241,7 +245,7 @@
 		<value xml:lang="ru"><![CDATA[Чтобы разрешить расширение, ипользуйте "*.расширение". Чтобы разрешить несколько расширений, используйте ";" между ними. например: *.* или *.jpg;*.gif;]]></value>
 		<value xml:lang="es"><![CDATA[Para permitir una extensión use "*.extensión". Para permitir más de una extensión use ";". ej) *.* o *.jpg;*.gif;etc.]]></value>
 		<value xml:lang="tr"><![CDATA[Bir uzantıya izin vermek için, "*.[uzantı]" komutunu kullanınız. Birden fazla eklentiye izin vermek için, her uzantının arasına ";" koyunuz. örn.) *.* veya *.jpg;*.gif; ]]></value>
-		<value xml:lang="vi"><![CDATA[Để thêm những dạng File được phép đính kèm, bạn sử dụng "*.[đuôi]". Để cho phép nhiều dạng đuôi File hãy đặt dấu ";" vào giữa các dạng đuôi. Ví dụ: *.* (Cho phép tất cả) hay *.jpg;*.gif;]]></value>
+		<value xml:lang="vi"><![CDATA[Để thêm những dạng File được phép đính kèm, bạn sử dụng "*.[đuôi]". Để cho phép nhiều dạng đuôi File hãy đặt dấu ";" vào giữa các dạng đuôi. Ví dụ: *.*(Cho phép tất cả) hay *.jpg;*.gif;]]></value>
 	</item>
 	<item name="cmd_delete_checked_file">
 		<value xml:lang="ko"><![CDATA[선택항목 삭제]]></value>
@@ -290,7 +294,7 @@
 		<value xml:lang="tr"><![CDATA[İndirmek için izniniz yok]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn không được quyền Download.]]></value>
 	</item>
-	<item name="msg_cart_is_null">
+	<item name="msg_file_cart_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 파일을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select a file(s) to delete.]]></value>
 		<value xml:lang="jp"><![CDATA[削除するファイルを選択してください]]></value>
@@ -327,7 +331,7 @@
 		<value xml:lang="vi"><![CDATA[Dung lượng File quá lớn.]]></value>
 	</item>
 	<item name="msg_file_not_found">
-		<value xml:lang="ko"><![CDATA[요청하신 파일을 찾을 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[요청한 파일을 찾을 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Could not find requested file.]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルが見つかりません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[无法找到该文件。]]></value>
@@ -350,63 +354,63 @@
 			<value xml:lang="vi"><![CDATA[Tên File]]></value>
 		</item>
 		<item name="filesize_more">
-			<value xml:lang="ko"><![CDATA[파일 크기 (byte, 이상)]]></value>
-			<value xml:lang="en"><![CDATA[File Size (byte, more)]]></value>
+			<value xml:lang="ko"><![CDATA[파일 크기(byte, 이상)]]></value>
+			<value xml:lang="en"><![CDATA[File Size(byte, more)]]></value>
 			<value xml:lang="jp"><![CDATA[ファイルサイズ（(Byte以上）]]></value>
-			<value xml:lang="zh-CN"><![CDATA[文件大小 (byte, 以上)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[檔案大小 (byte, 以上)]]></value>
-			<value xml:lang="fr"><![CDATA[Mesure de Fichier (octet, surplus)]]></value>
-			<value xml:lang="ru"><![CDATA[Размер файла (Байт, свыше)]]></value>
-			<value xml:lang="es"><![CDATA[Tamaño del archivo (Byte, sobre)]]></value>
-			<value xml:lang="tr"><![CDATA[Dosya Boyutu (byte, üstü)]]></value>
-			<value xml:lang="vi"><![CDATA[Dung lượng (Tối thiểu Byte)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文件大小(byte, 以上)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[檔案大小(byte, 以上)]]></value>
+			<value xml:lang="fr"><![CDATA[Mesure de Fichier(octet, surplus)]]></value>
+			<value xml:lang="ru"><![CDATA[Размер файла(Байт, свыше)]]></value>
+			<value xml:lang="es"><![CDATA[Tamaño del archivo(Byte, sobre)]]></value>
+			<value xml:lang="tr"><![CDATA[Dosya Boyutu(byte, üstü)]]></value>
+			<value xml:lang="vi"><![CDATA[Dung lượng(Tối thiểu Byte)]]></value>
 		</item>
 		<item name="filesize_mega_more">
-			<value xml:lang="ko"><![CDATA[파일 크기 (MB, 이상)]]></value>
-			<value xml:lang="en"><![CDATA[File Size (mbyte, more)]]></value>
-			<value xml:lang="jp"><![CDATA[ファイルサイズ (Mb、以上)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[文件大小 (Mb, 以上)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[檔案大小 (Mb, 以上)]]></value>
-			<value xml:lang="fr"><![CDATA[파일크기 (Mb, 이상)]]></value>
-			<value xml:lang="ru"><![CDATA[Размер файла (Мегабайт, свыше)]]></value>
-			<value xml:lang="es"><![CDATA[Tamaño del archivo (Mb, o mb)]]></value>
-			<value xml:lang="tr"><![CDATA[Dosya Boyutu (mbyte, üstü)]]></value>
-			<value xml:lang="vi"><![CDATA[Dung lượng (Tối thiểu MB)]]></value>
+			<value xml:lang="ko"><![CDATA[파일 크기(MB, 이상)]]></value>
+			<value xml:lang="en"><![CDATA[File Size(mbyte, more)]]></value>
+			<value xml:lang="jp"><![CDATA[ファイルサイズ(Mb、以上)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文件大小(Mb, 以上)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[檔案大小(Mb, 以上)]]></value>
+			<value xml:lang="fr"><![CDATA[파일크기(Mb, 이상)]]></value>
+			<value xml:lang="ru"><![CDATA[Размер файла(Мегабайт, свыше)]]></value>
+			<value xml:lang="es"><![CDATA[Tamaño del archivo(Mb, o mb)]]></value>
+			<value xml:lang="tr"><![CDATA[Dosya Boyutu(mbyte, üstü)]]></value>
+			<value xml:lang="vi"><![CDATA[Dung lượng(Tối thiểu MB)]]></value>
 		</item>
 		<item name="filesize_less">
-			<value xml:lang="ko"><![CDATA[파일 크기 (byte, 이하)]]></value>
-			<value xml:lang="en"><![CDATA[File Size (byte, less)]]></value>
-			<value xml:lang="jp"><![CDATA[ファイルサイズ (byte, 以下)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[文件大小 (byte, 以下)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[檔案大小 (byte, 以下)]]></value>
-			<value xml:lang="fr"><![CDATA[파일크기 (byte, 이하)]]></value>
-			<value xml:lang="ru"><![CDATA[Размер файла (Байт, ниже)]]></value>
-			<value xml:lang="es"><![CDATA[파일크기 (byte, 이하)]]></value>
-			<value xml:lang="tr"><![CDATA[Dosya Boyutu (byte, düşük)]]></value>
-			<value xml:lang="vi"><![CDATA[Dung lượng (Tối đa Byte)]]></value>
+			<value xml:lang="ko"><![CDATA[파일 크기(byte, 이하)]]></value>
+			<value xml:lang="en"><![CDATA[File Size(byte, less)]]></value>
+			<value xml:lang="jp"><![CDATA[ファイルサイズ(byte, 以下)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文件大小(byte, 以下)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[檔案大小(byte, 以下)]]></value>
+			<value xml:lang="fr"><![CDATA[파일크기(byte, 이하)]]></value>
+			<value xml:lang="ru"><![CDATA[Размер файла(Байт, ниже)]]></value>
+			<value xml:lang="es"><![CDATA[파일크기(byte, 이하)]]></value>
+			<value xml:lang="tr"><![CDATA[Dosya Boyutu(byte, düşük)]]></value>
+			<value xml:lang="vi"><![CDATA[Dung lượng(Tối đa Byte)]]></value>
 		</item>
 		<item name="filesize_mega_less">
-			<value xml:lang="ko"><![CDATA[파일 크기 (MB, 이하)]]></value>
-			<value xml:lang="en"><![CDATA[File Size (Mb, less)]]></value>
-			<value xml:lang="jp"><![CDATA[ファイルサイズ (Mb, 以下)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[文件大小 (Mb, 以下)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[檔案大小 (Mb, 以下)]]></value>
-			<value xml:lang="fr"><![CDATA[파일크기 (Mb, 이하)]]></value>
-			<value xml:lang="ru"><![CDATA[Размер файла (Мегабайт, ниже)]]></value>
-			<value xml:lang="es"><![CDATA[파일크기 (Mb, 이하)]]></value>
-			<value xml:lang="tr"><![CDATA[Dosya Boyutu (Mb, düşük)]]></value>
-			<value xml:lang="vi"><![CDATA[Dung lượng (Tối đa MB)]]></value>
+			<value xml:lang="ko"><![CDATA[파일 크기(MB, 이하)]]></value>
+			<value xml:lang="en"><![CDATA[File Size(Mb, less)]]></value>
+			<value xml:lang="jp"><![CDATA[ファイルサイズ(Mb, 以下)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文件大小(Mb, 以下)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[檔案大小(Mb, 以下)]]></value>
+			<value xml:lang="fr"><![CDATA[파일크기(Mb, 이하)]]></value>
+			<value xml:lang="ru"><![CDATA[Размер файла(Мегабайт, ниже)]]></value>
+			<value xml:lang="es"><![CDATA[파일크기(Mb, 이하)]]></value>
+			<value xml:lang="tr"><![CDATA[Dosya Boyutu(Mb, düşük)]]></value>
+			<value xml:lang="vi"><![CDATA[Dung lượng(Tối đa MB)]]></value>
 		</item>
 		<item name="download_count">
-			<value xml:lang="ko"><![CDATA[다운로드 횟수 (이상)]]></value>
-			<value xml:lang="en"><![CDATA[Downloads (more)]]></value>
+			<value xml:lang="ko"><![CDATA[다운로드 횟수(이상)]]></value>
+			<value xml:lang="en"><![CDATA[Downloads(more)]]></value>
 			<value xml:lang="jp"><![CDATA[ダウンロード数（以上）]]></value>
-			<value xml:lang="zh-CN"><![CDATA[下载次数 (以上)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[下載次數 (以上)]]></value>
-			<value xml:lang="fr"><![CDATA[Telecharges (surplus)]]></value>
-			<value xml:lang="ru"><![CDATA[Скачано (свыше)]]></value>
-			<value xml:lang="es"><![CDATA[Descargados (Sobre)]]></value>
-			<value xml:lang="tr"><![CDATA[İndirmeler (daha fazla)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[下载次数(以上)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[下載次數(以上)]]></value>
+			<value xml:lang="fr"><![CDATA[Telecharges(surplus)]]></value>
+			<value xml:lang="ru"><![CDATA[Скачано(свыше)]]></value>
+			<value xml:lang="es"><![CDATA[Descargados(Sobre)]]></value>
+			<value xml:lang="tr"><![CDATA[İndirmeler(daha fazla)]]></value>
 			<value xml:lang="vi"><![CDATA[Lượt Download]]></value>
 		</item>
 		<item name="user_id">

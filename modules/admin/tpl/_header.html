@@ -1,0 +1,69 @@
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, user-scalable=yes" />
+<div class="x">
+<p class="skipNav"><a href="#content">{$lang->skip_to_content}</a></p>
+	<header class="header">
+		<h1>
+			<a href="{getUrl('','module','admin')}"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a>
+		</h1>
+		<p class="site"><a href="{getFullUrl('')}">{getFullUrl('')}</a></p>
+		<div class="account">
+			<ul>
+				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
+				<li><a href="{getUrl('', 'module','admin','act','procAdminLogout')}">{$lang->cmd_logout}</a></li>
+				<li><a href="#lang" class="lang" data-toggle>{$lang_supported[$lang_type]}</a>
+					<ul id="lang" class="x_dropdown-menu">
+						<li loop="$lang_supported=>$key,$val" class="x_active"|cond="$key==$lang_type"><a href="{getUrl('l',$key)}" data-langcode="{$key}" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</header>
+	<!-- BODY -->
+	<div class="body <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->">
+		<!-- GNB -->
+		<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb">
+			<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> Menu Open/Close</a>
+			<ul id="gnbNav" class="ex"|cond="$_COOKIE['__xe_admin_gnb_ex_status'] == 'open'">
+			<script>
+				var __xe_admin_gnb_txs = new Array();
+			</script>
+			<!--@foreach($gnbUrlList AS $key=>$value)-->
+				<!--@if(strstr($value['menu_name_key'], 'configuration'))-->
+				<li class="open"|cond="$_COOKIE['__xe_admin_gnb_tx_favorite'] == 'open'">
+					<script>
+						__xe_admin_gnb_txs.push('__xe_admin_gnb_tx_favorite');
+					</script>
+					<a href="#favorite" data-href="favorite"><span class="tx">{$lang->favorite}</span></a>
+					<ul id="favorite" style="display:block"|cond="$_COOKIE['__xe_admin_gnb_tx_favorite'] == 'open'">
+						<li loop="$favorite_list => $favorite">
+							<a href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</a>
+							<form class="remove" action="./" method="post">
+								<input type="hidden" name="module" value="admin" />
+								<input type="hidden" name="act" value="procAdminToggleFavorite" />
+								<input type="hidden" name="site_srl" value="0" />
+								<input type="hidden" name="module_name" value="{$favorite->module}" />
+								<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+								<button type="submit" class="x_close" title="{$lang->cmd_delete}">&times;</button>
+							</form>
+						</li>
+						<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->no_data}</a></li>
+					</ul>
+					<div class="exMenu">
+						<button type="button" title="{$lang->advanced_settings}"><i class="x_icon-chevron-down"></i><i class="x_icon-chevron-up"></i></button>
+					</div>
+				</li>
+				<!--@end-->
+				<li class="<!--@if($parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act)-->active open<!--@elseif($_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open')-->open<!--@end-->">
+					<script>
+						__xe_admin_gnb_txs.push('{'__xe_admin_gnb_tx_' . md5($value['href'])}');
+					</script>
+					<a href="{getFullUrl('')}{$value['href']}" data-href="{md5($value['href'])}"><span class="tx">{$value['text']}</span></a>
+					<ul cond="count($value['list'])" style="display:block"|cond="$_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open'">
+						<li loop="$value['list']=>$key2,$value2" class="active_"|cond="$value2['text'] == $subMenuTitle"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
+					</ul>
+				</li>
+			<!--@end-->
+			</ul>
+		</nav>
+		<!-- /GNB -->

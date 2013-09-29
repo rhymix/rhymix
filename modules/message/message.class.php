@@ -1,68 +1,70 @@
 <?php
-    /**
-     * @class  message
-     * @author NHN (developers@xpressengine.com)
-     * @brief high class of message module
-     **/
+/**
+ * @class  message
+ * @author NHN (developers@xpressengine.com)
+ * @brief high class of message module
+ */
+class message extends ModuleObject
+{
+	/**
+	 * @brief Implement if additional tasks are necessary when installing
+	 */
+	function moduleInstall()
+	{
+		return new Object();
+	}
 
-    class message extends ModuleObject {
+	/**
+	 * @brief a method to check if successfully installed
+	 */
+	function checkUpdate()
+	{
+		$oModuleModel = &getModel('module');
+		$config = $oModuleModel->getModuleConfig('message');
 
-        /**
-         * @brief Implement if additional tasks are necessary when installing
-         **/
-        function moduleInstall() {
-            return new Object();
-        }
-
-        /**
-         * @brief a method to check if successfully installed
-         **/
-        function checkUpdate() 
+		if($config->skin)
 		{
-			$oModuleModel = &getModel('module');
-			$config = $oModuleModel->getModuleConfig('message');
-
-			if($config->skin)
+			$config_parse = explode('.', $config->skin);
+			if (count($config_parse) > 1)
 			{
-				$config_parse = explode('.', $config->skin);
-				if (count($config_parse) > 1)
+				$template_path = sprintf('./themes/%s/modules/message/', $config_parse[0]);
+				if(is_dir($template_path)) return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @brief Execute update
+	 */
+	function moduleUpdate()
+	{
+		$oModuleModel = &getModel('module');
+		$config = $oModuleModel->getModuleConfig('message');
+
+		if($config->skin)
+		{
+			$config_parse = explode('.', $config->skin);
+			if (count($config_parse) > 1)
+			{
+				$template_path = sprintf('./themes/%s/modules/message/', $config_parse[0]);
+				if(is_dir($template_path))
 				{
-					$template_path = sprintf('./themes/%s/modules/message/', $config_parse[0]);
-					if(is_dir($template_path)) return true;
+					$config->skin = implode('|@|', $config_parse);
+					$oModuleController = &getController('module');
+					$oModuleController->updateModuleConfig('message', $config);
 				}
 			}
-            return false;
-        }
+		}
+		return new Object();
+	}
 
-        /**
-         * @brief Execute update
-         **/
-        function moduleUpdate() 
-		{
-			$oModuleModel = &getModel('module');
-			$config = $oModuleModel->getModuleConfig('message');
-
-			if($config->skin)
-			{
-				$config_parse = explode('.', $config->skin);
-				if (count($config_parse) > 1)
-				{
-					$template_path = sprintf('./themes/%s/modules/message/', $config_parse[0]);
-					if(is_dir($template_path))
-					{
-						$config->skin = implode('|@|', $config_parse);
-						$oModuleController = &getController('module');
-						$oModuleController->updateModuleConfig('message', $config);
-					}
-				}
-			}
-            return new Object();
-        }
-
-        /**
-         * @brief Re-generate the cache file
-         **/
-        function recompileCache() {
-        }
-    }
-?>
+	/**
+	 * @brief Re-generate the cache file
+	 */
+	function recompileCache()
+	{
+	}
+}
+/* End of file message.class.php */
+/* Location: ./modules/message/message.class.php */

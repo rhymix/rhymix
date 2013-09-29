@@ -34,5 +34,20 @@
                 <title xml:lang="en">Hide</title>
             </options>
         </var>
+		<var name="display_popupmenu" type="radio" default="show">
+			<title xml:lang="ko">팝업메뉴 표시</title>
+			<title xml:lang="en">Display popup menu</title>
+			<description xml:lang="ko">
+				문서 하단의 팝업 메뉴를 표시 할지 선택합니다.
+			</description>
+			<options value="show">
+                <title xml:lang="ko">출력</title>
+                <title xml:lang="en">Show</title>
+            </options>
+            <options value="hide">
+                <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">Hide</title>
+            </options>
+        </var>
     </extra_vars>
 </skin>

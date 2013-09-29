@@ -1,0 +1,111 @@
+<load target="default.layout.css" />
+<load target="default.layout.ie78.css" targetie="lt IE 9" />
+<load target="default.layout.ie7.css" targetie="IE 7" />
+<load target="default.layout.webfont.css" cond="$layout_info->WEB_FONT == 'YES'" />
+<load target="../../common/js/respond.min.js" targetie="lt IE 9" />
+<load target="default.layout.js" type="body" />
+<div class="container">
+	<p class="skip"><a href="#content">{$lang->skip_to_content}</a></p>
+	<header class="header">
+		<h1>
+			<a href="{geturl('')}" id="siteTitle">
+				<img src="siteTitle.png" alt="XpressEngine" cond="!Context::getSiteTitle() && !$layout_info->LOGO_IMG && !$layout_info->LOGO_TEXT">
+				<block cond="Context::getSiteTitle() && !$layout_info->LOGO_IMG && !$layout_info->LOGO_TEXT">{Context::getSiteTitle()}</block>
+				<img src="{$layout_info->LOGO_IMG}" alt="{$layout_info->LOGO_TEXT}" cond="$layout_info->LOGO_IMG">
+				<block cond="!$layout_info->LOGO_IMG && $layout_info->LOGO_TEXT">{$layout_info->LOGO_TEXT}</block>
+			</a>
+		</h1>
+		<div class="side">
+			<!-- ACCOUNT -->
+			<img widget="login_info" skin="default" />
+			<!-- /ACCOUNT -->
+			<!-- SEARCH -->
+			<form action="{getUrl()}" method="get" class="search">
+				<input type="hidden" name="vid" value="{$vid}" />
+				<input type="hidden" name="mid" value="{$mid}" />
+				<input type="hidden" name="act" value="IS" />
+				<input type="text" name="is_keyword" value="{$is_keyword}" required placeholder="{$lang->cmd_search}" title="{$lang->cmd_search}" />
+				<input type="submit" value="{$lang->cmd_search}" />
+			</form>
+			<!-- /SEARCH -->
+		</div>
+		<!-- GNB -->
+		<nav class="gnb" id="gnb">
+			<ul>
+				<li loop="$GNB->list=>$key1,$val1" class="active"|cond="$val1['selected']">
+					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+					<ul cond="$val1['list']">
+						<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		<!-- /GNB -->
+	</header>
+	<!-- VISUAL | DEFAULT -->
+	<div class="visual main"|cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'" class="visual sub"|cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'" cond="!$layout_info->VISUAL_IMAGE_1 && !$layout_info->VISUAL_IMAGE_2 && !$layout_info->VISUAL_IMAGE_3 && $layout_info->VISUAL_USE=='YES'">
+		<div class="list">
+			<a href="{geturl('','module','admin','act','dispAdminConfigGeneral')}" class="item i1" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
+				<img src="visual.main.1.jpg" alt="" />
+				<p>Click, to change<br> the site title.</p>
+			</a>
+			<a href="{geturl('','module','admin','act','dispMenuAdminSiteMap')}" class="item i2" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
+				<img src="visual.main.2.jpg" alt="" />
+				<p>Click, to change<br> the site navigation.</p>
+			</a>
+			<a href="{geturl('','module','admin','act','dispLayoutAdminInstanceList','layout','default')}" class="item i3" cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'">
+				<img src="visual.main.3.jpg" alt="" />
+				<p>Click, to change<br> the site visual image.</p>
+			</a>
+			<a href="{geturl('','module','admin','act','dispLayoutAdminInstanceList','layout','default')}" class="item i1" cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'">
+				<img src="visual.sub.jpg" alt="" />
+				<p>Click, to change the site visual image.</p>
+			</a>
+		</div>
+		<button type="button" class="prev" title="Prev"><i></i></button>
+		<button type="button" class="next" title="Next"><i></i></button>
+	</div>
+	<!-- VISUAL | USER DEFINE -->
+	<div class="visual main"|cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'" class="visual sub"|cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'" cond="($layout_info->VISUAL_IMAGE_1 || $layout_info->VISUAL_IMAGE_2 || $layout_info->VISUAL_IMAGE_3) && $layout_info->VISUAL_USE=='YES'">
+		<div class="list">
+			<a href="{$layout_info->VISUAL_LINK_1}" class="item i1" cond="$layout_info->VISUAL_IMAGE_1">
+				<img src="{$layout_info->VISUAL_IMAGE_1}" alt="" />
+				<p>{$layout_info->VISUAL_TEXT_1}</p>
+			</a>
+			<a href="{$layout_info->VISUAL_LINK_2}" class="item i2" cond="$layout_info->VISUAL_IMAGE_2">
+				<img src="{$layout_info->VISUAL_IMAGE_2}" alt="" />
+				<p>{$layout_info->VISUAL_TEXT_2}</p>
+			</a>
+			<a href="{$layout_info->VISUAL_LINK_3}" class="item i3" cond="$layout_info->VISUAL_IMAGE_3">
+				<img src="{$layout_info->VISUAL_IMAGE_3}" alt="" />
+				<p>{$layout_info->VISUAL_TEXT_3}</p>
+			</a>
+		</div>
+		<button type="button" class="prev" title="Prev"><i></i></button>
+		<button type="button" class="next" title="Next"><i></i></button>
+	</div>
+	<!-- /VISUAL -->
+	<div class="body main"|cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'" class="body sub"|cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'">
+		<!-- LNB -->
+		<nav class="lnb" cond="$layout_info->LAYOUT_TYPE == 'SUB_PAGE'">
+			<h1 loop="$GNB->list=>$key1,$val1" cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h1>
+			<ul loop="$GNB->list=>$key1,$val1" cond="$val1['selected'] && $val1['list']">
+				<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+					<ul cond="$val2['list']">
+						<li loop="$val2['list']=>$key3,$val3" class="active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		<!-- /LNB -->
+		<!-- CONTENT -->
+		<div class="content" id="content">
+			{$content}
+		</div>
+		<!-- /CONTENT -->
+	</div>
+</div>
+<footer class="footer">
+	<p cond="!$layout_info->FOOTER">Powered by <a href="http://xpressengine.com/">XE</a>.</p>
+	<p cond="$layout_info->FOOTER">{$layout_info->FOOTER}</p>
+</footer>

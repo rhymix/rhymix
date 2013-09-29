@@ -130,30 +130,36 @@ class document extends ModuleObject
 	 * Execute update
 	 * @return Object
 	 */
-	function moduleUpdate() {
+	function moduleUpdate()
+	{
 		$oDB = &DB::getInstance();
 		$oModuleModel = &getModel('module');
 		$oModuleController = &getController('module');
 
 		// 2007. 7. 25: Add a column(notify_message) for notification
-		if(!$oDB->isColumnExists("documents","notify_message")) {
+		if(!$oDB->isColumnExists("documents","notify_message"))
+		{
 			$oDB->addColumn('documents',"notify_message","char",1);
 		}
 
 		// 2007. 8. 23: create a clustered index in the document table
-		if(!$oDB->isIndexExists("documents","idx_module_list_order")) {
+		if(!$oDB->isIndexExists("documents","idx_module_list_order"))
+		{
 			$oDB->addIndex("documents","idx_module_list_order", array("module_srl","list_order"));
 		}
 
-		if(!$oDB->isIndexExists("documents","idx_module_update_order")) {
+		if(!$oDB->isIndexExists("documents","idx_module_update_order"))
+		{
 			$oDB->addIndex("documents","idx_module_update_order", array("module_srl","update_order"));
 		}
 
-		if(!$oDB->isIndexExists("documents","idx_module_readed_count")) {
+		if(!$oDB->isIndexExists("documents","idx_module_readed_count"))
+		{
 			$oDB->addIndex("documents","idx_module_readed_count", array("module_srl","readed_count"));
 		}
 
-		if(!$oDB->isIndexExists("documents","idx_module_voted_count")) {
+		if(!$oDB->isIndexExists("documents","idx_module_voted_count"))
+		{
 			$oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
 		}
 		// 2007. 10. 17 Add a trigger to delete all posts together when the module is deleted
@@ -172,12 +178,14 @@ class document extends ModuleObject
 		// 2008. 02. 18 create a composite index on the columns(module_srl + document_srl) (checked by Manian))
 		if(!$oDB->isIndexExists("documents","idx_module_document_srl")) $oDB->addIndex("documents","idx_module_document_srl", array("module_srl","document_srl"));
 		// 2008. 04. 23 Add a column(blamed count)
-		if(!$oDB->isColumnExists("documents", "blamed_count")) {
+		if(!$oDB->isColumnExists("documents", "blamed_count"))
+		{
 			$oDB->addColumn('documents', 'blamed_count', 'number', 11, 0, true);
 			$oDB->addIndex('documents', 'idx_blamed_count', array('blamed_count'));
 		}
 
-		if(!$oDB->isIndexExists("documents","idx_module_blamed_count")) {
+		if(!$oDB->isIndexExists("documents","idx_module_blamed_count"))
+		{
 			$oDB->addIndex('documents', 'idx_module_blamed_count', array('module_srl', 'blamed_count'));
 		}
 
@@ -194,24 +202,28 @@ class document extends ModuleObject
 		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before'))
 			$oModuleController->insertTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before');
 		// 2009. 03. 09 Add a column(lang_code) to the documnets table
-		if(!$oDB->isColumnExists("documents","lang_code")) {
+		if(!$oDB->isColumnExists("documents","lang_code"))
+		{
 			$db_info = Context::getDBInfo();
 			$oDB->addColumn('documents',"lang_code","varchar",10, $db_info->lang_code);
 			$obj->lang_code = $db_info->lang_type;
 			executeQuery('document.updateDocumentsLangCode', $obj);
 		}
 		// 2009. 03. 11 Check the index in the document_extra_vars table
-		if(!$oDB->isIndexExists("document_extra_vars", "unique_extra_vars")) {
+		if(!$oDB->isIndexExists("document_extra_vars", "unique_extra_vars"))
+		{
 			$oDB->addIndex("document_extra_vars", "unique_extra_vars", array("module_srl","document_srl","var_idx","lang_code"), true);
 		}
 
-		if($oDB->isIndexExists("document_extra_vars", "unique_module_vars")) {
+		if($oDB->isIndexExists("document_extra_vars", "unique_module_vars"))
+		{
 			$oDB->dropIndex("document_extra_vars", "unique_module_vars", true);
 		}
 
 		// 2009. 03. 19: Add a column(eid)
 		// 2009. 04. 12: Fixed the issue(#17922959) that changes another column values when adding eid column
-		if(!$oDB->isColumnExists("document_extra_keys","eid")) {
+		if(!$oDB->isColumnExists("document_extra_keys","eid"))
+		{
 			$oDB->addColumn("document_extra_keys","eid","varchar",40);
 
 			$output = executeQuery('document.getGroupsExtraKeys', $obj);
@@ -225,12 +237,15 @@ class document extends ModuleObject
 			}
 		}
 
-		if(!$oDB->isColumnExists("document_extra_vars","eid")) {
+		if(!$oDB->isColumnExists("document_extra_vars","eid"))
+		{
 			$oDB->addColumn("document_extra_vars","eid","varchar",40);
 			$obj->var_idx = '-1,-2';
 			$output = executeQuery('document.getGroupsExtraVars', $obj);
-			if($output->toBool() && $output->data && count($output->data)) {
-				foreach($output->data as $extra_vars) {
+			if($output->toBool() && $output->data && count($output->data))
+			{
+				foreach($output->data as $extra_vars)
+				{
 					$args->module_srl = $extra_vars->module_srl;
 					$args->var_idx = $extra_vars->idx;
 					$args->new_eid = "extra_vars".$extra_vars->idx;
@@ -240,7 +255,8 @@ class document extends ModuleObject
 		}
 
 		// 2011. 03. 30 Cubrid index Check the index in the document_extra_vars table
-		if(!$oDB->isIndexExists("document_extra_vars", "idx_document_list_order")) {
+		if(!$oDB->isIndexExists("document_extra_vars", "idx_document_list_order"))
+		{
 			$oDB->addIndex("document_extra_vars", "idx_document_list_order", array("document_srl","module_srl","var_idx"), false);
 		}
 
@@ -312,7 +328,8 @@ class document extends ModuleObject
 	 * Re-generate the cache file
 	 * @return void
 	 */
-	function recompileCache() {
+	function recompileCache()
+	{
 	}
 
 	/**
@@ -343,4 +360,5 @@ class document extends ModuleObject
 		else $this->getDefaultStatus();
 	}
 }
-?>
+/* End of file document.class.php */
+/* Location: ./modules/document/document.class.php */

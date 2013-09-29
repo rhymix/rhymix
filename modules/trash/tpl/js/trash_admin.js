@@ -70,11 +70,10 @@ function completeGetTrashList(ret_obj, response_tags)
 			else title = objTrash.title;
 
 			htmlListBuffer += '<tr>' +
-								'<td class="title">'+ title +'</td>' +
+								'<td class="title">'+ title +'<input type="hidden" name="cart[]" value="'+objTrash.trashSrl+'" /></td>' +
 								'<td class="nowr">'+ objTrash.nickName +'</td>' +
 								'<td class="nowr">'+ objTrash.ipaddress +'</td>' +
-							'</tr>' +
-							'<input type="hidden" name="cart[]" value="'+objTrash.trashSrl+'" />';
+							'</tr>';
 		}
 		jQuery('#selectedTrashCount').html(trash_list.length);
 	}

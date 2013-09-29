@@ -2,6 +2,7 @@
     <column name="package_srl" type="number" size="11" notnull="notnull" default="0" index="idx_package_srl" />
     <column name="category_srl" type="number" size="11" default="0" index="idx_category_srl" />
     <column name="path" type="varchar" size="250" notnull="notnull" unique="unique_path" />
+	<column name="have_instance" type="char" size="1" notnull="notnull" default="N" />
     <column name="updatedate" type="date" index="idx_regdate" />
     <column name="latest_item_srl" type="number" size="11" default="0" notnull="notnull" />
     <column name="version" type="varchar" size="255" />

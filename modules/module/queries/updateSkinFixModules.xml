@@ -3,9 +3,10 @@
         <table name="modules" />
     </tables>
     <columns>
-        <column name="is_skin_fix" var="is_skin_fix" />
+        <column name="is_skin_fix" default="Y" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" />
+        <condition operation="notnull" column="skin" />
+        <condition operation="notequal" column="skin" default=" " pipe="or" />
     </conditions>
 </query>

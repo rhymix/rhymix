@@ -10,7 +10,7 @@
     <title xml:lang="zh-TW">網頁編輯器</title>
     <title xml:lang="tr">Editor WYSIWYG</title>
     <description xml:lang="vi">Module hiển thị WYSIWYG Editor để quản lý những kiểu viết bài.</description>
-    <description xml:lang="ko">위지윅 에디터를 출력하거나 에디터 컴포넌트들을 관리/중계하는 모듈입니다.</description>
+    <description xml:lang="ko">위지윅 에디터를 출력하거나 에디터 컴포넌트들을 관리/중계하는 합니다.</description>
     <description xml:lang="en">Module for displaying WYSIWYG editor and managing/relaying editor components.</description>
     <description xml:lang="es">Módulo para mostrar en la pantalla el editor de WYSIWYG y para el manejo/relato de los componentes del editor.</description>
     <description xml:lang="zh-CN">显示网页编辑器或管理/传递编辑器组件的模块。</description>

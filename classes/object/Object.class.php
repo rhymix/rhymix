@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Every modules inherits from Object class. It includes error, message, and other variables for communicatin purpose.
  *
  * @author NHN (developers@xpressengine.com)
  */
-
-class Object {
+class Object
+{
 
 	/**
 	 * Error code. If `0`, it is not an error.
@@ -17,7 +18,7 @@ class Object {
 	 * Error message. If `success`, it is not an error.
 	 * @var string
 	 */
-	var $message = 'success'; 
+	var $message = 'success';
 
 	/**
 	 * An additional variable
@@ -31,7 +32,6 @@ class Object {
 	 */
 	var $httpStatusCode = NULL;
 
-
 	/**
 	 * Constructor
 	 *
@@ -39,11 +39,11 @@ class Object {
 	 * @param string $message Error message
 	 * @return void
 	 */
-	function Object($error = 0, $message = 'success') {
+	function Object($error = 0, $message = 'success')
+	{
 		$this->setError($error);
 		$this->setMessage($message);
 	}
-
 
 	/**
 	 * Setter to set error code
@@ -51,7 +51,8 @@ class Object {
 	 * @param int $error error code
 	 * @return void
 	 */
-	function setError($error = 0) {
+	function setError($error = 0)
+	{
 		$this->error = $error;
 	}
 
@@ -60,7 +61,8 @@ class Object {
 	 *
 	 * @return int Returns an error code
 	 */
-	function getError() {
+	function getError()
+	{
 		return $this->error;
 	}
 
@@ -91,12 +93,14 @@ class Object {
 	 * @param string $message Error message
 	 * @return bool Alaways returns true.
 	 */
-	function setMessage($message = 'success') {
-		if(Context::getLang($message)) $message = Context::getLang($message);
+	function setMessage($message = 'success')
+	{
+		if(Context::getLang($message))
+			$message = Context::getLang($message);
 		$this->message = $message;
 
 		// TODO This method always returns True. We'd better remove it
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -104,7 +108,8 @@ class Object {
 	 *
 	 * @return string Returns message
 	 */
-	function getMessage() {
+	function getMessage()
+	{
 		return $this->message;
 	}
 
@@ -115,7 +120,8 @@ class Object {
 	 * @param mixed $val A value for the variable
 	 * @return void
 	 */
-	function add($key, $val) {
+	function add($key, $val)
+	{
 		$this->variables[$key] = $val;
 	}
 
@@ -130,11 +136,14 @@ class Object {
 		if(is_object($object))
 		{
 			$object = get_object_vars($object);
-		} 
+		}
 
 		if(is_array($object))
 		{
-			foreach($object as $key => $val) $this->variables[$key] = $val;
+			foreach($object as $key => $val)
+			{
+				$this->variables[$key] = $val;
+			}
 		}
 	}
 
@@ -144,20 +153,22 @@ class Object {
 	 * @param string $key
 	 * @return string Returns value to a given key
 	 */
-	function get($key) {
+	function get($key)
+	{
 		return $this->variables[$key];
 	}
-
 
 	/**
 	 * Method to retrieve an object containing a key/value paris
 	 *
 	 * @return Object Returns an object containing key/value pairs
 	 */
-	function gets() {
+	function gets()
+	{
 		$num_args = func_num_args();
 		$args_list = func_get_args();
-		for($i=0;$i<$num_args;$i++) {
+		for($i = 0; $i < $num_args; $i++)
+		{
 			$key = $args_list[$i];
 			$output->{$key} = $this->get($key);
 		}
@@ -169,7 +180,8 @@ class Object {
 	 *
 	 * @return array
 	 */
-	function getVariables() {
+	function getVariables()
+	{
 		return $this->variables;
 	}
 
@@ -178,8 +190,13 @@ class Object {
 	 *
 	 * @return Object
 	 */
-	function getObjectVars() {
-		foreach($this->variables as $key => $val) $output->{$key} = $val;
+	function getObjectVars()
+	{
+		$output = new stdClass();
+		foreach($this->variables as $key => $val)
+		{
+			$output->{$key} = $val;
+		}
 		return $output;
 	}
 
@@ -188,21 +205,22 @@ class Object {
 	 *
 	 * @return bool Retruns true : error isn't 0 or false : otherwise.
 	 */
-	function toBool() {
+	function toBool()
+	{
 		// TODO This method is misleading in that it returns true if error is 0, which should be true in boolean representation.
-		return $this->error==0?true:false;
+		return $this->error == 0 ? TRUE : FALSE;
 	}
-
 
 	/**
 	 * Method to return either true or false depnding on the value in a 'error' variable
 	 *
 	 * @return bool
 	 */
-	function toBoolean() {
-	return $this->toBool();
+	function toBoolean()
+	{
+		return $this->toBool();
 	}
-}
 
+}
 /* End of file Object.class.php */
 /* Location: ./classes/object/Object.class.php */

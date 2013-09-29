@@ -1,77 +1,75 @@
 <include target="./common_header.html" />
 <load target="filter/delete_friend_group.xml" />
 <load target="filter/move_friend.xml" />
-<h1 class="h1">{$member_title = $lang->cmd_view_friend }</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<h1>{$member_title = $lang->cmd_view_friend }</h1>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/frineds/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="deleteCheckedFriend" id="fo_friend_list" action="./" method="post" class="form">
+<form ruleset="deleteCheckedFriend" id="fo_friend_list" action="./" method="post">
 	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationDeleteFriend" />
+	<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/frineds/1" />
 
 	<div class="btnArea">
 		<span class="etc">
-			<select name="jumpMenu" id="jumpMenu">
+			<select name="jumpMenu" id="jumpMenu" style="margin:0">
 				<option value="">{$lang->default_friend_group}</option>
 				<!--@foreach($friend_group_list as $key => $val)-->
 				<option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
 				<!--@end-->
 			</select>
-			<button type="button" onclick="doJumpFriendGroup()">{$lang->cmd_move}</button>
+			<button type="button" class="btn" onclick="doJumpFriendGroup()">{$lang->cmd_move}</button>
 		</span>
-		<select name="friend_group_list" id="friend_group_list">
-			<!--@foreach($friend_group_list as $key => $val)-->
-			<option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
-			<!--@end-->
+		<select name="friend_group_list" id="friend_group_list" style="margin:0">
+			<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}" selected="selected"|cond="$val->friend_group_srl == $friend_group_srl">{$val->title}</option>
 		</select>
-		<button type="button" onclick="doRenameFriendGroup();return false;">{$lang->cmd_modify}...</button>
-		<button type="button" onclick="doDeleteFriendGroup();return false;">{$lang->cmd_delete}</button>
-		<a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+		<span class="btn-group">
+			<button type="button" class="btn" onclick="doRenameFriendGroup();return false;">{$lang->cmd_modify}</button>
+			<button type="button" class="btn" onclick="doDeleteFriendGroup();return false;">{$lang->cmd_delete}</button>
+			<a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" class="btn" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+		</span>
 	</div>
 
-	<div class="table even">
-		<table width="100%" border="1" cellspacing="0">
-			<caption>Total: {$total_count}</caption>
-			<thead>
-				<tr>
-					<th>{$lang->friend_group}</th>
-					<th>{$lang->nick_name}</th>
-					<th>{$lang->regdate}</th>
-					<th><input name="check_all" type="checkbox" onclick="XE.checkboxToggleAll('friend_srl_list[]', { wrap:'fo_friend_list' });" /></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr loop="$friend_list => $no,$val">
-					<td>{$val->group_title?$val->group_title:"&nbsp;"}</td>
-					<td><a href="#popup_menu_area" class="member_{$val->target_srl}">{$val->nick_name}</a></td>
-					<td>{zdate($val->regdate,"Y-m-d")}</td>
-					<td><input type="checkbox" name="friend_srl_list[]" value="{$val->friend_srl}" /></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<table class="table table-striped table-hover">
+		<caption>Total: {$total_count}</caption>
+		<thead>
+			<tr>
+				<th>{$lang->friend_group}</th>
+				<th>{$lang->nick_name}</th>
+				<th>{$lang->regdate}</th>
+				<th><input name="check_all" type="checkbox" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$friend_list => $no,$val">
+				<td>{$val->group_title?$val->group_title:"&nbsp;"}</td>
+				<td><a href="#popup_menu_area" class="member_{$val->target_srl}">{$val->nick_name}</a></td>
+				<td>{zdate($val->regdate,"Y-m-d")}</td>
+				<td><input type="checkbox" name="friend_srl_list[]" value="{$val->friend_srl}" /></td>
+			</tr>
+		</tbody>
+	</table>
 	<div class="btnArea">
-		<select name="target_friend_group_srl">
-			<!--@foreach($friend_group_list as $key => $val)-->
-			<option value="{$val->friend_group_srl}">{$val->title}</option>
-			<!--@end-->
+		<select name="target_friend_group_srl" style="margin:0">
+			<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
 		</select>
-		<button type="submit" name="act" value="procCommunicationMoveFriend">{$lang->cmd_move}</button>
-		<button type="submit" name="act" value="procCommunicationDeleteFriend">{$lang->cmd_delete}</button>
+		<span class="btn-group __submit_group">
+			<button type="submit" name="act" class="btn" value="procCommunicationMoveFriend">{$lang->cmd_move}</button>
+			<button type="submit" name="act" class="btn" value="procCommunicationDeleteFriend">{$lang->cmd_delete}</button>
+		</span>
 	</div>
-	<div class="pagination">
-		<a href="{getUrl('page','','document_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a> 
-		<!--@while($page_no = $page_navigation->getNextPage())-->
-			<!--@if($page == $page_no)-->
-				<strong>{$page_no}</strong> 
-			<!--@else-->
-				<a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+	<div class="pagination pagination-centered">
+		<ul>
+			<li><a href="{getUrl('page','','document_srl','')}" class="direction">&laquo; {$lang->first_page}</a></li>
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+			<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a></li>
 			<!--@end-->
-		<!--@end-->
-		<a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
+			<li><a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="direction">{$lang->last_page} &raquo;</a></li>
+		</ul>
 	</div>
 </form>
 <form action="./" method="get" id="for_delete_group">
 	<input type="hidden" name="friend_group_srl" value="" />
+	<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/frineds/1" />
 </form>
 <include target="./common_footer.html" />

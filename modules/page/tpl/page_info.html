@@ -1,167 +1,123 @@
 <!--#include("header.html")-->
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/page/tpl/page_info/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="updatePage" action="./" method="post" enctype="multipart/form-data" class="form">
+<section class="section">
+<form ruleset="updatePage" action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
 	<input type="hidden" name="module" value="page" />
 	<input type="hidden" name="act" value="procPageAdminUpdate" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row">{$lang->page_type}</th>
-				<td class="text">
-					{$lang->page_type_name[$module_info->page_type]}
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->mid}</th>
-				<td class="text">
-					<input type="text" name="page_name" value="{$module_info->mid}" />
-					<p>{$lang->about_mid}</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->module_category}</th>
-				<td class="text">
-					<select name="module_category_srl">
-						<option value="0">{$lang->notuse}</option>
-						<!--@foreach($module_category as $key => $val)-->
-						<option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-						<!--@end-->
-					</select>
-					<p>{$lang->about_module_category}</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->browser_title}</th>
-				<td class="text multiLangEdit">
-					<input type="hidden" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}" class="vLang" />
-					<input type="text" value="{$module_info->browser_title}" class="vLang" />
-					<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang" data-effect="slide">{$lang->cmd_set_multilingual}</a></span>
-					<p>{$lang->about_browser_title}</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->layout}</th>
-				<td class="text">
-					<select name="layout_srl">
-						<option value="0">{$lang->notuse}</option>
-						<!--@foreach($layout_list as $key => $val)-->
-						<option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
-						<!--@end-->
-					</select>
-					<p>{$lang->about_layout}</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->mobile_view}</th>
-				<td class="text">
-					<input type="checkbox" name="use_mobile" id="use_mobile" value="Y" <!--@if($module_info->use_mobile == "Y")-->checked="checked"<!--@end--> />
-					<label for="use_mobile">{$lang->about_mobile_view}</label>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->mobile_layout}</th>
-				<td class="text">
-					<select name="mlayout_srl">
-						<option value="0">{$lang->notuse}</option>
-						<!--@foreach($mlayout_list as $key => $val)-->
-						<option value="{$val->layout_srl}" <!--@if($module_info->mlayout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
-						<!--@end-->
-					</select>
-					<p>{$lang->about_layout}</p>
-				</td>
-			</tr>
-			<!--@if($module_info->page_type != 'ARTICLE')-->
-			<tr>
-				<th scope="row">{$lang->page_caching_interval}</th>
-				<td class="text">
-					<input type="text" name="page_caching_interval" value="{(int)$module_info->page_caching_interval}"  /> {$lang->unit_min}
-					<p>{$lang->about_page_caching_interval}</p>
-				</td>
-			</tr>
-			<!--@end-->
-			<!--@if($module_info->page_type == 'OUTSIDE')-->
-			<tr>
-				<th scope="row">{$lang->opage_path}</th>
-				<td class="text">
-					<input type="text" name="path" value="{htmlspecialchars($module_info->path)}"  />
-					<p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
-				</td>
-			</tr>
-			<tr class="row">
-				<th scope="row">{$lang->opage_mobile_path}</th>
-				<td class="text">
-					<input type="text" name="mpath" value="{htmlspecialchars($module_info->mpath)}"  />
-					<p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
-				</td>
-			</tr>
-			<!--@end-->
-			<!--@if($module_info->page_type == 'ARTICLE')-->
-			<tr>
-				<th scope="row">{$lang->skin_fix}</th>
-				<td class="text">
-					<input type="checkbox" name="is_skin_fix" id="is_skin_fix" value="Y" checked="checked"|cond="$module_info->is_skin_fix == 'Y'" /> 
-					<p>{$lang->about_skin_fix}</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">{$lang->skin}</th>
-				<td class="text">
-					<select name="skin">
-						<!--@foreach($skin_list as $key=>$val)-->
-						<option value="{$key}" <!--@if($module_info->skin==$key ||(!$module_info->skin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
-						<!--@end-->
-					</select>
-					<p>{$lang->about_skin}</p>
-				</td>
-			</tr>
-			<tr class="optionnalData articleType">
-				<th scope="row">{$lang->mobile_skin}</th>
-				<td class="text">
-					<select name="mskin">
-						<!--@foreach($mskin_list as $key=>$val)-->
-						<option value="{$key}" <!--@if($module_info->mskin==$key ||(!$module_info->mskin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
-						<!--@end-->
-					</select>
-					<p>{$lang->about_skin}</p>
-				</td>
-			</tr>
-			<!--@end-->
-		</table>
+	<input type="hidden" name="xe_validator_id" value="modules/page/tpl/page_info/1" />
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->page_type}</label>
+		<div class="x_controls" style="padding-top:4px">{$lang->page_type_name[$module_info->page_type]}</div>
 	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
-		<!--@if($module_info->page_type != 'OUTSIDE')-->
-		<span class="btn"><a href="{getUrl('','module','page','act','dispPageAdminContentModify','module_srl',$module_info->module_srl)}" target="_blank">{$lang->cmd_page_modify}...</a></span>
-		<!--@end-->
-		<!--@if($module=="admin")-->
-		<span class="btn"><a href="{getUrl('act','dispPageAdminContent','module_srl','')}">{$lang->cmd_list}</a></span>
-		<!--@end-->
+	<div class="x_control-group">
+		<label class="x_control-label" for="page_name">{$lang->mid}</label>
+		<div class="x_controls">
+			<input type="text" name="page_name" id="page_name" value="{$module_info->mid}" />
+			<a href="#aboutMid" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p class="x_help-block" id="aboutMid" hidden>{$lang->about_mid}</p>
+		</div>
 	</div>
-	<!-- Multilingual -->
-	<div id="langEdit" class="langEdit tgContent">
-		<ul class="langList"></ul>
-		<div class="langInput">
-			<h2>{$lang->cmd_multilingual} <strong>{$lang->cmd_modify}...</strong> | <a href="#langEdit">{$lang->cmd_insert}</a></h2>
-			<ul>
-				{@
-					/* move current language to the top */
-					$a = array($lang_type=>$lang_supported[$lang_type]);
-					unset($lang_supported[$lang_type]);
-					$lang_supported = array_merge($a, $lang_supported);
-				}
-				<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
-			</ul>
-			<div class="action">
-				<div class="btnArea">
-					<span class="btn small"><input type="submit" value="{$lang->use}|{$lang->use_after_save}" /></span>
-				</div>
-				<p><a href="{getUrl('act','dispModuleAdminLangcode')}">{$lang->multilingual_manager}</a></p>
-			</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="module_category_srl">{$lang->module_category}</label>
+		<div class="x_controls">
+			<select name="module_category_srl" id="module_category_srl">
+				<option value="0">{$lang->notuse}</option>
+				<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl==$key">{$val->title}</option>
+			</select>
+			<a href="#aboutCategory" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p class="x_help-block" id="aboutCategory" hidden>{$lang->about_module_category}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="lang_browser_title">{$lang->browser_title}</label>
+		<div class="x_controls">
+			<input type="text" name="browser_title" id="browser_title" value="<!--@if(strpos($module_info->browser_title, '$user_lang->') === false)-->{$module_info->browser_title}<!--@else-->{htmlspecialchars($module_info->browser_title)}<!--@end-->" class="lang_code" />
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="layout_srl">{$lang->layout}</label>
+		<div class="x_controls">
+			<select name="layout_srl" id="layout_srl" style="width:auto">
+				<option value="0">{$lang->notuse}</option>
+				<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl==$val->layout_srl">{$val->title}({$val->layout})</option>
+			</select>
+			<a href="#aboutLayout" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->mobile_view}</label>
+		<div class="x_controls">
+			<label for="use_mobile">
+				<input type="checkbox" name="use_mobile" id="use_mobile" value="Y" checked="checked"|cond="$module_info->use_mobile == 'Y'" />
+				{$lang->about_mobile_view}
+			</label>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="mlayout_srl">{$lang->mobile_layout}</label>
+		<div class="x_controls">
+			<select name="mlayout_srl" id="mlayout_srl">
+				<option value="0">{$lang->notuse}</option>
+				<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl==$val->layout_srl">{$val->title}({$val->layout})</option>
+			</select>
+			<a href="#aboutMobileLayout" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p class="x_help-block" id="aboutMobileLayout" hidden>{$lang->about_layout}</p>
+		</div>
+	</div>
+	<div class="x_control-group" cond="$module_info->page_type != 'ARTICLE'">
+		<label class="x_control-label" for="page_caching_interval">{$lang->page_caching_interval}</label>
+		<div class="x_controls">
+			<input type="text" name="page_caching_interval" id="page_caching_interval" value="{(int)$module_info->page_caching_interval}"  /> {$lang->unit_min}
+			<a href="#aboutCaching" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p class="x_help-block" id="aboutCaching" hidden>{$lang->about_page_caching_interval}</p>
+		</div>
+	</div>
+	<div class="x_control-group" cond="$module_info->page_type == 'OUTSIDE'">
+		<label class="x_control-label" for="path">{$lang->opage_path}</label>
+		<div class="x_controls">
+			<input type="text" name="path" id="path" value="{$module_info->path}" />
+			<a href="#aboutOpagePath" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p class="x_help-block" id="aboutOpagePath" hidden>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
+		</div>
+	</div>
+	<div class="x_control-group" cond="$module_info->page_type == 'OUTSIDE'">
+		<label class="x_control-label" for="mpath">{$lang->opage_mobile_path}</label>
+		<div class="x_controls">
+			<input type="text" name="mpath" id="mpath" value="{$module_info->mpath}"  />
+			<a href="#aboutOpageMobilePath" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p class="x_help-block" id="aboutOpageMobilePath" hidden>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
+		</div>
+	</div>
+	<div class="x_control-group" cond="$module_info->page_type == 'ARTICLE'">
+		<label class="x_control-label" for="skin">{$lang->skin}</label>
+		<div class="x_controls">
+			<select name="skin" id="skin">
+				<option loop="$skin_list => $key,$val" value="{$key}" selected="selected"|cond="$module_info->skin==$key ||(!$module_info->skin && $key=='default')">{$val->title}</option>
+			</select>
+			<a href="#aboutSkin" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p class="x_help-block" id="aboutSkin" hidden>{$lang->about_skin}</p>
+		</div>
+	</div>
+	<div class="x_control-group optionnalData articleType" cond="$module_info->page_type == 'ARTICLE'">
+		<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
+		<div class="x_controls">
+			<select name="mskin">
+				<option loop="$mskin_list => $key,$val" value="{$key}" selected="selected"|cond="$module_info->mskin==$key ||(!$module_info->mskin && $key=='default')">{$val->title}</option>
+			</select>
+			<a href="#aboutMobileSkin" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p class="x_help-block" id="aboutMobileSkin" hidden>{$lang->about_skin}</p>
+		</div>
+	</div>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
 		</div>
 	</div>
 </form>
+</section>

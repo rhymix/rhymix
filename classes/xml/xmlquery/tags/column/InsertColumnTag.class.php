@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Models the &lt;column&gt; tag inside an XML Query file whose action is 'insert'
  *
@@ -8,6 +9,7 @@
  */
 class InsertColumnTag extends ColumnTag
 {
+
 	/**
 	 * Argument
 	 *
@@ -40,8 +42,8 @@ class InsertColumnTag extends ColumnTag
 	function getExpressionString()
 	{
 		return sprintf('new InsertExpression(\'%s\', ${\'%s_argument\'})'
-					, $this->name
-					, $this->argument->argument_name);
+						, $this->name
+						, $this->argument->argument_name);
 	}
 
 	/**
@@ -55,4 +57,5 @@ class InsertColumnTag extends ColumnTag
 	}
 
 }
-?>
+/* End of file InsertColumnTag.class.php */
+/* Location: ./classes/xml/xmlquery/tags/column/InsertColumnTag.class.php */

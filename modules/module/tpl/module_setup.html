@@ -1,75 +1,78 @@
 <load target="./js/module_admin.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
-<form ruleset="insertModuleSetup" action="./" method="post" enctype="multipart/form-data" class="form">
+<form ruleset="insertModuleSetup" action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal" style="margin:0">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminModuleSetup" />
 	<input type="hidden" name="module_srls" value="{$module_srls}" />
-	<h1 class="h1">{$lang->bundle_setup}</h1>
-	<ul>
-		<li>
-			<p class="q"><label for="module_category_srl">{$lang->module_category}</label></p>
-			<p class="a">
+	<input type="hidden" name="xe_validator_id" value="modules/module/tpl/module_setup/1" />
+	<div class="x_modal-header">
+		<h1>{$lang->bundle_setup}</h1>
+	</div>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/module/tpl/module_setup/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<div class="x_modal-body">
+		<div class="x_control-group">
+			<label class="x_control-label" for="module_category_srl">{$lang->module_category}</label>
+			<div class="x_controls">
 				<select name="module_category_srl" id="module_category_srl">
 					<option value="" selected="selected">{$lang->keep_existing_value}</option>
 					<option value="0">{$lang->notuse}</option>
-					<!--@foreach($module_category as $key => $val)-->
-					<option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-					<!--@end-->
+					<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl==$key">{$val->title}</option>
 				</select>
-			</p>
-			<p class="desc">{$lang->about_module_category}</p>
-		</li>
-		<li>
-			<p class="q"><label for="layout_srl">{$lang->layout}</label></p>
-			<p class="a">
+				<a href="#aboutCategory" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p class="x_help-block" id="aboutCategory" hidden>{$lang->about_module_category}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="layout_srl">{$lang->layout}</label>
+			<div class="x_controls">
 				<select name="layout_srl" id="layout_srl">
 					<option value="" selected="selected">{$lang->keep_existing_value}</option>
 					<option value="0">{$lang->notuse}</option>
-					<!--@foreach($layout_list as $key => $val)-->
-					<option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
-					<!--@end-->
+					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl==$val->layout_srl">{$val->title}({$val->layout})</option>
 				</select>
-			</p>
-			<p class="desc">{$lang->about_layout}</p>
-		</li>
-		<li cond="count($skin_list)">
-			<p class="q"><label for="skin">{$lang->skin}</label></p>
-			<p class="a">
+				<a href="#aboutLayout" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
+			</div>
+		</div>
+		<div class="x_control-group" cond="count($skin_list)">
+			<label class="x_control-label" for="skin">{$lang->skin}</label>
+			<div class="x_controls">
 				<select name="skin" id="skin">
 					<option value="" selected="selected">{$lang->keep_existing_value}</option>
-					<!--@foreach($skin_list as $key=>$val)-->
-					<option value="{$key}" <!--@if($module_info->skin==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-					<!--@end-->
+					<option loop="$skin_list => $key,$val" value="{$key}" selected="selected"|cond="$module_info->skin==$key">{$val->title}</option>
 				</select>
-			</p>
-			<p class="desc">{$lang->about_skin}</p>
-		</li>
-		<li>
-			<p class="q"><label for="description">{$lang->description}</label></p>
-			<p class="a">
-				<textarea name="description" id="description" rows="8" cols="42">{htmlspecialchars($module_info->description)}</textarea>
-			</p>
-			<p class="desc">{$lang->about_description}</p>
-		</li>
-		<li>
-			<p class="q"><label for="header_text">{$lang->header_text}</label></p>
-			<p class="a">
-				<textarea name="header_text" id="header_text" rows="8" cols="42">{htmlspecialchars($module_info->header_text)}</textarea>
-			</p>
-			<p class="desc">{$lang->about_header_text}</p>
-		</li>
-		<li>
-			<p class="q"><label for="footer_text">{$lang->footer_text}</label></p>
-			<p class="a">
-				<textarea name="footer_text" rows="8" cols="42">{htmlspecialchars($module_info->footer_text)}</textarea>
-			</p>
-			<p class="desc">{$lang->about_footer_text}</p>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+				<a href="#aboutSkin" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p class="x_help-block" id="aboutSkin" hidden>{$lang->about_skin}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="header_text">{$lang->header_text}</label>
+			<div class="x_controls">
+				<textarea name="header_text" id="header_text" rows="4" cols="42">{htmlspecialchars($module_info->header_text)}</textarea>
+				<a href="#aboutHeaderText" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p class="x_help-block" id="aboutHeaderText" hidden>{$lang->about_header_text}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="footer_text">{$lang->footer_text}</label>
+			<div class="x_controls">
+				<textarea name="footer_text" rows="4" cols="42">{htmlspecialchars($module_info->footer_text)}</textarea>
+				<a href="#aboutFooterText" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p class="x_help-block" id="aboutFooterText" hidden>{$lang->about_footer_text}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="description">{$lang->description}</label>
+			<div class="x_controls">
+				<textarea name="description" id="description" rows="4" cols="42">{htmlspecialchars($module_info->description)}</textarea>
+				<a href="#aboutDescription" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p class="x_help-block" id="aboutDescription" hidden>{$lang->about_description}</p>
+			</div>
+		</div>
+	</div>
+	<div class="x_modal-footer">
+		<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_registration}" />
 	</div>
 	
 </form>

@@ -1,0 +1,14 @@
+<query id="getNeedUpdate" action="select">
+	<tables>
+		<table name="ai_installed_packages" alias="i" />
+		<table name="autoinstall_packages" alias="p" />
+	</tables>
+	<columns>
+		<column name="i.*" />
+		<column name="p.path" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="i.package_srl" var="p.package_srl" />
+		<condition operation="equal" column="i.need_update" default="Y" pipe="and" />
+	</conditions>
+</query>

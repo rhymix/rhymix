@@ -1277,9 +1277,9 @@ var ImageWriter = xe.createPlugin('ImageWriter', {
 			}
 
 			_resize.find('p.resizeError').hide();
-			var _src = _image.attr('rawsrc') || _image.attr('src');
+			var _file_srl = _image.attr('filesrl');
 
-			$.exec_json('file.procFileImageResize',{width:w, source_src:decodeURI(_src)},function(data){
+			$.exec_json('file.procFileImageResize',{width:w, file_srl:_file_srl},function(data){
 				if(data.error != 0) return;
 
 				_image.attr({

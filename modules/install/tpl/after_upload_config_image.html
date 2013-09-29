@@ -1,0 +1,7 @@
+<script>
+<!--@if($msg)-->
+	parent.alertUploadMessage('{$msg}');
+<!--@else-->
+	parent.afterUploadConfigImage('{$name}', '{$fileName}', '{$tmpFileName}');
+<!--@end-->
+</script>

@@ -16,7 +16,7 @@ a {color: inherit;text-decoration: none;}
 .blind{font-size: 0;height: 0;line-height: 0;overflow: hidden;position: absolute;width: 0;}
 
 .skip{font-size: 0;height: 0;left: -1000em;line-height: 0;overflow: hidden;position: absolute;visibility: hidden;width: 0;}
-.lo_head{width:100%;height:39px;border-bottom:1px solid #01518d;padding-top:16px;
+.lo_head{position:relative;width:100%;height:39px;border-bottom:1px solid #01518d;padding-top:16px;
 background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#0c5d94), to(#003d6a));
 background:-webkit-linear-gradient(top,#0c5d94,#003d6a);
 background:-moz-linear-gradient(top,#0c5d94,#003d6a);

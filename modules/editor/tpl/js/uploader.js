@@ -21,7 +21,7 @@ var defaultHandlers;
 
 function init(cfg, exe) {
 	var seq = cfg.editorSequence;
-	
+
 	if(!is_def(seq)) return;
 
 	cfg = $.extend({
@@ -437,7 +437,10 @@ function insertUploadedFile(editorSequence) {
 
     // html 모드
     if(editorMode[editorSequence]=='html'){
-        if(text.length>0) get_by_id('editor_textarea_'+editorSequence).value += text.join('');
+        if(text.length>0 && get_by_id('editor_textarea_'+editorSequence))
+        {
+        	get_by_id('editor_textarea_'+editorSequence).value += text.join('');
+        }
 
     // 위지윅 모드
     }else{

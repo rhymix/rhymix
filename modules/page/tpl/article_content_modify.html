@@ -4,7 +4,7 @@
 	<input type="hidden" name="content" value="{$oDocument->getContentText()}" />
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
 	<input type="hidden" name="isMobile" value="{$isMobile}" />
-	<div class="form" style="margin-right:10px">
+	<div style="margin-right:10px">
 		<input type="text" name="title" value="{htmlspecialchars($oDocument->getTitleText())}" title="{$lang->title}" style="width:100%" />
 	</div>
 
@@ -17,10 +17,10 @@
 	<div class="btnArea">
         <!--@if($is_logged)-->
 		<!--@if(!$oDocument->isExists() || $oDocument->get('status') == 'TEMP')-->
-        <span class="btn"><button type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button></span>
-        <span class="btn"><button type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button></span>
+        <button class="btn" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
+        <button class="btn" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
 		<!--@end-->
         <!--@end-->
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+		<input class="btn" type="submit" value="{$lang->cmd_registration}" />
 	</div>
 </form>

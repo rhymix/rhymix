@@ -1,49 +1,46 @@
-<form ruleset="insertRssModuleConfig" action="./" method="post" class="form">
-	<input type="hidden" name="module" value="rss" />
-	<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
-	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-	<input type="hidden" name="target_module_srl" value="{$rss_config->module_srl?$rss_config->module_srl:$module_srls}" />
-	
-    <h3 class="h3">{$lang->open_rss}</h3>
-    <p>{$lang->about_open_rss}</p>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row"><label for="open_rss">{$lang->open_rss}</label></th>
-				<td class="text">
-					<select name="open_rss" id="open_rss">
-						<!--@foreach($lang->open_rss_types as $key=>$val)-->
-						<option value="{$key}" <!--@if(!$rss_config->open_rss && $key=='N')-->selected="selected"<!--@elseif($rss_config->open_rss==$key)-->selected="selected"<!--@end-->>{$val}</option>
-						<!--@end-->
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="open_total_feed">{$lang->open_feed_to_total}</label></th>
-				<td class="text">
-					<select name="open_total_feed" id="open_total_feed">
-						<option value="N" <!--@if(!$rss_config->open_total_feed || $rss_config->open_total_feed == 'N')-->selected="selected"<!--@end-->>{$lang->use}</option>
-						<option value="T_N" <!--@if($rss_config->open_total_feed == 'T_N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="feed_description">{$lang->description}</label></th>
-				<td class="text">
-					<textarea name="feed_description" id="feed_description" rows="8" cols="42">{$rss_config->feed_description}</textarea>
-					<p class="desc">{$lang->about_feed_description}</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="feed_copyright">{$lang->feed_copyright}</label></th>
-				<td class="text">
-					<input type="text"  name="feed_copyright" id="feed_copyright" value="{htmlspecialchars($rss_config->feed_copyright)}" />
-					<p class="desc">{$lang->about_feed_copyright}</p>
-				</td>
-			</tr>
-		</table>
-	</div>
-    <div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}"/></span>
-	</div>
-</form>
+<section class="section">
+	<h1>{$lang->open_rss}</h1>
+	<p>{$lang->about_open_rss}</p>
+
+	<form ruleset="insertRssModuleConfig" action="./" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="rss" />
+		<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
+		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+		<input type="hidden" name="target_module_srl" value="{$rss_config->module_srl?$rss_config->module_srl:$module_srls}" />
+		
+		<div class="x_control-group">
+			<label for="open_rss" class="x_control-label">{$lang->open_rss}</label>
+			<div class="x_controls">
+				<select name="open_rss" id="open_rss">
+					<option loop="$lang->open_rss_types => $key, $val" value="{$key}" selected="selected"|cond="(!$rss_config->open_rss && $key == 'N') || ($rss_config->open_rss == $key)">{$val}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="open_total_feed" class="x_control-label">{$lang->open_feed_to_total}</label>
+			<div class="x_controls">
+				<select name="open_total_feed" id="open_total_feed">
+					<option value="N" selected="selected"|cond="!$rss_config->open_total_feed || $rss_config->open_total_feed == 'N'">{$lang->use}</option>
+					<option value="T_N" selected="selected"|cond="$rss_config->open_total_feed == 'T_N'">{$lang->notuse}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="feed_description" class="x_control-label">{$lang->description}</label>
+			<div class="x_controls">
+				<textarea name="feed_description" id="feed_description" rows="4" cols="42" style="float:left;margin-right:8px">{htmlspecialchars($rss_config->feed_description)}</textarea>
+				<p class="x_help-block">{$lang->about_feed_description}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="feed_copyright" class="x_control-label">{$lang->feed_copyright}</label>
+			<div class="x_controls">
+				<textarea name="feed_copyright" id="feed_copyright" rows="4" cols="42" style="float:left;margin-right:8px">{htmlspecialchars($rss_config->feed_copyright)}</textarea>
+				<p class="x_help-block">{$lang->about_feed_copyright}</p>
+			</div>
+		</div>
+		<div class="btnArea">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
+	</form>
+</section>

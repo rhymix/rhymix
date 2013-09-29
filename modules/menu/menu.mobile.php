@@ -7,7 +7,8 @@
  * @package /modules/menu
  * @version 0.1
  */
-class menuMobile extends moduleObject {
+class menuMobile extends moduleObject
+{
 	/**
 	 * Result data list
 	 * @var array
@@ -36,21 +37,38 @@ class menuMobile extends moduleObject {
 	 * Display menu
 	 * @return void
 	 */
-	function dispMenuMenu() {
+	function dispMenuMenu()
+	{
 		$menu_srl = Context::get('menu_srl');
 		$oAdminModel =& getAdminModel('menu');
 		$menu_info = $oAdminModel->getMenu($menu_srl);
-		if(file_exists($menu_info->php_file)) @include($menu_info->php_file);
-		foreach($menu->list as $menu_item)
+
+		if(!$menu_srl)
 		{
-			$this->straightenMenu($menu_item, 0);
+			$oMenuAdminController = getAdminController('menu');
+			$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
+
+			if(file_exists($homeMenuCacheFile))
+			{
+				@include($homeMenuCacheFile);
+			}
+			$menu_info->php_file = './files/cache/menu/'.$homeMenuSrl.'.php';
+		}
+
+		if(file_exists($menu_info->php_file)) @include($menu_info->php_file);
+		if(is_array($menu->list))
+		{
+			foreach($menu->list as $menu_item)
+			{
+				$this->straightenMenu($menu_item, 0);
+			}
 		}
 
 		Context::set('menu', $this->result);	
 
 		$this->setTemplatePath(sprintf("%stpl/",$this->module_path));
 		$this->setTemplateFile('menu.html');
-		
 	}
 }
-?>
+/* End of file menu.mobile.php */
+/* Location: ./modules/menu/menu.mobile.php */

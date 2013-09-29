@@ -1,51 +1,49 @@
-<form ruleset="insertCommentModuleConfig" action="./" method="post" class="form">
-	<input type="hidden" name="module" value="comment" />
-	<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
-	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
-    <h3 class="h3">{$lang->comment}</h3>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>    
-				<th scope="row"><label for="comment_count">{$lang->comment_count}</label></th>
-				<td class="text">
-					<input type="text" name="comment_count" id="comment_count" value="{$comment_config->comment_count}" style="width:30px" />
-					<span class="desc">{$lang->about_comment_count}</span>
-				</td>
-			</tr>
-			<tr>    
-				<th scope="row"><label for="use_vote_up">{$lang->cmd_vote}</label></th>
-				<td class="text">
-					<select name="use_vote_up" id="use_vote_up">
-						<option value="Y" selected="selected"|cond="$comment_config->use_vote_up=='Y'">{$lang->use}</option>
-						<option value="S" selected="selected"|cond="$comment_config->use_vote_up=='S'">{$lang->use_and_display}</option>
-						<option value="N" selected="selected"|cond="$comment_config->use_vote_up=='N'">{$lang->notuse}</option>
-					</select>
-				</td>
-			</tr>
-			<tr>    
-				<th scope="row"><label for="use_vote_down">{$lang->cmd_vote_down}</label></th>
-				<td class="text">
-					<select name="use_vote_down" id="use_vote_down">
-						<option value="Y" selected="selected"|cond="$comment_config->use_vote_down=='Y'">{$lang->use}</option>
-						<option value="S" selected="selected"|cond="$comment_config->use_vote_down=='S'">{$lang->use_and_display}</option>
-						<option value="N" selected="selected"|cond="$comment_config->use_vote_down=='N'">{$lang->notuse}</option>
-					</select>
-				</td>
-			</tr>	
-			<tr>
-				<th scope="row"><label for="use_comment_validation">{$lang->cmd_comment_validation}</label></th>
-				<td>
-					<select name="use_comment_validation">
-						<option value="N" selected="selected"|cond="$comment_config->use_comment_validation=='N'">{$lang->notuse}</option>
-						<option value="Y" selected="selected"|cond="$comment_config->use_comment_validation=='Y'">{$lang->use}</option>
-					</select>
-					<p>{$lang->about_comment_validation}</p>
-				</td>
-			</tr>
-		</table>
-	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}"/></span>
-	</div>
-</form>
+<section class="section">
+	<h1>{$lang->comment}</h1>
+	<form ruleset="insertCommentModuleConfig" action="./" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="comment" />
+		<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
+		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+		<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+		<div class="x_control-group">
+			<label for="comment_count" class="x_control-label">{$lang->comment_count}</label>
+			<div class="x_controls">
+				<input type="number" min="1" name="comment_count" id="comment_count" value="{$comment_config->comment_count}" />
+				<p class="x_help-inline">{$lang->about_comment_count}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="use_vote_up" class="x_control-label">{$lang->cmd_vote}</label>
+			<div class="x_controls">
+				<select name="use_vote_up" id="use_vote_up">
+					<option value="Y" selected="selected"|cond="$comment_config->use_vote_up=='Y'">{$lang->use}</option>
+					<option value="S" selected="selected"|cond="$comment_config->use_vote_up=='S'">{$lang->use_and_display}</option>
+					<option value="N" selected="selected"|cond="$comment_config->use_vote_up=='N'">{$lang->notuse}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="use_vote_down" class="x_control-label">{$lang->cmd_vote_down}</label>
+			<div class="x_controls">
+				<select name="use_vote_down" id="use_vote_down">
+					<option value="Y" selected="selected"|cond="$comment_config->use_vote_down=='Y'">{$lang->use}</option>
+					<option value="S" selected="selected"|cond="$comment_config->use_vote_down=='S'">{$lang->use_and_display}</option>
+					<option value="N" selected="selected"|cond="$comment_config->use_vote_down=='N'">{$lang->notuse}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="use_comment_validation" class="x_control-label">{$lang->cmd_comment_validation}</label>
+			<div class="x_controls">
+				<select name="use_comment_validation" id="use_comment_validation">
+					<option value="N" selected="selected"|cond="$comment_config->use_comment_validation=='N'">{$lang->notuse}</option>
+					<option value="Y" selected="selected"|cond="$comment_config->use_comment_validation=='Y'">{$lang->use}</option>
+				</select>
+				<p class="x_help-inline">{$lang->about_comment_validation}</p>
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
+	</form>
+</section>

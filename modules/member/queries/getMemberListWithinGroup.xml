@@ -10,7 +10,7 @@
         <group pipe="and">
             <condition operation="equal" column="member.is_admin" var="is_admin" />
             <condition operation="equal" column="member.denied" var="is_denied" pipe="and" />
-			<condition operation="in" column="member.member_srls" var="member_srls" pipe="and" />
+			<condition operation="in" column="member.member_srl" var="member_srls" pipe="and" />
         </group>
         <group pipe="and">
             <condition operation="like" column="member.user_id" var="s_user_id" />

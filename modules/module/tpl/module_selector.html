@@ -1,75 +1,67 @@
 <load target="./js/module_admin.js" usecdn="true" />
-<h1 class="h1">{$lang->module_selector}</h1>
-<form action="./" method="post">
+<div class="x_modal-header">
+	<h1>{$lang->module_selector}</h1>
+</div>
+<form action="./" method="post" class="x_modal-body x_form-horizontal" style="max-height:none">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="dispModuleSelectList" />
 	<input type="hidden" name="id" value="{$id}" />
 	<input type="hidden" name="type" value="{$type}" />
 	<input type="hidden" name="vid" value="{$vid}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tbody>
-				<!--@if($site_count && $logged_info->is_admin == 'Y')-->
-				<tr>
-					<th>{$lang->virtual_site}</th>
-					<td>
-						<input type="text" name="site_keyword" value="{$site_keyword}" /> <span class="button blue"><input type="submit" value="{$lang->cmd_search}" /></span>
-						<p>{$lang->about_search_virtual_site}</p>
-					</td>
-				</tr>
-				<!--@end-->
-				<tr>
-					<th>{$lang->module}</th>
-					<td>
-						<select name="selected_module">
-							<!--@foreach($mid_list as $key=>$val)-->
-							<option value="{$key}" <!--@if($selected_module == $key)-->selected="selected"<!--@end-->>{$val->title}</option>
-							<!--@end-->
-						</select><span class="button blue"><input type="submit" value="{$lang->cmd_search}" /></span>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="x_control-group" cond="$site_count && $logged_info->is_admin == 'Y'">
+		<label class="x_control-label" for="site_keyword">{$lang->virtual_site}</label>
+		<div class="x_controls">
+			<span class="x_input-append">
+				<input type="text" name="site_keyword" id="site_keyword" value="{$site_keyword}" />
+				<input type="submit" value="{$lang->cmd_search}" class="x_btn" />
+			</span>
+			<p class="x_help-block">{$lang->about_search_virtual_site}</p>
+		</div>
 	</div>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<thead>
-				<tr>
-					<!--@if($module_category_exists)--><th>{$lang->module_category}</th><!--@end-->
-					<th>{$lang->mid}</th>
-					<th >{$lang->browser_title}</th>
-					<th>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</th>
-				<tr>
-			</thead>
-			<tbody>
-				<!--@if($module_category_exists)-->
-				<!--@foreach($selected_mids as $key => $val)-->
-				<tr>
-					<td rowspan="{count($val)}">{$key}&nbsp;</td>
-					{@ $_idx =0; }
-					<!--@foreach($val as $k => $v)-->
-					<!--@if($_idx >0)--><tr><!--@end-->
-						{@ $browser_title = str_replace("'", "\\'", htmlspecialchars($v->browser_title)); }
-						<td>{$k}</td>
-						<td>{$v->browser_title}</td>
-						<td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{$browser_title}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
-					<!--@if($_idx <count($val))--></tr><!--@end-->
-			{@ $_idx ++; }
-			<!--@end-->
-			</tr>
-			<!--@end-->
-			<!--@else-->
-			<!--@foreach($selected_mids as $key => $val)-->
-			<!--@foreach($val as $k => $v)-->
+	<div class="x_control-group">
+		<label class="x_control-label" for="selected_module">{$lang->module}</label>
+		<div class="x_controls">
+			<select name="selected_module" id="selected_module">
+				<option loop="$mid_list => $key,$val" value="{$key}" selected="selected"|cond="$selected_module == $key">{$val->title}</option>
+			</select>
+			<input type="submit" value="{$lang->cmd_search}" class="x_btn" />
+		</div>
+	</div>
+	<table class="x_table x_table-striped x_table-hover" style="border-top:1px dotted #ddd">
+		<thead>
 			<tr>
-				<td>{$k}</td>
-				<td>{$v->browser_title}</td>
-				<td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{str_replace("'","\\'",$v->browser_title)}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
-				</tr>
-			<!--@end-->
-			<!--@end-->
-			<!--@end-->
-			</tbody>
-		</table>
-	</div>
+				<th>{$lang->mid}</th>
+				<th>{$lang->browser_title}</th>
+				<th>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</th>
+			<tr>
+		</thead>
+		<tbody>
+			<!--@if($module_category_exists)-->
+			<!--@foreach($selected_mids as $key => $val)-->
+			<tr>
+				{@ $_idx =0; }
+				<!--@foreach($val as $k => $v)-->
+				<!--@if($_idx >0)--><tr><!--@end-->
+					{@ $browser_title = str_replace("'", "\\'", htmlspecialchars($v->browser_title)); }
+					<td>{$k}</td>
+					<td>{$v->browser_title}</td>
+					<td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{$browser_title}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
+				<!--@if($_idx <count($val))--></tr><!--@end-->
+		{@ $_idx ++; }
+		<!--@end-->
+		</tr>
+		<!--@end-->
+		<!--@else-->
+		<!--@foreach($selected_mids as $key => $val)-->
+		<!--@foreach($val as $k => $v)-->
+		<tr>
+			<td>{$k}</td>
+			<td>{$v->browser_title}</td>
+			<td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{str_replace("'","\\'",$v->browser_title)}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
+		</tr>
+		<!--@end-->
+		<!--@end-->
+		<!--@end-->
+		</tbody>
+	</table>
 </form>

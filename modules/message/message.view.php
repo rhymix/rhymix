@@ -3,26 +3,29 @@
  * @class  messageView
  * @author NHN (developers@xpressengine.com)
  * @brief view class of the message module
- **/
-
-class messageView extends message {
-
+ */
+class messageView extends message
+{
 	/**
 	 * @brief Initialization
-	 **/
-	function init() 
+	 */
+	function init()
 	{
-	
 	}
 
 	/**
 	 * @brief Display messages
-	 **/
-	function dispMessage() 
+	 */
+	function dispMessage()
 	{
 		// Get configurations (using module model object)
 		$oModuleModel = &getModel('module');
 		$this->module_config = $config = $oModuleModel->getModuleConfig('message', $this->module_info->site_srl);
+
+		if(!$config)
+		{
+			$config = new stdClass();
+		}
 		
 		if(!$config->skin)
 		{
@@ -50,7 +53,8 @@ class messageView extends message {
 		Context::set('member_config', $member_config);
 		// Set a flag to check if the https connection is made when using SSL and create https url 
 		$ssl_mode = false;
-		if($member_config->enable_ssl == 'Y') {
+		if($member_config->enable_ssl == 'Y')
+		{
 			if(preg_match('/^https:\/\//i',Context::getRequestUri())) $ssl_mode = true;
 		}
 		Context::set('ssl_mode',$ssl_mode);
@@ -60,4 +64,5 @@ class messageView extends message {
 		$this->setTemplateFile('system_message');
 	}
 }
-?>
+/* End of file message.view.php */
+/* Location: ./modules/message/message.view.php */

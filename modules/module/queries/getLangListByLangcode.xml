@@ -10,6 +10,7 @@
         <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" filter="number" />
         <condition operation="in" column="lang_code" var="langCode" pipe="and" />
 		<condition operation="like" column="value" var="search_keyword" pipe="and" />
+		<condition operation="equal" column="name" var="name" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="list_order" order="order_type" />

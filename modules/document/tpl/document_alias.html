@@ -8,7 +8,7 @@
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
 </form>
 
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/document_alias/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertAlias" action="{Context::getRequestUri()}" method="post">
@@ -16,40 +16,39 @@
 	<input type="hidden" name="act" value="procDocumentAdminInsertAlias" />
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
 	<input type="hidden" name="module_srl" value="{$oDocument->get('module_srl')}" />
+	<input type="hidden" name="xe_validator_id" value="modules/document/tpl/document_alias/1" />
 	
-	<h3 class="h3">{$lang->alias}</h3>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<thead>
-		<tr>
-			<th scope="col">{$lang->title}</th>
-			<th scope="col">{$lang->alias}</th>
-			<th scope="col"></th>
-		</tr>
+	<h1>{$lang->alias}</h1>
+	<table class="x_table x_table-striped x_table-hover">
+		<thead>
+			<tr>
+				<th scope="col">{$lang->title}</th>
+				<th scope="col">{$lang->alias}</th>
+				<th scope="col"></th>
+			</tr>
 		</thead>
 		<tbody>
-		<tr>
-			<td rowspan="{count($aliases)+1}">{$oDocument->getTitle()}</td>
-			{@ $bFirst = true; }
-			<!--@foreach($aliases as $val)-->
-			<!--@if(!$bFirst)-->
-		<tr>
-			{@ $bFirst = false; }
-			<!--@end-->
-			<td>{$val->alias_title}</td>
-			<td><button type="button" onclick="deleteByFilter('{$val->alias_srl}', delete_alias);">Delete</button>
-			</td>
-		</tr>
-			<!--@end-->
-			<!--@if(!$bFirst)-->
-		<tr>
-			<!--@end-->
-			<td>
-			<input type="text" name="alias_title" />
-			</td>
-			<td><span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span></td>
-		</tr>
+			<tr>
+				<td rowspan="{count($aliases)+1}">{$oDocument->getTitle()}</td>
+				{@ $bFirst = true; }
+				<!--@foreach($aliases as $val)-->
+				<!--@if(!$bFirst)-->
+			<tr>
+				{@ $bFirst = false; }
+				<!--@end-->
+				<td>{$val->alias_title}</td>
+				<td><button type="button" onclick="deleteByFilter('{$val->alias_srl}', delete_alias);">Delete</button>
+				</td>
+			</tr>
+				<!--@end-->
+				<!--@if(!$bFirst)-->
+			<tr>
+				<!--@end-->
+				<td>
+				<input type="text" name="alias_title" />
+				</td>
+				<td><input class="btn" type="submit" value="{$lang->cmd_registration}" /></td>
+			</tr>
 		</tbody>
-		</table>
-	</div>
+	</table>
 </form>

@@ -1,0 +1,176 @@
+<form id="config_form" ruleset="updateLayout" action="./" enctype="multipart/form-data" method="post">
+	<input type="hidden" name="module" value="layout" />
+	<input type="hidden" name="act" value="procLayoutAdminUpdate" />
+	<input type="hidden" name="is_sitemap" value="{$is_sitemap}" />
+	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+	<input type="hidden" name="layout" value="{$selected_layout->layout}" />
+	<input type="hidden" name="_layout_type" value="{$selected_layout->layout_type}" />
+	<input type="hidden" name="xe_validator_id" value="modules/layout/tpl/lyaout_info_view/1" />
+	<!--// For submit config. Do not delete this division. -->
+	<div></div>
+</form>
+
+<section id="layout_config" class="x_form-horizontal">
+	<div cond="$selected_layout->path" class="x_control-group">
+		<label class="x_control-label">{$lang->path}</label>
+		<div class="x_controls" style="padding-top:5px">
+			{$selected_layout->path}
+		</div>
+	</div>
+	<div cond="$selected_layout->description" class="x_control-group">
+		<label class="x_control-label">{$lang->description}</label>
+		<div class="x_controls" style="padding-top:5px">
+			{$selected_layout->description}
+		</div>
+	</div>
+	<div cond="$selected_layout->author" class="x_control-group">
+		<label class="x_control-label">{$lang->author}</label>
+		<div class="x_controls" style="padding-top:5px">
+			<block loop="$selected_layout->author=>$author_info">
+				<!--@if($author_info->homepage)-->
+				<a href="{$author_info->homepage}" target="_blank">{$author_info->name}</a>
+				<!--@else-->
+				{$author_info->name}
+				<!--@end-->
+			</block>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="title">{$lang->title} <em>*</em></label>
+		<div class="x_controls">
+			<input type="text" id="title" name="title" value="{$selected_layout->layout_title}" />
+			<span class="x_help-block">{$lang->about_title}</span>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="header_script">{$lang->header_script}</label>
+		<div class="x_controls">
+			<textarea name="header_script" id="header_script" rows="4" cols="42">{$selected_layout->header_script}</textarea>
+			<span class="x_help-block">{$lang->about_header_script}</span>
+		</div>
+	</div>
+	<section class="section" cond="count($selected_layout->extra_var)">
+		<h1>{$lang->extra_vars}</h1>
+		{@$cnt = 1}
+		<block loop="$selected_layout->extra_var => $name, $var">
+			<block cond="$cnt == 1 && $var->group"><div class="x_tabbable"><ul class="x_nav x_nav-tabs"></block>
+			<block cond="$group != $var->group">
+				<li class="x_active"|cond="$cnt == 1"><a href="#extra_var{$cnt}" data-index="{$cnt}">{$var->group}</a></li>
+				{@$group = $var->group}
+				{@$cnt ++}
+			</block>
+		</block>
+		</ul>
+
+		{@$group = ''}
+		{@$cnt = 1}
+		
+		<block loop="$selected_layout->extra_var => $name, $var">
+		<block cond="$cnt == 1 && $var->group"><div class="x_tab-content"></block>
+			<block cond="$group != $var->group">
+				<block cond="$cnt != 1"></div></block>
+				<div style="display: none;"|cond="$cnt != 1" id="extra_var{$cnt}" class="x_tab-pane <!--@if($cnt == 1)-->x_active<!--@end-->" data-index="{$cnt}">
+				{@$group = $var->group}
+				{@$cnt ++}
+			</block>
+			<div class="x_control-group">
+				<label class="x_control-label" for="{$name}"|cond="$var->type!='text'&&$var->type!='textarea'" for="lang_{$name}"|cond="$var->type=='text'||$var->type=='textarea'">{$var->title}</label>
+				<div class="x_controls">
+					<div cond="$var->type == 'text'">
+						<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" />
+					</div>
+
+					<div cond="$var->type == 'textarea'">
+						{@$use_multilang_textarea = true}
+						<textarea name="{$name}" rows="4" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end--></textarea>
+					</div>
+
+					<block cond="$var->type == 'image'">
+						<input type="hidden" name="{$name}" id="file_{$name}" value="{$var->value}" />
+						<div id="preview_{$name}" class="x_thumbnail" style="<!--@if(!$var->value)-->display:none;<!--@end-->max-width:210px;margin-bottom:20px;">
+							<img src="../../../{$var->value}"|cond="$var->value" alt="" style="max-width:100%" />
+							<div style="text-align:right">
+								<button class="x_icon-remove" type="button" onclick="deleteImage('{$name}')" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button>
+							</div>
+						</div>
+						<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
+							<input type="hidden" name="module" value="layout" />
+							<input type="hidden" name="act" value="procLayoutAdminConfigImageUpload" />
+							<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+							<input type="hidden" name="name" value="{$name}" />
+							<p>
+								<input type="file" name="img" id="file_select_{$name}" value="" title="{$lang->uploaded_file}" />
+								<input class="x_btn" type="submit" value="{$lang->cmd_submit}" style="vertical-align:top" />
+							</p>
+						</form>
+					</block>
+
+					<select cond="$var->type == 'select'" name="{$name}" id="{$name}" style="width:auto">
+						<option loop="$var->options => $key, $val" value="{$key}" selected="selected"|cond="$key == $var->value">{$val->val}</option>
+					</select>
+
+					<block cond="$var->type == 'checkbox'">
+						<block loop="$var->options => $key, $val">
+							<label class="x_inline"><input type="checkbox" name="{$name}[]" value="{$key}" checked="checked"|cond="@in_array($key, $var->value)" /> {$val->val}</label>
+						</block>
+					</block>
+
+					<block cond="$var->type == 'radio'">
+						<div class="x_thumbnails">
+							<block loop="$var->options => $key, $val">
+								<div class="x_span2 <!--@if($val->thumbnail)-->x_thumbnail<!--@end-->">
+									<img src="../../../{$val->thumbnail}" cond="$val->thumbnail" alt="{$val->val}" />
+									<div class="x_caption">
+										<label><input type="radio" name="{$name}" value="{$key}" checked="checked"|cond="$key == $var->value" /> {$val->val}</label>
+									</div>
+								</div>
+							</block>
+						</div>
+					</block>
+					<block cond="$var->type == 'colorpicker'">
+						{@ $use_colorpicker = true; }
+						<input type="text" class="color-indicator" name="{$name}" id="{$name}" value="{$var->value}" />
+						<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
+					</block>
+					<p class="x_help-block">{$var->description}</p>
+				</div>
+			</div>
+		</block>
+		<block cond="$group"></div></div></block>
+	</section>
+	<section class="section">
+		<h1 cond="$selected_layout->menu">{$lang->menu}</h1>
+		<div cond="$selected_layout->menu" class="x_form-horizontal">
+			<div loop="$selected_layout->menu => $menu_name, $menu_info" class="x_control-group">
+				<label class="x_control-label" for="{$menu_name}">{$menu_info->title}({$menu_name})</label>
+				<div class="x_controls">
+					<select name="{$menu_name}" id="{$menu_name}">
+						<option value="0">{$lang->cmd_select}</option>
+						<option selected="selected"|cond="!$menu_info->menu_srl||$menu_info->menu_srl == -1" value="-1">{$lang->sitemap_with_homemenu}</option>
+						<option loop="$menu_list => $key, $val" value="{$val->menu_srl}" selected="selected"|cond="$val->menu_srl == $menu_info->menu_srl">{$val->title}</option>
+					</select>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->not_apply_menu}</label>
+				<div class="x_controls">
+					<label class="x_inline"><input type="checkbox" name="apply_layout" id="apply_layout" value="Y" /> {$lang->about_not_apply_menu}</label>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="x_clearfix btnArea">
+		<span class="etc">
+			<a cond="$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout)}">{$lang->cmd_list}</a>
+			<a cond="!$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList')}">{$lang->cmd_list}</a>
+		</span>
+		<span class="x_btn-group x_pull-right">
+			<input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" onclick="doSubmitConfig()"/>
+		</span>
+	</div>
+</section>
+<iframe name="hiddenIframe" src="about:blank" hidden></iframe>
+<!--@if($use_colorpicker)-->
+	<!--%load_js_plugin("ui.colorpicker")-->
+<!--@end-->

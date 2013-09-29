@@ -1,22 +1,22 @@
 <!--#include("./header.html")-->
 <!-- 카테고리 수정 -->
 <!--@if($selected_category)-->
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/module/tpl/category_update_form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="updateCategory" action="./" method="post" enctype="multipart/form-data" class="form">
+<section class="section">
+<form ruleset="updateCategory" action="./" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminUpdateCategory" />
 	<input type="hidden" name="module_category_srl" value="{$selected_category->module_category_srl}" />
 	<input type="hidden" name="mode" value="update" />
-	<ul>
-		<li>
-			<p class="q"><label for="category_title">{$lang->category_title}</label></p>
-			<p class="a"><input type="text" name="title" id="category_title" value="{$selected_category->title}" /></p>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
-	</div>
+	<input type="hidden" name="xe_validator_id" value="modules/module/tpl/category_update_form/1" />
+	<label for="category_title" style="display:inline-block;padding:4px 0 0 0"><strong>{$lang->category_title}</strong>: </label>
+	<span class="x_input-append">
+		<input type="text" name="title" id="category_title" value="{$selected_category->title}" />
+		<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_registration}">
+	</span>
 </form>
+</section>
 <!--@end-->
+

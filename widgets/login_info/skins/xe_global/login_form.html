@@ -11,7 +11,7 @@
 <!--%import("./filter/openid_login.xml")-->
 <!--%import("./js/login.js")-->
 
-<script type="text/javascript">
+<script>
     var keep_signed_msg = "{$lang->about_keep_signed}";
     xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
 </script>
@@ -45,7 +45,6 @@
     <ul class="help">
         <li class="first-child"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
         <li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>
-        <li><a href="{getUrl('act','dispMemberResendAuthMail')}">{$lang->cmd_resend_auth_mail}</a></li>
     </ul>
 </fieldset>
 </form> 
@@ -70,6 +69,6 @@
   </form>
 <!--@end-->
 
-<script type="text/javascript">
+<script>
   xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
 </script>

@@ -16,9 +16,9 @@
 
     <div class="xeTextEditor {$editor_class}">
         <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
-        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" rows="8" cols="42" class="iTextArea"></textarea>
+        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;font-family:{$content_font};" rows="8" cols="42" class="iTextArea"></textarea>
     </div>
-    <script type="text/javascript">//<![CDATA[
+    <script>//<![CDATA[
         editorStartTextarea({$editor_sequence}, "{$editor_content_key_name}", "{$editor_primary_key_name}");
     //]]></script>
 
@@ -62,7 +62,7 @@
                     <select class="xpress_xeditor_ui_fontName_select" disabled="disabled">
                         <option value="">{$lang->edit->fontname}</option>
                         <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-                        <option value="{$key}" style="font-family:{$obj}">{$obj}</option>
+                        <option value="{htmlspecialchars($obj)}" style="font-family:{$obj}">{$obj}</option>
                         <!--@end-->
                     </select>
                 </li>
@@ -282,7 +282,7 @@
                     <div class="layer xpress_xeditor_sCharacter_layer" style="display:none">
                         <h3>{$lang->edit->insert_special_character}</h3>
                         <button type="button" class="close" title="{$lang->edit->close_special_character}"><span>{$lang->edit->close_special_character}</span></button>
-                        <ul class="nav">
+                        <ul class="characterNav">
                             <li><a href="#character1" class="on">{$lang->edit->symbol}</a></li>
                             <li><a href="#character2">{$lang->edit->number_unit}</a></li>
                             <li><a href="#character3">{$lang->edit->circle_bracket}</a></li>
@@ -438,7 +438,7 @@
 
         <!-- /입력 -->
         <button type="button" class="input_control xpress_xeditor_editingArea_verticalResizer" title="{$lang->edit->edit_height_control}"><span>{$lang->edit->edit_height_control}</span></button>
-		<span class="input_auto xpress_xeditor_ui_editorresize"><input type="checkbox" id="editorresize"><label for="editorresize">{$lang->edit->edit_height_auto}</label></span>
+		<span class="input_auto xpress_xeditor_ui_editorresize"><label for="editorresize"><input type="checkbox" id="editorresize">{$lang->edit->edit_height_auto}</label></span>
         </div>
 
 		<div id="fileUploader_{$editor_sequence}" class="fileUploader" cond="$allow_fileupload"><!--File upload zone-->
@@ -455,7 +455,7 @@
         </div>
     </div>
     <!-- 에디터 활성화 -->
-    <script type="text/javascript">//<![CDATA[
+    <script>//<![CDATA[
         var editor_path = "{$editor_path}";
         var auto_saved_msg = "{$lang->msg_auto_saved}";
 		var oEditor;

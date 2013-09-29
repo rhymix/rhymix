@@ -200,6 +200,14 @@
 		<value xml:lang="jp"><![CDATA[サイト]]></value>
 		<value xml:lang="zh-TW"><![CDATA[網站]]></value>
 	</item>
+	<item name="msg_invalid_key">
+		<value xml:lang="ko"><![CDATA[유효하지 않은 키입니다.]]></value>
+		<value xml:lang="en"><![CDATA[유효하지 않은 키입니다.]]></value>
+	</item>
+	<item name="msg_disable_trackback">
+		<value xml:lang="ko"><![CDATA[엮인글이 비활성화 되어있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[엮인글이 비활성화 되어있습니다.]]></value>
+	</item>
 	<item name="msg_trackback_send_failed">
 		<value xml:lang="ko"><![CDATA[엮인글 발송을 실패하였습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to send]]></value>

@@ -1,23 +1,25 @@
-<!--%import("css/poll.css")-->
-
+<load target="css/poll.css" />
 <div class="poll_box" style="{$poll->style}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
 
     <table cellspacing="0" class="poll_table">
     <col width="7" />
     <col />
     <col width="7" />
-    <tr>
+    <tr class="cap">
         <td><img src="./images/lh.png" alt="lh" width="7" height="7" /></td>
         <td class="h"><img src="./images/blank.gif" height="7" alt="blank" /></td>
         <td><img src="./images/rh.png" alt="rh" width="7" height="7" /></td>
     </tr>
     <tr>
         <td class="title" colspan="3">
-            <div class="fl">
-                {$lang->poll_stop_date} : <strong>{zdate($poll->stop_date, "Y-m-d")}</strong> {zdate($poll->stop_date, "H:i")}
+            <div style="float:left">
+                {$lang->poll_stop_date}: <strong>{zdate($poll->stop_date, "Y-m-d")}</strong> {zdate($poll->stop_date, "H:i")}
             </div>
-            <div class="fr">
-                {$lang->poll_join_count} : <strong>{number_format($poll->poll_count)}</strong>
+            <div style="float:right">
+                {$lang->poll_join_count}: <strong>{number_format($poll->poll_count)}</strong>
             </div>
         </td>
     </tr>
@@ -55,7 +57,7 @@
         </td>
         <td class="r"><img src="./images/blank.gif" height="7" alt="blank" /></td>
     </tr>
-    <tr>
+    <tr class="cap">
         <td class="rlb" ><img src="./images/rlb.png" alt="lb" width="7" height="7" /></td>
         <td class="bb"><img src="./images/blank.gif" alt="blank" /></td>
         <td class="rrb" ><img src="./images/rrb.png" alt="rb" width="7" height="7" /></td>

@@ -13,7 +13,7 @@
 		<value xml:lang="vi"><![CDATA[Hiển thị lỗi]]></value>
 	</item>
 	<item name="about_skin">
-		<value xml:lang="ko"><![CDATA[오류 메시지용 스킨을 지정하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[오류 메시지용 스킨을 지정할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may select skins for error messages.]]></value>
 		<value xml:lang="jp"><![CDATA[エラーメッセージを表示する際のスキンを指定できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[提示信息可以指定皮肤。]]></value>

@@ -1,0 +1,51 @@
+<include target="./header.html" />
+<section>
+	<ul class="x_nav x_nav-tabs">
+		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedIPList')}">{$lang->cmd_denied_ip}</a></li>
+		<li class="x_active"><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedWordList')}">{$lang->cmd_denied_word}</a></li>
+		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminConfigBlock')}">{$lang->cmd_config_block}</a></li>
+	</ul>
+	<form action="./" method="post">
+		<input type="hidden" name="act" value="procSpamfilterAdminDeleteDeniedWord" />
+		<input type="hidden" name="module" value="spamfilter" />
+		<input type="hidden" name="xe_validator_id" value="modules/spamfilter/tpl/1" />
+		<table class="x_table x_table-striped x_table-hover">
+			<caption>
+				<strong>{$lang->cmd_denied_word}</strong>
+				<button type="submit" class="x_btn x_pull-right">{$lang->cmd_delete}</button>
+			</caption>
+			<thead>
+				<tr>
+					<th scope="col">{$lang->word}</th>
+					<th scope="col">{$lang->latest_hit}</th>
+					<th scope="col">{$lang->hit}</th>
+					<th scope="col">{$lang->regdate}</th>
+					<th scope="col"><input type="checkbox" name="word" title="Check All" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr loop="$word_list => $word_info">
+					<td>{$word_info->word}</td>
+					<td><!--@if($word_info->latest_hit)-->{zdate($word_info->latest_hit,'Y-m-d H:i')}<!--@else-->-<!--@end--></td>
+					<td>{$word_info->hit}</td>
+					<td>{zdate($word_info->regdate,'Y-m-d')}</td>
+					<td><input type="checkbox" name="word[]" value="{$word_info->word}" /></td>
+				</tr>
+				<tr cond="!$word_list">
+					<td colspan="5" style="text-align:center">{$lang->no_data}</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<form action="./" style="margin-right:14px" method="post">
+		<input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedWord" />
+		<input type="hidden" name="module" value="spamfilter" />
+		<input type="hidden" name="active" value="word" />
+		<input type="hidden" name="xe_validator_id" value="modules/spamfilter/tpl/1" />
+		<textarea name="word_list" title="{$lang->add_denied_word}: {$lang->about_denied_word}" placeholder="{$lang->about_denied_word}" rows="4" cols="42" style="width:100%"></textarea>
+		<span class="x_pull-right" style="margin-right:-14px">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->add_denied_word}</button>
+		</span>
+	</form>
+</section>
+<include target="./footer.html" />

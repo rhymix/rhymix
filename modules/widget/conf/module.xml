@@ -19,7 +19,7 @@
         <action name="procWidgetInsertDocument" type="controller" standalone="true" />
         <action name="procWidgetCopyDocument" type="controller" standalone="true" />
         <action name="procWidgetDeleteDocument" type="controller" standalone="true" />
-        <action name="procWidgetGenerateCodeInPage" type="controller" standalone="true" />
+        <action name="procWidgetGenerateCodeInPage" type="controller" standalone="true" ruleset="generateCodeInPage" />
         <action name="procWidgetGetColorsetList" type="controller" standalone="true" />
 
         <action name="procWidgetStyleExtraImageUpload" type="controller" standalone="true" />

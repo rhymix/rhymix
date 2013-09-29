@@ -1,40 +1,45 @@
 <include target="./common_header.html" />
 <load target="filter/openid_login.xml" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
+<div class="signin">
+	<div class="login-header">
+		<h1><i class="icon-user"></i> {$lang->cmd_login}</h1>
+	</div>
+	<div class="login-body">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/login_form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<form ruleset="@login" action="./" method="post" id="fo_member_login">
+			<input type="hidden" name="success_return_url" value="{$referer_url}" />
+			<input type="hidden" name="act" value="procMemberLogin" />
+			<input type="hidden" name="xe_validator_id" value="modules/member/skin/default/login_form/1" />
+			<fieldset>
+				<div class="control-group">
+					<input type="text" cond="$identifier == 'user_id'" name="user_id" id="uid" required placeholder="{$lang->user_id}" title="{$lang->user_id}" />
+					<input type="email" cond="$identifier != 'user_id'" name="user_id" id="uid" required placeholder="{$lang->email_address}" title="{$lang->email_address}" />
+					<input type="password" name="password" id="upw" required placeholder="{$lang->password}" title="{$lang->password}" />
+				</div>
+				<div class="control-group">
+					<label for="keepid_opt">
+						<input type="checkbox" name="keep_signed" id="keepid_opt" value="Y" />
+						{$lang->keep_signed}
+					</label>
+					<div id="warning">
+						<p>{$lang->about_keep_warning}</p>
+					</div>
+					<input type="submit" value="{$lang->cmd_login}" class="submit btn btn-inverse" />
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="login-footer">
+		<a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
+		|
+		<a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
+	</div>
 </div>
-<h1 class="h1">{$lang->cmd_login}</h1>
-<form ruleset="@login" action="./" method="post" id="fo_member_login" class="form">
-	<input type="hidden" name="success_return_url" value="{$referer_url}" />
-	<input type="hidden" name="act" value="procMemberLogin" />
-	<ul>
-		<li>
-			<p class="q"><label for="uid"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label></p>
-			<p class="a"><input type="text" name="user_id" id="uid" value="" /></p>
-		</li>
-		<li>
-			<p class="q"><label for="upw">{$lang->password}</label></p>
-			<p class="a"><input type="password" name="password" id="upw" value="" /></p>
-		</li>
-	</ul>	
-	<p style="margin:1em 0">
-		<input type="checkbox" name="keep_signed" id="keepid_opt" value="Y" />
-		<label for="keepid_opt">{$lang->keep_signed}</label>
-	</p>
-	<div class="message info" id="keep_msg">
-		<p>{$lang->about_keep_warning}</p>
-	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_login}" /></span>
-		<span class="etc">
-			<a href="{getUrl('act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a> |
-			<a href="{getUrl('act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a>
-		</span>
-	</div>
-</form>
-<script type="text/javascript">
+<script>
 jQuery(function($){
-	var keep_msg = $('#keep_msg');
+	var keep_msg = $('#warning');
 	keep_msg.hide();
 	$('#keepid_opt').change(function(){
 		if($(this).is(':checked')){

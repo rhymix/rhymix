@@ -1,0 +1,21 @@
+<div id="{$id}" class="tgContent moduleWindow x_well xe-toggling-content" style="display:none;">
+	<div class="siteList x_control-group">
+		<label for="siteFinder">{$lang->select_site}</label>
+		<input type="search" class="siteFinder" id="siteFinder" name="site_filter" placeholder="URL">
+		<ul class="x_nav x_nav-tabs x_nav-stacked" style="">
+		</ul>
+	</div>
+	<div class="moduleList x_control-group">
+		<label>{$lang->select_module_type}</label>
+		<ul class="x_nav x_nav-tabs x_nav-stacked">
+		</ul>
+	</div>
+	<div class="instanceList x_control-group">
+		<label for="instanceList">{$lang->select_module_instance}</label>
+		<select size="8" id="instanceList" <!--@if($is_multiple)-->multiple<!--@endif--> style="height:auto!important">
+		</select>
+		<div class="x_pull-right" style="margin-top:8px">
+			<button type="button" class="moduleSearch_ok x_btn x_btn-inverse">{$lang->cmd_select}</button>
+		</div>
+	</div>
+</div>

@@ -24,8 +24,11 @@ $('a.modalAnchor[href=#manageSelectedModule]')
 		var module_srls = new Array();
 		$selectedModule.each(function(){
 			var $this = $(this);
-			var row = '<tr><td>' + $this.data('mid') + '</td><td>' + $this.data('browser_title') + '</td></tr>';
-			$selectedBody.append(row);
+			var $row = $('<tr></tr>');
+			var $mid = $('<td></td>').text($this.data('mid'));
+			var $browser_title = $('<td></td>').text($this.data('browser_title'));
+			$row.append($mid).append($browser_title);
+			$selectedBody.append($row);
 			module_srls.push($this.val());
 		});
 

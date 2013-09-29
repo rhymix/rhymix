@@ -355,7 +355,7 @@ if(jQuery) jQuery.noConflict();
                 (options.doClick == true) ? obj.click() : obj.attr('checked', options.checked);
             }
         },
-
+		
         /**
          * @brief 문서/회원 등 팝업 메뉴 출력
          */
@@ -390,9 +390,6 @@ if(jQuery) jQuery.noConflict();
                                         click_str = " onclick=\""+url+"; return false; \"";
                                         url="#";
                                     break;
-                                default :
-                                        click_str = " onclick=\"window.open(this.href); return false;\"";
-                                    break;
                             }
 
                             html += '<li '+styleText+'><a href="'+url+'"'+click_str+'>'+str+'</a></li> ';
@@ -412,11 +409,10 @@ if(jQuery) jQuery.noConflict();
                 if(area.outerWidth()+areaOffset.left > $(window).width()+$(window).scrollLeft())
                     areaOffset.left = $(window).width() - area.outerWidth() + $(window).scrollLeft();
 
-                area.css({ top:areaOffset.top, left:areaOffset.left }).show();
+                area.css({ top:areaOffset.top, left:areaOffset.left }).show().focus();
             }
         }
     }
-
 }) (jQuery);
 
 
@@ -635,7 +631,7 @@ function winopen(url, target, attribute) {
 function popopen(url, target) {
     if(typeof(target) == "undefined") target = "_blank";
     if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
-    winopen(url, target, "width=650,height=500,scrollbars=yes,resizable=yes,toolbars=no");
+    winopen(url, target, "width=800,height=600,scrollbars=yes,resizable=yes,toolbars=no");
 }
 
 /**
@@ -755,7 +751,7 @@ function setFixedPopupSize() {
 	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
 	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
 
-	if(w < 600) w = 600 + offset.left*2;
+	if(w < 800) w = 800 + offset.left*2;
 
 	dw = $win.width();
 	dh = $win.height();
@@ -1113,25 +1109,6 @@ function toggleDisplay(objId) {
     jQuery('#'+objId).toggle();
 }
 
-/* 체크박스 선택 */
-function checkboxSelectAll(formObj, name, checked) {
-    var itemName = name;
-    var option = {};
-    if(typeof(formObj) != "undefined") option.wrap = formObj;
-    if(typeof(checked) != "undefined") option.checked = checked;
-
-    XE.checkboxToggleAll(itemName, option);
-}
-
-/* 체크박스를 실행 */
-function clickCheckBoxAll(formObj, name) {
-    var itemName = name;
-    var option = { doClick:true };
-    if(typeof(formObj) != "undefined") option.wrap = formObj;
-
-    XE.checkboxToggleAll(itemName, option);
-}
-
 /**
  * @brief 에디터에서 사용하되 내용 여닫는 코드 (zb5beta beta 호환용으로 남겨 놓음)
  **/
@@ -1208,21 +1185,10 @@ function get_by_id(id) {
 }
 
 jQuery(function($){
-    $('.lang_code').each(
-		function() 
-		{
-			var objText = $(this);
-			var targetName = objText.attr("id");
-			if(typeof(targetName) == "undefined") targetName = objText.attr("name");
-			if(typeof(targetName) == "undefined") return;
-			objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>"); 
-		}
-    );
-
 	// display popup menu that contains member actions and document actions
 	$(document).click(function(evt) {
 		var $area = $('#popup_menu_area');
-		if(!$area.length) $area = $('<div id="popup_menu_area" style="display:none;z-index:9999" />').appendTo(document.body);
+		if(!$area.length) $area = $('<div id="popup_menu_area" tabindex="0" style="display:none;z-index:9999" />').appendTo(document.body);
 
 		// 이전에 호출되었을지 모르는 팝업메뉴 숨김
 		$area.hide();
@@ -1598,6 +1564,14 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	// ajax 통신중 대기 메세지 출력 (show_waiting_message값을 false로 세팅시 보이지 않음)
 	var waiting_obj = $('.wfsr');
 	if(show_waiting_message && waiting_obj.length) {
+	
+		var timeoutId = $(".wfsr").data('timeout_id');
+		if(timeoutId) clearTimeout(timeoutId);
+		$(".wfsr").css('opacity', 0.0);
+		$(".wfsr").data('timeout_id', setTimeout(function(){
+			$(".wfsr").css('opacity', '');
+		}, 1000));
+
 		waiting_obj.html(waiting_message).show();
 	}
 }
@@ -1639,10 +1613,17 @@ function arr2obj(arr) {
 /**
  * @brief exec_json (exec_xml와 같은 용도)
  **/
-$.exec_json = function(action,data,func){
+$.exec_json = function(action,data,func,f_error){
     if(typeof(data) == 'undefined') data = {};
     action = action.split(".");
     if(action.length == 2){
+		// The cover can be disturbing if it consistently blinks (because ajax call usually takes very short time). So make it invisible for the 1st 0.5 sec and then make it visible.
+		var timeoutId = $(".wfsr").data('timeout_id');
+		if(timeoutId) clearTimeout(timeoutId);
+		$(".wfsr").css('opacity', 0.0);
+		$(".wfsr").data('timeout_id', setTimeout(function(){
+			$(".wfsr").css('opacity', '');
+		}, 1000));
         if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
         $.extend(data,{module:action[0],act:action[1]});
@@ -1655,7 +1636,18 @@ $.exec_json = function(action,data,func){
             ,data:$.param(data)
             ,success : function(data){
                 $(".wfsr").hide().trigger('cancel_confirm');
-                if(data.error > 0) alert(data.message);
+                if(data.error != 0 && data.error > -1000){
+					if(data.error == -1 && data.message == 'msg_is_not_administrator'){
+						alert('You are not logged in as an administrator');
+	//					window.location.reload();
+						if($.isFunction(f_error)) f_error(data);
+						return;
+					}else{
+						alert(data.message);
+						if($.isFunction(f_error)) f_error(data);
+						return;
+					}
+				}
                 if($.isFunction(func)) func(data);
             }
         });
@@ -1669,6 +1661,12 @@ $.fn.exec_html = function(action,data,type,func,args){
     var self = $(this);
     action = action.split(".");
     if(action.length == 2){
+		var timeoutId = $(".wfsr").data('timeout_id');
+		if(timeoutId) clearTimeout(timeoutId);
+		$(".wfsr").css('opacity', 0.0);
+		$(".wfsr").data('timeout_id', setTimeout(function(){
+			$(".wfsr").css('opacity', '');
+		}, 1000));
         if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
         $.extend(data,{module:action[0],act:action[1]});

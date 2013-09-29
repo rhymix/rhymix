@@ -1,22 +1,24 @@
 <?php
+
 /**
  * File abstraction class 
  *
  * @author NHN (developers@xpressengine.com)
- **/
+ */
 class FileObject extends Object
 {
+
 	/**
 	 * File descriptor
 	 * @var resource
 	 */
-	var $fp = null;
+	var $fp = NULL;
 
 	/**
 	 * File path
 	 * @var string
 	 */
-	var $path = null;
+	var $path = NULL;
 
 	/**
 	 * File open mode
@@ -30,10 +32,13 @@ class FileObject extends Object
 	 * @param string $path Path of target file
 	 * @param string $mode File open mode 
 	 * @return void
-	 **/
+	 */
 	function FileObject($path, $mode)
 	{
-		if($path != null) $this->Open($path, $mode);
+		if($path != NULL)
+		{
+			$this->Open($path, $mode);
+		}
 	}
 
 	/**
@@ -41,7 +46,7 @@ class FileObject extends Object
 	 *
 	 * @param string $file_name Path of target file
 	 * @return void 
-	 **/
+	 */
 	function append($file_name)
 	{
 		$target = new FileObject($file_name, "r");
@@ -57,7 +62,7 @@ class FileObject extends Object
 	 * Check current file meets eof
 	 *
 	 * @return bool true: if eof. false: otherwise 
-	 **/
+	 */
 	function feof()
 	{
 		return feof($this->fp);
@@ -68,24 +73,29 @@ class FileObject extends Object
 	 *
 	 * @param int $size Size to read
 	 * @return string Returns the read string or false on failure.
-	 **/
+	 */
 	function read($size = 1024)
 	{
 		return fread($this->fp, $size);
 	}
-
 
 	/**
 	 * Write string to current file 
 	 *
 	 * @param string $str String to write
 	 * @return int Returns the number of bytes written, or false on error.
-	 **/
+	 */
 	function write($str)
 	{
 		$len = strlen($str);
-		if(!$str || $len <= 0) return false;
-		if(!$this->fp) return false;
+		if(!$str || $len <= 0)
+		{
+			return FALSE;
+		}
+		if(!$this->fp)
+		{
+			return FALSE;
+		}
 		$written = fwrite($this->fp, $str);
 		return $written;
 	}
@@ -101,34 +111,34 @@ class FileObject extends Object
 	 */
 	function open($path, $mode)
 	{
-		if($this->fp != null)
-		{   
+		if($this->fp != NULL)
+		{
 			$this->close();
 		}
 		$this->fp = fopen($path, $mode);
-		if(! is_resource($this->fp) )
+		if(!is_resource($this->fp))
 		{
-			$this->fp = null; 
-			return false;
+			$this->fp = NULL;
+			return FALSE;
 		}
 		$this->path = $path;
-		return true;
+		return TRUE;
 	}
 
 	/**
 	 * Return current file's path
 	 *
 	 * @return string Returns the path of current file.
-	 **/
+	 */
 	function getPath()
 	{
-		if($this->fp != null)
+		if($this->fp != NULL)
 		{
 			return $this->path;
 		}
 		else
 		{
-			return null; 
+			return NULL;
 		}
 	}
 
@@ -136,16 +146,16 @@ class FileObject extends Object
 	 * Close file 
 	 *
 	 * @return void
-	 **/
+	 */
 	function close()
 	{
-		if($this->fp != null)
+		if($this->fp != NULL)
 		{
 			fclose($this->fp);
-			$this->fp = null;
+			$this->fp = NULL;
 		}
 	}
-}
 
+}
 /* End of file FileObject.class.php */
 /* Location: ./classes/file/FileObject.class.php */

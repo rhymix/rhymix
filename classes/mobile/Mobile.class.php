@@ -5,21 +5,27 @@
  *
  * @author NHN (developers@xpressengine.com)
  */
-class Mobile {
+class Mobile
+{
+
 	/**
 	 * Whether mobile or not mobile mode
 	 * @var bool
 	 */
-	var $ismobile = null;
+	var $ismobile = NULL;
 
 	/**
 	 * Get instance of Mobile class(for singleton)
 	 *
 	 * @return Mobile
 	 */
-	function &getInstance() {
+	function &getInstance()
+	{
 		static $theInstance;
-		if(!isset($theInstance)) $theInstance = new Mobile();
+		if(!isset($theInstance))
+		{
+			$theInstance = new Mobile();
+		}
 		return $theInstance;
 	}
 
@@ -28,8 +34,9 @@ class Mobile {
 	 *
 	 * @return bool If mobile mode returns true or false
 	 */
-	function isFromMobilePhone() {
-		$oMobile =& Mobile::getInstance();
+	function isFromMobilePhone()
+	{
+		$oMobile = & Mobile::getInstance();
 		return $oMobile->_isFromMobilePhone();
 	}
 
@@ -38,11 +45,16 @@ class Mobile {
 	 *
 	 * @return bool
 	 */
-	function _isFromMobilePhone() {
-		if($this->ismobile !== null) return $this->ismobile;
+	function _isFromMobilePhone()
+	{
+		if($this->ismobile !== NULL)
+		{
+			return $this->ismobile;
+		}
 
 		$db_info = Context::getDBInfo();
-		if($db_info->use_mobile_view != "Y" || Context::get('full_browse') || $_COOKIE["FullBrowse"]) {
+		if($db_info->use_mobile_view != "Y" || Context::get('full_browse') || $_COOKIE["FullBrowse"])
+		{
 			return ($this->ismobile = false);
 		}
 
@@ -52,19 +64,28 @@ class Mobile {
 		$this->ismobile = FALSE;
 
 		$m = Context::get('m');
-		if(strlen($m)==1) {
-			if($m == "1") {
-				$this->ismobile = true;
-			} elseif($m == "0") {
-				$this->ismobile = false;
+		if(strlen($m) == 1)
+		{
+			if($m == "1")
+			{
+				$this->ismobile = TRUE;
 			}
-		} elseif(isset($_COOKIE['mobile'])) {
+			elseif($m == "0")
+			{
+				$this->ismobile = FALSE;
+			}
+		}
+		elseif(isset($_COOKIE['mobile']))
+		{
 			if($_COOKIE['user-agent'] == md5($_SERVER['HTTP_USER_AGENT']))
 			{
-				if($_COOKIE['mobile']  == 'true') {
-					$this->ismobile = true;
-				} else {
-					$this->ismobile = false;
+				if($_COOKIE['mobile'] == 'true')
+				{
+					$this->ismobile = TRUE;
+				}
+				else
+				{
+					$this->ismobile = FALSE;
 				}
 			}
 			else
@@ -111,7 +132,7 @@ class Mobile {
 
 			if($_COOKIE['user-agent'] != md5($_SERVER['HTTP_USER_AGENT']))
 			{
-				setcookie("user-agent",md5($_SERVER['HTTP_USER_AGENT']), 0, $xe_web_path);
+				setcookie("user-agent", md5($_SERVER['HTTP_USER_AGENT']), 0, $xe_web_path);
 			}
 		}
 
@@ -126,11 +147,13 @@ class Mobile {
 	function isMobileCheckByAgent()
 	{
 		static $UACheck;
-		if(isset($UACheck)) return $UACheck;
+		if(isset($UACheck))
+		{
+			return $UACheck;
+		}
 
-		$oMobile =& Mobile::getInstance();
-		// stripos is only for PHP5.
-		$mobileAgent = unserialize(strtolower(serialize(array('iPod','iPhone','Android','BlackBerry','SymbianOS','Bada','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','Dorothy Browser','Mobile','Opera Mobi','Opera Mini','Minimo','AvantGo','NetFront','Nokia','LGPlayer','SonyEricsson','HTC'))));
+		$oMobile = Mobile::getInstance();
+		$mobileAgent = array('iPod', 'iPhone', 'Android', 'BlackBerry', 'SymbianOS', 'Bada', 'Tizen', 'Kindle', 'Wii', 'SCH-', 'SPH-', 'CANU-', 'Windows Phone', 'Windows CE', 'POLARIS', 'Palm', 'Dorothy Browser', 'Mobile', 'Opera Mobi', 'Opera Mini', 'Minimo', 'AvantGo', 'NetFront', 'Nokia', 'LGPlayer', 'SonyEricsson', 'HTC');
 
 		if($oMobile->isMobilePadCheckByAgent())
 		{
@@ -140,9 +163,7 @@ class Mobile {
 
 		foreach($mobileAgent as $agent)
 		{
-			// stripos is only for PHP5..
-			$httpUA = strtolower($_SERVER['HTTP_USER_AGENT']);
-			if(strpos($httpUA, $agent) !== FALSE)
+			if(stripos($_SERVER['HTTP_USER_AGENT'], $agent) !== FALSE)
 			{
 				$UACheck = TRUE;
 				return TRUE;
@@ -160,12 +181,15 @@ class Mobile {
 	function isMobilePadCheckByAgent()
 	{
 		static $UACheck;
-		if(isset($UACheck)) return $UACheck;
-		$padAgent = array('iPad','Android','webOS','hp-tablet','PlayBook');
+		if(isset($UACheck))
+		{
+			return $UACheck;
+		}
+		$padAgent = array('iPad', 'Android', 'webOS', 'hp-tablet', 'PlayBook');
 
 		// Android with 'Mobile' string is not a tablet-like device, and 'Andoroid' without 'Mobile' string is a tablet-like device.
 		// $exceptionAgent[0] contains exception agents for all exceptions.
-		$exceptionAgent = array(0 => array('Opera Mini','Opera Mobi'),'Android' => 'Mobile');
+		$exceptionAgent = array(0 => array('Opera Mini', 'Opera Mobi'), 'Android' => 'Mobile');
 
 		foreach($padAgent as $agent)
 		{
@@ -205,9 +229,9 @@ class Mobile {
 	 */
 	function setMobile($ismobile)
 	{
-		$oMobile =& Mobile::getInstance();
+		$oMobile = Mobile::getInstance();
 		$oMobile->ismobile = $ismobile;
 	}
-}
 
+}
 ?>

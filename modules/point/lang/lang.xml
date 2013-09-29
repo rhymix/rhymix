@@ -24,7 +24,7 @@
 		<value xml:lang="vi"><![CDATA[Cấp bậc]]></value>
 	</item>
 	<item name="about_point_module">
-		<value xml:lang="ko"><![CDATA[포인트 모듈은 글 작성/댓글작성/업로드/다운로드 등의 행동을 할 때 포인트를 부여할 수 있게 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[글 작성/댓글작성/업로드/다운로드 등의 행동을 할 때 포인트를 부여할 수 있게 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can grant points for writing/adding comments/uploading/downloading.]]></value>
 		<value xml:lang="jp"><![CDATA[ポイントモジュールでは、書き込み作成/コメント作成/アップロード/ダウンロードなどのユーザーの活動に対してポイントの計算を行います。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分系统可以在发表新帖及评论，上传/下载文件等动作时，付与其相应的积分的模块。]]></value>
@@ -36,7 +36,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể đặt mức điểm khi thành viên gửi, thêm bài viết, bình luận, Download, Upload.<br />Nhưng điểm chỉ có thể cho và tích lũy khi Addon điểm được kích hoạt.]]></value>
 	</item>
 	<item name="about_act_config">
-		<value xml:lang="ko"><![CDATA[게시판, 블로그 등 각 모듈마다 글 작성/삭제/댓글작성/삭제 등의 action이 있습니다. 게시판/블로그 외에 다른 모듈에 포인트 기능 연동을 하고 싶을 때는 각 기능에 맞는 act값을 추가 하시면 됩니다.<br />연결은 ,(콤마)로 하시면 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[게시판, 블로그 등 각 페이지마다 글 작성/삭제/댓글작성/삭제 등의 action이 있습니다. 게시판/블로그 외에 다른 페이지에 포인트 기능 연동을 하고 싶을 때는 각 기능에 맞는 act값을 추가 하면 됩니다.<br />연결은 ,(콤마)로 하면 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Each module like board/blog has its own actions such as "writing/deleting/adding comments/deleting comments". You can just add act values to link modules with point system except board/blog.<br />Comma (,) will distinguish multiple values.]]></value>
 		<value xml:lang="jp"><![CDATA[掲示板、ブログなどのモジュールごとに「書き込み作成・削除/コメント作成・削除」などのアクションがあります。掲示板/ブログ以外のモジュールにポイントシステムを連動させたい場合は、各機能のアクションの「act値」を追加します。連動は半角「,（コンマ）」で区切って追加します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[版面，博客等模块都有发表/删除新帖，发表/删除评论等动作。 <br />要想与版面/博客之外的模块关联积分功能时，添加与其各模块功能相适合的act值即可。]]></value>
@@ -60,7 +60,7 @@
 		<value xml:lang="vi"><![CDATA[Cấp bậc lớn nhất]]></value>
 	</item>
 	<item name="about_max_level">
-		<value xml:lang="ko"><![CDATA[최고레벨을 지정할 수 있습니다. 레벨 아이콘을 염두에 두셔야 하고 최고 레벨은 1000이 한계입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[최고레벨을 지정할 수 있습니다. 레벨 아이콘을 염두에 두어야 하고 최고 레벨은 1000이 한계입니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may set the max level. Level icons should be considered and the level of 1000 is the maximum value you can set]]></value>
 		<value xml:lang="jp"><![CDATA[最高レベルを指定することができます。最高レベルは「1000」が最大値であるため、レベルアイコンに注意が必要です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定最高级别。级别共设1000级，因此制作级别图标时要好好考虑一下。]]></value>
@@ -96,7 +96,7 @@
 		<value xml:lang="vi"><![CDATA[Thư mục chứa Icon của cấp bậc có dạng "./module/point/icons/[level].gif" và cấp độ lớn nhất có thể khác với bộ Icon hiện tại. Vì vậy xin hãy cẩn thận.]]></value>
 	</item>
 	<item name="point_name">
-		<value xml:lang="ko"><![CDATA[포인트 명칭]]></value>
+		<value xml:lang="ko"><![CDATA[포인트 이름]]></value>
 		<value xml:lang="en"><![CDATA[Point Name]]></value>
 		<value xml:lang="jp"><![CDATA[ポイント名]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分名]]></value>
@@ -487,7 +487,7 @@
 		<value xml:lang="vi"><![CDATA[Danh sách điểm thành viên]]></value>
 	</item>
 	<item name="msg_cannot_download">
-		<value xml:lang="ko"><![CDATA[포인트가 부족하여 다운로드를 하실 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[포인트가 부족하여 다운로드할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You don't have enough points to download]]></value>
 		<value xml:lang="jp"><![CDATA[ポイントが不足しているため、ダウンロードできません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分不足无法下载！]]></value>
@@ -499,7 +499,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn không đủ điểm để Download.]]></value>
 	</item>
 	<item name="msg_disallow_by_point">
-		<value xml:lang="ko"><![CDATA[포인트가 부족하여 글을 읽으실 수 없습니다. (필요한 포인트 : %d, 현재 포인트 : %d)]]></value>
+		<value xml:lang="ko"><![CDATA[포인트가 부족하여 글을 읽을 수 없습니다. (필요한 포인트 : %d, 현재 포인트 : %d)]]></value>
 		<value xml:lang="en"><![CDATA[You need more points to read the article (You need %d, but you have %d).]]></value>
 		<value xml:lang="jp"><![CDATA[ポイントが不足しているため、閲覧ができません。(必要なポイント : %d、 現在のポイント : %d)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分不够，无法查看主题。(所需积分 : %d, 当前积分 : %d)]]></value>
@@ -640,8 +640,8 @@
 			<value xml:lang="vi"><![CDATA[Đăng nhập ít nhất]]></value>
 		</item>
 		<item name="extra_vars">
-			<value xml:lang="ko"><![CDATA[확장변수]]></value>
-			<value xml:lang="en"><![CDATA[Extra Vars]]></value>
+			<value xml:lang="ko"><![CDATA[사용자 정의]]></value>
+			<value xml:lang="en"><![CDATA[User Defined]]></value>
 			<value xml:lang="jp"><![CDATA[拡張変数]]></value>
 			<value xml:lang="zh-CN"><![CDATA[扩展信息]]></value>
 			<value xml:lang="zh-TW"><![CDATA[延伸變數]]></value>

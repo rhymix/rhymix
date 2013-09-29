@@ -1,14 +1,11 @@
 <load target="js/integration_search_admin.js" usecdn="true" />
 
-<h3 class="xeAdmin">{$lang->integration_search} <span class="gray">{$lang->cmd_management}</span></h3>
-
-<div class="header4">
-    <ul class="localNavigation">
-        <li <!--@if($act=='dispIntegration_searchAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispIntegration_searchAdminContent')}">{$lang->cmd_setup}</a></li>
-        <li <!--@if($act=='dispIntegration_searchAdminSkinInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispIntegration_searchAdminSkinInfo')}">{$lang->cmd_manage_skin}</a></li>
-        <!--@if($module!='admin')-->
-        <li><a href="{getUrl('act','IS')}">{$lang->cmd_back}</a></li>
-        <!--@end-->
-    </ul>
+<div class="x_page-header">
+	<h1>{$lang->integration_search}</h1>
 </div>
 
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act=='dispIntegration_searchAdminContent'"><a href="{getUrl('act','dispIntegration_searchAdminContent')}">{$lang->cmd_setup}</a></li>
+	<li class="x_active"|cond="$act=='dispIntegration_searchAdminSkinInfo'"><a href="{getUrl('act','dispIntegration_searchAdminSkinInfo')}">{$lang->cmd_manage_skin}</a></li>
+	<li cond="$module != 'admin'"><a href="{getUrl('act','IS')}">{$lang->cmd_back}</a></li>
+</ul>

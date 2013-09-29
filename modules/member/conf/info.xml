@@ -9,7 +9,7 @@
     <title xml:lang="ru">Управление пользователями</title>
     <title xml:lang="zh-TW">會員管理</title>
     <title xml:lang="tr">Üye Yönetimi</title>
-    <description xml:lang="ko">회원 관리 및 설정을 하는 모듈입니다.</description>
+    <description xml:lang="ko">회원 관리 및 설정을 합니다.</description>
     <description xml:lang="zh-CN">对会员进行管理及相关设置的模块。</description>
     <description xml:lang="jp">会員管理及び会員関連設定などを行うモジュールです。</description>
     <description xml:lang="en">This module is for managing or configuring members.</description>

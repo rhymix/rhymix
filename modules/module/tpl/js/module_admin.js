@@ -92,7 +92,7 @@ function doShowGrantZone() {
 
 /* 권한 등록 후 알림 메세지 */
 function completeInsertGrant(ret_obj) {
-    alert(ret_obj['message']);
+    // alert(ret_obj['message']);
     location.reload();
 }
 

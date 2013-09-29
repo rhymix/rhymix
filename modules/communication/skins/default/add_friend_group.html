@@ -1,30 +1,28 @@
 <load target="css/communication.css" />
 <load target="js/communication.js" />
-<h1 class="h1">
-	<!--@if($friend_group->friend_group_srl)-->
-		{$lang->cmd_rename_friend_group}
-	<!--@else-->
-		{$lang->cmd_add_friend_group}
-	<!--@end-->
-</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
-<form ruleset="addFriendGroup" action="./" method="post" class="form">
-	<input type="hidden" name="module" value="communication" />
-	<input type="hidden" name="act" value="procCommunicationAddFriendGroup" />
-	<input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
-	<ul>
-		<li>
-			<p class="q">{$lang->msg_insert_group_name}</p>
-			<p class="a"><input name="title" type="text" value="{htmlspecialchars($friend_group->title)}"/></p>
-		</li>
-	</ul>
-	<div class="btnArea">
+<div class="xc">
+	<h1 style="border-bottom:1px solid #ccc">
 		<!--@if($friend_group->friend_group_srl)-->
-		<span class="btn"><input type="submit" value="{$lang->cmd_modify}" /></span>
+			{$lang->cmd_rename_friend_group}
 		<!--@else-->
-		<span class="btn"><input type="submit" value="{$lang->cmd_insert}" /></span>
+			{$lang->cmd_add_friend_group}
 		<!--@end-->
+	</h1>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/add_friend_group/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-</form>
+	<form ruleset="addFriendGroup" action="./" method="post" class="form-horizontal">
+		<input type="hidden" name="module" value="communication" />
+		<input type="hidden" name="act" value="procCommunicationAddFriendGroup" />
+		<input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
+		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/add_friend_group/1" />
+		<div class="control-group">
+			<label for="title" class="control-label">{$lang->msg_insert_group_name}</label>
+			<div class="controls"><input name="title" id="title" type="text" value="{htmlspecialchars($friend_group->title)}"/></div>
+		</div>
+		<div class="btnArea">
+			<input cond="$friend_group->friend_group_srl" type="submit" value="{$lang->cmd_modify}" class="btn btn-inverse" />
+			<input cond="!$friend_group->friend_group_srl" type="submit" value="{$lang->cmd_insert}" class="btn btn-inverse" />
+		</div>
+	</form>
+</div>

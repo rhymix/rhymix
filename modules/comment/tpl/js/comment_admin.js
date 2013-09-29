@@ -44,7 +44,7 @@ function completeGetCommentList(ret_obj, response_tags)
 	if(ret_obj['comment_list'] == null)
 	{
 		htmlListBuffer = '<tr>' +
-							'<td colspan="3" style="text-align:center;">'+ret_obj['message']+'</td>' +
+							'<td colspan="4" style="text-align:center">'+ret_obj['message']+'</td>' +
 						'</tr>';
 	}
 	else
@@ -58,9 +58,8 @@ function completeGetCommentList(ret_obj, response_tags)
 								'<td class="title">'+ objComment.content +'</td>' +
 								'<td class="nowr">'+ objComment.nick_name +'</td>' +
 								'<td class="nowr">'+ statusNameList[objComment.is_secret] +'</td>' +
-								'<td>'+ publishedStatusList[objComment.status] +'</td>' +
-							'</tr>' +
-							'<input type="hidden" name="cart[]" value="'+objComment.comment_srl+'" />';
+								'<td>'+ publishedStatusList[objComment.status] + '<input type="hidden" name="cart[]" value="'+objComment.comment_srl+'" />' + '</td>' +
+							'</tr>';
 		}
 		jQuery('#selectedCommentCount').html(comment_list.length);
 	}
@@ -84,9 +83,11 @@ function checkSearch(form)
 		alert(xe.lang.msg_empty_search_target);
 		return false;
 	}
+	/*
 	if(form.search_keyword.value == '')
 	{
 		alert(xe.lang.msg_empty_search_keyword);
 		return false;
 	}
+	*/
 }

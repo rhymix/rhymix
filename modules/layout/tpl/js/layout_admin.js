@@ -51,16 +51,21 @@ function deleteFile(layout_srl,filename){
 
 function addLayoutCopyInputbox()
 {
-	var html = '<tr>';
-	html += '<td><input type="text" name="title[]" size="50" /></td>';
-	html += '<td><span class="btn"><input type="button" value="'+addLang+'" onclick="addLayoutCopyInputbox()" /></span></td>';
-	html += '</tr>';
+	var html = '<div class="x_control-group">';
+	html += '<label class="x_control-label" for="">'+newTitle+'</label>';
+	html += '<div class="x_controls">';
+	html += '<span class="x_input-append">';
+	html += '<input type="text" name="title[]" required placeholder="'+layoutTitle+'" />';
+	html += '<input type="button" value="'+addLang+'" onclick="addLayoutCopyInputbox()" class="x_btn" />';
+	html += '</span>';
+	html += '</div>';
+	html += '</div>';
 
-	var it  = jQuery('#inputTable');
+	var it  = jQuery('#inputDiv');
 	it.append(html);
-	
-	it.find('SPAN.btn').hide();
-	it.find('TR:last-child SPAN.btn').show();
+
+	it.find('input.x_btn').hide();
+	it.find('>div:last-child').find('input.x_btn').show();
 }
 
 (function($){

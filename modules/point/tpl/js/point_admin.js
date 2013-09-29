@@ -80,7 +80,7 @@ function doPointReset(module_srls) {
 		'point',
 		'procPointAdminReset',
 		{module_srls : module_srls},
-		function(ret_obj){alert(ret_obj['message']);},
+		function(ret_obj){document.location.reload();},
 		['error','message']
 	);
 }

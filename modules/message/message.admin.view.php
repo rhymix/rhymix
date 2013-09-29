@@ -1,45 +1,45 @@
 <?php
-    /**
-     * @class  messageAdminView
-     * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of the message module
-     **/
+/**
+ * @class  messageAdminView
+ * @author NHN (developers@xpressengine.com)
+ * @brief admin view class of the message module
+ */
+class messageAdminView extends message
+{
+	/**
+	 * @brief Initialization
+	 */
+	function init()
+	{
+	}
 
-    class messageAdminView extends message {
+	/**
+	 * @brief Configuration
+	 */
+	function dispMessageAdminConfig()
+	{
+		// Get a list of skins(themes)
+		$oModuleModel = &getModel('module');
 
-        /**
-         * @brief Initialization
-         **/
-        function init() {
-        }
+		$skin_list = $oModuleModel->getskins($this->module_path);
+		Context::set('skin_list', $skin_list);
 
-        /**
-         * @brief Configuration
-         **/
-        function dispMessageAdminConfig() {
-            // Get a list of skins(themes)
-            $oModuleModel = &getModel('module');
+		$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
+		Context::set('mskin_list', $mskin_list);
 
-            $skin_list = $oModuleModel->getskins($this->module_path);
-            Context::set('skin_list', $skin_list);
+		// Get configurations (using module model object)
+		$config = $oModuleModel->getModuleConfig('message');
+		Context::set('config',$config);
 
-			$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
-			Context::set('mskin_list', $mskin_list);
+		// Set a template file
+		$this->setTemplatePath($this->module_path.'tpl');
 
-            // Get configurations (using module model object)
-            $config = $oModuleModel->getModuleConfig('message');
-            Context::set('config',$config);
+		//Security
+		$security = new Security();
+		$security->encodeHTML('skin_list..title', 'mskin_list..title');
 
-            // Set a template file
-            $this->setTemplatePath($this->module_path.'tpl');
-
-			
-			//Security
-			$security = new Security();
-			$security->encodeHTML('skin_list..title', 'mskin_list..title');
-			
-            $this->setTemplateFile('config');
-        }
-
-    }
-?>
+		$this->setTemplateFile('config');
+	}
+}
+/* End of file message.admin.view.php */
+/* Location: ./modules/message/message.admin.view.php */

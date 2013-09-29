@@ -1,6 +1,5 @@
-<h1 class="h1">{$lang->addon_maker}</h1>
-<div class="table">
-	<table width="100%" border="1" cellspacing="0">
+<h1>{$lang->addon_maker}</h1>
+<table class="x_table x_table-striped x_table-hover">
 	<tr>
 		<th scope="row">{$lang->title}</th>
 		<td>{$addon_info->title} ver. {$addon_info->version}</td>
@@ -13,7 +12,7 @@
 			<!--@endforeach-->
 		</td>
 	</tr>
-<!--@if($addon_info->homepage)-->
+	<!--@if($addon_info->homepage)-->
 	<tr>
 		<th scope="row">{$lang->homepage}</th>
 		<td><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a></td>
@@ -22,7 +21,7 @@
 		<th scope="row">{$lang->regdate}</th>
 		<td>{zdate($addon_info->date, 'Y-m-d')}</td>
 	</tr>
-<!--@if($addon_info->license || $addon_info->license_link)-->
+	<!--@if($addon_info->license || $addon_info->license_link)-->
 	<tr>
 		<th scope="row">{$lang->addon_license}</th>
 		<td>
@@ -32,47 +31,41 @@
 		<!--@end-->
 		</td>
 	</tr><!--@end-->
-<!--@if($addon_info->description)-->
+	<!--@if($addon_info->description)-->
 	<tr>
 		<th scope="row">{$lang->description}</th>
 		<td>{nl2br(trim($addon_info->description))}</td>
 	</tr><!--@end-->
-	</table>
-</div>
+</table>
 
 <!--@if($addon_info->history)-->
-<h1 class="h1">{$lang->addon_history}</h1>
-<div class="table">
-	<table width="100%" border="1" cellspacing="0">
-	<col width="100" />
-	<col />
-
-	<!--@foreach($addon_info->history as $history)-->
-	<tr>
-		<th scope="row">
-			{$history->version}<br />
-			{$history->date}			</th>
-		<td>
-			<!--@foreach($history->author as $author)-->
-			<p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
+<h1>{$lang->addon_history}</h1>
+<table class="x_table x_table-striped x_table-hover">
+<!--@foreach($addon_info->history as $history)-->
+<tr>
+	<th scope="row">
+		{$history->version}<br />
+		{$history->date}			</th>
+	<td>
+		<!--@foreach($history->author as $author)-->
+		<p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
+		<!--@endforeach-->
+		<!--@if($history->description)-->
+		<p>{nl2br(trim($history->description))}</p>
+		<!--@endif-->
+		<!--@if($history->logs)-->
+		<ul>
+			<!--@foreach($history->logs as $log)-->
+			<!--@if($log->link)-->
+			<li><a href="{$log->link}">{$log->text}</a></li>
+			<!--@else-->
+			<li>{$log->text}</li>
+			<!--@endif-->
 			<!--@endforeach-->
-			<!--@if($history->description)-->
-			<p>{nl2br(trim($history->description))}</p>
-			<!--@endif-->
-			<!--@if($history->logs)-->
-			<ul>
-				<!--@foreach($history->logs as $log)-->
-				<!--@if($log->link)-->
-				<li><a href="{$log->link}">{$log->text}</a></li>
-				<!--@else-->
-				<li>{$log->text}</li>
-				<!--@endif-->
-				<!--@endforeach-->
-			</ul>
-			<!--@endif-->
-		</td>
-	</tr>
-	<!--@endforeach-->
-	</table>
-</div>
+		</ul>
+		<!--@endif-->
+	</td>
+</tr>
+<!--@endforeach-->
+</table>
 <!--@endif-->

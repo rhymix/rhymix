@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Models the &lt;columns&gt; tag inside an XML Query file whose action is 'insert'
  *
@@ -8,6 +9,7 @@
  */
 class InsertColumnsTag
 {
+
 	/**
 	 * Column list
 	 *
@@ -26,14 +28,29 @@ class InsertColumnsTag
 		$this->columns = array();
 
 		if(!$xml_columns)
+		{
 			return;
+		}
 
-		if(!is_array($xml_columns)) $xml_columns = array($xml_columns);
+		if(!is_array($xml_columns))
+		{
+			$xml_columns = array($xml_columns);
+		}
 
-		foreach($xml_columns as $column){
-			if($column->name === 'query') $this->columns[] = new QueryTag($column, true);
-			else if(!isset($column->attrs->var) && !isset($column->attrs->default)) $this->columns[] = new InsertColumnTagWithoutArgument($column);
-			else $this->columns[] = new InsertColumnTag($column);
+		foreach($xml_columns as $column)
+		{
+			if($column->name === 'query')
+			{
+				$this->columns[] = new QueryTag($column, TRUE);
+			}
+			else if(!isset($column->attrs->var) && !isset($column->attrs->default))
+			{
+				$this->columns[] = new InsertColumnTagWithoutArgument($column);
+			}
+			else
+			{
+				$this->columns[] = new InsertColumnTag($column);
+			}
 		}
 	}
 
@@ -45,7 +62,8 @@ class InsertColumnsTag
 	function toString()
 	{
 		$output_columns = 'array(' . PHP_EOL;
-		foreach($this->columns as $column){
+		foreach($this->columns as $column)
+		{
 			$output_columns .= $column->getExpressionString() . PHP_EOL . ',';
 		}
 		$output_columns = substr($output_columns, 0, -1);
@@ -61,12 +79,13 @@ class InsertColumnsTag
 	function getArguments()
 	{
 		$arguments = array();
-		foreach($this->columns as $column){
+		foreach($this->columns as $column)
+		{
 			$arguments[] = $column->getArgument();
 		}
 		return $arguments;
 	}
 
 }
-
-?>
+/* End of file InsertColumnsTag.class.php */
+/* Location: ./classes/xml/xmlquery/tags/column/InsertColumnsTag.class.php */

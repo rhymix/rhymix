@@ -1,139 +1,70 @@
 <load target="js/member_admin_list.js" type="body" usecdn="true" />
-<script type="text/javascript">
+<script>
 	xe.lang.msg_select_user = '{$lang->msg_select_user}';
 	xe.lang.msg_delete_user = '{$lang->msg_delete_user}';
 </script>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+
+<div class="x_page-header">
+	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/member_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="" class="form" method="post">
-	<h1 class="h1">{$lang->user_list}</h1>
-	<div class="table even">
-		<div class="cnb">
-			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}</a>
-			|
-			<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}</a>
-			|
-			<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}</a>
-			|
-			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}</a>
-		</div>
-		<table width="100%" border="1" cellspacing="0" class="_memberList">
-			<caption>
-				{$filter_type_title}({$total_count})
-				<span class="side">
-					<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a></span>
-					<span class="btn"><a href="#listManager" class="modalAnchor _member">{$lang->cmd_selected_user_manage}...</a></span>
-				</span>
-			</caption>
-			<thead>
-				<tr>
-					<th scope="col" class="nowr">{$lang->email}</th>
-					<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-					<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-					<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-					<th scope="col">{$lang->member_group}</th>
-					<th scope="col" class="nowr">{$lang->status}</th>
-					<th scope="col" class="nowr">{$lang->cmd_view}</th>
-					<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
-					<th scope="col">
-						<input type="checkbox" title="Check All" data-name="user" />
-					</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<th scope="col" class="nowr">{$lang->email}</th>
-					<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-					<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-					<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-					<th scope="col">{$lang->member_group}</th>
-					<th scope="col" class="nowr">{$lang->status}</th>
-					<th scope="col class="nowr"">{$lang->cmd_view}</th>
-					<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
-					<th scope="col">
-						<input type="checkbox" title="Check All" data-name="user" />
-					</th>
-				</tr>
-			</tfoot>
-			<tbody>
-				<tr loop="$member_list=>$no,$member_info">
-{@$member_info = get_object_vars($member_info)}
-					<td class="nowr">
-						<a href="#popup_menu_area" class="cMenu member_{$member_info['member_srl']}">Info</a>
-						<span class="masked">{getEncodeEmailAddress($member_info['email_address'])}</span>
-					</td>
-					{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
-					<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
-					<td class="nowr">{zdate($member_info['regdate'], 'Y-m-d')}</td>
-					<td class="nowr">{zdate($member_info['last_login'], 'Y-m-d')}</td>
-					<td>{$member_info['group_list']}&nbsp;</td>
-					{@ $lang_denied = ($member_info['denied'] == 'N')?$lang->approval:$lang->denied}
-					<td class="nowr">{$lang_denied}</td>
-					<td class="nowr">
-						<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_view}</a>
-					</td>
-					<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_modify}...</a></td>
-					{@$used_values = ''}
-					<!--@foreach($usedIdentifiers as $name=>$title)-->
-						{@$used_values .= "\t".$member_info[$name]}
-					<!--@end-->
-					<td><input type="checkbox" name="user" value="{$member_info['member_srl']."\t".$member_info['email_address'].$used_values."\t".$member_info['group_list']."\t".$lang_denied}" disabled="disabled"|cond="$member_info['is_admin'] == 'Y'"/></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div class="btnArea">
-		<span class="side">
-			<span class="btn"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a></span>
-			<span class="btn"><a href="#listManager" class="modalAnchor _member">{$lang->cmd_selected_user_manage}...</a></span>
-		</span>
-	</div>
+<form action="" method="post">
+	<table id="memberList" class="x_table x_table-striped x_table-hover">
+		<caption>
+			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}<block cond="$filter_type==''">({$total_count})</block></a>
+			<i>|</i>
+			<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}<block cond="$filter_type==super_admin">({$total_count})</block></a>
+			<i>|</i>
+			<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}<block cond="$filter_type==enable">({$total_count})</block></a>
+			<i>|</i>
+			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}<block cond="$filter_type==disable">({$total_count})</block></a>
+			<div class="x_pull-right x_btn-group">
+				<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
+				<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
+				<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
+			</div>
+		</caption>
+		<thead>
+			<tr>
+				<th scope="col" class="nowr">{$lang->email}</th>
+				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
+				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col" class="nowr">{$lang->member_group}</th>
+				<th scope="col" class="nowr">{$lang->inquiry}/{$lang->cmd_modify}</th>
+				<th scope="col">
+					<input type="checkbox" title="Check All" data-name="user" />
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$member_list=>$no,$member_info">
+				{@$member_info = get_object_vars($member_info)}
+				<td class="nowr">
+					<a href="#popup_menu_area" class="member_{$member_info['member_srl']}" title="Info">{getEncodeEmailAddress($member_info['email_address'])}</a>
+				</td>
+				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
+				<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
+				<td class="nowr">{zdate($member_info['regdate'], 'Y-m-d')}</td>
+				<td class="nowr">{zdate($member_info['last_login'], 'Y-m-d')}</td>
+				<td>{$member_info['group_list']}&nbsp;</td>
+				<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->inquiry}/{$lang->cmd_modify}</a></td>
+				{@$used_values = ''}
+				<!--@foreach($usedIdentifiers as $name=>$title)-->
+					{@$used_values .= "\t".$member_info[$name]}
+				<!--@end-->
+				<td><input type="checkbox" name="user" value="{$member_info['member_srl']."\t".$member_info['email_address'].$used_values."\t".$member_info['group_list']}" disabled="disabled"|cond="$member_info['is_admin'] == 'Y'"/></td>
+			</tr>
+			<tr cond="$total_count==0">
+				<td>{$lang->msg_no_result}</td>
+			</tr>
+		</tbody>
+	</table>
 </form>
-<div class="modal" id="listManager">
-	<form action="./" ruleset="updateSeletecdMemberInfo" class="fg form" method="post">
-	<input type="hidden" name="module" value="member" />
-	<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
-	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-		<h2 class="h2">{$lang->cmd_selected_user_manage}</h2>
-		<div class="table even">
-			<table width="100%" border="1" cellspacing="0">
-				<thead>
-					<tr>
-						<th scope="col">{$lang->email_address}</th>
-						<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-						<th scope="col" class="text">{$lang->member_group}</th>
-						<th scope="col">{$lang->status}</th>
-					</tr>
-				</thead>
-				<tbody id="popupBody">
-				</tbody>
-			</table>
-		</div>
-		<p class="q">{$lang->status}</p>
-		<p>
-			<input type="radio" name="denied" id="approval" value="N" > <label for="approval">{$lang->approval}</label>
-			<input type="radio" name="denied" id="deny" value="Y" > <label for="deny">{$lang->denied}</label>
-		</p>
-		<p class="q">{$lang->member_group}</p>
-		<p>
-			<!--@foreach($group_list as $key=>$val)-->
-			<input type="checkbox" name="groups[]" id="g{$val->group_srl}" value="{$val->group_srl}"/> <label for="g{$val->group_srl}">{$val->title}</label>
-			<!--@end-->
-		</p>
-		<p class="q"><label for="message">{$lang->about_send_message}</label></p>
-		<p>
-			<textarea rows="8" cols="42" id="message" style="width:98%" name="message" ></textarea>
-		</p>
-		<div class="btnArea">
-			<span class="btn"><button type="submit" name="type" value="modify">{$lang->cmd_modify}...</button></span>
-			<span class="btn"><button type="submit" name="type" value="delete">{$lang->cmd_delete}</button></span>
-		</div>
-	</form>
-</div>
-<div class="search">
-	<form action="" class="pagination" method="post">
-		<input type="hidden" name="error_return_url" value="" />
+<div class="x_clearfix">
+	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true" style="margin:0">
 		<input type="hidden" name="module" value="{$module}" />
 		<input type="hidden" name="act" value="{$act}" />
 		<input cond="$order_target" type="hidden" name="order_target" value="{$order_target}" />
@@ -141,68 +72,128 @@
 		<input cond="$category_srl" type="hidden" name="category_srl" value="{$category_srl}" />
 		<input cond="$childrenList" type="hidden" name="childrenList" value="{$childrenList}" />
 		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
-
-		<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
-
-		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-			{@$isGoTo = true}
-			<a href="{getUrl('page', '')}">1</a>
-			<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		</block>
-
-		<!--@while($page_no = $page_navigation->getNextPage())-->
-			{@$last_page = $page_no}
-			<strong cond="$page_no == $page">{$page_no}</strong>
-			<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-		<!--@end-->
-
-		<block cond="$last_page != $page_navigation->last_page">
-			{@$isGoTo = true}
-			<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-			<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-		</block>
-
-		<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
-
-		<span cond="$isGoTo" id="goTo" class="tgContent">
-			<input name="page" title="{$lang->cmd_go_to_page}" />
-			<button type="submit">Go</button>
-		</span>
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+	
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+			</block>
+	
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				{@$last_page = $page_no}
+				<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
+	
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+				
+			</block>
+	
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
 	</form>
-	<form action="" method="post">
-		<input type="hidden" name="module" value="{$module}" />
-        <select name="selected_group_srl">
-            <option value="0">그룹 전체</option>
-            <!--@foreach($group_list as $key => $val)-->
-            <option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
-            <!--@end-->
-        </select>
-		<select name="search_target">
-			<option value="">{$lang->search_target}</option>
-			{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}
-			<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
-		</select>
-		<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-		<input type="submit" value="{$lang->cmd_search}" />
-		<a href="{getUrl('search_target', '', 'search_keyword', '')}">{$lang->cmd_cancel}</a>
-	</form>
+	<div class="x_pull-right x_btn-group">
+		<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
+		<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
+		<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
+	</div>
 </div>
-<script type="text/javascript">
+<form action="./" method="get" class="search center x_input-append" no-error-return-url="true">
+	<input type="hidden" name="module" value="{$module}" />
+	<select name="selected_group_srl" style="margin-right:4px">
+		<option value="0">{$lang->all_group}</option>
+		<!--@foreach($group_list as $key => $val)-->
+		<option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
+		<!--@end-->
+	</select>
+	<select name="search_target" style="margin-right:4px" title="{$lang->search_target}">
+		{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}
+		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
+	</select>
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" style="width:140px">
+	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+	<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'page', $page)}">{$lang->cmd_cancel}</a>
+</form>
+<section class="x_modal" id="listManager">
+	<form action="./" ruleset="updateSeletecdMemberInfo" method="post">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
+	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/member_list/1" />
+		<div class="x_modal-header">
+			<h1>{$lang->cmd_selected_user_manage}: <span class="_sub"></span></h1>
+		</div>
+		<div class="x_modal-body">
+			<table class="x_table x_table-striped x_table-hover">
+				<thead>
+					<tr>
+						<th scope="col">{$lang->email_address}</th>
+						<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
+						<th scope="col" class="text">{$lang->member_group}</th>
+						<th scope="col">&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody id="popupBody">
+				</tbody>
+			</table>
+			<div class="x_control-group _moveTarget" hidden>
+				<h3>{$lang->member_group}</h3>
+				<label loop="$group_list => $key,$val" for="g{$val->group_srl}" class="x_inline"><input type="checkbox" name="groups[]" id="g{$val->group_srl}" value="{$val->group_srl}"/> {$val->title}</label>
+			</div>
+			<div class="x_control-group">
+				<h3>{$lang->about_send_message}</h3>
+				<textarea rows="5" cols="42" id="message" style="width:98%" name="message" title="{$lang->about_send_message}"></textarea>
+			</div>
+		</div>
+		<div class="x_modal-footer">
+			<button type="button" class="x_btn x_pull-left" data-hide="#listManager">{$lang->cmd_close}</button>
+			<span class="x_btn-group x_pull-right">
+				<button type="submit" name="type" value="modify|delete" class="x_btn x_btn-inverse">{$lang->confirm}</button>
+			</span>
+		</div>
+	</form>
+</section>
+<script>
 jQuery(function($){
-	var clickedBTN = '';
+	// Modal anchor activation
+	var $memberList = $('#memberList');
+	$memberList.find(':checkbox').change(function(){
+		var $modalAnchor = $('a[data-value]');
+		if($memberList.find('tbody :checked').length == 0){
+			$modalAnchor.removeAttr('href').addClass('x_disabled');
+		} else {
+			$modalAnchor.attr('href','#listManager').removeClass('x_disabled');
+		}
+	}).change();
 
-	$('.btnArea button').click(function(){
-		clickedBTN = $(this).val();
-	});
-
-	var CheckConfirm = xe.createPlugin('checkConfirm', {
-		API_BEFORE_VALIDATE : function(sender, params){
-			if (clickedBTN == 'delete') return confirm(xe.lang.msg_delete_user);
+	// Modal anchor button action
+	$('a[data-value]').click(function(){
+		if($memberList.find(':checked').length != 0){
+			var $this = $(this);
+			var $moveTarget = $('._moveTarget');
+			var thisValue = $this.attr('data-value');
+			var thisText = $this.text();
+			$('#listManager').find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]').val(thisValue).text(thisText);
+			if(thisValue == 'delete'){
+				$moveTarget.hide().next().css('borderTopWidth','0');
+			} else {
+				$moveTarget.show().next().css('borderTopWidth','1px');
+			}
 		}
 	});
-
-	var checkConfirm = new CheckConfirm();
-	var v = xe.getApp('Validator')[0];
-	v.registerPlugin(checkConfirm);
 });
 </script>

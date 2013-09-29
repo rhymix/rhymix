@@ -79,7 +79,7 @@
             <title xml:lang="es">Set de colores</title>
 	   		<title xml:lang="vi">Màu sắc</title>
 	   		<title xml:lang="tr">Renk ayarı</title>
-            <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
+            <description xml:lang="ko">원하는 컬러셋을 선택해주세요.</description>
             <description xml:lang="jp">希望するカラーセットを選択して下さい。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
             <description xml:lang="zh-TW">請選擇顏色。</description>
@@ -187,7 +187,7 @@
             <title xml:lang="es">Imagen de fondo</title>
 	    	<title xml:lang="vi">Hình nền</title>
 	    	<title xml:lang="tr">Arkaplan Resmi</title>
-            <description xml:lang="ko">배경 이미지를 사용하시려면 등록해주세요.</description>
+            <description xml:lang="ko">배경 이미지를 사용하려면 등록해주세요.</description>
             <description xml:lang="jp">背景イメージを使う場合は、登録して下さい。</description>
             <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
             <description xml:lang="zh-TW">請在這裡上傳想要使用的背景圖片。</description>

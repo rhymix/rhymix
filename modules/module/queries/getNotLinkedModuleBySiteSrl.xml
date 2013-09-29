@@ -1,0 +1,12 @@
+<query id="getNotLinkedModuleBySiteSrl" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="menu_srl" default="0" />
+        <condition operation="equal" column="site_srl" var="site_srl" default="0" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

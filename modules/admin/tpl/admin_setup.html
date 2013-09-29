@@ -1,45 +1,52 @@
 <load target="./js/menu_setup.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div class="x_page-header">
+	<h1>{$lang->admin_setup} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_admin" target="_blank">{$lang->help}</a></h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/admin_setup/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<h1 class="h1">{$lang->admin_setup}</h1>
-<form action="./" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="module" value="admin" />
-	<input type="hidden" name="act" value="procAdminUpdateConfig" />
-	<fieldset class="section">
-		<h2 class="h2">{$lang->admin_title}</h2>
-		<ul class="form">
-			<li>
-				<p class="q"><label for="adminLogo">{$lang->admin_logo}</label></p>
-				<p class="a">
-					<!--@if($config_object->adminLogo)-->
-					<img src="{getUrl('').$config_object->adminLogo}" />
-					<button type="submit" value="procAdminDeleteLogo" name="act" class="text">{$lang->cmd_delete}</button>
-					<!--@else-->
-					<img src="{getUrl('')}{$gnb_title_info->adminLogo}" />
-					<!--@end-->
-				</p>
-				<p class="a"><input type="file" name="adminLogo" id="adminLogo" /></p>
-			</li>
-			<li>
-				<p class="q"><label for="adminTitle">{$lang->admin_title}</label></p>
-				<p class="a"><input type="text" name="adminTitle" id="adminTitle" value="{$config_object->adminTitle}" /></p>
-			</li>
-		</ul>
-		<p class="btnArea"><span class="btn small"><button value="procAdminUpdateConfig" name="act" type="submit">{$lang->cmd_save}</button></span></p>
+<section class="section">
+	<h1>{$lang->admin_title}</h1>
+	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="procAdminUpdateConfig" />
+		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/admin_setup/1" />
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->admin_logo}</label>
+			<div class="x_controls">
+				<!--@if($config_object->adminLogo)-->
+				<img src="{getUrl('').$config_object->adminLogo}" />
+				<button type="submit" value="procAdminDeleteLogo" name="act" class="x_btn">{$lang->cmd_delete}</button>
+				<!--@else-->
+				<img src="{getUrl('')}{$gnb_title_info->adminLogo}" />
+				<!--@end-->
+				<input type="file" name="adminLogo" id="adminLogo" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="adminTitle">{$lang->admin_title}</label>
+			<div class="x_controls">
+				<input type="text" name="adminTitle" id="adminTitle" value="{$config_object->adminTitle}" placeholder="XE Admin" />
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
 	</fieldset>
-</form>
-<form id="listForm" action="./" class="siteMap" method="post">
-	<input type="hidden" name="module" value="admin" />
-	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
-	<input type="hidden" name="menu_srl" value="{$menu_srl}" />
-	<input type="hidden" name="title" value="{$menu_title}" />
-	<input type="hidden" name="menu_item_srl" value="" />
-	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminSetup')}" />
-	<fieldset class="section">
-	<h2 class="h2">{$lang->admin_menu_setup}</h2>
-	<div class="adminMenu portlet">
-		<ul class="lined">
+	</form>
+</section>
+<section class="section">
+	<h1>{$lang->admin_menu_setup}</h1>
+	<form id="listForm" action="./" method="post" class="adminMap">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
+		<input type="hidden" name="menu_srl" value="{$menu_srl}" />
+		<input type="hidden" name="title" value="{$menu_title}" />
+		<input type="hidden" name="menu_item_srl" value="" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminSetup')}" />
+		<ul>
 			<li class="parent" loop="$gnbUrlList=>$key,$value">
 				<input type="hidden" name="parent_key[]" value="{$value['parent_srl']}" class="_parent_key" />
 				<input type="hidden" name="item_key[]" value="{$value['node_srl']}" class="_item_key" />
@@ -53,33 +60,57 @@
 				</ul>
 			</li>
 		</ul>
-		<p class="btnArea">
-			<span class="btn small" style="float: left;"><button value="procAdminMenuReset" name="act" type="submit">{$lang->cmd_reset}</button></span>
-			<span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span>
-		</p>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-left">
+				<button value="procAdminMenuReset" name="act" type="submit" class="x_btn">{$lang->cmd_reset}</button>
+			</div>
+			<div class="x_pull-right">
+				<button type="submit" value="procMenuAdminArrangeItem" name="act" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>
+<!--// Modal -->
+<section class="x_modal" id="editMenu">
+	<form id="editForm" action="./" class="x_form-horizontal" method="POST" style="margin:0">
+	<div class="x_modal-header">
+		<h1>{$lang->admin_menu_add}</h1>
 	</div>
-	</fieldset>
-</form>
-<div class="modal" id="editMenu">
-	<div class="fg">
-		<form id="editForm" action="./" class="form">
+	<div class="x_modal-body">
 		<input type="hidden" name="module" value="menu" />
 		<input type="hidden" name="act" value="procMenuAdminInsertItemForAdminMenu" />
 		<input type="hidden" name="menu_srl" value="{$menu_srl}" />
 		<input type="hidden" name="parent_srl" value="" />
-			<h2 class="h2">{$lang->admin_menu_add}</h2>
-			<ul>
-				<li>
-					<p class="q"><label for="menuNameList">{$lang->module}</label></p>
-					<div class="a">
-						<select name="menu_name" id="menuNameList">
-						</select>
-					</div>
-				</li>
-			</ul>
-			<div class="btnArea">
-				<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+		<div class="x_control-group">
+			<label class="x_control-label" for="menuNameList">{$lang->module}</label>
+			<div class="x_controls">
+				<select name="menu_name" id="menuNameList">
+				</select>
 			</div>
-		</form>
+		</div>
 	</div>
-</div>
+	<div class="x_modal-footer">
+		<button type="button" class="x_btn x_pull-left" data-hide="#exModal-1">Close</button>
+		<span class="x_btn-group x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</span>
+	</div>
+	</form>
+</section>
+<style>
+.adminMap ul{background:#eee;list-style:none;margin:0;position:relative;border-radius:5px}
+.adminMap li{position:relative}
+.adminMap li:first-child{border:0 !important} 
+.adminMap li.parent{padding:0 15px 1px 15px;border-top:1px dotted #fff}
+.adminMap li.parent>span{display:block;height:33px;line-height:33px;font-weight:bold}
+.adminMap li>ul{background:#fff;border-radius:5px;margin:0 0 10px 0;box-shadow:0 0 4px #999 inset}
+.adminMap li li{cursor:move;border-top:1px dotted #ddd}
+.adminMap li *{vertical-align:middle}
+.adminMap .moveTo{position:relative;z-index:2;width:22px;height:32px;padding:32px 0 0 0;margin:0 3px;_margin-top:-1px;overflow:hidden;background:url({getUrl()}modules/admin/tpl/img/iconMoveTo.gif) no-repeat center 0;border:0;cursor:move}
+.adminMap li.active{background-color:#f7f7f7;border-radius:3px;box-shadow:0 0 3px #666;border:0;padding:1px 0 0 0}
+.adminMap li:first-child.active{padding:0}
+.adminMap li.active .moveTo{background-position:center -32px}
+.adminMap .side{position:absolute;top:0;right:15px;padding-top:0 !important;padding-bottom:0 !important;line-height:30px;background:transparent !important}
+.adminMap .parent>.side{right:30px}
+.adminMap .placeholder{background:#000;border-radius:5px}
+</style>

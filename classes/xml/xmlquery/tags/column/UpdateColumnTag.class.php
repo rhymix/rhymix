@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Models the &lt;column&gt; tag inside an XML Query file whose action is 'update'
  *
@@ -8,6 +9,7 @@
  */
 class UpdateColumnTag extends ColumnTag
 {
+
 	/**
 	 * Argument
 	 *
@@ -36,8 +38,11 @@ class UpdateColumnTag extends ColumnTag
 		$this->name = $dbParser->parseColumnName($this->name);
 
 		if($column->attrs->var)
+		{
 			$this->argument = new QueryArgument($column);
-		else {
+		}
+		else
+		{
 			if(strpos($column->attrs->default, '.') !== FALSE)
 			{
 				$this->default_value = "'" . $dbParser->parseColumnName($column->attrs->default) . "'";
@@ -62,8 +67,6 @@ class UpdateColumnTag extends ColumnTag
 						$this->default_value = '"' . $this->default_value . '"';
 					}
 				}
-
-
 			}
 		}
 	}
@@ -78,14 +81,14 @@ class UpdateColumnTag extends ColumnTag
 		if($this->argument)
 		{
 			return sprintf('new UpdateExpression(\'%s\', ${\'%s_argument\'})'
-				, $this->name
-				, $this->argument->argument_name);
+							, $this->name
+							, $this->argument->argument_name);
 		}
 		else
 		{
 			return sprintf('new UpdateExpressionWithoutArgument(\'%s\', %s)'
-						, $this->name
-						, $this->default_value);
+							, $this->name
+							, $this->default_value);
 		}
 	}
 
@@ -98,6 +101,7 @@ class UpdateColumnTag extends ColumnTag
 	{
 		return $this->argument;
 	}
-}
 
-?>
+}
+/* End of file UpdateColumnTag.class.php */
+/* Location: ./classes/xml/xmlquery/tags/column/UpdateColumnTag.class.php */

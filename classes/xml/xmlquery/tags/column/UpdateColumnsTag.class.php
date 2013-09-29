@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Models the &lt;columns&gt; tag inside an XML Query file whose action is 'update'
  *
@@ -8,6 +9,7 @@
  */
 class UpdateColumnsTag
 {
+
 	/**
 	 * Column list
 	 *
@@ -25,11 +27,21 @@ class UpdateColumnsTag
 	{
 		$this->columns = array();
 
-		if(!is_array($xml_columns)) $xml_columns = array($xml_columns);
+		if(!is_array($xml_columns))
+		{
+			$xml_columns = array($xml_columns);
+		}
 
-		foreach($xml_columns as $column){
-			if($column->name === 'query') $this->columns[] = new QueryTag($column, true);
-			else $this->columns[] = new UpdateColumnTag($column);
+		foreach($xml_columns as $column)
+		{
+			if($column->name === 'query')
+			{
+				$this->columns[] = new QueryTag($column, true);
+			}
+			else
+			{
+				$this->columns[] = new UpdateColumnTag($column);
+			}
 		}
 	}
 
@@ -41,7 +53,8 @@ class UpdateColumnsTag
 	function toString()
 	{
 		$output_columns = 'array(' . PHP_EOL;
-		foreach($this->columns as $column){
+		foreach($this->columns as $column)
+		{
 			$output_columns .= $column->getExpressionString() . PHP_EOL . ',';
 		}
 		$output_columns = substr($output_columns, 0, -1);
@@ -57,12 +70,13 @@ class UpdateColumnsTag
 	function getArguments()
 	{
 		$arguments = array();
-		foreach($this->columns as $column){
+		foreach($this->columns as $column)
+		{
 			$arguments[] = $column->getArgument();
 		}
 		return $arguments;
 	}
 
 }
-
-?>
+/* End of file UpdateColumnsTag.class.php */
+/* Location: ./classes/xml/xmlquery/tags/column/UpdateColumnsTag.class.php */

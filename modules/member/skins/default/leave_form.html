@@ -1,26 +1,23 @@
 <include target="./common_header.html" />
-<h1 class="h1">{$member_title = $lang->msg_leave_member}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<h1>{$member_title = $lang->msg_leave_member}</h1>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/leave_form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="leaveMember" id="fo_insert_member" class="form" action="./" method="post">
+<form ruleset="leaveMember" id="fo_insert_member" action="./" method="post">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberLeave" />
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="page" value="{$page}" />
-	<ul>
-		<li>
-			<p class="q">{Context::getLang($identifier)}</p>
-			<p class="a">{$formValue}</p>
-		</li>
-		<li>
-			<p class="q"><label for="cpw">{$lang->password}</label></p>
-			<p class="a"><input type="password" name="password" id="cpw" /></p>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_leave}" /></span>
+	<input type="hidden" name="xe_validator_id" value="modules/member/skin/default/leave_form/1" />
+	<div>
+		<input type="email" value="{$formValue}" readonly title="{Context::getLang($identifier)}" />
+	</div>
+	<div>
+		<span class="input-append">
+			<input type="password" name="password" id="cpw" required placeholder="{$lang->password}" title="{$lang->password}" />
+			<input type="submit" value="{$lang->cmd_leave}" class="btn btn-inverse" />
+		</span>
 	</div>
 </form>
 <include target="./common_footer.html" />

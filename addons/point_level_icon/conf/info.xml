@@ -11,7 +11,7 @@
     <title xml:lang="zh-TW">點數等級圖案</title>
     <description xml:lang="ko">
         포인트 시스템을 사용중일 경우 사용자 이름 앞에 레벨 아이콘을 표시하도록 합니다.
-        레벨 아이콘은 모듈 &gt; 포인트시스템에서 선택 가능합니다.
+        레벨 아이콘은 설치된 모듈 &gt; 포인트시스템에서 선택 가능합니다.
     </description>
     <description xml:lang="zh-CN">
         使用积分系统时，可以在用户名前显示级别图标。

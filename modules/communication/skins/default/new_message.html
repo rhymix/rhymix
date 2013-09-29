@@ -1,8 +1,8 @@
+<load target="css/communication.css" />
 <load target="js/communication.js" />
-<!--@if($message)-->
-<h1 class="h1">{$lang->message_received}</h1>
-<div class="table">
-    <table width="100%" border="1" cellspacing="0">
+<div class="xc" cond="$message">
+	<h1>{$lang->message_received}</h1>
+	<table class="table table-striped table-hover">
 		<!--@if($message->member_srl != $logged_info->member_srl)-->
 		<tr>
 			<th scope="row">{$lang->sender}</th>
@@ -11,19 +11,17 @@
 		<!--@end-->
 		<tr>
 			<th scope="row">{$lang->title}</th>
-			<td class="title">{htmlspecialchars($message->title)}</td>
+			<td>{htmlspecialchars($message->title)}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="xe_content">{$message->content}</td>
 		</tr>
-    </table>
+	</table>
+	<div class="btnArea">
+		<span class="btn-group">
+			<button cond="$message->member_srl != $logged_info->member_srl" class="btn" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;">{$lang->cmd_reply_message}</button>
+			<button type="button" class="btn" onclick="doStoreMessage('{$message->message_srl}');return false;">{$lang->cmd_store}</button>
+			<button type="button" class="btn" onclick="doDeleteMessage('{$message->message_srl}');return false;">{$lang->cmd_delete}</button>
+		</span>
+	</div>
 </div>
-<div class="btnArea">
-    <span class="etc"><button type="button" onclick="location.href=location.href;return false;">{$lang->cmd_next}</button></span>
-    <!--@if($message->member_srl != $logged_info->member_srl)-->
-        <button type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;">{$lang->cmd_reply_message}</button>
-    <!--@end-->
-    <button type="button" onclick="doStoreMessage('{$message->message_srl}');return false;">{$lang->cmd_store}</button>
-    <button type="button" onclick="doDeleteMessage('{$message->message_srl}');return false;">{$lang->cmd_delete}</button>
-</div>
-<!--@end-->

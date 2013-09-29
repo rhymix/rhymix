@@ -1,5 +1,0 @@
-<filter name="update_allow_message" module="communication" act="procCommunicationUpdateAllowMessage">
-    <form />
-    <parameter />
-    <response />
-</filter>

@@ -28,10 +28,10 @@
 		<value xml:lang="ko"><![CDATA[데이터 이전을 위한 사전 준비 중입니다.]]></value>
 		<value xml:lang="en"><![CDATA[XE is preparing for importing.]]></value>
 		<value xml:lang="jp"><![CDATA[データ移転のため、準備中です。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[正准备数据导入...]]></value>
-		<value xml:lang="zh-TW"><![CDATA[匯入資料中...]]></value>
+		<value xml:lang="zh-CN"><![CDATA[正准备数据导入]]></value>
+		<value xml:lang="zh-TW"><![CDATA[匯入資料中]]></value>
 		<value xml:lang="fr"><![CDATA[On est en train de préparer pour transférer les données.]]></value>
-		<value xml:lang="ru"><![CDATA[Идет подготовка для импортирования данных...]]></value>
+		<value xml:lang="ru"><![CDATA[Идет подготовка для импортирования данных]]></value>
 		<value xml:lang="es"><![CDATA[데이터 이전을 위한 사전 준비중입니다.]]></value>
 		<value xml:lang="tr"><![CDATA[XE içe aktarım için hazırlanıyor.]]></value>
 		<value xml:lang="vi"><![CDATA[Đang chuẩn bị cho việc chuyển dữ liệu.]]></value>
@@ -268,7 +268,7 @@
 		</item>
 		<item name="2">
 			<value xml:lang="ko"><![CDATA[이전할 데이터 XML파일의 경로를 입력해주세요.
-상대 또는 절대 경로를 입력하시면 됩니다.]]></value>
+상대 또는 절대 경로를 입력하면 됩니다.]]></value>
 			<value xml:lang="en"><![CDATA[Please input the XML file's location that contains data to import.
 You may input both the absolute and relative path.]]></value>
 			<value xml:lang="jp"><![CDATA[データ変換を行うXMLファイルパスを入力してください。同じアカウントのサーバ上では、相対または絶対パスを、異なるサーバにアップロードされている場合は「http://アドレス..」を入力してください。]]></value>
@@ -279,7 +279,7 @@ You may input both the absolute and relative path.]]></value>
 			<value xml:lang="fr"><![CDATA[Entrez le chemin du fichier en XML pour transférer les données.
 S'il est localisé dans le même compte, entréz le chemin absolut ou relatif. Sinon, entrez l'URL commençant avec http://..]]></value>
 			<value xml:lang="ru"><![CDATA[Пожайлуста, введите расположение XML файла, который Вы хотите импортировать.
-Если он находится в одном аккаунте, то введите абсолютный/относительный путь. Если нет, то введите URL, начинающийся с http://...]]></value>
+Если он находится в одном аккаунте, то введите абсолютный/относительный путь. Если нет, то введите URL, начинающийся с http://]]></value>
 			<value xml:lang="es"><![CDATA[Ingrese la ubicación del archivo XML para transfer los datos.
 Puede ser ruta absoluto o relativo.]]></value>
 			<value xml:lang="tr"><![CDATA[lütfen içe aktarılacak veriyi içeren XML dosyalarının konumunu giriniz.
@@ -288,27 +288,27 @@ Kesin yol ve ilgili yol girebilirsiniz.]]></value>
 Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http://..]]></value>
 		</item>
 		<item name="3">
-			<value xml:lang="ko"><![CDATA[회원정보와 게시물 정보가 이전 후에 맞지 않을 수 있습니다. 이때 동기화를 하시면 user_id를 기반으로 올바르게 동작하도록 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Member and article data may not be corrected after the import. If so, please synchronize to recover them with user_id.]]></value>
-			<value xml:lang="jp"><![CDATA[会員情報と変換後の書き込みデータが一致しない場合があります。この場合は、同期化を行うと「user_id」をもとに正しく動作するようになります。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[数据导入后可能会导致会员信息和文章内容信息的误差。这时以user_id进行同步即可解决问题。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[資料匯入後，可能會導致會員資料和文章內容產生誤差。請以『user_id』進行同步即可解決。]]></value>
+			<value xml:lang="ko"><![CDATA[게시물과 글쓴이의 회원 정보가 일치하지 않는 경우 아이디를 기반으로 게시물에 대한 글쓴이의 회원 정보를 바로잡아 줍니다.]]></value>
+			<value xml:lang="en"><![CDATA[Member and article data may not be corrected after the import. If so, please synchronize to recover them with ID.]]></value>
+			<value xml:lang="jp"><![CDATA[会員情報と変換後の書き込みデータが一致しない場合があります。この場合は、同期化を行うと「ID」をもとに正しく動作するようになります。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[数据导入后可能会导致会员信息和文章内容信息的误差。这时以ID进行同步即可解决问题。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[資料匯入後，可能會導致會員資料和文章內容產生誤差。請以『ID』進行同步即可解決。]]></value>
 			<value xml:lang="fr"><![CDATA[Les données des membres et ceux des articles peuvent ne pas s'accorder après la transfèrement. Dans ce cas, synchronisez S.V.P. Ça arrangera les données en étant basé sur le compte d'utilisateur.]]></value>
-			<value xml:lang="ru"><![CDATA[Данные пользователей и статей могут быть некорректны после импорта. В таком случае, выполните синхронизацию для восстановления, основанного на user_id.]]></value>
+			<value xml:lang="ru"><![CDATA[Данные пользователей и статей могут быть некорректны после импорта. В таком случае, выполните синхронизацию для восстановления, основанного на ID.]]></value>
 			<value xml:lang="es"><![CDATA[La información del usuario y del documento podría ser incorrecto luego de la transferencia. Si ese es el caso, sincroniza para la corrección basado a la ID del usuario.]]></value>
-			<value xml:lang="tr"><![CDATA[Veri içe aktarımından sonra üye ve makale verileri doğru olmayabilir. Eğer böyleyse lütfen verileri doğru elde etmek için, kullanıcı_kimliğiyle (user_id) senkronize ediniz.]]></value>
-			<value xml:lang="vi"><![CDATA[Đã không thể kết nối tới File Data thành viên và bài viết. Nếu đã đúng đường dẫn xin hãy kiểm tra Data với user_id.]]></value>
+			<value xml:lang="tr"><![CDATA[Veri içe aktarımından sonra üye ve makale verileri doğru olmayabilir. Eğer böyleyse lütfen verileri doğru elde etmek için, kullanıcı_kimliğiyle (ID) senkronize ediniz.]]></value>
+			<value xml:lang="vi"><![CDATA[Đã không thể kết nối tới File Data thành viên và bài viết. Nếu đã đúng đường dẫn xin hãy kiểm tra Data với ID.]]></value>
 		</item>
 		<item name="99">
 			<value xml:lang="ko"><![CDATA[데이터 이전중입니다.]]></value>
-			<value xml:lang="en"><![CDATA[Importing...]]></value>
+			<value xml:lang="en"><![CDATA[Importing]]></value>
 			<value xml:lang="jp"><![CDATA[データを変換しています。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[正在数据导入中...]]></value>
-			<value xml:lang="zh-TW"><![CDATA[資料匯入中...]]></value>
+			<value xml:lang="zh-CN"><![CDATA[正在数据导入中]]></value>
+			<value xml:lang="zh-TW"><![CDATA[資料匯入中]]></value>
 			<value xml:lang="fr"><![CDATA[En train de transférer]]></value>
 			<value xml:lang="ru"><![CDATA[Идет процесс импортирования данных]]></value>
 			<value xml:lang="es"><![CDATA[데이터를 이전중입니다]]></value>
-			<value xml:lang="tr"><![CDATA[İçe Aktarılıyor...]]></value>
+			<value xml:lang="tr"><![CDATA[İçe Aktarılıyor]]></value>
 			<value xml:lang="vi"><![CDATA[Đang đồng bộ hóa dữ liệu.]]></value>
 		</item>
 	</item>
@@ -316,11 +316,6 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="ko"><![CDATA[XML 파일의 경로를 입력하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter the path of XML file.]]></value>
 		<value xml:lang="jp"><![CDATA[XMLファイルのパスを入力してください。]]></value>
-	</item>
-	<item name="path_info">
-		<value xml:lang="ko"><![CDATA[상대 경로와 절대 경로 모두 입력 가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can enter either relative path or absolute path.]]></value>
-		<value xml:lang="jp"><![CDATA[相対パスと絶対パスを入力できます。]]></value>
 	</item>
 	<item name="data_destination">
 		<value xml:lang="ko"><![CDATA[데이터의 목적지를 선택하세요.]]></value>
@@ -337,13 +332,8 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="en"><![CDATA[Select the destination of guestbook data.]]></value>
 		<value xml:lang="jp"><![CDATA[ゲストブックデータの目的地を選択してください。]]></value>
 	</item>
-	<item name="import_desc">
-		<value xml:lang="ko"><![CDATA[가상 사이트의 도메인을 입력한 후 <em>사이트 찾기</em>를 클릭하면 됩니다. 도메인을 빈 칸으로 남겨두면 모든 사이트의 목록을 보여줍니다.]]></value>
-		<value xml:lang="en"><![CDATA[Enter the domain of virtual site, and click <em>Find Site</em>. If you leave the domain field empty, list of all the sites is displayed.]]></value>
-	　　<value xml:lang="jp"><![CDATA[仮想サイトのドメインを入力し、<em>サイト検索</em>をクリックします。ドメインを空欄にしておくと、すべてのサイトのリストを表示します。]]></value>
-	</item>
 	<item name="msg_sync_member">
-		<value xml:lang="ko"><![CDATA[동기화 버튼을 클릭하시면 회원정보와 게시물 정보의 동기화를 시작합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[동기화 버튼을 클릭하면 회원정보와 게시물 정보의 동기화를 시작합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please click on Synchronize button to start data synchronization.]]></value>
 		<value xml:lang="jp"><![CDATA[同期化ボタンをクリックすると会員情報と書き込みデータの情報の同期化が始まります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[按同步按钮即可开始对会员信息和文章信息进行同步。]]></value>
@@ -513,29 +503,29 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="vi"><![CDATA[Lựa chọn này sẽ đồng bộ thông tin thành viên trước khi đồng bộ Bài viết và thành viên.]]></value>
 	</item>
 	<item name="about_importer">
-		<value xml:lang="ko"><![CDATA[다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다. 이전을 위해서는 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>를 이용해서 원하는 데이터를 XML파일로 생성 후 업로드해주셔야 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[다른 프로그램의 데이터를 XML 형식으로 변환 후 업로드하면 XE로 이전할 수 있습니다. <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>를 이용하면 XML파일로 변환할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Data Importer will help you import Zeroboard4, Zeroboard5 Beta or other program's data into XE.
-In order to import, you first have to use <a href="http://code.google.com/p/xe-migration/" onclick="winopen(this.href);return false;">XML Exporter</a> to convert the data you want into XML File.]]></value>
+In order to import, you first have to use <a href="http://code.google.com/p/xe-migration/" target="_blank">XML Exporter</a> to convert the data you want into XML File.]]></value>
 		<value xml:lang="jp"><![CDATA[ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをXEのデータに変換することができます。
-変換するためには、<a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードしてください。]]></value>
+変換するためには、<a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードしてください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到XE当中。
-导入数据时请利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>生成XML文件后再上传。]]></value>
+导入数据时请利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>生成XML文件后再上传。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[不僅可以匯入 Zeroboard 4，Zb5beta 的資料，也能夠把其他程式資料匯入到 XE 當中。
-匯入資料時，請利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a> 建立 XML 檔案後再上傳。]]></value>
+匯入資料時，請利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a> 建立 XML 檔案後再上傳。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez transférer les données de Zeroboard4, de Zeroboard5 Beta ou d'autres logiciels aux données de XE.
-Pour transférer, vous devez utiliser <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">Exporteur de XML</a> pour convertir les données en fichier de XML, et puis téléchargez-le.]]></value>
+Pour transférer, vous devez utiliser <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">Exporteur de XML</a> pour convertir les données en fichier de XML, et puis téléchargez-le.]]></value>
 		<value xml:lang="ru"><![CDATA[Вы можете импортировать данные Zeroboard4, Zeroboard5 Beta или других программ в XE.
-Чтобы импортировать, Вам следует использовать <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Экспортер (XML Exporter)</a>, чтобы конвертировать нужные данные в XML Файл и затем загрузить его.]]></value>
+Чтобы импортировать, Вам следует использовать <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Экспортер (XML Exporter)</a>, чтобы конвертировать нужные данные в XML Файл и затем загрузить его.]]></value>
 		<value xml:lang="es"><![CDATA[Es posible trasferir los datos de Zeroboard4, zb5beta o de otros programas a XE.
-Para la transferencia debe utilizar <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a> para transformar los datos en archivo XML, y luego subir ese archivo.]]></value>
+Para la transferencia debe utilizar <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a> para transformar los datos en archivo XML, y luego subir ese archivo.]]></value>
 		<value xml:lang="tr"><![CDATA[Veri Alıcısı XE'ye, Zeroboard4, Zeroboard5 Beta veya başka programların verilerini aktarmada yardımcı olacaktır.
-İçe aktarımı gerçekleştirebilmek için öncelikle <a href="http://code.google.com/p/xe-migration/" onclick="winopen(this.href);return false;">XML DışAktarımcı</a>'yı kullanıp istediğiniz veriyi XML türüne çevirmelisiniz.]]></value>
+İçe aktarımı gerçekleştirebilmek için öncelikle <a href="http://code.google.com/p/xe-migration/" target="_blank">XML DışAktarımcı</a>'yı kullanıp istediğiniz veriyi XML türüne çevirmelisiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có thể chuyển Data từ Zeroboard4, Zeroboard5 Beta hay Data của những mã nguồn khác vào Data của XE.
-Để hiểu rõ hơn công việc này, bạn có thể tham khảo cách chuyển đổi Data của bạn vào XE khi bạn đã Upload chúng tại <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>.]]></value>
+Để hiểu rõ hơn công việc này, bạn có thể tham khảo cách chuyển đổi Data của bạn vào XE khi bạn đã Upload chúng tại <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" target="_blank">XML Exporter</a>.]]></value>
 	</item>
 	<item name="about_target_path">
 		<value xml:lang="ko"><![CDATA[첨부 파일을 받기 위해 제로보드4가 설치된 위치를 입력해주세요.
-같은 서버에 있을 경우 /home/아이디/public_html/bbs 등과 같이 제로보드4의 위치를 입력하시고
+같은 서버에 있을 경우 /home/아이디/public_html/bbs 등과 같이 제로보드4의 위치를 입력하고
 다른 서버일 경우 http:도메인/bbs 처럼 제로보드4가 설치된 곳의 url을 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[To get attachments from Zeroboard4, please input the path where Zeroboard4 is installed.
 If it is located in the same server, please input Zeroboard4's path such as /home/USERID/public_html/bbs

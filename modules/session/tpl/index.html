@@ -1,8 +1,10 @@
 <load target="js/session.js" usecdn="true" />
-
-<h3 class="xeAdmin">{$lang->session} <span class="gray">{$lang->cmd_management}</span></h3>
-<div class="infoText">{nl2br($lang->about_session)}</div>
-
-<form action="./" method="post" onsubmit="return false;">
-<div class="fr"><span class="button black strong"><input type="button" value="{$lang->cmd_clear_session}" onclick="doClearSession(); return false; "/></span></div>
+<div class="x_page-header">
+	<h1>{$lang->session} {$lang->cmd_management}</h1>
+</div>
+<section class="section">
+<form action="./" method="post" onsubmit="return false">
+	<p>{nl2br($lang->about_session)}</p>
+	<button class="x_btn x_btn-warning" type="button" onclick="doClearSession(); return false;">{$lang->cmd_clear_session}</button>
 </form>
+</section>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Models the &lt;column&gt; tag inside an XML Query file whose action is 'insert-select'
  *
@@ -8,6 +9,7 @@
  */
 class InsertColumnTagWithoutArgument extends ColumnTag
 {
+
 	/**
 	 * Constructor
 	 *
@@ -42,4 +44,5 @@ class InsertColumnTagWithoutArgument extends ColumnTag
 	}
 
 }
-?>
+/* End of file InsertColumnTagWithoutArgument.class.php */
+/* Location: ./classes/xml/xmlquery/tags/column/InsertColumnTagWithoutArgument.class.php */

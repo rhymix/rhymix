@@ -3,60 +3,71 @@
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
-<h1 class="h1">{$lang->msg_update_member}</h1>
-<script type="text/javascript" >
+<h1 style="border-bottom:1px solid #ccc">{$lang->msg_update_member}</h1>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/modify_info/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<script>
 	xe.lang.deleteProfileImage = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
 </script>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
-<form ruleset="@insertMember" id="fo_insert_member" class="form" action="./" method="post" enctype="multipart/form-data">
+<form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data" class="form-horizontal">
     <input type="hidden" name="act" value="procMemberModifyInfo" />
     <input type="hidden" name="module" value="member" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
     <input type="hidden" name="page" value="{$page}" />
-	<ul>
-		<li>
-			<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
-			<p class="a">
-				<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
-				<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
-			</p>
-		</li>
-		<li loop="$formTags=>$formTag">
-			<p class="q">{$formTag->title}</p>
-			<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
-			<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
-		</li>
-		<li>
-			<p class="q">{$lang->allow_mailing}</p>
-			<p class="a">
-				<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
-				<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
-			</p>
-		</li>
-		<li>
-			<p class="q">{$lang->allow_message}</p>
-			<p class="a">
-				<block loop="$lang->allow_message_type=>$key,$val">
-					<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
-				</block>
-			</p>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
-		<span class="btn"><a href="{getUrl('act','dispMemberInfo','member_srl','')}">{$lang->cmd_cancel}</a></span>
+	<input type="hidden" name="xe_validator_id" value="modules/member/skins/default/modify_info/1" />
+	<div class="control-group">
+		<label for="{$identifierForm->name}" class="control-label">{$identifierForm->title} <em style="color:red">*</em></label>
+		<div class="controls">
+			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
+			<input type="text" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
+		</div>
+	</div>
+	<div class="control-group" loop="$formTags=>$formTag">
+		<label for="" class="control-label">{$formTag->title}</label>
+		<div class="controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
+		<div class="controls" cond="$formTag->name =='signature'">
+			{$editor}
+<style scoped>
+.xpress-editor>#smart_content,
+.xpress-editor>#smart_content>.tool{clear:none}
+</style>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="control-label">{$lang->allow_mailing}</div>
+		<div class="controls" style="padding-top:5px">
+			<label for="mailingYes"><input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> {$lang->cmd_yes}</label>
+			<label for="mailingNo"><input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > {$lang->cmd_no}</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="control-label">{$lang->allow_message}</div>
+		<div class="controls" style="padding-top:5px">
+			<label for="allow_{$key}" loop="$lang->allow_message_type=>$key,$val"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> {$val}</label>
+		</div>
+	</div>
+	<div class="btnArea" style="border-top:1px solid #ccc;padding-top:10px">
+		<input type="submit" value="{$lang->cmd_registration}" class="btn btn-inverse pull-right" />
+		<a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="btn pull-left">{$lang->cmd_cancel}</a>
 	</div>
 </form>
-<script type="text/javascript">
+<script>
+jQuery(function($){
+	// label for setup
+	$('.control-label[for]').each(function(){
+		var $this = $(this);
+		if($this.attr('for') == ''){
+			$this.attr('for', $this.next().children(':visible:first').attr('id'));
+		}
+	});
+});
 (function($){
     $(function(){
         var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
-
             $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
         };
         $.extend(option,$.datepicker.regional['{$lang_type}']);

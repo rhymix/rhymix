@@ -7,19 +7,22 @@
  * @package /modules/document
  * @version 0.1
  */
-class documentController extends document {
+class documentController extends document
+{
 	/**
 	 * Initialization
 	 * @return void
 	 */
-	function init() {
+	function init()
+	{
 	}
 
 	/**
 	 * Action to handle vote-up of the post (Up)
 	 * @return Object
 	 */
-	function procDocumentVoteUp() {
+	function procDocumentVoteUp()
+	{
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
 
 		$document_srl = Context::get('target_srl');
@@ -45,7 +48,8 @@ class documentController extends document {
 	 * @param string $alias_title
 	 * @return object
 	 */
-	function insertAlias($module_srl, $document_srl, $alias_title) {
+	function insertAlias($module_srl, $document_srl, $alias_title)
+	{
 		$args->alias_srl = getNextSequence();
 		$args->module_srl = $module_srl;
 		$args->document_srl = $document_srl;
@@ -59,7 +63,8 @@ class documentController extends document {
 	 * Action to handle vote-up of the post (Down)
 	 * @return Object
 	 */
-	function procDocumentVoteDown() {
+	function procDocumentVoteDown()
+	{
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
 
 		$document_srl = Context::get('target_srl');
@@ -82,7 +87,8 @@ class documentController extends document {
 	 * Action called when the post is reported by other member
 	 * @return void|Object
 	 */
-	function procDocumentDeclare() {
+	function procDocumentDeclare()
+	{
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
 
 		$document_srl = Context::get('target_srl');
@@ -98,6 +104,7 @@ class documentController extends document {
 	 */
 	function deleteDocumentAliasByModule($module_srl)
 	{
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		executeQuery("document.deleteAlias", $args);
 	}
@@ -109,6 +116,7 @@ class documentController extends document {
 	 */
 	function deleteDocumentAliasByDocument($document_srl)
 	{
+		$args =new stdClass();
 		$args->document_srl = $document_srl;
 		executeQuery("document.deleteAlias", $args);
 	}
@@ -122,6 +130,7 @@ class documentController extends document {
 	 */
 	function deleteDocumentHistory($history_srl, $document_srl, $module_srl)
 	{
+		$args = new stdClass();
 		$args->history_srl = $history_srl;
 		$args->module_srl = $module_srl;
 		$args->document_srl = $document_srl;
@@ -134,7 +143,8 @@ class documentController extends document {
 	 * @param object $obj
 	 * @return Object
 	 */
-	function triggerDeleteModuleDocuments(&$obj) {
+	function triggerDeleteModuleDocuments(&$obj)
+	{
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return new Object();
 		// Delete the document
@@ -163,7 +173,8 @@ class documentController extends document {
 	 * @param int $document_srl
 	 * @return void
 	 */
-	function addGrant($document_srl) {
+	function addGrant($document_srl)
+	{
 		$_SESSION['own_document'][$document_srl] = true;
 	}
 
@@ -174,8 +185,9 @@ class documentController extends document {
 	 * @param bool $isRestore
 	 * @return object
 	 */
-	function insertDocument($obj, $manual_inserted = false, $isRestore = false, $isLatest = true) {
-		if(!checkCSRF())
+	function insertDocument($obj, $manual_inserted = false, $isRestore = false, $isLatest = true)
+	{
+		if(!$manual_inserted && !checkCSRF())
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
@@ -190,7 +202,8 @@ class documentController extends document {
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
-		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board에서 form key값으로 ipaddress를 사용하면 엄한 ip가 등록됨. 필터와는 상관없슴
+		if(!$obj->email_address) $obj->email_address = '';
+		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board?�서 form key값으�?ipaddress�??�용?�면 ?�한 ip가 ?�록?? ?�터?�???��??�슴
 
 		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
 		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
@@ -207,7 +220,8 @@ class documentController extends document {
 
 		$oDocumentModel = &getModel('document');
 		// Set to 0 if the category_srl doesn't exist
-		if($obj->category_srl) {
+		if($obj->category_srl)
+		{
 			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
 			if(count($category_list) > 0 && !$category_list[$obj->category_srl]->grant)
 			{
@@ -223,11 +237,14 @@ class documentController extends document {
 		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
 		// Insert member's information only if the member is logged-in and not manually registered.
 		$logged_info = Context::get('logged_info');
-		if(Context::get('is_logged') && !$manual_inserted && !$isRestore) {
+		if(Context::get('is_logged') && !$manual_inserted && !$isRestore)
+		{
 			$obj->member_srl = $logged_info->member_srl;
-			$obj->user_id = $logged_info->user_id;
-			$obj->user_name = $logged_info->user_name;
-			$obj->nick_name = $logged_info->nick_name;
+
+			// user_id, user_name and nick_name already encoded
+			$obj->user_id = htmlspecialchars_decode($logged_info->user_id);
+			$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
+			$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
 			$obj->email_address = $logged_info->email_address;
 			$obj->homepage = $logged_info->homepage;
 		}
@@ -255,23 +272,27 @@ class documentController extends document {
 		// Insert data into the DB
 		if(!$obj->status) $this->_checkDocumentStatusForOldVersion($obj);
 		$output = executeQuery('document.insertDocument', $obj);
-		if(!$output->toBool()) {
+		if(!$output->toBool())
+		{
 			$oDB->rollback();
 			return $output;
 		}
 		// Insert extra variables if the document successfully inserted.
 		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
-		if(count($extra_keys)) {
-			foreach($extra_keys as $idx => $extra_item) {
+		if(count($extra_keys))
+		{
+			foreach($extra_keys as $idx => $extra_item)
+			{
 				$value = '';
-				if(isset($obj->{'extra_vars'.$idx})){
+				if(isset($obj->{'extra_vars'.$idx}))
+				{
 					$tmp = $obj->{'extra_vars'.$idx};
-					if (is_array($tmp))
+					if(is_array($tmp))
 						$value = implode('|@|', $tmp);
 					else
 						$value = trim($tmp);
 				}
-				elseif(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
+				else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
 				if(!isset($value)) continue;
 
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
@@ -280,9 +301,11 @@ class documentController extends document {
 		// Update the category if the category_srl exists.
 		if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
 		// Call a trigger (after)
-		if($output->toBool()) {
+		if($output->toBool())
+		{
 			$trigger_output = ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
-			if(!$trigger_output->toBool()) {
+			if(!$trigger_output->toBool())
+			{
 				$oDB->rollback();
 				return $trigger_output;
 			}
@@ -296,13 +319,13 @@ class documentController extends document {
 		$output->add('document_srl',$obj->document_srl);
 		$output->add('category_srl',$obj->category_srl);
 		//remove from cache
-        $oCacheHandler = &CacheHandler::getInstance('object');
-        if($oCacheHandler->isSupport())
-        {
-            $cache_key = 'object:'.$obj->document_srl;
-            $oCacheHandler->delete($cache_key);
-            $oCacheHandler->invalidateGroupKey('documentList');
-        }
+		$oCacheHandler = &CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'object:'.$obj->document_srl;
+			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('documentList');
+		}
 
 		return $output;
 	}
@@ -311,10 +334,12 @@ class documentController extends document {
 	 * Update the document
 	 * @param object $source_obj
 	 * @param object $obj
+	 * @param bool $manual_updated
 	 * @return object
 	 */
-	function updateDocument($source_obj, $obj) {
-		if(!checkCSRF())
+	function updateDocument($source_obj, $obj, $manual_updated = FALSE)
+	{
+		if(!$manual_updated && !checkCSRF())
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
@@ -335,10 +360,15 @@ class documentController extends document {
 		if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
 		$module_srl = $obj->module_srl;
 		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+		if(!$document_config)
+		{
+			$document_config = new stdClass();
+		}
 		if(!isset($document_config->use_history)) $document_config->use_history = 'N';
 		$bUseHistory = $document_config->use_history == 'Y' || $document_config->use_history == 'Trace';
 
-		if($bUseHistory) {
+		if($bUseHistory)
+		{
 			$args->history_srl = getNextSequence();
 			$args->document_srl = $obj->document_srl;
 			$args->module_srl = $module_srl;
@@ -370,7 +400,8 @@ class documentController extends document {
 
 		$oDocumentModel = &getModel('document');
 		// Set the category_srl to 0 if the changed category is not exsiting.
-		if($source_obj->get('category_srl')!=$obj->category_srl) {
+		if($source_obj->get('category_srl')!=$obj->category_srl)
+		{
 			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
 			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
@@ -379,9 +410,11 @@ class documentController extends document {
 		// Hash by md5 if the password exists
 		if($obj->password) $obj->password = md5($obj->password);
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
-		if(Context::get('is_logged')) {
+		if(Context::get('is_logged'))
+		{
 			$logged_info = Context::get('logged_info');
-			if($source_obj->get('member_srl')==$logged_info->member_srl || $bUseHistory) {
+			if($source_obj->get('member_srl')==$logged_info->member_srl || $bUseHistory)
+			{
 				$obj->member_srl = $logged_info->member_srl;
 				$obj->user_name = $logged_info->user_name;
 				$obj->nick_name = $logged_info->nick_name;
@@ -390,7 +423,8 @@ class documentController extends document {
 			}
 		}
 		// For the document written by logged-in user however no nick_name exists
-		if($source_obj->get('member_srl')&& !$obj->nick_name) {
+		if($source_obj->get('member_srl')&& !$obj->nick_name)
+		{
 			$obj->member_srl = $source_obj->get('member_srl');
 			$obj->user_name = $source_obj->get('user_name');
 			$obj->nick_name = $source_obj->get('nick_name');
@@ -404,14 +438,26 @@ class documentController extends document {
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+		if(Mobile::isFromMobilePhone())
+		{
+			if($obj->use_html != 'Y')
+			{
+				$obj->content = htmlspecialchars($obj->content);
+			}
+			$obj->content = nl2br($obj->content);
+		}
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
-		if($source_obj->get('lang_code') != Context::getLangType()) {
+		if($source_obj->get('lang_code') != Context::getLangType())
+		{
 			// Change not extra vars but language code of the original document if document's lang_code doesn't exist.
-			if(!$source_obj->get('lang_code')) {
+			if(!$source_obj->get('lang_code'))
+			{
 				$lang_code_args->document_srl = $source_obj->get('document_srl');
 				$lang_code_args->lang_code = Context::getLangType();
 				$output = executeQuery('document.updateDocumentsLangCode', $lang_code_args);
-			} else {
+			}
+			else
+			{
 				$extra_content->title = $obj->title;
 				$extra_content->content = $obj->content;
 
@@ -431,7 +477,8 @@ class documentController extends document {
 
 		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
-		if(!$output->toBool()) {
+		if(!$output->toBool())
+		{
 			$oDB->rollback();
 			return $output;
 		}
@@ -439,17 +486,20 @@ class documentController extends document {
 		$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
 		// Insert extra variables if the document successfully inserted.
 		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
-		if(count($extra_keys)) {
-			foreach($extra_keys as $idx => $extra_item) {
+		if(count($extra_keys))
+		{
+			foreach($extra_keys as $idx => $extra_item)
+			{
 				$value = '';
-				if(isset($obj->{'extra_vars'.$idx})){
+				if(isset($obj->{'extra_vars'.$idx}))
+				{
 					$tmp = $obj->{'extra_vars'.$idx};
-					if (is_array($tmp))
+					if(is_array($tmp))
 						$value = implode('|@|', $tmp);
 					else
 						$value = trim($tmp);
 				}
-				elseif(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
+				else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
 				if(!isset($value)) continue;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
@@ -458,14 +508,17 @@ class documentController extends document {
 		if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
 		if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 		// Update the category if the category_srl exists.
-		if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl) {
+		if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl)
+		{
 			if($source_obj->get('category_srl') != $obj->category_srl) $this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
 			if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
 		}
 		// Call a trigger (after)
-		if($output->toBool()) {
+		if($output->toBool())
+		{
 			$trigger_output = ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
-			if(!$trigger_output->toBool()) {
+			if(!$trigger_output->toBool())
+			{
 				$oDB->rollback();
 				return $trigger_output;
 			}
@@ -478,16 +531,16 @@ class documentController extends document {
 
 		$output->add('document_srl',$obj->document_srl);
 		//remove from cache
-        $oCacheHandler = &CacheHandler::getInstance('object');
-        if($oCacheHandler->isSupport())
-        {
-            $cache_key = 'object:'.$obj->document_srl;
-            $oCacheHandler->delete($cache_key);
-            $oCacheHandler->invalidateGroupKey('documentList');
-            //remove document item from cache
-            $cache_key = 'object_document_item:'.$obj->document_srl;
-            $oCacheHandler->delete($cache_key);
-        }
+		$oCacheHandler = &CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'object:'.$obj->document_srl;
+			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('documentList');
+			//remove document item from cache
+			$cache_key = 'object_document_item:'.$obj->document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
 
 		return $output;
 	}
@@ -500,8 +553,10 @@ class documentController extends document {
 	 * @param documentItem $oDocument
 	 * @return object
 	 */
-	function deleteDocument($document_srl, $is_admin = false, $isEmptyTrash = false, $oDocument = null) {
+	function deleteDocument($document_srl, $is_admin = false, $isEmptyTrash = false, $oDocument = null)
+	{
 		// Call a trigger (before)
+		$trigger_obj =new stdClass();
 		$trigger_obj->document_srl = $document_srl;
 		$output = ModuleHandler::triggerCall('document.deleteDocument', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
@@ -524,12 +579,14 @@ class documentController extends document {
 		if(!$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
 
 		//if empty trash, document already deleted, therefore document not delete
+		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		if(!$isEmptyTrash)
 		{
 			// Delete the document
 			$output = executeQuery('document.deleteDocument', $args);
-			if(!$output->toBool()) {
+			if(!$output->toBool())
+			{
 				$oDB->rollback();
 				return $output;
 			}
@@ -547,10 +604,12 @@ class documentController extends document {
 
 		//this
 		// Call a trigger (after)
-		if($output->toBool()) {
+		if($output->toBool())
+		{
 			$trigger_obj = $oDocument->getObjectVars();
 			$trigger_output = ModuleHandler::triggerCall('document.deleteDocument', 'after', $trigger_obj);
-			if(!$trigger_output->toBool()) {
+			if(!$trigger_output->toBool())
+			{
 				$oDB->rollback();
 				return $trigger_output;
 			}
@@ -572,10 +631,10 @@ class documentController extends document {
 		{
 			$cache_key = 'object:'.$document_srl;
 			$oCacheHandler->delete($cache_key);
-                        $oCacheHandler->invalidateGroupKey('documentList');
-                        $cache_key = 'object_document_item:'.$document_srl;
-                        $oCacheHandler->delete($cache_key);
-               }
+			$oCacheHandler->invalidateGroupKey('documentList');
+			$cache_key = 'object_document_item:'.$document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
 
 		return $output;
 	}
@@ -616,7 +675,9 @@ class documentController extends document {
 	 * @param object $obj
 	 * @return object
 	 */
-	function moveDocumentToTrash($obj) {
+	function moveDocumentToTrash($obj)
+	{
+		$trash_args = new stdClass();
 		// Get trash_srl if a given trash_srl doesn't exist
 		if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
 		else $trash_args->trash_srl = $obj->trash_srl;
@@ -632,14 +693,18 @@ class documentController extends document {
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->description = $obj->description;
 		// Insert member's information only if the member is logged-in and not manually registered.
-		if(Context::get('is_logged')&&!$manual_inserted) {
+		if(Context::get('is_logged')&&!$manual_inserted)
+		{
 			$logged_info = Context::get('logged_info');
 			$trash_args->member_srl = $logged_info->member_srl;
-			$trash_args->user_id = $logged_info->user_id;
-			$trash_args->user_name = $logged_info->user_name;
-			$trash_args->nick_name = $logged_info->nick_name;
+
+			// user_id, user_name and nick_name already encoded
+			$trash_args->user_id = htmlspecialchars_decode($logged_info->user_id);
+			$trash_args->user_name = htmlspecialchars_decode($logged_info->user_name);
+			$trash_args->nick_name = htmlspecialchars_decode($logged_info->nick_name);
 		}
 		// Date setting for updating documents
+		$doucment_args = new stdClass();
 		$document_args->module_srl = 0;
 		$document_args->document_srl = $obj->document_srl;
 
@@ -648,10 +713,10 @@ class documentController extends document {
 		$oDB->begin();
 
 		/*$output = executeQuery('document.insertTrash', $trash_args);
-		if (!$output->toBool()) {
-			$oDB->rollback();
-			return $output;
-		}*/
+		  if (!$output->toBool()) {
+		  $oDB->rollback();
+		  return $output;
+		  }*/
 
 		// new trash module
 		require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
@@ -664,22 +729,24 @@ class documentController extends document {
 
 		$oTrashAdminController = &getAdminController('trash');
 		$output = $oTrashAdminController->insertTrash($oTrashVO);
-		if (!$output->toBool()) {
+		if(!$output->toBool())
+		{
 			$oDB->rollback();
 			return $output;
 		}
 
 		$output = executeQuery('document.deleteDocument', $trash_args);
-		if(!$output->toBool()) {
+		if(!$output->toBool())
+		{
 			$oDB->rollback();
 			return $output;
 		}
 
 		/*$output = executeQuery('document.updateDocument', $document_args);
-		if (!$output->toBool()) {
-			$oDB->rollback();
-			return $output;
-		}*/
+		  if (!$output->toBool()) {
+		  $oDB->rollback();
+		  return $output;
+		  }*/
 
 		// update category
 		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
@@ -687,15 +754,19 @@ class documentController extends document {
 		// remove thumbnails
 		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
 		// Set the attachment to be invalid state
-		if($oDocument->hasUploadedFiles()) {
+		if($oDocument->hasUploadedFiles())
+		{
+			$args = new stdClass();
 			$args->upload_target_srl = $oDocument->document_srl;
 			$args->isvalid = 'N';
 			executeQuery('file.updateFileValid', $args);
 		}
 		// Call a trigger (after)
-		if($output->toBool()) {
+		if($output->toBool())
+		{
 			$trigger_output = ModuleHandler::triggerCall('document.moveDocumentToTrash', 'after', $obj);
-			if(!$trigger_output->toBool()) {
+			if(!$trigger_output->toBool())
+			{
 				$oDB->rollback();
 				return $trigger_output;
 			}
@@ -704,13 +775,13 @@ class documentController extends document {
 		// commit
 		$oDB->commit();
 
-                // Clear cache
-                $oCacheHandler = &CacheHandler::getInstance('object');
-                if($oCacheHandler->isSupport())
-                {
-                    $oCacheHandler->invalidateGroupKey('documentList');
-                }
-                
+		// Clear cache
+		$oCacheHandler = &CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('documentList');
+		}
+
 		return $output;
 	}
 
@@ -719,7 +790,8 @@ class documentController extends document {
 	 * @param documentItem $oDocument
 	 * @return bool|void
 	 */
-	function updateReadedCount(&$oDocument) {
+	function updateReadedCount(&$oDocument)
+	{
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
@@ -730,12 +802,14 @@ class documentController extends document {
 		if($_SESSION['readed_document'][$document_srl]) return false;
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
+		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		{
 			$_SESSION['readed_document'][$document_srl] = true;
 			return false;
 		}
 		// Pass ater registering sesscion if the author is a member and has same information as the currently logged-in user.
-		if($member_srl && $logged_info->member_srl == $member_srl) {
+		if($member_srl && $logged_info->member_srl == $member_srl)
+		{
 			$_SESSION['readed_document'][$document_srl] = true;
 			return false;
 		}
@@ -745,16 +819,16 @@ class documentController extends document {
 		// Register session
 		$_SESSION['readed_document'][$document_srl] = true;
 		//remove from cache
-        $oCacheHandler = &CacheHandler::getInstance('object');
-        if($oCacheHandler->isSupport())
-        {
-            $cache_key = 'object:'.$document_srl;
-            $oCacheHandler->delete($cache_key);
-            $oCacheHandler->invalidateGroupKey('documentList');
-            //remove document item from cache
-            $cache_key = 'object_document_item:'.$document_srl;
-            $oCacheHandler->delete($cache_key);
-        }
+		$oCacheHandler = &CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'object:'.$document_srl;
+			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('documentList');
+			//remove document item from cache
+			$cache_key = 'object_document_item:'.$document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
 
 		return TRUE;
 	}
@@ -772,9 +846,11 @@ class documentController extends document {
 	 * @param int $eid
 	 * @return object
 	 */
-	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid) {
+	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid)
+	{
 		if(!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid) return new Object(-1,'msg_invalid_request');
 
+		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
 		$obj->var_idx = $var_idx;
 		$obj->var_name = $var_name;
@@ -800,8 +876,10 @@ class documentController extends document {
 	 * @param int $var_idx
 	 * @return Object
 	 */
-	function deleteDocumentExtraKeys($module_srl, $var_idx = null) {
+	function deleteDocumentExtraKeys($module_srl, $var_idx = null)
+	{
 		if(!$module_srl) return new Object(-1,'msg_invalid_request');
+		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
 		if(!is_null($var_idx)) $obj->var_idx = $var_idx;
 
@@ -857,7 +935,8 @@ class documentController extends document {
 	 * @param string $lang_code
 	 * @return Object|void
 	 */
-	function insertDocumentExtraVar($module_srl, $document_srl, $var_idx, $value, $eid = null, $lang_code = '') {
+	function insertDocumentExtraVar($module_srl, $document_srl, $var_idx, $value, $eid = null, $lang_code = '')
+	{
 		if(!$module_srl || !$document_srl || !$var_idx || !isset($value)) return new Object(-1,'msg_invalid_request');
 		if(!$lang_code) $lang_code = Context::getLangType();
 
@@ -880,7 +959,9 @@ class documentController extends document {
 	 * @param int $eid
 	 * @return $output
 	 */
-	function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null) {
+	function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null)
+	{
+		$obj =new stdClass();
 		$obj->module_srl = $module_srl;
 		if(!is_null($document_srl)) $obj->document_srl = $document_srl;
 		if(!is_null($var_idx)) $obj->var_idx = $var_idx;
@@ -897,7 +978,8 @@ class documentController extends document {
 	 * @param int $point
 	 * @return Object
 	 */
-	function updateVotedCount($document_srl, $point = 1) {
+	function updateVotedCount($document_srl, $point = 1)
+	{
 		if($point > 0) $failed_voted = 'failed_voted';
 		else $failed_voted = 'failed_blamed';
 		// Return fail if session already has information about votes
@@ -909,7 +991,8 @@ class documentController extends document {
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
+		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		{
 			$_SESSION['voted_document'][$document_srl] = true;
 			return new Object(-1, $failed_voted);
 		}
@@ -919,23 +1002,29 @@ class documentController extends document {
 		$member_srl = $oMemberModel->getLoggedMemberSrl();
 
 		// Check if document's author is a member.
-		if($oDocument->get('member_srl')) {
+		if($oDocument->get('member_srl'))
+		{
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
-			if($member_srl && $member_srl == $oDocument->get('member_srl')) {
+			if($member_srl && $member_srl == $oDocument->get('member_srl'))
+			{
 				$_SESSION['voted_document'][$document_srl] = true;
 				return new Object(-1, $failed_voted);
 			}
 		}
 		// Use member_srl for logged-in members and IP address for non-members.
-		if($member_srl) {
+		if($member_srl)
+		{
 			$args->member_srl = $member_srl;
-		} else {
+		}
+		else
+		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
 		// Pass after registering a session if log information has vote-up logs
-		if($output->data->count) {
+		if($output->data->count)
+		{
 			$_SESSION['voted_document'][$document_srl] = true;
 			return new Object(-1, $failed_voted);
 		}
@@ -969,7 +1058,8 @@ class documentController extends document {
 		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
 		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
 		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
-		if(!$trigger_output->toBool()) {
+		if(!$trigger_output->toBool())
+		{
 			$oDB->rollback();
 			return $trigger_output;
 		}
@@ -1011,6 +1101,7 @@ class documentController extends document {
 		}
 
 		// Check if previously reported
+		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDeclaredDocument', $args);
 		if(!$output->toBool()) return $output;
@@ -1023,9 +1114,9 @@ class documentController extends document {
 
 		// Pass if the author's IP address is as same as visitor's.
 		/*if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
-			$_SESSION['declared_document'][$document_srl] = true;
-			return new Object(-1, 'failed_declared');
-		}*/
+		  $_SESSION['declared_document'][$document_srl] = true;
+		  return new Object(-1, 'failed_declared');
+		  }*/
 
 		// Check if document's author is a member.
 		if($oDocument->get('member_srl'))
@@ -1103,26 +1194,29 @@ class documentController extends document {
 	 * @param bool $comment_inserted
 	 * @return object
 	 */
-	function updateCommentCount($document_srl, $comment_count, $last_updater, $comment_inserted = false) {
+	function updateCommentCount($document_srl, $comment_count, $last_updater, $comment_inserted = false)
+	{
+		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$args->comment_count = $comment_count;
 
-		if($comment_inserted) {
+		if($comment_inserted)
+		{
 			$args->update_order = -1*getNextSequence();
 			$args->last_updater = $last_updater;
 		}
 
 		//remove from cache
-                $oCacheHandler = &CacheHandler::getInstance('object');
-                if($oCacheHandler->isSupport())
-                {
-                    $cache_key = 'object:'.$document_srl;
-                    $oCacheHandler->delete($cache_key);
-                    $oCacheHandler->invalidateGroupKey('documentList');
-                    //remove document item from cache
-                    $cache_key = 'object_document_item:'.$document_srl;
-                    $oCacheHandler->delete($cache_key);
-                }
+		$oCacheHandler = &CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'object:'.$document_srl;
+			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('documentList');
+			//remove document item from cache
+			$cache_key = 'object_document_item:'.$document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
 
 		return executeQuery('document.updateCommentCount', $args);
 	}
@@ -1133,7 +1227,8 @@ class documentController extends document {
 	 * @param int $trackback_count
 	 * @return object
 	 */
-	function updateTrackbackCount($document_srl, $trackback_count) {
+	function updateTrackbackCount($document_srl, $trackback_count)
+	{
 		$args->document_srl = $document_srl;
 		$args->trackback_count = $trackback_count;
 
@@ -1145,21 +1240,26 @@ class documentController extends document {
 	 * @param object $obj
 	 * @return object
 	 */
-	function insertCategory($obj) {
+	function insertCategory($obj)
+	{
 		// Sort the order to display if a child category is added
-		if($obj->parent_srl) {
+		if($obj->parent_srl)
+		{
 			// Get its parent category
 			$oDocumentModel = &getModel('document');
 			$parent_category = $oDocumentModel->getCategory($obj->parent_srl);
 			$obj->list_order = $parent_category->list_order;
 			$this->updateCategoryListOrder($parent_category->module_srl, $parent_category->list_order+1);
 			if(!$obj->category_srl) $obj->category_srl = getNextSequence();
-		} else {
+		}
+		else
+		{
 			$obj->list_order = $obj->category_srl = getNextSequence();
 		}
 
 		$output = executeQuery('document.insertCategory', $obj);
-		if($output->toBool()) {
+		if($output->toBool())
+		{
 			$output->add('category_srl', $obj->category_srl);
 			$this->makeCategoryFile($obj->module_srl);
 		}
@@ -1173,7 +1273,8 @@ class documentController extends document {
 	 * @param int $list_order
 	 * @return object
 	 */
-	function updateCategoryListOrder($module_srl, $list_order) {
+	function updateCategoryListOrder($module_srl, $list_order)
+	{
 		$args->module_srl = $module_srl;
 		$args->list_order = $list_order;
 		return executeQuery('document.updateCategoryOrder', $args);
@@ -1186,7 +1287,8 @@ class documentController extends document {
 	 * @param int $document_count
 	 * @return object
 	 */
-	function updateCategoryCount($module_srl, $category_srl, $document_count = 0) {
+	function updateCategoryCount($module_srl, $category_srl, $document_count = 0)
+	{
 		// Create a document model object
 		$oDocumentModel = &getModel('document');
 		if(!$document_count) $document_count = $oDocumentModel->getCategoryDocumentCount($module_srl,$category_srl);
@@ -1204,7 +1306,8 @@ class documentController extends document {
 	 * @param object $obj
 	 * @return object
 	 */
-	function updateCategory($obj) {
+	function updateCategory($obj)
+	{
 		$output = executeQuery('document.updateCategory', $obj);
 		if($output->toBool()) $this->makeCategoryFile($obj->module_srl);
 		return $output;
@@ -1215,7 +1318,9 @@ class documentController extends document {
 	 * @param int $category_srl
 	 * @return object
 	 */
-	function deleteCategory($category_srl) {
+	function deleteCategory($category_srl)
+	{
+		$args = new stdClass();
 		$args->category_srl = $category_srl;
 		$oDocumentModel = &getModel('document');
 		$category_info = $oDocumentModel->getCategory($category_srl);
@@ -1229,8 +1334,7 @@ class documentController extends document {
 
 		$this->makeCategoryFile($category_info->module_srl);
 		// Update category_srl of the documents in the same category to 0
-		unset($args);
-
+		$args = new stdClass();
 		$args->target_category_srl = 0;
 		$args->source_category_srl = $category_srl;
 		$output = executeQuery('document.updateDocumentCategory', $args);
@@ -1243,7 +1347,9 @@ class documentController extends document {
 	 * @param int $module_srl
 	 * @return object
 	 */
-	function deleteModuleCategory($module_srl) {
+	function deleteModuleCategory($module_srl)
+	{
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$output = executeQuery('document.deleteModuleCategory', $args);
 		return $output;
@@ -1254,7 +1360,8 @@ class documentController extends document {
 	 * @param int $category_srl
 	 * @return Object
 	 */
-	function moveCategoryUp($category_srl) {
+	function moveCategoryUp($category_srl)
+	{
 		$oDocumentModel = &getModel('document');
 		// Get information of the selected category
 		$args->category_srl = $category_srl;
@@ -1269,7 +1376,8 @@ class documentController extends document {
 		if(count($category_srl_list)<2) return new Object();
 
 		$prev_category = NULL;
-		foreach($category_list as $key => $val) {
+		foreach($category_list as $key => $val)
+		{
 			if($key==$category_srl) break;
 			$prev_category = $val;
 		}
@@ -1296,7 +1404,8 @@ class documentController extends document {
 	 * @param int $category_srl
 	 * @return Object
 	 */
-	function moveCategoryDown($category_srl) {
+	function moveCategoryDown($category_srl)
+	{
 		$oDocumentModel = &getModel('document');
 		// Get information of the selected category
 		$args->category_srl = $category_srl;
@@ -1310,7 +1419,8 @@ class documentController extends document {
 		$category_srl_list = array_keys($category_list);
 		if(count($category_srl_list)<2) return new Object();
 
-		for($i=0;$i<count($category_srl_list);$i++) {
+		for($i=0;$i<count($category_srl_list);$i++)
+		{
 			if($category_srl_list[$i]==$category_srl) break;
 		}
 
@@ -1336,27 +1446,29 @@ class documentController extends document {
 	 * @param int $module_srl
 	 * @return void
 	 */
-	function addXmlJsFilter($module_srl) {
+	function addXmlJsFilter($module_srl)
+	{
 		$oDocumentModel = &getModel('document');
 		$extra_keys = $oDocumentModel->getExtraKeys($module_srl);
 		if(!count($extra_keys)) return;
 
 		$js_code = array();
-		$js_code[] = '<script type="text/javascript">//<![CDATA[';
+		$js_code[] = '<script>//<![CDATA[';
 		$js_code[] = '(function($){';
 		$js_code[] = 'var validator = xe.getApp("validator")[0];';
 		$js_code[] = 'if(!validator) return false;';
 
 		$logged_info = Context::get('logged_info');
 
-		foreach($extra_keys as $idx => $val) 
+		foreach($extra_keys as $idx => $val)
 		{
 			$idx = $val->idx;
 			if($val->type == 'kr_zip')
 			{
 				$idx .= '[]';
 			}
-			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $idx, $val->name);
+			$name = str_ireplace(array('<script', '</script'), array('<scr" + "ipt', '</scr" + "ipt'), $val->name);
+			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $idx, $name);
 			if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $idx);
 		}
 
@@ -1372,14 +1484,16 @@ class documentController extends document {
 	 * @param object $args
 	 * @return void
 	 */
-	function procDocumentInsertCategory($args = null) {
+	function procDocumentInsertCategory($args = null)
+	{
 		// List variables
 		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','category_title','category_description','expand','group_srls','category_color','mid');
 		$args->title = $args->category_title;
 		$args->description = $args->category_description;
 		$args->color = $args->category_color;
 
-		if(!$args->module_srl && $args->mid){
+		if(!$args->module_srl && $args->mid)
+		{
 			$mid = $args->mid;
 			unset($args->mid);
 			$args->module_srl = $this->module_srl;
@@ -1401,21 +1515,27 @@ class documentController extends document {
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// Check if already exists
-		if($args->category_srl) {
+		if($args->category_srl)
+		{
 			$category_info = $oDocumentModel->getCategory($args->category_srl);
 			if($category_info->category_srl != $args->category_srl) $args->category_srl = null;
 		}
 		// Update if exists
-		if($args->category_srl) {
+		if($args->category_srl)
+		{
 			$output = $this->updateCategory($args);
-			if(!$output->toBool()) {
+			if(!$output->toBool())
+			{
 				$oDB->rollback();
 				return $output;
 			}
 			// Insert if not exist
-		} else {
+		}
+		else
+		{
 			$output = $this->insertCategory($args);
-			if(!$output->toBool()) {
+			if(!$output->toBool())
+			{
 				$oDB->rollback();
 				return $output;
 			}
@@ -1438,7 +1558,8 @@ class documentController extends document {
 	 * Move a category
 	 * @return void
 	 */
-	function procDocumentMoveCategory() {
+	function procDocumentMoveCategory()
+	{
 		$source_category_srl = Context::get('source_srl');
 		// If parent_srl exists, be the first child
 		$parent_category_srl = Context::get('parent_srl');
@@ -1454,7 +1575,8 @@ class documentController extends document {
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 		// First child of the parent_category_srl
-		if($parent_category_srl > 0 || ($parent_category_srl == 0 && $target_category_srl == 0)){
+		if($parent_category_srl > 0 || ($parent_category_srl == 0 && $target_category_srl == 0))
+		{
 			$parent_category = $oDocumentModel->getCategory($parent_category_srl);
 
 			$args->module_srl = $source_category->module_srl;
@@ -1466,19 +1588,19 @@ class documentController extends document {
 			if(!$args->list_order) $args->list_order = 0;
 			$args->list_order--;
 
-
 			$source_args->category_srl = $source_category_srl;
 			$source_args->parent_srl = $parent_category_srl;
 			$source_args->list_order = $args->list_order;
 			$output = $this->updateCategory($source_args);
 			if(!$output->toBool()) return $output;
 			// Sibling of the $target_category_srl
-		}else if($target_category_srl > 0){
+		}
+		else if($target_category_srl > 0)
+		{
 			$target_category = $oDocumentModel->getCategory($target_category_srl);
 			// Move all siblings of the $target_category down
 			$output = $this->updateCategoryListOrder($target_category->module_srl, $target_category->list_order+1);
 			if(!$output->toBool()) return $output;
-
 
 			$source_args->category_srl = $source_category_srl;
 			$source_args->parent_srl = $target_category->parent_srl;
@@ -1491,14 +1613,14 @@ class documentController extends document {
 		// Variable settings
 		$this->add('xml_file', $xml_file);
 		$this->add('source_category_srl', $source_category_srl);
-
 	}
 
 	/**
 	 * Delete a category
 	 * @return void
 	 */
-	function procDocumentDeleteCategory() {
+	function procDocumentDeleteCategory()
+	{
 		// List variables
 		$args = Context::gets('module_srl','category_srl');
 
@@ -1519,7 +1641,8 @@ class documentController extends document {
 		if($oDocumentModel->getCategoryChlidCount($args->category_srl)) return new Object(-1, 'msg_cannot_delete_for_child');
 		// Remove from the DB
 		$output = $this->deleteCategory($args->category_srl);
-		if(!$output->toBool()) {
+		if(!$output->toBool())
+		{
 			$oDB->rollback();
 			return $output;
 		}
@@ -1540,7 +1663,8 @@ class documentController extends document {
 	 * Although the issue is not currently reproduced, it is unnecessay to remove.
 	 * @return void
 	 */
-	function procDocumentMakeXmlFile() {
+	function procDocumentMakeXmlFile()
+	{
 		// Check input values
 		$module_srl = Context::get('module_srl');
 		// Check permissions
@@ -1560,7 +1684,8 @@ class documentController extends document {
 	 * @param int $module_srl
 	 * @return string
 	 */
-	function makeCategoryFile($module_srl) {
+	function makeCategoryFile($module_srl)
+	{
 		// Return if there is no information you need for creating a cache file
 		if(!$module_srl) return false;
 		// Get module information (to obtain mid)
@@ -1574,13 +1699,15 @@ class documentController extends document {
 		$xml_file = sprintf("./files/cache/document_category/%s.xml.php", $module_srl);
 		$php_file = sprintf("./files/cache/document_category/%s.php", $module_srl);
 		// Get a category list
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$args->sort_index = 'list_order';
 		$output = executeQuery('document.getCategoryList', $args);
 
 		$category_list = $output->data;
 
-		if(!$category_list) {
+		if(!$category_list)
+		{
 			FileHandler::removeFile($xml_file);
 			FileHandler::removeFile($php_file);
 			return false;
@@ -1588,22 +1715,25 @@ class documentController extends document {
 		if(!is_array($category_list)) $category_list = array($category_list);
 
 		$category_count = count($category_list);
-		for($i=0;$i<$category_count;$i++) {
+		for($i=0;$i<$category_count;$i++)
+		{
 			$category_srl = $category_list[$i]->category_srl;
 			if(!preg_match('/^[0-9,]+$/', $category_list[$i]->group_srls)) $category_list[$i]->group_srls = '';
 			$list[$category_srl] = $category_list[$i];
 		}
 		// Create the xml file without node data if no data is obtained
-		if(!$list) {
+		if(!$list)
+		{
 			$xml_buff = "<root />";
 			FileHandler::writeFile($xml_file, $xml_buff);
-			FileHandler::writeFile($php_file, '<?php if(!defined("__ZBXE__")) exit(); ?>');
+			FileHandler::writeFile($php_file, '<?php if(!defined("__XE__")) exit(); ?>');
 			return $xml_file;
 		}
 		// Change to an array if only a single data is obtained
 		if(!is_array($list)) $list = array($list);
 		// Create a tree for loop
-		foreach($list as $category_srl => $node) {
+		foreach($list as $category_srl => $node)
+		{
 			$node->mid = $mid;
 			$parent_srl = (int)$node->parent_srl;
 			$tree[$parent_srl][$category_srl] = $node;
@@ -1614,52 +1744,51 @@ class documentController extends document {
 			'$is_logged = Context::get(\'is_logged\'); '.
 			'$logged_info = Context::get(\'logged_info\'); '.
 			'if($is_logged) {'.
-				'if($logged_info->is_admin=="Y") $is_admin = true; '.
-					'else $is_admin = false; '.
-					'$group_srls = array_keys($logged_info->group_list); '.
-					'} else { '.
-						'$is_admin = false; '.
-							'$group_srsl = array(); '.
-							'} '."\n";
+			'if($logged_info->is_admin=="Y") $is_admin = true; '.
+			'else $is_admin = false; '.
+			'$group_srls = array_keys($logged_info->group_list); '.
+			'} else { '.
+			'$is_admin = false; '.
+			'$group_srsl = array(); '.
+			'} '."\n";
 
 		// Create the xml cache file (a separate session is needed for xml cache)
 		$xml_header_buff = '';
 		$xml_body_buff = $this->getXmlTree($tree[0], $tree, $module_info->site_srl, $xml_header_buff);
 		$xml_buff = sprintf(
-				'<?php '.
-				'define(\'__ZBXE__\', true); '.
-				'define(\'__XE__\', true); '.
-				'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
-				'$oContext = &Context::getInstance(); '.
-				'$oContext->init(); '.
-				'header("Content-Type: text/xml; charset=UTF-8"); '.
-				'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
-				'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
-				'header("Cache-Control: no-store, no-cache, must-revalidate"); '.
-				'header("Cache-Control: post-check=0, pre-check=0", false); '.
-				'header("Pragma: no-cache"); '.
-				'%s'.
-				'%s '.
-				'$oContext->close();'.
-				'?>'.
-				'<root>%s</root>',
-				$header_script,
-				$xml_header_buff,
-				$xml_body_buff
-				);
+			'<?php '.
+			'define(\'__XE__\', true); '.
+			'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
+			'$oContext = &Context::getInstance(); '.
+			'$oContext->init(); '.
+			'header("Content-Type: text/xml; charset=UTF-8"); '.
+			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
+			'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
+			'header("Cache-Control: no-store, no-cache, must-revalidate"); '.
+			'header("Cache-Control: post-check=0, pre-check=0", false); '.
+			'header("Pragma: no-cache"); '.
+			'%s'.
+			'%s '.
+			'$oContext->close();'.
+			'?>'.
+			'<root>%s</root>',
+			$header_script,
+			$xml_header_buff,
+			$xml_body_buff
+		);
 		// Create php cache file
 		$php_output = $this->getPhpCacheCode($tree[0], $tree, $module_info->site_srl, $php_header_buff);
 		$php_buff = sprintf(
-				'<?php '.
-				'if(!defined("__ZBXE__")) exit(); '.
-				'%s; '.
-				'%s; '.
-				'$menu->list = array(%s); '.
-				'?>',
-				$header_script,
-				$php_header_buff,
-				$php_output['buff']
-				);
+			'<?php '.
+			'if(!defined("__XE__")) exit(); '.
+			'%s; '.
+			'%s; '.
+			'$menu->list = array(%s); '.
+			'?>',
+			$header_script,
+			$php_header_buff,
+			$php_output['buff']
+		);
 		// Save File
 		FileHandler::writeFile($xml_file, $xml_buff);
 		FileHandler::writeFile($php_file, $php_buff);
@@ -1676,10 +1805,12 @@ class documentController extends document {
 	 * @param string $xml_header_buff
 	 * @return string
 	 */
-	function getXmlTree($source_node, $tree, $site_srl, &$xml_header_buff) {
+	function getXmlTree($source_node, $tree, $site_srl, &$xml_header_buff)
+	{
 		if(!$source_node) return;
 
-		foreach($source_node as $category_srl => $node) {
+		foreach($source_node as $category_srl => $node)
+		{
 			$child_buff = "";
 			// Get data of the child nodes
 			if($category_srl && $tree[$category_srl]) $child_buff = $this->getXmlTree($tree[$category_srl], $tree, $site_srl, $xml_header_buff);
@@ -1704,21 +1835,21 @@ class documentController extends document {
 			if(count($langx)) foreach($langx as $key => $val) $xml_header_buff .= sprintf('$_descriptions[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
 
 			$attribute = sprintf(
-					'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url="%s" expand="%s" color="%s" description="<?php echo (%s?($_descriptions[%d][$lang_type]):"")?>" document_count="%d" ',
-					$mid,
-					$module_srl,
-					$category_srl,
-					$parent_srl,
-					$category_srl,
-					$group_check_code,
-					$category_srl,
-					getUrl('','mid',$node->mid,'category',$category_srl),
-					$expand,
-					$color,
-					$group_check_code,
-					$category_srl,
-					$node->document_count
-					);
+				'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url="%s" expand="%s" color="%s" description="<?php echo (%s?($_descriptions[%d][$lang_type]):"")?>" document_count="%d" ',
+				$mid,
+				$module_srl,
+				$category_srl,
+				$parent_srl,
+				$category_srl,
+				$group_check_code,
+				$category_srl,
+				getUrl('','mid',$node->mid,'category',$category_srl),
+				$expand,
+				htmlspecialchars($color),
+				$group_check_code,
+				$category_srl,
+				$node->document_count
+			);
 
 			if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
 			else $buff .=  sprintf('<node %s />', $attribute);
@@ -1737,11 +1868,13 @@ class documentController extends document {
 	 * @param string $php_header_buff
 	 * @return array
 	 */
-	function getPhpCacheCode($source_node, $tree, $site_srl, &$php_header_buff) {
+	function getPhpCacheCode($source_node, $tree, $site_srl, &$php_header_buff)
+	{
 		$output = array("buff"=>"", "category_srl_list"=>array());
 		if(!$source_node) return $output;
 		// Set to an arraty for looping and then generate php script codes to be included
-		foreach($source_node as $category_srl => $node) {
+		foreach($source_node as $category_srl => $node)
+		{
 			// Get data from child nodes first if exist.
 			if($category_srl&&$tree[$category_srl]) $child_output = $this->getPhpCacheCode($tree[$category_srl], $tree, $site_srl, $php_header_buff);
 			else $child_output = array("buff"=>"", "category_srl_list"=>array());
@@ -1765,21 +1898,21 @@ class documentController extends document {
 			if(count($langx)) foreach($langx as $key => $val) $php_header_buff .= sprintf('$_descriptions[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
 			// Create attributes(Use the category_srl_list to check whether to belong to the menu's node. It seems to be tricky but fast fast and powerful;)
 			$attribute = sprintf(
-					'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s","color"=>"%s","description"=>$_descriptions[%d][$lang_type],"list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
-					$node->mid,
-					$node->module_srl,
-					$node->category_srl,
-					$node->category_srl,
-					$node->parent_srl,
-					$node->category_srl,
-					$selected,
-					$expand,
-					$node->color,
-					$node->category_srl,
-					$child_buff,
-					$node->document_count,
-					$group_check_code
-					);
+				'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s","color"=>"%s","description"=>$_descriptions[%d][$lang_type],"list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
+				$node->mid,
+				$node->module_srl,
+				$node->category_srl,
+				$node->category_srl,
+				$node->parent_srl,
+				$node->category_srl,
+				$selected,
+				$expand,
+				$node->color,
+				$node->category_srl,
+				$child_buff,
+				$node->document_count,
+				$group_check_code
+			);
 
 			// Generate buff data
 			$output['buff'] .=  sprintf('%s=>array(%s),', $node->category_srl, $attribute);
@@ -1795,10 +1928,12 @@ class documentController extends document {
 	 * @param string $target
 	 * @return void
 	 */
-	function addDocumentPopupMenu($url, $str, $icon = '', $target = 'self') {
+	function addDocumentPopupMenu($url, $str, $icon = '', $target = 'self')
+	{
 		$document_popup_menu_list = Context::get('document_popup_menu_list');
 		if(!is_array($document_popup_menu_list)) $document_popup_menu_list = array();
 
+		$obj = new stdClass();
 		$obj->url = $url;
 		$obj->str = $str;
 		$obj->icon = $icon;
@@ -1812,11 +1947,13 @@ class documentController extends document {
 	 * Saved in the session when an administrator selects a post
 	 * @return void|Object
 	 */
-	function procDocumentAddCart() {
+	function procDocumentAddCart()
+	{
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_permitted');
 		// Get document_srl
 		$srls = explode(',',Context::get('srls'));
-		for($i=0;$i<count($srls);$i++) {
+		for($i=0;$i<count($srls);$i++)
+		{
 			$srl = trim($srls[$i]);
 			if(!$srl) continue;
 			$document_srls[] = $srl;
@@ -1830,35 +1967,41 @@ class documentController extends document {
 		if(!$output->data) return new Object();
 
 		unset($document_srls);
-		foreach($output->data as $key => $val) {
+		foreach($output->data as $key => $val)
+		{
 			$document_srls[$val->module_srl][] = $val->document_srl;
 		}
 		if(!$document_srls || !count($document_srls)) return new Object();
 		// Check if each of module administrators exists. Top-level administator will have a permission to modify every document of all modules.(Even to modify temporarily saved or trashed documents)
 		$oModuleModel = &getModel('module');
 		$module_srls = array_keys($document_srls);
-		for($i=0;$i<count($module_srls);$i++) {
+		for($i=0;$i<count($module_srls);$i++)
+		{
 			$module_srl = $module_srls[$i];
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 			$logged_info = Context::get('logged_info');
-			if($logged_info->is_admin != 'Y') {
-				if(!$module_info) {
+			if($logged_info->is_admin != 'Y')
+			{
+				if(!$module_info)
+				{
 					unset($document_srls[$module_srl]);
 					continue;
 				}
 				$grant = $oModuleModel->getGrant($module_info, $logged_info);
-				if(!$grant->manager) {
+				if(!$grant->manager)
+				{
 					unset($document_srls[$module_srl]);
 					continue;
 				}
 			}
-
 		}
 		if(!count($document_srls)) return new Object();
 
-		foreach($document_srls as $module_srl => $documents) {
+		foreach($document_srls as $module_srl => $documents)
+		{
 			$cnt = count($documents);
-			for($i=0;$i<$cnt;$i++) {
+			for($i=0;$i<$cnt;$i++)
+			{
 				$document_srl = (int)trim($documents[$i]);
 				if(!$document_srls) continue;
 				if($_SESSION['document_management'][$document_srl]) unset($_SESSION['document_management'][$document_srl]);
@@ -1871,8 +2014,9 @@ class documentController extends document {
 	 * Move/ Delete the document in the seession
 	 * @return void|Object
 	 */
-	function procDocumentManageCheckedDocument() {
-		set_time_limit(0);
+	function procDocumentManageCheckedDocument()
+	{
+		@set_time_limit(0);
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
 
 		if(!checkCSRF())
@@ -1896,14 +2040,16 @@ class documentController extends document {
 
 		$oDocumentModel = &getModel('document');
 		$document_items = array();
-		foreach($document_srl_list as $document_srl){
+		foreach($document_srl_list as $document_srl)
+		{
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			$document_items[] = $oDocument;
-			if (!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
+			if(!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
 		}
 
 		// Send a message
-		if($message_content) {
+		if($message_content)
+		{
 
 			$oCommunicationController = &getController('communication');
 
@@ -1912,7 +2058,8 @@ class documentController extends document {
 			$title = cut_str($message_content,10,'...');
 			$sender_member_srl = $logged_info->member_srl;
 
-			foreach($document_items as $oDocument){
+			foreach($document_items as $oDocument)
+			{
 				if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
 
 				if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\">%s</a>", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
@@ -1927,7 +2074,8 @@ class documentController extends document {
 		$oSpamController->setAvoidLog();
 
 		$oDocumentAdminController = &getAdminController('document');
-		if($type == 'move') {
+		if($type == 'move')
+		{
 			if(!$module_srl) return new Object(-1, 'fail_to_move');
 
 			$output = $oDocumentAdminController->moveDocumentModule($document_srl_list, $module_srl, $category_srl);
@@ -1936,7 +2084,7 @@ class documentController extends document {
 			$msg_code = 'success_moved';
 
 		}
-		elseif($type == 'copy')
+		else if($type == 'copy')
 		{
 			if(!$module_srl) return new Object(-1, 'fail_to_move');
 
@@ -1945,10 +2093,12 @@ class documentController extends document {
 
 			$msg_code = 'success_copied';
 		}
-		elseif($type =='delete') {
+		else if($type =='delete')
+		{
 			$oDB = &DB::getInstance();
 			$oDB->begin();
-			for($i=0;$i<$document_srl_count;$i++) {
+			for($i=0;$i<$document_srl_count;$i++)
+			{
 				$document_srl = $document_srl_list[$i];
 				$output = $this->deleteDocument($document_srl, true);
 				if(!$output->toBool()) return new Object(-1, 'fail_to_delete');
@@ -1956,7 +2106,9 @@ class documentController extends document {
 			$oDB->commit();
 			$msg_code = 'success_deleted';
 		}
-		elseif($type == 'trash') {
+		else if($type == 'trash')
+		{
+			$args = new stdClass();
 			$args->description = $message_content;
 
 			$oDB = &DB::getInstance();
@@ -1969,9 +2121,11 @@ class documentController extends document {
 			$oDB->commit();
 			$msg_code = 'success_trashed';
 		}
-		elseif($type == 'cancelDeclare') {
+		else if($type == 'cancelDeclare')
+		{
 			$args->document_srl = $document_srl_list;
 			$output = executeQuery('document.deleteDeclaredDocuments', $args);
+			$msg_code = 'success_declare_canceled';
 		}
 
 		$_SESSION['document_management'] = array();
@@ -2005,7 +2159,8 @@ class documentController extends document {
 		$document_config->use_status = Context::get('use_status');
 
 		$oModuleController = &getController('module');
-		for($i=0;$i<count($module_srl);$i++) {
+		for($i=0;$i<count($module_srl);$i++)
+		{
 			$srl = trim($module_srl[$i]);
 			if(!$srl) continue;
 			$output = $oModuleController->insertModulePartConfig('document',$srl,$document_config);
@@ -2036,7 +2191,8 @@ class documentController extends document {
 		unset($obj->is_notice);
 
 		// Extract from beginning part of contents in the guestbook
-		if(!$obj->title) {
+		if(!$obj->title)
+		{
 			$obj->title = cut_str(strip_tags($obj->content), 20, '...');
 		}
 
@@ -2046,7 +2202,8 @@ class documentController extends document {
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
 
 		// Update if already exists
-		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
+		{
 			if($oDocument->get('module_srl') != $obj->module_srl)
 			{
 				return new Object(-1, 'msg_invalid_request');
@@ -2059,15 +2216,18 @@ class documentController extends document {
 			$obj->status = $oDocument->get('status');
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
-		// Otherwise, get a new
-		} else {
+			// Otherwise, get a new
+		}
+		else
+		{
 			$output = $oDocumentController->insertDocument($obj);
 			$msg_code = 'success_registed';
 			$obj->document_srl = $output->get('document_srl');
 			$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
 		}
 		// Set the attachment to be invalid state
-		if($oDocument->hasUploadedFiles()) {
+		if($oDocument->hasUploadedFiles())
+		{
 			$args->upload_target_srl = $oDocument->document_srl;
 			$args->isvalid = 'N';
 			executeQuery('file.updateFileValid', $args);
@@ -2087,7 +2247,8 @@ class documentController extends document {
 		$documentSrls = Context::get('document_srls');
 		if($documentSrls) $documentSrlList = explode(',', $documentSrls);
 
-		if(count($documentSrlList) > 0) {
+		if(count($documentSrlList) > 0)
+		{
 			$oDocumentModel = &getModel('document');
 			$columnList = array('document_srl', 'title', 'nick_name', 'status');
 			$documentList = $oDocumentModel->getDocuments($documentSrlList, $this->grant->is_admin, false, $columnList);
@@ -2098,6 +2259,8 @@ class documentController extends document {
 			$documentList = array();
 			$this->setMessage($lang->no_documents);
 		}
+		$oSecurity = new Security($documentList);
+		$oSecurity->encodeHTML('..variables.');
 		$this->add('document_list', $documentList);
 	}
 
@@ -2124,6 +2287,30 @@ class documentController extends document {
 	{
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = $this->getConfigStatus('secret');
 		if(!$obj->status && $obj->is_secret != 'Y') $obj->status = $this->getConfigStatus('public');
+	}
+
+	public function updateUploaedCount($documentSrlList)
+	{
+		$oDocumentModel = &getModel('document');
+		$oFileModel = &getModel('file');
+
+		if(is_array($documentSrlList))
+		{
+			$documentSrlList = array_unique($documentSrlList);
+			foreach($documentSrlList AS $key=>$documentSrl)
+			{
+				$oldDocument = $oDocumentModel->getDocument($documentSrl);
+				$fileCount = $oFileModel->getFilesCount($documentSrl);
+
+				if($oldDocument != null)
+				{
+					$newDocumentArray = $oldDocument->variables;
+					$newDocumentArray['uploaded_count'] = $fileCount;
+					$newDocumentObject = (object) $newDocumentArray;
+					$this->updateDocument($oldDocument, $newDocumentObject);
+				}
+			}
+		}
 	}
 
 	/**
@@ -2164,4 +2351,5 @@ class documentController extends document {
 		}
 	}
 }
-?>
+/* End of file document.controller.php */
+/* Location: ./modules/document/document.controller.php */

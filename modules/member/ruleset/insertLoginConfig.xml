@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+    </customrules>
+    <fields>
+		<field name="max_error_count" length="1:20" rule="number" />
+		<field name="max_error_count_time" length="1:20" rule="number" />
+    </fields>
+</ruleset>

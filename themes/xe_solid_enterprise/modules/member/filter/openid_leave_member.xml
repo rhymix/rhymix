@@ -1,8 +1,0 @@
-<filter name="openid_leave_member" module="member" act="procMemberOpenIDLeave" confirm_msg_code="confirm_leave">
-    <form />
-    <parameter />
-    <response callback_func="completeLeave">
-        <tag name="error" />
-        <tag name="message" />
-    </response>
-</filter>

@@ -1,0 +1,16 @@
+<query id="getTrashList" action="select">
+    <tables>
+        <table name="trash" alias="T" />
+        <table name="member" alias="M" />
+    </tables>
+    <columns>
+        <column name="T.*" />
+        <column name="M.user_id" />
+        <column name="M.nick_name" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="T.remover_srl" default="M.member_srl" notnull="notnull" />
+        <condition operation="in" column="trash_srl" var="trashSrl" filter="number" pipe="and" />
+        <condition operation="in" column="origin_module" var="originModule" pipe="and" />
+    </conditions>
+</query>

@@ -48,9 +48,9 @@
 				<fieldset>
 					<legend>{$lang->edit->title}</legend>
 					<ul>
-						<li class="h3"><input name="hx" type="radio" value="h3" id="h3" class="inputRadio" checked="checked" /><label for="h3">{$lang->edit->title1}</label></li>
-						<li class="h4"><input name="hx" type="radio" value="h4" id="h4" class="inputRadio" /><label for="h4">{$lang->edit->title2}</label></li>
-						<li class="h5"><input name="hx" type="radio" value="h5" id="h5" class="inputRadio" /><label for="h5">{$lang->edit->title3}</label></li>
+						<li class="h3"><input name="hx" type="radio" value="h3" id="h3" class="inputRadio" checked="checked" /> <label for="h3">{$lang->edit->title1}</label></li>
+						<li class="h4"><input name="hx" type="radio" value="h4" id="h4" class="inputRadio" /> <label for="h4">{$lang->edit->title2}</label></li>
+						<li class="h5"><input name="hx" type="radio" value="h5" id="h5" class="inputRadio" /> <label for="h5">{$lang->edit->title3}</label></li>
 					</ul>
 					<input name="" type="text" class="inputTitle h3" value="{$lang->edit->insert_dr_title}" title="{$lang->edit->insert_dr_title}" />
 					<!-- class="inputTitle h3" | class="inputTitle h4" | class="inputTitle h5" -->
@@ -355,9 +355,9 @@
 						<dl>
 							<dt>{$lang->edit->image_align} :</dt>
 							<dd>
-								<input type="radio" name="align" id="img_align_left" value="left" /><label for="img_align_left">{$lang->edit->align_left}</label>
-								<input type="radio" name="align" id="img_align_center" value="center" /><label for="img_align_center">{$lang->edit->align_center}</label>
-								<input type="radio" name="align" id="img_align_right" value="right" /><label for="img_align_right">{$lang->edit->align_right}</label>
+								<input type="radio" name="align" id="img_align_left" value="left" /> <label for="img_align_left">{$lang->edit->align_left}</label>
+								<input type="radio" name="align" id="img_align_center" value="center" /> <label for="img_align_center">{$lang->edit->align_center}</label>
+								<input type="radio" name="align" id="img_align_right" value="right" /> <label for="img_align_right">{$lang->edit->align_right}</label>
 							</dd>
 						</dl>
 					</div>
@@ -401,7 +401,7 @@
 			<!--@if($allow_fileupload)-->
 			<!--%import("js/uploader.js",optimized=false)-->
 			<!--%import("../../tpl/js/swfupload.js",optimized=false)-->
-			<script type="text/javascript">//<![CDATA[
+			<script>//<![CDATA[
                 uploaderSettings=
                     {
 					"editorSequence" : {$editor_sequence},
@@ -555,7 +555,7 @@
 					<dt>{$lang->edit->help_first_dt_5}</dt>
 					<dd>{$lang->edit->help_first_dd_5}</dd>
 				</dl>
-				<p class="drEditorBugReport"><a href="http://xe.xpressengine.net/?mid=issuetracker&amp;act=dispIssuetrackerViewIssue" target="_blank" title="{$lang->edit->cmd_new_window}">{$lang->edit->help_bug_report}</a></p>
+				<p class="drEditorBugReport"><a href="http://code.google.com/p/xe-core/issues/entry" target="_blank" title="{$lang->edit->cmd_new_window}">{$lang->edit->help_bug_report}</a></p>
 				<span class="cap capTL"></span>
 				<span class="cap capTR"></span>
 				<span class="cap capBL"></span>
@@ -613,7 +613,7 @@
 					</ul>
 					
 					<!-- JS for Prototype -->
-					<script type="text/javascript">
+					<script>
 					//<![CDATA[
 						jQuery(function($){
 							$('.wToolbar button').slice(0,9).append('<span class="nx"></span>');
@@ -658,7 +658,7 @@
 <!-- /에디터 -->
 
 <!-- 에디터 활성화 -->
-<script type="text/javascript">//<![CDATA[
+<script>//<![CDATA[
 var editor_path = "{$editor_path}";
 
 var auto_saved_msg = "{$lang->msg_auto_saved}";

@@ -6,13 +6,13 @@
 	<load target="../../tpl/js/poll.min.js" />
 <!--@end-->
 
-<script type="text/javascript">
+<script>
     var poll_alert_lang = "{$lang->msg_check_poll_item}";
 </script>
 
 <div id="poll_{$poll->poll_srl}" style="{$poll->style}">
 
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'module/poll/skins/simple/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
     <form action="./" method="post" onsubmit="return doPoll(this)">
@@ -22,6 +22,7 @@
     <input type="hidden" name="poll_srl_indexes" value="" />
     <input type="hidden" name="skin" value="{$skin}" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="xe_validator_id" value="module/poll/skins/simple/form/1" />
 
     <table cellspacing="0" class="simple_poll">
     <tr>

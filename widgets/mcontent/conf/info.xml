@@ -411,7 +411,7 @@
             <name xml:lang="ru">Число списка</name>
             <name xml:lang="zh-TW">目錄數</name>
             <name xml:lang="tr">Liste Sayısı</name>
-            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+            <description xml:lang="ko">출력될 목록의 수를 정할 수 있습니다. (기본 5개)</description>
             <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
             <description xml:lang="jp">出力するリスト数を指定します（デフォルト5個）。</description>
             <description xml:lang="en">You can set the number of articles to be displayed. (default is 5)</description>
@@ -432,7 +432,7 @@
             <name xml:lang="ru">Длина темы</name>
             <name xml:lang="zh-TW">標題字數</name>
             <name xml:lang="tr">Konu Uzunluğu</name>
-            <description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
+            <description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비우면 자르지 않습니다)</description>
             <description xml:lang="jp">タイトルの文字数を設定します（「0」または空欄の場合は、文字数を制限しません）。</description>
             <description xml:lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
             <description xml:lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
@@ -454,7 +454,7 @@
         </var>
         <var id="module_srls">
             <type>module_srl_list</type>
-            <name xml:lang="ko">대상 모듈</name>
+            <name xml:lang="ko">대상 페이지</name>
             <name xml:lang="zh-CN">对象模块</name>
             <name xml:lang="jp">モジュール</name>
             <name xml:lang="en">Target Module</name>
@@ -463,7 +463,7 @@
             <name xml:lang="ru">Модуль назначения</name>
             <name xml:lang="zh-TW">目標模組</name>
             <name xml:lang="tr">Hedef Modül</name>
-            <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
+            <description xml:lang="ko">선택한 페이지에 등록된 글을 대상으로 합니다.</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="zh-CN">将把所选模块当中的主题作为对象。</description>
             <description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>

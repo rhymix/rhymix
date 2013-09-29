@@ -1,127 +1,132 @@
-<load target="js/member_admin.js" usecdn="true" />
 <load target="js/krzip_search.js" usecdn="true" />
+<load target="js/member_admin.js" />
 <!--%load_js_plugin("ui.datepicker")-->
-<script type="text/javascript" >
+<script>
 	xe.lang.deleteProfileImage = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
 </script>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div class="x_page-header">
+	<h1 cond="$member_srl">{$lang->msg_update_member}</h1>
+	<h1 cond="!$member_srl">{$lang->msg_new_member}</h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/insert_member/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="./" class="form" ruleset="insertAdminMember" method="post" enctype="multipart/form-data">
+<form action="./" class="x_form-horizontal" ruleset="insertAdminMember" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminInsert" />
 	<input type="hidden" name="member_srl" value="{$member_srl}" />
 	<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" cond="$member_srl" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispMemberAdminList')}" cond="!$member_srl" />
-	<h1 class="h1" cond="$member_srl">{$lang->msg_update_member}</h1>
-	<h1 class="h1" cond="!$member_srl">{$lang->msg_new_member}</h1>
-	<ul>
-		<li cond="$member_srl">
-			<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
-			<p class="a">
-				<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
-				<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
-			</p>
-		</li>
-		<li cond="!$member_srl">
-			<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
-			<p class="a">
-				<input type="text" name="{$identifierForm->name}" value="" />
-			</p>
-		</li>
-		<li cond="$member_srl">
-			<p class="q">{$lang->password} <em style="color:red">*</em></p>
-			<p class="a">
-				<input type="hidden" name="password" value="{$member_info->password}" />
-				<input type="text" name="reset_password" value="" />
-			</p>
-		</li>
-		<li cond="!$member_srl">
-			<p class="q">{$lang->password} <em style="color:red">*</em></p>
-			<p class="a">
-				<input type="text" name="password" value="" />
-			</p>
-		</li>
-		<li loop="$formTags=>$formTag">
-			<p class="q">{$formTag->title}</p>
-			<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
-			<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
-		</li>
-		<li>
-			<p class="q">{$lang->allow_mailing}</p>
-			<p class="a">
-				<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
-				<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
-			</p>
-		</li>
-		<li>
-			<p class="q">{$lang->allow_message}</p>
-			<p class="a">
-				<block loop="$lang->allow_message_type=>$key,$val">
-					<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info->member_srl && $key == 'Y')" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
-				</block>
-			</p>
-		</li>
-		<li>
-			<p class="q">{$lang->status}</p>
-			<p class="a">
-				<input type="radio" name="denied" id="appoval" value="N" checked="checked"|cond="$member_info->denied != 'Y'" > <label for="appoval">{$lang->approval}</label>
-				<input type="radio" name="denied" id="deny" value="Y" checked="checked"|cond="$member_info->denied == 'Y'" > <label for="deny">{$lang->denied}</label>
-			</p>
-		</li>
-		<li>
-			<p class="q"><label for="until">{$lang->limit_date}</label></p>
-			<p class="a">
-				<input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
-				<input type="text" class="inputDate" id="until" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
-				<input type="button" value="{$lang->cmd_delete}" class="dateRemover" />
-				<span class="desc">{$lang->about_limit_date}</span>
-			</p>
-		</li>
-		<li>
-			<p class="q">{$lang->is_admin}</p>
-			<p class="a">
-				<input type="radio" name="is_admin" id="is_admin" value="Y" checked="checked"|cond="$member_info->is_admin == 'Y'" > <label for="is_admin">{$lang->cmd_yes}</label>
-				<input type="radio" name="is_admin" id="not_admin" value="N" checked="checked"|cond="$member_info->is_admin != 'Y'" > <label for="not_admin">{$lang->cmd_no}</label>
-			</p>
-		</li>
-		<li>
-			<p class="q"><label for="description">{$lang->description}</label></p>
-			<p class="a">
-				<textarea name="description" id="description" rows="8" cols="42">{htmlspecialchars($member_info->description)}</textarea>
-				<span class="desc">{$lang->about_member_description}</span>
-			</p>
-		</li>
-		<li>
-			<p class="q">{$lang->member_group}</p>
-			<p class="a">
-				<!--@foreach($group_list as $key=>$val)-->
-					<input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="checked"<!--@end--> />
-					<label for="group_{$key}">{$val->title}</label>
-				<!--@end-->
-			</p>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<span class="btn medium"><input type="submit" value="{$lang->save}" /></span>
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/insert_member/1" />
+	<div cond="$member_srl" class="x_control-group">
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></label>
+		<div class="x_controls">
+			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
+			<input id="identifierForm" type="email" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
+		</div>
 	</div>
-	</table>
+	<div cond="!$member_srl" class="x_control-group">
+		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></label>
+		<div class="x_controls">
+			<input id="identifierForm" type="text" name="{$identifierForm->name}" value="" />
+		</div>
+	</div>
+	<div cond="$member_srl" class="x_control-group">
+		<label class="x_control-label" for="password"><em style="color:red">*</em> {$lang->password}</label>
+		<div class="x_controls">
+			<input type="hidden" name="password" value="{$member_info->password}" />
+			<input id="password" type="text" name="reset_password" value="" />
+		</div>
+	</div>
+	<div cond="!$member_srl" class="x_control-group">
+		<label class="x_control-label" for="password"><em style="color:red">*</em> {$lang->password}</label>
+		<div class="x_controls">
+			<input id="password" type="text" name="password" value="" />
+		</div>
+	</div>
+	<div loop="$formTags=>$formTag" class="x_control-group">
+		<label class="x_control-label" for="{$formTag->name}">{$formTag->title}</label>
+		<div class="x_controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
+		<div class="x_controls" cond="$formTag->name =='signature'">{$editor}</div>
+	</div>
+<style scoped>
+.xpress-editor>#smart_content,
+.xpress-editor>#smart_content>.tool{clear:none}
+</style>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->allow_mailing}</label>
+		<div class="x_controls">
+			<label class="x_inline" for="mailingYes"><input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="mailingNo"><input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > {$lang->cmd_no}</label>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->allow_message}</label>
+		<div class="x_controls">
+			<block loop="$lang->allow_message_type=>$key,$val">
+				 <label class="x_inline" for="allow_{$key}"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info->member_srl && $key == 'Y')" id="allow_{$key}" /> {$val}</label>
+			</block>
+		</div>
+	</div>
+	<div class="x_control-group" cond="$member_srl">
+		<label class="x_control-label">{$lang->status}</label>
+		<div class="x_controls">
+			<label class="x_inline" for="appoval"><input type="radio" name="denied" id="appoval" value="N" checked="checked"|cond="$member_info->denied != 'Y'" > {$lang->approval}</label>
+			<label class="x_inline" for="deny"><input type="radio" name="denied" id="deny" value="Y" checked="checked"|cond="$member_info->denied == 'Y'" > {$lang->denied}</label>
+		</div>
+	</div>
+	<div class="x_control-group" cond="$member_srl">
+		<label class="x_control-label" for="until">{$lang->limit_date}</label>
+		<div class="x_controls">
+			<input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
+			<input type="text" readonly placeholder="YYYY-MM-DD" class="inputDate" id="until" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
+			<input type="button" value="{$lang->cmd_delete}" class="x_btn dateRemover" />
+			<span class="x_help-inline">{$lang->about_limit_date}</span>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->is_admin}</label>
+		<div class="x_controls">
+			<label class="x_inline" for="is_admin"><input type="radio" name="is_admin" id="is_admin" value="Y" checked="checked"|cond="$member_info->is_admin == 'Y'" > {$lang->cmd_yes}</label>
+			<label class="x_inline" for="not_admin"><input type="radio" name="is_admin" id="not_admin" value="N" checked="checked"|cond="$member_info->is_admin != 'Y'" > {$lang->cmd_no}</label>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="description">{$lang->description}</label>
+		<div class="x_controls">
+			<textarea name="description" id="description" rows="2" cols="42" style="vertical-align:top">{$member_info->description}</textarea>
+			<span class="x_help-inline">{$lang->about_member_description}</span>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->member_group}</label>
+		<div class="x_controls">
+			<label for="group_{$key}" class="x_inline" loop="$group_list => $key,$val">
+				<input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" checked="checked"|cond="$member_info->group_list[$key]" />
+				{$val->title}
+			</label>
+		</div>
+	</div>
+	<div class="x_clearfix btnArea">
+		<span class="x_pull-left" cond="$member_srl"><button class="x_btn" type="button" onclick="history.go(-1)">{$lang->cmd_cancel}</button></span>
+		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
 </form>
-<script type="text/javascript">
+<script>
 (function($){
     $(function(){
         var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
-
             $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
         };
         $.extend(option,$.datepicker.regional['{$lang_type}']);
         $(".inputDate").datepicker(option);
 		$(".dateRemover").click(function() {
 			$(this).prevAll('input').val('');
-			return false;});
+			return false;
+		});
     });
 })(jQuery);
 </script>

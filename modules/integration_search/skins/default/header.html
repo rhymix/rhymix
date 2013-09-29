@@ -17,8 +17,8 @@
             <input type="hidden" name="act" value="IS" />
             <input type="hidden" name="where" value="{$where}" />
 			<input type="hidden" name="search_target" value="title_content" />
-            <input name="is_keyword" type="text" class="iText" value="{$is_keyword}"/>
-            <span class="button large strong black"><input type="submit" value="{$lang->cmd_search}" /></span>
+            <input name="is_keyword" type="text" required value="{$is_keyword}"/>
+            <input type="submit" value="{$lang->cmd_search}" />
         </form>
     </div>
 

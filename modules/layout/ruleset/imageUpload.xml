@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ruleset version="1.5.0">
     <customrules>
-		<rule name="imageExtension" type="regex" test="/\.(gif|jpg|jpeg|gif|png|swf|flv)$/i"  />
+		<rule name="imageExtension" type="regex" test="/\.(gif|jpg|jpeg|gif|png|swf|flv)$/i">
+			<message xml:lang="ko">%s은 gif, png, jpg, swf, flv 파일만 가능합니다.</message>
+		</rule>
     </customrules>
     <fields>
-		<field name="user_layout_image['name']" required="true" rule="imageExtension" />
+		<field name="user_layout_image" required="true" rule="imageExtension">
+			<title xml:lang="ko">파일</title>
+		</field>
 		<field name="layout_srl" required="true" rule="number" />
     </fields>
 </ruleset>

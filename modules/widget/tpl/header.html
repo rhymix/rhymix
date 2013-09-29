@@ -1,4 +1,14 @@
-<h1 class="h1">{$lang->installed_widgets}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div class="x_page-header">
+	<h1>
+		{$lang->installed_widgets} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_advanced_installed_widget" target="_blank">{$lang->help}</a>
+		<span class="path" cond="$widget_info">
+			&gt; {$widget_info->title} <a cond="$widget_info" href="#widgetInfo" class="x_icon-question-sign" data-toggle>{$lang->help}</a> 
+		</span>
+		<span class="path" cond="$widget_info">
+			&gt; {$lang->cmd_generate_code} <a href="#codeHelp" class="x_icon-question-sign" data-toggle style="vertical-align:middle">{$lang->help}</a>
+		</span>
+	</h1>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/uninstall/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>

@@ -10,7 +10,7 @@
     <title xml:lang="zh-TW">會員模組預設面板</title>
     <title xml:lang="tr">Varsayılan Kullanıcı Dış Görünümü</title>
     <description xml:lang="ko">
-        회원모듈의 default스킨
+        회원 기본 스킨
         NHN (developers@xpressengine.com)
     </description>
     <description xml:lang="zh-CN">
@@ -22,7 +22,7 @@
         NHN (developers@xpressengine.com)
     </description>
     <description xml:lang="en">
-        The default skin of the member module
+        The default skin of the member
         NHN (developers@xpressengine.com)
     </description>
     <description xml:lang="vi">

@@ -71,7 +71,7 @@ if(jQuery) jQuery.noConflict();
                 (options.doClick == true) ? obj.click() : obj.attr('checked', options.checked);
             }
         },
-
+		
         /**
          * @brief 문서/회원 등 팝업 메뉴 출력
          */
@@ -106,9 +106,6 @@ if(jQuery) jQuery.noConflict();
                                         click_str = " onclick=\""+url+"; return false; \"";
                                         url="#";
                                     break;
-                                default :
-                                        click_str = " onclick=\"window.open(this.href); return false;\"";
-                                    break;
                             }
 
                             html += '<li '+styleText+'><a href="'+url+'"'+click_str+'>'+str+'</a></li> ';
@@ -128,17 +125,21 @@ if(jQuery) jQuery.noConflict();
                 if(area.outerWidth()+areaOffset.left > $(window).width()+$(window).scrollLeft())
                     areaOffset.left = $(window).width() - area.outerWidth() + $(window).scrollLeft();
 
-                area.css({ top:areaOffset.top, left:areaOffset.left }).show();
+                area.css({ top:areaOffset.top, left:areaOffset.left }).show().focus();
             }
         }
     }
-
 }) (jQuery);
 
 
 
 /* jQuery(document).ready() */
 jQuery(function($) {
+
+	// Anchor: focus move to target
+	$('a[href^="#"]').click(function(){
+		$($(this).attr('href')).attr('tabindex','0').focus();
+	});
 
     /* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
     if($.browser.msie) {
@@ -351,7 +352,7 @@ function winopen(url, target, attribute) {
 function popopen(url, target) {
     if(typeof(target) == "undefined") target = "_blank";
     if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
-    winopen(url, target, "width=650,height=500,scrollbars=yes,resizable=yes,toolbars=no");
+    winopen(url, target, "width=800,height=600,scrollbars=yes,resizable=yes,toolbars=no");
 }
 
 /**
@@ -471,7 +472,7 @@ function setFixedPopupSize() {
 	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
 	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
 
-	if(w < 600) w = 600 + offset.left*2;
+	if(w < 800) w = 800 + offset.left*2;
 
 	dw = $win.width();
 	dh = $win.height();
@@ -829,25 +830,6 @@ function toggleDisplay(objId) {
     jQuery('#'+objId).toggle();
 }
 
-/* 체크박스 선택 */
-function checkboxSelectAll(formObj, name, checked) {
-    var itemName = name;
-    var option = {};
-    if(typeof(formObj) != "undefined") option.wrap = formObj;
-    if(typeof(checked) != "undefined") option.checked = checked;
-
-    XE.checkboxToggleAll(itemName, option);
-}
-
-/* 체크박스를 실행 */
-function clickCheckBoxAll(formObj, name) {
-    var itemName = name;
-    var option = { doClick:true };
-    if(typeof(formObj) != "undefined") option.wrap = formObj;
-
-    XE.checkboxToggleAll(itemName, option);
-}
-
 /**
  * @brief 에디터에서 사용하되 내용 여닫는 코드 (zb5beta beta 호환용으로 남겨 놓음)
  **/
@@ -924,21 +906,10 @@ function get_by_id(id) {
 }
 
 jQuery(function($){
-    $('.lang_code').each(
-		function() 
-		{
-			var objText = $(this);
-			var targetName = objText.attr("id");
-			if(typeof(targetName) == "undefined") targetName = objText.attr("name");
-			if(typeof(targetName) == "undefined") return;
-			objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>"); 
-		}
-    );
-
 	// display popup menu that contains member actions and document actions
 	$(document).click(function(evt) {
 		var $area = $('#popup_menu_area');
-		if(!$area.length) $area = $('<div id="popup_menu_area" style="display:none;z-index:9999" />').appendTo(document.body);
+		if(!$area.length) $area = $('<div id="popup_menu_area" tabindex="0" style="display:none;z-index:9999" />').appendTo(document.body);
 
 		// 이전에 호출되었을지 모르는 팝업메뉴 숨김
 		$area.hide();

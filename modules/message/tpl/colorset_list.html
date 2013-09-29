@@ -1,0 +1,16 @@
+<!--@foreach($skin_info->colorset as $key => $val)-->
+	<!--@if($val->screenshot)-->
+		{@ $_img_info = getImageSize($val->screenshot); $_height =
+		$_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
+	<!--@else-->
+		{@ $_width = 200; $_height = 20; $_talign = "left"; }
+	<!--@end-->
+	<div style="display: inline-block; *display: inline; *zoom: 1; text-align: {$_talign}">
+		<label for="<!--@if($type == 'M')-->m<!--@end-->colorset_{$key}" class="x_inline">
+			<input type="radio" name="<!--@if($type == 'M')-->m<!--@end-->colorset" value="{$val->name}" id="<!--@if($type == 'M')-->m<!--@end-->colorset_{$key}" <!--@if(($type == 'M' && $config->mcolorset==$val->name) || ($type == 'P' && $config->colorset==$val->name))-->checked="checked"<!--@end-->/>{$val->title}
+		</label>
+		<!--@if($val->screenshot)-->
+			<br /> <img src="../../../{$val->screenshot}" alt="{$val->title}" style="border: 1px solid #888888; padding: 2px; margin: 2px;" />
+		<!--@end-->
+	</div>
+<!--@end-->

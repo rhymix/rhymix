@@ -1,97 +1,131 @@
-<!--#include("header.html")-->
-<script type="text/javascript">
+<include target="header.html" />
+<script>
 xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
-<load target="js/comment_admin.js" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/comment/tpl/comment_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form id="fo_list" action="./" method="post" class="form">
-	<h1 class="h1">{$lang->comment}</h1>
-	<div class="table even">
-		<div class="cnb">
-			<a href="{getUrl('search_keyword','','act','dispCommentAdminList', 'Y')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>{$lang->all}</a>
-			| <a href="{getUrl('search_target','is_secret','search_keyword', 'N')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="active"<!--@end-->>{$secret_name_list['N']}</a>
-			| <a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$secret_name_list['Y']}</a>
-			| <a href="{getUrl('search_target','is_published','search_keyword', 'N')}" <!--@if($search_target == 'is_published' && $search_keyword == 'N')-->class="active"<!--@end-->>{$lang->published_name_list['N']}</a>
-			| <a href="{getUrl('search_target','is_published','search_keyword', 'Y')}" <!--@if($search_target == 'is_published' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$lang->published_name_list['Y']}</a>
-
-			<block cond="$modules_list">
-			| <label for="comment_modules" <!--@if($search_target == 'module')-->class="active"<!--@end-->>{$lang->select_module}:
-			<select id="comment_modules" name="comment_modules" onchange="location.href='{getUrl('search_target','module','search_keyword','')}&amp;search_keyword='+this.value">
-				<option></option>
-				<!--@foreach($modules_list as $key => $node)-->
-				<option value="{$key}"<!--@if($key==$search_keyword)-->selected<!--@end-->>{$node}</option>
-				<!--@end-->
-			</select></label>
-			</block>
-		</div>
-		<table width="100%" border="1" cellspacing="0" id="commentListTable">
-			<caption>
-				<!--@if($search_keyword == '')-->
-				{$lang->all}
-				<!--@elseif($search_target == 'is_secret' && $search_keyword == 'N')-->
-				{$secret_name_list['N']}
-				<!--@elseif($search_target == 'is_secret' && $search_keyword == 'Y')-->
-				{$secret_name_list['Y']}
-				<!--@elseif($search_target == 'is_published' && $search_keyword == 'N')-->
-				{$published_name_list['N']}
-				<!--@elseif($search_target == 'is_published' && $search_keyword == 'Y')-->
-				{$published_name_list['Y']}
-				<!--@end-->
-				({number_format($total_count)})
-				<div class="side">
-					<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a></span>
-				</div>
-			</caption>
-			<thead>
-				<tr>
-					<th scope="col" class="text">{$lang->comment}</th>
-					<th scope="col" class="nowr">{$lang->writer}</th>
-					<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
-					<th scope="col" class="nowr">{$lang->date}</th>
-					<th scope="col" class="nowr">{$lang->ipaddress}</th>
-					<th scope="col" class="nowr">{$lang->status}</th>
-					<th scope="col">{$lang->published}</th>
-					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<th scope="col" class="text">{$lang->comment}</th>
-					<th scope="col" class="nowr">{$lang->writer}</th>
-					<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
-					<th scope="col" class="nowr">{$lang->date}</th>
-					<th scope="col" class="nowr">{$lang->ipaddress}</th>
-					<th scope="col" class="nowr">{$lang->status}</th>
-					<th scope="col">{$lang->published}</th>
-					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
-				</tr>
-			</tfoot>
-			<tbody>
-				<!--@foreach($comment_list as $no => $val)-->
-				{@ $comment = cut_str(trim(strip_tags($val->content)), 200, '...')}
-				<tr>
-					<td class="text"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
-					<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
-					<td class="nowr">{number_format($val->get('voted_count'))}/{number_format($val->get('blamed_count'))}</td>
-					<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
-					<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-					<td class="nowr"><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
-					<td class="nowr"><!--@if($val->status)-->{$lang->published_name_list['Y']}<!--@else-->{$lang->published_name_list['N']}<!--@end--></td>
-					<td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
-				</tr>
-				<!--@end-->
-			</tbody>
-		</table>
-		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a></span>
-		</div>
+<form id="fo_list" action="./" method="post">
+	<table id="commentListTable" class="x_table x_table-striped x_table-hover">
+		<caption>
+			<a href="{getUrl('','module','admin','act','dispCommentAdminList','Y')}" class="active"|cond="$search_keyword == ''">{$lang->all}<block cond="$search_keyword == ''">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','is_secret','search_keyword','N')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'N'">{$secret_name_list['N']}<block cond="$search_target == 'is_secret' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','is_secret','search_keyword','Y')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'">{$secret_name_list['Y']}<block cond="$search_target == 'is_secret' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','is_published','search_keyword','N')}" class="active"|cond="$search_target == 'is_published' && $search_keyword == 'N'">{$lang->published_name_list['N']}<block cond="$search_target == 'is_published' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('search_target','is_published','search_keyword','Y')}" class="active"|cond="$search_target == 'is_published' && $search_keyword == 'Y'">{$lang->published_name_list['Y']}<block cond="$search_target == 'is_published' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
+			<i>|</i>
+			<a href="{getUrl('', 'module', 'admin', 'act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a>
+			<i cond="$search_target == 'ipaddress'">|</i>
+			<a href="{getUrl('search_target', 'ipaddress')}" class="active" cond="$search_target == 'ipaddress'">{$lang->ipaddress}:{$search_keyword}({number_format($total_count)})</a>
+			
+			<div class="x_btn-group x_pull-right">
+				<a href="#listManager" class="x_btn modalAnchor" data-value="true" data-name="is_trash">{$lang->trash}</a>
+				<a href="#listManager" class="x_btn modalAnchor" data-value="false" data-name="is_trash">{$lang->delete}</a>
+				<a href="#listManager" class="x_btn modalAnchor" data-value="0" data-name="will_publish" cond="$search_target=='is_published' && $search_keyword=='Y'">{$lang->cmd_unpublish}</a>
+				<a href="#listManager" class="x_btn modalAnchor" data-value="1" data-name="will_publish" cond="$search_target=='is_published' && $search_keyword=='N'">{$lang->cmd_publish}</a>
+				<a href="#listManager" class="x_btn modalAnchor" data-value="0" data-name="will_publish" cond="$search_target!='is_published'">{$lang->cmd_unpublish}</a>
+				<a href="#listManager" class="x_btn modalAnchor" data-value="1" data-name="will_publish" cond="$search_target!='is_published'">{$lang->cmd_publish}</a>
+			</div>
+		</caption>
+		<thead>
+			<tr>
+				<th scope="col">{$lang->comment}</th>
+				<th scope="col" class="nowr">{$lang->writer}</th>
+				<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+				<th scope="col" class="nowr">{$lang->date}</th>
+				<th scope="col" class="nowr">{$lang->ipaddress}</th>
+				<th scope="col" class="nowr">{$lang->status}</th>
+				<th scope="col" class="nowr">{$lang->published}</th>
+				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$comment_list => $no, $val">
+				{@ $comment = $val->getContentText(200)}
+				<td><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
+				<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->getNickName()}</a></td>
+				<td class="nowr">{number_format($val->get('voted_count'))}/{number_format($val->get('blamed_count'))}</td>
+				<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
+				<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
+				<td class="nowr"><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
+				<td class="nowr"><!--@if($val->status)-->{$lang->published_name_list['Y']}<!--@else-->{$lang->published_name_list['N']}<!--@end--></td>
+				<td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
+			</tr>
+			<tr cond="!$comment_list">
+				<td>{$lang->no_documents}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="x_btn-group x_pull-right">
+		<a href="#listManager" class="x_btn modalAnchor" data-value="true" data-name="is_trash">{$lang->trash}</a>
+		<a href="#listManager" class="x_btn modalAnchor" data-value="false" data-name="is_trash">{$lang->delete}</a>
+		<a href="#listManager" class="x_btn modalAnchor" data-value="0" data-name="will_publish" cond="$search_target=='is_published' && $search_keyword=='Y'">{$lang->cmd_unpublish}</a>
+		<a href="#listManager" class="x_btn modalAnchor" data-value="1" data-name="will_publish" cond="$search_target=='is_published' && $search_keyword=='N'">{$lang->cmd_publish}</a>
+		<a href="#listManager" class="x_btn modalAnchor" data-value="0" data-name="will_publish" cond="$search_target!='is_published'">{$lang->cmd_unpublish}</a>
+		<a href="#listManager" class="x_btn modalAnchor" data-value="1" data-name="will_publish" cond="$search_target!='is_published'">{$lang->cmd_publish}</a>
 	</div>
 </form>
-<div class="modal" id="listManager">
-	<form ruleset="deleteChecked" action="./" method="post" class="fg form">
+
+
+<form action="./" class="x_pagination">
+	<input type="hidden" name="error_return_url" value="" />
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+  	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+  	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+	<ul>
+		<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+		{@$isGoTo = true}
+		<li>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+			<span cond="$isGoTo" id="goTo" class="x_input-append">
+				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit" class="x_add-on">Go</button>
+			</span>
+		</li>
+		</block>
+
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		{@$last_page = $page_no}
+		<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+
+		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+		{@$isGoTo = true}
+		<li>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+			<span cond="$isGoTo" id="goTo" class="x_input-append">
+				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit" class="x_add-on">Go</button>
+			</span>
+		</li>
+		</block>
+		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+	</ul>
+</form>
+
+<form action="./" method="get" class="search center x_input-append" onsubmit="return checkSearch(this)">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input type="hidden" name="module_srl" value="{$module_srl}" />
+	<input type="hidden" name="error_return_url" value="" />
+	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
+		<!--@foreach($lang->search_target_list as $key => $val)-->
+		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+		<!--@end-->
+	</select>
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+	<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
+	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
+</form>
+
+<form ruleset="deleteChecked" action="./" method="post" class="x_modal x" id="listManager">
 	<input type="hidden" name="module" value="comment" />
 	<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
@@ -99,86 +133,64 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="will_publish" value="0" />
 	<input type="hidden" name="search_target" value="{$search_target}" />
 	<input type="hidden" name="search_keyword" value="{$search_keyword}" />
-		<h2 class="h2">{$lang->comment_manager}</h2>
-		<div class="table even">
-			<table width="100%" border="1" cellspacing="0" id="commentManageListTable">
-				<caption>
-				{$lang->selected_comment} <strong id="selectedCommentCount"></strong>
-				</caption>
-				<thead>
-					<tr>
-						<th scope="col" class="title">{$lang->comment}</th>
-						<th scope="col" class="nowr">{$lang->writer}</th>
-						<th scope="col" class="nowr">{$lang->status}</th>
-						<th scope="col">{$lang->published}</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
+	<input type="hidden" name="xe_validator_id" value="modules/comment/tpl/comment_list/1" />
+	<div class="x_modal-header">
+		<h1>{$lang->comment_manager}: <span class="_sub"></span></h1>
+	</div>
+	<div class="x_modal-body">
+		<table id="commentManageListTable" class="x_table x_table-striped x_table-hover">
+			<caption>
+				<strong>{$lang->selected_comment} <span id="selectedCommentCount"></span></strong>
+			</caption>
+			<thead>
+				<tr>
+					<th scope="col" class="title">{$lang->comment}</th>
+					<th scope="col" class="nowr">{$lang->writer}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
+					<th scope="col">{$lang->published}</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<div class="x_control-group" style="margin:15px 14px 0 0">
+			<label for="message">{$lang->message_notice}</label>
+			<textarea rows="4" cols="42" name="message_content" id="message" style="width:100%"></textarea>
 		</div>
-		<p class="q"><label for="message">{$lang->message_notice}</label></p>
-		<p>
-			<textarea rows="8" cols="42" name="message_content" id="message" style="width:98%"></textarea>
-		</p>
-		<div class="btnArea">
-			<!--@if ($search_target=='is_published' && $search_keyword=="N")-->
-				<span class="btn"><button type="submit" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button></span>
-			<!--@elseif ($search_target=='is_published' && $search_keyword=="Y")-->
-				<span class="btn"><button type="submit" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button></span>
-			<!--@else-->
-				<span class="btn"><button type="submit" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button></span>
-				<span class="btn"><button type="submit" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button></span>
-			<!--@end-->
-			<span class="btn"><button type="submit" name="is_trash" value="true">{$lang->cmd_trash}</button></span>
-			<span class="btn"><button type="submit" name="is_trash" value="false">{$lang->cmd_delete}</button></span>
-		</div>
-	</form>
-</div>
-<div class="search">
-<form action="./" class="pagination">
-	<input type="hidden" name="error_return_url" value="" />
-	<input type="hidden" name="module" value="{$module}" />
-	<input type="hidden" name="act" value="{$act}" />
-  	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
-  	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
-
-	<a href="{getUrl('page', '')}" class="direction">&laquo; {$lang->first_page}</a>
-	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-	</block>
-	<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<strong cond="$page_no == $page">{$page_no}</strong>
-		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-	<!--@end-->
-	<block cond="$last_page != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-	</block>
-	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">{$lang->last_page} &raquo;</a>
-	<span cond="$isGoTo" id="goTo" class="tgContent">
-		<input name="page" title="{$lang->cmd_go_to_page}" />
-		<button type="submit">Go</button>
-	</span>
+	</div>
+	<div class="x_modal-footer">
+		<button type="submit" class="x_btn x_btn-inverse x_pull-right" name="is_trash|will_publish" value="true|false|0|1">{$lang->cmd_confirm}</button>
+	</div>
 </form>
-
-	<form action="./" method="get" class="adminSearch" onsubmit="return checkSearch(this)">
-	<input type="hidden" name="module" value="{$module}" />
-	<input type="hidden" name="act" value="{$act}" />
-	<input type="hidden" name="module_srl" value="{$module_srl}" />
-	<input type="hidden" name="error_return_url" value="" />
-		<select name="search_target">
-			<option value="">{$lang->search_target}</option>
-			<!--@foreach($lang->search_target_list as $key => $val)-->
-			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-			<!--@end-->
-		</select>
-		<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-		<input type="submit" value="{$lang->cmd_search}" />
-		<a href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
-	</form>
-</div>
+<script>
+jQuery(function($){
+	// Modal anchor activation
+	var $docTable = $('#commentListTable');
+	$docTable.find(':checkbox').change(function(){
+		var $modalAnchor = $('a[data-value]');
+		if($docTable.find('tbody :checked').length == 0){
+			$modalAnchor.removeAttr('href').addClass('x_disabled');
+		} else {
+			$modalAnchor.attr('href','#listManager').removeClass('x_disabled');
+		}
+	}).change();
+	// Button action
+	$('a[data-value]').bind('before-open.mw', function(){
+		if($docTable.find('tbody :checked').length == 0){
+			$('body').css('overflow','auto');
+			alert('{$lang->msg_not_selected_comment}');
+			return false;
+		} else {
+			var $this = $(this);
+			var thisValue = $this.attr('data-value');
+			var thisName = $this.attr('data-name');
+			var thisText = $this.text();
+			getCommentList();
+			$('#listManager').find('.x_modal-header ._sub').text(thisText).end().find('[type="submit"]:eq(0)').val(thisValue).attr('name', thisName).text(thisText);
+		}
+	});
+	$('.x_modal-footer').on("click", '[type="submit"][name="will_publish"]', function(){
+		doChangePublishedStatus($(this).val());
+	});
+});
+</script>

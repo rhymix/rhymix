@@ -11,14 +11,14 @@
 		<value xml:lang="vi"><![CDATA[Thông báo]]></value>
 	</item>
 	<item name="about_communication">
-		<value xml:lang="ko"><![CDATA[회원 간의 쪽지나 친구 관리 등 커뮤니케이션 기능을 수행하는 모듈입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원 간의 쪽지나 친구 관리 등 커뮤니케이션 기능을 수행합니다. 이 기능을 사용하려면 [설치된 애드온] &gt; [커뮤니케이션] 애드온을 활성화 하세요.]]></value>
 		<value xml:lang="en"><![CDATA[This module is used for communication between members, such as exchanging messages or mamaging friends.]]></value>
 		<value xml:lang="jp"><![CDATA[会員間でメッセージや友達管理などコミュニティ機能を提供するモジュールです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[管理在线会员间短信息及好友功能的模块。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[管理短訊息及好友功能的模組。]]></value>
 		<value xml:lang="fr"><![CDATA[Ce module exécute des fonctions communicatives comme Messages ou Amis]]></value>
 		<value xml:lang="ru"><![CDATA[Модуль для общения между пользователями]]></value>
-		<value xml:lang="es"><![CDATA[회원간의 쪽지나 친구 관리등 커뮤니케이션 기능을 수행하는 모듈입니다]]></value>
+		<value xml:lang="es"><![CDATA[회원간의 쪽지나 친구 관리 등 커뮤니케이션 기능을 수행합니다]]></value>
 		<value xml:lang="tr"><![CDATA[İletişim modülü; üyelerin, mesajlaşması ve arkadaşlarıyla iletişimleri için kullanılan modüldür.]]></value>
 		<value xml:lang="vi"><![CDATA[Module này thực hiện chức năng giao tiếp, tin nhắn hay bạn bè.]]></value>
 	</item>
@@ -217,6 +217,18 @@
 		<value xml:lang="tr"><![CDATA[Arkadaş Ekle]]></value>
 		<value xml:lang="vi"><![CDATA[Thêm bạn]]></value>
 	</item>
+	<item name="cmd_message_box">
+		<value xml:lang="ko"><![CDATA[쪽지함]]></value>
+		<value xml:lang="en"><![CDATA[Message Box]]></value>
+		<value xml:lang="jp"><![CDATA[メッセージ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[短信箱]]></value>
+		<value xml:lang="zh-TW"><![CDATA[短訊箱]]></value>
+		<value xml:lang="fr"><![CDATA[Lire des Messages]]></value>
+		<value xml:lang="ru"><![CDATA[Личные сообщений]]></value>
+		<value xml:lang="es"><![CDATA[Buzón de mensajes]]></value>
+		<value xml:lang="tr"><![CDATA[Mesaj Kutusu]]></value>
+		<value xml:lang="vi"><![CDATA[Hộp tin nhắn]]></value>
+	</item>
 	<item name="cmd_view_message_box">
 		<value xml:lang="ko"><![CDATA[쪽지함 보기]]></value>
 		<value xml:lang="en"><![CDATA[Message Box]]></value>
@@ -358,5 +370,9 @@
 		<value xml:lang="ko"><![CDATA[저작자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Send a message to the author about this. If you don't write a message, it is not sent.]]></value>
 		<value xml:lang="jp"><![CDATA[作成者にメッセージを送信し、知らせます。作成しなければ送信されません。]]></value>
+	</item>
+	<item name="friends_page_does_not_support">
+		<value xml:lang="ko"><![CDATA[모바일 환경에서는 친구 보기 페이지를 지원하지 않습니다. PC 화면으로 이동하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Friends in a mobile environment is not supported. Please go to the PC page.]]></value>
 	</item>
 </lang>

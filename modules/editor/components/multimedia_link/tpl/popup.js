@@ -11,11 +11,11 @@ jQuery(function($){
 	if(!$node.length) return;
 
 	attrs = {
-		url     : $node.attr('multimedia_src'),
-		caption : $node.attr('alt'),
-		width   : $node.width() - 4,
-		height  : $node.height() - 4,
-		wmode   : $node.attr('wmode')
+		url     : $node.attr('multimedia_src') || null,
+		caption : $node.attr('alt') || null,
+		width   : $node.width() || 400,
+		height  : $node.height() || 400,
+		wmode   : $node.attr('wmode') || null
 	};
 
 	$.each(attrs, function(key, val) {
@@ -45,17 +45,30 @@ $('.btnArea button').click(function(){
 	  return;
 	}
 
-	var html = '<img src="../../../../common/img/blank.gif" editor_component="multimedia_link" multimedia_src="" width="" height="" wmode="" style="display:block;width:'+attrs.width+'px;height:'+attrs.height+'px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center" auto_start="" alt="" />';
+	var $selected_node = $(opener.editorPrevNode);
+	if($selected_node.is('img') && $selected_node.attr('editor_component') == 'multimedia_link'){
+		$selected_node
+			.attr('multimedia_src', attrs.multimedia_src)
+			.attr('width', attrs.width)
+			.attr('height', attrs.height)
+			.attr('wmode', attrs.wmode)
+			.attr('auto_start', attrs.auto_start)
+			.attr('alt', attrs.alt)
+			.css('width', attrs.width + 'px')
+			.css('height', attrs.height + 'px')
+	}else{
+		var html = '<img src="../../../../common/img/blank.gif" editor_component="multimedia_link" multimedia_src="" width="" height="" wmode="" style="display:block;width:'+attrs.width+'px;height:'+attrs.height+'px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center" auto_start="" alt="" />';
 
-	html = html.replace(/(\w+)=""/g, function(m0,m1) {
-		return attrs[m1] ? (m1+'="'+attrs[m1]+'"') : '';
-	});
+		html = html.replace(/(\w+)=""/g, function(m0,m1) {
+			return attrs[m1] ? (m1+'="'+attrs[m1]+'"') : '';
+		});
 
-	opener.editorFocus(opener.editorPrevSrl);
+		opener.editorFocus(opener.editorPrevSrl);
 
-	var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
+		var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
 
-	opener.editorReplaceHTML(iframe_obj, html);
+		opener.editorReplaceHTML(iframe_obj, html);
+	}
 	opener.editorFocus(opener.editorPrevSrl);
 
 	window.close();

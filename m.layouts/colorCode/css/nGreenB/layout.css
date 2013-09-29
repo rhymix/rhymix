@@ -16,7 +16,7 @@ a {color: inherit;text-decoration: none;}
 .blind{font-size: 0;height: 0;line-height: 0;overflow: hidden;position: absolute;width: 0;}
 
 .skip{font-size: 0;height: 0;left: -1000em;line-height: 0;overflow: hidden;position: absolute;visibility: hidden;width: 0;}
-.lo_head{width:100%;height:39px;border-bottom:1px solid #148e0f;padding-top:16px;background:#11b504}
+.lo_head{position:relative;width:100%;height:39px;border-bottom:1px solid #148e0f;padding-top:16px;background:#11b504}
 .lo_head:after{content:'';display:block;clear:both}
 .lo_head a[class^="btn_"]{width:51px;height:38px;position:absolute;top:11px;overflow:hidden;}
 .btn_home{left:5px;text-indent:-999em;background:url('../../img/nGreenB/btn_home_fda.png') no-repeat left top;background-size:51px 38px;}

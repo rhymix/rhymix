@@ -673,4 +673,3 @@ function xStopPropagation(evt)
   if (evt && evt.stopPropagation) evt.stopPropagation();
   else if (window.event) window.event.cancelBubble = true;
 }
-

@@ -1,118 +1,83 @@
 <include target="./header.html" />
 <load target="js/importer_admin.js" usecdn="true" />
-
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/importer/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
+<form class="section" action="./" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
 	<input type="hidden" name="act" value="" />
 	<input type="hidden" name="type" value="module" />
 	<input type="hidden" name="unit_count" value="10" />
-	<h2 class="h2">{$lang->type_module}</h2>
-	<ul>
-		<li>
-			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
-			<p class="a checkxml">
-				<input type="text" name="xml_file" value="./" />
-				<button type="button">{$lang->cmd_check_path}</button>
-				<em class="desc"></em><!--//class="error|success"-->
-			</p>
-		</li>
-		<li class="xml ttxml modulefinder">
-		<p class="q">{$lang->data_destination} <br />{$lang->import_desc}</p>
-			<div class="a">
-				<input type="text" name="site_keyword" /> <a href="#suggestion1" class="tgAnchor findsite">{$lang->find_site}</a>
-				<div id="suggestion1" class="tgContent suggestion">
-					<ul></ul>
-				</div>
-			</div>
-			<p class="a">
-				<select class="moduleList" style="width:290px">
-					<option>{$lang->select_module}</option>
-				</select>
-			</p>
-			<p class="a">
-				<select class="moduleIdList" style="width:290px" name="target_module">
-					<option>{$lang->select_module_id}</option>
-				</select>
-			</p>
-		</li>
-		<li class="ttxml modulefinder">
-			<p class="q">{$lang->guestbook_destination}</p>
-			<div class="a">
-				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->find_site}</a>
-				<div id="suggestion3" class="tgContent suggestion">
-					<ul></ul>
-				</div>
-			</div>
-			<p class="a">
-				<select class="moduleList" style="width:290px">
-					<option>{$lang->select_module}</option>
-				</select>
-			</p>
-			<p class="a">
-				<select class="moduleIdList" style="width:290px" name="guestbook_target_module">
-					<option>{$lang->select_module_id}</option>
-				</select>
-			</p>
-		</li>
-		<li class="ttxml">
-			<p class="q">{$lang->about_ttxml_user_id}</p>
-			<p class="a"><input type="text" name="user_id" value="{$logged_info->user_id}" /></p>
-		</li>
-		<li class="syncmember">
-			<p class="q">{$lang->import_step_desc[3]}</p>
-			<p class="a"><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</p>
-		</li>
-	</ul>
+	<input type="hidden" name="xe_validator_id" value="modules/importer/tpl/index/1" />
+	<h2>{$lang->type_module}</h2>
+	<div class="x_control-group checkxml">
+		<span class="x_input-append">
+			<label>{$lang->xml_path}</label>
+			<input type="text" name="xml_file" value="./" style="width:280px;font:11px Tahoma, Geneva, sans-serif" />
+			<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
+		</span>
+		<p class="x_help-inline" style="line-height:26px"></p>
+	</div>
+	<div class="x_control-group xml ttxml">
+		<label>{$lang->data_destination}</label>
+		<input type="text" name="target_module" class="module_search" />
+	</div>
+	<div class="x_control-group ttxml">
+		<label>{$lang->guestbook_destination}</label>
+		<input type="text" name="guestbook_target_module" class="module_search" />
+	</div>
+	<div class="ttxml x_control-group">
+		<label>{$lang->about_ttxml_user_id}</label>
+		<input type="text" name="user_id" value="{$logged_info->user_id}" />
+	</div>
+	<div class="syncmember x_control-group">
+		<label><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</label>
+		<p class="x_help-block">{$lang->import_step_desc[3]}</p>
+	</div>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'memberForm')" id="memberForm">
+<form class="section" action="./" method="get" onsubmit="return doPreProcessing(this, 'memberForm')" id="memberForm">
 	<input type="hidden" name="type" value="member" />
 	<input type="hidden" name="unit_count" value="100" />
-	<h2 class="h2">{$lang->type_member}</h2>
-	<ul>
-		<li>
-			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
-			<p class="a checkxml">
-				<input type="text" name="xml_file" value="./" />
-				<button type="button">{$lang->cmd_check_path}</button>
-				<em class="desc">{$lang->msg_no_xml_file}</em>
-			</p>
-		</li>
-		<li class="syncmember">
-			<p class="q">{$lang->import_step_desc[3]}</p>
-			<p class="a"><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</p>
-		</li>
-	</ul>
+	<input type="hidden" name="xe_validator_id" value="modules/importer/tpl/index/1" />
+	<h2>{$lang->type_member}</h2>
+	<div class="x_control-group checkxml">
+		<span class="x_input-append">
+			<label>{$lang->xml_path}</label>
+			<input type="text" name="xml_file" value="./" style="width:280px;font:11px Tahoma, Geneva, sans-serif" />
+			<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
+		</span>
+		<p class="x_help-inline" style="line-height:26px">{$lang->msg_no_xml_file}</p>
+	</div>
+	<div class="x_control-group syncmember">
+		<label><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</label>
+		<p class="x_help-block">{$lang->import_step_desc[3]}</p>
+	</div>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
+<form class="section" action="./" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
 	<input type="hidden" name="type" value="message" />
 	<input type="hidden" name="unit_count" value="100" />
-	<h2 class="h2">{$lang->type_message}</h2>
-	<ul>
-		<li>
-			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
-			<p class="a checkxml">
-				<input type="text" name="xml_file" value="./" />
-				<button type="button">{$lang->cmd_check_path}</button>
-				<em class="desc"></em><!--//class="error|success"-->
-			</p>
-		</li>
-	</ul>
+	<input type="hidden" name="xe_validator_id" value="modules/importer/tpl/index/1" />
+	<h2>{$lang->type_message}</h2>
+	<div class="x_control-group checkxml">
+		<span class="x_input-append">
+			<label>{$lang->xml_path}</label>
+			<input type="text" name="xml_file" value="./" style="width:280px;font:11px Tahoma, Geneva, sans-serif" />
+			<button type="button" class="x_btn">{$lang->cmd_check_path}</button>
+		</span>
+		<p class="x_help-inline" style="line-height:26px"></p>
+	</div>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>
 <a href="#process" class="modalAnchor"></a>
-<div class="modal" id="process" style="display:none;">
-    <form action="./" method="get" onsubmit="return doImport()" id="fo_process" class="fg">
+<div class="x_modal" id="process">
+    <form action="./" method="get" onsubmit="return doImport()" id="fo_process">
         <input type="hidden" name="type" value="" />
         <input type="hidden" name="total" value="" />
         <input type="hidden" name="cur" value="" />
@@ -121,22 +86,22 @@
         <input type="hidden" name="guestbook_target_module" value="" />
         <input type="hidden" name="unit_count" value="100" />
         <input type="hidden" name="user_id" value="" />
-		<p style="text-align:center">
-			<span class="prgrs prgrsMedium">
-				<strong id="preProgressMsg">{$lang->preprocessing}</strong>
-				<strong id="progressMsg" style="display:none;">{$lang->import_step_desc[99]}</strong>
-				<span class="pBar" style="width:300px;text-align:left">
-					<span class="pAction" id="progressBar" style="width:0%"><!-- Progress status --></span>
-					<span class="pNum"><span id="completeCount">0</span>/<span id="totalCount">0</span></span>
-				</span>
-				<strong id="progressPercent">0%</strong>
-			</span>
-		</p>
+		<div class="x_modal-header">
+			<h1 id="preProgressMsg">{$lang->preprocessing}</h1>
+			<h1 id="progressMsg" hidden>{$lang->import_step_desc[99]}</h1>
+		</div>
+		<div class="x_modal-body">
+			<div class="x_progress x_progress-striped x_active">
+				<div class="x_bar" id="progressBar" style="width: 0%"></div>
+			</div>
+			<strong id="progressPercent">0%</strong>
+			(<span id="completeCount">0</span>/<span id="totalCount">0</span>)
+		</div>
     </form>
 </div>
-<script type="text/javascript">
+<script>
 jQuery('a.modalAnchor')
-.bind('before-close.mw', function(event){
-		return false;
-		});
+	.bind('before-close.mw', function(event){
+	return false;
+});
 </script>

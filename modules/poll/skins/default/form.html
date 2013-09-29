@@ -6,13 +6,13 @@
 	<load target="../../tpl/js/poll.min.js" />
 <!--@end-->
 
-<script type="text/javascript">
+<script>
     var poll_alert_lang = "{$lang->msg_check_poll_item}";
 </script>
 
 <div id="poll_{$poll->poll_srl}" style="{$poll->style}">
 
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
     <form ruleset="poll" action="./" method="post" onsubmit="return doPoll(this)">
@@ -22,19 +22,19 @@
     <input type="hidden" name="poll_srl_indexes" value="" />
     <input type="hidden" name="skin" value="{$skin}" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-
+	<input type="hidden" name="xe_validator_id" value="modules/poll/skins/default/form/1" />
     <table cellspacing="0" class="poll_table">
     <col width="7" />
     <col />
     <col width="7" />
-    <tr>
+    <tr class="cap">
         <td><img src="./images/lh.png" alt="lh" width="7" height="7" /></td>
         <td class="h"><img src="./images/blank.gif" height="7" alt="blank" /></td>
         <td><img src="./images/rh.png" alt="rh" width="7" height="7" /></td>
     </tr>
     <tr>
         <td class="title" colspan="3">
-            {$lang->poll_stop_date} : <strong>{zdate($poll->stop_date, "Y-m-d")}</strong>
+            {$lang->poll_stop_date}: <strong>{zdate($poll->stop_date, "Y-m-d")}</strong>
         </td>
     </tr>
     <tr>
@@ -77,12 +77,12 @@
     <tr>
         <td colspan="3" class="poll_button">
             <div>
-                <span class="btn"><input type="button" value="{$lang->cmd_view_result}" class="poll_button _poll_result _srl_{$poll->poll_srl} _skin_{$skin}" /></span>
-                <span class="btn"><input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" /></span>
+                <input type="button" value="{$lang->cmd_view_result}" class="btn poll_button _poll_result _srl_{$poll->poll_srl} _skin_{$skin}" />
+                <input type="submit" value="{$lang->cmd_apply_poll}" class="btn poll_button" />
             </div>
         </td>
     </tr>
-    <tr>
+    <tr class="cap">
         <td class="lb" ><img src="./images/lb.png" alt="lb" width="7" height="7" /></td>
         <td class="b"><img src="./images/blank.gif" alt="blank" /></td>
         <td class="rb" ><img src="./images/rb.png" alt="rb" width="7" height="7" /></td>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * - HttpRequest class
  * - a class that is designed to be used for sending out HTTP request to an external server and retrieving response
@@ -7,17 +8,21 @@
  * @package /classes/httprequest
  * @version 0.1
  */
-class XEHttpRequest {
+class XEHttpRequest
+{
+
 	/**
 	 * target host
 	 * @var string
 	 */
 	var $m_host;
+
 	/**
 	 * target Port
 	 * @var int
 	 */
 	var $m_port;
+
 	/**
 	 * target header
 	 * @var array
@@ -30,9 +35,9 @@ class XEHttpRequest {
 	 */
 	function XEHttpRequest($host, $port)
 	{
-	    $this->m_host = $host;
-	    $this->m_port = $port;
-	    $this->m_headers = array();
+		$this->m_host = $host;
+		$this->m_port = $port;
+		$this->m_headers = array();
 	}
 
 	/**
@@ -43,7 +48,7 @@ class XEHttpRequest {
 	 */
 	function addToHeader($key, $value)
 	{
-	    $this->m_headers[$key] = $value;
+		$this->m_headers[$key] = $value;
 	}
 
 	/**
@@ -54,26 +59,38 @@ class XEHttpRequest {
 	 * @param array $post_vars variables to send
 	 * @return object Returns an object containing HTTP Response body and HTTP response code
 	 */
-	function send($target='/', $method='GET', $timeout=3, $post_vars=null)
+	function send($target = '/', $method = 'GET', $timeout = 3, $post_vars = NULL)
 	{
-		static $allow_methods=null;
+		static $allow_methods = NULL;
 
 		$this->addToHeader('Host', $this->m_host);
 		$this->addToHeader('Connection', 'close');
 
 		$method = strtoupper($method);
-		if(!$allow_methods) $allow_methods = explode(' ', 'GET POST PUT');
-		if(!in_array($method, $allow_methods)) $method = $allow_methods[0];
+		if(!$allow_methods)
+		{
+			$allow_methods = explode(' ', 'GET POST PUT');
+		}
+		if(!in_array($method, $allow_methods))
+		{
+			$method = $allow_methods[0];
+		}
 
 		// $timeout should be an integer that is bigger than zero
-		$timout = max((int)$timeout, 0);
+		$timout = max((int) $timeout, 0);
 
 		// list of post variables
-		if(!is_array($post_vars)) $post_vars = array();
+		if(!is_array($post_vars))
+		{
+			$post_vars = array();
+		}
 
-		if(false && is_callable('curl_init')) {
+		if(FALSE && is_callable('curl_init'))
+		{
 			return $this->sendWithCurl($target, $method, $timeout, $post_vars);
-		} else {
+		}
+		else
+		{
 			return $this->sendWithSock($target, $method, $timeout, $post_vars);
 		}
 	}
@@ -91,49 +108,65 @@ class XEHttpRequest {
 		static $crlf = "\r\n";
 
 		$sock = @fsockopen($this->m_host, $this->m_port, $errno, $errstr, $timeout);
-		if(!$sock) {
+		if(!$sock)
+		{
 			return new Object(-1, 'socket_connect_failed');
 		}
 
 		$headers = $this->m_headers + array();
-		if(!isset($headers['Accept-Encoding'])) $headers['Accept-Encoding'] = 'identity';
+		if(!isset($headers['Accept-Encoding']))
+		{
+			$headers['Accept-Encoding'] = 'identity';
+		}
 
 		// post body
 		$post_body = '';
-		if($method == 'POST' && count($post_vars)) {
-			foreach($post_vars as $key=>$value) {
-				$post_body .= urlencode($key).'='.urlencode($value).'&';
+		if($method == 'POST' && count($post_vars))
+		{
+			foreach($post_vars as $key => $value)
+			{
+				$post_body .= urlencode($key) . '=' . urlencode($value) . '&';
 			}
 			$post_body = substr($post_body, 0, -1);
 
 			$headers['Content-Length'] = strlen($post_body);
-			$headers['Content-Type']   = 'application/x-www-form-urlencoded';
+			$headers['Content-Type'] = 'application/x-www-form-urlencoded';
 		}
 
 		$request = "$method $target HTTP/1.1$crlf";
-		foreach($headers as $equiv=>$content) {
+		foreach($headers as $equiv => $content)
+		{
 			$request .= "$equiv: $content$crlf";
 		}
-		$request .= $crlf.$post_body;
+		$request .= $crlf . $post_body;
 		fwrite($sock, $request);
 
 		list($httpver, $code, $status) = preg_split('/ +/', rtrim(fgets($sock)), 3);
 
 		// read response headers
-		$is_chunked = false;
-		while(strlen(trim($line = fgets($sock)))) {
+		$is_chunked = FALSE;
+		while(strlen(trim($line = fgets($sock))))
+		{
 			list($equiv, $content) = preg_split('/ *: */', rtrim($line), 1);
-			if(!strcasecmp($equiv, 'Transfer-Encoding') && $content == 'chunked') {
-				$is_chunked = true;
+			if(!strcasecmp($equiv, 'Transfer-Encoding') && $content == 'chunked')
+			{
+				$is_chunked = TRUE;
 			}
 		}
 
 		$body = '';
-		while(!feof($sock)) {
-			if ($is_chunked) {
+		while(!feof($sock))
+		{
+			if($is_chunked)
+			{
 				$chunk_size = hexdec(fgets($sock));
-				if($chunk_size) $body .= fread($sock, $chunk_size);
-			} else {
+				if($chunk_size)
+				{
+					$body .= fread($sock, $chunk_size);
+				}
+			}
+			else
+			{
 				$body .= fgets($sock, 512);
 			}
 		}
@@ -165,15 +198,18 @@ class XEHttpRequest {
 
 		// set URL and other appropriate options
 		curl_setopt($ch, CURLOPT_URL, "http://{$this->m_host}{$target}");
-		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		curl_setopt($ch, CURLOPT_PORT, $this->m_port);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 		curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
-		switch($method) {
-			case 'GET':  curl_setopt($ch, CURLOPT_HTTPGET, true); break;
-			case 'PUT':  curl_setopt($ch, CURLOPT_PUT, true); break;
+		switch($method)
+		{
+			case 'GET': curl_setopt($ch, CURLOPT_HTTPGET, true);
+				break;
+			case 'PUT': curl_setopt($ch, CURLOPT_PUT, true);
+				break;
 			case 'POST':
 				curl_setopt($ch, CURLOPT_POST, true);
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_vars);
@@ -181,14 +217,16 @@ class XEHttpRequest {
 		}
 
 		$arr_headers = array();
-		foreach($headers as $key=>$value){
+		foreach($headers as $key => $value)
+		{
 			$arr_headers[] = "$key: $value";
 		}
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $arr_headers);
 
 		$body = curl_exec($ch);
-		if(curl_errno($ch)) {
+		if(curl_errno($ch))
+		{
 			return new Object(-1, 'socket_connect_failed');
 		}
 
@@ -200,5 +238,7 @@ class XEHttpRequest {
 
 		return $ret;
 	}
+
 }
-?>
+/* End of file XEHttpRequest.class.php */
+/* Location: ./classes/httprequest/XEHttpRequest.class.php */

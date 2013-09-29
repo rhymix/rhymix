@@ -1,12 +1,16 @@
 <!--%import("mx.css")-->
 <div class="hd">
+	<h1 class="h1"><a href="{$layout_info->index_url}"|cond="$layout_info->index_url" href="{geturl('')}"|cond="!$layout_info->index_url">
 	<!--@if($layout_info->logo_image)-->
-	<h1 class="h1"><a href="{$layout_info->index_url}"><img src="{$layout_info->logo_image}" alt="{$layout_info->index_title}" /></a></h1>
+	<img src="{$layout_info->logo_image}" alt="{$layout_info->index_title}"|cond="$layout_info->index_title" alt="{Context::getSiteTitle()}"|cond="!$layout_info->index_title && Context::getSiteTitle()" />
 	<!--@elseif($layout_info->index_title)-->
-	<h1 class="h1"><a href="{$layout_info->index_url}">{$layout_info->index_title}</a></h1>
+	<a href="{$layout_info->index_url}">{$layout_info->index_title}</a>
+	<!--@elseif(Context::getSiteTitle())-->
+	{Context::getSiteTitle()}
 	<!--@else-->
-	<h1 class="h1"><a href="{$layout_info->index_url}">Mobile XE</a></h1>
+	Mobile XE
 	<!--@end-->
+	</a></h1>
 	<!--@if($layout_info->menu->main_menu->menu_srl)-->
 		<!--@if($act=='dispMenuMenu')-->
 		<div class="fr"><button type="button" class="muon" onclick="history.back()">{$lang->cmd_back}</button></div>
@@ -19,11 +23,11 @@
 <ul class="ft">
 	<!--@if($is_logged)-->
 	<li class="fl"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+	<li class="fl"><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
 	<!--@elseif($act!='dispMemberLoginForm')-->
 	<li class="fl"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
 	<!--@end-->
-	<li class="fl" cond="$is_logged"><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}...</a></li>
 	<li class="fr"><a href="{getUrl('m',0)}">PC</a></li>
-	<li class="fr"><a href="{getUrl('act','dispModuleChangeLang','oldact',$act)}">LANG</a></li>
+	<li class="fr" cond="count($lang_supported)>1"><a href="{getUrl('act','dispModuleChangeLang','oldact',$act)}">LANG</a></li>
 </ul>
-<p class="cr">{$layout_info->index_title}</p>
+<p class="cr">{$layout_info->index_title}<!--@if(!$layout_info->index_title)-->{Context::getSiteTitle()}<!--@end--></p>

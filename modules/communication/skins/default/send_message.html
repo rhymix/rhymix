@@ -1,22 +1,24 @@
+<load target="css/communication.css" />
 <load target="js/communication.js" />
-<h1 class="h1">{$lang->cmd_send_message}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
-<form ruleset="sendMessage" action="./" method="post">
-	<input type="hidden" name="module" value="communication" />
-	<input type="hidden" name="act" value="procCommunicationSendMessage" />
-	<input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
-	<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0" class="form">
+<div class="xc">
+	<h1>{$lang->cmd_send_message}</h1>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/send_message/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form ruleset="sendMessage" action="./" method="post">
+		<input type="hidden" name="module" value="communication" />
+		<input type="hidden" name="act" value="procCommunicationSendMessage" />
+		<input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
+		<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
+		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/send_message/1" />
+		<table class="table table-striped table-hover">
 			<tr>
 				<th scope="row"><label for="textfield1">{$lang->receiver}</label></th>
 				<td>{$receiver_info->nick_name}</td>
 			</tr>
 			<tr>
 				<th scope="row">{$lang->title}</th>
-				<td><input type="text" name="title" id="message_title" value="{$source_message->title}"/></td>
+				<td><input type="text" name="title" id="message_title" value="{$source_message->title}" style="width:90%" /></td>
 			</tr>
 			<tr>
 				<th scope="row">{$lang->cmd_option}</th>
@@ -24,8 +26,8 @@
 			</tr>
 		</table>
 		{$editor}
-	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_send_message}" /></span>
-	</div>
-</form>
+		<div class="btnArea">
+			<input type="submit" value="{$lang->cmd_send_message}" class="btn btn-inverse" />
+		</div>
+	</form>
+</div>

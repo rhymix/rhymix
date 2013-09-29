@@ -24,7 +24,7 @@ class TrashVO
 	function getTitle()
 	{
 		if(empty($this->title)) return $lang->untitle;
-		return $this->title;
+		return htmlspecialchars($this->title);
 	}
 	function setTitle($title)
 	{
@@ -49,7 +49,7 @@ class TrashVO
 	}
 	function getDescription()
 	{
-		return $this->description;
+		return htmlspecialchars($this->description);
 	}
 	function setDescription($description)
 	{
@@ -81,7 +81,7 @@ class TrashVO
 	}
 	function getNickName()
 	{
-		return $this->nickName;
+		return htmlspecialchars($this->nickName);
 	}
 	function setNickName($nickName)
 	{

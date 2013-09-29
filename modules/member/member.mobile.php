@@ -8,12 +8,15 @@ class memberMobile extends memberView
 	 */
 	var $memberInfo;
 
-    function init() 
+	function init()
 	{
 		// Get the member configuration
 		$oMemberModel = &getModel('member');
 		$this->member_config = $oMemberModel->getMemberConfig();
 		Context::set('member_config', $this->member_config);
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('member_config.signupForm..');
+
 
 		$mskin = $this->member_config->mskin;
 		// Set the template path
@@ -29,7 +32,7 @@ class memberMobile extends memberView
 
 		// if member_srl exists, set memberInfo
 		$member_srl = Context::get('member_srl');
-		if($member_srl) 
+		if($member_srl)
 		{
 			$oMemberModel = &getModel('member');
 			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
@@ -43,7 +46,7 @@ class memberMobile extends memberView
 			}
 		}
 
-        $this->setTemplatePath($template_path);
+		$this->setTemplatePath($template_path);
 
 		$oLayoutModel = &getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($this->member_config->mlayout_srl);
@@ -57,11 +60,12 @@ class memberMobile extends memberView
 	function dispMemberModifyInfo()
 	{
 		parent::dispMemberModifyInfo();
-		
+
 		if($this->member_info)
 		{
 			Context::set('oMemberInfo', get_object_vars($this->member_info));
 		}
 	}
 }
-?>
+/* End of file member.mobile.php */
+/* Location: ./modules/member/member.mobile.php */

@@ -46,8 +46,13 @@ class trashAdminController extends trash
 		$isAll = Context::get('is_all');
 		$originModule = Context::get('origin_module');
 		$tmpTrashSrls = Context::get('cart');
-		if(is_array($tmpTrashSrls)) $trashSrls = $tmpTrashSrls;
-		else $trashSrls = explode('|@|', $tmpTrashSrls);
+
+		$trashSrls = array();
+		if($isAll != 'true')
+		{
+			if(is_array($tmpTrashSrls)) $trashSrls = $tmpTrashSrls;
+			else $trashSrls = explode('|@|', $tmpTrashSrls);
+		}
 
 		//module relation data delete...
 		$output = $this->_relationDataDelete($isAll, $trashSrls);
@@ -69,18 +74,38 @@ class trashAdminController extends trash
 	 */
 	function _relationDataDelete($isAll, &$trashSrls)
 	{
-		if($isAll == 'true') $trashSrls = array();
 		$oTrashModel = &getModel('trash');
-		if(count($trashSrls) > 0) $args->trashSrl = $trashSrls;
-		$output = $oTrashModel->getTrashList($args);
-		if(!$output->toBool()) return new Object(-1, $output->message);
+		if($isAll == 'true')
+		{
+			$args = array();
+			$output = $oTrashModel->getTrashAllList($args);
+			if(!$output->toBool())
+			{
+				return new Object(-1, $output->message);
+			}
+
+			if(is_array($output->data))
+			{
+				foreach($output->data AS $key=>$value)
+				{
+					array_push($trashSrls, $value->getTrashSrl());
+				}
+			}
+		}
+		else
+		{
+			$args->trashSrl = $trashSrls;
+			$output = $oTrashModel->getTrashList($args);
+			if(!$output->toBool())
+			{
+				return new Object(-1, $output->message);
+			}
+		}
 
 		if(is_array($output->data))
 		{
 			foreach($output->data AS $key=>$oTrashVO)
 			{
-				if($isAll == 'true') array_push($trashSrls, $oTrashVO->getTrashSrl());
-
 				//class file check
 				$classPath = ModuleHandler::getModulePath($oTrashVO->getOriginModule());
 				if(!is_dir(FileHandler::getRealPath($classPath))) return new Object(-1, 'not exist restore module directory');
@@ -92,8 +117,8 @@ class trashAdminController extends trash
 				$oAdminController = &getAdminController($oTrashVO->getOriginModule());
 				if(!method_exists($oAdminController, 'emptyTrash')) return new Object(-1, 'not exist restore method in module class file');
 
-				$output = $oAdminController->emptyTrash($oTrashVO->getSerializedObject());
-				if(!$output->toBool()) return new Object(-1, $output->message);
+				$output2 = $oAdminController->emptyTrash($oTrashVO->getSerializedObject());
+				if(!$output2->toBool()) return new Object(-1, $output2->message);
 			}
 		}
 		return new Object(0, $lang->success_deleted);
@@ -134,7 +159,8 @@ class trashAdminController extends trash
 				$originObject = unserialize($output->data->getSerializedObject());
 				$output = $oAdminController->restoreTrash($originObject);
 
-				if(!$output->toBool()) {
+				if(!$output->toBool())
+				{
 					$oDB->rollback();
 					return new Object(-1, $output->message);
 				}
@@ -164,8 +190,10 @@ class trashAdminController extends trash
 		$trashSrls = Context::get('trash_srls');
 		if($trashSrls) $trashSrlList = explode(',', $trashSrls);
 
-		if(count($trashSrlList) > 0) {
+		if(count($trashSrlList) > 0)
+		{
 			$oTrashModel = &getModel('trash');
+			$args = new stdClass();
 			$args->trashSrl = $trashSrlList;
 			$output = $oTrashModel->getTrashList($args);
 			$trashList = $output->data;
@@ -177,6 +205,8 @@ class trashAdminController extends trash
 			$this->setMessage($lang->no_documents);
 		}
 
+		$oSecurity = new Security($trashList);
+		$oSecurity->encodeHTML('..');
 		$this->add('trash_list', $trashList);
 	}
 
@@ -188,6 +218,7 @@ class trashAdminController extends trash
 	function _emptyTrash($trashSrls)
 	{
 		if(!is_array($trashSrls)) return false;
+		$args = new stdClass();
 		$args->trashSrls = $trashSrls;
 		$output = executeQuery('trash.deleteTrash', $args);
 		if(!$output->toBool()) return false;
@@ -195,6 +226,5 @@ class trashAdminController extends trash
 		return true;
 	}
 }
-
-/* End of file trash.controller.php */
-/* Location: ./modules/trash/trash.controller.php */
+/* End of file trash.admin.controller.php */
+/* Location: ./modules/trash/trash.admin.controller.php */

@@ -1,41 +1,50 @@
 <?php
+
 /**
  * QueryArgument class
  * @author NHN (developers@xpressengine.com)
  * @package /classes/xml/xmlquery/queryargument
  * @version 0.1
  */
-class QueryArgument {
+class QueryArgument
+{
+
 	/**
 	 * Argument name
 	 * @var string
 	 */
 	var $argument_name;
+
 	/**
 	 * Variable name
 	 * @var string
 	 */
 	var $variable_name;
+
 	/**
 	 * Argument validator
 	 * @var QueryArgumentValidator
 	 */
 	var $argument_validator;
+
 	/**
 	 * Column name
 	 * @var string
 	 */
 	var $column_name;
+
 	/**
 	 * Table name
 	 * @var string
 	 */
 	var $table_name;
+
 	/**
 	 * Operation
 	 * @var string
 	 */
 	var $operation;
+
 	/**
 	 * Ignore value
 	 * @var bool
@@ -48,14 +57,19 @@ class QueryArgument {
 	 * @param bool $ignore_value
 	 * @return void
 	 */
-	function QueryArgument($tag, $ignore_value = false) {
+	function QueryArgument($tag, $ignore_value = FALSE)
+	{
 		static $number_of_arguments = 0;
 
 		$this->argument_name = $tag->attrs->var;
-		if (!$this->argument_name)
+		if(!$this->argument_name)
+		{
 			$this->argument_name = str_replace('.', '_', $tag->attrs->name);
-		if (!$this->argument_name)
+		}
+		if(!$this->argument_name)
+		{
 			$this->argument_name = str_replace('.', '_', $tag->attrs->column);
+		}
 
 		$this->variable_name = $this->argument_name;
 
@@ -63,51 +77,67 @@ class QueryArgument {
 		$this->argument_name .= $number_of_arguments;
 
 		$name = $tag->attrs->name;
-		if (!$name)
+		if(!$name)
+		{
 			$name = $tag->attrs->column;
-		if (strpos($name, '.') === false)
+		}
+		if(strpos($name, '.') === FALSE)
+		{
 			$this->column_name = $name;
-		else {
+		}
+		else
+		{
 			list($prefix, $name) = explode('.', $name);
 			$this->column_name = $name;
 			$this->table_name = $prefix;
 		}
 
-		if ($tag->attrs->operation)
+		if($tag->attrs->operation)
+		{
 			$this->operation = $tag->attrs->operation;
+		}
 
 		$this->argument_validator = new QueryArgumentValidator($tag, $this);
 		$this->ignore_value = $ignore_value;
 	}
 
-	function getArgumentName() {
+	function getArgumentName()
+	{
 		return $this->argument_name;
 	}
 
-	function getColumnName() {
+	function getColumnName()
+	{
 		return $this->column_name;
 	}
-	
-	function getTableName(){
+
+	function getTableName()
+	{
 		return $this->table_name;
 	}
 
-	function getValidatorString() {
+	function getValidatorString()
+	{
 		return $this->argument_validator->toString();
 	}
 
-	function isConditionArgument() {
-		if ($this->operation)
-			return true;
-		return false;
+	function isConditionArgument()
+	{
+		if($this->operation)
+		{
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	/**
 	 * Change QueryArgument object to string
 	 * @return string
 	 */
-	function toString() {
-		if ($this->isConditionArgument()) {
+	function toString()
+	{
+		if($this->isConditionArgument())
+		{
 			// Instantiation
 			$arg = sprintf("\n" . '${\'%s_argument\'} = new ConditionArgument(\'%s\', %s, \'%s\');' . "\n"
 					, $this->argument_name
@@ -128,11 +158,13 @@ class QueryArgument {
 					, $this->argument_name
 					, $this->argument_name
 			);
-		} else {
+		}
+		else
+		{
 			$arg = sprintf("\n" . '${\'%s_argument\'} = new Argument(\'%s\', %s);' . "\n"
 					, $this->argument_name
 					, $this->variable_name
-					, $this->ignore_value ? 'null' : '$args->{\'' . $this->variable_name . '\'}');
+					, $this->ignore_value ? 'NULL' : '$args->{\'' . $this->variable_name . '\'}');
 
 			$arg .= $this->argument_validator->toString();
 
@@ -143,15 +175,16 @@ class QueryArgument {
 		}
 
 		// If the argument is null, skip it
-		if ($this->argument_validator->isIgnorable()) {
+		if($this->argument_validator->isIgnorable())
+		{
 			$arg = sprintf("if(isset(%s)) {", '$args->' . $this->variable_name)
 					. $arg
-					. sprintf("} else\n" . '${\'%s_argument\'} = null;', $this->argument_name);
+					. sprintf("} else\n" . '${\'%s_argument\'} = NULL;', $this->argument_name);
 		}
 
 		return $arg;
 	}
 
 }
-
-?>
+/* End of file QueryArgument.class.php */
+/* Location: ./classes/xml/xmlquery/queryargument/QueryArgument.class.php */

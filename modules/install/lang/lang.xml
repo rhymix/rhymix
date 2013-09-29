@@ -16,6 +16,10 @@
 		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>
 		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>
 	</item>
+	<item name="input_dbinfo_by_dbtype">
+		<value xml:lang="ko"><![CDATA[%s 정보입력]]></value>
+		<value xml:lang="en"><![CDATA[Input %s info]]></value>
+	</item>
 	<item name="install_progress_menu" type="array">
 		<item name="language">
 			<value xml:lang="ko"><![CDATA[설치 언어 선택]]></value>
@@ -57,17 +61,25 @@
 			<value xml:lang="jp"><![CDATA[管理者情報入力]]></value>
 		</item>
 	</item>
-	<item name="install_condition_title">
-		<value xml:lang="ko"><![CDATA[필수 설치조건을 확인하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please check the installation requirement.]]></value>
-		<value xml:lang="jp"><![CDATA[インストールするための必須条件を確認してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[检测运行环境]]></value>
-		<value xml:lang="zh-TW"><![CDATA[確認安裝時必備的條件]]></value>
-		<value xml:lang="fr"><![CDATA[Vérifiez  les conditions obligatoires pour l'installation, S.V.P.]]></value>
-		<value xml:lang="ru"><![CDATA[Пожалуйста, проверьте требования к установке.]]></value>
-		<value xml:lang="es"><![CDATA[Por favor chequee los requerimientos de la instalación.]]></value>
-		<value xml:lang="tr"><![CDATA[Lütfen kurulum gereksinimlerini kontrol ediniz.]]></value>
-		<value xml:lang="vi"><![CDATA[Xin hãy kiểm tra những yêu cầu cài đặt.]]></value>
+	<item name="install_condition_enable">
+		<value xml:lang="ko"><![CDATA[설치가 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can Install.]]></value>
+	</item>
+	<item name="install_details">
+		<value xml:lang="ko"><![CDATA[자세히]]></value>
+		<value xml:lang="en"><![CDATA[Details]]></value>
+	</item>
+	<item name="install_simply">
+		<value xml:lang="ko"><![CDATA[간단히]]></value>
+		<value xml:lang="en"><![CDATA[Simply]]></value>
+	</item>
+	<item name="advanced_setup">
+		<value xml:lang="ko"><![CDATA[고급 설정]]></value>
+		<value xml:lang="en"><![CDATA[Advanced Setup]]></value>
+	</item>
+	<item name="install_ftp_reason">
+		<value xml:lang="ko"><![CDATA[FTP 정보를 등록하는 이유.]]></value>
+		<value xml:lang="en"><![CDATA[Reason of FTP info is needed.]]></value>
 	</item>
 	<item name="install_checklist_title" type="array">
 		<item name="php_version">
@@ -300,7 +312,7 @@
 		<value xml:lang="vi"><![CDATA[Sự cho phép của thư mục cài đặt không phải là 707]]></value>
 	</item>
 	<item name="install_notandum">
-		<value xml:lang="ko"><![CDATA[모든 항목을 반드시 작성해야 합니다. 모든 항목을 관리자 환경에서 수정할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[모든 항목을 반드시 작성해야 합니다. 모든 항목을 관리자 환경에서 수정할 수 있습니다. <strong>최초 로그인시 로그인 계정은 이메일 주소 입니다.</strong>]]></value>
 		<value xml:lang="en"><![CDATA[All form must be filled, but you can modify all of settings after finish the installation.]]></value>
 		<value xml:lang="jp"><![CDATA[すべての項目を必ず作成してください。すべての項目を管理者環境にて修正できます。]]></value>
 	</item>
@@ -374,30 +386,6 @@
 			<value xml:lang="tr"><![CDATA[innodb ile MySQL'ü veritabanı olrak kullanınız.<br />İşlemler, innodb ile işlenecektir]]></value>
 			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb]]></value>
 		</item>
-		<item name="sqlite2">
-			<value xml:lang="ko"><![CDATA[파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다.)]]></value>
-			<value xml:lang="en"><![CDATA[Use sqlite2 as a database which saves the data in files.<br />DB file <b>must not be</b> accessible from the web.<br />(Never been tested for stabilization)]]></value>
-			<value xml:lang="jp"><![CDATA[ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブがらアクセスできない場所に作成してください。<br />（安定化までのテストは行われていません）]]></value>
-			<value xml:lang="zh-CN"><![CDATA[支持用文件形式保存数据的sqlite2。<br />安装时DB文件应在web不能访问的地方生成。<br />(还没有通过安全的测试)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[支援用檔案形式保存數據的『sqlite2』。<br />安裝時，資料庫數據應建立在 web 無法訪問的地方。<br />(尚未通過安全測試)]]></value>
-			<value xml:lang="fr"><![CDATA[Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de Base de Données dans une place que l'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)]]></value>
-			<value xml:lang="ru"><![CDATA[Поддерживает sqlite2, которая сохраняет данные в файл.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.<br />(Никогда не тестировалось на стабильность)]]></value>
-			<value xml:lang="es"><![CDATA[Soporta sqlite2, el cual almacena los datos en archivos <br />En la instalacion, es necesario crear archivo de BD en un lugar inaccesible de la web.<br />(Testeo de la estabilización no realizada)]]></value>
-			<value xml:lang="tr"><![CDATA['Verileri dosya olarak kaydeden sqlite2 'yi veritabanı olarak kullanınız. <br />VT dosyası tarayıcıdan erişilebilir <b>olmamalıdır</b>.<br />(Sabitleme için hiç test edilmedi)]]></value>
-			<value xml:lang="vi"><![CDATA[Hỗ trợ <b>sqlite2</b> khi lưu Database thành File.<br />Khi cài đặt, File Database phải được tạo ra tại chỗ không sử dụng được từ Web.<br />(Không khẳng định sẽ hoạt động ổn định)]]></value>
-		</item>
-		<item name="sqlite3_pdo">
-			<value xml:lang="ko"><![CDATA[PHP의 PDO로 sqlite3를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Use sqlite3 as a database which supports PHP PDO.<br />DB file <b>must not be</b> accessible from the web.]]></value>
-			<value xml:lang="jp"><![CDATA[PHPのPDOを経由して「sqlite3」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブからアクセスできない場所に作成してください。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[用PHP的 PDO支持 sqlite3。<br />安装时DB文件应在web不能访问的地方生成。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[用 PHP 的 PDO 支援『sqlite3』。<br />安裝時，資料庫數據應建立在網頁無法訪問的地方。]]></value>
-			<value xml:lang="fr"><![CDATA[Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de Base de Données dans une place que l'on ne peut pas accéder par Web.]]></value>
-			<value xml:lang="ru"><![CDATA[Поддерживает sqlite3 посредством PHP's PDO.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.]]></value>
-			<value xml:lang="es"><![CDATA[A través de PDO de PHP soporta sqlite2 <br />En la instalación, es necesario crear archivo de BD en un lugar inaccesible de la web.]]></value>
-			<value xml:lang="tr"><![CDATA[PHP'nin PDO'sunun desteğiyle sqlite3'ü veritabanı olarak kullanınız.<br />VT dosyası tarayıcıdan erişilebilir <b>olmamalıdır</b>.]]></value>
-			<value xml:lang="vi"><![CDATA[Hỗ trợ <b>sqlite3</b> bởi PDO của PHP.<br />Khi cài đặt, File Database phải được tạo ra tại chỗ không sử dụng được từ Web.]]></value>
-		</item>
 		<item name="cubrid">
 			<value xml:lang="ko"><![CDATA[CUBRID DB를 이용합니다. <a href="http://xe.xpressengine.net/18180659" target="_blank">Manual</a>]]></value>
 			<value xml:lang="en"><![CDATA[Use CUBRID as a database. See <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a> for more info]]></value>
@@ -421,30 +409,10 @@
 			<value xml:lang="es"><![CDATA[Usar BD MSSQL.]]></value>
 			<value xml:lang="tr"><![CDATA[MSSQL'ü veritabanı olarak kullanın]]></value>
 		</item>
-		<item name="postgresql">
-			<value xml:lang="ko"><![CDATA[PostgreSql을 이용합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Use PostgreSql as a database.]]></value>
-			<value xml:lang="jp"><![CDATA[PostgreSql DBを利用します。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[使用PostgreSql DB。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[使用 PostgreSql DB。]]></value>
-			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de PostgreSql.]]></value>
-			<value xml:lang="ru"><![CDATA[Используем PostgreSql DB.]]></value>
-			<value xml:lang="es"><![CDATA[Usar BD PostgreSql.]]></value>
-			<value xml:lang="tr"><![CDATA[PostgreSql'ü veritabanı olarak kullanın.]]></value>
-			<value xml:lang="vi"><![CDATA[Sử dụng <b>PostgreSql</b> Database.]]></value>
-		</item>
-		<item name="firebird">
-			<value xml:lang="ko"><![CDATA[Firebird를 이용합니다.<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)]]></value>
-			<value xml:lang="en"><![CDATA[Use Firebird as a database.<br />You can create a database with (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)]]></value>
-			<value xml:lang="jp"><![CDATA[Firebird DBを利用します。<br />DB生成方法 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[使用Firebird DB。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[使用 Firebird DB。<br />DB 建立方式 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)]]></value>
-			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de firebird.]]></value>
-			<value xml:lang="ru"><![CDATA[Используем firebird DB.]]></value>
-			<value xml:lang="es"><![CDATA[Usar BD firebird. Cómo crear <br /> PP (crear base de datos "/ path / dbname.fdb" page_size = 8192 el conjunto de caracteres UTF8 por defecto;)]]></value>
-			<value xml:lang="tr"><![CDATA[Firebird'ü veritabanı olarak kullanın.<br /> (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;) ile veritabanı oluşturabilirsiniz]]></value>
-			<value xml:lang="vi"><![CDATA[Sử dụng <b>firebird</b> Database.]]></value>
-		</item>
+	</item>
+	<item name="can_use_when_installed">
+		<value xml:lang="ko"><![CDATA[설치하면 사용할 수 있음.]]></value>
+		<value xml:lang="en"><![CDATA[You can use when it has installed.]]></value>
 	</item>
 	<item name="form_title">
 		<value xml:lang="ko"><![CDATA[DB &amp; 관리자 정보 입력]]></value>
@@ -483,7 +451,7 @@
 		<value xml:lang="vi"><![CDATA[Định dạng Database]]></value>
 	</item>
 	<item name="select_db_type">
-		<value xml:lang="ko"><![CDATA[사용하시려는 DB를 선택해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[사용하려는 DB를 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select the DB you want to use.]]></value>
 		<value xml:lang="jp"><![CDATA[使用するデータベース種類を選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择数据库]]></value>
@@ -532,7 +500,7 @@
 	</item>
 	<item name="db_password">
 		<value xml:lang="ko"><![CDATA[DB 비밀번호]]></value>
-		<value xml:lang="en"><![CDATA[DB Password]]></value>
+		<value xml:lang="en"><![CDATA[DB PW]]></value>
 		<value xml:lang="jp"><![CDATA[パスワード]]></value>
 		<value xml:lang="zh-CN"><![CDATA[DB密码]]></value>
 		<value xml:lang="zh-TW"><![CDATA[密碼]]></value>
@@ -565,8 +533,8 @@
 		<value xml:lang="vi"><![CDATA[File Database]]></value>
 	</item>
 	<item name="db_table_prefix">
-		<value xml:lang="ko"><![CDATA[테이블 머리말]]></value>
-		<value xml:lang="en"><![CDATA[Table Header]]></value>
+		<value xml:lang="ko"><![CDATA[테이블 접두사]]></value>
+		<value xml:lang="en"><![CDATA[Table Prefix]]></value>
 		<value xml:lang="jp"><![CDATA[テーブルプレフィックス]]></value>
 		<value xml:lang="zh-CN"><![CDATA[前缀]]></value>
 		<value xml:lang="zh-TW"><![CDATA[前置字元]]></value>
@@ -577,9 +545,14 @@
 		<value xml:lang="vi"><![CDATA[Tên Table]]></value>
 	</item>
 	<item name="db_info_desc">
-		<value xml:lang="ko"><![CDATA[<p><strong>DB 호스트 네임</strong>, <strong>DB Port</strong>, <strong>DB 아이디</strong>, <strong>DB 비밀번호</strong>, <strong>DB 이름</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p><p><strong>DB 테이블 머리말</strong> 정보는 사용자 정의 할 수 있습니다. 영문 소문자를 권장 합니다. 숫자를 포함할 수 있습니다. 특수 문자를 사용할 수 없습니다.</p>]]></value>
-		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table preface</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>]]></value>
-	　　<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong>, <strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
+		<value xml:lang="ko"><![CDATA[<p><strong>DB 아이디</strong>, <strong>DB 비밀번호</strong>, <strong>DB 이름</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p>]]></value>
+		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p>]]></value>
+	　　<value xml:lang="jp"><![CDATA[<p><strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p>]]></value>
+	</item>
+	<item name="db_prefix_desc">
+		<value xml:lang="ko"><![CDATA[<p><strong>DB 호스트 네임</strong>, <strong>DB Port</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p><p><strong>DB 테이블 머리말</strong> 정보는 사용자 정의 할 수 있습니다. 영문 소문자를 권장 합니다. 숫자를 포함할 수 있습니다. 특수 문자를 사용할 수 없습니다.</p>]]></value>
+		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table prefix</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>]]></value>
+	　　<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
 	</item>
 	<item name="admin_title">
 		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
@@ -617,7 +590,7 @@
 		<value xml:lang="vi"><![CDATA[Tối ưu hóa]]></value>
 	</item>
 	<item name="about_optimizer">
-		<value xml:lang="ko"><![CDATA[Optimizer를 사용하면 다수의 CSS/JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[Optimizer를 사용하면 다수의 CSS/JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하면 정상적인 동작은 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[If optimizer is enabled, users can quickly access to this site, since multiple CSS / JS files are put together and compressed before transmission. <br /> Nevertheless, this optimization might be problematic according to CSS or JS. If you disable it, it would work properly though it would work slower.]]></value>
 		<value xml:lang="jp"><![CDATA[オプティマイザーを使用すると多数の「CSS/JS」ファイルを、統合・圧縮して転送するのでレスポンスが早くなります。<br />但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[使用Optimizer可以对大部分的CSS/ JS文件进行整合/压缩传送使之加快网站访问速度。<br />只是有时会发生小小的问题。这时候请暂时不要使用Optimizer。]]></value>
@@ -641,20 +614,20 @@
 		<value xml:lang="vi"><![CDATA[Mod Rewrite]]></value>
 	</item>
 	<item name="use_sso">
-		<value xml:lang="ko"><![CDATA[SSO 사용]]></value>
-		<value xml:lang="en"><![CDATA[Single Sign On]]></value>
-		<value xml:lang="jp"><![CDATA[SSO使用]]></value>
-		<value xml:lang="zh-CN"><![CDATA[SSO]]></value>
+		<value xml:lang="ko"><![CDATA[<abbr title="Single Sign On">SSO</abbr> 사용]]></value>
+		<value xml:lang="en"><![CDATA[<abbr title="Single Sign On">SSO</abbr>]]></value>
+		<value xml:lang="jp"><![CDATA[<abbr title="Single Sign On">SSO</abbr>使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[<abbr title="Single Sign On">SSO</abbr>]]></value>
 		<value xml:lang="zh-TW"><![CDATA[單一登入]]></value>
-		<value xml:lang="fr"><![CDATA[SSO]]></value>
-		<value xml:lang="ru"><![CDATA[SSO]]></value>
-		<value xml:lang="es"><![CDATA[SSO]]></value>
+		<value xml:lang="fr"><![CDATA[<abbr title="Single Sign On">SSO</abbr>]]></value>
+		<value xml:lang="ru"><![CDATA[<abbr title="Single Sign On">SSO</abbr>]]></value>
+		<value xml:lang="es"><![CDATA[<abbr title="Single Sign On">SSO</abbr>]]></value>
 		<value xml:lang="tr"><![CDATA[Tekli Oturum Açma]]></value>
-		<value xml:lang="vi"><![CDATA[SSO]]></value>
+		<value xml:lang="vi"><![CDATA[<abbr title="Single Sign On">SSO</abbr>]]></value>
 	</item>
 	<item name="about_rewrite">
-		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/<strong>?document_srl=123</strong></em> 과 같이 복잡한 주소를 <em>http://yourdomain/<strong>123</strong></em> 과 같이 간단하게 줄일 수 있습니다. 이 기능을 사용하려면 웹 서버에서 rewrite_mod를 지원해야 합니다. 웹 서버에서 rewrite_mod를 지원하는지 여부는 서버 관리자에게 문의하세요.]]></value>
-		<value xml:lang="en"><![CDATA[If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123]]></value>
+		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/</em><strong>?document_srl=123</strong> 과 같이 복잡한 주소를 <em>http://yourdomain/</em><strong>123</strong> 과 같이 간단하게 줄일 수 있습니다. 웹 서버에서 <strong>rewrite_mod</strong>를 지원해야 합니다. 지원 여부는 서버 관리자에게 문의하세요.]]></value>
+		<value xml:lang="en"><![CDATA[If web server provides rewrite mod, long URL such as <em>http://blah/</em><strong>?document_srl=123</strong> can be shortened like <em>http://blah/</em><strong>123</strong>]]></value>
 		<value xml:lang="jp"><![CDATA[Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを、動的だけど「http://アドレス/123」のように静的なページに見せることができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[如果支援 rewrite 功能，可縮短冗長的網址。<br />例>『http://域名/?document_srl=123』縮短成『http://域名/123』。]]></value>
@@ -663,6 +636,10 @@
 		<value xml:lang="es"><![CDATA[Si el servidor de la web soporte rewrite mod, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer websunucusu yenidenyazma(rewritemod) destekliyorsa, http://ornek/?dosya_no=123 gibi URLler http://ornek/123 olarak kısaltılabilir]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu Host của bạn hỗ trợ Mod Rewrite, khi địa chỉ có dạng <b>http://blah/?document_srl=123</b> sẽ được rút ngắn thành <b>http://blah/123</b>]]></value>
+	</item>
+	<item name="disable_rewrite">
+		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없습니다.  웹 서버 담당자에게 <strong>rewrite_mod</strong>지원 여부를 확인 바랍니다.]]></value>
+		<value xml:lang="en"><![CDATA[Required module for "Friendly URL" feature is not found. Please check with the web master about <strong>rewrite_mod</strong> module support.]]></value>
 	</item>
 	<item name="time_zone">
 		<value xml:lang="ko"><![CDATA[표준 시간대]]></value>
@@ -677,7 +654,7 @@
 		<value xml:lang="vi"><![CDATA[Múi giờ]]></value>
 	</item>
 	<item name="about_time_zone">
-		<value xml:lang="ko"><![CDATA[서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 표준 시간대를 지정하면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 표준 시간대를 지정하면 표시되는 시간을 지정된 곳의 시간으로 사용할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[If the server time and the time on your location don't accord each other, you can set the time to be same as your location by using the time zone]]></value>
 		<value xml:lang="jp"><![CDATA[サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。]]></value>
@@ -711,7 +688,7 @@
 		<value xml:lang="vi"><![CDATA[Nó sẽ cho phép gửi thư từ MTA mà không phân biệt CRLF.]]></value>
 	</item>
 	<item name="about_database_file">
-		<value xml:lang="ko"><![CDATA[Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 하셔야 합니다.<br/><span style="color:red">데이터 파일은 707퍼미션 설정된 곳으로 지정해주세요.</span>]]></value>
+		<value xml:lang="ko"><![CDATA[Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 해야 합니다.<br/><span style="color:red">데이터 파일은 707퍼미션 설정된 곳으로 지정해주세요.</span>]]></value>
 		<value xml:lang="en"><![CDATA[Sqlite saves data in a file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>]]></value>
 		<value xml:lang="jp"><![CDATA[Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定してください。</span>]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Sqlite是文件里保存数据。数据库的文件位置应该放在web不能访问的地方。<br/><span style="color:red">数据文件应放在具有707属性的位置。</span>]]></value>
@@ -721,18 +698,6 @@
 		<value xml:lang="es"><![CDATA[Sqlite guarda el dato en el archivo. Es necesario crear archivo de BD en un lugar inaccesible de la web.<br/><span style="color:red">El archivo de dato debe estar ubicado en un lugar con la atribución 707.</span>]]></value>
 		<value xml:lang="tr"><![CDATA[Sqlite veriyi dosyaya kaydeder. Veritabanı dosyası tarayıcıyla erişilebilir olmamalıdır.<br/><span style="color:red">Veri dosyası 707 yetki kapsamı içinde olmalıdır.</span>]]></value>
 		<value xml:lang="vi"><![CDATA[Sqlite lưu trữ dữ liệu trong một File, vì vậy cần tới sự truy cập đến nó trong Database. <br/><span style="color:red">Hãy CHMOD thành 707.</span>]]></value>
-	</item>
-	<item name="about_sso">
-		<value xml:lang="ko"><![CDATA[사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다.<br />가상 사이트를 사용할 때만 필요합니다.]]></value>
-		<value xml:lang="en"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="jp"><![CDATA[ユーザが一度のログインで基本サイトと仮想サイトに同時にログインされる機能です。<br />仮想サイトの機能を使用してない場合、設定する必要がありません。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="zh-TW"><![CDATA[此功能可讓用戶只需登入一次即可訪問多個網站。<br />使用虛擬網站，這將會是很重要的功能。]]></value>
-		<value xml:lang="fr"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="ru"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="es"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
-		<value xml:lang="tr"><![CDATA[SSO kullanıcıları, geçreli ya da sanal siteye bir kere kayıt olmakla, ikisinden de yararlandıracaktır.<br />Bu, size sadece sanal websiteler kullandığınız durumda lazım olacaktır.]]></value>
-		<value xml:lang="vi"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
 	</item>
 	<item name="success_installed">
 		<value xml:lang="ko"><![CDATA[설치가 되었습니다.]]></value>
@@ -833,9 +798,9 @@
 		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>		
 	</item>		
 	<item name="install_env_agreement_desc">		
-		<value xml:lang="ko"><![CDATA['<em>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <em>이 항목에 동의하지 않아도 됩니다.</em>]]></value>		
-		<value xml:lang="en"><![CDATA[Information on '<em>web server, DBMS, PHP version and extension, XE modules and addons</em>' is sent to the XE statistics collection server. This information is collected anonymously and used to improve our software only.<em> You don't have to agree to this.</em>]]></value>		
-		<value xml:lang="jp"><![CDATA['<em>ウェブサーバー、DBMS、PHPバージョンおよびExtension、XEモジュール、およびアドオン</em>'情報が、XE統計収集サーバーへ転送されます。より良いソフトウェアを製作するための目的で活用されます。情報は、匿名で収集され、外部へ公開することはありません。<em>この項目は、同意しなくても構いません。</em>]]></value>		
+		<value xml:lang="ko"><![CDATA['<strong>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</strong>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <strong>이 항목에 동의하지 않아도 됩니다.</strong>]]></value>		
+		<value xml:lang="en"><![CDATA[Information on '<strong>web server, DBMS, PHP version and extension, XE modules and addons</strong>' is sent to the XE statistics collection server. This information is collected anonymously and used to improve our software only. <strong>You don't have to agree to this.</strong>]]></value>		
+		<value xml:lang="jp"><![CDATA['<strong>ウェブサーバー、DBMS、PHPバージョンおよびExtension、XEモジュール、およびアドオン</strong>'情報が、XE統計収集サーバーへ転送されます。より良いソフトウェアを製作するための目的で活用されます。情報は、匿名で収集され、外部へ公開することはありません。<strong>この項目は、同意しなくても構いません。</strong>]]></value>		
 	</item>
 	<item name="ftp_form_title">
 		<value xml:lang="ko"><![CDATA[FTP 계정 정보 입력]]></value>
@@ -886,7 +851,7 @@
 		<value xml:lang="vi"><![CDATA[Cổng kết nối]]></value>
 	</item>
 	<item name="about_ftp_password">
-		<value xml:lang="ko"><![CDATA[FTP Password는 저장되지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[비밀번호는 FTP 경로 확인을 위한 FTP 접속 시 필요하며 사용 후 저장하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[FTP password will not be stored.]]></value>
 		<value xml:lang="jp"><![CDATA[FTP情報は保存できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP密码不会被保存。]]></value>
@@ -913,7 +878,7 @@
 		<value xml:lang="jp"><![CDATA[PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用XE程序。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[當 PHP 的安全模式(safe_mode)開啟時，請輸入相關 FTP 資訊，否則無法正常安裝或使用程式。]]></value>
-		<value xml:lang="fr"><![CDATA[PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다]]></value>
+		<value xml:lang="fr"><![CDATA[PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해야 XE의 설치 및 사용이 가능합니다]]></value>
 		<value xml:lang="de"><![CDATA[Zur Installation und Nutzung des XEs muss die Angabe des FTPs festgestellt werden, wenn safe_mode in PHP 'An' ist.]]></value>
 		<value xml:lang="es"><![CDATA[Si la la variable safe_mode está activa[safe_mode=On], debe rellenar los datos de FTP para seguir instalando y usar con normalidad el XE.]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer PHP güvenli mod ayarları etkinse, XE'yi kurmak için FTP hesap bilgilerini girmelisiniz.]]></value>
@@ -933,12 +898,12 @@
 		<value xml:lang="de"><![CDATA[Die Angabe wird unter <strong>files/config/ftp.config.php</strong> gespeichert. Nach der Installation ist es auch möglich, dass die Angabe von Administrator modifiziert oder gelöscht werden kann.]]></value>
 	</item>
 	<item name="msg_ftp_not_connected">
-		<value xml:lang="ko"><![CDATA[localhost로의 FTP 접속 오류가 발생했습니다. FTP 포트 번호를 확인해주시거나 FTP 서비스가 가능한지 확인해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[localhost로의 FTP 접속 오류가 발생했습니다. FTP 포트 번호를 확인하거나 FTP 서비스가 가능한지 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Connection to the localhost via FTP failed. Please check the port number and whether the FTP service is available.]]></value>
 		<value xml:lang="jp"><![CDATA[localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかを確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[发生本地(localhost)FTP连接错误。请确认ftp端口号及支持ftp服务与否。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[本地(localhost) FTP連線錯誤。請檢查 FTP 埠口並確認是否支援 FTP 功能。]]></value>
-		<value xml:lang="fr"><![CDATA[localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요]]></value>
+		<value xml:lang="fr"><![CDATA[localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인하거나 ftp 서비스가 가능한지 확인해주세요]]></value>
 		<value xml:lang="de"><![CDATA[Ein Verbindungsfehler des FTPs an localhost ist aufgetreten. Bitte FTP_Port checken, oder ob FTP_Service möglich ist.]]></value>
 		<value xml:lang="ru"><![CDATA[Connection to localhost via FTP failed. Please check the port number and if FTP service is available.]]></value>
 		<value xml:lang="es"><![CDATA[Ha ocurrico un error de conexión al FTP del localhost. Verifique el puerto del FTP y/o el funcionamiento del servicio FTP.]]></value>
@@ -947,12 +912,12 @@
 		<value xml:lang="mn"><![CDATA[localhost-ын FTP холболт амжилтгvй боллоо. FTP дугаараа шалгах буюу эсвэл FTP vйлчилгээг ашиглах боломжтой эсэхээ шалгана уу.]]></value>
 	</item>
 	<item name="msg_ftp_invalid_auth_info">
-		<value xml:lang="ko"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[입력한 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Authentication failed. Please check the username and password.]]></value>
 		<value xml:lang="jp"><![CDATA[ログインに失敗しました。FTPアクセス情報を再度確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP登录失败。请确认输入的FTP信息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[FTP登入失敗。請確認輸入的 FTP 資訊。]]></value>
-		<value xml:lang="fr"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요]]></value>
+		<value xml:lang="fr"><![CDATA[입력한 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요]]></value>
 		<value xml:lang="de"><![CDATA[Anmeldungsfehler mit der Angabe des FTPs Bitte die Angabe des FTPs festlegen.]]></value>
 		<value xml:lang="es"><![CDATA[Los datos de login para el FTP no son correctos. Veriféquelos.]]></value>
 		<value xml:lang="tr"><![CDATA[Kimlik doğrulama başarısız oldu. Lütfen kullanıcı adını ve şifreyi kontrol ediniz.]]></value>
@@ -1020,15 +985,26 @@
 		<value xml:lang="vi"><![CDATA[Đường dẫn thư mục đã cài đặt XE]]></value>
 	</item>
 	<item name="msg_ftp_installed_ftp_realpath">
-		<value xml:lang="ko"><![CDATA[설치된 XE의 FTP 경로 설정]]></value>
+		<value xml:lang="ko"><![CDATA[설치된 XE의 FTP 경로]]></value>
 		<value xml:lang="en"><![CDATA[Absolute FTP Path of XE]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされたXEのFTP絶対パス設定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP绝对路径设置]]></value>
 		<value xml:lang="zh-TW"><![CDATA[XE的 FTP 絕對路經]]></value>
-		<value xml:lang="fr"><![CDATA[설치된 XE의 FTP 절대경로 설정]]></value>
+		<value xml:lang="fr"><![CDATA[설치된 XE의 FTP 절대경로]]></value>
 		<value xml:lang="de"><![CDATA[absoluten Pfad des FTPs, in dem XE installiert ist, festlegen.]]></value>
-		<value xml:lang="es"><![CDATA[설치된 XE의 FTP 절대경로 설정]]></value>
+		<value xml:lang="es"><![CDATA[설치된 XE의 FTP 절대경로]]></value>
 		<value xml:lang="tr"><![CDATA[XE Salt FTP Yolu]]></value>
 		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP]]></value>
+	</item>
+	<item name="db_config_php_validation">
+		<value xml:lang="ko"><![CDATA[db.config.php 유효성 확인]]></value>
+		<value xml:lang="en"><![CDATA[Validation of db.config.php]]></value>
+	</item>
+	<item name="msg_possible_only_file">
+		<value xml:lang="ko"><![CDATA[파일만 업로드 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can upload files only.]]></value>
+		<value xml:lang="jp"><![CDATA[ファイルのみアップロード可能です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请上传文件.]]></value>
+		<value xml:lang="tr"><![CDATA[Sadece dosyalarını yükleyebilirsiniz.]]></value>
 	</item>
 </lang>

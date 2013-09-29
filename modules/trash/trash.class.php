@@ -1,4 +1,6 @@
 <?php
+require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
+
 /**
  * trash class
  * trash the module's high class
@@ -7,15 +9,14 @@
  * @package /modules/trash
  * @version 0.1
  */
-
-require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
-
-class trash extends ModuleObject {
+class trash extends ModuleObject
+{
 	/**
 	 * Implement if additional tasks are necessary when installing
 	 * @return Object
 	 */
-	function moduleInstall() {
+	function moduleInstall()
+	{
 		return new Object();
 	}
 
@@ -23,7 +24,8 @@ class trash extends ModuleObject {
 	 * A method to check if successfully installed
 	 * @return bool
 	 */
-	function checkUpdate() {
+	function checkUpdate()
+	{
 		//$oDB = &DB::getInstance();
 		//$oModuleModel = &getModel('module');
 
@@ -34,12 +36,13 @@ class trash extends ModuleObject {
 	 * Execute update
 	 * @return Object
 	 */
-	function moduleUpdate() {
+	function moduleUpdate()
+	{
 		//$oDB = &DB::getInstance();
 		//$oModuleModel = &getModel('module');
 
 		return new Object(0,'success_updated');
-
 	}
 }
-?>
+/* End of file trash.class.php */
+/* Location: ./modules/trash/trash.class.php */

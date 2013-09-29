@@ -3,6 +3,7 @@
         <table name="menu_item" />
     </tables>
     <columns>
+        <column name="menu_srl" var="menu_srl" />
         <column name="parent_srl" var="parent_srl" />
         <column name="listorder" var="listorder" />
     </columns>

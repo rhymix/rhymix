@@ -8,7 +8,7 @@
 	<load target="slide_gallery.min.js" />
 	<load target="slide_gallery.min.css" />
 <!--@end-->
-<script type="text/javascript">
+<script>
 (function(){
 
 var gallery = xe.getApp('gallery')[0];
@@ -29,7 +29,7 @@ gallery.cast('SET_STYLE', [{$gallery_info->srl}, 'slide']);
         <span class="zone_gallery_navigator_status" title="{$lang->cmd_gallery_thumbnail}" id="zone_gallery_navigator_status_{$gallery_info->srl}">1/1</span>
         <a href="#" class="__next"><img src="./images/next.gif" alt="{$lang->cmd_gallery_next}" title="{$lang->cmd_gallery_next}" border="0" /></a>
     </div>
-    <div style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color};text-align:left;">
+    <div style="width:{$gallery_info->width}px;background-color:{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid {$gallery_info->border_color};text-align:left;">
         <div class="slide_gallery_thumbnail_image_box" style="display:none"></div>
         <div class="slide_gallery_loading_text">Loading images...</div>
 		<div class="slide_gallery_placeholder"></div>

@@ -17,13 +17,13 @@
 		<value xml:lang="zh-TW"><![CDATA[此項目有新版本]]></value>
     </item>
 	<item name="msg_do_you_like_install">
-		<value xml:lang="ko"><![CDATA[생성 하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[생성하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to create?]]></value>
 		<value xml:lang="jp"><![CDATA[インストールしますか?]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要安裝嗎?]]></value>
 	</item>
 	<item name="msg_do_you_like_update">
-		<value xml:lang="ko"><![CDATA[업데이트 하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
 		<value xml:lang="jp"><![CDATA[アップデートしますか?]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要更新嗎?]]></value>
@@ -271,12 +271,12 @@
 		<value xml:lang="vi"><![CDATA[Chọn lọc Module]]></value>
 	</item>
 	<item name="do_selected">
-		<value xml:lang="ko"><![CDATA[선택된 것들을...]]></value>
+		<value xml:lang="ko"><![CDATA[선택된 것들을]]></value>
 		<value xml:lang="en"><![CDATA[I want to]]></value>
-		<value xml:lang="jp"><![CDATA[選択したものを...]]></value>
-		<value xml:lang="zh-CN"><![CDATA[把所选模块...]]></value>
-		<value xml:lang="zh-TW"><![CDATA[選擇項目...]]></value>
-		<value xml:lang="ru"><![CDATA[Выбранные...]]></value>
+		<value xml:lang="jp"><![CDATA[選択したものを]]></value>
+		<value xml:lang="zh-CN"><![CDATA[把所选模块]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇項目]]></value>
+		<value xml:lang="ru"><![CDATA[Выбранные]]></value>
 		<value xml:lang="tr"><![CDATA[Şunu yap]]></value>
 		<value xml:lang="vi"><![CDATA[Bình chọn / Phê bình.]]></value>
 	</item>
@@ -331,6 +331,10 @@
 		<value xml:lang="en"><![CDATA[Upload File]]></value>
 		<value xml:lang="zh-TW"><![CDATA[上傳檔案]]></value>
 	</item>
+	<item name="filebox_list">
+		<value xml:lang="ko"><![CDATA[파일 목록]]></value>
+		<value xml:lang="en"><![CDATA[File List]]></value>
+	</item>
 	<item name="access_type">
 		<value xml:lang="ko"><![CDATA[접속 방법]]></value>
 		<value xml:lang="en"><![CDATA[Access Type]]></value>
@@ -362,26 +366,26 @@
 		<value xml:lang="vi"><![CDATA[Với ID Website]]></value>
 	</item>
 	<item name="about_domain">
-		<value xml:lang="ko"><![CDATA[1개 이상의 사이트를 만들기 위해서는 전용 도메인이 있어야 합니다.<br />독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />예) www.xpressengine.com/xe]]></value>
-		<value xml:lang="en"><![CDATA[In order to create more than one virtual site, every club needs to have its own domain name.<br />A sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path where XE is installed. <br /> ex) www.xpressengine.com/xe]]></value>
-		<value xml:lang="jp"><![CDATA[複数のホームページを作成するためには、「オリジナルドメイン」や「サブ ドメイン」のような専用のドメインが必要です。<br />また、 XEのインストールパスも一緒に記入してください。<br />ex) www.xpressengine.com/xe]]></value>
-		<value xml:lang="zh-CN"><![CDATA[要创建一个站点必须有一个专用域名。<br />一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。<br />ex) www.xpressengine.com/xe]]></value>
-		<value xml:lang="zh-TW"><![CDATA[要建立網站必須要有個專屬域名。<br />頂級域名或次級域名都可以。輸入時，請將 XE 安裝路徑也一起輸入。<br />例) www.xpressengine.com/xe]]></value>
-		<value xml:lang="es"><![CDATA[Para crear un dominio privado de la site requiere. <br /> Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto. <br /> Ej.) www.xpressengine.com / zbxe]]></value>
-		<value xml:lang="tr"><![CDATA[Birden fazla sanal website oluşturabilmek için, her birinin kendi alanadına ihtiyacı vardır.<br />Alt-alanadı (örn., aaa.bbb.com of bbb.com) da kullanılabilir. XE'nin de içinde kurulu olduğu yolun adresini giriniz. <br /> örn.) www.xpressengine.com/xe]]></value>
-		<value xml:lang="vi"><![CDATA[Để tạo nhiều Website nhỏ, các Website nhỏ này cần những tên miền riêng của mình.<br />Có thể sử dụng những Subdomain dạng aaa.bbb.com của bbb.com. Hãy nhập địa chỉ bao gồm cả Domain cài đặt XE. <br /> Ví dụ: www.vietxe.net/xe]]></value>
+		<value xml:lang="ko"><![CDATA[1개 이상의 사이트를 만들기 위해서는 전용 도메인이 있어야 합니다. 독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요. 예) www.xpressengine.com/xe]]></value>
+		<value xml:lang="en"><![CDATA[In order to create more than one virtual site, every club needs to have its own domain name. A sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path where XE is installed.   ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="jp"><![CDATA[複数のホームページを作成するためには、「オリジナルドメイン」や「サブ ドメイン」のような専用のドメインが必要です。 また、 XEのインストールパスも一緒に記入してください。 ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="zh-CN"><![CDATA[要创建一个站点必须有一个专用域名。 一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。 ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="zh-TW"><![CDATA[要建立網站必須要有個專屬域名。 頂級域名或次級域名都可以。輸入時，請將 XE 安裝路徑也一起輸入。 例) www.xpressengine.com/xe]]></value>
+		<value xml:lang="es"><![CDATA[Para crear un dominio privado de la site requiere.   Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto.   Ej.) www.xpressengine.com / zbxe]]></value>
+		<value xml:lang="tr"><![CDATA[Birden fazla sanal website oluşturabilmek için, her birinin kendi alanadına ihtiyacı vardır. Alt-alanadı (örn., aaa.bbb.com of bbb.com) da kullanılabilir. XE'nin de içinde kurulu olduğu yolun adresini giriniz.   örn.) www.xpressengine.com/xe]]></value>
+		<value xml:lang="vi"><![CDATA[Để tạo nhiều Website nhỏ, các Website nhỏ này cần những tên miền riêng của mình. Có thể sử dụng những Subdomain dạng aaa.bbb.com của bbb.com. Hãy nhập địa chỉ bao gồm cả Domain cài đặt XE.   Ví dụ: www.vietxe.net/xe]]></value>
 	</item>
 	<item name="about_vid">
-		<value xml:lang="ko"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)과 중복될 수 없습니다.<br />첫 글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="en"><![CDATA[Users can access via http://XEaddress/ID. You cannot use same site id as the existing module name(mid).<br />Site id should start with an alphabet character. Alphabet characters, numbers and underscore can be used for the site id.]]></value>
-		<value xml:lang="jp"><![CDATA[別途のドメインではなく、「http://XEアドレス/ID」へのアクセスが可能です。この際、モジュール名(mid)と重複しないように登録してください。<br />必ず、頭文字は半角英文字にし、「（すべて半角の）英数字・_ 」 だけの組み合わせで入力してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[直接以http://XE安装地址/ID的方式访问。<br />模块名(mid)不能重复。<br />模块名要以英文字母开头，且只允许使用英文字母，数字及"_"。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[直接以 http://程式安裝位址/ID 的方式訪問。模組名稱(mid)不能重複。<br />必須要以英文字母開頭，只允許使用底線、英文及數字。]]></value>
-		<value xml:lang="fr"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="ru"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="es"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="tr"><![CDATA[Kullanıcılar, http://XEaddress/ID adresiyle ulaşabilirler. Varolan bir modül adıyla(mid) aynı olan site kimliği kullanamazsınız .<br />Site kimliği bir harfle başlamaladır . Alfabetik karakterler, sayılar ve _ işareti site kimliği için kullanılabilir.]]></value>
-		<value xml:lang="vi"><![CDATA[Người sử dụng có thể truy cập qua http://XEaddress/ID. Bạn không thể sử dụng ID giống nhau và giống tên Module đã có.<br />Teen ID có dạng là các chữ cái, số và dấu gạch dưới (_).]]></value>
+		<value xml:lang="ko"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)과 중복될 수 없습니다. 첫 글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="en"><![CDATA[Users can access via http://XEaddress/ID. You cannot use same site id as the existing module name(mid). Site id should start with an alphabet character. Alphabet characters, numbers and underscore can be used for the site id.]]></value>
+		<value xml:lang="jp"><![CDATA[別途のドメインではなく、「http://XEアドレス/ID」へのアクセスが可能です。この際、モジュール名(mid)と重複しないように登録してください。 必ず、頭文字は半角英文字にし、「（すべて半角の）英数字・_ 」 だけの組み合わせで入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[直接以http://XE安装地址/ID的方式访问。 模块名(mid)不能重复。 模块名要以英文字母开头，且只允许使用英文字母，数字及"_"。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[直接以 http://程式安裝位址/ID 的方式訪問。模組名稱(mid)不能重複。 必須要以英文字母開頭，只允許使用底線、英文及數字。]]></value>
+		<value xml:lang="fr"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다. 첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다. 첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다. 첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Kullanıcılar, http://XEaddress/ID adresiyle ulaşabilirler. Varolan bir modül adıyla(mid) aynı olan site kimliği kullanamazsınız . Site kimliği bir harfle başlamaladır . Alfabetik karakterler, sayılar ve _ işareti site kimliği için kullanılabilir.]]></value>
+		<value xml:lang="vi"><![CDATA[Người sử dụng có thể truy cập qua http://XEaddress/ID. Bạn không thể sử dụng ID giống nhau và giống tên Module đã có. Teen ID có dạng là các chữ cái, số và dấu gạch dưới (_).]]></value>
 	</item>
 	<item name="msg_already_registed_vid">
 		<value xml:lang="ko"><![CDATA[이미 등록된 사이트 ID 입니다. 게시판 등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.]]></value>
@@ -416,14 +420,14 @@
 		<value xml:lang="tr"><![CDATA[Başlık Betiği(script)]]></value>
 	</item>
 	<item name="about_header_script">
-		<value xml:lang="ko"><![CDATA[HTML &lt;head&gt;...&lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. 예) &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; ...]]></value>
+		<value xml:lang="ko"><![CDATA[HTML &lt;head&gt;...&lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. 예) &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; ]]></value>
 		<value xml:lang="en"><![CDATA[You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself. You can use &lt;script&gt;, &lt;style&gt; or &lt;meta&gt; tags.]]></value>
 		<value xml:lang="jp"><![CDATA[HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力できます。 &lt;script&gt;、&lt;style&gt;または&lt;meta&gt;タグなどを利用できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以直接输入插入到html中&lt;head&gt;区的代码。 可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等标签。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以直接輸入，並插入到 HTML 的&lt;head&gt;之間。 可使用&lt;script&gt;,&lt;style&gt;或&lt;meta&gt;等標籤。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez entrer un script en html par vous-même entre &lt;header&gt; et &lt;/header&gt;. Vous pouvez utiliser &lt;script&gt;, &lt;style&gt; ou &lt;meta&gt; tag]]></value>
-		<value xml:lang="ru"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용하실 수 있습니다]]></value>
-		<value xml:lang="es"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용하실 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용할 수 있습니다]]></value>
 		<value xml:lang="tr"><![CDATA[Html betiğini(script) &lt;header&gt; ile &lt;/header&gt; arasına kendiniz ekleyebilirsiniz.  &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; tag kullanabilirsiniz]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn co thể nhập mã dang HTML vào giữa  &lt;header&gt; và &lt;/header&gt;. Bạn có thể sử dụng &lt;script&gt;, &lt;style&gt; hay &lt;meta&gt; tag]]></value>
 	</item>
@@ -474,6 +478,15 @@
 		<value xml:lang="es"><![CDATA[Joined users]]></value>
 		<value xml:lang="tr"><![CDATA[Kayıtlı kullanıcılar]]></value>
 		<value xml:lang="vi"><![CDATA[Đã đăng kí]]></value>
+	</item>
+	<item name="grant_to_admin">
+		<value xml:lang="ko"><![CDATA[관리자만]]></value>
+		<value xml:lang="en"><![CDATA[Administrator only]]></value>
+		<value xml:lang="jp"><![CDATA[Administrator only]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Administrator only]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Administrator only]]></value>
+		<value xml:lang="tr"><![CDATA[Administrator only]]></value>
+		<value xml:lang="vi"><![CDATA[Administrator only]]></value>
 	</item>
 	<item name="grant_to_group">
 		<value xml:lang="ko"><![CDATA[선택 그룹 사용자]]></value>
@@ -638,6 +651,10 @@
 		<value xml:lang="tr"><![CDATA[Bu isim önceden zaten alınmış. Lütfen başka bir tane deneyiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Tên này đã được sử dụng. Hãy thử lại với tên khác.]]></value>
 	</item>
+	<item name="msg_module_not_exists">
+		<value xml:lang="ko"><![CDATA[해당 모듈이 존재하지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Module matching the name is not found.]]></value>
+	</item>
 	<item name="msg_category_is_null">
 		<value xml:lang="ko"><![CDATA[등록된 분류가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is no registered category.]]></value>
@@ -687,7 +704,7 @@
 		<value xml:lang="vi"><![CDATA[Không thể di chuyển]]></value>
 	</item>
 	<item name="msg_cannot_delete_for_child">
-		<value xml:lang="ko"><![CDATA[하부 분류가 있는 분류는 삭제하실 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[하부 분류가 있는 분류는 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot delete a category which has child categories.]]></value>
 		<value xml:lang="jp"><![CDATA[下位カテゴリのあるカテゴリは削除できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不能删除有下级分类的分类！]]></value>
@@ -711,14 +728,14 @@
 		<value xml:lang="vi"><![CDATA[Tên Module chỉ hỗ trợ định dạng [Kí tự], [Kí tự+Số], [Kí tự+Số+_].]]></value>
 	</item>
 	<item name="msg_extra_name_exists">
-		<value xml:lang="ko"><![CDATA[이미 존재하는 확장 변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Already registered extra variable name. Please input another name.]]></value>
+		<value xml:lang="ko"><![CDATA[이미 존재하는 사용자 정의 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Already registered user defined name. Please input another name.]]></value>
 		<value xml:lang="jp"><![CDATA[既に存在する拡張変数名です。他の拡張変数名を入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已有的扩展变量名称，请重新输入！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已存在的延伸變數名稱。請輸入其他名稱。]]></value>
-		<value xml:lang="fr"><![CDATA[이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
-		<value xml:lang="ru"><![CDATA[이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
-		<value xml:lang="es"><![CDATA[이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="fr"><![CDATA[이미 존재하는 사용자 정의 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="ru"><![CDATA[이미 존재하는 사용자 정의 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="es"><![CDATA[이미 존재하는 사용자 정의 이름입니다. 다른 이름을 입력해주세요.]]></value>
 		<value xml:lang="tr"><![CDATA[Önceden kayıtlı değişken isim. Lütfen başka bir tane giriniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Tên biến đã được sử dụng. Xin hãy chọn tên khác.]]></value>
 	</item>
@@ -738,7 +755,7 @@
 		<value xml:lang="ko"><![CDATA[모듈 이름은 http://주소/?mid=모듈이름 처럼 직접 호출할 수 있는 값입니다. (영문+[영문+숫자+_] 만 가능. 최대 40 글자)]]></value>
 		<value xml:lang="en"><![CDATA[The module name will be used like http://address/?mid=ModuleName.
 (Only english alphabet letters, numbers and underscore can be used. The maximum length is 40.)]]></value>
-		<value xml:lang="jp"><![CDATA[モジュール名は「http://アドレス/?mid=モジュール名」のように直接呼び出せるパラメーター値です。<br />※英数の頭文字と[英数と_のみ]の組み合わせ （すべて半角、最大40文字） ]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール名は「http://アドレス/?mid=モジュール名」のように直接呼び出せるパラメーター値です。 ※英数の頭文字と[英数と_のみ]の組み合わせ （すべて半角、最大40文字） ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[模块名称只允许使用英文，数字和下划线(最多不能超过40字节)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[模組名稱只允許使用英文，數字和底線。最大長度 40 個字元。]]></value>
 		<value xml:lang="fr"><![CDATA[Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.
@@ -753,7 +770,7 @@
 (Chỉ cho phép chữ cái tiếng Anh + [chữ cái tiếng Anh, số, và dấu gạch dưới (_)] và tối đa 40 kí tự.)]]></value>
 	</item>
 	<item name="about_default">
-		<value xml:lang="ko"><![CDATA[선택하시면 사이트에 mid값 없이 접속하였을 경우 기본으로 보여줍니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택하면 사이트에 mid값 없이 접속하였을 경우 기본으로 보여줍니다.]]></value>
 		<value xml:lang="en"><![CDATA[If checked, this module will be shown when users access the site without mid value (mid=NoValue).]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると、サイトに「mid値」なしでアクセスした場合、デフォルトで表示します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用没有mid值的网址访问网站时，将会显示默认。]]></value>
@@ -765,22 +782,17 @@
 		<value xml:lang="vi"><![CDATA[Nếu chọn, Sẽ hiển thị mặc định là (mid=NoValue) khi truy cập tên Module không đúng.]]></value>
 	</item>
 	<item name="about_module_category">
-		<value xml:lang="ko"><![CDATA[분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류 관리는 <a href="./?module=admin&amp;act=dispModuleAdminCategory">모듈관리 > 모듈분류</a>에서 하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류 관리는 <a href="./?module=admin&amp;act=dispModuleAdminCategory">모듈분류</a>에서 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[It enables you to manage it through a module category.
- The URL for the module manager is <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Module category </a>.]]></value>
-		<value xml:lang="jp"><![CDATA[カテゴリで管理できるようにします。モジュールのカテゴリの管理は、「<a href="./?module=admin&amp;act=dispModuleAdminCategory">モジュール管理 &gt; モジュールカテゴリ</a>」にて行います。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以分类管理模块。 模块分类可以在 <a href="./?module=admin&amp;act=dispModuleAdminCategory">模块管理 > 模块分类 </a>中进行管理。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可以分類管理模組。模組分類可以在<a href="./?module=admin&amp;act=dispModuleAdminCategory">模組管理 > 模組分類 </a>中進行管理。]]></value>
-		<value xml:lang="fr"><![CDATA[Ça vous permet d'administrer le module par la catégorie.
-On peut administrer la classification des modules à <a href="./?module=admin&amp;act=dispModuleAdminCategory">Administration des modules > Catégorie des Modules </a>.]]></value>
-		<value xml:lang="ru"><![CDATA[Это позволяет Вам управлять посредством категорий модулей.
-URL для менеджера модулей <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Категория Модуля </a>.]]></value>
-		<value xml:lang="es"><![CDATA[Es posible manejar a traves de categoría.
- EL URL para en manejo del módulo de categoría es <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manejo de módulo > Módulo de categoría </a>.]]></value>
-		<value xml:lang="tr"><![CDATA[Size, modül kategorisi yoluyla yönetme imkanı sunar.
- Modül Yöneticisi için URL: <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Modül Kategorisi</a>dir.]]></value>
-		<value xml:lang="vi"><![CDATA[Nó cho phép bạn quản lý thông qua Module thể loại.
- URL quản lý có dạng <a href="./?module=admin&amp;act=dispModuleAdminCategory">Quản lý Module > Module thể loại </a>.]]></value>
+ The URL for the module manager is <a href="./?module=admin&amp;act=dispModuleAdminCategory">Module category </a>.]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリで管理できるようにします。モジュールのカテゴリの管理は、「<a href="./?module=admin&amp;act=dispModuleAdminCategory">モジュールカテゴリ</a>」にて行います。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以分类管理模块。 模块分类可以在 <a href="./?module=admin&amp;act=dispModuleAdminCategory">模块分类 </a>中进行管理。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以分類管理模組。模組分類可以在<a href="./?module=admin&amp;act=dispModuleAdminCategory">模組分類</a>中進行管理。]]></value>
+		<value xml:lang="fr"><![CDATA[Ça vous permet d'administrer le module par la catégorie. On peut administrer la classification des modules à <a href="./?module=admin&amp;act=dispModuleAdminCategory">Catégorie des Modules </a>.]]></value>
+		<value xml:lang="ru"><![CDATA[Это позволяет Вам управлять посредством категорий модулей. URL для менеджера модулей <a href="./?module=admin&amp;act=dispModuleAdminCategory">Категория Модуля </a>.]]></value>
+		<value xml:lang="es"><![CDATA[Es posible manejar a traves de categoría. EL URL para en manejo del módulo de categoría es <a href="./?module=admin&amp;act=dispModuleAdminCategory">Módulo de categoría </a>.]]></value>
+		<value xml:lang="tr"><![CDATA[Size, modül kategorisi yoluyla yönetme imkanı sunar. Modül Yöneticisi için URL: <a href="./?module=admin&amp;act=dispModuleAdminCategory">Modül Kategorisi</a>dir.]]></value>
+		<value xml:lang="vi"><![CDATA[Nó cho phép bạn quản lý thông qua Module thể loại. URL quản lý có dạng <a href="./?module=admin&amp;act=dispModuleAdminCategory">Module thể loại </a>.]]></value>
 	</item>
 	<item name="about_description">
 		<value xml:lang="ko"><![CDATA[관리용으로 사용되는 설명입니다.]]></value>
@@ -795,7 +807,7 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="vi"><![CDATA[Mô tả cho một quản lý.]]></value>
 	</item>
 	<item name="about_header_text">
-		<value xml:lang="ko"><![CDATA[모듈 상단에 표시되는 내용입니다. (HTML 태그 사용 가능)]]></value>
+		<value xml:lang="ko"><![CDATA[콘텐츠 상단에 표시되는 내용입니다. (HTML 태그 사용 가능)]]></value>
 		<value xml:lang="en"><![CDATA[The contents will be shown on the top of the module. (html tags available)]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールのヘッダーに表示される内容です。（HTMLタグの使用可能）]]></value>
 		<value xml:lang="zh-CN"><![CDATA[模块头部修饰内容。(可以使用HTML)]]></value>
@@ -807,7 +819,7 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="vi"><![CDATA[Nội dung sẽ hiển thị trên đầu Module.(sau http tag có sẵn)]]></value>
 	</item>
 	<item name="about_footer_text">
-		<value xml:lang="ko"><![CDATA[모듈 하단에 표시되는 내용입니다. (HTML 태그 사용 가능)]]></value>
+		<value xml:lang="ko"><![CDATA[콘텐츠 하단에 표시되는 내용입니다. (HTML 태그 사용 가능)]]></value>
 		<value xml:lang="en"><![CDATA[The contents will be shown on the bottom of the module. (html tags available)]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールのフッターに表示される内容です。（HTMLタグの使用可能）]]></value>
 		<value xml:lang="zh-CN"><![CDATA[模块尾部修饰内容。(可以使用HTML)]]></value>
@@ -824,12 +836,12 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="jp"><![CDATA[スキン固定]]></value>
 	</item>
 	<item name="about_skin_fix">
-		<value xml:lang="ko"><![CDATA[테마 설정과 상관없이 스킨을 고정시킵니다. 사용하면 테마의 일괄 스킨 설정 대상에서 제외됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[스킨을 고정시킵니다. 일괄 스킨 설정 대상에서 제외됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Check this to fix the skin regardless of theme setting.]]></value>
 		<value xml:lang="jp"><![CDATA[テーマ設定に関係なくスキンを固定させます。使用すると、テーマの一括スキン設定対象から外されます。]]></value>
 	</item>
 	<item name="about_skin">
-		<value xml:lang="ko"><![CDATA[모듈 스킨을 선택하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[콘텐츠 스킨을 선택할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may choose a module skin.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールのスキンを選択します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以选择模块皮肤。]]></value>
@@ -841,7 +853,7 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="vi"><![CDATA[Banj có thể chọn Skin cho Module.]]></value>
 	</item>
 	<item name="about_use_category">
-		<value xml:lang="ko"><![CDATA[선택하시면 분류 기능을 사용할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택하면 분류 기능을 사용할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[If checked, the category function will be enabled.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れるとカテゴリ機能を使用できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项可以使用分类功能。]]></value>
@@ -853,7 +865,7 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="vi"><![CDATA[Nếu chon, chức năng thể loại sẽ hoạt động.]]></value>
 	</item>
 	<item name="about_list_count">
-		<value xml:lang="ko"><![CDATA[한 페이지에 표시될 글 수를 지정하실 수 있습니다. (기본 20개)]]></value>
+		<value xml:lang="ko"><![CDATA[한 페이지에 표시될 글 수를 지정할 수 있습니다. (기본 20개)]]></value>
 		<value xml:lang="en"><![CDATA[You can limit the number of article to show on one page. The default is 20.]]></value>
 		<value xml:lang="jp"><![CDATA[１ページ当たりに表示される書き込み数を指定できます（デフォルト20個）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定每页显示的主题数。(默认为20个)]]></value>
@@ -865,19 +877,19 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="vi"><![CDATA[Bạn có thể giới hạn bài viết hiển thị trên một trang.(Mặc định là 20)]]></value>
 	</item>
 	<item name="about_search_list_count">
-		<value xml:lang="ko"><![CDATA[검색, 카테고리 선택 등을 할 경우 표시될 글 수를 지정하실 수 있습니다. (기본 20개)]]></value>
+		<value xml:lang="ko"><![CDATA[검색, 카테고리 선택 등을 할 경우 표시될 글 수를 지정할 수 있습니다. (기본 20개)]]></value>
 		<value xml:lang="en"><![CDATA[You may set the number of articles to be exposed when you use search or category function. (default is 20)]]></value>
 		<value xml:lang="jp"><![CDATA[検索、カテゴリ選択などを行う場合に表示する書き込みの数を指定できます。（デフォルトは20件 ）]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定搜索或选择分类时每页要显示的帖子数(默认为20个)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以指定搜尋或選擇分類時，每頁要顯示的文章數(預設為 20 個)。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez configurer combien d'articles soient exposés quand vous utilisez la fonction de recherche ou de catégorie. (20 par défaut)]]></value>
-		<value xml:lang="ru"><![CDATA[검색 또는 카테고리 선택등을 할 경우 표시될 글의 수를 지정하실 수 있습니다. 기본(20개)]]></value>
+		<value xml:lang="ru"><![CDATA[검색 또는 카테고리 선택등을 할 경우 표시될 글의 수를 지정할 수 있습니다. 기본(20개)]]></value>
 		<value xml:lang="es"><![CDATA[Usted puede configurar el número de artículos que se exponen cuando se utiliza la función de búsqueda o categoría. (Por defecto es 20)]]></value>
 		<value xml:lang="tr"><![CDATA[Kategori veya arama özelliğini kullanırken gösterilecek makalelerin sayısını ayarlayabilirsiniz. (varsayılan : 20)]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có thể đặt giới hạn số bài viết sẽ hiển thị khi tìm kiếm hay chọn thể loại. (Mặc định là 20)]]></value>
 	</item>
 	<item name="about_page_count">
-		<value xml:lang="ko"><![CDATA[목록 하단, 페이지를 이동하는 링크 수를 지정하실 수 있습니다. (기본 10개)]]></value>
+		<value xml:lang="ko"><![CDATA[목록 하단, 페이지를 이동하는 링크 수를 지정할 수 있습니다. (기본 10개)]]></value>
 		<value xml:lang="en"><![CDATA[You can set the number of page links to move pages in a bottom of the page. (default is 10)]]></value>
 		<value xml:lang="jp"><![CDATA[リスト下部、ページ移動可能なリンク数を指定できます（デフォルト10個）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定显示在目录下方的页面数(默认为10个)。 ]]></value>
@@ -929,7 +941,7 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="vi"><![CDATA[Khu vực Module trong XE ngoại trừ Library là tại [Module Manage]. Tất cả những Module đang có sẽ hiển thị, giúp bạn quản lý một cách dễ dàng.]]></value>
 	</item>
 	<item name="about_extra_vars_default_value">
-		<value xml:lang="ko"><![CDATA[다중/단일 선택 등 기본 값이 여러 개가 필요한 경우 , (콤마)로 연결하시면 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[다중/단일 선택 등 기본 값이 여러 개가 필요한 경우 , (콤마)로 연결하면 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[This is only for select,checkbox and radio button. If multiple default values are needed, you can link them with comma.]]></value>
 		<value xml:lang="jp"><![CDATA[多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[复选/单选缺省值需要多个时,用,(逗号)来分隔。]]></value>
@@ -941,33 +953,33 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="vi"><![CDATA[Nếu cần nhiều giá trị mặc định, bạn có thể thêm dấu (,) và giữa các kết nối.]]></value>
 	</item>
 	<item name="about_search_virtual_site">
-		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력하신 후 검색하세요.<br/>가상 사이트 이외의 모듈은 내용을 비우고 검색하시면 됩니다. (http:// 는 제외)]]></value>
-		<value xml:lang="en"><![CDATA[Enter domain of virtual sites.<br />To search modules of non-virtual site, search with blank]]></value>
-		<value xml:lang="jp"><![CDATA[バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力して検索してください。<br />バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は省く）]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请输入子站点域名后再进行搜索。<br/>子站点以外的模块可以留空搜索。(输入时http://除外)。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[請輸入網站域名後再搜尋。<br/>網站以外的模組可直接進行搜尋。(http://不用輸入)。]]></value>
-		<value xml:lang="fr"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="ru"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="es"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)]]></value>
-		<value xml:lang="tr"><![CDATA[Sanal sitelerin alanadlarını giriniz.<br />Sanal olmayan sitelerin modüllerini aramak için, boş arama yapınız]]></value>
-		<value xml:lang="vi"><![CDATA[Hãy nhập tên miền thực tế của Website.<br />Để tìm kiếm những Module không thực tế của Website hãy để trống.]]></value>
+		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력한 후 검색하세요. 가상 사이트 이외의 모듈은 내용을 비우고 검색하면 됩니다. (http:// 는 제외)]]></value>
+		<value xml:lang="en"><![CDATA[Enter domain of virtual sites. To search modules of non-virtual site, search with blank]]></value>
+		<value xml:lang="jp"><![CDATA[バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力して検索してください。 バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は省く）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入子站点域名后再进行搜索。 子站点以外的模块可以留空搜索。(输入时http://除外)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入網站域名後再搜尋。 網站以外的模組可直接進行搜尋。(http://不用輸入)。]]></value>
+		<value xml:lang="fr"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요. 가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="ru"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요. 가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="es"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요. 가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="tr"><![CDATA[Sanal sitelerin alanadlarını giriniz. Sanal olmayan sitelerin modüllerini aramak için, boş arama yapınız]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy nhập tên miền thực tế của Website. Để tìm kiếm những Module không thực tế của Website hãy để trống.]]></value>
 	</item>
 	<item name="about_extra_vars_eid_value">
-		<value xml:lang="ko"><![CDATA[확장 변수의 이름을 적어주세요. 영문, 숫자, _를 조합해서 사용할 수 있으며 첫 글자는 영문이어야 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[Enter the name of extra var. You can use a combination of English alphabets, numbers and underscore(_), as long as it starts with an alphabet.]]></value>
+		<value xml:lang="ko"><![CDATA[사용자 정의 이름을 적어주세요. 영문, 숫자, _를 조합해서 사용할 수 있으며 첫 글자는 영문이어야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Enter the name of user defined. You can use a combination of English alphabets, numbers and underscore(_), as long as it starts with an alphabet.]]></value>
 		<value xml:lang="jp"><![CDATA[拡張変数名を入力してください。　（英字+[英字+数字+_]のみ可能（すべて半角））]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入扩展变量名称(只允许英文字母+[英文字母+数字+_])。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入延伸變數名稱。( 只允許使用英文 + [ 英文，數字及底線 ] )]]></value>
 	</item>
 	<item name="about_langcode">
-		<value xml:lang="ko"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어 코드 찾기를 이용해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[언어별로 다르게 설정하고 싶으면 언어 코드 찾기를 이용해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[If you want to configure seperately, use 'find language code']]></value>
 		<value xml:lang="jp"><![CDATA[言語ごとに異なる設定をする場合、言語コード検索を利用してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[要想实现多国语言切换请点击[选择语言变量]按钮。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要實現多國語言功能，請按[語言代碼]按鈕。]]></value>
-		<value xml:lang="fr"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
-		<value xml:lang="ru"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
-		<value xml:lang="es"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
+		<value xml:lang="fr"><![CDATA[언어별로 다르게 설정하고 싶으면 언어코드 찾기를 이용해주세요]]></value>
+		<value xml:lang="ru"><![CDATA[언어별로 다르게 설정하고 싶으면 언어코드 찾기를 이용해주세요]]></value>
+		<value xml:lang="es"><![CDATA[언어별로 다르게 설정하고 싶으면 언어코드 찾기를 이용해주세요]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer tek tek yapılandırma yapmak istiyorsanız, 'dil kodu bul'' u kullanınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu bạn muốn sử dụng định hình riêng, hãy sử dụng 'Tìm kiếm mã ngôn ngữ']]></value>
 	</item>
@@ -993,10 +1005,10 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="zh-TW"><![CDATA[XE 目前支援 12 種國際語言。 想添加其他語言，請將 /common/lang/ 目錄的檔案新增翻譯後，寄至 XE 開發團隊(contact@xpressengine.com)]]></value>
 	</item>
 	<item name="add_word">
-		<value xml:lang="ko"><![CDATA[새로운 단어 또는 문장 추가...]]></value>
-		<value xml:lang="en"><![CDATA[Add New Word or Sentence...]]></value>
-		<value xml:lang="jp"><![CDATA[新しい単語、または文章追加...]]></value>
-		<value xml:lang="zh-TW"><![CDATA[新增文字或字句...]]></value>
+		<value xml:lang="ko"><![CDATA[새로운 단어 또는 문장 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add New Word or Sentence]]></value>
+		<value xml:lang="jp"><![CDATA[新しい単語、または文章追加]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增文字或字句]]></value>
 	</item>
 	<item name="installed_modules">
 		<value xml:lang="ko"><![CDATA[설치된 모듈]]></value>
@@ -1024,8 +1036,8 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="zh-TW"><![CDATA[權限設定]]></value>
 	</item>
 	<item name="msg_cannot_delete_startmodule">
-		<value xml:lang="ko"><![CDATA[시작 모듈은 삭제할 수 없습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Cannot delete a start module.]]></value>
+		<value xml:lang="ko"><![CDATA[홈페이지는 삭제할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot delete a homepage.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[無法刪除預設模組]]></value>
 	</item>
 	<item name="attribute_name">
@@ -1052,5 +1064,52 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="ko"><![CDATA[공란일 경우 기존 값을 따릅니다.]]></value>
 		<value xml:lang="en"><![CDATA[If content empty, maintain existing value.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[If content empty, maintain existing value.]]></value>
+	</item>
+	<item name="cmd_save_and_use_it">
+		<value xml:lang="ko"><![CDATA[저장 &amp; 사용]]></value>
+		<value xml:lang="en"><![CDATA[Save &amp; Use it]]></value>
+	</item>
+	<item name="about_multilingual_manage" type="array">
+		<item name="text">
+			<value xml:lang="ko"><![CDATA[지원하는 목록은 [%s]에서 편집 가능.]]></value>
+			<value xml:lang="en"><![CDATA[You can manage multilingual at [%s].]]></value>
+		</item>
+		<item name="link">
+			<value xml:lang="ko"><![CDATA[콘텐츠>다국어]]></value>
+			<value xml:lang="en"><![CDATA[Content>Mualtilungal]]></value>
+		</item>
+	</item>
+	<item name="about_language_list_manage" type="array">
+		<item name="text">
+			<value xml:lang="ko"><![CDATA[지원하는 언어 목록은 [%s]에서 편집 가능.]]></value>
+			<value xml:lang="en"><![CDATA[You can manage language list at [%s].]]></value>
+		</item>
+		<item name="link">
+			<value xml:lang="ko"><![CDATA[설정>일반]]></value>
+			<value xml:lang="en"><![CDATA[Settings>General]]></value>
+		</item>
+	</item>
+	<item name="about_multilingual_search_result">
+		<value xml:lang="ko"><![CDATA[<strong>%d</strong>개의 <span class="flag %s">%s</span> 다국어 세트가 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There are <strong>%d</strong> <span class="flag %s">%s</span> multilingual sets.]]></value>
+	</item>
+	<item name="msg_confirm_save_and_use_multilingual">
+		<value xml:lang="ko"><![CDATA[현재 상태를 저장하고 사용하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Do you want to save and use this status?]]></value>
+	</item>
+	<item name="msg_empty_multilingual">
+		<value xml:lang="ko"><![CDATA[다국어를 입력해 주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter value for multilingual.]]></value>
+	</item>
+	<item name="cmd_set_multilingual_text">
+		<value xml:lang="ko"><![CDATA[다국어 텍스트 설정]]></value>
+		<value xml:lang="en"><![CDATA[Set multilingual text]]></value>
+	</item>
+	<item name="cmd_remove_multilingual_text">
+		<value xml:lang="ko"><![CDATA[다국어 텍스트 해제]]></value>
+		<value xml:lang="en"><![CDATA[Remove multilingual text]]></value>
+	</item>
+	<item name="use_site_default_skin">
+		<value xml:lang="ko"><![CDATA[사이트 기본 스킨 사용]]></value>
 	</item>
 </lang>

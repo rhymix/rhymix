@@ -223,7 +223,7 @@
 		<value xml:lang="vi"><![CDATA[Lề trái]]></value>
 	</item>
 	<item name="about_widget_fix_width">
-		<value xml:lang="ko"><![CDATA[선택하시면 가로 길이가 고정됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택하면 가로 길이가 고정됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Check this to fix the width.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると横幅が固定されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项将固定控件显示宽度。]]></value>
@@ -340,19 +340,19 @@
 		<value xml:lang="vi"><![CDATA[proc() của '%s' đã không được thực hiện.]]></value>
 	</item>
 	<item name="msg_widget_skin_is_null">
-		<value xml:lang="ko"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[위젯의 스킨을 선택해야 정상적으로 동작할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You should select widget's skin.]]></value>
 		<value xml:lang="jp"><![CDATA[ウィジェットスキンを選択しないと正常に動作できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择控件皮肤！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇一個可正常使用的 Widget 面板]]></value>
-		<value xml:lang="fr"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
-		<value xml:lang="ru"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
-		<value xml:lang="es"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
+		<value xml:lang="fr"><![CDATA[위젯의 스킨을 선택해야 정상적으로 동작할 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[위젯의 스킨을 선택해야 정상적으로 동작할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[위젯의 스킨을 선택해야 정상적으로 동작할 수 있습니다]]></value>
 		<value xml:lang="tr"><![CDATA[Widgetın dış görünümünü belirlemelisiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn cần phải chọn Skin cho Widget.]]></value>
 	</item>
 	<item name="about_widget_code">
-		<value xml:lang="ko"><![CDATA[선택하신 위젯에서 요구하는 아래 항목들의 값을 넣고 [코드생성]버튼을 누르시면 제일 아래 칸에 템플릿 파일에 적용할 수 있는 코드가 출력 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 위젯에서 요구하는 아래 항목들의 값을 넣고 [코드생성]버튼을 누르면 제일 아래 칸에 템플릿 파일에 적용할 수 있는 코드가 출력 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please input the required value first, and click [Generate Code] button to generate the code for adding to the template file.]]></value>
 		<value xml:lang="jp"><![CDATA[選択したウィジェットで要求する下記項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用できるコードが出力されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入所选控件所需要的下列各项后，按『代码生成』按钮，即可在页面下方获得可以用在布局模版代码片断。]]></value>
@@ -364,7 +364,7 @@
 		<value xml:lang="vi"><![CDATA[Hãy nhập các thông tin cần thiết, sau đó bấm nút [<b>Tạo Code</b>] để lấy Code thêm vào giao diện.]]></value>
 	</item>
 	<item name="about_widget_code_in_page">
-		<value xml:lang="ko"><![CDATA[아래 필요한 값들을 입력하신 후 추가 버튼을 누르시면 페이지 내에 위젯이 삽입됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[아래 필요한 값들을 입력한 후 추가 버튼을 누르면 페이지 내에 위젯이 삽입됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[After entering the required values, click the [Add] button to insert the widget code into the page.]]></value>
 		<value xml:lang="jp"><![CDATA[下記に必要な値を入力した後、追加ボタンをクリックするとページ内にウィジェットが挿入されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入下列各项必要值后，按『生成代码』按钮，即可把控件插入到页面当中。]]></value>
@@ -376,9 +376,9 @@
 		<value xml:lang="vi"><![CDATA[Sau khi nhập những thông tin cần thiết, bấm nút [<b>Tạo Code</b>] để chèn Code của Widget vào giao diện.]]></value>
 	</item>
 	<item name="about_widget">
-		<value xml:lang="ko"><![CDATA[위젯은 레이아웃이나 페이지 모듈에서 사용되는 작은 구성요소입니다.
-위젯은 내부 모듈 또는 외부 open api와 연동될 수도 있고, 설정을 통해 다양하게 응용될 수 있습니다.
-XE의 페이지 모듈이나 레이아웃 모듈을 사용하지 않더라도 [코드생성] 기능을 통해 직접 위젯 추가도 할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[위젯은 레이아웃이나 페이지에서 사용하는 작은 구성요소입니다.
+위젯은 내부 페이지 또는 외부 open api와 연동될 수도 있고, 설정을 통해 다양하게 응용될 수 있습니다.
+XE의 페이지나 레이아웃 모듈을 사용하지 않더라도 [코드생성] 기능을 통해 직접 위젯 추가도 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[A widget is a small free-standing application used in a layout or page module.
  It can be linked with internal module or external Open API. Through its configuration setting, wide application is possible. 
  You can directly add a widget by using the [Generate Code] function without using the XE page module or layout module.]]></value>
@@ -622,5 +622,13 @@ Sin la necesidad de utilizar los módulos de página o del diseño de XE, Usted 
 		<value xml:lang="en"><![CDATA[Installed Widgets]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされたウィジェット]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已安裝的 Widget]]></value>
+	</item>
+	<item name="display_no">
+		<value xml:lang="ko"><![CDATA[표시안함]]></value>
+		<value xml:lang="en"><![CDATA[Not displayed]]></value>
+	</item>
+	<item name="display_yes">
+		<value xml:lang="ko"><![CDATA[표시함]]></value>
+		<value xml:lang="en"><![CDATA[Display]]></value>
 	</item>
 </lang>

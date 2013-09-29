@@ -1,7 +1,11 @@
-<div id="tmpPageSizeLayer" class="layer x">
+<section id="tmpPageSizeLayer" class="x_modal x wgs" hidden>
+	<button type="button" class="x_close" data-hide=".wgs, .x_modal-backdrop, .jPicker.Container">&times;</button>
 	<form action="index.php">
-		<div class="table">
-			<table width="100%" border="1" cellspacing="0">
+		<div class="x_modal-header">
+			<h1>{$lang->cmd_widget_size}</h1>
+		</div>
+		<div class="x_modal-body">
+			<table class="x_table x_table-striped x_table-hover">
 				<col width="140" />
 				<col />
 				<col />
@@ -15,79 +19,83 @@
 					</td>
 				</tr>
 				<tr>
-					<th class="line">{$lang->cmd_widget_size}</th>
-					<td colspan="2" class="line"><input type="text" name="width" class="input" value="" /> - <input type="text" class="input" name="height" value="" /></td>
+					<th>{$lang->cmd_widget_size}</th>
+					<td colspan="2">
+						<label for="width" style="display:inline">W:</label> <input type="text" name="width" id="width" value="" /> 
+						&nbsp;&nbsp;
+						<label for="height" style="display:inline">H:</label> <input type="text" name="height" id="height" value="" />
+					</td>
 				</tr>
 				<tr>
-					<th rowspan="3" class="line">{$lang->cmd_widget_margin}</th>
-					<td colspan="2" class="line tCenter"><input type="text" name="margin_top" class="input" value="" />px</td>
+					<th rowspan="3">{$lang->cmd_widget_margin}</th>
+					<td colspan="2" style="text-align:center"><label for="margin_top" style="display:inline">T:</label> <input type="number" name="margin_top" id="margin_top" value="" /> px</td>
 				</tr>
 				<tr>
-					<td><input type="text" name="margin_left" class="input" value="" />px</td>
-					<td class="tRight"><input type="text" name="margin_right" class="input" value="" />px</td>
+					<td style="text-align:left"><label for="margin_left" style="display:inline">L:</label> <input type="number" name="margin_left" id="margin_left" value="" /> px</td>
+					<td style="text-align:right"><label for="margin_right" style="display:inline">R:</label> <input type="number" name="margin_right" id="margin_right" value="" /> px</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="tCenter"><input type="text" name="margin_bottom" class="input" value="" />px</td>
+					<td colspan="2" style="text-align:center"><label for="margin_bottom" style="display:inline">B:</label> <input type="number" name="margin_bottom" id="margin_bottom" value="" /> px</td>
 				</tr>
 				<tr>
-					<th rowspan="3" class="line">{$lang->cmd_widget_padding}</th>
-					<td colspan="2" class="line tCenter"><input type="text" name="padding_top" class="input" value="" />px</td>
+					<th rowspan="3">{$lang->cmd_widget_padding}</th>
+					<td colspan="2" style="text-align:center"><label for="padding_top" style="display:inline">T:</label> <input type="number" name="padding_top" id="padding_top" value="" /> px</td>
 				</tr>
 				<tr>
-					<td><input type="text" name="padding_left" class="input" value="" />px</td>
-					<td class="tRight"><input type="text" name="padding_right" class="input" value="" />px</td>
+					<td style="text-align:left"><label for="padding_left" style="display:inline">L:</label> <input type="number" name="padding_left" id="padding_left" value="" /> px</td>
+					<td style="text-align:right"><label for="padding_right" style="display:inline">R:</label> <input type="number" name="padding_right" id="padding_right" value="" /> px</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="tCenter"><input type="text" name="padding_bottom" class="input" value="" />px</td>
+					<td colspan="2" style="text-align:center"><label for="padding_bottom" style="display:inline">B:</label> <input type="number" name="padding_bottom" id="padding_bottom" value="" /> px</td>
 				</tr>
 				<tr>
-					<th rowspan="3" class="line">{$lang->cmd_widget_border}</th>
-					<td colspan="2" class="tCenter line">
-						<input type="text" name="border_top_thick" value="" class="small_input" />px
+					<th rowspan="3">{$lang->cmd_widget_border}</th>
+					<td colspan="2" style="text-align:center">
+						<input type="number" name="border_top_thick" value="" class="small_input" /> px
 						<select name="border_top_type">
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
 						</select>
-						#<input type="text" name="border_top_color" value="" class="color_input" maxlength="6"/>
+						<input type="text" name="border_top_color" value="" class="color_input color-indicator" maxlength="6"/>
 					</td>
 				</tr>
 				<tr>
-					<td>
-						<input type="text" name="border_left_thick" value="" class="small_input" />px
+					<td style="text-align:left">
+						<input type="number" name="border_left_thick" value="" class="small_input" /> px
 						<select name="border_left_type">
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
 						</select>
-						#<input type="text" name="border_left_color" value="" class="color_input" maxlength="6"/>
+						<input type="text" name="border_left_color" value="" class="color_input color-indicator" maxlength="6"/>
 					</td>
-					<td class="tRight">
-						<input type="text" name="border_right_thick" value="" class="small_input" />px
+					<td style="text-align:right">
+						<input type="number" name="border_right_thick" value="" class="small_input" /> px
 						<select name="border_right_type">
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
 						</select>
-						#<input type="text" name="border_right_color" value="" class="color_input" maxlength="6"/>
+						<input type="text" name="border_right_color" value="" class="color_input color-indicator" maxlength="6"/>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="tCenter">
-						<input type="text" name="border_bottom_thick" value="" class="small_input" />px
+					<td colspan="2" style="text-align:center">
+						<input type="number" name="border_bottom_thick" value="" class="small_input" /> px
 						<select name="border_bottom_type">
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
 						</select>
-						#<input type="text" name="border_bottom_color" value="" class="color_input" maxlength="6"/>
+						<input type="text" name="border_bottom_color" value="" class="color_input color-indicator" maxlength="6"/>
 					</td>
 				</tr>
 				<tr>
-					<th class="line">{$lang->cmd_widget_background_color}</th>
-					<td colspan="2" class="line"><input type="text" name="background_color" value="" class="input" /></td>
+					<th>{$lang->cmd_widget_background_color}</th>
+					<td colspan="2"><input type="text" name="background_color" value="" class="input color-indicator" /></td>
 				</tr>
 				<tr>
-					<th class="line">{$lang->cmd_widget_background_image_url}</th>
-					<td colspan="2" class="line">
-						<div><input type="text" name="background_image_url" value="" class="full_input"/></div>
-						<div>
+					<th>{$lang->cmd_widget_background_image_url}</th>
+					<td colspan="2">
+						<div style="margin-bottom:5px"><input type="text" name="background_image_url" value="" style="width:400px"/></div>
+						<div style="margin-bottom:5px">
 							<select name="background_repeat">
 								<option value="repeat">{$lang->cmd_widget_background_image_repeat}</option>
 								<option value="no-repeat">{$lang->cmd_widget_background_image_no_repeat}</option>
@@ -95,18 +103,25 @@
 								<option value="repeat-y">{$lang->cmd_widget_background_image_y_repeat}</option>
 							</select>
 						</div>
-						<div>
-							{$lang->cmd_widget_background_image_x} : <input type="text" name="background_x" value="0" class="input" />
+						<div style="margin-bottom:5px">
+							{$lang->cmd_widget_background_image_x} : <input type="text" name="background_x" value="0" />
 						</div>
-						<div>
-							{$lang->cmd_widget_background_image_y} : <input type="text" name="background_y" value="0" class="input" />
+						<div style="margin-bottom:5px">
+							{$lang->cmd_widget_background_image_y} : <input type="text" name="background_y" value="0" />
 						</div>
 					</td>
 				</tr>
 			</table>
 		</div>
-		<div class="btnArea">
-			<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+		<div class="x_modal-footer">
+			<input class="x_btn x_btn-inverse" type="submit" value="{$lang->cmd_save}" />
 		</div>
 	</form>
-</div>
+	<style scoped>
+	.wgs{margin:0;width:700px}
+	.wgs select{margin:0;width:auto}
+	.wgs input{margin:0!important;width:50px}
+	</style>
+</section>
+<!--%load_js_plugin("ui.colorpicker")-->
+

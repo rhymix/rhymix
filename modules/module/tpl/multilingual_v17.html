@@ -1,0 +1,51 @@
+{@
+	/* move current language to the top */
+	$a = array($lang_type=>$lang_supported[$lang_type]);
+	unset($lang_supported[$lang_type]);
+	$lang_supported = array_merge($a, $lang_supported);
+}
+<div class="x_modal"|cond="!$use_in_page" id="g11n" hidden|cond="!$use_in_page">
+	<div class="x_modal-header" cond="!$use_in_page">
+		<h1>{$lang->cmd_multilingual}</h1>
+	</div>
+	<div class="x_modal-body"|cond="!$use_in_page">
+		<div class="x_tabbable">
+			<ul class="x_nav x_nav-tabs">
+				<li class="x_active"|cond="!$use_in_page"><a href="#lang_create">{$lang->cmd_insert}</a></li>
+				<li class="x_active"|cond="$use_in_page"><a href="#lang_search">{$lang->cmd_search}</a></li>
+			</ul>
+			<div class="x_tab-content">
+				<form action="" class="x_tab-pane <!--@if(!$use_in_page)-->x_active<!--@end--> item" id="lang_create">
+					<fieldset class="editMode">
+						<textarea loop="$lang_supported => $code, $name" class="{$code}" rows="1" cols="12" title="{$name}" style="margin-right:5px"></textarea>
+						<div class="x_clearfix btnArea">
+							<button type="reset" class="x_btn cancel x_pull-left">{$lang->cmd_cancel}</button>
+							<button type="submit" class="x_btn x_btn-primary save-useit">{$lang->use_after_save}</button>
+						</div>
+					</fieldset>
+				</form>
+				<div class="x_tab-pane <!--@if($use_in_page)-->x_active<!--@end-->" id="lang_search">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div cond="!$use_in_page" class="x_modal-footer">
+		<button type="button" class="x_btn x_pull-left" data-hide="#g11n">{$lang->cmd_close}</button>
+		<p class="x_pull-right">
+			{@
+				$link = '<a href="' . getUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral') . '">' . $lang->about_language_list_manage['link'] . '</a>';
+				$text = sprintf($lang->about_language_list_manage['text'], $link);
+			}
+			{$text}
+		</p>
+	</div>
+</div>
+<script>
+	xe.confirm_delete = '{$lang->confirm_delete}';
+	xe.msg_confirm_save_and_use_multilingual = '{$lang->msg_confirm_save_and_use_multilingual}';
+	xe.msg_empty_multilingual = '{$lang->msg_empty_multilingual}';
+	xe.cmd_set_multilingual_text = '{$lang->cmd_set_multilingual_text}';
+	xe.cmd_remove_multilingual_text = '{$lang->cmd_remove_multilingual_text}';
+	xe.use_after_save = '{$lang->use_after_save}';
+	xe.cmd_save = '{$lang->cmd_save}';
+</script>

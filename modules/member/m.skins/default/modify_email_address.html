@@ -1,19 +1,20 @@
 <load target="./../../../../common/js/jquery.min.js" usecdn="true" index="-1000000" />
 <load target="./../../../../common/js/xe.min.js" usecdn="true" index="-1000000" />
 <load target="css/msignup.css" usecdn="true" />
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<h2 class="hx h2">{$lang->cmd_modify_member_email_address}</h2>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/m.skin/default/modify_email_address/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="modifyEmailAddress" class="ff" action="./" method="post">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberModifyEmailAddress" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-	<h2 class="h2">{$lang->cmd_modify_member_email_address}</h2>
-    <p>{$lang->about_modify_member_email_address}</p>
+	<input type="hidden" name="xe_validator_id" value="modules/member/m.skin/default/modify_email_address/1" />
+	<p>{$lang->about_modify_member_email_address}</p>
 	<ul>
 		<li>
 			<label for="email_address">{$lang->email_address}</label>
-			<input type="text" id="email_address" name="email_address" value="" />
+			<input type="email" id="email_address" name="email_address" value="" />
 		</li>
 	</ul>
 	<div class="bna">

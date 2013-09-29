@@ -1,16 +1,17 @@
 <load target="filter/add_friend.xml" />
 <load target="css/communication.css" />
 <load target="js/communication.js" />
-<h1 class="h1">{$lang->cmd_add_friend}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
-<form ruleset="addFriend" action="./" method="post" class="form">
-	<input type="hidden" name="module" value="communication" />
-	<input type="hidden" name="act" value="procCommunicationAddFriend" />
-	<input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
+<div class="xc">
+	<h1>{$lang->cmd_add_friend}</h1>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/add_friend/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form ruleset="addFriend" action="./" method="post">
+		<input type="hidden" name="module" value="communication" />
+		<input type="hidden" name="act" value="procCommunicationAddFriend" />
+		<input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
+		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/add_friend/1" />
+		<table class="table table-striped table-hover">
 			<tr>
 				<th scope="row">{$lang->nick_name}</th>
 				<td>{$target_info->nick_name}</td>
@@ -22,12 +23,12 @@
 						<option value="">{$lang->default_friend_group}</option>
 						<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
 					</select> 
-					<a href="{getUrl('act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+					<a href="{getUrl('act','dispCommunicationAddFriendGroup')}" class="btn" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
 				</td>
 			</tr>
 		</table>
-	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_add_friend}" /></span>
-	</div>
-</form>
+		<div class="btnArea" style="border-top:0;padding:0">
+			<input type="submit" value="{$lang->cmd_add_friend}" class="btn btn-inverse" />
+		</div>
+	</form>
+</div>

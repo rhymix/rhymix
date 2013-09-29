@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">기본 로그인 위젯</title>
+    <title xml:lang="en">Default login widget</title>
+    <version>1.0</version>
+    <date>2013-02-28</date>
+    <author email_address="developer@xpressengine.com" link="http://xpressengine.com/">
+        <name xml:lang="ko">NHN</name>
+        <name xml:lang="en">NHN</name>
+    </author>
+</skin>

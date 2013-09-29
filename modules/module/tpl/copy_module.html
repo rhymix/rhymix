@@ -1,77 +1,78 @@
 <load target="js/module_admin.js" usecdn="true" />
-<h1 class="h1">{$lang->module_copy}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/module/tpl/copy_module/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+<section class="section">
 <form rule="copyModule" action="./" method="post">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminCopyModule" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="row">{$lang->module}</th>
-				<td >{$module_info->module}</td>
-				</tr>
-			<tr>
-				<th scope="row">{$lang->mid}</th>
-				<td>{$module_info->mid}</td>
-				</tr>
-			<tr>
-				<th scope="row">{$lang->browser_title}</th>
-				<td>{$module_info->browser_title}</td>
-				</tr>
-		</table>
-	</div>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
-			<tr>
-				<th scope="col"><div>{$lang->mid}<div></th>
-				<th scope="col"><div>{$lang->browser_title}<div></th>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_1" /></td>
-				<td><input type="text" name="browser_title_1" /></td>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_2" /></td>
-				<td><input type="text" name="browser_title_2" /></td>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_3" /></td>
-				<td><input type="text" name="browser_title_3" /></td>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_4" /></td>
-				<td><input type="text" name="browser_title_4" /></td>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_5" /></td>
-				<td><input type="text" name="browser_title_5" /></td>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_6" /></td>
-				<td><input type="text" name="browser_title_6" /></td>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_7" /></td>
-				<td><input type="text" name="browser_title_7" /></td>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_8" /></td>
-				<td><input type="text" name="browser_title_8" /></td>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_9" /></td>
-				<td><input type="text" name="browser_title_9" /></td>
-				</tr>
-			<tr>
-				<td><input type="text" name="mid_10" /></td>
-				<td><input type="text" name="browser_title_10" /></td>
-				</tr>
-		</table>
-	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+	<input type="hidden" name="xe_validator_id" value="modules/module/tpl/copy_module/1" />
+	<h2>{$lang->module_copy}</h2>
+	<table class="x_table x_table-striped x_table-hover">
+		<tr>
+			<th scope="row">{$lang->module}</th>
+			<td >{$module_info->module}</td>
+			</tr>
+		<tr>
+			<th scope="row">{$lang->mid}</th>
+			<td>{$module_info->mid}</td>
+			</tr>
+		<tr>
+			<th scope="row">{$lang->browser_title}</th>
+			<td>{$module_info->browser_title}</td>
+			</tr>
+	</table>
+	<table class="x_table x_table-striped x_table-hover">
+		<tr>
+			<th scope="col"><div>{$lang->mid}<div></th>
+			<th scope="col"><div>{$lang->browser_title}<div></th>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_1" /></td>
+			<td><input type="text" name="browser_title_1" /></td>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_2" /></td>
+			<td><input type="text" name="browser_title_2" /></td>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_3" /></td>
+			<td><input type="text" name="browser_title_3" /></td>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_4" /></td>
+			<td><input type="text" name="browser_title_4" /></td>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_5" /></td>
+			<td><input type="text" name="browser_title_5" /></td>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_6" /></td>
+			<td><input type="text" name="browser_title_6" /></td>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_7" /></td>
+			<td><input type="text" name="browser_title_7" /></td>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_8" /></td>
+			<td><input type="text" name="browser_title_8" /></td>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_9" /></td>
+			<td><input type="text" name="browser_title_9" /></td>
+			</tr>
+		<tr>
+			<td><input type="text" name="mid_10" /></td>
+			<td><input type="text" name="browser_title_10" /></td>
+			</tr>
+	</table>
+	<div class="x_clearfix">
+		<div class="x_btn-group x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
 	</div>
 </form>
+</section>

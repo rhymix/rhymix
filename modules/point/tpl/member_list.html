@@ -1,127 +1,146 @@
-<!--#include("header.html")-->
+<include target="header.html" />
 <load target="js/point_admin.js" usecdn="true" />
-<p>{$lang->about_point_module} {$lang->point_update_desc}</p>
-<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/point/tpl/member_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<!-- 검색 -->
-<form action="./" method="get" class="adminSearch" no-error-return-url="true">
-<input type="hidden" name="module" value="{$module}" />
-<input type="hidden" name="act" value="{$act}" />
+<p>{$lang->about_point_module} {$lang->point_update_desc}</p>
+<!-- SEARCH -->
 
-    <fieldset>
+<table class="x_table x_table-striped x_table-hover">
+	<caption>
+		<strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong>
+		<form action="./" method="get" no-error-return-url="true"  class="x_pull-right"style="margin:0;height:26px">
+			<input type="hidden" name="module" value="{$module}" />
+			<input type="hidden" name="act" value="{$act}" />
+			<fieldset>
+				<select name="is_admin" style="width:auto;margin:0">
+					<option value="" selected="selected"|cond="$is_admin!='Y'">{$lang->total}</option>
+					<option value="Y" selected="selected"|cond="$is_admin=='Y'">{$lang->is_admin}</option>
+				</select>
+				<select name="selected_group_srl" style="width:auto;margin:0" title="{$lang->member_group}">
+					<option value="0">{$lang->member_group}</option>
+					<option loop="$group_list => $key,$val" value="{$val->group_srl}" selected="selected"|cond="$selected_group_srl==$val->group_srl">{$val->title}</option>
+				</select>
+				<select name="search_target" style="width:auto;margin:0" title="{$lang->search_target}">
+					<option value="{$identifier}" selected="selected"|cond="$search_target == $identifier">{Context::getLang($identifier)}</option>
+					<option loop="$lang->search_target_list => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+				</select>
+				<span class="x_input-append">
+					<input type="search" required name="search_keyword" required value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
+					<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
+					<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
+				</span>
+			</fieldset>
+		</form>
+	</caption>
+	<thead>
+		<tr>
+			<th scope="col">{$lang->no}</th>
+			<th scope="col">{Context::getLang($identifier)}</th>
+			<th scope="col">{$lang->nick_name}</th>
+			<th scope="col">{$lang->point}</th>
+			<th scope="col">{$lang->level}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr loop="$member_list => $no,$val">
+			<td>{$no}</td>
+			<td cond="$identifier == 'user_id'">{$val->user_id}</td>
+			<td cond="$identifier != 'user_id'">{$val->email_address}</td>
+			<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+			<td>
+				<form action="./" method="get" style="margin:0">
+					<input type="hidden" name="module" value="point" />
+					<input type="hidden" name="member_srl" value="{$val->member_srl}" />
+					<input type="hidden" name="xe_validator_id" value="modules/point/tpl/member_list/1" />
+					<input type="text" name="orgpoint" value="{$val->point}" disabled="disabled" style="width:40px;text-align:right" />
+					-&gt;
+					<span class="x_input-append">
+						<input type="number" id="point_{$val->member_srl}" value="{$val->point}" name="point" required style="width:60px;text-align:right" />
+						<input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" class="x_btn" />
+					</span>
+				</form>
+			</td>
+			<td>{$val->level}</td>
+		</tr>
+	</tbody>
+</table>
 
-        <select name="is_admin">
-            <option value="" <!--@if($is_admin!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
-            <option value="Y" <!--@if($is_admin=='Y')-->selected="selected"<!--@end-->>{$lang->is_admin}</option>
-        </select>
-        <select name="is_denied">
-            <option value="" <!--@if($is_denied!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
-            <option value="Y" <!--@if($is_denied=='Y')-->selected="selected"<!--@end-->>{$lang->denied}</option>
-        </select>
-        <select name="selected_group_srl">
-            <option value="0">{$lang->member_group}</option>
-            <!--@foreach($group_list as $key => $val)-->
-            <option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
-            <!--@end-->
-        </select>
-        <select name="search_target">
-            <option value="">{$lang->search_target}</option>
-			<option value="{$identifier}" selected="selected"|cond="$search_target == $identifier">{Context::getLang($identifier)}</option>
-            <!--@foreach($lang->search_target_list as $key => $val)-->
-            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-            <!--@end-->
-        </select>
-        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-        <span class="btn"><input type="submit" value="{$lang->cmd_search}" /></span>
-        <span class="btn"><button type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button></span>
-    </fieldset>
-</form>
-<div class="table form">	
-	<table width="100%" border="1" cellspacing="0">
-		<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-		<thead>
-			<tr>
-				<th scope="col">{$lang->no}</th>
-				<th scope="col">{Context::getLang($identifier)}</th>
-				<th scope="col">{$lang->nick_name}</th>
-				<th scope="col">{$lang->point}</th>
-				<th scope="col">{$lang->level}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<!--@foreach($member_list as $no => $val)-->
-			<tr>
-				<td>{$no}</td>
-				<td cond="$identifier == 'user_id'">{$val->user_id}</td>
-				<td cond="$identifier != 'user_id'">{$val->email_address}</td>
-				<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
-				<td>
-					<form action="./" method="get">
-						<input type="hidden" name="module" value="point" />
-						<input type="hidden" name="member_srl" value="{$val->member_srl}" />
-						<input type="text" name="orgpoint" value="{$val->point}" disabled="disabled" style="width:40px;text-align:right" />
-						<input type="text" id="point_{$val->member_srl}" name="point" style="width:40px;text-align:right" />
-						<input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" class="text" />
-					</form>
-				</td>
-				<td>{$val->level}</td>
-			</tr>
+<div class="x_clearfix">
+	<!-- PAGINATION -->
+	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true" style="margin:0">
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input cond="$is_admin" type="hidden" name="is_admin" value="{$is_admin}" />
+		<input cond="$is_denied" type="hidden" name="is_denied" value="{$is_denied}" />
+		<input cond="$selected_group_srl" type="hidden" name="selected_group_srl" value="{$selected_group_srl}" />
+		<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+	
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+			</block>
+	
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				{@$last_page = $page_no}
+				<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
 			<!--@end-->
-		</tbody>
-	</table>
+	
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+				{@$isGoTo = true}
+				<li>
+					<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+					<span cond="$isGoTo" id="goTo" class="x_input-append">
+						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+						<button type="submit" class="x_add-on">Go</button>
+					</span>
+				</li>
+				
+			</block>
+	
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</form>
+
+	<!-- SEARCH -->
+	<form action="./" method="get" no-error-return-url="true" class="x_clearfix x_pull-right" style="margin:0">
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<fieldset>
+			<select name="is_admin" style="width:auto;margin:0">
+				<option value="" selected="selected"|cond="$is_admin!='Y'">{$lang->total}</option>
+				<option value="Y" selected="selected"|cond="$is_admin=='Y'">{$lang->is_admin}</option>
+			</select>
+			<select name="selected_group_srl" style="width:auto;margin:0" title="{$lang->member_group}">
+				<option loop="$group_list => $key,$val" value="{$val->group_srl}" selected="selected"|cond="$selected_group_srl==$val->group_srl">{$val->title}</option>
+			</select>
+			<select name="search_target" style="width:auto;margin:0" title="{$lang->search_target}">
+				<option value="{$identifier}" selected="selected"|cond="$search_target == $identifier">{Context::getLang($identifier)}</option>
+				<option loop="$lang->search_target_list => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+			</select>
+			<span class="x_input-append">
+				<input type="search" name="search_keyword" required value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
+				<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
+				<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
+			</span>
+		</fieldset>
+	</form>
 </div>
 
-<form ruleset="updatePoint" id="updateForm" action="./" method="POST">
+<form ruleset="updatePoint" id="updateForm" action="./" method="POST" style="margin:0">
 	<input type="hidden" name="module" value="point" />
 	<input type="hidden" name="act" value="procPointAdminUpdatePoint" />
     <input type="hidden" id="update_member_srl" name="member_srl" value="" />
     <input type="hidden" id="update_point" name="point" />
+	<input type="hidden" name="xe_validator_id" value="modules/point/tpl/member_list/1" />
 </form>
 
-
-<!-- 페이지 네비게이션 -->
-<div class="pagination">
-    <a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a>
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <strong>{$page_no}</strong>
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
-        <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
-</div>
-
-<!-- 검색 -->
-<form action="./" method="get" class="adminSearch" no-error-return-url="true">
-<input type="hidden" name="module" value="{$module}" />
-<input type="hidden" name="act" value="{$act}" />
-
-    <fieldset>
-
-        <select name="is_admin">
-            <option value="" <!--@if($is_admin!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
-            <option value="Y" <!--@if($is_admin=='Y')-->selected="selected"<!--@end-->>{$lang->is_admin}</option>
-        </select>
-        <select name="is_denied">
-            <option value="" <!--@if($is_denied!='Y')-->selected="selected"<!--@end-->>{$lang->total}</option>
-            <option value="Y" <!--@if($is_denied=='Y')-->selected="selected"<!--@end-->>{$lang->denied}</option>
-        </select>
-        <select name="selected_group_srl">
-            <option value="0">{$lang->member_group}</option>
-            <!--@foreach($group_list as $key => $val)-->
-            <option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
-            <!--@end-->
-        </select>
-        <select name="search_target">
-            <option value="">{$lang->search_target}</option>
-            <!--@foreach($lang->search_target_list as $key => $val)-->
-            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-            <!--@end-->
-        </select>
-        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-        <span class="btn"><input type="submit" value="{$lang->cmd_search}" /></span>
-        <span class="btn"><button type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button></span>
-    </fieldset>
-</form>

@@ -1,46 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
+		<permission action="getMenuAdminSiteMap" target="manager" />
+		<permission action="procMenuAdminUpdateAuth" target="manager" />
     <permissions />
     <actions>
-        <action name="dispMenuAdminContent" type="view" standalone="true" />
-        <action name="dispMenuAdminInsert" type="view" standalone="true" />
-        <action name="dispMenuAdminManagement" type="view" standalone="true" />
         <action name="dispMenuAdminMidList" type="view" standalone="true" />
         <action name="dispMenuAdminSiteMap" type="view" standalone="true" admin_index="true" menu_name="siteMap" menu_index="true" />
+        <action name="dispMenuAdminSiteDesign" type="view" standalone="true" menu_name="siteDesign" menu_index="true" />
 
         <action name="getMenuAdminTplInfo" type="model" standalone="true" />
         <action name="getMenuAdminItemInfo" type="model" standalone="true" />
+        <action name="getMenuAdminSiteMap" type="model" standalone="true" />
+        <action name="getMenuAdminInstalledMenuType" type="model" standalone="true" />
+        <action name="getMenuAdminDetailSetup" type="model" standalone="true" />
 
         <action name="procMenuAdminInsert" type="controller" standalone="true" ruleset="insertMenu" />
         <action name="procMenuAdminUpdate" type="controller" standalone="true" ruleset="updateMenuTitle" />
         <action name="procMenuAdminDelete" type="controller" standalone="true" />
         <action name="procMenuAdminInsertItem" type="controller" standalone="true" ruleset="insertMenuItem" />
+        <action name="procMenuAdminUpdateItem" type="controller" standalone="true" ruleset="updateMenuItem" />
+        <action name="procMenuAdminButtonUpload" type="controller" standalone="true" />
         <action name="procMenuAdminInsertItemForAdminMenu" type="controller" standalone="true" />
         <action name="procMenuAdminDeleteItem" type="controller" standalone="true" />
         <action name="procMenuAdminMakeXmlFile" type="controller" standalone="true" />
         <action name="procMenuAdminMoveItem" type="controller" standalone="true" />
+        <action name="procMenuAdminCopyItem" type="controller" standalone="true" />
         <action name="procMenuAdminArrangeItem" type="controller" standalone="true" />
 
         <action name="procMenuAdminUploadButton" type="controller" standalone="true" />
         <action name="procMenuAdminDeleteButton" type="controller" standalone="true" />
         <action name="procMenuAdminAllActList" type="controller" standalone="true" />
+        <action name="procMenuAdminUpdateAuth" type="controller" standalone="true" />
 
 		<action name="dispMenuMenu" type="mobile" standalone="true" />
     </actions>
 	<menus>
 		<menu name="siteMap">
-			<title xml:lang="en">Menu Management</title>
-			<title xml:lang="ko">사이트맵</title>
+			<title xml:lang="en">Menu Editor</title>
+			<title xml:lang="ko">사이트 메뉴 편집</title>
 			<title xml:lang="jp">サイトマップ</title>
-			<title xml:lang="zh-CN">Menu Management</title>
+			<title xml:lang="zh-CN">Menu Editor</title>
 			<title xml:lang="zh-TW">選單管理</title>
-			<title xml:lang="es">Menu Management</title>
-			<title xml:lang="ru">Menu Management</title>
-			<title xml:lang="fr">Menu Management</title>
-			<title xml:lang="vi">Menu Management</title>
-			<title xml:lang="mn">Menu Management</title>
-			<title xml:lang="tr">Menu Management</title>
+			<title xml:lang="es">Menu Editor</title>
+			<title xml:lang="ru">Menu Editor</title>
+			<title xml:lang="fr">Menu Editor</title>
+			<title xml:lang="vi">Menu Editor</title>
+			<title xml:lang="mn">Menu Editor</title>
+			<title xml:lang="tr">Menu Editor</title>
+		</menu>
+		<menu name="siteDesign">
+			<title xml:lang="en">Site Design</title>
+			<title xml:lang="ko">사이트 디자인 설정</title>
+			<title xml:lang="jp">Site Design</title>
+			<title xml:lang="zh-CN">Site Design</title>
+			<title xml:lang="zh-TW">Site Design</title>
+			<title xml:lang="es">Site Design</title>
+			<title xml:lang="ru">Site Design</title>
+			<title xml:lang="fr">Site Design</title>
+			<title xml:lang="vi">Site Design</title>
+			<title xml:lang="mn">Site Design</title>
+			<title xml:lang="tr">Site Design</title>
 		</menu>
 	</menus>
 </module>

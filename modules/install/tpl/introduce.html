@@ -2,23 +2,18 @@
 <include target="header.html" />
 	<div id="body">
 		<include target="progress_menu.html" />
-		<span class="dummy"></span>
 		<div id="content">
-			<div class="agreement">
-				<div class="desc">
-					<ul style="list-style:none">
-						<li loop="$lang_supported=>$key,$val" style="position:relative; margin:0 0 4px 0">
-							<i cond="$l==$key" style="position:absolute;top:0;left:-16px;font-style:normal;font-weight:bold;color:red" title="Selected Language">&#10004;</i>
-							<a href="{getUrl('l', $key)}" cond="$l!=$key">{$val}</a>
-							<strong cond="$l==$key">{$val}</strong>
-						</li>
-					</ul>
-				</div>
-				<div class="ibtnArea">
-					<div class="fRight">
-						<span class="ibtn icon"><span class="check"></span> <a href="{getUrl('', 'act', 'dispInstallCheckEnv')}" >{$lang->cmd_next}</a></span>
-					</div>
-				</div>
+			<ul class="language">
+				<li loop="$lang_supported=>$key,$val">
+					<i cond="$l==$key" class="x_icon-ok-sign x_icon-white" title="Selected Language"></i>
+					<a href="{getUrl('l', $key)}" cond="$l!=$key">{$val}</a>
+					<strong cond="$l==$key">{$val}</strong>
+				</li>
+			</ul>
+			<div class="ibtnArea">
+				<span class="x_pull-right">
+					<a href="{getUrl('', 'act', 'dispInstallCheckEnv')}" class="x_btn x_btn-small x_btn-inverse" id="task-choose-language">{$lang->cmd_next} <i class="x_icon-chevron-right x_icon-white"></i></a>
+				</span>
 			</div>
 		</div>
 	</div>

@@ -95,7 +95,7 @@
 		<value xml:lang="vi"><![CDATA[Xem kết quả]]></value>
 	</item>
 	<item name="success_poll">
-		<value xml:lang="ko"><![CDATA[설문에 응하여 주셔서 감사합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[설문 응답 감사합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Thank you for joining the poll.]]></value>
 		<value xml:lang="jp"><![CDATA[アンケート調査へのご応募ありがとうございます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[感谢您参与投票。]]></value>
@@ -107,7 +107,7 @@
 		<value xml:lang="vi"><![CDATA[Cảm ơn bạn đã tham gia thăm dò.]]></value>
 	</item>
 	<item name="msg_already_poll">
-		<value xml:lang="ko"><![CDATA[이미 설문조사를 하셨습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[이미 설문조사를 했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You already polled!]]></value>
 		<value xml:lang="jp"><![CDATA[既にアンケート調査に応募しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不能重复投票！]]></value>
@@ -118,7 +118,7 @@
 		<value xml:lang="tr"><![CDATA[Zaten oylamada bulundunuz!]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn đã bỏ phiếu rồi!]]></value>
 	</item>
-	<item name="msg_cart_is_null">
+	<item name="msg_poll_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 설문을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select a poll to delete.]]></value>
 		<value xml:lang="jp"><![CDATA[削除するアンケートを選択してください。]]></value>
@@ -142,6 +142,9 @@
 		<value xml:lang="tr"><![CDATA[%d oylama silindi.]]></value>
 		<value xml:lang="vi"><![CDATA[%d đã được xóa.]]></value>
 	</item>
+	<item name="confirm_poll_delete">
+		<value xml:lang="ko"><![CDATA[%s개의 설문을 삭제하시겠습니까?]]></value>
+	</item>
 	<item name="msg_check_poll_item">
 		<value xml:lang="ko"><![CDATA[설문에 응할 항목을 선택하여 주세요. (설문조사 마다 필수 선택항목이 다를 수 있습니다.)]]></value>
 		<value xml:lang="en"><![CDATA[Please select a poll item to poll.\n(Required poll item(s) may be different in each poll.)]]></value>
@@ -155,7 +158,7 @@
 		<value xml:lang="vi"><![CDATA[Xin hãy chọn những mục để tạo thăm dò.\n(Yêu cầu những mục để tạo thăm dò phải là những mục chưa được tạo.)]]></value>
 	</item>
 	<item name="msg_poll_not_exists">
-		<value xml:lang="ko"><![CDATA[선택하신 설문이 존재하지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 설문이 존재하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The selected poll does not exist.]]></value>
 		<value xml:lang="jp"><![CDATA[選択したアンケートは存在しません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您选择的问卷不存在！]]></value>
@@ -190,7 +193,7 @@
 		<value xml:lang="tr"><![CDATA[Oylamayı göndermeyi onaylıyor musunuz?]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có chắc chắn muốn gửi thăm dò?]]></value>
 	</item>
-	<item name="search_target_list" type="array">
+	<item name="search_poll_target_list" type="array">
 		<item name="title">
 			<value xml:lang="ko"><![CDATA[제목]]></value>
 			<value xml:lang="en"><![CDATA[Title]]></value>
@@ -240,16 +243,11 @@
 		<value xml:lang="jp"><![CDATA[複数選択]]></value>
 		<value xml:lang="zh-TW"><![CDATA[複選]]></value>
 	</item>
-	<item name="poll_manager">
-		<value xml:lang="ko"><![CDATA[선택한 설문 관리]]></value>
-		<value xml:lang="en"><![CDATA[Manage selected poll]]></value>
-		<value xml:lang="jp"><![CDATA[選択したアンケートの管理]]></value>
-		<value xml:lang="zh-TW"><![CDATA[管理所選投票]]></value>
-	</item>
 	<item name="selected_poll">
 		<value xml:lang="ko"><![CDATA[선택한 설문]]></value>
 		<value xml:lang="en"><![CDATA[Selected poll]]></value>
 		<value xml:lang="jp"><![CDATA[選択したアンケート]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已選擇的投票]]></value>
 	</item>
+
 </lang>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * - Security class
  * - This class helps to solve security problems.
@@ -8,18 +9,19 @@
  */
 class Security
 {
+
 	/**
 	 * Action target variable. If this value is null, the method will use Context variables
 	 * @var mixed
-	 **/
-	var $_targetVar = null;
+	 */
+	var $_targetVar = NULL;
 
 	/**
 	 * @constructor
 	 * @param mixed $var Target context
 	 * @return void
 	 */
-	function Security($var = null)
+	function Security($var = NULL)
 	{
 		$this->_targetVar = $var;
 	}
@@ -31,43 +33,73 @@ class Security
 	 * separate the owner(object or array) and the item(property or element) using a dot(.)
 	 * @return mixed
 	 */
-	function encodeHTML(/*, $varName1, $varName2, ... */)
+	function encodeHTML(/* , $varName1, $varName2, ... */)
 	{
 		$varNames = func_get_args();
-		if(count($varNames) < 0) return false;
+		if(count($varNames) < 0)
+		{
+			return FALSE;
+		}
 
 		$use_context = is_null($this->_targetVar);
-		if(!$use_context) {
-			if(!count($varNames) || (!is_object($this->_targetVar) && !is_array($this->_targetVar)) ) return $this->_encodeHTML($this->_targetVar);
+		if(!$use_context)
+		{
+			if(!count($varNames) || (!is_object($this->_targetVar) && !is_array($this->_targetVar)))
+			{
+				return $this->_encodeHTML($this->_targetVar);
+			}
 
 			$is_object = is_object($this->_targetVar);
 		}
 
-		foreach($varNames as $varName) {
-			$varName  = explode('.', $varName);
+		foreach($varNames as $varName)
+		{
+			$varName = explode('.', $varName);
 			$varName0 = array_shift($varName);
-			if($use_context) {
+			if($use_context)
+			{
 				$var = Context::get($varName0);
-			} elseif($varName0) {
+			}
+			elseif($varName0)
+			{
 				$var = $is_object ? $this->_targetVar->{$varName0} : $this->_targetVar[$varName0];
-			} else {
+			}
+			else
+			{
 				$var = $this->_targetVar;
 			}
 			$var = $this->_encodeHTML($var, $varName);
 
-			if($var === false) continue;
+			if($var === FALSE)
+			{
+				continue;
+			}
 
-			if($use_context) {
+			if($use_context)
+			{
 				Context::set($varName0, $var);
-			} elseif($varName0) {
-				if($is_object) $this->_targetVar->{$varName0} = $var;
-				else $this->_targetVar[$varName0] = $var;
-			} else {
+			}
+			elseif($varName0)
+			{
+				if($is_object)
+				{
+					$this->_targetVar->{$varName0} = $var;
+				}
+				else
+				{
+					$this->_targetVar[$varName0] = $var;
+				}
+			}
+			else
+			{
 				$this->_targetVar = $var;
 			}
 		}
 
-		if (!$use_context) return $this->_targetVar;
+		if(!$use_context)
+		{
+			return $this->_targetVar;
+		}
 	}
 
 	/**
@@ -76,43 +108,71 @@ class Security
 	 * @param array $name
 	 * @return mixed
 	 */
-	function _encodeHTML($var, $name=array())
+	function _encodeHTML($var, $name = array())
 	{
-		if(is_string($var)) {
-			if (!preg_match('/^\$user_lang->/', $var)) $var = htmlspecialchars($var);
+		if(is_string($var))
+		{
+			if(!preg_match('/^\$user_lang->/', $var))
+			{
+				$var = htmlspecialchars($var);
+			}
 			return $var;
 		}
 
-		if(!count($name) || (!is_array($var) && !is_object($var)) ) return false;
+		if(!count($name) || (!is_array($var) && !is_object($var)))
+		{
+			return false;
+		}
 
 		$is_object = is_object($var);
-		$name0  = array_shift($name);
+		$name0 = array_shift($name);
 
-		if(strlen($name0)) {
+		if(strlen($name0))
+		{
 			$target = $is_object ? $var->{$name0} : $var[$name0];
 			$target = $this->_encodeHTML($target, $name);
 
-			if($target === false) return $var;
+			if($target === false)
+			{
+				return $var;
+			}
 
-			if($is_object) $var->{$name0} = $target;
-			else $var[$name0] = $target;
+			if($is_object)
+			{
+				$var->{$name0} = $target;
+			}
+			else
+			{
+				$var[$name0] = $target;
+			}
 
 			return $var;
 		}
 
-		foreach($var as $key=>$target) {
+		foreach($var as $key => $target)
+		{
 			$cloned_name = array_slice($name, 0);
 			$target = $this->_encodeHTML($target, $name);
-			$name   = $cloned_name;
+			$name = $cloned_name;
 
-			if($target === false) continue;
+			if($target === false)
+			{
+				continue;
+			}
 
-			if($is_object) $var->{$key} = $target;
-			else $var[$key] = $target;
+			if($is_object)
+			{
+				$var->{$key} = $target;
+			}
+			else
+			{
+				$var[$key] = $target;
+			}
 		}
 
 		return $var;
 	}
-}
 
+}
 /* End of file : Security.class.php */
+/* Location: ./classes/security/Security.class.php */
