@@ -314,6 +314,8 @@ class fileController extends file
 
 		unset($_SESSION[$session_key][$file_srl]);
 
+		Context::close();
+
 		$fp = fopen($uploaded_filename, 'rb');
 		if(!$fp) return $this->stop('msg_file_not_found');
 
@@ -336,8 +338,6 @@ class fileController extends file
 		{
 			fpassthru($fp); 
 		}
-
-		Context::close();
 
 		exit();
 	}
