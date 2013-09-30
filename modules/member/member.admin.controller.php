@@ -22,7 +22,7 @@ class memberAdminController extends member
 	{
 		// if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
 		// Extract the necessary information in advance
-		$logged_info = Context::get('loggd_info');
+		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' || !checkCSRF())
 		{
 			return new Object(-1, 'msg_invalid_request');
