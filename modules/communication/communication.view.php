@@ -2,7 +2,7 @@
 
 /**
  * @class  communicationView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * View class of communication module
  */
 class communicationView extends communication

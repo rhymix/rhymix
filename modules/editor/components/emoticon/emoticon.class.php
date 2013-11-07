@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  emoticon
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Emoticons image connected components
  */
 class emoticon extends EditorHandler

@@ -1,7 +1,7 @@
 <?php	
 /**
  * @class  memberAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * member module's admin view class
  */
 class memberAdminView extends member

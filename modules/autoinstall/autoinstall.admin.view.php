@@ -2,7 +2,7 @@
 
 /**
  * Admin view class in the autoinstall module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class autoinstallAdminView extends autoinstall
 {

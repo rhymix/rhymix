@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <whiteurl>
 	<embed>
-		<domain name="http://www.naver.com" isNHN="true" desc="네이버">
+		<domain name="http://www.naver.com" isNAVER="true" desc="네이버">
 			<pattern>http://serviceapi.nmv.naver.com/</pattern>
 			<pattern>http://scrap.ad.naver.com/</pattern>
 			<pattern>http://event.dn.naver.com/sbsplayer/vmplayer.xap</pattern>
 		</domain>
-		<domain name="" isNHN="true" desc="네이버 뮤직 서비스">
+		<domain name="" isNAVER="true" desc="네이버 뮤직 서비스">
 			<pattern>http://test-player.naver.com/naverPlayer/posting/</pattern>
 			<pattern>http://alpha-player.naver.com/naverPlayer/posting/</pattern>
 			<pattern>http://beta-player.naver.com/naverPlayer/posting/</pattern>
@@ -20,7 +20,7 @@
 			<pattern>http://beta.player.music.naver.com/</pattern>
 			<pattern>http://stage.player.music.naver.com/</pattern>
 		</domain>
-		<domain name="" isNHN="true" desc="네이버 아이두게임">
+		<domain name="" isNAVER="true" desc="네이버 아이두게임">
 			<pattern>http://dev-idogame.hangame.com/idogame/ClientBin/iDoGamePlayer.xap</pattern>
 			<pattern>http://idogame.hangame.com/idogame/ClientBin/iDoGamePlayer.xap</pattern>
 		</domain>
@@ -191,7 +191,7 @@
 		<domain name="http://dotsub.com" desc="dotsub.com">
 			<pattern>http://dotsub.com/static/players/portalplayer.swf</pattern>
 		</domain>
-		<domain name="" isNHN="true" desc="socialsearch">
+		<domain name="" isNAVER="true" desc="socialsearch">
 			<pattern>http://static.campaign.naver.com/0/campaign/2010/10/socialsearch/swf/</pattern>
 		</domain>
 	</embed>

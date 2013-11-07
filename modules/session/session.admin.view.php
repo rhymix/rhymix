@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  sessionAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin view class of the session module
  */
 class sessionAdminView extends session

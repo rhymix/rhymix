@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  spamfilterModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The Model class of the spamfilter module
  */
 class spamfilterModel extends spamfilter

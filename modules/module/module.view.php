@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  moduleView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief view class of the module module
  */
 class moduleView extends module

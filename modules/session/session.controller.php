@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  sessionController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The controller class of the session module
  */
 class sessionController extends session

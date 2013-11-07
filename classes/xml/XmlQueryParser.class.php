@@ -4,7 +4,7 @@
  * XmlQueryParser
  * Case to parse XE xml query 
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1
  * @todo need to support extend query such as subquery, union
  */

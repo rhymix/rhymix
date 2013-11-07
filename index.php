@@ -1,7 +1,7 @@
 <?php
 /**
  * @file  index.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Start page
  *
  * Find and create module object by mif, act in Request Argument \n

@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  member
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * high class of the member module
  */
 class member extends ModuleObject {

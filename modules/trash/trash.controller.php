@@ -3,7 +3,7 @@
  * trashController
  * trash the module's controller class
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/trash
  * @version 0.1
  */

@@ -6,7 +6,7 @@ require_once(_XE_PATH_.'modules/document/document.item.php');
  * @brief document the module's high class
  * {@internal Silently adds one extra Foo to compensate for lack of Foo }
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/document
  * @version 0.1
  */

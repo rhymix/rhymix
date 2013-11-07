@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  widgetAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief admin view class for widget modules
  */
 class widgetAdminView extends widget

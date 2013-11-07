@@ -42,7 +42,7 @@ if(!defined('__XE_LOADED_DB_CLASS__'))
  * - query xml has unique query id, and will be created in module
  * - queryid = module_name.query_name
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/db
  * @version 0.1
  */

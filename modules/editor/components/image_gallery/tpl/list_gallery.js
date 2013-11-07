@@ -1,7 +1,7 @@
 /**
  * @file  list_gallery.js
  * @brief List-type image gallery
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  **/
 
 (function($){

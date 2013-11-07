@@ -1,7 +1,7 @@
 /**
  * @file xe_interface.js
  * @brief XE Editor Standard Interface
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 (function($){
 

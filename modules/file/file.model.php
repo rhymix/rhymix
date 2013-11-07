@@ -1,7 +1,7 @@
 <?php
 /**
  * Model class of the file module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class fileModel extends file
 {

@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pageView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief page view class of the module
  */
 class pageView extends page

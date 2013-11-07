@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  tagController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief tag module's controller class
  */
 class tagController extends tag

@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  editor
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief editor module's controller class
  */
 class editorController extends editor

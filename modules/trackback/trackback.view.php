@@ -3,7 +3,7 @@
  * @class  trackbackView
  * @brief trackback module's view class
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/trackback
  * @version 0.1
  */

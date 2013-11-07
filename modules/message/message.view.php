@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  messageView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief view class of the message module
  */
 class messageView extends message

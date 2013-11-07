@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  installView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief View class of install module
  */
 class installView extends install

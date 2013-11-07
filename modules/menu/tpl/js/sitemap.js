@@ -1,4 +1,4 @@
-/* NHN (developers@xpressengine.com) */
+/* NAVER (developers@xpressengine.com) */
 jQuery(function($){
 
 // get add/edit menu title

@@ -2,7 +2,7 @@
 
 /**
  * Handle front end files
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * */
 class FrontEndFileHandler extends Handler
 {

@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  moduleModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Model class of module module
  */
 class moduleModel extends module

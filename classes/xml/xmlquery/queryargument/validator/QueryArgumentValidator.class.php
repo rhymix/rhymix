@@ -2,7 +2,7 @@
 
 /**
  * QueryArgumentValidator class
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/xml/xmlquery/queryargument/validator
  * @version 0.1
  */

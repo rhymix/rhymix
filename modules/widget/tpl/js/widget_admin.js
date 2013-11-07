@@ -1,6 +1,6 @@
 /**
  * @file   modules/widget/js/widget_admin.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief  widget 모듈의 관리자용 javascript
  **/
 

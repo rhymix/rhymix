@@ -3,7 +3,7 @@
 /**
  * Cache class for memcache
  *
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 class CacheMemcache extends CacheBase
 {

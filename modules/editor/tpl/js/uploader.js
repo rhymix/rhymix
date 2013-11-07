@@ -1,5 +1,5 @@
 /**
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1.1
  * @brief 파일 업로드 관련
  **/

@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  messageAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief admin controller class of message module
  */
 class messageAdminController extends message

@@ -2,7 +2,7 @@
 /**
  * High class of rss module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class rss extends ModuleObject
 {

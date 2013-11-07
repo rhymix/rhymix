@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pollAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin controller class of the poll module
  */
 class pollAdminController extends poll

@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  multimedia_link
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The components connected to the body of multimedia data
  */
 class multimedia_link extends EditorHandler

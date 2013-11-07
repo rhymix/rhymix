@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  layoutModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1
  * Model class of the layout module
  */

@@ -2,7 +2,7 @@
 /**
  * The controller class of rss module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class rssController extends rss
 {

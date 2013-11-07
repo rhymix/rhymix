@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  poll_maker
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Editor provides the ability to link to the url.
  */
 class poll_maker extends EditorHandler

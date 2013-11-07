@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  editorAPI
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief 
  */
 class editorAPI extends editor

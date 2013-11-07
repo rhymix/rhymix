@@ -1,7 +1,7 @@
 <?php
 /**
  * @class login_info
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1
  * @brief Widget to display log-in form
  *

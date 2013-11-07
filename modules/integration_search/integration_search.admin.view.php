@@ -2,7 +2,7 @@
 /**
  * The admin view class of the integration_search module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class integration_searchAdminView extends integration_search
 {

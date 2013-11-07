@@ -4,7 +4,7 @@
  * set the include of the class file and other environment configurations
  *
  * @file   config/config.inc.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 if(version_compare(PHP_VERSION, '5.4.0', '<'))
 {

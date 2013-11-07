@@ -6,7 +6,7 @@ require_once(_XE_PATH_ . 'modules/comment/comment.item.php');
  * comment
  * comment module's high class
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/comment
  * @version 0.1
  */

@@ -1,7 +1,7 @@
 <?php
 /**
  * @class counter_status
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1
  * @brief Display counter status by using data in the counter module
  */

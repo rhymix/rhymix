@@ -2,7 +2,7 @@
 
 /**
  * Admin model class of addon module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class addonAdminModel extends addon
 {

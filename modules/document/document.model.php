@@ -3,7 +3,7 @@
  * documentModel class
  * model class of the module document
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/document
  * @version 0.1
  */

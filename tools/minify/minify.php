@@ -7,7 +7,7 @@
  * Usage : php minify.php [TARGET_DIR ...]
  * TARGET_DIR use the current working directory as a default path.
  *
- * @author NHN(developer@xpressengine.com)
+ * @author NAVER(developer@xpressengine.com)
  */
 
 if(version_compare(PHP_VERSION, '5.3.0', '<')) {

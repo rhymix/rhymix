@@ -2,7 +2,7 @@
 /**
  * The model class of the rss module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class rssModel extends rss
 {

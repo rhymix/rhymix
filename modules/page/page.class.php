@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  page
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief high class of the module page
  */
 class page extends ModuleObject

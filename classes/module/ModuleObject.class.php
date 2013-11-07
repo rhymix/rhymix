@@ -2,7 +2,7 @@
 
 /**
  * @class ModuleObject
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * base class of ModuleHandler
  * */
 class ModuleObject extends Object

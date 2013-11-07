@@ -2,7 +2,7 @@
 
 /**
  * XML Generater
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class XmlGenerater
 {
@@ -54,7 +54,7 @@ class XmlGenerater
 
 /**
  * High class of the autoinstall module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class autoinstall extends ModuleObject
 {

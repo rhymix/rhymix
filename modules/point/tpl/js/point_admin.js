@@ -1,6 +1,6 @@
 /**
  * @file   modules/point/js/point_admin.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief  point 모듈의 관리자용 javascript
  **/
 

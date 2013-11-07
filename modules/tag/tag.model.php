@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  tagModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief tag model class of the module
  */
 class tagModel extends tag

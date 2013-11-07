@@ -4,7 +4,7 @@ require_once(_XE_PATH_ . 'modules/communication/communication.view.php');
 
 /**
  * @class  communicationMobile
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * Mobile class of communication module
  */
 class communicationMobile extends communicationView

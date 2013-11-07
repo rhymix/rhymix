@@ -1,7 +1,7 @@
 <?php
 /**
  * @file   common/lang/en.lang.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief  English Language Pack (Only basic words are included here)
  **/
 

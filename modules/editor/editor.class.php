@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  editor
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief high class of the editor odule 
  */
 class editor extends ModuleObject

@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  widgetController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Controller class for widget modules
  */
 class widgetController extends widget

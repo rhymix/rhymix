@@ -2,7 +2,7 @@
 /**
  * The model class of integration module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class integration_searchModel extends module
 {

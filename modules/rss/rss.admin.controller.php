@@ -2,7 +2,7 @@
 /**
  * The admin controller class of the rss module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class rssAdminController extends rss
 {

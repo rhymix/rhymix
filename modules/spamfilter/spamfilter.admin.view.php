@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  spamfilterAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin view class of the spamfilter module
  */
 class spamfilterAdminView extends spamfilter 

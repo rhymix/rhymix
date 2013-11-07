@@ -5,7 +5,7 @@ if(!defined('__XE__'))
 
 /**
  * @file openid_delegation_id.addon.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief OpenID Delegation ID Add-on
  *
  * This enables to use openID as user's homepage or blog url.

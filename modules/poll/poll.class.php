@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  poll
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The parent class of the poll module
  */
 class poll extends ModuleObject

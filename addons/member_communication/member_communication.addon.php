@@ -5,7 +5,7 @@ if(!defined('__XE__'))
 
 /**
  * @file member_communication.addon.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Promote user communication
  *
  * - Pop-up the message if new message comes in

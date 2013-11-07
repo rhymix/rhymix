@@ -2,7 +2,7 @@
 
 /**
  * @class  communication 
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * communication module of the high class
  */
 class communication extends ModuleObject

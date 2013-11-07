@@ -41,7 +41,7 @@
  *  tag = key : name of variable that will contain the result of the execution
  * }</pre>
  * @class XmlJsFilter
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/xml
  * @version 0.2
  */

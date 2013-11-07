@@ -2,7 +2,7 @@
 
 /**
  * @class  communicationModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * communication module of the Model class
  */
 class communicationModel extends communication

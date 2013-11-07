@@ -5,7 +5,7 @@ if(!defined('__XE__'))
 
 /**
  * @file autolink.addon.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Automatic link add-on
  */
 if($called_position == 'after_module_proc' && Context::getResponseMethod() != "XMLRPC")

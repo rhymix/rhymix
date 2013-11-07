@@ -1,11 +1,11 @@
 /**
  * @file   common/js/xe.min.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief  XE Common JavaScript
  **/
 /**
  * @file js_app.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief XE JavaScript Application Framework (JAF)
  * @namespace xe
  * @update 20100701
@@ -284,7 +284,7 @@ $(window).load(function(){ xe.broadcast('ONLOAD'); });
 })(jQuery);
 /**
  * @file common.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
  **/
 
@@ -1428,7 +1428,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 (function($){
 /**
  * @brief exec_xml
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  **/
 $.exec_xml = window.exec_xml = function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
 	var xml_path = request_uri+"index.php"
@@ -1701,7 +1701,7 @@ $(function($){
 })(jQuery);
 /**
  * @file   common/js/xml_js_filter.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief  xml filter (validator) plugin
  * 
  * A rule is a method validate one field.

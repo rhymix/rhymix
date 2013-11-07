@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pageAPI
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief View Action page for the module API processing
  */
 class pageAPI extends page

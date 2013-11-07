@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  widgetModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1
  * @brief Model class for widget modules
  */

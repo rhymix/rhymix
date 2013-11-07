@@ -5,7 +5,7 @@ if(!defined('__XE__'))
 
 /**
  * @file adminlogging.addon.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Automatic link add-on
  */
 $logged_info = Context::get('logged_info');

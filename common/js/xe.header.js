@@ -1,5 +1,5 @@
 /**
  * @file   common/js/xe.min.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief  XE Common JavaScript
  **/

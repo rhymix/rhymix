@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  widget
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief widget module's high class
  */
 class widget extends ModuleObject

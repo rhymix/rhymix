@@ -4,7 +4,7 @@
  * commentAdminView class
  * admin view class of the comment module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/comment
  * @version 0.1
  */

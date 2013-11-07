@@ -2,7 +2,7 @@
 
 /**
  * @class PageHandler
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * handles page navigation
  * @version 0.1
  *

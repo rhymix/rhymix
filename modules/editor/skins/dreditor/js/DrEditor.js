@@ -1,6 +1,6 @@
 /**
  * 단락에디터 Paragraph Editor
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 (function($){
 

@@ -5,7 +5,7 @@ if(!defined('__XE__'))
 
 /**
  * @file ./addons/blogapi/blogapi.func.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Function collections for the implementation of blogapi
  * */
 // Error messages

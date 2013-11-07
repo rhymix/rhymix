@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pointAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin controller class of the point module
  */
 class pointAdminController extends point

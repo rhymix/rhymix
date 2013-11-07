@@ -6,7 +6,7 @@
  * ttimport class
  * ttxml import class
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/importer
  * @version 0.1
  */

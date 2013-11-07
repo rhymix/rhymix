@@ -1,7 +1,7 @@
 <?php
 /**
  * Controller class of the file module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class fileController extends file
 {

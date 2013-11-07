@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  installController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief install module of the Controller class
  */
 class installController extends install

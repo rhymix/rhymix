@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  spamfilterController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The controller class for the spamfilter module
  */
 class spamfilterController extends spamfilter

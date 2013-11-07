@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* NHN > UIT Center > Open UI Technology Team > Kim Taegon(gonom9@nhncorp.com) */
+/* NAVER > UIT Center > Open UI Technology Team > Kim Taegon(gonom9@nhncorp.com) */
 
 /* toolbar */
 #toolbar { position:relative; z-index:1000; background:url(../images/bgMenu.gif) repeat-x 0 0; font-size:12px; height:35px; clear:both; }

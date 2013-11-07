@@ -3,7 +3,7 @@
 /**
  * function library files for convenience
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 if(!defined('__XE__'))
 {

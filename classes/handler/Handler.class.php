@@ -3,7 +3,7 @@
 /**
  * An abstract class of (*)Handler 
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class Handler
 {

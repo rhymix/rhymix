@@ -2816,7 +2816,7 @@ var TextRange = function(oEl) {
 
 /**
  * Selection for textfield
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 TextRange.prototype.getSelection = function() {
 	var obj = this._o;
@@ -5102,7 +5102,7 @@ var oMessageMap = {
 xe.XpressCore.oMessageMap = oMessageMap;
 /**
  * XHTML Formatter
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 var
 	regex_meanless_css1 = /<(.*?)\s+style\s*=\s*"(.*?(?:margin|padding)\s*:\s*0(?:px)?.*?|.*?\-(?:moz|ms|webkit|opera).*?)"(.*?)>/ig,
@@ -5265,7 +5265,7 @@ xe.XE_XHTMLFormatter = $.Class({
 
 /**
  * Support XE extensions
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 xe.XE_Extension = $.Class({
 	name  : "XE_Extension",
@@ -5352,7 +5352,7 @@ xe.XE_Extension = $.Class({
 });
 /**
  * Auto saving
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 xe.XE_AutoSave = $.Class({
 	name : "XE_AutoSave",
@@ -5399,7 +5399,7 @@ xe.XE_AutoSave = $.Class({
 });
 /**
  * Format Block plugin
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 xe.XE_FormatWithSelectUI = $.Class({
 	name : "XE_FormatWithSelectUI",
@@ -5439,7 +5439,7 @@ xe.XE_FormatWithSelectUI = $.Class({
 });
 /**
  * Enhanced Table Fetures
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 
 // 표 편집 확장 기능

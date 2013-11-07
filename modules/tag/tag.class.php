@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  tag
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief high class of the tag module
  */
 class tag extends ModuleObject

@@ -5,7 +5,7 @@ if(!defined('__XE__'))
 
 /**
  * @file counter.addon.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Counter add-on
  */
 // Execute if called_position is before_display_content

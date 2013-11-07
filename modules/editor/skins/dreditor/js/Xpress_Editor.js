@@ -5619,7 +5619,7 @@ xe.XE_FormatWithSelectUI = jQuery.Class({
 (function($){
 /**
  * Enhanced Table Fetures
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 
 // 표 편집 확장 기능

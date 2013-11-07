@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  memberAdminModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * admin model class of member module
  */
 class memberAdminModel extends member

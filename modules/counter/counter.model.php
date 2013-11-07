@@ -3,7 +3,7 @@
 /**
  * Model class of counter module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class counterModel extends counter
 {
