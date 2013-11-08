@@ -164,14 +164,6 @@
 				<label for="https_port" class="x_inline" style="margin-bottom:0;padding-top:0">HTTPS: <input type="number" name="https_port" id="https_port" size="5" value="{$https_port}" /></label>
 			</div>
 		</div>
-		<div class="x_control-group" cond="__XE_CDN_VERSION__!='%__XE_CDN_VERSION__%'">
-			<label class="x_control-label">{$lang->use_cdn}</label>
-			<div class="x_controls">
-				<label for="cdn_y" class="x_inline"><input type="radio" name="use_cdn" id="cdn_y" value="Y" checked="checked"|cond="$use_cdn=='Y'" /> {$lang->cmd_yes}</label>
-				<label for="cdn_n" class="x_inline"><input type="radio" name="use_cdn" id="cdn_n" value="N" checked="checked"|cond="$use_cdn!='Y'" /> {$lang->cmd_no}</label>
-				<p class="x_help-block">{$lang->about_cdn}</p>
-			</div>
-		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_rewrite}</label>
 			<div class="x_controls">

@@ -1994,22 +1994,13 @@ class Context
 	 * 		$args[1]: media,
 	 * 		$args[2]: target IE,
 	 * 		$args[3]: index
-	 * @param bool $useCdn use cdn
-	 * @param string $cdnPrefix cdn prefix
-	 * @param string $cdnVersion cdn version
 	 *
 	 */
-	function loadFile($args, $useCdn = false, $cdnPrefix = '', $cdnVersion = '')
+	function loadFile($args)
 	{
 		is_a($this, 'Context') ? $self = $this : $self = Context::getInstance();
 
-		if($useCdn && !$cdnPrefix)
-		{
-			$cdnPrefix = __XE_CDN_PREFIX__;
-			$cdnVersion = __XE_CDN_VERSION__;
-		}
-
-		$self->oFrontEndFileHandler->loadFile($args, $useCdn, $cdnPrefix, $cdnVersion);
+		$self->oFrontEndFileHandler->loadFile($args);
 	}
 
 	/**

@@ -1,11 +1,11 @@
-<load target="js/page_admin.js" usecdn="true" />
+<load target="js/page_admin.js" />
 <include target="header.html" />
 
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/module/tpl/manage_selected'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<!-- 검색 -->
+<!-- 寃���� -->
 <form action="./" method="get" class="search x_input-append x_pull-right" style="margin-bottom:-28px">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="mid" value="{$mid}" />
@@ -36,7 +36,7 @@ jQuery(function($){
 });
 </script>
 
-<!-- 목록 -->
+<!-- 紐⑸�� -->
 <form action="./" method="get" id="fo_list">
 <table class="x_table x_table-striped x_table-hover">
 	<caption><strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong></caption>
@@ -92,7 +92,7 @@ jQuery(function($){
 
 </form>
 
-<!-- 페이지 네비게이션 -->
+<!-- �����댁�� ��ㅻ��寃���댁�� -->
 <form cond="$page_navigation" action="./" class="x_pagination" no-error-return-url="true" style="margin:-36px 0 0 0">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />

@@ -100,8 +100,6 @@ else
  * define('__OB_GZHANDLER_ENABLE__', 1);
  * define('__ENABLE_PHPUNIT_TEST__', 0);
  * define('__PROXY_SERVER__', 'http://domain:port/path');
- * define('__XE_CDN_PREFIX__', 'http://yourCdnDomain.com/path/');
- * define('__XE_CDN_VERSION__', 'yourCdnVersion');
  */
 if(file_exists(_XE_PATH_ . 'config/config.user.inc.php'))
 {
@@ -232,22 +230,6 @@ if(!defined('__PROXY_SERVER__'))
 	 * FileHandler:: getRemoteResource uses the constant
 	 */
 	define('__PROXY_SERVER__', NULL);
-}
-
-if(!defined('__XE_CDN_PREFIX__'))
-{
-	/**
-	 * CDN prefix
-	 */
-	define('__XE_CDN_PREFIX__', 'http://static.xpressengine.com/core/');
-}
-
-if(!defined('__XE_CDN_VERSION__'))
-{
-	/**
-	 * CDN version
-	 */
-	define('__XE_CDN_VERSION__', '%__XE_CDN_VERSION__%');
 }
 
 // Require specific files when using Firebug console output

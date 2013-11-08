@@ -87,28 +87,15 @@ class FrontEndFileHandler extends Handler
 	 * 		$args[3]: index
 	 * </pre>
 	 *
-	 * If $useCdn set true, use CDN instead local file.
-	 * CDN path = $cdnPrefix . $cdnVersion . $args[0]<br />
-	 * <br />
-	 * i.e.<br />
-	 * $cdnPrefix = 'http://static.xpressengine.com/core/';<br />
-	 * $cdnVersion = 'ardent1';<br />
-	 * $args[0] = './common/js/xe.js';<br />
-	 * The CDN path is http://static.xprssengine.com/core/ardent1/common/js/xe.js.<br />
-	 *
 	 * @param array $args Arguments
-	 * @param bool $useCdn If set true, use cdn instead local file
-	 * @param string $cdnPrefix CDN url prefix. (http://static.xpressengine.com/core/)
-	 * @param string $cdnVersion CDN version string (ardent1)
 	 * @return void
 	 * */
-	function loadFile($args, $useCdn = FALSE, $cdnPrefix = '', $cdnVersion = '')
+	function loadFile($args)
 	{
 		if(!is_array($args))
 		{
 			$args = array($args);
 		}
-
 		$file = $this->getFileInfo($args[0], $args[2], $args[1]);
 
 		$availableExtension = array('css' => 1, 'js' => 1);
@@ -117,9 +104,6 @@ class FrontEndFileHandler extends Handler
 			return;
 		}
 
-		$file->useCdn = $useCdn;
-		$file->cdnPrefix = $cdnPrefix;
-		$file->cdnVersion = $cdnVersion;
 		$file->index = (int) $args[3];
 
 		if($file->fileExtension == 'css')
@@ -294,23 +278,14 @@ class FrontEndFileHandler extends Handler
 
 		$this->_sortMap($map, $mapIndex);
 
-		$dbInfo = Context::getDBInfo();
-		$useCdn = $dbInfo->use_cdn;
-
 		$result = array();
 		foreach($map as $indexedMap)
 		{
 			foreach($indexedMap as $file)
 			{
-				if($this->isSsl() == FALSE && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
-				{
-					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
-				}
-				else
-				{
-					$noneCache = (is_readable($file->cdnPath . '/' . $file->fileName)) ? '?' . date('YmdHis', filemtime($file->cdnPath . '/' . $file->fileName)) : '';
-					$fullFilePath = $file->filePath . '/' . $file->fileName . $noneCache;
-				}
+				$noneCache = (is_readable($file->cdnPath . '/' . $file->fileName)) ? '?' . date('YmdHis', filemtime($file->cdnPath . '/' . $file->fileName)) : '';
+				$fullFilePath = $file->filePath . '/' . $file->fileName . $noneCache;
+				
 				$result[] = array('file' => $fullFilePath, 'media' => $file->media, 'targetie' => $file->targetIe);
 			}
 		}
@@ -339,23 +314,14 @@ class FrontEndFileHandler extends Handler
 
 		$this->_sortMap($map, $mapIndex);
 
-		$dbInfo = Context::getDBInfo();
-		$useCdn = $dbInfo->use_cdn;
-
 		$result = array();
 		foreach($map as $indexedMap)
 		{
 			foreach($indexedMap as $file)
 			{
-				if($this->isSsl() == FALSE && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
-				{
-					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
-				}
-				else
-				{
-					$noneCache = (is_readable($file->cdnPath . '/' . $file->fileName)) ? '?' . date('YmdHis', filemtime($file->cdnPath . '/' . $file->fileName)) : '';
-					$fullFilePath = $file->filePath . '/' . $file->fileName . $noneCache;
-				}
+				$noneCache = (is_readable($file->cdnPath . '/' . $file->fileName)) ? '?' . date('YmdHis', filemtime($file->cdnPath . '/' . $file->fileName)) : '';
+				$fullFilePath = $file->filePath . '/' . $file->fileName . $noneCache;
+				
 				$result[] = array('file' => $fullFilePath, 'targetie' => $file->targetIe);
 			}
 		}

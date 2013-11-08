@@ -880,13 +880,6 @@
 		<value xml:lang="zh-CN"><![CDATA[执行]]></value>
 		<value xml:lang="tr"><![CDATA[Yürütme]]></value>
 	</item>
-	<item name="use_cdn">
-		<value xml:lang="ko"><![CDATA[CDN 사용]]></value>
-		<value xml:lang="en"><![CDATA[Use CDN]]></value>
-		<value xml:lang="jp"><![CDATA[CDN使用]]></value>
-		<value xml:lang="zh-CN"><![CDATA[开启CDN]]></value>
-		<value xml:lang="tr"><![CDATA[CDN Kullanımı]]></value>
-	</item>
 	<item name="use_rewrite">
 		<value xml:lang="ko"><![CDATA[짧은 주소 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use Rewrite Mode]]></value>
@@ -1016,13 +1009,6 @@
 		<value xml:lang="es"><![CDATA[SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.]]></value>
 		<value xml:lang="tr"><![CDATA[SSO kullanıcıları, geçreli ya da sanal siteye bir kere kayıt olmakla, ikisinden de yararlandıracaktır. Bu, size sadece sanal websiteler kullandığınız durumda lazım olacaktır.]]></value>
 		<value xml:lang="vi"><![CDATA[SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.]]></value>
-	</item>
-	<item name="about_cdn">
-		<value xml:lang="ko"><![CDATA[XE core의 css, js 파일을 CDN으로부터 제공받으려면 체크하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Check this to get css and js files of XE core from CDN.]]></value>
-		<value xml:lang="jp"><![CDATA[XE coreのcss、jsファイルをCDNより取得するには、チェックしてください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[确认从CDN上获取XE core的css和js文件.]]></value>
-		<value xml:lang="tr"><![CDATA[CSS XE çekirdek, js dosyaları CDN teklif almak için deneyin.]]></value>
 	</item>
 	<item name="about_arrange_session">
 		<value xml:lang="ko"><![CDATA[세션을 정리하시겠습니까?]]></value>

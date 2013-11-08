@@ -1,4 +1,4 @@
-<load target="js/member_admin_group.js" usecdn="true" />
+<load target="js/member_admin_group.js" />
 <script>
 	xe.lang.groupDeleteMessage = '{$lang->msg_group_delete}';
 	xe.lang.multilingual = '{$lang->cmd_set_multilingual}';
@@ -53,7 +53,7 @@
 						<button type="button" class="dragBtn">Move to</button>
 						<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
 						<input type="text" name="group_titles[]" value="{htmlspecialchars($group_info->title)}" class="lang_code" title="{$lang->group_title}" />
-						<a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_administrator" target="_blank" cond="$group_info->title == '관리그룹'">{$lang->help}</a>
+						<a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_administrator" target="_blank" cond="$group_info->title == '愿�由ш렇猷�'">{$lang->help}</a>
 					</div>
 				</td>
 				<td><input type="text" name="descriptions[]" value="{$group_info->description}" title="{$lang->description}" /></td>

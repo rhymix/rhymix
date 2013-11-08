@@ -67,9 +67,6 @@ class installAdminController extends install
 		$http_port = Context::get('http_port');
 		$https_port = Context::get('https_port');
 
-		$use_cdn = Context::get('use_cdn');
-		if($use_cdn != 'Y') $use_cdn = 'N';
-
 		$use_rewrite = Context::get('use_rewrite');
 		if($use_rewrite!='Y') $use_rewrite = 'N';
 
@@ -92,7 +89,6 @@ class installAdminController extends install
 		$db_info->use_rewrite = $use_rewrite;
 		$db_info->use_sso = $use_sso;
 		$db_info->use_ssl = $use_ssl;
-		$db_info->use_cdn = $use_cdn;
 		$db_info->use_html5 = $use_html5;
 		$db_info->admin_ip_list = $admin_ip_list;
 
