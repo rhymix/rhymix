@@ -23,7 +23,6 @@ class UploadFileFilter
                                 if (FALSE !== $has_php_tag && FALSE !== strpos($content, $v))
                                 {
                                         fclose($fp);
-                                        debugPrint('unvalid file');
                                         return FALSE;
                                 }
                         }
@@ -31,7 +30,6 @@ class UploadFileFilter
 
                 fclose($fp);
                 
-                debugPrint('valid file');
                 return TRUE;
         }
 }
