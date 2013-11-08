@@ -663,6 +663,10 @@ class fileController extends file
 		}
 		// Create a directory
 		if(!FileHandler::makeDir($path)) return new Object(-1,'msg_not_permitted_create');
+		
+		// Check uploaded file
+		if(!checkUploadedFile($file_info['tmp_name']))  return new Object(-1,'msg_file_upload_error');
+		
 		// Move the file
 		if($manual_insert)
 		{

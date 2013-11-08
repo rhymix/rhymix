@@ -440,6 +440,9 @@ class layoutAdminController extends layout
 			$filename = sprintf('%s.%s', md5($filename), $ext);
 		}
 
+		// Check uploaded file
+		if(!checkUploadedFile($source['tmp_name'])) return false;
+		
 		if(file_exists($path .'/'. $filename)) @unlink($path . $filename);
 		if(!move_uploaded_file($source['tmp_name'], $path . $filename )) return false;
 		return true;
@@ -692,7 +695,7 @@ class layoutAdminController extends layout
 		// check upload
 		if(!Context::isUploaded()) exit();
 		$file = Context::get('file');
-		if(!is_uploaded_file($file['tmp_name'])) exit();
+		if(!is_uploaded_file($file['tmp_name']) || !checkUploadedFile($file['tmp_name'])) exit();
 		if(!preg_match('/\.(tar)$/i', $file['name'])) exit();
 
 		$layout_srl = Context::get('layout_srl');
@@ -927,7 +930,7 @@ class layoutAdminController extends layout
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile("after_upload_config_image.html");
 
-		if(!$img['tmp_name'] || !is_uploaded_file($img['tmp_name']))
+		if(!$img['tmp_name'] || !is_uploaded_file($img['tmp_name']) || !checkUploadedFile($img['tmp_name']))
 		{
 			Context::set('msg', Context::getLang('upload failed'));
 			return;

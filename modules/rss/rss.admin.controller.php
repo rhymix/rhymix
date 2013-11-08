@@ -44,7 +44,7 @@ class rssAdminController extends rss
 				$total_config->image = '';
 			}
 			// Ignore if the file is not the one which has been successfully uploaded
-			if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name']))
+			if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name']) && checkUploadedFile($image_obj['tmp_name']))
 			{
 				// Ignore if the file is not an image (swf is accepted ~)
 				$image_obj['name'] = Context::convertEncodingStr($image_obj['name']);
@@ -59,6 +59,7 @@ class rssAdminController extends rss
 					else
 					{
 						$filename = $path.$image_obj['name'];
+						
 						// Move the file
 						if(!move_uploaded_file($image_obj['tmp_name'], $filename)) $alt_message = 'msg_error_occured';
 						else

@@ -982,6 +982,18 @@ function removeHackTag($content)
 }
 
 /**
+ * check uploaded file which may be hacking attempts
+ *
+ * @param string $file Taget file path
+ * @return bool
+ */
+function checkUploadedFile($file)
+{
+	require_once(_XE_PATH_ . 'classes/security/UploadFileFilter.class.php');
+	return UploadFileFilter::check($file);
+}
+
+/**
  * Check xmp tag, close it.
  *
  * @param string $content Target content
