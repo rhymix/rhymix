@@ -28,22 +28,8 @@ define('__ZBXE__', __XE__);
 
 /**
  * Display XE's full version.
- * The version should be revised when releasing even if no change is made.
-
- * XE core's version name is designated development stage. Basically consist of 4 numbers. For example X.X.X.X.
-
- * First position number means 'major' update.
- * Second position number means 'minor' update.
- * Third position number '0, 1, 2, 3' means 'status' update. 
- * Forth position number means 'patch' update.
-
- * Third position number for status display is consist of 0~3 numbers.
- * '0' means 'alpha' status.
- * '1' means 'beta' status.
- * '2' means 'release candidate' status.
- * '3' means 'final' status.
  */
-define('__XE_VERSION__', '1.7.3.6');
+define('__XE_VERSION__', '1.7.4.b1');
 
 /**
  * @deprecated __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.
