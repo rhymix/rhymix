@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * menuAdminView class
  * admin view class of the menu module

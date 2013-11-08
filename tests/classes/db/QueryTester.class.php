@@ -1,4 +1,5 @@
 <?php 
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 // Only supports queries inside modules for now
 

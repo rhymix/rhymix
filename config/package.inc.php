@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 define('_XE_PACKAGE_', 'XE');
 define('_XE_LOCATION_', 'ko');

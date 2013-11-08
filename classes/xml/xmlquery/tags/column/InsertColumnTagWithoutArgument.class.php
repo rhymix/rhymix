@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Models the &lt;column&gt; tag inside an XML Query file whose action is 'insert-select'

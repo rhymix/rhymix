@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  layoutModel
  * @author NAVER (developers@xpressengine.com)

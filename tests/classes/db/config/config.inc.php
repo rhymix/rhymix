@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 	error_reporting(E_ALL ^ E_NOTICE);
 	define('_XE_PATH_', str_replace('tests/classes/db/config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
 	define('_TEST_PATH_', _XE_PATH_ . 'tests/classes/db/');

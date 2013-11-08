@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * Admin view of the module class file
  * @author NAVER (developers@xpressengine.com)

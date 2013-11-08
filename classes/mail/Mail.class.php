@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 if(version_compare(PHP_VERSION, '5.0.0', '>='))
 {

@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
     class MssqlSelectOnlineTest extends MssqlOnlineTest {
 
             function test_syndication_getGrantedModule(){

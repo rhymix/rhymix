@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 define('FOLLOW_REQUEST_SSL', 0);
 define('ENFORCE_SSL', 1);

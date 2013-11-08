@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 if(!defined('__XE__')) require dirname(__FILE__).'/../../Bootstrap.php';
 

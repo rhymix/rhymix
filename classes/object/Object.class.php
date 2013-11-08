@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Every modules inherits from Object class. It includes error, message, and other variables for communicatin purpose.

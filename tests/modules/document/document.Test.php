@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 error_reporting(0);
 
 class documentModelTest extends PHPUnit_Framework_TestCase

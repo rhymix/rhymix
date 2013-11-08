@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @file   common/lang/en.lang.php
  * @author NAVER (developers@xpressengine.com)

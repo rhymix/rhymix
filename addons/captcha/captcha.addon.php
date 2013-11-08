@@ -1,4 +1,6 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
+
 if(!defined("__XE__")) exit();
 
 /**

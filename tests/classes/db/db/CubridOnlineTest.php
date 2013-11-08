@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
     /**
      * Base class for tests for CUBRID SQL syntax

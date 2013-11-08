@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class DBTest extends PHPUnit_Framework_TestCase {
 

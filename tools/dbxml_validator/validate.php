@@ -1,5 +1,6 @@
 #!/bin/env php
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
 	vi:set ts=4:
 	@file

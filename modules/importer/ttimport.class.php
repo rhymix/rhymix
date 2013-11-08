@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 @set_time_limit(0);
 @require_once('./modules/importer/extract.class.php');
 

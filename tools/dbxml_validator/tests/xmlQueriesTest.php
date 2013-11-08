@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 if (!defined('__DIR__'))
     define('__DIR__', realpath(dirname(__FILE__))); 

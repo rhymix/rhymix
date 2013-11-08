@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * @brief If member_srl exists in the div or span, replace to image name or nick image for each member_srl

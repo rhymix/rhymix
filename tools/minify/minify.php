@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * Minify
  * This script comnbines multiple JavaScript or CSS files with minifying.

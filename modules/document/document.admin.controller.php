@@ -1,4 +1,6 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
+
 /**
  * documentAdminController class
  * Document the module's admin controller class

@@ -1,4 +1,6 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
+
 /**
  * @class  editorView
  * @author NAVER (developers@xpressengine.com)
