@@ -9,15 +9,14 @@ if(!defined("__XE__")) exit();
  * @brief Captcha for a particular action
  * English alphabets and voice verification added
  * */
-if(!class_exists('AddonCaptcha'))
+if(!class_exists('AddonMemberCaptcha'))
 {
 	// On the mobile mode, XE Core does not load jquery and xe.js as normal.
 	Context::loadFile(array('./common/js/jquery.min.js', 'head', NULL, -100000), true);
 	Context::loadFile(array('./common/js/xe.min.js', 'head', NULL, -100000), true);
 
-	class AddonCaptcha
+	class AddonMemberCaptcha
 	{
-
 		var $addon_info;
 		var $target_acts = NULL;
 
@@ -28,10 +27,10 @@ if(!class_exists('AddonCaptcha'))
 
 		function before_module_proc()
 		{
-			if($this->addon_info->act_type == 'everytime' && $_SESSION['captcha_authed'])
-			{
-				unset($_SESSION['captcha_authed']);
-			}
+			// if($_SESSION['member_captcha_authed'])
+			// {
+				unset($_SESSION['member_captcha_authed']);
+			// }
 		}
 
 		function before_module_init(&$ModuleHandler)
@@ -41,22 +40,34 @@ if(!class_exists('AddonCaptcha'))
 			{
 				return false;
 			}
-			if($this->addon_info->target != 'all' && Context::get('is_logged'))
-			{
-				return false;
-			}
+			// if($this->addon_info->target != 'all' && Context::get('is_logged'))
+			// {
+			// 	return false;
+			// }
 			if($_SESSION['XE_VALIDATOR_ERROR'] == -1)
 			{
-				$_SESSION['captcha_authed'] = false;
+				$_SESSION['member_captcha_authed'] = false;
 			}
-			if($_SESSION['captcha_authed'])
+			if($_SESSION['member_captcha_authed'])
 			{
 				return false;
 			}
 
 			$type = Context::get('captchaType');
 
-			$this->target_acts = array('procBoardInsertDocument', 'procBoardInsertComment', 'procIssuetrackerInsertIssue', 'procIssuetrackerInsertHistory', 'procTextyleInsertComment');
+			$this->target_acts = array();
+			if($this->addon_info->apply_find_account == 'apply')
+			{
+				$this->target_acts[] = 'procMemberFindAccount';
+			}
+			if($this->addon_info->apply_resend_auth_mail == 'apply')
+			{
+				$this->target_acts[] = 'procMemberResendAuthMail';
+			}
+			if($this->addon_info->apply_signup == 'apply')
+			{
+				$this->target_acts[] = 'procMemberInsert';
+			}
 
 			if(Context::getRequestMethod() != 'XMLRPC' && Context::getRequestMethod() !== 'JSON')
 			{
@@ -64,7 +75,7 @@ if(!class_exists('AddonCaptcha'))
 				{
 					if(!$this->compareCaptcha())
 					{
-						Context::loadLang('./addons/captcha/lang');
+						Context::loadLang('./addons/captcha_member/lang');
 						$_SESSION['XE_VALIDATOR_ERROR'] = -1;
 						$_SESSION['XE_VALIDATOR_MESSAGE'] = Context::getLang('captcha_denied');
 						$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
@@ -78,14 +89,14 @@ if(!class_exists('AddonCaptcha'))
 						if(!captchaTargetAct) {var captchaTargetAct = [];}
 						captchaTargetAct.push("' . implode('","', $this->target_acts) . '");
 						</script>');
-					Context::loadFile(array('./addons/captcha/captcha.min.js', 'body', '', null), true);
+					Context::loadFile(array('./addons/captcha_member/captcha.min.js', 'body', '', null), true);
 				}
 			}
 
 			// compare session when calling actions such as writing a post or a comment on the board/issue tracker module
-			if(!$_SESSION['captcha_authed'] && in_array(Context::get('act'), $this->target_acts))
+			if(!$_SESSION['member_captcha_authed'] && in_array(Context::get('act'), $this->target_acts))
 			{
-				Context::loadLang('./addons/captcha/lang');
+				Context::loadLang('./addons/captcha_member/lang');
 				$ModuleHandler->error = "captcha_denied";
 			}
 
@@ -108,12 +119,12 @@ if(!class_exists('AddonCaptcha'))
 
 		function before_module_init_setCaptchaSession()
 		{
-			if($_SESSION['captcha_authed'])
+			if($_SESSION['member_captcha_authed'])
 			{
 				return false;
 			}
 			// Load language files
-			Context::loadLang(_XE_PATH_ . 'addons/captcha/lang');
+			Context::loadLang(_XE_PATH_ . 'addons/captcha_member/lang');
 			// Generate keywords
 			$this->createKeyword();
 
@@ -137,7 +148,7 @@ if(!class_exists('AddonCaptcha'))
 
 		function before_module_init_captchaImage()
 		{
-			if($_SESSION['captcha_authed'])
+			if($_SESSION['member_captcha_authed'])
 			{
 				return false;
 			}
@@ -252,7 +263,7 @@ if(!class_exists('AddonCaptcha'))
 
 		function before_module_init_captchaAudio()
 		{
-			if($_SESSION['captcha_authed'])
+			if($_SESSION['member_captcha_authed'])
 			{
 				return false;
 			}
@@ -275,7 +286,7 @@ if(!class_exists('AddonCaptcha'))
 		function createCaptchaAudio($string)
 		{
 			$data = '';
-			$_audio = './addons/captcha/audio/F_%s.mp3';
+			$_audio = './addons/captcha_member/audio/F_%s.mp3';
 			for($i = 0, $c = strlen($string); $i < $c; $i++)
 			{
 				$_data = FileHandler::readFile(sprintf($_audio, $string{$i}));
@@ -303,18 +314,18 @@ if(!class_exists('AddonCaptcha'))
 		{
 			if(!in_array(Context::get('act'), $this->target_acts)) return true;
 
-			if($_SESSION['captcha_authed'])
+			if($_SESSION['member_captcha_authed'])
 			{
 				return true;
 			}
 
 			if(strtoupper($_SESSION['captcha_keyword']) == strtoupper(Context::get('secret_text')))
 			{
-				$_SESSION['captcha_authed'] = true;
+				$_SESSION['member_captcha_authed'] = true;
 				return true;
 			}
 
-			unset($_SESSION['captcha_authed']);
+			unset($_SESSION['member_captcha_authed']);
 
 			return false;
 		}
@@ -340,12 +351,12 @@ if(!class_exists('AddonCaptcha'))
 
 		function inlineDisplay()
 		{
-			unset($_SESSION['captcha_authed']);
+			unset($_SESSION['member_captcha_authed']);
 			$this->createKeyword();
 
-			$swfURL = getUrl() . 'addons/captcha/swf/play.swf';
-			Context::unloadFile('./addons/captcha/captcha.min.js');
-			Context::loadFile(array('./addons/captcha/inline_captcha.js', 'body'));
+			$swfURL = getUrl() . 'addons/captcha_member/swf/play.swf';
+			Context::unloadFile('./addons/captcha_member/captcha.min.js');
+			Context::loadFile(array('./addons/captcha_member/inline_captcha.js', 'body'));
 
 			global $lang;
 
@@ -374,28 +385,28 @@ EOD;
 		}
 
 	}
-	$GLOBALS['__AddonCaptcha__'] = new AddonCaptcha;
-	$GLOBALS['__AddonCaptcha__']->setInfo($addon_info);
-	Context::set('oCaptcha', $GLOBALS['__AddonCaptcha__']);
+	$GLOBALS['__AddonMemberCaptcha__'] = new AddonMemberCaptcha;
+	$GLOBALS['__AddonMemberCaptcha__']->setInfo($addon_info);
+	Context::set('oMemberCaptcha', $GLOBALS['__AddonMemberCaptcha__']);
 }
 
-$oAddonCaptcha = &$GLOBALS['__AddonCaptcha__'];
+$oAddonMemberCaptcha = &$GLOBALS['__AddonMemberCaptcha__'];
 
-if(method_exists($oAddonCaptcha, $called_position))
+if(method_exists($oAddonMemberCaptcha, $called_position))
 {
-	if(!call_user_func_array(array(&$oAddonCaptcha, $called_position), array(&$this)))
+	if(!call_user_func_array(array(&$oAddonMemberCaptcha, $called_position), array(&$this)))
 	{
 		return false;
 	}
 }
 
 $addon_act = Context::get('captcha_action');
-if($addon_act && method_exists($oAddonCaptcha, $called_position . '_' . $addon_act))
+if($addon_act && method_exists($oAddonMemberCaptcha, $called_position . '_' . $addon_act))
 {
-	if(!call_user_func_array(array(&$oAddonCaptcha, $called_position . '_' . $addon_act), array(&$this)))
+	if(!call_user_func_array(array(&$oAddonMemberCaptcha, $called_position . '_' . $addon_act), array(&$this)))
 	{
 		return false;
 	}
 }
-/* End of file captcha.addon.php */
-/* Location: ./addons/captcha/captcha.addon.php */
+/* End of file captcha_member.addon.php */
+/* Location: ./addons/captcha_member/captcha_member.addon.php */
