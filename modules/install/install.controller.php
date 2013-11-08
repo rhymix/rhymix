@@ -331,7 +331,6 @@ class installController extends install
 		$checklist = array();
 		// 0. check your version of php (5.2.4 upper)
 		$checkPHPVersion = phpversion();
-		$checkPHPVersion = "5.2.1";
 		if(version_compare($checkPHPVersion, '5.2.4') == -1) $checklist['php_version'] = false;
 		else $checklist['php_version'] = true;
 		// 1. Check permission
