@@ -11,6 +11,7 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="Generator" content="XpressEngine">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <block loop="Context::getMetaTag() => $no, $val">
 <meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}">
 </block>
@@ -82,16 +83,16 @@ jQuery(function($){
 	function get_body_margin(position){
 		var margin = $('body').css('margin-' + position);
 		var unit = margin.substr(-2);
-		
+
 		if(unit == 'px'){
 			margin = parseInt(margin);
 		}else{
 			margin = 0;
 		}
-		
+
 		return margin;
 	}
-	
+
 	var height = $('#adminBar').outerHeight();
 	var margin_top = get_body_margin('top');
 	var new_margin_top = margin_top + height;
@@ -99,11 +100,11 @@ jQuery(function($){
 	$('body').css({
 		'margin-top': new_margin_top + 'px'
 	})
-	
+
 	var $fixed_elements = $('*').filter(function(){
 		if($(this).get(0) == $('#adminBar').get(0)) return false;
 		if($(this).css("position") !== 'fixed') return false;
-		
+
 		var invisible = false;
 		if(!$(this).is(':visible')){
 			invisible = true;
@@ -114,7 +115,7 @@ jQuery(function($){
 			$(this).hide();
 		}
 		if(top > height) return false;
-		
+
 		$(this).css('top', top + height);
 		return true;
 	});
