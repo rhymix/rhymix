@@ -38,6 +38,7 @@
 			<pattern>http://www.youtube-nocookie.com/</pattern>
 			<pattern>//www.youtube.com/v/</pattern>
 			<pattern>//www.youtube-nocookie.com/</pattern>
+			<pattern>//www.youtube.com/embed/</pattern>
 		</domain>
 		<domain name="http://www.mgoon.com" desc="엠군">
 			<pattern>http://play.mgoon.com/Video/</pattern>
