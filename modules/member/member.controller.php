@@ -415,7 +415,7 @@ class memberController extends member
 
 		$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
 
-		$redirectUrl = getNotEncodedUrl('', 'act', 'dispMemberModifyInfo');
+		$redirectUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
 		$this->setRedirectUrl($redirectUrl);
 	}
 
