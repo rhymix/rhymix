@@ -73,14 +73,14 @@
 	</li>
 </ul>
 
-<!-- ��쇱��瑜� ���湲곕�� form -->
+<!-- 일자를 옮기는 form -->
 <form action="./" method="get" id="fo_counter">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="selected_date" value="{$selected_date}" />
 </form>
 
-<!-- unique visitor 洹몃����� -->
+<!-- unique visitor 그래프 -->
 <table class="x_table x_table-striped x_table-hover">
 	<!--@foreach($detail_status->list as $key => $val)-->
 		<!--@if($detail_status->sum>0)-->
@@ -91,7 +91,7 @@
 			{@$img_width = 1}
 		<!--@end-->
 	<tr>
-		<th scope="row" cond="Context::getLangType()=='en'"> <!--// ���媛����蹂� -->
+		<th scope="row" cond="Context::getLangType()=='en'"> <!--// 시간대별 -->
 			<!--@if($type == 'year')-->
 				{$key}
 			<!--@elseif($type == 'month')-->
@@ -102,7 +102,7 @@
 				{$key}
 			<!--@end-->
 		</th>
-		<th scope="row" cond="Context::getLangType()!='en'"> <!--// ���媛����蹂� -->
+		<th scope="row" cond="Context::getLangType()!='en'"> <!--// 시간대별 -->
 			<!--@if($type == 'year')-->
 				{$key} {$lang->unit_year}
 			<!--@elseif($type == 'month')-->

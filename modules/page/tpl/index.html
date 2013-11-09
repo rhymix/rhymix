@@ -5,7 +5,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<!-- 寃���� -->
+<!-- 검색 -->
 <form action="./" method="get" class="search x_input-append x_pull-right" style="margin-bottom:-28px">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="mid" value="{$mid}" />
@@ -36,7 +36,7 @@ jQuery(function($){
 });
 </script>
 
-<!-- 紐⑸�� -->
+<!-- 목록 -->
 <form action="./" method="get" id="fo_list">
 <table class="x_table x_table-striped x_table-hover">
 	<caption><strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong></caption>
@@ -92,7 +92,7 @@ jQuery(function($){
 
 </form>
 
-<!-- �����댁�� ��ㅻ��寃���댁�� -->
+<!-- 페이지 네비게이션 -->
 <form cond="$page_navigation" action="./" class="x_pagination" no-error-return-url="true" style="margin:-36px 0 0 0">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
