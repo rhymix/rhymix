@@ -204,6 +204,7 @@
 			<pattern>https://www.youtube-nocookie.com/</pattern>
 			<pattern>//www.youtube.com/v/</pattern>
 			<pattern>//www.youtube-nocookie.com/</pattern>
+			<pattern>//www.youtube.com/embed/</pattern>
 		</domain>
 		<domain name="http://maps.google.com" desc="구글맵스" mobile="true">
 			<pattern>http://maps.google.com/</pattern>
