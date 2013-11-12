@@ -279,13 +279,15 @@ class pointAdminController extends point
 		$output = executeQuery("point.initMemberPoint");
 		if(!$output->toBool()) return $output;
 		// Save the file temporarily
-		$f = fopen("./files/cache/pointRecal.txt","w");
+		
+		$str = '';
 		foreach($member as $key => $val)
 		{
 			$val += (int)$config->signup_point;
-			fwrite($f, $key.','.$val."\r\n");
+			$str . = $key.','.$val."\r\n";
 		}
-		fclose($f);
+
+		@file_put_contents('./files/cache/pointRecal.txt', $str);
 
 		$this->add('total', count($member));
 		$this->add('position', 0);

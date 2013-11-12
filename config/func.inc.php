@@ -829,12 +829,7 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 		}
 		$debug_output = "\n<?php\n/*" . $debug_output . "*/\n?>\n";
 
-		if(@!$fp = fopen($debug_file, 'a'))
-		{
-			return;
-		}
-		fwrite($fp, $debug_output);
-		fclose($fp);
+		@file_put_contents($debug_file, $debug_output, FILE_APPEND);
 	}
 }
 

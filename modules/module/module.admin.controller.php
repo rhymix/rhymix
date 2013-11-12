@@ -894,19 +894,15 @@ class moduleAdminController extends module
 				$langMap[$langCode] += $langMap[$targetLangCode];
 			}
 
-			$fp = fopen(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), 'w');
-			if(!$fp)
+			$str = "<?php if(!defined('__XE__')) exit(); \r\n");
+			foreach($langMap[$langCode] as $code => $value)
+			{
+				$str = sprintf('$lang[\'%s\'] = \'%s\';', $code, addcslashes($value, "'"));
+			}
+			if (!@file_put_contents(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), $str))
 			{
 				return;
 			}
-			fwrite($fp, "<?php if(!defined('__XE__')) exit(); \r\n");
-
-			foreach($langMap[$langCode] as $code => $value)
-			{
-				fwrite($fp, sprintf('$lang[\'%s\'] = \'%s\';', $code, addcslashes($value, "'")));
-			}
-
-			fwrite($fp, '?>');
 		}
 	}
 

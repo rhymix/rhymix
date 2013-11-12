@@ -190,7 +190,7 @@ class installAdminController extends install
 		foreach($ftp_info as $key => $val)
 		{
 			if(!$val) continue;
-			if(preg_match('/(<\?|<\?php|\?>|fputs|fopen|fwrite|fgets|fread|\/\*|\*\/|chr\()/xsm', preg_replace('/\s/', '', $val)))
+			if(preg_match('/(<\?|<\?php|\?>|fputs|fopen|fwrite|fgets|fread|file_get_contents|file_put_contents|exec|proc_open|popen|passthru|show_source|phpinfo|system|\/\*|\*\/|chr\()/xsm', preg_replace('/\s/', '', $val)))
 			{
 				continue;
 			}

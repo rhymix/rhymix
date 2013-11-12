@@ -682,19 +682,7 @@ class Validator
 			return FALSE;
 		}
 
-		if(is_callable('file_put_contents'))
-		{
-			@file_put_contents($filepath, $content);
-		}
-		else
-		{
-			$fp = @fopen($filepath, 'w');
-			if(is_resource($fp))
-			{
-				fwrite($fp, $content);
-				fclose($fp);
-			}
-		}
+		@file_put_contents($filepath, $content);
 
 		return $filepath;
 	}
