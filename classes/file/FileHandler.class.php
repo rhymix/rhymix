@@ -318,11 +318,17 @@ class FileHandler
 	 */
 	function makeDir($path_string)
 	{
-		static $oFtp = null;
 
-		// if safe_mode is on, use FTP 
-		if(ini_get('safe_mode'))
+		if(!ini_get('safe_mode'))
 		{
+			@mkdir($path_string, 0755);
+			@chmod($path_string, 0755);
+		}
+		// if safe_mode is on, use FTP
+		else
+		{
+			static $oFtp = null;
+			
 			$ftp_info = Context::getFTPInfo();
 			if($oFtp == null)
 			{
@@ -356,34 +362,26 @@ class FileHandler
 			{
 				$ftp_path = "/";
 			}
-		}
-
-		$path_string = str_replace(_XE_PATH_, '', $path_string);
-		$path_list = explode('/', $path_string);
-
-		$path = _XE_PATH_;
-		for($i = 0; $i < count($path_list); $i++)
-		{
-			if(!$path_list[$i])
+			
+			$path_string = str_replace(_XE_PATH_, '', $path_string);
+			$path_list = explode('/', $path_string);
+			
+			$path = _XE_PATH_;
+			for($i = 0; $i < count($path_list); $i++)
 			{
-				continue;
-			}
-
-			$path .= $path_list[$i] . '/';
-			$ftp_path .= $path_list[$i] . '/';
-			if(!is_dir($path))
-			{
-				if(ini_get('safe_mode'))
+				if(!$path_list[$i])
+				{
+					continue;
+				}
+			
+				$path .= $path_list[$i] . '/';
+				$ftp_path .= $path_list[$i] . '/';
+				if(!is_dir($path))
 				{
 					$oFtp->ftp_mkdir($ftp_path);
 					$oFtp->ftp_site("CHMOD 777 " . $ftp_path);
 				}
-				else
-				{
-					@mkdir($path, 0755);
-					@chmod($path, 0755);
-				}
-			}
+			}			
 		}
 
 		return is_dir($path_string);
