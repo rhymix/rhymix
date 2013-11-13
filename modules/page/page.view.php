@@ -217,7 +217,7 @@ class pageView extends page
 				return $matches[0];
 			// In case of  .. , get a path
 		}
-		else if(strncasecmp('..', $val, 2) === 0))
+		else if(strncasecmp('..', $val, 2) === 0)
 		{
 			$p = Context::pathToUrl($this->path);
 			return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
