@@ -894,7 +894,7 @@ class moduleAdminController extends module
 				$langMap[$langCode] += $langMap[$targetLangCode];
 			}
 
-			$str = "<?php if(!defined('__XE__')) exit(); \r\n");
+			$str = "<?php if(!defined('__XE__')) exit(); \r\n";
 			foreach($langMap[$langCode] as $code => $value)
 			{
 				$str = sprintf('$lang[\'%s\'] = \'%s\';', $code, addcslashes($value, "'"));
