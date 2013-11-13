@@ -22,22 +22,6 @@ if(!function_exists('iconv'))
 	');
 }
 
-if(!function_exists('htmlspecialchars_decode'))
-{
-
-	/**
-	 * Decode html special characters
-	 *
-	 * @param string $text
-	 * @return string
-	 */
-	function htmlspecialchars_decode($text)
-	{
-		return strtr($text, array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
-	}
-
-}
-
 /**
  * Time zone
  * @var array
@@ -343,7 +327,7 @@ function getFullUrl()
 	}
 
 	$url = Context::getUrl($num_args, $args_list);
-	if(!preg_match('/^http/i', $url))
+	if(strncasecmp('http', $url, 4) !== 0)
 	{
 		preg_match('/^(http|https):\/\/([^\/]+)\//', $request_uri, $match);
 		return substr($match[0], 0, -1) . $url;
@@ -367,7 +351,7 @@ function getNotEncodedFullUrl()
 	}
 
 	$url = Context::getUrl($num_args, $args_list, NULL, FALSE);
-	if(!preg_match('/^http/i', $url))
+	if(strncasecmp('http', $url, 4) !== 0)
 	{
 		preg_match('/^(http|https):\/\/([^\/]+)\//', $request_uri, $match);
 		$url = Context::getUrl($num_args, $args_list, NULL, FALSE);
@@ -440,7 +424,7 @@ function getFullSiteUrl()
 	$num_args = count($args_list);
 
 	$url = Context::getUrl($num_args, $args_list, $domain);
-	if(!preg_match('/^http/i', $url))
+	if(strncasecmp('http', $url, 4) !== 0)
 	{
 		preg_match('/^(http|https):\/\/([^\/]+)\//', $request_uri, $match);
 		return substr($match[0], 0, -1) . $url;
@@ -456,7 +440,7 @@ function getFullSiteUrl()
  */
 function isSiteID($domain)
 {
-	return preg_match('/^([a-z0-9\_]+)$/i', $domain);
+	return preg_match('/^([a-zA-Z0-9\_]+)$/', $domain);
 }
 
 /**
@@ -785,14 +769,9 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 		{
 			$firephp = FirePHP::getInstance(TRUE);
 		}
-		if(function_exists("memory_get_usage"))
-		{
-			$label = sprintf('[%s:%d] (m:%s)', $file_name, $line_num, FileHandler::filesize(memory_get_usage()));
-		}
-		else
-		{
-			$label = sprintf('[%s:%d] ', $file_name, $line_num);
-		}
+
+		$label = sprintf('[%s:%d] (m:%s)', $file_name, $line_num, FileHandler::filesize(memory_get_usage()));
+
 		// Check a FirePHP option
 		if($display_option === 'TABLE')
 		{
@@ -814,14 +793,7 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 			return;
 		}
 		$debug_file = _XE_PATH_ . 'files/' . $file;
-		if(function_exists("memory_get_usage"))
-		{
-			$debug_output = sprintf("[%s %s:%d] - mem(%s)\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, FileHandler::filesize(memory_get_usage()), print_r($debug_output, TRUE));
-		}
-		else
-		{
-			$debug_output = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($debug_output, TRUE));
-		}
+		$debug_output = sprintf("[%s %s:%d] - mem(%s)\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, FileHandler::filesize(memory_get_usage()), print_r($debug_output, TRUE));
 
 		if($display_option === TRUE)
 		{
@@ -1043,7 +1015,7 @@ function removeSrcHack($match)
 	{
 		foreach($m[1] as $idx => $name)
 		{
-			if(substr($name, 0, 2) == 'on')
+			if(substr_compare($name, 'on', 0, 2) === 0)
 			{
 				continue;
 			}
@@ -1073,7 +1045,7 @@ function removeSrcHack($match)
 			$attribute = strtolower(trim($name));
 			if($attribute == 'data' || $attribute == 'src' || $attribute == 'href')
 			{
-				if(strpos(strtolower($val), 'data:') === 0)
+				if(stripos($val, 'data:') === 0)
 				{
 					continue;
 				}
@@ -1083,7 +1055,7 @@ function removeSrcHack($match)
 		if($tag == 'img')
 		{
 			$attribute = strtolower(trim($name));
-			if(strpos(strtolower($val), 'data:') === 0)
+			if(stripos($val, 'data:') === 0)
 			{
 				continue;
 			}
@@ -1169,7 +1141,7 @@ function getScriptPath()
 	static $url = NULL;
 	if($url == NULL)
 	{
-		$url = preg_replace('/\/tools\//i', '/', preg_replace('/index.php$/i', '', str_replace('\\', '/', $_SERVER['SCRIPT_NAME'])));
+		$url = str_ireplace('/tools/', '/', preg_replace('/index.php$/i', '', str_replace('\\', '/', $_SERVER['SCRIPT_NAME'])));
 	}
 	return $url;
 }

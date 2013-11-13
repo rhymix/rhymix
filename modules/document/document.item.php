@@ -383,7 +383,7 @@ class documentItem extends Object
 
 		if($m[1] == 'param')
 		{
-			if(strpos(strtolower($m[0]), 'allowscriptaccess'))
+			if(stripos($m[0], 'allowscriptaccess'))
 			{
 				$m[0] = '<param name="allowscriptaccess" value="never"';
 				if(substr($m[0], -1) == '/')
@@ -395,7 +395,7 @@ class documentItem extends Object
 		}
 		else if($m[1] == 'embed')
 		{
-			if(strpos(strtolower($m[0]), 'allowscriptaccess'))
+			if(stripos($m[0], 'allowscriptaccess'))
 			{
 				$m[0] = preg_replace('/always|samedomain/i', 'never', $m[0]);
 			}

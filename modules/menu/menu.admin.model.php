@@ -178,7 +178,7 @@ class menuAdminModel extends menu
 		{
 			$menuItem->moduleType = null;
 		}
-		else if(!preg_match('/^http/i',$menuItem->url))
+		else if(strncasecmp('http', $menuItem->url, 4) !== 0)
 		{
 			$oModuleModel = &getModel('module');
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItem->url, 0);

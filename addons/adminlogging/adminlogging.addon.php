@@ -11,7 +11,7 @@ if(!defined('__XE__'))
  */
 $logged_info = Context::get('logged_info');
 $act = Context::get('act');
-$kind = strpos(strtolower($act), 'admin') !== false ? 'admin' : '';
+$kind = stripos($act, 'admin') !== false ? 'admin' : '';
 
 if($called_position == 'before_module_proc' && $kind == 'admin' && $logged_info->is_admin == 'Y')
 {

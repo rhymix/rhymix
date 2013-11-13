@@ -89,7 +89,7 @@ class menu extends ModuleObject
 							}
 
 							// if url is empty, change type to shortcurt
-							if($value2->is_shortcut == 'N' && (!$value2->url || preg_match('/^http/i',$value2->url)))
+							if($value2->is_shortcut == 'N' && (!$value2->url || strncasecmp('http', $value2->url, 4) === 0))
 							{
 								$value2->is_shortcut = 'Y';
 								$output3 = executeQuery('menu.updateMenuItem', $value2);
@@ -110,7 +110,7 @@ class menu extends ModuleObject
 					{
 						foreach($output2->data AS $key2=>$value2)
 						{
-							if(!empty($value2->url) && !preg_match('/^http/i',$value2->url))
+							if(!empty($value2->url) && strncasecmp('http', $value2->url, 4) !== 0)
 							{
 								$moduleInfo = $oModuleModel->getModuleInfoByMid($value2->url);
 								if(!$moduleInfo->module_srl)

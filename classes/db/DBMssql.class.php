@@ -932,7 +932,7 @@ class DBMssql extends DB
 
 			// Check for distinct query and if found update count query structure
 			$temp_select = $queryObject->getSelectString(true);
-			$uses_distinct = strpos(strtolower($temp_select), "distinct") !== false;
+			$uses_distinct = stripos($temp_select, "distinct") !== false;
 			$uses_groupby = $queryObject->getGroupByString() != '';
 			if($uses_distinct || $uses_groupby)
 			{

@@ -137,7 +137,7 @@ class menuAdminView extends menu
 	function _menuInfoSetting(&$menu)
 	{
 		$oModuleModel = &getModel('module');
-		if($menu['url'] && !preg_match('/^http/i', $menu['url']))
+		if($menu['url'] && strncasecmp('http', $menu['url'], 4) !== 0)
 		{
 			unset($midInfo);
 			unset($moduleInfo);

@@ -63,7 +63,7 @@ xe.msg_select_menu = "{$lang->msg_select_menu}";
 </script>
 </head>
 {@$isAdminKind = false}
-<!--@if(strpos(strtolower(Context::get('act')),'admin') || Context::get('module') == 'admin')-->
+<!--@if(stripos(Context::get('act'),'admin') || Context::get('module') == 'admin')-->
 {@$isAdminKind = true}
 <!--@end-->
 <body{Context::getBodyClass()}>

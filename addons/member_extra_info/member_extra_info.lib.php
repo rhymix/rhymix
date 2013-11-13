@@ -21,15 +21,16 @@ function memberTransImageName($matches)
 	$oMemberModel = getModel('member');
 	$nick_name = $matches[5];
 
+	$_tmp = &$GLOBALS['_transImageNameList'][$member_srl];
 	// If pre-defined data in the global variablesm return it
-	if(!$GLOBALS['_transImageNameList'][$member_srl]->cached)
+	if(!$_tmp->cached)
 	{
-		$GLOBALS['_transImageNameList'][$member_srl]->cached = true;
+		$_tmp->cached = true;
 		$image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
 		$image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
 		if(file_exists($image_name_file))
 		{
-			$GLOBALS['_transImageNameList'][$member_srl]->image_name_file = $image_name_file;
+			$_tmp->image_name_file = $image_name_file;
 		}
 		else
 		{
@@ -37,7 +38,7 @@ function memberTransImageName($matches)
 		}
 		if(file_exists($image_mark_file))
 		{
-			$GLOBALS['_transImageNameList'][$member_srl]->image_mark_file = $image_mark_file;
+			$_tmp->image_mark_file = $image_mark_file;
 		}
 		else
 		{
@@ -46,13 +47,13 @@ function memberTransImageName($matches)
 
 		$site_module_info = Context::get('site_module_info');
 		$group_image = $oMemberModel->getGroupImageMark($member_srl, $site_module_info->site_srl);
-		$GLOBALS['_transImageNameList'][$member_srl]->group_image = $group_image;
+		$_tmp->group_image = $group_image;
 	}
 	else
 	{
-		$group_image = $GLOBALS['_transImageNameList'][$member_srl]->group_image;
-		$image_name_file = $GLOBALS['_transImageNameList'][$member_srl]->image_name_file;
-		$image_mark_file = $GLOBALS['_transImageNameList'][$member_srl]->image_mark_file;
+		$group_image = $_tmp->group_image;
+		$image_name_file = $_tmp->image_name_file;
+		$image_mark_file = $_tmp->image_mark_file;
 	}
 	// If image name and mark doesn't exist, set the original information
 	if(!$image_name_file && !$image_mark_file && !$group_image)

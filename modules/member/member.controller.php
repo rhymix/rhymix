@@ -2116,7 +2116,7 @@ class memberController extends member
 
 		if($args->password)
 		{
-			if($this->useSha1 && function_exists('sha1'))
+			if($this->useSha1)
 			{
 				$args->password = md5(sha1(md5($args->password)));
 			}

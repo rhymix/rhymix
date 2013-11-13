@@ -189,13 +189,13 @@ class mobileXE
 		$userAgent = $_SERVER['HTTP_USER_AGENT'];
 		$wap_sid = $_SERVER['HTTP_X_UP_SUBNO'];
 
-		if(preg_match("/SKT11/i", $userAgent) || preg_match("/skt/i", $browserAccept))
+		if(stripos($userAgent, "SKT11") !== FALSE || stripos($browserAccept, "skt") !== FALSE)
 		{
 			Context::set('mobile_skt',1);
 			return "wml";
 		}
-		elseif(preg_match("/hdml/i", $browserAccept)) return "hdml";
-		elseif(preg_match("/CellPhone/i", $userAgent)) return  "mhtml";
+		elseif(stripos($browserAccept, "hdml") !== FALSE) return "hdml";
+		elseif(stripos($userAgent, "cellphone") !== FALSE) return  "mhtml";
 		return null;
 	}
 

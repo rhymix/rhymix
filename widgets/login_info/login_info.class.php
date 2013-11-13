@@ -33,7 +33,7 @@ class login_info extends WidgetHandler
 		$useSsl = Context::getSslStatus();
 		if($useSsl != 'none')
 		{
-			if(preg_match('/^https:\/\//i', Context::getRequestUri())) $ssl_mode = true;
+			if(strncasecmp('https://', Context::getRequestUri(), 8) === 0) $ssl_mode = true;
 		}
 		Context::set('ssl_mode',$ssl_mode);
 

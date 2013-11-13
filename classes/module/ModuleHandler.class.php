@@ -80,7 +80,7 @@ class ModuleHandler extends Handler
 			exit;
 		}
 
-		if(isset($this->act) && substr($this->act, 0, 4) == 'disp')
+		if(isset($this->act) && substr_compare($this->act, 'disp', 0, 4) === 0)
 		{
 			if(Context::get('_use_ssl') == 'optional' && Context::isExistsSSLAction($this->act) && $_SERVER['HTTPS'] != 'on')
 			{
@@ -349,7 +349,7 @@ class ModuleHandler extends Handler
 		// get type, kind
 		$type = $xml_info->action->{$this->act}->type;
 		$ruleset = $xml_info->action->{$this->act}->ruleset;
-		$kind = strpos(strtolower($this->act), 'admin') !== FALSE ? 'admin' : '';
+		$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
 		if(!$kind && $this->module == 'admin')
 		{
 			$kind = 'admin';
@@ -475,7 +475,7 @@ class ModuleHandler extends Handler
 
 			if($forward->module && $forward->type && $forward->act && $forward->act == $this->act)
 			{
-				$kind = strpos(strtolower($forward->act), 'admin') !== FALSE ? 'admin' : '';
+				$kind = stripos($forward->act, 'admin') !== FALSE ? 'admin' : '';
 				$type = $forward->type;
 				$ruleset = $forward->ruleset;
 				$tpl_path = $oModule->getTemplatePath();
@@ -920,7 +920,7 @@ class ModuleHandler extends Handler
 			$isLayoutDrop = Context::get('isLayoutDrop');
 			if($isLayoutDrop)
 			{
-				$kind = strpos(strtolower($this->act), 'admin') !== FALSE ? 'admin' : '';
+				$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
 				if($kind == 'admin')
 				{
 					$oModule->setLayoutFile('popup_layout');

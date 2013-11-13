@@ -414,7 +414,7 @@ class mcontent extends WidgetHandler
 		$buff = $this->requestFeedContents($args->rss_url);
 
 		$encoding = preg_match("/<\?xml.*encoding=\"(.+)\".*\?>/i", $buff, $matches);
-		if($encoding && !preg_match("/UTF-8/i", $matches[1])) $buff = Context::convertEncodingStr($buff);
+		if($encoding && stripos($matches[1], "UTF-8") === FALSE) $buff = Context::convertEncodingStr($buff);
 
 		$buff = preg_replace("/<\?xml.*\?>/i", "", $buff);
 
@@ -548,7 +548,7 @@ class mcontent extends WidgetHandler
 			$content_item->setContentsLink($rss->link);
 			if($item->title)
 			{
-				if(!preg_match("/html/i", $value->title->attrs->type)) $item->title = $value->title->body;
+				if(stripos($value->title->attrs->type, "html") === FALSE) $item->title = $value->title->body;
 			}
 			$content_item->setTitle($item->title);
 			$content_item->setNickName(max($item->author,$item->{'dc:creator'}));
@@ -557,14 +557,14 @@ class mcontent extends WidgetHandler
 			$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->content);
 			if($item->description)
 			{
-				if(!preg_match("/html/i", $value->content->attrs->type)) $item->description = htmlspecialchars($item->description);
+				if(stripos($value->summary->attrs->type, "html") === FALSE) $item->description = htmlspecialchars($item->description);
 			}
 			if(!$item->description)
 			{
 				$item->description = $item->summary;
 				if($item->description)
 				{
-					if(!preg_match("/html/i", $value->summary->attrs->type)) $item->description = htmlspecialchars($item->description);
+					if(stripos($value->summary->attrs->type, "html") === FALSE) $item->description = htmlspecialchars($item->description);
 				}
 			}
 			$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));

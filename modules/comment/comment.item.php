@@ -250,7 +250,7 @@ class commentItem extends Object
 			return;
 		}
 
-		if(!preg_match("/^http:\/\//i", $url))
+		if(strncasecmp('http://', $url, 7) !== 0)
 		{
 			$url = "http://" . $url;
 		}

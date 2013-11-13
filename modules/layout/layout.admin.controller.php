@@ -613,7 +613,7 @@ class layoutAdminController extends layout
 
 		foreach($file_list as $file)
 		{
-			if(preg_match('/^images/', $file)) continue;
+			if(strncasecmp('images', $file, 6) === 0) continue;
 
 			// replace path
 			$file = $target_path . $file;

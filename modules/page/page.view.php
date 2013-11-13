@@ -217,13 +217,13 @@ class pageView extends page
 				return $matches[0];
 			// In case of  .. , get a path
 		}
-		else if(preg_match('/^\.\./i',$val))
+		else if(strncasecmp('..', $val, 2) === 0))
 		{
 			$p = Context::pathToUrl($this->path);
 			return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
 		}
 
-		if(substr($val,0,2)=='./') $val = substr($val,2);
+		if(strncasecmp('..', $val, 2) === 0) $val = substr($val,2);
 		$p = Context::pathToUrl($this->path);
 		$path = sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
 

@@ -207,7 +207,7 @@ class menuAdminController extends menu
 
 		foreach($output->data as $itemInfo)
 		{
-			if($itemInfo->is_shortcut != 'Y' && !preg_match('/^http/i',$itemInfo->url))
+			if($itemInfo->is_shortcut != 'Y' && strncasecmp('http', $itemInfo->url, 4) !== 0)
 			{
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
 				if($moduleInfo->module_srl)
@@ -331,7 +331,7 @@ class menuAdminController extends menu
 		$oDB->begin();
 
 		// type is url
-		if(preg_match('/^http/i', $request->shortcut_target) || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
+		if(strncasecmp('http', $request->shortcut_target, 4) === 0 || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
 		{
 			// set menu variable
 			$args->menu_srl = $request->menu_srl;
@@ -414,7 +414,7 @@ class menuAdminController extends menu
 		if($request->menu_name_key) $args->name = $request->menu_name_key;
 		else $args->name = $request->menu_name;
 
-		if($request->module_id && preg_match('/^http/i', $request->module_id))
+		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
@@ -531,7 +531,7 @@ class menuAdminController extends menu
 		if($itemInfo->is_shortcut == 'Y')
 		{
 			// type is url
-			if(preg_match('/^http/i', $request->shortcut_target) || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
+			if(strncasecmp('http', $request->shortcut_target, 4) === 0 || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
 			{
 				$args->url = $request->shortcut_target;
 			}
@@ -813,7 +813,7 @@ class menuAdminController extends menu
 		if($node['active_btn']) FileHandler::removeFile($node['active_btn']);
 
 		// Delete module
-		if($node['is_shortcut'] != 'Y' && !preg_match('/^http/i',$node['url']))
+		if($node['is_shortcut'] != 'Y' && strncasecmp('http', $node['url'], 4) !== 0)
 		{
 			$oModuleController = getController('module');
 			$oModuleModel = &getModel('module');
@@ -1054,7 +1054,7 @@ class menuAdminController extends menu
 
 		$isModuleCopySuccess = false;
 		// if menu have a reference of module instance
-		if($menuItemInfo->is_shortcut == 'N' && !preg_match('/^http/i', $originMenu['url']))
+		if($menuItemInfo->is_shortcut == 'N' && strncasecmp('http', $originMenu['url'], 4) !== 0 )
 		{
 			$oModuleModel = &getModel('module');
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($originMenu['url']);
@@ -1367,7 +1367,7 @@ class menuAdminController extends menu
 			Context::set('error_messge', Context::getLang('msg_invalid_request'));
 			
 		}
-		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)/i',$target_file['name'])  || !checkUploadedFile($target_file['tmp_name']))
+		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)$/i',$target_file['name'])  || !checkUploadedFile($target_file['tmp_name']))
 		{
 			Context::set('error_messge', Context::getLang('msg_invalid_request'));
 		}
@@ -1748,13 +1748,13 @@ class menuAdminController extends menu
 			$expand = $node->expand;
 
 			$normal_btn = $node->normal_btn;
-			if($normal_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$normal_btn)) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
+			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
 			else $normal_btn = '';
 			$hover_btn = $node->hover_btn;
-			if($hover_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$hover_btn)) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
+			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
 			else $hover_btn = '';
 			$active_btn = $node->active_btn;
-			if($active_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$active_btn)) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
+			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
 			else $active_btn = '';
 
 			$group_srls = $node->group_srls;
@@ -1864,16 +1864,17 @@ class menuAdminController extends menu
 			$expand = $node->expand;
 
 			$normal_btn = $node->normal_btn;
-			if($normal_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$normal_btn)) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
+			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
 			else $normal_btn = '';
 
 			$hover_btn = $node->hover_btn;
-			if($hover_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$hover_btn)) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
+			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
 			else $hover_btn = '';
 
 			$active_btn = $node->active_btn;
-			if($active_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$active_btn)) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
+			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
 			else $active_btn = '';
+
 
 			$group_srls = $node->group_srls;
 

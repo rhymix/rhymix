@@ -321,7 +321,7 @@ class DBParser
 		{
 			return $column_name;
 		}
-		if(strpos(strtolower($column_name), 'distinct') !== FALSE)
+		if(stripos($column_name, 'distinct') !== FALSE)
 		{
 			return $column_name;
 		}

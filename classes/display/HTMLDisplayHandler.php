@@ -38,7 +38,7 @@ class HTMLDisplayHandler
 					if(count($theme_skin) == 2)
 					{
 						$theme_path = sprintf('./themes/%s', $theme_skin[0]);
-						if(substr($theme_path, 0, strlen($theme_path)) != $theme_path)
+						if(substr_compare($theme_path, $theme_path, 0, strlen($theme_path)) !== 0)
 						{
 							$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
 						}
@@ -117,7 +117,7 @@ class HTMLDisplayHandler
 
 				// if popup_layout, remove admin bar.
 				$realLayoutPath = FileHandler::getRealPath($layout_path);
-				if(substr($realLayoutPath, -1) != '/')
+				if(substr_compare($realLayoutPath, '/', -1) !== 0)
 				{
 					$realLayoutPath .= '/';
 				}
@@ -135,7 +135,7 @@ class HTMLDisplayHandler
 					$GLOBALS['__layout_compile_elapsed__'] = getMicroTime() - $start;
 				}
 
-				if(preg_match('/MSIE/i', $_SERVER['HTTP_USER_AGENT']) && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
+				if(stripos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
 				{
 					Context::addHtmlFooter('<iframe id="xeTmpIframe" name="xeTmpIframe" style="width:1px;height:1px;position:absolute;top:-2px;left:-2px;"></iframe>');
 				}

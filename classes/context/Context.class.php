@@ -388,11 +388,7 @@ class Context
 	 */
 	function close()
 	{
-		// Session Close
-		if(function_exists('session_write_close'))
-		{
-			session_write_close();
-		}
+		session_write_close();
 
 		// DB close
 		$oDB = DB::getInstance();
@@ -440,7 +436,7 @@ class Context
 			unset($db_info->db_userid);
 			$db_info->master_db["db_table_prefix"] = $db_info->db_table_prefix;
 			unset($db_info->db_table_prefix);
-			if(substr($db_info->master_db["db_table_prefix"], -1) != '_')
+			if(substr_compare($db_info->master_db["db_table_prefix"], '_', -1) !== 0)
 			{
 				$db_info->master_db["db_table_prefix"] .= '_';
 			}
@@ -620,7 +616,7 @@ class Context
 		{
 			return true;
 		}
-		if(substr($default_url, -1) != '/')
+		if(substr_compare($default_url, '/', -1) !== 0)
 		{
 			$default_url .= '/';
 		}
@@ -841,7 +837,7 @@ class Context
 			return;
 		}
 
-		if(substr($path, -1) != '/')
+		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';
 		}
@@ -865,7 +861,7 @@ class Context
 	 */
 	function _loadXmlLang($path)
 	{
-		if(substr($path, -1) != '/')
+		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';
 		}
@@ -885,7 +881,7 @@ class Context
 	 */
 	function _loadPhpLang($path)
 	{
-		if(substr($path, -1) != '/')
+		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';
 		}
@@ -1257,7 +1253,7 @@ class Context
 
 		foreach($val as $k => $v)
 		{
-			if($key === 'page' || $key === 'cpage' || substr($key, -3) === 'srl')
+			if($key === 'page' || $key === 'cpage' || substr_compare($key, 'srl', -3) === 0)
 			{
 				$val[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int) $v : $v;
 			}
@@ -1452,7 +1448,7 @@ class Context
 			else
 			{
 				$domain = preg_replace('/^(http|https):\/\//i', '', trim($domain));
-				if(substr($domain, -1) != '/')
+				if(substr_compare($domain, '/', -1) !== 0)
 				{
 					$domain .= '/';
 				}
@@ -1699,7 +1695,7 @@ class Context
 		if($domain)
 		{
 			$target_url = trim($domain);
-			if(substr($target_url, -1) != '/')
+			if(substr_compare($target_url, '/', -1) !== 0)
 			{
 				$target_url.= '/';
 			}
@@ -2227,7 +2223,7 @@ class Context
 				continue;
 			}
 
-			if(substr($filename, 0, 2) == './')
+			if(strncasecmp('./', $filename, 2) === 0)
 			{
 				$filename = substr($filename, 2);
 			}
@@ -2287,7 +2283,7 @@ class Context
 				continue;
 			}
 
-			if(substr($filename, 0, 2) == './')
+			if(strncasecmp('./', $filename, 2) === 0)
 			{
 				$filename = substr($filename, 2);
 			}
@@ -2506,7 +2502,7 @@ class Context
 		}
 
 		$path = '/' . implode('/', $_path);
-		if(substr($path, -1) != '/')
+		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';
 		}

@@ -1043,7 +1043,7 @@ class DBCubrid extends DB
 
 		// Check for distinct query and if found update count query structure
 		$temp_select = $queryObject->getSelectString($with_values);
-		$uses_distinct = strpos(strtolower($temp_select), "distinct") !== FALSE;
+		$uses_distinct = stripos($temp_select, "distinct") !== FALSE;
 		$uses_groupby = $queryObject->getGroupByString() != '';
 		if($uses_distinct || $uses_groupby)
 		{
