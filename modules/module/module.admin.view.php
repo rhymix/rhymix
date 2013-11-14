@@ -308,7 +308,6 @@ class moduleAdminView extends module
 		
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
-		debugPrint($output->data);
 		$this->setTemplateFile('adminFileBox');
 	}
 }
