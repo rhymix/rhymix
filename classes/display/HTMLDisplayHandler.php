@@ -129,6 +129,8 @@ class HTMLDisplayHandler
 				{
 					Context::set('admin_bar', 'false');
 				}
+				// DISABLE ADMIN BAR
+				Context::set('admin_bar', 'false');
 
 				if(__DEBUG__ == 3)
 				{
