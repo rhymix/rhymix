@@ -321,7 +321,7 @@ class FileHandler
 
 		if(!ini_get('safe_mode'))
 		{
-			@mkdir($path_string, 0755);
+			@mkdir($path_string, 0755, TRUE);
 			@chmod($path_string, 0755);
 		}
 		// if safe_mode is on, use FTP
