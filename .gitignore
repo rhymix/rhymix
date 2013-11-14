@@ -1,0 +1,5 @@
+files/
+build/
+node_modules/
+.DS_Srore
+.Thumbs.db
