@@ -4,6 +4,31 @@ module.exports = function(grunt) {
 	grunt.file.defaultEncoding = 'utf8';
 
 	grunt.initConfig({
+		jshint: {
+			files: [
+				'Gruntfile.js',
+				// 'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
+				// 'addons/**/*.js',
+				// 'modules/**/*.js',
+				// 'layouts/**/*.js',
+				// 'm.layouts/**/*.js',
+				// 'widgets/**/*.js',
+				// 'widgetstyles/**/*.js',
+				'!**/*.min.js',
+				'!**/*-packed.js'
+			],
+			options : {
+				globalstrict: false,
+				undef : false,
+				eqeqeq: false,
+				browser : true,
+				globals: {
+					"jQuery" : true,
+					"console" : true,
+					"window" : true
+				}
+			}
+		},
 	});
 
 	grunt.registerTask('build', '', function(A, B) {
@@ -63,8 +88,7 @@ module.exports = function(grunt) {
 
 				grunt.util.spawn({
 					cmd: "tar",
-					args: ['xf', 'build/temp.full.tar', '-C'
-					, 'build/xe'],
+					args: ['xf', 'build/temp.full.tar', '-C', 'build/xe']
 				}, function (error, result, code) {
 
 					// krzip
@@ -104,5 +128,7 @@ module.exports = function(grunt) {
 		});
 	});
 
-	grunt.registerTask('default', ['build']);
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+
+	grunt.registerTask('default', ['jshint']);
 };
