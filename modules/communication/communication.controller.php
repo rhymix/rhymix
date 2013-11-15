@@ -194,6 +194,19 @@ class communicationController extends communication
 		$receiver_args->readed = 'N';
 		$receiver_args->regdate = date("YmdHis");
 
+		// Call a trigger (before)
+		$trigger_args = new stdClass();
+		$trigger_args->sender_srl = $sender_srl;
+		$trigger_args->receiver_srl = $receiver_srl;
+		$trigger_args->title = $title;
+		$trigger_args->content = $content;
+		$trigger_args->sender_log = $sender_log;
+		$triggerOutput = ModuleHandler::triggerCall('communication.sendMessage', 'before', $trigger_args);
+		if(!$triggerOutput->toBool())
+		{
+			return $triggerOutput;
+		}
+
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
@@ -214,6 +227,14 @@ class communicationController extends communication
 		{
 			$oDB->rollback();
 			return $output;
+		}
+
+		// Call a trigger (after)
+		$triggerOutput = ModuleHandler::triggerCall('communication.sendMessage', 'after', $trigger_args);
+		if(!$triggerOutput->toBool())
+		{
+			$oDB->rollback();
+			return $triggerOutput;
 		}
 
 		// create a flag that message is sent (in file format) 

@@ -171,6 +171,38 @@ class spamfilterController extends spamfilter
 	}
 
 	/**
+	 * @brief The routine process to check the time it takes to store a message, when writing it, and to ban IP/word
+	 */
+	function triggerSendMessage(&$obj)
+	{
+		if($_SESSION['avoid_log']) return new Object();
+		// Check the login status, login information, and permission
+		$is_logged = Context::get('is_logged');
+		$logged_info = Context::get('logged_info');
+		// In case logged in, check if it is an administrator
+		if($is_logged)
+		{
+			if($logged_info->is_admin == 'Y') return new Object();
+		}
+
+		$oFilterModel = getModel('spamfilter');
+		// Check if the IP is prohibited
+		$output = $oFilterModel->isDeniedIP();
+		if(!$output->toBool()) return $output;
+		// Check if there is a ban on the word
+		$text = $obj->title.$obj->content;
+		$output = $oFilterModel->isDeniedWord($text);
+		if(!$output->toBool()) return $output;
+		// Check the specified time
+		$output = $oFilterModel->checkLimited();
+		if(!$output->toBool()) return $output;
+		// Save a log
+		$this->insertLog();
+
+		return new Object();
+	}
+
+	/**
 	 * @brief Log registration
 	 * Register the newly accessed IP address in the log. In case the log interval is withing a certain time,
 	 * register it as a spammer
