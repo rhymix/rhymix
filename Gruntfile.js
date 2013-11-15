@@ -33,6 +33,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', '', function(A, B) {
 		var _only_export = false;
+		var tasks = ['krzip', 'syndication'];
 
 		if(!A) {
 			grunt.fail.warn('Undefined build target.');
@@ -54,7 +55,6 @@ module.exports = function(grunt) {
 		var archive_full = build_dir + '/xe.' + version + '.tar.gz';
 		var archive_changed = build_dir + '/xe.' + version + '.changed.tar.gz';
 		var diff, target, version;
-		var tasks = ['krzip', 'syndication'];
 
 		var taskDone = function() {
 			tasks.pop();
@@ -70,10 +70,20 @@ module.exports = function(grunt) {
 				}, function (error, result, code) {
 					grunt.log.ok('Archived(full) : ' + archive_full);
 
-					grunt.file.delete('build/xe');
-					grunt.file.delete('build/temp.full.tar');
+					grunt.util.spawn({
+						cmd: "zip",
+						args: ['-r', 'xe.'+version+'.zip', 'xe/'],
+						opts: {
+							cwd: 'build'
+						}
+					}, function (error, result, code) {
+						grunt.log.ok('Archived(full) : ' + archive_full);
 
-					grunt.log.ok('Done!');
+						grunt.file.delete('build/xe');
+						grunt.file.delete('build/temp.full.tar');
+
+						grunt.log.ok('Done!');
+					});
 				});
 			}
 		};
@@ -105,16 +115,24 @@ module.exports = function(grunt) {
 
 					// changed
 					if(diff.length) {
-						var args = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.tar.gz', version];
-						args = args.concat(diff);
+						var args_tar = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.tar.gz', version]
+						var args_zip = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.zip', version]
+						args_tar = args_tar.concat(diff);
+						args_zip = args_zip.concat(diff);
+
 						grunt.util.spawn({
 							cmd: "git",
-							args: args
+							args: args_tar
 						}, function (error, result, code) {
-							grunt.log.ok('Archived(changed) : ./build/xe.'+version+'.changed.tar.gz');
-							taskDone();
+							grunt.util.spawn({
+								cmd: "git",
+								args: args_zip
+							}, function (error, result, code) {
+								grunt.log.ok('Archived(changed) : ./build/xe.'+version+'.changed.tar.gz');
+								taskDone();
+							});
 						});
-					} else { 
+					} else {
 						taskDone();
 					}
 				});
@@ -125,7 +143,6 @@ module.exports = function(grunt) {
 				cmd: "tar",
 				args: ['xf', 'build/temp.full.tar', '-C', 'build/xe']
 			}, function (error, result, code) {
-
 				// krzip
 				grunt.util.spawn({
 					cmd: "git",
