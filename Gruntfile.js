@@ -32,14 +32,30 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('build', '', function(A, B) {
-		if(!A || !B) grunt.fail.warn('Undefined build target.');
+		var _only_export = false;
+
+		if(!A) {
+			grunt.fail.warn('Undefined build target.');
+		} else if(A && !B) {
+			_only_export = true;
+		}
+
+		if(!_only_export) {
+			tasks.push('changed');
+			target = A + '...' + B;
+			version = B;
+		} else {
+			target = A;
+			version = A;
+		}
 
 		var done = this.async();
 		var build_dir = 'build';
-		var archive_full = build_dir + '/xe.' + B + '.tar.gz';
-		var archive_changed = build_dir + '/xe.' + B + '.changed.tar.gz';
-		var diff;
-		var tasks = ['changed', 'krzip', 'syndication'];
+		var archive_full = build_dir + '/xe.' + version + '.tar.gz';
+		var archive_changed = build_dir + '/xe.' + version + '.changed.tar.gz';
+		var diff, target, version;
+		var tasks = ['krzip', 'syndication'];
+
 		var taskDone = function() {
 			tasks.pop();
 			grunt.verbose.writeln('remain tasks : '+tasks.length);
@@ -47,7 +63,7 @@ module.exports = function(grunt) {
 			if(tasks.length === 0) {
 				grunt.util.spawn({
 					cmd: "tar",
-					args: ['cfz', 'xe.'+B+'.tar.gz', 'xe/'],
+					args: ['cfz', 'xe.'+version+'.tar.gz', 'xe/'],
 					opts: {
 						cwd: 'build'
 					}
@@ -69,61 +85,64 @@ module.exports = function(grunt) {
 		grunt.file.mkdir(build_dir + '/xe');
 
 		grunt.log.subhead('Archiving...');
-		grunt.log.writeln('Target : ' + A + '...' + B);
+		grunt.log.writeln('Target : ' + target);
 
 		grunt.util.spawn({
 			cmd: "git",
-			args: ['diff', '--name-only', A + '...' + B]
-		}, function (error, result, code) {
-			diff = result.stdout;
+			args: ['archive', '--output=build/temp.full.tar', version, '.']
+		}, function (error, result, code){
+			if(!_only_export) {
+				// changed
+				grunt.util.spawn({
+					cmd: "git",
+					args: ['diff', '--name-only', target]
+				}, function (error, result, code) {
+					diff = result.stdout;
 
-			if(diff) {
-				diff = diff.split(grunt.util.linefeed);
+					if(diff) {
+						diff = diff.split(grunt.util.linefeed);
+					}
+
+					// changed
+					if(diff.length) {
+						var args = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.tar.gz', version];
+						args = args.concat(diff);
+						grunt.util.spawn({
+							cmd: "git",
+							args: args
+						}, function (error, result, code) {
+							grunt.log.ok('Archived(changed) : ./build/xe.'+version+'.changed.tar.gz');
+							taskDone();
+						});
+					} else { 
+						taskDone();
+					}
+				});
 			}
 
+			// full
 			grunt.util.spawn({
-				cmd: "git",
-				args: ['archive', '--output=build/temp.full.tar', B, '.']
+				cmd: "tar",
+				args: ['xf', 'build/temp.full.tar', '-C', 'build/xe']
 			}, function (error, result, code) {
 
+				// krzip
 				grunt.util.spawn({
-					cmd: "tar",
-					args: ['xf', 'build/temp.full.tar', '-C', 'build/xe']
+					cmd: "git",
+					args: ['clone', 'git@github.com:xpressengine/module-krzip.git', 'build/xe/modules/module-krzip']
 				}, function (error, result, code) {
-
-					// krzip
-					grunt.util.spawn({
-						cmd: "git",
-						args: ['clone', 'git@github.com:xpressengine/module-krzip.git', 'build/xe/modules/module-krzip']
-					}, function (error, result, code) {
-						grunt.file.delete('build/xe/modules/module-krzip/.git');
-						taskDone();
-					});
-
-					// syndication
-					grunt.util.spawn({
-						cmd: "git",
-						args: ['clone', 'git@github.com:xpressengine/module-syndication.git', 'build/xe/modules/syndication']
-					}, function (error, result, code) {
-						grunt.file.delete('build/xe/modules/syndication/.git');
-						taskDone();
-					});
+					grunt.file.delete('build/xe/modules/module-krzip/.git');
+					taskDone();
 				});
 
-				// changed
-				if(diff.length) {
-					var args = ['archive', '--prefix=xe/', '-o', 'build/xe.'+B+'.changed.tar.gz', B];
-					args = args.concat(diff);
-					grunt.util.spawn({
-						cmd: "git",
-						args: args
-					}, function (error, result, code) {
-						grunt.log.ok('Archived(changed) : ./build/xe.'+B+'.changed.tar.gz');
-						taskDone();
-					});
-				} else { 
+				// syndication
+				grunt.util.spawn({
+					cmd: "git",
+					args: ['clone', 'git@github.com:xpressengine/module-syndication.git', 'build/xe/modules/syndication']
+				}, function (error, result, code) {
+					grunt.file.delete('build/xe/modules/syndication/.git');
 					taskDone();
-				}
+				});
 			});
 		});
 	});
