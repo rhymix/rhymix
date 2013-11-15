@@ -832,7 +832,6 @@ class moduleModel extends module
 
 					$type = $action->attrs->type;
 					$grant = $action->attrs->grant?$action->attrs->grant:'guest';
-					$standalone = $action->attrs->standalone=='true'?'true':'false';
 					$ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
 					$method = $action->attrs->method?$action->attrs->method:'';
 
@@ -845,7 +844,6 @@ class moduleModel extends module
 					$info->action->{$name} = new stdClass();
 					$info->action->{$name}->type = $type;
 					$info->action->{$name}->grant = $grant;
-					$info->action->{$name}->standalone = $standalone=='true'?true:false;
 					$info->action->{$name}->ruleset = $ruleset;
 					$info->action->{$name}->method = $method;
 					if($action->attrs->menu_name)
@@ -867,7 +865,6 @@ class moduleModel extends module
 
 					$buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
 					$buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
-					$buff .= sprintf('$info->action->%s->standalone=%s;', $name, $standalone);
 					$buff .= sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
 					$buff .= sprintf('$info->action->%s->method=\'%s\';', $name, $method);
 
