@@ -176,7 +176,7 @@ class FileHandler
 			$flags = 0;
 		}
 
-		@file_put_contents($file_name, $buff, $flags);
+		@file_put_contents($file_name, $buff, $flags|LOCK_EX);
 		@chmod($file_name, 0644);
 	}
 

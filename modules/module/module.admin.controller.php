@@ -899,7 +899,7 @@ class moduleAdminController extends module
 			{
 				$str = sprintf('$lang[\'%s\'] = \'%s\';', $code, addcslashes($value, "'"));
 			}
-			if (!@file_put_contents(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), $str))
+			if (!@file_put_contents(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), $str, LOCK_EX))
 			{
 				return;
 			}

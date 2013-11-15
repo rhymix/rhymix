@@ -101,7 +101,7 @@ class HTMLPurifier_DefinitionCache_Serializer extends
      * @return Number of bytes written if success, or false if failure.
      */
     private function _write($file, $data, $config) {
-        $result = file_put_contents($file, $data);
+        $result = file_put_contents($file, $data, LOCK_EX);
         if ($result !== false) {
             // set permissions of the new file (no execute)
             $chmod = $config->get('Cache.SerializerPermissions');
