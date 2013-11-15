@@ -115,8 +115,8 @@ module.exports = function(grunt) {
 
 					// changed
 					if(diff.length) {
-						var args_tar = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.tar.gz', version]
-						var args_zip = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.zip', version]
+						var args_tar = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.tar.gz', version];
+						var args_zip = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.zip', version];
 						args_tar = args_tar.concat(diff);
 						args_zip = args_zip.concat(diff);
 
@@ -146,16 +146,16 @@ module.exports = function(grunt) {
 				// krzip
 				grunt.util.spawn({
 					cmd: "git",
-					args: ['clone', 'git@github.com:xpressengine/module-krzip.git', 'build/xe/modules/module-krzip']
+					args: ['clone', 'git@github.com:xpressengine/xe-module-krzip.git', 'build/xe/modules/krzip']
 				}, function (error, result, code) {
-					grunt.file.delete('build/xe/modules/module-krzip/.git');
+					grunt.file.delete('build/xe/modules/krzip/.git');
 					taskDone();
 				});
 
 				// syndication
 				grunt.util.spawn({
 					cmd: "git",
-					args: ['clone', 'git@github.com:xpressengine/module-syndication.git', 'build/xe/modules/syndication']
+					args: ['clone', 'git@github.com:xpressengine/xe-module-syndication.git', 'build/xe/modules/syndication']
 				}, function (error, result, code) {
 					grunt.file.delete('build/xe/modules/syndication/.git');
 					taskDone();
