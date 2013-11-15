@@ -3,12 +3,12 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispLayoutInfo" type="view" standalone="true" />
-        <action name="dispLayoutAdminContent" type="view" standalone="true" />
-        <action name="dispLayoutAdminInfo" type="view" standalone="true" />
-        <action name="dispLayoutAdminLayoutModify" type="view" standalone="true" />
-        <action name="dispLayoutAdminLayoutImageList" type="view" standalone="true" />
-		<action name="dispLayoutAdminMobileContent" type="view" standalone="true" />
+        <action name="dispLayoutInfo" type="view" />
+        <action name="dispLayoutAdminContent" type="view" />
+        <action name="dispLayoutAdminInfo" type="view" />
+        <action name="dispLayoutAdminLayoutModify" type="view" />
+        <action name="dispLayoutAdminLayoutImageList" type="view" />
+		<action name="dispLayoutAdminMobileContent" type="view" />
 
 		<action name="dispLayoutAdminInstalledList" type="view" admin_index="true" menu_name="installedLayout" menu_index="true" />
 		<action name="dispLayoutAdminInstanceList" type="view" menu_name="installedLayout" />
@@ -33,14 +33,14 @@
 		<action name="procLayoutAdminConfigImageDelete" type="controller" />
 		<action name="procLayoutAdminDelete" type="controller" ruleset="deleteLayout" />
 
-        <action name="procLayoutAdminInsert" type="controller" standalone="true" ruleset="insertLayout" />
+        <action name="procLayoutAdminInsert" type="controller" ruleset="insertLayout" />
 
-        <action name="procLayoutAdminCodeReset" type="controller" standalone="true" />
+        <action name="procLayoutAdminCodeReset" type="controller" />
 
-        <action name="procLayoutAdminUserValueInsert" type="controller" standalone="true" />
-        <action name="procLayoutAdminUserLayoutExport" type="controller" standalone="true" />
-        <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" ruleset="userLayoutImport" />
-        <action name="procLayoutAdminCopyLayout" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserValueInsert" type="controller" />
+        <action name="procLayoutAdminUserLayoutExport" type="controller" />
+        <action name="procLayoutAdminUserLayoutImport" type="controller" ruleset="userLayoutImport" />
+        <action name="procLayoutAdminCopyLayout" type="controller" />
 
 		<action name="getLayoutInstanceListForJSONP" type="model" />
 
