@@ -1,6 +1,6 @@
-<load target="../../module/tpl/js/multi_order.js" />
-<load target="../../module/tpl/js/module_list.js" />
-<load target="../../module/tpl/js/mid.js" />
+<load target="../../module/tpl/js/multi_order.js" usecdn="true" />
+<load target="../../module/tpl/js/module_list.js" usecdn="true" />
+<load target="../../module/tpl/js/mid.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
 <div class="x_control-group">
 	<label class="x_control-label" for="skin">{$lang->skin}</label>
@@ -38,7 +38,7 @@
 	</block>
 	{@$not_first = true}
 	<div class="x_control-group <!--@if($var->type == 'mid' || $var->type == 'module_srl_list')-->moduleSearch moduleSearch1 modulefinder<!--@end-->">
-		<label class="x_control-label" for="{$id}">{$var->name}</label>
+		<label class="x_control-label" for="{$id}"|cond="$var->type != 'radio' && $var->type != 'checkbox'">{$var->name}</label>
 		<div class="x_controls">
 			<div cond="$var->type == 'text'">
 				<input type="text" name="{$id}" />
@@ -126,6 +126,12 @@
 				<option value="">-</option>
 				<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
 			</select>
+			<label loop="$var->options => $key, $val" cond="$var->type == 'radio'">
+				<input type="radio" name="{$id}" id="{$id}_{$key}" value="{$key}" > {$val}
+			</label>
+			<label loop="$var->options => $key, $val" cond="$var->type == 'checkbox'">
+				<input type="checkbox" name="{$id}" id="{$id}_{$key}" value="{$key}" > {$val}
+			</label>
 			<p cond="$var->description">{$var->description}</p>
 		</div>
 	</div>
