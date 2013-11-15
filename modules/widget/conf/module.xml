@@ -3,27 +3,27 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispWidgetInfo" type="view" standalone="true" />
-        <action name="dispWidgetGenerateCode" type="view" standalone="true" />
-        <action name="dispWidgetGenerateCodeInPage" type="view" standalone="true" />
-        <action name="dispWidgetStyleGenerateCodeInPage" type="view" standalone="true" />
+        <action name="dispWidgetInfo" type="view" />
+        <action name="dispWidgetGenerateCode" type="view" />
+        <action name="dispWidgetGenerateCodeInPage" type="view" />
+        <action name="dispWidgetStyleGenerateCodeInPage" type="view" />
         
-		<action name="dispWidgetAdminDownloadedList" type="view" standalone="true" admin_index="true" menu_name="installedWidget" menu_index="true" />
-        <action name="dispWidgetAdminAddContent" type="view" standalone="true" />
+		<action name="dispWidgetAdminDownloadedList" type="view" admin_index="true" menu_name="installedWidget" menu_index="true" />
+        <action name="dispWidgetAdminAddContent" type="view" />
 		<action name="dispWidgetAdminGenerateCode" type="view" menu_name="installedWidget" />
         
-		<action name="procWidgetGenerateCode" type="controller" standalone="true" />
-        <action name="procWidgetStyleExtraImageUpload" type="controller" standalone="true" />
-        <action name="procWidgetStyleGenerateCodeInPage" type="controller" standalone="true" />
-        <action name="procWidgetAddContent" type="controller" standalone="true" />
-        <action name="procWidgetInsertDocument" type="controller" standalone="true" />
-        <action name="procWidgetCopyDocument" type="controller" standalone="true" />
-        <action name="procWidgetDeleteDocument" type="controller" standalone="true" />
-        <action name="procWidgetGenerateCodeInPage" type="controller" standalone="true" ruleset="generateCodeInPage" />
-        <action name="procWidgetGetColorsetList" type="controller" standalone="true" />
+		<action name="procWidgetGenerateCode" type="controller" />
+        <action name="procWidgetStyleExtraImageUpload" type="controller" />
+        <action name="procWidgetStyleGenerateCodeInPage" type="controller" />
+        <action name="procWidgetAddContent" type="controller" />
+        <action name="procWidgetInsertDocument" type="controller" />
+        <action name="procWidgetCopyDocument" type="controller" />
+        <action name="procWidgetDeleteDocument" type="controller" />
+        <action name="procWidgetGenerateCodeInPage" type="controller" ruleset="generateCodeInPage" />
+        <action name="procWidgetGetColorsetList" type="controller" />
 
-        <action name="procWidgetStyleExtraImageUpload" type="controller" standalone="true" />
-        <action name="procWidgetStyleGenerateCodeInPage" type="controller" standalone="true" />
+        <action name="procWidgetStyleExtraImageUpload" type="controller" />
+        <action name="procWidgetStyleGenerateCodeInPage" type="controller" />
     </actions>
 	<menus>
 		<menu name="installedWidget">

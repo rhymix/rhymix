@@ -3,12 +3,12 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispRssAdminIndex" type="view" index="true" standalone="true" admin_index="true" menu_name="rss" menu_index="true" />
-        <action name="rss" type="view" standalone="true" />
-        <action name="atom" type="view" standalone="true" />
-        <action name="procRssAdminInsertConfig" type="controller" standalone="true" ruleset="insertRssConfig" />
-        <action name="procRssAdminDeleteFeedImage" type="controller" standalone="true" />
-        <action name="procRssAdminInsertModuleConfig" type="controller" standalone="true" />
+        <action name="dispRssAdminIndex" type="view" index="true" admin_index="true" menu_name="rss" menu_index="true" />
+        <action name="rss" type="view" />
+        <action name="atom" type="view" />
+        <action name="procRssAdminInsertConfig" type="controller" ruleset="insertRssConfig" />
+        <action name="procRssAdminDeleteFeedImage" type="controller" />
+        <action name="procRssAdminInsertModuleConfig" type="controller" />
     </actions>
 	<menus>
 		<menu name="rss">

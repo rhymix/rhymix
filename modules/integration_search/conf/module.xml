@@ -3,7 +3,7 @@
     <grants />
     <permissions />
     <actions>
-        <action name="IS" type="view" standalone="true" />
+        <action name="IS" type="view" />
         <action name="dispIntegration_searchAdminContent" type="view" admin_index="true" />
         <action name="dispIntegration_searchAdminGrantInfo" type="view" />
         <action name="dispIntegration_searchAdminSkinInfo" type="view" />
