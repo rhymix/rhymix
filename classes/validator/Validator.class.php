@@ -682,7 +682,7 @@ class Validator
 			return FALSE;
 		}
 
-		@file_put_contents($filepath, $content);
+		@file_put_contents($filepath, $content, LOCK_EX);
 
 		return $filepath;
 	}

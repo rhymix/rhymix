@@ -459,7 +459,7 @@ class DB
 					$buff[] = '<?php exit(); ?>';
 				}
 				$buff[] = print_r($log, TRUE);
-				@file_put_contents($log_file, implode("\n", $buff) . "\n\n", FILE_APPEND);
+				@file_put_contents($log_file, implode("\n", $buff) . "\n\n", FILE_APPEND|LOCK_EX);
 			}
 		}
 		else
@@ -480,7 +480,7 @@ class DB
 
 			$buff .= sprintf("%s\t%s\n\t%0.6f sec\tquery_id:%s\n\n", date("Y-m-d H:i"), $this->query, $elapsed_time, $this->query_id);
 
-			@file_put_contents($log_file, $buff, FILE_APPEND);
+			@file_put_contents($log_file, $buff, FILE_APPEND|LOCK_EX);
 		}
 	}
 
