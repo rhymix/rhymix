@@ -87,6 +87,14 @@
 								<a href="#modalFilebox" class="modalAnchor filebox">{$lang->cmd_select}</a>
 								{@$use_filebox = TRUE}
 							</block>
+
+							<label loop="$var->options => $key, $val" cond="$var->type == 'radio'">
+								<input type="radio" name="{$id}" id="{$id}_{$key}" value="{$key}" > {$val}
+							</label>
+
+							<label loop="$var->options => $key, $val" cond="$var->type == 'checkbox'">
+								<input type="checkbox" name="{$id}" id="{$id}_{$key}" value="{$key}" > {$val}
+							</label>
 							<span class="x_help-block">{$var->description}</span>
 						</div>
 					</div>
