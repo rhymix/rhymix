@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 		jshint: {
 			files: [
 				'Gruntfile.js',
-				// 'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
+				'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
 				// 'addons/**/*.js',
 				// 'modules/**/*.js',
 				// 'layouts/**/*.js',
@@ -26,9 +26,46 @@ module.exports = function(grunt) {
 					"jQuery" : true,
 					"console" : true,
 					"window" : true
-				}
+				},
+				ignores : [
+					'skins/xe_2010_gallery/js/jquery.easing.1.3.js',
+					'skins/xe_2010_gallery/js/json2007.js',
+					'**/*.min.js',
+					'**/*.compressed.js'
+				]
 			}
 		},
+		csslint: {
+			strict: {
+				options: {
+					'adjoining-classes' : false,
+					'box-model' : false,
+					'duplicate-background-images' : false,
+					'ids' : false,
+					'important' : false,
+					'overqualified-elements' : false,
+					'qualified-headings' : false,
+					'star-property-hack' : false,
+					'underscore-property-hack' : false,
+				},
+				src: [
+					'common/css/*.css',
+					'!common/css/bootstrap.css',
+					'!common/css/bootstrap-responsive.css',
+					'!**/*.min.css',
+				]
+			}
+		},
+		cssmin: {
+			'common-css': {
+				options: {
+					banner: '/* My minified css file */'
+				},
+				files: {
+					'path/to/output.css': ['path/to/**/*.css']
+				}
+			}
+		}
 	});
 
 	grunt.registerTask('build', '', function(A, B) {
@@ -165,6 +202,9 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-csslint');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	grunt.registerTask('default', ['jshint']);
+	grunt.registerTask('lint', ['jshint', 'csslint']);
 };
