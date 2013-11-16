@@ -1,19 +1,111 @@
 module.exports = function(grunt) {
 	"use strict";
 
+	var banner = '/*! Copyright (C) NAVER <http://www.navercorp.com> */\n';
+	var banner_xe_js = banner + '/**!\n * @file   common.js + js_app.js + xml_handler.js + xml_js_filter.js\n * @brief  XE Common JavaScript\n **/\n';
+
 	grunt.file.defaultEncoding = 'utf8';
 
 	grunt.initConfig({
+		clean: {
+			minify: [
+				'common/js/xe.js',
+				'common/js/xe.min.js',
+				'common/css/xe.min.css',
+				'common/css/mobile.min.css'
+			]
+		},
+		concat: {
+			'common-js': {
+				options: {
+					stripBanners: true,
+					banner: banner_xe_js
+				},
+				src: [
+					'common/js/common.js',
+					'common/js/js_app.js',
+					'common/js/xml_handler.js',
+					'common/js/xml_js_filter.js'
+				],
+				dest: 'common/js/xe.js'
+			},
+			'xpresseditor': {
+				options: {
+					stripBanners: true,
+					banner: banner_xe_js
+				},
+				src: [
+					'modules/editor/skins/xpresseditor/js/Xpress_Editor.js',
+					'modules/editor/skins/xpresseditor/js/xe_interface.js',
+				],
+				dest: 'modules/editor/skins/xpresseditor/js/xpresseditor.js'
+			}
+		},
+		uglify: {
+			'common-js': {
+				options: {
+					banner: banner_xe_js,
+					report: 'min'
+				},
+				files: {
+					'common/js/xe.min.js': ['common/js/xe.js']
+				}
+			},
+			'modules': {
+				options: {
+					banner: banner,
+					report: 'min'
+				},
+				files: {
+					// addon
+					'addons/captcha/captcha.min.js' : ['addons/captcha/captcha.js'],
+					'addons/captcha_member/captcha.min.js' : ['addons/captcha_member/captcha.js'],
+					'addons/resize_image/js/resize_image.min.js' : ['addons/resize_image/js/resize_image.js'],
+					// module/editor
+					'modules/editor/skins/xpresseditor/js/xpresseditor.min.js': ['modules/editor/skins/xpresseditor/js/xpresseditor.js'],
+					'modules/editor/skins/xpresseditor/js/xe_textarea.min.js': ['modules/editor/skins/xpresseditor/js/xe_textarea.js'],
+					'modules/editor/tpl/js/editor_common.min.js': ['modules/editor/tpl/js/editor_common.js'],
+					// module/admin
+					'modules/admin/tpl/js/admin.min.js': ['modules/admin/tpl/js/admin.js'],
+					'modules/admin/tpl/js/config.min.js': ['modules/admin/tpl/js/config.js'],
+					'modules/admin/tpl/js/menu_setup.min.js': ['modules/admin/tpl/js/menu_setup.js'],
+					'modules/admin/tpl/js/sitemap.min.js': ['modules/admin/tpl/js/sitemap.js'],
+					'modules/admin/tpl/js/theme.min.js': ['modules/admin/tpl/js/theme.js'],
+					// editor-component-multimedia-link
+					'modules/editor/components/multimedia_link/tpl/popup.min.js': ['modules/editor/components/multimedia_link/tpl/popup.js'],
+					// editor-component-image-gallery
+					'modules/editor/components/image_gallery/tpl/gallery.min.js' : ['modules/editor/components/image_gallery/tpl/gallery.js'],
+					'modules/editor/components/image_gallery/tpl/list_gallery.min.js' : ['modules/editor/components/image_gallery/tpl/list_gallery.js'],
+					'modules/editor/components/image_gallery/tpl/popup.min.js' : ['modules/editor/components/image_gallery/tpl/popup.js'],
+					'modules/editor/components/image_gallery/tpl/slide_gallery.min.js' : ['modules/editor/components/image_gallery/tpl/slide_gallery.js'],
+					// module/importer
+					'modules/importer/tpl/js/importer_admin.min.js': ['modules/importer/tpl/js/importer_admin.js'],
+				}
+			}
+		},
+		cssmin: {
+			'common-css': {
+				files: {
+					'common/css/xe.min.css': ['common/css/xe.css'],
+					'common/css/mobile.min.css': ['common/css/mobile.css']
+				}
+			},
+			'editor-component-image-gallery': {
+				files: {
+					'modules/editor/components/image_gallery/tpl/popup.min.css': ['modules/editor/components/image_gallery/tpl/popup.css'],
+					'modules/editor/components/image_gallery/tpl/slide_gallery.min.css': ['modules/editor/components/image_gallery/tpl/slide_gallery.css'],
+				}
+			},
+			'editor-component-multimedia-link': {
+				files: {
+					'modules/editor/components/multimedia_link/tpl/popup.min.css': ['modules/editor/components/multimedia_link/tpl/popup.css'],
+				}
+			}
+		},
 		jshint: {
 			files: [
 				'Gruntfile.js',
 				'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
-				// 'addons/**/*.js',
-				// 'modules/**/*.js',
-				// 'layouts/**/*.js',
-				// 'm.layouts/**/*.js',
-				// 'widgets/**/*.js',
-				// 'widgetstyles/**/*.js',
 				'!**/*.min.js',
 				'!**/*-packed.js'
 			],
@@ -36,7 +128,7 @@ module.exports = function(grunt) {
 			}
 		},
 		csslint: {
-			strict: {
+			'common-css': {
 				options: {
 					import : 2,
 					'adjoining-classes' : false,
@@ -55,16 +147,6 @@ module.exports = function(grunt) {
 					'!common/css/bootstrap-responsive.css',
 					'!**/*.min.css',
 				]
-			}
-		},
-		cssmin: {
-			'common-css': {
-				options: {
-					banner: '/* My minified css file */'
-				},
-				files: {
-					'path/to/output.css': ['path/to/**/*.css']
-				}
 			}
 		}
 	});
@@ -202,9 +284,13 @@ module.exports = function(grunt) {
 		});
 	});
 
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	grunt.registerTask('default', ['jshint', 'csslint']);
+	grunt.registerTask('minify', ['jshint', 'csslint', 'clean', 'concat', 'uglify', 'cssmin']);
 };
