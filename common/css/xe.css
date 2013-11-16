@@ -1,6 +1,7 @@
 @charset "utf-8";
-/* Copyright (C) NAVER <http://www.navercorp.com> */
-/* NAVER (developers@xpressengine.com) */
+/*! Copyright (C) NAVER <http://www.navercorp.com> */
+/* @author NAVER <developers@xpressengine.com> */
+/*csslint unqualified-attributes: false, display-property-grouping: false*/
 
 /* Element Reset */
 body,
@@ -133,6 +134,7 @@ body>.message {
 	box-shadow: 0 0 5px #000;
 	background: #333 url("../../common/img/msg.loading.gif") no-repeat center 15px;
 }
+
 /* Admin Bar */
 #adminBar {
 	z-index: 9999;
@@ -221,10 +223,11 @@ body>.message {
 	*background-color: #e6e6e6;
 	background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
 	background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+	background-image: -webkit-gradient(top, #ffffff, #e6e6e6);
 	background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
 	background-image: linear-gradient(top, #ffffff, #e6e6e6);
 	background-repeat: repeat-x;
-	filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
 	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
 }
 input.btn,
@@ -287,19 +290,19 @@ button.btn {
 .btn-group>.btn:first-child {
 	margin-left: 0;
 	-webkit-border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomleft: 4px;
 	border-bottom-left-radius: 4px;
 	-webkit-border-top-left-radius: 4px;
-	border-top-left-radius: 4px;
-	-moz-border-radius-bottomleft: 4px;
 	-moz-border-radius-topleft: 4px;
+	border-top-left-radius: 4px;
 }
 .btn-group>.btn: last-child {
 	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius-topright: 4px;
 	border-top-right-radius: 4px;
 	-webkit-border-bottom-right-radius: 4px;
-	border-bottom-right-radius: 4px;
-	-moz-border-radius-topright: 4px;
 	-moz-border-radius-bottomright: 4px;
+	border-bottom-right-radius: 4px;
 }
 .btn-group>.btn:hover,
 .btn-group>.btn:focus,

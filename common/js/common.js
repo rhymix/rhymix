@@ -26,14 +26,15 @@ if(jQuery) jQuery.noConflict();
 	 * @namespace XE
 	 */
 	window.XE = {
-		loaded_popup_menus : new Array(),
-		addedDocument : new Array(),
+		loaded_popup_menus : [],
+		addedDocument : [],
 		/**
 		 * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
 		 * @param [itemName='cart',][options={}]
 		 */
 		checkboxToggleAll : function(itemName) {
 			if(!is_def(itemName)) itemName='cart';
+			var obj;
 			var options = {
 				wrap : null,
 				checked : 'toggle',
@@ -54,13 +55,13 @@ if(jQuery) jQuery.noConflict();
 					$.extend(options, arguments[1] || {});
 			}
 
-			if(options.doClick == true) options.checked = null;
+			if(options.doClick === true) options.checked = null;
 			if(typeof(options.wrap) == "string") options.wrap ='#'+options.wrap;
 
 			if(options.wrap) {
-				var obj = $(options.wrap).find('input[name='+itemName+']:checkbox');
+				obj = $(options.wrap).find('input[name='+itemName+']:checkbox');
 			} else {
-				var obj = $('input[name='+itemName+']:checkbox');
+				obj = $('input[name='+itemName+']:checkbox');
 			}
 
 			if(options.checked == 'toggle') {
@@ -68,7 +69,11 @@ if(jQuery) jQuery.noConflict();
 					$(this).attr('checked', ($(this).attr('checked')) ? false : true);
 				});
 			} else {
-				(options.doClick == true) ? obj.click() : obj.attr('checked', options.checked);
+				if(options.doClick === true) {
+					obj.click();
+				} else {
+					obj.attr('checked', options.checked);
+				}
 			}
 		},
 
@@ -76,9 +81,9 @@ if(jQuery) jQuery.noConflict();
 		 * @brief 문서/회원 등 팝업 메뉴 출력
 		 */
 		displayPopupMenu : function(ret_obj, response_tags, params) {
-			var target_srl = params["target_srl"];
-			var menu_id = params["menu_id"];
-			var menus = ret_obj['menus'];
+			var target_srl = params.target_srl;
+			var menu_id = params.menu_id;
+			var menus = ret_obj.menus;
 			var html = "";
 
 			if(this.loaded_popup_menus[menu_id]) {
@@ -86,7 +91,7 @@ if(jQuery) jQuery.noConflict();
 
 			} else {
 				if(menus) {
-					var item = menus['item'];
+					var item = menus.item;
 					if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
 					if(item.length) {
 						for(var i=0;i<item.length;i++) {
@@ -100,18 +105,18 @@ if(jQuery) jQuery.noConflict();
 							/* if(icon) styleText = " style=\"background-image:url('"+icon+"')\" "; */
 							switch(target) {
 								case "popup" :
-										click_str = " onclick=\"popopen(this.href,'"+target+"'); return false;\"";
+										click_str = 'onclick="popopen(this.href, \''+target+'\'); return false;"';
 									break;
 								case "javascript" :
-										click_str = " onclick=\""+url+"; return false; \"";
-										url="#";
+										click_str = 'onclick="'+url+'; return false; "';
+										url='#';
 									break;
 								default :
-										click_str = ' target="_blank"';
+										click_str = 'target="_blank"';
 									break;
 							}
 
-							html += '<li '+styleText+'><a href="'+url+'"'+click_str+'>'+str+'</a></li> ';
+							html += '<li '+styleText+'><a href="'+url+'" '+click_str+'>'+str+'</a></li> ';
 						}
 					}
 				}
@@ -121,7 +126,7 @@ if(jQuery) jQuery.noConflict();
 			/* 레이어 출력 */
 			if(html) {
 				var area = $('#popup_menu_area').html('<ul>'+html+'</ul>');
-				var areaOffset = {top:params['page_y'], left:params['page_x']};
+				var areaOffset = {top:params.page_y, left:params.page_x};
 
 				if(area.outerHeight()+areaOffset.top > $(window).height()+$(window).scrollTop())
 					areaOffset.top = $(window).height() - area.outerHeight() + $(window).scrollTop();
@@ -131,7 +136,7 @@ if(jQuery) jQuery.noConflict();
 				area.css({ top:areaOffset.top, left:areaOffset.left }).show().focus();
 			}
 		}
-	}
+	};
 }) (jQuery);
 
 
@@ -148,7 +153,7 @@ jQuery(function($) {
 	if($.browser.msie) {
 		$('select').each(function(i, sels) {
 			var disabled_exists = false;
-			var first_enable = new Array();
+			var first_enable = [];
 
 			for(var j=0; j < sels.options.length; j++) {
 				if(sels.options[j].disabled) {
@@ -212,95 +217,93 @@ jQuery(function($) {
 });
 
 (function(){ // String extension methods
+	function isSameUrl(a,b) {
+		return (a.replace(/#.*$/, '') === b.replace(/#.*$/, ''));
+	}
+	var isArray = Array.isArray || function(obj){ return Object.prototype.toString.call(obj)=='[object Array]'; };
 
-function isSameUrl(a,b) {
-	return (a.replace(/#.*$/, '') === b.replace(/#.*$/, ''));
-}
+	/**
+	 * @brief location.href에서 특정 key의 값을 return
+	 **/
+	String.prototype.getQuery = function(key) {
+		var loc = isSameUrl(this, window.location.href) ? current_url : this;
+		var idx = loc.indexOf('?');
+		if(idx == -1) return null;
+		var query_string = loc.substr(idx+1, this.length), args = {};
+		query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
 
-var isArray = Array.isArray || function(obj){ return Object.prototype.toString.call(obj)=='[object Array]' };
+		var q = args[key];
+		if(typeof(q)=='undefined') q = '';
 
-/**
- * @brief location.href에서 특정 key의 값을 return
- **/
-String.prototype.getQuery = function(key) {
-	var loc = isSameUrl(this, window.location.href) ? current_url : this;
-	var idx = loc.indexOf('?');
-	if(idx == -1) return null;
-	var query_string = loc.substr(idx+1, this.length), args = {};
-	query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
+		return q;
+	};
 
-	var q = args[key];
-	if(typeof(q)=='undefined') q = '';
+	/**
+	 * @brief location.href에서 특정 key의 값을 return
+	 **/
+	String.prototype.setQuery = function(key, val) {
+		var loc = isSameUrl(this, window.location.href) ? current_url : this;
+		var idx = loc.indexOf('?');
+		var uri = loc.replace(/#$/, '');
+		var act, re, v, toReplace;
 
-	return q;
-}
+		if (typeof(val)=='undefined') val = '';
 
-/**
- * @brief location.href에서 특정 key의 값을 return
- **/
-String.prototype.setQuery = function(key, val) {
-	var loc = isSameUrl(this, window.location.href) ? current_url : this;
-	var idx = loc.indexOf('?');
-	var uri = loc.replace(/#$/, '');
-	var act, re, v;
+		if (idx != -1) {
+			var query_string = uri.substr(idx+1, loc.length), args = {}, q_list = [];
+			uri = loc.substr(0, idx);
+			query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function(all,key,val) { args[key] = val; });
 
-	if (typeof(val)=='undefined') val = '';
+			args[key] = val;
 
-	if (idx != -1) {
-		var query_string = uri.substr(idx+1, loc.length), args = {}, q_list = [];
-		uri = loc.substr(0, idx);
-		query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function(all,key,val) { args[key] = val; });
+			for (var prop in args) {
+				if (!args.hasOwnProperty(prop)) continue;
+				if (!(v = String(args[prop]).trim())) continue;
+				q_list.push(prop+'='+decodeURI(v));
+			}
 
-		args[key] = val;
-
-		for (var prop in args) {
-			if (!args.hasOwnProperty(prop)) continue;
-			if (!(v = String(args[prop]).trim())) continue;
-			q_list.push(prop+'='+decodeURI(v));
+			query_string = q_list.join('&');
+			uri = uri+(query_string?'?'+query_string:'');
+		} else {
+			if (String(val).trim()) uri = uri+'?'+key+'='+val;
 		}
 
-		query_string = q_list.join('&');
-		uri = uri+(query_string?'?'+query_string:'');
-	} else {
-		if (String(val).trim()) uri = uri+'?'+key+'='+val;
-	}
+		re = /^https:\/\/([^:\/]+)(:\d+|)/i;
+		if (re.test(uri)) {
+			toReplace = 'http://'+RegExp.$1;
+			if (window.http_port && http_port != 80) toReplace += ':' + http_port;
+			uri = uri.replace(re, toReplace);
+		}
 
-	re = /^https:\/\/([^:\/]+)(:\d+|)/i;
-	if (re.test(uri)) {
-		var toReplace = 'http://'+RegExp.$1;
-		if (window.http_port && http_port != 80) toReplace += ':' + http_port;
-		uri = uri.replace(re, toReplace);
-	}
-
-	var bUseSSL = !!window.enforce_ssl;
-	if (!bUseSSL && isArray(window.ssl_actions) && (act=uri.getQuery('act'))) {
-		for (var i=0,c=ssl_actions.length; i < c; i++) {
-			if (ssl_actions[i] === act) {
-				bUseSSL = true;
-				break;
+		var bUseSSL = !!window.enforce_ssl;
+		if (!bUseSSL && isArray(window.ssl_actions) && (act=uri.getQuery('act'))) {
+			for (var i=0,c=ssl_actions.length; i < c; i++) {
+				if (ssl_actions[i] === act) {
+					bUseSSL = true;
+					break;
+				}
 			}
 		}
-	}
 
-	re = /http:\/\/([^:\/]+)(:\d+|)/i;
-	if (bUseSSL && re.test(uri)) {
-		var toReplace = 'https://'+RegExp.$1
-		if (window.https_port && https_port != 443) toReplace += ':' + https_port;
-		uri = uri.replace(re, toReplace);
-	}
+		re = /http:\/\/([^:\/]+)(:\d+|)/i;
+		if (bUseSSL && re.test(uri)) {
+			toReplace = 'https://'+RegExp.$1;
+			if (window.https_port && https_port != 443) toReplace += ':' + https_port;
+			uri = uri.replace(re, toReplace);
+		}
 
-	// insert index.php if it isn't included
-	uri = uri.replace(/\/(index\.php)?\?/, '/index.php?');
+		// insert index.php if it isn't included
+		uri = uri.replace(/\/(index\.php)?\?/, '/index.php?');
 
-	return encodeURI(uri);
-}
+		return encodeURI(uri);
+	};
 
-/**
- * @brief string prototype으로 trim 함수 추가
- **/
-String.prototype.trim = function() {
-	return this.replace(/(^\s*)|(\s*$)/g, "");
-}
+	/**
+	 * @brief string prototype으로 trim 함수 추가
+	 **/
+	String.prototype.trim = function() {
+		return this.replace(/(^\s*)|(\s*$)/g, "");
+	};
 
 })();
 
@@ -330,7 +333,7 @@ function isDef() {
  * @brief 윈도우 오픈
  * 열려진 윈도우의 관리를 통해 window.focus()등을 FF에서도 비슷하게 구현함
  **/
-var winopen_list = new Array();
+var winopen_list = [];
 function winopen(url, target, attribute) {
 	if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
 	try {
@@ -392,11 +395,12 @@ function move_url(url, open_window) {
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
  **/
 function displayMultimedia(src, width, height, options) {
+	/*jslint evil: true */
 	var html = _displayMultimedia(src, width, height, options);
 	if(html) document.writeln(html);
 }
 function _displayMultimedia(src, width, height, options) {
-	if(src.indexOf('files') == 0) src = request_uri + src;
+	if(src.indexOf('files') === 0) src = request_uri + src;
 
 	var defaults = {
 		wmode : 'transparent',
@@ -426,13 +430,11 @@ function _displayMultimedia(src, width, height, options) {
 		html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
 		html += '<param name="movie" value="'+src+'" />';
 		for(var name in params) {
-			if(params[name] != 'undefined' && params[name] != '') {
+			if(params[name] != 'undefined' && params[name] !== '') {
 				html += '<param name="'+name+'" value="'+params[name]+'" />';
 			}
 		}
-		html += ''
-			+ '<embed src="'+src+'" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>'
-			+ '</object>';
+		html += '' + '<embed src="'+src+'" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>' + '</object>';
 	}  else {
 		if (jQuery.browser.mozilla || jQuery.browser.opera) {
 			// firefox and opera uses 0 or 1 for autostart parameter.
@@ -499,12 +501,12 @@ function doCallModuleAction(module, action, target_srl) {
 }
 
 function completeCallModuleAction(ret_obj, response_tags) {
-	if(ret_obj['message']!='success') alert(ret_obj['message']);
+	if(ret_obj.message!='success') alert(ret_obj.message);
 	location.reload();
 }
 
 function completeMessage(ret_obj) {
-	alert(ret_obj['message']);
+	alert(ret_obj.message);
 	location.reload();
 }
 
@@ -564,13 +566,13 @@ function doDocumentPreview(obj) {
 /* 게시글 저장 */
 function doDocumentSave(obj) {
 	var editor_sequence = obj.form.getAttribute('editor_sequence');
-	var prev_content = editorRelKeys[editor_sequence]['content'].value;
+	var prev_content = editorRelKeys[editor_sequence].content.value;
 	if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined' && typeof(editorGetContent)=='function') {
 		var content = editorGetContent(editor_sequence);
-		editorRelKeys[editor_sequence]['content'].value = content;
+		editorRelKeys[editor_sequence].content.value = content;
 	}
 
-	var params={}, responses=['error','message','document_srl'], elms=obj.form.elements, data=jQuery(obj.form).serializeArray();;
+	var params={}, responses=['error','message','document_srl'], elms=obj.form.elements, data=jQuery(obj.form).serializeArray();
 	jQuery.each(data, function(i, field){
 		var val = jQuery.trim(field.value);
 		if(!val) return true;
@@ -581,13 +583,13 @@ function doDocumentSave(obj) {
 
 	exec_xml('document','procDocumentTempSave', params, completeDocumentSave, responses, params, obj.form);
 
-	editorRelKeys[editor_sequence]['content'].value = prev_content;
+	editorRelKeys[editor_sequence].content.value = prev_content;
 	return false;
 }
 
 function completeDocumentSave(ret_obj) {
-	jQuery('input[name=document_srl]').eq(0).val(ret_obj['document_srl']);
-	alert(ret_obj['message']);
+	jQuery('input[name=document_srl]').eq(0).val(ret_obj.document_srl);
+	alert(ret_obj.message);
 }
 
 /* 저장된 게시글 불러오기 */
@@ -618,7 +620,7 @@ function viewSkinInfo(module, skin) {
 
 
 /* 관리자가 문서를 관리하기 위해서 선택시 세션에 넣음 */
-var addedDocument = new Array();
+var addedDocument = [];
 function doAddDocumentCart(obj) {
 	var srl = obj.value;
 	addedDocument[addedDocument.length] = srl;
@@ -627,10 +629,10 @@ function doAddDocumentCart(obj) {
 
 function callAddDocumentCart(document_length) {
 	if(addedDocument.length<1 || document_length != addedDocument.length) return;
-	var params = new Array();
-	params["srls"] = addedDocument.join(",");
+	var params = [];
+	params.srls = addedDocument.join(",");
 	exec_xml("document","procDocumentAddCart", params, null);
-	addedDocument = new Array();
+	addedDocument = [];
 }
 
 /* ff의 rgb(a,b,c)를 #... 로 변경 */
@@ -719,7 +721,6 @@ var Base64 = {
 		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
 
 		while (i < input.length) {
-
 			enc1 = this._keyStr.indexOf(input.charAt(i++));
 			enc2 = this._keyStr.indexOf(input.charAt(i++));
 			enc3 = this._keyStr.indexOf(input.charAt(i++));
@@ -737,7 +738,6 @@ var Base64 = {
 			if (enc4 != 64) {
 				output = output + String.fromCharCode(chr3);
 			}
-
 		}
 
 		output = Base64._utf8_decode(output);
@@ -752,7 +752,6 @@ var Base64 = {
 		var utftext = "";
 
 		for (var n = 0; n < string.length; n++) {
-
 			var c = string.charCodeAt(n);
 
 			if (c < 128) {
@@ -767,7 +766,6 @@ var Base64 = {
 				utftext += String.fromCharCode(((c >> 6) & 63) | 128);
 				utftext += String.fromCharCode((c & 63) | 128);
 			}
-
 		}
 
 		return utftext;
@@ -777,10 +775,9 @@ var Base64 = {
 	_utf8_decode : function (utftext) {
 		var string = "";
 		var i = 0;
-		var c = c1 = c2 = 0;
+		var c = 0, c1 = 0, c2 = 0, c3 = 0;
 
 		while ( i < utftext.length ) {
-
 			c = utftext.charCodeAt(i);
 
 			if (c < 128) {
@@ -798,13 +795,11 @@ var Base64 = {
 				string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
 				i += 3;
 			}
-
 		}
 
 		return string;
 	}
-
-}
+};
 
 
 
@@ -817,11 +812,11 @@ var Base64 = {
  * ------------------------------------------- */
 
 if(typeof(resizeImageContents) == 'undefined') {
-	function resizeImageContents() {}
+	window.resizeImageContents = function() {};
 }
 
 if(typeof(activateOptionDisabled) == 'undefined') {
-	function activateOptionDisabled() {}
+	window.activateOptionDisabled = function() {};
 }
 
 objectExtend = jQuery.extend;

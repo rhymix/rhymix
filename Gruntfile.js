@@ -38,6 +38,7 @@ module.exports = function(grunt) {
 		csslint: {
 			strict: {
 				options: {
+					import : 2,
 					'adjoining-classes' : false,
 					'box-model' : false,
 					'duplicate-background-images' : false,
@@ -205,6 +206,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
-	grunt.registerTask('default', ['jshint']);
-	grunt.registerTask('lint', ['jshint', 'csslint']);
+	grunt.registerTask('default', ['jshint', 'csslint']);
 };
