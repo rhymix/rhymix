@@ -1,5 +1,6 @@
-files/
-build/
-node_modules/
+config.user.inc.php
+/files/
+/build/
+/node_modules/
 .DS_Srore
-.Thumbs.db
+Thumbs.db
