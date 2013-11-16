@@ -151,6 +151,22 @@ module.exports = function(grunt) {
 		}
 	});
 
+	function createPackageChecksum(target_file) {
+		/* https://gist.github.com/onelaview/6475037 */
+		var fs = require('fs');
+		var crypto = require('crypto');
+		var md5 = crypto.createHash('md5');
+		var file = grunt.template.process(target_file);
+		var buffer = fs.readFileSync(file);
+		md5.update(buffer);
+		var md5Hash = md5.digest('hex');
+		grunt.verbose.writeln('file md5: ' + md5Hash);
+ 
+		var md5FileName = file + '.md5';
+		grunt.file.write(md5FileName, md5Hash);
+		grunt.verbose.writeln('File "' + md5FileName + '" created.').writeln('...');
+	}
+
 	grunt.registerTask('build', '', function(A, B) {
 		var _only_export = false;
 		var tasks = ['krzip', 'syndication'];
@@ -188,7 +204,8 @@ module.exports = function(grunt) {
 						cwd: 'build'
 					}
 				}, function (error, result, code) {
-					grunt.log.ok('Archived(full) : ' + archive_full);
+					grunt.log.ok('Archived(full) : ' + build_dir + '/xe.'+version+'.tar.gz');
+					createPackageChecksum(build_dir + '/xe.'+version+'.tar.gz');
 
 					grunt.util.spawn({
 						cmd: "zip",
@@ -197,7 +214,8 @@ module.exports = function(grunt) {
 							cwd: 'build'
 						}
 					}, function (error, result, code) {
-						grunt.log.ok('Archived(full) : ' + archive_full);
+						grunt.log.ok('Archived(full) : ' + build_dir + '/xe.'+version+'.zip');
+						createPackageChecksum(build_dir + '/xe.'+version+'.zip');
 
 						grunt.file.delete('build/xe');
 						grunt.file.delete('build/temp.full.tar');
@@ -244,11 +262,16 @@ module.exports = function(grunt) {
 							cmd: "git",
 							args: args_tar
 						}, function (error, result, code) {
+							grunt.log.ok('Archived(changed) : ' + build_dir + '/xe.'+version+'.changed.tar.gz');
+							createPackageChecksum(build_dir + '/xe.'+version+'.changed.tar.gz');
+
 							grunt.util.spawn({
 								cmd: "git",
 								args: args_zip
 							}, function (error, result, code) {
-								grunt.log.ok('Archived(changed) : ./build/xe.'+version+'.changed.tar.gz');
+								grunt.log.ok('Archived(changed) : ' + build_dir + '/xe.'+version+'.changed.zip');
+								createPackageChecksum(build_dir + '/xe.'+version+'.changed.zip');
+
 								taskDone();
 							});
 						});
