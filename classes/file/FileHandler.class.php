@@ -17,7 +17,7 @@ class FileHandler
 	 */
 	function getRealPath($source)
 	{
-		$temp = explode('/', $source);
+		$temp = explode(DIRECTORY_SEPARATOR, $source);
 		if($temp[0] == '.')
 		{
 			$source = _XE_PATH_ . substr($source, 2);
@@ -38,27 +38,24 @@ class FileHandler
 	 */
 	function copyDir($source_dir, $target_dir, $filter = null, $type = null)
 	{
-		$source_dir = FileHandler::getRealPath($source_dir);
-		$target_dir = FileHandler::getRealPath($target_dir);
+		$source_dir = self::getRealPath($source_dir);
+		$target_dir = self::getRealPath($target_dir);
 		if(!is_dir($source_dir))
 		{
 			return false;
 		}
 
 		// generate when no target exists
-		if(!file_exists($target_dir))
+		self::makeDir($target_dir);
+
+		if(substr($source_dir, -1) != DIRECTORY_SEPARATOR)
 		{
-			FileHandler::makeDir($target_dir);
+			$source_dir .= DIRECTORY_SEPARATOR;
 		}
 
-		if(substr($source_dir, -1) != '/')
+		if(substr($target_dir, -1) != DIRECTORY_SEPARATOR)
 		{
-			$source_dir .= '/';
-		}
-
-		if(substr($target_dir, -1) != '/')
-		{
-			$target_dir .= '/';
+			$target_dir .= DIRECTORY_SEPARATOR;
 		}
 
 		$oDir = dir($source_dir);
@@ -76,7 +73,7 @@ class FileHandler
 
 			if(is_dir($source_dir . $file))
 			{
-				FileHandler::copyDir($source_dir . $file, $target_dir . $file, $type);
+				self::copyDir($source_dir . $file, $target_dir . $file, $type);
 			}
 			else
 			{
@@ -106,65 +103,56 @@ class FileHandler
 	function copyFile($source, $target, $force = 'Y')
 	{
 		setlocale(LC_CTYPE, 'en_US.UTF8', 'ko_KR.UTF8');
-		$source = FileHandler::getRealPath($source);
-		$target_dir = FileHandler::getRealPath(dirname($target));
+		$source = self::getRealPath($source);
+		$target_dir = self::getRealPath(dirname($target));
 		$target = basename($target);
 
-		if(!file_exists($target_dir))
-		{
-			FileHandler::makeDir($target_dir);
-		}
+		self::makeDir($target_dir);
 
 		if($force == 'Y')
 		{
-			@unlink($target_dir . '/' . $target);
+			@unlink($target_dir . DIRECTORY_SEPARATOR . $target);
 		}
 
-		@copy($source, $target_dir . '/' . $target);
+		@copy($source, $target_dir . DIRECTORY_SEPARATOR . $target);
 	}
 
 	/**
 	 * Returns the content of the file 
 	 *
-	 * @param string $file_name Path of target file
+	 * @param string $filename Path of target file
 	 * @return string The content of the file. If target file does not exist, this function returns nothing.
 	 */
-	function readFile($file_name)
+	function readFile($filename)
 	{
-		$file_name = FileHandler::getRealPath($file_name);
-
-		if(!file_exists($file_name))
+		if(($filename = self::exists($filename)) === FALSE)
 		{
 			return;
 		}
 
-		$filesize = filesize($file_name);
-		if($filesize < 1)
+		if(filesize($filename) < 1)
 		{
 			return;
 		}
 
-		return @file_get_contents($file_name);
+		return @file_get_contents($filename);
 	}
 
 	/**
 	 * Write $buff into the specified file
 	 *
-	 * @param string $file_name Path of target file
+	 * @param string $filename Path of target file
 	 * @param string $buff Content to be writeen
 	 * @param string $mode a(append) / w(write)
 	 * @return void
 	 */
-	function writeFile($file_name, $buff, $mode = "w")
+	function writeFile($filename, $buff, $mode = "w")
 	{
-		$file_name = FileHandler::getRealPath($file_name);
+		$filename = self::getRealPath($filename);
 
-		$pathinfo = pathinfo($file_name);
+		$pathinfo = pathinfo($filename);
 		$path = $pathinfo['dirname'];
-		if(!is_dir($path))
-		{
-			FileHandler::makeDir($path);
-		}
+		self::makeDir($path);
 
 		$mode = strtolower($mode);
 		if($mode == 'a')
@@ -176,20 +164,19 @@ class FileHandler
 			$flags = 0;
 		}
 
-		@file_put_contents($file_name, $buff, $flags|LOCK_EX);
-		@chmod($file_name, 0644);
+		@file_put_contents($filename, $buff, $flags|LOCK_EX);
+		@chmod($filename, 0644);
 	}
 
 	/**
 	 * Remove a file
 	 *
-	 * @param string $file_name path of target file
+	 * @param string $filename path of target file
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function removeFile($file_name)
+	function removeFile($filename)
 	{
-		$file_name = FileHandler::getRealPath($file_name);
-		return (file_exists($file_name) && @unlink($file_name));
+		return (($filename = self::file_exists($filename)) !== FALSE) && @unlink($filename);
 	}
 
 	/**
@@ -203,9 +190,7 @@ class FileHandler
 	 */
 	function rename($source, $target)
 	{
-		$source = FileHandler::getRealPath($source);
-		$target = FileHandler::getRealPath($target);
-		return @rename($source, $target);
+		return @rename(self::getRealPath($source), self::getRealPath($target));
 	}
 
 	/**
@@ -217,13 +202,12 @@ class FileHandler
 	 */
 	function moveFile($source, $target)
 	{
-		$source = FileHandler::getRealPath($source);
-		if(!file_exists($source))
+		if(($source = self::exists($source)) !== FALSE)
 		{
-			return FALSE;
+			self::removeFile($target);
+			return self::rename($source, $target);
 		}
-		FileHandler::removeFile($target);
-		return FileHandler::rename($source, $target);
+		return FALSE;
 	}
 
 	/**
@@ -237,7 +221,7 @@ class FileHandler
 	 */
 	function moveDir($source_dir, $target_dir)
 	{
-		FileHandler::rename($source_dir, $target_dir);
+		self::rename($source_dir, $target_dir);
 	}
 
 	/**
@@ -253,20 +237,22 @@ class FileHandler
 	 */
 	function readDir($path, $filter = '', $to_lower = false, $concat_prefix = false)
 	{
-		$path = FileHandler::getRealPath($path);
+		$path = self::getRealPath($path);
+		$output = array();
 
-		if(substr($path, -1) != '/')
+
+		if(substr($path, -1) != DIRECTORY_SEPARATOR)
 		{
-			$path .= '/';
+			$path .= DIRECTORY_SEPARATOR;
 		}
 
 		if(!is_dir($path))
 		{
-			return array();
+			return $output;
 		}
 
-		$oDir = dir($path);
-		while($file = $oDir->read())
+		$files = scandir($path);
+		foreach($files as $file)
 		{
 			if(substr($file, 0, 1) == '.')
 			{
@@ -300,11 +286,6 @@ class FileHandler
 			$output[] = $file;
 		}
 		
-		if(!$output)
-		{
-			return array();
-		}
-
 		return $output;
 	}
 
@@ -318,6 +299,10 @@ class FileHandler
 	 */
 	function makeDir($path_string)
 	{
+		if(self::exists($path_string) !== FALSE)
+		{
+			return TRUE;
+		}
 
 		if(!ini_get('safe_mode'))
 		{
@@ -327,10 +312,10 @@ class FileHandler
 		// if safe_mode is on, use FTP
 		else
 		{
-			static $oFtp = null;
+			static $oFtp = NULL;
 			
 			$ftp_info = Context::getFTPInfo();
-			if($oFtp == null)
+			if($oFtp == NULL)
 			{
 				if(!Context::isFTPRegisted())
 				{
@@ -357,14 +342,14 @@ class FileHandler
 					return;
 				}
 			}
-			$ftp_path = $ftp_info->ftp_root_path;
-			if(!$ftp_path)
+
+			if(!($ftp_path = $ftp_info->ftp_root_path))
 			{
-				$ftp_path = "/";
+				$ftp_path = DIRECTORY_SEPARATOR;
 			}
 			
 			$path_string = str_replace(_XE_PATH_, '', $path_string);
-			$path_list = explode('/', $path_string);
+			$path_list = explode(DIRECTORY_SEPARATOR, $path_string);
 			
 			$path = _XE_PATH_;
 			for($i = 0; $i < count($path_list); $i++)
@@ -374,8 +359,8 @@ class FileHandler
 					continue;
 				}
 			
-				$path .= $path_list[$i] . '/';
-				$ftp_path .= $path_list[$i] . '/';
+				$path .= $path_list[$i] . DIRECTORY_SEPARATOR;
+				$ftp_path .= $path_list[$i] . DIRECTORY_SEPARATOR;
 				if(!is_dir($path))
 				{
 					$oFtp->ftp_mkdir($ftp_path);
@@ -395,28 +380,23 @@ class FileHandler
 	 */
 	function removeDir($path)
 	{
-		$path = FileHandler::getRealPath($path);
-		if(!is_dir($path))
+		if(($path = self::isDir($path)) === FALSE)
 		{
 			return;
 		}
 
-		$directory = dir($path);
-		while($entry = $directory->read())
+		$files = array_diff(scandir($path), array('..', '.'));
+		foreach($files as $file)
 		{
-			if($entry != "." && $entry != "..")
+			if(is_dir($path . DIRECTORY_SEPARATOR . $file))
 			{
-				if(is_dir($path . "/" . $entry))
-				{
-					FileHandler::removeDir($path . "/" . $entry);
-				}
-				else
-				{
-					@unlink($path . "/" . $entry);
-				}
+				self::removeDir($path . DIRECTORY_SEPARATOR . $entry);
+			}
+			else
+			{
+				@unlink($path . DIRECTORY_SEPARATOR . $file);
 			}
 		}
-		$directory->close();
 		@rmdir($path);
 	}
 
@@ -428,31 +408,24 @@ class FileHandler
 	 */
 	function removeBlankDir($path)
 	{
-		$item_cnt = 0;
-
-		$path = FileHandler::getRealPath($path);
-		if(!is_dir($path))
+		if(($path = self::isDir($path)) === FALSE)
 		{
 			return;
 		}
 
-		$directory = dir($path);
-		while($entry = $directory->read())
-		{
-			if($entry == "." || $entry == "..")
-			{
-				continue;
-			}
-			if(is_dir($path . "/" . $entry))
-			{
-				$item_cnt = FileHandler::removeBlankDir($path . '/' . $entry);
-			}
-		}
-		$directory->close();
-
-		if($item_cnt < 1)
+		$files = array_diff(scandir($path), array('..', '.'));
+		if(count($files) < 1)
 		{
 			@rmdir($path);
+			return;
+		}
+
+		foreach($files as $file)
+		{
+			if(is_dir($path . DIRECTORY_SEPARATOR . $file))
+			{
+				self::removeBlankDir($path . DIRECTORY_SEPARATOR . $file);
+			}
 		}
 	}
 
@@ -466,34 +439,29 @@ class FileHandler
 	 */
 	function removeFilesInDir($path)
 	{
-		$path = FileHandler::getRealPath($path);
-		if(!is_dir($path))
+		if(($path = self::getRealPath($path)) === FALSE)
 		{
 			return;
 		}
 
-		$directory = dir($path);
-		while($entry = $directory->read())
+		$files = array_diff(scandir($path), array('..', '.'));
+		foreach($files as $file)
 		{
-			if($entry != "." && $entry != "..")
+			if(is_dir($path . DIRECTORY_SEPARATOR . $file))
 			{
-				if(is_dir($path . "/" . $entry))
-				{
-					FileHandler::removeFilesInDir($path . "/" . $entry);
-				}
-				else
-				{
-					@unlink($path . "/" . $entry);
-				}
+				self::removeFilesInDir($path . DIRECTORY_SEPARATOR . $file);
+			}
+			else
+			{
+				@unlink($path . DIRECTORY_SEPARATOR . $file);
 			}
 		}
-		$directory->close();
 	}
 
 	/**
 	 * Makes file size byte into KB, MB according to the size
 	 *
-	 * @see FileHandler::returnBytes()
+	 * @see self::returnBytes()
 	 * @param int $size Number of the size
 	 * @return string File size string
 	 */
@@ -602,7 +570,7 @@ class FileHandler
 
 			if($code > 300 && $code < 399 && $header['location'])
 			{
-				return FileHandler::getRemoteResource($header['location'], $body, $timeout, $method, $content_type, $headers, $cookies, $post_data);
+				return self::getRemoteResource($header['location'], $body, $timeout, $method, $content_type, $headers, $cookies, $post_data);
 			}
 
 			if($code != 200)
@@ -630,20 +598,20 @@ class FileHandler
 	 */
 	function getRemoteFile($url, $target_filename, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array())
 	{
-		$body = FileHandler::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
+		$body = self::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
 		if(!$body)
 		{
 			return FALSE;
 		}
-		$target_filename = FileHandler::getRealPath($target_filename);
-		FileHandler::writeFile($target_filename, $body);
+
+		self::writeFile($target_filename, $body);
 		return TRUE;
 	}
 
 	/**
 	 * Convert size in string into numeric value 
 	 *
-	 * @see FileHandler::filesize()
+	 * @see self::filesize()
 	 * @param $val Size in string (ex., 10, 10K, 10M, 10G )
 	 * @return int converted size
 	 */
@@ -692,7 +660,7 @@ class FileHandler
 			$channels = 6; //for png
 		}
 		$memoryNeeded = round(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $channels / 8 + $K64 ) * $TWEAKFACTOR);
-		$availableMemory = FileHandler::returnBytes(ini_get('memory_limit')) - memory_get_usage();
+		$availableMemory = self::returnBytes(ini_get('memory_limit')) - memory_get_usage();
 		if($availableMemory < $memoryNeeded)
 		{
 			return FALSE;
@@ -713,13 +681,12 @@ class FileHandler
 	 */
 	function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop')
 	{
-		$source_file = FileHandler::getRealPath($source_file);
-		$target_file = FileHandler::getRealPath($target_file);
-
-		if(!file_exists($source_file))
+		if (($source_file = self::exists($source_file)) === FALSE)
 		{
 			return;
 		}
+		$target_file = self::getRealPath($target_file);
+
 		if(!$resize_width)
 		{
 			$resize_width = 100;
@@ -731,7 +698,7 @@ class FileHandler
 
 		// retrieve source image's information
 		$imageInfo = getimagesize($source_file);
-		if(!FileHandler::checkMemoryLoadImage($imageInfo))
+		if(!self::checkMemoryLoadImage($imageInfo))
 		{
 			return FALSE;
 		}
@@ -911,10 +878,7 @@ class FileHandler
 
 		// create directory 
 		$path = dirname($target_file);
-		if(!is_dir($path))
-		{
-			FileHandler::makeDir($path);
-		}
+		self::makeDir($path);
 
 		// write into the file
 		switch($target_type)
@@ -966,14 +930,13 @@ class FileHandler
 	/**
 	 * Reads ini file, and puts result into array
 	 *
-	 * @see FileHandler::writeIniFile()
+	 * @see self::writeIniFile()
 	 * @param string $filename Path of the ini file
 	 * @return array ini array (if the target file does not exist, it returns false)
 	 */
 	function readIniFile($filename)
 	{
-		$filename = FileHandler::getRealPath($filename);
-		if(!file_exists($filename))
+		if(($filename = self::file_exists($filename)) === FALSE)
 		{
 			return FALSE;
 		}
@@ -995,9 +958,9 @@ class FileHandler
 	 * 	$ini['key2'] = 'value2';<br/>
 	 * 	$ini['section']['key1_in_section'] = 'value1_in_section';<br/>
 	 * 	$ini['section']['key2_in_section'] = 'value2_in_section';<br/>
-	 * 	FileHandler::writeIniFile('exmple.ini', $ini);
+	 * 	self::writeIniFile('exmple.ini', $ini);
 	 *
-	 * @see FileHandler::readIniFile()
+	 * @see self::readIniFile()
 	 * @param string $filename Target ini file name
 	 * @param array $arr Array
 	 * @return bool if array contains nothing it returns false, otherwise true
@@ -1008,7 +971,7 @@ class FileHandler
 		{
 			return FALSE;
 		}
-		FileHandler::writeFile($filename, FileHandler::_makeIniBuff($arr));
+		self::writeFile($filename, self::_makeIniBuff($arr));
 		return TRUE;
 	}
 
@@ -1020,25 +983,30 @@ class FileHandler
 	 */
 	function _makeIniBuff($arr)
 	{
-		$return = '';
+		$return = array();
 		foreach($arr as $key => $val)
 		{
 			// section
 			if(is_array($val))
 			{
-				$return .= sprintf("[%s]\n", $key);
+				$return[] = sprintf("[%s]", $key);
 				foreach($val as $k => $v)
 				{
-					$return .= sprintf("%s=\"%s\"\n", $k, $v);
+					$return[] = sprintf("%s=\"%s\"", $k, $v);
 				}
 				// value
 			}
-			else if(is_string($val) || is_int($val))
+			else if(is_object($val))
 			{
-				$return .= sprintf("%s=\"%s\"\n", $key, $val);
+				continue;
+			}
+			else
+			{
+				$return[] = sprintf("%s=\"%s\"", $key, $val);
 			}
 		}
-		return $return;
+
+		return join("\n", $return);
 	}
 
 	/**
@@ -1054,14 +1022,10 @@ class FileHandler
 	{
 		$pathinfo = pathinfo($filename);
 		$path = $pathinfo['dirname'];
-		if(!is_dir($path))
-		{
-			FileHandler::makeDir($path);
-		}
+		self::makeDir($path);
 
 		require_once("FileObject.class.php");
-		$file_object = new FileObject($file_name, $mode);
-		return $file_object;
+		return  new FileObject($filename, $mode);
 	}
 
 	/**
@@ -1072,9 +1036,33 @@ class FileHandler
 	 */
 	function hasContent($filename)
 	{
-		return (is_readable($filename) && !!filesize($filename));
+		return (is_readable($filename) && (filesize($filename) > 0));
 	}
 
+	/**
+	 * Check file exists.
+	 *
+	 * @param string $filename Target file name
+	 * @return bool Returns false if the file does not exists, or Returns full path file(string).
+	 */
+	function exists($filename)
+	{
+		$filename = self::getRealPath($filename);
+		return file_exists($filename) ? $filename : false;
+	}
+
+	/**
+	 * Check it is dir
+	 *
+	 * @param string $dir Target dir path
+	 * @return bool Returns false if the dir is not dir, or Returns full path of dir(string).
+	 */
+	function isDir($path)
+	{
+		$path = self::getRealPath($path);
+		return is_dir($path) ? $path : false;
+	}
 }
-/* End of file FileHandler.class.php */
+
+/* End of file self.class.php */
 /* Location: ./classes/file/FileHandler.class.php */
