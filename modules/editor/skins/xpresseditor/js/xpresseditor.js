@@ -1,3 +1,8 @@
+/*! Copyright (C) NAVER <http://www.navercorp.com> */
+/**!
+ * @file   common.js + js_app.js + xml_handler.js + xml_js_filter.js
+ * @brief  XE Common JavaScript
+ **/
 (function($){
 
 // extends jQuery object
@@ -5124,7 +5129,7 @@ var
 
 var
 	allow_tags  = 'a,abbr,acronym,address,area,blockquote,br,caption,center,cite,code,col,colgroup,dd,del,dfn,div,dl,dt,em,embed,h1,h2,h3,h4,h5,h6,hr,img,ins,kbd,li,map,object,ol,p,param,pre,q,samp,span,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,tt,u,ul,var,iframe,object,param,style'.split(','),
-	no_closing_tags = 'base,meta,link,hr,br,basefont,param,img,area,input,isindex,col'.split(',');
+	no_closing_tags = 'area,br,col,embed,hr,img,input,param,base,meta,link,basefont,isindex'.split(',');
 
 
 var
@@ -5817,6 +5822,7 @@ xe.XE_Table = $.Class({
 }).extend(xe.XE_Table);
 
 })(jQuery);
+
 if (!window.xe) xe = {};
 
 xe.Editors = [];
