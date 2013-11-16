@@ -292,5 +292,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	grunt.registerTask('default', ['jshint', 'csslint']);
+	grunt.registerTask('lint', ['jshint', 'csslint']);
 	grunt.registerTask('minify', ['jshint', 'csslint', 'clean', 'concat', 'uglify', 'cssmin']);
 };
