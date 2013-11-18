@@ -307,22 +307,22 @@ class documentItem extends Object
 
 	function getUserID()
 	{
-		return htmlspecialchars($this->get('user_id'));
+		return htmlspecialchars($this->get('user_id'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	function getUserName()
 	{
-		return htmlspecialchars($this->get('user_name'));
+		return htmlspecialchars($this->get('user_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	function getNickName()
 	{
-		return htmlspecialchars($this->get('nick_name'));
+		return htmlspecialchars($this->get('nick_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	function getLastUpdater()
 	{
-		return htmlspecialchars($this->get('last_updater'));
+		return htmlspecialchars($this->get('last_updater'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	function getTitleText($cut_size = 0, $tail='...')
@@ -346,8 +346,8 @@ class documentItem extends Object
 		if($this->get('title_bold')=='Y') $attrs[] = "font-weight:bold;";
 		if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = "color:#".$this->get('title_color');
 
-		if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title));
-		else return htmlspecialchars($title);
+		if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+		else return htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	function getContentText($strlen = 0)
@@ -365,7 +365,7 @@ class documentItem extends Object
 
 		if($strlen) return cut_str(strip_tags($content),$strlen,'...');
 
-		return htmlspecialchars($content);
+		return htmlspecialchars($content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	function _addAllowScriptAccess($m)

@@ -4,7 +4,7 @@
     <channel rdf:about="{getUrl('','mid',$mid,'module','rss','act','rss','format','rss1.0','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date'))}">
         <title>{$info->title}</title> 
         <link>{$info->link}</link>
-        <description>{str_replace('\'', '&apos;', htmlspecialchars($info->description))}</description>
+        <description>{str_replace('\'', '&apos;', htmlspecialchars($info->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</description>
         <items>
             <rdf:Seq>
                 <!--@foreach($document_list as $oDocument)-->
@@ -17,9 +17,9 @@
 	</channel>
     <!--@foreach($document_list as $oDocument)-->
     <item rdf:about="{$oDocument->getPermanentUrl()}">
-        <title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText()))}</title> 
+        <title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText(), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</title> 
         <link>{$oDocument->getPermanentUrl()}</link>
-        <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(200)))}</description>
+        <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(200), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</description>
         <dc:date>{$oDocument->getRegdate('Y-m-d\TH:i:sP')}</dc:date> 
     </item>
     <!--@end-->

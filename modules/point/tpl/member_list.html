@@ -26,7 +26,7 @@
 					<option loop="$lang->search_target_list => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 				</select>
 				<span class="x_input-append">
-					<input type="search" required name="search_keyword" required value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
+					<input type="search" required name="search_keyword" required value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" title="{$lang->cmd_search}" style="width:100px" />
 					<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 					<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 				</span>
@@ -128,7 +128,7 @@
 				<option loop="$lang->search_target_list => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 			</select>
 			<span class="x_input-append">
-				<input type="search" name="search_keyword" required value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" style="width:100px" />
+				<input type="search" name="search_keyword" required value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" title="{$lang->cmd_search}" style="width:100px" />
 				<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 				<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 			</span>

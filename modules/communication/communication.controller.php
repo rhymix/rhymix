@@ -162,7 +162,7 @@ class communicationController extends communication
 	function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = TRUE)
 	{
 		$content = removeHackTag($content);
-		$title = htmlspecialchars($title);
+		$title = htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
 		// messages to save in the sendor's message box
 		$sender_args = new stdClass();
@@ -606,7 +606,7 @@ class communicationController extends communication
 		$args->friend_group_srl = trim(Context::get('friend_group_srl'));
 		$args->member_srl = $logged_info->member_srl;
 		$args->title = Context::get('title');
-		$args->title = htmlspecialchars($args->title);
+		$args->title = htmlspecialchars($args->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
 		if(!$args->title)
 		{
@@ -682,7 +682,7 @@ class communicationController extends communication
 		$args->friend_group_srl = Context::get('friend_group_srl');
 		$args->member_srl = $logged_info->member_srl;
 		$args->title = Context::get('title');
-		$args->title = htmlspecialchars($args->title);
+		$args->title = htmlspecialchars($args->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
 		if(!$args->title)
 		{

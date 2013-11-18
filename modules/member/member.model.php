@@ -141,16 +141,16 @@ class memberModel extends member
 			// Send an email
 			if($member_info->email_address)
 			{
-				$url = 'mailto:'.htmlspecialchars($member_info->email_address);
+				$url = 'mailto:'.htmlspecialchars($member_info->email_address, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				$oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
 			}
 		}
 		// View homepage info
 		if($member_info->homepage)
-			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage), 'homepage', '', 'blank');
+			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'homepage', '', 'blank');
 		// View blog info
 		if($member_info->blog)
-			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog), 'blog', '', 'blank');
+			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'blog', '', 'blank');
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);
 		// Display a menu for editting member info to a top administrator

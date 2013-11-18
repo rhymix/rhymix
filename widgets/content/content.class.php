@@ -611,14 +611,14 @@ class content extends WidgetHandler
 				$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->content);
 				if($item->description)
 				{
-					if(stripos($value->content->attrs->type, "html") === FALSE) $item->description = htmlspecialchars($item->description);
+					if(!preg_match("/html/i", $value->content->attrs->type)) $item->description = htmlspecialchars($item->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				}
 				if(!$item->description)
 				{
 					$item->description = $item->summary;
 					if($item->description)
 					{
-						if(stripos($value->summary->attrs->type, "html") === FALSE) $item->description = htmlspecialchars($item->description);
+						if(!preg_match("/html/i", $value->summary->attrs->type)) $item->description = htmlspecialchars($item->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 					}
 				}
 				$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));

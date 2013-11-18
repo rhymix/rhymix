@@ -73,7 +73,7 @@ class memberAdminModel extends member
 				case 'nick_name' :
 					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
 					$args->s_nick_name = $search_keyword;
-					$args->html_nick_name = htmlspecialchars($search_keyword);
+					$args->html_nick_name = htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 					break;
 				case 'email_address' :
 					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);

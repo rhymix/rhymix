@@ -63,7 +63,8 @@ class installView extends install
 	 */
 	function dispInstallCheckEnv()
 	{
-		$useRewrite = $this->useRewriteModule() ? 'Y' : 'N';
+		$oInstallController = &getController('install');
+		$useRewrite = $oInstallController->checkRewriteUsable() ? 'Y' : 'N';
 		$_SESSION['use_rewrite'] = $useRewrite;
 		Context::set('use_rewrite', $useRewrite); 
 

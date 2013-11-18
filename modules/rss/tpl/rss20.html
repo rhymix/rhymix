@@ -21,7 +21,7 @@
         <!--@end-->
         <!--@foreach($document_list as $oDocument)-->
         <item>
-            <title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText()))}</title>
+            <title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText(), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</title>
             <dc:creator>{str_replace('\'', '&apos;',$oDocument->getNickName())}</dc:creator>
             <link>{$oDocument->getPermanentUrl()}</link>
             <guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>
@@ -29,13 +29,13 @@
             <comments>{$oDocument->getPermanentUrl()}#comment</comments>
             <!--@end-->
             <!--@if($open_rss_config[$oDocument->get('module_srl')]=='Y')-->
-            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true)))}</description>
+            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</description>
             <!--@else-->
-            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>
+            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</description>
             <!--@end-->
             <pubDate>{$oDocument->getRegdateGM()}</pubDate>
             <!--@foreach($oDocument->get('tag_list') as $tag)-->
-            <category>{str_replace('\'', '&apos;', htmlspecialchars($tag))}</category>
+            <category>{str_replace('\'', '&apos;', htmlspecialchars($tag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</category>
             <!--@end-->
             <!--@if($oDocument->getCommentcount()>0)-->
             <slash:comments>{$oDocument->getCommentcount()}</slash:comments>

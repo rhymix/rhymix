@@ -416,7 +416,7 @@ class memberView extends member
 		Context::set('identifier', $config->identifier);
 
 		// Set a template file
-		Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER']));
+		Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER'], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 		$this->setTemplateFile('login_form');
 	}
 

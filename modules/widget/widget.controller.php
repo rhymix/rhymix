@@ -530,7 +530,7 @@ class widgetController extends widget
 						{
 							if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget','widgetstyle','document_srl'))) continue;
 							if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
-							$attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val));
+							$attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 						}
 					}
 
@@ -566,7 +566,7 @@ class widgetController extends widget
 							if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget','widgetstyle','document_srl'))) continue;
 							if(!is_numeric($val) && (!is_string($val) || strlen($val)==0)) continue;
 							if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
-							$attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val));
+							$attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 						}
 					}
 
@@ -591,7 +591,7 @@ class widgetController extends widget
 							if(in_array($key, $allowed_key)) continue;
 							if(!is_numeric($val) && (!is_string($val) || strlen($val)==0)) continue;
 							if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
-							$attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val));
+							$attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 						}
 					}
 
@@ -763,7 +763,7 @@ class widgetController extends widget
 			}
 			if(strpos($val,'|@|') > 0) $val = str_replace('|@|', ',', $val);
 			$vars->{$key} = Context::convertEncodingStr($val);
-			$attribute[] = sprintf('%s="%s"', $key, htmlspecialchars(Context::convertEncodingStr($val)));
+			$attribute[] = sprintf('%s="%s"', $key, htmlspecialchars(Context::convertEncodingStr($val), ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 		}
 
 		return $attribute;

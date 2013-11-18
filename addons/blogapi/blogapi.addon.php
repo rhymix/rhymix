@@ -490,10 +490,10 @@ if($called_position == 'before_module_proc')
 					$post = new stdClass();
 					$post->categories = array();
 					$post->dateCreated = date("Ymd", $oDocument->getRegdateTime()) . 'T' . date("H:i:s", $oDocument->getRegdateTime());
-					$post->description = htmlspecialchars($oEditorController->transComponent($oDocument->getContent(false, false, true, false)));
+					$post->description = htmlspecialchars($oEditorController->transComponent($oDocument->getContent(false, false, true, false)), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 					$post->link = $post->permaLink = getFullUrl('', 'document_srl', $oDocument->document_srl);
 					$post->postid = $oDocument->document_srl;
-					$post->title = htmlspecialchars($oDocument->get('title'));
+					$post->title = htmlspecialchars($oDocument->get('title'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 					$post->publish = 1;
 					$post->userid = $oDocument->get('user_id');
 					$post->mt_allow_pings = 0;

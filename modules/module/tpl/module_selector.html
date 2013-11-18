@@ -42,7 +42,7 @@
 				{@ $_idx =0; }
 				<!--@foreach($val as $k => $v)-->
 				<!--@if($_idx >0)--><tr><!--@end-->
-					{@ $browser_title = str_replace("'", "\\'", htmlspecialchars($v->browser_title)); }
+					{@ $browser_title = str_replace("'", "\\'", htmlspecialchars($v->browser_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)); }
 					<td>{$k}</td>
 					<td>{$v->browser_title}</td>
 					<td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{$browser_title}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>

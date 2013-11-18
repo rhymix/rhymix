@@ -25,9 +25,9 @@
 	</form>
 </fieldset>
 <div class="x_clearfix">
-	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" data-search_keyword="{htmlspecialchars($search_keyword)}" data-page="{$page}" data-current_lang="{$lang_code}" no-error-return-url="true">
+	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" data-search_keyword="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" data-page="{$page}" data-current_lang="{$lang_code}" no-error-return-url="true">
 		<ul>
-			<li class="x_disabled"|cond="!$page || $page == 1"><a href="#" data-page="1" data-search_keyword="{htmlspecialchars($search_keyword)}">&laquo; {$lang->first_page}</a></li>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="#" data-page="1" data-search_keyword="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}">&laquo; {$lang->first_page}</a></li>
 			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
 			{@$isGoTo = true}
 			<li>
@@ -40,7 +40,7 @@
 			</block>
 			<!--@while($page_no = $page_navigation->getNextPage())-->
 			{@$last_page = $page_no}
-			<li class="x_active"|cond="$page_no == $page"><a  href="#" data-page="{$page_no}" data-search_keyword="{htmlspecialchars($search_keyword)}">{$page_no}</a></li>
+			<li class="x_active"|cond="$page_no == $page"><a  href="#" data-page="{$page_no}" data-search_keyword="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}">{$page_no}</a></li>
 			<!--@end-->
 			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
 			{@$isGoTo = true}
@@ -52,14 +52,14 @@
 				</span>
 			</li>
 			</block>
-		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="#" data-page="{$page_navigation->last_page}" data-search_keyword="{htmlspecialchars($search_keyword)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="#" data-page="{$page_navigation->last_page}" data-search_keyword="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
 		</ul>
 	</form>
 	<form action="" class="search center x_input-append x_pull-right">
 		<select name="lang_code" style="margin-right:4px">
 			<option loop="$lang_supported => $code, $lname" value="{$code}" selected="selected"|cond="$code == $lang_code">{$lname}</option>
 		</select>
-		<input type="search" name="search_keyword" title="Search" value="<!--@if($name)-->{htmlspecialchars($lang_code_list[1]->value)}<!--@else-->{htmlspecialchars($search_keyword)}<!--@end-->">
+		<input type="search" name="search_keyword" title="Search" value="<!--@if($name)-->{htmlspecialchars($lang_code_list[1]->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@else-->{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end-->">
 		<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 		<button cond="$search_keyword || $name" id="search_cancel" class="x_btn" type="button">{$lang->cmd_cancel}</button>
 	</form>

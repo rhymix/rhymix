@@ -28,7 +28,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="feed_title">{$lang->title}</label>
 			<div class="x_controls">
-				<input type="text" name="feed_title" value="{htmlspecialchars($total_config->feed_title)}" id="feed_title" />
+				<input type="text" name="feed_title" value="{htmlspecialchars($total_config->feed_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" id="feed_title" />
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -57,7 +57,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="feed_copyright">{$lang->feed_copyright}</label>
 			<div class="x_controls">
-				<input type="text" name="feed_copyright" value="{htmlspecialchars($total_config->feed_copyright)}" id="feed_copyright" />
+				<input type="text" name="feed_copyright" value="{htmlspecialchars($total_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" id="feed_copyright" />
 			</div>
 		</div>
 		<div class="x_control-group">

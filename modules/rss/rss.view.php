@@ -104,17 +104,17 @@ class rssView extends rss
 					$info->title = str_replace('\'', '&apos;',$info->title);
 					if($config->feed_description)
 					{
-						$info->description = str_replace('\'', '&apos;', htmlspecialchars($config->feed_description));
+						$info->description = str_replace('\'', '&apos;', htmlspecialchars($config->feed_description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 					}
 					else
 					{
-						$info->description = str_replace('\'', '&apos;', htmlspecialchars($this->module_info->description));
+						$info->description = str_replace('\'', '&apos;', htmlspecialchars($this->module_info->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 					}
 					$info->link = getUrl('','mid',$mid);
-					$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($feed_config->feed_copyright));
+					$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($feed_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 					if(!$info->feed_copyright)
 					{
-						$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright));
+						$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 					}
 				}
 			}
@@ -131,14 +131,14 @@ class rssView extends rss
 			}
 
 			$oModuleController->replaceDefinedLangCode($info->title);
-			$info->title = str_replace('\'', '&apos;', htmlspecialchars($info->title));
-			$info->description = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_description));
+			$info->title = str_replace('\'', '&apos;', htmlspecialchars($info->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+			$info->description = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 			$info->link = Context::getRequestUri();
-			$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright));
+			$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 		}
 		if($add_description) $info->description .= "\r\n".$add_description;
 
-		if($total_config->image) $info->image = Context::getRequestUri().str_replace('\'', '&apos;', htmlspecialchars($total_config->image));
+		if($total_config->image) $info->image = Context::getRequestUri().str_replace('\'', '&apos;', htmlspecialchars($total_config->image, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 		switch(Context::get('format'))
 		{
 			case 'atom':

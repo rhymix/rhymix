@@ -3,7 +3,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
    <title type="text">{$info->title}</title>
    <!--@if($info->description)-->
-   <subtitle type="html">{str_replace('\'', '&apos;', htmlspecialchars($info->description))}</subtitle>
+   <subtitle type="html">{str_replace('\'', '&apos;', htmlspecialchars($info->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</subtitle>
    <!--@end-->
    <updated>{$info->date}</updated>
    <id>{$info->id}</id>
@@ -11,7 +11,7 @@
    <link rel="self" type="application/atom+xml" href="{$info->id}"/>
    <generator uri="http://www.xpressengine.com/">XpressEngine</generator>
 <!--@foreach($document_list as $oDocument)-->   <entry>
-      <title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText()))}</title>
+      <title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText(), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</title>
       <id>{$oDocument->getPermanentUrl()}</id>
       <published>{$oDocument->getRegdate('Y-m-d\TH:i:sP')}</published>
       <updated>{zdate($oDocument->get('last_update'),'Y-m-d\TH:i:sP')}</updated>
@@ -24,12 +24,12 @@
          <!--@end-->
       </author>
       <!--@if($open_rss_config[$oDocument->get('module_srl')]=='Y')-->
-      <content type="html">{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true)))}</content>
+      <content type="html">{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</content>
       <!--@else-->
-      <summary type="text">{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</summary>
+      <summary type="text">{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</summary>
       <!--@end-->
       <!--@foreach($oDocument->get('tag_list') as $tag)-->
-      <category term="{str_replace('\'', '&apos;', htmlspecialchars($tag))}"/>
+      <category term="{str_replace('\'', '&apos;', htmlspecialchars($tag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}"/>
       <!--@end-->
       
    </entry>

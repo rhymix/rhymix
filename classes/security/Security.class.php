@@ -115,7 +115,7 @@ class Security
 		{
 			if(!preg_match('/^\$user_lang->/', $var))
 			{
-				$var = htmlspecialchars($var);
+				$var = htmlspecialchars($var, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
 			return $var;
 		}

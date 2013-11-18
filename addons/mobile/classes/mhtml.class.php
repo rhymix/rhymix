@@ -21,13 +21,13 @@ class wap extends mobileXE
 	{
 		print("<html><head>\n");
 		if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
-		printf("<title>%s%s</title></head><body>\n", htmlspecialchars($this->title),htmlspecialchars($titlePageStr));
+		printf("<title>%s%s</title></head><body>\n", htmlspecialchars($this->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false),htmlspecialchars($titlePageStr, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 	}
 	// Output title
 	function printTitle()
 	{
 		if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
-		printf('&lt;%s%s&gt;<br>%s', htmlspecialchars($this->title),htmlspecialchars($titlePageStr),"\n");
+		printf('&lt;%s%s&gt;<br>%s', htmlspecialchars($this->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false),htmlspecialchars($titlePageStr, ENT_COMPAT | ENT_HTML401, 'UTF-8', false),"\n");
 	}
 
 	/**

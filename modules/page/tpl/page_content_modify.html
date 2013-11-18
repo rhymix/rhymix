@@ -9,7 +9,7 @@
 	<input type="hidden" name="module" value="page" />
 	<input type="hidden" name="act" value="dispPageAdminContentModify" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-	<input type="hidden" name="content" value="{htmlspecialchars($content)}" />
+	<input type="hidden" name="content" value="{htmlspecialchars($content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" />
 	<div class="btnArea" id="pageBtnArea" hidden>
 		<div class="etc">
 			<span class="btn-group">

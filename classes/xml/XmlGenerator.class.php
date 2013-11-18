@@ -45,7 +45,7 @@ class XmlGenerator
 						{
 							foreach($value as $attrName => $attrValue)
 							{
-								$attrs .= sprintf(' %s="%s"', $attrName, htmlspecialchars($attrValue));
+								$attrs .= sprintf(' %s="%s"', $attrName, htmlspecialchars($attrValue, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 							}
 						}
 					}

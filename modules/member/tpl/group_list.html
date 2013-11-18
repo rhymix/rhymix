@@ -52,7 +52,7 @@
 					<div class="wrap">
 						<button type="button" class="dragBtn">Move to</button>
 						<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
-						<input type="text" name="group_titles[]" value="{htmlspecialchars($group_info->title)}" class="lang_code" title="{$lang->group_title}" />
+						<input type="text" name="group_titles[]" value="{htmlspecialchars($group_info->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" class="lang_code" title="{$lang->group_title}" />
 						<a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_administrator" target="_blank" cond="$group_info->title == '관리그룹'">{$lang->help}</a>
 					</div>
 				</td>
@@ -60,7 +60,7 @@
 				<td><input type="radio" name="defaultGroup" value="{$group_info->group_srl}" title="Default" checked="checked"|cond="$group_info->is_default=='Y'" /></td>
 				<td class="_imageMarkButton">
 					<input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
-					<img src="{$group_info->image_mark}" alt="{htmlspecialchars($group_info->title)}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
+					<img src="{$group_info->image_mark}" alt="{htmlspecialchars($group_info->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
 					<a href="#imageMark" class="modalAnchor _imageMark filebox">{$lang->cmd_modify}</a>
 				</td>
 				<td><div class="_deleteTD" style="display:none"|cond="$group_info->is_default == 'Y'"><a href="#{$group_srl}" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>

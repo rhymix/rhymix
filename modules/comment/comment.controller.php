@@ -307,7 +307,7 @@ class commentController extends comment
 		{
 			if($obj->use_html != 'Y')
 			{
-				$obj->content = htmlspecialchars($obj->content);
+				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
 			$obj->content = nl2br($obj->content);
 		}

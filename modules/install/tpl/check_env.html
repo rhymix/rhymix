@@ -15,10 +15,8 @@
 			<p>
 				<i class="x_icon-ok-sign x_icon-white"></i>
 				<strong>XE {__XE_VERSION__}</strong> {$lang->install_condition_enable} 
-				&rsaquo;
-				<a href="#details" data-toggle style="text-decoration:underline">{$lang->install_details}</a>
 			</p>
-			<ul id="details" style="display:none;outline:none">
+			<ul id="details"> 
 				<li loop="$checklist => $key,$val">
 					<strong>{$lang->install_checklist_title[$key]}<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong> 
 					:
@@ -26,7 +24,7 @@
 				</li>
 			</ul>
 		</div>
-		<div cond="$use_rewrite == 'N'">
+		<div cond="$use_rewrite == 'N' && $checklist['permission'] == true">
 			<p>
 				<i class="x_icon-ok-sign x_icon-white"></i>
 				{$lang->disable_rewrite}
@@ -43,15 +41,3 @@
 		</div>
 	</div>
 <include target="footer.html" />
-<script>
-jQuery(function($){
-	$('a[href="#details"]').click(function(){
-		var $this = $(this);
-		if($($this.attr('href')).is(':hidden')){
-			$this.text('{$lang->install_simply}');
-		}else{
-			$this.text('{$lang->install_details}');
-		}
-	});
-});
-</script>

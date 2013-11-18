@@ -329,9 +329,8 @@ class installController extends install
 	{
 		// Check each item
 		$checklist = array();
-		// 0. check your version of php (5.2.4 upper)
-		$checkPHPVersion = phpversion();
-		if(version_compare($checkPHPVersion, '5.2.4') == -1) $checklist['php_version'] = false;
+		// 0. check your version of php (5.2.4 or higher)
+		if(version_compare(PHP_VERSION, '5.2.4') == -1) $checklist['php_version'] = false;
 		else $checklist['php_version'] = true;
 		// 1. Check permission
 		if(is_writable('./')||is_writable('./files')) $checklist['permission'] = true;
@@ -358,9 +357,48 @@ class installController extends install
 		// Save the checked result to the Context
 		Context::set('checklist', $checklist);
 		Context::set('install_enable', $install_enable);
-		Context::set('phpversion', $checkPHPVersion);
+		Context::set('phpversion', PHP_VERSION);
+
 
 		return $install_enable;
+	}
+
+	/**
+	 * check this server can use rewrite module
+	 * make a file to files/config and check url approach by ".htaccess" rules
+	 *
+	 * @return bool
+	*/
+	function checkRewriteUsable() {
+		$checkString = "isApproached";
+		$checkFilePath = 'files/config/tmpRewriteCheck.txt';
+
+		FileHandler::writeFile(_XE_PATH_.$checkFilePath, trim($checkString));
+
+		$hostname = $_SERVER['SERVER_NAME'];
+		$port = $_SERVER['SERVER_PORT'];
+		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
+
+		$fp = @fsockopen($hostname, $port, $errno, $errstr);
+		if(!$fp) return false;
+
+		fputs($fp, "GET {$query} HTTP/1.0\r\n");
+		fputs($fp, "Host: {$hostname}\r\n\r\n");
+
+		$buff = '';
+		while(!feof($fp)) {
+			$str = fgets($fp, 1024);
+			if(trim($str)=='') $start = true;
+			if($start) $buff .= $str;
+		}
+		fclose($fp);
+		$ret = trim($buff);
+
+		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
+		if( $ret == $checkString )
+			return true;
+		else
+			return false;
 	}
 
 	/**

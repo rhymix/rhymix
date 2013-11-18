@@ -746,7 +746,7 @@ class Context
 		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($self->site_title);
 
-		return htmlspecialchars($self->site_title);
+		return htmlspecialchars($self->site_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	/**
@@ -1259,7 +1259,7 @@ class Context
 			}
 			elseif($key === 'mid' || $key === 'vid' || $key === 'search_keyword')
 			{
-				$val[$k] = htmlspecialchars($v);
+				$val[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
 			else
 			{
@@ -1325,7 +1325,7 @@ class Context
 				{
 					continue;
 				}
-				$val['name'] = htmlspecialchars($val['name']);
+				$val['name'] = htmlspecialchars($val['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				$this->set($key, $val, true);
 				$this->is_uploaded = true;
 			}
@@ -1631,11 +1631,11 @@ class Context
 					$encode_queries[] = $key . '=' . $value;
 				}
 				$encode_query = implode('&', $encode_queries);
-				return htmlspecialchars($parsedUrl['path'] . '?' . $encode_query);
+				return htmlspecialchars($parsedUrl['path'] . '?' . $encode_query, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
 			else
 			{
-				return htmlspecialchars($query);
+				return htmlspecialchars($query, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
 		}
 		else

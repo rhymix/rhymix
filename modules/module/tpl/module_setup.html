@@ -49,7 +49,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="header_text">{$lang->header_text}</label>
 			<div class="x_controls">
-				<textarea name="header_text" id="header_text" rows="4" cols="42">{htmlspecialchars($module_info->header_text)}</textarea>
+				<textarea name="header_text" id="header_text" rows="4" cols="42">{htmlspecialchars($module_info->header_text, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
 				<a href="#aboutHeaderText" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p class="x_help-block" id="aboutHeaderText" hidden>{$lang->about_header_text}</p>
 			</div>
@@ -57,7 +57,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="footer_text">{$lang->footer_text}</label>
 			<div class="x_controls">
-				<textarea name="footer_text" rows="4" cols="42">{htmlspecialchars($module_info->footer_text)}</textarea>
+				<textarea name="footer_text" rows="4" cols="42">{htmlspecialchars($module_info->footer_text, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
 				<a href="#aboutFooterText" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p class="x_help-block" id="aboutFooterText" hidden>{$lang->about_footer_text}</p>
 			</div>
@@ -65,7 +65,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="description">{$lang->description}</label>
 			<div class="x_controls">
-				<textarea name="description" id="description" rows="4" cols="42">{htmlspecialchars($module_info->description)}</textarea>
+				<textarea name="description" id="description" rows="4" cols="42">{htmlspecialchars($module_info->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
 				<a href="#aboutDescription" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p class="x_help-block" id="aboutDescription" hidden>{$lang->about_description}</p>
 			</div>

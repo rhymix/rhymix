@@ -210,7 +210,7 @@ class ExtraItem
 				{
 					$value = 'http://' . $value;
 				}
-				return htmlspecialchars($value);
+				return htmlspecialchars($value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
 			case 'tel' :
 				if(is_array($value))
@@ -253,7 +253,7 @@ class ExtraItem
 
 				for($i = 0; $i < count($values); $i++)
 				{
-					$values[$i] = htmlspecialchars($values[$i]);
+					$values[$i] = htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				}
 
 				return $values;
@@ -283,7 +283,7 @@ class ExtraItem
 			//case 'text' :
 			//case 'textarea' :
 			default :
-				return htmlspecialchars($value);
+				return htmlspecialchars($value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		}
 	}
 
@@ -405,7 +405,7 @@ class ExtraItem
 					// Temporary ID for labeling
 					$tmp_id = $column_name . '-' . $id_num++;
 
-					$buff .='<li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . htmlspecialchars($v) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
+					$buff .='<li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
 				}
 				$buff .= '</ul>';
 				break;
@@ -490,7 +490,7 @@ class ExtraItem
 						'<input type="text" name="addr_search_' . $column_name . '" class="address" value="" />' .
 						'<a href="#" onclick="doSearchKrZip(this, \'' . $column_name . '\'); return false;" class="button green"><span>' . Context::getLang('cmd_search') . '</span></a>' .
 						'</div>' .
-						'<input type="text" name="' . $column_name . '[]" value="' . htmlspecialchars($value[1]) . '" class="address" />' .
+						'<input type="text" name="' . $column_name . '[]" value="' . htmlspecialchars($value[1], ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '" class="address" />' .
 						'';
 				break;
 			// General text
@@ -500,7 +500,7 @@ class ExtraItem
 		}
 		if($this->desc)
 		{
-			$buff .= '<p>' . htmlspecialchars($this->desc) . '</p>';
+			$buff .= '<p>' . htmlspecialchars($this->desc, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '</p>';
 		}
 		
 		return $buff;

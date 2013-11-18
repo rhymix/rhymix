@@ -1874,9 +1874,9 @@ class memberController extends member
 		$oDB->begin();
 		// Insert data into the DB
 		$args->list_order = -1 * $args->member_srl;
-		$args->nick_name = htmlspecialchars($args->nick_name);
-		$args->homepage = htmlspecialchars($args->homepage);
-		$args->blog = htmlspecialchars($args->blog);
+		$args->nick_name = htmlspecialchars($args->nick_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		$args->homepage = htmlspecialchars($args->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		$args->blog = htmlspecialchars($args->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
 		if($args->password && !$password_is_hashed) $args->password = md5($args->password);
 		elseif(!$args->password) unset($args->password);

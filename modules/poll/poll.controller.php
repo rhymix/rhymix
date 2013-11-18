@@ -34,7 +34,7 @@ class pollController extends poll
 
 			$poll_index = $tmp_arr[1];
 
-			if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val);
+			if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
 			if($tmp_arr[0]=='title') $tmp_args[$poll_index]->title = $val;
 			else if($tmp_arr[0]=='checkcount') $tmp_args[$poll_index]->checkcount = $val;
