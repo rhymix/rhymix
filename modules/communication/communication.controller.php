@@ -173,9 +173,9 @@ class communicationController extends communication
 		$sender_args->content = $content;
 		$sender_args->readed = 'N';
 		$sender_args->regdate = date("YmdHis");
-		$sender_args->related_srl = getNextSequence();
 		$sender_args->message_srl = getNextSequence();
-		$sender_args->list_order = getNextSequence() * -1;
+		$sender_args->related_srl = getNextSequence();
+		$sender_args->list_order = $sender_args->message_srl * -1;
 
 		// messages to save in the receiver's message box
 		$receiver_args = new stdClass();
