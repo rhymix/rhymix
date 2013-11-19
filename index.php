@@ -14,7 +14,7 @@
  * XE is an opensource and being developed in the opensource project.\n
  * For more information, please see the link below.
  * - Official website: http://www.xpressengine.com
- * - Offcial Repository: https://github.com/xpressengine/core
+ * - Offcial Repository: https://github.com/xpressengine/xe-core
  * \n
  * "XpressEngine (XE)" is free software; you can redistribute it and/or \n
  * modify it under the terms of the GNU Lesser General Public \n
