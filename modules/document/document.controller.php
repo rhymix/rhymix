@@ -1091,8 +1091,17 @@ class documentController extends document
 		// Fail if session information already has a reported document
 		if($_SESSION['declared_document'][$document_srl]) return new Object(-1, 'failed_declared');
 
+		// Check if previously reported
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$output = executeQuery('document.getDeclaredDocument', $args);
+		if(!$output->toBool()) return $output;
+
+		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
+
 		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $document_srl;
+		$trigger_obj->declared_count = $declared_count;
 
 		// Call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'before', $trigger_obj);
@@ -1101,23 +1110,15 @@ class documentController extends document
 			return $trigger_output;
 		}
 
-		// Check if previously reported
-		$args = new stdClass();
-		$args->document_srl = $document_srl;
-		$output = executeQuery('document.getDeclaredDocument', $args);
-		if(!$output->toBool()) return $output;
-
-		$declared_count = $output->data->declared_count;
-
 		// Get the original document
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 
 		// Pass if the author's IP address is as same as visitor's.
-		/*if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
-		  $_SESSION['declared_document'][$document_srl] = true;
-		  return new Object(-1, 'failed_declared');
-		  }*/
+		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
+			$_SESSION['declared_document'][$document_srl] = true;
+			return new Object(-1, 'failed_declared');
+		}
 
 		// Check if document's author is a member.
 		if($oDocument->get('member_srl'))
@@ -1142,6 +1143,7 @@ class documentController extends document
 		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
+		
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
 

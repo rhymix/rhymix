@@ -1134,6 +1134,18 @@ class commentController extends comment
 		{
 			return $output;
 		}
+		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
+
+		$trigger_obj = new stdClass();
+		$trigger_obj->comment_srl = $comment_srl;
+		$trigger_obj->declared_count = $declared_count;
+
+		// Call a trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('comment.declaredComment', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
 
 		// get the original comment
 		$oCommentModel = getModel('comment');
@@ -1180,6 +1192,10 @@ class commentController extends comment
 			return new Object(-1, 'failed_declared');
 		}
 
+		// begin transaction
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
 		// execute insert
 		if($output->data->declared_count > 0)
 		{
@@ -1192,11 +1208,23 @@ class commentController extends comment
 
 		if(!$output->toBool())
 		{
+			$oDB->rollback();
 			return $output;
 		}
 
 		// leave the log
 		$output = executeQuery('comment.insertCommentDeclaredLog', $args);
+
+		// Call a trigger (after)
+		$trigger_obj->declared_count = $declared_count + 1;
+		$trigger_output = ModuleHandler::triggerCall('comment.declaredComment', 'after', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			$oDB->rollback();
+			return $trigger_output;
+		}
+
+		$oDB->commit();
 
 		// leave into the session information
 		$_SESSION['declared_comment'][$comment_srl] = TRUE;
