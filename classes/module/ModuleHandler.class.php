@@ -80,7 +80,7 @@ class ModuleHandler extends Handler
 			exit;
 		}
 
-		if(isset($this->act) && substr_compare($this->act, 'disp', 0, 4) === 0)
+		if(isset($this->act) && (strlen($this->act) >= 4 && substr_compare($this->act, 'disp', 0, 4) === 0))
 		{
 			if(Context::get('_use_ssl') == 'optional' && Context::isExistsSSLAction($this->act) && $_SERVER['HTTPS'] != 'on')
 			{
