@@ -418,6 +418,8 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 									<li id="UMAN_config_general_sso">SSO 사용: 사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다. 가상 사이트를 사용할 때만 필요합니다.</li>
 									<li id="UMAN_config_general_db_session">인증 세션 DB 사용: 인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다. 웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다. 단, 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.</li>
 									<li id="UMAN_config_general_qmail">Qmail 호환: Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.</li>
+									<li id="UMAN_config_general_sitelock">사이트 잠금: 지정한 IP 외 접근을 차단할 수 있습니다.</li>
+									<li id="UMAN_config_general_sitelock_whitelist">접근 허용 IP: 이곳에 관리자의 IP가 반드시 포함되어야 합니다. 만약 접근이 차단된 경우 './files/config/db.config.php' 파일에서 `$db_info->use_sitelock`를 'N'으로 변경하여 차단을 해제할 수 있습니다.</li>
 								</ul>
 							</dd>
 							<dt id="UMAN_config_ftp">FTP 설정</dt>

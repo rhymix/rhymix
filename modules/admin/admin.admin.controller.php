@@ -480,6 +480,31 @@ class adminAdminController extends admin
 		$this->setMessage('success_deleted');
 	}
 
+	function procAdminUpdateSitelock()
+	{
+		$vars = Context::getRequestVars();
+		$oInstallController = &getController('install');
+
+		$config_file = Context::getConfigFile();
+		$db_info = Context::getDbInfo();
+
+		$db_info->use_sitelock = ($vars->use_sitelock) ? $vars->use_sitelock : 'N';
+		$db_info->sitelock_title = $vars->sitelock_title;
+		$db_info->sitelock_message = $vars->sitelock_message;
+
+		$db_info->sitelock_whitelist = preg_replace("/[\r\n|\r|\n]+/", ",", $vars->sitelock_whitelist);
+
+		$buff = $oInstallController->_getDBConfigFileContents($db_info);
+		FileHandler::writeFile($config_file, $buff);
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral');
+			header('location:'.$returnUrl);
+			return;
+		}
+	}
+
 }
 /* End of file admin.admin.controller.php */
 /* Location: ./modules/admin/admin.admin.controller.php */

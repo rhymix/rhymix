@@ -412,6 +412,15 @@ class adminAdminView extends admin
 		Context::set('default_url', $db_info->default_url);
 		Context::set('langs', Context::loadLangSupported());
 
+		// site lock
+		if(!$db_info->sitelock_title) $db_info->sitelock_title = 'Maintenance in progress...';
+		if(!in_array($_SERVER['REMOTE_ADDR'], $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = $_SERVER['REMOTE_ADDR'];
+		Context::set('remote_addr', $_SERVER['REMOTE_ADDR']);
+		Context::set('use_sitelock', $db_info->use_sitelock);
+		Context::set('sitelock_title', $db_info->sitelock_title);
+		Context::set('sitelock_message', $db_info->sitelock_message);
+		Context::set('sitelock_whitelist', implode(PHP_EOL, $db_info->sitelock_whitelist));
+
 		Context::set('lang_selected', Context::loadLangSelected());
 
 		$admin_ip_list = preg_replace("/[,]+/", "\r\n", $db_info->admin_ip_list);

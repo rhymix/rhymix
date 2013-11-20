@@ -214,6 +214,28 @@ class Context
 
 		$this->loadDBInfo();
 
+		$context = Context::getInstance();
+
+		if($context->db_info->use_sitelock == 'Y') {
+			$whitelist = array('127.0.0.1', '::1', 'fe80::1');
+			if(is_array($context->db_info->sitelock_whitelist)) $whitelist = array_merge($whitelist, $context->db_info->sitelock_whitelist);
+
+			if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
+				$title = ($context->db_info->sitelock_title) ? $context->db_info->sitelock_title : 'Maintenance in progress...';
+				$message = $context->db_info->sitelock_message;
+				$image = './modules/admin/tpl/img/xe.h1.png';
+
+				define('_XE_SITELOCK_', TRUE);
+				define('_XE_SITELOCK_TITLE_', $title);
+				define('_XE_SITELOCK_MESSAGE_', nl2br($message));
+				define('_XE_SITELOCK_IMAGE_', $image);
+
+				header('403 Forbidden');
+				include _XE_PATH_ . 'common/tpl/sitelock.html';
+				exit;
+			}
+		}
+
 		// If XE is installed, get virtual site information
 		if(Context::isInstalled())
 		{
@@ -473,6 +495,14 @@ class Context
 			$self->set('_http_port', $db_info->http_port);
 		if($db_info->https_port)
 			$self->set('_https_port', $db_info->https_port);
+
+		if(!$db_info->sitelock_whitelist) {
+			$db_info->sitelock_whitelist = '127.0.0.1,::1,fe80::1';
+		}
+
+		if(is_string($db_info->sitelock_whitelist)) {
+			$db_info->sitelock_whitelist = explode(',', $db_info->sitelock_whitelist);
+		}
 
 		$self->setDBInfo($db_info);
 	}

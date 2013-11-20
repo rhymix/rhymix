@@ -199,6 +199,52 @@
 		</div>
 	</form>
 </section>
+
+
+<section class="section !collapsed">
+	<h1>사이트 잠금</h1>
+	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal" ruleset="sitelock">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="procAdminUpdateSitelock" />
+		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_general/1" />
+
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_sitelock} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_sitelock" target="_blank">{$lang->help}</a></label>
+			<div class="x_controls">
+				<label for="use_sitelock_y" class="x_inline"><input type="radio" name="use_sitelock" id="use_sitelock_y" value="Y" checked="checked"|cond="$use_sitelock=='Y'" /> {$lang->cmd_yes}</label>
+				<label for="use_sitelock_n" class="x_inline"><input type="radio" name="use_sitelock" id="use_sitelock_n" value="N" checked="checked"|cond="$use_sitelock!='Y'" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label" for="sitelock_whitelist">{$lang->sitelock_whitelist} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_sitelock_whitelist" target="_blank">{$lang->help}</a></label>
+			<div class="x_controls">
+				<textarea name="sitelock_whitelist" id="sitelock_whitelist" rows="4" cols="42" placeholder="{$IP}({$lang->local_ip_address})" style="margin-right:10px">{$sitelock_whitelist}</textarea>
+				<span class="x_help-block">{$lang->sitelock_warning_whitelist}</span>
+				<span class="x_help-block">{$lang->your_ip} : {$remote_addr}</span>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sitelock_title">{$lang->sitelock_title}</label>
+			<div class="x_controls">
+				<input type="text" name="sitelock_title" id="sitelock_title" value="{$sitelock_title}"/>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sitelock_message">{$lang->sitelock_message}</label>
+			<div class="x_controls" style="margin-right:14px">
+				<textarea name="sitelock_message" id="sitelock_message" rows="4" cols="42" style="width:100%;">{$sitelock_message}</textarea>
+			</div>
+		</div>
+
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>
+
 <iframe name="hiddenIframe" src="about:blank" hidden></iframe>
 <script>
 function afterUploadConfigImage(name, fileName, tmpFileName)

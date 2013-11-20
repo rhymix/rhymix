@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+	<fields>
+		<field name="use_sitelock" required="true" />
+		<field name="sitelock_whitelist">
+			<if test="$use_sitelock == 'Y'" attr="required" value="true" />
+		</field>
+		<field name="sitelock_title">
+			<if test="$use_sitelock == 'Y'" attr="required" value="true" />
+		</field>
+		<field name="sitelock_message">
+			<if test="$use_sitelock == 'Y'" attr="required" value="true" />
+		</field>
+	</fields>
+</ruleset>
