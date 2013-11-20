@@ -97,7 +97,7 @@ class TemplateHandler
 		$this->web_path = $this->xe_path . '/' . ltrim(preg_replace('@^' . preg_quote(_XE_PATH_, '@') . '|\./@', '', $this->path), '/');
 
 		// get compiled file name
-		$hash = md5($this->file . __ZBXE_VERSION__);
+		$hash = md5($this->file . __XE_VERSION__);
 		$this->compiled_file = "{$this->compiled_path}{$hash}.compiled.php";
 
 		// compare various file's modified time for check changed
