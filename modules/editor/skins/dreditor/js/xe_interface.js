@@ -60,8 +60,9 @@ function _create(editor_sequence, primary_key, content_key, editor_height, color
 		if (form._saved_doc_title && form._saved_doc_title.value) { // Check auto-saved document
 			var saved_title = form._saved_doc_title.value;
 			var saved_content = form._saved_doc_content.value;
+			var saved_document_srl = form._saved_doc_document_srl.value;
 
-			if (saved_title || saved_content) {
+			if (saved_title || saved_content || saved_document_srl) {
 				// 자동저장된 문서 활용여부를 물은 후 사용하지 않는다면 자동저장된 문서 삭제
 				if(confirm(form._saved_doc_message.value)) {
 					if(typeof(form.title)!='undefined') form.title.value = saved_title;
