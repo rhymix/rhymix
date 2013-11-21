@@ -485,7 +485,6 @@ class adminAdminController extends admin
 		$vars = Context::getRequestVars();
 		$oInstallController = &getController('install');
 
-		$config_file = Context::getConfigFile();
 		$db_info = Context::getDbInfo();
 
 		$db_info->use_sitelock = ($vars->use_sitelock) ? $vars->use_sitelock : 'N';
@@ -494,13 +493,13 @@ class adminAdminController extends admin
 
 		$db_info->sitelock_whitelist = preg_replace("/[\r\n|\r|\n]+/", ",", $vars->sitelock_whitelist);
 
-		$buff = $oInstallController->_getDBConfigFileContents($db_info);
-		FileHandler::writeFile($config_file, $buff);
+		FileHandler::writeFile(Context::getConfigFile(), $oInstallController->_getDBConfigFileContents($db_info));
 
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
 		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral');
-			header('location:'.$returnUrl);
+			$returnUrl = Context::get('success_return_url');
+			if(!$returnUrl) $returnUrl = getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral');
+			header('location:' . $returnUrl);
 			return;
 		}
 	}

@@ -214,15 +214,15 @@ class Context
 
 		$this->loadDBInfo();
 
-		$context = Context::getInstance();
-
-		if($context->db_info->use_sitelock == 'Y') {
+		if($this->db_info->use_sitelock == 'Y')
+		{
 			$whitelist = array('127.0.0.1', '::1', 'fe80::1');
-			if(is_array($context->db_info->sitelock_whitelist)) $whitelist = array_merge($whitelist, $context->db_info->sitelock_whitelist);
+			if(is_array($this->db_info->sitelock_whitelist)) $whitelist = array_merge($whitelist, $this->db_info->sitelock_whitelist);
 
-			if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
-				$title = ($context->db_info->sitelock_title) ? $context->db_info->sitelock_title : 'Maintenance in progress...';
-				$message = $context->db_info->sitelock_message;
+			if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist))
+			{
+				$title = ($this->db_info->sitelock_title) ? $this->db_info->sitelock_title : 'Maintenance in progress...';
+				$message = $this->db_info->sitelock_message;
 
 				define('_XE_SITELOCK_', TRUE);
 				define('_XE_SITELOCK_TITLE_', $title);
