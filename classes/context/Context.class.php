@@ -220,7 +220,7 @@ class Context
 			$whitelist = array('127.0.0.1', '::1', 'fe80::1');
 			if(is_array($context->db_info->sitelock_whitelist)) $whitelist = array_merge($whitelist, $context->db_info->sitelock_whitelist);
 
-			if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
+			if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
 				$title = ($context->db_info->sitelock_title) ? $context->db_info->sitelock_title : 'Maintenance in progress...';
 				$message = $context->db_info->sitelock_message;
 				$image = './modules/admin/tpl/img/xe.h1.png';
