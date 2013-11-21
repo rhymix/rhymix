@@ -223,12 +223,10 @@ class Context
 			if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
 				$title = ($context->db_info->sitelock_title) ? $context->db_info->sitelock_title : 'Maintenance in progress...';
 				$message = $context->db_info->sitelock_message;
-				$image = './modules/admin/tpl/img/xe.h1.png';
 
 				define('_XE_SITELOCK_', TRUE);
 				define('_XE_SITELOCK_TITLE_', $title);
-				define('_XE_SITELOCK_MESSAGE_', nl2br($message));
-				define('_XE_SITELOCK_IMAGE_', $image);
+				define('_XE_SITELOCK_MESSAGE_', $message);
 
 				header('403 Forbidden');
 				include _XE_PATH_ . 'common/tpl/sitelock.html';
