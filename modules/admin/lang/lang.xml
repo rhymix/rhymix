@@ -1504,6 +1504,9 @@
 		<value xml:lang="en"><![CDATA[Sun]]></value>
 	</item>
 	<!-- site lock -->
+	<item name="subtitle_sitelock">
+			<value xml:lang="ko"><![CDATA[사이트 잠금]]></value>
+	</item>
 	<item name="use_sitelock">
 			<value xml:lang="ko"><![CDATA[사이트 잠금 사용]]></value>
 	</item>
