@@ -176,7 +176,7 @@ class FileHandler
 	 */
 	function removeFile($filename)
 	{
-		return (($filename = self::file_exists($filename)) !== FALSE) && @unlink($filename);
+		return (($filename = self::exists($filename)) !== FALSE) && @unlink($filename);
 	}
 
 	/**
@@ -936,7 +936,7 @@ class FileHandler
 	 */
 	function readIniFile($filename)
 	{
-		if(($filename = self::file_exists($filename)) === FALSE)
+		if(($filename = self::exists($filename)) === FALSE)
 		{
 			return FALSE;
 		}
