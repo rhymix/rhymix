@@ -162,7 +162,7 @@ class XmlParser
 		$obj->node_name = strtolower($node_name);
 		$obj->attrs = $this->_arrToAttrsObj($attrs);
 
-		array_push($this->output, $obj);
+		$this->output[] = $obj;
 	}
 
 	/**
@@ -203,13 +203,11 @@ class XmlParser
 			$tmp_obj = $parent_obj->{$node_name};
 			if(is_array($tmp_obj))
 			{
-				array_push($parent_obj->{$node_name}, $cur_obj);
+				$parent_obj->{$node_name}[] = $cur_obj;
 			}
 			else
 			{
-				$parent_obj->{$node_name} = array();
-				array_push($parent_obj->{$node_name}, $tmp_obj);
-				array_push($parent_obj->{$node_name}, $cur_obj);
+				$parent_obj->{$node_name} = array($tmp_obj, $cur_obj);
 			}
 		}
 		else

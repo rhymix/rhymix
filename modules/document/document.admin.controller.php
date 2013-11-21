@@ -41,7 +41,7 @@ class documentAdminController extends document
 			$oDocumentController->deleteDocument($document_srl, true);
 		}
 
-		$this->setMessage( sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
+		$this->setMessage(sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class documentAdminController extends document
 				$files = $oDocument->getUploadedFiles();
 				if(is_array($files))
 				{
-					foreach($files as $key => $val)
+					foreach($files as $val)
 					{
 						$file_info = array();
 						$file_info['tmp_name'] = $val->uploaded_filename;
@@ -214,7 +214,7 @@ class documentAdminController extends document
 	 */
 	function copyDocumentModule($document_srl_list, $module_srl, $category_srl)
 	{
-		if(!count($document_srl_list)) return;
+		if(count($document_srl_list) < 1) return;
 
 		$oDocumentModel = &getModel('document');
 		$oDocumentController = &getController('document');
@@ -240,14 +240,14 @@ class documentAdminController extends document
 		$extraVarsListByDocumentSrl = array();
 		if(is_array($extraVarsList->data))
 		{
-			foreach($extraVarsList->data AS $key=>$value)
+			foreach($extraVarsList->data as $value)
 			{
 				if(!isset($extraVarsListByDocumentSrl[$value->document_srl]))
 				{
 					$extraVarsListByDocumentSrl[$value->document_srl] = array();
 				}
 
-				array_push($extraVarsListByDocumentSrl[$value->document_srl], $value);
+				$extraVarsListByDocumentSrl[$value->document_srl][] = $value;
 			}
 		}
 
@@ -257,7 +257,6 @@ class documentAdminController extends document
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists()) continue;
 
-			$obj = null;
 			$obj = $oDocument->getObjectVars();
 
 			$extraVars = $extraVarsListByDocumentSrl[$document_srl];
@@ -281,7 +280,7 @@ class documentAdminController extends document
 			if($oDocument->hasUploadedFiles())
 			{
 				$files = $oDocument->getUploadedFiles();
-				foreach($files as $key => $val)
+				foreach($files as $val)
 				{
 					$file_info = array();
 					$file_info['tmp_name'] = $val->uploaded_filename;
@@ -315,7 +314,7 @@ class documentAdminController extends document
 			// copy multi language contents
 			if(is_array($extraVars))
 			{
-				foreach($extraVars AS $key=>$value)
+				foreach($extraVars as $value)
 				{
 					if($value->idx >= 0 && $value->lang_code == Context::getLangType())
 					{
@@ -335,7 +334,7 @@ class documentAdminController extends document
 				$oCommentModel = &getModel('comment');
 				$comment_output = $oCommentModel->getCommentList($document_srl, 0, true, 99999999);
 				$comments = $comment_output->data;
-				if(count($comments))
+				if(count($comments) > 0)
 				{
 					$oCommentController = &getController('comment');
 					$success_count = 0;
@@ -349,7 +348,7 @@ class documentAdminController extends document
 						if($comment_obj->uploaded_count)
 						{
 							$files = $oFileModel->getFiles($comment_obj->comment_srl, true);
-							foreach($files as $key => $val)
+							foreach($files as $val)
 							{
 								$file_info = array();
 								$file_info['tmp_name'] = $val->uploaded_filename;

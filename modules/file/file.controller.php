@@ -772,7 +772,7 @@ class fileController extends file
 
 			if($file_info->upload_target_srl)
 			{
-				array_push($documentSrlList, $file_info->upload_target_srl);
+				$documentSrlList[] = $file_info->upload_target_srl;
 			}
 
 			$source_filename = $output->data->source_filename;

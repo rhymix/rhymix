@@ -55,9 +55,9 @@ class pollAdminView extends poll
 		if(is_array($output->data))
 		{
 			$uploadTargetSrlList = array();
-			foreach($output->data AS $key=>$value)
+			foreach($output->data as $value)
 			{
-				array_push($uploadTargetSrlList, $value->upload_target_srl);
+				$uploadTargetSrlList[] = $value->upload_target_srl;
 			}
 
 			$oDocumentModel = &getModel('document');
@@ -69,7 +69,7 @@ class pollAdminView extends poll
 			$targetCommentOutput = $oCommentModel->getComments($uploadTargetSrlList, $columnList);
 			if(!is_array($targetCommentOutput)) $targetCommentOutput = array();
 
-			foreach($output->data AS $key=>$value)
+			foreach($output->data as $value)
 			{
 				if(array_key_exists($value->upload_target_srl, $targetDocumentOutput))
 					$value->document_srl = $value->upload_target_srl;
@@ -132,25 +132,28 @@ class pollAdminView extends poll
 		// Popup layout
 		$this->setLayoutFile("popup_layout");
 		// Draw results
+		$args = new stdClass();
 		$args->poll_srl = Context::get('poll_srl'); 
 		$args->poll_index_srl = Context::get('poll_index_srl'); 
 
 		$output = executeQuery('poll.getPoll', $args);
 		if(!$output->data) return $this->stop('msg_poll_not_exists');
+		$poll = new stdClass();
 		$poll->stop_date = $output->data->stop_date;
 		$poll->poll_count = $output->data->poll_count;
 
 		$output = executeQuery('poll.getPollTitle', $args);
 		if(!$output->data) return $this->stop('msg_poll_not_exists');
 
-		$poll->poll[$args->poll_index_srl]->title = $output->data->title;
-		$poll->poll[$args->poll_index_srl]->checkcount = $output->data->checkcount;
-		$poll->poll[$args->poll_index_srl]->poll_count = $output->data->poll_count;
+		$tmp = &$poll->poll[$args->poll_index_srl];
+		$tmp->title = $output->data->title;
+		$tmp->checkcount = $output->data->checkcount;
+		$tmp->poll_count = $output->data->poll_count;
 
 		$output = executeQuery('poll.getPollItem', $args);
-		foreach($output->data as $key => $val)
+		foreach($output->data as $val)
 		{
-			$poll->poll[$val->poll_index_srl]->item[] = $val;
+			$tmp->item[] = $val;
 		}
 
 		$poll->poll_srl = $poll_srl;

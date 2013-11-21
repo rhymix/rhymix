@@ -45,10 +45,7 @@ class CacheFile extends CacheBase
 	function CacheFile()
 	{
 		$this->cache_dir = _XE_PATH_ . $this->cache_dir;
-		if(!is_dir($this->cache_dir))
-		{
-			FileHandler::makeDir($this->cache_dir);
-		}
+		FileHandler::makeDir($this->cache_dir);
 	}
 
 	/**

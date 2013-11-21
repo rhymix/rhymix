@@ -17,23 +17,23 @@ class trashAdminController extends trash
 	 */
 	function insertTrash($obj)
 	{
-		if(Context::get('is_logged'))
+		if(!Context::get('is_logged'))
 		{
-			$logged_info = Context::get('logged_info');
-
-			$oTrashVO = new TrashVO();
-			$oTrashVO = &$obj;
-
-			if(!$oTrashVO->getTrashSrl()) $oTrashVO->setTrashSrl(getNextSequence());
-			if(!is_string($oTrashVO->getSerializedObject())) $oTrashVO->setSerializedObject(serialize($oTrashVO->getSerializedObject()));
-			$oTrashVO->setIpaddress($_SERVER['REMOTE_ADDR']);
-			$oTrashVO->setRemoverSrl($logged_info->member_srl);
-			$oTrashVO->setRegdate(date('YmdHis'));
-
-			$output = executeQuery('trash.insertTrash', $oTrashVO);
-			return $output;
+			return new Object(-1, 'msg_not_permitted');
 		}
-		return new Object(-1, 'msg_not_permitted');
+
+		$logged_info = Context::get('logged_info');
+
+		$oTrashVO = new TrashVO();
+		$oTrashVO = &$obj;
+
+		if(!$oTrashVO->getTrashSrl()) $oTrashVO->setTrashSrl(getNextSequence());
+		if(!is_string($oTrashVO->getSerializedObject())) $oTrashVO->setSerializedObject(serialize($oTrashVO->getSerializedObject()));
+		$oTrashVO->setIpaddress($_SERVER['REMOTE_ADDR']);
+		$oTrashVO->setRemoverSrl($logged_info->member_srl);
+		$oTrashVO->setRegdate(date('YmdHis'));
+
+		return executeQuery('trash.insertTrash', $oTrashVO);
 	}
 
 	/**
@@ -78,8 +78,7 @@ class trashAdminController extends trash
 		$oTrashModel = &getModel('trash');
 		if($isAll == 'true')
 		{
-			$args = array();
-			$output = $oTrashModel->getTrashAllList($args);
+			$output = $oTrashModel->getTrashAllList(array());
 			if(!$output->toBool())
 			{
 				return new Object(-1, $output->message);
@@ -87,14 +86,15 @@ class trashAdminController extends trash
 
 			if(is_array($output->data))
 			{
-				foreach($output->data AS $key=>$value)
+				foreach($output->data as $value)
 				{
-					array_push($trashSrls, $value->getTrashSrl());
+					$trashSrls[] = $value->getTrashSrl();
 				}
 			}
 		}
 		else
 		{
+			$args = new stdClass();
 			$args->trashSrl = $trashSrls;
 			$output = $oTrashModel->getTrashList($args);
 			if(!$output->toBool())
@@ -105,7 +105,7 @@ class trashAdminController extends trash
 
 		if(is_array($output->data))
 		{
-			foreach($output->data AS $key=>$oTrashVO)
+			foreach($output->data as $oTrashVO)
 			{
 				//class file check
 				$classPath = ModuleHandler::getModulePath($oTrashVO->getOriginModule());
@@ -140,7 +140,7 @@ class trashAdminController extends trash
 			$oDB = &DB::getInstance();
 			$oDB->begin();
 			// eache restore method call in each classfile
-			foreach($trashSrlList AS $key=>$value)
+			foreach($trashSrlList as $value)
 			{
 				$oTrashModel = &getModel('trash');
 				$output = $oTrashModel->getTrash($value);

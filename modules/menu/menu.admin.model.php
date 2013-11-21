@@ -340,7 +340,7 @@ class menuAdminModel extends menu
 		$allModules = array();
 
 		Context::loadLang('modules/page/lang');
-		foreach($_allModules AS $key=>$value)
+		foreach($_allModules as $value)
 		{
 			//$moduleInfo = $oModuleModel->getModuleInfoXml($value->module);
 			$defaultSkin = $oModuleModel->getModuleDefaultSkin($value->module, 'P');
@@ -363,14 +363,12 @@ class menuAdminModel extends menu
 				$value->title = $pageTypeName['ARTICLE'];
 				$allModules['ARTICLE'] = $value;
 				$wModuleInfo = clone $value;
-				unset($wModuleInfo->default_skin);
-				unset($wModuleInfo->default_mskin);
+				unset($wModuleInfo->default_skin, $wModuleInfo->default_mskin);
 				$wModuleInfo->title = $pageTypeName['WIDGET'];
 				$wModuleInfo->no_skin = 'Y';
 				$allModules['WIDGET'] = $wModuleInfo;
 				$oModuleInfo = clone $value;
-				unset($oModuleInfo->default_skin);
-				unset($oModuleInfo->default_mskin);
+				unset($oModuleInfo->default_skin, $oModuleInfo->default_mskin);
 				$oModuleInfo->title = $pageTypeName['OUTSIDE'];
 				$oModuleInfo->no_skin = 'Y';
 				$allModules['OUTSIDE'] = $oModuleInfo;
@@ -398,11 +396,11 @@ class menuAdminModel extends menu
 		$output = $oModuleModel->getModuleListByInstance($site_srl);
 		if(is_array($output->data))
 		{
-			foreach($output->data AS $key=>$value)
+			foreach($output->data as $value)
 			{
 				if($value->instanceCount > 1)
 				{
-					array_push($moduleList, $value->module);
+					$moduleList[] = $value->module;
 				}
 			}
 		}
@@ -440,7 +438,7 @@ class menuAdminModel extends menu
 		Context::loadLang('modules/page/lang');
 		if(is_array($moduleList))
 		{
-			foreach($moduleList AS $key=>$value)
+			foreach($moduleList as $value)
 			{
 				$moduleInfo = $oModuleModel->getModuleInfoXml($value);
 
@@ -450,14 +448,12 @@ class menuAdminModel extends menu
 					$moduleInfo->title = $pageTypeName['ARTICLE'];
 					$moduleInfoList['ARTICLE'] = $moduleInfo;
 					$wModuleInfo = clone $moduleInfo;
-					unset($wModuleInfo->default_skin);
-					unset($wModuleInfo->default_mskin);
+					unset($wModuleInfo->default_skin, $wModuleInfo->default_mskin);
 					$wModuleInfo->title = $pageTypeName['WIDGET'];
 					$wModuleInfo->no_skin = 'Y';
 					$moduleInfoList['WIDGET'] = $wModuleInfo;
 					$oModuleInfo = clone $moduleInfo;
-					unset($oModuleInfo->default_skin);
-					unset($oModuleInfo->default_mskin);
+					unset($oModuleInfo->default_skin, $oModuleInfo->default_mskin);
 					$oModuleInfo->title = $pageTypeName['OUTSIDE'];
 					$oModuleInfo->no_skin = 'Y';
 					$moduleInfoList['OUTSIDE'] = $oModuleInfo;
@@ -514,7 +510,7 @@ class menuAdminModel extends menu
 			$menuItems->menuSrl = $output->menu_srl;
 			$menuItems->title = $output->title;
 			$menuItems->menuItems = $menu;
-			array_push($menuList, $menuItems);
+			$menuList[] = $menuItems;
 		}
 		else
 		{
@@ -566,7 +562,7 @@ class menuAdminModel extends menu
 						}
 						else
 						{
-							array_push($menuList, $menuItems);
+							$menuList[] = $menuItems;
 						}
 					}
 				}
@@ -649,8 +645,7 @@ class menuAdminModel extends menu
 		//if(!empty($menu['url']) && !preg_match('/^http/i', $menu['url']))
 		if($menu['is_shortcut'] != 'Y')
 		{
-			unset($midInfo);
-			unset($moduleInfo);
+			unset($midInfo, $moduleInfo);
 			$midInfo = $oModuleModel->getModuleInfoByMid($menu['url'], $siteSrl);
 			$moduleInfo = $oModuleModel->getModuleInfoXml($midInfo->module);
 
@@ -688,7 +683,7 @@ class menuAdminModel extends menu
 		}
 		if(count($menu['list']) > 0)
 		{
-			foreach($menu['list'] AS $key=>$value)
+			foreach($menu['list'] as $key=>$value)
 			{
 				$this->_menuInfoSetting($menu['list'][$key], $start_module, $isMenuFixed, $menuSrl);
 			}

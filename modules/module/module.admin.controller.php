@@ -19,6 +19,7 @@ class moduleAdminController extends module
 	 */
 	function procModuleAdminInsertCategory()
 	{
+		$args = new stdClass();
 		$args->title = Context::get('title');
 		$output = executeQuery('module.insertModuleCategory', $args);
 		if(!$output->toBool()) return $output;
@@ -62,6 +63,7 @@ class moduleAdminController extends module
 	 */
 	function doUpdateModuleCategory()
 	{
+		$args = new stdClass();
 		$args->title = Context::get('title');
 		$args->module_category_srl = Context::get('module_category_srl');
 		return executeQuery('module.updateModuleCategory', $args);
@@ -111,7 +113,7 @@ class moduleAdminController extends module
 			if($mid && !$browser_title) $browser_title = $mid;
 			$clones[$mid] = $browser_title;
 		}
-		if(!count($clones))
+		if(count($clones) < 1)
 		{
 			return $this->_returnByProc($isProc);
 		}
@@ -128,7 +130,7 @@ class moduleAdminController extends module
 		$grant = array();
 		if($output->data)
 		{
-			foreach($output->data as $key => $val) $grant[$val->name][] = $val->group_srl;
+			foreach($output->data as $val) $grant[$val->name][] = $val->group_srl;
 		}
 
 		// get Extra Vars
@@ -149,7 +151,7 @@ class moduleAdminController extends module
 
 		if($tmpModuleSkinVars)
 		{
-			foreach($tmpModuleSkinVars AS $key=>$value)
+			foreach($tmpModuleSkinVars as $key=>$value)
 			{
 				$moduleSkinVars->{$key} = $value->value;
 			}
@@ -157,7 +159,7 @@ class moduleAdminController extends module
 
 		if($tmpModuleMobileSkinVars)
 		{
-			foreach($tmpModuleMobileSkinVars AS $key=>$value)
+			foreach($tmpModuleMobileSkinVars as $key=>$value)
 			{
 				$moduleMobileSkinVars->{$key} = $value->value;
 			}
@@ -215,13 +217,13 @@ class moduleAdminController extends module
 			}
 
 			// Grant module permissions
-			if(count($grant)) $oModuleController->insertModuleGrants($module_srl, $grant);
+			if(count($grant) > 0) $oModuleController->insertModuleGrants($module_srl, $grant);
 			if($extra_vars) $oModuleController->insertModuleExtraVars($module_srl, $extra_vars);
 
 			if($moduleSkinVars) $oModuleController->insertModuleSkinVars($module_srl, $moduleSkinVars);
 			if($moduleMobileSkinVars) $oModuleController->insertModuleMobileSkinVars($module_srl, $moduleMobileSkinVars);
 
-			array_push($triggerObj->moduleSrlList, $module_srl);
+			$triggerObj->moduleSrlList[] = $module_srl;
 		}
 
 		$output = ModuleHandler::triggerCall('module.procModuleAdminCopyModule', 'after', $triggerObj);
@@ -286,9 +288,9 @@ class moduleAdminController extends module
 		if($admin_member)
 		{
 			$admin_members = explode(',',$admin_member);
-			for($i=0;$i<count($admin_members);$i++)
+			foreach($admin_members as $admin_id)
 			{
-				$admin_id = trim($admin_members[$i]);
+				$admin_id = trim($admin_id);
 				if(!$admin_id) continue;
 				$oModuleController->insertAdminId($module_srl, $admin_id);
 			}
@@ -339,7 +341,7 @@ class moduleAdminController extends module
 		{
 			foreach($grant as $grant_name => $group_srls)
 			{
-				foreach($group_srls as $key => $val)
+				foreach($group_srls as $val)
 				{
 					$args = new stdClass();
 					$args->module_srl = $module_srl;
@@ -507,7 +509,7 @@ class moduleAdminController extends module
 		if(!$vars->module_srls) return new Object(-1,'msg_invalid_request');
 
 		$module_srls = explode(',',$vars->module_srls);
-		if(!count($module_srls)) return new Object(-1,'msg_invalid_request');
+		if(count($module_srls) < 1) return new Object(-1,'msg_invalid_request');
 
 		$oModuleModel = &getModel('module');
 		$oModuleController= &getController('module');
@@ -562,7 +564,7 @@ class moduleAdminController extends module
 		if(!$module_srls) return new Object(-1,'msg_invalid_request');
 
 		$modules = explode(',',$module_srls);
-		if(!count($modules)) return new Object(-1,'msg_invalid_request');
+		if(count($modules) < 1) return new Object(-1,'msg_invalid_request');
 
 		$oModuleController = &getController('module');
 		$oModuleModel = &getModel('module');
@@ -616,7 +618,7 @@ class moduleAdminController extends module
 			// Permissions stored in the DB
 			foreach($grant as $grant_name => $group_srls)
 			{
-				foreach($group_srls as $key => $val)
+				foreach($group_srls as $val)
 				{
 					$args = new stdClass();
 					$args->module_srl = $module_srl;
@@ -753,9 +755,9 @@ class moduleAdminController extends module
 		// Get a list of modules at the site
 		$output = executeQueryArray('module.getSiteModules', $args);
 		$mid_list = array();
-		if(count($output->data))
+		if(count($output->data) > 0)
 		{
-			foreach($output->data as $key => $val)
+			foreach($output->data as $val)
 			{
 				$module = trim($val->module);
 				if(!$module) continue;
@@ -763,7 +765,7 @@ class moduleAdminController extends module
 				// replace user defined lang.
 				$oModuleController->replaceDefinedLangCode($val->browser_title);
 
-				$obj = null;
+				$obj = new stdClass();
 				$obj->module_srl = $val->module_srl;
 				$obj->layout_srl = $val->layout_srl;
 				$obj->browser_title = $val->browser_title;
@@ -771,7 +773,7 @@ class moduleAdminController extends module
 				$obj->module_category_srl = $val->module_category_srl;
 				if($val->module_category_srl > 0)
 				{
-					array_push($moduleCategorySrl, $val->module_category_srl);
+					$moduleCategorySrl[] = $val->module_category_srl;
 				}
 				$mid_list[$module]->list[$val->mid] = $obj;
 			}
@@ -783,14 +785,14 @@ class moduleAdminController extends module
 		$categoryNameList = array();
 		if(is_array($output))
 		{
-			foreach($output AS $key=>$value)
+			foreach($output as $value)
 			{
 				$categoryNameList[$value->module_category_srl] = $value->title;
 			}
 		}
 
 		$selected_module = Context::get('selected_module');
-		if(count($mid_list))
+		if(count($mid_list) > 0)
 		{
 			foreach($mid_list as $module => $val)
 			{
@@ -808,7 +810,7 @@ class moduleAdminController extends module
 				// change module category srl to title
 				if(is_array($val->list))
 				{
-					foreach($val->list AS $key=>$value)
+					foreach($val->list as $key=>$value)
 					{
 						if($value->module_category_srl > 0)
 						{
@@ -854,10 +856,10 @@ class moduleAdminController extends module
 		if(!$output->toBool() || !$output->data) return;
 		// Set the cache directory
 		$cache_path = _XE_PATH_.'files/cache/lang_defined/';
-		if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
+		FileHandler::makeDir($cache_path);
 
 		$langMap = array();
-		foreach($output->data as $key => $val)
+		foreach($output->data as $val)
 		{
 			$langMap[$val->lang_code][$val->name] = $val->value;
 		}

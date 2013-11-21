@@ -49,20 +49,19 @@ class menuAdminView extends menu
 		if(is_array($output))
 		{
 			$menuItems = array();
-			foreach($output AS $key=>$value)
+			foreach($output as $key=>$value)
 			{
 				if($value->title == $oAdmin->getAdminMenuName()) unset($output[$key]);
 				else
 				{
-					unset($menu);
-					unset($menuItems);
+					unset($menu, $menuItems);
 					//$value->xml_file = sprintf('./files/cache/menu/%s.xml.php',$value->menu_srl);
 					$value->php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$value->menu_srl);
 					if(file_exists($value->php_file)) include($value->php_file);
 
 					if(count($menu->list)>0)
 					{
-						foreach($menu->list AS $key2=>$value2)
+						foreach($menu->list as $key2=>$value2)
 						{
 							$this->_menuInfoSetting($menu->list[$key2]);
 						}
@@ -73,7 +72,7 @@ class menuAdminView extends menu
 					$menuItems->menuSrl = $value->menu_srl;
 					$menuItems->title = $value->title;
 					$menuItems->menuItems = $menu;
-					array_push($menuList, $menuItems);
+					$menuList[] = $menuItems;
 				}
 			}
 		}
@@ -92,7 +91,7 @@ class menuAdminView extends menu
 		$theme_file = _XE_PATH_.'files/theme/theme_info.php';
 		if(is_readable($theme_file))
 		{
-			@include($theme_file);
+			include($theme_file);
 			Context::set('current_layout', $theme_info->layout);
 		}
 		else
@@ -108,7 +107,7 @@ class menuAdminView extends menu
 		if(is_array($output))
 		{
 			$groupList = array();
-			foreach($output AS $key=>$value)
+			foreach($output as $value)
 			{
 				$groupList[$value->group_srl] = new stdClass();
 				$groupList[$value->group_srl]->group_srl = $value->group_srl;
@@ -153,7 +152,7 @@ class menuAdminView extends menu
 		}
 		if(count($menu['list']) > 0)
 		{
-			foreach($menu['list'] AS $key=>$value)
+			foreach($menu['list'] as $key=>$value)
 			{
 				$this->_menuInfoSetting($menu['list'][$key]);
 			}
@@ -170,7 +169,7 @@ class menuAdminView extends menu
 		if(is_array($menuItems))
 		{
 			$arrangedMenuItemList = array();
-			foreach($menuItems AS $key=>$value)
+			foreach($menuItems as $value)
 			{
 				if($value->parent_srl == 0)
 				{

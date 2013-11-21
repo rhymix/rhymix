@@ -200,7 +200,7 @@ class DisplayHandler extends Handler
 				$queries_output = array(array('Query', 'Elapsed time', 'Result'));
 				foreach($GLOBALS['__db_queries__'] as $query)
 				{
-					array_push($queries_output, array($query['query'], sprintf('%0.5f', $query['elapsed_time']), $query['result']));
+					$queries_output[] = array($query['query'], sprintf('%0.5f', $query['elapsed_time']), $query['result']);
 				}
 				$firephp->fb(
 						array(
@@ -214,6 +214,8 @@ class DisplayHandler extends Handler
 		}
 		else
 		{
+
+			$buff = "";
 			// display total execution time and Request/Response info
 			if(__DEBUG__ & 2)
 			{

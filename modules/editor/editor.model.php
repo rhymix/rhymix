@@ -191,8 +191,6 @@ class editorModel extends editor
 			}
 		}
 
-		$buff .= ' ?>';
-
 		FileHandler::writeFile($cache_file, $buff, "w");
 
 		unset($xml_info);
@@ -579,7 +577,7 @@ class editorModel extends editor
 	{
 		$lang = Context::getLangType();
 		$cache_path = _XE_PATH_.'files/cache/editor/cache/';
-		if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
+		FileHandler::makeDir($cache_path);
 		$cache_file = $cache_path.'component_list.' . $lang .'.';
 		if($filter_enabled) $cache_file .= 'filter.';
 		if($site_srl) $cache_file .= $site_srl.'.';
@@ -600,7 +598,7 @@ class editorModel extends editor
 		}
 
 		if(!file_exists($cache_file)) return;
-		@include($cache_file);
+		include($cache_file);
 		$logged_info = Context::get('logged_info');
 		if($logged_info && is_array($logged_info->group_list))
 		{
@@ -664,7 +662,7 @@ class editorModel extends editor
 	 */
 	function getComponent($component_name, $site_srl = 0)
 	{
-		$args =new stdClass();
+		$args = new stdClass();
 		$args->component_name = $component_name;
 
 		if($site_srl)

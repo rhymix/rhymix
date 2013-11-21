@@ -254,7 +254,7 @@ class DB
 			{
 				if($value->enable)
 				{
-					array_push($enableList, $value);
+					$enableList[] = $value;
 				}
 			}
 		}
@@ -281,7 +281,7 @@ class DB
 			{
 				if(!$value->enable)
 				{
-					array_push($disableList, $value);
+					$disableList[] = $value;
 				}
 			}
 		}
@@ -712,10 +712,7 @@ class DB
 		}
 
 		$cache_path = sprintf('%s/%s%s', $this->count_cache_path, $this->prefix, $tables_str);
-		if(!is_dir($cache_path))
-		{
-			FileHandler::makeDir($cache_path);
-		}
+		FileHandler::makeDir($cache_path);
 
 		$cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
 		if(!file_exists($cache_filename))
@@ -773,10 +770,7 @@ class DB
 		}
 
 		$cache_path = sprintf('%s/%s%s', $this->count_cache_path, $this->prefix, $tables_str);
-		if(!is_dir($cache_path))
-		{
-			FileHandler::makeDir($cache_path);
-		}
+		FileHandler::makeDir($cache_path);
 
 		$cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
 
@@ -795,10 +789,7 @@ class DB
 		{
 			return FALSE;
 		}
-		if(!is_dir($this->count_cache_path))
-		{
-			return FileHandler::makeDir($this->count_cache_path);
-		}
+		return FileHandler::makeDir($this->count_cache_path);
 
 		if(!is_array($tables))
 		{

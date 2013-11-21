@@ -925,9 +925,9 @@ class commentController extends comment
 		if($comments->data)
 		{
 			$commentSrlList = array();
-			foreach($comments->data as $key => $comment)
+			foreach($comments->data as $comment)
 			{
-				array_push($commentSrlList, $comment->comment_srl);
+				$commentSrlList[] = $comment->comment_srl;
 
 				// call a trigger (before)
 				$output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
@@ -1342,7 +1342,6 @@ class commentController extends comment
 		}
 
 		$commentSrls = Context::get('comment_srls');
-
 		if($commentSrls)
 		{
 			$commentSrlList = explode(',', $commentSrls);
@@ -1355,7 +1354,7 @@ class commentController extends comment
 
 			if(is_array($commentList))
 			{
-				foreach($commentList AS $key => $value)
+				foreach($commentList as $value)
 				{
 					$value->content = strip_tags($value->content);
 				}
@@ -1382,7 +1381,7 @@ class commentController extends comment
 		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))
 		{
-			foreach($obj->moduleSrlList AS $key => $moduleSrl)
+			foreach($obj->moduleSrlList as $moduleSrl)
 			{
 				$oModuleController->insertModulePartConfig('comment', $moduleSrl, $commentConfig);
 			}

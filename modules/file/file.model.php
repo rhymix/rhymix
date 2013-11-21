@@ -178,7 +178,7 @@ class fileModel extends file
 				{
 					$file = $value;
 					$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
-					array_push($fileList, $file);
+					$fileList[] = $file;
 				}
 			}
 			return $fileList;

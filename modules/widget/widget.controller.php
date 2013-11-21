@@ -377,7 +377,7 @@ class widgetController extends widget
 		/**
 		 * Cache number and cache values are set so that the cache file should call
 		 */
-		if(!is_dir($this->cache_path)) FileHandler::makeDir($this->cache_path);
+		FileHandler::makeDir($this->cache_path);
 		// Wanted cache file
 		$cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $widget_sequence, $lang_type);
 		// If the file exists in the cache, the file validation

@@ -1128,7 +1128,7 @@ class importerAdminController extends importer
 	function getTmpFilename()
 	{
 		$path = "./files/cache/importer";
-		if(!is_dir($path)) FileHandler::makeDir($path);
+		FileHandler::makeDir($path);
 		$filename = sprintf("%s/%d", $path, rand(11111111,99999999));
 		if(file_exists($filename)) $filename .= rand(111,999);
 		return $filename;

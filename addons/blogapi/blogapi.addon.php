@@ -160,10 +160,7 @@ if($called_position == 'before_module_proc')
 			$tmp_arr = explode('/', $filename);
 			$filename = array_pop($tmp_arr);
 
-			if(!is_dir($tmp_uploaded_path))
-			{
-				FileHandler::makeDir($tmp_uploaded_path);
-			}
+			FileHandler::makeDir($tmp_uploaded_path);
 
 			$target_filename = sprintf('%s%s', $tmp_uploaded_path, $filename);
 			FileHandler::writeFile($target_filename, $filedata);

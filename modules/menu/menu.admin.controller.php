@@ -1110,7 +1110,7 @@ class menuAdminController extends menu
 			{
 				$this->_copyButton($insertedMenuItemSrl, $menuItemInfo);
 			}
-			array_push($this->insertedMenuItemSrlList, $insertedMenuItemSrl);
+			$this->insertedMenuItemSrlList[] = $insertedMenuItemSrl;
 		}
 
 		// if have a child menu, copy child menu also
