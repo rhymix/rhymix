@@ -1,18 +1,18 @@
-/* After Login */
+ /* After Login */
 function completeLogin(ret_obj, response_tags, params, fo_obj) {
-    var url =  current_url.setQuery('act','');
-    location.href = url;
+	var url =  current_url.setQuery('act','');
+	location.href = url;
 }
 
 jQuery(function($){
-// Login
+	// Login
 	// Div unwrap
 	var $account = $('.account');
 	$account.unwrap().unwrap();
 	// Toggle
 	var $acTog = $('a[href="#acField"]');
 	var $acField = $('#acField');
-	$acTog.click(function(){ 
+	$acTog.click(function(){
 		$this = $(this);
 		$acField.slideToggle(200, function(){
 			var $user_id = $(this).find('input[name="user_id"]:eq(0)');
@@ -24,6 +24,7 @@ jQuery(function($){
 		});
 		return false;
 	});
+
 	// Close
 	$acField
 		.append('<button type="button" class="close">&times;</button>')
@@ -33,6 +34,7 @@ jQuery(function($){
 			});
 			return false;
 		});
+
 	// Warning
 	var $acWarning = $account.find('.warning');
 	$('#keep_signed').change(function(){
@@ -42,6 +44,7 @@ jQuery(function($){
 			$acWarning.slideUp(200);
 		}
 	});
+
 	// Login Error
 	$('#fo_login_widget .message').parent($acField).show();
 });
