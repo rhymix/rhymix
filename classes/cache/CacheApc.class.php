@@ -67,7 +67,7 @@ class CacheApc extends CacheBase
 			$valid_time = $this->valid_time;
 		}
 
-		return apc_store(md5(_XE_PATH_ . $key), array(time(), $buff), $valid_time);
+		return apc_store(md5(_XE_PATH_ . $key), array($_SERVER['REQUEST_TIME'], $buff), $valid_time);
 	}
 
 	/**

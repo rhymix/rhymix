@@ -113,7 +113,7 @@ class CacheMemcache extends CacheBase
 			$valid_time = $this->valid_time;
 		}
 
-		return $this->Memcache->set($this->getKey($key), array(time(), $buff), MEMCACHE_COMPRESSED, $valid_time);
+		return $this->Memcache->set($this->getKey($key), array($_SERVER['REQUEST_TIME'], $buff), MEMCACHE_COMPRESSED, $valid_time);
 	}
 
 	/**

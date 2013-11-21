@@ -71,7 +71,7 @@ class sessionModel extends session
 		if(!$args->list_count) $args->list_count = 20;
 		if(!$args->page) $args->page = 1;
 		if(!$args->period_time) $args->period_time = 3;
-		$args->last_update = date("YmdHis", time() - $args->period_time*60);
+		$args->last_update = date("YmdHis", $_SERVER['REQUEST_TIME'] - $args->period_time*60);
 
 		$output = executeQueryArray('session.getLoggedMembers', $args);
 		if(!$output->toBool()) return $output;

@@ -1120,7 +1120,7 @@ class menuAdminController extends menu
 
 	private function _makeRandomMid()
 	{
-		$time = time();
+		$time = $_SERVER['REQUEST_TIME'];
 		$randomString = "";
 		for($i=0;$i<4;$i++)
 		{

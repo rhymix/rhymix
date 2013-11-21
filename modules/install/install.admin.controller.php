@@ -272,7 +272,7 @@ class installAdminController extends install
 		}
 
 		Context::set('name', $name);
-		Context::set('tmpFileName', $tmpFileName.'?'.time());
+		Context::set('tmpFileName', $tmpFileName.'?'.$_SERVER['REQUEST_TIME']);
 	}
 
 	/**

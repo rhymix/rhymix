@@ -363,7 +363,7 @@ class trackbackController extends trackback
 	 */
 	function deleteTrackbackSender($time, $ipaddress, $url, $blog_name, $title, $excerpt)
 	{
-		$obj->regdate = date("YmdHis",time()-$time);
+		$obj->regdate = date("YmdHis",$_SERVER['REQUEST_TIME']-$time);
 		$obj->ipaddress = $ipaddress;
 		$obj->url = $url;
 		$obj->blog_name = $blog_name;

@@ -379,7 +379,7 @@ class member extends ModuleObject {
 		if($output->data && $output->data->count)
 		{
 			$last_update = strtotime($output->data->last_update);
-			$term = intval(time()-$last_update);
+			$term = intval($_SERVER['REQUEST_TIME']-$last_update);
 			//update, if IP address access in a short time, update count. If not, make count 1.
 			if($term < $config->max_error_count_time)
 			{
@@ -422,14 +422,14 @@ class member extends ModuleObject {
 		{
 			//update
 			$content = unserialize($output->data->content);
-			$content[] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),time());
+			$content[] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),$_SERVER['REQUEST_TIME']);
 			$args->content = serialize($content);
 			$output = executeQuery('member.updateLoginCountHistoryByMemberSrl', $args);
 		}
 		else
 		{
 			//insert
-			$content[0] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),time());
+			$content[0] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),$_SERVER['REQUEST_TIME']);
 			$args->content = serialize($content);
 			$output = executeQuery('member.insertLoginCountHistoryByMemberSrl', $args);
 		}

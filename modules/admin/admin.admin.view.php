@@ -79,7 +79,7 @@ class adminAdminView extends admin
 	function checkEasyinstall()
 	{
 		$lastTime = (int) FileHandler::readFile($this->easyinstallCheckFile);
-		if($lastTime > time() - 60 * 60 * 24 * 30)
+		if($lastTime > $_SERVER['REQUEST_TIME'] - 60 * 60 * 24 * 30)
 		{
 			return;
 		}
@@ -114,7 +114,7 @@ class adminAdminView extends admin
 	 */
 	function _markingCheckEasyinstall()
 	{
-		$currentTime = time();
+		$currentTime = $_SERVER['REQUEST_TIME'];
 		FileHandler::writeFile($this->easyinstallCheckFile, $currentTime);
 	}
 
@@ -222,7 +222,7 @@ class adminAdminView extends admin
 		// move from index method, because use in admin footer
 		$newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __XE_VERSION__, _XE_PACKAGE_);
 		$cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
-		if(!file_exists($cache_file) || filemtime($cache_file) + 60 * 60 < time())
+		if(!file_exists($cache_file) || filemtime($cache_file) + 60 * 60 < $_SERVER['REQUEST_TIME'])
 		{
 			// Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
 			// Ensure to access the administration page even though news cannot be displayed
@@ -276,7 +276,7 @@ class adminAdminView extends admin
 	{
 		// Get statistics
 		$args = new stdClass();
-		$args->date = date("Ymd000000", time() - 60 * 60 * 24);
+		$args->date = date("Ymd000000", $_SERVER['REQUEST_TIME'] - 60 * 60 * 24);
 		$today = date("Ymd");
 
 		// Member Status
@@ -429,8 +429,8 @@ class adminAdminView extends admin
 		$oAdminModel = getAdminModel('admin');
 		$favicon_url = $oAdminModel->getFaviconUrl();
 		$mobicon_url = $oAdminModel->getMobileIconUrl();
-		Context::set('favicon_url', $favicon_url.'?'.time());
-		Context::set('mobicon_url', $mobicon_url.'?'.time());
+		Context::set('favicon_url', $favicon_url.'?'.$_SERVER['REQUEST_TIME']);
+		Context::set('mobicon_url', $mobicon_url.'?'.$_SERVER['REQUEST_TIME']);
 
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();

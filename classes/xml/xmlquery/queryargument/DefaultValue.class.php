@@ -130,7 +130,7 @@ class DefaultValue
 				$this->_is_string_from_function = TRUE;
 				break;
 			case 'unixtime' :
-				$val = 'time()';
+				$val = '$_SERVER[\'REQUEST_TIME\']';
 				break;
 			case 'curdate' :
 				$val = 'date("YmdHis")';

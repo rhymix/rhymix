@@ -50,7 +50,7 @@ class sessionController extends session
 			return true;
 		}
 
-		$args->expired = date("YmdHis", time()+$this->lifetime);
+		$args->expired = date("YmdHis", $_SERVER['REQUEST_TIME']+$this->lifetime);
 		$args->val = $val;
 		$args->cur_mid = Context::get('mid');
 		if(!$args->cur_mid)
@@ -69,7 +69,7 @@ class sessionController extends session
 			$args->member_srl = 0;
 		}
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
-		$args->last_update = date("YmdHis", time());
+		$args->last_update = date("YmdHis", $_SERVER['REQUEST_TIME']);
 		$diff = $args->last_update - $cache_vars->last_update;
 		//verify if session values have changed
 		if($val == $cache_vars->val)

@@ -385,7 +385,7 @@ class widgetController extends widget
 		{
 			$filemtime = filemtime($cache_file);
 			// Should be modified compared to the time of the cache or in the future if creating more than widget.controller.php file a return value of the cache
-			if($filemtime + $widget_cache * 60 > time() && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php'))
+			if($filemtime + $widget_cache * 60 > $_SERVER['REQUEST_TIME'] && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php'))
 			{
 				$cache_body = FileHandler::readFile($cache_file);
 				$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);

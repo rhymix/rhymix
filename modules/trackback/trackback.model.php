@@ -154,7 +154,7 @@ class trackbackModel extends trackback
 	 */
 	function getRegistedTrackback($time, $ipaddress, $url, $blog_name, $title, $excerpt)
 	{
-		$obj->regdate = date("YmdHis",time()-$time);
+		$obj->regdate = date("YmdHis",$_SERVER['REQUEST_TIME']-$time);
 		$obj->ipaddress = $ipaddress;
 		$obj->url = $url;
 		$obj->blog_name = $blog_name;
@@ -185,7 +185,7 @@ class trackbackModel extends trackback
 	 */
 	function getTrackbackKey($document_srl)
 	{
-		$time = (int) (time()/(60*10));
+		$time = (int) ($_SERVER['REQUEST_TIME']/(60*10));
 		$db_info = Context::getDBInfo();
 		$key = md5($document_srl.$db_info->db_password.$time);
 		return sprintf("%s%s%s",substr($key,1,1),substr($key,10,1),substr($key,20,1));

@@ -57,7 +57,7 @@ class adminAdminController extends admin
 	function procAdminRecompileCacheFile()
 	{
 		// rename cache dir
-		$temp_cache_dir = './files/cache_' . time();
+		$temp_cache_dir = './files/cache_' . $_SERVER['REQUEST_TIME'];
 		FileHandler::rename('./files/cache', $temp_cache_dir);
 		FileHandler::makeDir('./files/cache');
 

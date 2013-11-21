@@ -19,7 +19,7 @@ class counter_status extends WidgetHandler
 		$oCounterModel = &getModel('counter');
 
 		$site_module_info = Context::get('site_module_info');
-		$output = $oCounterModel->getStatus(array('00000000', date('Ymd', time()-60*60*24), date('Ymd')), $site_module_info->site_srl);
+		$output = $oCounterModel->getStatus(array('00000000', date('Ymd', $_SERVER['REQUEST_TIME']-60*60*24), date('Ymd')), $site_module_info->site_srl);
 		if(count($output))
 		{
 			foreach($output as $key => $val) 

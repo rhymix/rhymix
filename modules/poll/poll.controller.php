@@ -20,7 +20,7 @@ class pollController extends poll
 	function procInsert()
 	{
 		$stop_date = Context::get('stop_date');
-		if($stop_date < date("Ymd")) $stop_date = date("YmdHis", time()+60*60*24*365);
+		if($stop_date < date("Ymd")) $stop_date = date("YmdHis", $_SERVER['REQUEST_TIME']+60*60*24*365);
 
 		$logged_info = Context::get('logged_info');
 		$vars = Context::getRequestVars();

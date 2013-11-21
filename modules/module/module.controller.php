@@ -1252,7 +1252,7 @@ class moduleController extends module
 		$this->unlockTimeoutPassed();
 		$args->lock_name = $lock_name;
 		if(!$timeout) $timeout = 60;
-		$args->deadline = date("YmdHis", time() + $timeout);
+		$args->deadline = date("YmdHis", $_SERVER['REQUEST_TIME'] + $timeout);
 		if($member_srl) $args->member_srl = $member_srl;
 		$output = executeQuery('module.insertLock', $args);
 		if($output->toBool())

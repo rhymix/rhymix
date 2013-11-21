@@ -48,7 +48,7 @@ class adminAdminModel extends admin
 		$sftp = ssh2_sftp($connection);
 
 		// create temp file
-		$pin = time();
+		$pin = $_SERVER['REQUEST_TIME'];
 		FileHandler::writeFile('./files/cache/ftp_check', $pin);
 
 		// create path candidate
@@ -142,7 +142,7 @@ class adminAdminModel extends admin
 		}
 
 		// create temp file
-		$pin = time();
+		$pin = $_SERVER['REQUEST_TIME'];
 		FileHandler::writeFile('./files/cache/ftp_check', $pin);
 
 		// create path candidate

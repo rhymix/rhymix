@@ -282,7 +282,7 @@ class Context
 			$this->lang_type = $this->get('l');
 			if($_COOKIE['lang_type'] != $this->lang_type)
 			{
-				setcookie('lang_type', $this->lang_type, time() + 3600 * 24 * 1000, '/');
+				setcookie('lang_type', $this->lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
 			}
 		}
 		elseif($_COOKIE['lang_type'])

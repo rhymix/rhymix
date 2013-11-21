@@ -1501,7 +1501,7 @@ class memberController extends member
 		// If no information exists, delete a cookie
 		if(!$output->toBool() || !$output->data)
 		{
-			setCookie('xeak',null,time()+60*60*24*365, '/');
+			setCookie('xeak',null,$_SERVER['REQUEST_TIME']+60*60*24*365, '/');
 			return;
 		}
 
@@ -1513,7 +1513,7 @@ class memberController extends member
 
 		if(!$user_id || !$password)
 		{
-			setCookie('xeak',null,time()+60*60*24*365, '/');
+			setCookie('xeak',null,$_SERVER['REQUEST_TIME']+60*60*24*365, '/');
 			return;
 		}
 
@@ -1562,7 +1562,7 @@ class memberController extends member
 		else
 		{
 			executeQuery('member.deleteAutologin', $args);
-			setCookie('xeak',null,time()+60*60*24*365, '/');
+			setCookie('xeak',null,$_SERVER['REQUEST_TIME']+60*60*24*365, '/');
 		}
 	}
 
@@ -1615,7 +1615,7 @@ class memberController extends member
 		if($errorCount >= $config->max_error_count)
 		{
 			$last_update = strtotime($output->data->last_update);
-			$term = intval(time()-$last_update);
+			$term = intval($_SERVER['REQUEST_TIME']-$last_update);
 			if($term < $config->max_error_count_time)
 			{
 				$term = $config->max_error_count_time - $term;
@@ -1708,7 +1708,7 @@ class memberController extends member
 			$autologin_args->member_srl = $this->memberInfo->member_srl;
 			executeQuery('member.deleteAutologin', $autologin_args);
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);
-			if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, time()+31536000, '/');
+			if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, $_SERVER['REQUEST_TIME']+31536000, '/');
 		}
 		if($this->memberInfo->is_admin == 'Y')
 		{
@@ -1821,7 +1821,7 @@ class memberController extends member
 
 		$logged_info = Context::get('logged_info');
 		// If the date of the temporary restrictions limit further information on the date of
-		if($config->limit_day) $args->limit_date = date("YmdHis", time()+$config->limit_day*60*60*24);
+		if($config->limit_day) $args->limit_date = date("YmdHis", $_SERVER['REQUEST_TIME']+$config->limit_day*60*60*24);
 
 		$args->member_srl = getNextSequence();
 		$args->list_order = -1 * $args->member_srl;
@@ -2225,9 +2225,9 @@ class memberController extends member
 			$_SESSION[$key] = '';
 		}
 		session_destroy();
-		setcookie(session_name(), '', time()-42000, '/');
-		setcookie('sso','',time()-42000, '/');
-		setcookie('xeak','',time()-42000, '/');
+		setcookie(session_name(), '', $_SERVER['REQUEST_TIME']-42000, '/');
+		setcookie('sso','',$_SERVER['REQUEST_TIME']-42000, '/');
+		setcookie('xeak','',$_SERVER['REQUEST_TIME']-42000, '/');
 
 		if($memberSrl || $_COOKIE['xeak'])
 		{

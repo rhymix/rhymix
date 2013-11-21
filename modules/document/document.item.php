@@ -847,7 +847,7 @@ class documentItem extends Object
 		if($this->isSecret()) $buffs[] = "secret";
 
 		// Set the latest time
-		$time_check = date("YmdHis", time()-$time_interval);
+		$time_check = date("YmdHis", $_SERVER['REQUEST_TIME']-$time_interval);
 
 		// Check new post
 		if($this->get('regdate')>$time_check) $buffs[] = "new";

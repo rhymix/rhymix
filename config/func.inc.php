@@ -582,7 +582,7 @@ function ztime($str)
  */
 function getTimeGap($date, $format = 'Y.m.d')
 {
-	$gap = time() + zgap() - ztime($date);
+	$gap = $_SERVER['REQUEST_TIME'] + zgap() - ztime($date);
 
 	$lang_time_gap = Context::getLang('time_gap');
 	if($gap < 60)

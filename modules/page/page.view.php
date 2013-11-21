@@ -66,7 +66,7 @@ class pageView extends page
 			if(!file_exists($this->cache_file)) $mtime = 0;
 			else $mtime = filemtime($this->cache_file);
 
-			if($mtime + $this->interval*60 > time())
+			if($mtime + $this->interval*60 > $_SERVER['REQUEST_TIME'])
 			{
 				$page_content = FileHandler::readFile($this->cache_file); 
 				$page_content = preg_replace('@<\!--#Meta:@', '<!--Meta:', $page_content);
@@ -133,7 +133,7 @@ class pageView extends page
 	function getHtmlPage($path, $caching_interval, $cache_file)
 	{
 		// Verify cache
-		if($caching_interval > 0 && file_exists($cache_file) && filemtime($cache_file) + $caching_interval*60 > time())
+		if($caching_interval > 0 && file_exists($cache_file) && filemtime($cache_file) + $caching_interval*60 > $_SERVER['REQUEST_TIME'])
 		{
 			$content = FileHandler::readFile($cache_file);
 		}
@@ -175,7 +175,7 @@ class pageView extends page
 		$filename = $tmp_path[count($tmp_path)-1];
 		$filepath = preg_replace('/'.$filename."$/i","",$cache_file);
 		// Verify cache
-		if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= time() || filemtime($cache_file)<filemtime($path))
+		if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= $_SERVER['REQUEST_TIME'] || filemtime($cache_file)<filemtime($path))
 		{
 			if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
 			// Read a target file and get content

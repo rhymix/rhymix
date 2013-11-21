@@ -563,7 +563,7 @@ class commentModel extends comment
 		// create a lock file to prevent repeated work when performing a batch job
 		$lock_file = "./files/cache/tmp/lock." . $document_srl;
 
-		if(file_exists($lock_file) && filemtime($lock_file) + 60 * 60 * 10 < time())
+		if(file_exists($lock_file) && filemtime($lock_file) + 60 * 60 * 10 < $_SERVER['REQUEST_TIME'])
 		{
 			return;
 		}

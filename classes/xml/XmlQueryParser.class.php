@@ -674,7 +674,7 @@ class XmlQueryParser extends XmlParser
 				$val = '$_SERVER[\'REMOTE_ADDR\']';
 				break;
 			case 'unixtime' :
-				$val = 'time()';
+				$val = '$_SERVER[\'REQUEST_TIME\']';
 				break;
 			case 'curdate' :
 				$val = 'date("YmdHis")';
