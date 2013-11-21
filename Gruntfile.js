@@ -90,6 +90,11 @@ module.exports = function(grunt) {
 					'common/css/mobile.min.css': ['common/css/mobile.css']
 				}
 			},
+			'module-admin-css': {
+				files: {
+					'modules/admin/tpl/css/admin.min.css': ['modules/admin/tpl/css/admin.css']
+				}
+			},
 			'editor-component-image-gallery': {
 				files: {
 					'modules/editor/components/image_gallery/tpl/popup.min.css': ['modules/editor/components/image_gallery/tpl/popup.css'],
