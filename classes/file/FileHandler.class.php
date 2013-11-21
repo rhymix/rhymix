@@ -1064,5 +1064,5 @@ class FileHandler
 	}
 }
 
-/* End of file self.class.php */
+/* End of file FileHandler.class.php */
 /* Location: ./classes/file/FileHandler.class.php */
