@@ -17,10 +17,9 @@ class FileHandler
 	 */
 	function getRealPath($source)
 	{
-		$temp = explode(DIRECTORY_SEPARATOR, $source);
-		if($temp[0] == '.')
+		if(substr_compare($source, './', 0, 2) === 0)
 		{
-			$source = _XE_PATH_ . substr($source, 2);
+			return _XE_PATH_ . substr($source, 2);
 		}
 		return $source;
 	}
@@ -42,7 +41,7 @@ class FileHandler
 		$target_dir = self::getRealPath($target_dir);
 		if(!is_dir($source_dir))
 		{
-			return false;
+			return FALSE;
 		}
 
 		// generate when no target exists
@@ -61,7 +60,7 @@ class FileHandler
 		$oDir = dir($source_dir);
 		while($file = $oDir->read())
 		{
-			if(substr($file, 0, 1) == '.')
+			if($file{0} == '.')
 			{
 				continue;
 			}
@@ -90,6 +89,7 @@ class FileHandler
 				}
 			}
 		}
+		$oDir->close();
 	}
 
 	/**
@@ -125,12 +125,7 @@ class FileHandler
 	 */
 	function readFile($filename)
 	{
-		if(($filename = self::exists($filename)) === FALSE)
-		{
-			return;
-		}
-
-		if(filesize($filename) < 1)
+		if(($filename = self::exists($filename)) === FALSE || filesize($filename) < 1)
 		{
 			return;
 		}
@@ -149,19 +144,13 @@ class FileHandler
 	function writeFile($filename, $buff, $mode = "w")
 	{
 		$filename = self::getRealPath($filename);
-
 		$pathinfo = pathinfo($filename);
-		$path = $pathinfo['dirname'];
-		self::makeDir($path);
+		self::makeDir($pathinfo['dirname']);
 
-		$mode = strtolower($mode);
-		if($mode == 'a')
+		$flags = 0;
+		if(strtolower($mode) == 'a')
 		{
 			$flags = FILE_APPEND;
-		}
-		else
-		{
-			$flags = 0;
 		}
 
 		@file_put_contents($filename, $buff, $flags|LOCK_EX);
@@ -172,7 +161,7 @@ class FileHandler
 	 * Remove a file
 	 *
 	 * @param string $filename path of target file
-	 * @return bool Returns true on success or false on failure.
+	 * @return bool Returns TRUE on success or FALSE on failure.
 	 */
 	function removeFile($filename)
 	{
@@ -186,7 +175,7 @@ class FileHandler
 	 *
 	 * @param string $source Path of source file
 	 * @param string $target Path of target file
-	 * @return bool Returns true on success or false on failure.
+	 * @return bool Returns TRUE on success or FALSE on failure.
 	 */
 	function rename($source, $target)
 	{
@@ -198,7 +187,7 @@ class FileHandler
 	 *
 	 * @param string $source Path of source file
 	 * @param string $target Path of target file
-	 * @return bool Returns true on success or false on failure.
+	 * @return bool Returns TRUE on success or FALSE on failure.
 	 */
 	function moveFile($source, $target)
 	{
@@ -231,15 +220,14 @@ class FileHandler
 	 *
 	 * @param string $path Path of target directory
 	 * @param string $filter If specified, return only files matching with the filter
-	 * @param bool $to_lower If true, file names will be changed into lower case.
-	 * @param bool $concat_prefix If true, return file name as absolute path
+	 * @param bool $to_lower If TRUE, file names will be changed into lower case.
+	 * @param bool $concat_prefix If TRUE, return file name as absolute path
 	 * @return string[] Array of the filenames in the path 
 	 */
-	function readDir($path, $filter = '', $to_lower = false, $concat_prefix = false)
+	function readDir($path, $filter = '', $to_lower = FALSE, $concat_prefix = FALSE)
 	{
 		$path = self::getRealPath($path);
 		$output = array();
-
 
 		if(substr($path, -1) != DIRECTORY_SEPARATOR)
 		{
@@ -254,12 +242,7 @@ class FileHandler
 		$files = scandir($path);
 		foreach($files as $file)
 		{
-			if(substr($file, 0, 1) == '.')
-			{
-				continue;
-			}
-
-			if($filter && !preg_match($filter, $file))
+			if($file{0} == '.' || ($filter && !preg_match($filter, $file)))
 			{
 				continue;
 			}
@@ -272,10 +255,6 @@ class FileHandler
 			if($filter)
 			{
 				$file = preg_replace($filter, '$1', $file);
-			}
-			else
-			{
-				$file = $file;
 			}
 
 			if($concat_prefix)
@@ -295,7 +274,7 @@ class FileHandler
 	 * This function creates directories recursively, which means that if ancestors of the target directory does not exist, they will be created too.
 	 *
 	 * @param string $path_string Path of target directory
-	 * @return bool true if success. It might return nothing when ftp is used and connection to the ftp address failed.
+	 * @return bool TRUE if success. It might return nothing when ftp is used and connection to the ftp address failed.
 	 */
 	function makeDir($path_string)
 	{
@@ -352,7 +331,7 @@ class FileHandler
 			$path_list = explode(DIRECTORY_SEPARATOR, $path_string);
 			
 			$path = _XE_PATH_;
-			for($i = 0; $i < count($path_list); $i++)
+			for($i = 0, $c = count($path_list); $i < $c; $i++)
 			{
 				if(!$path_list[$i])
 				{
@@ -523,7 +502,7 @@ class FileHandler
 			else
 			{
 				$oRequest = new HTTP_Request($url);
-				if(count($headers))
+				if(count($headers) > 0)
 				{
 					foreach($headers as $key => $val)
 					{
@@ -537,7 +516,7 @@ class FileHandler
 						$oRequest->addCookie($key, $val);
 					}
 				}
-				if(count($post_data))
+				if(count($post_data) > 0)
 				{
 					foreach($post_data as $key => $val)
 					{
@@ -594,12 +573,11 @@ class FileHandler
 	 * @param string $method GET/POST
 	 * @param string $content_type Content type header of HTTP request
 	 * @param string[] $headers Headers key vaule array.
-	 * @return bool true: success, false: failed 
+	 * @return bool TRUE: success, FALSE: failed
 	 */
 	function getRemoteFile($url, $target_filename, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array())
 	{
-		$body = self::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
-		if(!$body)
+		if(!($body = self::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers)))
 		{
 			return FALSE;
 		}
@@ -617,41 +595,31 @@ class FileHandler
 	 */
 	function returnBytes($val)
 	{
-		$val = trim($val);
-		$last = strtolower(substr($val, -1));
-		if($last == 'g')
+		$last = strtolower(substr(trim($val), -1));
+		switch ($last)
 		{
-			$val *= 1024 * 1024 * 1024;
-		}
-		else if($last == 'm')
-		{
-			$val *= 1024 * 1024;
-		}
-		else if($last == 'k')
-		{
-			$val *= 1024;
-		}
-		else
-		{
-			$val *= 1;
+			case 'g':
+				$val *= 1024 * 1024 * 1024;
+				break;
+			case 'm':
+				$val *= 1024 * 1024;
+				break;
+			case 'k':
+				$val *= 1024;
+				break;
 		}
 
-		return $val;
+		return (int) $val;
 	}
 
 	/**
 	 * Check available memory to load image file 
 	 *
 	 * @param array $imageInfo Image info retrieved by getimagesize function 
-	 * @return bool true: it's ok, false: otherwise 
+	 * @return bool TRUE: it's ok, FALSE: otherwise
 	 */
 	function checkMemoryLoadImage(&$imageInfo)
 	{
-		if(!function_exists('memory_get_usage'))
-		{
-			return TRUE;
-		}
-
 		$K64 = 65536;
 		$TWEAKFACTOR = 2.0;
 		$channels = $imageInfo['channels'];
@@ -677,20 +645,22 @@ class FileHandler
 	 * @param int $resize_height Height to resize
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
 	 * @param string $thumbnail_type Thumbnail type(crop, ratio)
-	 * @return bool true: success, false: failed 
+	 * @return bool TRUE: success, FALSE: failed
 	 */
 	function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop')
 	{
+		// check params
 		if (($source_file = self::exists($source_file)) === FALSE)
 		{
 			return;
 		}
-		$target_file = self::getRealPath($target_file);
 
+		$target_file = self::getRealPath($target_file);
 		if(!$resize_width)
 		{
 			$resize_width = 100;
 		}
+
 		if(!$resize_height)
 		{
 			$resize_height = $resize_width;
@@ -702,8 +672,8 @@ class FileHandler
 		{
 			return FALSE;
 		}
-		list($width, $height, $type, $attrs) = $imageInfo;
 
+		list($width, $height, $type, $attrs) = $imageInfo;
 		if($width < 1 || $height < 1)
 		{
 			return;
@@ -725,193 +695,139 @@ class FileHandler
 				break;
 			default :
 				return;
-				break;
 		}
 
-		// if original image is larger than specified size to resize, calculate the ratio 
-		if($resize_width > 0 && $width >= $resize_width)
-		{
-			$width_per = $resize_width / $width;
-		}
-		else
-		{
-			$width_per = 1;
-		}
-
-		if($resize_height > 0 && $height >= $resize_height)
-		{
-			$height_per = $resize_height / $height;
-		}
-		else
-		{
-			$height_per = 1;
-		}
-
-		if($thumbnail_type == 'ratio')
-		{
-			if($width_per > $height_per)
-			{
-				$per = $height_per;
-			}
-			else
-			{
-				$per = $width_per;
-			}
-			$resize_width = $width * $per;
-			$resize_height = $height * $per;
-		}
-		else
-		{
-			if($width_per < $height_per)
-			{
-				$per = $height_per;
-			}
-			else
-			{
-				$per = $width_per;
-			}
-		}
-
-		if(!$per)
-		{
-			$per = 1;
-		}
-
-		// get type of target file
 		if(!$target_type)
 		{
 			$target_type = $type;
 		}
 		$target_type = strtolower($target_type);
 
-		// create temporary image with target size
-		if(function_exists('imagecreatetruecolor'))
+		// if original image is larger than specified size to resize, calculate the ratio
+		$width_per = ($resize_width > 0 && $width >= $resize_width) ? $resize_width / $width : 1;
+		$height_per = ($resize_height > 0 && $height >= $resize_height) ? $resize_height / $height : 1;
+
+		$per = NULL;
+		if($thumbnail_type == 'ratio')
 		{
-			$thumb = imagecreatetruecolor($resize_width, $resize_height);
+			$per = ($width_per > $height_per) ? $height_per : $width_per;
+			$resize_width = $width * $per;
+			$resize_height = $height * $per;
+		}
+		else
+		{
+			$per = ($width_per < $height_per) ? $height_per : $width_per;
+		}
+
+		// create temporary image with target size
+		$thumb = NULL;
+		if(function_exists('imagecreateTRUEcolor'))
+		{
+			$thumb = imagecreateTRUEcolor($resize_width, $resize_height);
 		}
 		else if(function_exists('imagecreate'))
 		{
 			$thumb = imagecreate($resize_width, $resize_height);
 		}
-		else
-		{
-			return FALSE;
-		}
+
 		if(!$thumb)
 		{
 			return FALSE;
 		}
 
-		$white = imagecolorallocate($thumb, 255, 255, 255);
-		imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, $white);
+		imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
 
 		// create temporary image having original type
+		$source = NULL;
 		switch($type)
 		{
 			case 'gif' :
-				if(!function_exists('imagecreatefromgif'))
+				if(function_exists('imagecreatefromgif'))
 				{
-					return FALSE;
+					$source = @imagecreatefromgif($source_file);
 				}
-				$source = @imagecreatefromgif($source_file);
 				break;
-			// jpg
 			case 'jpeg' :
 			case 'jpg' :
-				if(!function_exists('imagecreatefromjpeg'))
+				if(function_exists('imagecreatefromjpeg'))
 				{
-					return FALSE;
+					$source = @imagecreatefromjpeg($source_file);
 				}
-				$source = @imagecreatefromjpeg($source_file);
 				break;
-			// png
 			case 'png' :
-				if(!function_exists('imagecreatefrompng'))
+				if(function_exists('imagecreatefrompng'))
 				{
-					return FALSE;
+					$source = @imagecreatefrompng($source_file);
 				}
-				$source = @imagecreatefrompng($source_file);
 				break;
-			// bmp
 			case 'wbmp' :
 			case 'bmp' :
-				if(!function_exists('imagecreatefromwbmp'))
+				if(function_exists('imagecreatefromwbmp'))
 				{
-					return FALSE;
+					$source = @imagecreatefromwbmp($source_file);
 				}
-				$source = @imagecreatefromwbmp($source_file);
 				break;
-			default :
-				return;
+		}
+
+		if(!$source)
+		{
+			imagedestroy($thumb);
+			return FALSE;
 		}
 
 		// resize original image and put it into temporary image
 		$new_width = (int) ($width * $per);
 		$new_height = (int) ($height * $per);
 
+		$x = 0;
+		$y = 0;
 		if($thumbnail_type == 'crop')
 		{
 			$x = (int) ($resize_width / 2 - $new_width / 2);
 			$y = (int) ($resize_height / 2 - $new_height / 2);
 		}
-		else
-		{
-			$x = 0;
-			$y = 0;
-		}
 
-		if($source)
+		if(function_exists('imagecopyresampled'))
 		{
-			if(function_exists('imagecopyresampled'))
-			{
-				imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-			}
-			else
-			{
-				imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-			}
+			imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
 		}
 		else
 		{
-			return FALSE;
+			imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
 		}
 
 		// create directory 
-		$path = dirname($target_file);
-		self::makeDir($path);
+		self::makeDir(dirname($target_file));
 
 		// write into the file
+		$output = NULL;
 		switch($target_type)
 		{
 			case 'gif' :
-				if(!function_exists('imagegif'))
+				if(function_exists('imagegif'))
 				{
-					return FALSE;
+					$output = imagegif($thumb, $target_file);
 				}
-				$output = imagegif($thumb, $target_file);
 				break;
 			case 'jpeg' :
 			case 'jpg' :
-				if(!function_exists('imagejpeg'))
+				if(function_exists('imagejpeg'))
 				{
-					return FALSE;
+					$output = imagejpeg($thumb, $target_file, 100);
 				}
-				$output = imagejpeg($thumb, $target_file, 100);
 				break;
 			case 'png' :
-				if(!function_exists('imagepng'))
+				if(function_exists('imagepng'))
 				{
-					return FALSE;
+					$output = imagepng($thumb, $target_file, 9);
 				}
-				$output = imagepng($thumb, $target_file, 9);
 				break;
 			case 'wbmp' :
 			case 'bmp' :
-				if(!function_exists('imagewbmp'))
+				if(function_exists('imagewbmp'))
 				{
-					return FALSE;
+					$output = imagewbmp($thumb, $target_file, 100);
 				}
-				$output = imagewbmp($thumb, $target_file, 100);
 				break;
 		}
 
@@ -932,7 +848,7 @@ class FileHandler
 	 *
 	 * @see self::writeIniFile()
 	 * @param string $filename Path of the ini file
-	 * @return array ini array (if the target file does not exist, it returns false)
+	 * @return array ini array (if the target file does not exist, it returns FALSE)
 	 */
 	function readIniFile($filename)
 	{
@@ -963,11 +879,11 @@ class FileHandler
 	 * @see self::readIniFile()
 	 * @param string $filename Target ini file name
 	 * @param array $arr Array
-	 * @return bool if array contains nothing it returns false, otherwise true
+	 * @return bool if array contains nothing it returns FALSE, otherwise TRUE
 	 */
 	function writeIniFile($filename, $arr)
 	{
-		if(count($arr) == 0)
+		if(!is_array($arr) || count($arr) == 0)
 		{
 			return FALSE;
 		}
@@ -1021,8 +937,7 @@ class FileHandler
 	function openFile($filename, $mode)
 	{
 		$pathinfo = pathinfo($filename);
-		$path = $pathinfo['dirname'];
-		self::makeDir($path);
+		self::makeDir($pathinfo['dirname']);
 
 		require_once("FileObject.class.php");
 		return  new FileObject($filename, $mode);
@@ -1032,7 +947,7 @@ class FileHandler
 	 * Check whether the given file has the content.
 	 *
 	 * @param string $filename Target file name
-	 * @return bool Returns true if the file exists and contains something.
+	 * @return bool Returns TRUE if the file exists and contains something.
 	 */
 	function hasContent($filename)
 	{
@@ -1043,24 +958,24 @@ class FileHandler
 	 * Check file exists.
 	 *
 	 * @param string $filename Target file name
-	 * @return bool Returns false if the file does not exists, or Returns full path file(string).
+	 * @return bool Returns FALSE if the file does not exists, or Returns full path file(string).
 	 */
 	function exists($filename)
 	{
 		$filename = self::getRealPath($filename);
-		return file_exists($filename) ? $filename : false;
+		return file_exists($filename) ? $filename : FALSE;
 	}
 
 	/**
 	 * Check it is dir
 	 *
 	 * @param string $dir Target dir path
-	 * @return bool Returns false if the dir is not dir, or Returns full path of dir(string).
+	 * @return bool Returns FALSE if the dir is not dir, or Returns full path of dir(string).
 	 */
 	function isDir($path)
 	{
 		$path = self::getRealPath($path);
-		return is_dir($path) ? $path : false;
+		return is_dir($path) ? $path : FALSE;
 	}
 }
 
