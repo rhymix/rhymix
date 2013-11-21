@@ -234,15 +234,16 @@ jQuery(function($){
 			}
 		});
 		$('.x .section.collapsed>h1>.snToggle').removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
-		$section_heading.find('>.snToggle').click(function(){
+		$section_heading.click(function(){
 			var $this = $(this);
+			var $btnToggle = $(this).find('>.snToggle');
 			var $section = $this.closest('.section');
 			if(!$section.hasClass('collapsed')){
 				$section.addClass('collapsed');
-				$this.removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
+				$btnToggle.removeClass('x_icon-chevron-up').addClass('x_icon-chevron-down');
 			} else {
 				$section.removeClass('collapsed');
-				$this.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
+				$btnToggle.removeClass('x_icon-chevron-down').addClass('x_icon-chevron-up');
 			}
 			reflow();
 		});

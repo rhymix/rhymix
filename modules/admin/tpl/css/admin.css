@@ -501,6 +501,7 @@ body>.x,
 .x .section>h1 {
 	position: relative;
 	border-bottom: 1px solid #ddd;
+	cursor: pointer;
 }
 .x .section>h1>.snToggle {
 	position: absolute;
