@@ -1134,7 +1134,7 @@ class Context
 			}
 			$val = $this->_filterRequestVar($key, $val);
 
-			if($request_method == 'GET' && isset($_GET[$key]))
+			if($requestMethod == 'GET' && isset($_GET[$key]))
 			{
 				$set_to_vars = TRUE;
 			}
