@@ -201,7 +201,7 @@
 </section>
 
 
-<section class="section collapsed">
+<section class="section <!--@if($use_sitelock != 'Y')-->collapsed<!--@endif-->">
 	<h1>{$lang->subtitle_sitelock}</h1>
 	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal" ruleset="sitelock">
 		<input type="hidden" name="module" value="admin" />
