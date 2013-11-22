@@ -546,6 +546,12 @@ class moduleController extends module
 				return $updateMenuItemOutput;
 			}
 		}
+		
+		// if mid changed, change mid of success_return_url to new mid
+		if($module_info->mid != $args->mid && Context::get('success_return_url'))
+		{
+			changeValueInUrl('mid', $args->mid, $module_info->mid);
+		}
 
 		// Insert module extra vars
 		$this->insertModuleExtraVars($args->module_srl, $extra_vars);
