@@ -559,6 +559,12 @@ class installController extends install
 			{
 				$tmpValue = $this->_getDbConnText($key, $val, true);
 			}
+			else if($key == 'sitelock_whitelist')
+			{
+				$tmpValue = preg_split("/[\r\n|\r|\n]+/", $val);
+				$tmpValue = array_unique($tmpValue);
+				$tmpValue = sprintf('$db_info->%s = array(\'%s\');' . PHP_EOL, $key, implode('\', \'', $tmpValue));
+			}
 			else
 			{
 				if($key == 'default_url')
