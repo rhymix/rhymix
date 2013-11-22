@@ -76,12 +76,13 @@ class DisplayHandler extends Handler
 		$called_position = 'before_display_content';
 		$oAddonController = &getController('addon');
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
-		@include($addon_file);
+		if(file_exists($addon_file)) include($addon_file);
 
 		if(method_exists($handler, "prepareToPrint"))
 		{
 			$handler->prepareToPrint($output);
 		}
+
 		// header output
 		if($this->gz_enabled)
 		{

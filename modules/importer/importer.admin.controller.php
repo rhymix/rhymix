@@ -302,7 +302,9 @@ class importerAdminController extends importer
 				$columnList = array('module_srl', 'module');
 				$target_module_info = $oModuleModel->getModuleInfoByModuleSrl($target_module, $columnList);
 
-				require_once('./modules/importer/ttimport.class.php');
+				$ttimporter = FileHandler::exists(_XE_PATH_ . 'modules/importer/ttimport.class.php');
+				if($ttimporter) require_once($ttimporter);
+
 				$oTT = new ttimport();
 				$cur = $oTT->importModule($key, $cur, $index_file, $this->unit_count, $target_module, $guestbook_target_module, $user_id, $target_module_info->module);
 				break;

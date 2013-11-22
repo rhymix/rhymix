@@ -26,20 +26,20 @@ if(!$logged_info)
 if($called_position == 'before_module_init' && $this->module != 'member')
 {
 	// Load a language file from the communication module
-	Context::loadLang('./modules/communication/lang');
+	Context::loadLang(_XE_PATH_ . 'modules/communication/lang');
 	// Add menus on the member login information
 	$oMemberController = getController('member');
 	$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
 	$oMemberController->addMemberMenu('dispCommunicationMessages', 'cmd_view_message_box');
 	// Pop-up to display messages if a flag on new message is set
-	$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
+	$flag_path = _XE_PATH_ . 'files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
 	$flag_file = $flag_path . $logged_info->member_srl;
 
 	if(file_exists($flag_file) && $addon_info->use_alarm != 'N')
 	{
 		$new_message_count = trim(FileHandler::readFile($flag_file));
 		FileHandler::removeFile($flag_file);
-		Context::loadLang('./addons/member_communication/lang');
+		Context::loadLang(_XE_PATH_ . 'addons/member_communication/lang');
 		Context::loadFile(array('./addons/member_communication/tpl/member_communication.js'), true);
 
 		$text = preg_replace('@\r?\n@', '\\n', addslashes(Context::getLang('alert_new_message_arrived')));

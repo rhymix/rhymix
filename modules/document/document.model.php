@@ -698,7 +698,7 @@ class documentModel extends document
 	function getCategoryList($module_srl, $columnList = array())
 	{
 		// Category of the target module file swollen
-		$filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
+		$filename = sprintf("%sfiles/cache/document_category/%s.php", _XE_PATH_, $module_srl);
 		// If the target file to the cache file regeneration category
 		if(!file_exists($filename))
 		{
@@ -706,7 +706,8 @@ class documentModel extends document
 			if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
 		}
 
-		@include($filename);
+		include($filename);
+
 		// Cleanup of category
 		$document_category = array();
 		$this->_arrangeCategory($document_category, $menu->list, 0);

@@ -3,7 +3,7 @@
 /**
  * @class  editorModel
  * @author NAVER (developers@xpressengine.com)
- * @brief model class of the editor odule 
+ * @brief model class of the editor odule
  */
 class editorModel extends editor
 {
@@ -15,7 +15,7 @@ class editorModel extends editor
 	 * That means there is a limitation that more than 30 editors cannot be displayed on a single page.
 	 *
 	 * However, editor_sequence can be value from getNextSequence() in case of the modified or the auto-saved for file upload
-	 * 
+	 *
 	 */
 
 	/**
@@ -29,7 +29,7 @@ class editorModel extends editor
 			$oModuleModel = &getModel('module');
 			$GLOBALS['__editor_module_config__'][$module_srl] = $oModuleModel->getModulePartConfig('editor', $module_srl);
 		}
-		$editor_config = $GLOBALS['__editor_module_config__'][$module_srl];		
+		$editor_config = $GLOBALS['__editor_module_config__'][$module_srl];
 
 		$oModuleModel = &getModel('module');
 		$editor_default_config = $oModuleModel->getModuleConfig('editor');
@@ -64,7 +64,7 @@ class editorModel extends editor
 
 	function loadDrComponents()
 	{
-		$drComponentPath = './modules/editor/skins/dreditor/drcomponents/';
+		$drComponentPath = _XE_PATH_ . 'modules/editor/skins/dreditor/drcomponents/';
 		$drComponentList = FileHandler::readDir($drComponentPath);
 
 		$oTemplate = &TemplateHandler::getInstance();
@@ -76,7 +76,7 @@ class editorModel extends editor
 			{
 				unset($obj);
 				$obj = $this->getDrComponentXmlInfo($drComponent);
-				Context::loadLang(sprintf('%s%s/lang/',$drComponentPath,$drComponent));					
+				Context::loadLang(sprintf('%s%s/lang/',$drComponentPath,$drComponent));
 				$path = sprintf('%s%s/tpl/',$drComponentPath,$drComponent);
 				$obj->html = $oTemplate->compile($path,$drComponent);
 				$drComponentInfo[$drComponent] = $obj;
@@ -250,7 +250,7 @@ class editorModel extends editor
 
 		if($skin=='dreditor')
 		{
-			$this->loadDrComponents();	
+			$this->loadDrComponents();
 		}
 
 		/**
@@ -371,7 +371,7 @@ class editorModel extends editor
 		$editor_config = $this->getEditorConfig($module_srl);
 
 		$config = new stdClass();
-		
+
 		// Configurations listed according to a type
 		if($type == 'document')
 		{
@@ -602,7 +602,7 @@ class editorModel extends editor
 		if(!file_exists($cache_file)) return;
 		@include($cache_file);
 		$logged_info = Context::get('logged_info');
-		if($logged_info && is_array($logged_info->group_list)) 
+		if($logged_info && is_array($logged_info->group_list))
 		{
 			$group_list = array_keys($logged_info->group_list);
 		}
@@ -632,16 +632,16 @@ class editorModel extends editor
 				{
 					if(!$logged_info)
 					{
-						$val->enabled = "N";	
+						$val->enabled = "N";
 					}
 					else
 					{
 						$is_granted = false;
 						foreach($group_list as $group_srl)
 						{
-							if(in_array($group_srl, $val->target_group)) $is_granted = true;	
+							if(in_array($group_srl, $val->target_group)) $is_granted = true;
 						}
-						if(!$is_granted) $val->enabled = "N"; 
+						if(!$is_granted) $val->enabled = "N";
 					}
 				}
 				if($val->enabled != "N" && $val->mid_list)

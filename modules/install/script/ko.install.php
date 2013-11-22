@@ -114,7 +114,7 @@ $obj->module_srl = $module_srl;
 Context::set('version', __XE_VERSION__);
 $obj->title = 'Welcome XE';
 
-$obj->content = $oTemplateHandler->compile('./modules/install/script/welcome_content', 'welcome_content_'.$lang);
+$obj->content = $oTemplateHandler->compile(_XE_PATH_ . 'modules/install/script/welcome_content', 'welcome_content_'.$lang);
 
 $output = $oDocumentController->insertDocument($obj);
 if(!$output->toBool()) return $output;

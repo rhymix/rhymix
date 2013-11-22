@@ -28,7 +28,8 @@ function memberTransImageName($matches)
 		$_tmp->cached = true;
 		$image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
 		$image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-		if(file_exists($image_name_file))
+
+		if(file_exists(_XE_PATH_ . $image_name_file))
 		{
 			$_tmp->image_name_file = $image_name_file;
 		}
@@ -36,7 +37,8 @@ function memberTransImageName($matches)
 		{
 			$image_name_file = '';
 		}
-		if(file_exists($image_mark_file))
+
+		if(file_exists(_XE_PATH_ . $image_mark_file))
 		{
 			$_tmp->image_mark_file = $image_mark_file;
 		}
@@ -55,6 +57,7 @@ function memberTransImageName($matches)
 		$image_name_file = $_tmp->image_name_file;
 		$image_mark_file = $_tmp->image_mark_file;
 	}
+
 	// If image name and mark doesn't exist, set the original information
 	if(!$image_name_file && !$image_mark_file && !$group_image)
 	{

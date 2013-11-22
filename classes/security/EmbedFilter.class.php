@@ -17,8 +17,8 @@ class EmbedFilter
 	 * @var int
 	 */
 	var $allowscriptaccessKey = 0;
-	var $whiteUrlXmlFile = './classes/security/conf/embedWhiteUrl.xml';
-	var $whiteUrlCacheFile = './files/cache/embedfilter/embedWhiteUrl.php';
+	var $whiteUrlXmlFile = _XE_PATH_ . 'classes/security/conf/embedWhiteUrl.xml';
+	var $whiteUrlCacheFile = _XE_PATH_ . 'files/cache/embedfilter/embedWhiteUrl.php';
 	var $whiteUrlList = array();
 	var $whiteIframeUrlList = array();
 	var $parser = NULL;

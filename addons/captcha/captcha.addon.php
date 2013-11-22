@@ -64,7 +64,7 @@ if(!class_exists('AddonCaptcha'))
 				{
 					if(!$this->compareCaptcha())
 					{
-						Context::loadLang('./addons/captcha/lang');
+						Context::loadLang(_XE_PATH_ . 'addons/captcha/lang');
 						$_SESSION['XE_VALIDATOR_ERROR'] = -1;
 						$_SESSION['XE_VALIDATOR_MESSAGE'] = Context::getLang('captcha_denied');
 						$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
@@ -85,7 +85,7 @@ if(!class_exists('AddonCaptcha'))
 			// compare session when calling actions such as writing a post or a comment on the board/issue tracker module
 			if(!$_SESSION['captcha_authed'] && in_array(Context::get('act'), $this->target_acts))
 			{
-				Context::loadLang('./addons/captcha/lang');
+				Context::loadLang(_XE_PATH_ . 'addons/captcha/lang');
 				$ModuleHandler->error = "captcha_denied";
 			}
 

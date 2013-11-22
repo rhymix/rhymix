@@ -103,12 +103,11 @@ class autoinstall extends ModuleObject
 		$oDB = DB::getInstance();
 		$oModuleModel = getModel('module');
 
-		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
-				&& $oDB->isTableExists("autoinstall_installed_packages"))
+		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_installed_packages.xml') && $oDB->isTableExists("autoinstall_installed_packages"))
 		{
 			return TRUE;
 		}
-		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))
+		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_remote_categories.xml')
 				&& $oDB->isTableExists("autoinstall_remote_categories"))
 		{
 			return TRUE;
@@ -147,12 +146,12 @@ class autoinstall extends ModuleObject
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 
-		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
+		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_installed_packages.xml')
 				&& $oDB->isTableExists("autoinstall_installed_packages"))
 		{
 			$oDB->dropTable("autoinstall_installed_packages");
 		}
-		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))
+		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_remote_categories.xml')
 				&& $oDB->isTableExists("autoinstall_remote_categories"))
 		{
 			$oDB->dropTable("autoinstall_remote_categories");

@@ -184,8 +184,8 @@ class layoutAdminModel extends layout
 	public function getSiteDefaultLayout($viewType = 'P', $siteSrl = 0)
 	{
 		$target = ($viewType == 'M') ? 'mlayout_srl' : 'layout_srl';
-		$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $siteSrl);
-		@include($designInfoFile);
+		$designInfoFile = sprintf(_XE_PATH_ . 'files/site_design/design_%s.php', $siteSrl);
+		if(FileHandler::exists($designInfoFile)) include($designInfoFile);
 
 		if(!$designInfo || !$designInfo->{$target})
 		{

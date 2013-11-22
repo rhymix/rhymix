@@ -32,7 +32,7 @@ class pageView extends page
 				}
 			case 'OUTSIDE' :
 				{
-					$this->cache_file = sprintf("./files/cache/opage/%d.%s.cache.php", $this->module_info->module_srl, Context::getSslStatus());
+					$this->cache_file = sprintf("%sfiles/cache/opage/%d.%s.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getSslStatus());
 					$this->interval = (int)($this->module_info->page_caching_interval);
 					$this->path = $this->module_info->path;
 					break;
@@ -166,24 +166,28 @@ class pageView extends page
 	/**
 	 * @brief Create a cache file in order to include if it is an internal file
 	 */
-	function executeFile($path, $caching_interval, $cache_file)
+	function executeFile($target_file, $caching_interval, $cache_file)
 	{
 		// Cancel if the file doesn't exist
-		if(!file_exists($path)) return;
+		if(!file_exists(FileHandler::getRealPath($target_file))) return;
+
 		// Get a path and filename
 		$tmp_path = explode('/',$cache_file);
 		$filename = $tmp_path[count($tmp_path)-1];
 		$filepath = preg_replace('/'.$filename."$/i","",$cache_file);
+		$cache_file = FileHandler::getRealPath($cache_file);
+
 		// Verify cache
-		if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= $_SERVER['REQUEST_TIME'] || filemtime($cache_file)<filemtime($path))
+		if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= $_SERVER['REQUEST_TIME'] || filemtime($cache_file)<filemtime($target_file))
 		{
 			if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
+
 			// Read a target file and get content
 			ob_start();
-			@include($path);
+			include(FileHandler::getRealPath($target_file));
 			$content = ob_get_clean();
 			// Replace relative path to the absolute path 
-			$this->path = str_replace('\\', '/', realpath(dirname($path))) . '/';
+			$this->path = str_replace('\\', '/', realpath(dirname($target_file))) . '/';
 			$content = preg_replace_callback('/(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
 			$content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
@@ -201,7 +205,7 @@ class pageView extends page
 		$__Context->tpl_path = $filepath;
 
 		ob_start();
-		@include($cache_file);
+		include($cache_file);
 		$content = ob_get_clean();
 
 		return $content;

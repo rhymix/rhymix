@@ -17,10 +17,11 @@ class FileHandler
 	 */
 	function getRealPath($source)
 	{
-		if(substr_compare($source, './', 0, 2) === 0)
+		if(strlen($source) > 2 && substr_compare($source, './', 0, 2) === 0)
 		{
 			return _XE_PATH_ . substr($source, 2);
 		}
+
 		return $source;
 	}
 
