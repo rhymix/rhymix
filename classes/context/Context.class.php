@@ -1120,11 +1120,11 @@ class Context
 	 */
 	function _setRequestArgument()
 	{
-		if(count($_REQUEST) > 0)
+		if(!count($_REQUEST))
 		{
 			return;
 		}
-	
+
 		$requestMethod = $this->getRequestMethod();
 		foreach($_REQUEST as $key => $val)
 		{
@@ -1214,16 +1214,18 @@ class Context
 		{
 			return;
 		}
+
 		$oXml = new XmlParser();
 		$xml_obj = $oXml->parse();
 
 		$params = $xml_obj->methodcall->params;
 		unset($params->node_name, $params->attrs);
 
-		if(count($params) > 0)
+		if(!count($params))
 		{
 			return;
 		}
+
 		foreach($params as $key => $obj)
 		{
 			$this->set($key, $this->_filterRequestVar($key, $obj->body, 0), TRUE);
