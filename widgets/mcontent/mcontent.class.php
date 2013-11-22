@@ -553,20 +553,17 @@ class mcontent extends WidgetHandler
 			$content_item->setTitle($item->title);
 			$content_item->setNickName(max($item->author,$item->{'dc:creator'}));
 			$content_item->setAuthorSite($value->author->uri->body);
+
 			//$content_item->setCategory($item->category);
-			$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->content);
-			if($item->description)
+			$item->description = ($item->content) ? $item->content : $item->description = $item->summary;
+			$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+
+			if(($item->content && stripos($value->content->attrs->type, "html") === FALSE) || (!$item->content && stripos($value->summary->attrs->type, "html") === FALSE))
 			{
-				if(!preg_match("/html/i", $value->content->attrs->type)) $item->description = htmlspecialchars($item->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				$item->description = htmlspecialchars($item->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+
 			}
-			if(!$item->description)
-			{
-				$item->description = $item->summary;
-				if($item->description)
-				{
-					if(!preg_match("/html/i", $value->summary->attrs->type)) $item->description = htmlspecialchars($item->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-				}
-			}
+
 			$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
 			$content_item->setLink($item->link);
 			$date = date('YmdHis', strtotime(max($item->published,$item->updated,$item->{'dc:date'})));

@@ -159,16 +159,23 @@ class editorController extends editor
 			$content_style = $editor_config->content_style;
 			if($content_style)
 			{
-				$path = _XE_PATH_.'modules/editor/styles/'.$content_style.'/';
-				if(is_dir($path) && file_exists($path.'style.ini'))
+				$path = _XE_PATH_ . 'modules/editor/styles/'.$content_style.'/';
+				if(is_dir($path) && file_exists($path . 'style.ini'))
 				{
 					$ini = file($path.'style.ini');
-					for($i=0,$c=count($ini);$i<$c;$i++)
+					for($i = 0, $c = count($ini); $i < $c; $i++)
 					{
 						$file = trim($ini[$i]);
 						if(!$file) continue;
-						if(preg_match('/\.css$/i',$file)) Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
-						elseif(preg_match('/\.js/i',$file)) Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+
+						if(substr_compare($file, '.css', -4) === 0)
+						{
+							Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+						}
+						elseif(substr_compare($file, '.js', -3) === 0)
+						{
+							Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+						}
 					}
 				}
 			}

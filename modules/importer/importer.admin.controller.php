@@ -43,7 +43,7 @@ class importerAdminController extends importer
 		$filename = Context::get('filename');
 		$isExists = 'false';
 
-		if(preg_match('/^http/i', $filename))
+		if(strncasecmp('http://', $filename, 7) === 0)
 		{
 			if(ini_get('allow_url_fopen'))
 			{
@@ -397,8 +397,7 @@ class importerAdminController extends importer
 				}
 			}
 			// Create url for homepage and blog
-			if($obj->homepage && !preg_match("/^http:\/\//i",$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
-			if($obj->blog && !preg_match("/^http:\/\//i",$obj->blog)) $obj->blog = 'http://'.$obj->blog;
+			if($obj->homepage && strncasecmp('http://', $obj->homepage, 7) !== 0 && strncasecmp('https://', $obj->homepage, 8) !== 0) $obj->homepage = 'http://'.$obj->homepage;
 			// email address column
 			$obj->email_address = $obj->email;
 			list($obj->email_id, $obj->email_host) = explode('@', $obj->email);
@@ -736,7 +735,7 @@ class importerAdminController extends importer
 			$obj->user_id = base64_decode($xmlDoc->post->user_id->body);
 			$obj->email_address = base64_decode($xmlDoc->post->email->body);
 			$obj->homepage = base64_decode($xmlDoc->post->homepage->body);
-			if($obj->homepage && !preg_match('/^http:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+			if($obj->homepage && strncasecmp('http://', $obj->homepage, 7) !== 0 && strncasecmp('https://', $obj->homepage, 8) !== 0) $obj->homepage = 'http://'.$obj->homepage;
 			$obj->tags = base64_decode($xmlDoc->post->tags->body);
 			$obj->regdate = base64_decode($xmlDoc->post->regdate->body);
 			$obj->last_update = base64_decode($xmlDoc->post->update->body);
@@ -1084,8 +1083,15 @@ class importerAdminController extends importer
 					// Create a directory
 					if(!FileHandler::makeDir($path)) continue;
 
-					if(preg_match('/^\.\/files\/cache\/importer/i',$file_obj->file)) FileHandler::rename($file_obj->file, $filename);
-					else @copy($file_obj->file, $filename);
+					if(strncmp('./files/cache/importer/', $file_obj->file, 23) === 0)
+					{
+						FileHandler::rename($file_obj->file, $filename);
+					}
+					else
+					{
+						copy($file_obj->file, $filename);
+					}
+
 					// Insert the file to the DB
 					unset($file_obj->file);
 					if(file_exists($filename))

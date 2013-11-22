@@ -232,7 +232,7 @@ class moduleController extends module
 		}
 
 		$args->site_srl = getNextSequence();
-		$args->domain = preg_replace('/\/$/','',$domain);
+		$args->domain = (substr_compare($domain, '/', -1) === 0) ? substr($domain, 0, -1) : $domain;
 		$args->index_module_srl = $index_module_srl;
 		$args->default_language = Context::getLangType();
 
@@ -264,7 +264,7 @@ class moduleController extends module
 
 			if($args->domain && !isSiteID($args->domain))
 			{
-				$args->domain = preg_replace('/\/$/','',$args->domain);
+				$args->domain = (substr_compare($domain, '/', -1) === 0) ? substr($domain, 0, -1) : $domain;
 			}
 		}
 		$output = executeQuery('module.updateSite', $args);

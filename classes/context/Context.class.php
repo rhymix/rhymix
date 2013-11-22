@@ -2256,11 +2256,11 @@ class Context
 			{
 				$filename = substr($filename, 2);
 			}
-			if(preg_match('/\.js$/i', $filename))
+			if(substr_compare($filename, '.js', -3) === 0)
 			{
 				$self->loadFile(array($plugin_path . $filename, 'body', '', 0), TRUE);
 			}
-			elseif(preg_match('/\.css$/i', $filename))
+			if(substr_compare($filename, '.css', -4) === 0)
 			{
 				$self->loadFile(array($plugin_path . $filename, 'all', '', 0), TRUE);
 			}

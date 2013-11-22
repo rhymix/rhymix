@@ -105,7 +105,6 @@ class emoticon extends EditorHandler
 		{
 			$attr_output[] = "alt=\"".$alt."\"";
 		}
-		if(preg_match("/\.png$/i",$src)) $attr_output[] = "class=\"iePngFix\"";
 
 		$code = sprintf("<img %s style=\"border:0px\" />", implode(" ",$attr_output));
 

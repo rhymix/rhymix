@@ -113,10 +113,11 @@ class Security
 	{
 		if(is_string($var))
 		{
-			if(!preg_match('/^\$user_lang->/', $var))
+			if(strncmp('$user_lang->', $var, 12) !== 0)
 			{
 				$var = htmlspecialchars($var, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
+
 			return $var;
 		}
 

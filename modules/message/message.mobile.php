@@ -29,7 +29,7 @@ class messageMobile extends messageView
 		$ssl_mode = false;
 		if($member_config->enable_ssl == 'Y')
 		{
-			if(preg_match('/^https:\/\//i',Context::getRequestUri())) $ssl_mode = true;
+			if(strncasecmp('https://', Context::getRequestUri(), 8) === 0) $ssl_mode = true;
 		}
 		Context::set('ssl_mode',$ssl_mode);
 

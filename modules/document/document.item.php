@@ -295,7 +295,7 @@ class documentItem extends Object
 		$url = trim($this->get('homepage'));
 		if(!$url) return;
 
-		if(!preg_match("/^http:\/\//i",$url)) $url = "http://".$url;
+		if(strncasecmp('http://', $url, 7) !== 0 && strncasecmp('https://', $url, 8) !== 0)  $url = 'http://' . $url;
 
 		return $url;
 	}

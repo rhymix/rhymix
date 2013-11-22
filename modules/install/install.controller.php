@@ -676,13 +676,14 @@ class installController extends install
 
 		$header = sprintf($fheader,$auto_config['path'],$auto_config['host'],strlen($body),$body);
 		$fp = @fsockopen($auto_config['host'], $auto_config['port'], $errno, $errstr, 5);
+
 		if($fp)
 		{
 			fputs($fp, $header);
 			while(!feof($fp))
 			{
 				$line = trim(fgets($fp, 4096));
-				if(preg_match("/^<error>/i",$line))
+				if(strncmp('<error>', $line, 7) === 0)
 				{
 					fclose($fp);
 					return false;

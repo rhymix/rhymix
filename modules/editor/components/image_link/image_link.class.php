@@ -85,9 +85,6 @@ class image_link extends EditorHandler
 			$style .= ' margin:'.$margin.'px;';
 		}
 		if($align) $attr_output[] = "align=\"".$align."\"";
-
-		if(preg_match("/\.png$/i",$src)) $attr_output[] = "class=\"iePngFix\"";
-
 		if($width) $attr_output[] = 'width="'.$width.'"';
 		if($height) $attr_output[] = 'height="'.$height.'"';
 		if($border)

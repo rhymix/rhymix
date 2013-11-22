@@ -81,8 +81,12 @@ class moduleModel extends module
 	 */
 	function getDefaultMid()
 	{
-		$default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
-		$request_url = preg_replace('/\/$/','',Context::getRequestUri());
+		$default_url = Context::getDefaultUrl();
+		if(substr_compare($default_url, '/', -1) === 0) $default_url = substr($default_url, 0, -1);
+
+		$request_url = Context::getRequestUri();
+		if(substr_compare($request_url, '/', -1) === 0) $request_url = substr($request_url, 0, -1);
+
 		$default_url_parse = parse_url($default_url);
 		$request_url_parse = parse_url($request_url);
 		$vid = Context::get('vid');
@@ -95,7 +99,9 @@ class moduleModel extends module
 		{
 			$url_info = parse_url($request_url);
 			$hostname = $url_info['host'];
-			$path = preg_replace('/\/$/','',$url_info['path']);
+			$path = $url_info['path'];
+			if(substr_compare($path, '/', -1) === 0) $path = substr($path, 0, -1);
+
 			$domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
 		}
 		// xe.com/blog
