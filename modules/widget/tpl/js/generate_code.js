@@ -132,6 +132,7 @@ function doFillWidgetVars() {
                     else node.value = unescaped_val;
 					jQuery('#'+name).val(node.value);
                 break;
+            case "radio" :
             case "checkbox" :
                     if(selected_node.getAttribute(name)) {
                         var val = selected_node.getAttribute(name).split(',');

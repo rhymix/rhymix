@@ -97,7 +97,7 @@ class spamfilterModel extends spamfilter
 	/**
 	 * @brief Check the specified time
 	 */
-	function checkLimited()
+	function checkLimited($isMessage = FALSE)
 	{
 		$config = $this->getConfig();
 
@@ -118,7 +118,14 @@ class spamfilterModel extends spamfilter
 		// If the number of limited posts is not reached, keep creating.
 		if($count)
 		{
-			$message = sprintf(Context::getLang('msg_alert_limited_by_config'), $interval);
+			if($isMessage)
+			{
+				$message = sprintf(Context::getLang('msg_alert_limited_message_by_config'), $interval);
+			}
+			else
+			{
+				$message = sprintf(Context::getLang('msg_alert_limited_by_config'), $interval);
+			}
 
 			$oSpamFilterController = &getController('spamfilter');
 			$oSpamFilterController->insertLog();

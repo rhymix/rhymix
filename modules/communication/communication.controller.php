@@ -114,8 +114,13 @@ class communicationController extends communication
 		// send a message
 		$output = $this->sendMessage($logged_info->member_srl, $receiver_srl, $title, $content);
 
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
 		// send an e-mail
-		if($output->toBool() && $send_mail == 'Y')
+		if($send_mail == 'Y')
 		{
 			$view_url = Context::getRequestUri();
 			$content = sprintf("%s<br /><br />From : <a href=\"%s\" target=\"_blank\">%s</a>", $content, $view_url, $view_url);
@@ -196,12 +201,16 @@ class communicationController extends communication
 
 		// Call a trigger (before)
 		$trigger_obj = new stdClass();
-		$trigger_obj->sender = $sender_args;
-		$trigger_obj->receiver = $receiver_args;
-		$trigger_output = ModuleHandler::triggerCall('communication.sendMessage', 'before', $trigger_obj);
-		if(!$trigger_output->toBool())
+		$trigger_obj->sender_srl = $sender_srl;
+		$trigger_obj->receiver_srl = $receiver_srl;
+		$trigger_obj->message_srl = $message_srl;
+		$trigger_obj->title = $title;
+		$trigger_obj->content = $content;
+		$trigger_obj->sender_log = $sender_log;
+		$triggerOutput = ModuleHandler::triggerCall('communication.sendMessage', 'before', $trigger_obj);
+		if(!$triggerOutput->toBool())
 		{
-			return $trigger_output;
+			return $triggerOutput;
 		}
 
 		$oDB = DB::getInstance();

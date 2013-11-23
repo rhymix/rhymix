@@ -21,6 +21,8 @@ class spamfilter extends ModuleObject
 		// 2008-12-17 Add a spamfilter for post modification actions
 		$oModuleController->insertTrigger('comment.updateComment', 'spamfilter', 'controller', 'triggerInsertComment', 'before');
 		$oModuleController->insertTrigger('document.updateDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before');
+		// 2013-11-14 The trigger which try to perform spam filtering when new message are registered
+		$oModuleController->insertTrigger('communication.sendMessage', 'spamfilter', 'controller', 'triggerSendMessage', 'before');
 
 		return new Object();
 	}
@@ -39,6 +41,8 @@ class spamfilter extends ModuleObject
 		// 2008-12-17 Add a spamfilter for post modification actions
 		if(!$oModuleModel->getTrigger('comment.updateComment', 'spamfilter', 'controller', 'triggerInsertComment', 'before')) return true;
 		if(!$oModuleModel->getTrigger('document.updateDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before')) return true;
+		// 2013-11-14 The trigger which try to perform spam filtering when new message are registered
+		if(!$oModuleModel->getTrigger('communication.sendMessage', 'spamfilter', 'controller', 'triggerSendMessage', 'before')) return true;
 
 		/**
 		 * Add the hit count field (hit)
@@ -75,6 +79,11 @@ class spamfilter extends ModuleObject
 		if(!$oModuleModel->getTrigger('document.updateDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before'))
 		{
 			$oModuleController->insertTrigger('document.updateDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before');
+		}
+		// 2013-11-14 The trigger which try to perform spam filtering when new message are registered
+		if(!$oModuleModel->getTrigger('communication.sendMessage', 'spamfilter', 'controller', 'triggerSendMessage', 'before'))
+		{
+			$oModuleController->insertTrigger('communication.sendMessage', 'spamfilter', 'controller', 'triggerSendMessage', 'before');
 		}
 
 		/**

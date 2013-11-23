@@ -133,7 +133,7 @@
 		<value xml:lang="vi"><![CDATA[Tất cả những bài viết trong thời gian giới hạn sẽ bị chặn.]]></value>
 	</item>
 	<item name="about_limit_count">
-		<value xml:lang="ko"><![CDATA[지정된 시간 내에 제한수를 넘겨서 글 작성을 시도하면 스팸으로 인식, 해당 IP의 글 작성, 댓글 작성, 트랙백 발송 등을 금지합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[지정된 시간 내에 제한수를 넘겨서 글 작성을 시도하면 스팸으로 인식, 해당 IP의 글 작성, 댓글 작성, 트랙백 발송, 쪽지 발송 등을 금지합니다.]]></value>
 		<value xml:lang="en"><![CDATA[If exceeded the posting limitation,
  that IP will be regarded as a spam, thus will have limitations on posting articles, comments, and trackbacks.]]></value>
 		<value xml:lang="jp"><![CDATA[指定した時間に制限数を超える書き込みが行われるとスパムとして認識し、該当IPを禁止します。]]></value>
@@ -204,6 +204,9 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 		<value xml:lang="tr"><![CDATA[%s saniyede bir yazı göndermek mümkün değildir.\n Denemeyi sürdürürseniz, IP adresiniz kara listeye alınacaktır.]]></value>
 		<value xml:lang="vi"><![CDATA[Không được phép gửi bài thứ 2 trong khoảng thời gian %s giây.\n Nếu bạn cứ tiếp tục, IP của bạn sẽ bị thêm vào danh sách IP bị cấm.]]></value>
 	</item>
+	<item name="msg_alert_limited_message_by_config">
+		<value xml:lang="ko"><![CDATA[%s 초 이내에 쪽지 발송은 금지 됩니다. 계속 시도하면 금지 IP에 등록될 수 있습니다.]]></value>
+	</item>
 	<item name="msg_alert_denied_word">
 		<value xml:lang="ko"><![CDATA["%s"는 사용 금지된 단어입니다.]]></value>
 		<value xml:lang="en"><![CDATA[The word "%s" is not allowed.]]></value>
@@ -241,7 +244,7 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 		<value xml:lang="vi"><![CDATA[Chỉ cho phép một liên kết Web trên một bài viết.]]></value>
 	</item>
 	<item name="cmd_interval">
-		<value xml:lang="ko"><![CDATA[10초 동안 3회 이상 글을 작성하면 스패머로 간주하시겠습니까? 글, 댓글 작성과 엮인글 발송을 차단합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[10초 동안 3회 이상 글을 작성하면 스패머로 간주하시겠습니까? 글, 댓글 작성과 엮인글 발송, 쪽지 발송을 차단합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to blacklist the users who attempt to post articles more than 3 times for 10 seconds? The blacklisted users cannot write articles or comments and send trackbacks.]]></value>
 	　　<value xml:lang="jp"><![CDATA[10秒の間3回以上書き込みをすると、スパムとみなしますか？書き込み、コメント作成とトラックバックの送信をブロックします。]]></value>
 	</item>
