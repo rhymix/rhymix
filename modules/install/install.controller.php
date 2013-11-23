@@ -182,7 +182,7 @@ class installController extends install
 			foreach($scripts as $script)
 			{
 				$script_path = FileHandler::getRealPath('./modules/install/script/');
-				$output = include($script_path . $script));
+				$output = include($script_path . $script);
 			}
 		}
 
@@ -528,7 +528,7 @@ class installController extends install
 				if($k == 'db_table_prefix' && !empty($v) && substr($v,-1)!='_') $v .= '_';
 				$buff[] = "'$k' => '$v',";
 			}
-			$buff[] = '),';
+			$buff[] = ($with_array) ? '),' : ')';
 		}
 
 		if($with_array) $buff[] = ')';
