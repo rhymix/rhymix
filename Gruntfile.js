@@ -79,6 +79,9 @@ module.exports = function(grunt) {
 					'modules/widget/tpl/js/generate_code.min.js': ['modules/widget/tpl/js/generate_code.js'],
 					'modules/widget/tpl/js/widget.min.js': ['modules/widget/tpl/js/widget.js'],
 					'modules/widget/tpl/js/widget_admin.min.js': ['modules/widget/tpl/js/widget_admin.js'],
+					// modules/poll
+					'modules/poll/tpl/js/poll_admin.min.js': ['modules/poll/tpl/js/poll_admin.js'],
+					'modules/poll/tpl/js/poll.min.js': ['modules/poll/tpl/js/poll.js'],
 				}
 			}
 		},
@@ -108,6 +111,18 @@ module.exports = function(grunt) {
 			'moudle-widget-tpl': {
 				files: {
 					'modules/widget/tpl/css/widget.min.css': ['modules/widget/tpl/css/widget.css'],
+				}
+			},
+			'moudle-poll': {
+				files: {
+					'modules/poll/tpl/css/poll.min.css': ['modules/poll/tpl/css/poll.css'],
+					'modules/poll/skins/default/css/poll.min.css': ['modules/poll/skins/default/css/poll.css'],
+					'modules/poll/skins/simple/css/poll.min.css': ['modules/poll/skins/simple/css/poll.css'],
+				}
+			},
+			'moudle-editor': {
+				files: {
+					'modules/editor/skins/xpresseditor/css/default.min.css': ['modules/editor/skins/xpresseditor/css/default.css'],
 				}
 			}
 		},
