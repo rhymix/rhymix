@@ -44,18 +44,13 @@ module.exports = function(grunt) {
 		uglify: {
 			'common-js': {
 				options: {
-					banner: banner_xe_js,
-					report: 'min'
+					banner: banner_xe_js
 				},
 				files: {
 					'common/js/xe.min.js': ['common/js/xe.js']
 				}
 			},
 			'modules': {
-				options: {
-					banner: banner,
-					report: 'min'
-				},
 				files: {
 					// addon
 					'addons/captcha/captcha.min.js' : ['addons/captcha/captcha.js'],
@@ -80,6 +75,10 @@ module.exports = function(grunt) {
 					'modules/editor/components/image_gallery/tpl/slide_gallery.min.js' : ['modules/editor/components/image_gallery/tpl/slide_gallery.js'],
 					// module/importer
 					'modules/importer/tpl/js/importer_admin.min.js': ['modules/importer/tpl/js/importer_admin.js'],
+					// modules/widget
+					'modules/widget/tpl/js/generate_code.min.js': ['modules/widget/tpl/js/generate_code.js'],
+					'modules/widget/tpl/js/widget.min.js': ['modules/widget/tpl/js/widget.js'],
+					'modules/widget/tpl/js/widget_admin.min.js': ['modules/widget/tpl/js/widget_admin.js'],
 				}
 			}
 		},
@@ -105,12 +104,20 @@ module.exports = function(grunt) {
 				files: {
 					'modules/editor/components/multimedia_link/tpl/popup.min.css': ['modules/editor/components/multimedia_link/tpl/popup.css'],
 				}
+			},
+			'moudle-widget-tpl': {
+				files: {
+					'modules/widget/tpl/css/widget.min.css': ['modules/widget/tpl/css/widget.css'],
+				}
 			}
 		},
 		jshint: {
 			files: [
 				'Gruntfile.js',
 				'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
+				'modules/widget/tpl/js/generate_code.js',
+				'modules/widget/tpl/js/widget.js',
+				'modules/widget/tpl/js/widget_admin.js',
 				'!**/*.min.js',
 				'!**/*-packed.js'
 			],
