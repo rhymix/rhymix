@@ -118,6 +118,7 @@ module.exports = function(grunt) {
 				'modules/widget/tpl/js/generate_code.js',
 				'modules/widget/tpl/js/widget.js',
 				'modules/widget/tpl/js/widget_admin.js',
+				'!**/jquery*.js',
 				'!**/*.min.js',
 				'!**/*-packed.js'
 			],
