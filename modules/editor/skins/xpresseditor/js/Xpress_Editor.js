@@ -5373,11 +5373,13 @@ xe.XE_AutoSave = $.Class({
 	$ON_MSG_APP_READY : function() {
 		var elTitle   = $(this.form._saved_doc_title);
 		var elContent = $(this.form._saved_doc_content);
+		var elDocument_srl = $(this.form._saved_doc_document_srl);
 
 		var title   = $.trim(elTitle.val());
 		var content = $.trim(elContent.val());
+		var document_srl = $.trim(elDocument_srl.val());
 
-		if (title || content) {
+		if (title || content || document_srl) {
 			if (confirm(this.form._saved_doc_message.value)) {
 				$(this.form.title).val(title);
 				this.oApp.setIR(content);
