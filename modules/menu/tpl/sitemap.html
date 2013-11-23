@@ -1881,6 +1881,9 @@ jQuery(function($){
 				showMenuSelector($(this).find('._menuSelector_menuTreeContainer'), htInfo.url);
 			}else{
 				// URL shortcut
+			        var htInfo_url = htInfo.url;
+			        htInfo_url = htInfo_url.replace(/&amp;/g, '&');
+			        htInfo.url = htInfo_url;
 				$(this).find('a[href="#fix_linkUrl"]').click();
 				$(this).find('._url_link').val($('<div />').text(htInfo.url).text());
 				
