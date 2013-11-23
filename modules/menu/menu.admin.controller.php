@@ -1365,13 +1365,13 @@ class menuAdminController extends menu
 		if(!$menu_srl || !$menu_item_srl)
 		{
 			Context::set('error_messge', Context::getLang('msg_invalid_request'));
-			
+
 		}
 		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)$/i',$target_file['name'])  || !checkUploadedFile($target_file['tmp_name']))
 		{
 			Context::set('error_messge', Context::getLang('msg_invalid_request'));
 		}
-		
+
 		// Move the file to a specific director if the uploaded file meets requirement
 		else
 		{
@@ -1564,6 +1564,8 @@ class menuAdminController extends menu
 			{
 				continue;
 			}
+
+			$htPerm[$grantName] = explode(',', $htPerm[$grantName]);
 
 			// users in a particular group
 			if(is_array($htPerm[$grantName]))
@@ -1996,7 +1998,7 @@ class menuAdminController extends menu
 			$ext = $tmp_arr[count($tmp_arr)-1];
 
 			$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_hover_btn', $ext);
-			
+
 			if(checkUploadedFile($args->menu_hover_btn['tmp_name']))
 			{
 				move_uploaded_file($args->menu_hover_btn['tmp_name'], $filename);
@@ -2011,13 +2013,13 @@ class menuAdminController extends menu
 			$ext = $tmp_arr[count($tmp_arr)-1];
 
 			$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_active_btn', $ext);
-			
+
 			if(checkUploadedFile($args->menu_active_btn['tmp_name']))
 			{
 				move_uploaded_file($args->menu_active_btn['tmp_name'], $filename);
 				$returnArray['active_btn'] = $filename;
 			}
-			
+
 		}
 		return $returnArray;
 	}
