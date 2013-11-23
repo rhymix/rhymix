@@ -176,25 +176,20 @@ class spamfilterController extends spamfilter
 	function triggerSendMessage(&$obj)
 	{
 		if($_SESSION['avoid_log']) return new Object();
-		// Check the login status, login information, and permission
-		$is_logged = Context::get('is_logged');
+
 		$logged_info = Context::get('logged_info');
-		// In case logged in, check if it is an administrator
-		if($is_logged)
-		{
-			if($logged_info->is_admin == 'Y') return new Object();
-		}
+		if($logged_info->is_admin == 'Y') return new Object();
 
 		$oFilterModel = getModel('spamfilter');
 		// Check if the IP is prohibited
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
 		// Check if there is a ban on the word
-		$text = $obj->title.$obj->content;
+		$text = $obj->title . ' ' . $obj->content;
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool()) return $output;
 		// Check the specified time
-		$output = $oFilterModel->checkLimited();
+		$output = $oFilterModel->checkLimited(TRUE);
 		if(!$output->toBool()) return $output;
 		// Save a log
 		$this->insertLog();

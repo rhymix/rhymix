@@ -114,8 +114,13 @@ class communicationController extends communication
 		// send a message
 		$output = $this->sendMessage($logged_info->member_srl, $receiver_srl, $title, $content);
 
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
 		// send an e-mail
-		if($output->toBool() && $send_mail == 'Y')
+		if($send_mail == 'Y')
 		{
 			$view_url = Context::getRequestUri();
 			$content = sprintf("%s<br /><br />From : <a href=\"%s\" target=\"_blank\">%s</a>", $content, $view_url, $view_url);
