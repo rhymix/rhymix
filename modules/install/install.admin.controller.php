@@ -142,7 +142,7 @@ class installAdminController extends install
 		$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
 		if(file_exists($homeMenuCacheFile))
 		{
-			@include($homeMenuCacheFile);
+			include($homeMenuCacheFile);
 		}
 
 		if(!$homeMenuSrl || $homeMenuSrl != $output->menu_srl)

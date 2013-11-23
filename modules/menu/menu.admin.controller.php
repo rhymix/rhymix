@@ -44,7 +44,7 @@ class menuAdminController extends menu
 	 * home menu cache file
 	 * @var string
 	 */
-	private $homeMenuCacheFile = './files/cache/menu/homeSitemap.php';
+	private $homeMenuCacheFile = 'files/cache/menu/homeSitemap.php';
 
 	/**
 	 * Initialization
@@ -53,7 +53,10 @@ class menuAdminController extends menu
 	function init()
 	{
 		$this->setTemplatePath($this->module_path.'tpl');
-		//$this->homeMenuCacheFile = sprintf('./files/cache/menu/homeSitemap.php');
+	}
+
+	function __construct() {
+		$this->homeMenuCacheFile = _XE_PATH_ . $this->homeMenuCacheFile;
 	}
 
 	/**
@@ -142,7 +145,7 @@ class menuAdminController extends menu
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
 		{
-			@include(FileHandler::getRealPath($phpFile));
+			include(FileHandler::getRealPath($phpFile));
 		}
 
 		// check home menu in originMenu
@@ -742,7 +745,7 @@ class menuAdminController extends menu
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
 		{
-			@include(FileHandler::getRealPath($phpFile));
+			include(FileHandler::getRealPath($phpFile));
 
 			if(is_array($menu->list))
 			{
@@ -889,12 +892,12 @@ class menuAdminController extends menu
 		}
 
 		// get menu properies with child menu
-		$phpFile = sprintf("./files/cache/menu/%s.php", $originalItemInfo->menu_srl);
+		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $originalItemInfo->menu_srl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
 		{
-			@include(FileHandler::getRealPath($phpFile));
+			include(FileHandler::getRealPath($phpFile));
 
 			if(is_array($menu->list))
 			{
@@ -988,12 +991,12 @@ class menuAdminController extends menu
 		$menuSrl = $itemInfo->menu_srl;
 
 		// get menu properies with child menu
-		$phpFile = sprintf("./files/cache/menu/%s.php", $menuSrl);
+		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $menuSrl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
 		{
-			@include(FileHandler::getRealPath($phpFile));
+			include(FileHandler::getRealPath($phpFile));
 
 			if(is_array($menu->list))
 			{
@@ -1306,7 +1309,7 @@ class menuAdminController extends menu
 				{
 					if(file_exists($this->homeMenuCacheFile))
 					{
-						@include($this->homeMenuCacheFile);
+						include($this->homeMenuCacheFile);
 					}
 					if(!$homeMenuSrl || $homeMenuSrl != $menu_srl)
 					{
@@ -1620,8 +1623,8 @@ class menuAdminController extends menu
 		$output = executeQuery('menu.getMenuItems', $args);
 		if(!$output->toBool()) return;
 		// Specify the name of the cache file
-		$xml_file = sprintf("./files/cache/menu/%s.xml.php", $menu_srl);
-		$php_file = sprintf("./files/cache/menu/%s.php", $menu_srl);
+		$xml_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.xml.php", $menu_srl);
+		$php_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $menu_srl);
 		// If no data found, generate an XML file without node data
 		$list = $output->data;
 		if(!$list)

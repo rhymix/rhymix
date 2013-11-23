@@ -175,13 +175,14 @@ class installController extends install
 		if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
 
 		// load script
-		$scripts = FileHandler::readDir('./modules/install/script','/(\.php)$/');
+		$scripts = FileHandler::readDir(_XE_PATH_ . 'modules/install/script', '/(\.php)$/');
 		if(count($scripts)>0)
 		{
 			sort($scripts);
 			foreach($scripts as $script)
 			{
-				$output = include(FileHandler::getRealPath('./modules/install/script/'.$script));
+				$script_path = FileHandler::getRealPath('./modules/install/script/');
+				$output = include($script_path . $script));
 			}
 		}
 

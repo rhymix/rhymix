@@ -493,12 +493,9 @@ class menuAdminModel extends menu
 		{
 			$isMenuFixed = false;
 			$output = $this->getMenu($menuSrl);
-			$php_file = sprintf('./files/cache/menu/%s.php',$output->menu_srl);
-			if(file_exists($php_file)) @include($php_file);
-			else
-			{
-				$oMenuAdminController->makeXmlFile($menuSrl);
-			}
+			$php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$output->menu_srl);
+			if(file_exists($php_file)) include($php_file);
+			else $oMenuAdminController->makeXmlFile($menuSrl);
 
 			if(count($menu->list)>0)
 			{
@@ -532,15 +529,18 @@ class menuAdminModel extends menu
 					{
 						unset($menu);
 						unset($menuItems);
-						$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
-						if(file_exists($value->php_file)) @include($value->php_file);
+						$value->php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$value->menu_srl);
+						if(file_exists($value->php_file))
+						{
+							include($value->php_file);
+						}
 						else
 						{
 							$oMenuAdminController->makeXmlFile($value->menu_srl);
 						}
 
 						$isMenuFixed = false;
-						if(count($menu->list)>0)
+						if(count($menu->list) > 0)
 						{
 							foreach($menu->list AS $key2=>$value2)
 							{

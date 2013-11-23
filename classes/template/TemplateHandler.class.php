@@ -12,7 +12,7 @@
 class TemplateHandler
 {
 
-	private $compiled_path = './files/cache/template_compiled/'; ///< path of compiled caches files
+	private $compiled_path = 'files/cache/template_compiled/'; ///< path of compiled caches files
 	private $path = NULL; ///< target directory
 	private $filename = NULL; ///< target filename
 	private $file = NULL; ///< target file (fullpath)
@@ -30,6 +30,7 @@ class TemplateHandler
 	public function __construct()
 	{
 		$this->xe_path = rtrim(preg_replace('/([^\.^\/]+)\.php$/i', '', $_SERVER['SCRIPT_NAME']), '/');
+		$this->compiled_path = _XE_PATH_ . $this->compiled_path;
 	}
 
 	/**

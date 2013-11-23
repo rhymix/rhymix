@@ -26,7 +26,7 @@ class addonAdminModel extends addon
 	 */
 	function getAddonPath($addon_name)
 	{
-		$class_path = sprintf('./addons/%s/', $addon_name);
+		$class_path = sprintf(_XE_PATH_ . 'addons/%s/', $addon_name);
 		if(is_dir($class_path))
 		{
 			return $class_path;

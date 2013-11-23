@@ -27,7 +27,7 @@ class poll_maker extends EditorHandler
 	{
 		// Wanted Skins survey
 		$oModuleModel = &getModel('module');
-		$skin_list = $oModuleModel->getSkins("./modules/poll/");
+		$skin_list = $oModuleModel->getSkins(_XE_PATH_ . 'modules/poll/');
 		Context::set('skin_list', $skin_list);
 		// Pre-compiled source code to compile template return to
 		$tpl_path = $this->component_path.'tpl';

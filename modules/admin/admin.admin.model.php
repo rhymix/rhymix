@@ -100,7 +100,7 @@ class adminAdminModel extends admin
 	 */
 	function getAdminFTPPath()
 	{
-		Context::loadLang('./modules/autoinstall/lang');
+		Context::loadLang(_XE_PATH_ . 'modules/autoinstall/lang');
 		@set_time_limit(5);
 		require_once(_XE_PATH_ . 'libs/ftp.class.php');
 
@@ -236,9 +236,11 @@ class adminAdminModel extends admin
 	 */
 	function getAdminFTPList()
 	{
-		Context::loadLang('./modules/autoinstall/lang');
+		Context::loadLang(_XE_PATH_ . 'modules/autoinstall/lang');
 		@set_time_limit(5);
+
 		require_once(_XE_PATH_ . 'libs/ftp.class.php');
+
 		$ftp_info = Context::getRequestVars();
 		if(!$ftp_info->ftp_user || !$ftp_info->ftp_password)
 		{
@@ -435,7 +437,7 @@ class adminAdminModel extends admin
 		$theme_info->name = $theme_name;
 		$theme_info->title = $xml_obj->title->body;
 		$thumbnail = './themes/' . $theme_name . '/thumbnail.png';
-		$theme_info->thumbnail = (file_exists($thumbnail)) ? $thumbnail : NULL;
+		$theme_info->thumbnail = (FileHandler::exists($thumbnail)) ? $thumbnail : NULL;
 		$theme_info->version = $xml_obj->version->body;
 		$date_obj = new stdClass();
 		sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
@@ -595,7 +597,7 @@ class adminAdminModel extends admin
 		$oModuleModel = getModel('module');
 		foreach($searched_list as $val)
 		{
-			$skin_list = $oModuleModel->getSkins('./modules/' . $val);
+			$skin_list = $oModuleModel->getSkins(_XE_PATH_ . 'modules/' . $val);
 
 			if(is_array($skin_list) && count($skin_list) > 0 && !in_array($val, $exceptionModule))
 			{
@@ -770,7 +772,7 @@ class adminAdminModel extends admin
 
 			foreach($list as $k => $v)
 			{
-				if(!is_dir('./modules/' . $v->module))
+				if(!is_dir(_XE_PATH_ . 'modules/' . $v->module))
 				{
 					unset($list[$k]);
 				}

@@ -173,7 +173,7 @@ class adminAdminController extends admin
 		$buff = '';
 		if(is_readable($siteDesignFile))
 		{
-			@include($siteDesignFile);
+			include($siteDesignFile);
 		}
 		else
 		{
@@ -294,8 +294,7 @@ class adminAdminController extends admin
 		{
 			if($favorite->type == 'module')
 			{
-				$modulePath = './modules/' . $favorite->module;
-				$modulePath = FileHandler::getRealPath($modulePath);
+				$modulePath = _XE_PATH_ . 'modules/' . $favorite->module;
 				if(!is_dir($modulePath))
 				{
 					$deleteTargets[] = $favorite->admin_favorite_srl;

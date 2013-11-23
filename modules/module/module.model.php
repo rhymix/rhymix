@@ -82,10 +82,10 @@ class moduleModel extends module
 	function getDefaultMid()
 	{
 		$default_url = Context::getDefaultUrl();
-		if(substr_compare($default_url, '/', -1) === 0) $default_url = substr($default_url, 0, -1);
+		if($default_url && substr_compare($default_url, '/', -1) === 0) $default_url = substr($default_url, 0, -1);
 
 		$request_url = Context::getRequestUri();
-		if(substr_compare($request_url, '/', -1) === 0) $request_url = substr($request_url, 0, -1);
+		if($request_url && substr_compare($request_url, '/', -1) === 0) $request_url = substr($request_url, 0, -1);
 
 		$default_url_parse = parse_url($default_url);
 		$request_url_parse = parse_url($request_url);
@@ -747,7 +747,7 @@ class moduleModel extends module
 		$xml_file = sprintf("%sconf/module.xml", $class_path);
 		if(!file_exists($xml_file)) return;
 		// Check if cached file exists
-		$cache_file = sprintf("./files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
+		$cache_file = sprintf(_XE_PATH_ . "files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
 		// Update if no cache file exists or it is older than xml file
 		if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file))
 		{
@@ -903,7 +903,7 @@ class moduleModel extends module
 			return $info;
 		}
 
-		@include($cache_file);
+		if(file_exists($cache_file)) include($cache_file);
 
 		return $info;
 	}
@@ -1713,7 +1713,7 @@ class moduleModel extends module
 		$designInfoFile = sprintf(_XE_PATH_.'files/site_design/design_%s.php', $site_srl);
 		if(is_readable($designInfoFile))
 		{
-			@include($designInfoFile);
+			include($designInfoFile);
 
 			$skinName = $designInfo->module->{$module_name}->{$target};
 		}
@@ -2077,7 +2077,7 @@ class moduleModel extends module
 		$security->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
 
 		$oTemplate = &TemplateHandler::getInstance();
-		$html = $oTemplate->compile('./modules/module/tpl/', 'filebox_list_html');
+		$html = $oTemplate->compile(_XE_PATH_ . 'modules/module/tpl/', 'filebox_list_html');
 
 		$this->add('html', $html);
 	}

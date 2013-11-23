@@ -694,12 +694,13 @@ class Context
 	function getFTPInfo()
 	{
 		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
+
 		if(!$self->isFTPRegisted())
 		{
 			return null;
 		}
 
-		@include($self->getFTPConfigFile());
+		include($self->getFTPConfigFile());
 
 		return $ftp_info;
 	}

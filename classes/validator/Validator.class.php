@@ -95,7 +95,7 @@ class Validator
 		));
 
 		$this->_has_mb_func = is_callable('mb_strlen');
-		$this->setCacheDir('./files/cache');
+		$this->setCacheDir(_XE_PATH_ . 'files/cache');
 	}
 
 	/**

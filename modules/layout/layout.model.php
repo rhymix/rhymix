@@ -760,7 +760,7 @@ class layoutModel extends layout
 
 		$buff = '<?php if(!defined("__XE__")) exit(); '.$buff.' ?>';
 		FileHandler::writeFile($cache_file, $buff);
-		if(file_exists($cache_file)) @include($cache_file);
+		if(FileHandler::exists($cache_file)) include($cache_file);
 
 		if(!$layout_info->title)
 		{
@@ -807,7 +807,7 @@ class layoutModel extends layout
 	 */
 	function getUserLayoutPath($layout_srl)
 	{
-		return sprintf("./files/faceOff/%s",getNumberingPath($layout_srl,3));
+		return sprintf("%sfiles/faceOff/%s", _XE_PATH_, getNumberingPath($layout_srl,3));
 	}
 
 	/**
@@ -942,7 +942,7 @@ class layoutModel extends layout
 	 */
 	function getLayoutCache($layout_name,$lang_type)
 	{
-		return sprintf("./files/cache/layout/%s.%s.cache.php",$layout_name,$lang_type);
+		return sprintf("%sfiles/cache/layout/%s.%s.cache.php", _XE_PATH_, $layout_name,$lang_type);
 	}
 
 	/**

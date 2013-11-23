@@ -527,7 +527,7 @@ class moduleAdminModel extends module
 	function getModuleAdminMultilingualHtml()
 	{
 		$oTemplate = TemplateHandler::getInstance();
-		$tpl = $oTemplate->compile('./modules/module/tpl', 'multilingual_v17.html');
+		$tpl = $oTemplate->compile(_XE_PATH_ . 'modules/module/tpl', 'multilingual_v17.html');
 
 		$this->add('html', $tpl);
 	}
@@ -566,7 +566,7 @@ class moduleAdminModel extends module
 		$oSecurity->encodeHTML('lang_code_list..');
 
 		$oTemplate = TemplateHandler::getInstance();
-		$tpl = $oTemplate->compile('./modules/module/tpl', 'multilingual_v17_list.html');
+		$tpl = $oTemplate->compile(_XE_PATH_ . 'modules/module/tpl', 'multilingual_v17_list.html');
 
 		$this->add('html', $tpl);
 	}
@@ -576,9 +576,9 @@ class moduleAdminModel extends module
 	 */
 	function getModuleAdminModuleSearcherHtml()
 	{
-		Context::loadLang('./modules/admin/lang');
+		Context::loadLang(_XE_PATH_ . 'modules/admin/lang');
 		$oTemplate = TemplateHandler::getInstance();
-		$tpl = $oTemplate->compile('./modules/module/tpl', 'module_searcher_v17.html');
+		$tpl = $oTemplate->compile(_XE_PATH_ . 'modules/module/tpl', 'module_searcher_v17.html');
 
 		$this->add('html', $tpl);
 	}

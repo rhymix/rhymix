@@ -57,8 +57,8 @@ class menuAdminView extends menu
 					unset($menu);
 					unset($menuItems);
 					//$value->xml_file = sprintf('./files/cache/menu/%s.xml.php',$value->menu_srl);
-					$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
-					if(file_exists($value->php_file)) @include($value->php_file);
+					$value->php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$value->menu_srl);
+					if(file_exists($value->php_file)) include($value->php_file);
 
 					if(count($menu->list)>0)
 					{
@@ -80,7 +80,7 @@ class menuAdminView extends menu
 		Context::set('menu_list', $menuList);
 
 		// get installed module list
-		$oPageController = &getController('page');	//for lang
+		$oPageController = &getController('page'); //for lang
 		$resultModuleList = $oMenuAdminModel->getModuleListInSitemap($site_srl);
 		Context::set('module_list', $resultModuleList);
 

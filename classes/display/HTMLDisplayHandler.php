@@ -100,7 +100,7 @@ class HTMLDisplayHandler
 					// search if the changes CSS exists in the admin layout edit window
 					$edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
 
-					if(file_exists($edited_layout_css))
+					if(FileHandler::exists($edited_layout_css))
 					{
 						Context::loadFile(array($edited_layout_css, 'all', '', 100));
 					}
@@ -278,7 +278,7 @@ class HTMLDisplayHandler
 			case 'number':
 			case 'range':
 			case 'color':
-				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str) . ' value="' . @htmlspecialchars($INPUT_ERROR[$match[3]], ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '"';
+				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str) . ' value="' . htmlspecialchars($INPUT_ERROR[$match[3]], ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '"';
 				break;
 			case 'password':
 				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str);
