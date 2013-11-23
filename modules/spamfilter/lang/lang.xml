@@ -206,6 +206,15 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 	</item>
 	<item name="msg_alert_limited_message_by_config">
 		<value xml:lang="ko"><![CDATA[%s 초 이내에 쪽지 발송은 금지 됩니다. 계속 시도하면 금지 IP에 등록될 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[sending an message within %s seconda is not allowed.\n If you keep trying, your IP address will be blacklisted.]]></value>
+		<value xml:lang="jp"><![CDATA[%s秒以内メッセージ送信は禁止されます。続けて行うとスパムとして認識され、禁止IPに登録されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[%s秒以内禁止发短信。如再次尝试会将您的IP登录在黑名单。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[%s秒以內禁止發短信。如再次嘗試會將您的IP登錄在黑名單。]]></value>
+		<value xml:lang="fr"><![CDATA[L'Envoie d'un message en %s secondes n'est pas permis.\n Si vous essayez encore, votre adresse IP peut être enrégistré dans la liste noire.]]></value>
+		<value xml:lang="ru"><![CDATA[Отправить сообщение с интервалом в %s секунд не разрешено.\n Если Вы будете многократно пытаться это сделать, Ваш IP-адрес может быть добавлен в черный список.]]></value>
+		<value xml:lang="es"><![CDATA[Se prohíbe enviar un mensaje antes de %s segundos.\n Si Usted trata varias veces, su dirección IP puede ser agregada en la lista negra.]]></value>
+		<value xml:lang="tr"><![CDATA[%s saniyede mesaj gönder göndermek mümkün değildir.\n Denemeyi sürdürürseniz, IP adresiniz kara listeye alınacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Không được gửi tin nhắn thứ 2 trong khoảng thời gian %s giây.\n Nếu bạn cứ tiếp tục, IP của bạn sẽ bị thêm vào danh sách IP bị cấm.]]></value>
 	</item>
 	<item name="msg_alert_denied_word">
 		<value xml:lang="ko"><![CDATA["%s"는 사용 금지된 단어입니다.]]></value>
