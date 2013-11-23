@@ -490,6 +490,7 @@ class adminAdminController extends admin
 		$db_info->sitelock_title = $vars->sitelock_title;
 		$db_info->sitelock_message = $vars->sitelock_message;
 		$db_info->sitelock_whitelist = $vars->sitelock_whitelist;
+		if(!$db_info->sitelock_whitelist) $db_info->sitelock_whitelist = '127.0.0.1';
 
 		FileHandler::writeFile(Context::getConfigFile(), $oInstallController->_getDBConfigFileContents($db_info));
 

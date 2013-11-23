@@ -552,9 +552,9 @@ class installController extends install
 			}
 			else if($key == 'sitelock_whitelist')
 			{
-				$tmpValue = preg_split("/[\r\n|\r|\n]+/", $val);
-				$tmpValue = array_unique($tmpValue);
-				$tmpValue = sprintf('$db_info->%s = array(\'%s\');' . PHP_EOL, $key, implode('\', \'', $tmpValue));
+				if(!is_array($val)) $val = preg_split("/[\r\n|\r|\n]+/", $val);
+				$val = array_unique($val);
+				$tmpValue = sprintf('$db_info->%s = array(\'%s\');' . PHP_EOL, $key, implode('\', \'', $val));
 			}
 			else
 			{
