@@ -396,6 +396,8 @@ class HTMLDisplayHandler
 		if(__DEBUG__)
 		{
 			$oContext->loadFile(array('./common/js/jquery.js', 'head', '', -100000), true);
+			$oContext->loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -100000), true);
+			$oContext->loadFile(array('./common/js/jquery-migrate.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/x.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/common.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000), true);
@@ -406,6 +408,8 @@ class HTMLDisplayHandler
 		else
 		{
 			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', '', -100000), true);
+			$oContext->loadFile(array('./common/js/jquery-1.x.min.js', 'head', 'lt IE 9', -100000), true);
+			$oContext->loadFile(array('./common/js/jquery-migrate.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/x.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/xe.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/css/xe.min.css', '', '', -1000000), true);
