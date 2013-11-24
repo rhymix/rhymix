@@ -324,7 +324,7 @@ class layoutAdminController extends layout
 		FileHandler::removeDir($path);
 
 		$layout_file = $oLayoutModel->getUserLayoutHtml($layout_srl);
-		if(file_exists($layout_file)) FileHandler::removeFile($layout_file);
+		FileHandler::removeFile($layout_file);
 		// Delete Layout
 		$args = new stdClass();
 		$args->layout_srl = $layout_srl;

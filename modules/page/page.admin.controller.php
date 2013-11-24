@@ -273,8 +273,8 @@ class pageAdminController extends page
 				$mcacheFile =  sprintf("%sfiles/cache/opage/%d.m.cache.php", _XE_PATH_, $module_info->module_srl);
 			}
 		}
-		if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
-		if(file_exists($mcacheFile)) FileHandler::removeFile($mcacheFile);
+		FileHandler::removeFile($cache_file);
+		FileHandler::removeFile($mcacheFile);
 	}
 
 	function procPageAdminArticleDocumentInsert()
