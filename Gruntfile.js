@@ -176,6 +176,22 @@ module.exports = function(grunt) {
 					'!**/*.min.css',
 				]
 			}
+		},
+		phplint: {
+			default : {
+				options: {
+					phpCmd: "php",
+				},
+
+				src: [
+					"**/*.php",
+					"!files/**",
+					"!tests/**",
+					"!tools/**",
+					"!node_modules/**",
+					"!libs/**"
+				],
+			},
 		}
 	});
 
@@ -341,8 +357,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-phplint');
 
 	grunt.registerTask('default', ['jshint', 'csslint']);
-	grunt.registerTask('lint', ['jshint', 'csslint']);
+	grunt.registerTask('lint', ['jshint', 'csslint', 'phplint']);
 	grunt.registerTask('minify', ['jshint', 'csslint', 'clean', 'concat', 'uglify', 'cssmin']);
 };
