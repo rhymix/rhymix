@@ -188,7 +188,7 @@ class memberModel extends member
 			}
 			else
 			{
-				if($_SESSION['ipaddress'] == $_SERVER['REMOTE_ADDR'])
+				if(ip2long($_SESSION['ipaddress']) >> 8 == ip2long($_SERVER['REMOTE_ADDR']) >> 8)
 				{
 					return true;
 				}
