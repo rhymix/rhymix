@@ -743,16 +743,25 @@ class moduleModel extends module
 		// Get a path of the requested module. Return if not exists.
 		$class_path = ModuleHandler::getModulePath($module);
 		if(!$class_path) return;
+
 		// Check if module.xml exists in the path. Return if not exist
 		$xml_file = sprintf("%sconf/module.xml", $class_path);
 		if(!file_exists($xml_file)) return;
+
 		// Check if cached file exists
 		$cache_file = sprintf(_XE_PATH_ . "files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
+
 		// Update if no cache file exists or it is older than xml file
 		if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file))
 		{
 			$info = new stdClass();
-			$buff = ""; // /< Set buff variable to use in the cache file
+			$buff = array(); // /< Set buff variable to use in the cache file
+			$buff[] = '<?php if(!defined("__XE__")) exit();';
+			$buff[] = '$info = new stdClass;';
+			$buff['default_index_act'] = '$info->default_index_act = \'%s\';';
+			$buff['setup_index_act'] = '$info->setup_index_act=\'%s\';';
+			$buff['simple_setup_index_act'] = '$info->simple_setup_index_act=\'%s\';';
+			$buff['admin_index_act'] = '$info->admin_index_act = \'%s\';';
 
 			$xml_obj = XmlParser::loadXmlFile($xml_file); // /< Read xml file and convert it to xml object
 
@@ -764,6 +773,7 @@ class moduleModel extends module
 			$actions = $xml_obj->module->actions->action; // /< Action list (required)
 
 			$default_index = $admin_index = '';
+
 			// Arrange permission information
 			if($grants)
 			{
@@ -781,8 +791,9 @@ class moduleModel extends module
 					$info->grant->{$name}->title = $title;
 					$info->grant->{$name}->default = $default;
 
-					$buff .= sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
-					$buff .= sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
+					$buff[] = sprintf('$info->grant->%s = new stdClass;', $name);
+					$buff[] = sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
+					$buff[] = sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
 				}
 			}
 			// Permissions to grant
@@ -790,6 +801,8 @@ class moduleModel extends module
 			{
 				if(is_array($permissions)) $permission_list = $permissions;
 				else $permission_list[] = $permissions;
+
+				$buff[] = '$info->permission = new stdClass;';
 
 				$info->permission = new stdClass();
 				foreach($permission_list as $permission)
@@ -799,7 +812,7 @@ class moduleModel extends module
 
 					$info->permission->{$action} = $target;
 
-					$buff .= sprintf('$info->permission->%s = \'%s\';', $action, $target);
+					$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
 				}
 			}
 			// for admin menus
@@ -808,6 +821,7 @@ class moduleModel extends module
 				if(is_array($menus)) $menu_list = $menus;
 				else $menu_list[] = $menus;
 
+				$buff[] = '$info->menu = new stdClass;';
 				$info->menu = new stdClass();
 				foreach($menu_list as $menu)
 				{
@@ -820,8 +834,9 @@ class moduleModel extends module
 					$info->menu->{$menu_name}->acts = array();
 					$info->menu->{$menu_name}->type = $menu_type;
 
-					$buff .= sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
-					$buff .= sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
+					$buff[] = sprintf('$info->menu->%s = new stdClass;', $menu_name);
+					$buff[] = sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
+					$buff[] = sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
 				}
 			}
 
@@ -831,6 +846,7 @@ class moduleModel extends module
 				if(is_array($actions)) $action_list = $actions;
 				else $action_list[] = $actions;
 
+				$buff[] = '$info->action = new stdClass;';
 				$info->action = new stdClass();
 				foreach($action_list as $action)
 				{
@@ -857,7 +873,7 @@ class moduleModel extends module
 						if($menu_index == 'true')
 						{
 							$info->menu->{$action->attrs->menu_name}->index = $name;
-							$buff .= sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
+							$buff[] = sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
 						}
 						if(is_array($info->menu->{$action->attrs->menu_name}->acts))
 						{
@@ -865,14 +881,15 @@ class moduleModel extends module
 							$currentKey = @array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
 						}
 
-						$buff .= sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
+						$buff[] = sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
 						$i++;
 					}
 
-					$buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
-					$buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
-					$buff .= sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
-					$buff .= sprintf('$info->action->%s->method=\'%s\';', $name, $method);
+					$buff[] = sprintf('$info->action->%s = new stdClass;', $name);
+					$buff[] = sprintf('$info->action->%s->type=\'%s\';', $name, $type);
+					$buff[] = sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
+					$buff[] = sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
+					$buff[] = sprintf('$info->action->%s->method=\'%s\';', $name, $method);
 
 					if($index=='true')
 					{
@@ -896,7 +913,12 @@ class moduleModel extends module
 					}
 				}
 			}
-			$buff = sprintf('<?php if(!defined("__XE__")) exit();$info->default_index_act = \'%s\';$info->setup_index_act=\'%s\';$info->simple_setup_index_act=\'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $setup_index_act, $simple_setup_index_act, $admin_index_act, $buff);
+			$buff['default_index_act'] = sprintf($buff['default_index_act'], $default_index_act);
+			$buff['setup_index_act'] = sprintf($buff['setup_index_act'], $setup_index_act);
+			$buff['simple_setup_index_act'] = sprintf($buff['simple_setup_index_act'], $simple_setup_index_act);
+			$buff['admin_index_act'] = sprintf($buff['admin_index_act'], $admin_index_act);
+
+			$buff = implode(PHP_EOL, $buff);
 
 			FileHandler::writeFile($cache_file, $buff);
 

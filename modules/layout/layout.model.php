@@ -524,7 +524,9 @@ class layoutModel extends layout
 
 		if(!$xml_obj) return;
 
-		$buff = array(sprintf('$layout_info->site_srl = "%s";', $site_srl));
+		$buff = array();
+		$buff[] = '$layout_info = new stdClass;';
+		$buff[] = sprintf('$layout_info->site_srl = "%s";', $site_srl);
 
 		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
 		{
@@ -548,8 +550,10 @@ class layoutModel extends layout
 			if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
 			else $author_list = $xml_obj->author;
 
+			$buff[] = '$layout_info->author = array();';
 			for($i=0, $c=count($author_list); $i<$c; $i++)
 			{
+				$buff[] = sprintf('$layout_info->author[%d] = new stdClass;', $i);
 				$buff[] = sprintf('$layout_info->author[%d]->name = "%s";', $i, $author_list[$i]->name->body);
 				$buff[] = sprintf('$layout_info->author[%d]->email_address = "%s";', $i, $author_list[$i]->attrs->email_address);
 				$buff[] = sprintf('$layout_info->author[%d]->homepage = "%s";', $i, $author_list[$i]->attrs->link);
@@ -568,12 +572,14 @@ class layoutModel extends layout
 					$extra_var_count = count($extra_vars);
 
 					$buff[] = sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
+					$buff[] = '$layout_info->extra_var = new stdClass;';
 					for($i=0;$i<$extra_var_count;$i++)
 					{
 						unset($var, $options);
 						$var = $extra_vars[$i];
 						$name = $var->attrs->name;
 
+						$buff[] = sprintf('$layout_info->extra_var->%s = new stdClass;', $name);
 						$buff[] = sprintf('$layout_info->extra_var->%s->group = "%s";', $name, $group->title->body);
 						$buff[] = sprintf('$layout_info->extra_var->%s->title = "%s";', $name, $var->title->body);
 						$buff[] = sprintf('$layout_info->extra_var->%s->type = "%s";', $name, $var->attrs->type);
@@ -588,6 +594,8 @@ class layoutModel extends layout
 						$thumbnail_exist = false;
 						for($j=0; $j < $options_count; $j++)
 						{
+							$buff[] = sprintf('$layout_info->extra_var->%s->options = array();', $var->attrs->name);
+							$buff[] = sprintf('$layout_info->extra_var->%s->options["%s"] = new stdClass;', $var->attrs->name, $options[$j]->attrs->value);
 							$thumbnail = $options[$j]->attrs->src;
 							if($thumbnail)
 							{
@@ -615,10 +623,12 @@ class layoutModel extends layout
 
 				$menu_count = count($menus);
 				$buff[] = sprintf('$layout_info->menu_count = "%s";', $menu_count);
+				$buff[] = '$layout_info->menu = new stdClass;';
 				for($i=0;$i<$menu_count;$i++)
 				{
 					$name = $menus[$i]->attrs->name;
 					if($menus[$i]->attrs->default == "true") $buff[] = sprintf('$layout_info->default_menu = "%s";', $name);
+					$buff[] = sprintf('$layout_info->menu->%s = new stdClass;', $name);
 					$buff[] = sprintf('$layout_info->menu->%s->name = "%s";',$name, $menus[$i]->attrs->name);
 					$buff[] = sprintf('$layout_info->menu->%s->title = "%s";',$name, $menus[$i]->title->body);
 					$buff[] = sprintf('$layout_info->menu->%s->maxdepth = "%s";',$name, $menus[$i]->attrs->maxdepth);
@@ -635,10 +645,12 @@ class layoutModel extends layout
 				if(!is_array($xml_obj->history)) $history_list[] = $xml_obj->history;
 				else $history_list = $xml_obj->history;
 
+				$buff[] = '$layout_info->history = array();';
 				for($i=0, $c=count($history_list); $i<$c; $i++)
 				{
 					sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
 					$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+					$buff[] = sprintf('$layout_info->history[%d] = new stdClass;', $i);
 					$buff[] = sprintf('$layout_info->history[%d]->description = "%s";', $i, $history_list[$i]->description->body);
 					$buff[] = sprintf('$layout_info->history[%d]->version = "%s";', $i , $history_list[$i]->attrs->version);
 					$buff[] = sprintf('$layout_info->history[%d]->date = "%s";', $i, $date);
@@ -647,8 +659,10 @@ class layoutModel extends layout
 					{
 						(!is_array($history_list[$i]->author)) ? $obj->author_list[] = $history_list[$i]->author : $obj->author_list = $history_list[$i]->author;
 
+						$buff[] = sprintf('$layout_info->history[%d]->author = array();', $i);
 						for($j=0, $jc=count($obj->author_list); $j<$jc; $j++)
 						{
+							$buff[] = sprintf('$layout_info->history[%d]->author[%d] = new stdClass;', $i, $j);
 							$buff[] = sprintf('$layout_info->history[%d]->author[%d]->name = "%s";', $i, $j, $obj->author_list[$j]->name->body);
 							$buff[] = sprintf('$layout_info->history[%d]->author[%d]->email_address = "%s";', $i, $j, $obj->author_list[$j]->attrs->email_address);
 							$buff[] = sprintf('$layout_info->history[%d]->author[%d]->homepage = "%s";', $i, $j, $obj->author_list[$j]->attrs->link);
@@ -659,8 +673,10 @@ class layoutModel extends layout
 					{
 						(!is_array($history_list[$i]->log)) ? $obj->log_list[] = $history_list[$i]->log : $obj->log_list = $history_list[$i]->log;
 
+						$buff[] = sprintf('$layout_info->history[%d]->logs = array();', $i, $j, $obj->log_list[$j]->body);
 						for($j=0, $jc=count($obj->log_list); $j<$jc; $j++)
 						{
+							$buff[] = sprintf('$layout_info->history[%d]->logs[%d] = new stdClass;', $i, $j);
 							$buff[] = sprintf('$layout_info->history[%d]->logs[%d]->text = "%s";', $i, $j, $obj->log_list[$j]->body);
 							$buff[] = sprintf('$layout_info->history[%d]->logs[%d]->link = "%s";', $i, $j, $obj->log_list[$j]->attrs->link);
 						}

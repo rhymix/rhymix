@@ -840,6 +840,7 @@ class Context
 	{
 		global $lang;
 
+		if(!$path) return;
 		$_path = 'eval://' . $path;
 
 		if(in_array($_path, $this->loaded_lang_files))
@@ -870,6 +871,7 @@ class Context
 	 */
 	function _loadXmlLang($path)
 	{
+		if(!$path) return;
 		$oXmlLangParser = new XmlLangParser($path . ((substr_compare($path, '/', -1) !== 0) ? '/' : '') . 'lang.xml', $this->lang_type);
 		return $oXmlLangParser->compile();
 	}
@@ -882,6 +884,7 @@ class Context
 	 */
 	function _loadPhpLang($path)
 	{
+		if(!$path) return;
 		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';
