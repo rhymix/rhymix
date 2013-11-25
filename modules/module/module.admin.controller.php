@@ -896,12 +896,12 @@ class moduleAdminController extends module
 				$langMap[$langCode] += $langMap[$targetLangCode];
 			}
 
-			$str = "<?php if(!defined('__XE__')) exit(); \r\n";
+			$buff = array("<?php if(!defined('__XE__')) exit();");
 			foreach($langMap[$langCode] as $code => $value)
 			{
-				$str .= sprintf('$lang[\'%s\'] = \'%s\';', $code, addcslashes($value, "'"));
+				$buff[] = sprintf('$lang[\'%s\'] = \'%s\';', $code, addcslashes($value, "'"));
 			}
-			if (!@file_put_contents(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), $str, LOCK_EX))
+			if (!@file_put_contents(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), join(PHP_EOL, $buff), LOCK_EX))
 			{
 				return;
 			}
