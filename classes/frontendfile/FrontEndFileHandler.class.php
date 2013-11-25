@@ -8,6 +8,8 @@
 class FrontEndFileHandler extends Handler
 {
 
+	static $isSSL = FALSE;
+
 	/**
 	 * Map for css
 	 * @var array
@@ -51,22 +53,15 @@ class FrontEndFileHandler extends Handler
 	 */
 	function isSsl()
 	{
-		if($GLOBAL['__XE_IS_SSL__'])
+		if(self::$isSSL)
 		{
-			return $GLOBAL['__XE_IS_SSL__'];
+			return TRUE;
 		}
 
 		$url_info = parse_url(Context::getRequestUrl());
-		if($url_info['scheme'] == 'https')
-		{
-			$GLOBAL['__XE_IS_SSL__'] = TRUE;
-		}
-		else
-		{
-			$GLOBAL['__XE_IS_SSL__'] = FALSE;
-		}
+		self::$isSSL = ($url_info['scheme'] == 'https');
 
-		return $GLOBAL['__XE_IS_SSL__'];
+		return self::$isSSL;
 	}
 
 	/**
@@ -115,8 +110,7 @@ class FrontEndFileHandler extends Handler
 		}
 		else if($file->fileExtension == 'js')
 		{
-			$type = $args[1];
-			if($type == 'body')
+			if($args[1] == 'body')
 			{
 				$map = &$this->jsBodyMap;
 				$mapIndex = &$this->jsBodyMapIndex;
@@ -222,8 +216,7 @@ class FrontEndFileHandler extends Handler
 			if(isset($this->cssMapIndex[$file->key]))
 			{
 				$index = $this->cssMapIndex[$file->key];
-				unset($this->cssMap[$index][$file->key]);
-				unset($this->cssMapIndex[$file->key]);
+				unset($this->cssMap[$index][$file->key], $this->cssMapIndex[$file->key]);
 			}
 		}
 		else
@@ -231,14 +224,12 @@ class FrontEndFileHandler extends Handler
 			if(isset($this->jsHeadMapIndex[$file->key]))
 			{
 				$index = $this->jsHeadMapIndex[$file->key];
-				unset($this->jsHeadMap[$index][$file->key]);
-				unset($this->jsHeadMapIndex[$file->key]);
+				unset($this->jsHeadMap[$index][$file->key], $this->jsHeadMapIndex[$file->key]);
 			}
 			if(isset($this->jsBodyMapIndex[$file->key]))
 			{
 				$index = $this->jsBodyMapIndex[$file->key];
-				unset($this->jsBodyMap[$index][$file->key]);
-				unset($this->jsBodyMapIndex[$file->key]);
+				unset($this->jsBodyMap[$index][$file->key], $this->jsBodyMapIndex[$file->key]);
 			}
 		}
 	}

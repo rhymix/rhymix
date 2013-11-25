@@ -51,14 +51,13 @@ class ExtraVar
 	 */
 	function setExtraVarKeys($extra_keys)
 	{
-		if(!is_array($extra_keys) || !count($extra_keys))
+		if(!is_array($extra_keys) || count($extra_keys) < 1)
 		{
 			return;
 		}
 
-		foreach($extra_keys as $key => $val)
+		foreach($extra_keys as $val)
 		{
-			$obj = null;
 			$obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value, $val->eid);
 			$this->keys[$val->idx] = $obj;
 		}
@@ -226,9 +225,6 @@ class ExtraItem
 					$values = explode(',', $value);
 				}
 
-				$values[0] = $values[0];
-				$values[1] = $values[1];
-				$values[2] = $values[2];
 				return $values;
 
 			case 'checkbox' :
@@ -251,7 +247,7 @@ class ExtraItem
 					$values = array($value);
 				}
 
-				for($i = 0; $i < count($values); $i++)
+				for($i = 0, $c = count($values); $i < $c; $i++)
 				{
 					$values[$i] = htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				}
@@ -315,10 +311,7 @@ class ExtraItem
 				{
 					return implode(', ', $value);
 				}
-				else
-				{
-					return $value;
-				}
+				return $value;
 				
 			case 'date' :
 				return zdate($value, "Y-m-d");
@@ -329,20 +322,14 @@ class ExtraItem
 				{
 					return implode(', ', $value);
 				}
-				else
-				{
-					return $value;
-				}
+				return $value;
 
 			case 'kr_zip' :
 				if(is_array($value))
 				{
 					return implode(' ', $value);
 				}
-				else
-				{
-					return $value;
-				}
+				return $value;
 
 			// case 'text' :
 			default :
