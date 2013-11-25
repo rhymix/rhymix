@@ -215,5 +215,8 @@ class DBMysql_innodb extends DBMysql
 	}
 
 }
+
+DBMysql_innodb::$isSupported = function_exists('mysql_connect');
+
 /* End of file DBMysql_innodb.class.php */
 /* Location: ./classes/db/DBMysql_innodb.class.php */

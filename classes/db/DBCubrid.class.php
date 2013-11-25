@@ -65,20 +65,6 @@ class DBCubrid extends DB
 	}
 
 	/**
-	 * Return if supportable
-	 * Check 'cubrid_connect' function exists.
-	 * @return boolean
-	 */
-	function isSupported()
-	{
-		if(!function_exists('cubrid_connect'))
-		{
-			return FALSE;
-		}
-		return TRUE;
-	}
-
-	/**
 	 * DB Connect
 	 * this method is private
 	 * @param array $connection connection's value is db_hostname, db_port, db_database, db_userid, db_password
@@ -1190,5 +1176,8 @@ class DBCubrid extends DB
 	}
 
 }
+
+DBCubrid::$isSupported = function_exists('cubrid_connect');
+
 /* End of file DBCubrid.class.php */
 /* Location: ./classes/db/DBCubrid.class.php */

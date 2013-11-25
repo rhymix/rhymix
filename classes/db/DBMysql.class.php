@@ -59,20 +59,6 @@ class DBMysql extends DB
 	}
 
 	/**
-	 * Return if supportable
-	 * Check 'mysql_connect' function exists.
-	 * @return boolean
-	 */
-	function isSupported()
-	{
-		if(!function_exists('mysql_connect'))
-		{
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * DB Connect
 	 * this method is private
 	 * @param array $connection connection's value is db_hostname, db_port, db_database, db_userid, db_password
@@ -884,5 +870,8 @@ class DBMysql extends DB
 	}
 
 }
+
+DBMysql::$isSupported = function_exists('mysql_connect');
+
 /* End of file DBMysql.class.php */
 /* Location: ./classes/db/DBMysql.class.php */

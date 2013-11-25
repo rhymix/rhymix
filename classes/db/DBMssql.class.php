@@ -58,20 +58,6 @@ class DBMssql extends DB
 	}
 
 	/**
-	 * Return if supportable
-	 * Check 'sqlsrv' extension loaded.
-	 * @return boolean
-	 */
-	function isSupported()
-	{
-		if(!extension_loaded("sqlsrv"))
-		{
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * DB Connect
 	 * this method is private
 	 * @param array $connection connection's value is db_hostname, db_database, db_userid, db_password
@@ -1020,5 +1006,8 @@ class DBMssql extends DB
 	}
 
 }
+
+DBMssql::$isSupported = extension_loaded("sqlsrv");
+
 /* End of file DBMssql.class.php */
 /* Location: ./classes/db/DBMssql.class.php */

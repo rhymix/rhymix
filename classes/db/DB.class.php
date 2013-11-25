@@ -50,6 +50,8 @@ if(!defined('__XE_LOADED_DB_CLASS__'))
 class DB
 {
 
+	static $isSupported = FALSE;
+
 	/**
 	 * priority of DBMS
 	 * @var array
@@ -385,7 +387,7 @@ class DB
 	 */
 	function isSupported()
 	{
-		return FALSE;
+		return self::$isSupported;
 	}
 
 	/**
@@ -803,46 +805,6 @@ class DB
 		}
 
 		return TRUE;
-	}
-
-	/**
-	 * Returns supported database list
-	 * @return array list of supported database
-	 */
-	function getSupportedDatabase()
-	{
-		$result = array();
-
-		if(function_exists('mysql_connect'))
-		{
-			$result[] = 'MySQL';
-		}
-		if(function_exists('cubrid_connect'))
-		{
-			$result[] = 'Cubrid';
-		}
-		if(function_exists('ibase_connect'))
-		{
-			$result[] = 'FireBird';
-		}
-		if(function_exists('pg_connect'))
-		{
-			$result[] = 'Postgre';
-		}
-		if(function_exists('sqlite_open'))
-		{
-			$result[] = 'sqlite2';
-		}
-		if(function_exists('mssql_connect'))
-		{
-			$result[] = 'MSSQL';
-		}
-		if(function_exists('PDO'))
-		{
-			$result[] = 'sqlite3(PDO)';
-		}
-
-		return $result;
 	}
 
 	/**

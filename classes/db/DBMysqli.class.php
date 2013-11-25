@@ -27,20 +27,6 @@ class DBMysqli extends DBMysql
 	}
 
 	/**
-	 * Return if supportable
-	 * Check 'mysqli_connect' function exists.
-	 * @return boolean
-	 */
-	function isSupported()
-	{
-		if(!function_exists('mysqli_connect'))
-		{
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Create an instance of this class
 	 * @return DBMysqli return DBMysqli object instance
 	 */
@@ -444,5 +430,8 @@ class DBMysqli extends DBMysql
 	}
 
 }
+
+DBMysqli::$isSupported = function_exists('mysqli_connect');
+
 /* End of file DBMysqli.class.php */
 /* Location: ./classes/db/DBMysqli.class.php */
