@@ -23,7 +23,7 @@ if(!$logged_info)
 /**
  * Message/Friend munus are added on the pop-up window and member profile. Check if a new message is received
  * */
-if($called_position == 'before_module_init' && $this->module != 'member')
+if($this->module != 'member' && $called_position == 'before_module_init')
 {
 	// Load a language file from the communication module
 	Context::loadLang(_XE_PATH_ . 'modules/communication/lang');
@@ -31,34 +31,29 @@ if($called_position == 'before_module_init' && $this->module != 'member')
 	$oMemberController = getController('member');
 	$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
 	$oMemberController->addMemberMenu('dispCommunicationMessages', 'cmd_view_message_box');
-	// Pop-up to display messages if a flag on new message is set
-	$flag_path = _XE_PATH_ . 'files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
-	$flag_file = $flag_path . $logged_info->member_srl;
 
-	if(file_exists($flag_file) && $addon_info->use_alarm != 'N')
+	if($addon_info->use_alarm != 'N');
 	{
-		$new_message_count = trim(FileHandler::readFile($flag_file));
+		// Pop-up to display messages if a flag on new message is set
+		$flag_file = _XE_PATH_ . 'files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl) . $logged_info->member_srl;
+		$new_message_count = (int) trim(FileHandler::readFile($flag_file));
 		FileHandler::removeFile($flag_file);
 		Context::loadLang(_XE_PATH_ . 'addons/member_communication/lang');
 		Context::loadFile(array('./addons/member_communication/tpl/member_communication.js'), true);
 
 		$text = preg_replace('@\r?\n@', '\\n', addslashes(Context::getLang('alert_new_message_arrived')));
-		$link = Context::getRequestUri() . '?module=communication&act=dispCommunicationNewMessage';
-		$script = "<script type=\"text/javascript\">jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>";
-
-		Context::addHtmlFooter($script);
+		Context::addHtmlFooter("<script type=\"text/javascript\">jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>");
 	}
 }
-elseif($called_position == 'before_module_proc' && $this->act == 'getMemberMenu')
+elseif($this->act == 'getMemberMenu' && $called_position == 'before_module_proc');
 {
-	$oMemberController = getController('member');
 	$member_srl = Context::get('target_srl');
-	$mid = Context::get('cur_mid');
-	// Creates communication model object
-	$oCommunicationModel = getModel('communication');
+
 	// Add a feature to display own message box.
 	if($logged_info->member_srl == $member_srl)
 	{
+		$mid = Context::get('cur_mid');
+		$oMemberController = getController('member');
 		// Add your own viewing Note Template
 		$oMemberController->addMemberPopupMenu(getUrl('', 'mid', $mid, 'act', 'dispCommunicationMessages'), 'cmd_view_message_box', '', 'self');
 		// Display a list of friends
@@ -75,8 +70,8 @@ elseif($called_position == 'before_module_proc' && $this->act == 'getMemberMenu'
 			return;
 		}
 
-		// Get logged-in user information
-		$logged_info = Context::get('logged_info');
+		$oMemberController = getController('member');
+		$oCommunicationModel = getModel('communication');
 		// Add a menu for sending message
 		if($logged_info->is_admin == 'Y' || $target_member_info->allow_message == 'Y' || ($target_member_info->allow_message == 'F' && $oCommunicationModel->isFriend($member_srl)))
 			$oMemberController->addMemberPopupMenu(getUrl('', 'module', 'communication', 'act', 'dispCommunicationSendMessage', 'receiver_srl', $member_srl), 'cmd_send_message', '', 'popup');
