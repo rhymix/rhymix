@@ -210,7 +210,7 @@ if(!class_exists('AddonCaptcha'))
 			}
 
 			// Combine images of each character
-			for($i = 1; $i < count($im); $i++)
+			for($i = 1, $c = count($im); $i<$c; $i++)
 			{
 				imagecopy($im[0], $im[$i], (($w + 2) * ($i - 1)), 0, 0, 0, $w, $h);
 				imagedestroy($im[$i]);

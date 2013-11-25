@@ -9,7 +9,7 @@ if(!defined('__XE__'))
  * @author NAVER (developers@xpressengine.com)
  * @brief Automatic link add-on
  */
-if($called_position == 'after_module_proc' && Context::getResponseMethod() != "XMLRPC")
+if($called_position == 'after_module_proc' && Context::getResponseMethod() == "HTML")
 {
 	if(Mobile::isFromMobilePhone())
 	{

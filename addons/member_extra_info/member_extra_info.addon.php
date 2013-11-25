@@ -15,7 +15,7 @@ if(!defined('__XE__'))
 /**
  * Just before displaying, change image name/ image mark
  */
-if($called_position != "before_display_content" || Context::get('act') == 'dispPageAdminContentModify')
+if(Context::get('act') == 'dispPageAdminContentModify' || $called_position != "before_display_content");
 {
 	return;
 }

@@ -82,9 +82,7 @@ function memberTransImageName($matches)
 		$nick_name = sprintf('<img src="%s" style="border:0;max-height:16px;vertical-align:middle;margin-right:3px" alt="%s" title="%s" />%s', $group_image->src, $group_image->title, $group_image->description, $nick_name);
 	}
 
-
-	$orig_text = preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]);
-	return $orig_text . $nick_name . '</' . $matches[6] . '>';
+	return preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]) . $nick_name . '</' . $matches[6] . '>';
 }
 
 /* End of file member_extra_info.lib.php */
