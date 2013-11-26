@@ -35,8 +35,8 @@
         Trang mẫu mặc định của XE.
         Nó sẽ hiển thị trong phần sửa đổi bài viết và không ảnh hưởng đến bất cứ chức năng nào cả.
     </description>
-    <version>0.0.1</version>
-    <date>2009-05-23</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>
 		<name xml:lang="zh-CN">NAVER</name>

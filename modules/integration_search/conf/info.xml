@@ -45,8 +45,8 @@
         將所選擇的模組當作搜尋對象進行搜尋。
         所搜尋的模組中，如有私密文章時將不會被搜尋，因此請注意選擇。
     </description>
-    <version>0.1</version>
-    <date>2007-07-24</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <category>service</category>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

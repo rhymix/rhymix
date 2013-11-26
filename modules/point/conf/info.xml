@@ -54,8 +54,8 @@
         也能以點數設置等級，並在用戶名稱前顯示等級圖示。
         但是必須先啟用點數系統才能使用。
     </description>
-    <version>0.1</version>
-    <date>2007-07-26</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <category>member</category>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

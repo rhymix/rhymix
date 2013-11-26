@@ -50,8 +50,8 @@
         Ayrıca toplam sayıyı da görüntüler.
         Bu özelliği edinmek için, sayaç modülü kurulmalı ve sayaç eklentileri etkin hale getirilmelidir.
     </description>
-    <version>0.1</version>
-    <date>2007-02-28</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

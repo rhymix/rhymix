@@ -35,8 +35,8 @@
 		회원 가입 및 비밀번호 찾기, 인증메일 재발송을 요청할 때 알파벳을 입력하도록 하여 프로그램 등록기를 막는 애드온 입니다.
 		적용/비적용 대상 모듈을 지정하지 않아야 정상적으로 동작합니다.
 	</description>
-	<version>1.0</version>
-	<date>2013-11-07</date>
+	<version>1.7</version>
+	<date>2013-11-27</date>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
 		<name xml:lang="ko">NAVER</name>

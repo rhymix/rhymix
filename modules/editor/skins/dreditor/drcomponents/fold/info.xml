@@ -10,8 +10,8 @@
 	<description xml:lang="vi">Chức năng này sẽ giúp bạn tạo một đoạn văn bản tự động co giãn khi đưa chuột tới.</description>
     <description xml:lang="zh-TW">新增一個可展開與摺疊的段落。</description>
     <description xml:lang="tr">Yeni bir katlanabilir paragraf oluştur</description>
-    <date>2010-01-22</date>
-    <version>0.2</version>
+    <date>2013-11-27</date>
+    <version>1.7</version>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

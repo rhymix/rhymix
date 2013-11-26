@@ -19,8 +19,8 @@
     <description xml:lang="zh-TW">引用管理模組。</description>
     <description xml:lang="en">Module for managing trackbacks.</description>
     <description xml:lang="tr">Geri izlemeleri yönetme modülü.</description>
-    <version>0.1</version>
-    <date>2007-02-28</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <category>content</category>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

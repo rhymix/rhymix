@@ -15,8 +15,8 @@
 		DrEditor belge şekli.
 		DrEditorü Textyle yerine diğer modüllerle kullanıyorsanız, setting style as this would help disply better.
     </description>
-    <version>0.1</version>
-    <date>2010-05-25</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>
         <name xml:lang="en">NAVER</name>

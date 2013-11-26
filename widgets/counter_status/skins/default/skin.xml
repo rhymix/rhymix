@@ -14,8 +14,8 @@
     <description xml:lang="vi">Skin mặc định hiển thị trạng thái của Counter.</description>
     <description xml:lang="zh-TW">計數器預設面板。</description>
     <description xml:lang="tr"> counter_status Varsayılan Dış Görünümü</description>
-    <version>0.1</version>
-    <date>2007-02-28</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <link>http://xpressengine.com/</link>
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

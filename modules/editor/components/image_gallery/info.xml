@@ -18,8 +18,8 @@
     <description xml:lang="ru">Это может создать гллерею изображений в стиле слайдов/списка, используя вложенный файл изображения.</description>
     <description xml:lang="zh-TW">將上傳的圖片以投影片或列表的形式實現。</description>
     <description xml:lang="tr">Ekteki resim dosyasını kullanarak, slayt/liste tarzı resim galerisi oluşturabilir.</description>
-    <version>0.2</version>
-    <date>2007-02-28</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="vi">NAVER</name>

@@ -2,8 +2,8 @@
 <module version="0.2">
     <title xml:lang="ko">관리자 로깅</title>
     <description xml:lang="ko"></description>
-    <version>0.1</version>
-    <date>2011-09-28</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <category>system</category>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

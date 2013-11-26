@@ -18,8 +18,8 @@
     <description xml:lang="ru">Этот виджет отображает форму логина или информацию входа.</description>
     <description xml:lang="zh-TW">可顯示登入表格或登入資料。</description>
     <description xml:lang="tr">Bu görsel bileşen giriş şeklini veya giriş bilgilerini görüntüler.</description>
-    <version>0.1</version>
-    <date>2007-02-28</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>
         <name xml:lang="zh-CN">NAVER</name>

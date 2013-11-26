@@ -18,8 +18,8 @@
     <description xml:lang="zh-TW">可新增 wmv、avi、flv 等多媒體檔案或修改其相關屬性。</description>
     <description xml:lang="vi">Chèn Media dạng '.wmv,.avi,.flv,.mp3,.wma' vào bài viết.</description>
     <description xml:lang="tr">wmv, avi, flv gibi çoklu ortam dosyalarını editöre ekleyebilir veya çoklu ortam dosyasının niteliğini değiştirebilir.</description>
-    <version>0.2</version>
-    <date>2007-02-28</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

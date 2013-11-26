@@ -4,8 +4,8 @@
     <title xml:lang="en">trash</title>
     <title xml:lang="zh-TW">回收桶</title>
     <description xml:lang="ko">문서, 댓글 등을 완전히 삭제하지 않고 복구 가능한 상태로 만들어 관리합니다.</description>
-    <version>0.1</version>
-    <date>2011-05-12</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <category>content</category>
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

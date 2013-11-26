@@ -14,8 +14,8 @@
     <description xml:lang="en">The Default Skin of the Integrated Search Module</description>
     <description xml:lang="zh-TW">預設綜合搜尋面板。</description>
     <description xml:lang="tr">Birleşik aramanın varsayılan dış görünümü</description>
-    <version>0.1</version>
-    <date>2007-07-24</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

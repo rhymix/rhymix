@@ -35,8 +35,8 @@
         透過行動工具上網時，會將網頁轉換為WAP標籤顯示。
         只限於 wml, hdml, mhtml格式。
     </description>
-    <version>0.1.1</version>
-    <date>2009-05-23</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>
