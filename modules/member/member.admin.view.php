@@ -595,35 +595,8 @@ class memberAdminView extends member
 					}
 					else if($extendForm->column_type == 'kr_zip')
 					{
-						Context::loadFile(array('./modules/member/tpl/js/krzip_search.js', 'body'), true);
-						$extentionReplace = array(
-							'msg_kr_address' => $lang->msg_kr_address,
-							'msg_kr_address_etc' => $lang->msg_kr_address_etc,
-							'cmd_search' => $lang->cmd_search,
-							'cmd_search_again' => $lang->cmd_search_again,
-							'addr_0' => $extendForm->value[0],
-							'addr_1' => $extendForm->value[1]);
-						$replace = array_merge($extentionReplace, $replace);
-						$template = <<<EOD
-						<div class="krZip" style="padding-top:5px">
-							<div id="zone_address_search_%column_name%" style="margin-bottom:10px">
-								<label for="krzip_address1_%column_name%">%msg_kr_address%</label>
-								<span class="input-append">
-									<input type="text" id="krzip_address1_%column_name%" value="%addr_0%" />
-									<button type="button" class="btn">%cmd_search%</button>
-								</span>
-							</div>
-							<div id="zone_address_list_%column_name%" hidden style="margin-bottom:10px">
-								<select name="%column_name%[]" id="address_list_%column_name%"><option value="%addr_0%">%addr_0%</select>
-								<button type="button">%cmd_search_again%</button>
-							</div>
-							<div class="address2" style="margin-bottom:10px">
-								<label for="krzip_address2_%column_name%">%msg_kr_address_etc%</label>
-								<input type="text" name="%column_name%[]" id="krzip_address2_%column_name%" value="%addr_1%" />
-							</div>
-						</div>
-						<script>jQuery(function($){ $.krzip('%column_name%') });</script>
-EOD;
+						$krzipModel = &getModel('krzip');
+						$template = $krzipModel->getKrzipCodeSearchHtml($extendForm->column_name, $extendForm->value);
 					}
 					else if($extendForm->column_type == 'jp_zip')
 					{
