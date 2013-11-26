@@ -176,6 +176,7 @@ class documentView extends document
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('saved_list_popup');
 	}
+
 }
 /* End of file document.view.php */
 /* Location: ./modules/document/document.view.php */

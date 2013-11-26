@@ -1054,6 +1054,44 @@ class commentModel extends comment
 		}
 	}
 
+	/**
+	 * Get the total number of comments in corresponding with member_srl.
+	 * @param int $member_srl
+	 * @return int
+	 */
+	function getCommentCountByMemberSrl($member_srl)
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$output = executeQuery('comment.getCommentCountByMemberSrl', $args);
+		return (int) $output->data->count;
+	}
+
+
+	/**
+	 * Get comment list of the doc in corresponding woth member_srl.
+	 * @param int $member_srl
+	 * @param array $columnList
+	 * @param int $page
+	 * @param bool $is_admin
+	 * @param int $count
+	 * @return object
+	 */
+	function getCommentListByMemberSrl($member_srl, $columnList = array(), $page = 0, $is_admin = FALSE, $count = 0)
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->list_count = $count;
+		$output = executeQuery('comment.getCommentListByMemberSrl', $args, $columnList);
+		$comment_list = $output->data;
+
+		if(!$comment_list) return array();
+		if(!is_array($comment_list)) $comment_list = array($comment_list);
+
+		return $comment_list;
+
+	}
+
 }
 /* End of file comment.model.php */
 /* Location: ./modules/comment/comment.model.php */

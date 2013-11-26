@@ -2619,5 +2619,21 @@
 		<value xml:lang="en"><![CDATA[Address information does not exist.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[加入会员后要移动的情报不存在]]></value>
 	</item>
-
+	<item name="cmd_spammer">
+		<value xml:lang="ko"><![CDATA[스패머 관리]]></value>
+		<value xml:lang="en"><![CDATA[Spam User Manage]]></value>
+	</item>
+	<item name="spammer_description">
+		<value xml:lang="ko"><![CDATA[<p>지정된 회원을 차단하고, 회원이 남긴 글과 댓글을 삭제합니다. 회원이 작성한 게시물의 양에 따라 오래걸릴 수 있습니다.</p>]]></value>
+		<value xml:lang="en"><![CDATA[<p>Spam user management. This function denied user login and remove all of documents, comments</p>]]></value>
+	</item>
+	<item name="btn_spammer_delete_all">
+		<value xml:lang="ko"><![CDATA[모두 삭제]]></value>
+		<value xml:lang="en"><![CDATA[Delete all]]></value>
+	</item>
+	<item name="spammer_move_to_trash">
+		<value xml:lang="ko"><![CDATA[휴지통으로 이동]]></value>
+		<value xml:lang="en"><![CDATA[Move to trash]]></value>
+	</item>
+	
 </lang>
