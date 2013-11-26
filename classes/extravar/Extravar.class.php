@@ -358,26 +358,26 @@ class ExtraItem
 		{
 			// Homepage
 			case 'homepage' :
-				$buff .= '<input type="text" name="' . $column_name . '" value="' . $value . '" class="homepage" />';
+				$buff[] = '<input type="text" name="' . $column_name . '" value="' . $value . '" class="homepage" />';
 				break;
 			// Email Address
 			case 'email_address' :
-				$buff .= '<input type="text" name="' . $column_name . '" value="' . $value . '" class="email_address" />';
+				$buff[] = '<input type="text" name="' . $column_name . '" value="' . $value . '" class="email_address" />';
 				break;
 			// Phone Number
 			case 'tel' :
-				$buff .=
+				$buff[] =
 						'<input type="text" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel" />' .
 						'<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />' .
 						'<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
 				break;
 			// textarea
 			case 'textarea' :
-				$buff .= '<textarea name="' . $column_name . '" rows="8" cols="42">' . $value . '</textarea>';
+				$buff[] = '<textarea name="' . $column_name . '" rows="8" cols="42">' . $value . '</textarea>';
 				break;
 			// multiple choice
 			case 'checkbox' :
-				$buff .= '<ul>';
+				$buff[] = '<ul>';
 				foreach($default as $v)
 				{
 					if($value && in_array(trim($v), $value))
@@ -392,13 +392,13 @@ class ExtraItem
 					// Temporary ID for labeling
 					$tmp_id = $column_name . '-' . $id_num++;
 
-					$buff .='<li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
+					$buff[] ='<li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
 				}
-				$buff .= '</ul>';
+				$buff[] = '</ul>';
 				break;
 			// single choice
 			case 'select' :
-				$buff .= '<select name="' . $column_name . '" class="select">';
+				$buff[] = '<select name="' . $column_name . '" class="select">';
 				foreach($default as $v)
 				{
 					if($value && in_array(trim($v), $value))
@@ -409,13 +409,13 @@ class ExtraItem
 					{
 						$selected = '';
 					}
-					$buff .= '<option value="' . $v . '" ' . $selected . '>' . $v . '</option>';
+					$buff[] = '<option value="' . $v . '" ' . $selected . '>' . $v . '</option>';
 				}
-				$buff .= '</select>';
+				$buff[] = '</select>';
 				break;
 			// radio
 			case 'radio' :
-				$buff .= '<ul>';
+				$buff[] = '<ul>';
 				foreach($default as $v)
 				{
 					if($value && in_array(trim($v), $value))
@@ -430,16 +430,16 @@ class ExtraItem
 					// Temporary ID for labeling
 					$tmp_id = $column_name . '-' . $id_num++;
 
-					$buff .= '<li><input type="radio" name="' . $column_name . '" id="' . $tmp_id . '" ' . $checked . ' value="' . $v . '"  class="radio" /><label for="' . $tmp_id . '">' . $v . '</label></li>';
+					$buff[] = '<li><input type="radio" name="' . $column_name . '" id="' . $tmp_id . '" ' . $checked . ' value="' . $v . '"  class="radio" /><label for="' . $tmp_id . '">' . $v . '</label></li>';
 				}
-				$buff .= '</ul>';
+				$buff[] = '</ul>';
 				break;
 			// date
 			case 'date' :
 				// datepicker javascript plugin load
 				Context::loadJavascriptPlugin('ui.datepicker');
 
-				$buff .=
+				$buff[] =
 						'<input type="hidden" name="' . $column_name . '" value="' . $value . '" />' .
 						'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" /> <input type="button" value="' . Context::getLang('cmd_delete') . '" id="dateRemover_' . $column_name . '" />' . "\n" .
 						'<script>' . "\n" .
@@ -461,19 +461,22 @@ class ExtraItem
 			// address
 			case "kr_zip" :
 				$krzipModel = &getModel('krzip');
-				$buff .=  $krzipModel->getKrzipCodeSearchHtml($column_name, $value);
+				if($krzipModel && method_exists($krzipModel , 'getKrzipCodeSearchHtml' ))
+				{
+					$buff[] =  $krzipModel->getKrzipCodeSearchHtml($column_name, $value);
+				}
 				break;
 			// General text
 			default :
-				$buff .=' <input type="text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="text" />';
+				$buff[] =' <input type="text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="text" />';
 				break;
 		}
 		if($this->desc)
 		{
-			$buff .= '<p>' . htmlspecialchars($this->desc, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '</p>';
+			$buff[] = '<p>' . htmlspecialchars($this->desc, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '</p>';
 		}
 		
-		return $buff;
+		return join(PHP_EOL, $buff);
 	}
 
 }

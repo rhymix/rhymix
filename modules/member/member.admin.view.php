@@ -596,7 +596,10 @@ class memberAdminView extends member
 					else if($extendForm->column_type == 'kr_zip')
 					{
 						$krzipModel = &getModel('krzip');
-						$template = $krzipModel->getKrzipCodeSearchHtml($extendForm->column_name, $extendForm->value);
+						if($krzipModel && method_exists($krzipModel , 'getKrzipCodeSearchHtml' ))
+						{
+							$template = $krzipModel->getKrzipCodeSearchHtml($extendForm->column_name, $extendForm->value);
+						}
 					}
 					else if($extendForm->column_type == 'jp_zip')
 					{
