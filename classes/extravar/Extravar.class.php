@@ -353,7 +353,7 @@ class ExtraItem
 		$column_name = 'extra_vars' . $this->idx;
 		$tmp_id = $column_name . '-' . $id_num++;
 
-		$buff = '';
+		$buff = array();
 		switch($type)
 		{
 			// Homepage
