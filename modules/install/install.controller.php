@@ -538,7 +538,10 @@ class installController extends install
 
 	function _getDBConfigFileContents($db_info)
 	{
-		$buff = '<?php if(!defined("__XE__")) exit();'."\n";
+		$buff = array();
+		$buff[] = '<?php if(!defined("__XE__")) exit();';
+		$buff[] = '$db_info = new stdClass;';
+
 		$db_info = get_object_vars($db_info);
 		foreach($db_info as $key => $val)
 		{
@@ -573,10 +576,11 @@ class installController extends install
 				throw new Exception('msg_invalid_request');
 			}
 
-			$buff .= $tmpValue;
+			$buff[] = $tmpValue;
 		}
-		$buff .= "?>";
-		return $buff;
+		$buff[] = "?>";
+
+		return implode(PHP_EOL, $buff);
 	}
 
 	/**
