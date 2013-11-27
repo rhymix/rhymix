@@ -697,6 +697,7 @@ class layoutAdminController extends layout
 		if(!Context::isUploaded()) exit();
 		$file = Context::get('file');
 		if(!is_uploaded_file($file['tmp_name']) || !checkUploadedFile($file['tmp_name'])) exit();
+
 		if(substr_compare($file['name'], '.tar', -4) !== 0) exit();
 
 		$layout_srl = Context::get('layout_srl');

@@ -448,10 +448,12 @@ class Context
 			unset($db_info->db_userid);
 			$db_info->master_db["db_table_prefix"] = $db_info->db_table_prefix;
 			unset($db_info->db_table_prefix);
-			if(substr_compare($db_info->master_db["db_table_prefix"], '_', -1) !== 0)
+
+			if(isset($db_info->master_db["db_table_prefix"]) && substr_compare($db_info->master_db["db_table_prefix"], '_', -1) !== 0)
 			{
 				$db_info->master_db["db_table_prefix"] .= '_';
 			}
+
 			$db_info->slave_db = array($db_info->master_db);
 			$self->setDBInfo($db_info);
 
@@ -633,6 +635,7 @@ class Context
 		{
 			return TRUE;
 		}
+
 		if(substr_compare($default_url, '/', -1) !== 0)
 		{
 			$default_url .= '/';
@@ -841,6 +844,7 @@ class Context
 		global $lang;
 
 		if(!$path) return;
+
 		$_path = 'eval://' . $path;
 
 		if(in_array($_path, $this->loaded_lang_files))
@@ -872,6 +876,7 @@ class Context
 	function _loadXmlLang($path)
 	{
 		if(!$path) return;
+
 		$oXmlLangParser = new XmlLangParser($path . ((substr_compare($path, '/', -1) !== 0) ? '/' : '') . 'lang.xml', $this->lang_type);
 		return $oXmlLangParser->compile();
 	}
@@ -885,6 +890,7 @@ class Context
 	function _loadPhpLang($path)
 	{
 		if(!$path) return;
+
 		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';

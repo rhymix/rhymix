@@ -253,7 +253,7 @@ class ModuleObject extends Object
 	 * */
 	function setTemplateFile($filename)
 	{
-		if(substr_compare($filename, '.html', -5) !== 0)
+		if(isset($filename) && substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
@@ -276,10 +276,13 @@ class ModuleObject extends Object
 	 * */
 	function setTemplatePath($path)
 	{
+		if(!$path) return;
+
 		if(substr_compare($path, '/', 0, 1) !== 0 && substr_compare($path, './', 0, 2) !== 0)
 		{
 			$path = './' . $path;
 		}
+
 		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';
@@ -303,6 +306,8 @@ class ModuleObject extends Object
 	 * */
 	function setEditedLayoutFile($filename)
 	{
+		if(!$filename) return;
+
 		if(substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
@@ -326,6 +331,8 @@ class ModuleObject extends Object
 	 * */
 	function setLayoutFile($filename)
 	{
+		if(!$filename) return;
+
 		if(substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
@@ -348,6 +355,8 @@ class ModuleObject extends Object
 	 * */
 	function setLayoutPath($path)
 	{
+		if(!$path) return;
+
 		if(substr_compare($path, '/', 0, 1) !== 0 && substr_compare($path, './', 0, 2) !== 0)
 		{
 			$path = './' . $path;
