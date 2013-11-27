@@ -1,0 +1,119 @@
+<!--%import("filter/manage_checked_document.xml")-->
+<style type="text/css">
+.dot-line {border-bottom:1px dotted #ddd; padding:8px 0;}
+.progress-box {visibility:hidden;padding:10px;}
+.progress-complete {visibility:hidden;background-color:#EAEAEA;color:#F15F5F;font-weight:bold;text-align:center;padding:3px;}
+.progress-cancel {visibility:hidden;background-color:#EAEAEA;color:#F15F5F;font-weight:bold;text-align:center;padding:3px;}
+.btn-proc { padding:40px 0; text-align:right;}
+.btn-proc label {float:right; margin-left:20px;}
+#spam_description {width:98%}
+</style>
+
+<div class="x_modal-header">
+	<h1>{$lang->cmd_spammer}</h1>
+</div>
+
+<form action="./" method="post" id="fo_management" onsubmit="return doSpammerManage();"> 
+<input type="hidden" name="module" value="member" />
+<input type="hidden" name="act" value="procMemberSpammerManage" />
+<input type="hidden" name="proc_type" value="" />
+<input type="hidden" name="member_srl" value="{$spammer_info->member_srl}" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="cnt_loop" value="1" />
+<div class="x_modal-body x_form-horizontal" style="max-height:none">
+	<div class="dot-line">{$lang->spammer_description}</div>
+	<div class="dot-line">{$lang->nick_name} : <span class="nick_name">{$spammer_info->nick_name}</span></div>
+
+	<div class="dot-line">
+		<p>{$lang->about_member_description}</p>
+		<textarea name="spam_description" id="spam_description" cols="400" rows="3"></textarea>
+	</div>
+	<div class="btn-proc" >
+		<label for="to_trash"><input type="checkbox" name="to_trash" value="Y" checked="checked" id="to_trash" />{$lang->spammer_move_to_trash}</label>
+		<button class="x_btn x_btn-danger" type="submit"/>{$lang->btn_spammer_delete_all}</button>
+	</div>
+
+	<div class="progress-box">
+		<div class="progress-complete">{$lang->cmd_complete}</div>
+		<div><span id="document_count"></span> <span id="document_percent"></span></div>
+		<div class="x_progress x_progress-striped x_active">
+			<div class="x_bar" id="progressBar" style="width: 0%"></div>
+		</div>
+		<div class-"cancel"><button class="x_btn" type="button" onclick="cancelSpammerManage();">{$lang->cmd_cancel}</button></div>
+	</div>
+	<div class="progress-cancel dot-line">{$lang->success_declare_canceled}</div>
+</div>
+</form>
+<script type="text/javascript">
+var bSpammerManageProc = true;
+var form_info = "";
+function doSpammerManage( args ) {
+	
+	if( args == undefined ) { 
+		if(!confirm('{$lang->confirm_process}')) return false;
+		
+		var args = {};
+		var vals = jQuery('#fo_management').serializeArray();
+		for( var i in vals ) {
+			args[vals[i].name] = vals[i].value;
+		}
+
+		// reset form
+		args.proc_type = "trash";
+		if( jQuery('#to_trash').attr( 'checked' ) != "checked" )
+			args.proc_type = "hidden";
+
+		args.cnt_loop =1; 
+
+		form_info = args;
+
+		jQuery('.progress-box').css('visibility','visible');
+		jQuery('.progress-cancel').css('visibility','hidden');
+		jQuery('[type=submit]').hide();
+
+		bSpammerManageProc = true;
+	}
+
+	jQuery.exec_json( form_info.module + '.' + form_info.act, args, progressSpammerManage );
+
+	return false; // don't page move
+}
+
+function progressSpammerManage( data ) {
+
+	setTimeout( function() {
+		if( data.total_count != undefined && parseInt( data.total_count ) > 0 )  {
+			var doc_count = parseInt( data.total_count ) - parseInt( data.remain_count );
+			jQuery('#document_count').html( doc_count + "/" + data.total_count );
+			jQuery('#document_percent').html(data.progress + "%");
+		}
+		jQuery('#progressBar').width(data.progress + "%");
+		if(data.remain_count <= 0) {
+			jQuery('.progress-complete').css('visibility','visible');
+			jQuery('[type=submit]').show();
+			return;
+		}
+
+		var args = data;
+		
+		if( bSpammerManageProc == false ) {
+			jQuery('.progress-box').css('visibility','hidden');
+			jQuery('.progress-cancel').css('visibility','visible');
+
+			// reset progress values
+			jQuery('#document_count').html("");
+			jQuery('#document_percent').html("");
+			jQuery('#progressBar').width("0%");
+			jQuery('[type=submit]').show();
+
+			return;
+		}
+		doSpammerManage( args );
+		
+	}, 500 );
+}
+
+function cancelSpammerManage() {
+	bSpammerManageProc = false;
+}
+</script>

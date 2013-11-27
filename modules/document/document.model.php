@@ -1491,6 +1491,42 @@ class documentModel extends document
 			}
 		}
 	}
+
+	/**
+	 * Get the total number of Document in corresponding with member_srl.
+	 * @param int $member_srl
+	 * @return int
+	 */
+	function getDocumentCountByMemberSrl($member_srl)
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$output = executeQuery('document.getDocumentCountByMemberSrl', $args);
+		return (int) $output->data->count;
+	}
+
+	/**
+	 * Get document list of the doc in corresponding woth member_srl.
+	 * @param int $member_srl
+	 * @param array $columnList
+	 * @param int $page
+	 * @param bool $is_admin
+	 * @param int $count
+	 * @return object
+	 */
+	function getDocumentListByMemberSrl($member_srl, $columnList = array(), $page = 0, $is_admin = FALSE, $count = 0 )
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->list_count = $count;
+		$output = executeQuery('document.getDocumentListByMemberSrl', $args, $columnList);
+		$document_list = $output->data;
+		
+		if(!$document_list) return array();
+		if(!is_array($document_list)) $document_list = array($document_list);
+
+		return $document_list;	
+	}
 }
 /* End of file document.model.php */
 /* Location: ./modules/document/document.model.php */

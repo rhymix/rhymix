@@ -144,6 +144,10 @@ class member extends ModuleObject {
 		FileHandler::makeDir('./files/member_extra_info/profile_image');
 		FileHandler::makeDir('./files/member_extra_info/signature');
 
+		// 2013. 11. 22 add menu when popup document menu called
+		$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
+		$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
+
 		return new Object();
 	}
 
@@ -207,6 +211,10 @@ class member extends ModuleObject {
 		if(!is_readable('./files/ruleset/insertMember.xml')) return true;
 		if(!is_readable('./files/ruleset/login.xml')) return true;
 		if(!is_readable('./files/ruleset/find_member_account_by_question.xml')) return true;
+
+		// 2013. 11. 22 add menu when popup document menu called
+		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after')) return true;
+		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after')) return true;
 
 		return false;
 	}
@@ -344,6 +352,12 @@ class member extends ModuleObject {
 			$oMemberAdminController->_createLoginRuleset($config->identifier);
 		if(!is_readable('./files/ruleset/find_member_account_by_question.xml'))
 			$oMemberAdminController->_createFindAccountByQuestion($config->identifier);
+
+		// 2013. 11. 22 add menu when popup document menu called
+		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after'))
+			$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
+		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after'))
+			$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
 
 		return new Object(0, 'success_updated');
 	}

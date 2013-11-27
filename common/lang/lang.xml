@@ -3272,6 +3272,10 @@
 		<value xml:lang="tr"><![CDATA[Güncellemek istediğinize emin misiniz?]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn chắc chắn muốn Update?]]></value>
 	</item>
+	<item name="confirm_process">
+		<value xml:lang="ko"><![CDATA[처리하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Are you sure you want to process?]]></value>
+	</item>
 	<item name="column_type">
 		<value xml:lang="ko"><![CDATA[형식]]></value>
 		<value xml:lang="en"><![CDATA[Column Type]]></value>

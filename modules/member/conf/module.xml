@@ -20,6 +20,7 @@
         <action name="dispMemberGetTempPassword" type="view" />
 		<action name="dispMemberResendAuthMail" type="view" />
         <action name="dispSavedDocumentList" type="view" />
+        <action name="dispMemberSpammer" type="view" />
 
         <action name="dispMemberAdminList" type="view" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
         <!--action name="dispMemberAdminConfig" type="view" menu_name="userSetting" menu_index="true" /-->
@@ -68,6 +69,7 @@
         <action name="procMemberUpdateAuthMail" type="controller" />
 		<action name="procMemberResendAuthMail" type="controller" ruleset="resendAuthMail" />
 		<action name="procMemberResetAuthMail" type="controller" ruleset="resetAuthMail" />
+        <action name="procMemberSpammerManage" type="controller" />
 
         <action name="procMemberAdminInsert" type="controller" ruleset="insertAdminMember" />
         <action name="procMemberAdminDelete" type="controller" />
