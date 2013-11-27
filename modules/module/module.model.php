@@ -658,54 +658,6 @@ class moduleModel extends module
 				$author_obj->homepage = $author->attrs->link;
 				$module_info->author[] = $author_obj;
 			}
-
-			// history
-			if($xml_obj->history)
-			{
-				if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
-				else $history = $xml_obj->history;
-
-				foreach($history as $item)
-				{
-					unset($obj);
-
-					if($item->author)
-					{
-						(!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
-
-						foreach($obj->author_list as $author)
-						{
-							unset($author_obj);
-							$author_obj->name = $author->name->body;
-							$author_obj->email_address = $author->attrs->email_address;
-							$author_obj->homepage = $author->attrs->link;
-							$obj->author[] = $author_obj;
-						}
-					}
-
-					$obj->name = $item->name->body;
-					$obj->email_address = $item->attrs->email_address;
-					$obj->homepage = $item->attrs->link;
-					$obj->version = $item->attrs->version;
-					$obj->date = $item->attrs->date;
-					$obj->description = $item->description->body;
-
-					if($item->log)
-					{
-						(!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
-
-						foreach($obj->log as $log)
-						{
-							unset($logs_obj);
-							$logs_obj->text = $log->body;
-							$logs_obj->link = $log->attrs->link;
-							$obj->logs[] = $logs_obj;
-						}
-					}
-
-					$module_info->history[] = $obj;
-				}
-			}
 		}
 		else
 		{
@@ -1134,54 +1086,6 @@ class moduleModel extends module
 
 						$skin_info->extra_vars[] = $obj;
 					}
-				}
-			}
-
-			// history
-			if($xml_obj->history)
-			{
-				if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
-				else $history = $xml_obj->history;
-
-				foreach($history as $item)
-				{
-					unset($obj);
-
-					if($item->author)
-					{
-						(!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
-
-						foreach($obj->author_list as $author)
-						{
-							unset($author_obj);
-							$author_obj->name = $author->name->body;
-							$author_obj->email_address = $author->attrs->email_address;
-							$author_obj->homepage = $author->attrs->link;
-							$obj->author[] = $author_obj;
-						}
-					}
-
-					$obj->name = $item->name->body;
-					$obj->email_address = $item->attrs->email_address;
-					$obj->homepage = $item->attrs->link;
-					$obj->version = $item->attrs->version;
-					$obj->date = $item->attrs->date;
-					$obj->description = $item->description->body;
-
-					if($item->log)
-					{
-						(!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
-
-						foreach($obj->log as $log)
-						{
-							unset($log_obj);
-							$log_obj->text = $log->body;
-							$log_obj->link = $log->attrs->link;
-							$obj->logs[] = $log_obj;
-						}
-					}
-
-					$skin_info->history[] = $obj;
 				}
 			}
 		}

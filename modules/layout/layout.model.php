@@ -638,51 +638,6 @@ class layoutModel extends layout
 					$buff[] = sprintf('$layout_info->menu->%s->php_file = "./files/cache/menu/".$vars->%s.".php";',$name, $name);
 				}
 			}
-
-			// history
-			if($xml_obj->history)
-			{
-				if(!is_array($xml_obj->history)) $history_list[] = $xml_obj->history;
-				else $history_list = $xml_obj->history;
-
-				$buff[] = '$layout_info->history = array();';
-				for($i=0, $c=count($history_list); $i<$c; $i++)
-				{
-					sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-					$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-					$buff[] = sprintf('$layout_info->history[%d] = new stdClass;', $i);
-					$buff[] = sprintf('$layout_info->history[%d]->description = "%s";', $i, $history_list[$i]->description->body);
-					$buff[] = sprintf('$layout_info->history[%d]->version = "%s";', $i , $history_list[$i]->attrs->version);
-					$buff[] = sprintf('$layout_info->history[%d]->date = "%s";', $i, $date);
-
-					if($history_list[$i]->author)
-					{
-						(!is_array($history_list[$i]->author)) ? $obj->author_list[] = $history_list[$i]->author : $obj->author_list = $history_list[$i]->author;
-
-						$buff[] = sprintf('$layout_info->history[%d]->author = array();', $i);
-						for($j=0, $jc=count($obj->author_list); $j<$jc; $j++)
-						{
-							$buff[] = sprintf('$layout_info->history[%d]->author[%d] = new stdClass;', $i, $j);
-							$buff[] = sprintf('$layout_info->history[%d]->author[%d]->name = "%s";', $i, $j, $obj->author_list[$j]->name->body);
-							$buff[] = sprintf('$layout_info->history[%d]->author[%d]->email_address = "%s";', $i, $j, $obj->author_list[$j]->attrs->email_address);
-							$buff[] = sprintf('$layout_info->history[%d]->author[%d]->homepage = "%s";', $i, $j, $obj->author_list[$j]->attrs->link);
-						}
-					}
-
-					if($history_list[$i]->log)
-					{
-						(!is_array($history_list[$i]->log)) ? $obj->log_list[] = $history_list[$i]->log : $obj->log_list = $history_list[$i]->log;
-
-						$buff[] = sprintf('$layout_info->history[%d]->logs = array();', $i, $j, $obj->log_list[$j]->body);
-						for($j=0, $jc=count($obj->log_list); $j<$jc; $j++)
-						{
-							$buff[] = sprintf('$layout_info->history[%d]->logs[%d] = new stdClass;', $i, $j);
-							$buff[] = sprintf('$layout_info->history[%d]->logs[%d]->text = "%s";', $i, $j, $obj->log_list[$j]->body);
-							$buff[] = sprintf('$layout_info->history[%d]->logs[%d]->link = "%s";', $i, $j, $obj->log_list[$j]->attrs->link);
-						}
-					}
-				}
-			}
 		}
 		else
 		{

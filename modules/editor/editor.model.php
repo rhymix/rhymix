@@ -133,45 +133,6 @@ class editorModel extends editor
 			$buff .= sprintf('$xml_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
 		}
 
-		// history
-		if($xml_doc->component->history)
-		{
-			if(!is_array($xml_doc->component->history)) $history_list[] = $xml_doc->component->history;
-			else $history_list = $xml_doc->component->history;
-
-			for($i=0; $i < count($history_list); $i++)
-			{
-				unset($obj);
-				sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-				$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-				$buff .= sprintf('$xml_info->history['.$i.']->description = "%s";', $history_list[$i]->description->body);
-				$buff .= sprintf('$xml_info->history['.$i.']->version = "%s";', $history_list[$i]->attrs->version);
-				$buff .= sprintf('$xml_info->history['.$i.']->date = "%s";', $date);
-
-				if($history_list[$i]->author)
-				{
-					(!is_array($history_list[$i]->author)) ? $obj->author_list[] = $history_list[$i]->author : $obj->author_list = $history_list[$i]->author;
-
-					for($j=0; $j < count($obj->author_list); $j++)
-					{
-						$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->name = "%s";', $obj->author_list[$j]->name->body);
-						$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->email_address = "%s";', $obj->author_list[$j]->attrs->email_address);
-						$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->homepage = "%s";', $obj->author_list[$j]->attrs->link);
-					}
-				}
-
-				if($history_list[$i]->log)
-				{
-					(!is_array($history_list[$i]->log)) ? $obj->log_list[] = $history_list[$i]->log : $obj->log_list = $history_list[$i]->log;
-
-					for($j=0; $j < count($obj->log_list); $j++)
-					{
-						$buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->text = "%s";', $obj->log_list[$j]->body);
-						$buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->link = "%s";', $obj->log_list[$j]->attrs->link);
-					}
-				}
-			}
-		}
 		// List extra variables (text type only in the editor component)
 		$extra_vars = $xml_doc->component->extra_vars->var;
 		if($extra_vars)
@@ -767,49 +728,6 @@ class editorModel extends editor
 				$buff .= sprintf('$xml_info->author['.$i.']->name = "%s";', $author_list[$i]->name->body);
 				$buff .= sprintf('$xml_info->author['.$i.']->email_address = "%s";', $author_list[$i]->attrs->email_address);
 				$buff .= sprintf('$xml_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
-			}
-
-			// history
-			if($xml_doc->component->history)
-			{
-				if(!is_array($xml_doc->component->history)) $history_list[] = $xml_doc->component->history;
-				else $history_list = $xml_doc->component->history;
-
-				for($i=0; $i < count($history_list); $i++)
-				{
-					unset($obj);
-					sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-					$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-					$buff .= '$xml_info->history[' . $i . '] = new stdClass();';
-					$buff .= sprintf('$xml_info->history['.$i.']->description = "%s";', $history_list[$i]->description->body);
-					$buff .= sprintf('$xml_info->history['.$i.']->version = "%s";', $history_list[$i]->attrs->version);
-					$buff .= sprintf('$xml_info->history['.$i.']->date = "%s";', $date);
-
-					if($history_list[$i]->author)
-					{
-						(!is_array($history_list[$i]->author)) ? $obj->author_list[] = $history_list[$i]->author : $obj->author_list = $history_list[$i]->author;
-
-						for($j=0; $j < count($obj->author_list); $j++)
-						{
-							$buff .= '$xml_info->history[' . $i . ']->author[' . $j . '] = new stdClass();';
-							$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->name = "%s";', $obj->author_list[$j]->name->body);
-							$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->email_address = "%s";', $obj->author_list[$j]->attrs->email_address);
-							$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->homepage = "%s";', $obj->author_list[$j]->attrs->link);
-						}
-					}
-
-					if($history_list[$i]->log)
-					{
-						(!is_array($history_list[$i]->log)) ? $obj->log_list[] = $history_list[$i]->log : $obj->log_list = $history_list[$i]->log;
-
-						for($j=0; $j < count($obj->log_list); $j++)
-						{
-							$buff .= '$xml_info->history[' . $i . ']->log[' . $j . '] = new stdClass();';
-							$buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->text = "%s";', $obj->log_list[$j]->body);
-							$buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->link = "%s";', $obj->log_list[$j]->attrs->link);
-						}
-					}
-				}
 			}
 		}
 		else
