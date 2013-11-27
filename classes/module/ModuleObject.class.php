@@ -278,7 +278,7 @@ class ModuleObject extends Object
 	{
 		if(!$path) return;
 
-		if(substr_compare($path, '/', 0, 1) !== 0 && substr_compare($path, './', 0, 2) !== 0)
+		if((strlen($path) >= 1 && substr_compare($path, '/', 0, 1) !== 0) && (strlen($path) >= 2 && substr_compare($path, './', 0, 2) !== 0))
 		{
 			$path = './' . $path;
 		}
@@ -357,7 +357,7 @@ class ModuleObject extends Object
 	{
 		if(!$path) return;
 
-		if(substr_compare($path, '/', 0, 1) !== 0 && substr_compare($path, './', 0, 2) !== 0)
+		if((strlen($path) >= 1 && substr_compare($path, '/', 0, 1) !== 0) && (strlen($path) >= 2 && substr_compare($path, './', 0, 2) !== 0))
 		{
 			$path = './' . $path;
 		}

@@ -38,7 +38,8 @@ class HTMLDisplayHandler
 					if(count($theme_skin) == 2)
 					{
 						$theme_path = sprintf('./themes/%s', $theme_skin[0]);
-						if(substr_compare($theme_path, $theme_path, 0, strlen($theme_path)) !== 0)
+						// FIXME $theme_path $theme_path $theme_path ??
+						if(substr($theme_path, 0, strlen($theme_path)) != $theme_path)
 						{
 							$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
 						}

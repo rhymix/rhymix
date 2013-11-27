@@ -1015,7 +1015,7 @@ function removeSrcHack($match)
 	{
 		foreach($m[1] as $idx => $name)
 		{
-			if(isset($name) && substr_compare($name, 'on', 0, 2) === 0)
+			if(strlen($name) >= 2 && substr_compare($name, 'on', 0, 2) === 0)
 			{
 				continue;
 			}

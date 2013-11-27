@@ -2209,11 +2209,11 @@ class Context
 				$filename = substr($filename, 2);
 			}
 
-			if(substr_compare($filename, '.js', -3, 3, TRUE) === 0)
+			if(substr_compare($filename, '.js', -3) === 0)
 			{
 				$result->jsList[] = $plugin_path . $filename;
 			}
-			elseif(substr_compare($filename, '.css', -4, 4, TRUE) === 0)
+			elseif(substr_compare($filename, '.css', -4) === 0)
 			{
 				$result->cssList[] = $plugin_path . $filename;
 			}
