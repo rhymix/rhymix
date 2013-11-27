@@ -401,13 +401,6 @@ class Context
 	function close()
 	{
 		session_write_close();
-
-		// DB close
-		$oDB = DB::getInstance();
-		if(is_object($oDB) && method_exists($oDB, 'close'))
-		{
-			$oDB->close();
-		}
 	}
 
 	/**
