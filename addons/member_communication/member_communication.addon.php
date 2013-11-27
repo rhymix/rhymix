@@ -33,7 +33,7 @@ if($this->module != 'member' && $called_position == 'before_module_init')
 	$oMemberController->addMemberMenu('dispCommunicationMessages', 'cmd_view_message_box');
 
 	$flag_file = _XE_PATH_ . 'files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl) . $logged_info->member_srl;
-	if($addon_info->use_alarm != 'N' && file_exists($flag_file));
+	if($addon_info->use_alarm != 'N' && file_exists($flag_file))
 	{
 		// Pop-up to display messages if a flag on new message is set
 		$new_message_count = (int) trim(FileHandler::readFile($flag_file));
