@@ -419,12 +419,14 @@ class adminAdminView extends admin
 		Context::set('use_sitelock', $db_info->use_sitelock);
 		Context::set('sitelock_title', $db_info->sitelock_title);
 		Context::set('sitelock_message', htmlspecialchars($db_info->sitelock_message, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-		Context::set('sitelock_whitelist', implode(PHP_EOL, $db_info->sitelock_whitelist));
+		
+		$whitelist = implode("\r\n", $db_info->sitelock_whitelist);
+		Context::set('sitelock_whitelist', $whitelist);
+		
+		$admin_ip_list = implode("\r\n", $db_info->admin_ip_list);
+		Context::set('admin_ip_list', $admin_ip_list);
 
 		Context::set('lang_selected', Context::loadLangSelected());
-
-		$admin_ip_list = preg_replace("/[,]+/", "\r\n", $db_info->admin_ip_list);
-		Context::set('admin_ip_list', $admin_ip_list);
 
 		$oAdminModel = getAdminModel('admin');
 		$favicon_url = $oAdminModel->getFaviconUrl();

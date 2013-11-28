@@ -140,7 +140,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="admin_ip_list">{$lang->admin_ip_limit} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_admin_iplist" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
-				<textarea name="admin_ip_list" id="admin_ip_list" rows="4" cols="42" placeholder="{$IP}({$lang->local_ip_address})" style="float:left;margin-right:10px">{$admin_ip_list}</textarea>
+				<textarea name="admin_ip_list" id="admin_ip_list" rows="4" cols="42" placeholder="{$IP}({$lang->local_ip_address})" style="margin-right:10px">{$admin_ip_list}</textarea>
+				<p class="x_help-block">{$lang->about_ipaddress_input}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -222,6 +223,8 @@
 				<textarea name="sitelock_whitelist" id="sitelock_whitelist" rows="4" cols="42" placeholder="{$IP}({$lang->local_ip_address})" style="margin-right:10px">{$sitelock_whitelist}</textarea>
 				<span class="x_help-block">{$lang->sitelock_warning_whitelist}</span>
 				<span class="x_help-block">{$lang->your_ip} : {$remote_addr}</span>
+				<br />
+				<p class="x_help-block">{$lang->about_ipaddress_input}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

@@ -489,11 +489,31 @@ class adminAdminController extends admin
 		$db_info->use_sitelock = ($vars->use_sitelock) ? $vars->use_sitelock : 'N';
 		$db_info->sitelock_title = $vars->sitelock_title;
 		$db_info->sitelock_message = $vars->sitelock_message;
-		$db_info->sitelock_whitelist = $vars->sitelock_whitelist;
-		if(!$db_info->sitelock_whitelist) $db_info->sitelock_whitelist = '127.0.0.1';
+		
+		$whitelist = $vars->sitelock_whitelist;
+		$whitelist = preg_replace("/[\r|\n|\r\n]+/",",",$whitelist);
+		$whitelist = preg_replace("/\s+/","",$whitelist);
+		if(preg_match('/(<\?|<\?php|\?>)/xsm', $whitelist))
+		{
+			$whitelist = '';
+		}
+		$whitelist .= ',127.0.0.1';
+		$whitelist = explode(',',trim($whitelist, ','));
+		$whitelist = array_unique($whitelist);
 
-		FileHandler::writeFile(Context::getConfigFile(), $oInstallController->_getDBConfigFileContents($db_info));
+		if(!IpFilter::validate($whitelist)) {
+			return new Object(-1, 'msg_invalid_ip');
+		}
+		
+		$db_info->sitelock_whitelist = $whitelist;
+		
+		$oInstallController = &getController('install');
+		if(!$oInstallController->makeConfigFile())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
 
+		
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
 		{
 			$returnUrl = Context::get('success_return_url');
@@ -501,6 +521,12 @@ class adminAdminController extends admin
 			header('location:' . $returnUrl);
 			return;
 		}
+		
+		
+		
+		
+		
+
 	}
 
 }

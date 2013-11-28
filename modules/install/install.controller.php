@@ -553,10 +553,8 @@ class installController extends install
 			{
 				$tmpValue = $this->_getDbConnText($key, $val, true);
 			}
-			else if($key == 'sitelock_whitelist')
+			else if($key == 'sitelock_whitelist' || $key == 'admin_ip_list')
 			{
-				if(!is_array($val)) $val = preg_split("/[\r\n|\r|\n]+/", $val);
-				$val = array_unique($val);
 				$tmpValue = sprintf('$db_info->%s = array(\'%s\');' . PHP_EOL, $key, implode('\', \'', $val));
 			}
 			else
@@ -578,7 +576,6 @@ class installController extends install
 
 			$buff[] = $tmpValue;
 		}
-		$buff[] = "?>";
 
 		return implode(PHP_EOL, $buff);
 	}

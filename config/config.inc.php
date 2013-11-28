@@ -265,6 +265,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 	require(_XE_PATH_ . 'classes/validator/Validator.class.php');
 	require(_XE_PATH_ . 'classes/frontendfile/FrontEndFileHandler.class.php');
 	require(_XE_PATH_ . 'classes/security/Security.class.php');
+	require(_XE_PATH_ . 'classes/security/IpFilter.class.php');
 	if(__DEBUG__)
 		$GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLoadStartTime__;
 }
