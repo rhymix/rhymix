@@ -227,7 +227,7 @@ class Context
 				define('_XE_SITELOCK_TITLE_', $title);
 				define('_XE_SITELOCK_MESSAGE_', $message);
 
-				header('403 Forbidden');
+				header("HTTP/1.1 403 Forbidden");
 				include _XE_PATH_ . 'common/tpl/sitelock.html';
 				exit;
 			}
