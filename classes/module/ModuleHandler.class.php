@@ -89,6 +89,9 @@ class ModuleHandler extends Handler
 			}
 		}
 
+		// call a trigger before moduleHandler init
+		ModuleHandler::triggerCall('moduleHandler.init', 'before', $this);
+
 		// execute addon (before module initialization)
 		$called_position = 'before_module_init';
 		$oAddonController = getController('addon');
