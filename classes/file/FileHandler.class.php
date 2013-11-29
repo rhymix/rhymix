@@ -365,19 +365,32 @@ class FileHandler
 			return;
 		}
 
-		$files = array_diff(scandir($path), array('..', '.'));
-		foreach($files as $file)
+		if(self::isDir($path))
 		{
-			if(is_dir($path . DIRECTORY_SEPARATOR . $file))
+			$files = array_diff(scandir($path), array('..', '.'));
+
+			foreach($files as $file)
 			{
-				self::removeDir($path . DIRECTORY_SEPARATOR . $entry);
+				if(($target = self::getRealPath($path . DIRECTORY_SEPARATOR . $file)) === FALSE)
+				{
+					continue;
+				}
+
+				if(is_dir($target))
+				{
+					self::removeDir($target);
+				}
+				else
+				{
+					unlink($target);
+				}
 			}
-			else
-			{
-				@unlink($path . DIRECTORY_SEPARATOR . $file);
-			}
+			rmdir($path);
 		}
-		@rmdir($path);
+		else
+		{
+			unlink($path);
+		}
 	}
 
 	/**
@@ -394,18 +407,21 @@ class FileHandler
 		}
 
 		$files = array_diff(scandir($path), array('..', '.'));
+
 		if(count($files) < 1)
 		{
-			@rmdir($path);
+			rmdir($path);
 			return;
 		}
 
 		foreach($files as $file)
 		{
-			if(is_dir($path . DIRECTORY_SEPARATOR . $file))
+			if(($target = self::isDir($path . DIRECTORY_SEPARATOR . $file)) === FALSE)
 			{
-				self::removeBlankDir($path . DIRECTORY_SEPARATOR . $file);
+				continue;
 			}
+
+			self::removeBlankDir($target);
 		}
 	}
 
@@ -424,18 +440,32 @@ class FileHandler
 			return;
 		}
 
-		$files = array_diff(scandir($path), array('..', '.'));
-		foreach($files as $file)
+		if(is_dir($path))
 		{
-			if(is_dir($path . DIRECTORY_SEPARATOR . $file))
+			$files = array_diff(scandir($path), array('..', '.'));
+
+			foreach($files as $file)
 			{
-				self::removeFilesInDir($path . DIRECTORY_SEPARATOR . $file);
-			}
-			else
-			{
-				@unlink($path . DIRECTORY_SEPARATOR . $file);
+				if(($target = self::getRealPath($path . DIRECTORY_SEPARATOR . $file)) === FALSE)
+				{
+					continue;
+				}
+
+				if(is_dir($target))
+				{
+					self::removeFilesInDir($target);
+				}
+				else
+				{
+					unlink($target);
+				}
 			}
 		}
+		else
+		{
+			if(self::exists($path)) unlink($path);
+		}
+
 	}
 
 	/**
