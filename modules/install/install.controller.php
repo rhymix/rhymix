@@ -155,8 +155,8 @@ class installController extends install
 		// install by default XE UI
 		else
 		{
-			include $this->db_tmp_config_file;
-			include $this->etc_tmp_config_file;
+			if(FileHandler::exists($this->db_tmp_config_file))  include $this->db_tmp_config_file;
+			if(FileHandler::exists($this->etc_tmp_config_file)) include $this->etc_tmp_config_file;
 		}
 
 		// Set DB type and information

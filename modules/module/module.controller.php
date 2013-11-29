@@ -264,7 +264,7 @@ class moduleController extends module
 
 			if($args->domain && !isSiteID($args->domain))
 			{
-				$args->domain = (substr_compare($domain, '/', -1) === 0) ? substr($domain, 0, -1) : $domain;
+				$args->domain = (strlen($args->domain) >= 1 && substr_compare($args->domain, '/', -1) === 0) ? substr($args->domain, 0, -1) : $args->domain;
 			}
 		}
 		$output = executeQuery('module.updateSite', $args);
