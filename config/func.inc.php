@@ -1477,14 +1477,12 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
  */
 function htmlHeader()
 {
-	echo <<<HTMLHEADER
-<!DOCTYPE html>
+	echo '<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
 </head>
-<body>
-HTMLHEADER;
+<body>';
 }
 
 /**
@@ -1510,7 +1508,11 @@ function alertScript($msg)
 		return;
 	}
 
-	echo '<script>alert("' . $msg . '");</script>';
+	echo '<script type="text/javascript">
+//<![CDATA[
+alert("' . $msg . '");
+//]]>
+</script>';
 }
 
 /**
@@ -1520,7 +1522,11 @@ function alertScript($msg)
  */
 function closePopupScript()
 {
-	echo '<script>window.close();</script>';
+	echo '<script type="text/javascript">
+//<![CDATA[
+window.close();
+//]]>
+</script>';
 }
 
 /**
@@ -1533,7 +1539,11 @@ function reload($isOpener = FALSE)
 {
 	$reloadScript = $isOpener ? 'window.opener.location.reload()' : 'document.location.reload()';
 
-	echo '<script>' . $reloadScript . '</script>';
+	echo '<script type="text/javascript">
+//<![CDATA[
+' . $reloadScript . '
+//]]>
+</script>';
 }
 
 /* End of file func.inc.php */

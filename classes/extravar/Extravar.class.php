@@ -366,10 +366,9 @@ class ExtraItem
 				break;
 			// Phone Number
 			case 'tel' :
-				$buff[] =
-						'<input type="text" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel" />' .
-						'<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />' .
-						'<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
 				break;
 			// textarea
 			case 'textarea' :
@@ -380,19 +379,16 @@ class ExtraItem
 				$buff[] = '<ul>';
 				foreach($default as $v)
 				{
+					$checked = '';
 					if($value && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
-					}
-					else
-					{
-						$checked = '';
 					}
 
 					// Temporary ID for labeling
 					$tmp_id = $column_name . '-' . $id_num++;
 
-					$buff[] ='<li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
+					$buff[] ='  <li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
 				}
 				$buff[] = '</ul>';
 				break;
@@ -401,15 +397,12 @@ class ExtraItem
 				$buff[] = '<select name="' . $column_name . '" class="select">';
 				foreach($default as $v)
 				{
+					$selected = '';
 					if($value && in_array(trim($v), $value))
 					{
 						$selected = ' selected="selected"';
 					}
-					else
-					{
-						$selected = '';
-					}
-					$buff[] = '<option value="' . $v . '" ' . $selected . '>' . $v . '</option>';
+					$buff[] = '  <option value="' . $v . '" ' . $selected . '>' . $v . '</option>';
 				}
 				$buff[] = '</select>';
 				break;
@@ -418,13 +411,10 @@ class ExtraItem
 				$buff[] = '<ul>';
 				foreach($default as $v)
 				{
+					$checked = '';
 					if($value && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
-					}
-					else
-					{
-						$checked = '';
 					}
 
 					// Temporary ID for labeling
@@ -439,29 +429,29 @@ class ExtraItem
 				// datepicker javascript plugin load
 				Context::loadJavascriptPlugin('ui.datepicker');
 
-				$buff[] =
-						'<input type="hidden" name="' . $column_name . '" value="' . $value . '" />' .
-						'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" /> <input type="button" value="' . Context::getLang('cmd_delete') . '" id="dateRemover_' . $column_name . '" />' . "\n" .
-						'<script>' . "\n" .
-						'(function($){' . "\n" .
-						'    $(function(){' . "\n" .
-						'        var option = { dateFormat: "yy-mm-dd", changeMonth:true, changeYear:true, gotoCurrent: false,yearRange:\'-100:+10\', onSelect:function(){' . "\n" .
-						'            $(this).prev(\'input[type="hidden"]\').val(this.value.replace(/-/g,""))}' . "\n" .
-						'        };' . "\n" .
-						'        $.extend(option,$.datepicker.regional[\'' . Context::getLangType() . '\']);' . "\n" .
-						'        $("#date_' . $column_name . '").datepicker(option);' . "\n" .
-						'		$("#dateRemover_' . $column_name . '").click(function(){' . "\n" .
-						'			$(this).siblings("input").val("");' . "\n" .
-						'			return false;' . "\n" .
-						'		})' . "\n" .
-						'    });' . "\n" .
-						'})(jQuery);' . "\n" .
-						'</script>';
+				$buff[] = '<input type="hidden" name="' . $column_name . '" value="' . $value . '" />'; 
+				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" /> <input type="button" value="' . Context::getLang('cmd_delete') . '" id="dateRemover_' . $column_name . '" />';
+				$buff[] =	'<script type="text/javascript">';
+				$buff[] = '//<![CDATA[';
+				$buff[] =	'(function($){';
+				$buff[] =	'$(function(){';
+				$buff[] =	'  var option = { dateFormat: "yy-mm-dd", changeMonth:true, changeYear:true, gotoCurrent:false, yearRange:\'-100:+10\', onSelect:function(){';
+				$buff[] =	'    $(this).prev(\'input[type="hidden"]\').val(this.value.replace(/-/g,""))}';
+				$buff[] =	'  };';
+				$buff[] =	'  $.extend(option,$.datepicker.regional[\'' . Context::getLangType() . '\']);';
+				$buff[] =	'  $("#date_' . $column_name . '").datepicker(option);';
+				$buff[] =	'  $("#dateRemover_' . $column_name . '").click(function(){';
+				$buff[] =	'    $(this).siblings("input").val("");';
+				$buff[] =	'    return false;';
+				$buff[] =	'  })';
+				$buff[] =	'});';
+				$buff[] =	'})(jQuery);';
+				$buff[] = '//]]>';
+				$buff[] = '</script>';
 				break;
 			// address
 			case "kr_zip" :
-				$krzipModel = &getModel('krzip');
-				if($krzipModel && method_exists($krzipModel , 'getKrzipCodeSearchHtml' ))
+				if(($oKrzipModel = &getModel('krzip')) && method_exists($oKrzipModel , 'getKrzipCodeSearchHtml' ))
 				{
 					$buff[] =  $krzipModel->getKrzipCodeSearchHtml($column_name, $value);
 				}
@@ -469,7 +459,6 @@ class ExtraItem
 			// General text
 			default :
 				$buff[] =' <input type="text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="text" />';
-				break;
 		}
 		if($this->desc)
 		{

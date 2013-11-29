@@ -44,19 +44,23 @@ class VirtualXMLDisplayHandler
 			}
 		}
 
-		$html = '<script>' . "\n";
+		$html = array();
+		$html[] = '<script type="text/javascript">';
+		$html[] = '//<![CDATA[';
 
 		if($output->message)
 		{
-			$html .= 'alert("' . $output->message . '");' . "\n";
+			$html[] = 'alert("' . $output->message . '");';
 		}
 		if($output->url)
 		{
 			$url = preg_replace('/#(.+)$/i', '', $output->url);
-			$html .= 'self.location.href = "' . $request_url . 'common/tpl/redirect.html?redirect_url=' . urlencode($url) . '";' . "\n";
+			$html[] = 'self.location.href = "' . $request_url . 'common/tpl/redirect.html?redirect_url=' . urlencode($url) . '";';
 		}
-		$html .= '</script>' . "\n";
-		return $html;
+		$html[] = '//]]>';
+		$html[] = '</script>';
+
+		return join(PHP_EOL, $html);
 	}
 
 }
