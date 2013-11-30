@@ -458,7 +458,7 @@ class DB
 				$buff = array();
 				if(!file_exists($debug_file))
 				{
-					$buff[] = '<?php exit(); ?>';
+					$buff[] = '<?php exit(); ?' . '>';
 				}
 				$buff[] = print_r($log, TRUE);
 				@file_put_contents($log_file, implode("\n", $buff) . "\n\n", FILE_APPEND|LOCK_EX);
@@ -477,7 +477,7 @@ class DB
 			$log_file = _XE_PATH_ . 'files/_db_slow_query.php';
 			if(!file_exists($log_file))
 			{
-				$buff = '<?php exit();?>' . "\n";
+				$buff = '<?php exit(); ?' . '>' . "\n";
 			}
 
 			$buff .= sprintf("%s\t%s\n\t%0.6f sec\tquery_id:%s\n\n", date("Y-m-d H:i"), $this->query, $elapsed_time, $this->query_id);
@@ -504,7 +504,7 @@ class DB
 	 */
 	function isError()
 	{
-		return $this->errno === 0 ? FALSE : TRUE;
+		return ($this->errno !== 0);
 	}
 
 	/**
@@ -597,13 +597,10 @@ class DB
 		// first try finding cache file
 		$cache_file = sprintf('%s%s%s.%s.%s.cache.php', _XE_PATH_, $this->cache_file, $query_id, __ZBXE_VERSION__, $this->db_type);
 
+		$cache_time = -1;
 		if(file_exists($cache_file))
 		{
 			$cache_time = filemtime($cache_file);
-		}
-		else
-		{
-			$cache_time = -1;
 		}
 
 		// if there is no cache file or is not new, find original xml query file and parse it
@@ -693,6 +690,7 @@ class DB
 	function getCountCache($tables, $condition)
 	{
 		return FALSE;
+/*
 		if(!$tables)
 		{
 			return FALSE;
@@ -739,6 +737,7 @@ class DB
 
 		$count = (int) FileHandler::readFile($cache_filename);
 		return $count;
+*/
 	}
 
 	/**
@@ -751,6 +750,7 @@ class DB
 	function putCountCache($tables, $condition, $count = 0)
 	{
 		return FALSE;
+/*
 		if(!$tables)
 		{
 			return FALSE;
@@ -777,6 +777,7 @@ class DB
 		$cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
 
 		FileHandler::writeFile($cache_filename, $count);
+*/
 	}
 
 	/**
@@ -787,6 +788,7 @@ class DB
 	function resetCountCache($tables)
 	{
 		return FALSE;
+/*
 		if(!$tables)
 		{
 			return FALSE;
@@ -805,6 +807,7 @@ class DB
 		}
 
 		return TRUE;
+ */
 	}
 
 	/**
