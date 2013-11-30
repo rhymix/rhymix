@@ -523,20 +523,27 @@ class moduleModel extends module
 	function getTriggers($trigger_name, $called_position)
 	{
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$trigger_name.'_'.$called_position;
+			$object_key = 'object:'.$trigger_name.'_'.$called_position;
+			$cache_key = $oCacheHandler->getGroupKey('triggers', $object_key);
+			
 			$output = $oCacheHandler->get($cache_key);
 		}
+
 		if(!$output)
 		{
 			$args = new stdClass();
 			$args->trigger_name = $trigger_name;
 			$args->called_position = $called_position;
 			$output = executeQueryArray('module.getTriggers',$args);
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+
+			if($output->toBool() && $oCacheHandler->isSupport()) {
+				$oCacheHandler->put($cache_key, $output);
+			}
 		}
+
 		return $output->data;
 	}
 

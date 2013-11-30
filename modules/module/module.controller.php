@@ -64,6 +64,7 @@ class moduleController extends module
 		$oCacheHandler = &CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
+			$oCacheHandler->invalidateGroupKey('triggers');
 			$cache_key = 'object:'.$trigger_name.'_'.$called_position;
 			$oCacheHandler->delete($cache_key);
 		}
@@ -93,6 +94,7 @@ class moduleController extends module
 		$oCacheHandler = &CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
+			$oCacheHandler->invalidateGroupKey('triggers');
 			$cache_key = 'object:'.$trigger_name.'_'.$called_position;
 			$oCacheHandler->delete($cache_key);
 		}
