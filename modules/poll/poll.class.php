@@ -16,6 +16,8 @@ class poll extends ModuleObject
 		$oModuleController = &getController('module');
 		// Set the default skin
 		$oModuleController = &getController('module');
+
+		$config = new stdClass;
 		$config->skin = 'default';
 		$config->colorset = 'normal';
 		$oModuleController->insertModuleConfig('poll', $config);

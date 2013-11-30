@@ -22,7 +22,9 @@ class module extends ModuleObject
 		FileHandler::makeDir('./files/cache/module_info');
 		FileHandler::makeDir('./files/cache/triggers');
 		FileHandler::makeDir('./files/ruleset');
+
 		// Insert site information into the sites table
+		$args = new stdClass;
 		$args->site_srl = 0;
 		$output = $oDB->executeQuery('module.getSite', $args);
 		if(!$output->data || !$output->data->index_module_srl)
@@ -31,6 +33,8 @@ class module extends ModuleObject
 			$domain = Context::getDefaultUrl();
 			$url_info = parse_url($domain);
 			$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+
+			$site_args = new stdClass;
 			$site_args->site_srl = 0;
 			$site_args->index_module_srl  = 0;
 			$site_args->domain = $domain;
@@ -320,7 +324,9 @@ class module extends ModuleObject
 			if(!$oDB->isColumnExists("documents","extra_vars".$i)) continue;
 			$oDB->dropColumn('documents','extra_vars'.$i);
 		}
+
 		// Enter the main site information sites on the table
+		$args = new stdClass;
 		$args->site_srl = 0;
 		$output = $oDB->executeQuery('module.getSite', $args);
 		if(!$output->data)
@@ -402,7 +408,7 @@ class module extends ModuleObject
 			$output = executeQuery('module.updateMobileSkinFixModules');
 		}
 
-		unset($args);
+		$args = new stdClass;
 		$args->site_srl = 0;
 		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
 
@@ -413,11 +419,11 @@ class module extends ModuleObject
 			$menuSrl = $args->menu_srl = getNextSequence();
 			$args->listorder = $args->menu_srl * -1;
 
-			$ioutput = executeQuery('menu.insertMenu', $args);
+			$output = executeQuery('menu.insertMenu', $args);
 
-			if(!$ioutput->toBool())
+			if(!$output->toBool())
 			{
-				return $ioutput;
+				return $output;
 			}
 
 			//getNotLinkedModuleBySiteSrl
@@ -433,6 +439,7 @@ class module extends ModuleObject
 			$output = executeQuery('module.updateMobileSkinFixModules');
 
 			$oModuleController = getController('module');
+			if(!isset($moduleConfig)) $moduleConfig = new stdClass;
 			$moduleConfig->isUpdateFixedValue = TRUE;
 			$output = $oModuleController->updateModuleConfig('module', $moduleConfig);
 		}

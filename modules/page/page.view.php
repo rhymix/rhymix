@@ -146,7 +146,9 @@ class pageView extends page
 		$oPageController = &getController('page');
 		// change url of image, css, javascript and so on if the page is from external server
 		$content = $oPageController->replaceSrc($content, $path);
+
 		// Change the document to utf-8 format
+		$buff = new stdClass;
 		$buff->content = $content;
 		$buff = Context::convertEncoding($buff);
 		$content = $buff->content;

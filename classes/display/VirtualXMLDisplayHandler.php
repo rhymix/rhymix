@@ -3,7 +3,6 @@
 
 class VirtualXMLDisplayHandler
 {
-
 	/**
 	 * Produce virtualXML compliant content given a module object.\n
 	 * @param ModuleObject $oModule the module object
@@ -16,6 +15,8 @@ class VirtualXMLDisplayHandler
 		$redirect_url = $oModule->get('redirect_url');
 		$request_uri = Context::get('xeRequestURI');
 		$request_url = Context::get('xeVirtualRequestUrl');
+		$output = new stdClass;
+
 		if(substr_compare($request_url, '/', -1) !== 0)
 		{
 			$request_url .= '/';
@@ -27,6 +28,7 @@ class VirtualXMLDisplayHandler
 			{
 				$output->message = $message;
 			}
+
 			if($redirect_url)
 			{
 				$output->url = $redirect_url;
@@ -52,6 +54,7 @@ class VirtualXMLDisplayHandler
 		{
 			$html[] = 'alert("' . $output->message . '");';
 		}
+
 		if($output->url)
 		{
 			$url = preg_replace('/#(.+)$/i', '', $output->url);

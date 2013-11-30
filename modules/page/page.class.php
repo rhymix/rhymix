@@ -37,6 +37,7 @@ class page extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
+		$args = new stdClass;
 		// opage module instance update
 		$output = executeQueryArray('page.pageTypeOpageCheck');
 		if($output->toBool() && count($output->data) > 0)

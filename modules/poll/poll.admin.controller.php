@@ -19,6 +19,7 @@ class pollAdminController extends poll
 	 */
 	function procPollAdminInsertConfig()
 	{
+		$config = new stdClass;
 		$config->skin = Context::get('skin');
 		$config->colorset = Context::get('colorset');
 
@@ -66,6 +67,7 @@ class pollAdminController extends poll
 
 		$oPollAdminModel = &getAdminModel('poll');
 		//$columnList = array('comment_srl');
+		$args = new stdClass;
 		$args->pollIndexSrlList = array($poll_index_srl);
 		$args->list_count = 100;
 
@@ -86,6 +88,9 @@ class pollAdminController extends poll
 	 */
 	function deletePollTitle($poll_index_srl) 
 	{
+		$args = new stdClass;
+		$dargs = new stdClass;
+
 		$args->poll_index_srl = $poll_index_srl;
 
 		$oDB = &DB::getInstance();
@@ -137,6 +142,7 @@ class pollAdminController extends poll
 	 */
 	function deletePoll($poll_srl)
 	{
+		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
 
 		$oDB = &DB::getInstance();

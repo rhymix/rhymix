@@ -20,10 +20,15 @@ class pollController extends poll
 	function procInsert()
 	{
 		$stop_date = Context::get('stop_date');
-		if($stop_date < date("Ymd")) $stop_date = date("YmdHis", $_SERVER['REQUEST_TIME']+60*60*24*365);
+		if($stop_date < date("Ymd"))
+		{
+			$stop_date = date("YmdHis", $_SERVER['REQUEST_TIME']+60*60*24*365);
+		}
 
 		$logged_info = Context::get('logged_info');
 		$vars = Context::getRequestVars();
+		$args = new stdClass;
+
 		foreach($vars as $key => $val)
 		{
 			if(strpos($key,'tidx')) continue;
@@ -50,15 +55,17 @@ class pollController extends poll
 		if(!count($args->poll)) return new Object(-1, 'cmd_null_item');
 
 		$args->stop_date = $stop_date;
+
 		// Configure the variables
 		$poll_srl = getNextSequence();
-
 		$member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
+
 		// Register the poll
 		unset($poll_args);
+		$poll_args = new stdClass;
 		$poll_args->poll_srl = $poll_srl;
 		$poll_args->member_srl = $member_srl;
 		$poll_args->list_order = $poll_srl*-1;
@@ -70,10 +77,12 @@ class pollController extends poll
 			$oDB->rollback();
 			return $output;
 		}
+
 		// Individual poll registration
 		foreach($args->poll as $key => $val)
 		{
 			unset($title_args);
+			$title_args = new stdClass;
 			$title_args->poll_srl = $poll_srl;
 			$title_args->poll_index_srl = getNextSequence();
 			$title_args->title = $val->title;
@@ -88,10 +97,12 @@ class pollController extends poll
 				$oDB->rollback();
 				return $output;
 			}
+
 			// Add the individual survey items
 			foreach($val->item as $k => $v)
 			{
 				unset($item_args);
+				$item_args = new stdClass;
 				$item_args->poll_srl = $poll_srl;
 				$item_args->poll_index_srl = $title_args->poll_index_srl;
 				$item_args->title = $v;

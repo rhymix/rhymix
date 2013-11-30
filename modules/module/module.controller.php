@@ -118,6 +118,7 @@ class moduleController extends module
 		$cache_file = './files/config/module_extend.php';
 		FileHandler::removeFile($cache_file);
 
+		$args = new stdClass;
 		$args->parent_module = $parent_module;
 		$args->extend_module = $extend_module;
 		$args->type = $type;
@@ -139,6 +140,7 @@ class moduleController extends module
 		$cache_file = './files/config/module_extend.php';
 		FileHandler::removeFile($cache_file);
 
+		$args = new stdClass;
 		$args->parent_module = $parent_module;
 		$args->extend_module = $extend_module;
 		$args->type = $type;
@@ -157,6 +159,8 @@ class moduleController extends module
 
 		$oModuleModel = &getModel('module');
 		$origin_config = $oModuleModel->getModuleConfig($module, $site_srl);
+
+		if(!isset($origin_config)) $origin_config = new stdClass;
 
 		foreach($config as $key => $val)
 		{
@@ -233,6 +237,7 @@ class moduleController extends module
 			$domain = strtolower($domain);
 		}
 
+		$args = new stdClass;
 		$args->site_srl = getNextSequence();
 		$args->domain = (substr_compare($domain, '/', -1) === 0) ? substr($domain, 0, -1) : $domain;
 		$args->index_module_srl = $index_module_srl;
@@ -399,6 +404,7 @@ class moduleController extends module
 
 		if($isMenuCreate == TRUE)
 		{
+			$menuArgs = new stdClass;
 			$menuArgs->menu_srl = $args->menu_srl;
 			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
 
@@ -410,10 +416,11 @@ class moduleController extends module
 
 				if(!$tempMenu)
 				{
-					$siteMapOutput->site_srl = 0;
+					$siteMapArgs = new stdClass;
+					$siteMapArgs->site_srl = 0;
 					$siteMapArgs->title = 'Temporary menu';
-					$tempMenu->menu_srl = $siteMapArgs->menu_srl = getNextSequence();
 					$siteMapArgs->listorder = $siteMapArgs->menu_srl * -1;
+					$tempMenu->menu_srl = $siteMapArgs->menu_srl = getNextSequence();
 
 					$siteMapOutput = executeQuery('menu.insertMenu', $siteMapArgs);
 					if(!$siteMapOutput->toBool())
@@ -530,6 +537,7 @@ class moduleController extends module
 			return $output;
 		}
 
+		$menuArgs = new stdClass;
 		$menuArgs->url = $module_info->mid;
 		$menuArgs->site_srl = $module_info->site_srl;
 		$menuOutput = executeQuery('menu.getMenuItemByUrl', $menuArgs);
@@ -581,6 +589,7 @@ class moduleController extends module
 	 */
 	function updateModuleSite($module_srl, $site_srl, $layout_srl = 0)
 	{
+		$args = new stdClass;
 		$args->module_srl = $module_srl;
 		$args->site_srl = $site_srl;
 		$args->layout_srl = $layout_srl;
@@ -600,6 +609,7 @@ class moduleController extends module
 
 		$oModuleModel = &getModel('module');
 		$output = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+
 		$args = new stdClass();
 		$args->url = $output->mid;
 		$args->is_shortcut = 'N';
@@ -626,6 +636,7 @@ class moduleController extends module
 		if($output->data)
 		{
 			unset($args);
+			$args = new stdClass;
 			$args->menu_srl = $output->data->menu_srl;
 			$args->menu_item_srl = $output->data->menu_item_srl;
 			$args->is_force = 'N';
@@ -750,6 +761,7 @@ class moduleController extends module
 	{
 		if(!count($menu_srl_list)) return;
 
+		$args = new stdClass;
 		$args->layout_srl = $layout_srl;
 		$args->menu_srls = implode(',',$menu_srl_list);
 		$output = executeQuery('module.updateModuleLayout', $args);
@@ -762,6 +774,7 @@ class moduleController extends module
 	function insertSiteAdmin($site_srl, $arr_admins)
 	{
 		// Remove the site administrator
+		$args = new stdClass;
 		$args->site_srl = $site_srl;
 
 		$output = executeQuery('module.deleteSiteAdmin', $args);
@@ -792,6 +805,7 @@ class moduleController extends module
 		foreach($output->data as $key => $val)
 		{
 			unset($args);
+			$args = new stdClass;
 			$args->site_srl = $site_srl;
 			$args->member_srl = $val->member_srl;
 			$output = executeQueryArray('module.insertSiteAdmin', $args);
@@ -877,6 +891,7 @@ class moduleController extends module
 
 		if(!$obj || !count($obj)) return new Object();
 
+		$args = new stdClass;
 		$args->module_srl = $module_srl;
 		foreach($obj as $key => $val)
 		{
@@ -1153,6 +1168,7 @@ class moduleController extends module
 	 */
 	function updateModuleFileBox($vars)
 	{
+		$args = new stdClass;
 		// have file
 		if($vars->addfile['tmp_name'] && is_uploaded_file($vars->addfile['tmp_name']))
 		{
@@ -1181,6 +1197,8 @@ class moduleController extends module
 
 		$args->module_filebox_srl = $vars->module_filebox_srl;
 		$args->comment = $vars->comment;
+
+		// FIXME $args ??
 
 		return executeQuery('module.updateModuleFileBox', $vars);
 	}
@@ -1211,6 +1229,7 @@ class moduleController extends module
 		}
 
 		// insert
+		$args = new stdClass;
 		$args->module_filebox_srl = $vars->module_filebox_srl;
 		$args->member_srl = $vars->member_srl;
 		$args->comment = $vars->comment;
@@ -1258,6 +1277,7 @@ class moduleController extends module
 	function lock($lock_name, $timeout, $member_srl = null)
 	{
 		$this->unlockTimeoutPassed();
+		$args = new stdClass;
 		$args->lock_name = $lock_name;
 		if(!$timeout) $timeout = 60;
 		$args->deadline = date("YmdHis", $_SERVER['REQUEST_TIME'] + $timeout);
@@ -1278,6 +1298,7 @@ class moduleController extends module
 
 	function unlock($lock_name, $deadline)
 	{
+		$args = new stdClass;
 		$args->lock_name = $lock_name;
 		$args->deadline = $deadline;
 		$output = executeQuery('module.deleteLock', $args);
@@ -1286,6 +1307,7 @@ class moduleController extends module
 
 	function updateModuleInSites($site_srls, $args)
 	{
+		$args = new stdClass;
 		$args->site_srls = $site_srls;
 		$output = executeQuery('module.updateModuleInSites', $args);
 		return $output;

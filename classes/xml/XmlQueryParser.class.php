@@ -371,6 +371,10 @@ class XmlQueryParser extends XmlParser
 	 */
 	function _setConditions($conditions)
 	{
+		$obj = new stdClass;
+		$output = new stdClass;
+		$output->conditions = array();
+
 		// 조건절 정리
 		$condition = $conditions->condition;
 		if($condition)
@@ -403,6 +407,8 @@ class XmlQueryParser extends XmlParser
 			foreach($cond as $key => $val)
 			{
 				unset($cond_output);
+				$cond_output = new stdClass;
+				$cond_output->condition = array();
 
 				if($val->attrs->pipe)
 				{
@@ -477,6 +483,9 @@ class XmlQueryParser extends XmlParser
 	 */
 	function _setNavigation($xml_obj)
 	{
+		$output = new stdClass;
+		$output->order = array();
+
 		$navigation = $xml_obj->query->navigation;
 		if($navigation)
 		{
@@ -502,6 +511,7 @@ class XmlQueryParser extends XmlParser
 			$page = $navigation->page->attrs;
 			$output->page = $page;
 		}
+
 		return $output;
 	}
 

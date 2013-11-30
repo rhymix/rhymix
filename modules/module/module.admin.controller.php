@@ -74,6 +74,7 @@ class moduleAdminController extends module
 	 */
 	function doDeleteModuleCategory()
 	{
+		$args = new stdClass;
 		$args->module_category_srl = Context::get('module_category_srl');
 		return executeQuery('module.deleteModuleCategory', $args);
 	}
@@ -579,6 +580,8 @@ class moduleAdminController extends module
 		$grant_list->manager = new stdClass();
 		$grant_list->manager->default = 'manager';
 
+		$grant = new stdClass;
+
 		foreach($grant_list as $grant_name => $grant_info)
 		{
 			// Get the default value
@@ -736,8 +739,9 @@ class moduleAdminController extends module
 		$site_keyword = Context::get('site_keyword');
 		$site_srl = Context::get('site_srl');
 		$vid = Context::get('vid');
+
 		// If there is no site keyword, use as information of the current virtual site
-		$args = null;
+		$args = new stdClass;
 		$logged_info = Context::get('logged_info');
 		$site_module_info = Context::get('site_module_info');
 		if($site_keyword) $args->site_keyword = $site_keyword;

@@ -52,6 +52,7 @@ class member extends ModuleObject {
 		$isNotInstall = empty($args);
 
 		// Set the basic information
+		$args = new stdClass;
 		$args->enable_join = 'Y';
 		$args->enable_openid = 'N';
 		if(!$args->enable_auth_mail) $args->enable_auth_mail = 'N';

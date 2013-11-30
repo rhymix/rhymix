@@ -23,12 +23,15 @@ class sessionModel extends session
 	{
 		if(!$session_key || !$this->session_started) return;
 
+		$output = new Object();
+
 		$oCacheHandler = &CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$session_key;
 			$output->data = $oCacheHandler->get($cache_key);
 		}
+
 		if(!$output->data)
 		{
 			$args = new stdClass();
@@ -77,6 +80,7 @@ class sessionModel extends session
 		if(!$output->toBool()) return $output;
 
 		$member_srls = array();
+		$member_keys = array();
 		if(count($output->data))
 		{
 			foreach($output->data as $key => $val)

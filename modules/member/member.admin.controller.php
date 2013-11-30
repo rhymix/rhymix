@@ -262,6 +262,7 @@ class memberAdminController extends member
 				if($signupItem->isUse != ($extendItem->is_active == 'Y') || $signupItem->required != ($extendItem->required == 'Y'))
 				{
 					unset($update_args);
+					$update_args = new stdClass;
 					$update_args->member_join_form_srl = $extendItem->member_join_form_srl;
 					$update_args->is_active = $signupItem->isUse?'Y':'N';
 					$update_args->required = $signupItem->required?'Y':'N';
@@ -388,6 +389,7 @@ class memberAdminController extends member
 		foreach($items as $key)
 		{
 			unset($signupItem);
+			$signupItem = new stdClass;
 			$signupItem->isDefaultForm = true;
 			$signupItem->name = $key;
 			$signupItem->title = $key;
@@ -415,6 +417,7 @@ class memberAdminController extends member
 			foreach($extendItems as $form_srl=>$item_info)
 			{
 				unset($signupItem);
+				$signupItem = new stdClass;
 				$signupItem->name = $item_info->column_name;
 				$signupItem->title = $item_info->column_title;
 				$signupItem->type = $item_info->column_type;
@@ -628,7 +631,7 @@ class memberAdminController extends member
 	 * Add a join form
 	 * @return void|Object (void : success, Object : fail)
 	 */
-	function procMemberAdminInsertJoinForm() 
+	function procMemberAdminInsertJoinForm()
 	{
 		$args = new stdClass();
 		$args->member_join_form_srl = Context::get('member_join_form_srl');
@@ -654,7 +657,7 @@ class memberAdminController extends member
 		// Check ID duplicated
 		$oMemberModel = &getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-		foreach($config->signupForm as $item) 
+		foreach($config->signupForm as $item)
 		{
 			if($item->name == $args->column_name)
 			{
@@ -694,7 +697,7 @@ class memberAdminController extends member
 
 		if($isInsert)
 		{
-			$config->signupForm[] = $signupItem;	
+			$config->signupForm[] = $signupItem;
 		}
 		else
 		{
@@ -773,7 +776,7 @@ class memberAdminController extends member
 	}
 
 	/**
-	 * selected member manager layer in dispAdminList 
+	 * selected member manager layer in dispAdminList
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberAdminSelectedMemberManage()
@@ -789,7 +792,7 @@ class memberAdminController extends member
 		foreach($members as $key=>$member_srl)
 		{
 			$args = new stdClass();
-			$args->member_srl = $member_srl; 
+			$args->member_srl = $member_srl;
 			switch($var->type)
 			{
 				case 'modify':
@@ -901,6 +904,7 @@ class memberAdminController extends member
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// Delete a group of selected members
+		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('member.deleteMembersGroup', $args);
 		if(!$output->toBool())
@@ -920,7 +924,7 @@ class memberAdminController extends member
 				$member_srl = (int)trim($member_srls[$i]);
 				if(!$member_srl) continue;
 
-				$args = null;
+				$args = new stdClass;
 				$args->member_srl = $member_srl;
 				$args->group_srl = $group_srl;
 
@@ -1055,6 +1059,7 @@ class memberAdminController extends member
 	 */
 	function changeGroup($source_group_srl, $target_group_srl)
 	{
+		$args = new stdClass;
 		$args->source_group_srl = $source_group_srl;
 		$args->target_group_srl = $target_group_srl;
 
@@ -1069,7 +1074,7 @@ class memberAdminController extends member
 	function insertGroup($args)
 	{
 		if(!$args->site_srl) $args->site_srl = 0;
-		// Check the value of is_default. 
+		// Check the value of is_default.
 		if($args->is_default!='Y')
 		{
 			$args->is_default = 'N';
@@ -1091,7 +1096,7 @@ class memberAdminController extends member
 	 */
 	function updateGroup($args)
 	{
-		// Check the value of is_default. 
+		// Check the value of is_default.
 		if(!$args->group_srl) return new Object(-1, 'lang->msg_not_founded');
 		if($args->is_default!='Y')
 		{
@@ -1129,6 +1134,7 @@ class memberAdminController extends member
 		// Change to default_group_srl
 		$this->changeGroup($group_srl, $default_group_srl);
 
+		$args = new stdClass;
 		$args->group_srl = $group_srl;
 		return executeQuery('member.deleteGroup', $args);
 	}
@@ -1139,7 +1145,7 @@ class memberAdminController extends member
 	 */
 	public function procMemberAdminGroupConfig()
 	{
-		$vars = Context::getRequestVars();	
+		$vars = Context::getRequestVars();
 
 		$oMemberModel = &getModel('member');
 		$oModuleController = &getController('module');
@@ -1201,6 +1207,7 @@ class memberAdminController extends member
 
 		foreach($vars->group_srls as $key => $val)
 		{
+			$args = new stdClass;
 			$args->group_srl = $val;
 			$args->list_order = $key + 1;
 			executeQuery('member.updateMemberGroupListOrder', $args);
@@ -1241,6 +1248,7 @@ class memberAdminController extends member
 	 */
 	function deleteDeniedID($user_id)
 	{
+		$args = new stdClass;
 		$args->user_id = $user_id;
 		return executeQuery('member.deleteDeniedID', $args);
 	}
@@ -1252,6 +1260,7 @@ class memberAdminController extends member
 	 */
 	function deleteDeniedNickName($nick_name)
 	{
+		$args = new stdClass;
 		$args->nick_name = $nick_name;
 		return executeQuery('member.deleteDeniedNickName', $args);
 	}
@@ -1279,6 +1288,7 @@ class memberAdminController extends member
 	{
 		$oMemberModel = &getModel('member');
 		// Get information of the join form
+		$args = new stdClass;
 		$args->member_join_form_srl = $member_join_form_srl;
 		$output = executeQuery('member.getJoinForm', $args);
 
@@ -1298,9 +1308,11 @@ class memberAdminController extends member
 		// Return if no previous join form exists
 		if(!$prev_member_join_form) return new Object();
 		// Information of the join form
+		$cur_args = new stdClass;
 		$cur_args->member_join_form_srl = $member_join_form_srl;
 		$cur_args->list_order = $prev_member_join_form->list_order;
 		// Information of the target join form
+		$prev_args = new stdClass;
 		$prev_args->member_join_form_srl = $prev_member_join_form->member_join_form_srl;
 		$prev_args->list_order = $list_order;
 		// Execute Query
@@ -1323,6 +1335,7 @@ class memberAdminController extends member
 	{
 		$oMemberModel = &getModel('member');
 		// Get information of the join form
+		$args = new stdClass;
 		$args->member_join_form_srl = $member_join_form_srl;
 		$output = executeQuery('member.getJoinForm', $args);
 
@@ -1343,9 +1356,11 @@ class memberAdminController extends member
 		if(!$next_member_join_form_srl) return new Object();
 		$next_member_join_form = $join_form_list[$next_member_join_form_srl];
 		// Information of the join form
+		$cur_args = new stdClass;
 		$cur_args->member_join_form_srl = $member_join_form_srl;
 		$cur_args->list_order = $next_member_join_form->list_order;
 		// Information of the target join form
+		$next_args = new stdClass;
 		$next_args->member_join_form_srl = $next_member_join_form->member_join_form_srl;
 		$next_args->list_order = $list_order;
 		// Execute Query

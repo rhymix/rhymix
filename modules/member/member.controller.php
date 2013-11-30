@@ -112,7 +112,7 @@ class memberController extends member
 
 	/**
 	 * Scrap document
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberScrapDocument()
@@ -149,7 +149,7 @@ class memberController extends member
 
 	/**
 	 * Delete a scrap
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberDeleteScrap()
@@ -161,6 +161,7 @@ class memberController extends member
 		$document_srl = (int)Context::get('document_srl');
 		if(!$document_srl) return new Object(-1,'msg_invalid_request');
 		// Variables
+		$args = new stdClass;
 		$args->member_srl = $logged_info->member_srl;
 		$args->document_srl = $document_srl;
 		return executeQuery('member.deleteScrapDocument', $args);
@@ -178,7 +179,7 @@ class memberController extends member
 
 	/**
 	 * Delete the post
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberDeleteSavedDocument()
@@ -196,7 +197,7 @@ class memberController extends member
 
 	/**
 	 * Check values when member joining
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberCheckValue()
@@ -240,7 +241,7 @@ class memberController extends member
 
 	/**
 	 * Join Membership
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberInsert()
@@ -269,6 +270,8 @@ class memberController extends member
 				}
 			}
 		}
+
+		$args = new stdClass;
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
@@ -421,10 +424,10 @@ class memberController extends member
 
 	/**
 	 * Edit member profile
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
-	function procMemberModifyInfo() 
+	function procMemberModifyInfo()
 	{
 		if(!Context::get('is_logged'))
 		{
@@ -451,6 +454,8 @@ class memberController extends member
 				}
 			}
 		}
+
+		$args = new stdClass;
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
@@ -535,7 +540,7 @@ class memberController extends member
 
 	/**
 	 * Change the user password
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberModifyPassword()
@@ -559,6 +564,7 @@ class memberController extends member
 		if($current_password == $password) return new Object(-1, 'invalid_new_password');
 
 		// Execute insert or update depending on the value of member_srl
+		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$args->password = $password;
 		$output = $this->updateMemberPassword($args);
@@ -573,7 +579,7 @@ class memberController extends member
 
 	/**
 	 * Membership withdrawal
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberLeave()
@@ -609,7 +615,7 @@ class memberController extends member
 
 	/**
 	 * Add a profile image
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberInsertProfileImage()
@@ -638,7 +644,7 @@ class memberController extends member
 
 	/**
 	 * Insert a profile image
-	 * 
+	 *
 	 * @param int $member_srl
 	 * @param object $target_file
 	 *
@@ -646,10 +652,10 @@ class memberController extends member
 	 */
 	function insertProfileImage($member_srl, $target_file)
 	{
-		
+
 		// Check uploaded file
 		if(!checkUploadedFile($target_file)) return;
-		
+
 		$oModuleModel = &getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// Get an image size
@@ -674,7 +680,7 @@ class memberController extends member
 
 	/**
 	 * Add an image name
-	 * 
+	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberInsertImageName()
@@ -703,7 +709,7 @@ class memberController extends member
 
 	/**
 	 * Insert a image name
-	 * 
+	 *
 	 * @param int $member_srl
 	 * @param object $target_file
 	 *
@@ -713,7 +719,7 @@ class memberController extends member
 	{
 		// Check uploaded file
 		if(!checkUploadedFile($target_file)) return;
-		
+
 		$oModuleModel = &getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// Get an image size
@@ -772,7 +778,7 @@ class memberController extends member
 
 		$logged_info = Context::get('logged_info');
 
-		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl)) 
+		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
 		{
 			$oMemberModel = &getModel('member');
 			$image_name = $oMemberModel->getImageName($member_srl);
@@ -812,7 +818,7 @@ class memberController extends member
 
 	/**
 	 * Insert a image mark
-	 * 
+	 *
 	 * @param int $member_srl
 	 * @param object $target_file
 	 *
@@ -822,7 +828,7 @@ class memberController extends member
 	{
 		// Check uploaded file
 		if(!checkUploadedFile($target_file)) return;
-		
+
 		$oModuleModel = &getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// Get an image size
@@ -847,7 +853,7 @@ class memberController extends member
 	 *
 	 * @return Object
 	 */
-	function procMemberDeleteImageMark($_memberSrl = 0) 
+	function procMemberDeleteImageMark($_memberSrl = 0)
 	{
 		$member_srl = ($_memberSrl) ? $_memberSrl : Context::get('member_srl');
 		if(!$member_srl)
@@ -857,7 +863,7 @@ class memberController extends member
 
 		$logged_info = Context::get('logged_info');
 
-		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl)) 
+		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
 		{
 			$oMemberModel = &getModel('member');
 			$image_mark = $oMemberModel->getImageMark($member_srl);
@@ -878,19 +884,24 @@ class memberController extends member
 
 		$oMemberModel = &getModel('member');
 		$oModuleModel = &getModel('module');
+
 		// Check if a member having the same email address exists
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
 		if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
+
 		// Get information of the member
 		$columnList = array('denied', 'member_srl', 'user_id', 'user_name', 'email_address', 'nick_name');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+
 		// Check if possible to find member's ID and password
 		if($member_info->denied == 'Y')
 		{
+			$chk_args = new stdClass;
 			$chk_args->member_srl = $member_info->member_srl;
 			$output = executeQuery('member.chkAuthMail', $chk_args);
 			if($output->toBool() && $output->data->count != '0') return new Object(-1, 'msg_user_not_confirmed');
 		}
+
 		// Insert data into the authentication DB
 		$args = new stdClass();
 		$args->user_id = $member_info->user_id;
@@ -905,6 +916,7 @@ class memberController extends member
 		Context::set('auth_args', $args);
 
 		$member_config = $oModuleModel->getModuleConfig('member');
+		$memberInfo = array();
 		global $lang;
 		if(is_array($member_config->signupForm))
 		{
@@ -995,6 +1007,7 @@ class memberController extends member
 		}
 
 		// Update to a temporary password and set change_password_date to 1
+		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		list($usec, $sec) = explode(" ", microtime());
 		$temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,15);
@@ -1025,6 +1038,7 @@ class memberController extends member
 		$auth_key = Context::get('auth_key');
 		if(!$member_srl || !$auth_key) return $this->stop('msg_invalid_request');
 		// Test logs for finding password by user_id and authkey
+		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
@@ -1071,10 +1085,12 @@ class memberController extends member
 		if($member_info->denied != 'Y')
 			return new Object(-1, 'msg_invalid_request');
 
+		$chk_args = new stdClass;
 		$chk_args->member_srl = $member_srl;
 		$output = executeQuery('member.chkAuthMail', $chk_args);
 		if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
 		// Insert data into the authentication DB
+		$auth_args = new stdClass;
 		$auth_args->member_srl = $member_srl;
 		$auth_args->auth_key = md5(rand(0, 999999));
 
@@ -1131,6 +1147,7 @@ class memberController extends member
 		// Log test by using email_address
 		$oMemberModel = &getModel('member');
 
+		$args = new stdClass;
 		$args->email_address = $email_address;
 		$memberSrl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
 		if(!$memberSrl) return $this->stop('msg_not_exists_member');
@@ -1139,14 +1156,17 @@ class memberController extends member
 		$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($memberSrl, 0, $columnList);
 
 		// Check if a authentication mail has been sent previously
+		$chk_args = new stdClass;
 		$chk_args->member_srl = $memberInfo->member_srl;
 		$output = executeQuery('member.chkAuthMail', $chk_args);
 		if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
 
+		$auth_args = new stdClass;
 		$auth_args->member_srl = $memberInfo->member_srl;
 		$output = executeQueryArray('member.getAuthMailInfo', $auth_args);
 		if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
 		$auth_info = $output->data[0];
+
 		// Get content of the email to send a member
 		Context::set('memberInfo', $memberInfo);
 		$oModuleModel = &getModel('module');
@@ -1207,10 +1227,11 @@ class memberController extends member
 		}
 
 		// remove all key by member_srl
+		$args = new stdClass;
 		$args->member_srl = $memberInfo->member_srl;
 		$output = executeQuery('member.deleteAuthMail', $args);
 
-		if(!$output->toBool()) 
+		if(!$output->toBool())
 		{
 			return $output;
 		}
@@ -1220,12 +1241,13 @@ class memberController extends member
 		list($args->email_id, $args->email_host) = explode('@', $newEmail);
 
 		$output = executeQuery('member.updateMemberEmailAddress', $args);
-		if(!$output->toBool()) 
+		if(!$output->toBool())
 		{
 			return $this->stop($output->getMessage());
 		}
 
 		// generate new auth key
+		$auth_args = new stdClass;
 		$auth_args->user_id = $memberInfo->user_id;
 		$auth_args->member_srl = $memberInfo->member_srl;
 		$auth_args->new_password = $memberInfo->password;
@@ -1329,6 +1351,7 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return new Object(-1,'msg_invalid_request');
 
+		$args = new stdClass;
 		$args->site_srl= $site_module_info->site_srl;
 		$args->member_srl = $logged_info->member_srl;
 		$output = executeQuery('member.deleteMembersGroup', $args);
@@ -1452,6 +1475,7 @@ class memberController extends member
 	 */
 	function replaceMemberGroup($args)
 	{
+		$obj = new stdClass;
 		$obj->site_srl = $args->site_srl;
 		$obj->member_srl = implode(',',$args->member_srl);
 
@@ -1468,6 +1492,7 @@ class memberController extends member
 			$inserted_members[$val] = true;
 
 			unset($obj);
+			$obj = new stdClass;
 			$obj->member_srl = $val;
 			$obj->group_srl = $args->group_srl;
 			$obj->site_srl = $args->site_srl;
@@ -1495,6 +1520,7 @@ class memberController extends member
 	function doAutologin()
 	{
 		// Get a key value of auto log-in
+		$args = new stdClass;
 		$args->autologin_key = $_COOKIE['xeak'];
 		// Get information of the key
 		$output = executeQuery('member.getAutologin', $args);
@@ -1640,11 +1666,11 @@ class memberController extends member
 		}
 
 		// If denied == 'Y', notify
-		if($this->memberInfo->denied == 'Y') 
+		if($this->memberInfo->denied == 'Y')
 		{
 			$args->member_srl = $this->memberInfo->member_srl;
 			$output = executeQuery('member.chkAuthMail', $args);
-			if ($output->toBool() && $output->data->count != '0') 
+			if ($output->toBool() && $output->data->count != '0')
 			{
 				$_SESSION['auth_member_srl'] = $this->memberInfo->member_srl;
 				$redirectUrl = getUrl('', 'act', 'dispMemberResendAuthMail');
@@ -1798,6 +1824,7 @@ class memberController extends member
 		$member_popup_menu_list = Context::get('member_popup_menu_list');
 		if(!is_array($member_popup_menu_list)) $member_popup_menu_list = array();
 
+		$obj = new stdClass;
 		$obj->url = $url;
 		$obj->str = $str;
 		$obj->icon = $icon;
@@ -1902,7 +1929,7 @@ class memberController extends member
 			{
 				// Add to the default group
 				$output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
-				if(!$output->toBool()) 
+				if(!$output->toBool())
 				{
 					$oDB->rollback();
 					return $output;
@@ -1929,6 +1956,7 @@ class memberController extends member
 		if($args->denied == 'Y')
 		{
 			// Insert data into the authentication DB
+			$auth_args = new stdClass;
 			$auth_args->user_id = $args->user_id;
 			$auth_args->member_srl = $args->member_srl;
 			$auth_args->new_password = $args->password;
@@ -1962,10 +1990,10 @@ class memberController extends member
 
 	/**
 	 * Modify member information
-	 * 
+	 *
 	 * @param bool $is_admin , modified 2013-11-22
 	 */
-	function updateMember($args, $is_admin = FALSE) 
+	function updateMember($args, $is_admin = FALSE)
 	{
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('member.updateMember', 'before', $args);
@@ -2142,7 +2170,7 @@ class memberController extends member
 	function deleteMember($member_srl)
 	{
 		// Call a trigger (before)
-		$tirgger_obj = new stdClass();
+		$trigger_obj = new stdClass();
 		$trigger_obj->member_srl = $member_srl;
 		$output = ModuleHandler::triggerCall('member.deleteMember', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
@@ -2284,6 +2312,7 @@ class memberController extends member
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
 		if($member_srl) return new Object(-1,'msg_exists_email_address');
 
+		$auth_args = new stdClass;
 		$auth_args->user_id = $newEmail;
 		$auth_args->member_srl = $member_info->member_srl;
 		$auth_args->auth_key = md5(rand(0, 999999));
@@ -2304,6 +2333,7 @@ class memberController extends member
 
 		global $lang;
 
+		$memberInfo = array();
 		$memberInfo[$lang->email_address] = $member_info->email_address;
 		$memberInfo[$lang->nick_name] = $member_info->nick_name;
 
@@ -2338,6 +2368,7 @@ class memberController extends member
 		if(!$member_srl || !$auth_key) return $this->stop('msg_invalid_request');
 
 		// Test logs for finding password by user_id and authkey
+		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
@@ -2360,9 +2391,9 @@ class memberController extends member
 
 	/**
 	 * trigger for document.getDocumentMenu. Append to popup menu a button for procMemberSpammerManage()
-	 * 
-	 * @param array &$menu_list 
-	 * 
+	 *
+	 * @param array &$menu_list
+	 *
 	 * @return object
 	**/
 	function triggerGetDocumentMenu(&$menu_list)
@@ -2390,9 +2421,9 @@ class memberController extends member
 
 	/**
 	 * trigger for comment.getCommentMenu. Append to popup menu a button for procMemberSpammerManage()
-	 * 
-	 * @param array &$menu_list 
-	 * 
+	 *
+	 * @param array &$menu_list
+	 *
 	 * @return object
 	**/
 	function triggerGetCommentMenu(&$menu_list)
@@ -2420,11 +2451,11 @@ class memberController extends member
 
 	/**
 	 * Spammer manage. Denied user login. And delete or trash all documents. Response Ajax string
-	 * 
+	 *
 	 * @return object
 	**/
-	function procMemberSpammerManage() 
-	{	
+	function procMemberSpammerManage()
+	{
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
 
 		$logged_info = Context::get('logged_info');
@@ -2454,7 +2485,7 @@ class memberController extends member
 		if($cnt_loop == 1)
 			$this->_spammerMember($member_srl);
 		// proc document and comment
-		elseif($cnt_loop>1) 
+		elseif($cnt_loop>1)
 			$this->_spammerDocuments($member_srl, $isMoveToTrash);
 
 		// get destination count
@@ -2465,7 +2496,7 @@ class memberController extends member
 		$remain_count = $cnt_document + $cnt_comment;
 		if($cnt_loop == 1) $total_count = $remain_count;
 
-		// get progress percent		
+		// get progress percent
 		if($total_count > 0)
 			$progress = intval( ( ( $total_count - $remain_count ) / $total_count ) * 100 );
 		else
@@ -2484,10 +2515,10 @@ class memberController extends member
 
 	/**
 	 * Denied user login and write description
-	 * 
+	 *
 	 * @param int $member_srl
-	 * 
-	 * @return object 
+	 *
+	 * @return object
 	**/
 	private function _spammerMember($member_srl) {
 		$logged_info = Context::get('logged_info');
@@ -2521,24 +2552,24 @@ class memberController extends member
 	 * @param int $member_srl
 	 * @param bool $isMoveToTrash
 	 *
-	 * @return object 
+	 * @return object
 	**/
 	private function _spammerDocuments($member_srl, $isMoveToTrash) {
 		$oDocumentController = &getController('document');
 		$oDocumentModel = &getModel('document');
 		$oCommentController = &getController('comment');
 		$oCommentModel = &getModel('comment');
-		
+
 		// delete count by one request
 		$getContentsCount = 10;
 
 		// 1. proc comment, 2. proc document
 		$cnt_comment = $oCommentModel->getCommentCountByMemberSrl($member_srl);
 		$cnt_document = $oDocumentModel->getDocumentCountByMemberSrl($member_srl);
-		if($cnt_comment > 0) 
+		if($cnt_comment > 0)
 		{
 			$columnList = array();
-			$commentList = $oCommentModel->getCommentListByMemberSrl($member_srl, $columnList, 0, false, $getContentsCount); 
+			$commentList = $oCommentModel->getCommentListByMemberSrl($member_srl, $columnList, 0, false, $getContentsCount);
 			if($commentList) {
 				foreach($commentList as $v) {
 					$oCommentController->deleteComment($v->comment_srl, true, $isMoveToTrash);

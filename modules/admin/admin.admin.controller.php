@@ -170,7 +170,6 @@ class adminAdminController extends admin
 			$skinTarget = 'mskin';
 		}
 
-		$buff = '';
 		if(is_readable($siteDesignFile))
 		{
 			include($siteDesignFile);
@@ -202,31 +201,33 @@ class adminAdminController extends admin
 
 	function makeDefaultDesignFile($designInfo, $site_srl = 0)
 	{
+		$buff = array();
+		$buff[] = '<?php if(!defined("__XE__")) exit();';
+		$buff[] = '$designInfo = new stdClass;';
+
 		if($designInfo->layout_srl)
 		{
-			$buff .= sprintf('$designInfo->layout_srl = %s; ', $designInfo->layout_srl) . "\n";
+			$buff[] = sprintf('$designInfo->layout_srl = %s; ', $designInfo->layout_srl);
 		}
 
 		if($designInfo->mlayout_srl)
 		{
-			$buff .= sprintf('$designInfo->mlayout_srl = %s;', $designInfo->mlayout_srl) . "\n";
+			$buff[] = sprintf('$designInfo->mlayout_srl = %s;', $designInfo->mlayout_srl);
 		}
 
-		$buff .= '$designInfo->module = new stdClass();' . "\n";
+		$buff[] = '$designInfo->module = new stdClass;';
 
 		foreach($designInfo->module as $moduleName => $skinInfo)
 		{
-			$buff .= sprintf('$designInfo->module->%s = new stdClass();', $moduleName) . "\n";
+			$buff[] = sprintf('$designInfo->module->%s = new stdClass;', $moduleName);
 			foreach($skinInfo as $target => $skinName)
 			{
-				$buff .= sprintf('$designInfo->module->%s->%s = \'%s\';', $moduleName, $target, $skinName) . "\n";
+				$buff[] = sprintf('$designInfo->module->%s->%s = \'%s\';', $moduleName, $target, $skinName);
 			}
 		}
 
-		$buff = sprintf('<?php if(!defined("__XE__")) exit();' . "\n" . '$designInfo = new stdClass();' . "\n" . '%s ?>', $buff);
-
 		$siteDesignFile = _XE_PATH_ . 'files/site_design/design_' . $site_srl . '.php';
-		FileHandler::writeFile($siteDesignFile, $buff);
+		FileHandler::writeFile($siteDesignFile, implode(PHP_EOL, $buff));
 	}
 
 	/**

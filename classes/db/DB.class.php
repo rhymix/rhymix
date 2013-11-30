@@ -335,7 +335,7 @@ class DB
 				continue;
 			}
 
-			$obj = NULL;
+			$obj = new stdClass;
 			$obj->db_type = $db_type;
 			$obj->enable = $oDB->isSupported() ? TRUE : FALSE;
 

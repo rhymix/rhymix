@@ -103,6 +103,7 @@ class spamfilterAdminController extends spamfilter
 	{
 		if(!$ipaddress) return;
 
+		$args = new stdClass;
 		$args->ipaddress = $ipaddress;
 		return executeQuery('spamfilter.deleteDeniedIP', $args);
 	}
@@ -113,6 +114,7 @@ class spamfilterAdminController extends spamfilter
 	 */
 	function insertWord($word_list)
 	{
+
 		$word_list = str_replace("\r","",$word_list);
 		$word_list = explode("\n",$word_list);
 
@@ -127,6 +129,7 @@ class spamfilterAdminController extends spamfilter
 		$fail_word = '';
 		foreach($word_list as $word)
 		{
+			$args = new stdClass;
 			if(trim($word)) $args->word = $word;
 			$output = executeQuery('spamfilter.insertDeniedWord', $args);
 			if(!$output->toBool()) $fail_word .= $word.'<br />';
@@ -142,6 +145,7 @@ class spamfilterAdminController extends spamfilter
 	function deleteWord($word)
 	{
 		if(!$word) return;
+		$args = new stdClass;
 		$args->word = $word;
 		return executeQuery('spamfilter.deleteDeniedWord', $args);
 	}

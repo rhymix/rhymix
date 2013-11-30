@@ -517,6 +517,7 @@ class memberModel extends member
 	 */
 	function getGroup($group_srl, $columnList = array())
 	{
+		$args = new stdClass;
 		$args->group_srl = $group_srl;
 		$output = executeQuery('member.getGroup', $args, $columnList);
 		return $output->data;

@@ -316,8 +316,9 @@ class adminAdminModel extends admin
 			, 'module' => array('addon', 'admin', 'autoinstall', 'comment', 'communication', 'counter', 'document', 'editor', 'file', 'importer', 'install', 'integration_search', 'layout', 'member', 'menu', 'message', 'module', 'opage', 'page', 'point', 'poll', 'rss', 'session', 'spamfilter', 'tag', 'trackback', 'trash', 'widget')
 			, 'addon' => array('autolink', 'blogapi', 'captcha', 'counter', 'member_communication', 'member_extra_info', 'mobile', 'openid_delegation_id', 'point_level_icon', 'resize_image')
 		);
-
 		$info = array();
+		$db_info = Context::getDBInfo();
+
 		$info['type'] = ($type != 'INSTALL' ? 'WORKING' : 'INSTALL');
 		$info['location'] = _XE_LOCATION_;
 		$info['package'] = _XE_PACKAGE_;
@@ -326,12 +327,11 @@ class adminAdminModel extends admin
 		$info['xe_version'] = __XE_VERSION__;
 		$info['php'] = phpversion();
 
-		$db_info = Context::getDBInfo();
 		$info['db_type'] = Context::getDBType();
 		$info['use_rewrite'] = $db_info->use_rewrite;
 		$info['use_db_session'] = $db_info->use_db_session == 'Y' ? 'Y' : 'N';
 		$info['use_ssl'] = $db_info->use_ssl;
-
+		
 		$info['phpext'] = '';
 		foreach(get_loaded_extensions() as $ext)
 		{

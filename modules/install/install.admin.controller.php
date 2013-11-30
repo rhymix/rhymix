@@ -110,6 +110,7 @@ class installAdminController extends install
 			Context::setDBInfo($db_info);
 			if($default_url)
 			{
+				$site_args = new stdClass;
 				$site_args->site_srl = 0;
 				$site_args->domain = $default_url;
 				$oModuleController = &getController('module');
@@ -306,6 +307,7 @@ class installAdminController extends install
 
 		unset($args);
 
+		$args = new stdClass;
 		$args->htmlFooter = $config->htmlFooter;
 		$args->siteTitle = $config->siteTitle;
 		$oModuleController->updateModuleConfig('module',$args);

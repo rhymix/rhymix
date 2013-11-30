@@ -229,6 +229,7 @@ class addonAdminController extends addonController
 	 */
 	function doInsert($addon, $site_srl = 0, $gtype = 'site', $isUsed = 'N')
 	{
+		$args = new stdClass;
 		$args->addon = $addon;
 		$args->is_used = $isUsed;
 		if($gtype == 'global')

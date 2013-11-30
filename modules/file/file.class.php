@@ -15,7 +15,9 @@ class file extends ModuleObject
 	{
 		// Register action forward (to use in administrator mode)
 		$oModuleController = &getController('module');
+		
 		// Save the default settings for attachments
+		$config = new stdClass;
 		$config->allowed_filesize = '2';
 		$config->allowed_attach_size = '2';
 		$config->allowed_filetypes = '*.*';

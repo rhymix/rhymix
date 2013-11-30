@@ -1556,11 +1556,13 @@ class menuAdminController extends menu
 		$xml_info = $oModuleModel->getModuleActionXML($moduleInfo->module);
 
 		$grantList = $xml_info->grant;
+		if(!$grantList) $grantList = new stdClass;
 		$grantList->access = new stdClass();
 		$grantList->access->default = 'guest';
 		$grantList->manager = new stdClass();
 		$grantList->manager->default = 'manager';
 
+		$grant = new stdClass;
 		foreach($grantList AS $grantName=>$grantInfo)
 		{
 			if(!$htPerm[$grantName])

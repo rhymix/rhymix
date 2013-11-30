@@ -728,7 +728,7 @@ class documentModel extends document
 		$list_order = array();
 		foreach($list as $key => $val)
 		{
-			$obj = null;
+			$obj = new stdClass;
 			$obj->mid = $val['mid'];
 			$obj->module_srl = $val['module_srl'];
 			$obj->category_srl = $val['category_srl'];

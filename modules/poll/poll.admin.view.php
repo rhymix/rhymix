@@ -88,9 +88,9 @@ class pollAdminView extends poll
 		Context::set('page', $output->page);
 		Context::set('poll_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
-		Context::set('module_list', $module_list);			
+		Context::set('module_list', $module_list);
 
-		$security = new Security();				
+		$security = new Security();
 		$security->encodeHTML('poll_list..title', 'poll_list..nick_name');
 		// Set a template
 		$this->setTemplatePath($this->module_path.'tpl');
@@ -114,7 +114,7 @@ class pollAdminView extends poll
 		// Set the skin colorset once the configurations is completed
 		Context::set('colorset_list', $skin_list[$config->skin]->colorset);
 
-		$security = new Security();				
+		$security = new Security();
 		$security->encodeHTML('config..');
 		$security->encodeHTML('skin_list..title');
 		$security->encodeHTML('colorset_list..name','colorset_list..title');
@@ -133,17 +133,21 @@ class pollAdminView extends poll
 		$this->setLayoutFile("popup_layout");
 		// Draw results
 		$args = new stdClass();
-		$args->poll_srl = Context::get('poll_srl'); 
-		$args->poll_index_srl = Context::get('poll_index_srl'); 
+		$args->poll_srl = Context::get('poll_srl');
+		$args->poll_index_srl = Context::get('poll_index_srl');
 
 		$output = executeQuery('poll.getPoll', $args);
 		if(!$output->data) return $this->stop('msg_poll_not_exists');
+
 		$poll = new stdClass();
 		$poll->stop_date = $output->data->stop_date;
 		$poll->poll_count = $output->data->poll_count;
 
 		$output = executeQuery('poll.getPollTitle', $args);
-		if(!$output->data) return $this->stop('msg_poll_not_exists');
+		if(!$output->data)
+		{
+			return $this->stop('msg_poll_not_exists');
+		}
 
 		$tmp = &$poll->poll[$args->poll_index_srl];
 		$tmp->title = $output->data->title;

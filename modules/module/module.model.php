@@ -155,6 +155,8 @@ class moduleModel extends module
 					$domain = Context::getDefaultUrl();
 					$url_info = parse_url($domain);
 					$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+
+					$site_args = new stdClass;
 					$site_args->site_srl = 0;
 					$site_args->index_module_srl  = $mid_output->data->module_srl;
 					$site_args->domain = $domain;
@@ -383,6 +385,7 @@ class moduleModel extends module
 	function getModulesInfoByLayout($layout_srl, $columnList = array())
 	{
 		// Imported data
+		$args = new stdClass;
 		$args->layout_srl = $layout_srl;
 		$output = executeQueryArray('module.getModulesByLayout', $args, $columnList);
 
@@ -487,6 +490,7 @@ class moduleModel extends module
 
 		$site_module_info = Context::get('site_module_info');
 
+		$args = new stdClass;
 		$args->mid = $mid;
 		if($site_module_info) $args->site_srl = $site_module_info->site_srl;
 		$output = executeQuery('module.getModuleSrlByMid', $args);
@@ -740,6 +744,7 @@ class moduleModel extends module
 				else $grant_list[] = $grants;
 
 				$info->grant = new stdClass();
+				$buff[] = '$info->grant = new stdClass;';
 				foreach($grant_list as $grant)
 				{
 					$name = $grant->attrs->name;
@@ -1228,6 +1233,7 @@ class moduleModel extends module
 	 */
 	function getModuleCount($site_srl, $module = null)
 	{
+		$args = new stdClass;
 		$args->site_srl = $site_srl;
 		if(!is_null($module)) $args->module = $module;
 		$output = executeQuery('module.getModuleCount', $args);
@@ -1350,6 +1356,7 @@ class moduleModel extends module
 	function getModuleCategory($module_category_srl)
 	{
 		// Get data from the DB
+		$args = new stdClass;
 		$args->module_category_srl = $module_category_srl;
 		$output = executeQuery('module.getModuleCategory', $args);
 		if(!$output->toBool()) return $output;
@@ -1559,6 +1566,7 @@ class moduleModel extends module
 	 */
 	function getSiteAdmin($site_srl)
 	{
+		$args = new stdClass;
 		$args->site_srl = $site_srl;
 		$output = executeQueryArray('module.getSiteAdmin', $args);
 		return $output->data;
@@ -1763,6 +1771,7 @@ class moduleModel extends module
 		}
 		if(!$output)
 		{
+			$args = new stdClass;
 			$args->module_srl = $module_info->module_srl;
 			$output = executeQueryArray('module.getModuleMobileSkinVars',$args);
 			//insert in cache
@@ -1833,6 +1842,7 @@ class moduleModel extends module
 				}
 				else
 				{
+					$args = new stdClass;
 					$args->module_srl = $module_srl;
 					$output = executeQueryArray('module.getModuleGrants', $args);
 				}
@@ -2061,6 +2071,7 @@ class moduleModel extends module
 
 		$requestVars = Context::getRequestVars();
 
+		$args = new stdClass;
 		$args->site_srl = (int)$requestVars->site_srl;
 		$args->page = 1; // /< Page
 		$args->list_count = 100; // /< the number of posts to display on a single page

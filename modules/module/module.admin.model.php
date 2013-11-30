@@ -23,6 +23,7 @@ class moduleAdminModel extends module
 	{
 		$oModuleController = &getController('module');
 		$oModuleModel = &getModel('module');
+		$args = new stdClass;
 		$args->module_srls = Context::get('module_srls');
 		$output = executeQueryArray('module.getModulesInfo', $args);
 		if(!$output->toBool() || !$output->data) return new Object();
