@@ -392,10 +392,10 @@ function xml2json(xml, tab, ignoreAttrib) {
 	/**
 	* @brief exec_json (exec_xml와 같은 용도)
 	**/
-	$.exec_json = function(action,data,func,f_error){
+	$.exec_json = window.exec_json = function(action, data, callback_sucess, callback_error){
 		if(typeof(data) == 'undefined') data = {};
 
-		action = action.split(".");
+		action = action.split('.');
 
 		if(action.length == 2) {
 			// The cover can be disturbing if it consistently blinks (because ajax call usually takes very short time). So make it invisible for the 1st 0.5 sec and then make it visible.
@@ -425,18 +425,18 @@ function xml2json(xml, tab, ignoreAttrib) {
 					if(data.error != '0' && data.error > -1000) {
 						if(data.error == -1 && data.message == 'msg_is_not_administrator') {
 							alert('You are not logged in as an administrator');
-							if($.isFunction(f_error)) f_error(data);
+							if($.isFunction(callback_error)) callback_error(data);
 
 							return;
 						} else {
 							alert(data.message);
-							if($.isFunction(f_error)) f_error(data);
+							if($.isFunction(callback_error)) callback_error(data);
 
 							return;
 						}
 					}
 
-					if($.isFunction(func)) func(data);
+					if($.isFunction(callback_sucess)) callback_sucess(data);
 				}
 			});
 		}
