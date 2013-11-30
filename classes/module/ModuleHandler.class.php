@@ -1068,7 +1068,7 @@ class ModuleHandler extends Handler
 		$highClassFile = sprintf('%s%s%s.class.php', _XE_PATH_, $classPath, $module);
 		$highClassFile = FileHandler::getRealPath($highClassFile);
 
-		$types = explode(' ', 'view controller model api wap mobile class');
+		$types = array('view','controller','model','api','wap','mobile','class');
 		if(!in_array($type, $types))
 		{
 			$type = $types[0];
@@ -1090,8 +1090,7 @@ class ModuleHandler extends Handler
 		}
 
 		$instanceName = sprintf($instanceName, $module, ucfirst($type));
-		$classFile = sprintf($classFile, $classPath, $module, $type);
-		$classFile = FileHandler::getRealPath($classFile);
+		$classFile = FileHandler::getRealPath(sprintf($classFile, $classPath, $module, $type));
 	}
 
 	/**
@@ -1111,7 +1110,7 @@ class ModuleHandler extends Handler
 
 		$oModuleModel = getModel('module');
 		$triggers = $oModuleModel->getTriggers($trigger_name, $called_position);
-		if(!$triggers || !count($triggers))
+		if(!$triggers || count($triggers) < 1)
 		{
 			return new Object();
 		}
@@ -1122,7 +1121,7 @@ class ModuleHandler extends Handler
 			$type = $item->type;
 			$called_method = $item->called_method;
 
-			$oModule = NULL;
+			// todo why don't we call a normal class object ?
 			$oModule = getModule($module, $type);
 			if(!$oModule || !method_exists($oModule, $called_method))
 			{
@@ -1150,7 +1149,7 @@ class ModuleHandler extends Handler
 		$statusMessageList = array(
 			'100' => 'Continue',
 			'101' => 'Switching Protocols',
-			'201' => 'OK',
+			'201' => 'OK', // todo check array key '201'
 			'201' => 'Created',
 			'202' => 'Accepted',
 			'203' => 'Non-Authoritative Information',
@@ -1200,4 +1199,5 @@ class ModuleHandler extends Handler
 	}
 
 }
-?>
+/* End of file ModuleHandler.class.php */
+/* Location: ./classes/module/ModuleHandler.class.php */
