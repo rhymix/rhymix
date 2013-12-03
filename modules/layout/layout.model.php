@@ -562,6 +562,9 @@ class layoutModel extends layout
 			$extra_var_groups = $xml_obj->extra_vars->group;
 			if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
 			if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
+
+			$buff[] = '$layout_info->extra_var = new stdClass;';
+			$extra_var_count = 0;
 			foreach($extra_var_groups as $group)
 			{
 				$extra_vars = $group->var;
@@ -569,11 +572,10 @@ class layoutModel extends layout
 				{
 					if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
 
-					$extra_var_count = count($extra_vars);
-
-					$buff[] = sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
-					$buff[] = '$layout_info->extra_var = new stdClass;';
-					for($i=0;$i<$extra_var_count;$i++)
+					$count = count($extra_vars);
+					$extra_var_count += $count;
+					
+					for($i=0;$i<$count;$i++)
 					{
 						unset($var, $options);
 						$var = $extra_vars[$i];
@@ -615,6 +617,7 @@ class layoutModel extends layout
 					}
 				}
 			}
+			$buff[] = sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
 			// Menu
 			if($xml_obj->menus->menu)
 			{
