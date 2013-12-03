@@ -588,13 +588,15 @@ class layoutModel extends layout
 
 						$options = $var->options;
 						if(!$options) continue;
-
-						if(!is_array($options)) $options = array($options);
+						if(!is_array($options))
+						{
+							$options = array($options);
+							$buff[] = sprintf('$layout_info->extra_var->%s->options = array();', $var->attrs->name);
+						}
 						$options_count = count($options);
 						$thumbnail_exist = false;
 						for($j=0; $j < $options_count; $j++)
 						{
-							$buff[] = sprintf('$layout_info->extra_var->%s->options = array();', $var->attrs->name);
 							$buff[] = sprintf('$layout_info->extra_var->%s->options["%s"] = new stdClass;', $var->attrs->name, $options[$j]->attrs->value);
 							$thumbnail = $options[$j]->attrs->src;
 							if($thumbnail)
