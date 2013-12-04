@@ -263,6 +263,12 @@ class moduleController extends module
 		$oModuleModel = &getModel('module');
 		$columnList = array('sites.site_srl', 'sites.domain');
 		$site_info = $oModuleModel->getSiteInfo($args->site_srl, $columnList);
+
+		if(!$args->domain && $site_info->site_srl == $args->site_srl)
+		{
+			$args->domain = $site_info->domain;
+		}
+
 		if($site_info->domain != $args->domain)
 		{
 			$info = $oModuleModel->getSiteInfoByDomain($args->domain, $columnList);

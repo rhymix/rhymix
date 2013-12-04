@@ -402,6 +402,8 @@ class Query extends Object
 				$update[] = $column->getExpression($with_values);
 			}
 		}
+
+		if(!$update) return;
 		return trim(implode($update, ', '));
 	}
 

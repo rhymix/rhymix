@@ -582,11 +582,15 @@ class DBMysql extends DB
 	function _executeUpdateAct($queryObject, $with_values = true)
 	{
 		$query = $this->getUpdateSql($queryObject, $with_values, true);
-		$query .= (__DEBUG_QUERY__ & 1 && $this->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 		if(is_a($query, 'Object'))
 		{
-			return;
+			if(!$query->toBool()) return $query;
+			else return;
 		}
+
+		$query .= (__DEBUG_QUERY__ & 1 && $this->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
+
+
 		return $this->_query($query);
 	}
 
