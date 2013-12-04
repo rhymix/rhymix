@@ -1529,14 +1529,13 @@ class menuAdminController extends menu
 		}
 		else
 		{
-			if(is_array($exposure))
-			{
-				$args->group_srls = implode(',', $exposure);
-			}
-			else if($exposure && in_array($exposure,array('-1','-3')))
+			$exposure = explode(',', $exposure);
+			if(in_array($exposure, array('-1','-3')))
 			{
 				$args->group_srls = $exposure;
 			}
+
+			$args->group_srls = implode(',', $exposure);
 		}
 
 		$output = executeQuery('menu.updateMenuItem', $args);
@@ -1557,6 +1556,7 @@ class menuAdminController extends menu
 
 		$grantList = $xml_info->grant;
 		if(!$grantList) $grantList = new stdClass;
+
 		$grantList->access = new stdClass();
 		$grantList->access->default = 'guest';
 		$grantList->manager = new stdClass();
@@ -1586,6 +1586,7 @@ class menuAdminController extends menu
 			}
 			$grant->{$group_srls} = array();
 		}
+
 		if(count($grant))
 		{
 			$oModuleController = getController('module');
