@@ -456,7 +456,7 @@ class adminAdminController extends admin
 	 */
 	function _deleteAllFavorite()
 	{
-		$args = NULL;
+		$args = new stdClass;
 		$output = executeQuery('admin.deleteAllFavorite', $args);
 		return $output;
 	}

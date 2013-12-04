@@ -523,7 +523,7 @@ class mobileXE
 			$this->setUpperUrl(getUrl('cmid',$upper_srl), Context::getLang('cmd_go_upper'));
 			if(preg_match('/^([a-zA-Z0-9\_\-]+)$/', $cur_item['url']))
 			{
-				$obj = null;
+				$obj = array();
 				$obj['href'] = getUrl('','mid',$cur_item['url']);
 				$obj['link'] = $obj['text'] = '['.$cur_item['text'].']';
 				$childs[] = $obj;
@@ -541,7 +541,7 @@ class mobileXE
 			foreach($list as $key => $val)
 			{
 				if(!$val['text']) continue;
-				$obj = null;
+				$obj = array();
 				if(!count($val['list']))
 				{
 					$obj['href'] = getUrl('','mid',$val['url']);
@@ -574,7 +574,7 @@ class mobileXE
 		}
 		$lang_supported = Context::get('lang_supported');
 		$lang_type = Context::getLangType();
-		$obj = null;
+		$obj = array();
 		$obj['link'] = $obj['text'] = Context::getLang('president_lang').' : '.$lang_supported[$lang_type];
 		$obj['href'] = getUrl('sel_lang',$lang_type);
 		$childs[] = $obj;
@@ -583,7 +583,7 @@ class mobileXE
 		{
 			foreach($lang_supported as $key => $val)
 			{
-				$obj = null;
+				$obj = array();
 				$obj['link'] = $obj['text'] = $val;
 				$obj['href'] = getUrl('sel_lang',$key);
 				$childs[] = $obj;

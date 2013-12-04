@@ -176,7 +176,7 @@ class moduleAdminController extends module
 		$errorLog = array();
 		foreach($clones as $mid => $browser_title)
 		{
-			$clone_args = null;
+			$clone_args = new stdClass;
 			$clone_args = clone $module_info;
 			$clone_args->module_srl = null;
 			$clone_args->content = null;

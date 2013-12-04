@@ -58,7 +58,7 @@ class moduleModel extends module
 	function getSiteInfoByDomain($domain, $columnList = array())
 	{
 		$args = new stdClass();
-		$args->domain= $domain;
+		$args->domain = $domain;
 		$output = executeQuery('module.getSiteInfoByDomain', $args, $columnList);
 		return $output->data;
 	}

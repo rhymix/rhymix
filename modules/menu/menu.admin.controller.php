@@ -1535,7 +1535,7 @@ class menuAdminController extends menu
 				$args->group_srls = $exposure;
 			}
 
-			$args->group_srls = implode(',', $exposure);
+			if($exposure) $args->group_srls = implode(',', $exposure);
 		}
 
 		$output = executeQuery('menu.updateMenuItem', $args);

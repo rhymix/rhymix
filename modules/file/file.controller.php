@@ -371,7 +371,7 @@ class fileController extends file
 			$srl = (int)$srls[$i];
 			if(!$srl) continue;
 
-			$args = null;
+			$args = new stdClass;
 			$args->file_srl = $srl;
 			$output = executeQuery('file.getFile', $args);
 			if(!$output->toBool()) continue;
@@ -756,12 +756,13 @@ class fileController extends file
 
 		$oDocumentController = &getController('document');
 		$documentSrlList = array();
+
 		for($i=0;$i<count($srls);$i++)
 		{
 			$srl = (int)$srls[$i];
 			if(!$srl) continue;
 
-			$args = null;
+			$args = new stdClass;
 			$args->file_srl = $srl;
 			$output = executeQuery('file.getFile', $args);
 
@@ -777,16 +778,20 @@ class fileController extends file
 
 			$source_filename = $output->data->source_filename;
 			$uploaded_filename = $output->data->uploaded_filename;
+
 			// Call a trigger (before)
 			$trigger_obj = $output->data;
 			$output = ModuleHandler::triggerCall('file.deleteFile', 'before', $trigger_obj);
 			if(!$output->toBool()) return $output;
+
 			// Remove from the DB
 			$output = executeQuery('file.deleteFile', $args);
 			if(!$output->toBool()) return $output;
+
 			// Call a trigger (after)
 			$trigger_output = ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
 			if(!$trigger_output->toBool()) return $trigger_output;
+
 			// If successfully deleted, remove the file
 			FileHandler::removeFile($uploaded_filename);
 		}

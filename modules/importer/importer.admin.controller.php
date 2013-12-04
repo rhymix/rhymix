@@ -418,7 +418,7 @@ class importerAdminController extends importer
 			unset($obj->extra_vars);
 			$obj->extra_vars = serialize($extra_vars);
 			// Check if the same nickname is existing
-			$nick_args = null;
+			$nick_args = new stdClass;
 			$nick_args->nick_name = $obj->nick_name;
 			$nick_output = executeQuery('member.getMemberSrl', $nick_args);
 			if(!$nick_output->toBool()) $obj->nick_name .= '_'.$obj->member_srl;
@@ -767,7 +767,7 @@ class importerAdminController extends importer
 				$tag_count = count($tag_list);
 				for($i=0;$i<$tag_count;$i++)
 				{
-					$args = null;
+					$args = new stdClass;
 					$args->tag_srl = getNextSequence();
 					$args->module_srl = $module_srl;
 					$args->document_srl = $obj->document_srl;
@@ -947,7 +947,7 @@ class importerAdminController extends importer
 					}
 				}
 				// Comment list first
-				$list_args = null;
+				$list_args = new stdClass;
 				$list_args->comment_srl = $obj->comment_srl;
 				$list_args->document_srl = $obj->document_srl;
 				$list_args->module_srl = $obj->module_srl;

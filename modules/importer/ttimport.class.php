@@ -264,7 +264,7 @@ class ttimport
 					$tag_count = count($tag_list);
 					for($i=0;$i<$tag_count;$i++)
 					{
-						$args = null;
+						$args = new stdClass;
 						$args->tag_srl = getNextSequence();
 						$args->module_srl = $module_srl;
 						$args->document_srl = $obj->document_srl;
@@ -659,7 +659,7 @@ class ttimport
 		$tobj->sequence = $sequence;
 		$tobj->parent_srl = $parent_srl;
 		// Comment list first
-		$list_args = null;
+		$list_args = new stdClass;
 		$list_args->comment_srl = $tobj->comment_srl;
 		$list_args->document_srl = $tobj->document_srl;
 		$list_args->module_srl = $tobj->module_srl;
