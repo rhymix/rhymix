@@ -57,7 +57,8 @@ class DB
 	 * @var array
 	 */
 	var $priority_dbms = array(
-		'mysqli' => 5,
+		'mysqli' => 6,
+		'mysqli_innodb' => 5,
 		'mysql' => 4,
 		'mysql_innodb' => 3,
 		'cubrid' => 2,
@@ -468,7 +469,8 @@ class DB
 		{
 			$log['result'] = 'Success';
 		}
-		$GLOBALS['__db_queries__'][] = $log;
+
+		$this->setQueryLog($log);
 
 		// if __LOG_SLOW_QUERY__ if defined, check elapsed time and leave query log
 		if(__LOG_SLOW_QUERY__ > 0 && $elapsed_time > __LOG_SLOW_QUERY__)
@@ -484,6 +486,16 @@ class DB
 
 			@file_put_contents($log_file, $buff, FILE_APPEND|LOCK_EX);
 		}
+	}
+
+	/**
+	 * set query debug log
+	 * @param array $log values set query debug
+	 * @return void
+	*/
+	function setQueryLog($log)
+	{
+		$GLOBALS['__db_queries__'][] = $log;
 	}
 
 	/**
@@ -1092,6 +1104,7 @@ class DB
 			$connection = &$this->slave_db[$indx];
 		}
 
+		$this->commit();
 		$this->_close($connection["resource"]);
 
 		$connection["is_connected"] = FALSE;
@@ -1315,6 +1328,9 @@ class DB
 
 		// Save connection info for db logs
 		$this->connection = ucfirst($type) . ' ' . $connection["db_hostname"];
+
+		// regist $this->close callback
+		register_shutdown_function(array($this, "close"));
 
 		$this->_afterConnect($result);
 	}

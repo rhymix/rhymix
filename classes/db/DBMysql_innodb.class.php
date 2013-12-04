@@ -43,7 +43,6 @@ class DBMysql_innodb extends DBMysql
 	 */
 	function _close($connection)
 	{
-		$this->_query("commit", $connection);
 		@mysql_close($connection);
 	}
 

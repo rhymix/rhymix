@@ -354,6 +354,19 @@
 			<value xml:lang="tr"><![CDATA[PHP'de mysql*() özellikleri için MySQL'ü veritabanı olarak kullanınız.<br />İşlemler, veritabanı dosyası myisam 'da oluşturulduğu zaman işlenmeyecektir.]]></value>
 			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>mysql*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.]]></value>
 		</item>
+		<item name="mysqli_innodb">
+			<value xml:lang="ko"><![CDATA[MySQL DB를 innodb를 이용하여 사용합니다.<br />innodb는 트랜잭션을 사용할 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use MySQL as a database with innodb.<br />Transactions will be processed with innodb]]></value>
+			<value xml:lang="jp"><![CDATA[MySQL DBで「innodb」タイプでデータの入出力を行います。<br />「innodb」ではトランザクションの処理が行えます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[利用innodb使用mysql DB。<br />innodb可以使用transaction。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[利用『innodb』使用 Mysql 資料庫。<br />innodb可以使用 transaction。]]></value>
+			<value xml:lang="fr"><![CDATA[Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb]]></value>
+			<value xml:lang="ru"><![CDATA[Используем innodb  чтобы использовать базу данных mysql.<br />Транзакция включена для innodb]]></value>
+			<value xml:lang="es"><![CDATA[Utilizando innodb usar BD mysql.<br />La transacción es hablilitado para innodb]]></value>
+			<value xml:lang="tr"><![CDATA[innodb ile MySQL'ü veritabanı olrak kullanınız.<br />İşlemler, innodb ile işlenecektir]]></value>
+			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb]]></value>
+		</item>
+
 		<item name="mysqli">
 			<value xml:lang="ko"><![CDATA[MySQL DB를 php의 mysqli*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.]]></value>
 			<value xml:lang="en"><![CDATA[Use MySQL as a database with mysqli*() functions in php.<br />Transactions will not be processed since DB file is created in myisam]]></value>
