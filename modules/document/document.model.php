@@ -784,6 +784,7 @@ class documentModel extends document
 	 */
 	function getCategoryDocumentCount($module_srl, $category_srl)
 	{
+		$args = new stdClass;
 		$args->module_srl = $module_srl;
 		$args->category_srl = $category_srl;
 		$output = executeQuery('document.getCategoryDocumentCount', $args);
@@ -836,6 +837,7 @@ class documentModel extends document
 			unset($obj->mid);
 		}
 		// Module_srl passed the array may be a check whether the array
+		$args = new stdClass;
 		if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
 		else $args->module_srl = $obj->module_srl;
 
@@ -861,6 +863,7 @@ class documentModel extends document
 			unset($obj->mid);
 		}
 		// Module_srl passed the array may be a check whether the array
+		$args = new stdClass;
 		if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
 		else $args->module_srl = $obj->module_srl;
 		$args->regdate = $obj->regdate;
@@ -992,6 +995,7 @@ class documentModel extends document
 	{
 		if(!$mid || !$alias) return null;
 		$site_module_info = Context::get('site_module_info');
+		$args = new stdClass;
 		$args->mid = $mid;
 		$args->alias_title = $alias;
 		$args->site_srl = $site_module_info->site_srl;
@@ -1009,6 +1013,7 @@ class documentModel extends document
 	function getDocumentSrlByTitle($module_srl, $title)
 	{
 		if(!$module_srl || !$title) return null;
+		$args = new stdClass;
 		$args->module_srl = $module_srl;
 		$args->title = $title;
 		$output = executeQuery('document.getDocumentSrlByTitle', $args);
@@ -1028,6 +1033,7 @@ class documentModel extends document
 	function getAlias($document_srl)
 	{
 		if(!$document_srl) return null;
+		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		$output = executeQueryArray('document.getAliases', $args);
 
@@ -1044,6 +1050,7 @@ class documentModel extends document
 	 */
 	function getHistories($document_srl, $list_count, $page)
 	{
+		$args = new stdClass;
 		$args->list_count = $list_count;
 		$args->page = $page;
 		$args->document_srl = $document_srl;
@@ -1058,6 +1065,7 @@ class documentModel extends document
 	 */
 	function getHistory($history_srl)
 	{
+		$args = new stdClass;
 		$args->history_srl = $history_srl;
 		$output = executeQuery('document.getHistory', $args);
 		return $output->data;
@@ -1071,6 +1079,7 @@ class documentModel extends document
 	function getTrashList($obj)
 	{
 		// Variable check
+		$args = new stdClass;
 		$args->category_srl = $obj->category_srl?$obj->category_srl:null;
 		$args->sort_index = $obj->sort_index;
 		$args->order_type = $obj->order_type?$obj->order_type:'desc';
@@ -1150,6 +1159,7 @@ class documentModel extends document
 	 */
 	function getDocumentVotedMemberList()
 	{
+		$args = new stdClass;
 		$document_srl = Context::get('document_srl');
 		if(!$document_srl) return new Object(-1,'msg_invalid_request');
 

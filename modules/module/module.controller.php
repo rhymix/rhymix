@@ -160,7 +160,7 @@ class moduleController extends module
 		$oModuleModel = &getModel('module');
 		$origin_config = $oModuleModel->getModuleConfig($module, $site_srl);
 
-		if(!isset($origin_config)) $origin_config = new stdClass;
+		if(!$origin_config) $origin_config = new stdClass;
 
 		foreach($config as $key => $val)
 		{
@@ -426,6 +426,7 @@ class moduleController extends module
 					$siteMapArgs->site_srl = 0;
 					$siteMapArgs->title = 'Temporary menu';
 					$siteMapArgs->listorder = $siteMapArgs->menu_srl * -1;
+					$tempMenu = new stdClass;
 					$tempMenu->menu_srl = $siteMapArgs->menu_srl = getNextSequence();
 
 					$siteMapOutput = executeQuery('menu.insertMenu', $siteMapArgs);

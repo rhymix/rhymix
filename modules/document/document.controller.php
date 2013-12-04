@@ -51,6 +51,7 @@ class documentController extends document
 	 */
 	function insertAlias($module_srl, $document_srl, $alias_title)
 	{
+		$args = new stdClass;
 		$args->alias_srl = getNextSequence();
 		$args->module_srl = $module_srl;
 		$args->document_srl = $document_srl;
@@ -117,7 +118,7 @@ class documentController extends document
 	 */
 	function deleteDocumentAliasByDocument($document_srl)
 	{
-		$args =new stdClass();
+		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		executeQuery("document.deleteAlias", $args);
 	}
@@ -370,6 +371,7 @@ class documentController extends document
 
 		if($bUseHistory)
 		{
+			$args = new stdClass;
 			$args->history_srl = getNextSequence();
 			$args->document_srl = $obj->document_srl;
 			$args->module_srl = $module_srl;
@@ -459,9 +461,11 @@ class documentController extends document
 			}
 			else
 			{
+				$extra_content = new stdClass;
 				$extra_content->title = $obj->title;
 				$extra_content->content = $obj->content;
 
+				$document_args = new stdClass;
 				$document_args->document_srl = $source_obj->get('document_srl');
 				$document_output = executeQuery('document.getDocument', $document_args);
 				$obj->title = $document_output->data->title;
@@ -557,7 +561,7 @@ class documentController extends document
 	function deleteDocument($document_srl, $is_admin = false, $isEmptyTrash = false, $oDocument = null)
 	{
 		// Call a trigger (before)
-		$trigger_obj =new stdClass();
+		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $document_srl;
 		$output = ModuleHandler::triggerCall('document.deleteDocument', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
@@ -815,6 +819,7 @@ class documentController extends document
 			return false;
 		}
 		// Update read counts
+		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.updateReadedCount', $args);
 		// Register session
@@ -941,6 +946,7 @@ class documentController extends document
 		if(!$module_srl || !$document_srl || !$var_idx || !isset($value)) return new Object(-1,'msg_invalid_request');
 		if(!$lang_code) $lang_code = Context::getLangType();
 
+		$obj = new stdClass;
 		$obj->module_srl = $module_srl;
 		$obj->document_srl = $document_srl;
 		$obj->var_idx = $var_idx;
@@ -962,7 +968,7 @@ class documentController extends document
 	 */
 	function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null)
 	{
-		$obj =new stdClass();
+		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
 		if(!is_null($document_srl)) $obj->document_srl = $document_srl;
 		if(!is_null($var_idx)) $obj->var_idx = $var_idx;
@@ -1012,7 +1018,9 @@ class documentController extends document
 				return new Object(-1, $failed_voted);
 			}
 		}
+
 		// Use member_srl for logged-in members and IP address for non-members.
+		$args = new stdClass;
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
@@ -1051,6 +1059,7 @@ class documentController extends document
 		$output = executeQuery('document.insertDocumentVotedLog', $args);
 		if(!$output->toBool()) return $output;
 
+		$obj = new stdClass;
 		$obj->member_srl = $oDocument->get('member_srl');
 		$obj->module_srl = $oDocument->get('module_srl');
 		$obj->document_srl = $oDocument->get('document_srl');
@@ -1135,6 +1144,7 @@ class documentController extends document
 		}
 
 		// Use member_srl for logged-in members and IP address for non-members.
+		$args = new stdClass;
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
@@ -1232,6 +1242,7 @@ class documentController extends document
 	 */
 	function updateTrackbackCount($document_srl, $trackback_count)
 	{
+		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		$args->trackback_count = $trackback_count;
 
@@ -1278,6 +1289,7 @@ class documentController extends document
 	 */
 	function updateCategoryListOrder($module_srl, $list_order)
 	{
+		$args = new stdClass;
 		$args->module_srl = $module_srl;
 		$args->list_order = $list_order;
 		return executeQuery('document.updateCategoryOrder', $args);
@@ -1368,6 +1380,7 @@ class documentController extends document
 	{
 		$oDocumentModel = &getModel('document');
 		// Get information of the selected category
+		$args = new stdClass;
 		$args->category_srl = $category_srl;
 		$output = executeQuery('document.getCategory', $args);
 
@@ -1390,11 +1403,13 @@ class documentController extends document
 		// Return if the selected category is the top level
 		if($category_srl_list[0]==$category_srl) return new Object(-1,Context::getLang('msg_category_not_moved'));
 		// Information of the selected category
+		$cur_args = new stdClass;
 		$cur_args->category_srl = $category_srl;
 		$cur_args->list_order = $prev_category->list_order;
 		$cur_args->title = $category->title;
 		$this->updateCategory($cur_args);
 		// Category information
+		$prev_args = new stdClass;
 		$prev_args->category_srl = $prev_category->category_srl;
 		$prev_args->list_order = $list_order;
 		$prev_args->title = $prev_category->title;
@@ -1412,6 +1427,7 @@ class documentController extends document
 	{
 		$oDocumentModel = &getModel('document');
 		// Get information of the selected category
+		$args = new stdClass;
 		$args->category_srl = $category_srl;
 		$output = executeQuery('document.getCategory', $args);
 
@@ -1432,12 +1448,13 @@ class documentController extends document
 		if(!$category_list[$next_category_srl]) return new Object(-1,Context::getLang('msg_category_not_moved'));
 		$next_category = $category_list[$next_category_srl];
 		// Information of the selected category
+		$cur_args = new stdClass;
 		$cur_args->category_srl = $category_srl;
 		$cur_args->list_order = $next_category->list_order;
 		$cur_args->title = $category->title;
 		$this->updateCategory($cur_args);
 		// Category information
-		$next_args->category_srl = $next_category->category_srl;
+		$next_args = new stdClass;
 		$next_args->list_order = $list_order;
 		$next_args->title = $next_category->title;
 		$this->updateCategory($next_args);
@@ -1578,11 +1595,14 @@ class documentController extends document
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($source_category->module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
+
 		// First child of the parent_category_srl
+		$source_args = new stdClass;
 		if($parent_category_srl > 0 || ($parent_category_srl == 0 && $target_category_srl == 0))
 		{
 			$parent_category = $oDocumentModel->getCategory($parent_category_srl);
 
+			$args = new stdClass;
 			$args->module_srl = $source_category->module_srl;
 			$args->parent_srl = $parent_category_srl;
 			$output = executeQuery('document.getChildCategoryMinListOrder', $args);
@@ -2022,6 +2042,7 @@ class documentController extends document
 		if(!count($document_srls)) return;
 
 		// Get module_srl of the documents
+		$args = new stdClass;
 		$args->list_count = count($document_srls);
 		$args->document_srls = implode(',',$document_srls);
 		$args->order_type = 'asc';
@@ -2291,6 +2312,7 @@ class documentController extends document
 		// Set the attachment to be invalid state
 		if($oDocument->hasUploadedFiles())
 		{
+			$args = new stdClass;
 			$args->upload_target_srl = $oDocument->document_srl;
 			$args->isvalid = 'N';
 			executeQuery('file.updateFileValid', $args);

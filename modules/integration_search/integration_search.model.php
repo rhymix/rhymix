@@ -174,7 +174,7 @@ class integration_searchModel extends module
 		$list = array();
 		foreach($output->data as $key => $val)
 		{
-			$obj = null;
+			$obj = new stdClass;
 			$obj->filename = $val->source_filename;
 			$obj->download_count = $val->download_count;
 			if(substr($val->download_url,0,2)=='./') $val->download_url = substr($val->download_url,2);

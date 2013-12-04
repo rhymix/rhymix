@@ -34,12 +34,14 @@ $oMenuAdminController->makeXmlFile($menuSrl);
 
 // create Layout
 //extra_vars init
+$extra_vars = new stdClass;
 $extra_vars->GNB = $menuSrl;
 $extra_vars->LAYOUT_TYPE = 'MAIN_PAGE';
 $extra_vars->VISUAL_USE = 'YES';
 $extra_vars->menu_name_list = array();
 $extra_vars->menu_name_list[$menuSrl] = 'Welcome menu';
 
+$args = new stdClass;
 $args->site_srl = 0;
 $layout_srl = $args->layout_srl = getNextSequence();
 $args->layout = 'default';
@@ -93,6 +95,7 @@ foreach($skinTypes as $key => $dir)
 	$skinType = $key == 'skin' ? 'P' : 'M';
 	foreach($moduleList as $moduleName)
 	{
+		$designInfo->module->{$moduleName} = new stdClass;
 		$designInfo->module->{$moduleName}->{$key} = $oModuleModel->getModuleDefaultSkin($moduleName, $skinType, 0, false);
 	}
 }
@@ -110,6 +113,7 @@ $oTemplateHandler = TemplateHandler::getInstance();
 $oDocumentModel = getModel('document'); /* @var $oDocumentModel documentModel */
 $oDocumentController = getController('document'); /* @var $oDocumentController documentController */
 
+$obj = new stdClass;
 $obj->module_srl = $module_srl;
 Context::set('version', __XE_VERSION__);
 $obj->title = 'Welcome XE';
@@ -136,6 +140,7 @@ $output = $oModuleController->updateModule($module_info);
 if(!$output->toBool()) return $output;
 
 // insertFirstModule
+$site_args = new stdClass;
 $site_args->site_srl = 0;
 $site_args->index_module_srl = $module_srl;
 $oModuleController->updateSite($site_args);

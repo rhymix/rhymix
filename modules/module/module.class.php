@@ -439,7 +439,7 @@ class module extends ModuleObject
 			$output = executeQuery('module.updateMobileSkinFixModules');
 
 			$oModuleController = getController('module');
-			if(!isset($moduleConfig)) $moduleConfig = new stdClass;
+			if(!$moduleConfig) $moduleConfig = new stdClass;
 			$moduleConfig->isUpdateFixedValue = TRUE;
 			$output = $oModuleController->updateModuleConfig('module', $moduleConfig);
 		}

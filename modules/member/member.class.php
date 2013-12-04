@@ -93,18 +93,19 @@ class member extends ModuleObject {
 		if(!count($groups))
 		{
 			// Set an administrator, regular member(group1), and associate member(group2)
+			$group_args = new stdClass;
 			$group_args->title = Context::getLang('admin_group');
 			$group_args->is_default = 'N';
 			$group_args->is_admin = 'Y';
 			$output = $oMemberAdminController->insertGroup($group_args);
 
-			unset($group_args);
+			$group_args = new stdClass;
 			$group_args->title = Context::getLang('default_group_1');
 			$group_args->is_default = 'Y';
 			$group_args->is_admin = 'N';
 			$output = $oMemberAdminController->insertGroup($group_args);
 
-			unset($group_args);
+			$group_args = new stdClass;
 			$group_args->title = Context::getLang('default_group_2');
 			$group_args->is_default = 'N';
 			$group_args->is_admin = 'N';
@@ -112,6 +113,7 @@ class member extends ModuleObject {
 		}
 
 		// Configure administrator information
+		$admin_args = new stdClass;
 		$admin_args->is_admin = 'Y';
 		$output = executeQuery('member.getMemberList', $admin_args);
 		if(!$output->data)

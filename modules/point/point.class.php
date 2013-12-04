@@ -19,6 +19,7 @@ class point extends ModuleObject
 
 		$oModuleController = &getController('module');
 		// The highest level
+		$config = new stdClass;
 		$config->max_level = 30;
 		// Per-level score
 		for($i=1;$i<=30;$i++)

@@ -81,8 +81,7 @@ class editorController extends editor
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
 
-		$editor_config = null;
-
+		$editor_config = new stdClass;
 		$editor_config->editor_skin = Context::get('editor_skin');
 		$editor_config->comment_editor_skin = Context::get('comment_editor_skin');
 		$editor_config->content_style = Context::get('content_style');

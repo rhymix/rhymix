@@ -589,8 +589,8 @@ class commentModel extends comment
 		// Sort comments by the hierarchical structure
 		$comment_count = count($source_list);
 
-		$root = NULL;
-		$list = NULL;
+		$root = new stdClass;
+		$list = array();
 		$comment_list = array();
 
 		// get the log-in information for logged-in users

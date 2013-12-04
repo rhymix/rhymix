@@ -670,7 +670,7 @@ class importerAdminController extends importer
 			$fp = fopen($target_file,"r");
 			if(!$fp) continue;
 
-			$obj = null;
+			$obj = new stdClass;
 			$obj->module_srl = $module_srl;
 			$obj->document_srl = getNextSequence();
 
@@ -678,7 +678,7 @@ class importerAdminController extends importer
 			$extra_vars = array();
 
 			$started = false;
-			$buff = null;
+			$buff = array();
 			// Start from the body data
 			while(!feof($fp))
 			{
@@ -713,10 +713,10 @@ class importerAdminController extends importer
 					continue;
 				}
 
-				if($started) $buff .= $str;
+				if($started) $buff[] = $str;
 			}
 
-			$xmlDoc = $this->oXmlParser->parse($buff);
+			$xmlDoc = $this->oXmlParser->parse(implode('', $buff));
 
 			$category = base64_decode($xmlDoc->post->category->body);
 			if($category_titles[$category]) $obj->category_srl = $category_titles[$category];
@@ -848,7 +848,7 @@ class importerAdminController extends importer
 			{
 				$xmlDoc = $this->oXmlParser->parse($buff);
 
-				$obj = null;
+				$obj = new stdClass;
 				$obj->trackback_srl = getNextSequence();
 				$obj->module_srl = $module_srl;
 				$obj->document_srl = $document_srl;
@@ -893,7 +893,7 @@ class importerAdminController extends importer
 			if(trim($str) == '<comment>')
 			{
 				$started = true;
-				$obj = null;
+				$obj = new stdClass;
 				$obj->comment_srl = getNextSequence();
 				$files = array();
 			}
@@ -1010,13 +1010,13 @@ class importerAdminController extends importer
 
 		while(!feof($fp))
 		{
+			$file_obj = new stdClass;
 			$str = trim(fgets($fp, 1024));
 			// If it ends with </attaches>, break
 			if(trim($str) == '</attaches>') break;
 			// If it starts with <attach>, collect attachments
 			if(trim($str) == '<attach>')
 			{
-				$file_obj  = null;
 				$file_obj->file_srl = getNextSequence();
 				$file_obj->upload_target_srl = $upload_target_srl;
 				$file_obj->module_srl = $module_srl;

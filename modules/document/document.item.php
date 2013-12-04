@@ -900,12 +900,12 @@ class documentItem extends Object
 		$buffs = $this->getExtraImages($time_check);
 		if(!count($buffs)) return;
 
-		$buff = null;
+		$buff = array();
 		foreach($buffs as $key => $val)
 		{
-			$buff .= sprintf('<img src="%s%s.gif" alt="%s" title="%s" style="margin-right:2px;" />', $path, $val, $val, $val);
+			$buff[] = sprintf('<img src="%s%s.gif" alt="%s" title="%s" style="margin-right:2px;" />', $path, $val, $val, $val);
 		}
-		return $buff;
+		return implode('', $buff);
 	}
 
 	function hasUploadedFiles()

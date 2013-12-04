@@ -1440,7 +1440,7 @@ class Context
 			}
 		}
 
-		$get_vars = null;
+		$get_vars = array();
 
 		// If there is no GET variables or first argument is '' to reset variables
 		if(!$self->get_vars || $args_list[0] == '')

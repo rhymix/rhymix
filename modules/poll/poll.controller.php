@@ -147,6 +147,7 @@ class pollController extends poll
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
+		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
 		// Update all poll responses related to the post
 		$output = executeQuery('poll.updatePoll', $args);
@@ -165,6 +166,7 @@ class pollController extends poll
 			return $output;
 		}
 		// Log the respondent's information
+		$log_args = new stdClass;
 		$log_args->poll_srl = $poll_srl;
 
 		$logged_info = Context::get('logged_info');
@@ -224,6 +226,7 @@ class pollController extends poll
 		if(count($pollSrlList) > 0)
 		{
 			$oPollAdminModel = &getAdminModel('poll');
+			$args = new stdClass;
 			$args->pollIndexSrlList = $pollSrlList;
 			$output = $oPollAdminModel->getPollListWithMember($args);
 			$pollList = $output->data;
@@ -358,7 +361,7 @@ class pollController extends poll
 		{
 			$poll_srl = $matches[3][$i];
 
-			$args = null;
+			$args = new stdClass;
 			$args->poll_srl = $poll_srl;
 			$output = executeQuery('poll.getPoll', $args);
 			$poll = $output->data;
