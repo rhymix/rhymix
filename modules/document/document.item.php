@@ -576,9 +576,10 @@ class documentItem extends Object
 	function getTrackbackUrl()
 	{
 		if(!$this->document_srl) return;
+
 		// Generate a key to prevent spams
 		$oTrackbackModel = &getModel('trackback');
-		return $oTrackbackModel->getTrackbackUrl($this->document_srl, $this->getDocumentMid());
+		if($oTrackbackModel) return $oTrackbackModel->getTrackbackUrl($this->document_srl, $this->getDocumentMid());
 	}
 
 	/**

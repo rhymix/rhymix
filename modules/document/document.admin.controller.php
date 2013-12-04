@@ -276,6 +276,7 @@ class documentAdminController extends document
 			$obj->password_is_hashed = true;
 			$obj->comment_count = 0;
 			$obj->trackback_count = 0;
+
 			// Pre-register the attachment
 			if($oDocument->hasUploadedFiles())
 			{
@@ -383,10 +384,11 @@ class documentAdminController extends document
 					$oDocumentController->updateCommentCount($obj->document_srl, $success_count, $comment_obj->nick_name, true);
 				}
 			}
+
 			// Move the trackbacks
-			if($oDocument->getTrackbackCount())
+			$oTrackbackModel = &getModel('trackback');
+			if($oTrackbackModel && $oDocument->getTrackbackCount())
 			{
-				$oTrackbackModel = &getModel('trackback');
 				$trackbacks = $oTrackbackModel->getTrackbackList($oDocument->document_srl);
 				if(count($trackbacks))
 				{
