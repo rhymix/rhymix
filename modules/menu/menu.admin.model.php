@@ -685,7 +685,7 @@ class menuAdminModel extends menu
 		{
 			foreach($menu['list'] as $key=>$value)
 			{
-				$this->_menuInfoSetting($menu['list'][$key], $start_module, $isMenuFixed, $menuSrl);
+				$this->_menuInfoSetting($menu['list'][$key], $start_module, $isMenuFixed, $menuSrl, $siteSrl);
 			}
 		}
 	}
