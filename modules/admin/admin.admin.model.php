@@ -315,6 +315,9 @@ class adminAdminModel extends admin
 			'ext' => array('pcre', 'json', 'hash', 'dom', 'session', 'spl', 'standard', 'date', 'ctype', 'tokenizer', 'apache2handler', 'filter', 'posix', 'reflection', 'pdo')
 			, 'module' => array('addon', 'admin', 'autoinstall', 'comment', 'communication', 'counter', 'document', 'editor', 'file', 'importer', 'install', 'integration_search', 'layout', 'member', 'menu', 'message', 'module', 'opage', 'page', 'point', 'poll', 'rss', 'session', 'spamfilter', 'tag', 'trackback', 'trash', 'widget')
 			, 'addon' => array('autolink', 'blogapi', 'captcha', 'counter', 'member_communication', 'member_extra_info', 'mobile', 'openid_delegation_id', 'point_level_icon', 'resize_image')
+			, 'layout' => array('default')
+			, 'widget' => array('content', 'language_select', 'login_info','mcontent')
+			, 'widgetstyle' => array(),
 		);
 		$info = array();
 		$db_info = Context::getDBInfo();
@@ -369,6 +372,45 @@ class adminAdminModel extends admin
 			$info['addon'] .= '|' . $addon->addon;
 		}
 		$info['addon'] = substr($info['addon'], 1);
+
+		$info['layout'] = "";
+		$oLayoutModel = getModel('layout');
+		$layout_list = $oLayoutModel->getDownloadedLayoutList();
+		foreach($layout_list as $layout)
+		{
+			if(in_array($layout->layout, $skip['layout']))
+			{
+				continue;
+			}
+			$info['layout'] .= '|' . $layout->layout;
+		}
+		$info['layout'] = substr($info['layout'], 1);
+
+		$info['widget'] = "";
+		$oWidgetModel = getModel('widget');
+		$widget_list = $oWidgetModel->getDownloadedWidgetList();
+		foreach($widget_list as $widget)
+		{
+			if(in_array($widget->widget, $skip['widget']))
+			{
+				continue;
+			}
+			$info['widget'] .= '|' . $widget->widget;
+		}
+		$info['widget'] = substr($info['widget'], 1);
+
+		$info['widgetstyle'] = "";
+		$oWidgetModel = getModel('widget');
+		$widgetstyle_list = $oWidgetModel->getDownloadedWidgetStyleList();
+		foreach($widgetstyle_list as $widgetstyle)
+		{
+			if(in_array($widgetstyle->widgetStyle, $skip['widgetstyle']))
+			{
+				continue;
+			}
+			$info['widgetstyle'] .= '|' . $widgetstyle->widgetStyle;
+		}
+		$info['widgetstyle'] = substr($info['widgetstyle'], 1);
 
 		$param = '';
 		foreach($info as $k => $v)

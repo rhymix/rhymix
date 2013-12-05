@@ -1240,6 +1240,15 @@
 		<value xml:lang="zh-CN"><![CDATA[请确认是否初始化后台菜单]]></value>
 		<value xml:lang="tr"><![CDATA[Admin menüsünü başlatmak istediğinize emin misiniz?]]></value>
 	</item>
+	<item name="cmd_view_server_env">
+		<value xml:lang="ko"><![CDATA[서버정보출력]]></value>
+		<value xml:lang="en"><![CDATA[View Server Env]]></value>
+	</item>
+	<item name="server_env">
+		<value xml:lang="ko"><![CDATA[서버 정보]]></value>
+		<value xml:lang="en"><![CDATA[Server Environment]]></value>
+	</item>
+
 	<item name="ftp_form_title">
 		<value xml:lang="ko"><![CDATA[FTP 계정 정보 입력]]></value>
 		<value xml:lang="en"><![CDATA[FTP Account Information]]></value>

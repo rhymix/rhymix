@@ -7,6 +7,7 @@
         <action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
         <action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
         <action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
+        <action name="dispAdminViewServerEnv" type="view" />
 
         <action name="procAdminRemoveIcons" type="controller" />
 		<action name="procAdminRecompileCacheFile" type="controller" />

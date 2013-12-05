@@ -537,6 +537,106 @@ class adminAdminView extends admin
 		}
 	}
 
+	/**
+	 * Retrun server environment to XML string
+	 * @return object
+	*/
+	function dispAdminViewServerEnv()
+	{
+		$info = array();
+
+		$oAdminModel = getAdminModel('admin');
+		$envInfo = $oAdminModel->getEnv();
+		$tmp = explode("&", $envInfo);
+		$arrInfo = array();
+		$xe_check_env = array();
+		foreach($tmp as $value) {
+			$arr = explode("=", $value);
+			if($arr[0]=="type") {
+				continue;
+			}elseif($arr[0]=="phpext" ) {
+				$str = urldecode($arr[1]);
+				$xe_check_env[$arr[0]]= str_replace("|", ", ", $str);
+			} elseif($arr[0]=="module" ) {
+				$str = urldecode($arr[1]);
+				$arrModuleName = explode("|", $str);
+				$oModuleModel = getModel("module");
+				$mInfo = array();	
+				foreach($arrModuleName as $moduleName) {
+					$moduleInfo = $oModuleModel->getModuleInfoXml($moduleName);
+					$mInfo[] = "{$moduleName}({$moduleInfo->version})";
+				}
+				$xe_check_env[$arr[0]]= join(", ", $mInfo);
+			} elseif($arr[0]=="addon") {
+				$str = urldecode($arr[1]);
+				$arrAddonName = explode("|", $str);
+				$oAddonModel = getAdminModel("addon");
+				$mInfo = array();	
+				foreach($arrAddonName as $addonName) {
+					$addonInfo = $oAddonModel->getAddonInfoXml($addonName);
+					$mInfo[] = "{$addonName}({$addonInfo->version})";
+				}
+				$xe_check_env[$arr[0]]= join(", ", $mInfo);
+			} elseif($arr[0]=="widget") {
+				$str = urldecode($arr[1]);
+				$arrWidgetName = explode("|", $str);
+				$oWidgetModel = getModel("widget");
+				$mInfo = array();	
+				foreach($arrWidgetName as $widgetName) {
+					$widgetInfo = $oWidgetModel->getWidgetInfo($widgetName);
+					$mInfo[] = "{$widgetName}({$widgetInfo->version})";
+				}
+				$xe_check_env[$arr[0]]= join(", ", $mInfo);
+			} elseif($arr[0]=="widgetstyle") {
+				$str = urldecode($arr[1]);
+				$arrWidgetstyleName = explode("|", $str);
+				$oWidgetModel = getModel("widget");
+				$mInfo = array();	
+				foreach($arrWidgetstyleName as $widgetstyleName) {
+					$widgetstyleInfo = $oWidgetModel->getWidgetStyleInfo($widgetstyleName);
+					$mInfo[] = "{$widgetstyleName}({$widgetstyleInfo->version})";
+				}
+				$xe_check_env[$arr[0]]= join(", ", $mInfo);
+
+			} elseif($arr[0]=="layout") {
+				$str = urldecode($arr[1]);
+				$arrLayoutName = explode("|", $str);
+				$oLayoutModel = getModel("layout");
+				$mInfo = array();	
+				foreach($arrLayoutName as $layoutName) {
+					$layoutInfo = $oLayoutModel->getLayoutInfo($layoutName);
+					$mInfo[] = "{$layoutName}({$layoutInfo->version})";
+				}
+				$xe_check_env[$arr[0]]= join(", ", $mInfo);
+			} else {
+				$xe_check_env[$arr[0]] = urldecode($arr[1]);
+			}
+		}
+		$info['XE_Check_Evn'] = $xe_check_env;
+
+		$ini_info = ini_get_all();
+		$php_core = array();
+		$php_core['max_file_uploads'] = "{$ini_info['max_file_uploads']['local_value']}";
+		$php_core['post_max_size'] = "{$ini_info['post_max_size']['local_value']}";
+		$php_core['memory_limit'] = "{$ini_info['memory_limit']['local_value']}";
+		$info['PHP_Core'] = $php_core;
+
+		$str_info = "[XE Server Environment " . date("Y-m-d") . "]\n\n";
+		foreach( $info as $key=>$value )
+		{
+			if( is_array( $value ) == false ) {
+				$str_info .= "{$key} : {$value}\n";
+			} else {
+				//$str_info .= "\n{$key} \n";
+				foreach( $value as $key2=>$value2 )
+					$str_info .= "{$key2} : {$value2}\n";
+			}
+		}
+
+		Context::set('str_info', $str_info);
+		$this->setTemplateFile('server_env.html');
+	}
+
 }
 /* End of file admin.admin.view.php */
 /* Location: ./modules/admin/admin.admin.view.php */
