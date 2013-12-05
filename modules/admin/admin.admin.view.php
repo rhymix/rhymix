@@ -414,7 +414,7 @@ class adminAdminView extends admin
 
 		// site lock
 		if(!$db_info->sitelock_title) $db_info->sitelock_title = 'Maintenance in progress...';
-		if(!in_array($_SERVER['REMOTE_ADDR'], $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = $_SERVER['REMOTE_ADDR'];
+		if(!in_array('127.0.0.1', $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = '127.0.0.1';
 		Context::set('remote_addr', $_SERVER['REMOTE_ADDR']);
 		Context::set('use_sitelock', $db_info->use_sitelock);
 		Context::set('sitelock_title', $db_info->sitelock_title);
@@ -422,8 +422,9 @@ class adminAdminView extends admin
 		
 		$whitelist = implode("\r\n", $db_info->sitelock_whitelist);
 		Context::set('sitelock_whitelist', $whitelist);
-		
-		$admin_ip_list = implode("\r\n", $db_info->admin_ip_list);
+
+		if($db_info->admin_ip_list) $admin_ip_list = implode("\r\n", $db_info->admin_ip_list);
+		else $admin_ip_list = '';
 		Context::set('admin_ip_list', $admin_ip_list);
 
 		Context::set('lang_selected', Context::loadLangSelected());
