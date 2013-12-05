@@ -1910,6 +1910,8 @@ class documentController extends document
 		$output = array("buff"=>"", "category_srl_list"=>array());
 		if(!$source_node) return $output;
 
+		$php_header_buff .= '$_titles = array();';
+		$php_header_buff .= '$_descriptions = array();';
 		// Set to an arraty for looping and then generate php script codes to be included
 		foreach($source_node as $category_srl => $node)
 		{
@@ -1943,7 +1945,6 @@ class documentController extends document
 
 			if(count($langs))
 			{
-				$php_header_buff .= '$_titles = array();';
 				foreach($langs as $key => $val)
 				{
 					$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
@@ -1960,7 +1961,6 @@ class documentController extends document
 
 			if(count($langx))
 			{
-				$php_header_buff .= '$_descriptions = array();';
 				foreach($langx as $key => $val)
 				{
 					$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
