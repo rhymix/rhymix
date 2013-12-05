@@ -30,7 +30,7 @@ class IpFilter
 		return false;
 	}
 
-	public function filter2($ip_list, $ip)
+	/* public function filter2($ip_list, $ip)
 	{
 		$long_ip = ip2long($ip);
 		foreach($ip_list as $filter_ip)
@@ -49,7 +49,7 @@ class IpFilter
 		}
 		
 		return false;
-	}
+	} */
 	
 	
 	public function validate($ip_list = array())
@@ -74,7 +74,6 @@ class IpFilter
 					)
 				)
 			$/";
-			
 		$regex = str_replace(array("\r\n", "\n", "\r","\t"," "), '', $regex);
 		
 		foreach($ip_list as $i => $ip)
