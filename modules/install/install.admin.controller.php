@@ -49,15 +49,25 @@ class installAdminController extends install
 	 */
 	function procInstallAdminSaveTimeZone()
 	{
+		$db_info = Context::getDBInfo();
+
 		$admin_ip_list = Context::get('admin_ip_list');
 
-		$admin_ip_list = preg_replace("/[\r|\n|\r\n]+/",",",$admin_ip_list);
-		$admin_ip_list = preg_replace("/\s+/","",$admin_ip_list);
-		if(preg_match('/(<\?|<\?php|\?>)/xsm', $admin_ip_list))
+		if($admin_ip_list)
 		{
-			$admin_ip_list = '';
+			$admin_ip_list = preg_replace("/[\r|\n|\r\n]+/",",",$admin_ip_list);
+			$admin_ip_list = preg_replace("/\s+/","",$admin_ip_list);
+			if(preg_match('/(<\?|<\?php|\?>)/xsm', $admin_ip_list))
+			{
+				$admin_ip_list = '';
+			}
+			$admin_ip_list = explode(',',trim($admin_ip_list, ','));
+			$admin_ip_list = array_unique($admin_ip_list);
+			if(!IpFilter::validate($admin_ip_list)) {
+				return new Object(-1, 'msg_invalid_ip');
+			}
 		}
-
+		
 		$default_url = Context::get('default_url');
 		if($default_url && strncasecmp('http://', $default_url, 7) !== 0 && strncasecmp('https://', $default_url, 8) !== 0) $default_url = 'http://'.$default_url;
 
@@ -82,7 +92,6 @@ class installAdminController extends install
 		$use_html5 = Context::get('use_html5');
 		if(!$use_html5) $use_html5 = 'N';
 
-		$db_info = Context::getDBInfo();
 		$db_info->default_url = $default_url;
 		$db_info->qmail_compatibility = $qmail_compatibility;
 		$db_info->use_db_session = $use_db_session;

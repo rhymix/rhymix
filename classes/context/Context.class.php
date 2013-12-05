@@ -215,10 +215,9 @@ class Context
 		$this->loadDBInfo();
 		if($this->db_info->use_sitelock == 'Y')
 		{
-			$whitelist = array('127.0.0.1', '::1', 'fe80::1');
-			if(is_array($this->db_info->sitelock_whitelist)) $whitelist = array_merge($whitelist, $this->db_info->sitelock_whitelist);
-
-			if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist))
+			if(is_array($this->db_info->sitelock_whitelist)) $whitelist = $this->db_info->sitelock_whitelist;
+			
+			if(!IpFilter::filter($whitelist))
 			{
 				$title = ($this->db_info->sitelock_title) ? $this->db_info->sitelock_title : 'Maintenance in progress...';
 				$message = $this->db_info->sitelock_message;
@@ -479,7 +478,7 @@ class Context
 			$self->set('_https_port', $db_info->https_port);
 
 		if(!$db_info->sitelock_whitelist) {
-			$db_info->sitelock_whitelist = '127.0.0.1,::1,fe80::1';
+			$db_info->sitelock_whitelist = '127.0.0.1';
 		}
 
 		if(is_string($db_info->sitelock_whitelist)) {

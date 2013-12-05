@@ -2617,6 +2617,14 @@
 		<value xml:lang="vi"><![CDATA[Để trang trí giao diện bằng các Module. Bạn có thể điều chỉnh chúng bằng Menu trên đầu trang.]]></value>
 		<value xml:lang="mn"><![CDATA[Лэйаут нь модиулын гадаад байдлыг чимж өгнө. Дээрх лэйаут менюнээс удирдаж болно]]></value>
 	</item>
+	<item name="about_ipaddress_input">
+		<value xml:lang="ko"><![CDATA[IP주소 입력형식<br />1. 와일드카드(*) 사용가능(예: 192.168.0.*)<br />2. 하이픈(-)을 사용하여 대역으로 입력가능<br />(단, 대역폭으로 입력할 경우 와일드카드 사용불가. 예: 192.168.0.1-192.168.0.254)<br />3.여러개의 항목은 줄을 바꾸어 입력하세요]]></value>
+		<value xml:lang="en"><![CDATA[IP address input format<br />You can use wildcard(*) (ex: 192.168.0.*)<br />You can use hyphen(*) for ip range  (you can't use wild card with hyphen, ex: 192.168.0.1-192.168.0.254)<br />]]></value>
+	</item>
+	<item name="msg_invalid_ip">
+		<value xml:lang="ko"><![CDATA[잘못된 IP주소 형식입니다.]]></value>
+		<value xml:lang="en"><![CDATA[Specified IP address is invalid.]]></value>
+	</item>
 	<item name="msg_no_root">
 		<value xml:lang="ko"><![CDATA[루트는 선택 할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You cannot select a root.]]></value>

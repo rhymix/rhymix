@@ -1318,7 +1318,7 @@ function isCrawler($agent = NULL)
 
 	$check_agent = array('bot', 'spider', 'google', 'yahoo', 'daum', 'teoma', 'fish', 'hanrss', 'facebook');
 	$check_ip = array(
-		'211.245.21.11*' /* mixsh */
+		'211.245.21.110-211.245.21.119' /* mixsh */
 	);
 
 	foreach($check_agent as $str)
@@ -1329,17 +1329,7 @@ function isCrawler($agent = NULL)
 		}
 	}
 
-	$check_ip = '/^(' . implode($check_ip, '|') . ')/';
-	$check_ip = str_replace('.', '\.', $check_ip);
-	$check_ip = str_replace('*', '.+', $check_ip);
-	$check_ip = str_replace('?', '.?', $check_ip);
-
-	if(preg_match($check_ip, $_SERVER['REMOTE_ADDR'], $matches))
-	{
-		return TRUE;
-	}
-
-	return FALSE;
+	return IpFilter::filter($check_ip, '211.245.21.113');
 }
 
 /**
