@@ -41,6 +41,7 @@ class Purifier
 		$this->_config->set('HTML.SafeIframe', TRUE);
 		$this->_config->set('URI.SafeIframeRegexp', $whiteDomainRegex);
 		$this->_config->set('Cache.SerializerPath', $this->_cacheDir);
+		$this->_config->set('Attr.AllowedFrameTargets', array('_blank'));
 		//$this->_config->set('Attr.AllowedClasses', $allowdClasses);
 
 		$this->_def = $this->_config->getHTMLDefinition(TRUE);

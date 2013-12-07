@@ -6,6 +6,6 @@
 	</customrules>
 	<fields>
 		<field name="selected_widget" required="true" rule="class_name" />
-		<field name="skin" required="true" rule="skin_name" />
+		<field name="skin" rule="skin_name" />
 	</fields>
 </ruleset>

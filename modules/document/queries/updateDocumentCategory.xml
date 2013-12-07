@@ -1,4 +1,4 @@
-<query id="updateCategoryDocument" action="update">
+<query id="updateDocumentCategory" action="update">
     <tables>
         <table name="documents" />
     </tables>
