@@ -555,6 +555,7 @@ class installController extends install
 			}
 			else if($key == 'sitelock_whitelist' || $key == 'admin_ip_list')
 			{
+				if(is_array($val))
 				$tmpValue = sprintf('$db_info->%s = array(\'%s\');' . PHP_EOL, $key, implode('\', \'', $val));
 			}
 			else
