@@ -453,7 +453,7 @@ class ExtraItem
 			case "kr_zip" :
 				if(($oKrzipModel = &getModel('krzip')) && method_exists($oKrzipModel , 'getKrzipCodeSearchHtml' ))
 				{
-					$buff[] =  $krzipModel->getKrzipCodeSearchHtml($column_name, $value);
+					$buff[] =  $oKrzipModel->getKrzipCodeSearchHtml($column_name, $value);
 				}
 				break;
 			// General text
