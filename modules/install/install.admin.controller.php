@@ -101,6 +101,8 @@ class installAdminController extends install
 		$db_info->use_html5 = $use_html5;
 		if($admin_ip_list)
 			$db_info->admin_ip_list = $admin_ip_list;
+		else
+			unset($db_info->admin_ip_list);
 
 		if($http_port) $db_info->http_port = (int) $http_port;
 		else if($db_info->http_port) unset($db_info->http_port);
