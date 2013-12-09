@@ -547,20 +547,20 @@ class moduleController extends module
 		$menuArgs = new stdClass;
 		$menuArgs->url = $module_info->mid;
 		$menuArgs->site_srl = $module_info->site_srl;
-		$menuOutput = executeQuery('menu.getMenuItemByUrl', $menuArgs);
-
-		if($menuOutput->data->menu_item_srl)
+		$menuOutput = executeQueryArray('menu.getMenuItemByUrl', $menuArgs);
+		if($menuOutput->data && count($menuOutput->data))
 		{
 			$oMenuAdminController = &getAdminController('menu');
-
-			$itemInfo = $menuOutput->data;
-			$itemInfo->url = $args->mid;
-
-			$updateMenuItemOutput = $oMenuAdminController->updateMenuItem($itemInfo);
-			if(!$updateMenuItemOutput->toBool())
+			foreach($menuOutput->data as $itemInfo)
 			{
-				$oDB->rollback();
-				return $updateMenuItemOutput;
+				$itemInfo->url = $args->mid;
+	
+				$updateMenuItemOutput = $oMenuAdminController->updateMenuItem($itemInfo);
+				if(!$updateMenuItemOutput->toBool())
+				{
+					$oDB->rollback();
+					return $updateMenuItemOutput;
+				}
 			}
 		}
 		
