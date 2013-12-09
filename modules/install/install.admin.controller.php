@@ -99,7 +99,8 @@ class installAdminController extends install
 		$db_info->use_sso = $use_sso;
 		$db_info->use_ssl = $use_ssl;
 		$db_info->use_html5 = $use_html5;
-		$db_info->admin_ip_list = $admin_ip_list;
+		if($admin_ip_list)
+			$db_info->admin_ip_list = $admin_ip_list;
 
 		if($http_port) $db_info->http_port = (int) $http_port;
 		else if($db_info->http_port) unset($db_info->http_port);
