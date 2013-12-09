@@ -285,7 +285,7 @@ class documentController extends document
 		{
 			foreach($extra_keys as $idx => $extra_item)
 			{
-				$value = '';
+				unset($value);
 				if(isset($obj->{'extra_vars'.$idx}))
 				{
 					$tmp = $obj->{'extra_vars'.$idx};
