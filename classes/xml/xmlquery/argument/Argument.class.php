@@ -286,7 +286,7 @@ class Argument
 
 	function ensureDefaultValue($default_value)
 	{
-		if(!isset($this->value) || $this->value == '')
+		if($this->value === NULL || $this->value === '')
 		{
 			$this->value = $default_value;
 			$this->uses_default_value = TRUE;
