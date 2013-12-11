@@ -219,6 +219,8 @@ class documentModel extends document
 	{
 		$sort_check = $this->_setSortIndex($obj, $load_extra_vars);
 		$obj->sort_index = $sort_check->sort_index;
+		$obj->isExtraVars = $sort_check->isExtraVars;
+
 		// cache controll
 		$oCacheHandler = &CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
@@ -612,8 +614,11 @@ class documentModel extends document
 	 */
 	function getDocumentPage($oDocument, $opt)
 	{
+		$sort_check = $this->_setSortIndex($opt, TRUE);
+		$opt->sort_index = $sort_check->sort_index;
+		$opt->isExtraVars = $sort_check->isExtraVars;
+
 		$this->_setSearchOption($opt, $args, $query_id, $use_division);
-		$sort_check = $this->_setSortIndex($args, TRUE);
 
 		if($sort_check->isExtraVars)
 		{
@@ -1282,10 +1287,9 @@ class documentModel extends document
 		$args->member_srl = $searchOpt->member_srl;
 
 		$logged_info = Context::get('logged_info');
-		$sort_check = $this->_setSortIndex($searchOpt, $load_extra_vars);
 
-		$args->sort_index = $sort_check->sort_index;
-
+		$args->sort_index = $searchOpt->sort_index;
+		
 		// Check the target and sequence alignment
 		$orderType = array('desc' => 1, 'asc' => 1);
 		if(!isset($orderType[$args->order_type])) $args->order_type = 'asc';
@@ -1409,7 +1413,7 @@ class documentModel extends document
 			}
 		}
 
-		if ($sort_check->isExtraVars)
+		if ($searchOpt->isExtraVars)
 		{
 			$query_id = 'document.getDocumentListExtraSort';
 		}
