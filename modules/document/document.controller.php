@@ -1801,6 +1801,8 @@ class documentController extends document
 			$xml_body_buff
 		);
 		// Create php cache file
+		$php_header_buff = '$_titles = array();';
+		$php_header_buff .= '$_descriptions = array();';
 		$php_output = $this->getPhpCacheCode($tree[0], $tree, $module_info->site_srl, $php_header_buff);
 		$php_buff = sprintf(
 			'<?php '.
@@ -1910,8 +1912,6 @@ class documentController extends document
 		$output = array("buff"=>"", "category_srl_list"=>array());
 		if(!$source_node) return $output;
 
-		$php_header_buff .= '$_titles = array();';
-		$php_header_buff .= '$_descriptions = array();';
 		// Set to an arraty for looping and then generate php script codes to be included
 		foreach($source_node as $category_srl => $node)
 		{
