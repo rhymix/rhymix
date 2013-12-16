@@ -45,7 +45,7 @@ if($this->module != 'member' && $called_position == 'before_module_init')
 		Context::addHtmlFooter("<script type=\"text/javascript\">jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>");
 	}
 }
-elseif($this->act == 'getMemberMenu' && $called_position == 'before_module_proc');
+elseif($this->act == 'getMemberMenu' && $called_position == 'before_module_proc')
 {
 	$member_srl = Context::get('target_srl');
 
