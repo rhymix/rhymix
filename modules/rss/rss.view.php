@@ -26,9 +26,9 @@ class rssView extends rss
 	 */
 	function rss($document_list = null, $rss_title = null, $add_description = null)
 	{
-		$oDocumentModel = &getModel('document');
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oDocumentModel = getModel('document');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 		// Get the content and information for the current requested module if the method is not called from another module
 		if(!$document_list)
 		{
@@ -74,6 +74,9 @@ class rssView extends rss
 			}
 
 			if(!count($module_srls) && !$add_description) return $this->dispError();
+
+			$info = new stdClass;
+			$args = new stdClass;
 
 			if($module_srls)
 			{
@@ -248,7 +251,7 @@ class rssView extends rss
 			if(!$current_module_srl) return new Object();
 		}
 		// Get teh RSS configurations for the selected module
-		$oRssModel = &getModel('rss');
+		$oRssModel = getModel('rss');
 		$rss_config = $oRssModel->getRssModuleConfig($current_module_srl);
 		Context::set('rss_config', $rss_config);
 		// Set the template file

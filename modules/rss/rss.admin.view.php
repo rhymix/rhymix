@@ -30,12 +30,13 @@ class rssAdminView extends rss
 		$total_config = $oModuleModel->getModuleConfig('rss');
 		if(!$total_config)
 		{
-			$total_config =new stdClass();
+			$total_config = new stdClass();
 		}
 		$oRssModel = &getModel('rss');
 
 		if($rss_config)
 		{
+			$feed_config = array();
 			foreach($rss_config as $module_srl => $config)
 			{
 				if($config)
