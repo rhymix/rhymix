@@ -22,6 +22,7 @@ class editorController extends editor
 
 		$this->deleteSavedDoc(false);
 
+		$args = new stdClass;
 		$args->document_srl = Context::get('document_srl');
 		$args->content = Context::get('content');
 		$args->title = Context::get('title');
@@ -67,7 +68,10 @@ class editorController extends editor
 		$vars = $oComponent->getVariables();
 		if(count($vars))
 		{
-			foreach($vars as $key=>$val) $this->add($key, $val);
+			foreach($vars as $key => $val)
+			{
+				$this->add($key, $val);
+			}
 		}
 	}
 
@@ -112,7 +116,7 @@ class editorController extends editor
 			{
 				$editor_config->{$key} = array();
 			}
-			else if(is_array($grant)) 
+			else if(is_array($grant))
 			{
 				$editor_config->{$key} = $grant;
 			}
@@ -182,11 +186,12 @@ class editorController extends editor
 			$content_font_size = $editor_config->content_font_size;
 			if($content_font || $content_font_size)
 			{
-				$buff = '<style> .xe_content { ';
-				if($content_font) $buff .= 'font-family:'.$content_font.';';
-				if($content_font_size) $buff .= 'font-size:'.$content_font_size.';';
-				$buff .= ' }</style>';
-				Context::addHtmlHeader($buff);
+				$buff = array();
+				$buff[] = '<style> .xe_content { ';
+				if($content_font) $buff[] = 'font-family:'.$content_font.';';
+				if($content_font_size) $buff[] = 'font-size:'.$content_font_size.';';
+				$buff[] = ' }</style>';
+				Context::addHtmlHeader(implode('', $buff));
 			}
 		}
 
@@ -213,6 +218,7 @@ class editorController extends editor
 		preg_match_all('/([a-z0-9_-]+)="([^"]+)"/is', $script, $m);
 
 		$xml_obj = new stdClass;
+		$xml_obj->attrs = new stdClass;
 		for($i=0,$c=count($m[0]);$i<$c;$i++)
 		{
 			$xml_obj->attrs->{$m[1][$i]} = $m[2][$i];
@@ -220,6 +226,7 @@ class editorController extends editor
 		$xml_obj->body = $match[4];
 
 		if(!$xml_obj->attrs->editor_component) return $match[0];
+
 		// Get converted codes by using component::transHTML()
 		$oEditorModel = &getModel('editor');
 		$oComponent = &$oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
@@ -243,6 +250,7 @@ class editorController extends editor
 		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
+
 		// Get the current module if module_srl doesn't exist
 		if(!$args->module_srl)
 		{
@@ -345,6 +353,7 @@ class editorController extends editor
 	function makeCache($filter_enabled = true, $site_srl)
 	{
 		$oEditorModel = &getModel('editor');
+		$args = new stdClass;
 
 		if($filter_enabled) $args->enabled = "Y";
 
@@ -355,8 +364,10 @@ class editorController extends editor
 		}
 		else $output = executeQuery('editor.getComponentList', $args);
 		$db_list = $output->data;
+
 		// Get a list of files
 		$downloaded_list = FileHandler::readDir(_XE_PATH_.'modules/editor/components');
+
 		// Get information about log-in status and its group
 		$is_logged = Context::get('is_logged');
 		if($is_logged)
@@ -368,6 +379,7 @@ class editorController extends editor
 			}
 			else $group_list = array();
 		}
+
 		// Get xml information for looping DB list
 		if(!is_array($db_list)) $db_list = array($db_list);
 		$component_list = new stdClass();
@@ -389,7 +401,7 @@ class editorController extends editor
 				$extra_vars = unserialize($component->extra_vars);
 				if($extra_vars->target_group)
 				{
-					$xml_info->target_group = $extra_vars->target_group;	
+					$xml_info->target_group = $extra_vars->target_group;
 				}
 
 				if($extra_vars->mid_list && count($extra_vars->mid_list))
@@ -435,6 +447,7 @@ class editorController extends editor
 			if(file_exists($icon_file)) $component_list->{$component_name}->icon = true;
 			if(file_exists($component_icon_file)) $component_list->{$component_name}->component_icon = true;
 		}
+
 		// Return if it checks enabled only
 		if($filter_enabled)
 		{
@@ -443,6 +456,7 @@ class editorController extends editor
 			FileHandler::writeFile($cache_file, $buff);
 			return $component_list;
 		}
+
 		// Get xml_info of downloaded list
 		foreach($downloaded_list as $component_name)
 		{

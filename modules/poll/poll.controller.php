@@ -28,6 +28,7 @@ class pollController extends poll
 		$logged_info = Context::get('logged_info');
 		$vars = Context::getRequestVars();
 		$args = new stdClass;
+		$tmp_args = array();
 
 		foreach($vars as $key => $val)
 		{
@@ -41,6 +42,7 @@ class pollController extends poll
 
 			if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
+			$tmp_args[$poll_index] = new stdClass;
 			if($tmp_arr[0]=='title') $tmp_args[$poll_index]->title = $val;
 			else if($tmp_arr[0]=='checkcount') $tmp_args[$poll_index]->checkcount = $val;
 			else if($tmp_arr[0]=='item') $tmp_args[$poll_index]->item[] = $val;
@@ -64,7 +66,6 @@ class pollController extends poll
 		$oDB->begin();
 
 		// Register the poll
-		unset($poll_args);
 		$poll_args = new stdClass;
 		$poll_args->poll_srl = $poll_srl;
 		$poll_args->member_srl = $member_srl;
@@ -81,7 +82,6 @@ class pollController extends poll
 		// Individual poll registration
 		foreach($args->poll as $key => $val)
 		{
-			unset($title_args);
 			$title_args = new stdClass;
 			$title_args->poll_srl = $poll_srl;
 			$title_args->poll_index_srl = getNextSequence();
@@ -101,7 +101,6 @@ class pollController extends poll
 			// Add the individual survey items
 			foreach($val->item as $k => $v)
 			{
-				unset($item_args);
 				$item_args = new stdClass;
 				$item_args->poll_srl = $poll_srl;
 				$item_args->poll_index_srl = $title_args->poll_index_srl;
@@ -128,8 +127,8 @@ class pollController extends poll
 	 */
 	function procPoll()
 	{
-		$poll_srl = Context::get('poll_srl'); 
-		$poll_srl_indexes = Context::get('poll_srl_indexes'); 
+		$poll_srl = Context::get('poll_srl');
+		$poll_srl_indexes = Context::get('poll_srl_indexes');
 		$tmp_item_srls = explode(',',$poll_srl_indexes);
 		for($i=0;$i<count($tmp_item_srls);$i++)
 		{
@@ -183,7 +182,7 @@ class pollController extends poll
 
 		$oDB->commit();
 
-		$skin = Context::get('skin'); 
+		$skin = Context::get('skin');
 		if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
 		// Get tpl
 		$tpl = $oPollModel->getPollHtml($poll_srl, '', $skin);
@@ -201,9 +200,9 @@ class pollController extends poll
 	 */
 	function procPollViewResult()
 	{
-		$poll_srl = Context::get('poll_srl'); 
+		$poll_srl = Context::get('poll_srl');
 
-		$skin = Context::get('skin'); 
+		$skin = Context::get('skin');
 		if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
 
 		$oPollModel = &getModel('poll');

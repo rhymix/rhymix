@@ -1730,6 +1730,7 @@ class memberController extends member
 		if($keep_signed)
 		{
 			// Key generate for auto login
+			$autologin_args = new stdClass;
 			$autologin_args->autologin_key = md5(strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT']);
 			$autologin_args->member_srl = $this->memberInfo->member_srl;
 			executeQuery('member.deleteAutologin', $autologin_args);

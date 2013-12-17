@@ -40,6 +40,7 @@ class integration_searchView extends integration_search
 		if(!$this->grant->access) return new Object(-1,'msg_not_permitted');
 
 		$config = $oModuleModel->getModuleConfig('integration_search');
+		if(!$config) $config = new stdClass;
 		if(!$config->skin)
 		{
 			$config->skin = 'default';
@@ -60,7 +61,8 @@ class integration_searchView extends integration_search
 		}
 		// Template path
 		$this->setTemplatePath($template_path);
-		Context::set('module_info', unserialize($config->skin_vars));
+		$skin_vars = ($config->skin_vars) ? unserialize($config->skin_vars) : new stdClass;
+		Context::set('module_info', $skin_vars);
 
 		$target = $config->target;
 		if(!$target) $target = 'include';
@@ -77,7 +79,7 @@ class integration_searchView extends integration_search
 		if(!$page) $page = 1;
 		// Search by search tab
 		$where = Context::get('where');
-		// Create integration search model object 
+		// Create integration search model object
 		if($is_keyword)
 		{
 			$oIS = &getModel('integration_search');
