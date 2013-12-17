@@ -26,7 +26,7 @@ class addonAdminModel extends addon
 	 */
 	function getAddonPath($addon_name)
 	{
-		$class_path = sprintf(_XE_PATH_ . 'addons/%s/', $addon_name);
+		$class_path = sprintf('./addons/%s/', $addon_name);
 		if(is_dir($class_path))
 		{
 			return $class_path;
@@ -152,7 +152,7 @@ class addonAdminModel extends addon
 		}
 
 		// Read the xml file for module skin information
-		$xml_file = sprintf("%sconf/info.xml", $addon_path);
+		$xml_file = sprintf("%sconf/info.xml", FileHandler::getRealpath($addon_path));
 		if(!file_exists($xml_file))
 		{
 			return;
