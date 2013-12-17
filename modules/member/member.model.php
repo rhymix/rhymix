@@ -815,7 +815,7 @@ class memberModel extends member
 				if(file_exists($image_name_file))
 				{
 					list($width, $height, $type, $attrs) = getimagesize($image_name_file);
-					$info = null;
+					$info = new stdClass();
 					$info->width = $width;
 					$info->height = $height;
 					$info->src = Context::getRequestUri().$image_name_file;

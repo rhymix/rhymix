@@ -240,6 +240,7 @@ class installController extends install
 		if(!$ftp_info->ftp_root_path) $ftp_info->ftp_root_path = '/';
 
 		$buff = array('<?php if(!defined("__XE__")) exit();');
+		$buff[] = "\$ftp_info = new stdClass();";
 		foreach($ftp_info as $key => $val)
 		{
 			$buff[] = sprintf("\$ftp_info->%s='%s';", $key, str_replace("'","\\'",$val));

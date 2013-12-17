@@ -2230,7 +2230,7 @@ class documentController extends document
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
 
-		$document_config = null;
+		$document_config = new stdClass();
 		$document_config->use_history = Context::get('use_history');
 		if(!$document_config->use_history) $document_config->use_history = 'N';
 

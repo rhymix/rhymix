@@ -641,11 +641,13 @@ class moduleModel extends module
 		$xml_obj = $tmp_xml_obj->module;
 
 		if(!$xml_obj) return;
+		
 		// Module Information
+		$module_info = new stdClass();
+		$author_obj = new stdClass();
 		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
 		{
 			// module format 0.2
-			$module_info = new stdClass();
 			$module_info->title = $xml_obj->title->body;
 			$module_info->description = $xml_obj->description->body;
 			$module_info->version = $xml_obj->version->body;
@@ -662,7 +664,6 @@ class moduleModel extends module
 
 			foreach($author_list as $author)
 			{
-				$author_obj = new stdClass();
 				$author_obj->name = $author->name->body;
 				$author_obj->email_address = $author->attrs->email_address;
 				$author_obj->homepage = $author->attrs->link;

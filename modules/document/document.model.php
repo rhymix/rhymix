@@ -913,7 +913,8 @@ class documentModel extends document
 		{
 			$oModuleModel = &getModel('module');
 			$config = $oModuleModel->getModuleConfig('document');
-			if(!$config) $config = new stdClass;
+
+			if(!$config) $config = new stdClass();
 			if(!$config->thumbnail_type) $config->thumbnail_type = 'crop';
 			$GLOBALS['__document_config__'] = $config;
 		}

@@ -63,10 +63,10 @@ class content extends WidgetHandler
 		}
 		else
 		{
+			$obj = new stdClass();
 			// Apply to all modules in the site if a target module is not specified
 			if(!$args->module_srls)
 			{
-				$obj = new stdClass();
 				$obj->site_srl = (int)$site_module_info->site_srl;
 				$output = executeQueryArray('widgets.content.getMids', $obj);
 				if($output->data)
