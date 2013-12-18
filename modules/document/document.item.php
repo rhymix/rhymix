@@ -110,7 +110,10 @@ class documentItem extends Object
 		{
 			$tags = explode(',',$this->get('tags'));
 			$tag_count = count($tags);
-			for($i=0;$i<$tag_count;$i++) if(trim($tags[$i])) $tag_list[] = trim($tags[$i]);
+			for($i=0;$i<$tag_count;$i++)
+			{
+				if(trim($tags[$i])) $tag_list[] = trim($tags[$i]);
+			}
 			$this->add('tag_list', $tag_list);
 		}
 
@@ -1050,6 +1053,7 @@ class documentItem extends Object
 
 	function getTranslationLangCodes()
 	{
+		$obj = new stdClass;
 		$obj->document_srl = $this->document_srl;
 		// -2 is an index for content. We are interested if content has other translations.
 		$obj->var_idx = -2;
@@ -1060,6 +1064,7 @@ class documentItem extends Object
 			$output->data = array();
 		}
 		// add original page's lang code as well
+		$origLangCode = new stdClass;
 		$origLangCode->lang_code = $this->getLangCode();
 		$output->data[] = $origLangCode;
 
