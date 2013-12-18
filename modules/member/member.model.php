@@ -246,6 +246,7 @@ class memberModel extends member
 	{
 		if(!$user_id) return;
 
+		$args = new stdClass;
 		$args->user_id = $user_id;
 		$output = executeQuery('member.getMemberInfo', $args);
 		if(!$output->toBool()) return $output;
