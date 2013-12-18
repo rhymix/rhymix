@@ -133,7 +133,7 @@ class moduleModel extends module
 			if(!$output || !$output->data) { $domain = ''; unset($output); }
 		}
 		// If no virtual website was found, get default website
-		if($domain === '')
+		else
 		{
 			if($oCacheHandler->isSupport())	$output = $oCacheHandler->get('default_site');
 			if(!$output)

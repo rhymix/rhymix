@@ -138,9 +138,9 @@ class moduleAdminController extends module
 		$extra_args = new stdClass();
 		$extra_args->module_srl = $module_srl;
 		$extra_output = executeQueryArray('module.getModuleExtraVars', $extra_args);
+		$extra_vars = new stdClass();
 		if($extra_output->toBool() && is_array($extra_output->data))
 		{
-			$extra_vars = new stdClass();
 			foreach($extra_output->data as $info)
 			{
 				$extra_vars->{$info->name} = $info->value;
@@ -238,7 +238,7 @@ class moduleAdminController extends module
 		}
 		else
 		{
-			$mseeage = $lang->success_registed;
+			$message = $lang->success_registed;
 			$this->setMessage('success_registed');
 		}
 
@@ -306,11 +306,13 @@ class moduleAdminController extends module
 		$grant_list->manager = new stdClass();
 		$grant_list->manager->default = 'manager';
 
+		$grant = new stdClass();
 		foreach($grant_list as $grant_name => $grant_info)
 		{
 			// Get the default value
 			$default = Context::get($grant_name.'_default');
 			// -1 = Log-in user only, -2 = site members only, -3 = manager only, 0 = all users
+			$grant->{$grant_name} = array();
 			if(strlen($default))
 			{
 				$grant->{$grant_name}[] = $default;
@@ -329,7 +331,7 @@ class moduleAdminController extends module
 				}
 				continue;
 			}
-			$grant->{$group_srls} = array();
+			$grant->{$group_srls} = array(); // dead code????
 		}
 
 		// Stored in the DB
@@ -338,19 +340,16 @@ class moduleAdminController extends module
 		$output = executeQuery('module.deleteModuleGrants', $args);
 		if(!$output->toBool()) return $output;
 		// Permissions stored in the DB
-		if($grant)
+		foreach($grant as $grant_name => $group_srls)
 		{
-			foreach($grant as $grant_name => $group_srls)
+			foreach($group_srls as $val)
 			{
-				foreach($group_srls as $val)
-				{
-					$args = new stdClass();
-					$args->module_srl = $module_srl;
-					$args->name = $grant_name;
-					$args->group_srl = $val;
-					$output = executeQuery('module.insertModuleGrant', $args);
-					if(!$output->toBool()) return $output;
-				}
+				$args = new stdClass();
+				$args->module_srl = $module_srl;
+				$args->name = $grant_name;
+				$args->group_srl = $val;
+				$output = executeQuery('module.insertModuleGrant', $args);
+				if(!$output->toBool()) return $output;
 			}
 		}
 		$this->setMessage('success_registed');
@@ -587,6 +586,7 @@ class moduleAdminController extends module
 			// Get the default value
 			$default = Context::get($grant_name.'_default');
 			// -1 = Sign only, 0 = all users
+			$grant->{$grant_name} = array();
 			if(strlen($default))
 			{
 				$grant->{$grant_name}[] = $default;
@@ -608,7 +608,7 @@ class moduleAdminController extends module
 				}
 				continue;
 			}
-			$grant->{$group_srls} = array();
+			$grant->{$group_srls} = array(); // dead code, too??
 		}
 
 		// Stored in the DB

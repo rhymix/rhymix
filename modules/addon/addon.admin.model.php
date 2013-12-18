@@ -305,12 +305,16 @@ class addonAdminModel extends addon
 			$addon_info->title = $xml_obj->title->body;
 			$addon_info->description = trim($xml_obj->author->description->body);
 			$addon_info->version = $xml_obj->attrs->version;
+			
 			$date_obj = new stdClass();
 			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$addon_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+			
+			$author_obj = new stdClass();
 			$author_obj->name = $xml_obj->author->name->body;
 			$author_obj->email_address = $xml_obj->author->attrs->email_address;
 			$author_obj->homepage = $xml_obj->author->attrs->link;
+			
 			$addon_info->author = array();
 			$addon_info->author[] = $author_obj;
 

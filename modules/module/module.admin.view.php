@@ -174,8 +174,8 @@ class moduleAdminView extends module
 		$skin_list = $oModuleModel->getSkins(_XE_PATH_ . 'modules/'.$module_info->module);
 		Context::set('skin_list',$skin_list);
 		// Get a layout list
-		$oLayoutMode = &getModel('layout');
-		$layout_list = $oLayoutMode->getLayoutList();
+		$oLayoutModel = &getModel('layout');
+		$layout_list = $oLayoutModel->getLayoutList();
 		Context::set('layout_list', $layout_list);
 		// Get a list of module categories
 		$module_category = $oModuleModel->getModuleCategories();
