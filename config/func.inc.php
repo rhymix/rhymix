@@ -1329,7 +1329,7 @@ function isCrawler($agent = NULL)
 		}
 	}
 
-	return IpFilter::filter($check_ip, '211.245.21.113');
+	return IpFilter::filter($check_ip);
 }
 
 /**
