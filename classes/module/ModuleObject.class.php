@@ -27,8 +27,6 @@ class ModuleObject extends Object
 	var $ajaxRequestMethod = array('XMLRPC', 'JSON');
 	var $gzhandler_enable = TRUE;
 
-	private static $_oModules = array();
-
 	/**
 	 * setter to set the name of module
 	 * @param string $module name of module
@@ -488,24 +486,5 @@ class ModuleObject extends Object
 		return true;
 	}
 
-	function __get($name)
-	{
-		if($name{0} !== 'o' || !isset($name{7})) return NULL;
-		if(isset(self::$_oModules[$name])) return self::$_oModules[$name];
-
-		$types = array('Model', 'Controller', 'View', 'AdminModel', 'AdminController', 'AdminView');
-		foreach($types as $type)
-		{
-			$func = 'get' . $type;
-			if(FALSE !== ($pos=strpos($name, $type)) && 2 < $pos && ($oModule = $func(strtolower(substr($name, 1, $pos-1)))))
-			{
-				self::$_oModules[$name] = $oModule;
-				return $oModule;
-			}
-		}
-
-		return NULL;
-	}
 }
-/* End of file ModuleObject.class.php */
-/* Location: ./classes/module/ModuleObject.class.php */
+?>
