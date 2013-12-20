@@ -158,6 +158,10 @@
 			<value xml:lang="ko"><![CDATA[[필수] PHP버전이 5.2.4 이상에서 설치가 가능합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] XE supports only PHP Version 5.2.4 or higher]]></value>
 		</item>
+		<item name="php_version_warning">
+			<value xml:lang="ko"><![CDATA[[권장] XE는 PHP 5.3.10 버전 이상을 권장합니다.<br> PHP 5.2.x버전은 더이상 업데이트되지 않는 버전입니다.]]></value>
+			<value xml:lang="en"><![CDATA[[Recommend] XE recommends only PHP Version 5.3.10 or higher]]></value>
+		</item>
 		<item name="permission">
 			<value xml:lang="ko"><![CDATA[[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] XE installation path or ./files directory's permission must be 707]]></value>

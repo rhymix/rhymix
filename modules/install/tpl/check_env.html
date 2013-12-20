@@ -5,7 +5,7 @@
 		<ul>
 			<li loop="$checklist => $key,$val" cond="!$val">
 				{@ $isDisable = TRUE}
-				<strong>{$lang->install_checklist_title[$key]}<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong> 
+				<strong>{$lang->install_checklist_title[$key]}ㅇ<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong> 
 				:
 				<em><i class="x_icon-ban-circle x_icon-white"></i> {$lang->disable}</em>
 				<p>{$lang->install_checklist_desc[$key]}</p>
@@ -21,6 +21,9 @@
 					<strong>{$lang->install_checklist_title[$key]}<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong> 
 					:
 					<em>{$lang->enable}</em>
+					<p cond="$key == 'php_version' && $phpversion_warning === true">
+						{$lang->install_checklist_desc['php_version_warning']} <a href="http://php.net/eol.php" target="_blank">[{$lang->more}]</a>
+					</p>
 				</li>
 			</ul>
 		</div>
