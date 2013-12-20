@@ -31,6 +31,7 @@
 			<p>
 				<i class="x_icon-ok-sign x_icon-white"></i>
 				{$lang->disable_rewrite}
+				<block cond="$use_nginx == 'Y'"><br> {$lang->about_nginx_rewrite}</block>
 			</p>
 		</div>
 		<div class="ibtnArea">

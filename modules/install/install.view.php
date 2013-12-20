@@ -68,6 +68,9 @@ class installView extends install
 		$_SESSION['use_rewrite'] = $useRewrite;
 		Context::set('use_rewrite', $useRewrite); 
 
+		// nginx 체크, rewrite 사용법 안내
+		if($useRewrite == 'N' && stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false) Context::set('use_nginx', 'Y');
+		
 		$this->setTemplateFile('check_env');
 	}
 
