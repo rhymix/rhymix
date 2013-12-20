@@ -48,6 +48,7 @@ if($this->module != 'member' && $called_position == 'before_module_init')
 elseif($this->act == 'getMemberMenu' && $called_position == 'before_module_proc')
 {
 	$member_srl = Context::get('target_srl');
+	$oCommunicationModel = getModel('communication');
 
 	// Add a feature to display own message box.
 	if($logged_info->member_srl == $member_srl)
@@ -71,7 +72,6 @@ elseif($this->act == 'getMemberMenu' && $called_position == 'before_module_proc'
 		}
 
 		$oMemberController = getController('member');
-		$oCommunicationModel = getModel('communication');
 		// Add a menu for sending message
 		if($logged_info->is_admin == 'Y' || $target_member_info->allow_message == 'Y' || ($target_member_info->allow_message == 'F' && $oCommunicationModel->isFriend($member_srl)))
 			$oMemberController->addMemberPopupMenu(getUrl('', 'module', 'communication', 'act', 'dispCommunicationSendMessage', 'receiver_srl', $member_srl), 'cmd_send_message', '', 'popup');
