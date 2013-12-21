@@ -32,6 +32,7 @@ class menuAdminModel extends menu
 			$site_module_info = Context::get('site_module_info');
 			$obj->site_srl = (int)$site_module_info->site_srl;
 		}
+		$args = new stdClass;
 		$args->site_srl = $obj->site_srl;
 		$args->sort_index = $obj->sort_index;
 		$args->page = $obj->page?$obj->page:1;
@@ -292,7 +293,9 @@ class menuAdminModel extends menu
 		$oMemberModel = &getModel('member');
 		$group_list = $oMemberModel->getGroups();
 		Context::set('group_list', $group_list);
+
 		// Add a sub-menu if there is parent_srl but not menu_item_srl
+		$item_info = new stdClass;
 		if(!$menu_item_srl && $parent_srl)
 		{
 			// Get information of the parent menu
@@ -631,7 +634,7 @@ class menuAdminModel extends menu
 		{
 			$menu['is_shortcut'] = 'Y';
 
-			unset($args);
+			$args = new stdClass;
 			$args->menu_item_srl = $menu['node_srl'];
 			$args->is_shortcut = 'Y';
 			if($menu['menu_name_key']) $args->name = $menu['menu_name_key'];
