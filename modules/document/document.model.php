@@ -262,6 +262,7 @@ class documentModel extends document
 				$keys = array_keys($output->data);
 				$virtual_number = $keys[0];
 
+				$target_args = new stdClass();
 				$target_args->document_srls = implode(',',$target_srls);
 				$target_args->list_order = $args->sort_index;
 				$target_args->order_type = $args->order_type;
