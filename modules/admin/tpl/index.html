@@ -10,6 +10,9 @@
 	<div class="x_page-header">
 		<h1>{$lang->control_panel} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_dashboard" target="_blank">{$lang->help}</a></h1>
 	</div>
+	<div id="checkBrowserMessage" class="message error" style="display:none;">
+		<h2>{$lang->checkBrowserIE8}</h2>
+	</div>
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
@@ -138,6 +141,14 @@ jQuery(function($)
 			$(this).removeClass('hover').find('>.action').hide();
 		}
 	});
+
+	// check browser version
+	if($.browser.msie == true ) {
+		var arrBrowserVersion = $.browser.version.split('.');
+		if(parseInt(arrBrowserVersion[0]) <= 8) {
+			$('#checkBrowserMessage').show();
+		}
+	}
 });
 
 function obj2Array(htObj)

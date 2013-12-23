@@ -1512,6 +1512,10 @@
 		<value xml:lang="ko"><![CDATA[일]]></value>
 		<value xml:lang="en"><![CDATA[Sun]]></value>
 	</item>
+	<item name="checkBrowserIE8">
+		<value xml:lang="ko"><![CDATA[IE8 이하의 브라우저 사용시 관리자페이지가 정상동작 하지 않을 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Please connect by IE 9 or higher.]]></value>
+	</item>
 	<!-- site lock -->
 	<item name="subtitle_sitelock">
 			<value xml:lang="ko"><![CDATA[사이트 잠금]]></value>
