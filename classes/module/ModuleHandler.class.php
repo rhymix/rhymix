@@ -141,8 +141,9 @@ class ModuleHandler extends Handler
 		}
 
 		// Get module's information based on document_srl, if it's specified
-		if($this->document_srl && !$this->module)
+		if($this->document_srl)
 		{
+			
 			$module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
 
 			// If the document does not exist, remove document_srl
@@ -162,10 +163,12 @@ class ModuleHandler extends Handler
 					return FALSE;
 				}
 			}
+			  
 			// if requested module is different from one of the document, remove the module information retrieved based on the document number
 			if($this->module && $module_info->module != $this->module)
 			{
-				unset($module_info);
+ 				$this->error = 'msg_invalid_request';
+ 				return TRUE;
 			}
 		}
 
@@ -279,7 +282,7 @@ class ModuleHandler extends Handler
 		if(!$output->toBool())
 		{
 			$this->error = $output->getMessage();
-			return FALSE;
+			return TRUE;
 		}
 
 		// Set current module info into context
