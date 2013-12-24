@@ -2,7 +2,9 @@
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
 if(!defined('__XE__'))
+{
 	exit();
+}
 
 /**
  * @file image_name.addon.php
@@ -15,7 +17,7 @@ if(!defined('__XE__'))
 /**
  * Just before displaying, change image name/ image mark
  */
-if(Context::get('act') == 'dispPageAdminContentModify' || $called_position != "before_display_content")
+if($called_position != "before_display_content" || Context::get('act') == 'dispPageAdminContentModify' || Context::getResponseMethod() != 'HTML' || isCrawler())
 {
 	return;
 }

@@ -15,7 +15,7 @@ if(!defined('__XE__'))
  */
 // Stop if non-logged-in user is
 $logged_info = Context::get('logged_info');
-if(!$logged_info)
+if(!$logged_info|| isCrawler())
 {
 	return;
 }

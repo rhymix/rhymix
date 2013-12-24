@@ -12,7 +12,7 @@ if(!defined('__XE__'))
  * Display point level icon before user name when point system is enabled.
  * */
 // return unless before_display_content
-if(Context::get('act') == 'dispPageAdminContentModify' || $called_position != "before_display_content" || Context::getResponseMethod() != 'HTML')
+if($called_position != "before_display_content" || Context::get('act') == 'dispPageAdminContentModify' || Context::getResponseMethod() != 'HTML' || isCrawler())
 {
 	return;
 }
