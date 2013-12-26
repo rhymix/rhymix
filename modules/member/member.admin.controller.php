@@ -1086,7 +1086,9 @@ class memberAdminController extends member
 		}
 
 		if(!$args->group_srl) $args->group_srl = getNextSequence();
-		return executeQuery('member.insertGroup', $args);
+		$output = executeQuery('member.insertGroup', $args);
+		$this->_deleteMemberGroupCache($args->site_srl);
+		return $output;
 	}
 
 	/**
@@ -1096,6 +1098,7 @@ class memberAdminController extends member
 	 */
 	function updateGroup($args)
 	{
+		if(!$args->site_srl) $args->site_srl = 0;
 		// Check the value of is_default.
 		if(!$args->group_srl) return new Object(-1, 'lang->msg_not_founded');
 		if($args->is_default!='Y')
@@ -1108,7 +1111,9 @@ class memberAdminController extends member
 			if(!$output->toBool()) return $output;
 		}
 
-		return executeQuery('member.updateGroup', $args);
+		$output = executeQuery('member.updateGroup', $args);
+		$this->_deleteMemberGroupCache($args->site_srl);
+		return $output;
 	}
 
 	/**
@@ -1134,9 +1139,12 @@ class memberAdminController extends member
 		// Change to default_group_srl
 		$this->changeGroup($group_srl, $default_group_srl);
 
+
 		$args = new stdClass;
 		$args->group_srl = $group_srl;
-		return executeQuery('member.deleteGroup', $args);
+		$output = executeQuery('member.deleteGroup', $args);
+		$this->_deleteMemberGroupCache($site_srl);
+		return $output;
 	}
 
 	/**
@@ -1213,7 +1221,24 @@ class memberAdminController extends member
 			executeQuery('member.updateMemberGroupListOrder', $args);
 		}
 
+		$this->_deleteMemberGroupCache($vars->site_srl);
+
 		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList'));
+	}
+
+	/**
+	 * Delete cached group data
+	 * @return void
+	*/
+	function _deleteMemberGroupCache($site_srl = 0)
+	{
+		//remove from cache
+		$oCacheHandler = &CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'object_groups:'.$site_srl;
+			$oCacheHandler->delete($cache_key);
+		}
 	}
 
 	/**

@@ -1247,7 +1247,7 @@ class moduleModel extends module
 	function getModuleConfig($module, $site_srl = 0)
 	{
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = &CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
@@ -1283,7 +1283,7 @@ class moduleModel extends module
 	function getModulePartConfig($module, $module_srl)
 	{
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = &CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_module_part_config:'.$module.'_'.$module_srl;

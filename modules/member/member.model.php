@@ -537,11 +537,25 @@ class memberModel extends member
 			{
 				$site_srl = 0;
 			}
-			$args = new stdClass();
-			$args->site_srl = $site_srl;
-			$args->sort_index = 'list_order';
-			$args->order_type = 'asc';
-			$output = executeQueryArray('member.getGroups', $args);
+
+			$oCacheHandler = &CacheHandler::getInstance('object', null, true);
+			if($oCacheHandler->isSupport())
+			{
+				$cache_key = 'object_groups:'.$site_srl;
+				$output = $oCacheHandler->get($cache_key);
+			}
+			if(!$output)
+			{
+
+				$args = new stdClass();
+				$args->site_srl = $site_srl;
+				$args->sort_index = 'list_order';
+				$args->order_type = 'asc';
+				$output = executeQueryArray('member.getGroups', $args);
+				//insert in cache
+				if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+			}
+
 			if(!$output->toBool() || !$output->data)
 			{
 				return array();
