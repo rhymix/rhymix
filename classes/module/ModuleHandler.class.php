@@ -145,7 +145,6 @@ class ModuleHandler extends Handler
 		{
 			
 			$module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
-
 			// If the document does not exist, remove document_srl
 			if(!$module_info)
 			{
@@ -464,13 +463,23 @@ class ModuleHandler extends Handler
 			{
 				$module = strtolower($matches[2] . $matches[3]);
 				$xml_info = $oModuleModel->getModuleActionXml($module);
-				if($xml_info->action->{$this->act})
+
+				if($xml_info->action->{$this->act} && ($kind == 'admin' || $xml_info->action->{$this->act}->standalone === 'true'))
 				{
 					$forward = new stdClass();
 					$forward->module = $module;
 					$forward->type = $xml_info->action->{$this->act}->type;
 					$forward->ruleset = $xml_info->action->{$this->act}->ruleset;
 					$forward->act = $this->act;
+				}
+				else
+				{
+					$this->error = 'msg_invalid_request';
+					$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+					$oMessageObject->setError(-1);
+					$oMessageObject->setMessage($this->error);
+					$oMessageObject->dispMessage();
+					return $oMessageObject;
 				}
 			}
 
