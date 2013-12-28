@@ -61,7 +61,7 @@ class moduleController extends module
 		$output = executeQuery('module.insertTrigger', $args);
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$oCacheHandler->invalidateGroupKey('triggers');
@@ -91,7 +91,7 @@ class moduleController extends module
 		$output = executeQuery('module.deleteTrigger', $args);
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$oCacheHandler->invalidateGroupKey('triggers');
@@ -187,7 +187,7 @@ class moduleController extends module
 		$output = executeQuery('module.insertModuleConfig', $args);
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
@@ -211,7 +211,7 @@ class moduleController extends module
 		if(!$output->toBool()) return $output;
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_module_part_config:'.$module.'_'.$module_srl;
