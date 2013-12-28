@@ -32,26 +32,57 @@ class pollController extends poll
 
 		foreach($vars as $key => $val)
 		{
-			if(strpos($key,'tidx')) continue;
-			if(!preg_match("/^(title|checkcount|item)_/i", $key)) continue;
-			if(!trim($val)) continue;
+			if(strpos($key,'tidx'))
+			{
+				continue;
+			}
+			if(!preg_match("/^(title|checkcount|item)_/i", $key))
+			{
+				continue;
+			}
+			if(!trim($val))
+			{
+				continue;
+			}
 
 			$tmp_arr = explode('_',$key);
 
 			$poll_index = $tmp_arr[1];
 
-			if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			if($logged_info->is_admin != 'Y')
+			{
+				$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			}
 
-			$tmp_args[$poll_index] = new stdClass;
-			if($tmp_arr[0]=='title') $tmp_args[$poll_index]->title = $val;
-			else if($tmp_arr[0]=='checkcount') $tmp_args[$poll_index]->checkcount = $val;
-			else if($tmp_arr[0]=='item') $tmp_args[$poll_index]->item[] = $val;
+			if($tmp_args[$poll_index] == NULL)
+			{
+				$tmp_args[$poll_index] = new stdClass;
+			}
+
+			if($tmp_arr[0]=='title')
+			{
+				$tmp_args[$poll_index]->title = $val;
+			}
+			else if($tmp_arr[0]=='checkcount')
+			{
+				$tmp_args[$poll_index]->checkcount = $val;
+			}
+			else if($tmp_arr[0]=='item')
+			{
+				 $tmp_args[$poll_index]->item[] = $val;
+			}
 		}
 
 		foreach($tmp_args as $key => $val)
 		{
-			if(!$val->checkcount) $val->checkcount = 1;
-			if($val->title && count($val->item)) $args->poll[] = $val;
+			if(!$val->checkcount)
+			{
+				$val->checkcount = 1;
+			}
+			if($val->title && count($val->item))
+			{
+				$args->poll[] = $val;
+			}
 		}
 
 		if(!count($args->poll)) return new Object(-1, 'cmd_null_item');
