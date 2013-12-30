@@ -82,7 +82,6 @@ class pollController extends poll
 					break;
 			}
 		}
-		return new Object(-1, print_r($tmp_args, true));
 
 		foreach($tmp_args as $key => $val)
 		{
