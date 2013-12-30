@@ -506,8 +506,8 @@ class documentAdminController extends document
 	{
 		// delete all of thumbnail_ *. jpg files from files/attaches/images/ directory (prior versions to 1.0.4)
 		$this->deleteThumbnailFile('./files/attach/images');
-		// delete a directory itself, files/cache/thumbnails (thumbnail policies have changed since version 1.0.5)
-		FileHandler::removeFilesInDir('./files/cache/thumbnails');
+		// delete a directory itself, files/thumbnails (thumbnail policies have changed since version 1.0.5)
+		FileHandler::removeFilesInDir('./files/thumbnails');
 
 		$this->setMessage('success_deleted');
 	}

@@ -532,7 +532,7 @@ class documentController extends document
 		// commit
 		$oDB->commit();
 		// Remove the thumbnail file
-		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
+		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
 
 		$output->add('document_srl',$obj->document_srl);
 		//remove from cache
@@ -625,7 +625,7 @@ class documentController extends document
 		$this->_deleteDocumentVotedLog($args);
 
 		// Remove the thumbnail file
-		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($document_srl, 3)));
+		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($document_srl, 3)));
 
 		// commit
 		$oDB->commit();
@@ -757,7 +757,7 @@ class documentController extends document
 		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
 
 		// remove thumbnails
-		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
+		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
 		// Set the attachment to be invalid state
 		if($oDocument->hasUploadedFiles())
 		{

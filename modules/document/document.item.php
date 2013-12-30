@@ -757,7 +757,7 @@ class documentItem extends Object
 			$thumbnail_type = $config->thumbnail_type;
 		}
 		// Define thumbnail information
-		$thumbnail_path = sprintf('files/cache/thumbnails/%s',getNumberingPath($this->document_srl, 3));
+		$thumbnail_path = sprintf('files/thumbnails/%s',getNumberingPath($this->document_srl, 3));
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_url  = Context::getRequestUri().$thumbnail_file;
 		// Return false if thumbnail file exists and its size is 0. Otherwise, return its path

@@ -187,7 +187,7 @@ class integration_searchModel extends module
 			{
 				$obj->type = 'image';
 
-				$thumbnail_path = sprintf('files/cache/thumbnails/%s',getNumberingPath($val->file_srl, 3));
+				$thumbnail_path = sprintf('files/thumbnails/%s',getNumberingPath($val->file_srl, 3));
 				if(!is_dir($thumbnail_path)) FileHandler::makeDir($thumbnail_path);
 				$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, 120, 120, 'crop');
 				$thumbnail_url  = Context::getRequestUri().$thumbnail_file;
