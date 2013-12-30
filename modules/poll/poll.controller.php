@@ -69,17 +69,17 @@ class pollController extends poll
 				$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
 
-			if($tmp_arr[0] == 'title')
+			switch($tmp_arr[0])
 			{
-				$tmp_args[$poll_index]->title = $val;
-			}
-			elseif($tmp_arr[0] == 'checkcount')
-			{
-				$tmp_args[$poll_index]->checkcount = $val;
-			}
-			elseif($tmp_arr[0] == 'item')
-			{
-				$tmp_args[$poll_index]->item[] = $val;
+				case 'title':
+					$tmp_args[$poll_index]->title = $val;
+					break;
+				case 'checkcount':
+					$tmp_args[$poll_index]->checkcount = $val;
+					break;
+				case 'item':
+					$tmp_args[$poll_index]->item[] = $val;
+					break;
 			}
 		}
 		return new Object(-1, print_r($tmp_args, true));
