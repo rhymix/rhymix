@@ -132,10 +132,10 @@ class menuAdminController extends menu
 	{
 		$menu_srl = Context::get('menu_srl');
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuInfo = $oMenuAdminModel->getMenu($menu_srl);
 
-		$oAdmin = &getClass('admin');
+		$oAdmin = getClass('admin');
 		if($menuInfo->title == $oAdmin->getAdminMenuName())
 			return new Object(-1, 'msg_adminmenu_cannot_delete');
 
@@ -149,7 +149,7 @@ class menuAdminController extends menu
 		}
 
 		// check home menu in originMenu
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$siteInfo = $oModuleModel->getSiteInfo($menuInfo->site_srl);
 
 		$isStartmenuInclude = false;
@@ -195,7 +195,7 @@ class menuAdminController extends menu
 		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuInfo = $oMenuAdminModel->getMenu($args->menu_srl);
 
 		// Delete modules
@@ -206,7 +206,7 @@ class menuAdminController extends menu
 		}
 
 		$oModuleController = getController('module');
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		foreach($output->data as $itemInfo)
 		{
@@ -309,7 +309,7 @@ class menuAdminController extends menu
 	private function _setMenuSrl(&$parent_srl, &$menu_srl)
 	{
 		// set menu srl
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$itemInfo = $oMenuAdminModel->getMenuItemInfo($parent_srl);
 		// parent_srl is parent menu item's srl
 		if($itemInfo->menu_srl)
@@ -356,7 +356,7 @@ class menuAdminController extends menu
 		else if(is_numeric($request->shortcut_target))
 		{
 			// Get original information
-			$oMenuAdminModel = &getAdminModel('menu');
+			$oMenuAdminModel = getAdminModel('menu');
 			$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->shortcut_target);
 			if(!$itemInfo->menu_item_srl)
 			{
@@ -495,14 +495,14 @@ class menuAdminController extends menu
 		$cmArgs->mid = $request->module_id;
 
 		// check already created module instance
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleInfoByMid($request->module_id);
 		if($output->module_srl)
 		{
 			return new Object(-1, 'msg_module_name_exists');
 		}
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->insertModule($cmArgs);
 
 		return $output;
@@ -526,7 +526,7 @@ class menuAdminController extends menu
 		if($request->menu_expand != "Y") $request->menu_expand = "N";
 
 		// Get original information
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->menu_item_srl);
 		$args = $itemInfo;
 
@@ -559,7 +559,7 @@ class menuAdminController extends menu
 		else
 		{
 			// check already created module instance
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			if($request->module_id != $itemInfo->url)
 			{
 				$output = $oModuleModel->getModuleInfoByMid($request->module_id);
@@ -581,7 +581,7 @@ class menuAdminController extends menu
 			{
 				$moduleInfo->browser_title = $request->browser_title;
 			}
-			$oModuleController = &getController('module');
+			$oModuleController = getController('module');
 			$oModuleController->updateModule($moduleInfo);
 			$args->url = $request->module_id;
 		}
@@ -617,7 +617,7 @@ class menuAdminController extends menu
 	{
 		$args = Context::getRequestVars();
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
 		$args->menu_srl = $item_info->menu_srl;
 
@@ -708,8 +708,8 @@ class menuAdminController extends menu
 	 */
 	public function deleteItem($args)
 	{
-		$oModuleModel = &getModel('module');
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oModuleModel = getModel('module');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		// Get original information
 		$itemInfo = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
@@ -731,7 +731,7 @@ class menuAdminController extends menu
 		$menu_title = $menuInfo->title;
 
 		// check admin menu delete
-		$oAdmin = &getClass('admin');
+		$oAdmin = getClass('admin');
 		if($menu_title == $oAdmin->getAdminMenuName() && $itemInfo->parent_srl == 0)
 		{
 			return $this->stop('msg_cannot_delete_for_admin_topmenu');
@@ -819,7 +819,7 @@ class menuAdminController extends menu
 		if($node['is_shortcut'] != 'Y' && strncasecmp('http', $node['url'], 4) !== 0)
 		{
 			$oModuleController = getController('module');
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 
 			// reference menu's url modify
 			$args->url = $node['url'];
@@ -882,7 +882,7 @@ class menuAdminController extends menu
 
 		if(!$mode || !$parent_srl || !$target_srl) return new Object(-1,'msg_invalid_request');
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		// get original menu item info for cache file recreate
 		$originalItemInfo = $oMenuAdminModel->getMenuItemInfo($target_srl);
@@ -922,8 +922,8 @@ class menuAdminController extends menu
 
 		if(!$this->homeModuleMid)
 		{
-			$oModuleModel = &getModel('module');
-			$oMenuAdminController = &getAdminController('menu');
+			$oModuleModel = getModel('module');
+			$oMenuAdminController = getAdminController('menu');
 			$columnList = array('modules.mid',);
 			$output = $oModuleModel->getSiteInfo(0, $columnList);
 			if($output->mid)
@@ -959,12 +959,12 @@ class menuAdminController extends menu
 				//module's menu_srl move also
 				if($node['is_shortcut'] == 'N' && !empty($node['url']))
 				{
-					$oModuleModel = &getModel('module');
+					$oModuleModel = getModel('module');
 					$moduleInfo = $oModuleModel->getModuleInfoByMid($node['url']);
 					if($menu_srl != $moduleInfo->menu_srl)
 					{
 						$moduleInfo->menu_srl = $menu_srl;
-						$oModuleController = &getController('module');
+						$oModuleController = getController('module');
 						$output = $oModuleController->updateModule($moduleInfo);
 					}
 				}
@@ -986,7 +986,7 @@ class menuAdminController extends menu
 		$parentSrl = Context::get('parent_srl');
 		$menuItemSrl = Context::get('menu_item_srl');
 
-		$oMenuModel = &getAdminModel('menu');
+		$oMenuModel = getAdminModel('menu');
 		$itemInfo = $oMenuModel->getMenuItemInfo($menuItemSrl);
 		$menuSrl = $itemInfo->menu_srl;
 
@@ -1038,7 +1038,7 @@ class menuAdminController extends menu
 
 	private function _copyMenu($menuSrl, $parentSrl, &$originMenu)
 	{
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuItemInfo = $oMenuAdminModel->getMenuItemInfo($originMenu['node_srl']);
 
 		// default argument setting
@@ -1059,7 +1059,7 @@ class menuAdminController extends menu
 		// if menu have a reference of module instance
 		if($menuItemInfo->is_shortcut == 'N' && strncasecmp('http', $originMenu['url'], 4) !== 0 )
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($originMenu['url']);
 
 			$args->module_type = $moduleInfo->module;
@@ -1067,7 +1067,7 @@ class menuAdminController extends menu
 			$args->module_id = $moduleInfo->module.'_'.$randomMid;
 			$args->layout_srl = $moduleInfo->layout_srl;
 
-			$oModuleAdminController = &getAdminController('module');
+			$oModuleAdminController = getAdminController('module');
 			$copyArg = new stdClass();
 			$copyArg->module_srl = $moduleInfo->module_srl;
 			$copyArg->mid_1 = $args->module_id;
@@ -1259,7 +1259,7 @@ class menuAdminController extends menu
 	function moveMenuItem($menu_srl, $parent_srl, $source_srl, $target_srl, $mode, $isShortcut='Y', $url=NULL)
 	{
 		// Get the original menus
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		$target_item = $oMenuAdminModel->getMenuItemInfo($target_srl);
 		if($target_item->menu_item_srl != $target_srl) return new Object(-1,'msg_invalid_request');
@@ -1295,12 +1295,12 @@ class menuAdminController extends menu
 			//module's menu_srl move also
 			if($isShortcut == 'N' && !empty($url))
 			{
-				$oModuleModel = &getModel('module');
+				$oModuleModel = getModel('module');
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($url);
 				if($menu_srl != $moduleInfo->menu_srl)
 				{
 					$moduleInfo->menu_srl = $menu_srl;
-					$oModuleController = &getController('module');
+					$oModuleController = getController('module');
 					$output = $oModuleController->updateModule($moduleInfo);
 				}
 
@@ -1344,7 +1344,7 @@ class menuAdminController extends menu
 		// Check input value
 		$menu_srl = Context::get('menu_srl');
 		// Get information of the menu
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menu_info = $oMenuAdminModel->getMenu($menu_srl);
 		$menu_title = $menu_info->title;
 		// Re-generate the xml file
@@ -1415,7 +1415,7 @@ class menuAdminController extends menu
 	 */
 	function procMenuAdminAllActList()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$installed_module_list = $oModuleModel->getModulesXmlInfo();
 		if(is_array($installed_module_list))
 		{
@@ -1444,14 +1444,14 @@ class menuAdminController extends menu
 
 		// variable setting
 		$logged_info = Context::get('logged_info');
-		//$oMenuAdminModel = &getAdminModel('menu');
-		$oMemberModel = &getModel('member');
+		//$oMenuAdminModel = getAdminModel('menu');
+		$oMemberModel = getModel('member');
 
 		//$parentMenuInfo = $oMenuAdminModel->getMenuItemInfo($requestArgs->parent_srl);
 		$groupSrlList = $oMemberModel->getMemberGroups($logged_info->member_srl);
 
 		//preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $parentMenuInfo->name, $m);
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		//$info = $oModuleModel->getModuleInfoXml($moduleName);
 		$info = $oModuleModel->getModuleActionXml($moduleName);
 
@@ -1482,7 +1482,7 @@ class menuAdminController extends menu
 		$args->listorder = -1*$args->menu_item_srl;
 
 		// Check if already exists
-		$oMenuModel = &getAdminModel('menu');
+		$oMenuModel = getAdminModel('menu');
 		$item_info = $oMenuModel->getMenuItemInfo($args->menu_item_srl);
 		// Update if exists
 		if($item_info->menu_item_srl == $args->menu_item_srl)
@@ -1517,7 +1517,7 @@ class menuAdminController extends menu
 		$exposure = Context::get('exposure');
 		$htPerm = Context::get('htPerm');
 
-		$oMenuModel = &getAdminModel('menu');
+		$oMenuModel = getAdminModel('menu');
 		$itemInfo = $oMenuModel->getMenuItemInfo($menuItemSrl);
 		$args = $itemInfo;
 
@@ -1546,10 +1546,10 @@ class menuAdminController extends menu
 
 		// Module Access update
 		unset($args);
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuInfo = $oMenuAdminModel->getMenu($itemInfo->menu_srl);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
 
 		$xml_info = $oModuleModel->getModuleActionXML($moduleInfo->module);
@@ -1615,7 +1615,7 @@ class menuAdminController extends menu
 
 		if($site_srl)
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$columnList = array('sites.domain');
 			$site_info = $oModuleModel->getSiteInfo($site_srl, $columnList);
 			$domain = $site_info->domain;
@@ -1728,7 +1728,7 @@ class menuAdminController extends menu
 	{
 		if(!$source_node) return;
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		foreach($source_node as $menu_item_srl => $node)
 		{
@@ -1823,7 +1823,7 @@ class menuAdminController extends menu
 		$output = array("buff"=>"", "url_list"=>array());
 		if(!$source_node) return $output;
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		foreach($source_node as $menu_item_srl => $node)
 		{
@@ -1972,7 +1972,7 @@ class menuAdminController extends menu
 
 		if($args->isNormalDelete == 'Y' || $args->isHoverDelete == 'Y' || $args->isActiveDelete == 'Y')
 		{
-			$oMenuModel = &getAdminModel('menu');
+			$oMenuModel = getAdminModel('menu');
 			$itemInfo = $oMenuModel->getMenuItemInfo($args->menu_item_srl);
 
 			if($args->isNormalDelete == 'Y' && $itemInfo->normal_btn) FileHandler::removeFile($itemInfo->normal_btn);

@@ -32,7 +32,7 @@ class memberModel extends member
 		}
 
 		// Get member configuration stored in the DB
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 
 		if(!$config->signupForm || !is_array($config->signupForm))
@@ -128,7 +128,7 @@ class memberModel extends member
 
 		ModuleHandler::triggerCall('member.getMemberMenu', 'before', $null);
 
-		$oMemberController = &getController('member');
+		$oMemberController = getController('member');
 		// Display member information (Don't display to non-logged user)
 		if($logged_info->member_srl)
 		{
@@ -214,7 +214,7 @@ class memberModel extends member
 			{
 				$logged_info->group_list = $this->getMemberGroups($logged_info->member_srl, $site_module_info->site_srl);
 				// Add is_site_admin bool variable into logged_info if site_administrator is
-				$oModuleModel = &getModel('module');
+				$oModuleModel = getModel('module');
 				if($oModuleModel->isSiteAdmin($logged_info)) $logged_info->is_site_admin = true;
 				else $logged_info->is_site_admin = false;
 			}
@@ -224,7 +224,7 @@ class memberModel extends member
 				if(!count($logged_info->group_list))
 				{
 					$default_group = $this->getDefaultGroup(0);
-					$oMemberController = &getController('member');
+					$oMemberController = getController('member');
 					$oMemberController->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, 0);
 					$groups[$default_group->group_srl] = $default_group->title;
 					$logged_info->group_list = $groups;
@@ -314,7 +314,7 @@ class memberModel extends member
 	{
 		if(!$GLOBALS['__member_info__'][$info->member_srl])
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('member');
 
 
@@ -897,7 +897,7 @@ class memberModel extends member
 	{
 		if(!isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl]))
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('member');
 			if($config->group_image_mark!='Y')
 			{
@@ -969,7 +969,7 @@ class memberModel extends member
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$args->hashed_password = md5(sha1(md5($password_text)));
-				$oMemberController = &getController('member');
+				$oMemberController = getController('member');
 				$oMemberController->updateMemberPassword($args);
 			}
 			return true;
@@ -983,7 +983,7 @@ class memberModel extends member
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$args->hashed_password = md5(sha1(md5($password_text)));
-				$oMemberController = &getController('member');
+				$oMemberController = getController('member');
 				$oMemberController->updateMemberPassword($args);
 			}
 			return true;
@@ -1000,7 +1000,7 @@ class memberModel extends member
 					$args = new stdClass();
 					$args->member_srl = $member_srl;
 					$args->hashed_password = md5(sha1(md5($password_text)));
-					$oMemberController = &getController('member');
+					$oMemberController = getController('member');
 					$oMemberController->updateMemberPassword($args);
 				}
 				return true;

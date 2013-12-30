@@ -26,12 +26,12 @@ class editorModel extends editor
 		if(!$GLOBALS['__editor_module_config__'][$module_srl] && $module_srl)
 		{
 			// Get trackback settings of the selected module
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$GLOBALS['__editor_module_config__'][$module_srl] = $oModuleModel->getModulePartConfig('editor', $module_srl);
 		}
 		$editor_config = $GLOBALS['__editor_module_config__'][$module_srl];
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$editor_default_config = $oModuleModel->getModuleConfig('editor');
 
 		if(!is_object($editor_config)) $editor_config = new stdClass();
@@ -240,7 +240,7 @@ class editorModel extends editor
 		$files_count = 0;
 		if($allow_fileupload)
 		{
-			$oFileModel = &getModel('file');
+			$oFileModel = getModel('file');
 			// Get upload configuration to set on SWFUploader
 			$file_config = $oFileModel->getUploadConfig();
 			$file_config->allowed_attach_size = $file_config->allowed_attach_size*1024*1024;
@@ -251,7 +251,7 @@ class editorModel extends editor
 			$upload_status = $oFileModel->getUploadStatus();
 			Context::set('upload_status', $upload_status);
 			// Upload enabled (internally caching)
-			$oFileController = &getController('file');
+			$oFileController = getController('file');
 			$oFileController->setUploadInfo($editor_sequence, $upload_target_srl);
 			// Check if the file already exists
 			if($upload_target_srl) $files_count = $oFileModel->getFilesCount($upload_target_srl);
@@ -476,7 +476,7 @@ class editorModel extends editor
 		// Return null if no result is auto-saved
 		if(!$saved_doc) return;
 		// Check if the auto-saved document already exists
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
 		if($oSaved->isExists()) return;
 		// Move all the files if the auto-saved data contains document_srl and file
@@ -484,12 +484,12 @@ class editorModel extends editor
 		if($saved_doc->document_srl && $upload_target_srl && !Context::get('document_srl'))
 		{
 			$saved_doc->module_srl = $auto_save_args->module_srl;
-			$oFileController = &getController('file');
+			$oFileController = getController('file');
 			$oFileController->moveFile($saved_doc->document_srl, $saved_doc->module_srl, $upload_target_srl);
 		}
 		else if($upload_target_srl) $saved_doc->document_srl = $upload_target_srl;
 		// Change auto-saved data
-		$oEditorController = &getController('editor');
+		$oEditorController = getController('editor');
 		$oEditorController->deleteSavedDoc(false);
 		$oEditorController->doSaveDoc($saved_doc);
 
@@ -554,7 +554,7 @@ class editorModel extends editor
 		$cache_file = $this->getCacheFile(false, $site_srl);
 		if($from_db || !file_exists($cache_file))
 		{
-			$oEditorController = &getController('editor');
+			$oEditorController = getController('editor');
 			$oEditorController->makeCache(false, $site_srl);
 		}
 

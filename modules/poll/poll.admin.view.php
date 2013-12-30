@@ -48,7 +48,7 @@ class pollAdminView extends poll
 		$args->sort_index = 'P.list_order'; // Sorting value
 
 		// Get the list
-		$oPollAdminModel = &getAdminModel('poll');
+		$oPollAdminModel = getAdminModel('poll');
 		$output = $oPollAdminModel->getPollListWithMember($args);
 
 		// check poll type. document or comment
@@ -60,11 +60,11 @@ class pollAdminView extends poll
 				$uploadTargetSrlList[] = $value->upload_target_srl;
 			}
 
-			$oDocumentModel = &getModel('document');
+			$oDocumentModel = getModel('document');
 			$targetDocumentOutput = $oDocumentModel->getDocuments($uploadTargetSrlList);
 			if(!is_array($targetDocumentOutput)) $targetDocumentOutput = array();
 
-			$oCommentModel = &getModel('comment');
+			$oCommentModel = getModel('comment');
 			$columnList = array('comment_srl', 'document_srl');
 			$targetCommentOutput = $oCommentModel->getComments($uploadTargetSrlList, $columnList);
 			if(!is_array($targetCommentOutput)) $targetCommentOutput = array();
@@ -102,7 +102,7 @@ class pollAdminView extends poll
 	 */
 	function dispPollAdminConfig()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// Get the configuration information
 		$config = $oModuleModel->getModuleConfig('poll');
 		Context::set('config', $config);
@@ -164,7 +164,7 @@ class pollAdminView extends poll
 
 		Context::set('poll',$poll);
 		// Configure the skin and the colorset for the default configuration
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$poll_config = $oModuleModel->getModuleConfig('poll');
 		Context::set('poll_config', $poll_config);
 

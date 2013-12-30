@@ -45,8 +45,8 @@ class pollAdminModel extends poll
 		$poll_srl = Context::get('poll_srl');
 		$upload_target_srl = Context::get('upload_target_srl');
 
-		$oDocumentModel = &getModel('document');
-		$oCommentModel = &getModel('comment');
+		$oDocumentModel = getModel('document');
+		$oCommentModel = getModel('comment');
 
 		$oDocument = $oDocumentModel->getDocument($upload_target_srl);
 

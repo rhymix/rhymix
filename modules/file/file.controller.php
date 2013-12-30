@@ -31,7 +31,7 @@ class fileController extends file
 		if(!is_uploaded_file($file_info['tmp_name'])) exit();
 
 		// Basic variables setting
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 		$editor_sequence = Context::get('editor_sequence');
 		$upload_target_srl = intval(Context::get('uploadTargetSrl'));
 		if(!$upload_target_srl) $upload_target_srl = intval(Context::get('upload_target_srl'));
@@ -158,7 +158,7 @@ class fileController extends file
 	 */
 	function procFileDownload()
 	{
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 
 		$file_srl = Context::get('file_srl');
 		$sid = Context::get('sid');
@@ -280,7 +280,7 @@ class fileController extends file
 
 	public function procFileOutput()
 	{
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 		$file_srl = Context::get('file_srl');
 		$file_key = Context::get('file_key');
 		if(strstr($_SERVER['HTTP_USER_AGENT'], "Android")) $is_android = true;
@@ -361,7 +361,7 @@ class fileController extends file
 		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
 
 		$logged_info = Context::get('logged_info');
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 
 		$srls = explode(',',$file_srl);
 		if(!count($srls)) return;
@@ -401,7 +401,7 @@ class fileController extends file
 		global $lang;
 		if(count($fileSrlList) > 0)
 		{
-			$oFileModel = &getModel('file');
+			$oFileModel = getModel('file');
 			$fileList = $oFileModel->getFile($fileSrlList);
 			if(!is_array($fileList)) $fileList = array($fileList);
 
@@ -434,7 +434,7 @@ class fileController extends file
 		$document_srl = $obj->document_srl;
 		if(!$document_srl) return new Object();
 		// Get numbers of attachments
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 		$obj->uploaded_count = $oFileModel->getFilesCount($document_srl);
 
 		return new Object();
@@ -483,7 +483,7 @@ class fileController extends file
 		$comment_srl = $obj->comment_srl;
 		if(!$comment_srl) return new Object();
 		// Get numbers of attachments
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 		$obj->uploaded_count = $oFileModel->getFilesCount($comment_srl);
 
 		return new Object();
@@ -533,7 +533,7 @@ class fileController extends file
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return new Object();
 
-		$oFileController = &getAdminController('file');
+		$oFileController = getAdminController('file');
 		return $oFileController->deleteModuleFiles($module_srl);
 	}
 
@@ -620,7 +620,7 @@ class fileController extends file
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
-				$oFileModel = &getModel('file');
+				$oFileModel = getModel('file');
 				$config = $oFileModel->getFileConfig($module_srl);
 				$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
 				$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
@@ -689,7 +689,7 @@ class fileController extends file
 			}
 		}
 		// Get member information
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getLoggedMemberSrl();
 		// List file information
 		$args = new stdClass;
@@ -757,7 +757,7 @@ class fileController extends file
 		$srls = explode(',',$file_srl);
 		if(!count($srls)) return;
 
-		$oDocumentController = &getController('document');
+		$oDocumentController = getController('document');
 		$documentSrlList = array();
 
 		for($i=0;$i<count($srls);$i++)
@@ -813,7 +813,7 @@ class fileController extends file
 	function deleteFiles($upload_target_srl)
 	{
 		// Get a list of attachements
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 		$columnList = array('uploaded_filename', 'module_srl');
 		$file_list = $oFileModel->getFiles($upload_target_srl, $columnList);
 		// Success returned if no attachement exists
@@ -853,7 +853,7 @@ class fileController extends file
 	{
 		if($source_srl == $target_srl) return;
 
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 		$file_list = $oFileModel->getFiles($source_srl);
 		if(!$file_list) return;
 
@@ -906,10 +906,10 @@ class fileController extends file
 
 	function triggerCopyModule(&$obj)
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$fileConfig = $oModuleModel->getModulePartConfig('file', $obj->originModuleSrl);
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))
 		{
 			foreach($obj->moduleSrlList AS $key=>$moduleSrl)

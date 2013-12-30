@@ -451,7 +451,7 @@ class ExtraItem
 				break;
 			// address
 			case "kr_zip" :
-				if(($oKrzipModel = &getModel('krzip')) && method_exists($oKrzipModel , 'getKrzipCodeSearchHtml' ))
+				if(($oKrzipModel = getModel('krzip')) && method_exists($oKrzipModel , 'getKrzipCodeSearchHtml' ))
 				{
 					$buff[] =  $oKrzipModel->getKrzipCodeSearchHtml($column_name, $value);
 				}

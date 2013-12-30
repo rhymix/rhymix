@@ -24,7 +24,7 @@ class fileModel extends file
 	 */
 	function getFileList()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$mid = Context::get('mid');
 		$editor_sequence = Context::get('editor_sequence');
@@ -109,7 +109,7 @@ class fileModel extends file
 	function getFileConfig($module_srl = null)
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$file_module_config = $oModuleModel->getModuleConfig('file');
 
@@ -298,10 +298,10 @@ class fileModel extends file
 			return $file_grant;
 		}
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($file_info->module_srl), $member_info);
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($file_info->upload_target_srl);
 		if($oDocument->isExists()) $document_grant = $oDocument->isGranted();
 

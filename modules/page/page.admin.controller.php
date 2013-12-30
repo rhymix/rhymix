@@ -20,8 +20,8 @@ class pageAdminController extends page
 	function procPageAdminInsert()
 	{
 		// Create model/controller object of the module module
-		$oModuleController = &getController('module');
-		$oModuleModel = &getModel('module');
+		$oModuleController = getController('module');
+		$oModuleModel = getModel('module');
 		// Set board module
 		$args = Context::getRequestVars();
 		$args->module = 'page';
@@ -131,7 +131,7 @@ class pageAdminController extends page
 		$mcontent = Context::get('mcontent');
 		$type = Context::get('type');
 		// Guhaeom won information page
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		if($type == "mobile")
 		{
@@ -148,8 +148,8 @@ class pageAdminController extends page
 		$this->putDocumentsInPageToArray($module_info->content, $document_srls);
 		$this->putDocumentsInPageToArray($module_info->mcontent, $document_srls);
 
-		$oDocumentModel = &getModel('document');
-		$oDocumentController = &getController('document');
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
 		$obj->list_count = 99999999;
@@ -163,12 +163,12 @@ class pageAdminController extends page
 			}
 		}
 		// Creates an object of the controller module module
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		// Save
 		$output = $oModuleController->updateModule($module_info);
 		if(!$output->toBool()) return $output;
 		// On the page, change the validity status of the attached file
-		$oFileController = &getController('file');
+		$oFileController = getController('file');
 		$oFileController->setFilesValid($module_info->module_srl);
 		// Create cache file
 		//$this->procPageAdminRemoveWidgetCache();
@@ -186,7 +186,7 @@ class pageAdminController extends page
 	{
 		$module_srl = Context::get('module_srl');
 		// Get an original
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->deleteModule($module_srl);
 		if(!$output->toBool()) return $output;
 
@@ -206,7 +206,7 @@ class pageAdminController extends page
 		// Get the basic information
 		$args = Context::getRequestVars();
 		// Insert by creating the module Controller object
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('page',$args);
 		return $output;
 	}
@@ -220,7 +220,7 @@ class pageAdminController extends page
 		$upload_target_srl = Context::get('upload_target_srl');
 		$module_srl = Context::get('module_srl');
 		// Create the controller object file class
-		$oFileController = &getController('file');
+		$oFileController = getController('file');
 		$output = $oFileController->insertFile($module_srl, $upload_target_srl);
 		// Attachment to the output of the list, java script
 		$oFileController->printUploadedFileList($upload_target_srl);
@@ -237,7 +237,7 @@ class pageAdminController extends page
 		$module_srl = Context::get('module_srl');
 		$file_srl = Context::get('file_srl');
 		// Create the controller object file class
-		$oFileController = &getController('file');
+		$oFileController = getController('file');
 		if($file_srl) $output = $oFileController->deleteFile($file_srl, $this->grant->manager);
 		// Attachment to the output of the list, java script
 		$oFileController->printUploadedFileList($upload_target_srl);
@@ -250,13 +250,13 @@ class pageAdminController extends page
 	{
 		$module_srl = Context::get('module_srl');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'content');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 
 		$content = $module_info->content;
 		// widget controller re-run of the cache files
-		$oWidgetController = &getController('widget');
+		$oWidgetController = getController('widget');
 		$oWidgetController->recompileWidget($content);
 
 		if($module_info->page_type == 'WIDGET')
@@ -281,7 +281,7 @@ class pageAdminController extends page
 	{
 		$logged_info = Context::get('logged_info');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$grant = $oModuleModel->getGrant($this->module_info, $logged_info);
 
 		if (!$grant->manager)
@@ -299,10 +299,10 @@ class pageAdminController extends page
 		if($obj->title == '') $obj->title = 'Untitled';
 
 		// document module의 model 객체 생성
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		// document module의 controller 객체 생성
-		$oDocumentController = &getController('document');
+		$oDocumentController = getController('document');
 
 		// 이미 존재하는 글인지 체크
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl, true);
@@ -331,7 +331,7 @@ class pageAdminController extends page
 			$msg_code = 'success_registed';
 			$document_srl = $output->get('document_srl');
 
-			$oModuleController = &getController('module');
+			$oModuleController = getController('module');
 			$this->module_info->{$target} = $document_srl;
 			$oModuleController->updateModule($this->module_info);
 		}

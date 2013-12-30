@@ -90,7 +90,7 @@ class tagController extends tag
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return new Object();
 
-		$oTagController = &getAdminController('tag');
+		$oTagController = getAdminController('tag');
 		return $oTagController->deleteModuleTags($module_srl);
 	}
 }

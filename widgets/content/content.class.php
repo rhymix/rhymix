@@ -47,7 +47,7 @@ class content extends WidgetHandler
 		// markup options
 		if(!$args->markup_type) $args->markup_type = 'table';
 		// Set variables used internally
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_srls = $args->modules_info = $args->module_srls_info = $args->mid_lists = array();
 		$site_module_info = Context::get('site_module_info');
 		// List URLs if a type is RSS
@@ -189,7 +189,7 @@ class content extends WidgetHandler
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count * $args->page_count;
 		// Get model object of the comment module and execute getCommentList() method
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getNewestCommentList($obj);
 
 		$content_items = array();
@@ -222,7 +222,7 @@ class content extends WidgetHandler
 	function _getDocumentItems($args)
 	{
 		// Get model object from the document module
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		// Get categories
 		$obj = new stdClass();
 		$obj->module_srl = $args->module_srl;
@@ -298,7 +298,7 @@ class content extends WidgetHandler
 
 	function _getImageItems($args)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		$obj->module_srls = $obj->module_srl = $args->module_srl;
 		$obj->direct_download = 'Y';
@@ -654,7 +654,7 @@ class content extends WidgetHandler
 
 	function _getTrackbackItems($args)
 	{
-		$oTrackbackModel = &getModel('trackback');
+		$oTrackbackModel = getModel('trackback');
 		if(!$oTrackbackModel)
 		{
 			return;

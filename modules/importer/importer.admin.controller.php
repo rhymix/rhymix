@@ -98,7 +98,7 @@ class importerAdminController extends importer
 	 */
 	function procImporterAdminSync()
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_config = $oMemberModel->getMemberConfig();
 
 		$postFix = ($member_config->identifier == 'email_address') ? 'ByEmail' : '';
@@ -298,7 +298,7 @@ class importerAdminController extends importer
 			case 'ttxml' :
 				if(!$target_module) return new Object(-1,'msg_invalid_request');
 
-				$oModuleModel = &getModel('module');
+				$oModuleModel = getModel('module');
 				$columnList = array('module_srl', 'module');
 				$target_module_info = $oModuleModel->getModuleInfoByModuleSrl($target_module, $columnList);
 
@@ -348,13 +348,13 @@ class importerAdminController extends importer
 		// Create the xmlParser object
 		$oXmlParser = new XmlParser();
 		// Create objects for importing member information
-		$this->oMemberController = &getController('member');
-		$this->oMemberModel = &getModel('member');
+		$this->oMemberController = getController('member');
+		$this->oMemberModel = getModel('member');
 		// Get a default member group
 		$default_group = $this->oMemberModel->getDefaultGroup();
 		$default_group_srl = $default_group->group_srl;
 		// Get information of the Webmaster
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
 		// Open an index file
 		$f = fopen($index_file,"r");
@@ -601,8 +601,8 @@ class importerAdminController extends importer
 		// Pre-create the objects needed
 		$this->oXmlParser = new XmlParser();
 		// Get category information of the target module
-		$oDocumentController = &getController('document');
-		$oDocumentModel = &getModel('document');
+		$oDocumentController = getController('document');
+		$oDocumentModel = getModel('document');
 		$category_list = $category_titles = array();
 		$category_list = $oDocumentModel->getCategoryList($module_srl);
 		if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
@@ -636,7 +636,7 @@ class importerAdminController extends importer
 					$output = $oDocumentController->insertCategory($obj);
 					if($output->toBool()) $match_sequence[$sequence] = $output->get('category_srl');
 				}
-				$oDocumentController = &getController('document');
+				$oDocumentController = getController('document');
 				$oDocumentController->makeCategoryFile($module_srl);
 			}
 			FileHandler::removeFile($category_file);

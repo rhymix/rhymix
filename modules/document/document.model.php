@@ -475,18 +475,18 @@ class documentModel extends document
 		// call trigger
 		ModuleHandler::triggerCall('document.getDocumentMenu', 'before', $menu_list);
 
-		$oDocumentController = &getController('document');
+		$oDocumentController = getController('document');
 		// Members must be a possible feature
 		if($logged_info->member_srl)
 		{
-			$oDocumentModel = &getModel('document');
+			$oDocumentModel = getModel('document');
 			$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
 			$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 			$module_srl = $oDocument->get('module_srl');
 			$member_srl = $oDocument->get('member_srl');
 			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
 
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
 			if($document_config->use_vote_up!='N' && $member_srl!=$logged_info->member_srl)
 			{
@@ -518,7 +518,7 @@ class documentModel extends document
 		// If you are managing to find posts by ip
 		if($logged_info->is_admin == 'Y')
 		{
-			$oDocumentModel = &getModel('document');
+			$oDocumentModel = getModel('document');
 			$oDocument = $oDocumentModel->getDocument($document_srl);	//before setting document recycle
 
 			if($oDocument->isExists())
@@ -708,7 +708,7 @@ class documentModel extends document
 		// If the target file to the cache file regeneration category
 		if(!file_exists($filename))
 		{
-			$oDocumentController = &getController('document');
+			$oDocumentController = getController('document');
 			if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
 		}
 
@@ -807,7 +807,7 @@ class documentModel extends document
 		$xml_file = sprintf('files/cache/document_category/%s.xml.php',$module_srl);
 		if(!file_exists($xml_file))
 		{
-			$oDocumentController = &getController('document');
+			$oDocumentController = getController('document');
 			$oDocumentController->makeCategoryFile($module_srl);
 		}
 		return $xml_file;
@@ -823,7 +823,7 @@ class documentModel extends document
 		$php_file = sprintf('files/cache/document_category/%s.php',$module_srl);
 		if(!file_exists($php_file))
 		{
-			$oDocumentController = &getController('document');
+			$oDocumentController = getController('document');
 			$oDocumentController->makeCategoryFile($module_srl);
 		}
 		return $php_file;
@@ -838,7 +838,7 @@ class documentModel extends document
 	{
 		if($obj->mid)
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
 			unset($obj->mid);
 		}
@@ -864,7 +864,7 @@ class documentModel extends document
 	{
 		if($obj->mid)
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
 			unset($obj->mid);
 		}
@@ -912,7 +912,7 @@ class documentModel extends document
 	{
 		if(!$GLOBALS['__document_config__'])
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('document');
 
 			if(!$config) $config = new stdClass();
@@ -955,7 +955,7 @@ class documentModel extends document
 		Context::loadJavascriptPlugin('ui.tree');
 
 		// Get a list of member groups
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups($module_info->site_srl);
 		Context::set('group_list', $group_list);
 
@@ -974,8 +974,8 @@ class documentModel extends document
 	 */
 	function getDocumentCategoryTplInfo()
 	{
-		$oModuleModel = &getModel('module');
-		$oMemberModel = &getModel('member');
+		$oModuleModel = getModel('module');
+		$oMemberModel = getModel('member');
 		// Get information on the menu for the parameter settings
 		$module_srl = Context::get('module_srl');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
@@ -1174,13 +1174,13 @@ class documentModel extends document
 		$point = Context::get('point');
 		if($point != -1) $point = 1;
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 		$module_srl = $oDocument->get('module_srl');
 		if(!$module_srl) return new Object(-1, 'msg_invalid_request');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
 		if($point == -1)
 		{
@@ -1198,7 +1198,7 @@ class documentModel extends document
 		$output = executeQueryArray('document.getVotedMemberList',$args);
 		if(!$output->toBool()) return $output;
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		if($output->data)
 		{
 			foreach($output->data as $k => $d)
@@ -1300,7 +1300,7 @@ class documentModel extends document
 		// If that came across mid module_srl instead of a direct module_srl guhaejum
 		if($searchOpt->mid)
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$args->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
 			unset($searchOpt->mid);
 		}

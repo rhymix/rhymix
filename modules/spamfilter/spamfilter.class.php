@@ -13,7 +13,7 @@ class spamfilter extends ModuleObject
 	function moduleInstall()
 	{
 		// Register action forward (to use in administrator mode)
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		// 2007.12.7 The triggers which try to perform spam filtering when new posts/comments/trackbacks are registered
 		$oModuleController->insertTrigger('document.insertDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before');
 		$oModuleController->insertTrigger('comment.insertComment', 'spamfilter', 'controller', 'triggerInsertComment', 'before');
@@ -33,7 +33,7 @@ class spamfilter extends ModuleObject
 	function checkUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// 2007.12.7 The triggers which try to perform spam filtering when new posts/comments/trackbacks are registered
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before')) return true;
 		if(!$oModuleModel->getTrigger('comment.insertComment', 'spamfilter', 'controller', 'triggerInsertComment', 'before')) return true;
@@ -61,8 +61,8 @@ class spamfilter extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 		// 2007.12.7 The triggers which try to perform spam filtering when new posts/comments/trackbacks are registered
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before'))
 			$oModuleController->insertTrigger('document.insertDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before');

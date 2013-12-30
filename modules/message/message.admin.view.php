@@ -20,7 +20,7 @@ class messageAdminView extends message
 	function dispMessageAdminConfig()
 	{
 		// Get a list of skins(themes)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$skin_list = $oModuleModel->getskins($this->module_path);
 		Context::set('skin_list', $skin_list);

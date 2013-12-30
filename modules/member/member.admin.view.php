@@ -35,7 +35,7 @@ class memberAdminView extends member
 	 */
 	function init() 
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$this->memberConfig = $oMemberModel->getMemberConfig();
 		Context::set('config', $this->memberConfig);
 		$oSecurity = new Security();
@@ -73,8 +73,8 @@ class memberAdminView extends member
 	 */
 	function dispMemberAdminList()
 	{
-		$oMemberAdminModel = &getAdminModel('member');
-		$oMemberModel = &getModel('member');
+		$oMemberAdminModel = getAdminModel('member');
+		$oMemberModel = getModel('member');
 		$output = $oMemberAdminModel->getMemberList();
 
 		$filter = Context::get('filter_type');
@@ -204,7 +204,7 @@ class memberAdminView extends member
 	{
 		$oModuleModel = getModel('module');
 		// Get a layout list
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getLayoutList();
 
 		Context::set('layout_list', $layout_list);
@@ -231,11 +231,11 @@ class memberAdminView extends member
 	 */
 	function dispMemberAdminConfigOLD() 
 	{
-		$oModuleModel = &getModel('module');
-		$oMemberModel = &getModel('member');
+		$oModuleModel = getModel('module');
+		$oMemberModel = getModel('member');
 
 		// Get a layout list
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getLayoutList();
 
 		Context::set('layout_list', $layout_list);
@@ -253,7 +253,7 @@ class memberAdminView extends member
 		Context::set('mskin_list', $mskin_list);
 
 		// retrieve skins of editor
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
 
 		// get an editor
@@ -303,8 +303,8 @@ class memberAdminView extends member
 	 */
 	function dispMemberAdminInfo()
 	{
-		$oMemberModel = &getModel('member');
-		$oModuleModel = &getModel('module');
+		$oMemberModel = getModel('member');
+		$oModuleModel = getModel('module');
 
 		$member_config = $oModuleModel->getModuleConfig('member');
 		Context::set('member_config', $member_config);
@@ -336,7 +336,7 @@ class memberAdminView extends member
 	function dispMemberAdminInsert()
 	{
 		// retrieve extend form
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 
 		$memberInfo = Context::get('member_info');
 		if(isset($memberInfo))
@@ -348,7 +348,7 @@ class memberAdminView extends member
 		// get an editor for the signature
 		if($memberInfo->member_srl)
 		{
-			$oEditorModel = &getModel('editor');
+			$oEditorModel = getModel('editor');
 			$option = new stdClass();
 			$option->primary_key_name = 'member_srl';
 			$option->content_key_name = 'signature';
@@ -385,7 +385,7 @@ class memberAdminView extends member
 	 */
 	function _getMemberInputTag($memberInfo, $isAdmin = false)
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
@@ -595,7 +595,7 @@ class memberAdminView extends member
 					}
 					else if($extendForm->column_type == 'kr_zip')
 					{
-						$krzipModel = &getModel('krzip');
+						$krzipModel = getModel('krzip');
 						if($krzipModel && method_exists($krzipModel , 'getKrzipCodeSearchHtml' ))
 						{
 							$template = $krzipModel->getKrzipCodeSearchHtml($extendForm->column_name, $extendForm->value);
@@ -630,7 +630,7 @@ class memberAdminView extends member
 	 */
 	function dispMemberAdminGroupList() 
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleFileBoxList();
 		Context::set('fileBoxList', $output->data);
 
@@ -647,7 +647,7 @@ class memberAdminView extends member
 		$member_join_form_srl = Context::get('member_join_form_srl');
 		if($member_join_form_srl)
 		{
-			$oMemberModel = &getModel('member');
+			$oMemberModel = getModel('member');
 			$join_form = $oMemberModel->getJoinForm($member_join_form_srl);
 
 			if(!$join_form) Context::set('member_join_form_srl','',true);

@@ -20,7 +20,7 @@ class messageView extends message
 	function dispMessage()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$this->module_config = $config = $oModuleModel->getModuleConfig('message', $this->module_info->site_srl);
 
 		if(!$config)

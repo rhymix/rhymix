@@ -23,7 +23,7 @@ class layoutView extends layout
 	function dispLayoutInfo()
 	{
 		// Get the layout information
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayoutInfo(Context::get('selected_layout'));
 		if(!$layout_info) exit();
 		Context::set('layout_info', $layout_info);
@@ -61,7 +61,7 @@ class layoutView extends layout
 			// if module is 'ARTiCLE' and from site design setting, make content directly
 			if($module == 'ARTICLE' && !$mid)
 			{
-				$oDocumentModel = &getModel('document');
+				$oDocumentModel = getModel('document');
 				$oDocument = $oDocumentModel->getDocument(0, true);
 
 				$t = Context::getLang('article_preview_title');
@@ -328,7 +328,7 @@ class layoutView extends layout
 		$code_css = Context::get('code_css');
 		if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
 		// Get the layout information
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
 		if(!$layout_info) return new Object(-1, 'msg_invalid_request');
 		// Separately handle the layout if its type is faceoff

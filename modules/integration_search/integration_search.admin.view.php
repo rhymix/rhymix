@@ -22,7 +22,7 @@ class integration_searchAdminView extends integration_search
 	function init()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$this->config = $oModuleModel->getModuleConfig('integration_search');
 		Context::set('config',$this->config);
 
@@ -37,7 +37,7 @@ class integration_searchAdminView extends integration_search
 	function dispIntegration_searchAdminContent()
 	{
 		// Get a list of skins(themes)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_list = $oModuleModel->getSkins($this->module_path);
 		Context::set('skin_list',$skin_list);
 		// Get a list of module categories
@@ -75,7 +75,7 @@ class integration_searchAdminView extends integration_search
 	 */
 	function dispIntegration_searchAdminSkinInfo()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $this->config->skin);
 		$skin_vars = unserialize($this->config->skin_vars);
 		// value for skin_info extra_vars

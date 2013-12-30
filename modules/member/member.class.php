@@ -22,7 +22,7 @@ class member extends ModuleObject {
 	{
 		if(!Context::isInstalled()) return;
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
 
 		// Set to use SSL upon actions related member join/information/password and so on. 2013.02.15
@@ -41,12 +41,12 @@ class member extends ModuleObject {
 	function moduleInstall()
 	{
 		// Register action forward (to use in administrator mode)
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		$oDB = &DB::getInstance();
 		$oDB->addIndex("member_group","idx_site_title", array("site_srl","title"),true);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$args = $oModuleModel->getModuleConfig('member');
 
 		$isNotInstall = empty($args);
@@ -68,10 +68,10 @@ class member extends ModuleObject {
 		if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
 
 		global $lang;
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// Create a member controller object
-		$oMemberController = &getController('member');
-		$oMemberAdminController = &getAdminController('member');
+		$oMemberController = getController('member');
+		$oMemberAdminController = getAdminController('member');
 
 		if(!$args->signupForm || !is_array($args->signupForm))
 		{
@@ -129,7 +129,7 @@ class member extends ModuleObject {
 			}
 		}
 		// Register denied ID(default + module name)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_list = $oModuleModel->getModuleList();
 		foreach($module_list as $key => $val)
 		{
@@ -162,7 +162,7 @@ class member extends ModuleObject {
 	function checkUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// check member directory (11/08/2007 added)
 		if(!is_dir("./files/member_extra_info")) return true;
 		// check member directory (22/10/2007 added)
@@ -190,7 +190,7 @@ class member extends ModuleObject {
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
 		if(!$oDB->isIndexExists("member","idx_list_order")) return true;
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// check signup form ordering info
 		if(!$config->signupForm) return true;
@@ -230,7 +230,7 @@ class member extends ModuleObject {
 	function moduleUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		// Check member directory
 		FileHandler::makeDir('./files/member_extra_info/image_name');
 		FileHandler::makeDir('./files/member_extra_info/image_mark');
@@ -299,9 +299,9 @@ class member extends ModuleObject {
 			$oDB->addIndex("member","idx_list_order", array("list_order"));
 		}
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		// check agreement value exist
 		if($config->agreement)
@@ -313,7 +313,7 @@ class member extends ModuleObject {
 			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
 
-		$oMemberAdminController = &getAdminController('member');
+		$oMemberAdminController = getAdminController('member');
 		// check signup form ordering info
 		if(!$config->signupForm || !is_array($config->signupForm))
 		{
@@ -334,7 +334,7 @@ class member extends ModuleObject {
 				if(is_dir($template_path))
 				{
 					$config->skin = implode('|@|', $config_parse);
-					$oModuleController = &getController('module');
+					$oModuleController = getController('module');
 					$oModuleController->updateModuleConfig('member', $config);
 				}
 			}
@@ -382,7 +382,7 @@ class member extends ModuleObject {
 		if($error == 0) return new Object($error, $message);
 
 		// Create a member model object
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 
 		// Check if there is recoding table.
@@ -427,7 +427,7 @@ class member extends ModuleObject {
 		if($error == 0 || !$args->member_srl) return new Object($error, $message);
 
 		// Create a member model object
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 
 		// Check if there is recoding table.

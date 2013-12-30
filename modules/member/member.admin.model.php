@@ -192,11 +192,11 @@ class memberAdminModel extends member
 		if(!$skin) $tpl = "";
 		else
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
 			Context::set('skin_info', $skin_info);
 
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('member');
 			if(!$config->colorset) $config->colorset = "white";
 			Context::set('config', $config);
@@ -269,7 +269,7 @@ class memberAdminModel extends member
 			Context::set('formInfo', $output->data);
 		}
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 		foreach($config->signupForm as $item) 
 		{

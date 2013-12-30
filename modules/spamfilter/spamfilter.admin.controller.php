@@ -23,7 +23,7 @@ class spamfilterAdminController extends spamfilter
 		if($argsConfig->check_trackback!='Y') $argsConfig->check_trackback = 'N';
 		if($argsConfig->limits!='Y') $argsConfig->limits = 'N';
 		// Create and insert the module Controller object
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter',$argsConfig);
 		if(!$moduleConfigOutput->toBool()) return $moduleConfigOutput;
 
@@ -35,7 +35,7 @@ class spamfilterAdminController extends spamfilter
 	{
 		//스팸IP  추가
 		$ipaddress_list = Context::get('ipaddress_list');
-		$oSpamfilterController = &getController('spamfilter');
+		$oSpamfilterController = getController('spamfilter');
 		if($ipaddress_list)
 		{
 			$output = $oSpamfilterController->insertIP($ipaddress_list);

@@ -15,7 +15,7 @@ class rss extends ModuleObject
 	function moduleInstall()
 	{
 		// Register in action forward
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		$oModuleController->insertActionForward('rss', 'view', 'rss');
 		$oModuleController->insertActionForward('rss', 'view', 'atom');
@@ -33,7 +33,7 @@ class rss extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// Add the Action forward for atom
 		if(!$oModuleModel->getActionForward('atom')) return true;
 		// 2007. 10. Add a trigger for participating additional configurations of the service module
@@ -56,8 +56,8 @@ class rss extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 		// Add atom act
 		if(!$oModuleModel->getActionForward('atom'))
 			$oModuleController->insertActionForward('rss', 'view', 'atom');

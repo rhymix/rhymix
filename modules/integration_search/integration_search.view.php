@@ -34,8 +34,8 @@ class integration_searchView extends integration_search
 	 */
 	function IS()
 	{
-		$oFile = &getClass('file');
-		$oModuleModel = &getModel('module');
+		$oFile = getClass('file');
+		$oModuleModel = getModel('module');
 		// Check permissions
 		if(!$this->grant->access) return new Object(-1,'msg_not_permitted');
 
@@ -82,7 +82,7 @@ class integration_searchView extends integration_search
 		// Create integration search model object
 		if($is_keyword)
 		{
-			$oIS = &getModel('integration_search');
+			$oIS = getModel('integration_search');
 			switch($where)
 			{
 				case 'document' :

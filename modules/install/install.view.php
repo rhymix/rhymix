@@ -21,7 +21,7 @@ class installView extends install
 		// Error occurs if already installed
 		if(Context::isInstalled()) return $this->stop('msg_already_installed');
 		// Install a controller
-		$oInstallController = &getController('install');
+		$oInstallController = getController('install');
 		$this->install_enable = $oInstallController->checkInstallEnv();
 		// If the environment is installable, execute installController::makeDefaultDirectory()
 		if($this->install_enable) $oInstallController->makeDefaultDirectory();
@@ -45,7 +45,7 @@ class installView extends install
 				}
 				unset($GLOBALS['__DB__']);
 				Context::set('install_config', true, true);
-				$oInstallController = &getController('install');
+				$oInstallController = getController('install');
 				$output = $oInstallController->procInstall();
 				if (!$output->toBool()) return $output;
 				header("location: ./");
@@ -63,7 +63,7 @@ class installView extends install
 	 */
 	function dispInstallCheckEnv()
 	{
-		$oInstallController = &getController('install');
+		$oInstallController = getController('install');
 		$useRewrite = $oInstallController->checkRewriteUsable() ? 'Y' : 'N';
 		$_SESSION['use_rewrite'] = $useRewrite;
 		Context::set('use_rewrite', $useRewrite); 

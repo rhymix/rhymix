@@ -191,7 +191,7 @@ if($called_position == 'before_module_proc')
 					$category = "";
 					if($oDocument->get('category_srl'))
 					{
-						$oDocumentModel = &getModel('document');
+						$oDocumentModel = getModel('document');
 						$category_list = $oDocumentModel->getCategoryList($oDocument->get('module_srl'));
 						if($category_list[$oDocument->get('category_srl')])
 						{
@@ -281,7 +281,7 @@ if($called_position == 'before_module_proc')
 				$file_count = count($file_list);
 				if($file_count)
 				{
-					$oFileController = &getController('file');
+					$oFileController = getController('file');
 					for($i = 0; $i < $file_count; $i++)
 					{
 						$file_info['tmp_name'] = sprintf('%s%s', $tmp_uploaded_path, $file_list[$i]);
@@ -395,7 +395,7 @@ if($called_position == 'before_module_proc')
 				$file_count = count($file_list);
 				if($file_count)
 				{
-					$oFileController = &getController('file');
+					$oFileController = getController('file');
 					for($i = 0; $i < $file_count; $i++)
 					{
 						$file_info['tmp_name'] = sprintf('%s%s', $tmp_uploaded_path, $file_list[$i]);
@@ -414,7 +414,7 @@ if($called_position == 'before_module_proc')
 				}
 			}
 
-			$oDocumentController = &getController('document');
+			$oDocumentController = getController('document');
 			$output = $oDocumentController->updateDocument($oDocument, $obj, TRUE);
 
 			if(!$output->toBool())

@@ -36,7 +36,7 @@ class editorController extends editor
 	 */
 	function procEditorRemoveSavedDoc()
 	{
-		$oEditorController = &getController('editor');
+		$oEditorController = getController('editor');
 		$oEditorController->deleteSavedDoc(true);
 	}
 
@@ -49,7 +49,7 @@ class editorController extends editor
 		$method = Context::get('method');
 		if(!$component) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$oComponent = &$oEditorModel->getComponentObject($component);
 		if(!$oComponent->toBool()) return $oComponent;
 
@@ -131,7 +131,7 @@ class editorController extends editor
 		$editor_config->enable_autosave = Context::get('enable_autosave');
 		if($editor_config->enable_autosave != 'Y') $editor_config->enable_autosave = 'N';
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)
 		{
 			$srl = trim($module_srl[$i]);
@@ -157,7 +157,7 @@ class editorController extends editor
 		$module_srl = $module_info->module_srl;
 		if($module_srl)
 		{
-			$oEditorModel = &getModel('editor');
+			$oEditorModel = getModel('editor');
 			$editor_config = $oEditorModel->getEditorConfig($module_srl);
 			$content_style = $editor_config->content_style;
 			if($content_style)
@@ -228,7 +228,7 @@ class editorController extends editor
 		if(!$xml_obj->attrs->editor_component) return $match[0];
 
 		// Get converted codes by using component::transHTML()
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$oComponent = &$oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
 		if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $match[0];
 
@@ -272,8 +272,8 @@ class editorController extends editor
 	{
 		$editor_sequence = Context::get('editor_sequence');
 		$primary_key = Context::get('primary_key');
-		$oEditorModel = &getModel('editor');
-		$oFileController = &getController('file');
+		$oEditorModel = getModel('editor');
+		$oFileController = getController('file');
 
 		$saved_doc = $oEditorModel->getSavedDoc(null);
 
@@ -323,7 +323,7 @@ class editorController extends editor
 		$saved_doc = $output->data;
 		if(!$saved_doc) return;
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
 		if(!$oSaved->isExists())
 		{
@@ -352,7 +352,7 @@ class editorController extends editor
 	 */
 	function makeCache($filter_enabled = true, $site_srl)
 	{
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$args = new stdClass;
 
 		if($filter_enabled) $args->enabled = "Y";
@@ -464,7 +464,7 @@ class editorController extends editor
 			// Pass if configured
 			if($component_list->{$component_name}) continue;
 			// Insert data into the DB
-			$oEditorController = &getAdminController('editor');
+			$oEditorController = getAdminController('editor');
 			$oEditorController->insertComponent($component_name, false, $site_srl);
 			// Add to component_list
 			unset($xml_info);
@@ -486,17 +486,17 @@ class editorController extends editor
 	 */
 	function removeCache($site_srl = 0)
 	{
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		FileHandler::removeFile($oEditorModel->getCacheFile(true, $site_srl));
 		FileHandler::removeFile($oEditorModel->getCacheFile(false, $site_srl));
 	}
 
 	function triggerCopyModule(&$obj)
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$editorConfig = $oModuleModel->getModulePartConfig('editor', $obj->originModuleSrl);
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))
 		{
 			foreach($obj->moduleSrlList AS $key=>$moduleSrl)

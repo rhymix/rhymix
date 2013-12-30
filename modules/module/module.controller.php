@@ -157,7 +157,7 @@ class moduleController extends module
 		$args->module = $module;
 		$args->site_srl = $site_srl;
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$origin_config = $oModuleModel->getModuleConfig($module, $site_srl);
 
 		if(!$origin_config) $origin_config = new stdClass;
@@ -229,7 +229,7 @@ class moduleController extends module
 	{
 		if(isSiteID($domain))
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			if($oModuleModel->isIDExists($domain, 0)) return new Object(-1,'msg_already_registed_vid');
 		}
 		else
@@ -244,7 +244,7 @@ class moduleController extends module
 		$args->default_language = Context::getLangType();
 
 		$columnList = array('modules.site_srl');
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getSiteInfoByDomain($args->domain, $columnList);
 		if($output) return new Object(-1,'msg_already_registed_vid');
 
@@ -260,7 +260,7 @@ class moduleController extends module
 	 */
 	function updateSite($args)
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('sites.site_srl', 'sites.domain');
 		$site_info = $oModuleModel->getSiteInfo($args->site_srl, $columnList);
 
@@ -359,7 +359,7 @@ class moduleController extends module
 		if(!$output->toBool()) return $output;
 		// Check whether the module name already exists
 		if(!$args->site_srl) $args->site_srl = 0;
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		if($oModuleModel->isIDExists($args->mid, $args->site_srl)) return new Object(-1, 'msg_module_name_exists');
 
 		// begin transaction
@@ -417,7 +417,7 @@ class moduleController extends module
 			// if menu is not created, create menu also. and does not supported that in virtual site.
 			if(!$menuOutput->data && !$args->site_srl)
 			{
-				$oMenuAdminModel = &getAdminModel('menu');
+				$oMenuAdminModel = getAdminModel('menu');
 				$tempMenu = $oMenuAdminModel->getMenuByTitle(array('Temporary menu'));
 
 				if(!$tempMenu)
@@ -454,7 +454,7 @@ class moduleController extends module
 					return $menuItemOutput;
 				}
 
-				$oMenuAdminController = &getAdminController('menu');
+				$oMenuAdminController = getAdminController('menu');
 				$oMenuAdminController->makeXmlFile($tempMenu->menu_srl);
 			}
 		}
@@ -488,7 +488,7 @@ class moduleController extends module
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'site_srl', 'browser_title', 'mid');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
 
@@ -550,7 +550,7 @@ class moduleController extends module
 		$menuOutput = executeQueryArray('menu.getMenuItemByUrl', $menuArgs);
 		if($menuOutput->data && count($menuOutput->data))
 		{
-			$oMenuAdminController = &getAdminController('menu');
+			$oMenuAdminController = getAdminController('menu');
 			foreach($menuOutput->data as $itemInfo)
 			{
 				$itemInfo->url = $args->mid;
@@ -614,7 +614,7 @@ class moduleController extends module
 
 		$site_module_info = Context::get('site_module_info');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 
 		$args = new stdClass();
@@ -625,7 +625,7 @@ class moduleController extends module
 
 		unset($output);
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuOutput = $oMenuAdminModel->getMenuList($args);
 
 		// get menu_srl by site_srl
@@ -648,7 +648,7 @@ class moduleController extends module
 			$args->menu_item_srl = $output->data->menu_item_srl;
 			$args->is_force = 'N';
 
-			$oMenuAdminController = &getAdminController('menu');
+			$oMenuAdminController = getAdminController('menu');
 			$output = $oMenuAdminController->deleteItem($args);
 
 			if($output->isSuccess)
@@ -676,7 +676,7 @@ class moduleController extends module
 		if(!$module_srl) return new Object(-1,'msg_invalid_request');
 
 		// check start module
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('sites.index_module_srl');
 		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
 		if($module_srl == $start_module->index_module_srl) return new Object(-1, 'msg_cannot_delete_startmodule');
@@ -796,7 +796,7 @@ class moduleController extends module
 		}
 		if(!count($admins)) return new Object();
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_config = $oMemberModel->getMemberConfig();
 		if($member_config->identifier == 'email_address')
 		{
@@ -826,7 +826,7 @@ class moduleController extends module
 	 */
 	function insertAdminId($module_srl, $admin_id)
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_config = $oMemberModel->getMemberConfig();
 
 		if($member_config->identifier == 'email_address')
@@ -851,7 +851,7 @@ class moduleController extends module
 
 		if($admin_id)
 		{
-			$oMemberModel = &getModel('member');
+			$oMemberModel = getModel('member');
 			$member_info = $oMemberModel->getMemberInfoByUserID($admin_id);
 			if($member_info->member_srl) $args->member_srl = $member_info->member_srl;
 		}
@@ -1070,14 +1070,14 @@ class moduleController extends module
 			$site_module_info = Context::get('site_module_info');
 			if(!$site_module_info)
 			{
-				$oModuleModel = &getModel('module');
+				$oModuleModel = getModel('module');
 				$site_module_info = $oModuleModel->getDefaultMid();
 				Context::set('site_module_info', $site_module_info);
 			}
 			$cache_file = sprintf('%sfiles/cache/lang_defined/%d.%s.php', _XE_PATH_, $site_module_info->site_srl, Context::getLangType());
 			if(!file_exists($cache_file))
 			{
-				$oModuleAdminController = &getAdminController('module');
+				$oModuleAdminController = getAdminController('module');
 				$oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
 			}
 
@@ -1087,7 +1087,7 @@ class moduleController extends module
 				$cacheFileMtime = filemtime($cache_file);
 				if($cacheFileMtime < $moduleAdminControllerMtime)
 				{
-					$oModuleAdminController = &getAdminController('module');
+					$oModuleAdminController = getAdminController('module');
 					$oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
 				}
 
@@ -1179,7 +1179,7 @@ class moduleController extends module
 		// have file
 		if($vars->addfile['tmp_name'] && is_uploaded_file($vars->addfile['tmp_name']))
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$output = $oModuleModel->getModuleFileBox($vars->module_filebox_srl);
 			FileHandler::removeFile($output->data->filename);
 
@@ -1220,7 +1220,7 @@ class moduleController extends module
 		$vars->module_filebox_srl = getNextSequence();
 
 		// get file path
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$path = $oModuleModel->getModuleFileBoxPath($vars->module_filebox_srl);
 		FileHandler::makeDir($path);
 		$save_filename = sprintf('%s%s.%s',$path, $vars->module_filebox_srl, $vars->ext);
@@ -1269,7 +1269,7 @@ class moduleController extends module
 	function deleteModuleFileBox($vars)
 	{
 		// delete real file
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleFileBox($vars->module_filebox_srl);
 		FileHandler::removeFile($output->data->filename);
 

@@ -187,7 +187,7 @@ class installController extends install
 		}
 
 		// save selected lang info
-		$oInstallAdminController = &getAdminController('install');
+		$oInstallAdminController = getAdminController('install');
 		$oInstallAdminController->saveLangSelected(array(Context::getLangType()));
 
 		// Display a message that installation is completed
@@ -435,7 +435,7 @@ class installController extends install
 	 */
 	function installDownloadedModule()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// Create a table ny finding schemas/*.xml file in each module
 		$module_list = FileHandler::readDir('./modules/', NULL, false, true);
 		foreach($module_list as $module_path)
@@ -450,7 +450,7 @@ class installController extends install
 		}
 		// Install "module" module in advance
 		$this->installModule('module','./modules/module');
-		$oModule = &getClass('module');
+		$oModule = getClass('module');
 		if($oModule->checkUpdate()) $oModule->moduleUpdate();
 		// Determine the order of module installation depending on category
 		$install_step = array('system','content','member');
@@ -464,7 +464,7 @@ class installController extends install
 					if($module == 'module') continue;
 					$this->installModule($module, sprintf('./modules/%s', $module));
 
-					$oModule = &getClass($module);
+					$oModule = getClass($module);
 					if(is_object($oModule) && method_exists($oModule, 'checkUpdate'))
 					{
 						if($oModule->checkUpdate()) $oModule->moduleUpdate();
@@ -485,7 +485,7 @@ class installController extends install
 						if($module == 'module') continue;
 						$this->installModule($module, sprintf('./modules/%s', $module));
 
-						$oModule = &getClass($module);
+						$oModule = getClass($module);
 						if($oModule && method_exists($oModule, 'checkUpdate') && method_exists($oModule, 'moduleUpdate'))
 						{
 							if($oModule->checkUpdate()) $oModule->moduleUpdate();
@@ -518,7 +518,7 @@ class installController extends install
 		}
 		// Create a table and module instance and then execute install() method
 		unset($oModule);
-		$oModule = &getClass($module);
+		$oModule = getClass($module);
 		if(method_exists($oModule, 'moduleInstall')) $oModule->moduleInstall();
 		return new Object();
 	}

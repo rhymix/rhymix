@@ -31,7 +31,7 @@ class document extends ModuleObject
 	function moduleInstall()
 	{
 		// Register action forward (to use in administrator mode)
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		$oDB = &DB::getInstance();
 		$oDB->addIndex("documents","idx_module_list_order", array("module_srl","list_order"));
@@ -58,7 +58,7 @@ class document extends ModuleObject
 	 */
 	function checkUpdate() {
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		// 2007. 7. 25: Add a column(notify_message) for notification
 		if(!$oDB->isColumnExists("documents","notify_message")) return true;
@@ -134,8 +134,8 @@ class document extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 
 		// 2007. 7. 25: Add a column(notify_message) for notification
 		if(!$oDB->isColumnExists("documents","notify_message"))

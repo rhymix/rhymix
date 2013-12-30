@@ -140,7 +140,7 @@ class pollController extends poll
 		// If there is no response item, display an error
 		if(!count($item_srls)) return new Object(-1, 'msg_check_poll_item');
 		// Make sure is the poll has already been taken
-		$oPollModel = &getModel('poll');
+		$oPollModel = getModel('poll');
 		if($oPollModel->isPolled($poll_srl)) return new Object(-1, 'msg_already_poll');
 
 		$oDB = &DB::getInstance();
@@ -205,7 +205,7 @@ class pollController extends poll
 		$skin = Context::get('skin');
 		if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
 
-		$oPollModel = &getModel('poll');
+		$oPollModel = getModel('poll');
 		$tpl = $oPollModel->getPollResultHtml($poll_srl, $skin);
 
 		$this->add('poll_srl', $poll_srl);
@@ -224,7 +224,7 @@ class pollController extends poll
 		global $lang;
 		if(count($pollSrlList) > 0)
 		{
-			$oPollAdminModel = &getAdminModel('poll');
+			$oPollAdminModel = getAdminModel('poll');
 			$args = new stdClass;
 			$args->pollIndexSrlList = $pollSrlList;
 			$output = $oPollAdminModel->getPollListWithMember($args);

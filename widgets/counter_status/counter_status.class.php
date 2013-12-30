@@ -16,7 +16,7 @@ class counter_status extends WidgetHandler
 	function proc($args)
 	{
 		// Get status of the accumulated, yesterday's, today's counts
-		$oCounterModel = &getModel('counter');
+		$oCounterModel = getModel('counter');
 
 		$site_module_info = Context::get('site_module_info');
 		$output = $oCounterModel->getStatus(array('00000000', date('Ymd', $_SERVER['REQUEST_TIME']-60*60*24), date('Ymd')), $site_module_info->site_srl);

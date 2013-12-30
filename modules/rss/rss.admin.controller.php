@@ -23,7 +23,7 @@ class rssAdminController extends rss
 	 */
 	function procRssAdminInsertConfig()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$total_config = $oModuleModel->getModuleConfig('rss');
 
 		$config_vars = Context::getRequestVars();
@@ -92,7 +92,7 @@ class rssAdminController extends rss
 	{
 		$delImage = Context::get('del_image');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$originConfig = $oModuleModel->getModuleConfig('rss');
 
 		// Get a variable for the delete request
@@ -160,7 +160,7 @@ class rssAdminController extends rss
 	 */
 	function setFeedConfig($config)
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('rss',$config);
 		return new Object();
 	}
@@ -177,7 +177,7 @@ class rssAdminController extends rss
 	 */
 	function setRssModuleConfig($module_srl, $open_rss, $open_total_feed = 'N', $feed_description = 'N', $feed_copyright = 'N')
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$config = new stdClass;
 		$config->open_rss = $open_rss;
 		$config->open_total_feed = $open_total_feed;

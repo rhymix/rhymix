@@ -34,11 +34,11 @@ class fileView extends file
 			if(!$current_module_srl) return new Object();
 		}
 		// Get file configurations of the module
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 		$file_config = $oFileModel->getFileModuleConfig($current_module_srl);
 		Context::set('file_config', $file_config);
 		// Get a permission for group setting
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$site_module_info = Context::get('site_module_info');
 		$group_list = $oMemberModel->getGroups($site_module_info->site_srl);
 		Context::set('group_list', $group_list);

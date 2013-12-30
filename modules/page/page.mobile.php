@@ -68,7 +68,7 @@ class pageMobile extends pageView
 				} 
 				else 
 				{
-					$oWidgetController = &getController('widget');
+					$oWidgetController = getController('widget');
 					$page_content = $oWidgetController->transWidgetCode($this->module_info->mcontent);
 					FileHandler::writeFile($cache_file, $page_content);
 				}
@@ -98,7 +98,7 @@ class pageMobile extends pageView
 	{
 		$oTemplate = &TemplateHandler::getInstance();
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument(0, true);
 
 		if($this->module_info->mdocument_srl)

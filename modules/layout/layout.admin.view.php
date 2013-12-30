@@ -26,7 +26,7 @@ class layoutAdminView extends layout
 		$type = ($type != 'M') ? 'P' : 'M';
 
 		// Set a layout list
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getDownloadedLayoutList($type, true);
 		if(!is_array($layout_list))
 		{
@@ -36,7 +36,7 @@ class layoutAdminView extends layout
 		if($type == 'P')
 		{
 			// get Theme layout
-			$oAdminModel = &getAdminModel('admin');
+			$oAdminModel = getAdminModel('admin');
 			$themeList = $oAdminModel->getThemeList();
 			$themeLayoutList = array();
 			foreach($themeList as $themeInfo)
@@ -78,7 +78,7 @@ class layoutAdminView extends layout
 
 		if(!in_array($type, array('P', 'M'))) $type = 'P';
 
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 
 		$pcLayoutCount = $oLayoutModel->getInstalledLayoutCount('P');
 		$mobileLayoutCount = $oLayoutModel->getInstalledLayoutCount('M');
@@ -142,7 +142,7 @@ class layoutAdminView extends layout
 		if(!in_array($type, array('P', 'M'))) $type = 'P';
 		if(!$layout) return $this->stop('msg_invalid_request');
 
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayoutInfo($layout, null, $type);
 		if(!$layout_info) return $this->stop('msg_invalid_request');
 
@@ -165,7 +165,7 @@ class layoutAdminView extends layout
 	 */
 	function dispLayoutAdminInsert()
 	{
-		$oModel = &getModel('layout');
+		$oModel = getModel('layout');
 		$type = Context::get('type');
 		if(!in_array($type, array('P', 'M'))) $type = 'P';
 
@@ -181,7 +181,7 @@ class layoutAdminView extends layout
 		if(!$layout_info) return $this->stop('msg_invalid_request');
 
 		// get Menu list
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menu_list = $oMenuAdminModel->getMenus();
 		Context::set('menu_list', $menu_list);
 
@@ -209,7 +209,7 @@ class layoutAdminView extends layout
 	 */
 	function dispLayoutAdminModify()
 	{
-		$oLayoutAdminModel = &getAdminModel('layout');
+		$oLayoutAdminModel = getAdminModel('layout');
 		$oLayoutAdminModel->setLayoutAdminSetInfoView();
 
 		Context::set('is_sitemap', '0');
@@ -231,13 +231,13 @@ class layoutAdminView extends layout
 		// Set the layout with its information
 		$layout_srl = Context::get('layout_srl');
 		// Get layout information
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
 		// Error appears if there is no layout information is registered
 		if(!$layout_info) return $this->dispLayoutAdminInstalledList();
 
 		// Get Layout Code
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_file = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
 		if(!file_exists($layout_file))
 		{
@@ -269,7 +269,7 @@ class layoutAdminView extends layout
 		$layout_image_path = $oLayoutModel->getUserLayoutImagePath($layout_info->layout_srl);
 		Context::set('layout_image_path', $layout_image_path);
 		// Set widget list
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
 		Context::set('widget_list', $widget_list);
 
@@ -299,7 +299,7 @@ class layoutAdminView extends layout
 		$code_css = Context::get('code_css');
 		if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
 		// Get the layout information
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
 		if(!$layout_info) return new Object(-1, 'msg_invalid_request');
 		// Separately handle the layout if its type is faceoff
@@ -363,11 +363,11 @@ class layoutAdminView extends layout
 		$delete_tmp = Context::get('delete_tmp');
 		if($delete_tmp =='Y')
 		{
-			$oLayoutAdminController = &getAdminController('layout');
+			$oLayoutAdminController = getAdminController('layout');
 			$oLayoutAdminController->deleteUserLayoutTempFile($layout_srl);
 		}
 
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		// layout file is used as a temp.
 		$oLayoutModel->setUseUserLayoutTemp();
 		// Apply CSS in inline style
@@ -394,7 +394,7 @@ class layoutAdminView extends layout
 		$oTemplate = &TemplateHandler::getInstance();
 		Context::set('content', $oTemplate->compile($this->module_path.'tpl','about_faceoff'));
 		// Change widget codes in Javascript mode
-		$oWidgetController = &getController('widget');
+		$oWidgetController = getController('widget');
 		$oWidgetController->setWidgetCodeInJavascriptMode();
 		// Set a template file
 		$this->setTemplateFile('faceoff_layout_edit');
@@ -408,7 +408,7 @@ class layoutAdminView extends layout
 	{
 		$layoutSrl = Context::get('layout_srl');
 
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout = $oLayoutModel->getLayout($layoutSrl);
 
 		Context::set('layout', $layout);

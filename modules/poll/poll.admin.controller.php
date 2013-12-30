@@ -23,7 +23,7 @@ class pollAdminController extends poll
 		$config->skin = Context::get('skin');
 		$config->colorset = Context::get('colorset');
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('poll', $config);
 
 		$this->setMessage('success_updated');
@@ -65,7 +65,7 @@ class pollAdminController extends poll
 	{
 		$poll_index_srl = (int)Context::get('poll_index_srl');
 
-		$oPollAdminModel = &getAdminModel('poll');
+		$oPollAdminModel = getAdminModel('poll');
 		//$columnList = array('comment_srl');
 		$args = new stdClass;
 		$args->pollIndexSrlList = array($poll_index_srl);

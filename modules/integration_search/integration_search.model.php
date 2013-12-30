@@ -55,7 +55,7 @@ class integration_searchModel extends module
 		$args->statusList = array('PUBLIC');
 		if(!$args->module_srl) unset($args->module_srl);
 		// Get a list of documents
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		return $oDocumentModel->getDocumentList($args);
 	}
@@ -97,7 +97,7 @@ class integration_searchModel extends module
 		$args->sort_index = 'list_order';
 		$args->order_type = 'asc';
 		// Get a list of documents
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getTotalCommentList($args);
 		if(!$output->toBool()|| !$output->data) return $output;
 		return $output;
@@ -117,7 +117,7 @@ class integration_searchModel extends module
 	 */
 	function getTrackbacks($target, $module_srls_list, $search_target = "title", $search_keyword, $page=1, $list_count = 20)
 	{
-		$oTrackbackModel = &getAdminModel('trackback');
+		$oTrackbackModel = getAdminModel('trackback');
 		if(!$oTrackbackModel) return new Object();
 		$args = new stdClass();
 
@@ -168,7 +168,7 @@ class integration_searchModel extends module
 		$args->isvalid = 'Y';
 		$args->direct_download = $direct_download=='Y'?'Y':'N';
 		// Get a list of documents
-		$oFileAdminModel = &getAdminModel('file');
+		$oFileAdminModel = getAdminModel('file');
 		$output = $oFileAdminModel->getFileList($args);
 		if(!$output->toBool() || !$output->data) return $output;
 
@@ -212,7 +212,7 @@ class integration_searchModel extends module
 		}
 		$output->data = $list;
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$document_list = $oDocumentModel->getDocuments($target_list);
 		if($document_list) foreach($document_list as $key => $val)
 		{
@@ -227,7 +227,7 @@ class integration_searchModel extends module
 			}
 		}
 
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 		$comment_list = $oCommentModel->getComments($target_list);
 		if($comment_list) foreach($comment_list as $key => $val)
 		{

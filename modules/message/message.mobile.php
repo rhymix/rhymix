@@ -16,13 +16,13 @@ class messageMobile extends messageView
 	function dispMessage()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('message');
 		if(!$config->mskin) $config->mskin = 'default';
 		// Set the template path
 		$template_path = sprintf('%sm.skins/%s', $this->module_path, $config->mskin);
 		// Get the member configuration
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
 		Context::set('member_config', $member_config);
 		// Set a flag to check if the https connection is made when using SSL and create https url 

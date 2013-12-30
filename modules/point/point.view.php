@@ -33,7 +33,7 @@ class pointView extends point
 			if(!$current_module_srl) return new Object();
 		}
 		// Get the configuration information
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
 
 		if($current_module_srl)

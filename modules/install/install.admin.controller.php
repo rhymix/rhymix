@@ -22,7 +22,7 @@ class installAdminController extends install
 		$module_name = Context::get('module_name');
 		if(!$module_name) return new object(-1, 'invalid_request');
 
-		$oInstallController = &getController('install');
+		$oInstallController = getController('install');
 		$oInstallController->installModule($module_name, './modules/'.$module_name);
 
 		$this->setMessage('success_installed');
@@ -37,7 +37,7 @@ class installAdminController extends install
 		$module_name = Context::get('module_name');
 		if(!$module_name) return new object(-1, 'invalid_request');
 
-		$oModule = &getModule($module_name, 'class');
+		$oModule = getModule($module_name, 'class');
 		if($oModule) $output = $oModule->moduleUpdate();
 		else $output = new Object(-1, 'invalid_request');
 
@@ -109,7 +109,7 @@ class installAdminController extends install
 
 		unset($db_info->lang_type);
 
-		$oInstallController = &getController('install');
+		$oInstallController = getController('install');
 		if(!$oInstallController->makeConfigFile())
 		{
 			return new Object(-1, 'msg_invalid_request');
@@ -122,7 +122,7 @@ class installAdminController extends install
 				$site_args = new stdClass;
 				$site_args->site_srl = 0;
 				$site_args->domain = $default_url;
-				$oModuleController = &getController('module');
+				$oModuleController = getController('module');
 				$oModuleController->updateSite($site_args);
 			}
 			$this->setRedirectUrl(Context::get('error_return_url'));
@@ -139,16 +139,16 @@ class installAdminController extends install
 		$site_args = new stdClass();
 		$site_args->site_srl = 0;
 		$site_args->index_module_srl = Context::get('index_module_srl');
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->updateSite($site_args);
 
 		// get menu item info
 		$menuItemSrl = Context::get('menu_item_srl');
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$output = $oMenuAdminModel->getMenuItemInfo($menuItemSrl);
 
 		// update homeSitemap.php cache file
-		$oMenuAdminController = &getAdminController('menu');
+		$oMenuAdminController = getAdminController('menu');
 		$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
 		if(file_exists($homeMenuCacheFile))
 		{
@@ -229,7 +229,7 @@ class installAdminController extends install
 
 		unset($db_info->lang_type);
 		Context::setDBInfo($db_info);
-		$oInstallController = &getController('install');
+		$oInstallController = getController('install');
 		if(!$oInstallController->makeConfigFile())
 		{
 			return new Object(-1, 'msg_invalid_request');
@@ -239,7 +239,7 @@ class installAdminController extends install
 		$site_args->site_srl = 0;
 		$site_args->index_module_srl = Context::get('index_module_srl');//
 		$site_args->default_language = Context::get('change_lang_type');//
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->updateSite($site_args);
 
 		//언어 선택
@@ -311,7 +311,7 @@ class installAdminController extends install
 		if(!$config->thumbnail_type || $config->thumbnail_type != 'ratio' ) $args->thumbnail_type = 'crop';
 		else $args->thumbnail_type = 'ratio';
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('document',$args);
 
 		unset($args);

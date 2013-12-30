@@ -12,7 +12,7 @@ class memberMobile extends memberView
 	function init()
 	{
 		// Get the member configuration
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$this->member_config = $oMemberModel->getMemberConfig();
 		Context::set('member_config', $this->member_config);
 		$oSecurity = new Security();
@@ -35,7 +35,7 @@ class memberMobile extends memberView
 		$member_srl = Context::get('member_srl');
 		if($member_srl)
 		{
-			$oMemberModel = &getModel('member');
+			$oMemberModel = getModel('member');
 			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			if(!$this->memberInfo)
 			{
@@ -49,7 +49,7 @@ class memberMobile extends memberView
 
 		$this->setTemplatePath($template_path);
 
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($this->member_config->mlayout_srl);
 		if($layout_info)
 		{

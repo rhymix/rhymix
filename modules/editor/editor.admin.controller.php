@@ -44,7 +44,7 @@ class editorAdminController extends editor
 		$output = $this->editorCheckUse($componentList,$site_module_info->site_srl);
 		if(!$output->toBool()) return new Object();
 
-		$oEditorController = &getController('editor');
+		$oEditorController = getController('editor');
 		$oEditorController->removeCache($site_module_info->site_srl);
 		$this->setRedirectUrl(Context::get('error_return_url'));
 	}
@@ -130,7 +130,7 @@ class editorAdminController extends editor
 		else $output = executeQuery('editor.updateSiteComponent', $args);
 		if(!$output->toBool()) return $output;
 
-		$oEditorController = &getController('editor');
+		$oEditorController = getController('editor');
 		$oEditorController->removeCache($args->site_srl);
 
 		$this->setMessage('success_updated');
@@ -142,7 +142,7 @@ class editorAdminController extends editor
 	 */
 	function procEditorAdminGeneralConfig()
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$configVars = Context::getRequestVars();
 
 		if($configVars->font_defined != 'Y') $config->font_defined = $configVars->font_defined = 'N';
@@ -188,7 +188,7 @@ class editorAdminController extends editor
 		if(!$site_srl) $output = executeQuery('editor.insertComponent', $args);
 		else $output = executeQuery('editor.insertSiteComponent', $args);
 
-		$oEditorController = &getController('editor');
+		$oEditorController = getController('editor');
 		$oEditorController->removeCache($site_srl);
 		return $output;
 	}

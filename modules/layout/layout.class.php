@@ -67,7 +67,7 @@ class layout extends ModuleObject
 			$oDB->addColumn('layouts','site_srl','number',11,0,true);
 		}
 		// 2009. 02. 26 Move the previous layout for faceoff
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$files = FileHandler::readDir('./files/cache/layout');
 		for($i=0,$c=count($files);$i<$c;$i++)
 		{

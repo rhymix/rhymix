@@ -39,9 +39,9 @@ class menuAdminView extends menu
 			else $site_srl = (int)$site_module_info->site_srl;
 		}
 
-		$oAdmin = &getClass('admin');
+		$oAdmin = getClass('admin');
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuListFromDB = $oMenuAdminModel->getMenus();
 		if(is_array($menuListFromDB)) $output = array_reverse($menuListFromDB);
 
@@ -79,11 +79,11 @@ class menuAdminView extends menu
 		Context::set('menu_list', $menuList);
 
 		// get installed module list
-		$oPageController = &getController('page'); //for lang
+		$oPageController = getController('page'); //for lang
 		$resultModuleList = $oMenuAdminModel->getModuleListInSitemap($site_srl);
 		Context::set('module_list', $resultModuleList);
 
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layoutList = $oLayoutModel->getLayoutList();
 		Context::set('layout_list', $layoutList);
 
@@ -96,13 +96,13 @@ class menuAdminView extends menu
 		}
 		else
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$default_mid = $oModuleModel->getDefaultMid();
 			Context::set('current_layout', $default_mid->layout_srl);
 		}
 
 		// get default group list
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$output = $oMemberModel->getGroups();
 		if(is_array($output))
 		{
@@ -135,7 +135,7 @@ class menuAdminView extends menu
 	 */
 	function _menuInfoSetting(&$menu)
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		if($menu['url'] && strncasecmp('http', $menu['url'], 4) !== 0)
 		{
 			unset($midInfo);

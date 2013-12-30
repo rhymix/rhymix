@@ -181,7 +181,7 @@ class menuAdminModel extends menu
 		}
 		else if(strncasecmp('http', $menuItem->url, 4) !== 0)
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItem->url, 0);
 			if(!$moduleInfo) $menuItem->moduleType = 'url';
 			else
@@ -214,8 +214,8 @@ class menuAdminModel extends menu
 		}
 
 		// get groups
-		$oMemberModel = &getModel('member');
-		$oModuleAdminModel = &getAdminModel('module');
+		$oMemberModel = getModel('member');
+		$oModuleAdminModel = getAdminModel('module');
 		$output = $oMemberModel->getGroups();
 		if(is_array($output))
 		{
@@ -237,7 +237,7 @@ class menuAdminModel extends menu
 		}
 		$menuItem->groupList = $groupList;
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$menuItem->name_key = $menuItem->name;
 		$oModuleController->replaceDefinedLangCode($menuItem->name);
 
@@ -275,7 +275,7 @@ class menuAdminModel extends menu
 			$site_srl = (int)$site_module_info->site_srl;
 		}
 		// Get language code
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		return $oModuleAdminModel->getLangCode($site_srl, $source_name, TRUE);
 	}
 
@@ -290,7 +290,7 @@ class menuAdminModel extends menu
 		$menu_item_srl = Context::get('menu_item_srl');
 		$parent_srl = Context::get('parent_srl');
 		// Get a list of member groups
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups();
 		Context::set('group_list', $group_list);
 
@@ -393,7 +393,7 @@ class menuAdminModel extends menu
 	 */
 	function getModuleListInSitemap($site_srl = 0)
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$moduleList = array('page');
 
 		$output = $oModuleModel->getModuleListByInstance($site_srl);
@@ -482,8 +482,8 @@ class menuAdminModel extends menu
 			$siteSrl = (int)$site_module_info->site_srl;
 		}
 
-		$oModuleModel = &getModel('module');
-		$oMenuAdminController = &getAdminController('menu');
+		$oModuleModel = getModel('module');
+		$oMenuAdminController = getAdminController('menu');
 		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
 		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
 
@@ -520,7 +520,7 @@ class menuAdminModel extends menu
 			$menuListFromDB = $this->getMenus($siteSrl);
 			if(is_array($menuListFromDB))
 			{
-				$oAdmin = &getClass('admin');
+				$oAdmin = getClass('admin');
 				foreach($menuListFromDB AS $key=>$value)
 				{
 					if($value->title == $oAdmin->getAdminMenuName()) unset($output[$key]);
@@ -596,7 +596,7 @@ class menuAdminModel extends menu
 		}
 
 		// get module info
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItemInfo->url);
 
 		// get xml info
@@ -609,7 +609,7 @@ class menuAdminModel extends menu
 
 		if($moduleConfInfo->simple_setup_index_act)
 		{
-			$oTargetmoduleAdminModel = &getAdminModel($moduleInfo->module);
+			$oTargetmoduleAdminModel = getAdminModel($moduleInfo->module);
 			$advancedSetupUrl = getUrl('', 'module', 'admin', 'act', $moduleConfInfo->setup_index_act, 'module_srl', $moduleInfo->module_srl);
 			$simpleSetupHtml = $oTargetmoduleAdminModel->{$moduleConfInfo->simple_setup_index_act}($moduleInfo->module_srl, $advancedSetupUrl);
 
@@ -628,7 +628,7 @@ class menuAdminModel extends menu
 	 */
 	private function _menuInfoSetting(&$menu, &$start_module, &$isMenuFixed, $menuSrl,$siteSrl = 0)
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// if url is empty and is_shortcut is 'N', change to is_shortcut 'Y'
 		if(!$menu['url'] && $menu['is_shortcut'] == 'N')
 		{

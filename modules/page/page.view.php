@@ -73,7 +73,7 @@ class pageView extends page
 			}
 			else
 			{
-				$oWidgetController = &getController('widget');
+				$oWidgetController = getController('widget');
 				$page_content = $oWidgetController->transWidgetCode($this->module_info->content);
 				FileHandler::writeFile($this->cache_file, $page_content);
 			}
@@ -90,7 +90,7 @@ class pageView extends page
 	{
 		$oTemplate = &TemplateHandler::getInstance();
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument(0, true);
 
 		if($this->module_info->document_srl)
@@ -143,7 +143,7 @@ class pageView extends page
 			$content = FileHandler::readFile($cache_file);
 		}
 		// Create opage controller
-		$oPageController = &getController('page');
+		$oPageController = getController('page');
 		// change url of image, css, javascript and so on if the page is from external server
 		$content = $oPageController->replaceSrc($content, $path);
 

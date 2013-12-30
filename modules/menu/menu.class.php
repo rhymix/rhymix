@@ -66,7 +66,7 @@ class menu extends ModuleObject
 			$oDB->addColumn('menu_item', 'is_shortcut', 'char', 1, 'N');
 
 			// check empty url and change shortcut type
-			$oMenuAdminModel = &getAdminModel('menu');
+			$oMenuAdminModel = getAdminModel('menu');
 			$output = $oMenuAdminModel->getMenus();
 
 			if(is_array($output))
@@ -98,7 +98,7 @@ class menu extends ModuleObject
 					}
 				}
 
-				$oModuleModel = &getModel('module');
+				$oModuleModel = getModel('module');
 				// if duplicate reference, change type to shortcut
 				$shortcutItemList = array_diff_assoc($menuItemAllList, $menuItemUniqueList);
 				foreach($output AS $key=>$value)
@@ -145,11 +145,11 @@ class menu extends ModuleObject
 	 */
 	function recompileCache()
 	{
-		$oMenuAdminController = &getAdminController('menu');
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminController = getAdminController('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		// get home module id
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('modules.mid',);
 		$output = $oModuleModel->getSiteInfo(0, $columnList);
 		$homeModuleMid = $output->mid;

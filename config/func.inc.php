@@ -76,7 +76,7 @@ $time_zone = array(
  * @param string $kind admin, null
  * @return mixed Module instance
  */
-function &getModule($module_name, $type = 'view', $kind = '')
+function getModule($module_name, $type = 'view', $kind = '')
 {
 	return ModuleHandler::getModuleInstance($module_name, $type, $kind);
 }
@@ -87,7 +87,7 @@ function &getModule($module_name, $type = 'view', $kind = '')
  * @param string $module_name The module name to get a controller instance
  * @return mixed Module controller instance
  */
-function &getController($module_name)
+function getController($module_name)
 {
 	return getModule($module_name, 'controller');
 }
@@ -98,7 +98,7 @@ function &getController($module_name)
  * @param string $module_name The module name to get a admin controller instance
  * @return mixed Module admin controller instance
  */
-function &getAdminController($module_name)
+function getAdminController($module_name)
 {
 	return getModule($module_name, 'controller', 'admin');
 }
@@ -109,7 +109,7 @@ function &getAdminController($module_name)
  * @param string $module_name The module name to get a view instance
  * @return mixed Module view instance
  */
-function &getView($module_name)
+function getView($module_name)
 {
 	return getModule($module_name, 'view');
 }
@@ -131,7 +131,7 @@ function &getMobile($module_name)
  * @param string $module_name The module name to get a admin view instance
  * @return mixed Module admin view instance
  */
-function &getAdminView($module_name)
+function getAdminView($module_name)
 {
 	return getModule($module_name, 'view', 'admin');
 }
@@ -142,7 +142,7 @@ function &getAdminView($module_name)
  * @param string $module_name The module name to get a model instance
  * @return mixed Module model instance
  */
-function &getModel($module_name)
+function getModel($module_name)
 {
 	return getModule($module_name, 'model');
 }
@@ -153,7 +153,7 @@ function &getModel($module_name)
  * @param string $module_name The module name to get a admin model instance
  * @return mixed Module admin model instance
  */
-function &getAdminModel($module_name)
+function getAdminModel($module_name)
 {
 	return getModule($module_name, 'model', 'admin');
 }
@@ -164,7 +164,7 @@ function &getAdminModel($module_name)
  * @param string $module_name The module name to get a api instance
  * @return mixed Module api class instance
  */
-function &getAPI($module_name)
+function getAPI($module_name)
 {
 	return getModule($module_name, 'api');
 }
@@ -175,7 +175,7 @@ function &getAPI($module_name)
  * @param string $module_name The module name to get a wap instance
  * @return mixed Module wap class instance
  */
-function &getWAP($module_name)
+function getWAP($module_name)
 {
 	return getModule($module_name, 'wap');
 }
@@ -186,7 +186,7 @@ function &getWAP($module_name)
  * @param string $module_name The module name to get a class instance
  * @return mixed Module class instance
  */
-function &getClass($module_name)
+function getClass($module_name)
 {
 	return getModule($module_name, 'class');
 }

@@ -13,7 +13,7 @@ class module extends ModuleObject
 	function moduleInstall()
 	{
 		// Register action forward (to use in administrator mode)
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		$oDB = &DB::getInstance();
 		$oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"), true);
@@ -130,8 +130,8 @@ class module extends ModuleObject
 		// 2008. 10. 27 module_part_config Add a multi-index to the table and check all information of module_configg
 		if(!$oDB->isIndexExists("module_part_config","idx_module_part_config"))
 		{
-			$oModuleModel = &getModel('module');
-			$oModuleController = &getController('module');
+			$oModuleModel = getModel('module');
+			$oModuleController = getController('module');
 			$modules = $oModuleModel->getModuleList();
 			foreach($modules as $key => $module_info)
 			{
@@ -201,8 +201,8 @@ class module extends ModuleObject
 		// Move permission, skin info, extection info, admin ID of all modules to the table, grants
 		if($oDB->isColumnExists('modules', 'grants'))
 		{
-			$oModuleController = &getController('module');
-			$oDocumentController = &getController('document');
+			$oModuleController = getController('module');
+			$oDocumentController = getController('document');
 			// Get a value of the current system language code
 			$lang_code = Context::getLangType();
 			// Get module_info of all modules
@@ -265,7 +265,7 @@ class module extends ModuleObject
 							$oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $val->name, $val->type, $val->is_required, $val->search, $val->default, $val->desc, 'extra_vars'.$var_idx);
 						}
 						// 2009-04-14 Fixed a bug that only 100 extra vars are moved
-						$oDocumentModel = &getModel('document');
+						$oDocumentModel = getModel('document');
 						$total_count = $oDocumentModel->getDocumentCount($module_srl);
 
 						if($total_count > 0)
@@ -597,7 +597,7 @@ class module extends ModuleObject
 	 */
 	function recompileCache()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$oModuleModel->getModuleList();
 	}
 }

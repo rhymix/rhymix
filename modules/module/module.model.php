@@ -1421,7 +1421,7 @@ class moduleModel extends module
 	function checkNeedUpdate($module_name)
 	{
 		// Check if it is upgraded to module.class.php on each module
-		$oDummy = &getModule($module_name, 'class');
+		$oDummy = getModule($module_name, 'class');
 		if($oDummy && method_exists($oDummy, "checkUpdate"))
 		{
 			return $oDummy->checkUpdate();
@@ -1478,7 +1478,7 @@ class moduleModel extends module
 			else $info->need_install = false;
 			// Check if it is upgraded to module.class.php on each module
 			$oDummy = null;
-			$oDummy = &getModule($module_name, 'class');
+			$oDummy = getModule($module_name, 'class');
 			if($oDummy && method_exists($oDummy, "checkUpdate"))
 			{
 				$info->need_update = $oDummy->checkUpdate();
@@ -1952,7 +1952,7 @@ class moduleModel extends module
 
 	function getModuleFileBoxList()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$args = new stdClass();
 		$args->page = Context::get('page');
@@ -2005,11 +2005,11 @@ class moduleModel extends module
 			$param = explode("=",$param);
 			if($param[0] == 'selected_widget') $selected_widget = $param[1];
 		}
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		if($selected_widget) $widget_info = $oWidgetModel->getWidgetInfo($selected_widget);
 		Context::set('allow_multiple', $widget_info->extra_var->images->allow_multiple);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleFileBoxList();
 		Context::set('filebox_list', $output->data);
 
@@ -2114,7 +2114,7 @@ class moduleModel extends module
 		$langCode = Context::get('langCode');
 		if (!$langCode) return;
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($langCode);
 
 		$this->add('lang', $langCode);

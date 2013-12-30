@@ -20,7 +20,7 @@ class message extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('message');
 
 		if($config->skin)
@@ -40,7 +40,7 @@ class message extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('message');
 
 		if($config->skin)
@@ -52,7 +52,7 @@ class message extends ModuleObject
 				if(is_dir($template_path))
 				{
 					$config->skin = implode('|@|', $config_parse);
-					$oModuleController = &getController('module');
+					$oModuleController = getController('module');
 					$oModuleController->updateModuleConfig('message', $config);
 				}
 			}

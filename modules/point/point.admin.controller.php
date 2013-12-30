@@ -20,7 +20,7 @@ class pointAdminController extends point
 	function procPointAdminInsertConfig()
 	{
 		// Get the configuration information
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
 		// Arrange variables
 		$args = Context::getRequestVars();
@@ -50,7 +50,7 @@ class pointAdminController extends point
 		if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
 		else $config->disable_read_document = 'N';
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups();
 
 		// Per-level group configurations
@@ -81,7 +81,7 @@ class pointAdminController extends point
 		// A function to calculate per-level points
 		$config->expression = $args->expression;
 		// Save
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('point', $config);
 
 		$this->setMessage('success_updated');
@@ -109,7 +109,7 @@ class pointAdminController extends point
 			}
 		}
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		if(count($module_config))
 		{
 			foreach($module_config as $module_srl => $config)
@@ -138,7 +138,7 @@ class pointAdminController extends point
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
 		// Save configurations
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)
 		{
 			$srl = trim($module_srl[$i]);
@@ -186,7 +186,7 @@ class pointAdminController extends point
 		}
 		$point = $m[2];
 
-		$oPointController = &getController('point');
+		$oPointController = getController('point');
 		$output = $oPointController->setPoint($member_srl, (int)$point, $action);
 
 		$this->setError(-1);
@@ -203,7 +203,7 @@ class pointAdminController extends point
 	{
 		@set_time_limit(0);
 		// Get per-module points information
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
 
 		$module_config = $oModuleModel->getModulePartConfigs('point');
@@ -350,7 +350,7 @@ class pointAdminController extends point
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
 		// Save configurations
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)
 		{
 			$srl = trim($module_srl[$i]);

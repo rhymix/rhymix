@@ -24,7 +24,7 @@ class integration_searchAdminController extends integration_search
 	function procIntegration_searchAdminInsertConfig()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('integration_search');
 
 		$args->skin = Context::get('skin');
@@ -33,7 +33,7 @@ class integration_searchAdminController extends integration_search
 		if(!$args->target_module_srl) $args->target_module_srl = '';
 		$args->skin_vars = $config->skin_vars;
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('integration_search',$args);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminContent');
@@ -48,7 +48,7 @@ class integration_searchAdminController extends integration_search
 	function procIntegration_searchAdminInsertSkin()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('integration_search');
 
 		$args->skin = $config->skin;
@@ -114,7 +114,7 @@ class integration_searchAdminController extends integration_search
 		// Serialize and save 
 		$args->skin_vars = serialize($obj);
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('integration_search',$args);
 
 		$this->setMessage('success_updated', 'info');

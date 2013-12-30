@@ -483,7 +483,7 @@ class adminAdminController extends admin
 	function procAdminUpdateSitelock()
 	{
 		$vars = Context::getRequestVars();
-		$oInstallController = &getController('install');
+		$oInstallController = getController('install');
 
 		$db_info = Context::getDbInfo();
 
@@ -508,7 +508,7 @@ class adminAdminController extends admin
 		
 		$db_info->sitelock_whitelist = $whitelist;
 		
-		$oInstallController = &getController('install');
+		$oInstallController = getController('install');
 		if(!$oInstallController->makeConfigFile())
 		{
 			return new Object(-1, 'msg_invalid_request');

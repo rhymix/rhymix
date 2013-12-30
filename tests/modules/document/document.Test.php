@@ -57,8 +57,8 @@ class documentModelTest extends PHPUnit_Framework_TestCase
 
 		self::$oDB = new DBMysql;
 
-		$this->oDocumentController = &getController('document');
-		$this->oDocumentModel = &getModel('document');
+		$this->oDocumentController = getController('document');
+		$this->oDocumentModel = getModel('document');
 
 	}
 

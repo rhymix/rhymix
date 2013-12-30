@@ -31,7 +31,7 @@ class widgetController extends widget
 		$skin = Context::get('skin');
 
 		$path = sprintf('./widgets/%s/', $widget);
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($path, $skin);
 
 		for($i=0;$i<count($skin_info->colorset);$i++)
@@ -74,7 +74,7 @@ class widgetController extends widget
 		// Wanted results
 		$widget_code = $this->execute($widget, $vars, true, false);
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($widget_code);
 
 		$this->add('widget_code', $widget_code);
@@ -105,11 +105,11 @@ class widgetController extends widget
 		$editor_sequence = Context::get('editor_sequence');
 
 		$err = 0;
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($module_srl);
 		if(!$layout_info || $layout_info->type != 'faceoff') $err++;
 		// Destination Information Wanted page module
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		if(!$page_info->module_srl || $page_info->module != 'page') $err++;
@@ -130,8 +130,8 @@ class widgetController extends widget
 		}
 		if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_info->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
 		// Enter post
-		$oDocumentModel = &getModel('document');
-		$oDocumentController = &getController('document');
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
 
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
@@ -162,15 +162,15 @@ class widgetController extends widget
 		// Variable Wanted
 		$document_srl = Context::get('document_srl');
 
-		$oDocumentModel = &getModel('document');
-		$oDocumentController = &getController('document');
-		$oDocumentAdminController = &getAdminController('document');
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
+		$oDocumentAdminController = getAdminController('document');
 
 		$oDocument = $oDocumentModel->getDocument($document_srl, true);
 		if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
 		$module_srl = $oDocument->get('module_srl');
 		// Destination Information Wanted page module
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
@@ -204,14 +204,14 @@ class widgetController extends widget
 		// Variable Wanted
 		$document_srl = Context::get('document_srl');
 
-		$oDocumentModel = &getModel('document');
-		$oDocumentController = &getController('document');
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
 
 		$oDocument = $oDocumentModel->getDocument($document_srl, true);
 		if(!$oDocument->isExists()) return new Object();
 		$module_srl = $oDocument->get('module_srl');
 		// Destination Information Wanted page module
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
 		// Check permissions
@@ -258,7 +258,7 @@ class widgetController extends widget
 	function transWidgetCode($content, $javascript_mode = false, $isReplaceLangCode = true)
 	{
 		// Changing user-defined language
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($content, $isReplaceLangCode);
 		// Check whether to include information about editing
 		$this->javascript_mode = $javascript_mode;
@@ -369,7 +369,7 @@ class widgetController extends widget
 			if(!$oWidget || !method_exists($oWidget, 'proc')) return;
 
 			$widget_content = $oWidget->proc($args);
-			$oModuleController = &getController('module');
+			$oModuleController = getController('module');
 			$oModuleController->replaceDefinedLangCode($widget_content);
 			return $widget_content;
 		}
@@ -400,7 +400,7 @@ class widgetController extends widget
 		if(!$oWidget || !method_exists($oWidget,'proc')) return;
 
 		$widget_content = $oWidget->proc($args);
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($widget_content);
 		FileHandler::writeFile($cache_file, $widget_content);
 
@@ -474,7 +474,7 @@ class widgetController extends widget
 				case 'widgetContent' :
 					if($args->document_srl)
 					{
-						$oDocumentModel = &getModel('document');
+						$oDocumentModel = getModel('document');
 						$oDocument = $oDocumentModel->getDocument($args->document_srl);
 						$body = $oDocument->getContent(false,false,false, false);
 					}
@@ -483,7 +483,7 @@ class widgetController extends widget
 						$body = base64_decode($args->body);
 					}
 					// Change the editor component
-					$oEditorController = &getController('editor');
+					$oEditorController = getController('editor');
 					$body = $oEditorController->transComponent($body);
 
 					$widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s"><div style="%s">', $args->id, $style,  $inner_style);
@@ -514,7 +514,7 @@ class widgetController extends widget
 				case 'widgetContent' :
 					if($args->document_srl)
 					{
-						$oDocumentModel = &getModel('document');
+						$oDocumentModel = getModel('document');
 						$oDocument = $oDocumentModel->getDocument($args->document_srl);
 						$body = $oDocument->getContent(false,false,false);
 					}
@@ -534,7 +534,7 @@ class widgetController extends widget
 						}
 					}
 
-					$oWidgetController = &getController('widget');
+					$oWidgetController = getController('widget');
 
 					$widget_content_header = sprintf(
 						'<div class="widgetOutput" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
@@ -632,7 +632,7 @@ class widgetController extends widget
 		if(!$GLOBALS['_xe_loaded_widgets_'][$widget])
 		{
 			// Finding the location of a widget
-			$oWidgetModel = &getModel('widget');
+			$oWidgetModel = getModel('widget');
 			$path = $oWidgetModel->getWidgetPath($widget);
 			// If you do not find the class file error output widget (html output)
 			$class_file = sprintf('%s%s.class.php', $path, $widget);
@@ -662,7 +662,7 @@ class widgetController extends widget
 	{
 		if(!$widgetStyle) return $widget_content_body;
 
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		// Bring extra_var widget style tie
 		$widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetStyle);
 		if(!$widgetstyle_info) return $widget_content_body;
@@ -700,7 +700,7 @@ class widgetController extends widget
 	 */
 	function arrangeWidgetVars($widget, $request_vars, &$vars)
 	{
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		$widget_info = $oWidgetModel->getWidgetInfo($widget);
 
 		if(!$vars)

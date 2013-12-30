@@ -132,7 +132,7 @@ class ModuleHandler extends Handler
 
 		if(!$this->document_srl && $this->mid && $this->entry)
 		{
-			$oDocumentModel = &getModel('document');
+			$oDocumentModel = getModel('document');
 			$this->document_srl = $oDocumentModel->getDocumentSrlByAlias($this->mid, $this->entry);
 			if($this->document_srl)
 			{
@@ -238,7 +238,7 @@ class ModuleHandler extends Handler
 			// use the site default layout.
 			if($module_info->{$targetSrl} == -1)
 			{
-				$oLayoutAdminModel = &getAdminModel('layout');
+				$oLayoutAdminModel = getAdminModel('layout');
 				$layoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $module_info->site_srl);
 			}
 			else

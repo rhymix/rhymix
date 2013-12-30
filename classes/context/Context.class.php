@@ -761,7 +761,7 @@ class Context
 	 */
 	public function getSiteTitle()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$moduleConfig = $oModuleModel->getModuleConfig('module');
 
 		if(isset($moduleConfig->siteTitle))
