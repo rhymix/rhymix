@@ -10,13 +10,6 @@
  */
 class CacheFile extends CacheBase
 {
-
-	/**
-	 * Default valid time
-	 * @var int
-	 */
-	var $valid_time = 36000;
-
 	/**
 	 * Path that value to stored
 	 * @var string

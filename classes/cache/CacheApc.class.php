@@ -8,13 +8,6 @@
  * */
 class CacheApc extends CacheBase
 {
-
-	/**
-	 * Default valid time
-	 * @var int
-	 */
-	var $valid_time = 36000;
-
 	/**
 	 * Get instance of CacheApc
 	 *
