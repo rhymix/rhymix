@@ -764,7 +764,7 @@ function doApplyWidgetSize(fo_obj) {
 		selectedSizeWidget.style.marginBottom = _getSize(fo_obj.margin_bottom.value);
 		selectedSizeWidget.style.marginLeft = _getSize(fo_obj.margin_left.value);
 
-		if(!fo_obj.background_color.value || fo_obj.background_color.value == 'transparent') selectedSizeWidget.style.backgroundColor = 'transparent';
+		if(!fo_obj.background_color.value || fo_obj.background_color.value == '#' || fo_obj.background_color.value == 'transparent') selectedSizeWidget.style.backgroundColor = 'transparent';
 		else selectedSizeWidget.style.backgroundColor = _getBGColorStyle(fo_obj.background_color.value);
 
 		var image_url = fo_obj.background_image_url.value;
