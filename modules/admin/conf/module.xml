@@ -29,7 +29,7 @@
 			<title xml:lang="en">General</title>
 			<title xml:lang="ko">일반</title>
 			<title xml:lang="zh-CN">总览</title>
-			<title xml:lang="jp">General</title>
+			<title xml:lang="jp">一般</title>
 			<title xml:lang="es">General</title>
 			<title xml:lang="ru">General</title>
 			<title xml:lang="fr">General</title>
@@ -42,7 +42,7 @@
 			<title xml:lang="en">Admin Setup</title>
 			<title xml:lang="ko">관리자 설정</title>
 			<title xml:lang="zh-CN">后台设置</title>
-			<title xml:lang="jp">Admin Setup</title>
+			<title xml:lang="jp">管理者設定</title>
 			<title xml:lang="es">Admin Setup</title>
 			<title xml:lang="ru">Admin Setup</title>
 			<title xml:lang="fr">Admin Setup</title>
@@ -55,7 +55,7 @@
 			<title xml:lang="en">FTP Configuration</title>
 			<title xml:lang="ko">FTP 설정</title>
 			<title xml:lang="zh-CN">FTP 配置</title>
-			<title xml:lang="jp">FTP Configuration</title>
+			<title xml:lang="jp">FTP設定</title>
 			<title xml:lang="es">FTP Configuration</title>
 			<title xml:lang="ru">FTP Configuration</title>
 			<title xml:lang="fr">FTP Configuration</title>

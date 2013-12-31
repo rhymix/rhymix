@@ -2,20 +2,21 @@
 <lang>	
 	<item name="msg_avail_install">
 		<value xml:lang="ko"><![CDATA[DB Table 생성을 해야 설치가 완료됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[You have to create db table, if you want to finish to install this iteam]]></value>
-    </item>
+		<value xml:lang="en"><![CDATA[You have to create db table, if you want to finish to install this item]]></value>
+		<value xml:lang="jp"><![CDATA[設置を完了するにはDB Tableを作成する必要があります。]]></value>
+	</item>
 	<item name="msg_avail_update">
 		<value xml:lang="ko"><![CDATA[이 항목 업데이트가 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can update this item.]]></value>
 		<value xml:lang="jp"><![CDATA[この項目のアップデートが可能です。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可更新此項目]]></value>
-    </item>
+	</item>
 	<item name="msg_avail_easy_update">
 		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
 		<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此項目有新版本]]></value>
-    </item>
+	</item>
 	<item name="msg_do_you_like_install">
 		<value xml:lang="ko"><![CDATA[생성하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to create?]]></value>
@@ -329,11 +330,13 @@
 	<item name="upload_file">
 		<value xml:lang="ko"><![CDATA[파일 올리기]]></value>
 		<value xml:lang="en"><![CDATA[Upload File]]></value>
+		<value xml:lang="jp"><![CDATA[ファイルアップロード]]></value>
 		<value xml:lang="zh-TW"><![CDATA[上傳檔案]]></value>
 	</item>
 	<item name="filebox_list">
 		<value xml:lang="ko"><![CDATA[파일 목록]]></value>
 		<value xml:lang="en"><![CDATA[File List]]></value>
+		<value xml:lang="jp"><![CDATA[ファイルリスト]]></value>
 	</item>
 	<item name="access_type">
 		<value xml:lang="ko"><![CDATA[접속 방법]]></value>
@@ -583,6 +586,7 @@
 	<item name="cmd_manage_mobile_skin">
 		<value xml:lang="ko"><![CDATA[모바일 스킨 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage Mobile Skins]]></value>
+		<value xml:lang="jp"><![CDATA[モバイルスキン管理]]></value>
 	</item>
 	<item name="cmd_manage_document">
 		<value xml:lang="ko"><![CDATA[게시글 관리]]></value>
@@ -654,6 +658,7 @@
 	<item name="msg_module_not_exists">
 		<value xml:lang="ko"><![CDATA[해당 모듈이 존재하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Module matching the name is not found.]]></value>
+		<value xml:lang="jp"><![CDATA[該当モジュールが存在しません。]]></value>
 	</item>
 	<item name="msg_category_is_null">
 		<value xml:lang="ko"><![CDATA[등록된 분류가 없습니다.]]></value>
@@ -1013,103 +1018,125 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 	<item name="installed_modules">
 		<value xml:lang="ko"><![CDATA[설치된 모듈]]></value>
 		<value xml:lang="en"><![CDATA[Installed Modules]]></value>
+		<value xml:lang="jp"><![CDATA[設置されたモジュール]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已安裝模組]]></value>
 	</item>
 	<item name="cmd_show_hide">
 		<value xml:lang="ko"><![CDATA[보기/숨김]]></value>
 		<value xml:lang="en"><![CDATA[show/hide]]></value>
+		<value xml:lang="jp"><![CDATA[表示/非表示]]></value>
 		<value xml:lang="zh-TW"><![CDATA[顯示/隱藏]]></value>
 	</item>
 	<item name="no_multi_lang">
 		<value xml:lang="ko"><![CDATA[아직 등록된 다국어가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is no multi language.]]></value>
+		<value xml:lang="jp"><![CDATA[まだ登録された多言語がありません。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[尚未登錄多國語言]]></value>
 	</item>
 	<item name="module_admin">
 		<value xml:lang="ko"><![CDATA[모듈 관리자]]></value>
 		<value xml:lang="en"><![CDATA[Module Administrator]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール管理者]]></value>
 		<value xml:lang="zh-TW"><![CDATA[模組管理員]]></value>
 	</item>
 	<item name="permission_setting">
 		<value xml:lang="ko"><![CDATA[권한 설정]]></value>
 		<value xml:lang="en"><![CDATA[Permission Setting]]></value>
+		<value xml:lang="jp"><![CDATA[権限設定]]></value>
 		<value xml:lang="zh-TW"><![CDATA[權限設定]]></value>
 	</item>
 	<item name="msg_cannot_delete_startmodule">
 		<value xml:lang="ko"><![CDATA[홈페이지는 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot delete a homepage.]]></value>
+		<value xml:lang="jp"><![CDATA[ホームページは削除できません。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[無法刪除預設模組]]></value>
 	</item>
 	<item name="attribute_name">
 		<value xml:lang="ko"><![CDATA[변수명]]></value>
 		<value xml:lang="en"><![CDATA[Attribute name]]></value>
+		<value xml:lang="jp"><![CDATA[変数名]]></value>
 		<value xml:lang="zh-TW"><![CDATA[變數名稱]]></value>
 	</item>
 	<item name="attribute_value">
 		<value xml:lang="ko"><![CDATA[값]]></value>
 		<value xml:lang="en"><![CDATA[Attribute value]]></value>
+		<value xml:lang="jp"><![CDATA[値]]></value>
 		<value xml:lang="zh-TW"><![CDATA[變數值]]></value>
 	</item>
 	<item name="cmd_add">
 		<value xml:lang="ko"><![CDATA[추가]]></value>
 		<value xml:lang="en"><![CDATA[Add]]></value>
+		<value xml:lang="jp"><![CDATA[追加]]></value>
 		<value xml:lang="zh-TW"><![CDATA[新增]]></value>
 	</item>
 	<item name="keep_existing_value">
 		<value xml:lang="ko"><![CDATA[기존 값 유지]]></value>
 		<value xml:lang="en"><![CDATA[Keep existing value]]></value>
+		<value xml:lang="jp"><![CDATA[既存値を維持]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Keep existing value]]></value>
 	</item>
 	<item name="about_maintain_existing">
 		<value xml:lang="ko"><![CDATA[공란일 경우 기존 값을 따릅니다.]]></value>
 		<value xml:lang="en"><![CDATA[If content empty, maintain existing value.]]></value>
+		<value xml:lang="jp"><![CDATA[空欄の場合は既存値を維持します。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[If content empty, maintain existing value.]]></value>
 	</item>
 	<item name="cmd_save_and_use_it">
 		<value xml:lang="ko"><![CDATA[저장 &amp; 사용]]></value>
 		<value xml:lang="en"><![CDATA[Save &amp; Use it]]></value>
+		<value xml:lang="jp"><![CDATA[保存 &amp; 使用]]></value>
 	</item>
 	<item name="about_multilingual_manage" type="array">
 		<item name="text">
 			<value xml:lang="ko"><![CDATA[지원하는 목록은 [%s]에서 편집 가능.]]></value>
 			<value xml:lang="en"><![CDATA[You can manage multilingual at [%s].]]></value>
+			<value xml:lang="jp"><![CDATA[サポートするリストは[%s]で編集可能です。]]></value>
 		</item>
 		<item name="link">
 			<value xml:lang="ko"><![CDATA[콘텐츠>다국어]]></value>
 			<value xml:lang="en"><![CDATA[Content>Mualtilungal]]></value>
+			<value xml:lang="jp"><![CDATA[コンテンツ>多言語]]></value>
 		</item>
 	</item>
 	<item name="about_language_list_manage" type="array">
 		<item name="text">
 			<value xml:lang="ko"><![CDATA[지원하는 언어 목록은 [%s]에서 편집 가능.]]></value>
 			<value xml:lang="en"><![CDATA[You can manage language list at [%s].]]></value>
+			<value xml:lang="jp"><![CDATA[サポートする言語は[%s]で編集可能です。]]></value>
 		</item>
 		<item name="link">
 			<value xml:lang="ko"><![CDATA[설정>일반]]></value>
 			<value xml:lang="en"><![CDATA[Settings>General]]></value>
+			<value xml:lang="jp"><![CDATA[設定>一般]]></value>
 		</item>
 	</item>
 	<item name="about_multilingual_search_result">
 		<value xml:lang="ko"><![CDATA[<strong>%d</strong>개의 <span class="flag %s">%s</span> 다국어 세트가 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There are <strong>%d</strong> <span class="flag %s">%s</span> multilingual sets.]]></value>
+		<value xml:lang="jp"><![CDATA[<strong>%d</strong>個の <span class="flag %s">%s</span> 多言語セットがあります。]]></value>
 	</item>
 	<item name="msg_confirm_save_and_use_multilingual">
 		<value xml:lang="ko"><![CDATA[현재 상태를 저장하고 사용하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to save and use this status?]]></value>
+		<value xml:lang="jp"><![CDATA[現在状態を保存して使用しますか？]]></value>
 	</item>
 	<item name="msg_empty_multilingual">
 		<value xml:lang="ko"><![CDATA[다국어를 입력해 주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter value for multilingual.]]></value>
+		<value xml:lang="jp"><![CDATA[多言語を入力してください。]]></value>
 	</item>
 	<item name="cmd_set_multilingual_text">
 		<value xml:lang="ko"><![CDATA[다국어 텍스트 설정]]></value>
 		<value xml:lang="en"><![CDATA[Set multilingual text]]></value>
+		<value xml:lang="jp"><![CDATA[多言語テキスト設定]]></value>
 	</item>
 	<item name="cmd_remove_multilingual_text">
 		<value xml:lang="ko"><![CDATA[다국어 텍스트 해제]]></value>
 		<value xml:lang="en"><![CDATA[Remove multilingual text]]></value>
+		<value xml:lang="jp"><![CDATA[多言語テキスト解除]]></value>
 	</item>
 	<item name="use_site_default_skin">
 		<value xml:lang="ko"><![CDATA[사이트 기본 스킨 사용]]></value>
+		<value xml:lang="jp"><![CDATA[サイトデフォルトスキン使用]]></value>
 	</item>
 </lang>

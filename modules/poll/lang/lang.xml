@@ -144,6 +144,7 @@
 	</item>
 	<item name="confirm_poll_delete">
 		<value xml:lang="ko"><![CDATA[%s개의 설문을 삭제하시겠습니까?]]></value>
+		<value xml:lang="jp"><![CDATA[%s個のアンケートを削除しますか？]]></value>
 	</item>
 	<item name="msg_check_poll_item">
 		<value xml:lang="ko"><![CDATA[설문에 응할 항목을 선택하여 주세요. (설문조사 마다 필수 선택항목이 다를 수 있습니다.)]]></value>
@@ -249,5 +250,4 @@
 		<value xml:lang="jp"><![CDATA[選択したアンケート]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已選擇的投票]]></value>
 	</item>
-
 </lang>
