@@ -440,6 +440,7 @@ class DB
 		$log['query'] = $this->query;
 		$log['elapsed_time'] = $elapsed_time;
 		$log['connection'] = $this->connection;
+		$log['query_id'] = $this->query_id;
 
 		// leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
 		if($this->isError())
@@ -447,7 +448,6 @@ class DB
 			$site_module_info = Context::get('site_module_info');
 			$log['module'] = $site_module_info->module;
 			$log['act'] = Context::get('act');
-			$log['query_id'] = $this->query_id;
 			$log['time'] = date('Y-m-d H:i:s');
 			$log['result'] = 'Failed';
 			$log['errno'] = $this->errno;

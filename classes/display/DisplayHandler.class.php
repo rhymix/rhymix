@@ -197,10 +197,10 @@ class DisplayHandler extends Handler
 			// display DB query history
 			if((__DEBUG__ & 4) && $GLOBALS['__db_queries__'])
 			{
-				$queries_output = array(array('Query', 'Elapsed time', 'Result'));
+				$queries_output = array(array('Result', 'Query ID', 'Query', 'Elapsed time'));
 				foreach($GLOBALS['__db_queries__'] as $query)
 				{
-					$queries_output[] = array($query['query'], sprintf('%0.5f', $query['elapsed_time']), $query['result']);
+					$queries_output[] = array($query['result'], $query['query_id'], $query['query'], sprintf('%0.5f', $query['elapsed_time']));
 				}
 				$firephp->fb(
 						array(
