@@ -49,7 +49,7 @@ class CacheFile extends CacheBase
 	 */
 	function getCacheFileName($key)
 	{
-		return $this->cache_dir . str_replace(':', '_', $key);
+		return $this->cache_dir . str_replace(':', '/', $key);
 	}
 
 	/**
