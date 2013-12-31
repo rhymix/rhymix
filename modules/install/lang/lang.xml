@@ -19,6 +19,7 @@
 	<item name="input_dbinfo_by_dbtype">
 		<value xml:lang="ko"><![CDATA[%s 정보입력]]></value>
 		<value xml:lang="en"><![CDATA[Input %s info]]></value>
+		<value xml:lang="jp"><![CDATA[%s 情報入力]]></value>
 	</item>
 	<item name="install_progress_menu" type="array">
 		<item name="language">
@@ -64,22 +65,27 @@
 	<item name="install_condition_enable">
 		<value xml:lang="ko"><![CDATA[설치가 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can Install.]]></value>
+		<value xml:lang="jp"><![CDATA[設置できます。]]></value>
 	</item>
 	<item name="install_details">
 		<value xml:lang="ko"><![CDATA[자세히]]></value>
 		<value xml:lang="en"><![CDATA[Details]]></value>
+		<value xml:lang="jp"><![CDATA[詳細]]></value>
 	</item>
 	<item name="install_simply">
 		<value xml:lang="ko"><![CDATA[간단히]]></value>
 		<value xml:lang="en"><![CDATA[Simply]]></value>
+		<value xml:lang="jp"><![CDATA[簡単]]></value>
 	</item>
 	<item name="advanced_setup">
 		<value xml:lang="ko"><![CDATA[고급 설정]]></value>
 		<value xml:lang="en"><![CDATA[Advanced Setup]]></value>
+		<value xml:lang="jp"><![CDATA[上級設定]]></value>
 	</item>
 	<item name="install_ftp_reason">
 		<value xml:lang="ko"><![CDATA[FTP 정보를 등록하는 이유.]]></value>
 		<value xml:lang="en"><![CDATA[Reason of FTP info is needed.]]></value>
+		<value xml:lang="jp"><![CDATA[FTP情報を登録する理由。]]></value>
 	</item>
 	<item name="install_checklist_title" type="array">
 		<item name="php_version">
@@ -151,16 +157,19 @@
 		<item name="db">
 			<value xml:lang="ko"><![CDATA[DB]]></value>
 			<value xml:lang="en"><![CDATA[DB]]></value>
+			<value xml:lang="jp"><![CDATA[DB]]></value>
 		</item>
 	</item>
 	<item name="install_checklist_desc" type="array">
 		<item name="php_version">
 			<value xml:lang="ko"><![CDATA[[필수] PHP버전이 5.2.4 이상에서 설치가 가능합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] XE supports only PHP Version 5.2.4 or higher]]></value>
+			<value xml:lang="jp"><![CDATA[[必修] PHPバージョンが5.2.4以上で設置が可能です。]]></value>
 		</item>
 		<item name="php_version_warning">
-			<value xml:lang="ko"><![CDATA[[권장] XE는 PHP 5.3.10 버전 이상을 권장합니다.<br> PHP 5.2.x버전은 더이상 업데이트되지 않는 버전입니다.]]></value>
+			<value xml:lang="ko"><![CDATA[[권장] XE는 PHP 5.3.10 버전 이상을 권장합니다.<br />PHP 5.2.x버전은 더이상 업데이트되지 않는 버전입니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Recommend] XE recommends only PHP Version 5.3.10 or higher]]></value>
+			<value xml:lang="jp"><![CDATA[[推奨] XEはPHP 5.3.10バージョン以上を推奨します。<br />PHP 5.2.xバージョンはもうアップデートされないバージョンです。]]></value>
 		</item>
 		<item name="permission">
 			<value xml:lang="ko"><![CDATA[[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다.]]></value>
@@ -422,6 +431,7 @@
 	<item name="can_use_when_installed">
 		<value xml:lang="ko"><![CDATA[설치하면 사용할 수 있음.]]></value>
 		<value xml:lang="en"><![CDATA[You can use when it has installed.]]></value>
+		<value xml:lang="jp"><![CDATA[設置すれば使用できます。]]></value>
 	</item>
 	<item name="form_title">
 		<value xml:lang="ko"><![CDATA[DB &amp; 관리자 정보 입력]]></value>
@@ -556,12 +566,12 @@
 	<item name="db_info_desc">
 		<value xml:lang="ko"><![CDATA[<p><strong>DB 아이디</strong>, <strong>DB 비밀번호</strong>, <strong>DB 이름</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p>]]></value>
 		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p>]]></value>
-	　　<value xml:lang="jp"><![CDATA[<p><strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p>]]></value>
+		<value xml:lang="jp"><![CDATA[<p><strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p>]]></value>
 	</item>
 	<item name="db_prefix_desc">
 		<value xml:lang="ko"><![CDATA[<p><strong>DB 호스트 네임</strong>, <strong>DB Port</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p><p><strong>DB 테이블 머리말</strong> 정보는 사용자 정의 할 수 있습니다. 영문 소문자를 권장 합니다. 숫자를 포함할 수 있습니다. 특수 문자를 사용할 수 없습니다.</p>]]></value>
 		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table prefix</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>]]></value>
-	　　<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
+		<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
 	</item>
 	<item name="admin_title">
 		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
@@ -647,12 +657,14 @@
 		<value xml:lang="vi"><![CDATA[Nếu Host của bạn hỗ trợ Mod Rewrite, khi địa chỉ có dạng <b>http://blah/?document_srl=123</b> sẽ được rút ngắn thành <b>http://blah/123</b>]]></value>
 	</item>
 	<item name="disable_rewrite">
-		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없습니다.  웹 서버 담당자에게 <strong>rewrite_mod</strong>지원 여부를 확인 바랍니다.]]></value>
+		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없습니다. 웹 서버 담당자에게 <strong>rewrite_mod</strong>지원 여부를 확인 바랍니다.]]></value>
 		<value xml:lang="en"><![CDATA[Required module for "Friendly URL" feature is not found. Please check with the web master about <strong>rewrite_mod</strong> module support.]]></value>
+		<value xml:lang="jp"><![CDATA[短縮アドレスを使用できません。ウェブサーバー担当者に <strong>rewrite_mod</strong>サポート可否を確認してください。]]></value>
 	</item>
 	<item name="about_nginx_rewrite">
 		<value xml:lang="ko"><![CDATA[Nginx를 사용할 경우, 짧은 주소를 사용하기 위하여 rewrite 설정이 필요합니다. 설정방법은 <a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank"><strong>여기</strong></a>를 참고하세요.]]></value>
 		<value xml:lang="en"><![CDATA[For using "Friendly URL" feature at Nginx, need to configure rewrites at Nginx. show  <a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank"><strong>here</strong></a>.]]></value>
+		<value xml:lang="jp"><![CDATA[Nginxを使用する場合、短縮アクセスを使用するためにrewrite設定が必要です。設定方法は<a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank"><strong>여기</strong></a>を参考ください。]]></value>
 	</item>
 	<item name="time_zone">
 		<value xml:lang="ko"><![CDATA[표준 시간대]]></value>
@@ -805,15 +817,15 @@
 		<value xml:lang="tr"><![CDATA[Liste Al]]></value>
 		<value xml:lang="vi"><![CDATA[Nhận danh sách]]></value>
 	</item>
-	<item name="install_env_agreement">		
-		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>		
-		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>		
-		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>		
-	</item>		
-	<item name="install_env_agreement_desc">		
-		<value xml:lang="ko"><![CDATA['<strong>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</strong>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <strong>이 항목에 동의하지 않아도 됩니다.</strong>]]></value>		
-		<value xml:lang="en"><![CDATA[Information on '<strong>web server, DBMS, PHP version and extension, XE modules and addons</strong>' is sent to the XE statistics collection server. This information is collected anonymously and used to improve our software only. <strong>You don't have to agree to this.</strong>]]></value>		
-		<value xml:lang="jp"><![CDATA['<strong>ウェブサーバー、DBMS、PHPバージョンおよびExtension、XEモジュール、およびアドオン</strong>'情報が、XE統計収集サーバーへ転送されます。より良いソフトウェアを製作するための目的で活用されます。情報は、匿名で収集され、外部へ公開することはありません。<strong>この項目は、同意しなくても構いません。</strong>]]></value>		
+	<item name="install_env_agreement">
+		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>
+		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>
+		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>
+	</item>
+	<item name="install_env_agreement_desc">
+		<value xml:lang="ko"><![CDATA['<strong>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</strong>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <strong>이 항목에 동의하지 않아도 됩니다.</strong>]]></value>
+		<value xml:lang="en"><![CDATA[Information on '<strong>web server, DBMS, PHP version and extension, XE modules and addons</strong>' is sent to the XE statistics collection server. This information is collected anonymously and used to improve our software only. <strong>You don't have to agree to this.</strong>]]></value>
+		<value xml:lang="jp"><![CDATA['<strong>ウェブサーバー、DBMS、PHPバージョンおよびExtension、XEモジュール、およびアドオン</strong>'情報が、XE統計収集サーバーへ転送されます。より良いソフトウェアを製作するための目的で活用されます。情報は、匿名で収集され、外部へ公開することはありません。<strong>この項目は、同意しなくても構いません。</strong>]]></value>
 	</item>
 	<item name="ftp_form_title">
 		<value xml:lang="ko"><![CDATA[FTP 계정 정보 입력]]></value>
@@ -1012,6 +1024,7 @@
 	<item name="db_config_php_validation">
 		<value xml:lang="ko"><![CDATA[db.config.php 유효성 확인]]></value>
 		<value xml:lang="en"><![CDATA[Validation of db.config.php]]></value>
+		<value xml:lang="jp"><![CDATA[db.config.php 有効性確認]]></value>
 	</item>
 	<item name="msg_possible_only_file">
 		<value xml:lang="ko"><![CDATA[파일만 업로드 가능합니다.]]></value>

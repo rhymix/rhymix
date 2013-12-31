@@ -480,7 +480,7 @@
 		<item name="voted_count">
 			<value xml:lang="ko"><![CDATA[추천 수 (이상)]]></value>
 			<value xml:lang="en"><![CDATA[Number of Votes (over)]]></value>
-			<value xml:lang="jp"><![CDATA[推薦数（以上）]]></value>
+			<value xml:lang="jp"><![CDATA[推奨数（以上）]]></value>
 			<value xml:lang="zh-CN"><![CDATA[推荐数（以上）]]></value>
 			<value xml:lang="zh-TW"><![CDATA[推薦數(以上)]]></value>
 			<value xml:lang="fr"><![CDATA[Recommandés (surplus)]]></value>
@@ -491,6 +491,7 @@
 		</item>
 		<item name="blamed_count">
 			<value xml:lang="ko"><![CDATA[비추천 수 (이상)]]></value>
+			<value xml:lang="jp"><![CDATA[非推奨数（以上）]]></value>
 		</item>
 		<item name="comment_count">
 			<value xml:lang="ko"><![CDATA[댓글 수 (이상)]]></value>
@@ -864,11 +865,13 @@
 	<item name="category_description">
 		<value xml:lang="ko"><![CDATA[카테고리 설명]]></value>
 		<value xml:lang="en"><![CDATA[Category Description]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリー説明]]></value>
 		<value xml:lang="zh-TW"><![CDATA[分類說明]]></value>
 	</item>
 	<item name="no_title_document">
 		<value xml:lang="ko"><![CDATA[제목이 없는 문서입니다.]]></value>
 		<value xml:lang="en"><![CDATA[No title in this document.]]></value>
+		<value xml:lang="jp"><![CDATA[タイトルがないドキュメントです。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此文章無標題。]]></value>
 	</item>
 </lang>
