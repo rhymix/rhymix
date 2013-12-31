@@ -221,20 +221,6 @@ class documentModel extends document
 		$obj->sort_index = $sort_check->sort_index;
 		$obj->isExtraVars = $sort_check->isExtraVars;
 
-		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'object:'.$obj->module_srl.'_category_srl:'.$obj->category_srl.'_list_count:'.$obj->list_count.'_search_target:'.$obj->search_target.'_search_keyword:'.$obj->search_keyword.'_page'.$obj->page.'_sort_index:'.$obj->sort_index.'_order_type:'.$obj->order_type;
-			$cache_key = $oCacheHandler->getGroupKey('documentList', $object_key);
-			$output = $oCacheHandler->get($cache_key);
-
-			if($output)
-			{
-				return $output;
-			}
-		}
-
 		$this->_setSearchOption($obj, $args, $query_id, $use_division);
 
 		if ($sort_check->isExtraVars)
@@ -313,7 +299,7 @@ class documentModel extends document
 			}
 
 			$output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-			$virtual_number --;
+			$virtual_number--;
 		}
 
 		if($load_extra_vars) $this->setToAllDocumentExtraVars();
@@ -325,8 +311,6 @@ class documentModel extends document
 				$output->data[$number] = $GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl];
 			}
 		}
-		//insert in cache
-		if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
 
 		return $output;
 	}

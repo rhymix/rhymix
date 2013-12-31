@@ -200,7 +200,6 @@ class documentAdminController extends document
 				$cache_key_item = 'object_document_item:'.$document_srl;
 				$oCacheHandler->delete($cache_key_item);
 			}
-			$oCacheHandler->invalidateGroupKey('documentList');
 		}
 		return new Object();
 	}
@@ -461,7 +460,6 @@ class documentAdminController extends document
 					$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
 				}
 			}
-			$oCacheHandler->invalidateGroupKey('documentList');
 		}
 		return $output;
 	}

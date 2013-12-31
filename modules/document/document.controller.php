@@ -326,7 +326,6 @@ class documentController extends document
 		{
 			$cache_key = 'object:'.$obj->document_srl;
 			$oCacheHandler->delete($cache_key);
-			$oCacheHandler->invalidateGroupKey('documentList');
 		}
 
 		return $output;
@@ -541,7 +540,6 @@ class documentController extends document
 		{
 			$cache_key = 'object:'.$obj->document_srl;
 			$oCacheHandler->delete($cache_key);
-			$oCacheHandler->invalidateGroupKey('documentList');
 			//remove document item from cache
 			$cache_key = 'object_document_item:'.$obj->document_srl;
 			$oCacheHandler->delete($cache_key);
@@ -636,7 +634,6 @@ class documentController extends document
 		{
 			$cache_key = 'object:'.$document_srl;
 			$oCacheHandler->delete($cache_key);
-			$oCacheHandler->invalidateGroupKey('documentList');
 			$cache_key = 'object_document_item:'.$document_srl;
 			$oCacheHandler->delete($cache_key);
 		}
@@ -784,7 +781,6 @@ class documentController extends document
 		$oCacheHandler = &CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$oCacheHandler->invalidateGroupKey('documentList');
 		}
 
 		return $output;
@@ -830,7 +826,6 @@ class documentController extends document
 		{
 			$cache_key = 'object:'.$document_srl;
 			$oCacheHandler->delete($cache_key);
-			$oCacheHandler->invalidateGroupKey('documentList');
 			//remove document item from cache
 			$cache_key = 'object_document_item:'.$document_srl;
 			$oCacheHandler->delete($cache_key);
@@ -1225,7 +1220,6 @@ class documentController extends document
 		{
 			$cache_key = 'object:'.$document_srl;
 			$oCacheHandler->delete($cache_key);
-			$oCacheHandler->invalidateGroupKey('documentList');
 			//remove document item from cache
 			$cache_key = 'object_document_item:'.$document_srl;
 			$oCacheHandler->delete($cache_key);
