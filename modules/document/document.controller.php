@@ -1726,16 +1726,10 @@ class documentController extends document
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$args->sort_index = 'list_order';
-		$output = executeQuery('document.getCategoryList', $args);
+		$output = executeQueryArray('document.getCategoryList', $args);
 
 		$category_list = $output->data;
 
-		if(!$category_list)
-		{
-			FileHandler::removeFile($xml_file);
-			FileHandler::removeFile($php_file);
-			return false;
-		}
 		if(!is_array($category_list)) $category_list = array($category_list);
 
 		$category_count = count($category_list);
