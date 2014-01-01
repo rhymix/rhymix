@@ -77,7 +77,7 @@ class documentItem extends Object
 		if(!$this->document_srl) return;
 
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport() && !count($this->columnList))
 		{
 			$cache_key = 'object_document_item:'.$this->document_srl;

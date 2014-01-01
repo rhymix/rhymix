@@ -1455,7 +1455,7 @@ class memberController extends member
 		$output = executeQuery('member.addMemberToGroup',$args);
 		$output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
@@ -1501,7 +1501,7 @@ class memberController extends member
 			if(!$output->toBool()) return $output;
 		}
 
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
@@ -2117,15 +2117,17 @@ class memberController extends member
 		}
 
 		$oDB->commit();
-		// Save Session
-		if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$args->member_srl;
+			$cache_key = 'object:member_info:'.$args->member_srl;
 			$oCacheHandler->delete($cache_key);
 		}
+
+		// Save Session
+		if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 		$logged_info = Context::get('logged_info');
 
 		$output->add('member_srl', $args->member_srl);
@@ -2139,7 +2141,7 @@ class memberController extends member
 	{
 		$output = executeQuery('member.updateChangePasswordDate', $args);
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$args->member_srl;

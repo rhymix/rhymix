@@ -113,7 +113,7 @@ class moduleModel extends module
 			}
 		}
 
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		// If domain is set, look for subsite
 		if($domain !== '')
 		{
@@ -123,7 +123,7 @@ class moduleModel extends module
 				$args = new stdClass();
 				$args->domain = $domain;
 				$output = executeQuery('module.getSiteInfoByDomain', $args);
-				if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put('domain_' . $domain, $output);
+				if($oCacheHandler->isSupport()) $oCacheHandler->put('domain_' . $domain, $output);
 			}
 			if($output->toBool() && $output->data && $vid)
 			{
@@ -135,7 +135,7 @@ class moduleModel extends module
 		// If no virtual website was found, get default website
 		if($domain === '')
 		{
-			if($oCacheHandler->isSupport())	$output = $oCacheHandler->get('default_site');
+			if($oCacheHandler->isSupport()) $output = $oCacheHandler->get('default_site');
 			if(!$output)
 			{
 				$args = new stdClass();
@@ -194,7 +194,7 @@ class moduleModel extends module
 		$args = new stdClass();
 		$args->mid = $mid;
 		$args->site_srl = (int)$site_srl;
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$mid.'_'.$site_srl;
@@ -288,7 +288,7 @@ class moduleModel extends module
 		$moduleInfo->designSettings->skin->mobileIsDefault = $moduleInfo->is_mskin_fix == 'N' ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$mid.'_'.$site_srl;
@@ -333,7 +333,7 @@ class moduleModel extends module
 		// Get data
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_module_info:'.$module_srl;
@@ -526,7 +526,7 @@ class moduleModel extends module
 	function getTriggers($trigger_name, $called_position)
 	{
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$object_key = 'object:'.$trigger_name.'_'.$called_position;
@@ -1247,7 +1247,7 @@ class moduleModel extends module
 	function getModuleConfig($module, $site_srl = 0)
 	{
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object', null, true);
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
@@ -1262,11 +1262,11 @@ class moduleModel extends module
 				$args->site_srl = $site_srl;
 				$output = executeQuery('module.getModuleConfig', $args);
 				$config = unserialize($output->data->config);
+				if(!$config) $config = new stdClass;
 				//insert in cache
 				if($oCacheHandler->isSupport())
 				{
-					if($config)
-						$oCacheHandler->put($cache_key,$config);
+					$oCacheHandler->put($cache_key,$config);
 				}
 				$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 			}
@@ -1283,7 +1283,7 @@ class moduleModel extends module
 	function getModulePartConfig($module, $module_srl)
 	{
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object', null, true);
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_module_part_config:'.$module.'_'.$module_srl;
@@ -1298,10 +1298,11 @@ class moduleModel extends module
 				$args->module_srl = $module_srl;
 				$output = executeQuery('module.getModulePartConfig', $args);
 				$config = unserialize($output->data->config);
+				if(!$config) $config = new stdClass;
 				//insert in cache
 				if($oCacheHandler->isSupport())
 				{
-					if($config) $oCacheHandler->put($cache_key,$config);
+					$oCacheHandler->put($cache_key, $config);
 				}
 				$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 			}
@@ -1595,7 +1596,7 @@ class moduleModel extends module
 	{
 		if(is_array($module_srl)) $module_srl = implode(',',$module_srl);
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:module_extra_vars_'.$module_srl;
@@ -1718,7 +1719,7 @@ class moduleModel extends module
 		}
 
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$output = $oCacheHandler->get($cache_key);
@@ -1765,7 +1766,7 @@ class moduleModel extends module
 	{
 		if(!$module_info->module_srl) return;
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_module_mobile_skin_vars:'.$module_info->module_srl;

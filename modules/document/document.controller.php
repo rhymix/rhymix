@@ -321,7 +321,7 @@ class documentController extends document
 		$output->add('document_srl',$obj->document_srl);
 		$output->add('category_srl',$obj->category_srl);
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$obj->document_srl;
@@ -535,7 +535,7 @@ class documentController extends document
 
 		$output->add('document_srl',$obj->document_srl);
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$obj->document_srl;
@@ -629,7 +629,7 @@ class documentController extends document
 		$oDB->commit();
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$document_srl;
@@ -778,7 +778,7 @@ class documentController extends document
 		$oDB->commit();
 
 		// Clear cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 		}
@@ -821,7 +821,7 @@ class documentController extends document
 		// Register session
 		$_SESSION['readed_document'][$document_srl] = true;
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$document_srl;
@@ -1215,7 +1215,7 @@ class documentController extends document
 		}
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$document_srl;

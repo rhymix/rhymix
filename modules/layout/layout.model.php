@@ -259,7 +259,7 @@ class layoutModel extends layout
 	function getLayout($layout_srl)
 	{
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$layout_srl;
