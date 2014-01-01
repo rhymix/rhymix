@@ -1233,7 +1233,7 @@ class memberAdminController extends member
 	function _deleteMemberGroupCache($site_srl = 0)
 	{
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object', null, true);
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_groups:'.$site_srl;

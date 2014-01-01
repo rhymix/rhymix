@@ -284,10 +284,10 @@ class memberModel extends member
 		//columnList size zero... get full member info
 		if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0)
 		{
-			$oCacheHandler = &CacheHandler::getInstance('object');
+			$oCacheHandler = CacheHandler::getInstance('object', null, true);
 			if($oCacheHandler->isSupport())
 			{
-				$cache_key = 'object:'.$member_srl;
+				$cache_key = 'object:member_info:'.$member_srl;
 				$GLOBALS['__member_info__'][$member_srl] = $oCacheHandler->get($cache_key);
 			}
 
@@ -442,7 +442,7 @@ class memberModel extends member
 	function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false)
 	{
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
@@ -538,7 +538,7 @@ class memberModel extends member
 				$site_srl = 0;
 			}
 
-			$oCacheHandler = &CacheHandler::getInstance('object', null, true);
+			$oCacheHandler = CacheHandler::getInstance('object', null, true);
 			if($oCacheHandler->isSupport())
 			{
 				$cache_key = 'object_groups:'.$site_srl;

@@ -61,7 +61,7 @@ class moduleController extends module
 		$output = executeQuery('module.insertTrigger', $args);
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$oCacheHandler->invalidateGroupKey('triggers');
@@ -91,7 +91,7 @@ class moduleController extends module
 		$output = executeQuery('module.deleteTrigger', $args);
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$oCacheHandler->invalidateGroupKey('triggers');
@@ -187,7 +187,7 @@ class moduleController extends module
 		$output = executeQuery('module.insertModuleConfig', $args);
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
@@ -211,7 +211,7 @@ class moduleController extends module
 		if(!$output->toBool()) return $output;
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object', NULL, TRUE);
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_module_part_config:'.$module.'_'.$module_srl;
@@ -288,7 +288,7 @@ class moduleController extends module
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl);
 		$mid = $module_info->mid;
 
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			if($args->site_srl == 0)
@@ -554,7 +554,7 @@ class moduleController extends module
 			foreach($menuOutput->data as $itemInfo)
 			{
 				$itemInfo->url = $args->mid;
-	
+
 				$updateMenuItemOutput = $oMenuAdminController->updateMenuItem($itemInfo);
 				if(!$updateMenuItemOutput->toBool())
 				{
@@ -563,7 +563,7 @@ class moduleController extends module
 				}
 			}
 		}
-		
+
 		// if mid changed, change mid of success_return_url to new mid
 		if($module_info->mid != $args->mid && Context::get('success_return_url'))
 		{
@@ -578,7 +578,7 @@ class moduleController extends module
 		$output->add('module_srl',$args->module_srl);
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_module_info:'.$args->module_srl;
@@ -722,7 +722,7 @@ class moduleController extends module
 		// commit
 		$oDB->commit();
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object_module_info:'.$args->module_srl;
@@ -971,7 +971,7 @@ class moduleController extends module
 		}
 
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
 			$oCacheHandler->delete($cache_key);
@@ -1008,7 +1008,7 @@ class moduleController extends module
 		$args->module_srl = $module_srl;
 		return executeQuery('module.deleteModuleExtraVars', $args);
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:module_extra_vars_'.$module_srl;
@@ -1191,7 +1191,7 @@ class moduleController extends module
 
 			// Check uploaded file
 			if(!checkUploadedFile($tmp)) return false;
-			
+
 			if(!@move_uploaded_file($tmp, $save_filename))
 			{
 				return false;
@@ -1228,7 +1228,7 @@ class moduleController extends module
 
 		// Check uploaded file
 		if(!checkUploadedFile($tmp)) return false;
-		
+
 		// upload
 		if(!@move_uploaded_file($tmp, $save_filename))
 		{

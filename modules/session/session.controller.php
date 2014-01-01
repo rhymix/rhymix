@@ -27,7 +27,7 @@ class sessionController extends session
 	function write($session_key, $val)
 	{
 		if(!$session_key || !$this->session_started) return;
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$session_key;
@@ -116,7 +116,7 @@ class sessionController extends session
 	{
 		if(!$session_key || !$this->session_started) return;
 		//remove session from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'object:'.$session_key;
