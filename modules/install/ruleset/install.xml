@@ -7,5 +7,6 @@
 		<field name="password" required="true" length="1:20" />
 		<field name="password2" required="true" length="1:20" equalto="password" />
 		<field name="nick_name" required="true" length="2:20" />
+		<field name="user_id" required="true" length="2:20" rule="userid" />
     </fields>
 </ruleset>
