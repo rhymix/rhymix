@@ -155,21 +155,21 @@ class ModuleHandler extends Handler
 			{
 				// If it exists, compare mid based on the module information
 				// if mids are not matching, set it as the document's mid
-				if($this->mid != $module_info->mid)
+				if($this->mid && $this->mid != $module_info->mid)
 				{
 					$this->mid = $module_info->mid;
 					Context::set('mid', $module_info->mid, TRUE);
 					header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
 					return FALSE;
 				}
+				
+				// if requested module is different from one of the document, remove the module information retrieved based on the document number
+				if($this->module && $module_info->module != $this->module)
+				{
+					unset($module_info);
+				}
 			}
-			  
-			// if requested module is different from one of the document, remove the module information retrieved based on the document number
-			if($this->module && $module_info->module != $this->module)
-			{
- 				$this->error = 'msg_invalid_request';
- 				return TRUE;
-			}
+
 		}
 
 		// If module_info is not set yet, and there exists mid information, get module information based on the mid
