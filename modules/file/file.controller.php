@@ -301,7 +301,7 @@ class fileController extends file
 		
 		$file_size = $file_obj->file_size;
 		$filename = $file_obj->source_filename;
-		if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
+		if(strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') || (strstr($_SERVER['HTTP_USER_AGENT'], 'Windows') && strstr($_SERVER['HTTP_USER_AGENT'], 'Trident') && strstr($_SERVER['HTTP_USER_AGENT'], 'rv')))
 		{
 			$filename = rawurlencode($filename);
 			$filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
