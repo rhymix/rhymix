@@ -347,12 +347,7 @@ class EmbedFilter
 					}
 				}
 
-				if($isWhiteDomain && $isWhiteMimetype && $ext)
-				{
-					$isWhiteExt = $this->isWhiteExt($ext);
-				}
-
-				if(!$isWhiteDomain || !$isWhiteMimetype || !$isWhiteExt)
+				if(!$isWhiteDomain || !$isWhiteMimetype)
 				{
 					$content = str_replace($objectTag, htmlspecialchars($objectTag, ENT_COMPAT, 'UTF-8', false), $content);
 				}
@@ -400,12 +395,7 @@ class EmbedFilter
 					}
 				}
 
-				if($isWhiteDomain && $isWhiteMimetype && $ext)
-				{
-					$isWhiteExt = $this->isWhiteExt($ext);
-				}
-
-				if(!$isWhiteDomain || !$isWhiteMimetype || !$isWhiteExt)
+				if(!$isWhiteDomain || !$isWhiteMimetype)
 				{
 					$content = str_replace($embedTag, htmlspecialchars($embedTag, ENT_COMPAT, 'UTF-8', false), $content);
 				}
@@ -483,12 +473,7 @@ class EmbedFilter
 							$ext = strtolower(substr(strrchr($parser->iNodeAttributes['value'], "."), 1));
 							$isWhiteDomain = $this->isWhiteDomain($parser->iNodeAttributes['value']);
 
-							if($isWhiteDomain && $ext)
-							{
-								$isWhiteExt = $this->isWhiteExt($ext);
-							}
-
-							if(!$isWhiteDomain || !$isWhiteExt)
+							if(!$isWhiteDomain)
 							{
 								$content = str_replace($paramTag, htmlspecialchars($paramTag, ENT_COMPAT, 'UTF-8', false), $content);
 							}
