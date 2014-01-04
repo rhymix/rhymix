@@ -6,24 +6,12 @@
     <title xml:lang="zh-TW">内容預設面板</title>
     <title xml:lang="jp">コンテンツウィジェットのデフォルトスキン</title>
     <title xml:lang="tr">Genel içerik durumunda varsayılan dış görünüm.</title>
-    <description xml:lang="ko">Content 위젯 기본 스킨 입니다.
-    NAVER (developers@xpressengine.com)
-    </description>
-    <description xml:lang="vi">Skin mặc định Widget Nội dung.
-    NAVER (developers@xpressengine.com)
-    </description>
-    <description xml:lang="zh-CN">全局内容控件默认皮肤。
-    NAVER (developers@xpressengine.com)
-    </description>
-    <description xml:lang="zh-TW">内容預設面板。
-    NAVER (developers@xpressengine.com)
-    </description>
-    <description xml:lang="jp">コンテンツウィジェットのデフォルトスキン
-    NAVER (developers@xpressengine.com)
-    </description>
-    <description xml:lang="tr">Genel içerik durumunda varsayılan dış görünüm.
-    NAVER (developers@xpressengine.com)
-    </description>
+    <description xml:lang="ko">Content 위젯 기본 스킨 입니다.</description>
+    <description xml:lang="vi">Skin mặc định Widget Nội dung.</description>
+    <description xml:lang="zh-CN">全局内容控件默认皮肤。</description>
+    <description xml:lang="zh-TW">内容預設面板。</description>
+    <description xml:lang="jp">コンテンツウィジェットのデフォルトスキン</description>
+    <description xml:lang="tr">Genel içerik durumunda varsayılan dış görünüm.</description>
     <version>1.7</version>
     <date>2013-11-27</date>
     <link>http://xpressengine.com/</link>
