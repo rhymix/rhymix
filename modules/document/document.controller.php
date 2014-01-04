@@ -320,13 +320,6 @@ class documentController extends document
 		$this->addGrant($obj->document_srl);
 		$output->add('document_srl',$obj->document_srl);
 		$output->add('category_srl',$obj->category_srl);
-		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'object:'.$obj->document_srl;
-			$oCacheHandler->delete($cache_key);
-		}
 
 		return $output;
 	}
@@ -538,10 +531,8 @@ class documentController extends document
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$obj->document_srl;
-			$oCacheHandler->delete($cache_key);
 			//remove document item from cache
-			$cache_key = 'object_document_item:'.$obj->document_srl;
+			$cache_key = 'document_item:'.$obj->document_srl;
 			$oCacheHandler->delete($cache_key);
 		}
 
@@ -632,9 +623,7 @@ class documentController extends document
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$document_srl;
-			$oCacheHandler->delete($cache_key);
-			$cache_key = 'object_document_item:'.$document_srl;
+			$cache_key = 'document_item:'.$document_srl;
 			$oCacheHandler->delete($cache_key);
 		}
 
@@ -799,6 +788,7 @@ class documentController extends document
 		// Call a trigger when the read count is updated (after)
 		$output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
 		if(!$output->toBool()) return $output;
+
 		// Pass if read count is increaded on the session information
 		if($_SESSION['readed_document'][$document_srl]) return false;
 
@@ -818,18 +808,9 @@ class documentController extends document
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.updateReadedCount', $args);
+
 		// Register session
 		$_SESSION['readed_document'][$document_srl] = true;
-		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'object:'.$document_srl;
-			$oCacheHandler->delete($cache_key);
-			//remove document item from cache
-			$cache_key = 'object_document_item:'.$document_srl;
-			$oCacheHandler->delete($cache_key);
-		}
 
 		return TRUE;
 	}
@@ -1212,17 +1193,6 @@ class documentController extends document
 		{
 			$args->update_order = -1*getNextSequence();
 			$args->last_updater = $last_updater;
-		}
-
-		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'object:'.$document_srl;
-			$oCacheHandler->delete($cache_key);
-			//remove document item from cache
-			$cache_key = 'object_document_item:'.$document_srl;
-			$oCacheHandler->delete($cache_key);
 		}
 
 		return executeQuery('document.updateCommentCount', $args);
