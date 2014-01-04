@@ -682,7 +682,7 @@ class documentItem extends Object
 
 		if(!$cpage)
 		{
-			$cpage = Context::get('cpage') ? Context::get('cpage') : 1;
+			$cpage = Context::get('cpage');
 		}
 
 		// Get a list of comments
