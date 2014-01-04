@@ -169,6 +169,8 @@ class CacheHandler extends Handler
 	 */
 	function put($key, $obj, $valid_time = 0)
 	{
+		if(!$key) return false;
+
 		$key = $this->getCacheKey($key);
 		if(!$this->handler)
 		{
@@ -249,7 +251,7 @@ class CacheHandler extends Handler
 			$this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
 		}
 
-		return $this->keyGroupVersions[$keyGroupName] . ':' . $keyGroupName . ':' . $key;
+		return 'cache_group_' . $this->keyGroupVersions[$keyGroupName] . ':' . $keyGroupName . ':' . $key;
 	}
 
 	/**
