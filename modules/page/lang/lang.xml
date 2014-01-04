@@ -14,10 +14,12 @@
 	<item name="none_content">
 		<value xml:lang="ko"><![CDATA[내용이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This is empty page.]]></value>
+		<value xml:lang="jp"><![CDATA[内容がありません。]]></value>
 	</item>
 	<item name="cmd_manage_selected_page">
 		<value xml:lang="ko"><![CDATA[선택한 페이지 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage Selected Page]]></value>
+		<value xml:lang="jp"><![CDATA[選択したページ管理]]></value>
 	</item>
 	<item name="about_page">
 		<value xml:lang="ko"><![CDATA[하나의 완성된 페이지를 제작할 수 있습니다. 최근게시물이나 기타 위젯을 이용해서 동적인 페이지 생성이 가능하고 에디터 컴포넌트를 통해서 다양한 모습으로 꾸밀 수 있습니다. 접속 URL은 다른 페이지와 같이 mid=모듈이름 으로 접속 가능하며 기본으로 선택하면 접속 시 메인 페이지가 됩니다.]]></value>
@@ -128,7 +130,7 @@
 	<item name="about_page_type">
 		<value xml:lang="ko"><![CDATA[페이지 타입을 선택하여 원하는 화면을 구성할 수 있습니다. <ol><li>위젯형 : 여러가지 위젯들을 생성하여 화면을 구성합니다.</li><li>문서형 : 제목, 내용, 태그를 갖는 문서를 제작하여 포스팅 형식의 페이지를 작성합니다. </li><li>외부페이지형 : 외부 HTML 또는 PHP 파일을 XE에서 사용할 수 있습니다.</li></ol>]]></value>
 		<value xml:lang="en"><![CDATA[Select Page Type to build a page. <ol><li>Widget: Create multiple widgets.</li><li>Article: Create articles with titles, contents and tags for posting page. </li><li>External Page: Use external HTML or PHP files in XE.</li></ol>]]></value>
-	　　<value xml:lang="jp"><![CDATA[ページタイプを選択して好きな画面を構成できます。<ol><li>ウィジェット型 : いろんなウィジェットを生成して画面を構成します。</li><li>ドキュメント型 : タイトル、内容、タグのあるドキュメントを製作して、投稿形式のページを作成します。</li><li>外部ページ型 : 外部HTML、またはPHPファイルをXEで使用できます。]]></value>
+		<value xml:lang="jp"><![CDATA[ページタイプを選択して好きな画面を構成できます。<ol><li>ウィジェット型 : いろんなウィジェットを生成して画面を構成します。</li><li>ドキュメント型 : タイトル、内容、タグのあるドキュメントを製作して、投稿形式のページを作成します。</li><li>外部ページ型 : 外部HTML、またはPHPファイルをXEで使用できます。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇想要建立的頁面。 <ol><li>Widget 頁面：是以 widgets 為主所建立的頁面。</li><li>主題頁面：可建立頁面的主題、內容及標簽。 </li><li>外連頁面：在 XE 中使用外部 HTML 或 PHP 檔案。</li></ol>]]></value>
 	</item>
 	<item name="opage_path">
@@ -140,12 +142,12 @@
 	<item name="about_opage">
 		<value xml:lang="ko"><![CDATA[XE가 아닌 외부 HTML 또는 PHP 파일을 삽입할 수 있습니다. 절대경로, 상대경로를 이용할 수 있으며 http:// 로 시작할 경우 서버 외부의 페이지도 표시할 수 있습니다]]></value>
 		<value xml:lang="en"><![CDATA[This module enables to use external html or php files in XE. It allows absolute or relative path, and if the url starts with 'http://' , it can display the external page of the server.]]></value>
-	　　<value xml:lang="jp"><![CDATA[XEではなく、外部HTML、またはPHPファイルをXEで使用できるようにするモジュールです。 絶対パス、相対パスを利用でき、http://で開始する場合にサーバー外部のページも表示できます。]]></value>
+		<value xml:lang="jp"><![CDATA[XEではなく、外部HTML、またはPHPファイルをXEで使用できるようにするモジュールです。 絶対パス、相対パスを利用でき、http://で開始する場合にサーバー外部のページも表示できます。]]></value>
 	</item>
 	<item name="about_opage_path">
 		<value xml:lang="ko"><![CDATA[외부문서의 위치를 입력해주세요. /path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다. http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다. 현재 XE가 설치된 절대경로는 다음과 같습니다. ]]></value>
 		<value xml:lang="en"><![CDATA[Please enter the location of external document. Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used. If you input the path like 'http://url/sample.php', the result will be received and then displayed. This is current XE's absolute path. ]]></value>
-	　　<value xml:lang="jp"><![CDATA[外部ドキュメントの位置を入力してください。 /path1/path2/sample.phpのような絶対パス、もしくは../path2/sample.phpのような相対パス両方とも使用できます。 http://url/sample.phpのように使用すると、該当ページをウェブへ転送し、出力します。 現在、XEがインストールされている絶対パスは、次のとおりです。 ]]></value>
+		<value xml:lang="jp"><![CDATA[外部ドキュメントの位置を入力してください。 /path1/path2/sample.phpのような絶対パス、もしくは../path2/sample.phpのような相対パス両方とも使用できます。 http://url/sample.phpのように使用すると、該当ページをウェブへ転送し、出力します。 現在、XEがインストールされている絶対パスは、次のとおりです。 ]]></value>
 	</item>
 	<item name="opage_mobile_path">
 		<value xml:lang="ko"><![CDATA[모바일용 외부 문서 위치]]></value>
@@ -156,19 +158,22 @@
 	<item name="about_opage_mobile_path">
 		<value xml:lang="ko"><![CDATA[모바일용 외부문서의 위치를 입력해주세요. 입력하지 않으면 위에서 지정한 외부문서 위치의 페이지를 이용합니다.  /path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다. http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다. 현재 XE가 설치된 절대경로는 다음과 같습니다. ]]></value>
 		<value xml:lang="en"><![CDATA[Please enter the location of external document for mobile view. If not inputted, it uses the external document specified above. Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used. If you input the path like 'http://url/sample.php', the result will be received and then displayed. This is current XE's absolute path. ]]></value>
-	　　<value xml:lang="jp"><![CDATA[モバイル用外部ドキュメントの位置を入力してください。入力しないと上記で指定した外部ドキュメントの位置のページを利用します。 /path1/path2/sample.phpのように絶対パス、もしくは../path2/sample.phpのような相対パス両方とも使用できます。 http://url/sample.phpのように使用すると、該当ページをウェブへ転送し、出力します。 現在、XEのインストールされている絶対パスは、次のとおりです。 ]]></value>
+		<value xml:lang="jp"><![CDATA[モバイル用外部ドキュメントの位置を入力してください。入力しないと上記で指定した外部ドキュメントの位置のページを利用します。 /path1/path2/sample.phpのように絶対パス、もしくは../path2/sample.phpのような相対パス両方とも使用できます。 http://url/sample.phpのように使用すると、該当ページをウェブへ転送し、出力します。 現在、XEのインストールされている絶対パスは、次のとおりです。 ]]></value>
 	</item>
 	<item name="page_management">
 		<value xml:lang="ko"><![CDATA[페이지 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage of page]]></value>
+		<value xml:lang="jp"><![CDATA[ページ管理]]]></value>
 		<value xml:lang="zh-TW"><![CDATA[頁面管理]]></value>
 	</item>
 	<item name="page_delete_warning">
 		<value xml:lang="ko"><![CDATA[페이지를 삭제할 때 파일도 함께 삭제합니다]]></value>
 		<value xml:lang="en"><![CDATA[If you delete a page, the files of the page will be removed also.]]></value>
+		<value xml:lang="jp"><![CDATA[ページを削除する時、ファイルも一緒に削除されます。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[如果刪除頁面，頁面標題將會一起被刪除。]]></value>
 	</item>
 	<item name="msg_not_selected_page">
 		<value xml:lang="ko"><![CDATA[선택한 페이지가 없습니다.]]></value>
+		<value xml:lang="jp"><![CDATA[選択したページがありません。]]></value>
 	</item>
 </lang>

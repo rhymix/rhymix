@@ -87,6 +87,7 @@
 	<item name="type_ttxml">
 		<value xml:lang="ko"><![CDATA[TTXML]]></value>
 		<value xml:lang="en"><![CDATA[TTXML]]></value>
+		<value xml:lang="jp"><![CDATA[TTXML]]></value>
 	</item>
 	<item name="type_module">
 		<value xml:lang="ko"><![CDATA[게시물 정보]]></value>

@@ -330,62 +330,77 @@
 	</item>
 	<item name="msg_update_core_title">
 		<value xml:lang="ko"><![CDATA[XE core가 업데이트 됩니다.]]></value>
+		<value xml:lang="jp"><![CDATA[XE coreがアップデートされます。]]></value>
 	</item>
 	<item name="msg_update_core">
 		<value xml:lang="ko"><![CDATA[core 업데이트 시 설치된 프로그램의 호환성을 반드시 점검 바랍니다.]]></value>
+		<value xml:lang="jp"><![CDATA[coreアップデート時、設置されたプログラムの互換性を必ず点検ください。]]></value>
 	</item>
 	<item name="installed">
 		<value xml:lang="ko"><![CDATA[설치 됨]]></value>
 		<value xml:lang="en"><![CDATA[Installed]]></value>
+		<value xml:lang="jp"><![CDATA[設置されました。]]></value>
 	</item>
 	<item name="typename" type="array">
 		<item name="core">
 			<value xml:lang="ko"><![CDATA[코어]]></value>
 			<value xml:lang="en"><![CDATA[Core]]></value>
+			<value xml:lang="jp"><![CDATA[Core]]></value>
 		</item>
 		<item name="m.layout">
 			<value xml:lang="ko"><![CDATA[모바일 레이아웃]]></value>
 			<value xml:lang="en"><![CDATA[Mobile layout]]></value>
+			<value xml:lang="jp"><![CDATA[モバイルレイアウト]]></value>
 		</item>
 		<item name="module">
 			<value xml:lang="ko"><![CDATA[모듈]]></value>
 			<value xml:lang="en"><![CDATA[Module]]></value>
+			<value xml:lang="jp"><![CDATA[モジュール]]></value>
 		</item>
 		<item name="addon">
 			<value xml:lang="ko"><![CDATA[애드온]]></value>
 			<value xml:lang="en"><![CDATA[Addon]]></value>
+			<value xml:lang="jp"><![CDATA[アドオン]]></value>
 		</item>
 		<item name="layout">
 			<value xml:lang="ko"><![CDATA[레이아웃]]></value>
 			<value xml:lang="en"><![CDATA[Layout]]></value>
+			<value xml:lang="jp"><![CDATA[レイアウト]]></value>
 		</item>
 		<item name="widget">
 			<value xml:lang="ko"><![CDATA[위젯]]></value>
 			<value xml:lang="en"><![CDATA[Widget]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェット]]></value>
 		</item>
 		<item name="component">
 			<value xml:lang="ko"><![CDATA[에디터 콤포넌트]]></value>
 			<value xml:lang="en"><![CDATA[Editor component]]></value>
+			<value xml:lang="jp"><![CDATA[エディタコンポーネント]]></value>
 		</item>
 		<item name="m.skin">
 			<value xml:lang="ko"><![CDATA[모바일 스킨]]></value>
 			<value xml:lang="en"><![CDATA[Mobile Skin]]></value>
+			<value xml:lang="jp"><![CDATA[モバイルスキン]]></value>
 		</item>
 		<item name="skin">
 			<value xml:lang="ko"><![CDATA[스킨]]></value>
 			<value xml:lang="en"><![CDATA[Skin]]></value>
+			<value xml:lang="jp"><![CDATA[スキン]]></value>
 		</item>
 		<item name="widgetstyle">
 			<value xml:lang="ko"><![CDATA[위젯스타일]]></value>
 			<value xml:lang="en"><![CDATA[Widget style]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェットスタイル]]></value>
 		</item>
 		<item name="style">
 			<value xml:lang="ko"><![CDATA[문서스타일]]></value>
 			<value xml:lang="en"><![CDATA[Document style]]></value>
+			<value xml:lang="jp"><![CDATA[ドキュメントスタイル]]></value>
 		</item>
 		<item name="drcomponent">
 			<value xml:lang="ko"><![CDATA[단락에디터 콤포넌트]]></value>
 			<value xml:lang="en"><![CDATA[DrEditor component]]></value>
+			<value xml:lang="jp"><![CDATA[段落エディタコンポーネント]]></value>
 		</item>
 	</item>
 </lang>

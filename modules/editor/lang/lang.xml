@@ -103,7 +103,7 @@
 	<item name="guide_choose_font_body">
 		<value xml:lang="ko"><![CDATA[본문 글꼴]]></value>
 		<value xml:lang="en"><![CDATA[Font body]]></value>
-		<value xml:lang="jp"><![CDATA[本文のフォント]]></value>		
+		<value xml:lang="jp"><![CDATA[本文のフォント]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Font body.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Font body.]]></value>
 		<value xml:lang="ru"><![CDATA[Font body.]]></value>
@@ -120,7 +120,6 @@
 		<value xml:lang="tr"><![CDATA[Font size body.]]></value>
 		<value xml:lang="vi"><![CDATA[Font size body.]]></value>
 	</item>
-	
 	<item name="font_preview">
 		<value xml:lang="ko"><![CDATA[The quick brown fox jumps over the lazy dog.
 いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
@@ -128,8 +127,10 @@
 		<value xml:lang="en"><![CDATA[The quick brown fox jumps over the lazy dog.
 いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
 키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.]]></value>
+		<value xml:lang="jp"><![CDATA[The quick brown fox jumps over the lazy dog.
+いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
+키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.]]></value>
 	</item>
-
 	<item name="msg_avail_easy_update">
 		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
@@ -148,7 +149,7 @@
 	<item name="editor">
 		<value xml:lang="ko"><![CDATA[위지윅 에디터]]></value>
 		<value xml:lang="en"><![CDATA[WYSIWYG Editor]]></value>
-		<value xml:lang="jp"><![CDATA[ウイジウイグエディター]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジウィグエディター]]></value>
 		<value xml:lang="zh-CN"><![CDATA[网页编辑器]]></value>
 		<value xml:lang="zh-TW"><![CDATA[網頁編輯器]]></value>
 		<value xml:lang="fr"><![CDATA[Tel-tel Editeur]]></value>
@@ -297,7 +298,7 @@
 		<value xml:lang="ru"><![CDATA[Размер шрифта]]></value>
 		<value xml:lang="tr"><![CDATA[İçerik Yazı Boyutu]]></value>
 		<value xml:lang="vi"><![CDATA[Cỡ chữ của nội dung]]></value>
-	</item>					
+	</item>
 	<item name="about_component">
 		<value xml:lang="ko"><![CDATA[컴포넌트 소개]]></value>
 		<value xml:lang="en"><![CDATA[About component]]></value>
@@ -587,7 +588,7 @@
 			<value xml:lang="tr"><![CDATA[Paragraf Özelliği]]></value>
 			<value xml:lang="vi"><![CDATA[Chức năng Paragraph]]></value>
 		</item>
-		<item name="fontlist" type="array">	
+		<item name="fontlist" type="array">
 			<item name="arial">
 				<value xml:lang="ko"><![CDATA[Arial, Helvetica, sans-serif]]></value>
 				<value xml:lang="en"><![CDATA[Arial, Helvetica, sans-serif]]></value>
@@ -615,19 +616,28 @@
 			<item name="timesNewRoman">
 				<value xml:lang="ko"><![CDATA['Times New Roman', Times, serif]]></value>
 				<value xml:lang="en"><![CDATA['Times New Roman', Times, serif]]></value>
-			</item>		
+			</item>
 			<item name="serif">
 				<value xml:lang="ko"><![CDATA[Serif]]></value>
 				<value xml:lang="en"><![CDATA[Serif]]></value>
-			</item>		
+			</item>
 			<item name="courierNew">
 				<value xml:lang="ko"><![CDATA['Courier New', Courier, monospace]]></value>
 				<value xml:lang="en"><![CDATA['Courier New', Courier, monospace]]></value>
-			</item>		
+			</item>
 			<item name="lucidaConsole">
 				<value xml:lang="ko"><![CDATA['Lucida Console', Monaco, monospace]]></value>
-			</item>		
-		</item>					
+			</item>
+			<item name="meiryo">
+				<value xml:lang="jp"><![CDATA['メイリオ', 'Meiryo', Arial, Helvetica, sans-serif]]></value>
+			</item>
+			<item name="hiragino">
+				<value xml:lang="jp"><![CDATA['ヒラギノ角ゴ Pro', 'Hiragino Kaku Gothic Pro', Arial, Helvetica, sans-serif]]></value>
+			</item>
+			<item name="ms_pgothic">
+				<value xml:lang="jp"><![CDATA['ＭＳ Ｐゴシック', 'MS PGothic', Arial, Helvetica, sans-serif]]></value>
+			</item>
+		</item>
 		<item name="header">
 			<value xml:lang="ko"><![CDATA[형식]]></value>
 			<value xml:lang="en"><![CDATA[Style]]></value>
@@ -1297,7 +1307,7 @@
 		<item name="rich_editor">
 			<value xml:lang="ko"><![CDATA[스타일 편집기]]></value>
 			<value xml:lang="en"><![CDATA[Rich Text Editor]]></value>
-			<value xml:lang="jp"><![CDATA[ウイジウイグ編集]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジウィグ編集]]></value>
 			<value xml:lang="zh-CN"><![CDATA[常规]]></value>
 			<value xml:lang="zh-TW"><![CDATA[所見即得]]></value>
 			<value xml:lang="ru"><![CDATA[редактировать стиль]]></value>
@@ -1996,5 +2006,4 @@
 		<value xml:lang="tr"><![CDATA[Detaylı bileşen yapılandırmasını; arkaplana, metne, resme ya da alıntılara çift tıklayarak ayarlayabilirsiniz]]></value>
 		<value xml:lang="vi"><![CDATA[Thiết lập khi bấm 2 lần vào nền, Chữ, Hình ảnh hoặc Trích dẫn]]></value>
 	</item>
-
 </lang>

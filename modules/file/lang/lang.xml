@@ -17,6 +17,7 @@
 	<item name="file_upload">
 		<value xml:lang="ko"><![CDATA[파일 업로드]]></value>
 		<value xml:lang="en"><![CDATA[File Upload]]></value>
+		<value xml:lang="jp"><![CDATA[ファイルアップロード]]></value>
 	</item>
 	<item name="file_name">
 		<value xml:lang="ko"><![CDATA[파일 이름]]></value>
