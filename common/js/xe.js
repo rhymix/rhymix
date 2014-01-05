@@ -420,11 +420,6 @@ if(jQuery) jQuery.noConflict();
 /* jQuery(document).ready() */
 jQuery(function($) {
 
-	// Anchor: focus move to target
-	$('a[href^="#"]').click(function(){
-		$($(this).attr('href')).attr('tabindex','0').focus();
-	});
-
     /* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
     if($.browser.msie) {
         $('select').each(function(i, sels) {
