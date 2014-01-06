@@ -347,14 +347,9 @@ class EmbedFilter
 					}
 				}
 
-				if(!$isWhiteDomain && !$isWhiteMimetype && $ext)
+				if(!$isWhiteDomain || !$isWhiteMimetype)
 				{
-					$isWhiteExt = $this->isWhiteExt($ext);
-				}
-
-				if(!$isWhiteDomain && !$isWhiteMimetype && !$isWhiteExt)
-				{
-					$content = str_replace($objectTag, htmlspecialchars($objectTag), $content);
+					$content = str_replace($objectTag, htmlspecialchars($objectTag, ENT_COMPAT, 'UTF-8', false), $content);
 				}
 			}
 		}
@@ -400,14 +395,9 @@ class EmbedFilter
 					}
 				}
 
-				if(!$isWhiteDomain && !$isWhiteMimetype && $ext)
+				if(!$isWhiteDomain || !$isWhiteMimetype)
 				{
-					$isWhiteExt = $this->isWhiteExt($ext);
-				}
-
-				if(!$isWhiteDomain && !$isWhiteMimetype && !$isWhiteExt)
-				{
-					$content = str_replace($embedTag, htmlspecialchars($embedTag), $content);
+					$content = str_replace($embedTag, htmlspecialchars($embedTag, ENT_COMPAT, 'UTF-8', false), $content);
 				}
 			}
 		}
@@ -450,7 +440,7 @@ class EmbedFilter
 
 				if(!$isWhiteDomain)
 				{
-					$content = str_replace($iframeTag, htmlspecialchars($iframeTag), $content);
+					$content = str_replace($iframeTag, htmlspecialchars($iframeTag, ENT_COMPAT, 'UTF-8', false), $content);
 				}
 			}
 		}
@@ -483,14 +473,9 @@ class EmbedFilter
 							$ext = strtolower(substr(strrchr($parser->iNodeAttributes['value'], "."), 1));
 							$isWhiteDomain = $this->isWhiteDomain($parser->iNodeAttributes['value']);
 
-							if(!$isWhiteDomain && $ext)
+							if(!$isWhiteDomain)
 							{
-								$isWhiteExt = $this->isWhiteExt($ext);
-							}
-
-							if(!$isWhiteDomain && !$isWhiteExt)
-							{
-								$content = str_replace($paramTag, htmlspecialchars($paramTag), $content);
+								$content = str_replace($paramTag, htmlspecialchars($paramTag, ENT_COMPAT, 'UTF-8', false), $content);
 							}
 						}
 					}
@@ -568,7 +553,7 @@ class EmbedFilter
 
 		if($m[1] == 'param')
 		{
-			if(strpos(strtolower($m[0]), 'allowscriptaccess'))
+			if(stripos($m[0], 'allowscriptaccess'))
 			{
 				$m[0] = '<param name="allowscriptaccess" value="never"';
 				if(substr($m[0], -1) == '/')
@@ -580,7 +565,7 @@ class EmbedFilter
 		}
 		else if($m[1] == 'embed')
 		{
-			if(strpos(strtolower($m[0]), 'allowscriptaccess'))
+			if(stripos($m[0], 'allowscriptaccess'))
 			{
 				$m[0] = preg_replace('/always|samedomain/i', 'never', $m[0]);
 			}
