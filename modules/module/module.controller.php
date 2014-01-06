@@ -27,6 +27,14 @@ class moduleController extends module
 		$args->act = $act;
 
 		$output = executeQuery('module.insertActionForward', $args);
+
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'action_forward';
+			$oCacheHandler->delete($cache_key);
+		}
+
 		return $output;
 	}
 
@@ -41,6 +49,14 @@ class moduleController extends module
 		$args->act = $act;
 
 		$output = executeQuery('module.deleteActionForward', $args);
+
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'action_forward';
+			$oCacheHandler->delete($cache_key);
+		}
+
 		return $output;
 	}
 
@@ -65,8 +81,6 @@ class moduleController extends module
 		if($oCacheHandler->isSupport())
 		{
 			$oCacheHandler->invalidateGroupKey('triggers');
-			$cache_key = 'object:'.$trigger_name.'_'.$called_position;
-			$oCacheHandler->delete($cache_key);
 		}
 
 		// Delete all the files which contain trigger information
@@ -95,8 +109,6 @@ class moduleController extends module
 		if($oCacheHandler->isSupport())
 		{
 			$oCacheHandler->invalidateGroupKey('triggers');
-			$cache_key = 'object:'.$trigger_name.'_'.$called_position;
-			$oCacheHandler->delete($cache_key);
 		}
 
 		// Remove the trigger cache
@@ -190,8 +202,7 @@ class moduleController extends module
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
-			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('site_and_module');
 		}
 		return $output;
 	}
@@ -210,15 +221,15 @@ class moduleController extends module
 		$output = executeQuery('module.deleteModulePartConfig', $args);
 		if(!$output->toBool()) return $output;
 
+		$output = executeQuery('module.insertModulePartConfig', $args);
+
 		//remove from cache
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object_module_part_config:'.$module.'_'.$module_srl;
-			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('site_and_module');
 		}
 
-		$output = executeQuery('module.insertModulePartConfig', $args);
 		return $output;
 	}
 
@@ -291,14 +302,9 @@ class moduleController extends module
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			if($args->site_srl == 0)
-			{
-				$cache_key = 'object_default_mid:_';
-				$oCacheHandler->delete($cache_key);
-			}
-			$cache_key = 'object_default_mid:'.$vid.'_'.$mid;
-			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('site_and_module');
 		}
+
 		return $output;
 	}
 
@@ -473,6 +479,12 @@ class moduleController extends module
 		// commit
 		$oDB->commit();
 
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+
 		$output->add('module_srl',$args->module_srl);
 		return $output;
 	}
@@ -581,13 +593,9 @@ class moduleController extends module
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object_module_info:'.$args->module_srl;
-			$oCacheHandler->delete($cache_key);
-			$cache_key = 'object:'.$args->mid.'_'.$args->site_srl;
-			$oCacheHandler->delete($cache_key);
-			$cache_key = 'object:module_extra_vars_'.$args->module_srl;
-			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('site_and_module');
 		}
+
 		return $output;
 	}
 
@@ -600,7 +608,17 @@ class moduleController extends module
 		$args->module_srl = $module_srl;
 		$args->site_srl = $site_srl;
 		$args->layout_srl = $layout_srl;
-		return executeQuery('module.updateModuleSite', $args);
+		$output = executeQuery('module.updateModuleSite', $args);
+		if(!$output->toBool()) return $output;
+
+		//remove from cache
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+
+		return $output;
 	}
 
 	/**
@@ -721,14 +739,12 @@ class moduleController extends module
 
 		// commit
 		$oDB->commit();
+
 		//remove from cache
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object_module_info:'.$args->module_srl;
-			$oCacheHandler->delete($cache_key);
-			$cache_key = 'object:module_extra_vars_'.$args->module_srl;
-			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('site_and_module');
 		}
 		return $output;
 	}
@@ -750,6 +766,12 @@ class moduleController extends module
 		$output = executeQuery('module.clearDefaultModule');
 		if(!$output->toBool()) return $output;
 
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+
 		return $output;
 	}
 
@@ -758,7 +780,15 @@ class moduleController extends module
 	 */
 	function updateModuleMenu($args)
 	{
-		return executeQuery('module.updateModuleMenu', $args);
+		$output = executeQuery('module.updateModuleMenu', $args);
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+
+		return $output;
 	}
 
 	/**
@@ -772,6 +802,13 @@ class moduleController extends module
 		$args->layout_srl = $layout_srl;
 		$args->menu_srls = implode(',',$menu_srl_list);
 		$output = executeQuery('module.updateModuleLayout', $args);
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+
 		return $output;
 	}
 
@@ -896,6 +933,7 @@ class moduleController extends module
 			return $output;
 		}
 
+		getDestroyXeVars($obj);
 		if(!$obj || !count($obj)) return new Object();
 
 		$args = new stdClass;
@@ -929,6 +967,7 @@ class moduleController extends module
 		}
 
 		$oDB->commit;
+
 		return new Object();
 	}
 
@@ -961,17 +1000,18 @@ class moduleController extends module
 
 		if($mode === 'P')
 		{
-			$cache_key = 'object_module_skin_vars:'.$module_srl;
+			$object_key = 'module_skin_vars:'.$module_srl;
 			$query = 'module.deleteModuleSkinVars';
 		}
 		else
 		{
-			$cache_key = 'object_module_mobile_skin_vars:'.$module_srl;
+			$object_key = 'module_mobile_skin_vars:'.$module_srl;
 			$query = 'module.deleteModuleMobileSkinVars';
 		}
 
 		//remove from cache
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 		if($oCacheHandler->isSupport())
 		{
 			$oCacheHandler->delete($cache_key);
@@ -986,6 +1026,7 @@ class moduleController extends module
 	function insertModuleExtraVars($module_srl, $obj)
 	{
 		$this->deleteModuleExtraVars($module_srl);
+		getDestroyXeVars($obj);
 		if(!$obj || !count($obj)) return;
 
 		foreach($obj as $key => $val)
@@ -997,6 +1038,14 @@ class moduleController extends module
 			if(!$args->name || !$args->value) continue;
 			$output = executeQuery('module.insertModuleExtraVars', $args);
 		}
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$object_key = 'module_extra_vars:'.$module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$oCacheHandler->delete($cache_key);
+		}
 	}
 
 	/**
@@ -1006,14 +1055,18 @@ class moduleController extends module
 	{
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
-		return executeQuery('module.deleteModuleExtraVars', $args);
+		$output = executeQuery('module.deleteModuleExtraVars', $args);
+
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:module_extra_vars_'.$module_srl;
+			$object_key = 'module_extra_vars:'.$module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$oCacheHandler->delete($cache_key);
 		}
+
+		return $output;
 	}
 
 	/**
@@ -1317,6 +1370,13 @@ class moduleController extends module
 		$args = new stdClass;
 		$args->site_srls = $site_srls;
 		$output = executeQuery('module.updateModuleInSites', $args);
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+
 		return $output;
 	}
 }

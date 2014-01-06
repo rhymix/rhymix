@@ -376,37 +376,22 @@ class commentModel extends comment
 
 		$args->list_count = $obj->list_count;
 
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		if(strpos($args->module_srl, ",") === false)
 		{
-			$object_key = 'object_newest_comment_list:' . $obj->module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('newestCommentsList', $object_key);
-			$output = $oCacheHandler->get($cache_key);
-		}
-		if(!$output)
-		{
-			if(strpos($args->module_srl, ",") === false)
+			if($args->module_srl)
 			{
-				if($args->module_srl)
+				// check if module is using comment validation system
+				$oCommentController = getController("comment");
+				$is_using_validation = $oCommentController->isModuleUsingPublishValidation($obj->module_srl);
+				if($is_using_validation)
 				{
-					// check if module is using comment validation system
-					$oCommentController = getController("comment");
-					$is_using_validation = $oCommentController->isModuleUsingPublishValidation($obj->module_srl);
-					if($is_using_validation)
-					{
-						$args->status = 1;
-					}
+					$args->status = 1;
 				}
 			}
-
-			$output = executeQuery('comment.getNewestCommentList', $args, $columnList);
-
-			if($oCacheHandler->isSupport())
-			{
-				$oCacheHandler->put($cache_key, $output);
-			}
 		}
+
+		$output = executeQuery('comment.getNewestCommentList', $args, $columnList);
+
 		if(!$output->toBool())
 		{
 			return $output;
