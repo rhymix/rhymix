@@ -361,6 +361,12 @@ class pointAdminController extends point
 			executeQuery('module.deleteModulePartConfig', $args);
 		}
 
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+
 		$this->setMessage('success_updated');
 	}
 

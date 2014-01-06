@@ -176,6 +176,12 @@ class layoutAdminController extends layout
 							{
 								$output = executeQuery('layout.updateModuleLayout', $update_args);
 							}
+
+							$oCacheHandler = CacheHandler::getInstance('object', null, true);
+							if($oCacheHandler->isSupport())
+							{
+								$oCacheHandler->invalidateGroupKey('site_and_module');
+							}
 						}
 					}
 				}
@@ -260,7 +266,8 @@ class layoutAdminController extends layout
 			$oCacheHandler = CacheHandler::getInstance('object', null, true);
 			if($oCacheHandler->isSupport())
 			{
-				$cache_key = 'object:'.$args->layout_srl;
+				$object_key = 'layout:' . $args->layout_srl;
+				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$oCacheHandler->delete($cache_key);
 			}
 		}
@@ -333,7 +340,8 @@ class layoutAdminController extends layout
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$layout_srl;
+			$object_key = 'layout:'.$layout_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$oCacheHandler->delete($cache_key);
 		}
 		if(!$output->toBool()) return $output;

@@ -859,6 +859,19 @@ function delObjectVars($target_obj, $del_obj)
 	return $return_obj;
 }
 
+function getDestroyXeVars(&$vars)
+{
+	$del_vars = array('error_return_url', 'success_return_url', 'ruleset', 'xe_validator_id');
+
+	foreach($del_vars as $var)
+	{
+		if(is_array($vars)) unset($vars[$var]);
+		else if(is_object($vars)) unset($vars->$var);
+	}
+
+	return $vars;
+}
+
 /**
  * Change error_handing to debugPrint on php5 higher 
  *

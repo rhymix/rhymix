@@ -136,6 +136,7 @@ class CacheHandler extends Handler
 	 */
 	function getCacheKey($key)
 	{
+		$key = str_replace('/', ':', $key);
 		return __XE_VERSION__ . ':' . $key;
 	}
 

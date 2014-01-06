@@ -305,6 +305,12 @@ class module extends ModuleObject
 					$module_info->skin_vars = null;
 					$module_info->admin_id = null;
 					executeQuery('module.updateModule', $module_info);
+
+					$oCacheHandler = CacheHandler::getInstance('object', null, true);
+					if($oCacheHandler->isSupport())
+					{
+						$oCacheHandler->invalidateGroupKey('site_and_module');
+					}
 				}
 			}
 			// Various column drop
@@ -554,6 +560,11 @@ class module extends ModuleObject
 			$output = executeQuery('module.updateModule', $moduleInfo);
 			if(!$output->toBool())
 			{
+				$oCacheHandler = CacheHandler::getInstance('object', null, true);
+				if($oCacheHandler->isSupport())
+				{
+					$oCacheHandler->invalidateGroupKey('site_and_module');
+				}
 				return $output;
 			}
 		}

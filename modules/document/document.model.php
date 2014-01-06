@@ -366,12 +366,13 @@ class documentModel extends document
 			$oCacheHandler = CacheHandler::getInstance('object', null, true);
 			if($oCacheHandler->isSupport())
 			{
-				$cache_key = 'object:module_extra_keys_' . $module_srl;
-				$output = $oCacheHandler->get($cache_key);
+				$object_key = 'module_extra_keys:' . $module_srl;
+				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$keys = $oCacheHandler->get($cache_key);
 			}
 
 			$oExtraVar = &ExtraVar::getInstance($module_srl);
-			if(!$output)
+			if(!$keys)
 			{
 				$obj = new stdClass();
 				$obj->module_srl = $module_srl;
@@ -422,15 +423,17 @@ class documentModel extends document
 				{
 					$output = executeQueryArray('document.getDocumentExtraKeys', $obj);
 				}
+
+				$oExtraVar->setExtraVarKeys($output->data);
+				$keys = $oExtraVar->getExtraVars();
+				if(!$keys) $keys = array();
+
 				if($oCacheHandler->isSupport())
 				{
-					$oCacheHandler->put($cache_key, $output);
+					$oCacheHandler->put($cache_key, $keys);
 				}
 			}
 
-			$oExtraVar->setExtraVarKeys($output->data);
-			$keys = $oExtraVar->getExtraVars();
-			if(!$keys) $keys = array();
 
 			$GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $keys;
 		}

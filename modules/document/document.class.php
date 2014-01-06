@@ -280,8 +280,6 @@ class document extends ModuleObject
 		if($oDB->isColumnExists('documents', 'allow_comment') || $oDB->isColumnExists('documents', 'lock_comment'))
 		{
 			$oDB->addColumn('documents', 'comment_status', 'varchar', 20, 'ALLOW');
-			$columnList = array('module_srl');
-			$moduleSrlList = $oModuleModel->getModuleSrlList(null, $columnList);
 
 			$args->commentStatus = 'DENY';
 

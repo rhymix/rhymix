@@ -904,6 +904,12 @@ class documentController extends document
 
 		$oDB->commit();
 
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+
 		return new Object();
 	}
 
