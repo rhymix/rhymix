@@ -194,7 +194,7 @@
 		<value xml:lang="vi"><![CDATA[Xin hãy nhập tiêu đề của giao diện cho dễ dàng lựa chọn về sau.]]></value>
 	</item>
 	<item name="about_not_apply_menu">
-		<value xml:lang="ko"><![CDATA[체크하면 연결된 모든 메뉴의 페이지 레이아웃을 일괄 변경합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[지정한 메뉴에 연결된 모든 페이지의 레이아웃을 현재 레이아웃으로 지정합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Layouts of all pages connected via menu will be changed en bloc by checking this option.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると連動するすべてのメニューのモジュールのレイアウトを一括変更します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[勾选表示连接到此布局的菜单项全部采用此布局。]]></value>
