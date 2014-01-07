@@ -294,7 +294,7 @@
 		<item name="menu">
 			 <value xml:lang="ko"><![CDATA[사이트 제작/편집]]></value>
 			 <value xml:lang="en"><![CDATA[Menu]]></value>
-			 <value xml:lang="jp"><![CDATA[サイト]]></value>
+			 <value xml:lang="jp"><![CDATA[サイト制作・編集]]></value>
 			 <value xml:lang="zh-CN"><![CDATA[目录]]></value>
 			 <value xml:lang="tr"><![CDATA[Menü]]></value>
 		</item>
