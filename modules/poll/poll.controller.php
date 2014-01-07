@@ -20,9 +20,9 @@ class pollController extends poll
 	function procInsert()
 	{
 		$stop_date = Context::get('stop_date');
-		if($stop_date < date("Ymd"))
+		if($stop_date < date('Ymd'))
 		{
-			$stop_date = date("YmdHis", $_SERVER['REQUEST_TIME']+60*60*24*365);
+			$stop_date = date('YmdHis', $_SERVER['REQUEST_TIME']+60*60*24*365);
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -30,28 +30,70 @@ class pollController extends poll
 		$args = new stdClass;
 		$tmp_args = array();
 
+		unset($vars->_filter);
+		unset($vars->error_return_url);
+		unset($vars->stop_date);
+
 		foreach($vars as $key => $val)
 		{
-			if(strpos($key,'tidx')) continue;
-			if(!preg_match("/^(title|checkcount|item)_/i", $key)) continue;
-			if(!trim($val)) continue;
+			if(stripos($key, 'tidx'))
+			{
+				continue;
+			}
 
-			$tmp_arr = explode('_',$key);
+			$tmp_arr = explode('_', $key);
 
 			$poll_index = $tmp_arr[1];
+			if(!$poll_index)
+			{
+				continue;
+			}
 
-			if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			if(!trim($val))
+			{
+				continue;
+			}
 
-			$tmp_args[$poll_index] = new stdClass;
-			if($tmp_arr[0]=='title') $tmp_args[$poll_index]->title = $val;
-			else if($tmp_arr[0]=='checkcount') $tmp_args[$poll_index]->checkcount = $val;
-			else if($tmp_arr[0]=='item') $tmp_args[$poll_index]->item[] = $val;
+			if($tmp_args[$poll_index] == NULL)
+			{
+				$tmp_args[$poll_index] = new stdClass;
+			}
+
+			if(!is_array($tmp_args[$poll_index]->item))
+			{
+				$tmp_args[$poll_index]->item = array();
+			}
+
+			if($logged_info->is_admin != 'Y')
+			{
+				$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			}
+
+			switch($tmp_arr[0])
+			{
+				case 'title':
+					$tmp_args[$poll_index]->title = $val;
+					break;
+				case 'checkcount':
+					$tmp_args[$poll_index]->checkcount = $val;
+					break;
+				case 'item':
+					$tmp_args[$poll_index]->item[] = $val;
+					break;
+			}
 		}
 
 		foreach($tmp_args as $key => $val)
 		{
-			if(!$val->checkcount) $val->checkcount = 1;
-			if($val->title && count($val->item)) $args->poll[] = $val;
+			if(!$val->checkcount)
+			{
+				$val->checkcount = 1;
+			}
+
+			if($val->title && count($val->item))
+			{
+				$args->poll[] = $val;
+			}
 		}
 
 		if(!count($args->poll)) return new Object(-1, 'cmd_null_item');
