@@ -170,13 +170,14 @@ class pageAdminController extends page
 		// On the page, change the validity status of the attached file
 		$oFileController = getController('file');
 		$oFileController->setFilesValid($module_info->module_srl);
-		// Create cache file
-		//$this->procPageAdminRemoveWidgetCache();
 
 		$this->add("module_srl", $module_info->module_srl);
 		$this->add("page", Context::get('page'));
 		$this->add("mid", $module_info->mid);
 		$this->setMessage($msg_code);
+
+		// Create cache file
+		$this->procPageAdminRemoveWidgetCache();
 	}
 
 	/**
@@ -250,31 +251,36 @@ class pageAdminController extends page
 	{
 		$module_srl = Context::get('module_srl');
 
+		if(!$module_srl) return;
+
 		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'content');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 
 		$content = $module_info->content;
+
 		// widget controller re-run of the cache files
 		$oWidgetController = getController('widget');
 		$oWidgetController->recompileWidget($content);
 
 		if($module_info->page_type == 'WIDGET')
 		{
-			$cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.cache.php", _XE_PATH_, $module_info->module_srl, Context::getLangType(), Context::getSslStatus());
-			$mcacheFile = sprintf("%sfiles/cache/page/%d.%s.%s.m.cache.php", _XE_PATH_, $module_info->module_srl, Context::getLangType(), Context::getSslStatus());
+			$path = _XE_PATH_ . 'files/cache/page/';
+			$cache_files = FileHandler::readDir($path, '/^' . $module_info->module_srl . '\./');
+			foreach($cache_files as $file_name)
+			{
+				FileHandler::removeFile($path . $module_info->module_srl . '.' . $file_name);
+			}
 		}
 		else if($module_info->page_type == 'OUTSIDE')
 		{
-			$cache_file = sprintf("%sfiles/cache/opage/%d.cache.php", _XE_PATH_, $module_info->module_srl);
-
-			if($module_info->mpath)
+			$path = _XE_PATH_ . 'files/cache/page/';
+			$cache_files = FileHandler::readDir($path, '/^' . $module_info->module_srl . './');
+			foreach($cache_files as $file_name)
 			{
-				$mcacheFile =  sprintf("%sfiles/cache/opage/%d.m.cache.php", _XE_PATH_, $module_info->module_srl);
+				FileHandler::removeFile($path . $module_info->module_srl . '.' . $file_name);
 			}
 		}
-		FileHandler::removeFile($cache_file);
-		FileHandler::removeFile($mcacheFile);
 	}
 
 	function procPageAdminArticleDocumentInsert()
