@@ -1703,7 +1703,6 @@ class moduleModel extends module
 			$args = new stdClass();
 			$args->module_srl = implode(',', $get_module_srls);
 			$output = executeQueryArray('module.getModuleExtraVars', $args);
-
 			if(!$output->toBool())
 			{
 				return;
