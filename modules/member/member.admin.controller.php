@@ -155,7 +155,8 @@ class memberAdminController extends member
 			'enable_join',
 			'enable_confirm',
 			'webmaster_name',
-			'webmaster_email'
+			'webmaster_email',
+			'password_strength'
 		);
 
 		if((!$args->webmaster_name || !$args->webmaster_email) && $args->enable_confirm == 'Y')

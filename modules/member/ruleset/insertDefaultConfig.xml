@@ -6,5 +6,6 @@
 		<field name="enable_join" required="true" />
 		<field name="webmaster_name" required="true" length="2:40" />
 		<field name="webmaster_email" length="1:200" rule="email" />
+		<field name="password_strength" required="true" />
     </fields>
 </ruleset>

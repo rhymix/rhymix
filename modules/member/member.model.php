@@ -1036,6 +1036,34 @@ class memberModel extends member
 		return false;
 	}
 
+	
+	function checkPasswordStrength($password, $stength)
+	{
+		if($stength == NULL)
+		{
+			$config = $this->getMemberConfig();
+			$stength = $config->password_strength?$config->password_strength:'normal';
+		}
+		
+		$length = strlen($password);
+		
+		switch ($stength) {
+			case 'high':
+				if($length < 8 || !preg_match('/[^a-zA-Z0-9]/', $password)) return false;
+				/* no break */
+				
+			case 'normal':
+				if($length < 6 || !preg_match('/[a-zA-Z]/', $password) || !preg_match('/[0-9]/', $password)) return false;
+				break;
+				
+			case 'low':
+				if($length < 4) return false;
+				break; 
+		}
+		
+		return true;
+	}
+	
 	function getAdminGroupSrl($site_srl = 0)
 	{
 		$groupSrl = 0;

@@ -1670,6 +1670,45 @@
 		<value xml:lang="tr"><![CDATA[Şifre 6~20 karakter uzunluğunda olmalıdır]]></value>
 		<value xml:lang="vi"><![CDATA[Độ dài mật khẩu giới hạn từ 6 đến 20 kí tự.]]></value>
 	</item>
+	
+	<item name="cmd_config_password_strength">
+		<value xml:lang="ko"><![CDATA[비밀번호 보안수준]]></value>
+		<value xml:lang="en"><![CDATA[password strength]]></value>
+	</item>
+	
+	<item name="password_strength_low">
+		<value xml:lang="ko"><![CDATA[낮음]]></value>
+		<value xml:lang="en"><![CDATA[low]]></value>
+	</item>
+	<item name="password_strength_normal">
+		<value xml:lang="ko"><![CDATA[보통]]></value>
+		<value xml:lang="en"><![CDATA[normal]]></value>
+	</item>
+	<item name="password_strength_high">
+		<value xml:lang="ko"><![CDATA[높음]]></value>
+		<value xml:lang="en"><![CDATA[high]]></value>
+	</item>
+	
+	<item name="about_password_strength_config">
+		<value xml:lang="ko"><![CDATA[회원들이 비밀번호를 등록/변경할 때, 비밀번호가 설정된 보안수준을 만족해야 합니다. 단, 관리자가 직접 등록할 경우에는 적용되지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[When members register or change the password, the password must meet the specified password strength. However, the administrator is an exception.]]></value>
+	</item>
+	
+	<item name="about_password_strength" type="array">
+		<item name="low">
+			<value xml:lang="ko"><![CDATA[비밀번호는 4~20자로 되어야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[the password must be at least 4]]></value>
+		</item>
+		<item name="normal">
+			<value xml:lang="ko"><![CDATA[비밀번호는 6자리 이상이고, 영문과 숫자를 반드시 포함해야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[the password must be at least 6, and must have at least one alpha character and numeric characters]]></value>
+		</item>
+		<item name="high">
+			<value xml:lang="ko"><![CDATA[비밀번호는 8자리 이상이고 영문과 숫자, 특수문자를 반드시 포함해야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[the password must be at least 8, and must have at least one alpha character, numeric character and special character ]]></value>
+		</item>
+	</item>
+	
 	<item name="about_user_name">
 		<value xml:lang="ko"><![CDATA[이름은 2~20자 이내여야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Name should be 2~20 letters long.]]></value>

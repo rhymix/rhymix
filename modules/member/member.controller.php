@@ -556,6 +556,16 @@ class memberController extends member
 		$oMemberModel = getModel('member');
 		// Get information of member_srl
 		$columnList = array('member_srl', 'password');
+		
+		// check password strength
+		$config = $oMemberModel->getMemberConfig();
+		if(!$oMemberModel->checkPasswordStrength($password, $config->password_strength))
+		{
+			$message = Context::getLang('about_password_strength');
+			return new Object(-1, $message[$config->password_strength]);
+		}
+		
+		
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		// Verify the cuttent password
 		if(!$oMemberModel->isValidPassword($member_info->password, $current_password, $member_srl)) return new Object(-1, 'invalid_password');
