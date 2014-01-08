@@ -464,7 +464,7 @@ class ModuleHandler extends Handler
 				$module = strtolower($matches[2] . $matches[3]);
 				$xml_info = $oModuleModel->getModuleActionXml($module);
 
-				if($xml_info->action->{$this->act} && ($kind == 'admin' || $xml_info->action->{$this->act}->standalone === 'true'))
+				if($xml_info->action->{$this->act} && ((stripos($this->act, 'admin') !== FALSE) || $xml_info->action->{$this->act}->standalone != 'false'))
 				{
 					$forward = new stdClass();
 					$forward->module = $module;
@@ -479,6 +479,7 @@ class ModuleHandler extends Handler
 					$oMessageObject->setError(-1);
 					$oMessageObject->setMessage($this->error);
 					$oMessageObject->dispMessage();
+
 					return $oMessageObject;
 				}
 			}
