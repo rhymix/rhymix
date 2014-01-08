@@ -76,7 +76,7 @@ class CacheFile extends CacheBase
 		$content = array();
 		$content[] = '<?php';
 		$content[] = 'if(!defined(\'__XE__\')) { exit(); }';
-		$content[] = 'return \'' . base64_encode(serialize($obj)) . '\';';
+		$content[] = 'return \'' . addslashes(serialize($obj)) . '\';';
 		FileHandler::writeFile($cache_file, implode(PHP_EOL, $content));
 	}
 
@@ -116,7 +116,7 @@ class CacheFile extends CacheBase
 			return false;
 		}
 
-		return unserialize(base64_decode($content));
+		return unserialize(stripslashes($content));
 	}
 
 	/**
