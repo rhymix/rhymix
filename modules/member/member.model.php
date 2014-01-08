@@ -284,7 +284,7 @@ class memberModel extends member
 		//columnList size zero... get full member info
 		if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0)
 		{
-			$oCacheHandler = CacheHandler::getInstance('object', null, true);
+			$oCacheHandler = CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport())
 			{
 				$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;

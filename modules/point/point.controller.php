@@ -647,7 +647,11 @@ class pointController extends point
 			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_0';
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$oCacheHandler->delete($cache_key);
+		}
 
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
 			$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$oCacheHandler->delete($cache_key);

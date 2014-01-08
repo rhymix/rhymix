@@ -1470,6 +1470,11 @@ class memberController extends member
 			$object_key = 'member_groups:' . getNumberingPath($args->member_srl) . $args->member_srl . '_'.$args->site_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$oCacheHandler->delete($cache_key);
+		}
+
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
 
 			$object_key = 'member_info:' . getNumberingPath($args->member_srl) . $args->member_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
@@ -1520,7 +1525,11 @@ class memberController extends member
 				$object_key = 'member_groups:' . getNumberingPath($args->member_srl) . $args->member_srl . '_' . $args->site_srl;
 				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 				$oCacheHandler->delete($cache_key);
+			}
 
+			$oCacheHandler = CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport())
+			{
 				$object_key = 'member_info:' . getNumberingPath($args->member_srl) . $args->member_srl;
 				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 				$oCacheHandler->delete($cache_key);
@@ -2139,7 +2148,7 @@ class memberController extends member
 		$oDB->commit();
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$object_key = 'member_info:' . getNumberingPath($args->member_srl) . $args->member_srl;
@@ -2162,7 +2171,7 @@ class memberController extends member
 	{
 		$output = executeQuery('member.updateChangePasswordDate', $args);
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$object_key = 'member_info:' . getNumberingPath($args->member_srl) . $args->member_srl;
