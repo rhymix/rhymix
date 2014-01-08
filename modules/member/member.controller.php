@@ -2142,7 +2142,8 @@ class memberController extends member
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'member:info:'.$args->member_srl;
+			$object_key = 'member_info:' . getNumberingPath($args->member_srl) . $args->member_srl;
+			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$oCacheHandler->delete($cache_key);
 		}
 
@@ -2161,10 +2162,11 @@ class memberController extends member
 	{
 		$output = executeQuery('member.updateChangePasswordDate', $args);
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'member:info:'.$args->member_srl;
+			$object_key = 'member_info:' . getNumberingPath($args->member_srl) . $args->member_srl;
+			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$oCacheHandler->delete($cache_key);
 		}
 
