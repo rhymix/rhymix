@@ -3,7 +3,7 @@
 	<item name="admin">
 		<value xml:lang="ko"><![CDATA[관리자]]></value>
 		<value xml:lang="en"><![CDATA[Admin]]></value>
-		<value xml:lang="jp"><![CDATA[管理]]></value>
+		<value xml:lang="jp"><![CDATA[管理者]]></value>
 		<value xml:lang="zh-CN"><![CDATA[管理员]]></value>
 		<value xml:lang="tr"><![CDATA[yönetim]]></value>
 	</item>
@@ -97,7 +97,7 @@
 	<item name="control_panel">
 		<value xml:lang="ko"><![CDATA[대시보드]]></value>
 		<value xml:lang="en"><![CDATA[Dashboard]]></value>
-		<value xml:lang="jp"><![CDATA[コントロールパネル]]></value>
+		<value xml:lang="jp"><![CDATA[ダッシュボード]]></value>
 		<value xml:lang="zh-CN"><![CDATA[控制面板]]></value>
 		<value xml:lang="zh-TW"><![CDATA[控制介面]]></value>
 		<value xml:lang="fr"><![CDATA[Control panel]]></value>
@@ -114,7 +114,7 @@
 	<item name="start_module">
 		<value xml:lang="ko"><![CDATA[홈페이지]]></value>
 		<value xml:lang="en"><![CDATA[Homepage]]></value>
-		<value xml:lang="jp"><![CDATA[Homepage]]></value>
+		<value xml:lang="jp"><![CDATA[ホームページ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Homepage]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Homepage]]></value>
 		<value xml:lang="fr"><![CDATA[Homepage]]></value>
@@ -126,12 +126,12 @@
 	<item name="about_site_title">
 		<value xml:lang="ko"><![CDATA[세부 설정에서 사이트제목을 설정하지 않았을 경우 노출되는 제목입니다.]]></value>
 		<value xml:lang="en"><![CDATA[세부 설정에서 사이트제목을 설정하지 않았을 경우 노출되는 제목입니다.]]></value>
-		<value xml:lang="jp"><![CDATA[詳細設定でサイトタイトルを設定したいない場合に露出されるタイトルです。]]></value>
+		<value xml:lang="jp"><![CDATA[詳細設定でサイトタイトルを設定しなかった場合に表示されるタイトルです。]]></value>
 	</item>
 	<item name="about_start_module">
 		<value xml:lang="ko"><![CDATA[사이트 접속 시 기본으로 호출될 페이지 지정할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can specify the default page for the site.]]></value>
-		<value xml:lang="jp"><![CDATA[サイトへ接続した際にデフォルトで起動するモジュールを指定することができます。]]></value>
+		<value xml:lang="jp"><![CDATA[サイトへ接続した際に表示される基本モジュールを指定することができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可指定用户访问网站时的默认首页模块。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可將所選擇的模組作為預設首頁。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez spécifier début module par défaut.]]></value>
@@ -143,7 +143,7 @@
 	<item name="select_site">
 		<value xml:lang="ko"><![CDATA[사이트 선택]]></value>
 		<value xml:lang="en"><![CDATA[Site]]></value>
-		<value xml:lang="jp"><![CDATA[Site]]></value>
+		<value xml:lang="jp"><![CDATA[サイト選択]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Site]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Site]]></value>
 		<value xml:lang="fr"><![CDATA[Site]]></value>
@@ -155,7 +155,7 @@
 	<item name="select_module_type">
 		<value xml:lang="ko"><![CDATA[분류 선택]]></value>
 		<value xml:lang="en"><![CDATA[Module Type]]></value>
-		<value xml:lang="jp"><![CDATA[Module Type]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールタイプ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Module Type]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Module Type]]></value>
 		<value xml:lang="fr"><![CDATA[Module Type]]></value>
@@ -167,7 +167,7 @@
 	<item name="select_module_instance">
 		<value xml:lang="ko"><![CDATA[페이지 선택]]></value>
 		<value xml:lang="en"><![CDATA[Page]]></value>
-		<value xml:lang="jp"><![CDATA[Page]]></value>
+		<value xml:lang="jp"><![CDATA[ページ選択]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Page]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Page]]></value>
 		<value xml:lang="fr"><![CDATA[Page]]></value>
@@ -367,7 +367,7 @@
 	<item name="about_default_url">
 		<value xml:lang="ko"><![CDATA[여러 사이트를 운영할 때 기본 URL이 필요합니다. XE 설치 경로를 포함한 URL을 입력하세요. (예: http://도메인/설치경로)]]></value>
 		<value xml:lang="en"><![CDATA[Enter a default URL to be used to control multiple websites, including XE installation path. E.g.) http://domain//installation path)]]></value>
-		<value xml:lang="jp"><![CDATA[複数のサイトを運営する際の基本URLが必要です。XEインストールパスを含むURLを入力してください。(例：http://ドメイン/インストールパス)]]></value>
+		<value xml:lang="jp"><![CDATA[複数のサイトを運営する際に基本URLが必要です。XEインストール先を含むURLを入力してください。(例：http://ドメイン/インストールパス)]]></value>
 		<value xml:lang="tr"><![CDATA[Birden fazla siteyi işletirken temel bir URL'ye ihtiyaç vardır. XE yükleme route'unu kapsayana bir URL giriniz.(Örneğin: http:// alan adı / yükleme route'u)]]></value>
 	</item>
 	<item name="env_information">
@@ -397,7 +397,7 @@
 	<item name="current_path">
 		<value xml:lang="ko"><![CDATA[설치된 경로]]></value>
 		<value xml:lang="en"><![CDATA[Installed Path]]></value>
-		<value xml:lang="jp"><![CDATA[インストールパス]]></value>
+		<value xml:lang="jp"><![CDATA[インストール先]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装路径]]></value>
 		<value xml:lang="zh-TW"><![CDATA[安裝路徑]]></value>
 		<value xml:lang="fr"><![CDATA[Chemin Installé]]></value>
@@ -516,7 +516,7 @@
 	<item name="installed_path">
 		<value xml:lang="ko"><![CDATA[설치 경로]]></value>
 		<value xml:lang="en"><![CDATA[Installed Path]]></value>
-		<value xml:lang="jp"><![CDATA[インストールパス]]></value>
+		<value xml:lang="jp"><![CDATA[インストール先]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装路径]]></value>
 		<value xml:lang="zh-TW"><![CDATA[安裝路徑]]></value>
 		<value xml:lang="fr"><![CDATA[Chemin Installé]]></value>
@@ -552,7 +552,7 @@
 	<item name="msg_manage_module_cannot_delete">
 		<value xml:lang="ko"><![CDATA[모듈, 애드온, 레이아웃, 위젯 모듈의 바로가기는 삭제 불가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Shortcuts of module, addon, layout, widget cannot be removed.]]></value>
-		<value xml:lang="jp"><![CDATA[モジュール、アドオン、レイアウト、ウィジェットモジュールのショートカットは、削除できません。]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール、アドオン、レイアウト、ウィジェットモジュールのショートカットは削除できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[模块，插件，布局，控件模块的快捷菜单是不能删除的。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[模組，附加元件，版面設計，Widget的快速選單是無法刪除的。]]></value>
 		<value xml:lang="fr"><![CDATA[On ne peut pas supprimer les raccourcis pour les modules, les compagnons, les mises en page ou les gadgets]]></value>
@@ -701,7 +701,7 @@
 	<item name="about_use_ssl">
 		<value xml:lang="ko"><![CDATA['선택적으로'는 회원가입, 정보수정 등의 지정된 동작(action)에서 보안접속(SSL)을 사용합니다. '항상 사용'은 모든 서비스에 SSL을 사용 합니다. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
 		<value xml:lang="en"><![CDATA[Select 'Optional' to use SSL for the specified actions such as signing up and changing information.  'Always' to use SSL for all services. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
-		<value xml:lang="jp"><![CDATA[「部分的に使う」は、「会員登録/会員情報変更」など指定のアクションでSSLを利用する場合。「常に使う」は、すべてのサービスにSSLを使う場合に選択します。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
+		<value xml:lang="jp"><![CDATA[「部分的に使う」は、「会員登録/会員情報変更」など指定されたアクションでSSLを使います。「常に使う」は、すべてのサービスにSSLを使います。SSLサーバ証明書がインストールされてない場合での使用はお控えください。サイトへのアクセスができない場合があります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL功能。 選擇開啟時，所有的服務都會使用 SSL功能。 SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
 		<value xml:lang="fr"><![CDATA[Si l'on choisit 'Optionnel' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l'on choisit 'Toujours', on utilise protocole SSL dans tous les services. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.]]></value>
@@ -744,7 +744,7 @@
 	<item name="about_db_session">
 		<value xml:lang="ko"><![CDATA[인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다. 웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다. 단, 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[This setting will use PHP session used for authentication as DB. For the Websites which do not use web server frequently, you can uncheck this setting to improve response time. However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
-		<value xml:lang="jp"><![CDATA[認証の際に使われるPHPセッションをDBで使う機能です。 ウェブサーバーの負荷が低いサイトではこの機能をオフにすることでむしろサイトのレスポンスが向上されることもあります。 ただし、この機能をオンにすると、「現在ログイン中の会員」の機能を利用できなくなります。]]></value>
+		<value xml:lang="jp"><![CDATA[認証の際に使われるPHPセッションをDBで使う機能です。 ウェブサーバーの負荷が低いサイトではこの機能をオフにすることでサイトのレスポンスが向上されることもあります。 ただし、この機能をオフにすると、「現在ログイン中の会員」の機能を利用できなくなります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用DB储存认证时的PHP会话。 服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。 只是无法统计在线会员。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用 PHP session進行 DB認證。 關閉此功能對於負荷較低的網站可提高效率。 使用此功能會無法統計線上人數。]]></value>
 		<value xml:lang="fr"><![CDATA[This setting will use PHP session used for authentication as DB. For the Websites which do not use web server frequently, you can uncheck this setting to improve response time. However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
@@ -764,7 +764,7 @@
 		<value xml:lang="ko"><![CDATA[SFTP 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use SFTP]]></value>
 		<value xml:lang="jp"><![CDATA[SFTP使用]]></value>
-		<value xml:lang="zh-CN"><![CDATA[使用sSFTP]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用 SFTP]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用 SFTP]]></value>
 		<value xml:lang="tr"><![CDATA[SFTP Kullan]]></value>
 		<value xml:lang="vi"><![CDATA[Sử dụng SFTP]]></value>
@@ -772,7 +772,7 @@
 	<item name="ftp_get_list">
 		<value xml:lang="ko"><![CDATA[목록 가져오기]]></value>
 		<value xml:lang="en"><![CDATA[Get List]]></value>
-		<value xml:lang="jp"><![CDATA[ディレクトリ目録要求]]></value>
+		<value xml:lang="jp"><![CDATA[ディレクトリを表示]]></value>
 		<value xml:lang="zh-CN"><![CDATA[载入列表]]></value>
 		<value xml:lang="zh-TW"><![CDATA[取得列表]]></value>
 		<value xml:lang="tr"><![CDATA[Listeyi Al]]></value>
@@ -791,7 +791,7 @@
 	<item name="msg_find_xe_path_fail">
 		<value xml:lang="ko"><![CDATA[XE 설치 경로를 자동으로 찾지 못하였습니다. 수동 설정해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to search XE installed path. Please set manually.]]></value>
-		<value xml:lang="jp"><![CDATA[XE設置経路が見つかりませんでした。手動で設定してください。]]></value>
+		<value xml:lang="jp"><![CDATA[XEのインストル先が見つかりませんでした。手動で設定してください。]]></value>
 	</item>
 	<item name="msg_ftp_invalid_path">
 		<value xml:lang="ko"><![CDATA[FTP 경로(Path)를 읽을 수 없습니다.]]></value>
@@ -826,7 +826,7 @@
 	<item name="msg_self_restart_cache_engine">
 		<value xml:lang="ko"><![CDATA[Memcached 또는 캐쉬데몬을 재시작 해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please restart Memcached or cache daemon.]]></value>
-		<value xml:lang="jp"><![CDATA[メムキャッシュドまたはキャッシュデーモンを再起動してください。]]></value>
+		<value xml:lang="jp"><![CDATA[メムキャッシュディーまたはキャッシュデーモンを再起動してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请重新启动Memcached或CacheDaemon。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請重新啟動 Memcached/cache daemon快取程式。]]></value>
 		<value xml:lang="tr"><![CDATA[Lütfen önbellek geri plan yordamını veya Memcached' ı yeniden başlatınız.]]></value>
@@ -835,7 +835,7 @@
 	<item name="autoinstall">
 		<value xml:lang="ko"><![CDATA[쉬운 설치]]></value>
 		<value xml:lang="en"><![CDATA[EasyInstall]]></value>
-		<value xml:lang="jp"><![CDATA[イージーインストール]]></value>
+		<value xml:lang="jp"><![CDATA[簡単インストール]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装•更新]]></value>
 		<value xml:lang="zh-TW"><![CDATA[自動安裝]]></value>
 		<value xml:lang="tr"><![CDATA[Kolay Kurulum]]></value>
@@ -893,7 +893,7 @@
 	<item name="use_rewrite">
 		<value xml:lang="ko"><![CDATA[짧은 주소 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use Rewrite Mode]]></value>
-		<value xml:lang="jp"><![CDATA[短縮アドレスを使用]]></value>
+		<value xml:lang="jp"><![CDATA[URLの簡略化機能を使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[是否开启伪静态?]]></value>
 		<value xml:lang="tr"><![CDATA[Kısa bir adres kullanmak istiyor musunuz?]]></value>
 	</item>
@@ -913,7 +913,7 @@
 	</item>
 	<item name="about_use_mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 기기로 접속시 모바일 페이지를 보여줍니다.]]></value>
-		<value xml:lang="jp"><![CDATA[モバイル機器で接続すると、モバイルページを見せます。]]></value>
+		<value xml:lang="jp"><![CDATA[モバイル機器で接続した際にモバイルページを見せます。]]></value>
 	</item>
 	<item name="thumbnail_type">
 		<value xml:lang="ko"><![CDATA[썸네일 생성 방식]]></value>
