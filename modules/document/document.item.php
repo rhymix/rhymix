@@ -77,25 +77,49 @@ class documentItem extends Object
 		if(!$this->document_srl) return;
 
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport() && !count($this->columnList))
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object_document_item:'.$this->document_srl;
-			$output = $oCacheHandler->get($cache_key);
+			$cache_key = 'document_item:' . $this->document_srl;
+			$document_item = $oCacheHandler->get($cache_key);
+			if($document_item)
+			{
+				$document_item = (object)$document_item->getVariables();
+				$this->columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
+			}
+			else
+			{
+				$this->columnList = array();
+			}
 		}
-		if(!$output)
+
+		$args = new stdClass();
+		$args->document_srl = $this->document_srl;
+		$output = executeQuery('document.getDocument', $args, $this->columnList);
+
+		if(!$document_item)
 		{
-			$args = new stdClass();
-			$args->document_srl = $this->document_srl;
-			$output = executeQuery('document.getDocument', $args, $this->columnList);
-			//insert in cache
-			if($output->data->document_srl && $oCacheHandler->isSupport())
-				$oCacheHandler->put($cache_key,$output);
+			$document_item = $output->data;
 		}
-		$this->setAttribute($output->data,$load_extra_vars);
+		else
+		{
+			$document_item->readed_count = $output->data->readed_count;
+			$document_item->voted_count = $output->data->voted_count;
+			$document_item->blamed_count = $output->data->blamed_count;
+			$document_item->comment_count = $output->data->comment_count;
+			$document_item->trackback_count = $output->data->trackback_count;
+		}
+
+		$this->setAttribute($document_item, $load_extra_vars);
+
+		//insert in cache
+		if($this->document_srl && $oCacheHandler->isSupport())
+		{
+			$oCacheHandler->put($cache_key, $this);
+		}
 	}
 
-	function setAttribute($attribute,$load_extra_vars=true)
+	function setAttribute($attribute, $load_extra_vars=true)
 	{
 		if(!$attribute->document_srl)
 		{
@@ -105,15 +129,12 @@ class documentItem extends Object
 		$this->document_srl = $attribute->document_srl;
 		$this->lang_code = $attribute->lang_code;
 		$this->adds($attribute);
+
 		// Tags
 		if($this->get('tags'))
 		{
-			$tags = explode(',',$this->get('tags'));
-			$tag_count = count($tags);
-			for($i=0;$i<$tag_count;$i++)
-			{
-				if(trim($tags[$i])) $tag_list[] = trim($tags[$i]);
-			}
+			$tag_list = explode(',', $this->get('tags'));
+			$tag_list = array_map('trim', $tag_list);
 			$this->add('tag_list', $tag_list);
 		}
 

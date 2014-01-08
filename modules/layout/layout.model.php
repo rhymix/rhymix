@@ -259,12 +259,14 @@ class layoutModel extends layout
 	function getLayout($layout_srl)
 	{
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$layout_srl;
+			$object_key = 'layout:' . $layout_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$layout_info = $oCacheHandler->get($cache_key);
 		}
+
 		if(!$layout_info)
 		{
 			// Get information from the DB
@@ -272,18 +274,12 @@ class layoutModel extends layout
 			$args->layout_srl = $layout_srl;
 			$output = executeQuery('layout.getLayout', $args);
 			if(!$output->data) return;
+
 			// Return xml file informaton after listing up the layout and extra_vars
 			$layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
 
-			// If deleted layout files, delete layout instance
-			// if (!$layout_info) {
-			// $oLayoutController = getAdminController('layout');
-			// $oLayoutController->deleteLayout($layout_srl);
-			// return;
-			// }
-
 			//insert in cache
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$layout_info);
+			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $layout_info);
 		}
 		return $layout_info;
 	}
@@ -294,7 +290,9 @@ class layoutModel extends layout
 		$args->layout_srl = $layout_srl;
 		$output = executeQuery('layout.getLayout', $args, $columnList);
 		if(!$output->toBool())
+		{
 			return;
+		}
 
 		return $output->data;
 	}

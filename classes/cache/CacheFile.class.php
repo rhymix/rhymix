@@ -10,13 +10,6 @@
  */
 class CacheFile extends CacheBase
 {
-
-	/**
-	 * Default valid time
-	 * @var int
-	 */
-	var $valid_time = 36000;
-
 	/**
 	 * Path that value to stored
 	 * @var string
@@ -56,7 +49,7 @@ class CacheFile extends CacheBase
 	 */
 	function getCacheFileName($key)
 	{
-		return $this->cache_dir . str_replace(':', '_', $key);
+		return $this->cache_dir . str_replace(':', '/', $key) . '.php';
 	}
 
 	/**
@@ -80,8 +73,11 @@ class CacheFile extends CacheBase
 	function put($key, $obj, $valid_time = 0)
 	{
 		$cache_file = $this->getCacheFileName($key);
-		$text = serialize($obj);
-		FileHandler::writeFile($cache_file, $text);
+		$content = array();
+		$content[] = '<?php';
+		$content[] = 'if(!defined(\'__XE__\')) { exit(); }';
+		$content[] = 'return \'' . base64_encode(serialize($obj)) . '\';';
+		FileHandler::writeFile($cache_file, implode(PHP_EOL, $content));
 	}
 
 	/**
@@ -111,14 +107,16 @@ class CacheFile extends CacheBase
 	 */
 	function get($key, $modified_time = 0)
 	{
-		$cache_file = $this->getCacheFileName($key);
-		$content = FileHandler::readFile($cache_file);
+		$cache_file = FileHandler::exists($this->getCacheFileName($key));
+
+		if($cache_file) $content = include($cache_file);
+
 		if(!$content)
 		{
 			return false;
 		}
 
-		return unserialize($content);
+		return unserialize(base64_decode($content));
 	}
 
 	/**

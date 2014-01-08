@@ -221,20 +221,6 @@ class documentModel extends document
 		$obj->sort_index = $sort_check->sort_index;
 		$obj->isExtraVars = $sort_check->isExtraVars;
 
-		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'object:'.$obj->module_srl.'_category_srl:'.$obj->category_srl.'_list_count:'.$obj->list_count.'_search_target:'.$obj->search_target.'_search_keyword:'.$obj->search_keyword.'_page'.$obj->page.'_sort_index:'.$obj->sort_index.'_order_type:'.$obj->order_type;
-			$cache_key = $oCacheHandler->getGroupKey('documentList', $object_key);
-			$output = $oCacheHandler->get($cache_key);
-
-			if($output)
-			{
-				return $output;
-			}
-		}
-
 		$this->_setSearchOption($obj, $args, $query_id, $use_division);
 
 		if ($sort_check->isExtraVars)
@@ -313,7 +299,7 @@ class documentModel extends document
 			}
 
 			$output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-			$virtual_number --;
+			$virtual_number--;
 		}
 
 		if($load_extra_vars) $this->setToAllDocumentExtraVars();
@@ -325,8 +311,6 @@ class documentModel extends document
 				$output->data[$number] = $GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl];
 			}
 		}
-		//insert in cache
-		if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
 
 		return $output;
 	}
@@ -379,60 +363,78 @@ class documentModel extends document
 	{
 		if(is_null($GLOBALS['XE_EXTRA_KEYS'][$module_srl]))
 		{
-			$oExtraVar = &ExtraVar::getInstance($module_srl);
-			$obj = new stdClass();
-			$obj->module_srl = $module_srl;
-			$obj->sort_index = 'var_idx';
-			$obj->order = 'asc';
-			$output = executeQueryArray('document.getDocumentExtraKeys', $obj);
-
-			// correcting index order
-			$isFixed = FALSE;
-			if(is_array($output->data))
+			$oCacheHandler = CacheHandler::getInstance('object', null, true);
+			if($oCacheHandler->isSupport())
 			{
-				$prevIdx = 0;
-				foreach($output->data as $no => $value)
+				$object_key = 'module_extra_keys:' . $module_srl;
+				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$keys = $oCacheHandler->get($cache_key);
+			}
+
+			$oExtraVar = &ExtraVar::getInstance($module_srl);
+			if(!$keys)
+			{
+				$obj = new stdClass();
+				$obj->module_srl = $module_srl;
+				$obj->sort_index = 'var_idx';
+				$obj->order = 'asc';
+				$output = executeQueryArray('document.getDocumentExtraKeys', $obj);
+
+				// correcting index order
+				$isFixed = FALSE;
+				if(is_array($output->data))
 				{
-					// case first
-					if($prevIdx == 0 && $value->idx != 1)
+					$prevIdx = 0;
+					foreach($output->data as $no => $value)
 					{
-						$args = new stdClass();
-						$args->module_srl = $module_srl;
-						$args->var_idx = $value->idx;
-						$args->new_idx = 1;
-						executeQuery('document.updateDocumentExtraKeyIdx', $args);
-						executeQuery('document.updateDocumentExtraVarIdx', $args);
-						$prevIdx = 1;
-						$isFixed = TRUE;
-						continue;
-					}
+						// case first
+						if($prevIdx == 0 && $value->idx != 1)
+						{
+							$args = new stdClass();
+							$args->module_srl = $module_srl;
+							$args->var_idx = $value->idx;
+							$args->new_idx = 1;
+							executeQuery('document.updateDocumentExtraKeyIdx', $args);
+							executeQuery('document.updateDocumentExtraVarIdx', $args);
+							$prevIdx = 1;
+							$isFixed = TRUE;
+							continue;
+						}
 
-					// case others
-					if($prevIdx > 0 && $prevIdx + 1 != $value->idx)
-					{
-						$args = new stdClass();
-						$args->module_srl = $module_srl;
-						$args->var_idx = $value->idx;
-						$args->new_idx = $prevIdx + 1;
-						executeQuery('document.updateDocumentExtraKeyIdx', $args);
-						executeQuery('document.updateDocumentExtraVarIdx', $args);
-						$prevIdx += 1;
-						$isFixed = TRUE;
-						continue;
-					}
+						// case others
+						if($prevIdx > 0 && $prevIdx + 1 != $value->idx)
+						{
+							$args = new stdClass();
+							$args->module_srl = $module_srl;
+							$args->var_idx = $value->idx;
+							$args->new_idx = $prevIdx + 1;
+							executeQuery('document.updateDocumentExtraKeyIdx', $args);
+							executeQuery('document.updateDocumentExtraVarIdx', $args);
+							$prevIdx += 1;
+							$isFixed = TRUE;
+							continue;
+						}
 
-					$prevIdx = $value->idx;
+						$prevIdx = $value->idx;
+					}
+				}
+
+				if($isFixed)
+				{
+					$output = executeQueryArray('document.getDocumentExtraKeys', $obj);
+				}
+
+				$oExtraVar->setExtraVarKeys($output->data);
+				$keys = $oExtraVar->getExtraVars();
+				if(!$keys) $keys = array();
+
+				if($oCacheHandler->isSupport())
+				{
+					$oCacheHandler->put($cache_key, $keys);
 				}
 			}
 
-			if($isFixed)
-			{
-				$output = executeQueryArray('document.getDocumentExtraKeys', $obj);
-			}
 
-			$oExtraVar->setExtraVarKeys($output->data);
-			$keys = $oExtraVar->getExtraVars();
-			if(!$keys) $keys = array();
 			$GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $keys;
 		}
 

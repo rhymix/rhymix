@@ -8,7 +8,6 @@
  */
 class CacheHandler extends Handler
 {
-
 	/**
 	 * instance of cache handler
 	 * @var CacheBase
@@ -130,6 +129,18 @@ class CacheHandler extends Handler
 	}
 
 	/**
+	 * Get cache name by key
+	 *
+	 * @param string $key The key that will be associated with the item.
+	 * @return string Returns cache name
+	 */
+	function getCacheKey($key)
+	{
+		$key = str_replace('/', ':', $key);
+		return __XE_VERSION__ . ':' . $key;
+	}
+
+	/**
 	 * Get cached data
 	 *
 	 * @param string $key Cache key
@@ -139,6 +150,7 @@ class CacheHandler extends Handler
 	 */
 	function get($key, $modified_time = 0)
 	{
+		$key = $this->getCacheKey($key);
 		if(!$this->handler)
 		{
 			return false;
@@ -158,6 +170,9 @@ class CacheHandler extends Handler
 	 */
 	function put($key, $obj, $valid_time = 0)
 	{
+		if(!$key) return false;
+
+		$key = $this->getCacheKey($key);
 		if(!$this->handler)
 		{
 			return false;
@@ -173,6 +188,7 @@ class CacheHandler extends Handler
 	 */
 	function delete($key)
 	{
+		$key = $this->getCacheKey($key);
 		if(!$this->handler)
 		{
 			return false;
@@ -190,6 +206,7 @@ class CacheHandler extends Handler
 	 */
 	function isValid($key, $modified_time)
 	{
+		$key = $this->getCacheKey($key);
 		if(!$this->handler)
 		{
 			return false;
@@ -235,7 +252,7 @@ class CacheHandler extends Handler
 			$this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
 		}
 
-		return $this->keyGroupVersions[$keyGroupName] . ':' . $keyGroupName . ':' . $key;
+		return 'cache_group_' . $this->keyGroupVersions[$keyGroupName] . ':' . $keyGroupName . ':' . $key;
 	}
 
 	/**
@@ -259,6 +276,11 @@ class CacheHandler extends Handler
  */
 class CacheBase
 {
+	/**
+	 * Default valid time
+	 * @var int
+	 */
+	var $valid_time = 36000;
 
 	/**
 	 * Get cached data

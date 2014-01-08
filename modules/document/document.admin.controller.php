@@ -190,17 +190,14 @@ class documentAdminController extends document
 
 		$oDB->commit();
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			foreach($document_srl_list as $document_srl)
 			{
-				$cache_key = 'object:'.$document_srl;
-				$oCacheHandler->delete($cache_key);
-				$cache_key_item = 'object_document_item:'.$document_srl;
+				$cache_key_item = 'document_item:'.$document_srl;
 				$oCacheHandler->delete($cache_key_item);
 			}
-			$oCacheHandler->invalidateGroupKey('documentList');
 		}
 		return new Object();
 	}
@@ -447,21 +444,18 @@ class documentAdminController extends document
 			}
 		}
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			if(is_array($document_srl_list))
 			{
 				foreach($document_srl_list as $document_srl)
 				{
-					$cache_key = 'object:'.$document_srl;
-					$oCacheHandler->delete($cache_key);
-					$cache_key_item = 'object_document_item:'.$document_srl;
+					$cache_key_item = 'document_item:'.$document_srl;
 					$oCacheHandler->delete($cache_key_item);
 					$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
 				}
 			}
-			$oCacheHandler->invalidateGroupKey('documentList');
 		}
 		return $output;
 	}

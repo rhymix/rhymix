@@ -35,7 +35,7 @@ class counterModel extends counter
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$object_key = 'object:' . $site_srl . '_' . str_replace('.', '-', $args->ipaddress);
+			$object_key = 'counter:' . $site_srl . '_' . str_replace(array('.', ':'), '-', $args->ipaddress);
 			$cache_key = $oCacheHandler->getGroupKey('counterIpLogged_' . $args->regdate, $object_key);
 			if($oCacheHandler->isValid($cache_key))
 			{
@@ -68,7 +68,7 @@ class counterModel extends counter
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:insertedTodayStatus:' . $site_srl . '_' . $args->regdate;
+			$cache_key = 'counter:insertedTodayStatus:' . $site_srl . '_' . $args->regdate;
 			if($oCacheHandler->isValid($cache_key))
 			{
 				return $oCacheHandler->get($cache_key);
@@ -90,7 +90,7 @@ class counterModel extends counter
 		{
 			$oCacheHandler->put($cache_key, TRUE);
 			$_old_date = date('Ymd', strtotime('-1 day'));
-			$oCacheHandler->delete('object:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
+			$oCacheHandler->delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
 		}
 
 		return $result;

@@ -25,10 +25,10 @@ class sessionModel extends session
 
 		$output = new Object();
 
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$session_key;
+			$cache_key = 'session:'.$session_key;
 			$output->data = $oCacheHandler->get($cache_key);
 		}
 

@@ -1063,7 +1063,10 @@ class memberAdminController extends member
 		$args->source_group_srl = $source_group_srl;
 		$args->target_group_srl = $target_group_srl;
 
-		return executeQuery('member.changeGroup', $args);
+		$output = executeQuery('member.changeGroup', $args);
+		$this->_deleteMemberGroupCache($site_srl);
+
+		return $output;
 	}
 
 	/**
@@ -1075,7 +1078,7 @@ class memberAdminController extends member
 	{
 		if(!$args->site_srl) $args->site_srl = 0;
 		// Check the value of is_default.
-		if($args->is_default!='Y')
+		if($args->is_default != 'Y')
 		{
 			$args->is_default = 'N';
 		}
@@ -1088,6 +1091,7 @@ class memberAdminController extends member
 		if(!$args->group_srl) $args->group_srl = getNextSequence();
 		$output = executeQuery('member.insertGroup', $args);
 		$this->_deleteMemberGroupCache($args->site_srl);
+
 		return $output;
 	}
 
@@ -1126,19 +1130,21 @@ class memberAdminController extends member
 	{
 		// Create a member model object
 		$oMemberModel = getModel('member');
+
 		// Check the group_srl (If is_default == 'Y', it cannot be deleted)
 		$columnList = array('group_srl', 'is_default');
 		$group_info = $oMemberModel->getGroup($group_srl, $columnList);
 
 		if(!$group_info) return new Object(-1, 'lang->msg_not_founded');
 		if($group_info->is_default == 'Y') return new Object(-1, 'msg_not_delete_default');
+
 		// Get groups where is_default == 'Y'
 		$columnList = array('site_srl', 'group_srl');
 		$default_group = $oMemberModel->getDefaultGroup($site_srl, $columnList);
 		$default_group_srl = $default_group->group_srl;
+
 		// Change to default_group_srl
 		$this->changeGroup($group_srl, $default_group_srl);
-
 
 		$args = new stdClass;
 		$args->group_srl = $group_srl;
@@ -1233,11 +1239,10 @@ class memberAdminController extends member
 	function _deleteMemberGroupCache($site_srl = 0)
 	{
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object', null, true);
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object_groups:'.$site_srl;
-			$oCacheHandler->delete($cache_key);
+			$oCacheHandler->invalidateGroupKey('member');
 		}
 	}
 

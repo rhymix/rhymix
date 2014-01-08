@@ -27,10 +27,10 @@ class sessionController extends session
 	function write($session_key, $val)
 	{
 		if(!$session_key || !$this->session_started) return;
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$session_key;
+			$cache_key = 'session:'.$session_key;
 			$cache_vars = $oCacheHandler->get($cache_key);
 		}
 
@@ -80,7 +80,7 @@ class sessionController extends session
 				//put session into cache
 				if($oCacheHandler->isSupport())
 				{
-					$cache_key = 'object:'.$session_key;
+					$cache_key = 'session:'.$session_key;
 					$oCacheHandler->put($cache_key,$args,$this->lifetime);
 				}
 				//put session into db
@@ -91,7 +91,7 @@ class sessionController extends session
 				//put session into cache
 				if($oCacheHandler->isSupport())
 				{
-					$cache_key = 'object:'.$session_key;
+					$cache_key = 'session:'.$session_key;
 					$oCacheHandler->put($cache_key,$args,$this->lifetime);
 				}
 			}
@@ -101,7 +101,7 @@ class sessionController extends session
 			//put session into cache
 			if($oCacheHandler->isSupport())
 			{
-				$cache_key = 'object:'.$session_key;
+				$cache_key = 'session:'.$session_key;
 				$oCacheHandler->put($cache_key,$args,$this->lifetime);
 			}
 			//put session into db
@@ -116,10 +116,10 @@ class sessionController extends session
 	{
 		if(!$session_key || !$this->session_started) return;
 		//remove session from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$session_key;
+			$cache_key = 'session:'.$session_key;
 			$oCacheHandler->delete($cache_key);
 		}
 		//remove session from db
