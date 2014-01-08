@@ -610,7 +610,7 @@ class moduleModel extends module
 			$triggers = $oCacheHandler->get($cache_key);
 		}
 
-		if(!isset($triggers))
+		if(!$triggers && !is_array($triggers))
 		{
 			$args = new stdClass();
 			$args->trigger_name = $trigger_name;
