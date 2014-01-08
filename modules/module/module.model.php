@@ -791,7 +791,7 @@ class moduleModel extends module
 		// Check if cached file exists
 		$cache_file = sprintf(_XE_PATH_ . "files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
 
-		if($cache_file)
+		if(file_exists($cache_file))
 		{
 			$module_info = include($cache_file);
 			if($module_info === 1 || !is_object($module_info)) $re_cache = TRUE;
