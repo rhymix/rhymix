@@ -895,7 +895,7 @@ class moduleModel extends module
 
 					$type = $action->attrs->type;
 					$grant = $action->attrs->grant?$action->attrs->grant:'guest';
-					$standalone = $action->attrs->standalone=='true'?'true':'false';
+					$standalone = $action->attrs->standalone=='false'?'false':'true';
 					$ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
 					$method = $action->attrs->method?$action->attrs->method:'';
 
