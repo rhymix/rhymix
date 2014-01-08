@@ -1703,9 +1703,18 @@ class moduleModel extends module
 			$args = new stdClass();
 			$args->module_srl = implode(',', $get_module_srls);
 			$output = executeQueryArray('module.getModuleExtraVars', $args);
+
 			if(!$output->toBool())
 			{
 				return;
+			}
+
+			if(!$output->data)
+			{
+				foreach($get_module_srls as $module_srl)
+				{
+					$extra_vars[$module_srl] = new stdClass;
+				}
 			}
 
 			foreach($output->data as $key => $val)
