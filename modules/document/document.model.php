@@ -366,7 +366,7 @@ class documentModel extends document
 			$oCacheHandler = CacheHandler::getInstance('object', null, true);
 			if($oCacheHandler->isSupport())
 			{
-				$object_key = 'module_extra_keys:' . $module_srl;
+				$object_key = 'module_document_extra_keys:' . $module_srl;
 				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$keys = $oCacheHandler->get($cache_key);
 			}

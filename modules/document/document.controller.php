@@ -844,10 +844,24 @@ class documentController extends document
 		$obj->eid = $eid;
 
 		$output = executeQuery('document.getDocumentExtraKeys', $obj);
-		if(!$output->data) return executeQuery('document.insertDocumentExtraKey', $obj);
-		$output = executeQuery('document.updateDocumentExtraKey', $obj);
-		// Update the extra var(eid)
-		$output = executeQuery('document.updateDocumentExtraVar', $obj);
+		if(!$output->data)
+		{
+			$output = executeQuery('document.insertDocumentExtraKey', $obj);
+		}
+		else
+		{
+			$output = executeQuery('document.updateDocumentExtraKey', $obj);
+			// Update the extra var(eid)
+			$output = executeQuery('document.updateDocumentExtraVar', $obj);
+		}
+
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+		if($oCacheHandler->isSupport())
+		{
+			$object_key = 'module_document_extra_keys:'.$module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$oCacheHandler->delete($cache_key);
+		}
 
 		return $output;
 	}
@@ -904,10 +918,12 @@ class documentController extends document
 
 		$oDB->commit();
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
+			$object_key = 'module_document_extra_keys:'.$module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$oCacheHandler->delete($cache_key);
 		}
 
 		return new Object();
