@@ -944,7 +944,7 @@ class memberAdminController extends member
 		}
 		$oDB->commit();
 
-		$this->_deleteMemberGroupCache()
+		$this->_deleteMemberGroupCache();
 
 		$this->setMessage('success_updated');
 
