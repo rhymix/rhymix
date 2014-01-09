@@ -1380,7 +1380,7 @@ class moduleModel extends module
 				$args->module_srl = $module_srl;
 				$output = executeQuery('module.getModulePartConfig', $args);
 				$config = unserialize($output->data->config);
-				if(!$config) $config = new stdClass;
+
 				//insert in cache
 				if($oCacheHandler->isSupport())
 				{
