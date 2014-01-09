@@ -436,8 +436,6 @@ class DB
 		$elapsed_time = $this->act_finish - $this->act_start;
 		$this->elapsed_time = $elapsed_time;
 		$GLOBALS['__db_elapsed_time__'] += $elapsed_time;
-		$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-		$bt = $bt[6];
 
 		$site_module_info = Context::get('site_module_info');
 		$log = array();
@@ -448,8 +446,20 @@ class DB
 		$log['module'] = $site_module_info->module;
 		$log['act'] = Context::get('act');
 		$log['time'] = date('Y-m-d H:i:s');
-		$log['called_file'] = $bt['file'].':'.$bt['line'];
-		$log['called_method'] = $bt['class'].$bt['type'].$bt['function'];
+
+		$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		foreach($bt as $no => $call)
+		{
+			if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
+			{
+				$call_no = $no;
+				$call_no++;
+				$log['called_file'] = $bt[$call_no]['file'].':'.$bt[$call_no]['line'];
+				$call_no++;
+				$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
+				break;
+			}
+		}
 
 		// leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
 		if($this->isError())
