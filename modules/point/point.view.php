@@ -41,18 +41,18 @@ class pointView extends point
 			$module_config = $oModuleModel->getModulePartConfig('point', $current_module_srl);
 			if(!$module_config)
 			{
-				$module_config['insert_document'] = $config->insert_document;
-				$module_config['insert_comment'] = $config->insert_comment;
-				$module_config['upload_file'] = $config->upload_file;
-				$module_config['download_file'] = $config->download_file;
-				$module_config['read_document'] = $config->read_document;
-				$module_config['voted'] = $config->voted;
-				$module_config['blamed'] = $config->blamed;
+				$module_config->insert_document = $config->insert_document;
+				$module_config->insert_comment = $config->insert_comment;
+				$module_config->upload_file = $config->upload_file;
+				$module_config->download_file = $config->download_file;
+				$module_config->read_document = $config->read_document;
+				$module_config->voted = $config->voted;
+				$module_config->blamed = $config->blamed;
 			}
 		}
 
-		$module_config['module_srl'] = $current_module_srl;
-		$module_config['point_name'] = $config->point_name;
+		$module_config->module_srl = $current_module_srl;
+		$module_config->point_name = $config->point_name;
 		Context::set('module_config', $module_config);
 		// Set the template file
 		$oTemplate = &TemplateHandler::getInstance();

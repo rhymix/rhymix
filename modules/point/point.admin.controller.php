@@ -231,7 +231,7 @@ class pointAdminController extends point
 		{
 			foreach($output->data as $key => $val)
 			{
-				if($module_config[$val->module_srl]['insert_document']) $insert_point = $module_config[$val->module_srl]['insert_document'];
+				if($module_config->{$val->module_srl}['insert_document']) $insert_point = $module_config->{$val->module_srl}['insert_document'];
 				else $insert_point = $config->insert_document;
 
 				if(!$val->member_srl) continue;
@@ -249,7 +249,7 @@ class pointAdminController extends point
 		{
 			foreach($output->data as $key => $val)
 			{
-				if($module_config[$val->module_srl]['insert_comment']) $insert_point = $module_config[$val->module_srl]['insert_comment'];
+				if($module_config->{$val->module_srl}['insert_comment']) $insert_point = $module_config->{$val->module_srl}['insert_comment'];
 				else $insert_point = $config->insert_comment;
 
 				if(!$val->member_srl) continue;
@@ -266,7 +266,7 @@ class pointAdminController extends point
 		{
 			foreach($output->data as $key => $val)
 			{
-				if($module_config[$val->module_srl]['upload_file']) $insert_point = $module_config[$val->module_srl]['upload_file'];
+				if($module_config->{$val->module_srl}['upload_file']) $insert_point = $module_config->{$val->module_srl}['upload_file'];
 				else $insert_point = $config->upload_file;
 
 				if(!$val->member_srl) continue;
