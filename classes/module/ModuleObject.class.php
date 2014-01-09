@@ -384,6 +384,7 @@ class ModuleObject extends Object
 		// pass if stop_proc is true
 		if($this->stop_proc)
 		{
+			debugPrint($this->message, 'ERROR');
 			return false;
 		}
 

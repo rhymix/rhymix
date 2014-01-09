@@ -124,7 +124,7 @@ class moduleModel extends module
 				$site_info = $oCacheHandler->get($domain_cache_key);
 			}
 
-			if(!isset($site_info))
+			if(!$site_info)
 			{
 				$args = new stdClass();
 				$args->domain = $domain;
@@ -132,6 +132,7 @@ class moduleModel extends module
 				$site_info = $output->data;
 				if($oCacheHandler->isSupport()) $oCacheHandler->put($domain_cache_key, $site_info);
 			}
+
 			if($site_info && $vid)
 			{
 				Context::set('vid', $site_info->domain, true);
@@ -1343,7 +1344,7 @@ class moduleModel extends module
 				$args->site_srl = $site_srl;
 				$output = executeQuery('module.getModuleConfig', $args);
 				$config = unserialize($output->data->config);
-				if(!$config) $config = new stdClass;
+
 				//insert in cache
 				if($oCacheHandler->isSupport())
 				{

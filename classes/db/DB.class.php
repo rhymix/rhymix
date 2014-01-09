@@ -436,19 +436,24 @@ class DB
 		$elapsed_time = $this->act_finish - $this->act_start;
 		$this->elapsed_time = $elapsed_time;
 		$GLOBALS['__db_elapsed_time__'] += $elapsed_time;
+		$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		$bt = $bt[6];
 
+		$site_module_info = Context::get('site_module_info');
+		$log = array();
 		$log['query'] = $this->query;
 		$log['elapsed_time'] = $elapsed_time;
 		$log['connection'] = $this->connection;
 		$log['query_id'] = $this->query_id;
+		$log['module'] = $site_module_info->module;
+		$log['act'] = Context::get('act');
+		$log['time'] = date('Y-m-d H:i:s');
+		$log['called_file'] = $bt['file'].':'.$bt['line'];
+		$log['called_method'] = $bt['class'].$bt['type'].$bt['function'];
 
 		// leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
 		if($this->isError())
 		{
-			$site_module_info = Context::get('site_module_info');
-			$log['module'] = $site_module_info->module;
-			$log['act'] = Context::get('act');
-			$log['time'] = date('Y-m-d H:i:s');
 			$log['result'] = 'Failed';
 			$log['errno'] = $this->errno;
 			$log['errstr'] = $this->errstr;
