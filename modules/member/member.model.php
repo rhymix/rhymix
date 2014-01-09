@@ -287,6 +287,7 @@ class memberModel extends member
 			$oCacheHandler = CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport())
 			{
+				$columnList = array();
 				$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
 				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 				$GLOBALS['__member_info__'][$member_srl] = $oCacheHandler->get($cache_key);
@@ -507,6 +508,7 @@ class memberModel extends member
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
+			$columnList = array();
 			$object_key = 'default_group_' . $site_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$default_group = $oCacheHandler->get($cache_key);
