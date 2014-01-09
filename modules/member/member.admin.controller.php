@@ -489,7 +489,7 @@ class memberAdminController extends member
 				}
 				else if($formInfo->name == 'nick_name')
 				{
-					$fields[] = sprintf('<field name="%s" required="true" rule="userid" length="2:20" />', $formInfo->name);
+					$fields[] = sprintf('<field name="%s" required="true" length="2:20" />', $formInfo->name);
 				}
 				else if(strpos($formInfo->name, 'image') !== false)
 				{
