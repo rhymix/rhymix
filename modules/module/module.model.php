@@ -218,7 +218,7 @@ class moduleModel extends module
 			$module_srl = $oCacheHandler->get($module_srl_cache_key);
 			if($module_srl)
 			{
-				$object_key = 'module_info:' . $module_srl;
+				$object_key = 'mid_info:' . $module_srl;
 				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$module_info = $oCacheHandler->get($module_info_cache_key);
 			}
@@ -232,7 +232,7 @@ class moduleModel extends module
 			{
 				$oCacheHandler->put($module_srl_cache_key, $module_info->module_srl);
 
-				$object_key = 'module_info:' . $module_info->module_srl;
+				$object_key = 'mid_info:' . $module_info->module_srl;
 				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$oCacheHandler->put($module_info_cache_key, $module_info);
 			}
@@ -316,7 +316,7 @@ class moduleModel extends module
 			$module_srl = $oCacheHandler->get($module_srl_cache_key);
 			if($module_srl)
 			{
-				$object_key = 'module_info:' . $module_srl;
+				$object_key = 'mid_info:' . $module_srl;
 				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$coutput = $oCacheHandler->get($module_info_cache_key);
 			}
@@ -325,7 +325,7 @@ class moduleModel extends module
 			{
 				$oCacheHandler->put($module_srl_cache_key, $output->data->module_srl);
 
-				$object_key = 'module_info:' . $output->data->module_srl;
+				$object_key = 'mid_info:' . $output->data->module_srl;
 				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$oCacheHandler->put($module_info_cache_key, $moduleInfo);
 			}
@@ -359,7 +359,7 @@ class moduleModel extends module
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$object_key = 'module_info:' . $module_srl;
+			$object_key = 'mid_info:' . $module_srl;
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$mid_info = $oCacheHandler->get($cache_key);
 		}

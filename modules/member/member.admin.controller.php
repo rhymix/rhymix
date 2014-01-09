@@ -823,6 +823,7 @@ class memberAdminController extends member
 						{
 							$args->denied = $var->denied;
 							$output = executeQuery('member.updateMemberDeniedInfo', $args);
+							$this->_clearMemberCache($args->member_srl);
 							if(!$output->toBool())
 							{
 								$oDB->rollback();
@@ -938,6 +939,9 @@ class memberAdminController extends member
 			}
 		}
 		$oDB->commit();
+
+		$this->_deleteMemberGroupCache()
+
 		$this->setMessage('success_updated');
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
