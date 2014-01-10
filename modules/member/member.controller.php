@@ -250,7 +250,7 @@ class memberController extends member
 	{
 		if (Context::getRequestMethod () == "GET") return new Object (-1, "msg_invalid_request");
 		$oMemberModel = &getModel ('member');
-		$config = $oMemberModel->getMemberConfig ();
+		$config = $oMemberModel->getMemberConfig();
 
 		// call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall ('member.procMemberInsert', 'before', $config);
@@ -288,6 +288,13 @@ class memberController extends member
 
 		if($args->password1) $args->password = $args->password1;
 
+		// check password strength
+		if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
+		{
+			$message = Context::getLang('about_password_strength');
+			return new Object(-1, $message[$config->password_strength]);
+		}
+		
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
@@ -564,14 +571,6 @@ class memberController extends member
 		$oMemberModel = getModel('member');
 		// Get information of member_srl
 		$columnList = array('member_srl', 'password');
-
-		// check password strength
-		$config = $oMemberModel->getMemberConfig();
-		if(!$oMemberModel->checkPasswordStrength($password, $config->password_strength))
-		{
-			$message = Context::getLang('about_password_strength');
-			return new Object(-1, $message[$config->password_strength]);
-		}
 
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		// Verify the cuttent password
@@ -1906,7 +1905,19 @@ class memberController extends member
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 		// Create a model object
 		$oMemberModel = getModel('member');
+		
 		// ID check is prohibited
+		if($args->password && !$password_is_hashed)
+		{
+			// check password strength
+			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
+			{
+				$message = Context::getLang('about_password_strength');
+				return new Object(-1, $message[$config->password_strength]);
+			}
+			$args->password = md5($args->password);
+		}
+		elseif(!$args->password) unset($args->password);
 		if($oMemberModel->isDeniedID($args->user_id)) return new Object(-1,'denied_user_id');
 		// ID, nickname, email address of the redundancy check
 		$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
@@ -1923,19 +1934,18 @@ class memberController extends member
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
 		if($member_srl) return new Object(-1,'msg_exists_email_address');
 
-		$oDB = &DB::getInstance();
-		$oDB->begin();
 		// Insert data into the DB
 		$args->list_order = -1 * $args->member_srl;
 		$args->nick_name = htmlspecialchars($args->nick_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		$args->homepage = htmlspecialchars($args->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		$args->blog = htmlspecialchars($args->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
-		if($args->password && !$password_is_hashed) $args->password = md5($args->password);
-		elseif(!$args->password) unset($args->password);
 
 		if(!$args->user_id) $args->user_id = 't'.$args->member_srl;
 		if(!$args->user_name) $args->user_name = $args->member_srl;
+
+		$oDB = &DB::getInstance();
+		$oDB->begin();
 
 		$output = executeQuery('member.insertMember', $args);
 		if(!$output->toBool())
@@ -2086,7 +2096,17 @@ class memberController extends member
 		$oDB->begin();
 		// DB in the update
 
-		if($args->password) $args->password = md5($args->password);
+		if($args->password)
+		{
+			// check password strength
+			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
+			{
+				$message = Context::getLang('about_password_strength');
+				return new Object(-1, $message[$config->password_strength]);
+			}
+				
+			$args->password = md5($args->password);
+		}
 		else $args->password = $orgMemberInfo->password;
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 		if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
@@ -2172,6 +2192,17 @@ class memberController extends member
 
 		if($args->password)
 		{
+
+			// check password strength
+			$oMemberModel = getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+			
+			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
+			{
+				$message = Context::getLang('about_password_strength');
+				return new Object(-1, $message[$config->password_strength]);
+			}
+			
 			if($this->useSha1)
 			{
 				$args->password = md5(sha1(md5($args->password)));

@@ -1050,17 +1050,20 @@ class memberModel extends member
 	}
 
 	
-	function checkPasswordStrength($password, $stength)
+	function checkPasswordStrength($password, $strength)
 	{
-		if($stength == NULL)
+		$logged_info = Context::get('logged_info');
+		if($logged_info->is_admin == 'Y') return true;
+		
+		if($strength == NULL)
 		{
 			$config = $this->getMemberConfig();
-			$stength = $config->password_strength?$config->password_strength:'normal';
+			$strength = $config->password_strength?$config->password_strength:'normal';
 		}
 		
 		$length = strlen($password);
 		
-		switch ($stength) {
+		switch ($strength) {
 			case 'high':
 				if($length < 8 || !preg_match('/[^a-zA-Z0-9]/', $password)) return false;
 				/* no break */
