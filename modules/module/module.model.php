@@ -1701,12 +1701,17 @@ class moduleModel extends module
 				}
 			}
 		}
+		else
+		{
+			$get_module_srls = $list_module_srl;
+		}
 
 		if(count($get_module_srls))
 		{
 			$args = new stdClass();
 			$args->module_srl = implode(',', $get_module_srls);
 			$output = executeQueryArray('module.getModuleExtraVars', $args);
+
 			if(!$output->toBool())
 			{
 				return;
@@ -1719,7 +1724,6 @@ class moduleModel extends module
 					$extra_vars[$module_srl] = new stdClass;
 				}
 			}
-
 			foreach($output->data as $key => $val)
 			{
 				if(in_array($val->name, array('mid','module')) || $val->value == 'Array') continue;
