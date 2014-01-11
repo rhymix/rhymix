@@ -1696,15 +1696,15 @@
 	
 	<item name="about_password_strength" type="array">
 		<item name="low">
-			<value xml:lang="ko"><![CDATA[비밀번호는 4~20자로 되어야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[비밀번호는 4자 이상이어야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[the password must be at least 4]]></value>
 		</item>
 		<item name="normal">
-			<value xml:lang="ko"><![CDATA[비밀번호는 6자리 이상이고, 영문과 숫자를 반드시 포함해야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[비밀번호는 6자리 이상이어야 하며 영문과 숫자를 반드시 포함해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[the password must be at least 6, and must have at least one alpha character and numeric characters]]></value>
 		</item>
 		<item name="high">
-			<value xml:lang="ko"><![CDATA[비밀번호는 8자리 이상이고 영문과 숫자, 특수문자를 반드시 포함해야 합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[비밀번호는 8자리 이상이어야 하며 영문과 숫자, 특수문자를 반드시 포함해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[the password must be at least 8, and must have at least one alpha character, numeric character and special character ]]></value>
 		</item>
 	</item>

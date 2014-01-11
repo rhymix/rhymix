@@ -197,10 +197,10 @@ class DisplayHandler extends Handler
 			// display DB query history
 			if((__DEBUG__ & 4) && $GLOBALS['__db_queries__'])
 			{
-				$queries_output = array(array('Result', 'Query ID', 'Query', 'Elapsed time'));
+				$queries_output = array(array('Result/'.PHP_EOL.'Elapsed time', 'Query ID', 'Query'));
 				foreach($GLOBALS['__db_queries__'] as $query)
 				{
-					$queries_output[] = array($query['result'], $query['query_id'], $query['query'], sprintf('%0.5f', $query['elapsed_time']));
+					$queries_output[] = array($query['result'] . PHP_EOL . sprintf('%0.5f', $query['elapsed_time']), str_replace(_XE_PATH_, '', $query['called_file']) . PHP_EOL . $query['called_method'] . '()' . PHP_EOL . $query['query_id'], $query['query']);
 				}
 				$firephp->fb(
 						array(
@@ -215,7 +215,7 @@ class DisplayHandler extends Handler
 		else
 		{
 
-			$buff = "";
+			$buff = array();
 			// display total execution time and Request/Response info
 			if(__DEBUG__ & 2)
 			{
@@ -225,29 +225,29 @@ class DisplayHandler extends Handler
 				}
 
 				// Request/Response information
-				$buff .= "\n- Request/ Response info\n";
-				$buff .= sprintf("\tRequest URI \t\t\t: %s:%s%s%s%s\n", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING'] ? '?' : '', $_SERVER['QUERY_STRING']);
-				$buff .= sprintf("\tRequest method \t\t\t: %s\n", $_SERVER['REQUEST_METHOD']);
-				$buff .= sprintf("\tResponse method \t\t: %s\n", Context::getResponseMethod());
-				$buff .= sprintf("\tResponse contents size\t\t: %d byte\n", $this->content_size);
+				$buff[] = "\n- Request/ Response info";
+				$buff[] = sprintf("\tRequest URI \t\t\t: %s:%s%s%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING'] ? '?' : '', $_SERVER['QUERY_STRING']);
+				$buff[] = sprintf("\tRequest method \t\t\t: %s", $_SERVER['REQUEST_METHOD']);
+				$buff[] = sprintf("\tResponse method \t\t: %s", Context::getResponseMethod());
+				$buff[] = sprintf("\tResponse contents size\t: %d byte", $this->content_size);
 
 				// total execution time
-				$buff .= sprintf("\n- Total elapsed time : %0.5f sec\n", $end - __StartTime__);
+				$buff[] = sprintf("\n- Total elapsed time : %0.5f sec", $end - __StartTime__);
 
-				$buff .= sprintf("\tclass file load elapsed time \t: %0.5f sec\n", $GLOBALS['__elapsed_class_load__']);
-				$buff .= sprintf("\tTemplate compile elapsed time\t: %0.5f sec (%d called)\n", $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']);
-				$buff .= sprintf("\tXmlParse compile elapsed time\t: %0.5f sec\n", $GLOBALS['__xmlparse_elapsed__']);
-				$buff .= sprintf("\tPHP elapsed time \t\t: %0.5f sec\n", $end - __StartTime__ - $GLOBALS['__template_elapsed__'] - $GLOBALS['__xmlparse_elapsed__'] - $GLOBALS['__db_elapsed_time__'] - $GLOBALS['__elapsed_class_load__']);
-				$buff .= sprintf("\tDB class elapsed time \t\t: %0.5f sec\n", $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']);
+				$buff[] = sprintf("\tclass file load elapsed time \t: %0.5f sec", $GLOBALS['__elapsed_class_load__']);
+				$buff[] = sprintf("\tTemplate compile elapsed time\t: %0.5f sec (%d called)", $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']);
+				$buff[] = sprintf("\tXmlParse compile elapsed time\t: %0.5f sec", $GLOBALS['__xmlparse_elapsed__']);
+				$buff[] = sprintf("\tPHP elapsed time \t\t\t\t: %0.5f sec", $end - __StartTime__ - $GLOBALS['__template_elapsed__'] - $GLOBALS['__xmlparse_elapsed__'] - $GLOBALS['__db_elapsed_time__'] - $GLOBALS['__elapsed_class_load__']);
+				$buff[] = sprintf("\tDB class elapsed time \t\t\t: %0.5f sec", $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']);
 
 				// widget execution time
-				$buff .= sprintf("\n\tWidgets elapsed time \t\t: %0.5f sec", $GLOBALS['__widget_excute_elapsed__']);
+				$buff[] = sprintf("\tWidgets elapsed time \t\t\t: %0.5f sec", $GLOBALS['__widget_excute_elapsed__']);
 
 				// layout execution time
-				$buff .= sprintf("\n\tLayout compile elapsed time \t: %0.5f sec", $GLOBALS['__layout_compile_elapsed__']);
+				$buff[] = sprintf("\tLayout compile elapsed time \t: %0.5f sec", $GLOBALS['__layout_compile_elapsed__']);
 
 				// Widgets, the editor component replacement time
-				$buff .= sprintf("\n\tTrans Content \t\t\t: %0.5f sec\n", $GLOBALS['__trans_content_elapsed__']);
+				$buff[] = sprintf("\tTrans Content \t\t\t\t\t: %0.5f sec", $GLOBALS['__trans_content_elapsed__']);
 			}
 			// DB Logging
 			if(__DEBUG__ & 4)
@@ -259,21 +259,23 @@ class DisplayHandler extends Handler
 
 				if($GLOBALS['__db_queries__'])
 				{
-					$buff .= sprintf("\n- DB Queries : %d Queries. %0.5f sec\n", count($GLOBALS['__db_queries__']), $GLOBALS['__db_elapsed_time__']);
+					$buff[] = sprintf("\n- DB Queries : %d Queries. %0.5f sec", count($GLOBALS['__db_queries__']), $GLOBALS['__db_elapsed_time__']);
 					$num = 0;
 
 					foreach($GLOBALS['__db_queries__'] as $query)
 					{
-						$buff .= sprintf("\t%02d. %s\n\t\t%0.6f sec. ", ++$num, $query['query'], $query['elapsed_time']);
 						if($query['result'] == 'Success')
 						{
-							$buff .= "Query Success\n";
+							$query_result = "Query Success";
 						}
 						else
 						{
-							$buff .= sprintf("Query $s : %d\n\t\t\t   %s\n", $query['result'], $query['errno'], $query['errstr']);
+							$query_result = sprintf("Query $s : %d\n\t\t\t   %s", $query['result'], $query['errno'], $query['errstr']);
 						}
-						$buff .= sprintf("\t\tConnection: %s\n", $query['connection']);
+						$buff[] = sprintf("\t%02d. %s\n\t\t%0.6f sec. %s.", ++$num, $query['query'], $query['elapsed_time'], $query_result);
+						$buff[] = sprintf("\t\tConnection: %s.", $query['connection']);
+						$buff[] = sprintf("\t\tQuery ID: %s", $query['query_id']);
+						$buff[] = sprintf("\t\tCalled: %s. %s()", str_replace(_XE_PATH_, '', $query['called_file']), $query['called_method']);
 					}
 				}
 			}
@@ -281,23 +283,25 @@ class DisplayHandler extends Handler
 			// Output in HTML comments
 			if($buff && __DEBUG_OUTPUT__ == 1 && Context::getResponseMethod() == 'HTML')
 			{
-				$buff = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($buff, true));
+				$buff = implode("\r\n", $buff);
+				$buff = sprintf("[%s %s:%d]\r\n%s", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($buff, true));
 
 				if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
 				{
 					$buff = 'The IP address is not allowed. Change the value of __DEBUG_PROTECT_IP__ into your IP address in config/config.user.inc.php or config/config.inc.php';
 				}
 
-				return "<!--\r\n" . $buff . "\r\n-->";
+				return "<!--\r\n" . implode("\r\n", $buff) . "\r\n-->";
 			}
 
 			// Output to a file
 			if($buff && __DEBUG_OUTPUT__ == 0)
 			{
 				$debug_file = _XE_PATH_ . 'files/_debug_message.php';
-				$buff = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($buff, true));
+				$buff = implode(PHP_EOL, $buff);
+				$buff = sprintf("[%s]\n%s", date('Y-m-d H:i:s'), print_r($buff, true));
 
-				$buff = str_repeat('=', 40) . "\n" . $buff . str_repeat('-', 40);
+				$buff = str_repeat('=', 80) . "\n" . $buff . "\n" . str_repeat('-', 80);
 				$buff = "\n<?php\n/*" . $buff . "*/\n?>\n";
 
 				if (!@file_put_contents($debug_file, $buff, FILE_APPEND|LOCK_EX))

@@ -541,12 +541,12 @@ class documentAdminController extends document
 		$desc = Context::get('desc') ? Context::get('desc') : '';
 		$search = Context::get('search');
 		$eid = Context::get('eid');
+		$obj = new stdClass();
 
 		if(!$module_srl || !$name || !$eid) return new Object(-1,'msg_invalid_request');
 		// set the max value if idx is not specified
 		if(!$var_idx)
 		{
-			$obj = new stdClass();
 			$obj->module_srl = $module_srl;
 			$output = executeQuery('document.getDocumentMaxExtraKeyIdx', $obj);
 			$var_idx = $output->data->var_idx+1;
@@ -659,6 +659,14 @@ class documentAdminController extends document
 			if(!$output->toBool()) return $output;
 			$output = executeQuery('document.updateDocumentExtraVarIdx', $args);
 			if(!$output->toBool()) return $output;
+		}
+
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+		if($oCacheHandler->isSupport())
+		{
+			$object_key = 'module_document_extra_keys:'.$module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$oCacheHandler->delete($cache_key);
 		}
 	}
 

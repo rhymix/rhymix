@@ -530,6 +530,7 @@ class module extends ModuleObject
 		foreach($moduleInfos as $moduleInfo)
 		{
 			// search menu.
+			$args = new stdClass;
 			$args->url = $moduleInfo->mid;
 			$args->site_srl = $moduleInfo->site_srl;
 			$args->is_shortcut = 'N';

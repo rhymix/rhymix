@@ -265,8 +265,19 @@ class memberModel extends member
 		if(!$email_address) return;
 
 		$args = new stdClass();
-		$args->email_address = $email_address;
-		$output = executeQuery('member.getMemberInfoByEmailAddress', $args);
+		
+		$db_info = Context::getDBInfo ();
+		if($db_info->master_db['db_type'] == "cubrid")
+		{
+			$args->email_address = strtolower($email_address);
+			$output = executeQuery('member.getMemberInfoByEmailAddressForCubrid', $args);
+		}
+		else
+		{
+			$args->email_address = $email_address;
+			$output = executeQuery('member.getMemberInfoByEmailAddress', $args);
+		}
+		
 		if(!$output->toBool()) return $output;
 		if(!$output->data) return;
 
@@ -284,9 +295,10 @@ class memberModel extends member
 		//columnList size zero... get full member info
 		if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0)
 		{
-			$oCacheHandler = CacheHandler::getInstance('object', null, true);
+			$oCacheHandler = CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport())
 			{
+				$columnList = array();
 				$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
 				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 				$GLOBALS['__member_info__'][$member_srl] = $oCacheHandler->get($cache_key);
@@ -507,6 +519,7 @@ class memberModel extends member
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
+			$columnList = array();
 			$object_key = 'default_group_' . $site_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$default_group = $oCacheHandler->get($cache_key);
@@ -1037,17 +1050,20 @@ class memberModel extends member
 	}
 
 	
-	function checkPasswordStrength($password, $stength)
+	function checkPasswordStrength($password, $strength)
 	{
-		if($stength == NULL)
+		$logged_info = Context::get('logged_info');
+		if($logged_info->is_admin == 'Y') return true;
+		
+		if($strength == NULL)
 		{
 			$config = $this->getMemberConfig();
-			$stength = $config->password_strength?$config->password_strength:'normal';
+			$strength = $config->password_strength?$config->password_strength:'normal';
 		}
 		
 		$length = strlen($password);
 		
-		switch ($stength) {
+		switch ($strength) {
 			case 'high':
 				if($length < 8 || !preg_match('/[^a-zA-Z0-9]/', $password)) return false;
 				/* no break */

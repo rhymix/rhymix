@@ -124,7 +124,7 @@ class moduleModel extends module
 				$site_info = $oCacheHandler->get($domain_cache_key);
 			}
 
-			if(!isset($site_info))
+			if(!$site_info)
 			{
 				$args = new stdClass();
 				$args->domain = $domain;
@@ -132,6 +132,7 @@ class moduleModel extends module
 				$site_info = $output->data;
 				if($oCacheHandler->isSupport()) $oCacheHandler->put($domain_cache_key, $site_info);
 			}
+
 			if($site_info && $vid)
 			{
 				Context::set('vid', $site_info->domain, true);
@@ -218,7 +219,7 @@ class moduleModel extends module
 			$module_srl = $oCacheHandler->get($module_srl_cache_key);
 			if($module_srl)
 			{
-				$object_key = 'module_info:' . $module_srl;
+				$object_key = 'mid_info:' . $module_srl;
 				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$module_info = $oCacheHandler->get($module_info_cache_key);
 			}
@@ -232,7 +233,7 @@ class moduleModel extends module
 			{
 				$oCacheHandler->put($module_srl_cache_key, $module_info->module_srl);
 
-				$object_key = 'module_info:' . $module_info->module_srl;
+				$object_key = 'mid_info:' . $module_info->module_srl;
 				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$oCacheHandler->put($module_info_cache_key, $module_info);
 			}
@@ -316,7 +317,7 @@ class moduleModel extends module
 			$module_srl = $oCacheHandler->get($module_srl_cache_key);
 			if($module_srl)
 			{
-				$object_key = 'module_info:' . $module_srl;
+				$object_key = 'mid_info:' . $module_srl;
 				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$coutput = $oCacheHandler->get($module_info_cache_key);
 			}
@@ -325,7 +326,7 @@ class moduleModel extends module
 			{
 				$oCacheHandler->put($module_srl_cache_key, $output->data->module_srl);
 
-				$object_key = 'module_info:' . $output->data->module_srl;
+				$object_key = 'mid_info:' . $output->data->module_srl;
 				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$oCacheHandler->put($module_info_cache_key, $moduleInfo);
 			}
@@ -359,7 +360,7 @@ class moduleModel extends module
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$object_key = 'module_info:' . $module_srl;
+			$object_key = 'mid_info:' . $module_srl;
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$mid_info = $oCacheHandler->get($cache_key);
 		}
@@ -792,7 +793,7 @@ class moduleModel extends module
 		$cache_file = sprintf(_XE_PATH_ . "files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
 
 		// Update if no cache file exists or it is older than xml file
-		if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file))
+		if(!file_exists($cache_file) || filemtime($cache_file) < filemtime($xml_file) || $re_cache)
 		{
 			$info = new stdClass();
 			$buff = array(); // /< Set buff variable to use in the cache file
@@ -1343,7 +1344,7 @@ class moduleModel extends module
 				$args->site_srl = $site_srl;
 				$output = executeQuery('module.getModuleConfig', $args);
 				$config = unserialize($output->data->config);
-				if(!$config) $config = new stdClass;
+
 				//insert in cache
 				if($oCacheHandler->isSupport())
 				{
@@ -1380,7 +1381,7 @@ class moduleModel extends module
 				$args->module_srl = $module_srl;
 				$output = executeQuery('module.getModulePartConfig', $args);
 				$config = unserialize($output->data->config);
-				if(!$config) $config = new stdClass;
+
 				//insert in cache
 				if($oCacheHandler->isSupport())
 				{
@@ -1700,12 +1701,17 @@ class moduleModel extends module
 				}
 			}
 		}
+		else
+		{
+			$get_module_srls = $list_module_srl;
+		}
 
 		if(count($get_module_srls))
 		{
 			$args = new stdClass();
 			$args->module_srl = implode(',', $get_module_srls);
 			$output = executeQueryArray('module.getModuleExtraVars', $args);
+
 			if(!$output->toBool())
 			{
 				return;
@@ -1718,7 +1724,6 @@ class moduleModel extends module
 					$extra_vars[$module_srl] = new stdClass;
 				}
 			}
-
 			foreach($output->data as $key => $val)
 			{
 				if(in_array($val->name, array('mid','module')) || $val->value == 'Array') continue;

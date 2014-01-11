@@ -3423,20 +3423,6 @@
 			<value xml:lang="vi"><![CDATA[Ô chọn(Nhiều lựa chọn)]]></value>
 			<value xml:lang="mn"><![CDATA[Олон сонголт хийх(checkbox)]]></value>
 		</item>
-		<item name="select_multiple">
-			<value xml:lang="ko"><![CDATA[다중 선택(multiple select)]]></value>
-			<value xml:lang="en"><![CDATA[multiple select box(multiple selection)]]></value>
-			<value xml:lang="jp"><![CDATA[multiple select box(multiple selection)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[multiple select box(multiple selection)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[multiple select box(multiple selection)]]></value>
-			<value xml:lang="fr"><![CDATA[multiple select box(multiple selection)]]></value>
-			<value xml:lang="de"><![CDATA[multiple select box(multiple selection)]]></value>
-			<value xml:lang="ru"><![CDATA[multiple select box(multiple selection)]]></value>
-			<value xml:lang="es"><![CDATA[multiple select box(multiple selection)]]></value>
-			<value xml:lang="tr"><![CDATA[multiple select box(multiple selection)]]></value>
-			<value xml:lang="vi"><![CDATA[multiple select box(multiple selection))]]></value>
-			<value xml:lang="mn"><![CDATA[multiple select box(multiple selection)]]></value>
-		</item>
 		<item name="kr_zip">
 			<value xml:lang="ko"><![CDATA[한국주소(zip)]]></value>
 			<value xml:lang="en"><![CDATA[zip code(Korean)]]></value>

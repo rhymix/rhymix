@@ -437,18 +437,33 @@ class DB
 		$this->elapsed_time = $elapsed_time;
 		$GLOBALS['__db_elapsed_time__'] += $elapsed_time;
 
+		$site_module_info = Context::get('site_module_info');
+		$log = array();
 		$log['query'] = $this->query;
 		$log['elapsed_time'] = $elapsed_time;
 		$log['connection'] = $this->connection;
 		$log['query_id'] = $this->query_id;
+		$log['module'] = $site_module_info->module;
+		$log['act'] = Context::get('act');
+		$log['time'] = date('Y-m-d H:i:s');
+
+		$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		foreach($bt as $no => $call)
+		{
+			if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
+			{
+				$call_no = $no;
+				$call_no++;
+				$log['called_file'] = $bt[$call_no]['file'].':'.$bt[$call_no]['line'];
+				$call_no++;
+				$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
+				break;
+			}
+		}
 
 		// leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
 		if($this->isError())
 		{
-			$site_module_info = Context::get('site_module_info');
-			$log['module'] = $site_module_info->module;
-			$log['act'] = Context::get('act');
-			$log['time'] = date('Y-m-d H:i:s');
 			$log['result'] = 'Failed';
 			$log['errno'] = $this->errno;
 			$log['errstr'] = $this->errstr;

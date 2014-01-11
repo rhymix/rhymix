@@ -468,21 +468,27 @@ class layoutModel extends layout
 				$xml_file = sprintf('%sskin.xml', $layout_path);
 			}
 		}
+
 		// Get a path of the requested module. Return if not exists.
 		if(!$layout_path) $layout_path = $this->getLayoutPath($layout, $layout_type);
 		if(!is_dir($layout_path)) return;
+
 		// Read the xml file for module skin information
 		if(!$xml_file) $xml_file = sprintf("%sconf/info.xml", $layout_path);
 		if(!file_exists($xml_file))
 		{
+			$layout_info = new stdClass;
 			$layout_info->title = $layout;
 			$layout_info->layout = $layout;
 			$layout_info->path = $layout_path;
 			$layout_info->layout_title = $layout_title;
 			if(!$layout_info->layout_type)
+			{
 				$layout_info->layout_type =  $layout_type;
+			}
 			return $layout_info;
 		}
+
 		// Include the cache file if it is valid and then return $layout_info variable
 		if(!$layout_srl)
 		{
@@ -492,6 +498,7 @@ class layoutModel extends layout
 		{
 			$cache_file = $this->getUserLayoutCache($layout_srl, Context::getLangType());
 		}
+
 		if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file))
 		{
 			include($cache_file);
@@ -517,6 +524,7 @@ class layoutModel extends layout
 		// If no cache file exists, parse the xml and then return the variable.
 		$oXmlParser = new XmlParser();
 		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
+
 		if($tmp_xml_obj->layout) $xml_obj = $tmp_xml_obj->layout;
 		elseif($tmp_xml_obj->skin) $xml_obj = $tmp_xml_obj->skin;
 
@@ -544,6 +552,7 @@ class layoutModel extends layout
 			$buff[] = sprintf('$layout_info->license = "%s";', $xml_obj->license->body);
 			$buff[] = sprintf('$layout_info->license_link = "%s";', $xml_obj->license->attrs->link);
 			$buff[] = sprintf('$layout_info->layout_type = "%s";', $layout_type);
+
 			// Author information
 			if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
 			else $author_list = $xml_obj->author;
@@ -556,6 +565,7 @@ class layoutModel extends layout
 				$buff[] = sprintf('$layout_info->author[%d]->email_address = "%s";', $i, $author_list[$i]->attrs->email_address);
 				$buff[] = sprintf('$layout_info->author[%d]->homepage = "%s";', $i, $author_list[$i]->attrs->link);
 			}
+
 			// Extra vars (user defined variables to use in a template)
 			$extra_var_groups = $xml_obj->extra_vars->group;
 			if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;

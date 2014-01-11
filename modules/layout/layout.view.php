@@ -171,7 +171,7 @@ class layoutView extends layout
 								{
 									$menu->xml_file = str_replace('.xml.php', $homeMenuSrl . '.xml.php', $menu->xml_file);
 									$menu->php_file = str_replace('.php', $homeMenuSrl . '.php', $menu->php_file);
-									$layout_info->menu->{$menu_id}->menu_srl = $homeMenuSrl;
+									$layoutInfo->menu->{$menu_id}->menu_srl = $homeMenuSrl;
 								}
 								else
 								{

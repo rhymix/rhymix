@@ -749,19 +749,24 @@ function getEncodeEmailAddress($email)
  */
 function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debug_message.php')
 {
+	static $debug_file;
+	static $debug_file_exist;
+
 	if(!(__DEBUG__ & 1))
 	{
 		return;
 	}
 
 	static $firephp;
-	$bt = debug_backtrace();
+	$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 	if(is_array($bt))
 	{
-		$first = array_shift($bt);
+		$bt_debug_print = array_shift($bt);
+		$bt_called_function = array_shift($bt);
 	}
-	$file_name = array_pop(explode(DIRECTORY_SEPARATOR, $first['file']));
-	$line_num = $first['line'];
+	$file_name = str_replace(_XE_PATH_, '', $bt_debug_print['file']);
+	$line_num = $bt_debug_print['line'];
+	$function = $bt_called_function['class'] . $bt_called_function['type'] . $bt_called_function['function'];
 
 	if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1)
 	{
@@ -769,13 +774,18 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 		{
 			$firephp = FirePHP::getInstance(TRUE);
 		}
+		$type = FirePHP::INFO;
 
-		$label = sprintf('[%s:%d] (m:%s)', $file_name, $line_num, FileHandler::filesize(memory_get_usage()));
+		$label = sprintf('[%s:%d] %s() (m:%s)', $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()));
 
 		// Check a FirePHP option
 		if($display_option === 'TABLE')
 		{
 			$label = $display_option;
+		}
+		if($display_option === 'ERROR')
+		{
+			$type = $display_option;
 		}
 		// Check if the IP specified by __DEBUG_PROTECT__ option is same as the access IP.
 		if(__DEBUG_PROTECT__ === 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
@@ -784,7 +794,7 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 			$label = NULL;
 		}
 
-		$firephp->fb($debug_output, $label);
+		$firephp->fb($debug_output, $label, $type);
 	}
 	else
 	{
@@ -792,16 +802,34 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 		{
 			return;
 		}
-		$debug_file = _XE_PATH_ . 'files/' . $file;
-		$debug_output = sprintf("[%s %s:%d] - mem(%s)\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, FileHandler::filesize(memory_get_usage()), print_r($debug_output, TRUE));
 
-		if($display_option === TRUE)
+		$print = array();
+		if($debug_file_exist === NULL) $print[] = '<?php exit() ?>';
+
+		if(!$debug_file) $debug_file =  _XE_PATH_ . 'files/' . $file;
+		if(!$debug_file_exist) $debug_file_exist = file_exists($debug_file);
+
+		if($display_option === TRUE || $display_option === 'ERROR')
 		{
-			$debug_output = str_repeat('=', 40) . "\n" . $debug_output . str_repeat('-', 40);
+			$print[] = str_repeat('=', 80);
 		}
-		$debug_output = "\n<?php\n/*" . $debug_output . "*/\n?>\n";
 
-		@file_put_contents($debug_file, $debug_output, FILE_APPEND|LOCK_EX);
+		$print[] = sprintf("[%s %s:%d] %s() - mem(%s)", date('Y-m-d H:i:s'), $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()));
+
+		$type = gettype($debug_output);
+		if(!in_array($type, array('array', 'object', 'resource')))
+		{
+			if($display_option === 'ERROR') $print[] = 'ERROR : ' . var_export($debug_output, TRUE);
+			else $print[] = $type . '(' . var_export($debug_output, TRUE) . ')';
+			$print[] = PHP_EOL.PHP_EOL;
+		}
+		else
+		{
+			$print[] = print_r($debug_output, TRUE);
+			$print[] = PHP_EOL;
+		}
+
+		@file_put_contents($debug_file, implode(PHP_EOL, $print), FILE_APPEND|LOCK_EX);
 	}
 }
 

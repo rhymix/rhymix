@@ -4,12 +4,13 @@
 <!--%load_js_plugin("ui.datepicker")-->
 <include target="./common_header.html" />
     <h1 style="border-bottom:1px solid #ccc">{$lang->cmd_signup}</h1>
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/signup_form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/modify_info/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
     <form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data" class="form-horizontal">
 		<input type="hidden" name="act" value="procMemberInsert" />
-		<input type="hidden" name="xe_validator_id" value="modules/member/skins/default/signup_form/1" />
+		<input type="hidden" name="xe_validator_id" value="modules/member/skins/default/modify_info/1" />
+		<input type="hidden" name="success_return_url" value="{getUrl('act','dispMemberInfo')}" />
 		<div class="agreement" cond="$member_config->agreement">
 			<div class="text">
 				{$member_config->agreement}
@@ -31,7 +32,7 @@
 			<label for="password" class="control-label"><em style="color:red">*</em> {$lang->password}</label>
 			<div class="controls">
 				<input type="password" name="password" id="password" value="" required />
-				<p class="help-inline">{$lang->about_password}</p>
+				<p class="help-inline">{$lang->about_password_strength[$member_config->password_strength]}</p>
 			</div>
 		</div>
 		<div class="control-group">

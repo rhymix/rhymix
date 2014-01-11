@@ -125,6 +125,7 @@ class CacheHandler extends Handler
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -137,6 +138,7 @@ class CacheHandler extends Handler
 	function getCacheKey($key)
 	{
 		$key = str_replace('/', ':', $key);
+
 		return __XE_VERSION__ . ':' . $key;
 	}
 
@@ -150,11 +152,13 @@ class CacheHandler extends Handler
 	 */
 	function get($key, $modified_time = 0)
 	{
-		$key = $this->getCacheKey($key);
 		if(!$this->handler)
 		{
 			return false;
 		}
+
+		$key = $this->getCacheKey($key);
+
 		return $this->handler->get($key, $modified_time);
 	}
 
@@ -170,13 +174,13 @@ class CacheHandler extends Handler
 	 */
 	function put($key, $obj, $valid_time = 0)
 	{
-		if(!$key) return false;
-
-		$key = $this->getCacheKey($key);
-		if(!$this->handler)
+		if(!$this->handler && !$key)
 		{
 			return false;
 		}
+
+		$key = $this->getCacheKey($key);
+
 		return $this->handler->put($key, $obj, $valid_time);
 	}
 
@@ -188,11 +192,13 @@ class CacheHandler extends Handler
 	 */
 	function delete($key)
 	{
-		$key = $this->getCacheKey($key);
 		if(!$this->handler)
 		{
 			return false;
 		}
+
+		$key = $this->getCacheKey($key);
+
 		return $this->handler->delete($key);
 	}
 
@@ -206,11 +212,13 @@ class CacheHandler extends Handler
 	 */
 	function isValid($key, $modified_time)
 	{
-		$key = $this->getCacheKey($key);
 		if(!$this->handler)
 		{
 			return false;
 		}
+
+		$key = $this->getCacheKey($key);
+
 		return $this->handler->isValid($key, $modified_time);
 	}
 
@@ -225,6 +233,7 @@ class CacheHandler extends Handler
 		{
 			return false;
 		}
+
 		return $this->handler->truncate();
 	}
 
