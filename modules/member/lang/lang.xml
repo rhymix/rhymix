@@ -2348,7 +2348,7 @@
 	<item name="about_login_trial_limit2">
 		<value xml:lang="ko"><![CDATA[지정된 횟수의 로그인을 허용하는 시간을 정하십시오. 짧은 시간 동안 하나의 아이피(IP)에서 시도할 수 있는 로그인 횟수에 제한을 둡니다. 시간은 가장 마지막 로그인 시도의 시각으로부터의 시간을 기준으로 측정합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Set the time limit to try the written times of sign in. Limit the number of trial to sign in during the span of time, from a IP address.]]></value>
-		<value xml:lang="ko"><![CDATA[指定された回数のログインを許可する時間を決めてください。短い時間の間に１つのIPで試行できるログイン回数に制限を置きます。時間は最後のログイン試行時刻からの時間を基準で測定します。]]></value>
+		<value xml:lang="jp"><![CDATA[指定された回数のログインを許可する時間を決めてください。短い時間の間に１つのIPで試行できるログイン回数に制限を置きます。時間は最後のログイン試行時刻からの時間を基準で測定します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请设置限制尝试登录的时间间隔]]></value>
 	</item>
 	<item name="msg_kr_address">
@@ -2442,7 +2442,7 @@
 	<item name="about_multi_type">
 		<value xml:lang="ko"><![CDATA[다중 또는 단일 항목의 선택 값을 입력하세요.(줄 바꿈으로 구분)]]></value>
 		<value xml:lang="en"><![CDATA[Enter the value of multi-or single-item selection.(separated by line breaks)]]></value>
-		<value xml:lang="ko"><![CDATA[多重または単一項目の選択値を入力してください。（改行で区別）]]></value>
+		<value xml:lang="jp"><![CDATA[多重または単一項目の選択値を入力してください。（改行で区別）]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入單個或多個項目值。(換行區隔)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入单个或多个项目值。(用换行区分)]]></value>
 	</item>
@@ -2723,7 +2723,7 @@
 	<item name="btn_spammer_delete_all">
 		<value xml:lang="ko"><![CDATA[모두 삭제]]></value>
 		<value xml:lang="en"><![CDATA[Delete all]]></value>
-		<value xml:lang="ko"><![CDATA[すべて削除]]></value>
+		<value xml:lang="jp"><![CDATA[すべて削除]]></value>
 	</item>
 	<item name="spammer_move_to_trash">
 		<value xml:lang="ko"><![CDATA[휴지통으로 이동]]></value>
