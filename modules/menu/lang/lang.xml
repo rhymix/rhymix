@@ -309,7 +309,7 @@
 	<item name="about_menu_hover_btn">
 		<value xml:lang="ko"><![CDATA[마우스 오버 버튼 이미지]]></value>
 		<value xml:lang="en"><![CDATA[Mouse over button image]]></value>
-		<value xml:lang="ko"><![CDATA[マウスオーバーボタンのイメージ]]></value>
+		<value xml:lang="jp"><![CDATA[マウスオーバーボタンのイメージ]]></value>
 	</item>
 	<item name="menu_active_btn">
 		<value xml:lang="ko"><![CDATA[선택 됨]]></value>
