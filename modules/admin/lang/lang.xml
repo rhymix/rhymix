@@ -826,7 +826,7 @@
 	<item name="msg_self_restart_cache_engine">
 		<value xml:lang="ko"><![CDATA[Memcached 또는 캐쉬데몬을 재시작 해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please restart Memcached or cache daemon.]]></value>
-		<value xml:lang="jp"><![CDATA[メムキャッシュディーまたはキャッシュデーモンを再起動してください。]]></value>
+		<value xml:lang="jp"><![CDATA[Memcachedまたはキャッシュデーモンを再起動してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请重新启动Memcached或CacheDaemon。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請重新啟動 Memcached/cache daemon快取程式。]]></value>
 		<value xml:lang="tr"><![CDATA[Lütfen önbellek geri plan yordamını veya Memcached' ı yeniden başlatınız.]]></value>
