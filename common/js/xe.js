@@ -398,7 +398,7 @@ function _displayMultimedia(src, width, height, options) {
 
 	var defaults = {
 		wmode : 'transparent',
-		allowScriptAccess : 'sameDomain',
+		allowScriptAccess : 'never',
 		quality : 'high',
 		flashvars : '',
 		autostart : false
