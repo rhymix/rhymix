@@ -1,5 +1,8 @@
 # XpressEngine
 
+## Authors
+adrian.vasile.constantin, aerofleet, @akasima, @andreimarin, araste, @bnu, bradly1, buffkj, c2joy, @canto, cbrghost, @ccata17, @ChanMyeong, chinaskyking, chschy, clench, @devjin, @dionirom, @dorami, @dragan-dan, ducduydaovn, duvent, @Eundong, @florinutz, @flourscent, @flyskyko, @ForPeople, FruitsHake, guny, @haneul, hankm2004, haojilin, heemin, ikko, johnsonshu, juanlee0, k10206, kagami, @khongchi, @largeden, liahona, lickawtl, mayoojin, mglclub, @misol, mmx900, mooo, mosmartin, @nagoon97, @ngleader, nicetwo, ovclas, @qw5414, @Rayyin, risapapa, rokmcssu, royallin, rubyeye, ryin005, sanghunjun, @sejin7940, @SMaker, @solidh, sspa3141, supershop, @taggon, @ucorina, unryong, venister, wdlee91, welcomeju, @YJSoft, ysnglee2000, zero
+
 ## License
 Copyright (C) NAVER <http://www.navercorp.com>
 
