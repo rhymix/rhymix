@@ -1,6 +1,9 @@
 <load target="css/member.css" />
 <div class="xm">
 <h2 class="hx h2">{$lang->member_info}</h2>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/modify_info/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <div class="table even">
 	<table class="table table-striped table-hover">
 		<tr loop="$displayDatas => $item">
