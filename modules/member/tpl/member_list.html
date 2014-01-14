@@ -7,7 +7,7 @@
 <div class="x_page-header">
 	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/member_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="" method="post">
@@ -133,7 +133,7 @@
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/member_list/1" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
 		<div class="x_modal-header">
 			<h1>{$lang->cmd_selected_user_manage}: <span class="_sub"></span></h1>
 		</div>

@@ -834,6 +834,7 @@ class memberAdminController extends member
 								return $output;
 							}
 						}
+						$this->setMessage('success_updated');
 						break;
 					}
 				case 'delete':
@@ -845,6 +846,7 @@ class memberAdminController extends member
 							$oDB->rollback();
 							return $output;
 						}
+						$this->setMessage('success_deleted');
 					}
 			}
 		}
