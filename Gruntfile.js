@@ -82,6 +82,7 @@ module.exports = function(grunt) {
 					// modules/poll
 					'modules/poll/tpl/js/poll_admin.min.js': ['modules/poll/tpl/js/poll_admin.js'],
 					'modules/poll/tpl/js/poll.min.js': ['modules/poll/tpl/js/poll.js'],
+					'addons/oembed/jquery.oembed.min.js': ['addons/oembed/jquery.oembed.js'],
 				}
 			}
 		},
@@ -123,6 +124,11 @@ module.exports = function(grunt) {
 			'moudle-editor': {
 				files: {
 					'modules/editor/skins/xpresseditor/css/default.min.css': ['modules/editor/skins/xpresseditor/css/default.css'],
+				}
+			},
+			'addon-oembed': {
+				files: {
+					'addons/oembed/jquery.oembed.min.css': ['addons/oembed/jquery.oembed.css'],
 				}
 			}
 		},
