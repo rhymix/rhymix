@@ -1,0 +1,37 @@
+<!--%import("css/mboard.css")-->
+<div class="bd">
+	<div class="hx h2">
+		<h2><a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->browser_title}</a> &rsaquo; {$lang->category}</h2>
+		<a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="write">{$lang->cmd_write}</a>
+	</div>
+	<ul class="gn">
+		{@ $start = true }
+		{@ $depth = 0 }
+		<!--@foreach($category_list as $category)-->
+		<!--@if(!$start && $category->depth == $depth)-->
+		</li>
+		<!--@end-->
+		<!--@if($category->depth > $depth)--> <!--more depth-->
+		<ul>
+		<!--@else-->
+		<!--@while($category->depth < $depth)-->
+		</li>
+		</ul>
+		{@ $depth -= 1}
+		<!--@end-->
+		<!--@endif-->
+			<li><a href="{getUrl('act','','category',$category->category_srl)}">{$category->title} <em>[{$category->document_count}]</em></a>
+			{@ $start = false }
+			{@ $depth = $category->depth }
+		<!--@endforeach-->
+		<!--@while($depth > 0)-->
+		</li>
+		</ul>
+		{@ $depth -= 1}
+		<!--@end-->
+		</li>
+	</ul>
+	<div class="bna">
+		<a href="{getUrl('','vid',$vid,'mid',$mid,'mobile',$mobile)}" class="bn dark">{$lang->cmd_list}</a>
+	</div>
+</div>

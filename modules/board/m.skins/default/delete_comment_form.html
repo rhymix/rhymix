@@ -1,0 +1,24 @@
+{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+<!--%import("js/mboard.js")-->
+<!--%import("css/mboard.css")-->
+<div class="bd">
+	<div class="hx h2">
+		<h2>{$lang->confirm_delete}</h2>
+	</div>
+    <form action="./" method="get" class="ff" onsubmit="return procFilter(this, delete_comment)">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="page" value="{$page}" />
+    <input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
+    <input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+
+	<div class="bna">
+		<button type="submit" class="bn dark">{$lang->cmd_delete}</button>
+		<a href="{getUrl('act','','comment_srl','')}" class="bn dark"><span>{$lang->cmd_cancel}</span></a>
+	</div>
+
+    </form>
+</div>

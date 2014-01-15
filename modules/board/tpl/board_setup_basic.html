@@ -1,0 +1,84 @@
+<script src="modules/board/tpl/js/board_admin.js"></script>
+<script src="modules/module/tpl/js/module_admin.js"></script>
+<script>
+</script>
+<form ruleset="insertBoardForBasic" id="fo_obj" class="x_form-horizontal" action="./" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="act" value="procBoardAdminUpdateBoardFroBasic" />
+	<input type="hidden" name="board_name" value="{$module_info->mid}" />
+	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+	<input type="hidden" name="admin_member" value="<!--@foreach($admin_member as $key => $val)--><!--@if($member_config->identifier == 'email_address')-->{$val->email_address},<!--@else-->{$val->user_id},<!--@end--><!--@end-->" />
+	<div class="x_control-group">
+		<label class="x_control-label" for="lang_header_text">{$lang->header_text}</label>
+		<div class="x_controls">
+			<textarea name="header_text" id="header_text" class="lang_code" rows="8" cols="42" placeholder="{$lang->about_header_text}">{htmlspecialchars($module_info->header_text)}</textarea>
+			<a href="#header_text_help" class="x_icon-question-sign" data-toggle style="vertical-align:top;margin-top:6px">{$lang->help}</a>
+			<p id="header_text_help" class="x_help-block" hidden>{$lang->about_header_text}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="lang_footer_text">{$lang->footer_text}</label>
+		<div class="x_controls">
+			<textarea name="footer_text" id="footer_text" class="lang_code" rows="8" cols="42" placeholder="{$lang->about_footer_text}">{htmlspecialchars($module_info->footer_text)}</textarea>
+			<a href="#footer_text_help" class="x_icon-question-sign" data-toggle style="vertical-align:top;margin-top:6px">{$lang->help}</a>
+			<p id="footer_text_help" class="x_help-block" hidden>{$lang->about_footer_text}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->order_type}</label>
+		<div class="x_controls">
+			<select name="order_target" id="order_target" title="{$lang->order_target}">
+				<option loop="$order_target=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->order_target== $key">{$val}</option>
+			</select>
+			<select name="order_type" id="order_type" title="{$lang->order_type}">
+				<option value="asc" selected="selected"|cond="$module_info->order_type != 'desc'">{$lang->order_asc}</option>
+				<option value="desc" selected="selected"|cond="$module_info->order_type == 'desc'">{$lang->order_desc}</option>
+			</select>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="list_count">{$lang->list_count}</label>
+		<div class="x_controls">
+			<input type="text" name="list_count" id="list_count" value="{$module_info->list_count?$module_info->list_count:20}" style="width:30px" />
+			<p class="x_help-inline">{$lang->about_list_count}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->status}</label>
+		<div class="x_controls">
+			<input type="hidden" name="use_status[]" value="PUBLIC" />
+			<label class="x_inline"><input type="checkbox" name="" value="" checked="checked" disabled="disabled" /> {$document_status_list['PUBLIC']}</label>
+			<block loop="$document_status_list => $key, $value">
+				<block cond="$key != 'PRIVATE' && $key != 'TEMP' && $key != 'PUBLIC'">
+					<label class="x_inline" for="{$key}"><input type="checkbox" name="use_status[]" id="{$key}" value="{$key}" checked="checked"|cond="@in_array($key, $module_info->use_status) || ($key == 'PUBLIC' && !$module_srl)" /> {$value}</label>
+				</block>
+			</block>
+			<p class="x_help-block">{$lang->about_use_status}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" cond="$member_config->identifier == 'email_address'">
+			{$lang->admin_email_address}
+		</label>
+		<label class="x_control-label" cond="$member_config->identifier != 'email_address'">
+			{$lang->admin_id}
+		</label>
+		<div class="x_controls">
+			<div class="x_input-append" style="margin-bottom:8px">
+				<select name="_admin_member" multiple="multiple" size="{count($admin_member)?count($admin_member):1}">
+					<option loop="$admin_member => $key, $val" value="{$val->email_address}"|cond="$member_config->identifier=='email_address'" value="{$val->user_id}"|cond="$member_config->identifier!='email_address'">
+						{$val->nick_name} (<block cond="$member_config->identifier=='email_address'">{$val->email_address}</block><block cond="$member_config->identifier!='email_address'">{$val->user_id}</block>)
+					</option>
+				</select>
+				<button class="x_btn" type="button" onclick="doDeleteAdmin()">{$lang->cmd_delete}</button>
+			</div>
+			<br>
+			<div class="x_input-append">
+				<input type="text" name="admin_id" />
+				<button class="x_btn" type="button" onclick="doInsertAdmin()">{$lang->cmd_insert}</button>
+			</div>
+			<a href="#adminListHelp" class="x_icon-question-sign">{$lang->help}</a>
+			<span id="adminListHelp" hidden>{$lang->about_admin_id}</span>
+		</div>
+	</div>
+	<p style="text-align:right;border-top:1px dotted #ddd;padding:10px 0"><a href="{$setupUrl}" style="text-decoration:underline">{$lang->advanced_settings}</a></p>
+</form>
