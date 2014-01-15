@@ -45,7 +45,7 @@
 	<item name="list_target_item">
 		<value xml:lang="ko"><![CDATA[대상 항목]]></value>
 		<value xml:lang="en"><![CDATA[Target Item]]></value>
-		<value xml:lang="jp"><![CDATA[ターゲットアイテム]]></value>
+		<value xml:lang="jp"><![CDATA[対象項目]]></value>
 		<value xml:lang="zh-CN"><![CDATA[备选项]]></value>
 		<value xml:lang="zh-TW"><![CDATA[目標項目]]></value>
 		<value xml:lang="tr"><![CDATA[Hedef Parça]]></value>
@@ -54,7 +54,7 @@
 	<item name="list_display_item">
 		<value xml:lang="ko"><![CDATA[표시 항목]]></value>
 		<value xml:lang="en"><![CDATA[Display Item]]></value>
-		<value xml:lang="jp"><![CDATA[表示アイテム]]></value>
+		<value xml:lang="jp"><![CDATA[表示項目]]></value>
 		<value xml:lang="zh-CN"><![CDATA[显示项]]></value>
 		<value xml:lang="zh-TW"><![CDATA[顯示項目]]></value>
 		<value xml:lang="tr"><![CDATA[Parçayı Göster]]></value>
@@ -79,7 +79,7 @@
 	<item name="last_post">
 		<value xml:lang="ko"><![CDATA[최종 글]]></value>
 		<value xml:lang="en"><![CDATA[Last post]]></value>
-		<value xml:lang="jp"><![CDATA[最新投稿]]></value>
+		<value xml:lang="jp"><![CDATA[最後の書き込み]]></value>
 		<value xml:lang="zh-TW"><![CDATA[最新發表]]></value>
 		<value xml:lang="tr"><![CDATA[Son Gönderi]]></value>
 		<value xml:lang="vi"><![CDATA[Bài gửi trước]]></value>
@@ -114,7 +114,7 @@
 	<item name="secret">
 		<value xml:lang="ko"><![CDATA[비밀글 기능]]></value>
 		<value xml:lang="en"><![CDATA[Secret]]></value>
-		<value xml:lang="jp"><![CDATA[非公開文機能]]></value>
+		<value xml:lang="jp"><![CDATA[非公開機能]]></value>
 		<value xml:lang="zh-CN"><![CDATA[密帖]]></value>
 		<value xml:lang="zh-TW"><![CDATA[秘密]]></value>
 		<value xml:lang="es"><![CDATA[Características Bimilgeul]]></value>
@@ -124,7 +124,7 @@
 	<item name="thisissecret">
 		<value xml:lang="ko"><![CDATA[비밀글입니다.]]></value>
 		<value xml:lang="en"><![CDATA[This is a secret article.]]></value>
-		<value xml:lang="jp"><![CDATA[非公開文です。]]></value>
+		<value xml:lang="jp"><![CDATA[この書き込みは非公開に設定されています。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[此为密帖。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[這是秘密文。]]></value>
 		<value xml:lang="es"><![CDATA[Es bimilgeul.]]></value>
@@ -197,12 +197,12 @@
 	<item name="cmd_manage_selected_board">
 		<value xml:lang="ko"><![CDATA[선택한 게시판 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage Selected Board]]></value>
-		<value xml:lang="jp"><![CDATA[選択された掲示板の管理]]></value>
+		<value xml:lang="jp"><![CDATA[選択した掲示板の管理]]></value>
 	</item>
 	<item name="about_layout_setup">
 		<value xml:lang="ko"><![CDATA[블로그의 레이아웃 코드를 직접 수정할 수 있습니다. 위젯 코드를 원하는 곳에 삽입하시거나 관리하세요]]></value>
 		<value xml:lang="en"><![CDATA[You can manually modify board layout code. Insert or manage the widget code anywhere you want]]></value>
-		<value xml:lang="jp"><![CDATA[ブログのレイアウトのコードを直接修正します。ウィジェットコードを好きなところに入力、又は管理して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[ブログのレイアウトのコードを直接修正します。ウィジェットコードを好きなところに入力、または管理してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可直接编辑博客布局代码。可以把控件代码插入到您喜欢的位置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可直接編輯部落格版面設計原始碼。可把 Widget 原始碼插入到您喜歡的位置。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez manuellement modifier le code de Mise en Page du blogue. Insérez ou administrez le code de Gadget n'importe où vous voulez.]]></value>
@@ -214,7 +214,7 @@
 	<item name="about_board_category">
 		<value xml:lang="ko"><![CDATA[분류를 만들 수 있습니다. 분류가 오동작을 할 경우 캐시파일 재생성을 수동으로 해주시면 해결이 될 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can make board categories. When board category is broken, try rebuilding the cache file manually.]]></value>
-		<value xml:lang="jp"><![CDATA[ブログのカテゴリを作成します。 ブログのカテゴリが誤作動する場合、「キャッシュファイルの再生性」を手動で行うことで解決出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[ブログのカテゴリを作成します。 ブログのカテゴリが誤作動する場合、「キャッシュファイルの再生性」を手動で行うことで解決できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以添加/删除分类项 分类有异常情况时，可以尝试重新生成缓冲文件。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以新增/刪除分類項目 分類有異常情況時，可以嘗試重新建立暫存檔。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez créer des catégories de Panneau d'Affichage. Quand la catégorie d'affichage est cassé, essayez manuellement rétablir l'antémémoire du fichier.]]></value>
@@ -226,7 +226,7 @@
 	<item name="about_except_notice">
 		<value xml:lang="ko"><![CDATA[목록 상단에 늘 나타나는 공지사항을 일반 목록에서 공지사항을 출력하지 않도록 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Notice articles will not be displayed on normal list.]]></value>
-		<value xml:lang="jp"><![CDATA[リストの上段に常に表示されるお知らせの書き込みを一般リストからお知らせの書き込みが表示されないようにします。]]></value>
+		<value xml:lang="jp"><![CDATA[リストの上段に常に表示されるお知らせの書き込みを一般リストの場合、表示されないようにします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[设置公告目录项不再重复显示到普通目录当中。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[設置公告列表項目，不再重複顯示到普通列表當中。]]></value>
 		<value xml:lang="fr"><![CDATA[Le titre de Notice dont l'article se représentera toujours en tête de la liste ne sera exposé sur la liste générale.]]></value>
@@ -237,7 +237,7 @@
 	<item name="about_use_anonymous">
 		<value xml:lang="ko"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓴이 정보등을 보이지 않도록 하시면 더욱 유용합니다. 추가설정의 문서 히스토리 사용이 꺼져있지 않으면 문서 수정시 작성자가 표시될 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Make this board into an anonymous board by hiding the author's information. <strong>Please turn off history at additional setup. If not, editing document might show the author's info.</strong>]]></value>
-		<value xml:lang="jp"><![CDATA[匿名掲示板として活用出来ます。スキンの設定で「登録者の情報を表示しない」の設定をお勧めします。]]></value>
+		<value xml:lang="jp"><![CDATA[匿名掲示板として活用できます。スキン設定で「登録者の情報を表示しない」の設定をおすすめします。追加設定でのドキュメントヒストリー使用機能がオフにされていない場合、書き込みを修正した際に作成者が表示されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
 		<value xml:lang="zh-TW"><![CDATA[討論板可使用匿名功能。可在面板設定中設置隱藏作者的資料。 ]]></value>
 		<value xml:lang="fr"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
@@ -249,7 +249,7 @@
 	<item name="about_board">
 		<value xml:lang="ko"><![CDATA[게시판을 생성하고 관리할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This module is for creating and managing boards.]]></value>
-		<value xml:lang="jp"><![CDATA[掲示板の生成、および管理するモジュールです。]]></value>
+		<value xml:lang="jp"><![CDATA[掲示板の作成、および管理するモジュールです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可生成及管理版面的模块。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可建立及管理討論板的模組。]]></value>
 		<value xml:lang="fr"><![CDATA[Ce module se sert à créer et à administrer des Panneaux d'Affichage.]]></value>
@@ -261,7 +261,7 @@
 	<item name="about_consultation">
 		<value xml:lang="ko"><![CDATA[상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다. 단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Non-administrator members would see their own articles. Non-members would not be able to write articles when using consultation.]]></value>
-		<value xml:lang="jp"><![CDATA[相談機能とは、管理権限のない会員に本人の書き込みだけを表示する機能です。但し、相談機能を使用する際は、非会員の書き込みは自動的に禁止されます。]]></value>
+		<value xml:lang="jp"><![CDATA[相談機能とは、管理権限のない会員に本人の書き込みだけを表示する機能です。ただし、相談機能を使用する際は、非会員の書き込みは自動的に禁止されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[咨询功能是指除有管理权限的会员以外，其他会员只能浏览自己发表的主题。使用咨询功能时系统将自动禁止非会员的发表主题权限。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[咨詢功能是指除有管理權限的會員以外，其他會員只能瀏覽自己發表的主題。使用咨詢功能時系統將自動禁止非會員的發表主題權限。]]></value>
 		<value xml:lang="fr"><![CDATA[Les membres non-administratifs verront seulement les ariticles d'eux-même. Non-membres ne pourraient pas écrire des articles quand la Consultation est appliqué.]]></value>
@@ -273,7 +273,7 @@
 	<item name="about_secret">
 		<value xml:lang="ko"><![CDATA[게시판 및 댓글의 비밀글 사용할 수 있도록 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Users will be able to write secret articles or comments.]]></value>
-		<value xml:lang="jp"><![CDATA[掲示板およびコメントの非公開文を登録出来るようにします。]]></value>
+		<value xml:lang="jp"><![CDATA[掲示板およびコメントの非公開機能が使用できるようになります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[设置主题及评论当中使用密帖与否。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可用於討論板或回覆時選擇是否使用。]]></value>
 		<value xml:lang="es"><![CDATA[Boletín y los comentarios de bimilgeul utilizar.]]></value>
@@ -283,7 +283,7 @@
 	<item name="about_admin_mail">
 		<value xml:lang="ko"><![CDATA[글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다. 콤마(,)로 연결시 다수의 메일주소로 발송할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[A mail will be sent when an article or comment is submitted. Multiple mails can be sent with commas(,).]]></value>
-		<value xml:lang="jp"><![CDATA[書き込みやコメントが掲載される時、登録メールアドレス宛にメールが送信されます。  複数のメールアドレスへ送信する場合は「,」(半額コンマ)区切りで登録して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[書き込みやコメントが登録される時、登録メールアドレス宛にメールが送信されます。  複数のメールアドレスへ送信する場合は「,」(半額コンマ)区切りで登録してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[有新的主题或评论时，将自动发电子邮件来通知管理员。 多数电子邮件由逗号(,)来分隔。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[有新的主題或評論時，將自動發電子郵件來通知管理員。 多數電子郵件由逗號(,)區隔。]]></value>
 		<value xml:lang="fr"><![CDATA[Un message éléctronique sera envoyé à l'adresse inscrite quand un article ou commentaire se soumet.  On peut inscrire multiple adresses délimité par les virgules.]]></value>
@@ -295,7 +295,7 @@
 	<item name="about_list_config">
 		<value xml:lang="ko"><![CDATA[게시판의 목록형식 사용시 원하는 항목들로 배치를 할 수 있습니다. 단 스킨에서 지원하지 않는 경우 불가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[If using list-style skin, you may arrange items to display. However, this feature might not be availble for non-official skins. If you double-click target items and display items, then you can add / remove them]]></value>
-		<value xml:lang="jp"><![CDATA[掲示板スタイルが「リスト型」の場合、好きな列の項目配置・表示が出来ます。 ただし、スキンによってはサポートしない場合もあります。 ターゲットアイテム／表示アイテムをダブルクリックすると追加・削除が出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[掲示板スタイルが「リスト型」の場合、好きな項目の配置・表示ができます。 ただし、スキンによってはサポートしない場合もあります。 ターゲットアイテム／表示アイテムをダブルクリックすると追加・削除ができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[设置使用目录型目录页面时要显示的项目。 前提是使用的皮肤也支持此功能。 添加/删除项目，双击备选项/显示项即可。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以放置想要的項目種類。 當所使用的面板支援此功能時才會正常實現。 對目標項目/顯示項目中的物件按兩下可新增或移除。]]></value>
 		<value xml:lang="fr"><![CDATA[게시판의 목록형식 사용시 원하는 항목들로 배치를 할 수 있습니다. 단 스킨에서 지원하지 않는 경우 지원되지 않을 수 있습니다 대상항목/ 표시항목의 항목을 더블클릭하면 추가/ 제거가 됩니다.]]></value>
@@ -307,7 +307,7 @@
 	<item name="about_use_status">
 		<value xml:lang="ko"><![CDATA[글 작성 시 선택할 수 있는 상태를 지정해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select status that can be selected when write article.]]></value>
-		<value xml:lang="jp"><![CDATA[記事作成時に選択することができる状態を指定してください。]]></value>
+		<value xml:lang="jp"><![CDATA[書き込みを登録する際に選択できる状態を指定してください。]]></value>
 	</item>
 	<item name="msg_not_enough_point">
 		<value xml:lang="ko"><![CDATA[포인트가 부족합니다]]></value>
@@ -321,48 +321,58 @@
 	<item name="write_comment">
 		<value xml:lang="ko"><![CDATA[댓글 쓰기]]></value>
 		<value xml:lang="en"><![CDATA[Write a comment]]></value>
-		<value xml:lang="jp"><![CDATA[コメントを投稿]]></value>
+		<value xml:lang="jp"><![CDATA[コメントする]]></value>
 		<value xml:lang="zh-TW"><![CDATA[發表評論]]></value>
 		<value xml:lang="tr"><![CDATA[Yorum Yaz]]></value>
 	</item>
 	<item name="msg_not_allow_comment">
 		<value xml:lang="ko"><![CDATA[해당 글의 댓글 쓰기가 잠겨있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This article does not allow write comment.]]></value>
+		<value xml:lang="jp"><![CDATA[この書き込みにコメントすることは禁じられています。]]></value>
 	</item>
 	<item name="no_board_instance">
 		<value xml:lang="ko"><![CDATA[생성된 게시판이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is no board created.]]></value>
+		<value xml:lang="jp"><![CDATA[作られた掲示板がありません。]]></value>
 	</item>
 	<item name="choose_board_instance">
 		<value xml:lang="ko"><![CDATA[관리할 게시판을 선택해 주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please choose one or more board instance.]]></value>
+		<value xml:lang="jp"><![CDATA[管理する掲示板を選択してください。]]></value>
 	</item>
 	<item name="comment_status">
 		<value xml:lang="ko"><![CDATA[댓글]]></value>
 		<value xml:lang="en"><![CDATA[Comments]]></value>
+		<value xml:lang="jp"><![CDATA[コメント]]></value>
 	</item>
 	<item name="category_settings">
 		<value xml:lang="ko"><![CDATA[분류 설정]]></value>
 		<value xml:lang="en"><![CDATA[Category settings]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリー設定]]></value>
 	</item>
 	<item name="hide_category">
 		<value xml:lang="ko"><![CDATA[분류 숨기기]]></value>
 		<value xml:lang="en"><![CDATA[Hide categories]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリーを隠す]]></value>
 	</item>
 	<item name="about_hide_category">
 		<value xml:lang="ko"><![CDATA[임시로 분류를 사용하지 않으려면 체크하세요.]]></value>
 		<value xml:lang="en"><![CDATA[You can disable a category feature.]]></value>
+		<value xml:lang="ko"><![CDATA[臨時にカテゴリー機能を使用しない場合、チェックしてください。]]></value>
 	</item>
 	<item name="protect_content">
 		<value xml:lang="ko"><![CDATA[글 보호 기능]]></value>
 		<value xml:lang="en"><![CDATA[Protect contents]]></value>
+		<value xml:lang="jp"><![CDATA[書き込み保護]]></value>
 	</item>
 	<item name="about_protect_content">
 		<value xml:lang="ko"><![CDATA[작성된 글에 댓글이 작성된 경우 글 작성자는 해당 글을 수정하거나 삭제 할 수 없습니다.]]> </value>
 		<value xml:lang="en"><![CDATA[If there is comment on document, document's owner cannot modify or delete that.]]></value>
+		<value xml:lang="jp"><![CDATA[書き込みにコメントが登録された場合、書き込みの作成者は書き込みの修正、または削除ができません。]]> </value>
 	</item>
 	<item name="msg_protect_content">
 		<value xml:lang="ko"><![CDATA[댓글이 작성된 게시물의 글을 수정 또는 삭제 할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot modify or delete document. Because there is comments.]]></value>
+		<value xml:lang="jp"><![CDATA[コメントが登録された書き込みは修正、または削除が禁止されています。]]></value>
 	</item>
 </lang>
