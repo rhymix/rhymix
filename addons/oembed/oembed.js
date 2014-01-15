@@ -22,6 +22,7 @@
 			this.enableAutoLink = false;
 			this.castedOembedA = false;
 			this.embedSetting = [];
+			// this.embedSetting.embedMethod = 'replace';
 		},
 		API_ONREADY : function() {
 			var thisPlugin = this;
@@ -44,7 +45,6 @@
 		},
 		API_BEFORE_AUTOLINK : function(oSender, params) {
 			var thisPlugin = this;
-			console.log(this.embedSetting.maxWidth);
 			thisPlugin.cast('OEMBEDA');
 		},
 		API_AFTER_AUTOLINK : function(oSender, params) {

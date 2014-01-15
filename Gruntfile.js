@@ -83,6 +83,7 @@ module.exports = function(grunt) {
 					'modules/poll/tpl/js/poll_admin.min.js': ['modules/poll/tpl/js/poll_admin.js'],
 					'modules/poll/tpl/js/poll.min.js': ['modules/poll/tpl/js/poll.js'],
 					'addons/oembed/jquery.oembed.min.js': ['addons/oembed/jquery.oembed.js'],
+					'addons/oembed/oembed.min.js': ['addons/oembed/oembed.js'],
 				}
 			}
 		},
