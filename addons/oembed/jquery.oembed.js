@@ -203,19 +203,19 @@
 						meta.title = data.query.results.title;
 					}
 				}
-				if (!meta.hasOwnProperty("og:image") && data.query.results.hasOwnProperty("link")) {
-					for ( var i=0, l=data.query.results.link.length; i<l; i++){
-						if ( data.query.results.link[i].hasOwnProperty("rel") ) {
-							if (data.query.results.link[i].rel == "apple-touch-icon") {
-								if ( data.query.results.link[i].href.charAt(0) == "/" ) {
-									meta["og:image"] = url.match(/^(([a-z]+:)?(\/\/)?[^\/]+\/).*$/)[1] + data.query.results.link[i].href;
-								} else {
-									meta["og:image"] = data.query.results.link[i].href;
-								}
-							}
-						}
-					}
-				}
+				// if (!meta.hasOwnProperty("og:image") && data.query.results.hasOwnProperty("link")) {
+				// 	for ( var i=0, l=data.query.results.link.length; i<l; i++){
+				// 		if ( data.query.results.link[i].hasOwnProperty("rel") ) {
+				// 			if (data.query.results.link[i].rel == "apple-touch-icon") {
+				// 				if ( data.query.results.link[i].href.charAt(0) == "/" ) {
+				// 					meta["og:image"] = url.match(/^(([a-z]+:)?(\/\/)?[^\/]+\/).*$/)[1] + data.query.results.link[i].href;
+				// 				} else {
+				// 					meta["og:image"] = data.query.results.link[i].href;
+				// 				}
+				// 			}
+				// 		}
+				// 	}
+				// }
                 result = embedProvider.yql.datareturn(meta);
             }else{
               result = embedProvider.yql.datareturn ? embedProvider.yql.datareturn(data.query.results) : data.query.results.result;
