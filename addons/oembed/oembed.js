@@ -91,6 +91,9 @@
 				this.embedSetting.maxWidth = $('.xe_content').width();
 			}
 
+			if(!target) return;
+			if(target && target.nodeType == 3) target = $(target);
+
 			target.oembed(null, thisPlugin.embedSetting).addClass('_oembed');
 		},
 		extractTargets : function(obj) {
