@@ -210,7 +210,7 @@ class boardController extends board
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 		if(!$oDocument->isExists())
 		{
-			return new Object(-1,'msg_not_permitted');
+			return new Object(-1,'msg_not_founded');
 		}
 
 		// For anonymous use, remove writer's information and notifying information
