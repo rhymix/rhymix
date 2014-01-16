@@ -205,19 +205,6 @@
 								meta.title = data.query.results.title;
 							}
 						}
-						// if(!meta.hasOwnProperty("og:image") && data.query.results.hasOwnProperty("link")) {
-						// 	for(var i = 0, l = data.query.results.link.length; i < l; i++) {
-						// 		if(data.query.results.link[i].hasOwnProperty("rel")) {
-						// 			if(data.query.results.link[i].rel == "apple-touch-icon") {
-						// 				if(data.query.results.link[i].href.charAt(0) == "/") {
-						// 					meta["og:image"] = url.match(/^(([a-z]+:)?(\/\/)?[^\/]+\/).*$/)[1] + data.query.results.link[i].href;
-						// 				} else {
-						// 					meta["og:image"] = data.query.results.link[i].href;
-						// 				}
-						// 			}
-						// 		}
-						// 	}
-						// }
 						result = embedProvider.yql.datareturn(meta);
 					} else {
 						result = embedProvider.yql.datareturn ? embedProvider.yql.datareturn(data.query.results) : data.query.results.result;
@@ -1070,41 +1057,6 @@
 				datareturn: function (results) {
 					if(!results.result) return false;
 					return '<pre style="background-color:000;">' + results.result + '</div>';
-				}
-			}
-		}),
-
-		//Use Open Graph Where applicable
-		new $.fn.oembed.OEmbedProvider("opengraph", "rich", [".*"], null, {
-			yql: {
-				xpath: "//meta|//title|//link",
-				from: 'html',
-				datareturn: function (results) {
-					if(!results['og:title'] && results['title'] && results['description']) results['og:title'] = results['title'];
-					if(!results['og:title'] && !results['title']) return false;
-					var code = $('<p/>');
-					if(results['og:video']) {
-						var embed = $('<embed src="' + results['og:video'] + '"/>');
-						embed
-							.attr('type', results['og:video:type'] || "application/x-shockwave-flash")
-							.css('max-height', settings.maxHeight || 'auto')
-							.css('max-width', settings.maxWidth || 'auto');
-						if(results['og:video:width']) embed.attr('width', results['og:video:width']);
-						if(results['og:video:height']) embed.attr('height', results['og:video:height']);
-						code.append(embed);
-					} else if(results['og:image']) {
-						var img = $('<img src="' + results['og:image'] + '">');
-						img.css('max-height', settings.maxHeight || 'auto').css('max-width', settings.maxWidth || 'auto');
-						if(results['og:image:width']) img.attr('width', results['og:image:width']);
-						if(results['og:image:height']) img.attr('height', results['og:image:height']);
-						code.append(img);
-					}
-					if(results['og:title']) code.append('<b>' + results['og:title'] + '</b><br/>');
-					if(results['og:description'])
-						code.append(results['og:description'] + '<br/>');
-					else if(results['description'])
-						code.append(results['description'] + '<br/>');
-					return code;
 				}
 			}
 		})
