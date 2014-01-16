@@ -215,8 +215,12 @@ class documentController extends document
 		if(!$obj->email_address) $obj->email_address = '';
 		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board?�서 form key값으�?ipaddress�??�용?�면 ?�한 ip가 ?�록?? ?�터?�???��??�슴
 
-                // block modify regdate
-                unset($obj->regdate);
+                // can modify regdate only manager
+                $grant = Context::get('grant');
+		if(!$grant->manager)
+		{
+			unset($obj->regdate);
+		}
 		
 		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
 		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
@@ -397,8 +401,12 @@ class documentController extends document
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		
-		// block modify regdate
-                unset($obj->regdate);
+		// can modify regdate only manager
+                $grant = Context::get('grant');
+		if(!$grant->manager)
+		{
+			unset($obj->regdate);
+		}
 		
 		// Serialize the $extra_vars
 		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
