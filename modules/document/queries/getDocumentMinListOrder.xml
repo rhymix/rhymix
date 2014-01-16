@@ -1,0 +1,8 @@
+<query id="getDocumentMinListOrder" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="min(list_order)" alias="list_order" />
+    </columns>
+</query>
