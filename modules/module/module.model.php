@@ -94,6 +94,7 @@ class moduleModel extends module
 
 		// Set up
 		$domain = '';
+		$site_info = NULL;
 		if($default_url && $default_url_parse['host'] != $request_url_parse['host'])
 		{
 			$url_info = parse_url($request_url);
@@ -151,7 +152,7 @@ class moduleModel extends module
 				$module_info = $oCacheHandler->get($default_site_cache_key);
 			}
 
-			if(!$module_info)
+			if(!$site_info)
 			{
 				$args = new stdClass();
 				$args->site_srl = 0;
@@ -188,14 +189,14 @@ class moduleModel extends module
 					}
 					$output = executeQuery('module.getSiteInfo', $args);
 				}
-				$module_info = $output->data;
-				if($oCacheHandler->isSupport()) $oCacheHandler->put($default_site_cache_key, $module_info);
+				$site_info = $output->data;
+				if($oCacheHandler->isSupport()) $oCacheHandler->put($default_site_cache_key, $site_info);
 			}
 		}
 
-		if(!$module_info->module_srl) return $module_info;
-		if(is_array($module_info) && $module_info->data[0]) $module_info = $module_info[0];
-		return $this->addModuleExtraVars($module_info);
+		if(!$site_info->module_srl) return $site_info;
+		if(is_array($site_info) && $site_info->data[0]) $site_info = $site_info[0];
+		return $this->addModuleExtraVars($site_info);
 	}
 
 	/**
