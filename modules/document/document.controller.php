@@ -213,7 +213,7 @@ class documentController extends document
 		
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		if(!$obj->email_address) $obj->email_address = '';
-		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board?�서 form key값으�?ipaddress�??�용?�면 ?�한 ip가 ?�록?? ?�터?�???��??�슴
+		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 
                 // can modify regdate only manager
                 $grant = Context::get('grant');
