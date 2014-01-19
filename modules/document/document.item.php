@@ -1138,7 +1138,7 @@ class documentItem extends Object
 
 	function getBrowserTitle()
 	{
-		$this->getModuleName();
+		return $this->getModuleName();
 	}
 }
 /* End of file document.item.php */
