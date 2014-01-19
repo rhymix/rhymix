@@ -402,8 +402,7 @@ class boardView extends board
 		}
 
 		// set the current page of documents
-		$_get = $_GET;
-		if(!$args->page && ($_GET['document_srl'] || $_GET['entry']))
+		if(!$args->page && (Context::get('document_srl') || Context::get('entry')))
 		{
 			$oDocument = $oDocumentModel->getDocument(Context::get('document_srl'));
 			if($oDocument->isExists() && !$oDocument->isNotice())
