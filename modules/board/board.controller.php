@@ -204,6 +204,10 @@ class boardController extends board
 		// get the relevant data for inserting comment
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
+		
+		if($this->module_info->secret!='Y') {
+			unset($obj->is_secret);
+		}
 
 		// check if the doument is existed
 		$oDocumentModel = getModel('document');
