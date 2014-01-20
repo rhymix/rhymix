@@ -204,9 +204,21 @@ class boardController extends board
 		// get the relevant data for inserting comment
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
-		
-		if($this->module_info->secret!='Y') {
+
+		if(!$this->module_info->use_status) $this->module_info->use_status = 'PUBLIC';
+		if(!is_array($this->module_info->use_status))
+		{
+			$this->module_info->use_status = explode('|@|', $this->module_info->use_status);
+		}
+
+		if(in_array('SECRET', $this->module_info->use_status))
+		{
+			$this->module_info->secret = 'Y';
+		}
+		else
+		{
 			unset($obj->is_secret);
+			$this->module_info->secret = 'N';
 		}
 
 		// check if the doument is existed
