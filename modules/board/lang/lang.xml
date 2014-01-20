@@ -358,7 +358,7 @@
 	<item name="about_hide_category">
 		<value xml:lang="ko"><![CDATA[임시로 분류를 사용하지 않으려면 체크하세요.]]></value>
 		<value xml:lang="en"><![CDATA[You can disable a category feature.]]></value>
-		<value xml:lang="ko"><![CDATA[臨時にカテゴリー機能を使用しない場合、チェックしてください。]]></value>
+		<value xml:lang="jp"><![CDATA[臨時にカテゴリー機能を使用しない場合、チェックしてください。]]></value>
 	</item>
 	<item name="protect_content">
 		<value xml:lang="ko"><![CDATA[글 보호 기능]]></value>
