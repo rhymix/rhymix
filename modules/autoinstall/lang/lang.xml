@@ -166,7 +166,7 @@
 	<item name="path">
 		<value xml:lang="ko"><![CDATA[설치경로]]></value>
 		<value xml:lang="en"><![CDATA[Path]]></value>
-		<value xml:lang="jp"><![CDATA[インストールパス]]></value>
+		<value xml:lang="jp"><![CDATA[インストール先]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装路径]]></value>
 		<value xml:lang="zh-TW"><![CDATA[路徑]]></value>
 		<value xml:lang="de"><![CDATA[Pfad]]></value>
