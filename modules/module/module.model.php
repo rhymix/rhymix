@@ -565,7 +565,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get forward value by the value of act
 	 */
-	function getActionForward($act, $module = '')
+	function getActionForward($act)
 	{
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
@@ -575,28 +575,33 @@ class moduleModel extends module
 			$action_forward = $oCacheHandler->get($cache_key);
 		}
 
+		// retrieve and caching all registered action_forward
 		if(!$action_forward)
 		{
 			$args = new stdClass();
-			$args->act = $act;
-			$args->module = ($module) ? $module : null;
-			if(strlen($args->module) > 0)
+			$output = executeQueryArray('module.getActionForward',$args);
+
+			$action_forward = array();
+			foreach($output->data as $item)
 			{
-				$output = executeQuery('module.getActionForwardWithModule', $args);
+				$action_forward[$item->act] = $item;
 			}
-			else
-			{
-				$output = executeQuery('module.getActionForward',$args);
-			}
-			$action_forward = $output->data;
-			debugPrint($action_forward);
+
+			
 			if($oCacheHandler->isSupport())
 			{
 				$oCacheHandler->put($cache_key, $action_forward);
 			}
 		}
-
-		return $action_forward;
+		
+		if($action_forward[$act])
+		{
+			return $action_forward[$act];
+		}
+		else
+		{
+			return new stdClass();  
+		}
 	}
 
 	/**
