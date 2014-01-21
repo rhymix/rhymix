@@ -2112,7 +2112,7 @@ class memberController extends member
 			$oDB->rollback();
 			return $output;
 		}
-debugPrint($args->group_srl_list);
+
 		if($args->group_srl_list)
 		{
 			if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
