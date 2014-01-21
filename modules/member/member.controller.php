@@ -2645,14 +2645,18 @@ class memberController extends member
 
 	function _clearMemberCache($member_srl)
 	{
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+		if($oCacheHandler->isSupport())
+		{
+			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl;
+			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
+			$oCacheHandler->delete($cache_key);
+		}
+
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
-			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-			$oCacheHandler->delete($cache_key);
-
-			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$oCacheHandler->delete($cache_key);
 		}
