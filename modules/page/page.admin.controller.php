@@ -281,6 +281,14 @@ class pageAdminController extends page
 				FileHandler::removeFile($path . $module_info->module_srl . '.' . $file_name);
 			}
 		}
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$object_key = 'mid_info:' . $module_info->module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$oCacheHandler->delete($cache_key);
+		}
 	}
 
 	function procPageAdminArticleDocumentInsert()
