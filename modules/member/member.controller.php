@@ -107,7 +107,7 @@ class memberController extends member
 		if($config->after_logout_url)
 			$output->redirect_url = $config->after_logout_url;
 
-		$this->_clearMemberCache($args->member_srl);
+		$this->_clearMemberCache($logged_info->member_srl);
 
 		return $output;
 	}
@@ -548,6 +548,8 @@ class memberController extends member
 		// Return result
 		$this->add('member_srl', $args->member_srl);
 		$this->setMessage('success_updated');
+
+		$this->_clearMemberCache($args->member_srl);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
 		$this->setRedirectUrl($returnUrl);
@@ -1268,6 +1270,8 @@ class memberController extends member
 			return $this->stop($output->getMessage());
 		}
 
+		$this->_clearMemberCache($args->member_srl);
+
 		// generate new auth key
 		$auth_args = new stdClass;
 		$auth_args->user_id = $memberInfo->user_id;
@@ -1477,17 +1481,7 @@ class memberController extends member
 		$output = executeQuery('member.addMemberToGroup',$args);
 		$output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('member');
-		}
-
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('member');
-		}
+		$this->_clearMemberCache($member_srl);
 
 		return $output;
 	}
@@ -1527,7 +1521,7 @@ class memberController extends member
 			$output = executeQuery('member.addMemberToGroup', $obj);
 			if(!$output->toBool()) return $output;
 
-			$this->_clearMemberCache($args->member_srl);
+			$this->_clearMemberCache($obj->member_srl);
 		}
 
 		return new Object();
@@ -2115,7 +2109,7 @@ class memberController extends member
 		if(!$args->birthday) $args->birthday = '';
 
 		$output = executeQuery('member.updateMember', $args);
-		$this->_clearMemberCache($args->member_srl);
+
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
@@ -2164,16 +2158,8 @@ class memberController extends member
 
 		$oDB->commit();
 
-		$this->_clearMemberCache($args->member_srl);
-
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'member_info:' . getNumberingPath($args->member_srl) . $args->member_srl;
-			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-			$oCacheHandler->delete($cache_key);
-		}
+		$this->_clearMemberCache($args->member_srl);
 
 		// Save Session
 		if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
@@ -2297,6 +2283,8 @@ class memberController extends member
 		$this->procMemberDeleteImageMark($member_srl);
 		$this->procMemberDeleteProfileImage($member_srl);
 		$this->delSignature($member_srl);
+
+		$this->_clearMemberCache($member_srl);
 
 		return $output;
 	}
@@ -2443,6 +2431,8 @@ class memberController extends member
 
 		// Remove all values having the member_srl and new_password equal to 'XE_change_emaill_address' from authentication table
 		executeQuery('member.deleteAuthChangeEmailAddress',$args);
+
+		$this->_clearMemberCache($args->member_srl);
 
 		// Notify the result
 		$this->setTemplatePath($this->module_path.'tpl');
@@ -2659,6 +2649,10 @@ class memberController extends member
 		if($oCacheHandler->isSupport())
 		{
 			$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
+			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
+			$oCacheHandler->delete($cache_key);
+
+			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$oCacheHandler->delete($cache_key);
 		}
