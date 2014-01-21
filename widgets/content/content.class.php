@@ -275,7 +275,7 @@ class content extends WidgetHandler
 				$content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
 				$content_item->adds($oDocument->getObjectVars());
 				$content_item->add('original_content', $oDocument->get('content'));
-				$content_item->setTitle($oDocument->getTitleText());
+				$content_item->setTitle(htmlspecialchars($oDocument->getTitleText()));
 				$content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
 				$content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
 				$content_item->setContent($oDocument->getSummary($args->content_cut_size));
