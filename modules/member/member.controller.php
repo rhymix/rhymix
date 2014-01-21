@@ -1467,15 +1467,12 @@ class memberController extends member
 	 *
 	 * @return Object
 	 */
-	function addMemberToGroup($member_srl,$group_srl,$site_srl=0)
+	function addMemberToGroup($member_srl, $group_srl, $site_srl=0)
 	{
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->group_srl = $group_srl;
 		if($site_srl) $args->site_srl = $site_srl;
-		$oModel =& getModel('member');
-		$groups = $oModel->getMemberGroups($member_srl, $site_srl, true);
-		if($groups[$group_srl]) return new Object();
 
 		// Add
 		$output = executeQuery('member.addMemberToGroup',$args);
@@ -2115,7 +2112,7 @@ class memberController extends member
 			$oDB->rollback();
 			return $output;
 		}
-
+debugPrint($args->group_srl_list);
 		if($args->group_srl_list)
 		{
 			if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
@@ -2643,12 +2640,12 @@ class memberController extends member
 		return array();
 	}
 
-	function _clearMemberCache($member_srl)
+	function _clearMemberCache($member_srl, $site_srl = 0)
 	{
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
-			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl;
+			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_' . $site_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$oCacheHandler->delete($cache_key);
 		}
