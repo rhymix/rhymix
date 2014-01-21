@@ -100,9 +100,8 @@ class boardController extends board
 			// modify list_order if document status is temp
 			if($oDocument->get('status') == 'TEMP')
 			{
-				$min_list_order = executeQuery('document.getDocumentMinListOrder')->data->list_order;
 				$obj->last_update = $obj->regdate = date('YmdHis');
-				$obj->update_order = $obj->list_order = $min_list_order - 1;
+				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
 
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
