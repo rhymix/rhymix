@@ -560,11 +560,16 @@ class commentController extends comment
 				$logged_info = Context::get('logged_info');
 
 				//mail to author of thread - START
+				/**
+				 * @todo Removed code send email to document author.
+				*/
+				/*
 				if($document_author_email != $obj->email_address && $logged_info->email_address != $document_author_email)
 				{
 					$oMail->setReceiptor($document_author_email, $document_author_email);
 					$oMail->send();
 				}
+				*/
 				// mail to author of thread - STOP
 			}
 
