@@ -60,6 +60,9 @@ module.exports = function(grunt) {
 					'modules/editor/skins/xpresseditor/js/xpresseditor.min.js': ['modules/editor/skins/xpresseditor/js/xpresseditor.js'],
 					'modules/editor/skins/xpresseditor/js/xe_textarea.min.js': ['modules/editor/skins/xpresseditor/js/xe_textarea.js'],
 					'modules/editor/tpl/js/editor_common.min.js': ['modules/editor/tpl/js/editor_common.js'],
+					'modules/editor/tpl/js/swfupload.min.js': ['modules/editor/tpl/js/swfupload.js'],
+					'modules/editor/tpl/js/uploader.min.js': ['modules/editor/tpl/js/uploader.js'],
+					'modules/editor/tpl/js/editor.min.js': ['modules/editor/tpl/js/editor.js'],
 					// module/admin
 					'modules/admin/tpl/js/admin.min.js': ['modules/admin/tpl/js/admin.js'],
 					'modules/admin/tpl/js/config.min.js': ['modules/admin/tpl/js/config.js'],
