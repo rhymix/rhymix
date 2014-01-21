@@ -333,6 +333,7 @@ class moduleModel extends module
 			}
 			else
 			{
+				$coutput->designSettings = $moduleInfo->designSettings;
 				$moduleInfo = $coutput;
 			}
 		}
