@@ -105,6 +105,10 @@ class ModuleHandler extends Handler
 	 * */
 	function init()
 	{
+		
+		$oModuleModel = getModel('module');
+		$site_module_info = Context::get('site_module_info');
+
 		// if success_return_url and error_return_url is incorrect
 		$urls = array(Context::get('success_return_url'), Context::get('error_return_url'));
 		foreach($urls as $url)
@@ -113,23 +117,20 @@ class ModuleHandler extends Handler
 			{
 				continue;
 			}
-
+		
 			$urlInfo = parse_url($url);
 			$host = $urlInfo['host'];
-
+		
 			$dbInfo = Context::getDBInfo();
 			$defaultUrlInfo = parse_url($dbInfo->default_url);
 			$defaultHost = $defaultUrlInfo['host'];
-
-			if($host && $host != $defaultHost)
+		
+			if($host && ($host != $defaultHost && $host != $site_module_info->domain))
 			{
 				throw new Exception('msg_default_url_is_null');
 			}
 		}
 		
-		$oModuleModel = getModel('module');
-		$site_module_info = Context::get('site_module_info');
-
 		if(!$this->document_srl && $this->mid && $this->entry)
 		{
 			$oDocumentModel = getModel('document');
@@ -154,11 +155,9 @@ class ModuleHandler extends Handler
 			{
 				// If it exists, compare mid based on the module information
 				// if mids are not matching, set it as the document's mid
-				if(($this->mid && $this->mid != $module_info->mid) || ($this->module_srl && $this->module_srl != $module_info->module_srl))
+				if(!$this->mid || ($this->mid && $this->mid != $module_info->mid) || ($this->module_srl && $this->module_srl != $module_info->module_srl))
 				{
 					$this->mid = $module_info->mid;
-					$this->module_srl = $module_info->module_srl;
-					Context::set('mid', $module_info->mid, TRUE);
 					header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl, 'module_srl',''));
 					return FALSE;
 				}
@@ -276,7 +275,7 @@ class ModuleHandler extends Handler
 		{
 			Context::set('mid', $this->mid, TRUE);
 		}
-
+		
 		// Call a trigger after moduleHandler init
 		$output = ModuleHandler::triggerCall('moduleHandler.init', 'after', $this->module_info);
 		if(!$output->toBool())

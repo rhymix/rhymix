@@ -47,16 +47,27 @@ class boardView extends board
 		}
 
 		// use_category <=1.5.x, hide_category >=1.7.x
-		$count_category = count($oDocumentModel->getCategoryList($this->module_info->module_srl));
-		if($count_category && ($this->module_info->hide_category != 'Y' || $this->module_info->use_category != 'N'))
+		$count_category = count($oDocumentModel->getCategoryList($module_srl));
+		if($count_category)
 		{
-			$this->module_info->hide_category = 'N';
-			$this->module_info->use_category = 'Y';
+			if($config->hide_category)
+			{
+				$config->use_category = ($config->hide_category == 'Y') ? 'N' : 'Y';
+			}
+			else if($config->use_category)
+			{
+				$config->hide_category = ($config->use_category == 'Y') ? 'N' : 'Y';
+			}
+			else
+			{
+				$config->hide_category = 'N';
+				$config->use_category = 'Y';
+			}
 		}
 		else
 		{
-			$this->module_info->hide_category = 'Y';
-			$this->module_info->use_category = 'N';
+			$config->hide_category = 'Y';
+			$config->use_category = 'N';
 		}
 
 		/**
@@ -403,7 +414,7 @@ class boardView extends board
 
 		// set the current page of documents
 		$document_srl = Context::get('document_srl');
-		if(!$args->page && ($document_srl))
+		if(!$args->page && $document_srl)
 		{
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if($oDocument->isExists() && !$oDocument->isNotice())
