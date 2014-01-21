@@ -985,8 +985,8 @@ class memberController extends member
 		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-			$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberFindAccount');
+			$this->setRedirectUrl($returnUrl);
 		}
 		return new Object(0,$msg);
 	}
@@ -1166,14 +1166,14 @@ class memberController extends member
 	{
 		// Get an email_address
 		$email_address = Context::get('email_address');
-		if(!$email_address) return $this->stop('msg_invalid_request');
+		if(!$email_address) return new Object(-1, 'msg_invalid_request');
 		// Log test by using email_address
 		$oMemberModel = getModel('member');
 
 		$args = new stdClass;
 		$args->email_address = $email_address;
 		$memberSrl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
-		if(!$memberSrl) return $this->stop('msg_not_exists_member');
+		if(!$memberSrl) return new Object(-1, 'msg_not_exists_member');
 
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address');
 		$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($memberSrl, 0, $columnList);
