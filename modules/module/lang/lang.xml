@@ -1018,7 +1018,7 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 	<item name="installed_modules">
 		<value xml:lang="ko"><![CDATA[설치된 모듈]]></value>
 		<value xml:lang="en"><![CDATA[Installed Modules]]></value>
-		<value xml:lang="jp"><![CDATA[設置されたモジュール]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされたモジュール]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已安裝模組]]></value>
 	</item>
 	<item name="cmd_show_hide">
