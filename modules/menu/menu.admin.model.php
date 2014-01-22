@@ -529,14 +529,12 @@ class menuAdminModel extends menu
 						unset($menu);
 						unset($menuItems);
 						$value->php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$value->menu_srl);
-						if(file_exists($value->php_file))
-						{
-							include($value->php_file);
-						}
-						else
+						if(!file_exists($value->php_file))
 						{
 							$oMenuAdminController->makeXmlFile($value->menu_srl);
 						}
+
+						include($value->php_file);
 
 						$isMenuFixed = false;
 						if(count($menu->list) > 0)

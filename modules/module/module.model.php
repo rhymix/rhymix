@@ -120,7 +120,7 @@ class moduleModel extends module
 		{
 			if($oCacheHandler->isSupport())
 			{
-				$object_key = 'site_info:' . $domain;
+				$object_key = 'site_info:' . md5($domain);
 				$domain_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$site_info = $oCacheHandler->get($domain_cache_key);
 			}

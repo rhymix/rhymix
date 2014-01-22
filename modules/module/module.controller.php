@@ -418,32 +418,27 @@ class moduleController extends module
 		{
 			$menuArgs = new stdClass;
 			$menuArgs->menu_srl = $args->menu_srl;
-			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
+			$menuOutput = executeQuery('menu.getMenu', $menuArgs); 
 
 			// if menu is not created, create menu also. and does not supported that in virtual site.
 			if(!$menuOutput->data && !$args->site_srl)
 			{
 				$oMenuAdminModel = getAdminModel('menu');
-				$tempMenu = $oMenuAdminModel->getMenuByTitle(array('Temporary menu'));
-
-				if(!$tempMenu)
+				
+				$oModuleModel = getModel('module');
+				$moduleConfig = $oModuleModel->getModuleConfig('module');
+				
+				$menuSrl = $moduleConfig->unlinked_menu_srl; 
+				if(!$menuSrl)
 				{
-					$siteMapArgs = new stdClass;
-					$siteMapArgs->site_srl = 0;
-					$siteMapArgs->title = 'Temporary menu';
-					$siteMapArgs->listorder = $siteMapArgs->menu_srl * -1;
-					$tempMenu = new stdClass;
-					$tempMenu->menu_srl = $siteMapArgs->menu_srl = getNextSequence();
-
-					$siteMapOutput = executeQuery('menu.insertMenu', $siteMapArgs);
-					if(!$siteMapOutput->toBool())
-					{
-						$oDB->rollback();
-						return $siteMapOutput;
-					}
+					$menuSrl = $this->makeUnlinkedMenu();
+					
+					// 'unlinked' menu를 module config에 저장
+					$moduleConfig->unlinked_menu_srl = $menuSrl;
+					$this->updateModuleConfig('module', $moduleConfig);
 				}
 
-				$menuArgs->menu_srl = $tempMenu->menu_srl;
+				$menuArgs->menu_srl = $menuSrl;
 				$menuArgs->menu_item_srl = getNextSequence();
 				$menuArgs->parent_srl = 0;
 				$menuArgs->open_window = 'N';
@@ -461,7 +456,7 @@ class moduleController extends module
 				}
 
 				$oMenuAdminController = getAdminController('menu');
-				$oMenuAdminController->makeXmlFile($tempMenu->menu_srl);
+				$oMenuAdminController->makeXmlFile($menuSrl);
 			}
 		}
 
@@ -489,6 +484,22 @@ class moduleController extends module
 		return $output;
 	}
 
+	function makeUnlinkedMenu()
+	{
+		$args = new stdClass();
+		$args->title = 'unlinked';
+		$menuSrl = $args->menu_srl = getNextSequence();
+		$args->listorder = $args->menu_srl * -1;
+			
+		$output = executeQuery('menu.insertMenu', $args);
+		if($output->toBool())
+		{
+			return $menuSrl;
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * @brief Modify module information
 	 */
