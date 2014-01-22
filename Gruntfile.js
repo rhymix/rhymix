@@ -52,6 +52,7 @@ module.exports = function(grunt) {
 			},
 			'modules': {
 				files: {
+					'common/js/x.min.js' : ['common/js/x.js'],
 					// addon
 					'addons/captcha/captcha.min.js' : ['addons/captcha/captcha.js'],
 					'addons/captcha_member/captcha.min.js' : ['addons/captcha_member/captcha.js'],
