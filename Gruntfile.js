@@ -68,8 +68,12 @@ module.exports = function(grunt) {
 					'modules/admin/tpl/js/admin.min.js': ['modules/admin/tpl/js/admin.js'],
 					'modules/admin/tpl/js/config.min.js': ['modules/admin/tpl/js/config.js'],
 					'modules/admin/tpl/js/menu_setup.min.js': ['modules/admin/tpl/js/menu_setup.js'],
-					'modules/admin/tpl/js/sitemap.min.js': ['modules/admin/tpl/js/sitemap.js'],
-					'modules/admin/tpl/js/theme.min.js': ['modules/admin/tpl/js/theme.js'],
+					//module/board
+					'modules/board/tpl/js/board.min.js': ['modules/board/tpl/js/board.js'],
+					'modules/board/tpl/js/board_admin.min.js': ['modules/board/tpl/js/board_admin.js'],
+					'modules/board/skins/default/board.default.min.js': ['modules/board/skins/default/board.default.js'],
+					'modules/board/m.skins/default/js/mboard.min.js': ['modules/board/m.skins/default/js/mboard.js'],
+					'modules/board/m.skins/simpleGray/js/mboard.min.js': ['modules/board/m.skins/simpleGray/js/mboard.js'],
 					// editor-component-multimedia-link
 					'modules/editor/components/multimedia_link/tpl/popup.min.js': ['modules/editor/components/multimedia_link/tpl/popup.js'],
 					// editor-component-image-gallery
@@ -90,25 +94,6 @@ module.exports = function(grunt) {
 					'addons/oembed/oembed.min.js': ['addons/oembed/oembed.js'],
 				}
 			},
-			'module-board': {
-				'common': {
-					files: {
-						'modules/board/tpl/js/board.min.js': ['modules/board/tpl/js/board.js'],
-						'modules/board/tpl/js/board_admin.min.js': ['modules/board/tpl/js/board_admin.js']
-					}
-				},
-				'skin': {
-					files: {
-						'modules/board/skins/default/board.default.min.js': ['modules/board/skins/default/board.default.js'],
-					}
-				},
-				'm.skin': {
-					files: {
-						'modules/board/m.skins/default/js/mboard.min.js': ['modules/board/m.skins/default/js/mboard.js'],
-						'modules/board/m.skins/simpleGray/js/mboard.min.js': ['modules/board/m.skins/simpleGray/js/mboard.js']
-					}
-				},
-			}
 		},
 		cssmin: {
 			'common-css': {
@@ -156,26 +141,22 @@ module.exports = function(grunt) {
 				}
 			},
 			'module-board': {
-				'skin': {
-					files: {
-						'modules/board/skins/default/board.default.min.css': ['modules/board/skins/default/board.default.css'],
-					}
-				},
-				'm.skin': {
-					files: {
-						'modules/board/m.skins/default/css/mboard.min.css': ['modules/board/m.skins/default/css/mboard.css'],
-						'modules/board/m.skins/simpleGray/css/mboard.min.css': ['modules/board/m.skins/simpleGray/css/mboard.css']
-					}
-				},
+				files: {
+					'modules/board/skins/default/board.default.min.css': ['modules/board/skins/default/board.default.css'],
+					'modules/board/m.skins/default/css/mboard.min.css': ['modules/board/m.skins/default/css/mboard.css'],
+					'modules/board/m.skins/simpleGray/css/mboard.min.css': ['modules/board/m.skins/simpleGray/css/mboard.css']
+				}
 			}
 		},
 		jshint: {
 			files: [
 				'Gruntfile.js',
 				'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
+				'modules/admin/tpl/js/*.js',
 				'modules/board/tpl/js/*.js',
-				'modules/widget/tpl/js/*.js',
 				'modules/editor/tpl/js/*.js',
+				'modules/menu/tpl/js/*.js',
+				'modules/widget/tpl/js/*.js',
 			],
 			options : {
 				globalstrict: false,

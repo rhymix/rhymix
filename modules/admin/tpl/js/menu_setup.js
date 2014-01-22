@@ -9,8 +9,8 @@ jQuery(function($){
 		editForm.find('input[name=parent_srl]').val(parentSrl);
 		if(!menuList)
 		{
-			var params = new Array();
-			var response_tags = new Array('menuList');
+			var params = [];
+			var response_tags = ['menuList'];
 			exec_xml("menu","procMenuAdminAllActList", params, completeGetActList, response_tags);
 		}
 	});
@@ -22,7 +22,7 @@ jQuery(function($){
 		moduleList = obj.menuList;
 		if(moduleList)
 		{
- 			var menuNameList = $('#menuNameList');
+			var menuNameList = $('#menuNameList');
 			for(var x in moduleList)
 			{
 				var menuList = moduleList[x];
@@ -63,12 +63,9 @@ $('form.adminMap')
 		} else {
 			$pkey.val('0');
 		}
-	})
+	});
 
-var 
-	dragging = false,
-	$holder  = $('<li class="placeholder">');
-
+var dragging = false, $holder  = $('<li class="placeholder">');
 $('form.adminMap>ul')
 	.delegate('li:not(.placeholder,.parent)', {
 		'mousedown.st' : function(event) {
@@ -109,7 +106,7 @@ $('form.adminMap>ul')
 				.addClass('draggable')
 				.css({
 					position: 'absolute',
-					opacity : .6,
+					opacity : 0.6,
 					width   : width,
 					height  : height,
 					left    : offset.left,
@@ -122,7 +119,7 @@ $('form.adminMap>ul')
 			$holder
 				.css({
 					position:'absolute',
-					opacity : .6,
+					opacity : 0.6,
 					width   : width,
 					height  : '10px',
 					left    : offset.left,
@@ -131,7 +128,7 @@ $('form.adminMap>ul')
 				})
 				.appendTo($ul.eq(0));
 
-			$this.css('opacity', .6);
+			$this.css('opacity', 0.6);
 
 			$(document)
 				.unbind('mousemove.st mouseup.st')
@@ -142,7 +139,7 @@ $('form.adminMap>ul')
 
 					diff = {x:position.x-event.pageX, y:position.y-event.pageY};
 					nTop = offset.top - diff.y;
-					
+
 					for(i=0,c=offsets.length; i < c; i++) {
 						o = offsets[i];
 						if(o.top > nTop || o.bottom < nTop) continue;
@@ -187,8 +184,8 @@ $('form.adminMap>ul')
 						$dropzone[dropzone.state]($this.hide());
 					}
 
-					$this.slideDown(100, function(){ $this.removeClass('active') });
-					$li.slideUp(100, function(){ var $par = $li.parent(); $li.remove(); if(!$par.children('li').length) $par.remove()  });
+					$this.slideDown(100, function(){ $this.removeClass('active'); });
+					$li.slideUp(100, function(){ var $par = $li.parent(); $li.remove(); if(!$par.children('li').length) $par.remove(); });
 
 					// trigger 'dropped.st' event
 					$this.trigger('dropped.st');
