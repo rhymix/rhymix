@@ -389,7 +389,7 @@ class documentItem extends Object
 
 		if($strlen) return cut_str(strip_tags($content),$strlen,'...');
 
-		return htmlspecialchars($content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return htmlspecialchars($content);
 	}
 
 	function _addAllowScriptAccess($m)
