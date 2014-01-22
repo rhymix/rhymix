@@ -236,7 +236,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', '', function(A, B) {
 		var _only_export = false;
-		var tasks = ['board', 'krzip', 'syndication'];
+		var tasks = ['krzip', 'syndication'];
 
 		if(!A) {
 			grunt.fail.warn('Undefined build target.');
@@ -353,15 +353,6 @@ module.exports = function(grunt) {
 				cmd: "tar",
 				args: ['xf', 'build/temp.full.tar', '-C', 'build/xe']
 			}, function (error, result, code) {
-				// board
-				grunt.util.spawn({
-					cmd: "git",
-					args: ['clone', '-b', 'master', 'git@github.com:xpressengine/xe-module-board.git', 'build/xe/modules/board']
-				}, function (error, result, code) {
-					grunt.file.delete('build/xe/modules/board/.git');
-					taskDone();
-				});
-
 				// krzip
 				grunt.util.spawn({
 					cmd: "git",
