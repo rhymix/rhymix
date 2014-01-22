@@ -1,14 +1,14 @@
 /**
  * 에디터에서 사용하기 위한 변수
  **/
-var editorMode = new Array(); ///<< 에디터의 html편집 모드 flag 세팅 변수 (html or null)
-var editorAutoSaveObj = {fo_obj:null, editor_sequence:0, title:'', content:'', locked:false} ///< 자동저장을 위한 정보를 가진 object
-var editorRelKeys = new Array(); ///< 에디터와 각 모듈과의 연동을 위한 key 값을 보관하는 변수
-var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0, source_height:0}
+var editorMode = []; ///<< 에디터의 html편집 모드 flag 세팅 변수 (html or null)
+var editorAutoSaveObj = {fo_obj:null, editor_sequence:0, title:'', content:'', locked:false}; ///< 자동저장을 위한 정보를 가진 object
+var editorRelKeys = []; ///< 에디터와 각 모듈과의 연동을 위한 key 값을 보관하는 변수
+var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0, source_height:0};
 
 function editorGetContent(editor_sequence) {
 	// 입력된 내용을 받아옴
-	var content = editorRelKeys[editor_sequence]["func"](editor_sequence);
+	var content = editorRelKeys[editor_sequence].func(editor_sequence);
 
 	// 첨부파일 링크시 url을 변경
 	var reg_pattern = new RegExp( request_uri.replace(/\//g,'\\/')+"(files|common|modules|layouts|widgets)", 'ig' );
@@ -33,12 +33,12 @@ function editorFocus(editor_sequence) {
 // 자동 저장 활성화 시키는 함수 (50초마다 자동저장)
 function editorEnableAutoSave(fo_obj, editor_sequence, callback) {
 	var title   = fo_obj.title.value;
-	var content = editorRelKeys[editor_sequence]['content'].value;
+	var content = editorRelKeys[editor_sequence].content.value;
 
 	editorAutoSaveObj = {"fo_obj":fo_obj, "editor_sequence":editor_sequence, "title":title, "content":content, locked:false};
 
 	clearTimeout(editorEnableAutoSave.timer);
-	editorEnableAutoSave.timer = setTimeout(function(){_editorAutoSave(false, callback)}, 50000);
+	editorEnableAutoSave.timer = setTimeout(function(){_editorAutoSave(false, callback);}, 50000);
 }
 editorEnableAutoSave.timer = null;
 
@@ -50,11 +50,11 @@ function _editorAutoSave(exe, callback) {
 	// 50초마다 동기화를 시킴 강제 실행은 제외
 	if(!exe) {
 		clearTimeout(editorEnableAutoSave.timer);
-		editorEnableAutoSave.timer = setTimeout(function(){ _editorAutoSave(exe, callback) }, 50000);
+		editorEnableAutoSave.timer = setTimeout(function(){ _editorAutoSave(exe, callback); }, 50000);
 	}
 
 	// 현재 자동저장중이면 중지
-	if(editorAutoSaveObj.locked == true) return;
+	if(editorAutoSaveObj.locked === true) return;
 
 	// 대상이 없으면 자동저장 시키는 기능 자체를 중지
 	if(!fo_obj || typeof(fo_obj.title)=='undefined' || !editor_sequence) return;
@@ -63,7 +63,7 @@ function _editorAutoSave(exe, callback) {
 	var title = fo_obj.title.value;
 	var content = '';
 	try{
-	   content = editorGetContent(editor_sequence);
+		content = editorGetContent(editor_sequence);
 	}catch(e){
 	}
 
@@ -75,7 +75,7 @@ function _editorAutoSave(exe, callback) {
 			title   : title,
 			content : content,
 			mid     : current_mid,
-			document_srl : editorRelKeys[editor_sequence]['primary'].value
+			document_srl : editorRelKeys[editor_sequence].primary.value
 		};
 
 		editorAutoSaveObj.title   = title;
@@ -106,8 +106,8 @@ function _editorAutoSave(exe, callback) {
 
 // 자동저장된 모든 메세지를 삭제하는 루틴
 function editorRemoveSavedDoc() {
-	var param = new Array();
-	param['mid'] = current_mid;
+	var param = [];
+	param.mid = current_mid;
 	exec_xml("editor","procEditorRemoveSavedDoc", param);
 }
 
@@ -117,8 +117,10 @@ function editorRemoveSavedDoc() {
 
 // editor_sequence값에 해당하는 iframe의 object를 return
 function editorGetIFrame(editor_sequence) {
-	if(editorRelKeys != undefined && editorRelKeys[editor_sequence] != undefined && editorRelKeys[editor_sequence]['editor'] != undefined)
-		return editorRelKeys[editor_sequence]['editor'].getFrame(editor_sequence);
+	if(editorRelKeys !== undefined && editorRelKeys[editor_sequence] !== undefined && editorRelKeys[editor_sequence].editor !== undefined)
+	{
+		return editorRelKeys[editor_sequence].editor.getFrame(editor_sequence);
+	}
 	return document.getElementById( 'editor_iframe_'+ editor_sequence );
 }
 function editorGetTextarea(editor_sequence) {
@@ -217,11 +219,12 @@ function editorSearchComponent(evt) {
 
 	editorPrevNode = null;
 	var obj = e.target;
+	var tobj = obj;
+	var editor_sequence;
 
 	// 위젯인지 일단 체크
 	if(obj.getAttribute("widget")) {
 		// editor_sequence을 찾음
-		var tobj = obj;
 		while(tobj && tobj.nodeName != "BODY") {
 			tobj = xParent(tobj);
 		}
@@ -229,7 +232,7 @@ function editorSearchComponent(evt) {
 			editorPrevNode = null;
 			return;
 		}
-		var editor_sequence = tobj.getAttribute("editor_sequence");
+		editor_sequence = tobj.getAttribute("editor_sequence");
 		var widget = obj.getAttribute("widget");
 		editorPrevNode = obj;
 
@@ -268,7 +271,7 @@ function editorSearchComponent(evt) {
 	}
 
 	// editor_sequence을 찾음
-	var tobj = obj;
+	tobj = obj;
 	while(tobj && tobj.nodeName != "BODY") {
 		tobj = xParent(tobj);
 	}
@@ -276,7 +279,7 @@ function editorSearchComponent(evt) {
 		editorPrevNode = null;
 		return;
 	}
-	var editor_sequence = tobj.getAttribute("editor_sequence");
+	editor_sequence = tobj.getAttribute("editor_sequence");
 
 	// 해당 컴포넌트를 찾아서 실행
 	openComponent(editor_component, editor_sequence);
@@ -284,6 +287,7 @@ function editorSearchComponent(evt) {
 
 // 에디터 내의 선택된 부분의 html코드를 변경
 function editorReplaceHTML(iframe_obj, html) {
+	var range;
 	// 이미지 경로 재지정 (rewrite mod)
 	var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;
 	html = html.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
@@ -296,12 +300,12 @@ function editorReplaceHTML(iframe_obj, html) {
 	var editor_sequence = iframe_obj.editor_sequence || iframe_obj.contentWindow.document.body.getAttribute("editor_sequence");
 
 	// iframe 에디터에 포커스를 둠
-	try { iframe_obj.contentWindow.focus(); }catch(e){};
+	try { iframe_obj.contentWindow.focus(); } catch(e){}
 
 	if (jQuery.isFunction(iframe_obj.replaceHTML)) {
 		iframe_obj.replaceHTML(html);
 	} else if(xIE4Up) {
-		var range = iframe_obj.contentWindow.document.selection.createRange();
+		range = iframe_obj.contentWindow.document.selection.createRange();
 		if(range.pasteHTML) {
 			range.pasteHTML(html);
 		} else if(editorPrevNode) {
@@ -310,12 +314,12 @@ function editorReplaceHTML(iframe_obj, html) {
 	} else {
 		try {
 			if(iframe_obj.contentWindow.getSelection().focusNode.tagName == "HTML") {
-				var range = iframe_obj.contentDocument.createRange();
+				range = iframe_obj.contentDocument.createRange();
 				range.setStart(iframe_obj.contentDocument.body,0);
 				range.setEnd(iframe_obj.contentDocument.body,0);
 				range.insertNode(range.createContextualFragment(html));
 			} else {
-				var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
+				range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
 				range.deleteContents();
 				range.insertNode(range.createContextualFragment(html));
 			}
@@ -327,18 +331,22 @@ function editorReplaceHTML(iframe_obj, html) {
 
 // 에디터 내의 선택된 부분의 html 코드를 return
 function editorGetSelectedHtml(editor_sequence) {
+	var range, html, dummy;
 	var iframe_obj = editorGetIFrame(editor_sequence);
+
 	if (jQuery.isFunction(iframe_obj.getSelectedHTML)) {
 		return iframe_obj.getSelectedHTML();
 	} else if(xIE4Up) {
-		var range = iframe_obj.contentWindow.document.selection.createRange();
-		var html = range.htmlText;
+		range = iframe_obj.contentWindow.document.selection.createRange();
+		html = range.htmlText;
+
 		return html;
 	} else {
-		var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
-		var dummy = xCreateElement('div');
+		range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
+		dummy = xCreateElement('div');
 		dummy.appendChild(range.cloneContents());
-		var html = xInnerHtml(dummy);
+		html = xInnerHtml(dummy);
+
 		return html;
 	}
 }
@@ -346,89 +354,87 @@ function editorGetSelectedHtml(editor_sequence) {
 
 // {{{ iframe 세로 크기 조절
 (function($){
+	var dragging  = false;
+	var startY    = 0;
+	var startH    = 0;
+	var editorId  = '';
+	var eventObj  = null; // event target object
+	var targetObj = null; // elements to be resized
 
-var dragging  = false;
-var startY    = 0;
-var startH    = 0;
-var editorId  = '';
-var eventObj  = null; // event target object
-var targetObj = null; // elements to be resized
+	function editorDragStart(e) {
+		var obj = $(e.target);
+		var id = obj.attr('id');
 
-function editorDragStart(e) {
-	var obj = $(e.target);
-	var id = obj.attr('id');
+		if(!id || !/^editor_drag_bar_(.+)$/.test(id)) return;
 
-	if(!id || !/^editor_drag_bar_(.+)$/.test(id)) return;
+		dragging  = true;
+		startY    = e.pageY;
+		eventObj  = obj;
+		editorId  = RegExp.$1;
 
-	dragging  = true;
-	startY    = e.pageY;
-	eventObj  = obj;
-	editorId  = RegExp.$1;
+		var iframe_obj   = $( editorGetIFrame(editorId) );
+		var textarea_obj = $( editorGetTextarea(editorId) );
+		var preview_obj  = $('#editor_preview_'+editorId);
+		var visible_obj  = iframe_obj.is(':visible')?iframe_obj:textarea_obj;
 
-	var iframe_obj   = $( editorGetIFrame(editorId) );
-	var textarea_obj = $( editorGetTextarea(editorId) );
-	var preview_obj  = $('#editor_preview_'+editorId);
-	var visible_obj  = iframe_obj.is(':visible')?iframe_obj:textarea_obj;
+		startH = parseInt(visible_obj.css('height'));
 
-	startH = parseInt(visible_obj.css('height'));
+		targetObj = $([ iframe_obj[0], textarea_obj[0] ]);
+		if (preview_obj.length) targetObj.add(preview_obj[0]);
 
-	targetObj = $([ iframe_obj[0], textarea_obj[0] ]);
-	if (preview_obj.length) targetObj.add(preview_obj[0]);
+		if (!isNaN(startH) || !startH) {
+			var oh_before = visible_obj[0].offsetHeight;
+			visible_obj.css('height', oh_before+'px');
+			var oh_after = visible_obj[0].offsetHeight;
 
-	if (!isNaN(startH) || !startH) {
-		var oh_before = visible_obj[0].offsetHeight;
-		visible_obj.css('height', oh_before+'px');
-		var oh_after = visible_obj[0].offsetHeight;
+			startH = oh_before*2 - oh_after;
+			targetObj.css('height', startH+'px');
+		}
 
-		startH = oh_before*2 - oh_after;
-		targetObj.css('height', startH+'px');
+		$('#xeEditorMask_' + editorId).show();
+		$(document).mousemove(editorDragMove);
+
+		return false;
 	}
 
-	$('#xeEditorMask_' + editorId).show();
-	$(document).mousemove(editorDragMove);
+	function editorDragMove(e) {
+		if(!dragging) {
+			$('#xeEditorMask_' + editorId).hide();
+			return;
+		}
 
-	return false;
-}
+		var diff = e.pageY - startY;
+		targetObj.css('height', (startH + diff)+'px');
 
-function editorDragMove(e) {
-	if(!dragging) {
+		return false;
+	}
+
+	function editorDragStop(e) {
 		$('#xeEditorMask_' + editorId).hide();
-		return;
+		if(!dragging) return;
+
+		$(document).unbind('mousemove', editorDragMove);
+
+		if($.isFunction(window.fixAdminLayoutFooter)) {
+			var diff = parseInt(targetObj.eq(0).css('height')) - startH;
+
+			fixAdminLayoutFooter( diff );
+		}
+
+		dragging  = false;
+		startY    = 0;
+		eventObj  = null;
+		targetObj = null;
+		editorId  = '';
+
+		return false;
 	}
 
-	var diff = e.pageY - startY;
-	targetObj.css('height', (startH + diff)+'px');
-
-	return false;
-}
-
-function editorDragStop(e) {
-	$('#xeEditorMask_' + editorId).hide();
-	if(!dragging) return;
-
-	$(document).unbind('mousemove', editorDragMove);
-
-	if($.isFunction(window.fixAdminLayoutFooter)) {
-		var diff = parseInt(targetObj.eq(0).css('height')) - startH;
-
-		fixAdminLayoutFooter( diff );
-	}
-
-	dragging  = false;
-	startY    = 0;
-	eventObj  = null;
-	targetObj = null;
-	editorId  = '';
-
-	return false;
-}
-
-/*
-$(document).bind({
-	mousedown : editorDragStart,
-	mouseup   : editorDragStop
-});
-*/
-
+	/*
+	$(document).bind({
+		mousedown : editorDragStart,
+		mouseup   : editorDragStop
+	});
+	*/
 })(jQuery);
 // }}} iframe 세로 크기 조절

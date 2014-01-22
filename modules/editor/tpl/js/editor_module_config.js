@@ -11,7 +11,7 @@ function resultGetEditorSkinColorList(ret_obj,response_tags, params) {
 	jQuery(function($){
 		if(params.testid){
 			selectbox = $("#"+params.testid).next('label').children('select');
-		}else{
+		} else {
 			selectbox = (params.type == 'document') ? $('select[name=sel_editor_colorset]') : $('select[name=sel_comment_editor_colorset]');
 		}
 		selectbox.html('');
@@ -20,20 +20,22 @@ function resultGetEditorSkinColorList(ret_obj,response_tags, params) {
 			$("select[name=sel_editor_colorset]").hide()
 				.removeAttr('name');
 			selectbox.attr('name','sel_editor_colorset');
-		}else{
+		} else {
 			$("select[name=sel_comment_editor_colorset]").hide()
 				.removeAttr('name');
 			selectbox.attr('name','sel_comment_editor_colorset');
 		}
 
-		if(ret_obj['error'] == 0 && ret_obj.colorset){
-			var it = new Array();
-			var items = ret_obj['colorset']['item'];
+		/* jshint -W041 */
+		if(ret_obj.error == 0 && ret_obj.colorset){
+			var it = [];
+			var items = ret_obj.colorset.item;
 			if(typeof(items[0]) == 'undefined'){
 				it[0] = items;
-			}else{
+			} else {
 				it = items;
 			}
+
 			var selectAttr = "";
 			for(var i=0;i<it.length;i++){
 				var $options = $('<option value="'+it[i].name+'" >'+it[i].title+'</option>');
@@ -45,7 +47,7 @@ function resultGetEditorSkinColorList(ret_obj,response_tags, params) {
 				selectbox.append($options);
 			}
 			selectbox.show();
-		}else{
+		} else {
 			selectbox.hide();
 			selectbox.html('');
 		}

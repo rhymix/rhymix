@@ -63,6 +63,7 @@ module.exports = function(grunt) {
 					'modules/editor/tpl/js/swfupload.min.js': ['modules/editor/tpl/js/swfupload.js'],
 					'modules/editor/tpl/js/uploader.min.js': ['modules/editor/tpl/js/uploader.js'],
 					'modules/editor/tpl/js/editor.min.js': ['modules/editor/tpl/js/editor.js'],
+					'modules/editor/tpl/js/editor_module_config.min.js': ['modules/editor/tpl/js/editor_module_config.js'],
 					// module/admin
 					'modules/admin/tpl/js/admin.min.js': ['modules/admin/tpl/js/admin.js'],
 					'modules/admin/tpl/js/config.min.js': ['modules/admin/tpl/js/config.js'],
@@ -88,6 +89,25 @@ module.exports = function(grunt) {
 					'addons/oembed/jquery.oembed.min.js': ['addons/oembed/jquery.oembed.js'],
 					'addons/oembed/oembed.min.js': ['addons/oembed/oembed.js'],
 				}
+			},
+			'module-board': {
+				'common': {
+					files: {
+						'modules/board/tpl/js/board.min.js': ['modules/board/tpl/js/board.js'],
+						'modules/board/tpl/js/board_admin.min.js': ['modules/board/tpl/js/board_admin.js']
+					}
+				},
+				'skin': {
+					files: {
+						'modules/board/skins/default/board.default.min.js': ['modules/board/skins/default/board.default.js'],
+					}
+				},
+				'm.skin': {
+					files: {
+						'modules/board/m.skins/default/js/mboard.min.js': ['modules/board/m.skins/default/js/mboard.js'],
+						'modules/board/m.skins/simpleGray/js/mboard.min.js': ['modules/board/m.skins/simpleGray/js/mboard.js']
+					}
+				},
 			}
 		},
 		cssmin: {
@@ -134,18 +154,28 @@ module.exports = function(grunt) {
 				files: {
 					'addons/oembed/jquery.oembed.min.css': ['addons/oembed/jquery.oembed.css'],
 				}
+			},
+			'module-board': {
+				'skin': {
+					files: {
+						'modules/board/skins/default/board.default.min.css': ['modules/board/skins/default/board.default.css'],
+					}
+				},
+				'm.skin': {
+					files: {
+						'modules/board/m.skins/default/css/mboard.min.css': ['modules/board/m.skins/default/css/mboard.css'],
+						'modules/board/m.skins/simpleGray/css/mboard.min.css': ['modules/board/m.skins/simpleGray/css/mboard.css']
+					}
+				},
 			}
 		},
 		jshint: {
 			files: [
 				'Gruntfile.js',
 				'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
-				'modules/widget/tpl/js/generate_code.js',
-				'modules/widget/tpl/js/widget.js',
-				'modules/widget/tpl/js/widget_admin.js',
-				'!**/jquery*.js',
-				'!**/*.min.js',
-				'!**/*-packed.js'
+				'modules/board/tpl/js/*.js',
+				'modules/widget/tpl/js/*.js',
+				'modules/editor/tpl/js/*.js',
 			],
 			options : {
 				globalstrict: false,
@@ -158,9 +188,10 @@ module.exports = function(grunt) {
 					"window" : true
 				},
 				ignores : [
-					'skins/xe_2010_gallery/js/jquery.easing.1.3.js',
-					'skins/xe_2010_gallery/js/json2007.js',
+					'**/jquery*.js',
+					'**/swfupload.js',
 					'**/*.min.js',
+					'**/*-packed.js',
 					'**/*.compressed.js'
 				]
 			}
@@ -215,7 +246,7 @@ module.exports = function(grunt) {
 		md5.update(buffer);
 		var md5Hash = md5.digest('hex');
 		grunt.verbose.writeln('file md5: ' + md5Hash);
- 
+
 		var md5FileName = file + '.md5';
 		grunt.file.write(md5FileName, md5Hash);
 		grunt.verbose.writeln('File "' + md5FileName + '" created.').writeln('...');
