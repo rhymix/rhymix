@@ -101,10 +101,6 @@ class module extends ModuleObject
 		}
 
 		// XE 1.7
-		$args->site_srl = 0;
-		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
-
-		if($output->toBool() && $output->data && count($output->data) > 0) return true;
 
 		// check fix mskin
 		if(!$oDB->isColumnExists("modules", "is_mskin_fix")) return true;
@@ -113,12 +109,25 @@ class module extends ModuleObject
 		$moduleConfig = $oModuleModel->getModuleConfig('module');
 		if(!$moduleConfig->isUpdateFixedValue) return true;
 
-		// check lost module
-		if(!$moduleConfig->isUpdateLostModule)
+		// 'unlinked' menu 존재여부 확인
+		if(!$moduleConfig->unlinked_menu_srl) return true;
+		else
+		{
+			$menuArgs = new stdClass;
+			$menuArgs->menu_srl = $moduleConfig->unlinked_menu_srl;
+			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
+			if(!$menuOutput->data) return true;
+		}
+		
+		// menu_srl이 등록되지 않은 mid가 있는지 검사(지정된 menu_srl이 있을 경우, 지정된 menu_item도 있다고 가정)
+		$args = new stdClass;
+		$args->site_srl = 0;
+		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
+		if($output->toBool() && $output->data && count($output->data) > 0)
 		{
 			return true;
 		}
-		return false;
+		
 	}
 
 	/**
@@ -414,29 +423,6 @@ class module extends ModuleObject
 			$output = executeQuery('module.updateMobileSkinFixModules');
 		}
 
-		$args = new stdClass;
-		$args->site_srl = 0;
-		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
-
-		if($output->toBool() && $output->data && count($output->data) > 0)
-		{
-			//create temp menu.
-			$args->title = 'Temporary menu';
-			$menuSrl = $args->menu_srl = getNextSequence();
-			$args->listorder = $args->menu_srl * -1;
-
-			$output = executeQuery('menu.insertMenu', $args);
-
-			if(!$output->toBool())
-			{
-				return $output;
-			}
-
-			//getNotLinkedModuleBySiteSrl
-			$soutput = executeQueryArray('module.getNotLinkedModuleBySiteSrl', $args);
-			$uoutput = $this->updateLinkModule($soutput->data, $menuSrl);
-		}
-
 		$oModuleModel = getModel('module');
 		$moduleConfig = $oModuleModel->getModuleConfig('module');
 		if(!$moduleConfig->isUpdateFixedValue)
@@ -449,69 +435,82 @@ class module extends ModuleObject
 			$moduleConfig->isUpdateFixedValue = TRUE;
 			$output = $oModuleController->updateModuleConfig('module', $moduleConfig);
 		}
+		
+		// menu(sitemap)에 링크되지 않은 모듈인스턴스 링크
+		$output1 = $this->linkAllModuleInstancesToSitemap();
+		if(!$output1->toBool()) return $output1;
+		
+		return new Object(0, 'success_updated');
+	}
+	
+	private function linkAllModuleInstancesToSitemap()
+	{
+		// 'unlinked' menu가 있는지 검사
+		$oModuleController = getController('module');
+		$oModuleModel = getModel('module');
+		$moduleConfig = $oModuleModel->getModuleConfig('module');
 
-		// check lost module
-		if(!$moduleConfig->isUpdateLostModule)
+		// 'unlinked  menu 생성
+		$menuSrl = 0;
+		if(!$moduleConfig->unlinked_menu_srl)
 		{
-			$args = new stdClass();
-			$args->site_srl = 0;
-			$output = executeQueryArray('module.getMidList', $args);
-			if(!$output->toBool())
+			$menuSrl = $oModuleController->makeUnlinkedMenu();
+		}
+		else
+		{
+			$menuArgs = new stdClass;
+			$menuArgs->menu_srl = $moduleConfig->unlinked_menu_srl;
+			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
+			if(!$menuOutput->data)
 			{
-				return $output;
-			}
-			if($output->data)
-			{
-				$oMenuAdminModel = getAdminModel('menu'); /* @var $oMenuAdminModel menuAdminModel */
-				foreach($output->data as $row)
-				{
-					$args = new stdClass();
-					$args->url = $row->mid;
-					$output2 = executeQuery('module.getMenuItem', $args);
-
-					if(!$output2->data->count)
-					{
-						$menuInfo = $oMenuAdminModel->getMenuByTitle('Temporary menu');
-
-						if(!$menuInfo)
-						{
-							$args = new stdClass();
-							$args->title = 'Temporary menu';
-							$menuSrl = $args->menu_srl = getNextSequence();
-							$args->listorder = $args->menu_srl * -1;
-
-							$ioutput = executeQuery('menu.insertMenu', $args);
-							if(!$ioutput->toBool())
-							{
-								return $ioutput;
-							}
-						}
-						else
-						{
-							$menuSrl = $menuInfo->menu_srl;
-						}
-
-						$uoutput = $this->updateLinkModule(array($row), $menuSrl);
-						if(!$uoutput->toBool())
-						{
-							return $uoutput;
-						}
-					}
-				}
-			}
-
-			$oModuleController = getController('module');
-			$moduleConfig->isUpdateLostModule = TRUE;
-			$output = $oModuleController->updateModuleConfig('module', $moduleConfig);
-			if(!$output->toBool())
-			{
-				return $output;
+				$menuSrl = $oModuleController->makeUnlinkedMenu();
 			}
 		}
 
-		return new Object(0, 'success_updated');
-	}
+		// 'unlinked' menu를 module config에 저장
+		if($menuSrl)
+		{
+			$moduleConfig->unlinked_menu_srl = $menuSrl;
+			$oModuleController->updateModuleConfig('module', $moduleConfig);
+		}
+		
+		// for 1.7.4 update, 기존에 생성된 Temporary menu 항목 정리
+		$oMenuAdminModel = getAdminModel('menu'); // @var $oMenuAdminModel menuAdminModel
+		$args = new stdClass();
+		$args->title = array("Temporary menu");
+		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
 
+		$args = new stdClass();
+		foreach($temp_menus->data as $menu)
+		{
+			$args->current_menu_srl = $menu->menu_srl;
+			$args->menu_srl = $moduleConfig->unlinked_menu_srl;
+			$output3 = executeQuery('menu.updateMenuItems', $args);
+		
+			if($output3->toBool())
+			{
+				// delete
+				$oMenuAdminController = getAdminController('menu');
+				$oMenuAdminController->deleteMenu($menu->menu_srl);
+			}
+		}
+		
+		// menu_srl이 지정되지 않은 mid가 있는지 검사
+		$args = new stdClass;
+		$args->site_srl = 0;
+		$output1 = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
+		if($output1->toBool() && $output1->data && count($output1->data) > 0)
+		{
+			$output2 = $this->updateLinkModule($output1->data, $menuSrl);
+			if(!$output2->toBool())
+			{
+				return $output2;
+			}
+		}
+		
+		return new Object(0,'success');
+	}
+	
 	/**
 	 * insert menu when not linked module.
 	 *
