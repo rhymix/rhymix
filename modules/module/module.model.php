@@ -580,6 +580,8 @@ class moduleModel extends module
 		{
 			$args = new stdClass();
 			$output = executeQueryArray('module.getActionForward',$args);
+			if(!$output->toBool()) return new stdClass;
+			if(!$output->data) $output->data = array();
 
 			$action_forward = array();
 			foreach($output->data as $item)
