@@ -145,12 +145,8 @@
 				<label class="x_control-label" for="{$menu_name}">{$menu_info->title}({$menu_name})</label>
 				<div class="x_controls">
 					<select name="{$menu_name}" id="{$menu_name}">
-<!--						<option value="0">{$lang->cmd_select}</option>
-						<option selected="selected"|cond="!$menu_info->menu_srl||$menu_info->menu_srl == -1" value="-1">{$lang->sitemap_with_homemenu}</option>
--->
 						<option value="0" selected="selected"|cond="!$menu_info->menu_srl">{$lang->cmd_select}</option>
-					<option selected="selected"|cond="$menu_info->menu_srl == -1" value="-1">{$lang->sitemap_with_homemenu}</option>
-
+						<option selected="selected"|cond="$menu_info->menu_srl == -1" value="-1">{$lang->sitemap_with_homemenu}</option>
 						<option loop="$menu_list => $key, $val" value="{$val->menu_srl}" selected="selected"|cond="$val->menu_srl == $menu_info->menu_srl">{$val->title}</option>
 					</select>
 				</div>
