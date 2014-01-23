@@ -96,6 +96,13 @@ class boardController extends board
 				$obj->title_color = $oDocument->get('title_color');
 				$obj->title_bold = $oDocument->get('title_bold');
 			}
+			
+			// modify list_order if document status is temp
+			if($oDocument->get('status') == 'TEMP')
+			{
+				$obj->last_update = $obj->regdate = date('YmdHis');
+				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
+			}
 
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
