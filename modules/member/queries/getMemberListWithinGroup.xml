@@ -1,39 +1,42 @@
 <query id="getMemberListWithinGroup" action="select">
-    <tables>
-        <table name="member" alias="member" />
-        <table name="member_group_member" alias="member_group" />
-    </tables>
-    <columns />
-    <conditions>
-        <condition operation="in" column="member_group.group_srl" var="selected_group_srl" notnull="notnull" />
-        <condition operation="equal" column="member.member_srl" var="member_group.member_srl" pipe="and" notnull="notnull" />
-        <group pipe="and">
-            <condition operation="equal" column="member.is_admin" var="is_admin" />
-            <condition operation="equal" column="member.denied" var="is_denied" pipe="and" />
+	<tables>
+		<table name="member" alias="member" />
+		<table name="member_group_member" alias="member_group" />
+	</tables>
+	<columns>
+		<column name="member_group.*" />
+		<column name="member.*" />
+	</columns>
+	<conditions>
+		<condition operation="in" column="member_group.group_srl" var="selected_group_srl" notnull="notnull" />
+		<condition operation="equal" column="member.member_srl" var="member_group.member_srl" pipe="and" notnull="notnull" />
+		<group pipe="and">
+			<condition operation="equal" column="member.is_admin" var="is_admin" />
+			<condition operation="equal" column="member.denied" var="is_denied" pipe="and" />
 			<condition operation="in" column="member.member_srl" var="member_srls" pipe="and" />
-        </group>
-        <group pipe="and">
-            <condition operation="like" column="member.user_id" var="s_user_id" />
-            <condition operation="like" column="member.user_name" var="s_user_name" pipe="or" />
-            <condition operation="like" column="member.nick_name" var="s_nick_name" pipe="or" />
-            <condition operation="like" column="member.nick_name" var="html_nick_name" pipe="or" />
-            <condition operation="like" column="member.email_address" var="s_email_address" pipe="or" />
-            <condition operation="like" column="extra_vars" var="s_extra_vars" pipe="or" />
-            <condition operation="like_prefix" column="member.regdate" var="s_regdate" pipe="or" />
-            <condition operation="like_prefix" column="member.last_login" var="s_last_login" pipe="or" />
-            <condition operation="more" column="member.regdate" var="s_regdate_more" pipe="or" />
-            <condition operation="less" column="member.regdate" var="s_regdate_less" pipe="or" />
-            <condition operation="more" column="member.last_login" var="s_last_login_more" pipe="or" />
-            <condition operation="less" column="member.last_login" var="s_last_login_less" pipe="or" />
-        </group>
-    </conditions>
+		</group>
+		<group pipe="and">
+			<condition operation="like" column="member.user_id" var="s_user_id" />
+			<condition operation="like" column="member.user_name" var="s_user_name" pipe="or" />
+			<condition operation="like" column="member.nick_name" var="s_nick_name" pipe="or" />
+			<condition operation="like" column="member.nick_name" var="html_nick_name" pipe="or" />
+			<condition operation="like" column="member.email_address" var="s_email_address" pipe="or" />
+			<condition operation="like" column="extra_vars" var="s_extra_vars" pipe="or" />
+			<condition operation="like_prefix" column="member.regdate" var="s_regdate" pipe="or" />
+			<condition operation="like_prefix" column="member.last_login" var="s_last_login" pipe="or" />
+			<condition operation="more" column="member.regdate" var="s_regdate_more" pipe="or" />
+			<condition operation="less" column="member.regdate" var="s_regdate_less" pipe="or" />
+			<condition operation="more" column="member.last_login" var="s_last_login_more" pipe="or" />
+			<condition operation="less" column="member.last_login" var="s_last_login_less" pipe="or" />
+		</group>
+	</conditions>
 	<groups>
 		<group column="member.member_srl" />
 	</groups>
-    <navigation>
-        <index var="sort_index" default="member.list_order" order="sort_order" />
-        <list_count var="list_count" default="20" />
-        <page_count var="page_count" default="10" />
-        <page var="page" default="1" />
-    </navigation>
+	<navigation>
+		<index var="sort_index" default="member.list_order" order="sort_order" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
 </query>
