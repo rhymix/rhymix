@@ -263,7 +263,7 @@ class FileHandler
 				$file = sprintf('%s%s', str_replace(_XE_PATH_, '', $path), $file);
 			}
 
-			$output[] = str_replace(DIRECTORY_SEPARATOR, '', $file);
+			$output[] = str_replace(array('/\\', '//'), DIRECTORY_SEPARATOR, $file);
 		}
 
 		return $output;
