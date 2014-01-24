@@ -442,6 +442,23 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 						</dl>
 					</section>
 					<section class="h3">
+						<h1 id="UMAN_config_embed_filter">embed Filter</h1>
+						<p>&lt;iframe&gt; 또는 &lt;object&gt;, &lt;embed&gt; 태그에 허용 할 URL을 지정할 수 있습니다.<br>주로 domain을 포함한 URL을 지정하여 허용 URL을 지정할 수 있습니다.</p>
+						<p>domain을 포함하지 않은 짧거나 단순한 단어('video', 'swf' 등)만을 지정할 경우 손쉽게 악의적인 접근을 시도할 수 있으니 주의해야 합니다.</p>
+						<dl>
+							<dt id="UMAN_config_embed_filter_iframe">iFrame</dt>
+							<dd>
+								<p>&lt;iframe&gt; 태그에 허용 할 URL을 지정할 수 있습니다.</p>
+								<p>예시 : 'http://www.youtube.com/v/...'와 같은 URL을 &lt;iframe&gt;에 허용 하려면 'http://www.youtube.com/v/'처럼 입력하면 됩니다.</p>
+							</dd>
+							<dt id="UMAN_config_embed_filter_object">object / embed</dt>
+							<dd>
+								<p>&lt;object&gt;, &lt;embed&gt; 태그에 허용 할 URL을 지정할 수 있습니다.</p>
+								<p>주로 domain을 포함한 URL을 지정하여 허용 URL을 지정할 수 있습니다.<br>예시 : 'http://www.youtube.com/v/...'와 같은 URL을 &lt;object&gt;, &lt;embed&gt;에 허용 하려면 'http://www.youtube.com/v/'처럼 입력하면 됩니다.</p>
+							</dd>
+						</dl>
+					</section>
+					<section class="h3">
 						<h1 id="UMAN_advanced">고급</h1>
 						<dl>
 							<dt id="UMAN_advanced_easyinstall">쉬운 설치</dt>

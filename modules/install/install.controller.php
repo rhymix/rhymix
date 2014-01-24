@@ -523,71 +523,24 @@ class installController extends install
 		return new Object();
 	}
 
-	function _getDbConnText($key, $val, $with_array = false)
-	{
-		$buff = array("\$db_info->$key = ");
-		if($with_array) $buff[] = "array(";
-		else $val = array($val);
-
-		foreach($val as $con_string)
-		{
-			$buff[] = 'array(';
-			foreach($con_string as $k => $v)
-			{
-				if($k == 'resource' || $k == 'is_connected') continue;
-				if($k == 'db_table_prefix' && !empty($v) && substr($v,-1)!='_') $v .= '_';
-				$buff[] = "'$k' => '$v',";
-			}
-			$buff[] = ($with_array) ? '),' : ')';
-		}
-
-		if($with_array) $buff[] = ')';
-
-		return join(PHP_EOL, $buff) . ';' . PHP_EOL;
-	}
-
 	function _getDBConfigFileContents($db_info)
 	{
+		if(substr($db_info->master_db['db_table_prefix'], -1) != '_')
+		{
+			$db_info->master_db['db_table_prefix'] .= '_';
+		}
+
+		foreach($db_info->slave_db as &$slave)
+		{
+			if(substr($slave['db_table_prefix'], -1) != '_')
+			{
+				$slave['db_table_prefix'] .= '_';
+			}
+		}
+
 		$buff = array();
 		$buff[] = '<?php if(!defined("__XE__")) exit();';
-		$buff[] = '$db_info = new stdClass;';
-
-		$db_info = get_object_vars($db_info);
-		foreach($db_info as $key => $val)
-		{
-			if($key == 'master_db')
-			{
-				$tmpValue = $this->_getDbConnText($key, $val);
-			}
-			else if($key == 'slave_db')
-			{
-				$tmpValue = $this->_getDbConnText($key, $val, true);
-			}
-			else if($key == 'sitelock_whitelist' || $key == 'admin_ip_list')
-			{
-				if(!is_array($val))
-					continue;
-				$tmpValue = sprintf('$db_info->%s = array(\'%s\');' . PHP_EOL, $key, implode('\', \'', $val));
-			}
-			else
-			{
-				if($key == 'default_url')
-				{
-					$tmpValue = sprintf("\$db_info->%s = '%s';" . PHP_EOL, $key, addslashes($val));
-				}
-				else
-				{
-					$tmpValue = sprintf("\$db_info->%s = '%s';" . PHP_EOL, $key, str_replace("'","\\'",$val));
-				}
-			}
-
-			if(preg_match('/(<\?|<\?php|\?>|fputs|fopen|fwrite|fgets|fread|\/\*|\*\/|chr\()/xsm', preg_replace('/\s/', '', $tmpValue)))
-			{
-				throw new Exception('msg_invalid_request');
-			}
-
-			$buff[] = $tmpValue;
-		}
+		$buff[] = '$db_info = (object)' . var_export(get_object_vars($db_info), TRUE) . ';';
 
 		return implode(PHP_EOL, $buff);
 	}

@@ -19,6 +19,7 @@
 		<action name="procAdminDeleteLogo" type="controller" />
 		<action name="procAdminMenuReset" type="controller" />
 		<action name="procAdminUpdateSitelock" type="controller" />
+		<action name="procAdminUpdateEmbedWhitelist" type="controller" />
 
         <action name="getAdminFTPList" type="model" />
         <action name="getAdminFTPPath" type="model" />
