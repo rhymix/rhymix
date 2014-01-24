@@ -446,6 +446,11 @@ class adminAdminView extends admin
 		Context::set('siteTitle', $config->siteTitle);
 		Context::set('htmlFooter', $config->htmlFooter);
 
+		// embed filter
+		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
+		$oEmbedFilter = EmbedFilter::getInstance();
+		context::set('embed_white_object', implode(PHP_EOL, $oEmbedFilter->whiteUrlList));
+		context::set('embed_white_iframe', implode(PHP_EOL, $oEmbedFilter->whiteIframeUrlList));
 
 		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
 		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
