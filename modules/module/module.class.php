@@ -445,17 +445,18 @@ class module extends ModuleObject
 	
 	private function linkAllModuleInstancesToSitemap()
 	{
-		// 'unlinked' menu가 있는지 검사
+		// 'unlinked' menu가 지정돼 있는지 검사
 		$oModuleController = getController('module');
 		$oModuleModel = getModel('module');
 		$moduleConfig = $oModuleModel->getModuleConfig('module');
 
-		// 'unlinked  menu 생성
-		$menuSrl = 0;
+		// 지정돼 있지 않다면 'unlinked'  menu 생성
+		$created_menu_srl = 0;
 		if(!$moduleConfig->unlinked_menu_srl)
 		{
-			$menuSrl = $oModuleController->makeUnlinkedMenu();
+			$created_menu_srl = $oModuleController->makeUnlinkedMenu();
 		}
+		// 지정돼 있지만 실제로 없다면 생성
 		else
 		{
 			$menuArgs = new stdClass;
@@ -463,19 +464,19 @@ class module extends ModuleObject
 			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
 			if(!$menuOutput->data)
 			{
-				$menuSrl = $oModuleController->makeUnlinkedMenu();
+				$created_menu_srl = $oModuleController->makeUnlinkedMenu();
 			}
 		}
 
-		// 'unlinked' menu를 module config에 저장
-		if($menuSrl)
+		// 'unlinked' menu가 새로 생성되었다면 module config에 저장
+		if($created_menu_srl)
 		{
-			$moduleConfig->unlinked_menu_srl = $menuSrl;
+			$moduleConfig->unlinked_menu_srl = $created_menu_srl;
 			$oModuleController->updateModuleConfig('module', $moduleConfig);
 		}
 		
 		// for 1.7.4 update, 기존에 생성된 Temporary menu 항목 정리
-		$oMenuAdminModel = getAdminModel('menu'); // @var $oMenuAdminModel menuAdminModel
+		$oMenuAdminModel = getAdminModel('menu');
 		$args = new stdClass();
 		$args->title = array("Temporary menu");
 		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
@@ -495,13 +496,13 @@ class module extends ModuleObject
 			}
 		}
 		
-		// menu_srl이 지정되지 않은 mid가 있는지 검사
+		// menu_srl이 지정되지 않은 mmodule instance가 있는지 검사
 		$args = new stdClass;
 		$args->site_srl = 0;
 		$output1 = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
 		if($output1->toBool() && $output1->data && count($output1->data) > 0)
 		{
-			$output2 = $this->updateLinkModule($output1->data, $menuSrl);
+			$output2 = $this->updateLinkModule($output1->data, $moduleConfig->unlinked_menu_srl);
 			if(!$output2->toBool())
 			{
 				return $output2;
