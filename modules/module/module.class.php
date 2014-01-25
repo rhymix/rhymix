@@ -118,7 +118,7 @@ class module extends ModuleObject
 			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
 			if(!$menuOutput->data) return true;
 		}
-		
+
 		// menu_srl이 등록되지 않은 mid가 있는지 검사(지정된 menu_srl이 있을 경우, 지정된 menu_item도 있다고 가정)
 		$args = new stdClass;
 		$args->site_srl = 0;
@@ -127,7 +127,7 @@ class module extends ModuleObject
 		{
 			return true;
 		}
-		
+
 	}
 
 	/**
@@ -435,14 +435,14 @@ class module extends ModuleObject
 			$moduleConfig->isUpdateFixedValue = TRUE;
 			$output = $oModuleController->updateModuleConfig('module', $moduleConfig);
 		}
-		
+
 		// menu(sitemap)에 링크되지 않은 모듈인스턴스 링크
 		$output1 = $this->linkAllModuleInstancesToSitemap();
 		if(!$output1->toBool()) return $output1;
-		
+
 		return new Object(0, 'success_updated');
 	}
-	
+
 	private function linkAllModuleInstancesToSitemap()
 	{
 		// 'unlinked' menu가 있는지 검사
@@ -473,11 +473,11 @@ class module extends ModuleObject
 			$moduleConfig->unlinked_menu_srl = $menuSrl;
 			$oModuleController->updateModuleConfig('module', $moduleConfig);
 		}
-		
+
 		// for 1.7.4 update, 기존에 생성된 Temporary menu 항목 정리
 		$oMenuAdminModel = getAdminModel('menu'); // @var $oMenuAdminModel menuAdminModel
 		$args = new stdClass();
-		$args->title = array("Temporary menu");
+		$args->title = array("unlinked");
 		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
 
 		$args = new stdClass();
@@ -486,7 +486,7 @@ class module extends ModuleObject
 			$args->current_menu_srl = $menu->menu_srl;
 			$args->menu_srl = $moduleConfig->unlinked_menu_srl;
 			$output3 = executeQuery('menu.updateMenuItems', $args);
-		
+
 			if($output3->toBool())
 			{
 				// delete
@@ -494,7 +494,7 @@ class module extends ModuleObject
 				$oMenuAdminController->deleteMenu($menu->menu_srl);
 			}
 		}
-		
+
 		// menu_srl이 지정되지 않은 mid가 있는지 검사
 		$args = new stdClass;
 		$args->site_srl = 0;
@@ -507,10 +507,10 @@ class module extends ModuleObject
 				return $output2;
 			}
 		}
-		
+
 		return new Object(0,'success');
 	}
-	
+
 	/**
 	 * insert menu when not linked module.
 	 *
