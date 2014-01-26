@@ -482,7 +482,7 @@ class module extends ModuleObject
 		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
 
 		$args = new stdClass();
-		foreach($temp_menus->data as $menu)
+		if($temp_menus->data) foreach($temp_menus->data as $menu)
 		{
 			$args->current_menu_srl = $menu->menu_srl;
 			$args->menu_srl = $moduleConfig->unlinked_menu_srl;
