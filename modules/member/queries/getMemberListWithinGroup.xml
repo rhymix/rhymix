@@ -4,8 +4,9 @@
 		<table name="member_group_member" alias="member_group" />
 	</tables>
 	<columns>
-		<column name="member_group.*" />
 		<column name="member.*" />
+		<column name="site_srl" />
+		<column name="group_srl" />
 	</columns>
 	<conditions>
 		<condition operation="in" column="member_group.group_srl" var="selected_group_srl" notnull="notnull" />
