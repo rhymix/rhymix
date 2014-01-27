@@ -437,8 +437,11 @@ class module extends ModuleObject
 		}
 		
 		// menu(sitemap)에 링크되지 않은 모듈인스턴스 링크
-		$output1 = $this->linkAllModuleInstancesToSitemap();
-		if(!$output1->toBool()) return $output1;
+		if(Context::isInstalled())
+		{
+			$output1 = $this->linkAllModuleInstancesToSitemap();
+			if(!$output1->toBool()) return $output1;
+		}
 		
 		return new Object(0, 'success_updated');
 	}
@@ -482,20 +485,23 @@ class module extends ModuleObject
 		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
 
 		$args = new stdClass();
-		if($temp_menus->data) foreach($temp_menus->data as $menu)
+		if($temp_menus->toBool())
 		{
-			$args->current_menu_srl = $menu->menu_srl;
-			$args->menu_srl = $moduleConfig->unlinked_menu_srl;
-			$output3 = executeQuery('menu.updateMenuItems', $args);
-		
-			if($output3->toBool())
+			foreach($temp_menus->data as $menu)
 			{
-				// delete
-				$oMenuAdminController = getAdminController('menu');
-				$oMenuAdminController->deleteMenu($menu->menu_srl);
+				$args->current_menu_srl = $menu->menu_srl;
+				$args->menu_srl = $moduleConfig->unlinked_menu_srl;
+				$output3 = executeQuery('menu.updateMenuItems', $args);
+			
+				if($output3->toBool())
+				{
+					// delete
+					$oMenuAdminController = getAdminController('menu');
+					$oMenuAdminController->deleteMenu($menu->menu_srl);
+				}
 			}
 		}
-		
+				
 		// menu_srl이 지정되지 않은 mmodule instance가 있는지 검사
 		$args = new stdClass;
 		$args->site_srl = 0;
