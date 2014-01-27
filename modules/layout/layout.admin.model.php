@@ -141,7 +141,7 @@ class layoutAdminModel extends layout
 		$layout_image_list = $oLayoutModel->getUserLayoutImageList($layout_info->layout_srl);
 		Context::set('layout_image_list', $layout_image_list);
 
-		$layout_image_path = $oLayoutModel->getUserLayoutImagePath($layout_info->layout_srl);
+		$layout_image_path = sprintf("./files/faceOff/%s/images/", getNumberingPath($layout_info->layout_srl,3));
 		Context::set('layout_image_path', $layout_image_path);
 		// Set widget list
 		$oWidgetModel = getModel('widget');
