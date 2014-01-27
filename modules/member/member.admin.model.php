@@ -89,7 +89,8 @@ class memberAdminModel extends member
 					$args->s_regdate_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
 					break;
 				case 'last_login' :
-					$args->s_last_login = $search_keyword;
+					$args->s_last_login = preg_replace("/[^0-9]/","",$search_keyword);
+					//$args->s_last_login = $search_keyword;
 					break;
 				case 'last_login_more' :
 					$args->s_last_login_more = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
