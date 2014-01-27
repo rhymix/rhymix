@@ -1708,12 +1708,12 @@
 		<item name="normal">
 			<value xml:lang="ko"><![CDATA[비밀번호는 6자리 이상이어야 하며 영문과 숫자를 반드시 포함해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[the password must be at least 6, and must have at least one alpha character and numeric characters]]></value>
-			<value xml:lang="jp"><![CDATA[パスワードは6文字以上の【半角/英数字混合】でご入力してください。]]></value>
+			<value xml:lang="jp"><![CDATA[パスワードは6文字以上の【半角/英数字混合】で入力してください。]]></value>
 		</item>
 		<item name="high">
 			<value xml:lang="ko"><![CDATA[비밀번호는 8자리 이상이어야 하며 영문과 숫자, 특수문자를 반드시 포함해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[the password must be at least 8, and must have at least one alpha character, numeric character and special character ]]></value>
-			<value xml:lang="jp"><![CDATA[パスワードは8文字以上の【半角/英文字、数字、記号の混合】でご入力してください。]]></value>
+			<value xml:lang="jp"><![CDATA[パスワードは8文字以上の【半角/英文字、数字、記号の混合】で入力してください。]]></value>
 		</item>
 	</item>
 	
