@@ -782,7 +782,7 @@ class layoutModel extends layout
 	 */
 	function getUserLayoutPath($layout_srl)
 	{
-		return sprintf("%sfiles/faceOff/%s", _XE_PATH_, getNumberingPath($layout_srl,3));
+		return sprintf("./files/faceOff/%s", getNumberingPath($layout_srl,3));
 	}
 
 	/**
