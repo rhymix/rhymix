@@ -256,7 +256,16 @@ class addonAdminModel extends addon
 
 					foreach($extra_vars as $key => $val)
 					{
+						if(!$val)
+						{
+							continue;
+						}
+
 						$obj = new stdClass();
+						if(!$val->attrs)
+						{
+							$val->attrs = new stdClass();
+						}
 						if(!$val->attrs->type)
 						{
 							$val->attrs->type = 'text';
@@ -342,6 +351,11 @@ class addonAdminModel extends addon
 					$addon_info->extra_vars = array();
 					foreach($extra_vars as $key => $val)
 					{
+						if(!$val)
+						{
+							continue;
+						}
+
 						$obj = new stdClass();
 
 						$obj->group = $group->title->body;

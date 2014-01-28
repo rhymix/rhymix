@@ -3,7 +3,7 @@
 	<item name="editor_now">
 		<value xml:lang="ko"><![CDATA[현재 설정 상태]]></value>
 		<value xml:lang="en"><![CDATA[현재 설정 상태]]></value>
-		<value xml:lang="jp"><![CDATA[현재 설정 상태]]></value>
+		<value xml:lang="jp"><![CDATA[現在の設定状況]]></value>
 		<value xml:lang="zh-CN"><![CDATA[현재 설정 상태]]></value>
 		<value xml:lang="zh-TW"><![CDATA[현재 설정 상태]]></value>
 		<value xml:lang="ru"><![CDATA[현재 설정 상태]]></value>
@@ -93,7 +93,7 @@
 	<item name="guide_choose_text_formatting">
 		<value xml:lang="ko"><![CDATA[본문 서식]]></value>
 		<value xml:lang="en"><![CDATA[Text formatting]]></value>
-		<value xml:lang="jp"><![CDATA[本文のスタイル]]></value>
+		<value xml:lang="jp"><![CDATA[本文の書式]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Text formatting.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Text formatting.]]></value>
 		<value xml:lang="ru"><![CDATA[Text formatting.]]></value>
@@ -183,7 +183,7 @@
 	<item name="component_author">
 		<value xml:lang="ko"><![CDATA[제작자]]></value>
 		<value xml:lang="en"><![CDATA[Developer]]></value>
-		<value xml:lang="jp"><![CDATA[作者]]></value>
+		<value xml:lang="jp"><![CDATA[制作者]]></value>
 		<value xml:lang="zh-CN"><![CDATA[作者]]></value>
 		<value xml:lang="zh-TW"><![CDATA[作者]]></value>
 		<value xml:lang="fr"><![CDATA[Développeur]]></value>
@@ -227,7 +227,7 @@
 	<item name="component_history">
 		<value xml:lang="ko"><![CDATA[변경 이력]]></value>
 		<value xml:lang="en"><![CDATA[Updates]]></value>
-		<value xml:lang="jp"><![CDATA[変更履歴]]></value>
+		<value xml:lang="jp"><![CDATA[更新履歴]]></value>
 		<value xml:lang="zh-CN"><![CDATA[更新日志]]></value>
 		<value xml:lang="zh-TW"><![CDATA[更新紀錄]]></value>
 		<value xml:lang="fr"><![CDATA[Histoire]]></value>
@@ -374,7 +374,7 @@
 	<item name="msg_load_saved_doc">
 		<value xml:lang="ko"><![CDATA[자동 저장된 글이 있습니다. 복구하시겠습니까? 글을 다 쓰신 후 저장하면 자동 저장 본은 사라집니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is a draft automatically saved. Do you want to restore it? The auto-saved draft will be discarded when you write and save it.]]></value>
-		<value xml:lang="jp"><![CDATA[自動保存された書き込みがあります。復旧しますか？書き終わってから登録すると前の自動保存データは削除されます。]]></value>
+		<value xml:lang="jp"><![CDATA[自動保存された書き込みがあります。復元しますか？書き終わってから登録すると前の自動保存データは削除されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[有自动保存的内容， 确定要恢复吗？发布主题后，自动保存的文本将会被删除。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[有自動儲存的內容，確定要恢復嗎? 儲存內容後，自動儲存的內容將會被刪除。]]></value>
 		<value xml:lang="fr"><![CDATA[Il y a un article conservé automatiquement. Voulez-vous le réstaurer? L'esquisse conservé automatiquement va être débarrasser après conserver l'article courant.]]></value>
@@ -641,7 +641,7 @@
 		<item name="header">
 			<value xml:lang="ko"><![CDATA[형식]]></value>
 			<value xml:lang="en"><![CDATA[Style]]></value>
-			<value xml:lang="jp"><![CDATA[スタイル]]></value>
+			<value xml:lang="jp"><![CDATA[書式]]></value>
 			<value xml:lang="zh-CN"><![CDATA[样式]]></value>
 			<value xml:lang="zh-TW"><![CDATA[樣式]]></value>
 			<value xml:lang="ru"><![CDATA[Стиль]]></value>
@@ -864,7 +864,7 @@
 		<item name="add_indent">
 			<value xml:lang="ko"><![CDATA[들여쓰기]]></value>
 			<value xml:lang="en"><![CDATA[Indent]]></value>
-			<value xml:lang="jp"><![CDATA[インデント増]]></value>
+			<value xml:lang="jp"><![CDATA[字下げ]]></value>
 			<value xml:lang="zh-CN"><![CDATA[增加缩进]]></value>
 			<value xml:lang="zh-TW"><![CDATA[縮排]]></value>
 			<value xml:lang="tr"><![CDATA[Girinti]]></value>
@@ -873,7 +873,7 @@
 		<item name="remove_indent">
 			<value xml:lang="ko"><![CDATA[내어쓰기]]></value>
 			<value xml:lang="en"><![CDATA[Outdent]]></value>
-			<value xml:lang="jp"><![CDATA[インデント減]]></value>
+			<value xml:lang="jp"><![CDATA[字上げ]]></value>
 			<value xml:lang="zh-CN"><![CDATA[减少缩进]]></value>
 			<value xml:lang="zh-TW"><![CDATA[凸排]]></value>
 			<value xml:lang="tr"><![CDATA[Çıkıntı]]></value>
@@ -910,7 +910,7 @@
 		<item name="help_remove_format">
 			<value xml:lang="ko"><![CDATA[선택된 영역 내의 태그를 지웁니다.]]></value>
 			<value xml:lang="en"><![CDATA[Tags in selected area will be removed.]]></value>
-			<value xml:lang="jp"><![CDATA[選択領域の中のタグを消します。]]></value>
+			<value xml:lang="jp"><![CDATA[選択範囲内のタグを消します。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[清除格式。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[移除格式]]></value>
 			<value xml:lang="fr"><![CDATA[Supprimer les balises dans l'endroit sélectionné]]></value>
@@ -1104,7 +1104,7 @@
 		<item name="help_add_indent">
 			<value xml:lang="ko"><![CDATA[단락의 들여쓰기 수준을 높입니다.]]></value>
 			<value xml:lang="en"><![CDATA[Add indent]]></value>
-			<value xml:lang="jp"><![CDATA[インデントを増やします。]]></value>
+			<value xml:lang="jp"><![CDATA[字上げします。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[增加缩进]]></value>
 			<value xml:lang="zh-TW"><![CDATA[縮排]]></value>
 			<value xml:lang="fr"><![CDATA[Ajouter un Rentré]]></value>
@@ -1116,7 +1116,7 @@
 		<item name="help_remove_indent">
 			<value xml:lang="ko"><![CDATA[단락의 들여쓰기 수준을 낮춥니다.]]></value>
 			<value xml:lang="en"><![CDATA[Remove indent]]></value>
-			<value xml:lang="jp"><![CDATA[インデントを減らします。]]></value>
+			<value xml:lang="jp"><![CDATA[字下げします。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[减少缩进]]></value>
 			<value xml:lang="zh-TW"><![CDATA[凸排]]></value>
 			<value xml:lang="fr"><![CDATA[Enlever un Rentré]]></value>
@@ -1240,7 +1240,7 @@
 		<item name="link_file">
 			<value xml:lang="ko"><![CDATA[본문 삽입]]></value>
 			<value xml:lang="en"><![CDATA[Insert to Content]]></value>
-			<value xml:lang="jp"><![CDATA[テキスト挿入]]></value>
+			<value xml:lang="jp"><![CDATA[テキストに挿入]]></value>
 			<value xml:lang="zh-CN"><![CDATA[插入附件]]></value>
 			<value xml:lang="zh-TW"><![CDATA[插入檔案]]></value>
 			<value xml:lang="fr"><![CDATA[Insérer dans le Texte]]></value>
@@ -1966,7 +1966,7 @@
 		<item name="confirm_submit_without_saving">
 			<value xml:lang="ko"><![CDATA[저장하지 않은 단락이 있습니다.\n그냥 전송하시겠습니까?]]></value>
 			<value xml:lang="en"><![CDATA[There are paragraphs which were not saved.\nProceed anyway?]]></value>
-			<value xml:lang="jp"><![CDATA[まだ保存してない内容があります。\nそのまま転送してよろしいでしょうか？]]></value>
+			<value xml:lang="jp"><![CDATA[まだ保存してない内容があります。\nそのまま転送してもよろしいでしょうか？]]></value>
 			<value xml:lang="zh-CN"><![CDATA[尚有未保存的段落。\n确定要提交吗？]]></value>
 			<value xml:lang="zh-TW"><![CDATA[有內容尚未儲存。\n是否要繼續進行?]]></value>
 			<value xml:lang="ru"><![CDATA[Есть несохраненные параграфы\nПродолжить?]]></value>
@@ -1997,7 +1997,7 @@
 	<item name="about_dblclick_in_editor">
 		<value xml:lang="ko"><![CDATA[배경, 글자, 이미지, 인용문등에서 더블클릭을 하면 상세한 컴포넌트 설정이 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may set the component's detailed configurations by double-clicking background, text, images, or quotations.]]></value>
-		<value xml:lang="jp"><![CDATA[背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定できるコンポーネントを表示します。]]></value>
+		<value xml:lang="jp"><![CDATA[背景、文字、イメージ、引用文の上でダブルクリックすると詳細設定できるコンポーネントを表示します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[双击背景, 文本, 图片, 引用即可对其相关组件进行详细设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[對背景，文字，圖片，引用等組件按兩下，即可對其相關組件進行詳細設置。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez configurer en détail des composants par double-clic sur un arrière-plan, un texte, une image ou une citation]]></value>

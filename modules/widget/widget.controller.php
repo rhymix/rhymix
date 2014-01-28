@@ -667,6 +667,7 @@ class widgetController extends widget
 		$widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetStyle);
 		if(!$widgetstyle_info) return $widget_content_body;
 
+		$widgetstyle_extra_var = new stdClass();
 		$widgetstyle_extra_var_key = get_object_vars($widgetstyle_info);
 		if(count($widgetstyle_extra_var_key['extra_var']))
 		{

@@ -907,7 +907,7 @@
 	<item name="use_mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 뷰 사용]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to show the mobile page when users access the website with their mobile phone?]]></value>
-		<value xml:lang="jp"><![CDATA[モバイル機器で接続した際にモバイルページを表示しますか？]]></value>
+		<value xml:lang="jp"><![CDATA[モバイル版使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[当用户使用移动终端访问页面的时候是否使用移动版?]]></value>
 		<value xml:lang="tr"><![CDATA[Kullanıcılar mobil aygıtları ile siteye bağlandıklarında mobil sayfaı bu kullancılara göstermek istiyor musunuz?]]></value>
 	</item>
@@ -925,7 +925,7 @@
 	<item name="input_footer_script">
 		<value xml:lang="ko"><![CDATA[하단(footer) 스크립트]]></value>
 		<value xml:lang="en"><![CDATA[Footer script]]></value>
-		<value xml:lang="jp"><![CDATA[下段（footer）スクリプト]]]></value>
+		<value xml:lang="jp"><![CDATA[下段（footer）スクリプト]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入页脚脚本]]></value>
 		<value xml:lang="tr"><![CDATA[Alt (footer) Script Eklemek]]></value>
 	</item>
@@ -953,7 +953,7 @@
 	<item name="admin_ip_limit">
 		<value xml:lang="ko"><![CDATA[관리자 IP대역]]></value>
 		<value xml:lang="en"><![CDATA[Sepcify IP address band that can access the admin page.]]></value>
-		<value xml:lang="jp"><![CDATA[管理者ページへアクセス可能なIP帯域を指定します。]]></value>
+		<value xml:lang="jp"><![CDATA[管理者のIPアドレス帯域]]></value>
 		<value xml:lang="zh-CN"><![CDATA[后台IP绑定]]></value>
 		<value xml:lang="tr"><![CDATA[Yönetici sayfasına ulaşabileceğiniz  IP aralığını belirleyiniz.]]></value>
 	</item>
@@ -981,7 +981,7 @@
 	<item name="allow_use_favicon">
 		<value xml:lang="ko"><![CDATA[파비콘 지정]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use favicon?]]></value>
-		<value xml:lang="jp"><![CDATA[ファビコンを使用しますか?]]></value>
+		<value xml:lang="jp"><![CDATA[ファビコン設定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[是否启用自定义favicon?]]></value>
 		<value xml:lang="tr"><![CDATA[Favicon'u kullanmak istiyor musunuz?]]></value>
 	</item>	 
@@ -995,7 +995,7 @@
 	<item name="allow_use_mobile_icon">
 		<value xml:lang="ko"><![CDATA[모바일 홈 화면 아이콘]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use the mobile home screen icon?]]></value>
-		<value xml:lang="jp"><![CDATA[モバイル待ち受け画面のアイコンを使用しますか?]]></value>
+		<value xml:lang="jp"><![CDATA[待受画面のアイコン設定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[是否启用移动版屏幕图标?]]></value>
 		<value xml:lang="tr"><![CDATA[Mobil Ana Ekran Simgesini kullanmak istiyor musunuz?]]></value>
 	</item>
