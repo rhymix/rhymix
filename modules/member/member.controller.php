@@ -321,6 +321,24 @@ class memberController extends member
 		if(!$output->toBool()) return $output;
 
 		// insert ProfileImage, ImageName, ImageMark
+                $profile_image = $_FILES['profile_image'];
+                if(is_uploaded_file($profile_image['tmp_name']))
+                {
+                        $this->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
+                }
+
+                $image_mark = $_FILES['image_mark'];
+                if(is_uploaded_file($image_mark['tmp_name']))
+                {
+                        $this->insertImageMark($args->member_srl, $image_mark['tmp_name']);
+                }
+
+                $image_name = $_FILES['image_name'];
+                if(is_uploaded_file($image_name['tmp_name']))
+                {
+                        $this->insertImageName($args->member_srl, $image_name['tmp_name']);
+                }
+
 		// If a virtual site, join the site
 		$site_module_info = Context::get('site_module_info');
 		if($site_module_info->site_srl > 0)
