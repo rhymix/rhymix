@@ -797,6 +797,7 @@ class documentAdminController extends document
 		// If the post was not temorarily saved, set the attachment's status to be valid
 		if($oDocument->hasUploadedFiles() && $originObject->member_srl != $originObject->module_srl)
 		{
+			$args = new stdClass();
 			$args->upload_target_srl = $oDocument->document_srl;
 			$args->isvalid = 'Y';
 			$output = executeQuery('file.updateFileValid', $args);

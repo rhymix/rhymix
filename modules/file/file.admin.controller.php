@@ -92,6 +92,7 @@ class fileAdminController extends file
 	function procFileAdminInsertConfig()
 	{
 		// Get configurations (using module model object)
+		$config = new stdClass();
 		$config->allowed_filesize = Context::get('allowed_filesize');
 		$config->allowed_attach_size = Context::get('allowed_attach_size');
 		$config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));

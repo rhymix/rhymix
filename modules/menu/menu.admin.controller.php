@@ -337,6 +337,7 @@ class menuAdminController extends menu
 		if(strncasecmp('http', $request->shortcut_target, 4) === 0 || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
 		{
 			// set menu variable
+			$args = new stdClass();
 			$args->menu_srl = $request->menu_srl;
 			$args->parent_srl = $request->parent_srl;
 			$args->open_window = $request->menu_open_window;
@@ -951,7 +952,7 @@ class menuAdminController extends menu
 		{
 			foreach($node AS $key=>$node)
 			{
-				unset($args);
+				$args = new stdClass();
 				$args->menu_srl = $menu_srl;
 				$args->menu_item_srl = $node['node_srl'];
 				$output = executeQuery('menu.updateMenuItemNode', $args);
@@ -1460,6 +1461,7 @@ class menuAdminController extends menu
 		if(empty($url)) $url = getNotEncodedFullUrl('', 'module', 'admin');
 		$dbInfo = Context::getDBInfo();
 
+		$args = new stdClass();
 		$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 		$args->parent_srl = $requestArgs->parent_srl;
 		$args->menu_srl = $requestArgs->menu_srl;
