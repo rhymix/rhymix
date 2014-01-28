@@ -1830,7 +1830,7 @@ class moduleModel extends module
 
 			if($updateCache && $skinName)
 			{
-				$designInfo->module->{$module_name} = new stdClass();
+				if(!isset($designInfo->module->{$module_name})) $designInfo->module->{$module_name} = new stdClass();
 				$designInfo->module->{$module_name}->{$target} = $skinName;
 
 				$oAdminController = getAdminController('admin');
