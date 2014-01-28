@@ -25,7 +25,7 @@
 		<item name="language">
 			<value xml:lang="ko"><![CDATA[설치 언어 선택]]></value>
 			<value xml:lang="en"><![CDATA[Select language]]></value>
-			<value xml:lang="jp"><![CDATA[セットアップ言語の選択]]></value>
+			<value xml:lang="jp"><![CDATA[言語の選択]]></value>
 			<value xml:lang="zh-CN"><![CDATA[选择安装语言]]></value>
 			<value xml:lang="zh-TW"><![CDATA[選擇安裝語言]]></value>
 			<value xml:lang="tr"><![CDATA[Yükleme dilini seçin]]></value>
@@ -65,7 +65,7 @@
 	<item name="install_condition_enable">
 		<value xml:lang="ko"><![CDATA[설치가 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can Install.]]></value>
-		<value xml:lang="jp"><![CDATA[設置できます。]]></value>
+		<value xml:lang="jp"><![CDATA[インストールできます。]]></value>
 	</item>
 	<item name="install_details">
 		<value xml:lang="ko"><![CDATA[자세히]]></value>
@@ -164,17 +164,17 @@
 		<item name="php_version">
 			<value xml:lang="ko"><![CDATA[[필수] PHP버전이 5.2.4 이상에서 설치가 가능합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] XE supports only PHP Version 5.2.4 or higher]]></value>
-			<value xml:lang="jp"><![CDATA[[必修] PHPバージョンが5.2.4以上で設置が可能です。]]></value>
+			<value xml:lang="jp"><![CDATA[[必修] 5.2.4以上のPHPバージョンでインストールが可能です。]]></value>
 		</item>
 		<item name="php_version_warning">
 			<value xml:lang="ko"><![CDATA[[권장] XE는 PHP 5.3.10 버전 이상을 권장합니다.<br />PHP 5.2.x버전은 더이상 업데이트되지 않는 버전입니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Recommend] XE recommends only PHP Version 5.3.10 or higher]]></value>
-			<value xml:lang="jp"><![CDATA[[推奨] XEはPHP 5.3.10バージョン以上を推奨します。<br />PHP 5.2.xバージョンはもうアップデートされないバージョンです。]]></value>
+			<value xml:lang="jp"><![CDATA[[推奨] XEはPHP 5.3.10バージョン以上をおすすめします。<br />PHP 5.2.xバージョンはもうアップデートされないバージョンです。]]></value>
 		</item>
 		<item name="permission">
 			<value xml:lang="ko"><![CDATA[[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] XE installation path or ./files directory's permission must be 707]]></value>
-			<value xml:lang="jp"><![CDATA[【必須】XEのインストールパスまたは「./files」ディレクトリのパーミッションを「707」に設定してください。]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】XEのインストール先、または「./files」ディレクトリのパーミッションを「707」に設定してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[[必须] 的安装路径或 ./files目录属性必须是707]]></value>
 			<value xml:lang="zh-TW"><![CDATA[[必須] XE的資料夾或『./files』資料夾權限必須是『707』。]]></value>
 			<value xml:lang="fr"><![CDATA[[Obligatoire] Chemin de l'installation de XE ou la permission de  répertoire de ./files doit être 707]]></value>
