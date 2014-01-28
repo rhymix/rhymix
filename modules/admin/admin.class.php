@@ -182,74 +182,70 @@ class admin extends ModuleObject
 				'subMenu' => array('comment'),
 			),
 			4 => array(
-				'module' => 'trackback',
-				'subMenu' => array('trackback'),
-			),
-			5 => array(
 				'module' => 'file',
 				'subMenu' => array('file'),
 			),
-			6 => array(
+			5 => array(
 				'module' => 'poll',
 				'subMenu' => array('poll'),
 			),
-			7 => array(
+			6 => array(
 				'module' => 'rss',
 				'subMenu' => array('rss'),
 			),
-			8 => array(
+			7 => array(
 				'module' => 'module',
 				'subMenu' => array('multilingual'),
 			),
-			9 => array(
+			8 => array(
 				'module' => 'importer',
 				'subMenu' => array('importer'),
 			),
-			10 => array(
+			9 => array(
 				'module' => 'trash',
 				'subMenu' => array('trash'),
 			),
-			11 => array(
+			10 => array(
 				'module' => 'autoinstall',
 				'subMenu' => array('easyInstall'),
 			),
-			12 => array(
+			11 => array(
 				'module' => 'layout',
 				'subMenu' => array('installedLayout'),
 			),
-			13 => array(
+			12 => array(
 				'module' => 'module',
 				'subMenu' => array('installedModule'),
 			),
-			14 => array(
+			13 => array(
 				'module' => 'widget',
 				'subMenu' => array('installedWidget'),
 			),
-			15 => array(
+			14 => array(
 				'module' => 'addon',
 				'subMenu' => array('installedAddon'),
 			),
-			16 => array(
+			15 => array(
 				'module' => 'editor',
 				'subMenu' => array('editor'),
 			),
-			17 => array(
+			16 => array(
 				'module' => 'spamfilter',
 				'subMenu' => array('spamFilter'),
 			),
-			18 => array(
+			17 => array(
 				'module' => 'admin',
 				'subMenu' => array('adminConfigurationGeneral', 'adminConfigurationFtp', 'adminMenuSetup'),
 			),
-			19 => array(
+			18 => array(
 				'module' => 'file',
 				'subMenu' => array('fileUpload'),
 			),
-			20 => array(
+			19 => array(
 				'module' => 'module',
 				'subMenu' => array('filebox'),
 			),
-			21 => array(
+			20 => array(
 				'module' => 'point',
 				'subMenu' => array('point')
 			),
@@ -319,7 +315,6 @@ class admin extends ModuleObject
 				break;
 			case 'document':
 			case 'comment':
-			case 'trackback':
 			case 'file':
 			case 'poll':
 			case 'rss':
@@ -368,7 +363,6 @@ class admin extends ModuleObject
 				break;
 			case 'document':
 			case 'comment':
-			case 'trackback':
 			case 'file':
 			case 'poll':
 			case 'rss':
