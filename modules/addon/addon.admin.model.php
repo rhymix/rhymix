@@ -258,7 +258,7 @@ class addonAdminModel extends addon
 						$obj = new stdClass();
 						if(!$val)
 						{
-							$val = new stdClass();
+							continue;
 						}
 						if(!$val->attrs)
 						{
