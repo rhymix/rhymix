@@ -21,6 +21,7 @@ class menuAdminView extends menu
 		$this->setTemplatePath($this->module_path.'tpl');
 	}
 
+	
 	/**
 	 * Site map admin menu index page
 	 * @return void
@@ -37,6 +38,13 @@ class menuAdminView extends menu
 		{
 			if($logged_info->is_admin == 'Y' && !$site_keyword) $site_srl = 0;
 			else $site_srl = (int)$site_module_info->site_srl;
+		}
+
+		// process for unlinked modules
+		if($site_srl == 0)
+		{
+			$oMenuController = getAdminController('menu');
+			$oMenuController->linkAllModuleInstancesToSitemap();
 		}
 
 		$oAdmin = getClass('admin');

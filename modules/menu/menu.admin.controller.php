@@ -103,6 +103,149 @@ class menuAdminController extends menu
 		$output->add('menuSrl', $args->menu_srl);
 		return $output;
 	}
+	
+	function linkAllModuleInstancesToSitemap()
+	{
+		$unlinked_modules = false;
+		$args = new stdClass;
+		$args->site_srl = 0;
+		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
+		if($output->toBool() && $output->data && count($output->data) > 0)
+		{
+			$unlinked_modules = $output->data;
+		}
+		
+		if($unlinked_modules)
+		{
+			$unlinked_menu_srl = $this->getUnlinkedMenu();
+			$output = $this->updateLinkModule($unlinked_modules, $unlinked_menu_srl);
+		}
+		
+
+/*		// for 1.7.4 update, 기존에 생성된 Temporary menu 항목 정리
+		$oMenuAdminModel = getAdminModel('menu');
+		$args = new stdClass();
+		$args->title = array("Temporary menu");
+		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
+		
+		$args = new stdClass();
+		if($temp_menus->toBool())
+		{
+			foreach($temp_menus->data as $menu)
+			{
+				$args->current_menu_srl = $menu->menu_srl;
+				$args->menu_srl = $moduleConfig->unlinked_menu_srl;
+				$output3 = executeQuery('menu.updateMenuItems', $args);
+					
+				if($output3->toBool())
+				{
+					// delete
+					$oMenuAdminController = getAdminController('menu');
+					$oMenuAdminController->deleteMenu($menu->menu_srl);
+				}
+			}
+		}
+*/
+	}
+	
+	function getUnlinkedMenu()
+	{
+		// 'unlinked' menu 존재여부 확인
+		$oModuleModel = getModel('module');
+		$moduleConfig = $oModuleModel->getModuleConfig('menu');
+
+		if($moduleConfig->unlinked_menu_srl)
+		{
+			$menuArgs = new stdClass;
+			$menuArgs->menu_srl = $moduleConfig->unlinked_menu_srl;
+			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
+			if(!$menuOutput->data)
+			{
+				unset($moduleConfig->unlinked_menu_srl);
+			}
+		}
+		
+		if(!$moduleConfig->unlinked_menu_srl)
+		{
+			$output = $this->addMenu('unlinked', 0);
+			if($output->toBool())
+			{
+				$moduleConfig->unlinked_menu_srl = $output->get('menuSrl');
+				$oModuleController = getController('module');
+				$oModuleController->updateModuleConfig('menu', $moduleConfig);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		return $moduleConfig->unlinked_menu_srl;
+	}
+	
+	/**
+	 * insert menu when not linked module.
+	 *
+	 * @param array $moduleInfos
+	 * @param int $menuSrl
+	 *
+	 * @return Object
+	 */
+	function updateLinkModule($moduleInfos, $menuSrl)
+	{
+		if(!$moduleInfos || !is_array($moduleInfos) || count($moduleInfos) == 0 || $menuSrl == 0)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+	
+		foreach($moduleInfos as $moduleInfo)
+		{
+			// search menu.
+			$args = new stdClass;
+			$args->url = $moduleInfo->mid;
+			$args->site_srl = $moduleInfo->site_srl;
+			$args->is_shortcut = 'N';
+	
+			$output = executeQuery('menu.getMenuItemByUrl', $args);
+	
+			if($output->toBool() && $output->data)
+			{
+				$moduleInfo->menu_srl = $output->data->menu_srl;
+			}
+			else
+			{
+				// create menu item.
+				$item_args->menu_srl = $menuSrl;
+				$item_args->url = $moduleInfo->mid;
+				$item_args->name = $moduleInfo->mid;
+				$item_args->menu_item_srl = getNextSequence();
+				$item_args->listorder = -1*$item_args->menu_item_srl;
+	
+				$output = executeQuery('menu.insertMenuItem', $item_args);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+				$moduleInfo->menu_srl = $menuSrl;
+			}
+	
+			$output = executeQuery('module.updateModule', $moduleInfo);
+			
+			$oCacheHandler = CacheHandler::getInstance('object', null, true);
+			if($oCacheHandler->isSupport())
+			{
+				$oCacheHandler->invalidateGroupKey('site_and_module');
+			}
+			return $output;
+		}
+	
+		$oMenuAdminController = getAdminController('menu');
+		$oMenuAdminController->makeXmlFile($menuSrl);
+	
+		return new Object();
+	}
+	
+	
 
 	/**
 	 * Change the menu title
