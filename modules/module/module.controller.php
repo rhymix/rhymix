@@ -418,16 +418,15 @@ class moduleController extends module
 		{
 			$menuArgs = new stdClass;
 			$menuArgs->menu_srl = $args->menu_srl;
-			$menuOutput = executeQuery('menu.getMenu', $menuArgs); 
+			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
 
 			// if menu is not created, create menu also. and does not supported that in virtual site.
 			if(!$menuOutput->data && !$args->site_srl)
 			{
-				debugPrint($args->menu_srl);
 				$oMenuAdminModel = getAdminModel('menu');
-				
+
 				$oMenuAdminController = getAdminController('menu');
-				$menuSrl = $oMenuAdminController->getUnlinkedMenu();				
+				$menuSrl = $oMenuAdminController->getUnlinkedMenu();
 
 				$menuArgs->menu_srl = $menuSrl;
 				$menuArgs->menu_item_srl = getNextSequence();
