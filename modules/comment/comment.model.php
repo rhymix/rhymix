@@ -326,6 +326,9 @@ class commentModel extends comment
 	 */
 	function getDistinctModules()
 	{
+		return array();
+
+		/*
 		$output = executeQueryArray('comment.getDistinctModules');
 		$module_srls = $output->data;
 		$oModuleModel = getModel('module');
@@ -339,6 +342,7 @@ class commentModel extends comment
 			}
 		}
 		return $result;
+		*/
 	}
 
 	/**
