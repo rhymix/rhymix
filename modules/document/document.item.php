@@ -58,7 +58,8 @@ class documentItem extends Object
 		$this->document_srl = $document_srl;
 		$this->columnList = $columnList;
 
-		$this->_loadFromDB($load_extra_vars);
+		$oDocumentModel = getModel('document');
+		if($load_extra_vars === true) $oDocumentModel->getDocumentExtraVarsFromDB($document_srl);
 	}
 
 	function setDocument($document_srl, $load_extra_vars = true)
@@ -76,13 +77,15 @@ class documentItem extends Object
 	{
 		if(!$this->document_srl) return;
 
+		$document_item = false;
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'document_item:' . $this->document_srl;
 			$document_item = $oCacheHandler->get($cache_key);
-			if($document_item)
+
+			if($document_item !== false)
 			{
 				$document_item = (object)$document_item->getVariables();
 				$this->columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
@@ -97,9 +100,10 @@ class documentItem extends Object
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocument', $args, $this->columnList);
 
-		if(!$document_item)
+		if($document_item === false)
 		{
-			$document_item = $output->data;
+			if(!is_object($output->data)) $document_item = new stdClass;
+			else $document_item = $output->data;
 		}
 		else
 		{
@@ -139,13 +143,13 @@ class documentItem extends Object
 		}
 
 		$oDocumentModel = getModel('document');
-		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
 		if($load_extra_vars)
 		{
-			$oDocumentModel->setToAllDocumentExtraVars();
-			$this->add('title', $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl]->get('title'));
-			$this->add('content', $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl]->get('content'));
+			$oDocumentModel->getDocumentExtraVarsFromDB($this->document_srl);
+			$this->add('title', $this->get('title'));
+			$this->add('content', $this->get('content'));
 		}
+		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
 	}
 
 	function isExists()

@@ -442,6 +442,7 @@ class commentModel extends comment
 		}
 
 		// cache controll
+		$output = false;
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
@@ -450,7 +451,7 @@ class commentModel extends comment
 			$output = $oCacheHandler->get($cache_key);
 		}
 
-		if(!$output)
+		if($output === FALSE)
 		{
 			// get the number of comments on the document module
 			$oDocumentModel = getModel('document');

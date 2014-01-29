@@ -10,6 +10,8 @@
  */
 class CacheWincache extends CacheBase
 {
+	public static $isSupport = false;
+
 	/**
 	 * Get instance of CacheWincache
 	 *
@@ -32,7 +34,6 @@ class CacheWincache extends CacheBase
 	 */
 	function CacheWincache()
 	{
-
 	}
 
 	/**
@@ -42,7 +43,7 @@ class CacheWincache extends CacheBase
 	 */
 	function isSupport()
 	{
-		return function_exists('wincache_ucache_set');
+		return self::$isSupport;
 	}
 
 	/**
@@ -150,7 +151,8 @@ class CacheWincache extends CacheBase
 	{
 		return wincache_ucache_clear();
 	}
-
 }
+
+CacheWincache::$isSupport = function_exists('wincache_ucache_set');
 /* End of file CacheWincache.class.php */
 /* Location: ./classes/cache/CacheWincache.class.php */

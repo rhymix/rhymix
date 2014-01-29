@@ -56,10 +56,11 @@ class CacheMemcache extends CacheBase
 	 */
 	function isSupport()
 	{
-		if($GLOBALS['XE_MEMCACHE_SUPPORT'])
+		if(isset($GLOBALS['XE_MEMCACHE_SUPPORT']))
 		{
 			return true;
 		}
+
 		if($this->Memcache->set('xe', 'xe', MEMCACHE_COMPRESSED, 1))
 		{
 			$GLOBALS['XE_MEMCACHE_SUPPORT'] = true;
@@ -68,6 +69,7 @@ class CacheMemcache extends CacheBase
 		{
 			$GLOBALS['XE_MEMCACHE_SUPPORT'] = false;
 		}
+
 		return $GLOBALS['XE_MEMCACHE_SUPPORT'];
 	}
 

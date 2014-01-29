@@ -8,6 +8,8 @@
  * */
 class CacheApc extends CacheBase
 {
+	public static $isSupport = false;
+
 	/**
 	 * Get instance of CacheApc
 	 *
@@ -30,7 +32,6 @@ class CacheApc extends CacheBase
 	 */
 	function CacheApc()
 	{
-
 	}
 
 	/**
@@ -40,7 +41,7 @@ class CacheApc extends CacheBase
 	 */
 	function isSupport()
 	{
-		return function_exists('apc_add');
+		return self::$isSupport;
 	}
 
 	/**
@@ -148,6 +149,10 @@ class CacheApc extends CacheBase
 		return apc_clear_cache('user');
 	}
 
+
 }
+
+CacheApc::$isSupport  = function_exists('apc_add');
+
 /* End of file CacheApc.class.php */
 /* Location: ./classes/cache/CacheApc.class.php */

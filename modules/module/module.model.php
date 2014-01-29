@@ -118,6 +118,7 @@ class moduleModel extends module
 		// If domain is set, look for subsite
 		if($domain !== '')
 		{
+			$site_info = false;
 			if($oCacheHandler->isSupport())
 			{
 				$object_key = 'site_info:' . md5($domain);
@@ -125,12 +126,13 @@ class moduleModel extends module
 				$site_info = $oCacheHandler->get($domain_cache_key);
 			}
 
-			if(!$site_info)
+			if($site_info === false)
 			{
 				$args = new stdClass();
 				$args->domain = $domain;
 				$output = executeQuery('module.getSiteInfoByDomain', $args);
 				$site_info = $output->data;
+
 				if($oCacheHandler->isSupport()) $oCacheHandler->put($domain_cache_key, $site_info);
 			}
 
@@ -145,14 +147,15 @@ class moduleModel extends module
 		// If no virtual website was found, get default website
 		if($domain === '')
 		{
+			$site_info = false;
 			if($oCacheHandler->isSupport())
 			{
 				$object_key = 'default_site';
 				$default_site_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$module_info = $oCacheHandler->get($default_site_cache_key);
+				$site_info = $oCacheHandler->get($default_site_cache_key);
 			}
 
-			if(!$site_info)
+			if($site_info === false)
 			{
 				$args = new stdClass();
 				$args->site_srl = 0;
@@ -212,6 +215,10 @@ class moduleModel extends module
 		$args = new stdClass();
 		$args->mid = $mid;
 		$args->site_srl = (int)$site_srl;
+
+		$module_srl = false;
+		$module_info = false;
+
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
@@ -226,7 +233,7 @@ class moduleModel extends module
 			}
 		}
 
-		if(!$module_info && !is_array($module_info))
+		if($module_info === false)
 		{
 			$output = executeQuery('module.getMidInfo', $args);
 			$module_info = $output->data;
@@ -310,6 +317,9 @@ class moduleModel extends module
 		$moduleInfo->designSettings->skin->mobileIsDefault = $moduleInfo->is_mskin_fix == 'N' ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
+		$module_srl = false;
+		$mid_info = false;
+
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
@@ -320,10 +330,10 @@ class moduleModel extends module
 			{
 				$object_key = 'mid_info:' . $module_srl;
 				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$coutput = $oCacheHandler->get($module_info_cache_key);
+				$mid_info = $oCacheHandler->get($module_info_cache_key);
 			}
 
-			if(!$coutput)
+			if($mid_info === false)
 			{
 				$oCacheHandler->put($module_srl_cache_key, $output->data->module_srl);
 
@@ -333,8 +343,8 @@ class moduleModel extends module
 			}
 			else
 			{
-				$coutput->designSettings = $moduleInfo->designSettings;
-				$moduleInfo = $coutput;
+				$mid_info->designSettings = $moduleInfo->designSettings;
+				$moduleInfo = $mid_info;
 			}
 		}
 
@@ -356,9 +366,8 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
-		// Get data
-		$args = new stdClass();
-		$args->module_srl = $module_srl;
+		$mid_info = false;
+
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
@@ -367,8 +376,11 @@ class moduleModel extends module
 			$mid_info = $oCacheHandler->get($cache_key);
 		}
 
-		if(!$mid_info && !is_array($mid_info))
+		if($mid_info === false)
 		{
+			// Get data
+			$args = new stdClass();
+			$args->module_srl = $module_srl;
 			$output = executeQuery('module.getMidInfo', $args);
 			if(!$output->toBool()) return;
 
@@ -482,6 +494,7 @@ class moduleModel extends module
 	 */
 	function getMidList($args = null, $columnList = array())
 	{
+		$list = false;
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
@@ -493,7 +506,7 @@ class moduleModel extends module
 			}
 		}
 
-		if(!$list)
+		if($list === false)
 		{
 			if($oCacheHandler->isSupport() && count($args) === 1 && isset($args->site_srl))
 			{
@@ -517,6 +530,7 @@ class moduleModel extends module
 		{
 			$mid_list[$val->mid] = $val;
 		}
+
 		return $mid_list;
 	}
 
@@ -567,6 +581,7 @@ class moduleModel extends module
 	 */
 	function getActionForward($act)
 	{
+		$action_forward = false;
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
@@ -576,7 +591,7 @@ class moduleModel extends module
 		}
 
 		// retrieve and caching all registered action_forward
-		if(!$action_forward)
+		if($action_forward === false)
 		{
 			$args = new stdClass();
 			$output = executeQueryArray('module.getActionForward',$args);
@@ -589,20 +604,19 @@ class moduleModel extends module
 				$action_forward[$item->act] = $item;
 			}
 
-			
 			if($oCacheHandler->isSupport())
 			{
 				$oCacheHandler->put($cache_key, $action_forward);
 			}
 		}
-		
+
 		if($action_forward[$act])
 		{
 			return $action_forward[$act];
 		}
 		else
 		{
-			return new stdClass();  
+			return new stdClass();
 		}
 	}
 
@@ -611,6 +625,7 @@ class moduleModel extends module
 	 */
 	function getTriggers($trigger_name, $called_position)
 	{
+		$triggers = false;
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
@@ -620,7 +635,7 @@ class moduleModel extends module
 			$triggers = $oCacheHandler->get($cache_key);
 		}
 
-		if(!$triggers && !is_array($triggers))
+		if($triggers === false)
 		{
 			$args = new stdClass();
 			$args->trigger_name = $trigger_name;
@@ -1336,6 +1351,7 @@ class moduleModel extends module
 	 */
 	function getModuleConfig($module, $site_srl = 0)
 	{
+		$config = false;
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
@@ -1344,15 +1360,17 @@ class moduleModel extends module
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$config = $oCacheHandler->get($cache_key);
 		}
-		if(!$config)
+
+		if($config === false)
 		{
-			if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module])
+			if(!isset($GLOBALS['__ModuleConfig__'][$site_srl][$module]))
 			{
 				$args = new stdClass();
 				$args->module = $module;
 				$args->site_srl = $site_srl;
 				$output = executeQuery('module.getModuleConfig', $args);
 				$config = unserialize($output->data->config);
+				if(!$config) $config = new stdClass;
 
 				//insert in cache
 				if($oCacheHandler->isSupport())
@@ -1373,6 +1391,7 @@ class moduleModel extends module
 	 */
 	function getModulePartConfig($module, $module_srl)
 	{
+		$config = false;
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
@@ -1381,15 +1400,17 @@ class moduleModel extends module
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$config = $oCacheHandler->get($cache_key);
 		}
-		if(!$config)
+
+		if($config === false)
 		{
-			if(!$GLOBALS['__ModulePartConfig__'][$module][$module_srl])
+			if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
 			{
 				$args = new stdClass();
 				$args->module = $module;
 				$args->module_srl = $module_srl;
 				$output = executeQuery('module.getModulePartConfig', $args);
 				$config = unserialize($output->data->config);
+				if(!$config) $config = new stdClass;
 
 				//insert in cache
 				if($oCacheHandler->isSupport())
@@ -1690,6 +1711,7 @@ class moduleModel extends module
 		$get_module_srls = array();
 		if(!is_array($list_module_srl)) $list_module_srl = array($list_module_srl);
 
+		$vars = false;
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
@@ -1715,7 +1737,7 @@ class moduleModel extends module
 			$get_module_srls = $list_module_srl;
 		}
 
-		if(count($get_module_srls))
+		if($vars === false || count($get_module_srls) > 0)
 		{
 			$args = new stdClass();
 			$args->module_srl = implode(',', $get_module_srls);
@@ -1760,6 +1782,7 @@ class moduleModel extends module
 	 */
 	function getModuleSkinVars($module_srl)
 	{
+		$skin_vars = false;
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
@@ -1768,7 +1791,7 @@ class moduleModel extends module
 			$skin_vars = $oCacheHandler->get($cache_key);
 		}
 
-		if(!$skin_vars)
+		if($skin_vars === false)
 		{
 			$args = new stdClass();
 			$args->module_srl = $module_srl;
@@ -1874,6 +1897,7 @@ class moduleModel extends module
 	 */
 	function getModuleMobileSkinVars($module_srl)
 	{
+		$skin_vars = false;
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
@@ -1882,7 +1906,7 @@ class moduleModel extends module
 			$skin_vars = $oCacheHandler->get($cache_key);
 		}
 
-		if(!$skin_vars)
+		if($skin_vars === false)
 		{
 			$args = new stdClass();
 			$args->module_srl = $module_srl;
@@ -1908,6 +1932,7 @@ class moduleModel extends module
 	function syncMobileSkinInfoToModuleInfo(&$module_info)
 	{
 		if(!$module_info->module_srl) return;
+		$skin_vars = false;
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
@@ -1916,7 +1941,7 @@ class moduleModel extends module
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$skin_vars = $oCacheHandler->get($cache_key);
 		}
-		if(!$skin_vars)
+		if($skin_vars === false)
 		{
 			$args = new stdClass;
 			$args->module_srl = $module_info->module_srl;

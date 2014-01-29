@@ -361,8 +361,9 @@ class documentModel extends document
 	 */
 	function getExtraKeys($module_srl)
 	{
-		if(is_null($GLOBALS['XE_EXTRA_KEYS'][$module_srl]))
+		if($GLOBALS['XE_EXTRA_KEYS'][$module_srl] === NULL)
 		{
+			$keys = false;
 			$oCacheHandler = CacheHandler::getInstance('object', null, true);
 			if($oCacheHandler->isSupport())
 			{
@@ -371,8 +372,9 @@ class documentModel extends document
 				$keys = $oCacheHandler->get($cache_key);
 			}
 
-			$oExtraVar = &ExtraVar::getInstance($module_srl);
-			if(!$keys)
+			$oExtraVar = ExtraVar::getInstance($module_srl);
+
+			if($keys === false)
 			{
 				$obj = new stdClass();
 				$obj->module_srl = $module_srl;
