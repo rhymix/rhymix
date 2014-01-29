@@ -58,8 +58,7 @@ class documentItem extends Object
 		$this->document_srl = $document_srl;
 		$this->columnList = $columnList;
 
-		$oDocumentModel = getModel('document');
-		if($load_extra_vars === true) $oDocumentModel->getDocumentExtraVarsFromDB($document_srl);
+		$this->_loadFromDB($load_extra_vars);
 	}
 
 	function setDocument($document_srl, $load_extra_vars = true)
