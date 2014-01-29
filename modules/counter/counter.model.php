@@ -85,13 +85,13 @@ class counterModel extends counter
 			}
 
 			$insertedTodayStatus = !!$output->data->count;
-		}
 
-		if($insertedTodayStatus && $oCacheHandler->isSupport())
-		{
-			$oCacheHandler->put($cache_key, TRUE);
-			$_old_date = date('Ymd', strtotime('-1 day'));
-			$oCacheHandler->delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
+			if($insertedTodayStatus && $oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, TRUE);
+				$_old_date = date('Ymd', strtotime('-1 day'));
+				$oCacheHandler->delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
+			}
 		}
 
 		return $insertedTodayStatus;
