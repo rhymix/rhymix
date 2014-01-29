@@ -207,7 +207,7 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array())
 	{
-		if(!$mid)
+		if(!$mid || ($mid && !preg_match("/^[a-z][a-z0-9_]+$/i", $mid)))
 		{
 			return;
 		}
@@ -1369,7 +1369,8 @@ class moduleModel extends module
 				$args->module = $module;
 				$args->site_srl = $site_srl;
 				$output = executeQuery('module.getModuleConfig', $args);
-				$config = unserialize($output->data->config);
+				if($output->data->config) $config = unserialize($output->data->config);
+				else $config = new stdClass;
 
 				//insert in cache
 				if($oCacheHandler->isSupport())
