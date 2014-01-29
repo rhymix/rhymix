@@ -155,10 +155,10 @@ class ModuleHandler extends Handler
 			{
 				// If it exists, compare mid based on the module information
 				// if mids are not matching, set it as the document's mid
-				if(!$this->mid || ($this->mid && $this->mid != $module_info->mid) || ($this->module_srl && $this->module_srl != $module_info->module_srl))
+				if(!$this->mid || ($this->mid && $this->mid != $module_info->mid))
 				{
 					$this->mid = $module_info->mid;
-					header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl, 'module_srl',''));
+					header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
 					return FALSE;
 				}
 				
