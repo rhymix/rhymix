@@ -1408,7 +1408,8 @@ class moduleModel extends module
 				$args->module = $module;
 				$args->module_srl = $module_srl;
 				$output = executeQuery('module.getModulePartConfig', $args);
-				$config = unserialize($output->data->config);
+				if($output->data->config) $config = unserialize($output->data->config);
+				else $config = new stdClass;
 
 				//insert in cache
 				if($oCacheHandler->isSupport())
@@ -1735,7 +1736,7 @@ class moduleModel extends module
 			$get_module_srls = $list_module_srl;
 		}
 
-		if($vars === false || count($get_module_srls) > 0)
+		if(count($get_module_srls) > 0)
 		{
 			$args = new stdClass();
 			$args->module_srl = implode(',', $get_module_srls);
