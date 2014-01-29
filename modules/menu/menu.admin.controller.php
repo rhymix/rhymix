@@ -120,32 +120,7 @@ class menuAdminController extends menu
 			$unlinked_menu_srl = $this->getUnlinkedMenu();
 			$output = $this->updateLinkModule($unlinked_modules, $unlinked_menu_srl);
 		}
-		
 
-/*		// for 1.7.4 update, 기존에 생성된 Temporary menu 항목 정리
-		$oMenuAdminModel = getAdminModel('menu');
-		$args = new stdClass();
-		$args->title = array("Temporary menu");
-		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
-		
-		$args = new stdClass();
-		if($temp_menus->toBool())
-		{
-			foreach($temp_menus->data as $menu)
-			{
-				$args->current_menu_srl = $menu->menu_srl;
-				$args->menu_srl = $moduleConfig->unlinked_menu_srl;
-				$output3 = executeQuery('menu.updateMenuItems', $args);
-					
-				if($output3->toBool())
-				{
-					// delete
-					$oMenuAdminController = getAdminController('menu');
-					$oMenuAdminController->deleteMenu($menu->menu_srl);
-				}
-			}
-		}
-*/
 	}
 	
 	function getUnlinkedMenu()
@@ -231,14 +206,15 @@ class menuAdminController extends menu
 	
 			$output = executeQuery('module.updateModule', $moduleInfo);
 			
-			$oCacheHandler = CacheHandler::getInstance('object', null, true);
-			if($oCacheHandler->isSupport())
-			{
-				$oCacheHandler->invalidateGroupKey('site_and_module');
-			}
 			return $output;
 		}
-	
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+		
 		$oMenuAdminController = getAdminController('menu');
 		$oMenuAdminController->makeXmlFile($menuSrl);
 	
