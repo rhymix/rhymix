@@ -77,6 +77,7 @@ class documentItem extends Object
 		if(!$this->document_srl) return;
 
 		$document_item = false;
+		$cache_put = false;
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
@@ -101,6 +102,7 @@ class documentItem extends Object
 
 		if($document_item === false)
 		{
+			$cache_put = true;
 			if(!is_object($output->data)) $document_item = new stdClass;
 			else $document_item = $output->data;
 		}
@@ -116,7 +118,7 @@ class documentItem extends Object
 		$this->setAttribute($document_item, $load_extra_vars);
 
 		//insert in cache
-		if($this->document_srl && $oCacheHandler->isSupport())
+		if($cache_put && $oCacheHandler->isSupport())
 		{
 			$oCacheHandler->put($cache_key, $this);
 		}
