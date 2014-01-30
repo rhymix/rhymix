@@ -718,6 +718,7 @@ class editorModel extends editor
 			$buff .= sprintf('$xml_info->homepage = "%s";', $component_info->homepage);
 			$buff .= sprintf('$xml_info->license = "%s";', $component_info->license);
 			$buff .= sprintf('$xml_info->license_link = "%s";', $component_info->license_link);
+			$buff .= '$xml_info->author = array();';
 			// Author information
 			if(!is_array($xml_doc->component->author)) $author_list[] = $xml_doc->component->author;
 			else $author_list = $xml_doc->component->author;
@@ -751,6 +752,8 @@ class editorModel extends editor
 			$buff .= sprintf('$xml_info->description = "%s";', $xml_info->description);
 			$buff .= sprintf('$xml_info->version = "%s";', $xml_info->version);
 			$buff .= sprintf('$xml_info->date = "%s";', $xml_info->date);
+			$buff .= '$xml_info->author = array()';
+			$buff .= '$xml_info->author[0] = new stdClass();';
 			$buff .= sprintf('$xml_info->author[0]->name = "%s";', $xml_info->author->name);
 			$buff .= sprintf('$xml_info->author[0]->email_address = "%s";', $xml_info->author->email_address);
 			$buff .= sprintf('$xml_info->author[0]->homepage = "%s";', $xml_info->author->homepage);
@@ -760,14 +763,15 @@ class editorModel extends editor
 		if($extra_vars)
 		{
 			if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
+
+			$buff .= '$xml_info->extra_vars = new stdClass();';
+
 			foreach($extra_vars as $key => $val)
 			{
 				unset($obj);
 				$key = $val->attrs->name;
 				$title = $val->title->body;
 				$description = $val->description->body;
-				$xml_info->extra_vars->{$key}->title = $title;
-				$xml_info->extra_vars->{$key}->description = $description;
 
 				$buff .= sprintf('$xml_info->extra_vars->%s = new stdClass();', $key);
 				$buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'title', $title);
