@@ -78,33 +78,34 @@ class documentItem extends Object
 
 		$document_item = false;
 		$cache_put = false;
+		$columnList = array();
+		$this->columnList = array();
+
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'document_item:' . $this->document_srl;
+			$cache_key = 'document_item:' . getNumberingPath($this->document_srl) . $this->document_srl;
 			$document_item = $oCacheHandler->get($cache_key);
-
 			if($document_item !== false)
 			{
-				$document_item = (object)$document_item->getVariables();
-				$this->columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
-			}
-			else
-			{
-				$this->columnList = array();
+				$columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
 			}
 		}
 
 		$args = new stdClass();
 		$args->document_srl = $this->document_srl;
-		$output = executeQuery('document.getDocument', $args, $this->columnList);
+		$output = executeQuery('document.getDocument', $args, $columnList);
 
 		if($document_item === false)
 		{
-			$cache_put = true;
-			if(!is_object($output->data)) $document_item = new stdClass;
-			else $document_item = $output->data;
+			$document_item = $output->data;
+
+				//insert in cache
+			if($document_item && $oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, $document_item);
+			}
 		}
 		else
 		{
@@ -116,12 +117,6 @@ class documentItem extends Object
 		}
 
 		$this->setAttribute($document_item, $load_extra_vars);
-
-		//insert in cache
-		if($cache_put && $oCacheHandler->isSupport())
-		{
-			$oCacheHandler->put($cache_key, $this);
-		}
 	}
 
 	function setAttribute($attribute, $load_extra_vars=true)

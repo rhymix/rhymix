@@ -136,12 +136,11 @@ class documentModel extends document
 	{
 		if(!$document_srl) return new documentItem();
 
-		if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) || $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->columnListKey != serialize($columnList))
+		if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl])
 		{
 			$oDocument = new documentItem($document_srl, $load_extra_vars, $columnList);
 			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
 			if($load_extra_vars) $this->setToAllDocumentExtraVars();
-			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->columnListKey = serialize($columnList);
 		}
 		if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 

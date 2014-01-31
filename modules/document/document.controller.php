@@ -555,7 +555,7 @@ class documentController extends document
 		if($oCacheHandler->isSupport())
 		{
 			//remove document item from cache
-			$cache_key = 'document_item:'.$obj->document_srl;
+			$cache_key = 'document_item:'. getNumberingPath($obj->document_srl) . $obj->document_srl;
 			$oCacheHandler->delete($cache_key);
 		}
 
@@ -646,7 +646,7 @@ class documentController extends document
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'document_item:'.$document_srl;
+			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
 			$oCacheHandler->delete($cache_key);
 		}
 
