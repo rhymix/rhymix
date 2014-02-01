@@ -681,111 +681,93 @@ class editorModel extends editor
 	function getComponentXmlInfo($component)
 	{
 		$lang_type = Context::getLangType();
+
 		// Get xml file path of the requested components
 		$component_path = sprintf('%s/components/%s/', $this->module_path, $component);
 
 		$xml_file = sprintf('%sinfo.xml', $component_path);
 		$cache_file = sprintf('./files/cache/editor/%s.%s.php', $component, $lang_type);
+
 		// Include and return xml file information if cached file exists
 		if(file_exists($cache_file) && file_exists($xml_file) && filemtime($cache_file) > filemtime($xml_file))
 		{
 			include($cache_file);
+
 			return $xml_info;
 		}
-		// Parse, cache and then return if the cached file doesn't exist
+
 		$oParser = new XmlParser();
 		$xml_doc = $oParser->loadXmlFile($xml_file);
+
 		// Component information listed
-		if($xml_doc->component->version && $xml_doc->component->attrs->version == '0.2')
+		$component_info = new stdClass;
+		$component_info->author = array();
+		$component_info->extra_vars = new stdClass;
+		$component_info->component_name = $component;
+		$component_info->title = $xml_doc->component->title->body;
+
+		if($xml_doc->component->version)
 		{
-			$component_info = new stdClass();
-			$component_info->component_name = $component;
-			$component_info->title = $xml_doc->component->title->body;
 			$component_info->description = str_replace('\n', "\n", $xml_doc->component->description->body);
 			$component_info->version = $xml_doc->component->version->body;
 			$component_info->date = $xml_doc->component->date->body;
 			$component_info->homepage = $xml_doc->component->link->body;
 			$component_info->license = $xml_doc->component->license->body;
 			$component_info->license_link = $xml_doc->component->license->attrs->link;
-
-			$buff = '<?php if(!defined("__XE__")) exit(); ';
-			$buff .= '$xml_info = new stdClass();';
-			$buff .= sprintf('$xml_info->component_name = "%s";', $component_info->component_name);
-			$buff .= sprintf('$xml_info->title = "%s";', $component_info->title);
-			$buff .= sprintf('$xml_info->description = "%s";', $component_info->description);
-			$buff .= sprintf('$xml_info->version = "%s";', $component_info->version);
-			$buff .= sprintf('$xml_info->date = "%s";', $component_info->date);
-			$buff .= sprintf('$xml_info->homepage = "%s";', $component_info->homepage);
-			$buff .= sprintf('$xml_info->license = "%s";', $component_info->license);
-			$buff .= sprintf('$xml_info->license_link = "%s";', $component_info->license_link);
-			$buff .= '$xml_info->author = array();';
-			// Author information
-			if(!is_array($xml_doc->component->author)) $author_list[] = $xml_doc->component->author;
-			else $author_list = $xml_doc->component->author;
-
-			for($i=0; $i < count($author_list); $i++)
-			{
-				$buff .= '$xml_info->author[' . $i .']= new stdClass();';
-				$buff .= sprintf('$xml_info->author['.$i.']->name = "%s";', $author_list[$i]->name->body);
-				$buff .= sprintf('$xml_info->author['.$i.']->email_address = "%s";', $author_list[$i]->attrs->email_address);
-				$buff .= sprintf('$xml_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
-			}
 		}
 		else
 		{
 			sscanf($xml_doc->component->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$xml_info = new stdClass();
-			$xml_info->component_name = $component;
-			$xml_info->title = $xml_doc->component->title->body;
-			$xml_info->description = str_replace('\n', "\n", $xml_doc->component->author->description->body);
-			$xml_info->version = $xml_doc->component->attrs->version;
-			$xml_info->date = $date;
-			$xml_info->author->name = $xml_doc->component->author->name->body;
-			$xml_info->author->email_address = $xml_doc->component->author->attrs->email_address;
-			$xml_info->author->homepage = $xml_doc->component->author->attrs->link;
 
-			$buff = '<?php if(!defined("__XE__")) exit(); ';
-			$buff .= '$xml_info = new stdClass();';
-			$buff .= sprintf('$xml_info->component_name = "%s";', $xml_info->component_name);
-			$buff .= sprintf('$xml_info->title = "%s";', $xml_info->title);
-			$buff .= sprintf('$xml_info->description = "%s";', $xml_info->description);
-			$buff .= sprintf('$xml_info->version = "%s";', $xml_info->version);
-			$buff .= sprintf('$xml_info->date = "%s";', $xml_info->date);
-			$buff .= '$xml_info->author = array()';
-			$buff .= '$xml_info->author[0] = new stdClass();';
-			$buff .= sprintf('$xml_info->author[0]->name = "%s";', $xml_info->author->name);
-			$buff .= sprintf('$xml_info->author[0]->email_address = "%s";', $xml_info->author->email_address);
-			$buff .= sprintf('$xml_info->author[0]->homepage = "%s";', $xml_info->author->homepage);
+			$component_info->description = str_replace('\n', "\n", $xml_doc->component->author->description->body);
+			$component_info->version = $xml_doc->component->attrs->version;
+			$component_info->date = $date;
+
+			$component_info->author = array();
+			$component_info->author[0]->name = $xml_doc->component->author->name->body;
+			$component_info->author[0]->email_address = $xml_doc->component->author->attrs->email_address;
+			$component_info->author[0]->homepage = $xml_doc->component->author->attrs->link;
 		}
+
+		// Author information
+		$author_list = array();
+		if(!is_array($xml_doc->component->author)) $author_list[] = $xml_doc->component->author;
+		else $author_list = $xml_doc->component->author;
+
+		for($i = 0; $i < count($author_list); $i++)
+		{
+			$author = new stdClass;
+			$author->name = $author_list[$i]->name->body;
+			$author->email_address = $author_list[$i]->attrs->email_address;
+			$author->homepage = $author_list[$i]->attrs->link;
+			$component_info->author[] = $author;
+		}
+
 		// List extra variables (text type only for editor component)
 		$extra_vars = $xml_doc->component->extra_vars->var;
 		if($extra_vars)
 		{
 			if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
 
-			$buff .= '$xml_info->extra_vars = new stdClass();';
-
 			foreach($extra_vars as $key => $val)
 			{
-				unset($obj);
 				$key = $val->attrs->name;
-				$title = $val->title->body;
-				$description = $val->description->body;
-
-				$buff .= sprintf('$xml_info->extra_vars->%s = new stdClass();', $key);
-				$buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'title', $title);
-				$buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'description', $description);
+				$extra_var = new stdClass;
+				$extra_var->title = $val->title->body;
+				$extra_var->description = $val->description->body;
+				$component_info->extra_vars->{$key} = $extra_var;
 			}
 		}
 
-		$buff .= ' ?>';
+		$buff = array();
+		$buff[] = '<?php if(!defined(\'__XE__\')) exit();';
+		$buff[] = '$xml_info = ' . var_export($component_info, TRUE) . ';';
+		$buff = str_replace('stdClass::__set_state', '(object)', implode(PHP_EOL, $buff));
 
-		FileHandler::writeFile($cache_file, $buff, "w");
+		FileHandler::writeFile($cache_file, $buff, 'w');
 
-		unset($xml_info);
-		include($cache_file);
-		return $xml_info;
+		return $component_info;
 	}
 }
 /* End of file editor.model.php */
