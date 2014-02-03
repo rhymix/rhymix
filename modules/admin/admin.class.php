@@ -91,8 +91,8 @@ class admin extends ModuleObject
 
 			if(!$output->menu_srl)
 			{
-				$oAdminClass = getClass('admin');
-				$oAdminClass->createXeAdminMenu();
+				$this->createXeAdminMenu();
+				$output = $oMenuAdminModel->getMenuByTitle($this->adminMenuName);
 			}
 			else
 			{
@@ -123,10 +123,9 @@ class admin extends ModuleObject
 		//insert menu
 		$args = new stdClass();
 		$args->title = $this->adminMenuName;
-		$args->menu_srl = getNextSequence();
+		$menuSrl = $args->menu_srl = getNextSequence();
 		$args->listorder = $args->menu_srl * -1;
 		$output = executeQuery('menu.insertMenu', $args);
-		$menuSrl = $args->menu_srl;
 		Context::set('admin_menu_srl', $menuSrl);
 		unset($args);
 
