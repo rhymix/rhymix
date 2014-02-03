@@ -61,6 +61,7 @@ class installAdminController extends install
 			{
 				$admin_ip_list = '';
 			}
+			$admin_ip_list .= ',127.0.0.1,' . $_SERVER['REMOTE_ADDR'];
 			$admin_ip_list = explode(',',trim($admin_ip_list, ','));
 			$admin_ip_list = array_unique($admin_ip_list);
 			if(!IpFilter::validate($admin_ip_list)) {
