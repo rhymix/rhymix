@@ -413,8 +413,11 @@ class adminAdminView extends admin
 		Context::set('langs', Context::loadLangSupported());
 
 		// site lock
+		Context::set('IP', $_SERVER['REMOTE_ADDR']);
 		if(!$db_info->sitelock_title) $db_info->sitelock_title = 'Maintenance in progress...';
 		if(!in_array('127.0.0.1', $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = '127.0.0.1';
+		if(!in_array($_SERVER['REMOTE_ADDR'], $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = $_SERVER['REMOTE_ADDR'];
+		$db_info->sitelock_whitelist = array_unique($db_info->sitelock_whitelist);
 		Context::set('remote_addr', $_SERVER['REMOTE_ADDR']);
 		Context::set('use_sitelock', $db_info->use_sitelock);
 		Context::set('sitelock_title', $db_info->sitelock_title);
@@ -439,7 +442,6 @@ class adminAdminView extends admin
 		$config = $oDocumentModel->getDocumentConfig();
 		Context::set('thumbnail_type', $config->thumbnail_type);
 
-		Context::set('IP', $_SERVER['REMOTE_ADDR']);
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
