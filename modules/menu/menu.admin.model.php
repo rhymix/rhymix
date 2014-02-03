@@ -348,8 +348,7 @@ class menuAdminModel extends menu
 
 		foreach($_allModules as $module_name)
 		{
-			$module = new stdClass;
-			//$moduleInfo = $oModuleModel->getModuleInfoXml($module->module);
+			$module = $oModuleModel->getModuleInfoXml($module_name);
 			$defaultSkin = $oModuleModel->getModuleDefaultSkin($module_name, 'P');
 			$defaultMobileSkin = $oModuleModel->getModuleDefaultSkin($module_name, 'M');
 			$skinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($module_name), $defaultSkin);
