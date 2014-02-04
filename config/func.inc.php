@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * function library files for convenience
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 if(!defined('__XE__'))
 {
@@ -19,22 +20,6 @@ if(!function_exists('iconv'))
 			return $str;
 		}
 	');
-}
-
-if(!function_exists('htmlspecialchars_decode'))
-{
-
-	/**
-	 * Decode html special characters
-	 *
-	 * @param string $text
-	 * @return string
-	 */
-	function htmlspecialchars_decode($text)
-	{
-		return strtr($text, array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
-	}
-
 }
 
 /**
@@ -91,7 +76,7 @@ $time_zone = array(
  * @param string $kind admin, null
  * @return mixed Module instance
  */
-function &getModule($module_name, $type = 'view', $kind = '')
+function getModule($module_name, $type = 'view', $kind = '')
 {
 	return ModuleHandler::getModuleInstance($module_name, $type, $kind);
 }
@@ -102,7 +87,7 @@ function &getModule($module_name, $type = 'view', $kind = '')
  * @param string $module_name The module name to get a controller instance
  * @return mixed Module controller instance
  */
-function &getController($module_name)
+function getController($module_name)
 {
 	return getModule($module_name, 'controller');
 }
@@ -113,7 +98,7 @@ function &getController($module_name)
  * @param string $module_name The module name to get a admin controller instance
  * @return mixed Module admin controller instance
  */
-function &getAdminController($module_name)
+function getAdminController($module_name)
 {
 	return getModule($module_name, 'controller', 'admin');
 }
@@ -124,7 +109,7 @@ function &getAdminController($module_name)
  * @param string $module_name The module name to get a view instance
  * @return mixed Module view instance
  */
-function &getView($module_name)
+function getView($module_name)
 {
 	return getModule($module_name, 'view');
 }
@@ -146,7 +131,7 @@ function &getMobile($module_name)
  * @param string $module_name The module name to get a admin view instance
  * @return mixed Module admin view instance
  */
-function &getAdminView($module_name)
+function getAdminView($module_name)
 {
 	return getModule($module_name, 'view', 'admin');
 }
@@ -157,7 +142,7 @@ function &getAdminView($module_name)
  * @param string $module_name The module name to get a model instance
  * @return mixed Module model instance
  */
-function &getModel($module_name)
+function getModel($module_name)
 {
 	return getModule($module_name, 'model');
 }
@@ -168,7 +153,7 @@ function &getModel($module_name)
  * @param string $module_name The module name to get a admin model instance
  * @return mixed Module admin model instance
  */
-function &getAdminModel($module_name)
+function getAdminModel($module_name)
 {
 	return getModule($module_name, 'model', 'admin');
 }
@@ -179,7 +164,7 @@ function &getAdminModel($module_name)
  * @param string $module_name The module name to get a api instance
  * @return mixed Module api class instance
  */
-function &getAPI($module_name)
+function getAPI($module_name)
 {
 	return getModule($module_name, 'api');
 }
@@ -190,7 +175,7 @@ function &getAPI($module_name)
  * @param string $module_name The module name to get a wap instance
  * @return mixed Module wap class instance
  */
-function &getWAP($module_name)
+function getWAP($module_name)
 {
 	return getModule($module_name, 'wap');
 }
@@ -201,7 +186,7 @@ function &getWAP($module_name)
  * @param string $module_name The module name to get a class instance
  * @return mixed Module class instance
  */
-function &getClass($module_name)
+function getClass($module_name)
 {
 	return getModule($module_name, 'class');
 }
@@ -342,7 +327,7 @@ function getFullUrl()
 	}
 
 	$url = Context::getUrl($num_args, $args_list);
-	if(!preg_match('/^http/i', $url))
+	if(strncasecmp('http', $url, 4) !== 0)
 	{
 		preg_match('/^(http|https):\/\/([^\/]+)\//', $request_uri, $match);
 		return substr($match[0], 0, -1) . $url;
@@ -366,7 +351,7 @@ function getNotEncodedFullUrl()
 	}
 
 	$url = Context::getUrl($num_args, $args_list, NULL, FALSE);
-	if(!preg_match('/^http/i', $url))
+	if(strncasecmp('http', $url, 4) !== 0)
 	{
 		preg_match('/^(http|https):\/\/([^\/]+)\//', $request_uri, $match);
 		$url = Context::getUrl($num_args, $args_list, NULL, FALSE);
@@ -439,7 +424,7 @@ function getFullSiteUrl()
 	$num_args = count($args_list);
 
 	$url = Context::getUrl($num_args, $args_list, $domain);
-	if(!preg_match('/^http/i', $url))
+	if(strncasecmp('http', $url, 4) !== 0)
 	{
 		preg_match('/^(http|https):\/\/([^\/]+)\//', $request_uri, $match);
 		return substr($match[0], 0, -1) . $url;
@@ -455,7 +440,7 @@ function getFullSiteUrl()
  */
 function isSiteID($domain)
 {
-	return preg_match('/^([a-z0-9\_]+)$/i', $domain);
+	return preg_match('/^([a-zA-Z0-9\_]+)$/', $domain);
 }
 
 /**
@@ -597,7 +582,7 @@ function ztime($str)
  */
 function getTimeGap($date, $format = 'Y.m.d')
 {
-	$gap = time() + zgap() - ztime($date);
+	$gap = $_SERVER['REQUEST_TIME'] + zgap() - ztime($date);
 
 	$lang_time_gap = Context::getLang('time_gap');
 	if($gap < 60)
@@ -764,19 +749,24 @@ function getEncodeEmailAddress($email)
  */
 function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debug_message.php')
 {
+	static $debug_file;
+	static $debug_file_exist;
+
 	if(!(__DEBUG__ & 1))
 	{
 		return;
 	}
 
 	static $firephp;
-	$bt = debug_backtrace();
+	$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 	if(is_array($bt))
 	{
-		$first = array_shift($bt);
+		$bt_debug_print = array_shift($bt);
+		$bt_called_function = array_shift($bt);
 	}
-	$file_name = array_pop(explode(DIRECTORY_SEPARATOR, $first['file']));
-	$line_num = $first['line'];
+	$file_name = str_replace(_XE_PATH_, '', $bt_debug_print['file']);
+	$line_num = $bt_debug_print['line'];
+	$function = $bt_called_function['class'] . $bt_called_function['type'] . $bt_called_function['function'];
 
 	if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1)
 	{
@@ -784,18 +774,18 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 		{
 			$firephp = FirePHP::getInstance(TRUE);
 		}
-		if(function_exists("memory_get_usage"))
-		{
-			$label = sprintf('[%s:%d] (m:%s)', $file_name, $line_num, FileHandler::filesize(memory_get_usage()));
-		}
-		else
-		{
-			$label = sprintf('[%s:%d] ', $file_name, $line_num);
-		}
+		$type = FirePHP::INFO;
+
+		$label = sprintf('[%s:%d] %s() (m:%s)', $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()));
+
 		// Check a FirePHP option
 		if($display_option === 'TABLE')
 		{
 			$label = $display_option;
+		}
+		if($display_option === 'ERROR')
+		{
+			$type = $display_option;
 		}
 		// Check if the IP specified by __DEBUG_PROTECT__ option is same as the access IP.
 		if(__DEBUG_PROTECT__ === 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
@@ -804,7 +794,7 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 			$label = NULL;
 		}
 
-		$firephp->fb($debug_output, $label);
+		$firephp->fb($debug_output, $label, $type);
 	}
 	else
 	{
@@ -812,28 +802,34 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 		{
 			return;
 		}
-		$debug_file = _XE_PATH_ . 'files/' . $file;
-		if(function_exists("memory_get_usage"))
+
+		$print = array();
+		if($debug_file_exist === NULL) $print[] = '<?php exit() ?>';
+
+		if(!$debug_file) $debug_file =  _XE_PATH_ . 'files/' . $file;
+		if(!$debug_file_exist) $debug_file_exist = file_exists($debug_file);
+
+		if($display_option === TRUE || $display_option === 'ERROR')
 		{
-			$debug_output = sprintf("[%s %s:%d] - mem(%s)\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, FileHandler::filesize(memory_get_usage()), print_r($debug_output, TRUE));
+			$print[] = str_repeat('=', 80);
+		}
+
+		$print[] = sprintf("[%s %s:%d] %s() - mem(%s)", date('Y-m-d H:i:s'), $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()));
+
+		$type = gettype($debug_output);
+		if(!in_array($type, array('array', 'object', 'resource')))
+		{
+			if($display_option === 'ERROR') $print[] = 'ERROR : ' . var_export($debug_output, TRUE);
+			else $print[] = $type . '(' . var_export($debug_output, TRUE) . ')';
+			$print[] = PHP_EOL.PHP_EOL;
 		}
 		else
 		{
-			$debug_output = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($debug_output, TRUE));
+			$print[] = print_r($debug_output, TRUE);
+			$print[] = PHP_EOL;
 		}
 
-		if($display_option === TRUE)
-		{
-			$debug_output = str_repeat('=', 40) . "\n" . $debug_output . str_repeat('-', 40);
-		}
-		$debug_output = "\n<?php\n/*" . $debug_output . "*/\n?>\n";
-
-		if(@!$fp = fopen($debug_file, 'a'))
-		{
-			return;
-		}
-		fwrite($fp, $debug_output);
-		fclose($fp);
+		@file_put_contents($debug_file, implode(PHP_EOL, $print), FILE_APPEND|LOCK_EX);
 	}
 }
 
@@ -889,6 +885,19 @@ function delObjectVars($target_obj, $del_obj)
 	}
 
 	return $return_obj;
+}
+
+function getDestroyXeVars(&$vars)
+{
+	$del_vars = array('error_return_url', 'success_return_url', 'ruleset', 'xe_validator_id');
+
+	foreach($del_vars as $var)
+	{
+		if(is_array($vars)) unset($vars[$var]);
+		else if(is_object($vars)) unset($vars->$var);
+	}
+
+	return $vars;
 }
 
 /**
@@ -982,6 +991,18 @@ function removeHackTag($content)
 }
 
 /**
+ * check uploaded file which may be hacking attempts
+ *
+ * @param string $file Taget file path
+ * @return bool
+ */
+function checkUploadedFile($file)
+{
+	require_once(_XE_PATH_ . 'classes/security/UploadFileFilter.class.php');
+	return UploadFileFilter::check($file);
+}
+
+/**
  * Check xmp tag, close it.
  *
  * @param string $content Target content
@@ -1035,7 +1056,7 @@ function removeSrcHack($match)
 	{
 		foreach($m[1] as $idx => $name)
 		{
-			if(substr($name, 0, 2) == 'on')
+			if(strlen($name) >= 2 && substr_compare($name, 'on', 0, 2) === 0)
 			{
 				continue;
 			}
@@ -1065,7 +1086,7 @@ function removeSrcHack($match)
 			$attribute = strtolower(trim($name));
 			if($attribute == 'data' || $attribute == 'src' || $attribute == 'href')
 			{
-				if(strpos(strtolower($val), 'data:') === 0)
+				if(stripos($val, 'data:') === 0)
 				{
 					continue;
 				}
@@ -1075,7 +1096,7 @@ function removeSrcHack($match)
 		if($tag == 'img')
 		{
 			$attribute = strtolower(trim($name));
-			if(strpos(strtolower($val), 'data:') === 0)
+			if(stripos($val, 'data:') === 0)
 			{
 				continue;
 			}
@@ -1161,7 +1182,7 @@ function getScriptPath()
 	static $url = NULL;
 	if($url == NULL)
 	{
-		$url = preg_replace('/\/tools\//i', '/', preg_replace('/index.php$/i', '', str_replace('\\', '/', $_SERVER['SCRIPT_NAME'])));
+		$url = str_ireplace('/tools/', '/', preg_replace('/index.php$/i', '', str_replace('\\', '/', $_SERVER['SCRIPT_NAME'])));
 	}
 	return $url;
 }
@@ -1338,7 +1359,7 @@ function isCrawler($agent = NULL)
 
 	$check_agent = array('bot', 'spider', 'google', 'yahoo', 'daum', 'teoma', 'fish', 'hanrss', 'facebook');
 	$check_ip = array(
-		'211.245.21.11*' /* mixsh */
+		'211.245.21.110-211.245.21.119' /* mixsh */
 	);
 
 	foreach($check_agent as $str)
@@ -1349,17 +1370,7 @@ function isCrawler($agent = NULL)
 		}
 	}
 
-	$check_ip = '/^(' . implode($check_ip, '|') . ')/';
-	$check_ip = str_replace('.', '\.', $check_ip);
-	$check_ip = str_replace('*', '.+', $check_ip);
-	$check_ip = str_replace('?', '.?', $check_ip);
-
-	if(preg_match($check_ip, $_SERVER['REMOTE_ADDR'], $matches))
-	{
-		return TRUE;
-	}
-
-	return FALSE;
+	return IpFilter::filter($check_ip);
 }
 
 /**
@@ -1497,14 +1508,12 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
  */
 function htmlHeader()
 {
-	echo <<<HTMLHEADER
-<!DOCTYPE html>
+	echo '<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
 </head>
-<body>
-HTMLHEADER;
+<body>';
 }
 
 /**
@@ -1530,7 +1539,11 @@ function alertScript($msg)
 		return;
 	}
 
-	echo '<script>alert("' . $msg . '");</script>';
+	echo '<script type="text/javascript">
+//<![CDATA[
+alert("' . $msg . '");
+//]]>
+</script>';
 }
 
 /**
@@ -1540,7 +1553,11 @@ function alertScript($msg)
  */
 function closePopupScript()
 {
-	echo '<script>window.close();</script>';
+	echo '<script type="text/javascript">
+//<![CDATA[
+window.close();
+//]]>
+</script>';
 }
 
 /**
@@ -1553,7 +1570,11 @@ function reload($isOpener = FALSE)
 {
 	$reloadScript = $isOpener ? 'window.opener.location.reload()' : 'document.location.reload()';
 
-	echo '<script>' . $reloadScript . '</script>';
+	echo '<script type="text/javascript">
+//<![CDATA[
+' . $reloadScript . '
+//]]>
+</script>';
 }
 
 /* End of file func.inc.php */

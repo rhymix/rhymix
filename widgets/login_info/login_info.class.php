@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class login_info
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1
  * @brief Widget to display log-in form
  *
@@ -23,7 +24,7 @@ class login_info extends WidgetHandler
 		if(Context::get('is_logged')) $tpl_file = 'login_info';
 		else $tpl_file = 'login_form';
 		// Get the member configuration
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$this->member_config = $oModuleModel->getModuleConfig('member');
 		Context::set('member_config', $this->member_config);
 
@@ -32,7 +33,7 @@ class login_info extends WidgetHandler
 		$useSsl = Context::getSslStatus();
 		if($useSsl != 'none')
 		{
-			if(preg_match('/^https:\/\//i', Context::getRequestUri())) $ssl_mode = true;
+			if(strncasecmp('https://', Context::getRequestUri(), 8) === 0) $ssl_mode = true;
 		}
 		Context::set('ssl_mode',$ssl_mode);
 

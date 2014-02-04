@@ -1,7 +1,8 @@
 <?php	
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  memberAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * member module's admin view class
  */
 class memberAdminView extends member
@@ -34,7 +35,7 @@ class memberAdminView extends member
 	 */
 	function init() 
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$this->memberConfig = $oMemberModel->getMemberConfig();
 		Context::set('config', $this->memberConfig);
 		$oSecurity = new Security();
@@ -72,8 +73,8 @@ class memberAdminView extends member
 	 */
 	function dispMemberAdminList()
 	{
-		$oMemberAdminModel = &getAdminModel('member');
-		$oMemberModel = &getModel('member');
+		$oMemberAdminModel = getAdminModel('member');
+		$oMemberModel = getModel('member');
 		$output = $oMemberAdminModel->getMemberList();
 
 		$filter = Context::get('filter_type');
@@ -203,7 +204,7 @@ class memberAdminView extends member
 	{
 		$oModuleModel = getModel('module');
 		// Get a layout list
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getLayoutList();
 
 		Context::set('layout_list', $layout_list);
@@ -230,11 +231,11 @@ class memberAdminView extends member
 	 */
 	function dispMemberAdminConfigOLD() 
 	{
-		$oModuleModel = &getModel('module');
-		$oMemberModel = &getModel('member');
+		$oModuleModel = getModel('module');
+		$oMemberModel = getModel('member');
 
 		// Get a layout list
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getLayoutList();
 
 		Context::set('layout_list', $layout_list);
@@ -252,7 +253,7 @@ class memberAdminView extends member
 		Context::set('mskin_list', $mskin_list);
 
 		// retrieve skins of editor
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
 
 		// get an editor
@@ -302,8 +303,8 @@ class memberAdminView extends member
 	 */
 	function dispMemberAdminInfo()
 	{
-		$oMemberModel = &getModel('member');
-		$oModuleModel = &getModel('module');
+		$oMemberModel = getModel('member');
+		$oModuleModel = getModel('module');
 
 		$member_config = $oModuleModel->getModuleConfig('member');
 		Context::set('member_config', $member_config);
@@ -335,7 +336,7 @@ class memberAdminView extends member
 	function dispMemberAdminInsert()
 	{
 		// retrieve extend form
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 
 		$memberInfo = Context::get('member_info');
 		if(isset($memberInfo))
@@ -347,7 +348,7 @@ class memberAdminView extends member
 		// get an editor for the signature
 		if($memberInfo->member_srl)
 		{
-			$oEditorModel = &getModel('editor');
+			$oEditorModel = getModel('editor');
 			$option = new stdClass();
 			$option->primary_key_name = 'member_srl';
 			$option->content_key_name = 'signature';
@@ -384,7 +385,7 @@ class memberAdminView extends member
 	 */
 	function _getMemberInputTag($memberInfo, $isAdmin = false)
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
@@ -594,35 +595,11 @@ class memberAdminView extends member
 					}
 					else if($extendForm->column_type == 'kr_zip')
 					{
-						Context::loadFile(array('./modules/member/tpl/js/krzip_search.js', 'body'), true);
-						$extentionReplace = array(
-							'msg_kr_address' => $lang->msg_kr_address,
-							'msg_kr_address_etc' => $lang->msg_kr_address_etc,
-							'cmd_search' => $lang->cmd_search,
-							'cmd_search_again' => $lang->cmd_search_again,
-							'addr_0' => $extendForm->value[0],
-							'addr_1' => $extendForm->value[1]);
-						$replace = array_merge($extentionReplace, $replace);
-						$template = <<<EOD
-						<div class="krZip" style="padding-top:5px">
-							<div id="zone_address_search_%column_name%" style="margin-bottom:10px">
-								<label for="krzip_address1_%column_name%">%msg_kr_address%</label>
-								<span class="input-append">
-									<input type="text" id="krzip_address1_%column_name%" value="%addr_0%" />
-									<button type="button" class="btn">%cmd_search%</button>
-								</span>
-							</div>
-							<div id="zone_address_list_%column_name%" hidden style="margin-bottom:10px">
-								<select name="%column_name%[]" id="address_list_%column_name%"><option value="%addr_0%">%addr_0%</select>
-								<button type="button">%cmd_search_again%</button>
-							</div>
-							<div class="address2" style="margin-bottom:10px">
-								<label for="krzip_address2_%column_name%">%msg_kr_address_etc%</label>
-								<input type="text" name="%column_name%[]" id="krzip_address2_%column_name%" value="%addr_1%" />
-							</div>
-						</div>
-						<script>jQuery(function($){ $.krzip('%column_name%') });</script>
-EOD;
+						$krzipModel = getModel('krzip');
+						if($krzipModel && method_exists($krzipModel , 'getKrzipCodeSearchHtml' ))
+						{
+							$template = $krzipModel->getKrzipCodeSearchHtml($extendForm->column_name, $extendForm->value);
+						}
 					}
 					else if($extendForm->column_type == 'jp_zip')
 					{
@@ -653,7 +630,7 @@ EOD;
 	 */
 	function dispMemberAdminGroupList() 
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleFileBoxList();
 		Context::set('fileBoxList', $output->data);
 
@@ -670,7 +647,7 @@ EOD;
 		$member_join_form_srl = Context::get('member_join_form_srl');
 		if($member_join_form_srl)
 		{
-			$oMemberModel = &getModel('member');
+			$oMemberModel = getModel('member');
 			$join_form = $oMemberModel->getJoinForm($member_join_form_srl);
 
 			if(!$join_form) Context::set('member_join_form_srl','',true);

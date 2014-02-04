@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 require_once('DBMysql.class.php');
 
@@ -8,7 +9,7 @@ require_once('DBMysql.class.php');
  *
  * Does not use prepared statements, since mysql driver does not support them
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/db
  * @version 0.1
  */
@@ -23,20 +24,6 @@ class DBMysqli extends DBMysql
 	{
 		$this->_setDBInfo();
 		$this->_connect();
-	}
-
-	/**
-	 * Return if supportable
-	 * Check 'mysqli_connect' function exists.
-	 * @return boolean
-	 */
-	function isSupported()
-	{
-		if(!function_exists('mysqli_connect'))
-		{
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -443,5 +430,8 @@ class DBMysqli extends DBMysql
 	}
 
 }
+
+DBMysqli::$isSupported = function_exists('mysqli_connect');
+
 /* End of file DBMysqli.class.php */
 /* Location: ./classes/db/DBMysqli.class.php */

@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 error_reporting(0);
 
 class adminAdminControllerTest extends PHPUnit_Framework_TestCase
@@ -41,7 +42,7 @@ class adminAdminControllerTest extends PHPUnit_Framework_TestCase
 		$oContext->set('logged_info', $logged_info);
 		$oContext->set('is_admin', 'Y');
 
-		$this->oAdminAdminController = &getAdminController('admin');
+		$this->oAdminAdminController = getAdminController('admin');
 	}
 
 	public function testInsertLayout()

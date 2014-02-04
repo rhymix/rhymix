@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  messageAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief admin view class of the message module
  */
 class messageAdminView extends message
@@ -19,7 +20,7 @@ class messageAdminView extends message
 	function dispMessageAdminConfig()
 	{
 		// Get a list of skins(themes)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$skin_list = $oModuleModel->getskins($this->module_path);
 		Context::set('skin_list', $skin_list);

@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * A class to handle extra variables used in posts, member and others
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class ExtraVar
 {
@@ -50,14 +51,13 @@ class ExtraVar
 	 */
 	function setExtraVarKeys($extra_keys)
 	{
-		if(!is_array($extra_keys) || !count($extra_keys))
+		if(!is_array($extra_keys) || count($extra_keys) < 1)
 		{
 			return;
 		}
 
-		foreach($extra_keys as $key => $val)
+		foreach($extra_keys as $val)
 		{
-			$obj = null;
 			$obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value, $val->eid);
 			$this->keys[$val->idx] = $obj;
 		}
@@ -78,7 +78,7 @@ class ExtraVar
 /**
  * Each value of the extra vars
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class ExtraItem
 {
@@ -209,7 +209,7 @@ class ExtraItem
 				{
 					$value = 'http://' . $value;
 				}
-				return htmlspecialchars($value);
+				return htmlspecialchars($value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
 			case 'tel' :
 				if(is_array($value))
@@ -225,9 +225,6 @@ class ExtraItem
 					$values = explode(',', $value);
 				}
 
-				$values[0] = $values[0];
-				$values[1] = $values[1];
-				$values[2] = $values[2];
 				return $values;
 
 			case 'checkbox' :
@@ -250,9 +247,9 @@ class ExtraItem
 					$values = array($value);
 				}
 
-				for($i = 0; $i < count($values); $i++)
+				for($i = 0, $c = count($values); $i < $c; $i++)
 				{
-					$values[$i] = htmlspecialchars($values[$i]);
+					$values[$i] = htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				}
 
 				return $values;
@@ -282,7 +279,7 @@ class ExtraItem
 			//case 'text' :
 			//case 'textarea' :
 			default :
-				return htmlspecialchars($value);
+				return htmlspecialchars($value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		}
 	}
 
@@ -314,10 +311,7 @@ class ExtraItem
 				{
 					return implode(', ', $value);
 				}
-				else
-				{
-					return $value;
-				}
+				return $value;
 				
 			case 'date' :
 				return zdate($value, "Y-m-d");
@@ -328,20 +322,14 @@ class ExtraItem
 				{
 					return implode(', ', $value);
 				}
-				else
-				{
-					return $value;
-				}
+				return $value;
 
 			case 'kr_zip' :
 				if(is_array($value))
 				{
 					return implode(' ', $value);
 				}
-				else
-				{
-					return $value;
-				}
+				return $value;
 
 			// case 'text' :
 			default :
@@ -365,144 +353,119 @@ class ExtraItem
 		$column_name = 'extra_vars' . $this->idx;
 		$tmp_id = $column_name . '-' . $id_num++;
 
-		$buff = '';
+		$buff = array();
 		switch($type)
 		{
 			// Homepage
 			case 'homepage' :
-				$buff .= '<input type="text" name="' . $column_name . '" value="' . $value . '" class="homepage" />';
+				$buff[] = '<input type="text" name="' . $column_name . '" value="' . $value . '" class="homepage" />';
 				break;
 			// Email Address
 			case 'email_address' :
-				$buff .= '<input type="text" name="' . $column_name . '" value="' . $value . '" class="email_address" />';
+				$buff[] = '<input type="text" name="' . $column_name . '" value="' . $value . '" class="email_address" />';
 				break;
 			// Phone Number
 			case 'tel' :
-				$buff .=
-						'<input type="text" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel" />' .
-						'<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />' .
-						'<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
 				break;
 			// textarea
 			case 'textarea' :
-				$buff .= '<textarea name="' . $column_name . '" rows="8" cols="42">' . $value . '</textarea>';
+				$buff[] = '<textarea name="' . $column_name . '" rows="8" cols="42">' . $value . '</textarea>';
 				break;
 			// multiple choice
 			case 'checkbox' :
-				$buff .= '<ul>';
+				$buff[] = '<ul>';
 				foreach($default as $v)
 				{
+					$checked = '';
 					if($value && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
-					}
-					else
-					{
-						$checked = '';
 					}
 
 					// Temporary ID for labeling
 					$tmp_id = $column_name . '-' . $id_num++;
 
-					$buff .='<li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . htmlspecialchars($v) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
+					$buff[] ='  <li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
 				}
-				$buff .= '</ul>';
+				$buff[] = '</ul>';
 				break;
 			// single choice
 			case 'select' :
-				$buff .= '<select name="' . $column_name . '" class="select">';
+				$buff[] = '<select name="' . $column_name . '" class="select">';
 				foreach($default as $v)
 				{
+					$selected = '';
 					if($value && in_array(trim($v), $value))
 					{
 						$selected = ' selected="selected"';
 					}
-					else
-					{
-						$selected = '';
-					}
-					$buff .= '<option value="' . $v . '" ' . $selected . '>' . $v . '</option>';
+					$buff[] = '  <option value="' . $v . '" ' . $selected . '>' . $v . '</option>';
 				}
-				$buff .= '</select>';
+				$buff[] = '</select>';
 				break;
 			// radio
 			case 'radio' :
-				$buff .= '<ul>';
+				$buff[] = '<ul>';
 				foreach($default as $v)
 				{
+					$checked = '';
 					if($value && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
-					}
-					else
-					{
-						$checked = '';
 					}
 
 					// Temporary ID for labeling
 					$tmp_id = $column_name . '-' . $id_num++;
 
-					$buff .= '<li><input type="radio" name="' . $column_name . '" id="' . $tmp_id . '" ' . $checked . ' value="' . $v . '"  class="radio" /><label for="' . $tmp_id . '">' . $v . '</label></li>';
+					$buff[] = '<li><input type="radio" name="' . $column_name . '" id="' . $tmp_id . '" ' . $checked . ' value="' . $v . '"  class="radio" /><label for="' . $tmp_id . '">' . $v . '</label></li>';
 				}
-				$buff .= '</ul>';
+				$buff[] = '</ul>';
 				break;
 			// date
 			case 'date' :
 				// datepicker javascript plugin load
 				Context::loadJavascriptPlugin('ui.datepicker');
 
-				$buff .=
-						'<input type="hidden" name="' . $column_name . '" value="' . $value . '" />' .
-						'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" /> <input type="button" value="' . Context::getLang('cmd_delete') . '" id="dateRemover_' . $column_name . '" />' . "\n" .
-						'<script>' . "\n" .
-						'(function($){' . "\n" .
-						'    $(function(){' . "\n" .
-						'        var option = { dateFormat: "yy-mm-dd", changeMonth:true, changeYear:true, gotoCurrent: false,yearRange:\'-100:+10\', onSelect:function(){' . "\n" .
-						'            $(this).prev(\'input[type="hidden"]\').val(this.value.replace(/-/g,""))}' . "\n" .
-						'        };' . "\n" .
-						'        $.extend(option,$.datepicker.regional[\'' . Context::getLangType() . '\']);' . "\n" .
-						'        $("#date_' . $column_name . '").datepicker(option);' . "\n" .
-						'		$("#dateRemover_' . $column_name . '").click(function(){' . "\n" .
-						'			$(this).siblings("input").val("");' . "\n" .
-						'			return false;' . "\n" .
-						'		})' . "\n" .
-						'    });' . "\n" .
-						'})(jQuery);' . "\n" .
-						'</script>';
+				$buff[] = '<input type="hidden" name="' . $column_name . '" value="' . $value . '" />'; 
+				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" /> <input type="button" value="' . Context::getLang('cmd_delete') . '" id="dateRemover_' . $column_name . '" />';
+				$buff[] =	'<script type="text/javascript">';
+				$buff[] = '//<![CDATA[';
+				$buff[] =	'(function($){';
+				$buff[] =	'$(function(){';
+				$buff[] =	'  var option = { dateFormat: "yy-mm-dd", changeMonth:true, changeYear:true, gotoCurrent:false, yearRange:\'-100:+10\', onSelect:function(){';
+				$buff[] =	'    $(this).prev(\'input[type="hidden"]\').val(this.value.replace(/-/g,""))}';
+				$buff[] =	'  };';
+				$buff[] =	'  $.extend(option,$.datepicker.regional[\'' . Context::getLangType() . '\']);';
+				$buff[] =	'  $("#date_' . $column_name . '").datepicker(option);';
+				$buff[] =	'  $("#dateRemover_' . $column_name . '").click(function(){';
+				$buff[] =	'    $(this).siblings("input").val("");';
+				$buff[] =	'    return false;';
+				$buff[] =	'  })';
+				$buff[] =	'});';
+				$buff[] =	'})(jQuery);';
+				$buff[] = '//]]>';
+				$buff[] = '</script>';
 				break;
 			// address
 			case "kr_zip" :
-				// krzip address javascript plugin load
-				Context::loadJavascriptPlugin('ui.krzip');
-
-				$buff .=
-						'<div id="addr_searched_' . $column_name . '" style="display:' . ($value[0] ? 'block' : 'none') . ';">' .
-						'<input type="text" readonly="readonly" name="' . $column_name . '[]" value="' . $value[0] . '" class="address" />' .
-						'<a href="#" onclick="doShowKrZipSearch(this, \'' . $column_name . '\'); return false;" class="button red"><span>' . Context::getLang('cmd_cancel') . '</span></a>' .
-						'</div>' .
-						'<div id="addr_list_' . $column_name . '" style="display:none;">' .
-						'<select name="addr_list_' . $column_name . '"></select>' .
-						'<a href="#" onclick="doSelectKrZip(this, \'' . $column_name . '\'); return false;" class="button blue"><span>' . Context::getLang('cmd_select') . '</span></a>' .
-						'<a href="#" onclick="doHideKrZipList(this, \'' . $column_name . '\'); return false;" class="button red"><span>' . Context::getLang('cmd_cancel') . '</span></a>' .
-						'</div>' .
-						'<div id="addr_search_' . $column_name . '" style="display:' . ($value[0] ? 'none' : 'block') . '">' .
-						'<input type="text" name="addr_search_' . $column_name . '" class="address" value="" />' .
-						'<a href="#" onclick="doSearchKrZip(this, \'' . $column_name . '\'); return false;" class="button green"><span>' . Context::getLang('cmd_search') . '</span></a>' .
-						'</div>' .
-						'<input type="text" name="' . $column_name . '[]" value="' . htmlspecialchars($value[1]) . '" class="address" />' .
-						'';
+				if(($oKrzipModel = getModel('krzip')) && method_exists($oKrzipModel , 'getKrzipCodeSearchHtml' ))
+				{
+					$buff[] =  $oKrzipModel->getKrzipCodeSearchHtml($column_name, $value);
+				}
 				break;
 			// General text
 			default :
-				$buff .=' <input type="text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="text" />';
-				break;
+				$buff[] =' <input type="text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="text" />';
 		}
 		if($this->desc)
 		{
-			$buff .= '<p>' . htmlspecialchars($this->desc) . '</p>';
+			$buff[] = '<p>' . htmlspecialchars($this->desc, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '</p>';
 		}
 		
-		return $buff;
+		return join(PHP_EOL, $buff);
 	}
 
 }

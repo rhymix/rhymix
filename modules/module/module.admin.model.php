@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  moduleAdminModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1
  * @brief AdminModel class of the "module" module
  */
@@ -20,8 +21,9 @@ class moduleAdminModel extends module
 	 */
 	function getModuleAdminModuleList()
 	{
-		$oModuleController = &getController('module');
-		$oModuleModel = &getModel('module');
+		$oModuleController = getController('module');
+		$oModuleModel = getModel('module');
+		$args = new stdClass;
 		$args->module_srls = Context::get('module_srls');
 		$output = executeQueryArray('module.getModulesInfo', $args);
 		if(!$output->toBool() || !$output->data) return new Object();
@@ -59,7 +61,7 @@ class moduleAdminModel extends module
 		if($modulePath)
 		{
 			// get the skins path
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$skin_list = $oModuleModel->getSkins($modulePath);
 			Context::set('skin_list',$skin_list);
 
@@ -68,7 +70,7 @@ class moduleAdminModel extends module
 		}
 
 		// get the layouts path
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getLayoutList();
 		Context::set('layout_list', $layout_list);
 
@@ -105,7 +107,7 @@ class moduleAdminModel extends module
 		Context::set('grant_list', $grant_list);
 
 		// Get a list of groups
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups(0);
 		Context::set('group_list', $group_list);
 
@@ -140,11 +142,11 @@ class moduleAdminModel extends module
 		}
 
 		// get member module's config
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_config = $oMemberModel->getMemberConfig();
 		Context::set('member_config', $member_config);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'site_srl');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		// Grant virtual permission for access and manager
@@ -192,7 +194,7 @@ class moduleAdminModel extends module
 		$admin_member = $oModuleModel->getAdminId($module_srl);
 		Context::set('admin_member', $admin_member);
 		// Get a list of groups
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups($module_info->site_srl);
 		Context::set('group_list', $group_list);
 
@@ -221,7 +223,7 @@ class moduleAdminModel extends module
 			return new Object(0);
 		}
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$xmlInfo = $oModuleModel->getModuleActionXml($targetModule);
 
 		// Grant virtual permission for access and manager
@@ -311,7 +313,7 @@ class moduleAdminModel extends module
 	{
 		$mode = $mode === 'P' ? 'P' : 'M';
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		if(!$module_info) return;
 
@@ -526,7 +528,7 @@ class moduleAdminModel extends module
 	function getModuleAdminMultilingualHtml()
 	{
 		$oTemplate = TemplateHandler::getInstance();
-		$tpl = $oTemplate->compile('./modules/module/tpl', 'multilingual_v17.html');
+		$tpl = $oTemplate->compile(_XE_PATH_ . 'modules/module/tpl', 'multilingual_v17.html');
 
 		$this->add('html', $tpl);
 	}
@@ -565,7 +567,7 @@ class moduleAdminModel extends module
 		$oSecurity->encodeHTML('lang_code_list..');
 
 		$oTemplate = TemplateHandler::getInstance();
-		$tpl = $oTemplate->compile('./modules/module/tpl', 'multilingual_v17_list.html');
+		$tpl = $oTemplate->compile(_XE_PATH_ . 'modules/module/tpl', 'multilingual_v17_list.html');
 
 		$this->add('html', $tpl);
 	}
@@ -575,9 +577,9 @@ class moduleAdminModel extends module
 	 */
 	function getModuleAdminModuleSearcherHtml()
 	{
-		Context::loadLang('./modules/admin/lang');
+		Context::loadLang(_XE_PATH_ . 'modules/admin/lang');
 		$oTemplate = TemplateHandler::getInstance();
-		$tpl = $oTemplate->compile('./modules/module/tpl', 'module_searcher_v17.html');
+		$tpl = $oTemplate->compile(_XE_PATH_ . 'modules/module/tpl', 'module_searcher_v17.html');
 
 		$this->add('html', $tpl);
 	}

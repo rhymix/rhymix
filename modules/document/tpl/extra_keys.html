@@ -1,4 +1,4 @@
-<load target="js/document_admin.js" usecdn="true" />
+<load target="js/document_admin.js" />
 <!--%import("filter/insert_extra_var.xml")-->
 <!--%import("filter/delete_extra_var.xml")-->
 
@@ -30,7 +30,7 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="lang_name">{$lang->column_name}</label>
 				<div class="x_controls">
-					<input type="text" name="name" id="name" value="<!--@if(strpos($selected_var->name, '$user_lang->') === false)-->{$selected_var->name}<!--@else-->{htmlspecialchars($selected_var->name)}<!--@end-->" class="lang_code" placeholder="Ex) Your favorite color." />
+					<input type="text" name="name" id="name" value="<!--@if(strpos($selected_var->name, '$user_lang->') === false)-->{$selected_var->name}<!--@else-->{htmlspecialchars($selected_var->name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end-->" class="lang_code" placeholder="Ex) Your favorite color." />
 				</div>
 			</div>
 			<div class="x_control-group">

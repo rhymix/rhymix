@@ -3,7 +3,7 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispSessionAdminIndex" type="view" standalone="true" admin_index="true" />
-        <action name="procSessionAdminClear" type="controller" standalone="true" />
+        <action name="dispSessionAdminIndex" type="view" admin_index="true" />
+        <action name="procSessionAdminClear" type="controller" />
     </actions>
 </module>

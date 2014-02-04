@@ -18,7 +18,7 @@
 		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/add_friend_group/1" />
 		<div class="control-group">
 			<label for="title" class="control-label">{$lang->msg_insert_group_name}</label>
-			<div class="controls"><input name="title" id="title" type="text" value="{htmlspecialchars($friend_group->title)}"/></div>
+			<div class="controls"><input name="title" id="title" type="text" value="{htmlspecialchars($friend_group->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}"/></div>
 		</div>
 		<div class="btnArea">
 			<input cond="$friend_group->friend_group_srl" type="submit" value="{$lang->cmd_modify}" class="btn btn-inverse" />

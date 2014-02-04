@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * - Security class
  * - This class helps to solve security problems.
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/security
  * @version 0.1
  */
@@ -112,10 +113,11 @@ class Security
 	{
 		if(is_string($var))
 		{
-			if(!preg_match('/^\$user_lang->/', $var))
+			if(strncmp('$user_lang->', $var, 12) !== 0)
 			{
-				$var = htmlspecialchars($var);
+				$var = htmlspecialchars($var, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
+
 			return $var;
 		}
 

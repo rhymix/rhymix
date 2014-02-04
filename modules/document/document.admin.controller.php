@@ -1,9 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
+
 /**
  * documentAdminController class
  * Document the module's admin controller class
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/document
  * @version 0.1
  */
@@ -30,7 +32,7 @@ class documentAdminController extends document
 		$document_count = count($document_srl_list);
 		if(!$document_count) return $this->stop('msg_cart_is_null');
 		// Delete a doc
-		$oDocumentController = &getController('document');
+		$oDocumentController = getController('document');
 		for($i=0;$i<$document_count;$i++)
 		{
 			$document_srl = trim($document_srl_list[$i]);
@@ -39,7 +41,7 @@ class documentAdminController extends document
 			$oDocumentController->deleteDocument($document_srl, true);
 		}
 
-		$this->setMessage( sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
+		$this->setMessage(sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
 	}
 
 	/**
@@ -53,8 +55,8 @@ class documentAdminController extends document
 	{
 		if(!count($document_srl_list)) return;
 
-		$oDocumentModel = &getModel('document');
-		$oDocumentController = &getController('document');
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -84,12 +86,12 @@ class documentAdminController extends document
 			// Move the attached file if the target module is different
 			if($module_srl != $obj->module_srl && $oDocument->hasUploadedFiles())
 			{
-				$oFileController = &getController('file');
+				$oFileController = getController('file');
 
 				$files = $oDocument->getUploadedFiles();
 				if(is_array($files))
 				{
-					foreach($files as $key => $val)
+					foreach($files as $val)
 					{
 						$file_info = array();
 						$file_info['tmp_name'] = $val->uploaded_filename;
@@ -138,7 +140,6 @@ class documentAdminController extends document
 				$oDB->rollback();
 				return $output;
 			}
-
 			// Set 0 if a new category doesn't exist after catergory change
 			if($source_category_srl != $category_srl)
 			{
@@ -164,13 +165,18 @@ class documentAdminController extends document
 			$oDB->rollback();
 			return $output;
 		}
+		
 		// move the trackback
-		$output = executeQuery('trackback.updateTrackbackModule', $args);
-		if(!$output->toBool())
+		if(getClass('trackback'))
 		{
-			$oDB->rollback();
-			return $output;
+			$output = executeQuery('trackback.updateTrackbackModule', $args);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
+
 		// Tags
 		$output = executeQuery('tag.updateTagModule', $args);
 		if(!$output->toBool())
@@ -188,17 +194,14 @@ class documentAdminController extends document
 
 		$oDB->commit();
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			foreach($document_srl_list as $document_srl)
 			{
-				$cache_key = 'object:'.$document_srl;
-				$oCacheHandler->delete($cache_key);
-				$cache_key_item = 'object_document_item:'.$document_srl;
+				$cache_key_item = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
 				$oCacheHandler->delete($cache_key_item);
 			}
-			$oCacheHandler->invalidateGroupKey('documentList');
 		}
 		return new Object();
 	}
@@ -212,12 +215,12 @@ class documentAdminController extends document
 	 */
 	function copyDocumentModule($document_srl_list, $module_srl, $category_srl)
 	{
-		if(!count($document_srl_list)) return;
+		if(count($document_srl_list) < 1) return;
 
-		$oDocumentModel = &getModel('document');
-		$oDocumentController = &getController('document');
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
 
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -238,14 +241,14 @@ class documentAdminController extends document
 		$extraVarsListByDocumentSrl = array();
 		if(is_array($extraVarsList->data))
 		{
-			foreach($extraVarsList->data AS $key=>$value)
+			foreach($extraVarsList->data as $value)
 			{
 				if(!isset($extraVarsListByDocumentSrl[$value->document_srl]))
 				{
 					$extraVarsListByDocumentSrl[$value->document_srl] = array();
 				}
 
-				array_push($extraVarsListByDocumentSrl[$value->document_srl], $value);
+				$extraVarsListByDocumentSrl[$value->document_srl][] = $value;
 			}
 		}
 
@@ -255,7 +258,6 @@ class documentAdminController extends document
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists()) continue;
 
-			$obj = null;
 			$obj = $oDocument->getObjectVars();
 
 			$extraVars = $extraVarsListByDocumentSrl[$document_srl];
@@ -275,16 +277,17 @@ class documentAdminController extends document
 			$obj->password_is_hashed = true;
 			$obj->comment_count = 0;
 			$obj->trackback_count = 0;
+
 			// Pre-register the attachment
 			if($oDocument->hasUploadedFiles())
 			{
 				$files = $oDocument->getUploadedFiles();
-				foreach($files as $key => $val)
+				foreach($files as $val)
 				{
 					$file_info = array();
 					$file_info['tmp_name'] = $val->uploaded_filename;
 					$file_info['name'] = $val->source_filename;
-					$oFileController = &getController('file');
+					$oFileController = getController('file');
 					$inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, 0, true);
 					// if image/video files
 					if($val->direct_download == 'Y')
@@ -313,7 +316,7 @@ class documentAdminController extends document
 			// copy multi language contents
 			if(is_array($extraVars))
 			{
-				foreach($extraVars AS $key=>$value)
+				foreach($extraVars as $value)
 				{
 					if($value->idx >= 0 && $value->lang_code == Context::getLangType())
 					{
@@ -330,12 +333,12 @@ class documentAdminController extends document
 			// Move the comments
 			if($oDocument->getCommentCount())
 			{
-				$oCommentModel = &getModel('comment');
+				$oCommentModel = getModel('comment');
 				$comment_output = $oCommentModel->getCommentList($document_srl, 0, true, 99999999);
 				$comments = $comment_output->data;
-				if(count($comments))
+				if(count($comments) > 0)
 				{
-					$oCommentController = &getController('comment');
+					$oCommentController = getController('comment');
 					$success_count = 0;
 					$p_comment_srl = array();
 					foreach($comments as $comment_obj)
@@ -347,12 +350,12 @@ class documentAdminController extends document
 						if($comment_obj->uploaded_count)
 						{
 							$files = $oFileModel->getFiles($comment_obj->comment_srl, true);
-							foreach($files as $key => $val)
+							foreach($files as $val)
 							{
 								$file_info = array();
 								$file_info['tmp_name'] = $val->uploaded_filename;
 								$file_info['name'] = $val->source_filename;
-								$oFileController = &getController('file');
+								$oFileController = getController('file');
 								$inserted_file = $oFileController->insertFile($file_info, $module_srl, $comment_srl, 0, true);
 								// if image/video files
 								if($val->direct_download == 'Y')
@@ -382,10 +385,11 @@ class documentAdminController extends document
 					$oDocumentController->updateCommentCount($obj->document_srl, $success_count, $comment_obj->nick_name, true);
 				}
 			}
+
 			// Move the trackbacks
-			if($oDocument->getTrackbackCount())
+			$oTrackbackModel = getModel('trackback');
+			if($oTrackbackModel && $oDocument->getTrackbackCount())
 			{
-				$oTrackbackModel = &getModel('trackback');
 				$trackbacks = $oTrackbackModel->getTrackbackList($oDocument->document_srl);
 				if(count($trackbacks))
 				{
@@ -431,7 +435,7 @@ class documentAdminController extends document
 	{
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$args->module_srl = $module_srl;
 		$document_list = $oDocumentModel->getDocumentList($args);
 		$documents = $document_list->data;
@@ -444,21 +448,17 @@ class documentAdminController extends document
 			}
 		}
 		//remove from cache
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			if(is_array($document_srl_list))
 			{
 				foreach($document_srl_list as $document_srl)
 				{
-					$cache_key = 'object:'.$document_srl;
-					$oCacheHandler->delete($cache_key);
-					$cache_key_item = 'object_document_item:'.$document_srl;
+					$cache_key_item = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
 					$oCacheHandler->delete($cache_key_item);
-					$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
 				}
 			}
-			$oCacheHandler->invalidateGroupKey('documentList');
 		}
 		return $output;
 	}
@@ -472,7 +472,7 @@ class documentAdminController extends document
 		// Get the basic information
 		$config = Context::gets('thumbnail_type');
 		// Insert by creating the module Controller object
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('document',$config);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig');
@@ -503,8 +503,8 @@ class documentAdminController extends document
 	{
 		// delete all of thumbnail_ *. jpg files from files/attaches/images/ directory (prior versions to 1.0.4)
 		$this->deleteThumbnailFile('./files/attach/images');
-		// delete a directory itself, files/cache/thumbnails (thumbnail policies have changed since version 1.0.5)
-		FileHandler::removeFilesInDir('./files/cache/thumbnails');
+		// delete a directory itself, files/thumbnails (thumbnail policies have changed since version 1.0.5)
+		FileHandler::removeFilesInDir('./files/thumbnails');
 
 		$this->setMessage('success_deleted');
 	}
@@ -544,12 +544,12 @@ class documentAdminController extends document
 		$desc = Context::get('desc') ? Context::get('desc') : '';
 		$search = Context::get('search');
 		$eid = Context::get('eid');
+		$obj = new stdClass();
 
 		if(!$module_srl || !$name || !$eid) return new Object(-1,'msg_invalid_request');
 		// set the max value if idx is not specified
 		if(!$var_idx)
 		{
-			$obj = new stdClass();
 			$obj->module_srl = $module_srl;
 			$output = executeQuery('document.getDocumentMaxExtraKeyIdx', $obj);
 			$var_idx = $output->data->var_idx+1;
@@ -566,7 +566,7 @@ class documentAdminController extends document
 		}
 
 		// insert or update
-		$oDocumentController = &getController('document');
+		$oDocumentController = getController('document');
 		$output = $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $name, $type, $is_required, $search, $default, $desc, $eid);
 		if(!$output->toBool()) return $output;
 
@@ -586,7 +586,7 @@ class documentAdminController extends document
 		$var_idx = Context::get('var_idx');
 		if(!$module_srl || !$var_idx) return new Object(-1,'msg_invalid_request');
 
-		$oDocumentController = &getController('document');
+		$oDocumentController = getController('document');
 		$output = $oDocumentController->deleteDocumentExtraKeys($module_srl, $var_idx);
 		if(!$output->toBool()) return $output;
 
@@ -605,11 +605,11 @@ class documentAdminController extends document
 
 		if(!$type || !$module_srl || !$var_idx) return new Object(-1,'msg_invalid_request');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		if(!$module_info->module_srl) return new Object(-1,'msg_invalid_request');
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$extra_keys = $oDocumentModel->getExtraKeys($module_srl);
 		if(!$extra_keys[$var_idx]) return new Object(-1,'msg_invalid_request');
 
@@ -662,6 +662,14 @@ class documentAdminController extends document
 			if(!$output->toBool()) return $output;
 			$output = executeQuery('document.updateDocumentExtraVarIdx', $args);
 			if(!$output->toBool()) return $output;
+		}
+
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+		if($oCacheHandler->isSupport())
+		{
+			$object_key = 'module_document_extra_keys:'.$module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$oCacheHandler->delete($cache_key);
 		}
 	}
 
@@ -716,7 +724,7 @@ class documentAdminController extends document
 
 	/*function restoreTrash($trash_srl){
 	  $oDB = &DB::getInstance();
-	  $oDocumentModel = &getModel('document');
+	  $oDocumentModel = getModel('document');
 
 	  $trash_args->trash_srl = $trash_srl;
 
@@ -777,8 +785,8 @@ class documentAdminController extends document
 	{
 		if(is_array($originObject)) $originObject = (object)$originObject;
 
-		$oDocumentController = &getController('document');
-		$oDocumentModel = &getModel('document');
+		$oDocumentController = getController('document');
+		$oDocumentModel = getModel('document');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -792,6 +800,7 @@ class documentAdminController extends document
 		// If the post was not temorarily saved, set the attachment's status to be valid
 		if($oDocument->hasUploadedFiles() && $originObject->member_srl != $originObject->module_srl)
 		{
+			$args = new stdClass();
 			$args->upload_target_srl = $oDocument->document_srl;
 			$args->isvalid = 'Y';
 			$output = executeQuery('file.updateFileValid', $args);
@@ -827,7 +836,7 @@ class documentAdminController extends document
 		$oDocument = new documentItem();
 		$oDocument->setAttribute($originObject);
 
-		$oDocumentController = &getController('document');
+		$oDocumentController = getController('document');
 		$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true, true, $oDocument);
 		return $output;
 	}

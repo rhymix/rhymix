@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Xml_Node_ class
  * Element node or attribute node.
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/xml
  * @version 0.1
  */
@@ -30,7 +31,7 @@ class Xml_Node_
  * attributes when kor is only supported language. It seems to work fine now but we did not scrutinze any potential side effects,
  * }</pre>
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/xml
  * @version 0.1
  */
@@ -161,7 +162,7 @@ class XmlParser
 		$obj->node_name = strtolower($node_name);
 		$obj->attrs = $this->_arrToAttrsObj($attrs);
 
-		array_push($this->output, $obj);
+		$this->output[] = $obj;
 	}
 
 	/**
@@ -202,13 +203,11 @@ class XmlParser
 			$tmp_obj = $parent_obj->{$node_name};
 			if(is_array($tmp_obj))
 			{
-				array_push($parent_obj->{$node_name}, $cur_obj);
+				$parent_obj->{$node_name}[] = $cur_obj;
 			}
 			else
 			{
-				$parent_obj->{$node_name} = array();
-				array_push($parent_obj->{$node_name}, $tmp_obj);
-				array_push($parent_obj->{$node_name}, $cur_obj);
+				$parent_obj->{$node_name} = array($tmp_obj, $cur_obj);
 			}
 		}
 		else

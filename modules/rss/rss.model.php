@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * The model class of the rss module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class rssModel extends rss
 {
@@ -44,7 +45,7 @@ class rssModel extends rss
 	function getRssModuleConfig($module_srl)
 	{
 		// Get the configurations of the rss module
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_rss_config = $oModuleModel->getModulePartConfig('rss', $module_srl);
 		if(!$module_rss_config)
 		{

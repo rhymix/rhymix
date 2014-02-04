@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * JSMinPlus version 1.3

@@ -4,7 +4,7 @@
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
 <h1 style="border-bottom:1px solid #ccc">{$lang->msg_update_member}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/modify_info/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <script>
@@ -16,9 +16,9 @@
     <input type="hidden" name="act" value="procMemberModifyInfo" />
     <input type="hidden" name="module" value="member" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-    <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
+    <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" />
     <input type="hidden" name="page" value="{$page}" />
-	<input type="hidden" name="xe_validator_id" value="modules/member/skins/default/modify_info/1" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/skins/default/1" />
 	<div class="control-group">
 		<label for="{$identifierForm->name}" class="control-label">{$identifierForm->title} <em style="color:red">*</em></label>
 		<div class="controls">

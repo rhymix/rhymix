@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  member
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * high class of the member module
  */
 class member extends ModuleObject {
@@ -21,7 +22,7 @@ class member extends ModuleObject {
 	{
 		if(!Context::isInstalled()) return;
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
 
 		// Set to use SSL upon actions related member join/information/password and so on. 2013.02.15
@@ -40,69 +41,76 @@ class member extends ModuleObject {
 	function moduleInstall()
 	{
 		// Register action forward (to use in administrator mode)
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		$oDB = &DB::getInstance();
 		$oDB->addIndex("member_group","idx_site_title", array("site_srl","title"),true);
 
-		$oModuleModel = &getModel('module');
-		$args = $oModuleModel->getModuleConfig('member');
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('member');
 
-		$isNotInstall = empty($args);
+		if(empty($config))
+		{
+			$isNotInstall = true;
+			$config = new stdClass;
+		}
 
 		// Set the basic information
-		$args->enable_join = 'Y';
-		$args->enable_openid = 'N';
-		if(!$args->enable_auth_mail) $args->enable_auth_mail = 'N';
-		if(!$args->image_name) $args->image_name = 'Y';
-		if(!$args->image_mark) $args->image_mark = 'Y';
-		if(!$args->profile_image) $args->profile_image = 'Y';
-		if(!$args->image_name_max_width) $args->image_name_max_width = '90';
-		if(!$args->image_name_max_height) $args->image_name_max_height = '20';
-		if(!$args->image_mark_max_width) $args->image_mark_max_width = '20';
-		if(!$args->image_mark_max_height) $args->image_mark_max_height = '20';
-		if(!$args->profile_image_max_width) $args->profile_image_max_width = '80';
-		if(!$args->profile_image_max_height) $args->profile_image_max_height = '80';
-		if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
-
+		$config->enable_join = 'Y';
+		$config->enable_openid = 'N';
+		if(!$config->enable_auth_mail) $config->enable_auth_mail = 'N';
+		if(!$config->image_name) $config->image_name = 'Y';
+		if(!$config->image_mark) $config->image_mark = 'Y';
+		if(!$config->profile_image) $config->profile_image = 'Y';
+		if(!$config->image_name_max_width) $config->image_name_max_width = '90';
+		if(!$config->image_name_max_height) $config->image_name_max_height = '20';
+		if(!$config->image_mark_max_width) $config->image_mark_max_width = '20';
+		if(!$config->image_mark_max_height) $config->image_mark_max_height = '20';
+		if(!$config->profile_image_max_width) $config->profile_image_max_width = '80';
+		if(!$config->profile_image_max_height) $config->profile_image_max_height = '80';
+		if($config->group_image_mark!='Y') $config->group_image_mark = 'N';
+		if(!$config->password_strength) $config->password_strength = 'normal';
+		
 		global $lang;
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// Create a member controller object
-		$oMemberController = &getController('member');
-		$oMemberAdminController = &getAdminController('member');
+		$oMemberController = getController('member');
+		$oMemberAdminController = getAdminController('member');
 
-		if(!$args->signupForm || !is_array($args->signupForm))
+		if(!$config->signupForm || !is_array($config->signupForm))
 		{
 			$identifier = $isNotInstall ? 'email_address' : 'user_id';
 
-			$args->signupForm = $oMemberAdminController->createSignupForm($identifier);
-			$args->identifier = $identifier;
+			$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
+			$config->identifier = $identifier;
 
-			$oModuleController->insertModuleConfig('member',$args);
 
 			// Create Ruleset File
 			FileHandler::makeDir('./files/ruleset');
-			$oMemberAdminController->_createSignupRuleset($args->signupForm);
-			$oMemberAdminController->_createLoginRuleset($args->identifier);
-			$oMemberAdminController->_createFindAccountByQuestion($args->identifier);
+			$oMemberAdminController->_createSignupRuleset($config->signupForm);
+			$oMemberAdminController->_createLoginRuleset($config->identifier);
+			$oMemberAdminController->_createFindAccountByQuestion($config->identifier);
 		}
+		
+		$oModuleController->insertModuleConfig('member',$config);
 
 		$groups = $oMemberModel->getGroups();
 		if(!count($groups))
 		{
 			// Set an administrator, regular member(group1), and associate member(group2)
+			$group_args = new stdClass;
 			$group_args->title = Context::getLang('admin_group');
 			$group_args->is_default = 'N';
 			$group_args->is_admin = 'Y';
 			$output = $oMemberAdminController->insertGroup($group_args);
 
-			unset($group_args);
+			$group_args = new stdClass;
 			$group_args->title = Context::getLang('default_group_1');
 			$group_args->is_default = 'Y';
 			$group_args->is_admin = 'N';
 			$output = $oMemberAdminController->insertGroup($group_args);
 
-			unset($group_args);
+			$group_args = new stdClass;
 			$group_args->title = Context::getLang('default_group_2');
 			$group_args->is_default = 'N';
 			$group_args->is_admin = 'N';
@@ -110,6 +118,7 @@ class member extends ModuleObject {
 		}
 
 		// Configure administrator information
+		$admin_args = new stdClass;
 		$admin_args->is_admin = 'Y';
 		$output = executeQuery('member.getMemberList', $admin_args);
 		if(!$output->data)
@@ -125,7 +134,7 @@ class member extends ModuleObject {
 			}
 		}
 		// Register denied ID(default + module name)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_list = $oModuleModel->getModuleList();
 		foreach($module_list as $key => $val)
 		{
@@ -143,6 +152,10 @@ class member extends ModuleObject {
 		FileHandler::makeDir('./files/member_extra_info/profile_image');
 		FileHandler::makeDir('./files/member_extra_info/signature');
 
+		// 2013. 11. 22 add menu when popup document menu called
+		$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
+		$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
+
 		return new Object();
 	}
 
@@ -154,7 +167,7 @@ class member extends ModuleObject {
 	function checkUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// check member directory (11/08/2007 added)
 		if(!is_dir("./files/member_extra_info")) return true;
 		// check member directory (22/10/2007 added)
@@ -182,7 +195,7 @@ class member extends ModuleObject {
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
 		if(!$oDB->isIndexExists("member","idx_list_order")) return true;
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// check signup form ordering info
 		if(!$config->signupForm) return true;
@@ -207,6 +220,10 @@ class member extends ModuleObject {
 		if(!is_readable('./files/ruleset/login.xml')) return true;
 		if(!is_readable('./files/ruleset/find_member_account_by_question.xml')) return true;
 
+		// 2013. 11. 22 add menu when popup document menu called
+		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after')) return true;
+		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after')) return true;
+
 		return false;
 	}
 
@@ -218,7 +235,7 @@ class member extends ModuleObject {
 	function moduleUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		// Check member directory
 		FileHandler::makeDir('./files/member_extra_info/image_name');
 		FileHandler::makeDir('./files/member_extra_info/image_mark');
@@ -287,9 +304,9 @@ class member extends ModuleObject {
 			$oDB->addIndex("member","idx_list_order", array("list_order"));
 		}
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		// check agreement value exist
 		if($config->agreement)
@@ -301,7 +318,7 @@ class member extends ModuleObject {
 			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
 
-		$oMemberAdminController = &getAdminController('member');
+		$oMemberAdminController = getAdminController('member');
 		// check signup form ordering info
 		if(!$config->signupForm || !is_array($config->signupForm))
 		{
@@ -322,7 +339,7 @@ class member extends ModuleObject {
 				if(is_dir($template_path))
 				{
 					$config->skin = implode('|@|', $config_parse);
-					$oModuleController = &getController('module');
+					$oModuleController = getController('module');
 					$oModuleController->updateModuleConfig('member', $config);
 				}
 			}
@@ -344,6 +361,12 @@ class member extends ModuleObject {
 		if(!is_readable('./files/ruleset/find_member_account_by_question.xml'))
 			$oMemberAdminController->_createFindAccountByQuestion($config->identifier);
 
+		// 2013. 11. 22 add menu when popup document menu called
+		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after'))
+			$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
+		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after'))
+			$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
+
 		return new Object(0, 'success_updated');
 	}
 
@@ -364,7 +387,7 @@ class member extends ModuleObject {
 		if($error == 0) return new Object($error, $message);
 
 		// Create a member model object
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 
 		// Check if there is recoding table.
@@ -378,7 +401,7 @@ class member extends ModuleObject {
 		if($output->data && $output->data->count)
 		{
 			$last_update = strtotime($output->data->last_update);
-			$term = intval(time()-$last_update);
+			$term = intval($_SERVER['REQUEST_TIME']-$last_update);
 			//update, if IP address access in a short time, update count. If not, make count 1.
 			if($term < $config->max_error_count_time)
 			{
@@ -409,7 +432,7 @@ class member extends ModuleObject {
 		if($error == 0 || !$args->member_srl) return new Object($error, $message);
 
 		// Create a member model object
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 
 		// Check if there is recoding table.
@@ -421,14 +444,14 @@ class member extends ModuleObject {
 		{
 			//update
 			$content = unserialize($output->data->content);
-			$content[] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),time());
+			$content[] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),$_SERVER['REQUEST_TIME']);
 			$args->content = serialize($content);
 			$output = executeQuery('member.updateLoginCountHistoryByMemberSrl', $args);
 		}
 		else
 		{
 			//insert
-			$content[0] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),time());
+			$content[0] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),$_SERVER['REQUEST_TIME']);
 			$args->content = serialize($content);
 			$output = executeQuery('member.insertLoginCountHistoryByMemberSrl', $args);
 		}

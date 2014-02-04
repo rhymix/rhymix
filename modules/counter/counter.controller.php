@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Counter module's controller class
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class counterController extends counter
 {
@@ -45,27 +46,25 @@ class counterController extends counter
 		// Check the logs
 		$oCounterModel = getModel('counter');
 
-		// Register today's row if not exist
-		if(!$oCounterModel->isInsertedTodayStatus($site_srl))
+		if($oCounterModel->isInsertedTodayStatus($site_srl))
 		{
-			$this->insertTodayStatus(0, $site_srl);
-			// check user if the previous row exists
-		}
-		else
-		{
-			// If unregistered IP
-			if(!$oCounterModel->isLogged($site_srl))
+			if($oCounterModel->isLogged($site_srl))
+			{
+				//  Register pageview
+				$this->insertPageView($site_srl);
+			}
+			else // If unregistered IP
 			{
 				// Leave logs
 				$this->insertLog($site_srl);
 				// Register unique and pageview
 				$this->insertUniqueVisitor($site_srl);
 			}
-			else
-			{
-				//  Register pageview
-				$this->insertPageView($site_srl);
-			}
+		}
+		else // Register today's row if not exist
+		{
+			$this->insertTodayStatus(0, $site_srl);
+			// check user if the previous row exists
 		}
 
 		$oDB->commit();
@@ -96,16 +95,15 @@ class counterController extends counter
 	function insertUniqueVisitor($site_srl = 0)
 	{
 		$args = new stdClass();
+		$args->regdate = '0,' . date('Ymd');
 
 		if($site_srl)
 		{
-			$args->regdate = '0,' . date('Ymd');
 			$args->site_srl = $site_srl;
 			$output = executeQuery('counter.updateSiteCounterUnique', $args);
 		}
 		else
 		{
-			$args->regdate = '0,' . date('Ymd');
 			$output = executeQuery('counter.updateCounterUnique', $args);
 		}
 	}

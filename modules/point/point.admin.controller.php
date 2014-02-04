@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  pointAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin controller class of the point module
  */
 class pointAdminController extends point
@@ -19,7 +20,7 @@ class pointAdminController extends point
 	function procPointAdminInsertConfig()
 	{
 		// Get the configuration information
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
 		// Arrange variables
 		$args = Context::getRequestVars();
@@ -49,7 +50,7 @@ class pointAdminController extends point
 		if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
 		else $config->disable_read_document = 'N';
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups();
 
 		// Per-level group configurations
@@ -80,7 +81,7 @@ class pointAdminController extends point
 		// A function to calculate per-level points
 		$config->expression = $args->expression;
 		// Save
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('point', $config);
 
 		$this->setMessage('success_updated');
@@ -108,7 +109,7 @@ class pointAdminController extends point
 			}
 		}
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		if(count($module_config))
 		{
 			foreach($module_config as $module_srl => $config)
@@ -137,7 +138,7 @@ class pointAdminController extends point
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
 		// Save configurations
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)
 		{
 			$srl = trim($module_srl[$i]);
@@ -185,7 +186,7 @@ class pointAdminController extends point
 		}
 		$point = $m[2];
 
-		$oPointController = &getController('point');
+		$oPointController = getController('point');
 		$output = $oPointController->setPoint($member_srl, (int)$point, $action);
 
 		$this->setError(-1);
@@ -202,7 +203,7 @@ class pointAdminController extends point
 	{
 		@set_time_limit(0);
 		// Get per-module points information
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
 
 		$module_config = $oModuleModel->getModulePartConfigs('point');
@@ -278,13 +279,15 @@ class pointAdminController extends point
 		$output = executeQuery("point.initMemberPoint");
 		if(!$output->toBool()) return $output;
 		// Save the file temporarily
-		$f = fopen("./files/cache/pointRecal.txt","w");
+		
+		$str = '';
 		foreach($member as $key => $val)
 		{
 			$val += (int)$config->signup_point;
-			fwrite($f, $key.','.$val."\r\n");
+			$str .= $key.','.$val."\r\n";
 		}
-		fclose($f);
+
+		@file_put_contents('./files/cache/pointRecal.txt', $str, LOCK_EX);
 
 		$this->add('total', count($member));
 		$this->add('position', 0);
@@ -347,7 +350,7 @@ class pointAdminController extends point
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
 		// Save configurations
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)
 		{
 			$srl = trim($module_srl[$i]);
@@ -356,6 +359,12 @@ class pointAdminController extends point
 			$args->module = 'point';
 			$args->module_srl = $srl;
 			executeQuery('module.deleteModulePartConfig', $args);
+		}
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
 		}
 
 		$this->setMessage('success_updated');

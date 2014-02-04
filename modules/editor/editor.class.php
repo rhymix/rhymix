@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  editor
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief high class of the editor odule 
  */
 class editor extends ModuleObject
@@ -12,9 +13,9 @@ class editor extends ModuleObject
 	function moduleInstall()
 	{
 		// Register action forward (to use in administrator mode)
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		// Add the default editor component
-		$oEditorController = &getAdminController('editor');
+		$oEditorController = getAdminController('editor');
 		$oEditorController->insertComponent('colorpicker_text',true);
 		$oEditorController->insertComponent('colorpicker_bg',true);
 		$oEditorController->insertComponent('emoticon',true);
@@ -43,7 +44,7 @@ class editor extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$oDB = &DB::getInstance();
 		// 2009. 06. 15 Save module_srl when auto-saving
@@ -71,8 +72,8 @@ class editor extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 
 		$oDB = &DB::getInstance();
 		// Save module_srl when auto-saving 15/06/2009

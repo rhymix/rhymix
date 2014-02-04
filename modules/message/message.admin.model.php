@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 class messageAdminModel extends message{
 	public function getMessageAdminColorset()
 	{

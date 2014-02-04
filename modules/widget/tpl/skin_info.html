@@ -1,4 +1,4 @@
-<load target="../../admin/tpl/css/admin.css" usecdn="true" />
+<load target="../../admin/tpl/css/admin.css" />
 <h1>{$skin_info->title}</h1>
 <table class="x_table x_table-striped x_table-hover">
 <col width="100" />
@@ -43,39 +43,3 @@
 </tr>
 <!--@end-->
 </table>
-
-<!--@if($skin_info->history)-->
-<h1>{$lang->skin_history}</h1>
-<table class="x_table x_table-striped x_table-hover">
-<col width="100" />
-<col />
-
-<!--@foreach($skin_info->history as $history)-->
-<tr>
-	<th scope="row">
-		{$history->version}<br />
-		{$history->date}
-	</th>
-	<td>
-		<!--@foreach($history->author as $author)-->
-		<p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
-		<!--@endforeach-->
-		<!--@if($history->description)-->
-		<p>{nl2br(trim($history->description))}</p>
-		<!--@endif-->
-		<!--@if($history->logs)-->
-		<ul>
-			<!--@foreach($history->logs as $log)-->
-			<!--@if($log->link)-->
-			<li><a href="{$log->link}">{$log->text}</a></li>
-			<!--@else-->
-			<li>{$log->text}</li>
-			<!--@endif-->
-			<!--@endforeach-->
-		</ul>
-		<!--@endif-->
-	</td>
-</tr>
-<!--@endforeach-->
-</table>
-<!--@endif-->

@@ -5,7 +5,7 @@
 		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedWordList')}">{$lang->cmd_denied_word}</a></li>
 		<li class="x_active"><a href="{getUrl('','module','admin','act','dispSpamfilterAdminConfigBlock')}">{$lang->cmd_config_block}</a></li>
 	</ul>
-	<form action="./" id="spamfilterConfig" ruleset="@insertConfig">	
+	<form action="./" method="post" id="spamfilterConfig">	
 		<input type="hidden" name="act" value="procSpamfilterAdminInsertConfig" />
 		<input type="hidden" name="module" value="spamfilter" />
 		<input type="hidden" name="ruleset" value="insertConfig" />

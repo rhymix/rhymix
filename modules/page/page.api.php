@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  pageAPI
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief View Action page for the module API processing
  */
 class pageAPI extends page
@@ -12,7 +13,7 @@ class pageAPI extends page
 	function dispPageIndex(&$oModule)
 	{
 		$page_content = Context::get('page_content');
-		$oWidgetController = &getController('widget');
+		$oWidgetController = getController('widget');
 
 		$requestMethod = Context::getRequestMethod();
 		Context::setResponseMethod('HTML');

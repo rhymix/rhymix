@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  pollAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin view class of the poll module
  */
 class pollAdminView extends poll
@@ -47,28 +48,28 @@ class pollAdminView extends poll
 		$args->sort_index = 'P.list_order'; // Sorting value
 
 		// Get the list
-		$oPollAdminModel = &getAdminModel('poll');
+		$oPollAdminModel = getAdminModel('poll');
 		$output = $oPollAdminModel->getPollListWithMember($args);
 
 		// check poll type. document or comment
 		if(is_array($output->data))
 		{
 			$uploadTargetSrlList = array();
-			foreach($output->data AS $key=>$value)
+			foreach($output->data as $value)
 			{
-				array_push($uploadTargetSrlList, $value->upload_target_srl);
+				$uploadTargetSrlList[] = $value->upload_target_srl;
 			}
 
-			$oDocumentModel = &getModel('document');
+			$oDocumentModel = getModel('document');
 			$targetDocumentOutput = $oDocumentModel->getDocuments($uploadTargetSrlList);
 			if(!is_array($targetDocumentOutput)) $targetDocumentOutput = array();
 
-			$oCommentModel = &getModel('comment');
+			$oCommentModel = getModel('comment');
 			$columnList = array('comment_srl', 'document_srl');
 			$targetCommentOutput = $oCommentModel->getComments($uploadTargetSrlList, $columnList);
 			if(!is_array($targetCommentOutput)) $targetCommentOutput = array();
 
-			foreach($output->data AS $key=>$value)
+			foreach($output->data as $value)
 			{
 				if(array_key_exists($value->upload_target_srl, $targetDocumentOutput))
 					$value->document_srl = $value->upload_target_srl;
@@ -87,9 +88,9 @@ class pollAdminView extends poll
 		Context::set('page', $output->page);
 		Context::set('poll_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
-		Context::set('module_list', $module_list);			
+		Context::set('module_list', $module_list);
 
-		$security = new Security();				
+		$security = new Security();
 		$security->encodeHTML('poll_list..title', 'poll_list..nick_name');
 		// Set a template
 		$this->setTemplatePath($this->module_path.'tpl');
@@ -101,7 +102,7 @@ class pollAdminView extends poll
 	 */
 	function dispPollAdminConfig()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// Get the configuration information
 		$config = $oModuleModel->getModuleConfig('poll');
 		Context::set('config', $config);
@@ -113,7 +114,7 @@ class pollAdminView extends poll
 		// Set the skin colorset once the configurations is completed
 		Context::set('colorset_list', $skin_list[$config->skin]->colorset);
 
-		$security = new Security();				
+		$security = new Security();
 		$security->encodeHTML('config..');
 		$security->encodeHTML('skin_list..title');
 		$security->encodeHTML('colorset_list..name','colorset_list..title');
@@ -131,32 +132,39 @@ class pollAdminView extends poll
 		// Popup layout
 		$this->setLayoutFile("popup_layout");
 		// Draw results
-		$args->poll_srl = Context::get('poll_srl'); 
-		$args->poll_index_srl = Context::get('poll_index_srl'); 
+		$args = new stdClass();
+		$args->poll_srl = Context::get('poll_srl');
+		$args->poll_index_srl = Context::get('poll_index_srl');
 
 		$output = executeQuery('poll.getPoll', $args);
 		if(!$output->data) return $this->stop('msg_poll_not_exists');
+
+		$poll = new stdClass();
 		$poll->stop_date = $output->data->stop_date;
 		$poll->poll_count = $output->data->poll_count;
 
 		$output = executeQuery('poll.getPollTitle', $args);
-		if(!$output->data) return $this->stop('msg_poll_not_exists');
+		if(!$output->data)
+		{
+			return $this->stop('msg_poll_not_exists');
+		}
 
-		$poll->poll[$args->poll_index_srl]->title = $output->data->title;
-		$poll->poll[$args->poll_index_srl]->checkcount = $output->data->checkcount;
-		$poll->poll[$args->poll_index_srl]->poll_count = $output->data->poll_count;
+		$tmp = &$poll->poll[$args->poll_index_srl];
+		$tmp->title = $output->data->title;
+		$tmp->checkcount = $output->data->checkcount;
+		$tmp->poll_count = $output->data->poll_count;
 
 		$output = executeQuery('poll.getPollItem', $args);
-		foreach($output->data as $key => $val)
+		foreach($output->data as $val)
 		{
-			$poll->poll[$val->poll_index_srl]->item[] = $val;
+			$tmp->item[] = $val;
 		}
 
 		$poll->poll_srl = $poll_srl;
 
 		Context::set('poll',$poll);
 		// Configure the skin and the colorset for the default configuration
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$poll_config = $oModuleModel->getModuleConfig('poll');
 		Context::set('poll_config', $poll_config);
 

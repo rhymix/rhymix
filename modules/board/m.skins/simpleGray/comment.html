@@ -1,0 +1,46 @@
+		<ul id="cl" class="rp tgo open">
+			{@ $_comment_list = $oDocument->getComments() }
+			{@ $start = true }
+			{@ $depth = 0 }
+			<!--@foreach($_comment_list as $key => $comment)-->
+			<!--@if(!$start && $comment->get('depth') == $depth)-->
+			</li>
+			<!--@end-->
+			<!--@if($comment->get('depth') > $depth)-->
+			<ul>
+			<!--@else-->
+			<!--@while($comment->get('depth') < $depth)-->
+			</li>
+			</ul>
+			{@ $depth -= 1 }
+			<!--@end-->
+			<!--@endif-->
+			<li>
+				{$comment->getContent(false)}
+				<em>{$comment->getNickName()}</em>
+				<span>{$comment->getRegdate("Y.m.d")}</span>
+				<!--@if($comment->isGranted() || !$comment->get('member_srl'))-->
+				<a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="md">{$lang->cmd_delete}</a>
+				<!--@endif-->
+				<a href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="md">{$lang->cmd_reply}</a>
+				{@ $start = false }
+				{@ $depth = $comment->get('depth') }
+			<!--@endforeach-->
+			<!--@while($depth > 0)-->
+			</li>
+			</ul>
+			{@ $depth -= 1}
+			<!--@end-->
+			</li>
+		</ul>
+			<!--@if($oDocument->comment_page_navigation)-->
+				<div id="clpn" class="pn">
+				<!--@if($oDocument->comment_page_navigation->cur_page != 1)-->
+				<a href="#" onclick="loadPage({$oDocument->document_srl}, {$oDocument->comment_page_navigation->cur_page-1}); return false;">&lsaquo; {$lang->cmd_prev}</a>
+				<!--@endif-->
+				<strong id="curpage">{$oDocument->comment_page_navigation->cur_page} / {$oDocument->comment_page_navigation->last_page}</strong>
+				<!--@if($oDocument->comment_page_navigation->cur_page != $oDocument->comment_page_navigation->last_page)-->
+				<a href="#" onclick="loadPage({$oDocument->document_srl}, {$oDocument->comment_page_navigation->cur_page+1}); return false;">{$lang->cmd_next} &rsaquo;</a>
+				<!--@endif-->
+				</div>
+			<!--@endif-->

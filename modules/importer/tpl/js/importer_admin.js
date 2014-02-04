@@ -1,6 +1,6 @@
 /**
  * @file   modules/importer/js/importer_admin.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief  importer에서 사용하는 javascript
  **/
 jQuery(function($){

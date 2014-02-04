@@ -12,7 +12,11 @@ window.xeNotifyMessage = function(text, count){
 			.prependTo(document.body);
 	}
 	text = text.replace('%d', count);
-	h = $bar.html('<p><a href="'+current_url.setQuery('act','dispCommunicationMessages')+'">'+text+'</a></p>').height();
+	var cur_module = current_url.getQuery('module');
+	if( cur_module == "admin" )
+		h = $bar.html('<p><a href="'+current_url.setQuery('module','').setQuery('act','dispCommunicationMessages')+'" target="_blank">'+text+'</a></p>').height();
+	else
+		h = $bar.html('<p><a href="'+current_url.setQuery('module','').setQuery('act','dispCommunicationMessages')+'">'+text+'</a></p>').height();
 	$bar.show().animate({top:0});
 	// hide after 10 seconds
 	setTimeout(function(){

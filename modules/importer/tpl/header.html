@@ -1,5 +1,5 @@
-<load cond="__DEBUG__" target="js/importer_admin.js" usecdn="true" />
-<load cond="!__DEBUG__" target="js/importer_admin.min.js" usecdn="true" />
+<load cond="__DEBUG__" target="js/importer_admin.js" />
+<load cond="!__DEBUG__" target="js/importer_admin.min.js" />
 {@ $type_list = array('module'=>$lang->type_module, 'ttxml'=>$lang->type_ttxml, 'member'=>$lang->type_member, 'sync'=>$lang->type_syncmember, 'message'=>$lang->type_message) }
 <div class="x_page-header">
 	<h1>{$lang->importer} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_content_importer" target="_blank">{$lang->help}</a></h1>

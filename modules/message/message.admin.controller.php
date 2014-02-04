@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  messageAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief admin controller class of message module
  */
 class messageAdminController extends message
@@ -21,7 +22,7 @@ class messageAdminController extends message
 		// Get information
 		$args = Context::gets('skin', 'mskin', 'colorset', 'mcolorset');
 		// Create a module Controller object
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('message',$args);
 		if(!$output->toBool()) return $output;
 

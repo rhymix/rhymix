@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  messageView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief view class of the message module
  */
 class messageView extends message
@@ -19,7 +20,7 @@ class messageView extends message
 	function dispMessage()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$this->module_config = $config = $oModuleModel->getModuleConfig('message', $this->module_info->site_srl);
 
 		if(!$config)
@@ -55,7 +56,7 @@ class messageView extends message
 		$ssl_mode = false;
 		if($member_config->enable_ssl == 'Y')
 		{
-			if(preg_match('/^https:\/\//i',Context::getRequestUri())) $ssl_mode = true;
+			if(strncasecmp('https://', Context::getRequestUri(), 8) === 0) $ssl_mode = true;
 		}
 		Context::set('ssl_mode',$ssl_mode);
 

@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Addon module's controller class
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class addonController extends addon
 {
@@ -14,7 +15,6 @@ class addonController extends addon
 	 */
 	function init()
 	{
-
 	}
 
 	/**
@@ -35,7 +35,6 @@ class addonController extends addon
 		$site_srl = $site_module_info->site_srl;
 
 		$addon_path = _XE_PATH_ . 'files/cache/addons/';
-
 		$addon_file = $addon_path . $site_srl . $type . '.acivated_addons.cache.php';
 
 		if($this->addon_file_called)
@@ -45,10 +44,8 @@ class addonController extends addon
 
 		$this->addon_file_called = TRUE;
 
-		if(!is_dir($addon_path))
-		{
-			FileHandler::makeDir($addon_path);
-		}
+		FileHandler::makeDir($addon_path);
+
 		if(!file_exists($addon_file))
 		{
 			$this->makeCacheFile($site_srl, $type);
@@ -82,42 +79,38 @@ class addonController extends addon
 	function makeCacheFile($site_srl = 0, $type = "pc", $gtype = 'site')
 	{
 		// Add-on module for use in creating the cache file
-		$buff = '';
+		$buff = array('<?php if(!defined("__XE__")) exit();', '$_m = Context::get(\'mid\');');
 		$oAddonModel = getAdminModel('addon');
 		$addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
 		foreach($addon_list as $addon => $val)
 		{
-			if($val->addon == "smartphone")
-			{
-				continue;
-			}
-			if(!is_dir(_XE_PATH_ . 'addons/' . $addon))
-			{
-				continue;
-			}
-			if(($type == "pc" && $val->is_used != 'Y') || ($type == "mobile" && $val->is_used_m != 'Y') || ($gtype == 'global' && $val->is_fixed != 'Y'))
+			if($val->addon == "smartphone"
+				|| ($type == "pc" && $val->is_used != 'Y') 
+				|| ($type == "mobile" && $val->is_used_m != 'Y') 
+				|| ($gtype == 'global' && $val->is_fixed != 'Y')
+				|| !is_dir(_XE_PATH_ . 'addons/' . $addon))
 			{
 				continue;
 			}
 
 			$extra_vars = unserialize($val->extra_vars);
 			$mid_list = $extra_vars->mid_list;
-			if(!is_array($mid_list) || !count($mid_list))
+			if(!is_array($mid_list) || count($mid_list) < 1)
 			{
 				$mid_list = NULL;
 			}
 
-			$buff .= '$rm = \'' . $extra_vars->xe_run_method . "';";
-			$buff .= '$ml = array(';
+			$buff[] = '$rm = \'' . $extra_vars->xe_run_method . "';";
+			$buff[] = '$ml = array(';
 			if($mid_list)
 			{
 				foreach($mid_list as $mid)
 				{
-					$buff .= "'$mid' => 1,";
+					$buff[] = "'$mid' => 1,";
 				}
 			}
-			$buff .= ');';
-			$buff .= sprintf('$addon_file = \'./addons/%s/%s.addon.php\';', $addon, $addon);
+			$buff[] = ');';
+			$buff[] = sprintf('$addon_file = \'./addons/%s/%s.addon.php\';', $addon, $addon);
 
 			if($val->extra_vars)
 			{
@@ -126,34 +119,20 @@ class addonController extends addon
 			}
 			$addon_include = sprintf('unset($addon_info); $addon_info = unserialize(base64_decode(\'%s\')); @include($addon_file);', $extra_vars);
 
-			$buff .= 'if(file_exists($addon_file)){';
-			$buff .= 'if($rm === \'no_run_selected\'){';
-			$buff .= 'if(!isset($ml[$_m])){';
-			$buff .= $addon_include;
-			$buff .= '}}else{';
-			$buff .= 'if(isset($ml[$_m]) || count($ml) === 0){';
-			$buff .= $addon_include;
-			$buff .= '}}}';
+			$buff[] = 'if(file_exists($addon_file)){';
+			$buff[] = 'if($rm === \'no_run_selected\'){';
+			$buff[] = 'if(!isset($ml[$_m])){';
+			$buff[] = $addon_include;
+			$buff[] = '}}else{';
+			$buff[] = 'if(isset($ml[$_m]) || count($ml) === 0){';
+			$buff[] = $addon_include;
+			$buff[] = '}}}';
 		}
-
-		$buff = sprintf('<?php if(!defined("__XE__")) exit(); $_m = Context::get(\'mid\'); %s ?>', $buff);
 
 		$addon_path = _XE_PATH_ . 'files/cache/addons/';
-		if(!is_dir($addon_path))
-		{
-			FileHandler::makeDir($addon_path);
-		}
-
-		if($gtype == 'site')
-		{
-			$addon_file = $addon_path . $site_srl . $type . '.acivated_addons.cache.php';
-		}
-		else
-		{
-			$addon_file = $addon_path . $type . '.acivated_addons.cache.php';
-		}
-
-		FileHandler::writeFile($addon_file, $buff);
+		FileHandler::makeDir($addon_path);
+		$addon_file = $addon_path . ($gtype == 'site' ? $site_srl : '') . $type . '.acivated_addons.cache.php';
+		FileHandler::writeFile($addon_file, join(PHP_EOL, $buff));
 	}
 
 	/**

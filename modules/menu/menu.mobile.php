@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * menuMobile class
  * mobile class of the menu module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/menu
  * @version 0.1
  */
@@ -22,6 +23,7 @@ class menuMobile extends moduleObject
 	function straightenMenu($menu_item, $depth)
 	{
 		if(!$menu_item['link']) return;
+		$obj = new stdClass;
 		$obj->href = $menu_item['href'];
 		$obj->depth = $depth;
 		$obj->text = $menu_item['text'];

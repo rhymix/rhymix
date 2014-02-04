@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  editor
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief editor module's controller class
  */
 class editorController extends editor
@@ -21,6 +22,7 @@ class editorController extends editor
 
 		$this->deleteSavedDoc(false);
 
+		$args = new stdClass;
 		$args->document_srl = Context::get('document_srl');
 		$args->content = Context::get('content');
 		$args->title = Context::get('title');
@@ -34,7 +36,7 @@ class editorController extends editor
 	 */
 	function procEditorRemoveSavedDoc()
 	{
-		$oEditorController = &getController('editor');
+		$oEditorController = getController('editor');
 		$oEditorController->deleteSavedDoc(true);
 	}
 
@@ -47,7 +49,7 @@ class editorController extends editor
 		$method = Context::get('method');
 		if(!$component) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$oComponent = &$oEditorModel->getComponentObject($component);
 		if(!$oComponent->toBool()) return $oComponent;
 
@@ -66,7 +68,10 @@ class editorController extends editor
 		$vars = $oComponent->getVariables();
 		if(count($vars))
 		{
-			foreach($vars as $key=>$val) $this->add($key, $val);
+			foreach($vars as $key => $val)
+			{
+				$this->add($key, $val);
+			}
 		}
 	}
 
@@ -80,8 +85,7 @@ class editorController extends editor
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
 
-		$editor_config = null;
-
+		$editor_config = new stdClass;
 		$editor_config->editor_skin = Context::get('editor_skin');
 		$editor_config->comment_editor_skin = Context::get('comment_editor_skin');
 		$editor_config->content_style = Context::get('content_style');
@@ -112,7 +116,7 @@ class editorController extends editor
 			{
 				$editor_config->{$key} = array();
 			}
-			else if(is_array($grant)) 
+			else if(is_array($grant))
 			{
 				$editor_config->{$key} = $grant;
 			}
@@ -127,7 +131,7 @@ class editorController extends editor
 		$editor_config->enable_autosave = Context::get('enable_autosave');
 		if($editor_config->enable_autosave != 'Y') $editor_config->enable_autosave = 'N';
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)
 		{
 			$srl = trim($module_srl[$i]);
@@ -153,21 +157,28 @@ class editorController extends editor
 		$module_srl = $module_info->module_srl;
 		if($module_srl)
 		{
-			$oEditorModel = &getModel('editor');
+			$oEditorModel = getModel('editor');
 			$editor_config = $oEditorModel->getEditorConfig($module_srl);
 			$content_style = $editor_config->content_style;
 			if($content_style)
 			{
-				$path = _XE_PATH_.'modules/editor/styles/'.$content_style.'/';
-				if(is_dir($path) && file_exists($path.'style.ini'))
+				$path = _XE_PATH_ . 'modules/editor/styles/'.$content_style.'/';
+				if(is_dir($path) && file_exists($path . 'style.ini'))
 				{
 					$ini = file($path.'style.ini');
-					for($i=0,$c=count($ini);$i<$c;$i++)
+					for($i = 0, $c = count($ini); $i < $c; $i++)
 					{
 						$file = trim($ini[$i]);
 						if(!$file) continue;
-						if(preg_match('/\.css$/i',$file)) Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
-						elseif(preg_match('/\.js/i',$file)) Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+
+						if(substr_compare($file, '.css', -4) === 0)
+						{
+							Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+						}
+						elseif(substr_compare($file, '.js', -3) === 0)
+						{
+							Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+						}
 					}
 				}
 			}
@@ -175,11 +186,12 @@ class editorController extends editor
 			$content_font_size = $editor_config->content_font_size;
 			if($content_font || $content_font_size)
 			{
-				$buff = '<style> .xe_content { ';
-				if($content_font) $buff .= 'font-family:'.$content_font.';';
-				if($content_font_size) $buff .= 'font-size:'.$content_font_size.';';
-				$buff .= ' }</style>';
-				Context::addHtmlHeader($buff);
+				$buff = array();
+				$buff[] = '<style> .xe_content { ';
+				if($content_font) $buff[] = 'font-family:'.$content_font.';';
+				if($content_font_size) $buff[] = 'font-size:'.$content_font_size.';';
+				$buff[] = ' }</style>';
+				Context::addHtmlHeader(implode('', $buff));
 			}
 		}
 
@@ -206,6 +218,7 @@ class editorController extends editor
 		preg_match_all('/([a-z0-9_-]+)="([^"]+)"/is', $script, $m);
 
 		$xml_obj = new stdClass;
+		$xml_obj->attrs = new stdClass;
 		for($i=0,$c=count($m[0]);$i<$c;$i++)
 		{
 			$xml_obj->attrs->{$m[1][$i]} = $m[2][$i];
@@ -213,8 +226,9 @@ class editorController extends editor
 		$xml_obj->body = $match[4];
 
 		if(!$xml_obj->attrs->editor_component) return $match[0];
+
 		// Get converted codes by using component::transHTML()
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$oComponent = &$oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
 		if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $match[0];
 
@@ -236,6 +250,7 @@ class editorController extends editor
 		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
+
 		// Get the current module if module_srl doesn't exist
 		if(!$args->module_srl)
 		{
@@ -257,8 +272,8 @@ class editorController extends editor
 	{
 		$editor_sequence = Context::get('editor_sequence');
 		$primary_key = Context::get('primary_key');
-		$oEditorModel = &getModel('editor');
-		$oFileController = &getController('file');
+		$oEditorModel = getModel('editor');
+		$oFileController = getController('file');
 
 		$saved_doc = $oEditorModel->getSavedDoc(null);
 
@@ -308,7 +323,7 @@ class editorController extends editor
 		$saved_doc = $output->data;
 		if(!$saved_doc) return;
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
 		if(!$oSaved->isExists())
 		{
@@ -337,7 +352,8 @@ class editorController extends editor
 	 */
 	function makeCache($filter_enabled = true, $site_srl)
 	{
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
+		$args = new stdClass;
 
 		if($filter_enabled) $args->enabled = "Y";
 
@@ -348,8 +364,10 @@ class editorController extends editor
 		}
 		else $output = executeQuery('editor.getComponentList', $args);
 		$db_list = $output->data;
+
 		// Get a list of files
 		$downloaded_list = FileHandler::readDir(_XE_PATH_.'modules/editor/components');
+
 		// Get information about log-in status and its group
 		$is_logged = Context::get('is_logged');
 		if($is_logged)
@@ -361,6 +379,7 @@ class editorController extends editor
 			}
 			else $group_list = array();
 		}
+
 		// Get xml information for looping DB list
 		if(!is_array($db_list)) $db_list = array($db_list);
 		$component_list = new stdClass();
@@ -382,7 +401,7 @@ class editorController extends editor
 				$extra_vars = unserialize($component->extra_vars);
 				if($extra_vars->target_group)
 				{
-					$xml_info->target_group = $extra_vars->target_group;	
+					$xml_info->target_group = $extra_vars->target_group;
 				}
 
 				if($extra_vars->mid_list && count($extra_vars->mid_list))
@@ -428,6 +447,7 @@ class editorController extends editor
 			if(file_exists($icon_file)) $component_list->{$component_name}->icon = true;
 			if(file_exists($component_icon_file)) $component_list->{$component_name}->component_icon = true;
 		}
+
 		// Return if it checks enabled only
 		if($filter_enabled)
 		{
@@ -436,6 +456,7 @@ class editorController extends editor
 			FileHandler::writeFile($cache_file, $buff);
 			return $component_list;
 		}
+
 		// Get xml_info of downloaded list
 		foreach($downloaded_list as $component_name)
 		{
@@ -443,7 +464,7 @@ class editorController extends editor
 			// Pass if configured
 			if($component_list->{$component_name}) continue;
 			// Insert data into the DB
-			$oEditorController = &getAdminController('editor');
+			$oEditorController = getAdminController('editor');
 			$oEditorController->insertComponent($component_name, false, $site_srl);
 			// Add to component_list
 			unset($xml_info);
@@ -465,17 +486,17 @@ class editorController extends editor
 	 */
 	function removeCache($site_srl = 0)
 	{
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		FileHandler::removeFile($oEditorModel->getCacheFile(true, $site_srl));
 		FileHandler::removeFile($oEditorModel->getCacheFile(false, $site_srl));
 	}
 
 	function triggerCopyModule(&$obj)
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$editorConfig = $oModuleModel->getModulePartConfig('editor', $obj->originModuleSrl);
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))
 		{
 			foreach($obj->moduleSrlList AS $key=>$moduleSrl)

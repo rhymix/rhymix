@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  memberAdminModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * admin model class of member module
  */
 class memberAdminModel extends member
@@ -72,7 +73,7 @@ class memberAdminModel extends member
 				case 'nick_name' :
 					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
 					$args->s_nick_name = $search_keyword;
-					$args->html_nick_name = htmlspecialchars($search_keyword);
+					$args->html_nick_name = htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 					break;
 				case 'email_address' :
 					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
@@ -88,7 +89,8 @@ class memberAdminModel extends member
 					$args->s_regdate_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
 					break;
 				case 'last_login' :
-					$args->s_last_login = $search_keyword;
+					$args->s_last_login = preg_replace("/[^0-9]/","",$search_keyword);
+					//$args->s_last_login = $search_keyword;
 					break;
 				case 'last_login_more' :
 					$args->s_last_login_more = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
@@ -191,11 +193,11 @@ class memberAdminModel extends member
 		if(!$skin) $tpl = "";
 		else
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
 			Context::set('skin_info', $skin_info);
 
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('member');
 			if(!$config->colorset) $config->colorset = "white";
 			Context::set('config', $config);
@@ -268,7 +270,7 @@ class memberAdminModel extends member
 			Context::set('formInfo', $output->data);
 		}
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 		foreach($config->signupForm as $item) 
 		{
@@ -293,24 +295,10 @@ class memberAdminModel extends member
 	{
 		$db_info = Context::getDBInfo();
 		$admin_ip_list = $db_info->admin_ip_list;
-		$admin_ip_list = explode(",",$admin_ip_list);
-		$oMemberModel = &getModel('member');
-		$ip = $_SERVER['REMOTE_ADDR'];
-		$falg = false;
-		foreach($admin_ip_list as $admin_ip_list_key => $admin_ip_value)
-		{
-			if(preg_match('/^\d{1,3}(?:.(\d{1,3}|\*)){3}\s*$/', $admin_ip_value, $matches) && $ip)
-			{
-				$admin_ip = $matches[0];
-				$admin_ip = str_replace('*','',$admin_ip);
-				$admin_ip_patterns[] = preg_quote($admin_ip);				
-				$admin_ip_pattern = '/^('.implode($admin_ip_patterns,'|').')/';				
-				if(preg_match($admin_ip_pattern, $ip, $matches)) return true;
-				$flag = true;
-			}
-		}
-		if(!$flag) return true;
-		return false;
+		if(!$admin_ip_list) return true;
+		if(!is_array($admin_ip_list)) $admin_ip_list = explode(',',$admin_ip_list);
+		if(!count($admin_ip_list) || IpFilter::filter($admin_ip_list)) return true;
+		else return false;
 	}
 }
 /* End of file member.admin.model.php */

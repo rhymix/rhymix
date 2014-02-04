@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  widgetView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief View class of the widget modules
  */
 class widgetView extends widget
@@ -22,7 +23,7 @@ class widgetView extends widget
 		// If people have skin widget widget output as a function of the skin More Details
 		if(Context::get('skin')) return $this->dispWidgetSkinInfo();
 		// Wanted widget is selected information
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		$widget_info = $oWidgetModel->getWidgetInfo(Context::get('selected_widget'));
 		Context::set('widget_info', $widget_info);
 		// Specifies the widget to pop up
@@ -41,7 +42,7 @@ class widgetView extends widget
 
 		$path = sprintf('./widgets/%s/', $widget);
 		// Wanted widget is selected information
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($path, $skin);
 
 		Context::set('skin_info',$skin_info);
@@ -57,7 +58,7 @@ class widgetView extends widget
 	function dispWidgetGenerateCode()
 	{
 		// Wanted widget is selected information
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
 		$selected_widget = Context::get('selected_widget');
@@ -68,7 +69,7 @@ class widgetView extends widget
 		Context::set('widget_list', $widget_list);
 		Context::set('selected_widget', $selected_widget);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// Get a list of module categories
 		$module_categories = $oModuleModel->getModuleCategories();
 		// Get a mid list
@@ -79,7 +80,7 @@ class widgetView extends widget
 		$mid_list = $oModuleModel->getMidList($args, $columnList);
 
 		// Get a list of groups
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups($site_module_info->site_srl);
 		Context::set('group_list', $group_list);
 		// module_category and module combination
@@ -113,7 +114,7 @@ class widgetView extends widget
 	 */
 	function dispWidgetGenerateCodeInPage()
 	{
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
 		Context::set('widget_list',$widget_list);
 		Context::set('admin_bar','false');
@@ -131,7 +132,7 @@ class widgetView extends widget
 	function dispWidgetStyleGenerateCodeInPage()
 	{
 		// Widget-style list
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		$widgetStyle_list = $oWidgetModel->getDownloadedWidgetStyleList();
 		Context::set('widgetStyle_list',$widgetStyle_list);
 		Context::set('admin_bar','false');

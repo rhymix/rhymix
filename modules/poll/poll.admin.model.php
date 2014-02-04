@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  pollAdminModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin model class of the poll module
  */
 class pollAdminModel extends poll
@@ -44,8 +45,8 @@ class pollAdminModel extends poll
 		$poll_srl = Context::get('poll_srl');
 		$upload_target_srl = Context::get('upload_target_srl');
 
-		$oDocumentModel = &getModel('document');
-		$oCommentModel = &getModel('comment');
+		$oDocumentModel = getModel('document');
+		$oCommentModel = getModel('comment');
 
 		$oDocument = $oDocumentModel->getDocument($upload_target_srl);
 

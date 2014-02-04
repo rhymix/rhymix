@@ -1,5 +1,6 @@
 <load target="css/member.css" />
 <load target="js/member.js" />
+
 <section class="xm">
 	<ul class="nav nav-tabs" cond="$is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl)">
 		<li loop="$logged_info->menu_list=>$key,$val" class="active"|cond="$key==$act">

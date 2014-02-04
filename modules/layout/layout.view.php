@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  layoutView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * admin view class of the layout module
  */
 class layoutView extends layout
@@ -22,7 +23,7 @@ class layoutView extends layout
 	function dispLayoutInfo()
 	{
 		// Get the layout information
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayoutInfo(Context::get('selected_layout'));
 		if(!$layout_info) exit();
 		Context::set('layout_info', $layout_info);
@@ -60,7 +61,7 @@ class layoutView extends layout
 			// if module is 'ARTiCLE' and from site design setting, make content directly
 			if($module == 'ARTICLE' && !$mid)
 			{
-				$oDocumentModel = &getModel('document');
+				$oDocumentModel = getModel('document');
 				$oDocument = $oDocumentModel->getDocument(0, true);
 
 				$t = Context::getLang('article_preview_title');
@@ -86,12 +87,12 @@ class layoutView extends layout
 
 				if ($skinType == 'M')
 				{
-					$templatePath = './modules/page/m.skins/' . $skin;
+					$templatePath = _XE_PATH_ . 'modules/page/m.skins/' . $skin;
 					$templateFile = 'mobile';
 				}
 				else
 				{
-					$templatePath = './modules/page/skins/' . $skin;
+					$templatePath = _XE_PATH_ . 'modules/page/skins/' . $skin;
 					$templateFile = 'content';
 				}
 
@@ -112,8 +113,8 @@ class layoutView extends layout
 				if($layoutSrl == -1)
 				{
 					$site_srl = ($oModule) ? $oModule->module_info->site_srl : 0;
-					$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $site_srl);
-					@include($designInfoFile);
+					$designInfoFile = sprintf(_XE_PATH_ . 'files/site_design/design_%s.php', $site_srl);
+					include($designInfoFile);
 
 					if($skinType == 'M')
 					{
@@ -141,7 +142,7 @@ class layoutView extends layout
 						{
 							if($val->type == 'image')
 							{
-								if(preg_match('/^\.\/files\/attach\/images\/(.+)/i', $val->value))
+								if(strncmp('./files/attach/images/', $val->value, 22) === 0)
 								{
 									$val->value = Context::getRequestUri() . substr($val->value, 2);
 								}
@@ -163,14 +164,14 @@ class layoutView extends layout
 
 								if(file_exists($homeMenuCacheFile))
 								{
-									@include($homeMenuCacheFile);
+									include($homeMenuCacheFile);
 								}
 
 								if(!$menu->menu_srl)
 								{
 									$menu->xml_file = str_replace('.xml.php', $homeMenuSrl . '.xml.php', $menu->xml_file);
 									$menu->php_file = str_replace('.php', $homeMenuSrl . '.php', $menu->php_file);
-									$layout_info->menu->{$menu_id}->menu_srl = $homeMenuSrl;
+									$layoutInfo->menu->{$menu_id}->menu_srl = $homeMenuSrl;
 								}
 								else
 								{
@@ -178,9 +179,11 @@ class layoutView extends layout
 									$menu->php_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->php_file);
 								}
 							}
-							if(file_exists($menu->php_file))
+
+							$menu->php_file = FileHandler::getRealPath($menu->php_file);
+							if(FileHandler::exists($menu->php_file))
 							{
-								@include($menu->php_file);
+								include($menu->php_file);
 							}
 							Context::set($menu_id, $menu);
 						}
@@ -303,7 +306,7 @@ class layoutView extends layout
 		}
 
 		// get module html
-		require_once("./classes/display/HTMLDisplayHandler.php");
+		require_once(_XE_PATH_ . "classes/display/HTMLDisplayHandler.php");
 		$handler = new HTMLDisplayHandler();
 		return $handler->toDoc($oModule);
 	}
@@ -325,7 +328,7 @@ class layoutView extends layout
 		$code_css = Context::get('code_css');
 		if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
 		// Get the layout information
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
 		if(!$layout_info) return new Object(-1, 'msg_invalid_request');
 		// Separately handle the layout if its type is faceoff
@@ -345,7 +348,9 @@ class layoutView extends layout
 		{
 			foreach($layout_info->menu as $menu_id => $menu)
 			{
-				if(file_exists($menu->php_file)) @include($menu->php_file);
+				$menu->php_file = FileHandler::getRealPath($menu->php_file);
+				if(FileHandler::exists($menu->php_file)) include($menu->php_file);
+
 				Context::set($menu_id, $menu);
 			}
 		}
@@ -353,7 +358,7 @@ class layoutView extends layout
 		Context::set('layout_info', $layout_info);
 		Context::set('content', Context::getLang('layout_preview_content'));
 		// Temporary save the codes
-		$edited_layout_file = sprintf('./files/cache/layout/tmp.tpl');
+		$edited_layout_file = _XE_PATH_ . 'files/cache/layout/tmp.tpl';
 		FileHandler::writeFile($edited_layout_file, $code);
 
 		// Compile

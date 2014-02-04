@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  pageAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief page admin view of the module class
  */
 class pageAdminView extends page
@@ -18,7 +19,7 @@ class pageAdminView extends page
 		// Pre-check if module_srl exists. Set module_info if exists
 		$module_srl = Context::get('module_srl');
 		// Create module model object
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// module_srl two come over to save the module, putting the information in advance
 		if($module_srl)
 		{
@@ -64,11 +65,11 @@ class pageAdminView extends page
 		if(in_array($search_target,$search_target_list) && $search_keyword) $args->{$search_target} = $search_keyword;
 
 		$output = executeQuery('page.getPageList', $args);
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$page_list = $oModuleModel->addModuleExtraVars($output->data);
 		moduleModel::syncModuleToSite($page_list);
 
-		$oModuleAdminModel = &getAdminModel('module'); /* @var $oModuleAdminModel moduleAdminModel */
+		$oModuleAdminModel = getAdminModel('module'); /* @var $oModuleAdminModel moduleAdminModel */
 
 		$tabChoice = array('tab1'=>1, 'tab3'=>1);
 		$selected_manage_content = $oModuleAdminModel->getSelectedManageHTML($this->xml_info->grant, $tabChoice, $this->module_path);
@@ -104,13 +105,13 @@ class pageAdminView extends page
 		// If the layout is destined to add layout information haejum (layout_title, layout)
 		if($module_info->layout_srl)
 		{
-			$oLayoutModel = &getModel('layout');
+			$oLayoutModel = getModel('layout');
 			$layout_info = $oLayoutModel->getLayout($module_info->layout_srl);
 			$module_info->layout = $layout_info->layout;
 			$module_info->layout_title = $layout_info->layout_title;
 		}
 		// Get a layout list
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getLayoutList();
 		Context::set('layout_list', $layout_list);
 
@@ -120,7 +121,7 @@ class pageAdminView extends page
 
 		if($this->module_info->page_type == 'ARTICLE')
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$skin_list = $oModuleModel->getSkins($this->module_path);
 			Context::set('skin_list',$skin_list);
 
@@ -148,7 +149,7 @@ class pageAdminView extends page
 		// call by reference content from other modules to come take a year in advance for putting the variable declaration
 		$content = '';
 
-		$oEditorView = &getView('editor');
+		$oEditorView = getView('editor');
 		$oEditorView->triggerDispEditorAdditionSetup($content);
 		Context::set('setup_content', $content);
 		// Set a template file
@@ -249,7 +250,7 @@ class pageAdminView extends page
 		// $content = str_replace('$', '&#36;', $content);
 		Context::set('page_content', $content);
 		// Set widget list
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
 		Context::set('widget_list', $widget_list);
 
@@ -263,7 +264,7 @@ class pageAdminView extends page
 
 	function _setArticleTypeContentModify($isMobile = false)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument(0, true);
 
 		if($isMobile)
@@ -302,7 +303,7 @@ class pageAdminView extends page
 		$module_srl = Context::get('module_srl');
 		if(!$module_srl) return $this->dispContent();
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module', 'mid');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		Context::set('module_info',$module_info);
@@ -319,7 +320,7 @@ class pageAdminView extends page
 	function dispPageAdminGrantInfo()
 	{
 		// Common module settings page, call rights
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		$grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
 		Context::set('grant_content', $grant_content);
 
@@ -334,7 +335,7 @@ class pageAdminView extends page
 	 */
 	function dispPageAdminSkinInfo()
 	{
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		$skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
 		Context::set('skin_content', $skin_content);
 
@@ -346,7 +347,7 @@ class pageAdminView extends page
 	 */
 	function dispPageAdminMobileSkinInfo()
 	{
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		$skin_content = $oModuleAdminModel->getModuleMobileSkinHTML($this->module_info->module_srl);
 		Context::set('skin_content', $skin_content);
 

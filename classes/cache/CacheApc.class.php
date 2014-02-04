@@ -1,18 +1,14 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Cache class for APC
  *
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  * */
 class CacheApc extends CacheBase
 {
-
-	/**
-	 * Default valid time
-	 * @var int
-	 */
-	var $valid_time = 36000;
+	public static $isSupport = false;
 
 	/**
 	 * Get instance of CacheApc
@@ -36,7 +32,6 @@ class CacheApc extends CacheBase
 	 */
 	function CacheApc()
 	{
-
 	}
 
 	/**
@@ -46,7 +41,7 @@ class CacheApc extends CacheBase
 	 */
 	function isSupport()
 	{
-		return function_exists('apc_add');
+		return self::$isSupport;
 	}
 
 	/**
@@ -66,7 +61,7 @@ class CacheApc extends CacheBase
 			$valid_time = $this->valid_time;
 		}
 
-		return apc_store(md5(_XE_PATH_ . $key), array(time(), $buff), $valid_time);
+		return apc_store(md5(_XE_PATH_ . $key), array($_SERVER['REQUEST_TIME'], $buff), $valid_time);
 	}
 
 	/**
@@ -154,6 +149,10 @@ class CacheApc extends CacheBase
 		return apc_clear_cache('user');
 	}
 
+
 }
+
+CacheApc::$isSupport  = function_exists('apc_add');
+
 /* End of file CacheApc.class.php */
 /* Location: ./classes/cache/CacheApc.class.php */

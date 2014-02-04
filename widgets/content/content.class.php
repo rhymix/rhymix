@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class content
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief widget to display content
  * @version 0.1
  */
@@ -46,7 +47,7 @@ class content extends WidgetHandler
 		// markup options
 		if(!$args->markup_type) $args->markup_type = 'table';
 		// Set variables used internally
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_srls = $args->modules_info = $args->module_srls_info = $args->mid_lists = array();
 		$site_module_info = Context::get('site_module_info');
 		// List URLs if a type is RSS
@@ -62,10 +63,10 @@ class content extends WidgetHandler
 		}
 		else
 		{
+			$obj = new stdClass();
 			// Apply to all modules in the site if a target module is not specified
 			if(!$args->module_srls)
 			{
-				$obj = new stdClass();
 				$obj->site_srl = (int)$site_module_info->site_srl;
 				$output = executeQueryArray('widgets.content.getMids', $obj);
 				if($output->data)
@@ -184,11 +185,12 @@ class content extends WidgetHandler
 	function _getCommentItems($args)
 	{
 		// List variables to use CommentModel::getCommentList()
+		$obj = new stdClass();
 		$obj->module_srl = $args->module_srl;
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count * $args->page_count;
 		// Get model object of the comment module and execute getCommentList() method
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getNewestCommentList($obj);
 
 		$content_items = array();
@@ -221,7 +223,7 @@ class content extends WidgetHandler
 	function _getDocumentItems($args)
 	{
 		// Get model object from the document module
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		// Get categories
 		$obj = new stdClass();
 		$obj->module_srl = $args->module_srl;
@@ -274,7 +276,7 @@ class content extends WidgetHandler
 				$content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
 				$content_item->adds($oDocument->getObjectVars());
 				$content_item->add('original_content', $oDocument->get('content'));
-				$content_item->setTitle($oDocument->getTitleText());
+				$content_item->setTitle(htmlspecialchars($oDocument->getTitleText()));
 				$content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
 				$content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
 				$content_item->setContent($oDocument->getSummary($args->content_cut_size));
@@ -297,7 +299,7 @@ class content extends WidgetHandler
 
 	function _getImageItems($args)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		$obj->module_srls = $obj->module_srl = $args->module_srl;
 		$obj->direct_download = 'Y';
@@ -464,7 +466,7 @@ class content extends WidgetHandler
 		$buff = $this->requestFeedContents($args->rss_url);
 
 		$encoding = preg_match("/<\?xml.*encoding=\"(.+)\".*\?>/i", $buff, $matches);
-		if($encoding && !preg_match("/UTF-8/i", $matches[1])) $buff = Context::convertEncodingStr($buff);
+		if($encoding && stripos($matches[1], "UTF-8") === FALSE) $buff = Context::convertEncodingStr($buff);
 
 		$buff = preg_replace("/<\?xml.*\?>/i", "", $buff);
 
@@ -601,25 +603,22 @@ class content extends WidgetHandler
 				$content_item->setContentsLink($rss->link);
 				if($item->title)
 				{
-					if(!preg_match("/html/i", $value->title->attrs->type)) $item->title = $value->title->body;
+					if(stripos($value->title->attrs->type, "html") === FALSE) $item->title = $value->title->body;
 				}
 				$content_item->setTitle($item->title);
 				$content_item->setNickName(max($item->author,$item->{'dc:creator'}));
 				$content_item->setAuthorSite($value->author->uri->body);
+
 				//$content_item->setCategory($item->category);
-				$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->content);
-				if($item->description)
+				$item->description = ($item->content) ? $item->content : $item->description = $item->summary;
+				$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+
+				if(($item->content && stripos($value->content->attrs->type, "html") === FALSE) || (!$item->content && stripos($value->summary->attrs->type, "html") === FALSE))
 				{
-					if(!preg_match("/html/i", $value->content->attrs->type)) $item->description = htmlspecialchars($item->description);
+					$item->description = htmlspecialchars($item->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+
 				}
-				if(!$item->description)
-				{
-					$item->description = $item->summary;
-					if($item->description)
-					{
-						if(!preg_match("/html/i", $value->summary->attrs->type)) $item->description = htmlspecialchars($item->description);
-					}
-				}
+
 				$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
 				$content_item->setThumbnail($this->_getRssThumbnail($item->description));
 				$content_item->setLink($item->link);
@@ -656,6 +655,13 @@ class content extends WidgetHandler
 
 	function _getTrackbackItems($args)
 	{
+		$oTrackbackModel = getModel('trackback');
+		if(!$oTrackbackModel)
+		{
+			return;
+		}
+
+		$obj = new stdClass;
 		// Get categories
 		$output = executeQueryArray('widgets.content.getCategories',$obj);
 		if($output->toBool() && $output->data)
@@ -669,8 +675,8 @@ class content extends WidgetHandler
 		$obj->module_srl = $args->module_srl;
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count * $args->page_count;
+
 		// Get model object from the trackback module and execute getTrackbackList() method
-		$oTrackbackModel = &getModel('trackback');
 		$output = $oTrackbackModel->getNewestTrackbackList($obj);
 		// If an error occurs, just ignore it.
 		if(!$output->toBool() || !$output->data) return;

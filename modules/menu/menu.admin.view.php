@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * menuAdminView class
  * admin view class of the menu module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/menu
  * @version 0.1
  */
@@ -20,6 +21,7 @@ class menuAdminView extends menu
 		$this->setTemplatePath($this->module_path.'tpl');
 	}
 
+	
 	/**
 	 * Site map admin menu index page
 	 * @return void
@@ -38,9 +40,16 @@ class menuAdminView extends menu
 			else $site_srl = (int)$site_module_info->site_srl;
 		}
 
-		$oAdmin = &getClass('admin');
+		// process for unlinked modules
+		if($site_srl == 0)
+		{
+			$oMenuController = getAdminController('menu');
+			$oMenuController->linkAllModuleInstancesToSitemap();
+		}
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oAdmin = getClass('admin');
+
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuListFromDB = $oMenuAdminModel->getMenus();
 		if(is_array($menuListFromDB)) $output = array_reverse($menuListFromDB);
 
@@ -48,20 +57,19 @@ class menuAdminView extends menu
 		if(is_array($output))
 		{
 			$menuItems = array();
-			foreach($output AS $key=>$value)
+			foreach($output as $key=>$value)
 			{
 				if($value->title == $oAdmin->getAdminMenuName()) unset($output[$key]);
 				else
 				{
-					unset($menu);
-					unset($menuItems);
+					unset($menu, $menuItems);
 					//$value->xml_file = sprintf('./files/cache/menu/%s.xml.php',$value->menu_srl);
-					$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
-					if(file_exists($value->php_file)) @include($value->php_file);
+					$value->php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$value->menu_srl);
+					if(file_exists($value->php_file)) include($value->php_file);
 
 					if(count($menu->list)>0)
 					{
-						foreach($menu->list AS $key2=>$value2)
+						foreach($menu->list as $key2=>$value2)
 						{
 							$this->_menuInfoSetting($menu->list[$key2]);
 						}
@@ -72,18 +80,18 @@ class menuAdminView extends menu
 					$menuItems->menuSrl = $value->menu_srl;
 					$menuItems->title = $value->title;
 					$menuItems->menuItems = $menu;
-					array_push($menuList, $menuItems);
+					$menuList[] = $menuItems;
 				}
 			}
 		}
 		Context::set('menu_list', $menuList);
 
 		// get installed module list
-		$oPageController = &getController('page');	//for lang
+		$oPageController = getController('page'); //for lang
 		$resultModuleList = $oMenuAdminModel->getModuleListInSitemap($site_srl);
 		Context::set('module_list', $resultModuleList);
 
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layoutList = $oLayoutModel->getLayoutList();
 		Context::set('layout_list', $layoutList);
 
@@ -91,23 +99,23 @@ class menuAdminView extends menu
 		$theme_file = _XE_PATH_.'files/theme/theme_info.php';
 		if(is_readable($theme_file))
 		{
-			@include($theme_file);
+			include($theme_file);
 			Context::set('current_layout', $theme_info->layout);
 		}
 		else
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$default_mid = $oModuleModel->getDefaultMid();
 			Context::set('current_layout', $default_mid->layout_srl);
 		}
 
 		// get default group list
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$output = $oMemberModel->getGroups();
 		if(is_array($output))
 		{
 			$groupList = array();
-			foreach($output AS $key=>$value)
+			foreach($output as $value)
 			{
 				$groupList[$value->group_srl] = new stdClass();
 				$groupList[$value->group_srl]->group_srl = $value->group_srl;
@@ -135,8 +143,8 @@ class menuAdminView extends menu
 	 */
 	function _menuInfoSetting(&$menu)
 	{
-		$oModuleModel = &getModel('module');
-		if($menu['url'] && !preg_match('/^http/i', $menu['url']))
+		$oModuleModel = getModel('module');
+		if($menu['url'] && strncasecmp('http', $menu['url'], 4) !== 0)
 		{
 			unset($midInfo);
 			unset($moduleInfo);
@@ -152,7 +160,7 @@ class menuAdminView extends menu
 		}
 		if(count($menu['list']) > 0)
 		{
-			foreach($menu['list'] AS $key=>$value)
+			foreach($menu['list'] as $key=>$value)
 			{
 				$this->_menuInfoSetting($menu['list'][$key]);
 			}
@@ -169,7 +177,7 @@ class menuAdminView extends menu
 		if(is_array($menuItems))
 		{
 			$arrangedMenuItemList = array();
-			foreach($menuItems AS $key=>$value)
+			foreach($menuItems as $value)
 			{
 				if($value->parent_srl == 0)
 				{

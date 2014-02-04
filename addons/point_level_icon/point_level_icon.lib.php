@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * @brief Function to change point icon.
@@ -53,6 +54,7 @@ function pointLevelIconTrans($matches)
 		$level_icon = sprintf('%smodules/point/icons/%s/%d.gif', Context::getRequestUri(), $config->level_icon, $level);
 
 		// Get per to go to the next level if not a top level
+		$per = NULL;
 		if($level < $config->max_level)
 		{
 			$next_point = $config->level_step[$level + 1];
@@ -67,7 +69,7 @@ function pointLevelIconTrans($matches)
 		$title = sprintf('%s:%s%s%s, %s:%s/%s', Context::getLang('point'), $point, $config->point_name, $per ? ' (' . $per . ')' : '', Context::getLang('level'), $level, $config->max_level);
 		$alt = sprintf('[%s:%s]', Context::getLang('level'), $level);
 
-		$GLOBALS['_pointLevelIcon'][$member_srl] = sprintf('<img src="%s" alt="%s" title="%s" style="vertical-align:middle; margin-right:3px;" />', $level_icon, $alt, $title);
+		$GLOBALS['_pointLevelIcon'][$member_srl] = sprintf('<img src="%s" alt="%s" title="%s" class="xe_point_level_icon" style="vertical-align:middle;margin-right:3px;" />', $level_icon, $alt, $title);
 	}
 	$text = $GLOBALS['_pointLevelIcon'][$member_srl];
 

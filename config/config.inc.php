@@ -1,10 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * set the include of the class file and other environment configurations
  *
  * @file   config/config.inc.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 if(version_compare(PHP_VERSION, '5.4.0', '<'))
 {
@@ -27,22 +28,8 @@ define('__ZBXE__', __XE__);
 
 /**
  * Display XE's full version.
- * The version should be revised when releasing even if no change is made.
-
- * XE core's version name is designated development stage. Basically consist of 4 numbers. For example X.X.X.X.
-
- * First position number means 'major' update.
- * Second position number means 'minor' update.
- * Third position number '0, 1, 2, 3' means 'status' update. 
- * Forth position number means 'patch' update.
-
- * Third position number for status display is consist of 0~3 numbers.
- * '0' means 'alpha' status.
- * '1' means 'beta' status.
- * '2' means 'release candidate' status.
- * '3' means 'final' status.
  */
-define('__XE_VERSION__', '1.7.3.8');
+define('__XE_VERSION__', '1.7.4');
 
 /**
  * @deprecated __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.
@@ -99,8 +86,6 @@ else
  * define('__OB_GZHANDLER_ENABLE__', 1);
  * define('__ENABLE_PHPUNIT_TEST__', 0);
  * define('__PROXY_SERVER__', 'http://domain:port/path');
- * define('__XE_CDN_PREFIX__', 'http://yourCdnDomain.com/path/');
- * define('__XE_CDN_VERSION__', 'yourCdnVersion');
  */
 if(file_exists(_XE_PATH_ . 'config/config.user.inc.php'))
 {
@@ -233,22 +218,6 @@ if(!defined('__PROXY_SERVER__'))
 	define('__PROXY_SERVER__', NULL);
 }
 
-if(!defined('__XE_CDN_PREFIX__'))
-{
-	/**
-	 * CDN prefix
-	 */
-	define('__XE_CDN_PREFIX__', 'http://static.xpressengine.com/core/');
-}
-
-if(!defined('__XE_CDN_VERSION__'))
-{
-	/**
-	 * CDN version
-	 */
-	define('__XE_CDN_VERSION__', '%__XE_CDN_VERSION__%');
-}
-
 // Require specific files when using Firebug console output
 if((__DEBUG_OUTPUT__ == 2) && version_compare(PHP_VERSION, '6.0.0') === -1)
 {
@@ -296,6 +265,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 	require(_XE_PATH_ . 'classes/validator/Validator.class.php');
 	require(_XE_PATH_ . 'classes/frontendfile/FrontEndFileHandler.class.php');
 	require(_XE_PATH_ . 'classes/security/Security.class.php');
+	require(_XE_PATH_ . 'classes/security/IpFilter.class.php');
 	if(__DEBUG__)
 		$GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLoadStartTime__;
 }

@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * menuAdminController class
  * admin controller class of the menu module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/menu
  * @version 0.1
  */
@@ -43,7 +44,7 @@ class menuAdminController extends menu
 	 * home menu cache file
 	 * @var string
 	 */
-	private $homeMenuCacheFile = './files/cache/menu/homeSitemap.php';
+	private $homeMenuCacheFile = 'files/cache/menu/homeSitemap.php';
 
 	/**
 	 * Initialization
@@ -52,7 +53,10 @@ class menuAdminController extends menu
 	function init()
 	{
 		$this->setTemplatePath($this->module_path.'tpl');
-		//$this->homeMenuCacheFile = sprintf('./files/cache/menu/homeSitemap.php');
+	}
+
+	function __construct() {
+		$this->homeMenuCacheFile = _XE_PATH_ . $this->homeMenuCacheFile;
 	}
 
 	/**
@@ -99,6 +103,125 @@ class menuAdminController extends menu
 		$output->add('menuSrl', $args->menu_srl);
 		return $output;
 	}
+	
+	function linkAllModuleInstancesToSitemap()
+	{
+		$unlinked_modules = false;
+		$args = new stdClass;
+		$args->site_srl = 0;
+		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
+		if($output->toBool() && $output->data && count($output->data) > 0)
+		{
+			$unlinked_modules = $output->data;
+		}
+		
+		if($unlinked_modules)
+		{
+			$unlinked_menu_srl = $this->getUnlinkedMenu();
+			$output = $this->updateLinkModule($unlinked_modules, $unlinked_menu_srl);
+		}
+
+	}
+	
+	function getUnlinkedMenu()
+	{
+		// 'unlinked' menu 존재여부 확인
+		$oModuleModel = getModel('module');
+		$moduleConfig = $oModuleModel->getModuleConfig('menu');
+
+		if($moduleConfig->unlinked_menu_srl)
+		{
+			$menuArgs = new stdClass;
+			$menuArgs->menu_srl = $moduleConfig->unlinked_menu_srl;
+			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
+			if(!$menuOutput->data)
+			{
+				unset($moduleConfig->unlinked_menu_srl);
+			}
+		}
+		
+		if(!$moduleConfig->unlinked_menu_srl)
+		{
+			$output = $this->addMenu('unlinked', 0);
+			if($output->toBool())
+			{
+				$moduleConfig->unlinked_menu_srl = $output->get('menuSrl');
+				$oModuleController = getController('module');
+				$oModuleController->updateModuleConfig('menu', $moduleConfig);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		return $moduleConfig->unlinked_menu_srl;
+	}
+	
+	/**
+	 * insert menu when not linked module.
+	 *
+	 * @param array $moduleInfos
+	 * @param int $menuSrl
+	 *
+	 * @return Object
+	 */
+	function updateLinkModule($moduleInfos, $menuSrl)
+	{
+		if(!$moduleInfos || !is_array($moduleInfos) || count($moduleInfos) == 0 || $menuSrl == 0)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+	
+		foreach($moduleInfos as $moduleInfo)
+		{
+			// search menu.
+			$args = new stdClass;
+			$args->url = $moduleInfo->mid;
+			$args->site_srl = $moduleInfo->site_srl;
+			$args->is_shortcut = 'N';
+	
+			$output = executeQuery('menu.getMenuItemByUrl', $args);
+	
+			if($output->toBool() && $output->data)
+			{
+				$moduleInfo->menu_srl = $output->data->menu_srl;
+			}
+			else
+			{
+				// create menu item.
+				$item_args->menu_srl = $menuSrl;
+				$item_args->url = $moduleInfo->mid;
+				$item_args->name = $moduleInfo->mid;
+				$item_args->menu_item_srl = getNextSequence();
+				$item_args->listorder = -1*$item_args->menu_item_srl;
+	
+				$output = executeQuery('menu.insertMenuItem', $item_args);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+				$moduleInfo->menu_srl = $menuSrl;
+			}
+	
+			$output = executeQuery('module.updateModule', $moduleInfo);
+			
+			return $output;
+		}
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+		
+		$oMenuAdminController = getAdminController('menu');
+		$oMenuAdminController->makeXmlFile($menuSrl);
+	
+		return new Object();
+	}
+	
+	
 
 	/**
 	 * Change the menu title
@@ -128,10 +251,10 @@ class menuAdminController extends menu
 	{
 		$menu_srl = Context::get('menu_srl');
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuInfo = $oMenuAdminModel->getMenu($menu_srl);
 
-		$oAdmin = &getClass('admin');
+		$oAdmin = getClass('admin');
 		if($menuInfo->title == $oAdmin->getAdminMenuName())
 			return new Object(-1, 'msg_adminmenu_cannot_delete');
 
@@ -141,11 +264,11 @@ class menuAdminController extends menu
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
 		{
-			@include(FileHandler::getRealPath($phpFile));
+			include(FileHandler::getRealPath($phpFile));
 		}
 
 		// check home menu in originMenu
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$siteInfo = $oModuleModel->getSiteInfo($menuInfo->site_srl);
 
 		$isStartmenuInclude = false;
@@ -191,7 +314,7 @@ class menuAdminController extends menu
 		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuInfo = $oMenuAdminModel->getMenu($args->menu_srl);
 
 		// Delete modules
@@ -202,11 +325,11 @@ class menuAdminController extends menu
 		}
 
 		$oModuleController = getController('module');
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		foreach($output->data as $itemInfo)
 		{
-			if($itemInfo->is_shortcut != 'Y' && !preg_match('/^http/i',$itemInfo->url))
+			if($itemInfo->is_shortcut != 'Y' && strncasecmp('http', $itemInfo->url, 4) !== 0)
 			{
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
 				if($moduleInfo->module_srl)
@@ -305,7 +428,7 @@ class menuAdminController extends menu
 	private function _setMenuSrl(&$parent_srl, &$menu_srl)
 	{
 		// set menu srl
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$itemInfo = $oMenuAdminModel->getMenuItemInfo($parent_srl);
 		// parent_srl is parent menu item's srl
 		if($itemInfo->menu_srl)
@@ -330,9 +453,10 @@ class menuAdminController extends menu
 		$oDB->begin();
 
 		// type is url
-		if(preg_match('/^http/i', $request->shortcut_target) || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
+		if(strncasecmp('http', $request->shortcut_target, 4) === 0 || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
 		{
 			// set menu variable
+			$args = new stdClass();
 			$args->menu_srl = $request->menu_srl;
 			$args->parent_srl = $request->parent_srl;
 			$args->open_window = $request->menu_open_window;
@@ -352,7 +476,7 @@ class menuAdminController extends menu
 		else if(is_numeric($request->shortcut_target))
 		{
 			// Get original information
-			$oMenuAdminModel = &getAdminModel('menu');
+			$oMenuAdminModel = getAdminModel('menu');
 			$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->shortcut_target);
 			if(!$itemInfo->menu_item_srl)
 			{
@@ -413,7 +537,7 @@ class menuAdminController extends menu
 		if($request->menu_name_key) $args->name = $request->menu_name_key;
 		else $args->name = $request->menu_name;
 
-		if($request->module_id && preg_match('/^http/i', $request->module_id))
+		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
@@ -491,14 +615,14 @@ class menuAdminController extends menu
 		$cmArgs->mid = $request->module_id;
 
 		// check already created module instance
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleInfoByMid($request->module_id);
 		if($output->module_srl)
 		{
 			return new Object(-1, 'msg_module_name_exists');
 		}
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->insertModule($cmArgs);
 
 		return $output;
@@ -522,7 +646,7 @@ class menuAdminController extends menu
 		if($request->menu_expand != "Y") $request->menu_expand = "N";
 
 		// Get original information
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->menu_item_srl);
 		$args = $itemInfo;
 
@@ -530,7 +654,7 @@ class menuAdminController extends menu
 		if($itemInfo->is_shortcut == 'Y')
 		{
 			// type is url
-			if(preg_match('/^http/i', $request->shortcut_target) || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
+			if(strncasecmp('http', $request->shortcut_target, 4) === 0 || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
 			{
 				$args->url = $request->shortcut_target;
 			}
@@ -555,7 +679,7 @@ class menuAdminController extends menu
 		else
 		{
 			// check already created module instance
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			if($request->module_id != $itemInfo->url)
 			{
 				$output = $oModuleModel->getModuleInfoByMid($request->module_id);
@@ -577,7 +701,7 @@ class menuAdminController extends menu
 			{
 				$moduleInfo->browser_title = $request->browser_title;
 			}
-			$oModuleController = &getController('module');
+			$oModuleController = getController('module');
 			$oModuleController->updateModule($moduleInfo);
 			$args->url = $request->module_id;
 		}
@@ -613,7 +737,7 @@ class menuAdminController extends menu
 	{
 		$args = Context::getRequestVars();
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
 		$args->menu_srl = $item_info->menu_srl;
 
@@ -704,8 +828,8 @@ class menuAdminController extends menu
 	 */
 	public function deleteItem($args)
 	{
-		$oModuleModel = &getModel('module');
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oModuleModel = getModel('module');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		// Get original information
 		$itemInfo = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
@@ -727,7 +851,7 @@ class menuAdminController extends menu
 		$menu_title = $menuInfo->title;
 
 		// check admin menu delete
-		$oAdmin = &getClass('admin');
+		$oAdmin = getClass('admin');
 		if($menu_title == $oAdmin->getAdminMenuName() && $itemInfo->parent_srl == 0)
 		{
 			return $this->stop('msg_cannot_delete_for_admin_topmenu');
@@ -741,7 +865,7 @@ class menuAdminController extends menu
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
 		{
-			@include(FileHandler::getRealPath($phpFile));
+			include(FileHandler::getRealPath($phpFile));
 
 			if(is_array($menu->list))
 			{
@@ -812,10 +936,10 @@ class menuAdminController extends menu
 		if($node['active_btn']) FileHandler::removeFile($node['active_btn']);
 
 		// Delete module
-		if($node['is_shortcut'] != 'Y' && !preg_match('/^http/i',$node['url']))
+		if($node['is_shortcut'] != 'Y' && strncasecmp('http', $node['url'], 4) !== 0)
 		{
 			$oModuleController = getController('module');
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 
 			// reference menu's url modify
 			$args->url = $node['url'];
@@ -878,7 +1002,7 @@ class menuAdminController extends menu
 
 		if(!$mode || !$parent_srl || !$target_srl) return new Object(-1,'msg_invalid_request');
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		// get original menu item info for cache file recreate
 		$originalItemInfo = $oMenuAdminModel->getMenuItemInfo($target_srl);
@@ -888,12 +1012,12 @@ class menuAdminController extends menu
 		}
 
 		// get menu properies with child menu
-		$phpFile = sprintf("./files/cache/menu/%s.php", $originalItemInfo->menu_srl);
+		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $originalItemInfo->menu_srl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
 		{
-			@include(FileHandler::getRealPath($phpFile));
+			include(FileHandler::getRealPath($phpFile));
 
 			if(is_array($menu->list))
 			{
@@ -918,8 +1042,8 @@ class menuAdminController extends menu
 
 		if(!$this->homeModuleMid)
 		{
-			$oModuleModel = &getModel('module');
-			$oMenuAdminController = &getAdminController('menu');
+			$oModuleModel = getModel('module');
+			$oMenuAdminController = getAdminController('menu');
 			$columnList = array('modules.mid',);
 			$output = $oModuleModel->getSiteInfo(0, $columnList);
 			if($output->mid)
@@ -947,7 +1071,7 @@ class menuAdminController extends menu
 		{
 			foreach($node AS $key=>$node)
 			{
-				unset($args);
+				$args = new stdClass();
 				$args->menu_srl = $menu_srl;
 				$args->menu_item_srl = $node['node_srl'];
 				$output = executeQuery('menu.updateMenuItemNode', $args);
@@ -955,12 +1079,12 @@ class menuAdminController extends menu
 				//module's menu_srl move also
 				if($node['is_shortcut'] == 'N' && !empty($node['url']))
 				{
-					$oModuleModel = &getModel('module');
+					$oModuleModel = getModel('module');
 					$moduleInfo = $oModuleModel->getModuleInfoByMid($node['url']);
 					if($menu_srl != $moduleInfo->menu_srl)
 					{
 						$moduleInfo->menu_srl = $menu_srl;
-						$oModuleController = &getController('module');
+						$oModuleController = getController('module');
 						$output = $oModuleController->updateModule($moduleInfo);
 					}
 				}
@@ -982,17 +1106,17 @@ class menuAdminController extends menu
 		$parentSrl = Context::get('parent_srl');
 		$menuItemSrl = Context::get('menu_item_srl');
 
-		$oMenuModel = &getAdminModel('menu');
+		$oMenuModel = getAdminModel('menu');
 		$itemInfo = $oMenuModel->getMenuItemInfo($menuItemSrl);
 		$menuSrl = $itemInfo->menu_srl;
 
 		// get menu properies with child menu
-		$phpFile = sprintf("./files/cache/menu/%s.php", $menuSrl);
+		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $menuSrl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
 		{
-			@include(FileHandler::getRealPath($phpFile));
+			include(FileHandler::getRealPath($phpFile));
 
 			if(is_array($menu->list))
 			{
@@ -1034,7 +1158,7 @@ class menuAdminController extends menu
 
 	private function _copyMenu($menuSrl, $parentSrl, &$originMenu)
 	{
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuItemInfo = $oMenuAdminModel->getMenuItemInfo($originMenu['node_srl']);
 
 		// default argument setting
@@ -1053,9 +1177,9 @@ class menuAdminController extends menu
 
 		$isModuleCopySuccess = false;
 		// if menu have a reference of module instance
-		if($menuItemInfo->is_shortcut == 'N' && !preg_match('/^http/i', $originMenu['url']))
+		if($menuItemInfo->is_shortcut == 'N' && strncasecmp('http', $originMenu['url'], 4) !== 0 )
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($originMenu['url']);
 
 			$args->module_type = $moduleInfo->module;
@@ -1063,7 +1187,7 @@ class menuAdminController extends menu
 			$args->module_id = $moduleInfo->module.'_'.$randomMid;
 			$args->layout_srl = $moduleInfo->layout_srl;
 
-			$oModuleAdminController = &getAdminController('module');
+			$oModuleAdminController = getAdminController('module');
 			$copyArg = new stdClass();
 			$copyArg->module_srl = $moduleInfo->module_srl;
 			$copyArg->mid_1 = $args->module_id;
@@ -1104,9 +1228,19 @@ class menuAdminController extends menu
 			$insertedMenuItemSrl = $this->get('menu_item_srl');
 			if($menuItemInfo->normal_btn || $menuItemInfo->hover_btn || $menuItemInfo->active_btn)
 			{
-				$this->_copyButton($insertedMenuItemSrl, $menuItemInfo);
+				// copy & upate
+				$update_item_info = $oMenuAdminModel->getMenuItemInfo($insertedMenuItemSrl);
+				$copied_info = $this->_copyButton($insertedMenuItemSrl,$update_item_info->menu_srl, $menuItemInfo);
+				if(count($update_item_info->group_srls) == 0)
+				{
+					unset($update_item_info->group_srls);
+				}
+				$update_item_info->normal_btn = $copied_info['normal_btn'];
+				$update_item_info->hover_btn = $copied_info['hover_btn'];
+				$update_item_info->active_btn = $copied_info['active_btn'];
+				executeQuery('menu.updateMenuItem', $update_item_info);
 			}
-			array_push($this->insertedMenuItemSrlList, $insertedMenuItemSrl);
+			$this->insertedMenuItemSrlList[] = $insertedMenuItemSrl;
 		}
 
 		// if have a child menu, copy child menu also
@@ -1119,7 +1253,7 @@ class menuAdminController extends menu
 
 	private function _makeRandomMid()
 	{
-		$time = time();
+		$time = $_SERVER['REQUEST_TIME'];
 		$randomString = "";
 		for($i=0;$i<4;$i++)
 		{
@@ -1255,7 +1389,7 @@ class menuAdminController extends menu
 	function moveMenuItem($menu_srl, $parent_srl, $source_srl, $target_srl, $mode, $isShortcut='Y', $url=NULL)
 	{
 		// Get the original menus
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		$target_item = $oMenuAdminModel->getMenuItemInfo($target_srl);
 		if($target_item->menu_item_srl != $target_srl) return new Object(-1,'msg_invalid_request');
@@ -1291,12 +1425,12 @@ class menuAdminController extends menu
 			//module's menu_srl move also
 			if($isShortcut == 'N' && !empty($url))
 			{
-				$oModuleModel = &getModel('module');
+				$oModuleModel = getModel('module');
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($url);
 				if($menu_srl != $moduleInfo->menu_srl)
 				{
 					$moduleInfo->menu_srl = $menu_srl;
-					$oModuleController = &getController('module');
+					$oModuleController = getController('module');
 					$output = $oModuleController->updateModule($moduleInfo);
 				}
 
@@ -1305,7 +1439,7 @@ class menuAdminController extends menu
 				{
 					if(file_exists($this->homeMenuCacheFile))
 					{
-						@include($this->homeMenuCacheFile);
+						include($this->homeMenuCacheFile);
 					}
 					if(!$homeMenuSrl || $homeMenuSrl != $menu_srl)
 					{
@@ -1340,7 +1474,7 @@ class menuAdminController extends menu
 		// Check input value
 		$menu_srl = Context::get('menu_srl');
 		// Get information of the menu
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menu_info = $oMenuAdminModel->getMenu($menu_srl);
 		$menu_title = $menu_info->title;
 		// Re-generate the xml file
@@ -1361,11 +1495,17 @@ class menuAdminController extends menu
 		$target = Context::get('target');
 		$target_file = Context::get($target);
 		// Error occurs when the target is neither a uploaded file nor a valid file
-		if(!$menu_srl || !$menu_item_srl || !$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)/i',$target_file['name']))
+		if(!$menu_srl || !$menu_item_srl)
 		{
 			Context::set('error_messge', Context::getLang('msg_invalid_request'));
-			// Move the file to a specific director if the uploaded file meets requirement
+
 		}
+		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)$/i',$target_file['name'])  || !checkUploadedFile($target_file['tmp_name']))
+		{
+			Context::set('error_messge', Context::getLang('msg_invalid_request'));
+		}
+
+		// Move the file to a specific director if the uploaded file meets requirement
 		else
 		{
 			$tmp_arr = explode('.',$target_file['name']);
@@ -1405,7 +1545,7 @@ class menuAdminController extends menu
 	 */
 	function procMenuAdminAllActList()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$installed_module_list = $oModuleModel->getModulesXmlInfo();
 		if(is_array($installed_module_list))
 		{
@@ -1434,14 +1574,14 @@ class menuAdminController extends menu
 
 		// variable setting
 		$logged_info = Context::get('logged_info');
-		//$oMenuAdminModel = &getAdminModel('menu');
-		$oMemberModel = &getModel('member');
+		//$oMenuAdminModel = getAdminModel('menu');
+		$oMemberModel = getModel('member');
 
 		//$parentMenuInfo = $oMenuAdminModel->getMenuItemInfo($requestArgs->parent_srl);
 		$groupSrlList = $oMemberModel->getMemberGroups($logged_info->member_srl);
 
 		//preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $parentMenuInfo->name, $m);
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		//$info = $oModuleModel->getModuleInfoXml($moduleName);
 		$info = $oModuleModel->getModuleActionXml($moduleName);
 
@@ -1450,6 +1590,7 @@ class menuAdminController extends menu
 		if(empty($url)) $url = getNotEncodedFullUrl('', 'module', 'admin');
 		$dbInfo = Context::getDBInfo();
 
+		$args = new stdClass();
 		$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 		$args->parent_srl = $requestArgs->parent_srl;
 		$args->menu_srl = $requestArgs->menu_srl;
@@ -1472,7 +1613,7 @@ class menuAdminController extends menu
 		$args->listorder = -1*$args->menu_item_srl;
 
 		// Check if already exists
-		$oMenuModel = &getAdminModel('menu');
+		$oMenuModel = getAdminModel('menu');
 		$item_info = $oMenuModel->getMenuItemInfo($args->menu_item_srl);
 		// Update if exists
 		if($item_info->menu_item_srl == $args->menu_item_srl)
@@ -1507,7 +1648,7 @@ class menuAdminController extends menu
 		$exposure = Context::get('exposure');
 		$htPerm = Context::get('htPerm');
 
-		$oMenuModel = &getAdminModel('menu');
+		$oMenuModel = getAdminModel('menu');
 		$itemInfo = $oMenuModel->getMenuItemInfo($menuItemSrl);
 		$args = $itemInfo;
 
@@ -1519,14 +1660,13 @@ class menuAdminController extends menu
 		}
 		else
 		{
-			if(is_array($exposure))
-			{
-				$args->group_srls = implode(',', $exposure);
-			}
-			else if($exposure && in_array($exposure,array('-1','-3')))
+			$exposure = explode(',', $exposure);
+			if(in_array($exposure, array('-1','-3')))
 			{
 				$args->group_srls = $exposure;
 			}
+
+			if($exposure) $args->group_srls = implode(',', $exposure);
 		}
 
 		$output = executeQuery('menu.updateMenuItem', $args);
@@ -1537,26 +1677,31 @@ class menuAdminController extends menu
 
 		// Module Access update
 		unset($args);
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menuInfo = $oMenuAdminModel->getMenu($itemInfo->menu_srl);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
 
 		$xml_info = $oModuleModel->getModuleActionXML($moduleInfo->module);
 
 		$grantList = $xml_info->grant;
+		if(!$grantList) $grantList = new stdClass;
+
 		$grantList->access = new stdClass();
 		$grantList->access->default = 'guest';
 		$grantList->manager = new stdClass();
 		$grantList->manager->default = 'manager';
 
+		$grant = new stdClass;
 		foreach($grantList AS $grantName=>$grantInfo)
 		{
 			if(!$htPerm[$grantName])
 			{
 				continue;
 			}
+
+			$htPerm[$grantName] = explode(',', $htPerm[$grantName]);
 
 			// users in a particular group
 			if(is_array($htPerm[$grantName]))
@@ -1572,6 +1717,7 @@ class menuAdminController extends menu
 			}
 			$grant->{$group_srls} = array();
 		}
+
 		if(count($grant))
 		{
 			$oModuleController = getController('module');
@@ -1600,7 +1746,7 @@ class menuAdminController extends menu
 
 		if($site_srl)
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$columnList = array('sites.domain');
 			$site_info = $oModuleModel->getSiteInfo($site_srl, $columnList);
 			$domain = $site_info->domain;
@@ -1611,8 +1757,8 @@ class menuAdminController extends menu
 		$output = executeQuery('menu.getMenuItems', $args);
 		if(!$output->toBool()) return;
 		// Specify the name of the cache file
-		$xml_file = sprintf("./files/cache/menu/%s.xml.php", $menu_srl);
-		$php_file = sprintf("./files/cache/menu/%s.php", $menu_srl);
+		$xml_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.xml.php", $menu_srl);
+		$php_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $menu_srl);
 		// If no data found, generate an XML file without node data
 		$list = $output->data;
 		if(!$list)
@@ -1713,7 +1859,7 @@ class menuAdminController extends menu
 	{
 		if(!$source_node) return;
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		foreach($source_node as $menu_item_srl => $node)
 		{
@@ -1724,7 +1870,7 @@ class menuAdminController extends menu
 			$names = $oMenuAdminModel->getMenuItemNames($node->name, $site_srl);
 			foreach($names as $key => $val)
 			{
-				$name_arr_str .= sprintf('"%s"=>"%s",',$key, str_replace('\\','\\\\',htmlspecialchars($val)));
+				$name_arr_str .= sprintf('"%s"=>\'%s\',',$key, str_replace(array('\\', '\''), array('\\\\', '\\\''), $val));
 			}
 			$name_str = sprintf('$_names = array(%s); print $_names[$lang_type];', $name_arr_str);
 
@@ -1741,24 +1887,22 @@ class menuAdminController extends menu
 			$expand = $node->expand;
 
 			$normal_btn = $node->normal_btn;
-			if($normal_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$normal_btn)) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
+			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
 			else $normal_btn = '';
 			$hover_btn = $node->hover_btn;
-			if($hover_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$hover_btn)) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
+			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
 			else $hover_btn = '';
 			$active_btn = $node->active_btn;
-			if($active_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$active_btn)) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
+			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
 			else $active_btn = '';
 
 			$group_srls = $node->group_srls;
 
 			if($normal_btn)
 			{
-				if(preg_match('/\.png$/',$normal_btn)) $classname = 'class=&quot;iePngFix&quot;';
-				else $classname = '';
 				if($hover_btn) $hover_str = sprintf('onmouseover=&quot;this.src=\'%s\'&quot;', $hover_btn); else $hover_str = '';
 				if($active_btn) $active_str = sprintf('onmousedown=&quot;this.src=\'%s\'&quot;', $active_btn); else $active_str = '';
-				$link = sprintf('&lt;img src=&quot;%s&quot; onmouseout=&quot;this.src=\'%s\'&quot; alt=&quot;<?php print htmlspecialchars($_names[$lang_type]) ?>&quot; %s %s %s /&gt;', $normal_btn, $normal_btn, $hover_str, $active_str, $classname);
+				$link = sprintf('&lt;img src=&quot;%s&quot; onmouseout=&quot;this.src=\'%s\'&quot; alt=&quot;<?php print htmlspecialchars($_names[$lang_type], ENT_COMPAT | ENT_HTML401, \'UTF-8\', false) ?>&quot; %s %s /&gt;', $normal_btn, $normal_btn, $hover_str, $active_str);
 			}
 			else
 			{
@@ -1810,7 +1954,7 @@ class menuAdminController extends menu
 		$output = array("buff"=>"", "url_list"=>array());
 		if(!$source_node) return $output;
 
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 
 		foreach($source_node as $menu_item_srl => $node)
 		{
@@ -1857,27 +2001,26 @@ class menuAdminController extends menu
 			$expand = $node->expand;
 
 			$normal_btn = $node->normal_btn;
-			if($normal_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$normal_btn)) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
+			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
 			else $normal_btn = '';
 
 			$hover_btn = $node->hover_btn;
-			if($hover_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$hover_btn)) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
+			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
 			else $hover_btn = '';
 
 			$active_btn = $node->active_btn;
-			if($active_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$active_btn)) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
+			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
 			else $active_btn = '';
+
 
 			$group_srls = $node->group_srls;
 
 			if($normal_btn)
 			{
-				if(preg_match('/\.png$/',$normal_btn)) $classname = 'class=\"iePngFix\"';
-				else $classname = '';
 				if($hover_btn) $hover_str = sprintf('onmouseover=\"this.src=\'%s\'\"', $hover_btn); else $hover_str = '';
 				if($active_btn) $active_str = sprintf('onmousedown=\"this.src=\'%s\'\"', $active_btn); else $active_str = '';
-				$link = sprintf('"<img src=\"%s\" onmouseout=\"this.src=\'%s\'\" alt=\"".$_menu_names[%d][$lang_type]."\" %s %s %s />"', $normal_btn, $normal_btn, $node->menu_item_srl, $hover_str, $active_str, $classname);
-				if($active_btn) $link_active = sprintf('"<img src=\"%s\" onmouseout=\"this.src=\'%s\'\" alt=\"".$_menu_names[%d][$lang_type]."\" %s %s />"', $active_btn, $active_btn, $node->menu_item_srl, $hover_str, $classname);
+				$link = sprintf('"<img src=\"%s\" onmouseout=\"this.src=\'%s\'\" alt=\"".$_menu_names[%d][$lang_type]."\" %s %s />"', $normal_btn, $normal_btn, $node->menu_item_srl, $hover_str, $active_str);
+				if($active_btn) $link_active = sprintf('"<img src=\"%s\" onmouseout=\"this.src=\'%s\'\" alt=\"".$_menu_names[%d][$lang_type]."\" %s />"', $active_btn, $active_btn, $node->menu_item_srl, $hover_str);
 				else $link_active = $link;
 			}
 			else
@@ -1960,7 +2103,7 @@ class menuAdminController extends menu
 
 		if($args->isNormalDelete == 'Y' || $args->isHoverDelete == 'Y' || $args->isActiveDelete == 'Y')
 		{
-			$oMenuModel = &getAdminModel('menu');
+			$oMenuModel = getAdminModel('menu');
 			$itemInfo = $oMenuModel->getMenuItemInfo($args->menu_item_srl);
 
 			if($args->isNormalDelete == 'Y' && $itemInfo->normal_btn) FileHandler::removeFile($itemInfo->normal_btn);
@@ -1977,8 +2120,12 @@ class menuAdminController extends menu
 			$ext = $tmp_arr[count($tmp_arr)-1];
 
 			$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_normal_btn', $ext);
-			move_uploaded_file($args->menu_normal_btn['tmp_name'], $filename);
-			$returnArray['normal_btn'] = $filename;
+
+			if(checkUploadedFile($args->menu_normal_btn['tmp_name']))
+			{
+				move_uploaded_file ( $args->menu_normal_btn ['tmp_name'], $filename );
+				$returnArray ['normal_btn'] = $filename;
+			}
 		}
 
 		// hover button
@@ -1988,8 +2135,12 @@ class menuAdminController extends menu
 			$ext = $tmp_arr[count($tmp_arr)-1];
 
 			$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_hover_btn', $ext);
-			move_uploaded_file($args->menu_hover_btn['tmp_name'], $filename);
-			$returnArray['hover_btn'] = $filename;
+
+			if(checkUploadedFile($args->menu_hover_btn['tmp_name']))
+			{
+				move_uploaded_file($args->menu_hover_btn['tmp_name'], $filename);
+				$returnArray['hover_btn'] = $filename;
+			}
 		}
 
 		// active button
@@ -1999,8 +2150,13 @@ class menuAdminController extends menu
 			$ext = $tmp_arr[count($tmp_arr)-1];
 
 			$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_active_btn', $ext);
-			move_uploaded_file($args->menu_active_btn['tmp_name'], $filename);
-			$returnArray['active_btn'] = $filename;
+
+			if(checkUploadedFile($args->menu_active_btn['tmp_name']))
+			{
+				move_uploaded_file($args->menu_active_btn['tmp_name'], $filename);
+				$returnArray['active_btn'] = $filename;
+			}
+
 		}
 		return $returnArray;
 	}
@@ -2009,34 +2165,43 @@ class menuAdminController extends menu
 	 * When copy a menu, button copied also.
 	 * @param $args menuItemInfo with button values
 	 */
-	private function _copyButton($insertedMenuItemSrl, &$menuItemInfo)
+	private function _copyButton($insertedMenuItemSrl, $insertedMenuSrl, &$menuItemInfo)
 	{
+		$copied_info = array(
+			"normal_btn"=>"",
+			"hover_btn"=>"",
+			"active_btn"=>"",
+		);
 		//normal_btn
 		if($menuItemInfo->normal_btn)
 		{
 			$originFile = FileHandler::getRealPath($menuItemInfo->normal_btn);
-			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->normal_btn, $menuItemInfo->menu_srl, $insertedMenuItemSrl, 'normal');
+			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->normal_btn, $insertedMenuSrl, $insertedMenuItemSrl, 'normal');
 
 			FileHandler::copyFile($originFile, $targetFile);
+			$copied_info['normal_btn'] = $targetFile;
 		}
 
 		//hover_btn
 		if($menuItemInfo->hover_btn)
 		{
 			$originFile = FileHandler::getRealPath($menuItemInfo->hover_btn);
-			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->hover_btn, $menuItemInfo->menu_srl, $insertedMenuItemSrl, 'hover');
+			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->hover_btn, $insertedMenuSrl, $insertedMenuItemSrl, 'hover');
 
 			FileHandler::copyFile($originFile, $targetFile);
+			$copied_info['hover_btn'] = $targetFile;
 		}
 
 		//active_btn
 		if($menuItemInfo->active_btn)
 		{
 			$originFile = FileHandler::getRealPath($menuItemInfo->active_btn);
-			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->active_btn, $menuItemInfo->menu_srl, $insertedMenuItemSrl, 'active');
+			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->active_btn, $insertedMenuSrl, $insertedMenuItemSrl, 'active');
 
 			FileHandler::copyFile($originFile, $targetFile);
+			$copied_info['active_btn'] = $targetFile;
 		}
+		return $copied_info;
 	}
 
 	private function _changeMenuItemSrlInButtonPath($buttonPath, $menuSrl, $menuItemSrl, $mode)
@@ -2044,7 +2209,8 @@ class menuAdminController extends menu
 		$path = sprintf('./files/attach/menu_button/%d/', $menuSrl);
 		$tmp_arr = explode('.', $buttonPath);
 		$ext = $tmp_arr[count($tmp_arr)-1];
-		return sprintf('%s%d.%s.%s', $path, $menuItemSrl, 'menu_'.$mode.'_btn', $ext);
+		$date = date("YmdHis");
+		return sprintf('%s%d.%s.%s.%s', $path, $menuItemSrl,$date,'menu_'.$mode.'_btn', $ext);
 	}
 
 	public function makeHomemenuCacheFile($menuSrl)

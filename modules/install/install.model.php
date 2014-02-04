@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 class installModel extends install
 {
 	var $pwd;
@@ -10,6 +11,7 @@ class installModel extends install
 		{
 			$ftp_info->ftp_host = "127.0.0.1";
 		}
+
 		$connection = ssh2_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
 		if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 		{
@@ -20,18 +22,12 @@ class installModel extends install
 		$curpwd = "ssh2.sftp://$sftp".$this->pwd;
 		$dh = @opendir($curpwd);
 		if(!$dh) return new Object(-1, 'msg_ftp_invalid_path');
+
 		$list = array();
 		while(($file = readdir($dh)) !== false)
 		{
-			if(is_dir($curpwd.$file))
-			{
-				$file .= "/";
-			}
-			else
-			{
-				continue;
-			}
-			$list[] = $file;
+			if(!is_dir($curpwd.$file)) continue;
+			$list[] = $file . "/";
 		}
 		closedir($dh);
 		$this->add('list', $list);
@@ -39,8 +35,7 @@ class installModel extends install
 
 	function getInstallFTPList()
 	{
-		$ftp_info =  Context::getRequestVars();
-		if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) 
+		if(!($ftp_info = Context::getRequestVars()) || !$ftp_info->ftp_user || !$ftp_info->ftp_password) 
 		{
 			return new Object(-1, 'msg_ftp_invalid_auth_info');
 		}
@@ -55,12 +50,12 @@ class installModel extends install
 			return $this->getSFTPList();
 		}
 
-		if(function_exists(ftp_connect))
+		$_list = NULL;
+		if(function_exists('ftp_connect'))
 		{
 			$connection = ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
 			if(!$connection) return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_info->ftp_host));
-			$login_result = @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password); 
-			if(!$login_result)
+			if(! @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 			{
 				ftp_close($connection);	
 				return new Object(-1,'msg_ftp_invalid_auth_info');
@@ -92,13 +87,13 @@ class installModel extends install
 				}
 			}
 		}
-		$list = array();
 
+		$list = array();
 		if($_list)
 		{
 			foreach($_list as $k => $v)
 			{
-				$src = null;
+				$src = new stdClass(); 
 				$src->data = $v;
 				$res = Context::convertEncoding($src);
 				$v = $res->data;

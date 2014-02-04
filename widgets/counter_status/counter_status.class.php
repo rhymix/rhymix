@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class counter_status
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1
  * @brief Display counter status by using data in the counter module
  */
@@ -15,10 +16,10 @@ class counter_status extends WidgetHandler
 	function proc($args)
 	{
 		// Get status of the accumulated, yesterday's, today's counts
-		$oCounterModel = &getModel('counter');
+		$oCounterModel = getModel('counter');
 
 		$site_module_info = Context::get('site_module_info');
-		$output = $oCounterModel->getStatus(array('00000000', date('Ymd', time()-60*60*24), date('Ymd')), $site_module_info->site_srl);
+		$output = $oCounterModel->getStatus(array('00000000', date('Ymd', $_SERVER['REQUEST_TIME']-60*60*24), date('Ymd')), $site_module_info->site_srl);
 		if(count($output))
 		{
 			foreach($output as $key => $val) 

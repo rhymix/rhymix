@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * @class  communicationAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief communication module of the admin controller class
  */
 class communicationAdminController extends communication

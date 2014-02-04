@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * Model class of the file module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class fileModel extends file
 {
@@ -23,7 +24,7 @@ class fileModel extends file
 	 */
 	function getFileList()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$mid = Context::get('mid');
 		$editor_sequence = Context::get('editor_sequence');
@@ -40,7 +41,7 @@ class fileModel extends file
 				$file_info = $tmp_files[$i];
 				if(!$file_info->file_srl) continue;
 
-				$obj = null;
+				$obj = new stdClass;
 				$obj->file_srl = $file_info->file_srl;
 				$obj->source_filename = $file_info->source_filename;
 				$obj->file_size = $file_info->file_size;
@@ -108,7 +109,7 @@ class fileModel extends file
 	function getFileConfig($module_srl = null)
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$file_module_config = $oModuleModel->getModuleConfig('file');
 
@@ -116,7 +117,7 @@ class fileModel extends file
 		if(!$file_config) $file_config = $file_module_config;
 
 		$config = new stdClass();
-		
+
 		if($file_config)
 		{
 			$config->allowed_filesize = $file_config->allowed_filesize;
@@ -177,7 +178,7 @@ class fileModel extends file
 				{
 					$file = $value;
 					$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
-					array_push($fileList, $file);
+					$fileList[] = $file;
 				}
 			}
 			return $fileList;
@@ -297,12 +298,12 @@ class fileModel extends file
 			return $file_grant;
 		}
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($file_info->module_srl), $member_info);
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($file_info->upload_target_srl);
-		if($oDocument->isExists()) $document_grant = $oDocument->isGranted(); 
+		if($oDocument->isExists()) $document_grant = $oDocument->isGranted();
 
 		$file_grant->is_deletable = ($document_grant || $member_info->is_admin == 'Y' || $member_info->member_srl == $file_info->member_srl || $grant->manager);
 

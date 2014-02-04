@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  moduleAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief admin view class of the module module
  */
 class moduleAdminView extends module
@@ -29,9 +30,9 @@ class moduleAdminView extends module
 	function dispModuleAdminList()
 	{
 		// Obtain a list of modules
-		$oAdminModel = &getAdminModel('admin');
-		$oModuleModel = &getModel('module');
-		$oAutoinstallModel = &getModel('autoinstall');
+		$oAdminModel = getAdminModel('admin');
+		$oModuleModel = getModel('module');
+		$oAutoinstallModel = getModel('autoinstall');
 
 		$module_list = $oModuleModel->getModuleList();
 		if(is_array($module_list))
@@ -82,7 +83,7 @@ class moduleAdminView extends module
 	function dispModuleAdminInfo()
 	{
 		// Obtain a list of modules
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoXml(Context::get('selected_module'));
 		Context::set('module_info', $module_info);
 
@@ -104,7 +105,7 @@ class moduleAdminView extends module
 		$module_category_srl = Context::get('module_category_srl');
 
 		// Obtain a list of modules
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// Display the category page if a category is selected
 		//Security
 		$security = new Security();
@@ -142,7 +143,7 @@ class moduleAdminView extends module
 		// Get a target module to copy
 		$module_srl = Context::get('module_srl');
 		// Get information of the module
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module', 'mid', 'browser_title');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		Context::set('module_info', $module_info);
@@ -166,15 +167,15 @@ class moduleAdminView extends module
 		$modules = explode(',',$module_srls);
 		if(!count($modules)) if(!$module_srls) return new Object(-1,'msg_invalid_request');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
 		// Get a skin list of the module
-		$skin_list = $oModuleModel->getSkins('./modules/'.$module_info->module);
+		$skin_list = $oModuleModel->getSkins(_XE_PATH_ . 'modules/'.$module_info->module);
 		Context::set('skin_list',$skin_list);
 		// Get a layout list
-		$oLayoutMode = &getModel('layout');
-		$layout_list = $oLayoutMode->getLayoutList();
+		$oLayoutModel = getModel('layout');
+		$layout_list = $oLayoutModel->getLayoutList();
 		Context::set('layout_list', $layout_list);
 		// Get a list of module categories
 		$module_category = $oModuleModel->getModuleCategories();
@@ -225,7 +226,7 @@ class moduleAdminView extends module
 		$modules = explode(',',$module_srls);
 		if(!count($modules)) if(!$module_srls) return new Object(-1,'msg_invalid_request');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module', 'site_srl');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
 		$xml_info = $oModuleModel->getModuleActionXml($module_info->module);
@@ -246,7 +247,7 @@ class moduleAdminView extends module
 		$grant_list->manager->default = 'manager';
 		Context::set('grant_list', $grant_list);
 		// Get a list of groups
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups($module_info->site_srl);
 		Context::set('group_list', $group_list);
 		$security = new Security();				
@@ -277,7 +278,7 @@ class moduleAdminView extends module
 		$args->search_target = Context::get('search_target'); // /< search (title, contents ...)
 		$args->search_keyword = Context::get('search_keyword'); // /< keyword to search
 
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		$output = $oModuleAdminModel->getLangListByLangcode($args);
 
 		Context::set('total_count', $output->total_count);
@@ -297,7 +298,7 @@ class moduleAdminView extends module
 
 	function dispModuleAdminFileBox()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleFileBoxList();
 		$page = Context::get('page');
 		$page = $page?$page:1;
@@ -307,7 +308,6 @@ class moduleAdminView extends module
 		
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
-		debugPrint($output->data);
 		$this->setTemplateFile('adminFileBox');
 	}
 }

@@ -1,4 +1,4 @@
-<load target="js/member_admin_list.js" type="body" usecdn="true" />
+<load target="js/member_admin_list.js" type="body" />
 <script>
 	xe.lang.msg_select_user = '{$lang->msg_select_user}';
 	xe.lang.msg_delete_user = '{$lang->msg_delete_user}';
@@ -7,7 +7,7 @@
 <div class="x_page-header">
 	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/member_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="" method="post">
@@ -124,7 +124,7 @@
 		{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}
 		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
 	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" style="width:140px">
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" style="width:140px">
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 	<a class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'page', $page)}">{$lang->cmd_cancel}</a>
 </form>
@@ -133,7 +133,7 @@
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/member_list/1" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
 		<div class="x_modal-header">
 			<h1>{$lang->cmd_selected_user_manage}: <span class="_sub"></span></h1>
 		</div>

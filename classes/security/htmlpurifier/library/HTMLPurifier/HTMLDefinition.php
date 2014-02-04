@@ -261,7 +261,7 @@ class HTMLPurifier_HTMLDefinition extends HTMLPurifier_Definition
             }
             // emit errors
             foreach ($allowed_elements as $element => $d) {
-                $element = htmlspecialchars($element); // PHP doesn't escape errors, be careful!
+                $element = htmlspecialchars($element, ENT_COMPAT | ENT_HTML401, 'UTF-8', false); // PHP doesn't escape errors, be careful!
                 trigger_error("Element '$element' is not supported $support", E_USER_WARNING);
             }
         }
@@ -315,8 +315,8 @@ class HTMLPurifier_HTMLDefinition extends HTMLPurifier_Definition
                 switch ($c) {
                     case 2:
                         if ($bits[0] !== '*') {
-                            $element = htmlspecialchars($bits[0]);
-                            $attribute = htmlspecialchars($bits[1]);
+                            $element = htmlspecialchars($bits[0], ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+                            $attribute = htmlspecialchars($bits[1], ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
                             if (!isset($this->info[$element])) {
                                 trigger_error("Cannot allow attribute '$attribute' if element '$element' is not allowed/supported $support");
                             } else {
@@ -327,7 +327,7 @@ class HTMLPurifier_HTMLDefinition extends HTMLPurifier_Definition
                         }
                         // otherwise fall through
                     case 1:
-                        $attribute = htmlspecialchars($bits[0]);
+                        $attribute = htmlspecialchars($bits[0], ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
                         trigger_error("Global attribute '$attribute' is not ".
                             "supported in any elements $support",
                             E_USER_WARNING);

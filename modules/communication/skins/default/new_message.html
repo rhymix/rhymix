@@ -11,7 +11,7 @@
 		<!--@end-->
 		<tr>
 			<th scope="row">{$lang->title}</th>
-			<td>{htmlspecialchars($message->title)}</td>
+			<td>{htmlspecialchars($message->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="xe_content">{$message->content}</td>

@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  layout
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * high class of the layout module 
  */
 class layout extends ModuleObject
@@ -66,7 +67,7 @@ class layout extends ModuleObject
 			$oDB->addColumn('layouts','site_srl','number',11,0,true);
 		}
 		// 2009. 02. 26 Move the previous layout for faceoff
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$files = FileHandler::readDir('./files/cache/layout');
 		for($i=0,$c=count($files);$i<$c;$i++)
 		{
@@ -85,6 +86,8 @@ class layout extends ModuleObject
 			$oDB->addColumn('layouts','layout_type','char',1,'P',true);
 		}
 
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+
 		$args->layout = '.';
 		$output = executeQueryArray('layout.getLayoutDotList', $args);
 		if($output->data && count($output->data) > 0)
@@ -98,6 +101,13 @@ class layout extends ModuleObject
 					$args->layout = implode('|@|', $layout_path);
 					$args->layout_srl = $layout->layout_srl;
 					$output = executeQuery('layout.updateLayout', $args);
+
+					if($oCacheHandler->isSupport())
+					{
+						$object_key = 'layout:' . $args->layout_srl;
+						$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+						$oCacheHandler->delete($cache_key);
+					}
 				}
 			}
 		}

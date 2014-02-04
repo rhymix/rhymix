@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class mcontent
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief widget to display mcontent
  * @version 0.1
  */
@@ -32,7 +33,7 @@ class mcontent extends WidgetHandler
 		// markup options
 		if(!$args->markup_type) $args->markup_type = 'list';
 		// Set variables for internal use
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_srls = $args->modules_info = $args->module_srls_info = $args->mid_lists = array();
 		$site_module_info = Context::get('site_module_info');
 		// List URLs if a type is RSS
@@ -48,10 +49,10 @@ class mcontent extends WidgetHandler
 		}
 		else
 		{
+			$obj = new stdClass();
 			// Apply to all modules in the site if a target module is not specified
 			if(!$args->module_srls)
 			{
-				$obj = new stdClass();
 				$obj->site_srl = (int)$site_module_info->site_srl;
 				$output = executeQueryArray('widgets.content.getMids', $obj);
 				if($output->data)
@@ -169,11 +170,12 @@ class mcontent extends WidgetHandler
 	function _getCommentItems($args)
 	{
 		// CommentModel:: getCommentList() to take advantage of the variable order
+		$obj = new stdClass();
 		$obj->module_srl = $args->module_srl;
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count;
 		// Get model object of the comment module getCommentList() method runs
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getNewestCommentList($obj);
 
 		$content_items = array();
@@ -206,7 +208,7 @@ class mcontent extends WidgetHandler
 	function _getDocumentItems($args)
 	{
 		// Get model object of the document module and make the result as an object
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		// Get categories
 		$obj = new stdClass();
 		$obj->module_srl = $args->module_srl;
@@ -267,8 +269,9 @@ class mcontent extends WidgetHandler
 
 	function _getImageItems($args)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
+		$obj = new stdClass();
 		$obj->module_srls = $obj->module_srl = $args->module_srl;
 		$obj->direct_download = 'Y';
 		$obj->isvalid = 'Y';
@@ -413,12 +416,13 @@ class mcontent extends WidgetHandler
 		$buff = $this->requestFeedContents($args->rss_url);
 
 		$encoding = preg_match("/<\?xml.*encoding=\"(.+)\".*\?>/i", $buff, $matches);
-		if($encoding && !preg_match("/UTF-8/i", $matches[1])) $buff = Context::convertEncodingStr($buff);
+		if($encoding && stripos($matches[1], "UTF-8") === FALSE) $buff = Context::convertEncodingStr($buff);
 
 		$buff = preg_replace("/<\?xml.*\?>/i", "", $buff);
 
 		$oXmlParser = new XmlParser();
 		$xml_doc = $oXmlParser->parse($buff);
+		$rss = new stdClass();
 		if($xml_doc->rss)
 		{
 			$rss->title = $xml_doc->rss->channel->title->body;
@@ -435,6 +439,7 @@ class mcontent extends WidgetHandler
 			{
 				if($key >= $args->list_count) break;
 				unset($item);
+				$item = new stdClass();
 
 				foreach($value as $key2 => $value2)
 				{
@@ -473,6 +478,7 @@ class mcontent extends WidgetHandler
 			{
 				if($key >= $args->list_count) break;
 				unset($item);
+				$item = new stdClass();
 
 				foreach($value as $key2 => $value2)
 				{
@@ -494,87 +500,85 @@ class mcontent extends WidgetHandler
 				$content_items[] = $content_item;
 			}
 		}
-		else if($xml_doc->feed && $xml_doc->feed->attrs->xmlns == 'http://www.w3.org/2005/Atom') {
-		// Atom 1.0 spec supported by misol
-		$rss->title = $xml_doc->feed->title->body;
-		$links = $xml_doc->feed->link;
-		if(is_array($links))
-		{
-			foreach ($links as $value)
+		else if($xml_doc->feed && $xml_doc->feed->attrs->xmlns == 'http://www.w3.org/2005/Atom') 
 			{
-				if($value->attrs->rel == 'alternate')
-				{
-					$rss->link = $value->attrs->href;
-					break;
-				}
-			}
-		}
-		else if($links->attrs->rel == 'alternate') $rss->link = $links->attrs->href;
-
-		$items = $xml_doc->feed->entry;
-
-		if(!$items) return;
-		if($items && !is_array($items)) $items = array($items);
-
-		$content_items = array();
-
-		foreach ($items as $key => $value)
-		{
-			if($key >= $args->list_count) break;
-			unset($item);
-
-			foreach($value as $key2 => $value2)
-			{
-				if(is_array($value2)) $value2 = array_shift($value2);
-				$item->{$key2} = $this->_getRssBody($value2);
-			}
-
-			$content_item = new mcontentItem($rss->title);
-			$links = $value->link;
+			// Atom 1.0 spec supported by misol
+			$rss->title = $xml_doc->feed->title->body;
+			$links = $xml_doc->feed->link;
 			if(is_array($links))
 			{
-				foreach ($links as $val)
+				foreach ($links as $value)
 				{
-					if($val->attrs->rel == 'alternate')
+					if($value->attrs->rel == 'alternate')
 					{
-						$item->link = $val->attrs->href;
+						$rss->link = $value->attrs->href;
 						break;
 					}
 				}
 			}
-			else if($links->attrs->rel == 'alternate') $item->link = $links->attrs->href;
-
-			$content_item->setContentsLink($rss->link);
-			if($item->title)
+			else if($links->attrs->rel == 'alternate') $rss->link = $links->attrs->href;
+	
+			$items = $xml_doc->feed->entry;
+	
+			if(!$items) return;
+			if($items && !is_array($items)) $items = array($items);
+	
+			$content_items = array();
+	
+			foreach ($items as $key => $value)
 			{
-				if(!preg_match("/html/i", $value->title->attrs->type)) $item->title = $value->title->body;
-			}
-			$content_item->setTitle($item->title);
-			$content_item->setNickName(max($item->author,$item->{'dc:creator'}));
-			$content_item->setAuthorSite($value->author->uri->body);
-			//$content_item->setCategory($item->category);
-			$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->content);
-			if($item->description)
-			{
-				if(!preg_match("/html/i", $value->content->attrs->type)) $item->description = htmlspecialchars($item->description);
-			}
-			if(!$item->description)
-			{
-				$item->description = $item->summary;
-				if($item->description)
+				if($key >= $args->list_count) break;
+				unset($item);
+	
+				foreach($value as $key2 => $value2)
 				{
-					if(!preg_match("/html/i", $value->summary->attrs->type)) $item->description = htmlspecialchars($item->description);
+					if(is_array($value2)) $value2 = array_shift($value2);
+					$item->{$key2} = $this->_getRssBody($value2);
 				}
+	
+				$content_item = new mcontentItem($rss->title);
+				$links = $value->link;
+				if(is_array($links))
+				{
+					foreach ($links as $val)
+					{
+						if($val->attrs->rel == 'alternate')
+						{
+							$item->link = $val->attrs->href;
+							break;
+						}
+					}
+				}
+				else if($links->attrs->rel == 'alternate') $item->link = $links->attrs->href;
+	
+				$content_item->setContentsLink($rss->link);
+				if($item->title)
+				{
+					if(stripos($value->title->attrs->type, "html") === FALSE) $item->title = $value->title->body;
+				}
+				$content_item->setTitle($item->title);
+				$content_item->setNickName(max($item->author,$item->{'dc:creator'}));
+				$content_item->setAuthorSite($value->author->uri->body);
+	
+				//$content_item->setCategory($item->category);
+				$item->description = ($item->content) ? $item->content : $item->description = $item->summary;
+				$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+	
+				if(($item->content && stripos($value->content->attrs->type, "html") === FALSE) || (!$item->content && stripos($value->summary->attrs->type, "html") === FALSE))
+				{
+					$item->description = htmlspecialchars($item->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+	
+				}
+	
+				$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
+				$content_item->setLink($item->link);
+				$date = date('YmdHis', strtotime(max($item->published,$item->updated,$item->{'dc:date'})));
+				$content_item->setRegdate($date);
+	
+				$content_items[] = $content_item;
 			}
-			$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
-			$content_item->setLink($item->link);
-			$date = date('YmdHis', strtotime(max($item->published,$item->updated,$item->{'dc:date'})));
-			$content_item->setRegdate($date);
-
-			$content_items[] = $content_item;
 		}
-	}
-	return $content_items;
+		return $content_items;
 	}
 
 	function _getTrackbackItems($args){
@@ -591,7 +595,7 @@ class mcontent extends WidgetHandler
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count;
 		// Get model object from the trackback module and execute getTrackbackList() method
-		$oTrackbackModel = &getModel('trackback');
+		$oTrackbackModel = getModel('trackback');
 		$output = $oTrackbackModel->getNewestTrackbackList($obj);
 		// If an error occurs, just ignore it.
 		if(!$output->toBool() || !$output->data) return;

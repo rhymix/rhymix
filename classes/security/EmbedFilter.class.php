@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 include _XE_PATH_ . 'classes/security/phphtmlparser/src/htmlparser.inc';
 
@@ -349,7 +350,7 @@ class EmbedFilter
 
 				if(!$isWhiteDomain || !$isWhiteMimetype)
 				{
-					$content = str_replace($objectTag, htmlspecialchars($objectTag, ENT_COMPAT, 'UTF-8', false), $content);
+					$content = str_replace($objectTag, htmlspecialchars($objectTag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), $content);
 				}
 			}
 		}
@@ -397,7 +398,7 @@ class EmbedFilter
 
 				if(!$isWhiteDomain || !$isWhiteMimetype)
 				{
-					$content = str_replace($embedTag, htmlspecialchars($embedTag, ENT_COMPAT, 'UTF-8', false), $content);
+					$content = str_replace($embedTag, htmlspecialchars($embedTag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), $content);
 				}
 			}
 		}
@@ -440,7 +441,7 @@ class EmbedFilter
 
 				if(!$isWhiteDomain)
 				{
-					$content = str_replace($iframeTag, htmlspecialchars($iframeTag, ENT_COMPAT, 'UTF-8', false), $content);
+					$content = str_replace($iframeTag, htmlspecialchars($iframeTag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), $content);
 				}
 			}
 		}
@@ -475,7 +476,7 @@ class EmbedFilter
 
 							if(!$isWhiteDomain)
 							{
-								$content = str_replace($paramTag, htmlspecialchars($paramTag, ENT_COMPAT, 'UTF-8', false), $content);
+								$content = str_replace($paramTag, htmlspecialchars($paramTag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), $content);
 							}
 						}
 					}
@@ -589,37 +590,55 @@ class EmbedFilter
 
 	/**
 	 * Make white domain list cache file from xml config file.
+	 * @param $whitelist array
 	 * @return void
 	 */
-	function _makeWhiteDomainList()
+	function _makeWhiteDomainList($whitelist = NULL)
 	{
 		$whiteUrlXmlFile = FileHandler::getRealPath($this->whiteUrlXmlFile);
 		$whiteUrlCacheFile = FileHandler::getRealPath($this->whiteUrlCacheFile);
 
-		$isMake = false;
+		$isMake = FALSE;
 		if(!file_exists($whiteUrlCacheFile))
 		{
-			$isMake = true;
+			$isMake = TRUE;
 		}
 		if(file_exists($whiteUrlCacheFile) && filemtime($whiteUrlCacheFile) < filemtime($whiteUrlXmlFile))
 		{
-			$isMake = true;
+			$isMake = TRUE;
+		}
+
+		if(gettype($whitelist) == 'array' && gettype($whitelist['object']) == 'array' && gettype($whitelist['iframe']) == 'array')
+		{
+			$isMake = FALSE;
+		}
+
+		if(isset($whitelist) && gettype($whitelist) == 'object')
+		{
+			$isMake = TRUE;
 		}
 
 		if($isMake)
 		{
-			$xmlBuff = FileHandler::readFile($this->whiteUrlXmlFile);
+			$whiteUrlList = array();
+			$whiteIframeUrlList = array();
 
-			$xmlParser = new XmlParser();
-			$domainListObj = $xmlParser->parse($xmlBuff);
-			$embedDomainList = $domainListObj->whiteurl->embed->domain;
-			$iframeDomainList = $domainListObj->whiteurl->iframe->domain;
-
-			$buff = '<?php if(!defined("__XE__")) exit();';
-			$buff .= '$whiteUrlList = array();';
-			$buff .= '$whiteIframeUrlList = array();';
-			if(is_array($embedDomainList))
+			if(gettype($whitelist->object) == 'array' && gettype($whitelist->iframe) == 'array')
 			{
+				$whiteUrlList = $whitelist->object;
+				$whiteIframeUrlList = $whitelist->iframe;
+			}
+			else
+			{
+				$xmlBuff = FileHandler::readFile($this->whiteUrlXmlFile);
+
+				$xmlParser = new XmlParser();
+				$domainListObj = $xmlParser->parse($xmlBuff);
+				$embedDomainList = $domainListObj->whiteurl->embed->domain;
+				$iframeDomainList = $domainListObj->whiteurl->iframe->domain;
+				if(!is_array($embedDomainList)) $embedDomainList = array();
+				if(!is_array($iframeDomainList)) $iframeDomainList = array();
+
 				foreach($embedDomainList AS $key => $value)
 				{
 					$patternList = $value->pattern;
@@ -627,16 +646,15 @@ class EmbedFilter
 					{
 						foreach($patternList AS $key => $value)
 						{
-							$buff .= sprintf('$whiteUrlList[] = \'%s\';', $value->body);
+							$whiteUrlList[] = $value->body;
 						}
 					}
 					else
-						$buff .= sprintf('$whiteUrlList[] = \'%s\';', $patternList->body);
+					{
+						$whiteUrlList[] = $patternList->body;
+					}
 				}
-			}
 
-			if(is_array($iframeDomainList))
-			{
 				foreach($iframeDomainList AS $key => $value)
 				{
 					$patternList = $value->pattern;
@@ -644,20 +662,39 @@ class EmbedFilter
 					{
 						foreach($patternList AS $key => $value)
 						{
-							$buff .= sprintf('$whiteIframeUrlList[] = \'%s\';', $value->body);
+							$whiteIframeUrlList[] = $value->body;
 						}
 					}
 					else
-						$buff .= sprintf('$whiteIframeUrlList[] = \'%s\';', $patternList->body);
+					{
+						$whiteIframeUrlList[] = $patternList->body;
+					}
 				}
 			}
 
-			if(Context::getDefaultUrl())
+			$db_info = Context::getDBInfo();
+
+			if($db_info->embed_white_object)
 			{
-				$buff .= sprintf('$whiteIframeUrlList[] = \'%s\';', Context::getDefaultUrl());
+				$whiteUrlList = array_merge($whiteUrlList, $db_info->embed_white_object);
 			}
-			$buff .= '?>';
-			FileHandler::writeFile($this->whiteUrlCacheFile, $buff);
+
+			if($db_info->embed_white_iframe)
+			{
+				$whiteIframeUrlList = array_merge($whiteIframeUrlList, $db_info->embed_white_iframe);
+			}
+
+			$whiteUrlList = array_unique($whiteUrlList);
+			$whiteIframeUrlList = array_unique($whiteIframeUrlList);
+			asort($whiteUrlList);
+			asort($whiteIframeUrlList);
+
+			$buff = array();
+			$buff[] = '<?php if(!defined("__XE__")) exit();';
+			$buff[] = '$whiteUrlList = ' . var_export($whiteUrlList, TRUE) . ';';
+			$buff[] = '$whiteIframeUrlList = ' . var_export($whiteIframeUrlList, TRUE) . ';';
+
+			FileHandler::writeFile($this->whiteUrlCacheFile, implode(PHP_EOL, $buff));
 		}
 	}
 

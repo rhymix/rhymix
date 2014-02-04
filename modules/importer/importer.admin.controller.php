@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 @set_time_limit(0);
 require_once('./modules/importer/extract.class.php');
 
@@ -6,7 +7,7 @@ require_once('./modules/importer/extract.class.php');
  * importerAdminController class
  * admin controller class of importer module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/importer
  * @version 0.1
  */
@@ -42,7 +43,7 @@ class importerAdminController extends importer
 		$filename = Context::get('filename');
 		$isExists = 'false';
 
-		if(preg_match('/^http/i', $filename))
+		if(strncasecmp('http://', $filename, 7) === 0)
 		{
 			if(ini_get('allow_url_fopen'))
 			{
@@ -97,7 +98,7 @@ class importerAdminController extends importer
 	 */
 	function procImporterAdminSync()
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_config = $oMemberModel->getMemberConfig();
 
 		$postFix = ($member_config->identifier == 'email_address') ? 'ByEmail' : '';
@@ -297,11 +298,13 @@ class importerAdminController extends importer
 			case 'ttxml' :
 				if(!$target_module) return new Object(-1,'msg_invalid_request');
 
-				$oModuleModel = &getModel('module');
+				$oModuleModel = getModel('module');
 				$columnList = array('module_srl', 'module');
 				$target_module_info = $oModuleModel->getModuleInfoByModuleSrl($target_module, $columnList);
 
-				require_once('./modules/importer/ttimport.class.php');
+				$ttimporter = FileHandler::exists(_XE_PATH_ . 'modules/importer/ttimport.class.php');
+				if($ttimporter) require_once($ttimporter);
+
 				$oTT = new ttimport();
 				$cur = $oTT->importModule($key, $cur, $index_file, $this->unit_count, $target_module, $guestbook_target_module, $user_id, $target_module_info->module);
 				break;
@@ -345,13 +348,13 @@ class importerAdminController extends importer
 		// Create the xmlParser object
 		$oXmlParser = new XmlParser();
 		// Create objects for importing member information
-		$this->oMemberController = &getController('member');
-		$this->oMemberModel = &getModel('member');
+		$this->oMemberController = getController('member');
+		$this->oMemberModel = getModel('member');
 		// Get a default member group
 		$default_group = $this->oMemberModel->getDefaultGroup();
 		$default_group_srl = $default_group->group_srl;
 		// Get information of the Webmaster
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
 		// Open an index file
 		$f = fopen($index_file,"r");
@@ -396,8 +399,7 @@ class importerAdminController extends importer
 				}
 			}
 			// Create url for homepage and blog
-			if($obj->homepage && !preg_match("/^http:\/\//i",$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
-			if($obj->blog && !preg_match("/^http:\/\//i",$obj->blog)) $obj->blog = 'http://'.$obj->blog;
+			if($obj->homepage && strncasecmp('http://', $obj->homepage, 7) !== 0 && strncasecmp('https://', $obj->homepage, 8) !== 0) $obj->homepage = 'http://'.$obj->homepage;
 			// email address column
 			$obj->email_address = $obj->email;
 			list($obj->email_id, $obj->email_host) = explode('@', $obj->email);
@@ -416,7 +418,7 @@ class importerAdminController extends importer
 			unset($obj->extra_vars);
 			$obj->extra_vars = serialize($extra_vars);
 			// Check if the same nickname is existing
-			$nick_args = null;
+			$nick_args = new stdClass;
 			$nick_args->nick_name = $obj->nick_name;
 			$nick_output = executeQuery('member.getMemberSrl', $nick_args);
 			if(!$nick_output->toBool()) $obj->nick_name .= '_'.$obj->member_srl;
@@ -599,8 +601,8 @@ class importerAdminController extends importer
 		// Pre-create the objects needed
 		$this->oXmlParser = new XmlParser();
 		// Get category information of the target module
-		$oDocumentController = &getController('document');
-		$oDocumentModel = &getModel('document');
+		$oDocumentController = getController('document');
+		$oDocumentModel = getModel('document');
 		$category_list = $category_titles = array();
 		$category_list = $oDocumentModel->getCategoryList($module_srl);
 		if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
@@ -634,7 +636,7 @@ class importerAdminController extends importer
 					$output = $oDocumentController->insertCategory($obj);
 					if($output->toBool()) $match_sequence[$sequence] = $output->get('category_srl');
 				}
-				$oDocumentController = &getController('document');
+				$oDocumentController = getController('document');
 				$oDocumentController->makeCategoryFile($module_srl);
 			}
 			FileHandler::removeFile($category_file);
@@ -668,7 +670,7 @@ class importerAdminController extends importer
 			$fp = fopen($target_file,"r");
 			if(!$fp) continue;
 
-			$obj = null;
+			$obj = new stdClass;
 			$obj->module_srl = $module_srl;
 			$obj->document_srl = getNextSequence();
 
@@ -676,7 +678,7 @@ class importerAdminController extends importer
 			$extra_vars = array();
 
 			$started = false;
-			$buff = null;
+			$buff = array();
 			// Start from the body data
 			while(!feof($fp))
 			{
@@ -711,10 +713,10 @@ class importerAdminController extends importer
 					continue;
 				}
 
-				if($started) $buff .= $str;
+				if($started) $buff[] = $str;
 			}
 
-			$xmlDoc = $this->oXmlParser->parse($buff);
+			$xmlDoc = $this->oXmlParser->parse(implode('', $buff));
 
 			$category = base64_decode($xmlDoc->post->category->body);
 			if($category_titles[$category]) $obj->category_srl = $category_titles[$category];
@@ -735,7 +737,7 @@ class importerAdminController extends importer
 			$obj->user_id = base64_decode($xmlDoc->post->user_id->body);
 			$obj->email_address = base64_decode($xmlDoc->post->email->body);
 			$obj->homepage = base64_decode($xmlDoc->post->homepage->body);
-			if($obj->homepage && !preg_match('/^http:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+			if($obj->homepage && strncasecmp('http://', $obj->homepage, 7) !== 0 && strncasecmp('https://', $obj->homepage, 8) !== 0) $obj->homepage = 'http://'.$obj->homepage;
 			$obj->tags = base64_decode($xmlDoc->post->tags->body);
 			$obj->regdate = base64_decode($xmlDoc->post->regdate->body);
 			$obj->last_update = base64_decode($xmlDoc->post->update->body);
@@ -765,7 +767,7 @@ class importerAdminController extends importer
 				$tag_count = count($tag_list);
 				for($i=0;$i<$tag_count;$i++)
 				{
-					$args = null;
+					$args = new stdClass;
 					$args->tag_srl = getNextSequence();
 					$args->module_srl = $module_srl;
 					$args->document_srl = $obj->document_srl;
@@ -846,7 +848,7 @@ class importerAdminController extends importer
 			{
 				$xmlDoc = $this->oXmlParser->parse($buff);
 
-				$obj = null;
+				$obj = new stdClass;
 				$obj->trackback_srl = getNextSequence();
 				$obj->module_srl = $module_srl;
 				$obj->document_srl = $document_srl;
@@ -891,7 +893,7 @@ class importerAdminController extends importer
 			if(trim($str) == '<comment>')
 			{
 				$started = true;
-				$obj = null;
+				$obj = new stdClass;
 				$obj->comment_srl = getNextSequence();
 				$files = array();
 			}
@@ -945,7 +947,7 @@ class importerAdminController extends importer
 					}
 				}
 				// Comment list first
-				$list_args = null;
+				$list_args = new stdClass;
 				$list_args->comment_srl = $obj->comment_srl;
 				$list_args->document_srl = $obj->document_srl;
 				$list_args->module_srl = $obj->module_srl;
@@ -1008,13 +1010,13 @@ class importerAdminController extends importer
 
 		while(!feof($fp))
 		{
+			$file_obj = new stdClass;
 			$str = trim(fgets($fp, 1024));
 			// If it ends with </attaches>, break
 			if(trim($str) == '</attaches>') break;
 			// If it starts with <attach>, collect attachments
 			if(trim($str) == '<attach>')
 			{
-				$file_obj  = null;
 				$file_obj->file_srl = getNextSequence();
 				$file_obj->upload_target_srl = $upload_target_srl;
 				$file_obj->module_srl = $module_srl;
@@ -1056,7 +1058,7 @@ class importerAdminController extends importer
 					if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_obj->source_filename))
 					{
 						// Immediately remove the direct file if it has any kind of extensions for hacking
-						$file_obj->source_filename = preg_replace('/\.(php|phtm|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x', $file_obj->source_filename);
+						$file_obj->source_filename = preg_replace('/\.(php|phtm|phar|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x', $file_obj->source_filename);
 						$file_obj->source_filename = str_replace(array('<', '>'), array('%3C', '%3E'), $file_obj->source_filename);
 
 						$path = sprintf("./files/attach/images/%s/%s", $module_srl, getNumberingPath($upload_target_srl, 3));
@@ -1083,8 +1085,15 @@ class importerAdminController extends importer
 					// Create a directory
 					if(!FileHandler::makeDir($path)) continue;
 
-					if(preg_match('/^\.\/files\/cache\/importer/i',$file_obj->file)) FileHandler::rename($file_obj->file, $filename);
-					else @copy($file_obj->file, $filename);
+					if(strncmp('./files/cache/importer/', $file_obj->file, 23) === 0)
+					{
+						FileHandler::rename($file_obj->file, $filename);
+					}
+					else
+					{
+						copy($file_obj->file, $filename);
+					}
+
 					// Insert the file to the DB
 					unset($file_obj->file);
 					if(file_exists($filename))
@@ -1119,7 +1128,7 @@ class importerAdminController extends importer
 	function getTmpFilename()
 	{
 		$path = "./files/cache/importer";
-		if(!is_dir($path)) FileHandler::makeDir($path);
+		FileHandler::makeDir($path);
 		$filename = sprintf("%s/%d", $path, rand(11111111,99999999));
 		if(file_exists($filename)) $filename .= rand(111,999);
 		return $filename;

@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * DefaultValue class
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/xml/xmlquery/queryargument
  * @version 0.1
  */
@@ -129,7 +130,7 @@ class DefaultValue
 				$this->_is_string_from_function = TRUE;
 				break;
 			case 'unixtime' :
-				$val = 'time()';
+				$val = '$_SERVER[\'REQUEST_TIME\']';
 				break;
 			case 'curdate' :
 				$val = 'date("YmdHis")';

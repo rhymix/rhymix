@@ -1,9 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
+
 if(!defined("__XE__")) exit();
 
 /**
  * @file captcha.addon.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Captcha for a particular action
  * English alphabets and voice verification added
  * */
@@ -17,6 +19,7 @@ if(!class_exists('AddonCaptcha'))
 	{
 
 		var $addon_info;
+		var $target_acts = NULL;
 
 		function setInfo(&$addon_info)
 		{
@@ -53,19 +56,7 @@ if(!class_exists('AddonCaptcha'))
 
 			$type = Context::get('captchaType');
 
-			$target_acts = array('procBoardInsertDocument', 'procBoardInsertComment', 'procIssuetrackerInsertIssue', 'procIssuetrackerInsertHistory', 'procTextyleInsertComment');
-			if($this->addon_info->apply_find_account == 'apply')
-			{
-				$target_acts[] = 'procMemberFindAccount';
-			}
-			if($this->addon_info->apply_resend_auth_mail == 'apply')
-			{
-				$target_acts[] = 'procMemberResendAuthMail';
-			}
-			if($this->addon_info->apply_signup == 'apply')
-			{
-				$target_acts[] = 'procMemberInsert';
-			}
+			$this->target_acts = array('procBoardInsertDocument', 'procBoardInsertComment', 'procIssuetrackerInsertIssue', 'procIssuetrackerInsertHistory', 'procTextyleInsertComment');
 
 			if(Context::getRequestMethod() != 'XMLRPC' && Context::getRequestMethod() !== 'JSON')
 			{
@@ -73,7 +64,7 @@ if(!class_exists('AddonCaptcha'))
 				{
 					if(!$this->compareCaptcha())
 					{
-						Context::loadLang('./addons/captcha/lang');
+						Context::loadLang(_XE_PATH_ . 'addons/captcha/lang');
 						$_SESSION['XE_VALIDATOR_ERROR'] = -1;
 						$_SESSION['XE_VALIDATOR_MESSAGE'] = Context::getLang('captcha_denied');
 						$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
@@ -83,15 +74,18 @@ if(!class_exists('AddonCaptcha'))
 				}
 				else
 				{
-					Context::addHtmlHeader('<script> var captchaTargetAct = new Array("' . implode('","', $target_acts) . '"); </script>');
+					Context::addHtmlHeader('<script>
+						if(!captchaTargetAct) {var captchaTargetAct = [];}
+						captchaTargetAct.push("' . implode('","', $this->target_acts) . '");
+						</script>');
 					Context::loadFile(array('./addons/captcha/captcha.min.js', 'body', '', null), true);
 				}
 			}
 
 			// compare session when calling actions such as writing a post or a comment on the board/issue tracker module
-			if(!$_SESSION['captcha_authed'] && in_array(Context::get('act'), $target_acts))
+			if(!$_SESSION['captcha_authed'] && in_array(Context::get('act'), $this->target_acts))
 			{
-				Context::loadLang('./addons/captcha/lang');
+				Context::loadLang(_XE_PATH_ . 'addons/captcha/lang');
 				$ModuleHandler->error = "captcha_denied";
 			}
 
@@ -216,7 +210,7 @@ if(!class_exists('AddonCaptcha'))
 			}
 
 			// Combine images of each character
-			for($i = 1; $i < count($im); $i++)
+			for($i = 1, $c = count($im); $i<$c; $i++)
 			{
 				imagecopy($im[0], $im[$i], (($w + 2) * ($i - 1)), 0, 0, 0, $w, $h);
 				imagedestroy($im[$i]);
@@ -307,6 +301,8 @@ if(!class_exists('AddonCaptcha'))
 
 		function compareCaptcha()
 		{
+			if(!in_array(Context::get('act'), $this->target_acts)) return true;
+
 			if($_SESSION['captcha_authed'])
 			{
 				return true;

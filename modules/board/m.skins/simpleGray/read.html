@@ -1,0 +1,137 @@
+{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+<!--%import("js/mboard.js")-->
+<!--%import("css/mboard.css")-->
+	<div class="rd">
+		<div class="hx">
+			<h2><a href="{getUrl('document_srl','','category','','page','')}">{$module_info->browser_title}</a> 
+				<!--@if($module_info->use_category == "Y" && $oDocument->get('category_srl'))-->&rsaquo; <a href="{getUrl('document_srl','','category',$oDocument->get('category_srl'))}">{$category_list[$oDocument->get('category_srl')]->title}</a><!--@end--> &rsaquo; {$oDocument->getTitle()}</h2>
+			<em><a href="#">{$oDocument->getNickName()}</a></em>
+			<span>{$oDocument->getRegdate()}</span>
+		</div>
+		<div class="co">
+                <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+                    <div class="secretContent">
+                        <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+                        <input type="hidden" name="mid" value="{$mid}" />
+                        <input type="hidden" name="page" value="{$page}" />
+                        <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+
+                            <div class="title">{$lang->msg_is_secret}</div>
+                            <div class="content">
+								<input type="password" name="password" id="cpw" /><input type="submit" value="{$lang->cmd_input}" />
+                            </div>
+
+                        </form>
+                    </div>
+                <!--@else-->
+				<!--@if($oDocument->isExtraVarsExists())-->
+					{@ $_extra_vars = $oDocument->getExtraVars(); }
+					<dl class="xv">
+					<!--@foreach($_extra_vars as $key => $val)-->
+						<dt>{$val->name}</dt>
+						<dd>{$val->getValueHTML()}</dd>
+					<!--@end-->
+					</dl>
+				<!--@end-->
+			    {$oDocument->getContent(false)}
+				<!--@end-->
+		</div>
+		<!--@if($oDocument->hasUploadedFiles())-->
+		{@ $uploaded_list = $oDocument->getUploadedFiles() }
+		<h3 class="h3">{$lang->uploaded_file} <em>[{count($uploaded_list)}]</em> <button type="button" class="tg" title="open/close"></button></h3>
+		<ul class="sn tgo open">
+			<!--@foreach($uploaded_list as $key => $file)-->
+			<li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename}</a></li>
+			<!--@end-->
+		</ul>
+		<!--@endif-->
+		<!--@if($oDocument->allowTrackback() && $oDocument->getTrackbackCount())-->
+		<h3 class="h3">{$lang->trackback} <em>[{$oDocument->getTrackbackCount()}]</em> <button type="button" class="tg" title="open/close"></button></h3>
+		<ul class="rp tgo open">
+			{@ $_trackback_list = $oDocument->getTrackbacks() }
+			<!--@foreach($_trackback_list as $key => $val)-->
+			<li>
+				<p>{$val->excerpt}</p>
+				<em>{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</em>
+				<span>zdate($val->regdate, "Y.m.d")</span>
+				<!--@if($grant->manager)-->
+				<a href="07_password.html" class="md">삭제</a>
+				<!--@endif-->
+			</li>
+			<!--@end-->
+		</ul>
+		<!--@endif-->
+		<!--@if($oDocument->getCommentCount())-->
+		<h3 class="h3" id="clb">{$lang->comment} <em>[{$oDocument->getCommentCount()}]</em> <button type="button" class="tg tgr" title="open/close"></button></h3>
+		<!--@endif-->
+		<!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
+		<h3 class="h3">{$lang->write_comment} <button type="button" class="tg" title="open/close"></button></h3>
+		<form action="./" method="POST" class="sn tgo open" onsubmit="return procFilter(this, insert_comment);">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+		<input type="hidden" name="comment_srl" value="" />
+		<ul>
+			<li>
+				<label for="rText" class="db fb">{$lang->comment}</label>
+				<textarea name="content" rows="8" cols="42" id="rText" class="itxx"></textarea>
+			</li>
+			<!--@if(!$is_logged)-->
+			<li>
+				<label for="uName" class="db fb">{$lang->writer}</label>
+				<input name="nick_name" type="text" id="uName" class="itx" />
+			</li>
+			<li>
+				<label for="uMail" class="db fb">{$lang->email_address}</label>
+				<input name="email_address" type="email" id="uMail" class="itx" />
+			</li>
+			<li>
+				<label for="uPw" class="db fb">{$lang->password}</label>
+				<input name="password" type="password" id="uPw" class="itx" />
+			</li>
+			<li>
+				<label for="uSite" class="db fb">{$lang->homepage}</label>
+				<input name="homepage" type="url" id="uSite" class="itx" value="" />
+			</li>
+			<!--@endif-->
+		</ul>
+		<div class="ar">
+			<input name="" type="submit" value="{$lang->cmd_comment_registration}" />
+		</div>
+		</form>
+		<!--@end-->
+	</div>
+	<ul class="cm">
+		<li class="fl"><a href="{getUrl('document_srl','')}" class="bn">{$lang->cmd_list}</a></li>
+		<li class="fr"><a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="bn">{$lang->cmd_write}</a></li>
+        <!--@if($oDocument->isEditable())-->
+		<li class="fr"><a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" class="bn">{$lang->cmd_delete}</a></li>
+		<!--@end-->
+	</ul>
+<script>
+//<![CDATA[
+jQuery(function($){
+	$('.co .mm').next().hide();
+	$('.mm').click(function(){ $(this).hide().next().show();});
+	$('.tgo').removeClass('open');
+	$('.tg').click(function(){
+		$(this).parent('.h3').next('.tgo').toggleClass('open');
+	});
+	var loaded = false;
+	$('.tgr').click(function(){
+		if(!loaded) {
+			loaded = true;
+			{@ $lastpage = 1; }
+			{@ $temp = $oDocument->getComments() }
+			<!--@if($oDocument->comment_page_navigation)-->
+			{@ $lastpage = $oDocument->comment_page_navigation->last_page }
+			<!--@endif-->
+			loadPage({$oDocument->document_srl}, {$lastpage});
+		}
+	});
+});
+//]]>
+</script>

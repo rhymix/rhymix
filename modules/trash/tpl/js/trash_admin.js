@@ -1,6 +1,6 @@
 /**
  * @file   modules/trash/js/trash_admin.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief  trash 모듈의 관리자용 javascript
  **/
 

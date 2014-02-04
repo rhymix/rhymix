@@ -1,15 +1,15 @@
 <!--%import("filter/insert_page_content.xml")-->
-<load target="js/page_admin.js" usecdn="true" />
-<load target="css/page.css" usecdn="true" />
-<load target="../../widget/tpl/js/widget.js" usecdn="true" />
-<load target="../../widget/tpl/css/widget.css" usecdn="true" />
+<load target="js/page_admin.js" />
+<load target="css/page.css" />
+<load target="../../widget/tpl/js/widget.js" />
+<load target="../../widget/tpl/css/widget.css" />
 <div id="zonePageContent">{$page_content}</div>
 <form action="./" method="post" id="pageFo" onsubmit="return doSubmitPageContent(this);">
 	<input type="hidden" name="mid" value="{$module_info->mid}" />
 	<input type="hidden" name="module" value="page" />
 	<input type="hidden" name="act" value="dispPageAdminContentModify" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-	<input type="hidden" name="content" value="{htmlspecialchars($content)}" />
+	<input type="hidden" name="content" value="{htmlspecialchars($content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" />
 	<div class="btnArea" id="pageBtnArea" hidden>
 		<div class="etc">
 			<span class="btn-group">

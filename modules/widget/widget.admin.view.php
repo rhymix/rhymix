@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  widgetAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief admin view class for widget modules
  */
 class widgetAdminView extends widget
@@ -20,7 +21,7 @@ class widgetAdminView extends widget
 	function dispWidgetAdminDownloadedList()
 	{
 		// Set widget list
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
 
 		$security = new Security($widget_list);
@@ -46,7 +47,7 @@ class widgetAdminView extends widget
 
 	function dispWidgetAdminGenerateCode()
 	{
-		$oView = &getView('widget');
+		$oView = getView('widget');
 		Context::set('in_admin', true);
 		$this->setTemplateFile('widget_generate_code');
 		return $oView->dispWidgetGenerateCode();
@@ -61,16 +62,16 @@ class widgetAdminView extends widget
 		if(!$module_srl) return $this->stop("msg_invalid_request");
 
 		$document_srl = Context::get('document_srl');
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		Context::set('oDocument', $oDocument);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'mid');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		Context::set('module_info', $module_info);
 		// Editors settings of the module by calling getEditor
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$editor = $oEditorModel->getModuleEditor('document',$module_srl, $module_srl,'module_srl','content');
 		Context::set('editor', $editor);
 

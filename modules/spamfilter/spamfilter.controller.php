@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  spamfilterController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The controller class for the spamfilter module
  */
 class spamfilterController extends spamfilter
@@ -38,7 +39,7 @@ class spamfilterController extends spamfilter
 			if($grant->manager) return new Object();
 		}
 
-		$oFilterModel = &getModel('spamfilter');
+		$oFilterModel = getModel('spamfilter');
 		// Check if the IP is prohibited
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
@@ -75,7 +76,7 @@ class spamfilterController extends spamfilter
 			if($grant->manager) return new Object();
 		}
 
-		$oFilterModel = &getModel('spamfilter');
+		$oFilterModel = getModel('spamfilter');
 		// Check if the IP is prohibited
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
@@ -103,7 +104,7 @@ class spamfilterController extends spamfilter
 	{
 		if($_SESSION['avoid_log']) return new Object();
 
-		$oFilterModel = &getModel('spamfilter');
+		$oFilterModel = getModel('spamfilter');
 		// Confirm if the trackbacks have been added more than once to your document
 		$output = $oFilterModel->isInsertedTrackback($obj->document_srl);
 		if(!$output->toBool()) return $output;
@@ -116,8 +117,8 @@ class spamfilterController extends spamfilter
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool()) return $output;
 		// Start Filtering
-		$oTrackbackModel = &getModel('trackback');
-		$oTrackbackController = &getController('trackback');
+		$oTrackbackModel = getModel('trackback');
+		$oTrackbackController = getController('trackback');
 
 		list($ipA,$ipB,$ipC,$ipD) = explode('.',$_SERVER['REMOTE_ADDR']);
 		$ipaddress = $ipA.'.'.$ipB.'.'.$ipC;
@@ -167,6 +168,33 @@ class spamfilterController extends spamfilter
 
 		$output->add('fail_list',$fail_list);
 		return $output;
+	}
+
+	/**
+	 * @brief The routine process to check the time it takes to store a message, when writing it, and to ban IP/word
+	 */
+	function triggerSendMessage(&$obj)
+	{
+		if($_SESSION['avoid_log']) return new Object();
+
+		$logged_info = Context::get('logged_info');
+		if($logged_info->is_admin == 'Y') return new Object();
+
+		$oFilterModel = getModel('spamfilter');
+		// Check if the IP is prohibited
+		$output = $oFilterModel->isDeniedIP();
+		if(!$output->toBool()) return $output;
+		// Check if there is a ban on the word
+		$text = $obj->title . ' ' . $obj->content;
+		$output = $oFilterModel->isDeniedWord($text);
+		if(!$output->toBool()) return $output;
+		// Check the specified time
+		$output = $oFilterModel->checkLimited(TRUE);
+		if(!$output->toBool()) return $output;
+		// Save a log
+		$this->insertLog();
+
+		return new Object();
 	}
 
 	/**

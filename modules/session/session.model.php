@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  sessionModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The Model class of the session module
  */
 class sessionModel extends session
@@ -22,33 +23,27 @@ class sessionModel extends session
 	{
 		if(!$session_key || !$this->session_started) return;
 
-		$oCacheHandler = &CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		$args = new stdClass();
+		$args->session_key = $session_key;
+		$columnList = array('session_key', 'cur_mid', 'val');
+		$output = executeQuery('session.getSession', $args, $columnList);
+
+		// Confirm there is a table created if read error occurs
+		if(!$output->toBool())
 		{
-			$cache_key = 'object:'.$session_key;
-			$output->data = $oCacheHandler->get($cache_key);
+			$oDB = DB::getInstance();
+			if(!$oDB->isTableExists('session')) $oDB->createTableByXmlFile($this->module_path.'schemas/session.xml');
+			if(!$oDB->isColumnExists("session", "cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
+			$output = executeQuery('session.getSession', $args);
 		}
-		if(!$output->data)
+
+		// Check if there is a table created in case there is no "cur_mid" value in the sessions information
+		if(!isset($output->data->cur_mid))
 		{
-			$args = new stdClass();
-			$args->session_key = $session_key;
-			$columnList = array('session_key', 'cur_mid', 'val');
-			$output = executeQuery('session.getSession', $args, $columnList);
-			// Confirm there is a table created if read error occurs
-			if(!$output->toBool())
-			{
-				$oDB = &DB::getInstance();
-				if(!$oDB->isTableExists('session')) $oDB->createTableByXmlFile($this->module_path.'schemas/session.xml');
-				if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
-				$output = executeQuery('session.getSession', $args);
-			}
-			// Check if there is a table created in case there is no "cur_mid" value in the sessions information
-			if(!isset($output->data->cur_mid))
-			{
-				$oDB = &DB::getInstance();
-				if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
-			}
+			$oDB = DB::getInstance();
+			if(!$oDB->isColumnExists("session", "cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
 		}
+
 		return $output->data->val;
 	}
 
@@ -70,12 +65,13 @@ class sessionModel extends session
 		if(!$args->list_count) $args->list_count = 20;
 		if(!$args->page) $args->page = 1;
 		if(!$args->period_time) $args->period_time = 3;
-		$args->last_update = date("YmdHis", time() - $args->period_time*60);
+		$args->last_update = date("YmdHis", $_SERVER['REQUEST_TIME'] - $args->period_time*60);
 
 		$output = executeQueryArray('session.getLoggedMembers', $args);
 		if(!$output->toBool()) return $output;
 
 		$member_srls = array();
+		$member_keys = array();
 		if(count($output->data))
 		{
 			foreach($output->data as $key => $val)

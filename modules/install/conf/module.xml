@@ -3,30 +3,30 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispInstallIntroduce" type="view" standalone="true" index="true" />
-        <action name="dispInstallCheckEnv" type="view" standalone="true" />
-        <action name="dispInstallSelectDB" type="view" standalone="true" />
-        <action name="dispInstallDBForm" type="view" standalone="true" />
-        <action name="dispInstallConfigForm" type="view" standalone="true" />
-        <action name="dispInstallManagerForm" type="view" standalone="true" />
-        <action name="procCubridDBSetting" type="controller" standalone="true" ruleset="cubrid" />
-        <action name="procFirebirdDBSetting" type="controller" standalone="true" ruleset="firebird" />
-        <action name="procMssqlDBSetting" type="controller" standalone="true" ruleset="mssql" />
-        <action name="procMysqlDBSetting" type="controller" standalone="true" ruleset="mysql" />
-        <action name="procPostgresqlDBSetting" type="controller" standalone="true" ruleset="postgresql" />
-        <action name="procSqliteDBSetting" type="controller" standalone="true" ruleset="sqlite" />
-        <action name="procConfigSetting" type="controller" standalone="true" ruleset="config" />
-        <action name="procInstall" type="controller" standalone="true" ruleset="install" />
-        <action name="procInstallFTP" type="controller" standalone="true" />
-        <action name="procInstallCheckFTP" type="controller" standalone="true" />
-        <action name="procInstallAdminInstall" type="controller" standalone="true" />
-        <action name="procInstallAdminUpdate" type="controller" standalone="true" />
-        <action name="procInstallAdminSaveTimeZone" type="controller" standalone="true" />
-		<action name="procInstallAdminUpdateIndexModule" type="controller" standalone="true" />
-        <action name="procInstallAdminSaveFTPInfo" type="controller" standalone="true" ruleset="installFtpInfo" />
-        <action name="procInstallAdminRemoveFTPInfo" type="controller" standalone="true" />
-		<action name="procInstallAdminConfig" type="controller" standalone="true" />
-		<action name="procInstallAdminConfigIconUpload" type="controller" standalone="true" />
-        <action name="getInstallFTPList" type="model" standalone="true" />
+        <action name="dispInstallIntroduce" type="view" index="true" />
+        <action name="dispInstallCheckEnv" type="view" />
+        <action name="dispInstallSelectDB" type="view" />
+        <action name="dispInstallDBForm" type="view" />
+        <action name="dispInstallConfigForm" type="view" />
+        <action name="dispInstallManagerForm" type="view" />
+        <action name="procCubridDBSetting" type="controller" ruleset="cubrid" />
+        <action name="procFirebirdDBSetting" type="controller" ruleset="firebird" />
+        <action name="procMssqlDBSetting" type="controller" ruleset="mssql" />
+        <action name="procMysqlDBSetting" type="controller" ruleset="mysql" />
+        <action name="procPostgresqlDBSetting" type="controller" ruleset="postgresql" />
+        <action name="procSqliteDBSetting" type="controller" ruleset="sqlite" />
+        <action name="procConfigSetting" type="controller" ruleset="config" />
+        <action name="procInstall" type="controller" ruleset="install" />
+        <action name="procInstallFTP" type="controller" />
+        <action name="procInstallCheckFTP" type="controller" />
+        <action name="procInstallAdminInstall" type="controller" />
+        <action name="procInstallAdminUpdate" type="controller" />
+        <action name="procInstallAdminSaveTimeZone" type="controller" />
+		<action name="procInstallAdminUpdateIndexModule" type="controller" />
+        <action name="procInstallAdminSaveFTPInfo" type="controller" ruleset="installFtpInfo" />
+        <action name="procInstallAdminRemoveFTPInfo" type="controller" />
+		<action name="procInstallAdminConfig" type="controller" />
+		<action name="procInstallAdminConfigIconUpload" type="controller" />
+        <action name="getInstallFTPList" type="model" />
     </actions>
 </module>

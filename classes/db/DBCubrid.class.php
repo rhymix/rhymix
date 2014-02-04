@@ -1,11 +1,12 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * - DB child class
  * - Cubrid DBMS to use the class
  * - Works with CUBRID up to 8.4.1
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/db
  * @version 0.1
  */
@@ -61,20 +62,6 @@ class DBCubrid extends DB
 	function create()
 	{
 		return new DBCubrid;
-	}
-
-	/**
-	 * Return if supportable
-	 * Check 'cubrid_connect' function exists.
-	 * @return boolean
-	 */
-	function isSupported()
-	{
-		if(!function_exists('cubrid_connect'))
-		{
-			return FALSE;
-		}
-		return TRUE;
 	}
 
 	/**
@@ -1042,7 +1029,7 @@ class DBCubrid extends DB
 
 		// Check for distinct query and if found update count query structure
 		$temp_select = $queryObject->getSelectString($with_values);
-		$uses_distinct = strpos(strtolower($temp_select), "distinct") !== FALSE;
+		$uses_distinct = stripos($temp_select, "distinct") !== FALSE;
 		$uses_groupby = $queryObject->getGroupByString() != '';
 		if($uses_distinct || $uses_groupby)
 		{
@@ -1189,5 +1176,8 @@ class DBCubrid extends DB
 	}
 
 }
+
+DBCubrid::$isSupported = function_exists('cubrid_connect');
+
 /* End of file DBCubrid.class.php */
 /* Location: ./classes/db/DBCubrid.class.php */

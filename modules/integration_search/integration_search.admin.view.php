@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * The admin view class of the integration_search module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class integration_searchAdminView extends integration_search
 {
@@ -21,7 +22,7 @@ class integration_searchAdminView extends integration_search
 	function init()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$this->config = $oModuleModel->getModuleConfig('integration_search');
 		Context::set('config',$this->config);
 
@@ -36,7 +37,7 @@ class integration_searchAdminView extends integration_search
 	function dispIntegration_searchAdminContent()
 	{
 		// Get a list of skins(themes)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_list = $oModuleModel->getSkins($this->module_path);
 		Context::set('skin_list',$skin_list);
 		// Get a list of module categories
@@ -62,7 +63,7 @@ class integration_searchAdminView extends integration_search
 		$security->encodeHTML('skin_list..title');
 
 		// Sample Code
-		Context::set('sample_code', htmlspecialchars('<form action="{getUrl()}" method="get"><input type="hidden" name="vid" value="{$vid}" /><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" name="is_keyword"  value="{$is_keyword}" /><input class="btn" type="submit" value="{$lang->cmd_search}" /></form>') );
+		Context::set('sample_code', htmlspecialchars('<form action="{getUrl()}" method="get"><input type="hidden" name="vid" value="{$vid}" /><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" name="is_keyword"  value="{$is_keyword}" /><input class="btn" type="submit" value="{$lang->cmd_search}" /></form>', ENT_COMPAT | ENT_HTML401, 'UTF-8', false) );
 
 		$this->setTemplateFile("index");
 	}
@@ -74,7 +75,7 @@ class integration_searchAdminView extends integration_search
 	 */
 	function dispIntegration_searchAdminSkinInfo()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $this->config->skin);
 		$skin_vars = unserialize($this->config->skin_vars);
 		// value for skin_info extra_vars

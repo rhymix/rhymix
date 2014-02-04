@@ -1,4 +1,4 @@
-<load target="../../../../common/js/jquery.min.js" usecdn="true" index="-1000000" />
+<load target="../../../../common/js/jquery.min.js" index="-1000000" />
 <block cond="!$is_logged && $module == 'admin'">
 <load target="../../../../common/css/bootstrap.min.css" index="1" />
 </block>
@@ -26,7 +26,7 @@
 				</div>
 				<div class="control-group">
 					<label for="keepid">
-						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()>0?'addClass':'removeClass')]('open');" />						
+						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()&gt;0?'addClass':'removeClass')]('open');" />						
 						{$lang->keep_signed}
 					</label>
 					<p id="warning">{$lang->about_keep_warning}</p>

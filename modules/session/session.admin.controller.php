@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  sessionAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin controller class of the session module
  */
 class sessionAdminController extends session
@@ -18,7 +19,7 @@ class sessionAdminController extends session
 	 */
 	function procSessionAdminClear()
 	{
-		$oSessionController = &getController('session');
+		$oSessionController = getController('session');
 		$oSessionController->gc(0);
 
 		$this->add('result',Context::getLang('session_cleared'));

@@ -1,10 +1,12 @@
 <!--%import("filter/insert_editor_module_config.xml")-->
-<load target="js/editor_module_config.js" usecdn="true" />
+
+<load target="js/editor_module_config.js" />
 <form action="./" method="post" class="section">
 	<input type="hidden" name="act" value="procEditorInsertModuleConfig" />
 	<input type="hidden" name="module" value="editor" />
 	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="xe_validator_id" value="modules/editor/addition_setup/1" />
     <h1>{$lang->editor}</h1>
 	<table class="x_table x_table-striped x_table-hover">
 		<thead>

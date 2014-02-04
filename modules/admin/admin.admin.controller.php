@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * adminAdminController class
  * admin controller class of admin module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/admin
  * @version 0.1
  */
@@ -56,7 +57,7 @@ class adminAdminController extends admin
 	function procAdminRecompileCacheFile()
 	{
 		// rename cache dir
-		$temp_cache_dir = './files/cache_' . time();
+		$temp_cache_dir = './files/cache_' . $_SERVER['REQUEST_TIME'];
 		FileHandler::rename('./files/cache', $temp_cache_dir);
 		FileHandler::makeDir('./files/cache');
 
@@ -169,10 +170,9 @@ class adminAdminController extends admin
 			$skinTarget = 'mskin';
 		}
 
-		$buff = '';
 		if(is_readable($siteDesignFile))
 		{
-			@include($siteDesignFile);
+			include($siteDesignFile);
 		}
 		else
 		{
@@ -201,31 +201,33 @@ class adminAdminController extends admin
 
 	function makeDefaultDesignFile($designInfo, $site_srl = 0)
 	{
+		$buff = array();
+		$buff[] = '<?php if(!defined("__XE__")) exit();';
+		$buff[] = '$designInfo = new stdClass;';
+
 		if($designInfo->layout_srl)
 		{
-			$buff .= sprintf('$designInfo->layout_srl = %s; ', $designInfo->layout_srl) . "\n";
+			$buff[] = sprintf('$designInfo->layout_srl = %s; ', $designInfo->layout_srl);
 		}
 
 		if($designInfo->mlayout_srl)
 		{
-			$buff .= sprintf('$designInfo->mlayout_srl = %s;', $designInfo->mlayout_srl) . "\n";
+			$buff[] = sprintf('$designInfo->mlayout_srl = %s;', $designInfo->mlayout_srl);
 		}
 
-		$buff .= '$designInfo->module = new stdClass();' . "\n";
+		$buff[] = '$designInfo->module = new stdClass;';
 
 		foreach($designInfo->module as $moduleName => $skinInfo)
 		{
-			$buff .= sprintf('$designInfo->module->%s = new stdClass();', $moduleName) . "\n";
+			$buff[] = sprintf('$designInfo->module->%s = new stdClass;', $moduleName);
 			foreach($skinInfo as $target => $skinName)
 			{
-				$buff .= sprintf('$designInfo->module->%s->%s = \'%s\';', $moduleName, $target, $skinName) . "\n";
+				$buff[] = sprintf('$designInfo->module->%s->%s = \'%s\';', $moduleName, $target, $skinName);
 			}
 		}
 
-		$buff = sprintf('<?php if(!defined("__XE__")) exit();' . "\n" . '$designInfo = new stdClass();' . "\n" . '%s ?>', $buff);
-
 		$siteDesignFile = _XE_PATH_ . 'files/site_design/design_' . $site_srl . '.php';
-		FileHandler::writeFile($siteDesignFile, $buff);
+		FileHandler::writeFile($siteDesignFile, implode(PHP_EOL, $buff));
 	}
 
 	/**
@@ -293,8 +295,7 @@ class adminAdminController extends admin
 		{
 			if($favorite->type == 'module')
 			{
-				$modulePath = './modules/' . $favorite->module;
-				$modulePath = FileHandler::getRealPath($modulePath);
+				$modulePath = _XE_PATH_ . 'modules/' . $favorite->module;
 				if(!is_dir($modulePath))
 				{
 					$deleteTargets[] = $favorite->admin_favorite_srl;
@@ -455,7 +456,7 @@ class adminAdminController extends admin
 	 */
 	function _deleteAllFavorite()
 	{
-		$args = NULL;
+		$args = new stdClass;
 		$output = executeQuery('admin.deleteAllFavorite', $args);
 		return $output;
 	}
@@ -477,6 +478,93 @@ class adminAdminController extends admin
 			return new Object(-1, 'fail_to_delete');
 		}
 		$this->setMessage('success_deleted');
+	}
+
+	function procAdminUpdateSitelock()
+	{
+		$vars = Context::getRequestVars();
+		$oInstallController = getController('install');
+
+		$db_info = Context::getDbInfo();
+
+		$db_info->use_sitelock = ($vars->use_sitelock) ? $vars->use_sitelock : 'N';
+		$db_info->sitelock_title = $vars->sitelock_title;
+		$db_info->sitelock_message = $vars->sitelock_message;
+
+		$whitelist = $vars->sitelock_whitelist;
+		$whitelist = preg_replace("/[\r|\n|\r\n]+/",",",$whitelist);
+		$whitelist = preg_replace("/\s+/","",$whitelist);
+		if(preg_match('/(<\?|<\?php|\?>)/xsm', $whitelist))
+		{
+			$whitelist = '';
+		}
+		$whitelist .= ',127.0.0.1,' . $_SERVER['REMOTE_ADDR'];
+		$whitelist = explode(',',trim($whitelist, ','));
+		$whitelist = array_unique($whitelist);
+
+		if(!IpFilter::validate($whitelist)) {
+			return new Object(-1, 'msg_invalid_ip');
+		}
+
+		$db_info->sitelock_whitelist = $whitelist;
+
+		$oInstallController = getController('install');
+		if(!$oInstallController->makeConfigFile())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
+		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url');
+			if(!$returnUrl) $returnUrl = getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral');
+			header('location:' . $returnUrl);
+			return;
+		}
+	}
+
+	function procAdminUpdateEmbedWhitelist()
+	{
+		$vars = Context::getRequestVars();
+
+		$db_info = Context::getDbInfo();
+
+		$white_object = $vars->embed_white_object;
+		$white_object = preg_replace("/[\r\n|\r|\n]+/", '|@|', $white_object);
+		$white_object = preg_replace("/[\s\'\"]+/", '', $white_object);
+		$white_object = explode('|@|', $white_object);
+		$white_object = array_unique($white_object);
+
+		$white_iframe = $vars->embed_white_iframe;
+		$white_iframe = preg_replace("/[\r\n|\r|\n]+/", '|@|', $white_iframe);
+		$white_iframe = preg_replace("/[\s\'\"]+/", '', $white_iframe);
+		$white_iframe = explode('|@|', $white_iframe);
+		$white_iframe = array_unique($white_iframe);
+
+		$whitelist = new stdClass;
+		$whitelist->object = $white_object;
+		$whitelist->iframe = $white_iframe;
+
+		$db_info->embed_white_object = $white_object;
+		$db_info->embed_white_iframe = $white_iframe;
+
+		$oInstallController = getController('install');
+		if(!$oInstallController->makeConfigFile())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
+		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
+		$oEmbedFilter = EmbedFilter::getInstance();
+		$oEmbedFilter->_makeWhiteDomainList($whitelist);
+
+		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url');
+			if(!$returnUrl) $returnUrl = getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral');
+			header('location:' . $returnUrl);
+			return;
+		}
 	}
 
 }

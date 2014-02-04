@@ -1,7 +1,7 @@
 <?php
 /**
  * WML Library ver 0.1
- * @author NHN (developers@xpressengine.com) / lang_select : misol
+ * @author NAVER (developers@xpressengine.com) / lang_select : misol
  */
 class wap extends mobileXE
 {
@@ -23,7 +23,7 @@ class wap extends mobileXE
 		if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
 		print("<?xml version=\"1.0\" encoding=\"".$this->charset."\"?><!DOCTYPE wml PUBLIC \"-//WAPFORUM//DTD WML 1.1//EN\" \"http://www.wapforum.org/DTD/wml_1.1.xml\">\n");
 		// Card Title
-		printf("<wml>\n<card title=\"%s%s\">\n<p>\n",htmlspecialchars($this->title),htmlspecialchars($titlePageStr));
+		printf("<wml>\n<card title=\"%s%s\">\n<p>\n",htmlspecialchars($this->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false),htmlspecialchars($titlePageStr, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 	}
 
 	/**
@@ -32,7 +32,7 @@ class wap extends mobileXE
 	function printTitle()
 	{
 		if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
-		printf('&lt;%s%s&gt;<br/>%s', htmlspecialchars($this->title),htmlspecialchars($titlePageStr),"\n");
+		printf('&lt;%s%s&gt;<br/>%s', htmlspecialchars($this->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false),htmlspecialchars($titlePageStr, ENT_COMPAT | ENT_HTML401, 'UTF-8', false),"\n");
 	}
 
 	/**
@@ -46,7 +46,7 @@ class wap extends mobileXE
 			foreach($this->getChilds() as $key => $val)
 			{
 				if(!$val['link']) continue;
-				printf('<do type="%s" label="%s"><go href="%s" /></do>%s', $this->getNo(), htmlspecialchars($val['text']), $val['href'], "\n");
+				printf('<do type="%s" label="%s"><go href="%s" /></do>%s', $this->getNo(), htmlspecialchars($val['text'], ENT_COMPAT | ENT_HTML401, 'UTF-8', false), $val['href'], "\n");
 				if($val['extra']) printf("%s\n",$val['extra']);
 			}
 		}

@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  layoutAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * admin view class of the layout module
  */
 class layoutAdminModel extends layout
@@ -60,7 +61,7 @@ class layoutAdminModel extends layout
 		$layout_srl = Context::get('layout_srl');
 
 		// Get layout information
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
 
 		// Error appears if there is no layout information is registered
@@ -70,7 +71,7 @@ class layoutAdminModel extends layout
 		}
 
 		// Get a menu list
-		$oMenuAdminModel = &getAdminModel('menu');
+		$oMenuAdminModel = getAdminModel('menu');
 		$menu_list = $oMenuAdminModel->getMenus();
 		Context::set('menu_list', $menu_list);
 
@@ -101,7 +102,7 @@ class layoutAdminModel extends layout
 		// Set the layout with its information
 		$layout_srl = Context::get('layout_srl');
 		// Get layout information
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
 		// Error appears if there is no layout information is registered
 		if(!$layout_info)
@@ -110,7 +111,7 @@ class layoutAdminModel extends layout
 		}
 
 		// Get Layout Code
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_file = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
 
 		if(!file_exists($layout_file))
@@ -143,7 +144,7 @@ class layoutAdminModel extends layout
 		$layout_image_path = $oLayoutModel->getUserLayoutImagePath($layout_info->layout_srl);
 		Context::set('layout_image_path', $layout_image_path);
 		// Set widget list
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
 		Context::set('widget_list', $widget_list);
 
@@ -183,8 +184,8 @@ class layoutAdminModel extends layout
 	public function getSiteDefaultLayout($viewType = 'P', $siteSrl = 0)
 	{
 		$target = ($viewType == 'M') ? 'mlayout_srl' : 'layout_srl';
-		$designInfoFile = sprintf(_XE_PATH_.'/files/site_design/design_%s.php', $siteSrl);
-		@include($designInfoFile);
+		$designInfoFile = sprintf(_XE_PATH_ . 'files/site_design/design_%s.php', $siteSrl);
+		if(FileHandler::exists($designInfoFile)) include($designInfoFile);
 
 		if(!$designInfo || !$designInfo->{$target})
 		{

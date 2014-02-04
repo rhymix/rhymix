@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class HTMLDisplayHandler
 {
@@ -37,6 +38,7 @@ class HTMLDisplayHandler
 					if(count($theme_skin) == 2)
 					{
 						$theme_path = sprintf('./themes/%s', $theme_skin[0]);
+						// FIXME $theme_path $theme_path $theme_path ??
 						if(substr($theme_path, 0, strlen($theme_path)) != $theme_path)
 						{
 							$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
@@ -99,7 +101,7 @@ class HTMLDisplayHandler
 					// search if the changes CSS exists in the admin layout edit window
 					$edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
 
-					if(file_exists($edited_layout_css))
+					if(FileHandler::exists($edited_layout_css))
 					{
 						Context::loadFile(array($edited_layout_css, 'all', '', 100));
 					}
@@ -116,7 +118,7 @@ class HTMLDisplayHandler
 
 				// if popup_layout, remove admin bar.
 				$realLayoutPath = FileHandler::getRealPath($layout_path);
-				if(substr($realLayoutPath, -1) != '/')
+				if(substr_compare($realLayoutPath, '/', -1) !== 0)
 				{
 					$realLayoutPath .= '/';
 				}
@@ -128,13 +130,15 @@ class HTMLDisplayHandler
 				{
 					Context::set('admin_bar', 'false');
 				}
+				// DISABLE ADMIN BAR
+				Context::set('admin_bar', 'false');
 
 				if(__DEBUG__ == 3)
 				{
 					$GLOBALS['__layout_compile_elapsed__'] = getMicroTime() - $start;
 				}
 
-				if(preg_match('/MSIE/i', $_SERVER['HTTP_USER_AGENT']) && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
+				if(stripos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
 				{
 					Context::addHtmlFooter('<iframe id="xeTmpIframe" name="xeTmpIframe" style="width:1px;height:1px;position:absolute;top:-2px;left:-2px;"></iframe>');
 				}
@@ -275,7 +279,7 @@ class HTMLDisplayHandler
 			case 'number':
 			case 'range':
 			case 'color':
-				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str) . ' value="' . @htmlspecialchars($INPUT_ERROR[$match[3]]) . '"';
+				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str) . ' value="' . htmlspecialchars($INPUT_ERROR[$match[3]], ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '"';
 				break;
 			case 'password':
 				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str);
@@ -392,7 +396,8 @@ class HTMLDisplayHandler
 		// add common JS/CSS files
 		if(__DEBUG__)
 		{
-			$oContext->loadFile(array('./common/js/jquery.js', 'head', '', -100000), true);
+			$oContext->loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -111000), true);
+			$oContext->loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -110000), true);
 			$oContext->loadFile(array('./common/js/x.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/common.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000), true);
@@ -402,7 +407,8 @@ class HTMLDisplayHandler
 		}
 		else
 		{
-			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', '', -100000), true);
+			$oContext->loadFile(array('./common/js/jquery-1.x.min.js', 'head', 'lt IE 9', -111000), true);
+			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', 'gte IE 9', -110000), true);
 			$oContext->loadFile(array('./common/js/x.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/xe.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/css/xe.min.css', '', '', -1000000), true);

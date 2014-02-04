@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * LimitTag class
@@ -43,12 +44,18 @@ class LimitTag
 	{
 		if($index->page && $index->page->attrs && $index->page_count && $index->page_count->attrs)
 		{
+			if(!isset($index->page->attrs->default))
+				$index->page->attrs->default = 1;
+			if(!isset($index->page_count->attrs->default))
+				$index->page_count->attrs->default = 10;
 			$this->page = new QueryArgument($index->page);
 			$this->page_count = new QueryArgument($index->page_count);
 			$this->arguments[] = $this->page;
 			$this->arguments[] = $this->page_count;
 		}
 
+		if(!isset($index->list_count->attrs->default))
+			$index->list_count->attrs->default = 0;
 		$this->list_count = new QueryArgument($index->list_count);
 		$this->arguments[] = $this->list_count;
 	}

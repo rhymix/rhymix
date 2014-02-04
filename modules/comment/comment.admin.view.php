@@ -1,10 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * commentAdminView class
  * admin view class of the comment module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/comment
  * @version 0.1
  */
@@ -54,16 +55,15 @@ class commentAdminView extends comment
 		$columnList = array('comment_srl', 'document_srl', 'is_secret', 'status', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress', 'voted_count', 'blamed_count');
 		$output = $oCommentModel->getTotalCommentList($args, $columnList);
 
-		$oCommentModel = getModel("comment");
-		$modules = $oCommentModel->getDistinctModules();
-		$modules_list = $modules;
+		// $modules = $oCommentModel->getDistinctModules();
+		// $modules_list = $modules;
 
 		// set values in the return object of comment_model:: getTotalCommentList() in order to use a template.
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
 		Context::set('comment_list', $output->data);
-		Context::set('modules_list', $modules_list);
+		// Context::set('modules_list', $modules_list);
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('secret_name_list', $secretNameList);
 		// set the template 

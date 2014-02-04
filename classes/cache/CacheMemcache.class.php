@@ -1,19 +1,13 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Cache class for memcache
  *
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 class CacheMemcache extends CacheBase
 {
-
-	/**
-	 * Default valid time
-	 * @var int
-	 */
-	var $valid_time = 36000;
-
 	/**
 	 * instance of Memcahe
 	 * @var Memcahe
@@ -62,10 +56,11 @@ class CacheMemcache extends CacheBase
 	 */
 	function isSupport()
 	{
-		if($GLOBALS['XE_MEMCACHE_SUPPORT'])
+		if(isset($GLOBALS['XE_MEMCACHE_SUPPORT']))
 		{
 			return true;
 		}
+
 		if($this->Memcache->set('xe', 'xe', MEMCACHE_COMPRESSED, 1))
 		{
 			$GLOBALS['XE_MEMCACHE_SUPPORT'] = true;
@@ -74,6 +69,7 @@ class CacheMemcache extends CacheBase
 		{
 			$GLOBALS['XE_MEMCACHE_SUPPORT'] = false;
 		}
+
 		return $GLOBALS['XE_MEMCACHE_SUPPORT'];
 	}
 
@@ -112,7 +108,7 @@ class CacheMemcache extends CacheBase
 			$valid_time = $this->valid_time;
 		}
 
-		return $this->Memcache->set($this->getKey($key), array(time(), $buff), MEMCACHE_COMPRESSED, $valid_time);
+		return $this->Memcache->set($this->getKey($key), array($_SERVER['REQUEST_TIME'], $buff), MEMCACHE_COMPRESSED, $valid_time);
 	}
 
 	/**

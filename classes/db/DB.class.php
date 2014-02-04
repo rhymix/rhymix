@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 if(!defined('__XE_LOADED_DB_CLASS__'))
 {
@@ -42,19 +43,22 @@ if(!defined('__XE_LOADED_DB_CLASS__'))
  * - query xml has unique query id, and will be created in module
  * - queryid = module_name.query_name
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/db
  * @version 0.1
  */
 class DB
 {
 
+	static $isSupported = FALSE;
+
 	/**
 	 * priority of DBMS
 	 * @var array
 	 */
 	var $priority_dbms = array(
-		'mysqli' => 5,
+		'mysqli' => 6,
+		'mysqli_innodb' => 5,
 		'mysql' => 4,
 		'mysql_innodb' => 3,
 		'cubrid' => 2,
@@ -253,7 +257,7 @@ class DB
 			{
 				if($value->enable)
 				{
-					array_push($enableList, $value);
+					$enableList[] = $value;
 				}
 			}
 		}
@@ -280,7 +284,7 @@ class DB
 			{
 				if(!$value->enable)
 				{
-					array_push($disableList, $value);
+					$disableList[] = $value;
 				}
 			}
 		}
@@ -332,7 +336,7 @@ class DB
 				continue;
 			}
 
-			$obj = NULL;
+			$obj = new stdClass;
 			$obj->db_type = $db_type;
 			$obj->enable = $oDB->isSupported() ? TRUE : FALSE;
 
@@ -384,7 +388,7 @@ class DB
 	 */
 	function isSupported()
 	{
-		return FALSE;
+		return self::$isSupported;
 	}
 
 	/**
@@ -433,18 +437,33 @@ class DB
 		$this->elapsed_time = $elapsed_time;
 		$GLOBALS['__db_elapsed_time__'] += $elapsed_time;
 
+		$site_module_info = Context::get('site_module_info');
+		$log = array();
 		$log['query'] = $this->query;
 		$log['elapsed_time'] = $elapsed_time;
 		$log['connection'] = $this->connection;
+		$log['query_id'] = $this->query_id;
+		$log['module'] = $site_module_info->module;
+		$log['act'] = Context::get('act');
+		$log['time'] = date('Y-m-d H:i:s');
+
+		$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		foreach($bt as $no => $call)
+		{
+			if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
+			{
+				$call_no = $no;
+				$call_no++;
+				$log['called_file'] = $bt[$call_no]['file'].':'.$bt[$call_no]['line'];
+				$call_no++;
+				$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
+				break;
+			}
+		}
 
 		// leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
 		if($this->isError())
 		{
-			$site_module_info = Context::get('site_module_info');
-			$log['module'] = $site_module_info->module;
-			$log['act'] = Context::get('act');
-			$log['query_id'] = $this->query_id;
-			$log['time'] = date('Y-m-d H:i:s');
 			$log['result'] = 'Failed';
 			$log['errno'] = $this->errno;
 			$log['errstr'] = $this->errstr;
@@ -455,23 +474,18 @@ class DB
 				$buff = array();
 				if(!file_exists($debug_file))
 				{
-					$buff[] = '<?php exit(); ?>';
+					$buff[] = '<?php exit(); ?' . '>';
 				}
 				$buff[] = print_r($log, TRUE);
-
-				if(@!$fp = fopen($debug_file, "a"))
-				{
-					return;
-				}
-				fwrite($fp, implode("\n", $buff) . "\n\n");
-				fclose($fp);
+				@file_put_contents($log_file, implode("\n", $buff) . "\n\n", FILE_APPEND|LOCK_EX);
 			}
 		}
 		else
 		{
 			$log['result'] = 'Success';
 		}
-		$GLOBALS['__db_queries__'][] = $log;
+
+		$this->setQueryLog($log);
 
 		// if __LOG_SLOW_QUERY__ if defined, check elapsed time and leave query log
 		if(__LOG_SLOW_QUERY__ > 0 && $elapsed_time > __LOG_SLOW_QUERY__)
@@ -480,17 +494,23 @@ class DB
 			$log_file = _XE_PATH_ . 'files/_db_slow_query.php';
 			if(!file_exists($log_file))
 			{
-				$buff = '<?php exit();?>' . "\n";
+				$buff = '<?php exit(); ?' . '>' . "\n";
 			}
 
 			$buff .= sprintf("%s\t%s\n\t%0.6f sec\tquery_id:%s\n\n", date("Y-m-d H:i"), $this->query, $elapsed_time, $this->query_id);
 
-			if($fp = fopen($log_file, 'a'))
-			{
-				fwrite($fp, $buff);
-				fclose($fp);
-			}
+			@file_put_contents($log_file, $buff, FILE_APPEND|LOCK_EX);
 		}
+	}
+
+	/**
+	 * set query debug log
+	 * @param array $log values set query debug
+	 * @return void
+	*/
+	function setQueryLog($log)
+	{
+		$GLOBALS['__db_queries__'][] = $log;
 	}
 
 	/**
@@ -511,7 +531,7 @@ class DB
 	 */
 	function isError()
 	{
-		return $this->errno === 0 ? FALSE : TRUE;
+		return ($this->errno !== 0);
 	}
 
 	/**
@@ -604,19 +624,16 @@ class DB
 		// first try finding cache file
 		$cache_file = sprintf('%s%s%s.%s.%s.cache.php', _XE_PATH_, $this->cache_file, $query_id, __ZBXE_VERSION__, $this->db_type);
 
+		$cache_time = -1;
 		if(file_exists($cache_file))
 		{
 			$cache_time = filemtime($cache_file);
 		}
-		else
-		{
-			$cache_time = -1;
-		}
 
 		// if there is no cache file or is not new, find original xml query file and parse it
-		if($cache_time < filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_ . 'classes/db/DB.class.php') || $cache_time < filemtime(_XE_PATH_ . 'classes/xml/XmlQueryParser.150.class.php'))
+		if($cache_time < filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_ . 'classes/db/DB.class.php') || $cache_time < filemtime(_XE_PATH_ . 'classes/xml/XmlQueryParser.class.php'))
 		{
-			require_once(_XE_PATH_ . 'classes/xml/XmlQueryParser.150.class.php');
+			require_once(_XE_PATH_ . 'classes/xml/XmlQueryParser.class.php');
 			$oParser = new XmlQueryParser();
 			$oParser->parse($query_id, $xml_file, $cache_file);
 		}
@@ -700,6 +717,7 @@ class DB
 	function getCountCache($tables, $condition)
 	{
 		return FALSE;
+/*
 		if(!$tables)
 		{
 			return FALSE;
@@ -721,10 +739,7 @@ class DB
 		}
 
 		$cache_path = sprintf('%s/%s%s', $this->count_cache_path, $this->prefix, $tables_str);
-		if(!is_dir($cache_path))
-		{
-			FileHandler::makeDir($cache_path);
-		}
+		FileHandler::makeDir($cache_path);
 
 		$cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
 		if(!file_exists($cache_filename))
@@ -749,6 +764,7 @@ class DB
 
 		$count = (int) FileHandler::readFile($cache_filename);
 		return $count;
+*/
 	}
 
 	/**
@@ -761,6 +777,7 @@ class DB
 	function putCountCache($tables, $condition, $count = 0)
 	{
 		return FALSE;
+/*
 		if(!$tables)
 		{
 			return FALSE;
@@ -782,14 +799,12 @@ class DB
 		}
 
 		$cache_path = sprintf('%s/%s%s', $this->count_cache_path, $this->prefix, $tables_str);
-		if(!is_dir($cache_path))
-		{
-			FileHandler::makeDir($cache_path);
-		}
+		FileHandler::makeDir($cache_path);
 
 		$cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
 
 		FileHandler::writeFile($cache_filename, $count);
+*/
 	}
 
 	/**
@@ -800,14 +815,12 @@ class DB
 	function resetCountCache($tables)
 	{
 		return FALSE;
+/*
 		if(!$tables)
 		{
 			return FALSE;
 		}
-		if(!is_dir($this->count_cache_path))
-		{
-			return FileHandler::makeDir($this->count_cache_path);
-		}
+		return FileHandler::makeDir($this->count_cache_path);
 
 		if(!is_array($tables))
 		{
@@ -821,46 +834,7 @@ class DB
 		}
 
 		return TRUE;
-	}
-
-	/**
-	 * Returns supported database list
-	 * @return array list of supported database
-	 */
-	function getSupportedDatabase()
-	{
-		$result = array();
-
-		if(function_exists('mysql_connect'))
-		{
-			$result[] = 'MySQL';
-		}
-		if(function_exists('cubrid_connect'))
-		{
-			$result[] = 'Cubrid';
-		}
-		if(function_exists('ibase_connect'))
-		{
-			$result[] = 'FireBird';
-		}
-		if(function_exists('pg_connect'))
-		{
-			$result[] = 'Postgre';
-		}
-		if(function_exists('sqlite_open'))
-		{
-			$result[] = 'sqlite2';
-		}
-		if(function_exists('mssql_connect'))
-		{
-			$result[] = 'MSSQL';
-		}
-		if(function_exists('PDO'))
-		{
-			$result[] = 'sqlite3(PDO)';
-		}
-
-		return $result;
+ */
 	}
 
 	/**
@@ -1145,6 +1119,7 @@ class DB
 			$connection = &$this->slave_db[$indx];
 		}
 
+		$this->commit();
 		$this->_close($connection["resource"]);
 
 		$connection["is_connected"] = FALSE;
@@ -1368,6 +1343,9 @@ class DB
 
 		// Save connection info for db logs
 		$this->connection = ucfirst($type) . ' ' . $connection["db_hostname"];
+
+		// regist $this->close callback
+		register_shutdown_function(array($this, "close"));
 
 		$this->_afterConnect($result);
 	}

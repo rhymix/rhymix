@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  spamfilterModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The Model class of the spamfilter module
  */
 class spamfilterModel extends spamfilter
@@ -19,7 +20,7 @@ class spamfilterModel extends spamfilter
 	function getConfig()
 	{
 		// Get configurations (using the module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		return $oModuleModel->getModuleConfig('spamfilter');
 	}
 
@@ -96,7 +97,7 @@ class spamfilterModel extends spamfilter
 	/**
 	 * @brief Check the specified time
 	 */
-	function checkLimited()
+	function checkLimited($isMessage = FALSE)
 	{
 		$config = $this->getConfig();
 
@@ -110,16 +111,23 @@ class spamfilterModel extends spamfilter
 		// Ban the IP address if the interval is exceeded
 		if($count>=$limit_count)
 		{
-			$oSpamFilterController = &getController('spamfilter');
+			$oSpamFilterController = getController('spamfilter');
 			$oSpamFilterController->insertIP($ipaddress, 'AUTO-DENIED : Over limit');
 			return new Object(-1, 'msg_alert_registered_denied_ip');
 		}
 		// If the number of limited posts is not reached, keep creating.
 		if($count)
 		{
-			$message = sprintf(Context::getLang('msg_alert_limited_by_config'), $interval);
+			if($isMessage)
+			{
+				$message = sprintf(Context::getLang('msg_alert_limited_message_by_config'), $interval);
+			}
+			else
+			{
+				$message = sprintf(Context::getLang('msg_alert_limited_by_config'), $interval);
+			}
 
-			$oSpamFilterController = &getController('spamfilter');
+			$oSpamFilterController = getController('spamfilter');
 			$oSpamFilterController->insertLog();
 
 			return new Object(-1, $message);
@@ -132,7 +140,7 @@ class spamfilterModel extends spamfilter
 	 */
 	function isInsertedTrackback($document_srl)
 	{
-		$oTrackbackModel = &getModel('trackback');
+		$oTrackbackModel = getModel('trackback');
 		$count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, $_SERVER['REMOTE_ADDR']);
 		if($count>0) return new Object(-1, 'msg_alert_trackback_denied');
 
@@ -147,7 +155,7 @@ class spamfilterModel extends spamfilter
 		if(!$ipaddress) $ipaddress = $_SERVER['REMOTE_ADDR'];
 
 		$args->ipaddress = $ipaddress;
-		$args->regdate = date("YmdHis", time()-$time);
+		$args->regdate = date("YmdHis", $_SERVER['REQUEST_TIME']-$time);
 		$output = executeQuery('spamfilter.getLogCount', $args);
 		$count = $output->data->count;
 		return $count;

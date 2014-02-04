@@ -1,0 +1,7 @@
+<filter name="manage_checked_document" module="board" act="procBoardAdminManageCheckedDocument">
+    <form />
+    <response callback_func="completeManageDocument">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

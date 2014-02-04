@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  image_gallery
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Making images uploaded to the image gallery
  */
 class image_gallery extends EditorHandler
@@ -42,6 +43,7 @@ class image_gallery extends EditorHandler
 	 */
 	function transHTML($xml_obj)
 	{
+		$gallery_info = new stdClass;
 		$gallery_info->srl = rand(111111,999999);
 		$gallery_info->border_thickness = $xml_obj->attrs->border_thickness;
 		$gallery_info->gallery_style = $xml_obj->attrs->gallery_style;
@@ -56,12 +58,13 @@ class image_gallery extends EditorHandler
 		// If you set the output to output the XML code generated a list of the image
 		if(Context::getResponseMethod() == 'XMLRPC')
 		{
-			$output = '';
+			$output = array();
 			for($i=0;$i<count($gallery_info->images_list);$i++)
 			{
-				$output .= sprintf('<img src="%s" alt="" /><br />', $gallery_info->images_list[$i]);
+				$output[] = sprintf('<img src="%s" alt="" />', $gallery_info->images_list[$i]);
 			}
-			return $output;
+			$output[] = '<br />';
+			return implode('<br />', $output);
 		}
 		// HTML gallery output, the output settings via the template for the conversion to generate the html code should
 		preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$xml_obj->attrs->style,$matches);

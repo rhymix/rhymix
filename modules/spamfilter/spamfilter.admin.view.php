@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  spamfilterAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin view class of the spamfilter module
  */
 class spamfilterAdminView extends spamfilter 
@@ -21,7 +22,7 @@ class spamfilterAdminView extends spamfilter
 	function dispSpamfilterAdminDeniedIPList()
 	{
 		// Get the list of denied IP addresses and words
-		$oSpamFilterModel = &getModel('spamfilter');
+		$oSpamFilterModel = getModel('spamfilter');
 		$ip_list = $oSpamFilterModel->getDeniedIPList();
 		Context::set('ip_list', $ip_list);
 
@@ -39,7 +40,7 @@ class spamfilterAdminView extends spamfilter
 	function dispSpamfilterAdminDeniedWordList()
 	{
 		// Get the list of denied IP addresses and words
-		$oSpamFilterModel = &getModel('spamfilter');
+		$oSpamFilterModel = getModel('spamfilter');
 		$word_list = $oSpamFilterModel->getDeniedWordList();
 		Context::set('word_list', $word_list);
 
@@ -56,7 +57,7 @@ class spamfilterAdminView extends spamfilter
 	function dispSpamfilterAdminConfigBlock()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('spamfilter');
 		Context::set('config',$config);
 

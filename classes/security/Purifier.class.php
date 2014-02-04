@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class Purifier
 {
@@ -83,17 +84,16 @@ class Purifier
 		$attributeList = array();
 		if(is_array($m[2]))
 		{
-			foreach($m[2] AS $key => $value)
+			foreach($m[2] as $key => $value)
 			{
 				unset($script, $m2);
 				$script = " {$m[2][$key]} editor_component={$m[3][$key]}";
 
-				preg_match_all('/([a-z0-9_-]+)="([^"]+)"/is', $script, $m2);
-				if(is_array($m2[1]))
+				if(preg_match_all('/([a-z0-9_-]+)="([^"]+)"/is', $script, $m2))
 				{
-					foreach($m2[1] AS $key2 => $value2)
+					foreach($m2[1] as $value2)
 					{
-						array_push($attributeList, $value2);
+						$attributeList[] = $value2;
 					}
 				}
 			}
@@ -115,14 +115,13 @@ class Purifier
 		{
 			$content = str_replace('<img class="zbxe_widget_output"', '<img src="" class="zbxe_widget_output"', $content);
 
-			foreach($m[3] AS $key => $value)
+			foreach($m[3] as $key => $value)
 			{
-				preg_match_all('/([a-z0-9_-]+)="([^"]+)"/is', $m[3][$key], $m2);
-				if(is_array($m2[1]))
+				if (preg_match_all('/([a-z0-9_-]+)="([^"]+)"/is', $m[3][$key], $m2))
 				{
-					foreach($m2[1] AS $key2 => $value2)
+					foreach($m2[1] as $value2)
 					{
-						array_push($attributeList, $value2);
+						$attributeList[] = $value2;
 					}
 				}
 			}
@@ -142,7 +141,7 @@ class Purifier
 		$i=1;
 		if(is_array($whiteIframeUrlList))
 		{
-			foreach($whiteIframeUrlList AS $key => $value)
+			foreach($whiteIframeUrlList as $value)
 			{
 				$whiteDomainRegex .= $value;
 
@@ -162,10 +161,7 @@ class Purifier
 	{
 		// check htmlpurifier cache directory
 		$this->_cacheDir = _XE_PATH_ . 'files/cache/htmlpurifier';
-		if(!file_exists($this->_cacheDir))
-		{
-			FileHandler::makeDir($this->_cacheDir);
-		}
+		FileHandler::makeDir($this->_cacheDir);
 	}
 
 	public function purify(&$content)

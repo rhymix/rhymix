@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  spamfilter
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The parent class of the spamfilter module
  */
 class spamfilter extends ModuleObject
@@ -12,7 +13,7 @@ class spamfilter extends ModuleObject
 	function moduleInstall()
 	{
 		// Register action forward (to use in administrator mode)
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		// 2007.12.7 The triggers which try to perform spam filtering when new posts/comments/trackbacks are registered
 		$oModuleController->insertTrigger('document.insertDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before');
 		$oModuleController->insertTrigger('comment.insertComment', 'spamfilter', 'controller', 'triggerInsertComment', 'before');
@@ -20,6 +21,8 @@ class spamfilter extends ModuleObject
 		// 2008-12-17 Add a spamfilter for post modification actions
 		$oModuleController->insertTrigger('comment.updateComment', 'spamfilter', 'controller', 'triggerInsertComment', 'before');
 		$oModuleController->insertTrigger('document.updateDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before');
+		// 2013-11-14 The trigger which try to perform spam filtering when new message are registered
+		$oModuleController->insertTrigger('communication.sendMessage', 'spamfilter', 'controller', 'triggerSendMessage', 'before');
 
 		return new Object();
 	}
@@ -30,7 +33,7 @@ class spamfilter extends ModuleObject
 	function checkUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// 2007.12.7 The triggers which try to perform spam filtering when new posts/comments/trackbacks are registered
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before')) return true;
 		if(!$oModuleModel->getTrigger('comment.insertComment', 'spamfilter', 'controller', 'triggerInsertComment', 'before')) return true;
@@ -38,6 +41,8 @@ class spamfilter extends ModuleObject
 		// 2008-12-17 Add a spamfilter for post modification actions
 		if(!$oModuleModel->getTrigger('comment.updateComment', 'spamfilter', 'controller', 'triggerInsertComment', 'before')) return true;
 		if(!$oModuleModel->getTrigger('document.updateDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before')) return true;
+		// 2013-11-14 The trigger which try to perform spam filtering when new message are registered
+		if(!$oModuleModel->getTrigger('communication.sendMessage', 'spamfilter', 'controller', 'triggerSendMessage', 'before')) return true;
 
 		/**
 		 * Add the hit count field (hit)
@@ -56,8 +61,8 @@ class spamfilter extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 		// 2007.12.7 The triggers which try to perform spam filtering when new posts/comments/trackbacks are registered
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before'))
 			$oModuleController->insertTrigger('document.insertDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before');
@@ -74,6 +79,11 @@ class spamfilter extends ModuleObject
 		if(!$oModuleModel->getTrigger('document.updateDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before'))
 		{
 			$oModuleController->insertTrigger('document.updateDocument', 'spamfilter', 'controller', 'triggerInsertDocument', 'before');
+		}
+		// 2013-11-14 The trigger which try to perform spam filtering when new message are registered
+		if(!$oModuleModel->getTrigger('communication.sendMessage', 'spamfilter', 'controller', 'triggerSendMessage', 'before'))
+		{
+			$oModuleController->insertTrigger('communication.sendMessage', 'spamfilter', 'controller', 'triggerSendMessage', 'before');
 		}
 
 		/**

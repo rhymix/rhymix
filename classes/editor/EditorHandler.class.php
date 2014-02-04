@@ -1,11 +1,12 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Superclass of the edit component.
  * Set up the component variables
  *
  * @class EditorHandler
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class EditorHandler extends Object
 {

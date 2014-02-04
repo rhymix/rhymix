@@ -1,10 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 require_once(_XE_PATH_ . 'libs/ftp.class.php');
 
 /**
  * Module installer
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class ModuleInstaller
 {
@@ -314,7 +315,7 @@ class ModuleInstaller
 
 /**
  * Module installer for SFTP
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class SFTPModuleInstaller extends ModuleInstaller
 {
@@ -483,7 +484,7 @@ class SFTPModuleInstaller extends ModuleInstaller
 
 /**
  * Module installer for PHP FTP
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class PHPFTPModuleInstaller extends ModuleInstaller
 {
@@ -697,7 +698,7 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 
 /**
  * Module installer for FTP
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class FTPModuleInstaller extends ModuleInstaller
 {

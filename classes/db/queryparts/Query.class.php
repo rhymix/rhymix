@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/db/queryparts
  * @version 0.1
  */
@@ -401,6 +402,8 @@ class Query extends Object
 				$update[] = $column->getExpression($with_values);
 			}
 		}
+
+		if(!$update) return;
 		return trim(implode($update, ', '));
 	}
 

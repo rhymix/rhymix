@@ -28,6 +28,7 @@
 	<item name="cmd_layout_copy">
 		<value xml:lang="ko"><![CDATA[레이아웃 복사]]></value>
 		<value xml:lang="en"><![CDATA[Copy Layout]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウトコピー]]></value>
 	</item>
 	<item name="layout_name">
 		<value xml:lang="ko"><![CDATA[레이아웃 이름]]></value>
@@ -125,6 +126,7 @@
 	<item name="sitemap_with_homemenu">
 		<value xml:lang="ko"><![CDATA[시작메뉴가 있는 사이트맵]]></value>
 		<value xml:lang="en"><![CDATA[Sitemap with Home menu]]></value>
+		<value xml:lang="jp"><![CDATA[スタートメニューがあるサイトマップ]]></value>
 	</item>
 	<item name="layout_preview_content">
 		<value xml:lang="ko"><![CDATA[내용이 출력되는 부분입니다.]]></value>
@@ -141,6 +143,7 @@
 	<item name="not_support_layout_preview">
 		<value xml:lang="ko"><![CDATA[스킨적용 미리보기를 지원하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Skin preview not available.]]></value>
+		<value xml:lang="jp"><![CDATA[スキン適用プレビューをサポートしません。]]></value>
 	</item>
 	<item name="not_apply_menu">
 		<value xml:lang="ko"><![CDATA[레이아웃 일괄 적용]]></value>
@@ -191,7 +194,7 @@
 		<value xml:lang="vi"><![CDATA[Xin hãy nhập tiêu đề của giao diện cho dễ dàng lựa chọn về sau.]]></value>
 	</item>
 	<item name="about_not_apply_menu">
-		<value xml:lang="ko"><![CDATA[체크하면 연결된 모든 메뉴의 페이지 레이아웃을 일괄 변경합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[지정한 메뉴에 연결된 모든 페이지의 레이아웃을 현재 레이아웃으로 지정합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Layouts of all pages connected via menu will be changed en bloc by checking this option.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると連動するすべてのメニューのモジュールのレイアウトを一括変更します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[勾选表示连接到此布局的菜单项全部采用此布局。]]></value>
@@ -1056,31 +1059,38 @@
 		<item name="6">
 			<value xml:lang="ko"><![CDATA[레이아웃 목록에서 업로드한 레이아웃을 이용하여 레이아웃을 생성합니다. 이때 레이아웃 경로가 업로드한 경로가 맞는지 확인하세요. 로고 이미지 등 레이아웃 설정은 다시 해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Insert new layout from installed layout. Make sure to check if the path of layout is the same as the uploaded path. You need to set the layout including logo images.]]></value>
-		　　<value xml:lang="jp"><![CDATA[レイアウトリストでアップロードしたレイアウトを利用してレイアウトを生成します。このとき、レイアウトのパスが、アップロードしたパスであるか確認してください。ロゴイメージはなどレイアウトの設定は、改めて行ってください。]]></value>
+			<value xml:lang="jp"><![CDATA[レイアウトリストでアップロードしたレイアウトを利用してレイアウトを生成します。このとき、レイアウトのパスが、アップロードしたパスであるか確認してください。ロゴイメージはなどレイアウトの設定は、改めて行ってください。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[從"已安裝版面"中建立新版面。 確認版面路徑是否上傳正確及修改版面相關設定。]]></value>
 		</item>
 	</item>
 	<item name="msg_empty_origin_layout">
 		<value xml:lang="ko"><![CDATA[원본 Layout이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Original layout is not exist]]></value>
+		<value xml:lang="jp"><![CDATA[原本レイアウトがありません。]]></value>
 	</item>
 	<item name="msg_empty_target_layout">
 		<value xml:lang="ko"><![CDATA[복사할 Layout이 지정되어 있지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Target layout is not assigned]]></value>
+		<value xml:lang="jp"><![CDATA[コピーするレイアウトが指定されていません。]]></value>
 	</item>
 	<item name="msg_at_least_one_layout">
 		<value xml:lang="ko"><![CDATA[해당 레이아웃의 마지막 한개 레이아웃은 삭제할 수 없습니다.]]></value>
+		<value xml:lang="jp"><![CDATA[該当レイアウトの最後１個のレイアウトは削除できません。]]></value>
 	</item>
 	<item name="use_site_default_layout">
 		<value xml:lang="ko"><![CDATA[사이트 기본 레이아웃 사용]]></value>
+		<value xml:lang="jp"><![CDATA[サイトデフォルトレイアウト使用]]></value>
 	</item>
 	<item name="msg_unabled_preview">
 		<value xml:lang="ko"><![CDATA[해당 메뉴 타입의 페이지가 하나도 없어 미리보기가 불가능합니다.]]></value>
+		<value xml:lang="jp"><![CDATA[該当メニュータイプのページが１つもないため、プレビューが不可能です。]]></value>
 	</item>
 	<item name="article_preview_title">
 		<value xml:lang="ko"><![CDATA[문서의 제목입니다.]]></value>
+		<value xml:lang="jp"><![CDATA[ドキュメントのタイトルです。]]></value>
 	</item>
 	<item name="article_preview_content">
 		<value xml:lang="ko"><![CDATA[무궁화 꽃이 피었습니다.]]></value>
+		<value xml:lang="jp"><![CDATA[だるまさんがころんだ。]]></value>
 	</item>
 </lang>

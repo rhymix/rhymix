@@ -21,7 +21,7 @@
 			</td>
 			<td>
 				<p loop="$val->attributes => $name, $value">
-					{htmlspecialchars($name)} : {$value}
+					{htmlspecialchars($name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)} : {$value}
 				</p>
 			</td>
 			<td cond="!$allow_multiple">

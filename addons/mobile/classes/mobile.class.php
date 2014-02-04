@@ -1,7 +1,7 @@
 <?php
 /**
  * Mobile XE Library Class ver 0.1
- * @author NHN (developers@xpressengine.com) / lang_select : misol
+ * @author NAVER (developers@xpressengine.com) / lang_select : misol
  * @brief XE library for WAP tag output
  */
 class mobileXE
@@ -189,13 +189,13 @@ class mobileXE
 		$userAgent = $_SERVER['HTTP_USER_AGENT'];
 		$wap_sid = $_SERVER['HTTP_X_UP_SUBNO'];
 
-		if(preg_match("/SKT11/i", $userAgent) || preg_match("/skt/i", $browserAccept))
+		if(stripos($userAgent, "SKT11") !== FALSE || stripos($browserAccept, "skt") !== FALSE)
 		{
 			Context::set('mobile_skt',1);
 			return "wml";
 		}
-		elseif(preg_match("/hdml/i", $browserAccept)) return "hdml";
-		elseif(preg_match("/CellPhone/i", $userAgent)) return  "mhtml";
+		elseif(stripos($browserAccept, "hdml") !== FALSE) return "hdml";
+		elseif(stripos($userAgent, "cellphone") !== FALSE) return  "mhtml";
 		return null;
 	}
 
@@ -282,7 +282,7 @@ class mobileXE
 	 */
 	function setTitle($title)
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$this->title = $title;
 		$oModuleController->replaceDefinedLangCode($this->title);
 	}
@@ -301,7 +301,7 @@ class mobileXE
 	 */
 	function setContent($content)
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$allow_tag_array = array('<a>','<br>','<p>','<b>','<i>','<u>','<em>','<small>','<strong>','<big>','<table>','<tr>','<td>');
 		// Links/wrap, remove all tags except gangjoman
 		$content = strip_tags($content, implode($allow_tag_array));
@@ -523,7 +523,7 @@ class mobileXE
 			$this->setUpperUrl(getUrl('cmid',$upper_srl), Context::getLang('cmd_go_upper'));
 			if(preg_match('/^([a-zA-Z0-9\_\-]+)$/', $cur_item['url']))
 			{
-				$obj = null;
+				$obj = array();
 				$obj['href'] = getUrl('','mid',$cur_item['url']);
 				$obj['link'] = $obj['text'] = '['.$cur_item['text'].']';
 				$childs[] = $obj;
@@ -541,7 +541,7 @@ class mobileXE
 			foreach($list as $key => $val)
 			{
 				if(!$val['text']) continue;
-				$obj = null;
+				$obj = array();
 				if(!count($val['list']))
 				{
 					$obj['href'] = getUrl('','mid',$val['url']);
@@ -574,7 +574,7 @@ class mobileXE
 		}
 		$lang_supported = Context::get('lang_supported');
 		$lang_type = Context::getLangType();
-		$obj = null;
+		$obj = array();
 		$obj['link'] = $obj['text'] = Context::getLang('president_lang').' : '.$lang_supported[$lang_type];
 		$obj['href'] = getUrl('sel_lang',$lang_type);
 		$childs[] = $obj;
@@ -583,7 +583,7 @@ class mobileXE
 		{
 			foreach($lang_supported as $key => $val)
 			{
-				$obj = null;
+				$obj = array();
 				$obj['link'] = $obj['text'] = $val;
 				$obj['href'] = getUrl('sel_lang',$key);
 				$childs[] = $obj;

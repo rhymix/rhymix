@@ -25,7 +25,7 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
      * @param $matches, in form of array(opening tag, contents, closing tag)
      */
     protected function scriptCallback($matches) {
-        return $matches[1] . htmlspecialchars($matches[2], ENT_COMPAT, 'UTF-8') . $matches[3];
+        return $matches[1] . htmlspecialchars($matches[2], ENT_COMPAT, 'UTF-8', false) . $matches[3];
     }
 
     public function tokenizeHTML($html, $config, $context) {
