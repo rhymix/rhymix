@@ -258,6 +258,8 @@ class layoutModel extends layout
 	 */
 	function getLayout($layout_srl)
 	{
+		$layout_info = false;
+
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
@@ -267,7 +269,7 @@ class layoutModel extends layout
 			$layout_info = $oCacheHandler->get($cache_key);
 		}
 
-		if(!$layout_info)
+		if($layout_info === false)
 		{
 			// Get information from the DB
 			$args = new stdClass();
@@ -782,7 +784,7 @@ class layoutModel extends layout
 	 */
 	function getUserLayoutPath($layout_srl)
 	{
-		return sprintf("%sfiles/faceOff/%s", _XE_PATH_, getNumberingPath($layout_srl,3));
+		return sprintf("./files/faceOff/%s", getNumberingPath($layout_srl,3));
 	}
 
 	/**

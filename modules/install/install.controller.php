@@ -386,11 +386,11 @@ class installController extends install
 		$hostname = $_SERVER['SERVER_NAME'];
 		$port = $_SERVER['SERVER_PORT'];
 		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
-		$currentPath = str_replace( $_SERVER['DOCUMENT_ROOT'], "", realpath(_XE_PATH_) );
+		$currentPath = str_replace($_SERVER['DOCUMENT_ROOT'], "", _XE_PATH_);
 		if($currentPath != "")
 			$query = $currentPath . $query;
 
-		$fp = @fsockopen($hostname, $port, $errno, $errstr);
+		$fp = @fsockopen($hostname, $port, $errno, $errstr, 5);
 		if(!$fp) return false;
 
 		fputs($fp, "GET {$query} HTTP/1.0\r\n");

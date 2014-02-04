@@ -103,6 +103,125 @@ class menuAdminController extends menu
 		$output->add('menuSrl', $args->menu_srl);
 		return $output;
 	}
+	
+	function linkAllModuleInstancesToSitemap()
+	{
+		$unlinked_modules = false;
+		$args = new stdClass;
+		$args->site_srl = 0;
+		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
+		if($output->toBool() && $output->data && count($output->data) > 0)
+		{
+			$unlinked_modules = $output->data;
+		}
+		
+		if($unlinked_modules)
+		{
+			$unlinked_menu_srl = $this->getUnlinkedMenu();
+			$output = $this->updateLinkModule($unlinked_modules, $unlinked_menu_srl);
+		}
+
+	}
+	
+	function getUnlinkedMenu()
+	{
+		// 'unlinked' menu 존재여부 확인
+		$oModuleModel = getModel('module');
+		$moduleConfig = $oModuleModel->getModuleConfig('menu');
+
+		if($moduleConfig->unlinked_menu_srl)
+		{
+			$menuArgs = new stdClass;
+			$menuArgs->menu_srl = $moduleConfig->unlinked_menu_srl;
+			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
+			if(!$menuOutput->data)
+			{
+				unset($moduleConfig->unlinked_menu_srl);
+			}
+		}
+		
+		if(!$moduleConfig->unlinked_menu_srl)
+		{
+			$output = $this->addMenu('unlinked', 0);
+			if($output->toBool())
+			{
+				$moduleConfig->unlinked_menu_srl = $output->get('menuSrl');
+				$oModuleController = getController('module');
+				$oModuleController->updateModuleConfig('menu', $moduleConfig);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		return $moduleConfig->unlinked_menu_srl;
+	}
+	
+	/**
+	 * insert menu when not linked module.
+	 *
+	 * @param array $moduleInfos
+	 * @param int $menuSrl
+	 *
+	 * @return Object
+	 */
+	function updateLinkModule($moduleInfos, $menuSrl)
+	{
+		if(!$moduleInfos || !is_array($moduleInfos) || count($moduleInfos) == 0 || $menuSrl == 0)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+	
+		foreach($moduleInfos as $moduleInfo)
+		{
+			// search menu.
+			$args = new stdClass;
+			$args->url = $moduleInfo->mid;
+			$args->site_srl = $moduleInfo->site_srl;
+			$args->is_shortcut = 'N';
+	
+			$output = executeQuery('menu.getMenuItemByUrl', $args);
+	
+			if($output->toBool() && $output->data)
+			{
+				$moduleInfo->menu_srl = $output->data->menu_srl;
+			}
+			else
+			{
+				// create menu item.
+				$item_args->menu_srl = $menuSrl;
+				$item_args->url = $moduleInfo->mid;
+				$item_args->name = $moduleInfo->mid;
+				$item_args->menu_item_srl = getNextSequence();
+				$item_args->listorder = -1*$item_args->menu_item_srl;
+	
+				$output = executeQuery('menu.insertMenuItem', $item_args);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+				$moduleInfo->menu_srl = $menuSrl;
+			}
+	
+			$output = executeQuery('module.updateModule', $moduleInfo);
+			
+			return $output;
+		}
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('site_and_module');
+		}
+		
+		$oMenuAdminController = getAdminController('menu');
+		$oMenuAdminController->makeXmlFile($menuSrl);
+	
+		return new Object();
+	}
+	
+	
 
 	/**
 	 * Change the menu title
@@ -337,6 +456,7 @@ class menuAdminController extends menu
 		if(strncasecmp('http', $request->shortcut_target, 4) === 0 || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
 		{
 			// set menu variable
+			$args = new stdClass();
 			$args->menu_srl = $request->menu_srl;
 			$args->parent_srl = $request->parent_srl;
 			$args->open_window = $request->menu_open_window;
@@ -951,7 +1071,7 @@ class menuAdminController extends menu
 		{
 			foreach($node AS $key=>$node)
 			{
-				unset($args);
+				$args = new stdClass();
 				$args->menu_srl = $menu_srl;
 				$args->menu_item_srl = $node['node_srl'];
 				$output = executeQuery('menu.updateMenuItemNode', $args);
@@ -1108,7 +1228,17 @@ class menuAdminController extends menu
 			$insertedMenuItemSrl = $this->get('menu_item_srl');
 			if($menuItemInfo->normal_btn || $menuItemInfo->hover_btn || $menuItemInfo->active_btn)
 			{
-				$this->_copyButton($insertedMenuItemSrl, $menuItemInfo);
+				// copy & upate
+				$update_item_info = $oMenuAdminModel->getMenuItemInfo($insertedMenuItemSrl);
+				$copied_info = $this->_copyButton($insertedMenuItemSrl,$update_item_info->menu_srl, $menuItemInfo);
+				if(count($update_item_info->group_srls) == 0)
+				{
+					unset($update_item_info->group_srls);
+				}
+				$update_item_info->normal_btn = $copied_info['normal_btn'];
+				$update_item_info->hover_btn = $copied_info['hover_btn'];
+				$update_item_info->active_btn = $copied_info['active_btn'];
+				executeQuery('menu.updateMenuItem', $update_item_info);
 			}
 			$this->insertedMenuItemSrlList[] = $insertedMenuItemSrl;
 		}
@@ -1460,6 +1590,7 @@ class menuAdminController extends menu
 		if(empty($url)) $url = getNotEncodedFullUrl('', 'module', 'admin');
 		$dbInfo = Context::getDBInfo();
 
+		$args = new stdClass();
 		$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 		$args->parent_srl = $requestArgs->parent_srl;
 		$args->menu_srl = $requestArgs->menu_srl;
@@ -2034,34 +2165,43 @@ class menuAdminController extends menu
 	 * When copy a menu, button copied also.
 	 * @param $args menuItemInfo with button values
 	 */
-	private function _copyButton($insertedMenuItemSrl, &$menuItemInfo)
+	private function _copyButton($insertedMenuItemSrl, $insertedMenuSrl, &$menuItemInfo)
 	{
+		$copied_info = array(
+			"normal_btn"=>"",
+			"hover_btn"=>"",
+			"active_btn"=>"",
+		);
 		//normal_btn
 		if($menuItemInfo->normal_btn)
 		{
 			$originFile = FileHandler::getRealPath($menuItemInfo->normal_btn);
-			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->normal_btn, $menuItemInfo->menu_srl, $insertedMenuItemSrl, 'normal');
+			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->normal_btn, $insertedMenuSrl, $insertedMenuItemSrl, 'normal');
 
 			FileHandler::copyFile($originFile, $targetFile);
+			$copied_info['normal_btn'] = $targetFile;
 		}
 
 		//hover_btn
 		if($menuItemInfo->hover_btn)
 		{
 			$originFile = FileHandler::getRealPath($menuItemInfo->hover_btn);
-			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->hover_btn, $menuItemInfo->menu_srl, $insertedMenuItemSrl, 'hover');
+			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->hover_btn, $insertedMenuSrl, $insertedMenuItemSrl, 'hover');
 
 			FileHandler::copyFile($originFile, $targetFile);
+			$copied_info['hover_btn'] = $targetFile;
 		}
 
 		//active_btn
 		if($menuItemInfo->active_btn)
 		{
 			$originFile = FileHandler::getRealPath($menuItemInfo->active_btn);
-			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->active_btn, $menuItemInfo->menu_srl, $insertedMenuItemSrl, 'active');
+			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->active_btn, $insertedMenuSrl, $insertedMenuItemSrl, 'active');
 
 			FileHandler::copyFile($originFile, $targetFile);
+			$copied_info['active_btn'] = $targetFile;
 		}
+		return $copied_info;
 	}
 
 	private function _changeMenuItemSrlInButtonPath($buttonPath, $menuSrl, $menuItemSrl, $mode)
@@ -2069,7 +2209,8 @@ class menuAdminController extends menu
 		$path = sprintf('./files/attach/menu_button/%d/', $menuSrl);
 		$tmp_arr = explode('.', $buttonPath);
 		$ext = $tmp_arr[count($tmp_arr)-1];
-		return sprintf('%s%d.%s.%s', $path, $menuItemSrl, 'menu_'.$mode.'_btn', $ext);
+		$date = date("YmdHis");
+		return sprintf('%s%d.%s.%s.%s', $path, $menuItemSrl,$date,'menu_'.$mode.'_btn', $ext);
 	}
 
 	public function makeHomemenuCacheFile($menuSrl)

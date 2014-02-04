@@ -98,8 +98,9 @@ class addonAdminModel extends addon
 			// Add the path (files/addons precedence)
 			$path = $this->getAddonPath($addon_name);
 			// Wanted information on the add-on
-			unset($info);
 			$info = $this->getAddonInfoXml($addon_name, $site_srl, $gtype);
+			
+			if(!$info) $info = new stdClass();
 
 			$info->addon = $addon_name;
 			$info->path = $path;

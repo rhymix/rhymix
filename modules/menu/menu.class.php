@@ -39,6 +39,15 @@ class menu extends ModuleObject
 		{
 			return TRUE;
 		}
+		
+		
+		$oMenuAdminModel = getAdminModel('menu');
+		$args = new stdClass();
+		$args->title = array("Temporary menu");
+		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
+		if($temp_menus->toBool() && count($temp_menus->data)) return true;
+		
+		
 		return false;
 	}
 
@@ -133,6 +142,33 @@ class menu extends ModuleObject
 				}
 			}
 
+			$this->recompileCache();
+		}
+		
+		// for 1.7.4 update, 기존에 생성된 Temporary menu 항목 정리
+		$oMenuAdminModel = getAdminModel('menu');
+		$args = new stdClass();
+		$args->title = array("Temporary menu");
+		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
+		
+		$args = new stdClass();
+		if($temp_menus->toBool() && count($temp_menus->data))
+		{
+			
+			$oMenuAdminController = getAdminController('menu');
+			foreach($temp_menus->data as $menu)
+			{
+				$args->current_menu_srl = $menu->menu_srl;
+				$args->menu_srl = $oMenuAdminController->getUnlinkedMenu();
+				$output3 = executeQuery('menu.updateMenuItems', $args);
+					
+				if($output3->toBool())
+				{
+					// delete
+					$oMenuAdminController->deleteMenu($menu->menu_srl);
+				}
+			}
+			
 			$this->recompileCache();
 		}
 

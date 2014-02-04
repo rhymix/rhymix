@@ -230,9 +230,9 @@ class FileHandler
 		$path = self::getRealPath($path);
 		$output = array();
 
-		if(substr($path, -1) != DIRECTORY_SEPARATOR)
+		if(substr($path, -1) != '/')
 		{
-			$path .= DIRECTORY_SEPARATOR;
+			$path .= '/';
 		}
 
 		if(!is_dir($path))
@@ -263,7 +263,7 @@ class FileHandler
 				$file = sprintf('%s%s', str_replace(_XE_PATH_, '', $path), $file);
 			}
 
-			$output[] = str_replace(array('/\\', '//'), DIRECTORY_SEPARATOR, $file);
+			$output[] = str_replace(array('/\\', '//'), '/', $file);
 		}
 
 		return $output;

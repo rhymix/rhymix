@@ -29,7 +29,7 @@ define('__ZBXE__', __XE__);
 /**
  * Display XE's full version.
  */
-define('__XE_VERSION__', '1.7.4-beta.6');
+define('__XE_VERSION__', '1.7.4');
 
 /**
  * @deprecated __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.
@@ -45,11 +45,6 @@ define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '
 // Set can use other method instead cookie to store session id(for file upload)
 ini_set('session.use_only_cookies', 0);
 
-// Set Real IP Address of Client.
-if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-{
-	$_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
-}
 
 if(file_exists(_XE_PATH_ . 'config/package.inc.php'))
 {

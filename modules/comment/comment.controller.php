@@ -469,16 +469,6 @@ class commentController extends comment
 
 		$output->add('comment_srl', $obj->comment_srl);
 
-		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
-			$oCacheHandler->invalidateGroupKey('newestCommentsList');
-
-			$oCacheHandler->delete('object:' . $document_srl);
-		}
-
 		return $output;
 	}
 
@@ -736,14 +726,6 @@ class commentController extends comment
 
 		$output->add('comment_srl', $obj->comment_srl);
 
-		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('commentList_' . $obj->document_srl);
-			$oCacheHandler->invalidateGroupKey('newestCommentsList');
-		}
-		
 		return $output;
 	}
 
@@ -872,16 +854,6 @@ class commentController extends comment
 
 		$output->add('document_srl', $document_srl);
 
-		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
-			$oCacheHandler->invalidateGroupKey('newestCommentsList');
-
-			$oCacheHandler->delete('object:' . $document_srl);
-		}
-
 		return $output;
 	}
 
@@ -968,14 +940,6 @@ class commentController extends comment
 			$args->comment_srl = join(',', $commentSrlList);
 			$this->_deleteDeclaredComments($args);
 			$this->_deleteVotedComments($args);
-		}
-
-		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
-			$oCacheHandler->invalidateGroupKey('newestCommentsList');
 		}
 
 		return $output;

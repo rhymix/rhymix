@@ -418,25 +418,15 @@ class moduleController extends module
 		{
 			$menuArgs = new stdClass;
 			$menuArgs->menu_srl = $args->menu_srl;
-			$menuOutput = executeQuery('menu.getMenu', $menuArgs); 
+			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
 
 			// if menu is not created, create menu also. and does not supported that in virtual site.
 			if(!$menuOutput->data && !$args->site_srl)
 			{
 				$oMenuAdminModel = getAdminModel('menu');
-				
-				$oModuleModel = getModel('module');
-				$moduleConfig = $oModuleModel->getModuleConfig('module');
-				
-				$menuSrl = $moduleConfig->unlinked_menu_srl; 
-				if(!$menuSrl)
-				{
-					$menuSrl = $this->makeUnlinkedMenu();
-					
-					// 'unlinked' menu를 module config에 저장
-					$moduleConfig->unlinked_menu_srl = $menuSrl;
-					$this->updateModuleConfig('module', $moduleConfig);
-				}
+
+				$oMenuAdminController = getAdminController('menu');
+				$menuSrl = $oMenuAdminController->getUnlinkedMenu();
 
 				$menuArgs->menu_srl = $menuSrl;
 				$menuArgs->menu_item_srl = getNextSequence();
@@ -455,7 +445,6 @@ class moduleController extends module
 					return $menuItemOutput;
 				}
 
-				$oMenuAdminController = getAdminController('menu');
 				$oMenuAdminController->makeXmlFile($menuSrl);
 			}
 		}
@@ -484,22 +473,6 @@ class moduleController extends module
 		return $output;
 	}
 
-	function makeUnlinkedMenu()
-	{
-		$args = new stdClass();
-		$args->title = 'unlinked';
-		$menuSrl = $args->menu_srl = getNextSequence();
-		$args->listorder = $args->menu_srl * -1;
-			
-		$output = executeQuery('menu.insertMenu', $args);
-		if($output->toBool())
-		{
-			return $menuSrl;
-		}
-		
-		return false;
-	}
-	
 	/**
 	 * @brief Modify module information
 	 */

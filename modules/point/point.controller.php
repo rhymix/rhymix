@@ -642,7 +642,7 @@ class pointController extends point
 		FileHandler::writeFile($cache_filename, $point);
 
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
+		if($new_group_list && $del_group_list && $oCacheHandler->isSupport())
 		{
 			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_0';
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
@@ -650,7 +650,7 @@ class pointController extends point
 		}
 
 		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		if($new_group_list && $del_group_list && $oCacheHandler->isSupport())
 		{
 			$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);

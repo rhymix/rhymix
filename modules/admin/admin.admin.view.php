@@ -138,19 +138,15 @@ class adminAdminView extends admin
 		$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
 
 		$result = $oAdminAdminModel->checkAdminMenu();
-		if(!$result->php_file)
-		{
-			header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
-			Context::close();
-			exit;
-		}
 		include $result->php_file;
 
 		$oModuleModel = getModel('module');
-		$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
 
+		// get current menu's subMenuTitle
+		$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
 		$currentAct = Context::get('act');
 		$subMenuTitle = '';
+		
 		foreach((array) $moduleActionInfo->menu as $key => $value)
 		{
 			if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
@@ -159,50 +155,30 @@ class adminAdminView extends admin
 				break;
 			}
 		}
-
+		// get current menu's srl(=parentSrl)
 		$parentSrl = 0;
 		$oMenuAdminConroller = getAdminController('menu');
-		if(!$_SESSION['isMakeXml'])
+		foreach((array) $menu->list as $parentKey => $parentMenu)
 		{
-			foreach((array) $menu->list as $parentKey => $parentMenu)
+			if(!is_array($parentMenu['list']) || !count($parentMenu['list']))
 			{
-				if(!$parentMenu['text'])
-				{
-					$oMenuAdminConroller->makeXmlFile($result->menu_srl);
-					$_SESSION['isMakeXml'] = true;
-					header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
-					Context::close();
-					exit;
-				}
+				continue;
+			}
+			if($parentMenu['href'] == '#' && count($parentMenu['list']))
+			{
+				$firstChild = current($parentMenu['list']);
+				$menu->list[$parentKey]['href'] = $firstChild['href'];
+			}
 
-				if(!is_array($parentMenu['list']) || !count($parentMenu['list']))
+			foreach($parentMenu['list'] as $childKey => $childMenu)
+			{
+				if($subMenuTitle == $childMenu['text'])
 				{
-					continue;
-				}
-				if($parentMenu['href'] == '#' && count($parentMenu['list']))
-				{
-					$firstChild = current($parentMenu['list']);
-					$menu->list[$parentKey]['href'] = $firstChild['href'];
-				}
-
-				foreach($parentMenu['list'] as $childKey => $childMenu)
-				{
-					if(!$childMenu['text'])
-					{
-						$oMenuAdminConroller->makeXmlFile($result->menu_srl);
-						$_SESSION['isMakeXml'] = true;
-						header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
-						Context::close();
-						exit;
-					}
-
-					if($subMenuTitle == $childMenu['text'])
-					{
-						$parentSrl = $childMenu['parent_srl'];
-						break;
-					}
+					$parentSrl = $childMenu['parent_srl'];
+					break;
 				}
 			}
+			if($parentSrl) break;
 		}
 
 		// Admin logo, title setup
@@ -413,8 +389,11 @@ class adminAdminView extends admin
 		Context::set('langs', Context::loadLangSupported());
 
 		// site lock
+		Context::set('IP', $_SERVER['REMOTE_ADDR']);
 		if(!$db_info->sitelock_title) $db_info->sitelock_title = 'Maintenance in progress...';
 		if(!in_array('127.0.0.1', $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = '127.0.0.1';
+		if(!in_array($_SERVER['REMOTE_ADDR'], $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = $_SERVER['REMOTE_ADDR'];
+		$db_info->sitelock_whitelist = array_unique($db_info->sitelock_whitelist);
 		Context::set('remote_addr', $_SERVER['REMOTE_ADDR']);
 		Context::set('use_sitelock', $db_info->use_sitelock);
 		Context::set('sitelock_title', $db_info->sitelock_title);
@@ -422,6 +401,11 @@ class adminAdminView extends admin
 		
 		$whitelist = implode("\r\n", $db_info->sitelock_whitelist);
 		Context::set('sitelock_whitelist', $whitelist);
+
+		if(gettype($db_info->admin_ip_list)!="array")
+			$db_info->admin_ip_list = array();
+		if(!in_array('127.0.0.1', $db_info->admin_ip_list)) $db_info->admin_ip_list[] = '127.0.0.1';
+		if(!in_array($_SERVER['REMOTE_ADDR'], $db_info->admin_ip_list)) $db_info->admin_ip_list[] = $_SERVER['REMOTE_ADDR'];
 
 		if($db_info->admin_ip_list) $admin_ip_list = implode("\r\n", $db_info->admin_ip_list);
 		else $admin_ip_list = '';
@@ -439,7 +423,6 @@ class adminAdminView extends admin
 		$config = $oDocumentModel->getDocumentConfig();
 		Context::set('thumbnail_type', $config->thumbnail_type);
 
-		Context::set('IP', $_SERVER['REMOTE_ADDR']);
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');

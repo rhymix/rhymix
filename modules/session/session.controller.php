@@ -27,32 +27,25 @@ class sessionController extends session
 	function write($session_key, $val)
 	{
 		if(!$session_key || !$this->session_started) return;
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'session:'.$session_key;
-			$cache_vars = $oCacheHandler->get($cache_key);
-		}
 
-		$args = new stdClass();
+		$args = new stdClass;
 		$args->session_key = $session_key;
-		if($cache_vars) $session_info = $cache_vars;
-		else
-		{
-			$output = executeQuery('session.getSession', $args);
-			$session_info = $output->data;
-		}
-		//if ip has changed delete the session from cache and db
+
+		$output = executeQuery('session.getSession', $args);
+		$session_info = $output->data;
+
+		//if ip has changed delete the session from db
 		if($session_info->session_key == $session_key && $session_info->ipaddress != $_SERVER['REMOTE_ADDR'])
 		{
-			if($oCacheHandler->isSupport())  $oCacheHandler->delete($cache_key);
 			executeQuery('session.deleteSession', $args);
+
 			return true;
 		}
 
-		$args->expired = date("YmdHis", $_SERVER['REQUEST_TIME']+$this->lifetime);
+		$args->expired = date("YmdHis", $_SERVER['REQUEST_TIME'] + $this->lifetime);
 		$args->val = $val;
 		$args->cur_mid = Context::get('mid');
+
 		if(!$args->cur_mid)
 		{
 			$module_info = Context::get('current_module_info');
@@ -70,43 +63,15 @@ class sessionController extends session
 		}
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$args->last_update = date("YmdHis", $_SERVER['REQUEST_TIME']);
-		$diff = $args->last_update - $cache_vars->last_update;
-		//verify if session values have changed
-		if($val == $cache_vars->val)
+
+		//put session into db
+		if($session_info->session_key)
 		{
-			// if more than 5 minutes passed than modify the db session also
-			if($diff > 300)
-			{
-				//put session into cache
-				if($oCacheHandler->isSupport())
-				{
-					$cache_key = 'session:'.$session_key;
-					$oCacheHandler->put($cache_key,$args,$this->lifetime);
-				}
-				//put session into db
-				if($session_info->session_key) $output = executeQuery('session.updateSession', $args);
-			}
-			else
-			{
-				//put session into cache
-				if($oCacheHandler->isSupport())
-				{
-					$cache_key = 'session:'.$session_key;
-					$oCacheHandler->put($cache_key,$args,$this->lifetime);
-				}
-			}
+			$output = executeQuery('session.updateSession', $args);
 		}
 		else
 		{
-			//put session into cache
-			if($oCacheHandler->isSupport())
-			{
-				$cache_key = 'session:'.$session_key;
-				$oCacheHandler->put($cache_key,$args,$this->lifetime);
-			}
-			//put session into db
-			if($session_info->session_key) $output = executeQuery('session.updateSession', $args);
-			else $output = executeQuery('session.insertSession', $args);
+			$output = executeQuery('session.insertSession', $args);
 		}
 
 		return true;
@@ -115,17 +80,12 @@ class sessionController extends session
 	function destroy($session_key)
 	{
 		if(!$session_key || !$this->session_started) return;
-		//remove session from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'session:'.$session_key;
-			$oCacheHandler->delete($cache_key);
-		}
+
 		//remove session from db
 		$args = new stdClass();
 		$args->session_key = $session_key;
 		executeQuery('session.deleteSession', $args);
+
 		return true;
 	}
 

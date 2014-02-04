@@ -29,9 +29,9 @@
 			<comments>{$oDocument->getPermanentUrl()}#comment</comments>
 			<!--@end-->
 			<!--@if($open_rss_config[$oDocument->get('module_srl')]=='Y')-->
-			<description><![CDATA[{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}]]></description>
+			<description><![CDATA[{$oDocument->getTransContent(false,false,true)}]]></description>
 			<!--@else-->
-			<description><![CDATA[{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}]]></description>
+			<description><![CDATA[{$oDocument->getContentText(100)}]]></description>
 			<!--@end-->
 			<pubDate>{$oDocument->getRegdateGM()}</pubDate>
 			<!--@foreach($oDocument->get('tag_list') as $tag)-->

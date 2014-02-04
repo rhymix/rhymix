@@ -140,7 +140,6 @@ class documentAdminController extends document
 				$oDB->rollback();
 				return $output;
 			}
-
 			// Set 0 if a new category doesn't exist after catergory change
 			if($source_category_srl != $category_srl)
 			{
@@ -166,13 +165,18 @@ class documentAdminController extends document
 			$oDB->rollback();
 			return $output;
 		}
+		
 		// move the trackback
-		$output = executeQuery('trackback.updateTrackbackModule', $args);
-		if(!$output->toBool())
+		if(getClass('trackback'))
 		{
-			$oDB->rollback();
-			return $output;
+			$output = executeQuery('trackback.updateTrackbackModule', $args);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
+
 		// Tags
 		$output = executeQuery('tag.updateTagModule', $args);
 		if(!$output->toBool())
@@ -195,7 +199,7 @@ class documentAdminController extends document
 		{
 			foreach($document_srl_list as $document_srl)
 			{
-				$cache_key_item = 'document_item:'.$document_srl;
+				$cache_key_item = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
 				$oCacheHandler->delete($cache_key_item);
 			}
 		}
@@ -451,9 +455,8 @@ class documentAdminController extends document
 			{
 				foreach($document_srl_list as $document_srl)
 				{
-					$cache_key_item = 'document_item:'.$document_srl;
+					$cache_key_item = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
 					$oCacheHandler->delete($cache_key_item);
-					$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
 				}
 			}
 		}
@@ -797,6 +800,7 @@ class documentAdminController extends document
 		// If the post was not temorarily saved, set the attachment's status to be valid
 		if($oDocument->hasUploadedFiles() && $originObject->member_srl != $originObject->module_srl)
 		{
+			$args = new stdClass();
 			$args->upload_target_srl = $oDocument->document_srl;
 			$args->isvalid = 'Y';
 			$output = executeQuery('file.updateFileValid', $args);

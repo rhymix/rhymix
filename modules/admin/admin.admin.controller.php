@@ -498,7 +498,7 @@ class adminAdminController extends admin
 		{
 			$whitelist = '';
 		}
-		$whitelist .= ',127.0.0.1';
+		$whitelist .= ',127.0.0.1,' . $_SERVER['REMOTE_ADDR'];
 		$whitelist = explode(',',trim($whitelist, ','));
 		$whitelist = array_unique($whitelist);
 

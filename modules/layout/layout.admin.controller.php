@@ -757,7 +757,7 @@ class layoutAdminController extends layout
 		
 		if($layout->extra_var_count) {
 			$reg = "/^.\/files\/attach\/images\/([0-9]+)\/(.*)/";
-			foreach($extra_vars as $key => $val) {
+			if($extra_vars) foreach($extra_vars as $key => $val) {
 				if($layout->extra_var->{$key}->type == 'image') {
 					if(!preg_match($reg,$val,$matches)) continue;
 					$image_list[$key]->filename = $matches[2];

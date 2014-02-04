@@ -185,6 +185,7 @@ class content extends WidgetHandler
 	function _getCommentItems($args)
 	{
 		// List variables to use CommentModel::getCommentList()
+		$obj = new stdClass();
 		$obj->module_srl = $args->module_srl;
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count * $args->page_count;
