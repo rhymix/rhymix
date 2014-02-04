@@ -140,7 +140,6 @@ class documentAdminController extends document
 				$oDB->rollback();
 				return $output;
 			}
-
 			// Set 0 if a new category doesn't exist after catergory change
 			if($source_category_srl != $category_srl)
 			{
@@ -166,13 +165,18 @@ class documentAdminController extends document
 			$oDB->rollback();
 			return $output;
 		}
+		
 		// move the trackback
-		$output = executeQuery('trackback.updateTrackbackModule', $args);
-		if(!$output->toBool())
+		if(getClass('trackback'))
 		{
-			$oDB->rollback();
-			return $output;
+			$output = executeQuery('trackback.updateTrackbackModule', $args);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
+
 		// Tags
 		$output = executeQuery('tag.updateTagModule', $args);
 		if(!$output->toBool())
