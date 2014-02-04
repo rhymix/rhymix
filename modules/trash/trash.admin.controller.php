@@ -64,7 +64,7 @@ class trashAdminController extends trash
 		$this->setMessage('success_deleted', 'info');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrashAdminList', 'origin_module', $originModule);
-		return $this->setRedirectUrl($returnUrl, $output);
+		$this->setRedirectUrl($returnUrl, $output);
 	}
 
 	/**
