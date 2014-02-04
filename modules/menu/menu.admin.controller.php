@@ -1228,7 +1228,17 @@ class menuAdminController extends menu
 			$insertedMenuItemSrl = $this->get('menu_item_srl');
 			if($menuItemInfo->normal_btn || $menuItemInfo->hover_btn || $menuItemInfo->active_btn)
 			{
-				$this->_copyButton($insertedMenuItemSrl, $menuItemInfo);
+				// copy & upate
+				$update_item_info = $oMenuAdminModel->getMenuItemInfo($insertedMenuItemSrl);
+				$copied_info = $this->_copyButton($insertedMenuItemSrl,$update_item_info->menu_srl, $menuItemInfo);
+				if(count($update_item_info->group_srls) == 0)
+				{
+					unset($update_item_info->group_srls);
+				}
+				$update_item_info->normal_btn = $copied_info['normal_btn'];
+				$update_item_info->hover_btn = $copied_info['hover_btn'];
+				$update_item_info->active_btn = $copied_info['active_btn'];
+				executeQuery('menu.updateMenuItem', $update_item_info);
 			}
 			$this->insertedMenuItemSrlList[] = $insertedMenuItemSrl;
 		}
@@ -2155,34 +2165,43 @@ class menuAdminController extends menu
 	 * When copy a menu, button copied also.
 	 * @param $args menuItemInfo with button values
 	 */
-	private function _copyButton($insertedMenuItemSrl, &$menuItemInfo)
+	private function _copyButton($insertedMenuItemSrl, $insertedMenuSrl, &$menuItemInfo)
 	{
+		$copied_info = array(
+			"normal_btn"=>"",
+			"hover_btn"=>"",
+			"active_btn"=>"",
+		);
 		//normal_btn
 		if($menuItemInfo->normal_btn)
 		{
 			$originFile = FileHandler::getRealPath($menuItemInfo->normal_btn);
-			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->normal_btn, $menuItemInfo->menu_srl, $insertedMenuItemSrl, 'normal');
+			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->normal_btn, $insertedMenuSrl, $insertedMenuItemSrl, 'normal');
 
 			FileHandler::copyFile($originFile, $targetFile);
+			$copied_info['normal_btn'] = $targetFile;
 		}
 
 		//hover_btn
 		if($menuItemInfo->hover_btn)
 		{
 			$originFile = FileHandler::getRealPath($menuItemInfo->hover_btn);
-			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->hover_btn, $menuItemInfo->menu_srl, $insertedMenuItemSrl, 'hover');
+			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->hover_btn, $insertedMenuSrl, $insertedMenuItemSrl, 'hover');
 
 			FileHandler::copyFile($originFile, $targetFile);
+			$copied_info['hover_btn'] = $targetFile;
 		}
 
 		//active_btn
 		if($menuItemInfo->active_btn)
 		{
 			$originFile = FileHandler::getRealPath($menuItemInfo->active_btn);
-			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->active_btn, $menuItemInfo->menu_srl, $insertedMenuItemSrl, 'active');
+			$targetFile = $this->_changeMenuItemSrlInButtonPath($menuItemInfo->active_btn, $insertedMenuSrl, $insertedMenuItemSrl, 'active');
 
 			FileHandler::copyFile($originFile, $targetFile);
+			$copied_info['active_btn'] = $targetFile;
 		}
+		return $copied_info;
 	}
 
 	private function _changeMenuItemSrlInButtonPath($buttonPath, $menuSrl, $menuItemSrl, $mode)
@@ -2190,7 +2209,8 @@ class menuAdminController extends menu
 		$path = sprintf('./files/attach/menu_button/%d/', $menuSrl);
 		$tmp_arr = explode('.', $buttonPath);
 		$ext = $tmp_arr[count($tmp_arr)-1];
-		return sprintf('%s%d.%s.%s', $path, $menuItemSrl, 'menu_'.$mode.'_btn', $ext);
+		$date = date("YmdHis");
+		return sprintf('%s%d.%s.%s.%s', $path, $menuItemSrl,$date,'menu_'.$mode.'_btn', $ext);
 	}
 
 	public function makeHomemenuCacheFile($menuSrl)
