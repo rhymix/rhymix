@@ -28,6 +28,9 @@ class sessionController extends session
 	{
 		if(!$session_key || !$this->session_started) return;
 
+		$args = new stdClass;
+		$args->session_key = $session_key;
+
 		$output = executeQuery('session.getSession', $args);
 		$session_info = $output->data;
 
