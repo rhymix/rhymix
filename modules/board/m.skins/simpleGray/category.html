@@ -1,0 +1,35 @@
+<!--%import("css/mboard.css")-->
+<div class="bd">
+<h2 class="h2"><a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->browser_title}</a> &rsaquo; {$lang->category}</h2>
+<ul class="gn">
+	{@ $start = true }
+	{@ $depth = 0 }
+	<!--@foreach($category_list as $category)-->
+	<!--@if(!$start && $category->depth == $depth)-->
+	</li>
+	<!--@end-->
+	<!--@if($category->depth > $depth)--> <!--more depth-->
+	<ul>
+	<!--@else-->
+	<!--@while($category->depth < $depth)-->
+	</li>
+	</ul>
+	{@ $depth -= 1}
+	<!--@end-->
+	<!--@endif-->
+		<li><a href="{getUrl('act','','category',$category->category_srl)}">&raquo; {$category->title} <em>[{$category->document_count}]</em></a>
+		{@ $start = false }
+		{@ $depth = $category->depth }
+	<!--@endforeach-->
+	<!--@while($depth > 0)-->
+	</li>
+	</ul>
+	{@ $depth -= 1}
+	<!--@end-->
+	</li>
+</ul>
+<ul class="cm">
+	<li class="fl"><a href="{getUrl('','vid',$vid,'mid',$mid,'mobile',$mobile)}" class="bn">{$lang->cmd_list}</a></li>
+	<li class="fr"><a href="write.html" class="bn">새글</a></li>
+</ul>
+</div>

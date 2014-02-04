@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * Minify
  * This script comnbines multiple JavaScript or CSS files with minifying.
@@ -7,7 +8,7 @@
  * Usage : php minify.php [TARGET_DIR ...]
  * TARGET_DIR use the current working directory as a default path.
  *
- * @author NHN(developer@xpressengine.com)
+ * @author NAVER(developer@xpressengine.com)
  */
 
 if(version_compare(PHP_VERSION, '5.3.0', '<')) {
@@ -85,7 +86,7 @@ function execute($dir) {
 			$content = JSMinPlus::minify($content);
 		}
 
-		file_put_contents($target, $copyright.$content);
+		file_put_contents($target, $copyright.$content, LOCK_EX);
 
 		echo '.';
 	}
@@ -106,7 +107,7 @@ function execute($dir) {
 		$target  = preg_replace('@\.css$@', '.min.css', $file);
 		$content = file_get_contents($file);
 
-		file_put_contents($target, $copyright.$oCSSmin->run($content));
+		file_put_contents($target, $copyright.$oCSSmin->run($content), LOCK_EX);
 		echo '.';
 	}
 	echo " Done\n";
@@ -166,7 +167,7 @@ function merge($files, $target, $base_dir) {
 	if ($body) {
 		$file_count = count($files);
 		echo "  Merging {$file_count} files to create {$target} file...";
-		file_put_contents($base_dir.$target, $body);
+		file_put_contents($base_dir.$target, $body, LOCK_EX);
 		echo " Done\n";
 	}
 }

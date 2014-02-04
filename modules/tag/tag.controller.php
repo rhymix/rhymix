@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  tagController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief tag module's controller class
  */
 class tagController extends tag
@@ -89,7 +90,7 @@ class tagController extends tag
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return new Object();
 
-		$oTagController = &getAdminController('tag');
+		$oTagController = getAdminController('tag');
 		return $oTagController->deleteModuleTags($module_srl);
 	}
 }

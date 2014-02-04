@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  point
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The parent class of the point module
  */
 class point extends ModuleObject
@@ -12,12 +13,13 @@ class point extends ModuleObject
 	function moduleInstall()
 	{
 		// Registration in action forward (for using in the administrator mode)
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		// Create a directory to store points information
 		FileHandler::makeDir('./files/member_extra_info/point');
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		// The highest level
+		$config = new stdClass;
 		$config->max_level = 30;
 		// Per-level score
 		for($i=1;$i<=30;$i++)
@@ -64,7 +66,7 @@ class point extends ModuleObject
 		// Save configurations
 		$oModuleController->insertModuleConfig('point', $config);
 		// Cash act list for faster execution
-		$oPointController = &getAdminController('point');
+		$oPointController = getAdminController('point');
 		$oPointController->cacheActList();
 		// Add a trigger for registration/insert document/insert comment/upload a file/download
 		$oModuleController->insertTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after');
@@ -94,7 +96,7 @@ class point extends ModuleObject
 	function checkUpdate()
 	{
 		// Get the information of the point module
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// Add a trigger for registration/insert document/insert comment/upload a file/download
 		if(!$oModuleModel->getTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after')) return true;
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'point', 'controller', 'triggerInsertDocument', 'after')) return true;
@@ -126,8 +128,8 @@ class point extends ModuleObject
 	function moduleUpdate()
 	{
 		// Get the information of the point module
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 		// Add a trigger for registration/insert document/insert comment/upload a file/download
 		if(!$oModuleModel->getTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after')) 
 			$oModuleController->insertTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after');
@@ -176,7 +178,7 @@ class point extends ModuleObject
 	function recompileCache()
 	{
 		// redefine point action file
-		$oPointAdminController = &getAdminController('point');
+		$oPointAdminController = getAdminController('point');
 		$oPointAdminController->cacheActList();
 	}
 }

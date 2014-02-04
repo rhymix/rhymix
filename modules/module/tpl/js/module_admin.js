@@ -1,6 +1,6 @@
 /**
  * @file     modules/module/js/module_admin.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief    module 모듈의 관리자용 javascript
  **/
 /* 모듈 즐겨찾기 */

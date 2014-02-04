@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * The admin view class of the rss module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class rssAdminView extends rss
 {
@@ -24,17 +25,18 @@ class rssAdminView extends rss
 	 */
 	function dispRssAdminIndex()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$rss_config = $oModuleModel->getModulePartConfigs('rss');
 		$total_config = $oModuleModel->getModuleConfig('rss');
 		if(!$total_config)
 		{
-			$total_config =new stdClass();
+			$total_config = new stdClass();
 		}
-		$oRssModel = &getModel('rss');
+		$oRssModel = getModel('rss');
 
 		if($rss_config)
 		{
+			$feed_config = array();
 			foreach($rss_config as $module_srl => $config)
 			{
 				if($config)

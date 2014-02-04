@@ -1,10 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * commentAdminController class
  * admin controller class of the comment module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/comment
  * @version 0.1
  */
@@ -131,12 +132,17 @@ class commentAdminController extends comment
 					$document_author_email = $oDocument->variables['email_address'];
 
 					//mail to author of thread - START
+					/**
+				 	 * @todo Removed code send email to document author.
+					*/
+					/*
 					if($document_author_email != $comment->email_address && $logged_info->email_address != $document_author_email)
 					{
 						$oMail->setReceiptor($document_author_email, $document_author_email);
 						$oMail->send();
 						$already_sent[] = $document_author_email;
 					}
+					*/
 					//mail to author of thread - STOP
 					//mail to all emails set for administrators - START
 					if($module_info->admin_mail)

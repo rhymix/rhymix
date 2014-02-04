@@ -1,6 +1,6 @@
 /**
  * @brief 회원 가입시나 정보 수정시 각 항목의 중복 검사등을 하는 기능을 구현
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  **/
 
 // 입력이 시작된 것과 입력후 정해진 시간동안 내용이 변하였을 경우 서버에 ajax로 체크를 하기 위한 변수 설정

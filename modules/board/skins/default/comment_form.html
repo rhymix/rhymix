@@ -1,0 +1,40 @@
+<include target="_header.html" />
+<div cond="$oSourceComment->isExists()" class="context_data">
+	<h3 class="author">
+		<a cond="$oSourceComment->homepage" href="{$oSourceComment->homepage}">{$oSourceComment->getNickName()}</a>
+		<strong cond="!$oSourceComment->homepage">{$oSourceComment->getNickName()}</strong>
+	</h3>
+	{$oSourceComment->getContent(false)}
+</div>
+<div class="feedback">
+	<form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="write_comment">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
+		<input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+		<input type="hidden" name="parent_srl" value="{$oComment->get('parent_srl')}" />
+        <input type="hidden" name="content" value="{htmlspecialchars($oComment->get('content'))}" />
+        {$oComment->getEditor()}
+		<div class="write_author">
+			<span class="item" cond="!$is_logged">
+				<label for="userName" class="iLabel">{$lang->writer}</label>
+				<input type="text" name="nick_name" id="userName" class="iText userName" value="{$oComment->getNickName()}" />
+			</span>
+			<span class="item" cond="!$is_logged">
+				<label for="userPw" class="iLabel">{$lang->password}</label>
+				<input type="password" name="password" id="userPw" class="iText userPw" />
+			</span>
+			<span class="item" cond="!$is_logged">
+				<label for="homePage" class="iLabel">{$lang->homepage}</label>
+				<input type="text" name="homepage" id="homePage" class="iText homePage" value="{htmlspecialchars($oComment->get('homepage'))}" />&nbsp;
+			</span>
+			<input cond="$is_logged" type="checkbox" name="notify_message" value="Y" checked="checked"|cond="$oComment->get('notify_message')=='Y'" id="notify_message" class="iCheck" />
+			<label cond="$is_logged" for="notify_message">{$lang->notify}</label>
+			<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" value="Y" id="is_secret" checked="checked"|cond="$oComment->get('is_secret')=='Y'" class="iCheck" />
+			<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
+		</div>
+		<div class="btnArea">
+			<button type="submit" class="btn">{$lang->cmd_comment_registration}</button>
+		</div>
+	</form>
+</div>
+<include target="_footer.html" />

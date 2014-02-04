@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  poll_maker
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Editor provides the ability to link to the url.
  */
 class poll_maker extends EditorHandler
@@ -25,8 +26,8 @@ class poll_maker extends EditorHandler
 	function getPopupContent()
 	{
 		// Wanted Skins survey
-		$oModuleModel = &getModel('module');
-		$skin_list = $oModuleModel->getSkins("./modules/poll/");
+		$oModuleModel = getModel('module');
+		$skin_list = $oModuleModel->getSkins(_XE_PATH_ . 'modules/poll/');
 		Context::set('skin_list', $skin_list);
 		// Pre-compiled source code to compile template return to
 		$tpl_path = $this->component_path.'tpl';
@@ -53,7 +54,7 @@ class poll_maker extends EditorHandler
 		if(!$width) $width = 400;
 		$style = sprintf('width:%dpx', $width);
 		// poll model object creation to come get it return html
-		$oPollModel = &getModel('poll');
+		$oPollModel = getModel('poll');
 		return $oPollModel->getPollHtml($poll_srl, $style, $skin);
 	}
 }

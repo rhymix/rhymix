@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 require_once(_XE_PATH_.'modules/document/document.item.php');
 
 /**
@@ -6,7 +7,7 @@ require_once(_XE_PATH_.'modules/document/document.item.php');
  * @brief document the module's high class
  * {@internal Silently adds one extra Foo to compensate for lack of Foo }
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/document
  * @version 0.1
  */
@@ -30,7 +31,7 @@ class document extends ModuleObject
 	function moduleInstall()
 	{
 		// Register action forward (to use in administrator mode)
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		$oDB = &DB::getInstance();
 		$oDB->addIndex("documents","idx_module_list_order", array("module_srl","list_order"));
@@ -57,7 +58,7 @@ class document extends ModuleObject
 	 */
 	function checkUpdate() {
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		// 2007. 7. 25: Add a column(notify_message) for notification
 		if(!$oDB->isColumnExists("documents","notify_message")) return true;
@@ -133,8 +134,8 @@ class document extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 
 		// 2007. 7. 25: Add a column(notify_message) for notification
 		if(!$oDB->isColumnExists("documents","notify_message"))
@@ -279,8 +280,6 @@ class document extends ModuleObject
 		if($oDB->isColumnExists('documents', 'allow_comment') || $oDB->isColumnExists('documents', 'lock_comment'))
 		{
 			$oDB->addColumn('documents', 'comment_status', 'varchar', 20, 'ALLOW');
-			$columnList = array('module_srl');
-			$moduleSrlList = $oModuleModel->getModuleSrlList(null, $columnList);
 
 			$args->commentStatus = 'DENY';
 

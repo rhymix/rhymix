@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * XmlGenerator class
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/xml
  * @version 0.1
  */
@@ -44,7 +45,7 @@ class XmlGenerator
 						{
 							foreach($value as $attrName => $attrValue)
 							{
-								$attrs .= sprintf(' %s="%s"', $attrName, htmlspecialchars($attrValue));
+								$attrs .= sprintf(' %s="%s"', $attrName, htmlspecialchars($attrValue, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 							}
 						}
 					}

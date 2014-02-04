@@ -1,11 +1,14 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 if(!defined('__XE__'))
+{
 	exit();
+}
 
 /**
  * @file image_name.addon.php
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Display user image name/image mark
  *
  * Find member_srl in the part with <div class="member_MemberSerialNumber"> .... </div>
@@ -14,7 +17,7 @@ if(!defined('__XE__'))
 /**
  * Just before displaying, change image name/ image mark
  */
-if($called_position != "before_display_content" || Context::get('act') == 'dispPageAdminContentModify')
+if($called_position != "before_display_content" || Context::get('act') == 'dispPageAdminContentModify' || Context::getResponseMethod() != 'HTML' || isCrawler())
 {
 	return;
 }

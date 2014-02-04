@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  pointView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The view class of the point module
  *
  * POINT 2.0 format document output
@@ -32,7 +33,7 @@ class pointView extends point
 			if(!$current_module_srl) return new Object();
 		}
 		// Get the configuration information
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
 
 		if($current_module_srl)

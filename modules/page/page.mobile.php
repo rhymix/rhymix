@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 require_once(_XE_PATH_.'modules/page/page.view.php');
 
 class pageMobile extends pageView
@@ -60,14 +61,14 @@ class pageMobile extends pageView
 					$mtime = filemtime($cache_file);
 				}
 
-				if($mtime + $interval*60 > time()) 
+				if($mtime + $interval*60 > $_SERVER['REQUEST_TIME']) 
 				{
 					$page_content = FileHandler::readFile($cache_file); 
 					$page_content = preg_replace('@<\!--#Meta:@', '<!--Meta:', $page_content);
 				} 
 				else 
 				{
-					$oWidgetController = &getController('widget');
+					$oWidgetController = getController('widget');
 					$page_content = $oWidgetController->transWidgetCode($this->module_info->mcontent);
 					FileHandler::writeFile($cache_file, $page_content);
 				}
@@ -97,7 +98,7 @@ class pageMobile extends pageView
 	{
 		$oTemplate = &TemplateHandler::getInstance();
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument(0, true);
 
 		if($this->module_info->mdocument_srl)

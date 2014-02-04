@@ -1,10 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 require_once(_XE_PATH_ . 'modules/addon/addon.controller.php');
 
 /**
  * Admin controller class of addon modules
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class addonAdminController extends addonController
 {
@@ -228,6 +229,7 @@ class addonAdminController extends addonController
 	 */
 	function doInsert($addon, $site_srl = 0, $gtype = 'site', $isUsed = 'N')
 	{
+		$args = new stdClass;
 		$args->addon = $addon;
 		$args->is_used = $isUsed;
 		if($gtype == 'global')

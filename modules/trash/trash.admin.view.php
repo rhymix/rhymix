@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * trashAdminView class
  * Admin view class of the trash module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/trash
  * @version 0.1
  */
@@ -38,15 +39,14 @@ class trashAdminView extends trash
 		$output = $oTrashModel->getTrashList($args);
 
 		// for no text comment language and for document manange language
-		$oCommentModel = &getModel('comment');
-		$oDocumentModel = &getModel('document');
+		$oCommentModel = getModel('comment');
+		$oDocumentModel = getModel('document');
 
 		Context::set('trash_list', $output->data);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
 		Context::set('page_navigation', $output->page_navigation);
-		debugPrint($output->data);
 
 		// 템플릿 파일 지정
 		$this->setTemplateFile('trash_list');

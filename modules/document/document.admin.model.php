@@ -1,9 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
+
 /**
  * documentAdminModel class
  * Document the module's admin model class
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/document
  * @version 0.1
  */
@@ -30,7 +32,7 @@ class documentAdminModel extends document
 		// get a module_srl if mid is returned instead of modul_srl
 		if($obj->mid)
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
 			unset($obj->mid);
 		}

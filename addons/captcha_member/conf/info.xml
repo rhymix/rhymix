@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+	<title xml:lang="ko">Captcha Member 애드온</title>
+	<title xml:lang="en">CAPTCHA Member</title>
+	<title xml:lang="vi">Captcha Member Addon</title>
+	<title xml:lang="zh-CN">验证码插件</title>
+	<title xml:lang="jp">Captchaアドオン</title>
+	<title xml:lang="ru">Аддон Captcha</title>
+	<title xml:lang="zh-TW">圖形驗證</title>
+	<description xml:lang="ko">
+		회원 가입 및 비밀번호 찾기, 인증메일 재발송을 요청할 때 알파벳을 입력하도록 하여 프로그램 등록기를 막는 애드온 입니다.
+		적용/비적용 대상 모듈을 지정하지 않아야 정상적으로 동작합니다.
+	</description>
+	<description xml:lang="en">
+		회원 가입 및 비밀번호 찾기, 인증메일 재발송을 요청할 때 알파벳을 입력하도록 하여 프로그램 등록기를 막는 애드온 입니다.
+		적용/비적용 대상 모듈을 지정하지 않아야 정상적으로 동작합니다.
+	</description>
+	<description xml:lang="vi">
+		회원 가입 및 비밀번호 찾기, 인증메일 재발송을 요청할 때 알파벳을 입력하도록 하여 프로그램 등록기를 막는 애드온 입니다.
+		적용/비적용 대상 모듈을 지정하지 않아야 정상적으로 동작합니다.
+	</description>
+	<description xml:lang="zh-CN">
+		회원 가입 및 비밀번호 찾기, 인증메일 재발송을 요청할 때 알파벳을 입력하도록 하여 프로그램 등록기를 막는 애드온 입니다.
+		적용/비적용 대상 모듈을 지정하지 않아야 정상적으로 동작합니다.
+	</description>
+	<description xml:lang="jp">
+		회원 가입 및 비밀번호 찾기, 인증메일 재발송을 요청할 때 알파벳을 입력하도록 하여 프로그램 등록기를 막는 애드온 입니다.
+		적용/비적용 대상 모듈을 지정하지 않아야 정상적으로 동작합니다.
+	</description>
+	<description xml:lang="ru">
+		회원 가입 및 비밀번호 찾기, 인증메일 재발송을 요청할 때 알파벳을 입력하도록 하여 프로그램 등록기를 막는 애드온 입니다.
+		적용/비적용 대상 모듈을 지정하지 않아야 정상적으로 동작합니다.
+	</description>
+	<description xml:lang="zh-TW">
+		회원 가입 및 비밀번호 찾기, 인증메일 재발송을 요청할 때 알파벳을 입력하도록 하여 프로그램 등록기를 막는 애드온 입니다.
+		적용/비적용 대상 모듈을 지정하지 않아야 정상적으로 동작합니다.
+	</description>
+	<version>1.7</version>
+	<date>2013-11-27</date>
+
+	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
+		<name xml:lang="ko">NAVER</name>
+		<name xml:lang="zh-CN">NAVER</name>
+		<name xml:lang="jp">NAVER</name>
+		<name xml:lang="zh-TW">NAVER</name>
+		<name xml:lang="en">NAVER</name>
+		<name xml:lang="ru">NAVER</name>
+		<name xml:lang="vi">NAVER</name>
+	</author>
+
+	<extra_vars>
+		<var name="apply_signup" type="select">
+			<title xml:lang="ko">회원 가입 적용</title>
+			<title xml:lang="zh-CN">应用到用户注册表单</title>
+			<title xml:lang="jp">인증 메일 재발송 적용</title>
+			<title xml:lang="zh-TW">會員註冊</title>
+			<title xml:lang="en">Apply to member signup</title>
+			<title xml:lang="ru">Apply to member signup</title>
+			<title xml:lang="vi">Apply to member signup</title>
+			<description xml:lang="ko">적용으로 하면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
+			<description xml:lang="zh-CN">启用此项功能可以有效地拦截自动注册软件的施虐。</description>
+			<description xml:lang="jp">적용으로 하면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
+			<description xml:lang="zh-TW">開啟功能後在註冊時會顯示驗證碼。</description>
+			<description xml:lang="en">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
+			<description xml:lang="ru">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
+			<description xml:lang="vi">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
+			<options value="">
+				<title xml:lang="ko">적용하지 않음</title>
+				<title xml:lang="zh-CN">不启用</title>
+				<title xml:lang="jp">적용하지 않음</title>
+				<title xml:lang="zh-TW">關閉</title>
+				<title xml:lang="en">Not apply</title>
+				<title xml:lang="ru">Not apply</title>
+				<title xml:lang="vi">Không áp dụng</title>
+			</options>
+			<options value="apply">
+				<title xml:lang="ko">적용</title>
+				<title xml:lang="zh-CN">启用</title>
+				<title xml:lang="jp">적용</title>
+				<title xml:lang="zh-TW">開啟</title>
+				<title xml:lang="en">Apply</title>
+				<title xml:lang="ru">Apply</title>
+				<title xml:lang="vi">Áp dụng</title>
+			</options>
+		</var>
+		<var name="apply_find_account" type="select">
+			<title xml:lang="ko">비밀번호 찾기 적용</title>
+			<title xml:lang="zh-CN">应用到查找密码功能</title>
+			<title xml:lang="jp">비밀번호 찾기 적용</title>
+			<title xml:lang="zh-TW">忘記密碼</title>
+			<title xml:lang="en">applying to an action finding account</title>
+			<title xml:lang="ru">applying to an action finding account</title>
+			<title xml:lang="vi">Khi lấy lại mật khẩu</title>
+			<description xml:lang="ko">적용으로 하면 비밀번호 찾기 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
+			<description xml:lang="zh-CN">启用此项功能可以有效地拦截以查找密码名义发送的垃圾邮件。</description>
+			<description xml:lang="jp">적용으로 하면 비밀번호찾기 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
+			<description xml:lang="zh-TW">開啟功能後在忘記密碼時會顯示驗證碼。</description>
+			<description xml:lang="en">If you set this option as apply, CAPTCHA will work for finding account action, too.</description>
+			<description xml:lang="ru">If you set this option as apply, CAPTCHA will work for finding account action, too.</description>
+			<description xml:lang="vi">Nếu áp dụng, khi thành viên cần lấy lại mật khẩu khi lỡ quên, Capcha sẽ hiện thị để xác nhận việc này.</description>
+			<options value="">
+				<title xml:lang="ko">적용하지 않음</title>
+				<title xml:lang="zh-CN">不启用</title>
+				<title xml:lang="jp">적용하지 않음</title>
+				<title xml:lang="zh-TW">關閉</title>
+				<title xml:lang="en">Not apply</title>
+				<title xml:lang="ru">Not apply</title>
+				<title xml:lang="vi">Không áp dụng</title>
+			</options>
+			<options value="apply">
+				<title xml:lang="ko">적용</title>
+				<title xml:lang="zh-CN">启用</title>
+				<title xml:lang="jp">적용</title>
+				<title xml:lang="zh-TW">開啟</title>
+				<title xml:lang="en">Apply</title>
+				<title xml:lang="ru">Apply</title>
+				<title xml:lang="vi">Áp dụng</title>
+			</options>
+		</var>
+		<var name="apply_resend_auth_mail" type="select">
+			<title xml:lang="ko">인증 메일 재발송 적용</title>
+			<title xml:lang="zh-CN">应用到认证邮件重新发送功能</title>
+			<title xml:lang="jp">인증 메일 재발송 적용</title>
+			<title xml:lang="zh-TW">重寄認證信</title>
+			<title xml:lang="en">apply to an action resending authmail</title>
+			<title xml:lang="ru">apply to an action resending authmail</title>
+			<title xml:lang="vi">Khi lấy lại mã kích hoạt</title>
+			<description xml:lang="ko">적용으로 하면 인증 메일 재발송 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
+			<description xml:lang="zh-CN">启用此项功能可以有效地拦截以重新发送认证邮件名义发送的垃圾邮件。</description>
+			<description xml:lang="jp">적용으로 하면 인증 메일 재발송 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
+			<description xml:lang="zh-TW">開啟功能後在重寄認證信時會顯示驗證碼。</description>
+			<description xml:lang="en">If you set this option as apply, CAPTCHA will work for resending authmail action, too.</description>
+			<description xml:lang="ru">If you set this option as apply, CAPTCHA will work for resending authmail action, too.</description>
+			<description xml:lang="vi">Nếu áp dụng, khi thành viên cần lấy lại mã kích hoạt thành viên, Capcha sẽ hiện thị để xác nhận việc này.</description>
+			<options value="">
+				<title xml:lang="ko">적용하지 않음</title>
+				<title xml:lang="zh-CN">不启用</title>
+				<title xml:lang="jp">적용하지 않음</title>
+				<title xml:lang="zh-TW">關閉</title>
+				<title xml:lang="en">Not apply</title>
+				<title xml:lang="ru">Not apply</title>
+				<title xml:lang="vi">Không áp dụng</title>
+			</options>
+			<options value="apply">
+				<title xml:lang="ko">적용</title>
+				<title xml:lang="zh-CN">启用</title>
+				<title xml:lang="jp">적용</title>
+				<title xml:lang="zh-TW">開啟</title>
+				<title xml:lang="en">Apply</title>
+				<title xml:lang="ru">Apply</title>
+				<title xml:lang="vi">Áp dụng</title>
+			</options>
+		</var>
+	</extra_vars>
+</addon>

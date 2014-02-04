@@ -51,8 +51,8 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="{$var->name}"|cond="$var->type != 'textarea'" for="lang_{$var->name}"|cond="$var->type == 'textarea'">{$var->title}</label>
 				<div class="x_controls">
-					<input cond="$var->type == 'text'" type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value)}">
-					<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" class="lang_code" rows="8" cols="42">{htmlspecialchars($var->value)}</textarea>
+					<input cond="$var->type == 'text'" type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}">
+					<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" class="lang_code" rows="8" cols="42">{htmlspecialchars($var->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
 					<select cond="$var->type == 'select'" name="{$var->name}" id="{$var->name}">
 						<option loop="$var->options => $option" value="{$option->value}" selected="selected"|cond="$var->value == $option->value">{$option->title}</option>
 					</select>

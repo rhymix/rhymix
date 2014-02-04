@@ -1,0 +1,28 @@
+<include target="./header.html" />
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/board/tpl/category_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+{$category_content}
+<form class="x_form-horizontal" action="./" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="module" value="board" />
+	<input type="hidden" name="act" value="procBoardAdminSaveCategorySettings" />
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="mid" value="{$module_info->mid}" />
+	<input type="hidden" name="xe_validator_id" value="modules/board/tpl/category_list/1" />
+	<section class="section">
+		<h1>{$lang->category_settings}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->hide_category}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="hide_category"><input type="checkbox" name="hide_category" id="hide_category" value="Y" checked="checked"|cond="$module_info->hide_category == 'Y'" /> {$lang->about_hide_category}</label>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>

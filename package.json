@@ -1,0 +1,17 @@
+{
+  "name": "XpressEngine",
+  "devDependencies": {
+    "grunt": ">0.4.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-jshint": "~0.7.1",
+    "grunt-contrib-csslint": "*",
+    "grunt-contrib-cssmin": "~0.7.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-phplint": "0.0.5"
+  },
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "grunt"
+  }
+}

@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * extract class
  * Class to save each file by using tags in the large xml
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/importer
  * @version 0.1
  */
@@ -121,7 +122,7 @@ class extract
 		FileHandler::removeFile($this->cache_index_file);
 		$this->index_fd = fopen($this->cache_index_file,"a");
 		// If local file
-		if(!preg_match('/^http:/i',$this->filename))
+		if(strncasecmp('http://', $this->filename, 7) !== 0)
 		{
 			if(!file_exists($this->filename)) return new Object(-1,'msg_no_xml_file');
 			$this->fd = fopen($this->filename,"r");

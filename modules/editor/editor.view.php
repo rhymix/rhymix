@@ -1,7 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
+
 /**
  * @class  editorView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief view class of the editor module
  */
 class editorView extends editor
@@ -27,7 +29,7 @@ class editorView extends editor
 		$site_module_info = Context::get('site_module_info');
 		$site_srl = (int)$site_module_info->site_srl;
 		// Get compoenet object
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$oComponent = &$oEditorModel->getComponentObject($component, $editor_sequence, $site_srl);
 		if(!$oComponent->toBool())
 		{
@@ -58,7 +60,7 @@ class editorView extends editor
 		$site_module_info = Context::get('site_module_info');
 		$site_srl = (int)$site_module_info->site_srl;
 
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$component = $oEditorModel->getComponent($component_name, $site_srl);
 		Context::set('component', $component);
 
@@ -83,12 +85,12 @@ class editorView extends editor
 			if(!$current_module_srl) return new Object();
 		}
 		// Get editors settings
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$editor_config = $oEditorModel->getEditorConfig($current_module_srl);
 
 		Context::set('editor_config', $editor_config);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// Get a list of editor skin
 		$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
 		Context::set('editor_skin_list', $editor_skin_list);
@@ -109,7 +111,7 @@ class editorView extends editor
 		}			
 		Context::set('content_style_list', $content_style_list);
 		// Get a group list
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$site_module_info = Context::get('site_module_info');
 		$group_list = $oMemberModel->getGroups($site_module_info->site_srl);
 		Context::set('group_list', $group_list);
@@ -139,7 +141,7 @@ class editorView extends editor
 	function dispEditorSkinColorset()
 	{
 		$skin = Context::get('skin');
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);
 		$colorset = $skin_info->colorset;
 		Context::set('colorset', $colorset);
@@ -147,7 +149,7 @@ class editorView extends editor
 
 	function dispEditorConfigPreview()
 	{
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$config = $oEditorModel->getEditorConfig();
 
 		$mode = Context::get('mode');

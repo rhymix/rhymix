@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 @set_time_limit(0);
 @require_once('./modules/importer/extract.class.php');
 
@@ -6,7 +7,7 @@
  * ttimport class
  * ttxml import class
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/importer
  * @version 0.1
  */
@@ -35,8 +36,8 @@ class ttimport
 		// Pre-create the objects needed
 		$this->oXmlParser = new XmlParser();
 		// Get category information of the target module
-		$oDocumentController = &getController('document');
-		$oDocumentModel = &getModel('document');
+		$oDocumentController = getController('document');
+		$oDocumentModel = getModel('document');
 		$category_list = $category_titles = array();
 		$category_list = $oDocumentModel->getCategoryList($module_srl);
 		if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
@@ -75,7 +76,7 @@ class ttimport
 		$category_list = $oDocumentModel->getCategoryList($module_srl);
 		if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
 		// Get administrator information
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByUserID($user_id);
 		$author_xml_id = 0;
 
@@ -263,7 +264,7 @@ class ttimport
 					$tag_count = count($tag_list);
 					for($i=0;$i<$tag_count;$i++)
 					{
-						$args = null;
+						$args = new stdClass;
 						$args->tag_srl = getNextSequence();
 						$args->module_srl = $module_srl;
 						$args->document_srl = $obj->document_srl;
@@ -658,7 +659,7 @@ class ttimport
 		$tobj->sequence = $sequence;
 		$tobj->parent_srl = $parent_srl;
 		// Comment list first
-		$list_args = null;
+		$list_args = new stdClass;
 		$list_args->comment_srl = $tobj->comment_srl;
 		$list_args->document_srl = $tobj->document_srl;
 		$list_args->module_srl = $tobj->module_srl;

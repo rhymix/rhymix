@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * @class ModuleObject
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * base class of ModuleHandler
  * */
 class ModuleObject extends Object
@@ -43,7 +44,7 @@ class ModuleObject extends Object
 	 * */
 	function setModulePath($path)
 	{
-		if(substr($path, -1) != '/')
+		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path.='/';
 		}
@@ -250,7 +251,7 @@ class ModuleObject extends Object
 	 * */
 	function setTemplateFile($filename)
 	{
-		if(substr($filename, -5) != '.html')
+		if(isset($filename) && substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
@@ -273,11 +274,14 @@ class ModuleObject extends Object
 	 * */
 	function setTemplatePath($path)
 	{
-		if(substr($path, 0, 1) != '/' && substr($path, 0, 2) != './')
+		if(!$path) return;
+
+		if((strlen($path) >= 1 && substr_compare($path, '/', 0, 1) !== 0) && (strlen($path) >= 2 && substr_compare($path, './', 0, 2) !== 0))
 		{
 			$path = './' . $path;
 		}
-		if(substr($path, -1) != '/')
+
+		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';
 		}
@@ -300,7 +304,9 @@ class ModuleObject extends Object
 	 * */
 	function setEditedLayoutFile($filename)
 	{
-		if(substr($filename, -5) != '.html')
+		if(!$filename) return;
+
+		if(substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
@@ -323,7 +329,9 @@ class ModuleObject extends Object
 	 * */
 	function setLayoutFile($filename)
 	{
-		if(substr($filename, -5) != '.html')
+		if(!$filename) return;
+
+		if(substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
@@ -345,11 +353,13 @@ class ModuleObject extends Object
 	 * */
 	function setLayoutPath($path)
 	{
-		if(substr($path, 0, 1) != '/' && substr($path, 0, 2) != './')
+		if(!$path) return;
+
+		if((strlen($path) >= 1 && substr_compare($path, '/', 0, 1) !== 0) && (strlen($path) >= 2 && substr_compare($path, './', 0, 2) !== 0))
 		{
 			$path = './' . $path;
 		}
-		if(substr($path, -1) != '/')
+		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';
 		}
@@ -374,6 +384,7 @@ class ModuleObject extends Object
 		// pass if stop_proc is true
 		if($this->stop_proc)
 		{
+			debugPrint($this->message, 'ERROR');
 			return false;
 		}
 
@@ -390,7 +401,7 @@ class ModuleObject extends Object
 		$called_position = 'before_module_proc';
 		$oAddonController = getController('addon');
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
-		@include($addon_file);
+		if(FileHandler::exists($addon_file)) include($addon_file);
 
 		if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act))
 		{
@@ -449,7 +460,7 @@ class ModuleObject extends Object
 		$called_position = 'after_module_proc';
 		$oAddonController = getController('addon');
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
-		@include($addon_file);
+		if(FileHandler::exists($addon_file)) include($addon_file);
 
 		if(is_a($output, 'Object') || is_subclass_of($output, 'Object'))
 		{

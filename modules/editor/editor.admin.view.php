@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  editorAdminView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief editor admin view of the module class
  */
 class editorAdminView extends editor
@@ -24,8 +25,8 @@ class editorAdminView extends editor
 		$site_srl = (int)$site_module_info->site_srl;
 
 		// Get a type of component
-		$oEditorModel = &getModel('editor');
-		$oModuleModel = &getModel('module');
+		$oEditorModel = getModel('editor');
+		$oModuleModel = getModel('module');
 		$editor_config = $oModuleModel->getModuleConfig('editor');
 
 		if(!$editor_config)
@@ -57,7 +58,7 @@ class editorAdminView extends editor
 		}
 
 		// Get install info, update info, count
-		$oAutoinstallModel = &getModel('autoinstall');
+		$oAutoinstallModel = getModel('autoinstall');
 		foreach($component_list as $component_name => $xml_info)
 		{
 			$component_count++;
@@ -141,15 +142,15 @@ class editorAdminView extends editor
 
 		$component_name = Context::get('component_name');
 		// Get information of the editor component
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		$component = $oEditorModel->getComponent($component_name,$site_srl);
 		Context::set('component', $component);
 		// Get a group list to set a group
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups($site_srl);
 		Context::set('group_list', $group_list);
 		// Get a mid list
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$args =new stdClass();
 		$args->site_srl = $site_srl;

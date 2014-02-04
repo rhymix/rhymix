@@ -1,0 +1,22 @@
+<load target="js/board_admin.js" />
+<div class="x_page-header">
+	<h1>
+		{$lang->board_management} 
+		<span class="path" cond="$module_info->mid">
+			&gt; <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank"|cond="$module=='admin'">{$module_info->mid}<block cond="$module_info->is_default=='Y'">({$lang->is_default})</block></a>
+		</span>
+		<a href="#aboutModule" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+	</h1>
+</div>
+<p class="x_alert x_alert-info" id="aboutModule" hidden>{$lang->about_board}</p>
+<ul class="x_nav x_nav-tabs" cond="$module_info && $act != 'dispBoardAdminContent' && $act != 'dispBoardAdminDeleteBoard'">
+	<li cond="$module=='admin'" class="x_active"|cond="$act=='dispBoardAdminContent'"><a href="{getUrl('act','dispBoardAdminContent','module_srl','', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_board_list}</a></li>
+	<!--<li class="x_active" cond="$act=='dispBoardAdminInsertBoard'"><a href="{getUrl('act','dispBoardAdminInsertBoard', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_create_board}</a></li>-->
+	<li cond="$module_srl" class="x_active"|cond="$act=='dispBoardAdminBoardInfo'"><a href="{getUrl('act','dispBoardAdminBoardInfo', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_board_info}</a></li>
+	<li cond="$module_srl" class="x_active"|cond="$act=='dispBoardAdminCategoryInfo'"><a href="{getUrl('act','dispBoardAdminCategoryInfo', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_manage_category}</a></li>
+	<li cond="$module_srl" class="x_active"|cond="$act=='dispBoardAdminExtraVars'"><a href="{getUrl('act','dispBoardAdminExtraVars', 'selected_var_idx', '', 'type', '')}">{$lang->extra_vars}</a></li>
+	<li cond="$module_srl" class="x_active"|cond="$act=='dispBoardAdminGrantInfo'"><a href="{getUrl('act','dispBoardAdminGrantInfo', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_manage_grant}</a></li>
+	<li cond="$module_srl" class="x_active"|cond="$act=='dispBoardAdminBoardAdditionSetup'"><a href="{getUrl('act','dispBoardAdminBoardAdditionSetup', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_addition_setup}</a></li>
+	<li cond="$module_srl" class="x_active"|cond="$act=='dispBoardAdminSkinInfo'"><a href="{getUrl('act','dispBoardAdminSkinInfo', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_manage_skin}</a></li>
+	<li cond="$module_srl" class="x_active"|cond="$act=='dispBoardAdminMobileSkinInfo'"><a href="{getUrl('act','dispBoardAdminMobileSkinInfo', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_manage_mobile_skin}</a></li>
+</ul>

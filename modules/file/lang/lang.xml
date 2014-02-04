@@ -3,7 +3,7 @@
 	<item name="file">
 		<value xml:lang="ko"><![CDATA[파일]]></value>
 		<value xml:lang="en"><![CDATA[File]]></value>
-		<value xml:lang="jp"><![CDATA[添付ファイル]]></value>
+		<value xml:lang="jp"><![CDATA[ファイル]]></value>
 		<value xml:lang="zh-CN"><![CDATA[附件]]></value>
 		<value xml:lang="zh-TW"><![CDATA[附加檔案]]></value>
 		<value xml:lang="fr"><![CDATA[Annexe]]></value>
@@ -17,6 +17,7 @@
 	<item name="file_upload">
 		<value xml:lang="ko"><![CDATA[파일 업로드]]></value>
 		<value xml:lang="en"><![CDATA[File Upload]]></value>
+		<value xml:lang="jp"><![CDATA[ファイル添付]]></value>
 	</item>
 	<item name="file_name">
 		<value xml:lang="ko"><![CDATA[파일 이름]]></value>
@@ -159,7 +160,7 @@
 	<item name="allowed_filetypes">
 		<value xml:lang="ko"><![CDATA[허용 확장자]]></value>
 		<value xml:lang="en"><![CDATA[Allowed extentsions]]></value>
-		<value xml:lang="jp"><![CDATA[ここで指定された種類のファイルのみ添付できます。]]></value>
+		<value xml:lang="jp"><![CDATA[許可ファイル拡張子]]></value>
 		<value xml:lang="zh-CN"><![CDATA[只允许上传指定的扩展名。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[設定允許上傳的檔案類型。]]></value>
 		<value xml:lang="fr"><![CDATA[Extensions consentis seulement peuvent etre attaches.]]></value>

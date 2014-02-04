@@ -44,7 +44,7 @@
 				[{$oDocument->getTrackbackCount()}]
 				<!--@end-->
 				</td>
-			<td><a href="#popup_menu_area" class="member_{$oDocument->get('trash_member_srl')}">{htmlspecialchars($oDocument->get('trash_nick_name'))}</a></td>
+			<td><a href="#popup_menu_area" class="member_{$oDocument->get('trash_member_srl')}">{htmlspecialchars($oDocument->get('trash_nick_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a></td>
 			<td>{zdate($oDocument->get('trash_date'), "Y-m-d H:i:s")}</td>
 			<td>{$oDocument->get('ipaddress')}</td>
 			<td >{$oDocument->get('trash_description')}</td>

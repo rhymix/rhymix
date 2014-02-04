@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * GeneralXmlParser class
  * Generic XML parser for XE
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/xml
  * @version 0.1
  */
@@ -31,7 +32,7 @@ class GeneralXmlParser
 		xml_parse($oParser, $input);
 		xml_parser_free($oParser);
 
-		if(!count($this->output))
+		if(count($this->output) < 1)
 		{
 			return;
 		}
@@ -49,11 +50,12 @@ class GeneralXmlParser
 	 */
 	function _tagOpen($parser, $node_name, $attrs)
 	{
+		$obj = new stdClass();
 		$obj->node_name = strtolower($node_name);
 		$obj->attrs = $attrs;
 		$obj->childNodes = array();
 
-		array_push($this->output, $obj);
+		$this->output[] = $obj;
 	}
 
 	/**
@@ -80,24 +82,22 @@ class GeneralXmlParser
 		$node_name = strtolower($node_name);
 		$cur_obj = array_pop($this->output);
 		$parent_obj = &$this->output[count($this->output) - 1];
+		$tmp_obj = &$parent_obj->childNodes[$node_name];
 
-		if($parent_obj->childNodes[$node_name])
+		if($tmp_obj)
 		{
-			$tmp_obj = $parent_obj->childNodes[$node_name];
 			if(is_array($tmp_obj))
 			{
-				array_push($parent_obj->childNodes[$node_name], $cur_obj);
+				$tmp_obj[] = $cur_obj;
 			}
 			else
 			{
-				$parent_obj->childNodes[$node_name] = array();
-				array_push($parent_obj->childNodes[$node_name], $tmp_obj);
-				array_push($parent_obj->childNodes[$node_name], $cur_obj);
+				$tmp_obj = array($tmp_obj, $cur_obj);
 			}
 		}
 		else
 		{
-			$parent_obj->childNodes[$node_name] = $cur_obj;
+			$tmp_obj = $cur_obj;
 		}
 	}
 

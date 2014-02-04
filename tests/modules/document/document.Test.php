@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 error_reporting(0);
 
 class documentModelTest extends PHPUnit_Framework_TestCase
@@ -56,8 +57,8 @@ class documentModelTest extends PHPUnit_Framework_TestCase
 
 		self::$oDB = new DBMysql;
 
-		$this->oDocumentController = &getController('document');
-		$this->oDocumentModel = &getModel('document');
+		$this->oDocumentController = getController('document');
+		$this->oDocumentModel = getModel('document');
 
 	}
 

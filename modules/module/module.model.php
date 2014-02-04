@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  moduleModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Model class of module module
  */
 class moduleModel extends module
@@ -57,7 +58,7 @@ class moduleModel extends module
 	function getSiteInfoByDomain($domain, $columnList = array())
 	{
 		$args = new stdClass();
-		$args->domain= $domain;
+		$args->domain = $domain;
 		$output = executeQuery('module.getSiteInfoByDomain', $args, $columnList);
 		return $output->data;
 	}
@@ -80,24 +81,30 @@ class moduleModel extends module
 	 */
 	function getDefaultMid()
 	{
-		$default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
-		$request_url = preg_replace('/\/$/','',Context::getRequestUri());
+		$default_url = Context::getDefaultUrl();
+		if($default_url && substr_compare($default_url, '/', -1) === 0) $default_url = substr($default_url, 0, -1);
+
+		$request_url = Context::getRequestUri();
+		if($request_url && substr_compare($request_url, '/', -1) === 0) $request_url = substr($request_url, 0, -1);
+
 		$default_url_parse = parse_url($default_url);
 		$request_url_parse = parse_url($request_url);
 		$vid = Context::get('vid');
 		$mid = Context::get('mid');
 
 		// Set up
-		// test.xe.com
 		$domain = '';
+		$site_info = NULL;
 		if($default_url && $default_url_parse['host'] != $request_url_parse['host'])
 		{
 			$url_info = parse_url($request_url);
 			$hostname = $url_info['host'];
-			$path = preg_replace('/\/$/','',$url_info['path']);
+			$path = $url_info['path'];
+			if(strlen($path) >= 1 && substr_compare($path, '/', -1) === 0) $path = substr($path, 0, -1);
+
 			$domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
 		}
-		// xe.com/blog
+
 		if($domain === '')
 		{
 			if(!$vid) $vid = $mid;
@@ -107,30 +114,48 @@ class moduleModel extends module
 			}
 		}
 
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		// If domain is set, look for subsite
 		if($domain !== '')
 		{
-			if($oCacheHandler->isSupport()) $output = $oCacheHandler->get('domain_' . $domain);
-			if(!$output)
+			$site_info = false;
+			if($oCacheHandler->isSupport())
+			{
+				$object_key = 'site_info:' . md5($domain);
+				$domain_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$site_info = $oCacheHandler->get($domain_cache_key);
+			}
+
+			if($site_info === false)
 			{
 				$args = new stdClass();
 				$args->domain = $domain;
 				$output = executeQuery('module.getSiteInfoByDomain', $args);
-				if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put('domain_' . $domain, $output);
+				$site_info = $output->data;
+
+				if($oCacheHandler->isSupport()) $oCacheHandler->put($domain_cache_key, $site_info);
 			}
-			if($output->toBool() && $output->data && $vid)
+
+			if($site_info && $vid)
 			{
-				Context::set('vid', $output->data->domain, true);
-				if(strtolower($mid)==strtolower($output->data->domain)) Context::set('mid',$output->data->mid,true);
+				Context::set('vid', $site_info->domain, true);
+				if(strtolower($mid)==strtolower($site_info->domain)) Context::set('mid', $site_info->mid,true);
 			}
-			if(!$output || !$output->data) { $domain = ''; unset($output); }
+			if(!$site_info || !$site_info->domain) { $domain = ''; unset($site_info); }
 		}
+
 		// If no virtual website was found, get default website
 		if($domain === '')
 		{
-			if($oCacheHandler->isSupport())	$output = $oCacheHandler->get('default_site');
-			if(!$output)
+			$site_info = false;
+			if($oCacheHandler->isSupport())
+			{
+				$object_key = 'default_site';
+				$default_site_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$site_info = $oCacheHandler->get($default_site_cache_key);
+			}
+
+			if($site_info === false)
 			{
 				$args = new stdClass();
 				$args->site_srl = 0;
@@ -142,12 +167,15 @@ class moduleModel extends module
 					$oDB = &DB::getInstance();
 					if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
 					if(!$oDB->isTableExists('sites')) return;
+
 					// Get mid, language
 					$mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
 					$db_info = Context::getDBInfo();
 					$domain = Context::getDefaultUrl();
 					$url_info = parse_url($domain);
 					$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+
+					$site_args = new stdClass;
 					$site_args->site_srl = 0;
 					$site_args->index_module_srl  = $mid_output->data->module_srl;
 					$site_args->domain = $domain;
@@ -164,13 +192,14 @@ class moduleModel extends module
 					}
 					$output = executeQuery('module.getSiteInfo', $args);
 				}
-				if($oCacheHandler->isSupport()) $oCacheHandler->put('default_site',$output);
+				$site_info = $output->data;
+				if($oCacheHandler->isSupport()) $oCacheHandler->put($default_site_cache_key, $site_info);
 			}
 		}
-		$module_info = $output->data;
-		if(!$module_info->module_srl) return $module_info;
-		if(is_array($module_info) && $module_info->data[0]) $module_info = $module_info[0];
-		return $this->addModuleExtraVars($module_info);
+
+		if(!$site_info->module_srl) return $site_info;
+		if(is_array($site_info) && $site_info->data[0]) $site_info = $site_info[0];
+		return $this->addModuleExtraVars($site_info);
 	}
 
 	/**
@@ -178,7 +207,7 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array())
 	{
-		if(!$mid)
+		if(!$mid || ($mid && !preg_match("/^[a-z][a-z0-9_]+$/i", $mid)))
 		{
 			return;
 		}
@@ -186,30 +215,38 @@ class moduleModel extends module
 		$args = new stdClass();
 		$args->mid = $mid;
 		$args->site_srl = (int)$site_srl;
-		$oCacheHandler = &CacheHandler::getInstance('object');
+
+		$module_srl = false;
+		$module_info = false;
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$mid.'_'.$site_srl;
-			$module_srl = $oCacheHandler->get($cache_key);
+			$object_key = 'module_srl:'.$mid.'_'.$site_srl;
+			$module_srl_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$module_srl = $oCacheHandler->get($module_srl_cache_key);
 			if($module_srl)
 			{
-				$cache_key = 'object_module_info:'.$module_srl;
-				$output = $oCacheHandler->get($cache_key);
-			}
-		}
-		if(!$output)
-		{
-			$output = executeQuery('module.getMidInfo', $args);
-			if($oCacheHandler->isSupport())
-			{
-				$cache_key = 'object:'.$mid.'_'.$site_srl;
-				$oCacheHandler->put($cache_key,$output->data->module_srl);
-				$cache_key = 'object_module_info:'.$output->data->module_srl;
-				$oCacheHandler->put($cache_key,$output);
+				$object_key = 'mid_info:' . $module_srl;
+				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$module_info = $oCacheHandler->get($module_info_cache_key);
 			}
 		}
 
-		$module_info = $output->data;
+		if($module_info === false)
+		{
+			$output = executeQuery('module.getMidInfo', $args);
+			$module_info = $output->data;
+			if($oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($module_srl_cache_key, $module_info->module_srl);
+
+				$object_key = 'mid_info:' . $module_info->module_srl;
+				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$oCacheHandler->put($module_info_cache_key, $module_info);
+			}
+		}
+
 		$this->applyDefaultSkin($module_info);
 		if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
 		return $this->addModuleExtraVars($module_info);
@@ -280,27 +317,34 @@ class moduleModel extends module
 		$moduleInfo->designSettings->skin->mobileIsDefault = $moduleInfo->is_mskin_fix == 'N' ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$module_srl = false;
+		$mid_info = false;
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$mid.'_'.$site_srl;
-			$module_srl = $oCacheHandler->get($cache_key);
+			$object_key = 'module_srl:'.$mid.'_'.$site_srl;
+			$module_srl_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$module_srl = $oCacheHandler->get($module_srl_cache_key);
 			if($module_srl)
 			{
-				$cache_key = 'object_module_info:'.$module_srl;
-				$coutput = $oCacheHandler->get($cache_key);
+				$object_key = 'mid_info:' . $module_srl;
+				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$mid_info = $oCacheHandler->get($module_info_cache_key);
 			}
 
-			if(!$coutput)
+			if($mid_info === false)
 			{
-				$cache_key = 'object:'.$mid.'_'.$site_srl;
-				$oCacheHandler->put($cache_key, $output->data->module_srl);
-				$cache_key = 'object_module_info:'.$output->data->module_srl;
-				$oCacheHandler->put($cache_key, $moduleInfo);
+				$oCacheHandler->put($module_srl_cache_key, $output->data->module_srl);
+
+				$object_key = 'mid_info:' . $output->data->module_srl;
+				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$oCacheHandler->put($module_info_cache_key, $moduleInfo);
 			}
 			else
 			{
-				$moduleInfo = $coutput;
+				$mid_info->designSettings = $moduleInfo->designSettings;
+				$moduleInfo = $mid_info;
 			}
 		}
 
@@ -322,26 +366,33 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
-		// Get data
-		$args = new stdClass();
-		$args->module_srl = $module_srl;
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$mid_info = false;
+
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object_module_info:'.$module_srl;
-			$output = $oCacheHandler->get($cache_key);
+			$object_key = 'mid_info:' . $module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$mid_info = $oCacheHandler->get($cache_key);
 		}
-		if(!$output)
+
+		if($mid_info === false)
 		{
-			$output = executeQuery('module.getMidInfo', $args );
-			if(!$output->data) return;
-			$this->applyDefaultSkin($output->data);
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+			// Get data
+			$args = new stdClass();
+			$args->module_srl = $module_srl;
+			$output = executeQuery('module.getMidInfo', $args);
+			if(!$output->toBool()) return;
+
+			$mid_info = $output->data;
+			$this->applyDefaultSkin($mid_info);
+			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $mid_info);
 		}
-		if(count($columnList))
+
+		if($mid_info && count($columnList))
 		{
 			$module_info = new stdClass();
-			foreach($output->data as $key => $item)
+			foreach($mid_info as $key => $item)
 			{
 				if(in_array($key, $columnList))
 				{
@@ -349,7 +400,8 @@ class moduleModel extends module
 				}
 			}
 		}
-		else $module_info = $output->data;
+		else $module_info = $mid_info;
+
 		return $this->addModuleExtraVars($module_info);
 	}
 
@@ -376,6 +428,7 @@ class moduleModel extends module
 	function getModulesInfoByLayout($layout_srl, $columnList = array())
 	{
 		// Imported data
+		$args = new stdClass;
 		$args->layout_srl = $layout_srl;
 		$output = executeQueryArray('module.getModulesByLayout', $args, $columnList);
 
@@ -441,10 +494,34 @@ class moduleModel extends module
 	 */
 	function getMidList($args = null, $columnList = array())
 	{
-		$output = executeQuery('module.getMidList', $args, $columnList);
-		if(!$output->toBool()) return $output;
+		$list = false;
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			if(count($args) === 1 && isset($args->site_srl))
+			{
+				$object_key = 'module:mid_list_' . $args->site_srl;
+				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$list = $oCacheHandler->get($cache_key);
+			}
+		}
 
-		$list = $output->data;
+		if($list === false)
+		{
+			if($oCacheHandler->isSupport() && count($args) === 1 && isset($args->site_srl))
+			{
+				$columnList = array();
+			}
+
+			$output = executeQuery('module.getMidList', $args, $columnList);
+			if(!$output->toBool()) return $output;
+			$list = $output->data;
+
+			if($oCacheHandler->isSupport() && count($args) === 1 && isset($args->site_srl))
+			{
+				$oCacheHandler->put($cache_key, $list);
+			}
+		}
 		if(!$list) return;
 
 		if(!is_array($list)) $list = array($list);
@@ -453,6 +530,7 @@ class moduleModel extends module
 		{
 			$mid_list[$val->mid] = $val;
 		}
+
 		return $mid_list;
 	}
 
@@ -480,6 +558,7 @@ class moduleModel extends module
 
 		$site_module_info = Context::get('site_module_info');
 
+		$args = new stdClass;
 		$args->mid = $mid;
 		if($site_module_info) $args->site_srl = $site_module_info->site_srl;
 		$output = executeQuery('module.getModuleSrlByMid', $args);
@@ -500,14 +579,45 @@ class moduleModel extends module
 	/**
 	 * @brief Get forward value by the value of act
 	 */
-	function getActionForward($act, $module = "")
+	function getActionForward($act)
 	{
-		$args = new stdClass();
-		$args->act = $act;
-		$args->module = ($module)?$module:null;
-		if(strlen ($args->module) > 0) $output = executeQuery ('module.getActionForwardWithModule', $args);
-		else $output = executeQuery('module.getActionForward',$args);
-		return $output->data;
+		$action_forward = false;
+		// cache controll
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'action_forward';
+			$action_forward = $oCacheHandler->get($cache_key);
+		}
+
+		// retrieve and caching all registered action_forward
+		if($action_forward === false)
+		{
+			$args = new stdClass();
+			$output = executeQueryArray('module.getActionForward',$args);
+			if(!$output->toBool()) return new stdClass;
+			if(!$output->data) $output->data = array();
+
+			$action_forward = array();
+			foreach($output->data as $item)
+			{
+				$action_forward[$item->act] = $item;
+			}
+
+			if($oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, $action_forward);
+			}
+		}
+
+		if($action_forward[$act])
+		{
+			return $action_forward[$act];
+		}
+		else
+		{
+			return new stdClass();
+		}
 	}
 
 	/**
@@ -515,22 +625,31 @@ class moduleModel extends module
 	 */
 	function getTriggers($trigger_name, $called_position)
 	{
+		$triggers = false;
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:'.$trigger_name.'_'.$called_position;
-			$output = $oCacheHandler->get($cache_key);
+			$object_key = $trigger_name.'_'.$called_position;
+			$cache_key = $oCacheHandler->getGroupKey('triggers', $object_key);
+			$triggers = $oCacheHandler->get($cache_key);
 		}
-		if(!$output)
+
+		if($triggers === false)
 		{
 			$args = new stdClass();
 			$args->trigger_name = $trigger_name;
 			$args->called_position = $called_position;
 			$output = executeQueryArray('module.getTriggers',$args);
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+			$triggers = $output->data;
+
+			if($output->toBool() && $oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, $triggers);
+			}
 		}
-		return $output->data;
+
+		return $triggers;
 	}
 
 	/**
@@ -624,11 +743,13 @@ class moduleModel extends module
 		$xml_obj = $tmp_xml_obj->module;
 
 		if(!$xml_obj) return;
+
 		// Module Information
+		$module_info = new stdClass();
+		$author_obj = new stdClass();
 		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
 		{
 			// module format 0.2
-			$module_info = new stdClass();
 			$module_info->title = $xml_obj->title->body;
 			$module_info->description = $xml_obj->description->body;
 			$module_info->version = $xml_obj->version->body;
@@ -645,59 +766,10 @@ class moduleModel extends module
 
 			foreach($author_list as $author)
 			{
-				$author_obj = new stdClass();
 				$author_obj->name = $author->name->body;
 				$author_obj->email_address = $author->attrs->email_address;
 				$author_obj->homepage = $author->attrs->link;
 				$module_info->author[] = $author_obj;
-			}
-
-			// history
-			if($xml_obj->history)
-			{
-				if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
-				else $history = $xml_obj->history;
-
-				foreach($history as $item)
-				{
-					unset($obj);
-
-					if($item->author)
-					{
-						(!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
-
-						foreach($obj->author_list as $author)
-						{
-							unset($author_obj);
-							$author_obj->name = $author->name->body;
-							$author_obj->email_address = $author->attrs->email_address;
-							$author_obj->homepage = $author->attrs->link;
-							$obj->author[] = $author_obj;
-						}
-					}
-
-					$obj->name = $item->name->body;
-					$obj->email_address = $item->attrs->email_address;
-					$obj->homepage = $item->attrs->link;
-					$obj->version = $item->attrs->version;
-					$obj->date = $item->attrs->date;
-					$obj->description = $item->description->body;
-
-					if($item->log)
-					{
-						(!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
-
-						foreach($obj->log as $log)
-						{
-							unset($logs_obj);
-							$logs_obj->text = $log->body;
-							$logs_obj->link = $log->attrs->link;
-							$obj->logs[] = $logs_obj;
-						}
-					}
-
-					$module_info->history[] = $obj;
-				}
 			}
 		}
 		else
@@ -736,16 +808,25 @@ class moduleModel extends module
 		// Get a path of the requested module. Return if not exists.
 		$class_path = ModuleHandler::getModulePath($module);
 		if(!$class_path) return;
+
 		// Check if module.xml exists in the path. Return if not exist
 		$xml_file = sprintf("%sconf/module.xml", $class_path);
 		if(!file_exists($xml_file)) return;
+
 		// Check if cached file exists
-		$cache_file = sprintf("./files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
+		$cache_file = sprintf(_XE_PATH_ . "files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
+
 		// Update if no cache file exists or it is older than xml file
-		if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file))
+		if(!file_exists($cache_file) || filemtime($cache_file) < filemtime($xml_file) || $re_cache)
 		{
 			$info = new stdClass();
-			$buff = ""; // /< Set buff variable to use in the cache file
+			$buff = array(); // /< Set buff variable to use in the cache file
+			$buff[] = '<?php if(!defined("__XE__")) exit();';
+			$buff[] = '$info = new stdClass;';
+			$buff['default_index_act'] = '$info->default_index_act = \'%s\';';
+			$buff['setup_index_act'] = '$info->setup_index_act=\'%s\';';
+			$buff['simple_setup_index_act'] = '$info->simple_setup_index_act=\'%s\';';
+			$buff['admin_index_act'] = '$info->admin_index_act = \'%s\';';
 
 			$xml_obj = XmlParser::loadXmlFile($xml_file); // /< Read xml file and convert it to xml object
 
@@ -757,6 +838,7 @@ class moduleModel extends module
 			$actions = $xml_obj->module->actions->action; // /< Action list (required)
 
 			$default_index = $admin_index = '';
+
 			// Arrange permission information
 			if($grants)
 			{
@@ -764,6 +846,7 @@ class moduleModel extends module
 				else $grant_list[] = $grants;
 
 				$info->grant = new stdClass();
+				$buff[] = '$info->grant = new stdClass;';
 				foreach($grant_list as $grant)
 				{
 					$name = $grant->attrs->name;
@@ -774,8 +857,9 @@ class moduleModel extends module
 					$info->grant->{$name}->title = $title;
 					$info->grant->{$name}->default = $default;
 
-					$buff .= sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
-					$buff .= sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
+					$buff[] = sprintf('$info->grant->%s = new stdClass;', $name);
+					$buff[] = sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
+					$buff[] = sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
 				}
 			}
 			// Permissions to grant
@@ -783,6 +867,8 @@ class moduleModel extends module
 			{
 				if(is_array($permissions)) $permission_list = $permissions;
 				else $permission_list[] = $permissions;
+
+				$buff[] = '$info->permission = new stdClass;';
 
 				$info->permission = new stdClass();
 				foreach($permission_list as $permission)
@@ -792,7 +878,7 @@ class moduleModel extends module
 
 					$info->permission->{$action} = $target;
 
-					$buff .= sprintf('$info->permission->%s = \'%s\';', $action, $target);
+					$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
 				}
 			}
 			// for admin menus
@@ -801,6 +887,7 @@ class moduleModel extends module
 				if(is_array($menus)) $menu_list = $menus;
 				else $menu_list[] = $menus;
 
+				$buff[] = '$info->menu = new stdClass;';
 				$info->menu = new stdClass();
 				foreach($menu_list as $menu)
 				{
@@ -813,8 +900,9 @@ class moduleModel extends module
 					$info->menu->{$menu_name}->acts = array();
 					$info->menu->{$menu_name}->type = $menu_type;
 
-					$buff .= sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
-					$buff .= sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
+					$buff[] = sprintf('$info->menu->%s = new stdClass;', $menu_name);
+					$buff[] = sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
+					$buff[] = sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
 				}
 			}
 
@@ -824,6 +912,7 @@ class moduleModel extends module
 				if(is_array($actions)) $action_list = $actions;
 				else $action_list[] = $actions;
 
+				$buff[] = '$info->action = new stdClass;';
 				$info->action = new stdClass();
 				foreach($action_list as $action)
 				{
@@ -831,7 +920,7 @@ class moduleModel extends module
 
 					$type = $action->attrs->type;
 					$grant = $action->attrs->grant?$action->attrs->grant:'guest';
-					$standalone = $action->attrs->standalone=='true'?'true':'false';
+					$standalone = $action->attrs->standalone=='false'?'false':'true';
 					$ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
 					$method = $action->attrs->method?$action->attrs->method:'';
 
@@ -844,7 +933,7 @@ class moduleModel extends module
 					$info->action->{$name} = new stdClass();
 					$info->action->{$name}->type = $type;
 					$info->action->{$name}->grant = $grant;
-					$info->action->{$name}->standalone = $standalone=='true'?true:false;
+					$info->action->{$name}->standalone = ($standalone == 'true') ? TRUE : FALSE;
 					$info->action->{$name}->ruleset = $ruleset;
 					$info->action->{$name}->method = $method;
 					if($action->attrs->menu_name)
@@ -852,23 +941,24 @@ class moduleModel extends module
 						if($menu_index == 'true')
 						{
 							$info->menu->{$action->attrs->menu_name}->index = $name;
-							$buff .= sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
+							$buff[] = sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
 						}
 						if(is_array($info->menu->{$action->attrs->menu_name}->acts))
 						{
-							@array_push($info->menu->{$action->attrs->menu_name}->acts, $name);
-							$currentKey = @array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
+							$info->menu->{$action->attrs->menu_name}->acts[] = $name;
+							$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
 						}
 
-						$buff .= sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
+						$buff[] = sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
 						$i++;
 					}
 
-					$buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
-					$buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
-					$buff .= sprintf('$info->action->%s->standalone=%s;', $name, $standalone);
-					$buff .= sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
-					$buff .= sprintf('$info->action->%s->method=\'%s\';', $name, $method);
+					$buff[] = sprintf('$info->action->%s = new stdClass;', $name);
+					$buff[] = sprintf('$info->action->%s->type=\'%s\';', $name, $type);
+					$buff[] = sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
+					$buff[] = sprintf('$info->action->%s->standalone=\'%s\';', $name, $standalone);
+					$buff[] = sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
+					$buff[] = sprintf('$info->action->%s->method=\'%s\';', $name, $method);
 
 					if($index=='true')
 					{
@@ -892,16 +982,21 @@ class moduleModel extends module
 					}
 				}
 			}
-			$buff = sprintf('<?php if(!defined("__XE__")) exit();$info->default_index_act = \'%s\';$info->setup_index_act=\'%s\';$info->simple_setup_index_act=\'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $setup_index_act, $simple_setup_index_act, $admin_index_act, $buff);
+			$buff['default_index_act'] = sprintf($buff['default_index_act'], $default_index_act);
+			$buff['setup_index_act'] = sprintf($buff['setup_index_act'], $setup_index_act);
+			$buff['simple_setup_index_act'] = sprintf($buff['simple_setup_index_act'], $simple_setup_index_act);
+			$buff['admin_index_act'] = sprintf($buff['admin_index_act'], $admin_index_act);
+
+			$buff[] = 'return $info;';
+
+			$buff = implode(PHP_EOL, $buff);
 
 			FileHandler::writeFile($cache_file, $buff);
 
 			return $info;
 		}
 
-		@include($cache_file);
-
-		return $info;
+		if(file_exists($cache_file)) return include($cache_file);
 	}
 
 	/**
@@ -1110,54 +1205,6 @@ class moduleModel extends module
 					}
 				}
 			}
-
-			// history
-			if($xml_obj->history)
-			{
-				if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
-				else $history = $xml_obj->history;
-
-				foreach($history as $item)
-				{
-					unset($obj);
-
-					if($item->author)
-					{
-						(!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
-
-						foreach($obj->author_list as $author)
-						{
-							unset($author_obj);
-							$author_obj->name = $author->name->body;
-							$author_obj->email_address = $author->attrs->email_address;
-							$author_obj->homepage = $author->attrs->link;
-							$obj->author[] = $author_obj;
-						}
-					}
-
-					$obj->name = $item->name->body;
-					$obj->email_address = $item->attrs->email_address;
-					$obj->homepage = $item->attrs->link;
-					$obj->version = $item->attrs->version;
-					$obj->date = $item->attrs->date;
-					$obj->description = $item->description->body;
-
-					if($item->log)
-					{
-						(!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
-
-						foreach($obj->log as $log)
-						{
-							unset($log_obj);
-							$log_obj->text = $log->body;
-							$log_obj->link = $log->attrs->link;
-							$obj->logs[] = $log_obj;
-						}
-					}
-
-					$skin_info->history[] = $obj;
-				}
-			}
 		}
 		else
 		{
@@ -1291,6 +1338,7 @@ class moduleModel extends module
 	 */
 	function getModuleCount($site_srl, $module = null)
 	{
+		$args = new stdClass;
 		$args->site_srl = $site_srl;
 		if(!is_null($module)) $args->module = $module;
 		$output = executeQuery('module.getModuleCount', $args);
@@ -1303,14 +1351,17 @@ class moduleModel extends module
 	 */
 	function getModuleConfig($module, $site_srl = 0)
 	{
+		$config = false;
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
+			$object_key = 'module_config:' . $module . '_' . $site_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$config = $oCacheHandler->get($cache_key);
 		}
-		if(!$config)
+
+		if($config === false)
 		{
 			if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module])
 			{
@@ -1318,12 +1369,13 @@ class moduleModel extends module
 				$args->module = $module;
 				$args->site_srl = $site_srl;
 				$output = executeQuery('module.getModuleConfig', $args);
-				$config = unserialize($output->data->config);
+				if($output->data->config) $config = unserialize($output->data->config);
+				else $config = null;
+
 				//insert in cache
 				if($oCacheHandler->isSupport())
 				{
-					if($config)
-						$oCacheHandler->put($cache_key,$config);
+					$oCacheHandler->put($cache_key, $config);
 				}
 				$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 			}
@@ -1339,26 +1391,31 @@ class moduleModel extends module
 	 */
 	function getModulePartConfig($module, $module_srl)
 	{
+		$config = false;
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object_module_part_config:'.$module.'_'.$module_srl;
+			$object_key = 'module_part_config:'.$module.'_'.$module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$config = $oCacheHandler->get($cache_key);
 		}
-		if(!$config)
+
+		if($config === false)
 		{
-			if(!$GLOBALS['__ModulePartConfig__'][$module][$module_srl])
+			if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
 			{
 				$args = new stdClass();
 				$args->module = $module;
 				$args->module_srl = $module_srl;
 				$output = executeQuery('module.getModulePartConfig', $args);
-				$config = unserialize($output->data->config);
+				if($output->data->config) $config = unserialize($output->data->config);
+				else $config = null;
+
 				//insert in cache
 				if($oCacheHandler->isSupport())
 				{
-					if($config) $oCacheHandler->put($cache_key,$config);
+					$oCacheHandler->put($cache_key, $config);
 				}
 				$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 			}
@@ -1413,6 +1470,7 @@ class moduleModel extends module
 	function getModuleCategory($module_category_srl)
 	{
 		// Get data from the DB
+		$args = new stdClass;
 		$args->module_category_srl = $module_category_srl;
 		$output = executeQuery('module.getModuleCategory', $args);
 		if(!$output->toBool()) return $output;
@@ -1477,7 +1535,7 @@ class moduleModel extends module
 	function checkNeedUpdate($module_name)
 	{
 		// Check if it is upgraded to module.class.php on each module
-		$oDummy = &getModule($module_name, 'class');
+		$oDummy = getModule($module_name, 'class');
 		if($oDummy && method_exists($oDummy, "checkUpdate"))
 		{
 			return $oDummy->checkUpdate();
@@ -1521,6 +1579,8 @@ class moduleModel extends module
 			$info = NULL;
 			$info = $this->getModuleInfoXml($module_name);
 
+			if(!$info) continue;
+
 			$info->module = $module_name;
 			$info->category = $info->category;
 			$info->created_table_count = $created_table_count;
@@ -1532,7 +1592,7 @@ class moduleModel extends module
 			else $info->need_install = false;
 			// Check if it is upgraded to module.class.php on each module
 			$oDummy = null;
-			$oDummy = &getModule($module_name, 'class');
+			$oDummy = getModule($module_name, 'class');
 			if($oDummy && method_exists($oDummy, "checkUpdate"))
 			{
 				$info->need_update = $oDummy->checkUpdate();
@@ -1622,6 +1682,7 @@ class moduleModel extends module
 	 */
 	function getSiteAdmin($site_srl)
 	{
+		$args = new stdClass;
 		$args->site_srl = $site_srl;
 		$output = executeQueryArray('module.getSiteAdmin', $args);
 		return $output->data;
@@ -1644,43 +1705,76 @@ class moduleModel extends module
 	 * @brief Get extra vars of the module
 	 * Extra information, not in the modules table
 	 */
-	function getModuleExtraVars($module_srl)
+	function getModuleExtraVars($list_module_srl)
 	{
-		if(is_array($module_srl)) $module_srl = implode(',',$module_srl);
+		$extra_vars = array();
+		$get_module_srls = array();
+		if(!is_array($list_module_srl)) $list_module_srl = array($list_module_srl);
+
+		$vars = false;
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:module_extra_vars_'.$module_srl;
-			$vars = $oCacheHandler->get($cache_key);
+			foreach($list_module_srl as $module_srl)
+			{
+				$object_key = 'module_extra_vars:'.$module_srl;
+				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$vars = $oCacheHandler->get($cache_key);
+
+				if($vars)
+				{
+					$extra_vars[$module_srl] = $vars;
+				}
+				else
+				{
+					$get_module_srls[] = $module_srl;
+				}
+			}
 		}
-		if(!$vars)
+		else
+		{
+			$get_module_srls = $list_module_srl;
+		}
+
+		if(count($get_module_srls) > 0)
 		{
 			$args = new stdClass();
-			$args->module_srl = $module_srl;
-			$output = executeQueryArray('module.getModuleExtraVars',$args);
-			if(!$output->toBool() || !$output->data)
+			$args->module_srl = implode(',', $get_module_srls);
+			$output = executeQueryArray('module.getModuleExtraVars', $args);
+
+			if(!$output->toBool())
 			{
-				if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,'empty_extra_vars');
 				return;
 			}
-			$vars = array();
+
+			if(!$output->data)
+			{
+				foreach($get_module_srls as $module_srl)
+				{
+					$extra_vars[$module_srl] = new stdClass;
+				}
+			}
 			foreach($output->data as $key => $val)
 			{
 				if(in_array($val->name, array('mid','module')) || $val->value == 'Array') continue;
-				if(!isset($vars[$val->module_srl]))
+
+				if(!isset($extra_vars[$val->module_srl]))
 				{
-					$vars[$val->module_srl] = new stdClass();
+					$extra_vars[$val->module_srl] = new stdClass();
 				}
-				$vars[$val->module_srl]->{$val->name} = $val->value;
+				$extra_vars[$val->module_srl]->{$val->name} = $val->value;
+
+				if($oCacheHandler->isSupport())
+				{
+					$object_key = 'module_extra_vars:'.$val->module_srl;
+					$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+					$oCacheHandler->put($cache_key, $extra_vars[$val->module_srl]);
+				}
 			}
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$vars);
 		}
-		else if($vars == 'empty_extra_vars')
-		{
-			return;
-		}
-		return $vars;
+
+		return $extra_vars;
 	}
 
 	/**
@@ -1688,13 +1782,31 @@ class moduleModel extends module
 	 */
 	function getModuleSkinVars($module_srl)
 	{
-		$args = new stdClass();
-		$args->module_srl = $module_srl;
-		$output = executeQueryArray('module.getModuleSkinVars',$args);
-		if(!$output->toBool() || !$output->data) return;
+		$skin_vars = false;
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$object_key = 'module_skin_vars:'.$module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$skin_vars = $oCacheHandler->get($cache_key);
+		}
 
-		$skin_vars = array();
-		foreach($output->data as $val) $skin_vars[$val->name] = $val;
+		if($skin_vars === false)
+		{
+			$args = new stdClass();
+			$args->module_srl = $module_srl;
+			$output = executeQueryArray('module.getModuleSkinVars',$args);
+			if(!$output->toBool()) return;
+
+			$skin_vars = array();
+			foreach($output->data as $vars)
+			{
+				$skin_vars[$vars->name] = $vars;
+			}
+
+			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $skin_vars);
+		}
+
 		return $skin_vars;
 	}
 
@@ -1709,7 +1821,7 @@ class moduleModel extends module
 		$designInfoFile = sprintf(_XE_PATH_.'files/site_design/design_%s.php', $site_srl);
 		if(is_readable($designInfoFile))
 		{
-			@include($designInfoFile);
+			include($designInfoFile);
 
 			$skinName = $designInfo->module->{$module_name}->{$target};
 		}
@@ -1741,7 +1853,7 @@ class moduleModel extends module
 
 			if($updateCache && $skinName)
 			{
-				$designInfo->module->{$module_name} = new stdClass();
+				if(!isset($designInfo->module->{$module_name})) $designInfo->module->{$module_name} = new stdClass();
 				$designInfo->module->{$module_name}->{$target} = $skinName;
 
 				$oAdminController = getAdminController('admin');
@@ -1759,37 +1871,22 @@ class moduleModel extends module
 	{
 		if(!$module_info->module_srl) return;
 
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if(Mobile::isFromMobilePhone())
 		{
-			$cache_key = 'object_module_mobile_skin_vars:' . $module_info->module_srl;
-			$query = 'module.getModuleMobileSkinVars';
+			$skin_vars = $this->getModuleMobileSkinVars($module_info->module_srl);
 		}
 		else
 		{
-			$cache_key = 'object_module_skin_vars:' . $module_info->module_srl;
-			$query = 'module.getModuleSkinVars';
+			$skin_vars = $this->getModuleSkinVars($module_info->module_srl);
 		}
 
-		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$output = $oCacheHandler->get($cache_key);
-		}
-		if(!$output)
-		{
-			$args = new stdClass();
-			$args->module_srl = $module_info->module_srl;
-			$output = executeQueryArray($query,$args);
-			//insert in cache
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
-		}
-		if(!$output->toBool() || !$output->data) return;
+		if(!$skin_vars) return;
 
-		foreach($output->data as $val)
+		foreach($skin_vars as $name => $val)
 		{
-			if(isset($module_info->{$val->name})) continue;
-			$module_info->{$val->name} = $val->value;
+			if(isset($module_info->{$name})) continue;
+			$module_info->{$name} = $val->value;
 		}
 	}
 
@@ -1800,13 +1897,31 @@ class moduleModel extends module
 	 */
 	function getModuleMobileSkinVars($module_srl)
 	{
-		$args = new stdClass();
-		$args->module_srl = $module_srl;
-		$output = executeQueryArray('module.getModuleMobileSkinVars',$args);
-		if(!$output->toBool() || !$output->data) return;
+		$skin_vars = false;
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$object_key = 'module_mobile_skin_vars:'.$module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$skin_vars = $oCacheHandler->get($cache_key);
+		}
 
-		$skin_vars = array();
-		foreach($output->data as $val) $skin_vars[$val->name] = $val;
+		if($skin_vars === false)
+		{
+			$args = new stdClass();
+			$args->module_srl = $module_srl;
+			$output = executeQueryArray('module.getModuleMobileSkinVars',$args);
+			if(!$output->toBool() || !$output->data) return;
+
+			$skin_vars = array();
+			foreach($output->data as $vars)
+			{
+				$skin_vars[$vars->name] = $vars;
+			}
+
+			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $skin_vars);
+		}
+
 		return $skin_vars;
 	}
 
@@ -1817,21 +1932,27 @@ class moduleModel extends module
 	function syncMobileSkinInfoToModuleInfo(&$module_info)
 	{
 		if(!$module_info->module_srl) return;
+		$skin_vars = false;
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object_module_mobile_skin_vars:'.$module_info->module_srl;
-			$output = $oCacheHandler->get($cache_key);
+			$object_key = 'module_mobile_skin_vars:'.$module_info->module_srl;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$skin_vars = $oCacheHandler->get($cache_key);
 		}
-		if(!$output)
+		if($skin_vars === false)
 		{
+			$args = new stdClass;
 			$args->module_srl = $module_info->module_srl;
 			$output = executeQueryArray('module.getModuleMobileSkinVars',$args);
+			if(!$output->toBool()) return;
+			$skin_vars = $output->data;
+
 			//insert in cache
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $skin_vars);
 		}
-		if(!$output->toBool() || !$output->data) return;
+		if(!$skin_vars) return;
 
 		foreach($output->data as $val)
 		{
@@ -1896,6 +2017,7 @@ class moduleModel extends module
 				}
 				else
 				{
+					$args = new stdClass;
 					$args->module_srl = $module_srl;
 					$output = executeQueryArray('module.getModuleGrants', $args);
 				}
@@ -2003,7 +2125,7 @@ class moduleModel extends module
 
 	function getModuleFileBoxList()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		$args = new stdClass();
 		$args->page = Context::get('page');
@@ -2056,11 +2178,11 @@ class moduleModel extends module
 			$param = explode("=",$param);
 			if($param[0] == 'selected_widget') $selected_widget = $param[1];
 		}
-		$oWidgetModel = &getModel('widget');
+		$oWidgetModel = getModel('widget');
 		if($selected_widget) $widget_info = $oWidgetModel->getWidgetInfo($selected_widget);
 		Context::set('allow_multiple', $widget_info->extra_var->images->allow_multiple);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleFileBoxList();
 		Context::set('filebox_list', $output->data);
 
@@ -2073,7 +2195,7 @@ class moduleModel extends module
 		$security->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
 
 		$oTemplate = &TemplateHandler::getInstance();
-		$html = $oTemplate->compile('./modules/module/tpl/', 'filebox_list_html');
+		$html = $oTemplate->compile(_XE_PATH_ . 'modules/module/tpl/', 'filebox_list_html');
 
 		$this->add('html', $html);
 	}
@@ -2124,6 +2246,7 @@ class moduleModel extends module
 
 		$requestVars = Context::getRequestVars();
 
+		$args = new stdClass;
 		$args->site_srl = (int)$requestVars->site_srl;
 		$args->page = 1; // /< Page
 		$args->list_count = 100; // /< the number of posts to display on a single page
@@ -2164,7 +2287,7 @@ class moduleModel extends module
 		$langCode = Context::get('langCode');
 		if (!$langCode) return;
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($langCode);
 
 		$this->add('lang', $langCode);

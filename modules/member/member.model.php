@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  memberModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Model class of the member module
  */
 class memberModel extends member
@@ -31,7 +32,7 @@ class memberModel extends member
 		}
 
 		// Get member configuration stored in the DB
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 
 		if(!$config->signupForm || !is_array($config->signupForm))
@@ -127,7 +128,7 @@ class memberModel extends member
 
 		ModuleHandler::triggerCall('member.getMemberMenu', 'before', $null);
 
-		$oMemberController = &getController('member');
+		$oMemberController = getController('member');
 		// Display member information (Don't display to non-logged user)
 		if($logged_info->member_srl)
 		{
@@ -140,16 +141,16 @@ class memberModel extends member
 			// Send an email
 			if($member_info->email_address)
 			{
-				$url = 'mailto:'.htmlspecialchars($member_info->email_address);
+				$url = 'mailto:'.htmlspecialchars($member_info->email_address, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				$oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
 			}
 		}
 		// View homepage info
 		if($member_info->homepage)
-			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage), 'homepage', '', 'blank');
+			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'homepage', '', 'blank');
 		// View blog info
 		if($member_info->blog)
-			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog), 'blog', '', 'blank');
+			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'blog', '', 'blank');
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);
 		// Display a menu for editting member info to a top administrator
@@ -187,7 +188,7 @@ class memberModel extends member
 			}
 			else
 			{
-				if($_SESSION['ipaddress'] == $_SERVER['REMOTE_ADDR'])
+				if(ip2long($_SESSION['ipaddress']) >> 8 == ip2long($_SERVER['REMOTE_ADDR']) >> 8)
 				{
 					return true;
 				}
@@ -213,17 +214,17 @@ class memberModel extends member
 			{
 				$logged_info->group_list = $this->getMemberGroups($logged_info->member_srl, $site_module_info->site_srl);
 				// Add is_site_admin bool variable into logged_info if site_administrator is
-				$oModuleModel = &getModel('module');
+				$oModuleModel = getModel('module');
 				if($oModuleModel->isSiteAdmin($logged_info)) $logged_info->is_site_admin = true;
 				else $logged_info->is_site_admin = false;
 			}
 			else
 			{
 				// Register a default group if the site doesn't have a member group
-				if(!count($logged_info->group_list))
+				if(count($logged_info->group_list) === 0)
 				{
 					$default_group = $this->getDefaultGroup(0);
-					$oMemberController = &getController('member');
+					$oMemberController = getController('member');
 					$oMemberController->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, 0);
 					$groups[$default_group->group_srl] = $default_group->title;
 					$logged_info->group_list = $groups;
@@ -245,6 +246,7 @@ class memberModel extends member
 	{
 		if(!$user_id) return;
 
+		$args = new stdClass;
 		$args->user_id = $user_id;
 		$output = executeQuery('member.getMemberInfo', $args);
 		if(!$output->toBool()) return $output;
@@ -263,8 +265,19 @@ class memberModel extends member
 		if(!$email_address) return;
 
 		$args = new stdClass();
-		$args->email_address = $email_address;
-		$output = executeQuery('member.getMemberInfoByEmailAddress', $args);
+		
+		$db_info = Context::getDBInfo ();
+		if($db_info->master_db['db_type'] == "cubrid")
+		{
+			$args->email_address = strtolower($email_address);
+			$output = executeQuery('member.getMemberInfoByEmailAddressForCubrid', $args);
+		}
+		else
+		{
+			$args->email_address = $email_address;
+			$output = executeQuery('member.getMemberInfoByEmailAddress', $args);
+		}
+		
 		if(!$output->toBool()) return $output;
 		if(!$output->data) return;
 
@@ -282,19 +295,27 @@ class memberModel extends member
 		//columnList size zero... get full member info
 		if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0)
 		{
-			$oCacheHandler = &CacheHandler::getInstance('object');
+			$GLOBALS['__member_info__'][$member_srl] = false;
+
+			$oCacheHandler = CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport())
 			{
-				$cache_key = 'object:'.$member_srl;
+				$columnList = array();
+				$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
+				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 				$GLOBALS['__member_info__'][$member_srl] = $oCacheHandler->get($cache_key);
 			}
 
-			if(!$GLOBALS['__member_info__'][$member_srl])
+			if($GLOBALS['__member_info__'][$member_srl] === false)
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$output = executeQuery('member.getMemberInfoByMemberSrl', $args, $columnList);
-				if(!$output->data) return;
+				if(!$output->data) 
+				{
+					if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, new stdClass);
+					return;
+				}
 				$this->arrangeMemberInfo($output->data, $site_srl);
 
 				//insert in cache
@@ -312,7 +333,7 @@ class memberModel extends member
 	{
 		if(!$GLOBALS['__member_info__'][$info->member_srl])
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('member');
 
 
@@ -332,7 +353,7 @@ class memberModel extends member
 			{
 				foreach($extra_vars as $key => $val)
 				{
-					if(!is_array($val)) if(preg_match('/\|\@\|/i', $val)) $val = explode('|@|', $val);
+					if(!is_array($val) && strpos($val, '|@|') !== FALSE) $val = explode('|@|', $val);
 					if(!$info->{$key}) $info->{$key} = $val;
 				}
 			}
@@ -439,29 +460,31 @@ class memberModel extends member
 	 */
 	function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false)
 	{
+		static $member_groups = array();
+
 		// cache controll
-		$oCacheHandler = &CacheHandler::getInstance('object');
+		$group_list = false;
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
-			$output = $oCacheHandler->get($cache_key);
+			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_'.$site_srl;
+			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
+			$group_list = $oCacheHandler->get($cache_key);
 		}
-		static $member_groups = array();
+
 		if(!$member_groups[$member_srl][$site_srl] || $force_reload)
 		{
-			if(!$output)
+			if($group_list === false)
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$args->site_srl = $site_srl;
-				$output = executeQuery('member.getMemberGroups', $args);
+				$output = executeQueryArray('member.getMemberGroups', $args);
+				$group_list = $output->data;
 				//insert in cache
-				if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+				if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $group_list);
 			}
-			if(!$output->data) return array();
-
-			$group_list = $output->data;
-			if(!is_array($group_list)) $group_list = array($group_list);
+			if(!$group_list) return array();
 
 			foreach($group_list as $group)
 			{
@@ -496,10 +519,29 @@ class memberModel extends member
 	 */
 	function getDefaultGroup($site_srl = 0, $columnList = array())
 	{
-		$args = new stdClass();
-		$args->site_srl = $site_srl;
-		$output = executeQuery('member.getDefaultGroup', $args, $columnList);
-		return $output->data;
+		$default_group = false;
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$columnList = array();
+			$object_key = 'default_group_' . $site_srl;
+			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
+			$default_group = $oCacheHandler->get($cache_key);
+		}
+
+		if($default_group === false)
+		{
+			$args = new stdClass();
+			$args->site_srl = $site_srl;
+			$output = executeQuery('member.getDefaultGroup', $args, $columnList);
+			$default_group = $output->data;
+			if($oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, $default_group);
+			}
+		}
+
+		return $default_group;
 	}
 
 	/**
@@ -516,6 +558,7 @@ class memberModel extends member
 	 */
 	function getGroup($group_srl, $columnList = array())
 	{
+		$args = new stdClass;
 		$args->group_srl = $group_srl;
 		$output = executeQuery('member.getGroup', $args, $columnList);
 		return $output->data;
@@ -534,17 +577,33 @@ class memberModel extends member
 			{
 				$site_srl = 0;
 			}
-			$args = new stdClass();
-			$args->site_srl = $site_srl;
-			$args->sort_index = 'list_order';
-			$args->order_type = 'asc';
-			$output = executeQueryArray('member.getGroups', $args);
-			if(!$output->toBool() || !$output->data)
+
+			$group_list = false;
+			$oCacheHandler = CacheHandler::getInstance('object', null, true);
+			if($oCacheHandler->isSupport())
+			{
+				$object_key = 'member_groups:site_'.$site_srl;
+				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
+				$group_list = $oCacheHandler->get($cache_key);
+			}
+
+			if($group_list === false)
+			{
+				$args = new stdClass();
+				$args->site_srl = $site_srl;
+				$args->sort_index = 'list_order';
+				$args->order_type = 'asc';
+				$output = executeQueryArray('member.getGroups', $args);
+				$group_list = $output->data;
+				//insert in cache
+				if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $group_list);
+			}
+
+			if(!$group_list)
 			{
 				return array();
 			}
 
-			$group_list = $output->data;
 
 			foreach($group_list as $val)
 			{
@@ -813,7 +872,7 @@ class memberModel extends member
 				if(file_exists($image_name_file))
 				{
 					list($width, $height, $type, $attrs) = getimagesize($image_name_file);
-					$info = null;
+					$info = new stdClass();
 					$info->width = $width;
 					$info->height = $height;
 					$info->src = Context::getRequestUri().$image_name_file;
@@ -838,6 +897,7 @@ class memberModel extends member
 			if(file_exists($image_name_file))
 			{
 				list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+				$info = new stdClass;
 				$info->width = $width;
 				$info->height = $height;
 				$info->src = Context::getRequestUri().$image_name_file;
@@ -880,7 +940,7 @@ class memberModel extends member
 	{
 		if(!isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl]))
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('member');
 			if($config->group_image_mark!='Y')
 			{
@@ -952,7 +1012,7 @@ class memberModel extends member
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$args->hashed_password = md5(sha1(md5($password_text)));
-				$oMemberController = &getController('member');
+				$oMemberController = getController('member');
 				$oMemberController->updateMemberPassword($args);
 			}
 			return true;
@@ -966,7 +1026,7 @@ class memberModel extends member
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$args->hashed_password = md5(sha1(md5($password_text)));
-				$oMemberController = &getController('member');
+				$oMemberController = getController('member');
 				$oMemberController->updateMemberPassword($args);
 			}
 			return true;
@@ -983,7 +1043,7 @@ class memberModel extends member
 					$args = new stdClass();
 					$args->member_srl = $member_srl;
 					$args->hashed_password = md5(sha1(md5($password_text)));
-					$oMemberController = &getController('member');
+					$oMemberController = getController('member');
 					$oMemberController->updateMemberPassword($args);
 				}
 				return true;
@@ -995,6 +1055,37 @@ class memberModel extends member
 		return false;
 	}
 
+	
+	function checkPasswordStrength($password, $strength)
+	{
+		$logged_info = Context::get('logged_info');
+		if($logged_info->is_admin == 'Y') return true;
+		
+		if($strength == NULL)
+		{
+			$config = $this->getMemberConfig();
+			$strength = $config->password_strength?$config->password_strength:'normal';
+		}
+		
+		$length = strlen($password);
+		
+		switch ($strength) {
+			case 'high':
+				if($length < 8 || !preg_match('/[^a-zA-Z0-9]/', $password)) return false;
+				/* no break */
+				
+			case 'normal':
+				if($length < 6 || !preg_match('/[a-zA-Z]/', $password) || !preg_match('/[0-9]/', $password)) return false;
+				break;
+				
+			case 'low':
+				if($length < 4) return false;
+				break; 
+		}
+		
+		return true;
+	}
+	
 	function getAdminGroupSrl($site_srl = 0)
 	{
 		$groupSrl = 0;

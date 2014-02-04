@@ -1,6 +1,6 @@
 /**
  * @file   modules/document/tpl/js/document_category.js
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief  document 모듈의 category tree javascript
  **/
 

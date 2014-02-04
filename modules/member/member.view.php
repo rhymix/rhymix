@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  memberView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief View class of member module
  */
 class memberView extends member
@@ -16,7 +17,7 @@ class memberView extends member
 	function init()
 	{
 		// Get the member configuration
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$this->member_config = $oMemberModel->getMemberConfig();
 		Context::set('member_config', $this->member_config);
 		$oSecurity = new Security();
@@ -45,7 +46,7 @@ class memberView extends member
 		// Template path
 		$this->setTemplatePath($template_path);
 
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($this->member_config->layout_srl);
 		if($layout_info)
 		{
@@ -59,7 +60,7 @@ class memberView extends member
 	 */
 	function dispMemberInfo()
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$logged_info = Context::get('logged_info');
 		// Don't display member info to non-logged user
 		if(!$logged_info->member_srl) return $this->stop('msg_not_permitted');
@@ -195,7 +196,7 @@ class memberView extends member
 
 		$member_config = $this->member_config;
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// Get the member information if logged-in
 		if($oMemberModel->isLogged()) return $this->stop('msg_already_logged');
 		// call a trigger (before) 
@@ -204,7 +205,7 @@ class memberView extends member
 		// Error appears if the member is not allowed to join
 		if($member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
 
-		$oMemberAdminView = &getAdminView('member');
+		$oMemberAdminView = getAdminView('member');
 		$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
 		Context::set('formTags', $formTags);
 
@@ -224,7 +225,7 @@ class memberView extends member
 	function dispMemberModifyInfoBefore()
 	{
 		$logged_info = Context::get('logged_info');
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		if(!$oMemberModel->isLogged() || empty($logged_info))
 		{
 			return $this->stop('msg_not_logged');
@@ -268,7 +269,7 @@ class memberView extends member
 
 		$member_config = $this->member_config;
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
@@ -286,7 +287,7 @@ class memberView extends member
 		// Editor of the module set for signing by calling getEditor
 		if($member_info->member_srl)
 		{
-			$oEditorModel = &getModel('editor');
+			$oEditorModel = getModel('editor');
 			$option = new stdClass();
 			$option->primary_key_name = 'member_srl';
 			$option->content_key_name = 'signature';
@@ -305,7 +306,7 @@ class memberView extends member
 
 		$this->member_info = $member_info;
 
-		$oMemberAdminView = &getAdminView('member');
+		$oMemberAdminView = getAdminView('member');
 		$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
 		Context::set('formTags', $formTags);
 
@@ -327,7 +328,7 @@ class memberView extends member
 	 */
 	function dispMemberOwnDocument()
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
@@ -339,7 +340,7 @@ class memberView extends member
 		Context::set('search_target','member_srl');
 		Context::set('search_keyword',$member_srl);
 
-		$oDocumentAdminView = &getAdminView('document');
+		$oDocumentAdminView = getAdminView('document');
 		$oDocumentAdminView->dispDocumentAdminList();
 
 		Context::set('module_srl', $module_srl);
@@ -351,7 +352,7 @@ class memberView extends member
 	 */
 	function dispMemberScrappedDocument()
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
@@ -375,7 +376,7 @@ class memberView extends member
 	 */
 	function dispMemberSavedDocument()
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 		// Get the saved document(module_srl is set to member_srl instead)
@@ -385,7 +386,7 @@ class memberView extends member
 		$args->page = (int)Context::get('page');
 		$args->statusList = array('TEMP');
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$output = $oDocumentModel->getDocumentList($args, true);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
@@ -410,12 +411,12 @@ class memberView extends member
 		}
 
 		// get member module configuration.
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $this->member_config;
 		Context::set('identifier', $config->identifier);
 
 		// Set a template file
-		Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER']));
+		Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER'], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 		$this->setTemplateFile('login_form');
 	}
 
@@ -424,7 +425,7 @@ class memberView extends member
 	 */
 	function dispMemberModifyPassword()
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
@@ -456,7 +457,7 @@ class memberView extends member
 	 */
 	function dispMemberLeave()
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
@@ -487,7 +488,7 @@ class memberView extends member
 	 */
 	function dispMemberLogout()
 	{
-		$oMemberController = &getController('member');
+		$oMemberController = getController('member');
 		$output = $oMemberController->procMemberLogout();
 		if(!$output->redirect_url)
 			$this->setRedirectUrl(getNotEncodedUrl('act', ''));
@@ -553,7 +554,7 @@ class memberView extends member
 
 		if($authMemberSrl)
 		{
-			$oMemberModel = &getModel('member');
+			$oMemberModel = getModel('member');
 			$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($authMemberSrl);
 
 			$_SESSION['auth_member_info'] = $memberInfo;
@@ -579,7 +580,7 @@ class memberView extends member
 	 */
 	function addExtraFormValidatorMessage()
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$extraList = $oMemberModel->getUsedJoinFormList();
 
 		$js_code = array();
@@ -610,6 +611,41 @@ class memberView extends member
 
 		Context::addHtmlHeader($js_code);
 	}
+
+	/**
+	 * Spammer manage popup
+	 * 
+	 * @return void
+	**/
+	function dispMemberSpammer()
+	{
+		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+
+		$member_srl = Context::get('member_srl');
+		$module_srl = Context::get('module_srl');
+
+		// check grant
+		$oModuleModel = getModel('module');
+		$columnList = array('module_srl', 'module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
+		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
+
+		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
+
+		$oMemberModel = getModel('member');
+
+		Context::loadLang('modules/document/lang/');
+		Context::set('spammer_info', $oMemberModel->getMemberInfoByMemberSrl($member_srl));
+		Context::set('module_srl', $module_srl);
+
+		// Select Pop-up layout
+		$this->setLayoutPath('./common/tpl');
+		$this->setLayoutFile('popup_layout');
+
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('spammer');
+	}
+	
 }
 /* End of file member.view.php */
 /* Location: ./modules/member/member.view.php */

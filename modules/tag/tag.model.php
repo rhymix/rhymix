@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  tagModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief tag model class of the module
  */
 class tagModel extends tag
@@ -21,13 +22,22 @@ class tagModel extends tag
 	{
 		if($obj->mid)
 		{
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
 			unset($obj->mid);
 		}
+
 		// Module_srl passed the array may be a check whether the array
-		if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
-		else $args->module_srl = $obj->module_srl;
+		$args = new stdClass;
+		if(is_array($obj->module_srl))
+		{
+			$args->module_srl = implode(',', $obj->module_srl);
+		}
+		else
+		{
+			$args->module_srl = $obj->module_srl;
+		}
+
 		$args->list_count = $obj->list_count;
 		$args->count = $obj->sort_index;
 
@@ -42,12 +52,18 @@ class tagModel extends tag
 	 */
 	function getDocumentSrlByTag($obj)
 	{
-		if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
-		else $args->module_srl = $obj->module_srl;
+		$args = new stdClass;
+		if(is_array($obj->module_srl))
+		{
+			$args->module_srl = implode(',', $obj->module_srl);
+		}
+		else
+		{
+			$args->module_srl = $obj->module_srl;
+		}
 
 		$args->tag = $obj->tag;
 		$output = executeQueryArray('tag.getDocumentSrlByTag', $args);
-		if(!$output->toBool()) return $output;
 
 		return $output;
 	}
@@ -57,8 +73,15 @@ class tagModel extends tag
 	 */
 	function getDocumentsTagList($obj)
 	{
-		if(is_array($obj->document_srl)) $args->document_srl = implode(',', $obj->document_srl);
-		else $args->document_srl = $obj->document_srl;
+		$args = new stdClass;
+		if(is_array($obj->document_srl))
+		{
+			$args->document_srl = implode(',', $obj->document_srl);
+		}
+		else
+		{
+			$args->document_srl = $obj->document_srl;
+		}
 
 		$output = executeQueryArray('tag.getDocumentsTagList', $args);
 		if(!$output->toBool()) return $output;
@@ -71,8 +94,15 @@ class tagModel extends tag
 	 */
 	function getTagWithUsedList($obj)
 	{
-		if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
-		else $args->module_srl = $obj->module_srl;
+		$args = new stdClass;
+		if(is_array($obj->module_srl))
+		{
+			$args->module_srl = implode(',', $obj->module_srl);
+		}
+		else
+		{
+			$args->module_srl = $obj->module_srl;
+		}
 
 		$args->tag = $obj->tag;
 		$output = $this->getDocumentSrlByTag($args);
@@ -83,8 +113,11 @@ class tagModel extends tag
 			foreach($output->data as $k => $v) $document_srl[] = $v->document_srl;
 		}
 		unset($args);
+
+		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		$output = $this->getDocumentsTagList($args);
+
 		return $output;
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
     class MssqlUpdateOnlineTest extends MssqlOnlineTest {
 
               function test_counter_updateCounterUnique(){

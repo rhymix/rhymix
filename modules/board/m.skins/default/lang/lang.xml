@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="skip_to_content">
+		<value xml:lang="ko"><![CDATA[본문 건너뛰기]]></value>
+		<value xml:lang="en"><![CDATA[Skip to content]]></value>
+	</item>
+</lang>

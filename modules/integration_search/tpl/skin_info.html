@@ -97,10 +97,10 @@
 				<label class="x_control-label" for="{$val->name}"|cond="$val->type!='text'&&$val->type!='textarea'" for="lang_{$val->name}"|cond="$val->type=='text'||$val->type=='textarea'">{$val->title}</label>
 				<div class="x_controls">
 					<!--// text -->
-					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="{htmlspecialchars($val->value)}" class="lang_code" />
+					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" class="lang_code" />
 
 					<!--// textarea -->
-					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="lang_code">{htmlspecialchars($val->value)}</textarea>
+					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="lang_code">{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
 
 					<!--// select -->
 					<select cond="$val->type == 'select'" name="{$val->name}" id="{$val->name}">

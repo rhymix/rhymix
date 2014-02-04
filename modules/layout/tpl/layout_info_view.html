@@ -77,12 +77,12 @@
 				<label class="x_control-label" for="{$name}"|cond="$var->type!='text'&&$var->type!='textarea'" for="lang_{$name}"|cond="$var->type=='text'||$var->type=='textarea'">{$var->title}</label>
 				<div class="x_controls">
 					<div cond="$var->type == 'text'">
-						<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" />
+						<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@else-->{$var->value}<!--@end-->" />
 					</div>
 
 					<div cond="$var->type == 'textarea'">
 						{@$use_multilang_textarea = true}
-						<textarea name="{$name}" rows="4" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end--></textarea>
+						<textarea name="{$name}" rows="4" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@else-->{$var->value}<!--@end--></textarea>
 					</div>
 
 					<block cond="$var->type == 'image'">
@@ -145,8 +145,8 @@
 				<label class="x_control-label" for="{$menu_name}">{$menu_info->title}({$menu_name})</label>
 				<div class="x_controls">
 					<select name="{$menu_name}" id="{$menu_name}">
-						<option value="0">{$lang->cmd_select}</option>
-						<option selected="selected"|cond="!$menu_info->menu_srl||$menu_info->menu_srl == -1" value="-1">{$lang->sitemap_with_homemenu}</option>
+						<option value="0" selected="selected"|cond="!$menu_info->menu_srl">{$lang->cmd_select}</option>
+						<option selected="selected"|cond="$menu_info->menu_srl == -1" value="-1">{$lang->sitemap_with_homemenu}</option>
 						<option loop="$menu_list => $key, $val" value="{$val->menu_srl}" selected="selected"|cond="$val->menu_srl == $menu_info->menu_srl">{$val->title}</option>
 					</select>
 				</div>
@@ -162,8 +162,8 @@
 
 	<div class="x_clearfix btnArea">
 		<span class="etc">
-			<a cond="$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout)}">{$lang->cmd_list}</a>
-			<a cond="!$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList')}">{$lang->cmd_list}</a>
+			<a cond="$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout, 'type', $type)}">{$lang->cmd_list}</a>
+			<a cond="!$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList', 'type', $type)}">{$lang->cmd_list}</a>
 		</span>
 		<span class="x_btn-group x_pull-right">
 			<input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" onclick="doSubmitConfig()"/>

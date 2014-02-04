@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  memberAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * member module of the admin controller class
  */
 class memberAdminController extends member
@@ -67,7 +68,7 @@ class memberAdminController extends member
 		if($args->member_srl)
 		{
 			// Create a member model object
-			$oMemberModel = &getModel('member');
+			$oMemberModel = getModel('member');
 			// Get memebr profile
 			$columnList = array('member_srl');
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl, 0, $columnList);
@@ -86,7 +87,7 @@ class memberAdminController extends member
 			}
 		}
 
-		$oMemberController = &getController('member');
+		$oMemberController = getController('member');
 		// Execute insert or update depending on the value of member_srl
 		if(!$args->member_srl)
 		{
@@ -139,7 +140,7 @@ class memberAdminController extends member
 		// Separate all the values into DB entries and others
 		$member_srl = Context::get('member_srl');
 
-		$oMemberController = &getController('member');
+		$oMemberController = getController('member');
 		$output = $oMemberController->deleteMember($member_srl);
 		if(!$output->toBool()) return $output;
 
@@ -154,7 +155,8 @@ class memberAdminController extends member
 			'enable_join',
 			'enable_confirm',
 			'webmaster_name',
-			'webmaster_email'
+			'webmaster_email',
+			'password_strength'
 		);
 
 		if((!$args->webmaster_name || !$args->webmaster_email) && $args->enable_confirm == 'Y')
@@ -261,6 +263,7 @@ class memberAdminController extends member
 				if($signupItem->isUse != ($extendItem->is_active == 'Y') || $signupItem->required != ($extendItem->required == 'Y'))
 				{
 					unset($update_args);
+					$update_args = new stdClass;
 					$update_args->member_join_form_srl = $extendItem->member_join_form_srl;
 					$update_args->is_active = $signupItem->isUse?'Y':'N';
 					$update_args->required = $signupItem->required?'Y':'N';
@@ -373,7 +376,7 @@ class memberAdminController extends member
 	function createSignupForm($identifier)
 	{
 		global $lang;
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 
 		// Get join form list which is additionally set
 		$extendItems = $oMemberModel->getJoinFormList();
@@ -387,6 +390,7 @@ class memberAdminController extends member
 		foreach($items as $key)
 		{
 			unset($signupItem);
+			$signupItem = new stdClass;
 			$signupItem->isDefaultForm = true;
 			$signupItem->name = $key;
 			$signupItem->title = $key;
@@ -414,6 +418,7 @@ class memberAdminController extends member
 			foreach($extendItems as $form_srl=>$item_info)
 			{
 				unset($signupItem);
+				$signupItem = new stdClass;
 				$signupItem->name = $item_info->column_name;
 				$signupItem->title = $item_info->column_title;
 				$signupItem->type = $item_info->column_type;
@@ -481,6 +486,10 @@ class memberAdminController extends member
 				else if($formInfo->name == 'user_id')
 				{
 					$fields[] = sprintf('<field name="%s" required="true" rule="userid" length="3:20" />', $formInfo->name);
+				}
+				else if($formInfo->name == 'nick_name')
+				{
+					$fields[] = sprintf('<field name="%s" required="true" length="2:20" />', $formInfo->name);
 				}
 				else if(strpos($formInfo->name, 'image') !== false)
 				{
@@ -627,7 +636,7 @@ class memberAdminController extends member
 	 * Add a join form
 	 * @return void|Object (void : success, Object : fail)
 	 */
-	function procMemberAdminInsertJoinForm() 
+	function procMemberAdminInsertJoinForm()
 	{
 		$args = new stdClass();
 		$args->member_join_form_srl = Context::get('member_join_form_srl');
@@ -651,9 +660,9 @@ class memberAdminController extends member
 		}
 
 		// Check ID duplicated
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-		foreach($config->signupForm as $item) 
+		foreach($config->signupForm as $item)
 		{
 			if($item->name == $args->column_name)
 			{
@@ -687,13 +696,13 @@ class memberAdminController extends member
 		$signupItem->description = $args->description;
 		$signupItem->isPublic = 'Y';
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 		unset($config->agreement);
 
 		if($isInsert)
 		{
-			$config->signupForm[] = $signupItem;	
+			$config->signupForm[] = $signupItem;
 		}
 		else
 		{
@@ -705,7 +714,7 @@ class memberAdminController extends member
 				}
 			}
 		}
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('member', $config);
 
 		$this->setMessage('success_registed');
@@ -723,7 +732,7 @@ class memberAdminController extends member
 		$member_join_form_srl = Context::get('member_join_form_srl');
 		$this->deleteJoinForm($member_join_form_srl);
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 		unset($config->agreement);
 
@@ -735,7 +744,7 @@ class memberAdminController extends member
 				break;
 			}
 		}
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('member', $config);
 	}
 
@@ -772,7 +781,7 @@ class memberAdminController extends member
 	}
 
 	/**
-	 * selected member manager layer in dispAdminList 
+	 * selected member manager layer in dispAdminList
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procMemberAdminSelectedMemberManage()
@@ -784,11 +793,11 @@ class memberAdminController extends member
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
-		$oMemberController = &getController('member');
+		$oMemberController = getController('member');
 		foreach($members as $key=>$member_srl)
 		{
 			$args = new stdClass();
-			$args->member_srl = $member_srl; 
+			$args->member_srl = $member_srl;
 			switch($var->type)
 			{
 				case 'modify':
@@ -818,12 +827,14 @@ class memberAdminController extends member
 						{
 							$args->denied = $var->denied;
 							$output = executeQuery('member.updateMemberDeniedInfo', $args);
+							$this->_clearMemberCache($args->member_srl);
 							if(!$output->toBool())
 							{
 								$oDB->rollback();
 								return $output;
 							}
 						}
+						$this->setMessage('success_updated');
 						break;
 					}
 				case 'delete':
@@ -835,6 +846,7 @@ class memberAdminController extends member
 							$oDB->rollback();
 							return $output;
 						}
+						$this->setMessage('success_deleted');
 					}
 			}
 		}
@@ -843,7 +855,7 @@ class memberAdminController extends member
 		// Send a message
 		if($message)
 		{
-			$oCommunicationController = &getController('communication');
+			$oCommunicationController = getController('communication');
 
 			$logged_info = Context::get('logged_info');
 			$title = cut_str($message,10,'...');
@@ -868,7 +880,7 @@ class memberAdminController extends member
 		$target_member_srls = Context::get('target_member_srls');
 		if(!$target_member_srls) return new Object(-1, 'msg_invalid_request');
 		$member_srls = explode(',', $target_member_srls);
-		$oMemberController = &getController('member');
+		$oMemberController = getController('member');
 
 		foreach($member_srls as $member)
 		{
@@ -900,6 +912,7 @@ class memberAdminController extends member
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// Delete a group of selected members
+		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('member.deleteMembersGroup', $args);
 		if(!$output->toBool())
@@ -919,7 +932,7 @@ class memberAdminController extends member
 				$member_srl = (int)trim($member_srls[$i]);
 				if(!$member_srl) continue;
 
-				$args = null;
+				$args = new stdClass;
 				$args->member_srl = $member_srl;
 				$args->group_srl = $group_srl;
 
@@ -932,6 +945,9 @@ class memberAdminController extends member
 			}
 		}
 		$oDB->commit();
+
+		$this->_deleteMemberGroupCache();
+
 		$this->setMessage('success_updated');
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
@@ -960,6 +976,9 @@ class memberAdminController extends member
 
 		foreach($user_ids as $val)
 		{
+			$val = trim($val);
+			if(!$val) continue;
+
 			$output = $this->insertDeniedID($val, '');
 			if($output->toBool()) $success_ids[] = $val;
 		}
@@ -998,6 +1017,9 @@ class memberAdminController extends member
 
 			foreach($nick_names as $val)
 			{
+				$val = trim($val);
+				if(!$val) continue;
+
 				$output = $this->insertDeniedNickName($val, '');
 				if($output->toBool()) $success_nick_names[] = $val;
 			}
@@ -1038,11 +1060,11 @@ class memberAdminController extends member
 		// Assign an administrator
 		$args->is_admin = 'Y';
 		// Get admin group and set
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$admin_group = $oMemberModel->getAdminGroup();
 		$args->group_srl_list = $admin_group->group_srl;
 
-		$oMemberController = &getController('member');
+		$oMemberController = getController('member');
 		return $oMemberController->insertMember($args);
 	}
 
@@ -1054,10 +1076,14 @@ class memberAdminController extends member
 	 */
 	function changeGroup($source_group_srl, $target_group_srl)
 	{
+		$args = new stdClass;
 		$args->source_group_srl = $source_group_srl;
 		$args->target_group_srl = $target_group_srl;
 
-		return executeQuery('member.changeGroup', $args);
+		$output = executeQuery('member.changeGroup', $args);
+		$this->_deleteMemberGroupCache($site_srl);
+
+		return $output;
 	}
 
 	/**
@@ -1068,8 +1094,8 @@ class memberAdminController extends member
 	function insertGroup($args)
 	{
 		if(!$args->site_srl) $args->site_srl = 0;
-		// Check the value of is_default. 
-		if($args->is_default!='Y')
+		// Check the value of is_default.
+		if($args->is_default != 'Y')
 		{
 			$args->is_default = 'N';
 		}
@@ -1080,7 +1106,10 @@ class memberAdminController extends member
 		}
 
 		if(!$args->group_srl) $args->group_srl = getNextSequence();
-		return executeQuery('member.insertGroup', $args);
+		$output = executeQuery('member.insertGroup', $args);
+		$this->_deleteMemberGroupCache($args->site_srl);
+
+		return $output;
 	}
 
 	/**
@@ -1090,7 +1119,8 @@ class memberAdminController extends member
 	 */
 	function updateGroup($args)
 	{
-		// Check the value of is_default. 
+		if(!$args->site_srl) $args->site_srl = 0;
+		// Check the value of is_default.
 		if(!$args->group_srl) return new Object(-1, 'lang->msg_not_founded');
 		if($args->is_default!='Y')
 		{
@@ -1102,7 +1132,9 @@ class memberAdminController extends member
 			if(!$output->toBool()) return $output;
 		}
 
-		return executeQuery('member.updateGroup', $args);
+		$output = executeQuery('member.updateGroup', $args);
+		$this->_deleteMemberGroupCache($args->site_srl);
+		return $output;
 	}
 
 	/**
@@ -1114,22 +1146,28 @@ class memberAdminController extends member
 	function deleteGroup($group_srl, $site_srl = 0)
 	{
 		// Create a member model object
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
+
 		// Check the group_srl (If is_default == 'Y', it cannot be deleted)
 		$columnList = array('group_srl', 'is_default');
 		$group_info = $oMemberModel->getGroup($group_srl, $columnList);
 
 		if(!$group_info) return new Object(-1, 'lang->msg_not_founded');
 		if($group_info->is_default == 'Y') return new Object(-1, 'msg_not_delete_default');
+
 		// Get groups where is_default == 'Y'
 		$columnList = array('site_srl', 'group_srl');
 		$default_group = $oMemberModel->getDefaultGroup($site_srl, $columnList);
 		$default_group_srl = $default_group->group_srl;
+
 		// Change to default_group_srl
 		$this->changeGroup($group_srl, $default_group_srl);
 
+		$args = new stdClass;
 		$args->group_srl = $group_srl;
-		return executeQuery('member.deleteGroup', $args);
+		$output = executeQuery('member.deleteGroup', $args);
+		$this->_deleteMemberGroupCache($site_srl);
+		return $output;
 	}
 
 	/**
@@ -1138,10 +1176,10 @@ class memberAdminController extends member
 	 */
 	public function procMemberAdminGroupConfig()
 	{
-		$vars = Context::getRequestVars();	
+		$vars = Context::getRequestVars();
 
-		$oMemberModel = &getModel('member');
-		$oModuleController = &getController('module');
+		$oMemberModel = getModel('member');
+		$oModuleController = getController('module');
 
 		// group image mark option
 		$config = $oMemberModel->getMemberConfig();
@@ -1200,12 +1238,29 @@ class memberAdminController extends member
 
 		foreach($vars->group_srls as $key => $val)
 		{
+			$args = new stdClass;
 			$args->group_srl = $val;
 			$args->list_order = $key + 1;
 			executeQuery('member.updateMemberGroupListOrder', $args);
 		}
 
+		$this->_deleteMemberGroupCache($vars->site_srl);
+
 		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList'));
+	}
+
+	/**
+	 * Delete cached group data
+	 * @return void
+	*/
+	function _deleteMemberGroupCache($site_srl = 0)
+	{
+		//remove from cache
+		$oCacheHandler = CacheHandler::getInstance('object', null, true);
+		if($oCacheHandler->isSupport())
+		{
+			$oCacheHandler->invalidateGroupKey('member');
+		}
 	}
 
 	/**
@@ -1240,6 +1295,9 @@ class memberAdminController extends member
 	 */
 	function deleteDeniedID($user_id)
 	{
+		if(!$user_id) unset($user_id);
+
+		$args = new stdClass;
 		$args->user_id = $user_id;
 		return executeQuery('member.deleteDeniedID', $args);
 	}
@@ -1251,6 +1309,9 @@ class memberAdminController extends member
 	 */
 	function deleteDeniedNickName($nick_name)
 	{
+		if(!$nick_name) unset($nick_name);
+
+		$args = new stdClass;
 		$args->nick_name = $nick_name;
 		return executeQuery('member.deleteDeniedNickName', $args);
 	}
@@ -1276,8 +1337,9 @@ class memberAdminController extends member
 	 */
 	function moveJoinFormUp($member_join_form_srl)
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// Get information of the join form
+		$args = new stdClass;
 		$args->member_join_form_srl = $member_join_form_srl;
 		$output = executeQuery('member.getJoinForm', $args);
 
@@ -1297,9 +1359,11 @@ class memberAdminController extends member
 		// Return if no previous join form exists
 		if(!$prev_member_join_form) return new Object();
 		// Information of the join form
+		$cur_args = new stdClass;
 		$cur_args->member_join_form_srl = $member_join_form_srl;
 		$cur_args->list_order = $prev_member_join_form->list_order;
 		// Information of the target join form
+		$prev_args = new stdClass;
 		$prev_args->member_join_form_srl = $prev_member_join_form->member_join_form_srl;
 		$prev_args->list_order = $list_order;
 		// Execute Query
@@ -1320,8 +1384,9 @@ class memberAdminController extends member
 	 */
 	function moveJoinFormDown($member_join_form_srl)
 	{
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// Get information of the join form
+		$args = new stdClass;
 		$args->member_join_form_srl = $member_join_form_srl;
 		$output = executeQuery('member.getJoinForm', $args);
 
@@ -1342,9 +1407,11 @@ class memberAdminController extends member
 		if(!$next_member_join_form_srl) return new Object();
 		$next_member_join_form = $join_form_list[$next_member_join_form_srl];
 		// Information of the join form
+		$cur_args = new stdClass;
 		$cur_args->member_join_form_srl = $member_join_form_srl;
 		$cur_args->list_order = $next_member_join_form->list_order;
 		// Information of the target join form
+		$next_args = new stdClass;
 		$next_args->member_join_form_srl = $next_member_join_form->member_join_form_srl;
 		$next_args->list_order = $list_order;
 		// Execute Query

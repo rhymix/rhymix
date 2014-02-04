@@ -160,3 +160,4 @@ function doDeleteSavedDocument(document_srl, confirm_message) {
 function insertSelectedModule(id, module_srl, mid, browser_title) {
     location.href = current_url.setQuery('selected_module_srl',module_srl);
 }
+

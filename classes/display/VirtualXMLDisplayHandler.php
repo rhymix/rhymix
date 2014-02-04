@@ -1,8 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class VirtualXMLDisplayHandler
 {
-
 	/**
 	 * Produce virtualXML compliant content given a module object.\n
 	 * @param ModuleObject $oModule the module object
@@ -15,7 +15,9 @@ class VirtualXMLDisplayHandler
 		$redirect_url = $oModule->get('redirect_url');
 		$request_uri = Context::get('xeRequestURI');
 		$request_url = Context::get('xeVirtualRequestUrl');
-		if(substr($request_url, -1) != '/')
+		$output = new stdClass;
+
+		if(substr_compare($request_url, '/', -1) !== 0)
 		{
 			$request_url .= '/';
 		}
@@ -26,6 +28,7 @@ class VirtualXMLDisplayHandler
 			{
 				$output->message = $message;
 			}
+
 			if($redirect_url)
 			{
 				$output->url = $redirect_url;
@@ -43,19 +46,24 @@ class VirtualXMLDisplayHandler
 			}
 		}
 
-		$html = '<script>' . "\n";
+		$html = array();
+		$html[] = '<script type="text/javascript">';
+		$html[] = '//<![CDATA[';
 
 		if($output->message)
 		{
-			$html .= 'alert("' . $output->message . '");' . "\n";
+			$html[] = 'alert("' . $output->message . '");';
 		}
+
 		if($output->url)
 		{
 			$url = preg_replace('/#(.+)$/i', '', $output->url);
-			$html .= 'self.location.href = "' . $request_url . 'common/tpl/redirect.html?redirect_url=' . urlencode($url) . '";' . "\n";
+			$html[] = 'self.location.href = "' . $request_url . 'common/tpl/redirect.html?redirect_url=' . urlencode($url) . '";';
 		}
-		$html .= '</script>' . "\n";
-		return $html;
+		$html[] = '//]]>';
+		$html[] = '</script>';
+
+		return join(PHP_EOL, $html);
 	}
 
 }

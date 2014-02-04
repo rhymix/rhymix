@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  tag
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief high class of the tag module
  */
 class tag extends ModuleObject
@@ -11,7 +12,7 @@ class tag extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oDB = &DB::getInstance();
 
 		$oDB->addIndex("tags","idx_tag", array("document_srl","tag"));
@@ -32,7 +33,7 @@ class tag extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$oDB = &DB::getInstance();
 		// 2007. 10. 17 trigger registration, if registered upset
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'tag', 'controller', 'triggerArrangeTag', 'before')) return true;
@@ -53,8 +54,8 @@ class tag extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 		$oDB = &DB::getInstance();
 		// 2007. 10. 17 document.insertDocument, updateDocument, deleteDocument trigger property for
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'tag', 'controller', 'triggerArrangeTag', 'before')) 

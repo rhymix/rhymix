@@ -4,7 +4,7 @@
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminInsertDefaultConfig" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', $act)}" />
-	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/default_config/1" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
 	<div class="x_control-group">
 		<div class="x_control-label">{$lang->enable_join}</div>
 		<div class="x_controls">
@@ -18,6 +18,15 @@
 			<label class="x_inline" for="enable_confirm_yes"><input type="radio" name="enable_confirm" id="enable_confirm_yes" value="Y" checked="checked"|cond="$config->enable_confirm == 'Y'" /> {$lang->cmd_yes}</label>
 			<label class="x_inline" for="enable_confirm_no"><input type="radio" name="enable_confirm" id="enable_confirm_no" value="N" checked="checked"|cond="$config->enable_confirm != 'Y'"/> {$lang->cmd_no}</label>
 			<p class="x_help-block">{$lang->about_enable_confirm}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<div class="x_control-label">{$lang->cmd_config_password_strength}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="password_strength1"><input type="radio" name="password_strength" id="password_strength1" value="low" checked="checked"|cond="$config->password_strength == 'low'" /> {$lang->password_strength_low}({$lang->about_password_strength['low']})</label><br>
+			<label class="x_inline" for="password_strength2"><input type="radio" name="password_strength" id="password_strength2" value="normal" checked="checked"|cond="!$config->password_strength || $config->password_strength == 'normal'"/> {$lang->password_strength_normal}({$lang->about_password_strength['normal']})</label><br>
+			<label class="x_inline" for="password_strength3"><input type="radio" name="password_strength" id="password_strength3" value="high" checked="checked"|cond="$config->password_strength == 'high'"/> {$lang->password_strength_high}({$lang->about_password_strength['high']})</label><br>
+			<p class="x_help-block">{$lang->about_password_strength_config}</p>
 		</div>
 	</div>
 	<div class="x_control-group">

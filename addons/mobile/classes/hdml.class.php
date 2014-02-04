@@ -1,7 +1,7 @@
 <?php
 /**
  * HDML Library ver 0.1
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class wap extends mobileXE {
 

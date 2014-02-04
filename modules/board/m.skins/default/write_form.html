@@ -1,0 +1,87 @@
+{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/x.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+<!--%import("js/mboard.js")-->
+<!--%import("css/mboard.css")-->
+<div class="bd">
+	<div class="hx h2">
+		<h2><a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->browser_title}</a></h2>
+	</div>
+	<div class="hx h3">
+		<h3>{$lang->cmd_write}</h3>
+	</div>
+	<form action="./" method="post" class="ff" onsubmit="return procFilter(this, insert)">
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="document_srl" value="{$document_srl}" />
+		<ul>
+			<!--@if($module_info->use_category == "Y")-->
+			<li>
+				<label for="nCategory">{$lang->category}</label>
+				<select name="category_srl" id="nCategory">
+					<!--@foreach($category_list as $val)-->	
+					<option <!--@if(!$val->grant)-->disabled="disabled"<!--@endif--> value="{$val->category_srl}" <!--@if($val->grant&&$val->selected||$val->category_srl==$oDocument->get('category_srl'))-->selected="selected"<!--@endif-->>
+					{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} ({$val->document_count})
+					</option>
+					<!--@end-->
+				</select>
+			</li>
+			<!--@end-->
+			<li>
+				<label for="nTitle">{$lang->title}</label>
+				<input name="title" type="text" id="nTitle" />
+			</li>
+			<!--@if(count($extra_keys))-->
+			<!--@foreach($extra_keys as $key=> $val)-->
+			<li class="exvar">
+				<label for="ex_{$val->name}">{$val->name} <!--@if($val->is_required=="Y")-->*<!--@end--></label>
+				{$val->getFormHTML()}
+			</li>
+			<!--@endforeach-->
+			<!--@end-->
+			<li>
+				<label for="nText">{$lang->content}</label>
+				<textarea name="content" rows="8" cols="42" id="nText"></textarea>
+			</li>
+			<!--@if(!$is_logged)-->
+			<li>
+				<label for="uName">{$lang->writer}</label>
+				<input name="nick_name" type="text" id="uName" />
+			</li>
+			<li>
+				<label for="uMail">{$lang->email_address}</label>
+				<input name="email_address" type="email" id="uMail" />
+			</li>
+			<li>
+				<label for="uPw">{$lang->password}</label>
+				<input name="password" type="password" id="uPw" />
+			</li>
+			<li>
+				<label for="uSite">{$lang->homepage}</label>
+				<input name="homepage" type="url" id="uSite" value="" />
+			</li>
+			<!--@endif-->
+			<li>
+				<input type="checkbox" name="comment_status" value="ALLOW" <!--@if($oDocument->allowComment())-->checked="checked"<!--@end--> id="reAllow" />
+				<label for="reAllow">{$lang->allow_comment}</label>
+				<input type="checkbox" name="allow_trackback" value="Y" <!--@if($oDocument->allowTrackback())-->checked="checked"<!--@end--> id="trAllow" />
+				<label for="trAllow">{$lang->allow_trackback}</label>
+
+				<!--@if(is_array($status_list))-->
+				<div>
+					{$lang->status}
+					<!--@foreach($status_list AS $key=>$value)-->
+					<input type="radio" name="status" value="{$key}" <!--@if($oDocument->get('status') == $key)-->checked<!--@end--> /> {$value}
+					<!--@end-->
+				</div>
+				<!--@end-->
+
+			</li>
+		</ul>
+		<div class="bna">
+			<button type="submit" class="bn dark">{$lang->cmd_registration}</button>
+		</div>
+</form>
+</div>

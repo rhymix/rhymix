@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  pollModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The model class for the poll modules
  */
 class pollModel extends poll
@@ -18,6 +19,7 @@ class pollModel extends poll
 	 */
 	function isPolled($poll_srl)
 	{
+		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
 
 		if(Context::get('is_logged'))
@@ -40,12 +42,14 @@ class pollModel extends poll
 	 */
 	function getPollHtml($poll_srl, $style = '', $skin = 'default')
 	{
+		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
 		// Get the information related to the survey
 		$columnList = array('poll_count', 'stop_date');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
 		if(!$output->data) return '';
 
+		$poll = new stdClass;
 		$poll->style = $style;
 		$poll->poll_count = (int)$output->data->poll_count;
 		$poll->stop_date = $output->data->stop_date;
@@ -54,8 +58,11 @@ class pollModel extends poll
 		$output = executeQuery('poll.getPollTitle', $args, $columnList);
 		if(!$output->data) return;
 		if(!is_array($output->data)) $output->data = array($output->data);
+
+		$poll->poll = array();
 		foreach($output->data as $key => $val)
 		{
+			$poll->poll[$val->poll_index_srl] = new stdClass;
 			$poll->poll[$val->poll_index_srl]->title = $val->title;
 			$poll->poll[$val->poll_index_srl]->checkcount = $val->checkcount;
 			$poll->poll[$val->poll_index_srl]->poll_count = $val->poll_count;
@@ -93,11 +100,13 @@ class pollModel extends poll
 	 */
 	function getPollResultHtml($poll_srl, $skin = 'default')
 	{
+		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
 		// Get the information related to the survey
 		$output = executeQuery('poll.getPoll', $args);
 		if(!$output->data) return '';
 
+		$poll = new stdClass;
 		$poll->style = $style;
 		$poll->poll_count = (int)$output->data->poll_count;
 		$poll->stop_date = $output->data->stop_date;
@@ -106,8 +115,11 @@ class pollModel extends poll
 		$output = executeQuery('poll.getPollTitle', $args, $columnList);
 		if(!$output->data) return;
 		if(!is_array($output->data)) $output->data = array($output->data);
+
+		$poll->poll = array();
 		foreach($output->data as $key => $val)
 		{
+			$poll->poll[$val->poll_index_srl] = new stdClass;
 			$poll->poll[$val->poll_index_srl]->title = $val->title;
 			$poll->poll[$val->poll_index_srl]->checkcount = $val->checkcount;
 			$poll->poll[$val->poll_index_srl]->poll_count = $val->poll_count;
@@ -137,7 +149,7 @@ class pollModel extends poll
 	{
 		$skin = Context::get('skin');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
 
 		for($i=0;$i<count($skin_info->colorset);$i++)

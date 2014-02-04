@@ -16,10 +16,10 @@
     <!--@foreach($output->data as $no => $trackback)-->
         <li>
             <dl>
-                <dt><a href="{getUrl('','document_srl',$trackback->document_srl)}" onclick="window.open(this.href);return false;">{htmlspecialchars($trackback->title)}</a> </span></dt>
-                <dd>{cut_str(htmlspecialchars($trackback->excerpt))}</dd>
+                <dt><a href="{getUrl('','document_srl',$trackback->document_srl)}" onclick="window.open(this.href);return false;">{htmlspecialchars($trackback->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a> </span></dt>
+                <dd>{cut_str(htmlspecialchars($trackback->excerpt, ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</dd>
             </dl>
-            <address><strong><a href="{$trackback->url}">{htmlspecialchars($trackback->blog_name)}</a></strong> | <span class="time">{zdate($trackback->regdate, "Y-m-d H:i")}</span> </address>
+            <address><strong><a href="{$trackback->url}">{htmlspecialchars($trackback->blog_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a></strong> | <span class="time">{zdate($trackback->regdate, "Y-m-d H:i")}</span> </address>
 
         </li>
     <!--@end-->

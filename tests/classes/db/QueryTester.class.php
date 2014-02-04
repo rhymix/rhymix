@@ -1,4 +1,5 @@
 <?php 
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 // Only supports queries inside modules for now
 
@@ -42,7 +43,7 @@
 			if(is_object($output)) {
 				var_dump($output); return;
 			}
-			$output = htmlspecialchars($output);
+			$output = htmlspecialchars($output, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			
 			$output = preg_replace('/select/i', 'SELECT', $output);
 			$output = preg_replace('/from/i', '<br/>FROM', $output);

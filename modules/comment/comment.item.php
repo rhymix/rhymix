@@ -1,10 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * commentItem class
  * comment Object
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/comment
  * @version 0.1
  */
@@ -228,7 +229,7 @@ class commentItem extends Object
 			return $this->get('ipaddress');
 		}
 
-		return preg_replace('/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/', '*.$2.$3.$4', $this->get('ipaddress'));
+		return '*' . strstr($this->get('ipaddress'), '.');
 	}
 
 	function isExistsHomepage()
@@ -249,12 +250,12 @@ class commentItem extends Object
 			return;
 		}
 
-		if(!preg_match("/^http:\/\//i", $url))
+		if(strncasecmp('http://', $url, 7) !== 0)
 		{
 			$url = "http://" . $url;
 		}
 
-		return htmlspecialchars($url);
+		return htmlspecialchars($url, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	function getMemberSrl()
@@ -264,17 +265,17 @@ class commentItem extends Object
 
 	function getUserID()
 	{
-		return htmlspecialchars($this->get('user_id'));
+		return htmlspecialchars($this->get('user_id'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	function getUserName()
 	{
-		return htmlspecialchars($this->get('user_name'));
+		return htmlspecialchars($this->get('user_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	function getNickName()
 	{
-		return htmlspecialchars($this->get('nick_name'));
+		return htmlspecialchars($this->get('nick_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	/**
@@ -295,7 +296,7 @@ class commentItem extends Object
 			return cut_str(strip_tags($content), $strlen, '...');
 		}
 
-		return htmlspecialchars($content);
+		return htmlspecialchars($content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
 	/**
@@ -561,7 +562,7 @@ class commentItem extends Object
 		}
 
 		// Define thumbnail information
-		$thumbnail_path = sprintf('files/cache/thumbnails/%s', getNumberingPath($this->comment_srl, 3));
+		$thumbnail_path = sprintf('files/thumbnails/%s', getNumberingPath($this->comment_srl, 3));
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_url = Context::getRequestUri() . $thumbnail_file;
 
@@ -638,10 +639,7 @@ class commentItem extends Object
 
 					$tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111, 999999) . $this->comment_srl));
 
-					if(!is_dir('./files/cache/tmp'))
-					{
-						FileHandler::makeDir('./files/cache/tmp');
-					}
+					FileHandler::makeDir('./files/cache/tmp');
 
 					FileHandler::getRemoteFile($target_src, $tmp_file);
 

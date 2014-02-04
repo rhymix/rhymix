@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  moduleView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief view class of the module module
  */
 class moduleView extends module
@@ -29,7 +30,7 @@ class moduleView extends module
 		$skin_info_xml = sprintf("%sskins/%s/skin.xml", $module_path, $skin);
 		if(!file_exists($skin_info_xml)) $this->stop("msg_invalid_request");
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);
 		Context::set('skin_info',$skin_info);
 
@@ -44,7 +45,7 @@ class moduleView extends module
 	{
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_permitted');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// Extract the number of virtual sites
 		$output = executeQuery('module.getSiteCount');
 		$site_count = $output->data->count;
@@ -147,7 +148,7 @@ class moduleView extends module
 				//]]></script>',$input_name);
 		Context::addHtmlHeader($addscript);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleFileBoxList();
 		Context::set('filebox_list', $output->data);
 

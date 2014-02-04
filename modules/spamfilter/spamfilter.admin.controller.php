@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  spamfilterAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief The admin controller class of the spamfilter module
  */
 class spamfilterAdminController extends spamfilter
@@ -22,7 +23,7 @@ class spamfilterAdminController extends spamfilter
 		if($argsConfig->check_trackback!='Y') $argsConfig->check_trackback = 'N';
 		if($argsConfig->limits!='Y') $argsConfig->limits = 'N';
 		// Create and insert the module Controller object
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter',$argsConfig);
 		if(!$moduleConfigOutput->toBool()) return $moduleConfigOutput;
 
@@ -34,7 +35,7 @@ class spamfilterAdminController extends spamfilter
 	{
 		//스팸IP  추가
 		$ipaddress_list = Context::get('ipaddress_list');
-		$oSpamfilterController = &getController('spamfilter');
+		$oSpamfilterController = getController('spamfilter');
 		if($ipaddress_list)
 		{
 			$output = $oSpamfilterController->insertIP($ipaddress_list);
@@ -102,6 +103,7 @@ class spamfilterAdminController extends spamfilter
 	{
 		if(!$ipaddress) return;
 
+		$args = new stdClass;
 		$args->ipaddress = $ipaddress;
 		return executeQuery('spamfilter.deleteDeniedIP', $args);
 	}
@@ -112,6 +114,7 @@ class spamfilterAdminController extends spamfilter
 	 */
 	function insertWord($word_list)
 	{
+
 		$word_list = str_replace("\r","",$word_list);
 		$word_list = explode("\n",$word_list);
 
@@ -126,6 +129,7 @@ class spamfilterAdminController extends spamfilter
 		$fail_word = '';
 		foreach($word_list as $word)
 		{
+			$args = new stdClass;
 			if(trim($word)) $args->word = $word;
 			$output = executeQuery('spamfilter.insertDeniedWord', $args);
 			if(!$output->toBool()) $fail_word .= $word.'<br />';
@@ -141,6 +145,7 @@ class spamfilterAdminController extends spamfilter
 	function deleteWord($word)
 	{
 		if(!$word) return;
+		$args = new stdClass;
 		$args->word = $word;
 		return executeQuery('spamfilter.deleteDeniedWord', $args);
 	}

@@ -1,4 +1,4 @@
-<load target="js/page_admin.js" usecdn="true" />
+<load target="js/page_admin.js" />
 <include target="header.html" />
 
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/module/tpl/manage_selected'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -19,7 +19,7 @@
 	<select name="module_category_srl" title="{$lang->module_category}" cond="$module_category" style="margin-right:4px">
 		<option loop="$module_category => $key,$val" value="{$key}" selected="selected"|cond="$module_category_srl==$key">{$val->title}</option>
 	</select>
-	<input type="search" name="search_keyword" title="Search" value="{htmlspecialchars($search_keyword)}" required style="width:150px" />
+	<input type="search" name="search_keyword" title="Search" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" required style="width:150px" />
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 </form>

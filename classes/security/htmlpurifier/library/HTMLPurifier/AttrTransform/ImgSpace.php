@@ -14,7 +14,7 @@ class HTMLPurifier_AttrTransform_ImgSpace extends HTMLPurifier_AttrTransform {
     public function __construct($attr) {
         $this->attr = $attr;
         if (!isset($this->css[$attr])) {
-            trigger_error(htmlspecialchars($attr) . ' is not valid space attribute');
+            trigger_error(htmlspecialchars($attr, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . ' is not valid space attribute');
         }
     }
 

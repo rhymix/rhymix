@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 define('__XE__', 1);
 define('_XE_PATH_', realpath(dirname(__FILE__).'/../'));

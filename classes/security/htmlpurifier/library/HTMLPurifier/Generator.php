@@ -246,7 +246,7 @@ class HTMLPurifier_Generator
         // Workaround for APC bug on Mac Leopard reported by sidepodcast
         // http://htmlpurifier.org/phorum/read.php?3,4823,4846
         if ($quote === null) $quote = ENT_COMPAT;
-        return htmlspecialchars($string, $quote, 'UTF-8');
+        return htmlspecialchars($string, $quote, 'UTF-8', false);
     }
 
 }

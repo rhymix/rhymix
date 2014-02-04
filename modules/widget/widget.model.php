@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  widgetModel
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @version 0.1
  * @brief Model class for widget modules
  */
@@ -52,7 +53,7 @@ class widgetModel extends widget
 	 */
 	function getDownloadedWidgetList()
 	{
-		$oAutoinstallModel = &getModel('autoinstall');
+		$oAutoinstallModel = getModel('autoinstall');
 
 		// 've Downloaded the widget and the widget's list of installed Wanted
 		$searched_list = FileHandler::readDir('./widgets');
@@ -128,7 +129,7 @@ class widgetModel extends widget
 		$xml_file = sprintf("%sconf/info.xml", $widget_path);
 		if(!file_exists($xml_file)) return;
 		// If the problem by comparing the cache file and include the return variable $widget_info
-		$cache_file = sprintf('./files/cache/widget/%s.%s.cache.php', $widget, Context::getLangType());
+		$cache_file = sprintf(_XE_PATH_ . 'files/cache/widget/%s.%s.cache.php', $widget, Context::getLangType());
 
 		if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file))
 		{
@@ -168,44 +169,6 @@ class widgetModel extends widget
 				$buff .= sprintf('$widget_info->author['.$i.']->name = "%s";', $author_list[$i]->name->body);
 				$buff .= sprintf('$widget_info->author['.$i.']->email_address = "%s";', $author_list[$i]->attrs->email_address);
 				$buff .= sprintf('$widget_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
-			}
-
-			// history
-			if($xml_obj->history)
-			{
-				if(!is_array($xml_obj->history)) $history_list[] = $xml_obj->history;
-				else $history_list = $xml_obj->history;
-
-				for($i=0; $i < count($history_list); $i++)
-				{
-					sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-					$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-					$buff .= sprintf('$widget_info->history['.$i.']->description = "%s";', $history_list[$i]->description->body);
-					$buff .= sprintf('$widget_info->history['.$i.']->version = "%s";', $history_list[$i]->attrs->version);
-					$buff .= sprintf('$widget_info->history['.$i.']->date = "%s";', $date);
-
-					if($history_list[$i]->author)
-					{
-						(!is_array($history_list[$i]->author)) ? $obj->author_list[] = $history_list[$i]->author : $obj->author_list = $history_list[$i]->author;
-
-						for($j=0; $j < count($obj->author_list); $j++)
-						{
-							$buff .= sprintf('$widget_info->history['.$i.']->author['.$j.']->name = "%s";', $obj->author_list[$j]->name->body);
-							$buff .= sprintf('$widget_info->history['.$i.']->author['.$j.']->email_address = "%s";', $obj->author_list[$j]->attrs->email_address);
-							$buff .= sprintf('$widget_info->history['.$i.']->author['.$j.']->homepage = "%s";', $obj->author_list[$j]->attrs->link);
-						}
-					}
-
-					if($history_list[$i]->log)
-					{
-						(!is_array($history_list[$i]->log)) ? $obj->log_list[] = $history_list[$i]->log : $obj->log_list = $history_list[$i]->log;
-
-						for($j=0; $j < count($obj->log_list); $j++) {
-							$buff .= sprintf('$widget_info->history['.$i.']->logs['.$j.']->text = "%s";', $obj->log_list[$j]->body);
-							$buff .= sprintf('$widget_info->history['.$i.']->logs['.$j.']->link = "%s";', $obj->log_list[$j]->attrs->link);
-						}
-					}
-				}
 			}
 		}
 		else
@@ -299,7 +262,7 @@ class widgetModel extends widget
 		$xml_file = sprintf("%sskin.xml", $widgetStyle_path);
 		if(!file_exists($xml_file)) return;
 		// If the problem by comparing the cache file and include the return variable $widgetStyle_info
-		$cache_file = sprintf('./files/cache/widgetstyles/%s.%s.cache.php', $widgetStyle, Context::getLangType());
+		$cache_file = sprintf(_XE_PATH_ . 'files/cache/widgetstyles/%s.%s.cache.php', $widgetStyle, Context::getLangType());
 
 		if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file))
 		{
@@ -341,44 +304,6 @@ class widgetModel extends widget
 			$buff .= sprintf('$widgetStyle_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
 		}
 
-		// history
-		if($xml_obj->history)
-		{
-			if(!is_array($xml_obj->history)) $history_list[] = $xml_obj->history;
-			else $history_list = $xml_obj->history;
-
-			for($i=0; $i < count($history_list); $i++)
-			{
-				sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-				$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-				$buff .= sprintf('$widgetStyle_info->history['.$i.']->description = "%s";', $history_list[$i]->description->body);
-				$buff .= sprintf('$widgetStyle_info->history['.$i.']->version = "%s";', $history_list[$i]->attrs->version);
-				$buff .= sprintf('$widgetStyle_info->history['.$i.']->date = "%s";', $date);
-
-				if($history_list[$i]->author)
-				{
-					(!is_array($history_list[$i]->author)) ? $obj->author_list[] = $history_list[$i]->author : $obj->author_list = $history_list[$i]->author;
-
-					for($j=0; $j < count($obj->author_list); $j++)
-					{
-						$buff .= sprintf('$widgetStyle_info->history['.$i.']->author['.$j.']->name = "%s";', $obj->author_list[$j]->name->body);
-						$buff .= sprintf('$widgetStyle_info->history['.$i.']->author['.$j.']->email_address = "%s";', $obj->author_list[$j]->attrs->email_address);
-						$buff .= sprintf('$widgetStyle_info->history['.$i.']->author['.$j.']->homepage = "%s";', $obj->author_list[$j]->attrs->link);
-					}
-				}
-
-				if($history_list[$i]->log)
-				{
-					(!is_array($history_list[$i]->log)) ? $obj->log_list[] = $history_list[$i]->log : $obj->log_list = $history_list[$i]->log;
-
-					for($j=0; $j < count($obj->log_list); $j++)
-					{
-						$buff .= sprintf('$widgetStyle_info->history['.$i.']->logs['.$j.']->text = "%s";', $obj->log_list[$j]->body);
-						$buff .= sprintf('$widgetStyle_info->history['.$i.']->logs['.$j.']->link = "%s";', $obj->log_list[$j]->attrs->link);
-					}
-				}
-			}
-		}
 		// Extra vars (user defined variables to use in a template)
 		$extra_var_groups = $xml_obj->extra_vars->group;
 		if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;

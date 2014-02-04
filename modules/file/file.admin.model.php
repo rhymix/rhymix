@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * Admin model class of the file module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class fileAdminModel extends file
 {
@@ -84,7 +85,7 @@ class fileAdminModel extends file
 		// Return if no result or an error occurs
 		if(!$output->toBool()||!count($output->data)) return $output;
 
-		$oFileModel = &getModel('file');
+		$oFileModel = getModel('file');
 
 		foreach($output->data as $key => $file)
 		{

@@ -2,7 +2,7 @@
 xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
-<load target="js/file_admin.js" usecdn="true" />
+<load target="js/file_admin.js" />
 <form id="fo_list" action="./" method="post">
 	<input type="hidden" name="module" value="file" />
 	<div class="x_page-header">
@@ -70,7 +70,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<!--@endif-->
 				<!-- one document end -->
 			<tr>
-				<td><a href="{$val->download_url}">{htmlspecialchars($val->source_filename)}</a></td>
+				<td><a href="{htmlspecialchars_decode($val->download_url)}">{htmlspecialchars($val->source_filename, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a></td>
 				<td class="nowr">{FileHandler::filesize($val->file_size)}</td>
 				<td class="nowr">{$val->download_count}</td>
 				<td class="nowr">
@@ -149,7 +149,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 		<!--@end-->
 	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" />
 	<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 </form>

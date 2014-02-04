@@ -59,7 +59,7 @@
 	<item name="about_addon_mid">
 		<value xml:lang="ko"><![CDATA[애드온이 사용될 대상을 지정할 수 있습니다. (모두 해제 시 모든 대상에서 사용 가능합니다.)]]></value>
 		<value xml:lang="en"><![CDATA[Select a target where the added is used. (If you select none, the addon will be used on all targets.)]]></value>
-		<value xml:lang="jp"><![CDATA[アドオンを使用する対象を指定します。(選択しない場合、すべてのモジュールが利用可能対象となります]]></value>
+		<value xml:lang="jp"><![CDATA[アドオンを使用する対象を指定します。(選択しない場合、すべてのモジュールで利用可能になります。)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定使用插件的对象。(全部解除表示可用在所有对象。)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以指定使用附加元件的目標。(全部不選取表示可用於所有目標。)]]></value>
 		<value xml:lang="fr"><![CDATA[On peut choisir des objets dans lesquels la Compagnon soit utilisé.<br />(Tout sera choisi quand rien n'est choisi.)]]></value>
@@ -83,7 +83,7 @@
 	<item name="installed_addons">
 		<value xml:lang="ko"><![CDATA[설치된 애드온]]></value>
 		<value xml:lang="en"><![CDATA[Installed Add-ons]]></value>
-		<value xml:lang="jp"><![CDATA[インストールされているアドオン]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされたアドオン]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已安装插件]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已安裝附加元件]]></value>
 	</item>
@@ -104,24 +104,27 @@
 	<item name="about_fixed">
 		<value xml:lang="ko"><![CDATA[체크하면 사이트 관리자가 이 설정을 변경할 수 없음.]]></value>
 		<value xml:lang="en"><![CDATA[Check this, and the site administrator cannot change this setting.]]></value>
-		<value xml:lang="jp"><![CDATA[選択すると、サイトマネージャーがこの設定を変更することができません。]]></value>
+		<value xml:lang="jp"><![CDATA[選択すると、サイト管理者がこの設定を変更することができません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项后，网站管理员将无法更改设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇此項後，網站管理員將無法變更設定。]]></value>
 	</item>
 	<item name="msg_not_exist_option">
 		<value xml:lang="ko"><![CDATA[이 애드온은 설정이 존재하지 않습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Configuration for this addon does not exist.]]></value>		
+		<value xml:lang="en"><![CDATA[Configuration for this addon does not exist.]]></value>
 		<value xml:lang="jp"><![CDATA[このアドオンは、設定がありません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[此插件不存在设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此附加元件的設定不存在。]]></value>
 	</item>
 	<item name="run_method">
 		<value xml:lang="ko"><![CDATA[작동 방식]]></value>
+		<value xml:lang="jp"><![CDATA[動作方式]]></value>
 	</item>
 	<item name="run_selected_module">
 		<value xml:lang="ko"><![CDATA[선택한 모듈에서 사용]]></value>
+		<value xml:lang="jp"><![CDATA[選択したモジュールで使用する。]]></value>
 	</item>
 	<item name="no_run_selected_module">
 		<value xml:lang="ko"><![CDATA[선택한 모듈에서 사용안함]]></value>
+		<value xml:lang="jp"><![CDATA[選択したモジュールで使用しない。]]></value>
 	</item>
 </lang>

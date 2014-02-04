@@ -1,13 +1,13 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Model class of counter module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class counterModel extends counter
 {
-
 	/**
 	 * Initialization
 	 *
@@ -15,7 +15,6 @@ class counterModel extends counter
 	 */
 	function init()
 	{
-
 	}
 
 	/**
@@ -31,26 +30,27 @@ class counterModel extends counter
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$args->site_srl = $site_srl;
 
+		$iplogged = false;
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$object_key = 'object:' . $site_srl . '_' . str_replace('.', '-', $args->ipaddress);
+			$object_key = 'counter:' . $site_srl . '_' . str_replace(array('.', ':'), '-', $args->ipaddress);
 			$cache_key = $oCacheHandler->getGroupKey('counterIpLogged_' . $args->regdate, $object_key);
-			if($oCacheHandler->isValid($cache_key))
-			{
-				return $oCacheHandler->get($cache_key);
-			}
+			$iplogged = $oCacheHandler->get($cache_key);
 		}
 
-		$output = executeQuery('counter.getCounterLog', $args);
-
-		$result = $output->data->count ? TRUE : FALSE;
-		if($result && $oCacheHandler->isSupport())
+		if($iplogged === false)
 		{
-			$oCacheHandler->put($cache_key, $result);
+			$output = executeQuery('counter.getCounterLog', $args);
+			if($output->data->count) $iplogged = TRUE;
 		}
 
-		return $result;
+		if($iplogged && $oCacheHandler->isSupport())
+		{
+			$oCacheHandler->put($cache_key, $iplogged);
+		}
+
+		return $iplogged;
 	}
 
 	/**
@@ -64,35 +64,37 @@ class counterModel extends counter
 		$args = new stdClass;
 		$args->regdate = date('Ymd');
 
+		$insertedTodayStatus = false;
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'object:insertedTodayStatus:' . $site_srl . '_' . $args->regdate;
-			if($oCacheHandler->isValid($cache_key))
+			$cache_key = 'counter:insertedTodayStatus:' . $site_srl . '_' . $args->regdate;
+			$insertedTodayStatus = $oCacheHandler->get($cache_key);
+		}
+
+		if($insertedTodayStatus === false)
+		{
+			if($site_srl)
 			{
-				return $oCacheHandler->get($cache_key);
+				$args->site_srl = $site_srl;
+				$output = executeQuery('counter.getSiteTodayStatus', $args);
+			}
+			else
+			{
+				$output = executeQuery('counter.getTodayStatus', $args);
+			}
+
+			$insertedTodayStatus = !!$output->data->count;
+
+			if($insertedTodayStatus && $oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, TRUE);
+				$_old_date = date('Ymd', strtotime('-1 day'));
+				$oCacheHandler->delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
 			}
 		}
 
-		if($site_srl)
-		{
-			$args->site_srl = $site_srl;
-			$output = executeQuery('counter.getSiteTodayStatus', $args);
-		}
-		else
-		{
-			$output = executeQuery('counter.getTodayStatus', $args);
-		}
-
-		$result = $output->data->count ? TRUE : FALSE;
-		if($result && $oCacheHandler->isSupport())
-		{
-			$oCacheHandler->put($cache_key, $result);
-			$_old_date = date('Ymd', strtotime('-1 day'));
-			$oCacheHandler->delete('object:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
-		}
-
-		return $result;
+		return $insertedTodayStatus;
 	}
 
 	/**
@@ -105,22 +107,8 @@ class counterModel extends counter
 	function getStatus($selected_date, $site_srl = 0)
 	{
 		// If more than one date logs are selected
-		if(is_array($selected_date))
-		{
-			$date_count = count($selected_date);
-			$args = new stdClass();
-			$args->regdate = implode(',', $selected_date);
-			// If a single date log is selected
-		}
-		else
-		{
-			if(strlen($selected_date) == 8)
-			{
-				$selected_date = $selected_date;
-			}
-			$args->regdate = $selected_date;
-		}
-
+		$args = new stdClass();
+		$args->regdate = is_array($selected_date) ? join(',', $selected_date) : $selected_date;
 		if($site_srl)
 		{
 			$args->site_srl = $site_srl;
@@ -130,7 +118,6 @@ class counterModel extends counter
 		{
 			$output = executeQuery('counter.getCounterStatusDays', $args);
 		}
-
 		$status = $output->data;
 
 		if(!is_array($selected_date))
@@ -138,14 +125,9 @@ class counterModel extends counter
 			return $status;
 		}
 
-		if(!is_array($status))
-		{
-			$status = array($status);
-		}
-
-		unset($output);
-
-		foreach($status as $key => $val)
+		if(!is_array($status)) $status = array($status);
+		$output = array();
+		foreach($status as $val)
 		{
 			$output[substr($val->regdate, 0, 8)] = $val;
 		}
@@ -181,14 +163,12 @@ class counterModel extends counter
 					$output = executeQuery('counter.getStartLogDate');
 				}
 
-				$start_year = substr($output->data->regdate, 0, 4);
-
-				if(!$start_year)
+				if(!($start_year = substr($output->data->regdate, 0, 4)))
 				{
 					$start_year = date("Y");
 				}
 
-				for($i = $start_year; $i <= date("Y"); $i++)
+				for($i = $start_year, $y = date("Y"); $i <= $y; $i++)
 				{
 					$args = new stdClass();
 					$args->start_date = sprintf('%04d0000', $i);
@@ -204,21 +184,10 @@ class counterModel extends counter
 						$output = executeQuery('counter.getCounterStatus', $args);
 					}
 
-					if(!$isPageView)
-					{
-						$count = (int) $output->data->unique_visitor;
-					}
-					else
-					{
-						$count = (int) $output->data->pageview;
-					}
-
+					$count = (int)($isPageView ? $output->data->pageview : $output->data->unique_visitor);
 					$status->list[$i] = $count;
 
-					if($count > $max)
-					{
-						$max = $count;
-					}
+					if($count > $max) $max = $count;
 
 					$sum += $count;
 				}
@@ -261,21 +230,10 @@ class counterModel extends counter
 						$output = executeQuery('counter.getCounterStatus', $args);
 					}
 
-					if(!$isPageView)
-					{
-						$count = (int) $output->data->unique_visitor;
-					}
-					else
-					{
-						$count = (int) $output->data->pageview;
-					}
+					$count = (int)($isPageView ? $output->data->pageview : $output->data->unique_visitor);
+					$status->list[$day] = $count;
 
-					$status->list[$day] = (int) $count;
-
-					if($count > $max)
-					{
-						$max = $count;
-					}
+					if($count > $max) $max = $count;
 
 					$sum += $count;
 				}
@@ -299,21 +257,10 @@ class counterModel extends counter
 						$output = executeQuery('counter.getCounterStatus', $args);
 					}
 
-					if(!$isPageView)
-					{
-						$count = (int) $output->data->unique_visitor;
-					}
-					else
-					{
-						$count = (int) $output->data->pageview;
-					}
+					$count = (int)($isPageView ? $output->data->pageview : $output->data->unique_visitor);
+					$status->list[$i] = $count;
 
-					$status->list[$i] = (int) $count;
-
-					if($count > $max)
-					{
-						$max = $count;
-					}
+					if($count > $max) $max = $count;
 
 					$sum += $count;
 				}
@@ -340,10 +287,7 @@ class counterModel extends counter
 					$count = (int) $output->data->count;
 					$status->list[$i] = $count;
 
-					if($count > $max)
-					{
-						$max = $count;
-					}
+					if($count > $max) $max = $count;
 
 					$sum += $count;
 				}
@@ -370,21 +314,10 @@ class counterModel extends counter
 						$output = executeQuery('counter.getCounterStatus', $args);
 					}
 
-					if(!$isPageView)
-					{
-						$count = (int) $output->data->unique_visitor;
-					}
-					else
-					{
-						$count = (int) $output->data->pageview;
-					}
-
+					$count = (int)($isPageView ? $output->data->pageview : $output->data->unique_visitor);
 					$status->list[$i] = $count;
 
-					if($count > $max)
-					{
-						$max = $count;
-					}
+					if($count > $max) $max = $count;
 
 					$sum += $count;
 				}
@@ -404,7 +337,7 @@ class counterModel extends counter
 		$output1 = $this->getHourlyStatus('week', $date1);
 
 		$tmp = array();
-		foreach($output1->list AS $key => $value)
+		foreach($output1->list as $key => $value)
 		{
 			$tmp["'" . $key . "'"] = $value;
 		}
@@ -415,7 +348,7 @@ class counterModel extends counter
 		$output2 = $this->getHourlyStatus('week', $date2);
 
 		$tmp = array();
-		foreach($output2->list AS $key => $value)
+		foreach($output2->list as $key => $value)
 		{
 			$tmp["'" . $key . "'"] = $value;
 		}
@@ -432,7 +365,7 @@ class counterModel extends counter
 		$output1 = $this->getHourlyStatus('week', $date1, 0, TRUE);
 
 		$tmp = array();
-		foreach($output1->list AS $key => $value)
+		foreach($output1->list as $key => $value)
 		{
 			$tmp["'" . $key . "'"] = $value;
 		}
@@ -443,7 +376,7 @@ class counterModel extends counter
 		$output2 = $this->getHourlyStatus('week', $date2, 0, TRUE);
 
 		$tmp = array();
-		foreach($output2->list AS $key => $value)
+		foreach($output2->list as $key => $value)
 		{
 			$tmp["'" . $key . "'"] = $value;
 		}

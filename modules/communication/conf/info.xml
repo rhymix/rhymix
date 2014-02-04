@@ -16,18 +16,18 @@
     <description xml:lang="ru">This module is for managing message, friend functions.</description>
     <description xml:lang="zh-TW">管理線上會員間短訊及好友功能的模組。</description>
     <description xml:lang="tr">Bu modül mesaj ve arkadaşlık özelliklerini yönetmek içindir.</description>
-    <version>0.1</version>
-    <date>2008-05-30</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <category>member</category>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
-        <name xml:lang="ko">NHN</name>
-        <name xml:lang="vi">NHN</name>
-        <name xml:lang="jp">NHN</name>
-        <name xml:lang="zh-CN">NHN</name>
-        <name xml:lang="en">NHN</name>
-        <name xml:lang="zh-TW">NHN</name>
-		<name xml:lang="ru">NHN</name>
-		<name xml:lang="tr">NHN</name>
+        <name xml:lang="ko">NAVER</name>
+        <name xml:lang="vi">NAVER</name>
+        <name xml:lang="jp">NAVER</name>
+        <name xml:lang="zh-CN">NAVER</name>
+        <name xml:lang="en">NAVER</name>
+        <name xml:lang="zh-TW">NAVER</name>
+		<name xml:lang="ru">NAVER</name>
+		<name xml:lang="tr">NAVER</name>
     </author>
 </module>

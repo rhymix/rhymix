@@ -27,6 +27,7 @@
 	<item name="cmd_module_manangement">
 		<value xml:lang="ko"><![CDATA[모듈 설정]]></value>
 		<value xml:lang="en"><![CDATA[Module Setting]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール設定]]></value>
 	</item>
 	<item name="menu_count">
 		<value xml:lang="ko"><![CDATA[메뉴 수]]></value>
@@ -67,10 +68,12 @@
 	<item name="edit_sitemap">
 		<value xml:lang="ko"><![CDATA[사이트맵 수정]]></value>
 		<value xml:lang="en"><![CDATA[Edit Sitemap]]></value>
+		<value xml:lang="jp"><![CDATA[サイトマップ修正]]></value>
 	</item>
 	<item name="sitemap_name">
 		<value xml:lang="ko"><![CDATA[사이트맵 이름]]></value>
 		<value xml:lang="en"><![CDATA[Sitemap Name]]></value>
+		<value xml:lang="jp"><![CDATA[サイトマップ名]]></value>
 	</item>
 	<item name="add_menu">
 		<value xml:lang="ko"><![CDATA[메뉴 추가]]></value>
@@ -87,10 +90,12 @@
 	<item name="sitemap">
 		<value xml:lang="ko"><![CDATA[사이트맵]]></value>
 		<value xml:lang="en"><![CDATA[Sitemap]]></value>
+		<value xml:lang="jp"><![CDATA[サイトマップ]]></value>
 	</item>
 	<item name="edit_sitemap">
 		<value xml:lang="ko"><![CDATA[사이트맵 편집]]></value>
 		<value xml:lang="en"><![CDATA[Edit Sitemap]]></value>
+		<value xml:lang="jp"><![CDATA[サイトマップ編集]]></value>
 	</item>
 	<item name="add_new_sitemap">
 		<value xml:lang="ko"><![CDATA[사이트맵 추가]]></value>
@@ -131,10 +136,12 @@
 	<item name="update">
 		<value xml:lang="ko"><![CDATA[업데이트]]></value>
 		<value xml:lang="en"><![CDATA[Update]]></value>
+		<value xml:lang="jp"><![CDATA[アップデート]]></value>
 	</item>
 	<item name="installed">
 		<value xml:lang="ko"><![CDATA[설치됨]]></value>
 		<value xml:lang="en"><![CDATA[Installed]]></value>
+		<value xml:lang="jp"><![CDATA[設置完了]]></value>
 	</item>
 	<item name="depth">
 		<value xml:lang="ko"><![CDATA[단계]]></value>
@@ -198,14 +205,17 @@
 	<item name="browser_title">
 		<value xml:lang="ko"><![CDATA[브라우저 제목]]></value>
 		<value xml:lang="en"><![CDATA[Browser title]]></value>
+		<value xml:lang="jp"><![CDATA[ブラウザタイトル]]></value>
 	</item>
 	<item name="about_browser_title">
 		<value xml:lang="ko"><![CDATA[브라우저 제목에 나타나는 값입니다. RSS/Trackback에서도 사용됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Text used as browser title. Also used for RSS/Trackback]]></value>
+		<value xml:lang="jp"><![CDATA[ブラウザタイトルに表示される値です。RSS/Trackbackにも使用されます。]]></value>
 	</item>
 	<item name="menu_type">
 		<value xml:lang="ko"><![CDATA[메뉴 타입]]></value>
 		<value xml:lang="en"><![CDATA[Menu type]]></value>
+		<value xml:lang="jp"><![CDATA[メニュータイプ]]></value>
 	</item>
 	<item name="menu_url">
 		<value xml:lang="ko"><![CDATA[연결 url]]></value>
@@ -263,10 +273,12 @@
 	<item name="about_imgbtn">
 		<value xml:lang="ko"><![CDATA[사이트 네비게이션에 텍스트 메뉴명을 대신할 이미지를 등록 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Replace text natigation links with image buttons]]></value>
+		<value xml:lang="jp"><![CDATA[サイトネビゲーションにテキストメニュー名の代わりにメイージを登録します。]]></value>
 	</item>
 	<item name="menu_no_img_btn">
 		<value xml:lang="ko"><![CDATA[이미지 없음]]></value>
 		<value xml:lang="en"><![CDATA[No image]]></value>
+		<value xml:lang="jp"><![CDATA[イメージ無し]]></value>
 	</item>
 	<item name="menu_normal_btn">
 		<value xml:lang="ko"><![CDATA[기본]]></value>
@@ -280,6 +292,7 @@
 	<item name="about_menu_normal_btn">
 		<value xml:lang="ko"><![CDATA[일반 버튼 이미지]]></value>
 		<value xml:lang="en"><![CDATA[Normal button image]]></value>
+		<value xml:lang="jp"><![CDATA[一般ブタンのイメージ]]></value>
 	</item>
 	<item name="menu_hover_btn">
 		<value xml:lang="ko"><![CDATA[마우스 오버]]></value>
@@ -296,6 +309,7 @@
 	<item name="about_menu_hover_btn">
 		<value xml:lang="ko"><![CDATA[마우스 오버 버튼 이미지]]></value>
 		<value xml:lang="en"><![CDATA[Mouse over button image]]></value>
+		<value xml:lang="jp"><![CDATA[マウスオーバーボタンのイメージ]]></value>
 	</item>
 	<item name="menu_active_btn">
 		<value xml:lang="ko"><![CDATA[선택 됨]]></value>
@@ -312,14 +326,17 @@
 	<item name="about_menu_active_btn">
 		<value xml:lang="ko"><![CDATA[선택 됨 버튼 이미지]]></value>
 		<value xml:lang="en"><![CDATA[When selected button image]]></value>
+		<value xml:lang="jp"><![CDATA[選択時のボタンのイメージ]]></value>
 	</item>
 	<item name="menu_change_btn">
 		<value xml:lang="ko"><![CDATA[변경]]></value>
 		<value xml:lang="en"><![CDATA[Change]]></value>
+		<value xml:lang="jp"><![CDATA[変更]]></value>
 	</item>
 	<item name="menu_upload_btn">
 		<value xml:lang="ko"><![CDATA[이미지 올리기]]></value>
 		<value xml:lang="en"><![CDATA[Upload image]]></value>
+		<value xml:lang="jp"><![CDATA[イメージアップロード]]></value>
 	</item>
 	<item name="menu_group_srls">
 		<value xml:lang="ko"><![CDATA[그룹 제한]]></value>
@@ -468,6 +485,7 @@
 	<item name="msg_cannot_delete_homemenu">
 		<value xml:lang="ko"><![CDATA[시작 메뉴가 포함된 경우 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot delete a menu with Home menu.]]></value>
+		<value xml:lang="jp"><![CDATA[スタートメニューが含まれた場合は削除できません。]]></value>
 	</item>
 	<item name="msg_cannot_delete_for_admin_topmenu">
 		<value xml:lang="ko"><![CDATA[최상위 메뉴는 삭제할 수 없습니다.]]></value>
@@ -643,276 +661,345 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 	<item name="cType">
 		<value xml:lang="ko"><![CDATA[페이지 또는 URL]]></value>
 		<value xml:lang="en"><![CDATA[Page or URL]]></value>
+		<value xml:lang="jp"><![CDATA[ページまたはURL]]></value>
 		<value xml:lang="zh-TW"><![CDATA[模組或連結]]></value>
 	</item>
 	<item name="module_type">
 		<value xml:lang="ko"><![CDATA[페이지 선택]]></value>
 		<value xml:lang="en"><![CDATA[Select Page]]></value>
+		<value xml:lang="jp"><![CDATA[ページ選択]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇模組]]></value>
 	</item>
 	<item name="create_menu_url">
 		<value xml:lang="ko"><![CDATA[페이지 아이디 생성]]></value>
 		<value xml:lang="en"><![CDATA[Create Page ID]]></value>
+		<value xml:lang="jp"><![CDATA[メージID作成]]></value>
 		<value xml:lang="zh-TW"><![CDATA[建立模組 ID]]></value>
 	</item>
 	<item name="select_menu_url">
 		<value xml:lang="ko"><![CDATA[페이지 아이디 선택]]></value>
 		<value xml:lang="en"><![CDATA[Select Page ID]]></value>
+		<value xml:lang="jp"><![CDATA[ページID選択]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇模組 ID]]></value>
 	</item>
 	<item name="exposure_limits">
 		<value xml:lang="ko"><![CDATA[노출 제한]]></value>
 		<value xml:lang="en"><![CDATA[Exposure limits]]></value>
+		<value xml:lang="jp"><![CDATA[露出制限]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Exposure limits]]></value>
 	</item>
 	<item name="msg_empty_menu_item">
 		<value xml:lang="ko"><![CDATA[선택된 메뉴의 정보가 없습니다.]]></value>
+		<value xml:lang="jp"><![CDATA[選択されたメニューの情報がありません。]]></value>
 	</item>
 	<item name="copy">
 		<value xml:lang="ko"><![CDATA[복사]]></value>
 		<value xml:lang="en"><![CDATA[Copy]]></value>
+		<value xml:lang="jp"><![CDATA[コピー]]></value>
 	</item>
 	<item name="cut">
 		<value xml:lang="ko"><![CDATA[잘라내기]]></value>
 		<value xml:lang="en"><![CDATA[Cut]]></value>
+		<value xml:lang="jp"><![CDATA[カット]]></value>
 	</item>
 	<item name="paste">
 		<value xml:lang="ko"><![CDATA[붙여넣기]]></value>
 		<value xml:lang="en"><![CDATA[Paste]]></value>
+		<value xml:lang="jp"><![CDATA[ペースト]]></value>
 	</item>
 	<item name="change_name">
 		<value xml:lang="ko"><![CDATA[이름 변경]]></value>
 		<value xml:lang="en"><![CDATA[Change name]]></value>
+		<value xml:lang="jp"><![CDATA[名前変更]]></value>
 	</item>
 	<item name="set_as_homepage">
 		<value xml:lang="ko"><![CDATA[홈 페이지로 사용하기]]></value>
 		<value xml:lang="en"><![CDATA[Set as homepage]]></value>
+		<value xml:lang="jp"><![CDATA[ホームページとして使用する]]></value>
 	</item>
 	<item name="has_been_set_as_homepage">
 		<value xml:lang="ko"><![CDATA[홈 페이지로 사용중]]></value>
 		<value xml:lang="en"><![CDATA[Has been set as homepage]]></value>
+		<value xml:lang="jp"><![CDATA[ホームページとして使用中]]></value>
 	</item>
 	<item name="general_settings">
 		<value xml:lang="ko"><![CDATA[메뉴 수정]]></value>
 		<value xml:lang="en"><![CDATA[General settings]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー修正]]></value>
 	</item>
 	<item name="design">
 		<value xml:lang="ko"><![CDATA[디자인]]></value>
 		<value xml:lang="en"><![CDATA[Design]]></value>
+		<value xml:lang="jp"><![CDATA[デザイン]]></value>
 	</item>
 	<item name="site_design">
 		<value xml:lang="ko"><![CDATA[사이트 디자인]]></value>
 		<value xml:lang="en"><![CDATA[Site design]]></value>
+		<value xml:lang="jp"><![CDATA[サイトデザイン]]></value>
 	</item>
 	<item name="use_site_design">
 		<value xml:lang="ko"><![CDATA[사이트 디자인 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use site design]]></value>
+		<value xml:lang="jp"><![CDATA[サイトデザイン使用]]></value>
 	</item>
 	<item name="full_settings">
 		<value xml:lang="ko"><![CDATA[상세 설정]]></value>
 		<value xml:lang="en"><![CDATA[Full settings]]></value>
+		<value xml:lang="jp"><![CDATA[詳細設定]]></value>
 	</item>
 	<item name="install_other_menu_types">
 		<value xml:lang="ko"><![CDATA[다른 메뉴타입 설치]]></value>
 		<value xml:lang="en"><![CDATA[Install other menu types]]></value>
+		<value xml:lang="jp"><![CDATA[他のメニュータイプ設置]]></value>
 	</item>
 	<item name="about_new_menu_id">
 		<value xml:lang="ko"><![CDATA[URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [메뉴 수정]에서 수정 가능.]]></value>
 		<value xml:lang="en"><![CDATA[URL을 사용할 필요가 없다면 생략 가능. 메뉴 생성 후 [메뉴 수정]에서 수정 가능.]]></value>
+		<value xml:lang="jp"><![CDATA[URLを使用する必要がない場合は省略可能。メニュー作成後「メニュー修正」で修正可能。]]></value>
 	</item>
 	<item name="about_menu_id">
 		<value xml:lang="ko"><![CDATA[페이지 URL로 사용(40자 이내).]]></value>
 		<value xml:lang="en"><![CDATA[페이지 URL로 사용(40자 이내).]]></value>
+		<value xml:lang="jp"><![CDATA[ページURLで使用（40字以内）。]]></value>
 	</item>
 	<item name="skip_menu_id">
 		<value xml:lang="ko"><![CDATA[생략시 임의값 사용]]></value>
 		<value xml:lang="en"><![CDATA[생략시 임의값 사용]]></value>
+		<value xml:lang="jp"><![CDATA[省略時仮値使用]]></value>
 	</item>
 	<item name="url_link">
 		<value xml:lang="ko"><![CDATA[URL 링크]]></value>
 		<value xml:lang="en"><![CDATA[URL link]]></value>
+		<value xml:lang="jp"><![CDATA[URLリンク]]></value>
 	</item>
 	<item name="menu_link">
 		<value xml:lang="ko"><![CDATA[메뉴 링크]]></value>
 		<value xml:lang="en"><![CDATA[Menu link]]></value>
+		<value xml:lang="jp"><![CDATA[メニューリンク]]></value>
 	</item>
 	<item name="about_menu_link">
 		<value xml:lang="ko"><![CDATA[메뉴를 선택하면 자동 입력됨]]></value>
 		<value xml:lang="en"><![CDATA[메뉴를 선택하면 자동 입력됨]]></value>
+		<value xml:lang="jp"><![CDATA[メニューを選択すると自動入力できます。]]></value>
 	</item>
 	<item name="view_zoom">
 		<value xml:lang="ko"><![CDATA[크게 보기]]></value>
 		<value xml:lang="en"><![CDATA[Zoom]]></value>
+		<value xml:lang="jp"><![CDATA[拡大する]]></value>
 	</item>
 	<item name="use_site_default_layout">
 		<value xml:lang="ko"><![CDATA[사이트 기본 레이아웃 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use site default layout]]></value>
+		<value xml:lang="jp"><![CDATA[サイトデフォルトレイアウト使用]]></value>
 	</item>
 	<item name="site_default_layout_settings">
 		<value xml:lang="ko"><![CDATA[사이트 기본 레이아웃 설정]]></value>
 		<value xml:lang="en"><![CDATA[Site default layout settings]]></value>
+		<value xml:lang="jp"><![CDATA[サイトデフォルトレイアウト設定]]></value>
 	</item>
 	<item name="no_use_layout">
 		<value xml:lang="ko"><![CDATA[레이아웃 사용 안 함]]></value>
 		<value xml:lang="en"><![CDATA[No use layout]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウト使用しない]]></value>
 	</item>
 	<item name="about_apply_layout">
 		<value xml:lang="ko"><![CDATA[클릭하면 레이아웃이 적용됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[클릭하면 레이아웃이 적용됩니다.]]></value>
+		<value xml:lang="jp"><![CDATA[クリックするとレイアウトが適用されます。]]></value>
 	</item>
 	<item name="make_copy">
 		<value xml:lang="ko"><![CDATA[복사본 생성]]></value>
 		<value xml:lang="en"><![CDATA[Make copy]]></value>
+		<value xml:lang="jp"><![CDATA[コピーして作成]]></value>
 	</item>
 	<item name="install_other_layouts">
 		<value xml:lang="ko"><![CDATA[다른 레이아웃 설치]]></value>
 		<value xml:lang="en"><![CDATA[Install other layouts]]></value>
+		<value xml:lang="jp"><![CDATA[他のレイアウト設置]]></value>
 	</item>
 	<item name="layout_html_css_settings">
 		<value xml:lang="ko"><![CDATA[HTML/CSS 설정]]></value>
 		<value xml:lang="en"><![CDATA[HTML/CSS settings]]></value>
+		<value xml:lang="jp"><![CDATA[HTML/CSS設定]]></value>
 	</item>
 	<item name="layout_settings">
 		<value xml:lang="ko"><![CDATA[설정]]></value>
 		<value xml:lang="en"><![CDATA[Settings]]></value>
+		<value xml:lang="jp"><![CDATA[設定]]></value>
 	</item>
 	<item name="use_site_default_skin">
 		<value xml:lang="ko"><![CDATA[사이트 기본 스킨 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use site default skin]]></value>
+		<value xml:lang="jp"><![CDATA[サイトでフォルトスキン使用]]></value>
 	</item>
 	<item name="site_default_skin_settings">
 		<value xml:lang="ko"><![CDATA[사이트 기본 스킨 설정]]></value>
 		<value xml:lang="en"><![CDATA[Site default skin settings]]></value>
+		<value xml:lang="jp"><![CDATA[サイトでフォルトスキン設定]]></value>
 	</item>
 	<item name="about_apply_skin">
 		<value xml:lang="ko"><![CDATA[클릭하면 스킨이 적용됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[클릭하면 스킨이 적용됩니다.]]></value>
+		<value xml:lang="jp"><![CDATA[クリックするとスキンが適用されます。]]></value>
 	</item>
 	<item name="install_other_skins">
 		<value xml:lang="ko"><![CDATA[다른 스킨 설치]]></value>
 		<value xml:lang="en"><![CDATA[Install other themes]]></value>
+		<value xml:lang="jp"><![CDATA[他のスキン設定]]></value>
 	</item>
 	<item name="no_downloadable_item">
 		<value xml:lang="ko"><![CDATA[다운로드 가능한 항목이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There are no downloadable item.]]></value>
+		<value xml:lang="jp"><![CDATA[ダウンロード可能な項目がありません。]]></value>
 	</item>
 	<item name="confirm_sitemap_delete">
 		<value xml:lang="ko"><![CDATA[사이트맵을 삭제 하겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to remove this sitemap?]]></value>
+		<value xml:lang="jp"><![CDATA[サイトマップを削除しますか？]]></value>
 	</item>
 	<item name="confirm_menu_delete">
 		<value xml:lang="ko"><![CDATA[메뉴를 삭제 하겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to remove this menu item?]]></value>
+		<value xml:lang="jp"><![CDATA[メニューを削除しますか？]]></value>
 	</item>
 	<item name="confirm_delete_all_contents">
 		<value xml:lang="ko"><![CDATA[메뉴와 연결된 콘텐츠도 모두 삭제된다는 것을 이해하고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[I understand that the contents will be deleted as well.]]></value>
+		<value xml:lang="jp"><![CDATA[メビューと繋がっているコンテンツもすべて削除されることを理解しています。]]></value>
 	</item>
 	<item name="confirm_shortcut_delete">
 		<value xml:lang="ko"><![CDATA[바로가기를 삭제 하겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to remove this shortcut item?]]></value>
+		<value xml:lang="jp"><![CDATA[ショートカットを削除しますか？]]></value>
 	</item>
 	<item name="confirm_shortcut_desc">
 		<value xml:lang="ko"><![CDATA[바로가기를 삭제해도 실제 메뉴는 지워지지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[바로가기를 삭제해도 실제 메뉴는 지워지지 않습니다.]]></value>
+		<value xml:lang="jp"><![CDATA[ショートカットを削除しても実際のメニューは削除されません。]]></value>
 	</item>
 	<item name="confirm_delete_all_sub_items_title">
 		<value xml:lang="ko"><![CDATA[하위 메뉴가 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The menu has sub-menu(s)]]></value>
+		<value xml:lang="jp"><![CDATA[下位メニューがあります。]]></value>
 	</item>
 	<item name="confirm_delete_all_sub_items">
 		<value xml:lang="ko"><![CDATA[하위 메뉴도 함께 삭제 하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to delete all the sub-menu(s)?]]></value>
+		<value xml:lang="jp"><![CDATA[下位メニューも一緒に削除しますか？]]></value>
 	</item>
 	<item name="confirm_delete_all_item">
 		<value xml:lang="ko"><![CDATA[사이트맵에 포함된 메뉴 모두 삭제된다는 것을 이해하고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[I know delete all menu of sitemap.]]></value>
+		<value xml:lang="jp"><![CDATA[サイトマップに含まれたメニューすべて削除されることを理解しています。]]></value>
 	</item>
 	<item name="installation_completed">
 		<value xml:lang="ko"><![CDATA[설치가 완료 됐습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Installation is completed.]]></value>
+		<value xml:lang="jp"><![CDATA[設置が完了されました。]]></value>
 	</item>
 	<item name="shortcut">
 		<value xml:lang="ko"><![CDATA[바로가기]]></value>
 		<value xml:lang="en"><![CDATA[Shortcut]]></value>
+		<value xml:lang="jp"><![CDATA[ショートカット]]></value>
 	</item>
 	<item name="shortcut_desc">
 		<value xml:lang="ko"><![CDATA[URL 또는 다른 메뉴에 대한 링크입니다.]]></value>
 		<value xml:lang="en"><![CDATA[A shortcut is a link to a URL or to another menu]]></value>
+		<value xml:lang="jp"><![CDATA[URLまたは他のメニューに対するリンクです。]]></value>
 	</item>
 	
 	<item name="msg_target_is_sub_of_origin">
 		<value xml:lang="ko"><![CDATA[대상 메뉴가 원본 메뉴의 하위 메뉴 입니다.]]></value>
 		<value xml:lang="en"><![CDATA[Target menu is sub of origin menu.]]></value>
+		<value xml:lang="jp"><![CDATA[対象メニューが原本メニューの下位メニューです。]]></value>
 	</item>
 	<item name="target_of_view_menu">
 		<value xml:lang="ko"><![CDATA[메뉴 노출 대상]]></value>
 		<value xml:lang="en"><![CDATA[Target of view menu]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー露出対象]]></value>
 	</item>
 	<item name="input_new_layout_name">
 		<value xml:lang="ko"><![CDATA[새 레이아웃명을 입력 해 주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Input new layout name]]></value>
+		<value xml:lang="jp"><![CDATA[新しい来アウト名を入力してください。]]></value>
 	</item>
 	<item name="skip_new_layout_name">
 		<value xml:lang="ko"><![CDATA[생략 시 임의의 값이 사용 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[생략 시 임의의 값이 사용 됩니다.]]></value>
+		<value xml:lang="jp"><![CDATA[省略時仮の値が使用されます。]]></value>
 	</item>
 	<item name="need_to_ftp_setup">
 		<value xml:lang="ko"><![CDATA[FTP 설정이 필요 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Need to FTP setup.]]></value>
+		<value xml:lang="jp"><![CDATA[FTP設定が必要です。]]></value>
 	</item>
 	<item name="go_to_ftp_setup">
 		<value xml:lang="ko"><![CDATA[확인을 누르면 FTP 설정 페이지로 이동 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Redirecting to FTP Setup page.]]></value>
+		<value xml:lang="jp"><![CDATA[確認をクリックするとFTP設定ページへ移動します。]]></value>
 	</item>
 	<item name="go_to_site_design_setup">
 		<value xml:lang="ko"><![CDATA[사이트 기본 디자인 설정 페이지로 이동 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Redirecting to Site Design page.]]></value>
+		<value xml:lang="jp"><![CDATA[サイトでフォルトデザイン設定ページへ移動します。]]></value>
 	</item>
 	<item name="about_menu_type_in_default">
 		<value xml:lang="ko"><![CDATA[메뉴 타입 변경을 위해서는 메뉴를 삭제 후 재생성 해야 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[To change the menu type, you have to delete and recreate the menu.]]></value>
+		<value xml:lang="jp"><![CDATA[メニュータイプ変更のためにメニューを削除後再作成が必要です。]]></value>
 	</item>
 	<item name="how_to_modify_menu">
 		<value xml:lang="ko"><![CDATA[생성한 메뉴는 [메뉴 수정]에서 수정 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[생성한 메뉴는 [메뉴 수정]에서 수정 할 수 있습니다.]]></value>
+		<value xml:lang="jp"><![CDATA[作成したメニューは「メニュー修正」で修正できます。]]></value>
 	</item>
 	<item name="can_drag_menu">
 		<value xml:lang="ko"><![CDATA[사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.]]></value>
+		<value xml:lang="jp"><![CDATA[サイトマップでメニューをドラッグしても位置変更ができます。]]></value>
 	</item>
 	<item name="good_to_duplicate_layout">
 		<value xml:lang="ko"><![CDATA[레이아웃 설정 변경 시, [복사본 생성] 버튼을 눌러 복사본을 만들어 설정을 변경 하는 것이 좋습니다.]]></value>
 		<value xml:lang="en"><![CDATA[레이아웃 설정 변경 시, [복사본 생성] 버튼을 눌러 복사본을 만들어 설정을 변경 하는 것이 좋습니다.]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウト設定変更時、「コピーして作成」ブタンをクリックしてコピーを作成して設定を変更することが望ましいです。]]></value>
 	</item>
 	<item name="img_uploaded">
 		<value xml:lang="ko"><![CDATA[버튼 이미지가 등록 됐습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Button image is uploaded.]]></value>
+		<value xml:lang="jp"><![CDATA[ブタンイメージが登録されました。]]></value>
 	</item>
 	<item name="img_deleted">
 		<value xml:lang="ko"><![CDATA[버튼 이미지가 삭제 됐습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Button image is deleted.]]></value>
+		<value xml:lang="jp"><![CDATA[ブタンイメージが削除されました。]]></value>
 	</item>
 	<item name="do_not_display_again">
 		<value xml:lang="ko"><![CDATA[다시 보지 않기.]]></value>
 		<value xml:lang="en"><![CDATA[Do not display again.]]></value>
+		<value xml:lang="jp"><![CDATA[再び表示しない。]]></value>
 	</item>
 	<item name="need_ftp_password">
 		<value xml:lang="ko"><![CDATA[FTP 계정 정보가 필요 합니다.]]></value>
+		<value xml:lang="jp"><![CDATA[FTPアカウント情報が必要です。]]></value>
 	</item>
 	<item name="need_ftp_password_title">
 		<value xml:lang="ko"><![CDATA[FTP 비밀번호]]></value>
+		<value xml:lang="jp"><![CDATA[FTPパスワード]]></value>
 	</item>
 	<item name="need_core_update">
 		<value xml:lang="ko"><![CDATA[설치하려면 XE core 업데이트가 필요합니다]]></value>
+		<value xml:lang="jp"><![CDATA[設置するにはXE coreアップデートが必要です。]]></value>
 	</item>
 	<item name="need_core_update_continue">
 		<value xml:lang="ko"><![CDATA[XE core 업데이트가 함께 진행됩니다. 계속하시겠습니까?]]></value>
+		<value xml:lang="jp"><![CDATA[XE coreアップデートを一緒に行います。続けますか？]]></value>
 	</item>
 	<item name="not_found_module">
 		<value xml:lang="ko"><![CDATA[모듈이 존재하지 않음]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールが存在しません。]]></value>
 	</item>
 	<item name="no_skin">
 		<value xml:lang="ko"><![CDATA[스킨 없음]]></value>
+		<value xml:lang="jp"><![CDATA[スキン無し]]></value>
 	</item>
 </lang>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
-        <action name="dispAutoinstallAdminInstall" type="view" standalone="true" menu_name="easyInstall" />
-        <action name="dispAutoinstallAdminUninstall" type="view" standalone="true" menu_name="easyInstall" />
-        <action name="procAutoinstallAdminUninstallPackage" type="controller" standalone="true" ruleset="ftp" />
-        <action name="dispAutoinstallAdminInstalledPackages" type="view" standalone="true" menu_name="easyInstall" />
-        <action name="dispAutoinstallAdminIndex" type="view" standalone="true" admin_index="true" menu_name="easyInstall" menu_index="true" />
-        <action name="procAutoinstallAdminUpdateinfo" type="controller" standalone="true" />
-        <action name="procAutoinstallAdminPackageinstall" type="controller" standalone="true" ruleset="ftp" />
+        <action name="dispAutoinstallAdminInstall" type="view" menu_name="easyInstall" />
+        <action name="dispAutoinstallAdminUninstall" type="view" menu_name="easyInstall" />
+        <action name="procAutoinstallAdminUninstallPackage" type="controller" ruleset="ftp" />
+        <action name="dispAutoinstallAdminInstalledPackages" type="view" menu_name="easyInstall" />
+        <action name="dispAutoinstallAdminIndex" type="view" admin_index="true" menu_name="easyInstall" menu_index="true" />
+        <action name="procAutoinstallAdminUpdateinfo" type="controller" />
+        <action name="procAutoinstallAdminPackageinstall" type="controller" ruleset="ftp" />
 		<action name="getAutoinstallAdminMenuPackageList" type="model" />
 		<action name="getAutoinstallAdminLayoutPackageList" type="model" />
 		<action name="getAutoinstallAdminSkinPackageList" type="model" />
@@ -19,7 +19,7 @@
 			<title xml:lang="en">Easy Install</title>
 			<title xml:lang="ko">쉬운 설치</title>
 			<title xml:lang="zh-CN">Easy Install</title>
-			<title xml:lang="jp">Easy Install</title>
+			<title xml:lang="jp">簡単インストール</title>
 			<title xml:lang="es">Easy Install</title>
 			<title xml:lang="ru">Easy Install</title>
 			<title xml:lang="fr">Easy Install</title>

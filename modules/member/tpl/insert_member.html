@@ -1,4 +1,4 @@
-<load target="js/krzip_search.js" usecdn="true" />
+<load target="js/krzip_search.js" />
 <load target="js/member_admin.js" />
 <!--%load_js_plugin("ui.datepicker")-->
 <script>
@@ -10,17 +10,17 @@
 	<h1 cond="$member_srl">{$lang->msg_update_member}</h1>
 	<h1 cond="!$member_srl">{$lang->msg_new_member}</h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/insert_member/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="./" class="x_form-horizontal" ruleset="insertAdminMember" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminInsert" />
 	<input type="hidden" name="member_srl" value="{$member_srl}" />
-	<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
+	<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" cond="$member_srl" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispMemberAdminList')}" cond="!$member_srl" />
-	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/insert_member/1" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
 	<div cond="$member_srl" class="x_control-group">
 		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_login_key" target="_blank">{$lang->help}</a></label>
 		<div class="x_controls">

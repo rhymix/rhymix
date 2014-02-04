@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * The controller class of rss module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class rssController extends rss
 {
@@ -22,7 +23,7 @@ class rssController extends rss
 	 */
 	function triggerRssUrlInsert()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$total_config = $oModuleModel->getModuleConfig('rss');
 		$current_module_srl = Context::get('module_srl');
 		$site_module_info = Context::get('site_module_info');
@@ -38,7 +39,7 @@ class rssController extends rss
 
 		if(!$current_module_srl) return new Object();
 		// Imported rss settings of the selected module
-		$oRssModel = &getModel('rss');
+		$oRssModel = getModel('rss');
 		$rss_config = $oRssModel->getRssModuleConfig($current_module_srl);
 
 		if($rss_config->open_rss != 'N')
@@ -67,10 +68,10 @@ class rssController extends rss
 
 	function triggerCopyModule(&$obj)
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$rssConfig = $oModuleModel->getModulePartConfig('rss', $obj->originModuleSrl);
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))
 		{
 			foreach($obj->moduleSrlList AS $key=>$moduleSrl)

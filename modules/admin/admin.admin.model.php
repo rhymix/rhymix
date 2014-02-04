@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * adminAdminModel class
  * admin model class of admin module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/admin
  * @version 0.1
  */
@@ -47,7 +48,7 @@ class adminAdminModel extends admin
 		$sftp = ssh2_sftp($connection);
 
 		// create temp file
-		$pin = time();
+		$pin = $_SERVER['REQUEST_TIME'];
 		FileHandler::writeFile('./files/cache/ftp_check', $pin);
 
 		// create path candidate
@@ -99,7 +100,7 @@ class adminAdminModel extends admin
 	 */
 	function getAdminFTPPath()
 	{
-		Context::loadLang('./modules/autoinstall/lang');
+		Context::loadLang(_XE_PATH_ . 'modules/autoinstall/lang');
 		@set_time_limit(5);
 		require_once(_XE_PATH_ . 'libs/ftp.class.php');
 
@@ -122,7 +123,7 @@ class adminAdminModel extends admin
 
 		if($ftp_info->sftp == 'Y')
 		{
-			if(!function_exists(ssh2_sftp))
+			if(!function_exists('ssh2_sftp'))
 			{
 				return new Object(-1, 'disable_sftp_support');
 			}
@@ -141,7 +142,7 @@ class adminAdminModel extends admin
 		}
 
 		// create temp file
-		$pin = time();
+		$pin = $_SERVER['REQUEST_TIME'];
 		FileHandler::writeFile('./files/cache/ftp_check', $pin);
 
 		// create path candidate
@@ -235,9 +236,11 @@ class adminAdminModel extends admin
 	 */
 	function getAdminFTPList()
 	{
-		Context::loadLang('./modules/autoinstall/lang');
+		Context::loadLang(_XE_PATH_ . 'modules/autoinstall/lang');
 		@set_time_limit(5);
+
 		require_once(_XE_PATH_ . 'libs/ftp.class.php');
+
 		$ftp_info = Context::getRequestVars();
 		if(!$ftp_info->ftp_user || !$ftp_info->ftp_password)
 		{
@@ -258,7 +261,7 @@ class adminAdminModel extends admin
 
 		if($ftp_info->sftp == 'Y')
 		{
-			if(!function_exists(ssh2_sftp))
+			if(!function_exists('ssh2_sftp'))
 			{
 				return new Object(-1, 'disable_sftp_support');
 			}
@@ -312,9 +315,13 @@ class adminAdminModel extends admin
 			'ext' => array('pcre', 'json', 'hash', 'dom', 'session', 'spl', 'standard', 'date', 'ctype', 'tokenizer', 'apache2handler', 'filter', 'posix', 'reflection', 'pdo')
 			, 'module' => array('addon', 'admin', 'autoinstall', 'comment', 'communication', 'counter', 'document', 'editor', 'file', 'importer', 'install', 'integration_search', 'layout', 'member', 'menu', 'message', 'module', 'opage', 'page', 'point', 'poll', 'rss', 'session', 'spamfilter', 'tag', 'trackback', 'trash', 'widget')
 			, 'addon' => array('autolink', 'blogapi', 'captcha', 'counter', 'member_communication', 'member_extra_info', 'mobile', 'openid_delegation_id', 'point_level_icon', 'resize_image')
+			, 'layout' => array('default')
+			, 'widget' => array('content', 'language_select', 'login_info','mcontent')
+			, 'widgetstyle' => array(),
 		);
-
 		$info = array();
+		$db_info = Context::getDBInfo();
+
 		$info['type'] = ($type != 'INSTALL' ? 'WORKING' : 'INSTALL');
 		$info['location'] = _XE_LOCATION_;
 		$info['package'] = _XE_PACKAGE_;
@@ -323,12 +330,11 @@ class adminAdminModel extends admin
 		$info['xe_version'] = __XE_VERSION__;
 		$info['php'] = phpversion();
 
-		$db_info = Context::getDBInfo();
 		$info['db_type'] = Context::getDBType();
 		$info['use_rewrite'] = $db_info->use_rewrite;
 		$info['use_db_session'] = $db_info->use_db_session == 'Y' ? 'Y' : 'N';
 		$info['use_ssl'] = $db_info->use_ssl;
-
+		
 		$info['phpext'] = '';
 		foreach(get_loaded_extensions() as $ext)
 		{
@@ -366,6 +372,45 @@ class adminAdminModel extends admin
 			$info['addon'] .= '|' . $addon->addon;
 		}
 		$info['addon'] = substr($info['addon'], 1);
+
+		$info['layout'] = "";
+		$oLayoutModel = getModel('layout');
+		$layout_list = $oLayoutModel->getDownloadedLayoutList();
+		foreach($layout_list as $layout)
+		{
+			if(in_array($layout->layout, $skip['layout']))
+			{
+				continue;
+			}
+			$info['layout'] .= '|' . $layout->layout;
+		}
+		$info['layout'] = substr($info['layout'], 1);
+
+		$info['widget'] = "";
+		$oWidgetModel = getModel('widget');
+		$widget_list = $oWidgetModel->getDownloadedWidgetList();
+		foreach($widget_list as $widget)
+		{
+			if(in_array($widget->widget, $skip['widget']))
+			{
+				continue;
+			}
+			$info['widget'] .= '|' . $widget->widget;
+		}
+		$info['widget'] = substr($info['widget'], 1);
+
+		$info['widgetstyle'] = "";
+		$oWidgetModel = getModel('widget');
+		$widgetstyle_list = $oWidgetModel->getDownloadedWidgetStyleList();
+		foreach($widgetstyle_list as $widgetstyle)
+		{
+			if(in_array($widgetstyle->widgetStyle, $skip['widgetstyle']))
+			{
+				continue;
+			}
+			$info['widgetstyle'] .= '|' . $widgetstyle->widgetStyle;
+		}
+		$info['widgetstyle'] = substr($info['widgetstyle'], 1);
 
 		$param = '';
 		foreach($info as $k => $v)
@@ -434,7 +479,7 @@ class adminAdminModel extends admin
 		$theme_info->name = $theme_name;
 		$theme_info->title = $xml_obj->title->body;
 		$thumbnail = './themes/' . $theme_name . '/thumbnail.png';
-		$theme_info->thumbnail = (file_exists($thumbnail)) ? $thumbnail : NULL;
+		$theme_info->thumbnail = (FileHandler::exists($thumbnail)) ? $thumbnail : NULL;
 		$theme_info->version = $xml_obj->version->body;
 		$date_obj = new stdClass();
 		sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
@@ -594,7 +639,7 @@ class adminAdminModel extends admin
 		$oModuleModel = getModel('module');
 		foreach($searched_list as $val)
 		{
-			$skin_list = $oModuleModel->getSkins('./modules/' . $val);
+			$skin_list = $oModuleModel->getSkins(_XE_PATH_ . 'modules/' . $val);
 
 			if(is_array($skin_list) && count($skin_list) > 0 && !in_array($val, $exceptionModule))
 			{
@@ -769,7 +814,7 @@ class adminAdminModel extends admin
 
 			foreach($list as $k => $v)
 			{
-				if(!is_dir('./modules/' . $v->module))
+				if(!is_dir(_XE_PATH_ . 'modules/' . $v->module))
 				{
 					unset($list[$k]);
 				}

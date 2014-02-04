@@ -1,11 +1,12 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
 
 /**
  * trash class
  * trash the module's high class
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/trash
  * @version 0.1
  */
@@ -27,7 +28,7 @@ class trash extends ModuleObject
 	function checkUpdate()
 	{
 		//$oDB = &DB::getInstance();
-		//$oModuleModel = &getModel('module');
+		//$oModuleModel = getModel('module');
 
 		return false;
 	}
@@ -39,7 +40,7 @@ class trash extends ModuleObject
 	function moduleUpdate()
 	{
 		//$oDB = &DB::getInstance();
-		//$oModuleModel = &getModel('module');
+		//$oModuleModel = getModel('module');
 
 		return new Object(0,'success_updated');
 	}

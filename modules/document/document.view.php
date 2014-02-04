@@ -1,9 +1,10 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * documentView class
  * View class of the module document
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /modules/document
  * @version 0.1
  */
@@ -28,11 +29,11 @@ class documentView extends document
 		$document_srl = Context::get('document_srl');
 
 		// module_info not use in UI
-		//$oModuleModel = &getModel('module');
+		//$oModuleModel = getModel('module');
 		//$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
 
 		// Create the document object. If the document module of basic data structures, write it all works .. -_-;
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		// Creates an object for displaying the selected document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
 		if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
@@ -82,12 +83,12 @@ class documentView extends document
 
 		if(count($document_srl_list))
 		{
-			$oDocumentModel = &getModel('document');
+			$oDocumentModel = getModel('document');
 			$document_list = $oDocumentModel->getDocuments($document_srl_list, $this->grant->is_admin);
 			Context::set('document_list', $document_list);
 		}
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// The combination of module categories list and the list of modules
 		if(count($module_list)>1) Context::set('module_list', $module_categories);
 
@@ -127,7 +128,7 @@ class documentView extends document
 			if(!$current_module_srl) return new Object();
 		}
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		if($current_module_srl)
 		{
 			$document_config = $oModuleModel->getModulePartConfig('document', $current_module_srl);
@@ -154,17 +155,18 @@ class documentView extends document
 	{
 		$this->setLayoutFile('popup_layout');
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 		// Get the saved document (module_srl is set to member_srl instead)
 		$logged_info = Context::get('logged_info');
+		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->statusList = array($this->getConfigStatus('temp'));
 		$args->page = (int)Context::get('page');
 		$args->list_count = 10;
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$output = $oDocumentModel->getDocumentList($args, true);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
@@ -175,6 +177,7 @@ class documentView extends document
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('saved_list_popup');
 	}
+
 }
 /* End of file document.view.php */
 /* Location: ./modules/document/document.view.php */

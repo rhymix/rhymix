@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 require_once('DBMysql.class.php');
 
@@ -8,7 +9,7 @@ require_once('DBMysql.class.php');
  *
  * Does not use prepared statements, since mysql driver does not support them
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/db
  * @version 0.1
  */
@@ -42,7 +43,6 @@ class DBMysql_innodb extends DBMysql
 	 */
 	function _close($connection)
 	{
-		$this->_query("commit", $connection);
 		@mysql_close($connection);
 	}
 
@@ -214,5 +214,8 @@ class DBMysql_innodb extends DBMysql
 	}
 
 }
+
+DBMysql_innodb::$isSupported = function_exists('mysql_connect');
+
 /* End of file DBMysql_innodb.class.php */
 /* Location: ./classes/db/DBMysql_innodb.class.php */

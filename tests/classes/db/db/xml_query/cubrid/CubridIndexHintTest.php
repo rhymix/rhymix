@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
     class CubridIndexHintTest extends CubridTest {
         var $xmlPath = 'data/';

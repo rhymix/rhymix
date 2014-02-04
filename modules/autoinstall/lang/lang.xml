@@ -3,7 +3,7 @@
 	<item name="autoinstall">
 		<value xml:lang="ko"><![CDATA[쉬운 설치]]></value>
 		<value xml:lang="en"><![CDATA[EasyInstall]]></value>
-		<value xml:lang="jp"><![CDATA[イージーインストール]]></value>
+		<value xml:lang="jp"><![CDATA[簡単インストール]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装·更新]]></value>
 		<value xml:lang="zh-TW"><![CDATA[自動安裝]]></value>
 		<value xml:lang="tr"><![CDATA[KolayKurulum]]></value>
@@ -59,7 +59,7 @@
 	<item name="success_installed">
 		<value xml:lang="ko"><![CDATA[설치에 성공하였습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Successfully Installed]]></value>
-		<value xml:lang="jp"><![CDATA[インストールが成功しました。]]></value>
+		<value xml:lang="jp"><![CDATA[インストールに成功しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装成功！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[安裝成功]]></value>
 		<value xml:lang="ru"><![CDATA[Установлено успешно]]></value>
@@ -69,7 +69,7 @@
 	<item name="description_ftp_note">
 		<value xml:lang="ko"><![CDATA[%s이 되어 있지 않으면 설치 및 업데이트가 진행되지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[If the %s is not set, the installation or update will not work. Pleas configure the FTP information.]]></value>
-		<value xml:lang="jp"><![CDATA[%sが完了されないと、イージーインストールが動作しません。 FTP設定を確認してください。]]></value>
+		<value xml:lang="jp"><![CDATA[%sが完了されないと、簡単インストールが動作しません。 FTP設定を確認してください。]]></value>
 		<value xml:lang="ru"><![CDATA[If %s is not set, installation would not work. Please configure FTP information]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請先將 %s完成，否則無法執行自動安裝功能。]]></value>
 	</item>
@@ -82,7 +82,7 @@
 	<item name="description_update">
 		<value xml:lang="ko"><![CDATA[쉬운 설치 사용전 %s 해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Click %s before using EasyInstall.]]></value>
-		<value xml:lang="jp"><![CDATA[新しくインストールしたモジュールバージョン情報などは%sを押すと反映されます。]]></value>
+		<value xml:lang="jp"><![CDATA[簡単インストールを使用する前に%sを押してください]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用自動安裝前請先點擊%s]]></value>
 		<value xml:lang="ru"><![CDATA[If you have upgraded or installed programs without EasyInstall module, please press %s to renew new information]]></value>
 	</item>
@@ -115,7 +115,7 @@
 	<item name="current_version">
 		<value xml:lang="ko"><![CDATA[설치 버전]]></value>
 		<value xml:lang="en"><![CDATA[Version]]></value>
-		<value xml:lang="jp"><![CDATA[現インストールバージョン]]></value>
+		<value xml:lang="jp"><![CDATA[現在のバージョン]]></value>
 		<value xml:lang="zh-CN"><![CDATA[现用版本]]></value>
 		<value xml:lang="zh-TW"><![CDATA[目前版本]]></value>
 		<value xml:lang="fr"><![CDATA[Version Courante]]></value>
@@ -166,7 +166,7 @@
 	<item name="path">
 		<value xml:lang="ko"><![CDATA[설치경로]]></value>
 		<value xml:lang="en"><![CDATA[Path]]></value>
-		<value xml:lang="jp"><![CDATA[インストールパス]]></value>
+		<value xml:lang="jp"><![CDATA[インストール先]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装路径]]></value>
 		<value xml:lang="zh-TW"><![CDATA[路徑]]></value>
 		<value xml:lang="de"><![CDATA[Pfad]]></value>
@@ -206,7 +206,7 @@
 	<item name="rate">
 		<value xml:lang="ko"><![CDATA[%s점]]></value>
 		<value xml:lang="en"><![CDATA[%s points]]></value>
-		<value xml:lang="jp"><![CDATA[points]]></value>
+		<value xml:lang="jp"><![CDATA[%sポイント]]></value>
 		<value xml:lang="zh-CN"><![CDATA[points]]></value>
 		<value xml:lang="zh-TW"><![CDATA[% points]]></value>
 		<value xml:lang="ru"><![CDATA[points]]></value>
@@ -228,7 +228,7 @@
 	<item name="about_depending_programs">
 		<value xml:lang="ko"><![CDATA[이 패키지 사용을 위해서는 아래 프로그램이 설치되어 있어야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[To use this package, the following program should have been installed.]]></value>
-		<value xml:lang="jp"><![CDATA[このパッケージを使用するには、下記のプログラムがインストールされていなければなりません。]]></value>
+		<value xml:lang="jp"><![CDATA[このパッケージを使用するには、下記のプログラムをインストールする必要があります。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用此 package，將會安裝下列 program]]></value>
 	</item>
 	<item name="ftp_password">
@@ -306,12 +306,12 @@
 	<item name="msg_delete_file_failed">
 		<value xml:lang="ko"><![CDATA[파일 삭제에 실패했습니다. %s.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to delete the file. %s.]]></value>
-		<value xml:lang="jp"><![CDATA[ファイルを削除できませんでした。]]></value>
+		<value xml:lang="jp"><![CDATA[ファイルの削除に失敗しました。%s]]></value>
 	</item>
 	<item name="msg_delete_dir_failed">
 		<value xml:lang="ko"><![CDATA[디렉터리 삭제에 실패했습니다. %s]]></value>
 		<value xml:lang="en"><![CDATA[Failed to delete the directory. %s]]></value>
-		<value xml:lang="jp"><![CDATA[ディレクトリを削除できませんでした。]]></value>
+		<value xml:lang="jp"><![CDATA[ディレクトリの削除に失敗しました。]]></value>
 	</item>
 	<item name="msg_ftp_password_input">
 		<value xml:lang="ko"><![CDATA[입력된 비밀번호가 없습니다.]]></value>
@@ -321,7 +321,7 @@
 	<item name="msg_sftp_not_supported">
 		<value xml:lang="ko"><![CDATA[SFTP를 지원하지 않는 환경입니다.]]></value>
 		<value xml:lang="en"><![CDATA[SFTP is not supported.]]></value>
-		<value xml:lang="jp"><![CDATA[SFTP非対応環境です。]]></value>
+		<value xml:lang="jp"><![CDATA[SFTPの非対応環境です。]]></value>
 	</item>
 	<item name="msg_does_not_support_delete">
 		<value xml:lang="ko"><![CDATA[이 패키지가 삭제를 지원하지 않습니다(모듈 클래스에 moduleUninstall()이 없음).]]></value>
@@ -330,62 +330,77 @@
 	</item>
 	<item name="msg_update_core_title">
 		<value xml:lang="ko"><![CDATA[XE core가 업데이트 됩니다.]]></value>
+		<value xml:lang="jp"><![CDATA[XE coreがアップデートされます。]]></value>
 	</item>
 	<item name="msg_update_core">
 		<value xml:lang="ko"><![CDATA[core 업데이트 시 설치된 프로그램의 호환성을 반드시 점검 바랍니다.]]></value>
+		<value xml:lang="jp"><![CDATA[coreアップデート時、インストールされたプログラムの互換性を必ず点検ください。]]></value>
 	</item>
 	<item name="installed">
 		<value xml:lang="ko"><![CDATA[설치 됨]]></value>
 		<value xml:lang="en"><![CDATA[Installed]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされました。]]></value>
 	</item>
 	<item name="typename" type="array">
 		<item name="core">
 			<value xml:lang="ko"><![CDATA[코어]]></value>
 			<value xml:lang="en"><![CDATA[Core]]></value>
+			<value xml:lang="jp"><![CDATA[Core]]></value>
 		</item>
 		<item name="m.layout">
 			<value xml:lang="ko"><![CDATA[모바일 레이아웃]]></value>
 			<value xml:lang="en"><![CDATA[Mobile layout]]></value>
+			<value xml:lang="jp"><![CDATA[モバイルレイアウト]]></value>
 		</item>
 		<item name="module">
 			<value xml:lang="ko"><![CDATA[모듈]]></value>
 			<value xml:lang="en"><![CDATA[Module]]></value>
+			<value xml:lang="jp"><![CDATA[モジュール]]></value>
 		</item>
 		<item name="addon">
 			<value xml:lang="ko"><![CDATA[애드온]]></value>
 			<value xml:lang="en"><![CDATA[Addon]]></value>
+			<value xml:lang="jp"><![CDATA[アドオン]]></value>
 		</item>
 		<item name="layout">
 			<value xml:lang="ko"><![CDATA[레이아웃]]></value>
 			<value xml:lang="en"><![CDATA[Layout]]></value>
+			<value xml:lang="jp"><![CDATA[レイアウト]]></value>
 		</item>
 		<item name="widget">
 			<value xml:lang="ko"><![CDATA[위젯]]></value>
 			<value xml:lang="en"><![CDATA[Widget]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェット]]></value>
 		</item>
 		<item name="component">
 			<value xml:lang="ko"><![CDATA[에디터 콤포넌트]]></value>
 			<value xml:lang="en"><![CDATA[Editor component]]></value>
+			<value xml:lang="jp"><![CDATA[エディタコンポーネント]]></value>
 		</item>
 		<item name="m.skin">
 			<value xml:lang="ko"><![CDATA[모바일 스킨]]></value>
 			<value xml:lang="en"><![CDATA[Mobile Skin]]></value>
+			<value xml:lang="jp"><![CDATA[モバイルスキン]]></value>
 		</item>
 		<item name="skin">
 			<value xml:lang="ko"><![CDATA[스킨]]></value>
 			<value xml:lang="en"><![CDATA[Skin]]></value>
+			<value xml:lang="jp"><![CDATA[スキン]]></value>
 		</item>
 		<item name="widgetstyle">
 			<value xml:lang="ko"><![CDATA[위젯스타일]]></value>
 			<value xml:lang="en"><![CDATA[Widget style]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェットスタイル]]></value>
 		</item>
 		<item name="style">
 			<value xml:lang="ko"><![CDATA[문서스타일]]></value>
 			<value xml:lang="en"><![CDATA[Document style]]></value>
+			<value xml:lang="jp"><![CDATA[ドキュメントスタイル]]></value>
 		</item>
 		<item name="drcomponent">
 			<value xml:lang="ko"><![CDATA[단락에디터 콤포넌트]]></value>
 			<value xml:lang="en"><![CDATA[DrEditor component]]></value>
+			<value xml:lang="jp"><![CDATA[段落エディタコンポーネント]]></value>
 		</item>
 	</item>
 </lang>

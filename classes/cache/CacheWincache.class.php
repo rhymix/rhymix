@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Cache class for Wincache
@@ -9,12 +10,7 @@
  */
 class CacheWincache extends CacheBase
 {
-
-	/**
-	 * Default valid time
-	 * @var int
-	 */
-	var $valid_time = 36000;
+	public static $isSupport = false;
 
 	/**
 	 * Get instance of CacheWincache
@@ -38,7 +34,6 @@ class CacheWincache extends CacheBase
 	 */
 	function CacheWincache()
 	{
-
 	}
 
 	/**
@@ -48,7 +43,7 @@ class CacheWincache extends CacheBase
 	 */
 	function isSupport()
 	{
-		return function_exists('wincache_ucache_set');
+		return self::$isSupport;
 	}
 
 	/**
@@ -68,7 +63,7 @@ class CacheWincache extends CacheBase
 		{
 			$valid_time = $this->valid_time;
 		}
-		return wincache_ucache_set(md5(_XE_PATH_ . $key), array(time(), $buff), $valid_time);
+		return wincache_ucache_set(md5(_XE_PATH_ . $key), array($_SERVER['REQUEST_TIME'], $buff), $valid_time);
 	}
 
 	/**
@@ -156,7 +151,8 @@ class CacheWincache extends CacheBase
 	{
 		return wincache_ucache_clear();
 	}
-
 }
+
+CacheWincache::$isSupport = function_exists('wincache_ucache_set');
 /* End of file CacheWincache.class.php */
 /* Location: ./classes/cache/CacheWincache.class.php */

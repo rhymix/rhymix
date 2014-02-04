@@ -3,24 +3,24 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispImporterAdminImportForm" type="view" standalone="true" admin_index="true" menu_name="importer" menu_index="true" />
+        <action name="dispImporterAdminImportForm" type="view" admin_index="true" menu_name="importer" menu_index="true" />
 
-        <action name="procImporterAdminImport" type="controller" standalone="true" />
-        <action name="procImporterAdminPreProcessing" type="controller" standalone="true" />
+        <action name="procImporterAdminImport" type="controller" />
+        <action name="procImporterAdminPreProcessing" type="controller" />
 
-        <action name="procImporterAdminSync" type="controller" standalone="true" />
-        <action name="procImporterAdminMemberImport" type="controller" standalone="true" />
-        <action name="procImporterAdminMessageImport" type="controller" standalone="true" />
-        <action name="procImporterAdminModuleImport" type="controller" standalone="true" />
-        <action name="procImporterAdminTTXMLImport" type="controller" standalone="true" />
-        <action name="procImporterAdminCheckXmlFile" type="controller" standalone="true" />
+        <action name="procImporterAdminSync" type="controller" />
+        <action name="procImporterAdminMemberImport" type="controller" />
+        <action name="procImporterAdminMessageImport" type="controller" />
+        <action name="procImporterAdminModuleImport" type="controller" />
+        <action name="procImporterAdminTTXMLImport" type="controller" />
+        <action name="procImporterAdminCheckXmlFile" type="controller" />
     </actions>
 	<menus>
 		<menu name="importer">
 			<title xml:lang="en">Data Migration</title>
 			<title xml:lang="ko">데이터 들여오기</title>
 			<title xml:lang="zh-CN">Data Migration</title>
-			<title xml:lang="jp">Data Migration</title>
+			<title xml:lang="jp">データマイグレーション</title>
 			<title xml:lang="es">Data Migration</title>
 			<title xml:lang="ru">Data Migration</title>
 			<title xml:lang="fr">Data Migration</title>

@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * The view class of the integration_search module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class integration_search extends ModuleObject
 {
@@ -14,7 +15,7 @@ class integration_search extends ModuleObject
 	function moduleInstall()
 	{
 		// Registered in action forward
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->insertActionForward('integration_search', 'view', 'IS');
 
 		return new Object();
@@ -27,7 +28,7 @@ class integration_search extends ModuleObject
 	 */
 	function checkUpdate() 
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('integration_search');
 
 		if($config->skin)
@@ -49,7 +50,7 @@ class integration_search extends ModuleObject
 	 */
 	function moduleUpdate() 
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('message');
 
 		if($config->skin)
@@ -61,7 +62,7 @@ class integration_search extends ModuleObject
 				if(is_dir($template_path))
 				{
 					$config->skin = implode('|@|', $config_parse);
-					$oModuleController = &getController('module');
+					$oModuleController = getController('module');
 					$oModuleController->updateModuleConfig('integration_search', $config);
 				}
 			}

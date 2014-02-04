@@ -2,7 +2,7 @@
 xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
-<load target="js/document_admin.js" usecdn="true" />
+<load target="js/document_admin.js" />
 <div class="x_page-header">
 	<h1>{$lang->document} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_content_document" target="_blank">{$lang->help}</a></h1>
 </div>
@@ -115,7 +115,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 		<!--@end-->
 	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" />
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" title="{$lang->cmd_search}" />
 	<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 </form>

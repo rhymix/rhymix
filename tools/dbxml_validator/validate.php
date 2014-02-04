@@ -1,5 +1,6 @@
 #!/bin/env php
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
 	vi:set ts=4:
 	@file
@@ -1801,7 +1802,7 @@ try
 		require_once(_XE_PATH_ . 'classes/db/DBCubrid.class.php');
 		require_once(_XE_PATH_ . 'classes/db/DBMssql.class.php');
 		require_once(_XE_PATH_ . 'classes/xml/XmlParser.class.php');
-		require_once(_XE_PATH_ . 'classes/xml/XmlQueryParser.150.class.php');
+		require_once(_XE_PATH_ . 'classes/xml/XmlQueryParser.class.php');
 
 		require_once(__DIR__ . '/connect_wrapper.php');
 

@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * The admin controller class of the rss module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class rssAdminController extends rss
 {
@@ -22,11 +23,10 @@ class rssAdminController extends rss
 	 */
 	function procRssAdminInsertConfig()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$total_config = $oModuleModel->getModuleConfig('rss');
 
 		$config_vars = Context::getRequestVars();
-
 		$config_vars->feed_document_count = (int)$config_vars->feed_document_count;
 
 		if(!$config_vars->use_total_feed) $alt_message = 'msg_invalid_request';
@@ -44,7 +44,7 @@ class rssAdminController extends rss
 				$total_config->image = '';
 			}
 			// Ignore if the file is not the one which has been successfully uploaded
-			if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name']))
+			if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name']) && checkUploadedFile($image_obj['tmp_name']))
 			{
 				// Ignore if the file is not an image (swf is accepted ~)
 				$image_obj['name'] = Context::convertEncodingStr($image_obj['name']);
@@ -59,6 +59,7 @@ class rssAdminController extends rss
 					else
 					{
 						$filename = $path.$image_obj['name'];
+
 						// Move the file
 						if(!move_uploaded_file($image_obj['tmp_name'], $filename)) $alt_message = 'msg_error_occured';
 						else
@@ -91,7 +92,7 @@ class rssAdminController extends rss
 	{
 		$delImage = Context::get('del_image');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$originConfig = $oModuleModel->getModuleConfig('rss');
 
 		// Get a variable for the delete request
@@ -159,7 +160,7 @@ class rssAdminController extends rss
 	 */
 	function setFeedConfig($config)
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('rss',$config);
 		return new Object();
 	}
@@ -176,7 +177,8 @@ class rssAdminController extends rss
 	 */
 	function setRssModuleConfig($module_srl, $open_rss, $open_total_feed = 'N', $feed_description = 'N', $feed_copyright = 'N')
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
+		$config = new stdClass;
 		$config->open_rss = $open_rss;
 		$config->open_total_feed = $open_total_feed;
 		if($feed_description != 'N') { $config->feed_description = $feed_description; }

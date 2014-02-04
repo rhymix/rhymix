@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  emoticon
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Emoticons image connected components
  */
 class emoticon extends EditorHandler
@@ -104,7 +105,6 @@ class emoticon extends EditorHandler
 		{
 			$attr_output[] = "alt=\"".$alt."\"";
 		}
-		if(preg_match("/\.png$/i",$src)) $attr_output[] = "class=\"iePngFix\"";
 
 		$code = sprintf("<img %s style=\"border:0px\" />", implode(" ",$attr_output));
 

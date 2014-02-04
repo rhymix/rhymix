@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Argument class
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/xml/xmlquery/argument
  * @version 0.1
  */
@@ -285,7 +286,7 @@ class Argument
 
 	function ensureDefaultValue($default_value)
 	{
-		if(!isset($this->value) || $this->value == '')
+		if($this->value === NULL || $this->value === '')
 		{
 			$this->value = $default_value;
 			$this->uses_default_value = TRUE;

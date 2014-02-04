@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  editorAdminController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief editor of the module admin controller class
  */
 class editorAdminController extends editor
@@ -19,14 +20,14 @@ class editorAdminController extends editor
 	function procEditorAdminCheckUseListOrder()
 	{
 		$site_module_info = Context::get('site_module_info');
-		$enables = Context::get('enables');			
+		$enables = Context::get('enables');
 		$component_names = Context::get('component_names');
 
 		if(!is_array($component_names)) $component_names = array();
 		if(!is_array($enables)) $enables = array();
 
 		$unables = array_diff($component_names, $enables);
-		$componentList = array();	
+		$componentList = array();
 
 		foreach($enables as $component_name)
 		{
@@ -43,7 +44,7 @@ class editorAdminController extends editor
 		$output = $this->editorCheckUse($componentList,$site_module_info->site_srl);
 		if(!$output->toBool()) return new Object();
 
-		$oEditorController = &getController('editor');
+		$oEditorController = getController('editor');
 		$oEditorController->removeCache($site_module_info->site_srl);
 		$this->setRedirectUrl(Context::get('error_return_url'));
 	}
@@ -101,7 +102,7 @@ class editorAdminController extends editor
 				if(!$output->toBool()) return new Object();
 				$list_order_num++;
 			}
-		}	
+		}
 		unset($component_names);
 		return $output;
 	}
@@ -120,6 +121,7 @@ class editorAdminController extends editor
 		unset($extra_vars->act);
 		unset($extra_vars->body);
 
+		$args = new stdClass;
 		$args->component_name = $component_name;
 		$args->extra_vars = serialize($extra_vars);
 		$args->site_srl = (int)$site_module_info->site_srl;
@@ -128,7 +130,7 @@ class editorAdminController extends editor
 		else $output = executeQuery('editor.updateSiteComponent', $args);
 		if(!$output->toBool()) return $output;
 
-		$oEditorController = &getController('editor');
+		$oEditorController = getController('editor');
 		$oEditorController->removeCache($args->site_srl);
 
 		$this->setMessage('success_updated');
@@ -140,7 +142,7 @@ class editorAdminController extends editor
 	 */
 	function procEditorAdminGeneralConfig()
 	{
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$configVars = Context::getRequestVars();
 
 		if($configVars->font_defined != 'Y') $config->font_defined = $configVars->font_defined = 'N';
@@ -173,6 +175,7 @@ class editorAdminController extends editor
 		if($enabled) $enabled = 'Y';
 		else $enabled = 'N';
 
+		$args = new stdClass;
 		$args->component_name = $component_name;
 		$args->enabled = $enabled;
 		$args->site_srl = $site_srl;
@@ -185,7 +188,7 @@ class editorAdminController extends editor
 		if(!$site_srl) $output = executeQuery('editor.insertComponent', $args);
 		else $output = executeQuery('editor.insertSiteComponent', $args);
 
-		$oEditorController = &getController('editor');
+		$oEditorController = getController('editor');
 		$oEditorController->removeCache($site_srl);
 		return $output;
 	}

@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  widget
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief widget module's high class
  */
 class widget extends ModuleObject
@@ -15,7 +16,7 @@ class widget extends ModuleObject
 		FileHandler::makeDir('./files/cache/widget');
 		FileHandler::makeDir('./files/cache/widget_cache');
 		// Add this widget compile the trigger for the display.after
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$oModuleController->insertTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before');
 
 		return new Object();
@@ -26,7 +27,7 @@ class widget extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		// widget compile display.after trigger for further (04/14/2009)
 		if(!$oModuleModel->getTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before')) return true;
 
@@ -38,8 +39,8 @@ class widget extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 		// widget compile display.after trigger for further (04/14/2009)
 		if(!$oModuleModel->getTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before'))
 		{

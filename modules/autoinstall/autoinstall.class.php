@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * XML Generater
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class XmlGenerater
 {
@@ -54,7 +55,7 @@ class XmlGenerater
 
 /**
  * High class of the autoinstall module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class autoinstall extends ModuleObject
 {
@@ -88,6 +89,7 @@ class autoinstall extends ModuleObject
 	{
 		$oModuleController = getController('module');
 
+		$config = new stdClass;
 		$config->downloadServer = _XE_DOWNLOAD_SERVER_;
 		$oModuleController->insertModuleConfig('autoinstall', $config);
 	}
@@ -102,12 +104,11 @@ class autoinstall extends ModuleObject
 		$oDB = DB::getInstance();
 		$oModuleModel = getModel('module');
 
-		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
-				&& $oDB->isTableExists("autoinstall_installed_packages"))
+		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_installed_packages.xml') && $oDB->isTableExists("autoinstall_installed_packages"))
 		{
 			return TRUE;
 		}
-		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))
+		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_remote_categories.xml')
 				&& $oDB->isTableExists("autoinstall_remote_categories"))
 		{
 			return TRUE;
@@ -146,12 +147,12 @@ class autoinstall extends ModuleObject
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 
-		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
+		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_installed_packages.xml')
 				&& $oDB->isTableExists("autoinstall_installed_packages"))
 		{
 			$oDB->dropTable("autoinstall_installed_packages");
 		}
-		if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))
+		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_remote_categories.xml')
 				&& $oDB->isTableExists("autoinstall_remote_categories"))
 		{
 			$oDB->dropTable("autoinstall_remote_categories");

@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions />
-    <actions>
-        <action name="dispEditorPopup" type="view" standalone="true" />
-        <action name="dispEditorComponentInfo" type="view" standalone="true" />
-
-        <action name="dispEditorAdminIndex" type="view" standalone="true" menu_name="editor" menu_index="true" admin_index="true" />
-        <action name="dispEditorAdminSetupComponent" type="view" menu_name="editor" />
-        <action name="dispEditorAdminSkinColorset" type="view" standalone="true" />
+	<grants />
+	<permissions />
+	<actions>
+		<action name="dispEditorPopup" type="view" />
+		<action name="dispEditorComponentInfo" type="view" />
+		<action name="dispEditorAdminIndex" type="view" menu_name="editor" menu_index="true" admin_index="true" />
+		<action name="dispEditorAdminSetupComponent" type="view" menu_name="editor" />
+		<action name="dispEditorAdminSkinColorset" type="view" />
 		<action name="dispEditorConfigPreview" type="view" />
-        <action name="dispEditorPreview" type="view" />
-        <action name="dispEditorSkinColorset" type="view" />
-
-        <action name="procEditorSaveDoc" type="controller" standalone="true" />
-        <action name="procEditorRemoveSavedDoc" type="controller" standalone="true" />
-        <action name="procEditorCall" type="controller" standalone="true" />
-        <action name="procEditorInsertModuleConfig" type="controller" standalone="true" />        
-        
-        <action name="procEditorAdminSetupComponent" type="controller" standalone="true" ruleset="setupComponent" />
-		<action name="procEditorAdminGeneralConfig" type="controller" standalone="true" ruleset="generalConfig" />
-		<action name="procEditorAdminCheckUseListOrder" type="controller" standalone="true" ruleset="componentOrderAndUse" />
-
-        <action name="procEditorLoadSavedDocument" type="controller" standalone="true" />
-    </actions>
+		<action name="dispEditorPreview" type="view" />
+		<action name="dispEditorSkinColorset" type="view" />
+		<action name="procEditorSaveDoc" type="controller" />
+		<action name="procEditorRemoveSavedDoc" type="controller" />
+		<action name="procEditorCall" type="controller" />
+		<action name="procEditorInsertModuleConfig" type="controller" />
+		<action name="procEditorAdminSetupComponent" type="controller" ruleset="setupComponent" />
+		<action name="procEditorAdminGeneralConfig" type="controller" ruleset="generalConfig" />
+		<action name="procEditorAdminCheckUseListOrder" type="controller" ruleset="componentOrderAndUse" />
+		<action name="procEditorLoadSavedDocument" type="controller" />
+	</actions>
 	<menus>
 		<menu name="editor">
 			<title xml:lang="en">WYSIWYG Editor</title>
 			<title xml:lang="ko">에디터</title>
 			<title xml:lang="zh-CN">WYSIWYG Editor</title>
-			<title xml:lang="jp">WYSIWYG Editor</title>
+			<title xml:lang="jp">ウィジウィグエディター</title>
 			<title xml:lang="es">WYSIWYG Editor</title>
 			<title xml:lang="ru">WYSIWYG Editor</title>
 			<title xml:lang="fr">WYSIWYG Editor</title>

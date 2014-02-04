@@ -121,7 +121,7 @@ class HTMLPurifier_Lexer
                     $inst = new HTMLPurifier_Lexer_PH5P();
                     break;
                 default:
-                    throw new HTMLPurifier_Exception("Cannot instantiate unrecognized Lexer type " . htmlspecialchars($lexer));
+                    throw new HTMLPurifier_Exception("Cannot instantiate unrecognized Lexer type " . htmlspecialchars($lexer, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
             }
         }
 
@@ -252,7 +252,7 @@ class HTMLPurifier_Lexer
      */
     protected static function CDATACallback($matches) {
         // not exactly sure why the character set is needed, but whatever
-        return htmlspecialchars($matches[1], ENT_COMPAT, 'UTF-8');
+        return htmlspecialchars($matches[1], ENT_COMPAT, 'UTF-8', false);
     }
 
     /**

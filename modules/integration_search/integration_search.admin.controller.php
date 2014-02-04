@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * The admin view class of the integration_search module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class integration_searchAdminController extends integration_search
 {
@@ -23,7 +24,7 @@ class integration_searchAdminController extends integration_search
 	function procIntegration_searchAdminInsertConfig()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('integration_search');
 
 		$args->skin = Context::get('skin');
@@ -32,7 +33,7 @@ class integration_searchAdminController extends integration_search
 		if(!$args->target_module_srl) $args->target_module_srl = '';
 		$args->skin_vars = $config->skin_vars;
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('integration_search',$args);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminContent');
@@ -47,7 +48,7 @@ class integration_searchAdminController extends integration_search
 	function procIntegration_searchAdminInsertSkin()
 	{
 		// Get configurations (using module model object)
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('integration_search');
 
 		$args->skin = $config->skin;
@@ -81,8 +82,8 @@ class integration_searchAdminController extends integration_search
 					$obj->{$vars->name} = $module_info->{$vars->name};
 					continue;
 				}
-				// Ignore if the file is not successfully uploaded
-				if(!is_uploaded_file($image_obj['tmp_name']))
+				// Ignore if the file is not successfully uploaded, and check uploaded file
+				if(!is_uploaded_file($image_obj['tmp_name']) || !checkUploadedFile($image_obj['tmp_name']))
 				{
 					unset($obj->{$vars->name});
 					continue;
@@ -113,7 +114,7 @@ class integration_searchAdminController extends integration_search
 		// Serialize and save 
 		$args->skin_vars = serialize($obj);
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('integration_search',$args);
 
 		$this->setMessage('success_updated', 'info');

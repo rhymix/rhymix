@@ -6,8 +6,8 @@
     <description xml:lang="ko">디자인이 없는 테스트 레이아웃입니다. 새 스킨을 만들 때 이 레이아웃 사본을 사용하면 좋습니다.</description>
     <description xml:lang="en">Is not designed for testing the layout. When you create a new skin, we recommend you copy the layout.</description>
     <description xml:lang="jp">デザインがないテストレイアウトです。新しいスキンを作成するときに、レイアウトのコピーを使用してください。</description>
-    <version>1.0</version>
-    <date>2010-12-24</date>
+    <version>1.7</version>
+    <date>2013-11-27</date>
     <author email_address="user@user.com" link="http://user-define.com/">
         <name xml:lang="ko">제작자 이름</name>
         <name xml:lang="en">Maker Name</name>

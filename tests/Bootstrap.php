@@ -1,4 +1,5 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 if(!defined('__DEBUG__')) define('__DEBUG__', 1);
 if(!defined('__XE__')) define('__XE__', true);

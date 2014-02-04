@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Admin model class of addon module
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class addonAdminModel extends addon
 {
@@ -97,8 +98,9 @@ class addonAdminModel extends addon
 			// Add the path (files/addons precedence)
 			$path = $this->getAddonPath($addon_name);
 			// Wanted information on the add-on
-			unset($info);
 			$info = $this->getAddonInfoXml($addon_name, $site_srl, $gtype);
+			
+			if(!$info) $info = new stdClass();
 
 			$info->addon = $addon_name;
 			$info->path = $path;
@@ -151,7 +153,7 @@ class addonAdminModel extends addon
 		}
 
 		// Read the xml file for module skin information
-		$xml_file = sprintf("%sconf/info.xml", $addon_path);
+		$xml_file = sprintf("%sconf/info.xml", FileHandler::getRealpath($addon_path));
 		if(!file_exists($xml_file))
 		{
 			return;
@@ -254,7 +256,16 @@ class addonAdminModel extends addon
 
 					foreach($extra_vars as $key => $val)
 					{
+						if(!$val)
+						{
+							continue;
+						}
+
 						$obj = new stdClass();
+						if(!$val->attrs)
+						{
+							$val->attrs = new stdClass();
+						}
 						if(!$val->attrs->type)
 						{
 							$val->attrs->type = 'text';
@@ -295,79 +306,6 @@ class addonAdminModel extends addon
 					}
 				}
 			}
-
-			// history
-			if($xml_obj->history)
-			{
-				if(!is_array($xml_obj->history))
-				{
-					$history = array();
-					$history[] = $xml_obj->history;
-				}
-				else
-				{
-					$history = $xml_obj->history;
-				}
-
-				$addon_info->history = array();
-				foreach($history as $item)
-				{
-					$obj = new stdClass();
-
-					if($item->author)
-					{
-						if(!is_array($item->author))
-						{
-							$obj->author_list = array();
-							$obj->author_list[] = $item->author;
-						}
-						else
-						{
-							$obj->author_list = $item->author;
-						}
-
-						$obj->author = array();
-						foreach($obj->author_list as $author)
-						{
-							$author_obj = new stdClass();
-							$author_obj->name = $author->name->body;
-							$author_obj->email_address = $author->attrs->email_address;
-							$author_obj->homepage = $author->attrs->link;
-							$obj->author[] = $author_obj;
-						}
-					}
-
-					$obj->name = $item->name->body;
-					$obj->email_address = $item->attrs->email_address;
-					$obj->homepage = $item->attrs->link;
-					$obj->version = $item->attrs->version;
-					$obj->date = $item->attrs->date;
-					$obj->description = $item->description->body;
-
-					if($item->log)
-					{
-						if(!is_array($item->log))
-						{
-							$obj->log = array();
-							$obj->log[] = $item->log;
-						}
-						else
-						{
-							$obj->log = $item->log;
-						}
-
-						$obj->logs = array();
-						foreach($obj->log as $log)
-						{
-							$log_obj = new stdClass();
-							$log_obj->text = $log->body;
-							$log_obj->link = $log->attrs->link;
-							$obj->logs[] = $log_obj;
-						}
-					}
-					$addon_info->history[] = $obj;
-				}
-			}
 		}
 		else
 		{
@@ -377,12 +315,16 @@ class addonAdminModel extends addon
 			$addon_info->title = $xml_obj->title->body;
 			$addon_info->description = trim($xml_obj->author->description->body);
 			$addon_info->version = $xml_obj->attrs->version;
+			
 			$date_obj = new stdClass();
 			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$addon_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+			
+			$author_obj = new stdClass();
 			$author_obj->name = $xml_obj->author->name->body;
 			$author_obj->email_address = $xml_obj->author->attrs->email_address;
 			$author_obj->homepage = $xml_obj->author->attrs->link;
+			
 			$addon_info->author = array();
 			$addon_info->author[] = $author_obj;
 
@@ -409,6 +351,11 @@ class addonAdminModel extends addon
 					$addon_info->extra_vars = array();
 					foreach($extra_vars as $key => $val)
 					{
+						if(!$val)
+						{
+							continue;
+						}
+
 						$obj = new stdClass();
 
 						$obj->group = $group->title->body;

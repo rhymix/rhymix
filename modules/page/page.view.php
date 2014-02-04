@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  pageView
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief page view class of the module
  */
 class pageView extends page
@@ -31,7 +32,7 @@ class pageView extends page
 				}
 			case 'OUTSIDE' :
 				{
-					$this->cache_file = sprintf("./files/cache/opage/%d.%s.cache.php", $this->module_info->module_srl, Context::getSslStatus());
+					$this->cache_file = sprintf("%sfiles/cache/opage/%d.%s.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getSslStatus());
 					$this->interval = (int)($this->module_info->page_caching_interval);
 					$this->path = $this->module_info->path;
 					break;
@@ -65,14 +66,14 @@ class pageView extends page
 			if(!file_exists($this->cache_file)) $mtime = 0;
 			else $mtime = filemtime($this->cache_file);
 
-			if($mtime + $this->interval*60 > time())
+			if($mtime + $this->interval*60 > $_SERVER['REQUEST_TIME'])
 			{
 				$page_content = FileHandler::readFile($this->cache_file); 
 				$page_content = preg_replace('@<\!--#Meta:@', '<!--Meta:', $page_content);
 			}
 			else
 			{
-				$oWidgetController = &getController('widget');
+				$oWidgetController = getController('widget');
 				$page_content = $oWidgetController->transWidgetCode($this->module_info->content);
 				FileHandler::writeFile($this->cache_file, $page_content);
 			}
@@ -89,7 +90,7 @@ class pageView extends page
 	{
 		$oTemplate = &TemplateHandler::getInstance();
 
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument(0, true);
 
 		if($this->module_info->document_srl)
@@ -132,7 +133,7 @@ class pageView extends page
 	function getHtmlPage($path, $caching_interval, $cache_file)
 	{
 		// Verify cache
-		if($caching_interval > 0 && file_exists($cache_file) && filemtime($cache_file) + $caching_interval*60 > time())
+		if($caching_interval > 0 && file_exists($cache_file) && filemtime($cache_file) + $caching_interval*60 > $_SERVER['REQUEST_TIME'])
 		{
 			$content = FileHandler::readFile($cache_file);
 		}
@@ -142,10 +143,12 @@ class pageView extends page
 			$content = FileHandler::readFile($cache_file);
 		}
 		// Create opage controller
-		$oPageController = &getController('page');
+		$oPageController = getController('page');
 		// change url of image, css, javascript and so on if the page is from external server
 		$content = $oPageController->replaceSrc($content, $path);
+
 		// Change the document to utf-8 format
+		$buff = new stdClass;
 		$buff->content = $content;
 		$buff = Context::convertEncoding($buff);
 		$content = $buff->content;
@@ -165,24 +168,28 @@ class pageView extends page
 	/**
 	 * @brief Create a cache file in order to include if it is an internal file
 	 */
-	function executeFile($path, $caching_interval, $cache_file)
+	function executeFile($target_file, $caching_interval, $cache_file)
 	{
 		// Cancel if the file doesn't exist
-		if(!file_exists($path)) return;
+		if(!file_exists(FileHandler::getRealPath($target_file))) return;
+
 		// Get a path and filename
 		$tmp_path = explode('/',$cache_file);
 		$filename = $tmp_path[count($tmp_path)-1];
 		$filepath = preg_replace('/'.$filename."$/i","",$cache_file);
+		$cache_file = FileHandler::getRealPath($cache_file);
+
 		// Verify cache
-		if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= time() || filemtime($cache_file)<filemtime($path))
+		if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= $_SERVER['REQUEST_TIME'] || filemtime($cache_file)<filemtime($target_file))
 		{
 			if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
+
 			// Read a target file and get content
 			ob_start();
-			@include($path);
+			include(FileHandler::getRealPath($target_file));
 			$content = ob_get_clean();
 			// Replace relative path to the absolute path 
-			$this->path = str_replace('\\', '/', realpath(dirname($path))) . '/';
+			$this->path = str_replace('\\', '/', realpath(dirname($target_file))) . '/';
 			$content = preg_replace_callback('/(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
 			$content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
@@ -200,7 +207,7 @@ class pageView extends page
 		$__Context->tpl_path = $filepath;
 
 		ob_start();
-		@include($cache_file);
+		include($cache_file);
 		$content = ob_get_clean();
 
 		return $content;
@@ -216,13 +223,13 @@ class pageView extends page
 				return $matches[0];
 			// In case of  .. , get a path
 		}
-		else if(preg_match('/^\.\./i',$val))
+		else if(strncasecmp('..', $val, 2) === 0)
 		{
 			$p = Context::pathToUrl($this->path);
 			return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
 		}
 
-		if(substr($val,0,2)=='./') $val = substr($val,2);
+		if(strncasecmp('..', $val, 2) === 0) $val = substr($val,2);
 		$p = Context::pathToUrl($this->path);
 		$path = sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
 

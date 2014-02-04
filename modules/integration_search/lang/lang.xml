@@ -254,7 +254,7 @@
 		<item name="voted_count">
 			<value xml:lang="ko"><![CDATA[추천 수]]></value>
 			<value xml:lang="en"><![CDATA[Number of Votes]]></value>
-			<value xml:lang="jp"><![CDATA[推薦数]]></value>
+			<value xml:lang="jp"><![CDATA[推奨数]]></value>
 			<value xml:lang="zh-CN"><![CDATA[推荐]]></value>
 			<value xml:lang="zh-TW"><![CDATA[推薦]]></value>
 			<value xml:lang="fr"><![CDATA[Recommandés]]></value>

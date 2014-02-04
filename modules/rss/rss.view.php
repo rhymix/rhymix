@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * The view class of the rss module
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  */
 class rssView extends rss
 {
@@ -25,9 +26,9 @@ class rssView extends rss
 	 */
 	function rss($document_list = null, $rss_title = null, $add_description = null)
 	{
-		$oDocumentModel = &getModel('document');
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oDocumentModel = getModel('document');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 		// Get the content and information for the current requested module if the method is not called from another module
 		if(!$document_list)
 		{
@@ -74,6 +75,9 @@ class rssView extends rss
 
 			if(!count($module_srls) && !$add_description) return $this->dispError();
 
+			$info = new stdClass;
+			$args = new stdClass;
+
 			if($module_srls)
 			{
 				$args->module_srl = implode(',',$module_srls);
@@ -103,17 +107,17 @@ class rssView extends rss
 					$info->title = str_replace('\'', '&apos;',$info->title);
 					if($config->feed_description)
 					{
-						$info->description = str_replace('\'', '&apos;', htmlspecialchars($config->feed_description));
+						$info->description = str_replace('\'', '&apos;', htmlspecialchars($config->feed_description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 					}
 					else
 					{
-						$info->description = str_replace('\'', '&apos;', htmlspecialchars($this->module_info->description));
+						$info->description = str_replace('\'', '&apos;', htmlspecialchars($this->module_info->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 					}
 					$info->link = getUrl('','mid',$mid);
-					$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($feed_config->feed_copyright));
+					$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($feed_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 					if(!$info->feed_copyright)
 					{
-						$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright));
+						$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 					}
 				}
 			}
@@ -130,14 +134,14 @@ class rssView extends rss
 			}
 
 			$oModuleController->replaceDefinedLangCode($info->title);
-			$info->title = str_replace('\'', '&apos;', htmlspecialchars($info->title));
-			$info->description = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_description));
+			$info->title = str_replace('\'', '&apos;', htmlspecialchars($info->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+			$info->description = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 			$info->link = Context::getRequestUri();
-			$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright));
+			$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 		}
 		if($add_description) $info->description .= "\r\n".$add_description;
 
-		if($total_config->image) $info->image = Context::getRequestUri().str_replace('\'', '&apos;', htmlspecialchars($total_config->image));
+		if($total_config->image) $info->image = Context::getRequestUri().str_replace('\'', '&apos;', htmlspecialchars($total_config->image, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 		switch(Context::get('format'))
 		{
 			case 'atom':
@@ -247,7 +251,7 @@ class rssView extends rss
 			if(!$current_module_srl) return new Object();
 		}
 		// Get teh RSS configurations for the selected module
-		$oRssModel = &getModel('rss');
+		$oRssModel = getModel('rss');
 		$rss_config = $oRssModel->getRssModuleConfig($current_module_srl);
 		Context::set('rss_config', $rss_config);
 		// Set the template file

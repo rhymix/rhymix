@@ -1,21 +1,15 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Cache class for file
  *
  * Filedisk Cache Handler
  *
- * @author Arnia Software (xe_dev@arnia.ro)
+ * @author NAVER (developers@xpressengine.com)
  */
 class CacheFile extends CacheBase
 {
-
-	/**
-	 * Default valid time
-	 * @var int
-	 */
-	var $valid_time = 36000;
-
 	/**
 	 * Path that value to stored
 	 * @var string
@@ -44,10 +38,7 @@ class CacheFile extends CacheBase
 	function CacheFile()
 	{
 		$this->cache_dir = _XE_PATH_ . $this->cache_dir;
-		if(!is_dir($this->cache_dir))
-		{
-			FileHandler::makeDir($this->cache_dir);
-		}
+		FileHandler::makeDir($this->cache_dir);
 	}
 
 	/**
@@ -58,7 +49,7 @@ class CacheFile extends CacheBase
 	 */
 	function getCacheFileName($key)
 	{
-		return $this->cache_dir . str_replace(':', '_', $key);
+		return $this->cache_dir . str_replace(':', DIRECTORY_SEPARATOR, $key) . '.php';
 	}
 
 	/**
@@ -82,8 +73,11 @@ class CacheFile extends CacheBase
 	function put($key, $obj, $valid_time = 0)
 	{
 		$cache_file = $this->getCacheFileName($key);
-		$text = serialize($obj);
-		FileHandler::writeFile($cache_file, $text);
+		$content = array();
+		$content[] = '<?php';
+		$content[] = 'if(!defined(\'__XE__\')) { exit(); }';
+		$content[] = 'return \'' . addslashes(serialize($obj)) . '\';';
+		FileHandler::writeFile($cache_file, implode(PHP_EOL, $content));
 	}
 
 	/**
@@ -96,8 +90,15 @@ class CacheFile extends CacheBase
 	function isValid($key, $modified_time = 0)
 	{
 		$cache_file = $this->getCacheFileName($key);
+
 		if(file_exists($cache_file))
 		{
+			if($modified_time > 0 && filemtime($cache_file) < $modified_timed)
+			{
+				FileHandler::removeFile($cache_file);
+				return false;
+			}
+
 			return true;
 		}
 
@@ -113,14 +114,20 @@ class CacheFile extends CacheBase
 	 */
 	function get($key, $modified_time = 0)
 	{
-		$cache_file = $this->getCacheFileName($key);
-		$content = FileHandler::readFile($cache_file);
-		if(!$content)
+		if(!$cache_file = FileHandler::exists($this->getCacheFileName($key)))
 		{
 			return false;
 		}
 
-		return unserialize($content);
+		if($modified_time > 0 && filemtime($cache_file) < $modified_timed)
+		{
+			FileHandler::removeFile($cache_file);
+			return false;
+		}
+
+		$content = include($cache_file);
+
+		return unserialize(stripslashes($content));
 	}
 
 	/**

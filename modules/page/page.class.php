@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  page
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief high class of the module page
  */
 class page extends ModuleObject
@@ -36,6 +37,7 @@ class page extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
+		$args = new stdClass;
 		// opage module instance update
 		$output = executeQueryArray('page.pageTypeOpageCheck');
 		if($output->toBool() && count($output->data) > 0)

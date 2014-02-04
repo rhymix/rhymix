@@ -1,7 +1,8 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  pollController
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @brief Controller class for poll module
  */
 class pollController extends poll
@@ -19,45 +20,95 @@ class pollController extends poll
 	function procInsert()
 	{
 		$stop_date = Context::get('stop_date');
-		if($stop_date < date("Ymd")) $stop_date = date("YmdHis", time()+60*60*24*365);
+		if($stop_date < date('Ymd'))
+		{
+			$stop_date = date('YmdHis', $_SERVER['REQUEST_TIME']+60*60*24*365);
+		}
 
 		$logged_info = Context::get('logged_info');
 		$vars = Context::getRequestVars();
+		$args = new stdClass;
+		$tmp_args = array();
+
+		unset($vars->_filter);
+		unset($vars->error_return_url);
+		unset($vars->stop_date);
+
 		foreach($vars as $key => $val)
 		{
-			if(strpos($key,'tidx')) continue;
-			if(!preg_match("/^(title|checkcount|item)_/i", $key)) continue;
-			if(!trim($val)) continue;
+			if(stripos($key, 'tidx'))
+			{
+				continue;
+			}
 
-			$tmp_arr = explode('_',$key);
+			$tmp_arr = explode('_', $key);
 
 			$poll_index = $tmp_arr[1];
+			if(!$poll_index)
+			{
+				continue;
+			}
 
-			if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val);
+			if(!trim($val))
+			{
+				continue;
+			}
 
-			if($tmp_arr[0]=='title') $tmp_args[$poll_index]->title = $val;
-			else if($tmp_arr[0]=='checkcount') $tmp_args[$poll_index]->checkcount = $val;
-			else if($tmp_arr[0]=='item') $tmp_args[$poll_index]->item[] = $val;
+			if($tmp_args[$poll_index] == NULL)
+			{
+				$tmp_args[$poll_index] = new stdClass;
+			}
+
+			if(!is_array($tmp_args[$poll_index]->item))
+			{
+				$tmp_args[$poll_index]->item = array();
+			}
+
+			if($logged_info->is_admin != 'Y')
+			{
+				$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			}
+
+			switch($tmp_arr[0])
+			{
+				case 'title':
+					$tmp_args[$poll_index]->title = $val;
+					break;
+				case 'checkcount':
+					$tmp_args[$poll_index]->checkcount = $val;
+					break;
+				case 'item':
+					$tmp_args[$poll_index]->item[] = $val;
+					break;
+			}
 		}
 
 		foreach($tmp_args as $key => $val)
 		{
-			if(!$val->checkcount) $val->checkcount = 1;
-			if($val->title && count($val->item)) $args->poll[] = $val;
+			if(!$val->checkcount)
+			{
+				$val->checkcount = 1;
+			}
+
+			if($val->title && count($val->item))
+			{
+				$args->poll[] = $val;
+			}
 		}
 
 		if(!count($args->poll)) return new Object(-1, 'cmd_null_item');
 
 		$args->stop_date = $stop_date;
+
 		// Configure the variables
 		$poll_srl = getNextSequence();
-
 		$member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
+
 		// Register the poll
-		unset($poll_args);
+		$poll_args = new stdClass;
 		$poll_args->poll_srl = $poll_srl;
 		$poll_args->member_srl = $member_srl;
 		$poll_args->list_order = $poll_srl*-1;
@@ -69,10 +120,11 @@ class pollController extends poll
 			$oDB->rollback();
 			return $output;
 		}
+
 		// Individual poll registration
 		foreach($args->poll as $key => $val)
 		{
-			unset($title_args);
+			$title_args = new stdClass;
 			$title_args->poll_srl = $poll_srl;
 			$title_args->poll_index_srl = getNextSequence();
 			$title_args->title = $val->title;
@@ -87,10 +139,11 @@ class pollController extends poll
 				$oDB->rollback();
 				return $output;
 			}
+
 			// Add the individual survey items
 			foreach($val->item as $k => $v)
 			{
-				unset($item_args);
+				$item_args = new stdClass;
 				$item_args->poll_srl = $poll_srl;
 				$item_args->poll_index_srl = $title_args->poll_index_srl;
 				$item_args->title = $v;
@@ -116,8 +169,8 @@ class pollController extends poll
 	 */
 	function procPoll()
 	{
-		$poll_srl = Context::get('poll_srl'); 
-		$poll_srl_indexes = Context::get('poll_srl_indexes'); 
+		$poll_srl = Context::get('poll_srl');
+		$poll_srl_indexes = Context::get('poll_srl_indexes');
 		$tmp_item_srls = explode(',',$poll_srl_indexes);
 		for($i=0;$i<count($tmp_item_srls);$i++)
 		{
@@ -129,12 +182,13 @@ class pollController extends poll
 		// If there is no response item, display an error
 		if(!count($item_srls)) return new Object(-1, 'msg_check_poll_item');
 		// Make sure is the poll has already been taken
-		$oPollModel = &getModel('poll');
+		$oPollModel = getModel('poll');
 		if($oPollModel->isPolled($poll_srl)) return new Object(-1, 'msg_already_poll');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
+		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
 		// Update all poll responses related to the post
 		$output = executeQuery('poll.updatePoll', $args);
@@ -153,6 +207,7 @@ class pollController extends poll
 			return $output;
 		}
 		// Log the respondent's information
+		$log_args = new stdClass;
 		$log_args->poll_srl = $poll_srl;
 
 		$logged_info = Context::get('logged_info');
@@ -169,8 +224,8 @@ class pollController extends poll
 
 		$oDB->commit();
 
-		$skin = Context::get('skin'); 
-		if(!$skin || !is_dir('./modules/poll/skins/'.$skin)) $skin = 'default';
+		$skin = Context::get('skin');
+		if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
 		// Get tpl
 		$tpl = $oPollModel->getPollHtml($poll_srl, '', $skin);
 
@@ -187,12 +242,12 @@ class pollController extends poll
 	 */
 	function procPollViewResult()
 	{
-		$poll_srl = Context::get('poll_srl'); 
+		$poll_srl = Context::get('poll_srl');
 
-		$skin = Context::get('skin'); 
-		if(!$skin || !is_dir('./modules/poll/skins/'.$skin)) $skin = 'default';
+		$skin = Context::get('skin');
+		if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
 
-		$oPollModel = &getModel('poll');
+		$oPollModel = getModel('poll');
 		$tpl = $oPollModel->getPollResultHtml($poll_srl, $skin);
 
 		$this->add('poll_srl', $poll_srl);
@@ -211,7 +266,8 @@ class pollController extends poll
 		global $lang;
 		if(count($pollSrlList) > 0)
 		{
-			$oPollAdminModel = &getAdminModel('poll');
+			$oPollAdminModel = getAdminModel('poll');
+			$args = new stdClass;
 			$args->pollIndexSrlList = $pollSrlList;
 			$output = $oPollAdminModel->getPollListWithMember($args);
 			$pollList = $output->data;
@@ -346,7 +402,7 @@ class pollController extends poll
 		{
 			$poll_srl = $matches[3][$i];
 
-			$args = null;
+			$args = new stdClass;
 			$args->poll_srl = $poll_srl;
 			$output = executeQuery('poll.getPoll', $args);
 			$poll = $output->data;

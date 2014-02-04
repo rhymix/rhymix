@@ -6,18 +6,18 @@
         <permission action="procTrashAdminRestore" target="manager" />
     </permissions>
     <actions>
-        <action name="dispTrashAdminList" type="view" standalone="true" admin_index="true" menu_name="trash" menu_index="true" />
+        <action name="dispTrashAdminList" type="view" admin_index="true" menu_name="trash" menu_index="true" />
 
-        <action name="procTrashAdminEmptyTrash" type="controller" standalone="true" ruleset="emptyTrash" />
-        <action name="procTrashAdminRestore" type="controller" standalone="true" />
-        <action name="procTrashAdminGetList" type="controller" standalone="true" />
+        <action name="procTrashAdminEmptyTrash" type="controller" ruleset="emptyTrash" />
+        <action name="procTrashAdminRestore" type="controller" />
+        <action name="procTrashAdminGetList" type="controller" />
     </actions>
 	<menus>
 		<menu name="trash">
 			<title xml:lang="en">Trash</title>
 			<title xml:lang="ko">휴지통</title>
 			<title xml:lang="zh-CN">Trash</title>
-			<title xml:lang="jp">Trash</title>
+			<title xml:lang="jp">ゴミ箱</title>
 			<title xml:lang="es">Trash</title>
 			<title xml:lang="ru">Trash</title>
 			<title xml:lang="fr">Trash</title>

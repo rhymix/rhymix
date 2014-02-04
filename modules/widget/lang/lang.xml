@@ -626,9 +626,11 @@ Sin la necesidad de utilizar los módulos de página o del diseño de XE, Usted 
 	<item name="display_no">
 		<value xml:lang="ko"><![CDATA[표시안함]]></value>
 		<value xml:lang="en"><![CDATA[Not displayed]]></value>
+		<value xml:lang="jp"><![CDATA[表示しない]]></value>
 	</item>
 	<item name="display_yes">
 		<value xml:lang="ko"><![CDATA[표시함]]></value>
 		<value xml:lang="en"><![CDATA[Display]]></value>
+		<value xml:lang="jp"><![CDATA[表示する]]></value>
 	</item>
 </lang>

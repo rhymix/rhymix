@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Validator class
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/validator
  * @version 0.1
  */
@@ -94,7 +95,7 @@ class Validator
 		));
 
 		$this->_has_mb_func = is_callable('mb_strlen');
-		$this->setCacheDir('./files/cache');
+		$this->setCacheDir(_XE_PATH_ . 'files/cache');
 	}
 
 	/**
@@ -681,19 +682,7 @@ class Validator
 			return FALSE;
 		}
 
-		if(is_callable('file_put_contents'))
-		{
-			@file_put_contents($filepath, $content);
-		}
-		else
-		{
-			$fp = @fopen($filepath, 'w');
-			if(is_resource($fp))
-			{
-				fwrite($fp, $content);
-				fclose($fp);
-			}
-		}
+		@file_put_contents($filepath, $content, LOCK_EX);
 
 		return $filepath;
 	}

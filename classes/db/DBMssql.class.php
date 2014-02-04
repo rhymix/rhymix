@@ -1,10 +1,11 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * - DBMSSQL
  * - Modified to use MSSQL driver by sol (sol@ngleader.com)
  *
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * @package /classes/db
  * @version 0.1
  */
@@ -54,20 +55,6 @@ class DBMssql extends DB
 	function create()
 	{
 		return new DBMssql;
-	}
-
-	/**
-	 * Return if supportable
-	 * Check 'sqlsrv' extension loaded.
-	 * @return boolean
-	 */
-	function isSupported()
-	{
-		if(!extension_loaded("sqlsrv"))
-		{
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -931,7 +918,7 @@ class DBMssql extends DB
 
 			// Check for distinct query and if found update count query structure
 			$temp_select = $queryObject->getSelectString(true);
-			$uses_distinct = strpos(strtolower($temp_select), "distinct") !== false;
+			$uses_distinct = stripos($temp_select, "distinct") !== false;
 			$uses_groupby = $queryObject->getGroupByString() != '';
 			if($uses_distinct || $uses_groupby)
 			{
@@ -1019,5 +1006,8 @@ class DBMssql extends DB
 	}
 
 }
+
+DBMssql::$isSupported = extension_loaded("sqlsrv");
+
 /* End of file DBMssql.class.php */
 /* Location: ./classes/db/DBMssql.class.php */

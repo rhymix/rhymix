@@ -1,13 +1,13 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * CacheHandler
  *
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 class CacheHandler extends Handler
 {
-
 	/**
 	 * instance of cache handler
 	 * @var CacheBase
@@ -125,7 +125,21 @@ class CacheHandler extends Handler
 		{
 			return true;
 		}
+
 		return false;
+	}
+
+	/**
+	 * Get cache name by key
+	 *
+	 * @param string $key The key that will be associated with the item.
+	 * @return string Returns cache name
+	 */
+	function getCacheKey($key)
+	{
+		$key = str_replace('/', ':', $key);
+
+		return __XE_VERSION__ . ':' . $key;
 	}
 
 	/**
@@ -142,6 +156,9 @@ class CacheHandler extends Handler
 		{
 			return false;
 		}
+
+		$key = $this->getCacheKey($key);
+
 		return $this->handler->get($key, $modified_time);
 	}
 
@@ -157,10 +174,13 @@ class CacheHandler extends Handler
 	 */
 	function put($key, $obj, $valid_time = 0)
 	{
-		if(!$this->handler)
+		if(!$this->handler && !$key)
 		{
 			return false;
 		}
+
+		$key = $this->getCacheKey($key);
+
 		return $this->handler->put($key, $obj, $valid_time);
 	}
 
@@ -176,6 +196,9 @@ class CacheHandler extends Handler
 		{
 			return false;
 		}
+
+		$key = $this->getCacheKey($key);
+
 		return $this->handler->delete($key);
 	}
 
@@ -193,6 +216,9 @@ class CacheHandler extends Handler
 		{
 			return false;
 		}
+
+		$key = $this->getCacheKey($key);
+
 		return $this->handler->isValid($key, $modified_time);
 	}
 
@@ -207,6 +233,7 @@ class CacheHandler extends Handler
 		{
 			return false;
 		}
+
 		return $this->handler->truncate();
 	}
 
@@ -234,7 +261,7 @@ class CacheHandler extends Handler
 			$this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
 		}
 
-		return $this->keyGroupVersions[$keyGroupName] . ':' . $keyGroupName . ':' . $key;
+		return 'cache_group_' . $this->keyGroupVersions[$keyGroupName] . ':' . $keyGroupName . ':' . $key;
 	}
 
 	/**
@@ -254,10 +281,15 @@ class CacheHandler extends Handler
 /**
  * Base class of Cache
  *
- * @author NHN (developer@xpressengine.com)
+ * @author NAVER (developer@xpressengine.com)
  */
 class CacheBase
 {
+	/**
+	 * Default valid time
+	 * @var int
+	 */
+	var $valid_time = 36000;
 
 	/**
 	 * Get cached data

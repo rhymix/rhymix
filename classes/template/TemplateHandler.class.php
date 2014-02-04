@@ -1,8 +1,9 @@
 <?php
+/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * @class TemplateHandler
- * @author NHN (developers@xpressengine.com)
+ * @author NAVER (developers@xpressengine.com)
  * template compiler
  * @version 0.1
  * @remarks It compiles template file by using regular expression into php
@@ -11,7 +12,7 @@
 class TemplateHandler
 {
 
-	private $compiled_path = './files/cache/template_compiled/'; ///< path of compiled caches files
+	private $compiled_path = 'files/cache/template_compiled/'; ///< path of compiled caches files
 	private $path = NULL; ///< target directory
 	private $filename = NULL; ///< target filename
 	private $file = NULL; ///< target file (fullpath)
@@ -29,6 +30,7 @@ class TemplateHandler
 	public function __construct()
 	{
 		$this->xe_path = rtrim(preg_replace('/([^\.^\/]+)\.php$/i', '', $_SERVER['SCRIPT_NAME']), '/');
+		$this->compiled_path = _XE_PATH_ . $this->compiled_path;
 	}
 
 	/**
@@ -96,7 +98,7 @@ class TemplateHandler
 		$this->web_path = $this->xe_path . '/' . ltrim(preg_replace('@^' . preg_quote(_XE_PATH_, '@') . '|\./@', '', $this->path), '/');
 
 		// get compiled file name
-		$hash = md5($this->file . __ZBXE_VERSION__);
+		$hash = md5($this->file . __XE_VERSION__);
 		$this->compiled_file = "{$this->compiled_path}{$hash}.compiled.php";
 
 		// compare various file's modified time for check changed
@@ -114,7 +116,7 @@ class TemplateHandler
 	 */
 	public function compile($tpl_path, $tpl_filename, $tpl_file = '')
 	{
-		$buff = '';
+		$buff = false;
 
 		// store the starting time for debug information
 		if(__DEBUG__ == 3)
@@ -157,7 +159,7 @@ class TemplateHandler
 			}
 		}
 
-		if(!$buff)
+		if($buff === FALSE)
 		{
 			$buff = $this->parse();
 			if($oCacheHandler->isSupport())
@@ -329,7 +331,7 @@ class TemplateHandler
 		{
 			preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
 			if(!$m3[0])
-				$matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo htmlspecialchars(getRequestUriByServerEnviroment()) ?>" />' . $matches[2];
+				$matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo htmlspecialchars(getRequestUriByServerEnviroment(), ENT_COMPAT | ENT_HTML401, \'UTF-8\', false) ?>" />' . $matches[2];
 		}
 		else
 		{
@@ -674,7 +676,7 @@ class TemplateHandler
 							else
 							{
 								$metafile = $attr['target'];
-								$result = "\$__tmp=array('{$attr['target']}','{$attr['type']}','{$attr['targetie']}','{$attr['index']}');Context::loadFile(\$__tmp,'{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');unset(\$__tmp);";
+								$result = "\$__tmp=array('{$attr['target']}','{$attr['type']}','{$attr['targetie']}','{$attr['index']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
 							}
 							break;
 						case 'css':
@@ -685,7 +687,7 @@ class TemplateHandler
 							else
 							{
 								$metafile = $attr['target'];
-								$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}');Context::loadFile(\$__tmp,'{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');unset(\$__tmp);";
+								$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
 							}
 							break;
 					}

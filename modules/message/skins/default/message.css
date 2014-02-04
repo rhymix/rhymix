@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* NHN | dece24@nhncorp.com */
+/* NAVER */
 @font-face{font-family:NG;src:url(https://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.eot);src:local(※),url(https://themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.woff) format('woff')}
 body, #access table, #access input, #access textarea, #access select, #access button, #access label{font-family:나눔고딕,NanumGothic,NG,돋움,Dotum,Arial,Helvetica,sans-serif;font-size:13px}
 @media all and (max-width:980px){
