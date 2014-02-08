@@ -84,7 +84,7 @@ class CacheApc extends CacheBase
 
 		if($modified_time > 0 && $modified_time > $obj[0])
 		{
-			$this->_delete($_key);
+			$this->delete($_key);
 			return false;
 		}
 
@@ -110,22 +110,11 @@ class CacheApc extends CacheBase
 
 		if($modified_time > 0 && $modified_time > $obj[0])
 		{
-			$this->_delete($_key);
+			$this->delete($_key);
 			return false;
 		}
 
 		return $obj[1];
-	}
-
-	/**
-	 * Delete variable from the cache(private)
-	 *
-	 * @param string $_key Used to store the value.
-	 * @return void
-	 */
-	function _delete($_key)
-	{
-		$this->put($_key, null, 1);
 	}
 
 	/**
@@ -136,7 +125,7 @@ class CacheApc extends CacheBase
 	 */
 	function delete($key)
 	{
-		$this->_delete($key);
+		return apc_delete($key);
 	}
 
 	/**
@@ -149,7 +138,13 @@ class CacheApc extends CacheBase
 		return apc_clear_cache('user');
 	}
 
-
+	/**
+	 * @DEPRECATED
+	 */
+	function _delete($key)
+	{
+		return $this->delete($key);
+	}
 }
 
 CacheApc::$isSupport  = function_exists('apc_add');
