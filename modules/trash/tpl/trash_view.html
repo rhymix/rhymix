@@ -28,6 +28,16 @@
 <table class="x_table x_table-striped x_table-hover">
 	<col width="120">
 	<tr>
+		<th scope="row">{$lang->module}</th>
+		<td class="text">
+		{@
+		$oModuleModel = &getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($oOrigin->module_srl);
+		}
+		{$module_info->browser_title} ({$module_info->mid})
+		</td>
+	</tr>	
+	<tr>
 		<th scope="row">{$lang->title}</th>
 		<td class="text">{$oOrigin->title}</td>
 	</tr>
