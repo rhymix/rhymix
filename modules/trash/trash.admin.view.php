@@ -61,7 +61,7 @@ class trashAdminView extends trash
 
 		$oTrashModel = getModel('trash');
 		$output = $oTrashModel->getTrash($trash_srl);
-		if(!$output->data->trash_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$output->data->getTrashSrl()) return new Object(-1, 'msg_invalid_request');
 
 		$originObject = unserialize($output->data->getSerializedObject());
 		if(is_array($originObject)) $originObject = (object)$originObject;
