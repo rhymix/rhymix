@@ -402,10 +402,6 @@ class adminAdminView extends admin
 		$whitelist = implode("\r\n", $db_info->sitelock_whitelist);
 		Context::set('sitelock_whitelist', $whitelist);
 
-		if(gettype($db_info->admin_ip_list)!="array")
-			$db_info->admin_ip_list = array();
-		if(!in_array('127.0.0.1', $db_info->admin_ip_list)) $db_info->admin_ip_list[] = '127.0.0.1';
-		if(!in_array($_SERVER['REMOTE_ADDR'], $db_info->admin_ip_list)) $db_info->admin_ip_list[] = $_SERVER['REMOTE_ADDR'];
 
 		if($db_info->admin_ip_list) $admin_ip_list = implode("\r\n", $db_info->admin_ip_list);
 		else $admin_ip_list = '';
