@@ -299,6 +299,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 	require(_XE_PATH_ . 'classes/xml/XmlJsFilter.class.php');
 	require(_XE_PATH_ . 'classes/xml/XmlLangParser.class.php');
 	require(_XE_PATH_ . 'classes/cache/CacheHandler.class.php');
+	require(_XE_PATH_ . 'classes/router/Router.class.php');
 	require(_XE_PATH_ . 'classes/context/Context.class.php');
 	require(_XE_PATH_ . 'classes/db/DB.class.php');
 	require(_XE_PATH_ . 'classes/file/FileHandler.class.php');
