@@ -389,7 +389,6 @@ class adminAdminModel extends admin
 		$info['widget'] = "";
 		$oWidgetModel = getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
-		$widget_list = NULL;
 		if($widget_list) foreach($widget_list as $widget)
 		{
 			if(in_array($widget->widget, $skip['widget']))
