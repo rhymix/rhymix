@@ -350,7 +350,7 @@ class adminAdminModel extends admin
 		$info['module'] = '';
 		$oModuleModel = getModel('module');
 		$module_list = $oModuleModel->getModuleList();
-		foreach($module_list as $module)
+		if($module_list) foreach($module_list as $module)
 		{
 			if(in_array($module->module, $skip['module']))
 			{
@@ -363,7 +363,7 @@ class adminAdminModel extends admin
 		$info['addon'] = '';
 		$oAddonAdminModel = getAdminModel('addon');
 		$addon_list = $oAddonAdminModel->getAddonList();
-		foreach($addon_list as $addon)
+		if($addon_list) foreach($addon_list as $addon)
 		{
 			if(in_array($addon->addon, $skip['addon']))
 			{
@@ -376,7 +376,7 @@ class adminAdminModel extends admin
 		$info['layout'] = "";
 		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getDownloadedLayoutList();
-		foreach($layout_list as $layout)
+		if($layout_list) foreach($layout_list as $layout)
 		{
 			if(in_array($layout->layout, $skip['layout']))
 			{
@@ -389,7 +389,7 @@ class adminAdminModel extends admin
 		$info['widget'] = "";
 		$oWidgetModel = getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
-		foreach($widget_list as $widget)
+		if($widget_list) foreach($widget_list as $widget)
 		{
 			if(in_array($widget->widget, $skip['widget']))
 			{
@@ -402,7 +402,7 @@ class adminAdminModel extends admin
 		$info['widgetstyle'] = "";
 		$oWidgetModel = getModel('widget');
 		$widgetstyle_list = $oWidgetModel->getDownloadedWidgetStyleList();
-		foreach($widgetstyle_list as $widgetstyle)
+		if($widgetstyle_list) foreach($widgetstyle_list as $widgetstyle)
 		{
 			if(in_array($widgetstyle->widgetStyle, $skip['widgetstyle']))
 			{

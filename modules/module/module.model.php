@@ -746,7 +746,6 @@ class moduleModel extends module
 
 		// Module Information
 		$module_info = new stdClass();
-		$author_obj = new stdClass();
 		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
 		{
 			// module format 0.2
@@ -766,6 +765,7 @@ class moduleModel extends module
 
 			foreach($author_list as $author)
 			{
+				$author_obj = new stdClass();
 				$author_obj->name = $author->name->body;
 				$author_obj->email_address = $author->attrs->email_address;
 				$author_obj->homepage = $author->attrs->link;
