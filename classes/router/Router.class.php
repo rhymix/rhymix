@@ -7,12 +7,6 @@
 class Router
 {
 	/**
-	 * Singleton
-	 * @var object
-	 */
-	private static $theInstance = null;
-
-	/**
 	 * URI Segments
 	 * @var array
 	 */
@@ -22,35 +16,45 @@ class Router
 	 * Routes
 	 * @var array
 	 */
-	private $routes = array();
+	private static $routes = array(
+		// rss , blogAPI
+		'(rss|atom)' => array('module' => 'rss', 'act' => '$1'),
+		'([a-zA-Z0-9_]+)/(rss|atom|api)' => array('mid' => '$1', 'act' => '$2'),
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/(rss|atom|api)' => array('vid' => '$1', 'mid' => '$2', 'act' => '$3'),
+		// trackback
+		'([0-9]+)/(.+)/trackback' => array('document_srl' => '$1', 'key' => '$2', 'act' => 'trackback'),
+		'([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback' => array('mid' => '$1', 'document_srl' => '$2', 'key' => '$3', 'act' => 'trackback'),
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback' => array('vid' => '$1', 'mid' => '$2', 'document_srl' => '$3' , 'key' => '$4', 'act' => 'trackback'),
+		// mid
+		'([a-zA-Z0-9_]+)/?' => array('mid' => '$1'),
+		// mid + document_srl
+		'([a-zA-Z0-9_]+)/([0-9]+)' => array('mid' => '$1', 'document_srl' => '$2'),
+		// vid + mid
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/' => array('vid' => '$1', 'mid' => '$2'),
+		// vid + mid + document_srl
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)?' => array('vid' => '$1', 'mid' => '$2', 'document_srl' => '$3'),
+		// document_srl
+		'([0-9]+)' => array('document_srl' => '$1'),
+		// mid + entry title
+		'([a-zA-Z0-9_]+)/entry/(.+)' => array('mid' => '$1', 'entry' => '$2'),
+		// vid + mid + entry title
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)' => array('vid' => '$1', 'mid' => '$2', 'entry' => '$3'),
+		// shop / vid / [category|product] / identifier
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([a-zA-Z0-9_\.-]+)' => array('act' => 'route', 'vid' => '$1', 'type' => '$2', 'identifier'=> '$3')
+	);
 
 	/**
 	 * Rewrite map
 	 * @var array
 	 */
-	private $rewrite_map = array();
-
-	/**
-	 * @brief returns static context object (Singleton). It's to use Router without declaration of an object
-	 * @return object Instance
-	 */
-	public static function getInstance()
-	{
-		if(!isset(self::$theInstance))
-		{
-			self::$theInstance = new Router();
-		}
-
-		return self::$theInstance;
-	}
-
+	private static $rewrite_map = array();
 
 	/**
 	 * @brief Applys routes.
 	 * @see This function should be called only once
 	 * @return void
 	 */
-	public function proc()
+	public static function proc()
 	{
 		$uri = $_SERVER['REQUEST_URI'];
 
@@ -81,39 +85,9 @@ class Router
 			unset(self::$segments[0]);
 		}
 
-		$self = Router::getInstance();
-
-		// Set default routes
-		$self->routes = array(
-			// rss , blogAPI
-			'(rss|atom)' => array('module' => 'rss', 'act' => '$1'),
-			'([a-zA-Z0-9_]+)/(rss|atom|api)' => array('mid' => '$1', 'act' => '$2'),
-			'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/(rss|atom|api)' => array('vid' => '$1', 'mid' => '$2', 'act' => '$3'),
-			// trackback
-			'([0-9]+)/(.+)/trackback' => array('document_srl' => '$1', 'key' => '$2', 'act' => 'trackback'),
-			'([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback' => array('mid' => '$1', 'document_srl' => '$2', 'key' => '$3', 'act' => 'trackback'),
-			'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback' => array('vid' => '$1', 'mid' => '$2', 'document_srl' => '$3' , 'key' => '$4', 'act' => 'trackback'),
-			// mid
-			'([a-zA-Z0-9_]+)/?' => array('mid' => '$1'),
-			// mid + document_srl
-			'([a-zA-Z0-9_]+)/([0-9]+)' => array('mid' => '$1', 'document_srl' => '$2'),
-			// vid + mid
-			'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/' => array('vid' => '$1', 'mid' => '$2'),
-			// vid + mid + document_srl
-			'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)?' => array('vid' => '$1', 'mid' => '$2', 'document_srl' => '$3'),
-			// document_srl
-			'([0-9]+)' => array('document_srl' => '$1'),
-			// mid + entry title
-			'([a-zA-Z0-9_]+)/entry/(.+)' => array('mid' => '$1', 'entry' => '$2'),
-			// vid + mid + entry title
-			'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)' => array('vid' => '$1', 'mid' => '$2', 'entry' => '$3'),
-			// shop / vid / [category|product] / identifier
-			'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([a-zA-Z0-9_\.-]+)' => array('act' => 'route', 'vid' => '$1', 'type' => '$2', 'identifier'=> '$3'),
-		);
-
-		if(isset($self->routes[$path]))
+		if(isset(self::$routes[$path]))
 		{
-			foreach($self->routes[$path] as $key => $val)
+			foreach(self::$routes[$path] as $key => $val)
 			{
 				$val = preg_replace('#^\$([0-9]+)$#e', '\$matches[$1]', $val);
 
@@ -124,7 +98,7 @@ class Router
 		}
 
 		// Apply routes
-		foreach($self->routes as $regex => $query)
+		foreach(self::$routes as $regex => $query)
 		{
 			if(preg_match('#^' . $regex . '$#', $path, $matches))
 			{
@@ -143,10 +117,9 @@ class Router
 	 * @param array $map
 	 * @return void
 	 */
-	public function setMap($map)
+	public static function setMap($map)
 	{
-		$self = Router::getInstance();
-		$self->rewrite_map = array_merge($self->rewrite_map, $map);
+		self::$rewrite_map = array_merge(self::$rewrite_map, $map);
 	}
 
 	/**
@@ -155,10 +128,9 @@ class Router
 	 * @param array $query
 	 * @return void
 	 */
-	public function add($target, $query)
+	public static function add($target, $query)
 	{
-		$self = Router::getInstance();
-		$self->routes[$target] = $query;
+		self::$routes[$target] = $query;
 	}
 
 	/**
@@ -168,8 +140,7 @@ class Router
 	 */
 	public function adds($routes)
 	{
-		$self = Router::getInstance();
-		$self->routes = array_merge($self->routes, $routes);
+		self::$routes = array_merge(self::$routes, $routes);
 	}
 
 	/**
@@ -177,10 +148,9 @@ class Router
 	 * @param int $index
 	 * @return string
 	 */
-	public function getSegment($index)
+	public static function getSegment($index)
 	{
-		$self = Router::getInstance();
-		return $self->segments[$index];
+		return self::$segments[$index];
 	}
 
 
@@ -189,10 +159,9 @@ class Router
 	 * @param int $index
 	 * @return string
 	 */
-	public function getSegments()
+	public static function getSegments()
 	{
-		$self = Router::getInstance();
-		return $self->segments;
+		return self::$segments;
 	}
 
 	/**
@@ -200,20 +169,18 @@ class Router
 	 * @param string $regex
 	 * @return array
 	 */
-	public function getRoute($regex)
+	public static function getRoute($regex)
 	{
-		$self = Router::getInstance();
-		return $self->routes[$regex];
+		return self::$routes[$regex];
 	}
 
 	/**
 	 * @brief Get routes list
 	 * @return array
 	 */
-	public function getRoutes()
+	public static function getRoutes()
 	{
-		$self = Router::getInstance();
-		return $self->routes;
+		return self::$routes;
 	}
 
 	/**
@@ -221,10 +188,9 @@ class Router
 	 * @param string $regex
 	 * @return boolean
 	 */
-	public function isExistsRoute($regex)
+	public static function isExistsRoute($regex)
 	{
-		$self = Router::getInstance();
-		return isset($self->routes[$regex]);
+		return isset(self::$routes[$regex]);
 	}
 
 	/**
@@ -232,9 +198,8 @@ class Router
 	 * @param string $regex
 	 * @return string
 	 */
-	public function makePrettyUrl($regex)
+	public static function makePrettyUrl($regex)
 	{
-		$self = Router::getInstance();
-		return $self->rewrite_map[$regex];
+		return self::$rewrite_map[$regex];
 	}
 }
