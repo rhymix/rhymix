@@ -45,8 +45,12 @@ class ModuleHandler extends Handler
 		$oContext = Context::getInstance();
 		if($oContext->isSuccessInit == FALSE)
 		{
-			$this->error = 'msg_invalid_request';
-			return;
+			$logged_info = Context::get('logged_info');
+			if($logged_info->is_admin != "Y")
+			{
+				$this->error = 'msg_invalid_request';
+				return;
+			}
 		}
 
 		// Set variables from request arguments
