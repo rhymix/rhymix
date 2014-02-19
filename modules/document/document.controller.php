@@ -840,6 +840,14 @@ class documentController extends document
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.updateReadedCount', $args);
 
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			//remove document item from cache
+			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
+
 		// Register session
 		$_SESSION['readed_document'][$document_srl] = true;
 
@@ -1105,6 +1113,14 @@ class documentController extends document
 
 		$oDB->commit();
 
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			//remove document item from cache
+			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
+
 		// Leave in the session information
 		$_SESSION['voted_document'][$document_srl] = true;
 
@@ -1246,6 +1262,14 @@ class documentController extends document
 		{
 			$args->update_order = -1*getNextSequence();
 			$args->last_updater = $last_updater;
+
+			$oCacheHandler = CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport())
+			{
+				//remove document item from cache
+				$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+				$oCacheHandler->delete($cache_key);
+			}
 		}
 
 		return executeQuery('document.updateCommentCount', $args);
@@ -1262,6 +1286,14 @@ class documentController extends document
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		$args->trackback_count = $trackback_count;
+
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			//remove document item from cache
+			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
 
 		return executeQuery('document.updateTrackbackCount', $args);
 	}
@@ -1366,6 +1398,30 @@ class documentController extends document
 		if(!$output->toBool()) return $output;
 
 		$this->makeCategoryFile($category_info->module_srl);
+		// remvove cache
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$page = 0;
+			while(true) {
+				$args = new stdClass();
+				$args->category_srl = $category_srl;
+				$args->page = ++$page;
+				$output = executeQuery('document.getDocumentList', $args, array('document_srl'));
+
+				if($output->data == array())
+					break;
+
+				foreach($output->data as $val)
+				{
+					$document_srl = $val->document_srl;
+					//remove document item from cache
+					$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+					$oCacheHandler->delete($cache_key);
+				}
+			}
+		}
+
 		// Update category_srl of the documents in the same category to 0
 		$args = new stdClass();
 		$args->target_category_srl = 0;
