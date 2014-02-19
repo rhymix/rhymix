@@ -528,6 +528,10 @@ class documentModel extends document
 
 			if($oDocument->isExists())
 			{
+				$str_confirm = Context::getLang('cmd_document_do') . Context::getLang('confirm_delete');
+				$url = sprintf("if(!confirm('%s')) return; var params = new Array(); params['document_srl']='%s'; params['mid']=current_mid;params['cur_url']=current_url; exec_xml('document', 'procDocumentAdminMoveToTrash', params)", $str_confirm, $document_srl);
+				$oDocumentController->addDocumentPopupMenu($url,'cmd_trash','','javascript');
+
 				// Find a post equivalent to ip address
 				$url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->getIpAddress());
 				$oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
