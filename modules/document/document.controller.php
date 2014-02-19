@@ -1406,6 +1406,7 @@ class documentController extends document
 			while(true) {
 				$args = new stdClass();
 				$args->category_srl = $category_srl;
+				$args->list_count = 100;
 				$args->page = ++$page;
 				$output = executeQuery('document.getDocumentList', $args, array('document_srl'));
 
@@ -1414,9 +1415,8 @@ class documentController extends document
 
 				foreach($output->data as $val)
 				{
-					$document_srl = $val->document_srl;
 					//remove document item from cache
-					$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+					$cache_key = 'document_item:'. getNumberingPath($val->document_srl) . $val->document_srl;
 					$oCacheHandler->delete($cache_key);
 				}
 			}
