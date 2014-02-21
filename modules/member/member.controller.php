@@ -1194,27 +1194,48 @@ class memberController extends member
 		if(!$memberSrl) return new Object(-1, 'msg_not_exists_member');
 
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address');
-		$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($memberSrl, 0, $columnList);
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($memberSrl, 0, $columnList);
 
-		// Check if a authentication mail has been sent previously
-		$chk_args = new stdClass;
-		$chk_args->member_srl = $memberInfo->member_srl;
-		$output = executeQuery('member.chkAuthMail', $chk_args);
-		if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
-
-		$auth_args = new stdClass;
-		$auth_args->member_srl = $memberInfo->member_srl;
-		$output = executeQueryArray('member.getAuthMailInfo', $auth_args);
-		if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
-		$auth_info = $output->data[0];
-
-		// Get content of the email to send a member
-		Context::set('memberInfo', $memberInfo);
 		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
 		if(!$member_config->skin) $member_config->skin = "default";
 		if(!$member_config->colorset) $member_config->colorset = "white";
 
+		// Check if a authentication mail has been sent previously
+		$chk_args = new stdClass;
+		$chk_args->member_srl = $member_info->member_srl;
+		$output = executeQuery('member.chkAuthMail', $chk_args);
+		if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
+
+		$auth_args = new stdClass;
+		$auth_args->member_srl = $member_info->member_srl;
+		$output = executeQueryArray('member.getAuthMailInfo', $auth_args);
+		if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
+		$auth_info = $output->data[0];
+
+		$memberInfo = array();
+		global $lang;
+		if(is_array($member_config->signupForm))
+		{
+			$exceptForm=array('password', 'find_account_question');
+			foreach($member_config->signupForm as $form)
+			{
+				if(!in_array($form->name, $exceptForm) && $form->isDefaultForm && ($form->required || $form->mustRequired))
+				{
+					$memberInfo[$lang->{$form->name}] = $member_info->{$form->name};
+				}
+			}
+		}
+		else
+		{
+			$memberInfo[$lang->user_id] = $member_info->user_id;
+			$memberInfo[$lang->user_name] = $member_info->user_name;
+			$memberInfo[$lang->nick_name] = $member_info->nick_name;
+			$memberInfo[$lang->email_address] = $member_info->email_address;
+		}
+
+		// Get content of the email to send a member
+		Context::set('memberInfo', $memberInfo);
 		Context::set('member_config', $member_config);
 
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
@@ -1225,9 +1246,6 @@ class memberController extends member
 
 		$oTemplate = &TemplateHandler::getInstance();
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
-		// Get information of the Webmaster
-		$oModuleModel = getModel('module');
-		$member_config = $oModuleModel->getModuleConfig('member');
 		// Send a mail
 		$oMail = new Mail();
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
