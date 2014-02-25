@@ -226,23 +226,20 @@ class fileModel extends file
 	function getUploadConfig()
 	{
 		$logged_info = Context::get('logged_info');
-		$file_config = new stdClass();
+
+		$module_srl = Context::get('module_srl');
+		// Get the current module if module_srl doesn't exist
+		if(!$module_srl)
+		{
+			$current_module_info = Context::get('current_module_info');
+			$module_srl = $current_module_info->module_srl;
+		}
+		$file_config = $this->getFileConfig($module_srl);
+
 		if($logged_info->is_admin == 'Y')
 		{
 			$file_config->allowed_filesize = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));
-			$file_config->allowed_attach_size = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));
 			$file_config->allowed_filetypes = '*.*';
-		}
-		else
-		{
-			$module_srl = Context::get('module_srl');
-			// Get the current module if module_srl doesn't exist
-			if(!$module_srl)
-			{
-				$current_module_info = Context::get('current_module_info');
-				$module_srl = $current_module_info->module_srl;
-			}
-			$file_config = $this->getFileConfig($module_srl);
 		}
 		return $file_config;
 	}

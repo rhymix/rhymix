@@ -640,7 +640,7 @@ class FileHandler
 				break;
 		}
 
-		return (int) $val;
+		return $val;
 	}
 
 	/**
