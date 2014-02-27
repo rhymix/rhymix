@@ -172,13 +172,11 @@ class adminAdminView extends admin
 
 			foreach($parentMenu['list'] as $childKey => $childMenu)
 			{
-				if($subMenuTitle == $childMenu['text'])
+				if($subMenuTitle == $childMenu['text'] && $parentSrl == 0)
 				{
 					$parentSrl = $childMenu['parent_srl'];
-					break;
 				}
 			}
-			if($parentSrl) break;
 		}
 
 		// Admin logo, title setup
