@@ -641,7 +641,7 @@ class widgetController extends widget
 			require_once($class_file);
 
 			// Creating Objects
-			if(!class_exists($widget))
+			if(!class_exists($widget, false))
 			{
 				return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
 			}
