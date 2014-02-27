@@ -1,6 +1,6 @@
 <query id="getNewMessage" action="select">
 	<tables>
-		<table name="message" />
+		<table name="member_message" alias="message" />
 		<table name="member" />
 	</tables>
 	<columns>
