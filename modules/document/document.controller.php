@@ -801,6 +801,8 @@ class documentController extends document
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
+			$cache_key = 'document_item:'. getNumberingPath($oDocument->document_srl) . $oDocument->document_srl;
+			$oCacheHandler->delete($cache_key);
 		}
 
 		return $output;
