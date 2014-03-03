@@ -376,4 +376,12 @@
 		<value xml:lang="en"><![CDATA[Friends in a mobile environment is not supported. Please go to the PC page.]]></value>
 		<value xml:lang="jp"><![CDATA[モバイル環境では友達リストページをサポートしません。PC画面へ移動してください。]]></value>
 	</item>
+	<item name="cmd_write_communication">
+		<value xml:lang="ko"><![CDATA[작성 권한]]></value>
+		<value xml:lang="en"><![CDATA[Write Grant]]></value>
+	</item>
+	<item name="cmd_manage_base">
+		<value xml:lang="ko"><![CDATA[기본 정보]]></value>
+		<value xml:lang="en"><![CDATA[Basic infomation]]></value>
+	</item>
 </lang>
