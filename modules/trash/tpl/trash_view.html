@@ -7,10 +7,6 @@
 	<tr>
 		<th scope="col" class="nowr">{$lang->trasher}</th>
 		<td>
-		{@
-		$oMemberModel = &getModel('member');
-		$remover_info = $oMemberModel->getMemberInfoByMemberSrl($oTrashVO->getRemoverSrl());
-		}
 		{htmlspecialchars($remover_info->nick_name)} <a href="#popup_menu_area" class="member_{$oTrashVO->getRemoverSrl()}" onclick="return false">[{$remover_info->user_id}]</a>
 		</td>
 	</tr>
@@ -30,10 +26,6 @@
 	<tr>
 		<th scope="row">{$lang->module}</th>
 		<td class="text">
-		{@
-		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($oOrigin->module_srl);
-		}
 		{$module_info->browser_title} ({$module_info->mid})
 		</td>
 	</tr>	
