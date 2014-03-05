@@ -51,6 +51,41 @@ class trashAdminView extends trash
 		// 템플릿 파일 지정
 		$this->setTemplateFile('trash_list');
 	}
+	
+	
+	
+	// Trash View - sejin7940
+	function dispTrashAdminView() 
+	{
+		$trash_srl = Context::get('trash_srl');
+
+		$oTrashModel = getModel('trash');
+		$output = $oTrashModel->getTrash($trash_srl);
+		if(!$output->data->getTrashSrl()) return new Object(-1, 'msg_invalid_request');
+
+		$originObject = unserialize($output->data->getSerializedObject());
+		if(is_array($originObject)) $originObject = (object)$originObject;
+
+		Context::set('oTrashVO',$output->data);
+		Context::set('oOrigin',$originObject);
+
+		$oMemberModel = &getModel('member');
+		$remover_info = $oMemberModel->getMemberInfoByMemberSrl($output->data->getRemoverSrl());
+		Context::set('remover_info', $remover_info);
+
+		$oModuleModel = &getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($originObject->module_srl);
+		Context::set('module_info', $module_info);
+
+		if($originObject) {
+			$args_extra->module_srl = $originObject->module_srl;
+			$args_extra->document_srl = $originObject->document_srl;
+			$output_extra = executeQueryArray('trash.getDocumentExtraVars', $args_extra);				
+			Context::set('oOriginExtraVars',$output_extra->data);
+		}
+		$this->setTemplateFile('trash_view');
+	}
+
 }
 /* End of file trash.admin.view.php */
 /* Location: ./modules/trash/trash.admin.view.php */

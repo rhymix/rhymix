@@ -11,9 +11,9 @@
 				<th scope="col" cond="$val->type=='nick_name' && $val->idx==-1"><span>{$lang->writer}</span></th>
 				<th scope="col" cond="$val->type=='user_id' && $val->idx==-1"><span>{$lang->user_id}</span></th>
 				<th scope="col" cond="$val->type=='user_name' && $val->idx==-1"><span>{$lang->user_name}</span></th>
-				<th scope="col" cond="$val->type=='regdate' && $val->idx==-1"><span><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}</a></span></th>
-				<th scope="col" cond="$val->type=='last_update' && $val->idx==-1"><span><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_update}</a></span></th>
-				<th scope="col" cond="$val->type=='last_post' && $val->idx==-1"><span><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_post}</a></span></th>
+				<th scope="col" cond="$val->type=='regdate' && $val->idx==-1"><span><a href="{getUrl('sort_index','list_order','order_type',$order_type)}">{$lang->date}</a></span></th>
+				<th scope="col" cond="$val->type=='last_update' && $val->idx==-1"><span><a href="{getUrl('sort_index','update_order','order_type',$order_type)}">{$lang->last_update}</a></span></th>
+				<th scope="col" cond="$val->type=='last_post' && $val->idx==-1"><span><a href="{getUrl('sort_index','update_order','order_type',$order_type)}">{$lang->last_post}</a></span></th>
 				<th scope="col" cond="$val->type=='readed_count' && $val->idx==-1"><span><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}</a></span></th>
 				<th scope="col" cond="$val->type=='voted_count' && $val->idx==-1"><span><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}</a></span></th>
 				<th scope="col" cond="$val->type=='blamed_count' && $val->idx==-1"><span><a href="{getUrl('sort_index','blamed_count','order_type',$order_type)}">{$lang->blamed_count}</a></span></th>
