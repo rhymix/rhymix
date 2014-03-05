@@ -11,7 +11,7 @@ class board extends ModuleObject
 {
 	var $search_option = array('title','content','title_content','comment','user_name','nick_name','user_id','tag'); ///< 검색 옵션
 
-	var $order_target = array('list_order', 'update_order', 'regdate', 'voted_count', 'blamed_count', 'readed_count', 'comment_count', 'title'); // 정렬 옵션
+	var $order_target = array('list_order', 'update_order', 'voted_count', 'blamed_count', 'readed_count', 'comment_count', 'title'); // 정렬 옵션
 
 	var $skin = "default"; ///< skin name
 	var $list_count = 20; ///< the number of documents displayed in a page
