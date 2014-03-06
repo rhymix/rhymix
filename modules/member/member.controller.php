@@ -230,7 +230,7 @@ class memberController extends member
 				}
 				// Check if duplicated
 				$member_srl = $oMemberModel->getMemberSrlByNickName($value);
-				$member_srl = $oMemberModel->getMemberSrlByNickName(utf8_decode($value));
+				$member_srl_by_decode = $oMemberModel->getMemberSrlByNickName(utf8_decode($value));
 				if(($member_srl && $logged_info->member_srl != $member_srl ) || ($member_srl_by_decode && $logged_info->member_srl != $member_srl_by_decode )) return new Object(0,'msg_exists_nick_name');
 
 				break;
@@ -2115,6 +2115,10 @@ class memberController extends member
 		{
 			return new Object(-1, 'denied_nick_name');
 		}
+		
+		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
+		$member_srl_by_decode = $oMemberModel->getMemberSrlByNickName(utf8_decode($args->nick_name));
+ 		if($member_srl || $member_srl_by_decode) return new Object(-1,'msg_exists_nick_name');
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 		// Website, blog, checks the address
