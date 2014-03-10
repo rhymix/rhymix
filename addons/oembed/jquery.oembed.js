@@ -261,7 +261,7 @@
 					success: function (data) {
 						var oembedData = $.extend({}, data);
 						oembedData.code = embedProvider.templateData(data);
-						success(oembedData, externalUrl, container);
+						if(oembedData.code) success(oembedData, externalUrl, container);
 					},
 					error: settings.onError.call(container, externalUrl, embedProvider)
 				}, settings.ajaxOptions || {});
