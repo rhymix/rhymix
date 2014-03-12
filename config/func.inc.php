@@ -758,7 +758,7 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 	}
 
 	static $firephp;
-	$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+	$bt = debug_backtrace();
 	if(is_array($bt))
 	{
 		$bt_debug_print = array_shift($bt);

@@ -1021,7 +1021,7 @@ class ModuleHandler extends Handler
 			}
 
 			// Get base class name and load the file contains it
-			if(!class_exists($module))
+			if(!class_exists($module, false))
 			{
 				$high_class_file = sprintf('%s%s%s.class.php', _XE_PATH_, $class_path, $module);
 				if(!file_exists($high_class_file))
@@ -1039,7 +1039,7 @@ class ModuleHandler extends Handler
 
 			// Create an instance with eval function
 			require_once($class_file);
-			if(!class_exists($instance_name))
+			if(!class_exists($instance_name, false))
 			{
 				return NULL;
 			}
