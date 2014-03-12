@@ -266,9 +266,13 @@ class commentController extends comment
 				return new Object(-1, 'msg_invalid_request');
 			}
 
-			if($obj->homepage && !preg_match('/^[a-z]+:\/\//i', $obj->homepage))
+			if($obj->homepage)
 			{
-				$obj->homepage = 'http://' . $obj->homepage;
+				$obj->homepage = removeHackTag($obj->homepage);
+				if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
+				{
+					$obj->homepage = 'http://'.$obj->homepage;
+				}
 			}
 
 			// input the member's information if logged-in
@@ -655,9 +659,13 @@ class commentController extends comment
 			$obj->password = md5($obj->password);
 		}
 
-		if($obj->homepage && !preg_match('/^[a-z]+:\/\//i', $obj->homepage))
+		if($obj->homepage) 
 		{
-			$obj->homepage = 'http://' . $obj->homepage;
+			$obj->homepage = removeHackTag($obj->homepage);
+			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
+			{
+				$obj->homepage = 'http://'.$obj->homepage;
+			}
 		}
 
 		// set modifier's information if logged-in and posting author and modifier are matched.

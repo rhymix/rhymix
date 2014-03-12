@@ -398,7 +398,15 @@ class documentController extends document
 		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
 		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
-		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+		if($obj->homepage)
+		{
+			$obj->homepage = removeHackTag($obj->homepage);
+			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
+			{
+				$obj->homepage = 'http://'.$obj->homepage;
+			}
+		}
+		
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		
 		// can modify regdate only manager
