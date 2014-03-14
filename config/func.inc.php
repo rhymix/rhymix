@@ -776,7 +776,7 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 		}
 		$type = FirePHP::INFO;
 
-		$label = sprintf('[%s:%d] %s() (m:%s)', $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()));
+		$label = sprintf('[%s:%d] %s() (Memory usage: current=%s, peak=%s)', $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()), FileHandler::filesize(memory_get_peak_usage()));
 
 		// Check a FirePHP option
 		if($display_option === 'TABLE')

@@ -164,12 +164,13 @@ class DisplayHandler extends Handler
 						array(
 							'Request / Response info >>> ' . $_SERVER['REQUEST_METHOD'] . ' / ' . Context::getResponseMethod(),
 							array(
-								array('Request URI', 'Request method', 'Response method', 'Response contents size'),
+								array('Request URI', 'Request method', 'Response method', 'Response contents size', 'Memory peak usage'),
 								array(
 									sprintf("%s:%s%s%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING'] ? '?' : '', $_SERVER['QUERY_STRING']),
 									$_SERVER['REQUEST_METHOD'],
 									Context::getResponseMethod(),
-									$this->content_size . ' byte'
+									$this->content_size . ' byte',
+									FileHandler::filesize(memory_get_peak_usage())
 								)
 							)
 						),
