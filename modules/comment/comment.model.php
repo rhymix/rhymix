@@ -76,6 +76,13 @@ class commentModel extends comment
 		// call a trigger (after)
 		ModuleHandler::triggerCall('comment.getCommentMenu', 'after', $menu_list);
 
+		if($this->grant->manager){
+			$str_confirm = Context::getLang('confirm_move');
+			$url = sprintf("if(!confirm('%s')) return; var params = new Array(); params['comment_srl']='%s'; params['mid']=current_mid;params['cur_url']=current_url; exec_xml('comment', 'procCommentAdminMoveToTrash', params)", $str_confirm, $comment_srl);
+			$oCommentController->addCommentPopupMenu($url,'cmd_trash','','javascript');
+
+		}
+
 		// find a comment by IP matching if an administrator.
 		if($logged_info->is_admin == 'Y')
 		{
