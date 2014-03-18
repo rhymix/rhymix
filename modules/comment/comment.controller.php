@@ -843,18 +843,27 @@ class commentController extends comment
 		// call a trigger (after)
 		if($output->toBool())
 		{
+			$comment->isMoveToTrash = $isMoveToTrash;
 			$trigger_output = ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
 			if(!$trigger_output->toBool())
 			{
 				$oDB->rollback();
 				return $trigger_output;
 			}
+			unset($comment->isMoveToTrash);
 		}
 
 		if(!$isMoveToTrash)
 		{
 			$this->_deleteDeclaredComments($args);
 			$this->_deleteVotedComments($args);
+		} 
+		else 
+		{
+			$args = new stdClass();
+			$args->upload_target_srl = $comment_srl;
+			$args->isvalid = 'N';
+			$output = executeQuery('file.updateFileValid', $args);
 		}
 
 		// commit

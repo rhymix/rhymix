@@ -518,6 +518,8 @@ class fileController extends file
 		$comment_srl = $obj->comment_srl;
 		if(!$comment_srl) return new Object();
 
+		if($obj->isMoveToTrash) return new Object();
+
 		$output = $this->deleteFiles($comment_srl);
 		return $output;
 	}
