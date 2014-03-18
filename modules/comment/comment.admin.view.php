@@ -52,7 +52,7 @@ class commentAdminView extends comment
 		// get a list by using comment->getCommentList. 
 		$oCommentModel = getModel('comment');
 		$secretNameList = $oCommentModel->getSecretNameList();
-		$columnList = array('comment_srl', 'document_srl', 'is_secret', 'status', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress', 'voted_count', 'blamed_count');
+		$columnList = array('comment_srl', 'document_srl','module_srl','is_secret', 'status', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress', 'voted_count', 'blamed_count');
 		$output = $oCommentModel->getTotalCommentList($args, $columnList);
 
 		// $modules = $oCommentModel->getDistinctModules();
@@ -66,6 +66,31 @@ class commentAdminView extends comment
 		// Context::set('modules_list', $modules_list);
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('secret_name_list', $secretNameList);
+
+		$oModuleModel = getModel('module');
+		$module_list = array();
+		$mod_srls = array();
+		foreach($output->data as $val)
+		{
+			$mod_srls[] = $val->module_srl;
+		}
+		$mod_srls = array_unique($mod_srls);
+		// Module List
+		$mod_srls_count = count($mod_srls);
+		if($mod_srls_count)
+		{
+			$columnList = array('module_srl', 'mid', 'browser_title');
+			$module_output = $oModuleModel->getModulesInfo($mod_srls, $columnList);
+			if($module_output && is_array($module_output))
+			{
+				foreach($module_output as $module)
+				{
+					$module_list[$module->module_srl] = $module;
+				}
+			}
+		}
+		Context::set('module_list', $module_list);
+
 		// set the template 
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('comment_list');
