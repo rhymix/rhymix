@@ -402,6 +402,9 @@ class moduleModel extends module
 		}
 		else $module_info = $mid_info;
 
+		$oModuleController = getController('module');
+		$oModuleController->replaceDefinedLangCode($module_info->browser_title);
+
 		return $this->addModuleExtraVars($module_info);
 	}
 
