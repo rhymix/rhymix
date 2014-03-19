@@ -443,6 +443,17 @@ Sin la necesidad de utilizar los módulos de página o del diseño de XE, Usted 
 		<value xml:lang="tr"><![CDATA[Widget Boyutu]]></value>
 		<value xml:lang="vi"><![CDATA[Kích thước]]></value>
 	</item>
+	<item name="cmd_widget_css_class">
+		<value xml:lang="ko"><![CDATA[위젯 CSS class]]></value>
+		<value xml:lang="en"><![CDATA[위젯 CSS class]]></value>
+		<value xml:lang="jp"><![CDATA[위젯 CSS class]]></value>
+		<value xml:lang="zh-CN"><![CDATA[위젯 CSS class]]></value>
+		<value xml:lang="zh-TW"><![CDATA[위젯 CSS class]]></value>
+		<value xml:lang="fr"><![CDATA[위젯 CSS class]]></value>
+		<value xml:lang="es"><![CDATA[위젯 CSS class]]></value>
+		<value xml:lang="tr"><![CDATA[위젯 CSS class]]></value>
+		<value xml:lang="vi"><![CDATA[위젯 CSS class]]></value>
+	</item>
 	<item name="cmd_widget_align">
 		<value xml:lang="ko"><![CDATA[위젯 정렬]]></value>
 		<value xml:lang="en"><![CDATA[Align Widget]]></value>
