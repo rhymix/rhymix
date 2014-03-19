@@ -63,7 +63,7 @@ class HTMLDisplayHandler
 		// add .x div for adminitration pages
 		if(Context::getResponseMethod() == 'HTML')
 		{
-			if(Context::get('module') != 'admin' && strpos(Context::get('act'), 'Admin') > 0)
+			if(Context::get('module') != 'admin' && strpos(Context::get('act'), 'Admin') > 0 && Context::get('act') != 'dispPageAdminContentModify' && Context::get('act') != 'dispPageAdminMobileContentModify')
 			{
 				$output = '<div class="x">' . $output . '</div>';
 			}
