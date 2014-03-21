@@ -238,6 +238,10 @@ class ExtraItem
 				{
 					$values = explode('|@|', $value);
 				}
+				elseif(strpos($value, ',') !== FALSE)
+				{
+					$values = explode(',', $value);
+				}
 				else
 				{
 					$values = array($value);
