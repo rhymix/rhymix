@@ -1,13 +1,13 @@
 <include target="header.html" />
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'moduels/integration_search/tpl/skin_info/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/integration_search/tpl/skin_info/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
 <form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="module" value="integration_search" />
 <input type="hidden" name="act" value="procIntegration_searchAdminInsertSkin" />
-<input type="hidden" name="xe_validator_id" value="moduels/integration_search/tpl/skin_info/1" />
+<input type="hidden" name="xe_validator_id" value="modules/integration_search/tpl/skin_info/1" />
 	<section class="section">
 		<h1>{$lang->skin_default_info}</h1>
 
