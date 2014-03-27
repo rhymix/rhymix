@@ -1502,6 +1502,7 @@ class moduleModel extends module
 			$info = $this->getModuleInfoXml($module_name);
 			unset($obj);
 
+			if(!isset($info)) continue;
 			$info->module = $module_name;
 			$info->created_table_count = $created_table_count;
 			$info->table_count = $table_count;
