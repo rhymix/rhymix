@@ -59,7 +59,7 @@
 
         <!--@else if($widget_info->option_view_arr[$j]=='nickname')-->
         <p class="authorArea" style="margin-left:{$widget_info->thumbnail_width+20}px;">
-                <a href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}" target="_blank"|cond="$widget_info->new_window">{$item->getNickName()}</a>
+                <a href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}" target="_blank"|cond="$widget_info->new_window">{$item->getNickName($widget_info->nickname_cut_size)}</a>
             <!--@if($widget_info->option_view_arr[$j+1]=='regdate')-->
                 <span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span>
             <!--@end-->
