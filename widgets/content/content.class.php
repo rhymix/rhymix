@@ -743,6 +743,7 @@ class content extends WidgetHandler
 				if(!is_array($content_items[$module_srl]) || !count($content_items[$module_srl])) continue;
 
 				unset($tab_item);
+				$tab_item = new stdClass();
 				$tab_item->title = $content_items[$module_srl][0]->getBrowserTitle();
 				$tab_item->content_items = $content_items[$module_srl];
 				$tab_item->domain = $content_items[$module_srl][0]->getDomain();
