@@ -266,9 +266,13 @@ class commentController extends comment
 				return new Object(-1, 'msg_invalid_request');
 			}
 
-			if($obj->homepage && !preg_match('/^[a-z]+:\/\//i', $obj->homepage))
+			if($obj->homepage)
 			{
-				$obj->homepage = 'http://' . $obj->homepage;
+				$obj->homepage = removeHackTag($obj->homepage);
+				if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
+				{
+					$obj->homepage = 'http://'.$obj->homepage;
+				}
 			}
 
 			// input the member's information if logged-in
@@ -655,9 +659,13 @@ class commentController extends comment
 			$obj->password = md5($obj->password);
 		}
 
-		if($obj->homepage && !preg_match('/^[a-z]+:\/\//i', $obj->homepage))
+		if($obj->homepage) 
 		{
-			$obj->homepage = 'http://' . $obj->homepage;
+			$obj->homepage = removeHackTag($obj->homepage);
+			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
+			{
+				$obj->homepage = 'http://'.$obj->homepage;
+			}
 		}
 
 		// set modifier's information if logged-in and posting author and modifier are matched.
@@ -835,18 +843,27 @@ class commentController extends comment
 		// call a trigger (after)
 		if($output->toBool())
 		{
+			$comment->isMoveToTrash = $isMoveToTrash;
 			$trigger_output = ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
 			if(!$trigger_output->toBool())
 			{
 				$oDB->rollback();
 				return $trigger_output;
 			}
+			unset($comment->isMoveToTrash);
 		}
 
 		if(!$isMoveToTrash)
 		{
 			$this->_deleteDeclaredComments($args);
 			$this->_deleteVotedComments($args);
+		} 
+		else 
+		{
+			$args = new stdClass();
+			$args->upload_target_srl = $comment_srl;
+			$args->isvalid = 'N';
+			$output = executeQuery('file.updateFileValid', $args);
 		}
 
 		// commit

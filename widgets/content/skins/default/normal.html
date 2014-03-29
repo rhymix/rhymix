@@ -29,7 +29,7 @@
                     <!--@end-->
 
                 <!--@else if($v=='nickname')-->
-                    <a <!--@if($item->getMemberSrl())-->href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}"<!--@elseif($item->getAuthorSite())-->href="{$item->getAuthorSite()}" onclick="window.open(this.href); return false;" class="author member"<!--@else-->href="#" onclick="return false;" class="author member"<!--@end--> >{$item->getNickName()}</a>
+                    <a <!--@if($item->getMemberSrl())-->href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}"<!--@elseif($item->getAuthorSite())-->href="{$item->getAuthorSite()}" onclick="window.open(this.href); return false;" class="author member"<!--@else-->href="#" onclick="return false;" class="author member"<!--@end--> >{$item->getNickName($widget_info->nickname_cut_size)}</a>
 
                 <!--@else if($v=='regdate')-->
                     <span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span>
@@ -81,7 +81,7 @@
             <!--@end-->
         </td>
     <!--@else if($v=='nickname')-->
-        <td><a <!--@if($item->getMemberSrl())-->href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}"<!--@elseif($item->getAuthorSite())-->href="{$item->getAuthorSite()}" onclick="window.open(this.href); return false;" class="author member"<!--@else-->href="#" onclick="return false;" class="author member"<!--@end--> >{$item->getNickName()}</a></td>
+        <td><a <!--@if($item->getMemberSrl())-->href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}"<!--@elseif($item->getAuthorSite())-->href="{$item->getAuthorSite()}" onclick="window.open(this.href); return false;" class="author member"<!--@else-->href="#" onclick="return false;" class="author member"<!--@end--> >{$item->getNickName($widget_info->nickname_cut_size)}</a></td>
     <!--@else if($v=='regdate')-->
         <td class="time"><span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span></td>
     <!--@end-->

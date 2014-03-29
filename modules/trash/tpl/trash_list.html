@@ -41,7 +41,12 @@ var no_text_comment = '{$lang->no_text_comment}';
 			<tr loop="$trash_list => $no, $oTrashVO">
 				<td class="title">
 					<strong cond="!trim($oTrashVO->getTitle()) && $oTrashVO->getOriginModule() == 'comment'">{$lang->no_text_comment}</strong>
-					<block cond="trim($oTrashVO->getTitle())"><a href="{getUrl('act','dispTrashAdminView','trash_srl',$oTrashVO->getTrashSrl())}">{$oTrashVO->getTitle()}</a></block>
+					<block cond="trim($oTrashVO->getTitle())">
+						<block cond="isset($module_list[$oTrashVO->unserializedObject['module_srl']])">
+						<a href="{getUrl('', 'mid', $module_list[$oTrashVO->unserializedObject['module_srl']]->mid)}" target="_blank">{$module_list[$oTrashVO->unserializedObject['module_srl']]->browser_title}</a> - 
+						</block>
+						<a href="{getUrl('act','dispTrashAdminView','trash_srl',$oTrashVO->getTrashSrl())}">{$oTrashVO->getTitle()}</a>
+					</block>
 				</td>
 				<td class="nowr"><!--@if($oTrashVO->getOriginModule() == 'document')-->{$lang->document}<!--@else-->{$lang->comment}<!--@end--></td>
 				<td class="nowr"><a href="#popup_menu_area" class="member_{$oTrashVO->getRemoverSrl()}">{$oTrashVO->getNickName()}</a></td>

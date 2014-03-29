@@ -163,7 +163,7 @@ class XEHttpRequest
 				$chunk_size = hexdec(fgets($sock));
 				if($chunk_size)
 				{
-					$body .= fread($sock, $chunk_size);
+					$body .= fgets($sock, $chunk_size+1);
 				}
 			}
 			else

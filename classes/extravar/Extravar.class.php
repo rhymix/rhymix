@@ -263,10 +263,6 @@ class ExtraItem
 				{
 					$values = explode('|@|', $value);
 				}
-				elseif(strpos($value, ',') !== false)
-				{
-					$values = explode(',', $value);
-				}
 				else
 				{
 					$values = array($value);
@@ -462,6 +458,8 @@ class ExtraItem
 		}
 		if($this->desc)
 		{
+			$oModuleController = getController('module');
+			$oModuleController->replaceDefinedLangCode($this->desc);
 			$buff[] = '<p>' . htmlspecialchars($this->desc, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '</p>';
 		}
 		

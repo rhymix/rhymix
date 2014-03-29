@@ -48,6 +48,31 @@ class trashAdminView extends trash
 		Context::set('page', $output->page);
 		Context::set('page_navigation', $output->page_navigation);
 
+		$oModuleModel = getModel('module');
+		$module_list = array();
+		$mod_srls = array();
+		foreach($output->data as $oTrashVO)
+		{
+			$mod_srls[] = $oTrashVO->unserializedObject['module_srl'];
+		}
+		$mod_srls = array_unique($mod_srls);
+		// Module List
+		$mod_srls_count = count($mod_srls);
+		if($mod_srls_count)
+		{
+			$columnList = array('module_srl', 'mid', 'browser_title');
+			$module_output = $oModuleModel->getModulesInfo($mod_srls, $columnList);
+			if($module_output && is_array($module_output))
+			{
+				foreach($module_output as $module)
+				{
+					$module_list[$module->module_srl] = $module;
+				}
+			}
+		}
+
+		Context::set('module_list', $module_list);
+
 		// 템플릿 파일 지정
 		$this->setTemplateFile('trash_list');
 	}
