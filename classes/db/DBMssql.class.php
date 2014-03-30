@@ -30,11 +30,11 @@ class DBMssql extends DB
 	var $column_type = array(
 		'bignumber' => 'bigint',
 		'number' => 'int',
-		'varchar' => 'varchar',
-		'char' => 'char',
-		'text' => 'text',
-		'bigtext' => 'text',
-		'date' => 'varchar(14)',
+		'varchar' => 'nvarchar',
+		'char' => 'nchar',
+		'text' => 'ntext',
+		'bigtext' => 'ntext',
+		'date' => 'nvarchar(14)',
 		'float' => 'float',
 	);
 

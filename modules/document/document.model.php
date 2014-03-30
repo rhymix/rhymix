@@ -53,11 +53,14 @@ class documentModel extends document
 	function setToAllDocumentExtraVars()
 	{
 		static $checked_documents = array();
+		$_document_list = &$GLOBALS['XE_DOCUMENT_LIST'];
+
 		// XE XE_DOCUMENT_LIST all documents that the object referred to the global variable settings
-		if(!count($GLOBALS['XE_DOCUMENT_LIST'])) return;
+		if(count($_document_list) <= 0) return;
+
 		// Find all called the document object variable has been set extension
 		$document_srls = array();
-		foreach($GLOBALS['XE_DOCUMENT_LIST'] as $key => $val)
+		foreach($_document_list as $key => $val)
 		{
 			if(!$val->document_srl || $checked_documents[$val->document_srl]) continue;
 			$checked_documents[$val->document_srl] = true;
@@ -84,12 +87,11 @@ class documentModel extends document
 			$document_srl = $document_srls[$i];
 			unset($vars);
 
-			if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] || !is_object($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) || !$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->isExists()) continue;
-
-			$module_srl = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->get('module_srl');
+			if(!$_document_list[$document_srl] || !is_object($_document_list[$document_srl]) || !$_document_list[$document_srl]->isExists()) continue;
+			$module_srl = $_document_list[$document_srl]->get('module_srl');
 			$extra_keys = $this->getExtraKeys($module_srl);
 			$vars = $extra_vars[$document_srl];
-			$document_lang_code = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->get('lang_code');
+			$document_lang_code = $_document_list[$document_srl]->get('lang_code');
 			// Expand the variable processing
 			if(count($extra_keys))
 			{
@@ -109,9 +111,9 @@ class documentModel extends document
 			$evars = new ExtraVar($module_srl);
 			$evars->setExtraVarKeys($extra_keys);
 			// Title Processing
-			if($vars[-1][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('title',$vars[-1][$user_lang_code]);
+			if($vars[-1][$user_lang_code]) $_document_list[$document_srl]->add('title',$vars[-1][$user_lang_code]);
 			// Information processing
-			if($vars[-2][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('content',$vars[-2][$user_lang_code]);
+			if($vars[-2][$user_lang_code]) $_document_list[$document_srl]->add('content',$vars[-2][$user_lang_code]);
 
 			if($vars[-1][$user_lang_code] || $vars[-2][$user_lang_code])
 			{
@@ -134,12 +136,11 @@ class documentModel extends document
 	{
 		if(!$document_srl) return new documentItem();
 
-		if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) || $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->columnListKey != serialize($columnList))
+		if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl])
 		{
 			$oDocument = new documentItem($document_srl, $load_extra_vars, $columnList);
 			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
 			if($load_extra_vars) $this->setToAllDocumentExtraVars();
-			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->columnListKey = serialize($columnList);
 		}
 		if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 
@@ -361,8 +362,9 @@ class documentModel extends document
 	 */
 	function getExtraKeys($module_srl)
 	{
-		if(is_null($GLOBALS['XE_EXTRA_KEYS'][$module_srl]))
+		if(!isset($GLOBALS['XE_EXTRA_KEYS'][$module_srl]))
 		{
+			$keys = false;
 			$oCacheHandler = CacheHandler::getInstance('object', null, true);
 			if($oCacheHandler->isSupport())
 			{
@@ -371,8 +373,9 @@ class documentModel extends document
 				$keys = $oCacheHandler->get($cache_key);
 			}
 
-			$oExtraVar = &ExtraVar::getInstance($module_srl);
-			if(!$keys)
+			$oExtraVar = ExtraVar::getInstance($module_srl);
+
+			if($keys === false)
 			{
 				$obj = new stdClass();
 				$obj->module_srl = $module_srl;
@@ -517,6 +520,13 @@ class documentModel extends document
 		$oDocumentController->addDocumentPopupMenu($url,'cmd_print','','printDocument');
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
+		if($this->grant->manager)
+		{
+			$str_confirm = Context::getLang('confirm_move');
+			$url = sprintf("if(!confirm('%s')) return; var params = new Array(); params['document_srl']='%s'; params['mid']=current_mid;params['cur_url']=current_url; exec_xml('document', 'procDocumentAdminMoveToTrash', params)", $str_confirm, $document_srl);
+			$oDocumentController->addDocumentPopupMenu($url,'cmd_trash','','javascript');
+		}
+
 		// If you are managing to find posts by ip
 		if($logged_info->is_admin == 'Y')
 		{

@@ -61,6 +61,9 @@ class memberAdminController extends member
 		unset($all_args->success_return_url);
 		unset($all_args->ruleset);
 		if(!isset($args->limit_date)) $args->limit_date = "";
+		unset($all_args->password);
+		unset($all_args->password2);
+		unset($all_args->reset_password);
 		// Add extra vars after excluding necessary information from all the requested arguments
 		$extra_vars = delObjectVars($all_args, $args);
 		$args->extra_vars = serialize($extra_vars);
@@ -976,6 +979,9 @@ class memberAdminController extends member
 
 		foreach($user_ids as $val)
 		{
+			$val = trim($val);
+			if(!$val) continue;
+
 			$output = $this->insertDeniedID($val, '');
 			if($output->toBool()) $success_ids[] = $val;
 		}
@@ -1014,6 +1020,9 @@ class memberAdminController extends member
 
 			foreach($nick_names as $val)
 			{
+				$val = trim($val);
+				if(!$val) continue;
+
 				$output = $this->insertDeniedNickName($val, '');
 				if($output->toBool()) $success_nick_names[] = $val;
 			}
@@ -1289,6 +1298,8 @@ class memberAdminController extends member
 	 */
 	function deleteDeniedID($user_id)
 	{
+		if(!$user_id) unset($user_id);
+
 		$args = new stdClass;
 		$args->user_id = $user_id;
 		return executeQuery('member.deleteDeniedID', $args);
@@ -1301,6 +1312,8 @@ class memberAdminController extends member
 	 */
 	function deleteDeniedNickName($nick_name)
 	{
+		if(!$nick_name) unset($nick_name);
+
 		$args = new stdClass;
 		$args->nick_name = $nick_name;
 		return executeQuery('member.deleteDeniedNickName', $args);

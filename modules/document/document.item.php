@@ -76,30 +76,36 @@ class documentItem extends Object
 	{
 		if(!$this->document_srl) return;
 
+		$document_item = false;
+		$cache_put = false;
+		$columnList = array();
+		$this->columnList = array();
+
 		// cache controll
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
-			$cache_key = 'document_item:' . $this->document_srl;
+			$cache_key = 'document_item:' . getNumberingPath($this->document_srl) . $this->document_srl;
 			$document_item = $oCacheHandler->get($cache_key);
-			if($document_item)
+			if($document_item !== false)
 			{
-				$document_item = (object)$document_item->getVariables();
-				$this->columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
-			}
-			else
-			{
-				$this->columnList = array();
+				$columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
 			}
 		}
 
 		$args = new stdClass();
 		$args->document_srl = $this->document_srl;
-		$output = executeQuery('document.getDocument', $args, $this->columnList);
+		$output = executeQuery('document.getDocument', $args, $columnList);
 
-		if(!$document_item)
+		if($document_item === false)
 		{
 			$document_item = $output->data;
+
+				//insert in cache
+			if($document_item && $oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, $document_item);
+			}
 		}
 		else
 		{
@@ -111,12 +117,6 @@ class documentItem extends Object
 		}
 
 		$this->setAttribute($document_item, $load_extra_vars);
-
-		//insert in cache
-		if($this->document_srl && $oCacheHandler->isSupport())
-		{
-			$oCacheHandler->put($cache_key, $this);
-		}
 	}
 
 	function setAttribute($attribute, $load_extra_vars=true)
@@ -139,13 +139,12 @@ class documentItem extends Object
 		}
 
 		$oDocumentModel = getModel('document');
-		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
 		if($load_extra_vars)
 		{
+			$GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $this;
 			$oDocumentModel->setToAllDocumentExtraVars();
-			$this->add('title', $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl]->get('title'));
-			$this->add('content', $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl]->get('content'));
 		}
+		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
 	}
 
 	function isExists()
@@ -194,22 +193,33 @@ class documentItem extends Object
 		static $allow_trackback_status = null;
 		if(is_null($allow_trackback_status))
 		{
-			// If the trackback module is configured to be disabled, do not allow. Otherwise, check the setting of each module.
-			$oModuleModel = getModel('module');
-			$trackback_config = $oModuleModel->getModuleConfig('trackback');
-			if(!$trackback_config)
+			
+			// Check the tarckback module exist
+			if(!getClass('trackback'))
 			{
-				$trackback_config = new stdClass();
+				$allow_trackback_status = false;
 			}
-			if(!isset($trackback_config->enable_trackback)) $trackback_config->enable_trackback = 'Y';
-			if($trackback_config->enable_trackback != 'Y') $allow_trackback_status = false;
 			else
 			{
-				$module_srl = $this->get('module_srl');
-				// Check settings of each module
-				$module_config = $oModuleModel->getModulePartConfig('trackback', $module_srl);
-				if($module_config->enable_trackback == 'N') $allow_trackback_status = false;
-				else if($this->get('allow_trackback')=='Y' || !$this->isExists()) $allow_trackback_status = true;
+				// If the trackback module is configured to be disabled, do not allow. Otherwise, check the setting of each module.
+				$oModuleModel = getModel('module');
+				$trackback_config = $oModuleModel->getModuleConfig('trackback');
+				
+				if(!$trackback_config)
+				{
+					$trackback_config = new stdClass();
+				}
+				
+				if(!isset($trackback_config->enable_trackback)) $trackback_config->enable_trackback = 'Y';
+				if($trackback_config->enable_trackback != 'Y') $allow_trackback_status = false;
+				else
+				{
+					$module_srl = $this->get('module_srl');
+					// Check settings of each module
+					$module_config = $oModuleModel->getModulePartConfig('trackback', $module_srl);
+					if($module_config->enable_trackback == 'N') $allow_trackback_status = false;
+					else if($this->get('allow_trackback')=='Y' || !$this->isExists()) $allow_trackback_status = true;
+				}
 			}
 		}
 		return $allow_trackback_status;

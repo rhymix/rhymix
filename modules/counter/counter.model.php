@@ -8,7 +8,6 @@
  */
 class counterModel extends counter
 {
-
 	/**
 	 * Initialization
 	 *
@@ -16,7 +15,6 @@ class counterModel extends counter
 	 */
 	function init()
 	{
-
 	}
 
 	/**
@@ -32,26 +30,27 @@ class counterModel extends counter
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$args->site_srl = $site_srl;
 
+		$iplogged = false;
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$object_key = 'counter:' . $site_srl . '_' . str_replace(array('.', ':'), '-', $args->ipaddress);
 			$cache_key = $oCacheHandler->getGroupKey('counterIpLogged_' . $args->regdate, $object_key);
-			if($oCacheHandler->isValid($cache_key))
-			{
-				return $oCacheHandler->get($cache_key);
-			}
+			$iplogged = $oCacheHandler->get($cache_key);
 		}
 
-		$output = executeQuery('counter.getCounterLog', $args);
-
-		$result = $output->data->count ? TRUE : FALSE;
-		if($result && $oCacheHandler->isSupport())
+		if($iplogged === false)
 		{
-			$oCacheHandler->put($cache_key, TRUE);
+			$output = executeQuery('counter.getCounterLog', $args);
+			if($output->data->count) $iplogged = TRUE;
 		}
 
-		return $result;
+		if($iplogged && $oCacheHandler->isSupport())
+		{
+			$oCacheHandler->put($cache_key, $iplogged);
+		}
+
+		return $iplogged;
 	}
 
 	/**
@@ -65,35 +64,37 @@ class counterModel extends counter
 		$args = new stdClass;
 		$args->regdate = date('Ymd');
 
+		$insertedTodayStatus = false;
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
 		if($oCacheHandler->isSupport())
 		{
 			$cache_key = 'counter:insertedTodayStatus:' . $site_srl . '_' . $args->regdate;
-			if($oCacheHandler->isValid($cache_key))
+			$insertedTodayStatus = $oCacheHandler->get($cache_key);
+		}
+
+		if($insertedTodayStatus === false)
+		{
+			if($site_srl)
 			{
-				return $oCacheHandler->get($cache_key);
+				$args->site_srl = $site_srl;
+				$output = executeQuery('counter.getSiteTodayStatus', $args);
+			}
+			else
+			{
+				$output = executeQuery('counter.getTodayStatus', $args);
+			}
+
+			$insertedTodayStatus = !!$output->data->count;
+
+			if($insertedTodayStatus && $oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, TRUE);
+				$_old_date = date('Ymd', strtotime('-1 day'));
+				$oCacheHandler->delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
 			}
 		}
 
-		if($site_srl)
-		{
-			$args->site_srl = $site_srl;
-			$output = executeQuery('counter.getSiteTodayStatus', $args);
-		}
-		else
-		{
-			$output = executeQuery('counter.getTodayStatus', $args);
-		}
-
-		$result = $output->data->count ? TRUE : FALSE;
-		if($result && $oCacheHandler->isSupport())
-		{
-			$oCacheHandler->put($cache_key, TRUE);
-			$_old_date = date('Ymd', strtotime('-1 day'));
-			$oCacheHandler->delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
-		}
-
-		return $result;
+		return $insertedTodayStatus;
 	}
 
 	/**

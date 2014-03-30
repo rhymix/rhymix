@@ -1,0 +1,21 @@
+<query id="updateMenuItems" action="update">
+    <tables>
+        <table name="menu_item" />
+    </tables>
+    <columns>
+        <column name="menu_srl" var="menu_srl" />
+        <column name="parent_srl" var="parent_srl" />
+        <column name="name" var="name" />
+        <column name="url" var="url" />
+        <column name="is_shortcut" var="is_shortcut" />
+        <column name="open_window" var="open_window" />
+        <column name="expand" var="expand" />
+        <column name="normal_btn" var="normal_btn" />
+        <column name="hover_btn" var="hover_btn" />
+        <column name="active_btn" var="active_btn" />
+        <column name="group_srls" var="group_srls" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="menu_srl" var="current_menu_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

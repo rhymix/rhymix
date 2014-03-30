@@ -1649,7 +1649,7 @@
 	<item name="about_user_id">
 		<value xml:lang="ko"><![CDATA[회원 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작해야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[User ID should be 3~20 characters long, consist of alphanumeric and start with a letter.]]></value>
-		<value xml:lang="jp"><![CDATA[ユーザーIDは、3~20字までの英数文字にしてください。先頭文字は英字でなければなりません。]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザーIDは、3~20文字までの英数文字にしてください。先頭文字は英字でなければなりません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户名长度必须由 3 ~20 字以内的英文+数字组成，且首个字母必须是英文字母。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[帳號必須由 3~20 字以內的英文+數字組成，開頭必須是英文。]]></value>
 		<value xml:lang="fr"><![CDATA[Le compte d'utilisateur doit être long de 3~20 lettres et se composer des alphabets et des chiffres avec un alphabet au premier.]]></value>
@@ -1661,7 +1661,7 @@
 	<item name="about_password">
 		<value xml:lang="ko"><![CDATA[비밀번호는 6~20자로 되어야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Password should be 6~20 characters long.]]></value>
-		<value xml:lang="jp"><![CDATA[パスワードは6~20字にしてください。]]></value>
+		<value xml:lang="jp"><![CDATA[パスワードは6~20文字にしてください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[密码长度必须在6~20字以内。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[密碼必須在 6~20 字以內。]]></value>
 		<value xml:lang="fr"><![CDATA[Le Mot de Passe doit être long de 6~20 lettres.]]></value>
@@ -1674,45 +1674,53 @@
 	<item name="cmd_config_password_strength">
 		<value xml:lang="ko"><![CDATA[비밀번호 보안수준]]></value>
 		<value xml:lang="en"><![CDATA[password strength]]></value>
+		<value xml:lang="jp"><![CDATA[パスワード強度]]></value>
 	</item>
 	
 	<item name="password_strength_low">
 		<value xml:lang="ko"><![CDATA[낮음]]></value>
 		<value xml:lang="en"><![CDATA[low]]></value>
+		<value xml:lang="jp"><![CDATA[弱い]]></value>
 	</item>
 	<item name="password_strength_normal">
 		<value xml:lang="ko"><![CDATA[보통]]></value>
 		<value xml:lang="en"><![CDATA[normal]]></value>
+		<value xml:lang="jp"><![CDATA[普通]]></value>
 	</item>
 	<item name="password_strength_high">
 		<value xml:lang="ko"><![CDATA[높음]]></value>
 		<value xml:lang="en"><![CDATA[high]]></value>
+		<value xml:lang="jp"><![CDATA[強い]]></value>
 	</item>
 	
 	<item name="about_password_strength_config">
 		<value xml:lang="ko"><![CDATA[회원들이 비밀번호를 등록/변경할 때, 비밀번호가 설정된 보안수준을 만족해야 합니다. 단, 관리자가 직접 등록할 경우에는 적용되지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[When members register or change the password, the password must meet the specified password strength. However, the administrator is an exception.]]></value>
+		<value xml:lang="jp"><![CDATA[会員がパスワードを登録する際に、パスワードが一定の強度を満たす必要があります。ただし、管理者が直接に登録する際には適用されません。]]></value>
 	</item>
 	
 	<item name="about_password_strength" type="array">
 		<item name="low">
 			<value xml:lang="ko"><![CDATA[비밀번호는 4자 이상이어야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[the password must be at least 4]]></value>
+			<value xml:lang="jp"><![CDATA[パスワードは４文字以上にしてください。]]></value>
 		</item>
 		<item name="normal">
 			<value xml:lang="ko"><![CDATA[비밀번호는 6자리 이상이어야 하며 영문과 숫자를 반드시 포함해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[the password must be at least 6, and must have at least one alpha character and numeric characters]]></value>
+			<value xml:lang="jp"><![CDATA[パスワードは6文字以上の【半角/英数字混合】で入力してください。]]></value>
 		</item>
 		<item name="high">
 			<value xml:lang="ko"><![CDATA[비밀번호는 8자리 이상이어야 하며 영문과 숫자, 특수문자를 반드시 포함해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[the password must be at least 8, and must have at least one alpha character, numeric character and special character ]]></value>
+			<value xml:lang="jp"><![CDATA[パスワードは8文字以上の【半角/英文字、数字、記号の混合】で入力してください。]]></value>
 		</item>
 	</item>
 	
 	<item name="about_user_name">
 		<value xml:lang="ko"><![CDATA[이름은 2~20자 이내여야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Name should be 2~20 letters long.]]></value>
-		<value xml:lang="jp"><![CDATA[名前は2~20字にしてください。]]></value>
+		<value xml:lang="jp"><![CDATA[名前は2~20文字にしてください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[姓名必须是2~20字以内。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[姓名必須是 2~20 字以內。]]></value>
 		<value xml:lang="fr"><![CDATA[Le Nom doit être long de 2~20 lettres.]]></value>
@@ -1724,7 +1732,7 @@
 	<item name="about_nick_name">
 		<value xml:lang="ko"><![CDATA[닉네임은 2~20자 이내여야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Nickname should be 2~20 characters long.]]></value>
-		<value xml:lang="jp"><![CDATA[ニックネームは2~20字にしてください。]]></value>
+		<value xml:lang="jp"><![CDATA[ニックネームは2~20文字にしてください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[昵称必须是2~20字以内。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[暱稱必須是 2~20 字以內。]]></value>
 		<value xml:lang="fr"><![CDATA[Le Surnom doit être long de 2~20 lettres.]]></value>

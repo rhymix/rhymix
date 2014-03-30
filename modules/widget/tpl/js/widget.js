@@ -193,9 +193,9 @@ function doSyncPageContent() {
 		fo_obj.widget_padding_top.value = getPadding(sel_obj,'top');
 
 		var obj = sel_obj.firstChild;
-		while(obj && obj.className != "widgetContent") obj = obj.nextSibling;
+		while(obj && !jQuery(obj).hasClass("widgetContent")) obj = obj.nextSibling;
 
-		if(obj && obj.className == "widgetContent") {
+		if(obj && jQuery(obj).hasClass("widgetContent")) {
 			if(!fo_obj.document_srl || fo_obj.document_srl.value == '0') {
 				try {
 					var content = Base64.decode(xInnerHtml(obj));
@@ -412,6 +412,7 @@ function doAddWidgetCode(widget_code) {
 function doCheckWidget(e) {
 	var evt = new xEvent(e); if(!evt.target) return;
 	var obj = evt.target;
+	var $obj = jQuery(obj);
 
 	selectedWidget = null;
 
@@ -423,7 +424,7 @@ function doCheckWidget(e) {
 
 	doHideWidgetSizeSetup();
 	// 위젯 설정
-	if(obj.className == 'widgetSetup') {
+	if($obj.hasClass('widgetSetup')) {
 		var p_obj = obj.parentNode.parentNode;
 		var widget = p_obj.getAttribute("widget");
 		if(!widget) return;
@@ -433,7 +434,7 @@ function doCheckWidget(e) {
 		return;
 
 	// 위젯 스타일
-	} else if(obj.className == 'widgetStyle') {
+	} else if($obj.hasClass('widgetStyle')) {
 		/*jshint -W004*/
 		var p_obj = obj.parentNode.parentNode;
 		var widget = p_obj.getAttribute("widget");
@@ -444,7 +445,7 @@ function doCheckWidget(e) {
 		return;
 
 	// 위젯 복사
-	} else if(obj.className == 'widgetCopy' && obj.parentNode.parentNode.className == 'widgetOutput') {
+	} else if($obj.hasClass('widgetCopy') && jQuery(obj.parentNode.parentNode).hasClass('widgetOutput')) {
 		/*jshint -W004*/
 		var p_obj = obj.parentNode.parentNode;
 		restoreWidgetButtons();
@@ -460,7 +461,7 @@ function doCheckWidget(e) {
 			xInnerHtml(dummy,xInnerHtml(p_obj));
 
 			dummy.widget_sequence = '';
-			dummy.className = "widgetOutput";
+			jQuery(dummy).hasClass("widgetOutput");
 			for(var i=0;i<p_obj.attributes.length;i++) {
 				if(!p_obj.attributes[i].nodeName || !p_obj.attributes[i].nodeValue) continue;
 				var name = p_obj.attributes[i].nodeName.toLowerCase();
@@ -479,7 +480,7 @@ function doCheckWidget(e) {
 		return;
 
 	// 위젯 사이트/ 여백 조절
-	} else if(obj.className == 'widgetSize' || obj.className == 'widgetBoxSize') {
+	} else if($obj.hasClass('widgetSize') || $obj.hasClass('widgetBoxSize')) {
 		var p_obj = obj.parentNode.parentNode;
 		var widget = p_obj.getAttribute("widget");
 		if(!widget) return;
@@ -488,7 +489,7 @@ function doCheckWidget(e) {
 		return;
 
 	// 위젯 제거
-	} else if(obj.className == 'widgetRemove' || obj.className == 'widgetBoxRemove') {
+	} else if($obj.hasClass('widgetRemove') || $obj.hasClass('widgetBoxRemove')) {
 		var p_obj = obj.parentNode.parentNode;
 		var widget = p_obj.getAttribute("widget");
 		if(confirm(confirm_delete_msg)) {
@@ -501,7 +502,7 @@ function doCheckWidget(e) {
 	// 내용 클릭 무효화
 	var p_obj = obj;
 	while(p_obj) {
-		if(p_obj.className == 'widgetOutput') {
+		if(jQuery(p_obj).hasClass('widgetOutput')) {
 			evt.cancelBubble = true;
 			evt.returnValue = false;
 			xPreventDefault(e);
@@ -520,7 +521,7 @@ function completeCopyWidgetContent(ret_obj, response_tags, params, p_obj) {
 
 
 	dummy.widget_sequence = '';
-	dummy.className = "widgetOutput";
+	jQuery(dummy).hasClass("widgetOutput");
 	for(var i=0;i<p_obj.attributes.length;i++) {
 		if(!p_obj.attributes[i].nodeName || !p_obj.attributes[i].nodeValue) continue;
 		var name = p_obj.attributes[i].nodeName.toLowerCase();
@@ -549,16 +550,18 @@ function completeDeleteWidgetContent(ret_obj, response_tags, params, p_obj) {
 function doCheckWidgetDrag(e) {
 	var evt = new xEvent(e); if(!evt.target) return;
 	var obj = evt.target;
+	var $obj = jQuery(obj);
 
 	if(jQuery(obj).parents('#pageSizeLayer').size() > 0) return;
 
 	doHideWidgetSizeSetup();
 
-	if(obj.className == 'widgetSetup' || obj.className == 'widgetStyle' || obj.className == 'widgetCopy' || obj.className == 'widgetBoxCopy' || obj.className == 'widgetSize' || obj.className == 'widgetBoxSize' || obj.className == 'widgetRemove' || obj.className == 'widgetBoxRemove') return;
+	if($obj.hasClass('widgetSetup') || $obj.hasClass('widgetStyle') || $obj.hasClass('widgetCopy') || $obj.hasClass('widgetBoxCopy') || $obj.hasClass('widgetSize') || $obj.hasClass('widgetBoxSize') || $obj.hasClass('widgetRemove') || $obj.hasClass('widgetBoxRemove')) return;
 
 	p_obj = obj;
+	var $p_obj = jQuery(obj);
 	while(p_obj) {
-		if(p_obj.className == 'widgetOutput' || p_obj.className == 'widgetResize' || p_obj.className == 'widgetResizeLeft' || p_obj.className == 'widgetBoxResize' || p_obj.className == 'widgetBoxResizeLeft') {
+		if($p_obj.hasClass('widgetOutput') || $p_obj.hasClass('widgetResize') || $p_obj.hasClass('widgetResizeLeft') || $p_obj.hasClass('widgetBoxResize') || $p_obj.hasClass('widgetBoxResizeLeft')) {
 			widgetDragEnable(p_obj, widgetDragStart, widgetDrag, widgetDragEnd);
 			widgetMouseDown(e);
 			return;
@@ -585,12 +588,14 @@ function doShowWidgetSizeSetup(px, py, obj) {
 	if (!form.length) return;
 
 	selectedSizeWidget = obj[0];
+	var $selectedSizeWidget = jQuery(selectedSizeWidget);
 
 	var opts = {
 		widget_align : obj.css('float'),
 
-		width  : obj[0].style.width,
-		height : obj[0].style.height,
+		css_class : ($selectedSizeWidget.attr('css_class')) ? $selectedSizeWidget.attr('css_class') : '',
+		width     : obj[0].style.width,
+		height    : obj[0].style.height,
 
 		padding_left   : _getInt(obj.attr('widget_padding_left')),
 		padding_right  : _getInt(obj.attr('widget_padding_right')),
@@ -740,6 +745,12 @@ function doApplyWidgetSize(fo_obj) {
 		if(fo_obj.widget_align.selectedIndex == 1) setFloat(selectedSizeWidget, 'right');
 		else setFloat(selectedSizeWidget, 'left');
 
+		var $form = jQuery(fo_obj);
+		var $selectedSizeWidget = jQuery(selectedSizeWidget);
+
+		var css_class = $form.find('#css_class').val();
+		if(css_class) $selectedSizeWidget.attr('css_class', css_class);
+
 		var width = _getSize(fo_obj.width.value);
 		if(width) selectedSizeWidget.style.width = width;
 
@@ -781,8 +792,9 @@ function doApplyWidgetSize(fo_obj) {
 		selectedSizeWidget.style.backgroundPosition = fo_obj.background_x.value+' '+fo_obj.background_y.value;
 
 		var borderObj = selectedSizeWidget.firstChild;
+		var $borderObj = jQuery(selectedSizeWidget.firstChild);
 		while(borderObj) {
-			if(borderObj.nodeName == "DIV" && (borderObj.className == "widgetBorder" || borderObj.className == "widgetBoxBorder")) {
+			if(borderObj.nodeName == "DIV" && ($borderObj.hasClass("widgetBorder") || $borderObj.hasClass("widgetBoxBorder"))) {
 				var contentObj = borderObj.firstChild;
 				while(contentObj) {
 					if(contentObj.nodeName == "DIV") {
@@ -974,7 +986,8 @@ function widgetDragEnable(obj, funcDragStart, funcDrag, funcDragEnd) {
 
 // 드래그를 시작할때 호출되는 함수 (이동되는 형태를 보여주기 위한 작업을 함)
 function widgetDragStart(tobj, px, py) {
-	if(tobj.className == 'widgetResize' || tobj.className == 'widgetResizeLeft' || tobj.className == 'widgetBoxResize' || tobj.className == 'widgetBoxResizeLeft') return;
+	var $tobj = jQuery(tobj);
+	if($tobj.hasClass('widgetResize') || $tobj.hasClass('widgetResizeLeft') || $tobj.hasClass('widgetBoxResize') || $tobj.hasClass('widgetBoxResizeLeft')) return;
 	var obj = widgetGetTmpObject(tobj);
 
 	xInnerHtml(obj, xInnerHtml(tobj));

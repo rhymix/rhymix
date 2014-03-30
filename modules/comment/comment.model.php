@@ -76,6 +76,13 @@ class commentModel extends comment
 		// call a trigger (after)
 		ModuleHandler::triggerCall('comment.getCommentMenu', 'after', $menu_list);
 
+		if($this->grant->manager){
+			$str_confirm = Context::getLang('confirm_move');
+			$url = sprintf("if(!confirm('%s')) return; var params = new Array(); params['comment_srl']='%s'; params['mid']=current_mid;params['cur_url']=current_url; exec_xml('comment', 'procCommentAdminMoveToTrash', params)", $str_confirm, $comment_srl);
+			$oCommentController->addCommentPopupMenu($url,'cmd_trash','','javascript');
+
+		}
+
 		// find a comment by IP matching if an administrator.
 		if($logged_info->is_admin == 'Y')
 		{
@@ -326,6 +333,9 @@ class commentModel extends comment
 	 */
 	function getDistinctModules()
 	{
+		return array();
+
+		/*
 		$output = executeQueryArray('comment.getDistinctModules');
 		$module_srls = $output->data;
 		$oModuleModel = getModel('module');
@@ -339,6 +349,7 @@ class commentModel extends comment
 			}
 		}
 		return $result;
+		*/
 	}
 
 	/**
@@ -441,95 +452,77 @@ class commentModel extends comment
 			return;
 		}
 
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		// get the number of comments on the document module
+		$oDocumentModel = getModel('document');
+		$columnList = array('document_srl', 'module_srl', 'comment_count');
+		$oDocument = $oDocumentModel->getDocument($document_srl, FALSE, TRUE, $columnList);
+
+		// return if no doc exists.
+		if(!$oDocument->isExists())
 		{
-			$object_key = 'object:' . $document_srl . '_' . $page . '_' . ($is_admin ? 'Y' : 'N') . '_' . $count;
-			$cache_key = $oCacheHandler->getGroupKey('commentList_' . $document_srl, $object_key);
-			$output = $oCacheHandler->get($cache_key);
+			return;
 		}
 
-		if(!$output)
+		// return if no comment exists
+		if($oDocument->getCommentCount() < 1)
 		{
-			// get the number of comments on the document module
-			$oDocumentModel = getModel('document');
-			$columnList = array('document_srl', 'module_srl', 'comment_count');
-			$oDocument = $oDocumentModel->getDocument($document_srl, FALSE, TRUE, $columnList);
+			return;
+		}
 
-			// return if no doc exists.
-			if(!$oDocument->isExists())
+		// get a list of comments
+		$module_srl = $oDocument->get('module_srl');
+
+		if(!$count)
+		{
+			$comment_config = $this->getCommentConfig($module_srl);
+			$comment_count = $comment_config->comment_count;
+			if(!$comment_count)
 			{
-				return;
+				$comment_count = 50;
 			}
+		}
+		else
+		{
+			$comment_count = $count;
+		}
 
-			// return if no comment exists
-			if($oDocument->getCommentCount() < 1)
-			{
-				return;
-			}
+		// get a very last page if no page exists
+		if(!$page)
+		{
+			$page = (int) ( ($oDocument->getCommentCount() - 1) / $comment_count) + 1;
+		}
 
-			// get a list of comments
-			$module_srl = $oDocument->get('module_srl');
+		// get a list of comments
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$args->list_count = $comment_count;
+		$args->page = $page;
+		$args->page_count = 10;
 
-			if(!$count)
-			{
-				$comment_config = $this->getCommentConfig($module_srl);
-				$comment_count = $comment_config->comment_count;
-				if(!$comment_count)
-				{
-					$comment_count = 50;
-				}
-			}
-			else
-			{
-				$comment_count = $count;
-			}
+		//check if module is using validation system
+		$oCommentController = getController('comment');
+		$using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
+		if($using_validation)
+		{
+			$args->status = 1;
+		}
 
-			// get a very last page if no page exists
-			if(!$page)
-			{
-				$page = (int) ( ($oDocument->getCommentCount() - 1) / $comment_count) + 1;
-			}
+		$output = executeQueryArray('comment.getCommentPageList', $args);
 
-			// get a list of comments
-			$args = new stdClass();
-			$args->document_srl = $document_srl;
-			$args->list_count = $comment_count;
-			$args->page = $page;
-			$args->page_count = 10;
+		// return if an error occurs in the query results
+		if(!$output->toBool())
+		{
+			return;
+		}
 
-			//check if module is using validation system
-			$oCommentController = getController('comment');
-			$using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
-			if($using_validation)
-			{
-				$args->status = 1;
-			}
-
+		// insert data into CommentPageList table if the number of results is different from stored comments
+		if(!$output->data)
+		{
+			$this->fixCommentList($oDocument->get('module_srl'), $document_srl);
 			$output = executeQueryArray('comment.getCommentPageList', $args);
-
-			// return if an error occurs in the query results
 			if(!$output->toBool())
 			{
 				return;
-			}
-
-			// insert data into CommentPageList table if the number of results is different from stored comments
-			if(!$output->data)
-			{
-				$this->fixCommentList($oDocument->get('module_srl'), $document_srl);
-				$output = executeQueryArray('comment.getCommentPageList', $args);
-				if(!$output->toBool())
-				{
-					return;
-				}
-			}
-
-			//insert in cache
-			if($oCacheHandler->isSupport())
-			{
-				$oCacheHandler->put($cache_key, $output);
 			}
 		}
 

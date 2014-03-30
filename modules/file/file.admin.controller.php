@@ -92,6 +92,7 @@ class fileAdminController extends file
 	function procFileAdminInsertConfig()
 	{
 		// Get configurations (using module model object)
+		$config = new stdClass();
 		$config->allowed_filesize = Context::get('allowed_filesize');
 		$config->allowed_attach_size = Context::get('allowed_attach_size');
 		$config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
@@ -121,6 +122,7 @@ class fileAdminController extends file
 
 		$download_grant = Context::get('download_grant');
 
+		$file_config = new stdClass;
 		$file_config->allow_outlink = Context::get('allow_outlink');
 		$file_config->allow_outlink_format = Context::get('allow_outlink_format');
 		$file_config->allow_outlink_site = Context::get('allow_outlink_site');

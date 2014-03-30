@@ -490,7 +490,7 @@ class adminAdminController extends admin
 		$db_info->use_sitelock = ($vars->use_sitelock) ? $vars->use_sitelock : 'N';
 		$db_info->sitelock_title = $vars->sitelock_title;
 		$db_info->sitelock_message = $vars->sitelock_message;
-		
+
 		$whitelist = $vars->sitelock_whitelist;
 		$whitelist = preg_replace("/[\r|\n|\r\n]+/",",",$whitelist);
 		$whitelist = preg_replace("/\s+/","",$whitelist);
@@ -498,23 +498,22 @@ class adminAdminController extends admin
 		{
 			$whitelist = '';
 		}
-		$whitelist .= ',127.0.0.1';
+		$whitelist .= ',127.0.0.1,' . $_SERVER['REMOTE_ADDR'];
 		$whitelist = explode(',',trim($whitelist, ','));
 		$whitelist = array_unique($whitelist);
 
 		if(!IpFilter::validate($whitelist)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
-		
+
 		$db_info->sitelock_whitelist = $whitelist;
-		
+
 		$oInstallController = getController('install');
 		if(!$oInstallController->makeConfigFile())
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
 
-		
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
 		{
 			$returnUrl = Context::get('success_return_url');
@@ -522,12 +521,50 @@ class adminAdminController extends admin
 			header('location:' . $returnUrl);
 			return;
 		}
-		
-		
-		
-		
-		
+	}
 
+	function procAdminUpdateEmbedWhitelist()
+	{
+		$vars = Context::getRequestVars();
+
+		$db_info = Context::getDbInfo();
+
+		$white_object = $vars->embed_white_object;
+		$white_object = preg_replace("/[\r\n|\r|\n]+/", '|@|', $white_object);
+		$white_object = preg_replace("/[\s\'\"]+/", '', $white_object);
+		$white_object = explode('|@|', $white_object);
+		$white_object = array_unique($white_object);
+
+		$white_iframe = $vars->embed_white_iframe;
+		$white_iframe = preg_replace("/[\r\n|\r|\n]+/", '|@|', $white_iframe);
+		$white_iframe = preg_replace("/[\s\'\"]+/", '', $white_iframe);
+		$white_iframe = explode('|@|', $white_iframe);
+		$white_iframe = array_unique($white_iframe);
+
+		$whitelist = new stdClass;
+		$whitelist->object = $white_object;
+		$whitelist->iframe = $white_iframe;
+
+		$db_info->embed_white_object = $white_object;
+		$db_info->embed_white_iframe = $white_iframe;
+
+		$oInstallController = getController('install');
+		if(!$oInstallController->makeConfigFile())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
+		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
+		$oEmbedFilter = EmbedFilter::getInstance();
+		$oEmbedFilter->_makeWhiteDomainList($whitelist);
+
+		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url');
+			if(!$returnUrl) $returnUrl = getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral');
+			header('location:' . $returnUrl);
+			return;
+		}
 	}
 
 }

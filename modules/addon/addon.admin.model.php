@@ -98,8 +98,9 @@ class addonAdminModel extends addon
 			// Add the path (files/addons precedence)
 			$path = $this->getAddonPath($addon_name);
 			// Wanted information on the add-on
-			unset($info);
 			$info = $this->getAddonInfoXml($addon_name, $site_srl, $gtype);
+			
+			if(!$info) $info = new stdClass();
 
 			$info->addon = $addon_name;
 			$info->path = $path;
@@ -255,7 +256,16 @@ class addonAdminModel extends addon
 
 					foreach($extra_vars as $key => $val)
 					{
+						if(!$val)
+						{
+							continue;
+						}
+
 						$obj = new stdClass();
+						if(!$val->attrs)
+						{
+							$val->attrs = new stdClass();
+						}
 						if(!$val->attrs->type)
 						{
 							$val->attrs->type = 'text';
@@ -341,6 +351,11 @@ class addonAdminModel extends addon
 					$addon_info->extra_vars = array();
 					foreach($extra_vars as $key => $val)
 					{
+						if(!$val)
+						{
+							continue;
+						}
+
 						$obj = new stdClass();
 
 						$obj->group = $group->title->body;

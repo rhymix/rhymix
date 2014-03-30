@@ -75,8 +75,6 @@ module.exports = function(grunt) {
 					'modules/board/skins/default/board.default.min.js': ['modules/board/skins/default/board.default.js'],
 					'modules/board/m.skins/default/js/mboard.min.js': ['modules/board/m.skins/default/js/mboard.js'],
 					'modules/board/m.skins/simpleGray/js/mboard.min.js': ['modules/board/m.skins/simpleGray/js/mboard.js'],
-					// editor-component-multimedia-link
-					'modules/editor/components/multimedia_link/tpl/popup.min.js': ['modules/editor/components/multimedia_link/tpl/popup.js'],
 					// editor-component-image-gallery
 					'modules/editor/components/image_gallery/tpl/gallery.min.js' : ['modules/editor/components/image_gallery/tpl/gallery.js'],
 					'modules/editor/components/image_gallery/tpl/list_gallery.min.js' : ['modules/editor/components/image_gallery/tpl/list_gallery.js'],
@@ -112,11 +110,6 @@ module.exports = function(grunt) {
 				files: {
 					'modules/editor/components/image_gallery/tpl/popup.min.css': ['modules/editor/components/image_gallery/tpl/popup.css'],
 					'modules/editor/components/image_gallery/tpl/slide_gallery.min.css': ['modules/editor/components/image_gallery/tpl/slide_gallery.css'],
-				}
-			},
-			'editor-component-multimedia-link': {
-				files: {
-					'modules/editor/components/multimedia_link/tpl/popup.min.css': ['modules/editor/components/multimedia_link/tpl/popup.css'],
 				}
 			},
 			'moudle-widget-tpl': {

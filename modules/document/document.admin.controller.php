@@ -140,7 +140,6 @@ class documentAdminController extends document
 				$oDB->rollback();
 				return $output;
 			}
-
 			// Set 0 if a new category doesn't exist after catergory change
 			if($source_category_srl != $category_srl)
 			{
@@ -166,13 +165,18 @@ class documentAdminController extends document
 			$oDB->rollback();
 			return $output;
 		}
+		
 		// move the trackback
-		$output = executeQuery('trackback.updateTrackbackModule', $args);
-		if(!$output->toBool())
+		if(getClass('trackback'))
 		{
-			$oDB->rollback();
-			return $output;
+			$output = executeQuery('trackback.updateTrackbackModule', $args);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
+
 		// Tags
 		$output = executeQuery('tag.updateTagModule', $args);
 		if(!$output->toBool())
@@ -195,7 +199,7 @@ class documentAdminController extends document
 		{
 			foreach($document_srl_list as $document_srl)
 			{
-				$cache_key_item = 'document_item:'.$document_srl;
+				$cache_key_item = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
 				$oCacheHandler->delete($cache_key_item);
 			}
 		}
@@ -451,9 +455,8 @@ class documentAdminController extends document
 			{
 				foreach($document_srl_list as $document_srl)
 				{
-					$cache_key_item = 'document_item:'.$document_srl;
+					$cache_key_item = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
 					$oCacheHandler->delete($cache_key_item);
-					$oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
 				}
 			}
 		}
@@ -710,6 +713,81 @@ class documentAdminController extends document
 	}
 
 	/**
+	  * @fn procDocumentAdminMoveToTrash
+	  * @brief move a document to trash.
+	  * @see documentModel::getDocumentMenu
+	  */
+	function procDocumentAdminMoveToTrash()
+	{
+		$document_srl = Context::get('document_srl');
+
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		if(!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
+	
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+
+		$args = new stdClass();
+		$args->description = $message_content;
+		$args->document_srl = $document_srl;
+
+		$oDocumentController->moveDocumentToTrash($args);
+
+		$returnUrl = Context::get('success_return_url');
+		if(!$returnUrl)	
+		{
+			$arrUrl = parse_url(Context::get('cur_url'));
+			$query = "";
+
+			if($arrUrl['query'])
+			{
+				parse_str($arrUrl['query'], $arrQuery);
+
+				// set query
+				if(isset($arrQuery['document_srl']))
+					unset($arrQuery['document_srl']);
+
+				$searchArgs = new stdClass;
+				foreach($arrQuery as $key=>$val)
+				{
+					$searchArgs->{$key} = $val;
+				}
+
+				if(!isset($searchArgs->sort_index))
+					$searchArgs->sort_index = $module_info->order_target;
+
+				foreach($module_info as $key=>$val)
+				{
+					if(!isset($searchArgs->{$key}))
+						$searchArgs->{$key} = $val;
+				}
+
+				$oDocumentModel = getModel('document');
+				$output = $oDocumentModel->getDocumentList($searchArgs, $module_info->except_notice, TRUE, array('document_srl'));
+
+				$cur_page = 1;
+				if(isset($arrQuery['page'])) {
+					$cur_page = (int)$arrQuery['page'];
+				}
+
+
+				if($cur_page>1 && count($output->data) == 0)
+					$arrQuery['page'] = $cur_page - 1;
+
+				$query = "?";
+				foreach($arrQuery as $key=>$val)
+					$query .= sprintf("%s=%s&", $key, $val);
+				$query = substr($query, 0, -1);
+			}
+			$returnUrl = $arrUrl['path'] . $query;
+		}
+
+		$this->add('redirect_url', $returnUrl);
+	}
+
+	/**
 	 * Restor document from trash
 	 * @return void|object
 	 */
@@ -797,6 +875,7 @@ class documentAdminController extends document
 		// If the post was not temorarily saved, set the attachment's status to be valid
 		if($oDocument->hasUploadedFiles() && $originObject->member_srl != $originObject->module_srl)
 		{
+			$args = new stdClass();
 			$args->upload_target_srl = $oDocument->document_srl;
 			$args->isvalid = 'Y';
 			$output = executeQuery('file.updateFileValid', $args);

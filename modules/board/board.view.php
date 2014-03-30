@@ -47,27 +47,27 @@ class boardView extends board
 		}
 
 		// use_category <=1.5.x, hide_category >=1.7.x
-		$count_category = count($oDocumentModel->getCategoryList($module_srl));
+		$count_category = count($oDocumentModel->getCategoryList($this->module_info->module_srl));
 		if($count_category)
 		{
-			if($config->hide_category)
+			if($this->module_info->hide_category)
 			{
-				$config->use_category = ($config->hide_category == 'Y') ? 'N' : 'Y';
+				$this->module_info->use_category = ($this->module_info->hide_category == 'Y') ? 'N' : 'Y';
 			}
-			else if($config->use_category)
+			else if($this->module_info->use_category)
 			{
-				$config->hide_category = ($config->use_category == 'Y') ? 'N' : 'Y';
+				$this->module_info->hide_category = ($this->module_info->use_category == 'Y') ? 'N' : 'Y';
 			}
 			else
 			{
-				$config->hide_category = 'N';
-				$config->use_category = 'Y';
+				$this->module_info->hide_category = 'N';
+				$this->module_info->use_category = 'Y';
 			}
 		}
 		else
 		{
-			$config->hide_category = 'Y';
-			$config->use_category = 'N';
+			$this->module_info->hide_category = 'Y';
+			$this->module_info->use_category = 'N';
 		}
 
 		/**
@@ -184,6 +184,7 @@ class boardView extends board
 		// list config, columnList setting
 		$oBoardModel = getModel('board');
 		$this->listConfig = $oBoardModel->getListConfig($this->module_info->module_srl);
+		if(!$this->listConfig) $this->listConfig = array();
 		$this->_makeListColumnList();
 
 		// display the notice list

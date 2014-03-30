@@ -101,10 +101,6 @@ class module extends ModuleObject
 		}
 
 		// XE 1.7
-		$args->site_srl = 0;
-		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
-
-		if($output->toBool() && $output->data && count($output->data) > 0) return true;
 
 		// check fix mskin
 		if(!$oDB->isColumnExists("modules", "is_mskin_fix")) return true;
@@ -112,13 +108,6 @@ class module extends ModuleObject
 		$oModuleModel = getModel('module');
 		$moduleConfig = $oModuleModel->getModuleConfig('module');
 		if(!$moduleConfig->isUpdateFixedValue) return true;
-
-		// check lost module
-		if(!$moduleConfig->isUpdateLostModule)
-		{
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -414,29 +403,6 @@ class module extends ModuleObject
 			$output = executeQuery('module.updateMobileSkinFixModules');
 		}
 
-		$args = new stdClass;
-		$args->site_srl = 0;
-		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
-
-		if($output->toBool() && $output->data && count($output->data) > 0)
-		{
-			//create temp menu.
-			$args->title = 'Temporary menu';
-			$menuSrl = $args->menu_srl = getNextSequence();
-			$args->listorder = $args->menu_srl * -1;
-
-			$output = executeQuery('menu.insertMenu', $args);
-
-			if(!$output->toBool())
-			{
-				return $output;
-			}
-
-			//getNotLinkedModuleBySiteSrl
-			$soutput = executeQueryArray('module.getNotLinkedModuleBySiteSrl', $args);
-			$uoutput = $this->updateLinkModule($soutput->data, $menuSrl);
-		}
-
 		$oModuleModel = getModel('module');
 		$moduleConfig = $oModuleModel->getModuleConfig('module');
 		if(!$moduleConfig->isUpdateFixedValue)
@@ -449,133 +415,10 @@ class module extends ModuleObject
 			$moduleConfig->isUpdateFixedValue = TRUE;
 			$output = $oModuleController->updateModuleConfig('module', $moduleConfig);
 		}
-
-		// check lost module
-		if(!$moduleConfig->isUpdateLostModule)
-		{
-			$args = new stdClass();
-			$args->site_srl = 0;
-			$output = executeQueryArray('module.getMidList', $args);
-			if(!$output->toBool())
-			{
-				return $output;
-			}
-			if($output->data)
-			{
-				$oMenuAdminModel = getAdminModel('menu'); /* @var $oMenuAdminModel menuAdminModel */
-				foreach($output->data as $row)
-				{
-					$args = new stdClass();
-					$args->url = $row->mid;
-					$output2 = executeQuery('module.getMenuItem', $args);
-
-					if(!$output2->data->count)
-					{
-						$menuInfo = $oMenuAdminModel->getMenuByTitle('Temporary menu');
-
-						if(!$menuInfo)
-						{
-							$args = new stdClass();
-							$args->title = 'Temporary menu';
-							$menuSrl = $args->menu_srl = getNextSequence();
-							$args->listorder = $args->menu_srl * -1;
-
-							$ioutput = executeQuery('menu.insertMenu', $args);
-							if(!$ioutput->toBool())
-							{
-								return $ioutput;
-							}
-						}
-						else
-						{
-							$menuSrl = $menuInfo->menu_srl;
-						}
-
-						$uoutput = $this->updateLinkModule(array($row), $menuSrl);
-						if(!$uoutput->toBool())
-						{
-							return $uoutput;
-						}
-					}
-				}
-			}
-
-			$oModuleController = getController('module');
-			$moduleConfig->isUpdateLostModule = TRUE;
-			$output = $oModuleController->updateModuleConfig('module', $moduleConfig);
-			if(!$output->toBool())
-			{
-				return $output;
-			}
-		}
-
+		
 		return new Object(0, 'success_updated');
 	}
-
-	/**
-	 * insert menu when not linked module.
-	 *
-	 * @param array $moduleInfos
-	 * @param int $menuSrl
-	 *
-	 * @return Object
-	 */
-	private function updateLinkModule($moduleInfos, $menuSrl)
-	{
-		if(!$moduleInfos || !is_array($moduleInfos) || count($moduleInfos) == 0 || $menuSrl == 0)
-		{
-			return new Object(-1, 'msg_invalid_request');
-		}
-
-		foreach($moduleInfos as $moduleInfo)
-		{
-			// search menu.
-			$args = new stdClass;
-			$args->url = $moduleInfo->mid;
-			$args->site_srl = $moduleInfo->site_srl;
-			$args->is_shortcut = 'N';
-
-			$output = executeQuery('menu.getMenuItemByUrl', $args);
-
-			if($output->toBool() && $output->data)
-			{
-				$moduleInfo->menu_srl = $output->data->menu_srl;
-			}
-			else
-			{
-				// create menu item.
-				$item_args->menu_srl = $menuSrl;
-				$item_args->url = $moduleInfo->mid;
-				$item_args->name = $moduleInfo->mid;
-				$item_args->menu_item_srl = getNextSequence();
-				$item_args->listorder = -1*$item_args->menu_item_srl;
-
-				$output = executeQuery('menu.insertMenuItem', $item_args);
-				if(!$output->toBool())
-				{
-					return $output;
-				}
-				$moduleInfo->menu_srl = $menuSrl;
-			}
-
-			$output = executeQuery('module.updateModule', $moduleInfo);
-			if(!$output->toBool())
-			{
-				$oCacheHandler = CacheHandler::getInstance('object', null, true);
-				if($oCacheHandler->isSupport())
-				{
-					$oCacheHandler->invalidateGroupKey('site_and_module');
-				}
-				return $output;
-			}
-		}
-
-		$oMenuAdminController = getAdminController('menu');
-		$oMenuAdminController->makeXmlFile($menuSrl);
-
-		return new Object();
-	}
-
+	
 	function updateForUniqueSiteDomain()
 	{
 		$output = executeQueryArray("module.getNonuniqueDomains");

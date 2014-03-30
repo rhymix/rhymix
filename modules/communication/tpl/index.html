@@ -1,4 +1,5 @@
 <load target="js/communication_admin.js" usecdn="true" />
+<load target="../../module/tpl/js/module_admin.js" />
 <load target="../../editor/tpl/js/editor_module_config.js" usecdn="true" />
 
 <div class="x_page-header">
@@ -81,6 +82,24 @@
 		</div>
 	</div>
 
+	<div class="x_control-group">
+		<label class="x_control-label" for="mlayout_srl">{$lang->cmd_write_communication}</label>
+		<div class="x_controls">
+			<select name="grant_write_default" class="grant_default">
+				<option value="-1" selected="selected"|cond="$communication_config->grant_write['default_grant']=='member'">{$lang->grant_to_login_user}</option>
+				<option value="-2" selected="selected"|cond="$communication_config->grant_write['default_grant']=='site'">{$lang->grant_to_site_user}</option>
+				<option value="-3" selected="selected"|cond="$communication_config->grant_write['default_grant']=='manager'">{$lang->grant_to_admin}</option>
+				<option value="" selected="selected"|cond="$communication_config->grant_write['default_grant']==''">{$lang->grant_to_group}</option>
+			</select>
+			<div id="zone_grant_write" hidden style="margin:8px 0 0 0">
+				<label loop="$group_list => $group_srl, $group_item" for="grant_write_group_{$group_srl}">
+					<input type="checkbox" class="checkbox" name="grant_write_group[]" value="{$group_item->group_srl}" id="grant_write_group_{$group_item->group_srl}" checked="checked"|cond="isset($communication_config->grant_write['group_grant'][$group_srl])&&$communication_config->grant_write['group_grant'][$group_srl]==$group_item->title"/>
+					{$group_item->title}
+				</label>
+			</div>
+		</div>
+	</div>
+
 	<div class="btnArea">
 		<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
 	</div>
@@ -89,5 +108,7 @@
     jQuery(function() { 
 		doGetSkinColorset("{$communication_config->skin}", 'P'); 
 		doGetSkinColorset("{$communication_config->mskin}", 'M'); 
+		jQuery('.grant_default').change( function(event) { doShowGrantZone(); } ); 
+		doShowGrantZone()
 	});
 </script>

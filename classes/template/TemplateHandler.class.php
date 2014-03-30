@@ -116,7 +116,7 @@ class TemplateHandler
 	 */
 	public function compile($tpl_path, $tpl_filename, $tpl_file = '')
 	{
-		$buff = '';
+		$buff = false;
 
 		// store the starting time for debug information
 		if(__DEBUG__ == 3)
@@ -159,7 +159,7 @@ class TemplateHandler
 			}
 		}
 
-		if(!$buff)
+		if($buff === FALSE)
 		{
 			$buff = $this->parse();
 			if($oCacheHandler->isSupport())

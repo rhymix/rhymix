@@ -302,7 +302,7 @@ class fileController extends file
 
 		$file_size = $file_obj->file_size;
 		$filename = $file_obj->source_filename;
-		if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE || (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'rv') !== FALSE))
+		if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE || (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'rv:') !== FALSE))
 		{
 			$filename = rawurlencode($filename);
 			$filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
@@ -517,6 +517,8 @@ class fileController extends file
 	{
 		$comment_srl = $obj->comment_srl;
 		if(!$comment_srl) return new Object();
+
+		if($obj->isMoveToTrash) return new Object();
 
 		$output = $this->deleteFiles($comment_srl);
 		return $output;

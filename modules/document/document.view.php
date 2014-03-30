@@ -160,6 +160,7 @@ class documentView extends document
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 		// Get the saved document (module_srl is set to member_srl instead)
 		$logged_info = Context::get('logged_info');
+		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->statusList = array($this->getConfigStatus('temp'));
 		$args->page = (int)Context::get('page');

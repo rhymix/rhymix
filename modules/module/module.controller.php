@@ -424,26 +424,11 @@ class moduleController extends module
 			if(!$menuOutput->data && !$args->site_srl)
 			{
 				$oMenuAdminModel = getAdminModel('menu');
-				$tempMenu = $oMenuAdminModel->getMenuByTitle(array('Temporary menu'));
 
-				if(!$tempMenu)
-				{
-					$siteMapArgs = new stdClass;
-					$siteMapArgs->site_srl = 0;
-					$siteMapArgs->title = 'Temporary menu';
-					$siteMapArgs->listorder = $siteMapArgs->menu_srl * -1;
-					$tempMenu = new stdClass;
-					$tempMenu->menu_srl = $siteMapArgs->menu_srl = getNextSequence();
+				$oMenuAdminController = getAdminController('menu');
+				$menuSrl = $oMenuAdminController->getUnlinkedMenu();
 
-					$siteMapOutput = executeQuery('menu.insertMenu', $siteMapArgs);
-					if(!$siteMapOutput->toBool())
-					{
-						$oDB->rollback();
-						return $siteMapOutput;
-					}
-				}
-
-				$menuArgs->menu_srl = $tempMenu->menu_srl;
+				$menuArgs->menu_srl = $menuSrl;
 				$menuArgs->menu_item_srl = getNextSequence();
 				$menuArgs->parent_srl = 0;
 				$menuArgs->open_window = 'N';
@@ -460,8 +445,7 @@ class moduleController extends module
 					return $menuItemOutput;
 				}
 
-				$oMenuAdminController = getAdminController('menu');
-				$oMenuAdminController->makeXmlFile($tempMenu->menu_srl);
+				$oMenuAdminController->makeXmlFile($menuSrl);
 			}
 		}
 

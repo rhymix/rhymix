@@ -45,8 +45,12 @@ class ModuleHandler extends Handler
 		$oContext = Context::getInstance();
 		if($oContext->isSuccessInit == FALSE)
 		{
-			$this->error = 'msg_invalid_request';
-			return;
+			$logged_info = Context::get('logged_info');
+			if($logged_info->is_admin != "Y")
+			{
+				$this->error = 'msg_invalid_request';
+				return;
+			}
 		}
 
 		// Set variables from request arguments
@@ -155,13 +159,22 @@ class ModuleHandler extends Handler
 			{
 				// If it exists, compare mid based on the module information
 				// if mids are not matching, set it as the document's mid
-				if(!$this->mid || ($this->mid && $this->mid != $module_info->mid) || ($this->module_srl && $this->module_srl != $module_info->module_srl))
+				if(!$this->mid || ($this->mid != $module_info->mid))
 				{
-					$this->mid = $module_info->mid;
-					header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl, 'module_srl',''));
-					return FALSE;
+					
+					if(Context::getRequestMethod() == 'GET')
+					{
+						$this->mid = $module_info->mid;
+						header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
+						return FALSE;
+					}
+					else
+					{
+						$this->mid = $module_info->mid;
+						Context::set('mid', $this->mid);
+					}
+					
 				}
-				
 				// if requested module is different from one of the document, remove the module information retrieved based on the document number
 				if($this->module && $module_info->module != $this->module)
 				{
@@ -1012,7 +1025,7 @@ class ModuleHandler extends Handler
 			}
 
 			// Get base class name and load the file contains it
-			if(!class_exists($module))
+			if(!class_exists($module, false))
 			{
 				$high_class_file = sprintf('%s%s%s.class.php', _XE_PATH_, $class_path, $module);
 				if(!file_exists($high_class_file))
@@ -1030,7 +1043,7 @@ class ModuleHandler extends Handler
 
 			// Create an instance with eval function
 			require_once($class_file);
-			if(!class_exists($instance_name))
+			if(!class_exists($instance_name, false))
 			{
 				return NULL;
 			}
