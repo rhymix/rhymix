@@ -160,7 +160,7 @@ class FrontEndFileHandler extends Handler
 
 		if(strpos($file->filePath, '://') === FALSE)
 		{
-			if(!__DEBUG__)
+			if(!__DEBUG__ && _XE_VERSION_STABLE__)
 			{
 				// if no debug mode, load minifed file
 				$minifiedFileName = implode('.', array($file->fileNameNoExt, 'min', $file->fileExtension));
