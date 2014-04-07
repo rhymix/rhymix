@@ -249,7 +249,7 @@ class ExtraItem
 
 				for($i = 0, $c = count($values); $i < $c; $i++)
 				{
-					$values[$i] = htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$values[$i] = trim(htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 				}
 
 				return $values;
@@ -302,21 +302,15 @@ class ExtraItem
 			case 'textarea' :
 				return nl2br($value);
 				
-			case 'checkbox' :
-				if(is_array($value))
-				{
-					return implode(', ', $value);
-				}
-				return $value;
-				
 			case 'date' :
 				return zdate($value, "Y-m-d");
 
+			case 'checkbox' :
 			case 'select' :
 			case 'radio' :
 				if(is_array($value))
 				{
-					return implode(', ', $value);
+					return implode(',', $value);
 				}
 				return $value;
 
