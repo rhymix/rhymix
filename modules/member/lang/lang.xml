@@ -509,6 +509,12 @@
 		<value xml:lang="tr"><![CDATA[Geçici Zaman Sınırı]]></value>
 		<value xml:lang="vi"><![CDATA[Hạn sử dụng]]></value>
 	</item>
+	<item name="limit_day_description">
+		<value xml:lang="ko"><![CDATA[임시 제한 일자 설명]]></value>
+		<value xml:lang="en"><![CDATA[Description for Temporary Limit Date]]></value>
+		<value xml:lang="jp"><![CDATA[一時的な期限日の説明]]></value>
+	</item>
+
 	<item name="limit_date">
 		<value xml:lang="ko"><![CDATA[제한일]]></value>
 		<value xml:lang="en"><![CDATA[Limit Date]]></value>

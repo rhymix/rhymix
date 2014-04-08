@@ -370,11 +370,16 @@ class memberController extends member
 		{
 			if($config->identifier == 'email_address')
 			{
-				$this->doLogin($args->email_address);
+				$output = $this->doLogin($args->email_address);
 			}
 			else
 			{
-				$this->doLogin($args->user_id);
+				$output = $this->doLogin($args->user_id);
+			}
+			if(!$output->toBool()) {
+				if($output->error == -9)
+					$output->error = -11;
+				return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), $output);
 			}
 		}
 
@@ -385,6 +390,7 @@ class memberController extends member
 		{
 			$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
 			$this->setMessage($msg);
+			return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), new Object(-12, $msg));
 		}
 		else $this->setMessage('success_registed');
 		// Call a trigger (after)
@@ -1729,7 +1735,7 @@ class memberController extends member
 			return new Object(-1,'msg_user_denied');
 		}
 		// Notify if denied_date is less than the current time
-		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-9,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
 		// Update the latest login time
 		$args->member_srl = $this->memberInfo->member_srl;
 		$output = executeQuery('member.updateLastLogin', $args);
