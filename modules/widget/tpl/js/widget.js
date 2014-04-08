@@ -51,9 +51,10 @@ function doStartPageModify(zoneID, module_srl) {
 		.submit(function(){ doApplyWidgetSize(this); return false; });
 
 	// 드래그와 리사이즈와 관련된 이벤트 리스너 생성
-	xAddEventListener(document.getElementById('zonePageContent'), "click",doCheckWidget);
-	xAddEventListener(document.getElementById('zonePageContent'), "mousedown",doCheckWidgetDrag);
-	xAddEventListener(document.getElementById('zonePageContent'), 'mouseover',widgetSetup);
+	jQuery('#zonePageContent')
+		.on('click', doCheckWidget)
+		.on('mousedown', doCheckWidgetDrag)
+		.on('mouseover', widgetSetup);
 }
 
 // 내용 모두 삭제
@@ -410,17 +411,11 @@ function doAddWidgetCode(widget_code) {
 
 // 클릭 이벤트시 위젯의 수정/제거/이벤트 무효화 처리
 function doCheckWidget(e) {
-	var evt = new xEvent(e); if(!evt.target) return;
-	var obj = evt.target;
+	if(!e.target) return;
+	var obj = e.target;
 	var $obj = jQuery(obj);
 
 	selectedWidget = null;
-
-	var pObj = obj.parentNode;
-	while(pObj) {
-		if(pObj.id == "pageSizeLayer") return;
-		pObj = pObj.parentNode;
-	}
 
 	doHideWidgetSizeSetup();
 	// 위젯 설정
@@ -451,7 +446,7 @@ function doCheckWidget(e) {
 		restoreWidgetButtons();
 
 		if(p_obj.getAttribute('widget')=='widgetContent' && p_obj.getAttribute('document_srl') ) {
-			var response_tags = new Array('error','message','document_srl');
+			var response_tags = ['error','message','document_srl'];
 			var params = [];
 			params.document_srl =p_obj.getAttribute('document_srl');
 			exec_xml('widget','procWidgetCopyDocument', params, completeCopyWidgetContent, response_tags, params, p_obj);
@@ -461,7 +456,7 @@ function doCheckWidget(e) {
 			xInnerHtml(dummy,xInnerHtml(p_obj));
 
 			dummy.widget_sequence = '';
-			jQuery(dummy).hasClass("widgetOutput");
+			dummy.className = "widgetOutput";
 			for(var i=0;i<p_obj.attributes.length;i++) {
 				if(!p_obj.attributes[i].nodeName || !p_obj.attributes[i].nodeValue) continue;
 				var name = p_obj.attributes[i].nodeName.toLowerCase();
@@ -485,7 +480,7 @@ function doCheckWidget(e) {
 		var widget = p_obj.getAttribute("widget");
 		if(!widget) return;
 		selectedWidget = p_obj;
-		doShowWidgetSizeSetup(evt.pageX, evt.pageY, selectedWidget);
+		doShowWidgetSizeSetup(e.pageX, e.pageY, selectedWidget);
 		return;
 
 	// 위젯 제거
@@ -503,10 +498,10 @@ function doCheckWidget(e) {
 	var p_obj = obj;
 	while(p_obj) {
 		if(jQuery(p_obj).hasClass('widgetOutput')) {
-			evt.cancelBubble = true;
-			evt.returnValue = false;
-			xPreventDefault(e);
-			xStopPropagation(e);
+			e.cancelBubble = true;
+			e.returnValue = false;
+			e.preventDefault();
+			e.stopPropagation();
 			break;
 		}
 		p_obj = p_obj.parentNode;
@@ -521,7 +516,7 @@ function completeCopyWidgetContent(ret_obj, response_tags, params, p_obj) {
 
 
 	dummy.widget_sequence = '';
-	jQuery(dummy).hasClass("widgetOutput");
+	dummy.className = "widgetOutput";
 	for(var i=0;i<p_obj.attributes.length;i++) {
 		if(!p_obj.attributes[i].nodeName || !p_obj.attributes[i].nodeValue) continue;
 		var name = p_obj.attributes[i].nodeName.toLowerCase();
@@ -548,19 +543,19 @@ function completeDeleteWidgetContent(ret_obj, response_tags, params, p_obj) {
 
 // 마우스 다운 이벤트 발생시 위젯의 이동을 처리
 function doCheckWidgetDrag(e) {
-	var evt = new xEvent(e); if(!evt.target) return;
-	var obj = evt.target;
+	if(!e.target) return;
+	var obj = e.target;
 	var $obj = jQuery(obj);
 
-	if(jQuery(obj).parents('#pageSizeLayer').size() > 0) return;
+	if($obj.parents('#pageSizeLayer').size() > 0) return;
 
 	doHideWidgetSizeSetup();
 
 	if($obj.hasClass('widgetSetup') || $obj.hasClass('widgetStyle') || $obj.hasClass('widgetCopy') || $obj.hasClass('widgetBoxCopy') || $obj.hasClass('widgetSize') || $obj.hasClass('widgetBoxSize') || $obj.hasClass('widgetRemove') || $obj.hasClass('widgetBoxRemove')) return;
 
 	p_obj = obj;
-	var $p_obj = jQuery(obj);
 	while(p_obj) {
+		var $p_obj = jQuery(p_obj);
 		if($p_obj.hasClass('widgetOutput') || $p_obj.hasClass('widgetResize') || $p_obj.hasClass('widgetResizeLeft') || $p_obj.hasClass('widgetBoxResize') || $p_obj.hasClass('widgetBoxResizeLeft')) {
 			widgetDragEnable(p_obj, widgetDragStart, widgetDrag, widgetDragEnd);
 			widgetMouseDown(e);
@@ -583,57 +578,56 @@ function doShowWidgetSizeSetup(px, py, obj) {
 	/*jshint -W004*/
 	var layer = jQuery('#pageSizeLayer');
 	var form  = layer.find('>form:first');
-	var obj   = jQuery(obj);
-
+	var $obj   = jQuery(obj);
 	if (!form.length) return;
 
-	selectedSizeWidget = obj[0];
+	selectedSizeWidget = obj;
 	var $selectedSizeWidget = jQuery(selectedSizeWidget);
 
 	var opts = {
-		widget_align : obj.css('float'),
+		widget_align : $obj.css('float'),
 
 		css_class : ($selectedSizeWidget.attr('css_class')) ? $selectedSizeWidget.attr('css_class') : '',
-		width     : obj[0].style.width,
-		height    : obj[0].style.height,
+		width     : $obj[0].style.width,
+		height    : $obj[0].style.height,
 
-		padding_left   : _getInt(obj.attr('widget_padding_left')),
-		padding_right  : _getInt(obj.attr('widget_padding_right')),
-		padding_top    : _getInt(obj.attr('widget_padding_top')),
-		padding_bottom : _getInt(obj.attr('widget_padding_bottom')),
+		padding_left   : _getInt($obj.attr('widget_padding_left')),
+		padding_right  : _getInt($obj.attr('widget_padding_right')),
+		padding_top    : _getInt($obj.attr('widget_padding_top')),
+		padding_bottom : _getInt($obj.attr('widget_padding_bottom')),
 
-		margin_left    : _getInt(obj[0].style.marginLeft),
-		margin_right   : _getInt(obj[0].style.marginRight),
-		margin_top     : _getInt(obj[0].style.marginTop),
-		margin_bottom  : _getInt(obj[0].style.marginBottom),
+		margin_left    : _getInt($obj.css('marginLeft')),
+		margin_right   : _getInt($obj.css('marginRight')),
+		margin_top     : _getInt($obj.css('marginTop')),
+		margin_bottom  : _getInt($obj.css('marginBottom')),
 
-		border_top_color : transRGB2Hex(obj[0].style.borderTopColor),
-		border_top_thick : obj[0].style.borderTopWidth.replace(/px$/i, ''),
-		border_top_type  : obj[0].style.borderTopStyle,
+		border_top_color : transRGB2Hex($obj.css('borderTopColor')),
+		border_top_thick : $obj.css('borderTopWidth').replace(/px$/i, ''),
+		border_top_type  : $obj.css('borderTopStyle'),
 
-		border_bottom_color : transRGB2Hex(obj[0].style.borderBottomColor),
-		border_bottom_thick : obj[0].style.borderBottomWidth.replace(/px$/i, ''),
-		border_bottom_type  : obj[0].style.borderBottomStyle,
+		border_bottom_color : transRGB2Hex($obj.css('borderBottomColor')),
+		border_bottom_thick : $obj.css('borderBottomWidth').replace(/px$/i, ''),
+		border_bottom_type  : $obj.css('borderBottomStyle'),
 
-		border_right_color : transRGB2Hex(obj[0].style.borderRightColor),
-		border_right_thick : obj[0].style.borderRightWidth.replace(/px$/i, ''),
-		border_right_type  : obj[0].style.borderRightStyle,
+		border_right_color : transRGB2Hex($obj.css('borderRightColor')),
+		border_right_thick : $obj.css('borderRightWidth').replace(/px$/i, ''),
+		border_right_type  : $obj.css('borderRightStyle'),
 
-		border_left_color : transRGB2Hex(obj[0].style.borderLeftColor),
-		border_left_thick : obj[0].style.borderLeftWidth.replace(/px$/i, ''),
-		border_left_type  : obj[0].style.borderLeftStyle,
+		border_left_color : transRGB2Hex($obj.css('borderLeftColor')),
+		border_left_thick : $obj.css('borderLeftWidth').replace(/px$/i, ''),
+		border_left_type  : $obj.css('borderLeftStyle'),
 
-		background_color     : transRGB2Hex(obj[0].style.backgroundColor),
-		background_image_url : obj[0].style.backgroundImage.replace(/^url\(/i,'').replace(/\)$/i,''),
+		background_color     : transRGB2Hex($obj.css('backgroundColor')),
+		background_image_url : $obj.css('backgroundImage').replace(/^url\(/i,'').replace(/\)$/i,''),
 
 		background_x : 0,
 		background_y : 0,
 
-		background_repeat : obj[0].style.backgroundRepeat
+		background_repeat : $obj.css('backgroundRepeat')
 	};
 
 	// background position
-	var pos = obj[0].style.backgroundPosition;
+	var pos = $obj.css('backgroundPosition');
 	if(pos) {
 		pos = pos.split(' ');
 		if(pos.length == 2) {
@@ -792,8 +786,8 @@ function doApplyWidgetSize(fo_obj) {
 		selectedSizeWidget.style.backgroundPosition = fo_obj.background_x.value+' '+fo_obj.background_y.value;
 
 		var borderObj = selectedSizeWidget.firstChild;
-		var $borderObj = jQuery(selectedSizeWidget.firstChild);
 		while(borderObj) {
+			var $borderObj = jQuery(borderObj);
 			if(borderObj.nodeName == "DIV" && ($borderObj.hasClass("widgetBorder") || $borderObj.hasClass("widgetBoxBorder"))) {
 				var contentObj = borderObj.firstChild;
 				while(contentObj) {
@@ -895,8 +889,7 @@ function showWidgetButton(name, obj) {
 	obj.insertBefore(widgetButton, obj.firstChild);
 }
 
-function widgetSetup(evt) {
-	var e = new xEvent(evt);
+function widgetSetup(e) {
 	var obj = e.target;
 
 	if(jQuery(obj).is('.widgetButtons') || jQuery(obj).parents('.widgetButtons').size() > 0) return;
@@ -970,7 +963,6 @@ function widgetGetTmpObject(obj) {
 
 // 메뉴에 마우스 클릭이 일어난 시점에 드래그를 위한 제일 첫 동작 (해당 object에 각종 함수나 상태변수 설정)
 function widgetDragEnable(obj, funcDragStart, funcDrag, funcDragEnd) {
-
 	// 상위 object에 드래그 가능하다는 상태와 각 드래그 관련 함수를 설정
 	obj.draggable = true;
 	obj.dragStart = funcDragStart;
@@ -980,7 +972,7 @@ function widgetDragEnable(obj, funcDragStart, funcDrag, funcDragEnd) {
 	// 드래그 가능하지 않다면 드래그 가능하도록 상태 지정하고 mousemove이벤트 등록
 	if (!widgetDragManager.isDrag) {
 		widgetDragManager.isDrag = true;
-		xAddEventListener(document, 'mousemove', widgetDragMouseMove, false);
+		jQuery(document).on('mousemove', widgetDragMouseMove);
 	}
 }
 
@@ -1002,6 +994,7 @@ function widgetDragStart(tobj, px, py) {
 
 // 드래그 시작후 마우스를 이동할때 발생되는 이벤트에 의해 실행되는 함수
 function widgetDrag(tobj, dx, dy) {
+	var $tobj = jQuery(tobj);
 	var minWidth = 40;
 	var minHeight = 10;
 
@@ -1021,7 +1014,7 @@ function widgetDrag(tobj, dx, dy) {
 	if(!cssFloat) cssFloat = 'left';
 
 	// 위젯 리사이즈 (우측)
-	if(tobj.className == 'widgetResize' || tobj.className == 'widgetBoxResize') {
+	if($tobj.hasClass('widgetResize') || $tobj.hasClass('widgetBoxResize')) {
 		if(nx < sx+minWidth) nx = sx+minWidth;
 		if(nx > zoneRight) nx = zoneRight;
 		if(cssFloat == 'right') nx = sx + pWidth;
@@ -1037,7 +1030,7 @@ function widgetDrag(tobj, dx, dy) {
 		xHeight(tobj.parentNode, new_height);
 
 	// 위젯 리사이즈 (좌측)
-	} else if(tobj.className == 'widgetResizeLeft' || tobj.className == 'widgetBoxResizeLeft') {
+	} else if($tobj.hasClass('widgetResizeLeft') || $tobj.hasClass('widgetBoxResizeLeft')) {
 		/*jshint -W004*/
 		if(nx < zoneLeft) nx = zoneLeft;
 		if(cssFloat == 'left') nx = sx;
@@ -1109,6 +1102,7 @@ function widgetDrag(tobj, dx, dy) {
 				var boxList = xGetElementsByClassName("nullWidget", zonePageObj);
 				for(var i=0;i<boxList.length;i++) {
 					var target_obj = boxList[i];
+					var $target_obj = jQuery(target_obj);
 
 					xHeight(target_obj, xHeight(target_obj.parentNode));
 					xWidth(target_obj, xWidth(target_obj.parentNode));
@@ -1120,9 +1114,9 @@ function widgetDrag(tobj, dx, dy) {
 					if( tobj.xDPX >= l && tobj.xDPX <= ll && tobj.xDPY >= t && tobj.xDPY <= tt) {
 
 						//박스 위젯이다
-						if(target_obj.className == "nullWidget") {
+						if($target_obj.hasClass("nullWidget")) {
 
-							var wb_ws = jQuery('div.widget_inner',jQuery(target_obj));
+							var wb_ws = jQuery('div.widget_inner', $target_obj);
 
 							//박스 위젯에 위젯스타일이 적용 안된경우
 							if(wb_ws.size() === 0){
@@ -1190,7 +1184,7 @@ function widgetDragEnd(tobj, px, py) {
 function widgetDisapearObject(obj, tobj) {
 	xInnerHtml(tobj,xInnerHtml(obj));
 	xInnerHtml(obj,'');
-	xDisplay(obj, 'none');
+	jQuery(obj).hide();
 	obj.parentNode.removeChild(obj);
 	widgetTmpObject[tobj.id] = null;
 	return;
@@ -1198,31 +1192,29 @@ function widgetDisapearObject(obj, tobj) {
 
 // 마우스다운 이벤트 발생시 호출됨
 function widgetMouseDown(e) {
-	var evt = new xEvent(e);
-	var obj = evt.target;
+	var obj = e.target;
 
 	while(obj && !obj.draggable) {
 		obj = xParent(obj, true);
 	}
 	if(obj) {
-		xPreventDefault(e);
-		obj.xDPX = evt.pageX;
-		obj.xDPY = evt.pageY;
+		e.preventDefault();
+		obj.xDPX = e.pageX;
+		obj.xDPY = e.pageY;
 		widgetDragManager.obj = obj;
-		xAddEventListener(document, 'mouseup', widgetMouseUp, false);
-		if (obj.dragStart) obj.dragStart(obj, evt.pageX, evt.pageY);
+		jQuery(document).on('mouseup', widgetMouseUp);
+		if (obj.dragStart) obj.dragStart(obj, e.pageX, e.pageY);
 	}
 }
 
 // 마우스 버튼을 놓았을때 동작될 함수 (각종 이벤트 해제 및 변수 설정 초기화)
 function widgetMouseUp(e) {
 	if (widgetDragManager.obj) {
-		xPreventDefault(e);
-		xRemoveEventListener(document, 'mouseup', widgetMouseUp, false);
+		e.preventDefault();
+		jQuery(document).off('mouseup', widgetMouseUp);
 
 		if (widgetDragManager.obj.dragEnd) {
-			var evt = new xEvent(e);
-			widgetDragManager.obj.dragEnd(widgetDragManager.obj, evt.pageX, evt.pageY);
+			widgetDragManager.obj.dragEnd(widgetDragManager.obj, e.pageX, e.pageY);
 		}
 
 		widgetDragManager.obj = null;
@@ -1232,16 +1224,15 @@ function widgetMouseUp(e) {
 
 // 드래그할때의 object이동등을 담당
 function widgetDragMouseMove(e) {
-	var evt = new xEvent(e);
 	if(widgetDragManager.obj) {
-		xPreventDefault(e);
+		e.preventDefault();
 
 		var obj = widgetDragManager.obj;
-		var dx = evt.pageX - obj.xDPX;
-		var dy = evt.pageY - obj.xDPY;
+		var dx = e.pageX - obj.xDPX;
+		var dy = e.pageY - obj.xDPY;
 
-		obj.xDPX = evt.pageX;
-		obj.xDPY = evt.pageY;
+		obj.xDPX = e.pageX;
+		obj.xDPY = e.pageY;
 
 		if (obj.drag) {
 			obj.drag(obj, dx, dy);
@@ -1259,7 +1250,7 @@ function widgetDragDisable(id) {
 	obj.dragStart = null;
 	obj.drag = null;
 	obj.dragEnd = null;
-	xRemoveEventListener(obj, 'mousedown', widgetMouseDown, false);
+	jQuery(obj).off('mousedown', widgetMouseDown);
 	return;
 }
 
@@ -1268,8 +1259,8 @@ function widgetManualEnd() {
 	var tobj = widgetDragManager.obj;
 	if(!tobj) return;
 
-	xRemoveEventListener(document, 'mouseup', widgetMouseUp, false);
-	xAddEventListener(document, 'mousemove', widgetDragMouseMove, false);
+	jQuery(document).off('mouseup', widgetMouseUp);
+	jQuery(document).on('mousemove', widgetDragMouseMove);
 
 	var obj = widgetGetTmpObject(tobj);
 	widgetDisapear = widgetDisapearObject(obj, tobj);

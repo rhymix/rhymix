@@ -394,7 +394,7 @@ class HTMLDisplayHandler
 		$lang_type = Context::getLangType();
 
 		// add common JS/CSS files
-		if(__DEBUG__)
+		if(__DEBUG__ || !__XE_VERSION_STABLE__)
 		{
 			$oContext->loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -111000), true);
 			$oContext->loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -110000), true);
@@ -417,7 +417,7 @@ class HTMLDisplayHandler
 		// for admin page, add admin css
 		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
 		{
-			if(__DEBUG__)
+			if(__DEBUG__ || !__XE_VERSION_STABLE__)
 			{
 				$oContext->loadFile(array('./modules/admin/tpl/css/admin.css', '', '', 10), true);
 				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '', 10), true);
@@ -449,7 +449,7 @@ class HTMLDisplayHandler
 		$lang_type = Context::getLangType();
 
 		// add common JS/CSS files
-		if(__DEBUG__)
+		if(__DEBUG__ || !__XE_VERSION_STABLE__)
 		{
 			$oContext->loadFile(array('./common/css/mobile.css', '', '', -1000000), true);
 		}

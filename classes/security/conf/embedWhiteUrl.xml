@@ -15,10 +15,6 @@
 			<pattern>http://api.v.daum.net/</pattern>
 			<pattern>http://tvpot.daum.net/playlist/playlist.swf</pattern>
 		</domain>
-		<domain name="http://www.mncast.com" desc="엠엔캐스트">
-			<pattern>http://dory.mncast.com/mncHMovie.swf</pattern>
-			<pattern>http://dory.mncast.com/mncastPlayer.swf</pattern>
-		</domain>
 		<domain name="http://www.youtube.com" desc="Youtube">
 			<pattern>http://www.youtube.com/v/</pattern>
 			<pattern>http://www.youtube-nocookie.com/</pattern>
