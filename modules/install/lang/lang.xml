@@ -808,6 +808,10 @@
 		<value xml:lang="tr"><![CDATA[Kurulum dosyası oluşturulurken bir hata oluştu.]]></value>
 		<value xml:lang="vi"><![CDATA[Đã có lỗi xảy ra khi tạo File cài đặt.]]></value>
 	</item>
+	<item name="msg_create_table_failed">
+		<value xml:lang="ko"><![CDATA[DB 테이블 생성에 실패했습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Failed to create database tables.]]></value>
+	</item>
 	<item name="ftp_get_list">
 		<value xml:lang="ko"><![CDATA[목록 가져오기]]></value>
 		<value xml:lang="en"><![CDATA[Get List]]></value>
