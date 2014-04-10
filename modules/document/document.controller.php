@@ -518,7 +518,7 @@ class documentController extends document
 		{
 			foreach($extra_keys as $idx => $extra_item)
 			{
-				$value = '';
+				$value = NULL;
 				if(isset($obj->{'extra_vars'.$idx}))
 				{
 					$tmp = $obj->{'extra_vars'.$idx};
@@ -528,7 +528,7 @@ class documentController extends document
 						$value = trim($tmp);
 				}
 				else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
-				if(!isset($value)) continue;
+				if($value == NULL) continue;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}
