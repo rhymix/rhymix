@@ -509,6 +509,12 @@
 		<value xml:lang="tr"><![CDATA[Geçici Zaman Sınırı]]></value>
 		<value xml:lang="vi"><![CDATA[Hạn sử dụng]]></value>
 	</item>
+	<item name="limit_day_description">
+		<value xml:lang="ko"><![CDATA[임시 제한 일자 설명]]></value>
+		<value xml:lang="en"><![CDATA[Description for Temporary Limit Date]]></value>
+		<value xml:lang="jp"><![CDATA[一時的な期限日の説明]]></value>
+	</item>
+
 	<item name="limit_date">
 		<value xml:lang="ko"><![CDATA[제한일]]></value>
 		<value xml:lang="en"><![CDATA[Limit Date]]></value>
@@ -2334,6 +2340,10 @@
 		<value xml:lang="zh-TW"><![CDATA[可設定密碼更新週期，將會定期通知更換密碼。 (設為零則不使用)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可设定密码更新周期，将会定期通知更换密码。 (设为零则不适用)]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer buna bir değer biçerseniz, şifrenizi belirli aralıklarla değiştirmeniz konusunda bildirim alacaksanız (eğer 0 olarak ayarlandıysa, devredışıdır)]]></value>
+	</item>
+	<item name="msg_change_password_date">
+		<value xml:lang="ko"><![CDATA[%s일 동안 비밀번호를 변경하지 않았습니다. 개인정보 보호를 위하여 비밀번호를 변경해야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have not changed the password during %s days. For personal information protection, you need to change the password.]]></value>
 	</item>
 	<item name="login_trial_limit1">
 		<value xml:lang="ko"><![CDATA[로그인 시도 횟수 제한 횟수]]></value>

@@ -234,6 +234,7 @@ class documentController extends document
 		if(!$output->toBool()) return $output;
 		// Register it if no given document_srl exists
 		if(!$obj->document_srl) $obj->document_srl = getNextSequence();
+		elseif(!checkUserSequence($obj->document_srl)) return new Object(-1, 'msg_not_permitted');
 
 		$oDocumentModel = getModel('document');
 		// Set to 0 if the category_srl doesn't exist
@@ -518,7 +519,7 @@ class documentController extends document
 		{
 			foreach($extra_keys as $idx => $extra_item)
 			{
-				$value = '';
+				$value = NULL;
 				if(isset($obj->{'extra_vars'.$idx}))
 				{
 					$tmp = $obj->{'extra_vars'.$idx};
@@ -528,7 +529,7 @@ class documentController extends document
 						$value = trim($tmp);
 				}
 				else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
-				if(!isset($value)) continue;
+				if($value == NULL) continue;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}

@@ -184,6 +184,7 @@ class memberAdminController extends member
 
 		$args = Context::gets(
 			'limit_day',
+			'limit_day_description',
 			'agreement',
 			'redirect_url',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
