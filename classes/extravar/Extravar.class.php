@@ -249,7 +249,7 @@ class ExtraItem
 
 				for($i = 0, $c = count($values); $i < $c; $i++)
 				{
-					$values[$i] = htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$values[$i] = trim(htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 				}
 
 				return $values;
@@ -306,21 +306,15 @@ class ExtraItem
 			case 'textarea' :
 				return nl2br($value);
 				
-			case 'checkbox' :
-				if(is_array($value))
-				{
-					return implode(', ', $value);
-				}
-				return $value;
-				
 			case 'date' :
 				return zdate($value, "Y-m-d");
 
+			case 'checkbox' :
 			case 'select' :
 			case 'radio' :
 				if(is_array($value))
 				{
-					return implode(', ', $value);
+					return implode(',', $value);
 				}
 				return $value;
 
@@ -430,7 +424,8 @@ class ExtraItem
 				Context::loadJavascriptPlugin('ui.datepicker');
 
 				$buff[] = '<input type="hidden" name="' . $column_name . '" value="' . $value . '" />'; 
-				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" /> <input type="button" value="' . Context::getLang('cmd_delete') . '" id="dateRemover_' . $column_name . '" />';
+				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" />';
+				$buff[] =	'<input type="button" value="' . Context::getLang('cmd_delete') . '" class="btn" id="dateRemover_' . $column_name . '" />';
 				$buff[] =	'<script type="text/javascript">';
 				$buff[] = '//<![CDATA[';
 				$buff[] =	'(function($){';
