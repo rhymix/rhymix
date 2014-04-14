@@ -234,6 +234,7 @@ class documentController extends document
 		if(!$output->toBool()) return $output;
 		// Register it if no given document_srl exists
 		if(!$obj->document_srl) $obj->document_srl = getNextSequence();
+		elseif(!checkUserSequence($obj->document_srl)) return new Object(-1, 'msg_not_permitted');
 
 		$oDocumentModel = getModel('document');
 		// Set to 0 if the category_srl doesn't exist

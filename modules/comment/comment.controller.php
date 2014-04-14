@@ -300,6 +300,10 @@ class commentController extends comment
 		{
 			$obj->comment_srl = getNextSequence();
 		}
+		elseif(!checkUserSequence($obj->comment_srl)) 
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
 
 		// determine the order
 		$obj->list_order = getNextSequence() * -1;
