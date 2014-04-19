@@ -30,6 +30,13 @@ if($_REQUEST['act'] != 'api')
 // Read func file
 require_once(_XE_PATH_ . 'addons/blogapi/blogapi.func.php');
 
+// If HTTP_RAW_POST_DATA is NULL, Print error message
+if(!$GLOBALS['HTTP_RAW_POST_DATA'])
+{
+	$content = getXmlRpcFailure(1, 'Invalid Method Call');
+	printContent($content);
+}
+
 // xmlprc parsing
 // Parse the requested xmlrpc
 $xml = new SimpleXMLElement($GLOBALS['HTTP_RAW_POST_DATA']);
