@@ -365,7 +365,14 @@ class TemplateHandler
 		ob_start();
 		if(substr($buff, 0, 7) == 'file://')
 		{
-			include(substr($buff, 7));
+			$eval_str = FileHandler::readFile(substr($buff, 7));
+			$eval_str_buffed = "?>" . $eval_str;
+			@eval($eval_str_buffed);
+			$error_info = error_get_last();
+			if ($error_info['type'] == 4)
+			{
+			    echo "<p>Error Parsing Template - {$error_info['message']} in template file {$this->file}</p>";
+			}
 		}
 		else
 		{
@@ -374,7 +381,7 @@ class TemplateHandler
 			$error_info = error_get_last();
 			if ($error_info['type'] == 4)
 			{
-			    echo "<p>Error Pharsing Template - {$error_info['message']} in template file {$this->file}</p>";
+			    echo "<p>Error Parsing Template - {$error_info['message']} in template file {$this->file}</p>";
 			}
 		}
 
