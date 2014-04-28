@@ -6,6 +6,7 @@ class TrashVO
 	var $title;
 	var $originModule;
 	var $serializedObject;
+	var $unserializedObject;
 	var $description;
 	var $ipaddress;
 	var $removerSrl;
@@ -46,6 +47,14 @@ class TrashVO
 	function setSerializedObject($serializedObject)
 	{
 		$this->serializedObject = $serializedObject;
+	}
+	function getUnserializedObject()
+	{
+		return $this->unserializedObject;
+	}
+	function setUnserializedObject($serializedObject)
+	{
+		$this->unserializedObject = unserialize($serializedObject);
 	}
 	function getDescription()
 	{

@@ -1,0 +1,169 @@
+<div>
+	<section class="status">
+		<h2>{$lang->uv}</h2>
+		<div style="margin:10px 15px;height:142px" id="visitors"></div>
+		<div class="more">
+			<dl>
+				<dt>{$lang->menu_gnb['user']}: </dt><dd><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{number_format($status->member->totalCount)} (<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</a></dd>
+			</dl>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispCounterAdminIndex')}"><i>&rsaquo;</i> {$lang->details}</a>
+		</div>
+	</section>
+	<section class="status">
+		<h2>{$lang->pv}</h2>
+		<div style="margin:10px 15px;height:142px" id="page_views"></div>
+		<div class="more">
+			<dl>
+				<dt>{$lang->menu_gnb_sub['document']}: </dt><dd><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{number_format($status->document->totalCount)} (<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</a></dd>
+			</dl>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispCounterAdminIndex')}"><i>&rsaquo;</i> {$lang->details}</a>
+		</div>
+	</section>
+	<style scoped>.jqplot-table-legend{background:#fff;top:13px!important}</style>
+</div>
+
+<div>
+	<section class="document">
+		<h2>{$lang->latest_documents}</h2>
+		<ul>
+			<li loop="$latestDocumentList => $key,$value">
+				{@$document = $value->variables}
+				<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()))-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> 
+				<span class="side">{$value->getNickName()}</span>
+				<form class="action" method="POST">
+					<input type="hidden" name="module" value="admin" />
+					<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
+					<input type="hidden" name="cart[]" value="{$document['document_srl']}" />
+					<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+					<button type="submit" name="type" value="trash" class="x_icon-trash">{$lang->cmd_trash}</button>
+					<button type="submit" name="type" value="delete" class="x_icon-remove">{$lang->cmd_delete}</button>
+				</form>
+			</li>
+			<li cond="!is_array($latestDocumentList) || count($latestDocumentList) < 1">{$lang->no_data}</li>
+		</ul>
+		<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
+	</section>
+	<section class="reply">
+		<h2>{$lang->latest_comments}</h2>
+		<ul>
+			<li loop="$latestCommentList => $key,$value">
+				<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> 
+				<span class="side">{$value->getNickName()}</span> 
+				<form class="action">
+					<input type="hidden" name="module" value="admin" />
+					<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
+					<input type="hidden" name="cart[]" value="{$value->comment_srl}" />
+					<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+					<button type="submit" name="is_trash" value="true" class="x_icon-trash">{$lang->cmd_trash}</button>
+					<button type="submit" name="is_trash" value="false" class="x_icon-remove">{$lang->cmd_delete}</button>
+				</form>
+			</li>
+			<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
+		</ul>
+		<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
+	</section>
+</div>
+
+<script>
+xe.lang.this_week = '{$lang->this_week}';
+xe.lang.last_week = '{$lang->last_week}';
+xe.lang.next_week = '{$lang->next_week}';
+xe.lang.mon = '{$lang->mon}';
+xe.lang.tue = '{$lang->tue}';
+xe.lang.wed = '{$lang->wed}';
+xe.lang.thu = '{$lang->thu}';
+xe.lang.fri = '{$lang->fri}';
+xe.lang.sat = '{$lang->sat}';
+xe.lang.sun = '{$lang->sun}';
+
+jQuery(function($)
+{
+	// Dashboard portlet UI
+	$('.dashboard>div>section>ul>li')
+	.bind('mouseenter focusin', function(){
+		$(this).addClass('hover').find('>.action').show();
+	})
+	.bind('mouseleave focusout', function()
+	{
+		if(!$(this).find(':focus').length)
+		{
+			$(this).removeClass('hover').find('>.action').hide();
+		}
+	});
+
+	// check browser version
+	if($.browser.msie == true ) {
+		var arrBrowserVersion = $.browser.version.split('.');
+		if(parseInt(arrBrowserVersion[0]) <= 8) {
+			$('#checkBrowserMessage').show();
+		}
+	}
+});
+
+function obj2Array(htObj)
+{
+	var aRes = [];
+
+	for(var x in htObj)
+	{
+		if(!htObj.hasOwnProperty(x)) continue;
+		aRes.push(htObj[x]);
+	}
+
+	return aRes;
+}
+
+jQuery(function ($)
+{
+	$.exec_json("counter.getWeeklyUniqueVisitor", {}, function(htRes)
+	{
+		var aLastWeek = obj2Array(htRes.last_week.list);
+		var aThisWeek = obj2Array(htRes.this_week.list);
+
+		drawChart("visitors", "Weekly Visitors", aLastWeek, aThisWeek);
+	});
+
+	$.exec_json("counter.getWeeklyPageView", {}, function(htRes)
+	{
+		var aLastWeek = obj2Array(htRes.last_week.list);
+		var aThisWeek = obj2Array(htRes.this_week.list);
+
+		drawChart("page_views", "Weekly Page Views", aLastWeek, aThisWeek);
+	});
+});
+
+function drawChart(sContainerId, sTitle, aLastWeek, aThisWeek)
+{
+	$ = jQuery;
+
+	var s1 = aLastWeek;
+	var s2 = aThisWeek;
+	// Can specify a custom tick Array.
+	// Ticks should match up one for each y value (category) in the series.
+	var ticks = [xe.lang.sun,xe.lang.mon,xe.lang.tue,xe.lang.wed,xe.lang.thu,xe.lang.fri,xe.lang.sat];
+
+	var plot1 = $.jqplot(sContainerId, [s1, s2], {
+		seriesDefaults:{
+			renderer:$.jqplot.BarRenderer,
+			rendererOptions: {fillToZero: true}
+		},
+		series:[
+			{label: xe.lang.last_week},
+			{label: xe.lang.this_week}
+		],
+		legend:
+		{
+			show: true,
+			placement: 'outsideGrid'
+		},
+		axes: {
+			xaxis: {
+				renderer: $.jqplot.CategoryAxisRenderer, ticks: ticks
+			},
+			yaxis: {
+				min: 0, ticks: 1, pad: 1.05
+			}
+		}
+	});
+};
+</script>

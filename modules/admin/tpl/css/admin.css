@@ -1421,6 +1421,9 @@ body>.x,
 .x .dashboard>div>.status dl a {
 	color: #767676;
 }
+.x .dashboard>div>.member>h2:before {
+	background-position: -168px 0px;
+}
 .x .dashboard>div>.document>h2:before {
 	background-position: -264px -48px;
 }
@@ -1439,6 +1442,32 @@ body>.x,
 .x .dashboard>div>section>.more i {
 	font: 12px Tahoma, Geneva, sans-serif;
 }
+.x .dashboard>div>section>.more dl {
+	color: #767676;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	margin: 0 8px 0 0;
+	padding: 1px 8px 0;
+	font: 11px/1 돋움, Dotum, Arial, Helvetica, sans-serif;
+	background: #fff;
+	box-shadow: 0 0 3px #999 inset;
+	border-radius: 3px;
+	min-width: 60px;
+	text-align: center;
+}
+.x .dashboard>div>section>.more dt {
+	display: inline;
+	font-weight: normal;
+}
+.x .dashboard>div>section>.more dd {
+	display: inline;
+	margin: 0;
+}
+.x .dashboard>div>section>.more dl a {
+	color: #767676;
+}
+
 .x .dashboard>div>section ul {
 	list-style: none;
 	margin: 10px;

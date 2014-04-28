@@ -1009,6 +1009,7 @@ class importerAdminController extends importer
 		$started = false;
 		$buff = null;
 
+		$file_obj = new stdClass;
 		while(!feof($fp))
 		{
 			$str = trim(fgets($fp, 1024));
@@ -1017,7 +1018,6 @@ class importerAdminController extends importer
 			// If it starts with <attach>, collect attachments
 			if(trim($str) == '<attach>')
 			{
-				$file_obj = new stdClass;
 				$file_obj->file_srl = getNextSequence();
 				$file_obj->upload_target_srl = $upload_target_srl;
 				$file_obj->module_srl = $module_srl;

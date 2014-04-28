@@ -258,31 +258,15 @@ class layoutModel extends layout
 	 */
 	function getLayout($layout_srl)
 	{
-		$layout_info = false;
+		// Get information from the DB
+		$args = new stdClass();
+		$args->layout_srl = $layout_srl;
+		$output = executeQuery('layout.getLayout', $args);
+		if(!$output->data) return;
 
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'layout:' . $layout_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$layout_info = $oCacheHandler->get($cache_key);
-		}
+		// Return xml file informaton after listing up the layout and extra_vars
+		$layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
 
-		if($layout_info === false)
-		{
-			// Get information from the DB
-			$args = new stdClass();
-			$args->layout_srl = $layout_srl;
-			$output = executeQuery('layout.getLayout', $args);
-			if(!$output->data) return;
-
-			// Return xml file informaton after listing up the layout and extra_vars
-			$layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
-
-			//insert in cache
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $layout_info);
-		}
 		return $layout_info;
 	}
 
