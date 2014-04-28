@@ -121,6 +121,7 @@
 				<option value="Y" selected="selected"|cond="$is_admin=='Y'">{$lang->is_admin}</option>
 			</select>
 			<select name="selected_group_srl" style="width:auto;margin:0" title="{$lang->member_group}">
+				<option value="0">{$lang->member_group}</option>
 				<option loop="$group_list => $key,$val" value="{$val->group_srl}" selected="selected"|cond="$selected_group_srl==$val->group_srl">{$val->title}</option>
 			</select>
 			<select name="search_target" style="width:auto;margin:0" title="{$lang->search_target}">

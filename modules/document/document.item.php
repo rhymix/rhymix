@@ -141,9 +141,8 @@ class documentItem extends Object
 		$oDocumentModel = getModel('document');
 		if($load_extra_vars)
 		{
-			$oDocumentModel->getDocumentExtraVarsFromDB($this->document_srl);
-			$this->add('title', $this->get('title'));
-			$this->add('content', $this->get('content'));
+			$GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $this;
+			$oDocumentModel->setToAllDocumentExtraVars();
 		}
 		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
 	}

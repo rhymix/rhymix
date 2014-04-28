@@ -160,6 +160,8 @@ class fileController extends file
 	{
 		$oFileModel = getModel('file');
 
+		if(isset($this->grant->access) && $this->grant->access !== true) return new Object(-1, 'msg_not_permitted');
+
 		$file_srl = Context::get('file_srl');
 		$sid = Context::get('sid');
 		$logged_info = Context::get('logged_info');
@@ -517,6 +519,8 @@ class fileController extends file
 	{
 		$comment_srl = $obj->comment_srl;
 		if(!$comment_srl) return new Object();
+
+		if($obj->isMoveToTrash) return new Object();
 
 		$output = $this->deleteFiles($comment_srl);
 		return $output;

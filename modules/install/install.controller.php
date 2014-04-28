@@ -167,9 +167,14 @@ class installController extends install
 		if(!$oDB->isConnected()) return $oDB->getError();
 
 		// Install all the modules
-		$oDB->begin();
-		$this->installDownloadedModule();
-		$oDB->commit();
+		try {
+			$oDB->begin();
+			$this->installDownloadedModule();
+			$oDB->commit();
+		} catch(Exception $e) {
+			$oDB->rollback();
+			return new Object(-1, $e->getMessage());
+		}
 
 		// Create a config file
 		if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
@@ -515,6 +520,8 @@ class installController extends install
 			$file = trim($schema_files[$i]);
 			if(!$file || substr($file,-4)!='.xml') continue;
 			$output = $oDB->createTableByXmlFile($file);
+			if($output === false)
+				throw new Exception('msg_create_table_failed');
 		}
 		// Create a table and module instance and then execute install() method
 		unset($oModule);

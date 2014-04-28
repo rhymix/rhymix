@@ -86,8 +86,6 @@ class layout extends ModuleObject
 			$oDB->addColumn('layouts','layout_type','char',1,'P',true);
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-
 		$args->layout = '.';
 		$output = executeQueryArray('layout.getLayoutDotList', $args);
 		if($output->data && count($output->data) > 0)
@@ -101,13 +99,6 @@ class layout extends ModuleObject
 					$args->layout = implode('|@|', $layout_path);
 					$args->layout_srl = $layout->layout_srl;
 					$output = executeQuery('layout.updateLayout', $args);
-
-					if($oCacheHandler->isSupport())
-					{
-						$object_key = 'layout:' . $args->layout_srl;
-						$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-						$oCacheHandler->delete($cache_key);
-					}
 				}
 			}
 		}

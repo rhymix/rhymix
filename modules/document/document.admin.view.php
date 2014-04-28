@@ -50,7 +50,7 @@ class documentAdminView extends document
 
 		// get a list
 		$oDocumentModel = getModel('document');
-		$columnList = array('document_srl', 'title', 'member_srl', 'nick_name', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
+		$columnList = array('document_srl', 'module_srl', 'title', 'member_srl', 'nick_name', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
 		$output = $oDocumentModel->getDocumentList($args, false, true, $columnList);
 
 		// get Status name list
@@ -71,6 +71,30 @@ class documentAdminView extends document
 			$search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
 		}
 		Context::set('search_option', $search_option);
+
+		$oModuleModel = getModel('module');
+		$module_list = array();
+		$mod_srls = array();
+		foreach($output->data as $oDocument)
+		{
+			$mod_srls[] = $oDocument->get('module_srl');
+		}
+		$mod_srls = array_unique($mod_srls);
+		// Module List
+		$mod_srls_count = count($mod_srls);
+		if($mod_srls_count)
+		{
+			$columnList = array('module_srl', 'mid', 'browser_title');
+			$module_output = $oModuleModel->getModulesInfo($mod_srls, $columnList);
+			if($module_output && is_array($module_output))
+			{
+				foreach($module_output as $module)
+				{
+					$module_list[$module->module_srl] = $module;
+				}
+			}
+		}
+		Context::set('module_list', $module_list);
 
 		// Specify a template
 		$this->setTemplatePath($this->module_path.'tpl');

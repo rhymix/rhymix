@@ -67,8 +67,8 @@ class memberController extends member
 			$oMemberModel = getModel('member');
 			if($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
 			{
-				$this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
-				return;
+				$msg = sprintf(Context::getLang('msg_change_password_date'), $limit_date);
+				return $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'), new Object(-1, $msg));
 			}
 		}
 
@@ -230,7 +230,8 @@ class memberController extends member
 				}
 				// Check if duplicated
 				$member_srl = $oMemberModel->getMemberSrlByNickName($value);
-				if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_nick_name');
+				$member_srl_by_decode = $oMemberModel->getMemberSrlByNickName(utf8_decode($value));
+				if(($member_srl && $logged_info->member_srl != $member_srl ) || ($member_srl_by_decode && $logged_info->member_srl != $member_srl_by_decode )) return new Object(0,'msg_exists_nick_name');
 
 				break;
 			case 'email_address' :
@@ -369,11 +370,16 @@ class memberController extends member
 		{
 			if($config->identifier == 'email_address')
 			{
-				$this->doLogin($args->email_address);
+				$output = $this->doLogin($args->email_address);
 			}
 			else
 			{
-				$this->doLogin($args->user_id);
+				$output = $this->doLogin($args->user_id);
+			}
+			if(!$output->toBool()) {
+				if($output->error == -9)
+					$output->error = -11;
+				return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), $output);
 			}
 		}
 
@@ -384,6 +390,7 @@ class memberController extends member
 		{
 			$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
 			$this->setMessage($msg);
+			return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), new Object(-12, $msg));
 		}
 		else $this->setMessage('success_registed');
 		// Call a trigger (after)
@@ -407,7 +414,7 @@ class memberController extends member
 			}
 		}
 
-		$this->_clearMemberCache($args->member_srl);
+		$this->_clearMemberCache($args->member_srl, $site_module_info->site_srl);
 
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -556,7 +563,6 @@ class memberController extends member
 		// Get user_id information
 		$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
-		$this->_clearMemberCache($args->member_srl);
 
 		// Call a trigger after successfully log-in (after)
 		$trigger_output = ModuleHandler::triggerCall('member.procMemberModifyInfo', 'after', $this->memberInfo);
@@ -567,7 +573,8 @@ class memberController extends member
 		$this->add('member_srl', $args->member_srl);
 		$this->setMessage('success_updated');
 
-		$this->_clearMemberCache($args->member_srl);
+		$site_module_info = Context::get('site_module_info');
+		$this->_clearMemberCache($args->member_srl, $site_module_info->site_srl);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
 		$this->setRedirectUrl($returnUrl);
@@ -644,8 +651,6 @@ class memberController extends member
 		$this->destroySessionInfo();
 		// Return success message
 		$this->setMessage('success_leaved');
-
-		$this->_clearMemberCache($member_srl);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 		$this->setRedirectUrl($returnUrl);
@@ -1099,7 +1104,8 @@ class memberController extends member
 		if(!$output->toBool()) return $this->stop($output->getMessage());
 		// Remove all values having the member_srl from authentication table
 		executeQuery('member.deleteAuthMail',$args);
-		
+
+		$site_module_info = Context::get('site_module_info');
 		$this->_clearMemberCache($args->member_srl);
 
 		// Notify the result
@@ -1300,7 +1306,6 @@ class memberController extends member
 		list($args->email_id, $args->email_host) = explode('@', $newEmail);
 
 		$output = executeQuery('member.updateMemberEmailAddress', $args);
-		$this->_clearMemberCache($args->member_srl);
 		if(!$output->toBool())
 		{
 			return $this->stop($output->getMessage());
@@ -1419,7 +1424,7 @@ class memberController extends member
 		$output = executeQuery('member.deleteMembersGroup', $args);
 		if(!$output->toBool()) return $output;
 		$this->setMessage('success_deleted');
-		$this->_clearMemberCache($args->member_srl);
+		$this->_clearMemberCache($args->member_srl, $site_module_info->site_srl);
 	}
 
 	/**
@@ -1514,7 +1519,7 @@ class memberController extends member
 		$output = executeQuery('member.addMemberToGroup',$args);
 		$output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
-		$this->_clearMemberCache($member_srl);
+		$this->_clearMemberCache($member_srl, $site_srl);
 
 		return $output;
 	}
@@ -1554,7 +1559,7 @@ class memberController extends member
 			$output = executeQuery('member.addMemberToGroup', $obj);
 			if(!$output->toBool()) return $output;
 
-			$this->_clearMemberCache($obj->member_srl);
+			$this->_clearMemberCache($obj->member_srl, $args->site_srl);
 		}
 
 		return new Object();
@@ -1728,12 +1733,13 @@ class memberController extends member
 			return new Object(-1,'msg_user_denied');
 		}
 		// Notify if denied_date is less than the current time
-		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-9,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
 		// Update the latest login time
 		$args->member_srl = $this->memberInfo->member_srl;
 		$output = executeQuery('member.updateLastLogin', $args);
 
-		$this->_clearMemberCache($args->member_srl);
+		$site_module_info = Context::get('site_module_info');
+		$this->_clearMemberCache($args->member_srl, $site_module_info->site_srl);
 
 		// Check if there is recoding table.
 		$oDB = &DB::getInstance();
@@ -1957,7 +1963,8 @@ class memberController extends member
 			return new Object(-1,'denied_nick_name');
 		}
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
-		if($member_srl) return new Object(-1,'msg_exists_nick_name');
+		$member_srl_by_decode = $oMemberModel->getMemberSrlByNickName(utf8_decode($args->nick_name));
+		if($member_srl || $member_srl_by_decode) return new Object(-1,'msg_exists_nick_name');
 
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
 		if($member_srl) return new Object(-1,'msg_exists_email_address');
@@ -2113,6 +2120,10 @@ class memberController extends member
 		{
 			return new Object(-1, 'denied_nick_name');
 		}
+		
+		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
+		$member_srl_by_decode = $oMemberModel->getMemberSrlByNickName(utf8_decode($args->nick_name));
+ 		if(($member_srl || $member_srl_by_decode) && $orgMemberInfo->nick_name != $args->nick_name) return new Object(-1,'msg_exists_nick_name');
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 		// Website, blog, checks the address
@@ -2193,7 +2204,7 @@ class memberController extends member
 		$oDB->commit();
 
 		//remove from cache
-		$this->_clearMemberCache($args->member_srl);
+		$this->_clearMemberCache($args->member_srl, $args->site_srl);
 
 		// Save Session
 		if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
@@ -2687,6 +2698,13 @@ class memberController extends member
 			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_' . $site_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 			$oCacheHandler->delete($cache_key);
+
+			if($site_srl !== 0)
+			{
+				$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_0';
+				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
+				$oCacheHandler->delete($cache_key);
+			}
 		}
 
 		$oCacheHandler = CacheHandler::getInstance('object');

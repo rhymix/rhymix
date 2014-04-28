@@ -48,7 +48,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		</thead>
 		<tbody>
 			<tr loop="$document_list => $no, $oDocument">
-				<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitleText()))-->{htmlspecialchars($oDocument->getTitleText())}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a></td>
+				<td class="title">
+				<block cond="isset($module_list[$oDocument->get('module_srl')])">
+				<a href="{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}" target="_blank">{$module_list[$oDocument->get('module_srl')]->browser_title}</a> - 
+				</block>
+				<a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitleText()))-->{htmlspecialchars($oDocument->getTitleText())}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a></td>
 				<td class="nowr"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
 				<td class="nowr">{$oDocument->get('readed_count')}</td>
 				<td class="nowr">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
