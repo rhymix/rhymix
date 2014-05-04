@@ -199,7 +199,7 @@ class commentController extends comment
 		// check if comment's module is using comment validation and set the publish status to 0 (false)
 		// for inserting query, otherwise default is 1 (true - means comment is published)
 		$using_validation = $this->isModuleUsingPublishValidation($obj->module_srl);
-		if($manual_inserted)
+		if(!$manual_inserted)
 		{
 			if(Context::get('is_logged'))
 			{
