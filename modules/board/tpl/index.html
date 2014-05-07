@@ -91,7 +91,7 @@
 	<select cond="count($module_category)" name="module_category_srl" title="{$lang->module_category}" style="margin-right:4px">
 		<option value="" selected="selected"|cond="!$module_category_srl">{$lang->all}</option>
 		<option value="0" selected="selected"|cond="$module_category_srl==='0'">{$lang->not_exists}</option>
-		<option value="{$key}" loop="$module_category => $key,$val"  selected="selected"|cond="$module_category==$key">{$val->title}</option>
+		<option value="{$key}" loop="$module_category => $key,$val"  selected="selected"|cond="$module_category_srl==$key">{$val->title}</option>
 	</select>
 	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
 		<option value="mid" selected="selected"|cond="$search_target=='mid'">{$lang->mid}</option>
