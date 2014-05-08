@@ -374,58 +374,35 @@ class widgetController extends widget
 			return $widget_content;
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('template');
-		if($oCacheHandler->isSupport())
+		/**
+		 * Cache number and cache values are set so that the cache file should call
+		 */
+		FileHandler::makeDir($this->cache_path);
+		// Wanted cache file
+		$cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $widget_sequence, $lang_type);
+		// If the file exists in the cache, the file validation
+		if(!$ignore_cache && file_exists($cache_file))
 		{
-			$key = 'widget_cache:' . $widget_sequence;
-
-			$cache_body = $oCacheHandler->get($key);
-			$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);
-		}
-
-		if($cache_body)
-		{
-			return $cache_body;
-		}
-		else
-		{
-			/**
-			 * Cache number and cache values are set so that the cache file should call
-			 */
-			FileHandler::makeDir($this->cache_path);
-			// Wanted cache file
-			$cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $widget_sequence, $lang_type);
-			// If the file exists in the cache, the file validation
-			if(!$ignore_cache && file_exists($cache_file))
+			$filemtime = filemtime($cache_file);
+			// Should be modified compared to the time of the cache or in the future if creating more than widget.controller.php file a return value of the cache
+			if($filemtime + $widget_cache * 60 > $_SERVER['REQUEST_TIME'] && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php'))
 			{
-				$filemtime = filemtime($cache_file);
-				// Should be modified compared to the time of the cache or in the future if creating more than widget.controller.php file a return value of the cache
-				if($filemtime + $widget_cache * 60 > $_SERVER['REQUEST_TIME'] && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php'))
-				{
-					$cache_body = FileHandler::readFile($cache_file);
-					$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);
+				$cache_body = FileHandler::readFile($cache_file);
+				$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);
 
-					return $cache_body;
-				}
-			}
-			// cache update and cache renewal of the file mtime
-			touch($cache_file);
-
-			$oWidget = $this->getWidgetObject($widget);
-			if(!$oWidget || !method_exists($oWidget,'proc')) return;
-
-			$widget_content = $oWidget->proc($args);
-			$oModuleController = getController('module');
-			$oModuleController->replaceDefinedLangCode($widget_content);
-			if($oCacheHandler->isSupport())
-			{
-				$oCacheHandler->put($key, $widget_content, $widget_cache * 60);
-			}
-			else
-			{
-				FileHandler::writeFile($cache_file, $widget_content);
+				return $cache_body;
 			}
 		}
+		// cache update and cache renewal of the file mtime
+		touch($cache_file);
+
+		$oWidget = $this->getWidgetObject($widget);
+		if(!$oWidget || !method_exists($oWidget,'proc')) return;
+
+		$widget_content = $oWidget->proc($args);
+		$oModuleController = getController('module');
+		$oModuleController->replaceDefinedLangCode($widget_content);
+		FileHandler::writeFile($cache_file, $widget_content);
 
 		return $widget_content;
 	}
