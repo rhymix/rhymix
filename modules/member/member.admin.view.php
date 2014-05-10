@@ -94,7 +94,7 @@ class memberAdminView extends member
 			}
 		}
 		$config = $this->memberConfig;
-		$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');
+		$memberIdentifiers = array('email_address'=>'email_address', 'user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');
 		$usedIdentifiers = array();	
 
 		if(is_array($config->signupForm))

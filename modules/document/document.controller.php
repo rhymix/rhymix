@@ -234,7 +234,7 @@ class documentController extends document
 		if(!$output->toBool()) return $output;
 		// Register it if no given document_srl exists
 		if(!$obj->document_srl) $obj->document_srl = getNextSequence();
-		elseif(!checkUserSequence($obj->document_srl)) return new Object(-1, 'msg_not_permitted');
+		elseif(!$manual_inserted && !$isRestore && !checkUserSequence($obj->document_srl)) return new Object(-1, 'msg_not_permitted');
 
 		$oDocumentModel = getModel('document');
 		// Set to 0 if the category_srl doesn't exist
@@ -1143,14 +1143,19 @@ class documentController extends document
 		$_SESSION['voted_document'][$document_srl] = true;
 
 		// Return result
+		$output = new Object();
 		if($point > 0)
 		{
-			return new Object(0, 'success_voted');
+			$output->setMessage('success_voted');
+			$output->add('voted_count', $obj->after_point);
 		}
 		else
 		{
-			return new Object(0, 'success_blamed');
+			$output->setMessage('success_blamed');
+			$output->add('blamed_count', $obj->after_point);
 		}
+		
+		return $output;
 	}
 
 	/**
