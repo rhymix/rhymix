@@ -1107,7 +1107,17 @@ class commentController extends comment
 		$_SESSION['voted_comment'][$comment_srl] = TRUE;
 
 		// Return the result
-		return new Object(0, $success_message);
+		$output = new Object(0, $success_message);
+		if($point > 0)
+		{
+			$output->add('voted_count', $obj->after_point);
+		}
+		else
+		{
+			$output->add('blamed_count', $obj->after_point);
+		}
+
+		return $output;
 	}
 
 	/**

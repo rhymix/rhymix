@@ -1143,14 +1143,19 @@ class documentController extends document
 		$_SESSION['voted_document'][$document_srl] = true;
 
 		// Return result
+		$output = new Object();
 		if($point > 0)
 		{
-			return new Object(0, 'success_voted');
+			$output->setMessage('success_voted');
+			$output->add('voted_count', $obj->after_point);
 		}
 		else
 		{
-			return new Object(0, 'success_blamed');
+			$output->setMessage('success_blamed');
+			$output->add('blamed_count', $obj->after_point);
 		}
+		
+		return $output;
 	}
 
 	/**
