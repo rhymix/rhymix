@@ -818,7 +818,7 @@ class moduleModel extends module
 		if(!file_exists($xml_file)) return;
 
 		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		if($oCacheHandler->isSupport() && date('U', filemtime($xml_file)) < $_SERVER['REQUEST_TIME'] )
 		{
 			$object_key = 'module:' . $module . '_' . Context::getLangType() . '_' . __XE_VERSION__;
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
