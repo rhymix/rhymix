@@ -11,7 +11,7 @@
  */
 class TemplateHandler
 {
-
+e
 	private $compiled_path = 'files/cache/template_compiled/'; ///< path of compiled caches files
 	private $path = NULL; ///< target directory
 	private $filename = NULL; ///< target filename
@@ -371,7 +371,7 @@ class TemplateHandler
 			$error_info = error_get_last();
 			if ($error_info['type'] == 4)
 			{
-			    echo "<p>Error Parsing Template - {$error_info['message']} in template file {$this->file}</p>";
+			    throw new Exception("Error Parsing Template - {$error_info['message']} in template file {$this->file}");
 			}
 		}
 		else
@@ -381,7 +381,7 @@ class TemplateHandler
 			$error_info = error_get_last();
 			if ($error_info['type'] == 4)
 			{
-			    echo "<p>Error Parsing Template - {$error_info['message']} in template file {$this->file}</p>";
+			    throw new Exception("Error Parsing Template - {$error_info['message']} in template file {$this->file}");
 			}
 		}
 
