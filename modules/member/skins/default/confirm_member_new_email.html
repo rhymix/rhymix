@@ -2,7 +2,7 @@
 <hr noshade="noshade" />
 <ul>
     <li>Site : <a href="{getUrl()}" target="_blank">{getUrl()}</a></li>
-    <li loop="$memberInfo=>$name,$value">{$name} : {$value}</li>
+    <li loop="$memberInfo=>$name,$value" cond="!is_object($value)&&!is_array($value)">{$name} : {$value}</li>
 </ul>
 <hr noshade="noshade" />
 {sprintf($lang->msg_confirm_email_address_change, $newEmail)}<br />

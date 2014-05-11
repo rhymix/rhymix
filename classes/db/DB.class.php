@@ -447,7 +447,7 @@ class DB
 		$log['act'] = Context::get('act');
 		$log['time'] = date('Y-m-d H:i:s');
 
-		$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		$bt = debug_backtrace();
 		foreach($bt as $no => $call)
 		{
 			if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')

@@ -59,9 +59,9 @@ if(jQuery) jQuery.noConflict();
 			if(typeof(options.wrap) == "string") options.wrap ='#'+options.wrap;
 
 			if(options.wrap) {
-				obj = $(options.wrap).find('input[name='+itemName+']:checkbox');
+				obj = $(options.wrap).find('input[name="'+itemName+'"]:checkbox');
 			} else {
-				obj = $('input[name='+itemName+']:checkbox');
+				obj = $('input[name="'+itemName+'"]:checkbox');
 			}
 
 			if(options.checked == 'toggle') {

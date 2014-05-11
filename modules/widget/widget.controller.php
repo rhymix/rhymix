@@ -486,20 +486,20 @@ class widgetController extends widget
 					$oEditorController = getController('editor');
 					$body = $oEditorController->transComponent($body);
 
-					$widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s"><div style="%s">', $args->id, $style,  $inner_style);
+					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s"><div style="%s">', $args->id, $style,  $inner_style);
 					$widget_content_body = $body;
 					$widget_content_footer = '</div></div>';
 
 					break;
 					// If the widget box; it could
 				case 'widgetBox' :
-					$widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s;"><div style="%s"><div>', $args->id, $style,  $inner_style);
+					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s;"><div style="%s"><div>', $args->id, $style,  $inner_style);
 					$widget_content_body = $widgetbox_content;
 
 					break;
 					// If the General wijetil
 				default :
-					$widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s">',$args->id,$style);
+					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s">',$args->id,$style);
 					$widget_content_body = sprintf('<div style="*zoom:1;%s">%s</div>', $inner_style,$widget_content);
 					$widget_content_footer = '</div>';
 					break;
@@ -537,7 +537,7 @@ class widgetController extends widget
 					$oWidgetController = getController('widget');
 
 					$widget_content_header = sprintf(
-						'<div class="widgetOutput" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
+						'<div class="widgetOutput ' . $args->css_class . '" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
 						'<div class="widgetResize"></div>'.
 						'<div class="widgetResizeLeft"></div>'.
 						'<div class="widgetBorder">'.
@@ -571,7 +571,7 @@ class widgetController extends widget
 					}
 
 					$widget_content_header = sprintf(
-						'<div class="widgetOutput" widgetstyle="%s" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" %s >'.
+						'<div class="widgetOutput ' . $args->css_class . '" widgetstyle="%s" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" %s >'.
 						'<div class="widgetBoxResize"></div>'.
 						'<div class="widgetBoxResizeLeft"></div>'.
 						'<div class="widgetBoxBorder"><div class="nullWidget" style="%s">',$args->widgetstyle,$style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,implode(' ',$attribute),$inner_style);
@@ -595,7 +595,7 @@ class widgetController extends widget
 						}
 					}
 
-					$widget_content_header = sprintf('<div class="widgetOutput" widgetstyle="%s" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
+					$widget_content_header = sprintf('<div class="widgetOutput ' . $args->css_class . '" widgetstyle="%s" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
 						'<div class="widgetResize"></div>'.
 						'<div class="widgetResizeLeft"></div>'.
 						'<div class="widgetBorder">',$args->widgetstyle,$style,
@@ -641,7 +641,7 @@ class widgetController extends widget
 			require_once($class_file);
 
 			// Creating Objects
-			if(!class_exists($widget))
+			if(!class_exists($widget, false))
 			{
 				return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
 			}
@@ -710,6 +710,7 @@ class widgetController extends widget
 		}
 		
 		$widget = $vars->selected_widget;
+		$vars->css_class = $request_vars->css_class;
 		$vars->widgetstyle = $request_vars->widgetstyle;
 
 		$vars->skin = trim($request_vars->skin);

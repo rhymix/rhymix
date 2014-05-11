@@ -76,6 +76,15 @@ class boardController extends board
 			$bAnonymous = false;
 		}
 
+		if((!$obj->status && $obj->is_secret == 'Y') || strtoupper($obj->status == 'SECRET'))
+		{
+			$use_status = explode('|@|', $this->module_info->use_status);
+			if(!is_array($use_status) || !in_array('SECRET', $use_status))
+			{
+				$obj->status = 'PUBLIC';
+			}
+		}
+
 		// update the document if it is existed
 		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
 		{

@@ -10,6 +10,12 @@
 				<col />
 				<col />
 				<tr>
+					<th>{$lang->cmd_widget_css_class}</th>
+					<td colspan="2">
+						<input type="text" name="css_class" id="css_class" value=""style="width:200px" />
+					</td>
+				</tr>
+				<tr>
 					<th>{$lang->cmd_widget_align}</th>
 					<td colspan="2">
 						<select name="widget_align">
@@ -56,7 +62,7 @@
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
 						</select>
-						<input type="text" name="border_top_color" value="" class="color_input color-indicator" maxlength="6"/>
+						<input type="text" name="border_top_color" value="" class="color_input color-indicator" maxlength="7"/>
 					</td>
 				</tr>
 				<tr>
@@ -66,7 +72,7 @@
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
 						</select>
-						<input type="text" name="border_left_color" value="" class="color_input color-indicator" maxlength="6"/>
+						<input type="text" name="border_left_color" value="" class="color_input color-indicator" maxlength="7"/>
 					</td>
 					<td style="text-align:right">
 						<input type="number" name="border_right_thick" value="" class="small_input" /> px
@@ -74,7 +80,7 @@
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
 						</select>
-						<input type="text" name="border_right_color" value="" class="color_input color-indicator" maxlength="6"/>
+						<input type="text" name="border_right_color" value="" class="color_input color-indicator" maxlength="7"/>
 					</td>
 				</tr>
 				<tr>
@@ -84,7 +90,7 @@
 							<option value="solid">{$lang->cmd_widget_border_solid}</option>
 							<option value="dotted">{$lang->cmd_widget_border_dotted}</option>
 						</select>
-						<input type="text" name="border_bottom_color" value="" class="color_input color-indicator" maxlength="6"/>
+						<input type="text" name="border_bottom_color" value="" class="color_input color-indicator" maxlength="7"/>
 					</td>
 				</tr>
 				<tr>
@@ -120,7 +126,7 @@
 	<style scoped>
 	.wgs{margin:0;width:700px}
 	.wgs select{margin:0;width:auto}
-	.wgs input{margin:0!important;width:50px}
+	.wgs input{margin:0!important;width:60px}
 	</style>
 </section>
 <!--%load_js_plugin("ui.colorpicker")-->

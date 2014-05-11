@@ -61,6 +61,9 @@ class memberAdminController extends member
 		unset($all_args->success_return_url);
 		unset($all_args->ruleset);
 		if(!isset($args->limit_date)) $args->limit_date = "";
+		unset($all_args->password);
+		unset($all_args->password2);
+		unset($all_args->reset_password);
 		// Add extra vars after excluding necessary information from all the requested arguments
 		$extra_vars = delObjectVars($all_args, $args);
 		$args->extra_vars = serialize($extra_vars);
@@ -181,6 +184,7 @@ class memberAdminController extends member
 
 		$args = Context::gets(
 			'limit_day',
+			'limit_day_description',
 			'agreement',
 			'redirect_url',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
@@ -471,7 +475,7 @@ class memberAdminController extends member
 				}
 				else if($formInfo->name == 'password')
 				{
-					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="6:20" /></field>';
+					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="4:20" /></field>';
 					$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
 				}
 				else if($formInfo->name == 'find_account_question')

@@ -2,5 +2,5 @@ config.user.inc.php
 /files/
 /build/
 /node_modules/
-.DS_Srore
+.DS_Store
 Thumbs.db

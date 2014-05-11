@@ -46,7 +46,7 @@ class fileModel extends file
 				$obj->source_filename = $file_info->source_filename;
 				$obj->file_size = $file_info->file_size;
 				$obj->disp_file_size = FileHandler::filesize($file_info->file_size);
-				if($file_info->direct_download=='N') $obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid);
+				if($file_info->direct_download=='N') $obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid, $file_info->module_srl);
 				else $obj->download_url = str_replace('./', '', $file_info->uploaded_filename);
 				$obj->direct_download = $file_info->direct_download;
 				$files[] = $obj;
@@ -95,9 +95,9 @@ class fileModel extends file
 	 * @param string $sid
 	 * @return string Returns a url
 	 */
-	function getDownloadUrl($file_srl, $sid)
+	function getDownloadUrl($file_srl, $sid, $module_srl="")
 	{
-		return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s', 'file', 'procFileDownload', $file_srl, $sid);
+		return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s&amp;module_srl=%s', 'file', 'procFileDownload', $file_srl, $sid, $module_srl);
 	}
 
 	/**
@@ -164,7 +164,7 @@ class fileModel extends file
 		if(count($output->data) == 1)
 		{
 			$file = $output->data[0];
-			$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+			$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
 
 			return $file;
 		}
@@ -177,7 +177,7 @@ class fileModel extends file
 				foreach($output->data as $key=>$value)
 				{
 					$file = $value;
-					$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+					$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
 					$fileList[] = $file;
 				}
 			}
@@ -211,7 +211,7 @@ class fileModel extends file
 		{
 			$file = $file_list[$i];
 			$file->source_filename = stripslashes($file->source_filename);
-			$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+			$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
 			$file_list[$i] = $file;
 		}
 
@@ -226,23 +226,20 @@ class fileModel extends file
 	function getUploadConfig()
 	{
 		$logged_info = Context::get('logged_info');
-		$file_config = new stdClass();
+
+		$module_srl = Context::get('module_srl');
+		// Get the current module if module_srl doesn't exist
+		if(!$module_srl)
+		{
+			$current_module_info = Context::get('current_module_info');
+			$module_srl = $current_module_info->module_srl;
+		}
+		$file_config = $this->getFileConfig($module_srl);
+
 		if($logged_info->is_admin == 'Y')
 		{
 			$file_config->allowed_filesize = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));
-			$file_config->allowed_attach_size = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));
 			$file_config->allowed_filetypes = '*.*';
-		}
-		else
-		{
-			$module_srl = Context::get('module_srl');
-			// Get the current module if module_srl doesn't exist
-			if(!$module_srl)
-			{
-				$current_module_info = Context::get('current_module_info');
-				$module_srl = $current_module_info->module_srl;
-			}
-			$file_config = $this->getFileConfig($module_srl);
 		}
 		return $file_config;
 	}

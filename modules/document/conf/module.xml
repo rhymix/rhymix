@@ -14,6 +14,7 @@
         <permission action="procDocumentMoveCategory" target="member" />
         <permission action="procDocumentDeleteCategory" target="member" />
         <permission action="procDocumentMakeXmlFile" target="member" />
+        <permission action="procDocumentAdminMoveToTrash" target="member" />
     </permissions>
     <actions>
         <action name="dispDocumentPrint" type="view" />
@@ -58,6 +59,7 @@
         <action name="procDocumentAdminInsertConfig" type="controller" />
         <action name="procDocumentAdminDeleteAllThumbnail" type="controller" />
         <action name="procDocumentAdminCancelDeclare" type="controller" />
+        <action name="procDocumentAdminMoveToTrash" type="controller" />
 	
     </actions>
 	<menus>

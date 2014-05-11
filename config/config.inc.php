@@ -9,11 +9,11 @@
  */
 if(version_compare(PHP_VERSION, '5.4.0', '<'))
 {
-	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING);
 }
 else
 {
-	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT);
+	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING ^ E_STRICT);
 }
 
 if(!defined('__XE__'))
@@ -29,7 +29,11 @@ define('__ZBXE__', __XE__);
 /**
  * Display XE's full version.
  */
-define('__XE_VERSION__', '1.7.4');
+define('__XE_VERSION__', '1.7.5-beta2');
+define('__XE_VERSION_ALPHA__', (stripos(__XE_VERSION__, 'alpha') !== false));
+define('__XE_VERSION_BETA__', (stripos(__XE_VERSION__, 'beta') !== false));
+define('__XE_VERSION_RC__', (stripos(__XE_VERSION__, 'rc') !== false));
+define('__XE_VERSION_STABLE__', (!__XE_VERSION_ALPHA__ && !__XE_VERSION_BETA__ && !__XE_VERSION_RC__));
 
 /**
  * @deprecated __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.

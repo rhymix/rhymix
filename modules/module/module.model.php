@@ -402,6 +402,9 @@ class moduleModel extends module
 		}
 		else $module_info = $mid_info;
 
+		$oModuleController = getController('module');
+		if(isset($module_info->browser_title)) $oModuleController->replaceDefinedLangCode($module_info->browser_title);
+
 		return $this->addModuleExtraVars($module_info);
 	}
 
@@ -746,7 +749,6 @@ class moduleModel extends module
 
 		// Module Information
 		$module_info = new stdClass();
-		$author_obj = new stdClass();
 		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
 		{
 			// module format 0.2
@@ -766,6 +768,7 @@ class moduleModel extends module
 
 			foreach($author_list as $author)
 			{
+				$author_obj = new stdClass();
 				$author_obj->name = $author->name->body;
 				$author_obj->email_address = $author->attrs->email_address;
 				$author_obj->homepage = $author->attrs->link;
@@ -782,6 +785,7 @@ class moduleModel extends module
 			if(!$module_info->category) $module_info->category = 'service';
 			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+			$author_obj = new stdClass();
 			$author_obj->name = $xml_obj->author->name->body;
 			$author_obj->email_address = $xml_obj->author->attrs->email_address;
 			$author_obj->homepage = $xml_obj->author->attrs->link;
@@ -1498,6 +1502,7 @@ class moduleModel extends module
 			$info = $this->getModuleInfoXml($module_name);
 			unset($obj);
 
+			if(!isset($info)) continue;
 			$info->module = $module_name;
 			$info->created_table_count = $created_table_count;
 			$info->table_count = $table_count;

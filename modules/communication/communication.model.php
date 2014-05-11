@@ -51,8 +51,100 @@ class communicationModel extends communication
 		{
 			$communication_config->mskin = 'default';
 		}
+		
+		if(!$communication_config->grant_write)
+		{
+			$communication_config->grant_write = array('default_grant'=>'member');
+		}
 
 		return $communication_config;
+	}
+
+	/**
+	  * @brief get grant array for insert to database. table module_config's config field 
+	  * @param string $default
+	  * @param array $group
+	  * @return array
+	  */
+	function getGrantArray($default, $group)
+	{
+		$grant = array();
+		if($default!="")
+		{
+			switch($default)
+			{
+				case "-2":
+					$grant = array("default_grant"=>"site");
+					break;
+				case "-3":
+					$grant = array("default_grant"=>"manager");
+					break;
+				default :
+					$grant = array("default_grant"=>"member");
+					break;
+			}
+		} 
+		else if(is_array($group)) 
+		{
+			$oMemberModel = getModel('member');
+			$group_list = $oMemberModel->getGroups($this->site_srl);
+
+			$group_grant = array();
+			foreach($group as $group_srl)
+			{
+				$group_grant[$group_srl] = $group_list[$group_srl]->title;
+			}
+			$grant = array('group_grant'=>$group_grant);
+		} 
+		return $grant;
+	}
+
+	/**
+	  * @brief check member's grant
+	  * @param object $member_info
+	  * @param array $arrGrant
+	  * @return boolean
+	  */
+	function checkGrant($arrGrant)
+	{
+		if(!$arrGrant)
+			return false;
+
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info)
+			return false;
+
+		if($logged_info->is_admin == "Y")
+			return true;
+
+		if($arrGrant['default_grant'])
+		{
+			if($arrGrant['default_grant'] == "member" && $logged_info)
+				return true;
+
+			if($arrGrant['default_grant'] == "site" && $this->site_srl == $logged_info->site_srl)
+				return true;
+
+			if($arrGrant['default_grant'] == "manager" && $logged_info->is_admin == "Y")
+				return true;
+		}
+
+		if($arrGrant['group_grant'])
+		{
+			$group_grant = $arrGrant['group_grant'];
+			if(!is_array($group_grant))
+				return false;
+
+			foreach($logged_info->group_list as $group_srl=>$title)
+			{
+				if(isset($group_grant[$group_srl])&&$group_grant[$group_srl]==$title)
+					return true;
+			}
+
+		}
+
+		return false;
+
 	}
 
 	/**

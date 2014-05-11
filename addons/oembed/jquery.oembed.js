@@ -261,7 +261,7 @@
 					success: function (data) {
 						var oembedData = $.extend({}, data);
 						oembedData.code = embedProvider.templateData(data);
-						success(oembedData, externalUrl, container);
+						if(oembedData.code) success(oembedData, externalUrl, container);
 					},
 					error: settings.onError.call(container, externalUrl, embedProvider)
 				}, settings.ajaxOptions || {});
@@ -389,8 +389,8 @@
 
 	$.fn.oembed.getGenericCode = function (url, oembedData) {
 		var title = (oembedData.title !== null) ? oembedData.title : url,
-			code = '<a href="' + url + '">' + title + '</a>';
-		if(oembedData.html) code += "<div>" + oembedData.html + "</div>";
+			code = '';
+			if(oembedData.html) code += '<blockquote class="oembedall-blockquote"><strong>' + title + '</strong><br>' + jQuery(oembedData.html).text().substring(0,200) + '... <a href="'+url+'">more</a></blockquote>';
 		return code;
 	};
 
@@ -849,7 +849,7 @@
 			templateData: function (data) {
 				if(!data.parse) return false;
 				var text = data.parse['text']['*'].replace(/href="\/wiki/g, 'href="http://en.wikipedia.org/wiki');
-				return '<div id="content"><h3><a class="nav-link" href="http://en.wikipedia.org/wiki/' + data.parse['displaytitle'] + '">' + data.parse['displaytitle'] + '</a></h3>' + text + '</div>';
+				return '<div id="content"><blockquote class="oembedall-blockquote"><strong>' + data.parse['displaytitle'] + '</strong><br>' +jQuery(text).text().substring(0,200) + '...</blockquote></div>';
 			}
 		}),
 		new $.fn.oembed.OEmbedProvider("imdb", "rich", ["imdb.com/title/.+"], "http://www.imdbapi.com/?i=$1&callback=?", {

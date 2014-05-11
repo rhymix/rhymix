@@ -1,0 +1,32 @@
+<query id="getDocumentExtraVars" action="select">
+    <tables>
+        <table name="document_extra_keys" alias="extra_keys" />
+        <table name="document_extra_vars" alias="extra_vars" type="left join">
+            <conditions>
+                <condition operation="equal" column="extra_keys.module_srl" default="extra_vars.module_srl" />
+                <condition operation="equal" column="extra_keys.eid" default="extra_vars.eid" pipe="and" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="extra_keys.module_srl" alias="module_srl" />
+        <column name="extra_keys.var_name" alias="name" />
+        <column name="extra_keys.var_type" alias="type" />
+        <column name="extra_keys.var_is_required" alias="is_required" />
+        <column name="extra_keys.var_search" alias="search" />
+        <column name="extra_keys.var_default" alias="default" />
+        <column name="extra_keys.var_desc" alias="desc" />
+        <column name="extra_keys.var_idx" alias="idx" />
+        <column name="extra_vars.document_srl" alias="document_srl" />
+        <column name="extra_vars.lang_code" alias="lang_code" />
+        <column name="extra_vars.value" alias="value" />
+        <column name="extra_keys.eid" alias="eid" />
+    </columns>
+	<conditions>
+		<condition operation="equal" column="extra_keys.module_srl" var="module_srl" />
+		<condition operation="in" column="extra_vars.document_srl" var="document_srl" pipe="and" />
+	</conditions>
+    <navigation>
+        <index var="sort_index" default="extra_keys.var_idx" order="asc" />
+    </navigation>
+</query>

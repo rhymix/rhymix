@@ -234,6 +234,7 @@ class documentController extends document
 		if(!$output->toBool()) return $output;
 		// Register it if no given document_srl exists
 		if(!$obj->document_srl) $obj->document_srl = getNextSequence();
+		elseif(!$manual_inserted && !$isRestore && !checkUserSequence($obj->document_srl)) return new Object(-1, 'msg_not_permitted');
 
 		$oDocumentModel = getModel('document');
 		// Set to 0 if the category_srl doesn't exist
@@ -398,7 +399,15 @@ class documentController extends document
 		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
 		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
-		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+		if($obj->homepage)
+		{
+			$obj->homepage = removeHackTag($obj->homepage);
+			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
+			{
+				$obj->homepage = 'http://'.$obj->homepage;
+			}
+		}
+		
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		
 		// can modify regdate only manager
@@ -510,7 +519,7 @@ class documentController extends document
 		{
 			foreach($extra_keys as $idx => $extra_item)
 			{
-				$value = '';
+				$value = NULL;
 				if(isset($obj->{'extra_vars'.$idx}))
 				{
 					$tmp = $obj->{'extra_vars'.$idx};
@@ -520,7 +529,7 @@ class documentController extends document
 						$value = trim($tmp);
 				}
 				else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
-				if(!isset($value)) continue;
+				if($value == NULL) continue;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}
@@ -793,6 +802,8 @@ class documentController extends document
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
+			$cache_key = 'document_item:'. getNumberingPath($oDocument->document_srl) . $oDocument->document_srl;
+			$oCacheHandler->delete($cache_key);
 		}
 
 		return $output;
@@ -808,9 +819,10 @@ class documentController extends document
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
-		// Call a trigger when the read count is updated (after)
-		$output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
-		if(!$output->toBool()) return $output;
+
+		// Call a trigger when the read count is updated (before)
+		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'before', $oDocument);
+		if(!$trigger_output->toBool()) return $trigger_output;
 
 		// Pass if read count is increaded on the session information
 		if($_SESSION['readed_document'][$document_srl]) return false;
@@ -827,10 +839,32 @@ class documentController extends document
 			$_SESSION['readed_document'][$document_srl] = true;
 			return false;
 		}
+
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		// Update read counts
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.updateReadedCount', $args);
+
+		// Call a trigger when the read count is updated (after)
+		$outptrigger_outputut = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
+		if(!$trigger_output->toBool())
+		{
+			$oDB->rollback();
+			return $trigger_output;
+		}
+
+		$oDB->commit();
+
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			//remove document item from cache
+			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
 
 		// Register session
 		$_SESSION['readed_document'][$document_srl] = true;
@@ -1097,18 +1131,31 @@ class documentController extends document
 
 		$oDB->commit();
 
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			//remove document item from cache
+			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
+
 		// Leave in the session information
 		$_SESSION['voted_document'][$document_srl] = true;
 
 		// Return result
+		$output = new Object();
 		if($point > 0)
 		{
-			return new Object(0, 'success_voted');
+			$output->setMessage('success_voted');
+			$output->add('voted_count', $obj->after_point);
 		}
 		else
 		{
-			return new Object(0, 'success_blamed');
+			$output->setMessage('success_blamed');
+			$output->add('blamed_count', $obj->after_point);
 		}
+		
+		return $output;
 	}
 
 	/**
@@ -1238,6 +1285,14 @@ class documentController extends document
 		{
 			$args->update_order = -1*getNextSequence();
 			$args->last_updater = $last_updater;
+
+			$oCacheHandler = CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport())
+			{
+				//remove document item from cache
+				$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+				$oCacheHandler->delete($cache_key);
+			}
 		}
 
 		return executeQuery('document.updateCommentCount', $args);
@@ -1254,6 +1309,14 @@ class documentController extends document
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		$args->trackback_count = $trackback_count;
+
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			//remove document item from cache
+			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
+			$oCacheHandler->delete($cache_key);
+		}
 
 		return executeQuery('document.updateTrackbackCount', $args);
 	}
@@ -1358,6 +1421,30 @@ class documentController extends document
 		if(!$output->toBool()) return $output;
 
 		$this->makeCategoryFile($category_info->module_srl);
+		// remvove cache
+		$oCacheHandler = CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$page = 0;
+			while(true) {
+				$args = new stdClass();
+				$args->category_srl = $category_srl;
+				$args->list_count = 100;
+				$args->page = ++$page;
+				$output = executeQuery('document.getDocumentList', $args, array('document_srl'));
+
+				if($output->data == array())
+					break;
+
+				foreach($output->data as $val)
+				{
+					//remove document item from cache
+					$cache_key = 'document_item:'. getNumberingPath($val->document_srl) . $val->document_srl;
+					$oCacheHandler->delete($cache_key);
+				}
+			}
+		}
+
 		// Update category_srl of the documents in the same category to 0
 		$args = new stdClass();
 		$args->target_category_srl = 0;

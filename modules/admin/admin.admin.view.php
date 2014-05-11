@@ -172,13 +172,11 @@ class adminAdminView extends admin
 
 			foreach($parentMenu['list'] as $childKey => $childMenu)
 			{
-				if($subMenuTitle == $childMenu['text'])
+				if($subMenuTitle == $childMenu['text'] && $parentSrl == 0)
 				{
 					$parentSrl = $childMenu['parent_srl'];
-					break;
 				}
 			}
-			if($parentSrl) break;
 		}
 
 		// Admin logo, title setup
@@ -350,11 +348,26 @@ class adminAdminView extends admin
 			}
 		}
 
+		$site_module_info = Context::get('site_module_info');
+		$oAddonAdminModel = getAdminModel('addon');
+		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter', $site_module_info->site_srl );
+		if(!$counterAddonActivated)
+		{
+			$columnList = array('member_srl', 'nick_name', 'user_name', 'user_id', 'email_address');
+			$args = new stdClass;
+			$args->page = 1;
+			$args->list_count = 5;
+			$output = executeQuery('member.getMemberList', $args, $columnList);
+			Context::set('latestMemberList', $output->data);
+			unset($args, $output, $columnList);
+		}
+
 		Context::set('module_list', $module_list);
 		Context::set('needUpdate', $isUpdated);
 		Context::set('addTables', $addTables);
 		Context::set('needUpdate', $needUpdate);
 		Context::set('newVersionList', $needUpdateList);
+		Context::set('counterAddonActivated', $counterAddonActivated);
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('module_list..', 'module_list..author..', 'newVersionList..');
@@ -402,10 +415,6 @@ class adminAdminView extends admin
 		$whitelist = implode("\r\n", $db_info->sitelock_whitelist);
 		Context::set('sitelock_whitelist', $whitelist);
 
-		if(gettype($db_info->admin_ip_list)!="array")
-			$db_info->admin_ip_list = array();
-		if(!in_array('127.0.0.1', $db_info->admin_ip_list)) $db_info->admin_ip_list[] = '127.0.0.1';
-		if(!in_array($_SERVER['REMOTE_ADDR'], $db_info->admin_ip_list)) $db_info->admin_ip_list[] = $_SERVER['REMOTE_ADDR'];
 
 		if($db_info->admin_ip_list) $admin_ip_list = implode("\r\n", $db_info->admin_ip_list);
 		else $admin_ip_list = '';
