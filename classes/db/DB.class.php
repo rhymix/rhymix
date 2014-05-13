@@ -552,7 +552,7 @@ class DB
 	 * @param array $arg_columns column list. if you want get specific colums from executed result, add column list to $arg_columns
 	 * @return object result of query
 	 */
-	function executeQuery($query_id, $args = NULL, $arg_columns = NULL)
+	function executeQuery($query_id, $args = NULL, $arg_columns = NULL, $type = NULL)
 	{
 		static $cache_file = array();
 
@@ -606,7 +606,7 @@ class DB
 			// look for cache file
 			$cache_file[$query_id] = $this->checkQueryCacheFile($query_id, $xml_file);
 		}
-		$result = $this->_executeQuery($cache_file[$query_id], $args, $query_id, $arg_columns);
+		$result = $this->_executeQuery($cache_file[$query_id], $args, $query_id, $arg_columns, $type);
 
 		$this->actDBClassFinish();
 		// execute query
@@ -649,9 +649,11 @@ class DB
 	 * @param array $arg_columns column list. if you want get specific colums from executed result, add column list to $arg_columns
 	 * @return object result of query
 	 */
-	function _executeQuery($cache_file, $source_args, $query_id, $arg_columns)
+	function _executeQuery($cache_file, $source_args, $query_id, $arg_columns, $type)
 	{
 		global $lang;
+		
+		if(!in_array($type, array('master','slave'))) $type = 'slave';
 
 		if(!file_exists($cache_file))
 		{
@@ -689,7 +691,7 @@ class DB
 			case 'select' :
 				$arg_columns = is_array($arg_columns) ? $arg_columns : array();
 				$output->setColumnList($arg_columns);
-				$connection = $this->_getConnection('slave');
+				$connection = $this->_getConnection($type);
 				$output = $this->_executeSelectAct($output, $connection);
 				break;
 		}
