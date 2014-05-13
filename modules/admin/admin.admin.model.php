@@ -95,6 +95,81 @@ class adminAdminModel extends admin
 		}
 	}
 
+	function getFTPPath()
+	{
+		$ftp_info = Context::getRequestVars();
+
+		if(!$ftp_info->ftp_host)
+		{
+			$ftp_info->ftp_host = "127.0.0.1";
+		}
+
+		if(!$ftp_info->ftp_port || !is_numeric($ftp_info->ftp_port))
+		{
+			$ftp_info->ftp_port = '22';
+		}
+
+		$connection = ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
+		if(!$connection)
+		{
+			return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_host));
+		}
+
+		$login_result = @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password);
+		if(!$login_result)
+		{
+			ftp_close($connection);
+			return new Object(-1, 'msg_ftp_invalid_auth_info');
+		}
+
+		// create temp file
+		$pin = $_SERVER['REQUEST_TIME'];
+		FileHandler::writeFile('./files/cache/ftp_check', $pin);
+
+		// create path candidate
+		$xe_path = _XE_PATH_;
+		$path_info = array_reverse(explode('/', _XE_PATH_));
+		array_pop($path_info); // remove last '/'
+		$path_candidate = array();
+
+		$temp = '';
+		foreach($path_info as $path)
+		{
+			$temp = '/' . $path . $temp;
+			$path_candidate[] = $temp;
+		}
+
+		// try
+		foreach($path_candidate as $path)
+		{
+			// upload check file
+			if(!ftp_put($connection, $path . 'ftp_check.html', FileHandler::getRealPath('./files/cache/ftp_check'), FTP_BINARY))
+			{
+				continue;
+			}
+
+			// get check file
+			$result = FileHandler::getRemoteResource(getNotencodedFullUrl() . 'ftp_check.html');
+
+			// delete temp check file
+			ftp_delete($connection, $path . 'ftp_check.html');
+
+			// found
+			if($result == $pin)
+			{
+				$found_path = $path;
+				break;
+			}
+		}
+
+		FileHandler::removeFile('./files/cache/ftp_check', $pin);
+
+		if($found_path)
+		{
+			$this->add('found_path', $found_path);
+		}
+	}
+
 	/**
 	 * Find XE installed path on ftp
 	 */
@@ -128,6 +203,15 @@ class adminAdminModel extends admin
 				return new Object(-1, 'disable_sftp_support');
 			}
 			return $this->getSFTPPath();
+		}
+
+		if($ftp_info->ftp_pasv == 'N')
+		{
+			if(function_exists('ftp_connect'))
+			{
+				return $this->getFTPPath();
+			}
+			$ftp_info->ftp_pasv = "Y";
 		}
 
 		$oFTP = new ftp();
@@ -350,7 +434,7 @@ class adminAdminModel extends admin
 		$info['module'] = '';
 		$oModuleModel = getModel('module');
 		$module_list = $oModuleModel->getModuleList();
-		foreach($module_list as $module)
+		if($module_list) foreach($module_list as $module)
 		{
 			if(in_array($module->module, $skip['module']))
 			{
@@ -363,7 +447,7 @@ class adminAdminModel extends admin
 		$info['addon'] = '';
 		$oAddonAdminModel = getAdminModel('addon');
 		$addon_list = $oAddonAdminModel->getAddonList();
-		foreach($addon_list as $addon)
+		if($addon_list) foreach($addon_list as $addon)
 		{
 			if(in_array($addon->addon, $skip['addon']))
 			{
@@ -376,7 +460,7 @@ class adminAdminModel extends admin
 		$info['layout'] = "";
 		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getDownloadedLayoutList();
-		foreach($layout_list as $layout)
+		if($layout_list) foreach($layout_list as $layout)
 		{
 			if(in_array($layout->layout, $skip['layout']))
 			{
@@ -389,7 +473,7 @@ class adminAdminModel extends admin
 		$info['widget'] = "";
 		$oWidgetModel = getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList();
-		foreach($widget_list as $widget)
+		if($widget_list) foreach($widget_list as $widget)
 		{
 			if(in_array($widget->widget, $skip['widget']))
 			{
@@ -402,7 +486,7 @@ class adminAdminModel extends admin
 		$info['widgetstyle'] = "";
 		$oWidgetModel = getModel('widget');
 		$widgetstyle_list = $oWidgetModel->getDownloadedWidgetStyleList();
-		foreach($widgetstyle_list as $widgetstyle)
+		if($widgetstyle_list) foreach($widgetstyle_list as $widgetstyle)
 		{
 			if(in_array($widgetstyle->widgetStyle, $skip['widgetstyle']))
 			{

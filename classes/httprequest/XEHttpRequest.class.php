@@ -148,7 +148,7 @@ class XEHttpRequest
 		$is_chunked = FALSE;
 		while(strlen(trim($line = fgets($sock))))
 		{
-			list($equiv, $content) = preg_split('/ *: */', rtrim($line), 1);
+			list($equiv, $content) = preg_split('/ *: */', rtrim($line), 2);
 			if(!strcasecmp($equiv, 'Transfer-Encoding') && $content == 'chunked')
 			{
 				$is_chunked = TRUE;
@@ -163,7 +163,7 @@ class XEHttpRequest
 				$chunk_size = hexdec(fgets($sock));
 				if($chunk_size)
 				{
-					$body .= fread($sock, $chunk_size);
+					$body .= fgets($sock, $chunk_size+1);
 				}
 			}
 			else

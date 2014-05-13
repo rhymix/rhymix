@@ -9,7 +9,7 @@ if(!defined('__XE__'))
  * @author NAVER (developers@xpressengine.com)
  * @brief Add-on to resize images in the body
  */
-if($called_position == 'after_module_proc' && Context::getResponseMethod() == "HTML" || !isCrawler())
+if($called_position == 'after_module_proc' && (Context::getResponseMethod() == "HTML" || !isCrawler()))
 {
 	if(Mobile::isFromMobilePhone())
 	{

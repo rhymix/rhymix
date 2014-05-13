@@ -11,6 +11,8 @@
         <action name="procTrashAdminEmptyTrash" type="controller" ruleset="emptyTrash" />
         <action name="procTrashAdminRestore" type="controller" />
         <action name="procTrashAdminGetList" type="controller" />
+        
+        <action name="dispTrashAdminView" type="view" />
     </actions>
 	<menus>
 		<menu name="trash">

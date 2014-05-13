@@ -152,6 +152,7 @@ class pointController extends point
 		// If there are comment points, attempt to deduct
 		if($comment_point>0) return new Object();
 		// Get all the comments related to this post
+		$cp_args = new stdClass();
 		$cp_args->document_srl = $document_srl;
 		$output = executeQueryArray('point.getCommentUsers', $cp_args);
 		// Return if there is no object

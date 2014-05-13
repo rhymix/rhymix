@@ -121,7 +121,7 @@
 		<!--@end-->
 	</select>
 	<select name="search_target" style="margin-right:4px" title="{$lang->search_target}">
-		{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}
+		{@$lang->search_target_list = array_merge($usedIdentifiers, $lang->search_target_list)}
 		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
 	</select>
 	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" style="width:140px">
@@ -154,7 +154,12 @@
 				<h3>{$lang->member_group}</h3>
 				<label loop="$group_list => $key,$val" for="g{$val->group_srl}" class="x_inline"><input type="checkbox" name="groups[]" id="g{$val->group_srl}" value="{$val->group_srl}"/> {$val->title}</label>
 			</div>
-			<div class="x_control-group">
+			<div class="x_control-group _moveTarget" hidden>
+				<h3>{$lang->denied}</h3>
+				<label class="x_inline" for="appoval"><input type="radio" name="denied" id="appoval" value="N" /> {$lang->approval}</label>
+				<label class="x_inline" for="deny"><input type="radio" name="denied" id="deny" value="Y" /> {$lang->denied}</label>
+			</div>
+			<div class="x_control-group _moveTarget" hidden>
 				<h3>{$lang->about_send_message}</h3>
 				<textarea rows="5" cols="42" id="message" style="width:98%" name="message" title="{$lang->about_send_message}"></textarea>
 			</div>

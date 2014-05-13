@@ -520,6 +520,13 @@ class documentModel extends document
 		$oDocumentController->addDocumentPopupMenu($url,'cmd_print','','printDocument');
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
+		if($this->grant->manager)
+		{
+			$str_confirm = Context::getLang('confirm_move');
+			$url = sprintf("if(!confirm('%s')) return; var params = new Array(); params['document_srl']='%s'; params['mid']=current_mid;params['cur_url']=current_url; exec_xml('document', 'procDocumentAdminMoveToTrash', params)", $str_confirm, $document_srl);
+			$oDocumentController->addDocumentPopupMenu($url,'cmd_trash','','javascript');
+		}
+
 		// If you are managing to find posts by ip
 		if($logged_info->is_admin == 'Y')
 		{

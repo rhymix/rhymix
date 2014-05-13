@@ -31,7 +31,11 @@ function getXmlRpcResponse($params)
 // Encoding
 function _getEncodedVal($val, $is_sub_set = false)
 {
-	if(is_int($val))
+	if(preg_match('/^\<\!\[CDATA\[/',$val))
+	{
+		$buff = sprintf("<value>%s</value>", $val);
+	}
+	elseif(is_int($val))
 	{
 		$buff = sprintf("<value><i4>%d</i4></value>", $val);
 	}

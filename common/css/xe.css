@@ -45,6 +45,10 @@ a img {
 	}
 }
 
+.xe-widget-wrapper {
+	overflow: hidden;
+}
+
 /* Popup Menu Area */
 #popup_menu_area {
 	position: absolute;

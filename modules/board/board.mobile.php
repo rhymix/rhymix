@@ -24,11 +24,29 @@ class boardMobile extends boardView
 			$this->module_info->secret = 'Y';
 		}
 
-		//If category are exsist, set value 'use_category' to 'Y'
-		if(count($oDocumentModel->getCategoryList($this->module_info->module_srl)))
-			$this->module_info->use_category = 'Y';
+		// use_category <=1.5.x, hide_category >=1.7.x
+		$count_category = count($oDocumentModel->getCategoryList($this->module_info->module_srl));
+		if($count_category)
+		{
+			if($this->module_info->hide_category)
+			{
+				$this->module_info->use_category = ($this->module_info->hide_category == 'Y') ? 'N' : 'Y';
+			}
+			else if($this->module_info->use_category)
+			{
+				$this->module_info->hide_category = ($this->module_info->use_category == 'Y') ? 'N' : 'Y';
+			}
+			else
+			{
+				$this->module_info->hide_category = 'N';
+				$this->module_info->use_category = 'Y';
+			}
+		}
 		else
+		{
+			$this->module_info->hide_category = 'Y';
 			$this->module_info->use_category = 'N';
+		}
 
 		/**
 		 * check the consultation function, if the user is admin then swich off consultation function

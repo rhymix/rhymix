@@ -133,6 +133,7 @@ function doFillWidgetVars() {
 
 		switch(type) {
 			case "hidden" :
+			case "number" :
 			case "text" :
 			case "textarea" :
 					var val = selected_node.getAttribute(name);
