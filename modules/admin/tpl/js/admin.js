@@ -422,6 +422,15 @@ jQuery(function($){
 				var zIndex = xeModalInitailZIndex + ((xeModalStack.length - 1) * 2);
 
 				$xeModalBackdrop.css('z-index', zIndex).show();
+				var xeModalBackdropHeight = $xeModalBackdrop.height();
+				var modalBodyHeight = xeModalBackdropHeight;
+				modalBodyHeight -= $modal.find('.x_modal-header:visible').height();
+				modalBodyHeight -= $modal.find('.x_modal-footer:visible').height();
+				modalBodyHeight -= $modal.offset().top;
+				modalBodyHeight -= 120;
+
+				$modal.find('.x_modal-body').css('height', modalBodyHeight);
+
 				$modal.css('z-index', zIndex + 1);
 			})
 			.bind('close.mw', function(){
