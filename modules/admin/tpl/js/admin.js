@@ -426,8 +426,7 @@ jQuery(function($){
 				var modalBodyHeight = xeModalBackdropHeight;
 				modalBodyHeight -= $modal.find('.x_modal-header:visible').height();
 				modalBodyHeight -= $modal.find('.x_modal-footer:visible').height();
-				modalBodyHeight -= $modal.offset().top;
-				modalBodyHeight -= 120;
+				modalBodyHeight -= 150;
 
 				$modal.find('.x_modal-body').css('height', modalBodyHeight);
 
