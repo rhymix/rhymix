@@ -33,7 +33,7 @@
                 <!--@end-->
 
         <!--@else if($v=='nickname')-->
-            <a href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}">{$item->getNickName()}</a>
+            <a href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}">{$item->getNickName($widget_info->nickname_cut_size)}</a>
         <!--@else if($v=='regdate')-->
             <span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span>
         <!--@end-->

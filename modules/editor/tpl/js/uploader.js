@@ -422,7 +422,7 @@ function insertUploadedFile(editorSequence) {
 				temp_code = '';
 				temp_code += "<img src=\""+file.download_url+"\" alt=\""+file.source_filename+"\"";
 				if(obj.complete === true) { temp_code += " width=\""+obj.width+"\" height=\""+obj.height+"\""; }
-				temp_code += " />\r\n";
+				temp_code += " />\r\n<p><br /></p>\r\n";
 				text.push(temp_code);
 			} else {
 				// 이미지외의 경우는 multimedia_link 컴포넌트 연결
