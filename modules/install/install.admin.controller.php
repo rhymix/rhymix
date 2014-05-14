@@ -328,14 +328,13 @@ class installAdminController extends install
 	private function saveIconTmp($icon, $iconname)
 	{
 		$target_file = $icon['tmp_name'];
-		$type = $icon['type'];
 		$relative_filename = 'files/attach/xeicon/tmp/'.$iconname;
 		$target_filename = _XE_PATH_.$relative_filename;
 
 		list($width, $height, $type_no, $attrs) = @getimagesize($target_file);
 		if($iconname == 'favicon.ico')
 		{
-			if(!preg_match('/^.*\.ico$/i',$type)) {
+			if(!preg_match('/^.*\.ico$/i',$icon['name'])) {
 				Context::set('msg', '*.ico '.Context::getLang('msg_possible_only_file'));
 				return;
 			}
@@ -346,7 +345,7 @@ class installAdminController extends install
 		}
 		else if($iconname == 'mobicon.png')
 		{
-			if(!preg_match('/^.*\.png$/i',$type)) {
+			if(!preg_match('/^.*\.png$/i',$icon['name'])) {
 				Context::set('msg', '*.png '.Context::getLang('msg_possible_only_file'));
 				return;
 			}
