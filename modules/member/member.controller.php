@@ -314,6 +314,10 @@ class memberController extends member
 		unset($all_args->captchaType);
 		unset($all_args->secret_text);
 
+		// check musthave field
+		$checkmusthave = $this->checkMusthave($all_args, $config->signupForm);
+		if($checkmusthave) return $this->stop($checkmusthave);
+		
 		// Set the user state as "denied" when using mail authentication
 		if($config->enable_confirm == 'Y') $args->denied = 'Y';
 		// Add extra vars after excluding necessary information from all the requested arguments
@@ -412,6 +416,22 @@ class memberController extends member
 		$this->setRedirectUrl($returnUrl);
 	}
 
+	// check the value of musthave fields
+	function checkMusthave($args, $signupForm)
+	{
+		if(!$signupForm) return false;
+
+		foreach($signupForm as $formInfo)
+		{
+			if($formInfo->mustRequired))
+			{
+				$val = $args->{$formInfo->name};
+				if(!$val) return $formInfo->name;
+			}
+		}
+		return false;
+	}
+	
 	function procMemberModifyInfoBefore()
 	{
 		if($_SESSION['rechecked_password_step'] != 'INPUT_PASSWORD')
