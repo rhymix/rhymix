@@ -423,7 +423,7 @@ class memberController extends member
 
 		foreach($signupForm as $formInfo)
 		{
-			if($formInfo->mustRequired))
+			if($formInfo->mustRequired)
 			{
 				$val = $args->{$formInfo->name};
 				if(!$val) return $formInfo->name;
