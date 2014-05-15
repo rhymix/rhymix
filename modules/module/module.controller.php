@@ -187,7 +187,7 @@ class moduleController extends module
 		$oModuleModel = getModel('module');
 		$origin_config = $oModuleModel->getModulePartConfig($module, $module_srl);
 		
-		if(!$origin_config) $origin_config = new stdClass();
+		if(!$origin_config) $origin_config = new stdClass;
 		foreach($config as $key => $val)
 		{
 			$origin_config->{$key} = $val;
