@@ -358,6 +358,9 @@ body>.x,
 .x_modal-backdrop {
 	display: none;
 }
+.x_modal {
+	top: 30px;
+}
 .x_modal-backdrop {
 	opacity: .6;
 	filter: alpha(opacity=60);
@@ -410,7 +413,7 @@ body>.x,
 	min-width: 220px;
 }
 .x .x_form-horizontal .x_control-group {
-	margin-bottom: 10px;
+margin-bottom: 10px;
 }
 .x input[type="text"], 
 .x input[type="password"], 

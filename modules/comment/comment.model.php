@@ -385,6 +385,7 @@ class commentModel extends comment
 			$args->module_srl = $obj->module_srl;
 		}
 
+		$args->document_srl = $obj->document_srl;
 		$args->list_count = $obj->list_count;
 
 		if(strpos($args->module_srl, ",") === false)

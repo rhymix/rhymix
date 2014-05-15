@@ -475,7 +475,7 @@ class memberAdminController extends member
 				}
 				else if($formInfo->name == 'password')
 				{
-					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="6:20" /></field>';
+					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="4:20" /></field>';
 					$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
 				}
 				else if($formInfo->name == 'find_account_question')
@@ -831,7 +831,6 @@ class memberAdminController extends member
 						{
 							$args->denied = $var->denied;
 							$output = executeQuery('member.updateMemberDeniedInfo', $args);
-							$this->_clearMemberCache($args->member_srl);
 							if(!$output->toBool())
 							{
 								$oDB->rollback();
@@ -853,6 +852,7 @@ class memberAdminController extends member
 						$this->setMessage('success_deleted');
 					}
 			}
+			$oMemberController->_clearMemberCache($args->member_srl);
 		}
 
 		$message = $var->message;
