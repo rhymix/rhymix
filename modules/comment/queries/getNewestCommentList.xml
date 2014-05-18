@@ -8,6 +8,7 @@
     <conditions>
         <condition operation="equal" column="status" var="status" pipe="and" />
         <condition operation="in" column="module_srl" var="module_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="document_srl" var="document_srl" filter="number" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="list_order" order="asc" />
