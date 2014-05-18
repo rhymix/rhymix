@@ -160,6 +160,8 @@ class fileController extends file
 	{
 		$oFileModel = getModel('file');
 
+		if(isset($this->grant->access) && $this->grant->access !== true) return new Object(-1, 'msg_not_permitted');
+
 		$file_srl = Context::get('file_srl');
 		$sid = Context::get('sid');
 		$logged_info = Context::get('logged_info');

@@ -415,8 +415,17 @@ class memberView extends member
 		$config = $this->member_config;
 		Context::set('identifier', $config->identifier);
 
+		$XE_VALIDATOR_MESSAGE = Context::get('XE_VALIDATOR_MESSAGE');
+		$XE_VALIDATOR_ERROR = Context::get('XE_VALIDATOR_ERROR');
+		if($XE_VALIDATOR_ERROR == -11)
+			Context::set('XE_VALIDATOR_MESSAGE', $XE_VALIDATOR_MESSAGE . $config->limit_day_description);
+
+		if($XE_VALIDATOR_ERROR < -10 && $XE_VALIDATOR_ERROR > -21)
+			Context::set('referer_url', '/'); 
+		else
+			Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER'], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+
 		// Set a template file
-		Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER'], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 		$this->setTemplateFile('login_form');
 	}
 

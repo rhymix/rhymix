@@ -236,7 +236,46 @@ function executeQueryArray($query_id, $args = NULL, $arg_columns = NULL)
 function getNextSequence()
 {
 	$oDB = DB::getInstance();
-	return $oDB->getNextSequence();
+	$seq = $oDB->getNextSequence();
+	setUserSequence($seq);
+	return $seq;
+}
+
+/**
+ * Set Sequence number to session
+ *
+ * @param int $seq sequence number
+ * @return void
+ */
+function setUserSequence($seq)
+{
+	$arr_seq = array();
+	if(isset($_SESSION['seq']))
+	{
+		$arr_seq = $_SESSION['seq'];
+	}
+	$arr_seq[] = $seq;
+	$_SESSION['seq'] = $arr_seq;
+}
+
+/**
+ * Check Sequence number grant
+ *
+ * @param int $seq sequence number
+ * @return boolean
+ */
+function checkUserSequence($seq)
+{
+	if(!isset($_SESSION['seq']))
+	{
+		return false;
+	}
+	if(!in_array($seq, $_SESSION['seq']))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 /**

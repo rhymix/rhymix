@@ -335,8 +335,8 @@ class installAdminController extends install
 		list($width, $height, $type_no, $attrs) = @getimagesize($target_file);
 		if($iconname == 'favicon.ico')
 		{
-			if(!preg_match('/^.*(icon).*$/',$type)) {
-				Context::set('msg', '*.icon '.Context::getLang('msg_possible_only_file'));
+			if(!preg_match('/^.*\.ico$/i',$type)) {
+				Context::set('msg', '*.ico '.Context::getLang('msg_possible_only_file'));
 				return;
 			}
 			if($width && $height && ($width != '16' || $height != '16')) {
@@ -346,7 +346,7 @@ class installAdminController extends install
 		}
 		else if($iconname == 'mobicon.png')
 		{
-			if(!preg_match('/^.*(png).*$/',$type)) {
+			if(!preg_match('/^.*\.png$/i',$type)) {
 				Context::set('msg', '*.png '.Context::getLang('msg_possible_only_file'));
 				return;
 			}

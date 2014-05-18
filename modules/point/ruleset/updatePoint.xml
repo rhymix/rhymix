@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ruleset version="1.5.0">
     <customrules>
-		<rule name="number_with_plus_minus" type="regex" test="/^(\+|-)?[1-9][0-9]*$/"  />
+		<rule name="number_with_plus_minus" type="regex" test="/^(\+|-)?[0-9][0-9]*$/"  />
     </customrules>
     <fields>
 		<field name="member_srl" required="true" rule="number" />

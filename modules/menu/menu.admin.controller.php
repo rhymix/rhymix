@@ -1877,11 +1877,9 @@ class menuAdminController extends menu
 			$url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url))
 			{
-				$href = getSiteUrl($domain, '','mid',$node->url);
-				$pos = strpos($href, $_SERVER['HTTP_HOST']);
-				if($pos !== false) $href = substr($href, $pos+strlen($_SERVER['HTTP_HOST']));
+				$href = "getSiteUrl('$domain', '','mid','$node->url')";
 			}
-			else $href = $url;
+			else $href = sprintf('"%s"', $url);
 			$is_shortcut = $node->is_shortcut;
 			$open_window = $node->open_window;
 			$expand = $node->expand;
@@ -1912,7 +1910,7 @@ class menuAdminController extends menu
 			if($group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged&&%s))',$group_srls,$group_srls == -1?1:0);
 			else $group_check_code = "true";
 			$attribute = sprintf(
-				'node_srl="%s" parent_srl="%s" menu_name_key=\'%s\' text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" is_shortcut="%s" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?php }?>"',
+				'node_srl="%s" parent_srl="%s" menu_name_key=\'%s\' text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?%s:"")?>" is_shortcut="%s" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?php }?>"',
 				$menu_item_srl,
 				$node->parent_srl,
 				addslashes($node->name),
@@ -1980,11 +1978,9 @@ class menuAdminController extends menu
 			$url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url))
 			{
-				$href = getSiteUrl($domain, '','mid',$node->url);
-				$pos = strpos($href, $_SERVER['HTTP_HOST']);
-				if($pos !== false) $href = substr($href, $pos+strlen($_SERVER['HTTP_HOST']));
+				$href = "getSiteUrl('$domain', '','mid','$node->url')";
 			}
-			else $href = $url;
+			else $href = sprintf('"%s"', $url);
 			$is_shortcut = $node->is_shortcut;
 			$open_window = $node->open_window;
 			$normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn);
@@ -2029,7 +2025,7 @@ class menuAdminController extends menu
 			}
 			// Create properties (check if it belongs to the menu node by url_list. It looks a trick but fast and powerful)
 			$attribute = sprintf(
-				'"node_srl"=>"%s","parent_srl"=>"%s","menu_name_key"=>\'%s\',"isShow"=>(%s?true:false),"text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"is_shortcut"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s? ( array(%s)&&in_array(Context::get("mid"),array(%s)) ?%s:%s):""),',
+				'"node_srl"=>"%s","parent_srl"=>"%s","menu_name_key"=>\'%s\',"isShow"=>(%s?true:false),"text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?%s:""),"url"=>(%s?"%s":""),"is_shortcut"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s? ( array(%s)&&in_array(Context::get("mid"),array(%s)) ?%s:%s):""),',
 				$node->menu_item_srl,
 				$node->parent_srl,
 				addslashes($node->name),

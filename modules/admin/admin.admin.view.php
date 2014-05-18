@@ -348,11 +348,26 @@ class adminAdminView extends admin
 			}
 		}
 
+		$site_module_info = Context::get('site_module_info');
+		$oAddonAdminModel = getAdminModel('addon');
+		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter', $site_module_info->site_srl );
+		if(!$counterAddonActivated)
+		{
+			$columnList = array('member_srl', 'nick_name', 'user_name', 'user_id', 'email_address');
+			$args = new stdClass;
+			$args->page = 1;
+			$args->list_count = 5;
+			$output = executeQuery('member.getMemberList', $args, $columnList);
+			Context::set('latestMemberList', $output->data);
+			unset($args, $output, $columnList);
+		}
+
 		Context::set('module_list', $module_list);
 		Context::set('needUpdate', $isUpdated);
 		Context::set('addTables', $addTables);
 		Context::set('needUpdate', $needUpdate);
 		Context::set('newVersionList', $needUpdateList);
+		Context::set('counterAddonActivated', $counterAddonActivated);
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('module_list..', 'module_list..author..', 'newVersionList..');
