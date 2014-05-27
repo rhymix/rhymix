@@ -24,8 +24,8 @@
         var align = (node.style.cssFloat) ? node.style.cssFloat : node.style.styleFloat;
         var margin = (node.style.margin) ? node.style.margin.match('[0-9]+') : node.getAttribute('margin');
         var alt = node.getAttribute('alt');
-        var width = $(node).width();
-        var height = $(node).height();
+		var width = node.getAttribute('width');
+		var height = node.getAttribute('height');
         var link_url = node.getAttribute('link_url');
         var open_window = node.getAttribute('open_window');
 

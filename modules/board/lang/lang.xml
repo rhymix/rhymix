@@ -236,13 +236,13 @@
 	</item>
 	<item name="about_use_anonymous">
 		<value xml:lang="ko"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓴이 정보등을 보이지 않도록 하시면 더욱 유용합니다. 추가설정의 문서 히스토리 사용이 꺼져있지 않으면 문서 수정시 작성자가 표시될 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Make this board into an anonymous board by hiding the author's information. <strong>Please turn off history at additional setup. If not, editing document might show the author's info.</strong>]]></value>
+		<value xml:lang="en"><![CDATA[Make this board into an anonymous board by hiding the author's information. It is more useful if you make the author's information hidden at skin setup. <strong>Please turn off history at additional setup. If not, editing document might show the author's info.</strong>]]></value>
 		<value xml:lang="jp"><![CDATA[匿名掲示板として活用できます。スキン設定で「登録者の情報を表示しない」の設定をおすすめします。追加設定でのドキュメントヒストリー使用機能がオフにされていない場合、書き込みを修正した際に作成者が表示されます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
+		<value xml:lang="zh-CN"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓴이 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
 		<value xml:lang="zh-TW"><![CDATA[討論板可使用匿名功能。可在面板設定中設置隱藏作者的資料。 ]]></value>
-		<value xml:lang="fr"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
-		<value xml:lang="ru"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
-		<value xml:lang="es"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
+		<value xml:lang="fr"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓴이 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
+		<value xml:lang="ru"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓴이 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
+		<value xml:lang="es"><![CDATA[글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓴이 정보등을 보이지 않도록 하시면 더욱 유용합니다]]></value>
 		<value xml:lang="tr"><![CDATA[Bu panoyu, yazar bilgisini saklayarak anonim pano haline dönüştür. <strong>Lütfen ek ayarlardan geçmiş'i kapatınız. Eğer kapatmazsanız, belgeyi değiştirmek yazar bilgisinin görüntülenmesine neden olacaktır.</strong>]]></value>
 		<value xml:lang="vi"><![CDATA[Tạo Board ẩn danh sẽ ẩn những thông tin của người sử dụng.]]></value>
 	</item>
@@ -271,7 +271,7 @@
 		<value xml:lang="vi"><![CDATA[Người không phải là Admin, thành viên họ cũng có thể xem được bài viết. Không phải là thành viên thì không thể gửi bài hay bình luận.]]></value>
 	</item>
 	<item name="about_secret">
-		<value xml:lang="ko"><![CDATA[게시판 및 댓글의 비밀글 사용할 수 있도록 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[게시판 및 댓글의 비밀글 기능을 사용할 수 있도록 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Users will be able to write secret articles or comments.]]></value>
 		<value xml:lang="jp"><![CDATA[掲示板およびコメントの非公開機能が使用できるようになります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[设置主题及评论当中使用密帖与否。]]></value>
@@ -282,7 +282,7 @@
 	</item>
 	<item name="about_admin_mail">
 		<value xml:lang="ko"><![CDATA[글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다. 콤마(,)로 연결시 다수의 메일주소로 발송할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[A mail will be sent when an article or comment is submitted. Multiple mails can be sent with commas(,).]]></value>
+		<value xml:lang="en"><![CDATA[A mail will be sent when an article or comment is submitted. Mails can be sent to mutiple mail addresses if connecting addresses with commas(,).]]></value>
 		<value xml:lang="jp"><![CDATA[書き込みやコメントが登録される時、登録メールアドレス宛にメールが送信されます。  複数のメールアドレスへ送信する場合は「,」(半額コンマ)区切りで登録してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[有新的主题或评论时，将自动发电子邮件来通知管理员。 多数电子邮件由逗号(,)来分隔。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[有新的主題或評論時，將自動發電子郵件來通知管理員。 多數電子郵件由逗號(,)區隔。]]></value>
@@ -293,7 +293,7 @@
 		<value xml:lang="vi"><![CDATA[Một Email sẽ được gửi khi có bài viết hay bình luận mới. Có thể gửi cho nhiều Email cách nhau bằng dấu (,).]]></value>
 	</item>
 	<item name="about_list_config">
-		<value xml:lang="ko"><![CDATA[게시판의 목록형식 사용시 원하는 항목들로 배치를 할 수 있습니다. 단 스킨에서 지원하지 않는 경우 불가능합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[게시판의 목록형식 사용시 원하는 항목들로 배치를 할 수 있습니다. 단 스킨에서 지원하지 않는 경우 불가능합니다. 대상항목/ 표시항목의 항목을 더블클릭하면 추가/ 제거가 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[If using list-style skin, you may arrange items to display. However, this feature might not be availble for non-official skins. If you double-click target items and display items, then you can add / remove them]]></value>
 		<value xml:lang="jp"><![CDATA[掲示板スタイルが「リスト型」の場合、好きな項目の配置・表示ができます。 ただし、スキンによってはサポートしない場合もあります。 ターゲットアイテム／表示アイテムをダブルクリックすると追加・削除ができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[设置使用目录型目录页面时要显示的项目。 前提是使用的皮肤也支持此功能。 添加/删除项目，双击备选项/显示项即可。]]></value>
@@ -306,7 +306,7 @@
 	</item>
 	<item name="about_use_status">
 		<value xml:lang="ko"><![CDATA[글 작성 시 선택할 수 있는 상태를 지정해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please select status that can be selected when write article.]]></value>
+		<value xml:lang="en"><![CDATA[Please select status that can be selected when you write article.]]></value>
 		<value xml:lang="jp"><![CDATA[書き込みを登録する際に選択できる状態を指定してください。]]></value>
 	</item>
 	<item name="msg_not_enough_point">
@@ -327,7 +327,7 @@
 	</item>
 	<item name="msg_not_allow_comment">
 		<value xml:lang="ko"><![CDATA[해당 글의 댓글 쓰기가 잠겨있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[This article does not allow write comment.]]></value>
+		<value xml:lang="en"><![CDATA[This article is not allowed to write comment.]]></value>
 		<value xml:lang="jp"><![CDATA[この書き込みにコメントすることは禁じられています。]]></value>
 	</item>
 	<item name="no_board_instance">
@@ -367,12 +367,12 @@
 	</item>
 	<item name="about_protect_content">
 		<value xml:lang="ko"><![CDATA[작성된 글에 댓글이 작성된 경우 글 작성자는 해당 글을 수정하거나 삭제 할 수 없습니다.]]> </value>
-		<value xml:lang="en"><![CDATA[If there is comment on document, document's owner cannot modify or delete that.]]></value>
+		<value xml:lang="en"><![CDATA[If there is any comment on document, document's owner cannot modify or delete that.]]></value>
 		<value xml:lang="jp"><![CDATA[書き込みにコメントが登録された場合、書き込みの作成者は書き込みの修正、または削除ができません。]]> </value>
 	</item>
 	<item name="msg_protect_content">
 		<value xml:lang="ko"><![CDATA[댓글이 작성된 게시물의 글을 수정 또는 삭제 할 수 없습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Cannot modify or delete document. Because there is comments.]]></value>
+		<value xml:lang="en"><![CDATA[You cannot modify or delete document which has any comment on it.]]></value>
 		<value xml:lang="jp"><![CDATA[コメントが登録された書き込みは修正、または削除が禁止されています。]]></value>
 	</item>
 </lang>

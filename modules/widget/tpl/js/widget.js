@@ -664,16 +664,20 @@ function doShowWidgetSizeSetup(px, py, obj) {
 
 	jQuery.each(opts, function(key, val){
 		var el = form[0].elements[key];
-		if (el)
-		{
-			el.value = val;
-			if(el.className.match(/\bcolor-indicator\b/))
-			{
-				el.style.background = el.value = '#'+el.value;
+		var $el = jQuery(el);
+		if(el) {
+			$el.val(val);
+
+			if($el.hasClass('color-indicator')) {
+				if(val != 'transparent') {
+					val = val.toUpperCase();
+					$el.css('background', '#' + val);
+					$el.val('#' + val);
+				}
 			}
 		}
-		if (el.tagName.toLowerCase() == "select")
-		{
+
+		if(el.tagName.toLowerCase() == "select") {
 			if(el.selectedIndex == -1) {
 				el.selectedIndex = 0;
 			}

@@ -30,6 +30,13 @@ if($_REQUEST['act'] != 'api')
 // Read func file
 require_once(_XE_PATH_ . 'addons/blogapi/blogapi.func.php');
 
+// If HTTP_RAW_POST_DATA is NULL, Print error message
+if(!$GLOBALS['HTTP_RAW_POST_DATA'])
+{
+	$content = getXmlRpcFailure(1, 'Invalid Method Call');
+	printContent($content);
+}
+
 // xmlprc parsing
 // Parse the requested xmlrpc
 $xml = new SimpleXMLElement($GLOBALS['HTTP_RAW_POST_DATA']);
@@ -487,7 +494,7 @@ if($called_position == 'before_module_proc')
 					$post = new stdClass();
 					$post->categories = array();
 					$post->dateCreated = date("Ymd", $oDocument->getRegdateTime()) . 'T' . date("H:i:s", $oDocument->getRegdateTime());
-					$post->description = htmlspecialchars($oEditorController->transComponent($oDocument->getContent(false, false, true, false)), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$post->description = sprintf('<![CDATA[%s]]>',$oEditorController->transComponent($oDocument->getContent(false, false, true, false)));
 					$post->link = $post->permaLink = getFullUrl('', 'document_srl', $oDocument->document_srl);
 					$post->postid = $oDocument->document_srl;
 					$post->title = htmlspecialchars($oDocument->get('title'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);

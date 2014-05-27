@@ -335,8 +335,8 @@ class installAdminController extends install
 		list($width, $height, $type_no, $attrs) = @getimagesize($target_file);
 		if($iconname == 'favicon.ico')
 		{
-			if(!preg_match('/^.*(icon).*$/',$type)) {
-				Context::set('msg', '*.icon '.Context::getLang('msg_possible_only_file'));
+			if(!preg_match('/^.*\.icon$/i',$type)) {
+				Context::set('msg', '*.ico '.Context::getLang('msg_possible_only_file'));
 				return;
 			}
 			if($width && $height && ($width != '16' || $height != '16')) {
