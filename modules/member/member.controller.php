@@ -1247,7 +1247,7 @@ class memberController extends member
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$memberInfo->member_srl, 'auth_key',$auth_info->auth_key);
+		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_info->auth_key);
 		Context::set('auth_url', $auth_url);
 
 		$oTemplate = &TemplateHandler::getInstance();
