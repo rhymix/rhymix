@@ -60,22 +60,6 @@ class boardController extends board
 		// check if the document is existed
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
 
-		// if use anonymous is true
-		if($this->module_info->use_anonymous == 'Y')
-		{
-			$this->module_info->admin_mail = '';
-			$obj->notify_message = 'N';
-			$obj->member_srl = -1*$logged_info->member_srl;
-			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = 'anonymous';
-			$bAnonymous = true;
-			$oDocument->add('member_srl', $obj->member_srl);
-		}
-		else
-		{
-			$bAnonymous = false;
-		}
-
 		if((!$obj->status && $obj->is_secret == 'Y') || strtoupper($obj->status == 'SECRET'))
 		{
 			$use_status = explode('|@|', $this->module_info->use_status);
@@ -113,11 +97,42 @@ class boardController extends board
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
 
+			// if use anonymous is true
+			if($this->module_info->use_anonymous == 'Y')
+			{
+				$this->module_info->admin_mail = '';
+				$obj->notify_message = 'N';
+				$obj->email_address = $obj->homepage = $obj->user_id = '';
+				$obj->user_name = $obj->nick_name = 'anonymous';
+				$bAnonymous = true;
+				$oDocument->add('member_srl', $obj->member_srl);
+			}
+			else
+			{
+				$bAnonymous = false;
+			}
+
+
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
 
 		// insert a new document otherwise
 		} else {
+			// if use anonymous is true
+			if($this->module_info->use_anonymous == 'Y')
+			{
+				$this->module_info->admin_mail = '';
+				$obj->notify_message = 'N';
+				$obj->member_srl = -1*$logged_info->member_srl;
+				$obj->email_address = $obj->homepage = $obj->user_id = '';
+				$obj->user_name = $obj->nick_name = 'anonymous';
+				$bAnonymous = true;
+				$oDocument->add('member_srl', $obj->member_srl);
+			}
+			else
+			{
+				$bAnonymous = false;
+			}
 			$output = $oDocumentController->insertDocument($obj, $bAnonymous);
 			$msg_code = 'success_registed';
 			$obj->document_srl = $output->get('document_srl');
