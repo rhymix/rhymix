@@ -817,249 +817,190 @@ class moduleModel extends module
 		$xml_file = sprintf("%sconf/module.xml", $class_path);
 		if(!file_exists($xml_file)) return;
 
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport() && date('U', filemtime($xml_file)) < $_SERVER['REQUEST_TIME'] )
-		{
-			$object_key = 'module:' . $module . '_' . Context::getLangType() . '_' . __XE_VERSION__;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$info = $oCacheHandler->get($cache_key);
-		}
+		// Check if cached file exists
+		$cache_file = sprintf(_XE_PATH_ . "files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
 
-		if($info)
+		// Update if no cache file exists or it is older than xml file
+		if(!file_exists($cache_file) || filemtime($cache_file) < filemtime($xml_file) || $re_cache)
 		{
+			$info = new stdClass();
+			$buff = array(); // /< Set buff variable to use in the cache file
+			$buff[] = '<?php if(!defined("__XE__")) exit();';
+			$buff[] = '$info = new stdClass;';
+			$buff['default_index_act'] = '$info->default_index_act = \'%s\';';
+			$buff['setup_index_act'] = '$info->setup_index_act=\'%s\';';
+			$buff['simple_setup_index_act'] = '$info->simple_setup_index_act=\'%s\';';
+			$buff['admin_index_act'] = '$info->admin_index_act = \'%s\';';
+
+			$xml_obj = XmlParser::loadXmlFile($xml_file); // /< Read xml file and convert it to xml object
+
+			if(!count($xml_obj->module)) return; // /< Error occurs if module tag doesn't included in the xml
+
+			$grants = $xml_obj->module->grants->grant; // /< Permission information
+			$permissions = $xml_obj->module->permissions->permission; // /<  Acting permission
+			$menus = $xml_obj->module->menus->menu;
+			$actions = $xml_obj->module->actions->action; // /< Action list (required)
+
+			$default_index = $admin_index = '';
+
+			// Arrange permission information
+			if($grants)
+			{
+				if(is_array($grants)) $grant_list = $grants;
+				else $grant_list[] = $grants;
+
+				$info->grant = new stdClass();
+				$buff[] = '$info->grant = new stdClass;';
+				foreach($grant_list as $grant)
+				{
+					$name = $grant->attrs->name;
+					$default = $grant->attrs->default?$grant->attrs->default:'guest';
+					$title = $grant->title->body;
+
+					$info->grant->{$name} = new stdClass();
+					$info->grant->{$name}->title = $title;
+					$info->grant->{$name}->default = $default;
+
+					$buff[] = sprintf('$info->grant->%s = new stdClass;', $name);
+					$buff[] = sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
+					$buff[] = sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
+				}
+			}
+			// Permissions to grant
+			if($permissions)
+			{
+				if(is_array($permissions)) $permission_list = $permissions;
+				else $permission_list[] = $permissions;
+
+				$buff[] = '$info->permission = new stdClass;';
+
+				$info->permission = new stdClass();
+				foreach($permission_list as $permission)
+				{
+					$action = $permission->attrs->action;
+					$target = $permission->attrs->target;
+
+					$info->permission->{$action} = $target;
+
+					$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
+				}
+			}
+			// for admin menus
+			if($menus)
+			{
+				if(is_array($menus)) $menu_list = $menus;
+				else $menu_list[] = $menus;
+
+				$buff[] = '$info->menu = new stdClass;';
+				$info->menu = new stdClass();
+				foreach($menu_list as $menu)
+				{
+					$menu_name = $menu->attrs->name;
+					$menu_title = is_array($menu->title) ? $menu->title[0]->body : $menu->title->body;
+					$menu_type = $menu->attrs->type;
+
+					$info->menu->{$menu_name} = new stdClass();
+					$info->menu->{$menu_name}->title = $menu_title;
+					$info->menu->{$menu_name}->acts = array();
+					$info->menu->{$menu_name}->type = $menu_type;
+
+					$buff[] = sprintf('$info->menu->%s = new stdClass;', $menu_name);
+					$buff[] = sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
+					$buff[] = sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
+				}
+			}
+
+			// actions
+			if($actions)
+			{
+				if(is_array($actions)) $action_list = $actions;
+				else $action_list[] = $actions;
+
+				$buff[] = '$info->action = new stdClass;';
+				$info->action = new stdClass();
+				foreach($action_list as $action)
+				{
+					$name = $action->attrs->name;
+
+					$type = $action->attrs->type;
+					$grant = $action->attrs->grant?$action->attrs->grant:'guest';
+					$standalone = $action->attrs->standalone=='false'?'false':'true';
+					$ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
+					$method = $action->attrs->method?$action->attrs->method:'';
+
+					$index = $action->attrs->index;
+					$admin_index = $action->attrs->admin_index;
+					$setup_index = $action->attrs->setup_index;
+					$simple_setup_index = $action->attrs->simple_setup_index;
+					$menu_index = $action->attrs->menu_index;
+
+					$info->action->{$name} = new stdClass();
+					$info->action->{$name}->type = $type;
+					$info->action->{$name}->grant = $grant;
+					$info->action->{$name}->standalone = ($standalone == 'true') ? TRUE : FALSE;
+					$info->action->{$name}->ruleset = $ruleset;
+					$info->action->{$name}->method = $method;
+					if($action->attrs->menu_name)
+					{
+						if($menu_index == 'true')
+						{
+							$info->menu->{$action->attrs->menu_name}->index = $name;
+							$buff[] = sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
+						}
+						if(is_array($info->menu->{$action->attrs->menu_name}->acts))
+						{
+							$info->menu->{$action->attrs->menu_name}->acts[] = $name;
+							$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
+						}
+
+						$buff[] = sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
+						$i++;
+					}
+
+					$buff[] = sprintf('$info->action->%s = new stdClass;', $name);
+					$buff[] = sprintf('$info->action->%s->type=\'%s\';', $name, $type);
+					$buff[] = sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
+					$buff[] = sprintf('$info->action->%s->standalone=\'%s\';', $name, $standalone);
+					$buff[] = sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
+					$buff[] = sprintf('$info->action->%s->method=\'%s\';', $name, $method);
+
+					if($index=='true')
+					{
+						$default_index_act = $name;
+						$info->default_index_act = $name;
+					}
+					if($admin_index=='true')
+					{
+						$admin_index_act = $name;
+						$info->admin_index_act = $name;
+					}
+					if($setup_index=='true')
+					{
+						$setup_index_act = $name;
+						$info->setup_index_act = $name;
+					}
+					if($simple_setup_index=='true')
+					{
+						$simple_setup_index_act = $name;
+						$info->simple_setup_index_act = $name;
+					}
+				}
+			}
+			$buff['default_index_act'] = sprintf($buff['default_index_act'], $default_index_act);
+			$buff['setup_index_act'] = sprintf($buff['setup_index_act'], $setup_index_act);
+			$buff['simple_setup_index_act'] = sprintf($buff['simple_setup_index_act'], $simple_setup_index_act);
+			$buff['admin_index_act'] = sprintf($buff['admin_index_act'], $admin_index_act);
+
+			$buff[] = 'return $info;';
+
+			$buff = implode(PHP_EOL, $buff);
+
+			FileHandler::writeFile($cache_file, $buff);
+
 			return $info;
 		}
-		else
-		{
-			// Check if cached file exists
-			$cache_file = sprintf(_XE_PATH_ . "files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
 
-			// Update if no cache file exists or it is older than xml file
-			if($oCacheHandler->isSupport() || (!file_exists($cache_file) || filemtime($cache_file) < filemtime($xml_file) || $re_cache))
-			{
-				$info = new stdClass();
-				if(!$oCacheHandler->isSupport())
-				{
-					$buff = array(); // /< Set buff variable to use in the cache file
-					$buff[] = '<?php if(!defined("__XE__")) exit();';
-					$buff[] = '$info = new stdClass;';
-					$buff['default_index_act'] = '$info->default_index_act = \'%s\';';
-					$buff['setup_index_act'] = '$info->setup_index_act=\'%s\';';
-					$buff['simple_setup_index_act'] = '$info->simple_setup_index_act=\'%s\';';
-					$buff['admin_index_act'] = '$info->admin_index_act = \'%s\';';
-				}
-
-				$xml_obj = XmlParser::loadXmlFile($xml_file); // /< Read xml file and convert it to xml object
-
-				if(!count($xml_obj->module)) return; // /< Error occurs if module tag doesn't included in the xml
-
-				$grants = $xml_obj->module->grants->grant; // /< Permission information
-				$permissions = $xml_obj->module->permissions->permission; // /<  Acting permission
-				$menus = $xml_obj->module->menus->menu;
-				$actions = $xml_obj->module->actions->action; // /< Action list (required)
-
-				$default_index = $admin_index = '';
-
-				// Arrange permission information
-				if($grants)
-				{
-					if(is_array($grants)) $grant_list = $grants;
-					else $grant_list[] = $grants;
-
-					$info->grant = new stdClass();
-					if(!$oCacheHandler->isSupport())
-					{
-						$buff[] = '$info->grant = new stdClass;';
-					}
-					foreach($grant_list as $grant)
-					{
-						$name = $grant->attrs->name;
-						$default = $grant->attrs->default?$grant->attrs->default:'guest';
-						$title = $grant->title->body;
-
-						$info->grant->{$name} = new stdClass();
-						$info->grant->{$name}->title = $title;
-						$info->grant->{$name}->default = $default;
-
-						if(!$oCacheHandler->isSupport())
-						{
-							$buff[] = sprintf('$info->grant->%s = new stdClass;', $name);
-							$buff[] = sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
-							$buff[] = sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
-						}
-					}
-				}
-				// Permissions to grant
-				if($permissions)
-				{
-					if(is_array($permissions)) $permission_list = $permissions;
-					else $permission_list[] = $permissions;
-
-					$buff[] = '$info->permission = new stdClass;';
-
-					$info->permission = new stdClass();
-					foreach($permission_list as $permission)
-					{
-						$action = $permission->attrs->action;
-						$target = $permission->attrs->target;
-
-						$info->permission->{$action} = $target;
-
-						if(!$oCacheHandler->isSupport())
-						{
-							$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
-						}
-					}
-				}
-				// for admin menus
-				if($menus)
-				{
-					if(is_array($menus)) $menu_list = $menus;
-					else $menu_list[] = $menus;
-
-					if(!$oCacheHandler->isSupport())
-					{
-						$buff[] = '$info->menu = new stdClass;';
-					}
-					$info->menu = new stdClass();
-					foreach($menu_list as $menu)
-					{
-						$menu_name = $menu->attrs->name;
-						$menu_title = is_array($menu->title) ? $menu->title[0]->body : $menu->title->body;
-						$menu_type = $menu->attrs->type;
-
-						$info->menu->{$menu_name} = new stdClass();
-						$info->menu->{$menu_name}->title = $menu_title;
-						$info->menu->{$menu_name}->acts = array();
-						$info->menu->{$menu_name}->type = $menu_type;
-
-						if(!$oCacheHandler->isSupport())
-						{
-							$buff[] = sprintf('$info->menu->%s = new stdClass;', $menu_name);
-							$buff[] = sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
-							$buff[] = sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
-						}
-					}
-				}
-
-				// actions
-				if($actions)
-				{
-					if(is_array($actions)) $action_list = $actions;
-					else $action_list[] = $actions;
-
-					if(!$oCacheHandler->isSupport())
-					{
-						$buff[] = '$info->action = new stdClass;';
-					}
-					$info->action = new stdClass();
-					foreach($action_list as $action)
-					{
-						$name = $action->attrs->name;
-
-						$type = $action->attrs->type;
-						$grant = $action->attrs->grant?$action->attrs->grant:'guest';
-						$standalone = $action->attrs->standalone=='false'?'false':'true';
-						$ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
-						$method = $action->attrs->method?$action->attrs->method:'';
-
-						$index = $action->attrs->index;
-						$admin_index = $action->attrs->admin_index;
-						$setup_index = $action->attrs->setup_index;
-						$simple_setup_index = $action->attrs->simple_setup_index;
-						$menu_index = $action->attrs->menu_index;
-
-						$info->action->{$name} = new stdClass();
-						$info->action->{$name}->type = $type;
-						$info->action->{$name}->grant = $grant;
-						$info->action->{$name}->standalone = ($standalone == 'true') ? TRUE : FALSE;
-						$info->action->{$name}->ruleset = $ruleset;
-						$info->action->{$name}->method = $method;
-						if($action->attrs->menu_name)
-						{
-							if($menu_index == 'true')
-							{
-								$info->menu->{$action->attrs->menu_name}->index = $name;
-								if(!$oCacheHandler->isSupport())
-								{
-									$buff[] = sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
-								}
-							}
-							if(is_array($info->menu->{$action->attrs->menu_name}->acts))
-							{
-								$info->menu->{$action->attrs->menu_name}->acts[] = $name;
-								$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
-							}
-
-							if(!$oCacheHandler->isSupport())
-							{
-								$buff[] = sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
-							}
-							$i++;
-						}
-
-						if(!$oCacheHandler->isSupport())
-						{
-							$buff[] = sprintf('$info->action->%s = new stdClass;', $name);
-							$buff[] = sprintf('$info->action->%s->type=\'%s\';', $name, $type);
-							$buff[] = sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
-							$buff[] = sprintf('$info->action->%s->standalone=\'%s\';', $name, $standalone);
-							$buff[] = sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
-							$buff[] = sprintf('$info->action->%s->method=\'%s\';', $name, $method);
-						}
-
-						if($index=='true')
-						{
-							$default_index_act = $name;
-							$info->default_index_act = $name;
-						}
-						if($admin_index=='true')
-						{
-							$admin_index_act = $name;
-							$info->admin_index_act = $name;
-						}
-						if($setup_index=='true')
-						{
-							$setup_index_act = $name;
-							$info->setup_index_act = $name;
-						}
-						if($simple_setup_index=='true')
-						{
-							$simple_setup_index_act = $name;
-							$info->simple_setup_index_act = $name;
-						}
-					}
-				}
-				if(!$oCacheHandler->isSupport())
-				{
-					$buff['default_index_act'] = sprintf($buff['default_index_act'], $default_index_act);
-					$buff['setup_index_act'] = sprintf($buff['setup_index_act'], $setup_index_act);
-					$buff['simple_setup_index_act'] = sprintf($buff['simple_setup_index_act'], $simple_setup_index_act);
-					$buff['admin_index_act'] = sprintf($buff['admin_index_act'], $admin_index_act);
-
-					$buff[] = 'return $info;';
-				}
-
-				if($oCacheHandler->isSupport())
-				{
-					$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-					$oCacheHandler->put($cache_key, $info);
-				}
-				else
-				{
-					$buff = implode(PHP_EOL, $buff);
-
-					FileHandler::writeFile($cache_file, $buff);
-				}
-
-				return $info;
-			}
-
-			if(!$oCacheHandler->isSupport() && file_exists($cache_file))
-			{
-				return include($cache_file);
-			}
-		}
+		if(file_exists($cache_file)) return include($cache_file);
 	}
 
 	/**
