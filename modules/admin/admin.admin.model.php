@@ -95,6 +95,81 @@ class adminAdminModel extends admin
 		}
 	}
 
+	function getFTPPath()
+	{
+		$ftp_info = Context::getRequestVars();
+
+		if(!$ftp_info->ftp_host)
+		{
+			$ftp_info->ftp_host = "127.0.0.1";
+		}
+
+		if(!$ftp_info->ftp_port || !is_numeric($ftp_info->ftp_port))
+		{
+			$ftp_info->ftp_port = '22';
+		}
+
+		$connection = ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
+		if(!$connection)
+		{
+			return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_host));
+		}
+
+		$login_result = @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password);
+		if(!$login_result)
+		{
+			ftp_close($connection);
+			return new Object(-1, 'msg_ftp_invalid_auth_info');
+		}
+
+		// create temp file
+		$pin = $_SERVER['REQUEST_TIME'];
+		FileHandler::writeFile('./files/cache/ftp_check', $pin);
+
+		// create path candidate
+		$xe_path = _XE_PATH_;
+		$path_info = array_reverse(explode('/', _XE_PATH_));
+		array_pop($path_info); // remove last '/'
+		$path_candidate = array();
+
+		$temp = '';
+		foreach($path_info as $path)
+		{
+			$temp = '/' . $path . $temp;
+			$path_candidate[] = $temp;
+		}
+
+		// try
+		foreach($path_candidate as $path)
+		{
+			// upload check file
+			if(!ftp_put($connection, $path . 'ftp_check.html', FileHandler::getRealPath('./files/cache/ftp_check'), FTP_BINARY))
+			{
+				continue;
+			}
+
+			// get check file
+			$result = FileHandler::getRemoteResource(getNotencodedFullUrl() . 'ftp_check.html');
+
+			// delete temp check file
+			ftp_delete($connection, $path . 'ftp_check.html');
+
+			// found
+			if($result == $pin)
+			{
+				$found_path = $path;
+				break;
+			}
+		}
+
+		FileHandler::removeFile('./files/cache/ftp_check', $pin);
+
+		if($found_path)
+		{
+			$this->add('found_path', $found_path);
+		}
+	}
+
 	/**
 	 * Find XE installed path on ftp
 	 */
@@ -128,6 +203,15 @@ class adminAdminModel extends admin
 				return new Object(-1, 'disable_sftp_support');
 			}
 			return $this->getSFTPPath();
+		}
+
+		if($ftp_info->ftp_pasv == 'N')
+		{
+			if(function_exists('ftp_connect'))
+			{
+				return $this->getFTPPath();
+			}
+			$ftp_info->ftp_pasv = "Y";
 		}
 
 		$oFTP = new ftp();

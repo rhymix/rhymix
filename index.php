@@ -45,7 +45,7 @@ require dirname(__FILE__) . '/config/config.inc.php';
  * @brief Initialize by creating Context object
  * Set all Request Argument/Environment variables
  **/
-$oContext = &Context::getInstance();
+$oContext = Context::getInstance();
 $oContext->init();
 
 /**
@@ -59,8 +59,7 @@ if($oContext->checkSSO())
 	{
 		if($oModuleHandler->init())
 		{
-			$oModule = &$oModuleHandler->procModule();
-			$oModuleHandler->displayContent($oModule);
+			$oModuleHandler->displayContent($oModuleHandler->procModule());
 		}
 	}
 	catch(Exception $e)

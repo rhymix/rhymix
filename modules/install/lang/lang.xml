@@ -405,7 +405,7 @@
 			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb]]></value>
 		</item>
 		<item name="cubrid">
-			<value xml:lang="ko"><![CDATA[CUBRID DB를 이용합니다. <a href="http://xe.xpressengine.net/18180659" target="_blank">Manual</a>]]></value>
+			<value xml:lang="ko"><![CDATA[CUBRID DB를 이용합니다. <a href="http://www.cubrid.com/zbxe/?mid=bbs_developer_tutorial&category=47452" target="_blank">Manual</a>]]></value>
 			<value xml:lang="en"><![CDATA[Use CUBRID as a database. See <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a> for more info]]></value>
 			<value xml:lang="jp"><![CDATA[CUBRID DBを利用します。 <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a>]]></value>
 			<value xml:lang="zh-CN"><![CDATA[使用CUBRID DB。 <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a>]]></value>
@@ -807,6 +807,10 @@
 		<value xml:lang="es"><![CDATA[Ha ocurrido un error al crear el archivo de instalación.]]></value>
 		<value xml:lang="tr"><![CDATA[Kurulum dosyası oluşturulurken bir hata oluştu.]]></value>
 		<value xml:lang="vi"><![CDATA[Đã có lỗi xảy ra khi tạo File cài đặt.]]></value>
+	</item>
+	<item name="msg_create_table_failed">
+		<value xml:lang="ko"><![CDATA[DB 테이블 생성에 실패했습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Failed to create database tables.]]></value>
 	</item>
 	<item name="ftp_get_list">
 		<value xml:lang="ko"><![CDATA[목록 가져오기]]></value>

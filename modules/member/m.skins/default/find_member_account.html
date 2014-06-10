@@ -51,7 +51,7 @@
 			<li>
 				<label for="question">{$lang->find_account_question}</label>
 				<select id="question" name="find_account_question" style="width:290px;display:block;">
-				<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
+				<!--@for($i=1,$c=count($lang->find_account_question_items);$i<=$c;$i++)-->
 					<option value="{$i}">{$lang->find_account_question_items[$i]}</option>
 				<!--@end-->
 				</select>

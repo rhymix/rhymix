@@ -47,7 +47,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<tbody>
 			<tr loop="$comment_list => $no, $val">
 				{@ $comment = $val->getContentText(200)}
-				<td><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
+				<td>
+					<block cond="isset($module_list[$val->module_srl])">
+					<a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a> - 
+					</block>
+					<a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a>
+				</td>
 				<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->getNickName()}</a></td>
 				<td class="nowr">{number_format($val->get('voted_count'))}/{number_format($val->get('blamed_count'))}</td>
 				<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>

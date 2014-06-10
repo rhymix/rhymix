@@ -4,6 +4,7 @@
 	<permissions>
 		<permission action="procCommentAdminAddCart" target="manager" />
 		<permission action="procCommentGetList" target="manager" />
+		<permission action="procCommentAdminMoveToTrash" target="manager" />
 	</permissions>
 	<actions>
 		<action name="getCommentMenu" type="model" />
@@ -21,6 +22,7 @@
 		<action name="procCommentAdminCancelDeclare" type="controller" />
 		<action name="procCommentAdminAddCart" type="controller" />
 		<action name="procCommentGetList" type="controller" />
+		<action name="procCommentAdminMoveToTrash" type="controller" />
 	</actions>
 	<menus>
 		<menu name="comment">
