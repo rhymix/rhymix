@@ -56,7 +56,7 @@ class layoutModel extends layout
 		if($siteDefaultLayoutSrl)
 		{
 			$siteDefaultLayoutInfo = $this->getlayout($siteDefaultLayoutSrl);
-			$newLayout = sprintf('%s, %s', $siteDefaultLayoutInfo->title, $siteDefaultLayoutInfo->title);
+			$newLayout = sprintf('%s, %s', $siteDefaultLayoutInfo->title, $siteDefaultLayoutInfo->layout);
 			$siteDefaultLayoutInfo->layout_srl = -1;
 			$siteDefaultLayoutInfo->title = Context::getLang('use_site_default_layout');
 			$siteDefaultLayoutInfo->layout = $newLayout;
