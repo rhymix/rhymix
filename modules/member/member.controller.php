@@ -353,6 +353,10 @@ class memberController extends member
 			$this->insertImageName($args->member_srl, $image_name['tmp_name']);
 		}
 
+		// Save Signature
+		$signature = Context::get('signature');
+		$this->putSignature($args->member_srl, $signature);
+
 		// If a virtual site, join the site
 		$site_module_info = Context::get('site_module_info');
 		if($site_module_info->site_srl > 0)
