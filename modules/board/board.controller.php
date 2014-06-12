@@ -60,16 +60,29 @@ class boardController extends board
 		// check if the document is existed
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
 
+		// update the document if it is existed
+		$is_update = false;
+		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
+		{
+			$is_update = true;
+		}
+
 		// if use anonymous is true
 		if($this->module_info->use_anonymous == 'Y')
 		{
 			$this->module_info->admin_mail = '';
 			$obj->notify_message = 'N';
-			$obj->member_srl = -1*$logged_info->member_srl;
+			if($is_update===false)
+			{
+				$obj->member_srl = -1*$logged_info->member_srl;
+			}
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
 			$obj->user_name = $obj->nick_name = 'anonymous';
 			$bAnonymous = true;
-			$oDocument->add('member_srl', $obj->member_srl);
+			if($is_update===false)
+			{
+				$oDocument->add('member_srl', $obj->member_srl);
+			}
 		}
 		else
 		{
@@ -86,7 +99,7 @@ class boardController extends board
 		}
 
 		// update the document if it is existed
-		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
+		if($is_update)
 		{
 			if(!$oDocument->isGranted())
 			{
