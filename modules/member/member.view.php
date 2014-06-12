@@ -421,7 +421,7 @@ class memberView extends member
 			Context::set('XE_VALIDATOR_MESSAGE', $XE_VALIDATOR_MESSAGE . $config->limit_day_description);
 
 		if($XE_VALIDATOR_ERROR < -10 && $XE_VALIDATOR_ERROR > -21)
-			Context::set('referer_url', '/'); 
+			Context::set('referer_url', getUrl('')); 
 		else
 			Context::set('referer_url', htmlspecialchars($_SERVER['HTTP_REFERER'], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 
