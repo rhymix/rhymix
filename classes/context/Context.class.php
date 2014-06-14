@@ -1126,6 +1126,12 @@ class Context
 	function _checkGlobalVars()
 	{
 		$this->_recursiveCheckVar($_SERVER['HTTP_HOST']);
+
+		$pattern = "/[\,\"\'\{\}\[\]\(\);$]/";
+		if(preg_match($pattern, $_SERVER['HTTP_HOST']))
+		{
+			$this->isSuccessInit = FALSE;
+		}
 	}
 
 	/**

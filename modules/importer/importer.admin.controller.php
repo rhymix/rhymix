@@ -937,7 +937,7 @@ class importerAdminController extends importer
 				$obj->last_update = base64_decode($xmlDoc->comment->update->body);
 				if(!$obj->last_update) $obj->last_update = $obj->regdate;
 				$obj->ipaddress = base64_decode($xmlDoc->comment->ipaddress->body);
-				$obj->status = base64_decode($xmlDoc->comment->status->body);
+				$obj->status = base64_decode($xmlDoc->comment->status->body)==''?'1':base64_decode($xmlDoc->comment->status->body);
 				$obj->list_order = $obj->comment_srl*-1;
 				// Change content information (attachment)
 				if(count($files))

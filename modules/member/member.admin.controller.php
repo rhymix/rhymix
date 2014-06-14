@@ -831,7 +831,6 @@ class memberAdminController extends member
 						{
 							$args->denied = $var->denied;
 							$output = executeQuery('member.updateMemberDeniedInfo', $args);
-							$this->_clearMemberCache($args->member_srl);
 							if(!$output->toBool())
 							{
 								$oDB->rollback();
@@ -853,6 +852,7 @@ class memberAdminController extends member
 						$this->setMessage('success_deleted');
 					}
 			}
+			$oMemberController->_clearMemberCache($args->member_srl);
 		}
 
 		$message = $var->message;

@@ -454,7 +454,14 @@ class memberController extends member
 
 		$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
 
-		$redirectUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+		if(Context::get('success_return_url'))
+		{
+			$redirectUrl = Context::get('success_return_url');
+		}
+		else
+		{
+			$redirectUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+		}
 		$this->setRedirectUrl($redirectUrl);
 	}
 
@@ -1247,7 +1254,7 @@ class memberController extends member
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$memberInfo->member_srl, 'auth_key',$auth_info->auth_key);
+		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_info->auth_key);
 		Context::set('auth_url', $auth_url);
 
 		$oTemplate = &TemplateHandler::getInstance();
@@ -2406,6 +2413,12 @@ class memberController extends member
 		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
 		if($member_srl) return new Object(-1,'msg_exists_email_address');
+
+		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		unset($_SESSION['rechecked_password_step']);
 
 		$auth_args = new stdClass;
 		$auth_args->user_id = $newEmail;
