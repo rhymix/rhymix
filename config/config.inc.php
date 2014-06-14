@@ -173,6 +173,20 @@ if(!defined('__LOG_SLOW_QUERY__'))
 	define('__LOG_SLOW_QUERY__', 0);
 }
 
+if(!defined('__LOG_SLOW_TRIGGER__'))
+{
+	/**
+	 * Trigger excute time log
+	 *
+	 * <pre>
+	 * 0: Do not leave a log
+	 * > 0: leave a log when the trigger takes over specified milliseconds
+	 * Log file is saved as ./files/_db_slow_trigger.php file
+	 * </pre>
+	 */
+	define('__LOG_SLOW_TRIGGER__', 0);
+}
+
 if(!defined('__DEBUG_QUERY__'))
 {
 	/**
