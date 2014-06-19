@@ -402,7 +402,7 @@ class moduleController extends module
 		}
 		else
 		{
-			if(isset($args->is_skin_fix))
+			if(isset($args->is_mskin_fix))
 			{
 				$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
 			}
