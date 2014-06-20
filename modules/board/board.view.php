@@ -639,7 +639,8 @@ class boardView extends board
 		/**
 		 * add JS filters
 		 **/
-		Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
+		if(Context::get('logged_info')->is_admin=='Y') Context::addJsFilter($this->module_path.'tpl/filter', 'insert_admin.xml');
+		else Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('category_list.text', 'category_list.title');
