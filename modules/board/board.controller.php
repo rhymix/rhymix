@@ -89,11 +89,12 @@ class boardController extends board
 			$bAnonymous = false;
 		}
 
-		if((!$obj->status && $obj->is_secret == 'Y') || strtoupper($obj->status == 'SECRET'))
+		if($obj->is_secret == 'Y' || strtoupper($obj->status == 'SECRET'))
 		{
 			$use_status = explode('|@|', $this->module_info->use_status);
 			if(!is_array($use_status) || !in_array('SECRET', $use_status))
 			{
+				unset($obj->is_secret);
 				$obj->status = 'PUBLIC';
 			}
 		}
