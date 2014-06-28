@@ -2462,7 +2462,7 @@ class memberController extends member
 		$oMail->setReceiptor( $member_info->nick_name, $newEmail );
 		$result = $oMail->send();
 
-		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $newEmail);
+		$msg = sprintf(Context::getLang('msg_change_mail_sent'), $newEmail);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
