@@ -268,7 +268,7 @@ class documentController extends document
 		}
 		// If the tile is empty, extract string from the contents.
 		settype($obj->title, "string");
-		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
+		if($obj->title == '') $obj->title = cut_str(trim(strip_tags(nl2br($obj->content))),20,'...');
 		// If no tile extracted from the contents, leave it untitled.
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.

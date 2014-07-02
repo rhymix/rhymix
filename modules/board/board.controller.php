@@ -40,7 +40,7 @@ class boardController extends board
 		$obj->commentStatus = $obj->comment_status;
 
 		settype($obj->title, "string");
-		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
+		if($obj->title == '') $obj->title = cut_str(trim(strip_tags(nl2br($obj->content))),20,'...');
 		//setup dpcument title tp 'Untitled'
 		if($obj->title == '') $obj->title = 'Untitled';
 
