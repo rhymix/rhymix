@@ -409,7 +409,10 @@ class widgetController extends widget
 				}
 			}
 			// cache update and cache renewal of the file mtime
-			touch($cache_file);
+			if(!$oCacheHandler->isSupport())
+			{
+				touch($cache_file);
+			}
 
 			$oWidget = $this->getWidgetObject($widget);
 			if(!$oWidget || !method_exists($oWidget,'proc')) return;
