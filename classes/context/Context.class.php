@@ -230,7 +230,14 @@ class Context
 				define('_XE_SITELOCK_MESSAGE_', $message);
 
 				header("HTTP/1.1 403 Forbidden");
-				include _XE_PATH_ . 'common/tpl/sitelock.html';
+				if(FileHandler::exists(_XE_PATH_ . 'common/tpl/sitelock.user.html'))
+				{
+					include _XE_PATH_ . 'common/tpl/sitelock.user.html';
+				}
+				else
+				{
+					include _XE_PATH_ . 'common/tpl/sitelock.html';
+				}
 				exit;
 			}
 		}
