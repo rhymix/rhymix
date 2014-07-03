@@ -467,11 +467,19 @@ class adminAdminController extends admin
 	 */
 	function procAdminRemoveIcons()
 	{
+
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+
 		$iconname = Context::get('iconname');
-		$file_exist = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $iconname);
+		$file_exist = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
 		if($file_exist)
 		{
-			@FileHandler::removeFile(_XE_PATH_ . 'files/attach/xeicon/' . $iconname);
+			@FileHandler::removeFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
 		}
 		else
 		{
