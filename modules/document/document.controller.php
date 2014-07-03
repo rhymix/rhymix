@@ -333,7 +333,10 @@ class documentController extends document
 		$oDB->commit();
 
 		// return
-		$this->addGrant($obj->document_srl);
+		if(!$manual_inserted)
+		{
+			$this->addGrant($obj->document_srl);
+		}
 		$output->add('document_srl',$obj->document_srl);
 		$output->add('category_srl',$obj->category_srl);
 
