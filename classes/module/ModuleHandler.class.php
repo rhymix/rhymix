@@ -1147,7 +1147,11 @@ class ModuleHandler extends Handler
 		}
 		
 		//store before trigger call time
-		$before_trigger_time = microtime(true);
+		$before_trigger_time = NULL;
+		if(!defined('__LOG_SLOW_TRIGGER__'))
+		{
+		    $before_trigger_time = microtime(true);
+		}
 
 		foreach($triggers as $item)
 		{
@@ -1191,15 +1195,20 @@ class ModuleHandler extends Handler
 		}
 		
 		//store after trigger call time
-		$after_trigger_time = microtime(true);
-		
-		$elapsed_time = ($after_trigger_time - $before_trigger_time) * 1000;
-		
+		$after_trigger_time = NULL;
+		//init value to 0
+		$elapsed_time = 0;
+		if(!defined('__LOG_SLOW_TRIGGER__'))
+		{
+		    $after_trigger_time = microtime(true);
+		    $elapsed_time = ($after_trigger_time - $before_trigger_time) * 1000;
+		}
+
 		// if __LOG_SLOW_TRIGGER__ is defined, check elapsed time and leave trigger time log
 		if(__LOG_SLOW_TRIGGER__> 0 && $elapsed_time > __LOG_SLOW_TRIGGER__)
 		{
 			$buff = '';
-			$log_file = _XE_PATH_ . 'files/_db_slow_trigger.php';
+			$log_file = _XE_PATH_ . 'files/_slow_trigger.php';
 			if(!file_exists($log_file))
 			{
 				$buff = '<?php exit(); ?' . '>' . "\n";
