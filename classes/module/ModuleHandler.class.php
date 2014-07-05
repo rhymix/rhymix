@@ -1148,7 +1148,7 @@ class ModuleHandler extends Handler
 		
 		//store before trigger call time
 		$before_trigger_time = NULL;
-		if(!defined('__LOG_SLOW_TRIGGER__'))
+		if(defined('__LOG_SLOW_TRIGGER__'))
 		{
 		    $before_trigger_time = microtime(true);
 		}
@@ -1159,7 +1159,11 @@ class ModuleHandler extends Handler
 			$type = $item->type;
 			$called_method = $item->called_method;
 			
-			$before_each_trigger_time = microtime(true);
+			$before_each_trigger_time = NULL;
+			if(defined('__LOG_SLOW_TRIGGER__'))
+			{
+			    $before_each_trigger_time = microtime(true);
+			}
 
 			// todo why don't we call a normal class object ?
 			$oModule = getModule($module, $type);
@@ -1175,8 +1179,16 @@ class ModuleHandler extends Handler
 			}
 			unset($oModule);
 			
-			$after_each_trigger_time = microtime(true);
-			$elapsed_time_trigger = ($after_each_trigger_time - $before_each_trigger_time) * 1000;
+			//store after trigger call time
+			$after_each_trigger_time = NULL;
+			//init value to 0
+			$elapsed_time_trigger = 0;
+			
+			if(defined('__LOG_SLOW_TRIGGER__'))
+			{
+				$after_each_trigger_time = microtime(true);
+				$elapsed_time_trigger = ($after_each_trigger_time - $before_each_trigger_time) * 1000;
+			}
 			
 			// if __LOG_SLOW_TRIGGER__ is defined, check elapsed time and leave trigger time log
 			if(__LOG_SLOW_TRIGGER__> 0 && $elapsed_time_trigger > __LOG_SLOW_TRIGGER__)
@@ -1198,7 +1210,7 @@ class ModuleHandler extends Handler
 		$after_trigger_time = NULL;
 		//init value to 0
 		$elapsed_time = 0;
-		if(!defined('__LOG_SLOW_TRIGGER__'))
+		if(defined('__LOG_SLOW_TRIGGER__'))
 		{
 		    $after_trigger_time = microtime(true);
 		    $elapsed_time = ($after_trigger_time - $before_trigger_time) * 1000;
