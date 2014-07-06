@@ -1148,7 +1148,7 @@ class ModuleHandler extends Handler
 		
 		//store before trigger call time
 		$before_trigger_time = NULL;
-		if(defined('__LOG_SLOW_TRIGGER__'))
+		if(__LOG_SLOW_TRIGGER__> 0)
 		{
 		    $before_trigger_time = microtime(true);
 		}
@@ -1160,7 +1160,7 @@ class ModuleHandler extends Handler
 			$called_method = $item->called_method;
 			
 			$before_each_trigger_time = NULL;
-			if(defined('__LOG_SLOW_TRIGGER__'))
+			if(__LOG_SLOW_TRIGGER__> 0)
 			{
 			    $before_each_trigger_time = microtime(true);
 			}
@@ -1184,7 +1184,7 @@ class ModuleHandler extends Handler
 			//init value to 0
 			$elapsed_time_trigger = 0;
 			
-			if(defined('__LOG_SLOW_TRIGGER__'))
+			if(__LOG_SLOW_TRIGGER__> 0)
 			{
 				$after_each_trigger_time = microtime(true);
 				$elapsed_time_trigger = ($after_each_trigger_time - $before_each_trigger_time) * 1000;
@@ -1210,7 +1210,7 @@ class ModuleHandler extends Handler
 		$after_trigger_time = NULL;
 		//init value to 0
 		$elapsed_time = 0;
-		if(defined('__LOG_SLOW_TRIGGER__'))
+		if(__LOG_SLOW_TRIGGER__> 0)
 		{
 		    $after_trigger_time = microtime(true);
 		    $elapsed_time = ($after_trigger_time - $before_trigger_time) * 1000;
