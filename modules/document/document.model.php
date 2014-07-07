@@ -1418,7 +1418,7 @@ class documentModel extends document
 					$query_id = 'document.getDocumentListWithinTag';
 					break;
 				case 'extra_vars':
-					$args->var_value =str_replace(' ','%',$search_keyword);
+					$args->var_value = str_replace(' ', '%', $search_keyword);
 					$query_id = 'document.getDocumentListWithinExtraVars';
 					break;
 				default :
