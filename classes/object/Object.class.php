@@ -165,7 +165,7 @@ class Object
 	}
 
 	/**
-	 * Method to retrieve an object containing a key/value paris
+	 * Method to retrieve an object containing a key/value pairs
 	 *
 	 * @return Object Returns an object containing key/value pairs
 	 */
