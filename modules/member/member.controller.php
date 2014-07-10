@@ -454,7 +454,14 @@ class memberController extends member
 
 		$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
 
-		$redirectUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+		if(Context::get('success_return_url'))
+		{
+			$redirectUrl = Context::get('success_return_url');
+		}
+		else
+		{
+			$redirectUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+		}
 		$this->setRedirectUrl($redirectUrl);
 	}
 
@@ -1247,7 +1254,7 @@ class memberController extends member
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$memberInfo->member_srl, 'auth_key',$auth_info->auth_key);
+		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_info->auth_key);
 		Context::set('auth_url', $auth_url);
 
 		$oTemplate = &TemplateHandler::getInstance();
@@ -2407,6 +2414,12 @@ class memberController extends member
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
 		if($member_srl) return new Object(-1,'msg_exists_email_address');
 
+		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		unset($_SESSION['rechecked_password_step']);
+
 		$auth_args = new stdClass;
 		$auth_args->user_id = $newEmail;
 		$auth_args->member_srl = $member_info->member_srl;
@@ -2449,7 +2462,7 @@ class memberController extends member
 		$oMail->setReceiptor( $member_info->nick_name, $newEmail );
 		$result = $oMail->send();
 
-		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $newEmail);
+		$msg = sprintf(Context::getLang('msg_change_mail_sent'), $newEmail);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -2622,7 +2635,7 @@ class memberController extends member
 		$spam_description = trim( Context::get('spam_description') );
 
 		$oMemberModel = getModel('member');
-		$columnList = array('member_srl', 'description');
+		$columnList = array('member_srl', 'email_address', 'user_id', 'nick_name', 'description');
 		// get member current infomation
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 
@@ -2633,7 +2646,10 @@ class memberController extends member
 		$total_count = $cnt_comment + $cnt_document;
 
 		$args = new stdClass();
-		$args->member_srl= $member_info->member_srl;
+		$args->member_srl = $member_info->member_srl;
+		$args->email_address = $member_info->email_address;
+		$args->user_id = $member_info->user_id;
+		$args->nick_name = $member_info->nick_name;
 		$args->denied = "Y";
 		$args->description = trim( $member_info->description );
 		if( $args->description != "" ) $args->description .= "\n";	// add new line

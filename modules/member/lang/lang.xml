@@ -1325,6 +1325,9 @@
 		<value xml:lang="tr"><![CDATA[%s adresine etkinleştirme maili gönderdik. Lütfen mailinizi kontrol ediniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Chúng tôi đã gửi Email xác nhận đến %s. Xin vui lòng bấm vào Link đi kèm trong Email để hoàn tất việc đăng kí!]]></value>
 	</item>
+	<item name="msg_change_mail_sent">
+		<value xml:lang="ko"><![CDATA[%s 메일로 이메일 변경 인증 메일이 발송되었습니다. 메일을 확인하세요.]]></value>
+	</item>
 	<item name="msg_invalid_modify_email_auth_key">
 		<value xml:lang="ko"><![CDATA[잘못된 이메일 변경 요청입니다.<br />이메일 변경요청을 다시 하거나 사이트 관리자에게 문의해주세요.]]></value>
 		<value xml:lang="jp"><![CDATA[正しくないEメール変更要求です。<br />Eメール変更要求を再度行うかサイト管理者へお問い合わせください。]]></value>
