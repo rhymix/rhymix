@@ -515,7 +515,7 @@ class FileHandler
 	 * @param string $post_data Request arguments array for POST method
 	 * @return string If success, the content of the target file. Otherwise: none
 	 */
-	function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array())
+	function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array(), $request_config = array())
 	{
 		try
 		{
@@ -533,6 +533,15 @@ class FileHandler
 			else
 			{
 				$oRequest = new HTTP_Request($url);
+
+				if(count($request_config) && method_exists($oRequest, 'setConfig'))
+				{
+					foreach($request_config as $key=>$val)
+					{
+						$oRequest->setConfig($key, $val);
+					}
+				}
+
 				if(count($headers) > 0)
 				{
 					foreach($headers as $key => $val)
