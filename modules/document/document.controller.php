@@ -515,30 +515,33 @@ class documentController extends document
 			return $output;
 		}
 		// Remove all extra variables
-		$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
-		// Insert extra variables if the document successfully inserted.
-		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
-		if(count($extra_keys))
+		if(Context::get('act')!='procFileDelete')
 		{
-			foreach($extra_keys as $idx => $extra_item)
+			$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
+			// Insert extra variables if the document successfully inserted.
+			$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
+			if(count($extra_keys))
 			{
-				$value = NULL;
-				if(isset($obj->{'extra_vars'.$idx}))
+				foreach($extra_keys as $idx => $extra_item)
 				{
-					$tmp = $obj->{'extra_vars'.$idx};
-					if(is_array($tmp))
-						$value = implode('|@|', $tmp);
-					else
-						$value = trim($tmp);
+					$value = NULL;
+					if(isset($obj->{'extra_vars'.$idx}))
+					{
+						$tmp = $obj->{'extra_vars'.$idx};
+						if(is_array($tmp))
+							$value = implode('|@|', $tmp);
+						else
+							$value = trim($tmp);
+					}
+					else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
+					if($value == NULL) continue;
+					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 				}
-				else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
-				if($value == NULL) continue;
-				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
+			// Inert extra vars for multi-language support of title and contents.
+			if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
+			if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 		}
-		// Inert extra vars for multi-language support of title and contents.
-		if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
-		if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 		// Update the category if the category_srl exists.
 		if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl)
 		{
