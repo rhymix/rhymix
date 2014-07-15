@@ -49,6 +49,27 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="list_count">{$lang->list_count}</label>
+			<div class="x_controls">
+				<input type="text" name="list_count" id="list_count" value="{$module_info->list_count?$module_info->list_count:20}" style="width:30px" />
+				<p class="x_help-inline">{$lang->about_list_count}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="search_list_count">{$lang->search_list_count}</label>
+			<div class="x_controls">
+				<input type="text" name="search_list_count" id="search_list_count" value="{$module_info->search_list_count?$module_info->search_list_count:20}" style="width:30px" />
+				<p class="x_help-inline">{$lang->about_search_list_count}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="page_count">{$lang->page_count}</label>
+			<div class="x_controls">
+				<input type="text" name="page_count" id="page_count" value="{$module_info->page_count?$module_info->page_count:10}" style="width:30px" />
+				<p class="x_help-inline">{$lang->about_page_count}</p>
+			</div>
+		</div>		
+		<div class="x_control-group">
 			<label class="x_control-label" for="lang_header_text">{$lang->header_text}</label>
 			<div class="x_controls">
 				<textarea name="header_text" id="header_text" class="lang_code" rows="8" cols="42" placeholder="{$lang->about_header_text}"><!--@if(strpos($module_info->header_text, '$user_lang->') === false)-->{$module_info->header_text}<!--@else-->{htmlspecialchars($module_info->header_text)}<!--@end--></textarea>
@@ -94,6 +115,27 @@
 				<p id="mobile_skin_help" class="x_help-block" hidden>{$lang->about_skin}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="mobile_list_count">{$lang->list_count}</label>
+			<div class="x_controls">
+				<input type="text" name="mobile_list_count" id="mobile_list_count" value="{$module_info->mobile_list_count?$module_info->mobile_list_count:20}" style="width:30px" />
+				<p class="x_help-inline">{$lang->about_list_count}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="mobile_search_list_count">{$lang->search_list_count}</label>
+			<div class="x_controls">
+				<input type="text" name="mobile_search_list_count" id="mobile_search_list_count" value="{$module_info->mobile_search_list_count?$module_info->mobile_search_list_count:20}" style="width:30px" />
+				<p class="x_help-inline">{$lang->about_search_list_count}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="mobile_page_count">{$lang->page_count}</label>
+			<div class="x_controls">
+				<input type="text" name="mobile_page_count" id="mobile_page_count" value="{$module_info->mobile_page_count?$module_info->mobile_page_count:5}" style="width:30px" />
+				<p class="x_help-inline">{$lang->about_mobile_page_count}</p>
+			</div>
+		</div>		
 	</section>
 	<section class="section collapsed">
 		<h1>{$lang->subtitle_advanced}</h1>
@@ -134,27 +176,6 @@
 					<option value="asc" selected="selected"|cond="$module_info->order_type != 'desc'">{$lang->order_asc}</option>
 					<option value="desc" selected="selected"|cond="$module_info->order_type == 'desc'">{$lang->order_desc}</option>
 				</select>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label" for="list_count">{$lang->list_count}</label>
-			<div class="x_controls">
-				<input type="text" name="list_count" id="list_count" value="{$module_info->list_count?$module_info->list_count:20}" style="width:30px" />
-				<p class="x_help-inline">{$lang->about_list_count}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label" for="search_list_count">{$lang->search_list_count}</label>
-			<div class="x_controls">
-				<input type="text" name="search_list_count" id="search_list_count" value="{$module_info->search_list_count?$module_info->search_list_count:20}" style="width:30px" />
-				<p class="x_help-inline">{$lang->about_search_list_count}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label" for="page_count">{$lang->page_count}</label>
-			<div class="x_controls">
-				<input type="text" name="page_count" id="page_count" value="{$module_info->page_count?$module_info->page_count:10}" style="width:30px" />
-				<p class="x_help-inline">{$lang->about_page_count}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
