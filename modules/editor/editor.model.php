@@ -424,7 +424,7 @@ class editorModel extends editor
 		else $option->enable_component = true;
 		// HTML editing privileges
 		$enable_html = false;
-		if($logged_info->is_admin=='Y') $option->enable_html = true;
+		if($logged_info->is_admin=='Y') $enable_html = true;
 		elseif(count($config->enable_html_grant))
 		{
 			foreach($group_list as $group_srl => $group_info)
