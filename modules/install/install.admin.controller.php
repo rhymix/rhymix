@@ -327,9 +327,17 @@ class installAdminController extends install
 
 	private function saveIconTmp($icon, $iconname)
 	{
+
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+
 		$target_file = $icon['tmp_name'];
 		$type = $icon['type'];
-		$relative_filename = 'files/attach/xeicon/tmp/'.$iconname;
+		$relative_filename = 'files/attach/xeicon/'.$virtual_site.'tmp/'.$iconname;
 		$target_filename = _XE_PATH_.$relative_filename;
 
 		list($width, $height, $type_no, $attrs) = @getimagesize($target_file);
@@ -364,7 +372,15 @@ class installAdminController extends install
 	}
 
 	private function updateIcon($iconname, $deleteIcon = false) {
-		$image_filepath = _XE_PATH_.'files/attach/xeicon/';
+
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+
+		$image_filepath = _XE_PATH_.'files/attach/xeicon/' . $virtual_site;
 
 		if($deleteIcon) {
 			FileHandler::removeFile($image_filepath.$iconname);

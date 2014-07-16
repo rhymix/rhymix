@@ -905,6 +905,18 @@
 		<value xml:lang="tr"><![CDATA[Sayfanın alt kısmında sayfa geçiş linklerinin sayısını ayarlayabilirsiniz.(varsayılan : 10)]]></value>
 		<value xml:lang="vi"><![CDATA[bạn có thể giới hạn số trang liên kết hiển thị phía dưới.(Mặc định là 10)]]></value>
 	</item>
+	<item name="about_mobile_page_count">
+		<value xml:lang="ko"><![CDATA[목록 하단, 페이지를 이동하는 링크 수를 지정할 수 있습니다. (기본 5개)]]></value>
+		<value xml:lang="en"><![CDATA[You can set the number of page links to move pages in a bottom of the page. (default is 5)]]></value>
+		<value xml:lang="jp"><![CDATA[リスト下部、ページ移動可能なリンク数を指定できます（デフォルト5個）。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定显示在目录下方的页面数(默认为5个)。 ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以指定顯示在清單下方的頁面數(預設為 5 個)。 ]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer combien de liens pour les Pages à Bouger en bas de chaque page.(5 par défaut)]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете установить число страниц внизу. (по умолчанию: 5)]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede definir el número de página enlazada para mover páginas en un botón de la página.(Predefinido es 5)]]></value>
+		<value xml:lang="tr"><![CDATA[Sayfanın alt kısmında sayfa geçiş linklerinin sayısını ayarlayabilirsiniz.(varsayılan : 5)]]></value>
+		<value xml:lang="vi"><![CDATA[bạn có thể giới hạn số trang liên kết hiển thị phía dưới.(Mặc định là 5)]]></value>
+	</item>	
 	<item name="about_admin_id">
 		<value xml:lang="ko"><![CDATA[해당 모듈에 대해 최고 권한을 가지는 관리자를 지정할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can grant a manager to have all permissions to the module.]]></value>
