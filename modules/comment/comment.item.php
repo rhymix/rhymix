@@ -357,7 +357,7 @@ class commentItem extends Object
 		$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
 
 		// replace tags such as </p> , </div> , </li> by blanks.
-		$content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
+		$content = str_replace(array('</p>', '</div>', '</li>', '-->'), ' ', $content);
 
 		// Remove tags
 		$content = preg_replace('!<([^>]*?)>!is', '', $content);
