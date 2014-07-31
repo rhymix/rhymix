@@ -596,14 +596,25 @@ function doDocumentLoad(obj) {
 }
 
 /* 저장된 게시글의 선택 */
-function doDocumentSelect(document_srl) {
+function doDocumentSelect(document_srl, module) {
 	if(!opener || !opener.objForSavedDoc) {
 		window.close();
 		return;
 	}
 
+	if(module===undefined) {
+		module = 'document';
+	}
+
 	// 게시글을 가져와서 등록하기
-	opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
+	switch(module) {
+		case 'page' :
+			opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispPageAdminContentModify');
+			break;
+		default :	
+			opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
+			break;
+	}
 	window.close();
 }
 
