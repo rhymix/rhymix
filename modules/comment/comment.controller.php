@@ -721,6 +721,15 @@ class commentController extends comment
 		// remove XE's wn tags from contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
+		if(Mobile::isFromMobilePhone())
+		{
+			if($obj->use_html != 'Y')
+			{
+				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			}
+			$obj->content = nl2br($obj->content);
+		}
+
 		// remove iframe and script if not a top administrator on the session
 		if($logged_info->is_admin != 'Y')
 		{
