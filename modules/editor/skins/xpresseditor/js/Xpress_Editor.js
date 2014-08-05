@@ -5205,6 +5205,8 @@ xe.XE_XHTMLFormatter = $.Class({
 			tag     = tag.toLowerCase();
 			attrs   = $.trim(attrs || '');
 
+			if(replace_tags[tag]!=undefined) tag = replace_tags[tag];
+
 			if (!closing) {
 				if ($.inArray(tag,no_closing_tags) >= 0) {
 					var len = attrs.length;
