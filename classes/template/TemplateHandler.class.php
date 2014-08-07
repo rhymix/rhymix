@@ -365,12 +365,34 @@ class TemplateHandler
 		ob_start();
 		if(substr($buff, 0, 7) == 'file://')
 		{
-			include(substr($buff, 7));
+			if(__DEBUG__)
+			{
+				//load cache file from disk
+				$eval_str = FileHandler::readFile(substr($buff, 7));
+				$eval_str_buffed = "?>" . $eval_str;
+				@eval($eval_str_buffed);
+				$error_info = error_get_last();
+				//parse error
+				if ($error_info['type'] == 4)
+				{
+				    throw new Exception("Error Parsing Template - {$error_info['message']} in template file {$this->file}");
+				}
+			}
+			else
+			{
+				include(substr($buff, 7));
+			}
 		}
 		else
 		{
 			$eval_str = "?>" . $buff;
-			eval($eval_str);
+			@eval($eval_str);
+			$error_info = error_get_last();
+			//parse error
+			if ($error_info['type'] == 4)
+			{
+			    throw new Exception("Error Parsing Template - {$error_info['message']} in template file {$this->file}");
+			}
 		}
 
 		return ob_get_clean();
