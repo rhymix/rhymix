@@ -15,7 +15,7 @@ XpressEngine(XE)은 PHP로 작성한 설치형 CMS(Content Management System)입
 @akasima @bnu @jhyeon1010 @khongchi @ngleader
 
 ## Authors
-adrian.vasile.constantin, aerofleet, @akasima, @andreimarin, araste, @bnu, @bongkeun, bradly1, buffkj, c2joy, @canto, cbrghost, @ccata17, @ChanMyeong, chinaskyking, chschy, clench, @cometdev, @devdho, @devjin, @dionisrom, @dorami, @dragan-dan, ducduydaovn, duvent, @Eundong, @florinutz, @flourscent, @flyskyko, @ForPeople, FruitsHake, guny, @haneul, hankm2004, @hansim, haojilin, heemin, @hyeon0142, ikko, @izuzero, johnsonshu, juanlee0, k10206, kagami, @khongchi, @lansi951, @largeden, liahona, lickawtl, @mAKEkr, mayoojin, mglclub, @misol, mmx900, @mog422, mooo, mosmartin, @nagoon97, @ngleader, nicetwo, ovclas, @qw5414, @Rayyin, risapapa, rokmcssu, royallin, rubyeye, ryin005, @samswnlee, sanghunjun, @sejin7940, @smaker, @solidh, sspa3141, @stellar12, supershop, @taggon, @ucorina, unryong, venister, wdlee91, welcomeju, @YJSoft, ysnglee2000, zero
+<http://www.xpressengine.com/contributors>
 
 ## Contribution Guide
 `CONTRIBUTING.md`파일을 참고하세요.
