@@ -371,6 +371,61 @@ class DBMysql extends DB
 	}
 
 	/**
+	 * Get information about a column
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @return object
+	 */
+	function getColumnInfo($table_name, $column_name)
+	{
+		$query = sprintf("show fields from `%s%s` where `Field` = '%s'", $this->prefix, $table_name, $column_name);
+		$result = $this->_query($query);
+		if($this->isError())
+		{
+			return;
+		}
+		$output = $this->_fetch($result);
+		if($output)
+		{
+			$dbtype = $output->{'Type'};
+			if($xetype = array_search($dbtype, $this->column_type))
+			{
+				$size = null;
+			}
+			elseif(strpos($dbtype, '(') !== false)
+			{
+				list($dbtype, $size) = explode('(', $dbtype, 2);
+				$size = intval(rtrim($size, ')'));
+				if($xetype = array_search($dbtype, $this->column_type))
+				{
+					// no-op
+				}
+				else
+				{
+					$xetype = $dbtype;
+				}
+			}
+			else
+			{
+				$xetype = $dbtype;
+				$size = null;
+			}
+			return (object)array(
+				'name' => $output->{'Field'},
+				'dbtype' => $dbtype,
+				'xetype' => $xetype,
+				'size' => $size,
+				'default_value' => $output->{'Default'},
+				'notnull' => strncmp($output->{'Null'}, 'NO', 2) == 0 ? true : false,
+			);
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Add an index to the table
 	 * $target_columns = array(col1, col2)
 	 * $is_unique? unique : none
