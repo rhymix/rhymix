@@ -568,6 +568,62 @@ class DBCubrid extends DB
 	}
 
 	/**
+	 * Get information about a column
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @return object
+	 */
+	function getColumnInfo($table_name, $column_name)
+	{
+		$query = sprintf("select * from \"db_attribute\" where " . "\"attr_name\" ='%s' and \"class_name\" = '%s%s'", $column_name, $this->prefix, $table_name);
+		$result = $this->_query($query);
+		if($this->isError())
+		{
+			return;
+		}
+		$output = $this->_fetch($result);
+		if($output)
+		{
+			$dbtype = strtolower($output->data_type);
+			if($dbtype === 'string') $dbtype = 'character varying';
+			$size = ($output->prec > 0) ? $output->prec : null;
+			if($xetype = array_search("$dbtype($size)", $this->column_type))
+			{
+				$dbtype = "$dbtype($size)";
+				$size = null;
+			}
+			elseif($size !== null)
+			{
+				if($xetype = array_search($dbtype, $this->column_type))
+				{
+					if($size % 3 == 0) $size = intval($size / 3);
+				}
+				else
+				{
+					$xetype = $dbtype;
+				}
+			}
+			else
+			{
+				$xetype = $dbtype;
+				$size = null;
+			}
+			return (object)array(
+				'name' => $output->attr_name,
+				'dbtype' => $dbtype,
+				'xetype' => $xetype,
+				'size' => $size,
+				'default_value' => $output->default_value,
+				'notnull' => !$output->is_nullable,
+			);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
 	 * Add an index to the table
 	 * $target_columns = array(col1, col2)
 	 * $is_unique? unique : none
