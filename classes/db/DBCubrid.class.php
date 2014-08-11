@@ -540,6 +540,68 @@ class DBCubrid extends DB
 	}
 
 	/**
+	 * Modify a column (only supported in CUBRID 8.4 and above, otherwise returns false)
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @param string $type column type, default value is 'number'
+	 * @param int $size column size
+	 * @param string|int $default default value
+	 * @param boolean $notnull not null status, default value is false
+	 * @return bool
+	 */
+	function modifyColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = FALSE)
+	{
+		if(!version_compare(__CUBRID_VERSION__, '8.4.0', '>='))
+		{
+			return false;
+		}
+		
+		$type = strtoupper($this->column_type[$type]);
+		if($type == 'INTEGER')
+		{
+			$size = '';
+		}
+
+		$query = sprintf("alter class \"%s%s\" modify \"%s\" ", $this->prefix, $table_name, $column_name);
+		
+		if($type == 'char' || $type == 'varchar')
+		{
+			if($size)
+			{
+				$size = $size * 3;
+			}
+		}
+		
+		if($size)
+		{
+			$query .= sprintf("%s(%s) ", $type, $size);
+		}
+		else
+		{
+			$query .= sprintf("%s ", $type);
+		}
+		
+		if($default)
+		{
+			if($type == 'INTEGER' || $type == 'BIGINT' || $type == 'INT')
+			{
+				$query .= sprintf("default %d ", $default);
+			}
+			else
+			{
+				$query .= sprintf("default '%s' ", $default);
+			}
+		}
+		
+		if($notnull)
+		{
+			$query .= "not null ";
+		}
+		
+		return $this->_query($query) ? true : false;
+	}
+
+	/**
 	 * Check column exist status of the table
 	 * @param string $table_name table name
 	 * @param string $column_name column name
