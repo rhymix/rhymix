@@ -42,7 +42,7 @@ jQuery(function($){
 	});
 
 	$('a._child_delete').click(function() {
-		var menu_item_srl = $(this).parents('li').find('._item_key').val();
+		var menu_item_srl = $(this).closest('li').find('._item_key').val();
 		listForm.find('input[name=menu_item_srl]').val(menu_item_srl);
 		listForm.submit();
 	});
