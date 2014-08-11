@@ -341,6 +341,45 @@ class DBMysql extends DB
 	}
 
 	/**
+	 * Modify a column
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @param string $type column type, default value is 'number'
+	 * @param int $size column size
+	 * @param string|int $default default value
+	 * @param boolean $notnull not null status, default value is false
+	 * @return bool
+	 */
+	function modifyColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
+	{
+		$type = $this->column_type[$type];
+		if(strtoupper($type) == 'INTEGER')
+		{
+			$size = '';
+		}
+		
+		$query = sprintf("alter table `%s%s` modify `%s` ", $this->prefix, $table_name, $column_name);
+		if($size)
+		{
+			$query .= sprintf(" %s(%s) ", $type, $size);
+		}
+		else
+		{
+			$query .= sprintf(" %s ", $type);
+		}
+		if($default)
+		{
+			$query .= sprintf(" default '%s' ", $default);
+		}
+		if($notnull)
+		{
+			$query .= " not null ";
+		}
+		
+		return $this->_query($query) ? true : false;
+	}
+
+	/**
 	 * Check column exist status of the table
 	 * @param string $table_name table name
 	 * @param string $column_name column name
