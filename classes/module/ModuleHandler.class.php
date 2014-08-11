@@ -548,7 +548,6 @@ class ModuleHandler extends Handler
 				}
 
 				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
-				$oMemberModel = getModel('member');
 
 				if($this->module == "admin" && $type == "view")
 				{
