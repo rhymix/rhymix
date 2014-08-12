@@ -35,6 +35,26 @@ class installView extends install
 		$install_config_file = FileHandler::getRealPath('./config/install.config.php');
 		if(file_exists($install_config_file))
 		{
+			/**
+			 * If './config/install.config.php' file created  and write array shown in the example below, XE installed using config file.
+			 * ex )
+			  $install_config = array(
+			  'db_type' =>'mysqli_innodb',
+			  'db_port' =>'3306',
+			  'db_hostname' =>'localhost',
+			  'db_userid' =>'root',
+			  'db_password' =>'root',
+			  'db_database' =>'xe_database',
+			  'db_table_prefix' =>'xe',
+			  'user_rewrite' =>'N',
+			  'time_zone' =>'0000',
+			  'email_address' =>'admin@xe.com',
+			  'password' =>'pass',
+			  'password2' =>'pass',
+			  'nick_name' =>'admin',
+			  'user_id' =>'admin',
+			  );
+			 */
 			include $install_config_file;
 			if(is_array($install_config))
 			{
