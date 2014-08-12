@@ -1017,6 +1017,33 @@ class FileHandler
 		$path = self::getRealPath($path);
 		return is_dir($path) ? $path : FALSE;
 	}
+
+	/**
+	 * Check is writable dir
+	 *
+	 * @param string $path Target dir path
+	 * @return bool
+	 */
+	function isWritableDir($path)
+	{
+		$path = self::getRealPath($path);
+		if(is_dir($path)==FALSE)
+		{
+			return FALSE;
+		}
+
+		$checkFile = $path . '/_CheckWritableDir';
+
+		$fp = fopen($checkFile, 'w');
+		if(!is_resource($fp))
+		{
+			return FALSE;
+		}
+		fclose($fp);
+
+		self::removeFile($checkFile);
+		return TRUE;
+	}
 }
 
 /* End of file FileHandler.class.php */
