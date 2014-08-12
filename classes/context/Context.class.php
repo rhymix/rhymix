@@ -368,6 +368,12 @@ class Context
 		// check if using rewrite module
 		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
 
+		// If using rewrite module, initializes router
+		if($this->allow_rewrite)
+		{
+			Router::proc();
+		}
+
 		// set locations for javascript use
 		if($_SERVER['REQUEST_METHOD'] == 'GET')
 		{
@@ -1561,7 +1567,9 @@ class Context
 					'act.document_srl.key.mid.vid' => ($act == 'trackback') ? "$vid/$mid/$srl/$key/$act" : ''
 				);
 
-				$query = $target_map[$target];
+				Router::setMap($target_map);
+
+				$query = Router::makePrettyUrl($target);
 			}
 
 			if(!$query)

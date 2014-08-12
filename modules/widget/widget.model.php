@@ -205,7 +205,6 @@ class widgetModel extends widget
 				$extra_var_count = count($extra_vars);
 
 				$buff .= sprintf('$widget_info->extra_var_count = "%s";', $extra_var_count);
-				$buff .= '$widget_info->extra_var = new stdClass;';
 				for($i=0;$i<$extra_var_count;$i++)
 				{
 					unset($var);
