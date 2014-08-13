@@ -1763,7 +1763,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 	}
 
 	$(function($){
-		$('.wfsr')
+		$(document)
 			.ajaxStart(function(){
 				$(window).bind('beforeunload', beforeUnloadHandler);
 			})
