@@ -47,8 +47,8 @@
 				</td>
 				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
 				<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
-				<td class="nowr">{zdate($member_info['regdate'], 'Y-m-d')}</td>
-				<td class="nowr">{zdate($member_info['last_login'], 'Y-m-d')}</td>
+				<td class="nowr" title="{zdate($member_info['regdate'], 'Y-m-d H:i:s')}">{zdate($member_info['regdate'], 'Y-m-d')}</td>
+				<td class="nowr" title="{zdate($member_info['last_login'], 'Y-m-d H:i:s')}">{zdate($member_info['last_login'], 'Y-m-d')}</td>
 				<td>{$member_info['group_list']}&nbsp;</td>
 				<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->inquiry}/{$lang->cmd_modify}</a></td>
 				{@$used_values = ''}
