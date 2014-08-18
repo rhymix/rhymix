@@ -1057,6 +1057,7 @@ class Context
 	 */
 	function convertEncodingStr($str)
 	{
+        if(!$str) return null;
 		$obj = new stdClass();
 		$obj->str = $str;
 		$obj = self::convertEncoding($obj);

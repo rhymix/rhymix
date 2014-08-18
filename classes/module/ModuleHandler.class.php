@@ -59,7 +59,10 @@ class ModuleHandler extends Handler
 		$this->mid = $mid ? $mid : Context::get('mid');
 		$this->document_srl = $document_srl ? (int) $document_srl : (int) Context::get('document_srl');
 		$this->module_srl = $module_srl ? (int) $module_srl : (int) Context::get('module_srl');
-		$this->entry = Context::convertEncodingStr(Context::get('entry'));
+        if($entry = Context::get('entry'))
+        {
+            $this->entry = Context::convertEncodingStr($entry);
+        }
 
 		// Validate variables to prevent XSS
 		$isInvalid = NULL;
