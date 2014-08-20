@@ -53,6 +53,7 @@ class installView extends install
 			  'password2' =>'pass',
 			  'nick_name' =>'admin',
 			  'user_id' =>'admin',
+			  'lang_type' =>'ko',	// en, jp, ...
 			  );
 			 */
 			include $install_config_file;
