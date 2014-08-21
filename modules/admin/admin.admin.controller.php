@@ -120,6 +120,11 @@ class adminAdminController extends admin
 			$db = DB::getInstance();
 			$db->deleteDuplicateIndexes();
 		}
+
+		// check autoinstall packages
+		$oAutoinstallAdminController = getAdminController('autoinstall');
+		$oAutoinstallAdminController->checkInstalled();
+
 		$this->setMessage('success_updated');
 	}
 
