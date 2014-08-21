@@ -369,6 +369,10 @@ class autoinstallAdminView extends autoinstall
 		}
 
 		$output = $oAdminModel->checkUseDirectModuleInstall($package);
+		if($output->toBool()==TRUE)
+		{
+			Context::set('show_ftp_note', FALSE);
+		}
 		Context::set('directModuleInstall', $output);
 
 		$this->setTemplateFile('install');
@@ -534,6 +538,10 @@ class autoinstallAdminView extends autoinstall
 		}
 
 		$output = $oAdminModel->checkUseDirectModuleInstall($installedPackage);
+		if($output->toBool()==TRUE)
+		{
+			Context::set('show_ftp_note', FALSE);
+		}
 		Context::set('directModuleInstall', $output);
 
 		$params["act"] = "getResourceapiPackages";

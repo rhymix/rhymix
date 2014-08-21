@@ -316,7 +316,7 @@ class autoinstallAdminModel extends autoinstall
 				}
 			}
 
-			$installedPackage = $oModel->getInstalledPackage($package_srl);
+			$installedPackage = $oModel->getInstalledPackage($packageSrl);
 			if($installedPackage)
 			{
 				$package->installed = TRUE;
@@ -386,7 +386,7 @@ class autoinstallAdminModel extends autoinstall
 
 		while($path_list)
 		{
-			$check_path = $real_path . implode('/', $path_list);
+			$check_path = realpath($real_path . implode('/', $path_list));
 			if(FileHandler::isDir($check_path))
 			{
 				break;
