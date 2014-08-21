@@ -6,30 +6,37 @@
 	<h4>{$lang->msg_update_core_title}</h4>
 	<p>{$lang->msg_update_core}</p>
 </div>
-<div class="x_well">
-	<p cond="$package->installed">{$lang->current_version}: {$package->cur_version} <block cond="$package->need_update">({$lang->require_update})</block></p>
-	<p cond="!$package->installed">{$lang->require_installation}</p>
-	<block cond="$package->depends">
-		<p>{$lang->about_depending_programs}</p>
-		<ul>
-			<li loop="$package->depends => $dep">
-				{$dep->title} ver. {$dep->version} -
-				<block cond="$dep->installed">{$lang->current_version}: {$dep->cur_version} <block cond="$dep->need_update">({$lang->require_update})</block></block>
-				<block cond="!$dep->installed">{$lang->require_installation}</block>
-				<block cond="$show_ftp_note && ($dep->need_update || !$dep->installed)">
-					<a href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->cmd_download}</a> ({$lang->path}: {$dep->path})
-				</block>
-			</li>
-		</ul>
-		<p>{$lang->description_install}</p>
-	</block>
+<div cond="$package->installed" class="x_well">
+	<p>{$lang->current_version}: {$package->cur_version} <block cond="$package->need_update">({$lang->require_update})</block></p>
+</div>
+<div cond="$package->depends && (!$package->installed || $package->need_update)" class="x_well">
+	<p>{$lang->about_depending_programs}</p>
+	<p>{$lang->description_install}</p>
+	<ul>
+		<li loop="$package->depends => $dep">
+			{$dep->title} ver. {$dep->version} -
+			<block cond="$dep->installed">{$lang->current_version}: {$dep->cur_version} <block cond="$dep->need_update">({$lang->require_update})</block></block>
+			<block cond="!$dep->installed">{$lang->require_installation}</block>
+			<block cond="$show_ftp_note && ($dep->need_update || !$dep->installed)">
+				<a href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->cmd_download}</a> ({$lang->path}: {$dep->path})
+			</block>
+		</li>
+	</ul>
 </div>
 
 <block cond="!$package->installed || $package->need_update">
-	<div cond="$show_ftp_note" class="x_well x_clearfix">
-		<p>{$lang->description_download}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp')}">FTP Setup</a>)</p>
-		<p>{$lang->path}: {$package->path}</p>
-		<p><a class="x_btn x_btn-primary x_pull-right" href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
+	<div cond="!$directModuleInstall->toBool() || $show_ftp_note" class="x_well x_clearfix">
+		<block cond="!$directModuleInstall->toBool()">
+			<p>{$lang->msg_direct_install_not_supported}</p>
+			<ul>
+				<li loop="$directModuleInstall->get('path') => $path">{$path}</li>
+			</ul>
+		</block>
+		<block cond="$show_ftp_note" >
+			<p>{$lang->description_download}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp')}">FTP Setup</a>)</p>
+			<p>{$lang->path}: {$package->path}</p>
+			<p><a class="x_btn x_btn-primary x_pull-right" href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
+		</block>
 	</div>
 	<div cond="!$show_ftp_note">
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/install/1'" class="message error">
@@ -51,12 +58,6 @@
 						<p class="x_help-inline">{$lang->about_ftp_password}</p>
 					</div>
 				</div>
-			</block>
-			<block cond="!$directModuleInstall->toBool()">
-				<p>{$lang->msg_direct_install_not_supported}</p>
-				<ul>
-					<li loop="$directModuleInstall->get('path') => $path">{$path}</li>
-				</ul>
 			</block>
 			<div class="x_clearfix btnArea">
 				<div class="x_pull-right">
