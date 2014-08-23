@@ -711,7 +711,7 @@ class memberController extends member
 		$max_width = $config->profile_image_max_width;
 		if(!$max_width) $max_width = "90";
 		$max_height = $config->profile_image_max_height;
-		if(!$max_height) $max_height = "20";
+		if(!$max_height) $max_height = "90";
 		// Get a target path to save
 		$target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
 		FileHandler::makeDir($target_path);
