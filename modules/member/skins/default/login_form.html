@@ -8,7 +8,7 @@
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
-		<form ruleset="@login" action="{getUrl('')}" method="post" id="fo_member_login">
+		<form ruleset="@login" action="{getUrl('', 'act', 'procMemberLogin')}" method="post" id="fo_member_login">
 			<input type="hidden" name="success_return_url" value="{$referer_url}" />
 			<input type="hidden" name="act" value="procMemberLogin" />
 			<input type="hidden" name="xe_validator_id" value="modules/member/skins" />
