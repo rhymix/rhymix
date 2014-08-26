@@ -705,13 +705,14 @@ class memberController extends member
 		// Check uploaded file
 		if(!checkUploadedFile($target_file)) return;
 
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+
 		// Get an image size
 		$max_width = $config->profile_image_max_width;
 		if(!$max_width) $max_width = "90";
 		$max_height = $config->profile_image_max_height;
-		if(!$max_height) $max_height = "20";
+		if(!$max_height) $max_height = "90";
 		// Get a target path to save
 		$target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
 		FileHandler::makeDir($target_path);
@@ -1008,7 +1009,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_find_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail->setReceiptor( $member_info->nick_name, $member_info->email_address );
 		$oMail->send();
 		// Return message
 		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
@@ -1180,7 +1181,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail->setReceiptor( $member_info->nick_name, $member_info->email_address );
 		$oMail->send();
 		// Return message
 		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
@@ -1263,7 +1264,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $args->user_name, $args->email_address );
+		$oMail->setReceiptor( $args->email_address, $args->email_address );
 		$oMail->send();
 
 		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
@@ -1390,7 +1391,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail->setReceiptor( $member_info->nick_name, $member_info->email_address );
 		$oMail->send();
 	}
 

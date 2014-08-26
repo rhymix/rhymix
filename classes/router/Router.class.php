@@ -18,29 +18,29 @@ class Router
 	 */
 	private static $routes = array(
 		// rss , blogAPI
-		'(rss|atom)' => array('module' => 'rss', 'act' => '$1'),
-		'([a-zA-Z0-9_]+)/(rss|atom|api)' => array('mid' => '$1', 'act' => '$2'),
-		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/(rss|atom|api)' => array('vid' => '$1', 'mid' => '$2', 'act' => '$3'),
+		'(rss|atom)' => array('module' => 'rss', 'act' => '$1', '[L]' => TRUE),
+		'([a-zA-Z0-9_]+)/(rss|atom|api)' => array('mid' => '$1', 'act' => '$2', '[L]' => TRUE),
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/(rss|atom|api)' => array('vid' => '$1', 'mid' => '$2', 'act' => '$3', '[L]' => TRUE),
 		// trackback
-		'([0-9]+)/(.+)/trackback' => array('document_srl' => '$1', 'key' => '$2', 'act' => 'trackback'),
-		'([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback' => array('mid' => '$1', 'document_srl' => '$2', 'key' => '$3', 'act' => 'trackback'),
-		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback' => array('vid' => '$1', 'mid' => '$2', 'document_srl' => '$3' , 'key' => '$4', 'act' => 'trackback'),
-		// mid
-		'([a-zA-Z0-9_]+)/?' => array('mid' => '$1'),
-		// mid + document_srl
-		'([a-zA-Z0-9_]+)/([0-9]+)' => array('mid' => '$1', 'document_srl' => '$2'),
-		// vid + mid
-		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/' => array('vid' => '$1', 'mid' => '$2'),
-		// vid + mid + document_srl
-		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)?' => array('vid' => '$1', 'mid' => '$2', 'document_srl' => '$3'),
+		'([0-9]+)/(.+)/trackback' => array('document_srl' => '$1', 'key' => '$2', 'act' => 'trackback', '[L]' => TRUE),
+		'([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback' => array('mid' => '$1', 'document_srl' => '$2', 'key' => '$3', 'act' => 'trackback', '[L]' => TRUE),
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback' => array('vid' => '$1', 'mid' => '$2', 'document_srl' => '$3' , 'key' => '$4', 'act' => 'trackback', '[L]' => TRUE),
 		// document_srl
-		'([0-9]+)' => array('document_srl' => '$1'),
+		'([0-9]+)' => array('document_srl' => '$1', '[L]' => TRUE),
+		// mid
+		'([a-zA-Z0-9_]+)/?' => array('mid' => '$1', '[L]' => TRUE),
+		// mid + document_srl
+		'([a-zA-Z0-9_]+)/([0-9]+)' => array('mid' => '$1', 'document_srl' => '$2', '[L]' => TRUE),
+		// vid + mid
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/' => array('vid' => '$1', 'mid' => '$2', '[L]' => TRUE),
+		// vid + mid + document_srl
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)?' => array('vid' => '$1', 'mid' => '$2', 'document_srl' => '$3', '[L]' => TRUE),
 		// mid + entry title
-		'([a-zA-Z0-9_]+)/entry/(.+)' => array('mid' => '$1', 'entry' => '$2'),
+		'([a-zA-Z0-9_]+)/entry/(.+)' => array('mid' => '$1', 'entry' => '$2', '[L]' => TRUE),
 		// vid + mid + entry title
-		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)' => array('vid' => '$1', 'mid' => '$2', 'entry' => '$3'),
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)' => array('vid' => '$1', 'mid' => '$2', 'entry' => '$3', '[L]' => TRUE),
 		// shop / vid / [category|product] / identifier
-		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([a-zA-Z0-9_\.-]+)' => array('act' => 'route', 'vid' => '$1', 'type' => '$2', 'identifier'=> '$3')
+		'([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([a-zA-Z0-9_\.-]+)' => array('act' => 'route', 'vid' => '$1', 'type' => '$2', 'identifier'=> '$3', '[L]' => TRUE)
 	);
 
 	/**
@@ -72,6 +72,7 @@ class Router
 			return;
 		}
 
+		// Get relative path from request uri
 		$path = parse_url($uri, PHP_URL_PATH);
 
 		// Do some final cleaning of the URI and return it
@@ -80,33 +81,80 @@ class Router
 		if(strlen($path) > 0)
 		{
 			self::$segments = explode('/', $path);
-
-			// Remove the meanless segment
-			unset(self::$segments[0]);
 		}
 
 		if(isset(self::$routes[$path]))
 		{
 			foreach(self::$routes[$path] as $key => $val)
 			{
-				$val = preg_replace('#^\$([0-9]+)$#e', '\$matches[$1]', $val);
+				if(strlen($val) > 0)
+				{
+					if(substr_compare($val, '$', 0, 1) == 0)
+					{
+						$segment_index = (int) substr($val, 1) - 1;
+						if($segment_index < 0)
+						{
+							continue;
+						}
 
-				Context::set($key, $val, TRUE);
+						Context::set($key, self::$segments[$segment_index], TRUE);
+					}
+					else
+					{
+						Context::set($key, $val, TRUE);
+					}
+				}
+				else
+				{
+					Context::set($key, '', TRUE);
+				}
 			}
 
 			return;
 		}
 
+		$break = FALSE;
+
 		// Apply routes
 		foreach(self::$routes as $regex => $query)
 		{
+			// Stop the routing proccess
+			if($break)
+			{
+				break;
+			}
 			if(preg_match('#^' . $regex . '$#', $path, $matches))
 			{
 				foreach($query as $key => $val)
 				{
-					$val = preg_replace('#^\$([0-9]+)$#e', '\$matches[$1]', $val);
+					// If [L] keyword is defined
+					if($key == '[L]')
+					{
+						// Stop the routing process and don't apply any more rules
+						$break = TRUE;
+						continue;
+					}
 
-					Context::set($key, $val, TRUE);
+					if(strlen($val) > 0)
+					{
+						if(substr($val, 0, 1) == '$')
+						{
+							$segment_index = (int) substr($val, 1) - 1;
+							if($segment_index < 0)
+							{
+								continue;
+							}
+							Context::set($key, self::$segments[$segment_index], TRUE);
+						}
+						else
+						{
+							Context::set($key, $val, TRUE);
+						}
+					}
+					else
+					{
+						Context::set($key, '', TRUE);
+					}
 				}
 			}
 		}
@@ -150,7 +198,7 @@ class Router
 	 */
 	public static function getSegment($index)
 	{
-		return self::$segments[$index];
+		return self::$segments[$index - 1];
 	}
 
 

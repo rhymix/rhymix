@@ -414,31 +414,55 @@ function xml2json(xml, tab, ignoreAttrib) {
 
 			if(typeof(xeVid)!='undefined') $.extend(data,{vid:xeVid});
 
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: request_uri,
-				contentType: "application/json",
-				data: $.param(data),
-				success: function(data) {
-					$(".wfsr").hide().trigger('cancel_confirm');
-					if(data.error != '0' && data.error > -1000) {
-						if(data.error == -1 && data.message == 'msg_is_not_administrator') {
-							alert('You are not logged in as an administrator');
-							if($.isFunction(callback_error)) callback_error(data);
+			try {
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+					url: request_uri,
+					contentType: "application/json",
+					data: $.param(data),
+					success: function(data) {
+						$(".wfsr").hide().trigger('cancel_confirm');
+						if(data.error != '0' && data.error > -1000) {
+							if(data.error == -1 && data.message == 'msg_is_not_administrator') {
+								alert('You are not logged in as an administrator');
+								if($.isFunction(callback_error)) callback_error(data);
 
-							return;
-						} else {
-							alert(data.message);
-							if($.isFunction(callback_error)) callback_error(data);
+								return;
+							} else {
+								alert(data.message);
+								if($.isFunction(callback_error)) callback_error(data);
 
-							return;
+								return;
+							}
 						}
-					}
 
-					if($.isFunction(callback_sucess)) callback_sucess(data);
-				}
-			});
+						if($.isFunction(callback_sucess)) callback_sucess(data);
+					},
+					error: function(xhr, textStatus) {
+						$(".wfsr").hide();
+
+						var msg = '';
+
+						if (textStatus == 'parsererror') {
+							msg  = 'The result is not valid JSON :\n-------------------------------------\n';
+
+							if(xhr.responseText === "") return;
+
+							msg += xhr.responseText.replace(/<[^>]+>/g, '');
+						} else {
+							msg = textStatus;
+						}
+
+						try{
+							console.log(msg);
+						} catch(ee){}
+					}
+				});
+			} catch(e) {
+				alert(e);
+				return;
+			}
 		}
 	};
 
@@ -458,17 +482,43 @@ function xml2json(xml, tab, ignoreAttrib) {
 			if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
 			$.extend(data,{module:action[0],act:action[1]});
-			$.ajax({
-				type:"POST",
-				dataType:"html",
-				url:request_uri,
-				data:$.param(data),
-				success : function(html){
-					$(".wfsr").hide().trigger('cancel_confirm');
-					self[type](html);
-					if($.isFunction(func)) func(args);
-				}
-			});
+			try {
+				$.ajax({
+					type:"POST",
+					dataType:"html",
+					url:request_uri,
+					data:$.param(data),
+					success : function(html){
+						$(".wfsr").hide().trigger('cancel_confirm');
+						self[type](html);
+						if($.isFunction(func)) func(args);
+					},
+					error: function(xhr, textStatus) {
+						$(".wfsr").hide();
+
+						var msg = '';
+
+						if (textStatus == 'parsererror') {
+							msg  = 'The result is not valid page :\n-------------------------------------\n';
+
+							if(xhr.responseText === "") return;
+
+							msg += xhr.responseText.replace(/<[^>]+>/g, '');
+						} else {
+							msg = textStatus;
+						}
+
+						try{
+							console.log(msg);
+						} catch(ee){}
+					}
+
+				});
+
+			} catch(e) {
+				alert(e);
+				return;
+			}
 		}
 	};
 
@@ -477,7 +527,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 	}
 
 	$(function($){
-		$('.wfsr')
+		$(document)
 			.ajaxStart(function(){
 				$(window).bind('beforeunload', beforeUnloadHandler);
 			})

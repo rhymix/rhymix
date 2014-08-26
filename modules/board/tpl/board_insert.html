@@ -171,6 +171,9 @@
 			<div class="x_controls">
 				<select name="order_target" id="order_target" title="{$lang->order_target}">
 					<option loop="$order_target=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->order_target== $key">{$val}</option>
+					<block cond="$extra_order_target">
+					<option loop="$extra_order_target=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->order_target== $key">{$val}</option>
+					</block>
 				</select>
 				<select name="order_type" id="order_type" title="{$lang->order_type}">
 					<option value="asc" selected="selected"|cond="$module_info->order_type != 'desc'">{$lang->order_asc}</option>
