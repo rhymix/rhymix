@@ -333,7 +333,7 @@ function previewFiles(event, file_srl) {
 	var $opt, $select, $preview, fileinfo, filename, match, html, $=jQuery;
 
 	if(!file_srl) {
-		$opt = $(event.target).parent().andSelf().filter('select').find('>option:selected');
+		$opt = $(event.target).parent().addBack().filter('select').find('>option:selected');
 		if(!$opt.length) return;
 
 		file_srl = $opt.attr('value');
