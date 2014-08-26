@@ -1147,12 +1147,25 @@ class ModuleHandler extends Handler
 		{
 			return new Object();
 		}
+		
+		//store before trigger call time
+		$before_trigger_time = NULL;
+		if(__LOG_SLOW_TRIGGER__> 0)
+		{
+		    $before_trigger_time = microtime(true);
+		}
 
 		foreach($triggers as $item)
 		{
 			$module = $item->module;
 			$type = $item->type;
 			$called_method = $item->called_method;
+			
+			$before_each_trigger_time = NULL;
+			if(__LOG_SLOW_TRIGGER__> 0)
+			{
+			    $before_each_trigger_time = microtime(true);
+			}
 
 			// todo why don't we call a normal class object ?
 			$oModule = getModule($module, $type);
@@ -1167,6 +1180,57 @@ class ModuleHandler extends Handler
 				return $output;
 			}
 			unset($oModule);
+			
+			//store after trigger call time
+			$after_each_trigger_time = NULL;
+			//init value to 0
+			$elapsed_time_trigger = 0;
+			
+			if(__LOG_SLOW_TRIGGER__> 0)
+			{
+				$after_each_trigger_time = microtime(true);
+				$elapsed_time_trigger = ($after_each_trigger_time - $before_each_trigger_time) * 1000;
+			}
+			
+			// if __LOG_SLOW_TRIGGER__ is defined, check elapsed time and leave trigger time log
+			if(__LOG_SLOW_TRIGGER__> 0 && $elapsed_time_trigger > __LOG_SLOW_TRIGGER__)
+			{
+				$buff = '';
+				$log_file = _XE_PATH_ . 'files/_db_slow_trigger.php';
+				if(!file_exists($log_file))
+				{
+					$buff = '<?php exit(); ?' . '>' . "\n";
+				}
+			
+				$buff .= sprintf("%s\t%s.%s.%s.%s(%s)\n\t%0.6f msec\n\n", date("Y-m-d H:i"), $item->trigger_name,$item->module,$item->called_method,$item->called_position,$item->type, $elapsed_time_trigger);
+				
+				@file_put_contents($log_file, $buff, FILE_APPEND|LOCK_EX);
+			}
+		}
+		
+		//store after trigger call time
+		$after_trigger_time = NULL;
+		//init value to 0
+		$elapsed_time = 0;
+		if(__LOG_SLOW_TRIGGER__> 0)
+		{
+		    $after_trigger_time = microtime(true);
+		    $elapsed_time = ($after_trigger_time - $before_trigger_time) * 1000;
+		}
+
+		// if __LOG_SLOW_TRIGGER__ is defined, check elapsed time and leave trigger time log
+		if(__LOG_SLOW_TRIGGER__> 0 && $elapsed_time > __LOG_SLOW_TRIGGER__)
+		{
+			$buff = '';
+			$log_file = _XE_PATH_ . 'files/_slow_trigger.php';
+			if(!file_exists($log_file))
+			{
+				$buff = '<?php exit(); ?' . '>' . "\n";
+			}
+
+			$buff .= sprintf("%s\t%s.totaltime\n\t%0.6f msec\n\n", date("Y-m-d H:i"), $trigger_name,$elapsed_time);
+
+			@file_put_contents($log_file, $buff, FILE_APPEND|LOCK_EX);
 		}
 
 		return new Object();
