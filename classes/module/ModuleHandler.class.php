@@ -1172,7 +1172,19 @@ class ModuleHandler extends Handler
 				continue;
 			}
 
+			$before_each_trigger_time = microtime(true);
+
 			$output = $oModule->{$called_method}($obj);
+
+			$after_each_trigger_time = microtime(true);
+			$elapsed_time_trigger = $after_each_trigger_time - $before_each_trigger_time;
+
+			$slowlog = new stdClass;
+			$slowlog->caller = $trigger_name . '.' . $called_position;
+			$slowlog->called = $module . '.' . $called_method;
+			$slowlog->called_extension = $module;
+			if($trigger_name != 'XE.writeSlowlog') writeSlowlog('trigger', $elapsed_time_trigger, $slowlog);
+
 			if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool())
 			{
 				return $output;
