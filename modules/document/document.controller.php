@@ -1557,6 +1557,7 @@ class documentController extends document
 		$this->updateCategory($cur_args);
 		// Category information
 		$next_args = new stdClass;
+		$next_args->category_srl = $next_category->category_srl;
 		$next_args->list_order = $list_order;
 		$next_args->title = $next_category->title;
 		$this->updateCategory($next_args);
