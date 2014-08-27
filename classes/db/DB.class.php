@@ -447,7 +447,8 @@ class DB
 		$log['act'] = Context::get('act');
 		$log['time'] = date('Y-m-d H:i:s');
 
-		$bt = debug_backtrace();
+		$bt = version_compare(PHP_VERSION, '5.3.6', '>=') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
+
 		foreach($bt as $no => $call)
 		{
 			if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
@@ -455,6 +456,7 @@ class DB
 				$call_no = $no;
 				$call_no++;
 				$log['called_file'] = $bt[$call_no]['file'].':'.$bt[$call_no]['line'];
+				$log['called_file'] = str_replace(_XE_PATH_ , '', $log['called_file']);
 				$call_no++;
 				$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
 				break;
@@ -487,20 +489,12 @@ class DB
 
 		$this->setQueryLog($log);
 
-		// if __LOG_SLOW_QUERY__ if defined, check elapsed time and leave query log
-		if(__LOG_SLOW_QUERY__ > 0 && $elapsed_time > __LOG_SLOW_QUERY__)
-		{
-			$buff = '';
-			$log_file = _XE_PATH_ . 'files/_db_slow_query.php';
-			if(!file_exists($log_file))
-			{
-				$buff = '<?php exit(); ?' . '>' . "\n";
-			}
-
-			$buff .= sprintf("%s\t%s\n\t%0.6f sec\tquery_id:%s\n\n", date("Y-m-d H:i"), $this->query, $elapsed_time, $this->query_id);
-
-			@file_put_contents($log_file, $buff, FILE_APPEND|LOCK_EX);
-		}
+		$log_args = new stdClass;
+		$log_args->query = $this->query;
+		$log_args->query_id = $this->query_id;
+		$log_args->caller = $log['called_method'] . '() in ' . $log['called_file'];
+		$log_args->connection = $log['connection'];
+		writeSlowlog('query', $elapsed_time, $log_args);
 	}
 
 	/**
