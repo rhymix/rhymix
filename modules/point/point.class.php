@@ -63,6 +63,9 @@ class point extends ModuleObject
 		// Vote up / Vote down
 		$config->voted = 0;
 		$config->blamed = 0;
+		// Comment Vote up / Comment Vote down
+		$config->voted_comment = 0;
+		$config->blamed_comment = 0;
 		// Save configurations
 		$oModuleController->insertModuleConfig('point', $config);
 		// Cash act list for faster execution
@@ -86,7 +89,8 @@ class point extends ModuleObject
 		$oModuleController->insertTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
 		// Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
 		$oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');
-
+		// Add a trigger for comment voting up and down 2014.08.30 sejin7940
+		$oModuleController->insertTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
 		return new Object();
 	}
 
@@ -118,7 +122,8 @@ class point extends ModuleObject
 
 		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'point', 'controller', 'triggerCopyModule', 'after')) return true;
-
+		// Add a trigger for comment voting up and down 2014.08.30 sejin7940
+		if(!$oModuleModel->getTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) return true;
 		return false;
 	}
 
@@ -167,6 +172,15 @@ class point extends ModuleObject
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'point', 'controller', 'triggerCopyModule', 'after'))
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'point', 'controller', 'triggerCopyModule', 'after');
+		}
+		// Add a trigger for comment voting up and down 2014.08.30 sejin7940
+		if(!$oModuleModel->getTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) 
+		{
+			$config = $oModuleModel->getModuleConfig('point');
+			$config->voted_comment = 0;
+			$config->blamed_comment = 0;
+			$oModuleController->insertModuleConfig('point', $config);
+			$oModuleController->insertTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
 		}
 
 		return new Object(0, 'success_updated');
