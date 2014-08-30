@@ -37,6 +37,8 @@ class pointAdminController extends point
 		$config->download_file = (int)$args->download_file;
 		$config->voted = (int)$args->voted;
 		$config->blamed = (int)$args->blamed;
+		$config->voted_comment = (int)$args->voted_comment;
+		$config->blamed_comment = (int)$args->blamed_comment;
 		// The highest level
 		$config->max_level = $args->max_level;
 		if($config->max_level>1000) $config->max_level = 1000;
