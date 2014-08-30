@@ -456,14 +456,31 @@ class pointController extends point
 
 		if( $obj->point > 0 )
 		{
-			$point = $module_config['voted'];
-			if(strlen($point) == 0 && !is_int($point)) $point = $config->voted;
+			if($obj->comment_srl)
+			{
+				$point = $module_config['voted_comment'];
+				if(strlen($point) == 0 && !is_int($point)) $point = $config->voted_comment;
+			}
+			else
+			{
+				$point = $module_config['voted'];
+				if(strlen($point) == 0 && !is_int($point)) $point = $config->voted;
+			}
 		}
 		else
 		{
-			$point = $module_config['blamed'];
-			if(strlen($point) == 0 && !is_int($point)) $point = $config->blamed;
+			if($obj->comment_srl)
+			{
+				$point = $module_config['blamed_comment'];
+				if(strlen($point) == 0 && !is_int($point)) $point = $config->blamed_comment;
+			}
+			else
+			{
+				$point = $module_config['blamed'];
+				if(strlen($point) == 0 && !is_int($point)) $point = $config->blamed;
+			}
 		}
+
 
 		if(!$point) return new Object();
 		// Increase the point
