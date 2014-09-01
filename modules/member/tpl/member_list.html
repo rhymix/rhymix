@@ -24,6 +24,7 @@
 				<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
 				<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
 				<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
+				<a href="#listManager" data-value="spam" class="modalAnchor _member x_btn">{$lang->cmd_spammer}</a>
 			</div>
 		</caption>
 		<thead>
@@ -110,6 +111,7 @@
 		<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
 		<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
 		<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
+		<a href="#listManager" data-value="spam" class="modalAnchor _member x_btn">{$lang->cmd_spammer}</a>
 	</div>
 </div>
 <form action="./" method="get" class="search center x_input-append" no-error-return-url="true">
@@ -167,7 +169,7 @@
 		<div class="x_modal-footer">
 			<button type="button" class="x_btn x_pull-left" data-hide="#listManager">{$lang->cmd_close}</button>
 			<span class="x_btn-group x_pull-right">
-				<button type="submit" name="type" value="modify|delete" class="x_btn x_btn-inverse">{$lang->confirm}</button>
+				<button type="submit" name="type" value="modify|delete|spam" class="x_btn x_btn-inverse">{$lang->confirm}</button>
 			</span>
 		</div>
 	</form>
