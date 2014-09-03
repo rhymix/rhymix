@@ -2010,7 +2010,7 @@ class moduleModel extends module
 				$args->module_srl = $module_srl;
 				$args->member_srl = $member_info->member_srl;
 				$output = executeQuery('module.getModuleAdmin',$args);
-				if($output->data && $output->data->member_srl == $member_info->member_srl) $grant->manager = $grant->is_admin = true;
+				if($output->data && $output->data->member_srl == $member_info->member_srl) $grant->manager = true;
 			}
 			// If not an administrator, get information from the DB and grant manager privilege.
 			if(!$grant->manager)
