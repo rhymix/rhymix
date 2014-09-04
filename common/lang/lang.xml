@@ -3717,6 +3717,19 @@
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. Зөвхөн тоогоор оруулах ёстой.]]></value>
 		</item>
 	</item>
+	<item name="security_invalid_session">
+			<value xml:lang="ko"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="jp"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="zh-CN"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="zh-TW"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="fr"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="de"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="es"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="tr"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="vi"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="mn"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+	</item>
 	<item name="security_warning_embed">
 		<value xml:lang="ko"><![CDATA[보안 문제로 관리자 아이디로는 embed를 볼 수 없습니다. 확인하려면 다른 아이디로 접속하세요]]></value>
 		<value xml:lang="en"><![CDATA[Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.]]></value>
