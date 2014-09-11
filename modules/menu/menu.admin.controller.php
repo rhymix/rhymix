@@ -606,6 +606,12 @@ class menuAdminController extends menu
 		$cmArgs->is_skin_fix = 'N';
 		$cmArgs->is_mskin_fix = 'N';
 
+		$db_info = Context::getDBInfo();
+		if($db_info->use_mobile_view == 'Y')
+		{
+			$cmArgs->use_mobile = 'Y';
+		}
+		
 		// if mid is empty, auto create mid
 		if(!$request->module_id)
 		{
