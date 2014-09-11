@@ -292,7 +292,7 @@ class DisplayHandler extends Handler
 					$buff = 'The IP address is not allowed. Change the value of __DEBUG_PROTECT_IP__ into your IP address in config/config.user.inc.php or config/config.inc.php';
 				}
 
-				return "<!--\r\n" . implode("\r\n", $buff) . "\r\n-->";
+				return "<!--\r\n" . $buff . "\r\n-->";
 			}
 
 			// Output to a file
