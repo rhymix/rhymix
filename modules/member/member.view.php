@@ -119,7 +119,7 @@ class memberView extends member
 				continue;
 			}
 
-			if($memberInfo->member_srl != $logged_info->member_srl && $formInfo->isPublic != 'Y')
+			if($logged_info->is_admin != 'Y' && $memberInfo->member_srl != $logged_info->member_srl && $formInfo->isPublic != 'Y')
 			{
 				continue;
 			}
