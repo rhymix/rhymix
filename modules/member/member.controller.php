@@ -230,8 +230,7 @@ class memberController extends member
 				}
 				// Check if duplicated
 				$member_srl = $oMemberModel->getMemberSrlByNickName($value);
-				$member_srl_by_decode = $oMemberModel->getMemberSrlByNickName(utf8_decode($value));
-				if(($member_srl && $logged_info->member_srl != $member_srl ) || ($member_srl_by_decode && $logged_info->member_srl != $member_srl_by_decode )) return new Object(0,'msg_exists_nick_name');
+				if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_nick_name');
 
 				break;
 			case 'email_address' :
@@ -706,13 +705,14 @@ class memberController extends member
 		// Check uploaded file
 		if(!checkUploadedFile($target_file)) return;
 
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+
 		// Get an image size
 		$max_width = $config->profile_image_max_width;
 		if(!$max_width) $max_width = "90";
 		$max_height = $config->profile_image_max_height;
-		if(!$max_height) $max_height = "20";
+		if(!$max_height) $max_height = "90";
 		// Get a target path to save
 		$target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
 		FileHandler::makeDir($target_path);
@@ -1009,7 +1009,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_find_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail->setReceiptor( $member_info->nick_name, $member_info->email_address );
 		$oMail->send();
 		// Return message
 		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
@@ -1181,7 +1181,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail->setReceiptor( $member_info->nick_name, $member_info->email_address );
 		$oMail->send();
 		// Return message
 		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
@@ -1264,7 +1264,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $args->user_name, $args->email_address );
+		$oMail->setReceiptor( $args->email_address, $args->email_address );
 		$oMail->send();
 
 		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
@@ -1391,7 +1391,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail->setReceiptor( $member_info->nick_name, $member_info->email_address );
 		$oMail->send();
 	}
 
@@ -1970,8 +1970,7 @@ class memberController extends member
 			return new Object(-1,'denied_nick_name');
 		}
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
-		$member_srl_by_decode = $oMemberModel->getMemberSrlByNickName(utf8_decode($args->nick_name));
-		if($member_srl || $member_srl_by_decode) return new Object(-1,'msg_exists_nick_name');
+		if($member_srl) return new Object(-1,'msg_exists_nick_name');
 
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
 		if($member_srl) return new Object(-1,'msg_exists_email_address');
@@ -2129,8 +2128,7 @@ class memberController extends member
 		}
 		
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
-		$member_srl_by_decode = $oMemberModel->getMemberSrlByNickName(utf8_decode($args->nick_name));
- 		if(($member_srl || $member_srl_by_decode) && $orgMemberInfo->nick_name != $args->nick_name) return new Object(-1,'msg_exists_nick_name');
+ 		if($member_srl && $orgMemberInfo->nick_name != $args->nick_name) return new Object(-1,'msg_exists_nick_name');
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 		// Website, blog, checks the address
@@ -2462,7 +2460,7 @@ class memberController extends member
 		$oMail->setReceiptor( $member_info->nick_name, $newEmail );
 		$result = $oMail->send();
 
-		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $newEmail);
+		$msg = sprintf(Context::getLang('msg_change_mail_sent'), $newEmail);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -2635,7 +2633,7 @@ class memberController extends member
 		$spam_description = trim( Context::get('spam_description') );
 
 		$oMemberModel = getModel('member');
-		$columnList = array('member_srl', 'description');
+		$columnList = array('member_srl', 'email_address', 'user_id', 'nick_name', 'description');
 		// get member current infomation
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 
@@ -2646,7 +2644,10 @@ class memberController extends member
 		$total_count = $cnt_comment + $cnt_document;
 
 		$args = new stdClass();
-		$args->member_srl= $member_info->member_srl;
+		$args->member_srl = $member_info->member_srl;
+		$args->email_address = $member_info->email_address;
+		$args->user_id = $member_info->user_id;
+		$args->nick_name = $member_info->nick_name;
 		$args->denied = "Y";
 		$args->description = trim( $member_info->description );
 		if( $args->description != "" ) $args->description .= "\n";	// add new line

@@ -18,6 +18,7 @@ class messageMobile extends messageView
 		// Get configurations (using module model object)
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('message');
+		if(!is_object($config)) $config = new stdClass;
 		if(!$config->mskin) $config->mskin = 'default';
 		// Set the template path
 		$template_path = sprintf('%sm.skins/%s', $this->module_path, $config->mskin);

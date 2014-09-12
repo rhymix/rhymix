@@ -87,6 +87,7 @@
 		</domain>
 		<domain name="http://www.vimeo.com" desc="vimeo.com">
 			<pattern>http://player.vimeo.com/</pattern>
+			<pattern>//player.vimeo.com/</pattern>
 		</domain>
 	</iframe>
 </whiteurl>

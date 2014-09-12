@@ -225,7 +225,8 @@ class installController extends install
 		);
 		$db_info->slave_db = array($db_info->master_db);
 		$db_info->default_url = Context::getRequestUri();
-		$db_info->lang_type = Context::getLangType();
+		$db_info->lang_type = Context::get('lang_type') ? Context::get('lang_type') : Context::getLangType();
+		Context::setLangType($db_info->lang_type);
 		$db_info->use_rewrite = Context::get('use_rewrite');
 		$db_info->time_zone = Context::get('time_zone');
 
@@ -388,26 +389,26 @@ class installController extends install
 
 		FileHandler::writeFile(_XE_PATH_.$checkFilePath, trim($checkString));
 
+		$scheme = $_SERVER['REQUEST_SCHEME'];
 		$hostname = $_SERVER['SERVER_NAME'];
 		$port = $_SERVER['SERVER_PORT'];
+		$str_port = '';
+		if($port)
+		{
+			$str_port = ':' . $port;
+		}
+
 		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
 		$currentPath = str_replace($_SERVER['DOCUMENT_ROOT'], "", _XE_PATH_);
 		if($currentPath != "")
+		{
 			$query = $currentPath . $query;
-
-		$fp = @fsockopen($hostname, $port, $errno, $errstr, 5);
-		if(!$fp) return false;
-
-		fputs($fp, "GET {$query} HTTP/1.0\r\n");
-		fputs($fp, "Host: {$hostname}\r\n\r\n");
-
-		$buff = '';
-		while(!feof($fp)) {
-			$str = fgets($fp, 1024);
-			if(trim($str)=='') $start = true;
-			if($start) $buff .= $str;
 		}
-		fclose($fp);
+
+		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
+		$requestConfig = array();
+		$requestConfig['ssl_verify_peer'] = false;
+		$buff = FileHandler::getRemoteResource($requestUrl, null, 10, 'POST', 'application/x-www-form-urlencoded', array(), array(), array(), $requestConfig);
 
 		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
 

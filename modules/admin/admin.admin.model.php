@@ -947,14 +947,22 @@ class adminAdminModel extends admin
 
 	function iconUrlCheck($iconname, $default_icon_name)
 	{
-		$file_exsit = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $iconname);
+
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+
+		$file_exsit = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
 		if(!$file_exsit)
 		{
 			$icon_url = './modules/admin/tpl/img/' . $default_icon_name;
 		}
 		else
 		{
-			$icon_url = $db_info->default_url . 'files/attach/xeicon/' . $iconname;
+			$icon_url = $db_info->default_url . 'files/attach/xeicon/' . $virtual_site . $iconname;
 		}
 		return $icon_url;
 	}

@@ -300,7 +300,7 @@ button.btn {
 	-moz-border-radius-topleft: 4px;
 	border-top-left-radius: 4px;
 }
-.btn-group>.btn: last-child {
+.btn-group>.btn:last-child {
 	-webkit-border-top-right-radius: 4px;
 	-moz-border-radius-topright: 4px;
 	border-top-right-radius: 4px;

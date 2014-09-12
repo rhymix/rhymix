@@ -94,7 +94,7 @@ class memberAdminView extends member
 			}
 		}
 		$config = $this->memberConfig;
-		$memberIdentifiers = array('email_address'=>'email_address', 'user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');
+		$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');
 		$usedIdentifiers = array();	
 
 		if(is_array($config->signupForm))
@@ -582,6 +582,7 @@ class memberAdminView extends member
 					{
 						$template = '<select name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
 						$optionTag = array();
+						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
 						if($extendForm->default_value)
 						{
 							foreach($extendForm->default_value as $v)

@@ -619,6 +619,7 @@ class adminAdminView extends admin
 		$info['PHP_Core'] = $php_core;
 
 		$str_info = "[XE Server Environment " . date("Y-m-d") . "]\n\n";
+		$str_info .= "realpath : ".realpath('./')."\n";
 		foreach( $info as $key=>$value )
 		{
 			if( is_array( $value ) == false ) {

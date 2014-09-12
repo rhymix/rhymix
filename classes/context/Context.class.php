@@ -230,14 +230,30 @@ class Context
 				define('_XE_SITELOCK_MESSAGE_', $message);
 
 				header("HTTP/1.1 403 Forbidden");
-				include _XE_PATH_ . 'common/tpl/sitelock.html';
+				if(FileHandler::exists(_XE_PATH_ . 'common/tpl/sitelock.user.html'))
+				{
+					include _XE_PATH_ . 'common/tpl/sitelock.user.html';
+				}
+				else
+				{
+					include _XE_PATH_ . 'common/tpl/sitelock.html';
+				}
 				exit;
 			}
 		}
 
+		// check if using rewrite module
+		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
+
 		// If XE is installed, get virtual site information
 		if(self::isInstalled())
 		{
+			// If using rewrite module, initializes router
+			if($this->allow_rewrite)
+			{
+				Router::proc();
+			}
+
 			$oModuleModel = getModel('module');
 			$site_module_info = $oModuleModel->getDefaultMid();
 
@@ -357,9 +373,6 @@ class Context
 		// load common language file
 		$this->lang = &$GLOBALS['lang'];
 		$this->loadLang(_XE_PATH_ . 'common/lang/');
-
-		// check if using rewrite module
-		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
 
 		// set locations for javascript use
 		if($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -1059,6 +1072,7 @@ class Context
 	 */
 	function convertEncodingStr($str)
 	{
+        if(!$str) return null;
 		$obj = new stdClass();
 		$obj->str = $str;
 		$obj = self::convertEncoding($obj);
@@ -1554,7 +1568,9 @@ class Context
 					'act.document_srl.key.mid.vid' => ($act == 'trackback') ? "$vid/$mid/$srl/$key/$act" : ''
 				);
 
-				$query = $target_map[$target];
+				Router::setMap($target_map);
+
+				$query = Router::makePrettyUrl($target);
 			}
 
 			if(!$query)
