@@ -595,25 +595,14 @@ function doDocumentLoad(obj) {
 }
 
 /* 저장된 게시글의 선택 */
-function doDocumentSelect(document_srl, module) {
+function doDocumentSelect(document_srl) {
 	if(!opener || !opener.objForSavedDoc) {
 		window.close();
 		return;
 	}
 
-	if(module===undefined) {
-		module = 'document';
-	}
-
 	// 게시글을 가져와서 등록하기
-	switch(module) {
-		case 'page' :
-			opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispPageAdminContentModify');
-			break;
-		default :	
-			opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
-			break;
-	}
+	opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
 	window.close();
 }
 
@@ -910,7 +899,7 @@ function get_by_id(id) {
 
 jQuery(function($){
 	// display popup menu that contains member actions and document actions
-	$(document).on('click touchstart', function(evt) {
+	$(document).on('click', function(evt) {
 		var $area = $('#popup_menu_area');
 		if(!$area.length) $area = $('<div id="popup_menu_area" tabindex="0" style="display:none;z-index:9999" />').appendTo(document.body);
 
@@ -1662,55 +1651,31 @@ function xml2json(xml, tab, ignoreAttrib) {
 
 			if(typeof(xeVid)!='undefined') $.extend(data,{vid:xeVid});
 
-			try {
-				$.ajax({
-					type: "POST",
-					dataType: "json",
-					url: request_uri,
-					contentType: "application/json",
-					data: $.param(data),
-					success: function(data) {
-						$(".wfsr").hide().trigger('cancel_confirm');
-						if(data.error != '0' && data.error > -1000) {
-							if(data.error == -1 && data.message == 'msg_is_not_administrator') {
-								alert('You are not logged in as an administrator');
-								if($.isFunction(callback_error)) callback_error(data);
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: request_uri,
+				contentType: "application/json",
+				data: $.param(data),
+				success: function(data) {
+					$(".wfsr").hide().trigger('cancel_confirm');
+					if(data.error != '0' && data.error > -1000) {
+						if(data.error == -1 && data.message == 'msg_is_not_administrator') {
+							alert('You are not logged in as an administrator');
+							if($.isFunction(callback_error)) callback_error(data);
 
-								return;
-							} else {
-								alert(data.message);
-								if($.isFunction(callback_error)) callback_error(data);
-
-								return;
-							}
-						}
-
-						if($.isFunction(callback_sucess)) callback_sucess(data);
-					},
-					error: function(xhr, textStatus) {
-						$(".wfsr").hide();
-
-						var msg = '';
-
-						if (textStatus == 'parsererror') {
-							msg  = 'The result is not valid JSON :\n-------------------------------------\n';
-
-							if(xhr.responseText === "") return;
-
-							msg += xhr.responseText.replace(/<[^>]+>/g, '');
+							return;
 						} else {
-							msg = textStatus;
-						}
+							alert(data.message);
+							if($.isFunction(callback_error)) callback_error(data);
 
-						try{
-							console.log(msg);
-						} catch(ee){}
+							return;
+						}
 					}
-				});
-			} catch(e) {
-				alert(e);
-				return;
-			}
+
+					if($.isFunction(callback_sucess)) callback_sucess(data);
+				}
+			});
 		}
 	};
 
@@ -1730,43 +1695,17 @@ function xml2json(xml, tab, ignoreAttrib) {
 			if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
 			$.extend(data,{module:action[0],act:action[1]});
-			try {
-				$.ajax({
-					type:"POST",
-					dataType:"html",
-					url:request_uri,
-					data:$.param(data),
-					success : function(html){
-						$(".wfsr").hide().trigger('cancel_confirm');
-						self[type](html);
-						if($.isFunction(func)) func(args);
-					},
-					error: function(xhr, textStatus) {
-						$(".wfsr").hide();
-
-						var msg = '';
-
-						if (textStatus == 'parsererror') {
-							msg  = 'The result is not valid page :\n-------------------------------------\n';
-
-							if(xhr.responseText === "") return;
-
-							msg += xhr.responseText.replace(/<[^>]+>/g, '');
-						} else {
-							msg = textStatus;
-						}
-
-						try{
-							console.log(msg);
-						} catch(ee){}
-					}
-
-				});
-
-			} catch(e) {
-				alert(e);
-				return;
-			}
+			$.ajax({
+				type:"POST",
+				dataType:"html",
+				url:request_uri,
+				data:$.param(data),
+				success : function(html){
+					$(".wfsr").hide().trigger('cancel_confirm');
+					self[type](html);
+					if($.isFunction(func)) func(args);
+				}
+			});
 		}
 	};
 

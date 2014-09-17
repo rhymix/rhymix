@@ -337,11 +337,9 @@ class Context
 					array(&$oSessionController, 'open'), array(&$oSessionController, 'close'), array(&$oSessionModel, 'read'), array(&$oSessionController, 'write'), array(&$oSessionController, 'destroy'), array(&$oSessionController, 'gc')
 			);
 		}
+
+		if($sess = $_POST[session_name()]) session_id($sess);
 		session_start();
-		if($sess = $_POST[session_name()])
-		{
-			session_id($sess);
-		}
 
 		// set authentication information in Context and session
 		if(self::isInstalled())

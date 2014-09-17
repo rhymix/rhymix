@@ -380,6 +380,22 @@ class ModuleHandler extends Handler
 			$kind = 'admin';
 		}
 
+		if($kind == 'admin')
+		{
+			$oMemberController = ModuleHandler::getModuleInstance('member', 'controller');
+			$validate_session = $oMemberController->validateSession();
+			$oMemberController->regenerateSession();
+			if(!$validate_session)
+			{
+				$this->error = 'security_invalid_session';
+				$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+				$oMessageObject->setError(-1);
+				$oMessageObject->setMessage($this->error);
+				$oMessageObject->dispMessage();
+				return $oMessageObject;
+			}
+		}
+
 		// check REQUEST_METHOD in controller
 		if($type == 'controller')
 		{
@@ -579,7 +595,7 @@ class ModuleHandler extends Handler
 				if($kind == 'admin')
 				{
 					$grant = $oModuleModel->getGrant($this->module_info, $logged_info);
-					if(!$grant->is_admin && !$grant->manager)
+					if(!$grant->manager)
 					{
 						$this->_setInputErrorToContext();
 						$this->error = 'msg_is_not_manager';
@@ -588,6 +604,19 @@ class ModuleHandler extends Handler
 						$oMessageObject->setMessage($this->error);
 						$oMessageObject->dispMessage();
 						return $oMessageObject;
+					}
+					else
+					{
+						if(!$grant->is_admin && $this->module != $this->orig_module->module && $xml_info->permission->{$this->act} != 'manager')
+						{
+							$this->_setInputErrorToContext();
+							$this->error = 'msg_is_not_administrator';
+							$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+							$oMessageObject->setError(-1);
+							$oMessageObject->setMessage($this->error);
+							$oMessageObject->dispMessage();
+							return $oMessageObject;
+						}
 					}
 				}
 			}

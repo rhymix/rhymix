@@ -1810,6 +1810,8 @@ class memberController extends member
 			}
 		}
 
+		$_SESSION['session_checkup'] = null;
+		$this->regenerateSession();
 		$this->setSessionInfo();
 
 		return $output;
@@ -1868,6 +1870,31 @@ class memberController extends member
 		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
 		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
 	}
+
+	function validateSession()
+	{
+		$destory_session = false;
+
+		if($_SESSION['ipaddress'] != $_SERVER['REMOTE_ADDR']) $destory_session =  true;
+
+		if($destory_session)
+		{
+			$this->destroySessionInfo();
+			return false;
+		}
+
+		return true;
+	}
+
+	function regenerateSession()
+	{
+		if(!$_SESSION['session_checkup'] || time() - $_SESSION['session_checkup'] > 30)
+		{
+			session_regenerate_id(true);
+			$_SESSION['session_checkup'] = time();
+		}
+	}
+
 
 	/**
 	 * Logged method for providing a personalized menu
