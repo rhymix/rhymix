@@ -900,7 +900,7 @@ function get_by_id(id) {
 
 jQuery(function($){
 	// display popup menu that contains member actions and document actions
-	$(document).on('click touchstart', function(evt) {
+	$(document).on('click', function(evt) {
 		var $area = $('#popup_menu_area');
 		if(!$area.length) $area = $('<div id="popup_menu_area" tabindex="0" style="display:none;z-index:9999" />').appendTo(document.body);
 
