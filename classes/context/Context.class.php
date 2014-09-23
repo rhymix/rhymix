@@ -1281,15 +1281,17 @@ class Context
 			$val = array($val);
 		}
 
+		$result = array();
 		foreach($val as $k => $v)
 		{
+			$k = htmlentities($k);
 			if($key === 'page' || $key === 'cpage' || substr_compare($key, 'srl', -3) === 0)
 			{
-				$val[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int) $v : $v;
+				$result[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int) $v : $v;
 			}
 			elseif($key === 'mid' || $key === 'vid' || $key === 'search_keyword')
 			{
-				$val[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+				$result[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
 			}
 			else
 			{
@@ -1300,12 +1302,12 @@ class Context
 
 				if(!is_array($v))
 				{
-					$val[$k] = trim($v);
+					$result[$k] = trim($v);
 				}
 			}
 		}
 
-		return $isArray ? $val : $val[0];
+		return $isArray ? $result : $result[0];
 	}
 
 	/**

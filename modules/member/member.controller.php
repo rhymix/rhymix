@@ -1874,8 +1874,7 @@ class memberController extends member
 	function validateSession()
 	{
 		$destory_session = false;
-
-		if($_SESSION['ipaddress'] != $_SERVER['REMOTE_ADDR']) $destory_session =  true;
+		if($_SESSION['destroyed'] === true) $destory_session = true;
 
 		if($destory_session)
 		{
@@ -1888,9 +1887,16 @@ class memberController extends member
 
 	function regenerateSession()
 	{
-		if(!$_SESSION['session_checkup'] || time() - $_SESSION['session_checkup'] > 30)
+		if(!$_SESSION['session_checkup'])
 		{
-			session_regenerate_id(true);
+			$_SESSION['session_checkup'] = time();
+		}
+
+		if(time() - $_SESSION['session_checkup'] >= 1)
+		{
+			$_SESSION['destroyed'] = true;
+			session_regenerate_id();
+			$_SESSION['destroyed'] = false;
 			$_SESSION['session_checkup'] = time();
 		}
 	}
