@@ -1891,7 +1891,7 @@ class memberController extends member
 			$_SESSION['session_checkup'] = time();
 		}
 
-		if(time() - $_SESSION['session_checkup'] >= 1)
+		if(time() - $_SESSION['session_checkup'] > 30)
 		{
 			$_SESSION['destroyed'] = true;
 			session_regenerate_id();
