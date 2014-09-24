@@ -138,7 +138,6 @@ class addonController extends addon
 			$buff[] = '//trigger call here';
 			$buff[] = '}';
 		}
-		$buff[] = '$total_addon_count=' . ($i-1) . ';';
 		$addon_path = _XE_PATH_ . 'files/cache/addons/';
 		FileHandler::makeDir($addon_path);
 		$addon_file = $addon_path . ($gtype == 'site' ? $site_srl : '') . $type . '.acivated_addons.cache.php';
