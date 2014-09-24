@@ -82,6 +82,7 @@ class addonController extends addon
 		$buff = array('<?php if(!defined("__XE__")) exit();', '$_m = Context::get(\'mid\');');
 		$oAddonModel = getAdminModel('addon');
 		$addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
+		$i=0;
 		foreach($addon_list as $addon => $val)
 		{
 			if($val->addon == "smartphone"
@@ -100,6 +101,7 @@ class addonController extends addon
 				$mid_list = NULL;
 			}
 
+			$buff[] = '$before_time = microtime(true);';
 			$buff[] = '$rm = \'' . $extra_vars->xe_run_method . "';";
 			$buff[] = '$ml = array(';
 			if($mid_list)
@@ -127,8 +129,17 @@ class addonController extends addon
 			$buff[] = 'if(isset($ml[$_m]) || count($ml) === 0){';
 			$buff[] = $addon_include;
 			$buff[] = '}}}';
+			$buff[] = '$after_time = microtime(true);';
+			$buff[] = 'if($after_time - $before_time > $db_info->slow_addon_time){';
+			$buff[] = '$addon_time_log[' . $i . '] = new stdClass();';
+			$buff[] = '$addon_time_log[' . $i . ']->type="addon";';
+			$buff[] = '$addon_time_log[' . $i . ']->hash_id=md5($called_position . "' . $addon . '");';
+			$buff[] = '$addon_time_log[' . $i . ']->caller=$called_position;';
+			$buff[] = '$addon_time_log[' . $i . ']->called="' . $addon . '";';
+			$buff[] = '}';
+			$i++;
 		}
-
+		$buff[] = '$total_addon_count=' . ($i-1) . ';';
 		$addon_path = _XE_PATH_ . 'files/cache/addons/';
 		FileHandler::makeDir($addon_path);
 		$addon_file = $addon_path . ($gtype == 'site' ? $site_srl : '') . $type . '.acivated_addons.cache.php';
