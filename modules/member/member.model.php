@@ -234,12 +234,6 @@ class memberModel extends member
 			}
 			Context::set('logged_info', $logged_info);
 
-			if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin)
-			{
-				$oMemberController = getController('member');
-				$oMemberController->regenerateSession();
-			}
-
 			return $logged_info;
 		}
 		return NULL;

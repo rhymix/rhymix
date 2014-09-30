@@ -380,8 +380,6 @@ class ModuleHandler extends Handler
 		if($kind == 'admin')
 		{
 			$oMemberController = ModuleHandler::getModuleInstance('member', 'controller');
-			$validate_session = $oMemberController->validateSession();
-			$oMemberController->regenerateSession();
 			if(!$validate_session)
 			{
 				$this->error = 'security_invalid_session';
