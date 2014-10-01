@@ -337,11 +337,9 @@ class Context
 					array(&$oSessionController, 'open'), array(&$oSessionController, 'close'), array(&$oSessionModel, 'read'), array(&$oSessionController, 'write'), array(&$oSessionController, 'destroy'), array(&$oSessionController, 'gc')
 			);
 		}
+
+		if($sess = $_POST[session_name()]) session_id($sess);
 		session_start();
-		if($sess = $_POST[session_name()])
-		{
-			session_id($sess);
-		}
 
 		// set authentication information in Context and session
 		if(self::isInstalled())
@@ -1283,15 +1281,17 @@ class Context
 			$val = array($val);
 		}
 
+		$result = array();
 		foreach($val as $k => $v)
 		{
+			$k = htmlentities($k);
 			if($key === 'page' || $key === 'cpage' || substr_compare($key, 'srl', -3) === 0)
 			{
-				$val[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int) $v : $v;
+				$result[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int) $v : $v;
 			}
 			elseif($key === 'mid' || $key === 'vid' || $key === 'search_keyword')
 			{
-				$val[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+				$result[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
 			}
 			else
 			{
@@ -1302,12 +1302,12 @@ class Context
 
 				if(!is_array($v))
 				{
-					$val[$k] = trim($v);
+					$result[$k] = trim($v);
 				}
 			}
 		}
 
-		return $isArray ? $val : $val[0];
+		return $isArray ? $result : $result[0];
 	}
 
 	/**

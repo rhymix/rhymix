@@ -6,7 +6,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/find_member_account/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<form action="{getUrl('')}" method="get" ruleset="findAccount">
+	<form action="{getUrl('', 'act', 'procMemberFindAccount')}" method="get" ruleset="findAccount">
 		<input type="hidden" name="mid" value="{$mid}" />
 		<input type="hidden" name="act" value="procMemberFindAccount" />
 		<input type="hidden" name="document_srl" value="{$document_srl}" />
@@ -25,7 +25,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/find_member_account/2'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<form action="./" method="get" ruleset="@find_member_account_by_question">
+	<form action="{getUrl('', 'act', 'procMemberFindAccountByQuestion')}" method="get" ruleset="@find_member_account_by_question">
 		<input type="hidden" name="module" value="member" />
 		<input type="hidden" name="mid" value="{$mid}" />
 		<input type="hidden" name="document_srl" value="{$document_srl}" />	
@@ -59,7 +59,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/find_member_account/3'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<form ruleset="resendAuthMail" action="./" method="post">
+	<form ruleset="resendAuthMail" action="{getUrl('', 'act', 'procMemberResendAuthMail')}" method="post">
 		<input type="hidden" name="module" value="member" />
 		<input type="hidden" name="act" value="procMemberResendAuthMail" />
 		<input type="hidden" name="success_return_url" value="{getUrl(act, $act)}" />

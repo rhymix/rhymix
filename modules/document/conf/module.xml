@@ -15,6 +15,9 @@
         <permission action="procDocumentDeleteCategory" target="member" />
         <permission action="procDocumentMakeXmlFile" target="member" />
         <permission action="procDocumentAdminMoveToTrash" target="member" />
+
+        <permission action="procDocumentAdminInsertExtraVar" target="manager" />
+        <permission action="procDocumentAdminDeleteExtraVar" target="manager" />
     </permissions>
     <actions>
         <action name="dispDocumentPrint" type="view" />
