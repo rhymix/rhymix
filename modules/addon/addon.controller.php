@@ -135,7 +135,7 @@ class addonController extends addon
 			$buff[] = '$addon_time_log->hash_id = md5($called_position . "' . $addon . '");';
 			$buff[] = '$addon_time_log->caller = $called_position;';
 			$buff[] = '$addon_time_log->called = "' . $addon . '";';
-			$buff[] = '//trigger call here';
+			$buff[] = 'ModuleHandler::triggerCall("XE.writeSlowlog", "after", $addon_time_log);';
 			$buff[] = '}';
 		}
 		$addon_path = _XE_PATH_ . 'files/cache/addons/';
