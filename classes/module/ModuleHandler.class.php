@@ -380,22 +380,6 @@ class ModuleHandler extends Handler
 			$kind = 'admin';
 		}
 
-		if($kind == 'admin')
-		{
-			$oMemberController = ModuleHandler::getModuleInstance('member', 'controller');
-			$validate_session = $oMemberController->validateSession();
-			$oMemberController->regenerateSession();
-			if(!$validate_session)
-			{
-				$this->error = 'security_invalid_session';
-				$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
-				$oMessageObject->setError(-1);
-				$oMessageObject->setMessage($this->error);
-				$oMessageObject->dispMessage();
-				return $oMessageObject;
-			}
-		}
-
 		// check REQUEST_METHOD in controller
 		if($type == 'controller')
 		{
