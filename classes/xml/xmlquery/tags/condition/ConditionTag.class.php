@@ -88,7 +88,7 @@ class ConditionTag
 		{
 			if(isset($condition->attrs->default))
 			{
-				$operationList = array('in' => 1, 'between' => 1, 'not in' => 1);
+				$operationList = array('in' => 1, 'between' => 1, 'notin' => 1, 'not_in' => 1);
 				if(isset($operationList[$this->operation]))
 				{
 					$default_value = $condition->attrs->default;
