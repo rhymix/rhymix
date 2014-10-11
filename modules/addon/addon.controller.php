@@ -79,7 +79,7 @@ class addonController extends addon
 	function makeCacheFile($site_srl = 0, $type = "pc", $gtype = 'site')
 	{
 		// Add-on module for use in creating the cache file
-		$buff = array('<?php if(!defined("__XE__")) exit();', '$_m = Context::get(\'mid\');','$db_info = Context::getDBInfo();');
+		$buff = array('<?php if(!defined("__XE__")) exit();', '$_m = Context::get(\'mid\');');
 		$oAddonModel = getAdminModel('addon');
 		$addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
 		foreach($addon_list as $addon => $val)
@@ -129,15 +129,13 @@ class addonController extends addon
 			$buff[] = $addon_include;
 			$buff[] = '}}}';
 			$buff[] = '$after_time = microtime(true);';
-			$buff[] ='if($after_time-$before_time>$db_info->slowlog[\'time_addon\']){';
 			$buff[] = '$addon_time_log = new stdClass();';
 			$buff[] = '$addon_time_log->_log_type = "addon";';
 			$buff[] = '$addon_time_log->caller = $called_position;';
 			$buff[] = '$addon_time_log->called = "' . $addon . '";';
-			$buff[] = '$addon_time_log->called_extension = "' . $addon . '";';
+			$buff[] = '$addon_time_log->called_extension = "addon";';
 			$buff[] = '$addon_time_log->_elapsed_time = $after_time-$before_time;';
 			$buff[] = 'ModuleHandler::triggerCall("XE.writeSlowlog", "after", $addon_time_log);';
-			$buff[] = '}';
 		}
 		$addon_path = _XE_PATH_ . 'files/cache/addons/';
 		FileHandler::makeDir($addon_path);
