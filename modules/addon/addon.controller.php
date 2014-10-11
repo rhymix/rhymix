@@ -79,7 +79,7 @@ class addonController extends addon
 	function makeCacheFile($site_srl = 0, $type = "pc", $gtype = 'site')
 	{
 		// Add-on module for use in creating the cache file
-		$buff = array('<?php if(!defined("__XE__")) exit();', '$_m = Context::get(\'mid\');','$db_info = Context::getDBInfo();');
+		$buff = array('<?php if(!defined("__XE__")) exit();', '$_m = Context::get(\'mid\');');
 		$oAddonModel = getAdminModel('addon');
 		$addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
 		foreach($addon_list as $addon => $val)
