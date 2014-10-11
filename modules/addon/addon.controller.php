@@ -129,12 +129,13 @@ class addonController extends addon
 			$buff[] = $addon_include;
 			$buff[] = '}}}';
 			$buff[] = '$after_time = microtime(true);';
-			$buff[] = 'if($after_time-$before_time>$db_info->slow_addon_time){';
+			$buff[] ='if($after_time-$before_time>$db_info->slowlog[\'time_addon\']){';
 			$buff[] = '$addon_time_log = new stdClass();';
-			$buff[] = '$addon_time_log->type = "addon";';
-			$buff[] = '$addon_time_log->hash_id = md5($called_position . "' . $addon . '");';
+			$buff[] = '$addon_time_log->_log_type = "addon";';
 			$buff[] = '$addon_time_log->caller = $called_position;';
 			$buff[] = '$addon_time_log->called = "' . $addon . '";';
+			$buff[] = '$addon_time_log->called_extension = "' . $addon . '";';
+			$buff[] = '$addon_time_log->_elapsed_time = $after_time-$before_time;';
 			$buff[] = 'ModuleHandler::triggerCall("XE.writeSlowlog", "after", $addon_time_log);';
 			$buff[] = '}';
 		}
