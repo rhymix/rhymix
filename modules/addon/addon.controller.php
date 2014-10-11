@@ -133,7 +133,7 @@ class addonController extends addon
 			$buff[] = '$addon_time_log->_log_type = "addon";';
 			$buff[] = '$addon_time_log->caller = $called_position;';
 			$buff[] = '$addon_time_log->called = "' . $addon . '";';
-			$buff[] = '$addon_time_log->called_extension = "addon";';
+			$buff[] = '$addon_time_log->called_extension = "' . $addon . '";';
 			$buff[] = '$addon_time_log->_elapsed_time = $after_time-$before_time;';
 			$buff[] = 'ModuleHandler::triggerCall("XE.writeSlowlog", "after", $addon_time_log);';
 		}
