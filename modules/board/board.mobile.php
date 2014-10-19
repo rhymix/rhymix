@@ -11,8 +11,11 @@ class boardMobile extends boardView
 		$oSecurity->encodeHTML('document_srl', 'comment_srl', 'vid', 'mid', 'page', 'category', 'search_target', 'search_keyword', 'sort_index', 'order_type', 'trackback_srl');
 
 		if($this->module_info->list_count) $this->list_count = $this->module_info->list_count;
+		if($this->module_info->mobile_list_count) $this->list_count = $this->module_info->mobile_list_count;
 		if($this->module_info->search_list_count) $this->search_list_count = $this->module_info->search_list_count;
+		if($this->module_info->mobile_search_list_count) $this->list_count = $this->module_info->mobile_search_list_count;
 		if($this->module_info->page_count) $this->page_count = $this->module_info->page_count;
+		if($this->module_info->mobile_page_count) $this->page_count = $this->module_info->mobile_page_count;
 		$this->except_notice = $this->module_info->except_notice == 'N' ? false : true;
 
 		// $this->_getStatusNameListecret option backward compatibility
@@ -24,11 +27,29 @@ class boardMobile extends boardView
 			$this->module_info->secret = 'Y';
 		}
 
-		//If category are exsist, set value 'use_category' to 'Y'
-		if(count($oDocumentModel->getCategoryList($this->module_info->module_srl)))
-			$this->module_info->use_category = 'Y';
+		// use_category <=1.5.x, hide_category >=1.7.x
+		$count_category = count($oDocumentModel->getCategoryList($this->module_info->module_srl));
+		if($count_category)
+		{
+			if($this->module_info->hide_category)
+			{
+				$this->module_info->use_category = ($this->module_info->hide_category == 'Y') ? 'N' : 'Y';
+			}
+			else if($this->module_info->use_category)
+			{
+				$this->module_info->hide_category = ($this->module_info->use_category == 'Y') ? 'N' : 'Y';
+			}
+			else
+			{
+				$this->module_info->hide_category = 'N';
+				$this->module_info->use_category = 'Y';
+			}
+		}
 		else
+		{
+			$this->module_info->hide_category = 'Y';
 			$this->module_info->use_category = 'N';
+		}
 
 		/**
 		 * check the consultation function, if the user is admin then swich off consultation function

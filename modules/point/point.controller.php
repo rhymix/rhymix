@@ -152,6 +152,7 @@ class pointController extends point
 		// If there are comment points, attempt to deduct
 		if($comment_point>0) return new Object();
 		// Get all the comments related to this post
+		$cp_args = new stdClass();
 		$cp_args->document_srl = $document_srl;
 		$output = executeQueryArray('point.getCommentUsers', $cp_args);
 		// Return if there is no object
@@ -607,6 +608,7 @@ class pointController extends point
 				// Remove linkage group
 				if($del_group_list && count($del_group_list))
 				{
+					$del_group_args = new stdClass;
 					$del_group_args->member_srl = $member_srl;
 					$del_group_args->group_srl = implode(',', $del_group_list);
 					$del_group_output = executeQuery('point.deleteMemberGroup', $del_group_args);
@@ -614,6 +616,7 @@ class pointController extends point
 				// Grant a new group
 				foreach($new_group_list as $group_srl)
 				{
+					$new_group_args = new stdClass;
 					$new_group_args->member_srl = $member_srl;
 					$new_group_args->group_srl = $group_srl;
 					executeQuery('member.addMemberToGroup', $new_group_args);
@@ -642,7 +645,7 @@ class pointController extends point
 		FileHandler::writeFile($cache_filename, $point);
 
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
+		if($new_group_list && $del_group_list && $oCacheHandler->isSupport())
 		{
 			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_0';
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
@@ -650,7 +653,7 @@ class pointController extends point
 		}
 
 		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		if($new_group_list && $del_group_list && $oCacheHandler->isSupport())
 		{
 			$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
 			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);

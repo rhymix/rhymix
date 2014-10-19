@@ -168,10 +168,20 @@ class boardAdminView extends board {
 		$oBoardModel = getModel('board');
 
 		// setup the extra vaiables
-		Context::set('extra_vars', $oBoardModel->getDefaultListConfig($this->module_info->module_srl));
+		$extra_vars = $oBoardModel->getDefaultListConfig($this->module_info->module_srl);
+		Context::set('extra_vars', $extra_vars);
 
 		// setup the list config (install the default value if there is no list config)
 		Context::set('list_config', $oBoardModel->getListConfig($this->module_info->module_srl));
+
+		// setup extra_order_target
+		$module_extra_vars = $oDocumentModel->getExtraKeys($this->module_info->module_srl);
+		$extra_order_target = array();
+		foreach($module_extra_vars as $oExtraItem)
+		{
+			$extra_order_target[$oExtraItem->eid] = $oExtraItem->name;
+		}
+		Context::set('extra_order_target', $extra_order_target);
 
 		$security = new Security();
 		$security->encodeHTML('extra_vars..name','list_config..name');

@@ -582,6 +582,7 @@ class memberAdminView extends member
 					{
 						$template = '<select name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
 						$optionTag = array();
+						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
 						if($extendForm->default_value)
 						{
 							foreach($extendForm->default_value as $v)

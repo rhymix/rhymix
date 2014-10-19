@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
-    <permissions />
+    <permissions>
+        <permission action="procFileAdminInsertModuleConfig" target="manager" />
+    </permissions>
     <actions>
         <action name="dispFileAdminList" type="view" admin_index="true" menu_name="file" menu_index="true" />
         <action name="dispFileAdminConfig" type="view" menu_name="fileUpload" menu_index="true" />
@@ -36,7 +38,7 @@
 			<title xml:lang="en">File Upload</title>
 			<title xml:lang="ko">파일 업로드</title>
 			<title xml:lang="zh-CN">File Upload</title>
-			<title xml:lang="jp">ファイルアップロード</title>
+			<title xml:lang="jp">ファイル添付</title>
 			<title xml:lang="es">File Upload</title>
 			<title xml:lang="ru">File Upload</title>
 			<title xml:lang="fr">File Upload</title>

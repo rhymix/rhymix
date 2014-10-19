@@ -45,8 +45,12 @@ class ModuleHandler extends Handler
 		$oContext = Context::getInstance();
 		if($oContext->isSuccessInit == FALSE)
 		{
-			$this->error = 'msg_invalid_request';
-			return;
+			$logged_info = Context::get('logged_info');
+			if($logged_info->is_admin != "Y")
+			{
+				$this->error = 'msg_invalid_request';
+				return;
+			}
 		}
 
 		// Set variables from request arguments
@@ -55,7 +59,10 @@ class ModuleHandler extends Handler
 		$this->mid = $mid ? $mid : Context::get('mid');
 		$this->document_srl = $document_srl ? (int) $document_srl : (int) Context::get('document_srl');
 		$this->module_srl = $module_srl ? (int) $module_srl : (int) Context::get('module_srl');
-		$this->entry = Context::convertEncodingStr(Context::get('entry'));
+        if($entry = Context::get('entry'))
+        {
+            $this->entry = Context::convertEncodingStr($entry);
+        }
 
 		// Validate variables to prevent XSS
 		$isInvalid = NULL;
@@ -84,7 +91,11 @@ class ModuleHandler extends Handler
 		{
 			if(Context::get('_use_ssl') == 'optional' && Context::isExistsSSLAction($this->act) && $_SERVER['HTTPS'] != 'on')
 			{
-				header('location:https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+				if(Context::get('_https_port')!=null) {
+					header('location:https://' . $_SERVER['HTTP_HOST'] . ':' . Context::get('_https_port') . $_SERVER['REQUEST_URI']);
+				} else {
+					header('location:https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+				}
 				return;
 			}
 		}
@@ -105,6 +116,10 @@ class ModuleHandler extends Handler
 	 * */
 	function init()
 	{
+		
+		$oModuleModel = getModel('module');
+		$site_module_info = Context::get('site_module_info');
+
 		// if success_return_url and error_return_url is incorrect
 		$urls = array(Context::get('success_return_url'), Context::get('error_return_url'));
 		foreach($urls as $url)
@@ -113,23 +128,20 @@ class ModuleHandler extends Handler
 			{
 				continue;
 			}
-
+		
 			$urlInfo = parse_url($url);
 			$host = $urlInfo['host'];
-
+		
 			$dbInfo = Context::getDBInfo();
 			$defaultUrlInfo = parse_url($dbInfo->default_url);
 			$defaultHost = $defaultUrlInfo['host'];
-
-			if($host && $host != $defaultHost)
+		
+			if($host && ($host != $defaultHost && $host != $site_module_info->domain))
 			{
 				throw new Exception('msg_default_url_is_null');
 			}
 		}
 		
-		$oModuleModel = getModel('module');
-		$site_module_info = Context::get('site_module_info');
-
 		if(!$this->document_srl && $this->mid && $this->entry)
 		{
 			$oDocumentModel = getModel('document');
@@ -154,15 +166,22 @@ class ModuleHandler extends Handler
 			{
 				// If it exists, compare mid based on the module information
 				// if mids are not matching, set it as the document's mid
-				if(($this->mid && $this->mid != $module_info->mid) || ($this->module_srl && $this->module_srl != $module_info->module_srl))
+				if(!$this->mid || ($this->mid != $module_info->mid))
 				{
-					$this->mid = $module_info->mid;
-					$this->module_srl = $module_info->module_srl;
-					Context::set('mid', $module_info->mid, TRUE);
-					header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl, 'module_srl',''));
-					return FALSE;
+					
+					if(Context::getRequestMethod() == 'GET')
+					{
+						$this->mid = $module_info->mid;
+						header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
+						return FALSE;
+					}
+					else
+					{
+						$this->mid = $module_info->mid;
+						Context::set('mid', $this->mid);
+					}
+					
 				}
-				
 				// if requested module is different from one of the document, remove the module information retrieved based on the document number
 				if($this->module && $module_info->module != $this->module)
 				{
@@ -276,7 +295,7 @@ class ModuleHandler extends Handler
 		{
 			Context::set('mid', $this->mid, TRUE);
 		}
-
+		
 		// Call a trigger after moduleHandler init
 		$output = ModuleHandler::triggerCall('moduleHandler.init', 'after', $this->module_info);
 		if(!$output->toBool())
@@ -532,7 +551,6 @@ class ModuleHandler extends Handler
 				}
 
 				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
-				$oMemberModel = getModel('member');
 
 				if($this->module == "admin" && $type == "view")
 				{
@@ -561,7 +579,7 @@ class ModuleHandler extends Handler
 				if($kind == 'admin')
 				{
 					$grant = $oModuleModel->getGrant($this->module_info, $logged_info);
-					if(!$grant->is_admin && !$grant->manager)
+					if(!$grant->manager)
 					{
 						$this->_setInputErrorToContext();
 						$this->error = 'msg_is_not_manager';
@@ -570,6 +588,19 @@ class ModuleHandler extends Handler
 						$oMessageObject->setMessage($this->error);
 						$oMessageObject->dispMessage();
 						return $oMessageObject;
+					}
+					else
+					{
+						if(!$grant->is_admin && $this->module != $this->orig_module->module && $xml_info->permission->{$this->act} != 'manager')
+						{
+							$this->_setInputErrorToContext();
+							$this->error = 'msg_is_not_administrator';
+							$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+							$oMessageObject->setError(-1);
+							$oMessageObject->setMessage($this->error);
+							$oMessageObject->dispMessage();
+							return $oMessageObject;
+						}
 					}
 				}
 			}
@@ -1013,7 +1044,7 @@ class ModuleHandler extends Handler
 			}
 
 			// Get base class name and load the file contains it
-			if(!class_exists($module))
+			if(!class_exists($module, false))
 			{
 				$high_class_file = sprintf('%s%s%s.class.php', _XE_PATH_, $class_path, $module);
 				if(!file_exists($high_class_file))
@@ -1031,7 +1062,7 @@ class ModuleHandler extends Handler
 
 			// Create an instance with eval function
 			require_once($class_file);
-			if(!class_exists($instance_name))
+			if(!class_exists($instance_name, false))
 			{
 				return NULL;
 			}
@@ -1129,6 +1160,13 @@ class ModuleHandler extends Handler
 		{
 			return new Object();
 		}
+		
+		//store before trigger call time
+		$before_trigger_time = NULL;
+		if(__LOG_SLOW_TRIGGER__> 0)
+		{
+			$before_trigger_time = microtime(true);
+		}
 
 		foreach($triggers as $item)
 		{
@@ -1143,7 +1181,19 @@ class ModuleHandler extends Handler
 				continue;
 			}
 
+			$before_each_trigger_time = microtime(true);
+
 			$output = $oModule->{$called_method}($obj);
+
+			$after_each_trigger_time = microtime(true);
+			$elapsed_time_trigger = $after_each_trigger_time - $before_each_trigger_time;
+
+			$slowlog = new stdClass;
+			$slowlog->caller = $trigger_name . '.' . $called_position;
+			$slowlog->called = $module . '.' . $called_method;
+			$slowlog->called_extension = $module;
+			if($trigger_name != 'XE.writeSlowlog') writeSlowlog('trigger', $elapsed_time_trigger, $slowlog);
+
 			if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool())
 			{
 				return $output;

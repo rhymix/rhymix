@@ -48,10 +48,21 @@ class boardView extends board
 
 		// use_category <=1.5.x, hide_category >=1.7.x
 		$count_category = count($oDocumentModel->getCategoryList($this->module_info->module_srl));
-		if($count_category && ($this->module_info->hide_category != 'Y' || $this->module_info->use_category != 'N'))
+		if($count_category)
 		{
-			$this->module_info->hide_category = 'N';
-			$this->module_info->use_category = 'Y';
+			if($this->module_info->hide_category)
+			{
+				$this->module_info->use_category = ($this->module_info->hide_category == 'Y') ? 'N' : 'Y';
+			}
+			else if($this->module_info->use_category)
+			{
+				$this->module_info->hide_category = ($this->module_info->use_category == 'Y') ? 'N' : 'Y';
+			}
+			else
+			{
+				$this->module_info->hide_category = 'N';
+				$this->module_info->use_category = 'Y';
+			}
 		}
 		else
 		{
@@ -173,6 +184,7 @@ class boardView extends board
 		// list config, columnList setting
 		$oBoardModel = getModel('board');
 		$this->listConfig = $oBoardModel->getListConfig($this->module_info->module_srl);
+		if(!$this->listConfig) $this->listConfig = array();
 		$this->_makeListColumnList();
 
 		// display the notice list
@@ -383,6 +395,16 @@ class boardView extends board
 		$args->search_target = Context::get('search_target');
 		$args->search_keyword = Context::get('search_keyword');
 
+		$search_option = Context::get('search_option');
+		if($search_option==FALSE)
+		{
+			$search_option = $this->search_option;
+		}
+		if(isset($search_option[$args->search_target])==FALSE)
+		{
+			$args->search_target = '';
+		}
+
 		// if the category is enabled, then get the category
 		if($this->module_info->use_category=='Y')
 		{
@@ -402,10 +424,10 @@ class boardView extends board
 		}
 
 		// set the current page of documents
-		$_get = $_GET;
-		if(!$args->page && ($_GET['document_srl'] || $_GET['entry']))
+		$document_srl = Context::get('document_srl');
+		if(!$args->page && $document_srl)
 		{
-			$oDocument = $oDocumentModel->getDocument(Context::get('document_srl'));
+			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if($oDocument->isExists() && !$oDocument->isNotice())
 			{
 				$page = $oDocumentModel->getDocumentPage($oDocument, $args);
@@ -627,7 +649,8 @@ class boardView extends board
 		/**
 		 * add JS filters
 		 **/
-		Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
+		if(Context::get('logged_info')->is_admin=='Y') Context::addJsFilter($this->module_path.'tpl/filter', 'insert_admin.xml');
+		else Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('category_list.text', 'category_list.title');

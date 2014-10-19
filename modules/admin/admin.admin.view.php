@@ -138,19 +138,15 @@ class adminAdminView extends admin
 		$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
 
 		$result = $oAdminAdminModel->checkAdminMenu();
-		if(!$result->php_file)
-		{
-			header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
-			Context::close();
-			exit;
-		}
 		include $result->php_file;
 
 		$oModuleModel = getModel('module');
-		$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
 
+		// get current menu's subMenuTitle
+		$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
 		$currentAct = Context::get('act');
 		$subMenuTitle = '';
+		
 		foreach((array) $moduleActionInfo->menu as $key => $value)
 		{
 			if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
@@ -159,48 +155,26 @@ class adminAdminView extends admin
 				break;
 			}
 		}
-
+		// get current menu's srl(=parentSrl)
 		$parentSrl = 0;
 		$oMenuAdminConroller = getAdminController('menu');
-		if(!$_SESSION['isMakeXml'])
+		foreach((array) $menu->list as $parentKey => $parentMenu)
 		{
-			foreach((array) $menu->list as $parentKey => $parentMenu)
+			if(!is_array($parentMenu['list']) || !count($parentMenu['list']))
 			{
-				if(!$parentMenu['text'])
-				{
-					$oMenuAdminConroller->makeXmlFile($result->menu_srl);
-					$_SESSION['isMakeXml'] = true;
-					header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
-					Context::close();
-					exit;
-				}
+				continue;
+			}
+			if($parentMenu['href'] == '#' && count($parentMenu['list']))
+			{
+				$firstChild = current($parentMenu['list']);
+				$menu->list[$parentKey]['href'] = $firstChild['href'];
+			}
 
-				if(!is_array($parentMenu['list']) || !count($parentMenu['list']))
+			foreach($parentMenu['list'] as $childKey => $childMenu)
+			{
+				if($subMenuTitle == $childMenu['text'] && $parentSrl == 0)
 				{
-					continue;
-				}
-				if($parentMenu['href'] == '#' && count($parentMenu['list']))
-				{
-					$firstChild = current($parentMenu['list']);
-					$menu->list[$parentKey]['href'] = $firstChild['href'];
-				}
-
-				foreach($parentMenu['list'] as $childKey => $childMenu)
-				{
-					if(!$childMenu['text'])
-					{
-						$oMenuAdminConroller->makeXmlFile($result->menu_srl);
-						$_SESSION['isMakeXml'] = true;
-						header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
-						Context::close();
-						exit;
-					}
-
-					if($subMenuTitle == $childMenu['text'])
-					{
-						$parentSrl = $childMenu['parent_srl'];
-						break;
-					}
+					$parentSrl = $childMenu['parent_srl'];
 				}
 			}
 		}
@@ -374,11 +348,26 @@ class adminAdminView extends admin
 			}
 		}
 
+		$site_module_info = Context::get('site_module_info');
+		$oAddonAdminModel = getAdminModel('addon');
+		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter', $site_module_info->site_srl );
+		if(!$counterAddonActivated)
+		{
+			$columnList = array('member_srl', 'nick_name', 'user_name', 'user_id', 'email_address');
+			$args = new stdClass;
+			$args->page = 1;
+			$args->list_count = 5;
+			$output = executeQuery('member.getMemberList', $args, $columnList);
+			Context::set('latestMemberList', $output->data);
+			unset($args, $output, $columnList);
+		}
+
 		Context::set('module_list', $module_list);
 		Context::set('needUpdate', $isUpdated);
 		Context::set('addTables', $addTables);
 		Context::set('needUpdate', $needUpdate);
 		Context::set('newVersionList', $needUpdateList);
+		Context::set('counterAddonActivated', $counterAddonActivated);
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('module_list..', 'module_list..author..', 'newVersionList..');
@@ -413,8 +402,11 @@ class adminAdminView extends admin
 		Context::set('langs', Context::loadLangSupported());
 
 		// site lock
+		Context::set('IP', $_SERVER['REMOTE_ADDR']);
 		if(!$db_info->sitelock_title) $db_info->sitelock_title = 'Maintenance in progress...';
 		if(!in_array('127.0.0.1', $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = '127.0.0.1';
+		if(!in_array($_SERVER['REMOTE_ADDR'], $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = $_SERVER['REMOTE_ADDR'];
+		$db_info->sitelock_whitelist = array_unique($db_info->sitelock_whitelist);
 		Context::set('remote_addr', $_SERVER['REMOTE_ADDR']);
 		Context::set('use_sitelock', $db_info->use_sitelock);
 		Context::set('sitelock_title', $db_info->sitelock_title);
@@ -422,6 +414,7 @@ class adminAdminView extends admin
 		
 		$whitelist = implode("\r\n", $db_info->sitelock_whitelist);
 		Context::set('sitelock_whitelist', $whitelist);
+
 
 		if($db_info->admin_ip_list) $admin_ip_list = implode("\r\n", $db_info->admin_ip_list);
 		else $admin_ip_list = '';
@@ -439,13 +432,17 @@ class adminAdminView extends admin
 		$config = $oDocumentModel->getDocumentConfig();
 		Context::set('thumbnail_type', $config->thumbnail_type);
 
-		Context::set('IP', $_SERVER['REMOTE_ADDR']);
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
 		Context::set('siteTitle', $config->siteTitle);
 		Context::set('htmlFooter', $config->htmlFooter);
 
+		// embed filter
+		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
+		$oEmbedFilter = EmbedFilter::getInstance();
+		context::set('embed_white_object', implode(PHP_EOL, $oEmbedFilter->whiteUrlList));
+		context::set('embed_white_iframe', implode(PHP_EOL, $oEmbedFilter->whiteIframeUrlList));
 
 		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
 		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
@@ -622,6 +619,7 @@ class adminAdminView extends admin
 		$info['PHP_Core'] = $php_core;
 
 		$str_info = "[XE Server Environment " . date("Y-m-d") . "]\n\n";
+		$str_info .= "realpath : ".realpath('./')."\n";
 		foreach( $info as $key=>$value )
 		{
 			if( is_array( $value ) == false ) {

@@ -33,7 +33,7 @@ class fileAdminView extends file
 		// Get a list
 		$oFileAdminModel = getAdminModel('file');
 		$columnList = array('file_srl', 'upload_target_srl', 'upload_target_type', 'sid', 'module_srl'
-				, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'ipaddress', 'member.member_srl', 'member.nick_name');
+				, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'ipaddress', 'member.member_srl', 'member.nick_name', 'uploaded_filename');
 		$output = $oFileAdminModel->getFileList($args, $columnList);
 		// Get the document for looping a list
 		if($output->data)

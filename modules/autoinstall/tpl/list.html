@@ -58,7 +58,7 @@
 					<p class="x_btn-group" style="text-align:right">
 						<a cond="$item->current_version && $item->need_update != 'Y'" class="x_btn x_disabled" href="#">{$lang->installed}</a>
 						<a cond="!$item->current_version" class="x_btn" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}"><i class="x_icon-download-alt"></i> {$lang->install}</a>
-						<a cond="!$show_ftp_note && $item->current_version && $item->avail_remove" class="x_btn" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}"><i class="x_icon-remove"></i> {$lang->cmd_delete}</a>
+						<a cond="$item->current_version && $item->avail_remove" class="x_btn" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}"><i class="x_icon-remove"></i> {$lang->cmd_delete}</a>
 						<a cond="$item->current_version && $item->need_update == 'Y'" class="x_btn" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}"><i class="x_icon-refresh"></i> {$lang->update}</a>
 					</p>
 				</div>

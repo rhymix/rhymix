@@ -34,6 +34,8 @@ class content extends WidgetHandler
 		if(!$args->subject_cut_size) $args->subject_cut_size = 0;
 		// Cut the length of contents
 		if(!$args->content_cut_size) $args->content_cut_size = 100;
+		// Cut the length of nickname
+		if(!$args->nickname_cut_size) $args->nickname_cut_size = 0;
 		// Display time of the latest post
 		if(!$args->duration_new) $args->duration_new = 12;
 		// How to create thumbnails
@@ -185,6 +187,7 @@ class content extends WidgetHandler
 	function _getCommentItems($args)
 	{
 		// List variables to use CommentModel::getCommentList()
+		$obj = new stdClass();
 		$obj->module_srl = $args->module_srl;
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count * $args->page_count;
@@ -275,7 +278,7 @@ class content extends WidgetHandler
 				$content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
 				$content_item->adds($oDocument->getObjectVars());
 				$content_item->add('original_content', $oDocument->get('content'));
-				$content_item->setTitle($oDocument->getTitleText());
+				$content_item->setTitle(htmlspecialchars($oDocument->getTitleText()));
 				$content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
 				$content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
 				$content_item->setContent($oDocument->getSummary($args->content_cut_size));
@@ -714,6 +717,7 @@ class content extends WidgetHandler
 		$widget_info->page_count = $args->page_count;
 		$widget_info->subject_cut_size = $args->subject_cut_size;
 		$widget_info->content_cut_size = $args->content_cut_size;
+		$widget_info->nickname_cut_size = $args->nickname_cut_size;
 		$widget_info->new_window = $args->new_window;
 
 		$widget_info->duration_new = $args->duration_new * 60*60;
@@ -742,6 +746,7 @@ class content extends WidgetHandler
 				if(!is_array($content_items[$module_srl]) || !count($content_items[$module_srl])) continue;
 
 				unset($tab_item);
+				$tab_item = new stdClass();
 				$tab_item->title = $content_items[$module_srl][0]->getBrowserTitle();
 				$tab_item->content_items = $content_items[$module_srl];
 				$tab_item->domain = $content_items[$module_srl][0]->getDomain();
@@ -886,9 +891,12 @@ class contentItem extends Object
 	{
 		return $this->get('category');
 	}
-	function getNickName()
+	function getNickName($cut_size = 0, $tail='...')
 	{
-		return $this->get('nick_name');
+		if($cut_size) $nick_name = cut_str($this->get('nick_name'), $cut_size, $tail);
+		else $nick_name = $this->get('nick_name');
+
+		return $nick_name;
 	}
 	function getAuthorSite()
 	{

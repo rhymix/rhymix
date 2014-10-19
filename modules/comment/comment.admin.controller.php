@@ -132,12 +132,17 @@ class commentAdminController extends comment
 					$document_author_email = $oDocument->variables['email_address'];
 
 					//mail to author of thread - START
+					/**
+				 	 * @todo Removed code send email to document author.
+					*/
+					/*
 					if($document_author_email != $comment->email_address && $logged_info->email_address != $document_author_email)
 					{
 						$oMail->setReceiptor($document_author_email, $document_author_email);
 						$oMail->send();
 						$already_sent[] = $document_author_email;
 					}
+					*/
 					//mail to author of thread - STOP
 					//mail to all emails set for administrators - START
 					if($module_info->admin_mail)
@@ -336,6 +341,35 @@ class commentAdminController extends comment
 	}
 
 	/**
+	  * @fn procCommentAdminMoveToTrash
+	  * @brief move a comment to trash
+	  * @see commentModel::getCommentMenu
+	  */
+	function procCommentAdminMoveToTrash()
+	{
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		$comment_srl = Context::get('comment_srl');
+		$oCommentModel = getModel('comment');
+		$oCommentController = getController('comment');
+		$oComment = $oCommentModel->getComment($comment_srl, false);
+
+		if(!$oComment->isGranted()) return $this->stop('msg_not_permitted');
+
+		$message_content = "";
+		$this->_moveCommentToTrash(array($comment_srl), $oCommentController, $oDB, $message_content);
+
+		$isTrash = true;
+		$output = $oCommentController->deleteComment($comment_srl, TRUE, $isTrash);
+
+		$oDB->commit();
+
+		$returnUrl = Context::get('cur_url');
+		$this->add('redirect_url', $returnUrl);
+	}
+
+	/**
 	 * Cancel the blacklist of abused comments reported by other users
 	 * @return void|object
 	 */
@@ -438,7 +472,7 @@ class commentAdminController extends comment
 		$obj->module_srl = $originObject->module_srl;
 
 		$oCommentController = getController('comment');
-		$output = $oCommentController->insertComment($obj);
+		$output = $oCommentController->insertComment($obj, true);
 
 		return $output;
 	}

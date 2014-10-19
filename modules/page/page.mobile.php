@@ -84,13 +84,9 @@ class pageMobile extends pageView
 		}
 		else
 		{
-			preg_match_all('!(<img)([^\>]*)(widget=)([^\>]*?)(\>)!is', $this->module_info->content, $matches);
-			$page_content = '';
-			for($i=0,$c=count($matches[0]);$i<$c;$i++) 
-			{
-				$page_content .= preg_replace('/ style\=\"([^\"]+)\" /i',' style="overflow:hidden;clear:both;margin:0 0 20px 0; _margin-right:10px;" ',$matches[0][$i])."\n\n";
-			}
+			$page_content = $this->module_info->content;
 		}
+
 		return $page_content;
 	}
 

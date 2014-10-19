@@ -1,21 +1,21 @@
 /* NAVER (developers@xpressengine.com) */
 // install module
 function doInstallModule(module) {
-    var params = new Array();
-    params['module_name'] = module;
-    exec_xml('install','procInstallAdminInstall',params, completeInstallModule);
+	var params = [];
+	params.module_name = module;
+	exec_xml('install','procInstallAdminInstall',params, completeInstallModule);
 }
 
 // upgrade module
 function doUpdateModule(module) {
-    var params = new Array();
-    params['module_name'] = module;
-    exec_xml('install','procInstallAdminUpdate',params, completeInstallModule);
+	var params = [];
+	params.module_name = module;
+	exec_xml('install','procInstallAdminUpdate',params, completeInstallModule);
 }
 
 function completeInstallModule(ret_obj) {
-    alert(ret_obj['message']);
-    location.reload();
+	alert(ret_obj.message);
+	location.reload();
 }
 
 jQuery(function($){
@@ -73,7 +73,8 @@ jQuery(function($){
 			});
 		});
 		$('.x .x_tab-content>.x_tab-pane:not(".x_active")').hide();
-	}
+	};
+
 	$('.x .x_tabbable').xeTabbable();
 	$(document.body).on('click', '.x .x_nav-tabs>li>a[href^="#"]', function(){
 		var $this = $(this);
@@ -337,7 +338,7 @@ jQuery(function($){
 // Modal Window
 jQuery(function($){
 	var ESC = 27;
-	var xeModalStack = new Array();
+	var xeModalStack = [];
 	var xeModalInitailZIndex = 1040;
 
 	// modal backdrop
@@ -376,8 +377,8 @@ jQuery(function($){
 
 				if(!$modal.parent('body').length) {
 					$btnClose = $('<button type="button" class="x_close">&times;</button>');
-					$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
-					$modal.find('[data-hide]').click(function(){ $modal.data('anchor').trigger('close.mw') });
+					$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw'); });
+					$modal.find('[data-hide]').click(function(){ $modal.data('anchor').trigger('close.mw'); });
 					$('body').append($modal);
 					$modal.prepend($btnClose); // prepend close button
 				}
@@ -399,7 +400,7 @@ jQuery(function($){
 				$modal.data('state', 'showing');
 
 				// after event trigger
-				function after(){ $this.trigger('after-open.mw') };
+				function after(){ $this.trigger('after-open.mw'); }
 
 				$(document).bind('keydown.mw', function(event){
 					if(event.which == ESC) {
@@ -421,6 +422,14 @@ jQuery(function($){
 				var zIndex = xeModalInitailZIndex + ((xeModalStack.length - 1) * 2);
 
 				$xeModalBackdrop.css('z-index', zIndex).show();
+				var xeModalBackdropHeight = $xeModalBackdrop.height();
+				var modalBodyHeight = xeModalBackdropHeight;
+				modalBodyHeight -= $modal.find('.x_modal-header:visible').height();
+				modalBodyHeight -= $modal.find('.x_modal-footer:visible').height();
+				modalBodyHeight -= 150;
+
+				$modal.find('.x_modal-body').css('height', modalBodyHeight);
+
 				$modal.css('z-index', zIndex + 1);
 			})
 			.bind('close.mw', function(){
@@ -448,7 +457,7 @@ jQuery(function($){
 				$modal.data('state', 'hiding');
 
 				// after event trigger
-				function after(){ $this.trigger('after-close.mw') };
+				function after(){ $this.trigger('after-close.mw'); }
 
 				$modal.fadeOut(duration, after);
 				$('body').css('overflow','auto');
@@ -487,7 +496,7 @@ jQuery(function($){
 				$layer.hide()
 					.not('.xe-toggling-content')
 					.addClass('xe-toggling-content')
-					.mousedown(function(event){ dont_close_this_time = true })
+					.mousedown(function(event){ dont_close_this_time = true; })
 					.focusout(function(event){
 						setTimeout(function(){
 							if(!dont_close_this_time && !$layer.find(':focus').length && $layer.data('state') == 'showing') $anchor.trigger('close.tc');
@@ -552,7 +561,7 @@ jQuery(function($){
 					);
 
 				// triggering after
-				function trigger_after(){ $this.trigger('after-open.tc') }
+				function trigger_after(){ $this.trigger('after-open.tc'); }
 
 				switch(effect) {
 					case 'slide':
@@ -595,7 +604,7 @@ jQuery(function($){
 				$this.trigger('before-close.tc');
 
 				// triggering after
-				function trigger_after(){ $this.trigger('after-close.tc') };
+				function trigger_after(){ $this.trigger('after-close.tc'); }
 
 				// close this layer
 				switch(effect) {
@@ -649,7 +658,7 @@ jQuery(function($){
 							$li = $('<li />').appendTo($ul);
 							$('<button type="button" />').text(list[i].domain).data('site_srl', list[i].site_srl).appendTo($li);
 						}
-					};
+					}
 
 					$.exec_json('admin.getSiteAllList', {domain:val}, on_complete);
 				})
@@ -680,7 +689,7 @@ jQuery(function($){
 								})
 								.trigger('show');
 						}
-					};
+					}
 
 					$finder.find('a.tgAnchor.findsite').trigger('close.tc');
 
@@ -758,6 +767,7 @@ jQuery(function($){
 				var sDomain;
 				var rxFilter = new RegExp(sFilter, "ig");
 				var list = aSiteListData;
+				var replaceHighlight = function(sKeyword){ return '<span class="highlight">'+sKeyword+'</span>'; };
 
 				$siteList.empty();
 
@@ -765,9 +775,8 @@ jQuery(function($){
 					sDomain = list[i].domain;
 					if(sFilter){
 						if(!sDomain.match(rxFilter)) continue;
-						sDomain = sDomain.replace(rxFilter, function(sKeyword){
-							return '<span class="highlight">'+sKeyword+'</span>';
-						});
+
+						sDomain = sDomain.replace(rxFilter, replaceHighlight);
 					}
 
 					$li = $('<li />').appendTo($siteList);
@@ -814,7 +823,7 @@ jQuery(function($){
 							setSiteList($siteFinder.val());
 
 							$siteFinder.focus();
-						};
+						}
 
 						$siteList.empty();
 						$instanceList.empty();
@@ -849,7 +858,7 @@ jQuery(function($){
 
 							$siteList.find('li').removeClass('x_active');
 							$this.parent('li').addClass('x_active');
-						};
+						}
 
 						$moduleList.empty();
 						$instanceListDiv.hide();
@@ -948,7 +957,7 @@ jQuery(function($){
 		});
 
 		return this;
-	}
+	};
 });
 
 jQuery(function($){
@@ -969,7 +978,7 @@ jQuery(function($){
 		}
 
 		return _hide.apply(this, arguments);
-	}
+	};
 
 	var _show = $.fn.show;
 	$.fn.show = function(speed, easing, callback, htOpt) {
@@ -989,11 +998,10 @@ jQuery(function($){
 		var $this = $(this);
 
 		// elem. display not yet... using setTimeout...
-		setTimeout(function(){$this.trigger('after-show', [htOpt]) }, 0);
+		setTimeout(function(){$this.trigger('after-show', [htOpt]); }, 0);
 
 		return rst;
-	}
-
+	};
 });
 
 jQuery(function($){
@@ -1003,18 +1011,7 @@ jQuery(function($){
 	//xe.cmd_cancel = "{$lang->cmd_cancel}";
 	//xe.cmd_confirm = "{$lang->cmd_confirm}";
 	var $msgBox = $.xeMsgBox.$msgBox = $("<section />").addClass("x_modal _common x").hide().css('z-index', 9999);
-	$msgBox.html('<button type="button" class="x_close _cancel">&times;</button>\
-		<div class="x_modal-header">\
-			<h1 class="_title"></h1>\
-		</div>\
-		<div class="x_modal-body">\
-			<div class="_text"></div>\
-		</div>\
-		<div class="x_modal-footer">\
-			<button type="button" class="x_btn x_pull-left _cancel">'+xe.cmd_cancel+'</button>\
-			<button type="submit" class="x_btn x_btn-inverse x_pull-right x_btn-primary _ok">'+xe.cmd_confirm+'</button>\
-		</div>');
-
+	$msgBox.html('<button type="button" class="x_close _cancel">&times;</button> <div class="x_modal-header"> <h1 class="_title"></h1> </div> <div class="x_modal-body"> <div class="_text"></div> </div> <div class="x_modal-footer"> <button type="button" class="x_btn x_pull-left _cancel">'+xe.cmd_cancel+'</button> <button type="submit" class="x_btn x_btn-inverse x_pull-right x_btn-primary _ok">'+xe.cmd_confirm+'</button> </div> ');
 	$("body").append($msgBox);
 	$msgBox.find("._ok").click(function(){
 		$.xeMsgBox.fnOnOK();
@@ -1119,13 +1116,13 @@ jQuery(function($){
 		}
 
 		$msgBox.show();
-	}
+	};
 	$.xeMsgBox.alertDialog = function(htOptions){
 		htOptions = htOptions || {};
 		htOptions.bAlert = true;
 
 		this.showMsgBox(htOptions);
-	}
+	};
 	$.xeMsgBox.alert = function(sText){
 		htOptions = {
 			bAlert : true,
@@ -1135,13 +1132,13 @@ jQuery(function($){
 		};
 
 		this.showMsgBox(htOptions);
-	}
+	};
 	$.xeMsgBox.confirmDialog = function(htOptions){
 		htOptions = htOptions || {};
 		htOptions.bAlert = false;
 
 		this.showMsgBox(htOptions);
-	}
+	};
 
 	var $foggyLayer = $.xeMsgBox.$foggyLayer = $("<div />");
 	$foggyLayer.css({
@@ -1168,16 +1165,16 @@ jQuery(function($){
 				height: $(document).height()
 			});
 		}, 0);
-	}
+	};
 	$(window).resize($.xeMsgBox._resizeFoggy);
 	$.xeMsgBox._resizeFoggy();
 
 	$.xeMsgBox._showFoggy = function(){
 		$foggyLayer.show();
-	}
+	};
 	$.xeMsgBox._hideFoggy = function(){
 		$foggyLayer.hide();
-	}
+	};
 });
 
 jQuery(function($){
@@ -1207,7 +1204,7 @@ jQuery(function($){
 				height: $(document).height()
 			});
 		}, 0);
-	}
+	};
 	$(window).resize($.xeFoggy._resizeFoggy);
 	$.xeFoggy._resizeFoggy();
 
@@ -1222,10 +1219,10 @@ jQuery(function($){
 			});
 		}
 		$foggyLayer.show();
-	}
+	};
 	$.xeFoggy.hide = function(){
 		$foggyLayer.hide();
-	}
+	};
 });
 
 // Sortable table
@@ -1280,7 +1277,7 @@ jQuery(function($){
 					.addClass('draggable')
 					.css({
 						position: 'absolute',
-						opacity : .6,
+						opacity : 0.6,
 						width   : width,
 						height  : height,
 						left    : offset.left,
@@ -1292,7 +1289,7 @@ jQuery(function($){
 				$holder
 					.css({
 						position:'absolute',
-						opacity : .6,
+						opacity : 0.6,
 						width   : width,
 						height  : '10px',
 						left    : offset.left,
@@ -1303,7 +1300,7 @@ jQuery(function($){
 					})
 					.appendTo($table);
 
-				$tr.css('opacity', .6);
+				$tr.css('opacity', 0.6);
 
 				$(document)
 					.unbind('mousedown.st mouseup.st')
@@ -1349,7 +1346,7 @@ jQuery(function($){
 
 						$table.trigger('after-drag.st');
 					});
-			})
+			});
 
 		return this;
 	};
@@ -1374,7 +1371,7 @@ jQuery(function($){
 				$list.find('.select')
 					.bind('click', function(event){
 						var selectedImages = $('input.select_checkbox:checked');
-						if(selectedImages.length == 0) {
+						if(selectedImages.length === 0) {
 							var selectedImgSrc = $(this).closest('tr').find('img.filebox_item').attr('src');
 							if(!selectedImgSrc){
 								alert("None selected!");
@@ -1423,8 +1420,8 @@ jQuery(function($){
 	var detailBtn = $('.x .dsTg .__detail');
 	var tdTitle = $('.x .dsTg td.title');
 	tdTitle.each(function(){
-		var $t = $(this)
-		if($t.find('p.x_alert').length==0){
+		var $t = $(this);
+		if($t.find('p.x_alert').length === 0){
 			$t.addClass('tg').find('>*:not(:first-child)').hide();
 		}
 	});
@@ -1838,7 +1835,7 @@ jQuery(function($){
 		}, on_complete);
 
 		return this;
-	}
+	};
 });
 
 // Apply Multilingual UI
@@ -1872,13 +1869,15 @@ jQuery(function($){
 			function makeUI(){
 				var $multilingualWindow = $('#g11n');
 				var width = $this.width();
+				var $displayInput;
 
 				if(t.tagName == 'TEXTAREA' || $this.data('type') == 'textarea'){
-					var $displayInput = $('<textarea id="lang_' + id + '" class="lang_code" style="width:' + width + 'px" data-width="' + width + '">').data('lang-id', id);
+					$displayInput = $('<textarea id="lang_' + id + '" class="lang_code" style="width:' + width + 'px" data-width="' + width + '">').data('lang-id', id);
 				}else{
-					var $displayInput = $('<input type="text" id="lang_' + id + '" class="lang_code" style="width:' + (width-28) + 'px" data-width="' + (width-28) + '">').data('lang-id', id);
+					$displayInput = $('<input type="text" id="lang_' + id + '" class="lang_code" style="width:' + (width-28) + 'px" data-width="' + (width-28) + '">').data('lang-id', id);
 				}
-				$displayInput.attr('placeholder', $this.attr('placeholder'))
+				$displayInput.attr('placeholder', $this.attr('placeholder'));
+
 				var $remover = $('<button type="button" class="x_add-on remover" title="' + xe.cmd_remove_multilingual_text + '"><i class="x_icon-remove"></i>' + xe.cmd_remove_multilingual_text + '</button>').data('lang-target', id);
 				var $setter = $('<a href="#g11n" class="x_add-on modalAnchor" title="' + xe.cmd_set_multilingual_text + '"><i class="x_icon-globe"></i>' + xe.cmd_set_multilingual_text + '</a>').data('lang-target', id);
 
@@ -1965,16 +1964,17 @@ jQuery(function($){
 				function loadValue(){
 					reset();
 					var pattern = /^\$user_lang->/;
+
+					function on_complete2(data){
+						if(!data || !data.langs) return;
+
+						var width = $displayInput.width();
+
+						$displayInput.closest('.g11n').addClass('active');
+						$displayInput.val(data.langs[xe.current_lang]).attr('disabled', 'disabled').width(width - 44).data('active', true);
+					}
+
 					if(pattern.test($displayInput.val())){
-						function on_complete2(data){
-							if(!data || !data.langs) return;
-
-							var width = $displayInput.width();
-
-							$displayInput.closest('.g11n').addClass('active');
-							$displayInput.val(data.langs[xe.current_lang]).attr('disabled', 'disabled').width(width - 44).data('active', true);
-						}
-
 						$.exec_json('module.getModuleAdminLangCode', {
 							'name': $displayInput.val().replace('$user_lang->', ''),
 							'mid': current_url.getQuery('mid')
@@ -2040,12 +2040,8 @@ jQuery(function($){
 	//data-multiple
 	$.xeMenuSelectorVar = {bMultiSelect: false};
 
-	$.template( "menuSelector_menuTree", '<ul>{{html Nodes}}</ul>' );
-	$.template( "menuSelector_menuTreeNode", '	<li>\
-		<a href="#" class="_nodeType_${NodeType} _menu_node _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}", "sType":"${MenuType}", "sModuleSrl":"${ModuleSrl}" }\'>${MenuTitle}</a>\
-		{{html SubTree}}\
-	</li>' );
-	//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
+	$.template('menuSelector_menuTree', '<ul>{{html Nodes}}</ul>');
+	$.template('menuSelector_menuTreeNode', '<li> <a href="#" class="_nodeType_${NodeType} _menu_node _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}", "sType":"${MenuType}", "sModuleSrl":"${ModuleSrl}" }\'>${MenuTitle}</a> {{html SubTree}} </li>'); //data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
 	function onSiteMapReceived(htData){
 		var $ = jQuery;
 
@@ -2168,7 +2164,7 @@ jQuery(function($){
 		htNodeInfo = {};
 
 		$.exec_json("menu.getMenuAdminSiteMap", params, onSiteMapReceived);
-	}
+	};
 
 	// return html
 	function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
@@ -2177,13 +2173,11 @@ jQuery(function($){
 		sMenuTree = sMenuTree || "menuSelector_menuTree";
 		sMenuTreeNode = sMenuTreeNode || "menuSelector_menuTreeNode";
 
-		var $ = jQuery;
-
-		if(aNode.length == 0){
+		if(aNode.length === 0){
 			return "";
 		}
 
-		var sActiveBtn, sNormalBtn, sHoverBtn, sExpand, sLink, aSubNodes, sNodeSrl, sOpenWindow, sParentSrl, nSelected, sText, sURL, sIsStartModule, aSubNode, sModuleType;
+		var sActiveBtn, sNormalBtn, sHoverBtn, sExpand, sLink, aSubNodes, sNodeSrl, sOpenWindow, nSelected, sText, sURL, sIsStartModule, aSubNode, sModuleType;
 
 		// 1: Sitemap node, 2: Menu node
 		var nNodeType;
@@ -2292,8 +2286,8 @@ jQuery(function($){
 
 		$.xeMenuSelectorVar.bMultiSelect = ""+$btn.data('multiple') == "true";
 		//{sMenuId":"578", "sMenuUrl":"page_ANom60", "sMenuTitle":"wwww", "sType":"WIDGET" }
-		$.xeMenuSelectorVar.aAllowedType = $.grep((""+($btn.data('allowedType') || "")).split(','), function(el){return el !== ""});
-		$.xeMenuSelectorVar.aDisallowedType = $.grep((""+($btn.data('disallowedType') || "")).split(','), function(el){return el !== ""});
+		$.xeMenuSelectorVar.aAllowedType = $.grep((""+($btn.data('allowedType') || '')).split(','), function(el){return el !== '';});
+		$.xeMenuSelectorVar.aDisallowedType = $.grep((""+($btn.data('disallowedType') || '')).split(','), function(el){return el !== '';});
 		$.xeMenuSelectorVar.aDisallowedType.push("_ROOT");
 		$.xeMenuSelectorVar.aDisallowedType.push("_SHORTCUT");
 
@@ -2305,22 +2299,22 @@ jQuery(function($){
 		});
 
 		$.exec_json('admin.getSiteAllList', {domain:""}, onSiteAllListCompleted);
-	}
+	};
 	function xeMenuSearch(ev){
 		var $btn = $(ev.target);
 		$.xeMenuSelectorVar.bMultiSelect = ""+$btn.data('multiple') == "true";
 		//{sMenuId":"578", "sMenuUrl":"page_ANom60", "sMenuTitle":"wwww", "sType":"WIDGET" }
-		$.xeMenuSelectorVar.aAllowedType = $.grep((""+($btn.data('allowedType') || "")).split(','), function(el){return el !== ""});
-		$.xeMenuSelectorVar.aDisallowedType = $.grep((""+($btn.data('disallowedType') || "")).split(','), function(el){return el !== ""});
+		$.xeMenuSelectorVar.aAllowedType = $.grep((""+($btn.data('allowedType') || '')).split(','), function(el){return el !== '';});
+		$.xeMenuSelectorVar.aDisallowedType = $.grep((""+($btn.data('disallowedType') || '')).split(','), function(el){return el !== '';});
 		$.xeMenuSelectorVar.aDisallowedType.push("_ROOT");
 		$.xeMenuSelectorVar.aDisallowedType.push("_SHORTCUT");
 
-		if($.inArray("page", $.xeMenuSelectorVar.aAllowedType) > -1){
-			$.xeMenuSelectorVar.aAllowedType.push("ARTICLE", "WIDGET", "OUTSIDE");
+		if($.inArray('page', $.xeMenuSelectorVar.aAllowedType) > -1){
+			$.xeMenuSelectorVar.aAllowedType.push('ARTICLE', 'WIDGET', 'OUTSIDE');
 		}
 
-		if($.inArray("page", $.xeMenuSelectorVar.aDisallowedType) > -1){
-			$.xeMenuSelectorVar.aDisallowedType.push("ARTICLE", "WIDGET", "OUTSIDE");
+		if($.inArray('page', $.xeMenuSelectorVar.aDisallowedType) > -1){
+			$.xeMenuSelectorVar.aDisallowedType.push('ARTICLE', 'WIDGET', 'OUTSIDE');
 		}
 
 		//bMultiSelect = //data-multiple
@@ -2424,7 +2418,7 @@ jQuery(function($){
 		});
 
 		return this;
-	}
+	};
 
 	$msgBox = $('.x_modal._common');
 	$msgBox.on('change', '.site_selector', function(ev){
@@ -2451,7 +2445,7 @@ jQuery(function($){
 	try {
 		window.alert = function(){
 			return $.xeMsgBox.alert.apply($.xeMsgBox, arguments);
-		}
+		};
 		setTimeout(function(){$('div.message.info').fadeOut(1000);}, 2500);
 	}catch(e){}
 });

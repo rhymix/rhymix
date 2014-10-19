@@ -6,7 +6,7 @@
  *
  * Filedisk Cache Handler
  *
- * @author Arnia Software (xe_dev@arnia.ro)
+ * @author NAVER (developers@xpressengine.com)
  */
 class CacheFile extends CacheBase
 {
@@ -90,8 +90,15 @@ class CacheFile extends CacheBase
 	function isValid($key, $modified_time = 0)
 	{
 		$cache_file = $this->getCacheFileName($key);
+
 		if(file_exists($cache_file))
 		{
+			if($modified_time > 0 && filemtime($cache_file) < $modified_timed)
+			{
+				FileHandler::removeFile($cache_file);
+				return false;
+			}
+
 			return true;
 		}
 
@@ -107,14 +114,18 @@ class CacheFile extends CacheBase
 	 */
 	function get($key, $modified_time = 0)
 	{
-		$cache_file = FileHandler::exists($this->getCacheFileName($key));
-
-		if($cache_file) $content = include($cache_file);
-
-		if(!$content)
+		if(!$cache_file = FileHandler::exists($this->getCacheFileName($key)))
 		{
 			return false;
 		}
+
+		if($modified_time > 0 && filemtime($cache_file) < $modified_timed)
+		{
+			FileHandler::removeFile($cache_file);
+			return false;
+		}
+
+		$content = include($cache_file);
 
 		return unserialize(stripslashes($content));
 	}

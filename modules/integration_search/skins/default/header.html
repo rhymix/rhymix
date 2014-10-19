@@ -3,6 +3,7 @@
 
     <!--// 컬러셋 체크 -->
     <!--@if($module_info->colorset != "white")-->
+        {@if(!is_object($module_info)) $module_info = new stdClass;}
         {@$module_info->colorset = "white"}
     <!--@end-->
 

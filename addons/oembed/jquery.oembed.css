@@ -101,10 +101,11 @@ div.oembedall-githubrepos ul.oembedall-repo-stats li.oembedall-forks a {
 
 
 span.oembedall-closehide{
-	background-color: #aaa;
+	background-color: #EEE;
 	border-radius: 2px;
 	cursor: pointer;
 	margin-right: 3px;
+	padding: 0 3px;
 }
 
 div.oembedall-container {

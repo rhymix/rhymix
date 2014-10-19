@@ -111,7 +111,7 @@ class pollModel extends poll
 		$poll->poll_count = (int)$output->data->poll_count;
 		$poll->stop_date = $output->data->stop_date;
 
-		$columnList = array('poll_index_srl', 'checkcount', 'poll_count');
+		$columnList = array('poll_index_srl', 'title', 'checkcount', 'poll_count');
 		$output = executeQuery('poll.getPollTitle', $args, $columnList);
 		if(!$output->data) return;
 		if(!is_array($output->data)) $output->data = array($output->data);

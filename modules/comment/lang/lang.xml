@@ -230,7 +230,7 @@
 	<item name="no_text_comment">
 		<value xml:lang="ko"><![CDATA[글자가 없는 댓글입니다.]]></value>
 		<value xml:lang="en"><![CDATA[No text in this comment.]]></value>
-		<value xml:lang="jp"><![CDATA[テキストのないコメントです。]]></value>
+		<value xml:lang="jp"><![CDATA[テキストがないコメントです。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此回覆無內容。]]></value>
 		<value xml:lang="tr"><![CDATA[Bu yorumda herhangi bir metin yok.]]></value>
 	</item>
@@ -263,7 +263,7 @@
 	<item name="comment_manager">
 		<value xml:lang="ko"><![CDATA[선택한 댓글 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage Selected Comment]]></value>
-		<value xml:lang="jp"><![CDATA[選択コメントを管理]]></value>
+		<value xml:lang="jp"><![CDATA[選択したコメントを管理]]></value>
 		<value xml:lang="zh-TW"><![CDATA[管理所選回覆]]></value>
 	</item>
 	<item name="selected_comment">

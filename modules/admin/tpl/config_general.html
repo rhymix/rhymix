@@ -98,8 +98,8 @@
 					<input type="hidden" name="module" value="install">
 					<input type="hidden" name="act" value="procInstallAdminConfigIconUpload">
 					<p>
-						<input type="file" name="favicon" id="favicon" title="Mobile Home Icon"/>
-						<input class="x_btn" type="submit" value="{$lang->cmd_submit}" style="vertical-align:top">
+						<input type="file" name="favicon" id="favicon" title="Favicon"/>
+						<input class="x_btn" type="submit" value="{$lang->cmd_preview}" style="vertical-align:top">
 					</p>
 				</form>
 				<span class="x_help-block">{$lang->about_use_favicon}</span>
@@ -118,7 +118,7 @@
 					<input type="hidden" name="act" value="procInstallAdminConfigIconUpload">
 					<p>
 						<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/>
-						<input class="x_btn" type="submit" value="{$lang->cmd_submit}" style="vertical-align:top">
+						<input class="x_btn" type="submit" value="{$lang->cmd_preview}" style="vertical-align:top">
 					</p>
 				</form>
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
@@ -131,6 +131,38 @@
 		</div>
 	</div>
 </section>
+
+
+<section class="section">
+	<h1>embed Filter {$lang->subtitle_embed_whitelist} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_embed_filter" target="_blank">{$lang->help}</a></h1>
+	<form action="./" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="procAdminUpdateEmbedWhitelist" />
+		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_general/1" />
+
+		<div class="x_control-group">
+			<label class="x_control-label" for="embed_white_iframe">iFrame <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_embed_filter_iframe" target="_blank">{$lang->help}</a></label>
+			<div class="x_controls" style="margin-right:14px">
+				<textarea name="embed_white_iframe" id="embed_white_iframe" rows="4" style="width:100%;">{$embed_white_iframe}</textarea>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label" for="embed_white_object">object/embed</label>
+			<div class="x_controls" style="margin-right:14px">
+				<textarea name="embed_white_object" id="embed_white_object" rows="4" cols="42" style="width:100%;">{$embed_white_object}</textarea>
+			</div>
+		</div>
+
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>
+
+
 <section class="section collapsed">
 	<h1>{$lang->subtitle_advanced}</h1>
 	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">

@@ -52,6 +52,7 @@ module.exports = function(grunt) {
 			},
 			'modules': {
 				files: {
+					'common/js/x.min.js' : ['common/js/x.js'],
 					// addon
 					'addons/captcha/captcha.min.js' : ['addons/captcha/captcha.js'],
 					'addons/captcha_member/captcha.min.js' : ['addons/captcha_member/captcha.js'],
@@ -60,14 +61,20 @@ module.exports = function(grunt) {
 					'modules/editor/skins/xpresseditor/js/xpresseditor.min.js': ['modules/editor/skins/xpresseditor/js/xpresseditor.js'],
 					'modules/editor/skins/xpresseditor/js/xe_textarea.min.js': ['modules/editor/skins/xpresseditor/js/xe_textarea.js'],
 					'modules/editor/tpl/js/editor_common.min.js': ['modules/editor/tpl/js/editor_common.js'],
+					'modules/editor/tpl/js/swfupload.min.js': ['modules/editor/tpl/js/swfupload.js'],
+					'modules/editor/tpl/js/uploader.min.js': ['modules/editor/tpl/js/uploader.js'],
+					'modules/editor/tpl/js/editor.min.js': ['modules/editor/tpl/js/editor.js'],
+					'modules/editor/tpl/js/editor_module_config.min.js': ['modules/editor/tpl/js/editor_module_config.js'],
 					// module/admin
 					'modules/admin/tpl/js/admin.min.js': ['modules/admin/tpl/js/admin.js'],
 					'modules/admin/tpl/js/config.min.js': ['modules/admin/tpl/js/config.js'],
 					'modules/admin/tpl/js/menu_setup.min.js': ['modules/admin/tpl/js/menu_setup.js'],
-					'modules/admin/tpl/js/sitemap.min.js': ['modules/admin/tpl/js/sitemap.js'],
-					'modules/admin/tpl/js/theme.min.js': ['modules/admin/tpl/js/theme.js'],
-					// editor-component-multimedia-link
-					'modules/editor/components/multimedia_link/tpl/popup.min.js': ['modules/editor/components/multimedia_link/tpl/popup.js'],
+					//module/board
+					'modules/board/tpl/js/board.min.js': ['modules/board/tpl/js/board.js'],
+					'modules/board/tpl/js/board_admin.min.js': ['modules/board/tpl/js/board_admin.js'],
+					'modules/board/skins/default/board.default.min.js': ['modules/board/skins/default/board.default.js'],
+					'modules/board/m.skins/default/js/mboard.min.js': ['modules/board/m.skins/default/js/mboard.js'],
+					'modules/board/m.skins/simpleGray/js/mboard.min.js': ['modules/board/m.skins/simpleGray/js/mboard.js'],
 					// editor-component-image-gallery
 					'modules/editor/components/image_gallery/tpl/gallery.min.js' : ['modules/editor/components/image_gallery/tpl/gallery.js'],
 					'modules/editor/components/image_gallery/tpl/list_gallery.min.js' : ['modules/editor/components/image_gallery/tpl/list_gallery.js'],
@@ -85,7 +92,7 @@ module.exports = function(grunt) {
 					'addons/oembed/jquery.oembed.min.js': ['addons/oembed/jquery.oembed.js'],
 					'addons/oembed/oembed.min.js': ['addons/oembed/oembed.js'],
 				}
-			}
+			},
 		},
 		cssmin: {
 			'common-css': {
@@ -103,11 +110,6 @@ module.exports = function(grunt) {
 				files: {
 					'modules/editor/components/image_gallery/tpl/popup.min.css': ['modules/editor/components/image_gallery/tpl/popup.css'],
 					'modules/editor/components/image_gallery/tpl/slide_gallery.min.css': ['modules/editor/components/image_gallery/tpl/slide_gallery.css'],
-				}
-			},
-			'editor-component-multimedia-link': {
-				files: {
-					'modules/editor/components/multimedia_link/tpl/popup.min.css': ['modules/editor/components/multimedia_link/tpl/popup.css'],
 				}
 			},
 			'moudle-widget-tpl': {
@@ -131,18 +133,24 @@ module.exports = function(grunt) {
 				files: {
 					'addons/oembed/jquery.oembed.min.css': ['addons/oembed/jquery.oembed.css'],
 				}
+			},
+			'module-board': {
+				files: {
+					'modules/board/skins/default/board.default.min.css': ['modules/board/skins/default/board.default.css'],
+					'modules/board/m.skins/default/css/mboard.min.css': ['modules/board/m.skins/default/css/mboard.css'],
+					'modules/board/m.skins/simpleGray/css/mboard.min.css': ['modules/board/m.skins/simpleGray/css/mboard.css']
+				}
 			}
 		},
 		jshint: {
 			files: [
 				'Gruntfile.js',
 				'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
-				'modules/widget/tpl/js/generate_code.js',
-				'modules/widget/tpl/js/widget.js',
-				'modules/widget/tpl/js/widget_admin.js',
-				'!**/jquery*.js',
-				'!**/*.min.js',
-				'!**/*-packed.js'
+				'modules/admin/tpl/js/*.js',
+				'modules/board/tpl/js/*.js',
+				'modules/editor/tpl/js/*.js',
+				'modules/menu/tpl/js/*.js',
+				'modules/widget/tpl/js/*.js',
 			],
 			options : {
 				globalstrict: false,
@@ -155,9 +163,10 @@ module.exports = function(grunt) {
 					"window" : true
 				},
 				ignores : [
-					'skins/xe_2010_gallery/js/jquery.easing.1.3.js',
-					'skins/xe_2010_gallery/js/json2007.js',
+					'**/jquery*.js',
+					'**/swfupload.js',
 					'**/*.min.js',
+					'**/*-packed.js',
 					'**/*.compressed.js'
 				]
 			}
@@ -212,7 +221,7 @@ module.exports = function(grunt) {
 		md5.update(buffer);
 		var md5Hash = md5.digest('hex');
 		grunt.verbose.writeln('file md5: ' + md5Hash);
- 
+
 		var md5FileName = file + '.md5';
 		grunt.file.write(md5FileName, md5Hash);
 		grunt.verbose.writeln('File "' + md5FileName + '" created.').writeln('...');
@@ -220,7 +229,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', '', function(A, B) {
 		var _only_export = false;
-		var tasks = ['board', 'krzip', 'syndication'];
+		var tasks = ['krzip', 'syndication'];
 
 		if(!A) {
 			grunt.fail.warn('Undefined build target.');
@@ -250,9 +259,10 @@ module.exports = function(grunt) {
 			if(tasks.length === 0) {
 				grunt.util.spawn({
 					cmd: "tar",
-					args: ['cfz', 'xe.'+version+'.tar.gz', 'xe/'],
+					args: ['cfz', '../xe.'+version+'.tar.gz', './'],
 					opts: {
-						cwd: 'build'
+						cwd: 'build/xe',
+						cache: false
 					}
 				}, function (error, result, code) {
 					grunt.log.ok('Archived(full) : ' + build_dir + '/xe.'+version+'.tar.gz');
@@ -260,9 +270,10 @@ module.exports = function(grunt) {
 
 					grunt.util.spawn({
 						cmd: "zip",
-						args: ['-r', 'xe.'+version+'.zip', 'xe/'],
+						args: ['-r', '../xe.'+version+'.zip', './'],
 						opts: {
-							cwd: 'build'
+							cwd: 'build/xe',
+							cache: false
 						}
 					}, function (error, result, code) {
 						grunt.log.ok('Archived(full) : ' + build_dir + '/xe.'+version+'.zip');
@@ -304,8 +315,8 @@ module.exports = function(grunt) {
 
 					// changed
 					if(diff.length) {
-						var args_tar = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.tar.gz', version];
-						var args_zip = ['archive', '--prefix=xe/', '-o', 'build/xe.'+version+'.changed.zip', version];
+						var args_tar = ['archive', '-o', 'build/xe.'+version+'.changed.tar.gz', version];
+						var args_zip = ['archive', '-o', 'build/xe.'+version+'.changed.zip', version];
 						args_tar = args_tar.concat(diff);
 						args_zip = args_zip.concat(diff);
 
@@ -337,15 +348,6 @@ module.exports = function(grunt) {
 				cmd: "tar",
 				args: ['xf', 'build/temp.full.tar', '-C', 'build/xe']
 			}, function (error, result, code) {
-				// board
-				grunt.util.spawn({
-					cmd: "git",
-					args: ['clone', '-b', 'master', 'git@github.com:xpressengine/xe-module-board.git', 'build/xe/modules/board']
-				}, function (error, result, code) {
-					grunt.file.delete('build/xe/modules/board/.git');
-					taskDone();
-				});
-
 				// krzip
 				grunt.util.spawn({
 					cmd: "git",

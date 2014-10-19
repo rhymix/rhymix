@@ -89,8 +89,9 @@
 <form action="" class="search x_input-append center" no-error-return-url="true">
 	<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act', 'page', 'search_target', 'search_keyword'))" type="hidden" name="{$key}" value="{$val}" />
 	<select cond="count($module_category)" name="module_category_srl" title="{$lang->module_category}" style="margin-right:4px">
+		<option value="" selected="selected"|cond="!$module_category_srl">{$lang->all}</option>
 		<option value="0" selected="selected"|cond="$module_category_srl==='0'">{$lang->not_exists}</option>
-		<option value="{$key}" loop="$module_category => $key,$val"  selected="selected"|cond="$module_category==$key">{$val->title}</option>
+		<option value="{$key}" loop="$module_category => $key,$val"  selected="selected"|cond="$module_category_srl==$key">{$val->title}</option>
 	</select>
 	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
 		<option value="mid" selected="selected"|cond="$search_target=='mid'">{$lang->mid}</option>

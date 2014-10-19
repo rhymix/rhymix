@@ -26,9 +26,9 @@ class FileHandler
 	}
 
 	/**
-	 * Copy a directory to target 
+	 * Copy a directory to target
 	 *
-	 * If target directory does not exist, this function creates it 
+	 * If target directory does not exist, this function creates it
 	 *
 	 * @param string $source_dir Path of source directory
 	 * @param string $target_dir Path of target dir
@@ -94,7 +94,7 @@ class FileHandler
 	}
 
 	/**
-	 * Copy a file to target 
+	 * Copy a file to target
 	 *
 	 * @param string $source Path of source file
 	 * @param string $target Path of target file
@@ -119,7 +119,7 @@ class FileHandler
 	}
 
 	/**
-	 * Returns the content of the file 
+	 * Returns the content of the file
 	 *
 	 * @param string $filename Path of target file
 	 * @return string The content of the file. If target file does not exist, this function returns nothing.
@@ -201,7 +201,7 @@ class FileHandler
 	}
 
 	/**
-	 * Move a directory 
+	 * Move a directory
 	 *
 	 * This function just wraps rename function.
 	 *
@@ -223,16 +223,16 @@ class FileHandler
 	 * @param string $filter If specified, return only files matching with the filter
 	 * @param bool $to_lower If TRUE, file names will be changed into lower case.
 	 * @param bool $concat_prefix If TRUE, return file name as absolute path
-	 * @return string[] Array of the filenames in the path 
+	 * @return string[] Array of the filenames in the path
 	 */
 	function readDir($path, $filter = '', $to_lower = FALSE, $concat_prefix = FALSE)
 	{
 		$path = self::getRealPath($path);
 		$output = array();
 
-		if(substr($path, -1) != DIRECTORY_SEPARATOR)
+		if(substr($path, -1) != '/')
 		{
-			$path .= DIRECTORY_SEPARATOR;
+			$path .= '/';
 		}
 
 		if(!is_dir($path))
@@ -263,9 +263,9 @@ class FileHandler
 				$file = sprintf('%s%s', str_replace(_XE_PATH_, '', $path), $file);
 			}
 
-			$output[] = $file;
+			$output[] = str_replace(array('/\\', '//'), '/', $file);
 		}
-		
+
 		return $output;
 	}
 
@@ -293,7 +293,7 @@ class FileHandler
 		else
 		{
 			static $oFtp = NULL;
-			
+
 			$ftp_info = Context::getFTPInfo();
 			if($oFtp == NULL)
 			{
@@ -327,10 +327,10 @@ class FileHandler
 			{
 				$ftp_path = DIRECTORY_SEPARATOR;
 			}
-			
+
 			$path_string = str_replace(_XE_PATH_, '', $path_string);
 			$path_list = explode(DIRECTORY_SEPARATOR, $path_string);
-			
+
 			$path = _XE_PATH_;
 			for($i = 0, $c = count($path_list); $i < $c; $i++)
 			{
@@ -338,7 +338,7 @@ class FileHandler
 				{
 					continue;
 				}
-			
+
 				$path .= $path_list[$i] . DIRECTORY_SEPARATOR;
 				$ftp_path .= $path_list[$i] . DIRECTORY_SEPARATOR;
 				if(!is_dir($path))
@@ -346,7 +346,7 @@ class FileHandler
 					$oFtp->ftp_mkdir($ftp_path);
 					$oFtp->ftp_site("CHMOD 777 " . $ftp_path);
 				}
-			}			
+			}
 		}
 
 		return is_dir($path_string);
@@ -394,7 +394,7 @@ class FileHandler
 	}
 
 	/**
-	 * Remove a directory only if it is empty 
+	 * Remove a directory only if it is empty
 	 *
 	 * @param string $path Path of the target directory
 	 * @return void
@@ -428,7 +428,7 @@ class FileHandler
 	/**
 	 * Remove files in the target directory
 	 *
-	 * This function keeps the directory structure. 
+	 * This function keeps the directory structure.
 	 *
 	 * @param string $path Path of the target directory
 	 * @return void
@@ -505,7 +505,7 @@ class FileHandler
 	 *
 	 * If the target is moved (when return code is 300~399), this function follows the location specified response header.
 	 *
-	 * @param string $url The address of the target file 
+	 * @param string $url The address of the target file
 	 * @param string $body HTTP request body
 	 * @param int $timeout Connection timeout
 	 * @param string $method GET/POST
@@ -515,7 +515,7 @@ class FileHandler
 	 * @param string $post_data Request arguments array for POST method
 	 * @return string If success, the content of the target file. Otherwise: none
 	 */
-	function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array())
+	function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array(), $request_config = array())
 	{
 		try
 		{
@@ -533,6 +533,15 @@ class FileHandler
 			else
 			{
 				$oRequest = new HTTP_Request($url);
+
+				if(count($request_config) && method_exists($oRequest, 'setConfig'))
+				{
+					foreach($request_config as $key=>$val)
+					{
+						$oRequest->setConfig($key, $val);
+					}
+				}
+
 				if(count($headers) > 0)
 				{
 					foreach($headers as $key => $val)
@@ -618,7 +627,7 @@ class FileHandler
 	}
 
 	/**
-	 * Convert size in string into numeric value 
+	 * Convert size in string into numeric value
 	 *
 	 * @see self::filesize()
 	 * @param $val Size in string (ex., 10, 10K, 10M, 10G )
@@ -640,13 +649,13 @@ class FileHandler
 				break;
 		}
 
-		return (int) $val;
+		return $val;
 	}
 
 	/**
-	 * Check available memory to load image file 
+	 * Check available memory to load image file
 	 *
-	 * @param array $imageInfo Image info retrieved by getimagesize function 
+	 * @param array $imageInfo Image info retrieved by getimagesize function
 	 * @return bool TRUE: it's ok, FALSE: otherwise
 	 */
 	function checkMemoryLoadImage(&$imageInfo)
@@ -672,7 +681,7 @@ class FileHandler
 	 *
 	 * @param string $source_file Path of the source file
 	 * @param string $target_file Path of the target file
-	 * @param int $resize_width Width to resize 
+	 * @param int $resize_width Width to resize
 	 * @param int $resize_height Height to resize
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
 	 * @param string $thumbnail_type Thumbnail type(crop, ratio)
@@ -827,7 +836,7 @@ class FileHandler
 			imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
 		}
 
-		// create directory 
+		// create directory
 		self::makeDir(dirname($target_file));
 
 		// write into the file
@@ -957,13 +966,13 @@ class FileHandler
 	}
 
 	/**
-	 * Returns a file object 
+	 * Returns a file object
 	 *
 	 * If the directory of the file does not exist, create it.
 	 *
 	 * @param string $filename Target file name
 	 * @param string $mode File mode for fopen
-	 * @return FileObject File object 
+	 * @return FileObject File object
 	 */
 	function openFile($filename, $mode)
 	{
@@ -1007,6 +1016,33 @@ class FileHandler
 	{
 		$path = self::getRealPath($path);
 		return is_dir($path) ? $path : FALSE;
+	}
+
+	/**
+	 * Check is writable dir
+	 *
+	 * @param string $path Target dir path
+	 * @return bool
+	 */
+	function isWritableDir($path)
+	{
+		$path = self::getRealPath($path);
+		if(is_dir($path)==FALSE)
+		{
+			return FALSE;
+		}
+
+		$checkFile = $path . '/_CheckWritableDir';
+
+		$fp = fopen($checkFile, 'w');
+		if(!is_resource($fp))
+		{
+			return FALSE;
+		}
+		fclose($fp);
+
+		self::removeFile($checkFile);
+		return TRUE;
 	}
 }
 

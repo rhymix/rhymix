@@ -368,6 +368,13 @@ class autoinstallAdminView extends autoinstall
 			Context::set('need_password', TRUE);
 		}
 
+		$output = $oAdminModel->checkUseDirectModuleInstall($package);
+		if($output->toBool()==TRUE)
+		{
+			Context::set('show_ftp_note', FALSE);
+		}
+		Context::set('directModuleInstall', $output);
+
 		$this->setTemplateFile('install');
 
 		$security = new Security();
@@ -503,6 +510,7 @@ class autoinstallAdminView extends autoinstall
 		}
 
 		$oModel = getModel('autoinstall');
+		$oAdminModel = getAdminModel('autoinstall');
 		$installedPackage = $oModel->getInstalledPackage($package_srl);
 		if(!$installedPackage)
 		{
@@ -528,6 +536,13 @@ class autoinstallAdminView extends autoinstall
 		{
 			return $this->stop("msg_invalid_request");
 		}
+
+		$output = $oAdminModel->checkUseDirectModuleInstall($installedPackage);
+		if($output->toBool()==TRUE)
+		{
+			Context::set('show_ftp_note', FALSE);
+		}
+		Context::set('directModuleInstall', $output);
 
 		$params["act"] = "getResourceapiPackages";
 		$params["package_srls"] = $package_srl;

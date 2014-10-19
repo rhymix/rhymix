@@ -667,7 +667,7 @@ class Validator
 		}
 
 		// current language
-		$lang_type = class_exists('Context') ? Context::getLangType() : 'en';
+		$lang_type = class_exists('Context', false) ? Context::getLangType() : 'en';
 
 		// check the file
 		$filepath = $dir . '/' . md5($this->_version . ' ' . $this->_xml_path) . ".{$lang_type}.js";
@@ -706,7 +706,7 @@ class Validator
 		list($ruleset) = explode('.', $ruleset);
 
 		// current language
-		$lang_type = class_exists('Context') ? Context::getLangType() : 'en';
+		$lang_type = class_exists('Context', false) ? Context::getLangType() : 'en';
 
 		// custom rulesets
 		$addrules = array();
@@ -714,7 +714,7 @@ class Validator
 		{
 			$name = strtolower($name);
 
-			if(strpos('email,userid,url,alpha,alpha_number,number,', $name . ',') !== false)
+			if(in_array($name, array('email', 'userid', 'url', 'alpha', 'alpha_number', 'number')))
 			{
 				continue;
 			}

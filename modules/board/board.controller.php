@@ -40,7 +40,7 @@ class boardController extends board
 		$obj->commentStatus = $obj->comment_status;
 
 		settype($obj->title, "string");
-		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
+		if($obj->title == '') $obj->title = cut_str(trim(strip_tags(nl2br($obj->content))),20,'...');
 		//setup dpcument title tp 'Untitled'
 		if($obj->title == '') $obj->title = 'Untitled';
 
@@ -60,24 +60,47 @@ class boardController extends board
 		// check if the document is existed
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
 
+		// update the document if it is existed
+		$is_update = false;
+		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
+		{
+			$is_update = true;
+		}
+
 		// if use anonymous is true
 		if($this->module_info->use_anonymous == 'Y')
 		{
 			$this->module_info->admin_mail = '';
 			$obj->notify_message = 'N';
-			$obj->member_srl = -1*$logged_info->member_srl;
+			if($is_update===false)
+			{
+				$obj->member_srl = -1*$logged_info->member_srl;
+			}
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
 			$obj->user_name = $obj->nick_name = 'anonymous';
 			$bAnonymous = true;
-			$oDocument->add('member_srl', $obj->member_srl);
+			if($is_update===false)
+			{
+				$oDocument->add('member_srl', $obj->member_srl);
+			}
 		}
 		else
 		{
 			$bAnonymous = false;
 		}
 
+		if($obj->is_secret == 'Y' || strtoupper($obj->status == 'SECRET'))
+		{
+			$use_status = explode('|@|', $this->module_info->use_status);
+			if(!is_array($use_status) || !in_array('SECRET', $use_status))
+			{
+				unset($obj->is_secret);
+				$obj->status = 'PUBLIC';
+			}
+		}
+
 		// update the document if it is existed
-		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
+		if($is_update)
 		{
 			if(!$oDocument->isGranted())
 			{
@@ -95,6 +118,13 @@ class boardController extends board
 				$obj->is_notice = $oDocument->get('is_notice');
 				$obj->title_color = $oDocument->get('title_color');
 				$obj->title_bold = $oDocument->get('title_bold');
+			}
+			
+			// modify list_order if document status is temp
+			if($oDocument->get('status') == 'TEMP')
+			{
+				$obj->last_update = $obj->regdate = date('YmdHis');
+				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
 
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
@@ -204,9 +234,21 @@ class boardController extends board
 		// get the relevant data for inserting comment
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
-		
-		if($this->module_info->secret!='Y') {
+
+		if(!$this->module_info->use_status) $this->module_info->use_status = 'PUBLIC';
+		if(!is_array($this->module_info->use_status))
+		{
+			$this->module_info->use_status = explode('|@|', $this->module_info->use_status);
+		}
+
+		if(in_array('SECRET', $this->module_info->use_status))
+		{
+			$this->module_info->secret = 'Y';
+		}
+		else
+		{
 			unset($obj->is_secret);
+			$this->module_info->secret = 'N';
 		}
 
 		// check if the doument is existed

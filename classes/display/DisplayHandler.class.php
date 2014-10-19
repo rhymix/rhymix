@@ -39,12 +39,12 @@ class DisplayHandler extends Handler
 		// Extract contents to display by the request method
 		if(Context::get('xeVirtualRequestMethod') == 'xml')
 		{
-			require_once("./classes/display/VirtualXMLDisplayHandler.php");
+			require_once(_XE_PATH_ . "classes/display/VirtualXMLDisplayHandler.php");
 			$handler = new VirtualXMLDisplayHandler();
 		}
 		else if(Context::getRequestMethod() == 'XMLRPC')
 		{
-			require_once("./classes/display/XMLDisplayHandler.php");
+			require_once(_XE_PATH_ . "classes/display/XMLDisplayHandler.php");
 			$handler = new XMLDisplayHandler();
 			if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 			{
@@ -53,17 +53,17 @@ class DisplayHandler extends Handler
 		}
 		else if(Context::getRequestMethod() == 'JSON')
 		{
-			require_once("./classes/display/JSONDisplayHandler.php");
+			require_once(_XE_PATH_ . "classes/display/JSONDisplayHandler.php");
 			$handler = new JSONDisplayHandler();
 		}
 		else if(Context::getRequestMethod() == 'JS_CALLBACK')
 		{
-			require_once("./classes/display/JSCallbackDisplayHandler.php");
+			require_once(_XE_PATH_ . "classes/display/JSCallbackDisplayHandler.php");
 			$handler = new JSCallbackDisplayHandler();
 		}
 		else
 		{
-			require_once("./classes/display/HTMLDisplayHandler.php");
+			require_once(_XE_PATH_ . "classes/display/HTMLDisplayHandler.php");
 			$handler = new HTMLDisplayHandler();
 		}
 
@@ -164,12 +164,13 @@ class DisplayHandler extends Handler
 						array(
 							'Request / Response info >>> ' . $_SERVER['REQUEST_METHOD'] . ' / ' . Context::getResponseMethod(),
 							array(
-								array('Request URI', 'Request method', 'Response method', 'Response contents size'),
+								array('Request URI', 'Request method', 'Response method', 'Response contents size', 'Memory peak usage'),
 								array(
 									sprintf("%s:%s%s%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING'] ? '?' : '', $_SERVER['QUERY_STRING']),
 									$_SERVER['REQUEST_METHOD'],
 									Context::getResponseMethod(),
-									$this->content_size . ' byte'
+									$this->content_size . ' byte',
+									FileHandler::filesize(memory_get_peak_usage())
 								)
 							)
 						),
@@ -291,7 +292,7 @@ class DisplayHandler extends Handler
 					$buff = 'The IP address is not allowed. Change the value of __DEBUG_PROTECT_IP__ into your IP address in config/config.user.inc.php or config/config.inc.php';
 				}
 
-				return "<!--\r\n" . implode("\r\n", $buff) . "\r\n-->";
+				return "<!--\r\n" . $buff . "\r\n-->";
 			}
 
 			// Output to a file

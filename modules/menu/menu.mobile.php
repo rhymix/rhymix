@@ -23,6 +23,7 @@ class menuMobile extends moduleObject
 	function straightenMenu($menu_item, $depth)
 	{
 		if(!$menu_item['link']) return;
+		$obj = new stdClass;
 		$obj->href = $menu_item['href'];
 		$obj->depth = $depth;
 		$obj->text = $menu_item['text'];

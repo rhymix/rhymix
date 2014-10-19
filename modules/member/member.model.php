@@ -57,8 +57,8 @@ class memberModel extends member
 		if(!$config->image_name_max_height) $config->image_name_max_height = 20;
 		if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
 		if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
-		if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
-		if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
+		if(!$config->profile_image_max_width) $config->profile_image_max_width = 90;
+		if(!$config->profile_image_max_height) $config->profile_image_max_height = 90;
 		if(!$config->skin) $config->skin = 'default';
 		if(!$config->colorset) $config->colorset = 'white';
 		if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'xpresseditor';
@@ -295,6 +295,8 @@ class memberModel extends member
 		//columnList size zero... get full member info
 		if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0)
 		{
+			$GLOBALS['__member_info__'][$member_srl] = false;
+
 			$oCacheHandler = CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport())
 			{
@@ -304,7 +306,7 @@ class memberModel extends member
 				$GLOBALS['__member_info__'][$member_srl] = $oCacheHandler->get($cache_key);
 			}
 
-			if(!$GLOBALS['__member_info__'][$member_srl])
+			if($GLOBALS['__member_info__'][$member_srl] === false)
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
@@ -458,7 +460,10 @@ class memberModel extends member
 	 */
 	function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false)
 	{
+		static $member_groups = array();
+
 		// cache controll
+		$group_list = false;
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
@@ -467,11 +472,9 @@ class memberModel extends member
 			$group_list = $oCacheHandler->get($cache_key);
 		}
 
-		static $member_groups = array();
-
 		if(!$member_groups[$member_srl][$site_srl] || $force_reload)
 		{
-			if(!$group_list && !is_array($group_list))
+			if($group_list === false)
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
@@ -516,6 +519,7 @@ class memberModel extends member
 	 */
 	function getDefaultGroup($site_srl = 0, $columnList = array())
 	{
+		$default_group = false;
 		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if($oCacheHandler->isSupport())
 		{
@@ -525,7 +529,7 @@ class memberModel extends member
 			$default_group = $oCacheHandler->get($cache_key);
 		}
 
-		if(!$default_group)
+		if($default_group === false)
 		{
 			$args = new stdClass();
 			$args->site_srl = $site_srl;
@@ -574,6 +578,7 @@ class memberModel extends member
 				$site_srl = 0;
 			}
 
+			$group_list = false;
 			$oCacheHandler = CacheHandler::getInstance('object', null, true);
 			if($oCacheHandler->isSupport())
 			{
@@ -581,9 +586,9 @@ class memberModel extends member
 				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
 				$group_list = $oCacheHandler->get($cache_key);
 			}
-			if(!$group_list)
-			{
 
+			if($group_list === false)
+			{
 				$args = new stdClass();
 				$args->site_srl = $site_srl;
 				$args->sort_index = 'list_order';
@@ -892,6 +897,7 @@ class memberModel extends member
 			if(file_exists($image_name_file))
 			{
 				list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+				$info = new stdClass;
 				$info->width = $width;
 				$info->height = $height;
 				$info->src = Context::getRequestUri().$image_name_file;

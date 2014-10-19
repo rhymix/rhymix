@@ -83,4 +83,36 @@
 		<value xml:lang="en"><![CDATA[Remove all trash items. After execute could not be recovered.]]></value>
 		<value xml:lang="jp"><![CDATA[ゴミ箱を完全に消去します。実行後には復元できません。]]></value>
 	</item>
+	<item name="title">
+		<value xml:lang="ko"><![CDATA[제목]]></value>
+		<value xml:lang="en"><![CDATA[Subject]]></value>
+		<value xml:lang="jp"><![CDATA[タイトル]]></value>
+		<value xml:lang="zh-TW"><![CDATA[標題]]></value>
+	</item>
+	<item name="content">
+		<value xml:lang="ko"><![CDATA[내용]]></value>
+		<value xml:lang="en"><![CDATA[Content]]></value>
+		<value xml:lang="jp"><![CDATA[内容]]></value>
+		<value xml:lang="zh-TW"><![CDATA[內容]]></value>
+	</item>
+	<item name="trasher">
+		<value xml:lang="ko"><![CDATA[삭제자]]></value>
+		<value xml:lang="en"><![CDATA[Deleter]]></value>
+		<value xml:lang="jp"><![CDATA[削除者]]></value>
+		<value xml:lang="zh-TW"><![CDATA[刪除]]></value>
+	</item>
+	<item name="origin_info">
+		<value xml:lang="ko"><![CDATA[원문 정보]]></value>
+		<value xml:lang="en"><![CDATA[Document Info]]></value>
+	</item>
+	<item name="delete_info">
+		<value xml:lang="ko"><![CDATA[삭제 정보]]></value>
+		<value xml:lang="en"><![CDATA[Trash Info]]></value>
+	</item>	
+	<item name="cmd_restore">
+		<value xml:lang="ko"><![CDATA[복원]]></value>
+		<value xml:lang="en"><![CDATA[Restore]]></value>
+		<value xml:lang="jp"><![CDATA[復元]]></value>
+		<value xml:lang="zh-TW"><![CDATA[復原]]></value>
+	</item>	
 </lang>

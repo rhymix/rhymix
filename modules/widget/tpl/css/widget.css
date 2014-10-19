@@ -127,6 +127,7 @@
 	height: 14px;
 	border: 0;
 	cursor: pointer;
+	vertical-align: middle;
 	background: transparent url("../../../admin/tpl/img/glyphicons-halflings.png") no-repeat;
 }
 .widgetButtons .widgetSetup {

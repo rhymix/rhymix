@@ -160,6 +160,8 @@ class fileController extends file
 	{
 		$oFileModel = getModel('file');
 
+		if(isset($this->grant->access) && $this->grant->access !== true) return new Object(-1, 'msg_not_permitted');
+
 		$file_srl = Context::get('file_srl');
 		$sid = Context::get('sid');
 		$logged_info = Context::get('logged_info');
@@ -302,7 +304,7 @@ class fileController extends file
 
 		$file_size = $file_obj->file_size;
 		$filename = $file_obj->source_filename;
-		if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE || (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'rv') !== FALSE))
+		if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE || (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'rv:') !== FALSE))
 		{
 			$filename = rawurlencode($filename);
 			$filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
@@ -517,6 +519,8 @@ class fileController extends file
 	{
 		$comment_srl = $obj->comment_srl;
 		if(!$comment_srl) return new Object();
+
+		if($obj->isMoveToTrash) return new Object();
 
 		$output = $this->deleteFiles($comment_srl);
 		return $output;
@@ -760,7 +764,7 @@ class fileController extends file
 		$oDocumentController = getController('document');
 		$documentSrlList = array();
 
-		for($i=0;$i<count($srls);$i++)
+		for($i=0, $c=count($srls); $i<$c; $i++)
 		{
 			$srl = (int)$srls[$i];
 			if(!$srl) continue;
@@ -814,29 +818,33 @@ class fileController extends file
 	{
 		// Get a list of attachements
 		$oFileModel = getModel('file');
-		$columnList = array('uploaded_filename', 'module_srl');
+		$columnList = array('file_srl', 'uploaded_filename', 'module_srl');
 		$file_list = $oFileModel->getFiles($upload_target_srl, $columnList);
 		// Success returned if no attachement exists
 		if(!is_array($file_list)||!count($file_list)) return new Object();
+
 		// Remove from the DB
 		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
 		$output = executeQuery('file.deleteFiles', $args);
 		if(!$output->toBool()) return $output;
+
 		// Delete the file
 		$path = array();
 		$file_count = count($file_list);
 		for($i=0;$i<$file_count;$i++)
 		{
-			$uploaded_filename = $file_list[$i]->uploaded_filename;
-			FileHandler::removeFile($uploaded_filename);
-			$module_srl = $file_list[$i]->module_srl;
+			$this->deleteFile($file_list[$i]->file_srl);
 
+			$uploaded_filename = $file_list[$i]->uploaded_filename;
 			$path_info = pathinfo($uploaded_filename);
 			if(!in_array($path_info['dirname'], $path)) $path[] = $path_info['dirname'];
 		}
 		// Remove a file directory of the document
-		for($i=0;$i<count($path);$i++) FileHandler::removeBlankDir($path[$i]);
+		for($i=0, $c=count($path); $i<$c; $i++)
+		{
+			FileHandler::removeBlankDir($path[$i]);
+		}
 
 		return $output;
 	}

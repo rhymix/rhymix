@@ -61,6 +61,9 @@ class memberAdminController extends member
 		unset($all_args->success_return_url);
 		unset($all_args->ruleset);
 		if(!isset($args->limit_date)) $args->limit_date = "";
+		unset($all_args->password);
+		unset($all_args->password2);
+		unset($all_args->reset_password);
 		// Add extra vars after excluding necessary information from all the requested arguments
 		$extra_vars = delObjectVars($all_args, $args);
 		$args->extra_vars = serialize($extra_vars);
@@ -181,6 +184,7 @@ class memberAdminController extends member
 
 		$args = Context::gets(
 			'limit_day',
+			'limit_day_description',
 			'agreement',
 			'redirect_url',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
@@ -471,7 +475,7 @@ class memberAdminController extends member
 				}
 				else if($formInfo->name == 'password')
 				{
-					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="6:20" /></field>';
+					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="4:20" /></field>';
 					$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
 				}
 				else if($formInfo->name == 'find_account_question')
@@ -827,7 +831,6 @@ class memberAdminController extends member
 						{
 							$args->denied = $var->denied;
 							$output = executeQuery('member.updateMemberDeniedInfo', $args);
-							$this->_clearMemberCache($args->member_srl);
 							if(!$output->toBool())
 							{
 								$oDB->rollback();
@@ -849,6 +852,7 @@ class memberAdminController extends member
 						$this->setMessage('success_deleted');
 					}
 			}
+			$oMemberController->_clearMemberCache($args->member_srl);
 		}
 
 		$message = $var->message;
@@ -976,6 +980,9 @@ class memberAdminController extends member
 
 		foreach($user_ids as $val)
 		{
+			$val = trim($val);
+			if(!$val) continue;
+
 			$output = $this->insertDeniedID($val, '');
 			if($output->toBool()) $success_ids[] = $val;
 		}
@@ -1014,6 +1021,9 @@ class memberAdminController extends member
 
 			foreach($nick_names as $val)
 			{
+				$val = trim($val);
+				if(!$val) continue;
+
 				$output = $this->insertDeniedNickName($val, '');
 				if($output->toBool()) $success_nick_names[] = $val;
 			}
@@ -1097,6 +1107,11 @@ class memberAdminController extends member
 		{
 			$output = executeQuery('member.updateGroupDefaultClear', $args);
 			if(!$output->toBool()) return $output;
+		}
+
+		if(!isset($args->list_order) || $args->list_order=='')
+		{
+			$args->list_order = $args->group_srl;
 		}
 
 		if(!$args->group_srl) $args->group_srl = getNextSequence();
@@ -1289,6 +1304,8 @@ class memberAdminController extends member
 	 */
 	function deleteDeniedID($user_id)
 	{
+		if(!$user_id) unset($user_id);
+
 		$args = new stdClass;
 		$args->user_id = $user_id;
 		return executeQuery('member.deleteDeniedID', $args);
@@ -1301,6 +1318,8 @@ class memberAdminController extends member
 	 */
 	function deleteDeniedNickName($nick_name)
 	{
+		if(!$nick_name) unset($nick_name);
+
 		$args = new stdClass;
 		$args->nick_name = $nick_name;
 		return executeQuery('member.deleteDeniedNickName', $args);

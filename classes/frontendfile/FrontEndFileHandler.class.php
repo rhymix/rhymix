@@ -8,7 +8,7 @@
 class FrontEndFileHandler extends Handler
 {
 
-	static $isSSL = FALSE;
+	static $isSSL = null;
 
 	/**
 	 * Map for css
@@ -50,12 +50,13 @@ class FrontEndFileHandler extends Handler
 	 * Check SSL
 	 *
 	 * @return bool If using ssl returns true, otherwise returns false.
+     * @deprecated
 	 */
 	function isSsl()
 	{
-		if(self::$isSSL)
+		if(!is_null(self::$isSSL))
 		{
-			return TRUE;
+			return self::$isSSL;
 		}
 
 		$url_info = parse_url(Context::getRequestUrl());
@@ -160,7 +161,7 @@ class FrontEndFileHandler extends Handler
 
 		if(strpos($file->filePath, '://') === FALSE)
 		{
-			if(!__DEBUG__)
+			if(!__DEBUG__ && __XE_VERSION_STABLE__)
 			{
 				// if no debug mode, load minifed file
 				$minifiedFileName = implode('.', array($file->fileNameNoExt, 'min', $file->fileExtension));

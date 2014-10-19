@@ -167,9 +167,14 @@ class installController extends install
 		if(!$oDB->isConnected()) return $oDB->getError();
 
 		// Install all the modules
-		$oDB->begin();
-		$this->installDownloadedModule();
-		$oDB->commit();
+		try {
+			$oDB->begin();
+			$this->installDownloadedModule();
+			$oDB->commit();
+		} catch(Exception $e) {
+			$oDB->rollback();
+			return new Object(-1, $e->getMessage());
+		}
 
 		// Create a config file
 		if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
@@ -220,7 +225,8 @@ class installController extends install
 		);
 		$db_info->slave_db = array($db_info->master_db);
 		$db_info->default_url = Context::getRequestUri();
-		$db_info->lang_type = Context::getLangType();
+		$db_info->lang_type = Context::get('lang_type') ? Context::get('lang_type') : Context::getLangType();
+		Context::setLangType($db_info->lang_type);
 		$db_info->use_rewrite = Context::get('use_rewrite');
 		$db_info->time_zone = Context::get('time_zone');
 
@@ -383,26 +389,26 @@ class installController extends install
 
 		FileHandler::writeFile(_XE_PATH_.$checkFilePath, trim($checkString));
 
+		$scheme = $_SERVER['REQUEST_SCHEME'];
 		$hostname = $_SERVER['SERVER_NAME'];
 		$port = $_SERVER['SERVER_PORT'];
-		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
-		$currentPath = str_replace( $_SERVER['DOCUMENT_ROOT'], "", realpath(_XE_PATH_) );
-		if($currentPath != "")
-			$query = $currentPath . $query;
-
-		$fp = @fsockopen($hostname, $port, $errno, $errstr);
-		if(!$fp) return false;
-
-		fputs($fp, "GET {$query} HTTP/1.0\r\n");
-		fputs($fp, "Host: {$hostname}\r\n\r\n");
-
-		$buff = '';
-		while(!feof($fp)) {
-			$str = fgets($fp, 1024);
-			if(trim($str)=='') $start = true;
-			if($start) $buff .= $str;
+		$str_port = '';
+		if($port)
+		{
+			$str_port = ':' . $port;
 		}
-		fclose($fp);
+
+		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
+		$currentPath = str_replace($_SERVER['DOCUMENT_ROOT'], "", _XE_PATH_);
+		if($currentPath != "")
+		{
+			$query = $currentPath . $query;
+		}
+
+		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
+		$requestConfig = array();
+		$requestConfig['ssl_verify_peer'] = false;
+		$buff = FileHandler::getRemoteResource($requestUrl, null, 10, 'POST', 'application/x-www-form-urlencoded', array(), array(), array(), $requestConfig);
 
 		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
 
@@ -515,6 +521,8 @@ class installController extends install
 			$file = trim($schema_files[$i]);
 			if(!$file || substr($file,-4)!='.xml') continue;
 			$output = $oDB->createTableByXmlFile($file);
+			if($output === false)
+				throw new Exception('msg_create_table_failed');
 		}
 		// Create a table and module instance and then execute install() method
 		unset($oModule);
@@ -523,71 +531,24 @@ class installController extends install
 		return new Object();
 	}
 
-	function _getDbConnText($key, $val, $with_array = false)
-	{
-		$buff = array("\$db_info->$key = ");
-		if($with_array) $buff[] = "array(";
-		else $val = array($val);
-
-		foreach($val as $con_string)
-		{
-			$buff[] = 'array(';
-			foreach($con_string as $k => $v)
-			{
-				if($k == 'resource' || $k == 'is_connected') continue;
-				if($k == 'db_table_prefix' && !empty($v) && substr($v,-1)!='_') $v .= '_';
-				$buff[] = "'$k' => '$v',";
-			}
-			$buff[] = ($with_array) ? '),' : ')';
-		}
-
-		if($with_array) $buff[] = ')';
-
-		return join(PHP_EOL, $buff) . ';' . PHP_EOL;
-	}
-
 	function _getDBConfigFileContents($db_info)
 	{
+		if(substr($db_info->master_db['db_table_prefix'], -1) != '_')
+		{
+			$db_info->master_db['db_table_prefix'] .= '_';
+		}
+
+		foreach($db_info->slave_db as &$slave)
+		{
+			if(substr($slave['db_table_prefix'], -1) != '_')
+			{
+				$slave['db_table_prefix'] .= '_';
+			}
+		}
+
 		$buff = array();
 		$buff[] = '<?php if(!defined("__XE__")) exit();';
-		$buff[] = '$db_info = new stdClass;';
-
-		$db_info = get_object_vars($db_info);
-		foreach($db_info as $key => $val)
-		{
-			if($key == 'master_db')
-			{
-				$tmpValue = $this->_getDbConnText($key, $val);
-			}
-			else if($key == 'slave_db')
-			{
-				$tmpValue = $this->_getDbConnText($key, $val, true);
-			}
-			else if($key == 'sitelock_whitelist' || $key == 'admin_ip_list')
-			{
-				if(!is_array($val))
-					continue;
-				$tmpValue = sprintf('$db_info->%s = array(\'%s\');' . PHP_EOL, $key, implode('\', \'', $val));
-			}
-			else
-			{
-				if($key == 'default_url')
-				{
-					$tmpValue = sprintf("\$db_info->%s = '%s';" . PHP_EOL, $key, addslashes($val));
-				}
-				else
-				{
-					$tmpValue = sprintf("\$db_info->%s = '%s';" . PHP_EOL, $key, str_replace("'","\\'",$val));
-				}
-			}
-
-			if(preg_match('/(<\?|<\?php|\?>|fputs|fopen|fwrite|fgets|fread|\/\*|\*\/|chr\()/xsm', preg_replace('/\s/', '', $tmpValue)))
-			{
-				throw new Exception('msg_invalid_request');
-			}
-
-			$buff[] = $tmpValue;
-		}
+		$buff[] = '$db_info = (object)' . var_export(get_object_vars($db_info), TRUE) . ';';
 
 		return implode(PHP_EOL, $buff);
 	}

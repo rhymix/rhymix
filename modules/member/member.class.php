@@ -47,47 +47,52 @@ class member extends ModuleObject {
 		$oDB->addIndex("member_group","idx_site_title", array("site_srl","title"),true);
 
 		$oModuleModel = getModel('module');
-		$args = $oModuleModel->getModuleConfig('member');
+		$config = $oModuleModel->getModuleConfig('member');
 
-		$isNotInstall = empty($args);
+		if(empty($config))
+		{
+			$isNotInstall = true;
+			$config = new stdClass;
+		}
 
 		// Set the basic information
-		$args = new stdClass;
-		$args->enable_join = 'Y';
-		$args->enable_openid = 'N';
-		if(!$args->enable_auth_mail) $args->enable_auth_mail = 'N';
-		if(!$args->image_name) $args->image_name = 'Y';
-		if(!$args->image_mark) $args->image_mark = 'Y';
-		if(!$args->profile_image) $args->profile_image = 'Y';
-		if(!$args->image_name_max_width) $args->image_name_max_width = '90';
-		if(!$args->image_name_max_height) $args->image_name_max_height = '20';
-		if(!$args->image_mark_max_width) $args->image_mark_max_width = '20';
-		if(!$args->image_mark_max_height) $args->image_mark_max_height = '20';
-		if(!$args->profile_image_max_width) $args->profile_image_max_width = '80';
-		if(!$args->profile_image_max_height) $args->profile_image_max_height = '80';
-		if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
-
+		$config->enable_join = 'Y';
+		$config->enable_openid = 'N';
+		if(!$config->enable_auth_mail) $config->enable_auth_mail = 'N';
+		if(!$config->image_name) $config->image_name = 'Y';
+		if(!$config->image_mark) $config->image_mark = 'Y';
+		if(!$config->profile_image) $config->profile_image = 'Y';
+		if(!$config->image_name_max_width) $config->image_name_max_width = '90';
+		if(!$config->image_name_max_height) $config->image_name_max_height = '20';
+		if(!$config->image_mark_max_width) $config->image_mark_max_width = '20';
+		if(!$config->image_mark_max_height) $config->image_mark_max_height = '20';
+		if(!$config->profile_image_max_width) $config->profile_image_max_width = '90';
+		if(!$config->profile_image_max_height) $config->profile_image_max_height = '90';
+		if($config->group_image_mark!='Y') $config->group_image_mark = 'N';
+		if(!$config->password_strength) $config->password_strength = 'normal';
+		
 		global $lang;
 		$oMemberModel = getModel('member');
 		// Create a member controller object
 		$oMemberController = getController('member');
 		$oMemberAdminController = getAdminController('member');
 
-		if(!$args->signupForm || !is_array($args->signupForm))
+		if(!$config->signupForm || !is_array($config->signupForm))
 		{
 			$identifier = $isNotInstall ? 'email_address' : 'user_id';
 
-			$args->signupForm = $oMemberAdminController->createSignupForm($identifier);
-			$args->identifier = $identifier;
+			$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
+			$config->identifier = $identifier;
 
-			$oModuleController->insertModuleConfig('member',$args);
 
 			// Create Ruleset File
 			FileHandler::makeDir('./files/ruleset');
-			$oMemberAdminController->_createSignupRuleset($args->signupForm);
-			$oMemberAdminController->_createLoginRuleset($args->identifier);
-			$oMemberAdminController->_createFindAccountByQuestion($args->identifier);
+			$oMemberAdminController->_createSignupRuleset($config->signupForm);
+			$oMemberAdminController->_createLoginRuleset($config->identifier);
+			$oMemberAdminController->_createFindAccountByQuestion($config->identifier);
 		}
+		
+		$oModuleController->insertModuleConfig('member',$config);
 
 		$groups = $oMemberModel->getGroups();
 		if(!count($groups))

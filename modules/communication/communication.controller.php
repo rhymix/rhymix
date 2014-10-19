@@ -88,6 +88,12 @@ class communicationController extends communication
 		// Check if there is a member to receive a message
 		$oMemberModel = getModel('member');
 		$oCommunicationModel = getModel('communication');
+		$config = $oCommunicationModel->getConfig();
+
+		if(!$oCommunicationModel->checkGrant($config->grant_write))
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
 
 		$receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
 		if($receiver_member_info->member_srl != $receiver_srl)
@@ -169,6 +175,9 @@ class communicationController extends communication
 		$content = removeHackTag($content);
 		$title = htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
+		$message_srl = getNextSequence();
+		$related_srl = getNextSequence();
+
 		// messages to save in the sendor's message box
 		$sender_args = new stdClass();
 		$sender_args->sender_srl = $sender_srl;
@@ -178,15 +187,15 @@ class communicationController extends communication
 		$sender_args->content = $content;
 		$sender_args->readed = 'N';
 		$sender_args->regdate = date("YmdHis");
-		$sender_args->message_srl = getNextSequence();
-		$sender_args->related_srl = getNextSequence();
+		$sender_args->message_srl = $message_srl;
+		$sender_args->related_srl = $related_srl;
 		$sender_args->list_order = $sender_args->message_srl * -1;
 
 		// messages to save in the receiver's message box
 		$receiver_args = new stdClass();
-		$receiver_args->message_srl = $sender_args->related_srl;
+		$receiver_args->message_srl = $related_srl;
 		$receiver_args->related_srl = 0;
-		$receiver_args->list_order = $sender_args->related_srl * -1;
+		$receiver_args->list_order = $related_srl * -1;
 		$receiver_args->sender_srl = $sender_srl;
 		if(!$receiver_args->sender_srl)
 		{
@@ -204,6 +213,7 @@ class communicationController extends communication
 		$trigger_obj->sender_srl = $sender_srl;
 		$trigger_obj->receiver_srl = $receiver_srl;
 		$trigger_obj->message_srl = $message_srl;
+		$trigger_obj->related_srl = $related_srl;
 		$trigger_obj->title = $title;
 		$trigger_obj->content = $content;
 		$trigger_obj->sender_log = $sender_log;
