@@ -1293,7 +1293,7 @@ class Context
 			{
 				$result[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
 			}
-			elseif($key === 'vid' )
+			elseif($key === 'vid')
 			{
 				$result[$k] = urlencode($v);
 			}
