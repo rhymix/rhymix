@@ -1091,7 +1091,7 @@ class memberAdminController extends member
 	}
 
 	/**
-	 * find_account_answerInsert a group
+	 * Insert a group
 	 * @param object $args
 	 * @return Object
 	 */
