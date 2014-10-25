@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
-    <permissions />
+    <permissions>
+        <permission action="procPointAdminInsertPointModuleConfig" target="manager" />
+    </permissions>
     <actions>
         <action name="dispPointAdminConfig" type="view" admin_index="true" menu_name="point" menu_index="true" />
         <action name="dispPointAdminModuleConfig" type="view" menu_name="point" />

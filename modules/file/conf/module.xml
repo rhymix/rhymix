@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
-    <permissions />
+    <permissions>
+        <permission action="procFileAdminInsertModuleConfig" target="manager" />
+    </permissions>
     <actions>
         <action name="dispFileAdminList" type="view" admin_index="true" menu_name="file" menu_index="true" />
         <action name="dispFileAdminConfig" type="view" menu_name="fileUpload" menu_index="true" />

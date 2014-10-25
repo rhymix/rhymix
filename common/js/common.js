@@ -596,25 +596,14 @@ function doDocumentLoad(obj) {
 }
 
 /* 저장된 게시글의 선택 */
-function doDocumentSelect(document_srl, module) {
+function doDocumentSelect(document_srl) {
 	if(!opener || !opener.objForSavedDoc) {
 		window.close();
 		return;
 	}
 
-	if(module===undefined) {
-		module = 'document';
-	}
-
 	// 게시글을 가져와서 등록하기
-	switch(module) {
-		case 'page' :
-			opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispPageAdminContentModify');
-			break;
-		default :	
-			opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
-			break;
-	}
+	opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
 	window.close();
 }
 
@@ -911,7 +900,7 @@ function get_by_id(id) {
 
 jQuery(function($){
 	// display popup menu that contains member actions and document actions
-	$(document).on('click touchstart', function(evt) {
+	$(document).on('click', function(evt) {
 		var $area = $('#popup_menu_area');
 		if(!$area.length) $area = $('<div id="popup_menu_area" tabindex="0" style="display:none;z-index:9999" />').appendTo(document.body);
 
