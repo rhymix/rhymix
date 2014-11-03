@@ -850,6 +850,20 @@
 			<value xml:lang="tr"><![CDATA[Son Giriş Tarihi (basit)]]></value>
 			<value xml:lang="vi"><![CDATA[Đăng nhập ít nhất]]></value>
 		</item>
+		<item name="birthday">
+			<value xml:lang="ko"><![CDATA[생일]]></value>
+			<value xml:lang="en"><![CDATA[Birthday]]></value>
+			<value xml:lang="jp"><![CDATA[誕生日]]></value>
+			<value xml:lang="zh-CN"><![CDATA[生日]]></value>
+			<value xml:lang="zh-TW"><![CDATA[生日]]></value>
+			<value xml:lang="fr"><![CDATA[Anniversaire]]></value>
+			<value xml:lang="de"><![CDATA[Geburtstag]]></value>
+			<value xml:lang="ru"><![CDATA[Дата рождения]]></value>
+			<value xml:lang="es"><![CDATA[Fecha de Nacimiento]]></value>
+			<value xml:lang="tr"><![CDATA[Doğum günü]]></value>
+			<value xml:lang="vi"><![CDATA[Sinh nhật]]></value>
+			<value xml:lang="mn"><![CDATA[Төрсөн өдөр]]></value>
+		</item>
 		<item name="extra_vars">
 			<value xml:lang="ko"><![CDATA[사용자 정의]]></value>
 			<value xml:lang="en"><![CDATA[User Defined]]></value>
