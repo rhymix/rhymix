@@ -273,7 +273,6 @@ class adminAdminView extends admin
 		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'title', 'nick_name', 'member_srl');
 		$args->list_count = 5;
-		;
 		$output = $oDocumentModel->getDocumentList($args, FALSE, FALSE, $columnList);
 		Context::set('latestDocumentList', $output->data);
 		unset($args, $output, $columnList);
