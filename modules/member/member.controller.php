@@ -1101,7 +1101,7 @@ class memberController extends member
 		}
 		else
 		{
-			$args->password = md5($output->data->new_password);
+			$args->password = getModel('member')->hashPassword($args->password);
 			unset($args->denied);
 		}
 		// Back up the value of $Output->data->is_register
@@ -1956,7 +1956,7 @@ class memberController extends member
 				$message = Context::getLang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
-			$args->password = md5($args->password);
+			$args->password = $oMemberModel->hashPassword($args->password);
 		}
 		elseif(!$args->password) unset($args->password);
 		if($oMemberModel->isDeniedID($args->user_id)) return new Object(-1,'denied_user_id');
@@ -2149,7 +2149,7 @@ class memberController extends member
 				return new Object(-1, $message[$config->password_strength]);
 			}
 				
-			$args->password = md5($args->password);
+			$args->password = $oMemberModel->hashPassword($args->password);
 		}
 		else $args->password = $orgMemberInfo->password;
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
@@ -2239,14 +2239,7 @@ class memberController extends member
 				return new Object(-1, $message[$config->password_strength]);
 			}
 			
-			if($this->useSha1)
-			{
-				$args->password = md5(sha1(md5($args->password)));
-			}
-			else
-			{
-				$args->password = md5($args->password);
-			}
+			$args->password = $oMemberModel->hashPassword($args->password);
 		}
 		else if($args->hashed_password)
 		{
