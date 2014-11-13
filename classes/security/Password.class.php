@@ -132,21 +132,24 @@ class Password
 	 */
 	public function checkPassword($password, $hash, $algorithm = null)
 	{
-		$password = trim($password);
-		
 		if($algorithm === null)
 		{
 			$algorithm = $this->checkAlgorithm($hash);
 		}
-		if(!array_key_exists($algorithm, $this->getSupportedAlgorithms()))
-		{
-			return false;
-		}
+		
+		$password = trim($password);
 		
 		switch($algorithm)
 		{
 			case 'md5':
 				return md5($password) === $hash || md5(sha1(md5($password))) === $hash;
+			
+			case 'mysql_old_password':
+				return (class_exists('Context') && substr(Context::getDBType(), 0, 5) === 'mysql') ?
+					DB::getInstance()->isValidOldPassword($password, $hash) : false;
+			
+			case 'mysql_password':
+				return $hash[0] === '*' && substr($hash, 1) === strtoupper(sha1(sha1($password, true)));
 			
 			case 'pbkdf2':
 				$hash = explode(':', $hash);
@@ -181,6 +184,14 @@ class Password
 		elseif(strlen($hash) === 32 && ctype_xdigit($hash))
 		{
 			return 'md5';
+		}
+		elseif(strlen($hash) === 16 && ctype_xdigit($hash))
+		{
+			return 'mysql_old_password';
+		}
+		elseif(strlen($hash) === 41 && $hash[0] === '*')
+		{
+			return 'mysql_password';
 		}
 		else
 		{
