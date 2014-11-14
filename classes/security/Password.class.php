@@ -19,13 +19,13 @@ class Password
 	public function getSupportedAlgorithms()
 	{
 		$retval = array();
-		if(version_compare(PHP_VERSION, '5.3.7', '>=') && defined('CRYPT_BLOWFISH'))
-		{
-			$retval['bcrypt'] = 'bcrypt';
-		}
 		if(function_exists('hash_hmac') && in_array('sha256', hash_algos()))
 		{
 			$retval['pbkdf2'] = 'pbkdf2';
+		}
+		if(version_compare(PHP_VERSION, '5.3.7', '>=') && defined('CRYPT_BLOWFISH'))
+		{
+			$retval['bcrypt'] = 'bcrypt';
 		}
 		$retval['md5'] = 'md5';
 		return $retval;
