@@ -446,7 +446,7 @@ class adminAdminView extends admin
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
 		Context::set('siteTitle', $config->siteTitle);
-		Context::set('htmlFooter', $config->htmlFooter);
+		Context::set('htmlFooter', htmlspecialchars($config->htmlFooter));
 
 		// embed filter
 		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
