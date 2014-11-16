@@ -127,7 +127,7 @@ class spamfilterController extends spamfilter
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
 		// Check if there is a ban on the word
-		$text = $obj->blog_name.$obj->title.$obj->excerpt.$obj->url;
+		$text = $obj->blog_name . ' ' . $obj->title . ' ' . $obj->excerpt . ' ' . $obj->url;
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool()) return $output;
 		// Start Filtering
