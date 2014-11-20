@@ -917,13 +917,24 @@ function writeSlowlog($type, $elapsed_time, $obj)
 		file_put_contents($log_file, implode(PHP_EOL, $buff), FILE_APPEND);
 	}
 
-	$trigger_args = $obj;
-	$trigger_args->_log_type = $type;
-	$trigger_args->_elapsed_time = $elapsed_time;
 	if($type != 'query')
 	{
+		$trigger_args = $obj;
+		$trigger_args->_log_type = $type;
+		$trigger_args->_elapsed_time = $elapsed_time;
 		ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
 	}
+}
+
+/**
+ * @param void
+ */
+function flushSlowlog()
+{
+	$trigger_args = new stdClass();
+	$trigger_args->_log_type = 'flush';
+	$trigger_args->_elapsed_time = 0;
+	ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
 }
 
 /**

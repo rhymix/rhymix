@@ -130,12 +130,10 @@ class addonController extends addon
 			$buff[] = '}}}';
 			$buff[] = '$after_time = microtime(true);';
 			$buff[] = '$addon_time_log = new stdClass();';
-			$buff[] = '$addon_time_log->_log_type = "addon";';
 			$buff[] = '$addon_time_log->caller = $called_position;';
 			$buff[] = '$addon_time_log->called = "' . $addon . '";';
 			$buff[] = '$addon_time_log->called_extension = "' . $addon . '";';
-			$buff[] = '$addon_time_log->_elapsed_time = $after_time-$before_time;';
-			$buff[] = 'ModuleHandler::triggerCall("XE.writeSlowlog", "after", $addon_time_log);';
+			$buff[] = 'writeSlowlog("addon",$after_time-$before_time,$addon_time_log);';
 		}
 		$addon_path = _XE_PATH_ . 'files/cache/addons/';
 		FileHandler::makeDir($addon_path);
