@@ -55,12 +55,12 @@
 	<input type="hidden" name="module" value="layout" />
 	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
 	<input type="hidden" name="act" value="procLayoutAdminCodeUpdate" />
-	<textarea name="code_css" rows="8" cols="42" style="display:none;width:100%;height:300px;font:12px 'Courier New', Courier, monospace">{$layout_code_css}</textarea>
+	<textarea name="code_css" rows="8" cols="42" style="display:none;">{$layout_code_css}</textarea>
 
 	<section class="section">
-		<h1>HTML</h1>
+		<h1>HTML<small> - layout.html</small></h1>
 		<div style="margin-right:14px">
-			<textarea name="code" rows="8" cols="42" style="width:100%;height:300px;font:12px 'Courier New', Courier, monospace">{$layout_code}</textarea>
+			<textarea name="code" rows="8" cols="42" style="width:100%; height:300px; font:12px 'DejaVu Sans Mono', monospace;">{$layout_code}</textarea>
 		</div>
 		<div>
 			<block loop="$widget_list => $widget"> <i class="vr">|</i> <a href="{getUrl('','module','admin','act','dispWidgetAdminGenerateCode','selected_widget',$widget->widget)}" target="_blank">{$widget->title}</a></block>
@@ -79,12 +79,12 @@
 	<input type="hidden" name="module" value="layout" />
 	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
 	<input type="hidden" name="act" value="procLayoutAdminCodeUpdate" />
-	<textarea name="code" rows="8" cols="42" style="display:none;width:100%;height:300px;font:12px 'Courier New', Courier, monospace">{$layout_code}</textarea>
-	
+	<textarea name="code" rows="8" cols="42" style="display:none;">{$layout_code}</textarea>
+
 	<section class="section">
-		<h1>CSS</h1>
+		<h1>CSS<small> - layout.css</small></h1>
 		<div style="margin-right:14px">
-			<textarea name="code_css" rows="8" cols="42" style="width:100%;height:300px;font:12px 'Courier New', Courier, monospace">{$layout_code_css}</textarea>
+			<textarea name="code_css" rows="8" cols="42" style="width:100%; height:300px; font:12px 'DejaVu Sans Mono', monospace;">{$layout_code_css}</textarea>
 		</div>
 	</section>
 
