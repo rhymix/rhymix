@@ -44,6 +44,7 @@ class spamfilterController extends spamfilter
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
 		// Check if there is a ban on the word
+		$text = '';
 		if($is_logged)
 		{
 			$text = $obj->title . ' ' . $obj->content . ' ' . $obj->tags;
@@ -88,6 +89,7 @@ class spamfilterController extends spamfilter
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
 		// Check if there is a ban on the word
+		$text = '';
 		if($is_logged)
 		{
 			$text = $obj->content;
