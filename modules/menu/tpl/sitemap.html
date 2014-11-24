@@ -767,6 +767,7 @@ function onSiteMapReceived(htData){
 	}
 
 	var sInitiallyOpen = [];
+	$.jstree.defaults.ui.select_limit = 1;
 
 	$("#siteMapTree")
 		.jstree({
@@ -1321,9 +1322,7 @@ jQuery(function($){
 		});
 	});
 
-	//$.jstree._themes = "PATH/TO/FOLDER/";
-	//$.jstree._themes = "/maserati/modules/menu/tpl/css/themes/";
-	$.jstree._themes = '{getNotEncodedFullUrl("")}/modules/menu/tpl/css/themes/';
+	$.jstree._themes = '{getNotEncodedFullUrl("")}modules/menu/tpl/css/themes/';
 
 	$(document.body).on("click", ".x div.col a, .x div.col button", function(ev){
 		// FF keeps the focus, making the button highlighted even after the panel is closed.

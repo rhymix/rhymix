@@ -1115,6 +1115,7 @@ class memberAdminController extends member
 		}
 
 		if(!$args->group_srl) $args->group_srl = getNextSequence();
+		$args->list_order = $args->group_srl;
 		$output = executeQuery('member.insertGroup', $args);
 		$this->_deleteMemberGroupCache($args->site_srl);
 
