@@ -440,6 +440,7 @@ class widgetController extends widget
 	{
 		// Save for debug run-time widget
 		if(__DEBUG__==3) $start = getMicroTime();
+		$before = microtime(true);
 		// urldecode the value of args haejum
 		$object_vars = get_object_vars($args);
 		if(count($object_vars))
@@ -638,6 +639,17 @@ class widgetController extends widget
 		$output = $widget_content_header . $widget_content_body . $widget_content_footer;
 		// Debug widget creation time information added to the results
 		if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;
+
+		$after = microtime(true);
+
+		$elapsed_time = $after - $before;
+
+		$slowlog = new stdClass;
+		$slowlog->caller = "widget.execute";
+		$slowlog->called = $widget;
+		$slowlog->called_extension = $widget;
+		writeSlowlog('widget', $elapsed_time, $slowlog);
+
 		// Return result
 		return $output;
 	}
