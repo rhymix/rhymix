@@ -1,6 +1,7 @@
 <div id="progress">
 	<ul>
 		<li class="active"|cond="$act==''">{$lang->install_progress_menu['language']}</li>
+		<li class="active"|cond="$act=='dispInstallLicenseAgreement'">{$lang->install_progress_menu['license_agreement']}</li>
 		<li class="active"|cond="$act=='dispInstallCheckEnv'">{$lang->install_progress_menu['condition']}</li>
 		<li class="active"|cond="$act=='dispInstallSelectDB' && $progressMenu == '3'">{$lang->install_progress_menu['ftp']}</li>
 		<li class="active"|cond="$act=='dispInstallSelectDB' && $progressMenu == '4'">{$lang->install_progress_menu['dbSelect']}</li>

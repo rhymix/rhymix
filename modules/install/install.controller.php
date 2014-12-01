@@ -9,6 +9,7 @@ class installController extends install
 {
 	var $db_tmp_config_file = '';
 	var $etc_tmp_config_file = '';
+	var $flagLicenseAgreement = './files/env/license_agreement';
 
 	/**
 	 * @brief Initialization
@@ -375,6 +376,33 @@ class installController extends install
 		Context::set('phpversion', PHP_VERSION);
 
 		return $install_enable;
+	}
+
+	/**
+	 * @brief License agreement
+	 */
+	function procInstallLicenseAggrement()
+	{
+		$vars = Context::getRequestVars();
+
+		$license_agreement = ($vars->license_agreement == 'Y') ? true : false;
+
+		if($license_agreement)
+		{
+			$currentTime = $_SERVER['REQUEST_TIME'];
+			FileHandler::writeFile($this->flagLicenseAgreement, $currentTime);
+		}
+		else
+		{
+			FileHandler::removeFile($this->flagLicenseAgreement);
+			return new Object(-1, 'msg_must_accept_license_agreement');
+		}
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispInstallCheckEnv');
+			$this->setRedirectUrl($returnUrl);
+		}
 	}
 
 	/**

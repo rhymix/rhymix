@@ -5,13 +5,10 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief Start page
  *
- * Find and create module object by mif, act in Request Argument
- * Set module information
- *
  * @mainpage XpressEngine
  * @section intro introduction
  *
- * XE is an opensource and being developed in the opensource project.\n
+ * "XpressEngine (XE)" is an opensource and being developed in the opensource project.\n
  * For more information, please see the link below.
  * - Official website: http://www.xpressengine.com
  * - Offcial Repository: https://github.com/xpressengine/xe-core
@@ -21,7 +18,7 @@
  * License as published by the Free Software Foundation; either \n
  * version 2.1 of the License, or (at your option) any later version. \n
  * \n
- * This library is distributed in the hope that it will be useful,
+ * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.

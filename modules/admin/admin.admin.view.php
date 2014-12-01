@@ -381,6 +381,16 @@ class adminAdminView extends admin
 			$isEnviromentGatheringAgreement = TRUE;
 		}
 		Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
+
+		// license agreement check
+		$isLicenseAgreement = FALSE;
+		$path = FileHandler::getRealPath('./files/env/license_agreement');
+		$isLicenseAgreement = FALSE;
+		if(file_exists($path))
+		{
+			$isLicenseAgreement = TRUE;
+		}
+		Context::set('isLicenseAgreement', $isLicenseAgreement);
 		Context::set('layout', 'none');
 
 		$this->setTemplateFile('index');
@@ -515,7 +525,6 @@ class adminAdminView extends admin
 			$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server . $params);
 			Context::addHtmlFooter($img);
 
-			FileHandler::removeDir($path);
 			FileHandler::writeFile($path . $mainVersion, '1');
 		}
 		else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path . $mainVersion)))
@@ -528,7 +537,6 @@ class adminAdminView extends admin
 				Context::addHtmlFooter($img);
 			}
 
-			FileHandler::removeDir($path);
 			FileHandler::writeFile($path . $mainVersion, '1');
 			unset($_SESSION['enviroment_gather']);
 		}
