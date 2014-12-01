@@ -954,8 +954,10 @@ class adminAdminModel extends admin
 		}
 		else
 		{
-			$icon_url = $db_info->default_url . 'files/attach/xeicon/' . $iconname;
+			$default_url = Context::getDefaultUrl();
+			$icon_url = $default_url . 'files/attach/xeicon/' . $iconname;
 		}
+
 		return $icon_url;
 	}
 
