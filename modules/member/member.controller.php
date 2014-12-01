@@ -2274,7 +2274,7 @@ class memberController extends member
 		// Create a model object
 		$oMemberModel = getModel('member');
 		// Bringing the user's information
-		if(!$this->memberInfo)
+		if(!$this->memberInfo || $this->memberInfo->member_srl != $member_srl || !isset($this->memberInfo->is_admin))
 		{
 			$columnList = array('member_srl', 'is_admin');
 			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
