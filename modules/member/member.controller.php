@@ -705,8 +705,9 @@ class memberController extends member
 		// Check uploaded file
 		if(!checkUploadedFile($target_file)) return;
 
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+
 		// Get an image size
 		$max_width = $config->profile_image_max_width;
 		if(!$max_width) $max_width = "90";
