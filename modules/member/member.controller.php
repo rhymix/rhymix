@@ -716,18 +716,29 @@ class memberController extends member
 		// Get a target path to save
 		$target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
 		FileHandler::makeDir($target_path);
+
 		// Get file information
 		list($width, $height, $type, $attrs) = @getimagesize($target_file);
-		if($type == 3) $ext = 'png';
-		elseif($type == 2) $ext = 'jpg';
-		else $ext = 'gif';
+		if(IMG_PNG == $type) $ext = 'png';
+		elseif(IMG_JPG == $type) $ext = 'jpg';
+		elseif(IMG_GIF == $type) $ext = 'gif';
+		else
+		{
+			return;
+		}
 
 		FileHandler::removeFilesInDir($target_path);
 
 		$target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
 		// Convert if the image size is larger than a given size or if the format is not a gif
-		if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
-		else @copy($target_file, $target_filename);
+		if(($width > $max_width || $height > $max_height ) && $type != 1)
+		{
+			FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
+		}
+		else
+		{
+			@copy($target_file, $target_filename);
+		}
 	}
 
 	/**
