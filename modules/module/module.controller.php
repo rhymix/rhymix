@@ -950,7 +950,7 @@ class moduleController extends module
 			}
 		}
 
-		$oDB->commit();
+		$oDB->commit;
 
 		return new Object();
 	}
@@ -1015,6 +1015,8 @@ class moduleController extends module
 
 		foreach($obj as $key => $val)
 		{
+			if(is_object($val) || is_array($val)) continue;
+
 			$args = new stdClass();
 			$args->module_srl = $module_srl;
 			$args->name = trim($key);

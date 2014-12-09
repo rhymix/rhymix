@@ -50,6 +50,15 @@ module.exports = function(grunt) {
 					'common/js/xe.min.js': ['common/js/xe.js']
 				}
 			},
+			'handlebars': {
+				options: {
+					sourceMap: true
+				},
+				files: {
+					'common/js/plugins/handlebars/handlebars.min.js': ['common/js/plugins/handlebars/handlebars.js'],
+					'common/js/plugins/handlebars.runtime/handlebars.runtime.min.js': ['common/js/plugins/handlebars.runtime/handlebars.runtime.js'],
+				}
+			},
 			'modules': {
 				files: {
 					'common/js/x.min.js' : ['common/js/x.js'],

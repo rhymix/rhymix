@@ -947,7 +947,6 @@ class adminAdminModel extends admin
 
 	function iconUrlCheck($iconname, $default_icon_name)
 	{
-
 		$site_info = Context::get('site_module_info');
 		$virtual_site = '';
 		if($site_info->site_srl) 
@@ -962,7 +961,8 @@ class adminAdminModel extends admin
 		}
 		else
 		{
-			$icon_url = $db_info->default_url . 'files/attach/xeicon/' . $virtual_site . $iconname;
+			$default_url = Context::getDefaultUrl();
+			$icon_url = $default_url . 'files/attach/xeicon/' . $virtual_site . $iconname;
 		}
 		return $icon_url;
 	}

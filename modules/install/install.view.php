@@ -80,6 +80,17 @@ class installView extends install
 	}
 
 	/**
+	 * @brief License agreement
+	 */
+	function dispInstallLicenseAgreement()
+	{
+		$this->setTemplateFile('license_agreement');
+
+		$lang_type = Context::getLangType();
+		Context::set('lang_type', $lang_type);
+	}
+
+	/**
 	 * @brief Display messages about installation environment
 	 */
 	function dispInstallCheckEnv()
@@ -145,19 +156,6 @@ class installView extends install
 
 		$title = sprintf(Context::getLang('input_dbinfo_by_dbtype'), Context::get('db_type'));
 		Context::set('title', $title);
-
-		$error_return_url = getNotEncodedUrl('', 'act', Context::get('act'), 'db_type', Context::get('db_type'));
-		if($_SERVER['HTTPS'] == 'on')
-		{
-			// Error occured when using https protocol at "ModuleHandler::init() '
-			$parsedUrl = parse_url($error_return_url);
-			$error_return_url = '';
-			if(isset($parsedUrl['path'])) $error_return_url .= $parsedUrl['path'];
-			if(isset($parsedUrl['query'])) $error_return_url .= '?' . $parsedUrl['query'];
-			if(isset($parsedUrl['fragment'])) $error_return_url .= '?' . $parsedUrl['fragment'];
-		}
-		Context::set('error_return_url', $error_return_url);
-
 		$this->setTemplateFile($tpl_filename);
 	}
 

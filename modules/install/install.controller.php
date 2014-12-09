@@ -9,6 +9,7 @@ class installController extends install
 {
 	var $db_tmp_config_file = '';
 	var $etc_tmp_config_file = '';
+	var $flagLicenseAgreement = './files/env/license_agreement';
 
 	/**
 	 * @brief Initialization
@@ -378,6 +379,33 @@ class installController extends install
 	}
 
 	/**
+	 * @brief License agreement
+	 */
+	function procInstallLicenseAggrement()
+	{
+		$vars = Context::getRequestVars();
+
+		$license_agreement = ($vars->license_agreement == 'Y') ? true : false;
+
+		if($license_agreement)
+		{
+			$currentTime = $_SERVER['REQUEST_TIME'];
+			FileHandler::writeFile($this->flagLicenseAgreement, $currentTime);
+		}
+		else
+		{
+			FileHandler::removeFile($this->flagLicenseAgreement);
+			return new Object(-1, 'msg_must_accept_license_agreement');
+		}
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispInstallCheckEnv');
+			$this->setRedirectUrl($returnUrl);
+		}
+	}
+
+	/**
 	 * check this server can use rewrite module
 	 * make a file to files/config and check url approach by ".htaccess" rules
 	 *
@@ -389,26 +417,26 @@ class installController extends install
 
 		FileHandler::writeFile(_XE_PATH_.$checkFilePath, trim($checkString));
 
-		$scheme = $_SERVER['REQUEST_SCHEME'];
 		$hostname = $_SERVER['SERVER_NAME'];
 		$port = $_SERVER['SERVER_PORT'];
-		$str_port = '';
-		if($port)
-		{
-			$str_port = ':' . $port;
-		}
-
 		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
 		$currentPath = str_replace($_SERVER['DOCUMENT_ROOT'], "", _XE_PATH_);
 		if($currentPath != "")
-		{
 			$query = $currentPath . $query;
-		}
 
-		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
-		$requestConfig = array();
-		$requestConfig['ssl_verify_peer'] = false;
-		$buff = FileHandler::getRemoteResource($requestUrl, null, 10, 'POST', 'application/x-www-form-urlencoded', array(), array(), array(), $requestConfig);
+		$fp = @fsockopen($hostname, $port, $errno, $errstr, 5);
+		if(!$fp) return false;
+
+		fputs($fp, "GET {$query} HTTP/1.0\r\n");
+		fputs($fp, "Host: {$hostname}\r\n\r\n");
+
+		$buff = '';
+		while(!feof($fp)) {
+			$str = fgets($fp, 1024);
+			if(trim($str)=='') $start = true;
+			if($start) $buff .= $str;
+		}
+		fclose($fp);
 
 		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
 

@@ -3945,4 +3945,20 @@
 		<value xml:lang="jp"><![CDATA[基本URLが設定されていません。]]></value>
 		<value xml:lang="de"><![CDATA[Standard URL ist null.]]></value>
 	</item>
+	<item name="license_agreement">
+		<value xml:lang="ko"><![CDATA[사용권 동의]]></value>
+		<value xml:lang="en"><![CDATA[License agree]]></value>
+	</item>
+	<item name="license">
+		<value xml:lang="ko"><![CDATA[<p>Copyright (C) NAVER &lt;http://www.navercorp.com&gt;</p> <p>"XpressEngine (XE)"은 자유 소프트웨어이며, 오픈 소스 프로젝트로 개발되고 있습니다. 자세한 내용은 아래 링크를 참조하시기 바랍니다.</p> <ul> <li>공식 사이트: <a href="http://www.xpressengine.com">http://www.xpressengine.com</a></li> <li>공식 저장소: <a href="http://github.com/xpressengine">http://github.com/xpressengine</a></li> </ul> <p>"XpressEngine (XE)"은 자유 소프트웨어입니다. 소프트웨어의 피양도자는 자유 소프트웨어 재단이 공표한 GNU 약소 일반 공중 사용 허가서 2.1판 또는 그 이후 판을 임의로 선택해서, 그 규정에 따라 소프트웨어를 개작하거나 재배포할 수 있습니다.</p> <p>이 소프트웨어는 유용하게 사용될 수 있으리라는 희망에서 배포되고 있지만, 특정한 목적에 맞는 적합성 여부나 판매용으로 사용할 수 있으리라는 묵시적인 보증을 포함한 어떠한 형태의 보증도 제공하지 않습니다. 보다 자세한 사항에 대해서는 GNU 약소 일반 공중 사용 허가서를 참고하시기 바랍니다.</p> <p>GNU 약소 일반 공중 사용 허가서는 이 라이브러리와 함께 제공됩니다. 만약, 이 문서가 누락되어 있다면 자유 소프트웨어 재단으로 문의하시기 바랍니다. (자유 소프트웨어 재단: Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA)</p> <ul> <li>한국어 번역문 (비공식) : <a href="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html" target="_blank">GNU Lesser General Public License, version 2.1</a></li> <li>영문 (공식 원본) : <a href="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html" target="_blank">GNU Lesser General Public License, version 2.1</a></li> </ul>]]></value>
+		<value xml:lang="en"><![CDATA[<p>Copyright (C) NAVER &lt;http://www.navercorp.com&gt;</p> <p>"XpressEngine (XE)" is an opensource and being developed in the opensource project. For more information, please see the link below.</p> <ul> <li>Official website: <a href="http://www.xpressengine.com">http://www.xpressengine.com</a></li> <li>Official Repository: <a href="http://github.com/xpressengine">http://github.com/xpressengine</a></li> </ul> <p>"XpressEngine (XE)" is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.</p> <p>This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.</p> <p>You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA</p> <ul> <li>License : <a href="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html" target="_blank">GNU Lesser General Public License, version 2.1</a></li> </ul>]]></value>
+	</item>
+	<item name="cmd_license_agree">
+		<value xml:lang="ko"><![CDATA[사용권에 대해 이해했으며, 이에 동의합니다.]]></value>
+		<value xml:lang="en"><![CDATA[I understand the license. I agree.]]></value>
+	</item>
+	<item name="msg_must_accept_license_agreement">
+		<value xml:lang="ko"><![CDATA[사용권에 동의해야 설치할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You must accept the license agreement]]></value>
+	</item>
 </lang>

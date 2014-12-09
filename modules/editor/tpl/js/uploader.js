@@ -116,7 +116,7 @@ var uploadAutosaveChecker = false;
 
 		if(is_def(window.xeVid)) settings.post_params.vid = xeVid;
 		settings.sessionName = cfg.sessionName;
-		settings.post_params[cfg.sessionName] = getCookie(cfg.sessionName);
+		if(getCookie(cfg.sessionName)) settings.post_params[cfg.sessionName] = getCookie(cfg.sessionName);
 
 		uploaderSettings[seq] = settings;
 
@@ -167,7 +167,7 @@ var uploadAutosaveChecker = false;
 		},
 		onFileDialogComplete : function(numFilesSelected, numFilesQueued) {
 			try {
-				this.addPostParam(this.settings.sessionName, getCookie(this.settings.sessionName));
+				if(getCookie(this.settings.sessionName)) this.addPostParam(this.settings.sessionName, getCookie(this.settings.sessionName));
 				this.startUpload();
 			} catch (e)  {
 				this.debug(e);
@@ -175,7 +175,7 @@ var uploadAutosaveChecker = false;
 		},
 		onUploadStart : _true,
 		onUploadProgress : function(file, bytesLoaded, bytesTotal) {
-			this.addPostParam(this.settings.sessionName, getCookie(this.settings.sessionName));
+			if(getCookie(this.settings.sessionName)) this.addPostParam(this.settings.sessionName, getCookie(this.settings.sessionName));
 			try {
 				var $list, $lastopt, percent, filename;
 

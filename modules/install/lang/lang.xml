@@ -31,6 +31,10 @@
 			<value xml:lang="tr"><![CDATA[Yükleme dilini seçin]]></value>
 			<value xml:lang="vi"><![CDATA[Chọn ngôn ngữ cài đặt]]></value>
 		</item>
+		<item name="license_agreement">
+			<value xml:lang="ko"><![CDATA[사용권 동의]]></value>
+			<value xml:lang="en"><![CDATA[License agreement]]></value>
+		</item>
 		<item name="condition">
 			<value xml:lang="ko"><![CDATA[설치 조건 확인]]></value>
 			<value xml:lang="en"><![CDATA[Check the installation conditions]]></value>
