@@ -626,6 +626,25 @@ class fileController extends file
 			{
 				$oFileModel = getModel('file');
 				$config = $oFileModel->getFileConfig($module_srl);
+
+				// check file type
+				if(isset($config->allowed_filetypes) && $config->allowed_filetypes !== '*.*')
+				{
+					$filetypes = explode(';', $config->allowed_filetypes);
+					$ext = array();
+					foreach($filetypes as $item) {
+						$item = explode('.', $item);
+						$ext[] = $item[1];
+					}
+					$uploaded_ext = explode('.', $file_info['name']);
+					$uploaded_ext = array_pop($uploaded_ext);
+
+					if(!in_array($uploaded_ext, $ext))
+					{
+						return $this->stop('msg_not_allowed_filetype');
+					}
+				}
+
 				$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
 				$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
 				// An error appears if file size exceeds a limit
