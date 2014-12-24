@@ -83,6 +83,12 @@ class documentAdminController extends document
 
 			unset($obj);
 			$obj = $oDocument->getObjectVars();
+
+			// ISSUE https://github.com/xpressengine/xe-core/issues/32
+			$args_doc_origin->document_srl = $document_srl;
+			$output_ori = executeQuery('document.getDocument', $args_doc_origin, array('content'));              
+			$obj->content = $output_ori->data->content;
+
 			// Move the attached file if the target module is different
 			if($module_srl != $obj->module_srl && $oDocument->hasUploadedFiles())
 			{
