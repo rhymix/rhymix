@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 	"use strict";
 
 	var banner = '/*! Copyright (C) NAVER <http://www.navercorp.com> */\n';
-	var banner_xe_js = banner + '/**!\n * @file modernizr.js + common.js + js_app.js + xml_handler.js + xml_js_filter.js\n * @brief XE Common JavaScript\n **/\n';
+	var banner_xe_js = banner + '/**!\n * @concat modernizr.js + common.js + js_app.js + xml_handler.js + xml_js_filter.js\n * @brief XE Common JavaScript\n **/\n';
 
 	grunt.file.defaultEncoding = 'utf8';
 
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 			'xpresseditor': {
 				options: {
 					stripBanners: true,
-					banner: banner_xe_js
+					banner: '/**!\n * @concat Xpress_Editor.js + xe_interface.js \n **/\n'
 				},
 				src: [
 					'modules/editor/skins/xpresseditor/js/Xpress_Editor.js',
@@ -45,7 +45,8 @@ module.exports = function(grunt) {
 		uglify: {
 			'common-js': {
 				options: {
-					banner: banner_xe_js
+					banner: banner_xe_js,
+					sourceMap: true
 				},
 				files: {
 					'common/js/xe.min.js': ['common/js/xe.js']
@@ -61,6 +62,9 @@ module.exports = function(grunt) {
 				}
 			},
 			'modules': {
+				options: {
+					sourceMap: true
+				},
 				files: {
 					'common/js/x.min.js' : ['common/js/x.js'],
 					// addon
