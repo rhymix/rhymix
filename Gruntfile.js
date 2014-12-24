@@ -155,7 +155,12 @@ module.exports = function(grunt) {
 		jshint: {
 			files: [
 				'Gruntfile.js',
-				'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
+				'common/js/*.js',
+				'!common/js/html5.js',
+				'!common/js/jquery.js',
+				'!common/js/x.js',
+				'!common/js/xe.js',
+				'!common/js/modernizr.js',
 				'modules/admin/tpl/js/*.js',
 				'modules/board/tpl/js/*.js',
 				'modules/editor/tpl/js/*.js',
