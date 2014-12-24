@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 	"use strict";
 
 	var banner = '/*! Copyright (C) NAVER <http://www.navercorp.com> */\n';
-	var banner_xe_js = banner + '/**!\n * @file   common.js + js_app.js + xml_handler.js + xml_js_filter.js\n * @brief  XE Common JavaScript\n **/\n';
+	var banner_xe_js = banner + '/**!\n * @file modernizr.js + common.js + js_app.js + xml_handler.js + xml_js_filter.js\n * @brief XE Common JavaScript\n **/\n';
 
 	grunt.file.defaultEncoding = 'utf8';
 
@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 					banner: banner_xe_js
 				},
 				src: [
+					'common/js/modernizr.js',
 					'common/js/common.js',
 					'common/js/js_app.js',
 					'common/js/xml_handler.js',
