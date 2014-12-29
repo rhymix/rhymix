@@ -95,6 +95,7 @@ class documentAdminController extends document
 				$oFileController = getController('file');
 
 				$files = $oDocument->getUploadedFiles();
+				$delete_file_srls = array();
 				if(is_array($files))
 				{
 					foreach($files as $val)
@@ -119,9 +120,10 @@ class documentAdminController extends document
 								$obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
 							}
 						}
-						// Delete an existing file
-						$oFileController->deleteFile($val->file_srl);
+						$delete_file_srls[] = $val->file_srl;
 					}
+					// Delete an existing file
+					$oFileController->deleteFile($delete_file_srls);
 				}
 				// Set the all files to be valid
 				$oFileController->setFilesValid($obj->document_srl);

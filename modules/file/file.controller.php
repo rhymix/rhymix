@@ -777,25 +777,30 @@ class fileController extends file
 	{
 		if(!$file_srl) return;
 
-		$srls = explode(',',$file_srl);
+		$srls = (is_array($file_srl)) ? $file_srl : explode(',', $file_srl);
 		if(!count($srls)) return;
 
 		$oDocumentController = getController('document');
 		$documentSrlList = array();
 
-		for($i=0, $c=count($srls); $i<$c; $i++)
+		foreach($srls as $srl)
 		{
-			$srl = (int)$srls[$i];
-			if(!$srl) continue;
+			$srl = (int)$srl;
+			if(!$srl) 
+			{
+				continue;
+			}
 
-			$args = new stdClass;
+			$args = new stdClass();
 			$args->file_srl = $srl;
 			$output = executeQuery('file.getFile', $args);
 
-			if(!$output->toBool()) continue;
+			if(!$output->toBool() || !$output->data) 
+			{
+				continue;
+			}
 
 			$file_info = $output->data;
-			if(!$file_info) continue;
 
 			if($file_info->upload_target_srl)
 			{
