@@ -219,7 +219,7 @@ class Context
 		if($this->db_info->use_sitelock == 'Y')
 		{
 			if(is_array($this->db_info->sitelock_whitelist)) $whitelist = $this->db_info->sitelock_whitelist;
-			
+
 			if(!IpFilter::filter($whitelist))
 			{
 				$title = ($this->db_info->sitelock_title) ? $this->db_info->sitelock_title : 'Maintenance in progress...';
@@ -1244,17 +1244,73 @@ class Context
 		$xml_obj = $oXml->parse();
 
 		$params = $xml_obj->methodcall->params;
-		unset($params->node_name, $params->attrs);
+		unset($params->node_name, $params->attrs, $params->body);
 
-		if(!count($params))
+		if(!count(get_object_vars($params)))
 		{
 			return;
 		}
 
-		foreach($params as $key => $obj)
+		foreach($params as $key => $val)
 		{
-			$this->set($key, $this->_filterRequestVar($key, $obj->body, 0), TRUE);
+			$this->set($key, $this->_filterXmlVars($key, $val), TRUE);
 		}
+	}
+
+	/**
+	 * Filter xml variables
+	 *
+	 * @param string $key Variable key
+	 * @param object $val Variable value
+	 * @return mixed filtered value
+	 */
+	function _filterXmlVars($key, $val)
+	{
+		if(is_array($val))
+		{
+			$stack = array();
+			foreach($val as $k => $v)
+			{
+				$stack[$k] = $this->_filterXmlVars($k, $v);
+			}
+
+			return $stack;
+		}
+
+		$body = $this->_filterRequestVar($key, trim($val->body ? $val->body : ''), 0);
+		if($body)
+		{
+			return $body;
+		}
+
+		unset($val->node_name, $val->attrs, $val->body);
+		if(!count(get_object_vars($val)))
+		{
+			return NULL;
+		}
+
+		$stack = new stdClass();
+		foreach($val as $k => $v)
+		{
+			$output = $this->_filterXmlVars($k, $v);
+			if(is_object($v) && $v->attrs->type == 'array')
+			{
+				$output = array($output);
+			}
+			if($k == 'value' && (is_array($v) || $v->attrs->type == 'array'))
+			{
+				return $output;
+			}
+
+			$stack->{$k} = $output;
+		}
+
+		if(!count(get_object_vars($stack)))
+		{
+			return NULL;
+		}
+
+		return $stack;
 	}
 
 	/**
