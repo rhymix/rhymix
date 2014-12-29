@@ -480,10 +480,8 @@ class Context
 			$db_info->use_ssl = 'none';
 		$this->set('_use_ssl', $db_info->use_ssl);
 
-		if($db_info->http_port)
-			$self->set('_http_port', $db_info->http_port);
-		if($db_info->https_port)
-			$self->set('_https_port', $db_info->https_port);
+		$self->set('_http_port', ($db_info->http_port) ? $db_info->http_port : NULL);
+		$self->set('_https_port', ($db_info->https_port) ? $db_info->https_port : NULL);
 
 		if(!$db_info->sitelock_whitelist) {
 			$db_info->sitelock_whitelist = '127.0.0.1';
