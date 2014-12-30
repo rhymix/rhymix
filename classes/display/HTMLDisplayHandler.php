@@ -219,8 +219,8 @@ class HTMLDisplayHandler
 
 		// set icon
 		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl();
-		$mobicon_url = $oAdminModel->getMobileIconUrl();
+		$favicon_url = $oAdminModel->getFaviconUrl(false);
+		$mobicon_url = $oAdminModel->getMobileIconUrl(false);
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
 
