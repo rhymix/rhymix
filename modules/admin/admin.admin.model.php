@@ -955,11 +955,7 @@ class adminAdminModel extends admin
 		}
 
 		$file_exsit = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
-		if(!$file_exsit)
-		{
-			$icon_url = './modules/admin/tpl/img/' . $default_icon_name;
-		}
-		else
+		if($file_exsit)
 		{
 			$default_url = Context::getDefaultUrl();
 			$icon_url = $default_url . 'files/attach/xeicon/' . $virtual_site . $iconname;
