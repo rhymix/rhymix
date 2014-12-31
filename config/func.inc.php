@@ -1517,7 +1517,17 @@ function checkCSRF()
 	}
 
 	$defaultUrl = Context::getDefaultUrl();
-	$referer = parse_url($_SERVER["HTTP_REFERER"]);
+
+	if(strpos(Context::getRequestUri(), 'xn--') !== FALSE)
+	{
+		require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
+		$IDN = new idna_convert(array('idn_version' => 2008));
+		$referer = parse_url($IDN->encode($_SERVER["HTTP_REFERER"]));
+	}
+	else
+	{
+		$referer = parse_url($_SERVER["HTTP_REFERER"]);
+	}
 
 	$oModuleModel = getModel('module');
 	$siteModuleInfo = $oModuleModel->getDefaultMid();
