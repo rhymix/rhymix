@@ -324,7 +324,7 @@ module.exports = function(grunt) {
 				// changed
 				grunt.util.spawn({
 					cmd: "git",
-					args: ['diff', '--name-only', target]
+					args: ['diff', '--name-only', '--diff-filter' ,'ACM', target]
 				}, function (error, result, code) {
 					diff = result.stdout;
 
