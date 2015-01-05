@@ -417,7 +417,7 @@ class installController extends install
 
 		FileHandler::writeFile(_XE_PATH_.$checkFilePath, trim($checkString));
 
-		$scheme = $_SERVER['REQUEST_SCHEME'];
+		$scheme = ($_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
 		$hostname = $_SERVER['SERVER_NAME'];
 		$port = $_SERVER['SERVER_PORT'];
 		$str_port = '';
@@ -426,17 +426,25 @@ class installController extends install
 			$str_port = ':' . $port;
 		}
 
+		$tmpPath = $_SERVER['DOCUMENT_ROOT'];
+
+		//if DIRECTORY_SEPARATOR is not /(IIS)
+		if(DIRECTORY_SEPARATOR !== '/')
+		{
+			//change to slash for compare
+			$tmpPath = str_replace(DIRECTORY_SEPARATOR, '/', $_SERVER['DOCUMENT_ROOT']);
+		}
+
 		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
-		$currentPath = str_replace($_SERVER['DOCUMENT_ROOT'], "", _XE_PATH_);
+		$currentPath = str_replace($tmpPath, "", _XE_PATH_);
 		if($currentPath != "")
 		{
 			$query = $currentPath . $query;
 		}
-
 		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
 		$requestConfig = array();
 		$requestConfig['ssl_verify_peer'] = false;
-		$buff = FileHandler::getRemoteResource($requestUrl, null, 10, 'POST', 'application/x-www-form-urlencoded', array(), array(), array(), $requestConfig);
+		$buff = FileHandler::getRemoteResource($requestUrl, null, 10, 'GET', null, array(), array(), array(), $requestConfig);
 
 		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
 
