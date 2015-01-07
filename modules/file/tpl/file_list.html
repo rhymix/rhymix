@@ -70,7 +70,10 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<!--@endif-->
 				<!-- one document end -->
 			<tr>
-				<td><a href="{htmlspecialchars_decode($val->download_url)}">{htmlspecialchars($val->source_filename, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a></td>
+				<td>	<!--@if(preg_match("/\.(jpg|png|bmp|jpeg|gif)$/i",strtolower($val->source_filename)))-->
+					<img src="{$val->uploaded_filename}" style="width:50px; height:50px">
+					<!--@end-->
+					<a href="{htmlspecialchars_decode($val->download_url)}">{htmlspecialchars($val->source_filename, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a></td>
 				<td class="nowr">{FileHandler::filesize($val->file_size)}</td>
 				<td class="nowr">{$val->download_count}</td>
 				<td class="nowr">

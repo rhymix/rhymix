@@ -417,26 +417,34 @@ class installController extends install
 
 		FileHandler::writeFile(_XE_PATH_.$checkFilePath, trim($checkString));
 
+		$scheme = ($_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
 		$hostname = $_SERVER['SERVER_NAME'];
 		$port = $_SERVER['SERVER_PORT'];
-		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
-		$currentPath = str_replace($_SERVER['DOCUMENT_ROOT'], "", _XE_PATH_);
-		if($currentPath != "")
-			$query = $currentPath . $query;
-
-		$fp = @fsockopen($hostname, $port, $errno, $errstr, 5);
-		if(!$fp) return false;
-
-		fputs($fp, "GET {$query} HTTP/1.0\r\n");
-		fputs($fp, "Host: {$hostname}\r\n\r\n");
-
-		$buff = '';
-		while(!feof($fp)) {
-			$str = fgets($fp, 1024);
-			if(trim($str)=='') $start = true;
-			if($start) $buff .= $str;
+		$str_port = '';
+		if($port)
+		{
+			$str_port = ':' . $port;
 		}
-		fclose($fp);
+
+		$tmpPath = $_SERVER['DOCUMENT_ROOT'];
+
+		//if DIRECTORY_SEPARATOR is not /(IIS)
+		if(DIRECTORY_SEPARATOR !== '/')
+		{
+			//change to slash for compare
+			$tmpPath = str_replace(DIRECTORY_SEPARATOR, '/', $_SERVER['DOCUMENT_ROOT']);
+		}
+
+		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
+		$currentPath = str_replace($tmpPath, "", _XE_PATH_);
+		if($currentPath != "")
+		{
+			$query = $currentPath . $query;
+		}
+		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
+		$requestConfig = array();
+		$requestConfig['ssl_verify_peer'] = false;
+		$buff = FileHandler::getRemoteResource($requestUrl, null, 10, 'GET', null, array(), array(), array(), $requestConfig);
 
 		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
 

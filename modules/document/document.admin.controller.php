@@ -83,12 +83,19 @@ class documentAdminController extends document
 
 			unset($obj);
 			$obj = $oDocument->getObjectVars();
+
+			// ISSUE https://github.com/xpressengine/xe-core/issues/32
+			$args_doc_origin->document_srl = $document_srl;
+			$output_ori = executeQuery('document.getDocument', $args_doc_origin, array('content'));              
+			$obj->content = $output_ori->data->content;
+
 			// Move the attached file if the target module is different
 			if($module_srl != $obj->module_srl && $oDocument->hasUploadedFiles())
 			{
 				$oFileController = getController('file');
 
 				$files = $oDocument->getUploadedFiles();
+				$delete_file_srls = array();
 				if(is_array($files))
 				{
 					foreach($files as $val)
@@ -113,9 +120,10 @@ class documentAdminController extends document
 								$obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
 							}
 						}
-						// Delete an existing file
-						$oFileController->deleteFile($val->file_srl);
+						$delete_file_srls[] = $val->file_srl;
 					}
+					// Delete an existing file
+					$oFileController->deleteFile($delete_file_srls);
 				}
 				// Set the all files to be valid
 				$oFileController->setFilesValid($obj->document_srl);

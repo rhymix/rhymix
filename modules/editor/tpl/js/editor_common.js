@@ -208,6 +208,7 @@ function openComponent(component_name, editor_sequence, manual_url) {
 
 	var popup_url = request_uri+"?module=editor&act=dispEditorPopup&editor_sequence="+editor_sequence+"&component="+component_name;
 	if(typeof(manual_url)!="undefined" && manual_url) popup_url += "&manual_url="+escape(manual_url);
+	if(typeof(current_mid)!="undefined" && current_mid) popup_url += "&mid="+escape(current_mid);
 
 	popopen(popup_url, 'editorComponent');
 }

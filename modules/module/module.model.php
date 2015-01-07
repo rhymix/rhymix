@@ -629,31 +629,31 @@ class moduleModel extends module
 	 */
 	function getTriggers($trigger_name, $called_position)
 	{
-		$triggers = false;
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
+		if(is_null($GLOBALS['__triggers__']))
 		{
-			$object_key = $trigger_name.'_'.$called_position;
-			$cache_key = $oCacheHandler->getGroupKey('triggers', $object_key);
-			$triggers = $oCacheHandler->get($cache_key);
-		}
-
-		if($triggers === false)
-		{
-			$args = new stdClass();
-			$args->trigger_name = $trigger_name;
-			$args->called_position = $called_position;
-			$output = executeQueryArray('module.getTriggers',$args);
-			$triggers = $output->data;
-
-			if($output->toBool() && $oCacheHandler->isSupport())
+			$triggers = FALSE;
+			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+			if($oCacheHandler->isSupport())
 			{
-				$oCacheHandler->put($cache_key, $triggers);
+				$cache_key = 'triggers';
+				$triggers = $oCacheHandler->get($cache_key);
+			}
+			if($triggers === FALSE)
+			{
+				$output = executeQueryArray('module.getTriggers');
+				$triggers = $output->data;
+				if($output->toBool() && $oCacheHandler->isSupport())
+				{
+					$oCacheHandler->put($cache_key, $triggers);
+				}
+			}
+			foreach($triggers as $item)
+			{
+				$GLOBALS['__triggers__'][$item->trigger_name][$item->called_position][] = $item;
 			}
 		}
 
-		return $triggers;
+		return $GLOBALS['__triggers__'][$trigger_name][$called_position];
 	}
 
 	/**
@@ -661,14 +661,16 @@ class moduleModel extends module
 	 */
 	function getTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
-		$args = new stdClass();
-		$args->trigger_name = $trigger_name;
-		$args->module = $module;
-		$args->type = $type;
-		$args->called_method = $called_method;
-		$args->called_position = $called_position;
-		$output = executeQuery('module.getTrigger',$args);
-		return $output->data;
+		$triggers = $this->getTriggers($trigger_name, $called_position);
+		foreach($triggers as $item)
+		{
+			if($item->module == $module && $item->type == $type && $item->called_method == $called_method)
+			{
+				return $item;
+			}
+		}
+
+		return NULL;
 	}
 
 	/**

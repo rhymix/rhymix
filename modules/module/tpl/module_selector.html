@@ -27,6 +27,9 @@
 			<input type="submit" value="{$lang->cmd_search}" class="x_btn" />
 		</div>
 	</div>
+	<!--@if($module_category_exists)-->
+	<!--@foreach($selected_mids as $key => $val)-->
+	<h2 cond="$key" style="margin-top:40px;">{$key}</h2>
 	<table class="x_table x_table-striped x_table-hover" style="border-top:1px dotted #ddd">
 		<thead>
 			<tr>
@@ -36,32 +39,41 @@
 			<tr>
 		</thead>
 		<tbody>
-			<!--@if($module_category_exists)-->
-			<!--@foreach($selected_mids as $key => $val)-->
 			<tr>
-				{@ $_idx =0; }
-				<!--@foreach($val as $k => $v)-->
+			{@ $_idx =0; }
+			<!--@foreach($val as $k => $v)-->
 				<!--@if($_idx >0)--><tr><!--@end-->
-					{@ $browser_title = str_replace("'", "\\'", htmlspecialchars($v->browser_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)); }
-					<td>{$k}</td>
-					<td>{$v->browser_title}</td>
-					<td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{$browser_title}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
+				{@ $browser_title = str_replace("'", "\\'", htmlspecialchars($v->browser_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)); }
+				<td>{$k}</td>
+				<td>{$v->browser_title}</td>
+				<td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{$browser_title}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
 				<!--@if($_idx <count($val))--></tr><!--@end-->
-		{@ $_idx ++; }
-		<!--@end-->
-		</tr>
-		<!--@end-->
-		<!--@else-->
+			{@ $_idx ++; }
+			<!--@end-->
+			</tr>
+		</tbody>
+	</table>
+	<!--@end-->
+	<!--@else-->
+	<table class="x_table x_table-striped x_table-hover" style="border-top:1px dotted #ddd">
+		<thead>
+			<tr>
+				<th>{$lang->mid}</th>
+				<th>{$lang->browser_title}</th>
+				<th>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</th>
+			<tr>
+		</thead>
+		<tbody>
 		<!--@foreach($selected_mids as $key => $val)-->
-		<!--@foreach($val as $k => $v)-->
-		<tr>
-			<td>{$k}</td>
-			<td>{$v->browser_title}</td>
-			<td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{str_replace("'","\\'",$v->browser_title)}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
-		</tr>
-		<!--@end-->
-		<!--@end-->
+			<!--@foreach($val as $k => $v)-->
+			<tr>
+				<td>{$k}</td>
+				<td>{$v->browser_title}</td>
+				<td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{str_replace("'","\\'",$v->browser_title)}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
+			</tr>
+			<!--@end-->
 		<!--@end-->
 		</tbody>
 	</table>
+	<!--@end-->
 </form>

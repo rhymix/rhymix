@@ -379,7 +379,8 @@ class editorModel extends editor
 		$option->colorset = $config->sel_editor_colorset;
 		// Permission check for file upload
 		$option->allow_fileupload = false;
-		if(count($config->upload_file_grant))
+		if($logged_info->is_admin=='Y') $option->allow_fileupload = true;
+		elseif(count($config->upload_file_grant))
 		{
 			foreach($group_list as $group_srl => $group_info)
 			{
@@ -393,7 +394,8 @@ class editorModel extends editor
 		else $option->allow_fileupload = true;
 		// Permission check for using default components
 		$option->enable_default_component = false;
-		if(count($config->enable_default_component_grant))
+		if($logged_info->is_admin=='Y') $option->enable_default_component = true;
+		elseif(count($config->enable_default_component_grant))
 		{
 			foreach($group_list as $group_srl => $group_info)
 			{
@@ -407,7 +409,8 @@ class editorModel extends editor
 		else $option->enable_default_component = true;
 		// Permisshion check for using extended components
 		$option->enable_component = false;
-		if(count($config->enable_component_grant))
+		if($logged_info->is_admin=='Y') $option->enable_component = true;
+		elseif(count($config->enable_component_grant))
 		{
 			foreach($group_list as $group_srl => $group_info)
 			{
@@ -421,7 +424,8 @@ class editorModel extends editor
 		else $option->enable_component = true;
 		// HTML editing privileges
 		$enable_html = false;
-		if(count($config->enable_html_grant))
+		if($logged_info->is_admin=='Y') $enable_html = true;
+		elseif(count($config->enable_html_grant))
 		{
 			foreach($group_list as $group_srl => $group_info)
 			{
@@ -747,18 +751,77 @@ class editorModel extends editor
 		}
 
 		// List extra variables (text type only for editor component)
-		$extra_vars = $xml_doc->component->extra_vars->var;
+		$extra_vars = $xml_doc->component->extra_vars;
 		if($extra_vars)
 		{
-			if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
-
-			foreach($extra_vars as $key => $val)
+			$extra_var_groups = $extra_vars->group;
+			if(!$extra_var_groups)
 			{
-				$key = $val->attrs->name;
-				$extra_var = new stdClass;
-				$extra_var->title = $val->title->body;
-				$extra_var->description = $val->description->body;
-				$component_info->extra_vars->{$key} = $extra_var;
+				$extra_var_groups = $extra_vars;
+			}
+			if(!is_array($extra_var_groups))
+			{
+				$extra_var_groups = array($extra_var_groups);
+			}
+
+			foreach($extra_var_groups as $group)
+			{
+				$extra_vars = $group->var;
+				if(!is_array($group->var))
+				{
+					$extra_vars = array($group->var);
+				}
+
+				foreach($extra_vars as $key => $val)
+				{
+					if(!$val)
+					{
+						continue;
+					}
+
+					$obj = new stdClass();
+					if(!$val->attrs)
+					{
+						$val->attrs = new stdClass();
+					}
+					if(!$val->attrs->type)
+					{
+						$val->attrs->type = 'text';
+					}
+
+					$obj->group = $group->title->body;
+					$obj->name = $val->attrs->name;
+					$obj->title = $val->title->body;
+					$obj->type = $val->attrs->type;
+					$obj->description = $val->description->body;
+					if($obj->name)
+					{
+						$obj->value = $extra_vals->{$obj->name};
+					}
+					if(strpos($obj->value, '|@|') != FALSE)
+					{
+						$obj->value = explode('|@|', $obj->value);
+					}
+					if($obj->type == 'mid_list' && !is_array($obj->value))
+					{
+						$obj->value = array($obj->value);
+					}
+
+					// 'Select'type obtained from the option list.
+					if($val->options && !is_array($val->options))
+					{
+						$val->options = array($val->options);
+					}
+
+					for($i = 0, $c = count($val->options); $i < $c; $i++)
+					{
+						$obj->options[$i] = new stdClass();
+						$obj->options[$i]->title = $val->options[$i]->title->body;
+						$obj->options[$i]->value = $val->options[$i]->attrs->value;
+					}
+
+					$component_info->extra_vars->{$obj->name} = $obj;
+				}
 			}
 		}
 

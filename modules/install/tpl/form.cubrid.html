@@ -7,7 +7,7 @@
 				<p>{$XE_VALIDATOR_MESSAGE}</p>
 			</div>
 			<form rule="cubrid" action="./" method="post" class="x_form-horizontal">
-				<input type="hidden" value="{getUrl('', 'act', $act, 'db_type', $db_type)}" name="error_return_url">
+				<input type="hidden" value="{$error_return_url}" name="error_return_url">
 				<input type="hidden" name="act" value="procCubridDBSetting" />
 				<input type="hidden" name="db_type" value="{$db_type}" />
 				<h2>{$title}</h2>

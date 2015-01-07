@@ -719,9 +719,9 @@ class memberController extends member
 
 		// Get file information
 		list($width, $height, $type, $attrs) = @getimagesize($target_file);
-		if(IMG_PNG == $type) $ext = 'png';
-		elseif(IMG_JPG == $type) $ext = 'jpg';
-		elseif(IMG_GIF == $type) $ext = 'gif';
+		if(IMAGETYPE_PNG == $type) $ext = 'png';
+		elseif(IMAGETYPE_JPEG == $type) $ext = 'jpg';
+		elseif(IMAGETYPE_GIF == $type) $ext = 'gif';
 		else
 		{
 			return;
@@ -1105,7 +1105,12 @@ class memberController extends member
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
-		if(!$output->toBool() || $output->data->auth_key != $auth_key) return $this->stop('msg_invalid_auth_key');
+
+		if(!$output->toBool() || $output->data->auth_key != $auth_key)
+		{
+			if(strlen($output->data->auth_key) !== strlen($auth_key)) executeQuery('member.deleteAuthMail', $args);
+			return $this->stop('msg_invalid_auth_key');
+		}
 		// If credentials are correct, change the password to a new one
 		if($output->data->is_register == 'Y')
 		{
@@ -2491,7 +2496,11 @@ class memberController extends member
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
-		if(!$output->toBool() || $output->data->auth_key != $auth_key) return $this->stop('msg_invalid_modify_email_auth_key');
+		if(!$output->toBool() || $output->data->auth_key != $auth_key) 
+		{
+			if(strlen($output->data->auth_key) !== strlen($auth_key)) executeQuery('member.deleteAuthChangeEmailAddress', $args);
+			return $this->stop('msg_invalid_modify_email_auth_key');
+		}
 
 		$newEmail = $output->data->user_id;
 		$args->email_address = $newEmail;

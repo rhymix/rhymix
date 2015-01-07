@@ -395,6 +395,16 @@ class boardView extends board
 		$args->search_target = Context::get('search_target');
 		$args->search_keyword = Context::get('search_keyword');
 
+		$search_option = Context::get('search_option');
+		if($search_option==FALSE)
+		{
+			$search_option = $this->search_option;
+		}
+		if(isset($search_option[$args->search_target])==FALSE)
+		{
+			$args->search_target = '';
+		}
+
 		// if the category is enabled, then get the category
 		if($this->module_info->use_category=='Y')
 		{
@@ -639,7 +649,8 @@ class boardView extends board
 		/**
 		 * add JS filters
 		 **/
-		Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
+		if(Context::get('logged_info')->is_admin=='Y') Context::addJsFilter($this->module_path.'tpl/filter', 'insert_admin.xml');
+		else Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('category_list.text', 'category_list.title');
