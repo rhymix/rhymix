@@ -169,6 +169,16 @@ class boardView extends board
 				if($val->search == 'Y') $search_option['extra_vars'.$val->idx] = $val->name;
 			}
 		}
+		// remove a search option that is not public in member config
+		$memberConfig = getModel('module')->getModuleConfig('member');
+		foreach($memberConfig->signupForm as $signupFormElement)
+		{
+			if(in_array($signupFormElement->title, $search_option))
+			{
+				if($signupFormElement->isPublic == 'N')
+					unset($search_option[$signupFormElement->name]);
+			}
+		}
 		Context::set('search_option', $search_option);
 
 		$oDocumentModel = getModel('document');
