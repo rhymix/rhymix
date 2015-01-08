@@ -138,8 +138,14 @@ class memberModel extends member
 		// When click other's nickname
 		if($member_srl != $logged_info->member_srl && $logged_info->member_srl)
 		{
-			// Send an email
-			if($member_info->email_address)
+			// Get email config
+			for($i = 0; $i < count($this->module_config->signupForm); $i++)
+				if($this->module_config->signupForm[$i]->name == 'email_address')
+					break;
+			$email_config = $this->module_config->signupForm[$i];
+
+			// Send an email only if email address is public
+			if($logged_info->is_admin == 'Y' || $email_config->isPublic == 'Y' && $member_info->email_address)
 			{
 				$url = 'mailto:'.htmlspecialchars($member_info->email_address, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				$oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
