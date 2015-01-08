@@ -1277,16 +1277,11 @@ class Context
 			return $stack;
 		}
 
-		$body = $this->_filterRequestVar($key, trim($val->body ? $val->body : ''), 0);
-		if($body)
-		{
-			return $body;
-		}
-
+		$body = $this->_filterRequestVar($key, $val->body, 0);
 		unset($val->node_name, $val->attrs, $val->body);
 		if(!count(get_object_vars($val)))
 		{
-			return NULL;
+			return $body;
 		}
 
 		$stack = new stdClass();
