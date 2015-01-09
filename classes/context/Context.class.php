@@ -1667,7 +1667,7 @@ class Context
 		}
 		elseif($_use_ssl == 'optional')
 		{
-			$ssl_mode = (($self->get('module') === 'admin') || (isset($get_vars['act']) && $self->isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
+			$ssl_mode = (($self->get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && $self->isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
 			$query = $self->getRequestUri($ssl_mode, $domain) . $query;
 			// no SSL
 		}
