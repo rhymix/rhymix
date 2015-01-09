@@ -1113,7 +1113,7 @@ class Context
 	{
 		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
 
-		$self->js_callback_func = isset($_GET['xe_js_callback']) ? $_GET['xe_js_callback'] : $_POST['xe_js_callback'];
+		$self->js_callback_func = $self->getJSCallbackFunc();
 
 		($type && $self->request_method = $type) or
 				(strpos($_SERVER['CONTENT_TYPE'], 'json') && $self->request_method = 'JSON') or
@@ -1458,7 +1458,16 @@ class Context
 	function getJSCallbackFunc()
 	{
 		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
-		return $self->js_callback_func;
+		$js_callback_func = isset($_GET['xe_js_callback']) ? $_GET['xe_js_callback'] : $_POST['xe_js_callback'];
+
+		if(!preg_match('/^[a-z0-9\.]+$/i', $js_callback_func))
+		{
+			unset($js_callback_func);
+			unset($_GET['xe_js_callback']);
+			unset($_POST['xe_js_callback']);
+		}
+
+		return $js_callback_func;
 	}
 
 	/**

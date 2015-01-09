@@ -3843,6 +3843,7 @@ jQuery(function($){
 	}
 	top.fullSetupDone = function(htData){
 		jQuery('#properties').show();
+		jQuery._xeAdminVar.oSetupWin.close();
 	}
 
 	$('a._openFullSetup').click(function(ev){
@@ -3986,7 +3987,7 @@ top.fullSetupWinLoaded = function(){
 	var $target = $("<iframe>").attr('name', 'submitTarget').attr('src', 'about:_blank').attr('style', 'position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px');
 	$form.append($target);
 
-	$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.opener.top.fullSetupDone();top.window.close();var dummy="));
+	$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.opener.top.fullSetupDone"));
 	$form.attr('target', 'submitTarget');
 
 	//console.log(oWin);
