@@ -1,7 +1,5 @@
-/*! Copyright (C) NAVER <http://www.navercorp.com> */
 /**!
- * @file   common.js + js_app.js + xml_handler.js + xml_js_filter.js
- * @brief  XE Common JavaScript
+ * @concat Xpress_Editor.js + xe_interface.js 
  **/
 (function($){
 

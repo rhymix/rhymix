@@ -219,8 +219,8 @@ class HTMLDisplayHandler
 
 		// set icon
 		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl();
-		$mobicon_url = $oAdminModel->getMobileIconUrl();
+		$favicon_url = $oAdminModel->getFaviconUrl(false);
+		$mobicon_url = $oAdminModel->getMobileIconUrl(false);
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
 
@@ -398,6 +398,7 @@ class HTMLDisplayHandler
 		{
 			$oContext->loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -111000), true);
 			$oContext->loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -110000), true);
+			$oContext->loadFile(array('./common/js/modernizr.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/x.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/common.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000), true);
@@ -451,8 +452,8 @@ class HTMLDisplayHandler
 		// add common JS/CSS files
 		if(__DEBUG__ || !__XE_VERSION_STABLE__)
 		{
-			$oContext->loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -111000), true);
-			$oContext->loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -110000), true);
+			$oContext->loadFile(array('./common/js/jquery.js', 'head', '', -110000), true);
+			$oContext->loadFile(array('./common/js/modernizr.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/x.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/common.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000), true);
@@ -463,8 +464,7 @@ class HTMLDisplayHandler
 		}
 		else
 		{
-			$oContext->loadFile(array('./common/js/jquery-1.x.min.js', 'head', 'lt IE 9', -111000), true);
-			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', 'gte IE 9', -110000), true);
+			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', '', -110000), true);
 			$oContext->loadFile(array('./common/js/x.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/js/xe.min.js', 'head', '', -100000), true);
 			$oContext->loadFile(array('./common/css/xe.min.css', '', '', -1000000), true);

@@ -411,7 +411,7 @@ class widgetController extends widget
 			// cache update and cache renewal of the file mtime
 			if(!$oCacheHandler->isSupport())
 			{
-				touch($cache_file);
+			touch($cache_file);
 			}
 
 			$oWidget = $this->getWidgetObject($widget);
@@ -443,6 +443,7 @@ class widgetController extends widget
 	{
 		// Save for debug run-time widget
 		if(__DEBUG__==3) $start = getMicroTime();
+		$before = microtime(true);
 		// urldecode the value of args haejum
 		$object_vars = get_object_vars($args);
 		if(count($object_vars))
@@ -512,7 +513,7 @@ class widgetController extends widget
 					$oEditorController = getController('editor');
 					$body = $oEditorController->transComponent($body);
 
-					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s"><div style="%s">', $args->id, $style,  $inner_style);
+					$widget_content_header = sprintf('<div class="xe_content xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s"><div style="%s">', $args->id, $style,  $inner_style);
 					$widget_content_body = $body;
 					$widget_content_footer = '</div></div>';
 
@@ -563,7 +564,7 @@ class widgetController extends widget
 					$oWidgetController = getController('widget');
 
 					$widget_content_header = sprintf(
-						'<div class="widgetOutput ' . $args->css_class . '" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
+						'<div class="xe_content widgetOutput ' . $args->css_class . '" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
 						'<div class="widgetResize"></div>'.
 						'<div class="widgetResizeLeft"></div>'.
 						'<div class="widgetBorder">'.
@@ -641,6 +642,17 @@ class widgetController extends widget
 		$output = $widget_content_header . $widget_content_body . $widget_content_footer;
 		// Debug widget creation time information added to the results
 		if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;
+
+		$after = microtime(true);
+
+		$elapsed_time = $after - $before;
+
+		$slowlog = new stdClass;
+		$slowlog->caller = "widget.execute";
+		$slowlog->called = $widget;
+		$slowlog->called_extension = $widget;
+		writeSlowlog('widget', $elapsed_time, $slowlog);
+
 		// Return result
 		return $output;
 	}
@@ -734,7 +746,7 @@ class widgetController extends widget
 		{
 			$vars = new stdClass();
 		}
-		
+
 		$widget = $vars->selected_widget;
 		$vars->css_class = $request_vars->css_class;
 		$vars->widgetstyle = $request_vars->widgetstyle;

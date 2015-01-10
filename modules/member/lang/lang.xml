@@ -850,6 +850,20 @@
 			<value xml:lang="tr"><![CDATA[Son Giriş Tarihi (basit)]]></value>
 			<value xml:lang="vi"><![CDATA[Đăng nhập ít nhất]]></value>
 		</item>
+		<item name="birthday">
+			<value xml:lang="ko"><![CDATA[생일]]></value>
+			<value xml:lang="en"><![CDATA[Birthday]]></value>
+			<value xml:lang="jp"><![CDATA[誕生日]]></value>
+			<value xml:lang="zh-CN"><![CDATA[生日]]></value>
+			<value xml:lang="zh-TW"><![CDATA[生日]]></value>
+			<value xml:lang="fr"><![CDATA[Anniversaire]]></value>
+			<value xml:lang="de"><![CDATA[Geburtstag]]></value>
+			<value xml:lang="ru"><![CDATA[Дата рождения]]></value>
+			<value xml:lang="es"><![CDATA[Fecha de Nacimiento]]></value>
+			<value xml:lang="tr"><![CDATA[Doğum günü]]></value>
+			<value xml:lang="vi"><![CDATA[Sinh nhật]]></value>
+			<value xml:lang="mn"><![CDATA[Төрсөн өдөр]]></value>
+		</item>
 		<item name="extra_vars">
 			<value xml:lang="ko"><![CDATA[사용자 정의]]></value>
 			<value xml:lang="en"><![CDATA[User Defined]]></value>
@@ -1347,7 +1361,7 @@
 		<value xml:lang="vi"><![CDATA[Xác nhận không hợp lệ.<br />Xin vui lòng kiểm tra lại hoặc liên hệ với Webmaster để được hỗ trợ!]]></value>
 	</item>
 	<item name="msg_success_authed">
-		<value xml:lang="ko"><![CDATA[인증이 정상적으로 되어 로그인 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하는 비밀번호로 변경하세요.]]></value>
+		<value xml:lang="ko"><![CDATA[인증이 정상적으로 되어 임시 비밀번호로 변경 처리가 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하는 비밀번호로 변경하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Your account has been successfully activated and logged on.\n Please modify the password to your own one with the password in the mail.]]></value>
 		<value xml:lang="jp"><![CDATA[認証が正常に行われ、ログインできました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[新的注册信息已得到认证。请用邮件中的新密码修改您要想使用的密码。]]></value>

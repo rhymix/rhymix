@@ -237,17 +237,33 @@ function xml2json(xml, tab, ignoreAttrib) {
 		// 현 url과 ajax call 대상 url의 schema 또는 port가 다르면 직접 form 전송
 		if(_u1.protocol != _u2.protocol || _u1.port != _u2.port) return send_by_form(xml_path, params);
 
-		var xml = [], i = 0;
-		xml[i++] = '<?xml version="1.0" encoding="utf-8" ?>';
-		xml[i++] = '<methodCall>';
-		xml[i++] = '<params>';
+		var xml = [],
+			xmlHelper = function(params) {
+				var stack = [];
 
-		$.each(params, function(key, val) {
-			xml[i++] = '<'+key+'><![CDATA['+val+']]></'+key+'>';
-		});
+				if ($.isArray(params)) {
+					$.each(params, function(key, val) {
+						stack.push('<value type="array">' + xmlHelper(val) + '</value>');
+					});
+				}
+				else if ($.isPlainObject(params)) {
+					$.each(params, function(key, val) {
+						stack.push('<' + key + '>' + xmlHelper(val) + '</' + key + '>');
+					});
+				}
+				else if (!$.isFunction(params)) {
+					stack.push('<![CDATA[' + params + ']]>');
+				}
 
-		xml[i++] = '</params>';
-		xml[i++] = '</methodCall>';
+				return stack.join('\n');
+			};
+
+		xml.push('<?xml version="1.0" encoding="utf-8" ?>');
+		xml.push('<methodCall>');
+		xml.push('<params>');
+		xml.push(xmlHelper(params));
+		xml.push('</params>');
+		xml.push('</methodCall>');
 
 		var _xhr = null;
 		if (_xhr && _xhr.readyState !== 0) _xhr.abort();

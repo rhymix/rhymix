@@ -1,0 +1,35 @@
+<load target="js/install_admin.js" />
+<include target="header.html" />
+
+<div id="body">
+	<include target="progress_menu.html" />
+	<div id="content">
+		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<h2>{$lang->license_agreement}</h2>
+		<form action="./" method="post" class="x_form-horizontal">
+			<input type="hidden" name="act" value="procInstallLicenseAggrement">
+			<input type="hidden" name="module" value="install">
+
+			<div class="content-license">
+				<div>{$lang->license}</div>
+			</div>
+
+			<div>
+				<label><input type="checkbox" name="license_agreement" value="Y" /> <strong>{$lang->cmd_license_agree}</strong></label>
+			</div>
+
+			<div class="ibtnArea">
+				<span class="x_pull-left">
+					<a href="{getUrl('', 'act','')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
+				</span>
+				<span class="x_pull-right">
+					<button type="submit" class="x_btn x_btn-small x_btn-inverse" id="task-license-aggrement" value="">{$lang->cmd_next} <i class="x_icon-chevron-right x_icon-white"></i></button>
+				</span>
+			</div>
+		</form>
+	</div>
+</div>
+
+<include target="footer.html" />

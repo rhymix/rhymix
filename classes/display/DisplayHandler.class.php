@@ -126,6 +126,8 @@ class DisplayHandler extends Handler
 
 		// call a trigger after display
 		ModuleHandler::triggerCall('display', 'after', $output);
+
+		flushSlowlog();
 	}
 
 	/**
