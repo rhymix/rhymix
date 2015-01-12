@@ -150,6 +150,25 @@ class file extends ModuleObject
 	function recompileCache()
 	{
 	}
+
+	/**
+	 * Change value from human readable to byte unit
+	 *
+	 * @param string $size_str Size string
+	 * @return int The byte value for input
+	 */
+	function _changeBytes($size_str)
+	{
+		$unit = strtoupper(substr($size_str, -1));
+		$size_str = (int)$size_str;
+		switch ($unit)
+		{
+			case 'G': $size_str *= 1024;
+			case 'M': $size_str *= 1024;
+			case 'K': $size_str *= 1024;
+		}
+		return $size_str;
+	}
 }
 /* End of file file.class.php */
 /* Location: ./modules/file/file.class.php */
