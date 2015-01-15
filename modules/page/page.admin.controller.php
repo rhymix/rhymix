@@ -293,12 +293,15 @@ class pageAdminController extends page
 
 	function procPageAdminArticleDocumentInsert()
 	{
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
+
 		$logged_info = Context::get('logged_info');
 
 		$oModuleModel = getModel('module');
 		$grant = $oModuleModel->getGrant($this->module_info, $logged_info);
 
-		if (!$grant->manager)
+		if(!$grant->manager)
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
@@ -312,39 +315,30 @@ class pageAdminController extends page
 		//그래도 없으면 Untitled
 		if($obj->title == '') $obj->title = 'Untitled';
 
-		// document module의 model 객체 생성
-		$oDocumentModel = getModel('document');
-
-		// document module의 controller 객체 생성
-		$oDocumentController = getController('document');
+		$document_srl = $obj->document_srl;
 
 		// 이미 존재하는 글인지 체크
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl, true);
 
 		$bAnonymous = false;
+		$target = ($obj->ismobile == 'Y') ? 'mdocument_srl' : 'document_srl';
 
 		// 이미 존재하는 경우 수정
 		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) 
 		{
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
-			// 그렇지 않으면 신규 등록
 		}
 		else
 		{
-			if($obj->ismobile == 'Y')
-			{
-				$target = 'mdocument_srl';
-			}
-			else
-			{
-				$target = 'document_srl';
-			}
-
+			// 그렇지 않으면 신규 등록
 			$output = $oDocumentController->insertDocument($obj, $bAnonymous);
 			$msg_code = 'success_registed';
 			$document_srl = $output->get('document_srl');
+		}
 
+		if(!isset($this->module_info->{$target}) || (isset($this->module_info->{$target}) && $this->module_info->{$target} !== $document_srl))
+		{
 			$oModuleController = getController('module');
 			$this->module_info->{$target} = $document_srl;
 			$oModuleController->updateModule($this->module_info);

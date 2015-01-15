@@ -44,7 +44,15 @@ class spamfilterController extends spamfilter
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
 		// Check if there is a ban on the word
-		$text = $obj->title.$obj->content;
+		$text = '';
+		if($is_logged)
+		{
+			$text = $obj->title . ' ' . $obj->content . ' ' . $obj->tags;
+		}
+		else
+		{
+			$text = $obj->title . ' ' . $obj->content . ' ' . $obj->nick_name . ' ' . $obj->homepage . ' ' . $obj->tags;	
+		}
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool()) return $output;
 		// Check the specified time beside the modificaiton time
@@ -81,7 +89,15 @@ class spamfilterController extends spamfilter
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
 		// Check if there is a ban on the word
-		$text = $obj->content;
+		$text = '';
+		if($is_logged)
+		{
+			$text = $obj->content;
+		}
+		else
+		{
+			$text = $obj->content . ' ' . $obj->nick_name . ' ' . $obj->homepage;	
+		}
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool()) return $output;
 		// If the specified time check is not modified
@@ -113,7 +129,7 @@ class spamfilterController extends spamfilter
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
 		// Check if there is a ban on the word
-		$text = $obj->blog_name.$obj->title.$obj->excerpt.$obj->url;
+		$text = $obj->blog_name . ' ' . $obj->title . ' ' . $obj->excerpt . ' ' . $obj->url;
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool()) return $output;
 		// Start Filtering

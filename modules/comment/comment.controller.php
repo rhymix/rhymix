@@ -908,7 +908,7 @@ class commentController extends comment
 	 * Remove all comment relation log
 	 * @return Object
 	 */
-	function deleteCommentLog()
+	function deleteCommentLog($args)
 	{
 		$this->_deleteDeclaredComments($args);
 		$this->_deleteVotedComments($args);
