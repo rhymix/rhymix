@@ -212,6 +212,13 @@ class boardView extends board
 		// check if the use_category option is enabled
 		if($this->module_info->use_category=='Y')
 		{
+			// check the grant
+			if(!$this->grant->list)
+			{
+				Context::set('category_list', array());
+				return;
+			}
+
 			$oDocumentModel = getModel('document');
 			Context::set('category_list', $oDocumentModel->getCategoryList($this->module_srl));
 
@@ -323,6 +330,59 @@ class boardView extends board
 	 * @brief  display the document file list (can be used by API)
 	 **/
 	function dispBoardContentFileList(){
+		/**
+		 * check the access grant (all the grant has been set by the module object)
+		 **/
+		if(!$this->grant->access)
+		{
+			return $this->dispBoardMessage('msg_not_permitted');
+		}
+
+		// check document view grant
+		$this->dispBoardContentView();
+
+		// Check if a permission for file download is granted
+		// Get configurations (using module model object)
+		$oModuleModel = getModel('module');
+		$file_module_config = $oModuleModel->getModulePartConfig('file',$this->module_srl);
+		
+		$downloadGrantCount = 0;
+		if(is_array($file_module_config->download_grant))
+		{
+			foreach($file_module_config->download_grant AS $value)
+				if($value) $downloadGrantCount++;
+		}
+
+		if(is_array($file_module_config->download_grant) && $downloadGrantCount>0)
+		{
+			if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
+			$logged_info = Context::get('logged_info');
+			if($logged_info->is_admin != 'Y')
+			{
+				$oModuleModel =& getModel('module');
+				$columnList = array('module_srl', 'site_srl');
+				$module_info = $oModuleModel->getModuleInfoByModuleSrl($this->module_srl, $columnList);
+
+				if(!$oModuleModel->isSiteAdmin($logged_info, $module_info->site_srl))
+				{
+					$oMemberModel =& getModel('member');
+					$member_groups = $oMemberModel->getMemberGroups($logged_info->member_srl, $module_info->site_srl);
+
+					$is_permitted = false;
+					for($i=0;$i<count($file_module_config->download_grant);$i++)
+					{
+						$group_srl = $file_module_config->download_grant[$i];
+						if($member_groups[$group_srl])
+						{
+							$is_permitted = true;
+							break;
+						}
+					}
+					if(!$is_permitted) return $this->stop('msg_not_permitted_download');
+				}
+			}
+		}
+
 		$oDocumentModel = getModel('document');
 		$document_srl = Context::get('document_srl');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
@@ -336,6 +396,9 @@ class boardView extends board
 	 * @brief display the document comment list (can be used by API)
 	 **/
 	function dispBoardContentCommentList(){
+		// check document view grant
+		$this->dispBoardContentView();
+
 		$oDocumentModel = getModel('document');
 		$document_srl = Context::get('document_srl');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
@@ -360,6 +423,13 @@ class boardView extends board
 	 * @brief display notice list (can be used by API)
 	 **/
 	function dispBoardNoticeList(){
+		// check the grant
+		if(!$this->grant->list)
+		{
+			Context::set('notice_list', array());
+			return;
+		}
+
 		$oDocumentModel = getModel('document');
 		$args = new stdClass();
 		$args->module_srl = $this->module_srl;
