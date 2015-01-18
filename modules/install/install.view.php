@@ -80,6 +80,17 @@ class installView extends install
 	}
 
 	/**
+	 * @brief License agreement
+	 */
+	function dispInstallLicenseAgreement()
+	{
+		$this->setTemplateFile('license_agreement');
+
+		$lang_type = Context::getLangType();
+		Context::set('lang_type', $lang_type);
+	}
+
+	/**
 	 * @brief Display messages about installation environment
 	 */
 	function dispInstallCheckEnv()

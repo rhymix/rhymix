@@ -716,16 +716,29 @@ class memberController extends member
 		// Get a target path to save
 		$target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
 		FileHandler::makeDir($target_path);
+
 		// Get file information
 		list($width, $height, $type, $attrs) = @getimagesize($target_file);
-		if($type == 3) $ext = 'png';
-		elseif($type == 2) $ext = 'jpg';
-		else $ext = 'gif';
+		if(IMAGETYPE_PNG == $type) $ext = 'png';
+		elseif(IMAGETYPE_JPEG == $type) $ext = 'jpg';
+		elseif(IMAGETYPE_GIF == $type) $ext = 'gif';
+		else
+		{
+			return;
+		}
+
+		FileHandler::removeFilesInDir($target_path);
 
 		$target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
 		// Convert if the image size is larger than a given size or if the format is not a gif
-		if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
-		else @copy($target_file, $target_filename);
+		if(($width > $max_width || $height > $max_height ) && $type != 1)
+		{
+			FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
+		}
+		else
+		{
+			@copy($target_file, $target_filename);
+		}
 	}
 
 	/**
@@ -1009,7 +1022,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_find_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->nick_name, $member_info->email_address );
+		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
 		$oMail->send();
 		// Return message
 		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
@@ -1092,7 +1105,12 @@ class memberController extends member
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
-		if(!$output->toBool() || $output->data->auth_key != $auth_key) return $this->stop('msg_invalid_auth_key');
+
+		if(!$output->toBool() || $output->data->auth_key != $auth_key)
+		{
+			if(strlen($output->data->auth_key) !== strlen($auth_key)) executeQuery('member.deleteAuthMail', $args);
+			return $this->stop('msg_invalid_auth_key');
+		}
 		// If credentials are correct, change the password to a new one
 		if($output->data->is_register == 'Y')
 		{
@@ -1181,7 +1199,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->nick_name, $member_info->email_address );
+		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
 		$oMail->send();
 		// Return message
 		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
@@ -1264,7 +1282,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $args->email_address, $args->email_address );
+		$oMail->setReceiptor( $args->user_name, $args->email_address );
 		$oMail->send();
 
 		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
@@ -1391,7 +1409,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->nick_name, $member_info->email_address );
+		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
 		$oMail->send();
 	}
 
@@ -2273,7 +2291,7 @@ class memberController extends member
 		// Create a model object
 		$oMemberModel = getModel('member');
 		// Bringing the user's information
-		if(!$this->memberInfo)
+		if(!$this->memberInfo || $this->memberInfo->member_srl != $member_srl || !isset($this->memberInfo->is_admin))
 		{
 			$columnList = array('member_srl', 'is_admin');
 			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
@@ -2460,7 +2478,7 @@ class memberController extends member
 		$oMail->setReceiptor( $member_info->nick_name, $newEmail );
 		$result = $oMail->send();
 
-		$msg = sprintf(Context::getLang('msg_change_mail_sent'), $newEmail);
+		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $newEmail);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -2478,7 +2496,11 @@ class memberController extends member
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
-		if(!$output->toBool() || $output->data->auth_key != $auth_key) return $this->stop('msg_invalid_modify_email_auth_key');
+		if(!$output->toBool() || $output->data->auth_key != $auth_key) 
+		{
+			if(strlen($output->data->auth_key) !== strlen($auth_key)) executeQuery('member.deleteAuthChangeEmailAddress', $args);
+			return $this->stop('msg_invalid_modify_email_auth_key');
+		}
 
 		$newEmail = $output->data->user_id;
 		$args->email_address = $newEmail;

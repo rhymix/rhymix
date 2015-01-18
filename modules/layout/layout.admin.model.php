@@ -111,23 +111,20 @@ class layoutAdminModel extends layout
 		}
 
 		// Get Layout Code
-		$oLayoutModel = getModel('layout');
-		$layout_file = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
-
-		if(!file_exists($layout_file))
+		if($oLayoutModel->useDefaultLayout($layout_info->layout_srl))
 		{
-			// If faceoff
-			if($oLayoutModel->useDefaultLayout($layout_info->layout_srl))
-			{
-				$layout_file  = $oLayoutModel->getDefaultLayoutHtml($layout_info->layout);
-			}
-			else
-			{
-				$layout_file = sprintf('%s%s', $layout_info->path, 'layout.html');
-			}
+			$layout_file  = $oLayoutModel->getDefaultLayoutHtml($layout_info->layout);
+			$layout_css_file  = $oLayoutModel->getDefaultLayoutCss($layout_info->layout);
+		}
+		else
+		{
+			$layout_file = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
+			$layout_css_file = $oLayoutModel->getUserLayoutCss($layout_info->layout_srl);
+
+			if(!file_exists($layout_file)) $layout_file = $layout_info->path . 'layout.html';
+			if(!file_exists($layout_css_file)) $layout_css_file = $layout_info->path . 'layout.css';
 		}
 
-		$layout_css_file = $oLayoutModel->getUserLayoutCss($layout_info->layout_srl);
 		if(file_exists($layout_css_file))
 		{
 			$layout_code_css = FileHandler::readFile($layout_css_file);
