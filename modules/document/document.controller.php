@@ -443,7 +443,7 @@ class documentController extends document
 		if(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
-			if($source_obj->get('member_srl')==$logged_info->member_srl || $bUseHistory)
+			if($source_obj->get('member_srl')==$logged_info->member_srl)
 			{
 				$obj->member_srl = $logged_info->member_srl;
 				$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
