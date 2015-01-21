@@ -876,7 +876,10 @@ class documentController extends document
 		}
 
 		// Register session
-		$_SESSION['readed_document'][$document_srl] = true;
+		if(!$_SESSION['banned_document'][$document_srl]) 
+		{
+		+	$_SESSION['readed_document'][$document_srl] = true;
+	+	}
 
 		return TRUE;
 	}
