@@ -248,6 +248,9 @@ class adminAdminView extends admin
 	 */
 	function dispAdminIndex()
 	{
+		$db_info = Context::getDBInfo();
+		Context::set('db_info',$db_info);
+
 		// Get statistics
 		$args = new stdClass();
 		$args->date = date("Ymd000000", $_SERVER['REQUEST_TIME'] - 60 * 60 * 24);
