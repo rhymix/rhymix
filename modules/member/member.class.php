@@ -28,7 +28,7 @@ class member extends ModuleObject {
 		// Set to use SSL upon actions related member join/information/password and so on. 2013.02.15
 		if(!Context::isExistsSSLAction('dispMemberModifyPassword') && Context::getSslStatus() == 'optional')
 		{
-			$ssl_actions = array('dispMemberModifyPassword', 'dispMemberSignUpForm', 'dispMemberModifyInfo', 'dispMemberModifyEmailAddress', 'dispMemberGetTempPassword', 'dispMemberResendAuthMail', 'dispMemberLoginForm', 'dispMemberFindAccount', 'dispMemberLeave', 'procMemberLogin', 'procMemberModifyPassword', 'procMemberInsert', 'procMemberModifyInfo', 'procMemberFindAccount', 'procMemberModifyEmailAddress', 'procMemberUpdateAuthMail', 'procMemberResendAuthMail', 'procMemberLeave'/*, 'getMemberMenu'*/);
+			$ssl_actions = array('dispMemberModifyPassword', 'dispMemberSignUpForm', 'dispMemberModifyInfo', 'dispMemberModifyEmailAddress', 'dispMemberGetTempPassword', 'dispMemberResendAuthMail', 'dispMemberLoginForm', 'dispMemberFindAccount', 'dispMemberLeave', 'procMemberLogin', 'procMemberModifyPassword', 'procMemberInsert', 'procMemberModifyInfo', 'procMemberFindAccount', 'procMemberModifyEmailAddress', 'procMemberUpdateAuthMail', 'procMemberResendAuthMail', 'procMemberLeave'/*, 'getMemberMenu'*/, 'procMemberFindAccountByQuestion');
 			Context::addSSLActions($ssl_actions);
 		}
 	}
@@ -66,8 +66,8 @@ class member extends ModuleObject {
 		if(!$config->image_name_max_height) $config->image_name_max_height = '20';
 		if(!$config->image_mark_max_width) $config->image_mark_max_width = '20';
 		if(!$config->image_mark_max_height) $config->image_mark_max_height = '20';
-		if(!$config->profile_image_max_width) $config->profile_image_max_width = '80';
-		if(!$config->profile_image_max_height) $config->profile_image_max_height = '80';
+		if(!$config->profile_image_max_width) $config->profile_image_max_width = '90';
+		if(!$config->profile_image_max_height) $config->profile_image_max_height = '90';
 		if($config->group_image_mark!='Y') $config->group_image_mark = 'N';
 		if(!$config->password_strength) $config->password_strength = 'normal';
 		

@@ -248,6 +248,9 @@ class adminAdminView extends admin
 	 */
 	function dispAdminIndex()
 	{
+		$db_info = Context::getDBInfo();
+		Context::set('db_info',$db_info);
+
 		// Get statistics
 		$args = new stdClass();
 		$args->date = date("Ymd000000", $_SERVER['REQUEST_TIME'] - 60 * 60 * 24);
@@ -273,7 +276,6 @@ class adminAdminView extends admin
 		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'title', 'nick_name', 'member_srl');
 		$args->list_count = 5;
-		;
 		$output = $oDocumentModel->getDocumentList($args, FALSE, FALSE, $columnList);
 		Context::set('latestDocumentList', $output->data);
 		unset($args, $output, $columnList);
@@ -381,6 +383,16 @@ class adminAdminView extends admin
 			$isEnviromentGatheringAgreement = TRUE;
 		}
 		Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
+
+		// license agreement check
+		$isLicenseAgreement = FALSE;
+		$path = FileHandler::getRealPath('./files/env/license_agreement');
+		$isLicenseAgreement = FALSE;
+		if(file_exists($path))
+		{
+			$isLicenseAgreement = TRUE;
+		}
+		Context::set('isLicenseAgreement', $isLicenseAgreement);
 		Context::set('layout', 'none');
 
 		$this->setTemplateFile('index');
@@ -436,7 +448,7 @@ class adminAdminView extends admin
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
 		Context::set('siteTitle', $config->siteTitle);
-		Context::set('htmlFooter', $config->htmlFooter);
+		Context::set('htmlFooter', htmlspecialchars($config->htmlFooter));
 
 		// embed filter
 		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
@@ -515,7 +527,6 @@ class adminAdminView extends admin
 			$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server . $params);
 			Context::addHtmlFooter($img);
 
-			FileHandler::removeDir($path);
 			FileHandler::writeFile($path . $mainVersion, '1');
 		}
 		else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path . $mainVersion)))
@@ -528,7 +539,6 @@ class adminAdminView extends admin
 				Context::addHtmlFooter($img);
 			}
 
-			FileHandler::removeDir($path);
 			FileHandler::writeFile($path . $mainVersion, '1');
 			unset($_SESSION['enviroment_gather']);
 		}
@@ -619,6 +629,7 @@ class adminAdminView extends admin
 		$info['PHP_Core'] = $php_core;
 
 		$str_info = "[XE Server Environment " . date("Y-m-d") . "]\n\n";
+		$str_info .= "realpath : ".realpath('./')."\n";
 		foreach( $info as $key=>$value )
 		{
 			if( is_array( $value ) == false ) {

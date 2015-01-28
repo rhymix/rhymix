@@ -839,6 +839,83 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 }
 
 /**
+ * @param string $type query, trigger
+ * @param float $elapsed_time
+ * @param object $obj
+ */
+function writeSlowlog($type, $elapsed_time, $obj)
+{
+	if(!__LOG_SLOW_TRIGGER__ && !__LOG_SLOW_ADDON__ && !__LOG_SLOW_WIDGET__ && !__LOG_SLOW_QUERY__) return;
+
+	static $log_filename = array(
+		'query' => 'files/_slowlog_query.php',
+		'trigger' => 'files/_slowlog_trigger.php',
+		'addon' => 'files/_slowlog_addon.php',
+		'widget' => 'files/_slowlog_widget.php'
+	);
+	$write_file = true;
+
+	$log_file = _XE_PATH_ . $log_filename[$type];
+
+	$buff = array();
+	$buff[] = '<?php exit(); ?>';
+	$buff[] = date('c');
+
+	if($type == 'trigger' && __LOG_SLOW_TRIGGER__ > 0 && $elapsed_time > __LOG_SLOW_TRIGGER__)
+	{
+		$buff[] = "\tCaller : " . $obj->caller;
+		$buff[] = "\tCalled : " . $obj->called;
+	}
+	else if($type == 'addon' && __LOG_SLOW_ADDON__ > 0 && $elapsed_time > __LOG_SLOW_ADDON__)
+	{
+		$buff[] = "\tAddon : " . $obj->called;
+		$buff[] = "\tCalled position : " . $obj->caller;
+	}
+	else if($type == 'widget' && __LOG_SLOW_WIDGET__ > 0 && $elapsed_time > __LOG_SLOW_WIDGET__)
+	{
+		$buff[] = "\tWidget : " . $obj->called;
+	}
+	else if($type == 'query' && __LOG_SLOW_QUERY__ > 0 && $elapsed_time > __LOG_SLOW_QUERY__)
+	{
+
+		$buff[] = $obj->query;
+		$buff[] = "\tQuery ID   : " . $obj->query_id;
+		$buff[] = "\tCaller     : " . $obj->caller;
+		$buff[] = "\tConnection : " . $obj->connection;
+	}
+	else
+	{
+		$write_file = false;
+	}
+
+	if($write_file)
+	{
+		$buff[] = sprintf("\t%0.6f sec", $elapsed_time);
+		$buff[] = PHP_EOL . PHP_EOL;
+		file_put_contents($log_file, implode(PHP_EOL, $buff), FILE_APPEND);
+	}
+
+	if($type != 'query')
+	{
+		$trigger_args = $obj;
+		$trigger_args->_log_type = $type;
+		$trigger_args->_elapsed_time = $elapsed_time;
+		ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
+	}
+}
+
+/**
+ * @param void
+ */
+function flushSlowlog()
+{
+	$trigger_args = new stdClass();
+	$trigger_args->_log_type = 'flush';
+	$trigger_args->_elapsed_time = 0;
+	ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
+}
+
+/**
  * microtime() return
  *
  * @return float
@@ -1428,7 +1505,7 @@ function requirePear()
 	}
 	else
 	{
-		set_include_path(_XE_PATH_ . "libs/PEAR.1.9");
+		set_include_path(_XE_PATH_ . "libs/PEAR.1.9.5");
 	}
 }
 

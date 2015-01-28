@@ -16,7 +16,7 @@
 		{@ $depth -= 1}
 		<!--@end-->
 		<!--@endif-->
-		<li><a href="{$val->href}" >{$val->text}</a>
+		<li><a href="{$val->href}" target="_blank"|cond="$val->open_window=='Y'">{$val->text}</a>
 			{@ $start = false }
 			{@ $depth = $val->depth }
 		<!--@end-->

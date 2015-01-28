@@ -98,7 +98,8 @@ function getScreen() {
 			;
 
 		// 이미지 홀더
-		imgframe = $("<img>")
+		imgframe = $(new Image());
+		imgframe
 			.attr("id", "xe_gallery_holder")
 			.css({
 				border: '5px solid white',
@@ -110,6 +111,15 @@ function getScreen() {
 			.appendTo(controls).draggable();
 
 		body.append(xScreen).append(controls);
+
+		imgframe.live('load', function(){
+			var clientWidth  = $(window).width();
+			var clientHeight = $(window).height();
+			imgframe.css({
+				left : clientWidth/2 - imgframe.width()/2 + "px",
+				top  : clientHeight/2 - imgframe.height()/2 + "px"
+			});
+		});
 
 		// xScreen 객체를 확장한다.
 		xScreen.xeShow = function() {
@@ -140,13 +150,18 @@ function getScreen() {
 			this.index += val;
 			prevbtn.css("visibility", (this.index>0)?"visible":"hidden");
 			nextbtn.css("visibility", (this.index<this.list.size()-1)?"visible":"hidden");
-            //textyle 이미지 리사이즈 처리
-            var src = this.list.eq(this.index).attr("rawsrc");
-            if(!src) src = this.list.eq(this.index).attr("src");
-			imgframe.attr("src", src).css({
-				left : clientWidth/2 - imgframe.width()/2 + "px",
-				top  : clientHeight/2 - imgframe.height()/2 + "px"
-			});
+			//textyle 이미지 리사이즈 처리
+			var src = this.list.eq(this.index).attr("rawsrc");
+			if(!src) src = this.list.eq(this.index).attr("src");
+
+			imgframe.attr("src", src).removeAttr('width').removeAttr('height');
+			if(imgframe.width() > 0) {
+				imgframe.css({
+					left : clientWidth/2 - imgframe.width()/2 + "px",
+					top  : clientHeight/2 - imgframe.height()/2 + "px"
+				});
+			}
+
 			closebtn.css({
 				left : clientWidth/2 - 32 + "px",
 				top  : "10px"

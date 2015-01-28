@@ -289,7 +289,7 @@ class layoutAdminController extends layout
 	{
 		$oLayoutModel = getModel('layout');
 
-		if(!$force)
+		if($force)
 		{
 			$layoutInfo = $oLayoutModel->getLayout($layout_srl);
 			if($layoutInfo)

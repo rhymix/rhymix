@@ -822,6 +822,9 @@ class documentController extends document
 	 */
 	function updateReadedCount(&$oDocument)
 	{
+		// Pass if Crawler access
+		if(isCrawler()) return false;
+		
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
@@ -1557,6 +1560,7 @@ class documentController extends document
 		$this->updateCategory($cur_args);
 		// Category information
 		$next_args = new stdClass;
+		$next_args->category_srl = $next_category->category_srl;
 		$next_args->list_order = $list_order;
 		$next_args->title = $next_category->title;
 		$this->updateCategory($next_args);
@@ -2478,18 +2482,13 @@ class documentController extends document
 		if(is_array($documentSrlList))
 		{
 			$documentSrlList = array_unique($documentSrlList);
-			foreach($documentSrlList AS $key=>$documentSrl)
+			foreach($documentSrlList AS $key => $documentSrl)
 			{
-				$oldDocument = $oDocumentModel->getDocument($documentSrl);
 				$fileCount = $oFileModel->getFilesCount($documentSrl);
-
-				if($oldDocument != null)
-				{
-					$newDocumentArray = $oldDocument->variables;
-					$newDocumentArray['uploaded_count'] = $fileCount;
-					$newDocumentObject = (object) $newDocumentArray;
-					$this->updateDocument($oldDocument, $newDocumentObject);
-				}
+				$args = new stdClass();
+				$args->document_srl = $documentSrl;
+				$args->uploaded_count = $fileCount;
+				executeQuery('document.updateUploadedCount', $args);
 			}
 		}
 	}

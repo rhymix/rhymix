@@ -454,6 +454,7 @@ class module extends ModuleObject
 	{
 		$oModuleModel = getModel('module');
 		$oModuleModel->getModuleList();
+		$oModuleModel->loadModuleExtends();
 	}
 }
 /* End of file module.class.php */

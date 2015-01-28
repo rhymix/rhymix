@@ -22,7 +22,7 @@ class ModuleObject extends Object
 	var $layout_path = ''; ///< a path of directory where layout files reside
 	var $layout_file = ''; ///< name of layout file
 	var $edited_layout_file = ''; ///< name of temporary layout files that is modified in an admin mode
-	var $stop_proc = false; ///< a flag to indicating whether to stop the execution of code.
+	var $stop_proc = FALSE; ///< a flag to indicating whether to stop the execution of code.
 	var $module_config = NULL;
 	var $ajaxRequestMethod = array('XMLRPC', 'JSON');
 	var $gzhandler_enable = TRUE;
@@ -385,7 +385,7 @@ class ModuleObject extends Object
 		if($this->stop_proc)
 		{
 			debugPrint($this->message, 'ERROR');
-			return false;
+			return FALSE;
 		}
 
 		// trigger call
@@ -394,7 +394,7 @@ class ModuleObject extends Object
 		{
 			$this->setError($triggerOutput->getError());
 			$this->setMessage($triggerOutput->getMessage());
-			return false;
+			return FALSE;
 		}
 
 		// execute an addon(call called_position as before_module_proc)
@@ -444,7 +444,7 @@ class ModuleObject extends Object
 		}
 		else
 		{
-			return false;
+			return FALSE;
 		}
 
 		// trigger call
@@ -453,7 +453,7 @@ class ModuleObject extends Object
 		{
 			$this->setError($triggerOutput->getError());
 			$this->setMessage($triggerOutput->getMessage());
-			return false;
+			return FALSE;
 		}
 
 		// execute an addon(call called_position as after_module_proc)
@@ -469,7 +469,7 @@ class ModuleObject extends Object
 
 			if(!$output->toBool())
 			{
-				return false;
+				return FALSE;
 			}
 		}
 		// execute api methos of the module if view action is and result is XMLRPC or JSON
@@ -484,8 +484,9 @@ class ModuleObject extends Object
 				}
 			}
 		}
-		return true;
+		return TRUE;
 	}
 
 }
-?>
+/* End of file ModuleObject.class.php */
+/* Location: ./classes/module/ModuleObject.class.php */
