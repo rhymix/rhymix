@@ -714,9 +714,43 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 		}
 	}
 
-	$date = new DateTime($str);
-	$string = $date->format($format);
+	// If year value is less than 1970, handle it separately.
+	if((int) substr($str, 0, 4) < 1970)
+	{
+		$hour = (int) substr($str, 8, 2);
+		$min = (int) substr($str, 10, 2);
+		$sec = (int) substr($str, 12, 2);
+		$year = (int) substr($str, 0, 4);
+		$month = (int) substr($str, 4, 2);
+		$day = (int) substr($str, 6, 2);
 
+		// leading zero?
+		$lz = create_function('$n', 'return ($n>9?"":"0").$n;');
+
+		$trans = array(
+			'Y' => $year,
+			'y' => $lz($year % 100),
+			'm' => $lz($month),
+			'n' => $month,
+			'd' => $lz($day),
+			'j' => $day,
+			'G' => $hour,
+			'H' => $lz($hour),
+			'g' => $hour % 12,
+			'h' => $lz($hour % 12),
+			'i' => $lz($min),
+			's' => $lz($sec),
+			'M' => getMonthName($month),
+			'F' => getMonthName($month, FALSE)
+		);
+
+		$string = strtr($format, $trans);
+	}
+	else
+	{
+		// if year value is greater than 1970, get unixtime by using ztime() for date() function's argument. 
+		$string = date($format, ztime($str));
+	}
 	// change day and am/pm for each language
 	$unit_week = Context::getLang('unit_week');
 	$unit_meridiem = Context::getLang('unit_meridiem');
