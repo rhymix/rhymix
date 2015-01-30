@@ -217,6 +217,10 @@ class fileAdminView extends file
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
 		Context::set('config',$config);
+		$iniPostMaxSize = $this->_changeBytes(ini_get('post_max_size'));
+		$iniUploadMaxSize = $this->_changeBytes(ini_get('upload_max_filesize'));
+		$iniMinSize = min($iniPostMaxSize, $iniUploadMaxSize);
+		Context::set('upload_max_filesize',$this->_changeBytes($iniMinSize / 1048576));
 		// Set a template file
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('adminConfig');

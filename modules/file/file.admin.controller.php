@@ -178,23 +178,6 @@ class fileAdminController extends file
 			else $_SESSION['file_management'][$output->file_srl] = true;
 		}
 	}
-
-	/**
-	 * Change value from human readable to byte unit
-	 *
-	 * @param string $size_str Size string
-	 * @return int The byte value for input
-	 */
-	function _changeBytes($size_str)
-	{
-		switch (substr ($size_str, -1))
-		{
-			case 'M': case 'm': return (int)$size_str * 1048576;
-			case 'K': case 'k': return (int)$size_str * 1024;
-			case 'G': case 'g': return (int)$size_str * 1073741824;
-			default: return $size_str;
-		}
-	}
 }
 /* End of file file.admin.controller.php */
 /* Location: ./modules/file/file.admin.controller.php */
