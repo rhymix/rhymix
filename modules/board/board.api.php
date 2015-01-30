@@ -50,7 +50,7 @@ class boardAPI extends board {
 	/**
 	 * @brief category list
 	 **/
-	function dispBoardCatogoryList(&$oModule) {
+	function dispBoardCategoryList(&$oModule) {
 		$oModule->add('category_list',Context::get('category_list'));
 	}
 
