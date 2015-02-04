@@ -1240,8 +1240,15 @@ class Context
 			return;
 		}
 
+		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		if(Security::detectingXEE($xml))
+		{
+			header("HTTP/1.0 400 Bad Request");
+			exit;
+		}
+
 		$oXml = new XmlParser();
-		$xml_obj = $oXml->parse();
+		$xml_obj = $oXml->parse($xml);
 
 		$params = $xml_obj->methodcall->params;
 		unset($params->node_name, $params->attrs, $params->body);
