@@ -139,13 +139,17 @@ class memberModel extends member
 		if($member_srl != $logged_info->member_srl && $logged_info->member_srl)
 		{
 			// Get email config
-			for($i = 0; $i < count($this->module_config->signupForm); $i++)
-				if($this->module_config->signupForm[$i]->name == 'email_address')
+			foreach($this->module_config->signupForm as $field)
+			{
+				if($field->name == 'email_address')
+				{
+					$email_config = $field;
 					break;
-			$email_config = $this->module_config->signupForm[$i];
+				}
+			}
 
 			// Send an email only if email address is public
-			if($logged_info->is_admin == 'Y' || $email_config->isPublic == 'Y' && $member_info->email_address)
+			if(($logged_info->is_admin == 'Y' || $email_config->isPublic == 'Y') && $member_info->email_address)
 			{
 				$url = 'mailto:'.htmlspecialchars($member_info->email_address, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				$oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
