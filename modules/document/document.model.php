@@ -562,6 +562,7 @@ class documentModel extends document
 	 */
 	function getDocumentCount($module_srl, $search_obj = NULL)
 	{
+		if(is_null($search_obj)) $search_obj = new stdClass();
 		$search_obj->module_srl = $module_srl;
 
 		$output = executeQuery('document.getDocumentCount', $search_obj);
