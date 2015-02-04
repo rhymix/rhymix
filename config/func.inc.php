@@ -1101,8 +1101,22 @@ function removeHackTag($content)
 	 */
 	$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)($|>|<)@i', 'removeSrcHack', $content);
 
-	// xmp tag ?뺤씤 �??�붽?
 	$content = checkXmpTag($content);
+	$content = blockWidgetCode($content);
+
+	return $content;
+}
+
+/**
+ * blocking widget code
+ *
+ * @param string $content Taget content
+ * @return string
+ **/
+function blockWidgetCode($content)
+{
+	$content = preg_replace('/(<(?:img|div)(?:[^>]*))(widget)(?:(=([^>]*?)>))/is', '$1blocked-widget$3', $content);
+
 	return $content;
 }
 
