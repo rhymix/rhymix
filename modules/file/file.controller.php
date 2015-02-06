@@ -634,10 +634,10 @@ class fileController extends file
 					$ext = array();
 					foreach($filetypes as $item) {
 						$item = explode('.', $item);
-						$ext[] = $item[1];
+						$ext[] = strtolower($item[1]);
 					}
 					$uploaded_ext = explode('.', $file_info['name']);
-					$uploaded_ext = array_pop($uploaded_ext);
+					$uploaded_ext = strtolower(array_pop($uploaded_ext));
 
 					if(!in_array($uploaded_ext, $ext))
 					{

@@ -172,15 +172,6 @@ module.exports = function(grunt) {
 				'modules/widget/tpl/js/*.js',
 			],
 			options : {
-				globalstrict: false,
-				undef : false,
-				eqeqeq: false,
-				browser : true,
-				globals: {
-					"jQuery" : true,
-					"console" : true,
-					"window" : true
-				},
 				ignores : [
 					'**/jquery*.js',
 					'**/swfupload.js',
