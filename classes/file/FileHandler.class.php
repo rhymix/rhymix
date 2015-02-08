@@ -635,18 +635,13 @@ class FileHandler
 	 */
 	function returnBytes($val)
 	{
-		$last = strtolower(substr(trim($val), -1));
-		switch ($last)
+		$unit = strtoupper(substr($val, -1));
+		$val = (int)$val;
+		switch ($unit)
 		{
-			case 'g':
-				$val *= 1024 * 1024 * 1024;
-				break;
-			case 'm':
-				$val *= 1024 * 1024;
-				break;
-			case 'k':
-				$val *= 1024;
-				break;
+			case 'G': $val *= 1024;
+			case 'M': $val *= 1024;
+			case 'K': $val *= 1024;
 		}
 
 		return $val;

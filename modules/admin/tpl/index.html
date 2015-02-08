@@ -19,6 +19,11 @@
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 
+	<div class="message error" cond="$db_info->use_sitelock == 'Y'">
+		<h2>{$lang->sitelock_in_use}</h2>
+		<p>{$lang->about_sitelock_in_use}</p>
+	</div>
+
 	<form action="./" method="post" class="message info x_clearfix" cond="!$isLicenseAgreement">
 		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
 		<input type="hidden" name="module" value="install" />
