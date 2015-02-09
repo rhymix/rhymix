@@ -14,6 +14,7 @@
         <condition operation="in" column="documents.category_srl" var="category_srl" filter="number" pipe="and" />
         <condition operation="equal" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
         <condition operation="like" column="tags.tag" var="s_tags" notnull="notnull" pipe="and" />
+        <condition operation="in" column="documents.status" var="statusList" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="documents.list_order" order="order_type" />

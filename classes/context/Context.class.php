@@ -1240,8 +1240,15 @@ class Context
 			return;
 		}
 
+		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		if(Security::detectingXEE($xml))
+		{
+			header("HTTP/1.0 400 Bad Request");
+			exit;
+		}
+
 		$oXml = new XmlParser();
-		$xml_obj = $oXml->parse();
+		$xml_obj = $oXml->parse($xml);
 
 		$params = $xml_obj->methodcall->params;
 		unset($params->node_name, $params->attrs, $params->body);
@@ -1277,16 +1284,11 @@ class Context
 			return $stack;
 		}
 
-		$body = $this->_filterRequestVar($key, trim($val->body ? $val->body : ''), 0);
-		if($body)
-		{
-			return $body;
-		}
-
+		$body = $val->body;
 		unset($val->node_name, $val->attrs, $val->body);
 		if(!count(get_object_vars($val)))
 		{
-			return NULL;
+			return $this->_filterRequestVar($key, $body, 0);
 		}
 
 		$stack = new stdClass();

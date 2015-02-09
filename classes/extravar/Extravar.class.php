@@ -297,7 +297,7 @@ class ExtraItem
 				return ($value) ? sprintf('<a href="mailto:%s">%s</a>', $value, $value) : "";
 
 			case 'tel' :
-				return sprintf('%s - %s - %s', $value[0], $value[1], $value[2]);
+				return sprintf('%s-%s-%s', $value[0], $value[1], $value[2]);
 				
 			case 'textarea' :
 				return nl2br($value);
