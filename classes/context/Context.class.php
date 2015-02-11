@@ -473,7 +473,7 @@ class Context
 			$db_info->use_db_session = 'N';
 		if(!$db_info->use_ssl)
 			$db_info->use_ssl = 'none';
-		$this->set('_use_ssl', $db_info->use_ssl);
+		$self->set('_use_ssl', $db_info->use_ssl);
 
 		if($db_info->http_port)
 			$self->set('_http_port', $db_info->http_port);
