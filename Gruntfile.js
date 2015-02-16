@@ -172,15 +172,6 @@ module.exports = function(grunt) {
 				'modules/widget/tpl/js/*.js',
 			],
 			options : {
-				globalstrict: false,
-				undef : false,
-				eqeqeq: false,
-				browser : true,
-				globals: {
-					"jQuery" : true,
-					"console" : true,
-					"window" : true
-				},
 				ignores : [
 					'**/jquery*.js',
 					'**/swfupload.js',
@@ -324,7 +315,7 @@ module.exports = function(grunt) {
 				// changed
 				grunt.util.spawn({
 					cmd: "git",
-					args: ['diff', '--name-only', target]
+					args: ['diff', '--name-only', '--diff-filter' ,'ACM', target]
 				}, function (error, result, code) {
 					diff = result.stdout;
 

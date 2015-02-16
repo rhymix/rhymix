@@ -1113,7 +1113,7 @@ class Context
 	{
 		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
 
-		$self->js_callback_func = isset($_GET['xe_js_callback']) ? $_GET['xe_js_callback'] : $_POST['xe_js_callback'];
+		$self->js_callback_func = $self->getJSCallbackFunc();
 
 		($type && $self->request_method = $type) or
 				(strpos($_SERVER['CONTENT_TYPE'], 'json') && $self->request_method = 'JSON') or
@@ -1240,8 +1240,15 @@ class Context
 			return;
 		}
 
+		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		if(Security::detectingXEE($xml))
+		{
+			header("HTTP/1.0 400 Bad Request");
+			exit;
+		}
+
 		$oXml = new XmlParser();
-		$xml_obj = $oXml->parse();
+		$xml_obj = $oXml->parse($xml);
 
 		$params = $xml_obj->methodcall->params;
 		unset($params->node_name, $params->attrs, $params->body);
@@ -1277,16 +1284,11 @@ class Context
 			return $stack;
 		}
 
-		$body = $this->_filterRequestVar($key, trim($val->body ? $val->body : ''), 0);
-		if($body)
-		{
-			return $body;
-		}
-
+		$body = $val->body;
 		unset($val->node_name, $val->attrs, $val->body);
 		if(!count(get_object_vars($val)))
 		{
-			return NULL;
+			return $this->_filterRequestVar($key, $body, 0);
 		}
 
 		$stack = new stdClass();
@@ -1458,7 +1460,16 @@ class Context
 	function getJSCallbackFunc()
 	{
 		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
-		return $self->js_callback_func;
+		$js_callback_func = isset($_GET['xe_js_callback']) ? $_GET['xe_js_callback'] : $_POST['xe_js_callback'];
+
+		if(!preg_match('/^[a-z0-9\.]+$/i', $js_callback_func))
+		{
+			unset($js_callback_func);
+			unset($_GET['xe_js_callback']);
+			unset($_POST['xe_js_callback']);
+		}
+
+		return $js_callback_func;
 	}
 
 	/**
@@ -1658,7 +1669,7 @@ class Context
 		}
 		elseif($_use_ssl == 'optional')
 		{
-			$ssl_mode = ($get_vars['act'] && $self->isExistsSSLAction($get_vars['act'])) ? ENFORCE_SSL : RELEASE_SSL;
+			$ssl_mode = (($self->get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && $self->isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
 			$query = $self->getRequestUri($ssl_mode, $domain) . $query;
 			// no SSL
 		}

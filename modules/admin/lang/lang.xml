@@ -1606,4 +1606,11 @@
 		<value xml:lang="en"><![CDATA[Your IP]]></value>
 		<value xml:lang="jp"><![CDATA[接続したIP]]></value>
 	</item>
+	<item name="sitelock_in_use">
+		<value xml:lang="ko"><![CDATA[사이트 잠금을 사용중입니다.]]></value>
+		<value xml:lang="en"><![CDATA[Site lock in use]]></value>
+	</item>
+	<item name="about_sitelock_in_use">
+		<value xml:lang="ko"><![CDATA[관리자 페이지에서 허용한 IP를 제외한 사용자는 접속할 수 없습니다.]]></value>
+	</item>
 </lang>

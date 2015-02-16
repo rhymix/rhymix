@@ -634,10 +634,10 @@ class fileController extends file
 					$ext = array();
 					foreach($filetypes as $item) {
 						$item = explode('.', $item);
-						$ext[] = $item[1];
+						$ext[] = strtolower($item[1]);
 					}
 					$uploaded_ext = explode('.', $file_info['name']);
-					$uploaded_ext = array_pop($uploaded_ext);
+					$uploaded_ext = strtolower(array_pop($uploaded_ext));
 
 					if(!in_array($uploaded_ext, $ext))
 					{
@@ -847,12 +847,6 @@ class fileController extends file
 		// Success returned if no attachement exists
 		if(!is_array($file_list)||!count($file_list)) return new Object();
 
-		// Remove from the DB
-		$args = new stdClass();
-		$args->upload_target_srl = $upload_target_srl;
-		$output = executeQuery('file.deleteFiles', $args);
-		if(!$output->toBool()) return $output;
-
 		// Delete the file
 		$path = array();
 		$file_count = count($file_list);
@@ -864,6 +858,13 @@ class fileController extends file
 			$path_info = pathinfo($uploaded_filename);
 			if(!in_array($path_info['dirname'], $path)) $path[] = $path_info['dirname'];
 		}
+
+		// Remove from the DB
+		$args = new stdClass();
+		$args->upload_target_srl = $upload_target_srl;
+		$output = executeQuery('file.deleteFiles', $args);
+		if(!$output->toBool()) return $output;
+		
 		// Remove a file directory of the document
 		for($i=0, $c=count($path); $i<$c; $i++)
 		{
