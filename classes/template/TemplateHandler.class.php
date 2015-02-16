@@ -607,6 +607,10 @@ class TemplateHandler
 					$m[1] = $mm[1];
 					$escape_option = $mm[2];
 				}
+				elseif($m[1] === '$content' && preg_match('@/layouts/.+/layout\.html$@', $this->file))
+				{
+					$escape_option = 'noescape';
+				}
 				$m[1] = $this->_replaceVar($m[1]);
 				switch($escape_option)
 				{
