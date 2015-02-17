@@ -1487,9 +1487,9 @@ function isCrawler($agent = NULL)
 		$agent = $_SERVER['HTTP_USER_AGENT'];
 	}
 
-	$check_agent = array('bot', 'spider', 'spyder', 'crawl', 'http://', 'google', 'yahoo', 'slurp', 'yeti', 'daum', 'teoma', 'fish', 'hanrss', 'facebook', 'yandex', 'infoseek', 'stackrambler');
+	$check_agent = array('bot', 'spider', 'spyder', 'crawl', 'http://', 'google', 'yahoo', 'slurp', 'yeti', 'daum', 'teoma', 'fish', 'hanrss', 'facebook', 'yandex', 'infoseek', 'askjeeves', 'stackrambler');
 	$check_ip = array(
-		'211.245.21.110-211.245.21.119' /* mixsh */
+		/*'211.245.21.110-211.245.21.119' mixsh is closed */
 	);
 
 	foreach($check_agent as $str)
