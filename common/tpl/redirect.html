@@ -5,8 +5,9 @@
 </head>
 <body>
     <script>
-        var idx = location.href.indexOf('?');
-        var url = parent.location.href;
+        var url = location.href;
+        var idx = url.indexOf('?');
+
         if(idx > -1 ) {
             var query_string = location.href.substr(idx+1, location.href.length);
             var args = {};
