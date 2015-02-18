@@ -267,6 +267,15 @@ class boardView extends board
 					}
 				}
 
+				// if the document is TEMP saved, check Grant
+				if($oDocument->getStatus() == 'TEMP')
+				{
+					if(!$oDocument->isGranted())
+					{
+						$oDocument = $oDocumentModel->getDocument(0);
+					}
+				}
+
 			}
 			else
 			{

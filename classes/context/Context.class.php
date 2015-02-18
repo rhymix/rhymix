@@ -367,6 +367,8 @@ class Context
 		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
 
 		// set locations for javascript use
+		$url = array();
+		$current_url = self::getRequestUri();
 		if($_SERVER['REQUEST_METHOD'] == 'GET')
 		{
 			if($this->get_vars)
@@ -386,17 +388,21 @@ class Context
 						$url[] = $key . '=' . urlencode($val);
 					}
 				}
-				$this->set('current_url', self::getRequestUri() . '?' . join('&', $url));
+
+				$current_url = self::getRequestUri();
+				if($url) $current_url .= '?' . join('&', $url);
 			}
 			else
 			{
-				$this->set('current_url', $this->getUrl());
+				$current_url = $this->getUrl();
 			}
 		}
 		else
 		{
-			$this->set('current_url', self::getRequestUri());
+			$current_url = self::getRequestUri();
 		}
+
+		$this->set('current_url', $current_url);
 		$this->set('request_uri', self::getRequestUri());
 	}
 
@@ -1157,6 +1163,7 @@ class Context
 			{
 				continue;
 			}
+			$key = htmlentities($key);
 			$val = $this->_filterRequestVar($key, $val);
 
 			if($requestMethod == 'GET' && isset($_GET[$key]))
