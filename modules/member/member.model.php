@@ -61,7 +61,7 @@ class memberModel extends member
 		if(!$config->profile_image_max_height) $config->profile_image_max_height = 90;
 		if(!$config->skin) $config->skin = 'default';
 		if(!$config->colorset) $config->colorset = 'white';
-		if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'xpresseditor';
+		if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'ckeditor';
 		if(!$config->group_image_mark) $config->group_image_mark = "N";
 
 		if(!$config->identifier) $config->identifier = 'user_id';
@@ -69,8 +69,8 @@ class memberModel extends member
 		if(!$config->max_error_count) $config->max_error_count = 10;
 		if(!$config->max_error_count_time) $config->max_error_count_time = 300;
 
-		if(!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'xpresseditor';
-		if(!$config->sel_editor_colorset) $config->sel_editor_colorset = 'white';
+		if(!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'ckeditor';
+		if(!$config->sel_editor_colorset) $config->sel_editor_colorset = 'moono';
 
 		$member_config = $config;
 
