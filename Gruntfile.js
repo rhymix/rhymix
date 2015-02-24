@@ -160,11 +160,6 @@ module.exports = function(grunt) {
 			files: [
 				'Gruntfile.js',
 				'common/js/*.js',
-				'!common/js/html5.js',
-				'!common/js/jquery.js',
-				'!common/js/x.js',
-				'!common/js/xe.js',
-				'!common/js/modernizr.js',
 				'modules/admin/tpl/js/*.js',
 				'modules/board/tpl/js/*.js',
 				'modules/editor/tpl/js/*.js',
@@ -175,9 +170,15 @@ module.exports = function(grunt) {
 				ignores : [
 					'**/jquery*.js',
 					'**/swfupload.js',
-					'**/*.min.js',
+					'**/**.min.js',
 					'**/*-packed.js',
-					'**/*.compressed.js'
+					'**/*.compressed.js',
+					'**/jquery-*.js',
+					'**/jquery.*.js',
+					'common/js/html5.js',
+					'common/js/x.js',
+					'common/js/xe.js',
+					'common/js/modernizr.js',
 				]
 			}
 		},
