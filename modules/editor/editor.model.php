@@ -179,6 +179,7 @@ class editorModel extends editor
 		// content_style setting
 		if(!$option->content_style) $option->content_style = 'default';
 		Context::set('content_style', $option->content_style);
+		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
 		// Default font setting
 		Context::set('content_font', addslashes($option->content_font));
 		Context::set('content_font_size', $option->content_font_size);
