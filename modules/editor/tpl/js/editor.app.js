@@ -1,22 +1,20 @@
 (function($){
-	var xeEditorApp = xe.createApp('xeEditorApp', {
-		init  : function() {
-			console.log('INIT @ xeEditorApp')
+	"use strict";
+	var XeEditorApp = xe.createApp('xeEditorApp', {
+		init : function() {
 		},
 		API_ONREADY : function() {
-			console.log('ONREADY @ xeEditorApp');
 		},
 		getContent : function(seq) {
 			this.cast('GET_CONTENT');
 		},
 		API_EDITOR_CREATED : function(){
-			console.log('APP @ API_EDITOR_CREATED');
 		},
 	});
 
 	// Shortcut function in jQuery
 	$.fn.xeEditorApp = function(opts) {
-		var u = new xeEditorApp(this.eq(0), opts);
+		var u = new XeEditorApp(this.eq(0), opts);
 		if(u) xe.registerApp(u);
 
 		return u;
@@ -24,12 +22,11 @@
 
 	// Shortcut function in XE
 	window.xe.createXeEditor = function() {
-		var u = new xeEditorApp();
-		// if(u) xe.registerApp(u);
+		var u = new XeEditorApp();
 
 		return u;
 	};
-	var u = new xeEditorApp();
+	var u = new XeEditorApp();
 	xe.registerApp(u);
 
 })(jQuery);

@@ -1,4 +1,5 @@
 (function($){
+	"use strict";
 	var App = window.xe.getApp('xeEditorApp')[0];
 	var CK = window.CKEDITOR;
 
