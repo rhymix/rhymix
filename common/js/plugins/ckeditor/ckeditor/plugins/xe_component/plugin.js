@@ -1,3 +1,7 @@
+/*
+ * @author Arnia <dev@karybu.org>
+ * @modifier XpressEngine <developers@xpressengine.com>
+ */
 CKEDITOR.plugins.add('xe_component', {
 	requires: 'richcombo',
 	icons: 'xe_component',
@@ -22,7 +26,7 @@ CKEDITOR.plugins.add('xe_component', {
 		});
 
 		editor.ui.addRichCombo('Xe_component', {
-			label: '확장기능',
+			label: '확장기능', // @TODO: lang
 			title: 'Extension Components',
 			panel: {
 				css: [CKEDITOR.skin.getPath('editor')].concat(config.contentsCss),
