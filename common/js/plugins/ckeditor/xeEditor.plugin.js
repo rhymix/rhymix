@@ -25,13 +25,14 @@
 			});
 		},
 		editorInit : function(sequence, obj) {
+			var self = this;
 			var $editor_area = jQuery("#ckeditor_instance_"+sequence);
 			var $form     = $editor_area.closest('form');
 			var $contentField = $('input[name=' + obj.content_key + ']');
 			var ckconfig = obj.ckconfig || {};
 			ckconfig.xe_editor_sequence = sequence;
 
-			$form.attr('sequence', sequence);
+			$form.attr('editor_sequence', sequence);
 
 			var insance = CKEDITOR.appendTo(this.instance_prefix + sequence, ckconfig, obj.content);
 			$editor_area.data('cke_instance', insance);
@@ -41,19 +42,20 @@
 					$contentField.val(e.editor.getData());
 				}
 			});
-
+			this.sequence = sequence;
 			window.editorRelKeys[sequence] = {};
-			window.editorRelKeys[sequence].primary   = $form.find('[name='+obj.primary_key+']').val();
-			window.editorRelKeys[sequence].content   = $form.find('[name='+obj.content_key+']').val();
-			window.editorRelKeys[sequence].func      = this.getContent;
+			window.editorRelKeys[sequence].primary   = $form.find('[name='+obj.primary_key+']')[0];
+			window.editorRelKeys[sequence].content   = $form.find('[name='+obj.content_key+']')[0];
+			window.editorRelKeys[sequence].func      = function(seq) {
+				return self.getContent.call(self, seq);
+			};
 			window.editorRelKeys[sequence].pasteHTML = function(text){
 				insance.insertHtml(text, 'html');
-			}
+			};
 		},
-		getContent : function() {
+		getContent : function(seq) {
 			var self = this;
-			var content = this.getInstance.getData();
-
+			var content = _getCkeInstance(seq).getData();
 			self.cast('GET_CONTENT', [content]);
 
 			return content;
@@ -61,10 +63,12 @@
 		API_ONREADY : function() {
 		},
 		API_GET_CONTENT: function() {
-			console.info('CK @ API GET CONTENT');
 		},
 		getInstance : function(name) {
 			return CKEDITOR.instances[name];
+		},
+		autosave: function(seq) {
+
 		}
 	});
 

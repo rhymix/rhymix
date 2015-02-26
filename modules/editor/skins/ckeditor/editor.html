@@ -24,6 +24,47 @@
 
 <div id="ckeditor_instance_{$editor_sequence}"></div>
 
+<!--%load_js_plugin("jquery.fileupload")-->
+<div id="fileUploaderContainer_{$editor_sequence}" class="xe-uploader-container clearfix" data-editor-sequence="{$editor_sequence}">
+	<div class="xe-uploader-preview">
+		<img />
+	</div>
+
+	<div style="display:inline-block; vertical-align:top;">
+		<div class="xe-uploader-filelist" style="">
+
+			<select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="" style="width: 300px;">
+			</select>
+		</div>
+
+		<div style="display:inline-block;vertical-align:top;">
+			<!-- PROGRESS -->
+			<div id="progress" class="progress">
+				<div class="progress-bar progress-bar-success"></div>
+			</div>
+			<!-- END:PROGRESS -->
+			<div class="xe-fileupload-controll">
+				<span class="btn fileinput-button">
+					<span>파일첨부</span>
+					<input id="xe-fileupload" type="file" class="fileupload-processing" name="Filedata" data-auto-upload="true" data-editor-sequence="{$editor_sequence}" multiple />
+				</span>
+				<button type="button" class="btn xe-act-delete-selected">{$lang->edit->delete_selected}</button>
+				<button type="button" class="btn xe-act-link-selected">{$lang->edit->link_file}</button>
+			</div>
+			<div class="file_attach_info" style="display:inline-block;" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
+		</div>
+	</div>
+
+
+	<script>
+		(function($) {/**/
+			$(function () {/**/
+				var uploader = $('#fileUploaderContainer_{$editor_sequence}').xeUploader();
+			});
+		}) (jQuery);
+	</script>
+</div>
+
 <script>
 (function($){
 	"use strict";
@@ -87,3 +128,17 @@
 	});
 })(jQuery);
 </script>
+<style>
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+</style>
