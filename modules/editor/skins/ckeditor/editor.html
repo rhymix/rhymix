@@ -59,7 +59,11 @@
 	<script>
 		(function($) {/**/
 			$(function () {/**/
-				var uploader = $('#fileUploaderContainer_{$editor_sequence}').xeUploader();
+				var setting = {
+					maxFileSize: {$file_config->allowed_filesize},
+					limitMultiFileUploadSize: {$file_config->allowed_filesize},
+				};
+				var uploader = $('#fileUploaderContainer_{$editor_sequence}').xeUploader(setting);
 			});
 		}) (jQuery);
 	</script>

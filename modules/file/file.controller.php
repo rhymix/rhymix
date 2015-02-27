@@ -45,6 +45,7 @@ class fileController extends file
 
 		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
 		Context::setResponseMethod('JSON');
+		if($output->error != '0') $this->stop($output->message);
 	}
 
 	/**

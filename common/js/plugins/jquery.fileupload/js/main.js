@@ -16,24 +16,34 @@
 			this.editor_sequence = $container.data('editor-sequence');
 
 			var settings = {
-				url: '/core-origin/index.php?act=procFileUpload&module=file',
+				url: request_uri.setQuery('module', 'file').setQuery('act', 'procFileUpload'),
 				autoUpload: true,
 				formData: {"editor_sequence": data.editorSequence, "upload_target_srl" : data.uploadTargetSrl},
 				dataType: 'json',
 				dropZone: $container,
-				done: function() {
-					self.done.call(self, arguments);
+				done: function(e, res) {
+					var result = res.result;
+					this.uploadedBytes += res.fi
+
+					if(result.error == 0) {
+						this.uploadedBytes += res.total;
+						self.done.call(self, arguments);
+					} else {
+						alert(result.message);
+					}
+				},
+				stop: function() {
+					self.loadFilelist();
 				},
 				start: function() {
-					$('#progress').show();
+					$('#progress').find('.progress-bar').width(0).addBack().show();
 				},
 				progressall: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);
-					$('#progress .progress-bar').width(progress+'%');
+					$('.progress-bar').width(progress+'%');
 
 					if(progress >= 100) {
 						$('#progress').delay(5000).slideUp();
-						self.displayPreview($('.xe-uploader-filelist select option:last').data('fileinfo'));
 					}
 				}
 			};
@@ -66,7 +76,6 @@
 
 			this.loadFilelist();
 
-
 			// 본문 삽입
 			$('.xe-act-link-selected').on('click', function() {
 				self.insertToContent();
@@ -76,12 +85,9 @@
 			$('.xe-act-delete-selected').on('click', function() {
 				self.deleteFile();
 			});
-
-
 		},
 		done: function() {
-			this.loadFilelist();
-
+			// this.loadFilelist();
 		},
 		insertToContent: function() {
 			for(var i = 0, len = this.selected_files.length; i < len; i++) {
@@ -125,13 +131,15 @@
 						.val(file.file_srl)
 						.appendTo('.xe-uploader-filelist select');
 				});
-				// self.displayPreview($('.xe-uploader-filelist select option:last').data('fileinfo'));
+				self.displayPreview($('.xe-uploader-filelist select option:last').data('fileinfo'));
 			});
 		},
 		selectFile: function() {
 			this.displayPreview($(this.last_selected_file).data('fileinfo'));
 		},
 		displayPreview: function(fileinfo) {
+			if(!fileinfo) return;
+
 			if(/\.(jpe?g|png|gif)$/i.test(fileinfo.download_url)) {
 				$('.xe-uploader-preview img').attr('src', window.request_uri + fileinfo.download_url);
 			} else {
