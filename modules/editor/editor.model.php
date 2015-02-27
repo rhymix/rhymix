@@ -51,7 +51,7 @@ class editorModel extends editor
 		if(!$editor_config->comment_editor_height) if($editor_default_config->comment_editor_height? $editor_config->comment_editor_height = $editor_default_config->comment_editor_height : $editor_config->comment_editor_height = 100);
 		if(!$editor_config->editor_skin) if($editor_default_config->editor_skin? $editor_config->editor_skin = $editor_default_config->editor_skin : $editor_config->editor_skin = 'ckeditor');
 		if(!$editor_config->comment_editor_skin) if($editor_default_config->comment_editor_skin? $editor_config->comment_editor_skin = $editor_default_config->comment_editor_skin : $editor_config->comment_editor_skin = 'ckeditor');
-		if(!$editor_config->content_style) if($editor_default_config->content_style? $editor_config->content_style = $editor_default_config->content_style : $editor_config->content_style = 'default');
+		if(!$editor_config->content_style) if($editor_default_config->content_style? $editor_config->content_style = $editor_default_config->content_style : $editor_config->content_style = 'ckeditor_light');
 
 		if(!$editor_config->content_font && $editor_default_config->content_font) $editor_config->content_font = $editor_default_config->content_font;
 		if(!$editor_config->content_font_size && $editor_default_config->content_font_size) $editor_config->content_font_size = $editor_default_config->content_font_size;
@@ -177,7 +177,7 @@ class editorModel extends editor
 		if(!$option->allow_fileupload) $allow_fileupload = false;
 		else $allow_fileupload = true;
 		// content_style setting
-		if(!$option->content_style) $option->content_style = 'default';
+		if(!$option->content_style) $option->content_style = 'ckeditor_light';
 		Context::set('content_style', $option->content_style);
 		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
 		// Default font setting
