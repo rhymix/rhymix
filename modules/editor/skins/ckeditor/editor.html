@@ -25,7 +25,7 @@
 <div id="ckeditor_instance_{$editor_sequence}"></div>
 
 <!--%load_js_plugin("jquery.fileupload")-->
-<div id="xe-uploader-container-{$editor_sequence}" class="xe-uploader-container clearfix" data-editor-sequence="{$editor_sequence}">
+<div cond="$allow_fileupload" id="xe-uploader-container-{$editor_sequence}" class="xe-uploader-container clearfix" data-editor-sequence="{$editor_sequence}">
 	<div class="xe-uploader-preview">
 		<img />
 	</div>
