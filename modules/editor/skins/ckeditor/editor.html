@@ -120,6 +120,7 @@
 	});
 
 	// uploader
+	<!--@if($allow_fileupload)-->
 	$(function () {/**/
 		var setting = {
 			maxFileSize: {$file_config->allowed_filesize || 'null'},
@@ -127,6 +128,7 @@
 		};
 		var uploader = $('#xe-uploader-container-{$editor_sequence}').xeUploader(setting);
 	});
+	<!--@endif-->
 })(jQuery);
 </script>
 <style>
