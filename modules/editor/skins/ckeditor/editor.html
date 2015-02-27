@@ -25,14 +25,13 @@
 <div id="ckeditor_instance_{$editor_sequence}"></div>
 
 <!--%load_js_plugin("jquery.fileupload")-->
-<div id="fileUploaderContainer_{$editor_sequence}" class="xe-uploader-container clearfix" data-editor-sequence="{$editor_sequence}">
+<div id="xe-uploader-container-{$editor_sequence}" class="xe-uploader-container clearfix" data-editor-sequence="{$editor_sequence}">
 	<div class="xe-uploader-preview">
 		<img />
 	</div>
 
 	<div style="display:inline-block; vertical-align:top;">
 		<div class="xe-uploader-filelist" style="">
-
 			<select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="" style="width: 300px;">
 			</select>
 		</div>
@@ -54,19 +53,6 @@
 			<div class="file_attach_info" style="display:inline-block;" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
 		</div>
 	</div>
-
-
-	<script>
-		(function($) {/**/
-			$(function () {/**/
-				var setting = {
-					maxFileSize: {$file_config->allowed_filesize},
-					limitMultiFileUploadSize: {$file_config->allowed_filesize},
-				};
-				var uploader = $('#fileUploaderContainer_{$editor_sequence}').xeUploader(setting);
-			});
-		}) (jQuery);
-	</script>
 </div>
 
 <script>
@@ -75,6 +61,7 @@
 	var editor_primary_key_name = '{$editor_primary_key_name}';
 	var editor_content_key_name = '{$editor_content_key_name}';
 
+	// editor
 	$(function(){
 		var pl = xe.getApp('xeEditorApp')[0].getPlugin('ckeditor')[0];
 		var editor_id = 'ckeditor_instance_{$editor_sequence}';
@@ -129,6 +116,15 @@
 		});
 
 		var INS = pl.getInstance('{$editor_sequence}');
+	});
+
+	// uploader
+	$(function () {/**/
+		var setting = {
+			maxFileSize: {$file_config->allowed_filesize},
+			limitMultiFileUploadSize: {$file_config->allowed_filesize},
+		};
+		var uploader = $('#xe-uploader-container-{$editor_sequence}').xeUploader(setting);
 	});
 })(jQuery);
 </script>

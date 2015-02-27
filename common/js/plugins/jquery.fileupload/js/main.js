@@ -23,7 +23,6 @@
 				dropZone: $container,
 				done: function(e, res) {
 					var result = res.result;
-					this.uploadedBytes += res.fi
 
 					if(result.error == 0) {
 						this.uploadedBytes += res.total;
@@ -93,6 +92,9 @@
 			for(var i = 0, len = this.selected_files.length; i < len; i++) {
 				var fileinfo = $(this.selected_files[i]).data('fileinfo');
 				var temp_code = '';
+
+				if(!fileinfo) return;
+
 				if(/\.(jpg|jpeg|png|gif)$/i.test(fileinfo.download_url)) {
 					temp_code += '<img src="'+fileinfo.download_url+'" alt="'+fileinfo.source_filename+'" />' + "\r\n<br />";
 					_getCkeInstance(this.editor_sequence).insertHtml(temp_code, "unfiltered_html");
