@@ -69,6 +69,7 @@
 		var ckconfig = {
 			height: '{$editor_height}',
 			bodyClass: 'xe_content editable',
+			toolbarCanCollapse: true,
 			toolbarGroups: [
 				{ name: 'clipboard',   groups: [ 'undo', 'clipboard' ] },
 				{ name: 'editing',     groups: [ 'find', 'selection' ] },
@@ -121,8 +122,8 @@
 	// uploader
 	$(function () {/**/
 		var setting = {
-			maxFileSize: {$file_config->allowed_filesize},
-			limitMultiFileUploadSize: {$file_config->allowed_filesize},
+			maxFileSize: {$file_config->allowed_filesize || 'null'},
+			limitMultiFileUploadSize: {$file_config->allowed_filesize || 'null'},
 		};
 		var uploader = $('#xe-uploader-container-{$editor_sequence}').xeUploader(setting);
 	});
