@@ -797,6 +797,7 @@ jQuery(function($){
 			});
 
 			if(typeof console == 'undefined'){
+				/* jshint -W020 */
 				console={log:function(){}};
 			}
 

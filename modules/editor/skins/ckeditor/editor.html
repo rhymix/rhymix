@@ -1,0 +1,147 @@
+<!-- css -->
+<load target="css/default.css" />
+
+<!-- JS -->
+<!--%load_js_plugin("ckeditor")-->
+<load target="js/xe_interface.js" />
+<load target="../../tpl/js/editor.app.js" />
+<load target="../../tpl/js/editor_common.js" />
+
+{@ $css_content = null }
+<!--@if($content_font || $content_font_size)-->
+	{@ $css_content = '.xe_content.editable p { margin: 0;'. chr(125); }
+
+	{@ $css_content .= ' .xe_content.editable { '}
+	<block cond="$content_font">
+	{@ $css_content .= 'font-family:' . $content_font . ';';}
+	</block>
+
+	<block cond="$content_font_size">
+	{@ $css_content .= 'font-size:' . $content_font_size . ';';}
+	</block>
+	{@ $css_content .= chr(125);}
+<!--@endif-->
+
+<div id="ckeditor_instance_{$editor_sequence}"></div>
+
+<!--%load_js_plugin("jquery.fileupload")-->
+<div cond="$allow_fileupload" id="xe-uploader-container-{$editor_sequence}" class="xe-uploader-container clearfix" data-editor-sequence="{$editor_sequence}">
+	<div class="xe-uploader-preview">
+		<img />
+	</div>
+
+	<div style="display:inline-block; vertical-align:top;">
+		<div class="xe-uploader-filelist" style="">
+			<select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="" style="width: 300px;">
+			</select>
+		</div>
+
+		<div style="display:inline-block;vertical-align:top;">
+			<!-- PROGRESS -->
+			<div id="progress" class="progress">
+				<div class="progress-bar progress-bar-success"></div>
+			</div>
+			<!-- END:PROGRESS -->
+			<div class="xe-fileupload-controll">
+				<span class="btn fileinput-button">
+					<span>파일첨부</span>
+					<input id="xe-fileupload" type="file" class="fileupload-processing" name="Filedata" data-auto-upload="true" data-editor-sequence="{$editor_sequence}" multiple />
+				</span>
+				<button type="button" class="btn xe-act-delete-selected">{$lang->edit->delete_selected}</button>
+				<button type="button" class="btn xe-act-link-selected">{$lang->edit->link_file}</button>
+			</div>
+			<div class="file_attach_info" style="display:inline-block;" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
+		</div>
+	</div>
+</div>
+
+<script>
+(function($){
+	"use strict";
+	var editor_primary_key_name = '{$editor_primary_key_name}';
+	var editor_content_key_name = '{$editor_content_key_name}';
+
+	// editor
+	$(function(){
+		var pl = xe.getApp('xeEditorApp')[0].getPlugin('ckeditor')[0];
+		var editor_id = 'ckeditor_instance_{$editor_sequence}';
+
+		var ckconfig = {
+			height: '{$editor_height}',
+			bodyClass: 'xe_content editable',
+			toolbarCanCollapse: true,
+			toolbarGroups: [
+				{ name: 'clipboard',   groups: [ 'undo', 'clipboard' ] },
+				{ name: 'editing',     groups: [ 'find', 'selection' ] },
+				{ name: 'insert' },
+				{ name: 'tools' },
+				{ name: 'document',    groups: [ 'mode' ] },
+				'/',
+				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+				{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+				{ name: 'links' },
+				{ name: 'styles' },
+				{ name: 'colors' },
+				{ name: 'others' },
+			],
+			skin: '{$colorset}',
+			allowedContent: true,
+			contentsCss: '{$content_style_path}/editor.css',
+			removePlugins: 'stylescombo,language',
+			removeButtons: 'Save,Preview,Print,Cut,Copy,Paste',
+		};
+		<!--@if($enable_component)-->
+			ckconfig.extraPlugins = 'xe_component';
+
+			{@ $xe_component = array(); }
+			<!--@foreach($component_list as $component_name => $component)-->
+				{@ $xe_component[] = $component_name . ":'" . $component->title . "'"; }
+			<!--@endforeach-->
+			{@ $xe_component = implode(',', $xe_component); }
+
+			ckconfig.xe_component_arrays = {{$xe_component}};
+		<!--@endif-->
+
+		<!--@if(!$enable_default_component)-->
+			ckconfig.toolbar = [];
+			ckconfig.toolbarCanCollapse = true;
+		<!--@endif-->
+
+		<!--@if($css_content)-->CKEDITOR.addCss('{$css_content}');<!--@end-->
+
+		pl.editorInit("{$editor_sequence}", {
+			'ckconfig' : ckconfig,
+			'content': jQuery('[name='+editor_content_key_name+']').val(),
+			'primary_key': editor_primary_key_name,
+			'content_key': editor_content_key_name,
+		});
+
+		var INS = pl.getInstance('{$editor_sequence}');
+	});
+
+	// uploader
+	<!--@if($allow_fileupload)-->
+	$(function () {/**/
+		var setting = {
+			maxFileSize: {$file_config->allowed_filesize || 'null'},
+			limitMultiFileUploadSize: {$file_config->allowed_filesize || 'null'},
+		};
+		var uploader = $('#xe-uploader-container-{$editor_sequence}').xeUploader(setting);
+	});
+	<!--@endif-->
+})(jQuery);
+</script>
+<style>
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+</style>
