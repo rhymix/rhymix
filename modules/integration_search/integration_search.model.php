@@ -198,7 +198,7 @@ class integration_searchModel extends module
 			else if(preg_match('/\.(swf|flv|wmv|avi|mpg|mpeg|asx|asf|mp3)$/i', $val->source_filename))
 			{
 				$obj->type = 'multimedia';
-				$obj->src = sprintf('<script>displayMultimedia("%s",120,120);</script>', $obj->download_url);
+				$obj->src = sprintf('<script>displayMultimedia("%s",120,120);</script>', $val->uploaded_filename);
 				// Others
 			}
 			else

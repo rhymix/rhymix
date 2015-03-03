@@ -29,7 +29,7 @@ define('__ZBXE__', __XE__);
 /**
  * Display XE's full version.
  */
-define('__XE_VERSION__', '1.7.9');
+define('__XE_VERSION__', '1.7.11');
 define('__XE_VERSION_ALPHA__', (stripos(__XE_VERSION__, 'alpha') !== false));
 define('__XE_VERSION_BETA__', (stripos(__XE_VERSION__, 'beta') !== false));
 define('__XE_VERSION_RC__', (stripos(__XE_VERSION__, 'rc') !== false));
@@ -299,6 +299,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 	require(_XE_PATH_ . 'classes/xml/XmlJsFilter.class.php');
 	require(_XE_PATH_ . 'classes/xml/XmlLangParser.class.php');
 	require(_XE_PATH_ . 'classes/cache/CacheHandler.class.php');
+	require(_XE_PATH_ . 'classes/router/Router.class.php');
 	require(_XE_PATH_ . 'classes/context/Context.class.php');
 	require(_XE_PATH_ . 'classes/db/DB.class.php');
 	require(_XE_PATH_ . 'classes/file/FileHandler.class.php');
@@ -313,6 +314,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 	require(_XE_PATH_ . 'classes/mobile/Mobile.class.php');
 	require(_XE_PATH_ . 'classes/validator/Validator.class.php');
 	require(_XE_PATH_ . 'classes/frontendfile/FrontEndFileHandler.class.php');
+	require(_XE_PATH_ . 'classes/security/Password.class.php');
 	require(_XE_PATH_ . 'classes/security/Security.class.php');
 	require(_XE_PATH_ . 'classes/security/IpFilter.class.php');
 	if(__DEBUG__)

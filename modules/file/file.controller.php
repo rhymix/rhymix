@@ -25,6 +25,8 @@ class fileController extends file
 	 */
 	function procFileUpload()
 	{
+		Context::setRequestMethod('JSON');
+
 		$file_info = Context::get('Filedata');
 
 		// An error appears if not a normally uploaded file
@@ -43,7 +45,9 @@ class fileController extends file
 		// Create if upload_target_srl is not defined in the session information
 		if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
 
-		return $this->insertFile($file_info, $module_srl, $upload_target_srl);
+		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+		Context::setResponseMethod('JSON');
+		if($output->error != '0') $this->stop($output->message);
 	}
 
 	/**

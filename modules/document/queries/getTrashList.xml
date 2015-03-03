@@ -26,7 +26,7 @@
             <condition operation="like" column="documents.user_name" var="s_user_name" pipe="or" />
             <condition operation="like" column="documents.user_id" var="s_user_id" pipe="or" />
             <condition operation="like" column="documents.nick_name" var="s_nick_name" pipe="or" />
-            <condition operation="like" column="documents.email_address" var="s_email_addres" pipe="or" />
+            <condition operation="like" column="documents.email_address" var="s_email_address" pipe="or" />
             <condition operation="like" column="documents.homepage" var="s_homepage" pipe="or" />
             <condition operation="like" column="documents.tags" var="s_tags" pipe="or" />
             <condition operation="equal" column="documents.is_secret" var="s_is_secret" pipe="or" />

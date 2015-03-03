@@ -420,10 +420,12 @@ class pointController extends point
 		// Get the defaul configurations of the Point Module
 		$config = $oModuleModel->getModuleConfig('point');
 		// When the requested points are negative, compared it with the current point
+		$_SESSION['banned_document'][$obj->document_srl] = false;
 		if($config->disable_read_document == 'Y' && $point < 0 && abs($point)>$cur_point)
 		{
 			$message = sprintf(Context::getLang('msg_disallow_by_point'), abs($point), $cur_point);
 			$obj->add('content', $message);
+			$_SESSION['banned_document'][$obj->document_srl] = true;
 			return new Object(-1, $message);
 		}
 		// If not logged in, pass
