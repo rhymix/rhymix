@@ -358,6 +358,8 @@ class documentController extends document
 		}
 
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
+
+
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = 'SECRET';
 		if(!$obj->status) $obj->status = 'PUBLIC';
 
@@ -606,6 +608,16 @@ class documentController extends document
 		}
 		else if($isEmptyTrash && $oDocument == null) return new Object(-1, 'document is not exists');
 
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+		$logged_info = Context::get('logged_info');
+
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_document_is_admin_not_permitted');
+		}
+
+
 		if(!$oDocument->isExists() || $oDocument->document_srl != $document_srl) return new Object(-1, 'msg_invalid_document');
 		// Check if a permossion is granted
 		if(!$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
@@ -706,6 +718,7 @@ class documentController extends document
 	 */
 	function moveDocumentToTrash($obj)
 	{
+		$logged_info = Context::get('logged_info');
 		$trash_args = new stdClass();
 		// Get trash_srl if a given trash_srl doesn't exist
 		if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
@@ -713,6 +726,14 @@ class documentController extends document
 		// Get its module_srl which the document belongs to
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_document_no_move_to_trash');
+		}
+
 
 		$trash_args->module_srl = $oDocument->get('module_srl');
 		$obj->module_srl = $oDocument->get('module_srl');

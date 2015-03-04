@@ -779,12 +779,17 @@ class commentController extends comment
 		// create the comment model object
 		$oCommentModel = getModel('comment');
 
+		$logged_info = Context::get('logged_info');
+
 		// check if comment already exists
 		$comment = $oCommentModel->getComment($comment_srl);
 		if($comment->comment_srl != $comment_srl)
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
+
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($comment->member_srl);
 
 		$document_srl = $comment->document_srl;
 
@@ -806,6 +811,7 @@ class commentController extends comment
 		if(count($childs) > 0)
 		{
 			$deleteAllComment = TRUE;
+			$deleteAdminComment = TRUE;
 			if(!$is_admin)
 			{
 				$logged_info = Context::get('logged_info');
@@ -818,10 +824,27 @@ class commentController extends comment
 					}
 				}
 			}
+			else if($is_admin)
+			{
+				$logged_info = Context::get('logged_info');
+				foreach($childs as $val)
+				{
+					$c_member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
+					if($c_member_info->is_admin == 'Y' && $logged_info->is_admin == 'N')
+					{
+						$deleteAdminComment = FALSE;
+						break;
+					}
+				}
+			}
 
 			if(!$deleteAllComment)
 			{
 				return new Object(-1, 'fail_to_delete_have_children');
+			}
+			elseif(!$deleteAdminComment)
+			{
+				return new Object(-1, 'msg_admin_c_comment_no_delete');
 			}
 			else
 			{
@@ -836,6 +859,10 @@ class commentController extends comment
 			}
 		}
 
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin == 'N')
+		{
+			return new Object(-1, 'msg_admin_comment_no_delete');
+		}
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();

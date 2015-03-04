@@ -327,6 +327,10 @@
 		<value xml:lang="tr"><![CDATA[%d makale silinmiştir]]></value>
 		<value xml:lang="vi"><![CDATA[%d bài viết đã được xóa.]]></value>
 	</item>
+	<item name="msg_document_is_admin_not_permitted">
+		<value xml:lang="ko"><![CDATA[최고관리자의 게시글을 지울 권한이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You don't have permission to delete the posts of Top Admin.]]></value>
+	</item>
 	<item name="move_target_module">
 		<value xml:lang="ko"><![CDATA[대상 페이지]]></value>
 		<value xml:lang="en"><![CDATA[Target module ]]></value>
@@ -873,5 +877,8 @@
 		<value xml:lang="en"><![CDATA[No title in this document.]]></value>
 		<value xml:lang="jp"><![CDATA[タイトルがないドキュメントです。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此文章無標題。]]></value>
+	</item>
+	<item name="msg_admin_document_no_move_to_trash">
+		<value xml:lang="ko"><![CDATA[최고관리자의 게시물을 휴지통으로 이동시킬 권한이 없습니다.]]></value>
 	</item>
 </lang>
