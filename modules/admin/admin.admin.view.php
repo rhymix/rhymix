@@ -68,6 +68,16 @@ class adminAdminView extends admin
 			Context::set('https_port', $db_info->https_port);
 		}
 
+		if(strpos($db_info->default_url, 'xn--') !== FALSE)
+		{
+			$xe_default_url = Context::decodeIdna($db_info->default_url);
+		}
+		else 
+		{
+			$xe_default_url = $db_info->default_url;
+		}
+		Context::set('xe_default_url', $xe_default_url);
+
 		$this->showSendEnv();
 		$this->checkEasyinstall();
 	}
@@ -410,6 +420,10 @@ class adminAdminView extends admin
 
 		Context::set('selected_lang', $db_info->lang_type);
 
+		if(strpos($db_info->default_url, 'xn--') !== FALSE)
+		{
+			$db_info->default_url = Context::decodeIdna($db_info->default_url);
+		}
 		Context::set('default_url', $db_info->default_url);
 		Context::set('langs', Context::loadLangSupported());
 
