@@ -82,13 +82,13 @@
 				{ name: 'links' },
 				{ name: 'styles' },
 				{ name: 'colors' },
-				{ name: 'others' },
+				{ name: 'others' }
 			],
 			skin: '{$colorset}',
 			allowedContent: true,
 			contentsCss: '{$content_style_path}/editor.css',
 			removePlugins: 'stylescombo,language',
-			removeButtons: 'Save,Preview,Print,Cut,Copy,Paste',
+			removeButtons: 'Save,Preview,Print,Cut,Copy,Paste'
 		};
 		<!--@if($enable_component)-->
 			ckconfig.extraPlugins = 'xe_component';
@@ -113,7 +113,7 @@
 			'ckconfig' : ckconfig,
 			'content': jQuery('[name='+editor_content_key_name+']').val(),
 			'primary_key': editor_primary_key_name,
-			'content_key': editor_content_key_name,
+			'content_key': editor_content_key_name
 		});
 
 		var INS = pl.getInstance('{$editor_sequence}');
