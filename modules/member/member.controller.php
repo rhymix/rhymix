@@ -294,7 +294,7 @@ class memberController extends member
 			$message = Context::getLang('about_password_strength');
 			return new Object(-1, $message[$config->password_strength]);
 		}
-		
+
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
@@ -1096,10 +1096,17 @@ class memberController extends member
 	 */
 	function procMemberAuthAccount()
 	{
+		$oMemberModel = getModel('member');
+
 		// Test user_id and authkey
 		$member_srl = Context::get('member_srl');
 		$auth_key = Context::get('auth_key');
-		if(!$member_srl || !$auth_key) return $this->stop('msg_invalid_request');
+
+		if(!$member_srl || !$auth_key)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
 		// Test logs for finding password by user_id and authkey
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
@@ -1108,29 +1115,38 @@ class memberController extends member
 
 		if(!$output->toBool() || $output->data->auth_key != $auth_key)
 		{
-			if(strlen($output->data->auth_key) !== strlen($auth_key)) executeQuery('member.deleteAuthMail', $args);
+			if(strlen($output->data->auth_key) !== strlen($auth_key))
+			{
+				executeQuery('member.deleteAuthMail', $args);
+			}
+
 			return $this->stop('msg_invalid_auth_key');
 		}
+
+		$args->password = $output->data->new_password;
+
 		// If credentials are correct, change the password to a new one
 		if($output->data->is_register == 'Y')
 		{
-			$args->password = $output->data->new_password;
 			$args->denied = 'N';
 		}
 		else
 		{
-			$args->password = getModel('member')->hashPassword($args->password);
-			unset($args->denied);
+			$args->password = $oMemberModel->hashPassword($args->password);
 		}
+
 		// Back up the value of $Output->data->is_register
 		$is_register = $output->data->is_register;
 
 		$output = executeQuery('member.updateMemberPassword', $args);
-		if(!$output->toBool()) return $this->stop($output->getMessage());
+		if(!$output->toBool())
+		{
+			return $this->stop($output->getMessage());
+		}
+
 		// Remove all values having the member_srl from authentication table
 		executeQuery('member.deleteAuthMail',$args);
 
-		$site_module_info = Context::get('site_module_info');
 		$this->_clearMemberCache($args->member_srl);
 
 		// Notify the result
@@ -1964,7 +1980,7 @@ class memberController extends member
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 		// Create a model object
 		$oMemberModel = getModel('member');
-		
+
 		// ID check is prohibited
 		if($args->password && !$password_is_hashed)
 		{
@@ -2144,7 +2160,7 @@ class memberController extends member
 		{
 			return new Object(-1, 'denied_nick_name');
 		}
-		
+
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
  		if($member_srl && $orgMemberInfo->nick_name != $args->nick_name) return new Object(-1,'msg_exists_nick_name');
 
@@ -2166,7 +2182,7 @@ class memberController extends member
 				$message = Context::getLang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
-				
+
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
 		else $args->password = $orgMemberInfo->password;
@@ -2250,13 +2266,13 @@ class memberController extends member
 			// check password strength
 			$oMemberModel = getModel('member');
 			$config = $oMemberModel->getMemberConfig();
-			
+
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
 				$message = Context::getLang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
-			
+
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
 		else if($args->hashed_password)
@@ -2489,7 +2505,7 @@ class memberController extends member
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
-		if(!$output->toBool() || $output->data->auth_key != $auth_key) 
+		if(!$output->toBool() || $output->data->auth_key != $auth_key)
 		{
 			if(strlen($output->data->auth_key) !== strlen($auth_key)) executeQuery('member.deleteAuthChangeEmailAddress', $args);
 			return $this->stop('msg_invalid_modify_email_auth_key');
