@@ -1184,6 +1184,8 @@ class memberController extends member
 		$auth_args->member_srl = $member_srl;
 		$auth_args->auth_key = $oPassword->createSecureSalt(40);
 
+		$oDB = &DB::getInstance();
+		$oDB->begin();
 		$output = executeQuery('member.updateAuthMail', $auth_args);
 		if(!$output->toBool())
 		{
@@ -2456,6 +2458,8 @@ class memberController extends member
 		$auth_args->auth_key = $oPassword->createSecureSalt(40);
 		$auth_args->new_password = 'XE_change_emaill_address';
 
+		$oDB = &DB::getInstance();
+		$oDB->begin();
 		$output = executeQuery('member.insertAuthMail', $auth_args);
 		if(!$output->toBool())
 		{
