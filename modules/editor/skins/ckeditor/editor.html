@@ -22,7 +22,7 @@
 	{@ $css_content .= chr(125);}
 <!--@endif-->
 
-<div id="ckeditor_instance_{$editor_sequence}"></div>
+<div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$editor_height}px;"></div>
 
 <!--%load_js_plugin("jquery.fileupload")-->
 <div cond="$allow_fileupload" id="xe-uploader-container-{$editor_sequence}" class="xe-uploader-container clearfix" data-editor-sequence="{$editor_sequence}">
@@ -58,37 +58,14 @@
 <script>
 (function($){
 	"use strict";
-	var editor_primary_key_name = '{$editor_primary_key_name}';
-	var editor_content_key_name = '{$editor_content_key_name}';
 
 	// editor
 	$(function(){
-		var pl = xe.getApp('xeEditorApp')[0].getPlugin('ckeditor')[0];
-		var editor_id = 'ckeditor_instance_{$editor_sequence}';
-
 		var ckconfig = {
 			height: '{$editor_height}',
-			bodyClass: 'xe_content editable',
-			toolbarCanCollapse: true,
-			toolbarGroups: [
-				{ name: 'clipboard',   groups: [ 'undo', 'clipboard' ] },
-				{ name: 'editing',     groups: [ 'find', 'selection' ] },
-				{ name: 'insert' },
-				{ name: 'tools' },
-				{ name: 'document',    groups: [ 'mode' ] },
-				'/',
-				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-				{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-				{ name: 'links' },
-				{ name: 'styles' },
-				{ name: 'colors' },
-				{ name: 'others' }
-			],
 			skin: '{$colorset}',
-			allowedContent: true,
 			contentsCss: '{$content_style_path}/editor.css',
-			removePlugins: 'stylescombo,language',
-			removeButtons: 'Save,Preview,Print,Cut,Copy,Paste'
+			xe_editor_sequence: {$editor_sequence}
 		};
 		<!--@if($enable_component)-->
 			ckconfig.extraPlugins = 'xe_component';
@@ -104,19 +81,19 @@
 
 		<!--@if(!$enable_default_component)-->
 			ckconfig.toolbar = [];
-			ckconfig.toolbarCanCollapse = true;
+			ckconfig.toolbarCanCollapse = false;
+		<!--@endif-->
+
+		<!--@if($module_type === 'comment')-->
+			ckconfig.toolbarStartupExpanded = false;
 		<!--@endif-->
 
 		<!--@if($css_content)-->CKEDITOR.addCss('{$css_content}');<!--@end-->
 
-		pl.editorInit("{$editor_sequence}", {
-			'ckconfig' : ckconfig,
-			'content': jQuery('[name='+editor_content_key_name+']').val(),
-			'primary_key': editor_primary_key_name,
-			'content_key': editor_content_key_name
+		$('#ckeditor_instance_{$editor_sequence}').XeCkEditor({
+			ckeconfig : ckconfig,
+			content_field: jQuery('[name={$editor_content_key_name}]')
 		});
-
-		var INS = pl.getInstance('{$editor_sequence}');
 	});
 
 	// uploader
@@ -131,6 +108,7 @@
 	<!--@endif-->
 })(jQuery);
 </script>
+
 <style>
 .clearfix:before, .clearfix:after {
     content: "";

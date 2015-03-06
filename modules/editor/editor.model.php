@@ -208,6 +208,7 @@ class editorModel extends editor
 		if(!$colorset) $colorset = 'moono';
 		Context::set('colorset', $colorset);
 		Context::set('skin', $skin);
+		Context::set('module_type', $option->module_type);
 
 		if($skin=='dreditor')
 		{
@@ -332,6 +333,7 @@ class editorModel extends editor
 		$editor_config = $this->getEditorConfig($module_srl);
 
 		$config = new stdClass();
+		$config->module_type = $type;
 
 		// Configurations listed according to a type
 		if($type == 'document')
@@ -374,6 +376,7 @@ class editorModel extends editor
 		}
 		// Pre-set option variables of editor
 		$option = new stdClass();
+		$option->module_type = $config->module_type;
 		$option->skin = $config->editor_skin;
 		$option->content_style = $config->content_style;
 		$option->content_font = $config->content_font;
