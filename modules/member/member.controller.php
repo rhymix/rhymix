@@ -2272,7 +2272,7 @@ class memberController extends member
 		$output = executeQuery('member.updateMemberPassword', $args);;
 		if($output->toBool())
 		{
-			$output = executeQuery('member.updateChangePasswordDate', $args);
+			$result = executeQuery('member.updateChangePasswordDate', $args);
 		}
 		$this->_clearMemberCache($args->member_srl);
 
