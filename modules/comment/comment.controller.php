@@ -253,10 +253,10 @@ class commentController extends comment
 		// get a object of document model
 		$oDocumentModel = getModel('document');
 
-		// even for manual_inserted if password exists, md5 it.
+		// even for manual_inserted if password exists, hash it.
 		if($obj->password)
 		{
-			$obj->password = md5($obj->password);
+			$obj->password = getModel('member')->hashPassword($obj->password);
 		}
 
 		// get the original posting
@@ -677,7 +677,7 @@ class commentController extends comment
 
 		if($obj->password)
 		{
-			$obj->password = md5($obj->password);
+			$obj->password = getModel('member')->hashPassword($obj->password);
 		}
 
 		if($obj->homepage) 
