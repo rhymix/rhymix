@@ -27,7 +27,8 @@ XpressEngine은 여러분들의 개발 참여를 기다립니다.
 * MYSQL version 4.1 or greater (But recommend MYSQL >= 5.x) , MS-SQL, CUBRID
 * XML Library
 * GD Library
-* ICONV (Optional)
+* ICONV
+* session.auto_start = Off (php.ini)
 
 ## Maintainers
 @akasima @bnu @jhyeon1010 @khongchi @findstar @ngleader
