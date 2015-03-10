@@ -57,7 +57,8 @@
 
 			// 파일 선택
 			$(this.file_list_container).on('change', function(e) {
-				var $el = $('option:selected', this.file_list_container);
+				var $el = self.file_list_container.find('option:selected');
+
 				self.selected_files = [];
 				$el.each(function(idx, el) {
 					self.selected_files.push(el);
