@@ -6,20 +6,20 @@
 		toolbarGroups: [
 			{ name: 'clipboard',   groups: [ 'undo', 'clipboard' ] },
 			{ name: 'editing',     groups: [ 'find', 'selection' ] },
+			{ name: 'links' },
 			{ name: 'insert' },
 			{ name: 'tools' },
 			{ name: 'document',    groups: [ 'mode' ] },
+			{ name: 'others' },
 			'/',
 			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 			{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-			{ name: 'links' },
 			{ name: 'styles' },
-			{ name: 'colors' },
-			{ name: 'others' },
+			{ name: 'colors' }
 		],
 		allowedContent: true,
-		removePlugins: 'stylescombo,language',
-		removeButtons: 'Save,Preview,Print,Cut,Copy,Paste',
+		removePlugins: 'stylescombo,language,bidi,flash,pagebreak',
+		removeButtons: 'Save,Preview,Print,Cut,Copy,Paste'
 	};
 
 	var XeCkEditor = xe.createApp('XeCkEditor', {
