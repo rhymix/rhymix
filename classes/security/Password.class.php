@@ -229,7 +229,18 @@ class Password
 	public function createSecureSalt($length, $format = 'hex')
 	{
 		// Find out how many bytes of entropy we really need
-		$entropy_required_bytes = ceil(($format === 'hex') ? ($length / 2) : ($length * 3 / 4));
+		switch($format)
+		{
+			case 'hex':
+				$entropy_required_bytes = ceil($length / 2);
+				break;
+			case 'alnum':
+			case 'printable':
+				$entropy_required_bytes = ceil($length * 3 / 4);
+				break;
+			default:
+				$entropy_required_bytes = $length;
+		}
 
 		// Cap entropy to 256 bits from any one source, because anything more is meaningless
 		$entropy_capped_bytes = min(32, $entropy_required_bytes);
@@ -271,24 +282,24 @@ class Password
 		}
 
 		// Encode and return the random string
-		if($format === 'hex')
+		switch($format)
 		{
-			return substr(bin2hex($output), 0, $length);
-		}
-		elseif($format === 'printable')
-		{
-			$salt = '';
-			for($i = 0; $i < $length; $i++)
-			{
-				$salt .= chr(33 + (crc32(sha1($i . $output)) % 94));
-			}
-			return $salt;
-		}
-		else
-		{
-			$salt = substr(base64_encode($output), 0, $length);
-			$replacements = chr(rand(65, 90)) . chr(rand(97, 122)) . rand(0, 9);
-			return strtr($salt, '+/=', $replacements);
+			case 'hex':
+				return substr(bin2hex($output), 0, $length);
+			case 'binary':
+				return substr($output, 0, $length);
+			case 'printable':
+				$salt = '';
+				for($i = 0; $i < $length; $i++)
+				{
+					$salt .= chr(33 + (crc32(sha1($i . $output)) % 94));
+				}
+				return $salt;
+			case 'alnum':
+			default:
+				$salt = substr(base64_encode($output), 0, $length);
+				$replacements = chr(rand(65, 90)) . chr(rand(97, 122)) . rand(0, 9);
+				return strtr($salt, '+/=', $replacements);
 		}
 	}
 
@@ -301,8 +312,8 @@ class Password
 	{
 		while(true)
 		{
-			$source = $this->createSecureSalt(128, 'printable');
-			$source = preg_replace('/[iIoOjl10\'"!?<>\(\)\{\}\[\]:;.,`\\\\]/', '', $source);
+			$source = base64_encode($this->createSecureSalt(64, 'binary'));
+			$source = strtr($source, 'iIoOjl10/', '@#$%&*-!?');
 			$source_length = strlen($source);
 			for($i = 0; $i < $source_length - $length; $i++)
 			{
