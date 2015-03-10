@@ -104,9 +104,9 @@
 				} else {
 					temp_code += '<a href="' + window.request_uri + fileinfo.download_url + '">' + fileinfo.source_filename + "</a>\n";
 				}
-
-				_getCkeInstance(this.editor_sequence).insertHtml(temp_code, "unfiltered_html");
 			}
+
+			_getCkeInstance(this.editor_sequence).insertHtml(temp_code, "unfiltered_html");
 		},
 		deleteFile: function() {
 			var self = this;
