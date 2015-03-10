@@ -2286,7 +2286,7 @@ class memberController extends member
 			$args->password = $args->hashed_password;
 		}
 
-		$output = executeQuery('member.updateMemberPassword', $args);;
+		$output = executeQuery('member.updateMemberPassword', $args);
 
 		$this->_clearMemberCache($args->member_srl);
 
