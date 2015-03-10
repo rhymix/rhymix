@@ -275,11 +275,44 @@ class Password
 		{
 			return substr(bin2hex($output), 0, $length);
 		}
+		elseif($format === 'printable')
+		{
+			$salt = '';
+			for($i = 0; $i < $length; $i++)
+			{
+				$salt .= chr(33 + (crc32(sha1($i . $output)) % 94));
+			}
+			return $salt;
+		}
 		else
 		{
 			$salt = substr(base64_encode($output), 0, $length);
 			$replacements = chr(rand(65, 90)) . chr(rand(97, 122)) . rand(0, 9);
 			return strtr($salt, '+/=', $replacements);
+		}
+	}
+
+	/**
+	 * @brief Generate a temporary password using the secure salt generator
+	 * @param int $length The number of bytes to return
+	 * @return string
+	 */
+	public function createTemporaryPassword($length = 16)
+	{
+		while(true)
+		{
+			$source = $this->createSecureSalt(128, 'printable');
+			$source = preg_replace('/[iIoOjl10\'"!?<>\(\)\{\}\[\]:;.,`\\\\]/', '', $source);
+			$source_length = strlen($source);
+			for($i = 0; $i < $source_length - $length; $i++)
+			{
+				$candidate = substr($source, $i, $length);
+				if(preg_match('/[a-z]/', $candidate) && preg_match('/[A-Z]/', $candidate) &&
+					preg_match('/[0-9]/', $candidate) && preg_match('/[!a-zA-Z0-9]/', $candidate))
+				{
+					return $candidate;
+				}
+			}
 		}
 	}
 
