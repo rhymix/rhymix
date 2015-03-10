@@ -13,7 +13,7 @@
 			var self = this;
 			var $container = this.$container = containerEl;
 			var data = $container.data();
-			this.editor_sequence = $container.data('editor-sequence');
+			this.editor_sequence = data.editorSequence;
 
 			var settings = {
 				url: request_uri.setQuery('module', 'file').setQuery('act', 'procFileUpload'),
@@ -24,8 +24,9 @@
 				done: function(e, res) {
 					var result = res.result;
 
+					if(!result) return;
+
 					if(result.error == 0) {
-						this.uploadedBytes += res.total;
 						self.done.call(self, arguments);
 					} else {
 						alert(result.message);
@@ -90,21 +91,27 @@
 			// this.loadFilelist();
 		},
 		insertToContent: function() {
+			var temp_code = '';
+
 			for(var i = 0, len = this.selected_files.length; i < len; i++) {
 				var fileinfo = $(this.selected_files[i]).data('fileinfo');
-				var temp_code = '';
 
 				if(!fileinfo) return;
 
-				if(/\.(jpg|jpeg|png|gif)$/i.test(fileinfo.download_url)) {
-					temp_code += '<img src="'+fileinfo.download_url+'" alt="'+fileinfo.source_filename+'" />' + "\r\n<br />";
-					_getCkeInstance(this.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+				if(/\.(jpe?g|png|gif)$/i.test(fileinfo.download_url)) {
+					temp_code += '<img src="' + window.request_uri + fileinfo.download_url + '" alt="' + fileinfo.source_filename + '" editor_component="image_link"  />';
+					temp_code += "\r\n<p><br></p>\r\n";
+				} else {
+					temp_code += '<a href="' + window.request_uri + fileinfo.download_url + '">' + fileinfo.source_filename + "</a>\n";
 				}
+
+				_getCkeInstance(this.editor_sequence).insertHtml(temp_code, "unfiltered_html");
 			}
 		},
 		deleteFile: function() {
 			var self = this;
 			var file_srls = [];
+
 			for(var i = 0, len = this.selected_files.length; i < len; i++) {
 				var fileinfo = $(this.selected_files[i]).data('fileinfo');
 				file_srls.push(fileinfo.file_srl);
@@ -144,7 +151,7 @@
 			if(!fileinfo) return;
 
 			if(/\.(jpe?g|png|gif)$/i.test(fileinfo.download_url)) {
-				$('.xe-uploader-preview img').attr('src', window.request_uri + fileinfo.download_url);
+				$('.xe-uploader-preview img').attr('src', window.request_uri + fileinfo.download_url).show();
 			} else {
 				$('.xe-uploader-preview img').hide();
 			}

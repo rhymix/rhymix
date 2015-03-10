@@ -44,7 +44,7 @@
 			<!-- END:PROGRESS -->
 			<div class="xe-fileupload-controll">
 				<span class="btn fileinput-button">
-					<span>파일첨부</span>
+					<span>{$lang->edit->upload_file}</span>
 					<input id="xe-fileupload" type="file" class="fileupload-processing" name="Filedata" data-auto-upload="true" data-editor-sequence="{$editor_sequence}" multiple />
 				</span>
 				<button type="button" class="btn xe-act-delete-selected">{$lang->edit->delete_selected}</button>
@@ -100,8 +100,8 @@
 	<!--@if($allow_fileupload)-->
 	$(function () {/**/
 		var setting = {
-			maxFileSize: {$file_config->allowed_filesize || 'null'},
-			limitMultiFileUploadSize: {$file_config->allowed_filesize || 'null'},
+			maxFileSize: {$file_config->allowed_filesize},
+			limitMultiFileUploadSize: {$file_config->allowed_filesize}
 		};
 		var uploader = $('#xe-uploader-container-{$editor_sequence}').xeUploader(setting);
 	});
