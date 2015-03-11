@@ -72,7 +72,7 @@
 
 			{@ $xe_component = array(); }
 			<!--@foreach($component_list as $component_name => $component)-->
-				{@ $xe_component[] = $component_name . ":'" . $component->title . "'"; }
+				{@ $xe_component[] = $component_name . ":'" . htmlentities($component->title, ENT_QUOTES) . "'"; }
 			<!--@endforeach-->
 			{@ $xe_component = implode(',', $xe_component); }
 
