@@ -6,32 +6,31 @@
 		dataType: 'json',
 		replaceFileInput: false,
 
-		dropZone: '.xe-uploader-dropzone',
-		fileListContaner: '.xe-uploader-filelist-container',
-		controllContainer: '.xe-uploader-controll-container',
-		fileItem: 'li',
-		filelist: '.xe-uploader-filelist-files ul',
-		filelistImages: '.xe-uploader-filelist-images ul',
+		dropZone: '.xefu-dropzone',
+		fileList: '.xefu-list',
+		controll: '.xefu-controll',
+		filelist: '.xefu-list-files ul',
+		filelistImages: '.xefu-list-images ul',
 
-		progressbar: '.xe-uploader-progressbar',
-		progressbarGraph: '.xe-uploader-progressbar div',
-		progressStatus: '.xe-uploader-progress-status',
-		progressPercent: '.xe-uploader-progress-percent',
+		progressbar: '.xefu-progressbar',
+		progressbarGraph: '.xefu-progressbar div',
+		progressStatus: '.xefu-progress-status',
+		progressPercent: '.xefu-progress-percent',
 
-		actSelectedInsertContent : '.xe-uploader-act-link-selected',
-		actSelectedDeleteFile : '.xe-uploader-act-delete-selected',
-		actDeleteFile : '.xe-uploader-act-delete',
+		actSelectedInsertContent : '.xefu-act-link-selected',
+		actSelectedDeleteFile : '.xefu-act-delete-selected',
+		actDeleteFile : '.xefu-act-delete',
 
-		tmplXeUploaderFileitem : '<li class="xe-uploader-fileitem xe-uploader-fileitem-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xe-uploader-fileitem-filename">{{source_filename}}</span><span class="xe-uploader-fileitem-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> 선택</span></span></li>',
-		tmplXeUploaderFileitemImage: '<li class="xe-uploader-fileitem xe-uploader-fileitem-image" data-file-srl="{{file_srl}}"><strong class="xe-uploader-fileitem-filename">{{source_filename}}</strong><span class="xe-uploader-fileitem-info"><span class="xe-uploader-fileitem-info-filesize">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span></span></li>'
+		tmplXeUploaderFileitem : '<li class="xefu-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xefu-file-name">{{source_filename}}</span><span class="xefu-file-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> 선택</span></span></li>',
+		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span></span></li>'
 	};
 
 	var _elements = [
-		'fileListContaner',
+		'fileList',
 		'actSelectedInsertContent',
 		'actSelectedDeleteFile',
 		'actDeleteFile',
-		'controllContainer',
+		'controll',
 		'dropZone',
 		'filelist',
 		'filelistImages',
@@ -111,7 +110,7 @@
 				.parent()
 				.addClass($.support.fileInput ? undefined : 'disabled');
 
-			$container.data('xe-uploader-instance', this);
+			$container.data('xefu-instance', this);
 
 			// 파일 목록 불러오기
 			this.loadFilelist();
@@ -127,16 +126,16 @@
 			});
 
 			// finderSelect
-			var fileselect = this.settings.fileListContaner.finderSelect({children:"li"});
-			this.settings.fileListContaner.on("mousedown", 'img', function(e){ e.preventDefault(); });
+			var fileselect = this.settings.fileList.finderSelect({children:"li"});
+			this.settings.fileList.on("mousedown", 'img', function(e){ e.preventDefault(); });
 			fileselect.finderSelect('addHook','highlight:after', function(el) {
 				el.find('input').prop('checked', true);
-				var selected = self.settings.fileListContaner.find('input:checked');
+				var selected = self.settings.fileList.find('input:checked');
 				self.selected_files = selected;
 			});
 			fileselect.finderSelect('addHook','unHighlight:after', function(el) {
 				el.find('input').prop('checked', false);
-				var selected = self.settings.fileListContaner.find('input:checked');
+				var selected = self.settings.fileList.find('input:checked');
 				self.selected_files = selected;
 			});
 			fileselect.on("click", ":checkbox", function(e){
@@ -228,7 +227,7 @@
 			exec_json('file.procFileDelete', {'file_srls': file_srls, 'editor_sequence': this.editor_sequence}, function() {
 				file_srls = file_srls.split(',');
 				$.each(file_srls, function(idx, srl){
-					self.settings.fileListContaner.find('ul').find('li[data-file-srl=' + srl + ']').remove();
+					self.settings.fileList.find('ul').find('li[data-file-srl=' + srl + ']').remove();
 				});
 				self.loadFilelist();
 			});
@@ -261,8 +260,8 @@
 
 				// 첨부된 파일이 없으면 감춤
 				if(!res.files.length) {
-					self.settings.fileListContaner.hide();
-					self.settings.controllContainer.hide();
+					self.settings.fileList.hide();
+					self.settings.controll.hide();
 					return;
 				}
 
@@ -286,8 +285,8 @@
 				self.settings.filelist.append(result.join(''));
 
 				// 컨트롤, 리스트 표시
-				self.settings.controllContainer.show()
-				self.settings.fileListContaner.show();
+				self.settings.controll.show()
+				self.settings.fileList.show();
 			});
 		}
 	});
