@@ -39,6 +39,9 @@
 			<li>
 				<label for="nText">{$lang->content}</label>
 				<textarea name="content" rows="8" cols="42" id="nText"></textarea>
+				<div class="write_editor">
+		{$oDocument->getEditor()}
+	</div>
 			</li>
 			<!--@if(!$is_logged)-->
 			<li>

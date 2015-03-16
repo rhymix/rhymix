@@ -16,7 +16,7 @@
 			{ name: 'styles' },
 			{ name: 'colors' },
 			{ name: 'xecomponent' },
-			{ name: 'others' },
+			{ name: 'others' }
 		],
 		allowedContent: true,
 		removePlugins: 'stylescombo,language,bidi,flash,pagebreak',
