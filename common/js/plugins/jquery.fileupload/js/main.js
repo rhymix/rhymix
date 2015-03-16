@@ -6,16 +6,40 @@
 		dataType: 'json',
 		replaceFileInput: false,
 
-		fileListContaner: $('.xe-uploader-filelist-container'),
+		dropZone: '.xe-uploader-dropzone',
+		fileListContaner: '.xe-uploader-filelist-container',
+		controllContainer: '.xe-uploader-controll-container',
 		fileItem: 'li',
+		filelist: '.xe-uploader-filelist-files ul',
+		filelistImages: '.xe-uploader-filelist-images ul',
 
-		actSelectedInsertContent : $('.xe-uploader-act-link-selected'),
-		actSelectedDeleteFile : $('.xe-uploader-act-delete-selected'),
-		actDeleteFile : $('.xe-uploader-act-delete'),
+		progressbar: '.xe-uploader-progressbar',
+		progressbarGraph: '.xe-uploader-progressbar div',
+		progressStatus: '.xe-uploader-progress-status',
+		progressPercent: '.xe-uploader-progress-percent',
 
-		tmplXeUploaderFileitem : '<li class="xe-uploader-fileitem xe-uploader-fileitem-file clearfix" data-file-srl="{{file_srl}}"><span class="xe-uploader-fileitem-filename">{{source_filename}}</span><span class="xe-uploader-fileitem-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> 선택</span></span></li>',
+		actSelectedInsertContent : '.xe-uploader-act-link-selected',
+		actSelectedDeleteFile : '.xe-uploader-act-delete-selected',
+		actDeleteFile : '.xe-uploader-act-delete',
+
+		tmplXeUploaderFileitem : '<li class="xe-uploader-fileitem xe-uploader-fileitem-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xe-uploader-fileitem-filename">{{source_filename}}</span><span class="xe-uploader-fileitem-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> 선택</span></span></li>',
 		tmplXeUploaderFileitemImage: '<li class="xe-uploader-fileitem xe-uploader-fileitem-image" data-file-srl="{{file_srl}}"><strong class="xe-uploader-fileitem-filename">{{source_filename}}</strong><span class="xe-uploader-fileitem-info"><span class="xe-uploader-fileitem-info-filesize">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span></span></li>'
 	};
+
+	var _elements = [
+		'fileListContaner',
+		'actSelectedInsertContent',
+		'actSelectedDeleteFile',
+		'actDeleteFile',
+		'controllContainer',
+		'dropZone',
+		'filelist',
+		'filelistImages',
+		'progressbar',
+		'progressbarGraph',
+		'progressPercent',
+		'progressStatus',
+	];
 
 	var XeUploader = xe.createApp('XeUploader', {
 		files: {},
@@ -24,7 +48,6 @@
 		last_selected_file: null,
 		editor_sequence: null,
 		init : function() {
-			this.file_list_container = $('.xe-uploader-filelist select');
 		},
 		createInstance: function(containerEl, opt) {
 			var self = this;
@@ -61,35 +84,34 @@
 				change: function(e, data) {
 				},
 				always: function() {
-					// console.info('@always');
-					// console.log(arguments);
 				},
 				start: function() {
-					// console.info('@start');
-					// console.log(arguments);
-					$('.xe-uploader-progressbar div').width(0);
-					$('.xe-uploader-progress-message').show();
-					$('.xe-uploader-progressbar').show();
+					self.settings.progressbarGraph.width(0);
+					self.settings.progressStatus.show();
+					self.settings.progressbar.show();
 				},
 				progressall: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);
-					$('.xe-uploader-progressbar div').width(progress+'%');
-					$('.xe-uploader-progressall').text(progress+'%');
+					self.settings.progressbarGraph.width(progress+'%');
+					self.settings.progressPercent.text(progress+'%');
 
 					if(progress >= 100) {
-						$('.xe-uploader-progressbar, .xe-uploader-progress-message').delay(3000).slideUp();
+						self.settings.progressbar.delay(3000).slideUp();
+						self.settings.progressStatus.delay(3000).slideUp();
 					}
 				}
 			};
 			this.settings = $.extend({} , default_settings, settings, opt || {});
+
+			$.each(_elements, function(idx, val) {
+				if(typeof self.settings[val] === 'string') self.settings[val] = $container.find(self.settings[val]);
+			});
 
 			var INS = $container.fileupload(this.settings)
 				.prop('disabled', !$.support.fileInput)
 				.parent()
 				.addClass($.support.fileInput ? undefined : 'disabled');
 
-				console.log('fileupload');
-				console.log(INS);
 			$container.data('xe-uploader-instance', this);
 
 			// 파일 목록 불러오기
@@ -119,16 +141,13 @@
 				self.selected_files = selected;
 			});
 			fileselect.on("click", ":checkbox", function(e){
-	            e.preventDefault();
-	        });
-
-
+				e.preventDefault();
+			});
 
 			$(document).bind('dragover', function (e) {
-				var dropZone = $('.xe-uploader-container .xe-uploader-dropzone'),
-				timeout = window.dropZoneTimeout;
+				var timeout = window.dropZoneTimeout;
 				if (!timeout) {
-					dropZone.addClass('in');
+					self.settings.dropZone.addClass('in');
 				} else {
 					clearTimeout(timeout);
 				}
@@ -142,13 +161,13 @@
 					node = node.parentNode;
 				} while (node != null);
 				if (found) {
-					dropZone.addClass('hover');
+					self.settings.dropZone.addClass('hover');
 				} else {
-					dropZone.removeClass('hover');
+					self.settings.dropZone.removeClass('hover');
 				}
 				window.dropZoneTimeout = setTimeout(function () {
 					window.dropZoneTimeout = null;
-					dropZone.removeClass('in hover');
+					self.settings.dropZone.removeClass('in hover');
 				}, 100);
 			});
 		},
@@ -184,6 +203,9 @@
 
 			_getCkeInstance(this.editor_sequence).insertHtml(temp_code, "unfiltered_html");
 		},
+		/**
+		 * 지정된 하나의 파일 또는 다중 선택된 파일 삭제
+		 */
 		deleteFile: function(file_srl) {
 			var self = this;
 			var file_srls = [];
@@ -194,9 +216,8 @@
 					if(!file) return;
 
 					var file_srl = $(file).data().fileSrl;
-					var fileinfo = self.files[file_srl];
 
-					file_srls.push(fileinfo.file_srl);
+					file_srls.push(file_srl);
 				});
 			}
 			else
@@ -209,11 +230,14 @@
 			exec_json('file.procFileDelete', {'file_srls': file_srls, 'editor_sequence': this.editor_sequence}, function() {
 				file_srls = file_srls.split(',');
 				$.each(file_srls, function(idx, srl){
-					$('.xe-uploader-filelist-container ul').find('li[data-file-srl=' + srl + ']').remove();
+					self.settings.fileListContaner.find('ul').find('li[data-file-srl=' + srl + ']').remove();
 				});
 				self.loadFilelist();
 			});
 		},
+		/**
+		 * 파일 목록 갱신
+		 */
 		loadFilelist: function() {
 			var self = this;
 			var data = this.$container.data();
@@ -221,11 +245,9 @@
 			$.exec_json('file.getFileList', {'editor_sequence': self.$container.data('editor-sequence')}, function(res){
 				data.uploadTargetSrl = res.upload_target_srl;
 				editorRelKeys[self.$container.data('editor-sequence')].primary.value = res.upload_target_srl;
-
 				data.uploadTargetSrl = res.uploadTargetSrl;
-				$('.xe-uploader-filelist select').empty();
-				$('.file_attach_info').html(res.upload_status);
 
+				// @TODO 정리
 				$('.allowed_filetypes').text(res.allowed_filetypes);
 				$('.allowed_filesize').text(res.allowed_filesize);
 				$('.allowed_attach_size').text(res.allowed_attach_size);
@@ -239,12 +261,14 @@
 				var result_image = [];
 				var result = [];
 
+				// 첨부된 파일이 없으면 감춤
 				if(!res.files.length) {
-					$('.xe-uploader-controll-container, .xe-uploader-filelist-container').hide();
+					self.settings.fileListContaner.hide();
+					self.settings.controllContainer.hide();
 					return;
 				}
 
-
+				// 이미지와 그외 파일 분리
 				$.each(res.files, function (index, file) {
 					if(self.files[file.file_srl]) return;
 
@@ -259,10 +283,12 @@
 					}
 				});
 
-				$('.xe-uploader-filelist-container .xe-uploader-filelist-images ul').append(result_image.join(''));
-				$('.xe-uploader-filelist-container .xe-uploader-filelist-files ul').append(result.join(''));
+				// 파일 목록
+				self.settings.filelistImages.append(result_image.join(''));
+				self.settings.filelist.append(result.join(''));
 
-				$('.xe-uploader-controll-container').show()
+				// 컨트롤, 리스트 표시
+				self.settings.controllContainer.show()
 				self.settings.fileListContaner.show();
 			});
 		}

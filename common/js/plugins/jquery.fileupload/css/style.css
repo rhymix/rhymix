@@ -39,7 +39,7 @@
 
 .xe-uploader-filelist-container {
 	display: none;
-	padding: 0 10px 10px;
+	padding: 0 10px;
 }
 
 /* images */
@@ -50,12 +50,6 @@
 	margin: 0 -5px;
 	padding: 5px 0;
 	border-bottom: 1px solid #E6E6E6;
-}
-.xe-uploader-filelist-container .xe-uploader-filelist-images input {
-	display: none;
-}
-.xe-uploader-filelist-container .xe-uploader-filelist-images:hover input {
-	display: block;
 }
 .xe-uploader-filelist-container .xe-uploader-filelist-images ul,
 .xe-uploader-filelist-container .xe-uploader-filelist-images li {
@@ -109,7 +103,7 @@
 	padding: 0;
 }
 .xe-uploader-filelist-container .xe-uploader-filelist-files li {
-
+	padding: 3px 0;
 }
 .xe-uploader-filelist-container .xe-uploader-filelist-files li.selected {
 	background-color: #E9F3EF;
@@ -135,4 +129,75 @@
 .xe-uploader-progressbar div {
 	height: 3px;
 	background-color: #6AB97D;
+}
+
+
+
+
+
+.xe-uploader-btn {
+	display: inline-block;
+	*display: inline;
+	margin: 0;
+	padding: 0 12px !important;
+	height: 24px !important;
+	overflow: visible;
+	border: 1px solid #bbbbbb;
+	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	border-bottom-color: #a2a2a2;
+	border-radius: 2px;
+	text-decoration: none !important;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+	vertical-align: top;
+	line-height: 24px !important;
+	font-family: inherit;
+	font-size: 12px;
+	color: #333333;
+	*zoom: 1;
+	cursor: pointer;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	background-color: #f5f5f5;
+	*background-color: #e6e6e6;
+	background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+	background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+	background-image: -webkit-gradient(top, #ffffff, #e6e6e6);
+	background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+	background-image: linear-gradient(top, #ffffff, #e6e6e6);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
+}
+input.xe-uploader-btn,
+button.xe-uploader-btn {
+	height: 26px !important;
+}
+.xe-uploader-btn:hover,
+.xe-uploader-btn:active,
+.xe-uploader-btn[disabled] {
+	color: #333;
+	background-color: #e6e6e6;
+	*background-color: #d9d9d9;
+}
+.xe-uploader-btn>a,
+.xe-uploader-btn>button,
+.xe-uploader-btn>input,
+.xe-uploader-btn>span {
+	display: inline-block;
+	*zoom: 1;
+	margin: 0 -12px !important;
+	padding: 0 12px !important;
+	overflow: visible;
+	width: auto;
+	height: 24px;
+	border: 0;
+	vertical-align: top;
+	text-decoration: none !important;
+	line-height: 24px;
+	font-family: inherit;
+	font-size: 12px;
+	color: #333;
+	cursor: pointer;
+	background: none;
 }

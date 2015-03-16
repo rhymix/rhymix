@@ -2,7 +2,7 @@
 <!--%load_js_plugin("jquery.finderSelect")-->
 <!--%load_js_plugin("handlebars")-->
 
-<div cond="$allow_fileupload" id="xe-uploader-container-{$editor_sequence}" class="xe-uploader-container clearfix" data-editor-sequence="{$editor_sequence}">
+<div cond="$allow_fileupload" id="xe-uploader-container-{$editor_sequence}" class="xe-uploader-container xe-clearfix" data-editor-sequence="{$editor_sequence}">
 	<!--// dropzone -->
 	<div class="xe-uploader-dropzone">
 		<p class="xe-uploader-dropzone-message">여기에 파일을 끌어 놓거나 파일 첨부를 클릭하세요</p>
@@ -16,26 +16,19 @@
 
 		<p>파일 크기 제한 : <span class="allowed_filesize">0MB</span> <span>(허용 확장자 : <span class="allowed_filetypes">*.*</span>)</span></p>
 
-		<p class="xe-uploader-progress-message" style="display: none;">파일 업로드 중... (<span class="xe-uploader-progressall">0%</span>)</p>
+		<p class="xe-uploader-progress-status" style="display: none;">파일 업로드 중... (<span class="xe-uploader-progress-percent">0%</span>)</p>
 		<div class="xe-uploader-progressbar" style="display: none;"><div style="width: 23%;"></div></div>
 	</div>
 	<!--// END:dropzone -->
 
-	<div class="xe-uploader-controll-container clearfix">
+	<div class="xe-uploader-controll-container xe-clearfix">
 		<div style="float: left;">
 			<span class="file_count">0</span>개 첨부 됨 (<span class="attached_size">0Byte</span> / <span class="allowed_attach_size">0MB</span>)
 		</div>
 
 		<div style="float: right">
 			<input type="button" class="btn xe-uploader-act-link-selected" style=" vertical-align: middle; vertical-align: middle;" value="본문삽입">
-			<!-- <span style="padding: 0 7px; color: #999; vertical-align: middle;">|</span> -->
-			<!-- <input type="button" class="btn xe-uploader-act-selectall" style=" vertical-align: middle; vertical-align: middle;" value="전체선택" /> -->
-			<!-- <input type="button" class="btn xe-uploader-act-unselect" style=" vertical-align: middle; vertical-align: middle;" value="선택해제" /> -->
-			<!-- <input type="button" class="btn xe-uploader-act-toggleselect" style=" vertical-align: middle; vertical-align: middle;" value="선택반적" /> -->
-			<!-- <span style="padding: 0 7px; color: #999; vertical-align: middle;">|</span> -->
 			<input type="button" class="btn xe-uploader-act-delete-selected" style=" vertical-align: middle; vertical-align: middle;" value="선택삭제">
-			<!-- <button>이미지 선택</button> -->
-			<!-- <button>삽입되지 않은 이미지 선택</button> -->
 		</div>
 	</div>
 
@@ -53,8 +46,6 @@
 	</div>
 
 </div>
-
-
 
 <script>
 	jQuery(function($){
