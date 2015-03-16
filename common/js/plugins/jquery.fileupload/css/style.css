@@ -31,6 +31,9 @@
 	transition: all 0.3s ease-out;
 	opacity: 1;
 }
+.xe-uploader-container .xe-uploader-dropzone p {
+	margin: 12px 0;
+}
 /* END:dropzone */
 
 
@@ -70,8 +73,8 @@
 }
 
 .xe-uploader-filelist-container .xe-uploader-filelist-images li img {
-	width: 60px;
-	height: 60px;
+	width: 100%;
+	height: 100%;
 
 }
 .selected {
@@ -113,6 +116,9 @@
 }
 .xe-uploader-filelist-container .xe-uploader-filelist-files .xe-uploader-fileitem-info {
 	float: right;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-files .xe-uploader-fileitem-info span {
+	padding: 0 5px;
 }
 /* END:files */
 
