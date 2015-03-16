@@ -1,70 +1,132 @@
 @charset "UTF-8";
-/*
- * jQuery File Upload Plugin CSS Example 8.8.2
- * https://github.com/blueimp/jQuery-File-Upload
- *
- * Copyright 2013, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
- */
-
-.xe-uploader-container {
-	position: relative;
-	margin: 10px 0;
-}
-
-.xe-uploader-preview {
+.xe-uploader-action-selectfile {
+	overflow: hidden !important;
 	display: inline-block;
-	width: 80px;
-	height: 80px;
-	overflow: hidden;
-	border: 1px solid #DDD;
-	text-align: center;
 	vertical-align: middle;
 }
-
-.xe-uploader-preview img {
-	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
-	max-width: 80px;
-	max-height: 80px;
+.xe-uploader-container {
+	margin: 10px 0;
+	border: 1px solid #B6B6B6;
 }
+/* dropzone */
+.xe-uploader-container .xe-uploader-dropzone {
+	border: 1px solid #EEE;
+	text-align: center;
+	background-color: #EBEBEB;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+.xe-uploader-container .xe-uploader-dropzone.in {
+	background-color: #E9F3EF;
+}
+.xe-uploader-container .xe-uploader-dropzone.hover {
+	border: 1px dotted #9ad18f;
+	border-radius: 5px;
+}
+.xe-uploader-container .xe-uploader-dropzone.fade {
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	opacity: 1;
+}
+/* END:dropzone */
 
 
-.xe-uploader-filelist {
-	display: inline-block;
-	margin-left: 5px;
-	vertical-align:top;
-}
-
-.xe-uploader-filelist select {
-	height: 80px;
-}
-.file_attach_info {
-	display: inline-block;
-
-}
-.fileupload-processing {
-}
-.fileinput-button {
-	overflow: hidden !important;
-}
-
-
-#progress,
-#progress .progress-bar {
-	height: 3px;
-}
-#progress {
+.xe-uploader-filelist-container {
 	display: none;
-	margin-bottom: 5px;
-	border-bottom: 1px solid #66B663;
-	background-color: #FFF;
+	padding: 0 10px 10px;
 }
-#progress .progress-bar {
-	width: 0;
-	background-color: #66B663;
+
+/* images */
+.xe-uploader-filelist-container .xe-uploader-filelist-images {
+	max-height: 160px;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	margin: 0 -5px;
+	padding: 5px 0;
+	border-bottom: 1px solid #E6E6E6;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-images input {
+	display: none;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-images:hover input {
+	display: block;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-images ul,
+.xe-uploader-filelist-container .xe-uploader-filelist-images li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-images li {
+	position: relative;
+	display: inline-block;
+	margin: 3px;
+	width: 60px;
+	height: 60px;
+	border: 3px solid #DDD;
+}
+
+.xe-uploader-filelist-container .xe-uploader-filelist-images li img {
+	width: 60px;
+	height: 60px;
+
+}
+.selected {
+	border-color: #6CBD7E !important;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-images input,
+.xe-uploader-filelist-container .xe-uploader-filelist-images button {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-images button {
+	left: auto;
+	right: 0;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-images .xe-uploader-fileitem-filename,
+.xe-uploader-filelist-container .xe-uploader-filelist-images .xe-uploader-fileitem-info-filesize {
+	display: none;
+}
+/* END:images */
+
+/* files */
+.xe-uploader-filelist-container .xe-uploader-filelist-files {
+	margin: 5px 0;
+}
+
+
+.xe-uploader-filelist-container .xe-uploader-filelist-files ul,
+.xe-uploader-filelist-container .xe-uploader-filelist-files li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-files li {
+
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-files li.selected {
+	background-color: #E9F3EF;
+}
+.xe-uploader-filelist-container .xe-uploader-filelist-files .xe-uploader-fileitem-info {
+	float: right;
+}
+/* END:files */
+
+
+.xe-uploader-controll-container {
+	display: none;
+	padding: 10px;
+}
+
+.xe-uploader-progressbar {
+	border-bottom: 1px solid #6AB97D;
+}
+
+.xe-uploader-progressbar div {
+	height: 3px;
+	background-color: #6AB97D;
 }

@@ -24,36 +24,9 @@
 
 <div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$editor_height}px;"></div>
 
-<!--%load_js_plugin("jquery.fileupload")-->
-<div cond="$allow_fileupload" id="xe-uploader-container-{$editor_sequence}" class="xe-uploader-container clearfix" data-editor-sequence="{$editor_sequence}">
-	<div class="xe-uploader-preview">
-		<img />
-	</div>
-
-	<div style="display:inline-block; vertical-align:top;">
-		<div class="xe-uploader-filelist" style="">
-			<select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="" style="width: 300px;">
-			</select>
-		</div>
-
-		<div style="display:inline-block;vertical-align:top;">
-			<!-- PROGRESS -->
-			<div id="progress" class="progress">
-				<div class="progress-bar progress-bar-success"></div>
-			</div>
-			<!-- END:PROGRESS -->
-			<div class="xe-fileupload-controll">
-				<span class="btn fileinput-button">
-					<span>{$lang->edit->upload_file}</span>
-					<input id="xe-fileupload" type="file" class="fileupload-processing" name="Filedata" data-auto-upload="true" data-editor-sequence="{$editor_sequence}" multiple />
-				</span>
-				<button type="button" class="btn xe-act-delete-selected">{$lang->edit->delete_selected}</button>
-				<button type="button" class="btn xe-act-link-selected">{$lang->edit->link_file}</button>
-			</div>
-			<div class="file_attach_info" style="display:inline-block;" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
-		</div>
-	</div>
-</div>
+<block cond="$allow_fileupload">
+	<include target="file_upload.html" />
+</block>
 
 <script>
 (function($){
@@ -95,17 +68,6 @@
 			content_field: jQuery('[name={$editor_content_key_name}]')
 		});
 	});
-
-	// uploader
-	<!--@if($allow_fileupload)-->
-	$(function () {/**/
-		var setting = {
-			maxFileSize: {$file_config->allowed_filesize},
-			limitMultiFileUploadSize: {$file_config->allowed_filesize}
-		};
-		var uploader = $('#xe-uploader-container-{$editor_sequence}').xeUploader(setting);
-	});
-	<!--@endif-->
 })(jQuery);
 </script>
 
