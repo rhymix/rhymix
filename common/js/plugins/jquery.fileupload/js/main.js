@@ -65,7 +65,6 @@
 
 					if(!result) return;
 
-					console.log(result);
 					if(!jQuery.isPlainObject(result)) result = jQuery.parseJSON(result);
 
 					if(!result) return;
@@ -184,7 +183,6 @@
 		insertToContent: function() {
 			var self = this;
 			var temp_code = '';
-			// console.log(this.selected_files);
 
 			$.each(this.selected_files, function(idx, file) {
 				var file_srl = $(file).data().fileSrl;
