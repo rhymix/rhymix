@@ -306,6 +306,7 @@ class autoinstallAdminModel extends autoinstall
 							if($dep->path === '.')
 							{
 								$package->contain_core = TRUE;
+								$package->contain_core_version = $dep->version;
 							}
 						}
 						else
@@ -327,6 +328,7 @@ class autoinstallAdminModel extends autoinstall
 			if($package->path === '.')
 			{
 				$package->contain_core = TRUE;
+				$package->contain_core_version = $package->version;
 			}
 		}
 
