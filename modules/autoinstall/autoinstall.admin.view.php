@@ -362,6 +362,14 @@ class autoinstallAdminView extends autoinstall
 
 		Context::set("package", $package);
 		Context::set('contain_core', $package->contain_core);
+		Context::set('contain_core_version', $package->contain_core_version);
+
+		$does_not_update_xecore = FALSE;
+		if($package->contain_core_version && version_compare($package->contain_core_version, '1.8.0', '>=') && version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<'))
+		{
+			$does_not_update_xecore = TRUE;
+		}
+		Context::set('does_not_update_xecore', $does_not_update_xecore);
 
 		if(!$_SESSION['ftp_password'])
 		{
