@@ -1266,6 +1266,8 @@ class documentController extends document
 			return $output;
 		}
 
+		$this->add('declared_count', $declared_count+1);
+
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;
 		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'after', $trigger_obj);
