@@ -197,7 +197,7 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 					<section class="h3">
 						<h1 id="UMAN_program_list">설치 프로그램 목록</h1>
 						<p>웹 서버가 구축된 환경에서 XE 설치를 위해 필요한 프로그램 목록은 다음과 같습니다. WPI(Microsoft Web Platform Installer)나 APMsetup을 사용해서 XE를 설치할 경우에는 아래 프로그램이 자동으로 설치됩니다. 그렇지 않은 경우에는 필요한 프로그램과 라이브러리를 미리 확인하여 설치해야 합니다.</p>
-						<table class="table">
+						<table class="table" style="width: 100%">
 							<caption>
 							설치 프로그램 목록
 							</caption>
@@ -208,12 +208,12 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 								</tr>
 								<tr>
 									<th scope="row" rowspan="2">PHP</th>
-									<th>XE Core 1.5.x 이하: PHP 4.x ~ 5.x(5.2.2 제외)</th>
+									<th scope="row">PHP 5.3 이상</th>
 									<td>필수</td>
 								</tr>
 								<tr>
-									<th scope="row">XE Core 1.7 이상: PHP 5.2.4 이상</th>
-									<td>필수</td>
+									<th scope="row">PHP 5.5 이상</th>
+									<td>권장</td>
 								</tr>
 								<tr>
 									<th scope="row" rowspan="3">PHP 라이브러리</th>
@@ -226,28 +226,16 @@ body,table,input,textarea,select,button{font-family:나눔고딕,NanumGothic,NG,
 								</tr>
 								<tr>
 									<th scope="row">ICONV</th>
-									<td>선택</td>
+									<td>필수</td>
 								</tr>
 								<tr>
-									<th scope="row" rowspan="6">DBMS(Database Management System)</th>
-									<th scope="row">CUBRID</th>
-									<td rowspan="6">택1</td>
+									<th scope="row">DBMS(Database Management System)</th>
+									<th scope="row">
+										CUBRID, MySQL 4.1 이상, MS-SQL
+									</th>
+									<td>택1</td>
 								</tr>
-								<tr>
-									<th scope="row">Firebird (XE Core 1.7.x 이상부터 공식 지원 안함)</th>
-								</tr>
-								<tr>
-									<th scope="row">MySQL 4.1이상</th>
-								</tr>
-								<tr>
-									<th scope="row">PostgreSQL (XE Core 1.7.x 이상부터 공식 지원 안함)</th>
-								</tr>
-								<tr>
-									<th scope="row">SQLite2/SQLite3 (XE Core 1.7.x 이상부터 공식 지원 안함)</th>
-								</tr>
-								<tr>
-									<th scope="row">MS-SQL</th>
-								</tr>
+							</tbody>
 						</table>
 					</section>
 					<section class="h3">

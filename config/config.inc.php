@@ -36,6 +36,7 @@ define('__XE_VERSION_RC__', (stripos(__XE_VERSION__, 'rc') !== false));
 define('__XE_VERSION_STABLE__', (!__XE_VERSION_ALPHA__ && !__XE_VERSION_BETA__ && !__XE_VERSION_RC__));
 
 define('__XE_MIN_PHP_VERSION__', '5.3.0');
+define('__XE_RECOMMEND_PHP_VERSION__', '5.5.0');
 
 /**
  * @deprecated __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.

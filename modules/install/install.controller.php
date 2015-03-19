@@ -340,14 +340,17 @@ class installController extends install
 		// Check each item
 		$checklist = array();
 		// 0. check your version of php (5.2.4 or higher)
-		if(version_compare(PHP_VERSION, '5.2.4') == -1) $checklist['php_version'] = false;
-		else if(version_compare(PHP_VERSION, '5.3.10') == -1)
+		$checklist['php_version'] = true;
+		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<'))
 		{
-			$checklist['php_version'] = true;
+			$checklist['php_version'] = false;
+		}
+
+		if(version_compare(PHP_VERSION, __XE_RECOMMEND_PHP_VERSION__, '<'))
+		{
 			Context::set('phpversion_warning', true);
 		}
-		else $checklist['php_version'] = true;
-		
+
 		// 1. Check permission
 		if(is_writable('./')||is_writable('./files')) $checklist['permission'] = true;
 		else $checklist['permission'] = false;
