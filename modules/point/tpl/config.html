@@ -133,7 +133,7 @@
 			<tr>
 				<td>1</td>
 				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="1" /></td>
-				<td><label for="level_step_1" style="margin:0"><input type="number" id="level_step_1" name="level_step_1" value="{$config->level_step[1]}" style="width:60px;text-align:right" /> {$config->point_name}</label></td>
+				<td><label for="level_step_1" style="margin:0"><input type="number" id="level_step_1" name="level_step_1" value="{$config->level_step[1]}" style="width:120px;text-align:right" /> {$config->point_name}</label></td>
 {@$point_group_item = $point_group[1]}
 {@$title=array()}
 <!--@if($point_group_item)-->
@@ -157,7 +157,7 @@
 			<tr class="row{(($i-1)%2+1)}">
 				<td>{$i}</td>
 				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/{$i}.gif" alt="{$i}" /></td>
-				<td><label for="level_step_{$i}" style="margin:0"><input type="number" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:60px;text-align:right" /> {$config->point_name}</label></td>
+				<td><label for="level_step_{$i}" style="margin:0"><input type="number" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:120px;text-align:right" /> {$config->point_name}</label></td>
 				<td>{implode(', ', $title)}</td>
 			</tr>
 			<!--@end-->
