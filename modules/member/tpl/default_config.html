@@ -30,6 +30,32 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label class="x_control-label">{$lang->cmd_password_hashing_algorithm}</label>
+		<div class="x_controls">
+			<select name="password_hashing_algorithm" id="password_hashing_algorithm" style="width:auto">
+				<option value="{$key}" selected="selected"|cond="$config->password_hashing_algorithm==$key" loop="$password_hashing_algos=>$key,$val">{$val}</option>
+			</select>
+			<p class="x_help-block">{$lang->about_password_hashing_algorithm}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->cmd_password_hashing_work_factor}</label>
+		<div class="x_controls">
+			<select name="password_hashing_work_factor" id="password_hashing_work_factor" style="width:auto">
+				<option value="{$i}" selected="selected"|cond="$config->password_hashing_work_factor==$i" loop="$i=4;$i<=16;$i++">{sprintf('%02d', $i)}</option>
+			</select>
+			<p class="x_help-block">{$lang->about_password_hashing_work_factor}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->cmd_password_hashing_auto_upgrade}</label>
+		<div class="x_controls">
+			<label for="password_hashing_auto_upgrade_y" class="x_inline"><input type="radio" name="password_hashing_auto_upgrade" id="password_hashing_auto_upgrade_y" value="Y" checked="checked"|cond="$config->password_hashing_auto_upgrade == 'Y'" /> {$lang->cmd_yes}</label>
+			<label for="password_hashing_auto_upgrade_n" class="x_inline"><input type="radio" name="password_hashing_auto_upgrade" id="password_hashing_auto_upgrade_n" value="N" checked="checked"|cond="$config->password_hashing_auto_upgrade != 'Y'" /> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_password_hashing_auto_upgrade}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label" for="webmaster_name">{$lang->webmaster_name}</label>
 		<div class="x_controls">
 			<input type="text" id="webmaster_name" name="webmaster_name" value="{$config->webmaster_name}" size="20" />

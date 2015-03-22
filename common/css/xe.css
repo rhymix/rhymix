@@ -44,6 +44,17 @@ a img {
 		max-width: none;
 	}
 }
+.xe-clearfix:before,
+.xe-clearfix:after {
+	content: " ";
+	display: table;
+}
+.xe-clearfix:after {
+	clear: both;
+}
+.xe-clearfix {
+	zoom: 1;
+}
 
 .xe-widget-wrapper {
 	overflow: hidden;

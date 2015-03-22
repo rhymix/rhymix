@@ -868,6 +868,8 @@ function onSiteMapReceived(htData){
 			$._xeAdminVar.sSelectedMenuSrl = sSelectedMenuSrl;
 
 			showProp(sSelectedMenuSrl);
+
+			data.inst.open_node(data.rslt.obj);
 		})
 		.bind("move_node.jstree", function(event, data){
 			//console.log(event, data);

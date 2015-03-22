@@ -71,6 +71,20 @@ class member extends ModuleObject {
 		if($config->group_image_mark!='Y') $config->group_image_mark = 'N';
 		if(!$config->password_strength) $config->password_strength = 'normal';
 		
+		if(!$config->password_hashing_algorithm)
+		{
+			$oPassword = new Password();
+			$config->password_hashing_algorithm = $oPassword->getBestAlgorithm();
+		}
+		if(!$config->password_hashing_work_factor)
+		{
+			$config->password_hashing_work_factor = 8;
+		}
+		if(!$config->password_hashing_auto_upgrade)
+		{
+			$config->password_hashing_auto_upgrade = 'Y';
+		}
+		
 		global $lang;
 		$oMemberModel = getModel('member');
 		// Create a member controller object

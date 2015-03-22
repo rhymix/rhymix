@@ -169,6 +169,16 @@ class boardView extends board
 				if($val->search == 'Y') $search_option['extra_vars'.$val->idx] = $val->name;
 			}
 		}
+		// remove a search option that is not public in member config
+		$memberConfig = getModel('module')->getModuleConfig('member');
+		foreach($memberConfig->signupForm as $signupFormElement)
+		{
+			if(in_array($signupFormElement->title, $search_option))
+			{
+				if($signupFormElement->isPublic == 'N')
+					unset($search_option[$signupFormElement->name]);
+			}
+		}
 		Context::set('search_option', $search_option);
 
 		$oDocumentModel = getModel('document');
@@ -262,6 +272,15 @@ class boardView extends board
 				{
 					$logged_info = Context::get('logged_info');
 					if($oDocument->get('member_srl')!=$logged_info->member_srl)
+					{
+						$oDocument = $oDocumentModel->getDocument(0);
+					}
+				}
+
+				// if the document is TEMP saved, check Grant
+				if($oDocument->getStatus() == 'TEMP')
+				{
+					if(!$oDocument->isGranted())
 					{
 						$oDocument = $oDocumentModel->getDocument(0);
 					}
