@@ -974,7 +974,7 @@ class memberController extends member
 		$args = new stdClass();
 		$args->user_id = $member_info->user_id;
 		$args->member_srl = $member_info->member_srl;
-		$args->new_password = $oPassword->generateStrongPassword();
+		$args->new_password = $oPassword->createTemporaryPassword(8);
 		$args->auth_key = $oPassword->createSecureSalt(40);
 		$args->is_register = 'N';
 
@@ -1076,7 +1076,7 @@ class memberController extends member
 
 		// Update to a temporary password and set change_password_date to 1
 		$oPassword =  new Password();
-		$temp_password = $oPassword->generateStrongPassword();
+		$temp_password = $oPassword->createTemporaryPassword(8);
 
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
