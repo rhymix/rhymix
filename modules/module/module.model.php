@@ -662,11 +662,14 @@ class moduleModel extends module
 	function getTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
 		$triggers = $this->getTriggers($trigger_name, $called_position);
-		foreach($triggers as $item)
+		if($triggers && is_object($triggers))
 		{
-			if($item->module == $module && $item->type == $type && $item->called_method == $called_method)
+			foreach($triggers as $item)
 			{
-				return $item;
+				if($item->module == $module && $item->type == $type && $item->called_method == $called_method)
+				{
+					return $item;
+				}
 			}
 		}
 
