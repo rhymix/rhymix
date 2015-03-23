@@ -319,7 +319,7 @@ class Password
 			{
 				$candidate = substr($source, $i, $length);
 				if(preg_match('/[a-z]/', $candidate) && preg_match('/[A-Z]/', $candidate) &&
-					preg_match('/[0-9]/', $candidate) && preg_match('/[!a-zA-Z0-9]/', $candidate))
+					preg_match('/[0-9]/', $candidate) && preg_match('/[^a-zA-Z0-9]/', $candidate))
 				{
 					return $candidate;
 				}
