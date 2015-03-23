@@ -299,7 +299,7 @@ class DBMysql extends DB
 	 * @param boolean $notnull not null status, default value is false
 	 * @return void
 	 */
-	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
+	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false)
 	{
 		$type = $this->column_type[$type];
 		if(strtoupper($type) == 'INTEGER')
@@ -316,7 +316,7 @@ class DBMysql extends DB
 		{
 			$query .= sprintf(" %s ", $type);
 		}
-		if($default)
+		if(isset($default))
 		{
 			$query .= sprintf(" default '%s' ", $default);
 		}
