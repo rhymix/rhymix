@@ -45,26 +45,19 @@ module.exports = function(grunt) {
 		uglify: {
 			'common-js': {
 				options: {
-					banner: banner_xe_js,
-					sourceMap: true
+					banner: banner_xe_js
 				},
 				files: {
 					'common/js/xe.min.js': ['common/js/xe.js']
 				}
 			},
 			'handlebars': {
-				options: {
-					sourceMap: true
-				},
 				files: {
 					'common/js/plugins/handlebars/handlebars.min.js': ['common/js/plugins/handlebars/handlebars.js'],
 					'common/js/plugins/handlebars.runtime/handlebars.runtime.min.js': ['common/js/plugins/handlebars.runtime/handlebars.runtime.js'],
 				}
 			},
 			'modules': {
-				options: {
-					sourceMap: true
-				},
 				files: {
 					'common/js/x.min.js' : ['common/js/x.js'],
 					// addon
