@@ -17,7 +17,7 @@ function doUpdateDeniedID(user_id, mode, message) {
 }
 
 /* prohibited nick name functions */
-function doUpdateDeniedNickName(nick_name, mode, message) 
+function doUpdateDeniedNickName(nick_name, mode, message)
 {
     if(typeof(message)!='undefined' && !confirm(message)) return;
 
@@ -35,8 +35,27 @@ function doUpdateDeniedNickName(nick_name, mode, message)
 	);
 }
 
+/* managed E-mail Address functions */
+function doUpdateManagedEmailHost(email_host, mode, message)
+{
+	if(typeof(message)!='undefined' && !confirm(message)) return;
+
+	exec_xml(
+		'member',
+		'procMemberAdminUpdateManagedEmailHosts',
+		{email_hosts:email_host, mode:mode, email_hosts_count:jQuery('#managedEmailHost li').length},
+		function(){
+			if (mode == 'delete'){
+				jQuery('#managed_'+email_host.replace(/\./g,'\_\_')).remove();
+				jQuery('._managededEmailHostCount').html(jQuery('#managedEmailHost li').length);
+			}
+		},
+		['error','message','tpl']
+	);
+}
+
 jQuery(function($){
-	// hide form if enable_join is setted "No" 
+	// hide form if enable_join is setted "No"
 	var suForm = $('table.__join_form'); // 회원가입 양식
 
 	function changeTable($i)
@@ -96,7 +115,7 @@ jQuery(function($){
 		if (!confirm(xe.lang.msg_delete_extend_form)) return;
 
 		var memberFormSrl = $(event.target).parent().attr('id');
-		var targetTR = $(event.target).closest('tr'); 
+		var targetTR = $(event.target).closest('tr');
 
 		exec_xml(
 			'member',
@@ -111,7 +130,7 @@ jQuery(function($){
 
 	$('button._addDeniedID').click(function(){
 		var ids = $('#prohibited_id').val();
-		if(ids == ''){ 
+		if(ids == ''){
 			alert(xe.lang.msg_null_prohibited_id);
 			$('#prohibited_id').focus();
 			return;
@@ -137,10 +156,39 @@ jQuery(function($){
 		jQuery.exec_json('member.procMemberAdminInsertDeniedID', {'user_id': ids}, on_complete);
 
 	});
+	$('button._addManagedEmailHost').click(function(){
+		var hosts = $('#manage_email_host').val();
+		if(hosts == ''){
+			alert(xe.lang.msg_null_managed_emailhost);
+			$('#manage_email_host').focus();
+			return;
+		}
+
+		var tag;
+		function on_complete(data)
+		{
+			$('#manage_email_host').val('');
+
+			var hosts = $.trim(data.email_hosts);
+			if(hosts == '') return;
+			var uids = hosts.split("\n");
+			for (var i=0; i<uids.length; i++)
+			{
+				uids[i] = $.trim(uids[i]);
+				tag = '<li id="managed_'+uids[i].replace(/\./g,'\_\_')+'">'+uids[i]+' <button type="button" class="x_icon-remove" onclick="doUpdateManagedEmailHost(\''+uids[i]+'\',\'delete\',\''+xe.lang.confirm_delete+'\');return false;">'+xe.lang.cmd_delete+'</button></li>';
+				$('#managedEmailHost').append($(tag));
+			}
+
+			$('._managededEmailHostCount').html($('#managedEmailHost li').length);
+		}
+
+		$.exec_json('member.procMemberAdminUpdateManagedEmailHosts', {'email_hosts': hosts}, on_complete);
+
+	});
 
 	$('button._addDeniedNickName').click(function(){
 		var ids = $('#prohibited_nick_name').val();
-		if(ids == ''){ 
+		if(ids == ''){
 			alert(xe.lang.msg_null_prohibited_nick_name);
 			$('#prohibited_nick_name').focus();
 			return;
@@ -195,7 +243,7 @@ jQuery(function($){
 			$notCheckedTR.find('th').html('<div class="wrap"><button type="button" class="dragBtn">Move to</button><span class="_title" >'+$notCheckedTR.find('th ._title').html()+'</span></div>');
 			$notCheckedTR.removeClass('sticky');
 
-			// add sticky class 
+			// add sticky class
 		}
 	});
 	

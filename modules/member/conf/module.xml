@@ -84,6 +84,7 @@
 		<action name="procMemberAdminDeleteMembers" type="controller" />
 		<action name="procMemberAdminInsertJoinForm" type="controller" ruleset="insertJoinForm" />
 		<action name="procMemberAdminUpdateJoinForm" type="controller" />
+		<action name="procMemberAdminUpdateManagedEmailHosts" type="controller" />
 		<action name="procMemberAdminDeleteJoinForm" type="controller" />
 		<action name="procMemberAdminUpdateDeniedNickName" type="controller" />
 		<action name="procMemberAdminInsertDeniedID" type="controller" ruleset="insertDeniedId" />
