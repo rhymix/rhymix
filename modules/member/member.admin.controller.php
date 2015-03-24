@@ -1411,6 +1411,7 @@ class memberAdminController extends member
 	 */
 	function deleteManagedEmailHost($email_host)
 	{
+		$args = new stdClass();
 		$args->email_host = $email_host;
 		return executeQuery('member.deleteManagedEmailHost', $args);
 	}
