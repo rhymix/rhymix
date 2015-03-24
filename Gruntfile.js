@@ -45,26 +45,24 @@ module.exports = function(grunt) {
 		uglify: {
 			'common-js': {
 				options: {
-					banner: banner_xe_js,
-					sourceMap: true
+					banner: banner_xe_js
 				},
 				files: {
-					'common/js/xe.min.js': ['common/js/xe.js']
+					'common/js/xe.min.js': ['common/js/xe.js'],
+				}
+			},
+			'common-js-plugins': {
+				files: {
+					'common/js/plugins/jquery.fileupload/js/main.min.js': ['common/js/plugins/jquery.fileupload/js/main.js'],
 				}
 			},
 			'handlebars': {
-				options: {
-					sourceMap: true
-				},
 				files: {
 					'common/js/plugins/handlebars/handlebars.min.js': ['common/js/plugins/handlebars/handlebars.js'],
 					'common/js/plugins/handlebars.runtime/handlebars.runtime.min.js': ['common/js/plugins/handlebars.runtime/handlebars.runtime.js'],
 				}
 			},
 			'modules': {
-				options: {
-					sourceMap: true
-				},
 				files: {
 					'common/js/x.min.js' : ['common/js/x.js'],
 					// addon
@@ -74,11 +72,15 @@ module.exports = function(grunt) {
 					// module/editor
 					'modules/editor/skins/xpresseditor/js/xpresseditor.min.js': ['modules/editor/skins/xpresseditor/js/xpresseditor.js'],
 					'modules/editor/skins/xpresseditor/js/xe_textarea.min.js': ['modules/editor/skins/xpresseditor/js/xe_textarea.js'],
+					'modules/editor/skins/ckeditor/js/default.min.js': ['modules/editor/skins/ckeditor/js/default.js'],
+					'modules/editor/skins/ckeditor/js/xe_interface.min.js': ['modules/editor/skins/ckeditor/js/xe_interface.js'],
+					'modules/editor/skins/ckeditor/js/xe_textarea.min.js': ['modules/editor/skins/ckeditor/js/xe_textarea.js'],
 					'modules/editor/tpl/js/editor_common.min.js': ['modules/editor/tpl/js/editor_common.js'],
 					'modules/editor/tpl/js/swfupload.min.js': ['modules/editor/tpl/js/swfupload.js'],
 					'modules/editor/tpl/js/uploader.min.js': ['modules/editor/tpl/js/uploader.js'],
 					'modules/editor/tpl/js/editor.min.js': ['modules/editor/tpl/js/editor.js'],
 					'modules/editor/tpl/js/editor_module_config.min.js': ['modules/editor/tpl/js/editor_module_config.js'],
+					'modules/editor/tpl/js/editor.app.min.js': ['modules/editor/tpl/js/editor.app.js'],
 					// module/admin
 					'modules/admin/tpl/js/admin.min.js': ['modules/admin/tpl/js/admin.js'],
 					'modules/admin/tpl/js/config.min.js': ['modules/admin/tpl/js/config.js'],
@@ -109,52 +111,32 @@ module.exports = function(grunt) {
 			},
 		},
 		cssmin: {
-			'common-css': {
+			'common': {
 				files: {
 					'common/css/xe.min.css': ['common/css/xe.css'],
 					'common/css/mobile.min.css': ['common/css/mobile.css']
 				}
 			},
-			'module-admin-css': {
+			'modules': {
 				files: {
-					'modules/admin/tpl/css/admin.min.css': ['modules/admin/tpl/css/admin.css']
-				}
-			},
-			'editor-component-image-gallery': {
-				files: {
+					'modules/admin/tpl/css/admin.min.css': ['modules/admin/tpl/css/admin.css'],
 					'modules/editor/components/image_gallery/tpl/popup.min.css': ['modules/editor/components/image_gallery/tpl/popup.css'],
 					'modules/editor/components/image_gallery/tpl/slide_gallery.min.css': ['modules/editor/components/image_gallery/tpl/slide_gallery.css'],
-				}
-			},
-			'moudle-widget-tpl': {
-				files: {
 					'modules/widget/tpl/css/widget.min.css': ['modules/widget/tpl/css/widget.css'],
-				}
-			},
-			'moudle-poll': {
-				files: {
 					'modules/poll/tpl/css/poll.min.css': ['modules/poll/tpl/css/poll.css'],
 					'modules/poll/skins/default/css/poll.min.css': ['modules/poll/skins/default/css/poll.css'],
 					'modules/poll/skins/simple/css/poll.min.css': ['modules/poll/skins/simple/css/poll.css'],
-				}
-			},
-			'moudle-editor': {
-				files: {
 					'modules/editor/skins/xpresseditor/css/default.min.css': ['modules/editor/skins/xpresseditor/css/default.css'],
-				}
-			},
-			'addon-oembed': {
-				files: {
-					'addons/oembed/jquery.oembed.min.css': ['addons/oembed/jquery.oembed.css'],
-				}
-			},
-			'module-board': {
-				files: {
 					'modules/board/skins/default/board.default.min.css': ['modules/board/skins/default/board.default.css'],
 					'modules/board/m.skins/default/css/mboard.min.css': ['modules/board/m.skins/default/css/mboard.css'],
 					'modules/board/m.skins/simpleGray/css/mboard.min.css': ['modules/board/m.skins/simpleGray/css/mboard.css']
 				}
-			}
+			},
+			'addons': {
+				files: {
+					'addons/oembed/jquery.oembed.min.css': ['addons/oembed/jquery.oembed.css'],
+				}
+			},
 		},
 		jshint: {
 			files: [
