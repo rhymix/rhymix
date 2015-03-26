@@ -62,12 +62,6 @@
 			var insance = CKEDITOR.appendTo($containerEl[0], ckeconfig, $contentField.val());
 			$containerEl.data('cke_instance', insance);
 
-			insance.on('change', function(e){
-				if($contentField.length){
-					$contentField.val(e.editor.getData());
-				}
-			});
-
 			window.editorRelKeys[data.editorSequence] = {};
 			window.editorRelKeys[data.editorSequence].primary   = $form.find('[name='+data.editorPrimaryKeyName+']')[0];
 			window.editorRelKeys[data.editorSequence].content   = $form.find('[name='+data.editorContentKeyName+']')[0];
