@@ -1,6 +1,6 @@
 (function($){
 	"use strict";
-	var settings = {
+	var default_ckeconfig = {
 		bodyClass: 'xe_content editable',
 		toolbarCanCollapse: true,
 		toolbarGroups: [
@@ -21,13 +21,22 @@
 		],
 		allowedContent: true,
 		removePlugins: 'stylescombo,language,bidi,flash,pagebreak',
-		removeButtons: 'Save,Preview,Print,Cut,Copy,Paste'
+		removeButtons: 'Save,Preview,Print,Cut,Copy,Paste',
+		uiColor: '#EFF0F0'
 	};
 
+	function arrayUnique(data) {
+		return $.grep(data, function(v, k){
+			return (v.length && $.inArray(v, data) === k);
+		});
+	}
+
 	var XeCkEditor = xe.createApp('XeCkEditor', {
+		ckeconfig: {},
 		editor_sequence: null,
 		init : function() {
 			var self = this;
+
 			CKEDITOR.on('instanceCreated', function(evt){
 				self.cast('CKEDITOR_CREATED');
 			});
@@ -44,8 +53,6 @@
 				self.cast('CKEDITOR_LOADED');
 			});
 		},
-		API_ONREADY : function() {
-		},
 		editorInit : function(containerEl, opts) {
 			var self = this;
 			var $containerEl = containerEl;
@@ -53,14 +60,41 @@
 			var $contentField = opts.content_field;
 			var data = $containerEl.data();
 			var editor_sequence = $containerEl.data().editorSequence;
-			var ckeconfig = $.extend({}, settings, opts.ckeconfig || {});
+
+			this.ckeconfig = $.extend({}, default_ckeconfig, opts.ckeconfig || {});
 
 			this.editor_sequence = data.editorSequence;
-
 			$form.attr('editor_sequence', data.editorSequence);
 
-			var insance = CKEDITOR.appendTo($containerEl[0], ckeconfig, $contentField.val());
-			$containerEl.data('cke_instance', insance);
+			var instance = CKEDITOR.appendTo($containerEl[0], {}, $contentField.val());
+
+			instance.on('customConfigLoaded', function(e) {
+				instance.config = $.extend({}, e.editor.config, self.ckeconfig);
+
+				if($.isFunction(CKEDITOR.editorConfig)) {
+					var customConfig = {};
+					CKEDITOR.editorConfig(customConfig);
+
+					$.each(customConfig, function(key, val) {
+						instance.config[key] = val;
+					});
+				}
+
+				var bodyClass = e.editor.config.bodyClass.split(' ');
+				bodyClass.push(default_ckeconfig.bodyClass);
+				bodyClass = arrayUnique(bodyClass);
+				instance.config.bodyClass = bodyClass.join(' ');
+
+				if(opts.loadXeComponent) {
+					var extraPlugins = e.editor.config.extraPlugins.split(',');
+
+					extraPlugins.push('xe_component');
+					extraPlugins = arrayUnique(extraPlugins);
+					instance.config.extraPlugins = extraPlugins.join(',');
+				}
+			});
+
+			$containerEl.data('cke_instance', instance);
 
 			window.editorRelKeys[data.editorSequence] = {};
 			window.editorRelKeys[data.editorSequence].primary   = $form.find('[name='+data.editorPrimaryKeyName+']')[0];
@@ -69,7 +103,7 @@
 				return self.getContent.call(self, seq);
 			};
 			window.editorRelKeys[data.editorSequence].pasteHTML = function(text){
-				insance.insertHtml(text, 'html');
+				instance.insertHtml(text, 'html');
 			};
 		},
 		getContent : function(seq) {
