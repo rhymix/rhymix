@@ -92,6 +92,8 @@
 					extraPlugins = arrayUnique(extraPlugins);
 					instance.config.extraPlugins = extraPlugins.join(',');
 				}
+
+				if(!opts.enableToolbar) instance.config.toolbar = [];
 			});
 
 			$containerEl.data('cke_instance', instance);
