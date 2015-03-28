@@ -46,6 +46,9 @@ body>.x{max-width:none !important}
 .col>*>h1>a[target="_blank"]:after{vertical-align:middle;opacity:.75;filter:alpha(opacity=75)}
 .col>*>h1>a:hover,
 .col>*>h1>a:focus{color:#06C}
+.col #menu_find{height:32px}
+.col #menu_find input[type="text"]{margin-bottom: 0}
+.col #menu_find button[type="button"]{visibility: hidden}
 .col>.x_close{position:absolute;top:0;right:0;width:30px;height:30px;color:#666;font-size:17px;opacity:.75;filter:alpha(opacity=75)}
 .col input[type="checkbox"],
 .col input[type="radio"]{margin:0}

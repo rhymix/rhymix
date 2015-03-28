@@ -10,12 +10,34 @@
 	<div class="x_page-header">
 		<h1>{$lang->control_panel} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_dashboard" target="_blank">{$lang->help}</a></h1>
 	</div>
+
 	<div id="checkBrowserMessage" class="message error" style="display:none;">
 		<h2>{$lang->checkBrowserIE8}</h2>
 	</div>
+
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
+
+	<div class="message error" cond="$db_info->use_sitelock == 'Y'">
+		<h2>{$lang->sitelock_in_use}</h2>
+		<p>{$lang->about_sitelock_in_use}</p>
+	</div>
+
+	<form action="./" method="post" class="message info x_clearfix" cond="!$isLicenseAgreement">
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+		<input type="hidden" name="module" value="install" />
+		<input type="hidden" name="act" value="procInstallLicenseAggrement" />
+		<input type="hidden" name="license_agreement" value="Y" />
+		<input type="hidden" name="XE_VALIDATOR_ID" value="modules/admin/tpl/index/1">
+
+		<h2>{$lang->license_agreement}</h2>
+		<div>{$lang->license}</div>
+		<div class="x_btn-group x_pull-right" style="margin-bottom:10px">
+			<button type="submit" class="x_btn x_btn-small x_btn-primary" value="">{$lang->cmd_license_agree}</button>
+		</div>
+	</form>
+
 	<form action="./" method="post" class="message info x_clearfix" cond="!$isEnviromentGatheringAgreement">
 		<input type="hidden" name="module" value="admin" />
 		<input type="hidden" name="act" value="procAdminEnviromentGatheringAgreement" />
@@ -27,17 +49,19 @@
 			<button type="submit" name="is_agree" value="true" class="x_btn x_btn-small x_btn-primary">{$lang->agree}</button>
 		</div>
 	</form>
+
 	<div class="message update" cond="$addTables || $needUpdate">
 		<h2 cond="$needUpdate && $addTables">{$lang->need_update_and_table}</h2>
 		<h2 cond="$needUpdate && !$addTables">{$lang->need_update}</h2>
 		<h2 cond="!$needUpdate && $addTables">{$lang->need_table}</h2>
 		<ul>
-		<block loop="$module_list => $key,$value">
-			<li style="margin:0 0 4px 0" cond="$value->need_install">{$value->module} - <button type="button" onclick="doInstallModule('{$value->module}')" class="x_btn x_btn-small">{$lang->cmd_create_db_table}</button></li>
-			<li style="margin:0 0 4px 0" cond="$value->need_update">{$value->module} - <button type="button" onclick="doUpdateModule('{$value->module}')" class="x_btn x_btn-small">{$lang->cmd_module_update}</button></li>
-		</block>
+			<block loop="$module_list => $key,$value">
+				<li style="margin:0 0 4px 0" cond="$value->need_install">{$value->module} - <button type="button" onclick="doInstallModule('{$value->module}')" class="x_btn x_btn-small">{$lang->cmd_create_db_table}</button></li>
+				<li style="margin:0 0 4px 0" cond="$value->need_update">{$value->module} - <button type="button" onclick="doUpdateModule('{$value->module}')" class="x_btn x_btn-small">{$lang->cmd_module_update}</button></li>
+			</block>
 		</ul>
 	</div>
+
 	<div class="message update" cond="count($newVersionList)">
 		<h2>{$lang->available_new_version}</h2>
 		<ul>
@@ -46,7 +70,7 @@
 			</li>
 		</ul>
 	</div>
-	
+
 	<div class="dashboard">
 		<block cond="$counterAddonActivated">
 			<include target="./_dashboard_counter.html" />
@@ -55,6 +79,35 @@
 			<include target="./_dashboard_default.html" />
 		</block>
 	</div>
+
+	<div class="message error" cond="version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<')">
+		<h2>안전하지 않은 PHP 버전 경고</h2>
+		<p>이 서버는 안전하지 않은 PHP 버전을 사용하고 있으며, PHP를 최신 안정 버전으로의 업그레이드를 권장합니다.</p>
+		<p>이 서버의 PHP 버전 : <strong>{phpversion()}</strong></p>
+		<p><a href="http://php.net/downloads.php" target="_blank">PHP 최신 안정버전 확인하기</a></p>
+
+		<ul>
+			<li>매우 심각한 PHP 보안 문제 및 공격에 노출될 수 있습니다.</li>
+			<li>XE 최신 버전을 사용할 수 없습니다.</li>
+			<li>XE 최신 버전 이상을 지원하는 확장 기능을 사용할 수 없습니다.</li>
+			<li>일부 확장 기능이 동작하지 않거나, 이로 인해 장애가 발생할 수 있습니다.</li>
+		</ul>
+	</div>
 </div>
+
+<script>
+jQuery(function($)
+{
+	// check browser version
+	if($.browser.msie == true ) {
+		var arrBrowserVersion = $.browser.version.split('.');
+		if(parseInt(arrBrowserVersion[0], 10) <= 8) {
+			$('#checkBrowserMessage').show();
+		}
+	}
+});
+</script>
+
+
 <include target="./_footer.html" />
 

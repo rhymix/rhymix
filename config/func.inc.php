@@ -714,9 +714,43 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 		}
 	}
 
-	$date = new DateTime($str);
-	$string = $date->format($format);
+	// If year value is less than 1970, handle it separately.
+	if((int) substr($str, 0, 4) < 1970)
+	{
+		$hour = (int) substr($str, 8, 2);
+		$min = (int) substr($str, 10, 2);
+		$sec = (int) substr($str, 12, 2);
+		$year = (int) substr($str, 0, 4);
+		$month = (int) substr($str, 4, 2);
+		$day = (int) substr($str, 6, 2);
 
+		// leading zero?
+		$lz = create_function('$n', 'return ($n>9?"":"0").$n;');
+
+		$trans = array(
+			'Y' => $year,
+			'y' => $lz($year % 100),
+			'm' => $lz($month),
+			'n' => $month,
+			'd' => $lz($day),
+			'j' => $day,
+			'G' => $hour,
+			'H' => $lz($hour),
+			'g' => $hour % 12,
+			'h' => $lz($hour % 12),
+			'i' => $lz($min),
+			's' => $lz($sec),
+			'M' => getMonthName($month),
+			'F' => getMonthName($month, FALSE)
+		);
+
+		$string = strtr($format, $trans);
+	}
+	else
+	{
+		// if year value is greater than 1970, get unixtime by using ztime() for date() function's argument. 
+		$string = date($format, ztime($str));
+	}
 	// change day and am/pm for each language
 	$unit_week = Context::getLang('unit_week');
 	$unit_meridiem = Context::getLang('unit_meridiem');
@@ -845,10 +879,13 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
  */
 function writeSlowlog($type, $elapsed_time, $obj)
 {
+	if(!__LOG_SLOW_TRIGGER__ && !__LOG_SLOW_ADDON__ && !__LOG_SLOW_WIDGET__ && !__LOG_SLOW_QUERY__) return;
+
 	static $log_filename = array(
 		'query' => 'files/_slowlog_query.php',
 		'trigger' => 'files/_slowlog_trigger.php',
-		'addon' => 'files/_slowlog_addon.php'
+		'addon' => 'files/_slowlog_addon.php',
+		'widget' => 'files/_slowlog_widget.php'
 	);
 	$write_file = true;
 
@@ -862,6 +899,15 @@ function writeSlowlog($type, $elapsed_time, $obj)
 	{
 		$buff[] = "\tCaller : " . $obj->caller;
 		$buff[] = "\tCalled : " . $obj->called;
+	}
+	else if($type == 'addon' && __LOG_SLOW_ADDON__ > 0 && $elapsed_time > __LOG_SLOW_ADDON__)
+	{
+		$buff[] = "\tAddon : " . $obj->called;
+		$buff[] = "\tCalled position : " . $obj->caller;
+	}
+	else if($type == 'widget' && __LOG_SLOW_WIDGET__ > 0 && $elapsed_time > __LOG_SLOW_WIDGET__)
+	{
+		$buff[] = "\tWidget : " . $obj->called;
 	}
 	else if($type == 'query' && __LOG_SLOW_QUERY__ > 0 && $elapsed_time > __LOG_SLOW_QUERY__)
 	{
@@ -883,13 +929,24 @@ function writeSlowlog($type, $elapsed_time, $obj)
 		file_put_contents($log_file, implode(PHP_EOL, $buff), FILE_APPEND);
 	}
 
-	$trigger_args = $obj;
-	$trigger_args->_log_type = $type;
-	$trigger_args->_elapsed_time = $elapsed_time;
 	if($type != 'query')
 	{
+		$trigger_args = $obj;
+		$trigger_args->_log_type = $type;
+		$trigger_args->_elapsed_time = $elapsed_time;
 		ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
 	}
+}
+
+/**
+ * @param void
+ */
+function flushSlowlog()
+{
+	$trigger_args = new stdClass();
+	$trigger_args->_log_type = 'flush';
+	$trigger_args->_elapsed_time = 0;
+	ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
 }
 
 /**
@@ -1044,8 +1101,22 @@ function removeHackTag($content)
 	 */
 	$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)($|>|<)@i', 'removeSrcHack', $content);
 
-	// xmp tag ?뺤씤 �??�붽?
 	$content = checkXmpTag($content);
+	$content = blockWidgetCode($content);
+
+	return $content;
+}
+
+/**
+ * blocking widget code
+ *
+ * @param string $content Taget content
+ * @return string
+ **/
+function blockWidgetCode($content)
+{
+	$content = preg_replace('/(<(?:img|div)(?:[^>]*))(widget)(?:(=([^>]*?)>))/is', '$1blocked-widget$3', $content);
+
 	return $content;
 }
 
@@ -1416,9 +1487,9 @@ function isCrawler($agent = NULL)
 		$agent = $_SERVER['HTTP_USER_AGENT'];
 	}
 
-	$check_agent = array('bot', 'spider', 'google', 'yahoo', 'daum', 'teoma', 'fish', 'hanrss', 'facebook');
+	$check_agent = array('bot', 'spider', 'spyder', 'crawl', 'http://', 'google', 'yahoo', 'slurp', 'yeti', 'daum', 'teoma', 'fish', 'hanrss', 'facebook', 'yandex', 'infoseek', 'askjeeves', 'stackrambler');
 	$check_ip = array(
-		'211.245.21.110-211.245.21.119' /* mixsh */
+		/*'211.245.21.110-211.245.21.119' mixsh is closed */
 	);
 
 	foreach($check_agent as $str)
@@ -1482,7 +1553,7 @@ function requirePear()
 	}
 	else
 	{
-		set_include_path(_XE_PATH_ . "libs/PEAR.1.9");
+		set_include_path(_XE_PATH_ . "libs/PEAR.1.9.5");
 	}
 }
 
@@ -1493,15 +1564,25 @@ function checkCSRF()
 		return FALSE;
 	}
 
-	$defaultUrl = Context::getDefaultUrl();
-	$referer = parse_url($_SERVER["HTTP_REFERER"]);
+	$default_url = Context::getDefaultUrl();
+	$referer = $_SERVER["HTTP_REFERER"];
+
+	if(strpos($default_url, 'xn--') !== FALSE && strpos($referer, 'xn--') === FALSE)
+	{
+		require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
+		$IDN = new idna_convert(array('idn_version' => 2008));
+		$referer = $IDN->encode($referer);
+	}
+
+	$default_url = parse_url($default_url);
+	$referer = parse_url($referer);
 
 	$oModuleModel = getModel('module');
 	$siteModuleInfo = $oModuleModel->getDefaultMid();
 
 	if($siteModuleInfo->site_srl == 0)
 	{
-		if(!strstr(strtolower($defaultUrl), strtolower($referer['host'])))
+		if($default_url['host'] !== $referer['host'])
 		{
 			return FALSE;
 		}

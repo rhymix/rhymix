@@ -1597,13 +1597,20 @@
 		<value xml:lang="jp"><![CDATA[HTMLタグを使用できます。]]></value>
 	</item>
 	<item name="sitelock_warning_whitelist">
-		<value xml:lang="ko"><![CDATA[이곳에 관리자의 IP를 반드시 포함해야 합니다.<br />만약 접근이 차단된 경우 './files/config/db.config.php' 파일에서 `'use_sitelock' => '<strong>Y</strong>'`를 `'use_sitelock' => '<strong>N</strong>'`으로 변경하여 차단을 해제할 수 있습니다.<br />사이트 잠금 디자인 파일의 위치는 './common/tpl/sitelock.html'이며<br />'./common/tpl/sitelock.user.html' 파일을 만들어서 디자인 파일을 편집하실 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You should include the IP of the administrator here.<br />If the access is blocked, you can unbrick this by changing `'use_sitelock' => '<strong>Y</strong>'` to `'use_sitelock' => '<strong>N</strong>'` in './files/config/db.config.php.'<br />The file of site lock design is at './common/tpl/sitelock.html'.<br />You can modify design file by creating './common/tpl/sitelock.user.html'.]]></value>
+		<value xml:lang="ko"><![CDATA[이곳에 관리자의 IP를 반드시 포함해야 합니다.<br />만약 접근이 차단된 경우 './files/config/db.config.php' 파일에서 `'use_sitelock' => '<strong>Y</strong>'`를 `'use_sitelock' => '<strong>N</strong>'`으로 변경하여 차단을 해제할 수 있습니다.<br />사이트 잠금 디자인 파일의 위치는 './common/tpl/sitelock.html' 입니다.]]></value>
+		<value xml:lang="en"><![CDATA[You should include the IP of the administrator here.<br />If the access is blocked, you can unbrick this by changing `'use_sitelock' => '<strong>Y</strong>'` to `'use_sitelock' => '<strong>N</strong>'` in './files/config/db.config.php.'<br />The file of site lock design is at './common/tpl/sitelock.html.']]></value>
 		<value xml:lang="jp"><![CDATA[ここに管理者のIPを必ず記入てください。<br />もし接近が遮断された場合、'./files/config/db.config.php' ファイルから `'use_sitelock' => '<strong>Y</strong>'`を `'use_sitelock' => '<strong>N</strong>'`へ変更すれば遮断が解除できます。<br />サイトロックの設計ファイルの場所は、'./commo/tpl/sitelock.html' です。]]></value>
 	</item>
 	<item name="your_ip">
 		<value xml:lang="ko"><![CDATA[접속하신 IP]]></value>
 		<value xml:lang="en"><![CDATA[Your IP]]></value>
 		<value xml:lang="jp"><![CDATA[接続したIP]]></value>
+	</item>
+	<item name="sitelock_in_use">
+		<value xml:lang="ko"><![CDATA[사이트 잠금을 사용중입니다.]]></value>
+		<value xml:lang="en"><![CDATA[Site lock in use]]></value>
+	</item>
+	<item name="about_sitelock_in_use">
+		<value xml:lang="ko"><![CDATA[관리자 페이지에서 허용한 IP를 제외한 사용자는 접속할 수 없습니다.]]></value>
 	</item>
 </lang>

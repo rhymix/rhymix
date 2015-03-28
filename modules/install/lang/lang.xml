@@ -31,6 +31,10 @@
 			<value xml:lang="tr"><![CDATA[Yükleme dilini seçin]]></value>
 			<value xml:lang="vi"><![CDATA[Chọn ngôn ngữ cài đặt]]></value>
 		</item>
+		<item name="license_agreement">
+			<value xml:lang="ko"><![CDATA[사용권 동의]]></value>
+			<value xml:lang="en"><![CDATA[License agreement]]></value>
+		</item>
 		<item name="condition">
 			<value xml:lang="ko"><![CDATA[설치 조건 확인]]></value>
 			<value xml:lang="en"><![CDATA[Check the installation conditions]]></value>
@@ -162,14 +166,14 @@
 	</item>
 	<item name="install_checklist_desc" type="array">
 		<item name="php_version">
-			<value xml:lang="ko"><![CDATA[[필수] PHP버전이 5.2.4 이상에서 설치가 가능합니다.]]></value>
-			<value xml:lang="en"><![CDATA[[Required] XE supports only PHP Version 5.2.4 or higher]]></value>
-			<value xml:lang="jp"><![CDATA[[必修] 5.2.4以上のPHPバージョンでインストールが可能です。]]></value>
+			<value xml:lang="ko"><![CDATA[[필수] PHP버전이 %s 이상에서 설치가 가능합니다.]]></value>
+			<value xml:lang="en"><![CDATA[[Required] XE supports only PHP Version %s or higher]]></value>
+			<value xml:lang="jp"><![CDATA[[必修] %s以上のPHPバージョンでインストールが可能です。]]></value>
 		</item>
 		<item name="php_version_warning">
-			<value xml:lang="ko"><![CDATA[[권장] XE는 PHP 5.3.10 버전 이상을 권장합니다.<br />PHP 5.2.x버전은 더이상 업데이트되지 않는 버전입니다.]]></value>
-			<value xml:lang="en"><![CDATA[[Recommend] XE recommends only PHP Version 5.3.10 or higher]]></value>
-			<value xml:lang="jp"><![CDATA[[推奨] XEはPHP 5.3.10バージョン以上をおすすめします。<br />PHP 5.2.xバージョンはもうアップデートされないバージョンです。]]></value>
+			<value xml:lang="ko"><![CDATA[[권장] XE는 PHP %s 버전 이상을 권장합니다.]]></value>
+			<value xml:lang="en"><![CDATA[[Recommend] XE recommends only PHP Version %s or higher]]></value>
+			<value xml:lang="jp"><![CDATA[[推奨] XEはPHP %sバージョン以上をおすすめします。]]></value>
 		</item>
 		<item name="permission">
 			<value xml:lang="ko"><![CDATA[[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다.]]></value>

@@ -2,12 +2,19 @@
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/point/tpl/config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal">
+<form ruleset="insertConfig" action="./" method="post" id="point_module_config_form" class="x_form-horizontal">
 	<input type="hidden" name="module" value="point" />
 	<input type="hidden" name="act" value="procPointAdminInsertConfig" />
 	<input type="hidden" name="xe_validator_id" value="modules/point/tpl/config/1" />
-	<section class="section">
+	<section class="section default">
 		<h1>{$lang->is_default}</h1>
+		<div class="x_control-group module_io">
+			<label for="able_module" class="x_control-label">{$lang->point_io}</label>
+			<div class="x_controls" style="padding-top:3px">
+				<input type="checkbox" name="able_module" id="able_module" value="Y" checked="checked"|cond="!$config->able_module||$config->able_module=='Y'" />
+				<span class="x_help-inline">{$lang->about_point_io}</span>
+			</div>
+		</div>
 		<div class="x_control-group">
 			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
 			<div class="x_controls">
@@ -96,6 +103,7 @@
 			<label class="x_control-label" for="point_group_{$key}">{$val->title}</label>
 			<div class="x_controls">
 				<input cond="$val->is_default != 'Y'" type="number" min="0" max="1000" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:50px" />
+				&nbsp;{$lang->level}
 				<span cond="$val->is_default == 'Y'" style="display:inline-block;padding-top:3px">{$lang->default_group}</span>
 			</div>
 		</div>
@@ -125,7 +133,7 @@
 			<tr>
 				<td>1</td>
 				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="1" /></td>
-				<td><label for="level_step_1" style="margin:0"><input type="number" id="level_step_1" name="level_step_1" value="{$config->level_step[1]}" style="width:60px;text-align:right" /> {$config->point_name}</label></td>
+				<td><label for="level_step_1" style="margin:0"><input type="number" id="level_step_1" name="level_step_1" value="{$config->level_step[1]}" style="width:120px;text-align:right" /> {$config->point_name}</label></td>
 {@$point_group_item = $point_group[1]}
 {@$title=array()}
 <!--@if($point_group_item)-->
@@ -149,7 +157,7 @@
 			<tr class="row{(($i-1)%2+1)}">
 				<td>{$i}</td>
 				<td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/{$i}.gif" alt="{$i}" /></td>
-				<td><label for="level_step_{$i}" style="margin:0"><input type="number" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:60px;text-align:right" /> {$config->point_name}</label></td>
+				<td><label for="level_step_{$i}" style="margin:0"><input type="number" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:120px;text-align:right" /> {$config->point_name}</label></td>
 				<td>{implode(', ', $title)}</td>
 			</tr>
 			<!--@end-->
@@ -166,3 +174,20 @@
 		<p id="pointReCal"></p>
 	</section>
 </form>
+
+<script>
+jQuery(function($){
+	var point_module_cfg = $('#point_module_config_form .default .x_control-group:not(.module_io), #point_module_config_form .section:not(.default),.x_nav-tabs>li:not(.x_active)');
+	if(!$('#able_module').is(':checked'))
+	{
+		point_module_cfg.hide();
+	}
+	$('#able_module').change(function(){
+		if($(this).is(':checked')){
+			point_module_cfg.slideDown(200);
+		} else {
+			point_module_cfg.slideUp(200);
+		}
+	});
+});
+</script>

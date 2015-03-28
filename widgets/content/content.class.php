@@ -811,37 +811,36 @@ class contentItem extends Object
 	}
 	function setLink($url)
 	{
-		$this->add('url',$url);
+		$this->add('url', strip_tags($url));
 	}
 	function setTitle($title)
 	{
-		$this->add('title',$title);
+		$this->add('title', strip_tags($title));
 	}
-
 	function setThumbnail($thumbnail)
 	{
-		$this->add('thumbnail',$thumbnail);
+		$this->add('thumbnail', $thumbnail);
 	}
 	function setContent($content)
 	{
-		$this->add('content',$content);
+		$this->add('content', removeHackTag($content));
 	}
 	function setRegdate($regdate)
 	{
-		$this->add('regdate',$regdate);
+		$this->add('regdate', strip_tags($regdate));
 	}
 	function setNickName($nick_name)
 	{
-		$this->add('nick_name',$nick_name);
+		$this->add('nick_name', strip_tags($nick_name));
 	}
 	// Save author's homepage url. By misol
 	function setAuthorSite($site_url)
 	{
-		$this->add('author_site',$site_url);
+		$this->add('author_site', strip_tags($site_url));
 	}
 	function setCategory($category)
 	{
-		$this->add('category',$category);
+		$this->add('category', strip_tags($category));
 	}
 	function getBrowserTitle()
 	{

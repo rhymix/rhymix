@@ -153,7 +153,7 @@ class communicationController extends communication
 			else
 			{
 				$this->setMessage('success_sended');
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('act', 'dispCommunicationMessages', 'message_type', 'S', 'receiver_srl', $receiver_srl, 'message_srl', '');
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('','act', 'dispCommunicationMessages', 'message_type', 'S', 'receiver_srl', $receiver_srl, 'message_srl', '');
 				$this->setRedirectUrl($returnUrl);
 			}
 		}
@@ -162,7 +162,7 @@ class communicationController extends communication
 	}
 
 	/**
-	 * Send a message (DB controll)
+	 * Send a message (DB control)
 	 * @param int $sender_srl member_srl of sender
 	 * @param int $receiver_srl member_srl of receiver_srl
 	 * @param string $title

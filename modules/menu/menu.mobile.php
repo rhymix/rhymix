@@ -27,6 +27,7 @@ class menuMobile extends moduleObject
 		$obj->href = $menu_item['href'];
 		$obj->depth = $depth;
 		$obj->text = $menu_item['text'];
+		$obj->open_window = $menu_item['open_window'];
 		$this->result[] = $obj;
 		if(!$menu_item['list']) return;
 		foreach($menu_item['list'] as $item)
