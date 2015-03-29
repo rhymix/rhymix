@@ -1101,8 +1101,22 @@ function removeHackTag($content)
 	 */
 	$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)($|>|<)@i', 'removeSrcHack', $content);
 
-	// xmp tag ?뺤씤 �??�붽?
 	$content = checkXmpTag($content);
+	$content = blockWidgetCode($content);
+
+	return $content;
+}
+
+/**
+ * blocking widget code
+ *
+ * @param string $content Taget content
+ * @return string
+ **/
+function blockWidgetCode($content)
+{
+	$content = preg_replace('/(<(?:img|div)(?:[^>]*))(widget)(?:(=([^>]*?)>))/is', '$1blocked-widget$3', $content);
+
 	return $content;
 }
 
@@ -1473,9 +1487,9 @@ function isCrawler($agent = NULL)
 		$agent = $_SERVER['HTTP_USER_AGENT'];
 	}
 
-	$check_agent = array('bot', 'spider', 'google', 'yahoo', 'daum', 'teoma', 'fish', 'hanrss', 'facebook');
+	$check_agent = array('bot', 'spider', 'spyder', 'crawl', 'http://', 'google', 'yahoo', 'slurp', 'yeti', 'daum', 'teoma', 'fish', 'hanrss', 'facebook', 'yandex', 'infoseek', 'askjeeves', 'stackrambler');
 	$check_ip = array(
-		'211.245.21.110-211.245.21.119' /* mixsh */
+		/*'211.245.21.110-211.245.21.119' mixsh is closed */
 	);
 
 	foreach($check_agent as $str)
@@ -1539,7 +1553,7 @@ function requirePear()
 	}
 	else
 	{
-		set_include_path(_XE_PATH_ . "libs/PEAR.1.9");
+		set_include_path(_XE_PATH_ . "libs/PEAR.1.9.5");
 	}
 }
 
@@ -1550,15 +1564,25 @@ function checkCSRF()
 		return FALSE;
 	}
 
-	$defaultUrl = Context::getDefaultUrl();
-	$referer = parse_url($_SERVER["HTTP_REFERER"]);
+	$default_url = Context::getDefaultUrl();
+	$referer = $_SERVER["HTTP_REFERER"];
+
+	if(strpos($default_url, 'xn--') !== FALSE && strpos($referer, 'xn--') === FALSE)
+	{
+		require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
+		$IDN = new idna_convert(array('idn_version' => 2008));
+		$referer = $IDN->encode($referer);
+	}
+
+	$default_url = parse_url($default_url);
+	$referer = parse_url($referer);
 
 	$oModuleModel = getModel('module');
 	$siteModuleInfo = $oModuleModel->getDefaultMid();
 
 	if($siteModuleInfo->site_srl == 0)
 	{
-		if(!strstr(strtolower($defaultUrl), strtolower($referer['host'])))
+		if($default_url['host'] !== $referer['host'])
 		{
 			return FALSE;
 		}

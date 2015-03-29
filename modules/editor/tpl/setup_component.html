@@ -32,13 +32,29 @@
 				<a href="#" onclick="winopen('{$component->link}');return false;">{$component->link}</a>
 			</div>
 		</div>
-		<div class="x_control-group" loop="$component->extra_vars=>$key,$val">
-			<label class="x_control-label">{$val->title}</label>
-			<div class="x_controls">
-				<input type="text" name="{$key}" value="{$val->value}" />
-				<span class="x_help-block">{$val->description}</span>
-			</div>
-		</div>
+		<block cond="count($component->extra_vars)">
+			<block loop="$component->extra_vars => $id, $var">
+				<block cond="$group != $var->group">
+					<h2>{$var->group}</h2>
+					{@$group = $var->group}
+				</block>
+				{@$not_first = true}
+				<div class="x_control-group" cond="!$not_first && $group != $var->group"></div>
+				<div class="x_control-group">
+					<label class="x_control-label" for="{$var->name}"|cond="$var->type != 'textarea'" for="lang_{$var->name}"|cond="$var->type == 'textarea'">{$var->title}</label>
+					<div class="x_controls">
+						<input cond="$var->type == 'text'" type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}">
+						<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" rows="8" cols="42">{htmlspecialchars($var->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
+						<select cond="$var->type == 'select'" name="{$var->name}" id="{$var->name}">
+							<option loop="$var->options => $option" value="{$option->value}" selected="selected"|cond="$var->value == $option->value">{$option->title}</option>
+						</select>
+						<span class="x_help-inline">{nl2br($var->description)}</span>
+					</div>
+				</div>
+			</block>
+		</block>
+
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->grant}</label>
 			<div class="x_controls">

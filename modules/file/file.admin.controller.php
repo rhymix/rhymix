@@ -134,10 +134,10 @@ class fileAdminController extends file
 		else $file_config->download_grant = $download_grant;
 
 		//관리자가 허용한 첨부파일의 사이즈가 php.ini의 값보다 큰지 확인하기 - by ovclas
-		$userFileAllowSize = $this->_changeBytes($file_config->allowed_filesize.'M');
-		$userAttachAllowSize = $this->_changeBytes($file_config->allowed_attach_size.'M');
-		$iniPostMaxSize = $this->_changeBytes(ini_get('post_max_size'));
-		$iniUploadMaxSize = $this->_changeBytes(ini_get('upload_max_filesize'));
+		$userFileAllowSize = FileHandler::returnbytes($file_config->allowed_filesize.'M');
+		$userAttachAllowSize = FileHandler::returnbytes($file_config->allowed_attach_size.'M');
+		$iniPostMaxSize = FileHandler::returnbytes(ini_get('post_max_size'));
+		$iniUploadMaxSize = FileHandler::returnbytes(ini_get('upload_max_filesize'));
 		$iniMinSzie = min($iniPostMaxSize, $iniUploadMaxSize);
 
 		if($userFileAllowSize > $iniMinSzie || $userAttachAllowSize > $iniMinSzie)
@@ -176,23 +176,6 @@ class fileAdminController extends file
 		{
 			if($_SESSION['file_management'][$output->file_srl]) unset($_SESSION['file_management'][$output->file_srl]);
 			else $_SESSION['file_management'][$output->file_srl] = true;
-		}
-	}
-
-	/**
-	 * Change value from human readable to byte unit
-	 *
-	 * @param string $size_str Size string
-	 * @return int The byte value for input
-	 */
-	function _changeBytes($size_str)
-	{
-		switch (substr ($size_str, -1))
-		{
-			case 'M': case 'm': return (int)$size_str * 1048576;
-			case 'K': case 'k': return (int)$size_str * 1024;
-			case 'G': case 'g': return (int)$size_str * 1073741824;
-			default: return $size_str;
 		}
 	}
 }

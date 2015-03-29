@@ -224,7 +224,13 @@ class documentModel extends document
 
 		$this->_setSearchOption($obj, $args, $query_id, $use_division);
 
-		if ($sort_check->isExtraVars)
+		if ($sort_check->isExtraVars && substr_count($obj->search_target,'extra_vars'))
+		{
+			$query_id = 'document.getDocumentListWithinExtraVarsExtraSort';
+			$args->sort_index = str_replace('documents.','',$args->sort_index);
+			$output = executeQueryArray($query_id, $args);
+		}
+		elseif ($sort_check->isExtraVars)
 		{
 			$output = executeQueryArray($query_id, $args);
 		}
@@ -232,7 +238,7 @@ class documentModel extends document
 		{
 			// document.getDocumentList query execution
 			// Query_id if you have a group by clause getDocumentListWithinTag getDocumentListWithinComment or used again to perform the query because
-			$groupByQuery = array('document.getDocumentListWithinComment' => 1, 'document.getDocumentListWithinTag' => 1);
+			$groupByQuery = array('document.getDocumentListWithinComment' => 1, 'document.getDocumentListWithinTag' => 1, 'document.getDocumentListWithinExtraVars' => 1);
 			if(isset($groupByQuery[$query_id]))
 			{
 				$group_args = clone($args);
@@ -562,18 +568,10 @@ class documentModel extends document
 	 */
 	function getDocumentCount($module_srl, $search_obj = NULL)
 	{
-		// Additional search options
-		$args =new stdClass();
-		$args->module_srl = $module_srl;
-		$args->s_title = $search_obj->s_title;
-		$args->s_content = $search_obj->s_content;
-		$args->s_user_name = $search_obj->s_user_name;
-		$args->s_member_srl = $search_obj->s_member_srl;
-		$args->s_ipaddress = $search_obj->s_ipaddress;
-		$args->s_regdate = $search_obj->s_regdate;
-		$args->category_srl = $search_obj->category_srl;
+		if(is_null($search_obj)) $search_obj = new stdClass();
+		$search_obj->module_srl = $module_srl;
 
-		$output = executeQuery('document.getDocumentCount', $args);
+		$output = executeQuery('document.getDocumentCount', $search_obj);
 		// Return total number of
 		$total_count = $output->data->count;
 		return (int)$total_count;
@@ -586,17 +584,7 @@ class documentModel extends document
 	 */
 	function getDocumentCountByGroupStatus($search_obj = NULL)
 	{
-		// Additional search options
-		$args->module_srl = $search_obj->module_srl;
-		$args->s_title = $search_obj->s_title;
-		$args->s_content = $search_obj->s_content;
-		$args->s_user_name = $search_obj->s_user_name;
-		$args->s_member_srl = $search_obj->s_member_srl;
-		$args->s_ipaddress = $search_obj->s_ipaddress;
-		$args->s_regdate = $search_obj->s_regdate;
-		$args->category_srl = $search_obj->category_srl;
-
-		$output = executeQuery('document.getDocumentCountByGroupStatus', $args);
+		$output = executeQuery('document.getDocumentCountByGroupStatus', $search_obj);
 		if(!$output->toBool()) return array();
 
 		return $output->data;
@@ -1416,6 +1404,10 @@ class documentModel extends document
 				case 'tag' :
 					$args->s_tags = str_replace(' ','%',$search_keyword);
 					$query_id = 'document.getDocumentListWithinTag';
+					break;
+				case 'extra_vars':
+					$args->var_value = str_replace(' ', '%', $search_keyword);
+					$query_id = 'document.getDocumentListWithinExtraVars';
 					break;
 				default :
 					if(strpos($search_target,'extra_vars')!==false) {

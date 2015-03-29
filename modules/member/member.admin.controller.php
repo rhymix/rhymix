@@ -159,8 +159,31 @@ class memberAdminController extends member
 			'enable_confirm',
 			'webmaster_name',
 			'webmaster_email',
-			'password_strength'
+			'password_strength',
+			'password_hashing_algorithm',
+			'password_hashing_work_factor',
+			'password_hashing_auto_upgrade'
 		);
+		
+		$oPassword = new Password();
+		if(!array_key_exists($args->password_hashing_algorithm, $oPassword->getSupportedAlgorithms()))
+		{
+			$args->password_hashing_algorithm = 'md5';
+		}
+		
+		$args->password_hashing_work_factor = intval($args->password_hashing_work_factor, 10);
+		if($args->password_hashing_work_factor < 4)
+		{
+			$args->password_hashing_work_factor = 4;
+		}
+		if($args->password_hashing_work_factor > 16)
+		{
+			$args->password_hashing_work_factor = 16;
+		}
+		if($args->password_hashing_auto_upgrade != 'Y')
+		{
+			$args->password_hashing_auto_upgrade = 'N';
+		}
 
 		if((!$args->webmaster_name || !$args->webmaster_email) && $args->enable_confirm == 'Y')
 		{
@@ -1091,7 +1114,7 @@ class memberAdminController extends member
 	}
 
 	/**
-	 * find_account_answerInsert a group
+	 * Insert a group
 	 * @param object $args
 	 * @return Object
 	 */
@@ -1109,13 +1132,13 @@ class memberAdminController extends member
 			if(!$output->toBool()) return $output;
 		}
 
-		if(!$args->group_srl) $args->group_srl = getNextSequence();
-
-		if(!$args->list_order)
+		if(!isset($args->list_order) || $args->list_order=='')
 		{
 			$args->list_order = $args->group_srl;
 		}
 
+		if(!$args->group_srl) $args->group_srl = getNextSequence();
+		$args->list_order = $args->group_srl;
 		$output = executeQuery('member.insertGroup', $args);
 		$this->_deleteMemberGroupCache($args->site_srl);
 

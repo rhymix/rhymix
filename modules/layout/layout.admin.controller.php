@@ -123,6 +123,7 @@ class layoutAdminController extends layout
 				{
 					$oModuleModel = getModel('module');
 					$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+					$tmpArgs = new stdClass;
 					$tmpArgs->url = $start_module->mid;
 					$tmpArgs->site_srl = 0;
 					$output = executeQuery('menu.getMenuItemByUrl', $tmpArgs);

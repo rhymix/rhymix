@@ -240,12 +240,13 @@ jQuery(function($) {
 		var loc = isSameUrl(this, window.location.href) ? current_url : this;
 		var idx = loc.indexOf('?');
 		var uri = loc.replace(/#$/, '');
-		var act, re, v, toReplace;
+		var act, re, v, toReplace, query_string;
 
 		if (typeof(val)=='undefined') val = '';
 
 		if (idx != -1) {
-			var query_string = uri.substr(idx+1, loc.length), args = {}, q_list = [];
+			var args = {}, q_list = [];
+			query_string = uri.substr(idx + 1, loc.length);
 			uri = loc.substr(0, idx);
 			query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function(all,key,val) { args[key] = val; });
 
@@ -258,9 +259,12 @@ jQuery(function($) {
 			}
 
 			query_string = q_list.join('&');
-			uri = uri+(query_string?'?'+query_string:'');
+			uri = uri + (query_string ? '?' + encodeURI(query_string) : '');
 		} else {
-			if (String(val).trim()) uri = uri+'?'+key+'='+val;
+			if (String(val).trim()) {
+				query_string = '?' + key + '=' + val;
+				uri = uri + encodeURI(query_string);
+			}
 		}
 
 		re = /^https:\/\/([^:\/]+)(:\d+|)/i;
@@ -290,7 +294,7 @@ jQuery(function($) {
 		// insert index.php if it isn't included
 		uri = uri.replace(/\/(index\.php)?\?/, '/index.php?');
 
-		return encodeURI(uri);
+		return uri;
 	};
 
 	/**
@@ -596,14 +600,36 @@ function doDocumentLoad(obj) {
 }
 
 /* 저장된 게시글의 선택 */
-function doDocumentSelect(document_srl) {
+function doDocumentSelect(document_srl, module) {
 	if(!opener || !opener.objForSavedDoc) {
 		window.close();
 		return;
 	}
 
+	if(module===undefined) {
+		module = 'document';
+	}
+
 	// 게시글을 가져와서 등록하기
-	opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
+	switch(module) {
+		case 'page' :
+			var url = opener.current_url;
+			url = url.setQuery('document_srl', document_srl);
+
+			if(url.getQuery('act') === 'dispPageAdminMobileContentModify')
+			{
+				url = url.setQuery('act', 'dispPageAdminMobileContentModify');
+			}
+			else
+			{
+				url = url.setQuery('act', 'dispPageAdminContentModify');
+			}
+			opener.location.href = url;
+			break;
+		default :
+			opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
+			break;
+	}
 	window.close();
 }
 

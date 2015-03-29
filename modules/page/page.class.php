@@ -71,6 +71,7 @@ class page extends ModuleObject
 
 		if(count($skin_update_srls)>0)
 		{
+			$skin_args = new stdClass;
 			$skin_args->module_srls = implode(',',$skin_update_srls);
 			$skin_args->is_skin_fix = "Y";
 			$ouput = executeQuery('page.updateSkinFix', $skin_args);

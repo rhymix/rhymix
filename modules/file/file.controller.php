@@ -25,6 +25,8 @@ class fileController extends file
 	 */
 	function procFileUpload()
 	{
+		Context::setRequestMethod('JSON');
+
 		$file_info = Context::get('Filedata');
 
 		// An error appears if not a normally uploaded file
@@ -43,7 +45,9 @@ class fileController extends file
 		// Create if upload_target_srl is not defined in the session information
 		if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
 
-		return $this->insertFile($file_info, $module_srl, $upload_target_srl);
+		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+		Context::setResponseMethod('JSON');
+		if($output->error != '0') $this->stop($output->message);
 	}
 
 	/**
@@ -273,7 +277,8 @@ class fileController extends file
 		// Call a trigger (after)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
 
-		$file_key = $_SESSION['__XE_FILE_KEY__'][$file_srl] = hash('md5',rand());
+		$random = new Password();
+		$file_key = $_SESSION['__XE_FILE_KEY__'][$file_srl] = $random->createSecureSalt(32, 'hex');
 		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput','file_srl',$file_srl,'file_key',$file_key));
 		Context::close();
 		exit();
@@ -626,6 +631,25 @@ class fileController extends file
 			{
 				$oFileModel = getModel('file');
 				$config = $oFileModel->getFileConfig($module_srl);
+
+				// check file type
+				if(isset($config->allowed_filetypes) && $config->allowed_filetypes !== '*.*')
+				{
+					$filetypes = explode(';', $config->allowed_filetypes);
+					$ext = array();
+					foreach($filetypes as $item) {
+						$item = explode('.', $item);
+						$ext[] = strtolower($item[1]);
+					}
+					$uploaded_ext = explode('.', $file_info['name']);
+					$uploaded_ext = strtolower(array_pop($uploaded_ext));
+
+					if(!in_array($uploaded_ext, $ext))
+					{
+						return $this->stop('msg_not_allowed_filetype');
+					}
+				}
+
 				$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
 				$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
 				// An error appears if file size exceeds a limit
@@ -639,6 +663,9 @@ class fileController extends file
 			}
 		}
 
+		// Get random number generator
+		$random = new Password();
+		
 		// Set upload path by checking if the attachement is an image or other kinds of file
 		if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_info['name']))
 		{
@@ -649,10 +676,10 @@ class fileController extends file
 			$path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
 
 			// special character to '_'
-			// change to md5 file name. because window php bug. window php is not recognize unicode character file name - by cherryfilter
+			// change to random file name. because window php bug. window php is not recognize unicode character file name - by cherryfilter
 			$ext = substr(strrchr($file_info['name'],'.'),1);
 			//$_filename = preg_replace('/[#$&*?+%"\']/', '_', $file_info['name']);
-			$_filename = md5(crypt(rand(1000000,900000), rand(0,100))).'.'.$ext;
+			$_filename = $random->createSecureSalt(32, 'hex').'.'.$ext;
 			$filename  = $path.$_filename;
 			$idx = 1;
 			while(file_exists($filename))
@@ -665,7 +692,7 @@ class fileController extends file
 		else
 		{
 			$path = sprintf("./files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));
-			$filename = $path.md5(crypt(rand(1000000,900000), rand(0,100)));
+			$filename = $path.$random->createSecureSalt(32, 'hex');
 			$direct_download = 'N';
 		}
 		// Create a directory
@@ -674,13 +701,16 @@ class fileController extends file
 		// Check uploaded file
 		if(!checkUploadedFile($file_info['tmp_name']))  return new Object(-1,'msg_file_upload_error');
 
+		// Get random number generator
+		$random = new Password();
+		
 		// Move the file
 		if($manual_insert)
 		{
 			@copy($file_info['tmp_name'], $filename);
 			if(!file_exists($filename))
 			{
-				$filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;
+				$filename = $path.$random->createSecureSalt(32, 'hex').'.'.$ext;
 				@copy($file_info['tmp_name'], $filename);
 			}
 		}
@@ -688,7 +718,7 @@ class fileController extends file
 		{
 			if(!@move_uploaded_file($file_info['tmp_name'], $filename))
 			{
-				$filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;
+				$filename = $path.$random->createSecureSalt(32, 'hex').'.'.$ext;
 				if(!@move_uploaded_file($file_info['tmp_name'], $filename))  return new Object(-1,'msg_file_upload_error');
 			}
 		}
@@ -707,7 +737,7 @@ class fileController extends file
 		$args->file_size = @filesize($filename);
 		$args->comment = NULL;
 		$args->member_srl = $member_srl;
-		$args->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
+		$args->sid = $random->createSecureSalt(32, 'hex');
 
 		$output = executeQuery('file.insertFile', $args);
 		if(!$output->toBool()) return $output;
@@ -758,25 +788,30 @@ class fileController extends file
 	{
 		if(!$file_srl) return;
 
-		$srls = explode(',',$file_srl);
+		$srls = (is_array($file_srl)) ? $file_srl : explode(',', $file_srl);
 		if(!count($srls)) return;
 
 		$oDocumentController = getController('document');
 		$documentSrlList = array();
 
-		for($i=0, $c=count($srls); $i<$c; $i++)
+		foreach($srls as $srl)
 		{
-			$srl = (int)$srls[$i];
-			if(!$srl) continue;
+			$srl = (int)$srl;
+			if(!$srl) 
+			{
+				continue;
+			}
 
-			$args = new stdClass;
+			$args = new stdClass();
 			$args->file_srl = $srl;
 			$output = executeQuery('file.getFile', $args);
 
-			if(!$output->toBool()) continue;
+			if(!$output->toBool() || !$output->data) 
+			{
+				continue;
+			}
 
 			$file_info = $output->data;
-			if(!$file_info) continue;
 
 			if($file_info->upload_target_srl)
 			{
@@ -823,12 +858,6 @@ class fileController extends file
 		// Success returned if no attachement exists
 		if(!is_array($file_list)||!count($file_list)) return new Object();
 
-		// Remove from the DB
-		$args = new stdClass();
-		$args->upload_target_srl = $upload_target_srl;
-		$output = executeQuery('file.deleteFiles', $args);
-		if(!$output->toBool()) return $output;
-
 		// Delete the file
 		$path = array();
 		$file_count = count($file_list);
@@ -840,6 +869,13 @@ class fileController extends file
 			$path_info = pathinfo($uploaded_filename);
 			if(!in_array($path_info['dirname'], $path)) $path[] = $path_info['dirname'];
 		}
+
+		// Remove from the DB
+		$args = new stdClass();
+		$args->upload_target_srl = $upload_target_srl;
+		$output = executeQuery('file.deleteFiles', $args);
+		if(!$output->toBool()) return $output;
+		
 		// Remove a file directory of the document
 		for($i=0, $c=count($path); $i<$c; $i++)
 		{
@@ -881,7 +917,8 @@ class fileController extends file
 			else
 			{
 				$path = sprintf("./files/attach/binaries/%s/%s/", $target_module_srl, $target_srl);
-				$new_file = $path.md5(crypt(rand(1000000,900000), rand(0,100)));
+				$random = new Password();
+				$new_file = $path.$random->createSecureSalt(32, 'hex');
 			}
 			// Pass if a target document to move is same
 			if($old_file == $new_file) continue;

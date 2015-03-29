@@ -75,16 +75,17 @@ class moduleController extends module
 		$args->called_position = $called_position;
 
 		$output = executeQuery('module.insertTrigger', $args);
-
-		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
+		if($output->toBool())
 		{
-			$oCacheHandler->invalidateGroupKey('triggers');
+			//remove from cache
+			$GLOBALS['__triggers__'] = NULL;
+			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+			if($oCacheHandler->isSupport())
+			{
+				$cache_key = 'triggers';
+				$oCacheHandler->delete($cache_key);
+			}
 		}
-
-		// Delete all the files which contain trigger information
-		FileHandler::removeFilesInDir("./files/cache/triggers");
 
 		return $output;
 	}
@@ -103,16 +104,42 @@ class moduleController extends module
 		$args->called_position = $called_position;
 
 		$output = executeQuery('module.deleteTrigger', $args);
-
-		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
+		if($output->toBool())
 		{
-			$oCacheHandler->invalidateGroupKey('triggers');
+			//remove from cache
+			$GLOBALS['__triggers__'] = NULL;
+			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+			if($oCacheHandler->isSupport())
+			{
+				$cache_key = 'triggers';
+				$oCacheHandler->delete($cache_key);
+			}
 		}
 
-		// Remove the trigger cache
-		FileHandler::removeFilesInDir('./files/cache/triggers');
+		return $output;
+	}
+
+	/**
+	 * @brief Delete module trigger
+	 *
+	 */
+	function deleteModuleTriggers($module)
+	{
+		$args = new stdClass();
+		$args->module = $module;
+
+		$output = executeQuery('module.deleteModuleTriggers', $args);
+		if($output->toBool())
+		{
+			//remove from cache
+			$GLOBALS['__triggers__'] = NULL;
+			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+			if($oCacheHandler->isSupport())
+			{
+				$cache_key = 'triggers';
+				$oCacheHandler->delete($cache_key);
+			}
+		}
 
 		return $output;
 	}

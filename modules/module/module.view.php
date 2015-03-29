@@ -118,7 +118,6 @@ class moduleView extends module
 		}
 		
 		// not show admin bar
-		Context::set('admin_bar', 'false');
 		Context::set('mid_list', $mid_list);
 		Context::set('selected_module', $selected_module);
 		Context::set('selected_mids', $mid_list[$selected_module]->list);
@@ -140,6 +139,10 @@ class moduleView extends module
 		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
 
 		$input_name = Context::get('input');
+		if(!preg_match('/^[a-z0-9_]+$/i', $input_name))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
 
 		if(!$input_name) return new Object(-1, 'msg_not_permitted');
 

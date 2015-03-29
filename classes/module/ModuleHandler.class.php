@@ -172,7 +172,7 @@ class ModuleHandler extends Handler
 					if(Context::getRequestMethod() == 'GET')
 					{
 						$this->mid = $module_info->mid;
-						header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
+						header('location:' . getNotEncodedSiteUrl($site_module_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
 						return FALSE;
 					}
 					else
@@ -551,7 +551,6 @@ class ModuleHandler extends Handler
 				}
 
 				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
-				$oMemberModel = getModel('member');
 
 				if($this->module == "admin" && $type == "view")
 				{
@@ -1160,6 +1159,13 @@ class ModuleHandler extends Handler
 		if(!$triggers || count($triggers) < 1)
 		{
 			return new Object();
+		}
+		
+		//store before trigger call time
+		$before_trigger_time = NULL;
+		if(__LOG_SLOW_TRIGGER__> 0)
+		{
+			$before_trigger_time = microtime(true);
 		}
 
 		foreach($triggers as $item)
