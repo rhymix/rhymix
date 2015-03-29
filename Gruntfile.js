@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 	"use strict";
 
 	var banner = '/*! Copyright (C) NAVER <http://www.navercorp.com> */\n';
-	var banner_xe_js = banner + '/**!\n * @file   common.js + js_app.js + xml_handler.js + xml_js_filter.js\n * @brief  XE Common JavaScript\n **/\n';
+	var banner_xe_js = banner + '/**!\n * @concat modernizr.js + common.js + js_app.js + xml_handler.js + xml_js_filter.js\n * @brief XE Common JavaScript\n **/\n';
 
 	grunt.file.defaultEncoding = 'utf8';
 
@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 					banner: banner_xe_js
 				},
 				src: [
+					'common/js/modernizr.js',
 					'common/js/common.js',
 					'common/js/js_app.js',
 					'common/js/xml_handler.js',
@@ -32,7 +33,7 @@ module.exports = function(grunt) {
 			'xpresseditor': {
 				options: {
 					stripBanners: true,
-					banner: banner_xe_js
+					banner: '/**!\n * @concat Xpress_Editor.js + xe_interface.js \n **/\n'
 				},
 				src: [
 					'modules/editor/skins/xpresseditor/js/Xpress_Editor.js',
@@ -44,7 +45,8 @@ module.exports = function(grunt) {
 		uglify: {
 			'common-js': {
 				options: {
-					banner: banner_xe_js
+					banner: banner_xe_js,
+					sourceMap: true
 				},
 				files: {
 					'common/js/xe.min.js': ['common/js/xe.js']
@@ -60,6 +62,9 @@ module.exports = function(grunt) {
 				}
 			},
 			'modules': {
+				options: {
+					sourceMap: true
+				},
 				files: {
 					'common/js/x.min.js' : ['common/js/x.js'],
 					// addon
@@ -154,7 +159,12 @@ module.exports = function(grunt) {
 		jshint: {
 			files: [
 				'Gruntfile.js',
-				'common/js/*.js', '!common/js/html5.js', '!common/js/jquery.js', '!common/js/x.js', '!common/js/xe.js',
+				'common/js/*.js',
+				'!common/js/html5.js',
+				'!common/js/jquery.js',
+				'!common/js/x.js',
+				'!common/js/xe.js',
+				'!common/js/modernizr.js',
 				'modules/admin/tpl/js/*.js',
 				'modules/board/tpl/js/*.js',
 				'modules/editor/tpl/js/*.js',
@@ -162,15 +172,6 @@ module.exports = function(grunt) {
 				'modules/widget/tpl/js/*.js',
 			],
 			options : {
-				globalstrict: false,
-				undef : false,
-				eqeqeq: false,
-				browser : true,
-				globals: {
-					"jQuery" : true,
-					"console" : true,
-					"window" : true
-				},
 				ignores : [
 					'**/jquery*.js',
 					'**/swfupload.js',
@@ -314,7 +315,7 @@ module.exports = function(grunt) {
 				// changed
 				grunt.util.spawn({
 					cmd: "git",
-					args: ['diff', '--name-only', target]
+					args: ['diff', '--name-only', '--diff-filter' ,'ACM', target]
 				}, function (error, result, code) {
 					diff = result.stdout;
 

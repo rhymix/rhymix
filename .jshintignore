@@ -1,0 +1,9 @@
+common/js/jquery*.js
+common/js/modernizr.js
+common/js/xe.js
+common/js/x.js
+common/js/*.min.js
+common/js/unittest/*
+common/js/plugins/*
+common/js/foggyLayer.js
+common/js/html5.js

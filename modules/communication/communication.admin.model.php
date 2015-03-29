@@ -48,6 +48,7 @@ class communicationAdminModel extends communication
 
 			$oModuleModel = getModel('module');
 			$communication_config = $oModuleModel->getModuleConfig('communication');
+			if(!is_object($communication_config)) $communication_config = new stdClass;
 			if(!$communication_config->colorset)
 			{
 				$communication_config->colorset = "white";

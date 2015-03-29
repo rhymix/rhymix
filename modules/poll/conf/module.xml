@@ -9,7 +9,7 @@
         <action name="getPollGetColorsetList" type="model" />
         <action name="getPollAdminTarget" type="model" />
 
-        <action name="procInsert" type="controller" />
+        <action name="procPollInsert" type="controller" />
         <action name="procPoll" type="controller" ruleset="poll" />
         <action name="procPollViewResult" type="controller" />
         <action name="procPollGetList" type="controller" />

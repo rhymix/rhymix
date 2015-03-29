@@ -248,6 +248,9 @@ class adminAdminView extends admin
 	 */
 	function dispAdminIndex()
 	{
+		$db_info = Context::getDBInfo();
+		Context::set('db_info',$db_info);
+
 		// Get statistics
 		$args = new stdClass();
 		$args->date = date("Ymd000000", $_SERVER['REQUEST_TIME'] - 60 * 60 * 24);
@@ -626,6 +629,7 @@ class adminAdminView extends admin
 		$info['PHP_Core'] = $php_core;
 
 		$str_info = "[XE Server Environment " . date("Y-m-d") . "]\n\n";
+		$str_info .= "realpath : ".realpath('./')."\n";
 		foreach( $info as $key=>$value )
 		{
 			if( is_array( $value ) == false ) {

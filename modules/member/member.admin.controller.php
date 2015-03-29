@@ -1091,7 +1091,7 @@ class memberAdminController extends member
 	}
 
 	/**
-	 * find_account_answerInsert a group
+	 * Insert a group
 	 * @param object $args
 	 * @return Object
 	 */
@@ -1109,13 +1109,13 @@ class memberAdminController extends member
 			if(!$output->toBool()) return $output;
 		}
 
-		if(!$args->group_srl) $args->group_srl = getNextSequence();
-
-		if(!$args->list_order)
+		if(!isset($args->list_order) || $args->list_order=='')
 		{
 			$args->list_order = $args->group_srl;
 		}
 
+		if(!$args->group_srl) $args->group_srl = getNextSequence();
+		$args->list_order = $args->group_srl;
 		$output = executeQuery('member.insertGroup', $args);
 		$this->_deleteMemberGroupCache($args->site_srl);
 

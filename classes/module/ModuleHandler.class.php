@@ -551,7 +551,6 @@ class ModuleHandler extends Handler
 				}
 
 				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
-				$oMemberModel = getModel('member');
 
 				if($this->module == "admin" && $type == "view")
 				{
@@ -1160,6 +1159,13 @@ class ModuleHandler extends Handler
 		if(!$triggers || count($triggers) < 1)
 		{
 			return new Object();
+		}
+		
+		//store before trigger call time
+		$before_trigger_time = NULL;
+		if(__LOG_SLOW_TRIGGER__> 0)
+		{
+			$before_trigger_time = microtime(true);
 		}
 
 		foreach($triggers as $item)

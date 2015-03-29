@@ -124,7 +124,7 @@ class ModuleInstaller
 		}
 		else
 		{
-			$subpath = substr($this->package->path, 2);
+			$subpath = trim(substr($this->package->path, 2), '/');
 			$this->download_file = $this->temp_dir . $subpath . ".tar";
 			$subpatharr = explode("/", $subpath);
 			array_pop($subpatharr);

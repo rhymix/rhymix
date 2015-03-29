@@ -60,6 +60,19 @@ class pointAdminController extends point
 			if($group->is_admin == 'Y' || $group->is_default == 'Y') continue;
 
 			$group_srl = $group->group_srl;
+
+			//if group level is higher than max level, change to max level
+			if($args->{'point_group_'.$group_srl} > $args->max_level)
+			{
+				$args->{'point_group_'.$group_srl} = $args->max_level;
+			}
+
+			//if group level is lower than 1, change to 1
+			if($args->{'point_group_'.$group_srl} < 1)
+			{
+				$args->{'point_group_'.$group_srl} = 1;
+			}
+
 			if($args->{'point_group_'.$group_srl})
 			{
 				$config->point_group[$group_srl] = $args->{'point_group_'.$group_srl};
