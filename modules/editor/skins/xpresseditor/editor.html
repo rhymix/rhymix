@@ -410,7 +410,7 @@
                     <div class="layer extension2 xpress_xeditor_extension_layer" id="editorExtension_{$editor_sequence}">
                         <ul id="editor_component_{$editor_sequence}" class="editorComponent">
                             <!--@foreach($component_list as $component_name => $component)-->
-                                <li><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}">{$component->title}</a></li>
+                                <li><img src="../../components/{$component_name}/component_icon.gif" style="width:13px !important;height:12px !important;padding-right:5px;" alt="" onError="this.onerror=null;this.src='./common/img/blank.gif';" /><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}" style="vertical-align: top;">{$component->title}</a></li>
                             <!--@end-->
                         </ul>
                     </div>
