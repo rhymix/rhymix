@@ -1,0 +1,348 @@
+<!--// META -->
+{Context::addHtmlHeader('<meta name="viewport" content="width=1240">')}
+<!--// LANG -->
+<load target="./lang" />
+<!--// CSS -->
+<load target="./css/layout.css" />
+<load target="./css/camera.css" />
+<load target="./css/welcome.css" />
+<load target="../../common/xeicon/xeicon.min.css" />
+<!--// JS -->
+<block cond="(!$layout_info->layout_type || $layout_info->layout_type == 'default') && ($layout_info->use_demo != 'N' || $layout_info->use_slide != 'N')">
+	<load target="./js/camera.min.js" />
+	<script>
+	jQuery(function ($) {
+		// main slide : camera show plugin 적용
+		$(".camera_wrap").camera({
+			height: "600px",
+			pagination: true,
+			thumbnails: false,
+			playPause: false,
+			loader: "none",
+			fx: "simpleFade",
+			time: 3000
+		});
+	});
+	</script>
+</block>
+<load target="./js/jquery.easing.js" />
+<load target="./js/layout.js" />
+<load cond="$layout_info->use_demo != 'N'" target="./js/welcome.js" />
+<load target="./js/SmoothScroll.min.js" />
+<load cond="$layout_info->use_demo != 'N'" target="./js/jquery.countTo.js" />
+
+<!--// BODY -->
+<div class="container<!--@if($layout_info->menu_type != 'blog')--> <!--@if($layout_info->menu_type == 'magazine')-->magazine<!--@elseif($layout_info->menu_type == 'startup')-->onepage<!--@else-->fixed_header<!--@end--><!--@end-->">
+	<p class="skip"><a href="#content">{$lang->skip_to_content}</a></p>
+	<div class="header_wrap">
+		<div class="search_wrap">
+			<div class="search_area">
+				<!-- SEARCH -->
+				<form action="{getUrl()}" method="get" class="search" no-error-return-url="true">
+					<input type="hidden" name="vid" value="{$vid}" />
+					<input type="hidden" name="mid" value="{$mid}" />
+					<input type="hidden" name="act" value="IS" />
+					<input type="text" name="is_keyword" value="{$is_keyword}" required="required" title="{$lang->cmd_search}" placeholder="{$lang->cmd_search}" />
+				</form>
+				<!-- /SEARCH -->
+				<a href="#" class="btn_close" title="{$lang->cmd_xedition_search_close}" onclick="return false"><i class="xe-close"></i><span class="blind">{$lang->cmd_xedition_search_close}</span></a>
+			</div>
+		</div>
+		<header class="header">
+			<h1>
+				<a href="<!--@if($layout_info->use_demo == 'N' && $layout_info->logo_url)-->{$layout_info->logo_url}<!--@else-->#<!--@end-->">
+					<!--@if($layout_info->use_demo == 'N' && $layout_info->logo_img)-->
+						<img src="{$layout_info->logo_img}" alt="{$layout_info->logo_text}"|cond="$layout_info->logo_text" />
+					<!--@else-->
+						<block cond="!$layout_info->menu_type || $layout_info->menu_type == 'default' || $layout_info->menu_type == 'blog'">
+							<img src="./img/logo.png" alt="XEDITION" />
+						</block>
+						<block cond="$layout_info->menu_type == 'magazine'">
+							<img src="./img/m_logo.png" alt="XEDITION Header : Magazine type" />
+						</block>
+						<block cond="$layout_info->menu_type == 'startup'">
+							<img src="./img/s_logo.png" alt="XEDITION" />
+						</block>
+					<!--@end-->
+				</a>
+			</h1>
+			<div class="side">
+				<ul>
+				<li class="click">
+					<a href="#" title="{$lang->cmd_search}"><i class="xe-magnifier"></i><span class="blind">{$lang->cmd_search}</span></a>
+				</li>
+				<li cond="$logged_info->is_admin == 'Y'"><a href="{getUrl('', 'module', 'admin')}" target="_blank" title="{$lang->cmd_management}"><i class="xe-tool"></i><span class="blind">{$lang->cmd_management}</span></a></li>
+				<li class="hover">
+					<!--@if($is_logged)-->
+						<!-- after_login -->
+						<a href="#" class="login_after">
+							<!--@if($logged_info->profile_image->src)-->
+								<img src="{$logged_info->profile_image->src}" alt="{$logged_info->nick_name}" />
+							<!--@else-->
+								<img src="./img/ico_default.jpg" alt="{$logged_info->nick_name}" />
+							<!--@end-->
+						</a>
+						<div class="ly ly_login">
+							<ul>
+								<li loop="$logged_info->menu_list => $key, $val"><a href="{getUrl('act', $key, 'member_srl', '', 'page', '')}">{Context::getLang($val)}</a></li>
+								<li><a href="{getUrl('act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+							</ul>
+							<span class="edge"></span>
+						</div>
+						<!-- /after_login -->
+					<!--@else-->
+						<!-- before_login -->
+						<a href="#"><i class="xe-user"></i><span class="blind">{$lang->cmd_login}/{$lang->cmd_signup}</span></a>
+						<div class="ly ly_login">
+							<ul>
+								<li><a id="ly_login_btn" href="{getUrl('act', 'dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+								<li><a href="{getUrl('act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+							</ul>
+							<span class="edge"></span>
+						</div>
+						<!-- /before_login -->
+					<!--@end-->
+				</li>
+				</ul>
+			</div>
+			<div cond="$SNB->list && $layout_info->menu_type == 'magazine'" class="custom_area">
+				<ul>
+					<li loop="$SNB->list => $key, $val">
+						<a href="{$val['href']}" target="_blank"|cond="$val['open_window'] == 'Y'">{$val['link']}</a>
+					</li>
+				</ul>
+			</div>
+			<!-- GNB -->
+			<nav cond="$GNB->list" class="gnb" id="gnb">
+				<ul>
+					<li loop="$GNB->list => $key1, $val1">
+						<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
+						<ul cond="$val1['list']" class="depth2">
+							<li loop="$val1['list'] => $key2, $val2" class="more"|cond="$val2['list']">
+								<a href="{$val2['href']}" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
+								<ul cond="$val2['list']" class="depth3">
+									<li loop="$val2['list'] => $key3, $val3">
+										<a href="{$val3['href']}" target="_blank"|cond="$val3['open_window'] == 'Y'">{$val3['link']}</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<!-- /GNB -->
+		</header>
+	</div>
+
+	<!-- VISUAL -->
+	<div cond="$layout_info->use_demo != 'N' || $layout_info->use_slide != 'N'" class="visual <!--@if($layout_info->layout_type && $layout_info->layout_type != 'default')-->sub<!--@if($layout_info->layout_type == 'sub2')--> sub_type2<!--@elseif($layout_info->layout_type == 'sub3')--> sub_type3<!--@end--><!--@else-->main<!--@end-->">
+		<!--@if($layout_info->layout_type && $layout_info->layout_type != 'default')-->
+			<span class="bg_img" style="background-image:url(<!--@if($layout_info->use_demo == 'N' && $layout_info->slide_img1)-->{$layout_info->slide_img1}<!--@else-->{$layout_info->path}img/sub_banner_<!--@if($layout_info->layout_type == 'sub1' || $layout_info->layout_type == 'sub2')-->01<!--@elseif($layout_info->layout_type == 'sub3')-->02<!--@end-->.jpg<!--@end-->)"></span>
+			<span cond="$layout_info->layout_type == 'sub1' || $layout_info->layout_type == 'sub2'" class="mask"></span>
+			<div class="sub_title">
+				<h1><!--@if($layout_info->use_demo == 'N' && $layout_info->slide_text1)-->{$layout_info->slide_text1}<!--@elseif($layout_info->layout_type == 'sub1')-->SIMPLE-TEXT HEADER<!--@elseif($layout_info->layout_type == 'sub2')-->REGULAR HEADER<!--@elseif($layout_info->layout_type == 'sub3')-->REGULAR RARALLAX<!--@end--></h1>
+			</div>
+		<!--@else-->
+			<div class="camera_wrap">
+			<!--@if($layout_info->use_demo != 'N' || !$layout_info->slide_img1 && !$layout_info->slide_img2 && !$layout_info->slide_img3 && !$layout_info->slide_img4 && !$layout_info->slide_img5)-->
+				<include target="./demo/slide.html" />
+			<!--@else-->
+				<div cond="$layout_info->slide_img1" data-src="{$layout_info->slide_img1}">
+					<div cond="$layout_info->slide_text1" class="camera_caption fadeIn">
+						{$layout_info->slide_text1}
+					</div>
+				</div>
+				<div cond="$layout_info->slide_img2" data-src="{$layout_info->slide_img2}">
+					<div cond="$layout_info->slide_text2" class="camera_caption fadeIn">
+						{$layout_info->slide_text2}
+					</div>
+				</div>
+				<div cond="$layout_info->slide_img3" data-src="{$layout_info->slide_img3}">
+					<div cond="$layout_info->slide_text3" class="camera_caption fadeIn">
+						{$layout_info->slide_text3}
+					</div>
+				</div>
+				<div cond="$layout_info->slide_img4" data-src="{$layout_info->slide_img4}">
+					<div cond="$layout_info->slide_text4" class="camera_caption fadeIn">
+						{$layout_info->slide_text4}
+					</div>
+				</div>
+				<div cond="$layout_info->slide_img5" data-src="{$layout_info->slide_img5}">
+					<div cond="$layout_info->slide_text5" class="camera_caption fadeIn">
+						{$layout_info->slide_text5}
+					</div>
+				</div>
+			<!--@end-->
+			</div>
+		<!--@end-->
+	</div>
+	<!-- /VISUAL -->
+
+	<div class="body <!--@if($layout_info->layout_type && $layout_info->layout_type != 'default')-->sub<!--@if($layout_info->sidebar_position)--> {$layout_info->sidebar_position}<!--@end--><!--@else-->main<!--@end-->">
+		<!-- LNB -->
+		<nav cond="$LNB->list && $layout_info->layout_type && $layout_info->layout_type != 'default' && (!$layout_info->sidebar_position || $layout_info->sidebar_position == 'right')" class="lnb">
+			<ul>
+				<li loop="$LNB->list => $key1, $val1">
+					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
+					<ul cond="$val1['list']">
+						<li loop="$val1['list'] => $key2, $val2" class="on"|cond="$val1['selected']">
+							<a href="{$val2['href']}" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		<!-- /LNB -->
+		<!-- CONTENT -->
+		<!--@if(!$layout_info->layout_type || $layout_info->layout_type == 'default' && $layout_info->use_demo != 'N')-->
+			<include target="./demo/welcome_main.html" />
+		<!--@else-->
+			<div class="content" id="content">
+				<!--@if($layout_info->use_demo == 'N')-->
+					{$content}
+				<!--@else-->
+					<include cond="!$layout_info->sidebar_position" target="./demo/welcome_sub1.html" />
+					<include cond="$layout_info->sidebar_position == 'right'" target="./demo/welcome_sub2.html" />
+					<include cond="$layout_info->sidebar_position == 'full_width'" target="./demo/welcome_sub3.html" />
+				<!--@end-->
+			</div>
+		<!--@end-->
+		<!-- /CONTENT -->
+	</div>
+
+	<footer class="footer" style="border-bottom-color:#CDA25A">
+		<div class="f_info_area">
+			<div class="f_info">
+				<!--@if($layout_info->use_demo == 'N')-->
+					<p cond="$layout_info->footer_logo_img || $layout_info->footer_logo_text" class="f_logo<!--@if(!$layout_info->footer_logo_img)--> log_txt<!--@end-->">
+						<a href="<!--@if($layout_info->footer_logo_url)-->{$layout_info->footer_logo_url}<!--@else-->#<!--@end-->">
+							<!--@if($layout_info->footer_logo_url)-->
+								<img src="{$layout_info->footer_logo_img}" alt="{$layout_info->footer_logo_text}" />
+							<!--@else-->
+								{$layout_info->footer_logo_text}
+							<!--@end-->
+						</a>
+					</p>
+					<p class="sub_desc">{$layout_info->footer_text}</p>
+				<!--@else-->
+					<include target="./demo/footer.html" />
+				<!--@end-->
+			</div>
+			<div class="f_info2">
+				<div class="site_map">
+					<ul cond="$FNB->list">
+						{@$i = 0}
+						<li loop="$FNB->list => $key1, $val1" class="clear"|cond="!($i % 3) && $i > 0">
+							{@$i++}
+							<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
+							<ul cond="$val1['list']">
+								<li loop="$val1['list'] => $key2, $val2">
+									<a href="{$val2['href']}" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="f_cr_area">
+			<p class="copyright">
+				<!--@if($layout_info->use_demo == 'N' && $layout_info->footer_copyright)-->
+					{$layout_info->footer_copyright}
+				<!--@else-->
+					<include target="./demo/copyright.html" />
+				<!--@end-->
+			</p>
+		</div>
+	</footer>
+</div>
+
+<!-- TOP -->
+<a href="#" class="btn_top"><i class="xe-angle-up"><span class="blind">{$lang->cmd_move_up}</span></i></a>
+<!-- /TOP -->
+
+<!-- Login widget -->
+<section cond="$layout_info->use_login_widget != 'N'" class="login_widget" style="display:none"|cond="$XE_VALIDATOR_ID != 'layouts/xedition/layout/1' || !$XE_VALIDATOR_MESSAGE">
+	<load target="./css/widget.login.css" />
+	<div class="ly_dimmed"></div>
+	<div class="signin">
+		<div class="login-header">
+			<h1>LOGIN</h1>
+		</div>
+		<div class="login-body">
+			<form action="{getUrl()}" method="post" autocomplete="off">
+				<input type="hidden" name="act" value="procMemberLogin" />
+				<input type="hidden" name="success_return_url" value="{htmlspecialchars(getRequestUriByServerEnviroment(), ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE)}" />
+				<input type="hidden" name="xe_validator_id" value="layouts/xedition/layout/1" />
+				<fieldset>
+					<legend class="blind">{$lang->cmd_login}</legend>
+					<div class="control-group">
+						<div class="group">
+							<input type="text" name="user_id" id="uemail" required="true" />
+							<span class="highlight"></span>
+							<span class="bar"></span>
+							<label class="info_label" for="uemail">{$lang->user_id}</label>
+						</div>
+						<div class="group">
+							<input type="password" name="password" id="upw" required="true" />
+							<span class="highlight"></span>
+							<span class="bar"></span>
+							<label class="info_label" for="upw">{$lang->password}</label>
+						</div>
+					</div>
+					<div cond="$XE_VALIDATOR_ID == 'layouts/xedition/layout/1' && $XE_VALIDATOR_MESSAGE" class="control-group">
+						<p class="error">{$XE_VALIDATOR_MESSAGE}</p>
+					</div>
+					<div class="control-group">
+						<label class="chk_label" for="keepid_opt">
+							<input type="checkbox" name="keep_signed" id="keepid_opt" />
+							<span class="checkbox"></span> {$lang->keep_signed}
+						</label>
+						<div id="warning">
+							<p>{str_replace('\n\n', '<br />', $lang->about_keep_signed)}</p>
+							<div class="edge"></div>
+						</div>
+						<button type="submit" class="btn_submit">{$lang->cmd_login}</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		<div class="login-footer">
+			<a href="{getUrl('act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
+			<span class="f_bar">|</span>
+			<a href="{getUrl('act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
+		</div>
+		<a href="#" class="btn_ly_popup"><span class="blind">닫기</span></a>
+	</div>
+	<script>
+	jQuery(function ($) {
+		var keep_msg = $("#warning");
+		$(".chk_label").on("mouseenter mouseleave focusin focusout", function (e) {
+			if(e.type == "mouseenter" || e.type == "focusin") {
+				keep_msg.show();
+			}
+			else {
+				keep_msg.hide();
+			}
+		});
+		$("#ly_login_btn").click(function () {
+			$(".login_widget").show();
+			return false;
+		});
+		$(".btn_ly_popup").click(function () {
+			$(".login_widget").hide();
+			return false;
+		});
+		$("input").blur(function () {
+			var $this = $(this);
+			if ($this.val()) {
+				$this.addClass("used");
+			}
+			else {
+				$this.removeClass("used");
+			}
+		});
+	});
+	</script>
+</section>
+<!-- /Login widget -->
