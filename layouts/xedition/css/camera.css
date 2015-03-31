@@ -151,7 +151,13 @@
 	position: absolute;
 	width: 100%;
 }
-.camera_caption > div {
+.camera_caption_wrap {
+	width: 1200px;
+	margin: 0 auto;
+	font-size: 20px;
+	line-height: 22px;
+}
+.camera_caption_wrap > div {
 	padding: 10px 20px;
 }
 .camerarelative {
