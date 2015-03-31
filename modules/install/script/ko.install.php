@@ -37,16 +37,17 @@ $oMenuAdminController->makeXmlFile($menuSrl);
 //extra_vars init
 $extra_vars = new stdClass;
 $extra_vars->GNB = $menuSrl;
-$extra_vars->LAYOUT_TYPE = 'MAIN_PAGE';
-$extra_vars->VISUAL_USE = 'YES';
+$extra_vars->LNB = $menuSrl;
+$extra_vars->SNB = $menuSrl;
+$extra_vars->FNB = $menuSrl;
 $extra_vars->menu_name_list = array();
 $extra_vars->menu_name_list[$menuSrl] = 'Welcome menu';
 
 $args = new stdClass;
 $args->site_srl = 0;
 $layout_srl = $args->layout_srl = getNextSequence();
-$args->layout = 'default';
-$args->title = 'default';
+$args->layout = 'xedition';
+$args->title = 'xedition';
 $args->layout_type = 'P';
 
 $oLayoutAdminController = getAdminController('layout'); /* @var $oLayoutAdminController layoutAdminController */

@@ -109,6 +109,14 @@ module.exports = function(grunt) {
 					'addons/oembed/oembed.min.js': ['addons/oembed/oembed.js'],
 				}
 			},
+			'layout': {
+				files: {
+					'layouts/xedition/js/jquery.countTo.min.js': ['layouts/xedition/js/jquery.countTo.js'],
+					'layouts/xedition/js/jquery.easing.min.js': ['layouts/xedition/js/jquery.easing.js'],
+					'layouts/xedition/js/layout.min.js': ['layouts/xedition/js/layout.js'],
+					'layouts/xedition/js/welcome.min.js': ['layouts/xedition/js/welcome.js'],
+				}
+			},
 		},
 		cssmin: {
 			'common': {
@@ -135,6 +143,14 @@ module.exports = function(grunt) {
 			'addons': {
 				files: {
 					'addons/oembed/jquery.oembed.min.css': ['addons/oembed/jquery.oembed.css'],
+				}
+			},
+			'layout': {
+				files: {
+					'layouts/xedition/css/camera.min.css': ['layouts/xedition/css/camera.css'],
+					'layouts/xedition/css/layout.min.css': ['layouts/xedition/css/layout.css'],
+					'layouts/xedition/css/welcome.min.css': ['layouts/xedition/css/welcome.css'],
+					'layouts/xedition/css/widget.login.min.css': ['layouts/xedition/css/widget.login.css'],
 				}
 			},
 		},
