@@ -369,7 +369,8 @@ class Context
 		// If using rewrite module, initializes router
 		if($this->allow_rewrite)
 		{
-			Router::proc();
+			$oRouter = Router::getInstance();
+			$oRouter->proc();
 		}
 
 		// set locations for javascript use
@@ -1668,9 +1669,10 @@ class Context
 					'act.document_srl.key.mid.vid' => ($act == 'trackback') ? "$vid/$mid/$srl/$key/$act" : ''
 				);
 
-				Router::setMap($target_map);
+				$oRouter = Router::getInstance();
+				$oRouter->setMap($target_map);
 
-				$query = Router::makePrettyUrl($target);
+				$query = $oRouter->makePrettyUrl($target);
 			}
 
 			if(!$query)
