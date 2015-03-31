@@ -75,7 +75,7 @@
 				<li class="hover">
 					<!--@if($is_logged)-->
 						<!-- after_login -->
-						<a href="#" class="login_after">
+						<a href="{getUrl('act', 'dispMemberInfo')}" class="login_after">
 							<!--@if($logged_info->profile_image->src)-->
 								<img src="{$logged_info->profile_image->src}" alt="{$logged_info->nick_name}" />
 							<!--@else-->
@@ -92,7 +92,7 @@
 						<!-- /after_login -->
 					<!--@else-->
 						<!-- before_login -->
-						<a href="#"><i class="xe-user"></i><span class="blind">{$lang->cmd_login}/{$lang->cmd_signup}</span></a>
+						<a href="{getUrl('act', 'dispMemberLoginForm')}" id="ly_btn"><i class="xe-user"></i><span class="blind">{$lang->cmd_login}/{$lang->cmd_signup}</span></a>
 						<div class="ly ly_login">
 							<ul>
 								<li><a id="ly_login_btn" href="{getUrl('act', 'dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
@@ -325,7 +325,7 @@
 				keep_msg.hide();
 			}
 		});
-		$("#ly_login_btn").click(function () {
+		$("#ly_login_btn, #ly_btn").click(function () {
 			$(".login_widget").show();
 			return false;
 		});
