@@ -636,7 +636,8 @@ class FileHandler
 	function returnBytes($val)
 	{
 		$unit = strtoupper(substr($val, -1));
-		$val = (int)$val;
+		$val = (float)$val;
+
 		switch ($unit)
 		{
 			case 'G': $val *= 1024;
