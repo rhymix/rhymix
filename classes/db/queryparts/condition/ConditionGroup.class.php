@@ -29,7 +29,7 @@ class ConditionGroup
 	 * @param string $pipe
 	 * @return void
 	 */
-	function ConditionGroup($conditions, $pipe = "")
+	function __construct($conditions, $pipe = "")
 	{
 		$this->conditions = array();
 		foreach($conditions as $condition)

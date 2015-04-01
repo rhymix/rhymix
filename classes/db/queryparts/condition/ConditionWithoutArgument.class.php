@@ -17,9 +17,9 @@ class ConditionWithoutArgument extends Condition
 	 * @param string $pipe
 	 * @return void
 	 */
-	function ConditionWithoutArgument($column_name, $argument, $operation, $pipe = "")
+	function __construct($column_name, $argument, $operation, $pipe = "")
 	{
-		parent::Condition($column_name, $argument, $operation, $pipe);
+		parent::__construct($column_name, $argument, $operation, $pipe);
 		$tmpArray = array('in' => 1, 'notin' => 1, 'not_in' => 1);
 		if(isset($tmpArray[$operation]))
 		{

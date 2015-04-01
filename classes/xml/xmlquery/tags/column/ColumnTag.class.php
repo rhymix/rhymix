@@ -25,7 +25,7 @@ class ColumnTag
 	 * @param string $name
 	 * @return void
 	 */
-	function ColumnTag($name)
+	function __construct($name)
 	{
 		$this->name = $name;
 	}

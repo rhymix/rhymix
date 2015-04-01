@@ -137,7 +137,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return void
 	 */
-	function Mail()
+	function __construct()
 	{
 
 	}

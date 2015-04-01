@@ -18,7 +18,7 @@ class member extends ModuleObject {
 	 *
 	 * @return void
 	 */
-	function member()
+	function __construct()
 	{
 		if(!Context::isInstalled()) return;
 

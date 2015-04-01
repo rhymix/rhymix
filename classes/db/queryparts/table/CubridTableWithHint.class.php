@@ -34,9 +34,9 @@ class CubridTableWithHint extends Table
 	 * @param array $index_hints_list
 	 * @return void
 	 */
-	function CubridTableWithHint($name, $alias = NULL, $index_hints_list)
+	function __construct($name, $alias = NULL, $index_hints_list)
 	{
-		parent::Table($name, $alias);
+		parent::__construct($name, $alias);
 		$this->index_hints_list = $index_hints_list;
 	}
 

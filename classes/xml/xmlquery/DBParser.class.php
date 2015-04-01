@@ -60,7 +60,7 @@ class DBParser
 	 *
 	 * @return void
 	 */
-	function DBParser($escape_char_left, $escape_char_right = "", $table_prefix = "xe_")
+	function __construct($escape_char_left, $escape_char_right = "", $table_prefix = "xe_")
 	{
 		$this->escape_char_left = $escape_char_left;
 		if($escape_char_right !== "")

@@ -30,7 +30,7 @@ class CacheApc extends CacheBase
 	 *
 	 * @return void
 	 */
-	function CacheApc()
+	function __construct()
 	{
 	}
 

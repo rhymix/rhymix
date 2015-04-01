@@ -24,7 +24,7 @@ class UpdateColumnsTag
 	 * @param array|object $xml_columns
 	 * @return void
 	 */
-	function UpdateColumnsTag($xml_columns)
+	function __construct($xml_columns)
 	{
 		$this->columns = array();
 

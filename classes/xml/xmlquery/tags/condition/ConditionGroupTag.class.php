@@ -29,7 +29,7 @@ class ConditionGroupTag
 	 * @param string $pipe
 	 * @return void
 	 */
-	function ConditionGroupTag($conditions, $pipe = "")
+	function __construct($conditions, $pipe = "")
 	{
 		$this->pipe = $pipe;
 

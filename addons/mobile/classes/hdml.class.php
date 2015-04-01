@@ -8,9 +8,9 @@ class wap extends mobileXE {
 	/**
 	 * @brief constructor
 	 **/
-	function wap()
+	function __construct()
 	{
-		parent::mobileXE();
+		parent::__construct();
 	}
 
 	/**

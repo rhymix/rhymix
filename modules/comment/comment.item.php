@@ -30,7 +30,7 @@ class commentItem extends Object
 	 * @param array $columnList
 	 * @return void
 	 */
-	function commentItem($comment_srl = 0, $columnList = array())
+	function __construct($comment_srl = 0, $columnList = array())
 	{
 		$this->comment_srl = $comment_srl;
 		$this->columnList = $columnList;

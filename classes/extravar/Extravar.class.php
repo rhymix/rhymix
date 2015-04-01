@@ -38,7 +38,7 @@ class ExtraVar
 	 * @param int $module_srl Sequence of module
 	 * @return void
 	 */
-	function ExtraVar($module_srl)
+	function __construct($module_srl)
 	{
 		$this->module_srl = $module_srl;
 	}

@@ -9,7 +9,7 @@ class Purifier
 	private $_config;
 	private $_def;
 
-	public function Purifier()
+	public function __construct()
 	{
 		$this->_checkCacheDir();
 

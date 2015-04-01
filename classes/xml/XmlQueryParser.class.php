@@ -49,7 +49,7 @@ class XmlQueryParser extends XmlParser
 	 * constructor
 	 * @return void
 	 */
-	function XmlQueryParser()
+	function __construct()
 	{
 
 	}

@@ -58,7 +58,7 @@ class DefaultValue
 	 * @param mixed $value value
 	 * @return void
 	 */
-	function DefaultValue($column_name, $value)
+	function __construct($column_name, $value)
 	{
 		$dbParser = DB::getParser();
 		$this->column_name = $dbParser->parseColumnName($column_name);

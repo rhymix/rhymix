@@ -219,7 +219,7 @@ class DB
 	 * constructor
 	 * @return void
 	 */
-	function DB()
+	function __construct()
 	{
 		$this->count_cache_path = _XE_PATH_ . $this->count_cache_path;
 		$this->cache_file = _XE_PATH_ . $this->cache_file;
