@@ -11,14 +11,14 @@
 .welcomeXE .intro .btn_start:active
 .welcomeXE .intro .btn_start:focus{background-color:#cda25a;color:#fff}
 
-.welcomeXE .statistics{overflow:hidden;position:static;width:100%;margin:0;height:500px;background-image:url(../img/bg_stat.jpg);background-position:50% 0;background-attachment:fixed;background-repeat:no-repeat}
-.welcomeXE .statistics ul{overflow:hidden;width:1200px;margin:220px auto 0}
-.welcomeXE .statistics li{float:left;width:384px;margin-left:24px;text-align:center}
-.welcomeXE .statistics li:first-child{margin-left:0}
-.welcomeXE .statistics li span{display:block}
-.welcomeXE .statistics .number{font-family:'Open sans',sans-serif;font-size:48px;color:#333;line-height:60px}
-.welcomeXE .statistics .text{font-size:16px;line-height:20px;padding:20px 0;font-weight:600}
+/* section.xeicon */
+.welcomeXE .xeicon{overflow:hidden;position:static;width:100%;margin:0;height:500px;background-image:url(../img/bg_stat.jpg);background-position:50% 0;background-attachment:fixed;background-repeat:no-repeat}
+.welcomeXE .xeicon h1 {margin-top: 170px; font-size: 40px; color: #f6f6f6; text-align: center; letter-spacing: 1px; font-weight: 400; line-height: 1.2em; text-transform: uppercase; }
+.welcomeXE .xeicon h1 a {color: #FFF; }
+.welcomeXE .xeicon .button-area {text-align: center; }
+.welcomeXE .xeicon .button-area .btn_item {font-size: 16px; }
 
+/* section.guide */
 .welcomeXE .guide{height:640px;padding-top:80px}
 .welcomeXE .guide ul{padding-top:27px}
 .welcomeXE .guide li{position:relative;float:left;width:314px;min-height:140px;padding:0 0 0 70px;margin:0 0 30px 0}
@@ -33,6 +33,7 @@
 .welcomeXE .guide p a:active,
 .welcomeXE .guide p a:focus{color:#cda25a;border-bottom:1px solid #cda25a}
 
+/* section.features */
 .welcomeXE .features{width:100%;margin:0;height:800px;padding-top:80px;background-color:#444}
 .welcomeXE .features .noti,
 .welcomeXE .features .tit,
@@ -61,6 +62,8 @@
 .welcomeXE .features .fe_box.on .ico3{background-position:-140px -70px}
 .welcomeXE .features .fe_box.on .ico4{background-position:-210px -70px}
 
+
+/*section.connect*/
 .welcomeXE .connect{height:344px;padding-top:80px}
 .welcomeXE .connect ul{overflow:hidden;padding:40px 0}
 .welcomeXE .connect li{position:relative;float:left;width:180px;margin-left:24px;padding:4px 0 0 102px;min-height:78px}
