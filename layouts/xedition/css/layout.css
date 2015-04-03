@@ -157,6 +157,12 @@ a:hover,a:active,a:focus{text-decoration:none}
 .gnb>ul .depth2 a:hover,.gnb>ul .depth2 a:active,.gnb>ul .depth2 a:focus,.gnb>ul .depth2>li.on>a{color:#cda25a}
 .gnb>ul .depth3{display:none;position:absolute;top:-8px;left:100%;z-index:2;padding:8px 0;background-color:#333}
 .gnb>ul .depth2>li.more>a:after{position:absolute;right:20px;content:'>'}
+.onepage .header_wrap.shrink a,
+.onepage .shrink .header > .side > ul > li > a {color: #444; }
+.onepage .shrink .gnb {margin-top: 0; }
+.magazine .shrink .gnb {margin-bottom: 10px; }
+.magazine .shrink h1 {margin-top: 10px; }
+.magazine .header_wrap.shrink .gnb > ul > li > a {line-height: 40px; }
 
 /* VISUAL */
 .visual.sub{position:relative;padding:35px 0;background-color:#f6f6f6;line-height:30px}

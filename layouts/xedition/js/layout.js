@@ -1,22 +1,38 @@
 (function($){
+    "use strict";
     $(function(){
-        var $shrinkHeaderHeight = 200;
-        var $fixedHeader = $('.header_wrap');
+        var $fixedHeader = $('.fixed_header .header_wrap');
         var $gnb = $('.gnb');
         var $hoverEl = $('.hover');
         var $searchEl = $('.click > a');
         var $searchForm = $('.search_area');
 
         // Fixed header
-        $(window).scroll(function() {
-            var scroll = $(this).scrollTop();
-            if( scroll >= $shrinkHeaderHeight ) {
-               $fixedHeader.addClass('shrink')
-            }
-            else {
-               $fixedHeader.removeClass('shrink');
-            }
-        });
+        if($fixedHeader.length)
+        {
+            var fixedHeaderHeight = $fixedHeader.height();
+            var hasClass = false;
+            $(window).scroll(function() {
+                var scroll = $(this).scrollTop();
+
+                if(scroll >= fixedHeaderHeight ) {
+                    if(!hasClass)
+                    {
+                        $('body').css('padding-top', fixedHeaderHeight);
+                        $fixedHeader.addClass('shrink');
+                        hasClass = true;
+                    }
+                } else {
+                    if(hasClass)
+                    {
+                        $('body').css('padding-top', 0);
+                        $fixedHeader.removeClass('shrink');
+                        hasClass = false;
+                    }
+                }
+            });
+            $(window).triggerHandler('scroll');
+        }
 
         // Gnb
         $gnb.find('>ul>li>a')
@@ -108,6 +124,7 @@
 })(jQuery);
 
 (function($) {
+    "use strict";
     var $window = $(window);
     var windowHeight = $window.height();
 

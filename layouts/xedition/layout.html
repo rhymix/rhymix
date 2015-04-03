@@ -126,7 +126,7 @@
 <div class="container {$_container_class}  {$menutype_class}">
 
 	<!-- HEADER -->
-	<div class="header_wrap">
+	<div class="header_wrap xe-clearfix">
 		<div class="search_wrap">
 			<div class="search_area">
 				<!-- SEARCH -->
@@ -148,15 +148,13 @@
 					<!--@if(!$layout_info->use_demo && $layout_info->logo_img)-->
 						<img src="{$layout_info->logo_img}" alt="{$layout_info->logo_text}"|cond="$layout_info->logo_text" />
 					<!--@else-->
-						<block cond="!$layout_info->menu_type || $layout_info->menu_type == 'default' || $layout_info->menu_type == 'blog'">
-							<img src="./img/logo.png" alt="XEDITION" />
-						</block>
-						<block cond="$layout_info->menu_type == 'magazine'">
+						<!--@if(($layout_info->layout_type === 'main' && $layout_info->menu_type_main === 'startup') || ($layout_info->layout_type === 'sub' && $layout_info->menu_type_sub === 'onepage_parallax'))-->
+							<img src="./img/s_logo.png" alt="XEDITION" />
+						<!--@elseif($layout_info->menu_type == 'magazine')-->
 							<img src="./img/m_logo.png" alt="XEDITION Header : Magazine type" />
-						</block>
-						<block cond="$layout_info->menu_type == 'startup'">
+						<!--@else-->
 							<img src="./img/logo.png" alt="XEDITION" />
-						</block>
+						<!--@endif-->
 					<!--@end-->
 				</a>
 			</h1>
