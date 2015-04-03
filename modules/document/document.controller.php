@@ -288,6 +288,16 @@ class documentController extends document
 			}
 			$obj->content = nl2br($obj->content);
 		}
+		else
+		{
+			$oModuleModel = getModel('module');
+			$editor_config = $oModuleModel->getModuleConfig('editor');
+			
+			if(substr_compare($editor_config->sel_editor_colorset, 'nohtml', -6) === 0)
+			{
+				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			}
+		}
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
 		// An error appears if both log-in info and user name don't exist.
@@ -485,6 +495,16 @@ class documentController extends document
 				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
 			$obj->content = nl2br($obj->content);
+		}
+		else
+		{
+			$oModuleModel = getModel('module');
+			$editor_config = $oModuleModel->getModuleConfig('editor');
+			
+			if(substr_compare($editor_config->sel_editor_colorset, 'nohtml', -6) === 0)
+			{
+				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			}
 		}
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType())
