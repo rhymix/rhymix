@@ -1060,14 +1060,13 @@ class ModuleHandler extends Handler
 				return NULL;
 			}
 
-			// Create an instance with eval function
+			// Create an instance
 			require_once($class_file);
 			if(!class_exists($instance_name, false))
 			{
 				return NULL;
 			}
-			$tmp_fn = create_function('', "return new {$instance_name}();");
-			$oModule = $tmp_fn();
+			$oModule = new $instance_name();
 			if(!is_object($oModule))
 			{
 				return NULL;
