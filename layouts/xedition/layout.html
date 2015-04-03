@@ -137,7 +137,7 @@
 					<input type="text" name="is_keyword" value="{$is_keyword}" required="required" title="{$lang->cmd_search}" placeholder="{$lang->cmd_search}" />
 				</form>
 				<!-- /SEARCH -->
-				<a href="#" class="btn_close" title="{$lang->cmd_xedition_search_close}" onclick="return false"><i class="xe-close"></i><span class="blind">{$lang->cmd_xedition_search_close}</span></a>
+				<a href="#" class="btn_close" title="{$lang->cmd_xedition_search_close}" onclick="return false"><i class="xi-close"></i><span class="blind">{$lang->cmd_xedition_search_close}</span></a>
 			</div>
 		</div>
 
@@ -166,11 +166,11 @@
 				<ul>
 					<!-- search -->
 					<li class="click">
-						<a href="#" title="{$lang->cmd_search}"><i class="xe-magnifier"></i><span class="blind">{$lang->cmd_search}</span></a>
+						<a href="#" title="{$lang->cmd_search}"><i class="xi-magnifier"></i><span class="blind">{$lang->cmd_search}</span></a>
 					</li>
 					<!-- admin -->
 					<li cond="$logged_info->is_admin == 'Y'">
-						<a href="{getUrl('', 'module', 'admin')}" target="_blank" title="{$lang->cmd_management}"><i class="xe-tool"></i><span class="blind">{$lang->cmd_management}</span></a>
+						<a href="{getUrl('', 'module', 'admin')}" target="_blank" title="{$lang->cmd_management}"><i class="xi-cog"></i><span class="blind">{$lang->cmd_management}</span></a>
 					</li>
 					<!-- login -->
 					<li class="hover">
@@ -193,7 +193,7 @@
 							<!-- /after_login -->
 						<!--@else-->
 							<!-- before_login -->
-							<a href="{getUrl('act', 'dispMemberLoginForm')}" id="ly_btn"><i class="xe-user"></i><span class="blind">{$lang->cmd_login}/{$lang->cmd_signup}</span></a>
+							<a href="{getUrl('act', 'dispMemberLoginForm')}" id="ly_btn"><i class="xi-user-add"></i><span class="blind">{$lang->cmd_login}/{$lang->cmd_signup}</span></a>
 							<div class="ly ly_login">
 								<ul>
 									<li><a id="ly_login_btn" href="{getUrl('act', 'dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
@@ -377,7 +377,7 @@
 </div>
 
 <!-- TOP -->
-<a href="#" class="btn_top"><i class="xe-angle-up"><span class="blind">{$lang->cmd_move_up}</span></i></a>
+<a href="#" class="btn_top"><i class="xi-angle-up"><span class="blind">{$lang->cmd_move_up}</span></i></a>
 <!-- /TOP -->
 
 <!-- Login widget -->
