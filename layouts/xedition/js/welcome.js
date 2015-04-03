@@ -1,7 +1,7 @@
 (function($){
   "user strict";
   $(function(){
-    $('.xeicon').parallax('50%',0.4);
+    $('.xeicon').parallax('50%', 0.4);
 
     $('.fe_box').on('mouseenter mouseleave',function(e){
       $this = $(this);
@@ -30,7 +30,7 @@
     var getHeight;
     var firstTop;
     $this.each(function() {
-      if($this.hasClass('statistics')){
+      if($this.hasClass('xeicon')){
         firstTop = $this.offset().top + 600;
       } else {
         firstTop = $this.offset().top;

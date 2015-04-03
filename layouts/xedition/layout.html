@@ -2,13 +2,99 @@
 {Context::addHtmlHeader('<meta name="viewport" content="width=1240">')}
 <!--// LANG -->
 <load target="./lang" />
+
+<!--// 레이아웃을 위한 설정 값들 -->
+<!--// index 모듈 체크 -->
+	{@ $_is_indexmodule = ($site_module_info->module_srl === $current_module_info->module_srl)}
+	{@ $_body_class = array()}
+	{@ $_container_class = array()}
+	{@ $_visual_class = array()}
+
+<!--// 초기화 -->
+	{@ $_enable_slide = true}
+	{@ $_enable_snb = false}
+	{@ $_sample_slide = false}
+	{@ $_sample_footer = false}
+	<block cond="!$layout_info->use_demo">{@ $layout_info->use_demo = 'Y'}</block>
+	<block cond="!$layout_info->layout_type">{@ $layout_info->layout_type = 'auto'}</block>
+	<block cond="!$layout_info->menu_type_main">{@ $layout_info->menu_type_main = 'basic'}</block>
+	<block cond="!$layout_info->menu_type_sub">{@ $layout_info->menu_type_sub = 'basic'}</block>
+	<block cond="!$layout_info->content_fixed_width">{@ $layout_info->content_fixed_width = 'index'}</block>
+	<block cond="!$layout_info->menu_fixed">{@ $layout_info->menu_fixed = 'Y'}</block>
+	<block cond="!$layout_info->sidebar_position">{@ $layout_info->sidebar_position = 'right'}</block>
+	<block cond="!$layout_info->use_slide">{@ $layout_info->use_slide = 'Y'}</block>
+
+	<block cond="$layout_info->use_demo === 'Y'">
+		{@ $_sample_slide = true}
+		<block cond="$_is_indexmodule">{@ $layout_info->use_slide = 'Y'}</block>
+	</block>
+	<block cond="!$layout_info->slide_img1">{@ $_sample_slide = true}</block>
+	<block cond="$layout_info->use_demo === 'Y'">{@ $_sample_footer = true}</block>
+
+<!--// 레이아웃 타입 -->
+	<block cond="$layout_info->menu_fixed === 'Y'">{@ $_container_class[] = 'fixed_header'}</block>
+	<block cond="$layout_info->layout_type === 'auto'">
+		{@ $layout_info->layout_type = ($_is_indexmodule) ? 'main' : 'sub';}
+	</block>
+	{@ $_body_class[] = $layout_info->layout_type}
+	<block cond="!$_is_indexmodule">{@ $_body_class[] = $layout_info->sidebar_position}</block>
+
+	<block cond="$layout_info->layout_type === 'main'">
+		{@ $_visual_class[] = 'main'}
+		<block cond="$layout_info->menu_type_main === 'startup'">
+			{@ $_container_class[] = 'onepage'}
+		</block>
+		<block cond="$layout_info->menu_type_main === 'magazine'">
+			{@ $_container_class[] = 'magazine'}
+			{@ $_enable_snb = true}
+		</block>
+	</block>
+
+
+<!--// 콘텐츠 영역 폭 -->
+	<block cond="$layout_info->content_fixed_width === 'index'">
+		{@ $layout_info->content_fixed_width = (!$_is_indexmodule) ? 'Y' : 'N';}
+	</block>
+	<block cond="$layout_info->content_fixed_width === 'Y'">
+		{@ $_body_class[] = 'fixed-width'}
+	</block>
+
+	<block cond="$layout_info->layout_type === 'sub'">
+		{@ $_enable_slide = false}
+		{@ $_visual_class[] = 'sub'}
+		<block cond="$layout_info->menu_type_sub === 'basic_regular' || $layout_info->menu_type_sub === 'magazine_regular'">
+			{@ $_visual_class[] = 'sub_type2'}
+		</block>
+		<block cond="$layout_info->menu_type_sub === 'magazine_simple' || $layout_info->menu_type_sub === 'magazine_regular'">
+			{@ $_container_class[] = 'magazine'}
+			{@ $_enable_snb = true}
+		</block>
+		<block cond="$layout_info->menu_type_sub === 'onepage_parallax'">
+			{@ $_container_class[] = 'onepage'}
+			{@ $_visual_class[] = 'sub_type3'}
+		</block>
+	</block>
+
+<!--// Demo 기능 활성화 -->
+	<!--// 사이트 인덱스에서만 데모기능 사용 -->
+	<block cond="!$_is_indexmodule">{@ $layout_info->use_demo = 'N'}</block>
+	<!--// 페이지 수정 모드에서 감춤 -->
+	<block cond="$act === 'dispPageAdminContentModify'">{@ $layout_info->use_demo = 'N'}</block>
+
+
+{@ $_body_class = join(' ', $_body_class)}
+{@ $_visual_class = join(' ', $_visual_class)}
+{@ $_container_class = join(' ', $_container_class)}
+<!--// END:레이아웃을 위한 설정 값들 -->
+
+
 <!--// CSS -->
 <load target="./css/layout.css" />
 <load target="./css/camera.css" />
 <load target="./css/welcome.css" />
 <load target="../../common/xeicon/xeicon.min.css" />
 <!--// JS -->
-<block cond="(!$layout_info->layout_type || $layout_info->layout_type == 'default') && ($layout_info->use_demo != 'N' || $layout_info->use_slide != 'N')">
+<block cond="$_enable_slide">
 	<load target="./js/camera.min.js" />
 	<script>
 	jQuery(function ($) {
@@ -27,13 +113,19 @@
 </block>
 <load target="./js/jquery.easing.js" />
 <load target="./js/layout.js" />
-<load cond="$layout_info->use_demo != 'N'" target="./js/welcome.js" />
+<load cond="$layout_info->use_demo ==='Y'" target="./js/welcome.js" />
 <load target="./js/SmoothScroll.min.js" />
-<load cond="$layout_info->use_demo != 'N'" target="./js/jquery.countTo.js" />
+
+
+
+
+
 
 <!--// BODY -->
-<div class="container<!--@if($layout_info->menu_type != 'blog')--> <!--@if($layout_info->menu_type == 'magazine')-->magazine<!--@elseif($layout_info->menu_type == 'startup')-->onepage<!--@else-->fixed_header<!--@end--><!--@end-->">
-	<p class="skip"><a href="#content">{$lang->skip_to_content}</a></p>
+<p class="skip"><a href="#content">{$lang->skip_to_content}</a></p>
+<div class="container {$_container_class}  {$menutype_class}">
+
+	<!-- HEADER -->
 	<div class="header_wrap">
 		<div class="search_wrap">
 			<div class="search_area">
@@ -48,10 +140,12 @@
 				<a href="#" class="btn_close" title="{$lang->cmd_xedition_search_close}" onclick="return false"><i class="xe-close"></i><span class="blind">{$lang->cmd_xedition_search_close}</span></a>
 			</div>
 		</div>
+
 		<header class="header">
+			<!--// LOGO -->
 			<h1>
-				<a href="<!--@if($layout_info->use_demo == 'N' && $layout_info->logo_url)-->{$layout_info->logo_url}<!--@else-->#<!--@end-->">
-					<!--@if($layout_info->use_demo == 'N' && $layout_info->logo_img)-->
+				<a href="<!--@if(!$layout_info->use_demo && $layout_info->logo_url)-->{$layout_info->logo_url}<!--@else-->{getUrl('')}<!--@end-->">
+					<!--@if(!$layout_info->use_demo && $layout_info->logo_img)-->
 						<img src="{$layout_info->logo_img}" alt="{$layout_info->logo_text}"|cond="$layout_info->logo_text" />
 					<!--@else-->
 						<block cond="!$layout_info->menu_type || $layout_info->menu_type == 'default' || $layout_info->menu_type == 'blog'">
@@ -61,57 +155,67 @@
 							<img src="./img/m_logo.png" alt="XEDITION Header : Magazine type" />
 						</block>
 						<block cond="$layout_info->menu_type == 'startup'">
-							<img src="./img/s_logo.png" alt="XEDITION" />
+							<img src="./img/logo.png" alt="XEDITION" />
 						</block>
 					<!--@end-->
 				</a>
 			</h1>
+			<!--// END:LOGO -->
+
 			<div class="side">
 				<ul>
-				<li class="click">
-					<a href="#" title="{$lang->cmd_search}"><i class="xe-magnifier"></i><span class="blind">{$lang->cmd_search}</span></a>
-				</li>
-				<li cond="$logged_info->is_admin == 'Y'"><a href="{getUrl('', 'module', 'admin')}" target="_blank" title="{$lang->cmd_management}"><i class="xe-tool"></i><span class="blind">{$lang->cmd_management}</span></a></li>
-				<li class="hover">
-					<!--@if($is_logged)-->
-						<!-- after_login -->
-						<a href="{getUrl('act', 'dispMemberInfo')}" class="login_after">
-							<!--@if($logged_info->profile_image->src)-->
-								<img src="{$logged_info->profile_image->src}" alt="{$logged_info->nick_name}" />
-							<!--@else-->
-								<img src="./img/ico_default.jpg" alt="{$logged_info->nick_name}" />
-							<!--@end-->
-						</a>
-						<div class="ly ly_login">
-							<ul>
-								<li loop="$logged_info->menu_list => $key, $val"><a href="{getUrl('act', $key, 'member_srl', '', 'page', '')}">{Context::getLang($val)}</a></li>
-								<li><a href="{getUrl('act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
-							</ul>
-							<span class="edge"></span>
-						</div>
-						<!-- /after_login -->
-					<!--@else-->
-						<!-- before_login -->
-						<a href="{getUrl('act', 'dispMemberLoginForm')}" id="ly_btn"><i class="xe-user"></i><span class="blind">{$lang->cmd_login}/{$lang->cmd_signup}</span></a>
-						<div class="ly ly_login">
-							<ul>
-								<li><a id="ly_login_btn" href="{getUrl('act', 'dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
-								<li><a href="{getUrl('act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
-							</ul>
-							<span class="edge"></span>
-						</div>
-						<!-- /before_login -->
-					<!--@end-->
-				</li>
+					<!-- search -->
+					<li class="click">
+						<a href="#" title="{$lang->cmd_search}"><i class="xe-magnifier"></i><span class="blind">{$lang->cmd_search}</span></a>
+					</li>
+					<!-- admin -->
+					<li cond="$logged_info->is_admin == 'Y'">
+						<a href="{getUrl('', 'module', 'admin')}" target="_blank" title="{$lang->cmd_management}"><i class="xe-tool"></i><span class="blind">{$lang->cmd_management}</span></a>
+					</li>
+					<!-- login -->
+					<li class="hover">
+						<!--@if($is_logged)-->
+							<!-- after_login -->
+							<a href="{getUrl('act', 'dispMemberInfo')}" class="login_after">
+								<!--@if($logged_info->profile_image->src)-->
+									<img src="{$logged_info->profile_image->src}" alt="{$logged_info->nick_name}" />
+								<!--@else-->
+									<img src="./img/ico_default.jpg" alt="{$logged_info->nick_name}" />
+								<!--@end-->
+							</a>
+							<div class="ly ly_login">
+								<ul>
+									<li loop="$logged_info->menu_list => $key, $val"><a href="{getUrl('act', $key, 'member_srl', '', 'page', '')}">{Context::getLang($val)}</a></li>
+									<li><a href="{getUrl('act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+								</ul>
+								<span class="edge"></span>
+							</div>
+							<!-- /after_login -->
+						<!--@else-->
+							<!-- before_login -->
+							<a href="{getUrl('act', 'dispMemberLoginForm')}" id="ly_btn"><i class="xe-user"></i><span class="blind">{$lang->cmd_login}/{$lang->cmd_signup}</span></a>
+							<div class="ly ly_login">
+								<ul>
+									<li><a id="ly_login_btn" href="{getUrl('act', 'dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+									<li><a href="{getUrl('act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+								</ul>
+								<span class="edge"></span>
+							</div>
+							<!-- /before_login -->
+						<!--@end-->
+					</li>
 				</ul>
 			</div>
-			<div cond="$SNB->list && $layout_info->menu_type == 'magazine'" class="custom_area">
+
+			<!-- SNB -->
+			<div cond="$_enable_snb && $SNB->list" class="custom_area">
 				<ul>
 					<li loop="$SNB->list => $key, $val">
 						<a href="{$val['href']}" target="_blank"|cond="$val['open_window'] == 'Y'">{$val['link']}</a>
 					</li>
 				</ul>
 			</div>
+
 			<!-- GNB -->
 			<nav cond="$GNB->list" class="gnb" id="gnb">
 				<ul>
@@ -133,20 +237,30 @@
 			<!-- /GNB -->
 		</header>
 	</div>
+	<!-- END:HEADER -->
 
-	<!-- VISUAL -->
-	<div cond="$layout_info->use_demo != 'N' || $layout_info->use_slide != 'N'" class="visual <!--@if($layout_info->layout_type && $layout_info->layout_type != 'default')-->sub<!--@if($layout_info->layout_type == 'sub2')--> sub_type2<!--@elseif($layout_info->layout_type == 'sub3')--> sub_type3<!--@end--><!--@else-->main<!--@end-->">
-		<!--@if($layout_info->layout_type && $layout_info->layout_type != 'default')-->
-			<span class="bg_img" style="background-image:url(<!--@if($layout_info->use_demo == 'N' && $layout_info->slide_img1)-->{$layout_info->slide_img1}<!--@else-->{$layout_info->path}img/sub_banner_<!--@if($layout_info->layout_type == 'sub1' || $layout_info->layout_type == 'sub2')-->01<!--@elseif($layout_info->layout_type == 'sub3')-->02<!--@end-->.jpg<!--@end-->)"></span>
-			<span cond="$layout_info->layout_type == 'sub1' || $layout_info->layout_type == 'sub2'" class="mask"></span>
-			<div class="sub_title">
-				<h1><!--@if($layout_info->use_demo == 'N' && $layout_info->slide_text1)-->{$layout_info->slide_text1}<!--@elseif($layout_info->layout_type == 'sub1')-->SIMPLE-TEXT HEADER<!--@elseif($layout_info->layout_type == 'sub2')-->REGULAR HEADER<!--@elseif($layout_info->layout_type == 'sub3')-->REGULAR RARALLAX<!--@end--></h1>
-			</div>
-		<!--@else-->
+	<!-- VISUAL-SUBHEADER -->
+	<div cond="$layout_info->layout_type === 'sub'" class="visual {$_visual_class}">
+		<span class="bg_img" style="background-image:url(<!--@if($layout_info->use_demo === 'N' && $layout_info->slide_img1)-->{$layout_info->slide_img1}<!--@else-->{$layout_info->path}img/sub_banner_<!--@if($layout_info->layout_type == 'sub1' || $layout_info->layout_type == 'sub2')-->01<!--@elseif($layout_info->layout_type == 'sub3')-->02<!--@end-->.jpg<!--@end-->)"></span>
+		<span cond="$layout_info->layout_type === 'sub'" class="mask"></span>
+		<div class="sub_title">
+			<h1>{$module_info->browser_title}</h1>
+		</div>
+	</div>
+
+	<div cond="$layout_info->layout_type === 'main' && $_enable_slide" class="visual">
+			<!-- 슬라이드 -->
 			<div class="camera_wrap">
-			<!--@if($layout_info->use_demo != 'N' || !$layout_info->slide_img1 && !$layout_info->slide_img2 && !$layout_info->slide_img3 && !$layout_info->slide_img4 && !$layout_info->slide_img5)-->
+			<!--@if($_sample_slide)-->
 				<include target="./demo/slide.html" />
 			<!--@else-->
+				<div data-src="{$layout_info->slide_img1}">
+					<div class="camera_caption fadeIn">
+						<div class="camera_caption_wrap">
+							설정되지 않음
+						</div>
+					</div>
+				</div>
 				<div cond="$layout_info->slide_img1" data-src="{$layout_info->slide_img1}">
 					<div cond="$layout_info->slide_text1" class="camera_caption fadeIn">
 						<div class="camera_caption_wrap">
@@ -184,13 +298,14 @@
 				</div>
 			<!--@end-->
 			</div>
-		<!--@end-->
+			<!-- END:슬라이드 -->
 	</div>
 	<!-- /VISUAL -->
 
-	<div class="body <!--@if($layout_info->layout_type && $layout_info->layout_type != 'default')-->sub<!--@if($layout_info->sidebar_position)--> {$layout_info->sidebar_position}<!--@end--><!--@else-->main<!--@end-->">
+	<!-- BODY -->
+	<div class="body {$_body_class}">
 		<!-- LNB -->
-		<nav cond="$LNB->list && $layout_info->layout_type && $layout_info->layout_type != 'default' && (!$layout_info->sidebar_position || $layout_info->sidebar_position == 'right')" class="lnb">
+		<nav cond="$LNB->list && $layout_info->layout_type === 'sub' && $layout_info->sidebar_position !== 'none'" class="lnb">
 			<ul>
 				<li loop="$LNB->list => $key1, $val1">
 					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
@@ -204,26 +319,20 @@
 		</nav>
 		<!-- /LNB -->
 		<!-- CONTENT -->
-		<!--@if(!$layout_info->layout_type || $layout_info->layout_type == 'default' && $layout_info->use_demo != 'N')-->
-			<include target="./demo/welcome_main.html" />
-		<!--@else-->
+			<!--@if($layout_info->use_demo === 'Y')-->
+				<include target="./demo/welcome_main.html" />
+			<!--@endif-->
 			<div class="content" id="content">
-				<!--@if($layout_info->use_demo == 'N')-->
-					{$content}
-				<!--@else-->
-					<include cond="!$layout_info->sidebar_position" target="./demo/welcome_sub1.html" />
-					<include cond="$layout_info->sidebar_position == 'right'" target="./demo/welcome_sub2.html" />
-					<include cond="$layout_info->sidebar_position == 'full_width'" target="./demo/welcome_sub3.html" />
-				<!--@end-->
+				{$content}
 			</div>
-		<!--@end-->
 		<!-- /CONTENT -->
 	</div>
+	<!-- END:BODY -->
 
 	<footer class="footer" style="border-bottom-color:#CDA25A">
 		<div class="f_info_area">
 			<div class="f_info">
-				<!--@if($layout_info->use_demo == 'N')-->
+				<!--@if(!$_sample_footer)-->
 					<p cond="$layout_info->footer_logo_img || $layout_info->footer_logo_text" class="f_logo<!--@if(!$layout_info->footer_logo_img)--> log_txt<!--@end-->">
 						<a href="<!--@if($layout_info->footer_logo_url)-->{$layout_info->footer_logo_url}<!--@else-->#<!--@end-->">
 							<!--@if($layout_info->footer_logo_url)-->
@@ -257,7 +366,7 @@
 		</div>
 		<div class="f_cr_area">
 			<p class="copyright">
-				<!--@if($layout_info->use_demo == 'N' && $layout_info->footer_copyright)-->
+				<!--@if(!$_sample_footer)-->
 					{$layout_info->footer_copyright}
 				<!--@else-->
 					<include target="./demo/copyright.html" />

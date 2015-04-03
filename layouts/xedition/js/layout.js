@@ -1,7 +1,7 @@
 (function($){
     $(function(){
-        var $shrinkHeaderHeight = 300;
-        var $fixedHeader = $('.fixed_header .header_wrap');
+        var $shrinkHeaderHeight = 200;
+        var $fixedHeader = $('.header_wrap');
         var $gnb = $('.gnb');
         var $hoverEl = $('.hover');
         var $searchEl = $('.click > a');

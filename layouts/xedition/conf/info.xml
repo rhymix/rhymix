@@ -25,7 +25,7 @@
 		<group>
 			<title xml:lang="ko">기본</title>
 			<var name="use_demo" type="select">
-				<title xml:lang="ko">데모 사용</title>
+				<title xml:lang="ko">메인 페이지 데모 사용</title>
 				<options value="Y">
 					<title xml:lang="ko">사용함</title>
 				</options>
@@ -33,46 +33,114 @@
 					<title xml:lang="ko">사용 안 함</title>
 				</options>
 			</var>
-			<var name="layout_type" type="select">
+
+
+
+
+<!--
+<var name="layout_type111111" type="select">
+	<title xml:lang="ko">레이아웃 타입</title>
+	<options value="default">
+		<title xml:lang="ko">기본형</title>
+	</options>
+	<options value="sub1">
+		<title xml:lang="ko">simple text</title>
+	</options>
+	<options value="sub2">
+		<title xml:lang="ko">배경 이미지</title>
+	</options>
+	<options value="sub3">
+		<title xml:lang="ko">큰 배경이미지</title>
+	</options>
+</var>
+-->
+
+			<var name="layout_type" type="select" default="auto">
 				<title xml:lang="ko">레이아웃 타입</title>
-				<options value="default">
-					<title xml:lang="ko">기본형</title>
+				<options value="auto">
+					<title xml:lang="ko">자동 적용</title>
 				</options>
-				<options value="sub1">
-					<title xml:lang="ko">서브1형</title>
+				<options value="main">
+					<title xml:lang="ko">메인형</title>
 				</options>
-				<options value="sub2">
-					<title xml:lang="ko">서브2형</title>
+				<options value="sub">
+					<title xml:lang="ko">서브형</title>
 				</options>
-				<options value="sub3">
-					<title xml:lang="ko">서브3형</title>
+			</var>
+			<var name="menu_type_main" type="select">
+				<title xml:lang="ko">메인형 메뉴 타입</title>
+				<options value="basic">
+					<title xml:lang="ko">일반 메뉴  + 슬라이드 : 분리</title>
+				</options>
+				<options value="startup">
+					<title xml:lang="ko">일반 메뉴 + 슬라이드 : 겹침</title>
+				</options>
+				<options value="magazine">
+					<title xml:lang="ko">매거진 메뉴 + 슬라이드 : 분리</title>
+				</options>
+			</var>
+			<var name="menu_type_sub" type="select">
+				<title xml:lang="ko">서브형 메뉴 타입</title>
+				<options value="basic">
+					<title xml:lang="ko">일반 메뉴 + SIMPLE-TEXT HEADER</title>
+				</options>
+				<options value="basic_regular">
+					<title xml:lang="ko">일반 메뉴 + REGULAR HEADER</title>
+				</options>
+				<options value="onepage_parallax">
+					<title xml:lang="ko">겹침 메뉴 + REGULAR RARALLAX</title>
+				</options>
+				<options value="magazine_simple">
+					<title xml:lang="ko">매거진 메뉴 + SIMPLE-TEXT HEADER</title>
+				</options>
+				<options value="magazine_regular">
+					<title xml:lang="ko">매거진 메뉴 + REGULAR HEADER</title>
+				</options>
+			</var>
+			<var name="content_fixed_width" type="select" default="index">
+				<title xml:lang="ko">contet_fixed_width</title>
+				<options value="index">
+					<title xml:lang="ko">시작 모듈만 전체 폭</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">전체 폭</title>
+				</options>
+				<options value="Y">
+					<title xml:lang="ko">고정폭</title>
 				</options>
 			</var>
 			<var name="menu_type" type="select">
 				<title xml:lang="ko">메뉴 타입</title>
-				<options value="default">
-					<title xml:lang="ko">기본형</title>
-				</options>
 				<options value="blog">
-					<title xml:lang="ko">블로그형</title>
+					<title xml:lang="ko">일반형</title>
 				</options>
 				<options value="magazine">
 					<title xml:lang="ko">매거진형</title>
 				</options>
 				<options value="startup">
-					<title xml:lang="ko">스타트업형</title>
+					<title xml:lang="ko">배경, 슬라이드 통합</title>
+				</options>
+			</var>
+			<var name="menu_fixed" type="select">
+				<description xml:lang="ko">매거진형 메뉴 타입 제외</description>
+				<title xml:lang="ko">메뉴 고정</title>
+				<options value="Y">
+					<title xml:lang="ko">상단 고정</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">고정안함</title>
 				</options>
 			</var>
 			<var name="sidebar_position" type="select">
 				<title xml:lang="ko">사이드바 위치</title>
 				<description xml:lang="ko">레이아웃 타입 서브형에서만 사용되는 옵션입니다.</description>
-				<options value="">
-					<title xml:lang="ko">왼쪽</title>
-				</options>
 				<options value="right">
 					<title xml:lang="ko">오른쪽</title>
 				</options>
-				<options value="full_width">
+				<options value="left">
+					<title xml:lang="ko">왼쪽</title>
+				</options>
+				<options value="none">
 					<title xml:lang="ko">풀 페이지</title>
 				</options>
 			</var>
