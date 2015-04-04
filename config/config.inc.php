@@ -291,34 +291,56 @@ if(!defined('__XE_LOADED_CLASS__'))
 		define('__StartTime__', getMicroTime());
 
 	// include the class files
-	//TODO When _autoload() can be used for PHP5 based applications, it will be removed.
 	if(__DEBUG__)
 		define('__ClassLoadStartTime__', getMicroTime());
-	require(_XE_PATH_ . 'classes/object/Object.class.php');
-	require(_XE_PATH_ . 'classes/extravar/Extravar.class.php');
-	require(_XE_PATH_ . 'classes/handler/Handler.class.php');
-	require(_XE_PATH_ . 'classes/xml/XmlParser.class.php');
-	require(_XE_PATH_ . 'classes/xml/XmlGenerator.class.php');
-	require(_XE_PATH_ . 'classes/xml/XmlJsFilter.class.php');
-	require(_XE_PATH_ . 'classes/xml/XmlLangParser.class.php');
-	require(_XE_PATH_ . 'classes/cache/CacheHandler.class.php');
-	require(_XE_PATH_ . 'classes/context/Context.class.php');
-	require(_XE_PATH_ . 'classes/db/DB.class.php');
-	require(_XE_PATH_ . 'classes/file/FileHandler.class.php');
-	require(_XE_PATH_ . 'classes/widget/WidgetHandler.class.php');
-	require(_XE_PATH_ . 'classes/editor/EditorHandler.class.php');
-	require(_XE_PATH_ . 'classes/module/ModuleObject.class.php');
-	require(_XE_PATH_ . 'classes/module/ModuleHandler.class.php');
-	require(_XE_PATH_ . 'classes/display/DisplayHandler.class.php');
-	require(_XE_PATH_ . 'classes/template/TemplateHandler.class.php');
-	require(_XE_PATH_ . 'classes/mail/Mail.class.php');
-	require(_XE_PATH_ . 'classes/page/PageHandler.class.php');
-	require(_XE_PATH_ . 'classes/mobile/Mobile.class.php');
-	require(_XE_PATH_ . 'classes/validator/Validator.class.php');
-	require(_XE_PATH_ . 'classes/frontendfile/FrontEndFileHandler.class.php');
-	require(_XE_PATH_ . 'classes/security/Password.class.php');
-	require(_XE_PATH_ . 'classes/security/Security.class.php');
-	require(_XE_PATH_ . 'classes/security/IpFilter.class.php');
+
+	$__xe_autoload_file_map = array(
+		'CacheHandler' => 'classes/cache/CacheHandler.class.php',
+		'Context' => 'classes/context/Context.class.php',
+		'DB' => 'classes/db/DB.class.php',
+		'DisplayHandler' => 'classes/display/DisplayHandler.class.php',
+		'EditorHandler' => 'classes/editor/EditorHandler.class.php',
+		'ExtraVar' => 'classes/extravar/Extravar.class.php',
+		'FileHandler' => 'classes/file/FileHandler.class.php',
+		'FileObject' => 'classes/file/FileObject.class.php',
+		'FrontEndFileHandler' => 'classes/frontendfile/FrontEndFileHandler.class.php',
+		'Handler' => 'classes/handler/Handler.class.php',
+		'Mail' => 'classes/mail/Mail.class.php',
+		'Mobile' => 'classes/mobile/Mobile.class.php',
+		'ModuleHandler' => 'classes/module/ModuleHandler.class.php',
+		'ModuleObject' => 'classes/module/ModuleObject.class.php',
+		'Object' => 'classes/object/Object.class.php',
+		'PageHandler' => 'classes/page/PageHandler.class.php',
+		'Password' => 'classes/security/Password.class.php',
+		'Security' => 'classes/security/Security.class.php',
+		'IpFilter' => 'classes/security/IpFilter.class.php',
+		'TemplateHandler' => 'classes/template/TemplateHandler.class.php',
+		'Validator' => 'classes/validator/Validator.class.php',
+		'WidgetHandler' => 'classes/widget/WidgetHandler.class.php',
+		'XEHttpRequest' => 'classes/httprequest/XEHttpRequest.class.php',
+		'XmlGenerator' => 'classes/xml/XmlGenerator.class.php',
+		'XmlJsFilter' => 'classes/xml/XmlJsFilter.class.php',
+		'XmlParser' => 'classes/xml/XmlParser.class.php',
+		'XmlLangParser' => 'classes/xml/XmlLangParser.class.php',
+		'XmlQueryParser' => 'classes/xml/XmlQueryParser.class.php',
+	);
+
+	function __xe_autoload($class_name)
+	{
+		static $file_map = null;
+		if($file_map === null)
+		{
+			$file_map = array_change_key_case($GLOBALS['__xe_autoload_file_map'], CASE_LOWER);
+		}
+		$class_name = strtolower($class_name);
+		if(isset($file_map[$class_name]))
+		{
+			require $file_map[$class_name];
+		}
+	}
+	__xe_autoload('Context');
+	spl_autoload_register('__xe_autoload');
+
 	if(__DEBUG__)
 		$GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLoadStartTime__;
 }
