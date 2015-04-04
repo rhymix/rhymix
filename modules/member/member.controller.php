@@ -72,6 +72,11 @@ class memberController extends member
 			}
 		}
 
+		// Delete all previous authmail if login is successful
+		$args = new stdClass();
+		$args->member_srl = $this->memberInfo->member_srl;
+		executeQuery('member.deleteAuthMail', $args);
+
 		if(!$config->after_login_url)
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -1125,6 +1130,12 @@ class memberController extends member
 				executeQuery('member.deleteAuthMail', $args);
 			}
 
+			return $this->stop('msg_invalid_auth_key');
+		}
+
+		if(ztime($output->data->regdate) < $_SERVER['REQUEST_TIME'] + zgap() - 86400)
+		{
+			executeQuery('member.deleteAuthMail', $args);
 			return $this->stop('msg_invalid_auth_key');
 		}
 
