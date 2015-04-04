@@ -1279,6 +1279,12 @@ class memberController extends member
 		if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
 		$auth_info = $output->data[0];
 
+		// Update the regdate of authmail entry
+		$renewal_args = new stdClass;
+		$renewal_args->member_srl = $member_info->member_srl;
+		$renewal_args->auth_key = $auth_info->auth_key;
+		$output = executeQuery('member.updateAuthMail', $renewal_args);		
+
 		$memberInfo = array();
 		global $lang;
 		if(is_array($member_config->signupForm))
