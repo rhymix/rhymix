@@ -333,9 +333,8 @@ class commentController extends comment
 			
 			if(substr_compare($editor_config->sel_comment_editor_colorset, 'nohtml', -6) === 0)
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
 			}
-			$obj->content = nl2br($obj->content);
 		}
 
 		if(!$obj->regdate)
@@ -747,9 +746,8 @@ class commentController extends comment
 			
 			if(substr_compare($editor_config->sel_comment_editor_colorset, 'nohtml', -6) === 0)
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
 			}
-			$obj->content = nl2br($obj->content);
 		}
 
 		// remove iframe and script if not a top administrator on the session
