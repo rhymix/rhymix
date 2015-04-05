@@ -295,9 +295,8 @@ class documentController extends document
 			
 			if(substr_compare($editor_config->sel_editor_colorset, 'nohtml', -6) === 0)
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
 			}
-			$obj->content = nl2br($obj->content);
 		}
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
@@ -504,9 +503,8 @@ class documentController extends document
 			
 			if(substr_compare($editor_config->sel_editor_colorset, 'nohtml', -6) === 0)
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
 			}
-			$obj->content = nl2br($obj->content);
 		}
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType())
