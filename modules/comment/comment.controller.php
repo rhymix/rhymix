@@ -335,6 +335,7 @@ class commentController extends comment
 			{
 				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
+			$obj->content = nl2br($obj->content);
 		}
 
 		if(!$obj->regdate)
@@ -748,6 +749,7 @@ class commentController extends comment
 			{
 				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
+			$obj->content = nl2br($obj->content);
 		}
 
 		// remove iframe and script if not a top administrator on the session
