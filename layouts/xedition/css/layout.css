@@ -1,6 +1,9 @@
 @charset "utf-8";
 
 /* Common */
+@import url(http://fonts.googleapis.com/css?family=Raleway:700,400);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
 body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0;-webkit-text-size-adjust:none}
 body,input,textarea,select,button,table{font-family:'Open Sans','나눔바른고딕',NanumBarunGothic,'맑은 고딕','Malgun Gothic','돋움',Dotum,'애플 SD 산돌고딕 Neo','Apple SD Gothic Neo',AppleGothic,Helvetica,sans-serif;font-size:12px;-webkit-font-smoothing:antialiased}
 img,fieldset,button{border:0}
