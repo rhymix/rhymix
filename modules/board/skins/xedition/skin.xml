@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">XE Edition</title>
+    <title xml:lang="jp">XE Edition</title>
+    <description xml:lang="ko">XE 에디션 테마 게시판.</description>
+    <version>1.0</version>
+    <date>2015-04-07</date>
+    <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
+        <name xml:lang="ko">NHN</name>
+        <name xml:lang="jp">NHN</name>
+    </author>
+    <license>LGPL v2</license>
+    <extra_vars>
+    </extra_vars>
+</skin>
+
