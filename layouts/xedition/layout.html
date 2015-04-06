@@ -92,6 +92,7 @@
 <load target="./css/layout.css" />
 <load target="./css/camera.css" />
 <load target="./css/welcome.css" />
+<load target="./css/xeicon.css" />
 <load target="../../common/xeicon/xeicon.min.css" />
 <!--// JS -->
 <block cond="$_enable_slide">
@@ -239,7 +240,7 @@
 
 	<!-- VISUAL-SUBHEADER -->
 	<div cond="$layout_info->layout_type === 'sub'" class="visual {$_visual_class}">
-		<span class="bg_img" style="background-image:url(<!--@if($layout_info->use_demo === 'N' && $layout_info->slide_img1)-->{$layout_info->slide_img1}<!--@else-->{$layout_info->path}img/sub_banner_<!--@if($layout_info->layout_type == 'sub1' || $layout_info->layout_type == 'sub2')-->01<!--@elseif($layout_info->layout_type == 'sub3')-->02<!--@end-->.jpg<!--@end-->)"></span>
+		<span class="bg_img" style="background-image:url({$layout_info->path}img/sub_banner_03.jpg)"></span>
 		<span cond="$layout_info->layout_type === 'sub'" class="mask"></span>
 		<div class="sub_title">
 			<h1>{$module_info->browser_title}</h1>
