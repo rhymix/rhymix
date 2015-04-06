@@ -33,28 +33,6 @@
 					<title xml:lang="ko">사용 안 함</title>
 				</options>
 			</var>
-
-
-
-
-<!--
-<var name="layout_type111111" type="select">
-	<title xml:lang="ko">레이아웃 타입</title>
-	<options value="default">
-		<title xml:lang="ko">기본형</title>
-	</options>
-	<options value="sub1">
-		<title xml:lang="ko">simple text</title>
-	</options>
-	<options value="sub2">
-		<title xml:lang="ko">배경 이미지</title>
-	</options>
-	<options value="sub3">
-		<title xml:lang="ko">큰 배경이미지</title>
-	</options>
-</var>
--->
-
 			<var name="layout_type" type="select" default="auto">
 				<title xml:lang="ko">레이아웃 타입</title>
 				<options value="auto">
@@ -107,18 +85,6 @@
 				</options>
 				<options value="Y">
 					<title xml:lang="ko">고정폭</title>
-				</options>
-			</var>
-			<var name="menu_type" type="select">
-				<title xml:lang="ko">메뉴 타입</title>
-				<options value="blog">
-					<title xml:lang="ko">일반형</title>
-				</options>
-				<options value="magazine">
-					<title xml:lang="ko">매거진형</title>
-				</options>
-				<options value="startup">
-					<title xml:lang="ko">배경, 슬라이드 통합</title>
 				</options>
 			</var>
 			<var name="menu_fixed" type="select">

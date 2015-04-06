@@ -5,6 +5,7 @@
 .body.sub.full_width .content {width:100% !important; padding-bottom:0px !important;}
 
 /* XEicon page common style */
+.XEicon { padding-top: 60px;}
 .XEicon .fixedwidth {width:1200px; margin:0 auto;}
 .XEicon .tit {position:relative;}
 .XEicon .tit h1 {font-size:29px; text-align:center; letter-spacing:2px;}
