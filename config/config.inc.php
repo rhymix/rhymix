@@ -332,6 +332,14 @@ if(!defined('__XE_LOADED_CLASS__'))
 		{
 			require _XE_PATH_ . $GLOBALS['__xe_autoload_file_map'][$class_name];
 		}
+		elseif(preg_match('/^([a-z0-9_]+?)(admin)?(view|controller|model|api|wap|mobile)?$/i', $class_name, $matches))
+		{
+			$candidate_filename = 'modules/' . $matches[1] . '/' . $matches[1] . ($matches[2] ? '.admin' : '') . ($matches[3] ? ('.' . $matches[3]) : '.class') . '.php';
+			if(file_exists(_XE_PATH_ . $candidate_filename))
+			{
+				require _XE_PATH_ . $candidate_filename;
+			}
+		}
 	}
 	spl_autoload_register('__xe_autoload');
 
