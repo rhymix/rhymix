@@ -294,7 +294,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 	if(__DEBUG__)
 		define('__ClassLoadStartTime__', getMicroTime());
 
-	$__xe_autoload_file_map = array(
+	$__xe_autoload_file_map = array_change_key_case(array(
 		'CacheHandler' => 'classes/cache/CacheHandler.class.php',
 		'Context' => 'classes/context/Context.class.php',
 		'DB' => 'classes/db/DB.class.php',
@@ -323,22 +323,16 @@ if(!defined('__XE_LOADED_CLASS__'))
 		'XmlParser' => 'classes/xml/XmlParser.class.php',
 		'XmlLangParser' => 'classes/xml/XmlLangParser.class.php',
 		'XmlQueryParser' => 'classes/xml/XmlQueryParser.class.php',
-	);
+	), CASE_LOWER);
 
 	function __xe_autoload($class_name)
 	{
-		static $file_map = null;
-		if($file_map === null)
-		{
-			$file_map = array_change_key_case($GLOBALS['__xe_autoload_file_map'], CASE_LOWER);
-		}
 		$class_name = strtolower($class_name);
-		if(isset($file_map[$class_name]))
+		if(isset($GLOBALS['__xe_autoload_file_map'][$class_name]))
 		{
-			require $file_map[$class_name];
+			require _XE_PATH_ . $GLOBALS['__xe_autoload_file_map'][$class_name];
 		}
 	}
-	__xe_autoload('Context');
 	spl_autoload_register('__xe_autoload');
 
 	if(__DEBUG__)
