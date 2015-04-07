@@ -3,22 +3,20 @@
 	<title xml:lang="ko">XEDITION</title>
 	<description xml:lang="ko">XE 1.8 기본 테마</description>
 	<version>1.8</version>
-	<date>2015-03-26</date>
+	<date>2015-04-07</date>
 	<author email_address="developer@xpressengine.com" link="https://www.xpressengine.com/">
 		<name xml:lang="ko">NAVER</name>
 	</author>
 	<menus>
 		<menu name="GNB" maxdepth="3" default="true">
-			<title xml:lang="ko">전역 네비게이션 바</title>
+			<title xml:lang="ko">메인 메뉴</title>
 		</menu>
-		<menu name="LNB" maxdepth="2">
-			<title xml:lang="ko">지역 네비게이션 바</title>
-		</menu>
-		<menu name="SNB" maxdepth="1">
-			<title xml:lang="ko">서브 네비게이션 바</title>
+		<menu name="UNB" maxdepth="1">
+			<title xml:lang="ko">매거진형 추가 메뉴</title>
+			<description xml:lang="ko">asdf</description>
 		</menu>
 		<menu name="FNB" maxdepth="2">
-			<title xml:lang="ko">푸터 네비게이션 바</title>
+			<title xml:lang="ko">푸터 메뉴</title>
 		</menu>
 	</menus>
 	<extra_vars>
@@ -48,31 +46,31 @@
 			<var name="menu_type_main" type="select">
 				<title xml:lang="ko">메인형 메뉴 타입</title>
 				<options value="basic">
-					<title xml:lang="ko">일반 메뉴  + 슬라이드 : 분리</title>
+					<title xml:lang="ko">기본형 : FIXED+SHRINKING</title>
 				</options>
 				<options value="startup">
-					<title xml:lang="ko">일반 메뉴 + 슬라이드 : 겹침</title>
+					<title xml:lang="ko">투명형 : TRANSPARENT HEADER</title>
 				</options>
 				<options value="magazine">
-					<title xml:lang="ko">매거진 메뉴 + 슬라이드 : 분리</title>
+					<title xml:lang="ko">매거진형 : HEADER WITH BOTTOM MENU</title>
 				</options>
 			</var>
 			<var name="menu_type_sub" type="select">
 				<title xml:lang="ko">서브형 메뉴 타입</title>
 				<options value="basic">
-					<title xml:lang="ko">일반 메뉴 + SIMPLE-TEXT HEADER</title>
+					<title xml:lang="ko">기본형 : SIMPLE-TEXT HEADER</title>
 				</options>
 				<options value="basic_regular">
-					<title xml:lang="ko">일반 메뉴 + REGULAR HEADER</title>
+					<title xml:lang="ko">기본형 : REGULAR HEADER</title>
 				</options>
 				<options value="onepage_parallax">
-					<title xml:lang="ko">겹침 메뉴 + REGULAR RARALLAX</title>
+					<title xml:lang="ko">투명형 : REGULAR RARALLAX</title>
 				</options>
 				<options value="magazine_simple">
-					<title xml:lang="ko">매거진 메뉴 + SIMPLE-TEXT HEADER</title>
+					<title xml:lang="ko">매거진형 : SIMPLE-TEXT HEADER</title>
 				</options>
 				<options value="magazine_regular">
-					<title xml:lang="ko">매거진 메뉴 + REGULAR HEADER</title>
+					<title xml:lang="ko">매거진형 : REGULAR HEADER</title>
 				</options>
 			</var>
 			<var name="content_fixed_width" type="select" default="index">
@@ -88,13 +86,13 @@
 				</options>
 			</var>
 			<var name="menu_fixed" type="select">
-				<description xml:lang="ko">매거진형 메뉴 타입 제외</description>
+				<description xml:lang="ko">매거진형 메뉴에는 적용되지 않습니다</description>
 				<title xml:lang="ko">메뉴 고정</title>
 				<options value="Y">
-					<title xml:lang="ko">상단 고정</title>
+					<title xml:lang="ko">상단에 고정</title>
 				</options>
 				<options value="N">
-					<title xml:lang="ko">고정안함</title>
+					<title xml:lang="ko">고정 안 함</title>
 				</options>
 			</var>
 			<var name="sidebar_position" type="select">

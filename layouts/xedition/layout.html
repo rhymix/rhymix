@@ -9,10 +9,12 @@
 	{@ $_body_class = array()}
 	{@ $_container_class = array()}
 	{@ $_visual_class = array()}
+	{@ $_selected_menu = null}
+	{@ $sub_header_title = $module_info->browser_title}
 
 <!--// 초기화 -->
 	{@ $_enable_slide = true}
-	{@ $_enable_snb = false}
+	{@ $_enable_unb = false}
 	{@ $_sample_slide = false}
 	{@ $_sample_footer = false}
 	<block cond="!$layout_info->use_demo">{@ $layout_info->use_demo = 'Y'}</block>
@@ -31,26 +33,6 @@
 	<block cond="!$layout_info->slide_img1">{@ $_sample_slide = true}</block>
 	<block cond="$layout_info->use_demo === 'Y'">{@ $_sample_footer = true}</block>
 
-<!--// 레이아웃 타입 -->
-	<block cond="$layout_info->menu_fixed === 'Y'">{@ $_container_class[] = 'fixed_header'}</block>
-	<block cond="$layout_info->layout_type === 'auto'">
-		{@ $layout_info->layout_type = ($_is_indexmodule) ? 'main' : 'sub';}
-	</block>
-	{@ $_body_class[] = $layout_info->layout_type}
-	<block cond="!$_is_indexmodule">{@ $_body_class[] = $layout_info->sidebar_position}</block>
-
-	<block cond="$layout_info->layout_type === 'main'">
-		{@ $_visual_class[] = 'main'}
-		<block cond="$layout_info->menu_type_main === 'startup'">
-			{@ $_container_class[] = 'onepage'}
-		</block>
-		<block cond="$layout_info->menu_type_main === 'magazine'">
-			{@ $_container_class[] = 'magazine'}
-			{@ $_enable_snb = true}
-		</block>
-	</block>
-
-
 <!--// 콘텐츠 영역 폭 -->
 	<block cond="$layout_info->content_fixed_width === 'index'">
 		{@ $layout_info->content_fixed_width = (!$_is_indexmodule) ? 'Y' : 'N';}
@@ -58,7 +40,49 @@
 	<block cond="$layout_info->content_fixed_width === 'Y'">
 		{@ $_body_class[] = 'fixed-width'}
 	</block>
+	<!--// 회원, 커뮤니케이션 모듈 등 페이지에서 콘텐츠 영역 폭 고정 -->
+	{@ $_fixed_width_act = array(
+		'dispMemberSignUpForm',
+		'dispMemberLoginForm',
+		'dispMemberFindAccount',
+		'dispMemberInfo',
+		'dispMemberModifyPassword',
+		'dispMemberModifyEmailAddress',
+		'dispMemberModifyInfo',
+		'dispMemberLeave',
+		'dispMemberScrappedDocument',
+		'dispMemberSavedDocument',
+		'dispMemberOwnDocument',
+		'dispCommunicationFriend',
+		'dispCommunicationMessages',
+		'dispNcenterliteUserConfig',
+		'dispNcenterliteNotifyList',
+		'dispLoginxeclientListProvider',
+		'dispAjaxboardNotificationConfig'
+	)}
+	<block cond="in_array($act, $_fixed_width_act)">
+		{@ $_body_class[] = 'fixed-width'}
+		{@ $layout_info->sidebar_position = 'none'}
+		{@ $sub_header_title = 'Membership'}
+	</block>
 
+<!--// 레이아웃 타입 -->
+	<block cond="$layout_info->layout_type === 'auto'">
+		{@ $layout_info->layout_type = ($_is_indexmodule) ? 'main' : 'sub';}
+	</block>
+	{@ $_body_class[] = $layout_info->layout_type}
+	<block cond="!$_is_indexmodule">{@ $_body_class[] = $layout_info->sidebar_position}</block>
+	<block cond="$layout_info->layout_type === 'main'">
+		{@ $_visual_class[] = 'main'}
+		<block cond="$layout_info->menu_type_main === 'startup'">
+			{@ $_container_class[] = 'onepage'}
+		</block>
+		<block cond="$layout_info->menu_type_main === 'magazine'">
+			{@ $_container_class[] = 'magazine'}
+			{@ $_enable_unb = true}
+			{@ $layout_info->menu_fixed = 'N'}
+		</block>
+	</block>
 	<block cond="$layout_info->layout_type === 'sub'">
 		{@ $_enable_slide = false}
 		{@ $_visual_class[] = 'sub'}
@@ -67,13 +91,22 @@
 		</block>
 		<block cond="$layout_info->menu_type_sub === 'magazine_simple' || $layout_info->menu_type_sub === 'magazine_regular'">
 			{@ $_container_class[] = 'magazine'}
-			{@ $_enable_snb = true}
+			{@ $_enable_unb = true}
+			{@ $layout_info->menu_fixed = 'N'}
 		</block>
 		<block cond="$layout_info->menu_type_sub === 'onepage_parallax'">
 			{@ $_container_class[] = 'onepage'}
 			{@ $_visual_class[] = 'sub_type3'}
 		</block>
 	</block>
+
+<!--// 메뉴 -->
+	<block cond="$layout_info->menu_fixed === 'Y'">
+		{@ $_container_class[] = 'fixed_header'}
+	</block>
+
+
+
 
 <!--// Demo 기능 활성화 -->
 	<!--// 사이트 인덱스에서만 데모기능 사용 -->
@@ -208,9 +241,9 @@
 			</div>
 
 			<!-- SNB -->
-			<div cond="$_enable_snb && $SNB->list" class="custom_area">
+			<div cond="$_enable_unb && $UNB->list" class="custom_area">
 				<ul>
-					<li loop="$SNB->list => $key, $val">
+					<li loop="$UNB->list => $key, $val">
 						<a href="{$val['href']}" target="_blank"|cond="$val['open_window'] == 'Y'">{$val['link']}</a>
 					</li>
 				</ul>
@@ -221,6 +254,7 @@
 				<ul>
 					<li loop="$GNB->list => $key1, $val1">
 						<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
+						<block cond="$val1['selected']">{@ $_selected_menu = $val1}</block>
 						<ul cond="$val1['list']" class="depth2">
 							<li loop="$val1['list'] => $key2, $val2" class="more"|cond="$val2['list']">
 								<a href="{$val2['href']}" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
@@ -244,7 +278,7 @@
 		<span class="bg_img" style="background-image:url({$layout_info->path}img/sub_banner_03.jpg)"></span>
 		<span cond="$layout_info->layout_type === 'sub'" class="mask"></span>
 		<div class="sub_title">
-			<h1>{$module_info->browser_title}</h1>
+			<h1>{$sub_header_title}</h1>
 		</div>
 	</div>
 
@@ -305,12 +339,12 @@
 	<!-- BODY -->
 	<div class="body {$_body_class}">
 		<!-- LNB -->
-		<nav cond="$LNB->list && $layout_info->layout_type === 'sub' && $layout_info->sidebar_position !== 'none'" class="lnb">
+		<nav cond="$_selected_menu['list'] && $layout_info->layout_type === 'sub' && $layout_info->sidebar_position !== 'none'" class="lnb">
 			<ul>
-				<li loop="$LNB->list => $key1, $val1">
+				<li loop="$_selected_menu['list'] => $key1, $val1">
 					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
 					<ul cond="$val1['list']">
-						<li loop="$val1['list'] => $key2, $val2" class="on"|cond="$val1['selected']">
+						<li loop="$val1['list'] => $key2, $val2" class="on"|cond="$val2['selected']">
 							<a href="{$val2['href']}" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
 						</li>
 					</ul>
@@ -319,12 +353,12 @@
 		</nav>
 		<!-- /LNB -->
 		<!-- CONTENT -->
-			<!--@if($layout_info->use_demo === 'Y')-->
-				<include target="./demo/welcome_main.html" />
-			<!--@endif-->
 			<div class="content" id="content">
 				{$content}
 			</div>
+			<!--@if($layout_info->use_demo === 'Y')-->
+				<include target="./demo/welcome_main.html" />
+			<!--@endif-->
 		<!-- /CONTENT -->
 	</div>
 	<!-- END:BODY -->

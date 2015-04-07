@@ -1,6 +1,7 @@
 (function($){
     "use strict";
     $(function(){
+        var $shrinkHeaderHeight = 300;
         var $fixedHeader = $('.fixed_header .header_wrap');
         var $gnb = $('.gnb');
         var $hoverEl = $('.hover');
@@ -15,17 +16,15 @@
             $(window).scroll(function() {
                 var scroll = $(this).scrollTop();
 
-                if(scroll >= fixedHeaderHeight ) {
+                if(scroll >= $shrinkHeaderHeight ) {
                     if(!hasClass)
                     {
-                        $('body').css('padding-top', fixedHeaderHeight);
                         $fixedHeader.addClass('shrink');
                         hasClass = true;
                     }
                 } else {
                     if(hasClass)
                     {
-                        $('body').css('padding-top', 0);
                         $fixedHeader.removeClass('shrink');
                         hasClass = false;
                     }
