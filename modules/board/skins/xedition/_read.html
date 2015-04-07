@@ -18,7 +18,7 @@
 				<i class="xi-eye"></i> {$lang->readed_count} : {$oDocument->get('readed_count')}
 			</span>
 			<span class="vote_count" cond="$oDocument->get('voted_count')!=0">
-				{$lang->cmd_vote}:{$oDocument->get('voted_count')}
+				<i class="xi-thumbs-up"></i>{$lang->cmd_vote}:{$oDocument->get('voted_count')}
 			</span>
 		</p>
 	</div>
@@ -51,6 +51,36 @@
 	<!-- /READ BODY -->
 	<!-- READ FOOTER -->
 	<div class="read_footer">
+		<div class="sns">
+		    <ul>
+		    <li>
+		        <a href="http://facebook.com/" class="facebook tooltip"><i class="xi-facebook"></i></a>
+		    </li>
+		    <li>
+		        <a href="#" class="google"><i class="xi-google-plus"></i></a>
+		    </li>
+		    <li>
+		        <a href="http://twitter.com/" class="twitter"> <i class="xi-twitter"></i></a>
+		    </li>
+		    </ul>
+			<script>
+				var sTitle = '{str_ireplace(array('<script', '</script'), array("<scr'+'ipt", "</scr'+'ipt"), addslashes($oDocument->getTitleText()))}';
+				jQuery(function($){
+					$('.twitter').snspost({
+						type : 'twitter',
+						content : sTitle + ' {$oDocument->getPermanentUrl()}'
+					});
+					$('.facebook').snspost({
+						type : 'facebook',
+						content : sTitle
+					});
+					$('.google').snspost({
+						type : 'google',
+						content : sTitle
+					});
+				});
+			</script>		    
+		</div>
 		<div cond="$oDocument->hasUploadedFiles()" class="fileList">
 			<button type="button" class="toggleFile" onclick="jQuery(this).next('ul.files').toggle();"><i class="xi-diskette"></i> {$lang->uploaded_file} [<strong>{$oDocument->get('uploaded_count')}</strong>]</button>
 			<ul class="files">
@@ -67,28 +97,6 @@
 				<!--@end-->
 			</span>
 			<a class="document_{$oDocument->document_srl} action" href="#popup_menu_area" onclick="return false">{$lang->cmd_document_do}</a>
-			<ul class="sns">
-				<li class="twitter link"><a href="http://twitter.com/">Twitter</a></li>
-				<li class="facebook link"><a href="http://facebook.com/">Facebook</a></li>
-				<li class="delicious link"><a href="http://delicious.com/">Delicious</a></li>
-			</ul>
-			<script>
-				var sTitle = '{str_ireplace(array('<script', '</script'), array("<scr'+'ipt", "</scr'+'ipt"), addslashes($oDocument->getTitleText()))}';
-				jQuery(function($){
-					$('.twitter>a').snspost({
-						type : 'twitter',
-						content : sTitle + ' {$oDocument->getPermanentUrl()}'
-					});
-					$('.facebook>a').snspost({
-						type : 'facebook',
-						content : sTitle
-					});
-					$('.delicious>a').snspost({
-						type : 'delicious',
-						content : sTitle
-					});
-				});
-			</script>
 		</div>
 		<div class="sign" cond="$module_info->display_sign!='N'&&($oDocument->getProfileImage()||$oDocument->getSignature())">
 			<img cond="$oDocument->getProfileImage()" src="{$oDocument->getProfileImage()}" alt="Profile" class="pf" />
@@ -96,9 +104,9 @@
 		</div>
 		<div class="btnArea"> 
 			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}"><i class="xi-eraser"></i>{$lang->cmd_modify}</a>
-			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_delete}</a>
+			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}"><i class="xi-trash"></i>{$lang->cmd_delete}</a>
 			<span class="etc">
-				<a href="{getUrl('document_srl','')}" class="btn">{$lang->cmd_list}</a>
+				<a href="{getUrl('document_srl','')}" class="btn"><i class="xi-list-ul-l"></i>{$lang->cmd_list}</a>
 			</span>
 		</div>
 	</div>

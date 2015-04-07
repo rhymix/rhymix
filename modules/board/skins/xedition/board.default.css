@@ -78,12 +78,14 @@
 	text-decoration: none;
 	color: #666;
 	box-sizing:border-box;
+	-webkit-transition: all .1s ease-in-out;-moz-transition: all .1s ease-in-out;-ms-transition: all .1s ease-in-out;-o-transition: all .1s ease-in-out;transition: all .1s ease-in-out		
 }
 .cTab li em {
 	font: 11px Tahoma, Geneva, sans-serif;
 	color: #767676;
 	padding: 0 0 0 2px;
 }
+.cTab li:hover a,
 .cTab li.on a {
 	color: #000;
 	border-top: 2px solid #CDA25A;
@@ -118,7 +120,6 @@
 	float: none;
 	line-height: none;
 	padding: 0;
-	font-family: 돋움, Dotum;
 	font-weight: normal;
 }
 .cTab li.on ul li.on_ a {
@@ -561,38 +562,13 @@
 	margin: 0 15px 0 0;
 	color: #555;
 }
-.read_footer .sns {
-	display: inline;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	vertical-align: top;
-}
-.read_footer .sns li {
-	display: inline;
-	vertical-align: top;
-}
-.read_footer .sns a {
-	display: inline-block;
-	height: 16px;
-	line-height: 16px;
-}
-.read_footer .sns .link a {
-	width: 16px;
-	height: 0;
-	padding: 16px 0 0 0;
-	overflow: hidden;
-	background: url(icoSet.gif) no-repeat;
-}
-.read_footer .sns .twitter a {
-	background-position: 0 -270px;
-}
-.read_footer .sns .facebook a {
-	background-position: 0 -330px;
-}
-.read_footer .sns .delicious a {
-	background-position: 0 -360px;
-}
+.read_footer .sns{ margin-top:51px;text-align:center; }
+.read_footer .sns li{display:inline;vertical-align:top}
+.read_footer .sns a{display:inline-block;width:32px;height:32px;border:1px solid #e0e0e0;background-color:#f4f4f4; border-radius:2px;}
+.read_footer .sns i{font-size:22px;line-height:32px;color:#bcbcbc}
+.read_footer .sns a:hover{border-color:#DECA79;background-color:#f9dc5f;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
+.read_footer .sns a:hover {color:#747474;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
+
 .read_footer .sign {
 	clear: both;
 	border: 1px solid #ddd;
@@ -961,7 +937,7 @@
 /* _read.html | comment_form.html */
 .write_comment {
 	position: relative;
-	margin: 10px 0 35px;
+	margin: 10px 0 75px;
 	zoom: 1;
 }
 .write_comment:after {
@@ -1079,6 +1055,7 @@
 	text-shadow:none;
 	color:#000;
 	box-shadow:none;
+	-webkit-transition: all .2s ease-in-out;-moz-transition: all .2s ease-in-out;-ms-transition: all .2s ease-in-out;-o-transition: all .2s ease-in-out;transition: all .2s ease-in-out		
 }
 .board .btn:hover,
 .board .btn:active,
@@ -1100,6 +1077,7 @@
 	border-radius: 2px 0 0 2px;
 }
 .board .btn_insert {
+	font-size: 13px;
 	border:0;
 	cursor:pointer;
 	width:130px;
