@@ -64,11 +64,10 @@
         // login popup
         $hoverEl.on('mouseenter mouseleave focusin focusout',function(e){
             e.preventDefault();
-            $this = $(this);
             if(e.type == 'mouseenter' || e.type == 'focusin'){
-                $this.addClass('on');
+                $(this).addClass('on');
             } else {
-                $this.removeClass('on');
+                $(this).removeClass('on');
             }
         });
 
