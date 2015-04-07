@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
-    <title xml:lang="ko">XE Edition</title>
-    <title xml:lang="jp">XE Edition</title>
-    <description xml:lang="ko">XE 에디션 테마 게시판.</description>
+    <title xml:lang="ko">XEDITION</title>
     <version>1.0</version>
-    <date>2015-04-07</date>
-    <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
-        <name xml:lang="ko">NHN</name>
-        <name xml:lang="jp">NHN</name>
+    <date>2015-04-08</date>
+    <author email_address="developers@xpressengine.com" link="https://www.xpressengine.com/">
+        <name xml:lang="ko">NAVER</name>
     </author>
     <license>LGPL v2</license>
     <extra_vars>

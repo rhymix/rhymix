@@ -91,6 +91,7 @@ module.exports = function(grunt) {
 					'modules/board/skins/default/board.default.min.js': ['modules/board/skins/default/board.default.js'],
 					'modules/board/m.skins/default/js/mboard.min.js': ['modules/board/m.skins/default/js/mboard.js'],
 					'modules/board/m.skins/simpleGray/js/mboard.min.js': ['modules/board/m.skins/simpleGray/js/mboard.js'],
+					'modules/board/skins/xedition/board.default.min.js': ['modules/board/skins/xedition/board.default.js'],
 					// editor-component-image-gallery
 					'modules/editor/components/image_gallery/tpl/gallery.min.js' : ['modules/editor/components/image_gallery/tpl/gallery.js'],
 					'modules/editor/components/image_gallery/tpl/list_gallery.min.js' : ['modules/editor/components/image_gallery/tpl/list_gallery.js'],
@@ -137,7 +138,8 @@ module.exports = function(grunt) {
 					'modules/editor/skins/xpresseditor/css/default.min.css': ['modules/editor/skins/xpresseditor/css/default.css'],
 					'modules/board/skins/default/board.default.min.css': ['modules/board/skins/default/board.default.css'],
 					'modules/board/m.skins/default/css/mboard.min.css': ['modules/board/m.skins/default/css/mboard.css'],
-					'modules/board/m.skins/simpleGray/css/mboard.min.css': ['modules/board/m.skins/simpleGray/css/mboard.css']
+					'modules/board/m.skins/simpleGray/css/mboard.min.css': ['modules/board/m.skins/simpleGray/css/mboard.css'],
+					'modules/board/skins/xedition/board.default.min.css': ['modules/board/skins/xedition/board.default.css'],
 				}
 			},
 			'addons': {
