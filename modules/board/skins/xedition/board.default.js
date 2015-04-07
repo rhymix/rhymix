@@ -45,6 +45,9 @@ jQuery(function($) {
 			case 'twitter':
 				loc = 'http://twitter.com/home?status='+opts.content;
 				break;
+			case 'google' :
+				loc = 'http://plus.google.com/share?url='+encodeURIComponent(opts.url||location.href)+'?l=ko='+opts.content;
+				break;
 		}
 		this.bind(opts.event, function() {
 			window.open(loc);
