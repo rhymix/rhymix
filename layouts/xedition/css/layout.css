@@ -38,7 +38,6 @@ a:hover,a:active,a:focus{text-decoration:none}
 
 /* Fixed Header */
 /*.container.fixed_header{padding-top:80px}*/
-.fixed_header .header_wrap{position:absolute;top:0;left:0;width:100%;z-index:1000}
 .fixed_header .header_wrap.shrink{position:fixed;top:0;width:100%;z-index:1000;border-bottom:1px solid #e1e1e1;background-color:#fff;-webkit-animation:ani-header 0.5s forwards;animation:ani-header 0.5s forwards}
 .fixed_header .header_wrap.shrink .header>h1{padding:0}
 .fixed_header .header_wrap.shrink .gnb>ul>li>a{line-height:60px}

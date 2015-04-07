@@ -33,6 +33,13 @@
 	<block cond="!$layout_info->slide_img1">{@ $_sample_slide = true}</block>
 	<block cond="$layout_info->use_demo === 'Y'">{@ $_sample_footer = true}</block>
 
+	<!--// xeicon 페이지 별도 정의 -->
+	<block cond="$mid === 'xeicon'">
+		{@ $layout_info->layout_type = 'sub'}
+		{@ $layout_info->menu_type_sub = 'onepage_parallax'}
+		{@ $layout_info->content_fixed_width = 'N'}
+	</block>
+
 <!--// 콘텐츠 영역 폭 -->
 	<block cond="$layout_info->content_fixed_width === 'index'">
 		{@ $layout_info->content_fixed_width = (!$_is_indexmodule) ? 'Y' : 'N';}
