@@ -240,7 +240,7 @@
 	height: 25px;
 	line-height: 25px;
 	padding: 0 60px 0 27px;
-	width: 140px;
+	width: 160px;
 	border: 1px solid #DBDBDB;
 	border-radius: 4px;
 	box-sizing:border-box;
@@ -254,11 +254,12 @@
 .list_footer .board_search .search_input {display:inline-block; position: relative;}
 .list_footer .board_search select {
 	height: 25px;
-	width: 80px;
+	min-width: 80px;
 	padding: 0;
 }
 .list_footer .board_search .btn {
 	position: absolute;
+	top: 0;
 	right:0;
 	border-radius: 0 2px 2px 0;
 }
