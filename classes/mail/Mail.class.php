@@ -1,14 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-if(version_compare(PHP_VERSION, '5.0.0', '>='))
-{
-	require_once _XE_PATH_ . "libs/phpmailer/phpmailer.php";
-}
-else
-{
-	require_once _XE_PATH_ . "libs/phpmailer/class.phpmailer.php";
-}
+require_once _XE_PATH_ . "libs/phpmailer/phpmailer.php";
 
 /**
  * Mailing class for XpressEngine
