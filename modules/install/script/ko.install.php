@@ -103,6 +103,11 @@ $sitemap = array(
 						'menu_name' => 'SAMPLE 1',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
+					),
+					array(
+						'menu_name' => 'SAMPLE 2',
+						'is_shortcut' => 'Y',
+						'shortcut_target' => '#'
 					)
 				)
 			),
@@ -113,11 +118,6 @@ $sitemap = array(
 				'list' => array(
 					array(
 						'menu_name' => 'SAMPLE 1',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					),
-					array(
-						'menu_name' => 'SAMPLE 2',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					)
