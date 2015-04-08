@@ -645,7 +645,7 @@ class FileHandler
 			case 'K': $val *= 1024;
 		}
 
-		return $val;
+		return round($val);
 	}
 
 	/**
