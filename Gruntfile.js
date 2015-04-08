@@ -181,6 +181,8 @@ module.exports = function(grunt) {
 					'common/js/x.js',
 					'common/js/xe.js',
 					'common/js/modernizr.js',
+					'vendor/**',
+					'tests/**',
 				]
 			}
 		},
@@ -203,6 +205,8 @@ module.exports = function(grunt) {
 					'!common/css/bootstrap.css',
 					'!common/css/bootstrap-responsive.css',
 					'!**/*.min.css',
+					'!vendor/**',
+					'!tests/**',
 				]
 			}
 		},
@@ -218,7 +222,9 @@ module.exports = function(grunt) {
 					"!tests/**",
 					"!tools/**",
 					"!node_modules/**",
-					"!libs/**"
+					"!libs/**",
+					"!vendor/**",
+					"!tests/_output/**"
 				],
 			},
 		}
