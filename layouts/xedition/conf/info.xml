@@ -3,7 +3,7 @@
 	<title xml:lang="ko">XEDITION</title>
 	<description xml:lang="ko">XE 1.8 기본 테마</description>
 	<version>1.8</version>
-	<date>2015-04-07</date>
+	<date>2015-04-08</date>
 	<author email_address="developer@xpressengine.com" link="https://www.xpressengine.com/">
 		<name xml:lang="ko">NAVER</name>
 	</author>
@@ -13,7 +13,6 @@
 		</menu>
 		<menu name="UNB" maxdepth="1">
 			<title xml:lang="ko">매거진형 추가 메뉴</title>
-			<description xml:lang="ko">asdf</description>
 		</menu>
 		<menu name="FNB" maxdepth="2">
 			<title xml:lang="ko">푸터 메뉴</title>
