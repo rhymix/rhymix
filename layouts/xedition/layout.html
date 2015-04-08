@@ -35,6 +35,7 @@
 	</block>
 	<block cond="!$layout_info->slide_img1">{@ $_sample_slide = true}</block>
 	<block cond="$layout_info->use_demo === 'Y'">{@ $_sample_footer = true}</block>
+	<block cond="$layout_info->footer_logo_img || $layout_info->footer_logo_text">{@ $_sample_footer = false}</block>
 
 	<!--// xeicon 페이지 별도 정의 -->
 	<block cond="$mid === 'xeicon'">
@@ -375,9 +376,9 @@
 		<div class="f_info_area">
 			<div class="f_info">
 				<!--@if(!$_sample_footer)-->
-					<p cond="$layout_info->footer_logo_img || $layout_info->footer_logo_text" class="f_logo<!--@if(!$layout_info->footer_logo_img)--> log_txt<!--@end-->">
+					<p class="f_logo<!--@if(!$layout_info->footer_logo_img)--> log_txt<!--@end-->">
 						<a href="<!--@if($layout_info->footer_logo_url)-->{$layout_info->footer_logo_url}<!--@else-->#<!--@end-->">
-							<!--@if($layout_info->footer_logo_url)-->
+							<!--@if($layout_info->footer_logo_img)-->
 								<img src="{$layout_info->footer_logo_img}" alt="{$layout_info->footer_logo_text}" />
 							<!--@else-->
 								{$layout_info->footer_logo_text}

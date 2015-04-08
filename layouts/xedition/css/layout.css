@@ -59,7 +59,7 @@ a:hover,a:active,a:focus{text-decoration:none}
 .footer .f_info{float:left;width:240px;margin-right:65px}
 .footer .f_logo{overflow:hidden;max-width:100%;margin-bottom:16px;font-size:24px;color:#555}
 .footer .f_logo.log_txt a{font-size:24px;font-weight:bold;color:#555}
-.footer .f_logo img{width:240px;height:50px}
+.footer .f_logo img{max-width:240px}
 .footer .f_info2{overflow:hidden;margin-top:7px}
 .footer .site_map > ul{display:inline-block;overflow:hidden;background:url(../img/bg_sitemap.png) repeat-y}
 .footer .site_map > ul li{float:left;width:282px;margin:0 0 0 24px}
