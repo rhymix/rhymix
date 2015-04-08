@@ -23,7 +23,6 @@
                 if(scroll >= $shrinkHeaderHeight ) {
                     if(!hasClass)
                     {
-                        $('body').css('padding-top', fixedHeaderHeight);
                         $fixedHeader.addClass('shrink');
                         if(logoDataSrc) $logoImg.attr('src', logoDataSrc);
                         hasClass = true;
@@ -31,7 +30,6 @@
                 } else {
                     if(hasClass)
                     {
-                        $('body').css('padding-top', 0);
                         $fixedHeader.removeClass('shrink');
                         if(logoDataSrc) $logoImg.attr('src', logo);
                         hasClass = false;
