@@ -112,7 +112,6 @@ module.exports = function(grunt) {
 			},
 			'layout': {
 				files: {
-					'layouts/xedition/js/jquery.countTo.min.js': ['layouts/xedition/js/jquery.countTo.js'],
 					'layouts/xedition/js/jquery.easing.min.js': ['layouts/xedition/js/jquery.easing.js'],
 					'layouts/xedition/js/layout.min.js': ['layouts/xedition/js/layout.js'],
 					'layouts/xedition/js/welcome.min.js': ['layouts/xedition/js/welcome.js'],
@@ -151,8 +150,10 @@ module.exports = function(grunt) {
 				files: {
 					'layouts/xedition/css/camera.min.css': ['layouts/xedition/css/camera.css'],
 					'layouts/xedition/css/layout.min.css': ['layouts/xedition/css/layout.css'],
+					'layouts/xedition/css/webfont.min.css': ['layouts/xedition/css/webfont.css'],
 					'layouts/xedition/css/welcome.min.css': ['layouts/xedition/css/welcome.css'],
 					'layouts/xedition/css/widget.login.min.css': ['layouts/xedition/css/widget.login.css'],
+					'layouts/xedition/css/xeicon.min.css': ['layouts/xedition/css/xeicon.css'],
 				}
 			},
 		},
@@ -162,6 +163,7 @@ module.exports = function(grunt) {
 				'common/js/*.js',
 				'modules/admin/tpl/js/*.js',
 				'modules/board/tpl/js/*.js',
+				'modules/board/skins/*/*.js',
 				'modules/editor/tpl/js/*.js',
 				'modules/menu/tpl/js/*.js',
 				'modules/widget/tpl/js/*.js',
