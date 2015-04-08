@@ -36,6 +36,7 @@ class editorModel extends editor
 
 		if(!is_object($editor_config)) $editor_config = new stdClass();
 
+		if($editor_config->enable_autosave != 'N') $editor_config->enable_autosave = 'Y';
 		if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
 		if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
 		if(!is_array($editor_config->upload_file_grant)) $editor_config->upload_file_grant = array();
@@ -45,20 +46,47 @@ class editorModel extends editor
 		if(!is_array($editor_config->enable_component_grant)) $editor_config->enable_component_grant = array();
 		if(!is_array($editor_config->enable_comment_component_grant)) $editor_config->enable_comment_component_grant= array();
 
-		if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";
+		if(!$editor_config->editor_height)
+		{
+			$editor_config->editor_height = ($editor_default_config->editor_height) ? $editor_default_config->editor_height : 500;
+		}
+		if(!$editor_config->comment_editor_height)
+		{
+			$editor_config->comment_editor_height = ($editor_default_config->comment_editor_height) ? $editor_default_config->comment_editor_height : 120;
+		}
+		if(!$editor_config->editor_skin)
+		{
+			$editor_config->editor_skin = ($editor_default_config->editor_skin) ? $editor_default_config->editor_skin : 'ckeditor';
+		}
+		if(!$editor_config->comment_editor_skin)
+		{
+			$editor_config->comment_editor_skin = ($editor_default_config->comment_editor_skin) ? $editor_default_config->comment_editor_skin : 'ckeditor';
+		}
+		if(!$editor_config->content_style)
+		{
+			$editor_config->content_style = ($editor_default_config->content_style) ? $editor_default_config->content_style : 'ckeditor_light';
+		}
+		if(!$editor_config->content_font && $editor_default_config->content_font)
+		{
+			$editor_config->content_font = $editor_default_config->content_font;
+		}
+		if(!$editor_config->content_font_size && $editor_default_config->content_font_size)
+		{
+			$editor_config->content_font_size = $editor_default_config->content_font_size;
+		}
+		if(!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset)
+		{
+			$editor_config->sel_editor_colorset = $editor_default_config->sel_editor_colorset;
+		}
+		if(!$editor_config->sel_comment_editor_colorset && $editor_default_config->sel_comment_editor_colorset)
+		{
+			$editor_config->sel_comment_editor_colorset = $editor_default_config->sel_comment_editor_colorset;
+		}
+		if(!$editor_config->comment_content_style && $editor_default_config->comment_content_style)
+		{
+			$editor_config->comment_content_style = $editor_default_config->comment_content_style;
+		}
 
-		if(!$editor_config->editor_height) if($editor_default_config->editor_height? $editor_config->editor_height = $editor_default_config->editor_height : $editor_config->editor_height = 300);
-		if(!$editor_config->comment_editor_height) if($editor_default_config->comment_editor_height? $editor_config->comment_editor_height = $editor_default_config->comment_editor_height : $editor_config->comment_editor_height = 100);
-		if(!$editor_config->editor_skin) if($editor_default_config->editor_skin? $editor_config->editor_skin = $editor_default_config->editor_skin : $editor_config->editor_skin = 'xpresseditor');
-		if(!$editor_config->comment_editor_skin) if($editor_default_config->comment_editor_skin? $editor_config->comment_editor_skin = $editor_default_config->comment_editor_skin : $editor_config->comment_editor_skin = 'xpresseditor');
-		if(!$editor_config->content_style) if($editor_default_config->content_style? $editor_config->content_style = $editor_default_config->content_style : $editor_config->content_style = 'default');
-
-		if(!$editor_config->content_font && $editor_default_config->content_font) $editor_config->content_font = $editor_default_config->content_font;
-		if(!$editor_config->content_font_size && $editor_default_config->content_font_size) $editor_config->content_font_size = $editor_default_config->content_font_size;
-
-		if(!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset) $editor_config->sel_editor_colorset = $editor_default_config->sel_editor_colorset;
-		if(!$editor_config->sel_comment_editor_colorset && $editor_default_config->sel_comment_editor_colorset) $editor_config->sel_comment_editor_colorset = $editor_default_config->sel_comment_editor_colorset;
-		if(!$editor_config->comment_content_style && $editor_default_config->comment_content_style) $editor_config->comment_content_style = $editor_default_config->comment_content_style;
 		return $editor_config;
 	}
 
@@ -177,8 +205,9 @@ class editorModel extends editor
 		if(!$option->allow_fileupload) $allow_fileupload = false;
 		else $allow_fileupload = true;
 		// content_style setting
-		if(!$option->content_style) $option->content_style = 'default';
+		if(!$option->content_style) $option->content_style = 'ckeditor_light';
 		Context::set('content_style', $option->content_style);
+		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
 		// Default font setting
 		Context::set('content_font', addslashes($option->content_font));
 		Context::set('content_font_size', $option->content_font_size);
@@ -201,11 +230,13 @@ class editorModel extends editor
 		else $editor_height = $option->height;
 		// Skin Setting
 		$skin = $option->skin;
-		if(!$skin) $skin = 'xpresseditor';
+		if(!$skin) $skin = 'ckeditor';
 
 		$colorset = $option->colorset;
+		if(!$colorset) $colorset = 'moono';
 		Context::set('colorset', $colorset);
 		Context::set('skin', $skin);
+		Context::set('module_type', $option->module_type);
 
 		if($skin=='dreditor')
 		{
@@ -305,7 +336,7 @@ class editorModel extends editor
 
 		if(!file_exists($tpl_path.$tpl_file))
 		{
-			$skin = 'xpresseditor';
+			$skin = 'ckeditor';
 			$tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
 		}
 		Context::set('editor_path', $tpl_path);
@@ -330,6 +361,7 @@ class editorModel extends editor
 		$editor_config = $this->getEditorConfig($module_srl);
 
 		$config = new stdClass();
+		$config->module_type = $type;
 
 		// Configurations listed according to a type
 		if($type == 'document')
@@ -372,6 +404,7 @@ class editorModel extends editor
 		}
 		// Pre-set option variables of editor
 		$option = new stdClass();
+		$option->module_type = $config->module_type;
 		$option->skin = $config->editor_skin;
 		$option->content_style = $config->content_style;
 		$option->content_font = $config->content_font;

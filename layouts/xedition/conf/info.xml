@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.2">
+	<title xml:lang="ko">XEDITION</title>
+	<description xml:lang="ko">XE 1.8 기본 테마</description>
+	<version>1.8</version>
+	<date>2015-04-08</date>
+	<author email_address="developer@xpressengine.com" link="https://www.xpressengine.com/">
+		<name xml:lang="ko">NAVER</name>
+	</author>
+	<menus>
+		<menu name="GNB" maxdepth="3" default="true">
+			<title xml:lang="ko">메인 메뉴</title>
+		</menu>
+		<menu name="UNB" maxdepth="1">
+			<title xml:lang="ko">매거진형 추가 메뉴</title>
+		</menu>
+		<menu name="FNB" maxdepth="2">
+			<title xml:lang="ko">푸터 메뉴</title>
+		</menu>
+	</menus>
+	<extra_vars>
+		<group>
+			<title xml:lang="ko">기본</title>
+			<var name="use_demo" type="select">
+				<title xml:lang="ko">메인 페이지 데모 사용</title>
+				<options value="Y">
+					<title xml:lang="ko">사용함</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">사용 안 함</title>
+				</options>
+			</var>
+			<var name="layout_type" type="select" default="auto">
+				<title xml:lang="ko">레이아웃 타입</title>
+				<options value="auto">
+					<title xml:lang="ko">자동 적용</title>
+				</options>
+				<options value="main">
+					<title xml:lang="ko">메인형</title>
+				</options>
+				<options value="sub">
+					<title xml:lang="ko">서브형</title>
+				</options>
+			</var>
+			<var name="menu_type_main" type="select">
+				<title xml:lang="ko">메인형 메뉴 타입</title>
+				<options value="basic">
+					<title xml:lang="ko">기본형 : FIXED+SHRINKING</title>
+				</options>
+				<options value="startup">
+					<title xml:lang="ko">투명형 : TRANSPARENT HEADER</title>
+				</options>
+				<options value="magazine">
+					<title xml:lang="ko">매거진형 : HEADER WITH BOTTOM MENU</title>
+				</options>
+			</var>
+			<var name="menu_type_sub" type="select">
+				<title xml:lang="ko">서브형 메뉴 타입</title>
+				<options value="basic">
+					<title xml:lang="ko">기본형 : SIMPLE-TEXT HEADER</title>
+				</options>
+				<options value="basic_regular">
+					<title xml:lang="ko">기본형 : REGULAR HEADER</title>
+				</options>
+				<options value="onepage_parallax">
+					<title xml:lang="ko">투명형 : REGULAR RARALLAX</title>
+				</options>
+				<options value="magazine_simple">
+					<title xml:lang="ko">매거진형 : SIMPLE-TEXT HEADER</title>
+				</options>
+				<options value="magazine_regular">
+					<title xml:lang="ko">매거진형 : REGULAR HEADER</title>
+				</options>
+			</var>
+			<var name="content_fixed_width" type="select" default="index">
+				<title xml:lang="ko">contet_fixed_width</title>
+				<options value="index">
+					<title xml:lang="ko">시작 모듈만 전체 폭</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">전체 폭</title>
+				</options>
+				<options value="Y">
+					<title xml:lang="ko">고정폭</title>
+				</options>
+			</var>
+			<var name="menu_fixed" type="select">
+				<description xml:lang="ko">매거진형 메뉴에는 적용되지 않습니다</description>
+				<title xml:lang="ko">메뉴 고정</title>
+				<options value="Y">
+					<title xml:lang="ko">상단에 고정</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">고정 안 함</title>
+				</options>
+			</var>
+			<var name="sidebar_position" type="select">
+				<title xml:lang="ko">사이드바 위치</title>
+				<description xml:lang="ko">레이아웃 타입 서브형에서만 사용되는 옵션입니다.</description>
+				<options value="right">
+					<title xml:lang="ko">오른쪽</title>
+				</options>
+				<options value="left">
+					<title xml:lang="ko">왼쪽</title>
+				</options>
+				<options value="none">
+					<title xml:lang="ko">풀 페이지</title>
+				</options>
+			</var>
+
+			<var name="enable_intergration_search" type="select">
+				<title xml:lang="ko">통함 검색</title>
+				<options value="Y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">사용 안 함</title>
+				</options>
+			</var>
+
+			<var name="logo_img" type="image">
+				<title xml:lang="ko">기본형 로고 이미지</title>
+			</var>
+			<var name="logo_img_transparent" type="image">
+				<title xml:lang="ko">투명형 로고 이미지</title>
+			</var>
+			<var name="logo_img_magazine" type="image">
+				<title xml:lang="ko">매거진형 로고 이미지</title>
+			</var>
+			<var name="logo_text" type="text">
+				<title xml:lang="ko">사이트 로고 문자</title>
+			</var>
+			<var name="logo_url" type="text">
+				<title xml:lang="ko">사이트 로고 링크 주소</title>
+			</var>
+			<var name="footer_logo_img" type="image">
+				<title xml:lang="ko">푸터 로고 이미지</title>
+			</var>
+			<var name="footer_logo_text" type="text">
+				<title xml:lang="ko">푸터 로고 문자</title>
+			</var>
+			<var name="footer_logo_url" type="text">
+				<title xml:lang="ko">푸터 로고 링크 주소</title>
+			</var>
+			<var name="footer_text" type="textarea">
+				<title xml:lang="ko">푸터 내용</title>
+			</var>
+			<var name="footer_copyright" type="textarea">
+				<title xml:lang="ko">카피라이트 내용</title>
+			</var>
+			<var name="use_login_widget" type="select">
+				<title xml:lang="ko">로그인 위젯 사용</title>
+				<options value="Y">
+					<title xml:lang="ko">사용함</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">사용 안 함</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">슬라이드</title>
+			<var name="use_slide" type="select">
+				<title xml:lang="ko">슬라이드 사용</title>
+				<options value="Y">
+					<title xml:lang="ko">사용함</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">사용 안 함</title>
+				</options>
+			</var>
+			<var name="slide_img1" type="image">
+				<title xml:lang="ko">슬라이드 이미지 1</title>
+			</var>
+			<var name="slide_text1" type="textarea">
+				<title xml:lang="ko">슬라이드 설명 1</title>
+			</var>
+			<var name="slide_img2" type="image">
+				<title xml:lang="ko">슬라이드 이미지 2</title>
+			</var>
+			<var name="slide_text2" type="textarea">
+				<title xml:lang="ko">슬라이드 설명 2</title>
+			</var>
+			<var name="slide_img3" type="image">
+				<title xml:lang="ko">슬라이드 이미지 3</title>
+			</var>
+			<var name="slide_text3" type="textarea">
+				<title xml:lang="ko">슬라이드 설명 3</title>
+			</var>
+			<var name="slide_img4" type="image">
+				<title xml:lang="ko">슬라이드 이미지 4</title>
+			</var>
+			<var name="slide_text4" type="textarea">
+				<title xml:lang="ko">슬라이드 설명 4</title>
+			</var>
+			<var name="slide_img5" type="image">
+				<title xml:lang="ko">슬라이드 이미지 5</title>
+			</var>
+			<var name="slide_text5" type="textarea">
+				<title xml:lang="ko">슬라이드 설명 5</title>
+			</var>
+		</group>
+	</extra_vars>
+</layout>

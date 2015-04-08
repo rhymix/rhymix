@@ -172,7 +172,7 @@ class ModuleHandler extends Handler
 					if(Context::getRequestMethod() == 'GET')
 					{
 						$this->mid = $module_info->mid;
-						header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
+						header('location:' . getNotEncodedSiteUrl($site_module_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
 						return FALSE;
 					}
 					else

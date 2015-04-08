@@ -28,17 +28,20 @@ var no_text_comment = '{$lang->no_text_comment}';
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" class="title">{$lang->document}</th>
 				<th scope="col" class="nowr">{$lang->origin_module_type}</th>
+				<th scope="col" class="title">{$lang->document}</th>
+				<th scope="col" class="nowr">{$lang->author}</th>
+				<th scope="col" class="nowr">{$lang->ipaddress}</th>
 				<th scope="col" class="nowr">{$lang->trash_nick_name}</th>
 				<th scope="col" class="nowr">{$lang->trash_date}</th>
-				<th scope="col" class="nowr">{$lang->ipaddress}</th>
 				<th scope="col" class="title">{$lang->trash_description}</th>
 				<th scope="col"><input type="checkbox" title="Check All" data-name="cart" /></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr loop="$trash_list => $no, $oTrashVO">
+			{debugPrint($oTrashVO->unserializedObject)}
+				<td class="nowr"><!--@if($oTrashVO->getOriginModule() == 'document')-->{$lang->document}<!--@else-->{$lang->comment}<!--@end--></td>
 				<td class="title">
 					<strong cond="!trim($oTrashVO->getTitle()) && $oTrashVO->getOriginModule() == 'comment'">{$lang->no_text_comment}</strong>
 					<block cond="trim($oTrashVO->getTitle())">
@@ -48,10 +51,10 @@ var no_text_comment = '{$lang->no_text_comment}';
 						<a href="{getUrl('act','dispTrashAdminView','trash_srl',$oTrashVO->getTrashSrl())}">{$oTrashVO->getTitle()}</a>
 					</block>
 				</td>
-				<td class="nowr"><!--@if($oTrashVO->getOriginModule() == 'document')-->{$lang->document}<!--@else-->{$lang->comment}<!--@end--></td>
+				<td class="nowr"><a href="#popup_menu_area" class="member_{$oTrashVO->unserializedObject['member_srl']}">{$oTrashVO->unserializedObject['nick_name']}</a></td>
+				<td class="nowr">{$oTrashVO->unserializedObject['ipaddress']}</td>
 				<td class="nowr"><a href="#popup_menu_area" class="member_{$oTrashVO->getRemoverSrl()}">{$oTrashVO->getNickName()}</a></td>
 				<td class="nowr">{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
-				<td class="nowr">{$oTrashVO->getIpaddress()}</td>
 				<td class="title">{$oTrashVO->getDescription()}</td>
 				<td><input type="checkbox" name="cart" value="{$oTrashVO->getTrashSrl()}" /></td>
 			</tr>

@@ -39,7 +39,7 @@
 	</ul>
 </div>
 
-<block cond="!$does_not_update_xecore && (!$package->installed || $package->need_update)">
+<block cond="!$package->installed || $package->need_update">
 	<div cond="!$directModuleInstall->toBool() || $show_ftp_note" class="x_well x_clearfix">
 		<block cond="!$directModuleInstall->toBool()">
 			<p>{$lang->msg_direct_install_not_supported}</p>

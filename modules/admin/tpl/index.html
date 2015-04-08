@@ -94,5 +94,20 @@
 		</ul>
 	</div>
 </div>
+
+<script>
+jQuery(function($)
+{
+	// check browser version
+	if($.browser.msie == true ) {
+		var arrBrowserVersion = $.browser.version.split('.');
+		if(parseInt(arrBrowserVersion[0], 10) <= 8) {
+			$('#checkBrowserMessage').show();
+		}
+	}
+});
+</script>
+
+
 <include target="./_footer.html" />
 

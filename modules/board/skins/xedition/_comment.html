@@ -1,0 +1,83 @@
+<!-- COMMENT -->
+<div class="feedback" id="comment">
+	<div class="fbHeader">
+		<h2><i class="xi-comment"></i> {$lang->comment} <em>{$oDocument->getCommentcount()}</em></h2>
+	</div>
+	<ul cond="$oDocument->getCommentcount()" class="fbList">
+		<li loop="$oDocument->getComments()=>$key,$comment" class="fbItem"|cond="!$comment->get('depth')" class="fbItem indent indent{($comment->get('depth'))}"|cond="$comment->get('depth')" id="comment_{$comment->comment_srl}">
+			<div class="fbMeta">
+				<img cond="$comment->getProfileImage()" src="{$comment->getProfileImage()}" alt="Profile" class="profile" />
+				<span cond="!$comment->getProfileImage()" class="profile"></span>
+				<h3 class="author">
+					<a cond="!$comment->member_srl && $comment->homepage" href="{$comment->getHomepageUrl()}">{$comment->getNickName()}</a>
+					<strong cond="!$comment->member_srl && !$comment->homepage">{$comment->getNickName()}</strong>
+					<a cond="$comment->member_srl" href="#popup_menu_area" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
+				</h3>
+				<p class="time">{$comment->getRegdate('Y.m.d H:i')}</p>
+			</div>
+			<!--@if(!$comment->isAccessible())-->
+			<form action="./" method="get" class="xe_content secretForm" onsubmit="return procFilter(this, input_password)">
+				<p><label for="cpw_{$comment->comment_srl}">{$lang->msg_is_secret} {$lang->msg_input_password}</label></p>
+				<p><input type="password" name="password" id="cpw_{$comment->comment_srl}" class="iText" /><input type="submit" class="btn" value="{$lang->cmd_input}" /></p>
+				<input type="hidden" name="mid" value="{$mid}" />
+				<input type="hidden" name="page" value="{$page}" />
+				<input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
+				<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
+			</form>
+			<!--@else-->
+			{$comment->getContent(false)}
+			<!--@end-->
+			<div cond="$comment->hasUploadedFiles()" class="fileList">
+				<button type="button" class="toggleFile" onclick="jQuery(this).next('ul.files').toggle();"><i class="xi-diskette"></i> {$lang->uploaded_file} [<strong>{$comment->get('uploaded_count')}</strong>]</button>
+				<ul class="files">
+					<li loop="$comment->getUploadedFiles()=>$key,$file"><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} <span class="fileSize">[File Size:{FileHandler::filesize($file->file_size)}/Download:{number_format($file->download_count)}]</span></a></li>
+				</ul>
+			</div>
+			<p class="action">
+				<span class="vote" cond="$comment->get('voted_count')!=0">{$lang->cmd_vote}:{$comment->get('voted_count')?$comment->get('voted_count'):0}</span>
+				<a cond="$oDocument->allowComment()" href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="reply"><i class="xi-reply"></i> {$lang->cmd_reply}</a>
+				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}" class="modify"><i class="xi-eraser"></i> {$lang->cmd_modify}</a>
+				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="delete"><i class="xi-trash"></i> {$lang->cmd_delete}</a>
+				<a cond="$is_logged" class="comment_{$comment->comment_srl} this" href="#popup_menu_area" onclick="return false">{$lang->cmd_comment_do}</a>
+			</p>
+		</li>
+	</ul>
+    <div cond="$oDocument->comment_page_navigation" class="pagination">
+        <a href="{getUrl('cpage',1)}#comment" class="direction prev"><span></span><span></span> {$lang->first_page}</a> 
+        <block loop="$page_no=$oDocument->comment_page_navigation->getNextPage()">
+			<strong cond="$cpage==$page_no">{$page_no}</strong> 
+			<a cond="$cpage!=$page_no" href="{getUrl('cpage',$page_no)}#comment">{$page_no}</a>
+        </block>
+        <a href="{getUrl('cpage',$oDocument->comment_page_navigation->last_page)}#comment" class="direction next">{$lang->last_page} <span></span><span></span></a>
+    </div>
+	<form cond="$grant->write_comment && $oDocument->isEnableComment()" action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="write_comment" id="write_comment">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+		<input type="hidden" name="comment_srl" value="" />
+        <input type="hidden" name="content" value="" />
+        {$oDocument->getCommentEditor()}
+        
+		<div class="write_author">
+			<span class="item" cond="!$is_logged">
+				<label for="userName" class="iLabel">{$lang->writer}</label>
+				<input type="text" name="nick_name" id="userName" class="iText userName" />
+			</span>
+			<span class="item" cond="!$is_logged">
+				<label for="userPw" class="iLabel">{$lang->password}</label>
+				<input type="password" name="password" id="userPw" class="iText userPw" />
+			</span>
+			<span class="item" cond="!$is_logged">
+				<label for="homePage" class="iLabel">{$lang->homepage}</label>
+				<input type="text" name="homepage" id="homePage" class="iText homePage" />&nbsp;
+			</span>
+			<input cond="$is_logged" type="checkbox" name="notify_message" value="Y" id="notify_message" class="iCheck" />
+			<label cond="$is_logged" for="notify_message">{$lang->notify}</label>
+			<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" value="Y" id="is_secret" class="iCheck" />
+			<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
+		</div>
+		<div style="float:right">
+			<button type="submit" class="btn_insert"><i class="xi-message"></i> {$lang->cmd_comment_registration}</button>
+		</div>
+	</form>
+</div>
+<!-- /COMMENT -->
