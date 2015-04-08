@@ -13,19 +13,27 @@
         {
             var fixedHeaderHeight = $fixedHeader.height();
             var hasClass = false;
+            var $logoImg = $fixedHeader.find('.header h1 img');
+            var logoDataSrc = $logoImg.data('logo');
+            var logo = $logoImg.attr('src');
+
             $(window).scroll(function() {
                 var scroll = $(this).scrollTop();
 
                 if(scroll >= $shrinkHeaderHeight ) {
                     if(!hasClass)
                     {
+                        $('body').css('padding-top', fixedHeaderHeight);
                         $fixedHeader.addClass('shrink');
+                        if(logoDataSrc) $logoImg.attr('src', logoDataSrc);
                         hasClass = true;
                     }
                 } else {
                     if(hasClass)
                     {
+                        $('body').css('padding-top', 0);
                         $fixedHeader.removeClass('shrink');
+                        if(logoDataSrc) $logoImg.attr('src', logo);
                         hasClass = false;
                     }
                 }
@@ -84,7 +92,7 @@
             return false;
         });
         $('.btn_close').click(function(){
-            $this = $(this);
+            var $this = $(this);
             $this.parent().fadeOut().find('input').val('');
             if($('.magazine').length > 0){
                 $('.custom_area').css('opacity',1);
@@ -95,6 +103,19 @@
             $searchEl.focus();
             return false;
         });
+
+        // slide
+        if($.isFunction($.fn.camera) && $(".camera_wrap").length) {
+            $(".camera_wrap").camera({
+                height: "600px",
+                pagination: true,
+                thumbnails: false,
+                playPause: false,
+                loader: "none",
+                fx: "simpleFade",
+                time: 3000
+            });
+        }
 
         // Scroll to top
         var scrollToTop = function() {

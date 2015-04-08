@@ -10,6 +10,8 @@
 	{@ $_container_class = array()}
 	{@ $_visual_class = array()}
 	{@ $_selected_menu = null}
+	{@ $_magazine_header = false}
+	{@ $_onepage_header = false}
 	{@ $sub_header_title = $module_info->browser_title}
 
 <!--// 초기화 -->
@@ -83,10 +85,12 @@
 		{@ $_visual_class[] = 'main'}
 		<block cond="$layout_info->menu_type_main === 'startup'">
 			{@ $_container_class[] = 'onepage'}
+			{@ $_onepage_header = true}
 		</block>
 		<block cond="$layout_info->menu_type_main === 'magazine'">
 			{@ $_container_class[] = 'magazine'}
 			{@ $_enable_unb = true}
+			{@ $_magazine_header = true}
 			{@ $layout_info->menu_fixed = 'N'}
 		</block>
 	</block>
@@ -98,11 +102,13 @@
 		</block>
 		<block cond="$layout_info->menu_type_sub === 'magazine_simple' || $layout_info->menu_type_sub === 'magazine_regular'">
 			{@ $_container_class[] = 'magazine'}
+			{@ $_magazine_header = true}
 			{@ $_enable_unb = true}
 			{@ $layout_info->menu_fixed = 'N'}
 		</block>
 		<block cond="$layout_info->menu_type_sub === 'onepage_parallax'">
 			{@ $_container_class[] = 'onepage'}
+			{@ $_onepage_header = true}
 			{@ $_visual_class[] = 'sub_type3'}
 		</block>
 	</block>
@@ -136,31 +142,11 @@
 <load target="./css/xeicon.css" cond="$mid === 'xeicon'" />
 <load target="../../common/xeicon/xeicon.min.css" />
 <!--// JS -->
-<block cond="$_enable_slide">
-	<load target="./js/camera.min.js" />
-	<script>
-	jQuery(function ($) {
-		// main slide : camera show plugin 적용
-		$(".camera_wrap").camera({
-			height: "600px",
-			pagination: true,
-			thumbnails: false,
-			playPause: false,
-			loader: "none",
-			fx: "simpleFade",
-			time: 3000
-		});
-	});
-	</script>
-</block>
 <load target="./js/jquery.easing.js" />
+<load cond="$_enable_slide" target="./js/camera.min.js" />
 <load target="./js/layout.js" />
 <load cond="$layout_info->use_demo ==='Y'" target="./js/welcome.js" />
 <load target="./js/SmoothScroll.min.js" />
-
-
-
-
 
 
 <!--// BODY -->
@@ -185,18 +171,26 @@
 
 		<header class="header">
 			<!--// LOGO -->
-			<h1>
-				<a href="<!--@if(!$layout_info->use_demo && $layout_info->logo_url)-->{$layout_info->logo_url}<!--@else-->{getUrl('')}<!--@end-->">
-					<!--@if(!$layout_info->use_demo && $layout_info->logo_img)-->
-						<img src="{$layout_info->logo_img}" alt="{$layout_info->logo_text}"|cond="$layout_info->logo_text" />
-					<!--@else-->
-						<!--@if(($layout_info->layout_type === 'main' && $layout_info->menu_type_main === 'startup') || ($layout_info->layout_type === 'sub' && $layout_info->menu_type_sub === 'onepage_parallax'))-->
-							<img src="./img/s_logo.png" alt="XEDITION" />
-						<!--@elseif($layout_info->menu_type == 'magazine')-->
-							<img src="./img/m_logo.png" alt="XEDITION Header : Magazine type" />
+			<h1 class="logo-item">
+				{@ $_logo_img = $layout_info->logo_img}
+				<block cond="$_magazine_header && $layout_info->logo_img_magazine">
+					{@ $_logo_img = $layout_info->logo_img_magazine}
+				</block>
+				<a href="<!--@if($layout_info->logo_url)-->{$layout_info->logo_url}<!--@else-->{getUrl('')}<!--@end-->">
+					<!--@if($_logo_img)-->
+						<!--@if($_magazine_header)-->
+							<img src="{$layout_info->logo_img_magazine}" alt="{$layout_info->logo_text}" />
 						<!--@else-->
-							<img src="./img/logo.png" alt="XEDITION" />
+							<block cond="$_onepage_header && $layout_info->logo_img_transparent">
+								{@ $_logo_img = $layout_info->logo_img_transparent}
+							</block>
+							<img src="{$_logo_img}" data-logo="{$layout_info->logo_img}"|cond="$_onepage_header && $layout_info->logo_img_transparent" alt="{$layout_info->logo_text}" />
 						<!--@endif-->
+					<!--@else-->
+						{@ $_logo_img = 'logo.png'}
+						<block cond="$_magazine_header">{@ $_logo_img = 'm_logo.png'}</block>
+						<block cond="$_onepage_header">{@ $_logo_img = 's_logo.png'}</block>
+						<img src="{$layout_info->path}img/{$_logo_img}" data-logo="{$layout_info->path}img/logo.png"|cond="$_onepage_header" alt="XEDITION" />
 					<!--@end-->
 				</a>
 			</h1>
@@ -282,8 +276,11 @@
 
 	<!-- VISUAL-SUBHEADER -->
 	<div cond="$layout_info->layout_type === 'sub'" class="visual {$_visual_class}">
-		<span class="bg_img" style="background-image:url({$layout_info->path}img/sub_banner_03.jpg)"></span>
-		<span cond="$layout_info->layout_type === 'sub'" class="mask"></span>
+		{@ $_subheader_img = 'sub_banner_01.jpg'}
+		<block cond="$layout_info->menu_type_sub === 'onepage_parallax'">{@ $_subheader_img = 'sub_banner_02.jpg'}</block>
+		<block cond="$mid === 'xeicon'">{@ $_subheader_img = 'sub_banner_xeicon.jpg'}</block>
+		<span class="bg_img" style="background-image:url('{$layout_info->path}img/{$_subheader_img}')"></span>
+		<span class="mask"></span>
 		<div class="sub_title">
 			<h1>{$sub_header_title}</h1>
 		</div>

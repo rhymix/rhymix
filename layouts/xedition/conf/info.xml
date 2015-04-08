@@ -108,14 +108,21 @@
 					<title xml:lang="ko">풀 페이지</title>
 				</options>
 			</var>
+
 			<var name="logo_img" type="image">
-				<title xml:lang="ko">사이트 로고 이미지</title>
+				<title xml:lang="ko">기본형 로고 이미지</title>
+			</var>
+			<var name="logo_img_transparent" type="image">
+				<title xml:lang="ko">투명형 로고 이미지</title>
+			</var>
+			<var name="logo_img_magazine" type="image">
+				<title xml:lang="ko">매거진형 로고 이미지</title>
 			</var>
 			<var name="logo_text" type="text">
 				<title xml:lang="ko">사이트 로고 문자</title>
 			</var>
 			<var name="logo_url" type="text">
-				<title xml:lang="ko">사이트 로고 경로</title>
+				<title xml:lang="ko">사이트 로고 링크 주소</title>
 			</var>
 			<var name="footer_logo_img" type="image">
 				<title xml:lang="ko">푸터 로고 이미지</title>
@@ -124,7 +131,7 @@
 				<title xml:lang="ko">푸터 로고 문자</title>
 			</var>
 			<var name="footer_logo_url" type="text">
-				<title xml:lang="ko">푸터 로고 경로</title>
+				<title xml:lang="ko">푸터 로고 링크 주소</title>
 			</var>
 			<var name="footer_text" type="textarea">
 				<title xml:lang="ko">푸터 내용</title>

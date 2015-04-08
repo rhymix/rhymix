@@ -33,8 +33,8 @@ a:hover,a:active,a:focus{text-decoration:none}
 .content img{max-width:100%;height:auto}
 
 /* Header */
-.header>h1{float:left;padding:20px 0;margin-right:32px}
-.header>h1 img{vertical-align:top}
+.header>h1{float:left;padding:20px 0;margin-right:32px;line-height:60px;}
+.header>h1 img{vertical-align:middle; max-height:40px; }
 
 /* Fixed Header */
 /*.container.fixed_header{padding-top:80px}*/
@@ -126,13 +126,17 @@ a:hover,a:active,a:focus{text-decoration:none}
 .onepage .gnb>ul{background:transparent}
 .onepage .gnb>ul>li>a{line-height:60px;color:#f6f6f6}
 .onepage .gnb>ul>li>a:hover,.onepage .gnb>ul>li>a:focus,.onepage .gnb>ul>li>a:focus,.onepage .gnb>ul>li.on>a{color:#fff}
+.onepage .shrink .gnb>ul>li>a{color:#888}
+.onepage .shrink .gnb>ul>li>a:hover,.onepage .shrink .gnb>ul>li>a:focus,.onepage .shrink .gnb>ul>li>a:focus,.onepage .shrink .gnb>ul>li.on>a{color:#444}
 .onepage .header>.side>ul>li>a{color:#f6f6f6}
 .onepage .header>.side>ul>li>a:hover, .onepage .header>.side>ul>li>a:focus,.onepage .header>.side>ul>li>a:active,.onepage .header>.side>ul>li.on>a{color:#fff}
 .onepage .search_area .btn_close{color:#f6f6f6}
+.onepage .shrink .search_area .btn_close{color:#888}
 .onepage .gnb>ul .depth2:after{background:none}
 .onepage .gnb{margin-top:20px}
 .onepage .header>h1{padding:20px 0 0}
 .onepage .search_area input[type=text]{color:#f6f6f6}
+.onepage .shrink .search_area input[type=text]{color:#888}
 
 /* Search */
 .search_wrap{position:relative;width:1200px;margin:0 auto}
@@ -157,7 +161,6 @@ a:hover,a:active,a:focus{text-decoration:none}
 .gnb>ul .depth2 a:hover,.gnb>ul .depth2 a:active,.gnb>ul .depth2 a:focus,.gnb>ul .depth2>li.on>a{color:#cda25a}
 .gnb>ul .depth3{display:none;position:absolute;top:-8px;left:100%;z-index:2;padding:8px 0;background-color:#333}
 .gnb>ul .depth2>li.more>a:after{position:absolute;right:20px;content:'>'}
-.onepage .header_wrap.shrink a,
 .onepage .shrink .header > .side > ul > li > a {color: #444; }
 .onepage .shrink .gnb {margin-top: 0; }
 .magazine .shrink .gnb {margin-bottom: 10px; }
