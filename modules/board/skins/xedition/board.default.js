@@ -1,4 +1,5 @@
 jQuery(function($) {
+	"use strict";
 	// hide last tag
 	$('.read_footer .tags span:last-child').hide();
 	// user input text blur/focus/change
@@ -31,6 +32,7 @@ jQuery(function($) {
 
 // SNS post
 (function($) {
+	"use strict";
 	$.fn.snspost = function(opts) {
 		var loc = '';
 		opts = $.extend({}, {type:'twitter', event:'click', content:''}, opts);
