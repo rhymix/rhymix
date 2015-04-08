@@ -17,38 +17,38 @@ $sitemap = array(
 				'module_id' => 'index',
 			),
 			array(
-				'menu_name' => 'XEIcon',
-				'module_type' => 'WIDGET',
-				'module_id' => 'xeicon',
-			),
-			array(
 				'menu_name' => 'Board',
 				'module_type' => 'board',
 				'module_id' => 'board',
 				'list' => array(
 					array(
-						'menu_name' => 'Smaple 1',
+						'menu_name' => 'SMAPLE 1',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#',
 						'list' => array(
 							array(
-								'menu_name' => 'Smaple 1-1',
+								'menu_name' => 'SMAPLE 1-1',
 								'is_shortcut' => 'Y',
 								'shortcut_target' => '#'
 							),
 						)
 					),
 					array(
-						'menu_name' => 'Smaple 2',
+						'menu_name' => 'SMAPLE 2',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					),
 					array(
-						'menu_name' => 'Smaple 3',
+						'menu_name' => 'SMAPLE 3',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					),
 				)
+			),
+			array(
+				'menu_name' => 'XEIcon',
+				'module_type' => 'WIDGET',
+				'module_id' => 'xeicon',
 			),
 		)
 	),
@@ -78,38 +78,21 @@ $sitemap = array(
 				'shortcut_target' => 'index',
 				'list' => array(
 					array(
-						'menu_name' => 'Sample 1',
+						'menu_name' => 'SAMPLE 1',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					),
 					array(
-						'menu_name' => 'Smaple 2',
+						'menu_name' => 'SAMPLE 2',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					),
 					array(
-						'menu_name' => 'Smaple 3',
+						'menu_name' => 'SAMPLE 3',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					)
 				),
-			),
-			array(
-				'menu_name' => 'XEIcon',
-				'is_shortcut' => 'Y',
-				'shortcut_target' => 'xeicon',
-				'list' => array(
-					array(
-						'menu_name' => 'Sample 1',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					),
-					array(
-						'menu_name' => 'Smaple 2',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					)
-				)
 			),
 			array(
 				'menu_name' => 'Board',
@@ -117,7 +100,24 @@ $sitemap = array(
 				'shortcut_target' => 'board',
 				'list' => array(
 					array(
-						'menu_name' => 'Sample 1',
+						'menu_name' => 'SAMPLE 1',
+						'is_shortcut' => 'Y',
+						'shortcut_target' => '#'
+					)
+				)
+			),
+			array(
+				'menu_name' => 'XEIcon',
+				'is_shortcut' => 'Y',
+				'shortcut_target' => 'xeicon',
+				'list' => array(
+					array(
+						'menu_name' => 'SAMPLE 1',
+						'is_shortcut' => 'Y',
+						'shortcut_target' => '#'
+					),
+					array(
+						'menu_name' => 'SAMPLE 2',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					)
@@ -304,7 +304,7 @@ $oModuleController->updateSite($site_args);
 
 
 // XEIcon page
-$moduleInfo = $oModuleModel->getModuleInfoByMenuItemSrl($sitemap['GNB']['list'][1]['menu_srl']);
+$moduleInfo = $oModuleModel->getModuleInfoByMenuItemSrl($sitemap['GNB']['list'][2]['menu_srl']);
 $xeicon_module_srl = $moduleInfo->module_srl;
 
 $xeicon_document_srl = array();
