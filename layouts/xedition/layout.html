@@ -27,6 +27,7 @@
 	<block cond="!$layout_info->menu_fixed">{@ $layout_info->menu_fixed = 'Y'}</block>
 	<block cond="!$layout_info->sidebar_position">{@ $layout_info->sidebar_position = 'right'}</block>
 	<block cond="!$layout_info->use_slide">{@ $layout_info->use_slide = 'Y'}</block>
+	<block cond="!$layout_info->enable_intergration_search">{@ $layout_info->enable_intergration_search = 'Y'}</block>
 
 	<block cond="$layout_info->use_demo === 'Y'">
 		{@ $_sample_slide = true}
@@ -67,13 +68,15 @@
 		'dispNcenterliteUserConfig',
 		'dispNcenterliteNotifyList',
 		'dispLoginxeclientListProvider',
-		'dispAjaxboardNotificationConfig'
+		'dispAjaxboardNotificationConfig',
+		'IS'
 	)}
 	<block cond="in_array($act, $_fixed_width_act)">
 		{@ $_body_class[] = 'fixed-width'}
 		{@ $layout_info->sidebar_position = 'none'}
 		{@ $sub_header_title = 'Membership'}
 		{@ $layout_info->use_demo = 'N'}
+		<block cond="$act === 'IS'">{@ $sub_header_title = 'Search'}</block>
 	</block>
 
 <!--// 레이아웃 타입 -->
@@ -156,7 +159,7 @@
 
 	<!-- HEADER -->
 	<div class="header_wrap xe-clearfix">
-		<div class="search_wrap">
+		<div cond="$layout_info->enable_intergration_search === 'Y'" class="search_wrap">
 			<div class="search_area">
 				<!-- SEARCH -->
 				<form action="{getUrl()}" method="get" class="search" no-error-return-url="true">
@@ -200,7 +203,7 @@
 			<div class="side">
 				<ul>
 					<!-- search -->
-					<li class="click">
+					<li cond="$layout_info->enable_intergration_search === 'Y'" class="click">
 						<a href="#" title="{$lang->cmd_search}"><i class="xi-magnifier"></i><span class="blind">{$lang->cmd_search}</span></a>
 					</li>
 					<!-- admin -->

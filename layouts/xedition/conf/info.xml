@@ -109,6 +109,16 @@
 				</options>
 			</var>
 
+			<var name="enable_intergration_search" type="select">
+				<title xml:lang="ko">통함 검색</title>
+				<options value="Y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">사용 안 함</title>
+				</options>
+			</var>
+
 			<var name="logo_img" type="image">
 				<title xml:lang="ko">기본형 로고 이미지</title>
 			</var>
