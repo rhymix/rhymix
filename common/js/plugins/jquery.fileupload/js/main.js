@@ -56,7 +56,7 @@
 
 			var settings = {
 				url: request_uri.setQuery('module', 'file').setQuery('act', 'procFileUpload'),
-				formData: {"editor_sequence": data.editorSequence, "upload_target_srl" : data.uploadTargetSrl},
+				formData: {"editor_sequence": data.editorSequence, "upload_target_srl" : data.uploadTargetSrl, "mid" : window.current_mid},
 
 				dropZone: $container,
 				done: function(e, res) {
