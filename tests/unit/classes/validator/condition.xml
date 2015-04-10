@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+	<fields>
+		<field name="greeting1" required="true" />
+		<field name="greeting2">
+			<if test="$greeting1 == 'Hello'" attr="required" value="true" />
+		</field>
+	</fields>
+</ruleset>
