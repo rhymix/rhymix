@@ -1,1 +1,0 @@
-<condition operation="equal" column="comments.user_id" default="member.user_id" filter="userid" />

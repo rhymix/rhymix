@@ -1,1 +1,0 @@
-<condition operation="equal" column="modules.module_srl" var="documents.module_srl" pipe="and" />
