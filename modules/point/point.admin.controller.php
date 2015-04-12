@@ -68,7 +68,7 @@ class pointAdminController extends point
 			}
 
 			//if group level is lower than 1, change to 1
-			if(($args->{'point_group_'.$group_srl} && $args->{'point_group_'.$group_srl} < 1)
+			if($args->{'point_group_'.$group_srl} && $args->{'point_group_'.$group_srl} < 1)
 			{
 				$args->{'point_group_'.$group_srl} = 1;
 			}
