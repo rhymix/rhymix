@@ -166,7 +166,7 @@ class DB
 	 * leve of transaction
 	 * @var unknown
 	 */
-	private $transationNestedLevel = 0;
+	private $transactionNestedLevel = 0;
 
 	/**
 	 * returns instance of certain db type
@@ -1137,10 +1137,10 @@ class DB
 			return;
 		}
 
-		if($this->_begin($this->transationNestedLevel))
+		if($this->_begin($this->transactionNestedLevel))
 		{
 			$this->transaction_started = TRUE;
-			$this->transationNestedLevel++;
+			$this->transactionNestedLevel++;
 		}
 	}
 
@@ -1164,11 +1164,11 @@ class DB
 		{
 			return;
 		}
-		if($this->_rollback($this->transationNestedLevel))
+		if($this->_rollback($this->transactionNestedLevel))
 		{
-			$this->transationNestedLevel--;
+			$this->transactionNestedLevel--;
 
-			if(!$this->transationNestedLevel)
+			if(!$this->transactionNestedLevel)
 			{
 				$this->transaction_started = FALSE;
 			}
@@ -1196,14 +1196,14 @@ class DB
 		{
 			return;
 		}
-		if($this->transationNestedLevel == 1 && $this->_commit())
+		if($this->transactionNestedLevel == 1 && $this->_commit())
 		{
 			$this->transaction_started = FALSE;
-			$this->transationNestedLevel = 0;
+			$this->transactionNestedLevel = 0;
 		}
 		else
 		{
-			$this->transationNestedLevel--;
+			$this->transactionNestedLevel--;
 		}
 	}
 
