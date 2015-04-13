@@ -65,6 +65,8 @@
 
 			this.editor_sequence = data.editorSequence;
 			$form.attr('editor_sequence', data.editorSequence);
+			
+			if(CKEDITOR.env.mobile) CKEDITOR.env.isCompatible = true;
 
 			var instance = CKEDITOR.appendTo($containerEl[0], {}, $contentField.val());
 
