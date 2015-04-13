@@ -1,4 +1,4 @@
-<query id="getAuthMail" action="select">
+<query id="chkAuthMail" action="select">
     <tables>
         <table name="member_auth_mail" />
     </tables>

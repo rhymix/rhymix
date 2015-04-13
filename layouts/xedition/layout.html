@@ -297,13 +297,6 @@
 			<!--@if($_sample_slide)-->
 				<include target="./demo/slide.html" />
 			<!--@else-->
-				<div data-src="{$layout_info->slide_img1}">
-					<div class="camera_caption fadeIn">
-						<div class="camera_caption_wrap">
-							설정되지 않음
-						</div>
-					</div>
-				</div>
 				<div cond="$layout_info->slide_img1" data-src="{$layout_info->slide_img1}">
 					<div cond="$layout_info->slide_text1" class="camera_caption fadeIn">
 						<div class="camera_caption_wrap">
