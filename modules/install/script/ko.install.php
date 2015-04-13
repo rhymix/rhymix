@@ -22,24 +22,24 @@ $sitemap = array(
 				'module_id' => 'board',
 				'list' => array(
 					array(
-						'menu_name' => 'SMAPLE 1',
+						'menu_name' => 'SAMPLE 1',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#',
 						'list' => array(
 							array(
-								'menu_name' => 'SMAPLE 1-1',
+								'menu_name' => 'SAMPLE 1-1',
 								'is_shortcut' => 'Y',
 								'shortcut_target' => '#'
 							),
 						)
 					),
 					array(
-						'menu_name' => 'SMAPLE 2',
+						'menu_name' => 'SAMPLE 2',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					),
 					array(
-						'menu_name' => 'SMAPLE 3',
+						'menu_name' => 'SAMPLE 3',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					),
