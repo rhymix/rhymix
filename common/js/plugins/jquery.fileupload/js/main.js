@@ -59,6 +59,22 @@
 				formData: {"editor_sequence": data.editorSequence, "upload_target_srl" : data.uploadTargetSrl, "mid" : window.current_mid},
 
 				dropZone: $container,
+				add: function(e, data) {
+					var dfd = jQuery.Deferred();
+
+					$.each(data.files, function(index, file) {
+						if(self.settings.maxFileSize <= file.size) {
+							dfd.reject();
+							alert(window.xe.msg_exceeds_limit_size);
+							return false;
+						}
+						dfd.resolve();
+					});
+
+					dfd.done(function(){
+						data.submit();
+					});
+				},
 				done: function(e, res) {
 					var result = res.response().result;
 
@@ -69,19 +85,12 @@
 					if(!result) return;
 
 					if(result.error == 0) {
-						// self.done.call(self, arguments);
 					} else {
 						alert(result.message);
 					}
 				},
 				stop: function() {
 					self.loadFilelist();
-				},
-				drop: function(e, data) {
-				},
-				change: function(e, data) {
-				},
-				always: function() {
 				},
 				start: function() {
 					self.settings.progressbarGraph.width(0);
