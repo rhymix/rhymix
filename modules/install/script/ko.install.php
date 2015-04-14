@@ -175,16 +175,12 @@ foreach($sitemap as $id => &$val)
 	$oMenuAdminController->makeHomemenuCacheFile($val['menu_srl']);
 }
 
-
-
 // create Layout
 //extra_vars init
 $extra_vars = new stdClass();
 $extra_vars->GNB = $sitemap['GNB']['menu_srl'];
-$extra_vars->UNB = $simtemap['UNB']['menu_srl'];
-$extra_vars->FNB = $simtemap['FNB']['menu_srl'];
-$extra_vars->menu_name_list = array();
-$extra_vars->menu_name_list[$sitemap['GNB']['menu_srl']] = 'Welcome menu';
+$extra_vars->UNB = $sitemap['UNB']['menu_srl'];
+$extra_vars->FNB = $sitemap['FNB']['menu_srl'];
 
 $args = new stdClass();
 $layout_srl = $args->layout_srl = getNextSequence();
