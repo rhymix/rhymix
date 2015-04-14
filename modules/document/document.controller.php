@@ -293,7 +293,7 @@ class documentController extends document
 			$oModuleModel = getModel('module');
 			$editor_config = $oModuleModel->getModuleConfig('editor');
 			
-			if(substr_compare($editor_config->sel_editor_colorset, 'nohtml', -6) === 0)
+			if(substr_compare($editor_config->sel_editor_colorset, 'nohtml', -6) === 0 && !$manual_inserted)
 			{
 				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
 			}
