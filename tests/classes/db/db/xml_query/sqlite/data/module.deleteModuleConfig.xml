@@ -1,9 +1,0 @@
-<query id="deleteModuleConfig" action="delete">
-    <tables>
-        <table name="module_config" />
-    </tables>
-    <conditions>
-        <condition operation="equal" column="module" var="module" notnull="notnull" />
-        <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" pipe="and" />
-    </conditions>
-</query>

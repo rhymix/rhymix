@@ -1,0 +1,18 @@
+actor: Tester
+paths:
+    tests: tests
+    log: tests/_output
+    data: tests/_data
+    helpers: tests/_support
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+modules:
+    config:
+        Db:
+            dsn: ''
+            user: ''
+            password: ''
+            dump: tests/_data/dump.sql
+error_level: "E_STRICTE_ALL & ~E_WARNING & ~E_STRICT & ~E_DEPRECATED & ~E_NOTICE"

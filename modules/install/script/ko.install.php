@@ -22,24 +22,24 @@ $sitemap = array(
 				'module_id' => 'board',
 				'list' => array(
 					array(
-						'menu_name' => 'SMAPLE 1',
+						'menu_name' => 'SAMPLE 1',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#',
 						'list' => array(
 							array(
-								'menu_name' => 'SMAPLE 1-1',
+								'menu_name' => 'SAMPLE 1-1',
 								'is_shortcut' => 'Y',
 								'shortcut_target' => '#'
 							),
 						)
 					),
 					array(
-						'menu_name' => 'SMAPLE 2',
+						'menu_name' => 'SAMPLE 2',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					),
 					array(
-						'menu_name' => 'SMAPLE 3',
+						'menu_name' => 'SAMPLE 3',
 						'is_shortcut' => 'Y',
 						'shortcut_target' => '#'
 					),
@@ -175,16 +175,12 @@ foreach($sitemap as $id => &$val)
 	$oMenuAdminController->makeHomemenuCacheFile($val['menu_srl']);
 }
 
-
-
 // create Layout
 //extra_vars init
 $extra_vars = new stdClass();
 $extra_vars->GNB = $sitemap['GNB']['menu_srl'];
-$extra_vars->UNB = $simtemap['UNB']['menu_srl'];
-$extra_vars->FNB = $simtemap['FNB']['menu_srl'];
-$extra_vars->menu_name_list = array();
-$extra_vars->menu_name_list[$sitemap['GNB']['menu_srl']] = 'Welcome menu';
+$extra_vars->UNB = $sitemap['UNB']['menu_srl'];
+$extra_vars->FNB = $sitemap['FNB']['menu_srl'];
 
 $args = new stdClass();
 $layout_srl = $args->layout_srl = getNextSequence();

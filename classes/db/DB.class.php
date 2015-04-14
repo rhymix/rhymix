@@ -166,7 +166,7 @@ class DB
 	 * leve of transaction
 	 * @var unknown
 	 */
-	private $transationNestedLevel = 0;
+	private $transactionNestedLevel = 0;
 
 	/**
 	 * returns instance of certain db type
@@ -313,11 +313,6 @@ class DB
 		for($i = 0; $i < count($supported_list); $i++)
 		{
 			$db_type = $supported_list[$i];
-
-			if(version_compare(phpversion(), '5.0') < 0 && preg_match('/pdo/i', $db_type))
-			{
-				continue;
-			}
 
 			$class_name = sprintf("DB%s%s", strtoupper(substr($db_type, 0, 1)), strtolower(substr($db_type, 1)));
 			$class_file = sprintf(_XE_PATH_ . "classes/db/%s.class.php", $class_name);
@@ -1142,10 +1137,10 @@ class DB
 			return;
 		}
 
-		if($this->_begin($this->transationNestedLevel))
+		if($this->_begin($this->transactionNestedLevel))
 		{
 			$this->transaction_started = TRUE;
-			$this->transationNestedLevel++;
+			$this->transactionNestedLevel++;
 		}
 	}
 
@@ -1169,11 +1164,11 @@ class DB
 		{
 			return;
 		}
-		if($this->_rollback($this->transationNestedLevel))
+		if($this->_rollback($this->transactionNestedLevel))
 		{
-			$this->transationNestedLevel--;
+			$this->transactionNestedLevel--;
 
-			if(!$this->transationNestedLevel)
+			if(!$this->transactionNestedLevel)
 			{
 				$this->transaction_started = FALSE;
 			}
@@ -1201,14 +1196,14 @@ class DB
 		{
 			return;
 		}
-		if($this->transationNestedLevel == 1 && $this->_commit())
+		if($this->transactionNestedLevel == 1 && $this->_commit())
 		{
 			$this->transaction_started = FALSE;
-			$this->transationNestedLevel = 0;
+			$this->transactionNestedLevel = 0;
 		}
 		else
 		{
-			$this->transationNestedLevel--;
+			$this->transactionNestedLevel--;
 		}
 	}
 
