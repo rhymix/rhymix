@@ -403,7 +403,7 @@ class installController extends install
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispInstallCheckEnv');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
 			$this->setRedirectUrl($returnUrl);
 		}
 	}
