@@ -570,9 +570,8 @@ class FileHandler
 				$oRequest->setMethod($method);
 				if($body)
 					$oRequest->setBody($body);
-
-				$oRequest->_timeout = $timeout;
 			}
+			$oRequest->setConfig('timeout', $timeout);
 
 			$oResponse = $oRequest->sendRequest();
 
