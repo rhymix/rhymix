@@ -7,11 +7,11 @@ require_once _XE_PATH_.'classes/validator/Validator.class.php';
 
 class ValidatorTest extends \Codeception\TestCase\Test
 {
-    protected function setUp()
+    public function _before()
     {
         global $lang;
 
-        $lang->filter = new stdClass;
+        $lang->filter = new stdClass();
         $lang->filter->isnull = 'isnull';
         $lang->filter->outofrange = 'outofrange';
         $lang->filter->equalto = 'equalto';
