@@ -447,7 +447,7 @@ class installController extends install
 		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
 		$requestConfig = array();
 		$requestConfig['ssl_verify_peer'] = false;
-		$buff = FileHandler::getRemoteResource($requestUrl, null, 10, 'GET', null, array(), array(), array(), $requestConfig);
+		$buff = FileHandler::getRemoteResource($requestUrl, null, 3, 'GET', null, array(), array(), array(), $requestConfig);
 
 		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
 
