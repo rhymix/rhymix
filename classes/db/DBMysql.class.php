@@ -131,7 +131,7 @@ class DBMysql extends DB
 	 */
 	function addQuotes($string)
 	{
-		if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc())
+		if(version_compare(PHP_VERSION, "5.4.0", "<") && get_magic_quotes_gpc())
 		{
 			$string = stripslashes(str_replace("\\", "\\\\", $string));
 		}

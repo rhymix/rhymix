@@ -1380,7 +1380,7 @@ class Context
 			{
 				$result[$k] = $v;
 
-				if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc())
+				if($do_stripslashes && version_compare(PHP_VERSION, '5.4.0', '<') && get_magic_quotes_gpc())
 				{
 					$result[$k] = stripslashes($result[$k]);
 				}
