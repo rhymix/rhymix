@@ -68,7 +68,7 @@ class TemplateHandler
 	 * @param string $tpl_file
 	 * @return void
 	 */
-	private function init($tpl_path, $tpl_filename, $tpl_file = '')
+	protected function init($tpl_path, $tpl_filename, $tpl_file = '')
 	{
 		// verify arguments
 		if(substr($tpl_path, -1) != '/')
@@ -213,7 +213,7 @@ class TemplateHandler
 	 * @param string $buff template file
 	 * @return string compiled result in case of success or NULL in case of error
 	 */
-	private function parse($buff = null)
+	protected function parse($buff = null)
 	{
 		if(is_null($buff))
 		{
@@ -653,7 +653,7 @@ class TemplateHandler
 					$metafile = '';
 					$pathinfo = pathinfo($attr['target']);
 					$doUnload = ($m[3] === 'unload');
-					$isRemote = !!preg_match('@^https?://@i', $attr['target']);
+					$isRemote = !!preg_match('@^(https?:)?//@i', $attr['target']);
 
 					if(!$isRemote)
 					{

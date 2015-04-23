@@ -260,8 +260,8 @@ class boardAdminView extends board {
 	 * @brief display extra variables
 	 **/
 	function dispBoardAdminExtraVars() {
-		$oDocumentAdminModel = getModel('document');
-		$extra_vars_content = $oDocumentAdminModel->getExtraVarsHTML($this->module_info->module_srl);
+		$oDocumentModel = getModel('document');
+		$extra_vars_content = $oDocumentModel->getExtraVarsHTML($this->module_info->module_srl);
 		Context::set('extra_vars_content', $extra_vars_content);
 
 		$this->setTemplateFile('extra_vars');

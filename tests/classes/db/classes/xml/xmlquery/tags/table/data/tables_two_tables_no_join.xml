@@ -1,4 +1,0 @@
-<tables>
-    <table name="member_group" alias="a" />
-    <table name="member_group_member" alias="b" />
-</tables>

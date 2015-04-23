@@ -345,6 +345,10 @@ class FrontEndFileHandler extends Handler
 		{
 			$path = './' . $path;
 		}
+		elseif(!strncmp($path, '//', 2))
+		{
+			return $path;
+		}
 
 		$path = preg_replace('@/\./|(?<!:)\/\/@', '/', $path);
 

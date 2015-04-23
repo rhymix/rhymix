@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.1">
+    <title xml:lang="ko">CKEditor 스킨</title>
+    <description xml:lang="ko">CKEditor</description>
+    <version>1.0.0</version>
+    <date>2015-02-24</date>
+
+    <author email_address="developers@xpressengine.com" link="https://www.xpressengine.com">
+        <name xml:lang="ko">NAVER</name>
+    </author>
+
+    <colorset>
+        <color name="moono">
+            <title xml:lang="ko">Moono</title>
+        </color>
+        <color name="moono-dark">
+            <title xml:lang="ko">Moono Dark</title>
+        </color>
+    </colorset>
+</skin>

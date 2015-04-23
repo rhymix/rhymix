@@ -1,8 +1,0 @@
-<query id="getDocumentListWithinComment" action="select">
-    <tables>
-        <table name="documents" alias="documents" />
-    </tables>
-    <columns>
-        <column name="CAST(document_srl as UNSIGNED INTEGER)" />
-    </columns>
-</query>

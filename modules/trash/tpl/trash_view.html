@@ -41,6 +41,10 @@
 		<th scope="row">{$lang->regdate}</th>
 		<td class="text">{zdate($oOrigin->regdate,'Y.m.d H:i:s')}</td>
 	</tr>
+	<tr>
+		<th scope="row">{$lang->ipaddress}</th>
+		<td class="text">{$oOrigin->ipaddress}</td>
+	</tr>
 	<block loop="$oOriginExtraVars=>$key,$val">
 	<tr><th>{$val->name}</th>	
 		<td>{$val->value}</td>

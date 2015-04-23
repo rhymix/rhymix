@@ -29,13 +29,14 @@ define('__ZBXE__', __XE__);
 /**
  * Display XE's full version.
  */
-define('__XE_VERSION__', '1.7.12');
+define('__XE_VERSION__', '1.8.1');
 define('__XE_VERSION_ALPHA__', (stripos(__XE_VERSION__, 'alpha') !== false));
 define('__XE_VERSION_BETA__', (stripos(__XE_VERSION__, 'beta') !== false));
 define('__XE_VERSION_RC__', (stripos(__XE_VERSION__, 'rc') !== false));
 define('__XE_VERSION_STABLE__', (!__XE_VERSION_ALPHA__ && !__XE_VERSION_BETA__ && !__XE_VERSION_RC__));
 
 define('__XE_MIN_PHP_VERSION__', '5.3.0');
+define('__XE_RECOMMEND_PHP_VERSION__', '5.5.0');
 
 /**
  * @deprecated __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.
@@ -315,6 +316,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 	require(_XE_PATH_ . 'classes/mobile/Mobile.class.php');
 	require(_XE_PATH_ . 'classes/validator/Validator.class.php');
 	require(_XE_PATH_ . 'classes/frontendfile/FrontEndFileHandler.class.php');
+	require(_XE_PATH_ . 'classes/security/Password.class.php');
 	require(_XE_PATH_ . 'classes/security/Security.class.php');
 	require(_XE_PATH_ . 'classes/security/IpFilter.class.php');
 	if(__DEBUG__)

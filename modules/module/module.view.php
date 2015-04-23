@@ -118,7 +118,6 @@ class moduleView extends module
 		}
 		
 		// not show admin bar
-		Context::set('admin_bar', 'false');
 		Context::set('mid_list', $mid_list);
 		Context::set('selected_module', $selected_module);
 		Context::set('selected_mids', $mid_list[$selected_module]->list);

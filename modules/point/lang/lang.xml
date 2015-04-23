@@ -47,6 +47,28 @@
 		<value xml:lang="tr"><![CDATA[Pano/blog gibi her modülün, "yazma/silme/yorum ekleme/yorum silme gibi kendi eylemleri bulunmaktadır. ".<br />Pano/blog harici, puan sistemli link modüllerine davranış değerleri ekleyebilirsiniz.<br />Virgül(,) çoklu değerleri ayıracaktır.]]></value>
 		<value xml:lang="vi"><![CDATA[Mỗi Module, Board hay Blog có một mức cho điểm khác nhau khi  "gửi bài, xóa bài, thêm bài, gửi bình luận, xóa bình luận".<br />Bạn có thể chỉ thêm những giá trị liên kết với hệ thống điểm vào mỗi Module Blog, Board.<br />Để thêm nhiều giá trị bằng cách sử dụng dấu (,) giữa các giá trị.]]></value>
 	</item>
+	<item name="point_io">
+		<value xml:lang="ko"><![CDATA[포인트 모듈 켜기]]></value>
+		<value xml:lang="en"><![CDATA[Point module On]]></value>
+		<value xml:lang="jp"><![CDATA[Point module On]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Point module On]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Point module On]]></value>
+		<value xml:lang="ru"><![CDATA[Point module On]]></value>
+		<value xml:lang="es"><![CDATA[Point module On]]></value>
+		<value xml:lang="tr"><![CDATA[Point module On]]></value>
+		<value xml:lang="vi"><![CDATA[Point module On]]></value>
+	</item>
+	<item name="about_point_io">
+		<value xml:lang="ko"><![CDATA[체크 하면 포인트 모듈 기능을 켤 수 있습니다. 포인트 모듈 기능을 끌 경우, 포인트 모듈의 모든 트리거가 삭제됩니다. 포인트 기록은 유지되지만 새로 기록 되지는 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Point module can be on or off. If you OFF this module, every triggers will be deleted from database and will not be called by XE Core. Point record would be preserved.]]></value>
+		<value xml:lang="jp"><![CDATA[Point module can be on or off. If you OFF this module, every triggers will be deleted from database and will not be called by XE Core. Point record would be preserved.]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Point module can be on or off. If you OFF this module, every triggers will be deleted from database and will not be called by XE Core. Point record would be preserved.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Point module can be on or off. If you OFF this module, every triggers will be deleted from database and will not be called by XE Core. Point record would be preserved.]]></value>
+		<value xml:lang="ru"><![CDATA[Point module can be on or off. If you OFF this module, every triggers will be deleted from database and will not be called by XE Core. Point record would be preserved.]]></value>
+		<value xml:lang="es"><![CDATA[Point module can be on or off. If you OFF this module, every triggers will be deleted from database and will not be called by XE Core. Point record would be preserved.]]></value>
+		<value xml:lang="tr"><![CDATA[Point module can be on or off. If you OFF this module, every triggers will be deleted from database and will not be called by XE Core. Point record would be preserved.]]></value>
+		<value xml:lang="vi"><![CDATA[Point module can be on or off. If you OFF this module, every triggers will be deleted from database and will not be called by XE Core. Point record would be preserved.]]></value>
+	</item>
 	<item name="max_level">
 		<value xml:lang="ko"><![CDATA[최고 레벨]]></value>
 		<value xml:lang="en"><![CDATA[Max Level]]></value>

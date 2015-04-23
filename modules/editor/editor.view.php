@@ -193,7 +193,6 @@ class editorView extends editor
 		}
 
 		Context::set('editor', $editor);
-		Context::set('admin_bar', 'false');
 
 		$this->setLayoutFile('popup_layout');
 		$this->setTemplatePath($this->module_path.'tpl');
