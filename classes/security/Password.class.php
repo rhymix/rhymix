@@ -111,7 +111,7 @@ class Password
 
 			case 'pbkdf2':
 				$iterations = pow(2, $this->getWorkFactor() + 5);
-				$salt = $this->createSecureSalt(12);
+				$salt = $this->createSecureSalt(12, 'alnum');
 				$hash = base64_encode($this->pbkdf2($password, $salt, 'sha256', $iterations, 24));
 				return 'sha256:'.sprintf('%07d', $iterations).':'.$salt.':'.$hash;
 

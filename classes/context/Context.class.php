@@ -242,18 +242,9 @@ class Context
 			}
 		}
 
-		// check if using rewrite module
-		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
-
 		// If XE is installed, get virtual site information
 		if(self::isInstalled())
 		{
-			// If using rewrite module, initializes router
-			if($this->allow_rewrite)
-			{
-				Router::proc();
-			}
-
 			$oModuleModel = getModel('module');
 			$site_module_info = $oModuleModel->getDefaultMid();
 
@@ -371,6 +362,9 @@ class Context
 		// load common language file
 		$this->lang = &$GLOBALS['lang'];
 		$this->loadLang(_XE_PATH_ . 'common/lang/');
+
+		// check if using rewrite module
+		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
 
 		// set locations for javascript use
 		$url = array();
@@ -1668,9 +1662,7 @@ class Context
 					'act.document_srl.key.mid.vid' => ($act == 'trackback') ? "$vid/$mid/$srl/$key/$act" : ''
 				);
 
-				Router::setMap($target_map);
-
-				$query = Router::makePrettyUrl($target);
+				$query = $target_map[$target];
 			}
 
 			if(!$query)

@@ -606,8 +606,7 @@ class menuAdminController extends menu
 		$cmArgs->is_skin_fix = 'N';
 		$cmArgs->is_mskin_fix = 'N';
 
-		$db_info = Context::getDBInfo();
-		if($db_info->use_mobile_view == 'Y')
+		if(Mobile::isMobileEnabled() === true)
 		{
 			$cmArgs->use_mobile = 'Y';
 		}
