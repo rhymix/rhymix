@@ -2199,6 +2199,19 @@ class memberController extends member
 			$args->user_id = $orgMemberInfo->user_id;
 		}
 
+		// Check if ID is prohibited
+		if($args->user_id && $oMemberModel->isDeniedID($args->user_id))
+		{
+			return new Object(-1,'denied_user_id');
+		}
+
+		// Check if ID is duplicate
+		$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
+		if($member_srl && $orgMemberInfo->user_id != $args->user_id)
+		{
+			return new Object(-1,'msg_exists_user_id');
+		}
+
 		// Check if nickname is prohibited
 		if($args->nick_name && $oMemberModel->isDeniedNickName($args->nick_name))
 		{
