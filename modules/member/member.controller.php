@@ -321,13 +321,12 @@ class memberController extends member
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
-		$checkInfos = array('user_id', 'nick_name', 'email_address');
-		$replaceStr = array("\r\n", "\r", "\n", " ", "\t", "\xC2\xAD");
+		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
 		foreach($checkInfos as $val)
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = str_replace($replaceStr, '', $args->{$val});
+				$args->{$val} = preg_replace('/[\pZ\pC]+/', '', $$args->{$val});
 			}
 		}
 		$output = $this->insertMember($args);
@@ -534,13 +533,12 @@ class memberController extends member
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
-		$checkInfos = array('user_id', 'nick_name', 'email_address');
-		$replaceStr = array("\r\n", "\r", "\n", " ", "\t", "\xC2\xAD");
+		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
 		foreach($checkInfos as $val)
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = str_replace($replaceStr, '', $args->{$val});
+				$args->{$val} = preg_replace('/[\pZ\pC]+/', '', $$args->{$val});
 			}
 		}
 
