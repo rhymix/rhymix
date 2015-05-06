@@ -1984,16 +1984,17 @@ class memberController extends member
 		}
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
+
 		// Website, blog, checks the address
 		if($args->homepage && !preg_match("/^[a-z]+:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
+
 		// Create a model object
 		$oMemberModel = getModel('member');
 
-		// ID check is prohibited
+		// Check password strength
 		if($args->password && !$password_is_hashed)
 		{
-			// check password strength
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
 				$message = Context::getLang('about_password_strength');
@@ -2001,29 +2002,49 @@ class memberController extends member
 			}
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
-		elseif(!$args->password) unset($args->password);
-		if($oMemberModel->isDeniedID($args->user_id)) return new Object(-1,'denied_user_id');
-		// ID, nickname, email address of the redundancy check
-		$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
-		if($member_srl) return new Object(-1,'msg_exists_user_id');
+		elseif(!$args->password)
+		{
+			unset($args->password);
+		}
 
-		// nickname check is prohibited
+		// Check if ID is prohibited
+		if($oMemberModel->isDeniedID($args->user_id))
+		{
+			return new Object(-1,'denied_user_id');
+		}
+
+		// Check if ID is duplicate
+		$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
+		if($member_srl)
+		{
+			return new Object(-1,'msg_exists_user_id');
+		}
+
+		// Check if nickname is prohibited
 		if($oMemberModel->isDeniedNickName($args->nick_name))
 		{
 			return new Object(-1,'denied_nick_name');
 		}
-		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
-		if($member_srl) return new Object(-1,'msg_exists_nick_name');
 
+		// Check if nickname is duplicate
+		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
+		if($member_srl)
+		{
+			return new Object(-1,'msg_exists_nick_name');
+		}
+
+		// Check if email address is duplicate
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
-		if($member_srl) return new Object(-1,'msg_exists_email_address');
+		if($member_srl)
+		{
+			return new Object(-1,'msg_exists_email_address');
+		}
 
 		// Insert data into the DB
 		$args->list_order = -1 * $args->member_srl;
 		$args->nick_name = htmlspecialchars($args->nick_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		$args->homepage = htmlspecialchars($args->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		$args->blog = htmlspecialchars($args->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-
 
 		if(!$args->user_id) $args->user_id = 't'.$args->member_srl;
 		if(!$args->user_name) $args->user_name = $args->member_srl;
