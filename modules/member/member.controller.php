@@ -2183,6 +2183,7 @@ class memberController extends member
 		$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 		$orgMemberInfo = $output->data;
 
+		// Check if email address or user ID is duplicate
 		if($config->identifier == 'email_address')
 		{
 			$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
@@ -2198,32 +2199,39 @@ class memberController extends member
 			$args->user_id = $orgMemberInfo->user_id;
 		}
 
+		// Check if nickname is prohibited
 		if($args->nick_name && $oMemberModel->isDeniedNickName($args->nick_name))
 		{
 			return new Object(-1, 'denied_nick_name');
 		}
 
+		// Check if nickname is duplicate
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
- 		if($member_srl && $orgMemberInfo->nick_name != $args->nick_name) return new Object(-1,'msg_exists_nick_name');
+ 		if($member_srl && $orgMemberInfo->nick_name != $args->nick_name)
+ 		{
+ 			return new Object(-1,'msg_exists_nick_name');
+ 		}
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-		// DB in the update
 
+		// Check password strength
 		if($args->password)
 		{
-			// check password strength
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
 				$message = Context::getLang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
-
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
-		else $args->password = $orgMemberInfo->password;
+		else
+		{
+			$args->password = $orgMemberInfo->password;
+		}
+		
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 		if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 		if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
