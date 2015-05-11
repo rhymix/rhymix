@@ -4,6 +4,7 @@
 	var default_settings = {
 		autoUpload: true,
 		dataType: 'json',
+		sequentialUploads: true,
 
 		dropZone: '.xefu-dropzone',
 		fileList: '.xefu-list',
