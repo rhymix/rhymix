@@ -200,6 +200,10 @@ class Context
 	 */
 	function init()
 	{
+		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && version_compare(PHP_VERSION, '5.6.0', '>=') === true) {
+			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
+		}
+
 		// set context variables in $GLOBALS (to use in display handler)
 		$this->context = &$GLOBALS['__Context__'];
 		$this->context->lang = &$GLOBALS['lang'];
@@ -1145,7 +1149,7 @@ class Context
 
 		($type && $self->request_method = $type) or
 				((strpos($_SERVER['CONTENT_TYPE'], 'json') || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json')) && $self->request_method = 'JSON') or
-				(file_get_contents('php://input') && $self->request_method = 'XMLRPC') or
+				($GLOBALS['HTTP_RAW_POST_DATA'] && $self->request_method = 'XMLRPC') or
 				($self->js_callback_func && $self->request_method = 'JS_CALLBACK') or
 				($self->request_method = $_SERVER['REQUEST_METHOD']);
 	}
@@ -1249,7 +1253,7 @@ class Context
 		}
 
 		$params = array();
-		parse_str(file_get_contents('php://input'), $params);
+		parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
 
 		foreach($params as $key => $val)
 		{
@@ -1269,7 +1273,7 @@ class Context
 			return;
 		}
 
-		$xml = file_get_contents('php://input');
+		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 		if(Security::detectingXEE($xml))
 		{
 			header("HTTP/1.0 400 Bad Request");
