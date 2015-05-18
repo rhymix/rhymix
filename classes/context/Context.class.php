@@ -201,7 +201,7 @@ class Context
 	function init()
 	{
 		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && version_compare(PHP_VERSION, '5.6.0', '>=') === true) {
-			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
+			if(simplexml_load_string(file_get_contents("php://input")) !== false) $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
 		}
 
 		// set context variables in $GLOBALS (to use in display handler)
