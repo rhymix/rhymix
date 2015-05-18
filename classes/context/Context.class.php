@@ -1144,8 +1144,8 @@ class Context
 		$self->js_callback_func = $self->getJSCallbackFunc();
 
 		($type && $self->request_method = $type) or
-				(strpos($_SERVER['CONTENT_TYPE'], 'json') && $self->request_method = 'JSON') or
-				($GLOBALS['HTTP_RAW_POST_DATA'] && $self->request_method = 'XMLRPC') or
+				((strpos($_SERVER['CONTENT_TYPE'], 'json') || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json')) && $self->request_method = 'JSON') or
+				(file_get_contents('php://input') && $self->request_method = 'XMLRPC') or
 				($self->js_callback_func && $self->request_method = 'JS_CALLBACK') or
 				($self->request_method = $_SERVER['REQUEST_METHOD']);
 	}
@@ -1249,7 +1249,7 @@ class Context
 		}
 
 		$params = array();
-		parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
+		parse_str(file_get_contents('php://input'), $params);
 
 		foreach($params as $key => $val)
 		{
@@ -1269,7 +1269,7 @@ class Context
 			return;
 		}
 
-		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		$xml = file_get_contents('php://input');
 		if(Security::detectingXEE($xml))
 		{
 			header("HTTP/1.0 400 Bad Request");
@@ -1413,7 +1413,7 @@ class Context
 	 */
 	function _setUploadedArgument()
 	{
-		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE)
+		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE || stripos($_SERVER['HTTP_CONTENT_TYPE'], 'multipart/form-data') === FALSE)
 		{
 			return;
 		}
