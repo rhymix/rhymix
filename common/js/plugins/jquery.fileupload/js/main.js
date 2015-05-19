@@ -4,7 +4,7 @@
 	var default_settings = {
 		autoUpload: true,
 		dataType: 'json',
-		replaceFileInput: false,
+		sequentialUploads: true,
 
 		dropZone: '.xefu-dropzone',
 		fileList: '.xefu-list',
@@ -247,8 +247,11 @@
 		loadFilelist: function() {
 			var self = this;
 			var data = this.$container.data();
+			var obj = {};
+			obj.mid = window.current_mid;
+			obj.editor_sequence = self.$container.data('editor-sequence');
 
-			$.exec_json('file.getFileList', {'editor_sequence': self.$container.data('editor-sequence')}, function(res){
+			$.exec_json('file.getFileList', obj, function(res){
 				data.uploadTargetSrl = res.upload_target_srl;
 				editorRelKeys[self.$container.data('editor-sequence')].primary.value = res.upload_target_srl;
 				data.uploadTargetSrl = res.uploadTargetSrl;

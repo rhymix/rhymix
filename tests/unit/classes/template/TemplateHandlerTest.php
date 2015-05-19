@@ -273,10 +273,10 @@ class TemplateHandlerWrapper extends \TemplateHandler {
     }
 
     public function init($tpl_path, $tpl_filename, $tpl_file = '') {
-        call_user_method('init', $this->inst, $tpl_path, $tpl_filename, $tpl_file);
+        call_user_func(array($this->inst, 'init'), $tpl_path, $tpl_filename, $tpl_file);
     }
 
     public function parse($buff = null) {
-        return call_user_method('parse', $this->inst, $buff);
+        return call_user_func(array($this->inst, 'parse'), $buff);
     }
 }

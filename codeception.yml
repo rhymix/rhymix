@@ -11,8 +11,9 @@ settings:
 modules:
     config:
         Db:
-            dsn: ''
-            user: ''
-            password: ''
-            dump: tests/_data/dump.sql
+            dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+            user: 'root'
+            password: 'root'
+            populate: false
+            cleanup: false
 error_level: "E_STRICTE_ALL & ~E_WARNING & ~E_STRICT & ~E_DEPRECATED & ~E_NOTICE"
