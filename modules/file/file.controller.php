@@ -26,8 +26,7 @@ class fileController extends file
 	function procFileUpload()
 	{
 		Context::setRequestMethod('JSON');
-
-		$file_info = Context::get('Filedata');
+		$file_info = $_FILES['Filedata'];
 
 		// An error appears if not a normally uploaded file
 		if(!is_uploaded_file($file_info['tmp_name'])) exit();
