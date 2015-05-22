@@ -8,7 +8,7 @@
 use Codeception\Module\Db;
 use Codeception\Module\PhpBrowser;
 use Codeception\Module\DbDropTablesHelper;
-use Codeception\Module\installHelper;
+use Codeception\Module\InstallHelper;
 
 /**
  * Inherited Methods
