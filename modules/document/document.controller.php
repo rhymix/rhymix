@@ -280,7 +280,7 @@ class documentController extends document
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-		if(Mobile::isFromMobilePhone())
+		if(Mobile::isFromMobilePhone() && !$manual_inserted)
 		{
 			if($obj->use_html != 'Y')
 			{
@@ -478,7 +478,7 @@ class documentController extends document
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-		if(Mobile::isFromMobilePhone())
+		if(Mobile::isFromMobilePhone() && !$manual_updated)
 		{
 			if($obj->use_html != 'Y')
 			{
