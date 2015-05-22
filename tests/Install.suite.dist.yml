@@ -1,11 +1,18 @@
 class_name: InstallTester
 modules:
-    enabled:
-        - PhpBrowser
-        - installHelper
+    enabled: [Db, PhpBrowser, DbDropTablesHelper, InstallHelper]
     config:
         PhpBrowser:
             url: 'http://localhost:8000/'
+        DbDropTablesHelper:
+            dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+            user: 'root'
+            password: 'root'
+        Db:
+            dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+            user: 'root'
+            password: 'root'
+            cleanup: true
 env:
     travis:
         modules:

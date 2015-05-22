@@ -48,6 +48,9 @@
 		editor_sequence: null,
 		init : function() {
 		},
+		deactivate: function() {
+			console.log(this);
+		},
 		createInstance: function(containerEl, opt) {
 			var self = this;
 			var $container = this.$container = containerEl;
@@ -314,6 +317,9 @@
 
 		return u;
 	};
+
+
+	xe.unregisterApp();
 
 	// Shortcut function in XE
 	// xe.createXeUploader = function(browseButton, opts) {
