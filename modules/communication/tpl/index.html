@@ -15,11 +15,18 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal">
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal" id="communication_module_config_form">
 	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationAdminInsertConfig">
 	<input type="hidden" name="xe_validator_id" value="modules/communication/tpl/index/1" />
 
+	<div class="x_control-group module_io">
+		<label for="able_module" class="x_control-label">{$lang->communication_io}</label>
+		<div class="x_controls" style="padding-top:3px">
+			<input type="checkbox" name="able_module" id="able_module" value="Y" checked="checked"|cond="!$communication_config->able_module||$communication_config->able_module=='Y'" />
+			<span class="x_help-inline">{$lang->about_communication_io}</span>
+		</div>
+	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="editor_skin">{$lang->editor_skin}</label>
 		<div class="x_controls">
@@ -105,10 +112,24 @@
 	</div>
 </form>
 <script>
-    jQuery(function() { 
+	jQuery(function() { 
 		doGetSkinColorset("{$communication_config->skin}", 'P'); 
 		doGetSkinColorset("{$communication_config->mskin}", 'M'); 
 		jQuery('.grant_default').change( function(event) { doShowGrantZone(); } ); 
 		doShowGrantZone()
 	});
+	jQuery(function($){
+	var communication_module_cfg = $('#communication_module_config_form .x_control-group:not(.module_io)');
+	if(!$('#able_module').is(':checked'))
+	{
+		communication_module_cfg.hide();
+	}
+	$('#able_module').change(function(){
+		if($(this).is(':checked')){
+			communication_module_cfg.slideDown(200);
+		} else {
+			communication_module_cfg.slideUp(200);
+		}
+	});
+});
 </script>

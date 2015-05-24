@@ -51,12 +51,16 @@ class communicationModel extends communication
 		{
 			$communication_config->mskin = 'default';
 		}
-		
+
 		if(!$communication_config->grant_write)
 		{
 			$communication_config->grant_write = array('default_grant'=>'member');
 		}
 
+		if(!$communication_config->able_module)
+		{
+			$communication_config->able_module = 'Y';
+		}
 		return $communication_config;
 	}
 

@@ -100,7 +100,7 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .ff label+input[type=text],
 .ff label+input[type=password],
 .ff label+textarea,
-.ff label+select{display:block;width:96%;font-size:14px;margin:0 0 5px 0}
+.ff label+select{display:block;box-sizing:border-box;width:100%;font-size:14px;margin:0 0 5px 0}
 .ff label+input[type=text],
 .ff label+input[type=password],
 .ff label+textarea{padding:5px}

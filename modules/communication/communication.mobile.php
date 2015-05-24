@@ -182,6 +182,73 @@ class communicationMobile extends communicationView
 		$this->setTemplateFile('send_message');
 	}
 
+	/**
+	 * display Add a friend
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function dispCommunicationAddFriend()
+	{
+		// error appears if not logged-in
+		if(!Context::get('is_logged'))
+		{
+			return $this->stop('msg_not_logged');
+		}
+
+		$logged_info = Context::get('logged_info');
+		$target_srl = Context::get('target_srl');
+
+		if(!$target_srl)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
+		// get information of the member
+		$oMemberModel = getModel('member');
+		$oCommunicationModel = getModel('communication');
+		$communication_info = $oMemberModel->getMemberInfoByMemberSrl($target_srl);
+
+		if($communication_info->member_srl != $target_srl)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
+		Context::set('target_info', $communication_info);
+
+		// get a group list
+		$friend_group_list = $oCommunicationModel->getFriendGroups();
+		Context::set('friend_group_list', $friend_group_list);
+
+		$this->setTemplateFile('add_friend');
+	}
+
+	/**
+	 * display add a group of friends
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function dispCommunicationAddFriendGroup()
+	{
+		// error apprears if not logged-in
+		if(!Context::get('is_logged'))
+		{
+			return $this->stop('msg_not_logged');
+		}
+
+		$logged_info = Context::get('logged_info');
+
+		// change to edit mode when getting the group_srl
+		$friend_group_srl = Context::get('friend_group_srl');
+		if($friend_group_srl)
+		{
+			$oCommunicationModel = getModel('communication');
+			$friend_group = $oCommunicationModel->getFriendGroupInfo($friend_group_srl);
+			if($friend_group->friend_group_srl == $friend_group_srl)
+			{
+				Context::set('friend_group', $friend_group);
+			}
+		}
+
+		$this->setTemplateFile('add_friend_group');
+	}
 }
 /* End of file communication.mobile.php */
 /* Location: ./modules/comment/communication.mobile.php */
