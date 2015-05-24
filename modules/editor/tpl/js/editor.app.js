@@ -57,7 +57,7 @@
 			var self = this;
 			var $containerEl = containerEl;
 			var $form     = $containerEl.closest('form');
-			var $contentField = opts.content_field;
+			var $contentField = $form.find(opts.content_field);
 			var data = $containerEl.data();
 			var editor_sequence = $containerEl.data().editorSequence;
 
@@ -65,7 +65,7 @@
 
 			this.editor_sequence = data.editorSequence;
 			$form.attr('editor_sequence', data.editorSequence);
-			
+
 			if(CKEDITOR.env.mobile) CKEDITOR.env.isCompatible = true;
 
 			var instance = CKEDITOR.appendTo($containerEl[0], {}, $contentField.val());

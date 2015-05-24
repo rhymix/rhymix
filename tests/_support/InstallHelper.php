@@ -1,7 +1,7 @@
 <?php
 namespace Codeception\Module;
 
-class installHelper extends \Codeception\Module
+class InstallHelper extends \Codeception\Module
 {
     public function _initialize()
     {
