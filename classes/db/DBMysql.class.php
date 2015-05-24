@@ -265,7 +265,7 @@ class DBMysql extends DB
 		$query = sprintf("select password('%s') as password, old_password('%s') as old_password", $this->addQuotes($password), $this->addQuotes($password));
 		$result = $this->_query($query);
 		$tmp = $this->_fetch($result);
-		if($tmp->password == $saved_password || $tmp->old_password == $saved_password)
+		if($tmp->password === $saved_password || $tmp->old_password === $saved_password)
 		{
 			return true;
 		}
