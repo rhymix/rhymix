@@ -280,16 +280,13 @@ class documentController extends document
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-		if(Mobile::isFromMobilePhone())
+		if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 		{
-			if($obj->use_editor != 'Y' && $obj->use_html != 'Y')
+			if($obj->use_html != 'Y')
 			{
-				if($obj->use_html != 'Y')
-				{
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-				}
-				$obj->content = nl2br($obj->content);
+				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
+			$obj->content = nl2br($obj->content);
 		}
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
@@ -481,16 +478,13 @@ class documentController extends document
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-		if(Mobile::isFromMobilePhone())
+		if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 		{
-			if($obj->use_editor != 'Y' && $obj->use_html != 'Y')
+			if($obj->use_html != 'Y')
 			{
-				if($obj->use_html != 'Y')
-				{
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-				}
-				$obj->content = nl2br($obj->content);
+				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
+			$obj->content = nl2br($obj->content);
 		}
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType())
