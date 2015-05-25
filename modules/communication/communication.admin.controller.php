@@ -30,7 +30,7 @@ class communicationAdminController extends communication
 		// get the default information
 		$args = Context::gets('able_module', 'skin', 'colorset', 'editor_skin', 'sel_editor_colorset', 'mskin', 'mcolorset', 'layout_srl', 'mlayout_srl', 'grant_write_default','grant_write_group');
 
-		//if module IO config is off
+		//if module IO config is on
 		if($args->able_module === 'Y')
 		{
 			// Re-install triggers, if it was disabled.

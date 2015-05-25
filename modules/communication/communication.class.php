@@ -76,10 +76,14 @@ class communication extends ModuleObject
 			}
 		}
 
-		// Create triggers
-		foreach($this->triggers as $trigger)
+		// check if module is abled
+		if($config->able_module != 'N')
 		{
-			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
+			// Check triggers
+			foreach($this->triggers as $trigger)
+			{
+				if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
+			}
 		}
 
 		return FALSE;
