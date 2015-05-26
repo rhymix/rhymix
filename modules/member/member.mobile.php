@@ -67,6 +67,11 @@ class memberMobile extends memberView
 			Context::set('oMemberInfo', get_object_vars($this->member_info));
 		}
 	}
+
+	function dispMemberScrappedDocument()
+	{
+		parent::dispMemberScrappedDocument();
+	}
 }
 /* End of file member.mobile.php */
 /* Location: ./modules/member/member.mobile.php */
