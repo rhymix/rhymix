@@ -5,4 +5,9 @@ Thumbs.db
 /build/
 /node_modules/
 /vendor/
-tests/_output/*
+.idea
+*.sublime-workspace
+*.sublime-project
+.codeintel
+/tests/_output/
+/tests/*.suite.yml
