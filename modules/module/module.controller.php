@@ -120,6 +120,31 @@ class moduleController extends module
 	}
 
 	/**
+	 * @brief Delete module trigger
+	 *
+	 */
+	function deleteModuleTriggers($module)
+	{
+		$args = new stdClass();
+		$args->module = $module;
+
+		$output = executeQuery('module.deleteModuleTriggers', $args);
+		if($output->toBool())
+		{
+			//remove from cache
+			$GLOBALS['__triggers__'] = NULL;
+			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+			if($oCacheHandler->isSupport())
+			{
+				$cache_key = 'triggers';
+				$oCacheHandler->delete($cache_key);
+			}
+		}
+
+		return $output;
+	}
+
+	/**
 	 * @brief Add module extend
 	 *
 	 */

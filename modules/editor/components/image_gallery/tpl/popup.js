@@ -1,4 +1,5 @@
 var selected_node = null;
+var files = [];
 function getSlideShow() {
 	var node, $node, selected_images = '', width, style, align, border_color, bg_color, thickness;
 
@@ -33,27 +34,23 @@ function getSlideShow() {
     // 부모창의 업로드된 파일중 이미지 목록을 모두 가져와서 세팅 
     var fo = get_by_id("fo");
     var editor_sequence = fo.editor_sequence.value;
+    var list_obj = get_by_id("image_list");
 
-    var parent_list_obj = opener.get_by_id("uploaded_file_list_"+editor_sequence);
-    if(parent_list_obj) {
+    jQuery.exec_json('file.getFileList', {'editor_sequence': editor_sequence}, function(res) {
+        jQuery.each(res.files, function (index, file) {
+            var file_srl = file.file_srl;
 
-        var list_obj = get_by_id("image_list");
-
-        for(var i=0;i<parent_list_obj.length;i++) {
-            var opt = parent_list_obj.options[i];
-            var file_srl = opt.value;
             if(!file_srl) return;
-            var file_obj = opener.uploadedFiles[file_srl];
-            var filename = file_obj.download_url.replace(request_uri,'');
-            if((/(jpg|jpeg|gif|png)$/i).test(filename)) {
+            var filename = file.source_filename;
+            if(/\.(jpe?g|png|gif)$/i.test(filename)) {
                 var selected = false;
                 if(selected_images.indexOf(filename)!=-1) selected = true;
-                var opt = new Option(opt.text, opt.value, false, selected);
+                var opt = new Option(file.source_filename, file_srl, false, selected);
                 list_obj.options.add(opt);
+                files[file.file_srl] = file;
             }
-        }
-
-    }
+        });
+    });
 }
 
 function insertSlideShow() {
@@ -65,7 +62,7 @@ function insertSlideShow() {
         var opt = list_obj.options[i];
         if(opt.selected) {
             var file_srl = opt.value;
-            var file_obj = opener.uploadedFiles[file_srl];
+            var file_obj = files[file_srl];
             var filename = file_obj.download_url.replace(request_uri,'');
             list[list.length] = filename;
         }

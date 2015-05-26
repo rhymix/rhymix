@@ -175,6 +175,55 @@ class Security
 		return $var;
 	}
 
+	/**
+	 * @brief check XML External Entity
+	 *
+	 * @see from drupal. https://github.com/drupal/drupal/commit/90e884ad0f7f2cf269d953f7d70966de9fd821ff
+	 *
+	 * @param string $xml
+	 * @return bool
+	 */
+	static function detectingXEE($xml)
+	{
+		if(!$xml) return FALSE;
+
+		if(strpos($xml, '<!ENTITY') !== FALSE)
+		{
+			return TRUE;
+		}
+
+		// Strip XML declaration.
+		$header = preg_replace('/<\?xml.*?\?'.'>/s', '', substr($xml, 0, 100), 1);
+		$xml = trim(substr_replace($xml, $header, 0, 100));
+		if($xml == '')
+		{
+			return TRUE;
+		}
+
+		// Strip DTD.
+		$header = preg_replace('/^<!DOCTYPE[^>]*+>/i', '', substr($xml, 0, 200), 1);
+		$xml = trim(substr_replace($xml, $header, 0, 200));
+		if($xml == '')
+		{
+			return TRUE;
+		}
+
+		// Confirm the XML now starts with a valid root tag. A root tag can end in [> \t\r\n]
+		$root_tag = substr($xml, 0, strcspn(substr($xml, 0, 20), "> \t\r\n"));
+
+		// Reject a second DTD.
+		if(strtoupper($root_tag) == '<!DOCTYPE')
+		{
+			return TRUE;
+		}
+
+		if(!in_array($root_tag, array('<methodCall', '<methodResponse', '<fault')))
+		{
+			return TRUE;
+		}
+
+		return FALSE;
+	}
 }
 /* End of file : Security.class.php */
 /* Location: ./classes/security/Security.class.php */

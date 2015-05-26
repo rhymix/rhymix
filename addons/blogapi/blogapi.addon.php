@@ -30,8 +30,10 @@ if($_REQUEST['act'] != 'api')
 // Read func file
 require_once(_XE_PATH_ . 'addons/blogapi/blogapi.func.php');
 
+$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+
 // If HTTP_RAW_POST_DATA is NULL, Print error message
-if(!$GLOBALS['HTTP_RAW_POST_DATA'])
+if(!$xml)
 {
 	$content = getXmlRpcFailure(1, 'Invalid Method Call');
 	printContent($content);
@@ -39,7 +41,14 @@ if(!$GLOBALS['HTTP_RAW_POST_DATA'])
 
 // xmlprc parsing
 // Parse the requested xmlrpc
-$xml = new SimpleXMLElement($GLOBALS['HTTP_RAW_POST_DATA']);
+if(Security::detectingXEE($xml))
+{
+	header("HTTP/1.0 400 Bad Request");
+	exit;
+}
+
+if(version_compare(PHP_VERSION, '5.2.11', '<=')) libxml_disable_entity_loader(true);
+$xml = new SimpleXMLElement($xml, LIBXML_NONET | LIBXML_NOENT);
 
 $method_name = (string)$xml->methodName;
 $params = $xml->params->param;

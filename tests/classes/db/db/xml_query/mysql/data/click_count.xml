@@ -1,8 +1,0 @@
-<query id="getNewestDocuments" action="select">
-    <tables>
-        <table name="modules" />
-    </tables>
-    <columns>
-        <column name="expose_count" click_count="incr_expose_count"/>
-    </columns>
-</query>

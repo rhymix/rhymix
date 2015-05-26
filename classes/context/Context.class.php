@@ -200,6 +200,10 @@ class Context
 	 */
 	function init()
 	{
+		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && version_compare(PHP_VERSION, '5.6.0', '>=') === true) {
+			if(simplexml_load_string(file_get_contents("php://input")) !== false) $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
+		}
+
 		// set context variables in $GLOBALS (to use in display handler)
 		$this->context = &$GLOBALS['__Context__'];
 		$this->context->lang = &$GLOBALS['lang'];
@@ -367,6 +371,8 @@ class Context
 		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
 
 		// set locations for javascript use
+		$url = array();
+		$current_url = self::getRequestUri();
 		if($_SERVER['REQUEST_METHOD'] == 'GET')
 		{
 			if($this->get_vars)
@@ -386,18 +392,32 @@ class Context
 						$url[] = $key . '=' . urlencode($val);
 					}
 				}
-				$this->set('current_url', self::getRequestUri() . '?' . join('&', $url));
+
+				$current_url = self::getRequestUri();
+				if($url) $current_url .= '?' . join('&', $url);
 			}
 			else
 			{
-				$this->set('current_url', $this->getUrl());
+				$current_url = $this->getUrl();
 			}
 		}
 		else
 		{
-			$this->set('current_url', self::getRequestUri());
+			$current_url = self::getRequestUri();
 		}
+
+		$this->set('current_url', $current_url);
 		$this->set('request_uri', self::getRequestUri());
+
+		if(strpos($current_url, 'xn--') !== FALSE)
+		{
+			$this->set('current_url', self::decodeIdna($current_url));
+		}
+
+		if(strpos(self::getRequestUri(), 'xn--') !== FALSE)
+		{
+			$this->set('request_uri', self::decodeIdna(self::getRequestUri()));
+		}
 	}
 
 	/**
@@ -1069,6 +1089,18 @@ class Context
 		return $obj->str;
 	}
 
+	function decodeIdna($domain)
+	{
+		if(strpos($domain, 'xn--') !== FALSE)
+		{
+			require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
+			$IDN = new idna_convert(array('idn_version' => 2008));
+			$domain = $IDN->decode($domain);
+		}
+
+		return $domain;
+	}
+
 	/**
 	 * Force to set response method
 	 *
@@ -1116,7 +1148,7 @@ class Context
 		$self->js_callback_func = $self->getJSCallbackFunc();
 
 		($type && $self->request_method = $type) or
-				(strpos($_SERVER['CONTENT_TYPE'], 'json') && $self->request_method = 'JSON') or
+				((strpos($_SERVER['CONTENT_TYPE'], 'json') || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json')) && $self->request_method = 'JSON') or
 				($GLOBALS['HTTP_RAW_POST_DATA'] && $self->request_method = 'XMLRPC') or
 				($self->js_callback_func && $self->request_method = 'JS_CALLBACK') or
 				($self->request_method = $_SERVER['REQUEST_METHOD']);
@@ -1157,6 +1189,7 @@ class Context
 			{
 				continue;
 			}
+			$key = htmlentities($key);
 			$val = $this->_filterRequestVar($key, $val);
 
 			if($requestMethod == 'GET' && isset($_GET[$key]))
@@ -1240,8 +1273,15 @@ class Context
 			return;
 		}
 
+		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		if(Security::detectingXEE($xml))
+		{
+			header("HTTP/1.0 400 Bad Request");
+			exit;
+		}
+
 		$oXml = new XmlParser();
-		$xml_obj = $oXml->parse();
+		$xml_obj = $oXml->parse($xml);
 
 		$params = $xml_obj->methodcall->params;
 		unset($params->node_name, $params->attrs, $params->body);
@@ -1277,16 +1317,11 @@ class Context
 			return $stack;
 		}
 
-		$body = $this->_filterRequestVar($key, trim($val->body ? $val->body : ''), 0);
-		if($body)
-		{
-			return $body;
-		}
-
+		$body = $val->body;
 		unset($val->node_name, $val->attrs, $val->body);
 		if(!count(get_object_vars($val)))
 		{
-			return NULL;
+			return $this->_filterRequestVar($key, $body, 0);
 		}
 
 		$stack = new stdClass();
@@ -1382,7 +1417,7 @@ class Context
 	 */
 	function _setUploadedArgument()
 	{
-		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE)
+		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || (stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE && stripos($_SERVER['HTTP_CONTENT_TYPE'], 'multipart/form-data') === FALSE))
 		{
 			return;
 		}

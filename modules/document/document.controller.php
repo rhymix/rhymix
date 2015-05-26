@@ -39,7 +39,9 @@ class documentController extends document
 		if($document_config->use_vote_up=='N') return new Object(-1, 'msg_invalid_request');
 
 		$point = 1;
-		return $this->updateVotedCount($document_srl, $point);
+		$output = $this->updateVotedCount($document_srl, $point);
+		$this->add('voted_count', $output->get('voted_count'));
+		return $output;
 	}
 
 	/**
@@ -82,7 +84,9 @@ class documentController extends document
 		if($document_config->use_vote_down=='N') return new Object(-1, 'msg_invalid_request');
 
 		$point = -1;
-		return $this->updateVotedCount($document_srl, $point);
+		$output = $this->updateVotedCount($document_srl, $point);
+		$this->add('blamed_count', $output->get('blamed_count'));
+		return $output;
 	}
 
 	/**
@@ -251,8 +255,11 @@ class documentController extends document
 		if(!$obj->readed_count) $obj->readed_count = 0;
 		if($isLatest) $obj->update_order = $obj->list_order = $obj->document_srl * -1;
 		else $obj->update_order = $obj->list_order;
-		// Check the status of password hash for manually inserting. Apply md5 hashing for otherwise.
-		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
+		// Check the status of password hash for manually inserting. Apply hashing for otherwise.
+		if($obj->password && !$obj->password_is_hashed)
+		{
+			$obj->password = getModel('member')->hashPassword($obj->password);
+		}
 		// Insert member's information only if the member is logged-in and not manually registered.
 		$logged_info = Context::get('logged_info');
 		if(Context::get('is_logged') && !$manual_inserted && !$isRestore)
@@ -437,13 +444,16 @@ class documentController extends document
 		}
 		// Change the update order
 		$obj->update_order = getNextSequence() * -1;
-		// Hash by md5 if the password exists
-		if($obj->password) $obj->password = md5($obj->password);
+		// Hash the password if it exists
+		if($obj->password)
+		{
+			$obj->password = getModel('member')->hashPassword($obj->password);
+		}
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
 		if(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
-			if($source_obj->get('member_srl')==$logged_info->member_srl || $bUseHistory)
+			if($source_obj->get('member_srl')==$logged_info->member_srl)
 			{
 				$obj->member_srl = $logged_info->member_srl;
 				$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
@@ -876,7 +886,10 @@ class documentController extends document
 		}
 
 		// Register session
-		$_SESSION['readed_document'][$document_srl] = true;
+		if(!$_SESSION['banned_document'][$document_srl]) 
+		{
+			$_SESSION['readed_document'][$document_srl] = true;
+		}
 
 		return TRUE;
 	}
@@ -1256,6 +1269,8 @@ class documentController extends document
 			$oDB->rollback();
 			return $output;
 		}
+
+		$this->add('declared_count', $declared_count+1);
 
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;

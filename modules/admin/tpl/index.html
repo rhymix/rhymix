@@ -19,6 +19,11 @@
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 
+	<div class="message error" cond="$db_info->use_sitelock == 'Y'">
+		<h2>{$lang->sitelock_in_use}</h2>
+		<p>{$lang->about_sitelock_in_use}</p>
+	</div>
+
 	<form action="./" method="post" class="message info x_clearfix" cond="!$isLicenseAgreement">
 		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
 		<input type="hidden" name="module" value="install" />
@@ -74,6 +79,35 @@
 			<include target="./_dashboard_default.html" />
 		</block>
 	</div>
+
+	<div class="message error" cond="version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<')">
+		<h2>안전하지 않은 PHP 버전 경고</h2>
+		<p>이 서버는 안전하지 않은 PHP 버전을 사용하고 있으며, PHP를 최신 안정 버전으로의 업그레이드를 권장합니다.</p>
+		<p>이 서버의 PHP 버전 : <strong>{phpversion()}</strong></p>
+		<p><a href="http://php.net/downloads.php" target="_blank">PHP 최신 안정버전 확인하기</a></p>
+
+		<ul>
+			<li>매우 심각한 PHP 보안 문제 및 공격에 노출될 수 있습니다.</li>
+			<li>XE 최신 버전을 사용할 수 없습니다.</li>
+			<li>XE 최신 버전 이상을 지원하는 확장 기능을 사용할 수 없습니다.</li>
+			<li>일부 확장 기능이 동작하지 않거나, 이로 인해 장애가 발생할 수 있습니다.</li>
+		</ul>
+	</div>
 </div>
+
+<script>
+jQuery(function($)
+{
+	// check browser version
+	if($.browser.msie == true ) {
+		var arrBrowserVersion = $.browser.version.split('.');
+		if(parseInt(arrBrowserVersion[0], 10) <= 8) {
+			$('#checkBrowserMessage').show();
+		}
+	}
+});
+</script>
+
+
 <include target="./_footer.html" />
 

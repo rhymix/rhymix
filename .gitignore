@@ -1,6 +1,14 @@
 config.user.inc.php
+.DS_Store
+Thumbs.db
 /files/
 /build/
 /node_modules/
-.DS_Store
-Thumbs.db
+/vendor/
+.idea
+*.sublime-workspace
+*.sublime-project
+.codeintel
+codeception.yml
+/tests/_output/
+/tests/*.suite.yml

@@ -126,13 +126,6 @@ class HTMLDisplayHandler
 				$pathInfo = pathinfo($layout_file);
 				$onlyLayoutFile = $pathInfo['filename'];
 
-				if($realLayoutPath === _XE_PATH_ . 'common/tpl/' && $onlyLayoutFile === 'popup_layout')
-				{
-					Context::set('admin_bar', 'false');
-				}
-				// DISABLE ADMIN BAR
-				Context::set('admin_bar', 'false');
-
 				if(__DEBUG__ == 3)
 				{
 					$GLOBALS['__layout_compile_elapsed__'] = getMicroTime() - $start;
@@ -432,7 +425,7 @@ class HTMLDisplayHandler
 			{
 				$oContext->loadFile(array('./modules/admin/tpl/css/admin.min.css', '', '', 10), true);
 				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '', 10), true);
-				$oContext->loadFile(array("./modules/admin/tpl/css/admin.iefix.min.css", '', 'ie', 10), true);
+				$oContext->loadFile(array("./modules/admin/tpl/css/admin.iefix.css", '', 'ie', 10), true);
 				$oContext->loadFile('./modules/admin/tpl/js/admin.min.js', true);
 				$oContext->loadFile(array('./modules/admin/tpl/css/admin.bootstrap.min.css', '', '', 1), true);
 				$oContext->loadFile(array('./modules/admin/tpl/js/jquery.tmpl.js', '', '', 1), true);
