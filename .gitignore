@@ -9,5 +9,6 @@ Thumbs.db
 *.sublime-workspace
 *.sublime-project
 .codeintel
+codeception.yml
 /tests/_output/
 /tests/*.suite.yml
