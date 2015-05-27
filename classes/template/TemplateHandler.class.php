@@ -362,6 +362,7 @@ class TemplateHandler
 			$__Context->logged_info = Context::get('logged_info');
 		}
 
+		$level = ob_get_level();
 		ob_start();
 		if(substr($buff, 0, 7) == 'file://')
 		{
@@ -395,7 +396,12 @@ class TemplateHandler
 			}
 		}
 
-		return ob_get_clean();
+		$contents = '';
+		while (ob_get_level() - $level > 0) {
+			$contents .= ob_get_contents();
+			ob_end_clean();
+		}
+		return $contents;
 	}
 
 	/**
