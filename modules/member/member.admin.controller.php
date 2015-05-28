@@ -157,6 +157,7 @@ class memberAdminController extends member
 		$args = Context::gets(
 			'enable_join',
 			'enable_confirm',
+			'enable_find_account_question',
 			'webmaster_name',
 			'webmaster_email',
 			'password_strength',
