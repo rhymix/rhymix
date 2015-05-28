@@ -66,6 +66,7 @@ jQuery(function($){
 
 	suForm.find(':checkbox[name="usable_list[]"]').each(function(){
 		var $i = $(this);
+		if($i.val() == 'find_account_question') return;
 
 		$i.change(function(){
 			changeTable($i);
