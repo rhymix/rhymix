@@ -287,14 +287,15 @@ if(!defined('__XE_LOADED_CLASS__'))
 	// Require a function-defined-file for simple use
 	require(_XE_PATH_ . 'config/func.inc.php');
 
-	if(__DEBUG__)
+	if(__DEBUG__) {
 		define('__StartTime__', getMicroTime());
+	}
 
-	// include the class files
-	if(__DEBUG__)
-		define('__ClassLoadStartTime__', getMicroTime());
+	if(__DEBUG__) {
+		$GLOBALS['__elapsed_class_load__'] = 0;
+	}
 
-	$__xe_autoload_file_map = array_change_key_case(array(
+	$GLOBALS['__xe_autoload_file_map'] = array_change_key_case(array(
 		'CacheHandler' => 'classes/cache/CacheHandler.class.php',
 		'Context' => 'classes/context/Context.class.php',
 		'DB' => 'classes/db/DB.class.php',
@@ -389,24 +390,41 @@ if(!defined('__XE_LOADED_CLASS__'))
 
 	function __xe_autoload($class_name)
 	{
-		$class_name = strtolower($class_name);
-		if(isset($GLOBALS['__xe_autoload_file_map'][$class_name]))
-		{
-			require _XE_PATH_ . $GLOBALS['__xe_autoload_file_map'][$class_name];
+		if(__DEBUG__) {
+			$time_at = getMicroTime();
 		}
-		elseif(preg_match('/^([a-z0-9_]+?)(admin)?(view|controller|model|api|wap|mobile)?$/i', $class_name, $matches))
+
+		if(isset($GLOBALS['__xe_autoload_file_map'][strtolower($class_name)]))
 		{
-			$candidate_filename = 'modules/' . $matches[1] . '/' . $matches[1] . ($matches[2] ? '.admin' : '') . ($matches[3] ? ('.' . $matches[3]) : '.class') . '.php';
+			require _XE_PATH_ . $GLOBALS['__xe_autoload_file_map'][strtolower($class_name)];
+		}
+		elseif(preg_match('/^([a-zA-Z0-9_]+?)(Admin)?(View|Controller|Model|Api|Wap|Mobile)?$/', $class_name, $matches))
+		{
+			$candidate_filename = array();
+			$candidate_filename[] = 'modules/' . $matches[1] . '/' . $matches[1];
+			if(isset($matches[2]) && $matches[2]) $candidate_filename[] = 'admin';
+			$candidate_filename[] = (isset($matches[3]) && $matches[3]) ? strtolower($matches[3]) : 'class';
+			$candidate_filename[] = 'php';
+
+			$candidate_filename = implode('.', $candidate_filename);
+
 			if(file_exists(_XE_PATH_ . $candidate_filename))
 			{
 				require _XE_PATH_ . $candidate_filename;
 			}
 		}
+
+		if(__DEBUG__) {
+			$GLOBALS['__elapsed_class_load__'] += getMicroTime() - $time_at;
+		}
 	}
 	spl_autoload_register('__xe_autoload');
 
-	if(__DEBUG__)
-		$GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLoadStartTime__;
+	if(file_exists(_XE_PATH_  . '/vendor/autoload.php')) {
+		require _XE_PATH_  . '/vendor/autoload.php';
+	}
+
+	
 }
 /* End of file config.inc.php */
 /* Location: ./config/config.inc.php */
