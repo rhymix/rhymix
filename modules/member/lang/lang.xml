@@ -2378,6 +2378,14 @@
 		<value xml:lang="zh-CN"><![CDATA[请登录后更改密码。]]></value>
 		<value xml:lang="tr"><![CDATA[Giriş yaptıktan sonra şifrenizi değiştirin.]]></value>
 	</item>
+	<item name="msg_question_not_allowed">
+		<value xml:lang="ko"><![CDATA[질문/답변을 통한 비밀번호 찾기는 허용되지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[The administrator has disabled this function.]]></value>
+		<value xml:lang="jp"><![CDATA[質問/回答を通じたパスワードを忘れたことはできません。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[问题/通过回答密码是不允许的。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[問題/通過回答密碼是不允許的。]]></value>
+		<value xml:lang="tr"><![CDATA[Sorular / Cevaplar aracılığıyla Şifre izin verilmez.]]></value>
+	</item>
 	<item name="msg_question_not_exists">
 		<value xml:lang="ko"><![CDATA[등록한 비밀번호 찾기 질문/답변이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You haven`t set your question for a temporary password.]]></value>

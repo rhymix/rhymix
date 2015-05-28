@@ -1048,6 +1048,10 @@ class memberController extends member
 	{
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
+		if($config->enable_find_account_question != 'Y')
+		{
+			return new Object(-1, 'msg_question_not_allowed');
+		}
 
 		$email_address = Context::get('email_address');
 		$user_id = Context::get('user_id');
