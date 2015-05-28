@@ -205,7 +205,6 @@ class installController extends install
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
 			header('location:'.$returnUrl);
-			return;
 			return new Object();
 		}
 	}
