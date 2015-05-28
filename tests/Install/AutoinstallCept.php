@@ -41,11 +41,10 @@ $install_config = array(
 
 $install_config = '<' . '?php $install_config = ' . var_export($install_config, true) . ';';
 
-$I->wantTo('auto install');
+$I->wantTo('Auto install');
 $I->writeToFile(_XE_PATH_ . 'config/install.config.php', $install_config);
 $I->amOnPage('/');
 
-$I->wantTo('completed');
 $I->dontSeeElement('//div[@id="progress"]/ul/li');
 $I->amOnPage('/index.php?act=dispMemberLoginForm');
 
