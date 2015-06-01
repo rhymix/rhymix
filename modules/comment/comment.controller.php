@@ -830,7 +830,7 @@ class commentController extends comment
 				foreach($childs as $val)
 				{
 					$c_member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
-					if($c_member_info->is_admin == 'Y' && $logged_info->is_admin == 'N')
+					if($c_member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 					{
 						$deleteAdminComment = FALSE;
 						break;
@@ -859,7 +859,7 @@ class commentController extends comment
 			}
 		}
 
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin == 'N')
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
 			return new Object(-1, 'msg_admin_comment_no_delete');
 		}

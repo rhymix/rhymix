@@ -299,7 +299,7 @@ class boardController extends board
 		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($comment->member_srl);
 
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin == 'N')
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
 			return new Object(-1, 'msg_admin_comment_no_modify');
 		}
