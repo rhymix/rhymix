@@ -296,6 +296,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 	}
 
 	$GLOBALS['__xe_autoload_file_map'] = array_change_key_case(array(
+		'CacheBase' => 'classes/cache/CacheHandler.class.php',
 		'CacheHandler' => 'classes/cache/CacheHandler.class.php',
 		'Context' => 'classes/context/Context.class.php',
 		'DB' => 'classes/db/DB.class.php',
@@ -330,6 +331,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 		'XMLDisplayHandler' => 'classes/display/XMLDisplayHandler.php',
 		'EditorHandler' => 'classes/editor/EditorHandler.class.php',
 		'ExtraVar' => 'classes/extravar/Extravar.class.php',
+		'ExtraItem' => 'classes/extravar/Extravar.class.php',
 		'FileHandler' => 'classes/file/FileHandler.class.php',
 		'FileObject' => 'classes/file/FileObject.class.php',
 		'FrontEndFileHandler' => 'classes/frontendfile/FrontEndFileHandler.class.php',
