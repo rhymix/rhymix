@@ -5,26 +5,24 @@
 	$js_files=Context::getJsFile();
 }
 <!DOCTYPE html>
-<html lang="{$lang_type}">
+<html lang="{$lang_type}" class="xe-mobilelayout">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 <!--// TITLE -->
 <title>{Context::getBrowserTitle()}</title>
-<!--// CSS-->
-<!--@foreach($css_files as $key => $css_file)-->
-	<!--@if($css_file['targetie'])--><!--[if {$css_file['targetie']}]><!--@end-->
-	<link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}"|cond="$css_file['media'] != 'all'" />
-	<!--@if($css_file['targetie'])--><![endif]--><!--@end-->
-<!--@end-->
-
-<!--// JS -->
-<!--@foreach($js_files as $key => $js_file)-->
-	<!--@if($js_file['targetie'])--><!--[if {$js_file['targetie']}]><!--@end-->
-	<script src="{$js_file['file']}"></script>
-	<!--@if($js_file['targetie'])--><![endif]--><!--@end-->
-<!--@end-->
-<!--[if lt IE 9]><script src="../js/html5.js"></script><![endif]-->
+<!-- CSS -->
+<block loop="$css_files=>$key,$css_file">
+<block cond="$css_file['targetie']"><!--[if {$css_file['targetie']}]></block>
+<link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}"|cond="$css_file['media'] != 'all'" />
+<block cond="$css_file['targetie']"><![endif]--></block>
+</block>
+<!-- JS -->
+<block loop="$js_files=>$key,$js_file">
+<block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]><block cond="stripos($js_file['targetie'], 'gt') === 0"><!--></block></block>
+<script src="{$js_file['file']}"></script>
+<block cond="$js_file['targetie']"><![endif]--></block>
+</block>
 
 <!--// RSS -->
 <!--@if($rss_url)-->

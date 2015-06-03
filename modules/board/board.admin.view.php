@@ -55,7 +55,7 @@ class boardAdminView extends board {
 
 		// install order (sorting) options
 		foreach($this->order_target as $key) $order_target[$key] = Context::getLang($key);
-		$order_target['list_order'] = Context::getLang('regdate');
+		$order_target['list_order'] = Context::getLang('document_srl');
 		$order_target['update_order'] = Context::getLang('last_update');
 		Context::set('order_target', $order_target);
 	}
@@ -168,10 +168,20 @@ class boardAdminView extends board {
 		$oBoardModel = getModel('board');
 
 		// setup the extra vaiables
-		Context::set('extra_vars', $oBoardModel->getDefaultListConfig($this->module_info->module_srl));
+		$extra_vars = $oBoardModel->getDefaultListConfig($this->module_info->module_srl);
+		Context::set('extra_vars', $extra_vars);
 
 		// setup the list config (install the default value if there is no list config)
 		Context::set('list_config', $oBoardModel->getListConfig($this->module_info->module_srl));
+
+		// setup extra_order_target
+		$module_extra_vars = $oDocumentModel->getExtraKeys($this->module_info->module_srl);
+		$extra_order_target = array();
+		foreach($module_extra_vars as $oExtraItem)
+		{
+			$extra_order_target[$oExtraItem->eid] = $oExtraItem->name;
+		}
+		Context::set('extra_order_target', $extra_order_target);
 
 		$security = new Security();
 		$security->encodeHTML('extra_vars..name','list_config..name');
@@ -250,8 +260,8 @@ class boardAdminView extends board {
 	 * @brief display extra variables
 	 **/
 	function dispBoardAdminExtraVars() {
-		$oDocumentAdminModel = getModel('document');
-		$extra_vars_content = $oDocumentAdminModel->getExtraVarsHTML($this->module_info->module_srl);
+		$oDocumentModel = getModel('document');
+		$extra_vars_content = $oDocumentModel->getExtraVarsHTML($this->module_info->module_srl);
 		Context::set('extra_vars_content', $extra_vars_content);
 
 		$this->setTemplateFile('extra_vars');

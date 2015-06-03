@@ -4,6 +4,7 @@
 		<value xml:lang="ko"><![CDATA[도움말]]></value>
 		<value xml:lang="en"><![CDATA[Help]]></value>
 		<value xml:lang="jp"><![CDATA[ヘルプ]]></value>
+		<value xml:lang="de"><![CDATA[Hilfe]]></value>
 	</item>
 	<item name="cmd_write">
 		<value xml:lang="ko"><![CDATA[쓰기]]></value>
@@ -93,6 +94,7 @@
 		<value xml:lang="ko"><![CDATA[조회]]></value>
 		<value xml:lang="en"><![CDATA[Inquiry]]></value>
 		<value xml:lang="jp"><![CDATA[お問い合わせ]]></value>
+		<value xml:lang="de"><![CDATA[Ansichten]]></value>
 	</item>
 	<item name="all">
 		<value xml:lang="ko"><![CDATA[전체]]></value>
@@ -100,6 +102,7 @@
 		<value xml:lang="jp"><![CDATA[すべて]]></value>
 		<value xml:lang="zh-CN"><![CDATA[全部]]></value>
 		<value xml:lang="zh-TW"><![CDATA[全部]]></value>
+		<value xml:lang="de"><![CDATA[Alle]]></value>
 	</item>
 	<item name="cmd_view_all">
 		<value xml:lang="ko"><![CDATA[전체 보기]]></value>
@@ -1972,6 +1975,7 @@
 		<value xml:lang="jp"><![CDATA[非推奨数]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Blames]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Blames]]></value>
+		<value xml:lang="de"><![CDATA[Anzahl der Neinsager]]></value>
 		<value xml:lang="tr"><![CDATA[Suçlama]]></value>
 	</item>
 	<item name="comment_count">
@@ -2176,7 +2180,7 @@
 		<value xml:lang="zh-CN"><![CDATA[版面管理]]></value>
 		<value xml:lang="zh-TW"><![CDATA[討論板管理]]></value>
 		<value xml:lang="fr"><![CDATA[Administration des Panneaux]]></value>
-		<value xml:lang="de"><![CDATA[Forum verwalten]]></value>
+		<value xml:lang="de"><![CDATA[Anschlagbrett verwalten]]></value>
 		<value xml:lang="ru"><![CDATA[Настройки форума]]></value>
 		<value xml:lang="es"><![CDATA[Adm. Tableros]]></value>
 		<value xml:lang="tr"><![CDATA[Yönetim Ayarları]]></value>
@@ -2303,7 +2307,7 @@
 		<value xml:lang="jp"><![CDATA[その他]]></value>
 		<value xml:lang="zh-CN"><![CDATA[其他]]></value>
 		<value xml:lang="zh-TW"><![CDATA[其他]]></value>
-		<value xml:lang="de"><![CDATA[Sonstiges]]></value>
+		<value xml:lang="de"><![CDATA[Ander]]></value>
 		<value xml:lang="tr"><![CDATA[Diğer]]></value>
 	</item>
 	<item name="unit_sec">
@@ -2394,6 +2398,7 @@
 		<value xml:lang="ko"><![CDATA[회]]></value>
 		<value xml:lang="en"><![CDATA[count]]></value>
 		<value xml:lang="jp"><![CDATA[回]]></value>
+		<value xml:lang="de"><![CDATA[Zeit]]></value>
 	</item>
 	<item name="unit_week" type="array">
 		<item name="Monday">
@@ -2627,26 +2632,32 @@
 		<value xml:lang="ko"><![CDATA[IP주소 입력형식<br />1. 와일드카드(*) 사용가능(예: 192.168.0.*)<br />2. 하이픈(-)을 사용하여 대역으로 입력가능<br />(단, 대역폭으로 입력할 경우 와일드카드 사용불가. 예: 192.168.0.1-192.168.0.254)<br />3.여러개의 항목은 줄을 바꾸어 입력하세요]]></value>
 		<value xml:lang="en"><![CDATA[IP address input format<br />You can use wildcard(*) (ex: 192.168.0.*)<br />You can use hyphen(*) for ip range  (you can't use wild card with hyphen, ex: 192.168.0.1-192.168.0.254)<br />]]></value>
 		<value xml:lang="jp"><![CDATA[IPアドレス入力方法<br />１．ワイルドカード（＊）使用可能（例：192.168.0.*)<br />２．ハイフン（-）を使用して帯域で入力可能<br />（ただし、帯域幅で入力する場合、ワイルドカードは使用不可。例：192.168.0.1-192.168.0.254）<br />３．複数の項目は行を変えて入力してください。]]></value>
+		<value xml:lang="de"><![CDATA[IP adresse eingabeformat<br />Sie können Platzhalter (*) verwenden (zB:. 192.168.0 *)<br />Sie können Bindestrich (*) für IP-Bereich nutzen (können Sie nicht wild card mit Bindestrich, ex: 192.168.0.1-192.168.0.254)]]></value>
+		
 	</item>
 	<item name="msg_invalid_ip">
 		<value xml:lang="ko"><![CDATA[잘못된 IP주소 형식입니다.]]></value>
 		<value xml:lang="en"><![CDATA[Specified IP address is invalid.]]></value>
 		<value xml:lang="jp"><![CDATA[正しくないIPアドレス形式です。]]></value>
+		<value xml:lang="de"><![CDATA[Angegebenen IP adresse ist ungültig.]]></value>
 	</item>
 	<item name="msg_no_root">
 		<value xml:lang="ko"><![CDATA[루트는 선택 할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You cannot select a root.]]></value>
 		<value xml:lang="jp"><![CDATA[ルートは選択できません。]]></value>
+		<value xml:lang="de"><![CDATA[Sie können eine root nicht auswählen.]]></value>
 	</item>
 	<item name="msg_no_shortcut">
 		<value xml:lang="ko"><![CDATA[바로가기는 선택 할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You cannot select a shortcut.]]></value>
 		<value xml:lang="jp"><![CDATA[ショートカットは選択できません。]]></value>
+		<value xml:lang="de"><![CDATA[Sie können eine verknüpfung nicht auswählen.]]></value>
 	</item>
 	<item name="msg_select_menu">
 		<value xml:lang="ko"><![CDATA[대상 메뉴 선택]]></value>
 		<value xml:lang="en"><![CDATA[Select target menu]]></value>
 		<value xml:lang="jp"><![CDATA[対象メニュー選択]]></value>
+		<value xml:lang="de"><![CDATA[Wählen Sie das Menü, das Sie anwenden möchten]]></value>
 	</item>
 	<item name="msg_call_server">
 		<value xml:lang="ko"><![CDATA[서버에 요청 중입니다. 잠시만 기다려주세요.]]></value>
@@ -2890,6 +2901,7 @@
 		<value xml:lang="jp"><![CDATA[検索対象がありません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[搜索不到目标]]></value>
 		<value xml:lang="zh-TW"><![CDATA[搜尋不到目標]]></value>
+		<value xml:lang="de"><![CDATA[Nicht finden können die das Suchziel.]]></value>
 		<value xml:lang="tr"><![CDATA[Arama amacı bulunamadı]]></value>
 	</item>
 	<item name="msg_empty_search_keyword">
@@ -2898,6 +2910,7 @@
 		<value xml:lang="jp"><![CDATA[キーワードがありません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[搜索不到关键字]]></value>
 		<value xml:lang="zh-TW"><![CDATA[搜尋不到關鍵字]]></value>
+		<value xml:lang="de"><![CDATA[Nicht finden können das Stichwort.]]></value>
 		<value xml:lang="tr"><![CDATA[Anahtar kelime yok]]></value>
 	</item>
 	<item name="comment_to_be_approved">
@@ -2905,6 +2918,7 @@
 		<value xml:lang="en"><![CDATA[Your comment must be approved by admin before being published.]]></value>
 		<value xml:lang="jp"><![CDATA[管理者の確認が必要なコメントです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您的回复在通过管理员审核之后才会被显示出来。]]></value>
+		<value xml:lang="de"><![CDATA[Ihr Kommentar muss von admin vor der Veröffentlichung genehmigt werden.]]></value>
 		<value xml:lang="tr"><![CDATA[Yorumunuz, yayınlanmadan önce adminden onay almanız gerekir]]></value>
 	</item>
 	<item name="success_registed">
@@ -2964,9 +2978,10 @@
 		<value xml:lang="mn"><![CDATA[Устгагдсан]]></value>
 	</item>
 	<item name="success_declare_canceled">
-		<value xml:lang="ko"><![CDATA[신고 취소되었습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[신고가 취소되었습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Declare was canceled successfully.]]></value>
 		<value xml:lang="jp"><![CDATA[通報が取り消しされました。]]></value>
+		<value xml:lang="de"><![CDATA[Deklarieren wurde abgebrochen.]]></value>
 	</item>
 	<item name="success_restore">
 		<value xml:lang="ko"><![CDATA[복원했습니다.]]></value>
@@ -3092,6 +3107,7 @@
 		<value xml:lang="ko"><![CDATA[수정하지 못했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Fail to update.]]></value>
 		<value xml:lang="jp"><![CDATA[修正されませんでした。]]></value>
+		<value xml:lang="de"><![CDATA[Update fehlgeschlagen]]></value>
 		<value xml:lang="tr"><![CDATA[Güncellenemedi]]></value>
 	</item>
 	<item name="fail_to_delete">
@@ -3301,6 +3317,7 @@
 		<value xml:lang="ko"><![CDATA[처리하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to process?]]></value>
 		<value xml:lang="jp"><![CDATA[処理しますか？]]></value>
+		<value xml:lang="de"><![CDATA[Sind Sie sicher, dass Sie fortfahren möchten?]]></value>
 	</item>
 	<item name="column_type">
 		<value xml:lang="ko"><![CDATA[형식]]></value>
@@ -3578,6 +3595,7 @@
 			<value xml:lang="jp"><![CDATA[%sの値が正しくありません。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s值有误。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s值有誤。]]></value>
+			<value xml:lang="de"><![CDATA[Der Wert% ist ungültig.]]></value>
 			<value xml:lang="tr"><![CDATA[%s değeri uymuyordur.]]></value>
 		</item>
 		<item name="invalid_email">
@@ -3717,6 +3735,19 @@
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. Зөвхөн тоогоор оруулах ёстой.]]></value>
 		</item>
 	</item>
+	<item name="security_invalid_session">
+			<value xml:lang="ko"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="jp"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="zh-CN"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="zh-TW"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="fr"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="de"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="es"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="tr"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="vi"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+			<value xml:lang="mn"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
+	</item>
 	<item name="security_warning_embed">
 		<value xml:lang="ko"><![CDATA[보안 문제로 관리자 아이디로는 embed를 볼 수 없습니다. 확인하려면 다른 아이디로 접속하세요]]></value>
 		<value xml:lang="en"><![CDATA[Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.]]></value>
@@ -3822,6 +3853,7 @@
 		<value xml:lang="ko"><![CDATA[모바일]]></value>
 		<value xml:lang="en"><![CDATA[Mobile]]></value>
 		<value xml:lang="jp"><![CDATA[モバイル]]></value>
+		<value xml:lang="de"><![CDATA[Handy]]></value>
 	</item>
 	<item name="mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 뷰 사용]]></value>
@@ -3852,6 +3884,7 @@
 		<value xml:lang="en"><![CDATA[Simple View]]></value>
 		<value xml:lang="jp"><![CDATA[シンプルビュー]]></value>
 		<value xml:lang="zh-CN"><![CDATA[预览]]></value>
+		<value xml:lang="de"><![CDATA[einfache ansicht]]></value>
 		<value xml:lang="tr"><![CDATA[Basit Görünüm]]></value>
 	</item>
 	<item name="detail_view">
@@ -3859,6 +3892,7 @@
 		<value xml:lang="en"><![CDATA[Detail View]]></value>
 		<value xml:lang="jp"><![CDATA[詳細ビュー]]></value>
 		<value xml:lang="zh-CN"><![CDATA[查看详情]]></value>
+		<value xml:lang="de"><![CDATA[detail ansicht]]></value>
 		<value xml:lang="tr"><![CDATA[Detaylı Görünüm]]></value>
 	</item>
 	<item name="more">
@@ -3867,19 +3901,22 @@
 		<value xml:lang="jp"><![CDATA[もっと見る]]></value>
 		<value xml:lang="zh-CN"><![CDATA[更多]]></value>
 		<value xml:lang="zh-TW"><![CDATA[更多]]></value>
+		<value xml:lang="de"><![CDATA[mehr]]></value>
 		<value xml:lang="tr"><![CDATA[Daha Fazla]]></value>
 		<value xml:lang="vi"><![CDATA[Xem thêm]]></value>
 	</item>
 	<item name="skip_to_content">
 		<value xml:lang="ko"><![CDATA[메뉴 건너뛰기]]></value>
-		<value xml:lang="en"><![CDATA[Skip to content]]></value>
+		<value xml:lang="en"><![CDATA[Skip to menu]]></value>
 		<value xml:lang="jp"><![CDATA[メニュースキップ]]></value>
+		<value xml:lang="de"><![CDATA[Menü überspringen]]></value>
 	</item>
 	<item name="dashboard">
 		 <value xml:lang="ko"><![CDATA[대시보드]]></value>
 		 <value xml:lang="en"><![CDATA[Dashboard]]></value>
 		 <value xml:lang="jp"><![CDATA[ダッシュボード]]></value>
 		 <value xml:lang="zh-CN"><![CDATA[控制面板]]></value>
+		 <value xml:lang="de"><![CDATA[Armaturenbrett]]></value>
 		 <value xml:lang="tr"><![CDATA[Kontrol Paneli]]></value>
 	</item>
 	<item name="user">
@@ -3887,21 +3924,41 @@
 		 <value xml:lang="en"><![CDATA[Member]]></value>
 		 <value xml:lang="jp"><![CDATA[会員]]></value>
 		 <value xml:lang="zh-CN"><![CDATA[会员]]></value>
+		 <value xml:lang="de"><![CDATA[Mitglied]]></value>
 		 <value xml:lang="tr"><![CDATA[Üye]]></value>
 	</item>
 	<item name="yes">
 		<value xml:lang="ko"><![CDATA[예]]></value>
 		<value xml:lang="en"><![CDATA[Yes]]></value>
 		<value xml:lang="jp"><![CDATA[はい]]></value>
+		<value xml:lang="de"><![CDATA[ja]]></value>
 	</item>
 	<item name="not">
 		<value xml:lang="ko"><![CDATA[아니오]]></value>
 		<value xml:lang="en"><![CDATA[No]]></value>
 		<value xml:lang="jp"><![CDATA[いいえ]]></value>
+		<value xml:lang="de"><![CDATA[nicht]]></value>
 	</item>
 	<item name="msg_default_url_is_null">
 		<value xml:lang="ko"><![CDATA[기본 URL 설정이 안 되어 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Default url is null.]]></value>
 		<value xml:lang="jp"><![CDATA[基本URLが設定されていません。]]></value>
+		<value xml:lang="de"><![CDATA[Standard URL ist null.]]></value>
+	</item>
+	<item name="license_agreement">
+		<value xml:lang="ko"><![CDATA[사용권 동의]]></value>
+		<value xml:lang="en"><![CDATA[License agree]]></value>
+	</item>
+	<item name="license">
+		<value xml:lang="ko"><![CDATA[<p>Copyright (C) NAVER &lt;http://www.navercorp.com&gt;</p> <p>"XpressEngine (XE)"은 자유 소프트웨어이며, 오픈 소스 프로젝트로 개발되고 있습니다. 자세한 내용은 아래 링크를 참조하시기 바랍니다.</p> <ul> <li>공식 사이트: <a href="http://www.xpressengine.com">http://www.xpressengine.com</a></li> <li>공식 저장소: <a href="http://github.com/xpressengine">http://github.com/xpressengine</a></li> </ul> <p>"XpressEngine (XE)"은 자유 소프트웨어입니다. 소프트웨어의 피양도자는 자유 소프트웨어 재단이 공표한 GNU 약소 일반 공중 사용 허가서 2.1판 또는 그 이후 판을 임의로 선택해서, 그 규정에 따라 소프트웨어를 개작하거나 재배포할 수 있습니다.</p> <p>이 소프트웨어는 유용하게 사용될 수 있으리라는 희망에서 배포되고 있지만, 특정한 목적에 맞는 적합성 여부나 판매용으로 사용할 수 있으리라는 묵시적인 보증을 포함한 어떠한 형태의 보증도 제공하지 않습니다. 보다 자세한 사항에 대해서는 GNU 약소 일반 공중 사용 허가서를 참고하시기 바랍니다.</p> <p>GNU 약소 일반 공중 사용 허가서는 이 라이브러리와 함께 제공됩니다. 만약, 이 문서가 누락되어 있다면 자유 소프트웨어 재단으로 문의하시기 바랍니다. (자유 소프트웨어 재단: Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA)</p> <ul> <li>한국어 번역문 (비공식) : <a href="http://korea.gnu.org/people/chsong/copyleft/lgpl.ko.html" target="_blank">GNU Lesser General Public License, version 2.1</a></li> <li>영문 (공식 원본) : <a href="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html" target="_blank">GNU Lesser General Public License, version 2.1</a></li> </ul>]]></value>
+		<value xml:lang="en"><![CDATA[<p>Copyright (C) NAVER &lt;http://www.navercorp.com&gt;</p> <p>"XpressEngine (XE)" is an opensource and being developed in the opensource project. For more information, please see the link below.</p> <ul> <li>Official website: <a href="http://www.xpressengine.com">http://www.xpressengine.com</a></li> <li>Official Repository: <a href="http://github.com/xpressengine">http://github.com/xpressengine</a></li> </ul> <p>"XpressEngine (XE)" is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.</p> <p>This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.</p> <p>You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA</p> <ul> <li>License : <a href="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html" target="_blank">GNU Lesser General Public License, version 2.1</a></li> </ul>]]></value>
+	</item>
+	<item name="cmd_license_agree">
+		<value xml:lang="ko"><![CDATA[사용권에 대해 이해했으며, 이에 동의합니다.]]></value>
+		<value xml:lang="en"><![CDATA[I understand the license. I agree.]]></value>
+	</item>
+	<item name="msg_must_accept_license_agreement">
+		<value xml:lang="ko"><![CDATA[사용권에 동의해야 설치할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You must accept the license agreement]]></value>
 	</item>
 </lang>

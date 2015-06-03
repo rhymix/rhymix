@@ -331,6 +331,9 @@
 		<value xml:lang="tr"><![CDATA[Ek dosya boyutu, izin verilen boyuttan büyük.]]></value>
 		<value xml:lang="vi"><![CDATA[Dung lượng File quá lớn.]]></value>
 	</item>
+	<item name="msg_not_allowed_filetype">
+		<value xml:lang="ko"><![CDATA[업로드할 수 없는 파일 형식입니다.]]></value>
+	</item>
 	<item name="msg_file_not_found">
 		<value xml:lang="ko"><![CDATA[요청한 파일을 찾을 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Could not find requested file.]]></value>

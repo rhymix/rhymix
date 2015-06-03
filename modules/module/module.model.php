@@ -405,6 +405,7 @@ class moduleModel extends module
 		$oModuleController = getController('module');
 		if(isset($module_info->browser_title)) $oModuleController->replaceDefinedLangCode($module_info->browser_title);
 
+		$this->applyDefaultSkin($module_info);
 		return $this->addModuleExtraVars($module_info);
 	}
 
@@ -628,31 +629,31 @@ class moduleModel extends module
 	 */
 	function getTriggers($trigger_name, $called_position)
 	{
-		$triggers = false;
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
+		if(is_null($GLOBALS['__triggers__']))
 		{
-			$object_key = $trigger_name.'_'.$called_position;
-			$cache_key = $oCacheHandler->getGroupKey('triggers', $object_key);
-			$triggers = $oCacheHandler->get($cache_key);
-		}
-
-		if($triggers === false)
-		{
-			$args = new stdClass();
-			$args->trigger_name = $trigger_name;
-			$args->called_position = $called_position;
-			$output = executeQueryArray('module.getTriggers',$args);
-			$triggers = $output->data;
-
-			if($output->toBool() && $oCacheHandler->isSupport())
+			$triggers = FALSE;
+			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+			if($oCacheHandler->isSupport())
 			{
-				$oCacheHandler->put($cache_key, $triggers);
+				$cache_key = 'triggers';
+				$triggers = $oCacheHandler->get($cache_key);
+			}
+			if($triggers === FALSE)
+			{
+				$output = executeQueryArray('module.getTriggers');
+				$triggers = $output->data;
+				if($output->toBool() && $oCacheHandler->isSupport())
+				{
+					$oCacheHandler->put($cache_key, $triggers);
+				}
+			}
+			foreach($triggers as $item)
+			{
+				$GLOBALS['__triggers__'][$item->trigger_name][$item->called_position][] = $item;
 			}
 		}
 
-		return $triggers;
+		return $GLOBALS['__triggers__'][$trigger_name][$called_position];
 	}
 
 	/**
@@ -660,14 +661,20 @@ class moduleModel extends module
 	 */
 	function getTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
-		$args = new stdClass();
-		$args->trigger_name = $trigger_name;
-		$args->module = $module;
-		$args->type = $type;
-		$args->called_method = $called_method;
-		$args->called_position = $called_position;
-		$output = executeQuery('module.getTrigger',$args);
-		return $output->data;
+		$triggers = $this->getTriggers($trigger_name, $called_position);
+
+		if($triggers && is_array($triggers))
+		{
+			foreach($triggers as $item)
+			{
+				if($item->module == $module && $item->type == $type && $item->called_method == $called_method)
+				{
+					return $item;
+				}
+			}
+		}
+
+		return NULL;
 	}
 
 	/**
@@ -1994,14 +2001,19 @@ class moduleModel extends module
 		if(!$module_srl)
 		{
 			$grant->access = true;
-			if($this->isSiteAdmin($member_info, $module_info->site_srl)) $grant->access = $grant->is_admin = $grant->manager = $grant->is_site_admin = true;
-			else $grant->is_admin = $grant->manager = $member_info->is_admin=='Y'?true:false;
-			// If module_srl exists
+			if($this->isSiteAdmin($member_info, $module_info->site_srl))
+			{
+				$grant->access = $grant->manager = $grant->is_site_admin = true;
+			}
+
+			$grant->is_admin = $grant->manager = ($member_info->is_admin == 'Y') ? true : false;
 		}
 		else
 		{
+			// If module_srl exists
 			// Get a type of granted permission
-			$grant->access = $grant->is_admin = $grant->manager = $grant->is_site_admin = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info, $module_info->site_srl))?true:false;
+			$grant->access = $grant->manager = $grant->is_site_admin = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info, $module_info->site_srl))?true:false;
+			$grant->is_admin = ($member_info->is_admin == 'Y') ? true : false;
 			// If a just logged-in member is, check if the member is a module administrator
 			if(!$grant->manager && $member_info->member_srl)
 			{
@@ -2009,7 +2021,7 @@ class moduleModel extends module
 				$args->module_srl = $module_srl;
 				$args->member_srl = $member_info->member_srl;
 				$output = executeQuery('module.getModuleAdmin',$args);
-				if($output->data && $output->data->member_srl == $member_info->member_srl) $grant->manager = $grant->is_admin = true;
+				if($output->data && $output->data->member_srl == $member_info->member_srl) $grant->manager = true;
 			}
 			// If not an administrator, get information from the DB and grant manager privilege.
 			if(!$grant->manager)

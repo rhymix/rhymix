@@ -67,11 +67,19 @@ class fileModel extends file
 		$file_config = $this->getUploadConfig();
 		$left_size = $file_config->allowed_attach_size*1024*1024 - $attached_size;
 		// Settings of required information
+		$attached_size = FileHandler::filesize($attached_size);
+		$allowed_attach_size = FileHandler::filesize($file_config->allowed_attach_size*1024*1024);
+		$allowed_filesize = FileHandler::filesize($file_config->allowed_filesize*1024*1024);
+		$allowed_filetypes = $file_config->allowed_filetypes;
 		$this->add("files",$files);
 		$this->add("editor_sequence",$editor_sequence);
 		$this->add("upload_target_srl",$upload_target_srl);
 		$this->add("upload_status",$upload_status);
 		$this->add("left_size",$left_size);
+		$this->add('attached_size', $attached_size);
+		$this->add('allowed_attach_size', $allowed_attach_size);
+		$this->add('allowed_filesize', $allowed_filesize);
+		$this->add('allowed_filetypes', $allowed_filetypes);
 	}
 
 	/**
@@ -238,7 +246,11 @@ class fileModel extends file
 
 		if($logged_info->is_admin == 'Y')
 		{
-			$file_config->allowed_filesize = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));
+			$iniPostMaxSize = FileHandler::returnbytes(ini_get('post_max_size'));
+			$iniUploadMaxSize = FileHandler::returnbytes(ini_get('upload_max_filesize'));
+			$size = min($iniPostMaxSize, $iniUploadMaxSize) / 1048576;
+			$file_config->allowed_attach_size = $size;
+			$file_config->allowed_filesize = $size;
 			$file_config->allowed_filetypes = '*.*';
 		}
 		return $file_config;

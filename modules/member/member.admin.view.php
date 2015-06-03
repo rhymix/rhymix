@@ -94,7 +94,7 @@ class memberAdminView extends member
 			}
 		}
 		$config = $this->memberConfig;
-		$memberIdentifiers = array('email_address'=>'email_address', 'user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');
+		$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');
 		$usedIdentifiers = array();	
 
 		if(is_array($config->signupForm))
@@ -129,8 +129,10 @@ class memberAdminView extends member
 	 */
 	public function dispMemberAdminConfig()
 	{
+		$oPassword = new Password();
+		Context::set('password_hashing_algos', $oPassword->getSupportedAlgorithms());
+		
 		$this->setTemplateFile('default_config');
-
 	}
 
 	public function dispMemberAdminSignUpConfig()
@@ -538,7 +540,7 @@ class memberAdminView extends member
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
 							'tel_1' => $extendForm->value[1],
 							'tel_2' => $extendForm->value[2]);
-						$template = '<input type="tel" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="4" maxlength="4" style="width:30px" title="First Number" /> - <input type="tel" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:30px" title="Second Number" /> - <input type="tel" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:30px" title="Third Number" />';
+						$template = '<input type="tel" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="4" maxlength="4" style="width:30px" title="First Number" /> - <input type="tel" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:35px" title="Second Number" /> - <input type="tel" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:35px" title="Third Number" />';
 					}
 					else if($extendForm->column_type == 'textarea')
 					{
@@ -582,6 +584,7 @@ class memberAdminView extends member
 					{
 						$template = '<select name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
 						$optionTag = array();
+						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
 						if($extendForm->default_value)
 						{
 							foreach($extendForm->default_value as $v)

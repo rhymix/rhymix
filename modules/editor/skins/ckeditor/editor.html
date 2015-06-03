@@ -1,0 +1,79 @@
+<!-- css -->
+<load target="css/default.css" />
+
+<!-- JS -->
+<!--%load_js_plugin("ckeditor")-->
+<load target="../../tpl/js/editor_common.js" />
+<load target="../../tpl/js/editor.app.js" />
+<load target="js/xe_interface.js" />
+
+{@ $css_content = null }
+<!--@if($content_font || $content_font_size)-->
+	{@ $css_content = '.xe_content.editable p { margin: 0;'. chr(125); }
+
+	{@ $css_content .= ' .xe_content.editable { '}
+	<block cond="$content_font">
+	{@ $css_content .= 'font-family:' . $content_font . ';';}
+	</block>
+
+	<block cond="$content_font_size">
+	{@ $css_content .= 'font-size:' . $content_font_size . ';';}
+	</block>
+	{@ $css_content .= chr(125);}
+<!--@endif-->
+
+<div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$editor_height}px;"></div>
+
+<block cond="$allow_fileupload">
+	<include target="file_upload.html" />
+</block>
+
+<script>
+(function($){
+	"use strict";
+
+	// editor
+	$(function(){
+		var settings = {
+			ckeconfig: {
+				height: '{$editor_height}',
+				skin: '{$colorset}',
+				contentsCss: '{$content_style_path}/editor.css',
+				xe_editor_sequence: {$editor_sequence},
+				toolbarCanCollapse: true
+			},
+			loadXeComponent: true,
+			enableToolbar: true,
+			content_field: jQuery('[name={$editor_content_key_name}]')
+		};
+
+		<!--@if($enable_component)-->
+			{@ $xe_component = array(); }
+			<!--@foreach($component_list as $component_name => $component)-->
+				{@ $xe_component[] = $component_name . ":'" . htmlentities($component->title, ENT_QUOTES, 'UTF-8') . "'"; }
+			<!--@endforeach-->
+			{@ $xe_component = implode(',', $xe_component); }
+
+			settings.ckeconfig.xe_component_arrays = {{$xe_component}};
+		<!--@endif-->
+
+		<!--@if(!$enable_default_component)-->
+			settings.enableToolbar = false;
+			settings.ckeconfig.toolbarCanCollapse = false;
+		<!--@endif-->
+
+		<!--@if(!$enable_component)-->
+			settings.loadXeComponent = false;
+		<!--@endif-->
+
+		<!--@if($module_type === 'comment')-->
+			settings.ckeconfig.toolbarStartupExpanded = false;
+		<!--@endif-->
+
+		<!--@if($css_content)-->CKEDITOR.addCss('{$css_content}');<!--@end-->
+
+		var ckeApp = $('#ckeditor_instance_{$editor_sequence}').XeCkEditor(settings);
+
+	});
+})(jQuery);
+</script>

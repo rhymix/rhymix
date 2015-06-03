@@ -13,7 +13,7 @@
 	<h1>{$lang->cmd_spammer}</h1>
 </div>
 
-<form action="./" method="post" id="fo_management" onsubmit="return doSpammerManage();"> 
+<form action="./" method="post" id="fo_management" onsubmit="return doSpammerManage();">
 <input type="hidden" name="module" value="member" />
 <input type="hidden" name="act" value="procMemberSpammerManage" />
 <input type="hidden" name="proc_type" value="" />
@@ -29,7 +29,7 @@
 		<textarea name="spam_description" id="spam_description" cols="400" rows="3"></textarea>
 	</div>
 	<div class="btn-proc" >
-		<label for="to_trash"><input type="checkbox" name="to_trash" value="Y" checked="checked" id="to_trash" />{$lang->spammer_move_to_trash}</label>
+		<label for="to_trash"><input type="checkbox" name="to_trash" value="Y" id="to_trash" />{$lang->spammer_move_to_trash}</label>
 		<button class="x_btn x_btn-danger" type="submit"/>{$lang->btn_spammer_delete_all}</button>
 	</div>
 
@@ -48,10 +48,10 @@
 var bSpammerManageProc = true;
 var form_info = "";
 function doSpammerManage( args ) {
-	
-	if( args == undefined ) { 
+
+	if( args == undefined ) {
 		if(!confirm('{$lang->confirm_process}')) return false;
-		
+
 		var args = {};
 		var vals = jQuery('#fo_management').serializeArray();
 		for( var i in vals ) {
@@ -63,7 +63,7 @@ function doSpammerManage( args ) {
 		if( jQuery('#to_trash').attr( 'checked' ) != "checked" )
 			args.proc_type = "hidden";
 
-		args.cnt_loop =1; 
+		args.cnt_loop =1;
 
 		form_info = args;
 
@@ -91,11 +91,12 @@ function progressSpammerManage( data ) {
 		if(data.remain_count <= 0) {
 			jQuery('.progress-complete').css('visibility','visible');
 			jQuery('[type=submit]').show();
+			alert("{$lang->msg_spammer_complete}");
 			return;
 		}
 
 		var args = data;
-		
+
 		if( bSpammerManageProc == false ) {
 			jQuery('.progress-box').css('visibility','hidden');
 			jQuery('.progress-cancel').css('visibility','visible');
@@ -109,7 +110,7 @@ function progressSpammerManage( data ) {
 			return;
 		}
 		doSpammerManage( args );
-		
+
 	}, 500 );
 }
 

@@ -714,7 +714,7 @@ class Validator
 		{
 			$name = strtolower($name);
 
-			if(strpos('email,userid,url,alpha,alpha_number,number,', $name . ',') !== false)
+			if(in_array($name, array('email', 'userid', 'url', 'alpha', 'alpha_number', 'number')))
 			{
 				continue;
 			}

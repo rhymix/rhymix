@@ -33,7 +33,7 @@ class fileAdminView extends file
 		// Get a list
 		$oFileAdminModel = getAdminModel('file');
 		$columnList = array('file_srl', 'upload_target_srl', 'upload_target_type', 'sid', 'module_srl'
-				, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'ipaddress', 'member.member_srl', 'member.nick_name');
+				, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'ipaddress', 'member.member_srl', 'member.nick_name', 'uploaded_filename');
 		$output = $oFileAdminModel->getFileList($args, $columnList);
 		// Get the document for looping a list
 		if($output->data)
@@ -201,7 +201,7 @@ class fileAdminView extends file
 		// Set a template
 		$security = new Security();
 		$security->encodeHTML('file_list..');
-		$security->encodeHTML('module_list..');						
+		$security->encodeHTML('module_list..');
 
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('file_list');
@@ -217,6 +217,10 @@ class fileAdminView extends file
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
 		Context::set('config',$config);
+		$iniPostMaxSize = FileHandler::returnbytes(ini_get('post_max_size'));
+		$iniUploadMaxSize = FileHandler::returnbytes(ini_get('upload_max_filesize'));
+		$iniMinSize = min($iniPostMaxSize, $iniUploadMaxSize);
+		Context::set('upload_max_filesize', FileHandler::filesize($iniMinSize));
 		// Set a template file
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('adminConfig');

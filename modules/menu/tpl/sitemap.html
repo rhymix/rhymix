@@ -22,6 +22,11 @@
 <!--@if($act == 'dispMenuAdminSiteMap')-->
 	<div class="col map" id="site_map">
 		<h1>{$lang->menu_gnb_sub['siteMap']} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_site_menu" target="_blank">{$lang->help}</a></h1>
+		<form id="menu_find">
+			<input name="keyword" type="text"></input>
+			<button class="x_btn x_btn-inverse btn-find">{$lang->cmd_find}</button>
+			<button class="x_btn x_btn-inverse btn-next" type="button">{$lang->cmd_next}</button>
+		</form>
 		<div class="cnt">
 			<section class="mapi" id="siteMapTree">
 				<script id="tmpl_menuTree" type="text/x-jquery-tmpl">
@@ -767,6 +772,7 @@ function onSiteMapReceived(htData){
 	}
 
 	var sInitiallyOpen = [];
+	$.jstree.defaults.ui.select_limit = 1;
 
 	$("#siteMapTree")
 		.jstree({
@@ -797,7 +803,12 @@ function onSiteMapReceived(htData){
 			// it makes sense to configure a plugin only if overriding the defaults
 		})
 		.bind("loaded.jstree", function (event, data) {
-			data.inst.open_all();
+			//data.inst.open_all();
+			data.inst.get_container_ul().find("li.jstree-closed").each(function () {
+				if(issetJSTreeOpenIds(this.id) == true){
+					$(this).removeClass("jstree-closed").addClass("jstree-open");
+				}
+			});
 
 			var sRenameId = $._xeAdminVar.sRenameOnload;
 			$._xeAdminVar.sRenameOnload = null;
@@ -822,6 +833,12 @@ function onSiteMapReceived(htData){
 			}
 
 		})
+		.bind("open_node.jstree", function(event, data){
+			setJSTreeOpenIds();
+		})
+		.bind("close_node.jstree", function(event, data){
+			setJSTreeOpenIds();
+		})
 		.bind("rename.jstree", function(event, data){
 			$("#siteMapTree").removeClass("_node_renaming");
 		})
@@ -838,6 +855,12 @@ function onSiteMapReceived(htData){
 
 		})
 		.bind("select_node.jstree", function(event, data){
+			// move scroll
+			var ul = $($("#siteMapTree").jstree("get_container")[0]);
+			ul.parent("div.cnt").stop().animate({
+				scrollTop: data.rslt.obj.offset().top - ul.offset().top
+			}, 800);
+
 			$("#siteMapTree input").blur();
 			//console.log($("#siteMapTree input"));
 
@@ -845,6 +868,8 @@ function onSiteMapReceived(htData){
 			$._xeAdminVar.sSelectedMenuSrl = sSelectedMenuSrl;
 
 			showProp(sSelectedMenuSrl);
+
+			data.inst.open_node(data.rslt.obj);
 		})
 		.bind("move_node.jstree", function(event, data){
 			//console.log(event, data);
@@ -962,6 +987,24 @@ console.log(htNodeInfo);
 		});
 
 	$('#site_map').nextAll().hide();
+}
+
+function setJSTreeOpenIds(){
+	var jstree_open_srls = [];
+	jQuery("#siteMapTree").find("li.jstree-open").each(function() {
+		jstree_open_srls.push(this.id);
+	});
+	setCookie("__xe_admin_jstree_open_srls", jstree_open_srls.join(","));
+}
+
+function issetJSTreeOpenIds(id) {
+	var jstree_open_srls = getCookie("__xe_admin_jstree_open_srls").split(",");
+	for (var i=0; i< jstree_open_srls.length; i++) {
+		if(jstree_open_srls[i] == id) {
+			return true;
+		}
+	}
+	return false;
 }
 
 var htNodeInfo = {};
@@ -1200,6 +1243,37 @@ jQuery(function($){
 		setItemTypes(htData.menu_types);
 		setAllModules(htData.all_modules);
 	});
+
+	var find_ids = [];
+	var find_index = 0;
+	$("#menu_find").submit(function(){
+		find_ids = [];
+		find_index = 0;
+		$('#menu_find').find('[type="button"]').css("visibility", "hidden");
+
+		var keyword = $('[name="keyword"]').val();
+		$("#siteMapTree").find("li").each(function(){
+			var pattern = new RegExp(keyword);
+			if(pattern.test($(this).find("a:first").text())){
+				find_ids.push(this.id);
+			}
+		});
+
+		if (find_ids.length>1) {
+			$('#menu_find').find('[type="button"]').css("visibility", "visible");
+		}
+
+		$("#siteMapTree").jstree("deselect_all").jstree("select_node", "#"+find_ids[find_index]);
+		return false;
+	});
+	$("#menu_find").find('[type="button"]').click(function(){
+		find_index++;
+		if (find_ids.length <= find_index){
+			find_index = 0;
+		}
+
+		$("#siteMapTree").jstree("deselect_all").jstree("select_node", "#"+find_ids[find_index]);
+	});
 	<!--@end-->
 
 	<!--@if($act == 'dispMenuAdminSiteDesign')-->
@@ -1321,9 +1395,7 @@ jQuery(function($){
 		});
 	});
 
-	//$.jstree._themes = "PATH/TO/FOLDER/";
-	//$.jstree._themes = "/maserati/modules/menu/tpl/css/themes/";
-	$.jstree._themes = '{getNotEncodedFullUrl("")}/modules/menu/tpl/css/themes/';
+	$.jstree._themes = '{getNotEncodedFullUrl("")}modules/menu/tpl/css/themes/';
 
 	$(document.body).on("click", ".x div.col a, .x div.col button", function(ev){
 		// FF keeps the focus, making the button highlighted even after the panel is closed.
@@ -3844,6 +3916,7 @@ jQuery(function($){
 	}
 	top.fullSetupDone = function(htData){
 		jQuery('#properties').show();
+		jQuery._xeAdminVar.oSetupWin.close();
 	}
 
 	$('a._openFullSetup').click(function(ev){
@@ -3918,15 +3991,17 @@ jQuery(function($){
 	<!--@else-->
 		$(window).resize(function(){
 			var wHeigh = $(window).height();
-
 			$('#site').height(wHeigh - 147).find('>.col').height(wHeigh - 185).find('.cnt').height(wHeigh - 252);
 			$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').height(wHeigh - 222);
 
 			<!--@if($act == 'dispMenuAdminSiteMap')-->
+			// minus height 40px for find-form display
+			$('#site').find('.cnt:first').height(wHeigh - 252 - 40);
 			$('#design').find('.cnt').height(wHeigh - 222);
 			<!--@end-->
 
 			<!--@if($act == 'dispMenuAdminSiteDesign')-->
+
 			$('#layout, #skin').find('.cnt').height(wHeigh - 222);
 			<!--@end-->
 		}).resize();
@@ -3987,7 +4062,7 @@ top.fullSetupWinLoaded = function(){
 	var $target = $("<iframe>").attr('name', 'submitTarget').attr('src', 'about:_blank').attr('style', 'position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px');
 	$form.append($target);
 
-	$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.opener.top.fullSetupDone();top.window.close();var dummy="));
+	$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.opener.top.fullSetupDone"));
 	$form.attr('target', 'submitTarget');
 
 	//console.log(oWin);

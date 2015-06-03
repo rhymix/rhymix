@@ -199,17 +199,24 @@ class commentController extends comment
 		// check if comment's module is using comment validation and set the publish status to 0 (false)
 		// for inserting query, otherwise default is 1 (true - means comment is published)
 		$using_validation = $this->isModuleUsingPublishValidation($obj->module_srl);
-		if(Context::get('is_logged'))
+		if(!$manual_inserted)
 		{
-			$logged_info = Context::get('logged_info');
-			if($logged_info->is_admin == 'Y')
+			if(Context::get('is_logged'))
 			{
-				$is_admin = TRUE;
+				$logged_info = Context::get('logged_info');
+				if($logged_info->is_admin == 'Y')
+				{
+					$is_admin = TRUE;
+				}
+				else
+				{
+					$is_admin = FALSE;
+				}
 			}
-			else
-			{
-				$is_admin = FALSE;
-			}
+		}
+		else
+		{
+			$is_admin = FALSE;
 		}
 
 		if(!$using_validation)
@@ -246,10 +253,10 @@ class commentController extends comment
 		// get a object of document model
 		$oDocumentModel = getModel('document');
 
-		// even for manual_inserted if password exists, md5 it.
+		// even for manual_inserted if password exists, hash it.
 		if($obj->password)
 		{
-			$obj->password = md5($obj->password);
+			$obj->password = getModel('member')->hashPassword($obj->password);
 		}
 
 		// get the original posting
@@ -441,7 +448,10 @@ class commentController extends comment
 		}
 
 		// grant autority of the comment
-		$this->addGrant($obj->comment_srl);
+		if(!$manual_inserted)
+		{
+			$this->addGrant($obj->comment_srl);
+		}
 
 		// call a trigger(after)
 		if($output->toBool())
@@ -667,7 +677,7 @@ class commentController extends comment
 
 		if($obj->password)
 		{
-			$obj->password = md5($obj->password);
+			$obj->password = getModel('member')->hashPassword($obj->password);
 		}
 
 		if($obj->homepage) 
@@ -710,6 +720,15 @@ class commentController extends comment
 
 		// remove XE's wn tags from contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+
+		if(Mobile::isFromMobilePhone())
+		{
+			if($obj->use_html != 'Y')
+			{
+				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			}
+			$obj->content = nl2br($obj->content);
+		}
 
 		// remove iframe and script if not a top administrator on the session
 		if($logged_info->is_admin != 'Y')
@@ -889,7 +908,7 @@ class commentController extends comment
 	 * Remove all comment relation log
 	 * @return Object
 	 */
-	function deleteCommentLog()
+	function deleteCommentLog($args)
 	{
 		$this->_deleteDeclaredComments($args);
 		$this->_deleteVotedComments($args);

@@ -935,26 +935,34 @@ class adminAdminModel extends admin
 		return $output->data->count;
 	}
 
-	function getFaviconUrl()
+	function getFaviconUrl($default = true)
 	{
-		return $this->iconUrlCheck('favicon.ico', 'faviconSample.png');
+		return $this->iconUrlCheck('favicon.ico', 'faviconSample.png', $default);
 	}
 
-	function getMobileIconUrl()
+	function getMobileIconUrl($default = true)
 	{
-		return $this->iconUrlCheck('mobicon.png', 'mobiconSample.png');
+		return $this->iconUrlCheck('mobicon.png', 'mobiconSample.png', $default);
 	}
 
-	function iconUrlCheck($iconname, $default_icon_name)
+	function iconUrlCheck($iconname, $default_icon_name, $default)
 	{
-		$file_exsit = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $iconname);
-		if(!$file_exsit)
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if($site_info->site_srl) 
 		{
-			$icon_url = './modules/admin/tpl/img/' . $default_icon_name;
+			$virtual_site = $site_info->site_srl . '/';
 		}
-		else
+
+		$file_exsit = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
+		if(!$file_exsit && $default === true)
+        {
+            $icon_url = './modules/admin/tpl/img/' . $default_icon_name;
+        }
+        elseif($file_exsit)
 		{
-			$icon_url = $db_info->default_url . 'files/attach/xeicon/' . $iconname;
+			$default_url = Context::getDefaultUrl();
+			$icon_url = $default_url . 'files/attach/xeicon/' . $virtual_site . $iconname;
 		}
 		return $icon_url;
 	}

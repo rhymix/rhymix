@@ -265,7 +265,7 @@ class DBMysql extends DB
 		$query = sprintf("select password('%s') as password, old_password('%s') as old_password", $this->addQuotes($password), $this->addQuotes($password));
 		$result = $this->_query($query);
 		$tmp = $this->_fetch($result);
-		if($tmp->password == $saved_password || $tmp->old_password == $saved_password)
+		if($tmp->password === $saved_password || $tmp->old_password === $saved_password)
 		{
 			return true;
 		}
@@ -299,7 +299,7 @@ class DBMysql extends DB
 	 * @param boolean $notnull not null status, default value is false
 	 * @return void
 	 */
-	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
+	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false)
 	{
 		$type = $this->column_type[$type];
 		if(strtoupper($type) == 'INTEGER')
@@ -316,7 +316,7 @@ class DBMysql extends DB
 		{
 			$query .= sprintf(" %s ", $type);
 		}
-		if($default)
+		if(isset($default))
 		{
 			$query .= sprintf(" default '%s' ", $default);
 		}

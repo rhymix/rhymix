@@ -14,19 +14,17 @@
 			<pattern>http://flvs.daum.net/flvPlayer.swf</pattern>
 			<pattern>http://api.v.daum.net/</pattern>
 			<pattern>http://tvpot.daum.net/playlist/playlist.swf</pattern>
+			<pattern>http://videofarm.daum.net/</pattern>
 		</domain>
 		<domain name="http://www.youtube.com" desc="Youtube">
-			<pattern>http://www.youtube.com/v/</pattern>
+			<pattern>http://www.youtube.com/</pattern>
+			<pattern>https://www.youtube.com/</pattern>
 			<pattern>http://www.youtube-nocookie.com/</pattern>
-			<pattern>//www.youtube.com/v/</pattern>
-			<pattern>//www.youtube-nocookie.com/</pattern>
-			<pattern>//www.youtube.com/embed/</pattern>
+			<pattern>https://www.youtube-nocookie.com/</pattern>
 		</domain>
 		<domain name="http://www.mgoon.com" desc="엠군">
-			<pattern>http://play.mgoon.com/Video/</pattern>
+			<pattern>http://play.mgoon.com/</pattern>
 			<pattern>http://doc.mgoon.com/player/</pattern>
-			<pattern>http://play.mgoon.com/Game/</pattern>
-			<pattern>http://play.mgoon.com/Photo/</pattern>
 		</domain>
 		<domain name="http://www.pandora.tv" desc="판도라TV">
 			<pattern>http://flvr.pandora.tv/flv2pan/</pattern>
@@ -53,7 +51,7 @@
 			<pattern>http://vmark.kbs.co.kr/zzim/vmplayer/vmplayer.xap</pattern>
 		</domain>
 		<domain name="http://www.sbs.co.kr" desc="SBS">
-			<pattern>http://netv.sbs.co.kr/sbox/silverlight/ClientBin/NeTVPlayer.xap</pattern>
+			<pattern>http://netv.sbs.co.kr/sbox/</pattern>
 			<pattern>http://news.sbs.co.kr/</pattern>
 			<pattern>http://wizard2.sbs.co.kr/</pattern>
 			<pattern>http://sbsplayer.sbs.co.kr/</pattern>
@@ -62,7 +60,7 @@
 			<pattern>http://onemore.imbc.com/ClientBin/oneplus.xap</pattern>
 		</domain>
 		<domain name="" isNAVER="true" desc="socialsearch">
-			<pattern>http://static.campaign.naver.com/0/campaign/2010/10/socialsearch/swf/</pattern>
+			<pattern>http://static.campaign.naver.com/</pattern>
 		</domain>
 	</embed>
 	<iframe>
@@ -71,9 +69,6 @@
 			<pattern>https://www.youtube.com/</pattern>
 			<pattern>http://www.youtube-nocookie.com/</pattern>
 			<pattern>https://www.youtube-nocookie.com/</pattern>
-			<pattern>//www.youtube.com/v/</pattern>
-			<pattern>//www.youtube.com/embed/</pattern>
-			<pattern>//www.youtube-nocookie.com/</pattern>
 		</domain>
 		<domain name="http://maps.google.com" desc="구글맵스" mobile="true">
 			<pattern>http://maps.google.com/</pattern>
@@ -87,6 +82,9 @@
 		</domain>
 		<domain name="http://www.vimeo.com" desc="vimeo.com">
 			<pattern>http://player.vimeo.com/</pattern>
+		</domain>
+		<domain name="http://tvcast.naver.com" isNAVER="true" desc="NAVER TVCAST">
+			<pattern>http://serviceapi.rmcnmv.naver.com/</pattern>
 		</domain>
 	</iframe>
 </whiteurl>

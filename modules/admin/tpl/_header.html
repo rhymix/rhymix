@@ -6,7 +6,7 @@
 		<h1>
 			<a href="{getUrl('','module','admin')}"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a>
 		</h1>
-		<p class="site"><a href="{getFullUrl('')}">{getFullUrl('')}</a></p>
+		<p class="site"><a href="{getFullUrl('')}">{$xe_default_url}</a></p>
 		<div class="account">
 			<ul>
 				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
@@ -24,7 +24,7 @@
 		<!-- GNB -->
 		<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb">
 			<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> Menu Open/Close</a>
-			<ul id="gnbNav" class="ex"|cond="$_COOKIE['__xe_admin_gnb_ex_status'] == 'open'">
+			<ul id="gnbNav" class="ex">
 			<script>
 				var __xe_admin_gnb_txs = new Array();
 			</script>
@@ -49,9 +49,6 @@
 						</li>
 						<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->no_data}</a></li>
 					</ul>
-					<div class="exMenu">
-						<button type="button" title="{$lang->advanced_settings}"><i class="x_icon-chevron-down"></i><i class="x_icon-chevron-up"></i></button>
-					</div>
 				</li>
 				<!--@end-->
 				<li class="<!--@if($parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act)-->active open<!--@elseif($_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open')-->open<!--@end-->">

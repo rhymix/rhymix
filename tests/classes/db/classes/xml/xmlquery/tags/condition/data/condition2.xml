@@ -1,1 +1,0 @@
-<condition operation="equal" column="type" var="type" notnull="notnull" pipe="and" />

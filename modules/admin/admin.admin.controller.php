@@ -61,6 +61,9 @@ class adminAdminController extends admin
 		FileHandler::rename('./files/cache', $temp_cache_dir);
 		FileHandler::makeDir('./files/cache');
 
+		// remove module extend cache
+		FileHandler::removeFile(_XE_PATH_ . 'files/config/module_extend.php');
+
 		// remove debug files
 		FileHandler::removeFile(_XE_PATH_ . 'files/_debug_message.php');
 		FileHandler::removeFile(_XE_PATH_ . 'files/_debug_db_query.php');
@@ -120,6 +123,11 @@ class adminAdminController extends admin
 			$db = DB::getInstance();
 			$db->deleteDuplicateIndexes();
 		}
+
+		// check autoinstall packages
+		$oAutoinstallAdminController = getAdminController('autoinstall');
+		$oAutoinstallAdminController->checkInstalled();
+
 		$this->setMessage('success_updated');
 	}
 
@@ -467,11 +475,19 @@ class adminAdminController extends admin
 	 */
 	function procAdminRemoveIcons()
 	{
+
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+
 		$iconname = Context::get('iconname');
-		$file_exist = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $iconname);
+		$file_exist = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
 		if($file_exist)
 		{
-			@FileHandler::removeFile(_XE_PATH_ . 'files/attach/xeicon/' . $iconname);
+			@FileHandler::removeFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
 		}
 		else
 		{

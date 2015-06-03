@@ -35,6 +35,27 @@ class installView extends install
 		$install_config_file = FileHandler::getRealPath('./config/install.config.php');
 		if(file_exists($install_config_file))
 		{
+			/**
+			 * If './config/install.config.php' file created  and write array shown in the example below, XE installed using config file.
+			 * ex )
+			  $install_config = array(
+			  'db_type' =>'mysqli_innodb',
+			  'db_port' =>'3306',
+			  'db_hostname' =>'localhost',
+			  'db_userid' =>'root',
+			  'db_password' =>'root',
+			  'db_database' =>'xe_database',
+			  'db_table_prefix' =>'xe',
+			  'user_rewrite' =>'N',
+			  'time_zone' =>'0000',
+			  'email_address' =>'admin@xe.com',
+			  'password' =>'pass',
+			  'password2' =>'pass',
+			  'nick_name' =>'admin',
+			  'user_id' =>'admin',
+			  'lang_type' =>'ko',	// en, jp, ...
+			  );
+			 */
 			include $install_config_file;
 			if(is_array($install_config))
 			{
@@ -56,6 +77,17 @@ class installView extends install
 
 		Context::set('l', Context::getLangType());
 		$this->setTemplateFile('introduce');
+	}
+
+	/**
+	 * @brief License agreement
+	 */
+	function dispInstallLicenseAgreement()
+	{
+		$this->setTemplateFile('license_agreement');
+
+		$lang_type = Context::getLangType();
+		Context::set('lang_type', $lang_type);
 	}
 
 	/**
@@ -124,6 +156,19 @@ class installView extends install
 
 		$title = sprintf(Context::getLang('input_dbinfo_by_dbtype'), Context::get('db_type'));
 		Context::set('title', $title);
+
+		$error_return_url = getNotEncodedUrl('', 'act', Context::get('act'), 'db_type', Context::get('db_type'));
+		if($_SERVER['HTTPS'] == 'on')
+		{
+			// Error occured when using https protocol at "ModuleHandler::init() '
+			$parsedUrl = parse_url($error_return_url);
+			$error_return_url = '';
+			if(isset($parsedUrl['path'])) $error_return_url .= $parsedUrl['path'];
+			if(isset($parsedUrl['query'])) $error_return_url .= '?' . $parsedUrl['query'];
+			if(isset($parsedUrl['fragment'])) $error_return_url .= '?' . $parsedUrl['fragment'];
+		}
+		Context::set('error_return_url', $error_return_url);
+
 		$this->setTemplateFile($tpl_filename);
 	}
 

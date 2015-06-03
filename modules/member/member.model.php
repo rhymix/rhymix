@@ -57,11 +57,11 @@ class memberModel extends member
 		if(!$config->image_name_max_height) $config->image_name_max_height = 20;
 		if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
 		if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
-		if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
-		if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
+		if(!$config->profile_image_max_width) $config->profile_image_max_width = 90;
+		if(!$config->profile_image_max_height) $config->profile_image_max_height = 90;
 		if(!$config->skin) $config->skin = 'default';
 		if(!$config->colorset) $config->colorset = 'white';
-		if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'xpresseditor';
+		if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'ckeditor';
 		if(!$config->group_image_mark) $config->group_image_mark = "N";
 
 		if(!$config->identifier) $config->identifier = 'user_id';
@@ -69,8 +69,8 @@ class memberModel extends member
 		if(!$config->max_error_count) $config->max_error_count = 10;
 		if(!$config->max_error_count_time) $config->max_error_count_time = 300;
 
-		if(!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'xpresseditor';
-		if(!$config->sel_editor_colorset) $config->sel_editor_colorset = 'white';
+		if(!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'ckeditor';
+		if(!$config->sel_editor_colorset) $config->sel_editor_colorset = 'moono';
 
 		$member_config = $config;
 
@@ -138,8 +138,18 @@ class memberModel extends member
 		// When click other's nickname
 		if($member_srl != $logged_info->member_srl && $logged_info->member_srl)
 		{
-			// Send an email
-			if($member_info->email_address)
+			// Get email config
+			foreach($this->module_config->signupForm as $field)
+			{
+				if($field->name == 'email_address')
+				{
+					$email_config = $field;
+					break;
+				}
+			}
+
+			// Send an email only if email address is public
+			if(($logged_info->is_admin == 'Y' || $email_config->isPublic == 'Y') && $member_info->email_address)
 			{
 				$url = 'mailto:'.htmlspecialchars($member_info->email_address, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 				$oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
@@ -996,65 +1006,71 @@ class memberModel extends member
 
 	/**
 	 * @brief Compare plain text password to the password saved in DB
+	 * @param string $hashed_password The hash that was saved in DB
+	 * @param string $password_text The password to check
+	 * @param int $member_srl Set this to member_srl when comparing a member's password (optional)
+	 * @return bool
 	 */
 	function isValidPassword($hashed_password, $password_text, $member_srl=null)
 	{
 		// False if no password in entered
-		if(!$password_text) return false;
-
-		$isSha1 = ($this->useSha1 && function_exists('sha1'));
-
-		// Return true if the user input is equal to md5 hash value
-		if($hashed_password == md5($password_text))
+		if(!$password_text)
 		{
-			if($isSha1 && $member_srl > 0)
+			return false;
+		}
+		
+		// Check the password
+		$oPassword = new Password();
+		$current_algorithm = $oPassword->checkAlgorithm($hashed_password);
+		$match = $oPassword->checkPassword($password_text, $hashed_password, $current_algorithm);
+		if(!$match)
+		{
+			return false;
+		}
+		
+		// Update the encryption method if necessary
+		$config = $this->getMemberConfig();
+		if($member_srl > 0 && $config->password_hashing_auto_upgrade != 'N')
+		{
+			$need_upgrade = false;
+			
+			if(!$need_upgrade)
+			{
+				$required_algorithm = $oPassword->getCurrentlySelectedAlgorithm();
+				if($required_algorithm !== $current_algorithm) $need_upgrade = true;
+			}
+			
+			if(!$need_upgrade)
+			{
+				$required_work_factor = $oPassword->getWorkFactor();
+				$current_work_factor = $oPassword->checkWorkFactor($hashed_password);
+				if($current_work_factor !== false && $required_work_factor > $current_work_factor) $need_upgrade = true;
+			}
+			
+			if($need_upgrade === true)
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
-				$args->hashed_password = md5(sha1(md5($password_text)));
+				$args->hashed_password = $this->hashPassword($password_text, $required_algorithm);
 				$oMemberController = getController('member');
 				$oMemberController->updateMemberPassword($args);
 			}
-			return true;
 		}
-
-		// Return true if the user input is equal to the value of mysql_pre4_hash_password
-		if(mysql_pre4_hash_password($password_text) == $hashed_password)
-		{
-			if($isSha1 && $member_srl > 0)
-			{
-				$args = new stdClass();
-				$args->member_srl = $member_srl;
-				$args->hashed_password = md5(sha1(md5($password_text)));
-				$oMemberController = getController('member');
-				$oMemberController->updateMemberPassword($args);
-			}
-			return true;
-		}
-
-		// Verify the password by using old_password if the current db is MySQL. If correct, return true.
-		if(substr(Context::getDBType(),0,5)=='mysql')
-		{
-			$oDB = &DB::getInstance();
-			if($oDB->isValidOldPassword($password_text, $hashed_password))
-			{
-				if($isSha1 && $member_srl > 0)
-				{
-					$args = new stdClass();
-					$args->member_srl = $member_srl;
-					$args->hashed_password = md5(sha1(md5($password_text)));
-					$oMemberController = getController('member');
-					$oMemberController->updateMemberPassword($args);
-				}
-				return true;
-			}
-		}
-
-		if($isSha1 && $hashed_password == md5(sha1(md5($password_text)))) return true;
-
-		return false;
+		
+		return true;
 	}
-
+	
+	/**
+	 * @brief Create a hash of plain text password
+	 * @param string $password_text The password to hash
+	 * @param string $algorithm The algorithm to use (optional, only set this when you want to use a non-default algorithm)
+	 * @return string
+	 */
+	function hashPassword($password_text, $algorithm = null)
+	{
+		$oPassword = new Password();
+		return $oPassword->createHash($password_text, $algorithm);
+	}
 	
 	function checkPasswordStrength($password, $strength)
 	{

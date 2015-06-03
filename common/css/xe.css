@@ -44,6 +44,17 @@ a img {
 		max-width: none;
 	}
 }
+.xe-clearfix:before,
+.xe-clearfix:after {
+	content: " ";
+	display: table;
+}
+.xe-clearfix:after {
+	clear: both;
+}
+.xe-clearfix {
+	zoom: 1;
+}
 
 .xe-widget-wrapper {
 	overflow: hidden;
@@ -137,54 +148,6 @@ body>.message {
 	filter: alpha(opacity=80);
 	box-shadow: 0 0 5px #000;
 	background: #333 url("../../common/img/msg.loading.gif") no-repeat center 15px;
-}
-
-/* Admin Bar */
-#adminBar {
-	z-index: 9999;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	padding: 0;
-	width: 100%;
-	height: 28px;
-	border-top: 1px solid #eee;
-	border-bottom: 1px solid #eee;
-	font: 12px/28px Arial, Helvetica, sans-serif;
-	color: #fff;
-	overflow: hidden;
-	box-shadow: 0 0 5px #333;
-	background: #666;
-}
-#adminBar>h1 {
-	float: left;
-	margin: 0 10px 0 0;
-	padding: 6px 0 0 10px;
-	line-height: 1;
-	font-size: 12px;
-}
-#adminBar img {
-	vertical-align: top;
-}
-#adminBar>p {
-	margin: 0;
-}
-#adminBar>.admin {
-	float: left;
-}
-#adminBar>.link {
-	float: right;
-	padding: 0 10px 0 0;
-}
-#adminBar a {
-	text-decoration: none;
-	color: #fff;
-}
-#adminBar a:hover,
-#adminBar a:active,
-#adminBar a:focus {
-	text-decoration: underline;
 }
 
 /* Button */
@@ -300,7 +263,7 @@ button.btn {
 	-moz-border-radius-topleft: 4px;
 	border-top-left-radius: 4px;
 }
-.btn-group>.btn: last-child {
+.btn-group>.btn:last-child {
 	-webkit-border-top-right-radius: 4px;
 	-moz-border-radius-topright: 4px;
 	border-top-right-radius: 4px;

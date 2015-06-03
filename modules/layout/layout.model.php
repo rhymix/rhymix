@@ -56,7 +56,7 @@ class layoutModel extends layout
 		if($siteDefaultLayoutSrl)
 		{
 			$siteDefaultLayoutInfo = $this->getlayout($siteDefaultLayoutSrl);
-			$newLayout = sprintf('%s, %s', $siteDefaultLayoutInfo->title, $siteDefaultLayoutInfo->title);
+			$newLayout = sprintf('%s, %s', $siteDefaultLayoutInfo->title, $siteDefaultLayoutInfo->layout);
 			$siteDefaultLayoutInfo->layout_srl = -1;
 			$siteDefaultLayoutInfo->title = Context::getLang('use_site_default_layout');
 			$siteDefaultLayoutInfo->layout = $newLayout;
@@ -478,7 +478,7 @@ class layoutModel extends layout
 		// Include the cache file if it is valid and then return $layout_info variable
 		if(!$layout_srl)
 		{
-			$cache_file = $this->getLayoutCache($layout, Context::getLangType());
+			$cache_file = $this->getLayoutCache($layout, Context::getLangType(), $layout_type);
 		}
 		else
 		{
@@ -896,9 +896,16 @@ class layoutModel extends layout
 	 * @param string $lang_type
 	 * @return string
 	 */
-	function getLayoutCache($layout_name,$lang_type)
+	function getLayoutCache($layout_name,$lang_type,$layout_type='P')
 	{
-		return sprintf("%sfiles/cache/layout/%s.%s.cache.php", _XE_PATH_, $layout_name,$lang_type);
+		if($layout_type=='P')
+		{
+			return sprintf("%sfiles/cache/layout/%s.%s.cache.php", _XE_PATH_, $layout_name,$lang_type);
+		}
+		else
+		{
+			return sprintf("%sfiles/cache/layout/m.%s.%s.cache.php", _XE_PATH_, $layout_name,$lang_type);
+		}
 	}
 
 	/**

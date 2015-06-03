@@ -181,6 +181,7 @@ class autoinstallAdminController extends autoinstall
 		@set_time_limit(0);
 		$package_srls = Context::get('package_srl');
 		$oModel = getModel('autoinstall');
+		$oAdminModel = getAdminModel('autoinstall');
 		$packages = explode(',', $package_srls);
 		$ftp_info = Context::getFTPInfo();
 		if(!$_SESSION['ftp_password'])
@@ -196,7 +197,11 @@ class autoinstallAdminController extends autoinstall
 		foreach($packages as $package_srl)
 		{
 			$package = $oModel->getPackage($package_srl);
-			if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
+			if($oAdminModel->checkUseDirectModuleInstall($package)->toBool())
+			{
+				$oModuleInstaller = new DirectModuleInstaller($package);
+			}
+			else if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
 			{
 				$oModuleInstaller = new SFTPModuleInstaller($package);
 			}
@@ -308,7 +313,11 @@ class autoinstallAdminController extends autoinstall
 	{
 		$package_srl = Context::get('package_srl');
 
-		$this->uninstallPackageByPackageSrl($package_srl);
+		$output = $this->uninstallPackageByPackageSrl($package_srl);
+		if($output->toBool()==FALSE)
+		{
+			return $output;
+		}
 
 		if(Context::get('return_url'))
 		{
@@ -348,6 +357,8 @@ class autoinstallAdminController extends autoinstall
 	{
 		$path = $package->path;
 
+		$oAdminModel = getAdminModel('autoinstall');
+
 		if(!$_SESSION['ftp_password'])
 		{
 			$ftp_password = Context::get('ftp_password');
@@ -359,7 +370,11 @@ class autoinstallAdminController extends autoinstall
 		$ftp_info = Context::getFTPInfo();
 
 		$isSftpSupported = function_exists(ssh2_sftp);
-		if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
+		if($oAdminModel->checkUseDirectModuleInstall($package)->toBool())
+		{
+			$oModuleInstaller = new DirectModuleInstaller($package);
+		}
+		else if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
 		{
 			$oModuleInstaller = new SFTPModuleInstaller($package);
 		}

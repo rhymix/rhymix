@@ -1,7 +1,5 @@
-/*! Copyright (C) NAVER <http://www.navercorp.com> */
 /**!
- * @file   common.js + js_app.js + xml_handler.js + xml_js_filter.js
- * @brief  XE Common JavaScript
+ * @concat Xpress_Editor.js + xe_interface.js 
  **/
 (function($){
 
@@ -5210,6 +5208,8 @@ xe.XE_XHTMLFormatter = $.Class({
 			tag     = tag.toLowerCase();
 			attrs   = $.trim(attrs || '');
 
+			if(replace_tags[tag]!=undefined) tag = replace_tags[tag];
+
 			if (!closing) {
 				if ($.inArray(tag,no_closing_tags) >= 0) {
 					var len = attrs.length;
@@ -5495,7 +5495,7 @@ xe.XE_Table = $.Class({
 
 		// 첫번째 셀 가로 확장
 		var colspan = 0;
-		cell.eq(0).nextAll('td,th').andSelf().filter('.xe_selected_cell').each(function(idx){
+		cell.eq(0).nextAll('td,th').addBack().filter('.xe_selected_cell').each(function(idx){
 			colspan += self._getSpan(this, 'col');
 		});
 
@@ -5688,7 +5688,7 @@ xe.XE_Table = $.Class({
 
 	_mousedown : function(event) {
 		var cur = $(event.target);
-		var sel = cur.parents().andSelf().filter('td,th,table');
+		var sel = cur.parents().addBack().filter('td,th,table');
 		var app = this.oApp;
 		var self = this;
 
@@ -5703,7 +5703,7 @@ xe.XE_Table = $.Class({
 		function delayed(){
 			sel = app.getSelection().cloneRange();
 			sel.collapseToStart();
-			sel = $(sel.startContainer).parents().andSelf().filter('td,th').eq(0);
+			sel = $(sel.startContainer).parents().addBack().filter('td,th').eq(0);
 
 			if (!sel.length) return self._removeAllListener()||true;
 
@@ -5729,7 +5729,7 @@ xe.XE_Table = $.Class({
 
 	_mousemove : function(event) {
 		var cur  = $(event.target);
-		var cell = cur.parents().andSelf().filter('td,th').eq(0);
+		var cell = cur.parents().addBack().filter('td,th').eq(0);
 		var self = this;
 
 		// 마우스 왼쪽 버튼이 눌리지 않았으면 종료

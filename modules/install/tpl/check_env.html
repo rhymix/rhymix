@@ -5,24 +5,27 @@
 		<ul>
 			<li loop="$checklist => $key,$val" cond="!$val">
 				{@ $isDisable = TRUE}
-				<strong>{$lang->install_checklist_title[$key]}<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong> 
+				<strong>{$lang->install_checklist_title[$key]}<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong>
 				:
 				<em><i class="x_icon-ban-circle x_icon-white"></i> {$lang->disable}</em>
-				<p>{$lang->install_checklist_desc[$key]}</p>
+				<p>{sprintf($lang->install_checklist_desc[$key], __XE_MIN_PHP_VERSION__)}</p>
+				<p cond="$key == 'php_version' && $phpversion_warning === true">
+					{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="http://php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
+				</p>
 			</li>
 		</ul>
 		<div cond="!$isDisable">
 			<p>
 				<i class="x_icon-ok-sign x_icon-white"></i>
-				<strong>XE {__XE_VERSION__}</strong> {$lang->install_condition_enable} 
+				<strong>XE {__XE_VERSION__}</strong> {$lang->install_condition_enable}
 			</p>
-			<ul id="details"> 
+			<ul id="details">
 				<li loop="$checklist => $key,$val">
-					<strong>{$lang->install_checklist_title[$key]}<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong> 
+					<strong>{$lang->install_checklist_title[$key]}<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong>
 					:
 					<em>{$lang->enable}</em>
 					<p cond="$key == 'php_version' && $phpversion_warning === true">
-						{$lang->install_checklist_desc['php_version_warning']} <a href="http://php.net/eol.php" target="_blank">[{$lang->more}]</a>
+						{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="http://php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
 					</p>
 				</li>
 			</ul>
@@ -34,9 +37,10 @@
 				<block cond="$use_nginx == 'Y'"><br> {$lang->about_nginx_rewrite}</block>
 			</p>
 		</div>
+
 		<div class="ibtnArea">
 			<span class="x_pull-left">
-				<a href="{getUrl('')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
+				<a href="{getUrl('', 'act','dispInstallLicenseAgreement')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
 			</span>
 			<span class="x_pull-right">
 				<a cond="$install_enable" class="x_btn x_btn-small x_btn-inverse" id="task-checklist-confirm" href="{getUrl('','act','dispInstallSelectDB')}">{$lang->cmd_install_next} <i class="x_icon-chevron-right x_icon-white"></i></a>

@@ -283,6 +283,12 @@ class pageAdminView extends page
 			$document_srl = $this->module_info->{$target};
 			$oDocument->setDocument($document_srl);
 			Context::set('document_srl', $document_srl);
+		} 
+		else if(Context::get('document_srl'))
+		{
+			$document_srl = Context::get('document_srl');
+			$oDocument->setDocument($document_srl);
+			Context::set('document_srl', $document_srl);
 		}
 		else
 		{

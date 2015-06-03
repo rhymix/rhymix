@@ -71,6 +71,12 @@ class installAdminController extends install
 		
 		$default_url = Context::get('default_url');
 		if($default_url && strncasecmp('http://', $default_url, 7) !== 0 && strncasecmp('https://', $default_url, 8) !== 0) $default_url = 'http://'.$default_url;
+		if($default_url && substr($default_url, -1) !== '/') $default_url = $default_url.'/';
+
+		/* convert NON Alphabet URL to punycode URL - Alphabet URL will not be changed */
+		require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
+		$IDN = new idna_convert(array('idn_version' => 2008));
+		$default_url = $IDN->encode($default_url);
 
 		$use_ssl = Context::get('use_ssl');
 		if(!$use_ssl) $use_ssl = 'none';
@@ -327,26 +333,30 @@ class installAdminController extends install
 
 	private function saveIconTmp($icon, $iconname)
 	{
+
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+
 		$target_file = $icon['tmp_name'];
 		$type = $icon['type'];
-		$relative_filename = 'files/attach/xeicon/tmp/'.$iconname;
+		$relative_filename = 'files/attach/xeicon/'.$virtual_site.'tmp/'.$iconname;
 		$target_filename = _XE_PATH_.$relative_filename;
 
 		list($width, $height, $type_no, $attrs) = @getimagesize($target_file);
 		if($iconname == 'favicon.ico')
 		{
-			if(!preg_match('/^.*\.ico$/i',$type)) {
+			if(!preg_match('/^.*(x-icon|\.icon)$/i',$type)) {
 				Context::set('msg', '*.ico '.Context::getLang('msg_possible_only_file'));
-				return;
-			}
-			if($width && $height && ($width != '16' || $height != '16')) {
-				Context::set('msg', Context::getLang('msg_invalid_format').' (size : 16x16)');
 				return;
 			}
 		}
 		else if($iconname == 'mobicon.png')
 		{
-			if(!preg_match('/^.*\.png$/i',$type)) {
+			if(!preg_match('/^.*(png).*$/',$type)) {
 				Context::set('msg', '*.png '.Context::getLang('msg_possible_only_file'));
 				return;
 			}
@@ -368,7 +378,15 @@ class installAdminController extends install
 	}
 
 	private function updateIcon($iconname, $deleteIcon = false) {
-		$image_filepath = _XE_PATH_.'files/attach/xeicon/';
+
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+
+		$image_filepath = _XE_PATH_.'files/attach/xeicon/' . $virtual_site;
 
 		if($deleteIcon) {
 			FileHandler::removeFile($image_filepath.$iconname);

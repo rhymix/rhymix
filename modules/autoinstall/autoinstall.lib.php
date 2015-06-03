@@ -124,7 +124,7 @@ class ModuleInstaller
 		}
 		else
 		{
-			$subpath = substr($this->package->path, 2);
+			$subpath = trim(substr($this->package->path, 2), '/');
 			$this->download_file = $this->temp_dir . $subpath . ".tar";
 			$subpatharr = explode("/", $subpath);
 			array_pop($subpatharr);
@@ -859,6 +859,131 @@ class FTPModuleInstaller extends ModuleInstaller
 					}
 				}
 				$oFtp->ftp_put($target_dir . '/' . $file, FileHandler::getRealPath($this->download_path . "/" . $org_file));
+			}
+		}
+
+		$this->_close();
+
+		return new Object();
+	}
+
+}
+
+/**
+ * Module installer for Direct. Not use FTP
+ * @author NAVER (developers@xpressengine.com)
+ */
+class DirectModuleInstaller extends ModuleInstaller
+{
+	/**
+	 * Constructor
+	 *
+	 * @param object $package Package information
+	 */
+	function DirectModuleInstaller(&$package)
+	{
+		$this->package = &$package;
+	}
+
+	/**
+	 * empty
+	 *
+	 * @return Object
+	 */
+	function _connect()
+	{
+		return new Object();
+	}
+
+	/**
+	 * Remove file
+	 *
+	 * @param string $path Path to remove
+	 * @return Object
+	 */
+	function _removeFile($path)
+	{
+		if(substr($path, 0, 2) == "./")
+		{
+			$path = substr($path, 2);
+		}
+		$target_path = FileHandler::getRealPath($path);
+
+		if(!FileHandler::removeFile($target_path))
+		{
+			return new Object(-1, sprintf(Context::getLang('msg_delete_file_failed'), $path));
+		}
+		return new Object();
+	}
+
+	/**
+	 * Remove directory
+	 * @param string $path Path to remove
+	 * @return Object
+	 */
+	function _removeDir_real($path)
+	{
+		if(substr($path, 0, 2) == "./")
+		{
+			$path = substr($path, 2);
+		}
+		$target_path = FileHandler::getRealPath($path);
+
+		FileHandler::removeDir($target_path);
+
+		return new Object();
+	}
+
+	/**
+	 * Close
+	 *
+	 * @return void
+	 */
+	function _close()
+	{
+	}
+
+	/**
+	 * Copy directory
+	 *
+	 * @param array $file_list File list to copy
+	 * @return Object
+	 */
+	function _copyDir(&$file_list)
+	{
+		$output = $this->_connect();
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		$target_dir = $this->target_path;
+
+		if(is_array($file_list))
+		{
+			foreach($file_list as $k => $file)
+			{
+				$org_file = $file;
+				if($this->package->path == ".")
+				{
+					$file = substr($file, 3);
+				}
+				$path = FileHandler::getRealPath("./" . $this->target_path . "/" . $file);
+				$path_list = explode('/', dirname($this->target_path . "/" . $file));
+				$real_path = "./";
+
+				for($i = 0; $i < count($path_list); $i++)
+				{
+					if($path_list == "")
+					{
+						continue;
+					}
+					$real_path .= $path_list[$i] . "/";
+					if(!file_exists(FileHandler::getRealPath($real_path)))
+					{
+						FileHandler::makeDir($real_path);
+					}
+				}
+				FileHandler::copyFile( FileHandler::getRealPath($this->download_path . "/" . $org_file), FileHandler::getRealPath("./" . $target_dir . '/' . $file));
 			}
 		}
 

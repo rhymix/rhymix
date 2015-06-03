@@ -36,6 +36,7 @@ class editorModel extends editor
 
 		if(!is_object($editor_config)) $editor_config = new stdClass();
 
+		if($editor_config->enable_autosave != 'N') $editor_config->enable_autosave = 'Y';
 		if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
 		if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
 		if(!is_array($editor_config->upload_file_grant)) $editor_config->upload_file_grant = array();
@@ -45,20 +46,47 @@ class editorModel extends editor
 		if(!is_array($editor_config->enable_component_grant)) $editor_config->enable_component_grant = array();
 		if(!is_array($editor_config->enable_comment_component_grant)) $editor_config->enable_comment_component_grant= array();
 
-		if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";
+		if(!$editor_config->editor_height)
+		{
+			$editor_config->editor_height = ($editor_default_config->editor_height) ? $editor_default_config->editor_height : 500;
+		}
+		if(!$editor_config->comment_editor_height)
+		{
+			$editor_config->comment_editor_height = ($editor_default_config->comment_editor_height) ? $editor_default_config->comment_editor_height : 120;
+		}
+		if(!$editor_config->editor_skin)
+		{
+			$editor_config->editor_skin = ($editor_default_config->editor_skin) ? $editor_default_config->editor_skin : 'ckeditor';
+		}
+		if(!$editor_config->comment_editor_skin)
+		{
+			$editor_config->comment_editor_skin = ($editor_default_config->comment_editor_skin) ? $editor_default_config->comment_editor_skin : 'ckeditor';
+		}
+		if(!$editor_config->content_style)
+		{
+			$editor_config->content_style = ($editor_default_config->content_style) ? $editor_default_config->content_style : 'ckeditor_light';
+		}
+		if(!$editor_config->content_font && $editor_default_config->content_font)
+		{
+			$editor_config->content_font = $editor_default_config->content_font;
+		}
+		if(!$editor_config->content_font_size && $editor_default_config->content_font_size)
+		{
+			$editor_config->content_font_size = $editor_default_config->content_font_size;
+		}
+		if(!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset)
+		{
+			$editor_config->sel_editor_colorset = $editor_default_config->sel_editor_colorset;
+		}
+		if(!$editor_config->sel_comment_editor_colorset && $editor_default_config->sel_comment_editor_colorset)
+		{
+			$editor_config->sel_comment_editor_colorset = $editor_default_config->sel_comment_editor_colorset;
+		}
+		if(!$editor_config->comment_content_style && $editor_default_config->comment_content_style)
+		{
+			$editor_config->comment_content_style = $editor_default_config->comment_content_style;
+		}
 
-		if(!$editor_config->editor_height) if($editor_default_config->editor_height? $editor_config->editor_height = $editor_default_config->editor_height : $editor_config->editor_height = 300);
-		if(!$editor_config->comment_editor_height) if($editor_default_config->comment_editor_height? $editor_config->comment_editor_height = $editor_default_config->comment_editor_height : $editor_config->comment_editor_height = 100);
-		if(!$editor_config->editor_skin) if($editor_default_config->editor_skin? $editor_config->editor_skin = $editor_default_config->editor_skin : $editor_config->editor_skin = 'xpresseditor');
-		if(!$editor_config->comment_editor_skin) if($editor_default_config->comment_editor_skin? $editor_config->comment_editor_skin = $editor_default_config->comment_editor_skin : $editor_config->comment_editor_skin = 'xpresseditor');
-		if(!$editor_config->content_style) if($editor_default_config->content_style? $editor_config->content_style = $editor_default_config->content_style : $editor_config->content_style = 'default');
-
-		if(!$editor_config->content_font && $editor_default_config->content_font) $editor_config->content_font = $editor_default_config->content_font;
-		if(!$editor_config->content_font_size && $editor_default_config->content_font_size) $editor_config->content_font_size = $editor_default_config->content_font_size;
-
-		if(!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset) $editor_config->sel_editor_colorset = $editor_default_config->sel_editor_colorset;
-		if(!$editor_config->sel_comment_editor_colorset && $editor_default_config->sel_comment_editor_colorset) $editor_config->sel_comment_editor_colorset = $editor_default_config->sel_comment_editor_colorset;
-		if(!$editor_config->comment_content_style && $editor_default_config->comment_content_style) $editor_config->comment_content_style = $editor_default_config->comment_content_style;
 		return $editor_config;
 	}
 
@@ -177,8 +205,9 @@ class editorModel extends editor
 		if(!$option->allow_fileupload) $allow_fileupload = false;
 		else $allow_fileupload = true;
 		// content_style setting
-		if(!$option->content_style) $option->content_style = 'default';
+		if(!$option->content_style) $option->content_style = 'ckeditor_light';
 		Context::set('content_style', $option->content_style);
+		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
 		// Default font setting
 		Context::set('content_font', addslashes($option->content_font));
 		Context::set('content_font_size', $option->content_font_size);
@@ -201,11 +230,13 @@ class editorModel extends editor
 		else $editor_height = $option->height;
 		// Skin Setting
 		$skin = $option->skin;
-		if(!$skin) $skin = 'xpresseditor';
+		if(!$skin) $skin = 'ckeditor';
 
 		$colorset = $option->colorset;
+		if(!$colorset) $colorset = 'moono';
 		Context::set('colorset', $colorset);
 		Context::set('skin', $skin);
+		Context::set('module_type', $option->module_type);
 
 		if($skin=='dreditor')
 		{
@@ -305,7 +336,7 @@ class editorModel extends editor
 
 		if(!file_exists($tpl_path.$tpl_file))
 		{
-			$skin = 'xpresseditor';
+			$skin = 'ckeditor';
 			$tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
 		}
 		Context::set('editor_path', $tpl_path);
@@ -330,6 +361,7 @@ class editorModel extends editor
 		$editor_config = $this->getEditorConfig($module_srl);
 
 		$config = new stdClass();
+		$config->module_type = $type;
 
 		// Configurations listed according to a type
 		if($type == 'document')
@@ -372,6 +404,7 @@ class editorModel extends editor
 		}
 		// Pre-set option variables of editor
 		$option = new stdClass();
+		$option->module_type = $config->module_type;
 		$option->skin = $config->editor_skin;
 		$option->content_style = $config->content_style;
 		$option->content_font = $config->content_font;
@@ -379,7 +412,8 @@ class editorModel extends editor
 		$option->colorset = $config->sel_editor_colorset;
 		// Permission check for file upload
 		$option->allow_fileupload = false;
-		if(count($config->upload_file_grant))
+		if($logged_info->is_admin=='Y') $option->allow_fileupload = true;
+		elseif(count($config->upload_file_grant))
 		{
 			foreach($group_list as $group_srl => $group_info)
 			{
@@ -393,7 +427,8 @@ class editorModel extends editor
 		else $option->allow_fileupload = true;
 		// Permission check for using default components
 		$option->enable_default_component = false;
-		if(count($config->enable_default_component_grant))
+		if($logged_info->is_admin=='Y') $option->enable_default_component = true;
+		elseif(count($config->enable_default_component_grant))
 		{
 			foreach($group_list as $group_srl => $group_info)
 			{
@@ -407,7 +442,8 @@ class editorModel extends editor
 		else $option->enable_default_component = true;
 		// Permisshion check for using extended components
 		$option->enable_component = false;
-		if(count($config->enable_component_grant))
+		if($logged_info->is_admin=='Y') $option->enable_component = true;
+		elseif(count($config->enable_component_grant))
 		{
 			foreach($group_list as $group_srl => $group_info)
 			{
@@ -421,7 +457,8 @@ class editorModel extends editor
 		else $option->enable_component = true;
 		// HTML editing privileges
 		$enable_html = false;
-		if(count($config->enable_html_grant))
+		if($logged_info->is_admin=='Y') $enable_html = true;
+		elseif(count($config->enable_html_grant))
 		{
 			foreach($group_list as $group_srl => $group_info)
 			{
@@ -747,18 +784,77 @@ class editorModel extends editor
 		}
 
 		// List extra variables (text type only for editor component)
-		$extra_vars = $xml_doc->component->extra_vars->var;
+		$extra_vars = $xml_doc->component->extra_vars;
 		if($extra_vars)
 		{
-			if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
-
-			foreach($extra_vars as $key => $val)
+			$extra_var_groups = $extra_vars->group;
+			if(!$extra_var_groups)
 			{
-				$key = $val->attrs->name;
-				$extra_var = new stdClass;
-				$extra_var->title = $val->title->body;
-				$extra_var->description = $val->description->body;
-				$component_info->extra_vars->{$key} = $extra_var;
+				$extra_var_groups = $extra_vars;
+			}
+			if(!is_array($extra_var_groups))
+			{
+				$extra_var_groups = array($extra_var_groups);
+			}
+
+			foreach($extra_var_groups as $group)
+			{
+				$extra_vars = $group->var;
+				if(!is_array($group->var))
+				{
+					$extra_vars = array($group->var);
+				}
+
+				foreach($extra_vars as $key => $val)
+				{
+					if(!$val)
+					{
+						continue;
+					}
+
+					$obj = new stdClass();
+					if(!$val->attrs)
+					{
+						$val->attrs = new stdClass();
+					}
+					if(!$val->attrs->type)
+					{
+						$val->attrs->type = 'text';
+					}
+
+					$obj->group = $group->title->body;
+					$obj->name = $val->attrs->name;
+					$obj->title = $val->title->body;
+					$obj->type = $val->attrs->type;
+					$obj->description = $val->description->body;
+					if($obj->name)
+					{
+						$obj->value = $extra_vals->{$obj->name};
+					}
+					if(strpos($obj->value, '|@|') != FALSE)
+					{
+						$obj->value = explode('|@|', $obj->value);
+					}
+					if($obj->type == 'mid_list' && !is_array($obj->value))
+					{
+						$obj->value = array($obj->value);
+					}
+
+					// 'Select'type obtained from the option list.
+					if($val->options && !is_array($val->options))
+					{
+						$val->options = array($val->options);
+					}
+
+					for($i = 0, $c = count($val->options); $i < $c; $i++)
+					{
+						$obj->options[$i] = new stdClass();
+						$obj->options[$i]->title = $val->options[$i]->title->body;
+						$obj->options[$i]->value = $val->options[$i]->attrs->value;
+					}
+
+					$component_info->extra_vars->{$obj->name} = $obj;
+				}
 			}
 		}
 

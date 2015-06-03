@@ -240,12 +240,13 @@ jQuery(function($) {
 		var loc = isSameUrl(this, window.location.href) ? current_url : this;
 		var idx = loc.indexOf('?');
 		var uri = loc.replace(/#$/, '');
-		var act, re, v, toReplace;
+		var act, re, v, toReplace, query_string;
 
 		if (typeof(val)=='undefined') val = '';
 
 		if (idx != -1) {
-			var query_string = uri.substr(idx+1, loc.length), args = {}, q_list = [];
+			var args = {}, q_list = [];
+			query_string = uri.substr(idx + 1, loc.length);
 			uri = loc.substr(0, idx);
 			query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function(all,key,val) { args[key] = val; });
 
@@ -258,9 +259,12 @@ jQuery(function($) {
 			}
 
 			query_string = q_list.join('&');
-			uri = uri+(query_string?'?'+query_string:'');
+			uri = uri + (query_string ? '?' + encodeURI(query_string) : '');
 		} else {
-			if (String(val).trim()) uri = uri+'?'+key+'='+val;
+			if (String(val).trim()) {
+				query_string = '?' + key + '=' + val;
+				uri = uri + encodeURI(query_string);
+			}
 		}
 
 		re = /^https:\/\/([^:\/]+)(:\d+|)/i;
@@ -290,7 +294,7 @@ jQuery(function($) {
 		// insert index.php if it isn't included
 		uri = uri.replace(/\/(index\.php)?\?/, '/index.php?');
 
-		return encodeURI(uri);
+		return uri;
 	};
 
 	/**
@@ -416,7 +420,7 @@ function _displayMultimedia(src, width, height, options) {
 	if(/\.(gif|jpg|jpeg|bmp|png)$/i.test(src)){
 		html = '<img src="'+src+'" width="'+width+'" height="'+height+'" />';
 	} else if(/\.flv$/i.test(src) || /\.mov$/i.test(src) || /\.moov$/i.test(src) || /\.m4v$/i.test(src)) {
-		html = '<embed src="'+request_uri+'common/img/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" wmode="'+params.wmode+'" />';
+		html = '<embed src="'+request_uri+'common/img/flvplayer.swf" allowfullscreen="true" allowscriptaccess="never" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" wmode="'+params.wmode+'" />';
 	} else if(/\.swf/i.test(src)) {
 		clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
 
@@ -429,14 +433,14 @@ function _displayMultimedia(src, width, height, options) {
 				html += '<param name="'+name+'" value="'+params[name]+'" />';
 			}
 		}
-		html += '' + '<embed src="'+src+'" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>' + '</object>';
+		html += '' + '<embed src="'+src+'" allowscriptaccess="never" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>' + '</object>';
 	}  else {
 		if (jQuery.browser.mozilla || jQuery.browser.opera) {
 			// firefox and opera uses 0 or 1 for autostart parameter.
 			autostart = (params.autostart && params.autostart != 'false') ? '1' : '0';
 		}
 
-		html = '<embed src="'+src+'" autostart="'+autostart+'" width="'+width+'" height="'+height+'"';
+		html = '<embed src="'+src+'" allowscriptaccess="never" autostart="'+autostart+'" width="'+width+'" height="'+height+'"';
 		if(params.wmode == 'transparent') {
 			html += ' windowlessvideo="1"';
 		}
@@ -596,14 +600,36 @@ function doDocumentLoad(obj) {
 }
 
 /* 저장된 게시글의 선택 */
-function doDocumentSelect(document_srl) {
+function doDocumentSelect(document_srl, module) {
 	if(!opener || !opener.objForSavedDoc) {
 		window.close();
 		return;
 	}
 
+	if(module===undefined) {
+		module = 'document';
+	}
+
 	// 게시글을 가져와서 등록하기
-	opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
+	switch(module) {
+		case 'page' :
+			var url = opener.current_url;
+			url = url.setQuery('document_srl', document_srl);
+
+			if(url.getQuery('act') === 'dispPageAdminMobileContentModify')
+			{
+				url = url.setQuery('act', 'dispPageAdminMobileContentModify');
+			}
+			else
+			{
+				url = url.setQuery('act', 'dispPageAdminContentModify');
+			}
+			opener.location.href = url;
+			break;
+		default :
+			opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
+			break;
+	}
 	window.close();
 }
 
@@ -900,7 +926,7 @@ function get_by_id(id) {
 
 jQuery(function($){
 	// display popup menu that contains member actions and document actions
-	$(document).click(function(evt) {
+	$(document).on('click', function(evt) {
 		var $area = $('#popup_menu_area');
 		if(!$area.length) $area = $('<div id="popup_menu_area" tabindex="0" style="display:none;z-index:9999" />').appendTo(document.body);
 
@@ -915,6 +941,18 @@ jQuery(function($){
 		var cls = $target.attr('class'), match;
 		if(cls) match = cls.match(new RegExp('(?:^| )((document|comment|member)_([1-9]\\d*))(?: |$)',''));
 		if(!match) return;
+
+		// mobile에서 touchstart에 의한 동작 시 pageX, pageY 위치를 구함
+		if(evt.pageX===undefined || evt.pageY===undefined)
+		{
+			var touch = evt.originalEvent.touches[0];
+			if(touch!==undefined || !touch)
+			{
+				touch = evt.originalEvent.changedTouches[0];
+			}
+			evt.pageX = touch.pageX;
+			evt.pageY = touch.pageY;
+		}
 
 		var action = 'get'+ucfirst(match[2])+'Menu';
 		var params = {

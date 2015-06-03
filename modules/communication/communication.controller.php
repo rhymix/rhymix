@@ -153,7 +153,7 @@ class communicationController extends communication
 			else
 			{
 				$this->setMessage('success_sended');
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('act', 'dispCommunicationMessages', 'message_type', 'S', 'receiver_srl', $receiver_srl, 'message_srl', '');
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('','act', 'dispCommunicationMessages', 'message_type', 'S', 'receiver_srl', $receiver_srl, 'message_srl', '');
 				$this->setRedirectUrl($returnUrl);
 			}
 		}
@@ -162,7 +162,7 @@ class communicationController extends communication
 	}
 
 	/**
-	 * Send a message (DB controll)
+	 * Send a message (DB control)
 	 * @param int $sender_srl member_srl of sender
 	 * @param int $receiver_srl member_srl of receiver_srl
 	 * @param string $title
@@ -175,6 +175,9 @@ class communicationController extends communication
 		$content = removeHackTag($content);
 		$title = htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 
+		$message_srl = getNextSequence();
+		$related_srl = getNextSequence();
+
 		// messages to save in the sendor's message box
 		$sender_args = new stdClass();
 		$sender_args->sender_srl = $sender_srl;
@@ -184,15 +187,15 @@ class communicationController extends communication
 		$sender_args->content = $content;
 		$sender_args->readed = 'N';
 		$sender_args->regdate = date("YmdHis");
-		$sender_args->message_srl = getNextSequence();
-		$sender_args->related_srl = getNextSequence();
+		$sender_args->message_srl = $message_srl;
+		$sender_args->related_srl = $related_srl;
 		$sender_args->list_order = $sender_args->message_srl * -1;
 
 		// messages to save in the receiver's message box
 		$receiver_args = new stdClass();
-		$receiver_args->message_srl = $sender_args->related_srl;
+		$receiver_args->message_srl = $related_srl;
 		$receiver_args->related_srl = 0;
-		$receiver_args->list_order = $sender_args->related_srl * -1;
+		$receiver_args->list_order = $related_srl * -1;
 		$receiver_args->sender_srl = $sender_srl;
 		if(!$receiver_args->sender_srl)
 		{
@@ -210,6 +213,7 @@ class communicationController extends communication
 		$trigger_obj->sender_srl = $sender_srl;
 		$trigger_obj->receiver_srl = $receiver_srl;
 		$trigger_obj->message_srl = $message_srl;
+		$trigger_obj->related_srl = $related_srl;
 		$trigger_obj->title = $title;
 		$trigger_obj->content = $content;
 		$trigger_obj->sender_log = $sender_log;

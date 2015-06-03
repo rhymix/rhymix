@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
     <grants />
-    <permissions />
+    <permissions>
+        <permission action="procRssAdminInsertModuleConfig" target="manager" />
+    </permissions>
     <actions>
         <action name="dispRssAdminIndex" type="view" index="true" admin_index="true" menu_name="rss" menu_index="true" />
         <action name="rss" type="view" />

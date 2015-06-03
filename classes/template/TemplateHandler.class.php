@@ -68,7 +68,7 @@ class TemplateHandler
 	 * @param string $tpl_file
 	 * @return void
 	 */
-	private function init($tpl_path, $tpl_filename, $tpl_file = '')
+	protected function init($tpl_path, $tpl_filename, $tpl_file = '')
 	{
 		// verify arguments
 		if(substr($tpl_path, -1) != '/')
@@ -213,7 +213,7 @@ class TemplateHandler
 	 * @param string $buff template file
 	 * @return string compiled result in case of success or NULL in case of error
 	 */
-	private function parse($buff = null)
+	protected function parse($buff = null)
 	{
 		if(is_null($buff))
 		{
@@ -362,18 +362,46 @@ class TemplateHandler
 			$__Context->logged_info = Context::get('logged_info');
 		}
 
+		$level = ob_get_level();
 		ob_start();
 		if(substr($buff, 0, 7) == 'file://')
 		{
-			include(substr($buff, 7));
+			if(__DEBUG__)
+			{
+				//load cache file from disk
+				$eval_str = FileHandler::readFile(substr($buff, 7));
+				$eval_str_buffed = "?>" . $eval_str;
+				@eval($eval_str_buffed);
+				$error_info = error_get_last();
+				//parse error
+				if ($error_info['type'] == 4)
+				{
+				    throw new Exception("Error Parsing Template - {$error_info['message']} in template file {$this->file}");
+				}
+			}
+			else
+			{
+				include(substr($buff, 7));
+			}
 		}
 		else
 		{
 			$eval_str = "?>" . $buff;
-			eval($eval_str);
+			@eval($eval_str);
+			$error_info = error_get_last();
+			//parse error
+			if ($error_info['type'] == 4)
+			{
+			    throw new Exception("Error Parsing Template - {$error_info['message']} in template file {$this->file}");
+			}
 		}
 
-		return ob_get_clean();
+		$contents = '';
+		while (ob_get_level() - $level > 0) {
+			$contents .= ob_get_contents();
+			ob_end_clean();
+		}
+		return $contents;
 	}
 
 	/**
@@ -631,7 +659,7 @@ class TemplateHandler
 					$metafile = '';
 					$pathinfo = pathinfo($attr['target']);
 					$doUnload = ($m[3] === 'unload');
-					$isRemote = !!preg_match('@^https?://@i', $attr['target']);
+					$isRemote = !!preg_match('@^(https?:)?//@i', $attr['target']);
 
 					if(!$isRemote)
 					{

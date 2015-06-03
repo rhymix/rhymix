@@ -39,7 +39,9 @@ class documentController extends document
 		if($document_config->use_vote_up=='N') return new Object(-1, 'msg_invalid_request');
 
 		$point = 1;
-		return $this->updateVotedCount($document_srl, $point);
+		$output = $this->updateVotedCount($document_srl, $point);
+		$this->add('voted_count', $output->get('voted_count'));
+		return $output;
 	}
 
 	/**
@@ -82,7 +84,9 @@ class documentController extends document
 		if($document_config->use_vote_down=='N') return new Object(-1, 'msg_invalid_request');
 
 		$point = -1;
-		return $this->updateVotedCount($document_srl, $point);
+		$output = $this->updateVotedCount($document_srl, $point);
+		$this->add('blamed_count', $output->get('blamed_count'));
+		return $output;
 	}
 
 	/**
@@ -251,8 +255,11 @@ class documentController extends document
 		if(!$obj->readed_count) $obj->readed_count = 0;
 		if($isLatest) $obj->update_order = $obj->list_order = $obj->document_srl * -1;
 		else $obj->update_order = $obj->list_order;
-		// Check the status of password hash for manually inserting. Apply md5 hashing for otherwise.
-		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
+		// Check the status of password hash for manually inserting. Apply hashing for otherwise.
+		if($obj->password && !$obj->password_is_hashed)
+		{
+			$obj->password = getModel('member')->hashPassword($obj->password);
+		}
 		// Insert member's information only if the member is logged-in and not manually registered.
 		$logged_info = Context::get('logged_info');
 		if(Context::get('is_logged') && !$manual_inserted && !$isRestore)
@@ -268,7 +275,7 @@ class documentController extends document
 		}
 		// If the tile is empty, extract string from the contents.
 		settype($obj->title, "string");
-		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
+		if($obj->title == '') $obj->title = cut_str(trim(strip_tags(nl2br($obj->content))),20,'...');
 		// If no tile extracted from the contents, leave it untitled.
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
@@ -333,7 +340,10 @@ class documentController extends document
 		$oDB->commit();
 
 		// return
-		$this->addGrant($obj->document_srl);
+		if(!$manual_inserted)
+		{
+			$this->addGrant($obj->document_srl);
+		}
 		$output->add('document_srl',$obj->document_srl);
 		$output->add('category_srl',$obj->category_srl);
 
@@ -434,13 +444,16 @@ class documentController extends document
 		}
 		// Change the update order
 		$obj->update_order = getNextSequence() * -1;
-		// Hash by md5 if the password exists
-		if($obj->password) $obj->password = md5($obj->password);
+		// Hash the password if it exists
+		if($obj->password)
+		{
+			$obj->password = getModel('member')->hashPassword($obj->password);
+		}
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
 		if(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
-			if($source_obj->get('member_srl')==$logged_info->member_srl || $bUseHistory)
+			if($source_obj->get('member_srl')==$logged_info->member_srl)
 			{
 				$obj->member_srl = $logged_info->member_srl;
 				$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
@@ -512,30 +525,33 @@ class documentController extends document
 			return $output;
 		}
 		// Remove all extra variables
-		$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
-		// Insert extra variables if the document successfully inserted.
-		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
-		if(count($extra_keys))
+		if(Context::get('act')!='procFileDelete')
 		{
-			foreach($extra_keys as $idx => $extra_item)
+			$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
+			// Insert extra variables if the document successfully inserted.
+			$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
+			if(count($extra_keys))
 			{
-				$value = NULL;
-				if(isset($obj->{'extra_vars'.$idx}))
+				foreach($extra_keys as $idx => $extra_item)
 				{
-					$tmp = $obj->{'extra_vars'.$idx};
-					if(is_array($tmp))
-						$value = implode('|@|', $tmp);
-					else
-						$value = trim($tmp);
+					$value = NULL;
+					if(isset($obj->{'extra_vars'.$idx}))
+					{
+						$tmp = $obj->{'extra_vars'.$idx};
+						if(is_array($tmp))
+							$value = implode('|@|', $tmp);
+						else
+							$value = trim($tmp);
+					}
+					else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
+					if($value == NULL) continue;
+					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 				}
-				else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
-				if($value == NULL) continue;
-				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
+			// Inert extra vars for multi-language support of title and contents.
+			if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
+			if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 		}
-		// Inert extra vars for multi-language support of title and contents.
-		if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
-		if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 		// Update the category if the category_srl exists.
 		if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl)
 		{
@@ -816,6 +832,9 @@ class documentController extends document
 	 */
 	function updateReadedCount(&$oDocument)
 	{
+		// Pass if Crawler access
+		if(isCrawler()) return false;
+		
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
@@ -867,7 +886,10 @@ class documentController extends document
 		}
 
 		// Register session
-		$_SESSION['readed_document'][$document_srl] = true;
+		if(!$_SESSION['banned_document'][$document_srl]) 
+		{
+			$_SESSION['readed_document'][$document_srl] = true;
+		}
 
 		return TRUE;
 	}
@@ -1248,6 +1270,8 @@ class documentController extends document
 			return $output;
 		}
 
+		$this->add('declared_count', $declared_count+1);
+
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;
 		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'after', $trigger_obj);
@@ -1551,6 +1575,7 @@ class documentController extends document
 		$this->updateCategory($cur_args);
 		// Category information
 		$next_args = new stdClass;
+		$next_args->category_srl = $next_category->category_srl;
 		$next_args->list_order = $list_order;
 		$next_args->title = $next_category->title;
 		$this->updateCategory($next_args);
@@ -2238,7 +2263,7 @@ class documentController extends document
 
 				if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\">%s</a>", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
 				else $purl = "";
-				$content .= sprintf("<div>%s</div><hr />%s<div style=\"font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent(false, false, false));
+				$content = sprintf("<div>%s</div><hr />%s<div style=\"font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent(false, false, false));
 
 				$oCommunicationController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
 			}
@@ -2472,18 +2497,13 @@ class documentController extends document
 		if(is_array($documentSrlList))
 		{
 			$documentSrlList = array_unique($documentSrlList);
-			foreach($documentSrlList AS $key=>$documentSrl)
+			foreach($documentSrlList AS $key => $documentSrl)
 			{
-				$oldDocument = $oDocumentModel->getDocument($documentSrl);
 				$fileCount = $oFileModel->getFilesCount($documentSrl);
-
-				if($oldDocument != null)
-				{
-					$newDocumentArray = $oldDocument->variables;
-					$newDocumentArray['uploaded_count'] = $fileCount;
-					$newDocumentObject = (object) $newDocumentArray;
-					$this->updateDocument($oldDocument, $newDocumentObject);
-				}
+				$args = new stdClass();
+				$args->document_srl = $documentSrl;
+				$args->uploaded_count = $fileCount;
+				executeQuery('document.updateUploadedCount', $args);
 			}
 		}
 	}

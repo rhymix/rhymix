@@ -8,7 +8,7 @@
 class FrontEndFileHandler extends Handler
 {
 
-	static $isSSL = FALSE;
+	static $isSSL = null;
 
 	/**
 	 * Map for css
@@ -50,12 +50,13 @@ class FrontEndFileHandler extends Handler
 	 * Check SSL
 	 *
 	 * @return bool If using ssl returns true, otherwise returns false.
+     * @deprecated
 	 */
 	function isSsl()
 	{
-		if(self::$isSSL)
+		if(!is_null(self::$isSSL))
 		{
-			return TRUE;
+			return self::$isSSL;
 		}
 
 		$url_info = parse_url(Context::getRequestUrl());
@@ -343,6 +344,10 @@ class FrontEndFileHandler extends Handler
 		if(strpos($path, '://') === FALSE && $path{0} != '/' && $path{0} != '.')
 		{
 			$path = './' . $path;
+		}
+		elseif(!strncmp($path, '//', 2))
+		{
+			return preg_replace('#^//+#', '//', $path);
 		}
 
 		$path = preg_replace('@/\./|(?<!:)\/\/@', '/', $path);

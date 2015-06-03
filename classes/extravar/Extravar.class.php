@@ -225,6 +225,11 @@ class ExtraItem
 					$values = explode(',', $value);
 				}
 
+				$values = array_values($values);
+				for($i = 0, $c = count($values); $i < $c; $i++)
+				{
+					$values[$i] = trim(htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+				}
 				return $values;
 
 			case 'checkbox' :
@@ -247,11 +252,11 @@ class ExtraItem
 					$values = array($value);
 				}
 
+				$values = array_values($values);
 				for($i = 0, $c = count($values); $i < $c; $i++)
 				{
 					$values[$i] = trim(htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 				}
-
 				return $values;
 
 			case 'kr_zip' :
@@ -268,6 +273,11 @@ class ExtraItem
 					$values = array($value);
 				}
 
+				$values = array_values($values);
+				for($i = 0, $c = count($values); $i < $c; $i++)
+				{
+					$values[$i] = trim(htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+				}
 				return $values;
 
 			//case 'date' :
@@ -297,7 +307,7 @@ class ExtraItem
 				return ($value) ? sprintf('<a href="mailto:%s">%s</a>', $value, $value) : "";
 
 			case 'tel' :
-				return sprintf('%s - %s - %s', $value[0], $value[1], $value[2]);
+				return sprintf('%s-%s-%s', $value[0], $value[1], $value[2]);
 				
 			case 'textarea' :
 				return nl2br($value);

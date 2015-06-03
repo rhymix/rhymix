@@ -9,6 +9,7 @@ class installController extends install
 {
 	var $db_tmp_config_file = '';
 	var $etc_tmp_config_file = '';
+	var $flagLicenseAgreement = './files/env/license_agreement';
 
 	/**
 	 * @brief Initialization
@@ -204,7 +205,7 @@ class installController extends install
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
 			header('location:'.$returnUrl);
-			return;
+			return new Object();
 		}
 	}
 
@@ -225,7 +226,8 @@ class installController extends install
 		);
 		$db_info->slave_db = array($db_info->master_db);
 		$db_info->default_url = Context::getRequestUri();
-		$db_info->lang_type = Context::getLangType();
+		$db_info->lang_type = Context::get('lang_type') ? Context::get('lang_type') : Context::getLangType();
+		Context::setLangType($db_info->lang_type);
 		$db_info->use_rewrite = Context::get('use_rewrite');
 		$db_info->time_zone = Context::get('time_zone');
 
@@ -338,14 +340,17 @@ class installController extends install
 		// Check each item
 		$checklist = array();
 		// 0. check your version of php (5.2.4 or higher)
-		if(version_compare(PHP_VERSION, '5.2.4') == -1) $checklist['php_version'] = false;
-		else if(version_compare(PHP_VERSION, '5.3.10') == -1)
+		$checklist['php_version'] = true;
+		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<'))
 		{
-			$checklist['php_version'] = true;
+			$checklist['php_version'] = false;
+		}
+
+		if(version_compare(PHP_VERSION, __XE_RECOMMEND_PHP_VERSION__, '<'))
+		{
 			Context::set('phpversion_warning', true);
 		}
-		else $checklist['php_version'] = true;
-		
+
 		// 1. Check permission
 		if(is_writable('./')||is_writable('./files')) $checklist['permission'] = true;
 		else $checklist['permission'] = false;
@@ -353,7 +358,7 @@ class installController extends install
 		if(function_exists('xml_parser_create')) $checklist['xml'] = true;
 		else $checklist['xml'] = false;
 		// 3. Check if ini_get (session.auto_start) == 1
-		if(ini_get(session.auto_start)!=1) $checklist['session'] = true;
+		if(ini_get('session.auto_start')!=1) $checklist['session'] = true;
 		else $checklist['session'] = false;
 		// 4. Check if iconv exists
 		if(function_exists('iconv')) $checklist['iconv'] = true;
@@ -377,6 +382,33 @@ class installController extends install
 	}
 
 	/**
+	 * @brief License agreement
+	 */
+	function procInstallLicenseAggrement()
+	{
+		$vars = Context::getRequestVars();
+
+		$license_agreement = ($vars->license_agreement == 'Y') ? true : false;
+
+		if($license_agreement)
+		{
+			$currentTime = $_SERVER['REQUEST_TIME'];
+			FileHandler::writeFile($this->flagLicenseAgreement, $currentTime);
+		}
+		else
+		{
+			FileHandler::removeFile($this->flagLicenseAgreement);
+			return new Object(-1, 'msg_must_accept_license_agreement');
+		}
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
+			$this->setRedirectUrl($returnUrl);
+		}
+	}
+
+	/**
 	 * check this server can use rewrite module
 	 * make a file to files/config and check url approach by ".htaccess" rules
 	 *
@@ -388,26 +420,34 @@ class installController extends install
 
 		FileHandler::writeFile(_XE_PATH_.$checkFilePath, trim($checkString));
 
+		$scheme = ($_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
 		$hostname = $_SERVER['SERVER_NAME'];
 		$port = $_SERVER['SERVER_PORT'];
-		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
-		$currentPath = str_replace($_SERVER['DOCUMENT_ROOT'], "", _XE_PATH_);
-		if($currentPath != "")
-			$query = $currentPath . $query;
-
-		$fp = @fsockopen($hostname, $port, $errno, $errstr, 5);
-		if(!$fp) return false;
-
-		fputs($fp, "GET {$query} HTTP/1.0\r\n");
-		fputs($fp, "Host: {$hostname}\r\n\r\n");
-
-		$buff = '';
-		while(!feof($fp)) {
-			$str = fgets($fp, 1024);
-			if(trim($str)=='') $start = true;
-			if($start) $buff .= $str;
+		$str_port = '';
+		if($port)
+		{
+			$str_port = ':' . $port;
 		}
-		fclose($fp);
+
+		$tmpPath = $_SERVER['DOCUMENT_ROOT'];
+
+		//if DIRECTORY_SEPARATOR is not /(IIS)
+		if(DIRECTORY_SEPARATOR !== '/')
+		{
+			//change to slash for compare
+			$tmpPath = str_replace(DIRECTORY_SEPARATOR, '/', $_SERVER['DOCUMENT_ROOT']);
+		}
+
+		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
+		$currentPath = str_replace($tmpPath, "", _XE_PATH_);
+		if($currentPath != "")
+		{
+			$query = $currentPath . $query;
+		}
+		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
+		$requestConfig = array();
+		$requestConfig['ssl_verify_peer'] = false;
+		$buff = FileHandler::getRemoteResource($requestUrl, null, 3, 'GET', null, array(), array(), array(), $requestConfig);
 
 		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
 

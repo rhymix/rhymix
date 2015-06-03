@@ -19,7 +19,7 @@ class boardAdminController extends board {
 	 * @brief insert borad module
 	 **/
 	function procBoardAdminInsertBoard($args = null) {
-		// igenerate module model/controller object
+		// generate module model/controller object
 		$oModuleController = getController('module');
 		$oModuleModel = getModel('module');
 
@@ -30,12 +30,24 @@ class boardAdminController extends board {
 		if(is_array($args->use_status)) $args->use_status = implode('|@|', $args->use_status);
 		unset($args->board_name);
 
+		// setup extra_order_target
+		$extra_order_target = array();
+		if($args->module_srl)
+		{
+			$oDocumentModel = getModel('document');
+			$module_extra_vars = $oDocumentModel->getExtraKeys($args->module_srl);
+			foreach($module_extra_vars as $oExtraItem)
+			{
+				$extra_order_target[$oExtraItem->eid] = $oExtraItem->name;
+			}
+		}
+
 		// setup other variables
 		if($args->except_notice != 'Y') $args->except_notice = 'N';
 		if($args->use_anonymous != 'Y') $args->use_anonymous = 'N';
 		if($args->consultation != 'Y') $args->consultation = 'N';
 		if($args->protect_content!= 'Y') $args->protect_content = 'N';
-		if(!in_array($args->order_target,$this->order_target)) $args->order_target = 'list_order';
+		if(!in_array($args->order_target,$this->order_target) && !array_key_exists($args->order_target, $extra_order_target)) $args->order_target = 'list_order';
 		if(!in_array($args->order_type, array('asc', 'desc'))) $args->order_type = 'asc';
 
 		// if there is an existed module

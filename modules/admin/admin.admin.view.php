@@ -24,6 +24,21 @@ class adminAdminView extends admin
 	 */
 	var $easyinstallCheckFile = './files/env/easyinstall_last';
 
+	function __construct()
+	{
+		$db_info = Context::getDBInfo();
+
+		if(strpos($db_info->default_url, 'xn--') !== FALSE)
+		{
+			$xe_default_url = Context::decodeIdna($db_info->default_url);
+		}
+		else
+		{
+			$xe_default_url = $db_info->default_url;
+		}
+		Context::set('xe_default_url', $xe_default_url);
+	}
+
 	/**
 	 * Initilization
 	 * @return void
@@ -146,7 +161,7 @@ class adminAdminView extends admin
 		$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
 		$currentAct = Context::get('act');
 		$subMenuTitle = '';
-		
+
 		foreach((array) $moduleActionInfo->menu as $key => $value)
 		{
 			if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
@@ -248,6 +263,9 @@ class adminAdminView extends admin
 	 */
 	function dispAdminIndex()
 	{
+		$db_info = Context::getDBInfo();
+		Context::set('db_info',$db_info);
+
 		// Get statistics
 		$args = new stdClass();
 		$args->date = date("Ymd000000", $_SERVER['REQUEST_TIME'] - 60 * 60 * 24);
@@ -273,7 +291,6 @@ class adminAdminView extends admin
 		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'title', 'nick_name', 'member_srl');
 		$args->list_count = 5;
-		;
 		$output = $oDocumentModel->getDocumentList($args, FALSE, FALSE, $columnList);
 		Context::set('latestDocumentList', $output->data);
 		unset($args, $output, $columnList);
@@ -381,6 +398,16 @@ class adminAdminView extends admin
 			$isEnviromentGatheringAgreement = TRUE;
 		}
 		Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
+
+		// license agreement check
+		$isLicenseAgreement = FALSE;
+		$path = FileHandler::getRealPath('./files/env/license_agreement');
+		$isLicenseAgreement = FALSE;
+		if(file_exists($path))
+		{
+			$isLicenseAgreement = TRUE;
+		}
+		Context::set('isLicenseAgreement', $isLicenseAgreement);
 		Context::set('layout', 'none');
 
 		$this->setTemplateFile('index');
@@ -398,6 +425,10 @@ class adminAdminView extends admin
 
 		Context::set('selected_lang', $db_info->lang_type);
 
+		if(strpos($db_info->default_url, 'xn--') !== FALSE)
+		{
+			$db_info->default_url = Context::decodeIdna($db_info->default_url);
+		}
 		Context::set('default_url', $db_info->default_url);
 		Context::set('langs', Context::loadLangSupported());
 
@@ -411,7 +442,7 @@ class adminAdminView extends admin
 		Context::set('use_sitelock', $db_info->use_sitelock);
 		Context::set('sitelock_title', $db_info->sitelock_title);
 		Context::set('sitelock_message', htmlspecialchars($db_info->sitelock_message, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-		
+
 		$whitelist = implode("\r\n", $db_info->sitelock_whitelist);
 		Context::set('sitelock_whitelist', $whitelist);
 
@@ -436,7 +467,7 @@ class adminAdminView extends admin
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
 		Context::set('siteTitle', $config->siteTitle);
-		Context::set('htmlFooter', $config->htmlFooter);
+		Context::set('htmlFooter', htmlspecialchars($config->htmlFooter));
 
 		// embed filter
 		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
@@ -515,7 +546,6 @@ class adminAdminView extends admin
 			$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server . $params);
 			Context::addHtmlFooter($img);
 
-			FileHandler::removeDir($path);
 			FileHandler::writeFile($path . $mainVersion, '1');
 		}
 		else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path . $mainVersion)))
@@ -528,7 +558,6 @@ class adminAdminView extends admin
 				Context::addHtmlFooter($img);
 			}
 
-			FileHandler::removeDir($path);
 			FileHandler::writeFile($path . $mainVersion, '1');
 			unset($_SESSION['enviroment_gather']);
 		}
@@ -558,7 +587,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrModuleName = explode("|", $str);
 				$oModuleModel = getModel("module");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrModuleName as $moduleName) {
 					$moduleInfo = $oModuleModel->getModuleInfoXml($moduleName);
 					$mInfo[] = "{$moduleName}({$moduleInfo->version})";
@@ -568,7 +597,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrAddonName = explode("|", $str);
 				$oAddonModel = getAdminModel("addon");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrAddonName as $addonName) {
 					$addonInfo = $oAddonModel->getAddonInfoXml($addonName);
 					$mInfo[] = "{$addonName}({$addonInfo->version})";
@@ -578,7 +607,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrWidgetName = explode("|", $str);
 				$oWidgetModel = getModel("widget");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrWidgetName as $widgetName) {
 					$widgetInfo = $oWidgetModel->getWidgetInfo($widgetName);
 					$mInfo[] = "{$widgetName}({$widgetInfo->version})";
@@ -588,7 +617,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrWidgetstyleName = explode("|", $str);
 				$oWidgetModel = getModel("widget");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrWidgetstyleName as $widgetstyleName) {
 					$widgetstyleInfo = $oWidgetModel->getWidgetStyleInfo($widgetstyleName);
 					$mInfo[] = "{$widgetstyleName}({$widgetstyleInfo->version})";
@@ -599,7 +628,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrLayoutName = explode("|", $str);
 				$oLayoutModel = getModel("layout");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrLayoutName as $layoutName) {
 					$layoutInfo = $oLayoutModel->getLayoutInfo($layoutName);
 					$mInfo[] = "{$layoutName}({$layoutInfo->version})";
@@ -619,6 +648,7 @@ class adminAdminView extends admin
 		$info['PHP_Core'] = $php_core;
 
 		$str_info = "[XE Server Environment " . date("Y-m-d") . "]\n\n";
+		$str_info .= "realpath : ".realpath('./')."\n";
 		foreach( $info as $key=>$value )
 		{
 			if( is_array( $value ) == false ) {

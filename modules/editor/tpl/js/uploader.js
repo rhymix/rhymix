@@ -49,7 +49,7 @@ var uploadAutosaveChecker = false;
 
 		settings = {
 			flash_url   : request_uri + 'modules/editor/tpl/images/SWFUpload.swf',
-			upload_url  : request_uri.replace(/^https/i, 'http')+'index.php',
+			upload_url  : request_uri + 'index.php',
 			post_params : {
 				mid : current_mid,
 				act : 'procFileUpload',
@@ -115,7 +115,8 @@ var uploadAutosaveChecker = false;
 		}
 
 		if(is_def(window.xeVid)) settings.post_params.vid = xeVid;
-		settings.post_params[cfg.sessionName] = getCookie(cfg.sessionName);
+		settings.sessionName = cfg.sessionName;
+		if(getCookie(cfg.sessionName)) settings.post_params[cfg.sessionName] = getCookie(cfg.sessionName);
 
 		uploaderSettings[seq] = settings;
 
@@ -166,6 +167,7 @@ var uploadAutosaveChecker = false;
 		},
 		onFileDialogComplete : function(numFilesSelected, numFilesQueued) {
 			try {
+				if(getCookie(this.settings.sessionName)) this.addPostParam(this.settings.sessionName, getCookie(this.settings.sessionName));
 				this.startUpload();
 			} catch (e)  {
 				this.debug(e);
@@ -173,6 +175,7 @@ var uploadAutosaveChecker = false;
 		},
 		onUploadStart : _true,
 		onUploadProgress : function(file, bytesLoaded, bytesTotal) {
+			if(getCookie(this.settings.sessionName)) this.addPostParam(this.settings.sessionName, getCookie(this.settings.sessionName));
 			try {
 				var $list, $lastopt, percent, filename;
 
@@ -333,7 +336,7 @@ function previewFiles(event, file_srl) {
 	var $opt, $select, $preview, fileinfo, filename, match, html, $=jQuery;
 
 	if(!file_srl) {
-		$opt = $(event.target).parent().andSelf().filter('select').find('>option:selected');
+		$opt = $(event.target).parent().addBack().filter('select').find('>option:selected');
 		if(!$opt.length) return;
 
 		file_srl = $opt.attr('value');

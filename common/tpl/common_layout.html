@@ -29,7 +29,7 @@
 <script src="{$js_file['file']}"></script>
 <block cond="$js_file['targetie']"><![endif]--></block>
 </block>
-<!--[if lt IE 9]><script src="../js/html5.js"></script><![endif]-->
+
 <!-- RSS -->
 <link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" cond="$rss_url" />
 <link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" cond="$general_rss_url" />
@@ -67,7 +67,6 @@ xe.msg_select_menu = "{$lang->msg_select_menu}";
 {@$isAdminKind = true}
 <!--@end-->
 <body{Context::getBodyClass()}>
-<include target="../../modules/admin/tpl/admin_bar.html" cond="$logged_info->is_admin=='Y' && !$isAdminKind && Context::get('current_module_info')->module_type == 'view' && Context::get('admin_bar') != 'false'" />
 {Context::getBodyHeader()}
 {$content}
 {Context::getHtmlFooter()}
@@ -78,48 +77,5 @@ xe.msg_select_menu = "{$lang->msg_select_menu}";
 <block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block><script src="{$js_file['file']}"></script><block cond="$js_file['targetie']"><![endif]--></block>
 </block>
 
-<script cond="$logged_info->is_admin=='Y' && !$isAdminKind && Context::get('current_module_info')->module_type == 'view' && Context::get('admin_bar') != 'false'">
-jQuery(function($){
-	function get_body_margin(position){
-		var margin = $('body').css('margin-' + position);
-		var unit = margin.substr(-2);
-
-		if(unit == 'px'){
-			margin = parseInt(margin);
-		}else{
-			margin = 0;
-		}
-
-		return margin;
-	}
-
-	var height = $('#adminBar').outerHeight();
-	var margin_top = get_body_margin('top');
-	var new_margin_top = margin_top + height;
-
-	$('body').css({
-		'margin-top': new_margin_top + 'px'
-	})
-
-	var $fixed_elements = $('*').filter(function(){
-		if($(this).get(0) == $('#adminBar').get(0)) return false;
-		if($(this).css("position") !== 'fixed') return false;
-
-		var invisible = false;
-		if(!$(this).is(':visible')){
-			invisible = true;
-			$(this).show();
-		}
-		var top = $(this).position().top;
-		if(invisible){
-			$(this).hide();
-		}
-		if(top > height) return false;
-
-		$(this).css('top', top + height);
-		return true;
-	});
-});
-</script>
 </body>
 </html>

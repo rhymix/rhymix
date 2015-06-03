@@ -523,19 +523,21 @@ class documentItem extends Object
 
 	function getSummary($str_size = 50, $tail = '...')
 	{
-		$content = $this->getContent(false,false);
+		$content = $this->getContent(FALSE, FALSE);
+		
+		$content = nl2br($content);
 
 		// For a newlink, inert a whitespace
 		$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
 
 		// Replace tags such as </p> , </div> , </li> and others to a whitespace
-		$content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
+		$content = str_replace(array('</p>', '</div>', '</li>', '-->'), ' ', $content);
 
 		// Remove Tags
-		$content = preg_replace('!<([^>]*?)>!is','', $content);
+		$content = preg_replace('!<([^>]*?)>!is', '', $content);
 
 		// Replace < , >, "
-		$content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
+		$content = str_replace(array('&lt;', '&gt;', '&quot;', '&nbsp;'), array('<', '>', '"', ' '), $content);
 
 		// Delete  a series of whitespaces
 		$content = preg_replace('/ ( +)/is', ' ', $content);
@@ -544,7 +546,7 @@ class documentItem extends Object
 		$content = trim(cut_str($content, $str_size, $tail));
 
 		// Replace back < , <, "
-		$content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
+		$content = str_replace(array('<', '>', '"'),array('&lt;', '&gt;', '&quot;'), $content);
 
 		return $content;
 	}

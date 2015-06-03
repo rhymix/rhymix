@@ -606,6 +606,11 @@ class menuAdminController extends menu
 		$cmArgs->is_skin_fix = 'N';
 		$cmArgs->is_mskin_fix = 'N';
 
+		if(Mobile::isMobileEnabled() === true)
+		{
+			$cmArgs->use_mobile = 'Y';
+		}
+		
 		// if mid is empty, auto create mid
 		if(!$request->module_id)
 		{

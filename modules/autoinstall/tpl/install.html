@@ -2,34 +2,56 @@
 <load target="js/waiting.js" usecdn="true" />
 
 <h2>{$package->title} ver. {$package->version}</h2>
+
+<div class="message error" cond="version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<')">
+	<h2>안전하지 않은 PHP 버전 경고</h2>
+	<p>이 서버는 안전하지 않은 PHP 버전을 사용하고 있으며, PHP를 최신 안정 버전으로의 업그레이드를 권장합니다.</p>
+	<p>이 서버의 PHP 버전 : <strong>{phpversion()}</strong></p>
+	<p><a href="http://php.net/downloads.php" target="_blank">PHP 최신 안정버전 확인하기</a></p>
+
+	<ul>
+		<li>매우 심각한 PHP 보안 문제 및 공격에 노출될 수 있습니다.</li>
+		<li>XE 최신 버전을 사용할 수 없습니다.</li>
+		<li>XE 최신 버전 이상을 지원하는 확장 기능을 사용할 수 없습니다.</li>
+		<li>일부 확장 기능이 동작하지 않거나, 이로 인해 장애가 발생할 수 있습니다.</li>
+	</ul>
+</div>
+
 <div cond="$contain_core" class="x_alert x_alert-block">
 	<h4>{$lang->msg_update_core_title}</h4>
 	<p>{$lang->msg_update_core}</p>
 </div>
-<div class="x_well">
-	<p cond="$package->installed">{$lang->current_version}: {$package->cur_version} <block cond="$package->need_update">({$lang->require_update})</block></p>
-	<p cond="!$package->installed">{$lang->require_installation}</p>
-	<block cond="$package->depends">
-		<p>{$lang->about_depending_programs}</p>
-		<ul>
-			<li loop="$package->depends => $dep">
-				{$dep->title} ver. {$dep->version} -
-				<block cond="$dep->installed">{$lang->current_version}: {$dep->cur_version} <block cond="$dep->need_update">({$lang->require_update})</block></block>
-				<block cond="!$dep->installed">{$lang->require_installation}</block>
-				<block cond="$show_ftp_note && ($dep->need_update || !$dep->installed)">
-					<a href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->cmd_download}</a> ({$lang->path}: {$dep->path})
-				</block>
-			</li>
-		</ul>
-		<p>{$lang->description_install}</p>
-	</block>
+<div cond="$package->installed" class="x_well">
+	<p>{$lang->current_version}: {$package->cur_version} <block cond="$package->need_update">({$lang->require_update})</block></p>
+</div>
+<div cond="$package->depends && (!$package->installed || $package->need_update)" class="x_well">
+	<p>{$lang->about_depending_programs}</p>
+	<p>{$lang->description_install}</p>
+	<ul>
+		<li loop="$package->depends => $dep">
+			{$dep->title} ver. {$dep->version} -
+			<block cond="$dep->installed">{$lang->current_version}: {$dep->cur_version} <block cond="$dep->need_update">({$lang->require_update})</block></block>
+			<block cond="!$dep->installed">{$lang->require_installation}</block>
+			<block cond="$show_ftp_note && ($dep->need_update || !$dep->installed)">
+				<a href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->cmd_download}</a> ({$lang->path}: {$dep->path})
+			</block>
+		</li>
+	</ul>
 </div>
 
 <block cond="!$package->installed || $package->need_update">
-	<div cond="$show_ftp_note" class="x_well x_clearfix">
-		<p>{$lang->description_download}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp')}">FTP Setup</a>)</p>
-		<p>{$lang->path}: {$package->path}</p>
-		<p><a class="x_btn x_btn-primary x_pull-right" href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
+	<div cond="!$directModuleInstall->toBool() || $show_ftp_note" class="x_well x_clearfix">
+		<block cond="!$directModuleInstall->toBool()">
+			<p>{$lang->msg_direct_install_not_supported}</p>
+			<ul>
+				<li loop="$directModuleInstall->get('path') => $path">{$path}</li>
+			</ul>
+		</block>
+		<block cond="$show_ftp_note" >
+			<p>{$lang->description_download}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp')}">FTP Setup</a>)</p>
+			<p>{$lang->path}: {$package->path}</p>
+			<p><a class="x_btn x_btn-primary x_pull-right" href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
+		</block>
 	</div>
 	<div cond="!$show_ftp_note">
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/install/1'" class="message error">
@@ -40,10 +62,10 @@
 			<input type="hidden" name="act" value="procAutoinstallAdminPackageinstall" />
 			<input type="hidden" name="package_srl" value="{$package->package_srl}" />
 			<input type="hidden" name="return_url" value="{$return_url}" />
-			<input cond="!$need_password" type="hidden" name="ftp_password" value="dummy" />
+			<input cond="!$need_password || $directModuleInstall->toBool()" type="hidden" name="ftp_password" value="dummy" />
 			<input type="hidden" name="xe_validator_id" value="modules/autoinstall/tpl/install/1" />
 
-			<block cond="$need_password">
+			<block cond="$need_password && !$directModuleInstall->toBool()">
 				<div class="x_control-group">
 					<label class="x_control-label" for="ftp_password">FTP {$lang->password}</label>
 					<div class="x_controls">

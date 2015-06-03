@@ -1,7 +1,7 @@
 
 function doCancelDeclare() {
     var comment_srl = new Array();
-    jQuery('#fo_list input[name=cart]:checked').each(function() {
+    jQuery('#fo_list input[name="cart[]"]:checked').each(function() {
         comment_srl[comment_srl.length] = jQuery(this).val();
     });
 
