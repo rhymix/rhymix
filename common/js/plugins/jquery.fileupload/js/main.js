@@ -156,9 +156,9 @@
 
 			$(document).bind('dragover', function (e) {
 				var timeout = window.dropZoneTimeout,
-                    dropZone = self.settings.dropZone;
+					dropZone = self.settings.dropZone;
 				if (!timeout) {
-                    dropZone.addClass('in');
+					dropZone.addClass('in');
 				} else {
 					clearTimeout(timeout);
 				}
@@ -172,13 +172,13 @@
 					node = node.parentNode;
 				} while (node != null);
 				if (found) {
-                    dropZone.addClass('hover');
+					dropZone.addClass('hover');
 				} else {
-                    dropZone.removeClass('hover');
+					dropZone.removeClass('hover');
 				}
 				window.dropZoneTimeout = setTimeout(function () {
 					window.dropZoneTimeout = null;
-                    dropZone.removeClass('in hover');
+					dropZone.removeClass('in hover');
 				}, 100);
 			});
 		},
