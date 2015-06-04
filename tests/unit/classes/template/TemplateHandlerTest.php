@@ -213,7 +213,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 584
             array(
                 '<img cond="$oBodex->display_extra_images[\'mobile\'] && $arr_extra && $arr_extra->bodex->mobile" src="./images/common/mobile.gif" title="mobile" alt="mobile" />',
-                PHP_EOL . 'if($__Context->oBodex->display_extra_images[\'mobile\'] && $__Context->arr_extra && $__Context->arr_extra->bodex->mobile){ ?><img src="./images/common/mobile.gif" title="mobile" alt="mobile" /><?php } ?>'
+                PHP_EOL . 'if($__Context->oBodex->display_extra_images[\'mobile\'] && $__Context->arr_extra && $__Context->arr_extra->bodex->mobile){ ?><img src="/xe/tests/unit/classes/template/images/common/mobile.gif" title="mobile" alt="mobile" /><?php } ?>'
             ),
             // issue 831
             array(
@@ -229,6 +229,21 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             array(
                 '{@ eval(\'$val = $document_srl;\')}',
                 PHP_EOL . 'eval(\'$__Context->val = $__Context->document_srl;\') ?>'
+            ),
+            // https://github.com/xpressengine/xe-core/issues/1510
+            array(
+                '<img cond="$foo->bar" src="../common/mobile.gif" />',
+                PHP_EOL . 'if($__Context->foo->bar){ ?><img src="/xe/tests/unit/classes/common/mobile.gif" /><?php } ?>'
+            ),
+            // https://github.com/xpressengine/xe-core/issues/1510
+            array(
+                '<img cond="$foo->bar > 100" alt="a!@#$%^&*()_-=[]{}?/" src="../common/mobile.gif" />',
+                PHP_EOL . 'if($__Context->foo->bar > 100){ ?><img alt="a!@#$%^&*()_-=[]{}?/" src="/xe/tests/unit/classes/common/mobile.gif" /><?php } ?>'
+            ),
+            // https://github.com/xpressengine/xe-core/issues/1510
+            array(
+                '<img src="../common/mobile.gif" cond="$foo->bar" />',
+                PHP_EOL . 'if($__Context->foo->bar){ ?><img src="/xe/tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
         );
     }
