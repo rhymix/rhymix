@@ -245,6 +245,24 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '<img src="../common/mobile.gif" cond="$foo->bar" />',
                 PHP_EOL . 'if($__Context->foo->bar){ ?><img src="/xe/tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
+            // https://github.com/xpressengine/xe-core/issues/1510
+            array(
+                '<img class="tmp_class" cond="!$module_info->title" src="../img/common/blank.gif" />',
+                PHP_EOL . 'if(!$__Context->module_info->title){ ?><img class="tmp_class" src="/xe/tests/unit/classes/img/common/blank.gif" /><?php } ?>'
+            ),
+            // https://github.com/xpressengine/xe-core/issues/1510
+            array(
+                '<img cond="$mi->title" class="tmp_class"|cond="$mi->use" src="../img/common/blank.gif" />',
+                PHP_EOL . 'if($__Context->mi->title){ ?><img<?php if($__Context->mi->use){ ?> class="tmp_class"<?php } ?> src="/xe/tests/unit/classes/img/common/blank.gif" /><?php } ?>'
+            ),
+            array(
+                '<input foo="bar" /> <img cond="$foo->bar" alt="alt"   src="../common/mobile.gif" />',
+                '?><input foo="bar" /> <?php if($__Context->foo->bar){ ?><img alt="alt"   src="/xe/tests/unit/classes/common/mobile.gif" /><?php } ?>'
+            ),
+            array(
+                'asf <img src="{$foo->bar}" />',
+                '?>asf <img src="<?php echo $__Context->foo->bar ?>" />'
+            ),
         );
     }
 
