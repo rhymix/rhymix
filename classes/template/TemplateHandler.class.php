@@ -236,7 +236,7 @@ class TemplateHandler
 		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
 
 		// replace value of src in img/input/script tag
-		$buff = preg_replace_callback('/(<(?:img|input|script).+src=")(?!(?:https?|file):\/\/|[\/\{])([^"]+)("[^>]+>)/is', array($this, '_replacePath'), $buff);
+		$buff = preg_replace_callback('/<(?:img|input|script)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* src="(?!(?:https?|file):\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
 
 		// replace loop and cond template syntax
 		$buff = $this->_parseInline($buff);
@@ -415,18 +415,18 @@ class TemplateHandler
 	private function _replacePath($match)
 	{
 		//return origin conde when src value started '${'.
-		if(preg_match('@^\${@', $match[2]))
+		if(preg_match('@^\${@', $match[1]))
 		{
 			return $match[0];
 		}
 
 		//return origin code when src value include variable.
-		if(preg_match('@^[\'|"]\s*\.\s*\$@', $match[2]))
+		if(preg_match('@^[\'|"]\s*\.\s*\$@', $match[1]))
 		{
 			return $match[0];
 		}
 
-		$src = preg_replace('@^(\./)+@', '', trim($match[2]));
+		$src = preg_replace('@^(\./)+@', '', trim($match[1]));
 
 		$src = $this->web_path . $src;
 		$src = str_replace('/./', '/', $src);
@@ -439,7 +439,7 @@ class TemplateHandler
 			$src = $tmp;
 		}
 
-		return $match[1] . $src . $match[3];
+		return substr($match[0], 0, -strlen($match[1]) - 6) . "src=\"{$src}\"";
 	}
 
 	/**

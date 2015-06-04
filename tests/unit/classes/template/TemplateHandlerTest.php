@@ -260,8 +260,24 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '?><input foo="bar" /> <?php if($__Context->foo->bar){ ?><img alt="alt"   src="/xe/tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             array(
+                '<input foo="bar" />' . "\n" . '<input foo="bar" /> <img cond="$foo->bar" alt="alt"   src="../common/mobile.gif" />',
+                '?><input foo="bar" />' . PHP_EOL . '<input foo="bar" /> <?php if($__Context->foo->bar){ ?><img alt="alt"   src="/xe/tests/unit/classes/common/mobile.gif" /><?php } ?>'
+            ),
+            array(
                 'asf <img src="{$foo->bar}" />',
                 '?>asf <img src="<?php echo $__Context->foo->bar ?>" />'
+            ),
+            array(
+                '<img alt="" '.PHP_EOL.' src="../myxe/xe/img.png" />',
+                '?><img alt="" '.PHP_EOL.' src="/xe/tests/unit/classes/myxe/xe/img.png" />'
+            ),
+            array(
+                '<input>asdf src="../img/img.gif" asdf</input> <img alt="src" src="../myxe/xe/img.png" /> <input>asdf src="../img/img.gif" asdf</input>',
+                '?><input>asdf src="../img/img.gif" asdf</input> <img alt="src" src="/xe/tests/unit/classes/myxe/xe/img.png" /> <input>asdf src="../img/img.gif" asdf</input>'
+            ),
+            array(
+                '<input>asdf src="../img/img.gif" asdf</input>',
+                '?><input>asdf src="../img/img.gif" asdf</input>'
             ),
         );
     }
