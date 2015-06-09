@@ -35,6 +35,8 @@ a:hover,a:active,a:focus{text-decoration:none}
 /* Header */
 .header>h1{float:left;padding:20px 0;margin-right:32px;line-height:60px;}
 .header>h1 img{vertical-align:middle; max-height:40px; }
+.header>.logo-item a{font-size:24px;color:#888}  
+.header>.logo-item a:hover{color:#444}  
 
 /* Fixed Header */
 .container.fixed_header{padding-top:100px}

@@ -185,16 +185,14 @@
 				<block cond="$_magazine_header && $layout_info->logo_img_magazine">
 					{@ $_logo_img = $layout_info->logo_img_magazine}
 				</block>
+				<block cond="$_onepage_header && $layout_info->logo_img_transparent">
+					{@ $_logo_img = $layout_info->logo_img_transparent}
+				</block>
 				<a href="<!--@if($layout_info->logo_url)-->{$layout_info->logo_url}<!--@else-->{getUrl('')}<!--@end-->">
 					<!--@if($_logo_img)-->
-						<!--@if($_magazine_header)-->
-							<img src="{$layout_info->logo_img_magazine}" alt="{$layout_info->logo_text}" />
-						<!--@else-->
-							<block cond="$_onepage_header && $layout_info->logo_img_transparent">
-								{@ $_logo_img = $layout_info->logo_img_transparent}
-							</block>
-							<img src="{$_logo_img}" data-logo="{$layout_info->logo_img}"|cond="$_onepage_header && $layout_info->logo_img_transparent" alt="{$layout_info->logo_text}" />
-						<!--@endif-->
+						<img src="{$_logo_img}" data-logo="{$layout_info->logo_img}"|cond="$_onepage_header && $layout_info->logo_img_transparent" alt="{$layout_info->logo_text}" />
+					<!--@elseif($layout_info->logo_text)-->
+						{$layout_info->logo_text}
 					<!--@else-->
 						{@ $_logo_img = 'logo.png'}
 						<block cond="$_magazine_header">{@ $_logo_img = 'm_logo.png'}</block>
