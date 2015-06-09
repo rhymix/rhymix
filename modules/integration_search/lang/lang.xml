@@ -68,6 +68,12 @@
 		<value xml:lang="zh-TW"><![CDATA[按"繼續尋找"按鈕繼續搜尋。]]></value>
 		<value xml:lang="ru"><![CDATA['Искать дальше' Если выберете эту кнопку, то продолжится поиск]]></value>
 	</item>
+	<item name="msg_not_enabled">
+		<value xml:lang="ko"><![CDATA[통합 검색을 사용할 수 없습니다.]]></value>
+	</item>
+	<item name="msg_admin_not_enabled">
+		<value xml:lang="ko"><![CDATA[통합 검색을 사용할 수 없습니다. 통합검색 설정에서 대상 모듈을 선택하세요.]]></value>
+	</item>
 	<item name="is_result_text">
 		<value xml:lang="ko"><![CDATA[<strong>'%s'</strong>에 대한 검색결과 <strong>%d</strong>건]]></value>
 		<value xml:lang="en"><![CDATA[There are <strong>%d</strong> result(s) for <strong>'%s'</strong>]]></value>

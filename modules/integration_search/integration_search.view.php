@@ -36,6 +36,8 @@ class integration_searchView extends integration_search
 	{
 		$oFile = getClass('file');
 		$oModuleModel = getModel('module');
+		$logged_info = Context::get('logged_info');
+
 		// Check permissions
 		if(!$this->grant->access) return new Object(-1,'msg_not_permitted');
 
@@ -71,6 +73,8 @@ class integration_searchView extends integration_search
 			$module_srl_list = array();
 		else
 			$module_srl_list = explode(',',$config->target_module_srl);
+
+		if(!count($module_srl_list)) return new Object(-1, ($logged_info->is_admin === 'Y') ? 'msg_admin_not_enabled' : 'msg_not_enabled');
 
 		// Set a variable for search keyword
 		$is_keyword = Context::get('is_keyword');
