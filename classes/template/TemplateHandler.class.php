@@ -236,7 +236,7 @@ class TemplateHandler
 		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
 
 		// replace value of src in img/input/script tag
-		$buff = preg_replace_callback('/<(?:img|input|script)[^<>]*src="(?!https?:\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
+		$buff = preg_replace_callback('/<(?:img|input|script)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* src="(?!(?:https?|file):\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
 
 		// replace loop and cond template syntax
 		$buff = $this->_parseInline($buff);
@@ -362,6 +362,7 @@ class TemplateHandler
 			$__Context->logged_info = Context::get('logged_info');
 		}
 
+		$level = ob_get_level();
 		ob_start();
 		if(substr($buff, 0, 7) == 'file://')
 		{
@@ -395,7 +396,12 @@ class TemplateHandler
 			}
 		}
 
-		return ob_get_clean();
+		$contents = '';
+		while (ob_get_level() - $level > 0) {
+			$contents .= ob_get_contents();
+			ob_end_clean();
+		}
+		return $contents;
 	}
 
 	/**

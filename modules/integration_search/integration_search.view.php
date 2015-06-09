@@ -36,6 +36,8 @@ class integration_searchView extends integration_search
 	{
 		$oFile = getClass('file');
 		$oModuleModel = getModel('module');
+		$logged_info = Context::get('logged_info');
+
 		// Check permissions
 		if(!$this->grant->access) return new Object(-1,'msg_not_permitted');
 
@@ -71,6 +73,19 @@ class integration_searchView extends integration_search
 			$module_srl_list = array();
 		else
 			$module_srl_list = explode(',',$config->target_module_srl);
+
+		// https://github.com/xpressengine/xe-core/issues/1522
+		// 검색 대상을 지정하지 않았을 때 검색 제한
+		if($target === 'include' && !count($module_srl_list))
+		{
+			$oMessageObject = ModuleHandler::getModuleInstance('message');
+			$oMessageObject->setError(-1);
+			$oMessageObject->setMessage('msg_not_enabled');
+			$oMessageObject->dispMessage();
+			$this->setTemplatePath($oMessageObject->getTemplatePath());
+			$this->setTemplateFile($oMessageObject->getTemplateFile());
+			return;
+		}
 
 		// Set a variable for search keyword
 		$is_keyword = Context::get('is_keyword');

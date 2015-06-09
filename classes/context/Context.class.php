@@ -1384,7 +1384,7 @@ class Context
 			{
 				$result[$k] = $v;
 
-				if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc())
+				if($do_stripslashes && version_compare(PHP_VERSION, '5.4.0', '<') && get_magic_quotes_gpc())
 				{
 					$result[$k] = stripslashes($result[$k]);
 				}
@@ -1417,7 +1417,7 @@ class Context
 	 */
 	function _setUploadedArgument()
 	{
-		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE || stripos($_SERVER['HTTP_CONTENT_TYPE'], 'multipart/form-data') === FALSE)
+		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || (stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE && stripos($_SERVER['HTTP_CONTENT_TYPE'], 'multipart/form-data') === FALSE))
 		{
 			return;
 		}

@@ -15,7 +15,7 @@
 	{@ $sub_header_title = $module_info->browser_title}
 
 <!--// 초기화 -->
-	{@ $_enable_slide = true}
+	{@ $_enable_slide = false}
 	{@ $_enable_unb = false}
 	{@ $_sample_slide = false}
 	{@ $_sample_footer = false}
@@ -29,9 +29,13 @@
 	<block cond="!$layout_info->use_slide">{@ $layout_info->use_slide = 'Y'}</block>
 	<block cond="!$layout_info->enable_intergration_search">{@ $layout_info->enable_intergration_search = 'Y'}</block>
 
+	<block cond="$layout_info->use_slide === 'Y'">
+		{@ $_enable_slide = true}
+	</block>
 	<block cond="$layout_info->use_demo === 'Y'">
 		{@ $_sample_slide = true}
-		<block cond="$_is_indexmodule">{@ $layout_info->use_slide = 'Y'}</block>
+		{@ $_enable_slide = false}
+		<block cond="$_is_indexmodule">{@ $_enable_slide = true}</block>
 	</block>
 	<block cond="!$layout_info->slide_img1">{@ $_sample_slide = true}</block>
 	<block cond="$layout_info->use_demo === 'Y'">{@ $_sample_footer = true}</block>

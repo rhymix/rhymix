@@ -3,13 +3,13 @@ use \Codeception\Configuration;
 
 $I = new InstallTester($scenario);
 
-$config = (!$this->env) ? Configuration::config() : Configuration::suiteEnvironments('install')[$this->env];
+$config = (!$this->env) ? Configuration::suiteSettings('Install', Configuration::config()) : Configuration::suiteEnvironments('Install')[$this->env];
+
 $db_config = $config['modules']['config']['Db'];
 
 $dsn = $db_config['dsn'];
 $dsn = split('[;:]', $dsn);
 $db_type = array_shift($dsn);
-
 $dbinfo = [
     'type' => $db_type,
     'user' => $db_config['user'],
@@ -17,10 +17,13 @@ $dbinfo = [
     'dbname' => 'xe_install',
     'port' => ((isset($db_config['port']) && $db_config['port'])?: 3306),
 ];
-
 foreach($dsn as $piece) {
     list($key, $val) = explode('=', $piece);
     $dbinfo[$key] = $val;
+}
+
+if(\Filehandler::exists(_XE_PATH_ . 'config/install.config.php')) {
+    $I->deleteFile(_XE_PATH_ . 'config/install.config.php');
 }
 
 // Step 1
@@ -86,7 +89,6 @@ $I->submitForm('#content form', [
 ]);
 
 // Step 9
-$I->wantTo('completed');
 $I->dontSeeElement('//div[@id="progress"]/ul/li');
 $I->amOnPage('/index.php?act=dispMemberLoginForm');
 

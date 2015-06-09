@@ -1044,31 +1044,18 @@ class ModuleHandler extends Handler
 				ModuleHandler::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
 			}
 
-			// Get base class name and load the file contains it
-			if(!class_exists($module, false))
+			// Check if the base class and instance class exist
+			if(!class_exists($module, true))
 			{
-				$high_class_file = sprintf('%s%s%s.class.php', _XE_PATH_, $class_path, $module);
-				if(!file_exists($high_class_file))
-				{
-					return NULL;
-				}
-				require_once($high_class_file);
+				return NULL;
 			}
-
-			// Get the name of the class file
-			if(!is_readable($class_file))
+			if(!class_exists($instance_name, true))
 			{
 				return NULL;
 			}
 
-			// Create an instance with eval function
-			require_once($class_file);
-			if(!class_exists($instance_name, false))
-			{
-				return NULL;
-			}
-			$tmp_fn = create_function('', "return new {$instance_name}();");
-			$oModule = $tmp_fn();
+			// Create an instance
+			$oModule = new $instance_name();
 			if(!is_object($oModule))
 			{
 				return NULL;
