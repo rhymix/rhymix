@@ -69,6 +69,10 @@
 		<!--@if($module_type === 'comment')-->
 			settings.ckeconfig.toolbarStartupExpanded = false;
 		<!--@endif-->
+		
+		<!--@if(!$html_mode)-->
+			settings.ckeconfig.removeButtons = 'Save,Preview,Print,Cut,Copy,Paste,Source';
+		<!--@endif-->
 
 		<!--@if($css_content)-->CKEDITOR.addCss('{$css_content}');<!--@end-->
 
