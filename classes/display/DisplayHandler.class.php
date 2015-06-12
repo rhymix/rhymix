@@ -39,12 +39,10 @@ class DisplayHandler extends Handler
 		// Extract contents to display by the request method
 		if(Context::get('xeVirtualRequestMethod') == 'xml')
 		{
-			require_once(_XE_PATH_ . "classes/display/VirtualXMLDisplayHandler.php");
 			$handler = new VirtualXMLDisplayHandler();
 		}
 		else if(Context::getRequestMethod() == 'XMLRPC')
 		{
-			require_once(_XE_PATH_ . "classes/display/XMLDisplayHandler.php");
 			$handler = new XMLDisplayHandler();
 			if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 			{
@@ -53,17 +51,14 @@ class DisplayHandler extends Handler
 		}
 		else if(Context::getRequestMethod() == 'JSON')
 		{
-			require_once(_XE_PATH_ . "classes/display/JSONDisplayHandler.php");
 			$handler = new JSONDisplayHandler();
 		}
 		else if(Context::getRequestMethod() == 'JS_CALLBACK')
 		{
-			require_once(_XE_PATH_ . "classes/display/JSCallbackDisplayHandler.php");
 			$handler = new JSCallbackDisplayHandler();
 		}
 		else
 		{
-			require_once(_XE_PATH_ . "classes/display/HTMLDisplayHandler.php");
 			$handler = new HTMLDisplayHandler();
 		}
 

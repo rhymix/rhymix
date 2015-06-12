@@ -22,8 +22,9 @@ before_script:
 - if [ $(phpenv version-name) != "5.3" ]; then php -S localhost:8000 & fi
 script:
 - grunt lint
-- if [ $(phpenv version-name) != "5.3" ]; then ./vendor/bin/codecept run --env travis;
+- grunt minify
+- if [ $(phpenv version-name) != "5.3" ]; then ./vendor/bin/codecept run -d --env travis;
   fi
 notifications:
   slack:
-    secure: V4p13KlqML94RK0KTlHNJwrdwOK1K6n7sfxs6oILCJTqBfGuqN2fCglnxX78QEUwnl8LWrwSdA4AnUVfZqv6N5g7zlDDr2ZU2+a4XVApmEss3/C0g9zsYNlFfkJqChvtMsV29UiBjSfqn/coAVLtY1wbCYJYk3Wc2nmB/3Qti9Y=
+    secure: 0HhwktIb65zfge56E4yMfYj0Xj4GeYIaxvh/Obb13BK1/C8RdWBy6u213N5MQ2UHsxYk8wXXzynaCh4psegi2iPy9dbKmkdAdEQMzYoKE2xYVSqZveeVQm0sqFVXAlzggpgs/j5vtvKYjRkQKtTrz0C+p0uJ0bkLcyWGezWTpGc=

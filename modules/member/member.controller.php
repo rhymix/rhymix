@@ -1650,9 +1650,10 @@ class memberController extends member
 		$do_auto_login = false;
 
 		// Compare key values based on the information
-		$key = md5($user_id . $password . $_SERVER['HTTP_USER_AGENT']);
+		$check_key = strtolower($user_id).$password.$_SERVER['HTTP_USER_AGENT'];
+		$check_key = substr(hash_hmac('sha256', $check_key, substr($args->autologin_key, 0, 32)), 0, 32);
 
-		if($key == $args->autologin_key)
+		if($check_key === substr($args->autologin_key, 32))
 		{
 			// Check change_password_date
 			$oModuleModel = getModel('module');
@@ -1837,8 +1838,12 @@ class memberController extends member
 		if($keep_signed)
 		{
 			// Key generate for auto login
+			$oPassword = new Password();
+			$random_key = $oPassword->createSecureSalt(32, 'hex');
+			$extra_key = strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT'];
+			$extra_key = substr(hash_hmac('sha256', $extra_key, $random_key), 0, 32);
 			$autologin_args = new stdClass;
-			$autologin_args->autologin_key = md5(strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT']);
+			$autologin_args->autologin_key = $random_key.$extra_key;
 			$autologin_args->member_srl = $this->memberInfo->member_srl;
 			executeQuery('member.deleteAutologin', $autologin_args);
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);

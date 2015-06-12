@@ -4,7 +4,7 @@
 	var default_settings = {
 		autoUpload: true,
 		dataType: 'json',
-		replaceFileInput: false,
+		sequentialUploads: true,
 
 		dropZone: '.xefu-dropzone',
 		fileList: '.xefu-list',
@@ -47,6 +47,9 @@
 		last_selected_file: null,
 		editor_sequence: null,
 		init : function() {
+		},
+		deactivate: function() {
+			console.log(this);
 		},
 		createInstance: function(containerEl, opt) {
 			var self = this;
@@ -152,9 +155,10 @@
 			});
 
 			$(document).bind('dragover', function (e) {
-				var timeout = window.dropZoneTimeout;
+				var timeout = window.dropZoneTimeout,
+					dropZone = self.settings.dropZone;
 				if (!timeout) {
-					self.settings.dropZone.addClass('in');
+					dropZone.addClass('in');
 				} else {
 					clearTimeout(timeout);
 				}
@@ -168,13 +172,13 @@
 					node = node.parentNode;
 				} while (node != null);
 				if (found) {
-					self.settings.dropZone.addClass('hover');
+					dropZone.addClass('hover');
 				} else {
-					self.settings.dropZone.removeClass('hover');
+					dropZone.removeClass('hover');
 				}
 				window.dropZoneTimeout = setTimeout(function () {
 					window.dropZoneTimeout = null;
-					self.settings.dropZone.removeClass('in hover');
+					dropZone.removeClass('in hover');
 				}, 100);
 			});
 		},
@@ -247,8 +251,11 @@
 		loadFilelist: function() {
 			var self = this;
 			var data = this.$container.data();
+			var obj = {};
+			obj.mid = window.current_mid;
+			obj.editor_sequence = self.$container.data('editor-sequence');
 
-			$.exec_json('file.getFileList', {'editor_sequence': self.$container.data('editor-sequence')}, function(res){
+			$.exec_json('file.getFileList', obj, function(res){
 				data.uploadTargetSrl = res.upload_target_srl;
 				editorRelKeys[self.$container.data('editor-sequence')].primary.value = res.upload_target_srl;
 				data.uploadTargetSrl = res.uploadTargetSrl;
@@ -311,6 +318,9 @@
 
 		return u;
 	};
+
+
+	xe.unregisterApp();
 
 	// Shortcut function in XE
 	// xe.createXeUploader = function(browseButton, opts) {
