@@ -16,7 +16,6 @@ function completeInsertPoll(ret_obj) {
     if(!poll_srl) return null;
 
     var text = "<img src=\"../../../../common/img/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" skin=\""+skin+"\" style=\"display:block;width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
-
     alert(ret_obj['message']);
 
 	opener.editorFocus(opener.editorPrevSrl);
