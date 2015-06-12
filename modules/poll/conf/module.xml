@@ -9,7 +9,12 @@
         <action name="getPollGetColorsetList" type="model" />
         <action name="getPollAdminTarget" type="model" />
 
+        <action name="getPollstatus" type="model" />
+        <action name="getPollinfo" type="model" />
+        <action name="getPollitemInfo" type="model" />
         <action name="procPollInsert" type="controller" />
+        <action name="procPollInsertItem" type="controller" />
+        <action name="procPollDeleteItem" type="controller" />
         <action name="procPoll" type="controller" ruleset="poll" />
         <action name="procPollViewResult" type="controller" />
         <action name="procPollGetList" type="controller" />
