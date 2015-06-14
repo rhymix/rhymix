@@ -1,8 +1,0 @@
-<tables>
-    <table name="files" alias="files" />
-    <table name="member" alias="member" type="left join">
-        <conditions>
-            <condition operation="equal" column="files.member_srl" default="member.member_srl" />
-        </conditions>
-    </table>
-</tables>

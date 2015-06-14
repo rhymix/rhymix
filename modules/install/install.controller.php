@@ -205,7 +205,7 @@ class installController extends install
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
 			header('location:'.$returnUrl);
-			return;
+			return new Object();
 		}
 	}
 
@@ -340,14 +340,17 @@ class installController extends install
 		// Check each item
 		$checklist = array();
 		// 0. check your version of php (5.2.4 or higher)
-		if(version_compare(PHP_VERSION, '5.2.4') == -1) $checklist['php_version'] = false;
-		else if(version_compare(PHP_VERSION, '5.3.10') == -1)
+		$checklist['php_version'] = true;
+		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<'))
 		{
-			$checklist['php_version'] = true;
+			$checklist['php_version'] = false;
+		}
+
+		if(version_compare(PHP_VERSION, __XE_RECOMMEND_PHP_VERSION__, '<'))
+		{
 			Context::set('phpversion_warning', true);
 		}
-		else $checklist['php_version'] = true;
-		
+
 		// 1. Check permission
 		if(is_writable('./')||is_writable('./files')) $checklist['permission'] = true;
 		else $checklist['permission'] = false;
@@ -400,7 +403,7 @@ class installController extends install
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispInstallCheckEnv');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
 			$this->setRedirectUrl($returnUrl);
 		}
 	}
@@ -444,7 +447,7 @@ class installController extends install
 		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
 		$requestConfig = array();
 		$requestConfig['ssl_verify_peer'] = false;
-		$buff = FileHandler::getRemoteResource($requestUrl, null, 10, 'GET', null, array(), array(), array(), $requestConfig);
+		$buff = FileHandler::getRemoteResource($requestUrl, null, 3, 'GET', null, array(), array(), array(), $requestConfig);
 
 		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
 

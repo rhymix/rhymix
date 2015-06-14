@@ -99,7 +99,7 @@ class DBMssql extends DB
 	 */
 	function addQuotes($string)
 	{
-		if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc())
+		if(version_compare(PHP_VERSION, "5.4.0", "<") && get_magic_quotes_gpc())
 		{
 			$string = stripslashes(str_replace("\\", "\\\\", $string));
 		}
@@ -377,7 +377,7 @@ class DBMssql extends DB
 	 * @param boolean $notnull not null status, default value is false
 	 * @return void
 	 */
-	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
+	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false)
 	{
 		if($this->isColumnExists($table_name, $column_name))
 		{
@@ -399,7 +399,7 @@ class DBMssql extends DB
 			$query .= sprintf(" %s ", $type);
 		}
 
-		if($default)
+		if(isset($default))
 		{
 			$query .= sprintf(" default '%s' ", $default);
 		}

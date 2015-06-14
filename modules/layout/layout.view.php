@@ -230,7 +230,6 @@ class layoutView extends layout
 		// Convert widgets and others
 		$oContext = Context::getInstance();
 		Context::set('layout_tpl', $layout_tpl);
-		Context::set('admin_bar', 'false');
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('layout_preview');
 	}
@@ -372,7 +371,6 @@ class layoutView extends layout
 		// Convert widgets and others
 		$oContext = &Context::getInstance();
 		Context::set('layout_tpl', $layout_tpl);
-		Context::set('admin_bar', 'false');
 		// Delete Temporary Files
 		FileHandler::removeFile($edited_layout_file);
 		$this->setTemplateFile('layout_preview');

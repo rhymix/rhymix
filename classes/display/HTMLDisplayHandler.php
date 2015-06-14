@@ -126,13 +126,6 @@ class HTMLDisplayHandler
 				$pathInfo = pathinfo($layout_file);
 				$onlyLayoutFile = $pathInfo['filename'];
 
-				if($realLayoutPath === _XE_PATH_ . 'common/tpl/' && $onlyLayoutFile === 'popup_layout')
-				{
-					Context::set('admin_bar', 'false');
-				}
-				// DISABLE ADMIN BAR
-				Context::set('admin_bar', 'false');
-
 				if(__DEBUG__ == 3)
 				{
 					$GLOBALS['__layout_compile_elapsed__'] = getMicroTime() - $start;

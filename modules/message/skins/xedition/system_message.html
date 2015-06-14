@@ -1,0 +1,20 @@
+<!--// META -->
+{Context::addHtmlHeader('<meta name="viewport" content="width=1240">')}
+<!--// CSS -->
+<load target="./css/message.css" />
+
+<!--// BODY -->
+<div id="access">
+	<div class="login-header">
+		<p>OOPS!</p>
+		<h1>{$system_message}</h1>
+	</div>
+	<div class="login-body">
+		<p><a href="{getUrl('', 'act', 'dispMemberLoginForm')}">{$lang->cmd_login}</a></p>
+	</div>
+	<div class="login-footer">
+		<a href="{getUrl('', 'act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
+		<span class="bar">|</span>
+		<a href="{getUrl('', 'act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
+	</div>
+</div>

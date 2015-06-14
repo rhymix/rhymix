@@ -1,0 +1,28 @@
+class_name: InstallTester
+modules:
+    enabled: [Db, PhpBrowser, DbDropTablesHelper, InstallHelper, Filesystem]
+    config:
+        PhpBrowser:
+            url: 'http://localhost:8000/'
+        DbDropTablesHelper:
+            dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+            user: 'root'
+            password: 'root'
+        Db:
+            dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+            user: 'root'
+            password: 'root'
+            cleanup: true
+env:
+    travis:
+        modules:
+            config:
+                Db:
+                    dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+                    user: 'travis'
+                    password: 'travis'
+                    cleanup: true
+                DbDropTablesHelper:
+                    dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+                    user: 'travis'
+                    password: 'travis'

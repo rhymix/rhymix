@@ -90,14 +90,6 @@ jQuery(function($)
 			$(this).removeClass('hover').find('>.action').hide();
 		}
 	});
-
-	// check browser version
-	if($.browser.msie == true ) {
-		var arrBrowserVersion = $.browser.version.split('.');
-		if(parseInt(arrBrowserVersion[0]) <= 8) {
-			$('#checkBrowserMessage').show();
-		}
-	}
 });
 
 function obj2Array(htObj)

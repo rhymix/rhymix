@@ -39,12 +39,10 @@ class DisplayHandler extends Handler
 		// Extract contents to display by the request method
 		if(Context::get('xeVirtualRequestMethod') == 'xml')
 		{
-			require_once(_XE_PATH_ . "classes/display/VirtualXMLDisplayHandler.php");
 			$handler = new VirtualXMLDisplayHandler();
 		}
 		else if(Context::getRequestMethod() == 'XMLRPC')
 		{
-			require_once(_XE_PATH_ . "classes/display/XMLDisplayHandler.php");
 			$handler = new XMLDisplayHandler();
 			if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 			{
@@ -53,17 +51,14 @@ class DisplayHandler extends Handler
 		}
 		else if(Context::getRequestMethod() == 'JSON')
 		{
-			require_once(_XE_PATH_ . "classes/display/JSONDisplayHandler.php");
 			$handler = new JSONDisplayHandler();
 		}
 		else if(Context::getRequestMethod() == 'JS_CALLBACK')
 		{
-			require_once(_XE_PATH_ . "classes/display/JSCallbackDisplayHandler.php");
 			$handler = new JSCallbackDisplayHandler();
 		}
 		else
 		{
-			require_once(_XE_PATH_ . "classes/display/HTMLDisplayHandler.php");
 			$handler = new HTMLDisplayHandler();
 		}
 
@@ -84,10 +79,6 @@ class DisplayHandler extends Handler
 		}
 
 		// header output
-		if($this->gz_enabled)
-		{
-			header("Content-Encoding: gzip");
-		}
 
 		$httpStatusCode = $oModule->getHttpStatusCode();
 		if($httpStatusCode && $httpStatusCode != 200)
@@ -114,9 +105,17 @@ class DisplayHandler extends Handler
 		$this->content_size = strlen($output);
 		$output .= $this->_debugOutput();
 
+		// disable gzip if output already exists
+		ob_flush();
+		if(headers_sent())
+		{
+			$this->gz_enabled = FALSE;
+		}
+
 		// results directly output
 		if($this->gz_enabled)
 		{
+			header("Content-Encoding: gzip");
 			print ob_gzhandler($output, 5);
 		}
 		else

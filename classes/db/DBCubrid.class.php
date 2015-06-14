@@ -116,7 +116,7 @@ class DBCubrid extends DB
 	 */
 	function addQuotes($string)
 	{
-		if(version_compare(PHP_VERSION, "5.9.0", "<") &&
+		if(version_compare(PHP_VERSION, "5.4.0", "<") &&
 				get_magic_quotes_gpc())
 		{
 			$string = stripslashes(str_replace("\\", "\\\\", $string));
@@ -479,7 +479,7 @@ class DBCubrid extends DB
 	 * @param boolean $notnull not null status, default value is false
 	 * @return void
 	 */
-	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = FALSE)
+	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = FALSE)
 	{
 		$type = strtoupper($this->column_type[$type]);
 		if($type == 'INTEGER')
@@ -506,7 +506,7 @@ class DBCubrid extends DB
 			$query .= sprintf("%s ", $type);
 		}
 
-		if($default)
+		if(isset($default))
 		{
 			if($type == 'INTEGER' || $type == 'BIGINT' || $type == 'INT')
 			{

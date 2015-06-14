@@ -74,7 +74,7 @@ class editorAdminView extends editor
 		{
 			if($packages[$xml_info->package_srl])	$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
 		}
-		$editor_config_default = array( "editor_height" => "300", "comment_editor_height" => "100","content_font_size"=>"12");
+		$editor_config_default = array( "editor_height" => "300", "comment_editor_height" => "100","content_font_size"=>"13");
 
 		//editor preview
 		$config = $oEditorModel->getEditorConfig();

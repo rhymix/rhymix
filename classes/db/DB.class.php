@@ -4,35 +4,6 @@
 if(!defined('__XE_LOADED_DB_CLASS__'))
 {
 	define('__XE_LOADED_DB_CLASS__', 1);
-
-	require(_XE_PATH_ . 'classes/xml/xmlquery/DBParser.class.php');
-	require(_XE_PATH_ . 'classes/xml/xmlquery/QueryParser.class.php');
-	require(_XE_PATH_ . 'classes/xml/xmlquery/argument/Argument.class.php');
-	require(_XE_PATH_ . 'classes/xml/xmlquery/argument/SortArgument.class.php');
-	require(_XE_PATH_ . 'classes/xml/xmlquery/argument/ConditionArgument.class.php');
-
-	require(_XE_PATH_ . 'classes/db/queryparts/expression/Expression.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/expression/SelectExpression.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/expression/InsertExpression.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/expression/UpdateExpression.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/expression/UpdateExpressionWithoutArgument.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/expression/ClickCountExpression.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/table/Table.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/table/JoinTable.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/table/CubridTableWithHint.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/table/MysqlTableWithHint.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/table/MssqlTableWithHint.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/table/IndexHint.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/condition/ConditionGroup.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/condition/Condition.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/condition/ConditionWithArgument.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/condition/ConditionWithoutArgument.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/condition/ConditionSubquery.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/expression/StarExpression.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/order/OrderByColumn.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/limit/Limit.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/Query.class.php');
-	require(_XE_PATH_ . 'classes/db/queryparts/Subquery.class.php');
 }
 
 /**
@@ -166,7 +137,7 @@ class DB
 	 * leve of transaction
 	 * @var unknown
 	 */
-	private $transationNestedLevel = 0;
+	private $transactionNestedLevel = 0;
 
 	/**
 	 * returns instance of certain db type
@@ -313,11 +284,6 @@ class DB
 		for($i = 0; $i < count($supported_list); $i++)
 		{
 			$db_type = $supported_list[$i];
-
-			if(version_compare(phpversion(), '5.0') < 0 && preg_match('/pdo/i', $db_type))
-			{
-				continue;
-			}
 
 			$class_name = sprintf("DB%s%s", strtoupper(substr($db_type, 0, 1)), strtolower(substr($db_type, 1)));
 			$class_file = sprintf(_XE_PATH_ . "classes/db/%s.class.php", $class_name);
@@ -546,7 +512,7 @@ class DB
 	 * @param array $arg_columns column list. if you want get specific colums from executed result, add column list to $arg_columns
 	 * @return object result of query
 	 */
-	function executeQuery($query_id, $args = NULL, $arg_columns = NULL)
+	function executeQuery($query_id, $args = NULL, $arg_columns = NULL, $type = NULL)
 	{
 		static $cache_file = array();
 
@@ -600,7 +566,7 @@ class DB
 			// look for cache file
 			$cache_file[$query_id] = $this->checkQueryCacheFile($query_id, $xml_file);
 		}
-		$result = $this->_executeQuery($cache_file[$query_id], $args, $query_id, $arg_columns);
+		$result = $this->_executeQuery($cache_file[$query_id], $args, $query_id, $arg_columns, $type);
 
 		$this->actDBClassFinish();
 		// execute query
@@ -627,7 +593,6 @@ class DB
 		// if there is no cache file or is not new, find original xml query file and parse it
 		if($cache_time < filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_ . 'classes/db/DB.class.php') || $cache_time < filemtime(_XE_PATH_ . 'classes/xml/XmlQueryParser.class.php'))
 		{
-			require_once(_XE_PATH_ . 'classes/xml/XmlQueryParser.class.php');
 			$oParser = new XmlQueryParser();
 			$oParser->parse($query_id, $xml_file, $cache_file);
 		}
@@ -643,9 +608,11 @@ class DB
 	 * @param array $arg_columns column list. if you want get specific colums from executed result, add column list to $arg_columns
 	 * @return object result of query
 	 */
-	function _executeQuery($cache_file, $source_args, $query_id, $arg_columns)
+	function _executeQuery($cache_file, $source_args, $query_id, $arg_columns, $type)
 	{
 		global $lang;
+		
+		if(!in_array($type, array('master','slave'))) $type = 'slave';
 
 		if(!file_exists($cache_file))
 		{
@@ -683,7 +650,7 @@ class DB
 			case 'select' :
 				$arg_columns = is_array($arg_columns) ? $arg_columns : array();
 				$output->setColumnList($arg_columns);
-				$connection = $this->_getConnection('slave');
+				$connection = $this->_getConnection($type);
 				$output = $this->_executeSelectAct($output, $connection);
 				break;
 		}
@@ -1140,10 +1107,10 @@ class DB
 			return;
 		}
 
-		if($this->_begin($this->transationNestedLevel))
+		if($this->_begin($this->transactionNestedLevel))
 		{
 			$this->transaction_started = TRUE;
-			$this->transationNestedLevel++;
+			$this->transactionNestedLevel++;
 		}
 	}
 
@@ -1167,11 +1134,11 @@ class DB
 		{
 			return;
 		}
-		if($this->_rollback($this->transationNestedLevel))
+		if($this->_rollback($this->transactionNestedLevel))
 		{
-			$this->transationNestedLevel--;
+			$this->transactionNestedLevel--;
 
-			if(!$this->transationNestedLevel)
+			if(!$this->transactionNestedLevel)
 			{
 				$this->transaction_started = FALSE;
 			}
@@ -1199,14 +1166,14 @@ class DB
 		{
 			return;
 		}
-		if($this->transationNestedLevel == 1 && $this->_commit())
+		if($this->transactionNestedLevel == 1 && $this->_commit())
 		{
 			$this->transaction_started = FALSE;
-			$this->transationNestedLevel = 0;
+			$this->transactionNestedLevel = 0;
 		}
 		else
 		{
-			$this->transationNestedLevel--;
+			$this->transactionNestedLevel--;
 		}
 	}
 

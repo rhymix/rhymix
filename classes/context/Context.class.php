@@ -200,6 +200,10 @@ class Context
 	 */
 	function init()
 	{
+		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && version_compare(PHP_VERSION, '5.6.0', '>=') === true) {
+			if(simplexml_load_string(file_get_contents("php://input")) !== false) $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
+		}
+
 		// set context variables in $GLOBALS (to use in display handler)
 		$this->context = &$GLOBALS['__Context__'];
 		$this->context->lang = &$GLOBALS['lang'];
@@ -242,18 +246,9 @@ class Context
 			}
 		}
 
-		// check if using rewrite module
-		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
-
 		// If XE is installed, get virtual site information
 		if(self::isInstalled())
 		{
-			// If using rewrite module, initializes router
-			if($this->allow_rewrite)
-			{
-				Router::proc();
-			}
-
 			$oModuleModel = getModel('module');
 			$site_module_info = $oModuleModel->getDefaultMid();
 
@@ -372,6 +367,9 @@ class Context
 		$this->lang = &$GLOBALS['lang'];
 		$this->loadLang(_XE_PATH_ . 'common/lang/');
 
+		// check if using rewrite module
+		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
+
 		// set locations for javascript use
 		$url = array();
 		$current_url = self::getRequestUri();
@@ -410,6 +408,16 @@ class Context
 
 		$this->set('current_url', $current_url);
 		$this->set('request_uri', self::getRequestUri());
+
+		if(strpos($current_url, 'xn--') !== FALSE)
+		{
+			$this->set('current_url', self::decodeIdna($current_url));
+		}
+
+		if(strpos(self::getRequestUri(), 'xn--') !== FALSE)
+		{
+			$this->set('request_uri', self::decodeIdna(self::getRequestUri()));
+		}
 	}
 
 	/**
@@ -1081,6 +1089,18 @@ class Context
 		return $obj->str;
 	}
 
+	function decodeIdna($domain)
+	{
+		if(strpos($domain, 'xn--') !== FALSE)
+		{
+			require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
+			$IDN = new idna_convert(array('idn_version' => 2008));
+			$domain = $IDN->decode($domain);
+		}
+
+		return $domain;
+	}
+
 	/**
 	 * Force to set response method
 	 *
@@ -1128,7 +1148,7 @@ class Context
 		$self->js_callback_func = $self->getJSCallbackFunc();
 
 		($type && $self->request_method = $type) or
-				(strpos($_SERVER['CONTENT_TYPE'], 'json') && $self->request_method = 'JSON') or
+				((strpos($_SERVER['CONTENT_TYPE'], 'json') || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json')) && $self->request_method = 'JSON') or
 				($GLOBALS['HTTP_RAW_POST_DATA'] && $self->request_method = 'XMLRPC') or
 				($self->js_callback_func && $self->request_method = 'JS_CALLBACK') or
 				($self->request_method = $_SERVER['REQUEST_METHOD']);
@@ -1364,7 +1384,7 @@ class Context
 			{
 				$result[$k] = $v;
 
-				if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc())
+				if($do_stripslashes && version_compare(PHP_VERSION, '5.4.0', '<') && get_magic_quotes_gpc())
 				{
 					$result[$k] = stripslashes($result[$k]);
 				}
@@ -1397,7 +1417,7 @@ class Context
 	 */
 	function _setUploadedArgument()
 	{
-		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE)
+		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || (stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE && stripos($_SERVER['HTTP_CONTENT_TYPE'], 'multipart/form-data') === FALSE))
 		{
 			return;
 		}
@@ -1646,9 +1666,7 @@ class Context
 					'act.document_srl.key.mid.vid' => ($act == 'trackback') ? "$vid/$mid/$srl/$key/$act" : ''
 				);
 
-				Router::setMap($target_map);
-
-				$query = Router::makePrettyUrl($target);
+				$query = $target_map[$target];
 			}
 
 			if(!$query)

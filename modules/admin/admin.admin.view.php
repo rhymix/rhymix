@@ -24,6 +24,21 @@ class adminAdminView extends admin
 	 */
 	var $easyinstallCheckFile = './files/env/easyinstall_last';
 
+	function __construct()
+	{
+		$db_info = Context::getDBInfo();
+
+		if(strpos($db_info->default_url, 'xn--') !== FALSE)
+		{
+			$xe_default_url = Context::decodeIdna($db_info->default_url);
+		}
+		else
+		{
+			$xe_default_url = $db_info->default_url;
+		}
+		Context::set('xe_default_url', $xe_default_url);
+	}
+
 	/**
 	 * Initilization
 	 * @return void
@@ -146,7 +161,7 @@ class adminAdminView extends admin
 		$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
 		$currentAct = Context::get('act');
 		$subMenuTitle = '';
-		
+
 		foreach((array) $moduleActionInfo->menu as $key => $value)
 		{
 			if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
@@ -410,6 +425,10 @@ class adminAdminView extends admin
 
 		Context::set('selected_lang', $db_info->lang_type);
 
+		if(strpos($db_info->default_url, 'xn--') !== FALSE)
+		{
+			$db_info->default_url = Context::decodeIdna($db_info->default_url);
+		}
 		Context::set('default_url', $db_info->default_url);
 		Context::set('langs', Context::loadLangSupported());
 
@@ -423,7 +442,7 @@ class adminAdminView extends admin
 		Context::set('use_sitelock', $db_info->use_sitelock);
 		Context::set('sitelock_title', $db_info->sitelock_title);
 		Context::set('sitelock_message', htmlspecialchars($db_info->sitelock_message, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-		
+
 		$whitelist = implode("\r\n", $db_info->sitelock_whitelist);
 		Context::set('sitelock_whitelist', $whitelist);
 
@@ -568,7 +587,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrModuleName = explode("|", $str);
 				$oModuleModel = getModel("module");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrModuleName as $moduleName) {
 					$moduleInfo = $oModuleModel->getModuleInfoXml($moduleName);
 					$mInfo[] = "{$moduleName}({$moduleInfo->version})";
@@ -578,7 +597,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrAddonName = explode("|", $str);
 				$oAddonModel = getAdminModel("addon");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrAddonName as $addonName) {
 					$addonInfo = $oAddonModel->getAddonInfoXml($addonName);
 					$mInfo[] = "{$addonName}({$addonInfo->version})";
@@ -588,7 +607,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrWidgetName = explode("|", $str);
 				$oWidgetModel = getModel("widget");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrWidgetName as $widgetName) {
 					$widgetInfo = $oWidgetModel->getWidgetInfo($widgetName);
 					$mInfo[] = "{$widgetName}({$widgetInfo->version})";
@@ -598,7 +617,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrWidgetstyleName = explode("|", $str);
 				$oWidgetModel = getModel("widget");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrWidgetstyleName as $widgetstyleName) {
 					$widgetstyleInfo = $oWidgetModel->getWidgetStyleInfo($widgetstyleName);
 					$mInfo[] = "{$widgetstyleName}({$widgetstyleInfo->version})";
@@ -609,7 +628,7 @@ class adminAdminView extends admin
 				$str = urldecode($arr[1]);
 				$arrLayoutName = explode("|", $str);
 				$oLayoutModel = getModel("layout");
-				$mInfo = array();	
+				$mInfo = array();
 				foreach($arrLayoutName as $layoutName) {
 					$layoutInfo = $oLayoutModel->getLayoutInfo($layoutName);
 					$mInfo[] = "{$layoutName}({$layoutInfo->version})";

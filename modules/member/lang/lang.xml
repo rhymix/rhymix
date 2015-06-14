@@ -1363,7 +1363,7 @@
 	<item name="msg_success_authed">
 		<value xml:lang="ko"><![CDATA[인증이 정상적으로 되어 임시 비밀번호로 변경 처리가 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하는 비밀번호로 변경하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Your account has been successfully activated and logged on.\n Please modify the password to your own one with the password in the mail.]]></value>
-		<value xml:lang="jp"><![CDATA[認証が正常に行われ、ログインできました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更してください。]]></value>
+		<value xml:lang="jp"><![CDATA[パスワードは、一時的なパスワードに変更されます。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[新的注册信息已得到认证。请用邮件中的新密码修改您要想使用的密码。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[帳號認證成功，請登入後用郵件中的新密碼修改成想要使用的密碼。]]></value>
 		<value xml:lang="fr"><![CDATA[Votre compte a été certifié avec succès et ouvert une session. \n Modifiez le Mot de Passe après vous ouvrez une session en utilisant le Mot de Passe dans le mél.]]></value>
@@ -1693,7 +1693,7 @@
 		<value xml:lang="tr"><![CDATA[Şifre 6~20 karakter uzunluğunda olmalıdır]]></value>
 		<value xml:lang="vi"><![CDATA[Độ dài mật khẩu giới hạn từ 6 đến 20 kí tự.]]></value>
 	</item>
-	
+
 	<item name="cmd_config_password_strength">
 		<value xml:lang="ko"><![CDATA[비밀번호 보안수준]]></value>
 		<value xml:lang="en"><![CDATA[password strength]]></value>
@@ -1714,7 +1714,7 @@
 		<value xml:lang="en"><![CDATA[Auto-upgrade Hashing Algorithm]]></value>
 		<value xml:lang="jp"><![CDATA[暗号化アルゴリズム自動アップグレード]]></value>
 	</item>
-	
+
 	<item name="password_strength_low">
 		<value xml:lang="ko"><![CDATA[낮음]]></value>
 		<value xml:lang="en"><![CDATA[low]]></value>
@@ -1730,7 +1730,7 @@
 		<value xml:lang="en"><![CDATA[high]]></value>
 		<value xml:lang="jp"><![CDATA[強い]]></value>
 	</item>
-	
+
 	<item name="about_password_strength_config">
 		<value xml:lang="ko"><![CDATA[회원들이 비밀번호를 등록/변경할 때, 비밀번호가 설정된 보안수준을 만족해야 합니다. 단, 관리자가 직접 등록할 경우에는 적용되지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[When members register or change the password, the password must meet the specified password strength. However, the administrator is an exception.]]></value>
@@ -1751,7 +1751,7 @@
 		<value xml:lang="en"><![CDATA[Passwords encrypted using different algorithms will be automatically converted to the configured algorithm at next login.]]></value>
 		<value xml:lang="jp"><![CDATA[設定されたアルゴリズムとは異なる方法で暗号化されたパスワードがあれば、次のログイン時に設定されたアルゴリズムに自動的に変換します。]]></value>
 	</item>
-	
+
 	<item name="about_password_strength" type="array">
 		<item name="low">
 			<value xml:lang="ko"><![CDATA[비밀번호는 4자 이상이어야 합니다.]]></value>
@@ -1769,7 +1769,7 @@
 			<value xml:lang="jp"><![CDATA[パスワードは8文字以上の【半角/英文字、数字、記号の混合】で入力してください。]]></value>
 		</item>
 	</item>
-	
+
 	<item name="about_user_name">
 		<value xml:lang="ko"><![CDATA[이름은 2~20자 이내여야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Name should be 2~20 letters long.]]></value>
@@ -2795,5 +2795,9 @@
 		<value xml:lang="en"><![CDATA[Move to trash]]></value>
 		<value xml:lang="jp"><![CDATA[ゴミ箱へ移動]]></value>
 	</item>
-	
+	<item name="msg_spammer_complete">
+		<value xml:lang="ko"><![CDATA[완료되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Completed.]]></value>
+		<value xml:lang="jp"><![CDATA[完了しました。]]></value>
+	</item>
 </lang>

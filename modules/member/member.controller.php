@@ -294,7 +294,7 @@ class memberController extends member
 			$message = Context::getLang('about_password_strength');
 			return new Object(-1, $message[$config->password_strength]);
 		}
-		
+
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
@@ -441,6 +441,10 @@ class memberController extends member
 
 		if(!$this->memberInfo->password)
 		{
+			// Get information of logged-in user
+			$logged_info = Context::get('logged_info');
+			$member_srl = $logged_info->member_srl;
+			
 			$columnList = array('member_srl', 'password');
 			$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 			$this->memberInfo->password = $memberInfo->password;
@@ -966,11 +970,12 @@ class memberController extends member
 		}
 
 		// Insert data into the authentication DB
+		$oPassword = new Password();
 		$args = new stdClass();
 		$args->user_id = $member_info->user_id;
 		$args->member_srl = $member_info->member_srl;
-		$args->new_password = rand(111111,999999);
-		$args->auth_key = md5( rand(0,999999 ) );
+		$args->new_password = $oPassword->createTemporaryPassword(8);
+		$args->auth_key = $oPassword->createSecureSalt(40);
 		$args->is_register = 'N';
 
 		$output = executeQuery('member.insertAuthMail', $args);
@@ -1070,17 +1075,17 @@ class memberController extends member
 		}
 
 		// Update to a temporary password and set change_password_date to 1
-		$args = new stdClass;
-		$args->member_srl = $member_srl;
-		list($usec, $sec) = explode(" ", microtime());
-		$temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,15);
+		$oPassword =  new Password();
+		$temp_password = $oPassword->createTemporaryPassword(8);
 
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
 		$args->password = $temp_password;
 		$args->change_password_date = '1';
 		$output = $this->updateMemberPassword($args);
 		if(!$output->toBool()) return $output;
 
-		$_SESSION['xe_temp_password_'.$user_id] = $temp_password;
+		$_SESSION['xe_temp_password_' . $user_id] = $temp_password;
 
 		$this->add('user_id',$user_id);
 
@@ -1096,10 +1101,17 @@ class memberController extends member
 	 */
 	function procMemberAuthAccount()
 	{
+		$oMemberModel = getModel('member');
+
 		// Test user_id and authkey
 		$member_srl = Context::get('member_srl');
 		$auth_key = Context::get('auth_key');
-		if(!$member_srl || !$auth_key) return $this->stop('msg_invalid_request');
+
+		if(!$member_srl || !$auth_key)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
 		// Test logs for finding password by user_id and authkey
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
@@ -1108,29 +1120,38 @@ class memberController extends member
 
 		if(!$output->toBool() || $output->data->auth_key != $auth_key)
 		{
-			if(strlen($output->data->auth_key) !== strlen($auth_key)) executeQuery('member.deleteAuthMail', $args);
+			if(strlen($output->data->auth_key) !== strlen($auth_key))
+			{
+				executeQuery('member.deleteAuthMail', $args);
+			}
+
 			return $this->stop('msg_invalid_auth_key');
 		}
+
+		$args->password = $output->data->new_password;
+
 		// If credentials are correct, change the password to a new one
 		if($output->data->is_register == 'Y')
 		{
-			$args->password = $output->data->new_password;
 			$args->denied = 'N';
 		}
 		else
 		{
-			$args->password = getModel('member')->hashPassword($args->password);
-			unset($args->denied);
+			$args->password = $oMemberModel->hashPassword($args->password);
 		}
+
 		// Back up the value of $Output->data->is_register
 		$is_register = $output->data->is_register;
 
 		$output = executeQuery('member.updateMemberPassword', $args);
-		if(!$output->toBool()) return $this->stop($output->getMessage());
+		if(!$output->toBool())
+		{
+			return $this->stop($output->getMessage());
+		}
+
 		// Remove all values having the member_srl from authentication table
 		executeQuery('member.deleteAuthMail',$args);
 
-		$site_module_info = Context::get('site_module_info');
 		$this->_clearMemberCache($args->member_srl);
 
 		// Notify the result
@@ -1161,11 +1182,14 @@ class memberController extends member
 		$chk_args->member_srl = $member_srl;
 		$output = executeQuery('member.chkAuthMail', $chk_args);
 		if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
+
 		// Insert data into the authentication DB
 		$auth_args = new stdClass;
 		$auth_args->member_srl = $member_srl;
-		$auth_args->auth_key = md5(rand(0, 999999));
+		$auth_args->auth_key = $oPassword->createSecureSalt(40);
 
+		$oDB = &DB::getInstance();
+		$oDB->begin();
 		$output = executeQuery('member.updateAuthMail', $auth_args);
 		if(!$output->toBool())
 		{
@@ -1339,11 +1363,12 @@ class memberController extends member
 		$this->_clearMemberCache($args->member_srl);
 
 		// generate new auth key
-		$auth_args = new stdClass;
+		$oPassword = new Password();
+		$auth_args = new stdClass();
 		$auth_args->user_id = $memberInfo->user_id;
 		$auth_args->member_srl = $memberInfo->member_srl;
 		$auth_args->new_password = $memberInfo->password;
-		$auth_args->auth_key = md5( rand(0,999999 ) );
+		$auth_args->auth_key = $oPassword->createSecureSalt(40);
 		$auth_args->is_register = 'Y';
 
 		$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -1625,9 +1650,10 @@ class memberController extends member
 		$do_auto_login = false;
 
 		// Compare key values based on the information
-		$key = md5($user_id . $password . $_SERVER['HTTP_USER_AGENT']);
+		$check_key = strtolower($user_id).$password.$_SERVER['HTTP_USER_AGENT'];
+		$check_key = substr(hash_hmac('sha256', $check_key, substr($args->autologin_key, 0, 32)), 0, 32);
 
-		if($key == $args->autologin_key)
+		if($check_key === substr($args->autologin_key, 32))
 		{
 			// Check change_password_date
 			$oModuleModel = getModel('module');
@@ -1812,8 +1838,12 @@ class memberController extends member
 		if($keep_signed)
 		{
 			// Key generate for auto login
+			$oPassword = new Password();
+			$random_key = $oPassword->createSecureSalt(32, 'hex');
+			$extra_key = strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT'];
+			$extra_key = substr(hash_hmac('sha256', $extra_key, $random_key), 0, 32);
 			$autologin_args = new stdClass;
-			$autologin_args->autologin_key = md5(strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT']);
+			$autologin_args->autologin_key = $random_key.$extra_key;
 			$autologin_args->member_srl = $this->memberInfo->member_srl;
 			executeQuery('member.deleteAutologin', $autologin_args);
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);
@@ -1964,7 +1994,7 @@ class memberController extends member
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 		// Create a model object
 		$oMemberModel = getModel('member');
-		
+
 		// ID check is prohibited
 		if($args->password && !$password_is_hashed)
 		{
@@ -2051,11 +2081,12 @@ class memberController extends member
 		if($args->denied == 'Y')
 		{
 			// Insert data into the authentication DB
-			$auth_args = new stdClass;
+			$oPassword = new Password();
+			$auth_args = new stdClass();
 			$auth_args->user_id = $args->user_id;
 			$auth_args->member_srl = $args->member_srl;
 			$auth_args->new_password = $args->password;
-			$auth_args->auth_key = md5(rand(0, 999999));
+			$auth_args->auth_key = $oPassword->createSecureSalt(40);
 			$auth_args->is_register = 'Y';
 
 			$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -2144,7 +2175,7 @@ class memberController extends member
 		{
 			return new Object(-1, 'denied_nick_name');
 		}
-		
+
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
  		if($member_srl && $orgMemberInfo->nick_name != $args->nick_name) return new Object(-1,'msg_exists_nick_name');
 
@@ -2166,7 +2197,7 @@ class memberController extends member
 				$message = Context::getLang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
-				
+
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
 		else $args->password = $orgMemberInfo->password;
@@ -2242,21 +2273,19 @@ class memberController extends member
 	 */
 	function updateMemberPassword($args)
 	{
-		$output = executeQuery('member.updateChangePasswordDate', $args);
-
 		if($args->password)
 		{
 
 			// check password strength
 			$oMemberModel = getModel('member');
 			$config = $oMemberModel->getMemberConfig();
-			
+
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
 				$message = Context::getLang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
-			
+
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
 		else if($args->hashed_password)
@@ -2264,7 +2293,11 @@ class memberController extends member
 			$args->password = $args->hashed_password;
 		}
 
-		$output = executeQuery('member.updateMemberPassword', $args);;
+		$output = executeQuery('member.updateMemberPassword', $args);
+		if($output->toBool())
+		{
+			$result = executeQuery('member.updateChangePasswordDate', $args);
+		}
 
 		$this->_clearMemberCache($args->member_srl);
 
@@ -2429,12 +2462,15 @@ class memberController extends member
 		}
 		unset($_SESSION['rechecked_password_step']);
 
-		$auth_args = new stdClass;
+		$oPassword = new Password();
+		$auth_args = new stdClass();
 		$auth_args->user_id = $newEmail;
 		$auth_args->member_srl = $member_info->member_srl;
-		$auth_args->auth_key = md5(rand(0, 999999));
+		$auth_args->auth_key = $oPassword->createSecureSalt(40);
 		$auth_args->new_password = 'XE_change_emaill_address';
 
+		$oDB = &DB::getInstance();
+		$oDB->begin();
 		$output = executeQuery('member.insertAuthMail', $auth_args);
 		if(!$output->toBool())
 		{
@@ -2489,7 +2525,7 @@ class memberController extends member
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
-		if(!$output->toBool() || $output->data->auth_key != $auth_key) 
+		if(!$output->toBool() || $output->data->auth_key != $auth_key)
 		{
 			if(strlen($output->data->auth_key) !== strlen($auth_key)) executeQuery('member.deleteAuthChangeEmailAddress', $args);
 			return $this->stop('msg_invalid_modify_email_auth_key');
