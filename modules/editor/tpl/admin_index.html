@@ -74,7 +74,7 @@
 		<div class="x_control-group">
 			<label for="comment_editor_height" class="x_control-label">{$lang->guide_set_height_comment_editor}</label>
 			<div class="x_controls">
-				<input type="number" name="comment_editor_height"id="comment_editor_height" value="{$editor_config->comment_editor_height}"|cond="$editor_config->comment_editor_height" value="{$editor_config_default['comment_editor_height']}"|cond="!$editor_config->comment_editor_height" /> px
+				<input type="number" name="comment_editor_height" id="comment_editor_height" value="{$editor_config->comment_editor_height}"|cond="$editor_config->comment_editor_height" value="{$editor_config_default['comment_editor_height']}"|cond="!$editor_config->comment_editor_height" /> px
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -107,7 +107,6 @@
 					<input type="radio" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" />{$lang->by_you} : 
 					<input type="text" name="content_font_defined" value="{stripcslashes($editor_config->content_font)}"|cond="$editor_config->font_defined == 'Y'" />
 				</label>
-				<label>
 			</div>
 		</div>
 		<div class="x_control-group">
