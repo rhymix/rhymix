@@ -1888,7 +1888,7 @@ class menuAdminController extends menu
 			$name_str = sprintf('$_names = array(%s); print $_names[$lang_type];', $name_arr_str);
 
 			$url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
-			$desc = str_replace(array('&','"','<',"'"),array('&amp;','&quot;','&lt;','\\\''),$node->desc);
+			$desc = str_replace(array('&','"',"'"),array('&amp;','&quot;','\\\''),$node->desc);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";
@@ -1991,7 +1991,7 @@ class menuAdminController extends menu
 			// List variables
 			$href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
 			$url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
-			$desc = str_replace(array('&','"','<',"'"),array('&amp;','&quot;','&lt;','\\\''),$node->desc);
+			$desc = str_replace(array('&','"',"'"),array('&amp;','&quot;','\\\''),$node->desc);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";
