@@ -726,7 +726,8 @@ class menuAdminController extends menu
 			$args->name = $request->menu_name;
 		}
 		
-		$args->desc = $request->menu_desc;
+		if($request->menu_desc) $args->desc = $request->menu_desc;
+		else $args->desc = '';
 
 		if(count($args->group_srls) == 0)
 		{
