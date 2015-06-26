@@ -279,10 +279,6 @@
 		<value xml:lang="tr"><![CDATA[Şunu yap]]></value>
 		<value xml:lang="vi"><![CDATA[Bình chọn / Phê bình]]></value>
 	</item>
-	<item name="cmd_comfirm_delete_msg">
-		<value xml:lang="ko"><![CDATA[이 %1$s를 %2$s하시겠습니까?]]></value>
-		<value xml:lang="en"><![CDATA[Are you sure to %2$s this %1$s?]]></value>
-	</item>
 	<item name="msg_cart_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 글을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select the articles to delete.]]></value>
