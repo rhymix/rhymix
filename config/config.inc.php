@@ -308,6 +308,7 @@ if(!defined('__XE_LOADED_CLASS__'))
 		'ConditionWithArgument' => 'classes/db/queryparts/condition/ConditionWithArgument.class.php',
 		'ConditionWithoutArgument' => 'classes/db/queryparts/condition/ConditionWithoutArgument.class.php',
 		'ClickCountExpression' => 'classes/db/queryparts/expression/ClickCountExpression.class.php',
+		'documentItem' => 'modules/document/document.item.php',
 		'DeleteExpression' => 'classes/db/queryparts/expression/DeleteExpression.class.php',
 		'Expression' => 'classes/db/queryparts/expression/Expression.class.php',
 		'InsertExpression' => 'classes/db/queryparts/expression/InsertExpression.class.php',
