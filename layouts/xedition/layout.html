@@ -294,10 +294,10 @@
 	<!-- END:HEADER -->
 
 	<!-- VISUAL-SUBHEADER -->
-	{@ $_subheader_img = 'sub_banner_01.jpg'}
-	<block cond="$layout_info->menu_type_sub === 'onepage_parallax'">{@ $_subheader_img = 'sub_banner_02.jpg'}</block>
-	<block cond="$mid === 'xeicon'">{@ $_subheader_img = 'sub_banner_xeicon.jpg'}</block>
-	<div cond="$layout_info->layout_type === 'sub'" class="visual {$_visual_class} bg-holder" style="background-image:url('{$layout_info->path}img/{$_subheader_img}'); width:100%; height:100%;"  data-width="1240" data-height="500">
+	<div cond="$layout_info->layout_type === 'sub'" class="visual {$_visual_class}">
+		{@ $_subheader_img = 'sub_banner_01.jpg'}
+		<block cond="$layout_info->menu_type_sub === 'onepage_parallax'">{@ $_subheader_img = 'sub_banner_02.jpg'}</block>
+		<block cond="$mid === 'xeicon'">{@ $_subheader_img = 'sub_banner_xeicon.jpg'}</block>
 		<span class="bg_img"></span>
 		<span class="mask"></span>
 		<div class="sub_title">
