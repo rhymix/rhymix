@@ -154,7 +154,6 @@ module.exports = function(grunt) {
 					'layouts/xedition/css/welcome.min.css': ['layouts/xedition/css/welcome.css'],
 					'layouts/xedition/css/widget.login.min.css': ['layouts/xedition/css/widget.login.css'],
 					'layouts/xedition/css/xeicon.min.css': ['layouts/xedition/css/xeicon.css'],
-					'layouts/xedition/css/swiper.min.css': ['layouts/xedition/css/swiper.css'],
 					'layouts/xedition/css/idangerous.swiper.min.css': ['layouts/xedition/css/idangerous.swiper.css'],
 				}
 			},
