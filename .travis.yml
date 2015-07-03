@@ -23,6 +23,7 @@ before_script:
 script:
 - grunt lint
 - grunt minify
+- if [ $(phpenv version-name) != "5.3" ]; then ./vendor/bin/codecept build travis;
 - if [ $(phpenv version-name) != "5.3" ]; then ./vendor/bin/codecept run -d --env travis;
   fi
 notifications:
