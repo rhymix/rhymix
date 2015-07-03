@@ -9,7 +9,7 @@
 
 {@ $css_content = null }
 <!--@if($content_font || $content_font_size)-->
-	{@ $css_content = '.xe_content.editable p { margin: 0;'. chr(125); }
+	<!--@if($content_style === 'ckeditor_light')-->{@ $css_content = '.xe_content.editable p { margin: 0;'. chr(125); }<!--@endif-->
 
 	{@ $css_content .= ' .xe_content.editable { '}
 	<block cond="$content_font">

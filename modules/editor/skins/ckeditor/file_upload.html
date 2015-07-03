@@ -5,16 +5,14 @@
 <div cond="$allow_fileupload" id="xefu-container-{$editor_sequence}" class="xefu-container xe-clearfix" data-editor-sequence="{$editor_sequence}">
 	<!--// dropzone -->
 	<div class="xefu-dropzone">
+		<span class="xefu-btn fileinput-button xefu-act-selectfile">
+			<span><i class="xi-icon xi-file-add"></i> {$lang->edit->upload_file}</span>
+			<input id="xe-fileupload" type="file" class="fileupload-processing " value="{$lang->edit->upload_file}" name="Filedata" data-auto-upload="true" data-editor-sequence="{$editor_sequence}" multiple />
+		</span>
+
 		<p class="xefu-dropzone-message">{$lang->ckeditor_about_file_drop_area}</p>
 
-		<div>
-			<span class="xefu-btn fileinput-button xefu-act-selectfile">
-				<span>{$lang->edit->upload_file}</span>
-				<input id="xe-fileupload" type="file" class="fileupload-processing " value="{$lang->edit->upload_file}" name="Filedata" data-auto-upload="true" data-editor-sequence="{$editor_sequence}" multiple />
-			</span>
-		</div>
-
-		<p>{$lang->allowed_filesize} : <span class="allowed_filesize">0MB</span> <span>({$lang->allowed_filetypes} : <span class="allowed_filetypes">*.*</span>)</span></p>
+		<p class="upload_info">{$lang->allowed_filesize} : <span class="allowed_filesize">0MB</span> <span>({$lang->allowed_filetypes} : <span class="allowed_filetypes">*.*</span>)</span></p>
 
 		<p class="xefu-progress-status" style="display: none;">{$lang->ckeditor_file_uploading} (<span class="xefu-progress-percent">0%</span>)</p>
 		<div class="xefu-progressbar" style="display: none;"><div></div></div>
