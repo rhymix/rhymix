@@ -529,19 +529,21 @@
 	</script>
 </section>
 <!-- /Login widget -->    
-<script>
-var swiper = new Swiper('.swiper-container', {
-    autoplay: 6000,
-    loop: true,
-    pagination: '.pagination',
-    paginationClickable: true
-});
-jQuery('.swiper-button-next').on('click', function(e){
-	e.preventDefault();
-	swiper.swipeNext();
-});
-jQuery('.swiper-button-prev').on('click', function(e){
-	e.preventDefault();
-	swiper.swipePrev();
+<script cond="$_enable_slide">
+jQuery(document).ready(function () {
+	var swiper = new Swiper('.swiper-container', {
+	    autoplay: 6000,
+	    loop: true,
+	    pagination: '.pagination',
+	    paginationClickable: true
+	});
+	jQuery('.swiper-button-next').on('click', function(e){
+		e.preventDefault();
+		swiper.swipeNext();
+	});
+	jQuery('.swiper-button-prev').on('click', function(e){
+		e.preventDefault();
+		swiper.swipePrev();
+	});
 });
 </script>
