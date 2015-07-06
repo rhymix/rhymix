@@ -150,7 +150,7 @@ a:hover, a:active, a:focus {
 .fixed_header .header_wrap.shrink {
     position: fixed;
     top: 0;
-    width: auto;
+    width: 1240px;
     z-index: 1000;
     border-bottom: 1px solid #e1e1e1;
     background-color: #fff;
