@@ -527,7 +527,6 @@ class FileHandler
 			{
 				$oRequest = new HTTP_Request(__PROXY_SERVER__);
 				$oRequest->setMethod('POST');
-				$oRequest->_timeout = $timeout;
 				$oRequest->addPostData('arg', serialize(array('Destination' => $url, 'method' => $method, 'body' => $body, 'content_type' => $content_type, "headers" => $headers, "post_data" => $post_data)));
 			}
 			else
@@ -571,7 +570,15 @@ class FileHandler
 				if($body)
 					$oRequest->setBody($body);
 			}
-			$oRequest->setConfig('timeout', $timeout);
+			
+			if(method_exists($oRequest, 'setConfig'))
+			{
+				$oRequest->setConfig('timeout', $timeout);
+			}
+			elseif(property_exists($oRequest, '_timeout'))
+			{
+				$oRequest->_timeout = $timeout;
+			}
 
 			$oResponse = $oRequest->sendRequest();
 
