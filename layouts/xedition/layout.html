@@ -145,7 +145,7 @@
 
 <!--// CSS -->
 <load target="./css/layout.css" />
-<load target="./css/idangerous.swiper.css" />
+<load target="./css/swiper.css" />
 <load target="./css/welcome.css" />
 <load target="./css/webfont.css" />
 <load target="./css/xeicon.css" cond="$mid === 'xeicon'" />
@@ -153,7 +153,7 @@
 <!--// JS -->
 <!--Slider 구버젼. - 카메라 슬라이더-->
 
-<load cond="$_enable_slide" target="./js/idangerous.swiper.min.js" />
+<load cond="$_enable_slide" target="./js/swiper.min.js" />
 <load target="./js/layout.js" />
 <load target="./js/gnb.pc.js" cond="!Mobile::isMobileCheckByAgent()" />
 <load target="./js/gnb.mobile.js" cond="Mobile::isMobileCheckByAgent()" />
@@ -351,7 +351,7 @@
 		</div>
 		<!-- END:슬라이드 -->
         <!-- Add Pagination -->
-        <div class="pagination"></div>
+        <div class="swiper-pagination"></div>
     </div>
 	<!-- /VISUAL -->
 
@@ -530,9 +530,9 @@
 <!-- /Login widget -->    
 <script>
 var swiper = new Swiper('.swiper-container', {
-    autoplay: 3000,
+    effect: 'fade',
     loop: true,
-    pagination: '.pagination',
+    pagination: '.swiper-pagination',
     paginationClickable: true
 });
 </script>
