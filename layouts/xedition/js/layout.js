@@ -38,6 +38,15 @@
             });
             $(window).triggerHandler('scroll');
         }
+        // login popup
+        $hoverEl.on('mouseenter mouseleave focusin focusout',function(e){
+            e.preventDefault();
+            if(e.type == 'mouseenter' || e.type == 'focusin'){
+                $(this).addClass('on');
+            } else {
+                $(this).removeClass('on');
+            }
+        });
 		// Search
         $searchEl.click(function(){
             if($searchForm.is(':hidden')){
