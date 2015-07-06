@@ -72,6 +72,11 @@ class memberController extends member
 			}
 		}
 
+		// Delete all previous authmail if login is successful
+		$args = new stdClass();
+		$args->member_srl = $this->memberInfo->member_srl;
+		executeQuery('member.deleteAuthMail', $args);
+
 		if(!$config->after_login_url)
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -1126,6 +1131,12 @@ class memberController extends member
 			return $this->stop('msg_invalid_auth_key');
 		}
 
+		if(ztime($output->data->regdate) < $_SERVER['REQUEST_TIME'] + zgap() - 86400)
+		{
+			executeQuery('member.deleteAuthMail', $args);
+			return $this->stop('msg_invalid_auth_key');
+		}
+
 		$args->password = $output->data->new_password;
 
 		// If credentials are correct, change the password to a new one
@@ -1195,6 +1206,12 @@ class memberController extends member
 		$output = executeQueryArray('member.getAuthMailInfo', $auth_args);
 		if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
 		$auth_info = $output->data[0];
+
+		// Update the regdate of authmail entry
+		$renewal_args = new stdClass;
+		$renewal_args->member_srl = $member_info->member_srl;
+		$renewal_args->auth_key = $auth_info->auth_key;
+		$output = executeQuery('member.updateAuthMail', $renewal_args);		
 
 		$memberInfo = array();
 		global $lang;
