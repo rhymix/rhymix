@@ -8,10 +8,6 @@
  */
 class communication extends ModuleObject
 {
-	var $triggers = array(
-		array('member.getMemberMenu', 'communication', 'controller', 'triggerBeforeMemberPopupMenu', 'before'),
-		array('moduleHandler.init', 'communication', 'controller', 'triggerAddMemberMenu', 'after')
-	);
 
 	/**
 	 * Implement if additional tasks are necessary when installing
@@ -19,32 +15,8 @@ class communication extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
-
-		// Create triggers
-		foreach($this->triggers as $trigger)
-		{
-			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
-			{
-				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-			}
-		}
-
 		// Create a temporary file storage for one new private message notification
 		FileHandler::makeDir('./files/member_extra_info/new_message_flags');
-
-		// Save Default Config.
-		$config = new stdClass;
-		$config->able_module = 'Y';
-		$config->skin = 'default';
-		$config->colorset = 'white';
-		$config->editor_skin = 'default';
-		$communication_config->mskin = 'default';
-		$communication_config->grant_write = array('default_grant'=>'member');
-
-		// Save configurations
-		$oModuleController->insertModuleConfig('communication', $config);
 		return new Object();
 	}
 
@@ -60,7 +32,6 @@ class communication extends ModuleObject
 		}
 
 		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
 		$config = $oModuleModel->getModuleConfig('message');
 
 		if($config->skin)
@@ -75,17 +46,6 @@ class communication extends ModuleObject
 				}
 			}
 		}
-
-		// check if module is abled
-		if($config->able_module != 'N')
-		{
-			// Check triggers
-			foreach($this->triggers as $trigger)
-			{
-				if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
-			}
-		}
-
 		return FALSE;
 	}
 
@@ -101,7 +61,6 @@ class communication extends ModuleObject
 		}
 
 		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
 		$config = $oModuleModel->getModuleConfig('message');
 		if(!is_object($config))
 		{
@@ -122,16 +81,7 @@ class communication extends ModuleObject
 				}
 			}
 		}
-
-		// Create triggers
-		foreach($this->triggers as $trigger)
-		{
-			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
-			{
-				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-			}
-		}
-
+		
 		return new Object(0, 'success_updated');
 	}
 
@@ -141,19 +91,9 @@ class communication extends ModuleObject
 	 */
 	function recompileCache()
 	{
+		
 	}
 
-
-	function moduleUninstall()
-	{
-		$oModuleController = getController('module');
-
-		foreach($this->triggers as $trigger)
-		{
-			$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-		}
-		return new Object();
-	}
 }
 /* End of file communication.class.php */
 /* Location: ./modules/comment/communication.class.php */
