@@ -112,6 +112,7 @@ module.exports = function(grunt) {
 			},
 			'layout': {
 				files: {
+					'layouts/xedition/js/jquery.easing.min.js': ['layouts/xedition/js/jquery.easing.js'],
 					'layouts/xedition/js/layout.min.js': ['layouts/xedition/js/layout.js'],
 					'layouts/xedition/js/welcome.min.js': ['layouts/xedition/js/welcome.js'],
 					'layouts/xedition/js/gnb.pc.min.js': ['layouts/xedition/js/gnb.pc.js'],
