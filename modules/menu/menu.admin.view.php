@@ -79,6 +79,7 @@ class menuAdminView extends menu
 					$menuItems = new stdClass();
 					$menuItems->menuSrl = $value->menu_srl;
 					$menuItems->title = $value->title;
+					$menuItems->desc = $value->desc;
 					$menuItems->menuItems = $menu;
 					$menuList[] = $menuItems;
 				}
