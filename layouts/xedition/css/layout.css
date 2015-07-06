@@ -222,7 +222,7 @@ a:hover,a:active,a:focus{text-decoration:none}
 .swiper-button.left { left:20px; }
 .swiper-button.right { right:20px; }
 .swiper-button i { width:50px; line-height:50px; text-align:center; font-size:24px; color:#fff; }
-.swiper-button button { background:rgba(0,0,0,0.3); cursor:pointer; }
+.swiper-button button { background-color:#333; border-radius:50px; background-color:rgba(0,0,0,0.2); cursor:pointer; }
 .pagination {
   position: absolute;
   left: 0;
