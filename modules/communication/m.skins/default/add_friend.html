@@ -1,0 +1,31 @@
+<load target="./css/mcommunication.css" />
+<load target="./js/communication.js" />
+<div class="hx h2">
+	<h2>{$lang->cmd_add_friend}</h2>
+</div>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/m.skins/default/add_friend/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="addFriend" action="./" method="post" class="ff">
+	<input type="hidden" name="module" value="communication" />
+	<input type="hidden" name="act" value="procCommunicationAddFriend" />
+	<input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
+	<input type="hidden" name="xe_validator_id" value="modules/communication/m.skins/default/add_friend/1" />
+	<ul>
+		<li>
+			<label for="nickname" class="control-label">{$lang->nick_name}</label>
+			<input id="nickname" name="nickname" type="text" disabled="disabled" value="{htmlspecialchars($target_info->nick_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}"/>
+		</li>
+		<li>
+			<label for="friend_group_srl">{$lang->friend_group}</label>
+			<select name="friend_group_srl" id="friend_group_srl">
+				<option value="">{$lang->default_friend_group}</option>
+				<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
+			</select> 
+			<a href="{getUrl('act','dispCommunicationAddFriendGroup')}" class="btn" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+		</li>
+	</ul>
+	<div class="bna" style="border-top:0;padding:0">
+		<input type="submit" value="{$lang->cmd_add_friend}" class="btn btn-inverse" />
+	</div>
+</form>
