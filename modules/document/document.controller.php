@@ -868,7 +868,7 @@ class documentController extends document
 		$output = executeQuery('document.updateReadedCount', $args);
 
 		// Call a trigger when the read count is updated (after)
-		$outptrigger_outputut = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
+		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
 		if(!$trigger_output->toBool())
 		{
 			$oDB->rollback();
