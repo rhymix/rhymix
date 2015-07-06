@@ -296,7 +296,7 @@
 		{@ $_subheader_img = 'sub_banner_01.jpg'}
 		<block cond="$layout_info->menu_type_sub === 'onepage_parallax'">{@ $_subheader_img = 'sub_banner_02.jpg'}</block>
 		<block cond="$mid === 'xeicon'">{@ $_subheader_img = 'sub_banner_xeicon.jpg'}</block>
-		<span class="bg_img"></span>
+		<span class="bg_img" style="background-image:url('{$layout_info->path}img/{$_subheader_img}')"></span>
 		<span class="mask"></span>
 		<div class="sub_title">
 			<h1>{$sub_header_title}</h1>
