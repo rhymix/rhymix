@@ -474,7 +474,9 @@ a:hover, a:active, a:focus {
     line-height: 15px;
     color: #999
 }
-.magazine .custom_area a:hover, .magazine .custom_area a:hover, .magazine .custom_area a:hover {
+.magazine .custom_area a:hover,
+.magazine .custom_area a:hover,
+.magazine .custom_area a:hover {
     color: #cda25a
 }
 .magazine .search_area {
@@ -495,19 +497,28 @@ a:hover, a:active, a:focus {
     line-height: 60px;
     color: #f6f6f6
 }
-.onepage .gnb > ul > li > a:hover, .onepage .gnb > ul > li > a:focus, .onepage .gnb > ul > li > a:focus, .onepage .gnb > ul > li.on > a {
+.onepage .gnb > ul > li > a:hover,
+.onepage .gnb > ul > li > a:focus,
+.onepage .gnb > ul > li > a:focus,
+.onepage .gnb > ul > li.on > a {
     color: #fff
 }
 .onepage .shrink .gnb > ul > li > a {
     color: #888
 }
-.onepage .shrink .gnb > ul > li > a:hover, .onepage .shrink .gnb > ul > li > a:focus, .onepage .shrink .gnb > ul > li > a:focus, .onepage .shrink .gnb > ul > li.on > a {
+.onepage .shrink .gnb > ul > li > a:hover,
+.onepage .shrink .gnb > ul > li > a:focus,
+.onepage .shrink .gnb > ul > li > a:focus,
+.onepage .shrink .gnb > ul > li.on > a {
     color: #444
 }
 .onepage .header > .side > ul > li > a {
     color: #f6f6f6
 }
-.onepage .header > .side > ul > li > a:hover, .onepage .header > .side > ul > li > a:focus, .onepage .header > .side > ul > li > a:active, .onepage .header > .side > ul > li.on > a {
+.onepage .header > .side > ul > li > a:hover,
+.onepage .header > .side > ul > li > a:focus,
+.onepage .header > .side > ul > li > a:active,
+.onepage .header > .side > ul > li.on > a {
     color: #fff
 }
 .onepage .search_area .btn_close {
@@ -615,7 +626,10 @@ a:hover, a:active, a:focus {
     font-weight: 700;
     color: #888
 }
-.gnb > ul > li > a:hover, .gnb > ul > li > a:focus, .gnb > ul > li > a:focus, .gnb > ul > li.on > a {
+.gnb > ul > li > a:hover,
+.gnb > ul > li > a:focus,
+.gnb > ul > li > a:focus,
+.gnb > ul > li.on > a {
     color: #444
 }
 .gnb > ul .depth2 {
@@ -649,7 +663,10 @@ a:hover, a:active, a:focus {
     font-size: 13px;
     color: #9d9d9d
 }
-.gnb > ul .depth2 a:hover, .gnb > ul .depth2 a:active, .gnb > ul .depth2 a:focus, .gnb > ul .depth2 > li.on > a {
+.gnb > ul .depth2 a:hover,
+.gnb > ul .depth2 a:active,
+.gnb > ul .depth2 a:focus,
+.gnb > ul .depth2 > li.on > a {
     color: #cda25a
 }
 .gnb > ul .depth3 {
@@ -764,7 +781,8 @@ a:hover, a:active, a:focus {
 .body.fixed-width .lnb > ul > li {
     margin-bottom: 40px
 }
-.body.fixed-width .lnb > ul > li > a, .body.fixed-width .lnb > ul > li > span {
+.body.fixed-width .lnb > ul > li > a,
+.body.fixed-width .lnb > ul > li > span {
     display: block;
     line-height: 21px;
     margin-bottom: 14px;
@@ -875,7 +893,7 @@ a:hover, a:active, a:focus {
     position: absolute;
     top: 50%;
     display: none;
-    margin-bottom: 25px;
+    margin:-25px 0 0 0;
 }
 .swiper-container:hover .swiper-button {
     display: block;
@@ -1455,12 +1473,12 @@ a:hover, a:active, a:focus {
     .swiper-container h1 {
         font-weight: 600;
         margin: 0 0 10px 0;
-        font-size: 30px;
-        line-height: 40px;
+        font-size: 24px;
+        line-height: 30px;
         text-decoration: none;
     }
     .swiper-container p {
-        font-size: 15px;
+        font-size: 14px;
         line-height: 18px;
     }
 

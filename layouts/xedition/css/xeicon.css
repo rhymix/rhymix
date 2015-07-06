@@ -114,14 +114,14 @@
     color: #888;
 }
 .XEicon .get_started ul {
-    margin-top: 34px;
+    margin:34px -16px 0 0;
 }
 .XEicon .get_started li {
     position: relative;
     float: left;
     width: 286px;
     height: 212px;
-    margin-right: 15px;
+    margin-right: 16px;
     border: 1px solid #e8e8e8;
     background: #fff;
     text-align: center;
