@@ -267,7 +267,6 @@ a:hover,a:active,a:focus{text-decoration:none}
 	.header.sub_type3 { position:absolute; }
 	
 	/* Fixed Header */
-	/* Fixed Header */
 	.container.fixed_header{padding-top:0}
 	.header_wrap.shrink { display:none; }
 	.onepage .header>h1 { padding:0 14px; }
