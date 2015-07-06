@@ -964,6 +964,9 @@ a:hover, a:active, a:focus {
     .content > :first-child {
         margin-top: 0;
     }
+    .body.fixed-width.none .content {
+	    width:auto;
+    }
     .content img {
         max-width: 100%;
         height: auto
@@ -1121,7 +1124,7 @@ a:hover, a:active, a:focus {
     }
     .footer .f_cr_area .mobile-footer-member li {
         float: left;
-        width: 33.3%;
+        width: 50%;
         border-left: 1px solid #444;
         box-sizing: border-box;
     }
@@ -1177,6 +1180,9 @@ a:hover, a:active, a:focus {
         font-size: 1em;
         background: #fff;
     }
+    .onepage .gnb {
+	    margin-top:0;
+    }
     .gnb a {
         white-space: normal;
         font-size: 14px;
@@ -1214,6 +1220,12 @@ a:hover, a:active, a:focus {
     .onepage .gnb > ul > li > a {
         color: #555;
         line-height: normal
+    }
+    .onepage .gnb > ul > li > a:hover,
+    .onepage .gnb > ul > li > a:focus,
+    .onepage .gnb > ul > li > a:focus,
+    .onepage .gnb > ul > li.on > a {
+	    color:#555;
     }
     .gnb > ul .depth2 {
         display: block;
@@ -1335,8 +1347,8 @@ a:hover, a:active, a:focus {
     .visual.sub .sub_title {
         position: relative;
         z-index: 2;
-        width:;
-        margin: 0 auto
+        width:auto;
+        margin:0;
     }
     .visual.sub .sub_title h1 {
         position: relative;
@@ -1383,7 +1395,7 @@ a:hover, a:active, a:focus {
         background: none
     }
     .visual.sub.sub_type3 {
-        padding: 100px 0 90px;
+        padding: 80px 0 0;
         line-height: 40px;
         text-align: center
     }
@@ -1392,8 +1404,11 @@ a:hover, a:active, a:focus {
         background-attachment: fixed;
         background-size: auto auto
     }
+    .visual.sub.sub_type3 .sub_title {
+	    padding:100px 0 70px 0;
+    }
     .visual.sub.sub_type3 .sub_title h1 {
-        font-size: 39px;
+        font-size: 23px;
         font-weight: 400;
         color: #fff;
         letter-spacing: 2px

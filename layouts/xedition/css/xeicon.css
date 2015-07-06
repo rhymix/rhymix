@@ -246,6 +246,9 @@
         width: auto;
         padding: 0 0 0 70px;
     }
+    .XEicon .feature h2 {
+	    padding-top:10px;
+    }
     .XEicon .get_started {
         height: auto;
         padding: 80px 14px 20px 14px;
