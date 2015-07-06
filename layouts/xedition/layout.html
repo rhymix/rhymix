@@ -158,6 +158,7 @@
 <load target="./js/gnb.pc.js" cond="!Mobile::isMobileCheckByAgent()" />
 <load target="./js/gnb.mobile.js" cond="Mobile::isMobileCheckByAgent()" />
 <load cond="$layout_info->use_demo ==='Y' && !Mobile::isMobileCheckByAgent()" target="./js/welcome.js" />
+<load target="./js/SmoothScroll.min.js" />
 <load target="./js/jquery.parallax-scroll.min.js" />
 
 
@@ -294,11 +295,11 @@
 	<!-- END:HEADER -->
 
 	<!-- VISUAL-SUBHEADER -->
-	{@ $_subheader_img = 'sub_banner_01.jpg'}
-	<block cond="$layout_info->menu_type_sub === 'onepage_parallax'">{@ $_subheader_img = 'sub_banner_02.jpg'}</block>
-	<block cond="$mid === 'xeicon'">{@ $_subheader_img = 'sub_banner_xeicon.jpg'}</block>
-	<div cond="$layout_info->layout_type === 'sub'" class="visual {$_visual_class} bg-holder" style="background-image:url('{$layout_info->path}img/{$_subheader_img}'); width:100%; height:100%;"  data-width="1240" data-height="500">
-		<span class="bg_img"></span>
+	<div cond="$layout_info->layout_type === 'sub'" class="visual {$_visual_class}">
+		{@ $_subheader_img = 'sub_banner_01.jpg'}
+		<block cond="$layout_info->menu_type_sub === 'onepage_parallax'">{@ $_subheader_img = 'sub_banner_02.jpg'}</block>
+		<block cond="$mid === 'xeicon'">{@ $_subheader_img = 'sub_banner_xeicon.jpg'}</block>
+		<span class="bg_img" style="background-image:url('{$layout_info->path}img/{$_subheader_img}')"></span>
 		<span class="mask"></span>
 		<div class="sub_title">
 			<h1>{$sub_header_title}</h1>
@@ -351,8 +352,6 @@
 		<!-- END:슬라이드 -->
         <!-- Add Pagination -->
         <div class="pagination"></div>
-        <div class="swiper-button left"><button type="button" class="swiper-button-prev"><i class="xi-angle-left"></i></button></div>
-		<div class="swiper-button right"><button type="button" class="swiper-button-next"><i class="xi-angle-right"></i></button></div>
     </div>
 	<!-- /VISUAL -->
 
@@ -529,19 +528,11 @@
 	</script>
 </section>
 <!-- /Login widget -->    
-<script>
+<script cond="$_enable_slide">
 var swiper = new Swiper('.swiper-container', {
-    autoplay: 6000,
+    autoplay: 3000,
     loop: true,
     pagination: '.pagination',
     paginationClickable: true
-});
-jQuery('.swiper-button-next').on('click', function(e){
-	e.preventDefault();
-	swiper.swipeNext();
-});
-jQuery('.swiper-button-prev').on('click', function(e){
-	e.preventDefault();
-	swiper.swipePrev();
 });
 </script>
