@@ -1,4 +1,4 @@
- (function($){
+(function($){
     "use strict";
     $(function(){
         var $shrinkHeaderHeight = 300;
@@ -38,7 +38,45 @@
             });
             $(window).triggerHandler('scroll');
         }
-		// Search
+
+        // Gnb
+        $gnb.find('>ul>li>a')
+        .mouseover(function(){
+            $gnb.find('>ul>li>ul:visible').hide().parent('li').removeClass('on');
+            $(this).next('ul:hidden').stop().fadeIn(200).parent('li').addClass('on')
+        })
+        .focus(function(){
+            $(this).mouseover();
+        })
+        .end()
+        .mouseleave(function(){
+            $gnb.find('>ul>li>ul').hide().parent().removeClass('on')
+        });
+
+       $gnb.find('>ul>li>ul>li>a')
+        .mouseover(function(){
+            $gnb.find('>ul>li>ul>li>ul:visible').hide().parent('li').removeClass('on');
+            $(this).next('ul:hidden').stop().fadeIn(200).parent('li').addClass('on')
+        })
+        .focus(function(){
+            $(this).mouseover();
+        })
+        .end()
+        .mouseleave(function(){
+            $gnb.find('>ul>li>ul>li>ul').hide().parent().removeClass('on')
+        });
+
+        // login popup
+        $hoverEl.on('mouseenter mouseleave focusin focusout',function(e){
+            e.preventDefault();
+            if(e.type == 'mouseenter' || e.type == 'focusin'){
+                $(this).addClass('on');
+            } else {
+                $(this).removeClass('on');
+            }
+        });
+
+        // Search
         $searchEl.click(function(){
             if($searchForm.is(':hidden')){
                 $searchForm.fadeIn().find('input').focus();
@@ -152,10 +190,3 @@
   }
 })(jQuery);
 
-(function($){
-	 $(function(){
-		$('.bg-holder').parallaxScroll({
-		  friction: 0.5
-		});
-    });
-})(jQuery);

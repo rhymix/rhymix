@@ -6,6 +6,7 @@
         <column name="menu_srl" var="menu_srl" />
         <column name="parent_srl" var="parent_srl" />
         <column name="name" var="name" notnull="notnull" />
+        <column name="desc" var="desc" />
         <column name="url" var="url" />
         <column name="is_shortcut" var="is_shortcut" />
         <column name="open_window" var="open_window" />

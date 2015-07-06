@@ -550,8 +550,7 @@ class editorModel extends editor
 			if(!file_exists($class_file)) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 			// Create an object after loading the class file
 			require_once($class_file);
-			$tmp_fn = create_function('$seq,$path', "return new {$component}(\$seq,\$path);");
-			$oComponent = $tmp_fn($editor_sequence, $class_path);
+			$oComponent = new $component($editor_sequence, $class_path);
 			if(!$oComponent) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 			// Add configuration information
 			$component_info = $this->getComponent($component, $site_srl);

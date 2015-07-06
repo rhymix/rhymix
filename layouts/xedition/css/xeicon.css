@@ -52,21 +52,3 @@
 .XEicon .contribution .btn_github:hover,
 .XEicon .contribution .btn_github:active
 .XEicon .contribution .btn_github:focus{background-color:#cda25a;color:#fff}
-
-@media all and (max-width:479px) {
-	.XEicon .fixedwidth {width:auto;}
-	.XEicon .main_title h1 { margin-bottom: 28px; font-size: 21px; }
-	.XEicon .main_title p { padding:0 14px; text-align:left; }
-	
-	.XEicon .tit h1 {font-size:20px; text-align:center; letter-spacing:2px;}
-	.XEicon .tit h1:after { left:50%; margin-left:-10px; }
-	
-	.XEicon .feature { height:auto; padding-top:90px; }
-	.XEicon .feature ul{padding:50px 14px 0 14px;}
-	.XEicon .feature li { clear:both; width:auto; padding:0 0 0 70px; }
-	
-	.XEicon .get_started { height:auto; padding:80px 14px 20px 14px; }
-	.XEicon .get_started li { float:none; width:auto; margin-right:0; margin-bottom:15px; }
-	
-	.XEicon .contribution .cont { padding:0 14px; text-align:left; }
-} 
