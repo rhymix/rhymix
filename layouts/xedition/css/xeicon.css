@@ -55,7 +55,7 @@
 
 @media all and (max-width:479px) {
 	.XEicon .fixedwidth {width:auto;}
-	.XEicon .main_title h1 { margin-bottom: 28px; font-size: 21px; padding:0 14px; }
+	.XEicon .main_title h1 { margin-bottom: 28px; font-size: 21px; }
 	.XEicon .main_title p { padding:0 14px; text-align:left; }
 	
 	.XEicon .tit h1 {font-size:20px; text-align:center; letter-spacing:2px;}
