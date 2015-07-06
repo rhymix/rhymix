@@ -940,6 +940,14 @@ a:hover, a:active, a:focus {
         margin: 0 auto;
         zoom: 1
     }
+    .magazine .header {
+	    text-align:left;
+    }
+    .magazine .header > h1 {
+	    text-align:left;
+	    display:block;
+	    padding:0 15px;
+    }
     .header > .side {
         display: none;
     }
@@ -971,6 +979,7 @@ a:hover, a:active, a:focus {
         max-width: 100%;
         height: auto
     }
+    .body.fixed-width.left .content,
     .body.fixed-width.right .content {
         width: auto;
         float: none;
@@ -1167,6 +1176,9 @@ a:hover, a:active, a:focus {
     .header > .side {
         display: none;
     }
+    .header > .custom_area {
+	    display:none;
+    }
     /* Search */
     .search_wrap {
         display: none;
@@ -1182,6 +1194,9 @@ a:hover, a:active, a:focus {
     }
     .onepage .gnb {
 	    margin-top:0;
+    }
+    .magazine .gnb {
+	    margin-bottom:0;
     }
     .gnb a {
         white-space: normal;
@@ -1199,6 +1214,9 @@ a:hover, a:active, a:focus {
         background: #fff;
         -webkit-overflow-scrolling: touch;
     }
+    .magazine .gnb > ul {
+	    display:none;
+    }
     .gnb > ul > li {
         float: none;
         position: static;
@@ -1209,6 +1227,7 @@ a:hover, a:active, a:focus {
     .gnb > ul:after {
         display: none;
     }
+    .magazine .gnb > ul > li > a,
     .gnb > ul > li > a {
         position: static;
         padding: 10px 0;
@@ -1227,6 +1246,8 @@ a:hover, a:active, a:focus {
     .onepage .gnb > ul > li.on > a {
 	    color:#555;
     }
+    .magazine .gnb > ul .depth2,
+    .magazine .gnb > ul .depth3,
     .gnb > ul .depth2 {
         display: block;
         position: static;
@@ -1379,7 +1400,7 @@ a:hover, a:active, a:focus {
         background-size: cover
     }
     .visual.sub.sub_type2 {
-        padding: 70px 0
+        padding: 40px 15px
     }
     .visual.sub.sub_type2 .bg_img {
         display: block
