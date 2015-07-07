@@ -343,7 +343,7 @@
 			var $el = $(selected_el);
 			var file_srl = $el.data().fileSrl;
 
-			exec_json('file.procFileSetCoverImage', {'file_srl': file_srl}, function(res) {
+			exec_json('file.procFileSetCoverImage', {'file_srl' : file_srl, 'mid' : window.current_mid, 'editor_sequence' : data.editorSequence}, function(res) {
 				if(res.error != 0) return;
 
 				data.settings.filelistImages.find('li').removeClass('xefu-is-cover-image');

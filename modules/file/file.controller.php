@@ -938,34 +938,18 @@ class fileController extends file
 	public function procFileSetCoverImage()
 	{
 		$vars = Context::getRequestVars();
-		$upload_target_srl = null;
+		$logged_info = Context::get('logged_info');
 
-		$oFileModel = &getModel('file');
-		$oDocumentModel = &getModel('document');
-		$oCommentModel = &getModel('comment');
+		if(!$vars->editor_sequence) return new Object(-1, 'msg_invalid_request');
 
+		$upload_target_srl = $_SESSION['upload_info'][$vars->editor_sequence]->upload_target_srl;
+
+		$oFileModel = getModel('file');
 		$file_info = $oFileModel->getFile($vars->file_srl);
+
 		if(!$file_info) return new Object(-1, 'msg_not_founded');
 
-		$oDocument = $oDocumentModel->getDocument($file_info->upload_target_srl);
-		if($oDocument->isExists())
-		{
-			if(!$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
-
-			$upload_target_srl = $oDocument->document_srl;
-		}
-		else
-		{
-			$oComment = $oCommentModel->getComment($file_info->upload_target_srl);
-			if($oDocument->isExists())
-			{
-				if(!$oComment->isGranted()) return new Object(-1, 'msg_not_permitted');
-
-				$upload_target_srl = $oComment->document_srl;
-			}
-		}
-
-		if(!$upload_target_srl) return new Object(-1, 'msg_not_founded');
+		if(!$this->manager && !$file_info->member_srl === $logged_info->member_srl) return new Object(-1, 'msg_not_permitted');
 
 		$args =  new stdClass();
 		$args->file_srl = $vars->file_srl;
