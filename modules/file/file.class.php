@@ -78,6 +78,8 @@ class file extends ModuleObject
 		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after')) return true;
 
+		if(!$oDB->isColumnExists('files', 'cover_image')) return true;
+
 		return false;
 	}
 
@@ -138,6 +140,8 @@ class file extends ModuleObject
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after');
 		}
+
+		if(!$oDB->isColumnExists('files', 'cover_image')) $oDB->addColumn('files', 'cover_image', 'char', '1', 'N');
 
 		return new Object(0, 'success_updated');
 	}

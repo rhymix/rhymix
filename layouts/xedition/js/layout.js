@@ -1,4 +1,4 @@
-(function($){
+ (function($){
     "use strict";
     $(function(){
         var $shrinkHeaderHeight = 300;
@@ -38,9 +38,13 @@
             });
             $(window).triggerHandler('scroll');
         }
-
         // Gnb
-        $gnb.find('>ul>li>a')
+        if($(document).width() > 480){
+	        $gnb.addClass('pc-gnb');
+        }
+        
+        var $pc_gnb = $('.pc-gnb');
+        $pc_gnb.find('>ul>li>a')
         .mouseover(function(){
             $gnb.find('>ul>li>ul:visible').hide().parent('li').removeClass('on');
             $(this).next('ul:hidden').stop().fadeIn(200).parent('li').addClass('on')
@@ -53,7 +57,7 @@
             $gnb.find('>ul>li>ul').hide().parent().removeClass('on')
         });
 
-       $gnb.find('>ul>li>ul>li>a')
+		$pc_gnb.find('>ul>li>ul>li>a')
         .mouseover(function(){
             $gnb.find('>ul>li>ul>li>ul:visible').hide().parent('li').removeClass('on');
             $(this).next('ul:hidden').stop().fadeIn(200).parent('li').addClass('on')
@@ -65,7 +69,16 @@
         .mouseleave(function(){
             $gnb.find('>ul>li>ul>li>ul').hide().parent().removeClass('on')
         });
-
+        
+		$("#mobile_menu_btn").on('click', function(){
+			var isOpened = $(this);
+			if(isOpened.hasClass('opened')){
+				$("#gnb").find(">ul").slideUp(200);
+			}else{
+				$("#gnb").find(">ul:not(:animated)").slideDown(200);
+			}
+			isOpened.toggleClass('opened');
+		});
         // login popup
         $hoverEl.on('mouseenter mouseleave focusin focusout',function(e){
             e.preventDefault();
@@ -75,8 +88,7 @@
                 $(this).removeClass('on');
             }
         });
-
-        // Search
+		// Search
         $searchEl.click(function(){
             if($searchForm.is(':hidden')){
                 $searchForm.fadeIn().find('input').focus();
@@ -114,6 +126,11 @@
                 time: 3000
             });
         }
+        
+        // Login help, warning
+        $("#warning").on('touchend', function(e){
+	        $(this).css('display', 'none');
+        });
 
         // Scroll to top
         var scrollToTop = function() {
@@ -139,7 +156,6 @@
         $('.sub_type3 .bg_img').parallax('50%',0.4);
     })
 })(jQuery);
-
 (function($) {
     "use strict";
     var $window = $(window);
@@ -190,3 +206,11 @@
   }
 })(jQuery);
 
+
+(function($){
+	 $(function(){
+		$('.bg-holder').parallaxScroll({
+		  friction: 0.2
+		});
+    });
+})(jQuery);

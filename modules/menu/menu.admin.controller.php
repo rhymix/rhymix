@@ -418,7 +418,7 @@ class menuAdminController extends menu
 
 		// recreate menu cache file
 		$this->makeXmlFile($request->menu_srl);
-
+		
 		if(!$isProc)
 		{
 			return $this->get('menu_item_srl');
@@ -504,6 +504,9 @@ class menuAdminController extends menu
 			$args->is_shortcut = $request->is_shortcut;
 			$args->url = '#';
 		}
+		
+		if($request->menu_desc) $args->desc = $request->menu_desc;
+		else $args->desc = '';
 
 		$args->menu_item_srl = getNextSequence();
 		$args->listorder = -1*$args->menu_item_srl;
@@ -536,6 +539,9 @@ class menuAdminController extends menu
 
 		if($request->menu_name_key) $args->name = $request->menu_name_key;
 		else $args->name = $request->menu_name;
+		
+		if($request->menu_desc) $args->desc = $request->menu_desc;
+		else $args->desc = '';
 
 		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
 		{
@@ -719,11 +725,11 @@ class menuAdminController extends menu
 		{
 			$args->name = $request->menu_name;
 		}
-
-		if(count($args->group_srls) == 0)
-		{
-			unset($args->group_srls);
-		}
+		
+		if($request->menu_desc) $args->desc = $request->menu_desc;
+		else $args->desc = '';
+		
+		unset($args->group_srls);
 		$args->open_window = $request->menu_open_window;
 		$args->expand = $request->menu_expand;
 		$output = executeQuery('menu.updateMenuItem', $args);
@@ -1880,6 +1886,7 @@ class menuAdminController extends menu
 			$name_str = sprintf('$_names = array(%s); print $_names[$lang_type];', $name_arr_str);
 
 			$url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
+			$desc = str_replace(array('&','"',"'"),array('&amp;','&quot;','\\\''),$node->desc);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";
@@ -1915,7 +1922,7 @@ class menuAdminController extends menu
 			if($group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged&&%s))',$group_srls,$group_srls == -1?1:0);
 			else $group_check_code = "true";
 			$attribute = sprintf(
-				'node_srl="%s" parent_srl="%s" menu_name_key=\'%s\' text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?%s:"")?>" is_shortcut="%s" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?php }?>"',
+				'node_srl="%s" parent_srl="%s" menu_name_key=\'%s\' text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?%s:"")?>" is_shortcut="%s" desc="%s" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?php }?>"',
 				$menu_item_srl,
 				$node->parent_srl,
 				addslashes($node->name),
@@ -1926,6 +1933,7 @@ class menuAdminController extends menu
 				$group_check_code,
 				$href,
 				$is_shortcut,
+				$desc,
 				$open_window,
 				$expand,
 				$normal_btn,
@@ -1981,6 +1989,7 @@ class menuAdminController extends menu
 			// List variables
 			$href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
 			$url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
+			$desc = str_replace(array('&','"',"'"),array('&amp;','&quot;','\\\''),$node->desc);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";
@@ -2030,7 +2039,7 @@ class menuAdminController extends menu
 			}
 			// Create properties (check if it belongs to the menu node by url_list. It looks a trick but fast and powerful)
 			$attribute = sprintf(
-				'"node_srl"=>"%s","parent_srl"=>"%s","menu_name_key"=>\'%s\',"isShow"=>(%s?true:false),"text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?%s:""),"url"=>(%s?"%s":""),"is_shortcut"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s? ( array(%s)&&in_array(Context::get("mid"),array(%s)) ?%s:%s):""),',
+				'"node_srl"=>"%s","parent_srl"=>"%s","menu_name_key"=>\'%s\',"isShow"=>(%s?true:false),"text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?%s:""),"url"=>(%s?"%s":""),"is_shortcut"=>"%s","desc"=>\'%s\',"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s? ( array(%s)&&in_array(Context::get("mid"),array(%s)) ?%s:%s):""),',
 				$node->menu_item_srl,
 				$node->parent_srl,
 				addslashes($node->name),
@@ -2042,6 +2051,7 @@ class menuAdminController extends menu
 				$group_check_code,
 				$url,
 				$is_shortcut,
+				$desc,
 				$open_window,
 				$normal_btn,
 				$hover_btn,
