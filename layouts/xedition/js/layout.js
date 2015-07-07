@@ -128,7 +128,7 @@
         }
         
         // Login help, warning
-        $("#warning").on('click', function(e){
+        $("#warning").on('touchend', function(e){
 	        $(this).css('display', 'none');
         });
 
