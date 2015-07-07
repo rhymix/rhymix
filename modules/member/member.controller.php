@@ -331,7 +331,7 @@ class memberController extends member
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = preg_replace('/[\pZ\pC]+/', '', $args->{$val});
+				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', $args->{$val});
 			}
 		}
 		$output = $this->insertMember($args);
@@ -543,7 +543,7 @@ class memberController extends member
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = preg_replace('/[\pZ\pC]+/', '', $args->{$val});
+				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', $args->{$val});
 			}
 		}
 
