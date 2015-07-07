@@ -1,5 +1,5 @@
 <!--// META -->
-{Context::addHtmlHeader('<meta name="viewport" content="width=device-width, user-scalable=no">')}
+{Context::addHtmlHeader('<meta name="viewport" content="width=device-width, user-scalable=yes">')}
 <!--// LANG -->
 <load target="./lang" />
 
@@ -346,7 +346,7 @@
 		</div>
 		<!-- END:슬라이드 -->
         <!-- Add Pagination -->
-        <div class="pagination"></div>
+        <div class="swiper-pagination"></div>
         <div class="swiper-button left"><button type="button" class="swiper-button-prev"><i class="xi-angle-left"></i></button></div>
 		<div class="swiper-button right"><button type="button" class="swiper-button-next"><i class="xi-angle-right"></i></button></div>
     </div>
@@ -477,6 +477,7 @@
 							<span class="checkbox"></span> {$lang->keep_signed}
 						</label>
 						<div id="warning">
+							<p style="text-align:right;"><i class="xi-close"></i></p>
 							<p>{str_replace('\n\n', '<br />', $lang->about_keep_signed)}</p>
 							<div class="edge"></div>
 						</div>
@@ -529,7 +530,7 @@ jQuery(document).ready(function () {
 	var swiper = new Swiper('.swiper-container', {
 	    autoplay: 6000,
 	    loop: true,
-	    pagination: '.pagination',
+	    pagination: '.swiper-pagination',
 	    paginationClickable: true
 	});
 	jQuery('.swiper-button-next').on('click', function(e){
