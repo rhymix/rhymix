@@ -20,9 +20,10 @@
 		actSelectedInsertContent : '.xefu-act-link-selected',
 		actSelectedDeleteFile : '.xefu-act-delete-selected',
 		actDeleteFile : '.xefu-act-delete',
+		actSetCover : '.xefu-act-set-cover',
 
 		tmplXeUploaderFileitem : '<li class="xefu-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xefu-file-name">{{source_filename}}</span><span class="xefu-file-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> 선택</span></span></li>',
-		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span></span></li>'
+		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="커버이미지로 선택"><i class="xi-check-circle"></i></button></span></li>'
 	};
 
 	var _elements = [
@@ -30,6 +31,7 @@
 		'actSelectedInsertContent',
 		'actSelectedDeleteFile',
 		'actDeleteFile',
+		'actSetCover',
 		'controll',
 		'dropZone',
 		'filelist',
@@ -150,7 +152,6 @@
 
 			// finderSelect
 			var fileselect = data.settings.fileList.finderSelect({children:"li", enableDesktopCtrlDefault:true});
-			console.log(data.settings.fileList);
 			data.settings.fileList.on("mousedown", 'img', function(e){ e.preventDefault(); });
 
 			fileselect.finderSelect('addHook','highlight:after', function(el) {
@@ -167,6 +168,11 @@
 
 			fileselect.on("click", ":checkbox", function(e){
 				e.preventDefault();
+			});
+
+			fileselect.on("click", ".xefu-act-set-cover", function(e){
+				e.preventDefault();
+				self.setCover($container, e.currentTarget);
 			});
 
 
@@ -273,7 +279,7 @@
 		/**
 		 * 파일 목록 갱신
 		 */
-		 loadFilelist: function($container) {
+		loadFilelist: function($container) {
 			var self = this;
 			var data = $container.data();
 			var obj = {};
@@ -281,6 +287,7 @@
 			obj.editor_sequence = data.editorSequence;
 
 			$.exec_json('file.getFileList', obj, function(res){
+				console.log(res);
 				data.uploadTargetSrl = res.upload_target_srl;
 				editorRelKeys[data.editorSequence].primary.value = res.upload_target_srl;
 				data.uploadTargetSrl = res.uploadTargetSrl;
@@ -329,6 +336,21 @@
 				// 컨트롤, 리스트 표시
 				data.settings.controll.show()
 				data.settings.fileList.show();
+			});
+		},
+		setCover: function($container, selected_el) {
+			var data = $container.data();
+			var $el = $(selected_el);
+			var file_srl = $el.data().fileSrl;
+
+			exec_json('file.procFileSetCoverImage', {'file_srl': file_srl}, function(res) {
+				if(res.error != 0) return;
+
+				data.settings.filelistImages.find('li').removeClass('xefu-is-cover-image');
+
+				var $parentLi = $el.closest('li');
+				$parentLi.addClass('xefu-is-cover-image');
+
 			});
 		}
 	});
