@@ -112,7 +112,6 @@ module.exports = function(grunt) {
 			},
 			'layout': {
 				files: {
-					'layouts/xedition/js/jquery.easing.min.js': ['layouts/xedition/js/jquery.easing.js'],
 					'layouts/xedition/js/layout.min.js': ['layouts/xedition/js/layout.js'],
 					'layouts/xedition/js/welcome.min.js': ['layouts/xedition/js/welcome.js'],
 				}
@@ -148,7 +147,6 @@ module.exports = function(grunt) {
 			},
 			'layout': {
 				files: {
-					'layouts/xedition/css/camera.min.css': ['layouts/xedition/css/camera.css'],
 					'layouts/xedition/css/layout.min.css': ['layouts/xedition/css/layout.css'],
 					'layouts/xedition/css/webfont.min.css': ['layouts/xedition/css/webfont.css'],
 					'layouts/xedition/css/welcome.min.css': ['layouts/xedition/css/welcome.css'],
