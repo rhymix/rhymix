@@ -68,7 +68,7 @@
 			settings.loadXeComponent = false;
 		<!--@endif-->
 
-		<!--@if($module_type === 'comment')-->
+		<!--@if($module_type === 'comment'||Mobile::isMobileCheckByAgent())-->
 			settings.ckeconfig.toolbarStartupExpanded = false;
 		<!--@endif-->
 		
