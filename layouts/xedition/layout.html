@@ -1,5 +1,5 @@
 <!--// META -->
-{Context::addHtmlHeader('<meta name="viewport" content="width=device-width, user-scalable=no">')}
+{Context::addHtmlHeader('<meta name="viewport" content="width=device-width, user-scalable=yes">')}
 <!--// LANG -->
 <load target="./lang" />
 
@@ -477,6 +477,7 @@
 							<span class="checkbox"></span> {$lang->keep_signed}
 						</label>
 						<div id="warning">
+							<p style="text-align:right;"><i class="xi-close"></i></p>
 							<p>{str_replace('\n\n', '<br />', $lang->about_keep_signed)}</p>
 							<div class="edge"></div>
 						</div>

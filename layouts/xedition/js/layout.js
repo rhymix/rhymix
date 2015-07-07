@@ -126,6 +126,11 @@
                 time: 3000
             });
         }
+        
+        // Login help, warning
+        $("#warning").on('click', function(e){
+	        $(this).css('display', 'none');
+        });
 
         // Scroll to top
         var scrollToTop = function() {
