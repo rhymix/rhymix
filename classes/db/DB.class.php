@@ -294,8 +294,7 @@ class DB
 
 			unset($oDB);
 			require_once($class_file);
-			$tmp_fn = create_function('', "return new {$class_name}();");
-			$oDB = $tmp_fn();
+			$oDB = new $class_name();
 
 			if(!$oDB)
 			{

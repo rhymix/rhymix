@@ -935,6 +935,68 @@ class fileController extends file
 		}
 	}
 
+	public function procFileSetCoverImage()
+	{
+		$vars = Context::getRequestVars();
+		$upload_target_srl = null;
+
+		$oFileModel = &getModel('file');
+		$oDocumentModel = &getModel('document');
+		$oCommentModel = &getModel('comment');
+
+		$file_info = $oFileModel->getFile($vars->file_srl);
+		if(!$file_info) return new Object(-1, 'msg_not_founded');
+
+		$oDocument = $oDocumentModel->getDocument($file_info->upload_target_srl);
+		if($oDocument->isExists())
+		{
+			if(!$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
+
+			$upload_target_srl = $oDocument->document_srl;
+		}
+		else
+		{
+			$oComment = $oCommentModel->getComment($file_info->upload_target_srl);
+			if($oDocument->isExists())
+			{
+				if(!$oComment->isGranted()) return new Object(-1, 'msg_not_permitted');
+
+				$upload_target_srl = $oComment->document_srl;
+			}
+		}
+
+		if(!$upload_target_srl) return new Object(-1, 'msg_not_founded');
+
+		$args =  new stdClass();
+		$args->file_srl = $vars->file_srl;
+		$args->upload_target_srl = $upload_target_srl;
+
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
+		$args->cover_image = 'N';
+		$output = executeQuery('file.updateClearCoverImage', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$args->cover_image = 'Y';
+		$output = executeQuery('file.updateCoverImage', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$oDB->commit();
+
+		// 썸네일 삭제
+		$thumbnail_path = sprintf('files/thumbnails/%s', getNumberingPath($upload_target_srl, 3));
+		Filehandler::removeFilesInDir($thumbnail_path);
+	}
+
 	/**
 	 * Find the attachment where a key is upload_target_srl and then return java script code
 	 *
@@ -965,3 +1027,4 @@ class fileController extends file
 }
 /* End of file file.controller.php */
 /* Location: ./modules/file/file.controller.php */
+

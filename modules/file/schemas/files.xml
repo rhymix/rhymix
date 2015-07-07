@@ -12,6 +12,7 @@
     <column name="file_size" type="number" size="11" default="0" notnull="notnull" index="idx_file_size" />
     <column name="comment" type="varchar" size="250" />
     <column name="isvalid" type="char" size="1" default="N" index="idx_is_valid" />
+    <column name="cover_image" type="char" size="1" default="N" notnull="notnull" index="idx_list_order" />
     <column name="regdate" type="date" index="idx_regdate" />
     <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>
 </table>

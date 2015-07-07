@@ -7,6 +7,7 @@
         <column name="upload_target_type" var="upload_target_type" />
         <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
         <column name="uploaded_filename" var="uploaded_filename" notnull="notnull" minlength="1" maxlength="250" />
+        <column name="cover_image" var="is_cover" default="N" />
     </columns>
     <conditions>
         <condition operation="equal" column="file_srl" var="file_srl" filter="number" notnull="notnull" />

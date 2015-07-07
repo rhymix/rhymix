@@ -28,7 +28,7 @@ class member extends ModuleObject {
 		// Set to use SSL upon actions related member join/information/password and so on. 2013.02.15
 		if(!Context::isExistsSSLAction('dispMemberModifyPassword') && Context::getSslStatus() == 'optional')
 		{
-			$ssl_actions = array('dispMemberModifyPassword', 'dispMemberSignUpForm', 'dispMemberModifyInfo', 'dispMemberModifyEmailAddress', 'dispMemberGetTempPassword', 'dispMemberResendAuthMail', 'dispMemberLoginForm', 'dispMemberFindAccount', 'dispMemberLeave', 'procMemberLogin', 'procMemberModifyPassword', 'procMemberInsert', 'procMemberModifyInfo', 'procMemberFindAccount', 'procMemberModifyEmailAddress', 'procMemberUpdateAuthMail', 'procMemberResendAuthMail', 'procMemberLeave'/*, 'getMemberMenu'*/, 'procMemberFindAccountByQuestion');
+			$ssl_actions = array('dispMemberModifyPassword', 'dispMemberSignUpForm', 'dispMemberModifyInfo', 'dispMemberModifyEmailAddress', 'dispMemberGetTempPassword', 'dispMemberResendAuthMail', 'dispMemberLoginForm', 'dispMemberFindAccount', 'dispMemberLeave', 'procMemberLogin', 'procMemberModifyPassword', 'procMemberInsert', 'procMemberModifyInfo', 'procMemberFindAccount', 'procMemberModifyEmailAddress', 'procMemberResendAuthMail', 'procMemberLeave'/*, 'getMemberMenu'*/, 'procMemberFindAccountByQuestion');
 			Context::addSSLActions($ssl_actions);
 		}
 	}

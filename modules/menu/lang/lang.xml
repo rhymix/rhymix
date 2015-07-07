@@ -1002,4 +1002,7 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="ko"><![CDATA[스킨 없음]]></value>
 		<value xml:lang="jp"><![CDATA[スキン無し]]></value>
 	</item>
+	<item name="menu_desc">
+		<value xml:lang="ko"><![CDATA[메뉴 설명]]></value>
+	</item>
 </lang>

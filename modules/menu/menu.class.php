@@ -47,6 +47,11 @@ class menu extends ModuleObject
 		$temp_menus = executeQueryArray('menu.getMenuByTitle', $args);
 		if($temp_menus->toBool() && count($temp_menus->data)) return true;
 		
+		// 2015. 06. 15 add column desc
+		if(!$oDB->isColumnExists('menu_item', 'desc'))
+		{
+			return true;
+		}
 		
 		return false;
 	}
@@ -67,6 +72,12 @@ class menu extends ModuleObject
 		if(!$oDB->isIndexExists("menu","idx_title"))
 		{
 			$oDB->addIndex('menu', 'idx_title', array('title'));
+		}
+		
+		// 2015. 06. 15 add column desc
+		if(!$oDB->isColumnExists('menu_item', 'desc'))
+		{
+			$oDB->addColumn('menu_item', 'desc','varchar',250,"",true);
 		}
 
 		// 1.7(maserati) shortcut column add and mirgration
