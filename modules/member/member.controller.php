@@ -72,6 +72,11 @@ class memberController extends member
 			}
 		}
 
+		// Delete all previous authmail if login is successful
+		$args = new stdClass();
+		$args->member_srl = $this->memberInfo->member_srl;
+		executeQuery('member.deleteAuthMail', $args);
+
 		if(!$config->after_login_url)
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -1126,6 +1131,12 @@ class memberController extends member
 			return $this->stop('msg_invalid_auth_key');
 		}
 
+		if(ztime($output->data->regdate) < $_SERVER['REQUEST_TIME'] + zgap() - 86400)
+		{
+			executeQuery('member.deleteAuthMail', $args);
+			return $this->stop('msg_invalid_auth_key');
+		}
+
 		$args->password = $output->data->new_password;
 
 		// If credentials are correct, change the password to a new one
@@ -1156,76 +1167,6 @@ class memberController extends member
 		Context::set('is_register', $is_register);
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('msg_success_authed');
-	}
-
-	/**
-	 * Execute finding ID/Passoword
-	 * When clicking the link in the verification email, a method is called to change the old password and to authenticate it
-	 *
-	 * @return Object
-	 */
-	function procMemberUpdateAuthMail()
-	{
-		$member_srl = Context::get('member_srl');
-		if(!$member_srl) return new Object(-1, 'msg_invalid_request');
-
-		$oMemberModel = getModel('member');
-		// Get information of the member
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-		// Check if the member is set to allow a request to re-send an authentication mail
-		if($member_info->denied != 'Y')
-			return new Object(-1, 'msg_invalid_request');
-
-		$chk_args = new stdClass;
-		$chk_args->member_srl = $member_srl;
-		$output = executeQuery('member.chkAuthMail', $chk_args);
-		if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
-
-		// Insert data into the authentication DB
-		$auth_args = new stdClass;
-		$auth_args->member_srl = $member_srl;
-		$auth_args->auth_key = $oPassword->createSecureSalt(40);
-
-		$oDB = &DB::getInstance();
-		$oDB->begin();
-		$output = executeQuery('member.updateAuthMail', $auth_args);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
-		// Get content of the email to send a member
-		Context::set('auth_args', $auth_args);
-		Context::set('memberInfo', $member_info);
-
-		$oModuleModel = getModel('module');
-		$member_config = $oModuleModel->getModuleConfig('member');
-		if(!$member_config->skin) $member_config->skin = "default";
-		if(!$member_config->colorset) $member_config->colorset = "white";
-
-		Context::set('member_config', $member_config);
-
-		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
-		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
-
-		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
-		Context::set('auth_url', $auth_url);
-
-		$oTemplate = &TemplateHandler::getInstance();
-		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
-		// Get information of the Webmaster
-		$oModuleModel = getModel('module');
-		$member_config = $oModuleModel->getModuleConfig('member');
-		// Send a mail
-		$oMail = new Mail();
-		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
-		$oMail->setContent($content);
-		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
-		$oMail->send();
-		// Return message
-		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
-		return new Object(-1, $msg);
 	}
 
 	/**
@@ -1265,6 +1206,12 @@ class memberController extends member
 		$output = executeQueryArray('member.getAuthMailInfo', $auth_args);
 		if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
 		$auth_info = $output->data[0];
+
+		// Update the regdate of authmail entry
+		$renewal_args = new stdClass;
+		$renewal_args->member_srl = $member_info->member_srl;
+		$renewal_args->auth_key = $auth_info->auth_key;
+		$output = executeQuery('member.updateAuthMail', $renewal_args);		
 
 		$memberInfo = array();
 		global $lang;

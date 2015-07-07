@@ -54,7 +54,9 @@ class commentController extends comment
 		}
 
 		$point = 1;
-		return $this->updateVotedCount($comment_srl, $point);
+		$output = $this->updateVotedCount($comment_srl, $point);
+		$this->add('voted_count', $output->get('voted_count'));
+		return $output;
 	}
 
 	/**
@@ -90,7 +92,9 @@ class commentController extends comment
 		}
 
 		$point = -1;
-		return $this->updateVotedCount($comment_srl, $point);
+		$output = $this->updateVotedCount($comment_srl, $point);
+		$this->add('blamed_count', $output->get('blamed_count'));
+		return $output;
 	}
 
 	/**
