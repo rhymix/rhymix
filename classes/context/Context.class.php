@@ -333,8 +333,20 @@ class Context
 			);
 		}
 
-		if($sess = $_POST[session_name()]) session_id($sess);
-		session_start();
+		$sessid = session_name();
+		if($sess = $_POST[$sessid]) session_id($sess);
+		else $sess = $_COOKIE[$sessid];
+
+		session_cache_limiter(''); // to control the cache-control header manually
+		if(!empty($sess))
+		{
+			Context::setCacheControl('private', true);
+			session_start();
+		}
+		else
+		{
+			Context::setCacheControl();
+		}
 
 		// set authentication information in Context and session
 		if(self::isInstalled())
@@ -428,6 +440,26 @@ class Context
 	function close()
 	{
 		session_write_close();
+	}
+
+	/**
+	 * set Cache-Control header
+	 *
+	 * @return void
+	 */
+	function setCacheControl($public = 'public', $nocache = false)
+	{
+		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
+
+		$public = !empty($public) ? $public.', ' : '';
+		header("Cache-Control: ".$public."must-revalidate, post-check=0, pre-check=0");
+		if ($nocache)
+		{
+			header("Cache-Control: no-store, no-cache, must-revalidate", false);
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Pragma: no-cache");
+		}
 	}
 
 	/**
