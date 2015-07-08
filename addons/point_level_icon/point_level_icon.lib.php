@@ -19,7 +19,7 @@ function pointLevelIconTrans($matches)
 	$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 	if(!$member_info)
 	{
-		return $mathches[0];
+		return $matches[0];
 	}
 	
 	// Check Group Image Mark
