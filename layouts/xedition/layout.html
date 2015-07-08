@@ -170,7 +170,7 @@
 					<input type="hidden" name="vid" value="{$vid}" />
 					<input type="hidden" name="mid" value="{$mid}" />
 					<input type="hidden" name="act" value="IS" />
-					<input type="text" name="is_keyword" value="{htmlspecialchars($is_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" required="required" title="{$lang->cmd_search}" placeholder="Search" />
+					<input type="text" name="is_keyword" value="{$is_keyword}" required="required" title="{$lang->cmd_search}" placeholder="Search" />
 				</form>
 				<!-- /SEARCH -->
 				<a href="#" class="btn_close" title="{$lang->cmd_xedition_search_close}" onclick="return false"><i class="xi-close"></i><span class="blind">{$lang->cmd_xedition_search_close}</span></a>
