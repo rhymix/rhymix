@@ -60,6 +60,10 @@ class HTMLDisplayHandler
 
 		$output = $oTemplate->compile($template_path, $tpl_file);
 
+		// SECISSUE https://github.com/xpressengine/xe-core/issues/1583
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('is_keyword');
+
 		// add .x div for adminitration pages
 		if(Context::getResponseMethod() == 'HTML')
 		{
