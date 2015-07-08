@@ -728,11 +728,8 @@ class menuAdminController extends menu
 		
 		if($request->menu_desc) $args->desc = $request->menu_desc;
 		else $args->desc = '';
-
-		if(count($args->group_srls) == 0)
-		{
-			unset($args->group_srls);
-		}
+		
+		unset($args->group_srls);
 		$args->open_window = $request->menu_open_window;
 		$args->expand = $request->menu_expand;
 		$output = executeQuery('menu.updateMenuItem', $args);
