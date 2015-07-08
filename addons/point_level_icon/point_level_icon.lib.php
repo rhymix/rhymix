@@ -14,8 +14,15 @@ function pointLevelIconTrans($matches)
 
 	$orig_text = preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]);
 
-	// Check Group Image Mark
 	$oMemberModel = getModel('member');
+	// If not a member go to Hide Point Icon
+	$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+	if(!$member_info)
+	{
+		return $mathches[0];
+	}
+	
+	// Check Group Image Mark
 	if($oMemberModel->getGroupImageMark($member_srl))
 	{
 		return $orig_text . $matches[5] . '</' . $matches[6] . '>';
