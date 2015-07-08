@@ -2137,14 +2137,19 @@ class memberController extends member
 		if($config->identifier == 'email_address')
 		{
 			$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
-			if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
-
+			if($member_srl && $args->member_srl != $member_srl)
+			{
+				return new Object(-1,'msg_exists_email_address');
+			}
 			$args->email_address = $orgMemberInfo->email_address;
 		}
 		else
 		{
 			$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
-			if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_user_id');
+			if($member_srl && $args->member_srl != $member_srl)
+			{
+				return new Object(-1,'msg_exists_user_id');
+			}
 
 			$args->user_id = $orgMemberInfo->user_id;
 		}
@@ -2157,7 +2162,7 @@ class memberController extends member
 
 		// Check if ID is duplicate
 		$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
-		if($member_srl && $orgMemberInfo->user_id != $args->user_id)
+		if($member_srl && $args->member_srl != $member_srl)
 		{
 			return new Object(-1,'msg_exists_user_id');
 		}
@@ -2170,7 +2175,7 @@ class memberController extends member
 
 		// Check if nickname is duplicate
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
- 		if($member_srl && $orgMemberInfo->nick_name != $args->nick_name)
+ 		if($member_srl && $args->member_srl != $member_srl)
  		{
  			return new Object(-1,'msg_exists_nick_name');
  		}
