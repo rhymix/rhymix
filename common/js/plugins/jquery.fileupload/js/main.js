@@ -366,8 +366,6 @@
 
 		return u;
 	};
-
-	xe.unregisterApp();
 })(jQuery);
 
 
