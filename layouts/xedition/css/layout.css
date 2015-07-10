@@ -918,7 +918,7 @@ a:hover, a:active, a:focus {
     background-color: rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
-.pagination {
+.swiper-pagination {
     position: absolute;
     left: 0;
     text-align: center;

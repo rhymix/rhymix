@@ -1,5 +1,6 @@
 <!-- css -->
 <load target="css/default.css" />
+<load target="../../../../common/xeicon/xeicon.min.css" />
 
 <!-- JS -->
 <!--%load_js_plugin("ckeditor")-->
@@ -67,7 +68,7 @@
 			settings.loadXeComponent = false;
 		<!--@endif-->
 
-		<!--@if($module_type === 'comment')-->
+		<!--@if($module_type === 'comment'||Mobile::isMobileCheckByAgent())-->
 			settings.ckeconfig.toolbarStartupExpanded = false;
 		<!--@endif-->
 		

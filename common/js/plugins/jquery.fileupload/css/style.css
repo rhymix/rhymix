@@ -10,8 +10,7 @@
 	border: 1px solid #d7d8d8;
 	border-radius: 3px;
 }
-
-/* dropzone */
+ /* dropzone */
 .xefu-dropzone {
 	padding: 12px;
 	border: 1px solid #fafafa;
@@ -70,11 +69,42 @@
 	height: 60px;
 	border: 3px solid #DDD;
 }
-.xefu-list-images input,
-.xefu-list-images button {
+.xefu-list-images input {
 	position: absolute;
 	top: 0;
 	left: 0;
+}
+.xefu-act-set-cover:hover {
+	color: red;
+}
+.xefu-list-images .xefu-act-set-cover {
+	display: none;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	left: auto;
+	right: 0;
+	margin: 0;
+	padding: 1px 0 1px 2px;
+	border: 0 none;
+	border-radius: 0 0 0 5px;
+	font-size: 15px;
+	line-height: 15px;
+	background-color: #6cbd7e;
+}
+.xefu-list-images li:hover .xefu-act-set-cover {
+	display: inline;
+	color: #666;
+	background-color: #ddd;
+}
+.xefu-list-images .xefu-is-cover-image:hover .xefu-act-set-cover,
+.xefu-is-cover-image .xefu-act-set-cover {
+	display: inline;
+	color: #fff;
+	background-color: #6cbd7e;
+}
+.xefu-is-cover-image {
+	border-color: #6cbd7e !important;
 }
 .xefu-list-images .xefu-file-name,
 .xefu-list-images .xefu-file-size {
@@ -87,7 +117,6 @@
 
 
 .selected {
-	border-color: #6CBD7E !important;
 }
 /* END:images */
 
