@@ -60,6 +60,8 @@
 				last_selected_file: null,
 			});
 
+			var currentEnforce_ssl = window.enforce_ssl;
+			if(location.protocol == 'https:') { window.enforce_ssl = true; }
 
 			var settings = {
 				url: request_uri
@@ -122,6 +124,8 @@
 					}
 				}
 			};
+			window.enforce_ssl = currentEnforce_ssl;
+
 
 			data.settings = $.extend({} , default_settings, settings, opt || {});
 			$container.data(data);
