@@ -78,6 +78,9 @@ class DisplayHandler extends Handler
 			$handler->prepareToPrint($output);
 		}
 
+		// Start the session if $_SESSION was touched
+		Context::getInstance()->checkSessionStatus();
+
 		// header output
 
 		$httpStatusCode = $oModule->getHttpStatusCode();

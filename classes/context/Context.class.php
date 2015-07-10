@@ -155,6 +155,12 @@ class Context
 	public $isSuccessInit = TRUE;
 
 	/**
+	 * Session status
+	 * @var bool FALSE if session was not started
+	 */
+	public $isSessionStarted = FALSE;
+
+	/**
 	 * returns static context object (Singleton). It's to use Context without declaration of an object
 	 *
 	 * @return object Instance
@@ -333,8 +339,27 @@ class Context
 			);
 		}
 
-		if($sess = $_POST[session_name()]) session_id($sess);
-		session_start();
+		// start session if it was previously started
+		$session_name = session_name();
+		$session_id = NULL;
+		if($session_id = $_POST[$session_name])
+		{
+			session_id($session_id);
+		}
+		else
+		{
+			$session_id = $_COOKIE[$session_name];
+		}
+		
+		if($session_id !== NULL)
+		{
+			$this->isSessionStarted = TRUE;
+			session_start();
+		}
+		else
+		{
+			$_SESSION = array();
+		}
 
 		// set authentication information in Context and session
 		if(self::isInstalled())
@@ -417,6 +442,26 @@ class Context
 		if(strpos(self::getRequestUri(), 'xn--') !== FALSE)
 		{
 			$this->set('request_uri', self::decodeIdna(self::getRequestUri()));
+		}
+	}
+
+	/**
+	 * Start the session if $_SESSION was touched
+	 * 
+	 * @return void
+	 */
+	function checkSessionStatus()
+	{
+		if($this->isSessionStarted)
+		{
+			return;
+		}
+		if(count($_SESSION))
+		{
+			$tempSession = $_SESSION;
+			session_start();
+			$_SESSION = $tempSession;
+			$this->isSessionStarted = TRUE;
 		}
 	}
 
@@ -942,7 +987,10 @@ class Context
 		$self->lang_type = $lang_type;
 		$self->set('lang_type', $lang_type);
 
-		$_SESSION['lang_type'] = $lang_type;
+		if($this->isSessionStarted)
+		{
+			$_SESSION['lang_type'] = $lang_type;
+		}
 	}
 
 	/**
