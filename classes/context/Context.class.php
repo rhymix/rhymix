@@ -361,6 +361,7 @@ class Context
 		{
 			$this->isSessionStarted = FALSE;
 			$this->setCacheControl(-1, true);
+			register_shutdown_function(array($this, 'checkSessionStatus'));
 			$_SESSION = array();
 		}
 
@@ -459,7 +460,7 @@ class Context
 		{
 			return;
 		}
-		if(count($_SESSION))
+		if(count($_SESSION) && !headers_sent())
 		{
 			$tempSession = $_SESSION;
 			session_start();
