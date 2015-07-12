@@ -843,6 +843,9 @@ class documentController extends document
 		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'before', $oDocument);
 		if(!$trigger_output->toBool()) return $trigger_output;
 
+		// Pass if cache-friendly mode is enabled and session is not started
+		if(Context::getInstance()->isSessionStarted == FALSE) return false;
+
 		// Pass if read count is increaded on the session information
 		if($_SESSION['readed_document'][$document_srl]) return false;
 

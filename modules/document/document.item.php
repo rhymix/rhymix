@@ -732,6 +732,7 @@ class documentItem extends Object
 		// If admin priviledge is granted on parent posts, you can read its child posts.
 		$accessible = array();
 		$comment_list = array();
+		$setAccessibleComments = Context::getInstance()->isSessionStarted;
 		foreach($output->data as $key => $val)
 		{
 			$oCommentItem = new commentItem();
@@ -741,7 +742,10 @@ class documentItem extends Object
 			// If the comment is set to private and it belongs child post, it is allowable to read the comment for who has a admin privilege on its parent post
 			if($val->parent_srl>0 && $val->is_secret == 'Y' && !$oCommentItem->isAccessible() && $accessible[$val->parent_srl]===true)
 			{
-				$oCommentItem->setAccessible();
+				if($setAccessibleComments)
+				{
+					$oCommentItem->setAccessible();
+				}
 			}
 			$comment_list[$val->comment_srl] = $oCommentItem;
 		}
