@@ -391,7 +391,7 @@ class documentItem extends Object
 		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
 		$result = $this->_checkAccessibleFromStatus();
-		if($result && Context::getInstance()->isSessionStarted)
+		if($result && Context::getSessionStatus())
 		{
 			$_SESSION['accessible'][$this->document_srl] = true;
 		}
@@ -455,7 +455,7 @@ class documentItem extends Object
 		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
 		$result = $this->_checkAccessibleFromStatus();
-		if($result && Context::getInstance()->isSessionStarted)
+		if($result && Context::getSessionStatus())
 		{
 			$_SESSION['accessible'][$this->document_srl] = true;
 		}
@@ -732,7 +732,7 @@ class documentItem extends Object
 		// If admin priviledge is granted on parent posts, you can read its child posts.
 		$accessible = array();
 		$comment_list = array();
-		$setAccessibleComments = Context::getInstance()->isSessionStarted;
+		$setAccessibleComments = Context::getSessionStatus();
 		foreach($output->data as $key => $val)
 		{
 			$oCommentItem = new commentItem();

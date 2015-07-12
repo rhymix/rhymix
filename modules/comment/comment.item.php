@@ -131,7 +131,7 @@ class commentItem extends Object
 
 	function setAccessible()
 	{
-		if(Context::getInstance()->isSessionStarted)
+		if(Context::getSessionStatus())
 		{
 			$_SESSION['accessibled_comment'][$this->comment_srl] = TRUE;
 		}

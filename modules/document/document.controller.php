@@ -847,7 +847,7 @@ class documentController extends document
 		if($_SESSION['readed_document'][$document_srl]) return false;
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getInstance()->isSessionStarted)
+		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 			return false;
@@ -886,7 +886,7 @@ class documentController extends document
 		}
 
 		// Register session
-		if(!$_SESSION['banned_document'][$document_srl] && Context::getInstance()->isSessionStarted) 
+		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus()) 
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 		}

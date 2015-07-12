@@ -155,12 +155,6 @@ class Context
 	public $isSuccessInit = TRUE;
 
 	/**
-	 * Session status
-	 * @var bool FALSE if session was not started
-	 */
-	public $isSessionStarted = FALSE;
-
-	/**
 	 * returns static context object (Singleton). It's to use Context without declaration of an object
 	 *
 	 * @return object Instance
@@ -353,13 +347,11 @@ class Context
 
 		if($session_id !== NULL || $this->db_info->cache_friendly != 'Y')
 		{
-			$this->isSessionStarted = TRUE;
 			$this->setCacheControl(0, false);
 			session_start();
 		}
 		else
 		{
-			$this->isSessionStarted = FALSE;
 			$this->setCacheControl(-1, true);
 			register_shutdown_function(array($this, 'checkSessionStatus'));
 			$_SESSION = array();
@@ -450,22 +442,34 @@ class Context
 	}
 
 	/**
+	 * Get the session status
+	 * 
+	 * @return bool
+	 */
+	function getSessionStatus()
+	{
+		return (session_id() !== '');
+	}
+
+	/**
 	 * Start the session if $_SESSION was touched
 	 * 
 	 * @return void
 	 */
 	function checkSessionStatus()
 	{
-		if($this->isSessionStarted)
+		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
+		
+		if($self->getSessionStatus())
 		{
 			return;
 		}
 		if(count($_SESSION) && !headers_sent())
 		{
 			$tempSession = $_SESSION;
+			unset($_SESSION);
 			session_start();
 			$_SESSION = $tempSession;
-			$this->isSessionStarted = TRUE;
 		}
 	}
 
@@ -1015,7 +1019,7 @@ class Context
 		$self->lang_type = $lang_type;
 		$self->set('lang_type', $lang_type);
 
-		if($this->isSessionStarted)
+		if($self->getSessionStatus())
 		{
 			$_SESSION['lang_type'] = $lang_type;
 		}
