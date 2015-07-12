@@ -7,7 +7,8 @@
 function pointLevelIconTrans($matches)
 {
 	$member_srl = $matches[3];
-	if($member_srl < 1)
+	// If anonymous or not member_srl go to Hide Point Icon
+	if($member_srl < 1||!$member_srl)
 	{
 		return $matches[0];
 	}
@@ -15,12 +16,6 @@ function pointLevelIconTrans($matches)
 	$orig_text = preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]);
 
 	$oMemberModel = getModel('member');
-	// If not a member go to Hide Point Icon
-	$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-	if(!$member_info)
-	{
-		return $matches[0];
-	}
 	
 	// Check Group Image Mark
 	if($oMemberModel->getGroupImageMark($member_srl))
