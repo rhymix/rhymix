@@ -843,14 +843,11 @@ class documentController extends document
 		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'before', $oDocument);
 		if(!$trigger_output->toBool()) return $trigger_output;
 
-		// Pass if cache-friendly mode is enabled and session is not started
-		if(Context::getInstance()->isSessionStarted == FALSE) return false;
-
 		// Pass if read count is increaded on the session information
 		if($_SESSION['readed_document'][$document_srl]) return false;
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getInstance()->isSessionStarted)
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 			return false;
@@ -889,7 +886,7 @@ class documentController extends document
 		}
 
 		// Register session
-		if(!$_SESSION['banned_document'][$document_srl]) 
+		if(!$_SESSION['banned_document'][$document_srl] && Context::getInstance()->isSessionStarted) 
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 		}
