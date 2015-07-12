@@ -354,11 +354,13 @@ class Context
 		if($session_id !== NULL)
 		{
 			$this->isSessionStarted = TRUE;
+			$this->setCacheControl(0, false);
 			session_start();
 		}
 		else
 		{
 			$this->isSessionStarted = FALSE;
+			$this->setCacheControl(-1, true);
 			$_SESSION = array();
 		}
 
@@ -481,18 +483,22 @@ class Context
 	 *
 	 * @return void
 	 */
-	function setCacheControl($public = 'public', $nocache = false)
+	function setCacheControl($ttl = 0, $public = true)
 	{
-		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
-
-		$public = !empty($public) ? $public.', ' : '';
-		header("Cache-Control: ".$public."must-revalidate, post-check=0, pre-check=0");
-		if ($nocache)
+		if($ttl == 0)
 		{
-			header("Cache-Control: no-store, no-cache, must-revalidate", false);
-			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-			header("Pragma: no-cache");
+			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, post-check=0, pre-check=0, no-store, no-cache');
+			header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+		}
+		elseif($ttl == -1)
+		{
+			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, post-check=0, pre-check=0');
+		}
+		else
+		{
+			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, max-age=' . (int)$ttl);
+			header('Expires: ' . gmdate('D, d M Y H:i:s', time() + (int)$ttl) . ' GMT');
 		}
 	}
 
