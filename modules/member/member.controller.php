@@ -331,7 +331,7 @@ class memberController extends member
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = preg_replace('/[\pZ\pC]+/', '', $args->{$val});
+				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', $args->{$val});
 			}
 		}
 		$output = $this->insertMember($args);
@@ -543,7 +543,7 @@ class memberController extends member
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = preg_replace('/[\pZ\pC]+/', '', $args->{$val});
+				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', $args->{$val});
 			}
 		}
 
@@ -2119,7 +2119,7 @@ class memberController extends member
 		}
 
 		// Sanitize user ID, username, nickname, homepage, blog
-		$args->user_id = htmlspecialchars($args->user_id, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		if($args->user_id) $args->user_id = htmlspecialchars($args->user_id, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		$args->user_name = htmlspecialchars($args->user_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		$args->nick_name = htmlspecialchars($args->nick_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		$args->homepage = htmlspecialchars($args->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
@@ -2137,14 +2137,19 @@ class memberController extends member
 		if($config->identifier == 'email_address')
 		{
 			$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
-			if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
-
+			if($member_srl && $args->member_srl != $member_srl)
+			{
+				return new Object(-1,'msg_exists_email_address');
+			}
 			$args->email_address = $orgMemberInfo->email_address;
 		}
 		else
 		{
 			$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
-			if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_user_id');
+			if($member_srl && $args->member_srl != $member_srl)
+			{
+				return new Object(-1,'msg_exists_user_id');
+			}
 
 			$args->user_id = $orgMemberInfo->user_id;
 		}
@@ -2156,10 +2161,13 @@ class memberController extends member
 		}
 
 		// Check if ID is duplicate
-		$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
-		if($member_srl && $orgMemberInfo->user_id != $args->user_id)
+		if($args->user_id)
 		{
-			return new Object(-1,'msg_exists_user_id');
+			$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
+			if($member_srl && $args->member_srl != $member_srl)
+			{
+				return new Object(-1,'msg_exists_user_id');
+			}
 		}
 
 		// Check if nickname is prohibited
@@ -2170,7 +2178,7 @@ class memberController extends member
 
 		// Check if nickname is duplicate
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
- 		if($member_srl && $orgMemberInfo->nick_name != $args->nick_name)
+ 		if($member_srl && $args->member_srl != $member_srl)
  		{
  			return new Object(-1,'msg_exists_nick_name');
  		}
