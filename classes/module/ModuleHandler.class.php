@@ -722,24 +722,23 @@ class ModuleHandler extends Handler
 
 			}
 
-			$isSessionStarted = Context::getInstance()->isSessionStarted;
-			if($isSessionStarted || $error != 0)
+			if($error != 0)
 			{
 				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
 			}
-			if($isSessionStarted || $validator_id = Context::get('xe_validator_id'))
+			if($validator_id = Context::get('xe_validator_id'))
 			{
 				$_SESSION['XE_VALIDATOR_ID'] = $validator_id;
 			}
-			if($isSessionStarted || $message != 'success')
+			if($message != 'success')
 			{
 				$_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
 			}
-			if($isSessionStarted || $messageType != 'info')
+			if($messageType != 'info')
 			{
 				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
 			}
-			if(Context::get('xeVirtualRequestMethod') != 'xml' && ($isSessionStarted || $redirectUrl))
+			if(Context::get('xeVirtualRequestMethod') != 'xml' && $redirectUrl)
 			{
 				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
 			}
