@@ -350,8 +350,8 @@ class Context
 		{
 			$session_id = $_COOKIE[$session_name];
 		}
-		
-		if($session_id !== NULL)
+
+		if($session_id !== NULL || $this->db_info->cache_friendly != 'Y')
 		{
 			$this->isSessionStarted = TRUE;
 			$this->setCacheControl(0, false);
