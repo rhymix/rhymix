@@ -651,7 +651,7 @@ class documentItem extends Object
 	function getExtraValue($idx)
 	{
 		$extra_vars = $this->getExtraVars();
-		return $extra_vars[$idx]->value;
+		return $extra_vars[$idx]->getValue();
 	}
 
 	function getExtraValueHTML($idx)
@@ -679,7 +679,7 @@ class documentItem extends Object
 				$extra_eid[$key->eid] = $key;
 			}
 		}
-		return $extra_eid[$eid]->value;
+		return $extra_eid[$eid]->getValue();
 	}
 
 	function getExtraEidValueHTML($eid)
