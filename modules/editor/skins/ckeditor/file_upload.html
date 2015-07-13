@@ -48,17 +48,32 @@
 	jQuery(function($){
 		// uploader
 		<!--@if($allow_fileupload)-->
-		var setting = {
-			maxFileSize: {$file_config->allowed_filesize},
-			limitMultiFileUploadSize: {$file_config->allowed_filesize}
-		};
-		var uploader = $('#xefu-container-{$editor_sequence}').xeUploader(setting);
 		window.xe.msg_exceeds_limit_size = '{$lang->msg_exceeds_limit_size}';
 		window.xe.msg_checked_file_is_deleted = '{$lang->msg_checked_file_is_deleted}';
 		window.xe.msg_file_cart_is_null = '{$lang->msg_file_cart_is_null}';
 		window.xe.msg_checked_file_is_deleted = '{$lang->msg_checked_file_is_deleted}';
 		window.xe.msg_not_allowed_filetype = '{$lang->msg_not_allowed_filetype}';
 		window.xe.msg_file_upload_error = '{$lang->msg_file_upload_error}';
+		window.xe.cmd_select = '{$lang->cmd_select}';
+		window.xe.cmd_select_cover = '{$lang->cmd_select_cover}';
+
+		var setting = {
+			maxFileSize: {$file_config->allowed_filesize},
+			limitMultiFileUploadSize: {$file_config->allowed_filesize},
+			tmplXeUploaderFileitem : '<li class="xefu-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xefu-file-name">{{source_filename}}</span><span class="xefu-file-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> Select</span></span></li>',
+			tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>'
+		};
+
+		if(typeof window.xe.cmd_select != "undefined" && window.xe.cmd_select !== "")
+		{
+			setting.tmplXeUploaderFileitem = setting.tmplXeUploaderFileitem.replace("Select", window.xe.cmd_select);
+		}
+		if(typeof window.xe.cmd_select_cover != "undefined" && window.xe.cmd_select_cover !== "")
+		{
+			setting.tmplXeUploaderFileitemImage = setting.tmplXeUploaderFileitemImage.replace("Be a cover image", window.xe.cmd_select_cover);
+		}
+
+		var uploader = $('#xefu-container-{$editor_sequence}').xeUploader(setting);
 		<!--@endif-->
 	});
 </script>
