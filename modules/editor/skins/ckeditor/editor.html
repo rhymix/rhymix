@@ -32,9 +32,9 @@
 <script>
 (function($){
 	"use strict";
-
 	// editor
 	$(function(){
+		<!--@if(!FileHandler::exists('common/js/plugins/ckeditor/ckeditor/config.js'))-->CKEDITOR.config.customConfig = '';<!--@endif-->
 		var settings = {
 			ckeconfig: {
 				height: '{$editor_height}',
