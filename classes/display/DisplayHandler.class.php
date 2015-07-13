@@ -28,7 +28,6 @@ class DisplayHandler extends Handler
 		if(
 				(defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
 				strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE &&
-				function_exists('ob_gzhandler') &&
 				extension_loaded('zlib') &&
 				$oModule->gzhandler_enable
 		)
@@ -112,16 +111,14 @@ class DisplayHandler extends Handler
 			$this->gz_enabled = FALSE;
 		}
 
-		// results directly output
+		// enable gzip using zlib extension
 		if($this->gz_enabled)
 		{
-			header("Content-Encoding: gzip");
-			print ob_gzhandler($output, 5);
+			ini_set('zlib.output_compression', true);
 		}
-		else
-		{
-			print $output;
-		}
+
+		// results directly output
+		print $output;
 
 		// call a trigger after display
 		ModuleHandler::triggerCall('display', 'after', $output);
