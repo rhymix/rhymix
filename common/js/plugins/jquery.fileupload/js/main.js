@@ -287,7 +287,6 @@
 			obj.editor_sequence = data.editorSequence;
 
 			$.exec_json('file.getFileList', obj, function(res){
-				console.log(res);
 				data.uploadTargetSrl = res.upload_target_srl;
 				editorRelKeys[data.editorSequence].primary.value = res.upload_target_srl;
 				data.uploadTargetSrl = res.uploadTargetSrl;
