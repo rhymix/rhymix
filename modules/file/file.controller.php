@@ -293,8 +293,30 @@ class fileController extends file
 
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
 		$file_obj = $oFileModel->getFile($file_srl, $columnList);
-		$file_size = $file_obj->file_size;
+		$filesize = $file_obj->file_size;
 		$filename = $file_obj->source_filename;
+		$etag = md5($file_srl . $file_key . $_SERVER['HTTP_USER_AGENT']);
+
+		// Check if file exists
+		$uploaded_filename = $file_obj->uploaded_filename;
+		if(!file_exists($uploaded_filename))
+		{
+			return $this->stop('msg_file_not_found');
+		}
+
+		// If client sent an If-None-Match header with the correct ETag, do not download again
+		if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim(trim($_SERVER['HTTP_IF_NONE_MATCH']), '\'"') === $etag)
+		{
+			header('HTTP/1.1 304 Not Modified');
+			exit(); 
+		}
+
+		// If client sent an If-Modified-Since header with a recent modification date, do not download again
+		if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) > filemtime($uploaded_filename))
+		{
+			header('HTTP/1.1 304 Not Modified');
+			exit();
+		}
 
 		// Android <= 4.0 tries to download the same file twice, so we allow it
 		if(strstr($_SERVER['HTTP_USER_AGENT'], "Android"))
@@ -334,35 +356,56 @@ class fileController extends file
 		// Close context to prevent blocking the session
 		Context::close();
 
-		// Check if file exists
-		$uploaded_filename = $file_obj->uploaded_filename;
-		if(!file_exists($uploaded_filename))
+		// Open file
+		$fp = fopen($uploaded_filename, 'rb');
+		if(!$fp)
 		{
 			return $this->stop('msg_file_not_found');
 		}
 
-		$fp = fopen($uploaded_filename, 'rb');
-		if(!$fp) return $this->stop('msg_file_not_found');
+		// Take care of pause and resume
+		if(isset($_SERVER['HTTP_RANGE']) && preg_match('/^bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches))
+		{
+			$range_start = $matches[1];
+			$range_end = $matches[2] ? $matches[2] : ($filesize - 1);
+			$range_length = $range_end - $range_start + 1;
+			if($range_length < 1 || $range_start < 0 || $range_start >= $filesize || $range_end >= $filesize)
+			{
+				header('HTTP/1.1 416 Requested Range Not Satisfiable');
+				fclose($fp);
+				exit();
+			}
+            fseek($fp, $range_start);
+			header('HTTP/1.1 206 Partial Content');
+			header('Content-Range: bytes ' . $range_start . '-' . $range_end . '/' . $filesize);
+		}
+		else
+		{
+			$range_start = 0;
+			$range_length = $filesize - $range_start;
+		}
+
+		// Clear buffer
+		while(ob_get_level()) ob_end_clean();
 
 		// Set headers
-		header("Cache-Control: ");
+		header("Cache-Control: private; max-age=3600");
 		header("Pragma: ");
 		header("Content-Type: application/octet-stream");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
-		header("Content-Length: " .(string)($file_size));
 		header('Content-Disposition: attachment; filename="'.$filename.'"');
-		header("Content-Transfer-Encoding: binary\n");
+		header('Content-Transfer-Encoding: binary');
+		header('Content-Length: ' . $range_length);
+		header('Accept-Ranges: bytes');
+		header('Etag: "' . $etag . '"');
 
-		// If file size is lager than 1MB, use fread function (#18675748)
-		if(filesize($uploaded_filename) > 1024 * 1024)
+		// Print the file contents
+		for($offset = 0; $offset < $range_length; $offset += 4096)
 		{
-			while(!feof($fp)) echo fread($fp, 1024);
-			fclose($fp);
-		}
-		else
-		{
-			fpassthru($fp);
+			$buffer_size = min(4096, $range_length - $offset);
+			echo fread($fp, $buffer_size);
+			flush();
 		}
 
 		exit();
