@@ -263,25 +263,30 @@ class fileController extends file
 				}
 			}
 		}
+
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'before', $file_obj);
 		if(!$output->toBool()) return $this->stop(($output->message)?$output->message:'msg_not_permitted_download');
 
-
-		// 다운로드 후 (가상)
 		// Increase download_count
 		$args = new stdClass();
 		$args->file_srl = $file_srl;
 		executeQuery('file.updateFileDownloadCount', $args);
+
 		// Call a trigger (after)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
 
-		$random = new Password();
-		$file_key = $_SESSION['__XE_FILE_KEY__'][$file_srl] = $random->createSecureSalt(32, 'hex');
+		// Redirect to procFileOutput using file key
+		if(!isset($_SESSION['__XE_FILE_KEY__']) || !is_string($_SESSION['__XE_FILE_KEY__']) || strlen($_SESSION['__XE_FILE_KEY__']) != 32)
+		{
+			$random = new Password();
+			$_SESSION['__XE_FILE_KEY__'] = $random->createSecureSalt(32, 'hex');
+		}
+		$file_key_data = $file_obj->file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+		$file_key = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
 		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput','file_srl',$file_srl,'file_key',$file_key));
 		Context::close();
 		exit();
-
 	}
 
 	public function procFileOutput()
@@ -297,6 +302,18 @@ class fileController extends file
 		$filename = $file_obj->source_filename;
 		$etag = md5($file_srl . $file_key . $_SERVER['HTTP_USER_AGENT']);
 
+		// Check file key
+		if(strlen($file_key) != 32 || !isset($_SESSION['__XE_FILE_KEY__']) || !is_string($_SESSION['__XE_FILE_KEY__']))
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		$file_key_data = $file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+		$file_key_compare = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
+		if($file_key !== $file_key_compare)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		
 		// Check if file exists
 		$uploaded_filename = $file_obj->uploaded_filename;
 		if(!file_exists($uploaded_filename))
@@ -317,34 +334,6 @@ class fileController extends file
 			header('HTTP/1.1 304 Not Modified');
 			exit();
 		}
-
-		// Android <= 4.0 tries to download the same file twice, so we allow it
-		if(strstr($_SERVER['HTTP_USER_AGENT'], "Android"))
-		{
-			$is_android = true;
-		}
-		if($is_android && $_SESSION['__XE_FILE_KEY_AND__'][$file_srl])
-		{
-			$session_key = '__XE_FILE_KEY_AND__';
-		}
-		else
-		{
-			$session_key = '__XE_FILE_KEY__';
-		}
-
-		// If not Android, we do not allow downloading the same file twice
-		if(!$file_key || $_SESSION[$session_key][$file_srl] != $file_key)
-		{
-			unset($_SESSION[$session_key][$file_srl]);
-			return $this->stop('msg_invalid_request');
-		}
-
-		if($is_android)
-		{
-			if($_SESSION['__XE_FILE_KEY__'][$file_srl]) $_SESSION['__XE_FILE_KEY_AND__'][$file_srl] = $file_key;
-		}
-
-		unset($_SESSION[$session_key][$file_srl]);
 
 		// Filename encoding for browsers that support RFC 5987
 		if(preg_match('#(?:Chrome|Edge)/(\d+)\.#', $_SERVER['HTTP_USER_AGENT'], $matches) && $matches[1] >= 11)
