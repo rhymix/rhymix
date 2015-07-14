@@ -286,32 +286,35 @@ class fileController extends file
 
 	public function procFileOutput()
 	{
+		// Get requsted file info
 		$oFileModel = getModel('file');
 		$file_srl = Context::get('file_srl');
 		$file_key = Context::get('file_key');
-		if(strstr($_SERVER['HTTP_USER_AGENT'], "Android")) $is_android = true;
 
-		if($is_android && $_SESSION['__XE_FILE_KEY_AND__'][$file_srl]) $session_key = '__XE_FILE_KEY_AND__';
-		else $session_key = '__XE_FILE_KEY__';
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
 		$file_obj = $oFileModel->getFile($file_srl, $columnList);
+		$file_size = $file_obj->file_size;
+		$filename = $file_obj->source_filename;
 
-		$uploaded_filename = $file_obj->uploaded_filename;
+		// Android <= 4.0 tries to download the same file twice, so we allow it
+		if(strstr($_SERVER['HTTP_USER_AGENT'], "Android"))
+		{
+			$is_android = true;
+		}
+		if($is_android && $_SESSION['__XE_FILE_KEY_AND__'][$file_srl])
+		{
+			$session_key = '__XE_FILE_KEY_AND__';
+		}
+		else
+		{
+			$session_key = '__XE_FILE_KEY__';
+		}
 
-		if(!file_exists($uploaded_filename)) return $this->stop('msg_file_not_found');
-
+		// If not Android, we do not allow downloading the same file twice
 		if(!$file_key || $_SESSION[$session_key][$file_srl] != $file_key)
 		{
 			unset($_SESSION[$session_key][$file_srl]);
 			return $this->stop('msg_invalid_request');
-		}
-
-		$file_size = $file_obj->file_size;
-		$filename = $file_obj->source_filename;
-		if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE || (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'rv:') !== FALSE))
-		{
-			$filename = rawurlencode($filename);
-			$filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
 		}
 
 		if($is_android)
@@ -321,11 +324,27 @@ class fileController extends file
 
 		unset($_SESSION[$session_key][$file_srl]);
 
+		// Encode the filename for browsers that don't support RFC2231/5987
+		if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE || (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'rv:') !== FALSE))
+		{
+			$filename = rawurlencode($filename);
+			$filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
+		}
+
+		// Close context to prevent blocking the session
 		Context::close();
+
+		// Check if file exists
+		$uploaded_filename = $file_obj->uploaded_filename;
+		if(!file_exists($uploaded_filename))
+		{
+			return $this->stop('msg_file_not_found');
+		}
 
 		$fp = fopen($uploaded_filename, 'rb');
 		if(!$fp) return $this->stop('msg_file_not_found');
 
+		// Set headers
 		header("Cache-Control: ");
 		header("Pragma: ");
 		header("Content-Type: application/octet-stream");
@@ -335,7 +354,7 @@ class fileController extends file
 		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		header("Content-Transfer-Encoding: binary\n");
 
-		// if file size is lager than 10MB, use fread function (#18675748)
+		// If file size is lager than 1MB, use fread function (#18675748)
 		if(filesize($uploaded_filename) > 1024 * 1024)
 		{
 			while(!feof($fp)) echo fread($fp, 1024);
