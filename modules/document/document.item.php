@@ -687,7 +687,7 @@ class documentItem extends Object
 			}
 		}
 		
-		if(is_array($extra_vars) && array_key_exists($eid,$extra_vars))
+		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
 		{
 			return $extra_eid[$eid]->getValue();
 		}
@@ -706,7 +706,7 @@ class documentItem extends Object
 			$extra_eid[$key->eid] = $key;
 		}
 		
-		if(is_array($extra_vars) && array_key_exists($eid,$extra_vars))
+		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
 		{
 			return $extra_eid[$eid]->getValueHTML();
 		}
