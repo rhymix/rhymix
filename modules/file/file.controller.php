@@ -346,11 +346,24 @@ class fileController extends file
 
 		unset($_SESSION[$session_key][$file_srl]);
 
-		// Encode the filename for browsers that don't support RFC2231/5987
-		if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE || (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'rv:') !== FALSE))
+		// Filename encoding for browsers that support RFC 5987
+		if(preg_match('#(?:Chrome|Edge)/(\d+)\.#', $_SERVER['HTTP_USER_AGENT'], $matches) && $matches[1] >= 11)
+		{
+			$filename_param = "filename*=UTF-8''" . rawurlencode($filename) . '; filename="' . rawurlencode($filename) . '"';
+		}
+		elseif(preg_match('#(?:Firefox|Safari|Trident)/(\d+)\.#', $_SERVER['HTTP_USER_AGENT'], $matches) && $matches[1] >= 6)
+		{
+			$filename_param = "filename*=UTF-8''" . rawurlencode($filename) . '; filename="' . rawurlencode($filename) . '"';
+		}
+		// Filename encoding for browsers that do not support RFC 5987
+		elseif(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 		{
 			$filename = rawurlencode($filename);
-			$filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
+			$filename_param = 'filename="' . preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1) . '"';
+		}
+		else
+		{
+			$filename_param = 'filename="' . $filename . '"';
 		}
 
 		// Close context to prevent blocking the session
@@ -394,7 +407,7 @@ class fileController extends file
 		header("Content-Type: application/octet-stream");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
-		header('Content-Disposition: attachment; filename="'.$filename.'"');
+		header('Content-Disposition: attachment; ' . $filename_param);
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: ' . $range_length);
 		header('Accept-Ranges: bytes');
