@@ -1,5 +1,5 @@
 <!--// META -->
-{Context::addHtmlHeader('<meta name="viewport" content="width=1240">')}
+{Context::addHtmlHeader('<meta name="viewport" content="width=device-width, user-scalable=yes">')}
 <!--// LANG -->
 <load target="./lang" />
 
@@ -15,7 +15,7 @@
 	{@ $sub_header_title = $module_info->browser_title}
 
 <!--// 초기화 -->
-	{@ $_enable_slide = true}
+	{@ $_enable_slide = false}
 	{@ $_enable_unb = false}
 	{@ $_sample_slide = false}
 	{@ $_sample_footer = false}
@@ -29,9 +29,13 @@
 	<block cond="!$layout_info->use_slide">{@ $layout_info->use_slide = 'Y'}</block>
 	<block cond="!$layout_info->enable_intergration_search">{@ $layout_info->enable_intergration_search = 'Y'}</block>
 
+	<block cond="$layout_info->use_slide === 'Y'">
+		{@ $_enable_slide = true}
+	</block>
 	<block cond="$layout_info->use_demo === 'Y'">
 		{@ $_sample_slide = true}
-		<block cond="$_is_indexmodule">{@ $layout_info->use_slide = 'Y'}</block>
+		{@ $_enable_slide = false}
+		<block cond="$_is_indexmodule">{@ $_enable_slide = true}</block>
 	</block>
 	<block cond="!$layout_info->slide_img1">{@ $_sample_slide = true}</block>
 	<block cond="$layout_info->use_demo === 'Y'">{@ $_sample_footer = true}</block>
@@ -141,17 +145,16 @@
 
 <!--// CSS -->
 <load target="./css/layout.css" />
-<load target="./css/camera.css" />
+<load target="./css/idangerous.swiper.css" />
 <load target="./css/welcome.css" />
 <load target="./css/webfont.css" />
 <load target="./css/xeicon.css" cond="$mid === 'xeicon'" />
 <load target="../../common/xeicon/xeicon.min.css" />
 <!--// JS -->
-<load target="./js/jquery.easing.js" />
-<load cond="$_enable_slide" target="./js/camera.min.js" />
+<load cond="$_enable_slide" target="./js/idangerous.swiper.min.js" />
 <load target="./js/layout.js" />
 <load cond="$layout_info->use_demo ==='Y'" target="./js/welcome.js" />
-<load target="./js/SmoothScroll.min.js" />
+<load target="./js/jquery.parallax-scroll.min.js" />
 
 
 <!--// BODY -->
@@ -174,7 +177,7 @@
 			</div>
 		</div>
 
-		<header class="header">
+		<header class="header {$_visual_class}">
 			<!--// LOGO -->
 			<h1 class="logo-item">
 				{@ $_logo_img = $layout_info->logo_img}
@@ -257,6 +260,13 @@
 
 			<!-- GNB -->
 			<nav cond="$GNB->list" class="gnb" id="gnb">
+				<div id="mobile_menu_btn" class="menu_btn">
+					<div class="menu_bar">
+						<div class="btn1"></div>
+						<div class="btn2"></div>
+						<div class="btn3"></div>
+					</div>
+				</div>
 				<ul>
 					<li loop="$GNB->list => $key1, $val1">
 						<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
@@ -290,52 +300,56 @@
 			<h1>{$sub_header_title}</h1>
 		</div>
 	</div>
-
-	<div cond="$layout_info->layout_type === 'main' && $_enable_slide" class="visual">
-			<!-- 슬라이드 -->
-			<div class="camera_wrap">
-			<!--@if($_sample_slide)-->
-				<include target="./demo/slide.html" />
-			<!--@else-->
-				<div cond="$layout_info->slide_img1" data-src="{$layout_info->slide_img1}">
-					<div cond="$layout_info->slide_text1" class="camera_caption fadeIn">
-						<div class="camera_caption_wrap">
-							{$layout_info->slide_text1}
-						</div>
+    <!-- Swiper -->
+    <div cond="$layout_info->layout_type === 'main' && $_enable_slide" class="visual swiper-container">
+		<!-- 슬라이드 -->
+		<div class="swiper-wrapper">
+		<!--@if($_sample_slide)-->
+			<include target="./demo/slide.html" />
+		<!--@else-->
+			<div cond="$layout_info->slide_img1" style="background-image:url('{$layout_info->slide_img1}');" class="swiper-slide">
+				<div cond="$layout_info->slide_text1">
+					<div>
+						{$layout_info->slide_text1}
 					</div>
 				</div>
-				<div cond="$layout_info->slide_img2" data-src="{$layout_info->slide_img2}">
-					<div cond="$layout_info->slide_text2" class="camera_caption fadeIn">
-						<div class="camera_caption_wrap">
-							{$layout_info->slide_text2}
-						</div>
-					</div>
-				</div>
-				<div cond="$layout_info->slide_img3" data-src="{$layout_info->slide_img3}">
-					<div cond="$layout_info->slide_text3" class="camera_caption fadeIn">
-						<div class="camera_caption_wrap">
-							{$layout_info->slide_text3}
-						</div>
-					</div>
-				</div>
-				<div cond="$layout_info->slide_img4" data-src="{$layout_info->slide_img4}">
-					<div cond="$layout_info->slide_text4" class="camera_caption fadeIn">
-						<div class="camera_caption_wrap">
-							{$layout_info->slide_text4}
-						</div>
-					</div>
-				</div>
-				<div cond="$layout_info->slide_img5" data-src="{$layout_info->slide_img5}">
-					<div cond="$layout_info->slide_text5" class="camera_caption fadeIn">
-						<div class="camera_caption_wrap">
-							{$layout_info->slide_text5}
-						</div>
-					</div>
-				</div>
-			<!--@end-->
 			</div>
-			<!-- END:슬라이드 -->
-	</div>
+			<div cond="$layout_info->slide_img2" style="background-image:url('{$layout_info->slide_img2}');" class="swiper-slide">
+				<div cond="$layout_info->slide_text2">
+					<div>
+						{$layout_info->slide_text2}
+					</div>
+				</div>
+			</div>
+			<div cond="$layout_info->slide_img3" style="background-image:url('{$layout_info->slide_img3}');" class="swiper-slide">
+				<div cond="$layout_info->slide_text3">
+					<div>
+						{$layout_info->slide_text3}
+					</div>
+				</div>
+			</div>
+			<div cond="$layout_info->slide_img4" style="background-image:url('{$layout_info->slide_img4}');" class="swiper-slide">
+				<div cond="$layout_info->slide_text4">
+					<div>
+						{$layout_info->slide_text4}
+					</div>
+				</div>
+			</div>
+			<div cond="$layout_info->slide_img5" style="background-image:url('{$layout_info->slide_img5}');" class="swiper-slide">
+				<div cond="$layout_info->slide_text5">
+					<div>
+						{$layout_info->slide_text5}
+					</div>
+				</div>
+			</div>
+		<!--@end-->
+		</div>
+		<!-- END:슬라이드 -->
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button left"><button type="button" class="swiper-button-prev"><i class="xi-angle-left"></i></button></div>
+		<div class="swiper-button right"><button type="button" class="swiper-button-next"><i class="xi-angle-right"></i></button></div>
+    </div>
 	<!-- /VISUAL -->
 
 	<!-- BODY -->
@@ -408,6 +422,15 @@
 					<include target="./demo/copyright.html" />
 				<!--@end-->
 			</p>
+			<ul class="mobile-footer-member">
+				<!--@if(!$is_logged)-->
+				<li><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+				<li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+				<!--@else-->
+				<li><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+				<li><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+				<!--@end-->
+			</ul>
 		</div>
 	</footer>
 </div>
@@ -454,6 +477,7 @@
 							<span class="checkbox"></span> {$lang->keep_signed}
 						</label>
 						<div id="warning">
+							<p style="text-align:right;"><i class="xi-close"></i></p>
 							<p>{str_replace('\n\n', '<br />', $lang->about_keep_signed)}</p>
 							<div class="edge"></div>
 						</div>
@@ -500,4 +524,22 @@
 	});
 	</script>
 </section>
-<!-- /Login widget -->
+<!-- /Login widget -->    
+<script cond="$_enable_slide">
+jQuery(document).ready(function () {
+	var swiper = new Swiper('.swiper-container', {
+	    autoplay: 6000,
+	    loop: true,
+	    pagination: '.swiper-pagination',
+	    paginationClickable: true
+	});
+	jQuery('.swiper-button-next').on('click', function(e){
+		e.preventDefault();
+		swiper.swipeNext();
+	});
+	jQuery('.swiper-button-prev').on('click', function(e){
+		e.preventDefault();
+		swiper.swipePrev();
+	});
+});
+</script>

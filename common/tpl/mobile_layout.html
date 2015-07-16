@@ -5,7 +5,7 @@
 	$js_files=Context::getJsFile();
 }
 <!DOCTYPE html>
-<html lang="{$lang_type}" class="xe-mobilelayout">
+<html lang="{str_replace('jp','ja',$lang_type)}" class="xe-mobilelayout">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
@@ -13,15 +13,15 @@
 <title>{Context::getBrowserTitle()}</title>
 <!-- CSS -->
 <block loop="$css_files=>$key,$css_file">
-<block cond="$css_file['targetie']"><!--[if {$css_file['targetie']}]></block>
+<block cond="$css_file['targetie']"><!--[if {$css_file['targetie']}]><block cond="stripos($css_file['targetie'], 'gt') === 0"><!--></block></block>
 <link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}"|cond="$css_file['media'] != 'all'" />
-<block cond="$css_file['targetie']"><![endif]--></block>
+<block cond="$css_file['targetie']"><block cond="stripos($css_file['targetie'], 'gt') === 0"><!--</block><![endif]--></block>
 </block>
 <!-- JS -->
 <block loop="$js_files=>$key,$js_file">
 <block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]><block cond="stripos($js_file['targetie'], 'gt') === 0"><!--></block></block>
 <script src="{$js_file['file']}"></script>
-<block cond="$js_file['targetie']"><![endif]--></block>
+<block cond="$js_file['targetie']"><block cond="stripos($js_file['targetie'], 'gt') === 0"><!--</block><![endif]--></block>
 </block>
 
 <!--// RSS -->

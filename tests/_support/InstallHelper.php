@@ -1,10 +1,12 @@
 <?php
 namespace Codeception\Module;
 
+use Codeception\Util\FileSystem;
+
 class InstallHelper extends \Codeception\Module
 {
-    public function _initialize()
+    public function _before()
     {
-        \Codeception\Util\FileSystem::deleteDir('files');
+        FileSystem::deleteDir('files');
     }
 }

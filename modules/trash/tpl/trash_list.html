@@ -40,7 +40,6 @@ var no_text_comment = '{$lang->no_text_comment}';
 		</thead>
 		<tbody>
 			<tr loop="$trash_list => $no, $oTrashVO">
-			{debugPrint($oTrashVO->unserializedObject)}
 				<td class="nowr"><!--@if($oTrashVO->getOriginModule() == 'document')-->{$lang->document}<!--@else-->{$lang->comment}<!--@end--></td>
 				<td class="title">
 					<strong cond="!trim($oTrashVO->getTitle()) && $oTrashVO->getOriginModule() == 'comment'">{$lang->no_text_comment}</strong>

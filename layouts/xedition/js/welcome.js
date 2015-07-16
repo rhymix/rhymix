@@ -1,7 +1,7 @@
 (function($){
   "user strict";
   $(function(){
-    $('.xeicon').parallax('50%', 0.4);
+    //$('.xeicon').parallax('50%', 0.4);
 
     $('.fe_box').on('mouseenter mouseleave',function(e){
       $this = $(this);

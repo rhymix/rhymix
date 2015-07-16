@@ -22,6 +22,10 @@ foreach($dsn as $piece) {
     $dbinfo[$key] = $val;
 }
 
+if(\Filehandler::exists(_XE_PATH_ . 'config/install.config.php')) {
+    $I->deleteFile(_XE_PATH_ . 'config/install.config.php');
+}
+
 // Step 1
 $I->wantTo('Install XE Core');
 $I->amOnPage('/index.php?l=ko');
@@ -85,7 +89,6 @@ $I->submitForm('#content form', [
 ]);
 
 // Step 9
-$I->wantTo('completed');
 $I->dontSeeElement('//div[@id="progress"]/ul/li');
 $I->amOnPage('/index.php?act=dispMemberLoginForm');
 

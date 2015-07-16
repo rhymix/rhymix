@@ -54,7 +54,9 @@ class commentController extends comment
 		}
 
 		$point = 1;
-		return $this->updateVotedCount($comment_srl, $point);
+		$output = $this->updateVotedCount($comment_srl, $point);
+		$this->add('voted_count', $output->get('voted_count'));
+		return $output;
 	}
 
 	/**
@@ -90,7 +92,9 @@ class commentController extends comment
 		}
 
 		$point = -1;
-		return $this->updateVotedCount($comment_srl, $point);
+		$output = $this->updateVotedCount($comment_srl, $point);
+		$this->add('blamed_count', $output->get('blamed_count'));
+		return $output;
 	}
 
 	/**
@@ -637,10 +641,16 @@ class commentController extends comment
 	 * Fix the comment
 	 * @param object $obj
 	 * @param bool $is_admin
+	 * @param bool $manual_updated
 	 * @return object
 	 */
-	function updateComment($obj, $is_admin = FALSE)
+	function updateComment($obj, $is_admin = FALSE, $manual_updated = FALSE)
 	{
+		if(!$manual_updated && !checkCSRF())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
 		if(!is_object($obj))
 		{
 			$obj = new stdClass();

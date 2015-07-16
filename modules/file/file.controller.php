@@ -935,6 +935,52 @@ class fileController extends file
 		}
 	}
 
+	public function procFileSetCoverImage()
+	{
+		$vars = Context::getRequestVars();
+		$logged_info = Context::get('logged_info');
+
+		if(!$vars->editor_sequence) return new Object(-1, 'msg_invalid_request');
+
+		$upload_target_srl = $_SESSION['upload_info'][$vars->editor_sequence]->upload_target_srl;
+
+		$oFileModel = getModel('file');
+		$file_info = $oFileModel->getFile($vars->file_srl);
+
+		if(!$file_info) return new Object(-1, 'msg_not_founded');
+
+		if(!$this->manager && !$file_info->member_srl === $logged_info->member_srl) return new Object(-1, 'msg_not_permitted');
+
+		$args =  new stdClass();
+		$args->file_srl = $vars->file_srl;
+		$args->upload_target_srl = $upload_target_srl;
+
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
+		$args->cover_image = 'N';
+		$output = executeQuery('file.updateClearCoverImage', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$args->cover_image = 'Y';
+		$output = executeQuery('file.updateCoverImage', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$oDB->commit();
+
+		// 썸네일 삭제
+		$thumbnail_path = sprintf('files/thumbnails/%s', getNumberingPath($upload_target_srl, 3));
+		Filehandler::removeFilesInDir($thumbnail_path);
+	}
+
 	/**
 	 * Find the attachment where a key is upload_target_srl and then return java script code
 	 *
@@ -965,3 +1011,4 @@ class fileController extends file
 }
 /* End of file file.controller.php */
 /* Location: ./modules/file/file.controller.php */
+

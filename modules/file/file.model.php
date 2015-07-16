@@ -49,6 +49,7 @@ class fileModel extends file
 				if($file_info->direct_download=='N') $obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid, $file_info->module_srl);
 				else $obj->download_url = str_replace('./', '', $file_info->uploaded_filename);
 				$obj->direct_download = $file_info->direct_download;
+				$obj->cover_image = ($file_info->cover_image === 'Y') ? true : false;
 				$files[] = $obj;
 				$attached_size += $file_info->file_size;
 			}
