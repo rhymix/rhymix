@@ -48,6 +48,11 @@ class Crypto
 	protected static $_extension = null;
 
 	/**
+	 * @brief If this is true, encryption and signature are only valid in current session
+	 */
+	protected $_current_session_only = false;
+
+	/**
 	 * @brief Constructor
 	 */
 	public function __construct()
@@ -76,6 +81,15 @@ class Crypto
 	}
 
 	/**
+	 * @brief Make encryption and signature only valid in current session
+	 * @return void
+	 */
+	public function currentSessionOnly()
+	{
+		$this->_current_session_only = true;
+	}
+
+	/**
 	 * @brief Encrypt a string
 	 * @param string $plaintext The string to encrypt
 	 * @param string $key Optional key. If empty, default key will be used.
@@ -85,7 +99,7 @@ class Crypto
 	{
 		if($key === null || $key === '')
 		{
-			$key = self::_getDefaultKey();
+			$key = $this->_getSessionKey();
 		}
 
 		// Generate subkey for encryption
@@ -125,7 +139,7 @@ class Crypto
 	{
 		if($key === null || $key === '')
 		{
-			$key = self::_getDefaultKey();
+			$key = $this->_getSessionKey();
 		}
 		
 		// Base64 decode the ciphertext and check the length
@@ -187,7 +201,7 @@ class Crypto
 	{
 		if($key === null || $key === '')
 		{
-			$key = self::_getDefaultKey();
+			$key = $this->_getSessionKey();
 		}
 
 		// Generate a signature using HMAC
@@ -205,13 +219,34 @@ class Crypto
 	{
 		if($key === null || $key === '')
 		{
-			$key = self::_getDefaultKey();
+			$key = $this->_getSessionKey();
 		}
 
 		// Verify the signature using HMAC
 		$oPassword = new Password();
 		$compare = bin2hex(self::_defuseCompatibleHKDF($plaintext, $key));
 		return $oPassword->strcmpConstantTime($signature, $compare);
+	}
+
+	/**
+	 * @brief Get the default key applicable to this instance
+	 * @return string
+	 */
+	protected function _getSessionKey()
+	{
+		if($this->_current_session_only)
+		{
+			if(!isset($_SESSION['XE_CRYPTO_SESSKEY']))
+			{
+				$_SESSION['XE_CRYPTO_SESSKEY'] = self::_createSecureKey();
+			}
+			$session_key = base64_decode($_SESSION['XE_CRYPTO_SESSKEY']);
+			return strval(self::_getDefaultKey()) ^ strval($session_key);
+		}
+		else
+		{
+			return strval(self::_getDefaultKey());
+		}
 	}
 
 	/**
