@@ -520,7 +520,7 @@ class FileHandler
 		try
 		{
 			requirePear();
-			require_once('HTTP/Request.php');
+			if(!class_exists('HTTP_Request')) require_once('HTTP/Request.php');
 
 			$parsed_url = parse_url(__PROXY_SERVER__);
 			if($parsed_url["host"])
