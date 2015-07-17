@@ -45,6 +45,15 @@
 </div>
 
 <script>
+	function reloadUploader(editor_sequence){
+		jQuery(function($){
+			var setting = {
+				maxFileSize: {$file_config->allowed_filesize},
+				limitMultiFileUploadSize: {$file_config->allowed_filesize}
+			};
+			var uploader = $('#xefu-container-' + editor_sequence).xeUploader(setting);
+		});
+	}
 	jQuery(function($){
 		// uploader
 		<!--@if($allow_fileupload)-->
