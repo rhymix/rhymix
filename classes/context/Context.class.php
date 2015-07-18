@@ -456,7 +456,7 @@ class Context
 	 * 
 	 * @return void
 	 */
-	function checkSessionStatus()
+	function checkSessionStatus($force_start = false)
 	{
 		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
 		
@@ -464,7 +464,7 @@ class Context
 		{
 			return;
 		}
-		if(count($_SESSION) && !headers_sent())
+		if($force_start || (count($_SESSION) && !headers_sent()))
 		{
 			$tempSession = $_SESSION;
 			unset($_SESSION);
@@ -741,6 +741,7 @@ class Context
 		{
 			if(self::get('default_url'))
 			{
+				$this->checkSessionStatus(true);
 				$url = base64_decode(self::get('default_url'));
 				$url_info = parse_url($url);
 				$url_info['query'].= ($url_info['query'] ? '&' : '') . 'SSOID=' . session_id();
