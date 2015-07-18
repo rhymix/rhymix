@@ -377,9 +377,9 @@ class commentItem extends Object
 		return $content;
 	}
 
-	function getRegdate($format = 'Y.m.d H:i:s')
+	function getRegdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
 	{
-		return zdate($this->get('regdate'), $format);
+		return zdate($this->get('regdate'), $format, $conversion);
 	}
 
 	function getRegdateTime()
@@ -396,12 +396,12 @@ class commentItem extends Object
 
 	function getRegdateGM()
 	{
-		return $this->getRegdate('D, d M Y H:i:s') . ' ' . $GLOBALS['_time_zone'];
+		return $this->getRegdate('D, d M Y H:i:s', FALSE) . ' ' . $GLOBALS['_time_zone'];
 	}
 
-	function getUpdate($format = 'Y.m.d H:i:s')
+	function getUpdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
 	{
-		return zdate($this->get('last_update'), $format);
+		return zdate($this->get('last_update'), $format, $conversion);
 	}
 
 	function getPermanentUrl()

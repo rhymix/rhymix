@@ -551,9 +551,9 @@ class documentItem extends Object
 		return $content;
 	}
 
-	function getRegdate($format = 'Y.m.d H:i:s')
+	function getRegdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
 	{
-		return zdate($this->get('regdate'), $format);
+		return zdate($this->get('regdate'), $format, $conversion);
 	}
 
 	function getRegdateTime()
@@ -570,17 +570,17 @@ class documentItem extends Object
 
 	function getRegdateGM()
 	{
-		return $this->getRegdate('D, d M Y H:i:s').' '.$GLOBALS['_time_zone'];
+		return $this->getRegdate('D, d M Y H:i:s', FALSE).' '.$GLOBALS['_time_zone'];
 	}
 
 	function getRegdateDT()
 	{
-		return $this->getRegdate('Y-m-d').'T'.$this->getRegdate('H:i:s').substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
+		return $this->getRegdate('Y-m-d', FALSE).'T'.$this->getRegdate('H:i:s', FALSE).substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
 	}
 
-	function getUpdate($format = 'Y.m.d H:i:s')
+	function getUpdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
 	{
-		return zdate($this->get('last_update'), $format);
+		return zdate($this->get('last_update'), $format, $conversion);
 	}
 
 	function getUpdateTime()
@@ -601,7 +601,7 @@ class documentItem extends Object
 
 	function getUpdateDT()
 	{
-		return $this->getUpdate('Y-m-d').'T'.$this->getUpdate('H:i:s').substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
+		return $this->getUpdate('Y-m-d', FALSE).'T'.$this->getUpdate('H:i:s', FALSE).substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
 	}
 
 	function getPermanentUrl()
