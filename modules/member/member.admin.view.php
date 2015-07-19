@@ -141,7 +141,14 @@ class memberAdminView extends member
 
 		if($config->redirect_url)
 		{
-			$mid = str_ireplace(Context::getDefaultUrl(), '', $config->redirect_url);
+			if(!$config->redirect_mid)
+			{
+				$mid = str_ireplace(Context::getDefaultUrl(), '', $config->redirect_url);
+			}
+			else
+			{
+				$mid = $config->redirect_mid;
+			}
 
 			$siteModuleInfo = Context::get('site_module_info');
 
@@ -149,6 +156,7 @@ class memberAdminView extends member
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($mid, (int)$siteModuleInfo->site_srl);
 
 			$config->redirect_url = $moduleInfo->module_srl;
+
 			Context::set('config', $config);
 		}
 

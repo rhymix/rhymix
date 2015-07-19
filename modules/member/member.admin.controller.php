@@ -237,7 +237,8 @@ class memberAdminController extends member
 				return new Object('-1', 'msg_exist_selected_module');
 			}
 
-			$args->redirect_url = Context::getDefaultUrl().$redirectModuleInfo->mid;
+			$args->redirect_mid = $redirectModuleInfo->mid;
+			$args->redirect_url = getNotEncodedFullUrl('','mid',$redirectModuleInfo->mid);
 		}
 
 		$args->profile_image = $args->profile_image ? 'Y' : 'N';

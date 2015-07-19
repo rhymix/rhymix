@@ -72,6 +72,11 @@ class memberModel extends member
 		if(!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'ckeditor';
 		if(!$config->sel_editor_colorset) $config->sel_editor_colorset = 'moono';
 
+		if($config->redirect_mid)
+		{
+			$config->redirect_url = getNotEncodedFullUrl('','mid',$config->redirect_mid);
+		}
+
 		$member_config = $config;
 
 		return $config;
