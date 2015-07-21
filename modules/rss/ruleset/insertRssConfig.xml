@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ruleset version="1.5.0">
-    <customrules>
+	<customrules>
 		<rule name="boolean" type="enum" test="Y,N" />
-    </customrules>
-    <fields>
+	</customrules>
+	<fields>
 		<field name="module" required="true" default="rss" />
 		<field name="act" required="true" default="procRssAdminInsertConfig" />
 		<field name="use_total_feed" required="true" default="Y" rule="boolean" />
-		<field name="feed_title" required="true">
+		<field name="feed_title">
 			<title xml:lang="ko">피드(Feed) 제목</title>
 			<title xml:lang="en">Feed Title</title>
 		</field>

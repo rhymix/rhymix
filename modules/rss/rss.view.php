@@ -172,7 +172,7 @@ class rssView extends rss
 			$info->id = $proctcl.$_SERVER['HTTP_HOST'].$info->id;
 		}
 
-		$info->language = Context::getLangType();
+		$info->language = str_replace('jp','ja',Context::getLangType());
 		// Set the variables used in the RSS output
 		Context::set('info', $info);
 		Context::set('feed_config', $config);
