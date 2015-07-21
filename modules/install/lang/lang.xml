@@ -5,7 +5,7 @@
 		<value xml:lang="en"><![CDATA[XE Installation]]></value>
 		<value xml:lang="jp"><![CDATA[XEのインストール]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装XE]]></value>
-		<value xml:lang="zh-TW"><![CDATA[XE程式安裝]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝XE]]></value>
 		<value xml:lang="fr"><![CDATA[Installation du XE ]]></value>
 		<value xml:lang="ru"><![CDATA[Установка XE]]></value>
 		<value xml:lang="es"><![CDATA[Instalación de XE ]]></value>
@@ -34,36 +34,51 @@
 		<item name="license_agreement">
 			<value xml:lang="ko"><![CDATA[사용권 동의]]></value>
 			<value xml:lang="en"><![CDATA[License agreement]]></value>
+			<value xml:lang="jp"><![CDATA[ライセンス契約]]></value>
+			<value xml:lang="zh-CN"><![CDATA[许可协议]]></value>
+			<value xml:lang="zh-TW"><![CDATA[許可協議]]></value>
 		</item>
 		<item name="condition">
 			<value xml:lang="ko"><![CDATA[설치 조건 확인]]></value>
 			<value xml:lang="en"><![CDATA[Check the installation conditions]]></value>
 			<value xml:lang="jp"><![CDATA[インストール条件確認]]></value>
+			<value xml:lang="zh-CN"><![CDATA[检查安装条件]]></value>
+			<value xml:lang="zh-TW"><![CDATA[檢查安裝條件]]></value>
 		</item>
 		<item name="ftp">
 			<value xml:lang="ko"><![CDATA[FTP 정보 입력]]></value>
 			<value xml:lang="en"><![CDATA[Input FTP information]]></value>
 			<value xml:lang="jp"><![CDATA[FTP情報入力]]></value>
+			<value xml:lang="zh-CN"><![CDATA[输入FTP信息]]></value>
+			<value xml:lang="zh-TW"><![CDATA[輸入FTP信息]]></value>
 		</item>
 		<item name="dbSelect">
 			<value xml:lang="ko"><![CDATA[DB 선택]]></value>
 			<value xml:lang="en"><![CDATA[Choose database type]]></value>
 			<value xml:lang="jp"><![CDATA[DB選択]]></value>
+			<value xml:lang="zh-CN"><![CDATA[选择DB]]></value>
+			<value xml:lang="zh-TW"><![CDATA[選擇DB]]></value>
 		</item>
 		<item name="dbInfo">
 			<value xml:lang="ko"><![CDATA[DB 정보 입력]]></value>
 			<value xml:lang="en"><![CDATA[Input Database information]]></value>
 			<value xml:lang="jp"><![CDATA[DB情報入力]]></value>
+			<value xml:lang="zh-CN"><![CDATA[输入DB信息]]></value>
+			<value xml:lang="zh-TW"><![CDATA[輸入DB信息]]></value>
 		</item>
 		<item name="configInfo">
 			<value xml:lang="ko"><![CDATA[환경 설정]]></value>
 			<value xml:lang="en"><![CDATA[Settings]]></value>
 			<value xml:lang="jp"><![CDATA[環境設定]]></value>
+			<value xml:lang="zh-CN"><![CDATA[环境设置]]></value>
+			<value xml:lang="zh-TW"><![CDATA[環境設置]]></value>
 		</item>
 		<item name="adminInfo">
 			<value xml:lang="ko"><![CDATA[관리자 정보 입력]]></value>
 			<value xml:lang="en"><![CDATA[Enter Administrator information]]></value>
 			<value xml:lang="jp"><![CDATA[管理者情報入力]]></value>
+			<value xml:lang="zh-CN"><![CDATA[输入管理员信息]]></value>
+			<value xml:lang="zh-TW"><![CDATA[輸入管理員信息]]></value>
 		</item>
 	</item>
 	<item name="install_condition_enable">
