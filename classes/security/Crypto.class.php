@@ -295,7 +295,7 @@ class Crypto
 	protected static function _createSecureKey()
 	{
 		$oPassword = new Password();
-		return base64_encode($oPassword->createSecureSalt(16, 'binary'));
+		return base64_encode($oPassword->createSecureSalt(ENCRYPTION_KEY_SIZE, 'binary'));
 	}
 
 	/**
@@ -304,19 +304,8 @@ class Crypto
 	 */
 	protected static function _createIV()
 	{
-		$is_windows = (defined('PHP_OS') && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
-		if(function_exists('openssl_random_pseudo_bytes') && (!$is_windows || version_compare(PHP_VERSION, '5.4', '>=')))
-		{
-			return openssl_random_pseudo_bytes(self::ENCRYPTION_BLOCK_SIZE);
-		}
-		elseif(!$is_windows || version_compare(PHP_VERSION, '5.3.7', '>='))
-		{
-			return mcrypt_create_iv(self::ENCRYPTION_BLOCK_SIZE, MCRYPT_DEV_URANDOM);
-		}
-		else
-		{
-			return mcrypt_create_iv(self::ENCRYPTION_BLOCK_SIZE, MCRYPT_RAND);
-		}
+		$oPassword = new Password();
+		return $oPassword->createSecureSalt(self::ENCRYPTION_BLOCK_SIZE, 'binary');
 	}
 
 	
