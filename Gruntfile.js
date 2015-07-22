@@ -299,7 +299,17 @@ module.exports = function(grunt) {
 						grunt.file.delete('build/xe');
 						grunt.file.delete('build/temp.full.tar');
 
-						grunt.log.ok('Done!');
+						grunt.util.spawn({
+							cmd: "git",
+							args: ['diff', '--name-status', target]
+						}, function (error, result, code) {
+							var fs = require('fs');
+							result = 'Added (A), Copied (C), Deleted (D), Modified (M), Renamed (R).' + grunt.util.linefeed + result;
+							grunt.file.write(build_dir + '/CHANGED.' + version + '.txt', result);
+
+							grunt.log.ok('Done!');
+						});
+
 					});
 				});
 			}
