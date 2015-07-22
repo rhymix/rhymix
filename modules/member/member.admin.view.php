@@ -156,7 +156,6 @@ class memberAdminView extends member
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($mid, (int)$siteModuleInfo->site_srl);
 
 			$config->redirect_url = $moduleInfo->module_srl;
-
 			Context::set('config', $config);
 		}
 
