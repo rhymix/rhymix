@@ -11,7 +11,7 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 	var primary_key = ret_obj.key;
 	var fo_obj = getCkFormInstance(editor_sequence);
 	
-	if(ret_obj.document_srl!=0)
+	if(ret_obj.document_srl !== 0)
 	{
 		fo_obj[primary_key].value = ret_obj.document_srl;
 		reloadUploader(editor_sequence);
