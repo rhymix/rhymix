@@ -358,7 +358,7 @@
 		<value xml:lang="ko"><![CDATA[기본 URL]]></value>
 		<value xml:lang="en"><![CDATA[Default URL]]></value>
 		<value xml:lang="jp"><![CDATA[基本URL]]></value>
-		<value xml:lang="zh-CN"><![CDATA[XE通行证]]></value>
+		<value xml:lang="zh-CN"><![CDATA[预设网址]]></value>
 		<value xml:lang="zh-TW"><![CDATA[預設網址]]></value>
 		<value xml:lang="ru"><![CDATA[Основной URL]]></value>
 		<value xml:lang="tr"><![CDATA[Varsayılan URL]]></value>
@@ -1353,7 +1353,6 @@
 		<value xml:lang="jp"><![CDATA[PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用XE程序。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[當 PHP 的安全模式(safe_mode)開啟時，請輸入相關 FTP 資訊，否則無法正常安裝或使用程式。]]></value>
-		<value xml:lang="fr"><![CDATA[PHP의 safe_mode가 On일 경우 FTP 정보를 입력해야 XE의 설치 및 사용이 가능합니다]]></value>
 		<value xml:lang="de"><![CDATA[Zur Installation und Nutzung des XEs muss die Angabe des FTPs festgestellt werden, wenn safe_mode in PHP 'An' ist.]]></value>
 		<value xml:lang="es"><![CDATA[Si la la variable safe_mode está activa[safe_mode=On], debe rellenar los datos de FTP para seguir instalando y usar con normalidad el XE.]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer PHP güvenli mod ayarları etkinse, XE'yi kurmak için FTP hesap bilgilerini girmelisiniz.]]></value>
@@ -1397,7 +1396,6 @@
 		<value xml:lang="jp"><![CDATA[FTPでのディレクトリ作成に失敗しました。FTPサーバーの設定を再度確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[新建文件夹失败。请确认 FTP服务器设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[新增資料夾失敗。請確認 FTP 主機設置。]]></value>
-		<value xml:lang="fr"><![CDATA[FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요]]></value>
 		<value xml:lang="de"><![CDATA[Der Befehl von Herstellung des Verzeichnisses durch FTP ist gescheitert. FTP_Server festlegen.]]></value>
 		<value xml:lang="es"><![CDATA[Ha fallado el comando de FTP para la creación de directorio. Verifique la configuración del servicio FTP en el servidor]]></value>
 		<value xml:lang="tr"><![CDATA[Dizin oluşturma başarısız oldu. Lütfen FTP hesap iznini kontrol ediniz.]]></value>
@@ -1410,7 +1408,6 @@
 		<value xml:lang="jp"><![CDATA[FTPでのディレクトリのアクセス権変更に失敗しました。FTPサーバーの設定を再度確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[修改文件夹属性失败。请确认 FTP服务器设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[修改資料夾權限失敗。請確認 FTP 主機設置。]]></value>
-		<value xml:lang="fr"><![CDATA[FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요]]></value>
 		<value xml:lang="de"><![CDATA[Die Modifikation der Zugriffsberechtigung des Verzeichnisses durch FTP ist gescheitert. FTP_Server festlegen.]]></value>
 		<value xml:lang="ru"><![CDATA[Chmod failed. Please check the permission and configuration of FTP server.]]></value>
 		<value xml:lang="es"><![CDATA[Ha fallado el comando de FTP para la modificación de atributos de directorio. Verifique la configuración del servicio FTP en el servidor.]]></value>
@@ -1424,7 +1421,6 @@
 		<value xml:lang="jp"><![CDATA[FTP接続、および認証に成功しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP连接成功。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[FTP連線成功。]]></value>
-		<value xml:lang="fr"><![CDATA[FTP 접속 및 인증 성공하였습니다]]></value>
 		<value xml:lang="de"><![CDATA[Die Verbindung zu FTP ist erfolgreich und verifiziert.]]></value>	  
 		<value xml:lang="es"><![CDATA[conexión con éxito al FTP]]></value>
 		<value xml:lang="tr"><![CDATA[FTP sunucusu için bağlantı ve kimlik doğrulaması sağlandı.]]></value>
@@ -1457,9 +1453,7 @@
 		<value xml:lang="jp"><![CDATA[インストールされたXEのFTP絶対パス設定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP绝对路径设置]]></value>
 		<value xml:lang="zh-TW"><![CDATA[XE的 FTP 絕對路經]]></value>
-		<value xml:lang="fr"><![CDATA[설치된 XE의 FTP 절대경로]]></value>
 		<value xml:lang="de"><![CDATA[absoluten Pfad des FTPs, in dem XE installiert ist, festlegen.]]></value>
-		<value xml:lang="es"><![CDATA[설치된 XE의 FTP 절대경로]]></value>
 		<value xml:lang="tr"><![CDATA[XE Salt FTP Yolu]]></value>
 		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP]]></value>
 	</item>
