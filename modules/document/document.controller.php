@@ -2228,8 +2228,22 @@ class documentController extends document
 		$module_srl = Context::get('module_srl');
 		if($target_module && !$module_srl) $module_srl = $target_module;
 		$category_srl = Context::get('target_category');
-		$message_content = Context::get('message_content');
-		if($message_content) $message_content = nl2br($message_content);
+		// send default message - misol 2015-07-23
+		$send_default_message = Context::get('send_default_message');
+		if($send_default_message === 'Y')
+		{
+			$logged_info = Context::get('logged_info');
+			$message_content = '';
+			if(isset(Context::getLang('default_message_verbs')[$type]) && is_string(Context::getLang('default_message_verbs')[$type]))
+			{
+				$message_content = sprintf(Context::getLang('default_message_format'), $logged_info->nick_name, Context::getLang('default_message_verbs')[$type]);
+			}
+		}
+		else
+		{
+			$message_content = Context::get('message_content');
+			if($message_content) $message_content = nl2br($message_content);
+		}
 
 		$cart = Context::get('cart');
 		if(!is_array($cart)) $document_srl_list = explode('|@|', $cart);
@@ -2246,28 +2260,6 @@ class documentController extends document
 			if(!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
 		}
 
-		// Send a message
-		if($message_content)
-		{
-
-			$oCommunicationController = getController('communication');
-
-			$logged_info = Context::get('logged_info');
-
-			$title = cut_str($message_content,10,'...');
-			$sender_member_srl = $logged_info->member_srl;
-
-			foreach($document_items as $oDocument)
-			{
-				if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
-
-				if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\">%s</a>", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
-				else $purl = "";
-				$content = sprintf("<div>%s</div><hr />%s<div style=\"font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent(false, false, false));
-
-				$oCommunicationController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
-			}
-		}
 		// Set a spam-filer not to be filtered to spams
 		$oSpamController = getController('spamfilter');
 		$oSpamController->setAvoidLog();
@@ -2325,6 +2317,29 @@ class documentController extends document
 			$args->document_srl = $document_srl_list;
 			$output = executeQuery('document.deleteDeclaredDocuments', $args);
 			$msg_code = 'success_declare_canceled';
+		}
+
+		// Send a message
+		if($message_content)
+		{
+
+			$oCommunicationController = getController('communication');
+
+			$logged_info = Context::get('logged_info');
+
+			$title = cut_str($message_content,10,'...');
+			$sender_member_srl = $logged_info->member_srl;
+
+			foreach($document_items as $oDocument)
+			{
+				if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
+
+				if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\" style=\"padding:10px 0;\">%s</a><hr />", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
+				else $purl = "";
+				$content = sprintf("<div style=\"padding:10px 0;\"><p>%s</p></div><hr />%s<div style=\"padding:10px 0;font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent(false, false, false));
+
+				$oCommunicationController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
+			}
 		}
 
 		$_SESSION['document_management'] = array();

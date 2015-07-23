@@ -874,4 +874,66 @@
 		<value xml:lang="jp"><![CDATA[タイトルがないドキュメントです。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此文章無標題。]]></value>
 	</item>
+	<item name="send_default_message">
+		<value xml:lang="ko"><![CDATA[기본 쪽지 내용으로 보내기]]></value>
+		<value xml:lang="en"><![CDATA[Send the default message]]></value>
+		<value xml:lang="jp"><![CDATA[Send the default message]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Send the default message]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Send the default message]]></value>
+		<value xml:lang="ru"><![CDATA[Send the default message]]></value>
+		<value xml:lang="tr"><![CDATA[Send the default message]]></value>
+		<value xml:lang="vi"><![CDATA[Send the default message]]></value>
+	</item>
+	<item name="default_message_format">
+		<value xml:lang="ko"><![CDATA[%1$s님께서 다음 게시물을 %2$s 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[%1$s %2$s the document below.]]></value>
+		<value xml:lang="jp"><![CDATA[%1$s %2$s the document below.]]></value>
+		<value xml:lang="zh-CN"><![CDATA[%1$s %2$s the document below.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[%1$s %2$s the document below.]]></value>
+		<value xml:lang="ru"><![CDATA[%1$s %2$s the document below.]]></value>
+		<value xml:lang="tr"><![CDATA[%1$s %2$s the document below.]]></value>
+		<value xml:lang="vi"><![CDATA[%1$s %2$s the document below.]]></value>
+	</item>
+	<item name="default_message_verbs" type="array">
+		<item name="move">
+			<value xml:lang="ko"><![CDATA[이동]]></value>
+			<value xml:lang="en"><![CDATA[moves]]></value>
+			<value xml:lang="jp"><![CDATA[moves]]></value>
+			<value xml:lang="zh-CN"><![CDATA[moves]]></value>
+			<value xml:lang="zh-TW"><![CDATA[moves]]></value>
+			<value xml:lang="ru"><![CDATA[moves]]></value>
+			<value xml:lang="tr"><![CDATA[moves]]></value>
+			<value xml:lang="vi"><![CDATA[moves]]></value>
+		</item>
+		<item name="copy">
+			<value xml:lang="ko"><![CDATA[복사]]></value>
+			<value xml:lang="en"><![CDATA[copies]]></value>
+			<value xml:lang="jp"><![CDATA[copies]]></value>
+			<value xml:lang="zh-CN"><![CDATA[copies]]></value>
+			<value xml:lang="zh-TW"><![CDATA[copies]]></value>
+			<value xml:lang="ru"><![CDATA[copies]]></value>
+			<value xml:lang="tr"><![CDATA[copies]]></value>
+			<value xml:lang="vi"><![CDATA[copies]]></value>
+		</item>
+		<item name="delete">
+			<value xml:lang="ko"><![CDATA[삭제]]></value>
+			<value xml:lang="en"><![CDATA[deletes]]></value>
+			<value xml:lang="jp"><![CDATA[deletes]]></value>
+			<value xml:lang="zh-CN"><![CDATA[deletes]]></value>
+			<value xml:lang="zh-TW"><![CDATA[deletes]]></value>
+			<value xml:lang="ru"><![CDATA[deletes]]></value>
+			<value xml:lang="tr"><![CDATA[deletes]]></value>
+			<value xml:lang="vi"><![CDATA[deletes]]></value>
+		</item>
+		<item name="trash">
+			<value xml:lang="ko"><![CDATA[삭제]]></value>
+			<value xml:lang="en"><![CDATA[deletes]]></value>
+			<value xml:lang="jp"><![CDATA[deletes]]></value>
+			<value xml:lang="zh-CN"><![CDATA[deletes]]></value>
+			<value xml:lang="zh-TW"><![CDATA[deletes]]></value>
+			<value xml:lang="ru"><![CDATA[deletes]]></value>
+			<value xml:lang="tr"><![CDATA[deletes]]></value>
+			<value xml:lang="vi"><![CDATA[deletes]]></value>
+		</item>
+	</item>
 </lang>
