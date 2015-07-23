@@ -2234,9 +2234,10 @@ class documentController extends document
 		{
 			$logged_info = Context::get('logged_info');
 			$message_content = '';
-			if(isset(Context::getLang('default_message_verbs')[$type]) && is_string(Context::getLang('default_message_verbs')[$type]))
+			$default_message_verbs = Context::getLang('default_message_verbs');
+			if(isset($default_message_verbs[$type]) && is_string($default_message_verbs[$type]))
 			{
-				$message_content = sprintf(Context::getLang('default_message_format'), $logged_info->nick_name, Context::getLang('default_message_verbs')[$type]);
+				$message_content = sprintf(Context::getLang('default_message_format'), $logged_info->nick_name, $default_message_verbs[$type]);
 			}
 		}
 		else
