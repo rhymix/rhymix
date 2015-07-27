@@ -389,7 +389,7 @@ class DBMssql extends DB
 			$size = '';
 		}
 
-		$query = sprintf("alter table %s%s add %s ", $this->prefix, $table_name, $column_name);
+		$query = sprintf("alter table %s%s add \"%s\" ", $this->prefix, $table_name, $column_name);
 		if($size)
 		{
 			$query .= sprintf(" %s(%s) ", $type, $size);
@@ -423,7 +423,7 @@ class DBMssql extends DB
 		{
 			return;
 		}
-		$query = sprintf("alter table %s%s drop %s ", $this->prefix, $table_name, $column_name);
+		$query = sprintf("alter table %s%s drop column \"%s\" ", $this->prefix, $table_name, $column_name);
 		$this->_query($query);
 	}
 
