@@ -3734,6 +3734,10 @@
 			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ. Chỉ sử dụng các chữ số]]></value>
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. Зөвхөн тоогоор оруулах ёстой.]]></value>
 		</item>
+		<item name="invalid_extension">
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. *.* 나 *.jpg;*.gif; 처럼 입력해야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[The format of %s is invalid. e.g.) *.* or *.jpg;*.gif;.]]></value>
+		</item>
 	</item>
 	<item name="security_invalid_session">
 			<value xml:lang="ko"><![CDATA[바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.]]></value>
