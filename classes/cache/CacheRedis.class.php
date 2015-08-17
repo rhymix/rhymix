@@ -52,6 +52,10 @@ class CacheRedis extends CacheBase
 			$this->redis = new Redis;
 			$info = parse_url($url);
 			$this->redis->connect($info['host'], $info['port'], 0.15);
+			if(isset($info['user']) || isset($info['pass']))
+			{
+				$this->redis->auth(isset($info['user']) ? $info['user'] : $info['pass']);
+			}
 			if(isset($info['path']) && $dbnum = intval(substr($info['path'], 1)))
 			{
 				$this->redis->select($dbnum);
