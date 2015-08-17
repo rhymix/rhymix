@@ -13,6 +13,7 @@ class CacheMemcache extends CacheBase
 	 * @var Memcahe
 	 */
 	var $Memcache;
+	var $SelectedExtension;
 
 	/**
 	 * Get instance of CacheMemcache
@@ -40,7 +41,20 @@ class CacheMemcache extends CacheBase
 	{
 		//$config['url'] = array('memcache://localhost:11211');
 		$config['url'] = is_array($url) ? $url : array($url);
-		$this->Memcache = new Memcache;
+		if(class_exists('Memcached'))
+		{
+			$this->Memcache = new Memcached;
+			$this->SelectedExtension = 'Memcached';
+		}
+		elseif(class_exists('Memcache'))
+		{
+			$this->Memcache = new Memcache;
+			$this->SelectedExtension = 'Memcache';
+		}
+		else
+		{
+			return false;
+		}
 
 		foreach($config['url'] as $url)
 		{
@@ -58,19 +72,21 @@ class CacheMemcache extends CacheBase
 	{
 		if(isset($GLOBALS['XE_MEMCACHE_SUPPORT']))
 		{
-			return true;
+			return $GLOBALS['XE_MEMCACHE_SUPPORT'];
 		}
 
-		if($this->Memcache->set('xe', 'xe', MEMCACHE_COMPRESSED, 1))
+		if($this->SelectedExtension === 'Memcached')
 		{
-			$GLOBALS['XE_MEMCACHE_SUPPORT'] = true;
+			return $GLOBALS['XE_MEMCACHE_SUPPORT'] = $this->Memcache->set('xe', 'xe', 1); 
+		}
+		elseif($this->SelectedExtension === 'Memcache')
+		{
+			return $GLOBALS['XE_MEMCACHE_SUPPORT'] = $this->Memcache->set('xe', 'xe', MEMCACHE_COMPRESSED, 1); 
 		}
 		else
 		{
-			$GLOBALS['XE_MEMCACHE_SUPPORT'] = false;
+			return $GLOBALS['XE_MEMCACHE_SUPPORT'] = false;
 		}
-
-		return $GLOBALS['XE_MEMCACHE_SUPPORT'];
 	}
 
 	/**
@@ -108,7 +124,14 @@ class CacheMemcache extends CacheBase
 			$valid_time = $this->valid_time;
 		}
 
-		return $this->Memcache->set($this->getKey($key), array($_SERVER['REQUEST_TIME'], $buff), MEMCACHE_COMPRESSED, $valid_time);
+		if($this->SelectedExtension === 'Memcached')
+		{
+			return $this->Memcache->set($this->getKey($key), array($_SERVER['REQUEST_TIME'], $buff), $valid_time);
+		}
+		else
+		{
+			return $this->Memcache->set($this->getKey($key), array($_SERVER['REQUEST_TIME'], $buff), MEMCACHE_COMPRESSED, $valid_time);
+		}
 	}
 
 	/**
