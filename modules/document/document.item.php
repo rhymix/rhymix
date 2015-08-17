@@ -829,6 +829,9 @@ class documentItem extends Object
 			else return $thumbnail_url;
 		}
 
+		// Prevent race condition
+		FileHandler::writeFile($thumbnail_file, '', 'w');
+
 		// Target File
 		$source_file = null;
 		$is_tmp_file = false;
@@ -906,8 +909,6 @@ class documentItem extends Object
 		if($is_tmp_file) FileHandler::removeFile($source_file);
 		// Return its path if a thumbnail is successfully genetated
 		if($output) return $thumbnail_url;
-		// Create an empty file not to re-generate the thumbnail
-		else FileHandler::writeFile($thumbnail_file, '','w');
 
 		return;
 	}

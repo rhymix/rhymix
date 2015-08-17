@@ -584,6 +584,9 @@ class commentItem extends Object
 			}
 		}
 
+		// Prevent race condition
+		FileHandler::writeFile($thumbnail_file, '', 'w');
+
 		// Target file
 		$source_file = NULL;
 		$is_tmp_file = FALSE;
@@ -683,12 +686,6 @@ class commentItem extends Object
 		if($output)
 		{
 			return $thumbnail_url;
-		}
-
-		// create an empty file not to attempt to generate the thumbnail afterwards
-		else
-		{
-			FileHandler::writeFile($thumbnail_file, '', 'w');
 		}
 
 		return;
