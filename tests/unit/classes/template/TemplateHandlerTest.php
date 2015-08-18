@@ -193,17 +193,17 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 188
             array(
                 '<div cond="$ii < $nn" loop="$dummy => $k, $v">Hello, world!</div>',
-                PHP_EOL . 'if($__Context->ii < $__Context->nn){;'.PHP_EOL.'if($__Context->dummy&&count($__Context->dummy))foreach($__Context->dummy as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+                PHP_EOL . 'if($__Context->ii < $__Context->nn){;' . PHP_EOL . '$te536ab402425aa07f37ece1808639b07=$__Context->dummy;if($te536ab402425aa07f37ece1808639b07&&count($te536ab402425aa07f37ece1808639b07))foreach($te536ab402425aa07f37ece1808639b07 as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
             ),
             // issue 190
             array(
                 '<div cond="!($i >= $n)" loop="$dummy => $k, $v">Hello, world!</div>',
-                PHP_EOL . 'if(!($__Context->i >= $__Context->n)){;'.PHP_EOL.'if($__Context->dummy&&count($__Context->dummy))foreach($__Context->dummy as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+                PHP_EOL . 'if(!($__Context->i >= $__Context->n)){;' . PHP_EOL . '$tcf235db237866cd5f280e0a7fdb2dca8=$__Context->dummy;if($tcf235db237866cd5f280e0a7fdb2dca8&&count($tcf235db237866cd5f280e0a7fdb2dca8))foreach($tcf235db237866cd5f280e0a7fdb2dca8 as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
             ),
             // issue 183
             array(
                 '<table><thead><tr><th loop="$vvvls => $vvv">{$vvv}</th></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>',
-                '?><table><thead><tr><?php if($__Context->vvvls&&count($__Context->vvvls))foreach($__Context->vvvls as $__Context->vvv){ ?><th><?php echo $__Context->vvv ?></th><?php } ?></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>'
+                '?><table><thead><tr><?php $t96a5d17713356de1edd677bd4f427ec1=$__Context->vvvls;if($t96a5d17713356de1edd677bd4f427ec1&&count($t96a5d17713356de1edd677bd4f427ec1))foreach($t96a5d17713356de1edd677bd4f427ec1 as $__Context->vvv){ ?><th><?php echo $__Context->vvv ?></th><?php } ?></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>'
             ),
             // issue 512 - ignores <marquee>
             array(
