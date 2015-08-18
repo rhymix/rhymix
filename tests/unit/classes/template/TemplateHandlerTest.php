@@ -33,7 +33,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // foreach loop
             array(
                 '<ul><li loop="$arr=>$key,$val" class="sample"><a>Link</a><ul><li loop="$arr2=>$key2,$val2"></li></ul></li></ul>',
-                '?><ul><?php if($__Context->arr&&count($__Context->arr))foreach($__Context->arr as $__Context->key=>$__Context->val){ ?><li class="sample"><a>Link</a><ul><?php if($__Context->arr2&&count($__Context->arr2))foreach($__Context->arr2 as $__Context->key2=>$__Context->val2){ ?><li></li><?php } ?></ul></li><?php } ?></ul>'
+                '?><ul><?php $tba7582b53a5d9d2bfecc5c52511ef7ee=$__Context->arr;if($tba7582b53a5d9d2bfecc5c52511ef7ee&&count($tba7582b53a5d9d2bfecc5c52511ef7ee))foreach($tba7582b53a5d9d2bfecc5c52511ef7ee as $__Context->key=>$__Context->val){ ?><li class="sample"><a>Link</a><ul><?php $tf92ab3139c8d388f9a5f63e0fdd8f516=$__Context->arr2;if($tf92ab3139c8d388f9a5f63e0fdd8f516&&count($tf92ab3139c8d388f9a5f63e0fdd8f516))foreach($tf92ab3139c8d388f9a5f63e0fdd8f516 as $__Context->key2=>$__Context->val2){ ?><li></li><?php } ?></ul></li><?php } ?></ul>'
             ),
             // while loop
             array(
