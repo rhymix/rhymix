@@ -18,8 +18,8 @@
 		<div class="x_control-group">
 			<label for="" class="x_control-label">{$lang->poll_stop_date}</label>
 			<div class="x_controls">
-				<input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*30)}" />
-				<input type="date" class="inputDate" value="{date('Y-m-d',time()+60*60*24*30)}" />
+				<input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*7)}" />
+				<input type="date" class="inputDate" value="{date('Y-m-d',time()+60*60*24*7)}" />
 <script>
 (function($){
 $(function(){
@@ -31,7 +31,7 @@ $(function(){
 		, onSelect:function(){
 			$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""));
 		}
-		,minDate: new Date("{date('Y-m-d',time()+60*60*24*30)}")
+		,minDate: new Date("{date('Y-m-d',time())}")
 	};
 	$.extend(option,$.datepicker.regional['{$lang_type}']);
 	$(".inputDate").datepicker(option);

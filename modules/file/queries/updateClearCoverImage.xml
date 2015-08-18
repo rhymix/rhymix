@@ -1,0 +1,13 @@
+<query id="updateClearCoverImage" action="update">
+    <tables>
+        <table name="files" />
+    </tables>
+    <columns>
+        <column name="cover_image" default="N" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="upload_target_srl" var="upload_target_srl" notnull="notnull" />
+        <condition operation="equal" column="cover_image" default="Y" notnull="notnull" pipe="and" />
+        <condition operation="notequal" column="file_srl" var="cover_file_srl" pipe="and" />
+    </conditions>
+</query>

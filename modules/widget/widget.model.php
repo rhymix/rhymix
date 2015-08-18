@@ -304,7 +304,8 @@ class widgetModel extends widget
 		if(file_exists($preview_file)) $buff[] = sprintf('$widgetStyle_info->preview = "%s";', $preview_file);
 
 		// Author information
-		$author_list = (!is_array($author_list)) ? array($author_list) : $author_list;
+		if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
+		else $author_list = $xml_obj->author;
 
 		foreach($author_list as $idx => $author)
 		{

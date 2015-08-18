@@ -1,6 +1,6 @@
 class_name: InstallTester
 modules:
-    enabled: [Db, PhpBrowser, DbDropTablesHelper, InstallHelper]
+    enabled: [Db, PhpBrowser, DbDropTablesHelper, InstallHelper, Filesystem]
     config:
         PhpBrowser:
             url: 'http://localhost:8000/'

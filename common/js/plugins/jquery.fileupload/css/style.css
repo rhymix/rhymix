@@ -7,25 +7,27 @@
 
 .xefu-container {
 	margin: 10px 0;
-	border: 1px solid #B6B6B6;
+	border: 1px solid #d7d8d8;
+	border-radius: 3px;
 }
-
-/* dropzone */
+ /* dropzone */
 .xefu-dropzone {
-	border: 1px solid #EEE;
-	text-align: center;
-	background-color: #EBEBEB;
+	padding: 12px;
+	border: 1px solid #fafafa;
+	background-color: #f7f7f7;
+	border-radius: 3px;
+
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 }
-.xefu-dropzone.in {
+.in .xefu-dropzone {
 	background-color: #E9F3EF;
 }
-.xefu-dropzone.hover {
+.hover .xefu-dropzone {
 	border: 1px dotted #9ad18f;
 	border-radius: 5px;
 }
-.xefu-dropzone.fade {
+.fade .xefu-dropzone {
 	-webkit-transition: all 0.3s ease-out;
 	-moz-transition: all 0.3s ease-out;
 	-ms-transition: all 0.3s ease-out;
@@ -67,11 +69,42 @@
 	height: 60px;
 	border: 3px solid #DDD;
 }
-.xefu-list-images input,
-.xefu-list-images button {
+.xefu-list-images input {
 	position: absolute;
 	top: 0;
 	left: 0;
+}
+.xefu-act-set-cover:hover {
+	color: red;
+}
+.xefu-list-images .xefu-act-set-cover {
+	display: none;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	left: auto;
+	right: 0;
+	margin: 0;
+	padding: 1px 0 1px 2px;
+	border: 0 none;
+	border-radius: 0 0 0 5px;
+	font-size: 15px;
+	line-height: 15px;
+	background-color: #6cbd7e;
+}
+.xefu-list-images li:hover .xefu-act-set-cover {
+	display: inline;
+	color: #666;
+	background-color: #ddd;
+}
+.xefu-list-images .xefu-is-cover-image:hover .xefu-act-set-cover,
+.xefu-is-cover-image .xefu-act-set-cover {
+	display: inline;
+	color: #fff;
+	background-color: #6cbd7e;
+}
+.xefu-is-cover-image {
+	border-color: #6cbd7e !important;
 }
 .xefu-list-images .xefu-file-name,
 .xefu-list-images .xefu-file-size {
@@ -84,7 +117,6 @@
 
 
 .selected {
-	border-color: #6CBD7E !important;
 }
 /* END:images */
 
@@ -141,13 +173,9 @@
 	height: 24px !important;
 	overflow: visible;
 	border: 1px solid #bbbbbb;
-	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	border-bottom-color: #a2a2a2;
 	border-radius: 2px;
 	text-decoration: none !important;
 	text-align: center;
-	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 	vertical-align: top;
 	line-height: 24px !important;
 	font-family: inherit;
@@ -198,4 +226,34 @@ button.xefu-btn {
 	color: #333;
 	cursor: pointer;
 	background: none;
+}
+
+p.xefu-dropzone-message {
+	display: inline-block;
+	margin: 0;
+	margin-left: 5px;
+	line-height: 24px;
+	vertical-align: middle;
+}
+.xefu-dropzone:hover p.xefu-dropzone-message,
+.in .xefu-dropzone p.xefu-dropzone-message,
+.hover .xefu-dropzone p.xefu-dropzone-message,
+.fade .xefu-dropzone p.xefu-dropzone-message {
+	display: none;
+}
+.upload_info {
+	display: none;
+	margin: 0;
+	margin-left: 5px;
+	line-height: 24px;
+	vertical-align: middle;
+}
+
+.xefu-dropzone:hover .upload_info,
+.in .xefu-dropzone .upload_info,
+.hover .xefu-dropzone .upload_info,
+.fade .xefu-dropzone .upload_info {
+	display: inline-block;
+	margin: 0;
+	margin-left: 5px;
 }

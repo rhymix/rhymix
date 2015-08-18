@@ -651,7 +651,14 @@ class documentItem extends Object
 	function getExtraValue($idx)
 	{
 		$extra_vars = $this->getExtraVars();
-		return $extra_vars[$idx]->value;
+		if(is_array($extra_vars) && array_key_exists($idx,$extra_vars))
+		{
+			return $extra_vars[$idx]->getValue();
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	function getExtraValueHTML($idx)
@@ -679,7 +686,15 @@ class documentItem extends Object
 				$extra_eid[$key->eid] = $key;
 			}
 		}
-		return $extra_eid[$eid]->value;
+		
+		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
+		{
+			return $extra_eid[$eid]->getValue();
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	function getExtraEidValueHTML($eid)
@@ -690,7 +705,15 @@ class documentItem extends Object
 		{
 			$extra_eid[$key->eid] = $key;
 		}
-		return $extra_eid[$eid]->getValueHTML();
+		
+		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
+		{
+			return $extra_eid[$eid]->getValueHTML();
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	function getExtraVarsValue($key)
@@ -773,6 +796,12 @@ class documentItem extends Object
 	{
 		// Return false if the document doesn't exist
 		if(!$this->document_srl) return;
+
+		if($this->isSecret() && !$this->isGranted())
+		{
+			return;
+		}
+
 		// If not specify its height, create a square
 		if(!$height) $height = $width;
 		// Return false if neither attachement nor image files in the document
@@ -799,27 +828,44 @@ class documentItem extends Object
 			if(filesize($thumbnail_file)<1) return false;
 			else return $thumbnail_url;
 		}
+
 		// Target File
 		$source_file = null;
 		$is_tmp_file = false;
-		// Find an iamge file among attached files if exists
-		if($this->get('uploaded_count'))
-		{
-			$oFileModel = getModel('file');
-			$file_list = $oFileModel->getFiles($this->document_srl, array(), 'file_srl', true);
-			if(count($file_list))
-			{
-				foreach($file_list as $file)
-				{
-					if($file->direct_download!='Y') continue;
-					if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i",$file->source_filename)) continue;
 
+		// Find an iamge file among attached files if exists
+		if($this->hasUploadedFiles())
+		{
+			$file_list = $this->getUploadedFiles();
+
+			$first_image = null;
+			foreach($file_list as $file)
+			{
+				if($file->direct_download !== 'Y') continue;
+
+				if($file->cover_image === 'Y' && file_exists($file->uploaded_filename))
+				{
 					$source_file = $file->uploaded_filename;
-					if(!file_exists($source_file)) $source_file = null;
-					else break;
+					break;
+				}
+
+				if($first_image) continue;
+
+				if(preg_match("/\.(jpe?g|png|gif|bmp)$/i", $file->source_filename))
+				{
+					if(file_exists($file->uploaded_filename))
+					{
+						$first_image = $file->uploaded_filename;
+					}
 				}
 			}
+
+			if(!$source_file && $first_image)
+			{
+				$source_file = $first_image;
+			}
 		}
+
 		// If not exists, file an image file from the content
 		if(!$source_file)
 		{

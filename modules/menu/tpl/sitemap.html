@@ -166,6 +166,12 @@
 							<input id="menuName2" class="_menuName lang_code" type="text" required>
 						</div>
 					</li>
+					<li>
+						<div class="multilingual x_input-append">
+							<label for="lang_menuDesc2">{$lang->menu_desc}</label>
+							<input id="menuDesc2" class="_menuDesc lang_code" type="text" required>
+						</div>
+					</li>
 					<li class="typePage">
 						<label for="mid1">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">{$lang->help}</a></label>
 						<div id="mid1_help" class="x_alert x_alert-info" style="display:none;width:169px">
@@ -221,6 +227,12 @@
 						<div class="multilingual x_input-append">
 							<label for="lang_menuName">{$lang->menu_name}</label>
 							<input id="menuName" class="_menuName lang_code" type="text" required>
+						</div>
+					</li>
+					<li>
+						<div class="multilingual x_input-append">
+							<label for="lang_menuDesc">{$lang->menu_desc}</label>
+							<input id="menuDesc" class="_menuDesc lang_code" type="text" required>
 						</div>
 					</li>
 					<li style="padding:6px 0 0 0">
@@ -1847,6 +1859,7 @@ jQuery(function($){
 	});
 	$('#add_menu ._save').bind("click", function(){
 		var sMenuName = $('#add_menu ._menuName').val();
+		var sMenuDesc = $('#add_menu ._menuDesc').val();
 		var sUrl = $('#add_menu ._mid').val();
 		var sTargetKey = "module_id";
 
@@ -1895,21 +1908,14 @@ jQuery(function($){
 		params['act'] = "procMenuAdminInsertItem";
 		params['menu_name_key'] = "";
 		params['menu_name'] = sMenuName;
+		params['menu_desc'] = sMenuDesc;
 		params['module_type'] = sSelectedModuleName;
 		params['menu_open_window'] = "N";
 		params['menu_expand'] = "N";
 		params['is_shortcut'] = isShortCut;
 		params['parent_srl'] = sSelectedMenuSrl;
 		params[sTargetKey] = sUrl;
-
-		/*
-		Array
-		(
-			[error] => "0"
-			[message] => "등록했습니다."
-			[menu_item_srl] => "2"
-		)
-		*/
+		
 		$.exec_json("menu.procMenuAdminInsertItem", params, function(htData){
 			// select the newly created menu
 			//$._xeAdminVar.sSelectOnload = htData.menu_item_srl;
@@ -1937,6 +1943,7 @@ jQuery(function($){
 
 		//$(this).find('#menuName').val(htInfo.sText);
 		$(this).find('#menuName').val(htInfo.sMenuNameKey);
+		$(this).find('#menuDesc').val(htInfo.desc);
 		//menu_name_key
 
 		$(this).find('#mid2').val(htInfo.url);
@@ -1952,9 +1959,9 @@ jQuery(function($){
 				showMenuSelector($(this).find('._menuSelector_menuTreeContainer'), htInfo.url);
 			}else{
 				// URL shortcut
-					var htInfo_url = htInfo.url;
-					htInfo_url = htInfo_url.replace(/&amp;/g, '&');
-					htInfo.url = htInfo_url;
+				var htInfo_url = htInfo.url;
+				htInfo_url = htInfo_url.replace(/&amp;/g, '&');
+				htInfo.url = htInfo_url;
 				$(this).find('a[href="#fix_linkUrl"]').click();
 				$(this).find('._url_link').val($('<div />').text(htInfo.url).text());
 
@@ -1990,6 +1997,7 @@ jQuery(function($){
 		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 
 		var sMenuName = $('#default ._menuName').val();
+		var sMenuDesc = $('#default ._menuDesc').val();
 		var sMID;
 
 		var sNewWindow = $('#default ._newWindow').attr("checked")?"Y":"N";
@@ -2015,6 +2023,7 @@ jQuery(function($){
 		}
 		params['menu_item_srl'] = sSelectedMenuSrl;
 		params['menu_name'] = sMenuName;
+		params['menu_desc'] = sMenuDesc;
 		params['menu_open_window'] = sNewWindow;
 		params['menu_expand'] = sLeaveUnfolded;
 		params['browser_title'] = sBrowserTitle;

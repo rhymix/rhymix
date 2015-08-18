@@ -112,7 +112,6 @@ module.exports = function(grunt) {
 			},
 			'layout': {
 				files: {
-					'layouts/xedition/js/jquery.easing.min.js': ['layouts/xedition/js/jquery.easing.js'],
 					'layouts/xedition/js/layout.min.js': ['layouts/xedition/js/layout.js'],
 					'layouts/xedition/js/welcome.min.js': ['layouts/xedition/js/welcome.js'],
 				}
@@ -148,7 +147,6 @@ module.exports = function(grunt) {
 			},
 			'layout': {
 				files: {
-					'layouts/xedition/css/camera.min.css': ['layouts/xedition/css/camera.css'],
 					'layouts/xedition/css/layout.min.css': ['layouts/xedition/css/layout.css'],
 					'layouts/xedition/css/webfont.min.css': ['layouts/xedition/css/webfont.css'],
 					'layouts/xedition/css/welcome.min.css': ['layouts/xedition/css/welcome.css'],
@@ -301,7 +299,17 @@ module.exports = function(grunt) {
 						grunt.file.delete('build/xe');
 						grunt.file.delete('build/temp.full.tar');
 
-						grunt.log.ok('Done!');
+						grunt.util.spawn({
+							cmd: "git",
+							args: ['diff', '--name-status', target]
+						}, function (error, result, code) {
+							var fs = require('fs');
+							result = 'Added (A), Copied (C), Deleted (D), Modified (M), Renamed (R).' + grunt.util.linefeed + result;
+							grunt.file.write(build_dir + '/CHANGED.' + version + '.txt', result);
+
+							grunt.log.ok('Done!');
+						});
+
 					});
 				});
 			}
