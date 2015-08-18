@@ -4,6 +4,7 @@
     <permissions>
 	<permission action="procAddonAdminToggleActivate" target="manager" />
 	<permission action="dispAddonAdminSetup" target="manager" />
+	<permission action="procAddonAdminSetupAddon" target="manager" />
     </permissions>
     <actions>
         <action name="dispAddonAdminIndex" type="view" admin_index="true" menu_name="installedAddon" menu_index="true" />
