@@ -10,6 +10,7 @@ matrix:
   allow_failures:
   - php: 7
   - php: hhvm
+sudo: false
 before_script:
 - travis_retry composer self-update
 - npm install -g grunt-cli
