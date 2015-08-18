@@ -183,7 +183,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 135
             array(
                 '<block loop="$_m_list_all=>$key,$val"><p>{$key}</p><div>Loop block {$val}</div></block>',
-                PHP_EOL . 'if($__Context->_m_list_all&&count($__Context->_m_list_all))foreach($__Context->_m_list_all as $__Context->key=>$__Context->val){ ?><p><?php echo $__Context->key ?></p><div>Loop block <?php echo $__Context->val ?></div><?php } ?>'
+                PHP_EOL . '$t1b443c9e474abcf95c0ff70798d10a4c=$__Context->_m_list_all;if($t1b443c9e474abcf95c0ff70798d10a4c&&count($t1b443c9e474abcf95c0ff70798d10a4c))foreach($t1b443c9e474abcf95c0ff70798d10a4c as $__Context->key=>$__Context->val){ ?><p><?php echo $__Context->key ?></p><div>Loop block <?php echo $__Context->val ?></div><?php } ?>'
             ),
             // issue 136
             array(
