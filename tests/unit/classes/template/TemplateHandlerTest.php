@@ -203,7 +203,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 183
             array(
                 '<table><thead><tr><th loop="$vvvls => $vvv">{$vvv}</th></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>',
-                '?><table><thead><tr><?php $t96a5d17713356de1edd677bd4f427ec1=$__Context->vvvls;if($t96a5d17713356de1edd677bd4f427ec1&&count($t96a5d17713356de1edd677bd4f427ec1))foreach($t96a5d17713356de1edd677bd4f427ec1 as $__Context->vvv){ ?><th><?php echo $__Context->vvv ?></th><?php } ?></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>'
+                '?><table><thead><tr><?php $t605f930a4a05d6efbed70a9059f688fe=$__Context->vvvls;if($t605f930a4a05d6efbed70a9059f688fe&&count($t605f930a4a05d6efbed70a9059f688fe))foreach($t605f930a4a05d6efbed70a9059f688fe as $__Context->vvv){ ?><th><?php echo $__Context->vvv ?></th><?php } ?></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>'
             ),
             // issue 512 - ignores <marquee>
             array(
