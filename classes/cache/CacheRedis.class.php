@@ -131,7 +131,7 @@ class CacheRedis extends CacheBase
 
 		try
 		{
-			return $this->redis->setex($this->getKey($key), $valid_time, array($_SERVER['REQUEST_TIME'], $buff));
+			return $this->redis->setex($this->getKey($key), $valid_time, serialize(array($_SERVER['REQUEST_TIME'], $buff)));
 		}
 		catch(RedisException $e)
 		{
@@ -151,6 +151,7 @@ class CacheRedis extends CacheBase
 	{
 		$_key = $this->getKey($key);
 		$obj = $this->redis->get($_key);
+		$obj = $obj ? unserialize($obj) : false;
 		if(!$obj || !is_array($obj))
 		{
 			return false;
@@ -180,6 +181,7 @@ class CacheRedis extends CacheBase
 	{
 		$_key = $this->getKey($key);
 		$obj = $this->redis->get($_key);
+		$obj = $obj ? unserialize($obj) : false;
 		if(!$obj || !is_array($obj))
 		{
 			return false;
