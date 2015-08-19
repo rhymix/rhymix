@@ -12,27 +12,19 @@ class rssModel extends rss
 	 *
 	 * @param string $vid Vid
 	 * @param string $mid mid
-	 * @param string $format Feed format. ef)xe, atom, rss1.0
+	 * @param string $format Feed format. rss | atom
+	 * @param bool $absolute_url
 	 * @return string
 	 */
-	function getModuleFeedUrl($vid = null, $mid, $format)
+	function getModuleFeedUrl($vid, $mid, $format = 'rss', $absolute_url = false)
 	{
-		if(Context::isAllowRewrite())
+		if($absolute_url)
 		{
-			$request_uri = Context::getRequestUri();
-			// If the virtual site variable exists and it is different from mid (vid and mid should not be the same)
-			if($vid && $vid != $mid)
-			{
-				return $request_uri.$vid.'/'.$mid.'/'.$format;
-			}
-			else
-			{
-				return $request_uri.$mid.'/'.$format;
-			}
+			return getFullUrl('','vid',$vid, 'mid',$mid, 'act',$format);
 		}
 		else
 		{
-			return getUrl('','mid',$mid,'act',$format);
+			return getUrl('','vid',$vid, 'mid',$mid, 'act',$format);
 		}
 	}
 
