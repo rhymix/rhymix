@@ -98,7 +98,12 @@ class CacheRedis extends CacheBase
 	 */
 	function getKey($key)
 	{
-		return sha1(_XE_PATH_ . $key);
+		static $prefix = null;
+		if($prefix === null)
+		{
+			$prefix = substr(sha1(_XE_PATH_), 0, 12) . ':';
+		}
+		return $prefix . $key;
 	}
 
 	/**
