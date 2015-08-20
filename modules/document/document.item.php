@@ -651,7 +651,14 @@ class documentItem extends Object
 	function getExtraValue($idx)
 	{
 		$extra_vars = $this->getExtraVars();
-		return $extra_vars[$idx]->value;
+		if(is_array($extra_vars) && array_key_exists($idx,$extra_vars))
+		{
+			return $extra_vars[$idx]->getValue();
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	function getExtraValueHTML($idx)
@@ -679,7 +686,15 @@ class documentItem extends Object
 				$extra_eid[$key->eid] = $key;
 			}
 		}
-		return $extra_eid[$eid]->value;
+		
+		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
+		{
+			return $extra_eid[$eid]->getValue();
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	function getExtraEidValueHTML($eid)
@@ -690,7 +705,15 @@ class documentItem extends Object
 		{
 			$extra_eid[$key->eid] = $key;
 		}
-		return $extra_eid[$eid]->getValueHTML();
+		
+		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
+		{
+			return $extra_eid[$eid]->getValueHTML();
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	function getExtraVarsValue($key)

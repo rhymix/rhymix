@@ -60,6 +60,8 @@
 				last_selected_file: null,
 			});
 
+			var currentEnforce_ssl = window.enforce_ssl;
+			if(location.protocol == 'https:') { window.enforce_ssl = true; }
 
 			var settings = {
 				url: request_uri
@@ -122,6 +124,8 @@
 					}
 				}
 			};
+			window.enforce_ssl = currentEnforce_ssl;
+
 
 			data.settings = $.extend({} , default_settings, settings, opt || {});
 			$container.data(data);
@@ -287,7 +291,6 @@
 			obj.editor_sequence = data.editorSequence;
 
 			$.exec_json('file.getFileList', obj, function(res){
-				console.log(res);
 				data.uploadTargetSrl = res.upload_target_srl;
 				editorRelKeys[data.editorSequence].primary.value = res.upload_target_srl;
 				data.uploadTargetSrl = res.uploadTargetSrl;
@@ -366,8 +369,6 @@
 
 		return u;
 	};
-
-	xe.unregisterApp();
 })(jQuery);
 
 

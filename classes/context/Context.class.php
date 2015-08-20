@@ -1658,6 +1658,7 @@ class Context
 					'document_srl.mid' => "$mid/$srl",
 					'document_srl.vid' => "$vid/$srl",
 					'document_srl.mid.vid' => "$vid/$mid/$srl",
+					'act' => ($is_feed && $act !== 'api') ? $act : '',
 					'act.mid' => $is_feed ? "$mid/$act" : '',
 					'act.mid.vid' => $is_feed ? "$vid/$mid/$act" : '',
 					'act.document_srl.key' => ($act == 'trackback') ? "$srl/$key/$act" : '',
