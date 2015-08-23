@@ -1463,6 +1463,26 @@
 		<value xml:lang="tr"><![CDATA[XE Salt FTP Yolu]]></value>
 		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP]]></value>
 	</item>
+	<item name="msg_php_warning_title">
+		<value xml:lang="ko"><![CDATA[안전하지 않은 PHP 버전 경고]]></value>
+		<value xml:lang="en"><![CDATA[Warning unsafe PHP version]]></value>
+	</item>
+	<item name="msg_php_warning_notice">
+		<value xml:lang="ko"><![CDATA[이 서버는 안전하지 않은 PHP 버전을 사용하고 있으며, PHP를 최신 안정 버전으로 업그레이드를 권장합니다.]]></value>
+		<value xml:lang="en"><![CDATA[The server is using a unsafe version of PHP, it is recommended to upgrade to the latest stable version.]]></value>
+	</item>
+	<item name="msg_php_warning_notice_explain">
+		<value xml:lang="ko"><![CDATA[<li>매우 심각한 PHP 보안 문제 및 공격에 노출될 수 있습니다.</li><li>XE 최신 버전을 사용할 수 없습니다.</li><li>XE 최신 버전 이상에서 지원하는 확장 기능을 사용할 수 없습니다.</li><li>일부 확장 기능이 동작하지 않거나, 이로 인해 장애가 발생할 수 있습니다.</li>]]></value>
+		<value xml:lang="en"><![CDATA[<li>PHP version of this server can be exposed to serious security problems and attacks.</li><li>Latest version of XE is not available.</li><li>You can not use extensions that are supported by the latest version of XE.</li><li>Some extensions may not work properly. It can cause problems.</li>]]></value>
+	</item>
+	<item name="msg_php_warning_now_version">
+		<value xml:lang="ko"><![CDATA[이 서버의 PHP 버전]]></value>
+		<value xml:lang="en"><![CDATA[PHP version of this server]]></value>
+	</item>
+	<item name="msg_php_warning_latest_version_check">
+		<value xml:lang="ko"><![CDATA[PHP 최신 안정버전 확인하기]]></value>
+		<value xml:lang="en"><![CDATA[Check the latest stable version of PHP]]></value>
+	</item>
 	<item name="admin_setup">
 		<value xml:lang="ko"><![CDATA[관리자 설정]]></value>
 		<value xml:lang="en"><![CDATA[Admin Setup]]></value>
