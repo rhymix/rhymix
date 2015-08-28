@@ -27,4 +27,5 @@ script:
 - if [ $(phpenv version-name) != "5.3" ]; then ./vendor/bin/codecept run -d --fail-fast --env travis; fi
 notifications:
   slack:
-    secure: 0HhwktIb65zfge56E4yMfYj0Xj4GeYIaxvh/Obb13BK1/C8RdWBy6u213N5MQ2UHsxYk8wXXzynaCh4psegi2iPy9dbKmkdAdEQMzYoKE2xYVSqZveeVQm0sqFVXAlzggpgs/j5vtvKYjRkQKtTrz0C+p0uJ0bkLcyWGezWTpGc=
+    secure: jpoMjtkveVuPZM4JXJETAPv8QUCtTbI/ZTixdS9HUgxSb9tD2DkoekMaRzXYnXA82Les/gGxTC0fQFcFrls6Ypkbvp1udBPggmAdLiBHubBIz+yd1BGIf/l4I6MY1QmGe1Lx4xlnVlEgLnKXHn+W+ENep4/MzpCEaR9Vw8wfGqY=
+    secure: "gPv4qFmGcXimNlI/OeVk5n4VtRCWbAe7VUtw7Inb3A/ZZaVDo11gtMNkwo/JVKSnXqFkaCQYebcNpj2D9Rb2ZCwgjMSX6wxvpA4/8OLOZpbWqFW6Hz2RKNggubXlnalXkIwFcsvj70rKctbcJFk2C1G9rVvYWdVGD9X4/ozQtAc="
