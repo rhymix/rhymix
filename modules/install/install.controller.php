@@ -641,7 +641,7 @@ class installController extends install
 			$config_file = Context::getConfigFile();
 			//if(file_exists($config_file)) return;
 
-			$db_info = Context::getDbInfo();
+			$db_info = Context::getDBInfo();
 			if(!$db_info) return;
 
 			$buff = $this->_getDBConfigFileContents($db_info);
