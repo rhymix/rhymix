@@ -501,7 +501,7 @@ class adminAdminController extends admin
 		$vars = Context::getRequestVars();
 		$oInstallController = getController('install');
 
-		$db_info = Context::getDbInfo();
+		$db_info = Context::getDBInfo();
 
 		$db_info->use_sitelock = ($vars->use_sitelock) ? $vars->use_sitelock : 'N';
 		$db_info->sitelock_title = $vars->sitelock_title;
@@ -543,7 +543,7 @@ class adminAdminController extends admin
 	{
 		$vars = Context::getRequestVars();
 
-		$db_info = Context::getDbInfo();
+		$db_info = Context::getDBInfo();
 
 		$white_object = $vars->embed_white_object;
 		$white_object = preg_replace("/[\r\n|\r|\n]+/", '|@|', $white_object);
