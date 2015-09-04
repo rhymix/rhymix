@@ -666,9 +666,20 @@ class Context
 			{
 				$url = base64_decode(self::get('default_url'));
 				$url_info = parse_url($url);
+
+				$oModuleModel = getModel('module');
+				$site_info = $oModuleModel->getSiteInfoByDomain($url_info['host']);
+				if(!$site_info->site_srl) {
+					$oModuleObject = new ModuleObject();
+					$oModuleObject->stop('msg_invalid_request');
+
+					return false;
+				}
+
 				$url_info['query'].= ($url_info['query'] ? '&' : '') . 'SSOID=' . session_id();
 				$redirect_url = sprintf('%s://%s%s%s?%s', $url_info['scheme'], $url_info['host'], $url_info['port'] ? ':' . $url_info['port'] : '', $url_info['path'], $url_info['query']);
 				header('location:' . $redirect_url);
+
 				return FALSE;
 			}
 			// for sites requesting SSO validation

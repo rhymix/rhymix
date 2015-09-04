@@ -116,7 +116,6 @@ class ModuleHandler extends Handler
 	 * */
 	function init()
 	{
-		
 		$oModuleModel = getModel('module');
 		$site_module_info = Context::get('site_module_info');
 
@@ -317,13 +316,13 @@ class ModuleHandler extends Handler
 	function procModule()
 	{
 		$oModuleModel = getModel('module');
+		$display_mode = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 
 		// If error occurred while preparation, return a message instance
 		if($this->error)
 		{
 			$this->_setInputErrorToContext();
-			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -359,8 +358,7 @@ class ModuleHandler extends Handler
 			$this->httpStatusCode = '404';
 
 			$this->_setInputErrorToContext();
-			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -397,7 +395,7 @@ class ModuleHandler extends Handler
 			if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
 			{
 				$this->error = "msg_invalid_request";
-				$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+				$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
@@ -410,13 +408,24 @@ class ModuleHandler extends Handler
 			Mobile::setMobile(FALSE);
 		}
 
-		// Admin ip
 		$logged_info = Context::get('logged_info');
+
+		// check CSRF for admin actions
+		if($kind === 'admin' && Context::getRequestMethod() === 'POST' && !checkCSRF()) {
+			$this->error = 'msg_invalid_request';
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+			$oMessageObject->setError(-1);
+			$oMessageObject->setMessage($this->error);
+			$oMessageObject->dispMessage();
+			return $oMessageObject;
+		}
+
+		// Admin ip
 		if($kind == 'admin' && $_SESSION['denied_admin'] == 'Y')
 		{
 			$this->_setInputErrorToContext();
 			$this->error = "msg_not_permitted_act";
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -446,8 +455,7 @@ class ModuleHandler extends Handler
 		if(!is_object($oModule))
 		{
 			$this->_setInputErrorToContext();
-			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -466,7 +474,7 @@ class ModuleHandler extends Handler
 			{
 				$this->_setInputErrorToContext();
 				$this->error = 'msg_invalid_request';
-				$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+				$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
@@ -495,7 +503,7 @@ class ModuleHandler extends Handler
 				else
 				{
 					$this->error = 'msg_invalid_request';
-					$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+					$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 					$oMessageObject->setError(-1);
 					$oMessageObject->setMessage($this->error);
 					$oMessageObject->dispMessage();
@@ -537,9 +545,8 @@ class ModuleHandler extends Handler
 
 				if(!is_object($oModule))
 				{
-					$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 					$this->_setInputErrorToContext();
-					$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+					$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 					$oMessageObject->setError(-1);
 					$oMessageObject->setMessage('msg_module_is_not_exists');
 					$oMessageObject->dispMessage();
@@ -569,7 +576,7 @@ class ModuleHandler extends Handler
 						$this->_setInputErrorToContext();
 
 						$this->error = 'msg_is_not_administrator';
-						$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
 						$oMessageObject->dispMessage();
@@ -583,7 +590,7 @@ class ModuleHandler extends Handler
 					{
 						$this->_setInputErrorToContext();
 						$this->error = 'msg_is_not_manager';
-						$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
 						$oMessageObject->dispMessage();
@@ -595,7 +602,7 @@ class ModuleHandler extends Handler
 						{
 							$this->_setInputErrorToContext();
 							$this->error = 'msg_is_not_administrator';
-							$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+							$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 							$oMessageObject->setError(-1);
 							$oMessageObject->setMessage($this->error);
 							$oMessageObject->dispMessage();
