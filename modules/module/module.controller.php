@@ -462,7 +462,7 @@ class moduleController extends module
 				$menuArgs->url = $args->mid;
 				$menuArgs->expand = 'N';
 				$menuArgs->is_shortcut = 'N';
-				$menuArgs->name = $args->browser_title;
+				$menuArgs->name = removeHackTag($args->browser_title);
 				$menuArgs->listorder = $args->menu_item_srl * -1;
 
 				$menuItemOutput = executeQuery('menu.insertMenuItem', $menuArgs);
@@ -476,8 +476,9 @@ class moduleController extends module
 			}
 		}
 
-		$args->menu_srl = $menuArgs->menu_srl;
 		// Insert a module
+		$args->menu_srl = $menuArgs->menu_srl;
+		$args->browser_title = removeHackTag($args->browser_title);
 		$output = executeQuery('module.insertModule', $args);
 		if(!$output->toBool())
 		{
@@ -520,6 +521,7 @@ class moduleController extends module
 			if(!$args->site_srl) $args->site_srl = (int)$module_info->site_srl;
 			if(!$args->browser_title) $args->browser_title = $module_info->browser_title;
 		}
+		$args->browser_title = removeHackTag($args->browser_title);
 
 		$output = executeQuery('module.isExistsModuleName', $args);
 		if(!$output->toBool() || $output->data->count)
