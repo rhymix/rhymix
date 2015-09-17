@@ -543,9 +543,12 @@ class menuAdminController extends menu
 		if($request->menu_desc) $args->desc = $request->menu_desc;
 		else $args->desc = '';
 
-		$args->name = strip_tags(removeHackTag($args->name));
+		if(!preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $args->name))
+		{
+			$args->name = strip_tags(removeHackTag($args->name));
+		}
 		$args->desc = strip_tags(removeHackTag($args->desc));
-debugPrint($args);
+
 		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
 		{
 			return new Object(-1, 'msg_invalid_request');
@@ -732,7 +735,10 @@ debugPrint($request);
 		if($request->menu_desc) $args->desc = $request->menu_desc;
 		else $args->desc = '';
 
-		$args->name = removeHackTag($args->name);
+		if(!preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $args->name))
+		{
+			$args->name = strip_tags(removeHackTag($args->name));
+		}
 		$args->desc = removeHackTag($args->desc);
 
 		unset($args->group_srls);
@@ -813,7 +819,10 @@ debugPrint($request);
 
 	public function _updateMenuItem($itemInfo)
 	{
-		$itemInfo->name = removeHackTag($itemInfo->name);
+		if(!preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $itemInfo->name))
+		{
+			$itemInfo->name = removeHackTag($itemInfo->name);
+		}
 		$itemInfo->desc = removeHackTag($itemInfo->desc);
 
 		$output = executeQuery('menu.updateMenuItem', $itemInfo);
