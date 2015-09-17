@@ -547,7 +547,10 @@ class menuAdminController extends menu
 		{
 			$args->name = strip_tags(removeHackTag($args->name));
 		}
-		$args->desc = strip_tags(removeHackTag($args->desc));
+		if(!preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $args->desc))
+		{
+			$args->desc = strip_tags(removeHackTag($args->desc));
+		}
 
 		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
 		{
@@ -739,7 +742,10 @@ debugPrint($request);
 		{
 			$args->name = strip_tags(removeHackTag($args->name));
 		}
-		$args->desc = removeHackTag($args->desc);
+		if(!preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $args->desc))
+		{
+			$args->desc = strip_tags(removeHackTag($args->desc));
+		}
 
 		unset($args->group_srls);
 		$args->open_window = $request->menu_open_window;
@@ -823,7 +829,10 @@ debugPrint($request);
 		{
 			$itemInfo->name = removeHackTag($itemInfo->name);
 		}
-		$itemInfo->desc = removeHackTag($itemInfo->desc);
+		if(!preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $itemInfo->desc))
+		{
+			$itemInfo->desc = removeHackTag($itemInfo->desc);
+		}
 
 		$output = executeQuery('menu.updateMenuItem', $itemInfo);
 
