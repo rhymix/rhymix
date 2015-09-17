@@ -441,10 +441,7 @@ class moduleController extends module
 
 		unset($output);
 
-		if(!preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $args->browser_title))
-		{
-			$args->browser_title = removeHackTag($args->browser_title);
-		}
+		$args->browser_title = strip_tags($args->browser_title);
 
 		if($isMenuCreate == TRUE)
 		{
@@ -526,10 +523,7 @@ class moduleController extends module
 			if(!$args->browser_title) $args->browser_title = $module_info->browser_title;
 		}
 
-		if(!preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $args->browser_title))
-		{
-			$args->browser_title = removeHackTag($args->browser_title);
-		}
+		$args->browser_title = strip_tags($args->browser_title);
 
 		$output = executeQuery('module.isExistsModuleName', $args);
 		if(!$output->toBool() || $output->data->count)
