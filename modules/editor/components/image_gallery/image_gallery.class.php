@@ -43,18 +43,24 @@ class image_gallery extends EditorHandler
 	 */
 	function transHTML($xml_obj)
 	{
-		$gallery_info = new stdClass;
-		$gallery_info->srl = rand(111111,999999);
-		$gallery_info->border_thickness = $xml_obj->attrs->border_thickness;
+		$gallery_info = new stdClass();
+		$gallery_info->srl = rand(111111, 999999);
+		$gallery_info->border_thickness = (int)$xml_obj->attrs->border_thickness;
 		$gallery_info->gallery_style = $xml_obj->attrs->gallery_style;
 		$color_preg = "/^([a-fA-F0-9]{6})/";
 		$gallery_info->border_color = preg_replace($color_preg,"#$1",$xml_obj->attrs->border_color);
 		$gallery_info->bg_color = preg_replace($color_preg,"#$1",$xml_obj->attrs->bg_color);
 		$gallery_info->gallery_align = $xml_obj->attrs->gallery_align;
 
+		if(!in_array($gallery_info->gallery_align, array('left', 'center', 'right'))) {
+			$gallery_info->gallery_align = 'center';
+		}
+
 		$images_list = $xml_obj->attrs->images_list;
-		$images_list = preg_replace('/\.(gif|jpg|jpeg|png) /i',".\\1\n",$images_list);
-		$gallery_info->images_list = explode("\n",trim($images_list));
+		$images_list = preg_replace('/\.(gif|jpe?g|png) /i', ".\\1\n", $images_list);
+		$images_list = explode("\n", trim($images_list));
+		$gallery_info->images_list = preg_grep("/^[a-z0-9\/]+\.(gif|jpe?g|png)+$/", $images_list);
+
 		// If you set the output to output the XML code generated a list of the image
 		if(Context::getResponseMethod() == 'XMLRPC')
 		{
