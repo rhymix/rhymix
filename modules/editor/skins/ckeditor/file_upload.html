@@ -44,7 +44,7 @@
 
 </div>
 
-<script>
+<script cond="$allow_fileupload">
 	function reloadUploader(editor_sequence){
 		jQuery(function($){
 			var setting = {
@@ -56,7 +56,6 @@
 	}
 	jQuery(function($){
 		// uploader
-		<!--@if($allow_fileupload)-->
 		var setting = {
 			maxFileSize: {$file_config->allowed_filesize},
 			limitMultiFileUploadSize: {$file_config->allowed_filesize}
@@ -68,6 +67,6 @@
 		window.xe.msg_checked_file_is_deleted = '{$lang->msg_checked_file_is_deleted}';
 		window.xe.msg_not_allowed_filetype = '{$lang->msg_not_allowed_filetype}';
 		window.xe.msg_file_upload_error = '{$lang->msg_file_upload_error}';
-		<!--@endif-->
+		
 	});
 </script>
