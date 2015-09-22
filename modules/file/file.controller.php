@@ -112,11 +112,11 @@ class fileController extends file
 		$source_src = $fileInfo->uploaded_filename;
 		$output_src = $source_src . '.resized' . strrchr($source_src,'.');
 
-		$type = 'ratio';
 		if(!$height) $height = $width-1;
 
 		if(FileHandler::createImageFile($source_src,$output_src,$width,$height,'','ratio'))
 		{
+			$output = new stdClass();
 			$output->info = getimagesize($output_src);
 			$output->src = $output_src;
 		}
