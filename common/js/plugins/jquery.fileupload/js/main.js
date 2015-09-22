@@ -102,7 +102,7 @@
 					if(!result) return;
 
 					if(result.error == 0) {
-						if(/\.(jpe?g|png|gif)$/i.test(result.download_url)) {
+						if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
 							temp_code += '<img src="' + window.request_uri + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
 							temp_code += "\r\n<p><br></p>\r\n";
 						}
@@ -243,7 +243,7 @@
 
 				if(!fileinfo) return;
 
-				if(/\.(jpe?g|png|gif)$/i.test(fileinfo.download_url)) {
+				if(/\.(jpe?g|png|gif)$/i.test(fileinfo.source_filename)) {
 					temp_code += '<img src="' + window.request_uri + fileinfo.download_url + '" alt="' + fileinfo.source_filename + '" editor_component="image_link" data-file-srl="' + fileinfo.file_srl + '" />';
 					temp_code += "\r\n<p><br></p>\r\n";
 				} else {
