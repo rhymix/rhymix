@@ -28,7 +28,7 @@ class Context
 
 	/**
 	 * Response method.If it's not set, it follows request method.
-	 * @var string HTML|XMLRPC
+	 * @var string HTML|XMLRPC|JSON|JS_CALLBACK
 	 */
 	public $response_method = '';
 
