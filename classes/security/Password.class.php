@@ -162,6 +162,10 @@ class Password
 				return $this->strcmpConstantTime($hash_to_compare, $hash);
 
 			default:
+				if(in_array($algorithm, hash_algos()))
+				{
+					return $this->strcmpConstantTime(hash($algorithm, $password), $hash);
+				}
 				return false;
 		}
 	}
@@ -184,6 +188,22 @@ class Password
 		elseif(strlen($hash) === 32 && ctype_xdigit($hash))
 		{
 			return 'md5';
+		}
+		elseif(strlen($hash) === 40 && ctype_xdigit($hash))
+		{
+			return 'sha1';
+		}
+		elseif(strlen($hash) === 64 && ctype_xdigit($hash))
+		{
+			return 'sha256';
+		}
+		elseif(strlen($hash) === 96 && ctype_xdigit($hash))
+		{
+			return 'sha384';
+		}
+		elseif(strlen($hash) === 128 && ctype_xdigit($hash))
+		{
+			return 'sha512';
 		}
 		elseif(strlen($hash) === 16 && ctype_xdigit($hash))
 		{
