@@ -246,8 +246,13 @@ class Password
 		$entropy_capped_bytes = min(32, $entropy_required_bytes);
 
 		// Find and use the most secure way to generate a random string
+		$entropy = false;
 		$is_windows = (defined('PHP_OS') && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
-		if(function_exists('openssl_random_pseudo_bytes') && (!$is_windows || version_compare(PHP_VERSION, '5.4', '>=')))
+		if(function_exists('random_bytes'))  // PHP 7
+		{
+			$entropy = random_bytes($capped_entropy_bytes);
+		}
+		elseif(function_exists('openssl_random_pseudo_bytes') && (!$is_windows || version_compare(PHP_VERSION, '5.4', '>=')))
 		{
 			$entropy = openssl_random_pseudo_bytes($entropy_capped_bytes);
 		}
@@ -262,10 +267,16 @@ class Password
 		elseif(!$is_windows && @is_readable('/dev/urandom'))
 		{
 			$fp = fopen('/dev/urandom', 'rb');
+			if (function_exists('stream_set_read_buffer'))  // This function does not exist in HHVM
+			{
+				stream_set_read_buffer($fp, 0);  // Prevent reading several KB of unnecessary data from urandom
+			}
 			$entropy = fread($fp, $entropy_capped_bytes);
 			fclose($fp);
 		}
-		else
+
+		// Use built-in source of entropy if an error occurs while using other functions
+		if($entropy === false || strlen($entropy) < $entropy_capped_bytes)
 		{
 			$entropy = '';
 			for($i = 0; $i < $entropy_capped_bytes; $i += 2)
