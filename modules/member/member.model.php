@@ -196,8 +196,17 @@ class memberModel extends member
 			{
 				return true;
 			}
+			elseif(filter_var($_SESSION['ipaddress'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
+			{
+				// IPv6: require same /48
+				if(strncmp(inet_pton($_SESSION['ipaddress']), inet_pton($_SERVER['REMOTE_ADDR']), 6) == 0)
+				{
+					return true;
+				}
+			}
 			else
 			{
+				// IPv4: require same /24
 				if(ip2long($_SESSION['ipaddress']) >> 8 == ip2long($_SERVER['REMOTE_ADDR']) >> 8)
 				{
 					return true;
