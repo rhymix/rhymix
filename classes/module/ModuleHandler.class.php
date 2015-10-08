@@ -729,15 +729,23 @@ class ModuleHandler extends Handler
 
 			}
 
-			$_SESSION['XE_VALIDATOR_ERROR'] = $error;
-			$_SESSION['XE_VALIDATOR_ID'] = Context::get('xe_validator_id');
+			if($error != 0)
+			{
+				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
+			}
+			if($validator_id = Context::get('xe_validator_id'))
+			{
+				$_SESSION['XE_VALIDATOR_ID'] = $validator_id;
+			}
 			if($message != 'success')
 			{
 				$_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
 			}
-			$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
-
-			if(Context::get('xeVirtualRequestMethod') != 'xml')
+			if($messageType != 'info')
+			{
+				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
+			}
+			if(Context::get('xeVirtualRequestMethod') != 'xml' && $redirectUrl)
 			{
 				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
 			}
@@ -787,12 +795,12 @@ class ModuleHandler extends Handler
 	 * */
 	function _clearErrorSession()
 	{
-		$_SESSION['XE_VALIDATOR_ERROR'] = '';
-		$_SESSION['XE_VALIDATOR_MESSAGE'] = '';
-		$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = '';
-		$_SESSION['XE_VALIDATOR_RETURN_URL'] = '';
-		$_SESSION['XE_VALIDATOR_ID'] = '';
-		$_SESSION['INPUT_ERROR'] = '';
+		unset($_SESSION['XE_VALIDATOR_ERROR']);
+		unset($_SESSION['XE_VALIDATOR_MESSAGE']);
+		unset($_SESSION['XE_VALIDATOR_MESSAGE_TYPE']);
+		unset($_SESSION['XE_VALIDATOR_RETURN_URL']);
+		unset($_SESSION['XE_VALIDATOR_ID']);
+		unset($_SESSION['INPUT_ERROR']);
 	}
 
 	/**
@@ -846,6 +854,7 @@ class ModuleHandler extends Handler
 				$display_handler = new DisplayHandler();
 				$display_handler->_debugOutput();
 
+				Context::getInstance()->checkSessionStatus();
 				header('location:' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
 				return;
 			}

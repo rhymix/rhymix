@@ -207,7 +207,10 @@ class memberModel extends member
 			}
 		}
 
-		$_SESSION['is_logged'] = false;
+		if(Context::getSessionStatus())
+		{
+			$_SESSION['is_logged'] = false;
+		}
 		return false;
 	}
 

@@ -760,6 +760,18 @@
 		<value xml:lang="zh-CN"><![CDATA[启用Qmail]]></value>
 		<value xml:lang="tr"><![CDATA[Qmail etkinleştirin]]></value>
 	</item>
+	<item name="cache_friendly">
+		<value xml:lang="ko"><![CDATA[캐싱 최적화]]></value>
+		<value xml:lang="en"><![CDATA[Optimize for caching]]></value>
+		<value xml:lang="jp"><![CDATA[キャッシュに最適化]]></value>
+		<value xml:lang="zh-CN"><![CDATA[优化缓存]]></value>
+		<value xml:lang="tr"><![CDATA[Önbelleğe alma optimize]]></value>
+	</item>
+	<item name="about_cache_friendly">
+		<value xml:lang="ko"><![CDATA[Varnish 등의 캐싱 서버 사용시 성능 개선을 위해, 로그인하지 않은 사용자에게는 인증 세션을 부여하지 않습니다.<br>이 옵션을 선택할 경우 방문자 수 및 조회수 집계가 정확하지 않을 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[To improve performance when using a caching server such as Varnish, do not issue sessions to visitors until they log in.<br>Selecting this option may cause view counts and visitor counts to become inaccurate.]]></value>
+		<value xml:lang="jp"><![CDATA[Varnishなどのキャッシュサーバ使用時のパフォーマンスを向上させるために、ログインしていないユーザーには、認証セッションを付与しません。<br>このオプションを選択した場合、訪問者数とヒット集計が正確でない場合があります。]]></value>
+	</item>
 	<item name="sftp">
 		<value xml:lang="ko"><![CDATA[SFTP 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use SFTP]]></value>

@@ -391,7 +391,10 @@ class documentItem extends Object
 		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
 		$result = $this->_checkAccessibleFromStatus();
-		if($result) $_SESSION['accessible'][$this->document_srl] = true;
+		if($result && Context::getSessionStatus())
+		{
+			$_SESSION['accessible'][$this->document_srl] = true;
+		}
 
 		$content = $this->get('content');
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
@@ -452,7 +455,10 @@ class documentItem extends Object
 		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
 		$result = $this->_checkAccessibleFromStatus();
-		if($result) $_SESSION['accessible'][$this->document_srl] = true;
+		if($result && Context::getSessionStatus())
+		{
+			$_SESSION['accessible'][$this->document_srl] = true;
+		}
 
 		$content = $this->get('content');
 		if(!$stripEmbedTagException) stripEmbedTagForAdmin($content, $this->get('member_srl'));
@@ -749,6 +755,7 @@ class documentItem extends Object
 		// If admin priviledge is granted on parent posts, you can read its child posts.
 		$accessible = array();
 		$comment_list = array();
+		$setAccessibleComments = Context::getSessionStatus();
 		foreach($output->data as $key => $val)
 		{
 			$oCommentItem = new commentItem();
@@ -758,7 +765,10 @@ class documentItem extends Object
 			// If the comment is set to private and it belongs child post, it is allowable to read the comment for who has a admin privilege on its parent post
 			if($val->parent_srl>0 && $val->is_secret == 'Y' && !$oCommentItem->isAccessible() && $accessible[$val->parent_srl]===true)
 			{
-				$oCommentItem->setAccessible();
+				if($setAccessibleComments)
+				{
+					$oCommentItem->setAccessible();
+				}
 			}
 			$comment_list[$val->comment_srl] = $oCommentItem;
 		}

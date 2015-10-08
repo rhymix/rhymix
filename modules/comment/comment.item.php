@@ -131,7 +131,10 @@ class commentItem extends Object
 
 	function setAccessible()
 	{
-		$_SESSION['accessibled_comment'][$this->comment_srl] = TRUE;
+		if(Context::getSessionStatus())
+		{
+			$_SESSION['accessibled_comment'][$this->comment_srl] = TRUE;
+		}
 	}
 
 	function isEditable()

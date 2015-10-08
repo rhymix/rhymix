@@ -333,8 +333,29 @@ class Context
 			);
 		}
 
-		if($sess = $_POST[session_name()]) session_id($sess);
-		session_start();
+		// start session if it was previously started
+		$session_name = session_name();
+		$session_id = NULL;
+		if($session_id = $_POST[$session_name])
+		{
+			session_id($session_id);
+		}
+		else
+		{
+			$session_id = $_COOKIE[$session_name];
+		}
+
+		if($session_id !== NULL || $this->db_info->cache_friendly != 'Y')
+		{
+			$this->setCacheControl(0, false);
+			session_start();
+		}
+		else
+		{
+			$this->setCacheControl(-1, true);
+			register_shutdown_function(array($this, 'checkSessionStatus'));
+			$_SESSION = array();
+		}
 
 		// set authentication information in Context and session
 		if(self::isInstalled())
@@ -421,6 +442,38 @@ class Context
 	}
 
 	/**
+	 * Get the session status
+	 * 
+	 * @return bool
+	 */
+	function getSessionStatus()
+	{
+		return (session_id() !== '');
+	}
+
+	/**
+	 * Start the session if $_SESSION was touched
+	 * 
+	 * @return void
+	 */
+	function checkSessionStatus($force_start = false)
+	{
+		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
+		
+		if($self->getSessionStatus())
+		{
+			return;
+		}
+		if($force_start || (count($_SESSION) && !headers_sent()))
+		{
+			$tempSession = $_SESSION;
+			unset($_SESSION);
+			session_start();
+			$_SESSION = $tempSession;
+		}
+	}
+
+	/**
 	 * Finalize using resources, such as DB connection
 	 *
 	 * @return void
@@ -428,6 +481,30 @@ class Context
 	public static function close()
 	{
 		session_write_close();
+	}
+
+	/**
+	 * set Cache-Control header
+	 *
+	 * @return void
+	 */
+	function setCacheControl($ttl = 0, $public = true)
+	{
+		if($ttl == 0)
+		{
+			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, post-check=0, pre-check=0, no-store, no-cache');
+			header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+		}
+		elseif($ttl == -1)
+		{
+			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, post-check=0, pre-check=0');
+		}
+		else
+		{
+			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, max-age=' . (int)$ttl);
+			header('Expires: ' . gmdate('D, d M Y H:i:s', time() + (int)$ttl) . ' GMT');
+		}
 	}
 
 	/**
@@ -664,6 +741,7 @@ class Context
 		{
 			if(self::get('default_url'))
 			{
+				$this->checkSessionStatus(true);
 				$url = base64_decode(self::get('default_url'));
 				$url_info = parse_url($url);
 
@@ -953,7 +1031,10 @@ class Context
 		$self->lang_type = $lang_type;
 		$self->set('lang_type', $lang_type);
 
-		$_SESSION['lang_type'] = $lang_type;
+		if($self->getSessionStatus())
+		{
+			$_SESSION['lang_type'] = $lang_type;
+		}
 	}
 
 	/**

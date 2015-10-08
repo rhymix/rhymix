@@ -96,11 +96,15 @@ class installAdminController extends install
 		$qmail_compatibility = Context::get('qmail_compatibility');
 		if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
+		$cache_friendly = Context::get('cache_friendly');
+		if($cache_friendly!='Y') $cache_friendly = 'N';
+
 		$use_html5 = Context::get('use_html5');
 		if(!$use_html5) $use_html5 = 'N';
 
 		$db_info->default_url = $default_url;
 		$db_info->qmail_compatibility = $qmail_compatibility;
+		$db_info->cache_friendly = $cache_friendly;
 		$db_info->use_db_session = $use_db_session;
 		$db_info->use_rewrite = $use_rewrite;
 		$db_info->use_sso = $use_sso;
