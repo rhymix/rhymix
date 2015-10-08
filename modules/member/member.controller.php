@@ -1255,7 +1255,7 @@ class memberController extends member
 		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $args->user_name, $args->email_address );
+		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
 		$oMail->send();
 
 		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
