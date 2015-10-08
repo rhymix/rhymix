@@ -862,6 +862,17 @@ class memberAdminController extends member
 						$this->setMessage('success_updated');
 						break;
 					}
+				case 'spam':
+					{
+						$output = $this->spammerManage($member_srl);
+						if(!$output->toBool())
+						{
+							$oDB->rollback();
+							return $output;
+						}
+						$this->setMessage('success_deleted');
+						break;
+					}		
 				case 'delete':
 					{
 						$oMemberController->memberInfo = null;
@@ -1455,6 +1466,74 @@ class memberAdminController extends member
 
 		return new Object();
 	}
+	
+	/**
+	* Delete spammer's Activity
+	* @param int $member_srl
+	* @return Object
+	*/
+	function spammerManage($member_srl)
+	{
+		// 스팸 유저가 쓴 모든 글 자동 삭제
+		$oDocumentModel = &getModel('document');
+		$oDocumentController = &getController('document');
+		$obj->member_srl = $member_srl;
+		$obj->list_count = '99999999999';
+		$columnList = array('document_srl','ipaddress');
+		$document_list = $oDocumentModel->getDocumentList($obj,false,true,$columnList);
+		foreach($document_list->data as $key_document => $val_document)
+		{
+			// 회원 IP 스팸에 등록
+			$args_spam->ipaddress = $val_document->get('ipaddress');
+			if($args_spam->ipaddress && ($ipaddress_bk != $args_spam->ipaddress ))
+			{
+				$output_spam = executeQuery('spamfilter.isDeniedIP', $args_spam);
+				if(!$output_spam->data->count)
+				{
+				$ipaddress_bk = $args_spam->ipaddress;
+				executeQuery('spamfilter.insertDeniedIP', $args_spam);
+				}
+			}
+			// 글 삭제
+			$oDocumentController->deleteDocument($val_document->document_srl);
+		}
+		
+		// 스팸 유저가 쓴 모든 댓글 자동 삭제
+		$oCommentModel = &getModel('comment');
+		$obj->search_target = 'member_srl';
+		$obj->search_keyword = $member_srl;
+		$comment_list = $oCommentModel->getTotalCommentList($obj);
+		$oCommentController = &getController('comment');
+		foreach($comment_list->data as $key_comment => $val_comment)
+		{
+			// 회원 IP 스팸에 등록
+			$args_spam->ipaddress = $val_comment->get('ipaddress');
+			if($args_spam->ipaddress && ($ipaddress_bk != $args_spam->ipaddress ))
+			{
+				$output_spam = executeQuery('spamfilter.isDeniedIP', $args_spam);
+				if(!$output_spam->data->count)
+				{
+					$ipaddress_bk = $args_spam->ipaddress;
+					executeQuery('spamfilter.insertDeniedIP', $args_spam);
+				}
+			}
+			$oCommentController->deleteComment($val_comment->comment_srl);
+		}
+		
+		// 쪽지 삭제
+		$args_message->sender_srl = $obj->member_srl;
+		$args_message->receiver_srl = $obj->member_srl;
+		$output_message = executeQuery('communication.deleteMessagesMember', $args_message);
+		
+		// 회원정보 삭제
+		$oMemberController = &getController('member');
+		$oMemberController->memberInfo = null;
+		$oMemberController = &getController('member');
+		$output = $oMemberController->deleteMember($obj->member_srl);
+	
+		return $output;
+	}	
+	
 }
 /* End of file member.admin.controller.php */
 /* Location: ./modules/member/member.admin.controller.php */
