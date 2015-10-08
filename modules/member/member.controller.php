@@ -239,6 +239,23 @@ class memberController extends member
 
 				break;
 			case 'email_address' :
+				// Check managed Email Host
+				if($oMemberModel->isDeniedEmailHost($value))
+				{
+					$config = $oMemberModel->getMemberConfig();
+					$emailhost_check = $config->emailhost_check;
+
+					$managed_email_host = Context::getLang('managed_email_host');
+
+					$email_hosts = $oMemberModel->getManagedEmailHosts();
+					foreach ($email_hosts as $host)
+					{
+						$hosts[] = $host->email_host;
+					}
+					$message = sprintf($managed_email_host[$emailhost_check],implode(', ',$hosts),'id@'.implode(', id@',$hosts));
+					return new Object(0,$message);
+				}
+
 				// Check if duplicated
 				$member_srl = $oMemberModel->getMemberSrlByEmailAddress($value);
 				if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_email_address');
@@ -1992,6 +2009,22 @@ class memberController extends member
 			return new Object(-1,'msg_exists_nick_name');
 		}
 
+		// Check managed Email Host
+		if($oMemberModel->isDeniedEmailHost($args->email_address))
+		{
+			$config = $oMemberModel->getMemberConfig();
+			$emailhost_check = $config->emailhost_check;
+
+			$managed_email_host = Context::getLang('managed_email_host');
+			$email_hosts = $oMemberModel->getManagedEmailHosts();
+			foreach ($email_hosts as $host)
+			{
+				$hosts[] = $host->email_host;
+			}
+			$message = sprintf($managed_email_host[$emailhost_check],implode(', ',$hosts),'id@'.implode(', id@',$hosts));
+			return new Object(-1, $message);
+		}
+
 		// Check if email address is duplicate
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
 		if($member_srl)
@@ -2136,6 +2169,22 @@ class memberController extends member
 
 		$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 		$orgMemberInfo = $output->data;
+
+		// Check managed Email Host
+		if($oMemberModel->isDeniedEmailHost($args->email_address))
+		{
+			$config = $oMemberModel->getMemberConfig();
+			$emailhost_check = $config->emailhost_check;
+
+			$managed_email_host = Context::getLang('managed_email_host');
+			$email_hosts = $oMemberModel->getManagedEmailHosts();
+			foreach ($email_hosts as $host)
+			{
+				$hosts[] = $host->email_host;
+			}
+			$message = sprintf($managed_email_host[$emailhost_check],implode(', ',$hosts),'id@'.implode(', id@',$hosts));
+			return new Object(-1, $message);
+		}
 
 		// Check if email address or user ID is duplicate
 		if($config->identifier == 'email_address')
@@ -2459,6 +2508,23 @@ class memberController extends member
 		if(!$newEmail) return $this->stop('msg_invalid_request');
 
 		$oMemberModel = getModel('member');
+		// Check managed Email Host
+		if($oMemberModel->isDeniedEmailHost($newEmail))
+		{
+			$config = $oMemberModel->getMemberConfig();
+			$emailhost_check = $config->emailhost_check;
+
+			$managed_email_host = Context::getLang('managed_email_host');
+			$email_hosts = $oMemberModel->getManagedEmailHosts();
+			foreach ($email_hosts as $host)
+			{
+				$hosts[] = $host->email_host;
+			}
+			$message = sprintf($managed_email_host[$emailhost_check],implode(', ',$hosts),'id@'.implode(', id@',$hosts));
+			return new Object(-1, $message);
+		}
+
+		// Check if the e-mail address is already registered
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
 		if($member_srl) return new Object(-1,'msg_exists_email_address');
 

@@ -143,6 +143,22 @@
 		<value xml:lang="jp"><![CDATA[使用が禁止されたニックネームです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[被禁止的昵称。]]></value>
 	</item>
+	<item name="managed_email_host" type="array">
+		<item name="allowed">
+			<value xml:lang="ko"><![CDATA[%s 사이트 이메일 계정만 사용할 수 있습니다. (%s)]]></value>
+			<value xml:lang="en"><![CDATA[Only %s e-mail accounts are allowed. (%s)]]></value>
+			<value xml:lang="jp"><![CDATA[Only %s e-mail accounts are allowed. (%s)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[Only %s e-mail accounts are allowed. (%s)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[Only %s e-mail accounts are allowed. (%s)]]></value>
+		</item>
+		<item name="prohibited">
+			<value xml:lang="ko"><![CDATA[%s 사이트 이메일 계정은 사용할 수 없습니다. (%s)]]></value>
+			<value xml:lang="en"><![CDATA[E-mail accounts at %s are not allowed. (%s)]]></value>
+			<value xml:lang="jp"><![CDATA[E-mail accounts at %s are not allowed. (%s)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[E-mail accounts at %s are not allowed. (%s)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[E-mail accounts at %s are not allowed. (%s)]]></value>
+		</item>
+	</item>
 	<item name="null_user_id">
 		<value xml:lang="ko"><![CDATA[회원 아이디를 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter your ID.]]></value>
@@ -514,7 +530,6 @@
 		<value xml:lang="en"><![CDATA[Description for Temporary Limit Date]]></value>
 		<value xml:lang="jp"><![CDATA[一時的な期限日の説明]]></value>
 	</item>
-
 	<item name="limit_date">
 		<value xml:lang="ko"><![CDATA[제한일]]></value>
 		<value xml:lang="en"><![CDATA[Limit Date]]></value>
@@ -1093,6 +1108,18 @@
 		<value xml:lang="es"><![CDATA[Manejo de ID prohibidos]]></value>
 		<value xml:lang="tr"><![CDATA[Yasaklanmış Kimlikler]]></value>
 		<value xml:lang="vi"><![CDATA[Tên sử dụng cấm đăng kí]]></value>
+	</item>
+	<item name="cmd_manage_email_host">
+		<value xml:lang="ko"><![CDATA[이메일 제공자 관리]]></value>
+		<value xml:lang="en"><![CDATA[E-mail provider check]]></value>
+		<value xml:lang="jp"><![CDATA[E-mail provider check]]></value>
+		<value xml:lang="zh-CN"><![CDATA[E-mail provider check]]></value>
+		<value xml:lang="zh-TW"><![CDATA[E-mail provider check]]></value>
+		<value xml:lang="fr"><![CDATA[E-mail provider check]]></value>
+		<value xml:lang="ru"><![CDATA[E-mail provider check]]></value>
+		<value xml:lang="es"><![CDATA[E-mail provider check]]></value>
+		<value xml:lang="tr"><![CDATA[E-mail provider check]]></value>
+		<value xml:lang="vi"><![CDATA[E-mail provider check]]></value>
 	</item>
 	<item name="cmd_manage_nick_name">
 		<value xml:lang="ko"><![CDATA[금지 닉네임 관리]]></value>
@@ -1962,6 +1989,13 @@
 		<value xml:lang="tr"><![CDATA[Kayıt formunu gösterebilmeniz için, öğeleri etkinleştirdiğinizden emin olun]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu chọn, thông tin này sẽ được hiển thị trong bảng đăng kí.]]></value>
 	</item>
+	<item name="about_emailhost_check">
+		<value xml:lang="ko"><![CDATA[입력한 호스트네임이 없으면, 이 기능을 사용하지 않습니다. 가입자의 이메일 주소 제공자를 설정할 수 있습니다.<br />특정 이메일 제공자(hostname, 예: naver.com, gmail.com)만 허용하거나, 특정 이메일 제공자의 사용을 제한할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Empty value will allow almost all email account providers.<br />You can set new member's e-mail address providers. You can allow or prohibit some e-mail hosts(eg.: naver.com, gmail.com).]]></value>
+		<value xml:lang="jp"><![CDATA[Empty value will allow almost all email account providers.<br />You can set new member's e-mail address providers. You can allow or prohibit some e-mail hosts(eg.: naver.com, gmail.com).]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Empty value will allow almost all email account providers.<br />You can set new member's e-mail address providers. You can allow or prohibit some e-mail hosts(eg.: naver.com, gmail.com).]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Empty value will allow almost all email account providers.<br />You can set new member's e-mail address providers. You can allow or prohibit some e-mail hosts(eg.: naver.com, gmail.com).]]></value>
+	</item>
 	<item name="about_form_description">
 		<value xml:lang="ko"><![CDATA[설명란에 입력을 하면 가입시 표시가 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[If you enter description in this form, it will be displayed on join form.]]></value>
@@ -2469,6 +2503,20 @@
 		<value xml:lang="zh-TW"><![CDATA[向此會員發送通知信]]></value>
 		<value xml:lang="zh-CN"><![CDATA[给此会员发送短消息]]></value>
 	</item>
+	<item name="cmd_allowed">
+		<value xml:lang="ko"><![CDATA[허가]]></value>
+		<value xml:lang="en"><![CDATA[Allowed]]></value>
+		<value xml:lang="jp"><![CDATA[Allowed]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Allowed]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Allowed]]></value>
+	</item>
+	<item name="cmd_prohibited">
+		<value xml:lang="ko"><![CDATA[제한]]></value>
+		<value xml:lang="en"><![CDATA[Prohibited]]></value>
+		<value xml:lang="jp"><![CDATA[Prohibited]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Prohibited]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Prohibited]]></value>
+	</item>
 	<item name="cmd_required">
 		<value xml:lang="ko"><![CDATA[필수]]></value>
 		<value xml:lang="en"><![CDATA[Required]]></value>
@@ -2524,6 +2572,13 @@
 		<value xml:lang="jp"><![CDATA[改行で区別]]></value>
 		<value xml:lang="zh-TW"><![CDATA[換行區隔]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用换行区分]]></value>
+	</item>
+	<item name="count_manage_email_host">
+		<value xml:lang="ko"><![CDATA[다음 <span class="_managededEmailHostCount">%s</span>개의 이메일 주소 제공자를 <span id="managededEmailHostType">%s</span> 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[There are <span class="_managededEmailHostCount">%s</span> <span id="managededEmailHostType">%s</span> e-mail address providers below.]]></value>
+		<value xml:lang="jp"><![CDATA[There are <span class="_managededEmailHostCount">%s</span> <span id="managededEmailHostType">%s</span> e-mail address providers below.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[There are <span class="_managededEmailHostCount">%s</span> <span id="managededEmailHostType">%s</span> e-mail address providers below.]]></value>
+		<value xml:lang="zh-CN"><![CDATA[There are <span class="_managededEmailHostCount">%s</span> <span id="managededEmailHostType">%s</span> e-mail address providers below.]]></value>
 	</item>
 	<item name="count_manage_id">
 		<value xml:lang="ko"><![CDATA[<span class="_deniedIDCount">%s</span>개의 금지 아이디가 있습니다.]]></value>
@@ -2629,6 +2684,13 @@
 		<value xml:lang="zh-TW"><![CDATA[電子郵件]]></value>
 		<value xml:lang="zh-CN"><![CDATA[电子邮件]]></value>
 	</item>
+	<item name="add_managed_emailhost">
+		<value xml:lang="ko"><![CDATA[이메일 제공자 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add E-mail Host]]></value>
+		<value xml:lang="jp"><![CDATA[Add E-mail Host]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Add E-mail Host]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Add E-mail Host]]></value>
+	</item>
 	<item name="add_prohibited_id">
 		<value xml:lang="ko"><![CDATA[금지 아이디 추가]]></value>
 		<value xml:lang="en"><![CDATA[Add prohibited id]]></value>
@@ -2661,6 +2723,13 @@
 		<value xml:lang="en"><![CDATA[Please enter a nick name to prohibit.]]></value>
 		<value xml:lang="jp"><![CDATA[追加するニックネームを入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入禁止昵称]]></value>
+	</item>
+	<item name="msg_null_managed_emailhost">
+		<value xml:lang="ko"><![CDATA[추가할 금지 이메일 주소 제공자를 입력해주세요. (예: naver.com)]]></value>
+		<value xml:lang="en"><![CDATA[Please enter email address providers to manage. (eg.: gmail.com)]]></value>
+		<value xml:lang="jp"><![CDATA[Please enter email address providers to manage. (eg.: gmail.com)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Please enter email address providers to manage. (eg.: gmail.com)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Please enter email address providers to manage. (eg.: gmail.com)]]></value>
 	</item>
 	<item name="identifier">
 		<value xml:lang="ko"><![CDATA[로그인 계정]]></value>

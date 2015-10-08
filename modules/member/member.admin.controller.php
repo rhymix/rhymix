@@ -207,6 +207,7 @@ class memberAdminController extends member
 		$args = Context::gets(
 			'limit_day',
 			'limit_day_description',
+			'emailhost_check',
 			'agreement',
 			'redirect_url',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
@@ -220,6 +221,7 @@ class memberAdminController extends member
 		$all_args = Context::getRequestVars();
 
 		$args->limit_day = (int)$args->limit_day;
+		if($args->emailhost_check != 'allowed' && $args->emailhost_check != 'prohibited') $args->emailhost_check == 'allowed';
 		if(!trim(strip_tags($args->agreement)))
 		{
 			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
@@ -1027,6 +1029,44 @@ class memberAdminController extends member
 	}
 
 	/**
+	 * Add allowed or denied email hostnames
+	 * @return void
+	 */
+	function procMemberAdminUpdateManagedEmailHosts()
+	{
+		$email_hosts = Context::get('email_hosts');
+
+		$mode = Context::get('mode');
+		$mode = $mode ? $mode : 'insert';
+
+		if($mode == 'delete')
+		{
+			$output = $this->deleteManagedEmailHost($email_hosts);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+			$msg_code = 'success_deleted';
+			$this->setMessage($msg_code);
+		}
+		else
+		{
+			$email_hosts = preg_replace('/([^a-z0-9\.\-\_\n]*)/i','',$email_hosts);
+			$email_hosts = array_unique(explode("\n",$email_hosts."\n"));
+			$success_email_hosts = array();
+			foreach($email_hosts as $val)
+			{
+				$val = trim($val);
+				if(!$val) continue;
+				$output = $this->insertManagedEmailHost($val, '');
+				if($output->toBool()) $success_email_hosts[] = $val;
+			}
+
+			$this->add('email_hosts', implode("\n",$success_email_hosts));
+		}
+	}
+
+	/**
 	 * Add a denied nick name
 	 * @return void
 	 */
@@ -1332,6 +1372,21 @@ class memberAdminController extends member
 	}
 
 	/**
+	 * Register managed Email Hostname
+	 * @param string $email_host
+	 * @param string $description
+	 * @return Object
+	 */
+	function insertManagedEmailHost($email_host, $description = '')
+	{
+		$args = new stdClass();
+		$args->email_host = trim(strtolower($email_host));
+		$args->description = $description;
+
+		return executeQuery('member.insertManagedEmailHost', $args);
+	}
+
+	/**
 	 * delete a denied id
 	 * @param string $user_id
 	 * @return object
@@ -1357,6 +1412,18 @@ class memberAdminController extends member
 		$args = new stdClass;
 		$args->nick_name = $nick_name;
 		return executeQuery('member.deleteDeniedNickName', $args);
+	}
+
+	/**
+	 * delete a denied nick name
+	 * @param string $email_host
+	 * @return object
+	 */
+	function deleteManagedEmailHost($email_host)
+	{
+		$args = new stdClass();
+		$args->email_host = $email_host;
+		return executeQuery('member.deleteManagedEmailHost', $args);
 	}
 
 	/**

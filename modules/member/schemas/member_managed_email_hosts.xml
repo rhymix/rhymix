@@ -1,0 +1,5 @@
+<table name="member_managed_email_hosts">
+	<column name="email_host" type="varchar" size="250" notnull="notnull" primary_key="primary_key" />
+	<column name="regdate" type="date" />
+	<column name="description" type="text" />
+</table>
