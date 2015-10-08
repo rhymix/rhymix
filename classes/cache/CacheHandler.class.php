@@ -69,6 +69,11 @@ class CacheHandler extends Handler
 					$type = 'memcache';
 					$url = $info->use_object_cache;
 				}
+				else if(substr($info->use_object_cache, 0, 5) == 'redis')
+				{
+					$type = 'redis';
+					$url = $info->use_object_cache;
+				}
 				else if($info->use_object_cache == 'wincache')
 				{
 					$type = 'wincache';
@@ -91,6 +96,11 @@ class CacheHandler extends Handler
 				else if(substr($info->use_template_cache, 0, 8) == 'memcache')
 				{
 					$type = 'memcache';
+					$url = $info->use_template_cache;
+				}
+				else if(substr($info->use_template_cache, 0, 5) == 'redis')
+				{
+					$type = 'redis';
 					$url = $info->use_template_cache;
 				}
 				else if($info->use_template_cache == 'wincache')
