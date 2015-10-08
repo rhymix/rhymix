@@ -22,7 +22,20 @@ function completeGetEmoticons(ret_obj) {
     for(var i=0;i<emoticons.length;i++) {
 		html[html.length] = '<img src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i]+'" class="emoticon" />';
     }
-	jQuery('#emoticons').html(html.join('')).find('img.emoticon').click(insertEmoticon);
+	jQuery('#emoticons').html(html.join('')).find('img.emoticon')
+		.click(insertEmoticon)
+		.load(function(){
+			/* resize popup window for new emoticons loaded, 2015-07-14 by misol */
+			if(jQuery('section.section').outerHeight(true) != jQuery( window ).height())
+			{
+				// more space for y-scroll
+				var ww = (jQuery('section.section').outerHeight(true) > jQuery( window ).height())? jQuery('section.section').outerWidth(true) + 60 : jQuery('section.section').outerWidth(true) + 30;
+				// not more than screen height
+				var wh = (screen.height-100 < jQuery('section.section').outerHeight(true)+100)? screen.height-100 : jQuery('section.section').outerHeight(true)+100;
+
+				window.resizeTo(ww, wh); 
+			}
+		});
 }
 
 /**
