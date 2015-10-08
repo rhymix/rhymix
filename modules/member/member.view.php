@@ -209,6 +209,29 @@ class memberView extends member
 		$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
 		Context::set('formTags', $formTags);
 
+
+		// Editor of the module set for signing by calling getEditor
+		foreach($formTags as $formTag) {
+			if($formTag->name=='signature') {
+				$oEditorModel = getModel('editor');
+				$option = new stdClass();
+				$option->primary_key_name = 'member_srl';
+				$option->content_key_name = 'signature';
+				$option->allow_fileupload = false;
+				$option->enable_autosave = false;
+				$option->enable_default_component = true;
+				$option->enable_component = false;
+				$option->resizable = false;
+				$option->disable_html = true;
+				$option->height = 100;
+				$option->skin = $member_config->signature_editor_skin;
+				$option->colorset = $member_config->sel_editor_colorset;
+				$editor = $oEditorModel->getEditor($member_info->member_srl, $option);
+				Context::set('editor', $editor);
+			}
+		}
+
+
 		global $lang;
 		$identifierForm = new stdClass();
 		$identifierForm->title = $lang->{$member_config->identifier};
