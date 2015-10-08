@@ -146,10 +146,13 @@ class boardController extends board
 			// send an email to admin user
 			if($output->toBool() && $this->module_info->admin_mail)
 			{
+				$oModuleModel = getModel('module');
+				$member_config = $oModuleModel->getModuleConfig('member');
+				
 				$oMail = new Mail();
 				$oMail->setTitle($obj->title);
 				$oMail->setContent( sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), getFullUrl('','document_srl',$obj->document_srl), $obj->content));
-				$oMail->setSender($obj->user_name, $obj->email_address);
+				$oMail->setSender($obj->user_name ? $obj->user_name : 'anonymous', $obj->email_address ? $obj->email_address : $member_config->webmaster_email);
 
 				$target_mail = explode(',',$this->module_info->admin_mail);
 				for($i=0;$i<count($target_mail);$i++)
