@@ -40,6 +40,7 @@
 			<label class="x_control-label" for="message_content">{$lang->cmd_send_message}</label>
 			<div class="x_controls" style="margin-right:14px">
 				<textarea name="message_content" id="message_content" rows="4" cols="42" style="width:100%"></textarea>
+				<label for="send_default_message" class="x_inline"><input type="checkbox" name="send_default_message" id="send_default_message" value="Y" checked="checked" /> {$lang->send_default_message}</label>
 			</div>
 		</div>
 	</div>
@@ -55,3 +56,19 @@
 	</div>
 	<!--@end-->
 </form>
+<script>
+jQuery(function($){
+	var message_content_area = $('#message_content');
+	if($('#send_default_message').is(':checked'))
+	{
+		message_content_area.prop("disabled", true);
+	}
+	$('#send_default_message').change(function(){
+		if($(this).is(':checked')){
+			message_content_area.prop("disabled", true);
+		} else {
+			message_content_area.prop("disabled", false);
+		}
+	});
+});
+</script>
