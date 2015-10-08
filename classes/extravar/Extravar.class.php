@@ -292,11 +292,11 @@ class ExtraItem
 	/**
 	 * Returns a value for HTML
 	 *
-	 * @return string Returns a value expressed in HTML.
+	 * @return string Returns filtered value
 	 */
 	function getValue()
 	{	
-		return $this->_getTypeValue($this->type, $this->value);
+		return removeHackTag($this->value);
 	}
 
 	/**
