@@ -263,87 +263,151 @@ class fileController extends file
 				}
 			}
 		}
+
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'before', $file_obj);
 		if(!$output->toBool()) return $this->stop(($output->message)?$output->message:'msg_not_permitted_download');
 
-
-		// 다운로드 후 (가상)
 		// Increase download_count
 		$args = new stdClass();
 		$args->file_srl = $file_srl;
 		executeQuery('file.updateFileDownloadCount', $args);
+
 		// Call a trigger (after)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
 
-		$random = new Password();
-		$file_key = $_SESSION['__XE_FILE_KEY__'][$file_srl] = $random->createSecureSalt(32, 'hex');
+		// Redirect to procFileOutput using file key
+		if(!isset($_SESSION['__XE_FILE_KEY__']) || !is_string($_SESSION['__XE_FILE_KEY__']) || strlen($_SESSION['__XE_FILE_KEY__']) != 32)
+		{
+			$random = new Password();
+			$_SESSION['__XE_FILE_KEY__'] = $random->createSecureSalt(32, 'hex');
+		}
+		$file_key_data = $file_obj->file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+		$file_key = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
 		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput','file_srl',$file_srl,'file_key',$file_key));
 		Context::close();
 		exit();
-
 	}
 
 	public function procFileOutput()
 	{
+		// Get requsted file info
 		$oFileModel = getModel('file');
 		$file_srl = Context::get('file_srl');
 		$file_key = Context::get('file_key');
-		if(strstr($_SERVER['HTTP_USER_AGENT'], "Android")) $is_android = true;
 
-		if($is_android && $_SESSION['__XE_FILE_KEY_AND__'][$file_srl]) $session_key = '__XE_FILE_KEY_AND__';
-		else $session_key = '__XE_FILE_KEY__';
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
 		$file_obj = $oFileModel->getFile($file_srl, $columnList);
+		$filesize = $file_obj->file_size;
+		$filename = $file_obj->source_filename;
+		$etag = md5($file_srl . $file_key . $_SERVER['HTTP_USER_AGENT']);
 
-		$uploaded_filename = $file_obj->uploaded_filename;
-
-		if(!file_exists($uploaded_filename)) return $this->stop('msg_file_not_found');
-
-		if(!$file_key || $_SESSION[$session_key][$file_srl] != $file_key)
+		// Check file key
+		if(strlen($file_key) != 32 || !isset($_SESSION['__XE_FILE_KEY__']) || !is_string($_SESSION['__XE_FILE_KEY__']))
 		{
-			unset($_SESSION[$session_key][$file_srl]);
 			return $this->stop('msg_invalid_request');
 		}
+		$file_key_data = $file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+		$file_key_compare = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
+		if($file_key !== $file_key_compare)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		
+		// Check if file exists
+		$uploaded_filename = $file_obj->uploaded_filename;
+		if(!file_exists($uploaded_filename))
+		{
+			return $this->stop('msg_file_not_found');
+		}
 
-		$file_size = $file_obj->file_size;
-		$filename = $file_obj->source_filename;
-		if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE || (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'rv:') !== FALSE))
+		// If client sent an If-None-Match header with the correct ETag, do not download again
+		if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim(trim($_SERVER['HTTP_IF_NONE_MATCH']), '\'"') === $etag)
+		{
+			header('HTTP/1.1 304 Not Modified');
+			exit(); 
+		}
+
+		// If client sent an If-Modified-Since header with a recent modification date, do not download again
+		if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) > filemtime($uploaded_filename))
+		{
+			header('HTTP/1.1 304 Not Modified');
+			exit();
+		}
+
+		// Filename encoding for browsers that support RFC 5987
+		if(preg_match('#(?:Chrome|Edge)/(\d+)\.#', $_SERVER['HTTP_USER_AGENT'], $matches) && $matches[1] >= 11)
+		{
+			$filename_param = "filename*=UTF-8''" . rawurlencode($filename) . '; filename="' . rawurlencode($filename) . '"';
+		}
+		elseif(preg_match('#(?:Firefox|Safari|Trident)/(\d+)\.#', $_SERVER['HTTP_USER_AGENT'], $matches) && $matches[1] >= 6)
+		{
+			$filename_param = "filename*=UTF-8''" . rawurlencode($filename) . '; filename="' . rawurlencode($filename) . '"';
+		}
+		// Filename encoding for browsers that do not support RFC 5987
+		elseif(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 		{
 			$filename = rawurlencode($filename);
-			$filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
+			$filename_param = 'filename="' . preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1) . '"';
 		}
-
-		if($is_android)
+		else
 		{
-			if($_SESSION['__XE_FILE_KEY__'][$file_srl]) $_SESSION['__XE_FILE_KEY_AND__'][$file_srl] = $file_key;
+			$filename_param = 'filename="' . $filename . '"';
 		}
 
-		unset($_SESSION[$session_key][$file_srl]);
-
+		// Close context to prevent blocking the session
 		Context::close();
 
+		// Open file
 		$fp = fopen($uploaded_filename, 'rb');
-		if(!$fp) return $this->stop('msg_file_not_found');
+		if(!$fp)
+		{
+			return $this->stop('msg_file_not_found');
+		}
 
-		header("Cache-Control: ");
+		// Take care of pause and resume
+		if(isset($_SERVER['HTTP_RANGE']) && preg_match('/^bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches))
+		{
+			$range_start = $matches[1];
+			$range_end = $matches[2] ? $matches[2] : ($filesize - 1);
+			$range_length = $range_end - $range_start + 1;
+			if($range_length < 1 || $range_start < 0 || $range_start >= $filesize || $range_end >= $filesize)
+			{
+				header('HTTP/1.1 416 Requested Range Not Satisfiable');
+				fclose($fp);
+				exit();
+			}
+            fseek($fp, $range_start);
+			header('HTTP/1.1 206 Partial Content');
+			header('Content-Range: bytes ' . $range_start . '-' . $range_end . '/' . $filesize);
+		}
+		else
+		{
+			$range_start = 0;
+			$range_length = $filesize - $range_start;
+		}
+
+		// Clear buffer
+		while(ob_get_level()) ob_end_clean();
+
+		// Set headers
+		header("Cache-Control: private; max-age=3600");
 		header("Pragma: ");
 		header("Content-Type: application/octet-stream");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
-		header("Content-Length: " .(string)($file_size));
-		header('Content-Disposition: attachment; filename="'.$filename.'"');
-		header("Content-Transfer-Encoding: binary\n");
+		header('Content-Disposition: attachment; ' . $filename_param);
+		header('Content-Transfer-Encoding: binary');
+		header('Content-Length: ' . $range_length);
+		header('Accept-Ranges: bytes');
+		header('Etag: "' . $etag . '"');
 
-		// if file size is lager than 10MB, use fread function (#18675748)
-		if(filesize($uploaded_filename) > 1024 * 1024)
+		// Print the file contents
+		for($offset = 0; $offset < $range_length; $offset += 4096)
 		{
-			while(!feof($fp)) echo fread($fp, 1024);
-			fclose($fp);
-		}
-		else
-		{
-			fpassthru($fp);
+			$buffer_size = min(4096, $range_length - $offset);
+			echo fread($fp, $buffer_size);
+			flush();
 		}
 
 		exit();
