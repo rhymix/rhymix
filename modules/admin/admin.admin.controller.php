@@ -140,7 +140,7 @@ class adminAdminController extends admin
 		$oMemberController = getController('member');
 		$oMemberController->procMemberLogout();
 
-		header('Location: ' . getNotEncodedUrl('', 'module', 'admin'));
+		header('Location: ' . getNotEncodedUrl(''));
 	}
 
 	public function procAdminInsertDefaultDesignInfo()
