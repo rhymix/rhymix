@@ -19,6 +19,7 @@ class TemplateHandler
 	private $xe_path = NULL;  ///< XpressEngine base path
 	private $web_path = NULL; ///< tpl file web path
 	private $compiled_file = NULL; ///< tpl file web path
+	private $config = NULL;
 	private $skipTags = NULL;
 	private $handler_mtime = 0;
 	static private $rootTpl = NULL;
@@ -31,6 +32,7 @@ class TemplateHandler
 	{
 		$this->xe_path = rtrim(preg_replace('/([^\.^\/]+)\.php$/i', '', $_SERVER['SCRIPT_NAME']), '/');
 		$this->compiled_path = _XE_PATH_ . $this->compiled_path;
+		$this->config = new stdClass();
 	}
 
 	/**
@@ -232,6 +234,13 @@ class TemplateHandler
 			$this->skipTags = array('marquee');
 		}
 
+		// reset config for this buffer (this step is necessary because we use a singleton for every template)
+		$previous_config = clone $this->config;
+		$this->config = new stdClass();
+
+		// detect existence of autoescape config
+		$this->config->autoescape = (strpos($buff, ' autoescape="') === FALSE) ? NULL : 'off';
+
 		// replace comments
 		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
 
@@ -242,7 +251,7 @@ class TemplateHandler
 		$buff = $this->_parseInline($buff);
 
 		// include, unload/load, import
-		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\(["\']([^"\']+)["\'])(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]*)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
+		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?)|config)(?(2)\(["\']([^"\']+)["\'])(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]*)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
 
 		// remove block which is a virtual tag
 		$buff = preg_replace('@</?block\s*>@is', '', $buff);
@@ -259,6 +268,9 @@ class TemplateHandler
 
 		// remove php script reopening
 		$buff = preg_replace(array('/(\n|\r\n)+/', '/(;)?( )*\?\>\<\?php([\n\t ]+)?/'), array("\n", ";\n"), $buff);
+
+		// restore config to previous value
+		$this->config = $previous_config;
 
 		return $buff;
 	}
@@ -587,14 +599,35 @@ class TemplateHandler
 			{
 				return $m[0];
 			}
-
-			$echo = 'echo ';
+			
 			if($m[1]{0} == '@')
 			{
-				$echo = '';
-				$m[1] = substr($m[1], 1);
+				$m[1] = $this->_replaceVar(substr($m[1], 1));
+				return "<?php {$m[1]} ?>";
 			}
-			return '<?php ' . $echo . $this->_replaceVar($m[1]) . ' ?>';
+			else
+			{
+				$escape_option = $this->config->autoescape !== null ? 'auto' : 'noescape';
+				if(preg_match('@^(.+)\\|((?:no)?escape)$@', $m[1], $mm))
+				{
+					$m[1] = $mm[1];
+					$escape_option = $mm[2];
+				}
+				elseif($m[1] === '$content' && preg_match('@/layouts/.+/layout\.html$@', $this->file))
+				{
+					$escape_option = 'noescape';
+				}
+				$m[1] = $this->_replaceVar($m[1]);
+				switch($escape_option)
+				{
+					case 'auto':
+						return "<?php echo (\$this->config->autoescape === 'on' ? htmlspecialchars({$m[1]}, ENT_COMPAT, 'UTF-8', false) : {$m[1]}) ?>";
+					case 'escape':
+						return "<?php echo htmlspecialchars({$m[1]}, ENT_COMPAT, 'UTF-8', true) ?>";
+					case 'noescape':
+						return "<?php echo {$m[1]} ?>";
+				}
+			}
 		}
 
 		if($m[3])
@@ -727,6 +760,17 @@ class TemplateHandler
 					}
 
 					return $result;
+				// <config ...>
+				case 'config':
+					$result = '';
+					if(preg_match_all('@ (\w+)="([^"]+)"@', $m[6], $config_matches, PREG_SET_ORDER))
+					{
+						foreach($config_matches as $config_match)
+						{
+							$result .= "\$this->config->{$config_match[1]} = '" . trim(strtolower($config_match[2])) . "';";
+						}
+					}
+					return "<?php {$result} ?>";
 			}
 		}
 
