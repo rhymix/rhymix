@@ -540,6 +540,68 @@ class DBCubrid extends DB
 	}
 
 	/**
+	 * Modify a column (only supported in CUBRID 8.4 and above, otherwise returns false)
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @param string $type column type, default value is 'number'
+	 * @param int $size column size
+	 * @param string|int $default default value
+	 * @param boolean $notnull not null status, default value is false
+	 * @return bool
+	 */
+	function modifyColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = FALSE)
+	{
+		if(!version_compare(__CUBRID_VERSION__, '8.4.0', '>='))
+		{
+			return false;
+		}
+		
+		$type = strtoupper($this->column_type[$type]);
+		if($type == 'INTEGER')
+		{
+			$size = '';
+		}
+
+		$query = sprintf("alter class \"%s%s\" modify \"%s\" ", $this->prefix, $table_name, $column_name);
+		
+		if($type == 'char' || $type == 'varchar')
+		{
+			if($size)
+			{
+				$size = $size * 3;
+			}
+		}
+		
+		if($size)
+		{
+			$query .= sprintf("%s(%s) ", $type, $size);
+		}
+		else
+		{
+			$query .= sprintf("%s ", $type);
+		}
+		
+		if($default)
+		{
+			if($type == 'INTEGER' || $type == 'BIGINT' || $type == 'INT')
+			{
+				$query .= sprintf("default %d ", $default);
+			}
+			else
+			{
+				$query .= sprintf("default '%s' ", $default);
+			}
+		}
+		
+		if($notnull)
+		{
+			$query .= "not null ";
+		}
+		
+		return $this->_query($query) ? true : false;
+	}
+
+	/**
 	 * Check column exist status of the table
 	 * @param string $table_name table name
 	 * @param string $column_name column name
@@ -567,6 +629,62 @@ class DBCubrid extends DB
 		return $output;
 	}
 
+	/**
+	 * Get information about a column
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @return object
+	 */
+	function getColumnInfo($table_name, $column_name)
+	{
+		$query = sprintf("select * from \"db_attribute\" where " . "\"attr_name\" ='%s' and \"class_name\" = '%s%s'", $column_name, $this->prefix, $table_name);
+		$result = $this->_query($query);
+		if($this->isError())
+		{
+			return;
+		}
+		$output = $this->_fetch($result);
+		if($output)
+		{
+			$dbtype = strtolower($output->data_type);
+			if($dbtype === 'string') $dbtype = 'character varying';
+			$size = ($output->prec > 0) ? $output->prec : null;
+			if($xetype = array_search("$dbtype($size)", $this->column_type))
+			{
+				$dbtype = "$dbtype($size)";
+				$size = null;
+			}
+			elseif($size !== null)
+			{
+				if($xetype = array_search($dbtype, $this->column_type))
+				{
+					if($size % 3 == 0) $size = intval($size / 3);
+				}
+				else
+				{
+					$xetype = $dbtype;
+				}
+			}
+			else
+			{
+				$xetype = $dbtype;
+				$size = null;
+			}
+			return (object)array(
+				'name' => $output->attr_name,
+				'dbtype' => $dbtype,
+				'xetype' => $xetype,
+				'size' => $size,
+				'default_value' => $output->default_value,
+				'notnull' => !$output->is_nullable,
+			);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	/**
 	 * Add an index to the table
 	 * $target_columns = array(col1, col2)

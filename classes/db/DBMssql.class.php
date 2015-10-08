@@ -428,6 +428,46 @@ class DBMssql extends DB
 	}
 
 	/**
+	 * Modify a column
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @param string $type column type, default value is 'number'
+	 * @param int $size column size
+	 * @param string|int $default default value
+	 * @param boolean $notnull not null status, default value is false
+	 * @return bool
+	 */
+	function modifyColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
+	{
+		$type = $this->column_type[$type];
+		if(strtoupper($type) == 'INTEGER')
+		{
+			$size = '';
+		}
+
+		$query = sprintf("alter table %s%s alter column %s ", $this->prefix, $table_name, $column_name);
+		if($size)
+		{
+			$query .= sprintf(" %s(%s) ", $type, $size);
+		}
+		else
+		{
+			$query .= sprintf(" %s ", $type);
+		}
+
+		if($default)
+		{
+			$query .= sprintf(" default '%s' ", $default);
+		}
+		if($notnull)
+		{
+			$query .= " not null ";
+		}
+
+		return $this->_query($query) ? true : false;
+	}
+
+	/**
 	 * Check column exist status of the table
 	 * @param string $table_name table name
 	 * @param string $column_name column name
@@ -448,7 +488,67 @@ class DBMssql extends DB
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Get information about a column
+	 * @param string $table_name table name
+	 * @param string $column_name column name
+	 * @return object
+	 */
+	function getColumnInfo($table_name, $column_name)
+	{
+		$query = sprintf("select syscolumns.name as name, systypes.name as type_name, syscolumns.length as length, " .
+			"syscolumns.isnullable as isnullable, syscomments.text as default_value from syscolumns " .
+			"inner join sysobjects on sysobjects.id = syscolumns.id " .
+			"inner join systypes on systypes.xtype = syscolumns.xtype " .
+			"left join syscomments on syscolumns.cdefault = syscomments.id " .
+			"where sysobjects.name = '%s%s' and syscolumns.name = '%s'", $this->prefix, $table_name, $column_name);
+		$result = $this->_query($query);
+		if($this->isError())
+		{
+			return;
+		}
+		$output = $this->_fetch($result);
+		if($output)
+		{
+			$dbtype = $output->type_name;
+			$size = ($output->length > 0) ? $output->length : null;
+			if($xetype = array_search("$dbtype($size)", $this->column_type))
+			{
+				$dbtype = "$dbtype($size)";
+				$size = null;
+			}
+			elseif($size !== null)
+			{
+				if($xetype = array_search($dbtype, $this->column_type))
+				{
+					// no-op
+				}
+				else
+				{
+					$xetype = $dbtype;
+				}
+			}
+			else
+			{
+				$xetype = $dbtype;
+				$size = null;
+			}
+			return (object)array(
+				'name' => $output->name,
+				'dbtype' => $dbtype,
+				'xetype' => $xetype,
+				'size' => $size,
+				'default_value' => $output->default_value,
+				'notnull' => !$output->isnullable,
+			);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	/**
 	 * Add an index to the table
 	 * $target_columns = array(col1, col2)
