@@ -187,32 +187,37 @@ class pointController extends point
 	 */
 	function triggerDeleteDocument(&$obj)
 	{
-		$module_srl = $obj->module_srl;
-		$member_srl = $obj->member_srl;
-		// The process related to clearing the post object
-		if(!$module_srl || !$member_srl) return new Object();
-		// Run only when logged in
-		$logged_info = Context::get('logged_info');
-		if(!$logged_info->member_srl) return new Object();
-		// Get the points of the member
-		$oPointModel = getModel('point');
-		$cur_point = $oPointModel->getPoint($member_srl, true);
-		// Get the point module information
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
-		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
-
-		$point = $module_config['insert_document'];
-		if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_document;
-		// if the point is set to decrease when writing a document, make sure it does not increase the points when deleting an article
-		if($point < 0) return new Object();
-		$cur_point -= $point;
-		// Add points related to deleting an attachment
-		$point = $module_config['upload_file'];
-		if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
-		if($obj->uploaded_count) $cur_point -= $point * $obj->uploaded_count;
-		// Increase the point
-		$this->setPoint($member_srl,$cur_point);
+		$oDocumentModel = getModel('document');
+		
+		if($obj->status != $oDocumentModel->getConfigStatus('temp'))
+		{
+			$module_srl = $obj->module_srl;
+			$member_srl = $obj->member_srl;
+			// The process related to clearing the post object
+			if(!$module_srl || !$member_srl) return new Object();
+			// Run only when logged in
+			$logged_info = Context::get('logged_info');
+			if(!$logged_info->member_srl) return new Object();
+			// Get the points of the member
+			$oPointModel = getModel('point');
+			$cur_point = $oPointModel->getPoint($member_srl, true);
+			// Get the point module information
+			$oModuleModel = getModel('module');
+			$config = $oModuleModel->getModuleConfig('point');
+			$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
+	
+			$point = $module_config['insert_document'];
+			if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_document;
+			// if the point is set to decrease when writing a document, make sure it does not increase the points when deleting an article
+			if($point < 0) return new Object();
+			$cur_point -= $point;
+			// Add points related to deleting an attachment
+			$point = $module_config['upload_file'];
+			if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
+			if($obj->uploaded_count) $cur_point -= $point * $obj->uploaded_count;
+			// Increase the point
+			$this->setPoint($member_srl,$cur_point);
+		}
 
 		return new Object();
 	}
