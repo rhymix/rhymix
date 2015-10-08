@@ -521,7 +521,10 @@ class TemplateHandler
 								{
 									$expr_m[2] .= '=>' . trim($expr_m[3]);
 								}
-								$nodes[$idx - 1] .= "<?php if({$expr_m[1]}&&count({$expr_m[1]}))foreach({$expr_m[1]} as {$expr_m[2]}){ ?>";
+								$nodes[$idx - 1] .= sprintf(
+										'<?php $t%3$s=%1$s;if($t%3$s&&count($t%3$s))foreach($t%3$s as %2$s){ ?>'
+										,$expr_m[1], $expr_m[2], md5( $buff . strval($idx-1) )
+									);
 							}
 							elseif($expr_m[4])
 							{
