@@ -1024,7 +1024,9 @@ class menuAdminController extends menu
 
 		// get original menu item info for cache file recreate
 		$originalItemInfo = $oMenuAdminModel->getMenuItemInfo($target_srl);
-		if(!$originalItemInfo->menu_item_srl)
+		$targetMenuInfo = $oMenuAdminModel->getMenu($target_srl);
+		$targetMenuItemInfo = $oMenuAdminModel->getMenuItemInfo($target_srl);
+		if(!$originalItemInfo->menu_item_srl || (!$targetMenuInfo->menu_srl && !$targetMenuItemInfo->menu_item_srl))
 		{
 			return new Object(-1, 'msg_empty_menu_item');
 		}
