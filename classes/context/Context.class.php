@@ -175,7 +175,7 @@ class Context
 	 *
 	 * @return void
 	 */
-	public function Context()
+	public function __construct()
 	{
 		$this->oFrontEndFileHandler = new FrontEndFileHandler();
 		$this->get_vars = new stdClass();

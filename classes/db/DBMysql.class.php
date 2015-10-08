@@ -43,7 +43,7 @@ class DBMysql extends DB
 	 * Constructor
 	 * @return void
 	 */
-	function DBMysql()
+	function __construct()
 	{
 		$this->_setDBInfo();
 		$this->_connect();

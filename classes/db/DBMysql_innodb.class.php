@@ -20,7 +20,7 @@ class DBMysql_innodb extends DBMysql
 	 * Constructor
 	 * @return void
 	 */
-	function DBMysql_innodb()
+	function __construct()
 	{
 		$this->_setDBInfo();
 		$this->_connect();

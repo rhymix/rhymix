@@ -42,7 +42,7 @@ class DBMssql extends DB
 	 * Constructor
 	 * @return void
 	 */
-	function DBMssql()
+	function __construct()
 	{
 		$this->_setDBInfo();
 		$this->_connect();

@@ -49,7 +49,7 @@ class CacheHandler extends Handler
 	 * @param boolean $always_use_file If set true, use a file cache always
 	 * @return CacheHandler
 	 */
-	function CacheHandler($target, $info = null, $always_use_file = false)
+	function __construct($target, $info = null, $always_use_file = false)
 	{
 		if(!$info)
 		{

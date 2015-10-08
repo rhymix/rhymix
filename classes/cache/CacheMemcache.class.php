@@ -36,7 +36,7 @@ class CacheMemcache extends CacheBase
 	 * @param string $url url of memcache
 	 * @return void
 	 */
-	function CacheMemcache($url)
+	function __construct($url)
 	{
 		//$config['url'] = array('memcache://localhost:11211');
 		$config['url'] = is_array($url) ? $url : array($url);

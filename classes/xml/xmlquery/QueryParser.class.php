@@ -30,7 +30,7 @@ class QueryParser
 	 * @param bool $isSubQuery
 	 * @return void
 	 */
-	function QueryParser($query = NULL, $isSubQuery = FALSE)
+	function __construct($query = NULL, $isSubQuery = FALSE)
 	{
 		if($query)
 		{

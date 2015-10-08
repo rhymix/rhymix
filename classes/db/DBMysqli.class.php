@@ -20,7 +20,7 @@ class DBMysqli extends DBMysql
 	 * Constructor
 	 * @return void
 	 */
-	function DBMysqli()
+	function __construct()
 	{
 		$this->_setDBInfo();
 		$this->_connect();

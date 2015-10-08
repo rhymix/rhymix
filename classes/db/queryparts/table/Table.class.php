@@ -27,7 +27,7 @@ class Table
 	 * @param string $alias
 	 * @return void
 	 */
-	function Table($name, $alias = NULL)
+	function __construct($name, $alias = NULL)
 	{
 		$this->name = $name;
 		$this->alias = $alias;
