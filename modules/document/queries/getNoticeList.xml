@@ -11,6 +11,6 @@
         <condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="document_srl" order="desc" />
+        <index var="sort_index" default="list_order" order="asc" />
     </navigation>
 </query>
