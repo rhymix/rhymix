@@ -79,6 +79,13 @@ class documentAdminController extends document
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists()) continue;
 
+			$oMemberModel = getModel('member');
+			$logged_info = Context::get('logged_info');
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+			{
+				return new Object();
+			}
 			$source_category_srl = $oDocument->get('category_srl');
 
 			unset($obj);
@@ -727,13 +734,21 @@ class documentAdminController extends document
 	  */
 	function procDocumentAdminMoveToTrash()
 	{
+		$logged_info = Context::get('logged_info');
 		$document_srl = Context::get('document_srl');
 
 		$oDocumentModel = getModel('document');
 		$oDocumentController = getController('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		if(!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
-	
+
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_document_no_move_to_trash');
+		}
+
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
 

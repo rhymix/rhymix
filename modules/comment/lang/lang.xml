@@ -312,4 +312,10 @@
 		<value xml:lang="en"><![CDATA[There are no selected comment.]]></value>
 		<value xml:lang="jp"><![CDATA[選択したコメントがありません。]]></value>
 	</item>
+	<item name="msg_admin_comment_no_delete">
+		<value xml:lang="ko"><![CDATA[최고관리자의 댓글을 삭제 할 수 없습니다.]]></value>
+	</item>
+	<item name="msg_admin_c_comment_no_delete">
+		<value xml:lang="ko"><![CDATA[이 댓글에 최고관리자의 댓글이 있어 삭제할 수 없습니다.]]></value>
+	</item>
 </lang>

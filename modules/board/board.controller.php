@@ -67,6 +67,13 @@ class boardController extends board
 			$is_update = true;
 		}
 
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_document_no_modify');
+		}
+
 		// if use anonymous is true
 		if($this->module_info->use_anonymous == 'Y')
 		{
@@ -287,6 +294,14 @@ class boardController extends board
 			$obj->comment_srl = getNextSequence();
 		} else {
 			$comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
+		}
+
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($comment->member_srl);
+
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_comment_no_modify');
 		}
 
 		// if comment_srl is not existed, then insert the comment
