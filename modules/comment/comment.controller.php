@@ -330,6 +330,16 @@ class commentController extends comment
 			}
 			$obj->content = nl2br($obj->content);
 		}
+		else
+		{
+			$oModuleModel = getModel('module');
+			$editor_config = $oModuleModel->getModuleConfig('editor');
+			
+			if(substr_compare($editor_config->sel_comment_editor_colorset, 'nohtml', -6) === 0 && !$manual_inserted)
+			{
+				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
+			}
+		}
 
 		if(!$obj->regdate)
 		{
@@ -738,6 +748,16 @@ class commentController extends comment
 				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 			}
 			$obj->content = nl2br($obj->content);
+		}
+		else
+		{
+			$oModuleModel = getModel('module');
+			$editor_config = $oModuleModel->getModuleConfig('editor');
+			
+			if(substr_compare($editor_config->sel_comment_editor_colorset, 'nohtml', -6) === 0)
+			{
+				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
+			}
 		}
 
 		// remove iframe and script if not a top administrator on the session
