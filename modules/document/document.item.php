@@ -828,16 +828,28 @@ class documentItem extends Object
 			}
 			$thumbnail_type = $config->thumbnail_type;
 		}
+
 		// Define thumbnail information
 		$thumbnail_path = sprintf('files/thumbnails/%s',getNumberingPath($this->document_srl, 3));
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
+		$thumbnail_lockfile = sprintf('%s%dx%d.%s.lock', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_url  = Context::getRequestUri().$thumbnail_file;
+
 		// Return false if thumbnail file exists and its size is 0. Otherwise, return its path
-		if(file_exists($thumbnail_file))
+		if(file_exists($thumbnail_file) || file_exists($thumbnail_lockfile))
 		{
-			if(filesize($thumbnail_file)<1) return false;
-			else return $thumbnail_url;
+			if(filesize($thumbnail_file) < 1)
+			{
+				return FALSE;
+			}
+			else
+			{
+				return $thumbnail_url;
+			}
 		}
+
+		// Create lockfile to prevent race condition
+		FileHandler::writeFile($thumbnail_lockfile, '', 'w');
 
 		// Target File
 		$source_file = null;
@@ -913,11 +925,26 @@ class documentItem extends Object
 		{
 			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
 		}
-		if($is_tmp_file) FileHandler::removeFile($source_file);
-		// Return its path if a thumbnail is successfully genetated
-		if($output) return $thumbnail_url;
-		// Create an empty file not to re-generate the thumbnail
-		else FileHandler::writeFile($thumbnail_file, '','w');
+
+		// Remove source file if it was temporary
+		if($is_tmp_file)
+		{
+			FileHandler::removeFile($source_file);
+		}
+
+		// Remove lockfile
+		FileHandler::removeFile($thumbnail_lockfile);
+
+		// Return the thumbnail path if it was successfully generated
+		if($output)
+		{
+			return $thumbnail_url;
+		}
+		// Create an empty file if thumbnail generation failed
+		else
+		{
+			FileHandler::writeFile($thumbnail_file, '','w');
+		}
 
 		return;
 	}
