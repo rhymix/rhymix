@@ -98,6 +98,13 @@ class integration_searchView extends integration_search
 		if($is_keyword)
 		{
 			$oIS = getModel('integration_search');
+			$oTrackbackModel = getAdminModel('trackback');
+			Context::set('trackback_module_exist', true);
+			if(!$oTrackbackModel)
+			{
+				Context::set('trackback_module_exist', false);
+			}
+
 			switch($where)
 			{
 				case 'document' :
