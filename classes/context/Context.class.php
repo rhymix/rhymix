@@ -659,52 +659,68 @@ class Context
 			$default_url .= '/';
 		}
 
-		// for sites recieving SSO valdiation
-		if($default_url == self::getRequestUri())
+		// Get current site information (only the base URL, not the full URL)
+		$current_site = self::getRequestUri();
+
+		// Step 1: if the current site is not the default site, send SSO validation request to the default site
+		if($default_url !== $current_site && !self::get('SSOID') && $_COOKIE['sso'] !== md5($current_site))
 		{
-			if(self::get('default_url'))
-			{
-				$url = base64_decode(self::get('default_url'));
-				$url_info = parse_url($url);
-
-				$oModuleModel = getModel('module');
-				$site_info = $oModuleModel->getSiteInfoByDomain($url_info['host']);
-				if(!$site_info->site_srl) {
-					$oModuleObject = new ModuleObject();
-					$oModuleObject->stop('msg_invalid_request');
-
-					return false;
-				}
-
-				$url_info['query'].= ($url_info['query'] ? '&' : '') . 'SSOID=' . session_id();
-				$redirect_url = sprintf('%s://%s%s%s?%s', $url_info['scheme'], $url_info['host'], $url_info['port'] ? ':' . $url_info['port'] : '', $url_info['path'], $url_info['query']);
-				header('location:' . $redirect_url);
-
-				return FALSE;
-			}
-			// for sites requesting SSO validation
-		}
-		else
-		{
-			// result handling : set session_name()
-			if($session_name = self::get('SSOID'))
-			{
-				setcookie(session_name(), $session_name);
-
-				$url = preg_replace('/([\?\&])$/', '', str_replace('SSOID=' . $session_name, '', self::getRequestUrl()));
-				header('location:' . $url);
-				return FALSE;
-				// send SSO request
-			}
-			else if(!self::get('SSOID') && $_COOKIE['sso'] != md5(self::getRequestUri()))
-			{
-				setcookie('sso', md5(self::getRequestUri()), 0, '/');
-				$url = sprintf("%s?default_url=%s", $default_url, base64_encode(self::getRequestUrl()));
-				header('location:' . $url);
-				return FALSE;
-			}
+			// Set sso cookie to prevent multiple simultaneous SSO validation requests
+			setcookie('sso', md5($current_site), 0, '/');
+			
+			// Redirect to the default site
+			$redirect_url = sprintf('%s?return_url=%s', $default_url, urlencode(base64_encode($current_site)));
+			header('Location:' . $redirect_url);
+			return FALSE;
 		}
 
+		// Step 2: receive and process SSO validation request at the default site
+		if($default_url === $current_site && self::get('return_url'))
+		{
+			// Get the URL of the origin site
+			$url = base64_decode(self::get('return_url'));
+			$url_info = parse_url($url);
+
+			// Check that the origin site is a valid site in this XE installation (to prevent open redirect vuln)
+			if(!getModel('module')->getSiteInfoByDomain(rtrim($url, '/'))->site_srl)
+			{
+				htmlHeader();
+				echo self::getLang("msg_invalid_request");
+				htmlFooter();
+				return FALSE;
+			}
+
+			// Redirect back to the origin site
+			$url_info['query'] .= ($url_info['query'] ? '&' : '') . 'SSOID=' . session_id();
+			$redirect_url = sprintf('%s://%s%s%s%s', $url_info['scheme'], $url_info['host'], $url_info['port'] ? (':' . $url_info['port']) : '', $url_info['path'], ($url_info['query'] ? ('?' . $url_info['query']) : ''));
+			header('Location:' . $redirect_url);
+			return FALSE;
+		}
+
+		// Step 3: back at the origin site, set session ID to be the same as the default site
+		if($default_url !== $current_site && self::get('SSOID'))
+		{
+			// Check that the session ID was given by the default site (to prevent session fixation CSRF)
+			if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $default_url) !== 0)
+			{
+				htmlHeader();
+				echo self::getLang("msg_invalid_request");
+				htmlFooter();
+				return FALSE;
+			}
+
+			// Set session ID
+			setcookie(session_name(), self::get('SSOID'));
+
+			// Finally, redirect to the originally requested URL
+			$url_info = parse_url(self::getRequestUrl());
+			$url_info['query'] = preg_replace('/(^|\b)SSOID=([^&?]+)/', '', $url_info['query']);
+			$redirect_url = sprintf('%s://%s%s%s%s', $url_info['scheme'], $url_info['host'], $url_info['port'] ? (':' . $url_info['port']) : '', $url_info['path'], ($url_info['query'] ? ('?' . $url_info['query']) : ''));
+			header('Location:' . $redirect_url);
+			return FALSE;
+		}
+
+		// If none of the conditions above apply, proceed normally
 		return TRUE;
 	}
 
