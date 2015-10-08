@@ -322,7 +322,7 @@ class commentController extends comment
 		// remove XE's own tags from the contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
-		if(Mobile::isFromMobilePhone())
+		if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 		{
 			if($obj->use_html != 'Y')
 			{
@@ -741,7 +741,7 @@ class commentController extends comment
 		// remove XE's wn tags from contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
-		if(Mobile::isFromMobilePhone())
+		if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 		{
 			if($obj->use_html != 'Y')
 			{
