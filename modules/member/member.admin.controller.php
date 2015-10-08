@@ -156,6 +156,7 @@ class memberAdminController extends member
 		$args = Context::gets(
 			'enable_join',
 			'enable_confirm',
+			'enable_find_account_question',
 			'webmaster_name',
 			'webmaster_email',
 			'password_strength',
@@ -256,7 +257,7 @@ class memberAdminController extends member
 		global $lang;
 		$signupForm = array();
 		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark', 'profile_image_max_width', 'profile_image_max_height', 'image_name_max_width', 'image_name_max_height', 'image_mark_max_width', 'image_mark_max_height');
-		$mustRequireds = array('email_address', 'nick_name', 'password', 'find_account_question');
+		$mustRequireds = array('email_address', 'nick_name', 'password');
 		$extendItems = $oMemberModel->getJoinFormList();
 		foreach($list_order as $key)
 		{
@@ -410,9 +411,9 @@ class memberAdminController extends member
 		$extendItems = $oMemberModel->getJoinFormList();
 
 		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
-		$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-		$orgRequireds = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name');
-		$orgUse = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
+		$mustRequireds = array('email_address', 'nick_name', 'password');
+		$orgRequireds = array('email_address', 'password', 'user_id', 'nick_name', 'user_name');
+		$orgUse = array('email_address', 'password', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
 		$list_order = array();
 
 		foreach($items as $key)

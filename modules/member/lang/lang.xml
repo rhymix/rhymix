@@ -491,6 +491,17 @@
 		<value xml:lang="tr"><![CDATA[E-posta Doğrulaması]]></value>
 		<value xml:lang="vi"><![CDATA[Xác nhận qua Email]]></value>
 	</item>
+	<item name="enable_find_account_question">
+		<value xml:lang="ko"><![CDATA[질문/답변 인증 사용]]></value>
+		<value xml:lang="en"><![CDATA[Account recovery using question/answer]]></value>
+		<value xml:lang="jp"><![CDATA[秘密質問/回答認証を使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用问题/答案认证]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用問題/答案認證]]></value>
+		<value xml:lang="fr"><![CDATA[Utiliser Authentification par question et réponse]]></value>
+		<value xml:lang="ru"><![CDATA[Активация по вопроса и ответа]]></value>
+		<value xml:lang="tr"><![CDATA[Soru ve cevap ile kimlik doğrulamasını kullanmak]]></value>
+		<value xml:lang="vi"><![CDATA[Xác nhận qua câu hỏi và câu trả lời]]></value>
+	</item>
 	<item name="enable_ssl">
 		<value xml:lang="ko"><![CDATA[SSL 기능 사용]]></value>
 		<value xml:lang="en"><![CDATA[Enable SSL]]></value>
@@ -2043,6 +2054,17 @@
 		<value xml:lang="tr"><![CDATA[Yeni üyelerin hesaplarını e-posta yoluyla etkinleştirmelerini istiyorsanız lütfen işaretleyiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Gửi Email xác nhận sau khi đăng kí.]]></value>
 	</item>
+	<item name="about_enable_find_account_question">
+		<value xml:lang="ko"><![CDATA[질문/답변을 통한 비밀번호 찾기를 허용합니다. 허용하지 않을 경우 메일을 통한 비밀번호 리셋만 허용됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Check if you want to allow members to recover their accounts using a security question and answer.]]></value>
+		<value xml:lang="jp"><![CDATA[質問/回答を通じたパスワードを忘れたを許可します。許可しない場合は、メールを介してリセットのみが許可されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[允许使用成员答问恢复帐户。如果不允许，会员可以通过电子邮件恢复。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[允許使用成員答問恢復帳戶。如果不允許，會員可以通過電子郵件恢復。]]></value>
+		<value xml:lang="fr"><![CDATA[Vérifiez si vous voulez permettre aux membres de récupérer leurs comptes en utilisant une question et réponse de sécurité.]]></value>
+		<value xml:lang="es"><![CDATA[Compruebe si desea permitir a los miembros a recuperar sus cuentas utilizando una pregunta y respuesta de seguridad.]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer üye bir güvenlik sorusu ve cevabı kullanarak hesaplarını kurtarmak için izin istiyorum kontrol edin.]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểm tra nếu bạn muốn cho phép các thành viên để phục hồi tài khoản của họ bằng cách sử dụng một câu hỏi bảo mật và câu trả lời.]]></value>
+	</item>
 	<item name="about_enable_ssl">
 		<value xml:lang="ko"><![CDATA[서버에서 보안접속(SSL) 지원이 될 경우 회원가입, 정보수정, 로그인 등의 개인정보가 서버로 보내질 때 SSL(https)을 이용하도록 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Personal information from Sign up/Modify Member Info/Sign in can be sent as SSL(https) mode if server provides SSL service.]]></value>
@@ -2389,6 +2411,14 @@
 		<value xml:lang="zh-TW"><![CDATA[請再登入後變更密碼。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请登录后更改密码。]]></value>
 		<value xml:lang="tr"><![CDATA[Giriş yaptıktan sonra şifrenizi değiştirin.]]></value>
+	</item>
+	<item name="msg_question_not_allowed">
+		<value xml:lang="ko"><![CDATA[질문/답변을 통한 비밀번호 찾기는 허용되지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[The administrator has disabled this function.]]></value>
+		<value xml:lang="jp"><![CDATA[質問/回答を通じたパスワードを忘れたことはできません。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[问题/通过回答密码是不允许的。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[問題/通過回答密碼是不允許的。]]></value>
+		<value xml:lang="tr"><![CDATA[Sorular / Cevaplar aracılığıyla Şifre izin verilmez.]]></value>
 	</item>
 	<item name="msg_question_not_exists">
 		<value xml:lang="ko"><![CDATA[등록한 비밀번호 찾기 질문/답변이 없습니다.]]></value>

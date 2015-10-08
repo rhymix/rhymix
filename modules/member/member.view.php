@@ -552,6 +552,7 @@ class memberView extends member
 		$config = $this->member_config;
 
 		Context::set('identifier', $config->identifier);
+		Context::set('enable_find_account_question', $config->enable_find_account_question);
 
 		$this->setTemplateFile('find_member_account');
 	}
