@@ -3797,7 +3797,9 @@ jQuery(function($){
 	function installPackage(sPackageSrl, sPackageType, $item){
 
 		//act=getAutoinstallAdminIsAuthed
-		$.exec_json("admin.getAutoinstallAdminIsAuthed", {}, function(htData){
+		var params = {};
+		params.package_srl = sPackageSrl;
+		$.exec_json("admin.getAutoinstallAdminIsAuthed", params, function(htData){
 			// FTP 비밀번호 뿐만 아니라 정보가 전혀 없을 경우?
 			switch(htData.is_authed){
 				case -1:
