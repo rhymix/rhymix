@@ -411,7 +411,7 @@ class ModuleHandler extends Handler
 		$logged_info = Context::get('logged_info');
 
 		// check CSRF for admin actions
-		if(Context::getRequestMethod() === 'POST' && !checkCSRF()) {
+		if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && !checkCSRF()) {
 			$this->error = 'msg_invalid_request';
 			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
