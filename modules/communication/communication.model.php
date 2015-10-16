@@ -44,7 +44,7 @@ class communicationModel extends communication
 
 		if(!$communication_config->editor_skin)
 		{
-			$communication_config->editor_skin = 'default';
+			$communication_config->editor_skin = 'ckeditor';
 		}
 
 		if(!$communication_config->mskin)
