@@ -668,7 +668,8 @@ class Context
 				$url_info = parse_url($url);
 
 				$oModuleModel = getModel('module');
-				$site_info = $oModuleModel->getSiteInfoByDomain($url_info['host']);
+				$target_domain = (stripos($url, $default_url) !== 0) ? $url_info['host'] : $default_url;
+				$site_info = $oModuleModel->getSiteInfoByDomain($target_domain);
 				if(!$site_info->site_srl) {
 					$oModuleObject = new ModuleObject();
 					$oModuleObject->stop('msg_invalid_request');
