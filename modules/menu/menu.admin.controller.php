@@ -103,7 +103,7 @@ class menuAdminController extends menu
 		$output->add('menuSrl', $args->menu_srl);
 		return $output;
 	}
-	
+
 	function linkAllModuleInstancesToSitemap()
 	{
 		$unlinked_modules = false;
@@ -114,7 +114,7 @@ class menuAdminController extends menu
 		{
 			$unlinked_modules = $output->data;
 		}
-		
+
 		if($unlinked_modules)
 		{
 			$unlinked_menu_srl = $this->getUnlinkedMenu();
@@ -122,7 +122,7 @@ class menuAdminController extends menu
 		}
 
 	}
-	
+
 	function getUnlinkedMenu()
 	{
 		// 'unlinked' menu 존재여부 확인
@@ -139,7 +139,7 @@ class menuAdminController extends menu
 				unset($moduleConfig->unlinked_menu_srl);
 			}
 		}
-		
+
 		if(!$moduleConfig->unlinked_menu_srl)
 		{
 			$output = $this->addMenu('unlinked', 0);
@@ -154,10 +154,10 @@ class menuAdminController extends menu
 				return false;
 			}
 		}
-		
+
 		return $moduleConfig->unlinked_menu_srl;
 	}
-	
+
 	/**
 	 * insert menu when not linked module.
 	 *
@@ -172,7 +172,7 @@ class menuAdminController extends menu
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
-	
+
 		foreach($moduleInfos as $moduleInfo)
 		{
 			// search menu.
@@ -180,9 +180,9 @@ class menuAdminController extends menu
 			$args->url = $moduleInfo->mid;
 			$args->site_srl = $moduleInfo->site_srl;
 			$args->is_shortcut = 'N';
-	
+
 			$output = executeQuery('menu.getMenuItemByUrl', $args);
-	
+
 			if($output->toBool() && $output->data)
 			{
 				$moduleInfo->menu_srl = $output->data->menu_srl;
@@ -195,7 +195,7 @@ class menuAdminController extends menu
 				$item_args->name = $moduleInfo->mid;
 				$item_args->menu_item_srl = getNextSequence();
 				$item_args->listorder = -1*$item_args->menu_item_srl;
-	
+
 				$output = executeQuery('menu.insertMenuItem', $item_args);
 				if(!$output->toBool())
 				{
@@ -203,9 +203,9 @@ class menuAdminController extends menu
 				}
 				$moduleInfo->menu_srl = $menuSrl;
 			}
-	
+
 			$output = executeQuery('module.updateModule', $moduleInfo);
-			
+
 			return $output;
 		}
 
@@ -214,14 +214,14 @@ class menuAdminController extends menu
 		{
 			$oCacheHandler->invalidateGroupKey('site_and_module');
 		}
-		
+
 		$oMenuAdminController = getAdminController('menu');
 		$oMenuAdminController->makeXmlFile($menuSrl);
-	
+
 		return new Object();
 	}
-	
-	
+
+
 
 	/**
 	 * Change the menu title
@@ -418,7 +418,7 @@ class menuAdminController extends menu
 
 		// recreate menu cache file
 		$this->makeXmlFile($request->menu_srl);
-		
+
 		if(!$isProc)
 		{
 			return $this->get('menu_item_srl');
@@ -504,7 +504,7 @@ class menuAdminController extends menu
 			$args->is_shortcut = $request->is_shortcut;
 			$args->url = '#';
 		}
-		
+
 		if($request->menu_desc) $args->desc = $request->menu_desc;
 		else $args->desc = '';
 
@@ -539,7 +539,7 @@ class menuAdminController extends menu
 
 		if($request->menu_name_key) $args->name = $request->menu_name_key;
 		else $args->name = $request->menu_name;
-		
+
 		if($request->menu_desc) $args->desc = $request->menu_desc;
 		else $args->desc = '';
 
@@ -616,7 +616,7 @@ class menuAdminController extends menu
 		{
 			$cmArgs->use_mobile = 'Y';
 		}
-		
+
 		// if mid is empty, auto create mid
 		if(!$request->module_id)
 		{
@@ -725,14 +725,14 @@ class menuAdminController extends menu
 		{
 			$args->name = $request->menu_name;
 		}
-		
+
 		if($request->menu_desc) $args->desc = $request->menu_desc;
 		else $args->desc = '';
-		
+
 		unset($args->group_srls);
 		$args->open_window = $request->menu_open_window;
 		$args->expand = $request->menu_expand;
-		$output = executeQuery('menu.updateMenuItem', $args);
+		$output = $this->_updateMenuItem($args);
 
 		$this->makeXmlFile($args->menu_srl);
 
@@ -790,7 +790,7 @@ class menuAdminController extends menu
 			$item_info->active_btn = '';
 		}
 
-		$output = executeQuery('menu.updateMenuItem', $item_info);
+		$output = $this->_updateMenuItem($item_info);
 
 		// recreate menu cache file
 		$this->makeXmlFile($args->menu_srl);
@@ -798,10 +798,17 @@ class menuAdminController extends menu
 
 	public function updateMenuItem($itemInfo)
 	{
-		$output = executeQuery('menu.updateMenuItem', $itemInfo);
+		$output = $this->_updateMenuItem($itemInfo);
 
 		// recreate menu cache file
 		$this->makeXmlFile($itemInfo->menu_srl);
+		return $output;
+	}
+
+	public function _updateMenuItem($itemInfo)
+	{
+		$output = executeQuery('menu.updateMenuItem', $itemInfo);
+
 		return $output;
 	}
 
@@ -961,7 +968,7 @@ class menuAdminController extends menu
 			{
 				$output->data->url = '';
 				$referenceItem = $output->data;
-				$output = executeQuery('menu.updateMenuItem', $referenceItem);
+				$output = $this->_updateMenuItem($referenceItem);
 				if(!$output->toBool())
 				{
 					$oDB->rollback();
@@ -1085,7 +1092,7 @@ class menuAdminController extends menu
 				$args = new stdClass();
 				$args->menu_srl = $menu_srl;
 				$args->menu_item_srl = $node['node_srl'];
-				$output = executeQuery('menu.updateMenuItemNode', $args);
+				$output = $this->_updateMenuItem($args);
 
 				//module's menu_srl move also
 				if($node['is_shortcut'] == 'N' && !empty($node['url']))
@@ -1249,7 +1256,7 @@ class menuAdminController extends menu
 				$update_item_info->normal_btn = $copied_info['normal_btn'];
 				$update_item_info->hover_btn = $copied_info['hover_btn'];
 				$update_item_info->active_btn = $copied_info['active_btn'];
-				executeQuery('menu.updateMenuItem', $update_item_info);
+				$output = $this->_updateMenuItem($update_item_info);
 			}
 			$this->insertedMenuItemSrlList[] = $insertedMenuItemSrl;
 		}
@@ -1629,7 +1636,7 @@ class menuAdminController extends menu
 		// Update if exists
 		if($item_info->menu_item_srl == $args->menu_item_srl)
 		{
-			$output = executeQuery('menu.updateMenuItem', $args);
+			$output = $this->_updateMenuItem($args);
 			if(!$output->toBool()) return $output;
 		}
 		// Insert if not exist
@@ -1680,7 +1687,7 @@ class menuAdminController extends menu
 			if($exposure) $args->group_srls = implode(',', $exposure);
 		}
 
-		$output = executeQuery('menu.updateMenuItem', $args);
+		$output = $this->_updateMenuItem($args);
 		if(!$output->toBool())
 		{
 			return $output;

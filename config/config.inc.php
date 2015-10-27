@@ -29,7 +29,7 @@ define('__ZBXE__', __XE__);
 /**
  * Display XE's full version.
  */
-define('__XE_VERSION__', '1.8.8');
+define('__XE_VERSION__', '1.8.13');
 define('__XE_VERSION_ALPHA__', (stripos(__XE_VERSION__, 'alpha') !== false));
 define('__XE_VERSION_BETA__', (stripos(__XE_VERSION__, 'beta') !== false));
 define('__XE_VERSION_RC__', (stripos(__XE_VERSION__, 'rc') !== false));
@@ -351,7 +351,7 @@ $GLOBALS['__xe_autoload_file_map'] = array_change_key_case(array(
 	'TemplateHandler' => 'classes/template/TemplateHandler.class.php',
 	'Validator' => 'classes/validator/Validator.class.php',
 	'WidgetHandler' => 'classes/widget/WidgetHandler.class.php',
-	'GeneralXmlParser' => 'classes/widget/GeneralXmlParser.class.php',
+	'GeneralXmlParser' => 'classes/xml/GeneralXmlParser.class.php',
 	'Xml_Node_' => 'classes/xml/XmlParser.class.php',
 	'XmlGenerator' => 'classes/xml/XmlGenerator.class.php',
 	'XmlJsFilter' => 'classes/xml/XmlJsFilter.class.php',

@@ -441,6 +441,8 @@ class moduleController extends module
 
 		unset($output);
 
+		$args->browser_title = strip_tags($args->browser_title);
+
 		if($isMenuCreate == TRUE)
 		{
 			$menuArgs = new stdClass;
@@ -476,8 +478,8 @@ class moduleController extends module
 			}
 		}
 
-		$args->menu_srl = $menuArgs->menu_srl;
 		// Insert a module
+		$args->menu_srl = $menuArgs->menu_srl;
 		$output = executeQuery('module.insertModule', $args);
 		if(!$output->toBool())
 		{
@@ -520,6 +522,8 @@ class moduleController extends module
 			if(!$args->site_srl) $args->site_srl = (int)$module_info->site_srl;
 			if(!$args->browser_title) $args->browser_title = $module_info->browser_title;
 		}
+
+		$args->browser_title = strip_tags($args->browser_title);
 
 		$output = executeQuery('module.isExistsModuleName', $args);
 		if(!$output->toBool() || $output->data->count)
@@ -977,7 +981,7 @@ class moduleController extends module
 			}
 		}
 
-		$oDB->commit;
+		$oDB->commit();
 
 		return new Object();
 	}

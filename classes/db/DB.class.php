@@ -215,16 +215,18 @@ class DB
 	 */
 	function getEnableList()
 	{
-		if(!$this->supported_list)
+		is_a($this, 'DB') ? $self = $this : $self = self::getInstance();
+		
+		if(!$self->supported_list)
 		{
 			$oDB = new DB();
-			$this->supported_list = $oDB->_getSupportedList();
+			$self->supported_list = $oDB->_getSupportedList();
 		}
 
 		$enableList = array();
-		if(is_array($this->supported_list))
+		if(is_array($self->supported_list))
 		{
-			foreach($this->supported_list AS $key => $value)
+			foreach($self->supported_list AS $key => $value)
 			{
 				if($value->enable)
 				{
@@ -242,16 +244,18 @@ class DB
 	 */
 	function getDisableList()
 	{
-		if(!$this->supported_list)
+		is_a($this, 'DB') ? $self = $this : $self = self::getInstance();
+		
+		if(!$self->supported_list)
 		{
 			$oDB = new DB();
-			$this->supported_list = $oDB->_getSupportedList();
+			$self->supported_list = $oDB->_getSupportedList();
 		}
 
 		$disableList = array();
-		if(is_array($this->supported_list))
+		if(is_array($self->supported_list))
 		{
-			foreach($this->supported_list AS $key => $value)
+			foreach($self->supported_list AS $key => $value)
 			{
 				if(!$value->enable)
 				{
