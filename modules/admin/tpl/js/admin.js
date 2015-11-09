@@ -2471,3 +2471,67 @@ jQuery(function($){
 		}
 	});
 });
+
+
+
+// Forum Chak
+(function($){
+	var chak = {
+		elClass: 'chak-comment',
+		group_id: 'xe1_official',
+		apikey: 'xe17935b49af5435d37f1cde130363db-forum'
+	};
+
+	$(function(){
+		var $chakContainer = $('.admin-forum-container');
+
+		if($chakContainer.length) {
+			var $forumOpen = $('<a href="#' + chak.elClass + '" class="open-forum">이 페이지에 대한 포럼 보기</a>');
+			var $headerButton = $('<li class="forum-chak"><a href="#" class="x_btn x_btn-primary">Forum</a></li>');
+			var $headerMenu = $('header.header .account ul');
+
+			(function(){var s=document.createElement('script');s.type='text/javascript';s.src='//chak.it/static/service.js';s.async=true;(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(s);})();
+
+			$chakContainer.each(function(idx){
+				var $el = $(this);
+				var elData = $el.data();
+				elData.count = 0;
+				var $opener = $forumOpen.clone();
+				var $button = $headerButton.clone();
+				var forumId = 'inline-forum-' + idx;
+
+				$el.append($opener);
+
+				$button.find('a')
+					.attr('href', '#' + forumId)
+					.on('click', function(){
+						var $target = $($.attr(this, 'href'));
+						$('html, body').animate({
+							scrollTop: $target.offset().top - 20
+						}, 500);
+						return false;
+					})
+					.one('click', function() {
+						var $target = $($.attr(this, 'href'));
+						$target.find('a').click();
+					});
+
+				$headerMenu.append($button);
+				$el.attr('id', forumId);
+
+				$el.find('a').on('click', function(){
+					var div = document.createElement("div");
+					div.setAttribute("data-chak-apikey", chak.apikey);
+					div.setAttribute("data-chak-categories", elData.chakCategories);
+
+					$opener.after(div);
+					$chakContainer.addClass('activated-forum');
+
+					manuallySetChakService(div);
+
+					$opener.remove();
+				});
+			});
+		}
+	});
+})(jQuery);
