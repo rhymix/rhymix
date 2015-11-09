@@ -202,7 +202,9 @@ class boardController extends board
 		}
 
 		// alert an message
-		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'page', $output->get('page')));
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'page', Context::get('page'), 'document_srl', ''));
+		$this->add('mid', Context::get('mid'));
+		$this->add('page', Context::get('page'));
 		$this->setMessage('success_deleted');
 	}
 
