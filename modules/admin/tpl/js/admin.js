@@ -2480,7 +2480,7 @@ jQuery(function($){
 		elClass: 'chak-comment',
 		group_id: 'xe1_official',
 		apikey: 'xe17935b49af5435d37f1cde130363db-forum'
-	}
+	};
 
 	$(function(){
 		var $chakContainer = $('.admin-forum-container');
@@ -2514,7 +2514,7 @@ jQuery(function($){
 					.one('click', function() {
 						var $target = $($.attr(this, 'href'));
 						$target.find('a').click();
-				});
+					});
 
 				$headerMenu.append($button);
 				$el.attr('id', forumId);
