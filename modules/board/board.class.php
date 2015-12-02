@@ -18,6 +18,21 @@ class board extends ModuleObject
 	var $page_count = 10; ///< page number
 	var $category_list = NULL; ///< category list
 
+	/**
+	 * constructor
+	 *
+	 * @return void
+	 */
+	function board()
+	{
+		if(!Context::isInstalled()) return;
+
+		if(!Context::isExistsSSLAction('dispBoardWrite') && Context::getSslStatus() == 'optional')
+		{
+			$ssl_actions = array('dispBoardWrite', 'dispBoardWriteComment', 'dispBoardReplyComment', 'dispBoardModifyComment', 'dispBoardDelete', 'dispBoardDeleteComment', 'procBoardInsertDocument', 'procBoardDeleteDocument', 'procBoardInsertComment', 'procBoardDeleteComment', 'procBoardVerificationPassword');
+			Context::addSSLActions($ssl_actions);
+		}
+	}
 
 	/**
 	 * @brief install the module

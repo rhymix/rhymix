@@ -410,8 +410,8 @@ class ModuleHandler extends Handler
 
 		$logged_info = Context::get('logged_info');
 
-		// check CSRF for admin actions
-		if($kind === 'admin' && Context::getRequestMethod() === 'POST' && !checkCSRF()) {
+		// check CSRF for POST actions
+		if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && $this->act !== 'procFileUpload' && !checkCSRF()) {
 			$this->error = 'msg_invalid_request';
 			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
@@ -525,6 +525,34 @@ class ModuleHandler extends Handler
 				$tpl_path = $oModule->getTemplatePath();
 				$orig_module = $oModule;
 
+				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
+
+				// SECISSUE also check foward act method
+				// check REQUEST_METHOD in controller
+				if($type == 'controller')
+				{
+					$allowedMethod = $xml_info->action->{$forward->act}->method;
+
+					if(!$allowedMethod)
+					{
+						$allowedMethodList[0] = 'POST';
+					}
+					else
+					{
+						$allowedMethodList = explode('|', strtoupper($allowedMethod));
+					}
+
+					if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
+					{
+						$this->error = "msg_invalid_request";
+						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+						$oMessageObject->setError(-1);
+						$oMessageObject->setMessage($this->error);
+						$oMessageObject->dispMessage();
+						return $oMessageObject;
+					}
+				}
+
 				if($type == "view" && Mobile::isFromMobilePhone())
 				{
 					$orig_type = "view";
@@ -556,8 +584,6 @@ class ModuleHandler extends Handler
 					}
 					return $oMessageObject;
 				}
-
-				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
 
 				if($this->module == "admin" && $type == "view")
 				{

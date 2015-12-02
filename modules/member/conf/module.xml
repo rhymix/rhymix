@@ -62,8 +62,8 @@
 		<action name="procMemberSaveDocument" type="controller" standalone="true" />
 		<action name="procMemberDeleteSavedDocument" type="controller" standalone="true" />
 
-		<action name="procMemberFindAccount" type="controller" ruleset="findAccount" standalone="true" />
-		<action name="procMemberFindAccountByQuestion" type="controller" standalone="true" />
+		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" standalone="true" />
+		<action name="procMemberFindAccountByQuestion" type="controller" method="GET|POST" standalone="true" />
 		<action name="procMemberAuthAccount" type="controller" method="GET|POST" standalone="true" />
 		<action name="procMemberAuthEmailAddress" type="controller" method="GET|POST" standalone="true" />
 		<action name="procMemberResendAuthMail" type="controller" ruleset="resendAuthMail" standalone="true" />

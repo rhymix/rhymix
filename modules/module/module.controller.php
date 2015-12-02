@@ -993,7 +993,7 @@ class moduleController extends module
 			}
 		}
 
-		$oDB->commit;
+		$oDB->commit();
 
 		return new Object();
 	}
