@@ -1,11 +1,6 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-if(!defined('__XE_LOADED_DB_CLASS__'))
-{
-	define('__XE_LOADED_DB_CLASS__', 1);
-}
-
 /**
  * - DB parent class
  * - usage of db in XE is via xml
