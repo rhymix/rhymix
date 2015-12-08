@@ -1094,7 +1094,7 @@ class DB
 	 * this method is protected
 	 * @return boolean
 	 */
-	function _begin()
+	function _begin($transactionLevel = 0)
 	{
 		return TRUE;
 	}
@@ -1122,7 +1122,7 @@ class DB
 	 * this method is protected
 	 * @return boolean
 	 */
-	function _rollback()
+	function _rollback($transactionLevel = 0)
 	{
 		return TRUE;
 	}
