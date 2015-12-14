@@ -885,7 +885,7 @@ class memberModel extends member
 					$info = new stdClass();
 					$info->width = $width;
 					$info->height = $height;
-					$info->src = Context::getRequestUri().$image_name_file;
+					$info->src = Context::getRequestUri().$image_name_file . '?' . date('YmdHis', filemtime($image_name_file));
 					$info->file = './'.$image_name_file;
 					$GLOBALS['__member_info__']['profile_image'][$member_srl] = $info;
 					break;
@@ -910,7 +910,7 @@ class memberModel extends member
 				$info = new stdClass;
 				$info->width = $width;
 				$info->height = $height;
-				$info->src = Context::getRequestUri().$image_name_file;
+				$info->src = Context::getRequestUri().$image_name_file. '?' . date('YmdHis', filemtime($image_name_file));
 				$info->file = './'.$image_name_file;
 				$GLOBALS['__member_info__']['image_name'][$member_srl] = $info;
 			}
@@ -932,7 +932,7 @@ class memberModel extends member
 				list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
 				$info->width = $width;
 				$info->height = $height;
-				$info->src = Context::getRequestUri().$image_mark_file;
+				$info->src = Context::getRequestUri().$image_mark_file . '?' . date('YmdHis', filemtime($image_mark_file));
 				$info->file = './'.$image_mark_file;
 				$GLOBALS['__member_info__']['image_mark'][$member_srl] = $info;
 			}
