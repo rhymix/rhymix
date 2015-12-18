@@ -1381,7 +1381,7 @@ class moduleModel extends module
 				$args->site_srl = $site_srl;
 				$output = executeQuery('module.getModuleConfig', $args);
 				if($output->data->config) $config = unserialize($output->data->config);
-				else $config = new stdClass();
+				else $config = new stdClass;
 
 				//insert in cache
 				if($oCacheHandler->isSupport())
@@ -1421,7 +1421,7 @@ class moduleModel extends module
 				$args->module_srl = $module_srl;
 				$output = executeQuery('module.getModulePartConfig', $args);
 				if($output->data->config) $config = unserialize($output->data->config);
-				else $config = null;
+				else $config = new stdClass;
 
 				//insert in cache
 				if($oCacheHandler->isSupport())

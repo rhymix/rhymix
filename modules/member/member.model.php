@@ -265,7 +265,7 @@ class memberModel extends member
 
 			return $logged_info;
 		}
-		return NULL;
+		return new stdClass;
 	}
 
 	/**
@@ -319,7 +319,7 @@ class memberModel extends member
 	 */
 	function getMemberInfoByMemberSrl($member_srl, $site_srl = 0, $columnList = array())
 	{
-		if(!$member_srl) return;
+		if(!$member_srl) return new stdClass;
 
 		//columnList size zero... get full member info
 		if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0)
@@ -343,7 +343,7 @@ class memberModel extends member
 				if(!$output->data)
 				{
 					if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, new stdClass);
-					return;
+					return new stdClass;
 				}
 				$this->arrangeMemberInfo($output->data, $site_srl);
 
