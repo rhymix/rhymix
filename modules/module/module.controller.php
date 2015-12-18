@@ -209,6 +209,20 @@ class moduleController extends module
 		return $this->insertModuleConfig($module, $origin_config, $site_srl);
 	}
 
+	function updateModulePartConfig($module, $module_srl, $config)
+	{
+		$oModuleModel = getModel('module');
+		$origin_config = $oModuleModel->getModulePartConfig($module, $module_srl);
+		
+		if(!$origin_config) $origin_config = new stdClass;
+		foreach($config as $key => $val)
+		{
+			$origin_config->{$key} = $val;
+		}
+		
+		return $this->insertModulePartConfig($module, $module_srl, $origin_config);
+	}
+
 	/**
 	 * @brief Enter a specific set of modules
 	 * In order to manage global configurations of modules such as board, member and so on
