@@ -3,6 +3,6 @@
     <customrules>
     </customrules>
     <fields>
-		<field name="password" required="true" length=":20" />
+		<field name="password" required="true" length="1:60" />
     </fields>
 </ruleset>

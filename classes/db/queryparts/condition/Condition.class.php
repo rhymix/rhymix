@@ -41,7 +41,7 @@ class Condition
 	 * @param string $pipe
 	 * @return void
 	 */
-	function Condition($column_name, $argument, $operation, $pipe)
+	function __construct($column_name, $argument, $operation, $pipe)
 	{
 		$this->column_name = $column_name;
 		$this->argument = $argument;

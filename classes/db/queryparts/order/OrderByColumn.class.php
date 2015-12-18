@@ -27,7 +27,7 @@ class OrderByColumn
 	 * @param string $sort_order
 	 * @return void
 	 */
-	function OrderByColumn($column_name, $sort_order)
+	function __construct($column_name, $sort_order)
 	{
 		$this->column_name = $column_name;
 		$this->sort_order = $sort_order;

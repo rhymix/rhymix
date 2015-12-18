@@ -8,6 +8,10 @@
 <load target="../../tpl/js/editor.app.js" />
 <load target="js/xe_interface.js" />
 
+<script>
+var auto_saved_msg = "{$lang->msg_auto_saved}";
+</script>
+
 {@ $css_content = null }
 <!--@if($content_font || $content_font_size)-->
 	<!--@if($content_style === 'ckeditor_light')-->{@ $css_content = '.xe_content.editable p { margin: 0;'. chr(125); }<!--@endif-->
@@ -23,7 +27,16 @@
 	{@ $css_content .= chr(125);}
 <!--@endif-->
 
+<!--@if($enable_autosave)-->
+<input type="hidden" name="_saved_doc_title" value="{htmlspecialchars($saved_doc->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" />
+<input type="hidden" name="_saved_doc_content" value="{htmlspecialchars($saved_doc->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" />
+<input type="hidden" name="_saved_doc_document_srl" value="{$saved_doc->document_srl}" />
+<input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
+<!--@end-->
+
 <div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$editor_height}px;"></div>
+
+<p cond="$enable_autosave" class="editor_autosaved_message autosave_message" id="editor_autosaved_message_{$editor_sequence}">&nbsp;</p>
 
 <block cond="$allow_fileupload">
 	<include target="file_upload.html" />

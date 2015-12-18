@@ -50,6 +50,18 @@
 				<input type="number" name="blamed" id="blamed" value="{$module_config['blamed']}" /> {$module_config['point_name']}
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label for="voted_comment" class="x_control-label">{$lang->comment} {$lang->point_voted}</label>
+			<div class="x_controls">
+				<input type="number" name="voted_comment" id="voted_comment" value="{$module_config['voted_comment']}" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="blamed_comment" class="x_control-label">{$lang->comment} {$lang->point_blamed}</label>
+			<div class="x_controls">
+				<input type="number" name="blamed_comment" id="blamed_comment" value="{$module_config['blamed_comment']}" /> {$module_config['point_name']}
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<button class="x_btn x_btn-warning x_pull-left" type="button" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}')">{$lang->cmd_reset}</button>
 			<span class="x_pull-right">

@@ -419,6 +419,18 @@
 		<value xml:lang="tr"><![CDATA[Etkin]]></value>
 		<value xml:lang="vi"><![CDATA[Hoạt động]]></value>
 	</item>
+	<item name="cmd_select_cover">
+		<value xml:lang="ko"><![CDATA[커버이미지로 선택]]></value>
+		<value xml:lang="en"><![CDATA[Be a cover image]]></value>
+		<value xml:lang="jp"><![CDATA[Be a cover image]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Be a cover image]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Be a cover image]]></value>
+		<value xml:lang="fr"><![CDATA[Be a cover image]]></value>
+		<value xml:lang="ru"><![CDATA[Be a cover image]]></value>
+		<value xml:lang="es"><![CDATA[Be a cover image]]></value>
+		<value xml:lang="tr"><![CDATA[Be a cover image]]></value>
+		<value xml:lang="vi"><![CDATA[Be a cover image]]></value>
+	</item>
 	<item name="editor_skin">
 		<value xml:lang="ko"><![CDATA[에디터 스킨]]></value>
 		<value xml:lang="en"><![CDATA[Editor Skin]]></value>

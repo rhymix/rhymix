@@ -27,7 +27,7 @@
 		</div>
 	</div>
 	<div class="control-group" loop="$formTags=>$formTag">
-		<label for="" class="control-label">{$formTag->title}</label>
+		<label for="{$formTag->name}" class="control-label">{$formTag->title}</label>
 		<div class="controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
 		<div class="controls" cond="$formTag->name =='signature'">
 			{$editor}

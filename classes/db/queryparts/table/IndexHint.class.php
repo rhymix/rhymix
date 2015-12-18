@@ -27,7 +27,7 @@ class IndexHint
 	 * @param string $index_hint_type
 	 * @return void
 	 */
-	function IndexHint($index_name, $index_hint_type)
+	function __construct($index_name, $index_hint_type)
 	{
 		$this->index_name = $index_name;
 		$this->index_hint_type = $index_hint_type;

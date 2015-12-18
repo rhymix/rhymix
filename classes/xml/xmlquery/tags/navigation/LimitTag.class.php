@@ -40,7 +40,7 @@ class LimitTag
 	 * @param object $index
 	 * @return void
 	 */
-	function LimitTag($index)
+	function __construct($index)
 	{
 		if($index->page && $index->page->attrs && $index->page_count && $index->page_count->attrs)
 		{

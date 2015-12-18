@@ -164,18 +164,28 @@ class autoinstallAdminModel extends autoinstall
 	 */
 	function getAutoinstallAdminIsAuthed()
 	{
+		$oAdminModel = getAdminModel('autoinstall');
+		$package = $oAdminModel->getInstallInfo(Context::get('package_srl'));
+		
 		$is_authed = 0;
-
-		$ftp_info = Context::getFTPInfo();
-		if(!$ftp_info->ftp_root_path)
+		$output = $oAdminModel->checkUseDirectModuleInstall($package);
+		if($output->toBool()==TRUE)
 		{
-			$is_authed = -1;
+			$is_authed = 1;
 		}
 		else
 		{
-			$is_authed = (int) isset($_SESSION['ftp_password']);
+			$ftp_info = Context::getFTPInfo();
+			if(!$ftp_info->ftp_root_path)
+			{
+				$is_authed = -1;
+			}
+			else
+			{
+				$is_authed = (int) isset($_SESSION['ftp_password']);
+			}
 		}
-
+		
 		$this->add('is_authed', $is_authed);
 	}
 

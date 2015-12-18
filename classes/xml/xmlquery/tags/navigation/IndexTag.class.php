@@ -46,7 +46,7 @@ class IndexTag
 	 * @param object $index
 	 * @return void
 	 */
-	function IndexTag($index)
+	function __construct($index)
 	{
 		$this->argument_name = $index->attrs->var;
 

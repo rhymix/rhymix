@@ -67,6 +67,13 @@ class boardController extends board
 			$is_update = true;
 		}
 
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_document_no_modify');
+		}
+
 		// if use anonymous is true
 		if($this->module_info->use_anonymous == 'Y')
 		{
@@ -139,10 +146,13 @@ class boardController extends board
 			// send an email to admin user
 			if($output->toBool() && $this->module_info->admin_mail)
 			{
+				$oModuleModel = getModel('module');
+				$member_config = $oModuleModel->getModuleConfig('member');
+				
 				$oMail = new Mail();
 				$oMail->setTitle($obj->title);
 				$oMail->setContent( sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), getFullUrl('','document_srl',$obj->document_srl), $obj->content));
-				$oMail->setSender($obj->user_name, $obj->email_address);
+				$oMail->setSender($obj->user_name ? $obj->user_name : 'anonymous', $obj->email_address ? $obj->email_address : $member_config->webmaster_email);
 
 				$target_mail = explode(',',$this->module_info->admin_mail);
 				for($i=0;$i<count($target_mail);$i++)
@@ -288,6 +298,14 @@ class boardController extends board
 			$obj->comment_srl = getNextSequence();
 		} else {
 			$comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
+		}
+
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($comment->member_srl);
+
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_comment_no_modify');
 		}
 
 		// if comment_srl is not existed, then insert the comment

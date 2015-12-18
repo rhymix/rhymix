@@ -25,7 +25,7 @@ class SelectColumnsTag
 	 * @internal param \Xml_Node_ $xml_columns
 	 * @return void
 	 */
-	function SelectColumnsTag($xml_columns_tag)
+	function __construct($xml_columns_tag)
 	{
 		if(!$xml_columns_tag)
 		{

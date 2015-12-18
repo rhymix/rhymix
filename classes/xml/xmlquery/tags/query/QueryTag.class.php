@@ -119,7 +119,7 @@ class QueryTag
 	 * @param bool $isSubQuery
 	 * @return void
 	 */
-	function QueryTag($query, $isSubQuery = FALSE)
+	function __construct($query, $isSubQuery = FALSE)
 	{
 		$this->action = $query->attrs->action;
 		$this->query_id = $query->attrs->id;

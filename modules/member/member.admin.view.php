@@ -9,14 +9,14 @@ class memberAdminView extends member
 {
 	/**
 	 * Group list
-	 * 
+	 *
 	 * @var array
 	 */
 	var $group_list = NULL;
 
 	/**
 	 * Selected member info
-	 * 
+	 *
 	 * @var array
 	 */
 	var $memberInfo = NULL;
@@ -33,7 +33,7 @@ class memberAdminView extends member
 	 *
 	 * @return void
 	 */
-	function init() 
+	function init()
 	{
 		$oMemberModel = getModel('member');
 		$this->memberConfig = $oMemberModel->getMemberConfig();
@@ -43,7 +43,7 @@ class memberAdminView extends member
 
 		// if member_srl exists, set memberInfo
 		$member_srl = Context::get('member_srl');
-		if($member_srl) 
+		if($member_srl)
 		{
 			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			if(!$this->memberInfo)
@@ -141,7 +141,14 @@ class memberAdminView extends member
 
 		if($config->redirect_url)
 		{
-			$mid = str_ireplace(Context::getDefaultUrl(), '', $config->redirect_url);
+			if(!$config->redirect_mid)
+			{
+				$mid = str_ireplace(Context::getDefaultUrl(), '', $config->redirect_url);
+			}
+			else
+			{
+				$mid = $config->redirect_mid;
+			}
 
 			$siteModuleInfo = Context::get('site_module_info');
 
@@ -159,6 +166,7 @@ class memberAdminView extends member
 
 		// get an editor
 		$option = new stdClass();
+		$option->skin = $oEditorModel->getEditorConfig()->editor_skin;
 		$option->primary_key_name = 'temp_srl';
 		$option->content_key_name = 'agreement';
 		$option->allow_fileupload = false;
@@ -193,7 +201,13 @@ class memberAdminView extends member
 		// get denied NickName List
 		$deniedNickNames = $oMemberModel->getDeniedNickNames();
 		Context::set('deniedNickNames', $deniedNickNames);
-			$oSecurity->encodeHTML('deniedNickNames..nick_name');
+		$oSecurity->encodeHTML('deniedNickNames..nick_name');
+
+		//get managed Email Hosts
+		$managedEmailHost = $oMemberModel->getManagedEmailHosts();
+		Context::set('managedEmailHost', $managedEmailHost);
+		$oSecurity->encodeHTML('managedEmailHost..email_host');
+
 		$this->setTemplateFile('signup_config');
 	}
 
@@ -231,7 +245,7 @@ class memberAdminView extends member
 	 *
 	 * @return void
 	 */
-	function dispMemberAdminConfigOLD() 
+	function dispMemberAdminConfigOLD()
 	{
 		$oModuleModel = getModel('module');
 		$oMemberModel = getModel('member');
@@ -259,6 +273,7 @@ class memberAdminView extends member
 		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
 
 		// get an editor
+		$option->skin = $oEditorModel->getEditorConfig()->editor_skin;
 		$option->primary_key_name = 'temp_srl';
 		$option->content_key_name = 'agreement';
 		$option->allow_fileupload = false;
@@ -352,6 +367,7 @@ class memberAdminView extends member
 		{
 			$oEditorModel = getModel('editor');
 			$option = new stdClass();
+			$option->skin = $oEditorModel->getEditorConfig()->editor_skin;
 			$option->primary_key_name = 'member_srl';
 			$option->content_key_name = 'signature';
 			$option->allow_fileupload = false;
@@ -378,7 +394,7 @@ class memberAdminView extends member
 	}
 
 	/**
-	 * Get tags by the member info type 
+	 * Get tags by the member info type
 	 *
 	 * @param object $memberInfo
 	 * @param boolean $isAdmin (true : admin, false : not admin)
@@ -631,7 +647,7 @@ class memberAdminView extends member
 	 *
 	 * @return void
 	 */
-	function dispMemberAdminGroupList() 
+	function dispMemberAdminGroupList()
 	{
 		$oModuleModel = getModel('module');
 		$output = $oModuleModel->getModuleFileBoxList();

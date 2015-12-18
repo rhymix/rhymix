@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">통합검색</title>
-    <title xml:lang="zh-CN">综合搜索</title>
-    <title xml:lang="jp">統合検索</title>
     <title xml:lang="en">Integrated Search</title>
+    <title xml:lang="jp">統合検索</title>
+	<title xml:lang="zh-CN">集成搜索</title>
+	<title xml:lang="zh-TW">集成搜索</title>
     <title xml:lang="vi">Tìm kiếm tích hợp</title>
     <title xml:lang="es">Búsqueda Integrada</title>
     <title xml:lang="ru">Интегрируемый поиск</title>
-    <title xml:lang="zh-TW">綜合搜尋</title>
     <title xml:lang="tr">Birleşik Arama</title>
     <description xml:lang="ko">
         선택한 페이지를 대상으로 통합검색을 지원합니다.

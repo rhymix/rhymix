@@ -225,6 +225,15 @@
 				<label for="qmail_compatibility_n" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" checked="checked"|cond="$qmail_compatibility!='Y'" /> {$lang->cmd_no}</label>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cache_friendly}</label>
+			<div class="x_controls">
+				<label for="cache_friendly_y" class="x_inline"><input type="radio" name="cache_friendly" id="cache_friendly_y" value="Y" checked="checked"|cond="$cache_friendly=='Y'" /> {$lang->cmd_yes}</label>
+				<label for="cache_friendly_n" class="x_inline"><input type="radio" name="cache_friendly" id="cache_friendly_n" value="N" checked="checked"|cond="$cache_friendly!='Y'" /> {$lang->cmd_no}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_cache_friendly}</p>
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
