@@ -86,7 +86,7 @@ class ModuleObject extends Object
 	 * @param string $type type of message (error, info, update)
 	 * @return void
 	 * */
-	function setMessage($message, $type = NULL)
+	function setMessage($message = 'success', $type = NULL)
 	{
 		parent::setMessage($message);
 		$this->setMessageType($type);
@@ -370,7 +370,7 @@ class ModuleObject extends Object
 	 * set the directory path of the layout directory
 	 * @return string
 	 * */
-	function getLayoutPath()
+	function getLayoutPath($layout_name = "", $layout_type = "P")
 	{
 		return $this->layout_path;
 	}

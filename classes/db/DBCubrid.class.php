@@ -144,7 +144,7 @@ class DBCubrid extends DB
 	 * this method is private
 	 * @return boolean
 	 */
-	function _begin($transactionLevel)
+	function _begin($transactionLevel = 0)
 	{
 		if(__CUBRID_VERSION__ >= '8.4.0')
 		{
@@ -167,7 +167,7 @@ class DBCubrid extends DB
 	 * this method is private
 	 * @return boolean
 	 */
-	function _rollback($transactionLevel)
+	function _rollback($transactionLevel = 0)
 	{
 		$connection = $this->_getConnection('master');
 
