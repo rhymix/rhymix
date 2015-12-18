@@ -215,7 +215,8 @@ class autoinstallAdminModel extends autoinstall
 
 			if($packageInfo->type == 'core')
 			{
-				$title = 'XpressEngine';
+				//$title = 'XpressEngine';
+				continue;
 			}
 			else
 			{
