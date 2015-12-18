@@ -1695,7 +1695,7 @@ class memberController extends member
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 
 		// check identifier
-		if($config->identifier == 'email_address')
+		if($config->identifier == 'email_address' || strpos($user_id, '@') !== false)
 		{
 			// Get user_id information
 			$this->memberInfo = $oMemberModel->getMemberInfoByEmailAddress($user_id);

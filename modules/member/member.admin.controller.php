@@ -561,7 +561,7 @@ class memberAdminController extends member
 			'</ruleset>';
 
 		$fields = array();
-		$trans = array('email_address'=>'email', 'user_id'=> 'userid');
+		$trans = array('email_address'=>'email', 'user_id'=> '');
 		$fields[] = sprintf('<field name="user_id" required="true" rule="%s"/>', $trans[$identifier]);
 		$fields[] = '<field name="password" required="true" />';
 
