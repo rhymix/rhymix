@@ -22,7 +22,7 @@ class GroupsTag
 	 * @param array|string $xml_groups
 	 * @return void
 	 */
-	function GroupsTag($xml_groups)
+	function __construct($xml_groups)
 	{
 		$this->groups = array();
 

@@ -59,7 +59,7 @@ class QueryArgumentValidator
 	 * @param QueryArgument $argument
 	 * @return void
 	 */
-	function QueryArgumentValidator($tag, $argument)
+	function __construct($tag, $argument)
 	{
 		$this->argument = $argument;
 		$this->argument_name = $this->argument->getArgumentName();

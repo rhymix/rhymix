@@ -58,7 +58,7 @@ class QueryArgument
 	 * @param bool $ignore_value
 	 * @return void
 	 */
-	function QueryArgument($tag, $ignore_value = FALSE)
+	function __construct($tag, $ignore_value = FALSE)
 	{
 		static $number_of_arguments = 0;
 

@@ -23,9 +23,9 @@ class ClickCountExpression extends SelectExpression
 	 * @param bool $click_count
 	 * @return void
 	 */
-	function ClickCountExpression($column_name, $alias = NULL, $click_count = false)
+	function __construct($column_name, $alias = NULL, $click_count = false)
 	{
-		parent::SelectExpression($column_name, $alias);
+		parent::__construct($column_name, $alias);
 
 		if(!is_bool($click_count))
 		{

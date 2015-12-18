@@ -18,8 +18,8 @@
 		</span>
 	</form>
 </section>
-<hr>
-<section cond="count($lang->find_account_question_items)>1">
+<hr cond="count($lang->find_account_question_items)>1 && $enable_find_account_question == 'Y'">
+<section cond="count($lang->find_account_question_items)>1 && $enable_find_account_question == 'Y'">
 	<h1>{$lang->cmd_find_member_account_with_email_question}</h1>
 	<p>{$lang->about_find_account_question}</p>
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/find_member_account/2'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">

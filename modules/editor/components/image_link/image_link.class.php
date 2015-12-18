@@ -14,7 +14,7 @@ class image_link extends EditorHandler
 	/**
 	 * @brief editor_sequence and components out of the path
 	 */
-	function image_link($editor_sequence, $component_path)
+	function __construct($editor_sequence, $component_path)
 	{
 		$this->editor_sequence = $editor_sequence;
 		$this->component_path = $component_path;

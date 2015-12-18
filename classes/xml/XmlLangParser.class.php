@@ -53,7 +53,7 @@ class XmlLangParser extends XmlParser
 	 * @param string $lang_type
 	 * @return void
 	 */
-	function XmlLangParser($xml_file, $lang_type)
+	function __construct($xml_file, $lang_type)
 	{
 		$this->lang_type = $lang_type;
 		$this->xml_file = $xml_file;

@@ -175,7 +175,7 @@ class Context
 	 *
 	 * @return void
 	 */
-	public function Context()
+	public function __construct()
 	{
 		$this->oFrontEndFileHandler = new FrontEndFileHandler();
 		$this->get_vars = new stdClass();
@@ -200,9 +200,16 @@ class Context
 	 */
 	public function init()
 	{
-		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && version_compare(PHP_VERSION, '5.6.0', '>=') === true) {
-			if(simplexml_load_string(file_get_contents("php://input")) !== false) $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
-			if(strpos($_SERVER['CONTENT_TYPE'], 'json') || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json')) $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
+		// fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above
+		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && version_compare(PHP_VERSION, '5.6.0', '>=') === TRUE)
+		{
+			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
+			
+			// If content is not XML JSON, unset
+			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']) && strpos($_SERVER['CONTENT_TYPE'], 'json') === FALSE && strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') === FALSE)
+			{
+				unset($GLOBALS['HTTP_RAW_POST_DATA']);
+			}
 		}
 
 		// set context variables in $GLOBALS (to use in display handler)
@@ -334,8 +341,29 @@ class Context
 			);
 		}
 
-		if($sess = $_POST[session_name()]) session_id($sess);
-		session_start();
+		// start session if it was previously started
+		$session_name = session_name();
+		$session_id = NULL;
+		if($session_id = $_POST[$session_name])
+		{
+			session_id($session_id);
+		}
+		else
+		{
+			$session_id = $_COOKIE[$session_name];
+		}
+
+		if($session_id !== NULL || $this->db_info->cache_friendly != 'Y')
+		{
+			$this->setCacheControl(0, false);
+			session_start();
+		}
+		else
+		{
+			$this->setCacheControl(-1, true);
+			register_shutdown_function(array($this, 'checkSessionStatus'));
+			$_SESSION = array();
+		}
 
 		// set authentication information in Context and session
 		if(self::isInstalled())
@@ -422,6 +450,38 @@ class Context
 	}
 
 	/**
+	 * Get the session status
+	 * 
+	 * @return bool
+	 */
+	public static function getSessionStatus()
+	{
+		return (session_id() !== '');
+	}
+
+	/**
+	 * Start the session if $_SESSION was touched
+	 * 
+	 * @return void
+	 */
+	public static function checkSessionStatus($force_start = false)
+	{
+		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
+		
+		if($self->getSessionStatus())
+		{
+			return;
+		}
+		if($force_start || (count($_SESSION) && !headers_sent()))
+		{
+			$tempSession = $_SESSION;
+			unset($_SESSION);
+			session_start();
+			$_SESSION = $tempSession;
+		}
+	}
+
+	/**
 	 * Finalize using resources, such as DB connection
 	 *
 	 * @return void
@@ -429,6 +489,30 @@ class Context
 	public static function close()
 	{
 		session_write_close();
+	}
+
+	/**
+	 * set Cache-Control header
+	 *
+	 * @return void
+	 */
+	public static function setCacheControl($ttl = 0, $public = true)
+	{
+		if($ttl == 0)
+		{
+			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, post-check=0, pre-check=0, no-store, no-cache');
+			header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+		}
+		elseif($ttl == -1)
+		{
+			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, post-check=0, pre-check=0');
+		}
+		else
+		{
+			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, max-age=' . (int)$ttl);
+			header('Expires: ' . gmdate('D, d M Y H:i:s', time() + (int)$ttl) . ' GMT');
+		}
 	}
 
 	/**
@@ -660,53 +744,68 @@ class Context
 			$default_url .= '/';
 		}
 
-		// for sites recieving SSO valdiation
-		if($default_url == self::getRequestUri())
+		// Get current site information (only the base URL, not the full URL)
+		$current_site = self::getRequestUri();
+
+		// Step 1: if the current site is not the default site, send SSO validation request to the default site
+		if($default_url !== $current_site && !self::get('SSOID') && $_COOKIE['sso'] !== md5($current_site))
 		{
-			if(self::get('default_url'))
-			{
-				$url = base64_decode(self::get('default_url'));
-				$url_info = parse_url($url);
-
-				$oModuleModel = getModel('module');
-				$target_domain = (stripos($url, $default_url) !== 0) ? $url_info['host'] : $default_url;
-				$site_info = $oModuleModel->getSiteInfoByDomain($target_domain);
-				if(!$site_info->site_srl) {
-					$oModuleObject = new ModuleObject();
-					$oModuleObject->stop('msg_invalid_request');
-
-					return false;
-				}
-
-				$url_info['query'].= ($url_info['query'] ? '&' : '') . 'SSOID=' . session_id();
-				$redirect_url = sprintf('%s://%s%s%s?%s', $url_info['scheme'], $url_info['host'], $url_info['port'] ? ':' . $url_info['port'] : '', $url_info['path'], $url_info['query']);
-				header('location:' . $redirect_url);
-
-				return FALSE;
-			}
-			// for sites requesting SSO validation
-		}
-		else
-		{
-			// result handling : set session_name()
-			if($session_name = self::get('SSOID'))
-			{
-				setcookie(session_name(), $session_name);
-
-				$url = preg_replace('/([\?\&])$/', '', str_replace('SSOID=' . $session_name, '', self::getRequestUrl()));
-				header('location:' . $url);
-				return FALSE;
-				// send SSO request
-			}
-			else if(!self::get('SSOID') && $_COOKIE['sso'] != md5(self::getRequestUri()))
-			{
-				setcookie('sso', md5(self::getRequestUri()), 0, '/');
-				$url = sprintf("%s?default_url=%s", $default_url, base64_encode(self::getRequestUrl()));
-				header('location:' . $url);
-				return FALSE;
-			}
+			// Set sso cookie to prevent multiple simultaneous SSO validation requests
+			setcookie('sso', md5($current_site), 0, '/');
+			
+			// Redirect to the default site
+			$redirect_url = sprintf('%s?return_url=%s', $default_url, urlencode(base64_encode($current_site)));
+			header('Location:' . $redirect_url);
+			return FALSE;
 		}
 
+		// Step 2: receive and process SSO validation request at the default site
+		if($default_url === $current_site && self::get('return_url'))
+		{
+			// Get the URL of the origin site
+			$url = base64_decode(self::get('return_url'));
+			$url_info = parse_url($url);
+
+			// Check that the origin site is a valid site in this XE installation (to prevent open redirect vuln)
+			if(!getModel('module')->getSiteInfoByDomain(rtrim($url, '/'))->site_srl)
+			{
+				htmlHeader();
+				echo self::getLang("msg_invalid_request");
+				htmlFooter();
+				return FALSE;
+			}
+
+			// Redirect back to the origin site
+			$url_info['query'] .= ($url_info['query'] ? '&' : '') . 'SSOID=' . session_id();
+			$redirect_url = sprintf('%s://%s%s%s%s', $url_info['scheme'], $url_info['host'], $url_info['port'] ? (':' . $url_info['port']) : '', $url_info['path'], ($url_info['query'] ? ('?' . $url_info['query']) : ''));
+			header('Location:' . $redirect_url);
+			return FALSE;
+		}
+
+		// Step 3: back at the origin site, set session ID to be the same as the default site
+		if($default_url !== $current_site && self::get('SSOID'))
+		{
+			// Check that the session ID was given by the default site (to prevent session fixation CSRF)
+			if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $default_url) !== 0)
+			{
+				htmlHeader();
+				echo self::getLang("msg_invalid_request");
+				htmlFooter();
+				return FALSE;
+			}
+
+			// Set session ID
+			setcookie(session_name(), self::get('SSOID'));
+
+			// Finally, redirect to the originally requested URL
+			$url_info = parse_url(self::getRequestUrl());
+			$url_info['query'] = preg_replace('/(^|\b)SSOID=([^&?]+)/', '', $url_info['query']);
+			$redirect_url = sprintf('%s://%s%s%s%s', $url_info['scheme'], $url_info['host'], $url_info['port'] ? (':' . $url_info['port']) : '', $url_info['path'], ($url_info['query'] ? ('?' . $url_info['query']) : ''));
+			header('Location:' . $redirect_url);
+			return FALSE;
+		}
+
+		// If none of the conditions above apply, proceed normally
 		return TRUE;
 	}
 
@@ -955,7 +1054,10 @@ class Context
 		$self->lang_type = $lang_type;
 		$self->set('lang_type', $lang_type);
 
-		$_SESSION['lang_type'] = $lang_type;
+		if($self->getSessionStatus())
+		{
+			$_SESSION['lang_type'] = $lang_type;
+		}
 	}
 
 	/**

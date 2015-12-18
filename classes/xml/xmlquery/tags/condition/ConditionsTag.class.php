@@ -22,7 +22,7 @@ class ConditionsTag
 	 * @param object $xml_conditions
 	 * @return void
 	 */
-	function ConditionsTag($xml_conditions)
+	function __construct($xml_conditions)
 	{
 		$this->condition_groups = array();
 		if(!$xml_conditions)

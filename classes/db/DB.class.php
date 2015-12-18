@@ -185,7 +185,7 @@ class DB
 	 * constructor
 	 * @return void
 	 */
-	function DB()
+	function __construct()
 	{
 		$this->count_cache_path = _XE_PATH_ . $this->count_cache_path;
 		$this->cache_file = _XE_PATH_ . $this->cache_file;
@@ -1089,7 +1089,7 @@ class DB
 	 * this method is protected
 	 * @return boolean
 	 */
-	function _begin()
+	function _begin($transactionLevel = 0)
 	{
 		return TRUE;
 	}
@@ -1117,7 +1117,7 @@ class DB
 	 * this method is protected
 	 * @return boolean
 	 */
-	function _rollback()
+	function _rollback($transactionLevel = 0)
 	{
 		return TRUE;
 	}

@@ -31,9 +31,9 @@ class UpdateColumnTag extends ColumnTag
 	 * @param object $column
 	 * @return void
 	 */
-	function UpdateColumnTag($column)
+	function __construct($column)
 	{
-		parent::ColumnTag($column->attrs->name);
+		parent::__construct($column->attrs->name);
 
 		$dbParser = DB::getParser();
 		$this->name = $dbParser->parseColumnName($this->name);

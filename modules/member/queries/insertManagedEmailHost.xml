@@ -1,0 +1,10 @@
+<query id="insertManagedEmailHost" action="insert">
+	<tables>
+		<table name="member_managed_email_hosts" />
+	</tables>
+	<columns>
+		<column name="email_host" var="email_host" notnull="notnull" />
+		<column name="regdate" default="curdate()" />
+		<column name="description" var="description" default="" />
+	</columns>
+</query>

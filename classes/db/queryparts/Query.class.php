@@ -94,7 +94,7 @@ class Query extends Object
 	 * @param string $priority
 	 * @return void
 	 */
-	function Query($queryID = NULL
+	function __construct($queryID = NULL
 	, $action = NULL
 	, $columns = NULL
 	, $tables = NULL

@@ -46,7 +46,7 @@ class NavigationTag
 	 * @param object $xml_navigation
 	 * @return void
 	 */
-	function NavigationTag($xml_navigation)
+	function __construct($xml_navigation)
 	{
 		$this->order = array();
 		if($xml_navigation)

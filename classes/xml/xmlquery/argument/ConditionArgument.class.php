@@ -23,7 +23,7 @@ class ConditionArgument extends Argument
 	 * @param string $operation
 	 * @return void
 	 */
-	function ConditionArgument($name, $value, $operation)
+	function __construct($name, $value, $operation)
 	{
 		$operationList = array('in' => 1, 'notin' => 1, 'not_in' => 1, 'between' => 1);
 		if(isset($value) && isset($operationList[$operation]) && !is_array($value) && $value != '')
@@ -32,7 +32,7 @@ class ConditionArgument extends Argument
 			$value = str_replace('\'', '', $value);
 			$value = explode(',', $value);
 		}
-		parent::Argument($name, $value);
+		parent::__construct($name, $value);
 		$this->operation = $operation;
 	}
 

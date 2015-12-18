@@ -18,6 +18,8 @@
 				<th scope="col">{$lang->point_read_document}</th>
 				<th scope="col">{$lang->point_voted}</th>
 				<th scope="col">{$lang->point_blamed}</th>
+				<th scope="col">{$lang->comment} {$lang->point_voted}</th>
+				<th scope="col">{$lang->comment} {$lang->point_blamed}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -30,6 +32,8 @@
 				<td class="nowr"><input type="number" style="width:40px;text-align:right" name="read_document[{$val->module_srl}]" value="{$module_config[$val->module_srl]['read_document']}" title="{$config->point_name}" /> {$config->point_name}</td>
 				<td class="nowr"><input type="number" style="width:40px;text-align:right" name="voted[{$val->module_srl}]" value="{$module_config[$val->module_srl]['voted']}" title="{$config->point_name}" /> {$config->point_name}</td>
 				<td class="nowr"><input type="number" style="width:40px;text-align:right" name="blamed[{$val->module_srl}]" value="{$module_config[$val->module_srl]['blamed']}" title="{$config->point_name}" /> {$config->point_name}</td>
+				<td class="nowr"><input type="number" style="width:40px;text-align:right" name="voted_comment[{$val->module_srl}]" value="{$module_config[$val->module_srl]['voted_comment']}" title="{$config->point_name}" /> {$config->point_name}</td>
+				<td class="nowr"><input type="number" style="width:40px;text-align:right" name="blamed_comment[{$val->module_srl}]" value="{$module_config[$val->module_srl]['blamed_comment']}" title="{$config->point_name}" /> {$config->point_name}</td>				
 			</tr>
 		</tbody>
 	</table>

@@ -22,8 +22,8 @@
 		actDeleteFile : '.xefu-act-delete',
 		actSetCover : '.xefu-act-set-cover',
 
-		tmplXeUploaderFileitem : '<li class="xefu-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xefu-file-name">{{source_filename}}</span><span class="xefu-file-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> 선택</span></span></li>',
-		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="커버이미지로 선택"><i class="xi-check-circle"></i></button></span></li>'
+		tmplXeUploaderFileitem : '<li class="xefu-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xefu-file-name">{{source_filename}}</span><span class="xefu-file-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> Select</span></span></li>',
+		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>'
 	};
 
 	var _elements = [
@@ -93,6 +93,7 @@
 				},
 				done: function(e, res) {
 					var result = res.response().result;
+					var temp_code = '';
 
 					if(!result) return;
 
@@ -101,6 +102,12 @@
 					if(!result) return;
 
 					if(result.error == 0) {
+						if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
+							temp_code += '<img src="' + window.request_uri + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
+							temp_code += "\r\n<p><br></p>\r\n";
+						}
+
+						_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
 					} else {
 						alert(result.message);
 					}
@@ -236,7 +243,7 @@
 
 				if(!fileinfo) return;
 
-				if(/\.(jpe?g|png|gif)$/i.test(fileinfo.download_url)) {
+				if(/\.(jpe?g|png|gif)$/i.test(fileinfo.source_filename)) {
 					temp_code += '<img src="' + window.request_uri + fileinfo.download_url + '" alt="' + fileinfo.source_filename + '" editor_component="image_link" data-file-srl="' + fileinfo.file_srl + '" />';
 					temp_code += "\r\n<p><br></p>\r\n";
 				} else {

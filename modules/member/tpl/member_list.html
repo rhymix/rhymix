@@ -24,12 +24,14 @@
 				<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
 				<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
 				<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
+				<a href="#listManager" data-value="spam" class="modalAnchor _member x_btn">{$lang->cmd_spammer}</a>
 			</div>
 		</caption>
 		<thead>
 			<tr>
 				<th scope="col" class="nowr">{$lang->email}</th>
 				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
+				<th scope="col" class="nowr">{$lang->status}</th>
 				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col" class="nowr">{$lang->member_group}</th>
@@ -47,6 +49,7 @@
 				</td>
 				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
 				<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
+				<td class="nowr"><!--@if($member_info['denied']=='Y')--><span style="color:red;">{$lang->denied}</span><!--@else-->{$lang->approval}<!--@end--></td>
 				<td class="nowr" title="{zdate($member_info['regdate'], 'Y-m-d H:i:s')}">{zdate($member_info['regdate'], 'Y-m-d')}</td>
 				<td class="nowr" title="{zdate($member_info['last_login'], 'Y-m-d H:i:s')}">{zdate($member_info['last_login'], 'Y-m-d')}</td>
 				<td>{$member_info['group_list']}&nbsp;</td>
@@ -110,6 +113,7 @@
 		<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
 		<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
 		<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
+		<a href="#listManager" data-value="spam" class="modalAnchor _member x_btn">{$lang->cmd_spammer}</a>
 	</div>
 </div>
 <form action="./" method="get" class="search center x_input-append" no-error-return-url="true">
@@ -167,7 +171,7 @@
 		<div class="x_modal-footer">
 			<button type="button" class="x_btn x_pull-left" data-hide="#listManager">{$lang->cmd_close}</button>
 			<span class="x_btn-group x_pull-right">
-				<button type="submit" name="type" value="modify|delete" class="x_btn x_btn-inverse">{$lang->confirm}</button>
+				<button type="submit" name="type" value="modify|delete|spam" class="x_btn x_btn-inverse">{$lang->confirm}</button>
 			</span>
 		</div>
 	</form>

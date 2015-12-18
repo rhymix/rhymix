@@ -79,7 +79,7 @@ class XmlJsFilter extends XmlParser
 	 * @return void
 	 */
 
-	function XmlJsFilter($path, $xml_file)
+	function __construct($path, $xml_file)
 	{
 		if(substr($path, -1) !== '/')
 		{

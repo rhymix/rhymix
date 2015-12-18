@@ -7,6 +7,7 @@
 	xe.lang.cmd_delete = '{$lang->cmd_delete}';
 	xe.lang.msg_null_prohibited_id = '{$lang->msg_null_prohibited_id}';
 	xe.lang.msg_null_prohibited_nick_name = '{$lang->msg_null_prohibited_nick_name}';
+	xe.lang.msg_null_managed_emailhost = '{$lang->msg_null_managed_emailhost}';
 	xe.lang.msg_exists_user_id= '{$lang->msg_exists_user_id}';
 </script>
 <form action="./" class="x_form-horizontal" method="post">
@@ -23,6 +24,24 @@
 			<input type="text" name="limit_day_description" value="{$config->limit_day_description}" placeholder="{$lang->limit_day_description}" style="width:90%" class="lang_code" />
 		</div>
 	</div>
+<!--// Managed Email Host Control -->
+	<div class="x_control-group">
+		<label class="x_control-label" for="manage_email_host">{$lang->cmd_manage_email_host}[<a href="#helpHost" data-toggle>?</a>]</label>
+		<div class="x_controls">
+			<div class="layer x_alert x_alert-info" id="helpHost">
+				<p>{$lang->about_emailhost_check}</p>
+			</div>
+			<input type="radio" id="emailhost_check_allowed" name="emailhost_check" value="allowed" checked="checked"|cond="$config->emailhost_check =='allowed'" /><label for="emailhost_check_allowed" class="x_inline"> {$lang->cmd_allowed}</label>
+			<input type="radio" id="emailhost_check_prohibited" name="emailhost_check" value="prohibited" checked="checked"|cond="$config->emailhost_check =='prohibited'" /><label for="emailhost_check_prohibited" class="x_inline"> {$lang->cmd_prohibited}</label>
+			<p>{@ if($config->emailhost_check =='prohibited') $emailhost_check = $lang->cmd_prohibited; else $emailhost_check = $lang->cmd_allowed;}{sprintf($lang->count_manage_email_host, count($managedEmailHost), $emailhost_check)}</p>
+			<ul class="textList" id="managedEmailHost" style="margin-left:0">
+				<li loop="$managedEmailHost=>$emailInfo" id="managed_{str_replace('.','__',$emailInfo->email_host)}">{$emailInfo->email_host} <button type="button" class="x_icon-remove" onclick="doUpdateManagedEmailHost('{$emailInfo->email_host}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</button></li>
+			</ul>
+			<textarea rows="2" cols="42" id="manage_email_host" title="{$lang->add_managed_emailhost}" style="vertical-align:top"></textarea>
+			<button type="button" class="_addManagedEmailHost x_btn">{$lang->add}</button>
+			<p class="x_help-inline">{$lang->multi_line_input}</p>
+		</div>
+	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="prohibited_nick_name">{$lang->cmd_manage_nick_name}</label>
 		<div class="x_controls">
@@ -30,7 +49,7 @@
 			<ul class="textList" id="deniedNickNameList" style="margin-left:0">
 				<li loop="$deniedNickNames=>$nicknameInfo" id="denied_{$nicknameInfo->nick_name}">{$nicknameInfo->nick_name} <button type="button" class="x_icon-remove" onclick="doUpdateDeniedNickName('{$nicknameInfo->nick_name}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</button></li>
 			</ul>
-			<textarea rows="2" cols="42" id="prohibited_nick_name" title="{$lang->add_prohibited_id}" style="vertical-align:top"></textarea>
+			<textarea rows="2" cols="42" id="prohibited_nick_name" title="{$lang->add_prohibited_nickname}" style="vertical-align:top"></textarea>
 			<button type="button" class="_addDeniedNickName x_btn">{$lang->add}</button>
 			<p class="x_help-inline">{$lang->multi_line_input}</p>
 		</div>

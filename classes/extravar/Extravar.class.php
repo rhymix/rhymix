@@ -38,7 +38,7 @@ class ExtraVar
 	 * @param int $module_srl Sequence of module
 	 * @return void
 	 */
-	function ExtraVar($module_srl)
+	function __construct($module_srl)
 	{
 		$this->module_srl = $module_srl;
 	}
@@ -157,7 +157,7 @@ class ExtraItem
 	 * @param string $eid Unique id of extra variable in module
 	 * @return void
 	 */
-	function ExtraItem($module_srl, $idx, $name, $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null, $eid = '')
+	function __construct($module_srl, $idx, $name, $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null, $eid = '')
 	{
 		if(!$idx)
 		{
@@ -292,11 +292,11 @@ class ExtraItem
 	/**
 	 * Returns a value for HTML
 	 *
-	 * @return string Returns a value expressed in HTML.
+	 * @return string Returns filtered value
 	 */
 	function getValue()
 	{	
-		return $this->_getTypeValue($this->type, $this->value);
+		return removeHackTag($this->value);
 	}
 
 	/**

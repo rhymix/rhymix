@@ -41,9 +41,17 @@
 				<input type="password" name="password2" id="password2" value="" required />
 			</div>
 		</div>
-		<div class="control-group" loop="$formTags=>$formTag" cond="$formTag->name != 'signature'">
+		<div class="control-group" loop="$formTags=>$formTag">
 			<label for="{$formTag->name}" class="control-label">{$formTag->title}</label>
-			<div class="controls">{$formTag->inputTag}</div>
+			<div class="controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
+			<div class="controls" cond="$formTag->name =='signature'">
+				 <input type="hidden" name="signature" value="" />
+				{$editor}
+				<style scoped>
+				.xpress-editor>#smart_content,
+				.xpress-editor>#smart_content>.tool{clear:none}
+				</style>
+			</div>
 		</div>
 		<div class="control-group">
 			<div class="control-label">{$lang->allow_mailing}</div>

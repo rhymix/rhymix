@@ -1,3 +1,23 @@
+function getCkFormInstance(editor_sequence)
+{
+	var fo_obj = document.getElementById('ckeditor_instance_' + editor_sequence).parentNode;
+	while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
+	if(fo_obj.nodeName == 'FORM') return fo_obj;
+	return;
+}
+
+function getAutoSavedSrl(ret_obj, response_tags, c) {
+	var editor_sequence = ret_obj.editor_sequence;
+	var primary_key = ret_obj.key;
+	var fo_obj = getCkFormInstance(editor_sequence);
+	
+	if(ret_obj.document_srl !== 0)
+	{
+		fo_obj[primary_key].value = ret_obj.document_srl;
+		reloadUploader(editor_sequence);
+	}
+}
+
 (function($){
 	"use strict";
 	var default_ckeconfig = {
@@ -60,6 +80,8 @@
 			var $contentField = $form.find(opts.content_field);
 			var data = $containerEl.data();
 			var editor_sequence = $containerEl.data().editorSequence;
+			var primary_key = $containerEl.data().editorPrimaryKeyName;
+			var fo_obj = getCkFormInstance(editor_sequence);
 
 			this.ckeconfig = $.extend({}, default_ckeconfig, opts.ckeconfig || {});
 
@@ -67,6 +89,29 @@
 			$form.attr('editor_sequence', data.editorSequence);
 
 			if(CKEDITOR.env.mobile) CKEDITOR.env.isCompatible = true;
+			
+			// saved document(자동저장 문서)에 대한 확인
+			if(typeof(fo_obj._saved_doc_title)!= "undefined") { ///<< _saved_doc_title field가 없으면 자동저장 하지 않음
+				var saved_title = fo_obj._saved_doc_title.value;
+				var saved_content = fo_obj._saved_doc_content.value;
+		
+				if(saved_title || saved_content) {
+					// 자동저장된 문서 활용여부를 물은 후 사용하지 않는다면 자동저장된 문서 삭제
+					if(confirm(fo_obj._saved_doc_message.value)) {
+						if(typeof(fo_obj.title)!='undefined') fo_obj.title.value = saved_title;
+						$contentField.val(saved_content);
+		
+						var param = [];
+						param.editor_sequence = editor_sequence;
+						param.primary_key = primary_key;
+						param.mid = current_mid;
+						var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
+						exec_xml('editor',"procEditorLoadSavedDocument", param, getAutoSavedSrl, response_tags);
+					} else {
+						editorRemoveSavedDoc();
+					}
+				}
+			}
 
 			var instance = CKEDITOR.appendTo($containerEl[0], {}, $contentField.val());
 
@@ -109,6 +154,9 @@
 			window.editorRelKeys[data.editorSequence].pasteHTML = function(text){
 				instance.insertHtml(text, 'html');
 			};
+			
+			// 자동저장 필드가 있다면 자동 저장 기능 활성화
+			if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, editor_sequence);
 		},
 		getContent : function(seq) {
 			var self = this;
