@@ -454,7 +454,7 @@ class Context
 	 * 
 	 * @return bool
 	 */
-	public static function getSessionStatus()
+	function getSessionStatus()
 	{
 		return (session_id() !== '');
 	}
@@ -464,7 +464,7 @@ class Context
 	 * 
 	 * @return void
 	 */
-	public static function checkSessionStatus($force_start = false)
+	function checkSessionStatus($force_start = false)
 	{
 		is_a($this, 'Context') ? $self = $this : $self = self::getInstance();
 		
@@ -496,7 +496,7 @@ class Context
 	 *
 	 * @return void
 	 */
-	public static function setCacheControl($ttl = 0, $public = true)
+	function setCacheControl($ttl = 0, $public = true)
 	{
 		if($ttl == 0)
 		{
