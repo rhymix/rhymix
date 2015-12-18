@@ -31,7 +31,7 @@ function memberTransImageName($matches)
 
 		if(file_exists(_XE_PATH_ . $image_name_file))
 		{
-			$_tmp->image_name_file = $image_name_file;
+			$_tmp->image_name_file = $image_name_file . '?' . date('YmdHis', filemtime(_XE_PATH_ . $image_name_file));
 		}
 		else
 		{
@@ -40,7 +40,7 @@ function memberTransImageName($matches)
 
 		if(file_exists(_XE_PATH_ . $image_mark_file))
 		{
-			$_tmp->image_mark_file = $image_mark_file;
+			$_tmp->image_mark_file = $image_mark_file . '?' . date('YmdHis', filemtime(_XE_PATH_ . $image_mark_file));
 		}
 		else
 		{
