@@ -1,0 +1,47 @@
+<!--#include("header.html")-->
+<section class="misolSearchSection">
+	<!--// 제목 또는 탭 영역 -->
+	<div class="misolTop" cond="$where != 'trackback'">
+		<a href="{getAutoEncodedUrl('where','trackback','page',1)}" class="misol_top_a"><h1 class="subTitle"><span><i class="xi-note" title="{$lang->trackback}"></i> {$lang->trackback} <span>({number_format($output->total_count)})</span></span></h1><span class="misol_more"><i class="xi-angle-right" title="{$lang->more}"></i></span></a>
+	</div>
+	<div class="misolTop" cond="$where == 'trackback'">
+		<h1 class="subTitle"><span><i class="xi-note" title="{$lang->trackback}"></i> {$lang->trackback} <span>({number_format($output->total_count)})</span></span></h1>
+	</div>
+	<div class="misolTab">
+		<ul class="misolSearchTabA">
+			<!--@foreach($lang->is_search_option['trackback'] as $key => $val)-->
+			<li class="<!--@if($search_target == $key)-->active<!--@end--><!--@if($key=="tag")--> last<!--@end-->"><a href="{getUrl('where','trackback','search_target',$key,'page',1)}"><span>{$val}</span></a></li>
+			<!--@end-->
+		</ul>
+	</div>
+
+	<!--// 리스트 영역 -->
+	<!--@if(!count($output->data))-->
+		<span class="noResult">
+			{$lang->msg_no_result}
+		</span>
+	<!--@else-->
+		<ul class="misolSearch_list">
+		<!--@foreach($output->data as $no => $trackback)-->
+			<li>
+				<a href="{getUrl('','document_srl',$trackback->document_srl)}" class="cont_a" onclick="window.open(this.href);return false;">
+					<div class="content_basic">
+						<section class="item">
+							<h1>{htmlspecialchars($trackback->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</h1>
+							<p>{cut_str(htmlspecialchars($trackback->excerpt, ENT_COMPAT | ENT_HTML401, 'UTF-8', false))}</p>
+							<address><strong><i class="xi-user"></i><a href="{$trackback->url}">{htmlspecialchars($trackback->blog_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a></strong> | <time><i class="xi-time"></i><span class="time">{zdate($trackback->regdate, "Y-m-d H:i")}</span></time></address>
+						</section>
+					</div>
+				</a>
+			</li>
+		<!--@end-->
+		</ul>
+	<!--@end-->
+</section>
+
+<!--// 페이지 버튼 영역 -->
+{@$misolSection = 'trackback'}
+<!--#include("_page.html")-->
+
+{@ $_misolSearch--; }
+<!--#include("footer.html")-->

@@ -1,0 +1,43 @@
+<!--#include("header.html")-->
+<section class="misolSearchSection">
+	<!--// 제목 또는 탭 영역 -->
+	<div class="misolTop" cond="$where != 'multimedia'">
+		<a href="{getAutoEncodedUrl('where','multimedia','page',1)}" class="misol_top_a"><h1 class="subTitle"><span><i class="xi-images" title="{$lang->multimedia}"></i> {$lang->multimedia} <span>({number_format($output->total_count)})</span></span></h1><span class="misol_more"><i class="xi-angle-right" title="{$lang->more}"></i></span></a>
+	</div>
+	<div class="misolTop" cond="$where == 'multimedia'">
+		<h1 class="subTitle"><span><i class="xi-images" title="{$lang->multimedia}"></i> {$lang->multimedia} <span>({number_format($output->total_count)})</span></span></h1>
+	</div>
+
+	<!--// 리스트 영역 -->
+	<!--@if(!count($output->data))-->
+		<span class="noResult">
+			{$lang->msg_no_result}
+		</span>
+	<!--@else-->
+		<ul class="misolSearch_list">
+		<!--@foreach($output->data as $no => $image)-->
+			<li>
+				<a href="{$image->url}" class="cont_a" onclick="window.open(this.href);return false;">
+					<div class="content_basic left_img">
+						<section class="item">
+							<span class="content_image">
+								{$image->src}
+							</span>
+							<h1 class="left_img">{$image->filename}</h1>
+							<address class="left_img"><strong><i class="xi-user"></i>{$image->nick_name}</strong> | <time><i class="xi-time"></i><span class="time">{$image->regdate}</span></time></address>
+						</section>
+					</div>
+				</a>
+			</li>
+		<!--@end-->
+		</ul>
+	<!--@end-->
+
+</section>
+
+<!--// 페이지 버튼 영역 -->
+{@$misolSection = 'multimedia'}
+<!--#include("_page.html")-->
+
+{@ $_misolSearch--; }
+<!--#include("footer.html")-->

@@ -1,0 +1,20 @@
+<!--#include("header.html")-->
+
+{@ $output = $search_result['document'] }
+<!--#include("document.html")-->
+
+{@ $output = $search_result['comment'] }
+<!--#include("comment.html")-->
+
+{@ $output = $search_result['trackback'] }
+{@ $search_target = 'title'; }
+<!--#include("trackback.html")-->
+
+{@ $output = $search_result['multimedia'] }
+<!--#include("multimedia.html")-->
+
+{@ $output = $search_result['file'] }
+<!--#include("file.html")-->
+
+{@ $_misolSearch--; }
+<!--#include("footer.html")-->
