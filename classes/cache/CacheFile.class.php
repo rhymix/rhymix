@@ -171,6 +171,7 @@ class CacheFile extends CacheBase
 	function truncate()
 	{
 		FileHandler::removeFilesInDir($this->cache_dir);
+		return true;
 	}
 
 }
