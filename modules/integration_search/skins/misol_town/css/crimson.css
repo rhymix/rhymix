@@ -118,17 +118,6 @@
 .misolSearch .content_basic section.item .left_img{
 	margin-left:85px;
 }
-.misolSearch .content_category {
-	color: #872434;
-	font-family: HelveticaNeue-Light,AppleSDGothicNeo-Light,sans-serif-light,sans-serif;
-	margin: 0 7px 0 3px;
-}
-.misolSearch .content_nickname, .misolSearch .content_recnt{
-	color: #9e9e9e;
-	font-size: 12px;
-	margin: 0 3px 0 7px;
-	overflow:hidden;
-}
 .misolSearch ul.misolSearch_list, .misolSearch ul.misolSearchTabA, .misolSearch ol.misolSearchTabA {
 	list-style: outside none none;
 	padding: 0px 0px 6px;
@@ -144,22 +133,9 @@
 .misolSearch  .misolSearch_list li:first-child, .misolSearch.misolSearch_list li.first-child{
 	border-top: 0 none;
 }
-.misolSearch .content_recnt{ /* 코멘트 */
-	position:absolute;
-	height:18px;
-	width:44px;
-	text-align:right;
-	font-size: 13px;
-	margin:3px;
-	top:0.6em;
-	right:3px;
-}
 .misolSearch  .misolSearch_list li i{ /* 아이콘 */
 	margin-right:3px;
 	font-size:0.9em;
-}
-.misolSearch .misolSearch_list li.content_reext .cont_a { /* 코멘트 있는 항목 */
-	padding-right:70px;
 }
 .misolSearch .misolSearchSection .noResult{
 	display:inline-block;
@@ -196,36 +172,6 @@
 	top: 15px;
 	height: 12.5px;
 	width: 9px;
-}
-/* 갤러리 스타일 */
-.misolSearch div.misolGallery{
-	overflow: hidden;
-	width:100%;
-	white-space: nowrap;
-	box-sizing: border-box;
-}
-div.misolGallery ul.misolGallery{
-	display: block;
-	list-style: outside none none;
-	padding: 6px 0px 100px;
-	margin: 0;
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
-}
-div.misolGallery ul.misolGallery li{
-	position: relative;
-	display: inline-block;
-	padding:0 5px;
-}
-div.misolGallery ul.misolGallery li .gallery_text
-{
-	display:inline-block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-div.misolGallery ul.misolGallery li .cont_a:hover {
-	color: #872434;
 }
 /* 상단 탭 스타일 */
 .misolSearch div.misolTab{
@@ -280,37 +226,7 @@ div.misolGallery ul.misolGallery li .cont_a:hover {
 .misolSearch section ul.misolSearchTabA>li:first-child a span, .misolSearch section ol.misolSearchTabA>li:first-child a span {
 	padding-left: 10px;
 }
-.misolSearch dl.seachDiv{ margin:0;}
-.misolSearch dl.seachDiv dt{ position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0;}
-.misolSearch dl.seachDiv dd{ display:none; margin:0;} 
-.widgetContainer .misolSearch .open{ display:block !important;}
 
-.misolSearch .misolSearchNavigator {
-	text-align: center;
-	color: #9e9e9e;
-	margin: 0;
-	padding: 10px 0;
-	border-top: 1px solid #e0e0e0;
-}
-
-.misolSearch .misolSearchNavigator button {
-	background-color:transparent;
-	color: inherit;
-	border: 0 none;
-	cursor: pointer;
-	line-height: 20px;
-	height:35px;
-	width: 100%;
-	margin:0;
-	font-size: 15px;
-}
-.misolSearch .misolSearchNavigator li button:hover{
-	color: #872434;
-}
-.misolSearch .misolSearchNavigator li button i{
-	font-size:16px;
-	line-height:16px;
-}
 /* 페이지 */
 
 .misolSearch .pagination{
