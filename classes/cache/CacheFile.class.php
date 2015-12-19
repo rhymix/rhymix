@@ -89,7 +89,7 @@ class CacheFile extends CacheBase
 	 *
 	 * @param string $key Cache key
 	 * @param int $modified_time  	Unix time of data modified.
-	 * 				If stored time is older then modified time, return false.
+	 * 								If stored time is older then modified time, return false.
 	 * @return bool Return true on valid or false on invalid.
 	 */
 	function isValid($key, $modified_time = 0)
@@ -115,7 +115,7 @@ class CacheFile extends CacheBase
 	 *
 	 * @param string $key The $key used to store the value.
 	 * @param int $modified_time 	Unix time of data modified.
-	 * 				If stored time is older then modified time, return false.
+	 * 								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure. Return the string associated with the $key on success.
 	 */
 	function get($key, $modified_time = 0)
