@@ -5,7 +5,6 @@
  *
  * @author MinSoo Kim <misol.kr@gmail.com>
  */
-require_once(_XE_PATH_.'modules/board/board.view.php');
 
 class integration_searchMobile extends integration_searchView
 {
