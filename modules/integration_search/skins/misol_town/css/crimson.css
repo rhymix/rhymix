@@ -1,0 +1,343 @@
+@charset "UTF-8";
+/* 크림슨 #872434 */
+/* 전체 스타일 */
+.misolSearch
+{
+	background-color:#ffffff;
+	font-family: "맑은 고딕", "Apple SD Gothic Neo","나눔고딕",NanumGothic,'Nanum Gothic',"돋움",Dotum,"굴림",Gulim,Helvetica,sans-serif;
+	font-size: 14px;
+	background-color: #fff;
+	margin: 5px 0px;
+	padding: 0px;
+}
+.misolSearch section.misolSearchSection
+{
+	background-color:#ffffff;
+	font-size: 14px;
+	background-color: #fff;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+	margin: 10px;
+	padding: 0 5px;
+}
+/* 검색 상자 스타일 */
+.misolSearch .searchBox {
+	padding:15px 0px;
+	text-align: center;
+}
+#misolSearchForm{
+	display:inline-block;
+}
+.misolSearch .searchBox input[type="submit"]{vertical-align:top;background:#616161;border:1px solid #e0e0e0;color:#fff;height:32px;padding:0 15px;margin:0;}
+.misolSearch .searchBox input[type="submit"]:hover, .misolSearch .searchBox input[type='submit']:focus {background:#872434;}
+.misolSearch .searchBox input.keyword[type='text'] {
+	width: 450px;
+	line-height: 18px;
+	font-size: 14px;
+	margin: 0;
+	padding: 8px 8px 6px 8px;
+	position: relative;
+	display: inline-block;
+	outline: none;
+	border: none;
+	border-bottom:1px solid #e0e0e0;
+}
+.misolSearch .searchBox input.keyword[type='text']:hover, .misolSearch .searchBox input.keyword[type='text']:focus {
+	border-bottom:1px solid #872434;
+}
+
+/* 글 목록 스타일 */
+.misolSearch address {
+	font-style:normal;
+}
+.misolSearch .misolSearch_list .cont_a {
+	color: #222;
+	display: block;
+	letter-spacing: -1px;
+	line-height: 18px;
+	margin: 0 -5px;
+	overflow: hidden;
+	padding: 0.667em 10px 0.733em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-decoration: none;
+}
+.misolSearch .misolSearch_list .cont_a:hover {
+	color: #872434;
+}
+.misolSearch .cont_a {
+	color: #222;
+	display: block;
+	letter-spacing: -1px;
+	overflow: hidden;
+	padding: 0.467em 0;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-decoration: none;
+}
+.misolSearch .cont_a dt {
+	font-weight: bold;
+}
+.misolSearch .content_basic{
+	position:relative;
+	display:block;
+	width:100%;
+	vertical-align: middle;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.misolSearch .content_basic section.item{
+	width:100%;
+}
+.misolSearch .content_basic section.item h1, .misolSearch .content_basic section.item p, .misolSearch .content_basic section.item address{
+	padding:0px;
+	margin:3px 0px;
+	color: #212121;
+	font-size: 14px;
+	position:relative;
+	box-sizing: border-box;
+	width:auto;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.misolSearch .content_image {
+	display:block;
+	position:absolute;
+	left:0px;
+	width: 80px;
+}
+.misolSearch .content_image img{
+	width:80px;
+	height:80px;
+}
+.misolSearch span.left_img{
+	height:80px;
+}
+.misolSearch .content_basic section.item .left_img{
+	margin-left:85px;
+}
+.misolSearch .content_category {
+	color: #872434;
+	font-family: HelveticaNeue-Light,AppleSDGothicNeo-Light,sans-serif-light,sans-serif;
+	margin: 0 7px 0 3px;
+}
+.misolSearch .content_nickname, .misolSearch .content_recnt{
+	color: #9e9e9e;
+	font-size: 12px;
+	margin: 0 3px 0 7px;
+	overflow:hidden;
+}
+.misolSearch ul.misolSearch_list, .misolSearch ul.misolSearchTabA, .misolSearch ol.misolSearchTabA {
+	list-style: outside none none;
+	padding: 0px 0px 6px;
+	margin: 0;
+}
+
+.misolSearch .misolSearch_list li {
+	position:relative;
+	border-top: 1px solid #e0e0e0;
+	overflow: hidden;
+	padding:0;
+}
+.misolSearch  .misolSearch_list li:first-child, .misolSearch.misolSearch_list li.first-child{
+	border-top: 0 none;
+}
+.misolSearch .content_recnt{ /* 코멘트 */
+	position:absolute;
+	height:18px;
+	width:44px;
+	text-align:right;
+	font-size: 13px;
+	margin:3px;
+	top:0.6em;
+	right:3px;
+}
+.misolSearch  .misolSearch_list li i{ /* 아이콘 */
+	margin-right:3px;
+	font-size:0.9em;
+}
+.misolSearch .misolSearch_list li.content_reext .cont_a { /* 코멘트 있는 항목 */
+	padding-right:70px;
+}
+.misolSearch .misolSearchSection .noResult{
+	display:inline-block;
+	margin: 10px;
+}
+/* 상단 제목 스타일 */
+.misolSearch .misolTop {
+	border-bottom: 1px solid #e0e0e0;
+	height: 45px;
+	line-height: 20px;
+	margin: 0px 5px;
+	position: relative;
+}
+.misolSearch div.misolTop h1
+{
+	color: #000;
+	font-weight: 400;
+	letter-spacing: -1px;
+	line-height: 45px;
+	font-size: 16.3833px;
+
+}
+.misolSearch div.misolTop .misol_top_a {
+	color: #000;
+	font-weight: 400;
+	display: block;
+	margin: 0 -10px;
+	padding: 0 10px;
+	text-decoration: none;
+}
+.misolSearch div.misolTop .misol_more {
+	position: absolute;
+	right: 5px;
+	top: 15px;
+	height: 12.5px;
+	width: 9px;
+}
+/* 갤러리 스타일 */
+.misolSearch div.misolGallery{
+	overflow: hidden;
+	width:100%;
+	white-space: nowrap;
+	box-sizing: border-box;
+}
+div.misolGallery ul.misolGallery{
+	display: block;
+	list-style: outside none none;
+	padding: 6px 0px 100px;
+	margin: 0;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+div.misolGallery ul.misolGallery li{
+	position: relative;
+	display: inline-block;
+	padding:0 5px;
+}
+div.misolGallery ul.misolGallery li .gallery_text
+{
+	display:inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+div.misolGallery ul.misolGallery li .cont_a:hover {
+	color: #872434;
+}
+/* 상단 탭 스타일 */
+.misolSearch div.misolTab{
+	overflow: hidden;
+	width:100%;
+	height: 52px;
+	white-space: nowrap;
+	border-bottom: 1px solid #e0e0e0;
+	box-sizing: border-box;
+}
+.misolSearch ul.misolSearchTabA, .misolSearch ol.misolSearchTabA{
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	padding: 6px 0px 100px;
+	text-decoration: none;
+}
+.misolSearch div.misolTabCenter{
+	text-align: center;
+	border-bottom: none;
+}
+.misolSearch ol.misolSearchTabA{
+	display: inline-block;
+ }
+.misolSearch ul.misolSearchTabA>li, .misolSearch ol.misolSearchTabA>li {
+	display:inline-block;
+	height: 40px;
+	line-height: 18px;
+	position: relative;
+}
+.misolSearch ul.misolSearchTabA>li a, .misolSearch ol.misolSearchTabA>li a{
+	display:inline-block;
+	color: #000;
+	font-weight: 400;
+	letter-spacing: -1px;
+	line-height: 40px;
+	text-decoration: none;
+}
+.misolSearch ul.misolSearchTabA>li a:hover, .misolSearch ul.misolSearchTabA>li.active a, .misolSearch ol.misolSearchTabA>li a:hover, .misolSearch ol.misolSearchTabA>li.active a {
+	color: #872434;
+	font-weight: 700;
+}
+.misolSearch ul.misolSearchTabA>li a span, .misolSearch ol.misolSearchTabA>li a span {
+	border-left: 1px solid #e0e0e0;
+	padding: 0 15px;
+}
+
+.misolSearch ul.misolSearchTabA>li:first-child a span, .misolSearch ol.misolSearchTabA>li:first-child a span {
+	border-left: 0 none;
+}
+
+.misolSearch section ul.misolSearchTabA>li:first-child a span, .misolSearch section ol.misolSearchTabA>li:first-child a span {
+	padding-left: 10px;
+}
+.misolSearch dl.seachDiv{ margin:0;}
+.misolSearch dl.seachDiv dt{ position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0;}
+.misolSearch dl.seachDiv dd{ display:none; margin:0;} 
+.widgetContainer .misolSearch .open{ display:block !important;}
+
+.misolSearch .misolSearchNavigator {
+	text-align: center;
+	color: #9e9e9e;
+	margin: 0;
+	padding: 10px 0;
+	border-top: 1px solid #e0e0e0;
+}
+
+.misolSearch .misolSearchNavigator button {
+	background-color:transparent;
+	color: inherit;
+	border: 0 none;
+	cursor: pointer;
+	line-height: 20px;
+	height:35px;
+	width: 100%;
+	margin:0;
+	font-size: 15px;
+}
+.misolSearch .misolSearchNavigator li button:hover{
+	color: #872434;
+}
+.misolSearch .misolSearchNavigator li button i{
+	font-size:16px;
+	line-height:16px;
+}
+/* 페이지 */
+
+.misolSearch .pagination{
+	font-size:16px;
+	line-height:16px;
+}
+.misolSearch .prevEnd:before{
+	font-family:xeicon;
+	content:"\e60b"
+}
+.misolSearch .nextEnd:after{
+	font-family:xeicon;
+	content:"\e60d"
+}
+
+/* PC / Mobile */
+.misolSearch ol.misolMobile{
+	display:none;
+}
+@media screen and (max-width: 750px) {
+	.misolSearch ol.misolMobile{
+		display: inline-block;
+	}
+	.misolSearch ol.misolPC{
+		display: none;
+	}
+	.misolSearch .searchBox input.keyword[type='text'] {
+		width: 200px;
+	}
+}

@@ -85,7 +85,7 @@
 				</block>
 			</div>
 		</div>
-		<block loop="$skin_info->extra_vars => $key, $val">
+		<block loop="$skin_info->extra_vars => $key, $val" cond="$skin_info->extra_vars">
 			<block cond="$val->group && ((!$group) || $group != $val->group)">
 				{@$group = $val->group}
 				</section>
