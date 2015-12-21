@@ -302,7 +302,7 @@ class Password
 		$is_windows = (defined('PHP_OS') && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
 		if(function_exists('random_bytes'))  // PHP 7
 		{
-			$entropy = random_bytes($capped_entropy_bytes);
+			$entropy = random_bytes($entropy_capped_bytes);
 		}
 		elseif(function_exists('openssl_random_pseudo_bytes') && (!$is_windows || version_compare(PHP_VERSION, '5.4', '>=')))
 		{
