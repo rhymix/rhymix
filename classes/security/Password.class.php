@@ -13,6 +13,24 @@
 class Password
 {
 	/**
+	 * @brief Custom algorithms are stored here
+	 * @var array
+	 */
+	protected static $_custom = array();
+
+	/**
+	 * @brief Register a custom algorithm for password checking
+	 * @param string $name The name of the algorithm
+	 * @param string $regexp The regular expression to detect the algorithm
+	 * @param callable $callback The function to call to regenerate the hash
+	 * @return void
+	 */
+	public static function registerCustomAlgorithm($name, $regexp, $callback)
+	{
+		self::$_custom[$name] = array('regexp' => $regexp, 'callback' => $callback);
+	}
+
+	/**
 	 * @brief Return the list of hashing algorithms supported by this server
 	 * @return array
 	 */
@@ -162,6 +180,12 @@ class Password
 				return $this->strcmpConstantTime($hash_to_compare, $hash);
 
 			default:
+				if($algorithm && isset(self::$_custom[$algorithm]))
+				{
+					$hash_callback = self::$_custom[$algorithm]['callback'];
+					$hash_to_compare = $hash_callback($password, $hash);
+					return $this->strcmpConstantTime($hash_to_compare, $hash);
+				}
 				if(in_array($algorithm, hash_algos()))
 				{
 					return $this->strcmpConstantTime(hash($algorithm, $password), $hash);
@@ -177,6 +201,14 @@ class Password
 	 */
 	function checkAlgorithm($hash)
 	{
+		foreach(self::$_custom as $name => $definition)
+		{
+			if(preg_match($definition['regexp'], $hash))
+			{
+				return $name;
+			}
+		}
+
 		if(preg_match('/^\$2[axy]\$([0-9]{2})\$/', $hash, $matches))
 		{
 			return 'bcrypt';
