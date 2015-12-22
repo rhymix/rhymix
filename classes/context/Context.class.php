@@ -924,7 +924,7 @@ class Context
 	 * @param string $path Path of the language file
 	 * @return void
 	 */
-	public static  function loadLang($path)
+	public static function loadLang($path)
 	{
 		global $lang;
 
