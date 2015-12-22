@@ -844,7 +844,7 @@ class documentItem extends Object
 			}
 			else
 			{
-				return $thumbnail_url;
+				return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
 			}
 		}
 
@@ -938,7 +938,7 @@ class documentItem extends Object
 		// Return the thumbnail path if it was successfully generated
 		if($output)
 		{
-			return $thumbnail_url;
+			return $thumbnail_url . '?' . date('YmdHis');
 		}
 		// Create an empty file if thumbnail generation failed
 		else
