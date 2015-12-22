@@ -321,23 +321,29 @@ class commentController extends comment
 
 		// remove XE's own tags from the contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-
-		if(Mobile::isFromMobilePhone() && !$manual_inserted && $obj->use_editor != 'Y')
+		
+		// if use editor of nohtml, Remove HTML tags from the contents.
+		if(!$manual_inserted)
 		{
-			if($obj->use_html != 'Y')
+			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				}
+				$obj->content = nl2br($obj->content);
 			}
-			$obj->content = nl2br($obj->content);
-		}
-		else
-		{
-			$oModuleModel = getModel('module');
-			$editor_config = $oModuleModel->getModuleConfig('editor');
-			
-			if(substr_compare($editor_config->sel_comment_editor_colorset, 'nohtml', -6) === 0 && !$manual_inserted)
+			else
 			{
-				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
+				$oEditorModel = getModel('editor');
+				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
+				
+				if(strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== FALSE)
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$obj->content = nl2br($obj->content);
+					$obj->content = preg_replace('/\r|\n/', '', $obj->content);
+				}
 			}
 		}
 
@@ -741,22 +747,28 @@ class commentController extends comment
 		// remove XE's wn tags from contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
-		if(Mobile::isFromMobilePhone() && !$manual_inserted && $obj->use_editor != 'Y')
+		// if use editor of nohtml, Remove HTML tags from the contents.
+		if(!$manual_updated)
 		{
-			if($obj->use_html != 'Y')
+			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				}
+				$obj->content = nl2br($obj->content);
 			}
-			$obj->content = nl2br($obj->content);
-		}
-		else
-		{
-			$oModuleModel = getModel('module');
-			$editor_config = $oModuleModel->getModuleConfig('editor');
-			
-			if(substr_compare($editor_config->sel_comment_editor_colorset, 'nohtml', -6) === 0)
+			else
 			{
-				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
+				$oEditorModel = getModel('editor');
+				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
+				
+				if(strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== FALSE)
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$obj->content = nl2br($obj->content);
+					$obj->content = preg_replace('/\r|\n/', '', $obj->content);
+				}
 			}
 		}
 

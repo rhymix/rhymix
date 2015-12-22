@@ -281,22 +281,28 @@ class documentController extends document
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-		if(Mobile::isFromMobilePhone() && !$manual_inserted && $obj->use_editor != 'Y')
+		// if use editor of nohtml, Remove HTML tags from the contents.
+		if(!$manual_inserted)
 		{
-			if($obj->use_html != 'Y')
+			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				}
+				$obj->content = nl2br($obj->content);
 			}
-			$obj->content = nl2br($obj->content);
-		}
-		else
-		{
-			$oModuleModel = getModel('module');
-			$editor_config = $oModuleModel->getModuleConfig('editor');
-			
-			if(strlen($editor_config->sel_editor_colorset) >= 6 && substr_compare($editor_config->sel_editor_colorset, 'nohtml', -6) === 0 && !$manual_inserted)
+			else
 			{
-				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
+				$oEditorModel = getModel('editor');
+				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
+				
+				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$obj->content = nl2br($obj->content);
+					$obj->content = preg_replace('/\r|\n/', '', $obj->content);
+				}
 			}
 		}
 		// Remove iframe and script if not a top adminisrator in the session.
@@ -491,22 +497,28 @@ class documentController extends document
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-		if(Mobile::isFromMobilePhone() && !$manual_inserted && $obj->use_editor != 'Y')
+		// if use editor of nohtml, Remove HTML tags from the contents.
+		if(!$manual_updated)
 		{
-			if($obj->use_html != 'Y')
+			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				}
+				$obj->content = nl2br($obj->content);
 			}
-			$obj->content = nl2br($obj->content);
-		}
-		else
-		{
-			$oModuleModel = getModel('module');
-			$editor_config = $oModuleModel->getModuleConfig('editor');
-			
-			if(substr_compare($editor_config->sel_editor_colorset, 'nohtml', -6) === 0)
+			else
 			{
-				$obj->content = preg_replace('/\r|\n/', '', nl2br(htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
+				$oEditorModel = getModel('editor');
+				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
+				
+				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$obj->content = nl2br($obj->content);
+					$obj->content = preg_replace('/\r|\n/', '', $obj->content);
+				}
 			}
 		}
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
@@ -774,7 +786,7 @@ class documentController extends document
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->description = $obj->description;
 		// Insert member's information only if the member is logged-in and not manually registered.
-		if(Context::get('is_logged')&&!$manual_inserted)
+		if(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
 			$trash_args->member_srl = $logged_info->member_srl;
