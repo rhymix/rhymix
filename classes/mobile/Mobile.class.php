@@ -238,4 +238,3 @@ class Mobile
 		return ($db_info->use_mobile_view === 'Y');
 	}
 }
-?>
