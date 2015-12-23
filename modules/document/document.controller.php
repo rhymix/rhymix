@@ -299,9 +299,9 @@ class documentController extends document
 				
 				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
 				{
+					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
 					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-					$obj->content = nl2br($obj->content);
-					$obj->content = preg_replace('/\r|\n/', '', $obj->content);
+					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
 				}
 			}
 		}
@@ -515,9 +515,9 @@ class documentController extends document
 				
 				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
 				{
+					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
 					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-					$obj->content = nl2br($obj->content);
-					$obj->content = preg_replace('/\r|\n/', '', $obj->content);
+					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
 				}
 			}
 		}
