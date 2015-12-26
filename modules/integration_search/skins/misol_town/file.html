@@ -1,0 +1,40 @@
+<!--#include("header.html")-->
+
+<section class="misolSearchSection">
+	<!--// 제목 또는 탭 영역 -->
+	<div class="misolTop" cond="$where != 'file'">
+		<a href="{getAutoEncodedUrl('where','file','page',1)}" class="misol_top_a"><h1 class="subTitle"><span><i class="xi-clip" title="{$lang->file}"></i> {$lang->file} <span>({number_format($output->total_count)})</span></span></h1><span class="misol_more"><i class="xi-angle-right" title="{$lang->more}"></i></span></a>
+	</div>
+	<div class="misolTop" cond="$where == 'file'">
+		<h1 class="subTitle"><span><i class="xi-clip" title="{$lang->file}"></i> {$lang->file} <span>({number_format($output->total_count)})</span></span></h1>
+	</div>
+
+	<!--// 리스트 영역 -->
+	<!--@if(!count($output->data))-->
+		<span class="noResult">
+			{$lang->msg_no_result}
+		</span>
+	<!--@else-->
+		<ul class="misolSearch_list">
+		<!--@foreach($output->data as $no => $file)-->
+			<li>
+				<a href="{$file->url}" class="cont_a" onclick="window.open(this.href);return false;">
+					<div class="content_basic">
+						<section class="item">
+							<h1>{$file->filename} ({FileHandler::filesize($file->file_size)})</h1>
+							<address><strong><i class="xi-user"></i>{$file->nick_name}</strong> | <i class="xi-time"></i><span class="time"><time>{$file->regdate}</time></span> | {number_format($file->download_count)}</address>
+						</section>
+					</div>
+				</a>
+			</li>
+		<!--@end-->
+		</ul>
+	<!--@end-->
+</section>
+
+<!--// 페이지 버튼 영역 -->
+{@$misolSection = 'file'}
+<!--#include("_page.html")-->
+
+{@ $_misolSearch--; }
+<!--#include("footer.html")-->

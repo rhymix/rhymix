@@ -1,0 +1,55 @@
+<!--#include("header.html")-->
+<section class="misolSearchSection">
+	<!--// 제목 또는 탭 영역 -->
+	<div class="misolTop" cond="$where != 'document'">
+		<a href="{getAutoEncodedUrl('where','document','page',1)}" class="misol_top_a"><h1 class="subTitle"><span><i class="xi-file-text" title="{$lang->document}"></i> {$lang->document} <span>({number_format($output->total_count)})</span></span></h1><span class="misol_more"><i class="xi-angle-right" title="{$lang->more}"></i></span></a>
+	</div>
+	<div class="misolTop" cond="$where == 'document'">
+		<h1 class="subTitle"><span><i class="xi-file-text" title="{$lang->document}"></i> {$lang->document} <span>({number_format($output->total_count)})</span></span></h1>
+	</div>
+	<div class="misolTab">
+		<ul class="misolSearchTabA">
+			<!--@foreach($lang->is_search_option['document'] as $key => $val)-->
+			<li class="<!--@if($search_target == $key)-->active<!--@end--><!--@if($key=="tag")--> last<!--@end-->"><a href="{getUrl('where','document','search_target',$key,'page',1,'division','')}"><span>{$val}</span></a></li>
+			<!--@end-->
+		</ul>
+	</div>
+
+	<!--// 리스트 영역 -->
+	<!--@if(!count($output->data))-->
+		<span class="noResult">
+			{$lang->msg_no_result}
+			<!--@if($last_division)-->
+			<br>{$lang->msg_document_more_search}
+			<br><a class="btn" href="{getUrl('where','document','page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}">{$lang->cmd_search_next}</a>
+			<!--@end-->
+		</span>
+	<!--@else-->
+		<ul class="misolSearch_list">
+		<!--@foreach($output->data as $no => $document)-->
+			<li>
+				<a href="{getUrl('','document_srl',$document->document_srl)}" class="cont_a" onclick="window.open(this.href);return false;">
+					<div class="content_basic<!--@if($document->thumbnailExists(240))--> left_img<!--@end-->">
+						<section class="item">
+							<span cond="$document->thumbnailExists(240)" class="content_image">
+								<img src="{$document->getThumbnail(240)}" width="80" height="80" alt="{str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$document->getTitle())}" />
+							</span>
+							<h1 class="left_img"|cond="$document->thumbnailExists(240)">{$document->getTitle()}</h1>
+							<p class="left_img"|cond="$document->thumbnailExists(240)">{$document->getSummary(200)}</p>
+							<address class="left_img"|cond="$document->thumbnailExists(240)"><strong><i class="xi-user"></i>{$document->getNickName()}</strong> | <time><i class="xi-time"></i><span class="time">{$document->getRegdate("Y-m-d H:i")}</span></time> | <i class="xi-eye" title="{$lang->readed_count}"></i><span class="readNum">{$document->get('readed_count')}</span> | <i class="xi-message"></i>{$document->getCommentCount()}<!--@if($document->get('voted_count'))--> | <i class="xi-thumbs-up" title="{$lang->voted_count}"></i><span class="recomNum">{$document->get('voted_count')}</span><!--@end--></address>
+						</section>
+					</div>
+				</a>
+			</li>
+		<!--@end-->
+		</ul>
+
+	<!--@end-->
+</section>
+
+<!--// 페이지 버튼 영역 -->
+{@$misolSection = 'document'}
+<!--#include("_page.html")-->
+
+{@ $_misolSearch--; }
+<!--#include("footer.html")-->

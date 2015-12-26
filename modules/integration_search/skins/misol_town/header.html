@@ -1,0 +1,37 @@
+<!--// 헤더는 한번만 작성-->
+<!--@if(!$_misolSearch)-->
+
+<!--// 스타일 불러오기 -->
+<!--@if($module_info->colorset != "crimson")-->
+	<load target="./css/blue.css" />
+<!--@else-->
+	<load target="./css/crimson.css" />
+<!--@end-->
+
+<load target="./../../../../common/xeicon/xeicon.min.css" />
+<main class="misolSearch">
+	{@ $_misolSearch = 1905; }
+
+	<div class="searchBox">
+		<form action="{getUrl()}" method="post" class="search" id="misolSearchForm" no-error-return-url="true" >
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="act" value="IS" />
+			<input type="hidden" name="where" value="{$where}" />
+			<input type="hidden" name="search_target" value="title_content" />
+			<input name="is_keyword" class="keyword" type="text" required="required" value="{$is_keyword}"/>
+			<input type="submit" value="{$lang->cmd_search}" />
+		</form>
+	</div>
+
+	<div class="misolTab">
+		<ul class="misolSearchTabA">
+			<li <!--@if(!$where)-->class="active"<!--@end-->><a href="{getAutoEncodedUrl('where','','page','','division','')}"><span>{$lang->integration_search}</span></a></li>
+			<li <!--@if($where=='document')-->class="active"<!--@end-->><a href="{getAutoEncodedUrl('where','document','page',1,'division','')}"><span>{$lang->document}</span></a></li>
+			<li <!--@if($where=='comment')-->class="active"<!--@end-->><a href="{getAutoEncodedUrl('where','comment','page',1,'division','')}"><span>{$lang->comment}</span></a></li>
+			<li <!--@if($where=='trackback')-->class="active"<!--@end-->><a href="{getAutoEncodedUrl('where','trackback','page',1,'division','')}"><span>{$lang->trackback}</span></a></li>
+			<li <!--@if($where=='multimedia')-->class="active"<!--@end-->><a href="{getAutoEncodedUrl('where','multimedia','page',1,'division','')}"><span>{$lang->multimedia}</span></a></li>
+			<li <!--@if($where=='file')-->class="active"<!--@end-->><a href="{getAutoEncodedUrl('where','file','page',1,'division','')}"><span>{$lang->file}</span></a></li>
+		</ul>
+	</div>
+<!--@end-->
+{@ $_misolSearch++; }

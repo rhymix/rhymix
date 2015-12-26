@@ -1,0 +1,38 @@
+<!--// 페이지 버튼 영역 -->
+<div class="misolTab misolTabCenter" cond="$where == $misolSection && $output->page_navigation && count($output->data)">
+	<!--@if(!$page)-->
+		{@$page = 1}
+	<!--@end-->
+	<ol class="misolSearchTabA misolPC">
+		<li cond="$page != 1"><a href="{getAutoEncodedUrl('page','')}" class="prevEnd"><span>{$lang->first_page}</span></a></li>
+		<!--@while($page_no = $output->page_navigation->getNextPage())-->
+			<li class="active"|cond="$page == $page_no">
+				<span>
+					<a href="{getAutoEncodedUrl('page',$page_no)}"><span>{$page_no}</span></a>
+				</span>
+			</li>
+		<!--@end-->
+		<li cond="$page != $output->page_navigation->last_page"><a href="{getAutoEncodedUrl('page',$output->page_navigation->last_page)}" <!--@if(!$last_division)-->class="nextEnd"<!--@end-->><span>{$lang->last_page}</span></a></li>
+		<!--@if($last_division)-->
+		<li><a href="{getAutoEncodedUrl('page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="nextEnd"><span>{$lang->cmd_search_next}</span></a></li>
+		<!--@end-->
+	</ol>
+
+	<!--// 좁은 화면의 페이지 버튼-->
+	<ol class="misolSearchTabA misolMobile">
+
+		<!--@if($page != 1)-->
+			<li><a href="{getAutoEncodedUrl('page',$page-1)}" class="prevEnd"><span>{$lang->cmd_prev}</span></a></li>
+		<!--@endif-->
+
+		<li class="active"><a href="{getAutoEncodedUrl('page',$page)}"><span><strong>{$page} / {$output->page_navigation->last_page}</strong></span></a></li>
+
+		<!--@if($page != $output->page_navigation->last_page)-->
+			<li><a href="{getAutoEncodedUrl('page',$page+1)}" <!--@if(!$last_division)-->class="nextEnd"<!--@end-->><span>{$lang->cmd_next}</span></a></li>
+		<!--@endif-->
+
+		<!--@if($last_division)-->
+			<li><a href="{getAutoEncodedUrl('page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="nextEnd"><span>{$lang->cmd_search_next}</span></a></li>
+		<!--@end-->
+	</ol>
+</div>

@@ -5,8 +5,8 @@
   <conditions>
     <condition operation="equal" column="message_type" var="message_type" />
     <group pipe="and">
-      <condition operation="equal" column="sender_srl" var="sender_srl" />
-      <condition operation="equal" column="receiver_srl" var="receiver_srl" pipe="or" />
+		<condition operation="equal" column="sender_srl" var="sender_srl" />
+		<condition operation="equal" column="receiver_srl" var="receiver_srl" pipe="or" />
     </group>
   </conditions>
 </query>

@@ -1,0 +1,40 @@
+<!--#include("header.html")-->
+
+<section class="misolSearchSection">
+	<div class="misolTop" cond="$where != 'comment'">
+		<a href="{getAutoEncodedUrl('where','comment','page',1)}" class="misol_top_a"><h1 class="subTitle"><span><i class="xi-comments" title="{$lang->comment}"></i> {$lang->comment} <span>({number_format($output->total_count)})</span></span></h1><span class="misol_more"><i class="xi-angle-right" title="{$lang->more}"></i></span></a>
+	</div>
+	<div class="misolTop" cond="$where == 'comment'">
+		<h1 class="subTitle"><span><i class="xi-comments" title="{$lang->comment}"></i> {$lang->comment} <span>({number_format($output->total_count)})</span></span></h1>
+	</div>
+
+	<!--@if(!count($output->data))-->
+		<span class="noResult">{$lang->msg_no_result}</span>
+	<!--@else-->
+		<ul class="misolSearch_list">
+		<!--@foreach($output->data as $no => $comment)-->
+			<li>
+				<a href="{$comment->getPermanentUrl()}" class="cont_a" onclick="window.open(this.href);return false;">
+					<div class="content_basic<!--@if($comment->thumbnailExists(240))--> left_img<!--@end-->">
+						<section class="item">
+							<span cond="$comment->thumbnailExists(240)" class="content_image">
+								<img src="{$comment->getThumbnail(240)}" width="80" height="80" alt="{str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$comment->getSummary(100))}" />
+							</span>
+							<h1 class="left_img"|cond="$comment->thumbnailExists(240)">{$lang->comment}</h1>
+							<p class="left_img"|cond="$comment->thumbnailExists(240)">{$comment->getSummary(400)}</p>
+							<address class="left_img"|cond="$comment->thumbnailExists(240)"><strong><i class="xi-user"></i>{$comment->getNickName()}</strong> | <time><i class="xi-time"></i><span class="time">{$comment->getRegdate("Y-m-d H:i")}</span></time></address>
+						</section>
+					</div>
+				</a>
+			</li>
+		<!--@end-->
+		</ul>
+	<!--@end-->
+</section>
+
+<!--// 페이지 버튼 영역 -->
+{@$misolSection = 'comment'}
+<!--#include("_page.html")-->
+
+{@ $_misolSearch--; }
+<!--#include("footer.html")-->

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">미솔 스킨</title>
+	<title xml:lang="en">misol skin</title>
+	<description xml:lang="ko">통합검색 모바일에 검색에 대응하는 미솔 스킨입니다.</description>
+	<description xml:lang="en">The skin for mobile and PC environment of Integrated Search Module</description>
+	<version>1.0</version>
+	<date>2015-12-18</date>
+	<author email_address="misol.kr@gmail.com" link="https://github.com/misol">
+		<name xml:lang="ko">김민수</name>
+		<name xml:lang="en">MinSoo Kim</name>
+	</author>
+	<license>MIT License</license>
+
+	<colorset>
+		<color name="blue">
+			<title xml:lang="ko">파랑</title>
+			<title xml:lang="en">Blue</title>
+		</color>
+		<color name="crimson">
+			<title xml:lang="ko">크림슨</title>
+			<title xml:lang="en">Crimson</title>
+		</color>
+	</colorset>
+</skin>
