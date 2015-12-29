@@ -716,11 +716,11 @@ class boardView extends board
 			$pointForInsert = $point_config["insert_document"];
 			if($pointForInsert < 0)
 			{
-				if( !$logged_info )
+				if(!Context::get('is_logged'))
 				{
 					return $this->dispBoardMessage('msg_not_permitted');
 				}
-				else if (($oPointModel->getPoint($logged_info->member_srl) + $pointForInsert )< 0 )
+				else if(($oPointModel->getPoint($logged_info->member_srl) + $pointForInsert) < 0)
 				{
 					return $this->dispBoardMessage('msg_not_enough_point');
 				}

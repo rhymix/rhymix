@@ -14,11 +14,12 @@ if(!defined('__XE__'))
  * - When caliing MemberModel::getMemberMenu, feature to add a friend is added
  */
 // Stop if non-logged-in user is
-$logged_info = Context::get('logged_info');
-if(!$logged_info|| isCrawler())
+if(!Context::get('is_logged') || isCrawler())
 {
 	return;
 }
+
+$logged_info = Context::get('logged_info');
 
 /**
  * Message/Friend munus are added on the pop-up window and member profile. Check if a new message is received
