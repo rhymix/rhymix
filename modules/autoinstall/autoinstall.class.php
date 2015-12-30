@@ -70,7 +70,7 @@ class autoinstall extends ModuleObject
 	 *
 	 * @return void
 	 */
-	function autoinstall()
+	function __construct()
 	{
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('autoinstall');

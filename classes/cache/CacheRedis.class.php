@@ -37,7 +37,7 @@ class CacheRedis extends CacheBase
 	 * @param string $url url of Redis
 	 * @return void
 	 */
-	function CacheRedis($url)
+	function __construct($url)
 	{
 		//$config['url'] = 'redis://localhost:6379/1';
 		$config['url'] = is_array($url) ? reset($url) : $url;
