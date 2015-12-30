@@ -23,7 +23,7 @@ class board extends ModuleObject
 	 *
 	 * @return void
 	 */
-	function board()
+	function __construct()
 	{
 		if(!Context::isInstalled()) return;
 

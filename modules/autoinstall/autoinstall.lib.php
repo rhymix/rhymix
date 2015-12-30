@@ -344,7 +344,7 @@ class SFTPModuleInstaller extends ModuleInstaller
 	 * @param object $package Package information
 	 * @return void
 	 */
-	function SFTPModuleInstaller(&$package)
+	function __construct(&$package)
 	{
 		$this->package = &$package;
 		$this->ftp_info = Context::getFTPInfo();
@@ -507,7 +507,7 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 	 * @param object $package Package information
 	 * @var void
 	 */
-	function PHPFTPModuleInstaller(&$package)
+	function __construct(&$package)
 	{
 		$this->package = &$package;
 		$this->ftp_info = Context::getFTPInfo();
@@ -720,7 +720,7 @@ class FTPModuleInstaller extends ModuleInstaller
 	 *
 	 * @param object $package Package information
 	 */
-	function FTPModuleInstaller(&$package)
+	function __construct(&$package)
 	{
 		$this->package = &$package;
 		$this->ftp_info = Context::getFTPInfo();
@@ -880,7 +880,7 @@ class DirectModuleInstaller extends ModuleInstaller
 	 *
 	 * @param object $package Package information
 	 */
-	function DirectModuleInstaller(&$package)
+	function __construct(&$package)
 	{
 		$this->package = &$package;
 	}
