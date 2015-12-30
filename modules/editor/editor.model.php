@@ -627,7 +627,7 @@ class editorModel extends editor
 				if($logged_info->is_admin == "Y" || $logged_info->is_site_admin == "Y") continue;
 				if($val->target_group)
 				{
-					if(!$logged_info)
+					if(!Context::get('is_logged'))
 					{
 						$val->enabled = "N";
 					}

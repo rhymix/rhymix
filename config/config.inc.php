@@ -114,7 +114,7 @@ if(!defined('__DEBUG__'))
 	 * 4: output DB query history
 	 * </pre>
 	 */
-	define('__DEBUG__', 0);
+	define('__DEBUG__', 1);
 }
 
 if(!defined('__DEBUG_OUTPUT__'))

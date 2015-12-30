@@ -388,7 +388,10 @@ class Context
 				}
 
 				$this->set('is_logged', $oMemberModel->isLogged());
-				$this->set('logged_info', $oMemberModel->getLoggedInfo());
+				if($oMemberModel->isLogged())
+				{
+					$this->set('logged_info', $oMemberModel->getLoggedInfo());
+				}
 			}
 		}
 
