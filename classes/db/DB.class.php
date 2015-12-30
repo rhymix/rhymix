@@ -1,11 +1,6 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-if(!defined('__XE_LOADED_DB_CLASS__'))
-{
-	define('__XE_LOADED_DB_CLASS__', 1);
-}
-
 /**
  * - DB parent class
  * - usage of db in XE is via xml
@@ -190,7 +185,7 @@ class DB
 	 * constructor
 	 * @return void
 	 */
-	function DB()
+	function __construct()
 	{
 		$this->count_cache_path = _XE_PATH_ . $this->count_cache_path;
 		$this->cache_file = _XE_PATH_ . $this->cache_file;
@@ -215,16 +210,18 @@ class DB
 	 */
 	function getEnableList()
 	{
-		if(!$this->supported_list)
+		is_a($this, 'DB') ? $self = $this : $self = self::getInstance();
+		
+		if(!$self->supported_list)
 		{
 			$oDB = new DB();
-			$this->supported_list = $oDB->_getSupportedList();
+			$self->supported_list = $oDB->_getSupportedList();
 		}
 
 		$enableList = array();
-		if(is_array($this->supported_list))
+		if(is_array($self->supported_list))
 		{
-			foreach($this->supported_list AS $key => $value)
+			foreach($self->supported_list AS $key => $value)
 			{
 				if($value->enable)
 				{
@@ -242,16 +239,18 @@ class DB
 	 */
 	function getDisableList()
 	{
-		if(!$this->supported_list)
+		is_a($this, 'DB') ? $self = $this : $self = self::getInstance();
+		
+		if(!$self->supported_list)
 		{
 			$oDB = new DB();
-			$this->supported_list = $oDB->_getSupportedList();
+			$self->supported_list = $oDB->_getSupportedList();
 		}
 
 		$disableList = array();
-		if(is_array($this->supported_list))
+		if(is_array($self->supported_list))
 		{
-			foreach($this->supported_list AS $key => $value)
+			foreach($self->supported_list AS $key => $value)
 			{
 				if(!$value->enable)
 				{
@@ -1090,7 +1089,7 @@ class DB
 	 * this method is protected
 	 * @return boolean
 	 */
-	function _begin()
+	function _begin($transactionLevel = 0)
 	{
 		return TRUE;
 	}
@@ -1118,7 +1117,7 @@ class DB
 	 * this method is protected
 	 * @return boolean
 	 */
-	function _rollback()
+	function _rollback($transactionLevel = 0)
 	{
 		return TRUE;
 	}

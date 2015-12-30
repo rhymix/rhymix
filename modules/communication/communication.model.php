@@ -44,7 +44,7 @@ class communicationModel extends communication
 
 		if(!$communication_config->editor_skin)
 		{
-			$communication_config->editor_skin = 'default';
+			$communication_config->editor_skin = 'ckeditor';
 		}
 
 		if(!$communication_config->mskin)
@@ -110,10 +110,10 @@ class communicationModel extends communication
 		if(!$arrGrant)
 			return false;
 
-		$logged_info = Context::get('logged_info');
-		if(!$logged_info)
+		if(!Context::get('is_logged'))
 			return false;
-
+		
+		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin == "Y")
 			return true;
 

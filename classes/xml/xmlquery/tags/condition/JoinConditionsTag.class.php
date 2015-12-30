@@ -16,9 +16,9 @@ class JoinConditionsTag extends ConditionsTag
 	 * @param object $xml_conditions
 	 * @return void
 	 */
-	function JoinConditionsTag($xml_conditions)
+	function __construct($xml_conditions)
 	{
-		parent::ConditionsTag($xml_conditions);
+		parent::__construct($xml_conditions);
 		$this->condition_groups[0]->conditions[0]->setPipe("");
 	}
 

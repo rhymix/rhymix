@@ -134,6 +134,13 @@ a:hover, a:active, a:focus {
     vertical-align: middle;
     max-height: 40px;
 }
+.header > .logo-item a {
+	font-size: 24px;
+	color: #888;
+}
+.header > .logo-item a:hover {
+	color: #444;
+}
 /* Fixed Header */
 .container.fixed_header {
     padding-top: 100px

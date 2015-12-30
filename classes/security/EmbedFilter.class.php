@@ -260,7 +260,7 @@ class EmbedFilter
 	 * @constructor
 	 * @return void
 	 */
-	function EmbedFilter()
+	function __construct()
 	{
 		$this->_makeWhiteDomainList();
 

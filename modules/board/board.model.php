@@ -25,9 +25,9 @@ class boardModel extends module
 
 		// get the list config value, if it is not exitsted then setup the default value
 		$list_config = $oModuleModel->getModulePartConfig('board', $module_srl);
-		if(!$list_config || count($list_config) <= 0)
+		if(!is_array($list_config) || count($list_config) <= 0)
 		{
-			$list_config = array( 'no', 'title', 'nick_name','regdate','readed_count');
+			$list_config = array('no', 'title', 'nick_name','regdate','readed_count');
 		}
 
 		// get the extra variables

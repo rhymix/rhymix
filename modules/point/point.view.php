@@ -48,6 +48,8 @@ class pointView extends point
 				$module_config['read_document'] = $config->read_document;
 				$module_config['voted'] = $config->voted;
 				$module_config['blamed'] = $config->blamed;
+				$module_config['voted_comment'] = $config->voted_comment;
+				$module_config['blamed_comment'] = $config->blamed_comment;
 			}
 		}
 

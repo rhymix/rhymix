@@ -32,7 +32,7 @@ class ModuleHandler extends Handler
 	 * @return void
 	 * */
 
-	function ModuleHandler($module = '', $act = '', $mid = '', $document_srl = '', $module_srl = '')
+	function __construct($module = '', $act = '', $mid = '', $document_srl = '', $module_srl = '')
 	{
 		// If XE has not installed yet, set module as install
 		if(!Context::isInstalled())
@@ -116,7 +116,6 @@ class ModuleHandler extends Handler
 	 * */
 	function init()
 	{
-		
 		$oModuleModel = getModel('module');
 		$site_module_info = Context::get('site_module_info');
 
@@ -317,13 +316,13 @@ class ModuleHandler extends Handler
 	function procModule()
 	{
 		$oModuleModel = getModel('module');
+		$display_mode = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 
 		// If error occurred while preparation, return a message instance
 		if($this->error)
 		{
 			$this->_setInputErrorToContext();
-			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -359,8 +358,7 @@ class ModuleHandler extends Handler
 			$this->httpStatusCode = '404';
 
 			$this->_setInputErrorToContext();
-			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -397,7 +395,7 @@ class ModuleHandler extends Handler
 			if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
 			{
 				$this->error = "msg_invalid_request";
-				$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+				$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
@@ -410,13 +408,24 @@ class ModuleHandler extends Handler
 			Mobile::setMobile(FALSE);
 		}
 
-		// Admin ip
 		$logged_info = Context::get('logged_info');
+
+		// check CSRF for POST actions
+		if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && $this->act !== 'procFileUpload' && !checkCSRF()) {
+			$this->error = 'msg_invalid_request';
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+			$oMessageObject->setError(-1);
+			$oMessageObject->setMessage($this->error);
+			$oMessageObject->dispMessage();
+			return $oMessageObject;
+		}
+
+		// Admin ip
 		if($kind == 'admin' && $_SESSION['denied_admin'] == 'Y')
 		{
 			$this->_setInputErrorToContext();
 			$this->error = "msg_not_permitted_act";
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -446,8 +455,7 @@ class ModuleHandler extends Handler
 		if(!is_object($oModule))
 		{
 			$this->_setInputErrorToContext();
-			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -466,7 +474,7 @@ class ModuleHandler extends Handler
 			{
 				$this->_setInputErrorToContext();
 				$this->error = 'msg_invalid_request';
-				$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+				$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
@@ -495,7 +503,7 @@ class ModuleHandler extends Handler
 				else
 				{
 					$this->error = 'msg_invalid_request';
-					$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+					$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 					$oMessageObject->setError(-1);
 					$oMessageObject->setMessage($this->error);
 					$oMessageObject->dispMessage();
@@ -517,6 +525,34 @@ class ModuleHandler extends Handler
 				$tpl_path = $oModule->getTemplatePath();
 				$orig_module = $oModule;
 
+				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
+
+				// SECISSUE also check foward act method
+				// check REQUEST_METHOD in controller
+				if($type == 'controller')
+				{
+					$allowedMethod = $xml_info->action->{$forward->act}->method;
+
+					if(!$allowedMethod)
+					{
+						$allowedMethodList[0] = 'POST';
+					}
+					else
+					{
+						$allowedMethodList = explode('|', strtoupper($allowedMethod));
+					}
+
+					if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
+					{
+						$this->error = "msg_invalid_request";
+						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+						$oMessageObject->setError(-1);
+						$oMessageObject->setMessage($this->error);
+						$oMessageObject->dispMessage();
+						return $oMessageObject;
+					}
+				}
+
 				if($type == "view" && Mobile::isFromMobilePhone())
 				{
 					$orig_type = "view";
@@ -537,9 +573,8 @@ class ModuleHandler extends Handler
 
 				if(!is_object($oModule))
 				{
-					$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 					$this->_setInputErrorToContext();
-					$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+					$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 					$oMessageObject->setError(-1);
 					$oMessageObject->setMessage('msg_module_is_not_exists');
 					$oMessageObject->dispMessage();
@@ -549,8 +584,6 @@ class ModuleHandler extends Handler
 					}
 					return $oMessageObject;
 				}
-
-				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
 
 				if($this->module == "admin" && $type == "view")
 				{
@@ -569,7 +602,7 @@ class ModuleHandler extends Handler
 						$this->_setInputErrorToContext();
 
 						$this->error = 'msg_is_not_administrator';
-						$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
 						$oMessageObject->dispMessage();
@@ -583,7 +616,7 @@ class ModuleHandler extends Handler
 					{
 						$this->_setInputErrorToContext();
 						$this->error = 'msg_is_not_manager';
-						$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
 						$oMessageObject->dispMessage();
@@ -595,7 +628,7 @@ class ModuleHandler extends Handler
 						{
 							$this->_setInputErrorToContext();
 							$this->error = 'msg_is_not_administrator';
-							$oMessageObject = ModuleHandler::getModuleInstance('message', 'view');
+							$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 							$oMessageObject->setError(-1);
 							$oMessageObject->setMessage($this->error);
 							$oMessageObject->dispMessage();
@@ -722,15 +755,23 @@ class ModuleHandler extends Handler
 
 			}
 
-			$_SESSION['XE_VALIDATOR_ERROR'] = $error;
-			$_SESSION['XE_VALIDATOR_ID'] = Context::get('xe_validator_id');
+			if($error != 0)
+			{
+				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
+			}
+			if($validator_id = Context::get('xe_validator_id'))
+			{
+				$_SESSION['XE_VALIDATOR_ID'] = $validator_id;
+			}
 			if($message != 'success')
 			{
 				$_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
 			}
-			$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
-
-			if(Context::get('xeVirtualRequestMethod') != 'xml')
+			if($messageType != 'info')
+			{
+				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
+			}
+			if(Context::get('xeVirtualRequestMethod') != 'xml' && $redirectUrl)
 			{
 				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
 			}
@@ -780,12 +821,12 @@ class ModuleHandler extends Handler
 	 * */
 	function _clearErrorSession()
 	{
-		$_SESSION['XE_VALIDATOR_ERROR'] = '';
-		$_SESSION['XE_VALIDATOR_MESSAGE'] = '';
-		$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = '';
-		$_SESSION['XE_VALIDATOR_RETURN_URL'] = '';
-		$_SESSION['XE_VALIDATOR_ID'] = '';
-		$_SESSION['INPUT_ERROR'] = '';
+		unset($_SESSION['XE_VALIDATOR_ERROR']);
+		unset($_SESSION['XE_VALIDATOR_MESSAGE']);
+		unset($_SESSION['XE_VALIDATOR_MESSAGE_TYPE']);
+		unset($_SESSION['XE_VALIDATOR_RETURN_URL']);
+		unset($_SESSION['XE_VALIDATOR_ID']);
+		unset($_SESSION['INPUT_ERROR']);
 	}
 
 	/**
@@ -839,6 +880,7 @@ class ModuleHandler extends Handler
 				$display_handler = new DisplayHandler();
 				$display_handler->_debugOutput();
 
+				Context::getInstance()->checkSessionStatus();
 				header('location:' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
 				return;
 			}

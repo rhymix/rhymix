@@ -156,6 +156,7 @@ class memberAdminController extends member
 		$args = Context::gets(
 			'enable_join',
 			'enable_confirm',
+			'enable_find_account_question',
 			'webmaster_name',
 			'webmaster_email',
 			'password_strength',
@@ -207,6 +208,7 @@ class memberAdminController extends member
 		$args = Context::gets(
 			'limit_day',
 			'limit_day_description',
+			'emailhost_check',
 			'agreement',
 			'redirect_url',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
@@ -220,6 +222,7 @@ class memberAdminController extends member
 		$all_args = Context::getRequestVars();
 
 		$args->limit_day = (int)$args->limit_day;
+		if($args->emailhost_check != 'allowed' && $args->emailhost_check != 'prohibited') $args->emailhost_check == 'allowed';
 		if(!trim(strip_tags($args->agreement)))
 		{
 			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
@@ -237,7 +240,8 @@ class memberAdminController extends member
 				return new Object('-1', 'msg_exist_selected_module');
 			}
 
-			$args->redirect_url = Context::getDefaultUrl().$redirectModuleInfo->mid;
+			$args->redirect_mid = $redirectModuleInfo->mid;
+			$args->redirect_url = getNotEncodedFullUrl('','mid',$redirectModuleInfo->mid);
 		}
 
 		$args->profile_image = $args->profile_image ? 'Y' : 'N';
@@ -254,7 +258,7 @@ class memberAdminController extends member
 		global $lang;
 		$signupForm = array();
 		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark', 'profile_image_max_width', 'profile_image_max_height', 'image_name_max_width', 'image_name_max_height', 'image_mark_max_width', 'image_mark_max_height');
-		$mustRequireds = array('email_address', 'nick_name', 'password', 'find_account_question');
+		$mustRequireds = array('email_address', 'nick_name', 'password');
 		$extendItems = $oMemberModel->getJoinFormList();
 		foreach($list_order as $key)
 		{
@@ -408,9 +412,9 @@ class memberAdminController extends member
 		$extendItems = $oMemberModel->getJoinFormList();
 
 		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
-		$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-		$orgRequireds = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name');
-		$orgUse = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
+		$mustRequireds = array('email_address', 'nick_name', 'password');
+		$orgRequireds = array('email_address', 'password', 'user_id', 'nick_name', 'user_name');
+		$orgUse = array('email_address', 'password', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
 		$list_order = array();
 
 		foreach($items as $key)
@@ -497,7 +501,7 @@ class memberAdminController extends member
 				}
 				else if($formInfo->name == 'password')
 				{
-					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="4:20" /></field>';
+					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="4:60" /></field>';
 					$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
 				}
 				else if($formInfo->name == 'find_account_question')
@@ -557,7 +561,7 @@ class memberAdminController extends member
 			'</ruleset>';
 
 		$fields = array();
-		$trans = array('email_address'=>'email', 'user_id'=> 'userid');
+		$trans = array('email_address'=>'email', 'user_id'=> '');
 		$fields[] = sprintf('<field name="user_id" required="true" rule="%s"/>', $trans[$identifier]);
 		$fields[] = '<field name="password" required="true" />';
 
@@ -861,7 +865,7 @@ class memberAdminController extends member
 						}
 						$this->setMessage('success_updated');
 						break;
-					}
+					}	
 				case 'delete':
 					{
 						$oMemberController->memberInfo = null;
@@ -1013,6 +1017,44 @@ class memberAdminController extends member
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminDeniedIDList');
 		$this->setRedirectUrl($returnUrl);
+	}
+
+	/**
+	 * Add allowed or denied email hostnames
+	 * @return void
+	 */
+	function procMemberAdminUpdateManagedEmailHosts()
+	{
+		$email_hosts = Context::get('email_hosts');
+
+		$mode = Context::get('mode');
+		$mode = $mode ? $mode : 'insert';
+
+		if($mode == 'delete')
+		{
+			$output = $this->deleteManagedEmailHost($email_hosts);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+			$msg_code = 'success_deleted';
+			$this->setMessage($msg_code);
+		}
+		else
+		{
+			$email_hosts = preg_replace('/([^a-z0-9\.\-\_\n]*)/i','',$email_hosts);
+			$email_hosts = array_unique(explode("\n",$email_hosts."\n"));
+			$success_email_hosts = array();
+			foreach($email_hosts as $val)
+			{
+				$val = trim($val);
+				if(!$val) continue;
+				$output = $this->insertManagedEmailHost($val, '');
+				if($output->toBool()) $success_email_hosts[] = $val;
+			}
+
+			$this->add('email_hosts', implode("\n",$success_email_hosts));
+		}
 	}
 
 	/**
@@ -1321,6 +1363,21 @@ class memberAdminController extends member
 	}
 
 	/**
+	 * Register managed Email Hostname
+	 * @param string $email_host
+	 * @param string $description
+	 * @return Object
+	 */
+	function insertManagedEmailHost($email_host, $description = '')
+	{
+		$args = new stdClass();
+		$args->email_host = trim(strtolower($email_host));
+		$args->description = $description;
+
+		return executeQuery('member.insertManagedEmailHost', $args);
+	}
+
+	/**
 	 * delete a denied id
 	 * @param string $user_id
 	 * @return object
@@ -1346,6 +1403,18 @@ class memberAdminController extends member
 		$args = new stdClass;
 		$args->nick_name = $nick_name;
 		return executeQuery('member.deleteDeniedNickName', $args);
+	}
+
+	/**
+	 * delete a denied nick name
+	 * @param string $email_host
+	 * @return object
+	 */
+	function deleteManagedEmailHost($email_host)
+	{
+		$args = new stdClass();
+		$args->email_host = $email_host;
+		return executeQuery('member.deleteManagedEmailHost', $args);
 	}
 
 	/**

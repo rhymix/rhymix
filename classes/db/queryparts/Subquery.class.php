@@ -33,7 +33,7 @@ class Subquery extends Query
 	 * @param string $join_type
 	 * @return void
 	 */
-	function Subquery($alias, $columns, $tables, $conditions, $groups, $orderby, $limit, $join_type = null)
+	function __construct($alias, $columns, $tables, $conditions, $groups, $orderby, $limit, $join_type = null)
 	{
 		$this->alias = $alias;
 

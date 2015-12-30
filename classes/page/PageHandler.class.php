@@ -30,7 +30,7 @@ class PageHandler extends Handler
 	 * @return void
 	 */
 
-	function PageHandler($total_count, $total_page, $cur_page, $page_count = 10)
+	function __construct($total_count, $total_page, $cur_page, $page_count = 10)
 	{
 		$this->total_count = $total_count;
 		$this->total_page = $total_page;

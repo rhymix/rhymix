@@ -321,14 +321,30 @@ class commentController extends comment
 
 		// remove XE's own tags from the contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-
-		if(Mobile::isFromMobilePhone())
+		
+		// if use editor of nohtml, Remove HTML tags from the contents.
+		if(!$manual_inserted)
 		{
-			if($obj->use_html != 'Y')
+			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				}
+				$obj->content = nl2br($obj->content);
 			}
-			$obj->content = nl2br($obj->content);
+			else
+			{
+				$oEditorModel = getModel('editor');
+				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
+				
+				if(strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== FALSE)
+				{
+					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
+				}
+			}
 		}
 
 		if(!$obj->regdate)
@@ -731,13 +747,29 @@ class commentController extends comment
 		// remove XE's wn tags from contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
-		if(Mobile::isFromMobilePhone())
+		// if use editor of nohtml, Remove HTML tags from the contents.
+		if(!$manual_updated)
 		{
-			if($obj->use_html != 'Y')
+			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				}
+				$obj->content = nl2br($obj->content);
 			}
-			$obj->content = nl2br($obj->content);
+			else
+			{
+				$oEditorModel = getModel('editor');
+				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
+				
+				if(strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== FALSE)
+				{
+					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
+				}
+			}
 		}
 
 		// remove iframe and script if not a top administrator on the session
@@ -789,12 +821,17 @@ class commentController extends comment
 		// create the comment model object
 		$oCommentModel = getModel('comment');
 
+		$logged_info = Context::get('logged_info');
+
 		// check if comment already exists
 		$comment = $oCommentModel->getComment($comment_srl);
 		if($comment->comment_srl != $comment_srl)
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
+
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($comment->member_srl);
 
 		$document_srl = $comment->document_srl;
 
@@ -816,6 +853,7 @@ class commentController extends comment
 		if(count($childs) > 0)
 		{
 			$deleteAllComment = TRUE;
+			$deleteAdminComment = TRUE;
 			if(!$is_admin)
 			{
 				$logged_info = Context::get('logged_info');
@@ -828,10 +866,27 @@ class commentController extends comment
 					}
 				}
 			}
+			else if($is_admin)
+			{
+				$logged_info = Context::get('logged_info');
+				foreach($childs as $val)
+				{
+					$c_member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
+					if($c_member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+					{
+						$deleteAdminComment = FALSE;
+						break;
+					}
+				}
+			}
 
 			if(!$deleteAllComment)
 			{
 				return new Object(-1, 'fail_to_delete_have_children');
+			}
+			elseif(!$deleteAdminComment)
+			{
+				return new Object(-1, 'msg_admin_c_comment_no_delete');
 			}
 			else
 			{
@@ -846,6 +901,10 @@ class commentController extends comment
 			}
 		}
 
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_comment_no_delete');
+		}
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();

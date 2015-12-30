@@ -1,0 +1,8 @@
+<query id="getManagedEmailHosts" action="select">
+	<tables>
+		<table name="member_managed_email_hosts" />
+	</tables>
+	<columns>
+		<column name="email_host" />
+	</columns>
+</query>

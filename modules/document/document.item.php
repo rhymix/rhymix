@@ -53,7 +53,7 @@ class documentItem extends Object
 	 * @param array columnList
 	 * @return void
 	 */
-	function documentItem($document_srl = 0, $load_extra_vars = true, $columnList = array())
+	function __construct($document_srl = 0, $load_extra_vars = true, $columnList = array())
 	{
 		$this->document_srl = $document_srl;
 		$this->columnList = $columnList;
@@ -391,7 +391,10 @@ class documentItem extends Object
 		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
 		$result = $this->_checkAccessibleFromStatus();
-		if($result) $_SESSION['accessible'][$this->document_srl] = true;
+		if($result && Context::getSessionStatus())
+		{
+			$_SESSION['accessible'][$this->document_srl] = true;
+		}
 
 		$content = $this->get('content');
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
@@ -452,7 +455,10 @@ class documentItem extends Object
 		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
 		$result = $this->_checkAccessibleFromStatus();
-		if($result) $_SESSION['accessible'][$this->document_srl] = true;
+		if($result && Context::getSessionStatus())
+		{
+			$_SESSION['accessible'][$this->document_srl] = true;
+		}
 
 		$content = $this->get('content');
 		if(!$stripEmbedTagException) stripEmbedTagForAdmin($content, $this->get('member_srl'));
@@ -551,9 +557,9 @@ class documentItem extends Object
 		return $content;
 	}
 
-	function getRegdate($format = 'Y.m.d H:i:s')
+	function getRegdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
 	{
-		return zdate($this->get('regdate'), $format);
+		return zdate($this->get('regdate'), $format, $conversion);
 	}
 
 	function getRegdateTime()
@@ -570,17 +576,17 @@ class documentItem extends Object
 
 	function getRegdateGM()
 	{
-		return $this->getRegdate('D, d M Y H:i:s').' '.$GLOBALS['_time_zone'];
+		return $this->getRegdate('D, d M Y H:i:s', FALSE).' '.$GLOBALS['_time_zone'];
 	}
 
 	function getRegdateDT()
 	{
-		return $this->getRegdate('Y-m-d').'T'.$this->getRegdate('H:i:s').substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
+		return $this->getRegdate('Y-m-d', FALSE).'T'.$this->getRegdate('H:i:s', FALSE).substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
 	}
 
-	function getUpdate($format = 'Y.m.d H:i:s')
+	function getUpdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
 	{
-		return zdate($this->get('last_update'), $format);
+		return zdate($this->get('last_update'), $format, $conversion);
 	}
 
 	function getUpdateTime()
@@ -601,7 +607,7 @@ class documentItem extends Object
 
 	function getUpdateDT()
 	{
-		return $this->getUpdate('Y-m-d').'T'.$this->getUpdate('H:i:s').substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
+		return $this->getUpdate('Y-m-d', FALSE).'T'.$this->getUpdate('H:i:s', FALSE).substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
 	}
 
 	function getPermanentUrl()
@@ -749,6 +755,7 @@ class documentItem extends Object
 		// If admin priviledge is granted on parent posts, you can read its child posts.
 		$accessible = array();
 		$comment_list = array();
+		$setAccessibleComments = Context::getSessionStatus();
 		foreach($output->data as $key => $val)
 		{
 			$oCommentItem = new commentItem();
@@ -758,7 +765,10 @@ class documentItem extends Object
 			// If the comment is set to private and it belongs child post, it is allowable to read the comment for who has a admin privilege on its parent post
 			if($val->parent_srl>0 && $val->is_secret == 'Y' && !$oCommentItem->isAccessible() && $accessible[$val->parent_srl]===true)
 			{
-				$oCommentItem->setAccessible();
+				if($setAccessibleComments)
+				{
+					$oCommentItem->setAccessible();
+				}
 			}
 			$comment_list[$val->comment_srl] = $oCommentItem;
 		}
@@ -818,16 +828,28 @@ class documentItem extends Object
 			}
 			$thumbnail_type = $config->thumbnail_type;
 		}
+
 		// Define thumbnail information
 		$thumbnail_path = sprintf('files/thumbnails/%s',getNumberingPath($this->document_srl, 3));
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
+		$thumbnail_lockfile = sprintf('%s%dx%d.%s.lock', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_url  = Context::getRequestUri().$thumbnail_file;
+
 		// Return false if thumbnail file exists and its size is 0. Otherwise, return its path
-		if(file_exists($thumbnail_file))
+		if(file_exists($thumbnail_file) || file_exists($thumbnail_lockfile))
 		{
-			if(filesize($thumbnail_file)<1) return false;
-			else return $thumbnail_url;
+			if(filesize($thumbnail_file) < 1)
+			{
+				return FALSE;
+			}
+			else
+			{
+				return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
+			}
 		}
+
+		// Create lockfile to prevent race condition
+		FileHandler::writeFile($thumbnail_lockfile, '', 'w');
 
 		// Target File
 		$source_file = null;
@@ -903,11 +925,26 @@ class documentItem extends Object
 		{
 			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
 		}
-		if($is_tmp_file) FileHandler::removeFile($source_file);
-		// Return its path if a thumbnail is successfully genetated
-		if($output) return $thumbnail_url;
-		// Create an empty file not to re-generate the thumbnail
-		else FileHandler::writeFile($thumbnail_file, '','w');
+
+		// Remove source file if it was temporary
+		if($is_tmp_file)
+		{
+			FileHandler::removeFile($source_file);
+		}
+
+		// Remove lockfile
+		FileHandler::removeFile($thumbnail_lockfile);
+
+		// Return the thumbnail path if it was successfully generated
+		if($output)
+		{
+			return $thumbnail_url . '?' . date('YmdHis');
+		}
+		// Create an empty file if thumbnail generation failed
+		else
+		{
+			FileHandler::writeFile($thumbnail_file, '','w');
+		}
 
 		return;
 	}

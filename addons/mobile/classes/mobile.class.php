@@ -76,7 +76,7 @@ class mobileXE
 	/**
 	 * @brief constructor
 	 */
-	function mobileXE()
+	function __construct()
 	{
 		// Check navigation mode
 		if(Context::get('nm'))

@@ -17,14 +17,14 @@ class ConditionWithArgument extends Condition
 	 * @param string $pipe
 	 * @return void
 	 */
-	function ConditionWithArgument($column_name, $argument, $operation, $pipe = "")
+	function __construct($column_name, $argument, $operation, $pipe = "")
 	{
 		if($argument === null)
 		{
 			$this->_show = false;
 			return;
 		}
-		parent::Condition($column_name, $argument, $operation, $pipe);
+		parent::__construct($column_name, $argument, $operation, $pipe);
 		$this->_value = $argument->getValue();
 	}
 

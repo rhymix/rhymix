@@ -30,9 +30,9 @@ class SelectExpression extends Expression
 	 * @param string $alias
 	 * @return void
 	 */
-	function SelectExpression($column_name, $alias = NULL)
+	function __construct($column_name, $alias = NULL)
 	{
-		parent::Expression($column_name);
+		parent::__construct($column_name);
 		$this->column_alias = $alias;
 	}
 

@@ -28,7 +28,6 @@ class DisplayHandler extends Handler
 		if(
 				(defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
 				strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE &&
-				function_exists('ob_gzhandler') &&
 				extension_loaded('zlib') &&
 				$oModule->gzhandler_enable
 		)
@@ -78,6 +77,9 @@ class DisplayHandler extends Handler
 			$handler->prepareToPrint($output);
 		}
 
+		// Start the session if $_SESSION was touched
+		Context::getInstance()->checkSessionStatus();
+
 		// header output
 
 		$httpStatusCode = $oModule->getHttpStatusCode();
@@ -112,16 +114,14 @@ class DisplayHandler extends Handler
 			$this->gz_enabled = FALSE;
 		}
 
-		// results directly output
+		// enable gzip using zlib extension
 		if($this->gz_enabled)
 		{
-			header("Content-Encoding: gzip");
-			print ob_gzhandler($output, 5);
+			ini_set('zlib.output_compression', true);
 		}
-		else
-		{
-			print $output;
-		}
+
+		// results directly output
+		print $output;
 
 		// call a trigger after display
 		ModuleHandler::triggerCall('display', 'after', $output);
@@ -321,11 +321,6 @@ class DisplayHandler extends Handler
 	function _printXMLHeader()
 	{
 		header("Content-Type: text/xml; charset=UTF-8");
-		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: no-store, no-cache, must-revalidate");
-		header("Cache-Control: post-check=0, pre-check=0", false);
-		header("Pragma: no-cache");
 	}
 
 	/**
@@ -335,11 +330,6 @@ class DisplayHandler extends Handler
 	function _printHTMLHeader()
 	{
 		header("Content-Type: text/html; charset=UTF-8");
-		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: no-store, no-cache, must-revalidate");
-		header("Cache-Control: post-check=0, pre-check=0", false);
-		header("Pragma: no-cache");
 	}
 
 	/**
@@ -349,11 +339,6 @@ class DisplayHandler extends Handler
 	function _printJSONHeader()
 	{
 		header("Content-Type: text/html; charset=UTF-8");
-		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: no-store, no-cache, must-revalidate");
-		header("Cache-Control: post-check=0, pre-check=0", false);
-		header("Pragma: no-cache");
 	}
 
 	/**

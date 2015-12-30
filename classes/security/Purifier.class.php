@@ -9,7 +9,7 @@ class Purifier
 	private $_config;
 	private $_def;
 
-	public function Purifier()
+	public function __construct()
 	{
 		$this->_checkCacheDir();
 
@@ -93,11 +93,17 @@ class Purifier
 				{
 					foreach($m2[1] as $value2)
 					{
+						//SECISSUE check style attr
+						if($value2 == 'style')
+						{
+							continue;
+						}
 						$attributeList[] = $value2;
 					}
 				}
 			}
 		}
+
 		return array_unique($attributeList);
 	}
 
@@ -121,6 +127,11 @@ class Purifier
 				{
 					foreach($m2[1] as $value2)
 					{
+						//SECISSUE check style attr
+						if($value2 == 'style')
+						{
+							continue;
+						}
 						$attributeList[] = $value2;
 					}
 				}

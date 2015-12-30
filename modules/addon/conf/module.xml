@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
-    <permissions />
+    <permissions>
+	<permission action="procAddonAdminToggleActivate" target="manager" />
+	<permission action="dispAddonAdminSetup" target="manager" />
+	<permission action="procAddonAdminSetupAddon" target="manager" />
+    </permissions>
     <actions>
         <action name="dispAddonAdminIndex" type="view" admin_index="true" menu_name="installedAddon" menu_index="true" />
         <action name="dispAddonAdminInfo" type="view" />
         <action name="dispAddonAdminSetup" type="view" menu_name="installedAddon" />
         <action name="procAddonAdminToggleActivate" type="controller" />
         <action name="procAddonAdminSetupAddon" type="controller" ruleset="updateAddonSetup" />
-		<action name="procAddonAdminSaveActivate" type="controller" />
+	<action name="procAddonAdminSaveActivate" type="controller" />
     </actions>
 	<menus>
 		<menu name="installedAddon">

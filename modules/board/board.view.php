@@ -643,6 +643,7 @@ class boardView extends board
 		}
 
 		$oDocumentModel = getModel('document');
+		$logged_info = Context::get('logged_info');
 
 		/**
 		 * check if the category option is enabled not not
@@ -652,7 +653,6 @@ class boardView extends board
 			// get the user group information
 			if(Context::get('is_logged'))
 			{
-				$logged_info = Context::get('logged_info');
 				$group_srls = array_keys($logged_info->group_list);
 			}
 			else
@@ -686,12 +686,19 @@ class boardView extends board
 		$oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
 		$oDocument->setDocument($document_srl);
 
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+
 		if($oDocument->get('module_srl') == $oDocument->get('member_srl')) $savedDoc = TRUE;
 		$oDocument->add('module_srl', $this->module_srl);
 
 		if($oDocument->isExists() && $this->module_info->protect_content=="Y" && $oDocument->get('comment_count')>0 && $this->grant->manager==false)
 		{
 			return new Object(-1, 'msg_protect_content');
+		}
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_document_no_modify');
 		}
 
 		// if the document is not granted, then back to the password input form
@@ -709,11 +716,11 @@ class boardView extends board
 			$pointForInsert = $point_config["insert_document"];
 			if($pointForInsert < 0)
 			{
-				if( !$logged_info )
+				if(!Context::get('is_logged'))
 				{
 					return $this->dispBoardMessage('msg_not_permitted');
 				}
-				else if (($oPointModel->getPoint($logged_info->member_srl) + $pointForInsert )< 0 )
+				else if(($oPointModel->getPoint($logged_info->member_srl) + $pointForInsert) < 0)
 				{
 					return $this->dispBoardMessage('msg_not_enough_point');
 				}
@@ -925,6 +932,7 @@ class boardView extends board
 	 **/
 	function dispBoardModifyComment()
 	{
+		$logged_info = Context::get('logged_info');
 		// check grant
 		if(!$this->grant->write_comment)
 		{
@@ -944,6 +952,14 @@ class boardView extends board
 		// get comment information
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oComment->member_srl);
+
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_comment_no_modify');
+		}
 
 		// if the comment is not exited, alert an error message
 		if(!$oComment->isExists())

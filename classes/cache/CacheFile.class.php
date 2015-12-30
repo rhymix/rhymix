@@ -35,7 +35,7 @@ class CacheFile extends CacheBase
 	 *
 	 * @return void
 	 */
-	function CacheFile()
+	function __construct()
 	{
 		$this->cache_dir = _XE_PATH_ . $this->cache_dir;
 		FileHandler::makeDir($this->cache_dir);
@@ -88,7 +88,8 @@ class CacheFile extends CacheBase
 	 * Return whether cache is valid or invalid
 	 *
 	 * @param string $key Cache key
-	 * @param int $modified_time Not used
+	 * @param int $modified_time  	Unix time of data modified.
+	 * 								If stored time is older then modified time, return false.
 	 * @return bool Return true on valid or false on invalid.
 	 */
 	function isValid($key, $modified_time = 0)
@@ -97,7 +98,7 @@ class CacheFile extends CacheBase
 
 		if(file_exists($cache_file))
 		{
-			if($modified_time > 0 && filemtime($cache_file) < $modified_timed)
+			if($modified_time > 0 && filemtime($cache_file) < $modified_time)
 			{
 				FileHandler::removeFile($cache_file);
 				return false;
@@ -113,7 +114,8 @@ class CacheFile extends CacheBase
 	 * Fetch a stored variable from the cache
 	 *
 	 * @param string $key The $key used to store the value.
-	 * @param int $modified_time Not used
+	 * @param int $modified_time 	Unix time of data modified.
+	 * 								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure. Return the string associated with the $key on success.
 	 */
 	function get($key, $modified_time = 0)
@@ -123,7 +125,7 @@ class CacheFile extends CacheBase
 			return false;
 		}
 
-		if($modified_time > 0 && filemtime($cache_file) < $modified_timed)
+		if($modified_time > 0 && filemtime($cache_file) < $modified_time)
 		{
 			FileHandler::removeFile($cache_file);
 			return false;
@@ -169,6 +171,7 @@ class CacheFile extends CacheBase
 	function truncate()
 	{
 		FileHandler::removeFilesInDir($this->cache_dir);
+		return true;
 	}
 
 }

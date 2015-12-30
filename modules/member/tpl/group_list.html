@@ -15,7 +15,7 @@
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="" method="post" ruleset="insertGroupConfig">
+<form action="" method="post" id="fo_member_group" ruleset="insertGroupConfig">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminGroupConfig" />
 	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
@@ -103,3 +103,5 @@
 		<p class="x_pull-right">{$lang->add_group_image_mark}: <a href="{getUrl('', 'module','admin', 'act', 'dispModuleAdminFileBox')}" target="_blank">{$lang->link_file_box}</a></p>
 	</div>
 </section>
+
+<div class="admin-forum-container" data-chak-categories="XE설정:회원 그룹"></div>

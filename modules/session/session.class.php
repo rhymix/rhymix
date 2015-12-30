@@ -13,7 +13,7 @@ class session extends ModuleObject
 	var $lifetime = 18000;
 	var $session_started = false;
 
-	function session()
+	function __construct()
 	{
 		if(Context::isInstalled()) $this->session_started= true;
 	}

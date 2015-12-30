@@ -34,8 +34,7 @@ function editorGetContentTextarea(editor_sequence) {
             content = content.replace(/>/g, "&gt;");
             content = content.replace(/\"/g, "&quot;");
         }
-        content = content.replace(/(\r\n|\n)/g, "<br />");
+		content = content.replace(/(\r\n|\n)/g, "<br />");
     }
     return content;
 }
-

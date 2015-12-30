@@ -33,7 +33,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // foreach loop
             array(
                 '<ul><li loop="$arr=>$key,$val" class="sample"><a>Link</a><ul><li loop="$arr2=>$key2,$val2"></li></ul></li></ul>',
-                '?><ul><?php if($__Context->arr&&count($__Context->arr))foreach($__Context->arr as $__Context->key=>$__Context->val){ ?><li class="sample"><a>Link</a><ul><?php if($__Context->arr2&&count($__Context->arr2))foreach($__Context->arr2 as $__Context->key2=>$__Context->val2){ ?><li></li><?php } ?></ul></li><?php } ?></ul>'
+                '?><ul><?php $tba7582b53a5d9d2bfecc5c52511ef7ee=$__Context->arr;if($tba7582b53a5d9d2bfecc5c52511ef7ee&&count($tba7582b53a5d9d2bfecc5c52511ef7ee))foreach($tba7582b53a5d9d2bfecc5c52511ef7ee as $__Context->key=>$__Context->val){ ?><li class="sample"><a>Link</a><ul><?php $tf92ab3139c8d388f9a5f63e0fdd8f516=$__Context->arr2;if($tf92ab3139c8d388f9a5f63e0fdd8f516&&count($tf92ab3139c8d388f9a5f63e0fdd8f516))foreach($tf92ab3139c8d388f9a5f63e0fdd8f516 as $__Context->key2=>$__Context->val2){ ?><li></li><?php } ?></ul></li><?php } ?></ul>'
             ),
             // while loop
             array(
@@ -183,7 +183,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 135
             array(
                 '<block loop="$_m_list_all=>$key,$val"><p>{$key}</p><div>Loop block {$val}</div></block>',
-                PHP_EOL . 'if($__Context->_m_list_all&&count($__Context->_m_list_all))foreach($__Context->_m_list_all as $__Context->key=>$__Context->val){ ?><p><?php echo $__Context->key ?></p><div>Loop block <?php echo $__Context->val ?></div><?php } ?>'
+                PHP_EOL . '$t1b443c9e474abcf95c0ff70798d10a4c=$__Context->_m_list_all;if($t1b443c9e474abcf95c0ff70798d10a4c&&count($t1b443c9e474abcf95c0ff70798d10a4c))foreach($t1b443c9e474abcf95c0ff70798d10a4c as $__Context->key=>$__Context->val){ ?><p><?php echo $__Context->key ?></p><div>Loop block <?php echo $__Context->val ?></div><?php } ?>'
             ),
             // issue 136
             array(
@@ -193,17 +193,17 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 188
             array(
                 '<div cond="$ii < $nn" loop="$dummy => $k, $v">Hello, world!</div>',
-                PHP_EOL . 'if($__Context->ii < $__Context->nn){;'.PHP_EOL.'if($__Context->dummy&&count($__Context->dummy))foreach($__Context->dummy as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+                PHP_EOL . 'if($__Context->ii < $__Context->nn){;' . PHP_EOL . '$te536ab402425aa07f37ece1808639b07=$__Context->dummy;if($te536ab402425aa07f37ece1808639b07&&count($te536ab402425aa07f37ece1808639b07))foreach($te536ab402425aa07f37ece1808639b07 as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
             ),
             // issue 190
             array(
                 '<div cond="!($i >= $n)" loop="$dummy => $k, $v">Hello, world!</div>',
-                PHP_EOL . 'if(!($__Context->i >= $__Context->n)){;'.PHP_EOL.'if($__Context->dummy&&count($__Context->dummy))foreach($__Context->dummy as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+                PHP_EOL . 'if(!($__Context->i >= $__Context->n)){;' . PHP_EOL . '$tcf235db237866cd5f280e0a7fdb2dca8=$__Context->dummy;if($tcf235db237866cd5f280e0a7fdb2dca8&&count($tcf235db237866cd5f280e0a7fdb2dca8))foreach($tcf235db237866cd5f280e0a7fdb2dca8 as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
             ),
             // issue 183
             array(
                 '<table><thead><tr><th loop="$vvvls => $vvv">{$vvv}</th></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>',
-                '?><table><thead><tr><?php if($__Context->vvvls&&count($__Context->vvvls))foreach($__Context->vvvls as $__Context->vvv){ ?><th><?php echo $__Context->vvv ?></th><?php } ?></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>'
+                '?><table><thead><tr><?php $t605f930a4a05d6efbed70a9059f688fe=$__Context->vvvls;if($t605f930a4a05d6efbed70a9059f688fe&&count($t605f930a4a05d6efbed70a9059f688fe))foreach($t605f930a4a05d6efbed70a9059f688fe as $__Context->vvv){ ?><th><?php echo $__Context->vvv ?></th><?php } ?></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>'
             ),
             // issue 512 - ignores <marquee>
             array(

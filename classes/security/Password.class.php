@@ -13,6 +13,24 @@
 class Password
 {
 	/**
+	 * @brief Custom algorithms are stored here
+	 * @var array
+	 */
+	protected static $_custom = array();
+
+	/**
+	 * @brief Register a custom algorithm for password checking
+	 * @param string $name The name of the algorithm
+	 * @param string $regexp The regular expression to detect the algorithm
+	 * @param callable $callback The function to call to regenerate the hash
+	 * @return void
+	 */
+	public static function registerCustomAlgorithm($name, $regexp, $callback)
+	{
+		self::$_custom[$name] = array('regexp' => $regexp, 'callback' => $callback);
+	}
+
+	/**
 	 * @brief Return the list of hashing algorithms supported by this server
 	 * @return array
 	 */
@@ -162,6 +180,16 @@ class Password
 				return $this->strcmpConstantTime($hash_to_compare, $hash);
 
 			default:
+				if($algorithm && isset(self::$_custom[$algorithm]))
+				{
+					$hash_callback = self::$_custom[$algorithm]['callback'];
+					$hash_to_compare = $hash_callback($password, $hash);
+					return $this->strcmpConstantTime($hash_to_compare, $hash);
+				}
+				if(in_array($algorithm, hash_algos()))
+				{
+					return $this->strcmpConstantTime(hash($algorithm, $password), $hash);
+				}
 				return false;
 		}
 	}
@@ -173,6 +201,14 @@ class Password
 	 */
 	function checkAlgorithm($hash)
 	{
+		foreach(self::$_custom as $name => $definition)
+		{
+			if(preg_match($definition['regexp'], $hash))
+			{
+				return $name;
+			}
+		}
+
 		if(preg_match('/^\$2[axy]\$([0-9]{2})\$/', $hash, $matches))
 		{
 			return 'bcrypt';
@@ -184,6 +220,22 @@ class Password
 		elseif(strlen($hash) === 32 && ctype_xdigit($hash))
 		{
 			return 'md5';
+		}
+		elseif(strlen($hash) === 40 && ctype_xdigit($hash))
+		{
+			return 'sha1';
+		}
+		elseif(strlen($hash) === 64 && ctype_xdigit($hash))
+		{
+			return 'sha256';
+		}
+		elseif(strlen($hash) === 96 && ctype_xdigit($hash))
+		{
+			return 'sha384';
+		}
+		elseif(strlen($hash) === 128 && ctype_xdigit($hash))
+		{
+			return 'sha512';
 		}
 		elseif(strlen($hash) === 16 && ctype_xdigit($hash))
 		{
@@ -246,8 +298,13 @@ class Password
 		$entropy_capped_bytes = min(32, $entropy_required_bytes);
 
 		// Find and use the most secure way to generate a random string
+		$entropy = false;
 		$is_windows = (defined('PHP_OS') && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
-		if(function_exists('openssl_random_pseudo_bytes') && (!$is_windows || version_compare(PHP_VERSION, '5.4', '>=')))
+		if(function_exists('random_bytes'))  // PHP 7
+		{
+			$entropy = random_bytes($entropy_capped_bytes);
+		}
+		elseif(function_exists('openssl_random_pseudo_bytes') && (!$is_windows || version_compare(PHP_VERSION, '5.4', '>=')))
 		{
 			$entropy = openssl_random_pseudo_bytes($entropy_capped_bytes);
 		}
@@ -262,10 +319,16 @@ class Password
 		elseif(!$is_windows && @is_readable('/dev/urandom'))
 		{
 			$fp = fopen('/dev/urandom', 'rb');
+			if (function_exists('stream_set_read_buffer'))  // This function does not exist in HHVM
+			{
+				stream_set_read_buffer($fp, 0);  // Prevent reading several KB of unnecessary data from urandom
+			}
 			$entropy = fread($fp, $entropy_capped_bytes);
 			fclose($fp);
 		}
-		else
+
+		// Use built-in source of entropy if an error occurs while using other functions
+		if($entropy === false || strlen($entropy) < $entropy_capped_bytes)
 		{
 			$entropy = '';
 			for($i = 0; $i < $entropy_capped_bytes; $i += 2)

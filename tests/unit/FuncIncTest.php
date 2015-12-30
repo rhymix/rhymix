@@ -29,7 +29,7 @@ class FuncIncTest extends \Codeception\TestCase\Test
             ),
             // issue 178
             array(
-                "<img src=\"invalid.jpg\"\nonerror=\"alert(1)\" />",
+                '<img src="invalid.jpg"\nonerror="alert(1)" />',
                 '<img src="invalid.jpg" alt="invalid.jpg" />'
             ),
             // issue 534
@@ -41,6 +41,23 @@ class FuncIncTest extends \Codeception\TestCase\Test
             array(
                 '<img alt="test" src="(http://static.naver.com/www/u/2010/0611/nmms_215646753.gif" onload="eval(String.fromCharCode(105,61,49,48,48,59,119,104,105,108,101, 40,105,62,48,41,97,108,101,114,116,40,40,105,45,45,41,43,39,48264,47564,32, 45908,32,53364,47533,54616,49464,50836,39,41,59));">',
                 ''
+            ),
+            // issue #1813 https://github.com/xpressengine/xe-core/issues/1813
+            array(
+                '<img src="?act=dispLayoutPreview" alt="dummy" />',
+                '<img alt="dummy" />'
+            ),
+            array(
+                '<img src="?act =dispLayoutPreview" alt="dummy" />',
+                '<img alt="dummy" />'
+            ),
+            array(
+                "<img src=\"?act\n=dispLayoutPreview\" alt=\"dummy\" />",
+                '<img alt="dummy" />'
+            ),
+            array(
+                "<img src=\"?pam=act&a\nct  =\r\n\tdispLayoutPreview\" alt=\"dummy\" />",
+                '<img alt="dummy" />'
             )
         );
     }

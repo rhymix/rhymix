@@ -29,7 +29,7 @@ define('__ZBXE__', __XE__);
 /**
  * Display XE's full version.
  */
-define('__XE_VERSION__', '1.8.8');
+define('__XE_VERSION__', '1.8.15');
 define('__XE_VERSION_ALPHA__', (stripos(__XE_VERSION__, 'alpha') !== false));
 define('__XE_VERSION_BETA__', (stripos(__XE_VERSION__, 'beta') !== false));
 define('__XE_VERSION_RC__', (stripos(__XE_VERSION__, 'rc') !== false));
@@ -114,7 +114,7 @@ if(!defined('__DEBUG__'))
 	 * 4: output DB query history
 	 * </pre>
 	 */
-	define('__DEBUG__', 0);
+	define('__DEBUG__', 1);
 }
 
 if(!defined('__DEBUG_OUTPUT__'))
@@ -245,7 +245,7 @@ if(!defined('__OB_GZHANDLER_ENABLE__'))
 	 * Only particular servers may have a problem in IE browser when sending a compression
 	 * </pre>
 	 */
-	define('__OB_GZHANDLER_ENABLE__', 1);
+	define('__OB_GZHANDLER_ENABLE__', 0);
 }
 
 if(!defined('__ENABLE_PHPUNIT_TEST__'))
@@ -342,6 +342,7 @@ $GLOBALS['__xe_autoload_file_map'] = array_change_key_case(array(
 	'ModuleObject' => 'classes/module/ModuleObject.class.php',
 	'Object' => 'classes/object/Object.class.php',
 	'PageHandler' => 'classes/page/PageHandler.class.php',
+	'Crypto' => 'classes/security/Crypto.class.php',
 	'EmbedFilter' => 'classes/security/EmbedFilter.class.php',
 	'IpFilter' => 'classes/security/IpFilter.class.php',
 	'Password' => 'classes/security/Password.class.php',
@@ -351,7 +352,7 @@ $GLOBALS['__xe_autoload_file_map'] = array_change_key_case(array(
 	'TemplateHandler' => 'classes/template/TemplateHandler.class.php',
 	'Validator' => 'classes/validator/Validator.class.php',
 	'WidgetHandler' => 'classes/widget/WidgetHandler.class.php',
-	'GeneralXmlParser' => 'classes/widget/GeneralXmlParser.class.php',
+	'GeneralXmlParser' => 'classes/xml/GeneralXmlParser.class.php',
 	'Xml_Node_' => 'classes/xml/XmlParser.class.php',
 	'XmlGenerator' => 'classes/xml/XmlGenerator.class.php',
 	'XmlJsFilter' => 'classes/xml/XmlJsFilter.class.php',

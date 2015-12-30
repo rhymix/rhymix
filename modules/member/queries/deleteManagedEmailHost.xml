@@ -1,0 +1,8 @@
+<query id="deleteManagedEmailHost" action="delete">
+	<tables>
+		<table name="member_managed_email_hosts" />
+	</tables>
+	<conditions>
+		<condition operation="equal" column="email_host" var="email_host" notnull="notnull" />
+	</conditions>
+</query>

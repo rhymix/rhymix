@@ -908,6 +908,9 @@ margin-bottom: 10px;
 	text-decoration: none;
 	color: #666;
 }
+.x>.header>.account>ul>li.forum-chak>a {
+	color: #FFF;
+}
 .x>.header>.account>ul>li>a:hover,
 .x>.header>.account>ul>li>a:focus {
 	text-decoration: underline;
@@ -2386,4 +2389,34 @@ html[lang="mn"] .x .g11n.active>[disabled],
 	width: 1px;
 	height: 1px;
 	overflow: hidden;
+}
+
+
+.admin-forum-container {
+	clear: both;
+	margin: 10px 5px;
+	border: 0 solid #ddd;
+}
+.admin-forum-container.activated-forum {
+	margin-top: 30px;
+	padding: 15px;
+	background-color: #fbfbfb;
+	border-width: 3px 0;
+}
+.admin-forum-container .open-forum {
+	display: inline-block;
+	padding: 15px;
+	padding-left: 60px;
+	color: #0088cc;
+	font-size: 14px;
+	height: 20px;
+	line-height: 20px;
+	text-decoration: none;
+	background-image: url('../img/chak_c.png');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+.admin-forum-container .open-forum:hover,
+.admin-forum-container .open-forum:active {
+	text-decoration: underline;
 }

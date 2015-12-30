@@ -40,7 +40,7 @@ class Limit
 	 * @param int $page_count
 	 * @return void
 	 */
-	function Limit($list_count, $page = NULL, $page_count = NULL)
+	function __construct($list_count, $page = NULL, $page_count = NULL)
 	{
 		$this->list_count = $list_count;
 		if($page)

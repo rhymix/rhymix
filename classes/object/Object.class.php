@@ -40,7 +40,7 @@ class Object
 	 * @param string $message Error message
 	 * @return void
 	 */
-	function Object($error = 0, $message = 'success')
+	function __construct($error = 0, $message = 'success')
 	{
 		$this->setError($error);
 		$this->setMessage($message);
@@ -94,7 +94,7 @@ class Object
 	 * @param string $message Error message
 	 * @return bool Alaways returns true.
 	 */
-	function setMessage($message = 'success')
+	function setMessage($message = 'success', $type = NULL)
 	{
 		if($str = Context::getLang($message))
 		{

@@ -274,19 +274,36 @@ class documentController extends document
 			$obj->homepage = $logged_info->homepage;
 		}
 		// If the tile is empty, extract string from the contents.
+		$obj->title = htmlspecialchars($obj->title);
 		settype($obj->title, "string");
 		if($obj->title == '') $obj->title = cut_str(trim(strip_tags(nl2br($obj->content))),20,'...');
 		// If no tile extracted from the contents, leave it untitled.
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-		if(Mobile::isFromMobilePhone())
+		// if use editor of nohtml, Remove HTML tags from the contents.
+		if(!$manual_inserted)
 		{
-			if($obj->use_html != 'Y')
+			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				}
+				$obj->content = nl2br($obj->content);
 			}
-			$obj->content = nl2br($obj->content);
+			else
+			{
+				$oEditorModel = getModel('editor');
+				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
+				
+				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
+				{
+					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
+				}
+			}
 		}
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
@@ -365,6 +382,8 @@ class documentController extends document
 		}
 
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
+
+
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = 'SECRET';
 		if(!$obj->status) $obj->status = 'PUBLIC';
 
@@ -478,13 +497,29 @@ class documentController extends document
 		if($obj->title == '') $obj->title = 'Untitled';
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-		if(Mobile::isFromMobilePhone())
+		// if use editor of nohtml, Remove HTML tags from the contents.
+		if(!$manual_updated)
 		{
-			if($obj->use_html != 'Y')
+			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
 			{
-				$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				if($obj->use_html != 'Y')
+				{
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				}
+				$obj->content = nl2br($obj->content);
 			}
-			$obj->content = nl2br($obj->content);
+			else
+			{
+				$oEditorModel = getModel('editor');
+				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
+				
+				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
+				{
+					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
+					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
+				}
+			}
 		}
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType())
@@ -616,6 +651,16 @@ class documentController extends document
 		}
 		else if($isEmptyTrash && $oDocument == null) return new Object(-1, 'document is not exists');
 
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+		$logged_info = Context::get('logged_info');
+
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_document_is_admin_not_permitted');
+		}
+
+
 		if(!$oDocument->isExists() || $oDocument->document_srl != $document_srl) return new Object(-1, 'msg_invalid_document');
 		// Check if a permossion is granted
 		if(!$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
@@ -716,6 +761,7 @@ class documentController extends document
 	 */
 	function moveDocumentToTrash($obj)
 	{
+		$logged_info = Context::get('logged_info');
 		$trash_args = new stdClass();
 		// Get trash_srl if a given trash_srl doesn't exist
 		if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
@@ -723,6 +769,14 @@ class documentController extends document
 		// Get its module_srl which the document belongs to
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_document_no_move_to_trash');
+		}
+
 
 		$trash_args->module_srl = $oDocument->get('module_srl');
 		$obj->module_srl = $oDocument->get('module_srl');
@@ -732,7 +786,7 @@ class documentController extends document
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->description = $obj->description;
 		// Insert member's information only if the member is logged-in and not manually registered.
-		if(Context::get('is_logged')&&!$manual_inserted)
+		if(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
 			$trash_args->member_srl = $logged_info->member_srl;
@@ -847,7 +901,7 @@ class documentController extends document
 		if($_SESSION['readed_document'][$document_srl]) return false;
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 			return false;
@@ -886,7 +940,7 @@ class documentController extends document
 		}
 
 		// Register session
-		if(!$_SESSION['banned_document'][$document_srl]) 
+		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus()) 
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 		}
@@ -2228,8 +2282,23 @@ class documentController extends document
 		$module_srl = Context::get('module_srl');
 		if($target_module && !$module_srl) $module_srl = $target_module;
 		$category_srl = Context::get('target_category');
-		$message_content = Context::get('message_content');
-		if($message_content) $message_content = nl2br($message_content);
+		// send default message - misol 2015-07-23
+		$send_default_message = Context::get('send_default_message');
+		if($send_default_message === 'Y')
+		{
+			$logged_info = Context::get('logged_info');
+			$message_content = '';
+			$default_message_verbs = Context::getLang('default_message_verbs');
+			if(isset($default_message_verbs[$type]) && is_string($default_message_verbs[$type]))
+			{
+				$message_content = sprintf(Context::getLang('default_message_format'), $logged_info->nick_name, $default_message_verbs[$type]);
+			}
+		}
+		else
+		{
+			$message_content = Context::get('message_content');
+			if($message_content) $message_content = nl2br($message_content);
+		}
 
 		$cart = Context::get('cart');
 		if(!is_array($cart)) $document_srl_list = explode('|@|', $cart);
@@ -2246,28 +2315,6 @@ class documentController extends document
 			if(!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
 		}
 
-		// Send a message
-		if($message_content)
-		{
-
-			$oCommunicationController = getController('communication');
-
-			$logged_info = Context::get('logged_info');
-
-			$title = cut_str($message_content,10,'...');
-			$sender_member_srl = $logged_info->member_srl;
-
-			foreach($document_items as $oDocument)
-			{
-				if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
-
-				if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\">%s</a>", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
-				else $purl = "";
-				$content = sprintf("<div>%s</div><hr />%s<div style=\"font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent(false, false, false));
-
-				$oCommunicationController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
-			}
-		}
 		// Set a spam-filer not to be filtered to spams
 		$oSpamController = getController('spamfilter');
 		$oSpamController->setAvoidLog();
@@ -2325,6 +2372,29 @@ class documentController extends document
 			$args->document_srl = $document_srl_list;
 			$output = executeQuery('document.deleteDeclaredDocuments', $args);
 			$msg_code = 'success_declare_canceled';
+		}
+
+		// Send a message
+		if($message_content)
+		{
+
+			$oCommunicationController = getController('communication');
+
+			$logged_info = Context::get('logged_info');
+
+			$title = cut_str($message_content,10,'...');
+			$sender_member_srl = $logged_info->member_srl;
+
+			foreach($document_items as $oDocument)
+			{
+				if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
+
+				if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\" style=\"padding:10px 0;\">%s</a><hr />", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
+				else $purl = "";
+				$content = sprintf("<div style=\"padding:10px 0;\"><p>%s</p></div><hr />%s<div style=\"padding:10px 0;font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent(false, false, false));
+
+				$oCommunicationController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
+			}
 		}
 
 		$_SESSION['document_management'] = array();

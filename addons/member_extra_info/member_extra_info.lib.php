@@ -21,8 +21,14 @@ function memberTransImageName($matches)
 	$oMemberModel = getModel('member');
 	$nick_name = $matches[5];
 
+	// Initialize global variable for cache
+	if(!isset($GLOBALS['_transImageNameList'][$member_srl]))
+	{
+		$GLOBALS['_transImageNameList'][$member_srl] = new stdClass();
+	}
 	$_tmp = &$GLOBALS['_transImageNameList'][$member_srl];
-	// If pre-defined data in the global variablesm return it
+	
+	// If pre-defined data in the global variables, return it
 	if(!$_tmp->cached)
 	{
 		$_tmp->cached = true;
@@ -31,7 +37,8 @@ function memberTransImageName($matches)
 
 		if(file_exists(_XE_PATH_ . $image_name_file))
 		{
-			$_tmp->image_name_file = $image_name_file;
+			$_tmp->image_name_file = $image_name_file . '?' . date('YmdHis', filemtime(_XE_PATH_ . $image_name_file));
+			$image_name_file = $_tmp->image_name_file;
 		}
 		else
 		{
@@ -40,7 +47,8 @@ function memberTransImageName($matches)
 
 		if(file_exists(_XE_PATH_ . $image_mark_file))
 		{
-			$_tmp->image_mark_file = $image_mark_file;
+			$_tmp->image_mark_file = $image_mark_file . '?' . date('YmdHis', filemtime(_XE_PATH_ . $image_mark_file));
+			$image_mark_file = $_tmp->image_mark_file;
 		}
 		else
 		{

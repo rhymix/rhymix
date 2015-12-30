@@ -27,7 +27,7 @@ class Expression
 	 * @param string $column_name
 	 * @return void
 	 */
-	function Expression($column_name)
+	function __construct($column_name)
 	{
 		$this->column_name = $column_name;
 	}

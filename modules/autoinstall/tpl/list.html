@@ -45,16 +45,6 @@
 				</div>
 				<div class="text">
 					<h3><span class="x_label x_label-info">{$item->category}</span> <a href="{$target_url}" title="{$item->title}" target="_blank">{$item->title}</a></h3>
-					<p>
-						<block cond="(int)$item->package_voter > 0">
-							<span class="starRating"><span style="width:{sprintf("%d",$item->package_voted/$item->package_voter*20)}%">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}{sprintf($lang->rate, $item->package_start)}</span></span>
-							<span class="x_badge">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}/{number_format($item->package_voter)}</span>
-						</block>
-						<block cond="(int)$item->package_voter <= 0">
-							<span class="starRating"><span style="width:0%">0</span></span>
-							<span class="x_badge">0/0</span>
-						</block>
-					</p>
 					<p class="x_btn-group" style="text-align:right">
 						<a cond="$item->current_version && $item->need_update != 'Y'" class="x_btn x_disabled" href="#">{$lang->installed}</a>
 						<a cond="!$item->current_version" class="x_btn" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}"><i class="x_icon-download-alt"></i> {$lang->install}</a>
@@ -100,14 +90,6 @@
 				<p><span class="x_label x_label-info">{$item->category}</span> <a href="{$target_url}" target="_blank">{$item->title}</a></p>
 				<p style="margin:5px 0">{cut_str($item->package_description,200)}</p>
 				<p style="margin:5px 0">
-					<block cond="(int)$item->package_voter > 0">
-						<span class="starRating"><span style="width:{sprintf("%d",$item->package_voted/$item->package_voter*20)}%">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}{sprintf($lang->rate, $item->package_start)}</span></span>
-						<span class="x_badge">{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}/{number_format($item->package_voter)}</span>
-					</block>
-					<block cond="(int)$item->package_voter <= 0">
-						<span class="starRating"><span style="width:0%">0</span></span>
-						<span class="x_badge">0/0</span>
-					</block>
 					{$lang->package_update}: <time title="{zdate($item->item_regdate, "Y-m-d H:i")}">{zdate($item->item_regdate, "Y-m-d")}</time> 
 					<i>|</i>
 					{$lang->package_downloaded_count}: {number_format($item->package_downloaded)}

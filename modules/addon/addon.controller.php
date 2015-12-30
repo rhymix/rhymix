@@ -80,6 +80,7 @@ class addonController extends addon
 	{
 		// Add-on module for use in creating the cache file
 		$buff = array('<?php if(!defined("__XE__")) exit();', '$_m = Context::get(\'mid\');');
+		$buff[] = 'ob_start();';
 		$oAddonModel = getAdminModel('addon');
 		$addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
 		foreach($addon_list as $addon => $val)
@@ -135,6 +136,7 @@ class addonController extends addon
 			$buff[] = '$addon_time_log->called_extension = "' . $addon . '";';
 			$buff[] = 'writeSlowlog("addon",$after_time-$before_time,$addon_time_log);';
 		}
+		$buff[] = 'ob_end_flush();';
 		$addon_path = _XE_PATH_ . 'files/cache/addons/';
 		FileHandler::makeDir($addon_path);
 		$addon_file = $addon_path . ($gtype == 'site' ? $site_srl : '') . $type . '.acivated_addons.cache.php';
