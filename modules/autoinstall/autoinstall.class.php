@@ -40,7 +40,11 @@ class XmlGenerater
 	function getXmlDoc(&$params)
 	{
 		$body = XmlGenerater::generate($params);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+		$request_config = array(
+			'ssl_verify_peer' => FALSE,
+			'ssl_verify_host' => FALSE
+		);
+		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		if(!$buff)
 		{
 			return;
@@ -133,6 +137,11 @@ class autoinstall extends ModuleObject
 			return TRUE;
 		}
 
+		// 2015.12.31 replace HTTP connection to HTTPS connection.
+		if($config->downloadServer !== _XE_DOWNLOAD_SERVER_)
+		{
+			return TRUE;
+		}
 		return FALSE;
 	}
 
@@ -179,6 +188,12 @@ class autoinstall extends ModuleObject
 			$oDB->addColumn('autoinstall_packages', 'have_instance', 'char', '1', 'N', TRUE);
 		}
 
+		// 2015.12.31 replace HTTP connection to HTTPS connection.
+		if($config->downloadServer !== _XE_DOWNLOAD_SERVER_)
+		{
+			$config->downloadServer = _XE_DOWNLOAD_SERVER_;
+			$oModuleController->insertModuleConfig('autoinstall', $config);
+		}
 		return new Object(0, 'success_updated');
 	}
 

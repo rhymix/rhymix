@@ -310,7 +310,11 @@ class autoinstallAdminView extends autoinstall
 		$params["act"] = "getResourceapiPackages";
 		$params["package_srls"] = implode(",", array_keys($package_list));
 		$body = XmlGenerater::generate($params);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+		$request_config = array(
+			'ssl_verify_peer' => FALSE,
+			'ssl_verify_host' => FALSE
+		);
+		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
 		if($xmlDoc && $xmlDoc->response->packagelist->item)
@@ -401,7 +405,11 @@ class autoinstallAdminView extends autoinstall
 		$params = array();
 		$params["act"] = "getResourceapiLastupdate";
 		$body = XmlGenerater::generate($params);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+		$request_config = array(
+			'ssl_verify_peer' => FALSE,
+			'ssl_verify_host' => FALSE
+		);
+		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
 		$lUpdateDoc = $xml_lUpdate->parse($buff);
 		$updateDate = $lUpdateDoc->response->updatedate->body;
@@ -547,7 +555,11 @@ class autoinstallAdminView extends autoinstall
 		$params["act"] = "getResourceapiPackages";
 		$params["package_srls"] = $package_srl;
 		$body = XmlGenerater::generate($params);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+		$request_config = array(
+			'ssl_verify_peer' => FALSE,
+			'ssl_verify_host' => FALSE
+		);
+		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
 		if($xmlDoc && $xmlDoc->response->packagelist->item)

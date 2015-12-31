@@ -136,7 +136,11 @@ class ModuleInstaller
 		$postdata["path"] = $this->package->path;
 		$postdata["module"] = "resourceapi";
 		$postdata["act"] = "procResourceapiDownload";
-		$buff = FileHandler::getRemoteResource($this->base_url, NULL, 3, "POST", "application/x-www-form-urlencoded", array(), array(), $postdata);
+		$request_config = array(
+			'ssl_verify_peer' => FALSE,
+			'ssl_verify_host' => FALSE
+		);
+		$buff = FileHandler::getRemoteResource($this->base_url, NULL, 3, "POST", "application/x-www-form-urlencoded", array(), array(), $postdata, $request_config);
 		FileHandler::writeFile($this->download_file, $buff);
 	}
 

@@ -71,7 +71,11 @@ class autoinstallAdminController extends autoinstall
 
 		$params["act"] = "getResourceapiUpdate";
 		$body = XmlGenerater::generate($params);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+		$request_config = array(
+			'ssl_verify_peer' => FALSE,
+			'ssl_verify_host' => FALSE
+		);
+		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml = new XmlParser();
 		$xmlDoc = $xml->parse($buff);
 		$this->updateCategory($xmlDoc);
