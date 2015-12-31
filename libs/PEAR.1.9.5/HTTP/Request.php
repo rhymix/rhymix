@@ -27,7 +27,7 @@ class HTTP_Request extends HTTP_Request2
 	public function getResponseHeader() {
 		if($this->response)
 		{
-			return $this->response->getHeader();	
+			return $this->response->getHeader();
 		}
 	}
 

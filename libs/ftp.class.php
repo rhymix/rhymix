@@ -53,7 +53,7 @@
         var $ftp_resp;
 
         /* Constractor */
-        function ftp()
+        function __construct()
         {
             $this->debug = false;
             $this->umask = 0022;
