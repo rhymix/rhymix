@@ -4,6 +4,9 @@
 <load target="./lang" />
 
 <!--// 레이아웃을 위한 설정 값들 -->
+<!--// 회원 모듈 -->
+	{@ $oMemberModel = getModel('member');
+	$member_config = $oMemberModel->getMemberConfig();}
 <!--// index 모듈 체크 -->
 	{@ $_is_indexmodule = ($site_module_info->module_srl === $current_module_info->module_srl)}
 	{@ $_body_class = array()}
@@ -454,13 +457,13 @@
 					<legend class="blind">{$lang->cmd_login}</legend>
 					<div class="control-group">
 						<div class="group">
-							<input type="text" name="user_id" id="uemail" required="true" />
+							<input type="<!--@if($member_config->identifier != 'email_address')-->text<!--@else-->email<!--@end-->" name="user_id" id="uemail" required="required" />
 							<span class="highlight"></span>
 							<span class="bar"></span>
-							<label class="info_label" for="uemail">{$lang->user_id}</label>
+							<label class="info_label" for="uemail"><!--@if($member_config->identifier != 'email_address')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label>
 						</div>
 						<div class="group">
-							<input type="password" name="password" id="upw" required="true" />
+							<input type="password" name="password" id="upw" required="required" />
 							<span class="highlight"></span>
 							<span class="bar"></span>
 							<label class="info_label" for="upw">{$lang->password}</label>
