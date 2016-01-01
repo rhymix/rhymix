@@ -766,9 +766,6 @@ class ModuleHandler extends Handler
 			if($message != 'success')
 			{
 				$_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
-			}
-			if($messageType != 'info')
-			{
 				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
 			}
 			if(Context::get('xeVirtualRequestMethod') != 'xml' && $redirectUrl)
