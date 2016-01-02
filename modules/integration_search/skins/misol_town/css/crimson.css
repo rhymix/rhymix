@@ -7,8 +7,8 @@
 	font-family: "맑은 고딕", "Apple SD Gothic Neo","나눔고딕",NanumGothic,'Nanum Gothic',"돋움",Dotum,"굴림",Gulim,Helvetica,sans-serif;
 	font-size: 14px;
 	background-color: #fff;
-	margin: 5px 0px;
-	padding: 0px;
+	margin: 0px;
+	padding: 5px 0px 10px;
 }
 .misolSearch section.misolSearchSection
 {
@@ -26,6 +26,10 @@
 }
 #misolSearchForm{
 	display:inline-block;
+}
+.misolSearch .searchBox input {
+	-webkit-appearance: none;
+	border-radius: 0;
 }
 .misolSearch .searchBox input[type="submit"]{vertical-align:top;background:#616161;border:1px solid #e0e0e0;color:#fff;height:32px;padding:0 15px;margin:0;}
 .misolSearch .searchBox input[type="submit"]:hover, .misolSearch .searchBox input[type='submit']:focus {background:#872434;}
