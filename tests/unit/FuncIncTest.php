@@ -25,7 +25,7 @@ class FuncIncTest extends \Codeception\TestCase\Test
             // embedded encoded tab to break up XSS - http://ha.ckers.org/xss.html
             array(
                 '<IMG SRC="jav&#x09;ascript:alert(\'XSS\');">',
-                '<img src="jav%20ascript%3Aalert(%5C\'XSS%5C\');" alt="jav ascript:alert(\\'XSS\\');" />'
+                '<img src="jav%20ascript%3Aalert(%5C\'XSS%5C\');" alt="jav ascript:alert(\\\'XSS\\\');" />'
             ),
             // issue 178
             array(
