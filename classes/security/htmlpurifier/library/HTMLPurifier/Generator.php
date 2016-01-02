@@ -279,7 +279,7 @@ class HTMLPurifier_Generator
         if ($quote === null) {
             $quote = ENT_COMPAT;
         }
-        return htmlspecialchars($string, $quote, 'UTF-8', false);
+        return htmlspecialchars($string, $quote, 'UTF-8');
     }
 }
 

@@ -181,7 +181,7 @@ class HTMLPurifier_Config
         if (!isset($this->def->info[$key])) {
             // can't add % due to SimpleTest bug
             $this->triggerError(
-                'Cannot retrieve value of undefined directive ' . htmlspecialchars($key, ENT_COMPAT | ENT_HTML401, 'UTF-8', false),
+                'Cannot retrieve value of undefined directive ' . htmlspecialchars($key),
                 E_USER_WARNING
             );
             return;
@@ -226,7 +226,7 @@ class HTMLPurifier_Config
         if (!isset($full[$namespace])) {
             $this->triggerError(
                 'Cannot retrieve undefined namespace ' .
-                htmlspecialchars($namespace, ENT_COMPAT | ENT_HTML401, 'UTF-8', false),
+                htmlspecialchars($namespace),
                 E_USER_WARNING
             );
             return;
@@ -309,7 +309,7 @@ class HTMLPurifier_Config
         }
         if (!isset($this->def->info[$key])) {
             $this->triggerError(
-                'Cannot set undefined directive ' . htmlspecialchars($key, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . ' to value',
+                'Cannot set undefined directive ' . htmlspecialchars($key) . ' to value',
                 E_USER_WARNING
             );
             return;

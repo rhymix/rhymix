@@ -131,7 +131,7 @@ class HTMLPurifier_Printer
     protected function escape($string)
     {
         $string = HTMLPurifier_Encoder::cleanUTF8($string);
-        $string = htmlspecialchars($string, ENT_COMPAT, 'UTF-8', false);
+        $string = htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
         return $string;
     }
 
