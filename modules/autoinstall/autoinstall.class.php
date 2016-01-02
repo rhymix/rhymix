@@ -76,12 +76,6 @@ class autoinstall extends ModuleObject
 	 */
 	function __construct()
 	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('autoinstall');
-		if($config->downloadServer != _XE_DOWNLOAD_SERVER_)
-		{
-			$this->stop('msg_not_match_server');
-		}
 	}
 
 	/**
@@ -91,11 +85,6 @@ class autoinstall extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		$oModuleController = getController('module');
-
-		$config = new stdClass;
-		$config->downloadServer = _XE_DOWNLOAD_SERVER_;
-		$oModuleController->insertModuleConfig('autoinstall', $config);
 	}
 
 	/**
@@ -124,24 +113,12 @@ class autoinstall extends ModuleObject
 			return TRUE;
 		}
 
-		// 2011.08.08 set _XE_DOWNLOAD_SERVER_ at module config
-		$config = $oModuleModel->getModuleConfig('autoinstall');
-		if(!isset($config->downloadServer))
-		{
-			return TRUE;
-		}
-
 		// 2012.11.12 add column 'have_instance' in autoinstall_packages
 		if(!$oDB->isColumnExists('autoinstall_packages', 'have_instance'))
 		{
 			return TRUE;
 		}
-
-		// 2015.12.31 replace HTTP connection to HTTPS connection.
-		if($config->downloadServer !== _XE_DOWNLOAD_SERVER_)
-		{
-			return TRUE;
-		}
+		
 		return FALSE;
 	}
 
@@ -174,26 +151,12 @@ class autoinstall extends ModuleObject
 			$oDB->addIndex('ai_remote_categories', 'idx_list_order', array('list_order'));
 		}
 
-		// 2011. 08. 08 set _XE_DOWNLOAD_SERVER_ at module config
-		$config = $oModuleModel->getModuleConfig('autoinstall');
-		if(!isset($config->downloadServer))
-		{
-			$config->downloadServer = _XE_DOWNLOAD_SERVER_;
-			$oModuleController->insertModuleConfig('autoinstall', $config);
-		}
-
 		// 2012.11.12 add column 'have_instance' in autoinstall_packages
 		if(!$oDB->isColumnExists('autoinstall_packages', 'have_instance'))
 		{
 			$oDB->addColumn('autoinstall_packages', 'have_instance', 'char', '1', 'N', TRUE);
 		}
-
-		// 2015.12.31 replace HTTP connection to HTTPS connection.
-		if($config->downloadServer !== _XE_DOWNLOAD_SERVER_)
-		{
-			$config->downloadServer = _XE_DOWNLOAD_SERVER_;
-			$oModuleController->insertModuleConfig('autoinstall', $config);
-		}
+		
 		return new Object(0, 'success_updated');
 	}
 

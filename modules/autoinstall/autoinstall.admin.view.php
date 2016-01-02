@@ -392,8 +392,6 @@ class autoinstallAdminView extends autoinstall
 	 */
 	function dispAutoinstallAdminIndex()
 	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('autoinstall');
 		$ftp_info = Context::getFTPInfo();
 		if(!$ftp_info->ftp_root_path)
 		{
