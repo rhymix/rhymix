@@ -35,7 +35,7 @@ class FuncIncTest extends \Codeception\TestCase\Test
             // issue 534
             array(
                 '<img src=\'as"df dummy=\'"1234\'" 4321\' asdf/*/>*/"  onerror="console.log(\'Yet another XSS\')">',
-                '<img src="\%5C\'as" alt="\\\'as&quot;df" />*/"  onerror="console.log(\\\'Yet another XSS\\\')"&gt;'
+                '<img src="as" alt="as&quot;df dummy=" />*/"  onerror="console.log(\'Yet another XSS\')"&gt;'
             ),
             // issue 602
             array(
