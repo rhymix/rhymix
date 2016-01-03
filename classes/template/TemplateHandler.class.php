@@ -461,7 +461,8 @@ class TemplateHandler
 	 */
 	private function _parseInline($buff)
 	{
-		if(preg_match_all('/<([a-zA-Z]+\d?)(?>(?!<[a-z]+\d?[\s>]).)*?(?:[ \|]cond| loop)="/s', $buff, $match) === false)
+		preg_match_all('/<([a-zA-Z]+\d?)(?>(?!<[a-z]+\d?[\s>]).)*?(?:[ \|]cond| loop)="/s', $buff, $match);
+		if(empty($match))
 		{
 			return $buff;
 		}
