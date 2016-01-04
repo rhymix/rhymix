@@ -38,6 +38,8 @@ class poll extends ModuleObject
 	function checkUpdate()
 	{
 		$oModuleModel = getModel('module');
+		$oDB = &DB::getInstance();
+
 		// 2007.10.17 When deleting posts/comments delete the poll as well
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'poll', 'controller', 'triggerInsertDocumentPoll', 'after')) return true;
 		if(!$oModuleModel->getTrigger('comment.insertComment', 'poll', 'controller', 'triggerInsertCommentPoll', 'after')) return true;
@@ -45,6 +47,21 @@ class poll extends ModuleObject
 		if(!$oModuleModel->getTrigger('comment.updateComment', 'poll', 'controller', 'triggerUpdateCommentPoll', 'after')) return true;
 		if(!$oModuleModel->getTrigger('document.deleteDocument', 'poll', 'controller', 'triggerDeleteDocumentPoll', 'after')) return true;
 		if(!$oModuleModel->getTrigger('comment.deleteComment', 'poll', 'controller', 'triggerDeleteCommentPoll', 'after')) return true;
+
+		if(!$oDB->isColumnExists('poll', 'poll_type'))
+		{
+			return true;
+		}
+
+		if(!$oDB->isColumnExists('poll_log','poll_item'))
+		{
+			return true;
+		}
+
+		if(!$oDB->isColumnExists('poll_item','add_user_srl'))
+		{
+			return true;
+		}
 
 		return false;
 	}
@@ -56,6 +73,8 @@ class poll extends ModuleObject
 	{
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
+		$oDB = &DB::getInstance();
+
 		// 2007.10.17 When deleting posts/comments delete the poll as well
 		if(!$oModuleModel->getTrigger('document.deleteDocument', 'poll', 'controller', 'triggerDeleteDocumentPoll', 'after'))
 			$oModuleController->insertTrigger('document.deleteDocument', 'poll', 'controller', 'triggerDeleteDocumentPoll', 'after');
@@ -71,6 +90,21 @@ class poll extends ModuleObject
 		if(!$oModuleModel->getTrigger('comment.updateComment', 'poll', 'controller', 'triggerUpdateCommentPoll', 'after')) 
 			$oModuleController->insertTrigger('comment.updateComment', 'poll', 'controller', 'triggerUpdateCommentPoll', 'after');
 
+		if(!$oDB->isColumnExists('poll','poll_type'))
+		{
+			$oDB->addColumn('poll', 'poll_type', 'number', 11, 0);
+		}
+
+		if(!$oDB->isColumnExists('poll_log','poll_item'))
+		{
+			$oDB->addColumn('poll_log', 'poll_item', 'varchar', 250, 0);
+		}
+
+		if(!$oDB->isColumnExists('poll_item','add_user_srl'))
+		{
+			$oDB->addColumn('poll_item', 'add_user_srl', 'number', 11, 0);
+		}
+
 		return new Object(0, 'success_updated');
 	}
 
@@ -79,6 +113,16 @@ class poll extends ModuleObject
 	 */
 	function recompileCache()
 	{
+	}
+
+	function isCangetMemberInfo($type)
+	{
+		return ($type==1 || $type==3);
+	}
+
+	function isCanAddItem($type)
+	{
+		return ($type==2 || $type==3);
 	}
 }
 /* End of file poll.class.php */

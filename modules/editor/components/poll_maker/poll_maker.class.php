@@ -27,7 +27,7 @@ class poll_maker extends EditorHandler
 	{
 		// Wanted Skins survey
 		$oModuleModel = getModel('module');
-		$skin_list = $oModuleModel->getSkins(_XE_PATH_ . 'modules/poll/');
+		$skin_list = $oModuleModel->getSkins(_XE_PATH_ . 'widgets/pollWidget/');
 		Context::set('skin_list', $skin_list);
 		// Pre-compiled source code to compile template return to
 		$tpl_path = $this->component_path.'tpl';
@@ -45,17 +45,29 @@ class poll_maker extends EditorHandler
 	 */
 	function transHTML($xml_obj)
 	{
-		$poll_srl = $xml_obj->attrs->poll_srl;
+		$args = new stdClass();
+
+		$args->poll_srl = $xml_obj->attrs->poll_srl;
 		$skin = $xml_obj->attrs->skin;
 		if(!$skin) $skin = 'default';
+		$args->skin = $skin;
 
 		preg_match('/width([^[:digit:]]+)([0-9]+)/i',$xml_obj->attrs->style,$matches);
 		$width = $matches[2];
 		if(!$width) $width = 400;
-		$style = sprintf('width:%dpx', $width);
-		// poll model object creation to come get it return html
-		$oPollModel = getModel('poll');
-		return $oPollModel->getPollHtml($poll_srl, $style, $skin);
+		$args->style = sprintf('width:%dpx', $width);
+
+		// Set a path of the template skin (values of skin, colorset settings)
+		$tpl_path = sprintf('%sskins/%s', _XE_PATH_ . 'widgets/pollWidget/', $args->skin);
+		$tpl_file = 'pollview';
+
+		Context::set('colorset', $args->colorset);
+		Context::set('poll_srl', $args->poll_srl);
+		Context::set('style', $args->style);
+
+		// Compile a template
+		$oTemplate = &TemplateHandler::getInstance();
+		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 }
 /* End of file poll_maker.class.php */

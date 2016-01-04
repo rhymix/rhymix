@@ -250,4 +250,37 @@
 		<value xml:lang="jp"><![CDATA[選択したアンケート]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已選擇的投票]]></value>
 	</item>
+    <item name="poll_no_poll_srl">
+        <value xml:lang="ko"><![CDATA[Poll srl 값이 없습니다.]]></value>
+    </item>
+    <item name="poll_no_poll_or_deleted_poll">
+        <value xml:lang="ko"><![CDATA[삭제되었거나 잘못된 투표입니다.]]></value>
+    </item>
+    <item name="poll_item_members">
+        <value xml:lang="ko"><![CDATA[%s 항목을 투표한 사용자]]></value>
+    </item>
+    <item name="btn_poll_gotovote">
+        <value xml:lang="ko"><![CDATA[투표 화면으로 가기]]></value>
+    </item>
+    <item name="btn_poll_gotoresult">
+        <value xml:lang="ko"><![CDATA[결과 화면으로 가기]]></value>
+    </item>
+    <item name="msg_cannot_vote">
+        <value xml:lang="ko"><![CDATA[투표할 수 없습니다.]]></value>
+    </item>
+    <item name="msg_exceed_max_select">
+        <value xml:lang="ko"><![CDATA[최대 투표 항목수를 초과했습니다.]]></value>
+    </item>
+    <item name="msg_cannot_add_item">
+        <value xml:lang="ko"><![CDATA[항목을 추가할 수 없습니다.]]></value>
+    </item>
+    <item name="msg_cannot_delete_item">
+        <value xml:lang="ko"><![CDATA[항목을 삭제할 수 없습니다.]]></value>
+    </item>
+    <item name="msg_item_title_cannot_empty">
+        <value xml:lang="ko"><![CDATA[항목의 이름은 비어 있을수 없습니다.]]></value>
+    </item>
+    <item name="msg_cannot_delete_item_poll_exist">
+        <value xml:lang="ko"><![CDATA[항목 투표수가 0 이상이므로 삭제할 수 없습니다.]]></value>
+    </item>
 </lang>

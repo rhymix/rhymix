@@ -18,8 +18,8 @@
 		<div class="x_control-group">
 			<label for="" class="x_control-label">{$lang->poll_stop_date}</label>
 			<div class="x_controls">
-				<input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*7)}" />
-				<input type="date" class="inputDate" value="{date('Y-m-d',time()+60*60*24*7)}" />
+				<input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*30)}" />
+				<input type="date" class="inputDate" value="{date('Y-m-d',time()+60*60*24*30)}" />
 <script>
 (function($){
 $(function(){
@@ -31,7 +31,7 @@ $(function(){
 		, onSelect:function(){
 			$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""));
 		}
-		,minDate: new Date("{date('Y-m-d',time())}")
+		,minDate: new Date("{date('Y-m-d',time()+60*60*24*30)}")
 	};
 	$.extend(option,$.datepicker.regional['{$lang_type}']);
 	$(".inputDate").datepicker(option);
@@ -42,13 +42,28 @@ $(function(){
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="" class="x_control-label">{$lang->skin}</label>
+			<label for="skin" class="x_control-label">{$lang->skin}</label>
 			<div class="x_controls">
-				<select name="skin">
+				<select id="skin" name="skin">
 				<!--@foreach($skin_list as $skin=>$skin_info)-->
-				<option value="{$skin}">{$skin_info->title} (skin by {$skin_info->maker->name})</option>
+				<option value="{$skin}">{$skin_info->title} (skin by <!--@foreach($skin_info->author as $author=>$author_info)-->{@ $authorname = array(); $authorname[] = $author_info->name; }<!--@end-->{implode(",",$authorname)})</option>
 				<!--@end-->
 				</select>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">사용자 공개</label>
+			<div class="x_controls">
+				<input type="radio" name="show_vote" value="1" /> 투표한 사용자 공개
+				<input type="radio" name="show_vote" value="0" checked="checked" /> 투표한 사용자 비공개
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">항목 추가</label>
+			<div class="x_controls">
+				<input type="radio" name="add_item" value="2" /> 항목 추가 가능
+				<input type="radio" name="add_item" value="0" checked="checked" /> 항목 추가 금지
 			</div>
 		</div>
 	<div id="poll_source" style="display:none">
