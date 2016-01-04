@@ -339,39 +339,88 @@ class installController extends install
 	{
 		// Check each item
 		$checklist = array();
-		// 0. check your version of php (5.2.4 or higher)
+
+		// 0. Check PHP version
 		$checklist['php_version'] = true;
 		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<'))
 		{
 			$checklist['php_version'] = false;
 		}
-
 		if(version_compare(PHP_VERSION, __XE_RECOMMEND_PHP_VERSION__, '<'))
 		{
 			Context::set('phpversion_warning', true);
 		}
 
 		// 1. Check permission
-		if(is_writable('./')||is_writable('./files')) $checklist['permission'] = true;
-		else $checklist['permission'] = false;
-		// 2. Check if xml_parser_create exists
-		if(function_exists('xml_parser_create')) $checklist['xml'] = true;
-		else $checklist['xml'] = false;
-		// 3. Check if ini_get (session.auto_start) == 1
-		if(ini_get('session.auto_start')!=1) $checklist['session'] = true;
-		else $checklist['session'] = false;
-		// 4. Check if iconv exists
-		if(function_exists('iconv')) $checklist['iconv'] = true;
-		else $checklist['iconv'] = false;
-		// 5. Check gd(imagecreatefromgif function)
-		if(function_exists('imagecreatefromgif')) $checklist['gd'] = true;
-		else $checklist['gd'] = false;
-		// 6. Check DB
-		if(DB::getEnableList()) $checklist['db'] = true;
-		else $checklist['db'] = false;
+		if(is_writable('./')||is_writable('./files'))
+		{
+			$checklist['permission'] = true;
+		}
+		else
+		{
+			$checklist['permission'] = false;
+		}
 
-		if(!$checklist['php_version'] || !$checklist['permission'] || !$checklist['xml'] || !$checklist['session'] || !$checklist['db']) $install_enable = false;
-		else $install_enable = true;
+		// 2. Check if ini_get (session.auto_start) == 1
+		if(ini_get('session.auto_start') != 1)
+		{
+			$checklist['session'] = true;
+		}
+		else
+		{
+			$checklist['session'] = false;
+		}
+
+		// 3. Check if xml_parser_create exists
+		if(function_exists('xml_parser_create'))
+		{
+			$checklist['xml'] = true;
+		}
+		else
+		{
+			$checklist['xml'] = false;
+		}
+
+		// 4. Check if iconv exists
+		if(function_exists('iconv'))
+		{
+			$checklist['iconv'] = true;
+		}
+		else
+		{
+			$checklist['iconv'] = false;
+		}
+
+		// 5. Check GD
+		if(function_exists('imagecreatefromgif'))
+		{
+			$checklist['gd'] = true;
+		}
+		else
+		{
+			$checklist['gd'] = false;
+		}
+
+		// 6. Check DB
+		if(DB::getEnableList())
+		{
+			$checklist['db'] = true;
+		}
+		else
+		{
+			$checklist['db'] = false;
+		}
+
+		// Enable install if all conditions are met
+		$install_enable = true;
+		foreach($checklist as $k => $v)
+		{
+			if (!$v)
+			{
+				$install_enable = false;
+				break;
+			}
+		}
 
 		// Save the checked result to the Context
 		Context::set('checklist', $checklist);

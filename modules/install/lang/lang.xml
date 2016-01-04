@@ -86,6 +86,11 @@
 		<value xml:lang="en"><![CDATA[You can Install.]]></value>
 		<value xml:lang="jp"><![CDATA[インストールできます。]]></value>
 	</item>
+	<item name="install_condition_disable">
+		<value xml:lang="ko"><![CDATA[설치할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You cannot install XE.]]></value>
+		<value xml:lang="jp"><![CDATA[インストールできません。]]></value>
+	</item>
 	<item name="install_details">
 		<value xml:lang="ko"><![CDATA[자세히]]></value>
 		<value xml:lang="en"><![CDATA[Details]]></value>
@@ -641,13 +646,13 @@
 	</item>
 	<item name="use_rewrite">
 		<value xml:lang="ko"><![CDATA[짧은 주소 사용]]></value>
-		<value xml:lang="en"><![CDATA[Rewrite Mod]]></value>
+		<value xml:lang="en"><![CDATA[mod_rewrite]]></value>
 		<value xml:lang="jp"><![CDATA[リライト・モジュールを使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[使用rewrite模块]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Rewrite]]></value>
-		<value xml:lang="fr"><![CDATA[Utiliser mode de récrire(rewrite mod)]]></value>
-		<value xml:lang="ru"><![CDATA[Использовать<br /> модуль перезаписи<br />(rewrite mod)]]></value>
-		<value xml:lang="es"><![CDATA[Usar rewrite mod]]></value>
+		<value xml:lang="fr"><![CDATA[Utiliser mode de récrire(mod_rewrite)]]></value>
+		<value xml:lang="ru"><![CDATA[Использовать<br /> модуль перезаписи<br />(mod_rewrite)]]></value>
+		<value xml:lang="es"><![CDATA[Usar mod_rewrite]]></value>
 		<value xml:lang="tr"><![CDATA[YenidenYazma Modu (mod_rewrite)]]></value>
 		<value xml:lang="vi"><![CDATA[Mod Rewrite]]></value>
 	</item>
@@ -664,21 +669,21 @@
 		<value xml:lang="vi"><![CDATA[<abbr title="Single Sign On">SSO</abbr>]]></value>
 	</item>
 	<item name="about_rewrite">
-		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/</em><strong>?document_srl=123</strong> 과 같이 복잡한 주소를 <em>http://yourdomain/</em><strong>123</strong> 과 같이 간단하게 줄일 수 있습니다. 웹 서버에서 <strong>rewrite_mod</strong>를 지원해야 합니다. 지원 여부는 서버 관리자에게 문의하세요.]]></value>
-		<value xml:lang="en"><![CDATA[If web server provides rewrite mod, long URL such as <em>http://blah/</em><strong>?document_srl=123</strong> can be shortened like <em>http://blah/</em><strong>123</strong>]]></value>
+		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/</em><strong>?document_srl=123</strong> 과 같이 복잡한 주소를 <em>http://yourdomain/</em><strong>123</strong> 과 같이 간단하게 줄일 수 있습니다. 웹 서버에서 <strong>mod_rewrite</strong>를 지원해야 합니다. 지원 여부는 서버 관리자에게 문의하세요.]]></value>
+		<value xml:lang="en"><![CDATA[If web server provides mod_rewrite, long URL such as <em>http://blah/</em><strong>?document_srl=123</strong> can be shortened like <em>http://blah/</em><strong>123</strong>]]></value>
 		<value xml:lang="jp"><![CDATA[Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを、動的だけど「http://アドレス/123」のように静的なページに見せることができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[如果支援 rewrite 功能，可縮短冗長的網址。<br />例>『http://域名/?document_srl=123』縮短成『http://域名/123』。]]></value>
 		<value xml:lang="fr"><![CDATA[Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://murmure/?document_srl=123 peut être abrégé comme http://murmure/123]]></value>
-		<value xml:lang="ru"><![CDATA[Если сервер предлагает rewrite mod, длинные URL такие как  http://blah/?document_srl=123 могут быть сокращены до http://blah/123]]></value>
-		<value xml:lang="es"><![CDATA[Si el servidor de la web soporte rewrite mod, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123]]></value>
+		<value xml:lang="ru"><![CDATA[Если сервер предлагает mod_rewrite, длинные URL такие как  http://blah/?document_srl=123 могут быть сокращены до http://blah/123]]></value>
+		<value xml:lang="es"><![CDATA[Si el servidor de la web soporte mod_rewrite, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer websunucusu yenidenyazma(rewritemod) destekliyorsa, http://ornek/?dosya_no=123 gibi URLler http://ornek/123 olarak kısaltılabilir]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu Host của bạn hỗ trợ Mod Rewrite, khi địa chỉ có dạng <b>http://blah/?document_srl=123</b> sẽ được rút ngắn thành <b>http://blah/123</b>]]></value>
 	</item>
 	<item name="disable_rewrite">
-		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없습니다. 웹 서버 담당자에게 <strong>rewrite_mod</strong>지원 여부를 확인 바랍니다.]]></value>
-		<value xml:lang="en"><![CDATA[Required module for "Friendly URL" feature is not found. Please check with the web master about <strong>rewrite_mod</strong> module support.]]></value>
-		<value xml:lang="jp"><![CDATA[短縮アドレスを使用できません。ウェブサーバー担当者に <strong>rewrite_mod</strong>サポート可否を確認してください。]]></value>
+		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없습니다. 웹 서버 담당자에게 <strong>mod_rewrite</strong> 지원 여부를 확인 바랍니다.]]></value>
+		<value xml:lang="en"><![CDATA[Required module for "Friendly URL" feature is not found. Please check with the web master about <strong>mod_rewrite</strong> module support.]]></value>
+		<value xml:lang="jp"><![CDATA[短縮アドレスを使用できません。ウェブサーバー担当者に <strong>mod_rewrite</strong>サポート可否を確認してください。]]></value>
 	</item>
 	<item name="about_nginx_rewrite">
 		<value xml:lang="ko"><![CDATA[Nginx를 사용할 경우, 짧은 주소를 사용하기 위하여 rewrite 설정이 필요합니다. 설정방법은 <a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank"><strong>여기</strong></a>를 참고하세요.]]></value>

@@ -2,39 +2,31 @@
 <div id="body">
 	<include target="progress_menu.html" />
 	<div id="content">
-		<ul>
-			<li loop="$checklist => $key,$val" cond="!$val">
-				{@ $isDisable = TRUE}
-				<strong>{$lang->install_checklist_title[$key]}<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong>
+		<p cond="$install_enable">
+			<i class="x_icon-ok-sign x_icon-white"></i>
+			<strong>XE {__XE_VERSION__}</strong> {$lang->install_condition_enable}
+		</p>
+		<p cond="!$install_enable">
+			<i class="x_icon-ban-circle x_icon-white"></i>
+			<strong>XE {__XE_VERSION__}</strong> {$lang->install_condition_disable}
+		</p>
+		<ul id="details">
+			<li loop="$checklist => $key,$val">
+				<strong>{$lang->install_checklist_title[$key]}</strong>
 				:
-				<em><i class="x_icon-ban-circle x_icon-white"></i> {$lang->disable}</em>
-				<p>{sprintf($lang->install_checklist_desc[$key], __XE_MIN_PHP_VERSION__)}</p>
+				<em cond="$val" class="ok">{$lang->enable} <block cond="$key == 'php_version'">({$phpversion})</block></em>
+				<em cond="!$val" class="error">{$lang->disable} <block cond="$key == 'php_version'">({$phpversion})</block></em>
 				<p cond="$key == 'php_version' && $phpversion_warning === true">
 					{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="https://secure.php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
 				</p>
 			</li>
 		</ul>
-		<div cond="!$isDisable">
-			<p>
-				<i class="x_icon-ok-sign x_icon-white"></i>
-				<strong>XE {__XE_VERSION__}</strong> {$lang->install_condition_enable}
-			</p>
-			<ul id="details">
-				<li loop="$checklist => $key,$val">
-					<strong>{$lang->install_checklist_title[$key]}<block cond="$key == 'php_version'">(Ver. {$phpversion})</block></strong>
-					:
-					<em>{$lang->enable}</em>
-					<p cond="$key == 'php_version' && $phpversion_warning === true">
-						{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="https://secure.php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
-					</p>
-				</li>
-			</ul>
-		</div>
+
 		<div cond="$use_rewrite == 'N' && $checklist['permission'] == true">
 			<p>
-				<i class="x_icon-ok-sign x_icon-white"></i>
+				<i class="x_icon-ban-circle x_icon-white"></i>
 				{$lang->disable_rewrite}
-				<block cond="$use_nginx == 'Y'"><br> {$lang->about_nginx_rewrite}</block>
+				<block cond="$use_nginx == 'Y'">{$lang->about_nginx_rewrite}</block>
 			</p>
 		</div>
 

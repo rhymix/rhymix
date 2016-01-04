@@ -7,6 +7,8 @@ body{background:-webkit-linear-gradient(top,#ccc,#fff);background:-moz-linear-gr
 img, fieldset{border:0}
 form, fieldset{margin:0;padding:0}
 .x em{color:#ffc;font-weight:normal;font-style:normal}
+.x em.ok{color:#0f0;font-weight:normal;font-style:normal}
+.x em.error{color:#f44;font-weight:normal;font-style:normal}
 .x strong{color:#f60}
 .x button{margin:0;padding:0;overflow:visible;cursor:pointer}
 .x a{text-decoration:none}
