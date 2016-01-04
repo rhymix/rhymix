@@ -5,4 +5,5 @@
     <column name="upload_target_srl" type="number" size="11" notnull="notnull" index="idx_upload_target_srl" />
     <column name="title" type="varchar" size="250" notnull="notnull" />
     <column name="poll_count" type="number" size="11" notnull="notnull" />
+    <column name="add_user_srl" type="number" size="11" notnull="notnull" />
 </table>
