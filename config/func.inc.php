@@ -14,12 +14,18 @@ if(!defined('__XE__'))
 // define an empty function to avoid errors when iconv function doesn't exist
 if(!function_exists('iconv'))
 {
-	eval('
-		function iconv($in_charset, $out_charset, $str)
+	function iconv($in_charset, $out_charset, $str)
+	{
+		if(function_exists('mb_convert_encoding'))
+		{
+			$out_charset = preg_replace('#//.+$#', '', $out_charset);
+			return mb_convert_encoding($str, $out_charset, $in_charset);
+		}
+		else
 		{
 			return $str;
 		}
-	');
+	}
 }
 
 /**

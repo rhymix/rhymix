@@ -16,8 +16,11 @@
 				:
 				<em cond="$val" class="ok">{$lang->enable} <block cond="$key == 'php_version'">({$phpversion})</block></em>
 				<em cond="!$val" class="error">{$lang->disable} <block cond="$key == 'php_version'">({$phpversion})</block></em>
-				<p cond="$key == 'php_version' && $phpversion_warning === true">
+				<p cond="$key === 'php_version' && $phpversion_warning === true">
 					{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="https://secure.php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
+				</p>
+				<p cond="$key !== 'php_version' && !$val && isset($lang->install_checklist_desc[$key])">
+					{$lang->install_checklist_desc[$key]}
 				</p>
 			</li>
 		</ul>

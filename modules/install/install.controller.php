@@ -340,7 +340,7 @@ class installController extends install
 		// Check each item
 		$checklist = array();
 
-		// 0. Check PHP version
+		// Check PHP version
 		$checklist['php_version'] = true;
 		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<'))
 		{
@@ -351,7 +351,17 @@ class installController extends install
 			Context::set('phpversion_warning', true);
 		}
 
-		// 1. Check permission
+		// Check DB
+		if(DB::getEnableList())
+		{
+			$checklist['db_support'] = true;
+		}
+		else
+		{
+			$checklist['db_support'] = false;
+		}
+
+		// Check permission
 		if(is_writable('./')||is_writable('./files'))
 		{
 			$checklist['permission'] = true;
@@ -361,7 +371,7 @@ class installController extends install
 			$checklist['permission'] = false;
 		}
 
-		// 2. Check if ini_get (session.auto_start) == 1
+		// Check session.auto_start
 		if(ini_get('session.auto_start') != 1)
 		{
 			$checklist['session'] = true;
@@ -371,27 +381,17 @@ class installController extends install
 			$checklist['session'] = false;
 		}
 
-		// 3. Check if xml_parser_create exists
-		if(function_exists('xml_parser_create'))
+		// Check curl
+		if(function_exists('curl_init'))
 		{
-			$checklist['xml'] = true;
+			$checklist['curl'] = true;
 		}
 		else
 		{
-			$checklist['xml'] = false;
+			$checklist['curl'] = false;
 		}
 
-		// 4. Check if iconv exists
-		if(function_exists('iconv'))
-		{
-			$checklist['iconv'] = true;
-		}
-		else
-		{
-			$checklist['iconv'] = false;
-		}
-
-		// 5. Check GD
+		// Check GD
 		if(function_exists('imagecreatefromgif'))
 		{
 			$checklist['gd'] = true;
@@ -401,14 +401,44 @@ class installController extends install
 			$checklist['gd'] = false;
 		}
 
-		// 6. Check DB
-		if(DB::getEnableList())
+		// Check iconv or mbstring
+		if(function_exists('iconv') || function_exists('mb_convert_encoding'))
 		{
-			$checklist['db'] = true;
+			$checklist['iconv'] = true;
 		}
 		else
 		{
-			$checklist['db'] = false;
+			$checklist['iconv'] = false;
+		}
+
+		// Check json
+		if(function_exists('json_encode'))
+		{
+			$checklist['json'] = true;
+		}
+		else
+		{
+			$checklist['json'] = false;
+		}
+
+		// Check openssl
+		if(function_exists('openssl_encrypt'))
+		{
+			$checklist['openssl'] = true;
+		}
+		else
+		{
+			$checklist['openssl'] = false;
+		}
+
+		// Check XML
+		if(function_exists('xml_parser_create'))
+		{
+			$checklist['xml'] = true;
+		}
+		else
+		{
+			$checklist['xml'] = false;
 		}
 
 		// Enable install if all conditions are met
