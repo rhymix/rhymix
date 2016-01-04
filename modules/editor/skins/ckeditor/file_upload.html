@@ -44,23 +44,22 @@
 
 </div>
 
-<script cond="$allow_fileupload">
+<script>
 	function reloadUploader(editor_sequence){
-		jQuery(function($){
-			var setting = {
-				maxFileSize: {$file_config->allowed_filesize},
-				limitMultiFileUploadSize: {$file_config->allowed_filesize}
-			};
-			var uploader = $('#xefu-container-' + editor_sequence).xeUploader(setting);
-		});
+<!--@if($allow_fileupload)-->
+		$container = jQuery('#xefu-container-' + editor_sequence);
+		$container.data('instance').loadFilelist($container);
+<!--@endif-->
 	}
+<!--@if($allow_fileupload)-->
 	jQuery(function($){
 		// uploader
 		var setting = {
 			maxFileSize: {$file_config->allowed_filesize},
 			limitMultiFileUploadSize: {$file_config->allowed_filesize}
 		};
-		var uploader = $('#xefu-container-{$editor_sequence}').xeUploader(setting);
+		$container = $('#xefu-container-{$editor_sequence}');
+		$container.data('instance',$container.xeUploader(setting));
 		window.xe.msg_exceeds_limit_size = '{$lang->msg_exceeds_limit_size}';
 		window.xe.msg_checked_file_is_deleted = '{$lang->msg_checked_file_is_deleted}';
 		window.xe.msg_file_cart_is_null = '{$lang->msg_file_cart_is_null}';
@@ -68,4 +67,5 @@
 		window.xe.msg_not_allowed_filetype = '{$lang->msg_not_allowed_filetype}';
 		window.xe.msg_file_upload_error = '{$lang->msg_file_upload_error}';
 	});
+<!--@endif-->
 </script>

@@ -1,0 +1,148 @@
+<include target="_header.html" />
+<script>
+	var poll_alert_lang = "{$lang->msg_check_poll_item}";
+	var poll_checkcount_lang = "{$lang->poll_checkcount}";
+	var poll_member_lang = "{$lang->poll_item_members}";
+	jQuery.exec_json("poll.getPollstatus", {/**/"poll_srl":{$poll_srl}/**/}, function(data){/**/
+		if(data.is_polled==0) loadPoll({$poll_srl});
+		else
+		{
+			loadPollResult({$poll_srl});
+			jQuery("#poll_{$poll_srl}_result_button").css({/**/
+				display: "none"
+				/**/});
+
+			jQuery("#poll_{$poll_srl}_result_nobutton").css({/**/
+				display: "table-row"
+				/**/});
+
+			jQuery("#poll_{$poll_srl}_result_yesbutton").css({/**/
+				display: "none"
+				/**/});
+		}
+		/**/});
+</script>
+<div style="{$style}">
+	<div id="poll_{$poll_srl}" class="pollWidget" style="display:none;">
+		<script id="entry-template" type="text/x-handlebars-template">
+			{{#each questions as |question questionid|}}
+			<div class="itemDiv">
+			<input type="hidden" name="checkcount_{{question.poll_index_srl}}" value="{{question.checkcount}}" />
+			<div class="title">{{question.title}}</div>
+
+			{{#if question.isMultipleChoice}}
+			<div class="checkcount">
+				{$lang->poll_checkcount} : {{question.checkcount}}
+			</div>
+			{{/if}}
+
+			{{#each question.items as |item itemid|}}
+			<div class="item">
+				{{#if question.isMultipleChoice}}
+				<input type="checkbox" name="item_{{question.poll_srl}}_{{question.poll_index_srl}}" value="{{item.poll_item_srl}}" id="item_{{item.poll_item_srl}}" />
+				{{else}}
+				<input type="radio" name="item_{{question.poll_srl}}_{{question.poll_index_srl}}" value="{{item.poll_item_srl}}" id="item_{{item.poll_item_srl}}" />
+				{{/if}}
+				<label for="item_{{item.poll_item_srl}}">{{item.title}}</label>
+				{{#if item.my_item}}
+				<input type="button" value="x" onclick="deleteItem({{question.poll_srl}},{{question.poll_index_srl}},{{item.poll_item_srl}})" style="float: right;" class="btn poll_button _poll_delete_item" />
+				{{/if}}
+			</div>
+			{{/each}}
+			{{#if question.additem}}
+			<div class="item add">
+				<input type="text" name="new_item" id="new_item_{{question.poll_index_srl}}" value="" /> <input type="button" value="+" onclick="addItem({{question.poll_srl}},{{question.poll_index_srl}})" style="float: right;" class="btn poll_button _poll_add_item" />
+			</div>
+			{{/if}}
+			</div>
+			{{/each}}
+		</script>
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'widgets/pollWidget/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<form ruleset="poll" action="./" method="post" onsubmit="return doPoll(this)">
+			<input type="hidden" name="module" value="poll" />
+			<input type="hidden" name="act" value="procPoll" />
+			<input type="hidden" name="poll_srl" value="{$poll_srl}" />
+			<input type="hidden" name="poll_srl_indexes" value="" />
+			<input type="hidden" name="skin" value="{$skin}" />
+			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+			<input type="hidden" name="xe_validator_id" value="widgets/pollWidget/skins/default/form/1" />
+			<table cellspacing="0" class="simple_poll">
+				<tr>
+					<td id="poll_content_{$poll_srl}" class="poll_content">
+					</td>
+				</tr>
+				<tr>
+					<td class="stopDate">
+						~<strong id="stop_date_{$poll_srl}"></strong> (<a href="#" class="_poll_result _srl_{$poll_srl}">{$lang->cmd_view_result}</a>)
+					</td>
+				</tr>
+				<tr>
+					<td class="poll_button">
+						<input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div id="poll_{$poll_srl}_result" class="pollWidget poll_box" style="display:none;">
+		<script id="entry-template-result" type="text/x-handlebars-template">
+			<div class="itemDiv">
+			{{#each questions as |question questionid|}}
+			<div class="title">{{question.title}} ({{question.poll_count}})</div>
+			{{#each question.items as |item itemid|}}
+			<div class="resultItem">
+				{{#if question.showMembers}}
+				<a href="#" onclick="showPollMember({{question.poll_srl}},{{item.poll_item_srl}});return false;">{{item.title}}</a>
+				{{else}}
+				{{item.title}}
+				{{/if}}
+			</div>
+
+			<div class="barBox">
+				<div class="bar"><img src="./images/color_bar.png" style="width:{{item.per}}%;height:6px;" alt="bar" /></div>
+				<div class="status">{{item.poll_count}} ({{item.per}}%)</div>
+			</div>
+			{{/each}}
+			{{/each}}
+			</div>
+		</script>
+		<script id="entry-template-members" type="text/x-handlebars-template">
+			{{#each members as |member memberid|}}
+			{{#if member.isImage}}
+			<li><img src="{{member.profile_image}}" width="16" height="16" /> <a href="#popup_menu_area" class="member_{{member.member_srl}}" onclick="return false">{{member.nick_name}}</a></li>
+			{{else}}
+			<li><img class="dummy" src="{{dummy_profile}}" width="16" height="16" /> <a href="#popup_menu_area" class="member_{{member.member_srl}}" onclick="return false">{{member.nick_name}}</a></li>
+			{{/if}}
+			{{/each}}
+			{{#if isPage}}
+			<input type="button" id="btn_load_more_{{poll_item_srl}}" value="More..." onclick="showPollMemberNext({{poll_srl}},{{poll_item_srl}});return false;" style="width:100%;" class="btn poll_button" />
+			{{/if}}
+		</script>
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+
+		<table cellspacing="0" class="simple_poll">
+			<tr>
+				<td id="poll_content_{$poll_srl}_result" class="poll_content">
+				</td>
+			</tr>
+			<tr id="poll_{$poll_srl}_result_button" style="width:100%;display: none;">
+				<td colspan="3" class="poll_button">
+					<div>
+						<input type="button" value="{$lang->btn_poll_gotovote}" class="btn poll_button _poll_screen _srl_{$poll_srl}" />
+					</div>
+				</td>
+			</tr>
+			<tr id="poll_{$poll_srl}_gotoresult_button" style="width:100%;display: none;">
+				<td colspan="3" class="poll_button">
+					<div>
+						<input type="button" value="{$lang->btn_poll_gotoresult}" class="btn poll_button _gotoresult_screen _srl_{$poll_srl}" />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

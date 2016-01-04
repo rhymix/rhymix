@@ -4,6 +4,7 @@
     </tables>
     <conditions>
         <condition operation="equal" column="poll_srl" var="poll_srl" filter="number" />
-        <condition operation="equal" column="poll_index_srl" var="poll_index_srl" filter="number" />
+        <condition operation="equal" column="poll_index_srl" var="poll_index_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="poll_item_srl" var="poll_item_srl" filter="number" pipe="and" />
     </conditions>
 </query>

@@ -52,6 +52,25 @@ define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '
 // Set can use other method instead cookie to store session id(for file upload)
 ini_set('session.use_only_cookies', 0);
 
+// Set default charset as UTF-8
+$charset = 'UTF-8';
+ini_set('default_charset', $charset);
+
+if (function_exists('iconv_set_encoding') && version_compare(PHP_VERSION, '5.6', '<'))
+{
+	iconv_set_encoding('internal_encoding', $charset);
+}
+
+if (function_exists('mb_internal_encoding'))
+{
+	mb_internal_encoding($charset);
+}
+
+if (function_exists('mb_regex_encoding'))
+{
+	mb_regex_encoding($charset);
+}
+
 
 if(file_exists(_XE_PATH_ . 'config/package.inc.php'))
 {
@@ -72,12 +91,12 @@ else
 	/**
 	 * Location site
 	 */
-	define('_XE_LOCATION_SITE_', 'http://www.xpressengine.com/');
+	define('_XE_LOCATION_SITE_', 'https://www.xpressengine.com/');
 
 	/**
 	 * Download server
 	 */
-	define('_XE_DOWNLOAD_SERVER_', 'http://download.xpressengine.com/');
+	define('_XE_DOWNLOAD_SERVER_', 'https://download.xpressengine.com/');
 }
 
 /*

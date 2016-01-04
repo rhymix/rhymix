@@ -779,7 +779,7 @@ class contentItem extends Object
 	var $contents_link = null;
 	var $domain = null;
 
-	function contentItem($browser_title='')
+	function __construct($browser_title='')
 	{
 		$this->browser_title = $browser_title;
 	}

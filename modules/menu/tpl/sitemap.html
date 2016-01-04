@@ -352,8 +352,6 @@
 		</fieldset>
 		<button type="button" class="x_close" data-admin-hide="#imgbtn">&times;</button>
 	</div>
-
-	
 	<!--@end-->
 
 	<!--@if($act == 'dispMenuAdminSiteMap')-->
@@ -611,7 +609,7 @@
 					<script id="tmpl_downloadableItem" type="text/x-jquery-tmpl">
 
 						<div class="item ${IsInstalled} ${IsUpToDate}">
-							<img src="http://${ScreenShotURL}" alt="">
+							<img src="https://${ScreenShotURL}" alt="">
 							<h2><a target="_blank" href="${URL}">${MenuType}</a></h2>
 							<p>${MenuTypeDesc}</p>
 							<p><i class="starRating score${Score}"><i></i></i> <b class="x_badge">${Score}/${TotalVotes}</b> {$lang->package_update}: <time title="${LastUpdatedWithTime}">${LastUpdated}</time> <i>|</i> {$lang->package_downloaded_count}: ${TotalDownloads}</p>
@@ -1857,7 +1855,7 @@ jQuery(function($){
 		if(this !== ev.target) return;
 
 		clearInputs($('#add_menu'));
-		 $('#add_menu .x_active ._linkUrl').val('http://');
+		$('#add_menu .x_active ._linkUrl').val('http://');
 	});
 	$('#add_menu ._save').bind("click", function(){
 		var sMenuName = $('#add_menu ._menuName').val();
@@ -1884,7 +1882,7 @@ jQuery(function($){
 
 			if(nSelectedTabIdx === 0){
 				sUrl = $('#add_menu .x_active ._linkUrl').val();
-				if(!sUrl || sUrl === "http://"){
+				if(!sUrl || sUrl === "http://" || sUrl === "https://"){
 					$.xeMsgBox.alert('URL is required');
 					return;
 				}
@@ -2525,7 +2523,7 @@ jQuery(function($){
 						sIsInstalled = "";
 					}
 
-					var sScreenshot = item.item_screenshot_url.replace(/^http:\/\//, "");
+					var sScreenshot = item.item_screenshot_url.replace(/^https:\/\//, "");
 					$node = $.tmpl( "downloadableItem", {
 						MenuType: item.title,
 						MenuTypeDesc: item.package_description,
@@ -3248,7 +3246,7 @@ jQuery(function($){
 	<li class="${Selected}">
 		<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
 		<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다.">
-			<img src="http://${ScreenShotURL}">
+			<img src="https://${ScreenShotURL}">
 		</button>
 		<ul>
 			<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -4124,6 +4122,3 @@ jQuery.extend({
 });
 //]]>
 </script>
-
-<div cond="$act === 'dispMenuAdminSiteMap'" class="admin-forum-container" data-chak-categories="XE설정:사이트 메뉴 편집"></div>
-<div cond="$act === 'dispMenuAdminSiteDesign'" class="admin-forum-container" data-chak-categories="XE설정:사이트 디자인 설정"></div>

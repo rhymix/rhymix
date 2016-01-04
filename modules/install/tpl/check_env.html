@@ -10,7 +10,7 @@
 				<em><i class="x_icon-ban-circle x_icon-white"></i> {$lang->disable}</em>
 				<p>{sprintf($lang->install_checklist_desc[$key], __XE_MIN_PHP_VERSION__)}</p>
 				<p cond="$key == 'php_version' && $phpversion_warning === true">
-					{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="http://php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
+					{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="https://secure.php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
 				</p>
 			</li>
 		</ul>
@@ -25,7 +25,7 @@
 					:
 					<em>{$lang->enable}</em>
 					<p cond="$key == 'php_version' && $phpversion_warning === true">
-						{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="http://php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
+						{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="https://secure.php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
 					</p>
 				</li>
 			</ul>
