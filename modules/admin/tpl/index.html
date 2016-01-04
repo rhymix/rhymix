@@ -38,18 +38,6 @@
 		</div>
 	</form>
 
-	<form action="./" method="post" class="message info x_clearfix" cond="!$isEnviromentGatheringAgreement">
-		<input type="hidden" name="module" value="admin" />
-		<input type="hidden" name="act" value="procAdminEnviromentGatheringAgreement" />
-		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/index/1" />
-		<h2>{$lang->install_env_agreement}</h2>
-		<p>{$lang->install_env_agreement_desc}</p>
-		<div class="x_btn-group x_pull-right" style="margin-bottom:10px">
-			<button type="submit" name="is_agree" value="false" class="x_btn x_btn-small">{$lang->disagree}</button>
-			<button type="submit" name="is_agree" value="true" class="x_btn x_btn-small x_btn-primary">{$lang->agree}</button>
-		</div>
-	</form>
-
 	<div class="message update" cond="$addTables || $needUpdate">
 		<h2 cond="$needUpdate && $addTables">{$lang->need_update_and_table}</h2>
 		<h2 cond="$needUpdate && !$addTables">{$lang->need_update}</h2>
