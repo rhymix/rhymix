@@ -11,7 +11,7 @@
 					<p>{$lang->db_desc[$val->db_type]}</p>
 				</div>
 				<div class="x_control-group x_muted" loop="DB::getDisableList() => $key,$val">
-					<label for="db_type_{$val->db_type}"><input name="db_type" type="radio" value="{$val->db_type}" disabled="disabled"|cond="!$val->enable" id="db_type_{$val->db_type}" /> {$val->db_type}<em>({$lang->can_use_when_installed})</em></label>
+					<label for="db_type_{$val->db_type}"><input name="db_type" type="radio" value="{$val->db_type}" disabled="disabled"|cond="!$val->enable" id="db_type_{$val->db_type}" /> {$val->db_type} <em>({$lang->can_use_when_installed})</em></label>
 					<p>{$lang->db_desc[$val->db_type]}</p>
 				</div>
 				<div class="ibtnArea">
