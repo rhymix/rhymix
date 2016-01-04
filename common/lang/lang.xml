@@ -2033,6 +2033,15 @@
 		<value xml:lang="vi"><![CDATA[Ngày gửi]]></value>
 		<value xml:lang="mn"><![CDATA[Оруулсан өдөр]]></value>
 	</item>
+	<item name="anonymous">
+		<value xml:lang="ko"><![CDATA[익명]]></value>
+		<value xml:lang="en"><![CDATA[Anonymous]]></value>
+		<value xml:lang="jp"><![CDATA[匿名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[匿名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[匿名]]></value>
+		<value xml:lang="tr"><![CDATA[Anonim]]></value>
+		<value xml:lang="vi"><![CDATA[Anonymous]]></value>
+	</item>
 	<item name="last_update">
 		<value xml:lang="ko"><![CDATA[최근 수정일]]></value>
 		<value xml:lang="en"><![CDATA[Last Update]]></value>

@@ -53,17 +53,17 @@ $(function(){
 		</div>
 
 		<div class="x_control-group">
-			<label class="x_control-label">사용자 공개</label>
+			<label class="x_control-label">{$lang->poll_display_memberinfo}</label>
 			<div class="x_controls">
-				<input type="radio" name="show_vote" value="1" /> 투표한 사용자 공개
-				<input type="radio" name="show_vote" value="0" checked="checked" /> 투표한 사용자 비공개
+				<input type="radio" name="show_vote" value="1" id="poll_display_memberinfo_yes" /> <label class="x_inline" for="poll_display_memberinfo_yes">{$lang->poll_display_memberinfo_yes}</label>
+				<input type="radio" name="show_vote" value="0" checked="checked" id="poll_display_memberinfo_no" /> <label class="x_inline" for="poll_display_memberinfo_no">{$lang->poll_display_memberinfo_no}</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">항목 추가</label>
+			<label class="x_control-label">{$lang->poll_ableto_additems}</label>
 			<div class="x_controls">
-				<input type="radio" name="add_item" value="2" /> 항목 추가 가능
-				<input type="radio" name="add_item" value="0" checked="checked" /> 항목 추가 금지
+				<input type="radio" name="add_item" value="2" id="poll_ableto_additems_yes" /> <label class="x_inline" for="poll_ableto_additems_yes">{$lang->poll_ableto_additems_yes}</label>
+				<input type="radio" name="add_item" value="0" checked="checked" id="poll_ableto_additems_no" /> <label class="x_inline" for="poll_ableto_additems_no">{$lang->poll_ableto_additems_no}</label>
 			</div>
 		</div>
 	<div id="poll_source" style="display:none">

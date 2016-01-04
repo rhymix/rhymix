@@ -82,6 +82,30 @@
 		<value xml:lang="en"><![CDATA[Delete last item]]></value>
 		<value xml:lang="jp"><![CDATA[最後の項目削除]]></value>
 	</item>
+	<item name="poll_display_memberinfo">
+		<value xml:lang="ko"><![CDATA[공개 투표]]></value>
+		<value xml:lang="en"><![CDATA[Open ballot]]></value>
+	</item>
+	<item name="poll_display_memberinfo_yes">
+		<value xml:lang="ko"><![CDATA[투표한 사용자 공개]]></value>
+		<value xml:lang="en"><![CDATA[Display who votes]]></value>
+	</item>
+	<item name="poll_display_memberinfo_no">
+		<value xml:lang="ko"><![CDATA[투표한 사용자 비공개]]></value>
+		<value xml:lang="en"><![CDATA[Do not display who votes]]></value>
+	</item>
+	<item name="poll_ableto_additems">
+		<value xml:lang="ko"><![CDATA[항목 추가]]></value>
+		<value xml:lang="en"><![CDATA[Able to add items]]></value>
+	</item>
+	<item name="poll_ableto_additems_yes">
+		<value xml:lang="ko"><![CDATA[항목 추가 가능]]></value>
+		<value xml:lang="en"><![CDATA[Voters can add items]]></value>
+	</item>
+	<item name="poll_ableto_additems_no">
+		<value xml:lang="ko"><![CDATA[항목 추가 금지]]></value>
+		<value xml:lang="en"><![CDATA[Voters cannot add items]]></value>
+	</item>
 	<item name="msg_poll_cannot_modify">
 		<value xml:lang="ko"><![CDATA[설문조사는 수정할 수 없습니다. 삭제 후 다시 생성해야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You cannot modify the poll. You need to delete it and create a new one.]]></value>

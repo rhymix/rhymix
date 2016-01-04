@@ -118,7 +118,6 @@ class pollController extends poll
 		$poll_args->poll_type = $vars->show_vote + $vars->add_item;
 
 		$output = executeQuery('poll.insertPoll', $poll_args);
-		debugPrint($output);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
@@ -190,7 +189,7 @@ class pollController extends poll
 		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
 		$type = $output->data->poll_type;
 
-		if(!$this->isCanAddItem($type)) return new Object(-1,"msg_cannot_add_item");
+		if(!$this->isAbletoAddItem($type)) return new Object(-1,"msg_cannot_add_item");
 
 		if($logged_info->is_admin != 'Y')
 		{
