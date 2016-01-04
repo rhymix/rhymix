@@ -117,11 +117,12 @@ class installView extends install
 		if(ini_get('safe_mode') && !Context::isFTPRegisted())
 		{
 			Context::set('progressMenu', '3');
+			Context::set('server_ip_address', $_SERVER['SERVER_ADDR']);
 			$this->setTemplateFile('ftp');
 		}
 		else
 		{
-			$defaultDatabase = 'mysqli';
+			$defaultDatabase = 'mysqli_innodb';
 			$disableList = DB::getDisableList();
 			if(is_array($disableList))
 			{

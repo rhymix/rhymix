@@ -104,6 +104,30 @@ class installController extends install
 		if(!$output->toBool()) return $output;
 		if(!$oDB->isConnected()) return $oDB->getError();
 
+		// Check if MySQL server supports InnoDB
+		if(stripos($con_string->db_type, 'innodb') !== false)
+		{
+			$innodb_supported = false;
+			$show_engines = $oDB->_fetch($oDB->_query('SHOW ENGINES'));
+			foreach($show_engines as $engine_info)
+			{
+				if(strcasecmp($engine_info->Engine, 'InnoDB') === 0)
+				{
+					$innodb_supported = true;
+				}
+			}
+
+			// If server does not support InnoDB, fall back to default storage engine (usually MyISAM)
+			if(!$innodb_supported)
+			{
+				$con_string->db_type = str_ireplace('_innodb', '', $con_string->db_type);
+				$db_info->master_db['db_type'] = $con_string->db_type;
+				$db_info->slave_db[0]['db_type'] = $con_string->db_type;
+				Context::set('db_type', $con_string->db_type);
+				Context::setDBInfo($db_info);
+			}
+		}
+
 		// Create a db temp config file
 		if(!$this->makeDBConfigFile()) return new Object(-1, 'msg_install_failed');
 
