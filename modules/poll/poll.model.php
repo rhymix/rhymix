@@ -65,7 +65,7 @@ class pollModel extends poll
 		}
 
 		$poll->poll_srl = $poll_srl;
-		$caniadditem = $this->isCanAddItem($poll->poll_type) && !!$logged_info->member_srl;
+		$caniadditem = $this->isAbletoAddItem($poll->poll_type) && !!$logged_info->member_srl;
 
 		$oPollModel = getModel('poll');
 		if($oPollModel->isPolled($poll_srl)) $poll->is_polled = 1;
@@ -96,7 +96,7 @@ class pollModel extends poll
 
 		$poll = new stdClass();
 
-		if($this->isCangetMemberInfo($type))
+		if($this->checkMemberInfo($type))
 		{
 			$pollvar = new stdClass;
 			$pollvar->poll_srl = $poll_srl;
@@ -123,18 +123,18 @@ class pollModel extends poll
 				{
 					if(Context::get('logged_info')->is_admin === "Y")
 					{
-						$ip = (int) str_replace(".","",$value->ip_address);
+						$ip = md5($value->ip_address);
 						$poll->member[$ip] = new stdClass();
 						$poll->member[$ip]->member_srl = 0;
-						$poll->member[$ip]->nick_name = $value->ip_address;
+						$poll->member[$ip]->nick_name = Context::getLang("anonymous") . ' IP: ' . $value->ip_address;
 						$poll->member[$ip]->profile_image = "";
 					}
 					else
 					{
-						$ip = md5(str_replace(".","",$value->ip_address));
+						$ip = md5($value->ip_address);
 						$poll->member[$ip] = new stdClass();
 						$poll->member[$ip]->member_srl = 0;
-						$poll->member[$ip]->nick_name = "Anonymous";
+						$poll->member[$ip]->nick_name = Context::getLang("anonymous");
 						$poll->member[$ip]->profile_image = "";
 					}
 				}

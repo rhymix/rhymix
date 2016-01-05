@@ -115,12 +115,18 @@ class poll extends ModuleObject
 	{
 	}
 
-	function isCangetMemberInfo($type)
+	/**
+	 * @brief Check if this poll could display member information
+	 */
+	function checkMemberInfo($type)
 	{
 		return ($type==1 || $type==3);
 	}
 
-	function isCanAddItem($type)
+	/**
+	 * @brief Check if the items of this poll could be added by members.
+	 */
+	function isAbletoAddItem($type)
 	{
 		return ($type==2 || $type==3);
 	}
