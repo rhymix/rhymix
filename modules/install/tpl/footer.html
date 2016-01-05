@@ -1,3 +1,10 @@
+	<ul id="language" class="enfont">
+		<li loop="$lang_supported=>$key,$val">
+			<i cond="$l==$key" class="x_icon-ok-sign x_icon-white" title="Selected Language"></i>
+			<a href="{getUrl('l', $key)}" cond="$l!=$key">{$val}</a>
+			<strong cond="$l==$key">{$val}</strong>
+		</li>
+	</ul>
 	<div id="footer">
 		XpressEngine XETown Remix (XE:XTR) is a fork of the <a href="https://www.xpressengine.com" target="_blank">XpressEngine</a> CMS<br />
 		with additional patches by members of the <a href="https://www.xetown.com" target="_blank">XETOWN</a> community.<br />

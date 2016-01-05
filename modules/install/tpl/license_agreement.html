@@ -4,13 +4,6 @@
 	<include target="progress_menu.html" />
 	<div id="content">
 		<h2>{$lang->license_agreement}</h2>
-		<ul class="language">
-			<li loop="$lang_supported=>$key,$val">
-				<i cond="$l==$key" class="x_icon-ok-sign x_icon-white" title="Selected Language"></i>
-				<a href="{getUrl('l', $key)}" cond="$l!=$key">{$val}</a>
-				<strong cond="$l==$key">{$val}</strong>
-			</li>
-		</ul>
 		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>

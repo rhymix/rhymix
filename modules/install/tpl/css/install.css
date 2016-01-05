@@ -23,6 +23,12 @@ img, form, fieldset { border: 0; margin:0; padding: 0; }
 	margin: 80px auto 0 auto;
 	background-color: transparent;
 }
+@media screen and (max-width: 640px) {
+	.x { margin-top: 48px; }
+}
+@media screen and (max-width: 480px) {
+	.x { margin-top: 32px; }
+}
 .x #header {
 	clear: both;
 	margin: 0;
@@ -31,6 +37,7 @@ img, form, fieldset { border: 0; margin:0; padding: 0; }
 	font: bold 48px/100% Arial, sans-serif;
 	color: #444;
 	text-align: center;
+	text-shadow: 2px 2px 3px rgba(128, 128, 128, 0.4);
 	margin: 0 0 16px 0;
 }
 .x #header h1 span.green {
@@ -45,9 +52,10 @@ img, form, fieldset { border: 0; margin:0; padding: 0; }
 	top: -4px;
 }
 .x #header h2 {
-	font: normal 16px/100% Arial, sans-serif;
+	font: normal 16px/110% Arial, sans-serif;
 	color: #666;
 	text-align: center;
+	text-shadow: 1px 1px 1.5px rgba(128, 128, 128, 0.2);
 	margin: 0 0 32px 0;
 }
 .x #header h2 strong {
@@ -61,11 +69,12 @@ img, form, fieldset { border: 0; margin:0; padding: 0; }
 	background-color: #fff;
 	border-radius: 2px;
 	margin-bottom: 32px;
-	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.16), 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.18), 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
 }
 
 .x #progress {
 	clear: both; padding: 16px 16px 4px 16px; border-bottom: 1px solid #ddd;
+	border-top-left-radius: 2px; border-top-right-radius: 2px;
 	background-color: #fbfbfb;
 }
 .x #progress ul { clear: both; margin: 0; padding: 0; }
@@ -107,6 +116,7 @@ table tr td.error_description { text-align: center; color: #666; }
 	clear: both; padding: 16px;
 	border-top: 1px solid #ddd;
 	height: 34px;
+	border-bottom-left-radius: 2px; border-bottom-right-radius: 2px;
 	background-color: #fbfbfb;
 }
 .x #buttons .align-left {
@@ -128,7 +138,7 @@ button, a.button {
     color: #fff;
     background-color: #1976d2;
 	border-radius: 2px;
-	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.16), 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12), 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
 }
 button.grey, a.button.grey {
 	background-color: #aaa;
@@ -167,18 +177,24 @@ button.grey:hover, a.button.grey:hover {
 	position: relative;
 	top: 2px;
 }
-.x .language {
+.x #language {
 	clear: both;
-	margin: 0 0 16px 0;
+	margin: 0 0 24px 0;
 	padding: 0;
+	text-align: center;
+	line-height: 140%;
 }
-.x .language li {
+.x #language li {
 	list-style: none;
 	display: inline-block;
 	margin-right: 12px;
+	font-size: 12px;
 }
-.x .language li:last-child {
+.x #language li:last-child {
 	margin-right: 0;
+}
+.x #language li a {
+	color: #666;
 }
 
 .x .x_control-group { clear: both; margin-bottom: 16px; }
