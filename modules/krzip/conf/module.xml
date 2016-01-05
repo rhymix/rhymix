@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<actions>
+		<action name="dispKrzipAdminConfig" type="view" menu_name="krzip" menu_index="true" admin_index="true" />
+		<action name="procKrzipAdminInsertConfig" type="controller" ruleset="krzipConfig" />
+		<action name="dispKrzipSearchForm" type="view" />
+		<action name="getKrzipCodeList" type="model" />
+	</actions>
+	<menus>
+		<menu name="krzip" type="all">
+			<title xml:lang="ko">한국 우편번호</title>
+		</menu>
+	</menus>
+</module>

@@ -1,0 +1,51 @@
+<!--// HEADER -->
+<load target="./js/admin.js" />
+
+<div class="x_page-header">
+	<h1>
+		{$lang->krzip}
+		<a href="#descModule" class="x_icon-question-sign" data-toggle="#descModule">{$lang->help}</a>
+	</h1>
+</div>
+
+<p id="descModule" class="x_alert x_alert-info" hidden="hidden">{$lang->about_krzip}</p>
+
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/krzip/tpl/config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<!--// BODY -->
+<section class="section">
+	<form ruleset="krzipConfig" class="x_form-horizontal" action="{getUrl('')}" method="post">
+		<input type="hidden" name="module" value="krzip" />
+		<input type="hidden" name="act" value="procKrzipAdminInsertConfig" />
+		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+		<input type="hidden" name="xe_validator_id" value="modules/krzip/tpl/config/1" />
+		<section class="section">
+			<h1>{$lang->subtitle_primary}</h1>
+			<div class="x_control-group">
+				<label class="x_control-label" for="api_handler">{$lang->cmd_krzip_api_type}</label>
+				<div class="x_controls">
+					<select name="api_handler" id="api_handler">
+						<option value="0">{$lang->cmd_krzip_daumapi}</option>
+						<option value="1" selected="selected"|cond="$module_config->api_handler == 1">{$lang->cmd_krzip_epostapi}</option>
+						<option value="2" selected="selected"|cond="$module_config->api_handler == 2">{$lang->cmd_krzip_postcodify}</option>
+					</select>
+					<a href="#about_api_handler" class="x_icon-question-sign" data-toggle="#about_api_handler">{$lang->help}</a>
+					<p id="about_api_handler" class="x_help-block" hidden="hidden">{$lang->about_krzip_api_handler}</p>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label class="x_control-label" for="epostapi_regkey">{$lang->cmd_krzip_regkey}</label>
+				<div class="x_controls">
+					<input type="text" name="epostapi_regkey" id="epostapi_regkey" value="{htmlspecialchars($module_config->epostapi_regkey, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE)}" disabled="disabled"|cond="$module_config->api_handler != 1" />
+					<a href="#about_epostapi_regkey" class="x_icon-question-sign" data-toggle="#about_epostapi_regkey">{$lang->help}</a>
+					<p id="about_epostapi_regkey" class="x_help-block" hidden="hidden">{$lang->about_krzip_epostapi_regkey}</p>
+				</div>
+			</div>
+		</section>
+		<div class="btnArea">
+			<button type="submit" class="x_btn x_btn-primary x_pull-right">{$lang->cmd_registration}</button>
+		</div>
+	</form>
+</section>
