@@ -27,63 +27,9 @@ class installController extends install
 	}
 
 	/**
-	 * @brief cubrid db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procCubridDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief firebird db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procFirebirdDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief mssql db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procMssqlDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief mysql db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procMysqlDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief postgresql db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procPostgresqlDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief sqlite db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procSqliteDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
 	 * @brief division install step... DB Config temp file create
 	 */
-	function _procDBSetting()
+	function procDBSetting()
 	{
 		// Get DB-related variables
 		$con_string = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');

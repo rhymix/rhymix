@@ -1,7 +1,8 @@
-<load target="../../../modules/admin/tpl/css/admin.bootstrap.min.css" />
-<load target="./css/install.css" />
-<div class="x">
+<load target="css/install.css" />
+<load target="js/install.js" />
+
+<div class="x"|cond="$lang_type == 'ko'" class="x enfont"|cond="$lang_type != 'ko'">
 	<div id="header">
-		<h1><img src="img/xe.png" width="161" height="26" alt="XpressEngine" /></h1>
-		<em>Version <strong>{__XE_VERSION__}</strong> {$lang->introduce_title}</em>
+		<h1><span class="green">XE</span><span class="colon">:</span><span class="brown">XTR</span></h1>
+		<h2>XpressEngine XETOWN Remix <strong>v{__XE_VERSION__}</strong></h2>
 	</div>

@@ -1,8 +1,8 @@
-<load target="js/install_admin.js" />
 <include target="header.html" />
 	<div id="body">
 		<include target="progress_menu.html" />
 		<div id="content">
+			<h2>{$lang->install_progress_menu['language']}</h2>
 			<ul class="language">
 				<li loop="$lang_supported=>$key,$val">
 					<i cond="$l==$key" class="x_icon-ok-sign x_icon-white" title="Selected Language"></i>
@@ -10,10 +10,10 @@
 					<strong cond="$l==$key">{$val}</strong>
 				</li>
 			</ul>
-			<div class="ibtnArea">
-				<span class="x_pull-right">
-					<a href="{getUrl('', 'act', 'dispInstallLicenseAgreement')}" class="x_btn x_btn-small x_btn-inverse" id="task-choose-language">{$lang->cmd_next} <i class="x_icon-chevron-right x_icon-white"></i></a>
-				</span>
+		</div>
+		<div id="buttons">
+			<div class="align-right">
+				<a href="{getUrl('', 'act', 'dispInstallLicenseAgreement')}" class="button" id="task-choose-language">{$lang->cmd_next} &raquo;</a>
 			</div>
 		</div>
 	</div>

@@ -2,45 +2,55 @@
 <div id="body">
 	<include target="progress_menu.html" />
 	<div id="content">
-		<p cond="$install_enable">
-			<i class="x_icon-ok-sign x_icon-white"></i>
-			<strong>XE {__XE_VERSION__}</strong> {$lang->install_condition_enable}
-		</p>
-		<p cond="!$install_enable">
-			<i class="x_icon-ban-circle x_icon-white"></i>
-			<strong>XE {__XE_VERSION__}</strong> {$lang->install_condition_disable}
-		</p>
-		<ul id="details">
-			<li loop="$checklist => $key,$val">
-				<strong>{$lang->install_checklist_title[$key]}</strong>
-				:
-				<em cond="$val" class="ok">{$lang->enable} <block cond="$key == 'php_version'">({$phpversion})</block></em>
-				<em cond="!$val" class="error">{$lang->disable} <block cond="$key == 'php_version'">({$phpversion})</block></em>
-				<p cond="$key === 'php_version' && $phpversion_warning === true">
-					{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="https://secure.php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
-				</p>
-				<p cond="$key !== 'php_version' && !$val && isset($lang->install_checklist_desc[$key])">
-					{$lang->install_checklist_desc[$key]}
-				</p>
-			</li>
-		</ul>
-
-		<div cond="$use_rewrite == 'N' && $checklist['permission'] == true">
-			<p>
-				<i class="x_icon-ban-circle x_icon-white"></i>
-				{$lang->disable_rewrite}
-				<block cond="$use_nginx == 'Y'">{$lang->about_nginx_rewrite}</block>
-			</p>
+		<h2 cond="$install_enable">{$lang->install_condition_enable}</h2>
+		<h2 cond="!$install_enable">{$lang->install_condition_disable}</h2>
+		<table id="check_env">
+			<block loop="$checklist => $key,$val">
+				<tr>
+					<td class="check_env_item">
+						{$lang->install_checklist_title[$key]}
+						<block cond="$key == 'php_version'">({$phpversion})</block>
+					</td>
+					<td class="check_env_status">
+						<span cond="$val" class="ok">OK</span>
+						<span cond="!$val" class="error">ERROR</span>
+					</td>
+				</tr>
+				<tr cond="$key === 'php_version' && $phpversion_warning === true">
+					<td colspan="2" class="error_description">
+						{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="https://secure.php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
+					</td>
+				</tr>
+				<tr cond="$key !== 'php_version' && !$val && isset($lang->install_checklist_desc[$key])">
+					<td colspan="2" class="error_description">
+						{$lang->install_checklist_desc[$key]}
+					</td>
+				</tr>
+			</block>
+			<tr>
+				<td class="check_env_item">mod_rewrite</td>
+				<td class="check_env_status">
+					<span cond="$use_rewrite === 'Y'" class="ok">OK</span>
+					<span cond="$use_rewrite === 'N'">&mdash;</span>
+				</td>
+			</tr>
+			<tr cond="$use_rewrite === 'N'">
+				<td colspan="2" class="error_description">
+					{$lang->disable_rewrite}
+					<block cond="$use_nginx == 'Y'"><br />{$lang->about_nginx_rewrite}</block>
+					<br /><strong>{$lang->disable_rewrite_can_proceed}</strong>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="buttons">
+		<div class="align-left">
+			<a href="{getUrl('', 'act','dispInstallLicenseAgreement')}" class="button grey">&laquo; {$lang->cmd_back}</a>
 		</div>
-
-		<div class="ibtnArea">
-			<span class="x_pull-left">
-				<a href="{getUrl('', 'act','dispInstallLicenseAgreement')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
-			</span>
-			<span class="x_pull-right">
-				<a cond="$install_enable" class="x_btn x_btn-small x_btn-inverse" id="task-checklist-confirm" href="{getUrl('','act','dispInstallSelectDB')}">{$lang->cmd_install_next} <i class="x_icon-chevron-right x_icon-white"></i></a>
-				<a cond="!$install_enable" class="x_btn x_btn-small x_btn-inverse" id="task-checklist-fix" href="{getUrl('','act',$act)}">{$lang->cmd_install_fix_checklist} <i class="x_icon-chevron-right x_icon-white"></i></a>
-			</span>
+		<div class="align-right">
+			<a cond="$install_enable" class="button" id="task-checklist-confirm" href="{getUrl('','act','dispInstallSelectDB')}">{$lang->cmd_next} &raquo;</a>
+			<a cond="!$install_enable" class="button" id="task-checklist-fix" href="{getUrl('','act',$act)}">{$lang->cmd_install_refresh_page} &raquo;</a>
 		</div>
 	</div>
+</div>
 <include target="footer.html" />

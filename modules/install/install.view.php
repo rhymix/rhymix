@@ -76,7 +76,8 @@ class installView extends install
 		}
 
 		Context::set('l', Context::getLangType());
-		$this->setTemplateFile('introduce');
+		return $this->dispInstallLicenseAgreement();
+		//$this->setTemplateFile('introduce');
 	}
 
 	/**
@@ -118,6 +119,7 @@ class installView extends install
 		{
 			Context::set('progressMenu', '3');
 			Context::set('server_ip_address', $_SERVER['SERVER_ADDR']);
+			Context::set('server_ftp_user', get_current_user());
 			$this->setTemplateFile('ftp');
 		}
 		else
@@ -136,41 +138,22 @@ class installView extends install
 				}
 			}
 			Context::set('defaultDatabase', $defaultDatabase);
-
 			Context::set('progressMenu', '4');
+
+			$error_return_url = getNotEncodedUrl('', 'act', Context::get('act'), 'db_type', Context::get('db_type'));
+			if($_SERVER['HTTPS'] == 'on')
+			{
+				// Error occured when using https protocol at "ModuleHandler::init() '
+				$parsedUrl = parse_url($error_return_url);
+				$error_return_url = '';
+				if(isset($parsedUrl['path'])) $error_return_url .= $parsedUrl['path'];
+				if(isset($parsedUrl['query'])) $error_return_url .= '?' . $parsedUrl['query'];
+				if(isset($parsedUrl['fragment'])) $error_return_url .= '?' . $parsedUrl['fragment'];
+			}
+			Context::set('error_return_url', $error_return_url);
+
 			$this->setTemplateFile('select_db');
 		}
-	}
-
-	/**
-	 * @brief Display a screen to enter DB and administrator's information
-	 */
-	function dispInstallDBForm()
-	{
-		// Display check_env if not installable
-		if(!$this->install_enable) return $this->dispInstallCheckEnv();
-		// Return to the start-up screen if db_type is not specified
-		if(!Context::get('db_type')) return $this->dispInstallSelectDB();
-
-		// Output the file, disp_db_info_form.html
-		$tpl_filename = sprintf('form.%s', Context::get('db_type'));
-
-		$title = sprintf(Context::getLang('input_dbinfo_by_dbtype'), Context::get('db_type'));
-		Context::set('title', $title);
-
-		$error_return_url = getNotEncodedUrl('', 'act', Context::get('act'), 'db_type', Context::get('db_type'));
-		if($_SERVER['HTTPS'] == 'on')
-		{
-			// Error occured when using https protocol at "ModuleHandler::init() '
-			$parsedUrl = parse_url($error_return_url);
-			$error_return_url = '';
-			if(isset($parsedUrl['path'])) $error_return_url .= $parsedUrl['path'];
-			if(isset($parsedUrl['query'])) $error_return_url .= '?' . $parsedUrl['query'];
-			if(isset($parsedUrl['fragment'])) $error_return_url .= '?' . $parsedUrl['fragment'];
-		}
-		Context::set('error_return_url', $error_return_url);
-
-		$this->setTemplateFile($tpl_filename);
 	}
 
 	/**

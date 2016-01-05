@@ -1,28 +1,66 @@
-<load target="js/install_admin.js" />
 <include target="header.html" />
-	<div id="body">
-		<include target="progress_menu.html" />
-		<div id="content">
-			<form method="post" action="./">
-				<input type="hidden" name="module" value="{$module}" />
-				<input type="hidden" name="act" value="dispInstallDBForm" />
-				<div class="x_control-group" loop="DB::getEnableList() => $key,$val">
-					<label for="db_type_{$val->db_type}"><input name="db_type" type="radio" value="{$val->db_type}" disabled="disabled"|cond="!$val->enable" id="db_type_{$val->db_type}" checked="checked"|cond="$val->db_type==$defaultDatabase" /> {$val->db_type}</label>
-					<p>{$lang->db_desc[$val->db_type]}</p>
-				</div>
-				<div class="x_control-group x_muted" loop="DB::getDisableList() => $key,$val">
-					<label for="db_type_{$val->db_type}"><input name="db_type" type="radio" value="{$val->db_type}" disabled="disabled"|cond="!$val->enable" id="db_type_{$val->db_type}" /> {$val->db_type} <em>({$lang->can_use_when_installed})</em></label>
-					<p>{$lang->db_desc[$val->db_type]}</p>
-				</div>
-				<div class="ibtnArea">
-					<span class="x_pull-left">
-						<a href="{getUrl('', 'act', 'dispInstallCheckEnv')}" class="x_btn x_btn-small x_btn-inverse"><i class="x_icon-chevron-left x_icon-white"></i> {$lang->cmd_back}</a>
-					</span>
-					<span class="x_pull-right">
-						<button type="submit" class="x_btn x_btn-small x_btn-inverse" id="task-db-select">{$lang->cmd_next} <i class="x_icon-chevron-right x_icon-white"></i></button>
-					</span>
-				</div>
-			</form>
+<form id="body" method="post" action="./">
+	<include target="progress_menu.html" />
+	<div id="content">
+		<h2>{$lang->install_progress_menu['dbInfo']}</h2>
+		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<input type="hidden" value="{$error_return_url}" name="error_return_url">
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="procDBSetting" />
+		<div class="x_control-group">
+			<label for="db_type" class="x_control-label">{$lang->db_type}</label>
+			<div class="x_controls">
+				<select id="db_type" name="db_type">
+					<block loop="DB::getEnableList() => $key,$val">
+						<option value="{$val->db_type}" selected="selected"|cond="$val->db_type==$defaultDatabase" />
+							{$val->db_type}
+							<block cond="$val->db_type==$defaultDatabase && stripos($val->db_type, 'innodb') !== false">({$lang->cmd_recommended})</block>
+						</option>
+					</block>
+					<block loop="DB::getDisableList() => $key,$val">
+						<option value="{$val->db_type}" disabled="disabled" />{$val->db_type} ({$lang->can_use_when_installed})</option>
+					</block>
+				</select>
+			</div>
+		</div>
+		<p loop="DB::getEnableList() => $key,$val" class="install_help db_type db_type_{$val->db_type}">{$lang->db_desc[$val->db_type]}</p>
+		<div class="x_control-group">
+			<label for="dbHostName" class="x_control-label">{$lang->db_hostname}</label>
+			<div class="x_controls"><input name="db_hostname" value="localhost" type="text" id="dbHostName" required /></div>
+		</div>
+		<div class="x_control-group">
+			<label for="dbPort" class="x_control-label">{$lang->db_port}</label>
+			<div class="x_controls"><input name="db_port" value="3306" type="text" id="dbPort" required /></div>
+		</div>
+		<div class="x_control-group">
+			<label for="dbId" class="x_control-label">{$lang->db_userid}</label>
+			<div class="x_controls"><input name="db_userid" type="text" id="dbId" class="focus" required /></div>
+		</div>
+		<div class="x_control-group">
+			<label for="dbPw" class="x_control-label">{$lang->db_password}</label>
+			<div class="x_controls"><input name="db_password" type="password" id="dbPw" required /></div>
+		</div>
+		<div class="x_control-group">
+			<label for="dbName" class="x_control-label">{$lang->db_name}</label>
+			<div class="x_controls"><input name="db_database" type="text" id="dbName" required /></div>
+		</div>
+		<div class="x_control-group">
+			<label for="dbPrefix" class="x_control-label">{$lang->db_table_prefix}</label>
+			<div class="x_controls"><input name="db_table_prefix" type="text" id="dbPrefix" value="xe" required /></div>
+		</div>
+		<p class="install_help">
+			{$lang->db_info_desc}<br />{$lang->db_prefix_desc}
+		</p>
+	</div>
+	<div id="buttons">
+		<div class="align-left">
+			<a href="{getUrl('', 'act','dispInstallCheckEnv')}" class="button grey">&laquo; {$lang->cmd_back}</a>
+		</div>
+		<div class="align-right">
+			<button type="submit" id="task-db-select" value="">{$lang->cmd_next} &raquo;</button>
 		</div>
 	</div>
+</form>
 <include target="footer.html" />
