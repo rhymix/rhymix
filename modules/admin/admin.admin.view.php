@@ -84,7 +84,6 @@ class adminAdminView extends admin
 			Context::set('https_port', $db_info->https_port);
 		}
 
-		$this->showSendEnv();
 		$this->checkEasyinstall();
 	}
 
@@ -390,16 +389,6 @@ class adminAdminView extends admin
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('module_list..', 'module_list..author..', 'newVersionList..');
 
-		// gathering enviroment check
-		$mainVersion = join('.', array_slice(explode('.', __XE_VERSION__), 0, 2));
-		$path = FileHandler::getRealPath('./files/env/' . $mainVersion);
-		$isEnviromentGatheringAgreement = FALSE;
-		if(file_exists($path))
-		{
-			$isEnviromentGatheringAgreement = TRUE;
-		}
-		Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
-
 		// license agreement check
 		$isLicenseAgreement = FALSE;
 		$path = FileHandler::getRealPath('./files/env/license_agreement');
@@ -522,46 +511,6 @@ class adminAdminView extends admin
 		Context::set('menu_title', $output->title);
 		Context::set('config_object', $configObject);
 		$this->setTemplateFile('admin_setup');
-	}
-
-	/**
-	 * Enviroment information send to XE collect server
-	 * @return void
-	 */
-	function showSendEnv()
-	{
-		if(Context::getResponseMethod() != 'HTML')
-		{
-			return;
-		}
-
-		$server = 'http://collect.xpressengine.com/env/img.php?';
-		$path = './files/env/';
-		$install_env = $path . 'install';
-		$mainVersion = join('.', array_slice(explode('.', __XE_VERSION__), 0, 2));
-
-		if(file_exists(FileHandler::getRealPath($install_env)))
-		{
-			$oAdminAdminModel = getAdminModel('admin');
-			$params = $oAdminAdminModel->getEnv('INSTALL');
-			$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server . $params);
-			Context::addHtmlFooter($img);
-
-			FileHandler::writeFile($path . $mainVersion, '1');
-		}
-		else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path . $mainVersion)))
-		{
-			if($_SESSION['enviroment_gather'] == 'Y')
-			{
-				$oAdminAdminModel = getAdminModel('admin');
-				$params = $oAdminAdminModel->getEnv();
-				$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server . $params);
-				Context::addHtmlFooter($img);
-			}
-
-			FileHandler::writeFile($path . $mainVersion, '1');
-			unset($_SESSION['enviroment_gather']);
-		}
 	}
 
 	/**
