@@ -1988,7 +1988,7 @@ class memberController extends member
 		}
 
 		// Check if ID is prohibited
-		if($oMemberModel->isDeniedID($args->user_id))
+		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedID($args->user_id))
 		{
 			return new Object(-1,'denied_user_id');
 		}
@@ -2001,7 +2001,7 @@ class memberController extends member
 		}
 
 		// Check if nickname is prohibited
-		if($oMemberModel->isDeniedNickName($args->nick_name))
+		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedNickName($args->nick_name))
 		{
 			return new Object(-1,'denied_nick_name');
 		}
@@ -2014,7 +2014,7 @@ class memberController extends member
 		}
 
 		// Check managed Email Host
-		if($oMemberModel->isDeniedEmailHost($args->email_address))
+		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedEmailHost($args->email_address))
 		{
 			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
@@ -2175,7 +2175,7 @@ class memberController extends member
 		$orgMemberInfo = $output->data;
 
 		// Check managed Email Host
-		if($oMemberModel->isDeniedEmailHost($args->email_address))
+		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedEmailHost($args->email_address))
 		{
 			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
@@ -2212,7 +2212,7 @@ class memberController extends member
 		}
 
 		// Check if ID is prohibited
-		if($args->user_id && $oMemberModel->isDeniedID($args->user_id))
+		if($logged_info->is_admin !== 'Y' && $args->user_id && $oMemberModel->isDeniedID($args->user_id))
 		{
 			return new Object(-1,'denied_user_id');
 		}
@@ -2228,7 +2228,7 @@ class memberController extends member
 		}
 
 		// Check if nickname is prohibited
-		if($args->nick_name && $oMemberModel->isDeniedNickName($args->nick_name))
+		if($logged_info->is_admin !== 'Y' && $args->nick_name && $oMemberModel->isDeniedNickName($args->nick_name))
 		{
 			return new Object(-1, 'denied_nick_name');
 		}
