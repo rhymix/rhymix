@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+	<title xml:lang="ko">한국 우편번호</title>
+	<description xml:lang="ko">공개 API를 이용해 우편번호 검색 서비스를 이용합니다.</description>
+	<version>1.8.0</version>
+	<date>2015-03-10</date>
+	<author email_address="developers@xpressengine.com" link="http://www.xpressengine.com/">
+		<name xml:lang="ko">NAVER</name>
+	</author>
+</module>

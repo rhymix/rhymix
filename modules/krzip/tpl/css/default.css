@@ -1,0 +1,27 @@
+@charset "UTF-8";
+/* Copyright (C) NAVER <http://www.navercorp.com> */
+
+.krZip label {
+	min-width: 70px;
+}
+.krZip .krzip-postcode,
+.krZip .krzip-roadAddress,
+.krZip .krzip-jibunAddress,
+.krZip .krzip-extraAddress,
+.krZip .krzip-detailAddress {
+	min-width: 20%;
+	height: 24px;
+	line-height: 24px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #CCC;
+}
+.krZip .krzip-guide {
+	display: none;
+	height: 24px;
+	line-height: 24px;
+	color: #888;
+}
+
+/* End of file default.css */
+/* Location: ./modules/krzip/tpl/css/default.css */
