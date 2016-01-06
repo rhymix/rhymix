@@ -97,13 +97,16 @@ class installController extends install
 		}
 
 		// Save rewrite and time zone settings
-		$config_info = Context::gets('use_rewrite','time_zone');
-		if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
-		if(!$this->makeEtcConfigFile($config_info))
+		if(!Context::get('install_config'))
 		{
-			return new Object(-1, 'msg_install_failed');
+			$config_info = Context::gets('use_rewrite','time_zone');
+			if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
+			if(!$this->makeEtcConfigFile($config_info))
+			{
+				return new Object(-1, 'msg_install_failed');
+			}
 		}
-		
+
 		// Assign a temporary administrator when installing
 		$logged_info = new stdClass();
 		$logged_info->is_admin = 'Y';
