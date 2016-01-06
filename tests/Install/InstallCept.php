@@ -60,7 +60,7 @@ $I->fillField('#aMail', 'admin@admin.net');
 $I->submitForm('#body', [
     'act' => 'procInstall',
     'time_zone' => '+0900',
-    'db_type' => 'mysqli',
+    'db_type' => 'mysqli_innodb',
     'email_address' => 'admin@admin.net',
     'password' => 'admin',
     'password2' => 'admin',
