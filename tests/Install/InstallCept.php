@@ -26,60 +26,40 @@ if(\Filehandler::exists(_XE_PATH_ . 'config/install.config.php')) {
     $I->deleteFile(_XE_PATH_ . 'config/install.config.php');
 }
 
-// Step 1
+// Step 1 : License Agreement
 $I->wantTo('Install XE Core');
 $I->amOnPage('/index.php?l=ko');
 $I->setCookie('l', 'ko');
 $I->seeElement('//div[@id="progress"]/ul/li[1][@class="active"]');
-$I->seeElement('#content .language');
-$I->seeElement('//ul[@class="language"]/li[2]/strong');
-$I->click('#task-choose-language');
+$I->seeElement('input[name="license_agreement"]');
+$I->submitForm('#body', ['act' => 'procInstallLicenseAggrement', 'license_agreement' => 'Y']);
 
-// Step 2 : License Agreement
-$I->seeInCurrentUrl('act=dispInstallLicenseAgreement');
-$I->seeElement('//div[@id="progress"]/ul/li[2][@class="active"]');
-$I->see('사용권 동의', '#content');
-$I->submitForm('.x_form-horizontal', ['act' => 'procInstallLicenseAggrement', 'license_agreement' => 'Y']);
-
-// Step 3 : checkenv
+// Step 2 : Environment Check
 $I->seeInCurrentUrl('act=dispInstallCheckEnv');
-$I->seeElement('//div[@id="progress"]/ul/li[3][@class="active"]');
-$I->seeElement('#content .x_icon-ok-sign');
+$I->seeElement('#task-checklist-confirm');
 $I->click('#task-checklist-confirm');
 
-// Step 5 : SelectDB
+// Step 3 : DB Setup
 $I->seeInCurrentUrl('act=dispInstallSelectDB');
-$I->seeElement('//div[@id="progress"]/ul/li[5][@class="active"]');
-$I->submitForm('#content form', ['db_type' => 'mysqli', 'act' => 'dispInstallDBForm']);
-
-// Step 6 : db info
-// $I->seeInCurrentUrl('act=dispInstallDBForm');
-$I->seeElement('//div[@id="progress"]/ul/li[6][@class="active"]');
-$I->submitForm('#content form', [
-    'act' => 'procMysqlDBSetting',
-    'db_type' => 'mysqli',
+$I->seeElement('select[name="db_type"]');
+$I->submitForm('#body', [
+	'act' => 'procDBSetting',
+	'db_type' => 'mysqli_innodb',
+    'db_hostname' => $dbinfo['host'],
+    'db_port' => $dbinfo['port'],
     'db_userid' => $dbinfo['user'],
     'db_password' => $dbinfo['password'],
     'db_database' => $dbinfo['dbname'],
-    'db_hostname' => $dbinfo['host'],
-    'db_port' => $dbinfo['port'],
     'db_table_prefix' => 'xe'
 ]);
 
-
-// Step 7 : dispInstallConfigForm
-$I->seeInCurrentUrl('act=dispInstallConfigForm');
-$I->seeElement('//div[@id="progress"]/ul/li[7][@class="active"]');
-$I->seeElement('select[name=time_zone]');
-$I->submitForm('#content form', ['act' => 'procConfigSetting', 'time_zone' => '+0900']);
-
-
-// Step 8 : dispInstallManagerForm
+// Step 4 : Create Admin Account
 $I->seeInCurrentUrl('act=dispInstallManagerForm');
-$I->seeElement('//div[@id="progress"]/ul/li[8][@class="active"]');
+$I->seeElement('select[name="time_zone"]');
 $I->fillField('#aMail', 'admin@admin.net');
 $I->submitForm('#content form', [
     'act' => 'procInstall',
+    'time_zone' => '+0900',
     'db_type' => 'mysqli',
     'email_address' => 'admin@admin.net',
     'password' => 'admin',
@@ -88,10 +68,11 @@ $I->submitForm('#content form', [
     'user_id' => 'admin'
 ]);
 
-// Step 9
+// Step 5 : Complete
 $I->dontSeeElement('//div[@id="progress"]/ul/li');
-$I->amOnPage('/index.php?act=dispMemberLoginForm');
 
+// Step 6 : Login
+$I->amOnPage('/index.php?act=dispMemberLoginForm');
 $I->fillField('user_id', 'admin@admin.net');
 $I->submitForm('.login-body form', [
     'act' => 'procMemberLogin',
@@ -100,8 +81,7 @@ $I->submitForm('.login-body form', [
     'success_return_url' => '/index.php?module=admin'
 ]);
 
+// Step 7 : Admin Module
 $I->seeInCurrentUrl('module=admin');
 $I->seeElement('#gnbNav');
 $I->seeElement('#content .x_page-header');
-$I->see('설치 환경 수집 동의', 'h2');
-
