@@ -159,19 +159,25 @@ class installView extends install
 	/**
 	 * @brief Display a screen to enter DB and administrator's information
 	 */
-	function dispInstallConfigForm()
+	function dispInstallManagerForm()
 	{
 		// Display check_env if not installable
-		if(!$this->install_enable) return $this->dispInstallCheckEnv();
+		if(!$this->install_enable)
+		{
+			return $this->dispInstallCheckEnv();
+		}
 
 		include _XE_PATH_.'files/config/tmpDB.config.php';
 
 		Context::set('use_rewrite', $_SESSION['use_rewrite']); 
 		Context::set('time_zone', $GLOBALS['time_zone']);
 		Context::set('db_type', $db_info->db_type);
-		$this->setTemplateFile('config_form');
+		$this->setTemplateFile('admin_form');
 	}
 
+	/**
+	 * @brief Check whether this server supports mod_rewrite
+	 */
 	function useRewriteModule()
 	{
 		if(function_exists('apache_get_modules') && in_array('mod_rewrite',apache_get_modules()))
@@ -185,20 +191,6 @@ class installView extends install
 		$output = $httpRequest->send($xeInstallPath.'modules/install/conf/info.xml');
 
 		return (strpos($output->body, '<?xml') !== 0);
-	}
-
-	/**
-	 * @brief Display a screen to enter DB and administrator's information
-	 */
-	function dispInstallManagerForm()
-	{
-		// Display check_env if not installable
-		if(!$this->install_enable)
-		{
-			return $this->dispInstallCheckEnv();
-		}
-
-		$this->setTemplateFile('admin_form');
 	}
 }
 /* End of file install.view.php */

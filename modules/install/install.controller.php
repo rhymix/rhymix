@@ -79,26 +79,6 @@ class installController extends install
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallConfigForm');
-			header('location:'.$returnUrl);
-			return;
-		}
-	}
-
-	/**
-	 * @brief division install step... rewrite, time_zone Config temp file create
-	 */
-	function procConfigSetting()
-	{
-		// Get variables
-		$config_info = Context::gets('use_rewrite','time_zone');
-		if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
-
-		// Create a db temp config file
-		if(!$this->makeEtcConfigFile($config_info)) return new Object(-1, 'msg_install_failed');
-
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallManagerForm');
 			header('location:'.$returnUrl);
 			return;
@@ -111,8 +91,19 @@ class installController extends install
 	function procInstall()
 	{
 		// Check if it is already installed
-		if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
+		if(Context::isInstalled())
+		{
+			return new Object(-1, 'msg_already_installed');
+		}
 
+		// Save rewrite and time zone settings
+		$config_info = Context::gets('use_rewrite','time_zone');
+		if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
+		if(!$this->makeEtcConfigFile($config_info))
+		{
+			return new Object(-1, 'msg_install_failed');
+		}
+		
 		// Assign a temporary administrator when installing
 		$logged_info = new stdClass();
 		$logged_info->is_admin = 'Y';

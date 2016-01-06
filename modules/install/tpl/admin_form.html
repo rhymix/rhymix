@@ -7,6 +7,7 @@
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
 		<input type="hidden" name="act" value="procInstall" />
+		<input type="hidden" name="use_rewrite" value="{$use_rewrite}" />
 		<div class="x_control-group">
 			<label for="aMail" class="x_control-label">{$lang->email_address}</label>
 			<div class="x_controls">
@@ -38,10 +39,19 @@
 			</div>
 		</div>
 		<p class="install_help">{$lang->install_notandum}</p>
+		<div class="x_control-group">
+			<label for="time_zone" class="x_control-label">{$lang->time_zone}</label>
+			<div class="x_controls">
+				<select name="time_zone" style="width:100%">
+					<option loop="$time_zone => $key,$val" id="{$key}" value="{$key}" selected="selected"|cond="$key==date('O')">{$val}</option>
+				</select>
+			</div>
+		</div>
+		<p class="install_help">{$lang->about_time_zone}</p>
 	</div>
 	<div id="buttons">
 		<div class="align-left">
-			<a href="{getUrl('', 'act','dispInstallConfigForm')}" class="button grey">&laquo; {$lang->cmd_back}</a>
+			<a href="{getUrl('', 'act','dispInstallSelectDB')}" class="button grey">&laquo; {$lang->cmd_back}</a>
 		</div>
 		<div class="align-right">
 			<button type="submit" id="task-done" value="">{$lang->cmd_complete} &raquo;</button>

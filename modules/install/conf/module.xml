@@ -8,10 +8,8 @@
         <action name="dispInstallCheckEnv" type="view" />
         <action name="dispInstallSelectDB" type="view" />
         <action name="dispInstallDBForm" type="view" />
-        <action name="dispInstallConfigForm" type="view" />
         <action name="dispInstallManagerForm" type="view" />
         <action name="procDBSetting" type="controller" />
-        <action name="procConfigSetting" type="controller" ruleset="config" />
         <action name="procInstall" type="controller" ruleset="install" />
         <action name="procInstallLicenseAggrement" type="controller" />
         <action name="procInstallFTP" type="controller" />
