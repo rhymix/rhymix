@@ -57,7 +57,7 @@ $I->submitForm('#body', [
 $I->seeInCurrentUrl('act=dispInstallManagerForm');
 $I->seeElement('select[name="time_zone"]');
 $I->fillField('#aMail', 'admin@admin.net');
-$I->submitForm('#content form', [
+$I->submitForm('#body', [
     'act' => 'procInstall',
     'time_zone' => '+0900',
     'db_type' => 'mysqli',
