@@ -371,9 +371,9 @@
 		<value xml:lang="vi"><![CDATA[Sự cho phép của thư mục cài đặt không phải là 777]]></value>
 	</item>
 	<item name="install_notandum">
-		<value xml:lang="ko"><![CDATA[모든 항목을 반드시 작성해야 합니다. 모든 항목을 관리자 환경에서 수정할 수 있습니다. <strong>최초 로그인시 로그인 계정은 이메일 주소 입니다.</strong>]]></value>
-		<value xml:lang="en"><![CDATA[All form must be filled, but you can modify all of settings after finish the installation.]]></value>
-		<value xml:lang="jp"><![CDATA[すべての項目を必ず作成してください。すべての項目を管理者環境にて修正できます。]]></value>
+		<value xml:lang="ko"><![CDATA[작성하신 모든 항목은 설치 후 관리 모듈에서 수정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can edit this information in the admin module after installation.]]></value>
+		<value xml:lang="jp"><![CDATA[すべての項目を管理者環境にて修正できます。]]></value>
 	</item>
 	<item name="cmd_install_refresh_page">
 		<value xml:lang="ko"><![CDATA[새로고침]]></value>
