@@ -76,7 +76,8 @@ class installView extends install
 		}
 
 		Context::set('l', Context::getLangType());
-		$this->setTemplateFile('introduce');
+		return $this->dispInstallLicenseAgreement();
+		//$this->setTemplateFile('introduce');
 	}
 
 	/**
@@ -117,11 +118,13 @@ class installView extends install
 		if(ini_get('safe_mode') && !Context::isFTPRegisted())
 		{
 			Context::set('progressMenu', '3');
+			Context::set('server_ip_address', $_SERVER['SERVER_ADDR']);
+			Context::set('server_ftp_user', get_current_user());
 			$this->setTemplateFile('ftp');
 		}
 		else
 		{
-			$defaultDatabase = 'mysqli';
+			$defaultDatabase = 'mysqli_innodb';
 			$disableList = DB::getDisableList();
 			if(is_array($disableList))
 			{
@@ -135,72 +138,22 @@ class installView extends install
 				}
 			}
 			Context::set('defaultDatabase', $defaultDatabase);
-
 			Context::set('progressMenu', '4');
+
+			$error_return_url = getNotEncodedUrl('', 'act', Context::get('act'), 'db_type', Context::get('db_type'));
+			if($_SERVER['HTTPS'] == 'on')
+			{
+				// Error occured when using https protocol at "ModuleHandler::init() '
+				$parsedUrl = parse_url($error_return_url);
+				$error_return_url = '';
+				if(isset($parsedUrl['path'])) $error_return_url .= $parsedUrl['path'];
+				if(isset($parsedUrl['query'])) $error_return_url .= '?' . $parsedUrl['query'];
+				if(isset($parsedUrl['fragment'])) $error_return_url .= '?' . $parsedUrl['fragment'];
+			}
+			Context::set('error_return_url', $error_return_url);
+
 			$this->setTemplateFile('select_db');
 		}
-	}
-
-	/**
-	 * @brief Display a screen to enter DB and administrator's information
-	 */
-	function dispInstallDBForm()
-	{
-		// Display check_env if not installable
-		if(!$this->install_enable) return $this->dispInstallCheckEnv();
-		// Return to the start-up screen if db_type is not specified
-		if(!Context::get('db_type')) return $this->dispInstallSelectDB();
-
-		// Output the file, disp_db_info_form.html
-		$tpl_filename = sprintf('form.%s', Context::get('db_type'));
-
-		$title = sprintf(Context::getLang('input_dbinfo_by_dbtype'), Context::get('db_type'));
-		Context::set('title', $title);
-
-		$error_return_url = getNotEncodedUrl('', 'act', Context::get('act'), 'db_type', Context::get('db_type'));
-		if($_SERVER['HTTPS'] == 'on')
-		{
-			// Error occured when using https protocol at "ModuleHandler::init() '
-			$parsedUrl = parse_url($error_return_url);
-			$error_return_url = '';
-			if(isset($parsedUrl['path'])) $error_return_url .= $parsedUrl['path'];
-			if(isset($parsedUrl['query'])) $error_return_url .= '?' . $parsedUrl['query'];
-			if(isset($parsedUrl['fragment'])) $error_return_url .= '?' . $parsedUrl['fragment'];
-		}
-		Context::set('error_return_url', $error_return_url);
-
-		$this->setTemplateFile($tpl_filename);
-	}
-
-	/**
-	 * @brief Display a screen to enter DB and administrator's information
-	 */
-	function dispInstallConfigForm()
-	{
-		// Display check_env if not installable
-		if(!$this->install_enable) return $this->dispInstallCheckEnv();
-
-		include _XE_PATH_.'files/config/tmpDB.config.php';
-
-		Context::set('use_rewrite', $_SESSION['use_rewrite']); 
-		Context::set('time_zone', $GLOBALS['time_zone']);
-		Context::set('db_type', $db_info->db_type);
-		$this->setTemplateFile('config_form');
-	}
-
-	function useRewriteModule()
-	{
-		if(function_exists('apache_get_modules') && in_array('mod_rewrite',apache_get_modules()))
-		{
-			return true;
-		}
-
-		require_once(_XE_PATH_.'classes/httprequest/XEHttpRequest.class.php');
-		$httpRequest = new XEHttpRequest($_SERVER['HTTP_HOST'], $_SERVER['SERVER_PORT']);
-		$xeInstallPath = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php', 1));
-		$output = $httpRequest->send($xeInstallPath.'modules/install/conf/info.xml');
-
-		return (strpos($output->body, '<?xml') !== 0);
 	}
 
 	/**
@@ -214,7 +167,30 @@ class installView extends install
 			return $this->dispInstallCheckEnv();
 		}
 
+		include _XE_PATH_.'files/config/tmpDB.config.php';
+
+		Context::set('use_rewrite', $_SESSION['use_rewrite']); 
+		Context::set('time_zone', $GLOBALS['time_zone']);
+		Context::set('db_type', $db_info->db_type);
 		$this->setTemplateFile('admin_form');
+	}
+
+	/**
+	 * @brief Check whether this server supports mod_rewrite
+	 */
+	function useRewriteModule()
+	{
+		if(function_exists('apache_get_modules') && in_array('mod_rewrite',apache_get_modules()))
+		{
+			return true;
+		}
+
+		require_once(_XE_PATH_.'classes/httprequest/XEHttpRequest.class.php');
+		$httpRequest = new XEHttpRequest($_SERVER['HTTP_HOST'], $_SERVER['SERVER_PORT']);
+		$xeInstallPath = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php', 1));
+		$output = $httpRequest->send($xeInstallPath.'modules/install/conf/info.xml');
+
+		return (strpos($output->body, '<?xml') !== 0);
 	}
 }
 /* End of file install.view.php */

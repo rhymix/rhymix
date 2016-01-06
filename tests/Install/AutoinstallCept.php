@@ -8,10 +8,10 @@ $config = (!$this->env) ? Configuration::suiteSettings('Install', Configuration:
 $db_config = $config['modules']['config']['Db'];
 
 $dsn = $db_config['dsn'];
-$dsn = split('[;:]', $dsn);
+$dsn = preg_split('/[;:]/', $dsn);
 $db_type = array_shift($dsn);
 $dbinfo = [
-    'type' => $db_type,
+    'type' => (($db_type === 'mysql') ? 'mysqli' : $db_type),
     'user' => $db_config['user'],
     'password' => $db_config['password'],
     'port' => ((isset($db_config['port']) && $db_config['port'])?: 3306),
@@ -59,5 +59,3 @@ $I->submitForm('.login-body form', [
 $I->seeInCurrentUrl('module=admin');
 $I->seeElement('#gnbNav');
 $I->seeElement('#content .x_page-header');
-$I->see('설치 환경 수집 동의', 'h2');
-
