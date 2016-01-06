@@ -8,7 +8,7 @@ $config = (!$this->env) ? Configuration::suiteSettings('Install', Configuration:
 $db_config = $config['modules']['config']['Db'];
 
 $dsn = $db_config['dsn'];
-$dsn = split('[;:]', $dsn);
+$dsn = preg_split('/[;:]/', $dsn);
 $db_type = array_shift($dsn);
 $dbinfo = [
     'type' => $db_type,
