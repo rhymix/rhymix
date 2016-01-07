@@ -206,9 +206,12 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/xe.css'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-			$expected[] = array('file' => '/xe/files/cache/minify/common.css.xe.min.css' . '?' . date('YmdHis'), 'media' => 'all', 'targetie' => null);
-			$expected[] = array('file' => '/xe/files/cache/minify/common.css.mobile.min.css' . '?' . date('YmdHis'), 'media' => 'all', 'targetie' => null);
-			$this->assertEquals($handler->getCssFileList(), $expected);
+			$expected[] = array('file' => '/xe/files/cache/minify/common.css.xe.min.css', 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/xe/files/cache/minify/common.css.mobile.min.css', 'media' => 'all', 'targetie' => null);
+			$result = $handler->getCssFileList();
+			$result[0]['file'] = preg_replace('/\?\d+$/', '', $result[0]['file']);
+			$result[1]['file'] = preg_replace('/\?\d+$/', '', $result[1]['file']);
+			$this->assertEquals($result, $expected);
 		});
 
 		$this->specify("external file", function() use($db_info) {
