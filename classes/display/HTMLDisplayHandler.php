@@ -460,7 +460,7 @@ class HTMLDisplayHandler
 				$buffer .= file_get_contents(_XE_PATH_ . 'common/js/' . $filename) . "\n";
 			}
 			$minifier = new MatthiasMullie\Minify\JS($buffer);
-			FileHandler::writeFile(_XE_PATH_ . $concat_target_filename, $minifier->minify());
+			FileHandler::writeFile(_XE_PATH_ . $concat_target_filename, $minifier->execute());
 			$oContext->loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
 		}
 	}

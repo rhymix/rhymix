@@ -186,17 +186,17 @@ class FrontEndFileHandler extends Handler
 			
 				if(!file_exists($minifiedFilePath) || filemtime($minifiedFilePath) < filemtime($originalFilePath))
 				{
-					FileHandler::makeDir(_XE_PATH_ . 'files/cache/minify');
 					if($file->fileExtension === 'css')
 					{
 						$minifier = new MatthiasMullie\Minify\CSS($originalFilePath);
-						$minifier->minify($minifiedFilePath);
+						$content = $minifier->execute($minifiedFilePath);
 					}
 					else
 					{
 						$minifier = new MatthiasMullie\Minify\JS($originalFilePath);
-						$minifier->minify($minifiedFilePath);
+						$content = $minifier->execute($minifiedFilePath);
 					}
+					FileHandler::writeFile($minifiedFilePath, $content);
 				}
 				
 				$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
