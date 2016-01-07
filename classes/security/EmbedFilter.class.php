@@ -17,7 +17,7 @@ class EmbedFilter
 	 * @var int
 	 */
 	var $allowscriptaccessKey = 0;
-	var $whiteUrlXmlFile = './classes/security/conf/embedWhiteUrl.xml';
+	var $whiteUrlDefaultFile = './classes/security/conf/whitelist.php';
 	var $whiteUrlCacheFile = './files/cache/embedfilter/embedWhiteUrl.php';
 	var $whiteUrlList = array();
 	var $whiteIframeUrlList = array();
@@ -495,7 +495,7 @@ class EmbedFilter
 		{
 			foreach($this->whiteUrlList AS $key => $value)
 			{
-				if(preg_match('@^' . preg_quote($value) . '@i', $urlAttribute))
+				if(preg_match('@^https?://' . preg_quote($value, '@') . '@i', $urlAttribute))
 				{
 					return TRUE;
 				}
@@ -514,7 +514,7 @@ class EmbedFilter
 		{
 			foreach($this->whiteIframeUrlList AS $key => $value)
 			{
-				if(preg_match('@^' . preg_quote($value) . '@i', $urlAttribute))
+				if(preg_match('@^https?://' . preg_quote($value, '@') . '@i', $urlAttribute))
 				{
 					return TRUE;
 				}
@@ -595,7 +595,7 @@ class EmbedFilter
 	 */
 	function _makeWhiteDomainList($whitelist = NULL)
 	{
-		$whiteUrlXmlFile = FileHandler::getRealPath($this->whiteUrlXmlFile);
+		$whiteUrlDefaultFile = FileHandler::getRealPath($this->whiteUrlDefaultFile);
 		$whiteUrlCacheFile = FileHandler::getRealPath($this->whiteUrlCacheFile);
 
 		$isMake = FALSE;
@@ -603,7 +603,7 @@ class EmbedFilter
 		{
 			$isMake = TRUE;
 		}
-		if(file_exists($whiteUrlCacheFile) && filemtime($whiteUrlCacheFile) < filemtime($whiteUrlXmlFile))
+		if(file_exists($whiteUrlCacheFile) && filemtime($whiteUrlCacheFile) < filemtime($whiteUrlDefaultFile))
 		{
 			$isMake = TRUE;
 		}
@@ -625,50 +625,25 @@ class EmbedFilter
 
 			if(gettype($whitelist->object) == 'array' && gettype($whitelist->iframe) == 'array')
 			{
-				$whiteUrlList = $whitelist->object;
-				$whiteIframeUrlList = $whitelist->iframe;
+				foreach ($whitelist->object as $prefix)
+				{
+					$whiteUrlList[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+				}
+				foreach ($whitelist->iframe as $prefix)
+				{
+					$whiteIframeUrlList[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+				}
 			}
 			else
 			{
-				$xmlBuff = FileHandler::readFile($this->whiteUrlXmlFile);
-
-				$xmlParser = new XmlParser();
-				$domainListObj = $xmlParser->parse($xmlBuff);
-				$embedDomainList = $domainListObj->whiteurl->embed->domain;
-				$iframeDomainList = $domainListObj->whiteurl->iframe->domain;
-				if(!is_array($embedDomainList)) $embedDomainList = array();
-				if(!is_array($iframeDomainList)) $iframeDomainList = array();
-
-				foreach($embedDomainList AS $key => $value)
+				$safeurls = (include $whiteUrlDefaultFile);
+				foreach ($safeurls['object'] as $prefix)
 				{
-					$patternList = $value->pattern;
-					if(is_array($patternList))
-					{
-						foreach($patternList AS $key => $value)
-						{
-							$whiteUrlList[] = $value->body;
-						}
-					}
-					else
-					{
-						$whiteUrlList[] = $patternList->body;
-					}
+					$whiteUrlList[] = $prefix;
 				}
-
-				foreach($iframeDomainList AS $key => $value)
+				foreach ($safeurls['iframe'] as $prefix)
 				{
-					$patternList = $value->pattern;
-					if(is_array($patternList))
-					{
-						foreach($patternList AS $key => $value)
-						{
-							$whiteIframeUrlList[] = $value->body;
-						}
-					}
-					else
-					{
-						$whiteIframeUrlList[] = $patternList->body;
-					}
+					$whiteIframeUrlList[] = $prefix;
 				}
 			}
 
@@ -676,18 +651,24 @@ class EmbedFilter
 
 			if($db_info->embed_white_object)
 			{
-				$whiteUrlList = array_merge($whiteUrlList, $db_info->embed_white_object);
+				foreach ($db_info->embed_white_object as $prefix)
+				{
+					$whiteUrlList[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+				}
 			}
 
 			if($db_info->embed_white_iframe)
 			{
-				$whiteIframeUrlList = array_merge($whiteIframeUrlList, $db_info->embed_white_iframe);
+				foreach ($db_info->embed_white_iframe as $prefix)
+				{
+					$whiteIframeUrlList[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+				}
 			}
 
 			$whiteUrlList = array_unique($whiteUrlList);
 			$whiteIframeUrlList = array_unique($whiteIframeUrlList);
-			asort($whiteUrlList);
-			asort($whiteIframeUrlList);
+			natcasesort($whiteUrlList);
+			natcasesort($whiteIframeUrlList);
 
 			$buff = array();
 			$buff[] = '<?php if(!defined("__XE__")) exit();';
