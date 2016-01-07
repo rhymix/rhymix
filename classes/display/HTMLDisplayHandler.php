@@ -231,7 +231,7 @@ class HTMLDisplayHandler
 		}
 		else
 		{
-			$this->_loadJSCSS();
+			$this->_loadDesktopJSCSS();
 			$output = $oTemplate->compile('./common/tpl', 'common_layout');
 		}
 
@@ -385,32 +385,12 @@ class HTMLDisplayHandler
 	 * import basic .js files.
 	 * @return void
 	 */
-	function _loadJSCSS()
+	function _loadDesktopJSCSS()
 	{
 		$oContext = Context::getInstance();
 		$lang_type = Context::getLangType();
-
-		// add common JS/CSS files
-		if(__DEBUG__ || !__XE_VERSION_STABLE__)
-		{
-			$oContext->loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -111000), true);
-			$oContext->loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -110000), true);
-			$oContext->loadFile(array('./common/js/modernizr.js', 'head', '', -100000), true);
-		}
-		else
-		{
-			$oContext->loadFile(array('./common/js/jquery-1.x.min.js', 'head', 'lt IE 9', -111000), true);
-			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', 'gte IE 9', -110000), true);
-			$oContext->loadFile(array('./common/js/modernizr.min.js', 'head', '', -100000), true);
-		}
-
-		$oContext->loadFile(array('./common/js/x.js', 'head', '', -100000), true);
-		$oContext->loadFile(array('./common/js/common.js', 'head', '', -100000), true);
-		$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000), true);
-		$oContext->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000), true);
-		$oContext->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000), true);
-		$oContext->loadFile(array('./common/css/xe.css', '', '', -1000000), true);
-
+		$this->_loadCommonJSCSS($oContext);
+		
 		// for admin page, add admin css
 		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
 		{
@@ -430,30 +410,60 @@ class HTMLDisplayHandler
 	private function _loadMobileJSCSS()
 	{
 		$oContext = Context::getInstance();
-		$lang_type = Context::getLangType();
-
-		// add common JS/CSS files
-		if(__DEBUG__ || !__XE_VERSION_STABLE__)
-		{
-			$oContext->loadFile(array('./common/js/jquery.js', 'head', '', -110000), true);
-			$oContext->loadFile(array('./common/js/modernizr.js', 'head', '', -100000), true);
-		}
-		else
-		{
-			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', '', -110000), true);
-			$oContext->loadFile(array('./common/js/modernizr.min.js', 'head', '', -100000), true);
-		}
-
-		$oContext->loadFile(array('./common/js/x.js', 'head', '', -100000), true);
-		$oContext->loadFile(array('./common/js/common.js', 'head', '', -100000), true);
-		$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000), true);
-		$oContext->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000), true);
-		$oContext->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000), true);
-
-		$oContext->loadFile(array('./common/css/xe.css', '', '', -1000000), true);
+		$this->_loadCommonJSCSS($oContext);
 		$oContext->loadFile(array('./common/css/mobile.css', '', '', -1000000), true);
 	}
 
+	/**
+	 * import common .js and .css files for (both desktop and mobile)
+	 */
+	private function _loadCommonJSCSS($oContext = null)
+	{
+		$oContext = $oContext ?: Context::getInstance();
+		$oContext->loadFile(array('./common/css/xe.css', '', '', -1000000), true);
+		$original_file_list = array('x.js', 'common.js', 'js_app.js', 'xml_handler.js', 'xml_js_filter.js');
+		
+		if(__DEBUG__ || !__XE_VERSION_STABLE__)
+		{
+			$oContext->loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -111000), true);
+			$oContext->loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -110000), true);
+			$oContext->loadFile(array('./common/js/modernizr.js', 'head', '', -100000), true);
+			foreach($original_file_list as $filename)
+			{
+				$oContext->loadFile(array('./common/js/' . $filename, 'head', '', -100000), true);
+			}
+		}
+		else
+		{
+			$oContext->loadFile(array('./common/js/jquery-1.x.min.js', 'head', 'lt IE 9', -111000), true);
+			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', 'gte IE 9', -110000), true);
+			$oContext->loadFile(array('./common/js/modernizr.min.js', 'head', '', -100000), true);
+			
+			$concat_target_filename = 'files/cache/minify/xe.min.js';
+			if(file_exists(_XE_PATH_ . $concat_target_filename))
+			{
+				$concat_target_mtime = filemtime(_XE_PATH_ . $concat_target_filename);
+				$original_mtime = 0;
+				foreach($original_file_list as $filename)
+				{
+					$original_mtime = max($original_mtime, filemtime(_XE_PATH_ . 'common/js/' . $filename));
+				}
+				if($concat_target_mtime > $original_mtime)
+				{
+					$oContext->loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
+					return;
+				}
+			}
+			$buffer = '';
+			foreach($original_file_list as $filename)
+			{
+				$buffer .= file_get_contents(_XE_PATH_ . 'common/js/' . $filename) . "\n";
+			}
+			$minifier = new MatthiasMullie\Minify\JS($buffer);
+			FileHandler::writeFile(_XE_PATH_ . $concat_target_filename, $minifier->minify());
+			$oContext->loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
+		}
+	}
 }
 /* End of file HTMLDisplayHandler.class.php */
 /* Location: ./classes/display/HTMLDisplayHandler.class.php */
