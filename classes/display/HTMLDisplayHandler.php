@@ -423,7 +423,7 @@ class HTMLDisplayHandler
 		$oContext->loadFile(array('./common/css/xe.css', '', '', -1000000), true);
 		$original_file_list = array('x.js', 'common.js', 'js_app.js', 'xml_handler.js', 'xml_js_filter.js');
 		
-		if(__DEBUG__ || !__XE_VERSION_STABLE__)
+		if(Context::getDBInfo()->minify_scripts === 'N')
 		{
 			$oContext->loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -111000), true);
 			$oContext->loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -110000), true);

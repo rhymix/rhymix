@@ -143,6 +143,12 @@ class FrontEndFileHandler extends Handler
 	private function getFileInfo($fileName, $targetIe = '', $media = 'all')
 	{
 		static $existsInfo = array();
+		static $autoMinify = null;
+
+		if($autoMinify === null)
+		{
+			$autoMinify = Context::getDBInfo()->minify_scripts === 'N' ? false : true;
+		}
 
 		if(isset($existsInfo[$existsKey]))
 		{
@@ -169,7 +175,7 @@ class FrontEndFileHandler extends Handler
 		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
 
 		// Minify file
-		if(!__DEBUG__ && __XE_VERSION_STABLE__ && !$file->isMinified && strpos($file->filePath, '://') === false && strpos($file->filePath, 'common/js/plugins') === false)
+		if($autoMinify && !$file->isMinified && strpos($file->filePath, '://') === false && strpos($file->filePath, 'common/js/plugins') === false)
 		{
 			$originalFilePath = $file->fileRealPath . '/' . $pathInfo['basename'];
 			if(($file->fileExtension === 'css' || $file->fileExtension === 'js') && file_exists($originalFilePath))

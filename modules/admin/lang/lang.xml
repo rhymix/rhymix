@@ -760,6 +760,16 @@
 		<value xml:lang="zh-CN"><![CDATA[启用Qmail]]></value>
 		<value xml:lang="tr"><![CDATA[Qmail etkinleştirin]]></value>
 	</item>
+	<item name="minify_scripts">
+		<value xml:lang="ko"><![CDATA[스크립트 자동 압축]]></value>
+		<value xml:lang="en"><![CDATA[Auto-minify scripts]]></value>
+		<value xml:lang="jp"><![CDATA[スクリプト自動圧縮]]></value>
+	</item>
+	<item name="about_minify_scripts">
+		<value xml:lang="ko"><![CDATA[코어와 모든 모듈에 포함된 CSS, JS 파일들을 자동으로 압축(minify)하여 전송합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Automatically minify all CSS and JS scripts in the Core and all modules.]]></value>
+		<value xml:lang="jp"><![CDATA[コアとすべてのモジュールに含まれたCSS、JSファイルを自動的に圧縮(minify)して配信します。]]></value>
+	</item>
 	<item name="cache_friendly">
 		<value xml:lang="ko"><![CDATA[캐싱 최적화]]></value>
 		<value xml:lang="en"><![CDATA[Optimize for caching]]></value>
