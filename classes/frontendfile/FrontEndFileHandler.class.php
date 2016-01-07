@@ -155,34 +155,54 @@ class FrontEndFileHandler extends Handler
 		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
 		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
 		$file->fileExtension = strtolower($pathInfo['extension']);
-		$file->fileNameNoExt = preg_replace('/\.min$/', '', $pathInfo['filename']);
-		$file->keyName = implode('.', array($file->fileNameNoExt, $file->fileExtension));
+		if(preg_match('/^(.+)\.min$/', $pathInfo['filename'], $matches))
+		{
+			$file->fileNameNoExt = $matches[1];
+			$file->isMinified = true;
+		}
+		else
+		{
+			$file->fileNameNoExt = $pathInfo['filename'];
+			$file->isMinified = false;
+		}
+		$file->keyName = $file->fileNameNoExt . '.' . $file->fileExtension;
 		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
 
-		if(strpos($file->filePath, '://') === FALSE)
+		// Minify file
+		if(!__DEBUG__ && __XE_VERSION_STABLE__ && !$file->isMinified && strpos($file->filePath, '://') === false && strpos($file->filePath, 'common/js/plugins') === false)
 		{
-			if(!__DEBUG__ && __XE_VERSION_STABLE__)
+			$originalFilePath = $file->fileRealPath . '/' . $pathInfo['basename'];
+			if(($file->fileExtension === 'css' || $file->fileExtension === 'js') && file_exists($originalFilePath))
 			{
-				// if no debug mode, load minifed file
-				$minifiedFileName = implode('.', array($file->fileNameNoExt, 'min', $file->fileExtension));
-				$minifiedRealPath = implode('/', array($file->fileRealPath, $minifiedFileName));
-				if(file_exists($minifiedRealPath))
+				$minifiedFileName = $file->fileNameNoExt . '.min.' . $file->fileExtension;
+				$minifiedFileHash = substr(sha1($file->cdnPath . $file->fileName), 0, 24);
+				$minifiedFilePath = _XE_PATH_ . 'files/cache/minify/' . $minifiedFileHash . '.' . $minifiedFileName;
+			
+				if(!file_exists($minifiedFilePath) || filemtime($minifiedFilePath) < filemtime($originalFilePath))
 				{
-					$file->fileName = $minifiedFileName;
+					FileHandler::makeDir(_XE_PATH_ . 'files/cache/minify');
+					if($file->fileExtension === 'css')
+					{
+						$minifier = new MatthiasMullie\Minify\CSS($originalFilePath);
+						$minifier->minify($minifiedFilePath);
+					}
+					else
+					{
+						$minifier = new MatthiasMullie\Minify\JS($originalFilePath);
+						$minifier->minify($minifiedFilePath);
+					}
 				}
-			}
-			else
-			{
-				// Remove .min
-				if(file_exists(implode('/', array($file->fileRealPath, $file->keyName))))
-				{
-					$file->fileName = $file->keyName;
-				}
+				
+				$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
+				$file->filePath = $this->_getAbsFileUrl('./files/cache/minify');
+				$file->fileRealPath = _XE_PATH_ . 'files/cache/minify';
+				$file->cdnPath = $this->_normalizeFilePath('./files/cache/minify');
+				$file->isMinified = true;
 			}
 		}
 
+		// Process targetIe and media attributes
 		$file->targetIe = $targetIe;
-
 		if($file->fileExtension == 'css')
 		{
 			$file->media = $media;
