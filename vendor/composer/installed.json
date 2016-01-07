@@ -1,0 +1,355 @@
+[
+    {
+        "name": "defuse/php-encryption",
+        "version": "v1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/defuse/php-encryption.git",
+            "reference": "b87737b2eec06b13f025cabea847338fa203d1b4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/defuse/php-encryption/zipball/b87737b2eec06b13f025cabea847338fa203d1b4",
+            "reference": "b87737b2eec06b13f025cabea847338fa203d1b4",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mcrypt": "*",
+            "ext-openssl": "*",
+            "php": ">=5.4.0"
+        },
+        "time": "2015-03-14 20:27:45",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "Crypto.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Hornby",
+                "email": "havoc@defuse.ca"
+            }
+        ],
+        "description": "Secure PHP Encryption Library",
+        "keywords": [
+            "aes",
+            "cipher",
+            "encryption",
+            "mcrypt",
+            "security"
+        ]
+    },
+    {
+        "name": "ezyang/htmlpurifier",
+        "version": "v4.7.0",
+        "version_normalized": "4.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ezyang/htmlpurifier.git",
+            "reference": "ae1828d955112356f7677c465f94f7deb7d27a40"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/ae1828d955112356f7677c465f94f7deb7d27a40",
+            "reference": "ae1828d955112356f7677c465f94f7deb7d27a40",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "time": "2015-08-05 01:03:42",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "HTMLPurifier": "library/"
+            },
+            "files": [
+                "library/HTMLPurifier.composer.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Edward Z. Yang",
+                "email": "admin@htmlpurifier.org",
+                "homepage": "http://ezyang.com"
+            }
+        ],
+        "description": "Standards compliant HTML filter written in PHP",
+        "homepage": "http://htmlpurifier.org/",
+        "keywords": [
+            "html"
+        ]
+    },
+    {
+        "name": "michelf/php-markdown",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/michelf/php-markdown.git",
+            "reference": "e1aabe18173231ebcefc90e615565742fc1c7fd9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/michelf/php-markdown/zipball/e1aabe18173231ebcefc90e615565742fc1c7fd9",
+            "reference": "e1aabe18173231ebcefc90e615565742fc1c7fd9",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-03-01 12:03:08",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-lib": "1.4.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Michelf": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "John Gruber",
+                "homepage": "http://daringfireball.net/"
+            },
+            {
+                "name": "Michel Fortin",
+                "email": "michel.fortin@michelf.ca",
+                "homepage": "https://michelf.ca/",
+                "role": "Developer"
+            }
+        ],
+        "description": "PHP Markdown",
+        "homepage": "https://michelf.ca/projects/php-markdown/",
+        "keywords": [
+            "markdown"
+        ]
+    },
+    {
+        "name": "sunra/php-simple-html-dom-parser",
+        "version": "v1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sunra/php-simple-html-dom-parser.git",
+            "reference": "a0b80ace086c7e09085669205e1b3c2c9c7a453c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sunra/php-simple-html-dom-parser/zipball/a0b80ace086c7e09085669205e1b3c2c9c7a453c",
+            "reference": "a0b80ace086c7e09085669205e1b3c2c9c7a453c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "time": "2013-05-04 14:32:03",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Sunra\\PhpSimple\\HtmlDomParser": "Src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "sunra",
+                "email": "sunra@yandex.ru",
+                "homepage": "http://github.com/sunra"
+            }
+        ],
+        "description": "Composer adaptation of: A HTML DOM parser written in PHP5+ let you manipulate HTML in a very easy way! Require PHP 5+. Supports invalid HTML. Find tags on an HTML page with selectors just like jQuery. Extract contents from HTML in a single line.",
+        "homepage": "https://github.com/sunra/php-simple-html-dom-parser",
+        "keywords": [
+            "dom",
+            "html",
+            "parser"
+        ]
+    },
+    {
+        "name": "matthiasmullie/path-converter",
+        "version": "1.0.6",
+        "version_normalized": "1.0.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/matthiasmullie/path-converter.git",
+            "reference": "9f83d0c398dbe70f45f5840d95ffad73d5efd35f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/matthiasmullie/path-converter/zipball/9f83d0c398dbe70f45f5840d95ffad73d5efd35f",
+            "reference": "9f83d0c398dbe70f45f5840d95ffad73d5efd35f",
+            "shasum": ""
+        },
+        "require": {
+            "ext-pcre": "*",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.8",
+            "satooshi/php-coveralls": "~1.0"
+        },
+        "time": "2016-01-05 07:45:30",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "MatthiasMullie\\PathConverter\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Matthias Mullie",
+                "email": "pathconverter@mullie.eu",
+                "homepage": "http://www.mullie.eu",
+                "role": "Developer"
+            }
+        ],
+        "description": "Relative path converter",
+        "homepage": "http://github.com/matthiasmullie/path-converter",
+        "keywords": [
+            "converter",
+            "path",
+            "paths",
+            "relative"
+        ]
+    },
+    {
+        "name": "matthiasmullie/minify",
+        "version": "1.3.30",
+        "version_normalized": "1.3.30.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/matthiasmullie/minify.git",
+            "reference": "0cd5108683e7376e795555ced56229c4c16597aa"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/matthiasmullie/minify/zipball/0cd5108683e7376e795555ced56229c4c16597aa",
+            "reference": "0cd5108683e7376e795555ced56229c4c16597aa",
+            "shasum": ""
+        },
+        "require": {
+            "ext-pcre": "*",
+            "matthiasmullie/path-converter": "~1.0",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "matthiasmullie/scrapbook": "~1.0",
+            "phpunit/phpunit": "~4.8",
+            "satooshi/php-coveralls": "~1.0"
+        },
+        "time": "2016-01-05 07:43:18",
+        "bin": [
+            "bin/minifycss",
+            "bin/minifyjs"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "MatthiasMullie\\Minify\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Matthias Mullie",
+                "email": "minify@mullie.eu",
+                "homepage": "http://www.mullie.eu",
+                "role": "Developer"
+            }
+        ],
+        "description": "CSS & JS minifier",
+        "homepage": "http://www.minifier.org",
+        "keywords": [
+            "JS",
+            "css",
+            "javascript",
+            "minifier",
+            "minify"
+        ]
+    },
+    {
+        "name": "rmccue/requests",
+        "version": "v1.6.1",
+        "version_normalized": "1.6.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/rmccue/Requests.git",
+            "reference": "6aac485666c2955077d77b796bbdd25f0013a4ea"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/rmccue/Requests/zipball/6aac485666c2955077d77b796bbdd25f0013a4ea",
+            "reference": "6aac485666c2955077d77b796bbdd25f0013a4ea",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "require-dev": {
+            "satooshi/php-coveralls": "dev-master"
+        },
+        "time": "2014-05-18 04:59:02",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Requests": "library/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "ISC"
+        ],
+        "authors": [
+            {
+                "name": "Ryan McCue",
+                "homepage": "http://ryanmccue.info"
+            }
+        ],
+        "description": "A HTTP library written in PHP, for human beings.",
+        "homepage": "http://github.com/rmccue/Requests",
+        "keywords": [
+            "curl",
+            "fsockopen",
+            "http",
+            "idna",
+            "ipv6",
+            "iri",
+            "sockets"
+        ]
+    }
+]
