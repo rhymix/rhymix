@@ -53,17 +53,8 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/xe.css'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-
-			if(__DEBUG__ || !__XE_VERSION_STABLE__)
-			{
-				$expected[] = array('file' => '/xe/common/css/xe.css' . $this->_filemtime('common/css/xe.css'), 'media' => 'all', 'targetie' => null);
-				$expected[] = array('file' => '/xe/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), 'media' => 'all', 'targetie' => null);
-			}
-			else
-			{
-				$expected[] = array('file' => '/xe/common/css/xe.min.css' . $this->_filemtime('common/css/xe.min.css'), 'media' => 'all', 'targetie' => null);
-				$expected[] = array('file' => '/xe/common/css/mobile.min.css' . $this->_filemtime('common/css/mobile.min.css'), 'media' => 'all', 'targetie' => null);
-			}
+			$expected[] = array('file' => '/xe/common/css/xe.css' . $this->_filemtime('common/css/xe.css'), 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/xe/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), 'media' => 'all', 'targetie' => null);
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
