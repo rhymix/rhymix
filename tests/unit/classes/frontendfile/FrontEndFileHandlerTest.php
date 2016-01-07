@@ -13,8 +13,11 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 	public function testFrontEndFileHandler()
 	{
 		$handler = new FrontEndFileHandler();
+		$db_info = Context::getDBInfo();
+		$db_info->minify_scripts = 'N';
+		Context::setDBInfo($db_info);
 
-		$this->specify("js(head)", function() {
+		$this->specify("js(head)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/jquery.js'));
 			$handler->loadFile(array('./common/js/js_app.js', 'head'));
@@ -22,10 +25,12 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/common.js', 'head'));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'body'));
 
-			if(__DEBUG__ || !__XE_VERSION_STABLE__)
+			if($db_info->minify_scripts === 'N')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
-			} else {
+			}
+			else
+			{
 				$expected[] = array('file' => '/xe/common/js/jquery.min.js' . $this->_filemtime('common/js/jquery.min.js'), 'targetie' => null);
 			}
 			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
@@ -33,12 +38,12 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("js(body)", function() {
+		$this->specify("js(body)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/jquery.js', 'body'));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head'));
 
-			if(__DEBUG__ || !__XE_VERSION_STABLE__)
+			if($db_info->minify_scripts === 'N')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
 			}
@@ -49,7 +54,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList('body'), $expected);
 		});
 
-		$this->specify("css", function() {
+		$this->specify("css", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/xe.css'));
 			$handler->loadFile(array('./common/css/mobile.css'));
@@ -58,7 +63,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
-		$this->specify("order (duplicate)", function() {
+		$this->specify("order (duplicate)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/jquery.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
@@ -71,7 +76,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
 
-			if(__DEBUG__ || !__XE_VERSION_STABLE__)
+			if($db_info->minify_scripts === 'N')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
 			}
@@ -86,7 +91,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("order (redefine)", function() {
+		$this->specify("order (redefine)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', 1));
 			$handler->loadFile(array('./common/js/jquery.js', 'head', '', -100000));
@@ -94,7 +99,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
 
-			if(__DEBUG__ || !__XE_VERSION_STABLE__)
+			if($db_info->minify_scripts === 'N')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
 			}
@@ -109,7 +114,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("unload", function() {
+		$this->specify("unload", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/jquery.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
@@ -125,13 +130,13 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("target IE(js)", function() {
+		$this->specify("target IE(js)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/jquery.js', 'head', 'ie6'));
 			$handler->loadFile(array('./common/js/jquery.js', 'head', 'ie7'));
 			$handler->loadFile(array('./common/js/jquery.js', 'head', 'ie8'));
 
-			if(__DEBUG__ || !__XE_VERSION_STABLE__)
+			if($db_info->minify_scripts === 'N')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => 'ie6');
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => 'ie7');
@@ -146,7 +151,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("external file - schemaless", function() {
+		$this->specify("external file - schemaless", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('http://external.host/js/script.js'));
 			$handler->loadFile(array('https://external.host/js/script.js'));
@@ -160,7 +165,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("external file - schemaless", function() {
+		$this->specify("external file - schemaless", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('//external.host/js/script.js'));
 			$handler->loadFile(array('///external.host/js/script.js'));
@@ -169,7 +174,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("target IE(css)", function() {
+		$this->specify("target IE(css)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/common.css', null, 'ie6'));
 			$handler->loadFile(array('./common/css/common.css', null, 'ie7'));
@@ -181,7 +186,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
-		$this->specify("media", function() {
+		$this->specify("media", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/common.css', 'all'));
 			$handler->loadFile(array('./common/css/common.css', 'screen'));
@@ -193,7 +198,20 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
-		$this->specify("external file", function() {
+		$db_info->minify_scripts = 'Y';
+		Context::setDBInfo($db_info);
+		FrontEndFileHandler::$minify = null;
+
+		$this->specify("minify", function() use($db_info) {
+			$handler = new FrontEndFileHandler();
+			$handler->loadFile(array('./common/css/xe.css'));
+			$handler->loadFile(array('./common/css/mobile.css'));
+			$expected[] = array('file' => '/xe/files/cache/minify/common.css.xe.min.css' . '?' . date('YmdHis'), 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/xe/files/cache/minify/common.css.mobile.min.css' . '?' . date('YmdHis'), 'media' => 'all', 'targetie' => null);
+			$this->assertEquals($handler->getCssFileList(), $expected);
+		});
+
+		$this->specify("external file", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('http://external.host/css/style1.css'));
 			$handler->loadFile(array('https://external.host/css/style2.css'));
@@ -203,7 +221,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
-		$this->specify("external file - schemaless", function() {
+		$this->specify("external file - schemaless", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('//external.host/css/style.css'));
 			$handler->loadFile(array('///external.host/css2/style2.css'));

@@ -9,6 +9,7 @@ class FrontEndFileHandler extends Handler
 {
 
 	static $isSSL = null;
+	static $minify = null;
 
 	/**
 	 * Map for css
@@ -143,11 +144,10 @@ class FrontEndFileHandler extends Handler
 	private function getFileInfo($fileName, $targetIe = '', $media = 'all')
 	{
 		static $existsInfo = array();
-		static $autoMinify = null;
 
-		if($autoMinify === null)
+		if(self::$minify === null)
 		{
-			$autoMinify = Context::getDBInfo()->minify_scripts === 'N' ? false : true;
+			self::$minify = Context::getDBInfo()->minify_scripts === 'N' ? false : true;
 		}
 
 		if(isset($existsInfo[$existsKey]))
@@ -175,7 +175,7 @@ class FrontEndFileHandler extends Handler
 		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
 
 		// Minify file
-		if($autoMinify && !$file->isMinified && strpos($file->filePath, '://') === false && strpos($file->filePath, 'common/js/plugins') === false)
+		if(self::$minify && !$file->isMinified && strpos($file->filePath, '://') === false && strpos($file->filePath, 'common/js/plugins') === false)
 		{
 			$originalFilePath = $file->fileRealPath . '/' . $pathInfo['basename'];
 			if(($file->fileExtension === 'css' || $file->fileExtension === 'js') && file_exists($originalFilePath))
