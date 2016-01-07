@@ -175,7 +175,7 @@ class FrontEndFileHandler extends Handler
 			if(($file->fileExtension === 'css' || $file->fileExtension === 'js') && file_exists($originalFilePath))
 			{
 				$minifiedFileName = $file->fileNameNoExt . '.min.' . $file->fileExtension;
-				$minifiedFileHash = substr(sha1($file->cdnPath . $file->fileName), 0, 24);
+				$minifiedFileHash = ltrim(str_replace(array('/', '\\'), '.', $pathInfo['dirname']), '.');
 				$minifiedFilePath = _XE_PATH_ . 'files/cache/minify/' . $minifiedFileHash . '.' . $minifiedFileName;
 			
 				if(!file_exists($minifiedFilePath) || filemtime($minifiedFilePath) < filemtime($originalFilePath))
