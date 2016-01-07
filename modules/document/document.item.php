@@ -910,8 +910,7 @@ class documentItem extends Object
 					if(!file_exists($tmp_file)) continue;
 					else
 					{
-						list($_w, $_h, $_t, $_a) = @getimagesize($tmp_file);
-						if($_w<$width || $_h<$height) continue;
+						list($_w, $_h, $_t, $_a) = getimagesize($tmp_file);
 
 						$source_file = $tmp_file;
 						$is_tmp_file = true;
