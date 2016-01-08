@@ -971,8 +971,7 @@ function flushSlowlog()
  */
 function getMicroTime()
 {
-	list($time1, $time2) = explode(' ', microtime());
-	return (float) $time1 + (float) $time2;
+	return microtime(true);
 }
 
 /**

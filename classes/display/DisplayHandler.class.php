@@ -142,7 +142,7 @@ class DisplayHandler extends Handler
 			return;
 		}
 
-		$end = getMicroTime();
+		$end = microtime(true);
 
 		// Firebug console output
 		if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1)
