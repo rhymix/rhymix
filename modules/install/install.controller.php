@@ -187,7 +187,7 @@ class installController extends install
 			'db_userid' => Context::get('db_userid'),
 			'db_password' => Context::get('db_password'),
 			'db_database' => Context::get('db_database'),
-			'db_table_prefix' => rtrim(Context::get('db_table_prefix'), '_'),
+			'db_table_prefix' => Context::get('db_table_prefix'),
 		);
 		$db_info->slave_db = array($db_info->master_db);
 		$db_info->default_url = Context::getRequestUri();
