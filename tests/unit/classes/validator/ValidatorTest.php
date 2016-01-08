@@ -10,7 +10,7 @@ class ValidatorTest extends \Codeception\TestCase\Test
     public function _before()
     {
         global $lang;
-
+        if(!$lang) $lang = new stdClass();
         $lang->filter = new stdClass();
         $lang->filter->isnull = 'isnull';
         $lang->filter->outofrange = 'outofrange';
