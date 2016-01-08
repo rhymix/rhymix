@@ -34,17 +34,20 @@ img, form, fieldset { border: 0; margin:0; padding: 0; }
 	margin: 0;
 }
 .x #header h1 {
-	font: bold 48px/100% Arial, sans-serif;
+	font: bold 54px/100% Cambria, Georgia, serif;
 	color: #444;
 	text-align: center;
 	text-shadow: 2px 2px 3px rgba(128, 128, 128, 0.4);
-	margin: 0 0 16px 0;
+	margin: 0 0 24px 0;
 }
 .x #header h1 span.green {
 	color: #55a72f;
 }
 .x #header h1 span.brown {
 	color: #905a29;
+}
+.x #header h1 span.red {
+	color: #ef5350;
 }
 .x #header h1 span.colon {
 	color: #888888;

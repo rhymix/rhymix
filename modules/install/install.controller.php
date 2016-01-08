@@ -33,6 +33,7 @@ class installController extends install
 	{
 		// Get DB-related variables
 		$con_string = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');
+		$con_string->db_table_prefix = rtrim($con_string->db_table_prefix, '_');
 
 		$db_info = new stdClass();
 		$db_info->master_db = get_object_vars($con_string);
@@ -186,7 +187,7 @@ class installController extends install
 			'db_userid' => Context::get('db_userid'),
 			'db_password' => Context::get('db_password'),
 			'db_database' => Context::get('db_database'),
-			'db_table_prefix' => Context::get('db_table_prefix')
+			'db_table_prefix' => rtrim(Context::get('db_table_prefix'), '_'),
 		);
 		$db_info->slave_db = array($db_info->master_db);
 		$db_info->default_url = Context::getRequestUri();
