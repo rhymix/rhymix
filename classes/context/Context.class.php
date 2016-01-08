@@ -617,7 +617,6 @@ class Context
 	 */
 	public static function getDBType()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->db_info->master_db["db_type"];
 	}
 
@@ -629,7 +628,6 @@ class Context
 	 */
 	public static function setDBInfo($db_info)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->db_info = $db_info;
 	}
 
@@ -640,7 +638,6 @@ class Context
 	 */
 	public static function getDBInfo()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->db_info;
 	}
 
@@ -855,7 +852,6 @@ class Context
 		{
 			return;
 		}
-		self::$_instance = self::$_instance ?: self::getInstance();
 		if(self::$_instance->site_title)
 		{
 			self::$_instance->site_title .= ' - ' . $site_title;
@@ -878,7 +874,6 @@ class Context
 		{
 			return;
 		}
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->site_title = $site_title;
 	}
 
@@ -889,8 +884,6 @@ class Context
 	 */
 	public static function getBrowserTitle()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
-
 		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode(self::$_instance->site_title);
 
@@ -932,7 +925,6 @@ class Context
 	{
 		global $lang;
 
-		self::$_instance = self::$_instance ?: self::getInstance();
 		if(!self::$_instance->lang_type)
 		{
 			return;
@@ -1053,7 +1045,6 @@ class Context
 	 */
 	public static function setLangType($lang_type = 'ko')
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->lang_type = $lang_type;
 		self::set('lang_type', $lang_type);
 
@@ -1070,7 +1061,6 @@ class Context
 	 */
 	public static function getLangType()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->lang_type;
 	}
 
@@ -1227,8 +1217,6 @@ class Context
 	 */
 	public static function setResponseMethod($method = 'HTML')
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
-
 		$methods = array('HTML' => 1, 'XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
 		self::$_instance->response_method = isset($methods[$method]) ? $method : 'HTML';
 	}
@@ -1240,8 +1228,6 @@ class Context
 	 */
 	public static function getResponseMethod()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
-
 		if(self::$_instance->response_method)
 		{
 			return self::$_instance->response_method;
@@ -1261,8 +1247,6 @@ class Context
 	 */
 	public static function setRequestMethod($type = '')
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
-
 		self::$_instance->js_callback_func = self::$_instance->getJSCallbackFunc();
 
 		($type && self::$_instance->request_method = $type) or
@@ -1524,7 +1508,6 @@ class Context
 	 */
 	public static function isUploaded()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->is_uploaded;
 	}
 
@@ -1578,7 +1561,6 @@ class Context
 	 */
 	public static function getRequestMethod()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->request_method;
 	}
 
@@ -1636,8 +1618,6 @@ class Context
 	{
 		static $site_module_info = null;
 		static $current_info = null;
-
-		self::$_instance = self::$_instance ?: self::getInstance();
 
 		// retrieve virtual site information
 		if(is_null($site_module_info))
@@ -1975,9 +1955,7 @@ class Context
 	 */
 	public static function set($key, $val, $set_to_get_vars = 0)
 	{
-		self::$_user_vars = self::$_user_vars !== null ? self::$_user_vars : new stdClass;
 		self::$_user_vars->{$key} = $val;
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->{$key} = $val;
 
 		if($set_to_get_vars)
@@ -2001,9 +1979,6 @@ class Context
 	 */
 	public static function get($key)
 	{
-		self::$_user_vars = self::$_user_vars !== null ? self::$_user_vars : new stdClass;
-		self::$_instance = self::$_instance ?: self::getInstance();
-
 		if(isset(self::$_user_vars->{$key}))
 		{
 			return self::$_user_vars->{$key};
@@ -2058,7 +2033,6 @@ class Context
 	 */
 	public static function getRequestVars()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		if(self::$_instance->get_vars)
 		{
 			return clone(self::$_instance->get_vars);
@@ -2074,8 +2048,6 @@ class Context
 	 */
 	public static function addSSLAction($action)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
-
 		if(!is_readable(self::$_instance->sslActionCacheFile))
 		{
 			$buff = '<?php if(!defined("__XE__"))exit;';
@@ -2098,8 +2070,6 @@ class Context
 	 */
 	public static function addSSLActions($action_array)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
-
 		if(!is_readable(self::$_instance->sslActionCacheFile))
 		{
 			unset(self::$_instance->ssl_actions);
@@ -2126,8 +2096,6 @@ class Context
 	 */
 	public static function subtractSSLAction($action)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
-
 		if(self::isExistsSSLAction($action))
 		{
 			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
@@ -2144,7 +2112,6 @@ class Context
 	 */
 	public static function getSSLActions()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		if(self::getSslStatus() == 'optional')
 		{
 			return self::$_instance->ssl_actions;
@@ -2159,7 +2126,6 @@ class Context
 	 */
 	public static function isExistsSSLAction($action)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return isset(self::$_instance->ssl_actions[$action]);
 	}
 
@@ -2225,7 +2191,6 @@ class Context
 	 */
 	public static function loadFile($args)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->oFrontEndFileHandler->loadFile($args);
 	}
 
@@ -2239,7 +2204,6 @@ class Context
 	 */
 	public static function unloadFile($file, $targetIe = '', $media = 'all')
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->oFrontEndFileHandler->unloadFile($file, $targetIe, $media);
 	}
 
@@ -2251,7 +2215,6 @@ class Context
 	 */
 	public static function unloadAllFiles($type = 'all')
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->oFrontEndFileHandler->unloadAllFiles($type);
 	}
 
@@ -2285,7 +2248,6 @@ class Context
 			$file = $validator->getJsPath();
 		}
 
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->oFrontEndFileHandler->loadFile(array($file, $type, $targetie, $index));
 	}
 
@@ -2300,7 +2262,6 @@ class Context
 	 */
 	public static function unloadJsFile($file, $optimized = FALSE, $targetie = '')
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->oFrontEndFileHandler->unloadFile($file, $targetie);
 	}
 
@@ -2311,7 +2272,6 @@ class Context
 	 */
 	public static function unloadAllJsFiles()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->oFrontEndFileHandler->unloadAllFiles('js');
 	}
 
@@ -2360,7 +2320,6 @@ class Context
 	 */
 	public static function getJsFile($type = 'head')
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->oFrontEndFileHandler->getJsFileList($type);
 	}
 
@@ -2378,7 +2337,6 @@ class Context
 	 */
 	public static function addCSSFile($file, $optimized = FALSE, $media = 'all', $targetie = '', $index = 0)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->oFrontEndFileHandler->loadFile(array($file, $media, $targetie, $index));
 	}
 
@@ -2394,7 +2352,6 @@ class Context
 	 */
 	public static function unloadCSSFile($file, $optimized = FALSE, $media = 'all', $targetie = '')
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->oFrontEndFileHandler->unloadFile($file, $targetie, $media);
 	}
 
@@ -2405,7 +2362,6 @@ class Context
 	 */
 	public static function unloadAllCSSFiles()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->oFrontEndFileHandler->unloadAllFiles('css');
 	}
 
@@ -2416,7 +2372,6 @@ class Context
 	 */
 	public static function getCSSFile()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->oFrontEndFileHandler->getCssFileList();
 	}
 
@@ -2539,13 +2494,11 @@ class Context
 	 */
 	public static function addHtmlHeader($header)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->html_header .= "\n" . $header;
 	}
 
 	public static function clearHtmlHeader()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->html_header = '';
 	}
 
@@ -2556,7 +2509,6 @@ class Context
 	 */
 	public static function getHtmlHeader()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->html_header;
 	}
 
@@ -2567,7 +2519,6 @@ class Context
 	 */
 	public static function addBodyClass($class_name)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->body_class[] = $class_name;
 	}
 
@@ -2578,7 +2529,6 @@ class Context
 	 */
 	public static function getBodyClass()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->body_class = array_unique(self::$_instance->body_class);
 
 		return (count(self::$_instance->body_class) > 0) ? sprintf(' class="%s"', join(' ', self::$_instance->body_class)) : '';
@@ -2591,7 +2541,6 @@ class Context
 	 */
 	public static function addBodyHeader($header)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->body_header .= "\n" . $header;
 	}
 
@@ -2602,7 +2551,6 @@ class Context
 	 */
 	public static function getBodyHeader()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->body_header;
 	}
 
@@ -2613,7 +2561,6 @@ class Context
 	 */
 	public static function addHtmlFooter($footer)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->html_footer .= (self::$_instance->Htmlfooter ? "\n" : '') . $footer;
 	}
 
@@ -2624,7 +2571,6 @@ class Context
 	 */
 	public static function getHtmlFooter()
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		return self::$_instance->html_footer;
 	}
 
@@ -2743,7 +2689,6 @@ class Context
 	public static function getMetaTag()
 	{
 		$ret = array();
-		self::$_instance = self::$_instance ?: self::getInstance();
 		foreach(self::$_instance->meta_tags as $key => $val)
 		{
 			list($name, $is_http_equiv) = explode("\t", $key);
@@ -2763,7 +2708,6 @@ class Context
 	 */
 	public static function addMetaTag($name, $content, $is_http_equiv = FALSE)
 	{
-		self::$_instance = self::$_instance ?: self::getInstance();
 		self::$_instance->meta_tags[$name . "\t" . ($is_http_equiv ? '1' : '0')] = $content;
 	}
 
