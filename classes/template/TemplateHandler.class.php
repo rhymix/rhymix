@@ -366,13 +366,8 @@ class TemplateHandler
 			return;
 		}
 
-		$__Context = &$GLOBALS['__Context__'];
+		$__Context = Context::getInstance();
 		$__Context->tpl_path = $this->path;
-
-		if($_SESSION['is_logged'])
-		{
-			$__Context->logged_info = Context::get('logged_info');
-		}
 
 		$level = ob_get_level();
 		ob_start();
