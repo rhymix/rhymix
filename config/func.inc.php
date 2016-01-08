@@ -228,7 +228,7 @@ function executeQueryArray($query_id, $args = NULL, $arg_columns = NULL)
 {
 	$oDB = DB::getInstance();
 	$output = $oDB->executeQuery($query_id, $args, $arg_columns);
-	if(!is_array($output->data) && count($output->data) > 0)
+	if(isset($output->data) && !is_array($output->data) && count($output->data) > 0)
 	{
 		$output->data = array($output->data);
 	}
@@ -530,7 +530,7 @@ function cut_str($string, $cut_size = 0, $tail = '...')
 		$char_count++;
 		if($c < 128)
 		{
-			$char_width += (int) $chars[$c - 32];
+			$char_width += (int)($chars[$c - 32]);
 			$idx++;
 		}
 		else if(191 < $c && $c < 224)
@@ -606,7 +606,7 @@ function ztime($str)
 	{
 		$hour = $min = $sec = $offset = 0;
 	}
-	return mktime($hour, $min, $sec, $month, $day, $year) - $offset;
+	return mktime($hour, $min, $sec, $month, $day, $year) + $offset;
 }
 
 /**
@@ -621,85 +621,57 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 {
 	if(!$str)
 	{
-		return;
+		return null;
 	}
 	
 	// convert the date format according to the language
 	if($conversion == TRUE)
 	{
-		switch(Context::getLangType())
+		static $convtable = array(
+			'en' => array(
+				'Y-m-d' => 'M j, Y',
+				'Y-m-d H:i:s' => 'M j, Y H:i:s',
+				'Y-m-d H:i' => 'M j, Y H:i',
+			),
+			'es' => array(
+				'Y-m-d' => 'j M Y',
+				'Y-m-d H:i:s' => 'j M Y H:i:s',
+				'Y-m-d H:i' => 'j M Y H:i',
+			),
+			'de' => 'es',
+			'fr' => 'es',
+			'vi' => array(
+				'Y-m-d' => 'd-m-Y',
+				'Y-m-d H:i:s' => 'H:i:s d-m-Y',
+				'Y-m-d H:i' => 'H:i d-m-Y',
+			),
+		);
+		
+		$lang_type = Context::getLangType();
+		if(isset($convtable[$lang_type]))
 		{
-			case 'en' :
-			case 'es' :
-				if($format == 'Y-m-d')
-				{
-					$format = 'M d, Y';
-				}
-				elseif($format == 'Y-m-d H:i:s')
-				{
-					$format = 'M d, Y H:i:s';
-				}
-				elseif($format == 'Y-m-d H:i')
-				{
-					$format = 'M d, Y H:i';
-				}
-				break;
-			case 'vi' :
-				if($format == 'Y-m-d')
-				{
-					$format = 'd-m-Y';
-				}
-				elseif($format == 'Y-m-d H:i:s')
-				{
-					$format = 'H:i:s d-m-Y';
-				}
-				elseif($format == 'Y-m-d H:i')
-				{
-					$format = 'H:i d-m-Y';
-				}
-				break;
+			if(isset($convtable[$lang_type][$format]))
+			{
+				$format = $convtable[$lang_type][$format];
+			}
+			elseif(isset($convtable[$convtable[$lang_type]][$format]))
+			{
+				$format = $convtable[$convtable[$lang_type]][$format];
+			}
 		}
 	}
-
-	// If year value is less than 1970, handle it separately.
-	if((int) substr($str, 0, 4) < 1970)
-	{
-		$hour = (int) substr($str, 8, 2);
-		$min = (int) substr($str, 10, 2);
-		$sec = (int) substr($str, 12, 2);
-		$year = (int) substr($str, 0, 4);
-		$month = (int) substr($str, 4, 2);
-		$day = (int) substr($str, 6, 2);
-
-		$trans = array(
-			'Y' => $year,
-			'y' => sprintf('%02d', $year % 100),
-			'm' => sprintf('%02d', $month),
-			'n' => $month,
-			'd' => sprintf('%02d', $day),
-			'j' => $day,
-			'G' => $hour,
-			'H' => sprintf('%02d', $hour),
-			'g' => $hour % 12,
-			'h' => sprintf('%02d', $hour % 12),
-			'i' => sprintf('%02d', $min),
-			's' => sprintf('%02d', $sec),
-			'M' => getMonthName($month),
-			'F' => getMonthName($month, FALSE)
-		);
-
-		$string = strtr($format, $trans);
-	}
-	else
-	{
-		// if year value is greater than 1970, get unixtime by using ztime() for date() function's argument. 
-		$string = date($format, ztime($str));
-	}
+	
+	// get unixtime by using ztime() for date() function's argument. 
+	$string = date($format, ztime($str));
+	
 	// change day and am/pm for each language
-	$unit_week = Context::getLang('unit_week');
-	$unit_meridiem = Context::getLang('unit_meridiem');
-	$string = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $string);
-	$string = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $string);
+	if(preg_match('/[MFAa]/', $format))
+	{
+		$unit_week = Context::getLang('unit_week');
+		$unit_meridiem = Context::getLang('unit_meridiem');
+		$string = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $string);
+		$string = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $string);
+	}
 	return $string;
 }
 
@@ -717,19 +689,19 @@ function getTimeGap($date, $format = 'Y.m.d')
 	$lang_time_gap = Context::getLang('time_gap');
 	if($gap < 60)
 	{
-		$buff = sprintf($lang_time_gap['min'], (int) ($gap / 60) + 1);
+		$buff = sprintf($lang_time_gap['min'], (int)($gap / 60) + 1);
 	}
 	elseif($gap < 60 * 60)
 	{
-		$buff = sprintf($lang_time_gap['mins'], (int) ($gap / 60) + 1);
+		$buff = sprintf($lang_time_gap['mins'], (int)($gap / 60) + 1);
 	}
 	elseif($gap < 60 * 60 * 2)
 	{
-		$buff = sprintf($lang_time_gap['hour'], (int) ($gap / 60 / 60) + 1);
+		$buff = sprintf($lang_time_gap['hour'], (int)($gap / 60 / 60) + 1);
 	}
 	elseif($gap < 60 * 60 * 24)
 	{
-		$buff = sprintf($lang_time_gap['hours'], (int) ($gap / 60 / 60) + 1);
+		$buff = sprintf($lang_time_gap['hours'], (int)($gap / 60 / 60) + 1);
 	}
 	else
 	{
@@ -748,9 +720,9 @@ function getTimeGap($date, $format = 'Y.m.d')
  */
 function getMonthName($month, $short = TRUE)
 {
-	$short_month = array('', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
-	$long_month = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-	return !$short ? $long_month[$month] : $short_month[$month];
+	$short_month = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+	$long_month = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+	return $short ? $short_month[$month - 1] : $long_month[$month - 1];
 }
 
 /**
@@ -962,50 +934,32 @@ function getMicroTime()
  */
 function delObjectVars($target_obj, $del_obj)
 {
-	if(!is_object($target_obj))
+	if(!is_object($target_obj) || !is_object($del_obj))
 	{
-		return;
+		return new stdClass;
 	}
-	if(!is_object($del_obj))
-	{
-		return;
-	}
-
 	$target_vars = get_object_vars($target_obj);
 	$del_vars = get_object_vars($del_obj);
-
-	$target = array_keys($target_vars);
-	$del = array_keys($del_vars);
-	if(!count($target) || !count($del))
+	foreach($del_vars as $key => $val)
 	{
-		return $target_obj;
+		unset($target_vars[$key]);
 	}
-
-	$return_obj = new stdClass();
-
-	$target_count = count($target);
-	for($i = 0; $i < $target_count; $i++)
-	{
-		$target_key = $target[$i];
-		if(!in_array($target_key, $del))
-		{
-			$return_obj->{$target_key} = $target_obj->{$target_key};
-		}
-	}
-
-	return $return_obj;
+	return (object)$target_vars;
 }
 
-function getDestroyXeVars(&$vars)
+function getDestroyXeVars($vars)
 {
-	$del_vars = array('error_return_url', 'success_return_url', 'ruleset', 'xe_validator_id');
-
-	foreach($del_vars as $var)
+	foreach(array('error_return_url', 'success_return_url', 'ruleset', 'xe_validator_id') as $var)
 	{
-		if(is_array($vars)) unset($vars[$var]);
-		else if(is_object($vars)) unset($vars->$var);
+		if(is_array($vars))
+		{
+			unset($vars[$var]);
+		}
+		elseif(is_object($vars))
+		{
+			unset($vars->$var);
+		}
 	}
-
 	return $vars;
 }
 
@@ -1048,7 +1002,7 @@ function getNumberingPath($no, $size = 3)
 	$output = sprintf('%0' . $size . 'd/', $no % $mod);
 	if($no >= $mod)
 	{
-		$output .= getNumberingPath((int) $no / $mod, $size);
+		$output .= getNumberingPath((int)$no / $mod, $size);
 	}
 	return $output;
 }
@@ -1066,7 +1020,6 @@ function url_decode($str)
 
 function purifierHtml(&$content)
 {
-	require_once(_XE_PATH_ . 'classes/security/Purifier.class.php');
 	$oPurifier = Purifier::getInstance();
 	$oPurifier->purify($content);
 }
@@ -1079,7 +1032,6 @@ function purifierHtml(&$content)
  */
 function removeHackTag($content)
 {
-	require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
 	$oEmbedFilter = EmbedFilter::getInstance();
 	$oEmbedFilter->check($content);
 
@@ -1121,7 +1073,6 @@ function blockWidgetCode($content)
  */
 function checkUploadedFile($file)
 {
-	require_once(_XE_PATH_ . 'classes/security/UploadFileFilter.class.php');
 	return UploadFileFilter::check($file);
 }
 
@@ -1253,7 +1204,6 @@ function removeSrcHack($match)
 // convert hexa value to RGB
 if(!function_exists('hexrgb'))
 {
-
 	/**
 	 * Convert hexa value to RGB
 	 *
@@ -1263,10 +1213,11 @@ if(!function_exists('hexrgb'))
 	function hexrgb($hexstr)
 	{
 		$int = hexdec($hexstr);
-
-		return array('red' => 0xFF & ($int >> 0x10),
-			'green' => 0xFF & ($int >> 0x8),
-			'blue' => 0xFF & $int);
+		return array(
+			'red' => 0xFF & ($int >> 16),
+			'green' => 0xFF & ($int >> 8),
+			'blue' => 0xFF & $int
+		);
 	}
 
 }
@@ -1392,23 +1343,7 @@ function utf8RawUrlDecode($source)
  */
 function _code2utf($num)
 {
-	if($num < 128)
-	{
-		return chr($num);
-	}
-	if($num < 2048)
-	{
-		return chr(($num >> 6) + 192) . chr(($num & 63) + 128);
-	}
-	if($num < 65536)
-	{
-		return chr(($num >> 12) + 224) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-	}
-	if($num < 2097152)
-	{
-		return chr(($num >> 18) + 240) . chr((($num >> 12) & 63) + 128) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-	}
-	return '';
+	return html_entity_decode('&#' . $num . ';');
 }
 
 /**
@@ -1425,21 +1360,17 @@ function detectUTF8($string, $return_convert = FALSE, $urldecode = TRUE)
 	{
 		$string = urldecode($string);
 	}
-
-	$sample = iconv('utf-8', 'utf-8', $string);
-	$is_utf8 = (md5($sample) == md5($string));
-
-	if(!$urldecode)
+	
+	if(function_exists('mb_check_encoding'))
 	{
-		$string = urldecode($string);
+		$is_utf8 = mb_check_encoding($string, 'UTF-8');
+		return $return_convert ? mb_convert_encoding($string, 'UTF-8', 'CP949') : $is_utf8;
 	}
-
-	if($return_convert)
+	else
 	{
-		return ($is_utf8) ? $string : iconv('euc-kr', 'utf-8', $string);
+		$is_utf8 = ($string === @iconv('UTF-8', 'UTF-8', $string));
+		return $return_convert ? iconv('CP949', 'UTF-8', $string) : $is_utf8;
 	}
-
-	return $is_utf8;
 }
 
 /**
@@ -1450,39 +1381,7 @@ function detectUTF8($string, $return_convert = FALSE, $urldecode = TRUE)
  */
 function json_encode2($data)
 {
-	switch(gettype($data))
-	{
-		case 'boolean':
-			return $data ? 'true' : 'false';
-		case 'integer':
-		case 'double':
-			return $data;
-		case 'string':
-			return '"' . strtr($data, array('\\' => '\\\\', '"' => '\\"')) . '"';
-		case 'object':
-			$data = get_object_vars($data);
-		case 'array':
-			$rel = FALSE; // relative array?
-			$key = array_keys($data);
-			foreach($key as $v)
-			{
-				if(!is_int($v))
-				{
-					$rel = TRUE;
-					break;
-				}
-			}
-
-			$arr = array();
-			foreach($data as $k => $v)
-			{
-				$arr[] = ($rel ? '"' . strtr($k, array('\\' => '\\\\', '"' => '\\"')) . '":' : '') . json_encode2($v);
-			}
-
-			return $rel ? '{' . join(',', $arr) . '}' : '[' . join(',', $arr) . ']';
-		default:
-			return '""';
-	}
+	return json_encode($data);
 }
 
 /**
@@ -1493,25 +1392,8 @@ function json_encode2($data)
  */
 function isCrawler($agent = NULL)
 {
-	if(!$agent)
-	{
-		$agent = $_SERVER['HTTP_USER_AGENT'];
-	}
-
-	$check_agent = array('bot', 'spider', 'spyder', 'crawl', 'http://', 'google', 'yahoo', 'slurp', 'yeti', 'daum', 'teoma', 'fish', 'hanrss', 'facebook', 'yandex', 'infoseek', 'askjeeves', 'stackrambler');
-	$check_ip = array(
-		/*'211.245.21.110-211.245.21.119' mixsh is closed */
-	);
-
-	foreach($check_agent as $str)
-	{
-		if(stristr($agent, $str) != FALSE)
-		{
-			return TRUE;
-		}
-	}
-
-	return IpFilter::filter($check_ip);
+	$agent = $agent ?: $_SERVER['HTTP_USER_AGENT'];
+	return (bool)preg_match('@bot|crawl|sp[iy]der|https?://|google|yahoo|slurp|yeti|daum|teoma|fish|hanrss|facebook|yandex|infoseek|askjeeves|stackrambler@i', $agent);
 }
 
 /**
@@ -1558,16 +1440,14 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
  */
 function requirePear()
 {
-	if(version_compare(PHP_VERSION, "5.3.0") < 0)
-	{
-		set_include_path(_XE_PATH_ . "libs/PEAR" . PATH_SEPARATOR . get_include_path());
-	}
-	else
-	{
-		set_include_path(_XE_PATH_ . "libs/PEAR.1.9.5" . PATH_SEPARATOR . get_include_path());
-	}
+	set_include_path(_XE_PATH_ . "libs/PEAR.1.9.5" . PATH_SEPARATOR . get_include_path());
 }
 
+/**
+ * Check for CSRF attacks
+ * 
+ * @return bool
+ */
 function checkCSRF()
 {
 	if($_SERVER['REQUEST_METHOD'] != 'POST')
@@ -1659,12 +1539,7 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
  */
 function htmlHeader()
 {
-	echo '<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8" />
-</head>
-<body>';
+	echo implode("\n", array('<!DOCTYPE html>', '<html lang="ko">', '<head>', '<meta charset="UTF-8" />', '</head>', '<body>', ''));
 }
 
 /**
@@ -1674,7 +1549,7 @@ function htmlHeader()
  */
 function htmlFooter()
 {
-	echo '</body></html>';
+	echo implode("\n", array('', '</body>', '</html>', ''));
 }
 
 /**
@@ -1685,16 +1560,10 @@ function htmlFooter()
  */
 function alertScript($msg)
 {
-	if(!$msg)
+	if($msg)
 	{
-		return;
+		echo sprintf('<script type="text/javascript"> alert(%s); </script>', json_encode(@strval($msg)));
 	}
-
-	echo '<script type="text/javascript">
-//<![CDATA[
-alert("' . $msg . '");
-//]]>
-</script>';
 }
 
 /**
@@ -1704,11 +1573,7 @@ alert("' . $msg . '");
  */
 function closePopupScript()
 {
-	echo '<script type="text/javascript">
-//<![CDATA[
-window.close();
-//]]>
-</script>';
+	echo '<script type="text/javascript"> window.open("", "_self", ""); window.close(); </script>';
 }
 
 /**
@@ -1719,13 +1584,8 @@ window.close();
  */
 function reload($isOpener = FALSE)
 {
-	$reloadScript = $isOpener ? 'window.opener.location.reload()' : 'document.location.reload()';
-
-	echo '<script type="text/javascript">
-//<![CDATA[
-' . $reloadScript . '
-//]]>
-</script>';
+	$reloadScript = $isOpener ? 'window.opener.location.reload();' : 'window.location.reload();';
+	echo sprintf('<script type="text/javascript"> %s </script>', $raloadScript);
 }
 
 /* End of file func.inc.php */
