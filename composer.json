@@ -1,12 +1,12 @@
 {
     "name": "xetown/xe-core",
-    "description": "XpressEngine XETOWN Remix",
-    "homepage": "https://www.xetown.com/",
+    "description": "RhymiX",
+    "homepage": "https://www.rhymix.org",
     "license": "LGPL-2.1",
     "type": "project",
     "authors": [
-        { "name": "NAVER", "email": "developers@xpressengine.com" },
-        { "name": "XETOWN Contributors" }
+        { "name": "RhymiX Developers and Contributors" },
+        { "name": "NAVER", "email": "developers@xpressengine.com" }
     ],
     "require": {
         "php": ">=5.3.0",
