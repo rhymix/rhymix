@@ -123,17 +123,6 @@ function getView($module_name)
 }
 
 /**
- * Create a mobile instance of the module
- *
- * @param string $module_name The module name to get a mobile instance
- * @return mixed Module mobile instance
- */
-function &getMobile($module_name)
-{
-	return getModule($module_name, 'mobile');
-}
-
-/**
  * Create a admin view instance of the module
  *
  * @param string $module_name The module name to get a admin view instance
@@ -175,6 +164,17 @@ function getAdminModel($module_name)
 function getAPI($module_name)
 {
 	return getModule($module_name, 'api');
+}
+
+/**
+ * Create a mobile instance of the module
+ *
+ * @param string $module_name The module name to get a mobile instance
+ * @return mixed Module mobile instance
+ */
+function getMobile($module_name)
+{
+	return getModule($module_name, 'mobile');
 }
 
 /**
@@ -257,13 +257,11 @@ function getNextSequence()
  */
 function setUserSequence($seq)
 {
-	$arr_seq = array();
-	if(isset($_SESSION['seq']))
+	if(!isset($_SESSION['seq']))
 	{
-		$arr_seq = $_SESSION['seq'];
+		$_SESSION['seq'] = array();
 	}
-	$arr_seq[] = $seq;
-	$_SESSION['seq'] = $arr_seq;
+	$_SESSION['seq'][] = $seq;
 }
 
 /**
@@ -274,16 +272,7 @@ function setUserSequence($seq)
  */
 function checkUserSequence($seq)
 {
-	if(!isset($_SESSION['seq']))
-	{
-		return false;
-	}
-	if(!in_array($seq, $_SESSION['seq']))
-	{
-		return false;
-	}
-
-	return true;
+	return isset($_SESSION['seq']) && in_array($seq, $_SESSION['seq']);
 }
 
 /**
@@ -305,9 +294,13 @@ function getUrl()
 	$args_list = func_get_args();
 
 	if($num_args)
+	{
 		$url = Context::getUrl($num_args, $args_list);
+	}
 	else
+	{
 		$url = Context::getRequestUri();
+	}
 
 	return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
 }
@@ -562,43 +555,29 @@ function cut_str($string, $cut_size = 0, $tail = '...')
 }
 
 /**
+ * Get integer offset of time zone
+ * 
+ * @param string $time_zone Time zone in +0900 format
+ * @return int
+ */
+function get_time_zone_offset($time_zone)
+{
+	$multiplier = ($time_zone[0] === '-') ? -60 : 60;
+	$time_zone = preg_replace('/[^0-9]/', '', $time_zone);
+	list($hours, $minutes) = str_split($time_zone, 2);
+	return (((int)$hours * 60) + (int)$minutes) * $multiplier;
+}
+
+/**
  * Get a time gap between server's timezone and XE's timezone
  *
  * @return int
  */
 function zgap()
 {
-	$time_zone = $GLOBALS['_time_zone'];
-	if($time_zone < 0)
-	{
-		$to = -1;
-	}
-	else
-	{
-		$to = 1;
-	}
-
-	$t_hour = substr($time_zone, 1, 2) * $to;
-	$t_min = substr($time_zone, 3, 2) * $to;
-
-	$server_time_zone = date("O");
-	if($server_time_zone < 0)
-	{
-		$so = -1;
-	}
-	else
-	{
-		$so = 1;
-	}
-
-	$c_hour = substr($server_time_zone, 1, 2) * $so;
-	$c_min = substr($server_time_zone, 3, 2) * $so;
-
-	$g_min = $t_min - $c_min;
-	$g_hour = $t_hour - $c_hour;
-
-	$gap = $g_min * 60 + $g_hour * 60 * 60;
-	return $gap;
+	$time_zone_offset = $GLOBALS['_time_zone_offset'];
+	$server_offset = date('Z');
+	return $time_zone_offset - $server_offset;
 }
 
 /**
@@ -611,75 +590,23 @@ function ztime($str)
 {
 	if(!$str)
 	{
-		return;
+		return null;
 	}
-
-	$hour = (int) substr($str, 8, 2);
-	$min = (int) substr($str, 10, 2);
-	$sec = (int) substr($str, 12, 2);
-	$year = (int) substr($str, 0, 4);
-	$month = (int) substr($str, 4, 2);
-	$day = (int) substr($str, 6, 2);
-	if(strlen($str) <= 8)
+	$year = (int)substr($str, 0, 4);
+	$month = (int)substr($str, 4, 2) ?: 1;
+	$day = (int)substr($str, 6, 2) ?: 1;
+	if(strlen($str) >= 8)
 	{
-		$gap = 0;
+		$hour = (int)substr($str, 8, 2);
+		$min = (int)substr($str, 10, 2);
+		$sec = (int)substr($str, 12, 2);
+		$offset = zgap();
 	}
 	else
 	{
-		$gap = zgap();
+		$hour = $min = $sec = $offset = 0;
 	}
-
-	return mktime($hour, $min, $sec, $month ? $month : 1, $day ? $day : 1, $year) + $gap;
-}
-
-/**
- * If the recent post within a day, output format of YmdHis is "min/hours ago from now". If not within a day, it return format string.
- *
- * @param string $date Time value in format of YYYYMMDDHHIISS
- * @param string $format If gap is within a day, returns this format.
- * @return string
- */
-function getTimeGap($date, $format = 'Y.m.d')
-{
-	$gap = $_SERVER['REQUEST_TIME'] + zgap() - ztime($date);
-
-	$lang_time_gap = Context::getLang('time_gap');
-	if($gap < 60)
-	{
-		$buff = sprintf($lang_time_gap['min'], (int) ($gap / 60) + 1);
-	}
-	elseif($gap < 60 * 60)
-	{
-		$buff = sprintf($lang_time_gap['mins'], (int) ($gap / 60) + 1);
-	}
-	elseif($gap < 60 * 60 * 2)
-	{
-		$buff = sprintf($lang_time_gap['hour'], (int) ($gap / 60 / 60) + 1);
-	}
-	elseif($gap < 60 * 60 * 24)
-	{
-		$buff = sprintf($lang_time_gap['hours'], (int) ($gap / 60 / 60) + 1);
-	}
-	else
-	{
-		$buff = zdate($date, $format);
-	}
-
-	return $buff;
-}
-
-/**
- * Name of the month return
- *
- * @param int $month Month
- * @param boot $short If set, returns short string
- * @return string
- */
-function getMonthName($month, $short = TRUE)
-{
-	$short_month = array('', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
-	$long_month = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-	return !$short ? $long_month[$month] : $short_month[$month];
+	return mktime($hour, $min, $sec, $month, $day, $year) - $offset;
 }
 
 /**
@@ -692,11 +619,11 @@ function getMonthName($month, $short = TRUE)
  */
 function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 {
-	// return null if no target time is specified
 	if(!$str)
 	{
 		return;
 	}
+	
 	// convert the date format according to the language
 	if($conversion == TRUE)
 	{
@@ -774,6 +701,56 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 	$string = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $string);
 	$string = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $string);
 	return $string;
+}
+
+/**
+ * If the recent post within a day, output format of YmdHis is "min/hours ago from now". If not within a day, it return format string.
+ *
+ * @param string $date Time value in format of YYYYMMDDHHIISS
+ * @param string $format If gap is within a day, returns this format.
+ * @return string
+ */
+function getTimeGap($date, $format = 'Y.m.d')
+{
+	$gap = $_SERVER['REQUEST_TIME'] + zgap() - ztime($date);
+
+	$lang_time_gap = Context::getLang('time_gap');
+	if($gap < 60)
+	{
+		$buff = sprintf($lang_time_gap['min'], (int) ($gap / 60) + 1);
+	}
+	elseif($gap < 60 * 60)
+	{
+		$buff = sprintf($lang_time_gap['mins'], (int) ($gap / 60) + 1);
+	}
+	elseif($gap < 60 * 60 * 2)
+	{
+		$buff = sprintf($lang_time_gap['hour'], (int) ($gap / 60 / 60) + 1);
+	}
+	elseif($gap < 60 * 60 * 24)
+	{
+		$buff = sprintf($lang_time_gap['hours'], (int) ($gap / 60 / 60) + 1);
+	}
+	else
+	{
+		$buff = zdate($date, $format);
+	}
+
+	return $buff;
+}
+
+/**
+ * Name of the month return
+ *
+ * @param int $month Month
+ * @param boot $short If set, returns short string
+ * @return string
+ */
+function getMonthName($month, $short = TRUE)
+{
+	$short_month = array('', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+	$long_month = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+	return !$short ? $long_month[$month] : $short_month[$month];
 }
 
 /**
