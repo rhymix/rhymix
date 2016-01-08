@@ -1015,7 +1015,7 @@ function getNumberingPath($no, $size = 3)
  */
 function url_decode($str)
 {
-	return preg_replace('/%u([[:alnum:]]{4})/', '&#x\\1;', $str);
+	return htmlspecialchars(utf8RawUrlDecode($str), null, 'UTF-8');
 }
 
 function purifierHtml(&$content)
@@ -1210,16 +1210,55 @@ if(!function_exists('hexrgb'))
 	 * @param string $hexstr
 	 * @return array
 	 */
-	function hexrgb($hexstr)
+	function hexrgb($hex)
 	{
-		$int = hexdec($hexstr);
-		return array(
-			'red' => 0xFF & ($int >> 16),
-			'green' => 0xFF & ($int >> 8),
-			'blue' => 0xFF & $int
-		);
+		$hex = ltrim($hex, '#');
+		if(strlen($hex) == 3)
+		{
+			$r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
+			$g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
+			$b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
+		}
+		elseif(strlen($hex) == 6)
+		{
+			$r = hexdec(substr($hex, 0, 2));
+			$g = hexdec(substr($hex, 2, 2));
+			$b = hexdec(substr($hex, 4, 2));
+		}
+		else
+		{
+			$r = $g = $b = null;
+		}
+		return array('red' => $r, 'green' => $g, 'blue' => $b, 'r' => $r, 'g' => $g, 'b' => $b);
 	}
+}
 
+// convert RGB value to hexa
+if(!function_exists('rgbhex'))
+{
+	/**
+	 * convert RGB value to hexa
+	 *
+	 * @param array $rgb
+	 * @param bool $hash_prefix
+	 * @return string
+	 */
+	function rgbhex(array $rgb, $hash_prefix = true)
+	{
+		if(!isset($rgb['r']) && !isset($rgb['g']) && !isset($rgb['b']) && count($rgb) >= 3)
+		{
+			list($rgb['r'], $rgb['g'], $rgb['b']) = $rgb;
+		}
+		if(!isset($rgb['r']) || !isset($rgb['g']) || !isset($rgb['b']) || $rgb['r'] > 255 || $rgb['g'] > 255 || $rgb['b'] > 255)
+		{
+			return '#000000';
+		}
+		$hex = $hash_prefix ? '#' : '';
+		$hex .= str_pad(dechex(max(0, $rgb['r'])), 2, '0', STR_PAD_LEFT);
+		$hex .= str_pad(dechex(max(0, $rgb['g'])), 2, '0', STR_PAD_LEFT);
+		$hex .= str_pad(dechex(max(0, $rgb['b'])), 2, '0', STR_PAD_LEFT);
+		return $hex;
+	}
 }
 
 /**
@@ -1299,40 +1338,9 @@ function getRequestUriByServerEnviroment()
  */
 function utf8RawUrlDecode($source)
 {
-	$decodedStr = '';
-	$pos = 0;
-	$len = strlen($source);
-	while($pos < $len)
-	{
-		$charAt = substr($source, $pos, 1);
-		if($charAt == '%')
-		{
-			$pos++;
-			$charAt = substr($source, $pos, 1);
-			if($charAt == 'u')
-			{
-				// we got a unicode character
-				$pos++;
-				$unicodeHexVal = substr($source, $pos, 4);
-				$unicode = hexdec($unicodeHexVal);
-				$decodedStr .= _code2utf($unicode);
-				$pos += 4;
-			}
-			else
-			{
-				// we have an escaped ascii character
-				$hexVal = substr($source, $pos, 2);
-				$decodedStr .= chr(hexdec($hexVal));
-				$pos += 2;
-			}
-		}
-		else
-		{
-			$decodedStr .= $charAt;
-			$pos++;
-		}
-	}
-	return $decodedStr;
+	return preg_replace_callback('/%u([0-9a-f]+)/i', function($m) {
+		return html_entity_decode('&#x' . $m[1] . ';');
+	}, rawurldecode($source));
 }
 
 /**
